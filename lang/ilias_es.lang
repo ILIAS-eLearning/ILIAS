@@ -187,14 +187,23 @@ assessment#:#error_importing_question#:#Ocurrió un error importando la pregunta
 assessment#:#error_open_image_file#:#Error abriendo un fichero de imagen!
 assessment#:#error_open_java_file#:#Error abriendo un applet java!
 assessment#:#error_save_image_file#:#Error grabando un fichero de imagen!
+assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
 assessment#:#eval_choice_result#:#La elección con el valor %s es %s. Usted recibió %s puntos.
 assessment#:#eval_cloze_result#:#Gap número %s con el valor %s es %s.Usted recibió %s puntos.
+assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
 assessment#:#eval_data#:#Datos de Evaluación
+assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
+assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
 assessment#:#eval_imagemap_result#:#La selección del mapa de imagen es %s. Usted recibió %s puntos.
 assessment#:#eval_java_result#:#La respuesta para el valor %s is %s. Usted recibió %s puntos.
 assessment#:#eval_legend_link#:#Por favor, revise la leyenda para el significado de los símbolos de las cabeceras de columna.
 assessment#:#eval_matching_result#:#La pareja %s - %s es %s.Usted recibió %s puntos.
 assessment#:#eval_order_result#:#El orden para el valor %s es %s. Usted recibió %s puntos.
+assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
+assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
+assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
+assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
+assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Exportar Datos de Evaluación.
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
@@ -252,6 +261,7 @@ assessment#:#no_passed_mark#:#¡Debe configurar al menos una calificación a "SU
 assessment#:#no_question_selected_for_move#:#Por favor marque al menos una pregunta para moverla!
 assessment#:#no_questions_available#:#No hay preguntas disponibles!
 assessment#:#no_target_selected_for_move#:#Debe seleccionar una posición objetivo!
+assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
 assessment#:#or#:#o
 assessment#:#order_pictures#:#Ordenar imágenes
 assessment#:#order_terms#:#Ordenar términos
@@ -318,6 +328,8 @@ assessment#:#save_finish#:#Grabar y finalizar el test
 assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?
 assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente
 assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior
+assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
+assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Ver detalles de las soluciones recomendadas
 assessment#:#select_an_answer#:#--- Por favor seleccione una respuesta ---
 assessment#:#select_gap#:#Seleccionar hueco
@@ -332,6 +344,7 @@ assessment#:#solution_hint#:#Solución recomendada
 assessment#:#solution_order#:#Orden solución
 assessment#:#start_tag#:#Marca de comienzo
 assessment#:#starting_time_not_reached#:#No ha alcanzado el tiempo de comienzo
+assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
 assessment#:#suggested_solution_added_successfully#:#¡Configuró satisfactoriamente una solución recomendada!
 assessment#:#symbol#:#Símbolo
 assessment#:#test_cancelled#:#El test fue cancelado
@@ -441,9 +454,9 @@ assessment#:#tst_stat_result_resultspoints#:#Resultados del Test en puntos
 assessment#:#tst_stat_result_specification#:#Especificación de los datos de evaluación
 assessment#:#tst_stat_result_timeofwork#:#Tiempo de trabajo
 assessment#:#tst_stat_result_total_participants#:#Número total de participantes
-assessment#:#tst_stat_selected_users#:#Usuarios seleccionados
+assessment#:#tst_stat_selected_users#:#Usuarios seleccionados###15 Dec 2004 content changed
 assessment#:#tst_stat_users_intro#:#Mostrar evaluación estadística para
-assessment#:#tst_statistical_evaluation#:#Herramienta de evaluación estadística
+assessment#:#tst_statistical_evaluation#:#Herramienta de evaluación estadística###15 Dec 2004 content changed
 assessment#:#tst_status_completed#:#completado
 assessment#:#tst_status_completed_more_tries_possible#:#(completado)
 assessment#:#tst_status_missing#:#Hay elementos requeridos sin rellenar en este test!

@@ -182,14 +182,23 @@ assessment#:#error_importing_question#:#Il y a eu une erreur lors de l'importati
 assessment#:#error_open_image_file#:#Erreur à l'ouverture d'un fichier image
 assessment#:#error_open_java_file#:#Erreur à l'ouverture d'une applet java
 assessment#:#error_save_image_file#:#Erreur lors de l'enregistrement d'un fichier image
+assessment#:#eval_all_users#:#Evaluation for all users###15 Dec 2004 new variable
 assessment#:#eval_choice_result#:#Le choix avec la valeur %s est %s.  Vous avez obtenu %s points.
 assessment#:#eval_cloze_result#:#La lacune numéro %s avec la valeur %s est %s. Vous avez obtenu %s points.
+assessment#:#eval_concatenation#:#Concatenation###15 Dec 2004 new variable
 assessment#:#eval_data#:#Données d'évaluation
+assessment#:#eval_found_selected_groups#:#Selected groups###15 Dec 2004 new variable
+assessment#:#eval_found_selected_users#:#Selected users###15 Dec 2004 new variable
 assessment#:#eval_imagemap_result#:#La sélection de l'image réactive est %s. Vous avez obtenu %s points.
 assessment#:#eval_java_result#:#La réponse pour la valeur %s est %s. Vous avez reçu %s points.
 assessment#:#eval_legend_link#:#Veuillez vous reporter à la légende pour connaître le sens des symboles des entêtes de colonnes.
 assessment#:#eval_matching_result#:#L'appariement %s - %s est %s. Vous avez obtenu %s points.
 assessment#:#eval_order_result#:#L'ordre pour la valeur %s est %s. Vous avez obtenu %s points.
+assessment#:#eval_search_groups#:#Groups###15 Dec 2004 new variable
+assessment#:#eval_search_term#:#Search term###15 Dec 2004 new variable
+assessment#:#eval_search_users#:#Users###15 Dec 2004 new variable
+assessment#:#eval_search_userselection#:#Search the users you want to add to the statistical evaluation###15 Dec 2004 new variable
+assessment#:#eval_selected_users#:#Evaluation for selected users###15 Dec 2004 new variable
 assessment#:#exp_eval_data#:#Exporter les données d'évaluation
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
@@ -247,6 +256,7 @@ assessment#:#no_passed_mark#:#Vous devez définir au moins une note comme REUSSI
 assessment#:#no_question_selected_for_move#:#Veuillez cocher au moins une question pour la déplacer
 assessment#:#no_questions_available#:#Il n'y a pas de questions disponibles !
 assessment#:#no_target_selected_for_move#:#Vous devez sélectionner une position de destination
+assessment#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###15 Dec 2004 new variable
 assessment#:#or#:#ou
 assessment#:#order_pictures#:#Ordonner les images
 assessment#:#order_terms#:#Ordonner les termes
@@ -311,6 +321,8 @@ assessment#:#save_finish#:#Enregistrer et terminer le test
 assessment#:#save_introduction#:#Enregistrer et aller à l'introduction
 assessment#:#save_next#:#Enregistrer et aller à la prochaine question
 assessment#:#save_previous#:#Enregistrer et aller à la question précédente
+assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
+assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Voir détails pour les solutions proposées
 assessment#:#select_an_answer#:#--- Veuillez sélectionner une réponse ---
 assessment#:#select_gap#:#Selectionner lacune
@@ -324,6 +336,7 @@ assessment#:#shuffle_answers#:#Mélanger les réponses
 assessment#:#solution_order#:#Ordre correct
 assessment#:#start_tag#:#Point de départ
 assessment#:#starting_time_not_reached#:#Vous n'avez pas atteint la date de début
+assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
 assessment#:#suggested_solution_added_successfully#:#Vous avez défini une proposition de solution avec succès.
 assessment#:#symbol#:#Symbole
 assessment#:#text_gap#:#Lacune du texte
@@ -432,9 +445,9 @@ assessment#:#tst_stat_result_resultspoints#:#Résultats des tests en points
 assessment#:#tst_stat_result_specification#:#Spécification des données d'évaluation
 assessment#:#tst_stat_result_timeofwork#:#Temps de travail
 assessment#:#tst_stat_result_total_participants#:#Nombre total de participants
-assessment#:#tst_stat_selected_users#:#Utilisateurs sélectionnés
+assessment#:#tst_stat_selected_users#:#Utilisateurs sélectionnés###15 Dec 2004 content changed
 assessment#:#tst_stat_users_intro#:#Montrer l'évaluation statistique pour
-assessment#:#tst_statistical_evaluation#:#Outil d'évaluation statistique
+assessment#:#tst_statistical_evaluation#:#Outil d'évaluation statistique###15 Dec 2004 content changed
 assessment#:#tst_status_completed#:#terminé
 assessment#:#tst_status_completed_more_tries_possible#:#(terminé)
 assessment#:#tst_status_missing#:#Il y a des éléments manquants dans ce test.
