@@ -3120,8 +3120,8 @@ class ilRepositoryGUI
 			if($this->tree->checkForParentType($this->cur_ref_id,'crs'))
 			{
 				$this->tpl->setCurrentBlock("get_from_repos");
-				$this->tpl->setVariable("GET_REPOS_CMD",'copySelector');
-				$this->tpl->setVariable("TXT_GET_REPOS",$this->lng->txt('copy'));
+				$this->tpl->setVariable("GET_REPOS_CMD",'linkSelector');
+				$this->tpl->setVariable("TXT_GET_REPOS",$this->lng->txt('link'));
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -3382,6 +3382,60 @@ class ilRepositoryGUI
 		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
+	}
+
+	function linkSelector()
+	{
+		if(is_array($_POST["cmd"]))
+		{
+			$_SESSION["link_new_type"] = $_POST["new_type"];
+		}
+		if($_POST['new_type'] == 'cat' or $_POST['new_type'] == 'grp' or $_POST['new_type'] == 'crs' or 
+			$_POST['new_type'] == 'fold')
+		{
+			$this->lng->loadLanguageModule('crs');
+
+			sendInfo($this->lng->txt('crs_container_link_not_allowed'),true);
+			ilUtil::redirect('repository.php?ref_id='.$this->cur_ref_id);
+		}
+
+
+		include_once ("classes/class.ilRepositoryLinkSelector.php");
+
+		$this->prepareOutput();
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_copy_selector.html");
+
+		sendInfo($this->lng->txt("select_object_to_link"));
+
+		$exp = new ilRepositoryLinkSelector($this->ctrl->getLinkTarget($this,'linkSelector'));
+		$exp->setExpand($_GET["rep_link_expand"] ? $_GET["rep_link_expand"] : $this->tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'linkSelector'));
+		$exp->setTargetGet("ref_id");
+		$exp->setRefId($this->cur_ref_id);
+		$exp->addFilter($_SESSION["link_new_type"]);
+		$exp->setSelectableType($_SESSION["link_new_type"]);
+
+		// build html-output
+		$exp->setOutput(0);
+
+		$this->tpl->setCurrentBlock("objects");
+		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+	}
+
+	function linkChilds()
+	{
+		if($_GET['source_id'])
+		{
+			$this->linkObject($this->cur_ref_id,(int) $_GET['source_id']);
+			
+			sendInfo($this->lng->txt('linked_object'),true);
+			ilUtil::redirect("./repository.php?ref_id=".$this->cur_ref_id);
+		}
+
+
 	}
 
 	function copyChilds()
