@@ -257,6 +257,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						break;
 
 					case "GlossaryItem":
+						if ($targetframe == "None")
+						{
+							$targetframe = "Glossary";
+						}
 						$ltarget = $nframe = "_new";
 						$href = "lm_presentation.php?obj_type=$type&amp;cmd=glossary&amp;ref_id=".$_GET["ref_id"].
 							"&amp;obj_id=".$target_id."&amp;frame=$nframe";
