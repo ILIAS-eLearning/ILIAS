@@ -348,7 +348,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-str",
       tooltip   : "Strong",
-      image     : "<span class=ilc_Strong>Str</span>",
+      image     : "<span class=ilc_Strong>[str]</span>",
       textMode  : false,
 	  context   : "",
       action    : function(editor, id) 
@@ -365,7 +365,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-emp",
       tooltip   : "Italic",
-      image     : "<span class=ilc_Emph>Em</span>",
+      image     : "<span class=ilc_Emph>[emp]</span>",
       textMode  : false,
       action    : function(editor, id)
 	  			  {
@@ -381,7 +381,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-com",
       tooltip   : "",	// Kommentar
-      image     : "<span class=ilc_Comment>Com</span>",
+      image     : "<span class=ilc_Comment>[com]</span>",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -397,7 +397,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-quot",
       tooltip   : "",	// Quotation
-      image     : "<span class=ilc_Quotation>Quo</span>",
+      image     : "<span class=ilc_Quotation>[quot]</span>",
       textMode  : false,
       action    : function(editor, id) 	
 	  			  {
@@ -413,7 +413,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-code",
       tooltip   : "",	// Code
-      image     : "<code>Cod</code>",
+      image     : "<code>[code]</code>",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -429,7 +429,8 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-fn",
       tooltip   : "",	// Footnote
-      image     : "../content/htmlarea/images/ed_footnote.gif",
+      //image     : "../content/htmlarea/images/ed_footnote.gif",
+	  image     : "[fn]",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -444,7 +445,8 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-xtl",
       tooltip   : "",	// External link
-      image     : "../content/htmlarea/images/ed_xtl.gif",
+      //image     : "../content/htmlarea/images/ed_xtl.gif",
+	  image	    : "[xln]",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -458,7 +460,8 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-itl",
       tooltip   : "",	//Internal link
-      image     : "../content/htmlarea/images/ed_itl.gif",
+//      image     : "../content/htmlarea/images/ed_itl.gif",
+	  image	    : "[iln]",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -572,6 +575,18 @@ function addTagInEditor(tagName,className)
 		text = replaceAll(text,"&nbsp;"," ");
 		text2 = addTag(text, tagName, className);
 		
+		// Zur Sicherheit alle eventuell übriggebliebenen Hilfszeichen entfernen.
+		for(i=1;i<=10;i++) 
+		{
+			for(j=1;j<=10;j++) 
+			{
+				text2 = replaceAll(text2,"%%"+i+"x"+j+"x%%","");
+				text2 = replaceAll(text2,"+%"+i+"x"+j+"x%+","");
+			}
+		}
+		
+		
+		
 		text2 = replaceAll(text2, "<"+tagName+" class=\""+className+"\"></"+tagName+">", "");
 		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"></span>", "");
 		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"></span>", "");
@@ -617,6 +632,8 @@ function addTagInEditor(tagName,className)
 		editor.setHTML(text2);
 	}
 	
+	editor.updateToolbar();
+		
 }
 
 
@@ -982,6 +999,8 @@ function buttonFootnote()
 		editor.insertHTML(ins);
 		
 		refreshFootnotelist()
+		editor.updateToolbar();
+
 	} 
 	else 
 	{
@@ -1028,6 +1047,7 @@ function addInternalLink(Link,title)
 		
 		editor.setHTML(H+"&nbsp;");
 	}
+	editor.updateToolbar();
 	editor.focusEditor();
 }
 
@@ -1072,6 +1092,7 @@ function buttonInternalLink()
 			buttonX();
 		}
 	}
+	editor.updateToolbar();
 }	
 	
 

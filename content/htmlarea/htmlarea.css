@@ -17,9 +17,11 @@
   border: 1px solid ButtonFace;
   padding: 1px;
   margin: 0px;
-  width: 18px;
   height: 18px;
 }
+#  width: 18px;
+#  height: 18px;
+
 .htmlarea .toolbar .buttonHover {
   border: 1px solid;
   border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
