@@ -654,7 +654,7 @@ class ilObject
 
 			// DELETE PERMISSION ENTRIES IN RBAC_PA
 			// DONE: method overwritten in ilObjRole & ilObjUser.
-			//this call only applies for objects in rbac (not usr,role,rolt)
+			// this call only applies for objects in rbac (not usr,role,rolt)
 			// TODO: Do this for role templates too
 			$rbacadmin->revokePermission($this->getRefId());
 		}

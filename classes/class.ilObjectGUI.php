@@ -1714,7 +1714,8 @@ class ilObjectGUI
 				}
 				else
 				{
-					if ($ctrl["type"] == "usr" or $ctrl["type"] == "role")
+					// TODO: this type depending 'if' could become really a problem!!
+					if ($ctrl["type"] == "usr" or $ctrl["type"] == "role" or $ctrl["type"] == "rolt")
 					{
 						$link_id = $ctrl["obj_id"];
 					}

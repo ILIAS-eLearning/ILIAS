@@ -64,10 +64,7 @@ class ilObjRoleTemplate extends ilObject
 		// delete object data entry
 		parent::delete();
 
-		//TODO: delete references
-
 		return true;
 	}
-
-} // END class.RoleTemplateObject
+} // END class.ilObjRoleTemplate
 ?>
