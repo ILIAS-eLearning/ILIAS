@@ -85,6 +85,8 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 		if(!count($items = $this->psc_obj->getEntries()))
 		{
 			sendInfo($this->lng->txt('pay_shopping_cart_empty'));
+
+			return false;
 		}
 		else
 		{
@@ -93,7 +95,6 @@ class ilPaymentShoppingCartGUI extends ilPaymentBaseGUI
 			$this->tpl->setVariable("TXT_BUY",$this->lng->txt('pay_click_to_buy'));
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_shopping_cart.html',true);
 
 		
 
