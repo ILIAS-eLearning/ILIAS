@@ -102,7 +102,13 @@ switch ($type)
 		
 	case "type":
 		include_once "classes/class.TypeDefinitionObject.php";
-		$obj = new TypeDefinitionObject($ilias->db);
+		$obj = new TypeDefinitionObject($ilias);
+		$obj->$methode();
+		break;
+
+	case "objf":
+		include_once "classes/class.ObjectFolderObject.php";
+		$obj = new ObjectFolderObject($ilias);
 		$obj->$methode();
 		break;
     

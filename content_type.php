@@ -15,7 +15,6 @@ $tree->getPath();
 $path = showPath($tree->Path,"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 $tplContent->setVariable("MESSAGE","<h5>Click on the name of a object type to edit that object type</h5>");
-$tplContent->setVariable("OBJ_EDIT","object.php?obj_id=$obj_id&parent=$parent&type=user");
 
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
