@@ -329,7 +329,7 @@ class ilPageObjectGUI
 	*/
 	function showPage()
 	{
-		global $tree, $ilUser;
+		global $tree, $ilUser, $ilias;
 
 		// init template
 		if($this->outputToTemplate())
@@ -356,13 +356,19 @@ class ilPageObjectGUI
 				{
 					$js_mode = array("disable" => $this->lng->txt("cont_disable_js"));
 				}
-				$sel_js_mode = ($ilUser->getPref("ilPageEditor_JavaScript") == "enable")
-					? "enable"
-					: "disable";
 				$this->tpl->setVariable("SEL_MEDIA_MODE",
 					ilUtil::formSelect($sel_media_mode, "media_mode", $med_mode, false, true));
-				$this->tpl->setVariable("SEL_JAVA_SCRIPT",
-					ilUtil::formSelect($sel_js_mode, "js_mode", $js_mode, false, true));
+					
+				// javascript activation
+				$sel_js_mode = "disable";
+				if($ilias->getSetting("enable_js_edit"))
+				{
+					$sel_js_mode = ($ilUser->getPref("ilPageEditor_JavaScript") == "enable")
+						? "enable"
+						: "disable";
+					$this->tpl->setVariable("SEL_JAVA_SCRIPT",
+						ilUtil::formSelect($sel_js_mode, "js_mode", $js_mode, false, true));
+				}
 			}
 			else
 			{

@@ -317,7 +317,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function explorer()
 	{
-		global $ilUser;
+		global $ilUser, $ilias;
 		
 		switch ($this->object->getType())
 		{
@@ -372,7 +372,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 
-		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable") 
+		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable" &&
+			$ilias->getSetting("enable_js_edit")) 
 		{
 			//$this->tpl->touchBlock("includejavascript");
 			
