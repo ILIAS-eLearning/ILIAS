@@ -22,6 +22,7 @@
 	<subobj name="objf" max="1">objf</subobj>
 	<subobj name="lngf" max="1">lngf</subobj>
 	<subobj name="mail" max="1">mail</subobj>
+	<subobj name="chac" max="1">chac</subobj>
 	<subobj name="ldap" max="1">ldap</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
@@ -322,5 +323,10 @@
   <property name="perm">perm_settings</property>
   <property name="owner">show_owner</property>
   <action name="delete">delete</action>
+</object>
+<object name="chac" class_name="ChatServer" module="chat" checkbox="0" inherit="0" translate="sys">
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
 </object>
 </objects>

@@ -407,7 +407,8 @@ class ilTree
 				$q = "SELECT * FROM ".$this->table_tree." ".
 					"WHERE child = '".$a_parent_id."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
-				$r = $this->ilDB->getRow($q);
+				$res = $this->ilDB->query($q);
+				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 				$left = $r->lft;
 				$lft = $left + 1;
@@ -435,7 +436,8 @@ class ilTree
 				$q = "SELECT * FROM ".$this->table_tree." ".
 					"WHERE child = '".$a_parent_id."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
-				$r = $this->ilDB->getRow($q);
+				$res = $this->ilDB->query($q);
+				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
 
 				$right = $r->rgt;
 				$lft = $right;
@@ -463,7 +465,9 @@ class ilTree
 				$q = "SELECT * FROM ".$this->table_tree." ".
 					"WHERE child = '".$a_pos."' ".
 					"AND ".$this->tree_pk." = '".$this->tree_id."'";
-				$r = $this->ilDB->getRow($q);
+				$res = $this->ilDB->query($q);
+				$r = $res->fetchRow(DB_FETCHMODE_OBJECT);
+
 				// crosscheck parents of sibling and new node (must be identical)
 				if ($r->parent != $a_parent_id)
 				{
@@ -808,9 +812,11 @@ class ilTree
 			$q = "SELECT depth FROM ".$this->table_tree." ".
 				 "WHERE child = '".$a_node_id."' ".
 				 "AND ".$this->tree_pk." = '".$this->tree_id."'";
-			$r = $this->ilDB->getRow($q);
+
+			$res = $this->ilDB->query($q);
+			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 	
-			return $r->depth;
+			return $row->depth;
 		}
 		else
 		{
