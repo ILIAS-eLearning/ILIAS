@@ -1012,7 +1012,7 @@ class ilUtil
 		// workaround for unzip problem (unzip of subdirectories fails, so
 		// we create the subdirectories ourselves first)
 		// get list
-		$unzipcmd = $unzip." -Z -1 ".$file;
+		$unzipcmd = $unzip." -Z -1 ".escapeshellarg($file);
 		exec($unzipcmd, $arr);
 		$zdirs = array();
 		foreach($arr as $line)
@@ -1040,7 +1040,7 @@ class ilUtil
 		}
 
 		// real unzip
-		$unzipcmd = $unzip." ".$file;
+		$unzipcmd = $unzip." ".escapeshellarg($file);
 		exec($unzipcmd);
 
 		chdir($cdir);
@@ -1062,15 +1062,15 @@ class ilUtil
 		// unzip
 		$cdir = getcwd();
 		chdir($dir);
-		
+
 		$zip = PATH_TO_ZIP;
 		//$zip = $ilias->getSetting("zip_path");
-		
+
 		$name = basename($a_dir);
-		
-		$zipcmd = $zip." -r $a_file $name";
+
+		$zipcmd = $zip." -r ".escapeshellarg($a_file)." ".escapeshellarg($name);
 		exec($zipcmd);
-		
+
 		chdir($cdir);
 	}
 
@@ -1097,7 +1097,8 @@ class ilUtil
 		$format_str = ($a_target_format != "")
 			? strtoupper($a_target_format).":"
 			: "";
-		$convert_cmd = ilUtil::getConvertCmd()." $a_from ".$format_str."$a_to";
+		$convert_cmd = ilUtil::getConvertCmd()." ".
+			escapeshellarg($a_from)." ".escapeshellarg($format_str.$a_to);
 		system($convert_cmd);
 	}
 
@@ -1123,7 +1124,7 @@ class ilUtil
 		$htmldoc .= "--no-toc ";
 		$htmldoc .= "--no-jpeg ";
 		$htmldoc .= "--webpage ";
-		$htmldoc .= "--outfile " . $pdf_file . " ";
+		$htmldoc .= "--outfile " . escapeshellarg($pdf_file) . " ";
 		$htmldoc .= "--bodyfont Arial ";
 		$htmldoc .= "--charset iso-8859-15 ";
 		$htmldoc .= "--color ";
