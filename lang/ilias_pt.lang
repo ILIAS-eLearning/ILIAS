@@ -1596,6 +1596,7 @@ content#:#cont_Reference#:#Referência
 content#:#cont_Remark#:#Observação
 content#:#cont_Roman#:#Romano I, II, ...
 content#:#cont_Unordered#:#Desordenado
+content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Adicionar Área
 content#:#cont_add_definition#:#Adicionar Definição
 content#:#cont_add_fullscreen#:#Adicionar Ecrã Inteiro
@@ -1635,6 +1636,7 @@ content#:#cont_click_starting_point#:#Por favor carregue no primeiro ponto do po
 content#:#cont_click_tl_corner#:#Por favor carregue no canto superior esquerdo da área desejada.
 content#:#cont_content#:#Conteúdo
 content#:#cont_content_obj#:#Objecto de Conteúdo
+content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#Coordenadas
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Criar Directoria
@@ -1711,6 +1713,7 @@ content#:#cont_lk_page_faq#:#Página (janela FAQ)
 content#:#cont_lk_page_new#:#Página (Nova janela)
 content#:#cont_lk_term#:#Termo do Glossário
 content#:#cont_lk_term_new#:#Termo do Glossário (Nova janela)
+content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Propriedades do Módulo de Aprendizagem
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Ligar Áreas
@@ -1929,9 +1932,9 @@ dateplaner#:#freetime#:#Tempo livre no grupo
 dateplaner#:#group#:#grupo
 dateplaner#:#help_day#:#Vista de dias do Planeador de Datas
 dateplaner#:#help_day_l#:#Na vista de dia todas as datas de um dia são mostradas.
-dateplaner#:#help_enddate#:#Data de Fim - sintaxe[dd//mm/aaaa]
+dateplaner#:#help_enddate#:#Data de Fim - sintaxe[dd//mm/aaaa]###14 Apr 2004 content changed
 dateplaner#:#help_enddate_l#:#Contém o ponto de fim da marcação. <br> O símbolo abre um pequeno calendário para se escolher a data apropriada.
-dateplaner#:#help_endrotation#:#Sintaxe da Data de Fim[dd//mm/aaaa]
+dateplaner#:#help_endrotation#:#Sintaxe da Data de Fim[dd//mm/aaaa]###14 Apr 2004 content changed
 dateplaner#:#help_endrotation_l#:#Neste dia a repetição acabará.<br> O símbolo abre um calendário para se escolher a data apropriada
 dateplaner#:#help_endtime#:#Hora de Fim - syntaxe[hh/mm] Formato 24h
 dateplaner#:#help_endtime_l#:#Contém a Hora de Fim da marcação usando o formato 24h.
@@ -1964,7 +1967,7 @@ dateplaner#:#help_rotation#:#Rotação
 dateplaner#:#help_rotation_l#:#Contém o tipo da rotação / repetição.
 dateplaner#:#help_shorttext#:#Pequeno texto com 50 characteres max.
 dateplaner#:#help_shorttext_l#:#Aqui pode-se inserir um pequeno texto para um dado compromisso.
-dateplaner#:#help_startdate#:#Data de ínicio - syntaxe[dd//mm/aaaa]
+dateplaner#:#help_startdate#:#Data de ínicio - syntaxe[dd//mm/aaaa]###14 Apr 2004 content changed
 dateplaner#:#help_startdate_l#:#Contém o ponto de ínicio da marcação. <br> O símbolo abre um pequeno calendário para se escolher a data apropriada.
 dateplaner#:#help_starttime#:#Hora de ínicio - syntaxe[hh/mm] formato 24h
 dateplaner#:#help_starttime_l#:#Contém o ponto de ínicio da marcação usando o formato de 24h.

@@ -1596,6 +1596,7 @@ content#:#cont_Reference#:#Odkaz
 content#:#cont_Remark#:#Poznámka
 content#:#cont_Roman#:#Římské I, II, ...
 content#:#cont_Unordered#:#Nesetříděný
+content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Add Area###16 Mar 2004 new variable
 content#:#cont_add_definition#:#Přidat Definici
 content#:#cont_add_fullscreen#:#Add Fullscreen###16 Mar 2004 new variable
@@ -1635,6 +1636,7 @@ content#:#cont_click_starting_point#:#Please click on the starting point of the 
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###16 Mar 2004 new variable
 content#:#cont_content#:#Obsah
 content#:#cont_content_obj#:#Obsahový objekt
+content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#Coordinates###16 Mar 2004 new variable
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Vytvořit Adresář
@@ -1711,6 +1713,7 @@ content#:#cont_lk_page_faq#:#Stránka (FAQ rám)
 content#:#cont_lk_page_new#:#Stránka (nový rám)
 content#:#cont_lk_term#:#Pojem z glosáře
 content#:#cont_lk_term_new#:#Pojem z glosáře (nový rám)
+content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Vlastnosti výukového modulu
 content#:#cont_manifest#:#Manifest### identical translation
 content#:#cont_map_areas#:#Link Areas###16 Mar 2004 new variable

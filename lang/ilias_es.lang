@@ -1596,6 +1596,7 @@ content#:#cont_Reference#:#Reference###06 Aug 2003 new variable
 content#:#cont_Remark#:#Remark###06 Sep 2003 new variable
 content#:#cont_Roman#:#Roman I, II, ...###12 Jul 2003 new variable
 content#:#cont_Unordered#:#Unordered###12 Jul 2003 new variable
+content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
 content#:#cont_add_definition#:#Add Definition###01 Sep 2003 new variable
 content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
@@ -1635,6 +1636,7 @@ content#:#cont_click_starting_point#:#Please click on the starting point of the 
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_content_obj#:#Content Object###10 Sep 2003 new variable
+content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Create Directory###22 Oct 2003 new variable
@@ -1711,6 +1713,7 @@ content#:#cont_lk_page_faq#:#Page (FAQ Frame)###06 Sep 2003 new variable
 content#:#cont_lk_page_new#:#Page (New Frame)###06 Sep 2003 new variable
 content#:#cont_lk_term#:#Glossary Term###06 Sep 2003 new variable
 content#:#cont_lk_term_new#:#Glossary Term (New Frame)###06 Sep 2003 new variable
+content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Learning Module Properties###01 Jul 2003 new variable
 content#:#cont_manifest#:#Manifest###04 Aug 2003 new variable
 content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable

@@ -1596,6 +1596,7 @@ content#:#cont_Reference#:#Riferimento
 content#:#cont_Remark#:#Osservazione
 content#:#cont_Roman#:#Romani I, II, ...
 content#:#cont_Unordered#:#Non ordinato
+content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Aggiungi paese
 content#:#cont_add_definition#:#Aggiungi definizione
 content#:#cont_add_fullscreen#:#Aggiungi a tutto schermo 
@@ -1635,6 +1636,7 @@ content#:#cont_click_starting_point#:#Per favore, clicca nel punto di partenza d
 content#:#cont_click_tl_corner#:#Per favore, clicca nell&#039;angolo superiore sinistro dell'area desiderata.
 content#:#cont_content#:#Contenuto
 content#:#cont_content_obj#:#Contenuto dell&#039;oggetto
+content#:#cont_contents#:#Contents###14 Apr 2004 new variable
 content#:#cont_coords#:#Coordinate
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Crea una cartella
@@ -1711,6 +1713,7 @@ content#:#cont_lk_page_faq#:#Pagina (FAQ Frame)
 content#:#cont_lk_page_new#:#Pagina (New Frame)
 content#:#cont_lk_term#:#Glossario
 content#:#cont_lk_term_new#:#Glossario (New Frame)
+content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Propriet&#224; del Modulo
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
@@ -1929,9 +1932,9 @@ dateplaner#:#freetime#:#tempo libero del gruppo
 dateplaner#:#group#:#Gruppo
 dateplaner#:#help_day#:#Vista giornaliera dell'agenda
 dateplaner#:#help_day_l#:#In una vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.
-dateplaner#:#help_enddate#:#Appuntamento finale - sintassi[dd//mm/yyyy]
+dateplaner#:#help_enddate#:#Appuntamento finale - sintassi[dd//mm/yyyy]###14 Apr 2004 content changed
 dateplaner#:#help_enddate_l#:#Contiene la scadenza dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
-dateplaner#:#help_endrotation#:#Data finale sintassi[dd//mm/yyyy]
+dateplaner#:#help_endrotation#:#Data finale sintassi[dd//mm/yyyy]###14 Apr 2004 content changed
 dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminerà .<br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
 dateplaner#:#help_endtime#:#Ora finale - sintassi[hh/mm] 24h format
 dateplaner#:#help_endtime_l#:#Contiene l'ora finale dell'appuntamento nel formato 24h.
@@ -1964,7 +1967,7 @@ dateplaner#:#help_rotation#:#Ripetizione
 dateplaner#:#help_rotation_l#:#Contiene il tipo di rotazione/ripetizione.
 dateplaner#:#help_shorttext#:#Test breve con max. 50 caratteri
 dateplaner#:#help_shorttext_l#:#Qui puoi inserire il testo breve per un appuntamento specifico.
-dateplaner#:#help_startdate#:#Data di inizio - sintassi[dd//mm/yyyy]
+dateplaner#:#help_startdate#:#Data di inizio - sintassi[dd//mm/yyyy]###14 Apr 2004 content changed
 dateplaner#:#help_startdate_l#:#Contiene l'inizio dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data appropriata.
 dateplaner#:#help_starttime#:#Ora di inizio - sintassi[hh/mm] formato 24h
 dateplaner#:#help_starttime_l#:#Contiene l'inizio dell'appuntamento usando il formato 24h.
