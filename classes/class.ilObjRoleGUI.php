@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.41 2003/08/08 11:53:19 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.42 2003/08/12 11:44:49 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -715,14 +715,17 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			foreach ($usr_data as $key => $val)
 			{
-				//visible data part
-				$this->data["data"][] = array(
-						"type"			=> $val["type"],
-						"name"			=> $val["title"],
-						"email"			=> $val["desc"],
-						"last_change"	=> $val["last_update"],
-						"obj_id"		=> $val["obj_id"]
-					);
+				if ($key != ANONYMOUS_USER_ID)
+				{
+					//visible data part
+					$this->data["data"][] = array(
+								"type"			=> $val["type"],
+								"name"			=> $val["title"],
+								"email"			=> $val["desc"],
+								"last_change"	=> $val["last_update"],
+								"obj_id"		=> $val["obj_id"]
+							);
+				}
 			}
 		} //if userdata
 

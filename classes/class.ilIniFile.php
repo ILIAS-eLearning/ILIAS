@@ -212,7 +212,7 @@ class ilIniFile
 			
 			for (reset($group); $key=key($group);next($group))
 			{
-				$res = sprintf("%s = %s\r\n",$key,$group[$key]);
+				$res = sprintf("%s = %s\r\n",$key,"\"".$group[$key]."\"");
 				$result = fwrite($fp,$res);
 			}
 		}

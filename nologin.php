@@ -51,8 +51,10 @@ if (empty($anon))
 	exit;
 }
 
-if ($ilias->getSetting("pub_section") != "y")
+if (!$ilias->getSetting("pub_section"))
 {
+	$ilias->auth->logout();
+	session_destroy();
 	header("location: login.php");
 	exit();
 }

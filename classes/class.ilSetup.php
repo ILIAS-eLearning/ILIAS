@@ -188,7 +188,7 @@ class ilSetup
 		//added by ratana ty
 		$this->ini->setVariable("server", "webspace_dir", $this->webspace_path);
  
-		$this->ini->setVariable("server", "http_path","\"http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"])."\"");
+		$this->ini->setVariable("server", "http_path","http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]));
 		$this->ini->setVariable("server", "absolute_path",dirname($_SERVER["SCRIPT_FILENAME"]));
 
 		//try to write the file
