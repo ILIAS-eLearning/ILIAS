@@ -854,7 +854,7 @@ class ilRepositoryGUI
 					}
 					$tpl->setCurrentBlock("tbl_content");
 
-					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], $desk_type))
+					if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($lr_data["ref_id"], $desk_type))
 					{
 						if ($this->rbacsystem->checkAccess('read', $lr_data["ref_id"]))
 						{
@@ -867,6 +867,7 @@ class ilRepositoryGUI
 							$tpl->parseCurrentBlock();
 						}
 					}
+
 					$tpl->setCurrentBlock("tbl_content");
 				}
 
@@ -977,7 +978,7 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 
-				if (!$this->ilias->account->isDesktopItem($gl_data["ref_id"], "glo"))
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($gl_data["ref_id"], "glo"))
 				{
 					if ($this->rbacsystem->checkAccess('read', $gl_data["ref_id"]))
 					{
@@ -1093,7 +1094,7 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 
-				if (!$this->ilias->account->isDesktopItem($mep_data["ref_id"], "mep"))
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($mep_data["ref_id"], "mep"))
 				{
 					if ($this->rbacsystem->checkAccess('write', $mep_data["ref_id"]))
 					{
@@ -1234,7 +1235,7 @@ class ilRepositoryGUI
 									  $data["ref_id"]."&backurl=forums\">".$topicData["top_name"]."</a>");
 				}
 				// add to desktop link
-				if (!$ilias->account->isDesktopItem($data["ref_id"], "frm"))
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($data["ref_id"], "frm"))
 				{
 					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
 						"&item_ref_id=".$data["ref_id"].
@@ -1438,7 +1439,7 @@ class ilRepositoryGUI
 				$tpl->setVariable("LINK_TARGET", "bottom");
 
 				// add to desktop link
-				if (!$ilias->account->isDesktopItem($cont_data["ref_id"], "grp"))
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($cont_data["ref_id"], "grp"))
 				{
 					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
 						"&item_ref_id=".$cont_data["ref_id"].
@@ -1609,7 +1610,7 @@ class ilRepositoryGUI
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 				}
-				if (!$ilias->account->isDesktopItem($cont_data["ref_id"], "chat"))
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($cont_data["ref_id"], "chat"))
 				{
 					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
 						"&item_ref_id=".$cont_data["ref_id"].
@@ -1757,7 +1758,7 @@ class ilRepositoryGUI
 				}
 
 				// add to desktop link
-				if (!$ilias->account->isDesktopItem($tst_data["ref_id"], "tst") and ($tst_data["complete"]))
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($tst_data["ref_id"], "tst") and ($tst_data["complete"]))
 				{
 					$tpl->setCurrentBlock("tst_subscribe");
 					$tpl->setVariable("SUBSCRIBE_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
