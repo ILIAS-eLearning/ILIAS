@@ -3,13 +3,12 @@ body { margin:0px; }
 </style>
 {STATUSLINE}
 <table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
-<!--<div class="invisible_border">-->
 <form name="surveyOutput" method="post" action="{FORM_ACTION}">
-<div class="il_Header">
+<div class="il_Header"><h1>{HEADER}</h1>
+<div class="il_Tab">
+{TABS}
+</div>
 <table width="100%">
-<tr colspan="2">
-<td><h1>{HEADER}<!-- BEGIN print_block -->[<a href="{PRINT_ACTION}" target="_blank"><img src="{PRINT_IMAGE}" width="18" height="18" alt="{PRINT_TEXT}" title="{PRINT_TEXT}" border="0"></a> <a href="{PRINT_ACTION}" target="_blank">{PRINT_TEXT}</a>]<!-- END print_block --></h1></td>
-</tr>
 <tr>
 <td align="left">
 <!-- BEGIN top_prev -->
@@ -88,5 +87,4 @@ text-align: center;">
 </div>
 <!-- END bottom_navigation -->
 </form>
-<!--</div>-->
 </td></tr></table>

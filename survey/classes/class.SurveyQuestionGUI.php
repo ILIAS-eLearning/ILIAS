@@ -162,7 +162,7 @@ class SurveyQuestionGUI {
 		}
 	}
 	
-	function originalSyncForm($question_object, $ref_id)
+	function originalSyncForm()
 	{
 //		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_sync_original.html", true);
@@ -507,7 +507,6 @@ class SurveyQuestionGUI {
 	{
 		if (!$hasError)
 		{
-			$this->object->saveToDb();
 			$result = $this->writePostData();
 			if ($result > 0)
 			{
@@ -515,6 +514,9 @@ class SurveyQuestionGUI {
 				$this->editQuestion();
 				return;
 			}
+			$this->object->saveToDb();
+			$this->ctrl->setParameterByClass(get_class($this), "q_id", $this->object->getId());
+			$this->ctrl->setParameterByClass("ilobjsurveyquestionpoolgui", "q_id", $this->object->getId());
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_addphrase.html", true);
 

@@ -107,7 +107,7 @@ class SurveyOrdinalQuestionGUI extends SurveyQuestionGUI {
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
 		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_ordinal");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
 	

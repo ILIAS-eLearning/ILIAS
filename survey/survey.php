@@ -115,6 +115,8 @@ switch ($_GET["cmd"])
 {
 	case "run":
 	case "evaluation":
+	case "evaluationdetails":
+	case "evaluationuser":
 		$prepare_output = false;
 		break;
 	default:

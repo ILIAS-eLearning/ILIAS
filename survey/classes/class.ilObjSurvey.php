@@ -3095,6 +3095,55 @@ class ilObjSurvey extends ilObject
 	}
 
 /**
+* Calculates the evaluation data for a given user or anonymous id
+*
+* Calculates the evaluation data for a given user or anonymous id
+*
+* @param integer $user_id The database id of the user
+* @param string $anonymous_id The unique anonymous id for an anonymous survey
+* @return array An array containing the evaluation parameters for the user
+* @access public
+*/
+	function getEvaluationByUser($user_id, $anonymous_id = "")
+	{
+		$questions =& $this->getSurveyQuestions();
+		
+		$wherecond = "";
+		$wherevalue = "";
+		if (strcmp($anonymous_id, "") != 0)
+		{
+			$wherecond = "anonymous_id = %s";
+			$wherevalue = $anonymous_id;
+		}
+		else
+		{
+			$wherecond = "user_fi = %s";
+			$wherevalue = $user_id;
+		}
+		// collect all answers
+		$answers = array();
+		$query = sprintf("SELECT * FROM survey_answer WHERE $wherecond AND survey_fi = %s",
+			$this->ilias->db->quote($wherevalue),
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if (!is_array($answers[$row["question_fi"]]))
+			{
+				$answers[$row["question_fi"]] = array();
+			}
+			array_push($answers[$row["question_fi"]], $row);
+		}
+
+		print_r($answers);
+		print_r($questions);		
+		foreach ($questions as $key => $question)
+		{
+		}
+	}
+	
+/**
 * Calculates the evaluation data for a question
 *
 * Calculates the evaluation data for a question
