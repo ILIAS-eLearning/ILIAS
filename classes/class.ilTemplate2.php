@@ -164,7 +164,7 @@ class ilTemplate extends HTML_Template_ITX
 			// this is a workaround to display formular again in case of error and if the referer points to another page
 			$url_parts = parse_url($_SERVER["REQUEST_URI"]);
 			
-			if (preg_match("/cmd=gateway/",$url_parts["query"]) && (!empty($_POST)))
+			if (preg_match("/cmd=gateway/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
 			{
 				foreach ($_POST as $key => $val)
 				{
