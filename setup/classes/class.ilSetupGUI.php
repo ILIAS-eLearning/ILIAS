@@ -451,7 +451,7 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("BORDER", 0);
 			$this->tpl->setVariable("VSPACE", 0);
 			$this->tpl->parseCurrentBlock();
-			
+
 			$num++;
 		}
 		
