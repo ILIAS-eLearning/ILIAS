@@ -721,6 +721,7 @@ common#:#delete_all#:#Alle löschen
 common#:#delete_all_rec#:#Lösche alle Einträge
 common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
+common#:#delete_tr_data#:#Delete tracking data###09 Jul 2004 new variable
 common#:#deleted#:#Gelöscht
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
@@ -1190,6 +1191,7 @@ common#:#mail_visible#:#Maileinstellungen sind sichtbar
 common#:#mail_write#:#Maileinstellungen bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
+common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
 common#:#max_number_rec#:#Maximale Zahl der Einträge
@@ -1355,6 +1357,7 @@ common#:#normal#:#Normal
 common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
+common#:#number_of_accesses#:#Number of accesses###09 Jul 2004 new variable
 common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
@@ -1733,6 +1736,8 @@ common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
 common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
+common#:#tracking_data_deleted#:#Tracking data deleted###09 Jul 2004 new variable
 common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
@@ -1854,6 +1859,7 @@ content#:#cont_assign_full#:#Als Vollansicht
 content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_translation#:#Übersetzung zuordnen
 content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
+content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#Zurück
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten

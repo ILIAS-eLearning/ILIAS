@@ -721,6 +721,7 @@ common#:#delete_all#:#Alles verwijderen
 common#:#delete_all_rec#:#Alle rekords verwijderen
 common#:#delete_object#:#Verwijder object(en)
 common#:#delete_selected#:#Verwijder het geselecteerde
+common#:#delete_tr_data#:#Delete tracking data###09 Jul 2004 new variable
 common#:#deleted#:#Verwijderd
 common#:#department#:#Afdeling
 common#:#desc#:#Beschrijving
@@ -1190,6 +1191,7 @@ common#:#mail_visible#:#Mail-instellingen zijn zichtbaar
 common#:#mail_write#:#Wijzig Mail-instellingen
 common#:#mail_z_local#:#Gebruikers-mappen
 common#:#mails#:#Mails
+common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#Markeer alles als gelezen
 common#:#mark_all_unread#:#Markeer alles als niet gelezen
 common#:#max_number_rec#:#Maximum aantal rekords
@@ -1355,6 +1357,7 @@ common#:#normal#:#Normaal
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#Niet geïnstalleerd
 common#:#not_logged_in#:#U bent niet ingelogd
+common#:#number_of_accesses#:#Number of accesses###09 Jul 2004 new variable
 common#:#number_of_records#:#Aantal rekords
 common#:#obj#:#Object
 common#:#obj_adm#:#Administratie
@@ -1733,6 +1736,8 @@ common#:#total#:#Totaal
 common#:#tpl_path#:#Sjabloon-pad
 common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
 common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
+common#:#tracking_data_deleted#:#Tracking data deleted###09 Jul 2004 new variable
 common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Vertaling
 common#:#trash#:#Prullenbak
@@ -1854,6 +1859,7 @@ content#:#cont_assign_full#:#Toewijzen Fullscreen
 content#:#cont_assign_std#:#Toewijzen Standaard
 content#:#cont_assign_translation#:#Toewijzen vertaling
 content#:#cont_assignments_deleted#:#De toewijzing is gewist
+content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#Terug
 content#:#cont_booktitle#:#Boektitel
 content#:#cont_bottom#:#Onderkant
