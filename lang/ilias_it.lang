@@ -138,6 +138,7 @@ assessment#:#circle_click_center#:#Per favore clicca nel centro dell'area deside
 assessment#:#circle_click_circle#:#Per favore clicca nel punto della circonferenza dell'area desiderata.
 assessment#:#cloze_text#:#Testo corrispondente
 assessment#:#code#:#Codice
+assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
 assessment#:#confirm_sync_questions#:#La domanda che &#232; stata modificata &#232; la copia di una che &#232; stata creata per un sondaggio ancora attivo. Vuoi cambiare anche la domanda originale?
 assessment#:#coordinates#:#Coordinate
 assessment#:#correct_solution_is#:#La soluzione corretta &#232;
@@ -326,10 +327,10 @@ assessment#:#result#:#Risultato
 assessment#:#save_before_upload_imagemap#:#Devi salvare le modifiche prima di poter fare l'upload di un immagine con mappa!
 assessment#:#save_before_upload_javaapplet#:#Devi salvare le modifiche prima di poter fare l'upload di una applet java!
 assessment#:#save_edit#:#Salva e vedi il contenuto
-assessment#:#save_finish#:#Salva e finisci il test
-assessment#:#save_introduction#:#Salva e vai all'introduzione
-assessment#:#save_next#:#Salva e vai alla domanda successiva
-assessment#:#save_previous#:#Salva e vai alla domanda precedente
+assessment#:#save_finish#:#Salva e finisci il test###21 Dec 2004 content changed
+assessment#:#save_introduction#:#Salva e vai all'introduzione###21 Dec 2004 content changed
+assessment#:#save_next#:#Salva e vai alla domanda successiva###21 Dec 2004 content changed
+assessment#:#save_previous#:#Salva e vai alla domanda precedente###21 Dec 2004 content changed
 assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
 assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Vedi dettagli per la risposta suggerita
@@ -4068,6 +4069,8 @@ survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#Devi scegliere almeno una categoria se vuoi salvare la frase!
 survey#:#codes#:#Access codes###20 Dec 2004 new variable
 survey#:#concatenation#:#Concatenazione
+survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
+survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
 survey#:#confirm_sync_questions#:#La domanda che hai cambiato &#232; la copia di una che &#232; stata creata per essere usata in un sondaggio ancora attivo. Vuoi modificare anche la domanda originale?
 survey#:#constraints#:#Vincoli
 survey#:#contains#:#Contiene
@@ -4145,6 +4148,7 @@ survey#:#end_date#:#Termine ultimo
 survey#:#end_date_reached#:#Non puoi iniziare il sondaggio. La data di scadenza &#232; gi&#224; stata raggiunta.
 survey#:#enter_anonymous_id#:#Survey access code###09 Dec 2004 new variable
 survey#:#enter_phrase_title#:#Per favore, inserisci il titolo del sondaggio
+survey#:#enter_questionblock_title#:#Please enter a questionblock title!###21 Dec 2004 new variable
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
 survey#:#enter_value#:#Inserisci un valore
 survey#:#error_add_heading#:#Per favore aggiungi l'intestazione!

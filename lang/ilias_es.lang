@@ -139,6 +139,7 @@ assessment#:#circle_click_center#:#Por favor haga click en el centro del area de
 assessment#:#circle_click_circle#:#Por favor haga click en un punto del círculo del area deseada.
 assessment#:#cloze_text#:#Texto "rellenar el hueco"
 assessment#:#code#:#Código
+assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
 assessment#:#confirm_sync_questions#:#La pregunta modificada es una copia que ha sido creada para usar con el test activo. Quiere cambiar la pregunta original también? 
 assessment#:#coordinates#:#Coordenadas
 assessment#:#correct_solution_is#:#La solución correcta es
@@ -327,10 +328,10 @@ assessment#:#result#:#Resultado
 assessment#:#save_before_upload_imagemap#:#Debe aplicar los cambios antes de poder cargar un mapa de imagen!
 assessment#:#save_before_upload_javaapplet#:#Debe aplicar los camibos antes de poder cargar un applet java!
 assessment#:#save_edit#:#Salvar y editar contenido
-assessment#:#save_finish#:#Grabar y finalizar el test
-assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?
-assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente
-assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior
+assessment#:#save_finish#:#Grabar y finalizar el test###21 Dec 2004 content changed
+assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?###21 Dec 2004 content changed
+assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente###21 Dec 2004 content changed
+assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior###21 Dec 2004 content changed
 assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
 assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Ver detalles de las soluciones recomendadas
@@ -3958,6 +3959,8 @@ survey#:#category_nr_selected#:#Número de usuarios que seleccionaron esta categ
 survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#codes#:#Access codes###20 Dec 2004 new variable
 survey#:#concatenation#:#Concatenación
+survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
+survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
 survey#:#confirm_sync_questions#:#La pregunta que modificó es una copia que ha sido creada para usar con la encuesta activa. Quiere modificar la pregunta original también?
 survey#:#constraints#:#Restricciones
 survey#:#contains#:#Contiene
@@ -4034,6 +4037,7 @@ survey#:#edit_heading#:#Editar cabecera
 survey#:#end_date#:#Fecha fin
 survey#:#end_date_reached#:#No puede comenzar la encuesta. Se ha superado la fecha límite!
 survey#:#enter_phrase_title#:#Por favor introduzca un título de frase
+survey#:#enter_questionblock_title#:#Please enter a questionblock title!###21 Dec 2004 new variable
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
 survey#:#enter_value#:#Introduzca un valor
 survey#:#error_add_heading#:#Por favor añada una cabecera!

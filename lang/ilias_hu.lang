@@ -138,6 +138,7 @@ assessment#:#circle_click_center#:#Kattintson a kívánt terület középpontjá
 assessment#:#circle_click_circle#:#Kattintson a kívánt terület körvonalának egy pontjára!
 assessment#:#cloze_text#:#Zárt szöveg
 assessment#:#code#:#Kód
+assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###12 Nov 2004 new variable
 assessment#:#coordinates#:#Koordináták
 assessment#:#correct_solution_is#:#The correct solution is###05 Nov 2004 new variable
@@ -326,10 +327,10 @@ assessment#:#result#:#Eredmény
 assessment#:#save_before_upload_imagemap#:#Alkalmaznia kell a változtatásokat, mielőtt feltölt egy Image Map-et!
 assessment#:#save_before_upload_javaapplet#:#Alkalmaznia kell a változtatásokat, mielőtt feltölt egy Java Applet-et!
 assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
-assessment#:#save_finish#:#Mentés és a teszt befejezése
-assessment#:#save_introduction#:#Mentés és bevezetésre ugrás
-assessment#:#save_next#:#Mentés és a következő kérdésre ugrás
-assessment#:#save_previous#:#Mentés és az előző kérdésre ugrás
+assessment#:#save_finish#:#Mentés és a teszt befejezése###21 Dec 2004 content changed
+assessment#:#save_introduction#:#Mentés és bevezetésre ugrás###21 Dec 2004 content changed
+assessment#:#save_next#:#Mentés és a következő kérdésre ugrás###21 Dec 2004 content changed
+assessment#:#save_previous#:#Mentés és az előző kérdésre ugrás###21 Dec 2004 content changed
 assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
 assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
@@ -4069,6 +4070,8 @@ survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
 survey#:#codes#:#Access codes###20 Dec 2004 new variable
 survey#:#concatenation#:#Összefűzés
+survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
+survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable
 survey#:#constraints#:#Megszorítások
 survey#:#contains#:#Tartalmazottak
@@ -4146,6 +4149,7 @@ survey#:#end_date#:#Végdátum
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!###05 Nov 2004 new variable
 survey#:#enter_anonymous_id#:#Survey access code###09 Dec 2004 new variable
 survey#:#enter_phrase_title#:#Adjon meg egy mondatcímet
+survey#:#enter_questionblock_title#:#Please enter a questionblock title!###21 Dec 2004 new variable
 survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
 survey#:#enter_value#:#Érték megadása
 survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
