@@ -176,7 +176,7 @@ class ilObject
 			// read object data
 			$q = "SELECT * FROM object_data ".
 				 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
-			 	"WHERE object_reference.ref_id='".$this->ref_id."'";
+				 "WHERE object_reference.ref_id='".$this->ref_id."'";
 			$object_set = $ilias->db->query($q);
 
 			// check number of records
@@ -448,7 +448,7 @@ class ilObject
 		{
 			$message = "Object->create(): No title given! A title is required!";
 			//$ilias->raiseError($message,$ilias->error_obj->WARNING);
-echo "Object->create() (type:".$this->type."): No title given! A title is required!"; exit;
+//echo "Object->create() (type:".$this->type."): No title given! A title is required!"; exit;
 		}
 
 		$this->title = addslashes(ilUtil::shortenText($this->title, $this->max_title, $this->add_dots));
