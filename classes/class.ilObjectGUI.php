@@ -143,7 +143,7 @@ class ilObjectGUI
 		{
 			$_GET["limit"] = 10;	// TODO: move to user settings
 		}
-
+//echo ":".get_class($this->object).":";
 		// set default sort column
 		if (empty($_GET["sort_by"]))
 		{
@@ -171,6 +171,7 @@ class ilObjectGUI
 
 	function assignObject()
 	{
+//echo "-ID-".$this->id."-";
 		// TODO: it seems that we always have to pass only the ref_id
 		if ($this->id != 0)
 		{
@@ -2448,7 +2449,7 @@ class ilObjectGUI
 		{
 			$d = $this->sub_objects;
 		}
-		
+
 		$import = false;
 
 		if (count($d) > 0)
@@ -2524,7 +2525,7 @@ class ilObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 	}
-	
+
 	/**
 	* get Titles of objects
 	* this method is used for error messages in methods cut/copy/paste

@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.7 2003/10/29 13:56:48 shofmann Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.9 2003/10/31 12:32:15 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -41,12 +41,12 @@ class ilObjCategoryGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjCategoryGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjCategoryGUI($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
 		$this->type = "cat";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
-	
+
 	/**
 	* create new category form
 	*
@@ -57,7 +57,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		
+
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -68,7 +68,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 			include_once "./classes/class.ilMetaData.php";
 
 			$this->getTemplateFile("edit",$new_type);
-			
+
 			$array_push = true;
 
 			if ($_SESSION["error_post_vars"])
@@ -85,22 +85,22 @@ class ilObjCategoryGUI extends ilObjectGUI
 			elseif ($_GET["entry"] != 0)
 			{
 				array_splice($_SESSION["translation_post"]["Fobject"],$_GET["entry"],1,array());
-				
+
 				if ($_GET["entry"] == $_SESSION["translation_post"]["default_language"])
 				{
 					$_SESSION["translation_post"]["default_language"] = "";
 				}
 			}
-			
+
 			// stripslashes in form output?
 			$strip = isset($_SESSION["translation_post"]) ? true : false;
-			
+
 			$data = $_SESSION["translation_post"];
-			
+
 			if (!is_array($data["Fobject"]))
 			{
 				$data["Fobject"] = array();
-			}		
+			}
 
 			// add additional translation form
 			if (!$_GET["entry"] and $array_push)
@@ -142,7 +142,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("lg_option");
 					$this->tpl->setVariable("VAL_LG", $code);
 					$this->tpl->setVariable("TXT_LG", $language);
-		
+
 					if ($count == 1 AND $code == $this->ilias->account->getPref("language"))
 					{
 						$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
@@ -257,7 +257,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}
-	
+
 	/**
 	* edit category
 	*
@@ -276,7 +276,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		include_once "./classes/class.ilMetaData.php";
 
 		$this->getTemplateFile("edit",$new_type);
-			
+
 		$array_push = true;
 
 		if ($_SESSION["error_post_vars"])
@@ -285,7 +285,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 			$_GET["mode"] = "session";
 			$array_push = false;
 		}
-			
+
 		// load from db if edit category is called the first time
 		if (($_GET["mode"] != "session"))
 		{
@@ -295,7 +295,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}	// remove a translation from session
 		elseif ($_GET["entry"] != 0)
 		{
-			array_splice($_SESSION["translation_post"]["Fobject"],$_GET["entry"],1,array()); 
+			array_splice($_SESSION["translation_post"]["Fobject"],$_GET["entry"],1,array());
 
 			if ($_GET["entry"] == $_SESSION["translation_post"]["default_language"])
 			{
@@ -314,7 +314,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		{
 			$count = count($data["Fobject"]);
 		}
-		
+
 		// stripslashes in form?
 		$strip = isset($_SESSION["translation_post"]) ? true : false;
 
@@ -327,7 +327,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_ADD_TRANSLATION",$this->lng->txt("add_translation")." >>");
 				$this->tpl->parseCurrentBlock();
 			}
-				
+
 			// remove translation button
 			if ($key != 0)
 			{
@@ -336,7 +336,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 				$this->tpl->setVariable("LINK_REMOVE_TRANSLATION", "adm_object.php?cmd=removeTranslation&entry=".$key."&mode=edit&ref_id=".$_GET["ref_id"]);
 				$this->tpl->parseCurrentBlock();
 			}
-			
+
 			// lang selection
 			$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
 			$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
@@ -348,7 +348,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("lg_option");
 				$this->tpl->setVariable("VAL_LG", $code);
 				$this->tpl->setVariable("TXT_LG", $language);
-	
+
 				if ($count == 1 AND $code == $this->ilias->account->getPref("language"))
 				{
 					$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
@@ -357,13 +357,13 @@ class ilObjCategoryGUI extends ilObjectGUI
 				{
 					$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
 				}
-	
+
 				$this->tpl->parseCurrentBlock();
 			}
-				
+
 			// object data
 			$this->tpl->setCurrentBlock("obj_form");
-			
+
 			if ($key == 0)
 			{
 				$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
@@ -372,12 +372,12 @@ class ilObjCategoryGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("translation")." ".$key);
 			}
-			
+
 			if ($key == $data["default_language"])
 			{
 				$this->tpl->setVariable("CHECKED", "checked=\"checked\"");
 			}
-			
+
 			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 			$this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
 			$this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
@@ -413,21 +413,21 @@ class ilObjCategoryGUI extends ilObjectGUI
 		else
 		{
 			$data = $_POST;
-		
+
 			// default language set?
 			if (!isset($data["default_language"]))
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_no_default_language"),$this->ilias->error_obj->MESSAGE);
 			}
-			
+
 			// prepare array fro further checks
 			foreach ($data["Fobject"] as $key => $val)
 			{
 				$langs[$key] = $val["lang"];
 			}
-			
+
 			$langs = array_count_values($langs);
-			
+
 			// all languages set?
 			if (array_key_exists("",$langs))
 			{
@@ -458,7 +458,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 				{
 					$default = 0;
 				}
-				
+
 				$this->object->addTranslation(ilUtil::stripSlashes($val["title"]),ilUtil::stripSlashes($val["desc"]),$val["lang"],$default);
 			}
 
@@ -469,14 +469,14 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
-		
+
 		header("Location: adm_object.php?ref_id=".$this->object->getRefId());
 		exit();
 	}
-	
+
 	/**
 	* adds a translation form & save post vars to session
-	* 
+	*
 	* @access	public
 	*/
 	function addTranslationObject()
@@ -491,20 +491,20 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 
 		$_SESSION["translation_post"] = $_POST;
-		
-		header("location: adm_object.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
-		exit();	
+		header("Location:".$this->getReturnLocation("addTranslation",
+			"adm_object.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]));
+		exit();
 	}
 
 	/**
 	* removes a translation form & save post vars to session
-	* 
+	*
 	* @access	public
 	*/
 	function removeTranslationObject()
 	{
 		global $log;
-		
+
 		if (!($_GET["mode"] != "create" or $_GET["mode"] != "edit"))
 		{
 			$message = get_class($this)."::removeTranslationObject(): Missing or wrong parameter! mode: ".$_GET["mode"];
