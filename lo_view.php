@@ -8,14 +8,14 @@
 * @package ilias-core
 */
 require_once "include/inc.header.php";
-require_once "classes/class.sql2xml.php";
+require_once "classes/class.ilSQL2XML.php";
 require_once "classes/class.ilDOMXML.php";
 
 ob_start(); 
 
 //$T1 = TUtil::StopWatch();
 
-$sql2xml = new sql2xml($_GET["lm_id"],$_GET["lo_id"]);
+$sql2xml = new ilSQL2XML($_GET["lm_id"],$_GET["lo_id"]);
 $lo = $sql2xml->getLearningObject();
 $navbar = $sql2xml->setNavigation();
 
