@@ -237,7 +237,15 @@ if($rbacsystem->checkAccess("smtp mail",$umail->getMailObjectReferenceId()))
 
 // ATTACHMENT
 $tpl->setVariable("TXT_ATTACHMENT",$lng->txt("mail_attachments"));
-$tpl->setVariable("BUTTON_EDIT",$lng->txt("edit"));
+// SWITCH BUTTON 'add' 'edit'
+if($mail_data["attachments"])
+{
+	$tpl->setVariable("BUTTON_EDIT",$lng->txt("edit"));
+}
+else
+{
+	$tpl->setVariable("BUTTON_EDIT",$lng->txt("add"));
+}
 
 // MESSAGE
 $tpl->setVariable("TXT_MSG_CONTENT", $lng->txt("message_content"));
