@@ -5,99 +5,100 @@ body { margin:0px; }
 <div class="invisible_border">
 <div class="il_Header"><h1>{TXT_COMPOSE}</h1>
 <div class="il_Tab">
-{TABS}	  
+{TABS}
 </div>
 </div>
 {BUTTONS}
 <br />
 {MESSAGE}
 	<form action="{ACTION}" method="post">
-		<input type="hidden" name="m_type[]" value="normal" /> 
-		<table class="fullwidth">
+		<input type="hidden" name="m_type[]" value="normal" />
+		<table class="std">
 		<!-- BEGIN search -->
-		  <tr>
-			<td class="std" align="right">Suche nach:
+		<tr>
+			<td class="option" align="right">Suche nach:
 			</td>
-			<td class="std">
-			  <input name="search" value="" size="30" width="80%"/>
+			<td class="option_value">
+			<input name="search" value="" size="30" width="80%"/>
 			</td>
-		  </tr>
-		  <tr>
-			<td class="std">&nbsp;
+		</tr>
+		<tr>
+			<td class="option">&nbsp;
 			</td>
-			<td class="std">
-			  <input type="checkbox" name="type_addressbook" value="address" checked="checked"/>{TXT_SEARCH_ADDRESS}
-			  </td>
-		  </tr>
-		  <tr>
-			<td class="std">&nbsp;
+			<td class="option_value">
+			<input type="checkbox" name="type_addressbook" value="address" checked="checked"/>{TXT_SEARCH_ADDRESS}
 			</td>
-			  <td class="std">
-			  <input type="checkbox" name="type_system" value="system"/>{TXT_SEARCH_SYSTEM}
+		</tr>
+		<tr>
+			<td class="option">&nbsp;
 			</td>
-		  </tr>
-		  <tr>
-			<td class="std">&nbsp;</td>
-			<td class="std" >
-			  <input class="submit" type="submit" name="cmd[search]" value="{BUTTON_SEARCH}"/>
-			  <input class="submit" type="submit" name="cmd[search_cancel]" value="{BUTTON_CANCEL}"/>
+			<td class="option_value">
+			<input type="checkbox" name="type_system" value="system"/>{TXT_SEARCH_SYSTEM}
 			</td>
-		  </tr>
-		  <!-- END search -->
-		  <tr>
-			<td class="std" align="right">{TXT_RECIPIENT}</a></td>
-			<td class="std" >
-			  <input name="rcp_to" value="{RCP_TO}" size="50" width="80%"/>
-			  <input class="submit" type="submit" name="cmd[rcp_to]" value="{BUTTON_TO}"/>
+		</tr>
+		<tr>
+			<td class="option">&nbsp;</td>
+			<td class="option_value" >
+			<input class="submit" type="submit" name="cmd[search]" value="{BUTTON_SEARCH}"/>
+			<input class="submit" type="submit" name="cmd[search_cancel]" value="{BUTTON_CANCEL}"/>
 			</td>
-		  </tr>
-		  <tr>
-			<td class="std" align="right">{TXT_CC}</a></td>
-			<td class="std">
-			  <input name="rcp_cc" value="{RCP_CC}" size="50" width="80%"/>
-			  <input class="submit" type="submit" name="cmd[rcp_cc]" value="{BUTTON_CC}"/>
+		</tr>
+		<!-- END search -->
+		<tr>
+			<td class="option" >{TXT_RECIPIENT}</a></td>
+			<td class="option_value" >
+			<input name="rcp_to" value="{RCP_TO}" size="50" width="80%"/>
+			<input class="submit" type="submit" name="cmd[rcp_to]" value="{BUTTON_TO}"/>
 			</td>
-		  </tr>
-		  <tr>
-			<td class="std" align="right">{TXT_BC}</a></td>
-			<td class="std">
-			  <input name="rcp_bcc" value="{RCP_BCC}" size="50" width="80%"/>
-			  <input class="submit" type="submit" name="cmd[rcp_bc]" value="{BUTTON_BC}"/>
+		</tr>
+		<tr>
+			<td class="option" >{TXT_CC}</a></td>
+			<td class="option_value">
+			<input name="rcp_cc" value="{RCP_CC}" size="50" width="80%"/>
+			<input class="submit" type="submit" name="cmd[rcp_cc]" value="{BUTTON_CC}"/>
 			</td>
-		  </tr>
-		  <tr>
-			<td class="std" align="right">{TXT_SUBJECT}</td>
-			<td class="std"><input name="m_subject" value="{M_SUBJECT}" size="50" width="80%"/></td>
-		  </tr>
-		  <!-- BEGIN system_message --> 
-		  <tr>
-			<td class="std" align="right">{SYSTEM_TXT_TYPE}</td>
-			<td class="std">
-			  <input type="checkbox" name="m_type[]" value="system" {CHECKED_SYSTEM}/>{TXT_SYSTEM}
+		</tr>
+		<tr>
+			<td class="option" >{TXT_BC}</a></td>
+			<td class="option_value">
+			<input name="rcp_bcc" value="{RCP_BCC}" size="50" width="80%"/>
+			<input class="submit" type="submit" name="cmd[rcp_bc]" value="{BUTTON_BC}"/>
 			</td>
-		  </tr>
-		  <!-- END system_message --> 
-		  <tr>
-			<td class="std" align="right" valign="top">{TXT_ATTACHMENT}</td>
-			<td class="std">
-			  <!-- BEGIN files -->
-			  <textarea cols="60" rows="{ROWS}" readonly="readonly">{FILES}</textarea><br/>
-			  <!-- BEGIN hidden -->
-			  <input type="hidden" name="attachments[]" value="{ATTACHMENTS}"/>
-			  <!-- END hidden -->
-			  <!-- END files -->
-			  <input class="submit" type="submit" name="cmd[edit]" value="{BUTTON_EDIT}"/>
+		</tr>
+		<tr>
+			<td class="option" >{TXT_SUBJECT}</td>
+			<td class="option_value"><input name="m_subject" value="{M_SUBJECT}" size="50" width="80%"/></td>
+		</tr>
+		<!-- BEGIN system_message -->
+		<tr>
+			<td class="option" >{SYSTEM_TXT_TYPE}</td>
+			<td class="option_value">
+			<input type="checkbox" name="m_type[]" value="system" {CHECKED_SYSTEM}/>{TXT_SYSTEM}
 			</td>
-		  </tr>
-		  <tr>
-			<td class="std" align="right" valign="top">{TXT_MSG_CONTENT}</td>
-			<td class="std"><textarea name="m_message" rows="10" cols="60">{M_MESSAGE}</textarea></td>
-		  </tr>
-		  <tr>
-			<td class="std">&nbsp;</td>
-			<td class="std"><input class="submit" type="submit" name="cmd[send]" value="{TXT_SEND}"/>&nbsp;
-			  <input class="submit" type="submit" name="cmd[save_message]" value="{TXT_MSG_SAVE}"/></td>
-		  </tr>
-	  </table>
-    </form>
+		</tr>
+		<!-- END system_message -->
+		<tr>
+			<td class="option" >{TXT_ATTACHMENT}</td>
+			<td class="option_value">
+			<!-- BEGIN files -->
+			<textarea cols="60" rows="{ROWS}" readonly="readonly">{FILES}</textarea><br/>
+			<!-- BEGIN hidden -->
+			<input type="hidden" name="attachments[]" value="{ATTACHMENTS}"/>
+			<!-- END hidden -->
+			<!-- END files -->
+			<input class="submit" type="submit" name="cmd[edit]" value="{BUTTON_EDIT}"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="option" >{TXT_MSG_CONTENT}</td>
+			<td class="option_value"><textarea name="m_message" rows="10" cols="60">{M_MESSAGE}</textarea></td>
+		</tr>
+		<tr>
+			<td class="submit" colspan="2" align="right">
+			<input class="submit" type="submit" name="cmd[send]" value="{TXT_SEND}"/>&nbsp;
+			<input class="submit" type="submit" name="cmd[save_message]" value="{TXT_MSG_SAVE}"/>
+			</td>
+		</tr>
+	</table>
+	</form>
 </div>

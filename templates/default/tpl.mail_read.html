@@ -12,30 +12,30 @@ body { margin:0px; }
 <br />
 {MESSAGE}
     <form action="{ACTION}" method="post">
-	  <table class="fullwidth">
-		  <TR class="{CSSROW_FROM}">
-			<TD ALIGN="right" class="tblheader" width="10%">{TXT_FROM}</TD>
-			<TD CLASS="STD" >{FROM} [{MAIL_LOGIN}]</TD>
-		  </TR>
-		  <TR class="{CSSROW_TO}">
-			<TD ALIGN="right" class="tblheader">{TXT_TO}</TD>
-			<TD CLASS="STD" >{TO}</TD>
-		  </TR>
-		  <!-- BEGIN cc -->
-		  <TR class="{CSSROW_CC}">
-			<TD ALIGN="right" class="tblheader">{TXT_CC}</TD>
-			<TD CLASS="STD" >{CC}</TD>
-		  </TR>
-		  <!-- END cc -->
-		  <TR class="{CSSROW_SUBJ}">
-			<TD ALIGN="right" class="tblheader">{TXT_SUBJECT}</TD>
-			<TD CLASS="STD" >{SUBJECT}</TD>
-		  </TR>
-		  <TR class="{CSSROW_DATE}">
-			<TD align="right" class="tblheader">{TXT_DATE}</TD>
-			<TD CLASS="STD" >{DATE}</TD>
-		  </TR>
-	  </table>
+	<table class="fullwidth">
+		<TR class="{CSSROW_FROM}">
+			<TD class="option">{TXT_FROM}</TD>
+			<TD class="option_value">{FROM} [{MAIL_LOGIN}]</TD>
+		</TR>
+		<TR class="{CSSROW_TO}">
+			<TD class="option">{TXT_TO}</TD>
+			<TD class="option_value">{TO}</TD>
+		</TR>
+		<!-- BEGIN cc -->
+		<TR class="{CSSROW_CC}">
+			<TD class="option">{TXT_CC}</TD>
+			<TD class="option_value">{CC}</TD>
+		</TR>
+		<!-- END cc -->
+		<TR class="{CSSROW_SUBJ}">
+			<TD class="option">{TXT_SUBJECT}</TD>
+			<TD class="option_value">{SUBJECT}</TD>
+		</TR>
+		<TR class="{CSSROW_DATE}">
+			<TD class="option">{TXT_DATE}</TD>
+			<TD class="option_value">{DATE}</TD>
+		</TR>
+	</table>
 	  <br>
 
 	  {BUTTONS2}
@@ -66,14 +66,14 @@ body { margin:0px; }
 		  </tr>
 	  </TABLE>
 	  <!-- END attachment -->
-	  <table cellpadding="4" cellspacing="1" border="0" width="100%">
-		  <TR class="tblrow1" colspan=2>
-			<TD ALIGN="left" VALIGN="top" class="tblheader">{TXT_MESSAGE}</TD>
-		  </tr>
-		  <tr class="tblrow2">
-			<TD CLASS="STD"  colspan=2>{MAIL_MESSAGE}</TD>
-		  </TR>
-	  </TABLE>
-  </body>
+		<table class="fullwidth">
+			<TR class="tblheader" colspan="2">
+				<TD class="std">{TXT_MESSAGE}</TD>
+			</tr>
+			<tr class="std">
+				<TD class="std" colspan="2">{MAIL_MESSAGE}</TD>
+			</TR>
+		</TABLE>
+</body>
 </form>
 </div>
