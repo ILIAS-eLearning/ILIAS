@@ -183,7 +183,16 @@ class ilLMParser extends ilSaxParser
 			{
 				continue;
 			}
-			$obj_dir = str_replace("_", "", $origin_id);
+
+			if (substr($origin_id, 0, 2) == "el") // imagemap
+			{
+				$origin_arr = explode("_", $origin_id);
+				$obj_dir = "imagemap".$origin_arr[1];
+			}
+			else // normal media object
+			{
+				$obj_dir = str_replace("_", "", $origin_id);
+			}
 			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
 			$target_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/mobs/mm_".$mob_id;
 //echo "copy from $source_dir to $target_dir <br>";
