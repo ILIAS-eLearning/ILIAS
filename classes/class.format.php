@@ -1,35 +1,26 @@
 <?php
-
-////////////////////////////////////////////////////////////////////////////////
-// Name: class.format.php
-// Appl: ILIAS3
-// Func: Konvertierung von Datum/Zeit-Angaben, Formatierung von Zahlwerten
-//
-// (c) 2001 Sascha Hofmann
-//
-// Autor: Sascha Hofmann
-//        Hohenstaufenring 23, 50674 K÷ln
-//        +49-179-1305023
-//        saschahofmann@gmx.de
-//
-// Last change: 30.Oktober 2001
-////////////////////////////////////////////////////////////////////////////////
-
+/**
+* Class format
+* functions for converting date, time & money output to country specific formats
+*
+* @author Sascha Hofmann <shofmann@databay.de>
+* @author Peter Gabriel <pgabriel@databay.de> 
+* @version $Id$
+*
+* @package ilias-core
+*/
 
 /**
 * format conversions
 * @version $Id$
 * @package application
 */
-class TFormat
+class Format
 {
-	var $ClassName = "TFormat";
-	
-	function TFormat ()
+	function Format ()
 	{
 		return;
 	}
-
 
 	// Holt das aktuelle Datum und gibt es im Format TT.MM.JJJJ zurck
 	function getDateDE ()
@@ -38,7 +29,6 @@ class TFormat
 		$datum = sprintf("%02d.%02d.%04d", $date["mday"],$date["mon"],$date["year"]);
 		return $datum;
 	}
-
 
 	/**
 	* Prft eingegebes Datum und wandelt es in DB-konformen Syntax um
@@ -249,7 +239,6 @@ class TFormat
 		return number_format($prozent,2,",",".")."%";
 	}
 	
-
 	/**
 	* Floats auf 2 Nachkommastellen runden 
 	* @param float
@@ -258,6 +247,100 @@ class TFormat
 	{
 		return round($value * 100) / 100;
 	}
-}
 
+	/** 
+	* formatting function for dates
+	*
+	* in different languages, dates are formatted different. 
+	* formatDate reads a value "lang_dateformat" from the languagefile.
+	* if it is not present it sets it to a defaultvalue given in the class
+	* the format must have DD, MM, and YYYY strings
+	* formatDate replaces the strings with the current values given in str
+	* @access	public
+	* @param	string	date date, given in sql-format YYYY-MM-DD
+	* @return	string	formatted date
+	*/
+	function fmtDate($a_str)
+	{
+		//read the format
+		$date = $this->txt("lang_dateformat");
+
+		//no format defined set to defaultformat
+		if ($date == "-lang_dateformat-")
+		{
+			$date = $this->DEFAULTDATEFORMAT;
+		}
+
+		//get values from given sql-date
+		$d = substr($a_str,8,2);
+		$m = substr($a_str,5,2);
+		$y = substr($a_str,0,4);
+		
+		//do substitutions
+		$date = ereg_replace("DD", $d, $date);
+		$date = ereg_replace("MM", $m, $date);
+		$date = ereg_replace("YYYY", $y, $date);
+
+		return $date;
+	}
+
+	/** 
+	* formatting function for datetime
+	* @access	public
+	* @param	string	datetime given in sql-format YYYY-MM-DD HH:MM:SS
+	* @param	string	format type (normal is as given in lang_dateformat)
+	* @return	string	formatted date
+	* @see		fmtDate()
+	*/
+	function fmtDateTime($a_str, $a_fmt="normal")
+	{
+		//formate date-part
+		$datetime = $this->fmtDate($a_str, $a_fmt);
+
+		//format timeformat
+		$datetime .= " ".substr($a_str,11,2).":".substr($a_str,14,2);
+		
+		return $datetime;
+	}	
+	
+	/**
+	* format a float
+	* 
+	* this functions takes php's number_format function and 
+	* formats the given value with appropriate thousand and decimal
+	* separator.
+	* @access	public
+	* @param	float		the float to format
+	* @param	integer		count of decimals
+	* @param	integer		display thousands separator
+	* @return	string		formatted number
+	*/
+	function fmtFloat($a_float, $a_decimals = 0, $a_th = 1)
+	{
+		//thousandskomma?
+		if ($a_th == 1)
+		{
+			$a_th = $this->txt("sep_thousand");
+			
+			if ($a_th == "-sep_thousand-")
+			{
+				$a_th = $this->DEFAULTSEPTHOUSAND;
+			}
+		}
+		else
+		{
+			$a_th = "";
+		}
+		
+		//decimalpoint?
+		$dec = $this->txt("sep_decimal");
+		
+		if ($dec == "-sep_decimal-")
+		{
+			$dec = $this->DEFAULTSEPDECIMAL;
+		}
+
+		return number_format($a_float, $a_decimals, $dec, $a_th);
+	}	
+}
 ?>
