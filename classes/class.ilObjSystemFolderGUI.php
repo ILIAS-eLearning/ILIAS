@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.29 2004/03/16 16:16:03 akill Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.30 2004/04/08 18:41:40 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -944,6 +944,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("VAL_BENCH", $bench["benchmark"]);
 				$this->tpl->setVariable("VAL_NUMBER_RECORDS", $bench["cnt"]);
 				$this->tpl->setVariable("VAL_AVG_TIME", $bench["duration"]);
+				$this->tpl->setVariable("VAL_MIN_TIME", $bench["min"]);
+				$this->tpl->setVariable("VAL_MAX_TIME", $bench["max"]);
 				$this->tpl->setVariable("VAL_CUM_TIME", $bench["duration"] * $bench["cnt"]);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -955,6 +957,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_BENCH", $this->lng->txt("benchmark"));
 			$this->tpl->setVariable("TXT_NUMBER_RECORDS", $this->lng->txt("number_of_records"));
 			$this->tpl->setVariable("TXT_AVG_TIME", $this->lng->txt("average_time"));
+			$this->tpl->setVariable("TXT_MIN_TIME", $this->lng->txt("min_time"));
+			$this->tpl->setVariable("TXT_MAX_TIME", $this->lng->txt("max_time"));
 			$this->tpl->setVariable("TXT_CUM_TIME", $this->lng->txt("cumulative_time"));
 
 			$this->tpl->parseCurrentBlock();

@@ -60,7 +60,9 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function ilLMPageObject(&$a_content_obj, $a_id = 0, $a_halt = true)
 	{
-		global $ilias;
+		global $ilias, $ilBench;
+
+		$ilBench->start("ContentPresentation", "ilLMPageObject_Constructor");
 
 		parent::ilLMObject($a_content_obj, $a_id);
 		$this->setType("pg");
@@ -77,6 +79,8 @@ class ilLMPageObject extends ilLMObject
 		{
 			$this->read();
 		}
+
+		$ilBench->stop("ContentPresentation", "ilLMPageObject_Constructor");
 	}
 
 	function _ilLMPageObject()
@@ -92,10 +96,15 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function read()
 	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "ilLMPageObject_read");
 		parent::read();
 
 		$this->page_object =& new ilPageObject($this->content_object->getType(),
 			$this->id, $this->halt_on_error);
+
+		$ilBench->stop("ContentPresentation", "ilLMPageObject_read");
 	}
 
 	function create($a_upload = false)
@@ -225,6 +234,8 @@ class ilLMPageObject extends ilLMObject
 	*/
 	function exportXML(&$a_xml_writer, $a_mode = "normal", $a_inst = 0)
 	{
+		global $ilBench;
+
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("PageObject", $attrs);
 
@@ -232,10 +243,14 @@ class ilLMPageObject extends ilLMObject
 		{
 			case "normal":
 				// MetaData
+				$ilBench->start("ContentObjectExport", "exportPageObject_XML_Meta");
 				$this->exportXMLMetaData($a_xml_writer);
+				$ilBench->stop("ContentObjectExport", "exportPageObject_XML_Meta");
 
 				// PageContent
+				$ilBench->start("ContentObjectExport", "exportPageObject_XML_PageContent");
 				$this->exportXMLPageContent($a_xml_writer, $a_inst);
+				$ilBench->stop("ContentObjectExport", "exportPageObject_XML_PageContent");
 				break;
 
 			case "alias":

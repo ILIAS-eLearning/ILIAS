@@ -72,17 +72,27 @@ class ilLMObject
 
 	function read()
 	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "ilLMObject_read");
+
 		if(!isset($this->data_record))
 		{
+			$ilBench->start("ContentPresentation", "ilLMObject_read_getData");
 			$query = "SELECT * FROM lm_data WHERE obj_id = '".$this->id."'";
 			$obj_set = $this->ilias->db->query($query);
 			$this->data_record = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+			$ilBench->stop("ContentPresentation", "ilLMObject_read_getData");
 		}
 
 		$this->type = $this->data_record["type"];
+		$ilBench->start("ContentPresentation", "ilLMObject_read_getMeta");
 		$this->meta_data =& new ilMetaData($this->type, $this->id);
+		$ilBench->stop("ContentPresentation", "ilLMObject_read_getMeta");
 		$this->setImportId($this->data_record["import_id"]);
 		$this->setTitle($this->data_record["title"]);
+
+		$ilBench->stop("ContentPresentation", "ilLMObject_read");
 	}
 
 	/**
