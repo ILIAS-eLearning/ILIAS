@@ -190,9 +190,14 @@ common#:#functions#:#Functions
 common#:#gender#:#Gender
 common#:#generate#:#Generate
 common#:#glossary#:#Glossary
+common#:#group_any_objects#:#No Subobjects avilable 
+common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
+common#:#group_members#:#Group Members
 common#:#group_name#:#Groupname
 common#:#group_new#:#New Group
+common#:#group_not_available#:#any group available
+common#:#groups_overview#:#Groups Overview
 common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
 common#:#group_status_private#:#Private
