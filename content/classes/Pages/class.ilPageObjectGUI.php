@@ -347,8 +347,15 @@ class ilPageObjectGUI
 				$sel_media_mode = ($ilUser->getPref("ilPageEditor_MediaMode") == "disable")
 					? "disable"
 					: "enable";
-				$js_mode = array("enable" => $this->lng->txt("cont_enable_js"),
-					"disable" => $this->lng->txt("cont_disable_js"));
+				if (DEVMODE)
+				{
+					$js_mode = array("enable" => $this->lng->txt("cont_enable_js"),
+						"disable" => $this->lng->txt("cont_disable_js"));
+				}
+				else
+				{
+					$js_mode = array("disable" => $this->lng->txt("cont_disable_js"));
+				}
 				$sel_js_mode = ($ilUser->getPref("ilPageEditor_JavaScript") == "enable")
 					? "enable"
 					: "disable";
