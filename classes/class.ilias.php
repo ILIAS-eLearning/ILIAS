@@ -172,6 +172,7 @@ class ILIAS extends PEAR
 		// set anonymous user & role id and system role id
 		define ("ANONYMOUS_USER_ID",$this->getSetting("anonymous_user_id"));
 		define ("ANONYMOUS_ROLE_ID",$this->getSetting("anonymous_role_id"));
+		define ("SYSTEM_USER_ID",$this->getSetting("system_user_id"));
 		define ("SYSTEM_ROLE_ID",$this->getSetting("system_role_id"));
 
 		// build option string for PEAR::Auth
