@@ -374,42 +374,31 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilPage":
-						if($this->lm->getType() == 'lm')
+						switch($this->lm->getType())
 						{
-							unset($_SESSION["tr_id"]);
-						}
-						if($_POST["action"] == "show")
-						{
-							if(isset($_POST["tr_id"]))
-							{
-								$_SESSION["tr_id"] = $_POST["tr_id"];
-							}
-							else
-							{
+							case "lm":
 								unset($_SESSION["tr_id"]);
-							}
-							if(is_array($_POST["target"]))
-							{
-								$_SESSION["bib_id"] = ",".implode(',',$_POST["target"])."'";
-							}
-							else
-							{
-								$_SESSION["bib_id"] = ",0,";
-							}
-						}
-						if($_GET["obj_id"] or $_POST["action"] == "show")
-						{
-							// SHOW PAGE IF PAGE WAS SELECTED
-							$pageContent = $this->ilPage($child);
-							if($_SESSION["tr_id"])
-							{
-								$translation_content = $this->ilTranslation($child);
-							}
-						}
-						else
-						{
-							// IF NO PAGE ID IS GIVEN SHOW BOOK/LE ABSTRACT
-							$pageContent = $this->ilAbstract($child);
+								unset($_SESSION["bib_id"]);
+								$page_content = $this->ilPage($child);
+								break;
+
+							case "dbk":
+								$this->setSessionVars();
+								if($_GET["obj_id"] or $_POST["action"] == "show")
+								{
+									// SHOW PAGE IF PAGE WAS SELECTED
+									$pageContent = $this->ilPage($child);
+									if($_SESSION["tr_id"])
+									{
+										$translation_content = $this->ilTranslation($child);
+									}
+								}
+								else
+								{
+									// IF NO PAGE ID IS GIVEN SHOW BOOK/LE ABSTRACT
+									$pageContent = $this->lm_gui->showAbstract($_POST["target"]);
+								}
+								break;
 						}
 						break;
 
@@ -473,22 +462,6 @@ class ilLMPresentationGUI
 		$menu->addMenuBlock("CONTENT", "navigation");
 		$menu->setTemplateVars();
 	}
-
-	/**
-	* output abstract
-	*/
-	function ilAbstract($a_child)
-	{
-		switch($this->lm->getType())
-		{
-			case "dbk":
-				return $this->lm_gui->showAbstract($_POST["target"][0]);
-
-			case "lm":
-				return $this->ilPage($a_child);
-		}
-	}
-
 
 	function ilTOC($a_target)
 	{
@@ -1085,5 +1058,29 @@ class ilLMPresentationGUI
 		return $tag;
 	}
 
+	// PRIVATE METHODS
+	function setSessionVars()
+	{
+		if($_POST["action"] == "show")
+		{
+			if(isset($_POST["tr_id"]))
+			{
+				$_SESSION["tr_id"] = $_POST["tr_id"];
+			}
+			else
+			{
+				unset($_SESSION["tr_id"]);
+			}
+			if(is_array($_POST["target"]))
+			{
+				$_SESSION["bib_id"] = ",".implode(',',$_POST["target"]).",";
+			}
+			else
+			{
+				$_SESSION["bib_id"] = ",0,";
+			}
+		}
+		return true;
+	}		
 }
 ?>

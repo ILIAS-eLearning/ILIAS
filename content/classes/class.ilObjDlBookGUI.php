@@ -62,8 +62,24 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	}
 
 
-	function showAbstract($a_target_id = 0)
+	function showAbstract($a_target_id)
 	{
+		if(is_array($a_target_id) and count($a_target_id) > 1)
+		{
+			sendInfo($this->lng->txt("cont_msg_multiple_editions"));
+			$show_full = false;
+		}
+		else if(is_array($a_target_id))
+		{
+			$a_target_id = $a_target_id[0];
+			$show_full = true;
+		}
+		else
+		{
+			$a_target_id = 0;
+			$show_full = false;
+		}
+
 		$this->object->initBibItemObject();
 
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -79,7 +95,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		$tmp_tpl->setVariable("EDITION",$this->lng->txt("cont_edition"));
 		$tmp_tpl->setVariable("AUTHORS",$this->lng->txt("authors"));
 
-		if($a_target_id)
+		if($show_full)
 		{
 			$params = array ('mode'			=> "view_full",
 							 'action'		=> "lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]",
