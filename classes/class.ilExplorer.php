@@ -226,7 +226,7 @@ class ilExplorer
 									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
 		}
 
-		$tpl = new Template("tpl.tree.html", true, true);
+		$tpl = new ilTemplate("tpl.tree.html", true, true);
 		
 		foreach ($a_option["tab"] as $picture)
 		{

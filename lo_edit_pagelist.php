@@ -9,7 +9,7 @@
 */
 require_once "./include/inc.header.php";
 
-$tpl = new Template("tpl.lo_edit_pagelist.html", false, false);
+$tpl = new ilTemplate("tpl.lo_edit_pagelist.html", false, false);
 
 $tpl->setVariable("TXT_ID", $lng->txt("id"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));

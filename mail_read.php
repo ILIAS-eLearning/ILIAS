@@ -50,7 +50,7 @@ if($_POST["cmd"])
 include "./include/inc.mail_buttons.php";
 
 //buttons
-$tplbtn = new Template("tpl.buttons.html", true, true);
+$tplbtn = new ilTemplate("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","./mail_new.php?mobj_id=$_GET[mobj_id]&mail_id=$_GET[mail_id]&type=reply");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("reply"));

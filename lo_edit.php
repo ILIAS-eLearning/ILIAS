@@ -9,7 +9,7 @@
 */
 require_once "./include/inc.header.php";
 
-$tpl = new Template("tpl.lo_edit.html", false, true);
+$tpl = new ilTemplate("tpl.lo_edit.html", false, true);
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("lo_edit"));
 

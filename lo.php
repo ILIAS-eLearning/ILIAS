@@ -21,7 +21,7 @@ if (isset($_GET["viewmode"]))
 // TODO: Treeview not implemented yet
 if (file_exists($startfilename) and ($_SESSION["viewmode"] == "tree"))
 {
-	$tpl = new Template("tpl.lo.html", false, false);
+	$tpl = new ilTemplate("tpl.lo.html", false, false);
 	$tpl->show();
 }
 else

@@ -12,7 +12,7 @@ require_once "./include/inc.mail.php";
 require_once "classes/class.User.php";
 require_once "classes/class.Mail.php";
 
-$tplprint = new Template("tpl.mail_print.html",true,true);
+$tplprint = new ilTemplate("tpl.mail_print.html",true,true);
 $tplprint->setVariable("MESSAGE","hallo");
 
 

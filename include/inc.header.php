@@ -24,7 +24,7 @@ require_once "Auth/Auth.php";
 //include classes and function libraries
 require_once "classes/class.ilIniFile.php";
 require_once "classes/class.ilDBx.php";
-require_once "classes/class.template.php";
+require_once "classes/class.ilTemplate.php";
 require_once "classes/class.ilias.php";
 require_once "classes/class.User.php";
 require_once "classes/class.ilFormat.php";
@@ -130,7 +130,7 @@ if ($script != "login.php" && $script != "index.php")
 }	
 
 // instantiate main template
-$tpl = new Template("tpl.main.html", true, true);
+$tpl = new ilTemplate("tpl.main.html", true, true);
 
 //navigation things
 if ($script != "login.php" && $script != "index.php")

@@ -18,7 +18,7 @@ if (isset($_GET["viewmode"]))
 }
 if (file_exists($startfilename) and ($_SESSION["viewmode"] == "tree"))
 {
-	$tpl = new Template("tpl.mail_frameset.html", false, false);
+	$tpl = new ilTemplate("tpl.mail_frameset.html", false, false);
 	if(isset($_GET["target"]))
 	{
 		$tpl->setVariable("FRAME_RIGHT_SRC",urldecode($_GET["target"]));

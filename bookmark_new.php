@@ -10,7 +10,7 @@
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilBookmark.php";
 
-$tpl = new Template("tpl.bookmark_new.html", true, true);
+$tpl = new ilTemplate("tpl.bookmark_new.html", true, true);
 
 $myBm = new ilBookmark($ilias->account->getId());
 
@@ -43,7 +43,7 @@ if ($_GET["id"]!="")
 	$tpl->setVariable("URL", $bm["url"]);
 }
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
+$tplbtn = new ilTemplate("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","bookmark_newfolder.php");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("new_folder"));
