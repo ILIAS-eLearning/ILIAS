@@ -3,7 +3,7 @@
 <br/>
 <img src="./images/ilias_logo_big.gif" border="0"/>
 <p>Version {ILIAS_RELEASE}</p>
-<br/><br/>
+<p class="warning">&nbsp;{TXT_MSG_LOGIN_FAILED}&nbsp;</p>
 <form method="post" action="{FORMACTION}" name="formlogin">
 <table class="std">
   <tr class="tblheader">
@@ -21,27 +21,16 @@
 	<td class="std" colspan="2" align="center"><input class="submit" type="submit" name="butSubmit" value="{TXT_SUBMIT}"/></td>
   </tr>
 </table>
-<br/>
-
-<div style="text-align:center;">
-	<a href="register.php">{REGISTER}
-	</a>
-</div>
-<br/>
-
-
+<p>[<a href="register.php?lang={LANG_ID}">{REGISTER}</a>]</p>
 
 <p>{TXT_CHOOSE_LANGUAGE}<br/>
 <!-- BEGIN languages -->
-<a href="./login.php?lang={LANG_ID}">[ {LANG_DESC} ]</a>
+[<a href="./login.php?lang={LANG_ID}">{LANG_DESC}</a>]
 <!-- END languages -->
 </p>
 <br/>
-<p class="warning">{TXT_MSG_LOGIN_FAILED}</p>
-</div>
-<div style="text-align:center;">
-	<a href="view_usr_agreement.php">{USER_AGREEMENT}
-	</a>
+<p>[<a href="view_usr_agreement.php?lang={LANG_ID}">{USER_AGREEMENT}</a>]</p>
+
 </div>
 <script language="JavaScript">
 <!--

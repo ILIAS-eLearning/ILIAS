@@ -56,7 +56,7 @@ function getUserAgreement()
 	$agrPath = $tmpPath."/agreement";
 	chdir($agrPath);
 
-	$agreement = "agreement_".$lng->lang_user.".html";
+	$agreement = "agreement_".$lng->lang_key.".html";
 
 	if ($agreement)
 	{

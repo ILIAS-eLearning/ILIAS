@@ -175,6 +175,7 @@ function displayForm ()
 	//sendInfo();
 	//infoPanel();
 	// role selection (only those roles marked with allow_register)
+	// TODO put query in a function
 	$q = "SELECT * FROM role_data ".
 		 "LEFT JOIN object_data ON object_data.obj_id = role_data.role_id ".
 		 "WHERE allow_register = 1";
@@ -193,7 +194,7 @@ function displayForm ()
 		$rol[$obj_data["obj_id"]] = $obj_data["title"];
 	}
 
-	$role = ilUtil::formSelectWoTranslation($_SESSION["error_post_vars"]["Fobject"]["default_role"],"Fobject[default_role]",$rol,false,true);
+	$role = ilUtil::formSelect($_SESSION["error_post_vars"]["Fobject"]["default_role"],"Fobject[default_role]",$rol,false,true);
 
 	$data = array();
 	$data["fields"] = array();
@@ -233,7 +234,7 @@ function displayForm ()
 		}
 	}
 
-	$tpl->setVariable("FORMACTION", "register.php?cmd=save");
+	$tpl->setVariable("FORMACTION", "register.php?cmd=save&lang=".$_GET["lang"]);
 	$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 	$tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
 	$tpl->setVariable("TXT_LOGIN_DATA", $lng->txt("login_data"));
@@ -304,7 +305,7 @@ function getUserAgreement()
 	$agrPath = $tmpPath."/agreement";
 	chdir($agrPath);
 
-	$agreement = "agreement_".$lng->lang_user.".html";
+	$agreement = "agreement_".$lng->lang_key.".html";
 	if ($agreement)
 	{
 		if ($content = file($agreement))

@@ -88,11 +88,12 @@ foreach ($languages as $lang_key)
 
 $tpl->setVariable("ILIAS_RELEASE", $ilias->getSetting("ilias_version"));
 $tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
-$tpl->setVariable("FORMACTION", "login.php?lang=".$lang);
+$tpl->setVariable("FORMACTION", "login.php?lang=".$_GET["lang"]);
 $tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 $tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
 $tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 $tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
+$tpl->setVariable("LANG_ID", $_GET["lang"]);
 
 if ($_GET["expired"])
 {
