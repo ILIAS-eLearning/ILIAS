@@ -63,7 +63,7 @@ class Bookmarks
 
 			$bookmark = array(
 							"id"		=> $row["id"],
-							"url"		=> "http://".$row["url"],
+							"url"		=> $row["url"],
 							"name"		=> $row["name"],
 							"folder"	=> $row["folder"],
 							"pos"		=> $row["pos"]

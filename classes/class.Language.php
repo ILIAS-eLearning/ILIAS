@@ -16,8 +16,8 @@
 * @version $Id$
 * 
 * @package application
+* 
 * TODO: Das Datefeld wird bei Änderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
-* TODO: einige member variablen sind nicht deklariert!!! (systemLang, userLang)
 * TODO: Die Formatfunktionen gehören nicht in class.Language. Die sind auch woanders einsetzbar!!!
 * TODO: Daher->besser in class.Format
 */
@@ -78,7 +78,26 @@ class Language
 	* @access private
 	*/
 	var $DEFAULTSEPDECIMAL = ",";
+
+	/**
+	* indicator for the system language
+	* 
+	* this language must not be deleted
+	* @var		string
+	* @access	private
+	*/
+	var $systemLang;
 	
+	/**
+	* indicator for the user language
+	* 
+	* this language must not be deleted
+	* 
+	* @var		string
+	* @access	private
+	*/
+	var $userLang;
+
 	/**
 	* Constructor
 	* read the single-language file and put this in an array text.
@@ -106,8 +125,6 @@ class Language
 			$this->LANGUAGESDIR = "./lang";
 		}
 
-		// TODO: Diese Methode ist grosser Quatsch! .Peter, schau Dir das mal genau an :-)
-		$this->setMasterFile($this->MASTERLANGFILE);
 		$txt = @file($this->LANGUAGESDIR."/".$a_lng.".lang");
 		
 		$this->text = array();
@@ -209,9 +226,8 @@ class Language
 	* @param	string	date date, given in sql-format YYYY-MM-DD
 	* @param	string	format type (normal is as given in lang_dateformat)
 	* @return	string	formatted date
-	* TODO: $a_fmt ist not used!!!
 	*/
-	function fmtDate($a_str, $a_fmt="normal")
+	function fmtDate($a_str)
 	{
 		//read the format
 		$date = $this->txt("lang_dateformat");
@@ -303,17 +319,7 @@ class Language
  	*/
 	function getUserAgreement()
 	{
-		return "here is da user agreement";
-	}
-
-	/**
-	* set MasterFile
-	* @access	public	
-	* @param	string
-	*/
-	function setMasterFile($a_langfile)
-	{
-		$this->MASTERLANGFILE = $this->LANGUAGESDIR."/".$a_langfile;
+		return " ";
 	}
 
 	/**
@@ -328,9 +334,9 @@ class Language
 	{
 		global $log;
 
-		if (!$l_file = @file($this->MASTERLANGFILE))
+		if (!$l_file = @file($this->LANGUAGESDIR."/".$this->MASTERLANGFILE))
 		{
-			$this->ilias->raiseError("Input-file '".$this->MASTERLANGFILE."' not found!",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError("Input-file '".$this->LANGUAGESDIR."/".$this->MASTERLANGFILE."' not found!",$this->ilias->error_obj->WARNING);
 		}
 	
 		for ($i=1; $i<count($l_file); $i++)
@@ -410,9 +416,9 @@ class Language
 		$langs = array();
 
 		//try to open the masterlangfile
-		if (!$l_file = @file($this->MASTERLANGFILE))
+		if (!$l_file = @file($this->LANGUAGESDIR."/".$this->MASTERLANGFILE))
 		{
-			$this->ilias->raiseError("Input-file '".$this->MASTERLANGFILE."' not found!",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError("Input-file '".$this->LANGUAGESDIR."/".$this->MASTERLANGFILE."' not found!",$this->ilias->error_obj->WARNING);
 		}
 
 		$ids = explode("\t",$l_file[1]);
@@ -464,11 +470,11 @@ class Language
 
 		$a_id = trim($a_id);
 		
-		$l_file = @file($this->MASTERLANGFILE);
+		$l_file = @file($this->LANGUAGESDIR."/".$this->MASTERLANGFILE);
 
 		if ($l_file == false)
 		{
-			$this->ilias->raiseError("Input-file '".$this->MASTERLANGFILE."' not found!",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError("Input-file '".$this->LANGUAGESDIR."/".$this->MASTERLANGFILE."' not found!",$this->ilias->error_obj->MESSAGE);
 		}
 	
 		$ids = explode("\t",$l_file[1]);
