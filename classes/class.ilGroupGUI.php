@@ -126,6 +126,7 @@ class ilGroupGUI extends ilObjGroupGUI
 			$cmd = key($_POST["cmd"]);
 			$fullcmd = $cmd."object";
 			//echo ($fullcmd);
+			
 			$this->$fullcmd();
 			exit();
 			
@@ -227,7 +228,14 @@ class ilGroupGUI extends ilObjGroupGUI
 	$this->tpl->setVariable("BTN_TXT", $this->lng->txt("group_new"));
 	$this->tpl->parseCurrentBlock();
 
-
+	if($this->tree->getSavedNodeData($this->ref_id))
+	{
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","group.php?cmd=trash&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("trash"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
 	// display different content depending on viewmode
 	switch ($_SESSION["viewmode"])
 	{
@@ -392,7 +400,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	}
 
 	function show_content()
-	{//var_dump($_POST)."#".var_dump($_GET);
+	{
 		
 		global $tree, $tpl, $lng, $rbacsystem;
 
@@ -1198,7 +1206,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		//$this->getTemplateFile("confirm");
 
 		sendInfo($this->lng->txt("info_delete_sure"));
-		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true");
+		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&cmd=confirmedDeleteObject");
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
 		{
@@ -1260,7 +1268,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	function confirmedDeleteObject()
 	{
 		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
-
+      
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_SESSION["saved_post"]))
 		{
@@ -1280,11 +1288,12 @@ class ilGroupGUI extends ilObjGroupGUI
 			// CHECK DELETE PERMISSION OF ALL OBJECTS
 			foreach ($subtree_nodes as $node)
 			{
-				if (!$rbacsystem->checkAccess('delete',$node["child"]))
+			//TODO hängt von den Rechten ab
+				/*if (!$rbacsystem->checkAccess('delete',$node["child"]))
 				{
 					$not_deletable[] = $node["child"];
 					$perform_delete = false;
-				}
+				}*/
 			}
 		}
 
@@ -1300,6 +1309,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		if (!$all_node_data[0]["type"])
 		{
 			// OBJECTS ARE NO 'TREE OBJECTS'
+			
 			if ($rbacsystem->checkAccess('delete',$_GET["ref_id"]))
 			{
 				foreach($_SESSION["saved_post"] as $id)
@@ -1337,7 +1347,158 @@ class ilGroupGUI extends ilObjGroupGUI
 		exit();
 
 	}
+	
+	/**
+	* remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
+	*
+	* @access	public
+	*/
+	function removeFromSystem()
+	{
+		global $rbacsystem;
 
+		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
+		if (!isset($_POST["trash_id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+echo "haaaaaaaaaal111";
+		// DELETE THEM
+		foreach ($_POST["trash_id"] as $id)
+		{
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+			$saved_tree = new ilTree(-(int)$id);
+			$node_data = $saved_tree->getNodeData($id);
+			$subtree_nodes = $saved_tree->getSubTree($node_data);
+
+			// remember already checked deleted node_ids
+			$checked[] = -(int) $id;
+
+			// dive in recursive manner in each already deleted subtrees and remove these objects too
+			$this->removeDeletedNodes($id,$checked);
+
+			foreach ($subtree_nodes as $node)
+			{
+				$node_obj =& $this->ilias->obj_factory->getInstanceByRefId($node["ref_id"]);
+				$node_obj->delete();
+			}
+
+			// FIRST DELETE ALL ENTRIES IN RBAC TREE
+			$this->tree->deleteTree($node_data);
+		}
+		
+		sendInfo($this->lng->txt("msg_removed"),true);
+echo "haaaaaaaaaal";
+		header("location: group.php?ref_id=".$_GET["ref_id"]);
+		echo "hallo";
+		exit();
+	}
+	/**
+	* show trash content of object
+	*
+	* @access	public
+ 	*/
+	function trash()
+	{ 
+		$objects = $this->tree->getSavedNodeData($_GET["ref_id"]);
+
+		if (count($objects) == 0)
+		{
+			sendInfo($this->lng->txt("msg_trash_empty"));
+			$this->data["empty"] = true;
+		}
+		else
+		{
+			$this->data["empty"] = false;
+			$this->data["cols"] = array("","type", "title", "description", "last_change");
+
+			foreach ($objects as $obj_data)
+			{
+				$this->data["data"]["$obj_data[child]"] = array(
+					"checkbox"    => "",
+					"type"        => $obj_data["type"],
+					"title"       => $obj_data["title"],
+					"desc"        => $obj_data["desc"],
+					"last_update" => $obj_data["last_update"]);
+			}
+
+			$this->data["buttons"] = array( "undelete"  => $this->lng->txt("btn_undelete"),
+									  "removeFromSystem"  => $this->lng->txt("btn_remove_system"));
+		}
+		
+		
+		//$this->getTemplateFile("confirm");
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.obj_confirm.html");
+		
+		if ($this->data["empty"] == true)
+		{
+			return;
+		}
+		
+		/* TODO: fix message display in conjunction with sendIfno & raiseError functionality
+		$this->tpl->addBlockfile("MESSAGE", "adm_trash", "tpl.message.html");
+		$this->tpl->setCurrentBlock("adm_trash");
+		$this->tpl->setVariable("MSG",$this->lng->txt("info_trash"));
+		$this->tpl->parseCurrentBlock();
+		*/
+		//sendInfo($this->lng->txt("info_trash"));
+
+		$this->tpl->setVariable("FORMACTION", "group?cmd=removeFromSystem&gateway=true&ref_id=".$_GET["ref_id"]);
+
+		// BEGIN TABLE HEADER
+		foreach ($this->data["cols"] as $key)
+		{
+			$this->tpl->setCurrentBlock("table_header");
+			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
+			$this->tpl->parseCurrentBlock();
+		}
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+
+		foreach ($this->data["data"] as $key1 => $value)
+		{
+			// BEGIN TABLE CELL
+			foreach ($value as $key2 => $cell_data)
+			{
+				$this->tpl->setCurrentBlock("table_cell");
+				// CREATE CHECKBOX
+				if ($key2 == "checkbox")
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::formCheckBox(0,"trash_id[]",$key1));
+				}
+
+				// CREATE TEXT STRING
+				elseif ($key2 == "type")
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+				}
+				else
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
+				}
+
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->parseCurrentBlock();
+			// END TABLE CELL
+		}
+		// END TABLE DATA
+
+		// BEGIN OPERATION_BTN
+		foreach ($this->data["buttons"] as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->show();
+	}
 
 	/**
 	* cancel deletion of object
@@ -2084,12 +2245,6 @@ class ilGroupGUI extends ilObjGroupGUI
 
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
-
-
-
-
-
-
 
 
 		$grp_tree = $groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
