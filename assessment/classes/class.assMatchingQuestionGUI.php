@@ -446,6 +446,16 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 					if (($solution_value->value2 > 1) && ($solution_value->value1 > 1))
 					{
 						$solution_script .= "dd.elements.definition_" . $solution_value->value2 . ".moveTo(dd.elements.term_" . $solution_value->value1 . ".x + 250, dd.elements.term_" . $solution_value->value1 . ".y);\n";
+						if ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
+						{
+							foreach ($this->object->matchingpairs as $pdx => $pair)
+							{
+								if ($pair->getDefinitionId() == $solution_value->value2)
+								{
+									$solution_script .= "dd.elements.definition_" . $solution_value->value2 . ".write(\"<strong>" . $pair->getDefinition() . "</strong>\");\n";
+								}
+							}
+						}
 					}
 				}
 			}
@@ -476,7 +486,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				}
 				else
 				{
-					$solutionoutput .= "<tr><td><div class=\"textbox\">" . $answer->getTerm() . "</div></td><td width=\"10\"></td><td><div class=\"textbox\">" . $answer->getDefinition() . "</div></td></tr>\n";
+					$solutionoutput .= "<tr><td><div class=\"textbox\">" . $answer->getTerm() . "</div></td><td width=\"10\"></td><td><div class=\"textbox\"><strong>" . $answer->getDefinition() . "</strong></div></td></tr>\n";
 				}
 			}
 			$solutionoutput .= "</table>";
