@@ -41,34 +41,34 @@
   </td>
 </tr>
 <!-- END notfound -->
-</table>
 
 <!-- BEGIN operation -->
-<table cellspacing="0" cellpadding="2" border="0">
-<tr height="40">
-	<td align="left" width="16"><img src="{TPLPATH}/images/arrow_downright.gif" border="0" /></td>
-	<td align="left">
-		<!-- BEGIN operation_btn -->	    
+<tr>
+	<td class="submit" colspan="{NUM_COLS}" align="left">
+		<table cellpadding="0" cellspacing="0" border="0">
+		<tr>
+		<td>
+		<img src="{TPLPATH}/images/arrow_downright.gif" border="0" />
+		</td>
+		<td>&nbsp;
+		<!-- BEGIN operation_btn -->
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
 		<!-- END operation_btn -->
+		</td>
+		</tr>
+		</table>
 	</td>
 </tr>
-</table>
 <!-- END operation -->
-</form>
-<br>
 <!-- BEGIN add_object -->
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<td align="left" valign="top">&nbsp;</td>
-	<td align="left" valign="top">
-		<form action="{FORMACTION_OBJ_ADD}" method="post">
+	<td class="submit" colspan="{NUM_COLS}" align="left" valign="top">
 		{SELECT_OBJTYPE}
-		    <input class="submit" type="submit" name="submit" value="{TXT_ADD}" />
-	    </form>
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_ADD}" />
 	</td>
 </tr>
-</table>
 <!-- END add_object -->
+</table>
+</form>
 {SYSTEMSETTINGS}
 

@@ -417,7 +417,8 @@ class ilObject
 		if (empty($this->title))
 		{
 			$message = "Object->create(): No title given! A title is required!";
-			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+			//$ilias->raiseError($message,$ilias->error_obj->WARNING);
+echo "Object->create() (type:".$this->type."): No title given! A title is required!"; exit;
 		}
 
 		$this->title = addslashes(shortenText($this->title, $this->max_title, $this->add_dots));

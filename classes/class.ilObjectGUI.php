@@ -982,6 +982,8 @@ class ilObjectGUI
 	*/
 	function gatewayObject()
 	{
+	
+//echo "MKK:".key($_POST["cmd"]).":<br>";
 		switch(key($_POST["cmd"]))
 		{
 			case "cut":
@@ -1020,6 +1022,10 @@ class ilObjectGUI
 				$this->cancelObject();
 				break;
 
+			case "create":
+				$this->createObject();
+				break;
+
 			case "confirm":
 				$this->confirmObject();
 				break;
@@ -1028,7 +1034,8 @@ class ilObjectGUI
 				$this->data = false;
 		}
 
-		if (key($_POST["cmd"]) != "delete")
+		if ((key($_POST["cmd"]) != "delete") &&
+			(key($_POST["cmd"]) != "create"))
 		{
 			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 			exit();
@@ -1581,7 +1588,7 @@ class ilObjectGUI
 						$this->tpl->touchBlock("end_link");
 					}
 
-					// process clipboard information
+					// process clipboard information"
 					if (isset($_SESSION["clipboard"]))
 					{
 						$cmd = $_SESSION["clipboard"]["cmd"];
@@ -1628,14 +1635,16 @@ class ilObjectGUI
 		else
 		{
 			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("NUM_COLS", $num);
+			//$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 		}
 
 		// SHOW VALID ACTIONS
+		$this->tpl->setVariable("NUM_COLS", $num);
 		$this->showActions();
 
 		// SHOW POSSIBLE SUB OBJECTS
+		$this->tpl->setVariable("NUM_COLS", $num);
 		$this->showPossibleSubObjects();
 	}
 
@@ -1940,9 +1949,10 @@ class ilObjectGUI
 			//build form
 			$opts = ilUtil::formSelect(12,"new_type",$subobj);
 
-			$this->tpl->setCurrentBlock("add_obj");
+			$this->tpl->setCurrentBlock("add_object");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
+			//$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
+			$this->tpl->setVariable("BTN_NAME", "create");
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->parseCurrentBlock();
 		}
