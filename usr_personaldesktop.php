@@ -139,7 +139,8 @@ foreach ($lo_items as $lo_item)
 	$i++;
 	$tpl->setCurrentBlock("tbl_lo_row");
 	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-	$tpl->setVariable("LO_LINK", "content/lm_presentation.php?ref_id=".$lo_item["id"]);
+	$tpl->setVariable("LO_LINK", "content/lm_presentation.php?ref_id=".$lo_item["id"].
+		"&obj_id=".$lo_item["parameters"]);
 	$tpl->setVariable("LO_TITLE", $lo_item["title"]);
 	$tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=lm&id=".$lo_item["id"]);
 	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");

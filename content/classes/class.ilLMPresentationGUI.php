@@ -622,6 +622,8 @@ class ilLMPresentationGUI
 
 		$page_id = $this->getCurrentPageId();
 
+		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
+
 		require_once("content/classes/Pages/class.ilPageObject.php");
 		require_once("content/classes/class.ilLMPageObject.php");
 		$pg_obj =& new ilPageObject($this->lm->getType(), $page_id);

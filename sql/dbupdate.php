@@ -162,3 +162,6 @@ ALTER TABLE object_data ADD COLUMN import_id CHAR(50) NOT NULL DEFAULT '';
 
 <#25>
 ALTER TABLE glossary_term ADD COLUMN import_id CHAR(50) NOT NULL DEFAULT '';
+
+<#26>
+ALTER TABLE desktop_item ADD COLUMN parameters VARCHAR(200);
