@@ -403,18 +403,18 @@ class ilUtil
 	* @param	string	$text: Der Text
 	* @return	string	clickable link
 	*/
-	function makeClickable($text)
+	function makeClickable($a_text)
 	{
 		// URL mit ://-Angabe
-		$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=])", 
-							 "<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $text);
+		$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=-])", 
+							 "<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $a_text);
 		
 		// www-URL ohne ://-Angabe
-		$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.]+)", 
+		$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)", 
 							 "\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
 		
 		// ftp-URL ohne ://-Angabe
-		$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.]+)", 
+		$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)", 
 							 "\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
 		
 		// E-Mail
