@@ -164,5 +164,28 @@ class ilLMObject
 		$this->ilias->db->query($query);
 	}
 
+	/**
+	* static
+	*/
+	function getObjectList($lm_id, $type = "")
+	{
+		$type_str = ($type != "")
+			? "AND type = '$type' "
+			: "";
+		$query = "SELECT * FROM lm_data ".
+			"WHERE lm_id= '".$lm_id."'".
+			$type_str." ".
+			"ORDER BY title";
+		$obj_set = $this->ilias->db->query($query);
+		$obj_list = array();
+		while($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$obj_list[] = array("obj_id" => $obj_rec["obj_id"],
+								"title" => $obj_rec["title"],
+								"type" => $obj_rec["type"]);
+		}
+		return $obj_list;
+	}
+
 }
 ?>

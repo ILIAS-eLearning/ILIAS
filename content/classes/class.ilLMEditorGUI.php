@@ -23,7 +23,8 @@
 
 require_once ("content/classes/class.ilLMEditorExplorer.php");
 require_once ("content/classes/class.ilLMObjectFactory.php");
-require_once ("classes/class.ilObjLearningModule.php");
+//require_once ("classes/class.ilObjLearningModule.php");
+require_once ("content/classes/class.ilLearningModule.php");
 require_once ("content/classes/class.ilPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
 require_once ("content/classes/class.ilParagraphGUI.php");
@@ -117,7 +118,7 @@ class ilLMEditorGUI
 				$this->tree = new ilTree($_GET["lm_id"]);
 				$this->tree->setTableNames('lm_tree','lm_data');
 				$this->tree->setTreeTablePK("lm_id");
-				$this->lm_obj =& new ilObjLearningModule($this->lm_id, false);
+				$this->lm_obj =& new ilLearningModule($this->lm_id);
 				if(!empty($_GET["obj_id"]))		// we got a page or structure object
 				{
 					$obj =& ilLMObjectFactory::getInstance($_GET["obj_id"]);
@@ -140,7 +141,9 @@ class ilLMEditorGUI
 				else		// command belongs to learning module
 				{
 					$this->main_header($this->lng->txt("lm").": ".$this->lm_obj->getTitle(),"lm");
-					$type = "lm";
+					$type = ($cmd == "create" || $cmd == "save")
+							? $new_type
+							: "lm";
 				}
 //echo "type:$type:cmd:$cmd:ctype:$ctype:";
 				if($type == "content")
@@ -210,7 +213,7 @@ class ilLMEditorGUI
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 
 		// get learning module object
-		$this->lm_obj =& new ilObjLearningModule($this->lm_id, false);
+		$this->lm_obj =& new ilLearningModule($this->lm_id);
 
 		$path = (substr($this->tpl->tplPath,0,2) == "./") ?
 			".".$this->tpl->tplPath :
