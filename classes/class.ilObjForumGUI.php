@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjForumGUI.php,v 1.20 2004/12/02 10:53:25 smeyer Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.21 2005/03/02 01:15:16 akill Exp $
 *
 * @extends ilObject
 * @package ilias-core
@@ -116,7 +116,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$resThreads = $frm->getThreadList($topicData["top_pk"]);
 			$thrNum = $resThreads->numRows();
 			$pageHits = $frm->getPageHits();
-	
+			$pageHits = $ilUser->getPref('hits_per_page');
 			if ($thrNum > 0)
 			{
 				$z = 0;
