@@ -1639,6 +1639,7 @@ common#:#pays_edit#:#Edit payment settings
 common#:#pays_edit_permission#:#Change permission settings
 common#:#pays_read#:#Access payment settings
 common#:#pays_visible#:#Payment settings are visible
+common#:#pays_write#:#Edit payment settings
 common#:#per_object#:#Access per object
 common#:#perm_settings#:#Permissions
 common#:#permission#:#Permission
@@ -1976,6 +1977,7 @@ common#:#usrf_visible#:#User accounts are visible
 common#:#usrf_write#:#Edit user accounts
 common#:#validate#:#Validate
 common#:#value#:#Value
+common#:#vendors#:#Vendors
 common#:#version#:#Version
 common#:#view#:#View
 common#:#view_content#:#View Content
@@ -3351,6 +3353,23 @@ meta#:#meta_very_easy#:#Very Easy
 meta#:#meta_very_high#:#Very High
 meta#:#meta_very_low#:#Very Low
 meta#:#meta_yes#:#Yes
+payment#:#pay_no_vendors_created#:#No vendors created
+payment#:#pays_active_bookings#:#Active bookings
+payment#:#pays_add_vendor#:#Add vendor
+payment#:#pays_added_vendor#:#Added new vendor
+payment#:#pays_already_assigned_vendors#:#The following number of user was already assigned:
+payment#:#pays_assigned_vendors#:#The following number of users has been assigned to the vendor list:
+payment#:#pays_cost_center#:#Cost center
+payment#:#pays_delete_vendor#:#Deassign user
+payment#:#pays_deleted_number_vendors#:#The following number of vendors has been deleted:
+payment#:#pays_header_select_vendor#:#Vendor selection
+payment#:#pays_no_username_given#:#No username given
+payment#:#pays_no_valid_username_given#:#No valid username given
+payment#:#pays_no_vendor_selected#:#No vendor selected
+payment#:#pays_number_bookings#:#Active bookings
+payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)
+payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list
+payment#:#pays_vendor#:#Vendor
 search#:#search_all_results#:#All results
 search#:#search_concatenation#:#Concatenation
 search#:#search_content#:#Page Content
@@ -3635,22 +3654,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-payment#:#pay_no_vendors_created#:#No vendors created
-payment#:#pays_no_vendor_selected#:#No vendor selected
-payment#:#pays_active_bookings#:#Active bookings
-payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)
-payment#:#pays_deleted_number_vendors#:#The following number of vendors has been deleted:
-payment#:#pays_no_username_given#:#No username given
-payment#:#pays_no_valid_username_given#:#No valid username given
-payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list
-payment#:#pays_added_vendor#:#Added new vendor
-payment#:#pays_assigned_vendors#:#The following number of users has been assigned to the vendor list:
-payment#:#pays_already_assigned_vendors#:#The following number of user was already assigned:
-payment#:#pays_delete_vendor#:#Deassign user
-payment#:#pays_add_vendor#:#Add vendor
-payment#:#pays_vendor#:#Vendor
-payment#:#pays_cost_center#:#Cost center
-payment#:#pays_number_bookings#:#Active bookings
-payment#:#pays_header_select_vendor#:#Vendor selection
-common#:#pays_write#:#Edit payment settings
-common#:#vendors#:#Vendors
