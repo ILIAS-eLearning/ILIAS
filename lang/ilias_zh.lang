@@ -127,6 +127,7 @@ assessment#:#ass_questions#:#问题
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#由
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
+assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
 assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
@@ -3638,6 +3639,8 @@ survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit 
 survey#:#add_phrase#:#Add phrase###23 May 2004 new variable
 survey#:#add_phrase_introduction#:#Please select a phrase:###23 May 2004 new variable
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###31 May 2004 new variable
+survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
+survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.###03 Oct 2004 new variable
 survey#:#answer#:#Answer###27 May 2004 new variable
 survey#:#apply#:#Apply###21 May 2004 new variable
 survey#:#arithmetic_mean#:#Arithmetic mean###02 Jun 2004 new variable
@@ -3648,6 +3651,7 @@ survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
 survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
 survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
+survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!###11 Sep 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable

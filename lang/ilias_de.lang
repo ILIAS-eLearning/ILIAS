@@ -110,6 +110,7 @@ assessment#:#ass_questions#:#Fragen
 assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#by#:#nach
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
+assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
@@ -407,7 +408,7 @@ assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_types#:#Test-Typen
-assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden (der Apple Safari Browser wird nicht unterstützt)
+assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden (der Apple Safari Browser wird nicht unterstützt)###03 Oct 2004 content changed
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
 assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmodulen
@@ -3618,6 +3619,8 @@ survey#:#add_limits_for_standard_numbers#:#Bitte geben Sie eine untere und obere
 survey#:#add_phrase#:#Phrase anfügen
 survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
+survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
+survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.###03 Oct 2004 new variable
 survey#:#answer#:#Antwort
 survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetisches Mittel
@@ -3628,6 +3631,7 @@ survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
 survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
+survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?

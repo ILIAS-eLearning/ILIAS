@@ -110,6 +110,7 @@ assessment#:#ass_questions#:#Domande
 assessment#:#available_points#:#Punti disponibili
 assessment#:#by#:#da
 assessment#:#cannot_maintain_test#:#Non hai i diritti per manutenere il test!
+assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Selezionato
 assessment#:#checkbox_unchecked#:#Deselezionato
 assessment#:#circle#:#Circonferenza
@@ -407,7 +408,7 @@ assessment#:#tst_status_progress#:#in esecuzione
 assessment#:#tst_time_already_spent#:#Tempo trascorso dall'inizio
 assessment#:#tst_type#:#Tipo del test
 assessment#:#tst_types#:#Tipo di test
-assessment#:#tst_use_javascript#:#Usa Javascript per le operazioni di "drag and drop"
+assessment#:#tst_use_javascript#:#Usa Javascript per le operazioni di "drag and drop"###03 Oct 2004 content changed
 assessment#:#tst_your_mark_is#:#Il tuo voto &#232;
 assessment#:#tt_assessment#:#Test di valutazione
 assessment#:#tt_navigation_controlling#:#Test di controllo della navigazione degli studenti
@@ -2675,7 +2676,7 @@ dateplaner#:#ERROR_ENDDATE#:#Data finale errata. Formato: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Ora finale errata. Formato: hh:mm
 dateplaner#:#ERROR_END_START#:#Data finale errata. La data finale deve essere successiva alla data iniziale.
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Per favore, seleziona un file csv corretto.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Il tuo browser non accetta i Javascript. <BR> Per favore chiudi questa finestra dopo aver inserito manualmente. <BR> Grazie.</CENTER></B>
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Il tuo browser non accetta i Javascript. <BR> Per favore chiudi questa finestra dopo aver inserito manualmente. <BR> Grazie.</CENTER></B>###03 Oct 2004 content changed
 dateplaner#:#ERROR_ROTATIONEND#:#Data finale della ricorsione errata. Formato: dd/mm/yyyy
 dateplaner#:#ERROR_ROT_END_START#:#Data finale della ricorsione errata. La data finale della ricorrenza &#232; antecedente alla data di inizio.
 dateplaner#:#ERROR_SHORTTEXT#:#Errato inserimento testo. Il testo &#232; obbligatorio.
@@ -3619,6 +3620,8 @@ survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferior
 survey#:#add_phrase#:#Aggiungi una frase
 survey#:#add_phrase_introduction#:#Per favore, scegli una frase:
 survey#:#already_completed_survey#:#Hai gi&#224; completato il questionario! Non puoi eseguirlo di nuovo.
+survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
+survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.###03 Oct 2004 new variable
 survey#:#answer#:#Risposta
 survey#:#apply#:#Conferma
 survey#:#arithmetic_mean#:#Valore aritmetico
@@ -3629,6 +3632,7 @@ survey#:#browse_for_questions#:#Scegli le domande
 survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il questionario!
 survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!
 survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al questionario!
+survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!
 survey#:#category#:#Categoria
 survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?

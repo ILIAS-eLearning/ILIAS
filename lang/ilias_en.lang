@@ -109,8 +109,8 @@ assessment#:#apply#:#Apply
 assessment#:#ass_questions#:#Questions
 assessment#:#available_points#:#Available points
 assessment#:#by#:#by
-assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!
+assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
@@ -3623,19 +3623,19 @@ survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit 
 survey#:#add_phrase#:#Add phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.
-survey#:#answer#:#Answer
 survey#:#anonymize_survey#:#Anonymize survey data
 survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.
+survey#:#answer#:#Answer
 survey#:#apply#:#Apply
 survey#:#arithmetic_mean#:#Arithmetic mean
 survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following question block(s) to the survey?
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
 survey#:#browse_for_questions#:#Browse for questions
-survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 survey#:#cannot_maintain_survey#:#You do not possess sufficient permissions to maintain the survey!
 survey#:#cannot_manage_phrases#:#You do not possess sufficient permissions to manage the phrases!
 survey#:#cannot_participate_survey#:#You do not possess sufficient permissions to participate in the survey!
+survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!
 survey#:#category#:#Category
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categories?

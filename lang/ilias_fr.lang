@@ -110,6 +110,7 @@ assessment#:#ass_questions#:#Questions
 assessment#:#available_points#:#Points disponibles
 assessment#:#by#:#par
 assessment#:#cannot_maintain_test#:#Vous n'avez pas de permission suffisante pour assurer la maintenance du test
+assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Coché
 assessment#:#checkbox_unchecked#:#Non coché
 assessment#:#circle#:#Cercle
@@ -398,7 +399,7 @@ assessment#:#tst_status_progress#:#en cours
 assessment#:#tst_time_already_spent#:#Temps déjà passé
 assessment#:#tst_type#:#Type de test
 assessment#:#tst_types#:#Types de test
-assessment#:#tst_use_javascript#:#Utiliser Javascript pour glisser/déposer des actions
+assessment#:#tst_use_javascript#:#Utiliser Javascript pour glisser/déposer des actions###03 Oct 2004 content changed
 assessment#:#tst_your_mark_is#:#Votre note est
 assessment#:#tt_assessment#:#Test d'évaluation
 assessment#:#tt_navigation_controlling#:#Contrôle du test de navigation des étudiants
@@ -2668,7 +2669,7 @@ dateplaner#:#ERROR_ENDDATE#:#format de date de fin erroné. Format: jj/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Format d'heure de fin erroné. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Date de fin erronée. La date de fin est antérieure à la date de début
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Prenez soin d'utiliser un fichier CSV valide.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>XXXyour browser doesn't except JavaScript. <BR> Please close this Window après insérer manually. <BR> Thank you</CENTER></B>
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>XXXyour browser doesn't except JavaScript. <BR> Please close this Window après insérer manually. <BR> Thank you</CENTER></B>###03 Oct 2004 content changed
 dateplaner#:#ERROR_ROTATIONEND#:#Format de date de fin de répétition erronée. Format: jj/mm/yyyy
 dateplaner#:#ERROR_ROT_END_START#:#Date de fin de répétition erronée. La date de fin est antérieure à la date de départ.
 dateplaner#:#ERROR_SHORTTEXT#:#Veuillez taper un message court (obligatoire).
@@ -3611,6 +3612,8 @@ survey#:#add_limits_for_standard_numbers#:#Veuillez saisir des limites basse et 
 survey#:#add_phrase#:#Ajouter expression
 survey#:#add_phrase_introduction#:#Veuillez sélectionner une expression
 survey#:#already_completed_survey#:#Vous avez déjà répondu au sondage ! Vous ne pouvez pas y entrer à nouveau.
+survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
+survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.###03 Oct 2004 new variable
 survey#:#answer#:#Réponse
 survey#:#apply#:#Appliquer
 survey#:#arithmetic_mean#:#Moyenne arithmétique
@@ -3621,6 +3624,7 @@ survey#:#browse_for_questions#:#Rechercher des questions
 survey#:#cannot_maintain_survey#:#Vous n'avez pas de droit d'écriture pour maintenir le sondage.
 survey#:#cannot_manage_phrases#:#Vous n'avez pas de droit d'écriture pour gérer les expressions.
 survey#:#cannot_participate_survey#:#Vous n'avez pas le droit de participer au sondage!
+survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 survey#:#cannot_switch_to_online_no_questions#:#Le statut ne peut pas être changé en &quot;en ligne&quot; car il n'y a pas de question dans le test.
 survey#:#category#:#Catégorie
 survey#:#category_delete_confirm#:#Etes-vous sûr(e) de vouloir détruire les catégories suivantes ?
