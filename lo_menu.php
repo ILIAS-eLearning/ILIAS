@@ -1,10 +1,10 @@
 <?php
 require_once "include/inc.header.php";
-require_once "classes/class.Explorer.php";
+require_once "classes/class.ilExplorer.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
-$exp = new Explorer("lo_content.php");
+$exp = new ilExplorer("lo_content.php");
 
 if ($_GET["expand"] == "")
 {

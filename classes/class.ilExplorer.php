@@ -1,6 +1,6 @@
 <?php
 /**
-* Class Explorer 
+* Class ilExplorer 
 * class for explorer view in admin frame
 * 
 * @author Stefan Meyer <smeyer@databay.de>
@@ -8,7 +8,7 @@
 * 
 * @package ilias-core
 */
-class Explorer
+class ilExplorer
 {
 	/**
 	* ilias object
@@ -64,7 +64,7 @@ class Explorer
 	* @access	public
 	* @param	string	scriptname
 	*/
-	function Explorer($a_target)
+	function ilExplorer($a_target)
 	{
 		global $ilias;
 
@@ -523,5 +523,5 @@ class Explorer
 			return false;
 		}
 	}
-} // END class.Explorer
+} // END class.ilExplorer
 ?>

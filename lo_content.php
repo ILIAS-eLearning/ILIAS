@@ -8,7 +8,7 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "./classes/class.Explorer.php";
+require_once "./classes/class.ilExplorer.php";
 require_once "./include/inc.sort.php";
 
 // TODO: this function is common and belongs to class util!
