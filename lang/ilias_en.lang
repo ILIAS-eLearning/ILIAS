@@ -302,6 +302,7 @@ common#:#drop#:#Drop
 common#:#edit#:#Edit
 common#:#edit_data#:#edit data
 common#:#edit_operations#:#Edit Operations
+common#:#edit_perm_ruleset#:#Edit default permission rules
 common#:#edit_properties#:#Edit Properties
 common#:#edit_stylesheet#:#Edit Style
 common#:#edited_at#:#Edited at
@@ -746,7 +747,6 @@ common#:#msg_no_perm_paste#:#You have no permission to paste the following objec
 common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
 common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):
 common#:#msg_no_perm_write#:#You have no permission to write
-common#:#edit_perm_ruleset#:#Edit default permission rules
 common#:#msg_no_rolf_allowed1#:#The object
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
 common#:#msg_no_search_result#:#No entries found

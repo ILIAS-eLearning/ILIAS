@@ -302,6 +302,7 @@ common#:#drop#:#Supprimer
 common#:#edit#:#Modifier
 common#:#edit_data#:#modifier données
 common#:#edit_operations#:#Modifier opérations
+common#:#edit_perm_ruleset#:#Edit default permission rules###18 Feb 2004 new variable
 common#:#edit_properties#:#Modifier propriétés
 common#:#edit_stylesheet#:#Modifier style
 common#:#edited_at#:#Modifié le

@@ -302,6 +302,7 @@ common#:#drop#:#Викинути
 common#:#edit#:#Редагувати
 common#:#edit_data#:#редагувати дані
 common#:#edit_operations#:#Редагувати Операції
+common#:#edit_perm_ruleset#:#Edit default permission rules###18 Feb 2004 new variable
 common#:#edit_properties#:#Редагувати Властивості
 common#:#edit_stylesheet#:#Редагувати Стиль
 common#:#edited_at#:#Редагований
