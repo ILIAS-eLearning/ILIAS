@@ -459,7 +459,9 @@ class ilGroupGUI extends ilObjectGUI
 		if($_GET["type"]=="fold")
 		{
 			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getId()."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
-		}else{
+		}
+		else
+		{
 			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=-1&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
 		}
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
@@ -497,7 +499,7 @@ class ilGroupGUI extends ilObjectGUI
 				//}
 			}
 		}
-
+		$maxcount = count($cont_arr);
 		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
 		$cont_arr = array_slice($cont_arr,$offset,$limit);
 
@@ -548,7 +550,7 @@ class ilGroupGUI extends ilObjectGUI
 				if($cont_data["ref_id"] != -1)
 				{
 					$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
-				}	
+				}
 				$this->tpl->parseCurrentBlock();
 				}
 			}
@@ -574,7 +576,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($limit);
 		$tbl->setOffset($offset);
-		$tbl->setMaxCount($cont_num);
+		$tbl->setMaxCount($maxcount);
 		// buttons in bottom-bar
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->SetVariable("COLUMN_COUNTS", "6");
@@ -588,7 +590,9 @@ class ilGroupGUI extends ilObjectGUI
 
 	/**
 	* function chooses right view depending on what kind of object is selected in locator bar
-	* @access	public
+	* preferred view (treeview or flatview) if category is selected
+	* flat view if group is selected
+	*@access	public
 	**/
 	function choose_view()
 	{
@@ -622,6 +626,12 @@ class ilGroupGUI extends ilObjectGUI
 		}
 	}
 
+	/*
+	* function returns specific link-url depending on object-type
+	*
+	*
+	* access public
+	*/
 	function getURLbyType($cont_data)
 	{
 		switch ($cont_data["type"])
@@ -641,7 +651,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		case "fold":
 			//TODO
-		
+
 			if (isset($_GET["tree_id"]))
 			{
 				$URL = "group.php?obj_id=".$cont_data["obj_id"]."&ref_id=".$_GET["ref_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=grp_tree&cmd=show_content";
@@ -680,7 +690,7 @@ class ilGroupGUI extends ilObjectGUI
 	return $path;
 	}
 
-	
+
 
 
 	/**
@@ -936,9 +946,9 @@ class ilGroupGUI extends ilObjectGUI
 		exit();
 	} // END PASTE
 	*/
-	
 
-	
+
+
 
 
 	/**
@@ -1121,8 +1131,6 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setTitle($this->lng->txt("confirm_action"),"icon_grp_b.gif",$this->lng->txt("group_details"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("content");
-		//$tbl->disable("footer");
 		$tbl->render();
 
 		//$this->tpl->show();
@@ -1145,6 +1153,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$tab = array();
 
+		//create additional tabs for tab-bar
 		$tab[0] = array ();
 		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"];
 		$tab[0]["ftabtype"] = 'tabinactive';
@@ -1157,15 +1166,13 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[1]["target"] = "bottom";
 		$tab[1]["tab_text"] = 'group_members';
 
-
-
-
 		$this->prepareOutput(false, $tab);
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$admin_ids = $newGrp->getGroupAdminIds();
 
+		//if current user is admin he is able to add new members to group
 		if(in_array($_SESSION["AccountId"], $admin_ids))
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
@@ -1183,8 +1190,6 @@ class ilGroupGUI extends ilObjectGUI
 
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$member_ids = $newGrp->getGroupMemberIds($_GET["ref_id"]);
-		$admin_ids = $newGrp->getGroupAdminIds($_GET["ref_id"]);
-
 
 		foreach($member_ids as $member_id)
 		{
@@ -1242,10 +1247,6 @@ class ilGroupGUI extends ilObjectGUI
 
 		}
 
-
-
-
-
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_members"));
 		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
 
@@ -1261,7 +1262,7 @@ class ilGroupGUI extends ilObjectGUI
 		//INTERIMS:quite a circumstantial way to show the list on rolebased accessrights
 		if($rbacsystem->checkAccess("write",$this->object->getRefId() ))
 		{
-			//user must be administrator
+			//user is administrator
 			$this->tpl->setVariable("COLUMN_COUNTS",6);
 			foreach ($this->data["buttons"] as $name => $value)
 			{
@@ -1273,7 +1274,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		else
 		{
-			//user must be member
+			//user is member
 			$this->tpl->setVariable("COLUMN_COUNTS",5);//user must be member
 		}
 
@@ -1283,12 +1284,20 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 
-		if(!isset($_GET["offset"]))
-			$_GET["offset"] = 0;
- 		if(!isset($_GET["limit"]))
-			$_GET["limit"]	= 10;
+		$offset = intval($_GET["offset"]);
+		$limit = intval($_GET["limit"]);
 
-		$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+		if ($limit == 0)
+		{
+			$limit = 10;	// TODO: move to user settings
+		}
+		if ($offset == "")
+		{
+
+			$offset = 0;	// TODO: move to user settings
+		}
+
+		$output = array_slice($this->data["data"],$offset,$limit);
 
 		// create table
 		$tbl = new ilTableGUI($output);
@@ -1316,8 +1325,8 @@ class ilGroupGUI extends ilObjectGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
+		$tbl->setLimit($limit);
+		$tbl->setOffset($offset);
 		$tbl->setMaxCount(count($this->data["data"]));
 
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -1921,6 +1930,18 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$offset = intval($_GET["offset"]);
+		$limit = intval($_GET["limit"]);
+
+		if ($limit == 0)
+		{
+			$limit = 10;	// TODO: move to user settings
+		}
+		if ($offset == "")
+		{
+			$offset = 0;	// TODO: move to user settings
+		}
 
 		// create table
 		$tbl = new ilTableGUI($this->data["data"]);
@@ -1935,8 +1956,8 @@ class ilGroupGUI extends ilObjectGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit(10);
-		$tbl->setOffset(0);
+		$tbl->setLimit($limit);
+		$tbl->setOffset($offset);
 		$tbl->setMaxCount(count($this->data["data"]));
 
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -2208,12 +2229,19 @@ class ilGroupGUI extends ilObjectGUI
 			include_once "./include/inc.sort.php";
 			$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 
-			if(!isset($_GET["offset"]))
-			$_GET["offset"] = 0;
-	 		if(!isset($_GET["limit"]))
-			$_GET["limit"]	= 10;
+			$offset = intval($_GET["offset"]);
+			$limit = intval($_GET["limit"]);
 
-			$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+			if ($limit == 0)
+			{
+				$limit = 10;	// TODO: move to user settings
+			}
+			if ($offset == "")
+			{
+				$offset = 0;	// TODO: move to user settings
+			}
+
+			$output = array_slice($this->data["data"],$offset,$limit);
 
 			// create table
 			include_once "./classes/class.ilTableGUI.php";
@@ -2229,8 +2257,8 @@ class ilGroupGUI extends ilObjectGUI
 			// control
 			$tbl->setOrderColumn($_GET["sort_by"]);
 			$tbl->setOrderDirection($_GET["sort_order"]);
-			$tbl->setLimit($_GET["limit"]);
-			$tbl->setOffset($_GET["offset"]);
+			$tbl->setLimit($limit);
+			$tbl->setOffset($offset);
 			$tbl->setMaxCount(count($this->data["data"]));
 
 			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
