@@ -3,7 +3,7 @@
 * Class LanguageFolderObjectOut
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.10 2003/03/11 20:14:37 akill Exp $
+* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.11 2003/03/13 17:48:30 akill Exp $
 *
 * @extends	Object
 * @package	ilias-core
@@ -276,7 +276,7 @@ class LanguageFolderObjectOut extends ObjectOut
 
 		foreach ($languages as $lang)
 		{
-			$langObj = new LanguageObject($lang["obj_id"]);
+			$langObj = new LanguageObject($lang["obj_id"],false);
 
 			if ($langObj->getStatus() == "installed")
 			{

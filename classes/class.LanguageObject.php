@@ -32,7 +32,7 @@ class LanguageObject extends Object
 	* @param	int		$a_id		object id
 	* @access public
 	*/
-	function LanguageObject($a_id = 0, $a_call_by_reference = true)
+	function LanguageObject($a_id = 0, $a_call_by_reference = false)
 	{
 		global $lng;
 
