@@ -88,9 +88,11 @@ administration#:#systemcheck#:#Chequeo del Sistema###14 Sep 2004 content changed
 administration#:#view_last_log#:#Ver el último log de Exploración###14 Sep 2004 content changed
 administration#:#view_log#:#Ver detalles
 assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
+assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Añadir respuesta
 assessment#:#add_answer_tf#:#Añadir respuestas verdadero/falso
 assessment#:#add_answer_yn#:#Añadir respuestas Si/No
+assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
 assessment#:#add_area#:#Añadir area
 assessment#:#add_gap#:#Add Gap Text###7 June 2004 new variable
@@ -103,6 +105,7 @@ assessment#:#answer_is_right#:#Su solución es correcta
 assessment#:#answer_is_wrong#:#Su solución es errónea
 assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
+assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Applet attributes###19 May 2004 new variable
 assessment#:#applet_new_parameter#:#Nuevo parámetro
 assessment#:#applet_parameter#:#Parámetro
@@ -273,6 +276,7 @@ assessment#:#qt_matching#:#Pregunta de tipo 'Unir parejas'
 assessment#:#qt_multiple_choice_mr#:#Pregunta de 'opción múltiple' (respuesta múltiple)
 assessment#:#qt_multiple_choice_sr#:#Pregunta de 'opción múltiple' (respuesta única)
 assessment#:#qt_ordering#:#Pregunta de tipo 'Ordenar'
+assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#La pregunta fue guarda automáticamente para reservar espacio en disco para almacenar el fichero cargado. Si cancela este formulario ahora, sea consciente de que debe borrar la pregunta en el depósito de preguntas si no quiere guardarla!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Tipo de Pregunta
@@ -297,6 +301,7 @@ assessment#:#save_finish#:#Grabar y finalizar el test
 assessment#:#save_introduction#:#Grabar e ¿ir a la introducción?
 assessment#:#save_next#:#Grabar y pasar a la pregunta siguiente
 assessment#:#save_previous#:#Grabar y pasar a la pregunta anterior
+assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Seleccionar hueco
 assessment#:#select_target_position_for_move_question#:#Por favor seleccione una posición objetivo para mover la(s) pregunta(s) y presione uno de los botones 'insertar'!
 assessment#:#selected_image#:#Imagen seleccionada

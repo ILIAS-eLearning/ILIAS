@@ -87,9 +87,11 @@ administration#:#systemcheck#:#Controllo del sistema
 administration#:#view_last_log#:#Vedi l'ultimo log
 administration#:#view_log#:#Vedi dettagli
 assessment#:#0_unlimited#:#(0 = senza limite)
+assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Aggiungi risposta
 assessment#:#add_answer_tf#:#Aggiungi risposta di tipo Vero/Falso
 assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
+assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Aggiungi i parametri dell'applet
 assessment#:#add_area#:#Aggiungi area
 assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
@@ -102,6 +104,7 @@ assessment#:#answer_is_right#:#La soluzione &#232; giusta.
 assessment#:#answer_is_wrong#:#La soluzione &#232; sbagliata.
 assessment#:#answer_picture#:#Rispondi alla figura
 assessment#:#answer_text#:#Testo della risposta
+assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Attributi dell'applet
 assessment#:#applet_new_parameter#:#Nuovi parametri
 assessment#:#applet_parameter#:#Parametri
@@ -276,6 +279,7 @@ assessment#:#qt_matching#:#con risposte da associare
 assessment#:#qt_multiple_choice_mr#:#a scelta multipla (risposta multipla)
 assessment#:#qt_multiple_choice_sr#:#a scelta multipla (risposta singola)
 assessment#:#qt_ordering#:#con risposte da ordinare
+assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
@@ -301,6 +305,7 @@ assessment#:#save_finish#:#Salva e finisci il test
 assessment#:#save_introduction#:#Salva e vai all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
+assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Seleziona spazio
 assessment#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella qualespostare la domanda e premere il pulsante Aggiungi!
 assessment#:#selected_image#:#Immagine selezionata

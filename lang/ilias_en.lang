@@ -87,9 +87,11 @@ administration#:#systemcheck#:#System check
 administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
 assessment#:#0_unlimited#:#(0=unlimited)
+assessment#:#action#:#Action
 assessment#:#add_answer#:#Add answer
 assessment#:#add_answer_tf#:#Add true/false answers
 assessment#:#add_answer_yn#:#Add yes/no answers
+assessment#:#add_answerblock#:#Add answerblock
 assessment#:#add_applet_parameter#:#Add applet parameter
 assessment#:#add_area#:#Add area
 assessment#:#add_gap#:#Add Gap Text
@@ -102,6 +104,7 @@ assessment#:#answer_is_right#:#Your solution is right
 assessment#:#answer_is_wrong#:#Your solution is wrong
 assessment#:#answer_picture#:#Answer picture
 assessment#:#answer_text#:#Answer text
+assessment#:#answerblock#:#Answerblock
 assessment#:#applet_attributes#:#Applet attributes
 assessment#:#applet_new_parameter#:#New parameter
 assessment#:#applet_parameter#:#Parameter
@@ -166,14 +169,9 @@ assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
-assessment#:#enhanced#:#Enhanced mode
-assessment#:#question_no_answerblocks#:#There are no answerblocks defined
-assessment#:#add_answerblock#:#Add answerblock
-assessment#:#answerblock#:#Answerblock
-assessment#:#select_an_answer#:#--- Please select an answer ---
-assessment#:#action#:#Action
 assessment#:#end_tag#:#End tag
 assessment#:#ending_time_reached#:#You have reached the ending time
+assessment#:#enhanced#:#Enhanced mode
 assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!
 assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
@@ -281,6 +279,7 @@ assessment#:#qt_matching#:#Matching Question
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
 assessment#:#qt_ordering#:#Ordering Question
+assessment#:#question_no_answerblocks#:#There are no answerblocks defined
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Question Type
@@ -306,6 +305,7 @@ assessment#:#save_finish#:#Save and finish the test
 assessment#:#save_introduction#:#Save and go to introduction
 assessment#:#save_next#:#Save and go to next question
 assessment#:#save_previous#:#Save and go to previous question
+assessment#:#select_an_answer#:#--- Please select an answer ---
 assessment#:#select_gap#:#Select gap
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 assessment#:#selected_image#:#Selected image

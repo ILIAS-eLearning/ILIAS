@@ -87,9 +87,11 @@ administration#:#systemcheck#:#Sprawdzenie Systemu
 administration#:#view_last_log#:#Podgląd ostatniego logu skanowania
 administration#:#view_log#:#Podgląd szczegółów
 assessment#:#0_unlimited#:#(0 = nielimitowane)
+assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Dodaj odpowiedź
 assessment#:#add_answer_tf#:#Dodaj odpowiedź prawda/fałsz
 assessment#:#add_answer_yn#:#Dodaj odpowiedź tak/nie
+assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Dodaj parametr apletu
 assessment#:#add_area#:#Dodaj obszar
 assessment#:#add_gap#:#Dodaj tekst odstępu
@@ -101,6 +103,7 @@ assessment#:#answer_is_right#:#Twoja odpowiedź jest prawidłowa
 assessment#:#answer_is_wrong#:#Twoja odpowiedź jest zła
 assessment#:#answer_picture#:#Obrazek odpowiedzi
 assessment#:#answer_text#:#Tekst odpowiedzi
+assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Atrybuty Apletu
 assessment#:#applet_new_parameter#:#Nowy parametr
 assessment#:#applet_parameter#:#Parametr
@@ -259,6 +262,7 @@ assessment#:#qt_matching#:#Pytanie na dopasowanie
 assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowiedzi)
 assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
 assessment#:#qt_ordering#:#Pytanie na porządkowanie
+assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#P
 assessment#:#question_type#:#Typ pytania
@@ -283,6 +287,7 @@ assessment#:#save_finish#:#Zachowaj i zakończ test
 assessment#:#save_introduction#:#Zachowaj i przejdź do wstępu
 assessment#:#save_next#:#Zachowaj i przejdź do następnego pytania
 assessment#:#save_previous#:#Zachowaj i przejdź do poprzedniego pytania
+assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Wybierz odstęp
 assessment#:#selected_image#:#Wybrany obrazek
 assessment#:#set_filter#:#Ustaw filtr
