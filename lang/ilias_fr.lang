@@ -1882,6 +1882,7 @@ content#:#cont_lk_media_new#:#Média (nouveau cadre)
 content#:#cont_lk_page#:#Page
 content#:#cont_lk_page_faq#:#Page (cadre FAQ)
 content#:#cont_lk_page_new#:#Page (nouveau cadre)
+content#:#cont_lk_survey#:#Survey###04 Jun 2004 new variable
 content#:#cont_lk_term#:#Terme de glossaire
 content#:#cont_lk_term_new#:#Terme de glossaire (nouveau cadre)
 content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
@@ -2930,6 +2931,7 @@ survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
+survey#:#category_nr_selected#:#Number of users that selected this category###04 Jun 2004 new variable
 survey#:#concatenation#:#Concatenation###27 May 2004 new variable
 survey#:#constraints#:#Constraints###26 May 2004 new variable
 survey#:#continue#:#Continue >>###26 May 2004 new variable
@@ -2994,6 +2996,7 @@ survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-unde
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)###23 May 2004 new variable
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)###23 May 2004 new variable
 survey#:#duplicate#:#Duplicate###21 May 2004 new variable
+survey#:#edit_ask_continue#:#Do you want to continue and edit this question?###04 Jun 2004 new variable
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints###26 May 2004 new variable
 survey#:#end_date#:#End date###23 May 2004 new variable
 survey#:#enter_value#:#Enter a value###26 May 2004 new variable
@@ -3004,6 +3007,7 @@ survey#:#fill_out_all_category_fields#:#Please fill out all category fields befo
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!###21 May 2004 new variable
 survey#:#filter#:#Filter###21 May 2004 new variable
 survey#:#geometric_mean#:#Geometric mean###02 Jun 2004 new variable
+survey#:#given_answers#:#Given answers###04 Jun 2004 new variable
 survey#:#harmonic_mean#:#Harmonic mean###02 Jun 2004 new variable
 survey#:#insert_after#:#Insert after###22 May 2004 new variable
 survey#:#insert_before#:#Insert before###22 May 2004 new variable
@@ -3041,6 +3045,8 @@ survey#:#on#:#on###23 May 2004 new variable
 survey#:#online#:#online###23 May 2004 new variable
 survey#:#or#:#or###24 May 2004 new variable
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
+survey#:#percentage_of_entered_values#:#Percentage of users that entered this value###04 Jun 2004 new variable
+survey#:#percentage_of_selections#:#Percentage of users that selected this category###04 Jun 2004 new variable
 survey#:#predefined_users#:#Predefined user set###27 May 2004 new variable
 survey#:#preview#:#Preview###21 May 2004 new variable
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?###22 May 2004 new variable
@@ -3082,9 +3088,12 @@ survey#:#select_value#:#Select a value###26 May 2004 new variable
 survey#:#set_filter#:#Set filter###21 May 2004 new variable
 survey#:#start_date#:#Start date###23 May 2004 new variable
 survey#:#start_survey#:#Start survey###25 May 2004 new variable
+survey#:#subtype#:#Subtype###04 Jun 2004 new variable
 survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
 survey#:#survey_next#:#save and next page >>>###01 Jun 2004 new variable
+survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###04 Jun 2004 new variable
+survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable
 survey#:#survey_previous#:#<<< save and previous page###01 Jun 2004 new variable
 survey#:#survey_questions#:#Questions###21 May 2004 new variable
 survey#:#survey_skip_finish#:#skip and finish survey >>>###01 Jun 2004 new variable
@@ -3098,4 +3107,7 @@ survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
 survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
 survey#:#users_answered#:#Users answered###02 Jun 2004 new variable
 survey#:#users_skipped#:#Users skipped###02 Jun 2004 new variable
+survey#:#value_nr_entered#:#Number of users that entered that value###04 Jun 2004 new variable
+survey#:#values#:#Values###04 Jun 2004 new variable
 survey#:#view_phrase#:#View phrase###31 May 2004 new variable
+survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###04 Jun 2004 new variable

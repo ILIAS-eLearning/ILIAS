@@ -2931,6 +2931,7 @@ survey#:#browse_for_questions#:#Browse for questions
 survey#:#category#:#Category
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!
+survey#:#category_nr_selected#:#Number of users that selected this category
 survey#:#concatenation#:#Concatenation
 survey#:#constraints#:#Constraints
 survey#:#continue#:#Continue >>
@@ -2995,6 +2996,7 @@ survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-unde
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)
 survey#:#duplicate#:#Duplicate
+survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints
 survey#:#end_date#:#End date
 survey#:#enter_value#:#Enter a value
@@ -3005,6 +3007,7 @@ survey#:#fill_out_all_category_fields#:#Please fill out all category fields befo
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
 survey#:#filter#:#Filter
 survey#:#geometric_mean#:#Geometric mean
+survey#:#given_answers#:#Given answers
 survey#:#harmonic_mean#:#Harmonic mean
 survey#:#insert_after#:#Insert after
 survey#:#insert_before#:#Insert before
@@ -3042,6 +3045,8 @@ survey#:#on#:#on
 survey#:#online#:#online
 survey#:#or#:#or
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
+survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
+survey#:#percentage_of_selections#:#Percentage of users that selected this category
 survey#:#predefined_users#:#Predefined user set
 survey#:#preview#:#Preview
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
@@ -3083,9 +3088,12 @@ survey#:#select_value#:#Select a value
 survey#:#set_filter#:#Set filter
 survey#:#start_date#:#Start date
 survey#:#start_survey#:#Start survey
+survey#:#subtype#:#Subtype
 survey#:#survey_finish#:#save and finish survey
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!
 survey#:#survey_next#:#save >>>
+survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
+survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
 survey#:#survey_previous#:#<<< save
 survey#:#survey_questions#:#Questions
 survey#:#survey_skip_finish#:#skip and finish survey
@@ -3099,15 +3107,7 @@ survey#:#unlimited_users#:#Unlimited
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#users_answered#:#Users answered
 survey#:#users_skipped#:#Users skipped
-survey#:#view_phrase#:#View phrase
-survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
-survey#:#values#:#Values
 survey#:#value_nr_entered#:#Number of users that entered that value
-survey#:#category_nr_selected#:#Number of users that selected this category
-survey#:#percentage_of_selections#:#Percentage of users that selected this category
-survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
-survey#:#given_answers#:#Given answers
-survey#:#subtype#:#Subtype
+survey#:#values#:#Values
+survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
-survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
