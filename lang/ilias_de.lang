@@ -344,7 +344,7 @@ assessment#:#save_finish#:#Test fertigstellen
 assessment#:#save_introduction#:#Zur Einführung
 assessment#:#save_next#:#Weiter
 assessment#:#save_previous#:#Zurück
-assessment#:#save_text_answer_points#:#Save text question points###07 Jan 2005 new variable
+assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
 assessment#:#search_found_groups#:#Gefundene Gruppen
 assessment#:#search_found_users#:#Gefundene Nutzerinnen
 assessment#:#see_details_for_further_information#:#Musterlösungen: Siehe Fragendetails
@@ -365,7 +365,7 @@ assessment#:#statistical_data#:#Statistische Daten
 assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erfolgreich hinzugefügt!
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
-assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
+assessment#:#text_answers_saved#:#Die Punkte der Textfragen wurden gespeichert!
 assessment#:#text_gap#:#Text-Lücke
 assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle weiteren Zeichen werden am Ende abgeschnitten.
 assessment#:#time_format#:#HH MM SS
