@@ -1,14 +1,14 @@
 <?php
-
-include_once "classes/class.Object.php";
-
 /**
- * system
- * system function like checkAccess, addActiveRole ...
- * @author Stefan Meyer <smeyer@databay.de> 
- * @version $Id$ 
- * @package rbac
- */
+* class RbacSystem
+* system function like checkAccess, addActiveRole ...
+* 
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id$
+* 
+* @extends PEAR
+* @package rbac
+*/
 class RbacSystem extends PEAR
 {
 	/**
@@ -245,5 +245,43 @@ class RbacSystem extends PEAR
 		
 		return in_array($ops_id,$ops);
 	}
-} // END CLASS RbacSystem
+} // END class.RbacSystem
+
+
+/**
+* Class RbacSystemH
+* extensions for hierachical Rbac (maybe later)
+* 
+* @author Stefan Meyer <smeyer@databay.de> 
+* 
+* @extends RbacSystem 
+* @package rbac
+*/
+class RbacSystemH extends RbacSystem
+{
+	/**
+	* Constructor
+	* @param object ilias
+	*/
+    function RbacSystemH(&$a_ilias)
+    {
+        $this->RbacSystem($a_ilias);
+    }
+
+	/**
+	* @access public
+	*/
+    function createSession()
+    {
+	
+    }
+
+	/**
+	* @access public
+	*/
+    function addActiveRole()
+    {
+
+    }
+} // END class.RbacSystemH
 ?>

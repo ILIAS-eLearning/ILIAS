@@ -1,14 +1,14 @@
 <?php
 /**
- * Class RbacAdmin 
- * core functions for role based access control
- *
- * @author Stefan Meyer <smeyer@databay.de>
- * @version $Id$
- *
- * @extends PEAR
- * @package rbac
- */
+* Class RbacAdmin 
+* core functions for role based access control
+*
+* @author Stefan Meyer <smeyer@databay.de>
+* @version $Id$
+*
+* @extends PEAR
+* @package rbac
+*/
 class RbacAdmin extends PEAR
 {
 	/**
@@ -745,4 +745,54 @@ class RbacAdmin extends PEAR
 		return $this->getParentRoles($pathIds,$a_templates);
 	}
 } // END class.rbacAdmin
+
+
+/**
+* class RbacAdminH
+* extensions for hierachical Rbac (maybe later)
+* 
+* @author Stefan Meyer <smeyer@databay.de> 
+* 
+* @extends RbacAdmin
+* @package rbac
+*/
+class RbacAdminH extends RbacAdmin
+{
+	/**
+	* database handle
+	* @param object db
+	*/
+    function RbacAdminH(&$dbhandle)
+    {
+		$this->RbacAdmin($dbhandle);
+    }
+
+    /** 
+    * @access public
+	*/
+    function addInheritance()
+    {
+    }
+	
+    /**
+	* @access public
+	*/
+    function deleteInheritance()
+    {
+    }
+
+    /**
+	* @access public
+	*/
+    function addAscendant()
+    {
+    }
+
+    /**
+	* @access public
+	*/
+    function addDescendant()
+    {
+    }
+} // END class.RbacAdminH
 ?>
