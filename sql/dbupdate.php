@@ -3442,4 +3442,6 @@ CREATE TABLE `aicc_units` (
   PRIMARY KEY  (`obj_id`)
 ) TYPE=MyISAM;
 
+<#207>
+INSERT  INTO  `survey_phrase` (`phrase_id` ,  `title` ,  `defaultvalue` ,  `owner_fi` ,  `TIMESTAMP`) VALUES (NULL,  'dp_standard_numbers',  '1',  '0', NOW());
 

@@ -2995,6 +2995,7 @@ survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-s
 survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)
+survey#:#dp_standard_numbers#:#Standard numbers
 survey#:#duplicate#:#Duplicate
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints
