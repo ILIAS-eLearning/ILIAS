@@ -337,6 +337,8 @@ common#:#http_path#:#Percorso HTTP
 common#:#id#:#ID
 common#:#identifier#:#Identificatore###26 Mar 2003 new variable
 common#:#ilias_version#:#Versione ILIAS
+common#:#image#:#Image###08 Nov 2003 new variable
+common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###08 Nov 2003 new variable
 common#:#import#:#Importa
 common#:#import_lm#:#Importa Learningmodule###12 Apr 2003 new variable
 common#:#import_slm#:#Importa SCORM Package###23 Jun 2003 new variable
@@ -693,6 +695,7 @@ common#:#presentation_options#:#Opzioni di presentazione
 common#:#previous#:#Precedente###30 May 2003 new variable
 common#:#print#:#Stampa
 common#:#profile_changed#:#Il tuo profilo &egrave; stato cambiato###25 Mar 2003 new variable
+common#:#profile_of#:#Profile of###08 Nov 2003 new variable
 common#:#properties#:#Propriet&agrave;###04 Aug 2003 new variable
 common#:#pub_section#:#Sezione pubblica
 common#:#public_profile#:#Profilo pubblico###14 May 2003 new variable
@@ -876,6 +879,7 @@ common#:#write#:#Scrivi
 common#:#yes#:#Si
 common#:#you_may_add_local_roles#:#Puoi aggiungere ruoli locali
 common#:#your_message#:#Il tuo messaggio
+common#:#zip#:#Postal Code###08 Nov 2003 new variable
 common#:#zipcode#:#Codice postale###29 Oct 2003 content changed
 content#:#HTML export#:#Esporta HTML###22 Sep 2003 new variable
 content#:#PDF export#:#Esporta PDF###22 Sep 2003 new variable
