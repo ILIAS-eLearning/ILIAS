@@ -94,6 +94,27 @@ class ilObjTestGUI extends ilObjectGUI
     return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
   }  
 
+	function RTESafe($strText) {
+		//returns safe code for preloading in the RTE
+		$tmpString = trim($strText);
+		
+		//convert all types of single quotes
+		$tmpString = str_replace(chr(145), chr(39), $tmpString);
+		$tmpString = str_replace(chr(146), chr(39), $tmpString);
+		$tmpString = str_replace("'", "&#39;", $tmpString);
+		
+		//convert all types of double quotes
+		$tmpString = str_replace(chr(147), chr(34), $tmpString);
+		$tmpString = str_replace(chr(148), chr(34), $tmpString);
+	//	$tmpString = str_replace("\"", "\"", $tmpString);
+		
+		//replace carriage returns & line feeds
+		$tmpString = str_replace(chr(10), " ", $tmpString);
+		$tmpString = str_replace(chr(13), " ", $tmpString);
+		
+		return $tmpString;
+	}
+
   function propertiesObject()
   {
 		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"]) {
@@ -149,6 +170,14 @@ class ilObjTestGUI extends ilObjectGUI
     }
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties.html", true);
+		$this->tpl->addBlockFile("RTE", "rte", "tpl.ilRTEEdit.html", true);
+		$this->tpl->setCurrentBlock("rte");
+		$this->tpl->setVariable("IMAGES_DIR", ilUtil::getImagePath("rte/", true));
+		$this->tpl->setVariable("JAVASCRIPT_PATH", "");
+		$this->tpl->setVariable("NAME_RTE", "introduction");
+		$this->tpl->setVariable("VALUE_RTE", $this->RTESafe($data["introduction"]));
+		$this->tpl->setVariable("VALUE_INTRODUCTION", $data["introduction"]);
+		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("test_types");
 		foreach ($this->object->test_types as $key => $value) {
 			$this->tpl->setVariable("VALUE_TEST_TYPE", $key);
@@ -169,7 +198,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
 		$this->tpl->setVariable("VALUE_DESCRIPTION", $data["description"]);
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
-		$this->tpl->setVariable("VALUE_INTRODUCTION", $data["introduction"]);
 		$this->tpl->setVariable("HEADING_SEQUENCE", $this->lng->txt("tst_sequence_properties"));
 		$this->tpl->setVariable("TEXT_SEQUENCE", $this->lng->txt("tst_sequence"));
 		$this->tpl->setVariable("SEQUENCE_FIXED", $this->lng->txt("tst_sequence_fixed"));
