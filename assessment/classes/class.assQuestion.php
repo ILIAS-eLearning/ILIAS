@@ -1440,6 +1440,10 @@ class ASS_Question
 			}
 		}
 	}
+
+	function createRandomSolution($test_id, $user_id)
+	{
+	}
 }
 
 ?>

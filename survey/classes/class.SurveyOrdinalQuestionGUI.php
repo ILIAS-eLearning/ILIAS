@@ -304,6 +304,18 @@ class SurveyOrdinalQuestionGUI {
 		
 		// call to other question data
 		$this->outOtherQuestionData();
+		$this->tpl->setVariable("TEXT_ORIENTATION", $this->lng->txt("orientation"));
+		switch ($this->object->getOrientation())
+		{
+			case 0:
+				$this->tpl->setVariable("SELECTED_VERTICAL", " selected=\"selected\"");
+				break;
+			case 1:
+				$this->tpl->setVariable("SELECTED_HORIZONTAL", " selected=\"selected\"");
+				break;
+		}
+		$this->tpl->setVariable("TXT_VERTICAL", $this->lng->txt("vertical"));
+		$this->tpl->setVariable("TXT_HORIZONTAL", $this->lng->txt("horizontal"));
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 		$this->tpl->setVariable("VALUE_TITLE", $this->object->getTitle());
@@ -542,6 +554,7 @@ class SurveyOrdinalQuestionGUI {
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setDescription(ilUtil::stripSlashes($_POST["description"]));
+		$this->object->setOrientation($_POST["orientation"]);
 		$questiontext = ilUtil::stripSlashes($_POST["question"]);
 		$questiontext = str_replace("\n", "<br />", $questiontext);
     $this->object->setQuestiontext($questiontext);

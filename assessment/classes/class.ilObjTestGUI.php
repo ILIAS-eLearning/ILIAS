@@ -2477,6 +2477,9 @@ class ilObjTestGUI extends ilObjectGUI
 	function eval_statObject()
 	{
 		global $ilUser;
+		global $ilBench;
+//		$ilBench->enable(true);
+//		$ilBench->start("Test_Statistical_evaluation", "calculate all statistical data");
 		if (!$_POST["export_type"])
 		{
 			$_POST["export_type"] = TYPE_PRINT;
@@ -2849,19 +2852,21 @@ class ilObjTestGUI extends ilObjectGUI
 					array_push($csvfile, $csvrow);
 					break;
 			}
+
+//			$ilBench->start("Test_Statistical_evaluation", "getAllParticipants");
+			$total_users =& $this->object->evalTotalPersonsArray(); 
 			if ($_POST["cmd"]["stat_all_users"] or $_POST["stat_all_users"]) {
-				$selected_users =& $this->object->evalTotalPersonsArray();
+				$selected_users = $total_users;
 				$this->tpl->setCurrentBlock("hidden");
 				$this->tpl->setVariable("NAME_HIDDEN", "stat_all_users");
 				$this->tpl->setVariable("VALUE_HIDDEN", "1");
 				$this->tpl->parseCurrentBlock();
 			} else {
-				$sel_users =& $this->object->evalTotalPersonsArray();
 				$selected_users = array();
 				foreach ($_POST as $key => $value)
 				{
 					if (preg_match("/chb_user_(\d+)/", $key, $matches)) {
-						$selected_users[$matches[1]] = $sel_users[$matches[1]];
+						$selected_users[$matches[1]] = $total_users[$matches[1]];
 						$this->tpl->setCurrentBlock("hidden");
 						$this->tpl->setVariable("NAME_HIDDEN", "chb_user_$matches[1]");
 						$this->tpl->setVariable("VALUE_HIDDEN", "$matches[1]");
@@ -2869,23 +2874,41 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 			}
+//			$ilBench->stop("Test_Statistical_evaluation", "getAllParticipants");
 			$row = 0;
 			$question_legend = false;
 			$evaluation_array = array();
-			foreach ($selected_users as $key => $value) {
+			foreach ($total_users as $key => $value) {
 				// receive array with statistical information on the test for a specific user
+//				$ilBench->start("Test_Statistical_evaluation", "this->object->evalStatistical($key)");
 				$stat_eval =& $this->object->evalStatistical($key);
+//				$ilBench->stop("Test_Statistical_evaluation", "this->object->evalStatistical($key)");
 				$evaluation_array[$key] = $stat_eval;
 			}
 
 			require_once "./classes/class.ilStatistics.php";
 			// calculate the median
-			$median_array =& $this->object->getTotalPointsArray();
+			$median_array = array();
+			foreach ($evaluation_array as $key => $value)
+			{
+				array_push($median_array, $value["resultspoints"]);
+			}
+			//$median_array =& $this->object->getTotalPointsArray();
 			$statistics = new ilStatistics();
 			$statistics->setData($median_array);
 			$median = $statistics->median();
 			$passed_statistics = new ilStatistics();
-			$passed_array =& $this->object->getTotalPointsPassedArray();
+			//$passed_array =& $this->object->getTotalPointsPassedArray();
+			$passed_array = array();
+			foreach ($evaluation_array as $key => $value)
+			{
+				if ($value["passed"] == 1)
+				{
+					array_push($passed_array, $value["resultspoints"]);
+				}
+			}
+//			$ilBench->stop("Test_Statistical_evaluation", "calculate all statistical data");
+//			$ilBench->save();
 			$passed_statistics->setData($passed_array);
 			$ects_percentiles = array
 				(
@@ -2896,8 +2919,9 @@ class ilObjTestGUI extends ilObjectGUI
 					"E" => $passed_statistics->quantile($this->object->ects_grades["E"])
 				);
 			$evalcounter = 1;
-			foreach ($evaluation_array as $key => $stat_eval)
+			foreach ($selected_users as $key => $stat_eval)
 			{
+				$stat_eval = $evaluation_array[$key];
 				$csvrow = array();
 				if (!$question_legend)
 				{
@@ -3357,6 +3381,7 @@ class ilObjTestGUI extends ilObjectGUI
 				ilUtil::deliverData($csv, "$testname.csv");
 				exit();
 		}
+//		$ilBench->enable(false);
 	}
 
 	function eval_aObject()
@@ -3615,6 +3640,10 @@ class ilObjTestGUI extends ilObjectGUI
 		global $rbacsystem;
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
+			if ($_POST["cmd"]["createSolutions"])
+			{
+				$this->object->createRandomSolutionsForAllUsers();
+			}
 			if ($_POST["cmd"]["delete_all_user_data"])
 			{
 				$this->object->removeAllTestEditings();
@@ -3624,6 +3653,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("tst_delete_all_user_data"));
+//			$this->tpl->setVariable("BTN_CREATE_SOLUTIONS", $this->lng->txt("tst_create_solutions"));
 			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
 			$this->tpl->parseCurrentBlock();
 		}

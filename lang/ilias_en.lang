@@ -49,6 +49,10 @@ administration#:#disabled#:#disabled
 administration#:#done#:#Done
 administration#:#found#:#found.
 administration#:#found_none#:#none found.
+administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
+administration#:#analyzing_tree_structure#:#Analyzing tree structure...
+administration#:#check_tree#:#Check tree structure
+administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#nothing_to_purge#:#Nothing to purge...
@@ -85,6 +89,7 @@ administration#:#searching_invalid_refs#:#Searching for invalid references...
 administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...
 administration#:#searching_missing_objs#:#Searching for missing objects...
 administration#:#searching_unbound_objs#:#Searching for unbound objects...
+administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...
 administration#:#skipped#:#skipped
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!
@@ -913,6 +918,7 @@ common#:#cutPage#:#Cut
 common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Item
+common#:#no_datasets#:#The table is empty
 common#:#date#:#Date
 common#:#dateplaner#:#Calendar
 common#:#day#:#Day
@@ -3995,6 +4001,9 @@ survey#:#on#:#on
 survey#:#online#:#online
 survey#:#or#:#or
 survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
+survey#:#orientation#:#Orientation
+survey#:#horizontal#:#horizontal
+survey#:#vertical#:#vertical
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
 survey#:#percentage_of_selections#:#Percentage of users that selected this category
 survey#:#predefined_users#:#Predefined user set

@@ -159,6 +159,15 @@ class SurveyQuestion {
 	*/
 	var $domxml;
 
+	/**
+	* The orientation of the question output
+	*
+	* The orientation of the question output (0 = vertical, 1 = horizontal)
+	*
+	* @var integer
+	*/
+	var $orientation;
+
 /**
 * SurveyQuestion constructor
 *
@@ -201,6 +210,7 @@ class SurveyQuestion {
     $this->id = -1;
     $this->survey_id = -1;
 		$this->obligatory = 1;
+		$this->orientation = 0;
 		$this->materials = array();
 		register_shutdown_function(array(&$this, '_SurveyQuestion'));
 	}
@@ -288,6 +298,19 @@ class SurveyQuestion {
 		{
 	    $this->obligatory = 0;
 		}
+  }
+
+/**
+* Sets the orientation of the question output
+*
+* Sets the orientation of the question output
+*
+* @param integer $orientation 0 = vertical, 1 = horizontal
+* @access public
+* @see $orientation
+*/
+  function setOrientation($orientation = 0) {
+    $this->orientation = $orientation;
   }
 
 /**
@@ -518,6 +541,20 @@ class SurveyQuestion {
   function getSurveyId() {
     return $this->survey_id;
   }
+
+/**
+* Gets the orientation of the question output
+*
+* Gets the orientation of the question output
+*
+* @return integer 0 = vertical, 1 = horizontal
+* @access public
+* @see $orientation
+*/
+  function getOrientation() {
+    return $this->orientation;
+  }
+
 
 /**
 * Gets the description
