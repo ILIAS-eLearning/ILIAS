@@ -50,6 +50,7 @@ class ilGroupGUI extends ilObjectGUI
 	var $grp_object;
 	var $grp_tree;
 	var $grp_id;
+	var $grp_title;
 	/**
 	* Constructor
 	* @access	public
@@ -1965,8 +1966,8 @@ class ilGroupGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		$this->prepareOutput(false,1);
-
-		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
+		$my_grp = new ilObjGroup($this->grp_id);	//a bit circumstancial, but thats the way it is
+		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$my_grp->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
@@ -2380,7 +2381,7 @@ class ilGroupGUI extends ilObjectGUI
 				}
 				$this->grp_object->setRegistrationFlag($_POST["enable_registration"]);
 				$this->grp_object->setPassword($_POST["password"]);
-				$this->grp_object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"]);
+				$this->grp_object->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
 				$this->update = $this->grp_object->update();
 			}
 		}
