@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("content/classes/class.ilLMObjectFactory.php");
 
 class ilWysiwygUtil
 {
@@ -62,17 +63,38 @@ class ilWysiwygUtil
 	}
 	
 	function showMoveCopyQuestion() {
-		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_movecopyquestion.html",false,false,true);
+		
+		$tempobj = ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+		$source_obj = ilLMObjectFactory::getInstance($tempobj, $_GET["sourceId"], true);
+		$source_obj->setLMId($tempobj->getId());
+		$target_obj = ilLMObjectFactory::getInstance($tempobj, $_GET["targetId"], true);
+		$target_obj->setLMId($tempobj->getId());
+		
+		//vd($source_obj->getType());
+		//vd($target_obj->getType());
+		
+		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_movecopyquestion.html",false,true,true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
 		
-		$this->tpl->setVariable("TXT_SET_AFTER", $this->lng->txt("cont_set_after"));
-		$this->tpl->setVariable("TXT_SET_BEFORE", $this->lng->txt("cont_set_before"));
+		if ($source_obj->getType() == "st" && $target_obj->getType() == "pg") {
+			$this->tpl->setVariable("TXT_ST_ON_PG",$this->lng->txt("cont_st_on_pg"));
+			$this->tpl->setVariable("BTN_CLOSE2", $this->lng->txt("close"));
+		} else {
 		
-		$this->tpl->setVariable("TXT_MOVE_OBJECT", $this->lng->txt("cont_move_object"));
-		$this->tpl->setVariable("TXT_COPY_OBJECT", $this->lng->txt("cont_copy_object"));
-		
-		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
+			if (($source_obj->getType() == "pg" && $target_obj->getType() == "pg") || ($source_obj->getType() == "st" && $target_obj->getType() == "st")) {
+				$this->tpl->setVariable("TXT_SET_AFTER", $this->lng->txt("cont_set_after"));
+				$this->tpl->setVariable("TXT_SET_BEFORE", $this->lng->txt("cont_set_before"));
+			}
+			if ($source_obj->getType() == "st" && $target_obj->getType() == "st") {
+				$this->tpl->setVariable("TXT_SET_INTO", $this->lng->txt("cont_set_into"));
+			}
+			
+			$this->tpl->setVariable("TXT_MOVE_OBJECT", $this->lng->txt("cont_move_object"));
+			$this->tpl->setVariable("TXT_COPY_OBJECT", $this->lng->txt("cont_copy_object"));
+			
+			$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("save"));
+			$this->tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
+		}
 	}
 	
 	function showXtl() 

@@ -4121,6 +4121,7 @@ survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
 content#:#cont_set_after#:#dahinter einfügen
 content#:#cont_set_before#:#davor einfügen
+content#:#cont_set_into#:#darunter einfügen
 content#:#cont_move_object#:#Objekt veschieben
 content#:#cont_copy_object#:#Objekt kopieren
 content#:#cont_external_url#:#Externe URL
@@ -4128,3 +4129,4 @@ content#:#cont_title#:#Titel
 content#:#cont_title_footnotes#:#Fußnoten
 content#:#cont_insert_new_footnote#:#Neue Fußnote einfügen
 content#:#cont_set_cancel#:#Abbruch
+content#:#cont_st_on_pg#:#Diese Funktion ist nicht möglich.

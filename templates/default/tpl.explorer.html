@@ -35,7 +35,7 @@ function doDragDropAction()
 
 function openPopupQuestion() 
 {
-	w = window.open('{POPUPLINK}','dragdropquestion','width=400,height=350');
+	w = window.open('{POPUPLINK}&sourceId='+sourceId+'&targetId='+targetId,'dragdropquestion','width=400,height=350');
 	w.focus();
 }
 </script>
