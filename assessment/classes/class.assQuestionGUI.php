@@ -1025,12 +1025,13 @@ class ASS_QuestionGUI extends PEAR {
   function set_question_data_from_cloze_question_template() {
 		$saved = false;
     $result = 0;
-		$start_tag = ilUtil::stripSlashes($_POST["start_tag"]);
-		$end_tag = ilUtil::stripSlashes($_POST["end_tag"]);
+//		$start_tag = ilUtil::stripSlashes($_POST["start_tag"]);
+//		$end_tag = ilUtil::stripSlashes($_POST["end_tag"]);
     // Delete all existing gaps and create new gaps from the form data
     $this->question->flush_gaps();
 
-    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]) or (!$start_tag) or (!$end_tag))
+//    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]) or (!$start_tag) or (!$end_tag))
+    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]))
 		{
       $result = 1;
 		}
@@ -1049,8 +1050,8 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
     // adding estimated working time and materials uris
     $saved = $saved | $this->set_question_data_from_other_template();
-		$this->question->set_start_tag($start_tag);
-		$this->question->set_end_tag($end_tag);
+//		$this->question->set_start_tag($start_tag);
+//		$this->question->set_end_tag($end_tag);
     // adding materials uris
     $saved = $saved | $this->set_question_data_from_other_template();
 

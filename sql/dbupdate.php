@@ -2334,3 +2334,17 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 $query = "DROP TABLE IF EXISTS grp_tree";
 $this->db->query($query);
 ?>
+<#159>
+<?php
+$query = "SELECT * FROM `qpl_questions` WHERE  NOT isnull(start_tag)";
+$res = $this->db->query($query);
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$new_text = preg_replace("/" . preg_quote($row->start_tag) . "(.*?)" . preg_quote($row->end_tag) . "/", "<gap>$1</gap>", $row->question_text);
+	$update_query = sprintf("UPDATE qpl_questions SET question_text = %s WHERE question_id = %s",
+		$this->db->quote($new_text),
+		$this->db->quote("$row->question_id")
+	);
+	$update_res = $this->db->query($update_query);	
+}
+?>
