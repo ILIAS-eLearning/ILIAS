@@ -26,10 +26,15 @@
             <xsl:for-each select="/Bibliography/BibItem">
               <tr>
                 <td class="option_value">
-                  <input type="radio" name="target">
+                  <input type="checkbox" name="target[]">
                     <xsl:attribute name="value">
                       <xsl:value-of select="position()" />
                     </xsl:attribute>
+                    <xsl:if test="position() = 1">
+                      <xsl:attribute name="checked">
+                        <xsl:text>checked</xsl:text>
+                      </xsl:attribute>
+                    </xsl:if>
                   </input>
                 </td>
                 <td class="option_value">
