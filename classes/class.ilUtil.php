@@ -1619,7 +1619,13 @@ class ilUtil
 		{
 			$a_str = stripslashes($a_str);
 		}
-		$a_allow .= "<strong><em><code><cite><gap>";
+
+		// set default allowed tags
+		if ($a_allow == "")
+		{
+			$a_allow = "<b><i><strong><em><code><cite><gap><sub><sup><pre><strike>";
+		}
+
 		if ($a_strip_html)
 		{
 			$a_str = ilUtil::stripScriptHTML($a_str, $a_allow);
@@ -1634,8 +1640,13 @@ class ilUtil
 	* $allowed contains tags to be allowed, in format <a><b>
 	* tags a and b are allowed
 	* todo: needs to be optimized-> not very efficient
+	*
+	* @param	string		$a_str		input string
+	* @param	string		$a_allow	allowed tags, if an empty string is passed a default
+	*									set of tags is allowed
+	* @param	boolean		$a_rm_js	remove javascript attributes (onclick...)
 	*/
-	function stripScriptHTML($a_str, $a_allow = "")
+	function stripScriptHTML($a_str, $a_allow = "", $a_rm_js = true)
 	{
 		//$a_str = strip_tags($a_str, $a_allow);
 
@@ -1652,10 +1663,21 @@ class ilUtil
 		foreach ($negatives as $item)
 		{
 			$pos = strpos($a_allow, "<$item>");
+
+			// remove complete tag, if not allowed
 			if ($pos === false)
 			{
-				$a_str = preg_replace("/<\/?($item)\s*>/i", "", $a_str);
-				$a_str = preg_replace("/<\/?($item)\s+([^>]*)>/i", "", $a_str);
+				$a_str = preg_replace("/<\/?\s*$item\s*>/i", "", $a_str);
+				$a_str = preg_replace("/<\/?\s*$item\s+([^>]*)>/i", "", $a_str);
+			}
+
+			if ($a_rm_js)
+			{
+				// remove all attributes if an "on..." attribute is given
+				$a_str = preg_replace("/<\s*".$item."(\s+[^>]*)?(\s+on[^>]*)>/i", "<$item>", $a_str);
+
+				// remove all attributes if a "javascript" is within tag
+				$a_str = preg_replace("/<\s*".$item."\s+[^>]*javascript[^>]*>/i", "<$item>", $a_str);
 			}
 		}
 
@@ -2109,12 +2131,18 @@ class ilUtil
 		return $ids ? $ids : array();
 	}
 
+	/**
+	* get current memory usage as string
+	*/
 	function getMemString()
 	{
 		$my_pid = getmypid();
 		return ("MEMORY USAGE (% KB PID ): ".`ps -eo%mem,rss,pid | grep $my_pid`);
 	}
 
+	/**
+	* check wether the current client system is a windows system
+	*/
 	function isWindows()
 	{
 		if (strtolower(substr(php_uname(), 0, 3)) == "win")
