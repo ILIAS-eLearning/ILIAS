@@ -447,6 +447,12 @@ class ilGroupGUI extends ilObjectGUI
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$stati = array(0=>"grp_member_role",1=>"grp_admin_role");
 
+//		$role_Obj =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+//		$newid = $role_Obj->getId();
+		//$stati = $newGrp->getallgrouproles();
+
+
+
 		//build data structure
 		foreach($member_ids as $member_id)
 		{
@@ -462,21 +468,13 @@ class ilGroupGUI extends ilObjectGUI
 			unset($member);
 		}
 
-		/*$tab = array();
-		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = 'cmd=showgroupmembers&ref_id='.$_GET["ref_id"];
-		$tab[0]["ftabtype"] = 'tabinactive';
-		$tab[0]["target"] = "bottom";
-		$tab[0]["tab_text"] = 'group_members';*/
-
 		$this->prepareOutput(false,99);
 		$this->tpl->setVariable("HEADER", $this->lng->txt("grp_mem_change_status"));
 
 		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
 
 		//load template for table content data
-		//$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");
-		
+
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
 		$this->tpl->setVariable("ACTIONTARGET", "bottom");
 		$this->data["buttons"] = array( "updateMemberStatus"  => $this->lng->txt("confirm"),
@@ -1450,55 +1448,53 @@ class ilGroupGUI extends ilObjectGUI
 
 		$num = 0;
 
+		
+		//display editable permissions
+		foreach ($data["permission"] as $ar_perm)
+		{
+
+				$this->tpl->setCurrentBlock("PERM");
+				$this->tpl->setVariable("PERMISSION", $ar_perm["name"]);
+				$this->tpl->parseCurrentBlock();
+
+		}
+
+		//display "Stop Inheritance" column
+		$this->tpl->setCurrentBLock("STOP_INHERIT");
+		$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
+		$this->tpl->parseCurrentBlock();
+
 		foreach($data["rolenames"] as $name)
 		{
-			// BLOCK ROLENAMES
-			$this->tpl->setCurrentBlock("ROLENAMES");
+			//display currently given permissions
+			foreach ($data["permission"] as $permission)
+			{
+
+
+					$this->tpl->setCurrentBlock("CHECK_PERM");
+					$this->tpl->setVariable("CHECK_PERMISSION", $permission["values"][$num]);
+					$this->tpl->parseCurrentBlock();
+			}
+			//display if inheritance can be stopped
+			$this->tpl->setCurrentBLock("CHECK_INHERIT");
+			$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num]);
+			$this->tpl->parseCurrentBlock();
+
+			//display role-name
+			$this->tpl->setCurrentBlock("ROLE");
 			$this->tpl->setVariable("ROLE_NAME",$name);
 			$this->tpl->parseCurrentBlock();
 
-			// BLOCK CHECK INHERIT
-			if ($this->objDefinition->stopInheritance($this->type))
-			{
-				$this->tpl->setCurrentBLock("CHECK_INHERIT");
-				$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num]);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$num++;
-		}
-
-		// save num for required column span and the end of parsing
-		$colspan = $num + 1;
-		$num = 0;
-
-		// offer option 'stop inheritance' only to those objects where this option is permitted
-		if ($this->objDefinition->stopInheritance($this->type))
-		{
-			$this->tpl->setCurrentBLock("STOP_INHERIT");
-			$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		foreach ($data["permission"] as $ar_perm)
-		{
-			foreach ($ar_perm["values"] as $box)
-			{
-				// BEGIN TABLE CHECK PERM
-				$this->tpl->setCurrentBlock("CHECK_PERM");
-				$this->tpl->setVariable("CHECK_PERMISSION",$box);
-				$this->tpl->parseCurrentBlock();
-				// END CHECK PERM
-			}
-
-			// BEGIN TABLE DATA OUTER
 			$this->tpl->setCurrentBlock("TABLE_DATA_OUTER");
 			$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
 			$this->tpl->setVariable("CSS_ROW",$css_row);
-			$this->tpl->setVariable("PERMISSION", $ar_perm["name"]);
 			$this->tpl->parseCurrentBlock();
-			// END TABLE DATA OUTER
 		}
+
+		// save num for required column span and the end of parsing
+		$colspan = $num + 3;
+		$num = 0;
+
 
 		// ADD LOCAL ROLE
 		if ($this->object->getRefId() != ROLE_FOLDER_ID)
@@ -1629,6 +1625,253 @@ class ilGroupGUI extends ilObjectGUI
 		$this->setLocator();
 
 	}
+	
+	
+	/**
+	* display roleassignment panel
+	*
+	* @access	public
+	*/
+	function roleassignmentObject ()
+	{
+		global $rbacreview;
+
+		$obj_str = "&obj_id=".$this->obj_id;
+
+		$this->prepareOutput(true);
+		//prepare objectlist
+		$this->data = array();
+		$this->data["data"] = array();
+		$this->data["ctrl"] = array();
+
+		$this->data["cols"] = array("", "", "role", "type", "context");
+
+		// get all assignable roles
+		$list = $rbacreview->getAssignableRoles();
+//echo "2";
+		foreach ($list as $key => $val)
+		{
+			// fetch context path of role
+			$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
+//echo "3";
+			// only list roles that are not deleted
+			if (!$rbacreview->isDeleted($rolf[0]))
+			{
+				$path = "";
+//echo "4";
+				if ($this->tree->isInTree($rolf[0]))
+				{
+					$tmpPath = $this->tree->getPathFull($rolf[0]);
+//echo "5";
+					// count -1, to exclude the role folder itself
+					for ($i = 1; $i < (count($tmpPath)-1); $i++)
+					{
+						if ($path != "")
+						{
+							$path .= " > ";
+						}
+
+						$path .= $tmpPath[$i]["title"];
+					}
+				}
+				else
+				{
+					$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$val["obj_id"].")</b>";
+				}
+
+				//visible data part
+				$this->data["data"][] = array(
+							"type"			=> $val["type"],
+							"role"			=> $val["title"]."#separator#".$val["desc"],
+							"role_type"		=> $val["role_type"],
+							"context"		=> $path,
+							"obj_id"		=> $val["obj_id"]
+						);
+			}
+		} //foreach role
+
+		$this->maxcount = count($this->data["data"]);
+
+		// TODO: correct this in objectGUI
+		if ($_GET["sort_by"] == "title")
+		{
+			$_GET["sort_by"] = "role";
+		}
+
+		// sorting array
+		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+
+		$assigned_roles = $rbacreview->assignedRoles($_GET["mem_id"]);
+
+		// now compute control information
+		foreach ($this->data["data"] as $key => $val)
+		{
+			$checked = in_array($this->data["data"][$key]["obj_id"],$assigned_roles);
+
+			$this->data["ctrl"][$key] = array(
+											"ref_id"	=> $this->id,
+											"obj_id"	=> $val["obj_id"],
+											"type"		=> $val["type"],
+											"assigned"	=> $checked
+											);
+			$tmp[] = $val["obj_id"];
+
+			unset($this->data["data"][$key]["obj_id"]);
+
+			//$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
+		}
+
+		// remember filtered users
+		$_SESSION["role_list"] = $tmp;
+
+		// load template for table
+		$this->tpl->addBlockfile("CONTENT", "roletable", "tpl.table.html");
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=assignSave&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+
+		include_once "./classes/class.ilTableGUI.php";
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("role_assignment"),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+
+		foreach ($this->data["cols"] as $val)
+		{
+			$header_names[] = $this->lng->txt($val);
+		}
+
+		$tbl->setHeaderNames($header_names);
+
+		$header_params = array(
+								"ref_id"	=> $this->ref_id,
+								"obj_id"	=> $this->obj_id,
+								"cmd"		=> "roleassignment"
+							  );
+
+		$tbl->setHeaderVars($this->data["cols"],$header_params);
+		//$tbl->setColumnWidth(array("4","","15%","30%","24%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);
+
+		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+
+		// display action button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "assignSave");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
+		$this->tpl->parseCurrentBlock();
+
+		// display arrow
+		$this->tpl->touchBlock("tbl_action_row");
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+		// render table
+		$tbl->render();
+
+
+		if (is_array($this->data["data"][0]))
+		{
+			//table cell
+			for ($i=0; $i < count($this->data["data"]); $i++)
+			{
+				$data = $this->data["data"][$i];
+				$ctrl = $this->data["ctrl"][$i];
+
+				//var_dump("<pre>",$ctrl,"</pre>");exit;
+				// color changing
+				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
+
+				($ctrl["assigned"]) ? $checked = "checked=\"checked\"" : $checked = "";
+
+				$this->tpl->setCurrentBlock("checkbox");
+				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
+
+				// disable checkbox for system role for the system user
+				if ($this->object->getId() == SYSTEM_USER_ID and $ctrl["obj_id"] == SYSTEM_ROLE_ID)
+				{
+					$this->tpl->setVariable("CHECKED", $checked." disabled=\"disabled\"");
+				}
+				else
+				{
+					$this->tpl->setVariable("CHECKED", $checked);
+				}
+
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+
+
+				$this->tpl->setCurrentBlock("table_cell");
+				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
+				$this->tpl->parseCurrentBlock();
+
+				foreach ($data as $key => $val)
+				{
+					//build link
+					$link = "adm_object.php?ref_id=8&obj_id=".$ctrl["obj_id"]."&cmd=perm";
+
+					if ($key == "role")
+					{
+						$name_field = explode("#separator#",$val);
+					}
+
+					if ($key == "type" || $key == "role")
+					{
+						$this->tpl->setCurrentBlock("begin_link");
+						$this->tpl->setVariable("LINK_TARGET", $link);
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->touchBlock("end_link");
+					}
+
+					$this->tpl->setCurrentBlock("text");
+
+					if ($key == "type")
+					{
+						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);
+					}
+
+					if ($key == "role")
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
+						$this->tpl->setCurrentBlock("subtitle");
+						$this->tpl->setVariable("DESC", $name_field[1]);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $val);
+					}
+
+					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->parseCurrentBlock();
+				} //foreach
+
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+			} //for
+
+		} //if is_array
+	$this->tpl->show();
+	}
+
+
 
 	/**
 	* remove member object from group preparation(messages,link)
@@ -2428,7 +2671,7 @@ class ilGroupGUI extends ilObjectGUI
 		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_send_mail")."\" title=\"".$this->lng->txt("grp_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_change_status")."\" title=\"".$this->lng->txt("grp_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
 		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("grp_mem_leave")."\" title=\"".$this->lng->txt("grp_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
-
+		$val_role =  "<img src=\"".ilUtil::getImagePath("icon_role_b.gif")."\" alt=\"".$this->lng->txt("grp_role_change")."\" title=\"".$this->lng->txt("grp_role")."\" border=\"0\" vspace=\"0\"/>";
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
 		$member_ids = $newGrp->getGroupMemberIds($_GET["ref_id"]);
 		$account_id = $this->ilias->account->getId();
@@ -2439,6 +2682,7 @@ class ilGroupGUI extends ilObjectGUI
 
 			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
 			$link_change = "group.php?cmd=changeMemberObject&ref_id=".$this->ref_id."&mem_id=".$member->getId();
+			$link_role = "group.php?cmd=roleassignmentObject&ref_id=".$this->ref_id."&mem_id=".$member->getId();
 			if($member_id == $account_id)
 				$link_leave = "group.php?type=grp&cmd=leaveGroupObject&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
 			else
@@ -2450,7 +2694,11 @@ class ilGroupGUI extends ilObjectGUI
 				$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			}
 			if($member->getId() == $_SESSION["AccountId"] || $rbacsystem->checkAccess("delete",$this->object->getRefId()))
-				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";			
+				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
+
+			$member_functions .="<a href=\"$link_role\">$val_role</a>";
+
+
 /*
 //			if (in_array($_SESSION["AccountId"], $admin_ids) || $member->getId() == $_SESSION["AccountId"])
 			if ($rbacsystem->checkAccess("delete",$this->object->getRefId()))
