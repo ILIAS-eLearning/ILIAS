@@ -59,16 +59,19 @@ $ilias->auth->start();
 // start logging
 $log = new Log("ilias.log");
 
-//check for logged in user except in index.php and login.php
+//instantiate user object in every script
+$ilias->account =& new User();
+
+//but in login.php and index.php don't check for authentication 
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
 if ($script != "login.php" && $script != "index.php")
 {
 	//if not authenticated display login screen
-	if (!$ilias->auth->getAuth())
-	{
-		header("location: sessionexpired.php?from=".urlencode($_SERVER['REQUEST_URI']));
-		exit;
-	}
+	//if (!$ilias->auth->getAuth())
+	//{
+	//	header("location: sessionexpired.php?from=".urlencode($_SERVER['REQUEST_URI']));
+	//	exit;
+	//}
 
 	//get user id
 	if (empty($AccountId))
@@ -98,7 +101,8 @@ if ($script != "login.php" && $script != "index.php")
 	// to do this. All rbac-classes need to be cleaned up
 		
 	// init user
-	$ilias->account =& new User($AccountId);
+	$ilias->account->setId($AccountId);
+	$ilias->account->getUserdata();
 	
 	//init language
 	$lng = new Language($ilias->account->prefs["language"]);

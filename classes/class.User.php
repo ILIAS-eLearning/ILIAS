@@ -57,6 +57,23 @@ class User
 		    $this->Id = $a_user_id;
 		    $this->getUserdata();
 		}
+		else
+		{
+			//load default data
+			$this->prefs = array();
+			//language
+			$this->prefs["language"] = $this->ilias->ini->readVariable("language","default");
+			//skin and pda support
+			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
+				$this->skin = "pda";
+			else
+			 	$this->skin = $this->ilias->ini->readVariable("layout","defaultskin");
+			$this->prefs["skin"] = $this->skin;
+			//style
+			$style = "style_".$this->skin;			
+		 	$this->prefs[$style] = $this->ilias->getFirstStyle($this->skin);
+			
+		}
 	}
 
 	/**
@@ -92,15 +109,15 @@ class User
 			//set language to default if not set
 			if ($this->prefs["language"] == "")
 			{
-				$this->prefs["language"] = $this->ilias->ini->readVariable("language","default");
+				$this->prefs["language"] = $this->oldPrefs["language"];
 			}
 			
 			//check skin-setting
-			if ($this->prefs["skin"] != "" && 
+			if (($this->prefs["skin"] != "" && 
 			    file_exists($this->ilias->tplPath."/".$this->prefs["skin"]) == false)
+				|| $this->prefs["skin"] == "")
 			{
-				$this->prefs["skin"] == "";
-				$this->writePref("skin", "");
+				$this->prefs["skin"] == $this->oldPrefs["skin"];
 			}
 
 			//pda support
@@ -113,7 +130,7 @@ class User
 				//set template to default if not set
 				if ($this->prefs["skin"] == "")
 				{
-				 	$this->skin = $this->ilias->ini->readVariable("layout","defaultskin");
+				 	$this->skin = $this->oldPrefs["skin"];
 				}
 				else
 				{
@@ -123,17 +140,17 @@ class User
 			
 			$style = "style_".$this->prefs["skin"];			
 			//check style-setting (skins could have more than one stylesheet
-			if ($this->prefs[$style] != "" && 
+			if (($this->prefs[$style] != "" && 
 			    file_exists($this->ilias->tplPath."/".$this->prefs["skin"]."/".$this->prefs[$style].".css") == false)
+				|| $this->prefs[$style] == "")
 			{
-				$this->prefs[$style] == "";
-				$this->writePref($style, "");
+				$this->prefs[$style] == $this->oldPrefs[$style];
 			}
 
 			//set template to default if not set
 			if ($this->prefs[$style] == "")
 			{
-			 	$this->prefs[$style] = $this->ilias->getFirstStyle($this->prefs["skin"]);
+			 	$this->prefs[$style] = $this->oldPrefs[$style];
 			}
 			
 		}
@@ -141,6 +158,15 @@ class User
 		{
 			 $this->ilias->raiseError("<b>Error: There is no dataset with id ".$this->Id."!</b><br>class: ".get_class($this)."<br>Script: ".__FILE__."<br>Line: ".__LINE__, $this->ilias->FATAL);
 		}
+	}
+	
+	/**
+	* set user id
+	* @param integer
+	*/
+	function setId($id)
+	{
+		$this->Id = $id;
 	}
 	
 	/**
@@ -323,6 +349,11 @@ class User
 	*/
 	function readPrefs()
 	{
+		if (is_array($this->prefs))
+		{
+			$this->oldPrefs = $this->prefs;
+		}
+		
 		$this->prefs = array();
 		
 		$query = "SELECT * FROM user_pref WHERE usr_id='".$this->Id."'";	
