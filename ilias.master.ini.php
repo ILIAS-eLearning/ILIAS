@@ -37,4 +37,5 @@ defaultskin = default
 [system]
 ROOT_FOLDER_ID = 1
 SYSTEM_FOLDER_ID = 9
+DEBUG = 1
 */ ?>
