@@ -146,6 +146,7 @@ class ilObjLearningModule extends ilObject
 	*
 	* @access	public
 	*/
+	/*
 	function upload($a_parse_mode, $a_file, $a_name)
 	{
 		require_once "classes/class.ilXML2SQL.php";
@@ -269,6 +270,60 @@ echo "Build Tree<br>";
 
 		// for output
 		return $data;
+	}*/
+
+	/**
+	* creates data directory for import files
+	* (data_dir/lm_data/lm_<id>/import, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createImportDirectory()
+	{
+		$lm_data_dir = $this->ilias->ini->readVariable("server","data_dir")."/lm_data";
+		if(!is_writable($lm_data_dir))
+		{
+			$this->ilias->raiseError("LM Data Directory (".$lm_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+		// create learning module directory (data_dir/lm_data/lm_<id>)
+		$lm_dir = $lm_data_dir."/lm_".$this->getId();
+		if(!@is_dir($lm_dir))
+		{
+			@mkdir($lm_dir);
+			@chmod($lm_dir,0755);
+		}
+		if(!@is_dir($lm_dir))
+		{
+			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+		// create import subdirectory (data_dir/lm_data/lm_<id>/import)
+		$import_dir = $lm_dir."/import";
+		if(!@is_dir($import_dir))
+		{
+			@mkdir($import_dir);
+			@chmod($import_dir,0755);
+		}
+		if(!@is_dir($import_dir))
+		{
+			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get import directory of lm
+	*/
+	function getImportDirectory()
+	{
+		$import_dir = $this->ilias->ini->readVariable("server","data_dir")."/lm_data".
+			"/lm_".$this->getId()."/import";
+		if(@is_dir($import_dir))
+		{
+			return $import_dir;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 

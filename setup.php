@@ -499,8 +499,16 @@ switch ($_GET["step"])
 					{
 						mkdir($mySetup->getDataPath().'/mail');
 					}
+
+					// PREPARE LEARNING MODULE DATA DIRECTORY (outside wb)
+					if(!@is_dir($mySetup->getDataPath().'/lm_data'))
+					{
+						mkdir($mySetup->getDataPath().'/lm_data');
+					}
+
 				}
 				chmod($mySetup->getDataPath().'/mail',0755);
+				chmod($mySetup->getDataPath().'/lm_data',0755);
 			}
 
 			// PREPARE WEBSPACE DIRECTORIES
@@ -508,7 +516,7 @@ switch ($_GET["step"])
 			{
 				if(is_writeable($mySetup->getWebspacePath()))
 				{
-					// PREPARE LEARNING MODULE DATA DIRECTORY
+					// PREPARE LEARNING MODULE DATA DIRECTORY (inside wb)
 					if(!@is_dir($mySetup->getWebspacePath().'/lm_data'))
 					{
 						mkdir($mySetup->getWebspacePath().'/lm_data');
