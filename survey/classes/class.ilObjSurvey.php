@@ -403,10 +403,10 @@ class ilObjSurvey extends ilObject
       $this->ilias->db->quote($this->getSurveyId())
     );
     $result = $this->ilias->db->query($query);
-    $sequence = 1;
+    $sequence = 0;
     if ($result->numRows() == 1) {
       $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-      $sequence = $data->seq + 1;
+      $sequence = $data->seq;
     }
     $query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
       $this->ilias->db->quote($this->getSurveyId()),
@@ -486,24 +486,35 @@ class ilObjSurvey extends ilObject
     }
     if ($result == DB_OK) {
 			// save questions to db
-			// delete existing category relations
-/*      $query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
-        $this->ilias->db->quote($this->id)
-      );
-      $result = $this->ilias->db->query($query);
-      // create new category relations
-      foreach ($this->categories as $key => $value) {
-				$category_id = $this->saveCategoryToDb($value);
-        $query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-					$this->ilias->db->quote($category_id),
-          $this->ilias->db->quote($this->id),
-          $this->ilias->db->quote(($key + 1)),
-          $this->ilias->db->quote($key)
-        );
-        $answer_result = $this->ilias->db->query($query);
-      }*/
+			$this->saveQuestionsToDb();
     }
   }
+
+/**
+* Saves the survey questions to the database
+*
+* Saves the survey questions to the database
+*
+* @access public
+* @see $questions
+*/
+	function saveQuestionsToDb() {
+		// delete existing category relations
+    $query = sprintf("DELETE FROM survey_survey_question WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		// create new category relations
+		foreach ($this->questions as $key => $value) {
+			$query = sprintf("INSERT INTO survey_survey_question (survey_question_id, survey_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getSurveyId()),
+				$this->ilias->db->quote($value),
+				$this->ilias->db->quote($key)
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+
 
 /**
 * Returns the survey database id
@@ -1041,6 +1052,38 @@ class ilObjSurvey extends ilObject
 		}
 		return $qpl_titles;
 	}
-	
+
+/**
+* Move questions to another position
+*
+* Move questions to another position
+*
+* @param array $move_questions An array with the question id's of the questions to move
+* @param integer $target_index The question id of the target position
+* @param integer $insert_mode 0, if insert before the target position, 1 if insert after the target position
+* @access public
+*/
+	function moveQuestions($move_questions, $target_index, $insert_mode)
+	{
+		foreach ($move_questions as $question_id)
+		{
+			unset($this->questions[array_search($question_id, $this->questions)]);
+		}
+		$this->questions = array_values($this->questions);
+		$array_pos = array_search($target_index, $this->questions);
+		if ($insert_mode == 0)
+		{
+			$part1 = array_slice($this->questions, 0, $array_pos);
+			$part2 = array_slice($this->questions, $array_pos);
+		}
+		else if ($insert_mode == 1)
+		{
+			$part1 = array_slice($this->questions, 0, $array_pos + 1);
+			$part2 = array_slice($this->questions, $array_pos + 1);
+		}
+		$this->questions = array_values(array_merge($part1, $move_questions, $part2));
+		$this->saveQuestionsToDb();
+	}
+		
 } // END class.ilObjSurvey
 ?>
