@@ -497,7 +497,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 					$output = str_replace("initial_value_" . $solution_value->value2, $solution_value->value1, $output);
 					if (($solution_value->value2 > 1) && ($solution_value->value1 > 1))
 					{
-						$solution_script .= "dd.elements.definition_" . $solution_value->value2 . ".moveTo(dd.elements.term_" . $solution_value->value1 . ".x + 250, dd.elements.term_" . $solution_value->value1 . ".y);\n";
+						$solution_script .= "dd.elements.definition_" . $solution_value->value2 . ".moveTo(dd.elements.term_" . $solution_value->value1 . ".defx + 250, dd.elements.term_" . $solution_value->value1 . ".defy);\n";
 						if ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
 						{
 							foreach ($this->object->matchingpairs as $pdx => $pair)
@@ -514,7 +514,9 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		}
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 		{
-			$output = str_replace("// solution_script", $solution_script, $output);
+			$output = str_replace("// solution_script", "", $output);
+			$this->tpl->setVariable("JS_INITIALIZE", "<script type=\"text/javascript\">\nfunction show_solution() {\n$solution_script\n}\n</script>\n");
+			$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"show_solution();\"");
 		}
 		
 		if ($this->object->getOutputType() == OUTPUT_HTML)
@@ -557,10 +559,9 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		}
 		if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 		{
-			$this->tpl->setCurrentBlock("styleheight");
-			$this->tpl->setVariable("STYLE_HEIGHT", "80");
-			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
+			$output = str_replace("textbox", "textboximage", $output);
+			$solutionoutput = str_replace("textbox", "textboximage", $solutionoutput);
 		}
 		$this->tpl->setVariable("MATCHING_QUESTION", $output.$solutionoutput.$received_points);
 	}

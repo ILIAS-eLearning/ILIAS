@@ -196,20 +196,34 @@ dd.getImgH = function(d_o)
 
 dd.getDivW = function(d_o)
 {
-	return dd.Int(
-		dd.n4? (d_o.div? d_o.div.clip.width : 0)
-		: d_o.div? (d_o.div.offsetWidth || d_o.css.pixelWidth || d_o.css.width || 0)
-		: 0
-	);
+	if (dd.ie)
+	{
+		return 200;
+	}
+	else
+	{
+		return dd.Int(
+			dd.n4? (d_o.div? d_o.div.clip.width : 0)
+			: d_o.div? (d_o.div.offsetWidth || d_o.css.pixelWidth || d_o.css.width || 0)
+			: 0
+		);
+	}
 };
 
 dd.getDivH = function(d_o)
 {
-	return dd.Int(
-		dd.n4? (d_o.div? d_o.div.clip.height : 0)
-		: d_o.div? (d_o.div.offsetHeight || d_o.css.pixelHeight || d_o.css.height || 0)
-		: 0
-	);
+	if (dd.ie)
+	{
+		return 100;
+	}
+	else
+	{
+		return dd.Int(
+			dd.n4? (d_o.div? d_o.div.clip.height : 0)
+			: d_o.div? (d_o.div.offsetHeight || d_o.css.pixelHeight || d_o.css.height || 0)
+			: 0
+		);
+	}
 };
 
 dd.getWH = function(d_o)
@@ -1038,7 +1052,7 @@ dd.inWndH = function(d_x, d_y)
 };
 
 // These two funcs limit the size of element when mouseresized.
-// Implemented 22.5.2003 by Gregor Lütolf <gregor@milou.ch>, modified by Walter Zorn
+// Implemented 22.5.2003 by Gregor Lï¿½tolf <gregor@milou.ch>, modified by Walter Zorn
 dd.limW = function(d_w)
 {
 	return (
