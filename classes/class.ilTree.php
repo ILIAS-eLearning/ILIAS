@@ -376,6 +376,11 @@ class ilTree
 				"node_id: ".$a_node_id." parent_id: ".$a_parent_id,$this->ilias->error_obj->WARNING);
 		}
 
+		if ($this->isInTree($a_node_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::insertNode(): Node ".$a_node_id." already in tree ".$this->table_tree."!",$this->ilias->error_obj->WARNING);
+		}
+
 		//
 		// i changed the processing here.
 		// mail any errors to alex.killing@gmx.de (22.5.2003)
