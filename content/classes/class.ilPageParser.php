@@ -48,6 +48,8 @@ class ilPageParser extends ilSaxParser
 	{
 		global $ilias, $lng;
 
+//echo "Parsing:".htmlentities($a_xml_data).":<br>";
+		$a_xml_data = "<dummy>".$a_xml_data."</dummy>";
 		$this->page_object =& $a_page_object;
 		$this->xml_data = $a_xml_data;
 		$this->ilias = &$ilias;
@@ -129,6 +131,7 @@ class ilPageParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
+//echo "BeginTag:$a_name:<br>";
 		switch($a_name)
 		{
 			case "Paragraph":
@@ -154,6 +157,7 @@ class ilPageParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
+//echo "EndTag:$a_name:<br>";
 		/*
 		switch($a_name)
 		{
@@ -167,6 +171,7 @@ class ilPageParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
+//echo "Data:$a_name:<br>";
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
 		$a_data = preg_replace("/\n/","",$a_data);
 		$a_data = preg_replace("/\t+/","",$a_data);
