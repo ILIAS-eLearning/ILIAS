@@ -262,6 +262,8 @@ class ilGlossaryPresentationGUI
 			//$page_gui->setOutputMode("edit");
 			//$page_gui->setPresentationTitle($this->term->getTerm());
 			$page_gui->setTemplateOutput(false);
+			$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
+					"&amp;ref_id=".$_GET["ref_id"]);
 			$output = $page_gui->preview();
 
 			if (count($defs) > 1)
@@ -376,6 +378,18 @@ class ilGlossaryPresentationGUI
 		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
 
+	}
+
+	/**
+	* download file of file lists
+	*/
+	function downloadFile()
+	{
+		$file = explode("_", $_GET["file_id"]);
+		require_once("classes/class.ilObjFile.php");
+		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$fileObj->sendFile();
+		exit;
 	}
 
 	/**
