@@ -307,37 +307,43 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		// check if manifest file exists
 
 		// convert imsmanifest.xml file in iso to utf8
-		include_once("include/inc.convertcharset.php");
+		// include_once("include/inc.convertcharset.php");
 		$manifest_file = $newObj->getDataDirectory()."/imsmanifest.xml";
 
-		// create backup form original
-		if (!copy($manifest_file, $manifest_file.'.old')) {
-   			print ("failed to copy $file...<br>\n");
-		}
+		// check if manifestfile exists...if not, give out errormessage!
+		if (is_file($manifest_file)) {
+			
+			// create backup from original
+			if (!copy($manifest_file, $manifest_file.".old")) {
+				echo "Failed to copy $manifest_file...<br>\n";
+			}
 		
-		// read backupfile, convert each line to utf8, write line to new file
-		// php < 4.3 style
-		$f_write_handler=fopen($manifest_file.".new", "w");
-		$f_read_handler=fopen($manifest_file.".old", "r");
-          	while (!feof($f_read_handler))
-           	{
-	               	$zeile =fgets($f_read_handler);
-           		fputs($f_write_handler, iso_to_utf8($zeile));
-           	}
-           	fclose($f_read_handler);
-           	fclose($f_write_handler);
+			// read backupfile, convert each line to utf8, write line to new file
+			// php < 4.3 style
+			$f_write_handler=fopen($manifest_file.".new", "w");
+			$f_read_handler=fopen($manifest_file.".old", "r");
+			while (!feof($f_read_handler))
+			{
+				$zeile =fgets($f_read_handler);
+				fputs($f_write_handler, utf8_encode($zeile));
+			}
+			fclose($f_read_handler);
+			fclose($f_write_handler);
 		
-		// copy new utf8-file to imsmanifest.xml
-		if (!copy($manifest_file.".new", $manifest_file)) {
-   			print ("failed to copy $file...<br>\n");
-		}
-		
-		if (!@is_file($manifest_file))
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_no_manifest"),
+			// copy new utf8-file to imsmanifest.xml
+			if (!copy($manifest_file.".new", $manifest_file)) {
+				echo "Failed to copy $manifest_file...<br>\n";
+			}
+			
+			if (!@is_file($manifest_file))
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_no_manifest"),
 				$this->ilias->error_obj->WARNING);
+			}
+		} else { 
+			echo "Manifestfile $manifest_file not found!";
 		}
-
+			
 		//validate the XML-Files in the SCORM-Package
 		if ($_POST["validate"] == "y")
 		{
