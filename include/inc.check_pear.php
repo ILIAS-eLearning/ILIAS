@@ -7,6 +7,9 @@
 *
 * @package ilias-core
 */
+include_once("PEAR.php");
+include_once("Auth/Auth.php");
+
 $include_paths = ini_get("include_path");
 
 // unix & windows use different characters to separate paths
@@ -20,6 +23,10 @@ if (!strstr(php_uname(), "Windows"))
 $include_paths = explode($separator,$include_paths);
 
 // WE HAVE TO MAKE ANOTHER CHECK SINCE file_exists IS NOT ALLOWED IN SAFE_MODE
+
+$pear = class_exists("PEAR");
+$auth = class_exists("Auth");
+
 /*
 $pear = false
 $auth = false;
@@ -37,8 +44,7 @@ foreach ($include_paths as $path)
 	}
 }
 */
-$pear = true;
-$auth = true;
+
 
 if (!$pear)
 {
