@@ -139,8 +139,11 @@ class ilNestedSetXML
                 $this->endElement($this->xml_parser,"TAGVALUE");
             
                 $this->db->query("INSERT INTO XmlValue (tag_fk,tag_value) VALUES ('".$tag_pk."','".addslashes($data)."') ");
-                $value_pk = mysql_insert_id();
-                
+                // $value_pk = mysql_insert_id();
+				$r = $this->db->query("SELECT LAST_INSERT_ID()");
+				$row = $r->fetchRow();
+				$value_pk = $row[0];
+
                 $this->lastTag = "TAGVALUE";
             }
             
@@ -437,7 +440,7 @@ class ilNestedSetXML
 			
 		}
 	}
-	
+/*	
 	function countSubTags($filter="") 
 	{
 		// {{{
@@ -698,7 +701,7 @@ class ilNestedSetXML
         return($ret);
         // }}}
     }
-	
+*/	
 	function getXpathNodes(&$dom, $expr) 
 	{
 		$xpth = $dom->xpath_new_context();
