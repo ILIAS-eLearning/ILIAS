@@ -17,12 +17,15 @@ class NoteObject extends Object
 	/**
 	* Constructor
 	* @access	public
+	* @param	integer	reference_id or object_id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
 	function NoteObject($a_id = 0,$a_call_by_reference = false)
 	{
 		global $ilias;
 		$this->ilias =& $ilias;
 		
+		$this->type = "note";
 		$this->Object($a_id,$a_call_by_reference);
 	}
 

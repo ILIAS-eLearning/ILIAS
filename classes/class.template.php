@@ -102,11 +102,15 @@ class Template extends IntegratedTemplateExtension
 		   $this->parseCurrentBlock();
 		}
 
-        if ($part == "DEFAULT") {
+        if ($part == "DEFAULT")
+		{
             parent::show();
-        } else {
+        }
+		else
+		{
             parent::show($part);
         }
+
 		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
 			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")))
 		{
@@ -309,12 +313,12 @@ class Template extends IntegratedTemplateExtension
 	{
 		if (DEBUG)
 		{
-			echo "Template '".$this->tplPath."/".$tplname."'<br>";
+			echo "<br/>Template '".$this->tplPath."/".$tplname."'";
 		}
 		
 		if (file_exists($this->tplPath."/".$tplname) == false)
 		{
-		    echo "Template '".$this->tplPath."/".$tplname."' doesn't exist! aborting...<br>";
+		    echo "<br/>Template '".$this->tplPath."/".$tplname."' doesn't exist! aborting...";
 			return false;
 		}
 		return parent::addBlockFile($var, $block, $tplname);

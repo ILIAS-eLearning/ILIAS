@@ -13,11 +13,13 @@ class LearningModuleObject extends Object
 {
 	/**
 	* Constructor
-	* 
-	* @access public
+	* @access	public
+	* @param	integer	reference_id or object_id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function LearningModuleObject($a_id,$a_call_by_reference = "")
+	function LearningModuleObject($a_id,$a_call_by_reference = true)
 	{
+		$this->type = "le";
 		$this->Object($a_id,$a_call_by_reference);
 	}
 

@@ -8,6 +8,9 @@
 * @extends Object
 * @package ilias-core
 */
+
+// TODO: note class need complete redesign since to user trees are saved to main tree table.
+// is a tree actually useful to administrate user settings?
 class NoteFolderObject extends Object
 {
 	var $m_usr_id;
@@ -18,11 +21,13 @@ class NoteFolderObject extends Object
 	
 	/**
 	* Constructor
-	* @param	integer 	user_id 
 	* @access	public
+	* @param	integer	reference_id or object_id of user
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
 	function NoteFolderObject($user_id = 0,$a_call_by_reference = true)
 	{
+		$this->type = "notf";
 		$this->Object($user_id,$a_call_by_reference);
 		
 		$this->m_usr_id = $user_id;
@@ -37,10 +42,10 @@ class NoteFolderObject extends Object
 	{
 		parent::create();
 
-		$this->m_tree = new tree(0,0,$this->m_usr_id);
+		//$this->m_tree = new tree(0,0,$this->m_usr_id);
 		
 		// TODO: method needs revision
-		$this->m_notefId = $this->m_tree->getNodeDataByType("notf");
+		//$this->m_notefId = $this->m_tree->getNodeDataByType("notf");
 	}
 
 	/**

@@ -78,11 +78,17 @@ class Object
 	/**
 	* Constructor
 	* @access	public
-	* @param	integer	reference_id NOT object_id!!!!
+	* @param	integer	reference_id or object_id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function Object($a_id = 0, $reference = true)
+	function Object($a_id = 0, $a_reference = true)
 	{
 		global $ilias, $lng;
+
+		if (DEBUG)
+		{
+			echo "<br/><font color=\"red\">type(".$this->type.") id(".$a_id.") referenced(".$a_reference.")</font>";
+		}
 
 		$this->ilias =& $ilias;
 		$this->lng =& $lng;
@@ -91,9 +97,12 @@ class Object
 		$this->max_desc = MAXLENGTH_OBJ_DESC;
 		$this->add_dots = true;
 
-		$this->referenced = $reference;
-		if ($a_id == 0) $this->referenced = false;		// newly created objects are never referenced
-														// they will get referenced if createReference() is called
+		$this->referenced = $a_reference;
+
+		if ($a_id == 0)
+		{
+			$this->referenced = false;		// newly created objects are never referenced
+		}									// they will get referenced if createReference() is called
 
 		if ($this->referenced)
 		{

@@ -58,10 +58,12 @@ class LanguageFolderObject extends Object
 	/**
 	* Constructor
 	* @access	public
-	* @param	integer	object id
+	* @param	integer	reference_id or object_id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
 	function LanguageFolderObject($a_id,$a_call_by_reference = true)
 	{
+		$this->type = "lngf";
 		$this->Object($a_id,$a_call_by_reference);
 
 		// init language support

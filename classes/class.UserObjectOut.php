@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.12 2003/03/18 08:51:23 akill Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.13 2003/03/19 09:42:53 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -27,7 +27,7 @@ class UserObjectOut extends ObjectOut
 	{
 		$this->type = "usr";
 		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
-
+		
 		// for gender selection. don't change this
 		$this->gender = array(
 							  'm'    => "salutation_m",
@@ -253,6 +253,7 @@ class UserObjectOut extends ObjectOut
 			//$userTree = new tree(0,0,$user->getId());
 			require_once ("classes/class.NoteFolderObject.php");
 			$notfObj = new NoteFolderObject();
+			$notfObj->setType("notf");
 			$notfObj->setTitle($user->getFullname());
 			$notfObj->setDescription("Note Folder Object");
 			$notfObj->create();

@@ -72,10 +72,12 @@ foreach ($languages as $lang_key)
 	$tpl->setCurrentBlock("sel_lang");
 	$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
 	$tpl->setVariable("LANGSHORT", $lang_key);
+
 	if ($ilias->account->prefs["language"] == $lang_key)
 	{
 		$tpl->setVariable("SELECTED_LANG", "selected");
 	}
+
 	$tpl->parseCurrentBlock();
 }
 
@@ -85,10 +87,12 @@ $ilias->getSkins();
 foreach ($ilias->skins as $row)
 {
 	$tpl->setCurrentBlock("selectskin");
+
 	if ($ilias->account->skin == $row["name"])
 	{
 		$tpl->setVariable("SKINSELECTED", "selected");
 	}
+
 	$tpl->setVariable("SKINVALUE", $row["name"]);
 	$tpl->setVariable("SKINOPTION", $row["name"]);
 	$tpl->parseCurrentBlock();
@@ -100,10 +104,12 @@ $ilias->getStyles($ilias->account->skin);
 foreach ($ilias->styles as $row)
 {
 	$tpl->setCurrentBlock("selectstyle");
+
 	if ($ilias->account->prefs["style"] == $row["name"])
 	{
 		$tpl->setVariable("STYLESELECTED", "selected");
 	}
+
 	$tpl->setVariable("STYLEVALUE", $row["name"]);
 	$tpl->setVariable("STYLEOPTION", $row["name"]);
 	$tpl->parseCurrentBlock();
@@ -153,12 +159,9 @@ $tpl->setVariable("PHONE", $ilias->account->getPhone());
 $tpl->setVariable("EMAIL", $ilias->account->getEmail());
 
 
-
-
-
-
 $obj = getObject($rbacadmin->getDefaultRole($_SESSION["AccountId"]));
 $tpl->setVariable("SYS_GRP",$obj["title"]);
+
 //button
 $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 

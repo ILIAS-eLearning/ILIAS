@@ -13,13 +13,14 @@ class RoleObject extends Object
 	/**
 	* Constructor
 	* @access	public
+	* @param	integer	reference_id or object_id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
 	function RoleObject($a_id = 0,$a_call_by_reference = false)
 	{
-		$this->Object($a_id,$a_call_by_reference);
 		$this->type = "role";
+		$this->Object($a_id,$a_call_by_reference);
 	}
-
 
 	/**
 	* delete a role object
@@ -50,7 +51,6 @@ class RoleObject extends Object
 		return true;
 	}
 
-
 	/**
 	* update a role object
 	* @access	public
@@ -70,7 +70,6 @@ class RoleObject extends Object
 
 		parent::update();
 	}
-
 
 	/**
 	* copy permissions from role

@@ -28,14 +28,15 @@ class LanguageObject extends Object
 
 	/**
 	* Constructor
-	*
-	* @param	int		$a_id		object id
-	* @access public
+	* @access	public
+	* @param	integer	reference_id or object_id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
 	function LanguageObject($a_id = 0, $a_call_by_reference = false)
 	{
 		global $lng;
 
+		$this->type = "lng";
 		$this->Object($a_id,$a_call_by_reference);
 
 		$this->type = "lng";
