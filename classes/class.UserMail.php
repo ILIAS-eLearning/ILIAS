@@ -142,19 +142,19 @@ class UserMail extends PEAR
 	 {
 		 global $lng;
 
-		 //initialize array
-		 $mails = array();
-		 $mails["count"] = 0;
-		 $mails["unread"] = 0;
-		 $mails["read"] = 0;
-		 //initialize msg-array
-		 $mails["msg"] = array();
-		 //query
-		 $sql = "SELECT * FROM mail
-                 WHERE rcp='".$this->id."'
+			//initialize array
+			$mails = array();
+			$mails["count"] = 0;
+			$mails["unread"] = 0;
+			$mails["read"] = 0;
+			//initialize msg-array
+			$mails["msg"] = array();
+			//query
+			$sql = "SELECT * FROM mail
+			              WHERE rcp='".$this->id."'
 				 AND rcp_folder='".$folder."'
 				 AND (rcp_flag=1 OR rcp_flag=2)";
-		 $r = $this->db->query($sql);
+			$r = $this->db->query($sql);
 
 		 
 		 while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
