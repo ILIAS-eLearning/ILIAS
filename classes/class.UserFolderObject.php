@@ -18,57 +18,8 @@ class UserFolderObject extends Object
 	{
 		$this->Object($a_id);
 	}
-	
-	function viewObject($a_order, $a_direction)
-	{
-		global $rbacsystem, $tpl;
 
-		//prepare objectlist
-		$this->objectList = array();
-		$this->objectList["data"] = array();
-		$this->objectList["ctrl"] = array();
-
-		$this->objectList["cols"] = array("", "type", "name", "description", "last_change");
-		
-		if ($rbacsystem->checkAccess("read", $this->id, $this->parent))
-		{
-			if ($usr_data = getObjectList("usr",$a_order, $a_direction))
-			{
-			
-				foreach ($usr_data as $key => $val)
-				{
-					//visible data part
-					$this->objectList["data"][] = array(
-						"type" => "<img src=\"".$tpl->tplPath."/images/"."icon_user_b.gif\" border=\"0\">",
-						"name" => $val["title"],
-						"description" => $val["desc"],
-						"last_change" => $val["last_update"]
-					);
-	
-					//control information
-					$this->objectList["ctrl"][] = array(
-						"type" => "usr",
-						"obj_id" => $val["obj_id"],
-						"parent" => $this->id,
-						"parent_parent" => $this->parent,
-					);
-					
-				}
-				
-
-			} //if userdata
-
-			return $this->objectList;
-
-		} //if rbac
-		else
-		{
-			$ilias->raiseError("No permission to read user folder",$ilias->error_obj->MESSAGE);
-		}
-	} //function
-
-
-	function getSubObjects()	
+	function getSubObjects()
 	{
 		return false;
 	}

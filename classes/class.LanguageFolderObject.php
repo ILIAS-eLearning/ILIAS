@@ -46,15 +46,15 @@ class LanguageFolderObject extends Object
 	* @access	private
 	*/
 	var $separator;
-	
+
 	/**
 	* contians all informations about languages
-	* 
+	*
 	* @var		array
 	* @access	public
 	*/
 	var $languages;
-	
+
 	/**
 	* Constructor
 	* @access	public
@@ -71,16 +71,16 @@ class LanguageFolderObject extends Object
 		$this->lang_default = $lng->lang_default;
 		$this->lang_user = $lng->lang_user;
 		$this->separator = $lng->separator;
-		
+
 		$this->getLanguages();
 	}
-	
+
 	/**
 	* gather all information about available languages
-	* 
+	*
 	* This function builds an array with the following structure:
 	* $languages[lang_key][long][installed][update][info]
-	* 
+	*
 	* lang_key:		string		international language key (2 digits, i.e. de,en,dk...)
 	* long:			string		full language name in the chosen user language
 	* installed:	boolean		is the language installed (true) or not (false)?
@@ -93,7 +93,7 @@ class LanguageFolderObject extends Object
 	/**
 	* Overwritten method from class.Object.php
 	* It handles all button commands from Language Folder Object
-	* 
+	*
 	* @access public
 	*/
 	function gatewayObject()
@@ -133,18 +133,18 @@ class LanguageFolderObject extends Object
 
 	/*
 	* DESC MISSING
-	* 
-	* 
+	*
+	*
 	*/
 	function getLanguages ()
 	{
 		global $lng;
-		
+
 		// set path to directory where lang-files reside
 		$d = dir($this->lang_path);
 		$tmpPath = getcwd();
 		chdir ($this->lang_path);
-	
+
 		// get available lang-files
 		while ($entry = $d->read())
 		{
@@ -154,17 +154,17 @@ class LanguageFolderObject extends Object
 				$languages[$lang_key] = ""; // long names will be set in class Out
 			}
 		}
-		
+
 		// ensure that arrays are initiated when no lang file was found
 		if (!array($languages))
 		{
 			$language = array();
 			$tmp_array = array();
 		}
-		
+
 		$tmp_array = array_keys($languages);
 		$lang_keys[] = array();
-		
+
 		// now get languages from database
 		if ($lang_db = getObjectList("lng"))
 		{
@@ -174,25 +174,25 @@ class LanguageFolderObject extends Object
 				$lang_key = $lang["title"];
 				$languages[$lang_key] = $lang;
 				$lang_keys[] = $lang_key;
-				
+
 				// determine default language and language of current user
 				if ($lang_key == $this->lang_user)
 				{
 					$languages[$lang_key]["status"] = "in_use";
 				}
-				
+
 				if ($lang_key == $this->lang_default)
 				{
 					$languages[$lang_key]["status"] = "system_language";
 				}
-	
+
 				// check if files are missing
 				if ((count($tmp_array) > 0) && (!in_array($lang_key,$tmp_array)))
 				{
 					$languages[$lang_key]["info"] = "file_not_found";
 				}
 			}
-		}		
+		}
 
 		//compute new languages
 		foreach ($languages as $lang_key => $lang_data)
@@ -202,19 +202,19 @@ class LanguageFolderObject extends Object
 				$languages[$lang_key]["info"] = "new_language";
 			}
 		}
-		
+
 		// Insert languages with files new found into table language
 		$languages = $this->addNewLanguages($languages);
 
 		// Remove from array & db languages which are not installed and no lang-files
 		$languages = $this->removeLanguages($languages);
-		
+
 		// setting language's full names
 		foreach ($languages as $lang_key => $lang_data)
 		{
 			$languages[$lang_key]["name"] = $lng->txt("lang_".$lang_key);
 		}
-		
+
 		// sort array
 		require_once("../include/inc.sort.php");
 		uasort($languages,"sortLanguagesbyName");
@@ -230,9 +230,9 @@ class LanguageFolderObject extends Object
 	*
 	* This functions checks in $languages for languages with the attribute 'new'
 	* and insert these languages in db-table 'languages'
-	* 
+	*
 	* @param	array	$languages		expect $languages
-	* 
+	*
 	* @return	boolean					true: language array is not empty, otherwise false
 	*/
 	function addNewLanguages($a_languages)
@@ -272,7 +272,7 @@ class LanguageFolderObject extends Object
 			{
 				// update languages array
 				unset($a_languages[$lang_key]);
-	
+
 				// update object_data table
 				$query = "DELETE FROM object_data ".
 						 "WHERE type = 'lng' ".
@@ -280,83 +280,17 @@ class LanguageFolderObject extends Object
 				$this->ilias->db->query($query);
 			}
 		}
-		
+
 		return $a_languages;
 	}
 
-	/**
-	* output menu with list of available and installed languages
-	*
-	* @access	public
-	* @param	string	order column
-	* @param	string	order direction (possible values: ASC or DESC)
-	* @return	array	data to view passed to Out class
-	*/		
-	function viewObject($a_order, $a_direction)
-	{
-		global $lng, $tpl;
-
-		//prepare objectlist
-		$this->objectList = array();
-		$this->objectList["data"] = array();
-		$this->objectList["ctrl"] = array();
-
-		$this->objectList["cols"] = array("", "type", "language", "status", "", "last_change");
-		
-		$languages = $this->languages;
-		
-		foreach ($languages as $lang_key => $lang_data)
-		{
-			$status = "";
-
-			// set status info (in use oder systemlanguage)
-			if ($lang_data["status"])
-			{
-				$status = "<span class=\"small\"> (".$lng->txt($lang_data["status"]).")</span>";
-			}
-
-			// set remark color
-			switch ($lang_data["info"])
-			{
-				case "file_not_found":
-					$remark = "<span class=\"smallred\"> ".$lng->txt($lang_data["info"])."</span>";
-					break;
-				case "new_language":
-					$remark = "<span class=\"smallgreen\"> ".$lng->txt($lang_data["info"])."</span>";
-					break;
-				default:
-					$remark = "";
-					break;
-			}
-			
-			//visible data part
-			$this->objectList["data"][] = array(
-					"type" => "<img src=\"".$tpl->tplPath."/images/icon_lng_b.gif\" border=\"0\">",
-					"name" => $lang_data["name"].$status,
-					"status" => $lng->txt($lang_data["desc"]),
-					"remark" => $remark,
-					"last_change" => $lang_data["last_update"]
-					);
-
-			//control information
-			$this->objectList["ctrl"][] = array(
-				"type" => "lng",
-				"obj_id" => $lang_data["obj_id"],
-				"parent" => $this->id,
-				"parent_parent" => $this->parent,
-			);
-
-		} //for
-		return $this->objectList;
-		
-	}
 
 	/*
-	* DESC MISSING 
-	* 
-	* 
+	* DESC MISSING
+	*
+	*
 	*/
-	function getSubObjects()	
+	function getSubObjects()
 	{
 		return false;
 	}
