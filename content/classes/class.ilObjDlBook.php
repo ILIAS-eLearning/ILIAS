@@ -143,7 +143,7 @@ class ilObjDlBook extends ilObjContentObject
 	/**
 	*	exports the digi-lib-object into a xml structure
 	*/
-	function export()
+	function export($a_deliver = true)
 	{
 
 		include_once("./classes/class.ilNestedSetXML.php");
@@ -309,7 +309,15 @@ class ilObjDlBook extends ilObjContentObject
 		// ------------------------------------------------------
         // deliver files
 		// ------------------------------------------------------
-		ilUtil::deliverFile($export_dir."/".$fileName.".zip",$fileName);
+
+		if($a_deliver)
+		{
+			ilUtil::deliverFile($export_dir."/".$fileName.".zip",$fileName);
+		}
+		else
+		{
+			return $export_dir."/".$fileName.".zip";
+		}
 		/*
 		header("Expires: Mon, 1 Jan 1990 00:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -533,6 +541,11 @@ class ilObjDlBook extends ilObjContentObject
 				break;
 		}
 		return $result ? $result : array();
+	}
+
+	function getXMLZip()
+	{
+		return $this->export(false);
 	}
 
 
