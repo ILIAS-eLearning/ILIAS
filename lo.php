@@ -10,7 +10,7 @@
 */
 require_once "./include/ilias_header.inc";
 
-//look if there is a file tpl.start.html
+//look if there is a file tpl.lo.html
 $startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.lo.html"; 
 
 if (file_exists($startfilename))
