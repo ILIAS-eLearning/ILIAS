@@ -63,9 +63,12 @@ class ilRbacReview
 	*/
 	function roleExists($a_title)
 	{
+		global $log;
+		
 		if (empty($a_title))
 		{
 			$message = get_class($this)."::roleExists(): No title given!";
+			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -94,9 +97,12 @@ class ilRbacReview
 	*/
 	function getParentRoles($a_path,$a_templates = false)
 	{
+		global $log;
+
 		if (!isset($a_path) or !is_array($a_path))
 		{
 			$message = get_class($this)."::getParentRoles(): No path given or wrong datatype!";
+			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -173,11 +179,14 @@ class ilRbacReview
 	*/
 	function getRoleListByObject($a_ref_id,$a_templates,$a_order = "",$a_direction = "ASC")
 	{
+		global $log;
+
 		if (!isset($a_ref_id) or !isset($a_templates))
 		{
 			$message = get_class($this)."::getRoleListByObject(): Missing parameter!".
 					   "ref_id: ".$a_ref_id.
 					   "tpl_flag: ".$a_templates;
+			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
