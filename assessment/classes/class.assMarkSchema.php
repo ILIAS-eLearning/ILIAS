@@ -126,14 +126,14 @@ class ASS_MarkSchema {
 		$db =& $ilias->db->db;
 		
     if (!$test_id) return;
-    // Alte Eintr�ge l�schen
+    // Delete all entries
     $query = sprintf("DELETE FROM tst_mark WHERE test_fi = %s",
       $db->quote($test_id)
     );
     $result = $db->query($query);
     if (count($this->mark_steps) == 0) return;
     
-    // Neue Datens�tze schreiben
+    // Write new datasets
     foreach ($this->mark_steps as $key => $value) {
       $query = sprintf("INSERT INTO tst_mark (mark_id, test_fi, short_name, official_name, minimum_level, passed, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
         $db->quote($test_id),

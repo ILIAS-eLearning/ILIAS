@@ -404,7 +404,18 @@ class ilStatistics
 		if (intval($nprod) == $nprod)
 		{
 			$k = $nprod;
-			return ($this->stat_data[$k-1] + $this->stat_data[$k])/2;
+			if ($k == 0)
+			{
+				return $this->stat_data[$k];
+			}
+			else if ($k == $count)
+			{
+				return $this->stat_data[$k-1];
+			}
+			else
+			{
+				return ($this->stat_data[$k-1] + $this->stat_data[$k])/2;
+			}
 		}
 		else
 		{

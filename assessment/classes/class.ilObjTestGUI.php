@@ -2374,6 +2374,28 @@ class ilObjTestGUI extends ilObjectGUI
 						break;
 				}
 				$char++;
+				
+				if ($this->object->ects_output)
+				{
+					$this->tpl->setCurrentBlock("titlecol");
+					$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("ects_grade") . "\">$char</div>");
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("legendrow");
+					$this->tpl->setVariable("TXT_SYMBOL", $char);
+					$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("ects_grade"));
+					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write(0, $column++, $this->lng->txt("ects_grade"), $format_title);
+							break;
+						case TYPE_SPSS:
+						case TYPE_PRINT:
+							array_push($csvrow, $this->lng->txt("ects_grade"));
+							break;
+					}
+					$char++;
+				}
 			}
 			if ($eval_statistical_settings["distancemedian"]) {
 				$this->tpl->setCurrentBlock("titlecol");
@@ -2495,7 +2517,17 @@ class ilObjTestGUI extends ilObjectGUI
 			$statistics = new ilStatistics();
 			$statistics->setData($median_array);
 			$median = $statistics->median();
-
+			$passed_statistics = new ilStatistics();
+			$passed_array =& $this->object->getTotalPointsPassedArray();
+			$passed_statistics->setData($passed_array);
+			$ects_percentiles = array
+				(
+					"A" => $passed_statistics->quantile($this->object->ects_grades["A"]),
+					"B" => $passed_statistics->quantile($this->object->ects_grades["B"]),
+					"C" => $passed_statistics->quantile($this->object->ects_grades["C"]),
+					"D" => $passed_statistics->quantile($this->object->ects_grades["D"]),
+					"E" => $passed_statistics->quantile($this->object->ects_grades["E"])
+				);
 			foreach ($evaluation_array as $key => $stat_eval)
 			{
 				$csvrow = array();
@@ -2680,6 +2712,66 @@ class ilObjTestGUI extends ilObjectGUI
 						case TYPE_PRINT:
 							array_push($csvrow, $stat_eval["resultsmarks"]);
 							break;
+					}
+
+					if ($this->object->ects_output)
+					{
+						$this->tpl->setCurrentBlock("datacol");
+						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+						if ($stat_eval["resultspoints"] >= $ects_percentiles["A"])
+						{
+							$this->tpl->setVariable("TXT_DATA", "A");
+						}
+						else if ($stat_eval["resultspoints"] >= $ects_percentiles["B"])
+						{
+							$this->tpl->setVariable("TXT_DATA", "B");
+						}
+						else if ($stat_eval["resultspoints"] >= $ects_percentiles["C"])
+						{
+							$this->tpl->setVariable("TXT_DATA", "C");
+						}
+						else if ($stat_eval["resultspoints"] >= $ects_percentiles["D"])
+						{
+							$this->tpl->setVariable("TXT_DATA", "D");
+						}
+						else if ($stat_eval["resultspoints"] >= $ects_percentiles["E"])
+						{
+							$this->tpl->setVariable("TXT_DATA", "E");
+						}
+						else if (strcmp($this->object->ects_fx, "") != 0)
+						{
+							if ($stat_eval["maxpoints"] > 0)
+							{
+								$percentage = ($stat_eval["resultspoints"] / $stat_eval["maxpoints"]) * 100.0;
+							}
+							else
+							{
+								$percentage = 0.0;
+							}
+							if ($percentage >= $this->object->ects_fx)
+							{
+								$this->tpl->setVariable("TXT_DATA", "FX");
+							}
+							else
+							{
+								$this->tpl->setVariable("TXT_DATA", "F");
+							}
+						}
+						else
+						{
+							$this->tpl->setVariable("TXT_DATA", "F");
+						}
+						$this->tpl->parseCurrentBlock();
+						switch ($_POST["export_type"])
+						{
+							case TYPE_XLS:
+								$worksheet->write($row, $column++, "");
+								break;
+							case TYPE_SPSS:
+							case TYPE_PRINT:
+								array_push($csvrow, "");
+								break;
+						}
 					}
 				}
 				
