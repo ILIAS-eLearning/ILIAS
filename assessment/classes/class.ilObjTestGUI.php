@@ -30,7 +30,6 @@
 *
 * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI
 *
-*
 * @extends ilObjectGUI
 * @package ilias-core
 * @package assessment
@@ -3540,6 +3539,28 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* Creates the output of a users text answer
+	*
+	* Creates the output of a users text answer
+	*
+	* @access	public
+	*/
+	function evaluationDetailObject()
+	{
+		$answertext = $this->object->getTextAnswer($_GET["userdetail"], $_GET["answer"]);
+		$questiontext = $this->object->getQuestiontext($_GET["answer"]);
+		$this->tpl = new ilTemplate("./assessment/templates/default/tpl.il_as_tst_eval_user_answer.html", true, true);
+		$this->tpl->setVariable("TITLE_USER_ANSWER", $this->lng->txt("tst_eval_user_answer"));
+		$this->tpl->setVariable("TEXT_USER", $this->lng->txt("user"));
+		$user = new ilObjUser($_GET["userdetail"]);
+		$this->tpl->setVariable("TEXT_USERNAME", trim($user->getFirstname() . " " . $user->getLastname()));
+		$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
+		$this->tpl->setVariable("TEXT_QUESTIONTEXT", ilUtil::prepareFormOutput($questiontext));
+		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+		$this->tpl->setVariable("TEXT_USER_ANSWER", str_replace("\n", "<br />", ilUtil::prepareFormOutput($answertext)));
+	}
+	
 	function eval_statObject()
 	{
 		$this->ctrl->setCmdClass(get_class($this));
@@ -4056,7 +4077,12 @@ class ilObjTestGUI extends ilObjectGUI
 				if ($stat_eval[$i-1]["type"] == 8)
 				{
 					// Text question
-					$htmloutput = $qshort . "<input type=\"text\" name=\"".$key."_".$stat_eval[$i-1]["qid"]."_".$stat_eval[$i-1]["max"]."\" size=\"3\" value=\"".$stat_eval[$i-1]["reached"]."\" />".strtolower($this->lng->txt("of"))." ". $stat_eval[$i-1]["max"];
+					$name = $key."_".$stat_eval[$i-1]["qid"]."_".$stat_eval[$i-1]["max"];
+					$htmloutput = $qshort . "<input type=\"text\" name=\"".$name."\" size=\"3\" value=\"".$stat_eval[$i-1]["reached"]."\" />".strtolower($this->lng->txt("of"))." ". $stat_eval[$i-1]["max"];
+					// Solution
+					$htmloutput .= " [<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "evaluationDetail") . "&userdetail=$key&answer=".$stat_eval[$i-1]["qid"]."\" target=\"popup\" onclick=\"";
+					$htmloutput .= "window.open('', 'popup', 'width=600, height=200, scrollbars=no, toolbar=no, status=no, resizable=yes, menubar=no, location=no, directories=no')";
+					$htmloutput .= "\">".$this->lng->txt("tst_eval_show_answer")."</a>]";
 					$textanswers++;
 				}
 					else
