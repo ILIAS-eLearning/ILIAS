@@ -2661,3 +2661,13 @@ CREATE TABLE scorm_lm
 
 <#166>
 ALTER TABLE scorm_lm ADD COLUMN  api_func_prefix VARCHAR(20) DEFAULT 'LMS';
+
+<#167>
+DELETE FROM style_parameter WHERE tag='div' AND class='Page' and parameter='border-spacing';
+DELETE FROM style_parameter WHERE tag='div' AND class='Page' and parameter='border-style';
+DELETE FROM style_parameter WHERE tag='div' AND class='Page' and parameter='border-color';
+DELETE FROM style_parameter WHERE tag='div' AND class='Page' and parameter='border-width';
+UPDATE style_parameter SET value='0px' WHERE tag='div' AND class='Page' and parameter='padding';
+DELETE FROM style_parameter WHERE tag='div' AND class='LMNavigation' and parameter='padding';
+DELETE FROM style_parameter WHERE tag='div' AND class='LMNavigation' and parameter='border-spacing';
+

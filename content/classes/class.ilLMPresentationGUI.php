@@ -351,7 +351,6 @@ class ilLMPresentationGUI
 
 		$ilBench->start("ContentPresentation", "layout");
 
-
 		$layout = $this->lm->getLayout();
 
 		//$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
@@ -448,6 +447,7 @@ class ilLMPresentationGUI
 			foreach($childs as $child)
 			{
 				$child_attr = $this->attrib2arr($child->attributes());
+
 				switch ($child->node_name())
 				{
 					case "ilMainMenu":
