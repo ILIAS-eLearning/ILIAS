@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.44 2003/10/26 18:04:29 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.45 2003/10/27 21:57:56 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -61,17 +61,25 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// fill in saved values in case of error
 		$data = array();
-		$data["fields"] = array();
-		$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-		$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
-		$data["group_status"] = $_SESSION["error_post_vars"]["group_status"];
-		$data["password"] =  $_SESSION["error_post_vars"]["password"];
-		$data["expirationdate"] = $_SESSION["error_post_vars"]["expirationdate"];//$this->grp_object->getExpirationDateTime()[0];
-		$data["expirationtime"] = $_SESSION["error_post_vars"]["expirationtime"];//$this->grp_object->getExpirationDateTime()[1];
-//		$data["registration_flag"] = $_SESSION["error_post_vars"]["registration_flag"];
-		
+		if ($_SESSION["error_post_vars"])
+		{
+			// fill in saved values in case of error
+			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+			$data["fields"]["password"] = $_SESSION["error_post_vars"]["password"];
+			$data["fields"]["expirationdate"] = $_SESSION["error_post_vars"]["expirationdate"];
+			$data["fields"]["expirationtime"] = $_SESSION["error_post_vars"]["expirationtime"];
+		}
+		else
+		{
+			$data["fields"]["title"] = "";
+			$data["fields"]["desc"] = "";
+			$data["fields"]["password"] = "";
+			$data["fields"]["expirationdate"] = ilFormat::getDateDE();
+			$data["fields"]["expirationtime"] = "";
+		}
+
 		$this->getTemplateFile("edit",$new_type);
 
 		foreach ($data["fields"] as $key => $val)
@@ -86,10 +94,11 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 
 		$stati 	= array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
-//		//build form
+
 		$grp_status = $_SESSION["error_post_vars"]["group_status"];
-		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
-//		$checked = array(0=>0,1=>0,2=>0);
+
+		$checked = array(0=>0,1=>0,2=>0);
+
 		switch($_SESSION["error_post_vars"]["enable_registration"])
 		{
 			case 0: $checked[0]=1;
@@ -97,50 +106,51 @@ class ilObjGroupGUI extends ilObjectGUI
 			case 1: $checked[1]=1;
 				break;
 			case 2: $checked[2]=1;
-				break;		
+				break;
 //			default:$checked[0]=1;
 		}
+
+		//build form
 		$cb_registration[0] = ilUtil::formRadioButton($checked[0], "enable_registration", 0);
 		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
 		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
-//		
-		//build form
+
 		$opts 	= ilUtil::formSelect(0,"group_status",$stati,false,true);
-		$cb_registration = ilUtil::formCheckbox(0, "enable_registration", 1, false);
-		
+
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
-	
+
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));
+		
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		
-		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("disabled"));				
-		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);				
-		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("enabled"));						
-		$this->tpl->setVariable("RB_REGISTRATION", $cb_registration[1]);				
-		$this->tpl->setVariable("TXT_PASSWORDREGISTRATION", $this->lng->txt("password"));						
-		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);						
 
-		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("expiration_date"));						
-		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));						
-		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));								
-		
-		$this->tpl->setVariable("CB_KEYREGISTRATION", $cb_keyregistration);				
-		$this->tpl->setVariable("TXT_KEYREGISTRATION", $this->lng->txt("group_keyregistration"));		
-		$this->tpl->setVariable("TXT_PASSWORD", $this->lng->txt("password"));				
+		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("disabled"));
+		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);
+		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("enabled"));
+		$this->tpl->setVariable("RB_REGISTRATION", $cb_registration[1]);
+		$this->tpl->setVariable("TXT_PASSWORDREGISTRATION", $this->lng->txt("password"));
+		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);
+
+		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("expiration_date"));
+		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));
+		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));
+
+		$this->tpl->setVariable("CB_KEYREGISTRATION", $cb_keyregistration);
+		$this->tpl->setVariable("TXT_KEYREGISTRATION", $this->lng->txt("group_keyregistration"));
+		$this->tpl->setVariable("TXT_PASSWORD", $this->lng->txt("password"));
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
-
-		
-/*		
-		$this->tpl->setVariable("CB_REGISTRATION", $cb_registration);				
-		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));		
+/*
+		$this->tpl->setVariable("CB_REGISTRATION", $cb_registration);
+		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
-*/		
+*/
 	}
 
 
@@ -151,7 +161,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	function saveObject()
 	{
 		global $rbacadmin;
-		
+
 		include_once "./classes/class.ilGroup.php";
 		$grp = new ilGroup();
 
@@ -160,7 +170,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("grp_name_exists"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// create and insert forum in objecttree
 		$groupObj = parent::saveObject();
 
@@ -170,26 +180,17 @@ class ilObjGroupGUI extends ilObjectGUI
 		// ...finally assign groupadmin role to creator of group object
 //		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
 		$groupObj->join($this->ilias->account->getId(),1); //join as admin=1
-		
+
 		ilObjUser::updateActiveRoles($groupObj->getOwner());
-	
-/************ old
-		$groupObj = parent::saveObject();
 
-		$rfoldObj = $groupObj->initRoleFolder();
-		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
+		$groupObj->setRegistrationFlag($_POST["enable_registration"]);//0=no registration, 1=registration enabled 2=passwordregistration
+		$groupObj->setPassword($_POST["password"]);
+		$groupObj->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"]);
+		$groupObj->setGroupStatus($_POST["group_status"]);		//0=public,1=private,2=closed
 
-		$groupObj->createDefaultGroupRoles($rfoldObj->getRefId());
-		$groupObj->join($this->ilias->account->getId(),1); //join as admin=1
-*/
-		//0=no registration, 1=registration enabled
-		$groupObj->setRegistrationFlag($_POST["enable_registration"]);
-		//0=public,1=private,2=closed
-		$groupObj->setGroupStatus($_POST["group_status"]);
-	
 		//save new group in grp_tree table
 		$groupObj->createNewGroupTree($groupObj->getRefId());
-		
+
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
 		header("Location: ".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
