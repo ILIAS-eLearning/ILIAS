@@ -70,19 +70,19 @@ class ilObjGroup extends ilObject
 	* @access	private
 	* @param	integer	member status = obj_id of local_group_role
 	*/
-	function join($a_user_id, $a_grp_role="")
+	function join($a_user_id, $a_mem_role="")
 	{
 		global $rbacadmin;
-		if(is_array($a_grp_role))
+		if(is_array($a_mem_role))
 		{
-			foreach($a_grp_role as $role)
+			foreach($a_mem_role as $role)
 			{
 				$rbacadmin->assignUser($role,$a_user_id, false);
 			}
 		}
 		else
 		{
-			$rbacadmin->assignUser($a_grp_role,$a_user_id, false);
+			$rbacadmin->assignUser($a_mem_role,$a_user_id, false);
 		}
 		ilObjUser::updateActiveRoles($a_user_id);
 		return true;
@@ -112,20 +112,19 @@ class ilObjGroup extends ilObject
 	* add Member to Group
 	* @access	public
 	* @param	integer	user_id
-	* @param	integer	member status [0=member|1=admin]
+	* @param	integer	member role_id of local group_role
 	*/
-	function addMember($a_user_id, $a_mem_status)
+	function addMember($a_user_id, $a_mem_role)
 	{
 		global $rbacadmin;
-		$grp_DefaultRoles = $this->getDefaultGroupRoles();
-		if(isset($a_user_id) && isset($a_mem_status) )
+		if(isset($a_user_id) && isset($a_mem_role) )
 		{
 			if(!$this->isMember($a_user_id))
 			{
 				$member = new ilObjUser($a_user_id);
 				$member->addDesktopItem($this->getRefId(), "grp");
 			}
-			$this->join($a_user_id,$a_mem_status);
+			$this->join($a_user_id,$a_mem_role);
 
 			return true;
 		}
@@ -141,7 +140,7 @@ class ilObjGroup extends ilObject
 	* displays list of applicants
 	* @access	public
 	*/
-	function getApplicationList()
+	function getNewRegistrations()
 	{
 		$appList = array();
 		$q = "SELECT * FROM grp_registration WHERE grp_id=".$this->getId();
@@ -305,18 +304,22 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
-	* get default group roles
+	* get default group roles, returns the defaultlike create roles il_grp_member, il_grp_admin
 	* @access	public
-	* @param 	returns the obj_ids of group specific roles(member,admin)
+	* @param 	returns the obj_ids of group specific roles(il_grp_member,il_grp_admin)
 	*/
 	function getDefaultGroupRoles($a_grp_id="")
 	{
 		global $rbacadmin, $rbacreview;
 
 		if(strlen($a_grp_id) > 0)
+		{
 			$grp_id = $a_grp_id;
+		}
 		else
+		{
 			$grp_id = $this->getRefId();
+		}
 
 		//$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getRefId());
 		$rolf 	   = $rbacreview->getRoleFolderOfObject($grp_id);
@@ -341,7 +344,7 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
-	* get local roles of group
+	* get ALL local roles of group, also those created and defined afterwards
 	* @access	public
 	* @param	return array [title|id] of roles...
 	*/
@@ -671,7 +674,7 @@ class ilObjGroup extends ilObject
 		if(isset($a_user_id) && isset($a_member_role))
 		{
 			$this->removeMember($a_user_id);
-			$this->join($a_user_id,$a_member_role);
+			$this->addMember($a_user_id, $a_member_role);
 		}
 	}
 
@@ -685,17 +688,27 @@ class ilObjGroup extends ilObject
 	{
 		global $rbacadmin, $rbacreview, $ilias;
 
-		if($a_userId=="")
-			$a_userId = $this->ilias->account->getId();
+		if(strlen($a_userId=="") > 0)
+		{
+			$user_id = $a_userId;
+		}
+		else
+		{
+			$user_id = $this->ilias->account->getId();
+		}
 
 		if($this->getType() == "grp")
 		{
 
 			$arr_members = $this->getGroupMemberIds();
-			if(in_array($a_userId, $arr_members))
+			if(in_array($user_id, $arr_members))
+			{
 				return true;
+			}
 			else
+			{
 				return false;
+			}
 		}
 	}
 
