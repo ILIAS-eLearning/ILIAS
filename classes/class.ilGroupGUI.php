@@ -486,12 +486,21 @@ class ilGroupGUI extends ilObjectGUI
 
 			foreach ($cont_arr as $cont_data)
 			{
+				//temporary solution later rolf shoul be viewablle for grp admin
+				if ($cont_data["type"]!="rolf")
+				{
 				$this->tpl->setCurrentBlock("tbl_content");
 				$newuser = new ilObjUser($cont_data["owner"]);
 				// change row color
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
-
+				
+				if($cont_data["type"] == "lm" || $cont_data["type"] == "frm" )
+				{
+					$link_target = "_top";
+				}else{
+					$link_target = "_self";
+				}
 				$obj_link = $this->getURLbyType($cont_data);
 
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
@@ -499,7 +508,7 @@ class ilGroupGUI extends ilObjectGUI
 
 				$this->tpl->setVariable("TITLE", $cont_data["title"]);
 				$this->tpl->setVariable("LO_LINK", $obj_link);
-
+				$this->tpl->setVariable("LINK_TARGET", $link_target);
 				$this->tpl->setVariable("IMG", $obj_icon);
 				$this->tpl->setVariable("ALT_IMG", $lng->txt("obj_".$cont_data["type"]));
 				$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
@@ -509,7 +518,7 @@ class ilGroupGUI extends ilObjectGUI
 				//TODO
 				//$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$this->tpl->parseCurrentBlock();
-
+				}
 			}
 		}
 		else
@@ -567,8 +576,8 @@ class ilGroupGUI extends ilObjectGUI
 			$URL = "lo_list.php?cmd=displayList&ref_id=".$cont_data["ref_id"];
 		break;
 
-		case "le":
-			$URL = "content/lm_presentation.php?lm_id=".$cont_data["ref_id"];
+		case "lm":
+			$URL = "content/lm_presentation.php?ref_id=".$cont_data["ref_id"];
 		break;
 
 		case "fold":
@@ -742,7 +751,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		// process COPY command
 		if ($_SESSION["clipboard"]["cmd"] == "copy")
-		{
+		{		
 			// CALL PRIVATE CLONE METHOD
 			$this->cloneObject($_GET["ref_id"]);
 		}
@@ -936,13 +945,15 @@ class ilGroupGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_error_copy"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		var_dump($_SESSION["clipboard"]["ref_ids"]);
+
 		// NOW CLONE ALL OBJECTS
 		// THEREFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
 		foreach ($_SESSION["clipboard"]["ref_ids"] as $id)
-		{
+		{echo "iddddddddddd".$id;
 			$mapping = $this->cloneNodes($id,$this->ref_id);
 		}
-
+		var_dump($mapping);
 		// inform other objects in hierarchy about cut operation
 		$this->object->notify("copy",$_GET["ref_id"],$mapping);
 
