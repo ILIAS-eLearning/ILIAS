@@ -31,6 +31,10 @@
 *
 * @package ilias-core
 */
+
+// get pear
+include("include/inc.get_pear.php");
+
 //include class.util first to start StopWatch
 require_once "classes/class.ilUtil.php";
 require_once "classes/class.ilBenchmark.php";
