@@ -212,8 +212,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_imagemap");
 			$this->ctrl->setParameter($this, "editmap", "1");
-			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",
-			$this->ctrl->getFormaction($this));
+			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this) . "#bottom");
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -299,7 +298,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 
 			// imagemap block
 			$imgmap = $this->object->get_imagemap_filename();
-			$this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
+			$this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap_file"));
 			$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("add_imagemap"));
 			$this->tpl->setCurrentBlock("questioneditor");
 			$this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", htmlspecialchars($this->object->getTitle()));
@@ -322,8 +321,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_imagemap");
-			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",
-				$this->ctrl->getFormaction($this));
+			$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION",	$this->ctrl->getFormaction($this) . "#bottom");
 			$this->tpl->setVariable("IMAGEMAP_ID", $this->object->getId());
 			$this->tpl->parseCurrentBlock();
 		}

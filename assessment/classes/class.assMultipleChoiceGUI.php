@@ -171,8 +171,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_sr");
-			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST",
-				$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this) . "#bottom");
 
 			$this->tpl->parseCurrentBlock();
 		}
@@ -253,8 +252,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 			$this->ctrl->setParameter($this, "sel_question_types", "qt_multiple_choice_mr");
-			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST",
-				$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("ACTION_MULTIPLE_CHOICE_TEST", $this->ctrl->getFormAction($this) . "#bottom");
 			$this->tpl->parseCurrentBlock();
 		}
 
