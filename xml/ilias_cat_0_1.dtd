@@ -10,7 +10,7 @@
 <!-- Category -->
 <!ELEMENT Category (CategorySpec+, Category*)>
 <!ATTLIST Category
-	Id CDATA #Required
+	Id CDATA #REQUIRED
 	DefaultLanguage (%langcode;) #REQUIRED
 >
 
