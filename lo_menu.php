@@ -32,5 +32,4 @@ $tpl->setVariable("ACTION", "lo_menu.php?expand=".$_GET["expand"]);
 $tpl->parseCurrentBlock();
 
 $tpl->show();
-
 ?>
