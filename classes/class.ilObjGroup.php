@@ -292,7 +292,7 @@ class ilObjGroup extends ilObject
 
 		$usr_arr= array();
 		
-		$q = "SELECT login,firstname,lastname,title,usr_id ".
+		$q = "SELECT login,firstname,lastname,title,usr_id,last_login ".
 			 "FROM usr_data ".
 			 "WHERE usr_id IN (".implode(',',$a_mem_ids).")";
 			 
@@ -306,7 +306,8 @@ class ilObjGroup extends ilObject
 			$mem_arr[] = array("id" => $row->usr_id,
 								"login" => $row->login,
 								"firstname" => $row->firstname,
-								"lastname" => $row->lastname
+								"lastname" => $row->lastname,
+								"last_login" => $row->last_login
 								);
 		}
 
