@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.98 2004/09/15 05:52:54 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.99 2004/10/03 19:13:25 hschottm Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -1976,7 +1976,14 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$column = 0;
 			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
-			$worksheet->writeString($row, $column++, $this->cleanString($member->getEmail()));
+			if ($member->getPref("public_email")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getEmail()));
+			}
+			else
+			{
+				$column++;
+			}
 			$worksheet->writeString($row, $column++, $this->cleanString($this->lng->txt("gender_" . $member->getGender())));
 			$worksheet->writeString($row, $column++, $this->cleanString($member->getFirstname()));
 			$worksheet->writeString($row, $column++, $this->cleanString($member->getLastname()));
