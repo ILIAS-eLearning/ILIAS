@@ -48,6 +48,7 @@ assessment#:#duplicate#:#Duplicate
 assessment#:#export#:#Export
 assessment#:#false#:#False
 assessment#:#filter#:#Filter
+common#:#msg_obj_no_link#:#are not allowed to be linked
 assessment#:#gap_selection#:#Gap selection
 assessment#:#last_update#:#Last update
 assessment#:#matches#:#matches
@@ -726,7 +727,6 @@ common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role 
 common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
-common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
 common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_created#:#Object created.
 common#:#msg_obj_exists#:#This object already exists in this folder
@@ -824,6 +824,29 @@ common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
 common#:#obj_usrf#:#User accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
+common#:#objs_cat#:#Categories
+common#:#objs_crs#:#Courses
+common#:#objs_dbk#:#Digilib Books
+common#:#objs_exc#:#Exersices
+common#:#objs_file#:#Files
+common#:#objs_fold#:#Folders
+common#:#objs_frm#:#Forums
+common#:#objs_glo#:#Glossaries
+common#:#objs_grp#:#Groups
+common#:#objs_lm#:#Learning Modules
+common#:#objs_lng#:#Languages
+common#:#objs_lo#:#Learning Objects
+common#:#objs_mob#:#Multimedia Objects
+common#:#objs_note#:#Notes
+common#:#objs_pg#:#Pages
+common#:#objs_qpl#:#Question Pools
+common#:#objs_role#:#Roles
+common#:#objs_rolt#:#Role Templates
+common#:#objs_slm#:#SCORM Learning Modules
+common#:#objs_st#:#Chapters
+common#:#objs_tst#:#Tests
+common#:#objs_type#:#Objecttypes
+common#:#objs_usr#:#Users
 common#:#objects#:#Objects
 common#:#objf#:#Objectdefinitions
 common#:#objf_edit_permission#:#Change permission settings
