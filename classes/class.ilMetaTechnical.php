@@ -145,6 +145,7 @@ class ilMetaTechnical
 		$tech_set = $this->ilias->db->query($query);
 		while ($tech_rec = $tech_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
+//echo "---tech---";
 			$tech_obj =& new ilMetaTechnical($a_meta_obj);
 			$tech_obj->setFormat($tech_rec["format"]);
 			$tech_obj->setSize($tech_rec["size"]);
@@ -163,6 +164,7 @@ class ilMetaTechnical
 			}
 			$a_meta_obj->addTechnicalSection($tech_obj);
 		}
+//echo "count techs:".count($a_meta_obj->technicals).":<br>";
 	}
 
 	/**

@@ -233,6 +233,7 @@ class ilMetaData
 
 	function readTechnicalSections()
 	{
+//echo "<b>reading tech</b><br>";
 		ilMetaTechnical::readTechnicalSections($this);
 	}
 
@@ -242,7 +243,7 @@ class ilMetaData
 	function &getTechnicalSection($a_nr)
 	{
 //echo "counttech:".count($this->technicals).":<br>";
-		if ($a_nr < count($this->technicals))
+		if ($a_nr > count($this->technicals))
 		{
 			return false;
 		}

@@ -76,6 +76,16 @@ class ilObjMediaObject extends ilObject
 		$this->ilias->raiseError("Operation ilObjMedia::createReference() not allowed.",$this->ilias->error_obj->FATAL);
 	}
 
+	function setTitle($a_title)
+	{
+		$this->meta_data->setTitle($a_title);
+	}
+
+	function getTitle()
+	{
+		return $this->meta_data->getTitle();
+	}
+
 	/**
 	* assign meta data object
 	*/

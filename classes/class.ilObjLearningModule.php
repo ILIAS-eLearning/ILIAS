@@ -51,9 +51,13 @@ class ilObjLearningModule extends ilObject
 	function ilObjLearningModule($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "lm";
-
 		// this also calls read() method! (if $a_id is set)
 		$this->ilObject($a_id,$a_call_by_reference);
+		if ($a_id == 0)
+		{
+			$new_meta =& new ilMetaData();
+			$this->assignMetaData($new_meta);
+		}
 	}
 
 	function create()
@@ -68,7 +72,6 @@ class ilObjLearningModule extends ilObject
 		$this->lm_tree = new ilTree($this->getId());
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 		$this->lm_tree->setTreeTablePK("lm_id");
-
 		$this->meta_data =& new ilMetaData("lm", $this->getId());
 		$this->readProperties();
 		//parent::read();
@@ -77,6 +80,11 @@ class ilObjLearningModule extends ilObject
 	function getTitle()
 	{
 		return $this->meta_data->getTitle();
+	}
+
+	function setTitle($a_title)
+	{
+		$this->meta_data->setTitle($a_title);
 	}
 
 	function assignMetaData(&$a_meta_data)

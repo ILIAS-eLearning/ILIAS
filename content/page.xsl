@@ -109,8 +109,7 @@
 			<option value="moveBefore">move before</option>
 			</select>
 			<input class="ilEditSubmit" type="submit" value="Go">
-				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]
-				</xsl:attribute>
+				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
 			</input>
 		</xsl:if>
 	</p>
@@ -245,8 +244,7 @@
 		<option value="moveBefore">move before</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
-			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]
-			</xsl:attribute>
+			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
 		</input>
 		<br/>
 	</xsl:if>
@@ -372,8 +370,7 @@
 				<option value="rightFloatAlign">align: right float</option>
 				</select>
 				<input class="ilEditSubmit" type="submit" value="Go">
-					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>]
-					</xsl:attribute>
+					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>]</xsl:attribute>
 				</input>
 			</xsl:if>
 		</td></tr>

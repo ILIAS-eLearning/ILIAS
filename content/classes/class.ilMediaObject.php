@@ -331,10 +331,12 @@ class ilMediaObject extends ilObjMediaObject
 				// get first technical section
 				$meta =& $this->getMetaData();
 				$xml = "<MediaObject Id=\"".$this->getId()."\">\n";
+//echo "count techs2:".count($meta->technicals).":<br>";
 				$technical =& $meta->getTechnicalSection(1);
+//echo "<b>wanna technical</b>".$this->getId();
 				if ($technical != false)
 				{
-//echo "<b>wanna technical</b>".$this->getId();
+//echo "<b>got technical</b>".$this->getId();
 					$xml .= $technical->getXML();
 				}
 				$xml .= "<Layout Width=\"".$this->getWidth()."\" Height=\"".$this->getHeight()."\"/>\n";
