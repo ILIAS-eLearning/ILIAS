@@ -58,7 +58,7 @@ function getContextPath($a_endnode_id, $a_startnode_id = 0)
 		{
 			$path .= " > ";
 		}
-		
+
 		$path .= $tmpPath[$i]["title"];
 	}
 
@@ -206,7 +206,7 @@ switch ($_SESSION["viewmode"])
 				if($lr_data["type"] == "le")		// Test
 				{
 					$tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
-					$tpl->setVariable("EDIT", "(".$lng->txt("edit").")");
+					$tpl->setVariable("TXT_EDIT", "(".$lng->txt("edit").")");
 					$tpl->setVariable("VIEW_LINK","content/lm_presentation.php?lm_id=".$lr_data["obj_id"]);
 					$tpl->setVariable("TXT_VIEW", "(".$lng->txt("view").")");
 				}
