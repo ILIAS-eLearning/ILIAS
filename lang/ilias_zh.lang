@@ -163,6 +163,8 @@ assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
 assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
 assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
 assessment#:#export#:#导出
+assessment#:#failed_official#:#failed###04 Sep 2004 new variable
+assessment#:#failed_short#:#failed###04 Sep 2004 new variable
 assessment#:#false#:#否
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!###13 Mar 2004 new variable
 assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!###13 Mar 2004 new variable
@@ -206,6 +208,8 @@ assessment#:#no_target_selected_for_move#:#You must select a target position!###
 assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
+assessment#:#passed_official#:#passed###04 Sep 2004 new variable
+assessment#:#passed_short#:#passed###04 Sep 2004 new variable
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!###19 Aug 2004 new variable
 assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#分数
@@ -647,6 +651,7 @@ common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#创建课程
 common#:#cat_create_dbk#:#创建电子图书
 common#:#cat_create_exc#:#创建练习
+common#:#cat_create_file#:#Upload File###04 Sep 2004 new variable
 common#:#cat_create_frm#:#创建论坛
 common#:#cat_create_glo#:#创建术语表
 common#:#cat_create_grp#:#创建组
@@ -1023,12 +1028,12 @@ common#:#group_details#:#组详情
 common#:#group_filesharing#:#组文件共享
 common#:#group_import#:#Group import###20 Apr 2004 new variable
 common#:#group_import_file#:#Import file###20 Apr 2004 new variable
-common#:#group_members#:#组成员
+common#:#group_members#:#组成员###04 Sep 2004 content changed
 common#:#group_memstat#:#成员状态
 common#:#group_memstat_admin#:#管理员
 common#:#group_memstat_member#:#成员
 common#:#group_name#:#组名称
-common#:#group_new_registrations#:#新注册
+common#:#group_new_registrations#:#新注册###04 Sep 2004 content changed
 common#:#group_no_registration#:#无需注册
 common#:#group_no_registration_msg#:#您还不是此组成员。基于管理的原因您必须加入所请求的组。<br> 作为组成员您将获得下列益处<br>- 您将得到新闻和更新的通知<br>- 您将可以访问相应的对象，如论坛、学习模块，等等。<br><br>您可以在任何时间取消您的成员资格。
 common#:#group_not_available#:#无组可用
@@ -1052,6 +1057,7 @@ common#:#groups_overview#:#组概观
 common#:#grp#:#组
 common#:#grp_a#:#一个组
 common#:#grp_add#:#增加组
+common#:#grp_add_member#:#Add member(s)###04 Sep 2004 new variable
 common#:#grp_added#:#已增加组
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
 common#:#grp_back#:#Back###18 Apr 2004 new variable
@@ -1095,11 +1101,15 @@ common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 
 common#:#grp_msg_membership_annulled#:#成员资格已取消
 common#:#grp_name_exists#:#已有一个组使用这个名字！请选择另一名字！
 common#:#grp_new#:#新组
+common#:#grp_new_search#:#New search###04 Sep 2004 new variable
 common#:#grp_no_groups_selected#:#No group selected###11 Aug 2004 new variable
+common#:#grp_no_results_found#:#No results found###04 Sep 2004 new variable
 common#:#grp_no_roles_selected#:#No roles selected###11 Aug 2004 new variable
+common#:#grp_options#:#Options###04 Sep 2004 new variable
 common#:#grp_read#:#组设为读访问
 common#:#grp_register#:#注册
 common#:#grp_registration_completed#:#注册成功
+common#:#grp_search_enter_search_string#:#Please enter a search string###04 Sep 2004 new variable
 common#:#grp_search_members#:#User search###11 Aug 2004 new variable
 common#:#grp_visible#:#组可视
 common#:#grp_write#:#编辑组
@@ -2309,6 +2319,7 @@ content#:#cont_shape#:#形状
 content#:#cont_show#:#显示
 content#:#cont_show_citation#:#具有引用的显示
 content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
+content#:#cont_show_print_view#:#Show Print View###04 Sep 2004 new variable
 content#:#cont_size#:#大小（字节）
 content#:#cont_source#:#原始资料###01 Apr 2004 content changed
 content#:#cont_src#:#Source code###16 Jun 2004 new variable
@@ -2452,6 +2463,7 @@ crs#:#crs_no_member_selected#:#Please select one member###07 Aug 2004 new variab
 crs#:#crs_no_members_assigned#:#There are no members assigned to this course###07 Aug 2004 new variable
 crs#:#crs_no_notify#:#No notify for new registrations###07 Aug 2004 new variable
 crs#:#crs_no_results_found#:#No results found###07 Aug 2004 new variable
+crs#:#crs_no_roles_selected#:#Please select a role###04 Sep 2004 new variable
 crs#:#crs_no_subscribers_selected#:#Please select a user###07 Aug 2004 new variable
 crs#:#crs_no_users_added#:#No members added###07 Aug 2004 new variable
 crs#:#crs_no_users_selected#:#You did not select any user###07 Aug 2004 new variable

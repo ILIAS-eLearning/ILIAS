@@ -146,10 +146,8 @@ assessment#:#exp_eval_data#:#Export evaluation data as
 assessment#:#exp_type_excel#:#Microsoft Excel
 assessment#:#exp_type_spss#:#Comma separated value (CSV)
 assessment#:#export#:#Export
-assessment#:#failed_short#:#failed
 assessment#:#failed_official#:#failed
-assessment#:#passed_short#:#passed
-assessment#:#passed_official#:#passed
+assessment#:#failed_short#:#failed
 assessment#:#false#:#False
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!
 assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!
@@ -193,6 +191,8 @@ assessment#:#no_target_selected_for_move#:#You must select a target position!
 assessment#:#or#:#or
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
+assessment#:#passed_official#:#passed
+assessment#:#passed_short#:#passed
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
 assessment#:#please_select#:#-- please select --
 assessment#:#points#:#Points
@@ -1041,6 +1041,7 @@ common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
 common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
+common#:#grp_add_member#:#Add member(s)
 common#:#grp_added#:#Group added
 common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation
 common#:#grp_back#:#Back
@@ -1084,11 +1085,15 @@ common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
 common#:#grp_msg_membership_annulled#:#Membership annulled
 common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.
 common#:#grp_new#:#New Group
+common#:#grp_new_search#:#New search
 common#:#grp_no_groups_selected#:#Please select a group
+common#:#grp_no_results_found#:#No results found
 common#:#grp_no_roles_selected#:#Please select a role
+common#:#grp_options#:#Options
 common#:#grp_read#:#Read access to Group
 common#:#grp_register#:#Register
 common#:#grp_registration_completed#:#Registration completed
+common#:#grp_search_enter_search_string#:#Please enter a search string
 common#:#grp_search_members#:#User search
 common#:#grp_visible#:#Group is visible
 common#:#grp_write#:#Edit Group
@@ -2036,7 +2041,6 @@ content#:#cont_add_area#:#Add Area
 content#:#cont_add_definition#:#Add Definition
 content#:#cont_add_fullscreen#:#Add Fullscreen
 content#:#cont_added_term#:#Term added
-content#:#cont_show_print_view#:#Show Print View
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
@@ -2299,6 +2303,7 @@ content#:#cont_shape#:#Shape
 content#:#cont_show#:#Show
 content#:#cont_show_citation#:#Show with citation
 content#:#cont_show_line_numbers#:#Show line numbers
+content#:#cont_show_print_view#:#Show Print View
 content#:#cont_size#:#Size (Bytes)
 content#:#cont_source#:#Source
 content#:#cont_src#:#Source code
@@ -2359,7 +2364,6 @@ crs#:#crs_add_archive_html#:#Add HTML-Archive
 crs#:#crs_add_archive_xml#:#Add XML-Archive
 crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_member#:#Add member(s)
-common#:#grp_add_member#:#Add member(s)
 crs#:#crs_add_subscribers#:#Add subscriber
 crs#:#crs_added#:#Added new course
 crs#:#crs_added_member#:#Course membership
@@ -2431,21 +2435,19 @@ crs#:#crs_move_down#:#Move down
 crs#:#crs_move_up#:#Move up
 crs#:#crs_moved_item#:#Moved course item
 crs#:#crs_new_search#:#New search
-common#:#grp_new_search#:#New search
 crs#:#crs_new_subscription#:#New course subscription
 crs#:#crs_new_subscription_body#:#A new user has been subscribed
 crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
 crs#:#crs_no_archives_selected#:#Please select an archive
 crs#:#crs_no_groups_selected#:#Please select a group
-crs#:#crs_no_roles_selected#:#Please select a role
 crs#:#crs_no_items_found#:#There are no course items
 crs#:#crs_no_language#:#No language
 crs#:#crs_no_member_selected#:#Please select one member
 crs#:#crs_no_members_assigned#:#There are no members assigned to this course
 crs#:#crs_no_notify#:#No notify for new registrations
 crs#:#crs_no_results_found#:#No results found
-common#:#grp_no_results_found#:#No results found
+crs#:#crs_no_roles_selected#:#Please select a role
 crs#:#crs_no_subscribers_selected#:#Please select a user
 crs#:#crs_no_users_added#:#No members added
 crs#:#crs_no_users_selected#:#You did not select any user
@@ -2455,7 +2457,6 @@ crs#:#crs_notify#:#Notify for new registrations
 crs#:#crs_number_users_added#:#The following number of users has been assigned to the course:
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Options
-common#:#grp_options#:#Options
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Your password is not valid
 crs#:#crs_pdf#:#PDF
@@ -2474,7 +2475,6 @@ crs#:#crs_reject_subscriber_body#:#Your subscription has been declined.
 crs#:#crs_role#:#Role
 crs#:#crs_role_status#:#Role / Status
 crs#:#crs_search_enter_search_string#:#Please enter a search string
-common#:#grp_search_enter_search_string#:#Please enter a search string
 crs#:#crs_search_for#:#Search for
 crs#:#crs_search_members#:#User search
 crs#:#crs_search_str#:#Search term
