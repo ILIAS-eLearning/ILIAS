@@ -261,7 +261,7 @@ ilias_version	ILIAS version	ILIAS Version	versione ILIAS	ILIAS version
 db_version	database version	Datenbankversion	versione banca dati	database version
 installation_id	installation ID	Installations ID	ID dell´istallazione	installation ID
 host	host	Host	host	host
-ip_adress	IP adress	IP Adresse	indirizzo IP	IP adress
+ip_address	IP address	IP Adresse	indirizzo IP	IP address
 server_port	server port	Server Port	server port	server port
 server_software	server software	Server Software	server software	server software
 http_path	http path	HTTP Pfad	http path	http path
@@ -301,3 +301,7 @@ forums	forums	Foren	forums	forums
 editor	editor	Editor	editor	editor
 help	help	Hilfe	help	help
 logout	logout	Logout	logout	logout
+view_content	view content	Inhalt	content	content
+edit_properties	edit properties	Eigenschaften	properties	properties
+perm_settings	permissions	Rechte	permissions	permissions
+show_owner	show owner	Besitzerinfo	owner	owner
