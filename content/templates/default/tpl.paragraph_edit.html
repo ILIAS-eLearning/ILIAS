@@ -327,7 +327,6 @@ function storeCaret(textEl) {
 <script type="text/javascript" src="./htmlarea/htmlarea.js"></script>
 
 <script type="text/javascript">
-
 var editor = null;
 function initEditor(TextAreaName) 
 {
@@ -349,12 +348,13 @@ function initEditor(TextAreaName)
       tooltip   : "Strong",
       image     : "./htmlarea/images/ed_format_bold.gif",
       textMode  : false,
+	  context   : "",
       action    : function(editor, id) 
 	  			  {
 				  	if (checkAllowTagInside("str"))
 					{
                     	editor.surroundHTML('<span class="ilc_Strong">', '</span>');
-					}
+					} 
                   }
     });
 
@@ -452,8 +452,8 @@ function initEditor(TextAreaName)
                     buttonInternalLink();
                   }
     });
-	
-	cfg.pageStyleLink = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_CONTENT_STYLESHEET}\" />";
+	//alert("{XX}");
+	cfg.pageStyleLink = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_CONTENT_STYLESHEET_HTMLAREA}\" />";
   	cfg.pageStyle = ".footnote { color:0000FF; } ";
 	cfg.pageStyle += ".iliasxln {color: 0000FF;text-decoration:underline;}";
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
@@ -461,14 +461,15 @@ function initEditor(TextAreaName)
 	
 	//cfg.statusBar = false;
 	
+//		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator", 
+
 	cfg.toolbar = [
 		[ 
-		  "ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator", 
           
-		  
+		  "ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator",
 		  "ilias-fn", "ilias-xtl", "ilias-itl",
 		  "separator",
-		  "copy", "cut", "paste", "space", "undo", "redo", 
+		  "copy", "cut", "paste", "space", "undo", "redo", "htmlmode"
 		  
           ],
 
@@ -527,19 +528,39 @@ addNATI("xln",	"xln",	"ilc_ExtLink");
 function checkAllowTagInside(which) 
 {
 	var ancestors = editor.getAllAncestors();
-	var el = ancestors[0];
-	var cl = el.className;
-	var tn = el.tagName.toLowerCase();
-	
-	for (i=0;i<notAllowedTagsInside.length;i++) 
+	for (j=0;j<ancestors.length;j++) 
 	{
-		a = notAllowedTagsInside[i];
-		if (a[0] == which) 
+		var el = ancestors[j];
+		var cl = el.className;
+		var tn = el.tagName.toLowerCase();
+		
+		for (i=0;i<notAllowedTagsInside.length;i++) 
 		{
-			if (a[2] == cl || a[2] == tn)
+			a = notAllowedTagsInside[i];
+			if (a[0] == which) 
 			{
-				//alert("Error.");
-				return(false);
+				if (a[2] == cl || a[2] == tn)
+				{
+					//alert("Error.");
+					// -------------------------------------------------------
+					N1 = "";
+					N2 = "";
+					var ancestors = editor.getAllAncestors();
+					for (i=0;i<=j;i++)
+					{
+						var el = ancestors[i];
+						var cl = el.className;
+						var tn = el.tagName.toLowerCase();
+						
+						N1 = "<"+tn+" class=\""+cl+"\">"+N1;
+						N2 += "</"+tn+">";
+					}
+					
+					editor.surroundHTML(N2,N1);
+					// -------------------------------------------------------
+					
+					return(false);
+				}
 			}
 		}
 	}
@@ -565,9 +586,11 @@ function addFussnote(Tb)
 	fnCount++;
 }
 
-function refreshFootnotelist() {
+function refreshFootnotelist() 
+{
 	fhtml = "<ul>";
-	for (i=0;i<fussnoten.length;i++) {
+	for (i=0;i<fussnoten.length;i++) 
+	{
 		j=i+1;
 		fhtml += "["+j+"]&nbsp;"+fussnoten[i];
 		fhtml += "<br>";
@@ -578,16 +601,20 @@ function refreshFootnotelist() {
 	document.getElementById("footnotelist").innerHTML = fhtml;
 }
 
-function addInternalLink(Link,title) {
+function addInternalLink(Link,title) 
+{
 	//Link = Link.replace("&quot;","\"",Link);
 	//Link = Link.replace("&quot;","\"",Link);
 	
 	Link = Link.replace("[iln ","<span class=\"iliasiln\" ");
 	Link = Link.replace("\"]","\">");
 	Link = Link.replace(" [/iln]","");
-	if(editor.hasSelectedText()) {
+	if(editor.hasSelectedText()) 
+	{
 		editor.surroundHTML(Link,"</span>");
-	} else {
+	} 
+	else 
+	{
 		editor.insertHTML(Link+title+"</span>");
 	}
 }
@@ -599,6 +626,7 @@ function buttonFootnote()
 	{
 		addFussnote(editor.getSelectedHTML());
 		editor.surroundHTML('<span class=\"footnote\" value=\"','\">['+fnCount+']</span>');
+		refreshFootnotelist()
 	} 
 	else 
 	{

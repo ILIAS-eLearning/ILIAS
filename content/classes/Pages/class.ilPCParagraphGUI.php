@@ -85,11 +85,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		
+		
 		if ($this->pg_obj->getParentType() == "lm" ||
 			$this->pg_obj->getParentType() == "dbk")
 		{
-
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA",
 				ilObjStyleSheet::getContentStylePath(
 					ilObjContentObject::_lookupStyleSheetId($this->pg_obj->getParentId())));
 
