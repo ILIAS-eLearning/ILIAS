@@ -33,10 +33,11 @@
 * @package content
 */
 
-require_once "classes/class.ilObjectGUI.php";
-require_once "content/classes/class.ilObjMediaPool.php";
+require_once("classes/class.ilObjectGUI.php");
+require_once("content/classes/class.ilObjMediaPool.php");
 require_once("classes/class.ilTableGUI.php");
 require_once("classes/class.ilObjFolderGUI.php");
+require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
 
 class ilObjMediaPoolGUI extends ilObjectGUI
 {
@@ -53,8 +54,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$this->ctrl =& $ilCtrl;
 
-		$this->ctrl->forwards($this, "ilObjMediaObjectGUI");
-		$this->ctrl->forwards($this, "ilObjFolderGUI");
+		//$this->ctrl->forwards($this, "ilObjMediaObjectGUI");
+		//$this->ctrl->forwards($this, "ilObjFolderGUI");
 		$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
 
 		$this->type = "mep";
@@ -68,6 +69,11 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		{
 			$this->setTabTargetScript("mep_edit.php");
 		}
+	}
+
+	function _forwards()
+	{
+		return array("ilObjMediaObjectGUI", "ilObjFolderGUI");
 	}
 
 
@@ -278,12 +284,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
 
-		$objs = $this->object->tree->getChildsByType($obj_id, "fold");
-		$mobs = $this->object->tree->getChildsByType($obj_id, "mob");
-		foreach($mobs as $key => $mob)
-		{
-			$objs[] = $mob;
-		}
+		$objs = $this->object->getChilds($_GET["obj_id"]);
 
 		$tbl->setMaxCount(count($objs));
 		$objs = array_slice($objs, $_GET["offset"], $_GET["limit"]);
@@ -351,17 +352,13 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	function executeCommand()
 	{
 		$tree =& $this->object->getTree();
-
 		$next_class = $this->ctrl->getNextClass($this);
-
 		$cmd = $this->ctrl->getCmd();
-
-//echo "next:".$next_class.":$cmd:<br>";
 
 		switch($next_class)
 		{
 			case "ilobjmediaobjectgui":
-				require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+
 				//$cmd.="Object";
 				$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", $_GET["obj_id"], false, false);
 				if($cmd == "create" || $cmd == "returnToContext")
@@ -372,13 +369,21 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				{
 					$ret_obj = $tree->getParentId($_GET["obj_id"]);
 				}
-				$this->ctrl->setReturn($this, "listMedia");
+				if ($this->ctrl->getCmdClass() == "ilinternallinkgui")
+				{
+					$this->ctrl->setReturn($this, "explorer");
+				}
+				else
+				{
+					$this->ctrl->setReturn($this, "listMedia");
+				}
 				$this->getTemplate();
 				$ilObjMediaObjectGUI->setAdminTabs();
 				$this->setLocator();
+
 //echo ":".$tree->getParentId($_GET["obj_id"]).":";
 				$ret =& $ilObjMediaObjectGUI->executeCommand();
-
+//echo "<br>ilObjMediaPoolGUI:afterexecute:<br>"; exit;
 				switch($cmd)
 				{
 					case "save":

@@ -22,6 +22,7 @@
 */
 
 require_once ("content/classes/Media/class.ilObjMediaObject.php");
+require_once ("content/classes/class.ilInternalLinkGUI.php");
 
 /**
 * Class ilObjMediaObjectGUI
@@ -44,11 +45,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		global $lng, $ilCtrl;
 
 		$this->ctrl =& $ilCtrl;
-		$this->ctrl->forwards($this, "ilInternalLinkGUI");
-
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng =& $lng;
 		$this->type = "mob";
+	}
+
+	function _forwards()
+	{
+		return array("ilInternalLinkGUI");
 	}
 
 	function setHeader($a_title = "")
@@ -63,7 +67,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 	function assignObject()
 	{
-		$this->object =& new ilObjMediaObject($this->id);
+		if ($this->id != 0)
+		{
+			$this->object =& new ilObjMediaObject($this->id);
+		}
 	}
 
 	function returnToContextObject()
@@ -74,16 +81,18 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
-
-//echo "next:".$next_class.":<br>";
-
 		$cmd = $this->ctrl->getCmd();
+
 		switch($next_class)
 		{
 			case "ilinternallinkgui":
 				require_once("content/classes/class.ilInternalLinkGUI.php");
-				$link_gui = new ilInternalLinkGUI();
-				$ret =& $ilInternalLinkGUI->executeCommand();
+				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
+				$link_gui->setMode("link");
+				$link_gui->setSetLinkTargetScript(
+					$this->ctrl->getLinkTarget($this, "setInternalLink"));
+				$link_gui->filterLinkType("Media");
+				$ret =& $link_gui->executeCommand();
 				break;
 
 			default:
@@ -971,9 +980,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$this->ilias->raiseError($this->lng->txt("cont_std_is_in_dir"),$this->ilias->error_obj->MESSAGE);
 			}
 
-			if (substr($full_item->getLocation(), 0 ,strlen($location)) == $location)
+			if($this->object->hasFullScreenItem())
 			{
-				$this->ilias->raiseError($this->lng->txt("cont_full_is_in_dir"),$this->ilias->error_obj->MESSAGE);
+				if (substr($full_item->getLocation(), 0 ,strlen($location)) == $location)
+				{
+					$this->ilias->raiseError($this->lng->txt("cont_full_is_in_dir"),$this->ilias->error_obj->MESSAGE);
+				}
 			}
 		}
 
@@ -1504,7 +1516,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				// internal link list
 				$this->ctrl->setParameter($this, "linkmode", "map");
 				$this->tpl->setVariable("LINK_ILINK",
-					$this->ctrl->getLinkTarget($this, "showLinkHelp"));
+					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp"));
 				$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_get_link")."]");
 
 				$this->tpl->parseCurrentBlock();
@@ -2037,6 +2049,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	/**
 	* show link help
 	*/
+	/*
 	function showLinkHelpObject()
 	{
 		require_once("content/classes/class.ilInternalLinkGUI.php");
@@ -2046,7 +2059,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "setInternalLink"));
 		$link_gui->filterLinkType("Media");
 		$link_gui->showLinkHelp();
-	}
+	}*/
 
 	/**
 	*
@@ -2111,7 +2124,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		// catch feedback message
 		sendInfo();
-
 		include_once("classes/class.ilTabsGUI.php");
 		$tabs_gui =& new ilTabsGUI;
 		$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
