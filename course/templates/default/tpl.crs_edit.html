@@ -1,0 +1,132 @@
+  <form action="{FORMACTION}" {TARGET} method="post">
+	<table class="std">
+	  <tr class="tblheader">
+		<td class="std" colspan="3">
+		  <table class="invisible_border" width="100%">
+			<tr>
+			  <td>{TXT_HEADER}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_SYLLABUS}</td>
+		<td class="sub_option" >&nbsp;</td>
+		<td class="option_value">
+		  <textarea name="crs[syllabus]" rows="2" cols="40" style="width:300px;">{SYLLABUS}</textarea>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="option" align="top" rowspan="5">{TXT_CONTACT}</td>
+		<td class="sub_option">{TXT_CONTACT_NAME}</td>
+		<td class="option_value"><input name="crs[contact_name]" value="{CONTACT_NAME}" size="40" maxlength="70" style="width:300px;"/></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CONTACT_RESPONSIBILITY}</td>
+		<td class="option_value"><input name="crs[contact_responsibility]" value="{CONTACT_RESPONSIBILITY}" size="40" maxlength="70" style="width:300px;" /></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CONTACT_PHONE}</td>
+		<td class="option_value"><input name="crs[contact_phone]" value="{CONTACT_PHONE}" size="40" maxlength="40" style="width:300px;"/></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CONTACT_EMAIL}</td>
+		<td class="option_value"><input name="crs[contact_email]" value="{CONTACT_EMAIL}" size="40" maxlength="70" style="width:300px;"/></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CONTACT_CONSULTATION}</td>
+		<td class="option_value"><textarea name="crs[contact_consultation]" rows="4" cols="40" style="width:300px;">{CONTACT_CONSULTATION}</textarea></td>
+	  </tr>
+	  <tr>
+		<td class="option" align="top" rowspan="4">{TXT_ACTIVATION}</td>
+		<td class="sub_option">{TXT_ACTIVATION_UNLIMITED}</td>
+		<td class="option_value">{ACTIVATION_UNLIMITED}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_ACTIVATION_START}</td>
+		<td class="option_value">{SELECT_ACTIVATION_START_DAY}&nbsp;{SELECT_ACTIVATION_START_MONTH}&nbsp;{SELECT_ACTIVATION_START_YEAR}&nbsp;{SELECT_ACTIVATION_START_HOUR}:&nbsp;{SELECT_ACTIVATION_START_MINUTE}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_ACTIVATION_END}</td>
+		<td class="option_value">{SELECT_ACTIVATION_END_DAY}&nbsp;{SELECT_ACTIVATION_END_MONTH}&nbsp;{SELECT_ACTIVATION_END_YEAR}&nbsp;{SELECT_ACTIVATION_END_HOUR}:&nbsp;{SELECT_ACTIVATION_END_MINUTE}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">&nbsp;</td>
+		<td class="option_value">{CHECK_ACTIVATION_OFFLINE}&nbsp;{TXT_ACTIVATION_OFFLINE}</td>
+	  </tr>
+	  <tr>
+		<td class="option" align="top" rowspan="9">{TXT_SUBSCRIPTION}</td>
+		<td class="sub_option">{TXT_SUBSCRIPTION_UNLIMITED}</td>
+		<td class="option_value">{SUBSCRIPTION_UNLIMITED}</td>
+	  </tr>		
+	  <tr>
+		<td class="sub_option">{TXT_SUBSCRIPTION_START}</td>
+		<td class="option_value">{SELECT_SUBSCRIPTION_START_DAY}&nbsp;{SELECT_SUBSCRIPTION_START_MONTH}&nbsp;{SELECT_SUBSCRIPTION_START_YEAR}&nbsp;{SELECT_SUBSCRIPTION_START_HOUR}:&nbsp;{SELECT_SUBSCRIPTION_START_MINUTE}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_SUBSCRIPTION_END}</td>
+		<td class="option_value">{SELECT_SUBSCRIPTION_END_DAY}&nbsp;{SELECT_SUBSCRIPTION_END_MONTH}&nbsp;{SELECT_SUBSCRIPTION_END_YEAR}&nbsp;{SELECT_SUBSCRIPTION_END_HOUR}:&nbsp;{SELECT_SUBSCRIPTION_END_MINUTE}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option" rowspan="4">{TXT_SUBSCRIPTION_OPTIONS}</td>
+		<td class="option_value">{RADIO_SUB_DEACTIVATED}&nbsp;{TXT_DEACTIVATED}</td>
+	  </tr>
+	  <tr>
+		<td class="option_value">{RADIO_SUB_CONFIRMATION}&nbsp;{TXT_CONFIRMATION}</td>
+	  </tr>
+	  <tr>
+		<td class="option_value">{RADIO_SUB_DIRECT}&nbsp;{TXT_DIRECT}</td>
+	  </tr>
+	  <tr>
+		<td class="option_value">{RADIO_SUB_PASSWORD}&nbsp;{TXT_PASSWORD}&nbsp;<input name="crs[subscription_password]" value="{SUBSCRIPTION_PASSWORD}" size="12" maxlength="12" /></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_SUBSCRIPTION_MAX_MEMBERS}</td>
+		<td class="option_value"><input name="crs[subscription_max]" value="{SUBSCRIPTION_MAX_MEMBERS}" size="3" maxlength="4" /></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">&nbsp;</td>
+		<td class="option_value">{CHECK_SUBSCRIPTION_NOTIFY}&nbsp;{TXT_SUBSCRIPTION_NOTIFY}</td>
+	  </tr>
+	  <tr>
+		<td class="option" align="top" rowspan="3">{TXT_SORTORDER}</td>
+		<td class="sub_option" rowspan="3">&nbsp;</td>
+		<td class="option_value">{RADIO_SORTORDER_MANUAL}&nbsp;{TXT_MANUAL}</td>
+	  </tr>
+	  <tr>
+		<td class="option_value">{RADIO_SORTORDER_TITLE}&nbsp;{TXT_TITLE}</td>
+	  </tr>
+	  <tr>
+		<td class="option_value">{RADIO_SORTORDER_ACTIVATION}&nbsp;{TXT_ACTIVATION}</td>
+	  </tr>
+	  <tr>
+		<td class="option" align="top" rowspan="5">{TXT_ARCHIVE}</td>
+		<td class="sub_option">{TXT_ARCHIVE_START}</td>
+		<td class="option_value">{SELECT_ARCHIVE_START_DAY}&nbsp;{SELECT_ARCHIVE_START_MONTH}&nbsp;{SELECT_ARCHIVE_START_YEAR}&nbsp;{SELECT_ARCHIVE_START_HOUR}:&nbsp;{SELECT_ARCHIVE_START_MINUTE}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_ARCHIVE_END}</td>
+		<td class="option_value">{SELECT_ARCHIVE_END_DAY}&nbsp;{SELECT_ARCHIVE_END_MONTH}&nbsp;{SELECT_ARCHIVE_END_YEAR}&nbsp;{SELECT_ARCHIVE_END_HOUR}:&nbsp;{SELECT_ARCHIVE_END_MINUTE}</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option" rowspan="3">{TXT_ARCHIVE_TYPE}</td>
+		<td class="option_value">{RADIO_ARCHIVE_DISABLED}&nbsp;{TXT_DISABLED}</td>
+	  </tr>
+	  <tr>
+		<td class="option_value">{RADIO_ARCHIVE_READ}&nbsp;{TXT_READ}</td>
+	  </tr>
+	  <tr>
+		<td class="option_value">{RADIO_ARCHIVE_DOWNLOAD}&nbsp;{TXT_DOWNLOAD}</td>
+	  </tr>
+	  <tr>
+		<td class="submit" colspan="3">
+		  <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+		  <div align="right">
+			<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+			  <input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+		  </div>
+		</td>
+	  </tr>
+	</table>
+  </form>
+	
