@@ -479,11 +479,15 @@ class ilCtrl
 	/**
 	* redirects to next parent class that used setReturn
 	*/
-	function returnToParent(&$a_gui_obj)
+	function returnToParent(&$a_gui_obj, $a_anchor = "")
 	{
 		$script = $this->getParentReturn($a_gui_obj);
 		$script = ilUtil::appendUrlParameterString($script,
 			"redirectSource=".get_class($a_gui_obj));
+		if ($a_anchor != "")
+		{
+		 $script = $script."#".$a_anchor;
+		}
 		ilUtil::redirect($script);
 	}
 

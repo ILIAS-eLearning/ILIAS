@@ -258,7 +258,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{
-				$this->ctrl->returnToParent($this);
+				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 			}
 			else
 			{
@@ -528,7 +528,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			$this->ctrl->returnToParent($this);
+			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 		else
 		{
@@ -567,7 +567,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$this->ilias->account->addObjectToClipboard($this->content_obj->getId(), $this->content_obj->getType()
 			, $this->content_obj->getTitle());
 		sendInfo($this->lng->txt("copied_to_clipboard"), true);
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**
@@ -578,7 +578,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("Center");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**
@@ -589,7 +589,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("Left");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**
@@ -600,7 +600,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("Right");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**
@@ -611,7 +611,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("LeftFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**
@@ -622,7 +622,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("RightFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
 	/**

@@ -230,12 +230,20 @@ class ILIAS
 									);
 		// set session.save_handler to "user" & set expiry time
 		ini_set("session.save_handler", "user");
+		/*
 		ini_set("session.gc_maxlifetime",$this->ini->readVariable("session","expire"));
 		ini_set("session.cookie_lifetime",$this->ini->readVariable("session","expire"));
+		*/
+		//ini_set("session.gc_maxlifetime", 10);
+		//ini_set("session.cookie_lifetime", 10);
 
 		// We use MySQL as storage container
 		$this->auth = new Auth("DB", $this->auth_params,"",false);
+		/*
 		$this->auth->setIdle($this->ini->readVariable("session","expire"),true);
+		*/
+		$this->auth->setIdle($this->ini->readVariable("session","expire"), false);
+		$this->auth->setExpire(0);
 
 		// Error Handling
 		$this->error_obj =& $ilErr;

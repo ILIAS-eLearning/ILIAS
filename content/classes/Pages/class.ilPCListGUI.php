@@ -124,7 +124,7 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			$this->ctrl->returnToParent($this);
+			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 		else
 		{
@@ -180,7 +180,7 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			$this->ctrl->returnToParent($this);
+			$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 		}
 		else
 		{

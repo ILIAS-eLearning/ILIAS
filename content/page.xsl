@@ -249,6 +249,27 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- edit return anchors-->
+<xsl:template name="EditReturnAnchors">
+	<xsl:if test="$mode = 'edit'">
+		<a>
+		<xsl:choose>
+			<xsl:when test="@HierId">
+				<xsl:attribute name="name">jump<xsl:value-of select="@HierId"/>
+				</xsl:attribute>
+			</xsl:when>
+			<xsl:when test="../@HierId">
+				<xsl:attribute name="name">jump<xsl:value-of select="../@HierId"/>
+				</xsl:attribute>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:attribute name="name">jump<xsl:value-of select="../../@HierId"/>
+				</xsl:attribute>
+			</xsl:otherwise>
+		</xsl:choose>
+		</a>
+	</xsl:if>
+</xsl:template>
 
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
@@ -268,6 +289,7 @@
 				</xsl:attribute>
 			</input>
 		</xsl:if> -->
+		<xsl:call-template name="EditReturnAnchors"/>
 		<!-- content -->
 		<xsl:apply-templates/>
 		<!-- command selectbox -->
@@ -429,7 +451,7 @@
 		</input> -->
 		<br/>
 	</xsl:if>
-
+	<xsl:call-template name="EditReturnAnchors"/>
 	<table>
 	<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
 	<xsl:attribute name="border"><xsl:value-of select="@Border"/></xsl:attribute>
@@ -454,6 +476,7 @@
 					<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
 					<!-- insert commands -->
 					<!-- <xsl:value-of select="@HierId"/> -->
+					<xsl:call-template name="EditReturnAnchors"/>
 					<xsl:if test="$mode = 'edit' or $mode = 'table_edit'">
 						<!-- checkbox -->
 						<input type="checkbox" name="target[]">
@@ -529,6 +552,7 @@
 <!-- Lists -->
 <xsl:template match="List">
 	<!-- <xsl:value-of select="..@HierId"/> -->
+	<xsl:call-template name="EditReturnAnchors"/>
 	<xsl:if test="@Type = 'Ordered'">
 		<ol>
 		<xsl:choose>
@@ -576,6 +600,7 @@
 <!-- List Item -->
 <xsl:template match="ListItem">
 	<li>
+	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- insert commands -->
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$mode = 'edit'">
@@ -609,6 +634,7 @@
 
 <!-- FileList -->
 <xsl:template match="FileList">
+	<xsl:call-template name="EditReturnAnchors"/>
 	<table class="ilc_FileList">
 		<th class="ilc_FileList">
 		<xsl:value-of select="./Title"/>
@@ -647,6 +673,7 @@
 <xsl:template match="FileItem">
 	<tr class="ilc_FileItem">
 		<td class="ilc_FileItem">
+		<xsl:call-template name="EditReturnAnchors"/>
 		<a href="lm_presentation.php?cmd=downloadFile&amp;file_id=">
 			<xsl:attribute name="href">lm_presentation.php?cmd=downloadFile&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
 			<xsl:value-of select="./Location"/>
@@ -674,6 +701,7 @@
 
 <!-- MediaAlias -->
 <xsl:template match="MediaAlias">
+	<xsl:call-template name="EditReturnAnchors"/>
 
 	<!-- Alignment Part 1 (Left, Center, Right)-->
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
