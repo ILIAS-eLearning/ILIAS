@@ -45,6 +45,7 @@
 			<option value="insert_tab">insert Table</option>
 			<option value="insert_mob">insert Media</option>
 			<option value="insert_list">insert List</option>
+			<option value="insert_flst">insert File List</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
@@ -223,6 +224,7 @@
 			<option value="insert_tab">insert Table</option>
 			<option value="insert_mob">insert Media</option>
 			<option value="insert_list">insert List</option>
+			<option value="insert_flst">insert File List</option>
 			<option value="delete">delete</option>
 			<option value="moveAfter">move after</option>
 			<option value="moveBefore">move before</option>
@@ -387,6 +389,7 @@
 								<option value="insert_tab">insert Table</option>
 								<option value="insert_mob">insert Media</option>
 								<option value="insert_list">insert List</option>
+								<option value="insert_flst">insert File List</option>
 								<option value="newRowAfter">new Row after</option>
 								<option value="newRowBefore">new Row before</option>
 								<option value="newColAfter">new Col after</option>
@@ -428,6 +431,7 @@
 		<option value="insert_tab">insert Table</option>
 		<option value="insert_mob">insert Media</option>
 		<option value="insert_list">insert List</option>
+		<option value="insert_flst">insert File List</option>
 		<option value="delete">delete</option>
 		<option value="moveAfter">move after</option>
 		<option value="moveBefore">move before</option>
@@ -474,6 +478,7 @@
 		<option value="insert_tab">insert Table</option>
 		<option value="insert_mob">insert Media</option>
 		<option value="insert_list">insert List</option>
+		<option value="insert_flst">insert File List</option>
 		<option value="delete">delete</option>
 		<option value="moveAfter">move after</option>
 		<option value="moveBefore">move before</option>
@@ -503,6 +508,7 @@
 			<option value="insert_tab">insert Table</option>
 			<option value="insert_mob">insert Media</option>
 			<option value="insert_list">insert List</option>
+			<option value="insert_flst">insert File List</option>
 			<option value="newItemAfter">new Item after</option>
 			<option value="newItemBefore">new Item before</option>
 			<option value="deleteItem">delete Item</option>
@@ -517,6 +523,52 @@
 	</li>
 </xsl:template>
 
+<!-- FileList -->
+<xsl:template match="FileList">
+	<table class="ilc_FileList">
+		<th class="ilc_FileList">
+		<xsl:value-of select="./Title"/>
+		</th>
+		<xsl:apply-templates/>
+	</table>
+	<!-- command selectbox -->
+	<xsl:if test="$mode = 'edit'">
+		<!-- <xsl:value-of select="../@HierId"/> -->
+		<input type="checkbox" name="target[]">
+			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+			</xsl:attribute>
+		</input>
+		<select size="1" class="ilEditSelect">
+			<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
+			</xsl:attribute>
+		<option value="edit">edit properties</option>
+		<option value="insert_par">insert Paragr.</option>
+		<option value="insert_tab">insert Table</option>
+		<option value="insert_mob">insert Media</option>
+		<option value="insert_list">insert List</option>
+		<option value="insert_flst">insert File List</option>
+		<option value="delete">delete</option>
+		<option value="moveAfter">move after</option>
+		<option value="moveBefore">move before</option>
+		</select>
+		<input class="ilEditSubmit" type="submit" value="Go">
+			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
+		</input>
+		<br/>
+	</xsl:if>
+</xsl:template>
+
+<!-- FileItem -->
+<xsl:template match="FileItem">
+	<tr class="ilc_FileItem">
+		<td class="ilc_FileItem">
+		<a href="lm_presentation.php?cmd=downloadFile&amp;file_id=">
+			<xsl:attribute name="href">lm_presentation.php?cmd=downloadFile&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
+			<xsl:value-of select="./Location"/>
+		</a>
+		</td>
+	</tr>
+</xsl:template>
 
 <!-- MediaAlias -->
 <xsl:template match="MediaAlias">
@@ -678,6 +730,7 @@
 				<option value="insert_tab">insert Table</option>
 				<option value="insert_mob">insert Media</option>
 				<option value="insert_list">insert List</option>
+				<option value="insert_flst">insert File List</option>
 				<option value="delete">delete</option>
 				<option value="moveAfter">move after</option>
 				<option value="moveBefore">move before</option>

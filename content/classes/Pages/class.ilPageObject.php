@@ -220,6 +220,13 @@ class ilPageObject
 						$list->setNode($cont_node);
 						$list->setHierId($a_hier_id);
 						return $list;
+
+					case "FileList":
+						require_once("content/classes/Pages/class.ilPCFileList.php");
+						$file_list =& new ilPCFileList($this->dom);
+						$file_list->setNode($cont_node);
+						$file_list->setHierId($a_hier_id);
+						return $file_list;
 				}
 				break;
 
@@ -236,6 +243,13 @@ class ilPageObject
 				$td->setNode($cont_node);
 				$td->setHierId($a_hier_id);
 				return $td;
+
+			case "FileItem":
+				require_once("content/classes/Pages/class.ilPCFileItem.php");
+				$file_item =& new ilPCFileItem($this->dom);
+				$file_item->setNode($cont_node);
+				$file_item->setHierId($a_hier_id);
+				return $file_item;
 
 		}
 	}
@@ -512,7 +526,7 @@ class ilPageObject
 		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
 		$xpc = xpath_new_context($this->dom);
 		//$path = "//Paragraph | //Table | //TableRow | //TableData";
-		$path = "//PageContent | //TableRow | //TableData | //ListItem";
+		$path = "//PageContent | //TableRow | //TableData | //ListItem | //FileItem";
 		$res =& xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{

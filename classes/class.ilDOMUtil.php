@@ -52,7 +52,7 @@ class ilDOMUtil
 		{
 			$child_name = $child->node_name();
 //echo "B$child_name";
-		if (in_array($child_name, $search))
+			if (in_array($child_name, $search))
 			{
 //echo "C";
 				$found = true;

@@ -261,7 +261,7 @@ class ilLMPresentationGUI
 					if (stristr(" ".$GLOBALS["HTTP_SERVER_VARS"]["HTTP_USER_AGENT"],"MSIE") ) 
 					{
 						header ("Content-Disposition: attachment; filename=" . $fileName.".zip");
-					} 
+					}
 					else 
 					{
 						header ("Content-Disposition: inline; filename=".$fileName.".zip" );
@@ -1176,6 +1176,15 @@ class ilLMPresentationGUI
 			}
 		}
 		return true;
-	}		
+	}
+
+	function downloadFile()
+	{
+		$file = explode($_GET["file_id"], "_");
+		require_once("classes/class.ilObjFile.php");
+		$fileObj =& new ilObjFile($file[1], false);
+		$fileObj->sendFile();
+		exit;
+	}
 }
 ?>

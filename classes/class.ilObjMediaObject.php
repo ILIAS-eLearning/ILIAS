@@ -95,6 +95,7 @@ class ilObjMediaObject extends ilObject
 	function assignMetaData(&$a_meta_data)
 	{
 		$this->meta_data =& $a_meta_data;
+		$a_meta_data->setObject($this);
 	}
 
 	/**

@@ -66,6 +66,24 @@ class ilObjFile extends ilObject
 		$this->ilias->db->query($q);
 	}
 
+	function getDirectory()
+	{
+		//if (!is_dir
+		//ilUtil::makeDir($this->getDirectory());
+		return ilUtil::getWebspaceDir()."/files/file_".$this->getId();
+	}
+
+	function createDirectory()
+	{
+		ilUtil::makeDir($this->getDirectory());
+	}
+
+	function getUploadFile($a_upload_file, $a_filename)
+	{
+		$file = $this->getDirectory()."/".$a_filename;
+		move_uploaded_file($a_upload_file, $file);
+	}
+
 	function read()
 	{
 		$q = "SELECT * FROM file_data WHERE file_id = '".$this->getId()."'";
@@ -74,12 +92,12 @@ class ilObjFile extends ilObject
 
 		$this->setFileName($row->file_name);
 		$this->setFileType($row->file_type);
-		$this->setFilePath(ilUtil::getWebspaceDir()."/files/file_".$this->getId());
+		$this->setFilePath($this->getDirectory());
 	}
 
 	function update()
 	{
-		parent::upate();
+		parent::update();
 		$q = "UPDATE file_data SET file_name = '".$this->getFileName().
 			"', file_type = '".$this->getFiletype()."' ".
 			"WHERE file_id = '".$this->getId()."'";
@@ -114,6 +132,28 @@ class ilObjFile extends ilObject
 	function getFileType()
 	{
 		return $this->filetype;
+	}
+
+	function sendFile()
+	{
+		$file = $this->getDirectory()."/".$this->getFileName();
+		if(@is_file($file))
+		{
+echo "Hh"; exit;
+			// send file
+			header("Content-type: application/octet-stream");
+			header("Content-disposition: attachment; filename=\"".$this->getFileName()."\"");
+			//readfile($file);
+			$fp = @fopen($file, 'r');
+			do
+			{
+				echo fread($fp, 10000);
+			} while(!feof($fp));
+			@fclose($fp);
+			return true;
+		}
+echo "Buh!"; exit;
+		return false;
 	}
 
 	/**

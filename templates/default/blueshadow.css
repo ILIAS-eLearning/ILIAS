@@ -671,3 +671,29 @@ html.ilc_Fullscreen, body.ilc_Fullscreen
 	padding: 0;
 	height: 100%;
 }
+
+table.ilc_FileList
+{
+	color: #222222;
+	background-color: #c0c0c0;
+	width: 100%;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #bbbbbb;
+	border-width: 1px;
+}
+
+th.ilc_FileList
+{
+	font-size: 13px;
+	text-align: left;
+}
+
+td.ilc_FileItem
+{
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	background-color: #FFFFFF;
+}

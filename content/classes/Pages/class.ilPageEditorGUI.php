@@ -207,6 +207,24 @@ class ilPageEditorGUI
 				$list_item_gui->$cmd();
 				break;
 
+			// File List
+			case "flst":
+				require_once ("content/classes/Pages/class.ilPCFileListGUI.php");
+				$file_list_gui =& new ilPCFileListGUI($this->page, $cont_obj, $hier_id);
+				$file_list_gui->setTargetScript($this->getTargetScript());
+				$file_list_gui->setReturnLocation($this->getReturnLocation());
+				$file_list_gui->$cmd();
+				break;
+
+			// File List Item
+			case "flit":
+				require_once ("content/classes/Pages/class.ilPCFileItemGUI.php");
+				$file_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id);
+				$file_item_gui->setTargetScript($this->getTargetScript());
+				$file_item_gui->setReturnLocation($this->getReturnLocation());
+				$file_item_gui->$cmd();
+				break;
+
 		}
 
 		//$this->tpl->show();
