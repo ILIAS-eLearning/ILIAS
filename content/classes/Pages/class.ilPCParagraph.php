@@ -434,7 +434,7 @@ echo htmlentities($a_text);*/
 //echo "found2:".addslashes($found[2])."<br>"; flush();;
 			$attribs = ilUtil::attribsToArray($found[2]);
 //echo "url:".$attribs["url"]."<br>";
-			$found[1] = str_replace("?", "\?", $found[1]);
+			//$found[1] = str_replace("?", "\?", $found[1]);
 			if (isset($attribs["url"]))
 			{
 //echo "3";
@@ -531,7 +531,7 @@ echo htmlentities($a_text);*/
 		{
 			$found[0];
 			$attribs = ilUtil::attribsToArray($found[1]);
-			$found[1] = str_replace("?", "\?", $found[1]);
+			//$found[1] = str_replace("?", "\?", $found[1]);
 			$a_text = str_replace("<ExtLink".$found[1].">","[xln url=\"".$attribs["Href"]."\"]",$a_text);
 		}
 		$a_text = eregi_replace("</ExtLink>","[/xln]",$a_text);
