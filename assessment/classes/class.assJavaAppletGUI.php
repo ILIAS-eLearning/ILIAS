@@ -214,16 +214,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		$this->editQuestion();
 	}
 
-	/**
-	* save question to db and return to question pool
-	*/
-	function save()
-	{
-		$this->writePostData();
-		$this->object->saveToDb();
-		$this->ctrl->returnToParent($this);
-	}
-
 	function uploadingMaterial()
 	{
 		//$this->setObjectData();

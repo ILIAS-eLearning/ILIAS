@@ -436,17 +436,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* save question
-	*/
-	function save()
-	{
-		$this->writePostData();
-		$this->object->saveToDb();
-		$this->object->removeAllQuestionReferences();
-		$this->ctrl->returnToParent($this);
-	}
-
-	/**
 	* upload material
 	*/
 	function uploadingMaterial()

@@ -290,16 +290,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* save question to db and return to question pool
-	*/
-	function save()
-	{
-		$this->writePostData();
-		$this->object->saveToDb();
-		$this->ctrl->returnToParent($this);
-	}
-
-	/**
 	* add matching pair
 	*/
 	function addPair()

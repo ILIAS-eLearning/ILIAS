@@ -266,51 +266,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		exit();
 	}
 
-	/**
-	* Displays a preview of a question
-	*
-	* Displays a preview of a question
-	*
-	* @param string $question_id The database id of the question
-	* @access public
-	*/
-	/*
-	function outPreviewForm($question_id)
-	{
-echo "<br>ilObjQuestionPoolGUI->outPreviewForm()";
-		$question =& $this->object->createQuestion("", $question_id);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
-		$question->outPreviewForm();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_PREVIEW", $_SERVER["PHP_SELF"] . $this->getAddParameter());
-		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
-		$this->tpl->parseCurrentBlock();
-	}*/
-
-	/**
-	* Cancels actions editing this question
-	*
-	* Cancels actions editing this question
-	*
-	* @access private
-	*/
-	/*
-	function cancel_action($question_id = "")
-	{
-echo "<br>ilObjQuestionPoolGUI->cancel_action()";
-		if ($_SESSION["test_id"])
-		{
-			if ($question_id)
-			{
-				$add_question = "&add=$question_id";
-			}
-			header("location:" . "test.php" . "?ref_id=" . $_SESSION["test_id"] . "&cmd=questions$add_question");
-		}
-			else
-		{
-			header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
-		}
-	}*/
 
 	/**
 	* cancel action
@@ -329,6 +284,7 @@ echo "<br>ilObjQuestionPoolGUI->cancel_action()";
 	*
 	* @access public
 	*/
+	/*
 	function editQuestionForm($type)
 	{
 echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
@@ -402,61 +358,11 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
 			$missing_required_fields = $question->writePostData();
 		}
 
-
-		/* nothing seems to happen here
-		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"])
-		{
-			$in_use = $question->object->isInUse();
-			if ($in_use)
-			{
-				// ???do you really want to delete the test data???
-				// either use a session variable and store $question
-				// or collect all GET's and POST's and build new form to submit that data
-			}
-		}*/
-
-		// save
-		/* moved to save
-		if (strlen($_POST["cmd"]["save"]) > 0)
-		{
-			// Save and back to question pool
-			if (!$missing_required_fields)
-			{
-				$question->object->saveToDb();
-				// remove all references to the question in test solutions
-				$question->object->removeAllQuestionReferences();
-				$this->cancel_action($question->object->getId());
-				exit();
-			}
-			else
-			{
-				sendInfo($this->lng->txt("fill_out_all_required_fields"));
-			}
-		}*/
-
-		// apply
-		/*
-		if (strlen($_POST["cmd"]["apply"]) > 0)
-		{
-			// Save and continue editing
-			if (!$missing_required_fields)
-			{
-				$question->object->saveToDb();
-
-				// remove all references to the question in test solutions
-				$question->object->removeAllQuestionReferences();
-			}
-			else
-			{
-				sendInfo($this->lng->txt("fill_out_all_required_fields"));
-			}
-		}*/
-
 		$question->showEditForm();
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->parseCurrentBlock();
-	}
+	}*/
 
 
 	/**
@@ -658,24 +564,9 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
 	*/
 	function questionsObject()
 	{
-//echo "<br>ilObjQuestionPoolGUI->questionsObject()";
 		global $rbacsystem;
 
 		$type = $_GET["sel_question_types"];
-
-		if ($_GET["preview"])
-		{
-			$this->outPreviewForm($_GET["preview"]);
-			return;
-		}
-
-		if ($_GET["create"])
-		{
-			// create a new question out of a test
-			$this->editQuestionForm($_GET["create"]);
-			return;
-		}
-
 
 		// reset test_id SESSION variable
 		$_SESSION["test_id"] = "";
@@ -688,53 +579,6 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
 			if (preg_match("/cb_(\d+)/", $key, $matches))
 			{
 				array_push($checked_questions, $matches[1]);
-			}
-		}
-
-		if (strlen($_POST["cmd"]["edit"]) > 0)
-		{
-			// edit button was pressed
-			if (count($checked_questions) > 1)
-			{
-				sendInfo($this->lng->txt("qpl_edit_select_multiple"));
-			}
-			elseif (count($checked_questions) == 0)
-			{
-				sendInfo($this->lng->txt("qpl_edit_select_none"));
-			}
-			else
-			{
-				if ($rbacsystem->checkAccess('edit', $this->ref_id))
-				{
-					header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question" . "&edit=" . $checked_questions[0]);
-					exit();
-				}
-				else
-				{
-					sendInfo($this->lng->txt("qpl_edit_rbac_error"));
-				}
-			}
-		}
-
-		if (strlen($_POST["cmd"]["delete"]) > 0)
-		{
-			// delete button was pressed
-			if (count($checked_questions) > 0)
-			{
-				if ($rbacsystem->checkAccess('edit', $this->ref_id))
-				{
-					sendInfo($this->lng->txt("qpl_confirm_delete_questions"));
-					$this->deleteQuestions($checked_questions);
-					return;
-				}
-				else
-				{
-					sendInfo($this->lng->txt("qpl_delete_rbac_error"));
-				}
-			}
-			elseif (count($checked_questions) == 0)
-			{
-				sendInfo($this->lng->txt("qpl_delete_select_none"));
 			}
 		}
 
@@ -841,8 +685,7 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
 
 				$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
 				$this->tpl->setVariable("LINK_PREVIEW",
-					$this->ctrl->getLinkTargetByClass($class, "preview"));
-
+					$this->ctrl->getLinkTargetByClass("ilpageobjectgui", "preview"));
 
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
@@ -899,9 +742,13 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
 			$query_result = $this->ilias->db->query($query);
 			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
-				$this->tpl->parseCurrentBlock();
+// temporary disable imagemap and java questions
+				if ($data->type_tag != "qt_javaapplet" && $data->type_tag != "qt_imagemap")
+				{
+					$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 			$this->tpl->setCurrentBlock("CreateQuestion");
 			$this->tpl->setVariable("QUESTION_ADD", $this->lng->txt("create"));
