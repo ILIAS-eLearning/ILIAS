@@ -4,11 +4,11 @@
       <td class="std" colspan="2">{TXT_NIC_REGISTER}</td>
     </tr>
     <tr>
-      <td class="option_value" colspan="2"><input type="radio" name="form[register]" value="1" {ENABLED}/>{TXT_NIC_ENABLE}</td>
+      <td class="option_value" colspan="2"><input type="radio" name="form[register]" value="1" id="nic_internet" {ENABLED}/><label for="nic_internet">{TXT_NIC_ENABLE}</label></td>
     </tr>
     <tr>
       <td class="option_value" colspan="2">
-	  	<input type="radio" name="form[register]" value="2" {EMAIL}/>{TXT_NIC_EMAIL}
+	  	<input type="radio" name="form[register]" value="2" id="nic_email" {EMAIL}/><label for="nic_email">{TXT_NIC_EMAIL}</label>
 		<table><tr>
 		<td align="right" class="subtitle">{TXT_NIC_ENTER_ID}:</td>
 		<td><input type="text" name="form[nic_id]" size="5" maxsize="5" value="{NIC_ID}"/></td>
@@ -20,7 +20,7 @@
 	  </td>
     </tr>
     <tr>
-      <td class="option_value" colspan="2"><input type="radio" name="form[register]" value="0" {DISABLED}/>{TXT_NIC_DISABLE}</td>
+      <td class="option_value" colspan="2"><input type="radio" name="form[register]" value="0" id="nic_disable" {DISABLED}/><label for="nic_disable">{TXT_NIC_DISABLE}</label></td>
     </tr>
     <tr>
       <td class="submit" colspan="2">&nbsp;

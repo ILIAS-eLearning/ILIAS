@@ -1834,7 +1834,7 @@ class ilSetupGUI extends ilSetup
 		$lang_count = count($installed_langs);
 		
 		$this->tpl->setVariable("TXT_LANG_HEADER", ucfirst($this->lng->txt("available_languages")));
-		$this->tpl->setVariable("TXT_LANGUAGE", ucfirst($this->lng->txt("languages")));
+		$this->tpl->setVariable("TXT_LANGUAGE", ucfirst($this->lng->txt("language")));
 		$this->tpl->setVariable("TXT_INSTALLED", ucfirst($this->lng->txt("installed")));
 		$this->tpl->setVariable("TXT_DEFAULT", ucfirst($this->lng->txt("default")));
 
@@ -1859,6 +1859,8 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setCurrentBlock("language_row");
 			$this->tpl->setVariable("LANG_KEY", $lang_key);
 			$this->tpl->setVariable("TXT_LANG", $this->lng->txt("lang_".$lang_key));
+			$this->tpl->setVariable("BORDER", 0);
+			$this->tpl->setVariable("VSPACE", 0);
 
 			if (in_array($lang_key,$installed_langs))
 			{
