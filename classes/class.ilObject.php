@@ -287,7 +287,7 @@ class ilObject
 	*/
 	function setTitle($a_title)
 	{
-		$this->title = addslashes(shortenText($a_title, $this->max_title, $this->add_dots));
+		$this->title = addslashes(ilUtil::shortenText($a_title, $this->max_title, $this->add_dots));
 	}
 
 
@@ -309,7 +309,7 @@ class ilObject
 	*/
 	function setDescription($a_desc)
 	{
-		$this->desc = addslashes(shortenText($a_desc, $this->max_desc, $this->add_dots));
+		$this->desc = addslashes(ilUtil::shortenText($a_desc, $this->max_desc, $this->add_dots));
 	}
 
 	/**
@@ -421,8 +421,8 @@ class ilObject
 echo "Object->create() (type:".$this->type."): No title given! A title is required!"; exit;
 		}
 
-		$this->title = addslashes(shortenText($this->title, $this->max_title, $this->add_dots));
-		$this->desc = addslashes(shortenText($this->desc, $this->max_desc, $this->add_dots));
+		$this->title = addslashes(ilUtil::shortenText($this->title, $this->max_title, $this->add_dots));
+		$this->desc = addslashes(ilUtil::shortenText($this->desc, $this->max_desc, $this->add_dots));
 
 		$q = "INSERT INTO object_data ".
 			 "(type,title,description,owner,create_date,last_update) ".
