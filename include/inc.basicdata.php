@@ -28,28 +28,28 @@ if (isset($_POST["save_settings"]))  // formular sent
 		or empty($_POST["admin_phone"]) or empty($_POST["admin_email"]))
 	{
 		// feedback
-		$ilias->error_obj->sendInfo($lng->txt("fill_out_all_required_fields"));
+		sendInfo($lng->txt("fill_out_all_required_fields"));
 		$form_valid = false;
 	}
 	// check email adresses
 	// feedback_recipient
 	if (!TUtil::is_email($_POST["feedback_recipient"]) and !empty($_POST["feedback_recipient"]) and $form_valid)
 	{
-		$ilias->error_obj->sendInfo($lng->txt("input_error").": '".$lng->txt("feedback_recipient")."'<br/>".$lng->txt("email_not_valid"));
+		sendInfo($lng->txt("input_error").": '".$lng->txt("feedback_recipient")."'<br/>".$lng->txt("email_not_valid"));
 		$form_valid = false;
 	}
 	
 	// error_recipient
 	if (!TUtil::is_email($_POST["error_recipient"]) and !empty($_POST["error_recipient"]) and $form_valid)
 	{
-		$ilias->error_obj->sendInfo($lng->txt("input_error").": '".$lng->txt("error_recipient")."'<br/>".$lng->txt("email_not_valid"));
+		sendInfo($lng->txt("input_error").": '".$lng->txt("error_recipient")."'<br/>".$lng->txt("email_not_valid"));
 		$form_valid = false;
 	}
 
 	// admin email
 	if (!TUtil::is_email($_POST["admin_email"]) and $form_valid)
 	{
-		$ilias->error_obj->sendInfo($lng->txt("input_error").": '".$lng->txt("email")."'<br/>".$lng->txt("email_not_valid"));
+		sendInfo($lng->txt("input_error").": '".$lng->txt("email")."'<br/>".$lng->txt("email_not_valid"));
 		$form_valid = false;
 	}
 	
@@ -181,7 +181,7 @@ if (isset($_POST["save_settings"]))  // formular sent
 		$settings = $ilias->getAllSettings();
 
 		// feedback
-		$ilias->error_obj->sendInfo($lng->txt("saved_successfully"));
+		sendInfo($lng->txt("saved_successfully"));
 	}
 }
 
@@ -249,8 +249,8 @@ $tpl->setVariable("TXT_MAIL_MAXTIME_MAIL", $lng->txt("mail_maxtime_mail"));
 $tpl->setVariable("TXT_MAIL_MAXTIME_ATTACH", $lng->txt("mail_maxtime_attach"));
 
 // contact
-$tpl->setVariable("TXT_CONTACT_INFORMATION", $lng->txt("contact_information"));
-$tpl->setVariable("TXT_MUST_FILL_IN", $lng->txt("must_fill_in"));
+$tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
+$tpl->setVariable("TXT_REQUIRED_FIELDS", $lng->txt("required_field"));
 $tpl->setVariable("TXT_ADMIN", $lng->txt("administrator"));
 $tpl->setVariable("TXT_FIRSTNAME", $lng->txt("firstname"));
 $tpl->setVariable("TXT_LASTNAME", $lng->txt("lastname"));
@@ -415,5 +415,5 @@ $tpl->setVariable("ADMIN_EMAIL",$settings["admin_email"]);
 
 // common
 $tpl->setVariable("TXT_DAYS",$lng->txt("days"));
-$tpl->setVariable("TXT_IN_KB","(".$lng->txt("in_kb").")");
+$tpl->setVariable("TXT_KB",$lng->txt("kb"));
 ?>

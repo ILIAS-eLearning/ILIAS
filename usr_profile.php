@@ -38,14 +38,14 @@ if ($_GET["cmd"] == "save")
 	if (empty($_POST["usr_fname"]) or empty($_POST["usr_lname"])
 		 or empty($_POST["usr_email"]))
 	{
-		$ilias->error_obj->sendInfo($lng->txt("fill_out_all_required_fields"));
+		sendInfo($lng->txt("fill_out_all_required_fields"));
 		$form_valid = false;
 	}
 
 	// check email adress
 	if (!TUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid)
 	{
-		$ilias->error_obj->sendInfo($lng->txt("email_not_valid"));
+		sendInfo($lng->txt("email_not_valid"));
 		$form_valid = false;
 	}
 
@@ -95,7 +95,7 @@ if ($_GET["cmd"] == "save")
 		$userObj->update();
 		
 		// feedback
-		$ilias->error_obj->sendInfo($lng->txt("saved_successfully"),true);
+		sendInfo($lng->txt("saved_successfully"),true);
 
 		// reload page only if skin or style were changed
 		if ($reload)
@@ -165,7 +165,7 @@ foreach ($ilias->styles as $row)
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("FORMACTION", "usr_profile.php?cmd=save");
 
-$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("profile"));
+$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("personal_profile"));
 $tpl->setVariable("TXT_OF",strtolower($lng->txt("of")));
 $tpl->setVariable("USR_FULLNAME",$ilias->account->getFullname());
 
@@ -184,14 +184,13 @@ $tpl->setVariable("TXT_CITY",$lng->txt("city"));
 $tpl->setVariable("TXT_COUNTRY",$lng->txt("country"));
 $tpl->setVariable("TXT_PHONE",$lng->txt("phone"));
 $tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
-$tpl->setVariable("TXT_STATUS",$lng->txt("status"));
-$tpl->setVariable("TXT_GUEST",$lng->txt("guest"));
-$tpl->setVariable("TXT_STUDENT",$lng->txt("student"));
-$tpl->setVariable("TXT_EMPLOYEE",$lng->txt("employee"));
 $tpl->setVariable("TXT_DEFAULT_ROLE",$lng->txt("default_role"));
 $tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 $tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
 $tpl->setVariable("TXT_USR_STYLE",$lng->txt("usr_style"));
+$tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
+$tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
+$tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
 
 //values
 $tpl->setVariable("NICKNAME", $ilias->account->getLogin());

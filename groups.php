@@ -37,7 +37,7 @@ if (count($objects) > 0)
 $tpl->addBlockFile("CONTENT", "content", "tpl.groups.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$ilias->error_obj->sendInfo("Not available in this release.",$ilias->error_obj->MESSAGE);
+sendInfo("Not available in this release.");
 
 /*
 $tpl->setCurrentBlock("btn_cell");

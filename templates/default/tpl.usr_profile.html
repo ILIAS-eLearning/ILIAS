@@ -3,77 +3,88 @@
 {BUTTONS}
 {MESSAGE}
 <form method="POST" action="{FORMACTION}">
-
 <table class="std">
 <tr class="tblheader">
-  <td class="std" colspan=2><b>{TXT_USR_DATA}</b> {TXT_OF} {USR_FULLNAME}</td>
+  <td class="std" colspan="2">{TXT_USR_DATA} <span class="default">{TXT_OF} {USR_FULLNAME}</span></td>
 </tr>
-<tr class="tblrow2">
-        <td class="std" align="right" valign="middle"><b>{TXT_NICKNAME}</b></td>
-        <td class="std">{NICKNAME}</td>
+<tr>
+        <td class="option">{TXT_NICKNAME}</td>
+        <td class="option_value">{NICKNAME}</td>
 </tr>
-<tr class="tblrow1">
-        <td class="std" align="right" valign="middle"><b>{TXT_SALUTATION}</b></td>
-        <td class="std">
+<tr>
+        <td class="option">{TXT_DEFAULT_ROLE}</td>
+        <td class="option_value">{DEFAULT_ROLE}</td>
+</tr>
+<tr>
+  <td colspan="2">&nbsp;</td>
+</tr>
+<tr class="tblheader">
+  <td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
+</tr>
+<tr>
+        <td class="option">{TXT_SALUTATION}</td>
+        <td class="option_value">
                 <select name="usr_gender">
                         <option {SELECTED_M} value="m">{TXT_SALUTATION_M}</option>
                         <option {SELECTED_F} value="f">{TXT_SALUTATION_F}</option>
                 </select>
         </td>
 </tr>
-<tr class="tblrow2">
-        <td class="std" align="right" valign="middle"><span class="smallred"><sup>*</sup></span> <b>{TXT_FIRSTNAME}</b></td>
-        <td class="std"><input type="text" name="usr_fname" maxlength="32" size="40" value="{FIRSTNAME}"></td>
+<tr>
+        <td class="option">{TXT_FIRSTNAME}<span class="asterisk">*</span></td>
+        <td class="option_value"><input type="text" name="usr_fname" maxlength="32" size="40" value="{FIRSTNAME}"/></td>
 </tr>
-<tr class="tblrow1">
-        <td class="std" align="right" valign="middle"><span class="smallred"><sup>*</sup></span> <b>{TXT_LASTNAME}</b></td>
-        <td class="std"><input type="text" name="usr_lname" maxlength="32" size="40" value="{LASTNAME}"></td>
+<tr>
+        <td class="option">{TXT_LASTNAME}<span class="asterisk">*</span></td>
+        <td class="option_value"><input type="text" name="usr_lname" maxlength="32" size="40" value="{LASTNAME}"/></td>
 </tr>
-<tr class="tblrow2">
-        <td class="std" align="right" valign="middle"><sup></sup><b>{TXT_TITLE}</b></td>
-        <td class="std"><input type="text" name="usr_title" maxlength="32" size="40" value="{TITLE}"></td>
+<tr>
+        <td class="option">{TXT_TITLE}</td>
+        <td class="option_value"><input type="text" name="usr_title" maxlength="32" size="40" value="{TITLE}"/></td>
 </tr>
-<tr class="tblrow1">
-        <td class="std" align="right" valign="middle"><sup></sup><b>{TXT_INSTITUTION}</b></td>
-        <td class="std"><input type="text" name="usr_institution" maxlength="80" size="40" value="{INSTITUTION}"></td>
+<tr>
+  <td colspan="2">&nbsp;</td>
 </tr>
-<tr class="tblrow2">
-        <td class="std" align="right" valign="middle"><sup></sup><b>{TXT_STREET}</b></td>
-        <td class="std"><input type="text" name="usr_street" maxlength="40" size="40" value="{STREET}"></td>
+<tr class="tblheader">
+  <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
 </tr>
-<tr class="tblrow1">
-        <td class="std" align="right" valign="middle"><sup></sup><b>{TXT_ZIPCODE}</b></td>
-        <td class="std"><input type="text" name="usr_zipcode" maxlength="10" size="10" value="{ZIPCODE}"></td>
+<tr>
+        <td class="option">{TXT_INSTITUTION}</td>
+        <td class="option_value"><input type="text" name="usr_institution" maxlength="80" size="40" value="{INSTITUTION}"/></td>
 </tr>
-<tr class="tblrow2">
-        <td class="std" align="right" valign="middle"><sup></sup><b>{TXT_CITY}</b></td>
-        <td class="std"><input type="text" name="usr_city" maxlength="40" size="40" value="{CITY}"></td>
+<tr>
+        <td class="option">{TXT_STREET}</td>
+        <td class="option_value"><input type="text" name="usr_street" maxlength="40" size="40" value="{STREET}"/></td>
 </tr>
-<tr class="tblrow1">
-        <td class="std" align="right" valign="middle"><sup></sup><b>{TXT_COUNTRY}</b></td>
-        <td class="std"><input type="text" name="usr_country" maxlength="40" size="40" value="{COUNTRY}"></td>
+<tr>
+        <td class="option">{TXT_ZIPCODE}</td>
+        <td class="option_value"><input type="text" name="usr_zipcode" maxlength="10" size="10" value="{ZIPCODE}"/></td>
 </tr>
-<tr class="tblrow2">
-        <td class="std" align="right" valign="middle"><sup></sup><b>{TXT_PHONE}</b></td>
-        <td class="std"><input type="text" name="usr_phone" maxlength="40" size="40" value="{PHONE}"></td>
+<tr>
+        <td class="option">{TXT_CITY}</td>
+        <td class="option_value"><input type="text" name="usr_city" maxlength="40" size="40" value="{CITY}"/></td>
 </tr>
-<tr class="tblrow1">
-        <td class="std" align="right" valign="middle"><span class="smallred"><sup>*</sup></span> <b>{TXT_EMAIL}</b></td>
-        <td class="std"><input type="text" name="usr_email" maxlength="40" size="40" value="{EMAIL}"></td>
+<tr>
+        <td class="option">{TXT_COUNTRY}</td>
+        <td class="option_value"><input type="text" name="usr_country" maxlength="40" size="40" value="{COUNTRY}"/></td>
 </tr>
-<tr class="tblrow2">
-        <td class="std" align="right" valign="middle"><sup></sup><b>{TXT_STATUS}</b></td>
-        <td class="std">
-                <select name="usr_status">
-                        <option {SELECTED_GUEST} value="m">{TXT_GUEST}</option>
-                        <option {SELECTED_STUDENT} value="f">{TXT_STUDENT}</option>
-                        <option {SELECTED_EMPLOYEE} value="m">{TXT_EMPLOYEE}</option>
-                </select>
-        </td>
+<tr>
+        <td class="option">{TXT_PHONE}</td>
+        <td class="option_value"><input type="text" name="usr_phone" maxlength="40" size="40" value="{PHONE}"/></td>
 </tr>
-<tr class="tblrow1">
-        <td class="std" align="right" valign="middle"><sup></sup><b>{TXT_LANGUAGE}</b></td>
-        <td class="std">
+<tr>
+        <td class="option">{TXT_EMAIL}<span class="asterisk">*</span></td>
+        <td class="option_value"><input type="text" name="usr_email" maxlength="40" size="40" value="{EMAIL}"/></td>
+</tr>
+<tr>
+  <td colspan="2">&nbsp;</td>
+</tr>
+<tr class="tblheader">
+  <td class="std" colspan="2">{TXT_SETTINGS}</td>
+</tr>
+<tr>
+        <td class="option">{TXT_LANGUAGE}</td>
+        <td class="option_value">
                 <select name="usr_language">
 <!-- BEGIN sel_lang -->
                         <option {SELECTED_LANG} value="{LANGSHORT}">{LANG}</option>
@@ -81,13 +92,9 @@
                 </select>
         </td>
 </tr>
-<tr class="tblrow2">
-        <td class="std" align="right" valign="middle"><sup></sup><b>{TXT_DEFAULT_ROLE}</b></td>
-        <td class="std">{DEFAULT_ROLE}</td>
-</tr>
-<tr class="tblrow1">
-  <td class="std" align="right"><sup></sup><b>{TXT_USR_SKIN}</b></td>
-  <td class="std">
+<tr>
+  <td class="option" align="right">{TXT_USR_SKIN}</td>
+  <td class="option_value">
    <select name="usr_skin">
 <!-- BEGIN selectskin -->   
    <option value="{SKINVALUE}" {SKINSELECTED}>{SKINOPTION}</option>
@@ -95,9 +102,9 @@
    </select>
    </td>
 </tr>
-<tr class="tblrow2">
-  <td class="std" align="right"><sup></sup><b>{TXT_USR_STYLE}</b></td>
-  <td class="std">
+<tr>
+  <td class="option">{TXT_USR_STYLE}</td>
+  <td class="option_value">
    <select name="usr_style">
 <!-- BEGIN selectstyle -->   
    <option value="{STYLEVALUE}" {STYLESELECTED}>{STYLEOPTION}</option>
@@ -106,7 +113,7 @@
    </td>
 </tr>
 <tr>
-  <td colspan="2"><span class="smallred">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></td>
+  <td colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></td>
 </tr>
 <tr>
   <td colspan="2" align="right"><input class="submit" type="submit" value="{TXT_SAVE}"/></td>

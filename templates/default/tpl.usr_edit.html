@@ -1,15 +1,28 @@
 <form action="{FORMACTION}" method="post">
 <table class="std">
+  <tr class="tblheader">
+    <td class="std" colspan="2">{TXT_LOGIN_DATA}</td>
+  </tr>
   <tr>
-    <td class="option">{TXT_LOGIN} *</td>
+    <td class="option">{TXT_LOGIN}<span class="asterisk">*</span></td>
     <td class="option_value"><input type="text" name="Fobject[login]"  value="{LOGIN}" size="40" maxlength="32" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_PASSWD} *</td>
+    <td class="option">{TXT_PASSWD}<span class="asterisk">*</span></td>
     <td class="option_value"><input type="password" name="Fobject[passwd]"  value="{PASSWD}" size="40" maxlength="32" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_GENDER} *</td>
+    <td class="option">{TXT_PASSWD2}<span class="asterisk">*</span></td>
+    <td class="option_value"><input type="password" name="Fobject[passwd2]"  value="{PASSWD2}" size="40" maxlength="32" /></td>
+  </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr class="tblheader">
+    <td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
+  </tr>
+  <tr>
+    <td class="option">{TXT_GENDER}<span class="asterisk">*</span></td>
     <td class="option_value">
 <!-- BEGIN gender -->
         {GENDER}
@@ -17,56 +30,80 @@
     </td>
   </tr>
   <tr>
-    <td class="option">{TXT_FIRSTNAME} *</td>
+    <td class="option">{TXT_FIRSTNAME}<span class="asterisk">*</span></td>
     <td class="option_value"><input type="text" name="Fobject[firstname]" value="{FIRSTNAME}" size="40" maxlength="32" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_LASTNAME} *</td>
+    <td class="option">{TXT_LASTNAME}<span class="asterisk">*</span></td>
     <td class="option_value"><input type="text" name="Fobject[lastname]" value="{LASTNAME}" size="40" maxlength="32" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_TITLE}&nbsp;</td>
+    <td class="option">{TXT_TITLE}</td>
     <td class="option_value"><input type="text" name="Fobject[title]" value="{TITLE}" size="40" maxlength="32" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_INSTITUTION}&nbsp;</td>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr class="tblheader">
+    <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
+  </tr>
+  <tr>
+    <td class="option">{TXT_INSTITUTION}</td>
     <td class="option_value"><input type="text" name="Fobject[institution]" value="{INSTITUTION}" size="40" maxlength="80" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_STREET}&nbsp;</td>
+    <td class="option">{TXT_STREET}</td>
     <td class="option_value"><input type="text" name="Fobject[street]" value="{STREET}" size="40" maxlength="40" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_CITY}&nbsp;</td>
+    <td class="option">{TXT_CITY}</td>
     <td class="option_value"><input type="text" name="Fobject[city]" value="{CITY}" size="40" maxlength="40" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_ZIPCODE}&nbsp;</td>
+    <td class="option">{TXT_ZIPCODE}</td>
     <td class="option_value"><input type="text" name="Fobject[zipcode]" value="{ZIPCODE}" size="5" maxlength="10" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_COUNTRY}&nbsp;</td>
+    <td class="option">{TXT_COUNTRY}</td>
     <td class="option_value"><input type="text" name="Fobject[country]" value="{COUNTRY}" size="40" maxlength="40" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_PHONE}&nbsp;</td>
+    <td class="option">{TXT_PHONE}</td>
     <td class="option_value"><input type="text" name="Fobject[phone]" value="{PHONE}" size="40" maxlength="30" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_EMAIL} *</td>
+    <td class="option">{TXT_EMAIL}<span class="asterisk">*</span></td>
     <td class="option_value"><input type="text" name="Fobject[email]" value="{EMAIL}" size="40" maxlength="40" /></td>
   </tr>
   <tr>
-    <td class="option">{TXT_DEFAULT_ROLE} *</td>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr class="tblheader">
+    <td class="std" colspan="2">{TXT_SETTINGS}</td>
+  </tr>
+  <tr>
+    <td class="option">{TXT_DEFAULT_ROLE}<span class="asterisk">*</span></td>
     <td class="option_value">
 <!-- BEGIN role -->
         {DEFAULT_ROLE}
 <!-- END role -->
     </td>
   </tr>
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+<!-- BEGIN inform_user -->
+  <tr>
+    <td class="option" colspan="2" align="right"><span class="small">{TXT_INFORM_USER_MAIL}</span> <input type="checkbox" name="send_mail"  value="y" {SEND_MAIL} /></td>
+  </tr>
+<!-- END inform_user -->
+  <tr>
+	<td colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></td>
+  </tr>
+  <tr>
+	<td colspan="2" align="right"><input class="submit" type="submit" value="{TXT_SAVE}"/></td>
+  </tr>
 </table>
-<p class="infotext">* Required</p>
-<input class="submit" type="submit" value="{TXT_SAVE}" />
 </form>
 <!-- BEGIN ACTIVE_ROLE -->
 	<form action="{ACTIVE_ROLE_FORMACTION}" name="objectItems" method="post">

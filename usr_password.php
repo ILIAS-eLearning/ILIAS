@@ -10,7 +10,6 @@ require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_password.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
-$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
 
 //display buttons
 $tpl->setCurrentBlock("btn_cell");
@@ -28,29 +27,40 @@ $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("btn_row");
 $tpl->parseCurrentBlock();
 
-if ($_POST["pw_old"] != "")
+if ($_POST["save_passwd"])
 {
-	if ($ilias->account->updatePassword($_POST["pw_old"], $_POST["pw1"], $_POST["pw2"]))
+	// check old password
+	if (md5($_POST["pw_old"]) != $ilias->account->getPasswd())
 	{
-		$ilias->error_obj->sendInfo("msg_changes_ok");
-		$msg = "msg_changes_ok";
-	}
-	else
-	{
-		$ilias->error_obj->sendInfo("msg_failed");
-		$msg = "msg_failed";
+		$ilias->raiseError($lng->txt("passwd_wrong"),$ilias->error_obj->MESSAGE);
 	}
 	
-	$tpl->setCurrentBlock("message");
-	$tpl->setVariable("MSG", $lng->txt($msg));
-	$tpl->parseCurrentBlock();
+	// check new password
+	if ($_POST["pw1"] != $_POST["pw2"])
+	{
+		sendInfo($lng->txt("passwd_not_match"));
+	}
+			
+	// validate password
+	if (!TUtil::is_password($_POST["pw1"]))
+	{
+		$ilias->raiseError($lng->txt("passwd_invalid"),$ilias->error_obj->MESSAGE);
+	}
+	
+	if ($_POST["pw_old"] != "")
+	{
+		if ($ilias->account->updatePassword($_POST["pw_old"], $_POST["pw1"], $_POST["pw2"]))
+		{
+			sendInfo($lng->txt("msg_changes_ok"));
+		}
+		else
+		{
+			sendInfo($lng->txt("msg_failed"));
+		}
+	}
 }
 
-
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("chg_password"));
-
-$tpl->setVariable("TXT_NAME", $lng->txt("username"));
-$tpl->setVariable("NAME", $ilias->account->getLogin());
 $tpl->setVariable("TXT_CURRENT_PW", $lng->txt("current_password"));
 $tpl->setVariable("TXT_DESIRED_PW", $lng->txt("desired_password"));
 $tpl->setVariable("TXT_RETYPE_PW", $lng->txt("retype_password"));

@@ -235,7 +235,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 					}
 	
 					$tpl->setVariable("TXT_FORM_MESSAGE", $lng->txt("forums_the_post"));
-					
+
 					if ($_GET["cmd"] == "showreply")
 					{
 						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],1));
@@ -308,7 +308,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 			// get author data
 			unset($author);
 			$author = $frm->getUser($node["author"]);	
-			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author->getLastName()."</a>"); 
+			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author->getLogin()."</a>"); 
 			
 			// get create- and update-dates
 			if ($node["update_user"] > 0)
@@ -316,18 +316,25 @@ if (is_array($topicData = $frm->getOneTopic()))
 				$node["update"] = $frm->convertDate($node["update"]);
 				unset($lastuser);
 				$lastuser = $frm->getUser($node["update_user"]);					
-				$tpl->setVariable("POST_UPDATE","[".$lng->txt("edited_at").": ".$node["update"]." - ".$lng->txt("from").": ".$lastuser->getLastName()."]");
+				$tpl->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
 			}
 
-			$node["create_date"] = $frm->convertDate($node["create_date"]);
-			$tpl->setVariable("POST_DATE",$node["create_date"]);	
+			$tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
+			$tpl->setVariable("REGISTERED_SINCE",$frm->convertDate($author->getCreateDate()));
+
+			$numPosts = $frm->countUserArticles($author->id);
+			$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
+			$tpl->setVariable("NUM_POSTS",$numPosts);
 			
 			// prepare post
 			$node["message"] = $frm->prepareText($node["message"]);
 			
 			// make links in post usable 
 			$node["message"] = TUtil::makeClickable($node["message"]);
-			
+
+			$tpl->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
+			$tpl->setVariable("POST_DATE",$frm->convertDate($node["create_date"]));
+			$tpl->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
 			$tpl->setVariable("POST",nl2br($node["message"]));	
 			$tpl->parseCurrentBlock("posts_row");		
 		}
@@ -345,9 +352,11 @@ else
 $tpl->setCurrentBlock("posttable");
 $tpl->setVariable("COUNT_POST", $lng->txt("forums_count_art").": ".$posNum);
 $tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
-$tpl->setVariable("TXT_POST", $lng->txt("forums_the_post"));
+$tpl->setVariable("TXT_POST", $lng->txt("forums_thread").": ".$threadData["thr_subject"]);
+
 $tpl->parseCurrentBlock("posttable");
 
+// TODO: deprecated. use sendInfo. before deletion check first if it works!
 if ($_GET["message"])
 {
 	$tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");

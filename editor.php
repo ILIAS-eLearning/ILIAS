@@ -15,7 +15,7 @@ if (!$rbacsystem->checkAccess("write", ROOT_FOLDER_ID))
 	$ilias->raiseError("You are not entitled to access this page!",$ilias->error_obj->WARNING);
 }
 
-$ilias->error_obj->sendInfo("Not available in this release.",$ilias->error_obj->MESSAGE);
+sendInfo("Not available in this release.");
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.editor.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");

@@ -4,7 +4,7 @@ require_once "./classes/class.Search.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.search.html");
 
-$ilias->error_obj->sendInfo("Attention: Search function doesn't work in this release.");
+sendInfo("Attention: Search function doesn't work in this release.");
 
 if ($_POST["search"] != "")
 {

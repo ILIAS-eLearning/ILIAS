@@ -140,7 +140,6 @@ class ILIAS extends PEAR
 		// Error Handling
 		$this->error_obj = new ErrorHandling();
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
-		
 	}
 	
 	/**

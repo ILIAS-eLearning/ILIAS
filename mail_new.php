@@ -34,10 +34,10 @@ if(isset($_POST["cmd"]))
 												 $_POST["rcp_bcc"],$_POST["m_subject"],$_POST["m_message"],
 												 $_POST["attachments"],$_POST["m_type"],$_POST["m_email"]))
 			{
-				$ilias->error_obj->sendInfo($error_message);
+				sendInfo($error_message);
 				break;
 			}
-			$ilias->error_obj->sendInfo($lng->txt("mail_message_send"));
+			sendInfo($lng->txt("mail_message_send"));
 			break;
 
 		case $lng->txt("save_message"):
@@ -48,11 +48,11 @@ if(isset($_POST["cmd"]))
 										$_POST["rcp_bcc"],'read',$_POST["m_type"],$_POST["m_email"],
 										$_POST["m_subject"],$_POST["m_message"],$_SESSION["AccountId"]))
 			{
-				$ilias->error_obj->sendInfo($lng->txt("mail_saved"));
+				sendInfo($lng->txt("mail_saved"));
 			}
 			else
 			{
-				$ilias->error_obj->sendInfo($lng->txt("mail_send_error"));
+				sendInfo($lng->txt("mail_send_error"));
 			}
 			break;
 
@@ -62,17 +62,17 @@ if(isset($_POST["cmd"]))
 		
 		case $lng->txt("mail_to_search"):
 			$_SESSION["mail_search"] = 'to';
-			$ilias->error_obj->sendInfo($lng->txt("mail_search_word"));
+			sendInfo($lng->txt("mail_search_word"));
 			break;
 
 		case $lng->txt("mail_cc_search"):
 			$_SESSION["mail_search"] = 'cc';
-			$ilias->error_obj->sendInfo($lng->txt("mail_search_word"));
+			sendInfo($lng->txt("mail_search_word"));
 			break;
 
 		case $lng->txt("mail_bc_search"):
 			$_SESSION["mail_search"] = 'bc';
-			$ilias->error_obj->sendInfo($lng->txt("mail_search_word"));
+			sendInfo($lng->txt("mail_search_word"));
 			break;
 
 		case $lng->txt("edit"):
@@ -91,7 +91,7 @@ if(isset($_POST["cmd"]))
 				header("location: mail_search.php?mobj_id=$_GET[mobj_id]&search=".urlencode($_POST["search"]));
 				exit();
 			}
-			$ilias->error_obj->sendInfo("Bitte geben Sie einen Suchbegriff ein.");
+			sendInfo("Bitte geben Sie einen Suchbegriff ein.");
 			break;
 	}
 }
@@ -139,7 +139,7 @@ switch($_GET["type"])
 		{
 			if($error = $mfile->adoptAttachments($mail_data["attachments"],$_GET["mail_id"]))
 			{
-				$ilias->error_obj->sendInfo($error);
+				sendInfo($error);
 			}
 		}
 		break;

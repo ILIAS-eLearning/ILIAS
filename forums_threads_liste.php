@@ -121,7 +121,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				// get author data
 				unset($author);
 				$author = $frm->getUser($thrData["thr_usr_id"]);	
-				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$author->getLastName()."</a>"); 
+				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$author->getLogin()."</a>"); 
 								
 				// get last-post data
 				$lpCont = "";				
@@ -133,9 +133,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 				if (is_array($lastPost))
 				{				
 					$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
-					$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br/>".$lng->txt("from")."&nbsp;";			
-					$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$lastPost["lastname"]."</a><br/>";
-					$lpCont .= $lastPost["pos_date"];				
+					$lpCont = $lastPost["pos_date"]."<br/>".strtolower($lng->txt("from"))."&nbsp;";			
+					$lpCont .= "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$author->getLogin()."</a>";
 				}
 
 				$tpl->setVariable("LAST_POST", $lpCont);			
@@ -158,12 +157,15 @@ $tpl->setCurrentBlock("threadtable");
 $tpl->setVariable("COUNT_THREAD", $lng->txt("forums_count_thr").": ".$thrNum);
 $tpl->setVariable("TXT_DATE", $lng->txt("date"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-$tpl->setVariable("TXT_AUTHOR", $lng->txt("forums_thread_create"));
+$tpl->setVariable("TXT_TOPIC", $lng->txt("forums_thread"));
+$tpl->setVariable("TXT_AUTHOR", $lng->txt("forums_thread_create_from"));
 $tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_articles"));
 $tpl->setVariable("TXT_NUM_VISITS", $lng->txt("visits"));
 $tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));
 $tpl->parseCurrentBlock("threadtable");
 
+
+// TODO: maybe obsolete
 if ($_GET["message"])
 {
     $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");

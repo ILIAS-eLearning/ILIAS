@@ -1,28 +1,32 @@
 <h1>{HEADER}</h1>
 {LOCATOR}
-
+{MESSAGE}
 <!-- BEGIN form_feedback -->
 <p><b>{TXT_FORM_FEEDBACK}</b></p>
 <!-- END form_feedback -->
-<p>
 <!-- BEGIN new_thread -->
+<p>
 <form name="formular1" action="{FORMACTION}" method="post" onSubmit="return isEmpty(this, 'all', '')">
 
 <table class="std">
 <tr>
-    <td class="option"><b>{TXT_SUBJECT}:</b> *</td>
-    <td class="option_value"><input id="{TXT_SUBJECT}" type="text" name="formData[subject]" value="{SUBJECT}" size="50" maxlength="255" style="width:550px"/></td>
+    <td class="option">{TXT_SUBJECT}<span class="asterisk">*</span></td>
+    <td class="option_value"><input type="text" name="formData[subject]" value="{SUBJECT}" size="50" maxlength="255" style="width:550px"/></td>
 </tr>
 <tr>
-    <td class="option"><b>{TXT_MESSAGE}:</b> *</td>
+    <td class="option" valign="top">{TXT_MESSAGE}<span class="asterisk">*</span></td>
     <td class="option_value">
-	<textarea id="{TXT_MESSAGE}" name="formData[message]" cols="50" rows="15" wrap="virtual" style="width:550px; height=250px">{MESSAGE}</textarea></td>
+	<textarea name="formData[message]" cols="50" rows="15" wrap="virtual" style="width:550px; height=250px">{MESSAGE}</textarea>
+	</td>
+</tr>
+<tr>
+    <td colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></td>
+</tr>
+<tr>
+    <td align="right" colspan="2"><input class="submit" type="submit" name="SUB" value="{SUBMIT}"/>&nbsp;&nbsp;<input class="submit" type="Reset" value="{RESET}"/>
+</td>
 </tr>
 </table>
-<br />
-* {TXT_MUSTBE}
-<br /><br />
-<input class="submit" type="submit" name="SUB" value="{SUBMIT}"/>&nbsp;&nbsp;<input class="submit" type="Reset" value="{RESET}"/>
 </form>
 </p>
 <!-- END new_thread -->

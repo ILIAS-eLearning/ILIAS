@@ -1,7 +1,6 @@
 <div align="center">
-<br>
-<img src="./images/ilias_logo_big.gif" border="0">
-
+<br/>
+<img src="./images/ilias_logo_big.gif" border="0"/>
 <form method="post" action="{FORMACTION}" name="formlogin">
 <table border="0" cellpadding="2" cellspacing="0">
 	<tr>
@@ -15,23 +14,23 @@
 	</tr>
 	<tr>
 	<td>{TXT_USERNAME}</td>
-	<td><input type="text" name="username" value="{USERNAME}"></td>
+	<td><input type="text" name="username" value="{USERNAME}"/></td>
 	</tr>
 	<tr>
 	<td>{TXT_PASSWORD}</td>
-	<td><input type="password" name="password"></td>
+	<td><input type="password" name="password"/></td>
 	</tr>
 	<tr>
-	<td colspan="2" bgcolor="#eeeeee" align="center"><input type="submit" name="butSubmit" value="{TXT_SUBMIT}"></td>
+	<td colspan="2" bgcolor="#eeeeee" align="center"><input type="submit" name="butSubmit" value="{TXT_SUBMIT}"/></td>
 	</tr>
 </table>
-<p>{TXT_CHOOSE_LANGUAGE}<br>
+<p>{TXT_CHOOSE_LANGUAGE}<br/>
 <!-- BEGIN languages -->
 <a href="./login.php?lang={LANG_ID}">[ {LANG_DESC} ]</a> 
 <!-- END languages -->
 </p>
-<br>
-<p><font color="red" size=+1><strong>{TXT_MSG_LOGIN_FAILED}</strong></font></p>
+<br/>
+<p class="warning">{TXT_MSG_LOGIN_FAILED}</p>
 </div>
 
 <script language="JavaScript">

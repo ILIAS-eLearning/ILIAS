@@ -1,5 +1,4 @@
 <form action="{FORMACTION}" name="objectItems" method="post">
-
 <table class="fullwidth">
 <!-- BEGIN table_header_row -->
 <tr class="tblheader">
@@ -8,7 +7,6 @@
 <!-- END table_header_cell -->
 </tr>
 <!-- END table_header_row -->
-
 <!-- BEGIN table_row -->
 <tr class="{CSS_ROW}">
 <!-- BEGIN table_cell -->
@@ -24,41 +22,24 @@
 <!-- END empty_cell -->
   </td>
 <!-- END table_cell -->
-
 </tr>
 <!-- END table_row -->
-
 </table>
 <br />
 <input class="submit" type="submit" name="cmd" value="{BTN_VALUE}" />
-
 </form>
-
-<br><br>
-
+<br/><br/>
 <!-- BEGIN add_object -->
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-
+<table class="fullwidth">
 <tr>
-
 	<td align="left" valign="top">&nbsp;</td>
-
 	<td align="left" valign="top">
-
-		<form action="{FORMACTION_OBJ_ADD}" method="post">
-
+	<form action="{FORMACTION_OBJ_ADD}" method="post">
 		{SELECT_OBJTYPE}
-
-		    <input class="submit" type="submit" name="submit" value="{TXT_ADD}" />
-
-	    </form>
-
+	    <input class="submit" type="submit" name="submit" value="{TXT_ADD}" />
+    </form>
 	</td>
-
 </tr>
-
 </table>
-
 <!-- END add_object -->
 {SYSTEMSETTINGS}

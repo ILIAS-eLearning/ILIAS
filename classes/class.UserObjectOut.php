@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.17 2003/03/21 14:23:26 smeyer Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.18 2003/03/21 16:50:52 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -66,6 +66,7 @@ class UserObjectOut extends ObjectOut
 			$data["fields"] = array();
 			$data["fields"]["login"] = "";
 			$data["fields"]["passwd"] = "";
+			$data["fields"]["passwd2"] = "";
 			$data["fields"]["title"] = "";
 			$data["fields"]["gender"] = $gender;
 			$data["fields"]["firstname"] = "";
@@ -90,8 +91,12 @@ class UserObjectOut extends ObjectOut
 
 			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]);
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		}
+			$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
+			$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
+			$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
+			$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
+			$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
+			$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));		}
 	}
 
 
@@ -125,6 +130,7 @@ class UserObjectOut extends ObjectOut
 			$data["fields"] = array();
 			$data["fields"]["login"] = $user->getLogin();
 			$data["fields"]["passwd"] = "********";	// will not be saved
+			$data["fields"]["passwd2"] = "********";	// will not be saved
 			$data["fields"]["title"] = $user->getTitle();
 			$data["fields"]["gender"] = $gender;
 			$data["fields"]["firstname"] = $user->getFirstname();
@@ -178,9 +184,24 @@ class UserObjectOut extends ObjectOut
 		}
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=update");
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=update");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
+		$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
+		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
+		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
+		$this->tpl->setVariable("TXT_PASSWD2", $this->lng->txt("retype_password"));
+
+		$this->tpl->setCurrentBlock("inform_user");
+		
+		if (true)
+		{
+			$tpl->setVariable("SEND_MAIL", " checked=\"checked\"");
+		}
+		
+		$this->tpl->setVariable("TXT_INFORM_USER_MAIL", $this->lng->txt("inform_user_mail"));
+		$this->tpl->parseCurrentBlock();
 
 		// BEGIN ACTIVE ROLES
 		$this->tpl->setCurrentBlock("ACTIVE_ROLE");
@@ -224,11 +245,29 @@ class UserObjectOut extends ObjectOut
 		// check required fields
 		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
 			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
-			or empty($_POST["Fobject"]["passwd"]))
+			or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		// check loginname
+		if (loginExists($_POST["Fobject"]["login"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("login_exists"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// check passwords
+		if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
+		{
+			$this->ilias->raiseError($this->lng->txt("passwd_not_match"),$this->ilias->error_obj->MESSAGE);
+		}
 		
+		// validate password
+		if (!TUtil::is_password($_POST["Fobject"]["passwd"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		// validate email
 		if (!TUtil::is_email($_POST["Fobject"]["email"]))
 		{
@@ -308,29 +347,98 @@ class UserObjectOut extends ObjectOut
 
 		// check required fields
 		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
-			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"]))
+			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
+			or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		// check loginname
+		if (loginExists($_POST["Fobject"]["login"],$this->id))
+		{
+			$this->ilias->raiseError($this->lng->txt("login_exists"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// check passwords
+		if ($_POST["Fobject"]["passwd"] != $_POST["Fobject"]["passwd2"])
+		{
+			$this->ilias->raiseError($this->lng->txt("passwd_not_match"),$this->ilias->error_obj->MESSAGE);
+		}
 		
+		// validate password
+		if (!TUtil::is_password($_POST["Fobject"]["passwd"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		// validate email
 		if (!TUtil::is_email($_POST["Fobject"]["email"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		// TODO: password cannot changed in form
-		// TODO: check if login or passwd already exists
 		// TODO: check length of login and passwd
 
 		// checks passed. save user
 		$user = new User($this->object->getId());
 		$user->assignData($_POST["Fobject"]);
 		$user->update();
+
+		// reset user's passwd if is it NOT ******** (8 asterisks)
+		if ($_POST["Fobject"]["passwd"] != "********")
+		{
+			$user->resetPassword($_POST["Fobject"]["passwd"],$_POST["Fobject"]["passwd2"]);
+		}
+		
+		// update login
+		$user->updateLogin($_POST["Fobject"]["login"]);
+
 		$this->object->setTitle($user->getFullname());
 		$this->object->setDescription($user->getEmail());
 		$this->update = $this->object->update();
 		$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $user->getId());
+
+		// sent email
+		if ($_POST["send_mail"] == "y")
+		{
+			require_once "classes/class.FormatMail.php";
+
+			$umail = new FormatMail($_SESSION["AccountId"]);
+			
+			$attachments = array();
+			
+			// mail body
+			$body = $this->lng->txt("login").": ".$user->getLogin()."\n\r".
+					$this->lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r".
+					$this->lng->txt("title").": ".$user->getTitle()."\n\r".
+					$this->lng->txt("gender").": ".$user->getGender()."\n\r".
+					$this->lng->txt("firstname").": ".$user->getFirstname()."\n\r".
+					$this->lng->txt("lastname").": ".$user->getLastname()."\n\r".
+					$this->lng->txt("institution").": ".$user->getInstitution()."\n\r".
+					$this->lng->txt("street").": ".$user->getStreet()."\n\r".
+					$this->lng->txt("city").": ".$user->getCity()."\n\r".
+					$this->lng->txt("zipcode").": ".$user->getZipcode()."\n\r".
+					$this->lng->txt("country").": ".$user->getCountry()."\n\r".
+					$this->lng->txt("phone").": ".$user->getPhone()."\n\r".
+					$this->lng->txt("email").": ".$user->getEmail()."\n\r".
+					$this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
+				
+			if ($error_message = $umail->sendMail($user->getLogin(),"","",$this->lng->txt("profile_changed"),$body,$attachments,"normal",0))
+			{
+				$msg = $this->lng->txt("saved_successfully")."<br/>".$error_message;
+			}
+			else
+			{
+				$msg = $this->lng->txt("saved_successfully")."<br/>".$this->lng->txt("mail_sent");
+			}
+		}
+		else
+		{
+			$msg = $this->lng->txt("saved_successfully");
+		}
+		
+		// feedback
+		sendInfo($msg,true);
 
 		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();

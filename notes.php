@@ -67,7 +67,7 @@ if ($_GET["cmd"] != "")
 $tpl->addBlockFile("CONTENT", "content", "tpl.notes.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$ilias->error_obj->sendInfo("Attention: Functions to handle bookmarks is not implemented yet.");
+sendInfo("Attention: Functions to handle bookmarks is not implemented yet.");
 
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","note_new.php");

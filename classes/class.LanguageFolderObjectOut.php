@@ -3,7 +3,7 @@
 * Class LanguageFolderObjectOut
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.13 2003/03/19 19:09:24 shofmann Exp $
+* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.14 2003/03/19 21:12:02 shofmann Exp $
 *
 * @extends	Object
 * @package	ilias-core
@@ -378,7 +378,6 @@ class LanguageFolderObjectOut extends ObjectOut
 
 		$this->data = $this->lng->txt("system_language")." ".$this->lng->txt("changed_to")." ".$this->lng->txt("lang_".$newSysLangObj->getKey()).".";
 
-
 		$this->out();
 	}
 
@@ -396,7 +395,7 @@ class LanguageFolderObjectOut extends ObjectOut
 
 	function out()
 	{
-		$this->ilias->error_obj->sendInfo($this->data);
+		sendInfo($this->data,true);
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}

@@ -104,6 +104,9 @@ class ObjectOut
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$title = $this->object->getTitle();
+		
+		// catch feedback message
+		sendInfo();
 
 		if (!empty($title))
 		{
@@ -766,7 +769,8 @@ class ObjectOut
 			}
 		}
 
-		$this->ilias->error_obj->sendInfo($this->lng->txt("info_deleted"));
+		// Feedback
+		sendInfo($this->lng->txt("info_deleted"));
 	}
 
 
@@ -1466,7 +1470,8 @@ class ObjectOut
 								  "confirm"  => $lng->txt("confirm"));
 
 		$this->getTemplateFile("confirm");
-		$this->ilias->error_obj->sendInfo($this->lng->txt("info_delete_sure"));
+
+		sendInfo($this->lng->txt("info_delete_sure"));
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
@@ -1524,8 +1529,9 @@ class ObjectOut
 		{
 			return;
 		}
+		
+		sendInfo($this->lng->txt("info_trash"));
 
-		$this->ilias->error_obj->sendInfo($this->lng->txt("info_trash"));
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 
 		// BEGIN TABLE HEADER

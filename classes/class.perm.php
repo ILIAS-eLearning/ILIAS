@@ -10,7 +10,6 @@
 * @package	ilias-core
 */
 
-
 /**
 * get an object
 * @access	public
@@ -484,5 +483,69 @@ function shortenText ($a_str, $a_len, $a_dots = "false")
 	}
 
 	return $a_str;
+}
+
+/**
+* check if a login name already exists
+* You may exclude a user from the check by giving his user id as 2nd paramter
+* @access	public
+* @param	string	login name
+* @param	integer	user id of user to exclude (optional)
+* @return	boolean
+*/
+function loginExists($a_login,$a_user_id = 0)
+{
+	global $ilias;
+
+	if ($a_user_id == 0)
+	{
+		$clause = "";
+	}
+	else
+	{
+		$clause = "AND usr_id != '".$a_user_id."'";
+	}
+
+	$q = "SELECT DISTINCT login FROM usr_data ".
+		 "WHERE login = '".$a_login."' ".$clause;
+	$r = $ilias->db->query($q);
+	
+	if ($r->numRows() == 1)
+	{
+		return true;
+	}
+	
+	return false;
+}
+
+/**
+* sends a message to the recent page
+* if you call sendInfo without any parameter, function will display a stored message
+* in session and delete it afterwards
+* @access	public
+* @param	string	message
+* @param	boolean	if true message is kept in session
+*/
+function sendInfo($a_info = "",$a_keep = false)
+{
+	global $tpl;
+
+	if (!empty($a_info))
+	{
+		$_SESSION["info"] = $a_info;
+	}
+
+	if (!empty($_SESSION["info"]))
+	{
+		$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
+		$tpl->setCurrentBlock("message");
+		$tpl->setVariable("INFO",$_SESSION["info"]);
+		$tpl->parseCurrentBlock();
+	}
+
+	if (!$a_keep)
+	{
+			session_unregister("info");
+	}
 }
 ?>

@@ -1,9 +1,9 @@
 	  {LOCATOR}
 	  {BUTTONS}
 	  {MESSAGE}
-	<H3>{TXT_PERSONS}</H3>
+	<h3>{TXT_PERSONS}</h3>
 	<form action="{ACTION}" METHOD="post">
-	  <table CELLPADDING=3 CELLSPACING=1 BORDER=0 WIDTH="75%">
+	  <table class="fullwidth">
 		  <tr class="tblheader" valign="top">
 			<td width="4%">
 			  &nbsp;			
@@ -18,11 +18,10 @@
 			  <b>{TXT_LASTNAME}</b>
 			</td>
 		  </tr>
-
 		  <!-- BEGIN person_search -->
 		  <tr class="{CSSROW}">
 			<td>
-			  <input type="checkbox" name="search_name[]" value="{PERSON_LOGIN}">			
+			  <input type="checkbox" name="search_name[]" value="{PERSON_LOGIN}"/>			
 			</td> 
 			<td valign="top">{LOGIN}</td>
 			<td valign="top">{FIRSTNAME}</td>
@@ -31,12 +30,12 @@
 		  <!-- END person_search -->
 		  <!-- BEGIN no_content -->
 		  <tr class="tblrow1">
-			<td colspan=4 align="center">{TXT_PERSON_NO}</td>
+			<td colspan="4" align="center">{TXT_PERSON_NO}</td>
 		  </tr>
 		  <!-- END no_content -->
 	  </table>
-	  <H3>{TXT_GROUPS}</H3>
-	  <table CELLPADDING=3 CELLSPACING=1 BORDER=0 WIDTH="75%">
+	  <h3>{TXT_GROUPS}</h3>
+	  <table class="fullwidth">
 		  <tr class="tblheader" valign="top">
 			<td width="4%">
 			  &nbsp;			
@@ -48,11 +47,10 @@
 			  <b>{TXT_GROUP_DESC}</b>
 			</td>
 		  </tr>
-
 		  <!-- BEGIN group_search -->
 		  <tr class="{GROUP_CSSROW}">
 			<td>
-			  <input type="checkbox" name="search_name[]" value="{GROUP_NAME}">			
+			  <input type="checkbox" name="search_name[]" value="{GROUP_NAME}"/>			
 			</td> 
 			<td valign="top">{GROUP_TITLE}</td>
 			<td valign="top">{GROUP_DESC}</td>
@@ -60,7 +58,7 @@
 		  <!-- END group_search -->
 		  <!-- BEGIN no_group_content -->
 		  <tr class="tblrow1">
-			<td colspan=4 align="center">{TXT_GROUP_NO}</td>
+			<td colspan="4" align="center">{TXT_GROUP_NO}</td>
 		  </tr>
 		  <!-- END no_group_content -->
 		  <tr>
@@ -73,8 +71,8 @@
 			  <img src="templates/default/images/arrow_downright.gif" />
 			</td>
 			<td>
-			  <input type="submit" name="cmd" value="{BUTTON_ADOPT}">
-			  <input type="submit" name="cmd" value="{BUTTON_CANCEL}">
+			  <input type="submit" name="cmd" value="{BUTTON_ADOPT}"/>
+			  <input type="submit" name="cmd" value="{BUTTON_CANCEL}"/>
 			</td>
 		  </tr>
 	  </table>
