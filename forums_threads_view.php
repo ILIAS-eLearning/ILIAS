@@ -341,14 +341,14 @@ if (is_array($topicData = $frm->getOneTopic()))
 						$tpl->setCurrentBlock("reply_attachment_edit");
 						$tpl->setVariable("FILE_DELETE_ACTION","forums_threads_view.php?ref_id=$_GET[ref_id]&cmd=showedit".
 										  "&pos_pk=$_GET[pos_pk]&thr_pk=$_GET[thr_pk]");
-						$tpl->setVariable("TXT_ATTACHMENTS_EDIT",$lng->txt("attachments_edit"));
-						$tpl->setVariable("ATTACHMENT_EDIT_DELETE",$lng->txt("delete_file"));
+						$tpl->setVariable("TXT_ATTACHMENTS_EDIT",$lng->txt("forums_attachments_edit"));
+						$tpl->setVariable("ATTACHMENT_EDIT_DELETE",$lng->txt("forums_delete_file"));
 						$tpl->parseCurrentBlock();
 					}
 
 					// ADD ATTACHMENTS
 					$tpl->setCurrentBlock("reply_attachment");
-					$tpl->setVariable("TXT_ATTACHMENTS_ADD",$lng->txt("attachments_add"));
+					$tpl->setVariable("TXT_ATTACHMENTS_ADD",$lng->txt("forums_attachments_add"));
 					#						$tpl->setVariable("UPLOAD_ACTION","forums_threads_view.php?ref_id=$_GET[ref_id]&cmd=showedit".
 					#										  "&pos_pk=$_GET[pos_pk]&thr_pk=$_GET[thr_pk]");
 					$tpl->setVariable("BUTTON_UPLOAD",$lng->txt("upload"));
@@ -510,11 +510,11 @@ if (is_array($topicData = $frm->getOneTopic()))
 						$tpl->setVariable("HREF_DOWNLOAD","forums_threads_view.php?ref_id=$_GET[ref_id]&pos_pk=$node[pos_pk]&file=".
 										  urlencode($file["name"]));
 						$tpl->setVariable("DOWNLOAD_IMGPATH",$tpl->tplPath);
-						$tpl->setVariable("TXT_DOWNLOAD_ATTACHMENT",$lng->txt("!!Attachment herunterladen"));
+						$tpl->setVariable("TXT_DOWNLOAD_ATTACHMENT",$lng->txt("forums_download_attachment"));
 						$tpl->parseCurrentBlock();
 					}
 					$tpl->setCurrentBlock("attachments");
-					$tpl->setVariable("TXT_ATTACHMENTS_DOWNLOAD","!!Attachments");
+					$tpl->setVariable("TXT_ATTACHMENTS_DOWNLOAD",$lng->txt("forums_attachments"));
 					$tpl->parseCurrentBlock();
 				}
 			}

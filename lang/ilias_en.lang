@@ -1633,3 +1633,10 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+forum#:#forums_download_attachment#:#Download file
+forum#:#forums_attachments#:#Attachments
+forum#:#forums_attachments_add#:#Add attachment
+forum#:#forums_attachments_edit#:#Edit attachment
+forum#:#forums_delete_file#:#Delete attachment
+mail#:#mail_maxsize_attachment_error#:#The upload limit is:
+mail#:#mail_byte#:#Byte

@@ -1635,3 +1635,10 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+forum#:#forums_download_attachment#:#Datei herunterladen
+forum#:#forums_attachments#:#Dateianhänge
+forum#:#forums_attachments_add#:#Dateianhang hinzufügen
+forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
+forum#:#forums_delete_file#:#Dateianhang löschen
+mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
+mail#:#mail_byte#:#Byte
