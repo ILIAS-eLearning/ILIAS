@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.17 2003/11/07 11:11:17 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.18 2003/11/18 13:40:47 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -248,7 +248,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("TXT_ABSOLUTE_PATH", $lng->txt("absolute_path"));
 		$tpl->setVariable("TXT_INST_NAME", $lng->txt("inst_name"));
 		$tpl->setVariable("TXT_INST_INFO", $lng->txt("inst_info"));
-		$tpl->setVariable("TXT_DEFAULT_SKIN_STYLE", $lng->txt("usr_skin_style"));
+		$tpl->setVariable("TXT_DEFAULT_SKIN_STYLE", $lng->txt("default_skin_style"));
 		$tpl->setVariable("TXT_DEFAULT_LANGUAGE", $lng->txt("default_language"));
 		$tpl->setVariable("TXT_FEEDBACK_RECIPIENT", $lng->txt("feedback_recipient"));
 		$tpl->setVariable("TXT_ERROR_RECIPIENT", $lng->txt("error_recipient"));
@@ -258,7 +258,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		
 		if (!$dbupdate->getDBVersionStatus())
 		{
-			$tpl->setVariable("TXT_DB_UPDATE", "&nbsp;<span class=\"warning\">".$lng->txt("db_need_update")."</span>");
+			$tpl->setVariable("TXT_DB_UPDATE", "&nbsp;(<span class=\"warning\">".$lng->txt("db_need_update")."</span>)");
 		} 
 
 		// modules

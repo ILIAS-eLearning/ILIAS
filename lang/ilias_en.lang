@@ -876,6 +876,7 @@ common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_edit#:#Edit User
 common#:#usr_new#:#New User
 common#:#usr_skin_style#:#Skin / Style
+common#:#default_skin_style#:#Default Skin / Style
 common#:#usr_style#:#User Style
 common#:#usrf#:#User Folder
 common#:#validate#:#Validate

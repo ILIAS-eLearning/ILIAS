@@ -876,6 +876,7 @@ common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_new#:#Neuer Benutzer
 common#:#usr_skin_style#:#Skin / Style###09 Nov 2003 new variable
+common#:#default_skin_style#:#Standard Skin / Style
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
 common#:#validate#:#Validieren
