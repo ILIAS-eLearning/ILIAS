@@ -201,13 +201,14 @@ class ilLMObjectGUI
 		global $rbacsystem;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-		
+
+		/*
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		else
-		{
+		{*/
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
@@ -220,7 +221,7 @@ class ilLMObjectGUI
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 				$this->tpl->setVariable(strtoupper($key), $val);
-				
+
 				if ($this->prepare_output)
 				{
 					$this->tpl->parseCurrentBlock();
@@ -234,7 +235,7 @@ class ilLMObjectGUI
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		}
+		//}
 
 
 
