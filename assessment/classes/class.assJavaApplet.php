@@ -154,7 +154,7 @@ class ASS_JavaApplet extends ASS_Question
 
 		// qti ident
 		$qtiIdent = $this->domxml->create_element("item");
-		$qtiIdent->set_attribute("ident", $this->getId());
+		$qtiIdent->set_attribute("ident", "il_".IL_INST_ID."_qst_".$this->getId());
 		$qtiIdent->set_attribute("title", $this->getTitle());
 		$root->append_child($qtiIdent);
 

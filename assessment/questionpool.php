@@ -41,7 +41,7 @@ unset($id);
 
 //determine call mode for object classes
 //TODO: don't use same var $id for both
-if (isset($_GET["obj_id"]))
+if ($_GET["obj_id"] > 0)
 {
 	$call_by_reference = false;
 	$id = $_GET["obj_id"];
@@ -66,7 +66,7 @@ if ((strcmp($_GET["cmd"], "question") == 0) or ($_POST["cmd"]["create"]) or ($_G
 //$obj = new $class_constr($data, $id, $call_by_reference, $prepare_output);
 
 //echo "ref_id:".$_GET["ref_id"].":";
-
+if ($_GET["obj_id"] < 1) unset($_GET["obj_id"]);
 $ilCtrl->setTargetScript("questionpool.php");
 $ilCtrl->getCallStructure("ilobjquestionpoolgui");
 $qp_gui =& new ilObjQuestionPoolGUI("", $_GET["ref_id"], true, $prepare_output);

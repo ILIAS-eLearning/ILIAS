@@ -24,7 +24,7 @@
 /**
 * Class ilObjTest
 * 
-* @author		Helmut Schottmüller<hschottm@tzi.de>
+* @author		Helmut Schottmüller <hschottm@tzi.de>
 * @version $Id$
 *
 * @extends ilObject
@@ -564,6 +564,138 @@ class ilObjTest extends ilObject
 		
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
+	
+	/**
+	* creates data directory for export files
+	* (data_dir/tst_data/tst_<id>/export, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createExportDirectory()
+	{
+		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
+		ilUtil::makeDir($tst_data_dir);
+		if(!is_writable($tst_data_dir))
+		{
+			$this->ilias->raiseError("Test Data Directory (".$tst_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+		
+		// create learning module directory (data_dir/lm_data/lm_<id>)
+		$tst_dir = $tst_data_dir."/tst_".$this->getId();
+		ilUtil::makeDir($tst_dir);
+		if(!@is_dir($tst_dir))
+		{
+			$this->ilias->raiseError("Creation of Test Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
+		$export_dir = $tst_dir."/export";
+		ilUtil::makeDir($export_dir);
+		if(!@is_dir($export_dir))
+		{
+			$this->ilias->raiseError("Creation of Export Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get export directory of test
+	*/
+	function getExportDirectory()
+	{
+		$export_dir = ilUtil::getDataDir()."/tst_data"."/tst_".$this->getId()."/export";
+
+		return $export_dir;
+	}
+	
+	/**
+	* get export files
+	*/
+	function getExportFiles($dir)
+	{
+		// quit if import dir not available
+		if (!@is_dir($dir) or
+			!is_writeable($dir))
+		{
+			return array();
+		}
+
+		// open directory
+		$dir = dir($dir);
+
+		// initialize array
+		$file = array();
+
+		// get files and save the in the array
+		while ($entry = $dir->read())
+		{
+			if ($entry != "." and
+				$entry != ".." and
+				substr($entry, -4) == ".zip" and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(test_)*[0-9]+\.zip\$", $entry))
+			{
+				$file[] = $entry;
+			}
+		}
+
+		// close import directory
+		$dir->close();
+
+		// sort files
+		sort ($file);
+		reset ($file);
+
+		return $file;
+	}
+
+	/**
+	* creates data directory for import files
+	* (data_dir/tst_data/tst_<id>/import, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createImportDirectory()
+	{
+		$tst_data_dir = ilUtil::getDataDir()."/tst_data";
+		ilUtil::makeDir($tst_data_dir);
+		
+		if(!is_writable($tst_data_dir))
+		{
+			$this->ilias->raiseError("Test Data Directory (".$tst_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+
+		// create test directory (data_dir/tst_data/tst_<id>)
+		$tst_dir = $tst_data_dir."/tst_".$this->getId();
+		ilUtil::makeDir($tst_dir);
+		if(!@is_dir($tst_dir))
+		{
+			$this->ilias->raiseError("Creation of Test Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+
+		// create import subdirectory (data_dir/tst_data/tst_<id>/import)
+		$import_dir = $tst_dir."/import";
+		ilUtil::makeDir($import_dir);
+		if(!@is_dir($import_dir))
+		{
+			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get import directory of lm
+	*/
+	function getImportDirectory()
+	{
+		$import_dir = ilUtil::getDataDir()."/tst_data".
+			"/tst_".$this->getId()."/import";
+		if(@is_dir($import_dir))
+		{
+			return $import_dir;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	
 	/**
 	* Retrieves the test types from the database
@@ -2964,7 +3096,7 @@ class ilObjTest extends ilObject
 		$root = $domxml->document_element();
 		// qti assessment
 		$qtiAssessment = $domxml->create_element("assessment");
-		$qtiAssessment->set_attribute("ident", $this->getTestId());
+		$qtiAssessment->set_attribute("ident", "il_".IL_INST_ID."_tst_".$this->getTestId());
 		$qtiAssessment->set_attribute("title", $this->getTitle());
 		
 		// add qti comment
@@ -3130,6 +3262,175 @@ class ilObjTest extends ilObject
 	}
 	
 	/**
+	* export pages of test to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportPagesXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
+	{
+		global $ilBench;
+		
+		$this->mob_ids = array();
+		$this->file_ids = array();
+
+		$attrs = array();
+		$attrs["Type"] = "Test";
+		$a_xml_writer->xmlStartTag("ContentObject", $attrs);
+
+		// MetaData
+		$this->exportXMLMetaData($a_xml_writer);
+
+		// PageObjects
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Page Objects");
+		$ilBench->start("ContentObjectExport", "exportPageObjects");
+		$this->exportXMLPageObjects($a_xml_writer, $a_inst, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportPageObjects");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Page Objects");
+
+		// MediaObjects
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Media Objects");
+		$ilBench->start("ContentObjectExport", "exportMediaObjects");
+		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportMediaObjects");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Media Objects");
+
+		// FileItems
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export File Items");
+		$ilBench->start("ContentObjectExport", "exportFileItems");
+		$this->exportFileItems($a_target_dir, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportFileItems");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
+
+		$a_xml_writer->xmlEndTag("ContentObject");
+	}
+
+	/**
+	* export content objects meta data to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLMetaData(&$a_xml_writer)
+	{
+		$nested = new ilNestedSetXML();
+		$nested->setParameterModifier($this, "modifyExportIdentifier");
+		$a_xml_writer->appendXML($nested->export($this->getId(),
+			$this->getType()));
+	}
+
+	function modifyExportIdentifier($a_tag, $a_param, $a_value)
+	{
+		if ($a_tag == "Identifier" && $a_param == "Entry")
+		{
+			$a_value = ilUtil::insertInstIntoID($a_value);
+		}
+
+		return $a_value;
+	}
+
+
+	/**
+	* export page objects to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog)
+	{
+		global $ilBench;
+
+		include_once "./content/classes/class.ilLMPageObject.php";
+
+		foreach ($this->questions as $question_id)
+		{
+			$ilBench->start("ContentObjectExport", "exportPageObject");
+			$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$question_id);
+
+			$attrs = array();
+			$a_xml_writer->xmlStartTag("PageObject", $attrs);
+
+			
+			// export xml to writer object
+			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
+			$page_object = new ilPageObject("qpl", $question_id);
+			$page_object->buildDom();
+			$page_object->insertInstIntoIDs($a_inst);
+			$mob_ids = $page_object->collectMediaObjects(false);
+			$file_ids = $page_object->collectFileItems();
+			$xml = $page_object->getXMLFromDom(false, false, false, "", true);
+			$xml = str_replace("&","&amp;", $xml);
+			$a_xml_writer->appendXML($xml);
+			$page_object->freeDom();
+			unset ($page_object);
+			
+			$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
+
+			// collect media objects
+			$ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
+			//$mob_ids = $page_obj->getMediaObjectIDs();
+			foreach($mob_ids as $mob_id)
+			{
+				$this->mob_ids[$mob_id] = $mob_id;
+			}
+			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
+
+			// collect all file items
+			$ilBench->start("ContentObjectExport", "exportPageObject_CollectFileItems");
+			//$file_ids = $page_obj->getFileItemIds();
+			foreach($file_ids as $file_id)
+			{
+				$this->file_ids[$file_id] = $file_id;
+			}
+			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
+			
+			$a_xml_writer->xmlEndTag("PageObject");
+			//unset($page_obj);
+
+			$ilBench->stop("ContentObjectExport", "exportPageObject");
+			
+
+		}
+	}
+
+	/**
+	* export media objects to xml (see ilias_co.dtd)
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
+	{
+		include_once("content/classes/Media/class.ilObjMediaObject.php");
+
+		foreach ($this->mob_ids as $mob_id)
+		{
+			$expLog->write(date("[y-m-d H:i:s] ")."Media Object ".$mob_id);
+			$media_obj = new ilObjMediaObject($mob_id);
+			$media_obj->exportXML($a_xml_writer, $a_inst);
+			$media_obj->exportFiles($a_target_dir);
+			unset($media_obj);
+		}
+	}
+
+	/**
+	* export files of file itmes
+	*
+	*/
+	function exportFileItems($a_target_dir, &$expLog)
+	{
+		include_once("classes/class.ilObjFile.php");
+
+		foreach ($this->file_ids as $file_id)
+		{
+			$expLog->write(date("[y-m-d H:i:s] ")."File Item ".$file_id);
+			$file_obj = new ilObjFile($file_id, false);
+			$file_obj->export($a_target_dir);
+			unset($file_obj);
+		}
+	}
+
+	/**
 	* Imports the test properties from XML into the test object
 	*
 	* Imports the test properties from XML into the test object
@@ -3254,22 +3555,17 @@ class ilObjTest extends ilObject
 	* @return boolean True, if the import succeeds, false otherwise
 	* @access public
 	*/
-	function importObject($file_info, $questionpool_id)
+	function importObject($source, $questionpool_id)
 	{
-		// check if file was uploaded
-		$source = $file_info["tmp_name"];
+
 		$error = 0;
 		if (($source == 'none') || (!$source) || $file_info["error"] > UPLOAD_ERR_OK)
 		{
 //			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
 			$error = 1;
 		}
-		// check correct file type
-		if (strcmp($file_info["type"], "text/xml") != 0)
-		{
-//			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
-			$error = 1;
-		}
+		
+
 		if (!$error)
 		{
 			// import file as a test
@@ -3280,6 +3576,7 @@ class ilObjTest extends ilObject
 				$error = 1;
 				return $error;
 			}
+
 			$xml = fread($fh, filesize($source));
 			$result = fclose($fh);
 			if (!$result)
@@ -3288,10 +3585,12 @@ class ilObjTest extends ilObject
 				$error = 1;
 				return $error;
 			}
+
 			if (preg_match("/(<assessment[^>]*>.*?<\/assessment>)/si", $xml, $matches))
 			{
 				// read test properties
 				$succeeded = $this->from_xml($matches[1]);
+
 				if (!$succeeded)
 				{
 //			$this->ilias->raiseError("The test properties do not contain proper values!",$this->ilias->error_obj->MESSAGE);
@@ -3305,11 +3604,25 @@ class ilObjTest extends ilObject
 				$error = 1;
 				return $error;
 			}
+
 			$question_counter = 1;
+			
+			$this->import_mapping = array();
+			
 			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
 			{
+
 				foreach ($matches[1] as $index => $item)
 				{
+					// get identifier
+					if (preg_match("/(<item[^>]*>)/is", $item, $start_tag))
+					{
+						if (preg_match("/(ident=\"([^\"]*)\")/is", $start_tag[1], $ident))
+						{
+							$ident = $ident[2];
+						}
+					}
+					
 					$question = "";
 					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
 					{
@@ -3340,8 +3653,11 @@ class ilObjTest extends ilObject
 							{
 								$question->setObjId($questionpool_id);
 								$question->saveToDb();
+								$q_1_id = $question->getId();
 								$question_id = $question->duplicate(true);
 								$this->questions[$question_counter++] = $question_id;
+								$this->import_mapping[$ident] = array(
+									"pool" => $q_1_id, "test" => $question_id);
 							}
 							else
 							{
@@ -3352,7 +3668,24 @@ class ilObjTest extends ilObject
 				}
 			}
 		}
+//echo "<br>"; var_dump($this->import_mapping);
 		return $error;
+	}
+	
+	/**
+	* get array of (two) new created questions for
+	* import id
+	*/
+	function getImportMapping()
+	{
+		if (!is_array($this->import_mapping))
+		{
+			return array();
+		}
+		else
+		{
+			return $this->import_mapping;
+		}
 	}
 	
 	function getECTSGrade($reached_points, $max_points)

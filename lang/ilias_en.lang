@@ -217,6 +217,10 @@ assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the quest
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
+assessment#:#ass_create_export_file#:#Create export file
+assessment#:#ass_export_files#:#Export files
+assessment#:#ass_file#:#File
+assessment#:#ass_size#:#Size
 assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Mark schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions

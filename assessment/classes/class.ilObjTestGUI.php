@@ -26,7 +26,7 @@
 * Class ilObjTestGUI
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>
-* @version	$Id$
+* $Id$
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -68,6 +68,55 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* form for new content object creation
+	*/
+	function createObject()
+	{
+		global $rbacsystem;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+
+			$this->getTemplateFile("create", $new_type);
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+																	   $_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+			$this->tpl->setVariable("CMD_SUBMIT", "save");
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+			$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_test"));
+			$this->tpl->setVariable("TXT_TST_FILE", $this->lng->txt("tst_upload_file"));
+			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+		}
+	}
+	
 	/**
 	* save object
 	* @access	public
@@ -111,14 +160,142 @@ class ilObjTestGUI extends ilObjectGUI
 		return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
 	}
 
+	/*
+	* list all export files
+	*/
 	function exportObject()
 	{
-		global $rbacsystem;
-		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
-			if ($_POST["cmd"]["export"])
+		global $tree;
+
+		//$this->setTabs();
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// create export file button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", "test.php?ref_id=".$_GET["ref_id"]."&cmd=createExportFile");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("ass_create_export_file"));
+		$this->tpl->parseCurrentBlock();
+
+		// view last export log button
+		/*
+		if (is_file($this->object->getExportDirectory()."/export.log"))
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "viewExportLog"));
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_view_last_export_log"));
+			$this->tpl->parseCurrentBlock();
+		}*/
+
+		$export_dir = $this->object->getExportDirectory();
+
+		$export_files = $this->object->getExportFiles($export_dir);
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// load files templates
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", true);
+
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", "test.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+
+		$tbl->setTitle($this->lng->txt("ass_export_files"));
+
+		$tbl->setHeaderNames(array("", $this->lng->txt("ass_file"),
+			$this->lng->txt("ass_size"), $this->lng->txt("date") ));
+
+		$cols = array("", "file", "size", "date");
+		$header_params = array("ref_id" => $_GET["ref_id"],
+			"cmd" => "export", "cmdClass" => strtolower(get_class($this)));
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
+		// delete button
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+		$this->tpl->parseCurrentBlock();
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		$tbl->setMaxCount(count($export_files));
+		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($export_files) > 0)
+		{
+			$i=0;
+			foreach($export_files as $exp_file)
 			{
-				ilUtil::deliverData($this->object->to_xml(), $this->object->getTitle() . ".xml");
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("TXT_FILENAME", $exp_file);
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", filesize($export_dir."/".$exp_file));
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
+
+				$file_arr = explode("__", $exp_file);
+				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+
+				$this->tpl->parseCurrentBlock();
 			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 3);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+	
+	/**
+	* create export file
+	*/
+	function createExportFileObject()
+	{
+		global $rbacsystem;
+		
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			require_once("assessment/classes/class.ilTestExport.php");
+			$test_exp = new ilTestExport($this->object);
+			$test_exp->buildExportFile();
+			$this->exportObject();
+
+			//ilUtil::deliverData($this->object->to_xml(), $this->object->getTitle() . ".xml");
+			
+			/*
 			$add_parameter = $this->getAddParameter();
 			if (!defined("ILIAS_MODULE"))
 			{
@@ -128,7 +305,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("FORMACTION", $add_parameter);
 			$this->tpl->setVariable("BUTTON_EXPORT", $this->lng->txt("export"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();*/
 		}
 		else
 		{
@@ -136,6 +313,109 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 	
+	/**
+	* download export file
+	*/
+	function downloadExportFileObject()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
+		$export_dir = $this->object->getExportDirectory();
+		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
+			$_POST["file"][0]);
+	}
+
+	/**
+	* confirmation screen for export file deletion
+	*/
+	function confirmDeleteExportFileObject()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		//$this->setTabs();
+
+		// SAVE POST VALUES
+		$_SESSION["ilExportFiles"] = $_POST["file"];
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+
+		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("FORMACTION", "test.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+
+		// BEGIN TABLE HEADER
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
+		$this->tpl->parseCurrentBlock();
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+		foreach($_POST["file"] as $file)
+		{
+				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+				$this->tpl->setVariable("TEXT_CONTENT", $file);
+				$this->tpl->parseCurrentBlock();
+		}
+
+		// cancel/confirm button
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
+			"deleteExportFile"  => $this->lng->txt("confirm"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+
+	/**
+	* cancel deletion of export files
+	*/
+	function cancelDeleteExportFileObject()
+	{
+		session_unregister("ilExportFiles");
+		ilUtil::redirect("test.php?cmd=export&ref_id=".$_GET["ref_id"]);
+	}
+
+
+	/**
+	* delete export files
+	*/
+	function deleteExportFileObject()
+	{
+		$export_dir = $this->object->getExportDirectory();
+		foreach($_SESSION["ilExportFiles"] as $file)
+		{
+			$exp_file = $export_dir."/".$file;
+			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
+			if (@is_file($exp_file))
+			{
+				unlink($exp_file);
+			}
+			if (@is_dir($exp_dir))
+			{
+				ilUtil::delDir($exp_dir);
+			}
+		}
+		ilUtil::redirect("test.php?cmd=export&ref_id=".$_GET["ref_id"]);
+	}
+
 	/**
 	* display dialogue for importing tests
 	*
@@ -186,6 +466,14 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->importObject();
 			return;
 		}
+		
+		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
+		{
+			sendInfo($this->lng->txt("error_upload"));
+			$this->importObject();
+			return;
+		}
+		
 		include_once("./assessment/classes/class.ilObjTest.php");
 		$newObj = new ilObjTest();
 		$newObj->setType($_GET["new_type"]);
@@ -197,8 +485,31 @@ class ilObjTestGUI extends ilObjectGUI
 		$newObj->setPermissions($_GET["ref_id"]);
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
 
+		// create import directory
+		$newObj->createImportDirectory();
+
 		// copy uploaded file to import directory
-		$newObj->importObject($_FILES["xmldoc"], $_POST["qpl"]);
+		$file = pathinfo($_FILES["xmldoc"]["name"]);
+		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+		move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+
+		// unzip file
+		ilUtil::unzip($full_path);
+
+		// determine filename of xml file
+		$subdir = basename($file["basename"],".".$file["extension"]);
+		$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
+		$qti_file = $newObj->getImportDirectory()."/".$subdir."/".
+			str_replace("test", "qti", $subdir).".xml";
+		
+		// import qti data
+		$newObj->importObject($qti_file, $_POST["qpl"]);
+		
+		// import page data
+		include_once ("content/classes/class.ilContObjParser.php");
+		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
+		$contParser->setQuestionMapping($newObj->getImportMapping());
+		$contParser->startParsing();
 
 		/* update title and description in object data */
 		if (is_object($newObj->meta_data))
