@@ -1887,6 +1887,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		switch ($_POST["export_format"])
 		{
+			case "csv":
+				$csvfile = array();
+				$csvrow = array();
+				array_push($csvrow, $this->lng->txt("title"));
+				array_push($csvrow, $this->lng->txt("question"));
+				array_push($csvrow, $this->lng->txt("question_type"));
+				array_push($csvrow, $this->lng->txt("users_answered"));
+				array_push($csvrow, $this->lng->txt("users_skipped"));
+				array_push($csvrow, $this->lng->txt("mode"));
+				array_push($csvrow, $this->lng->txt("mode_text"));
+				array_push($csvrow, $this->lng->txt("mode_nr_of_selections"));
+				array_push($csvrow, $this->lng->txt("median"));
+				array_push($csvrow, $this->lng->txt("arithmetic_mean"));
+				array_push($csvrow, $this->lng->txt("geometric_mean"));
+				array_push($csvrow, $this->lng->txt("harmonic_mean"));
+				array_push($csvfile, $csvrow);
+				break;
 			case "excel":
 				// Creating a workbook
 				$workbook = new Spreadsheet_Excel_Writer();
@@ -1968,6 +1985,32 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
 			switch ($_POST["export_format"])
 			{
+				case "csv":
+					$csvrow = array();
+					array_push($csvrow, $data["title"]);
+					array_push($csvrow, $data["questiontext"]);
+					array_push($csvrow, $this->lng->txt($eval["QUESTION_TYPE"]));
+					array_push($csvrow, $eval["USERS_ANSWERED"]);
+					array_push($csvrow, $eval["USERS_SKIPPED"]);
+					array_push($csvrow, $eval["MODE"], $matches);
+					switch ($eval["QUESTION_TYPE"])
+					{
+						case "qt_metric":
+							array_push($csvrow, $eval["MODE"]);
+							array_push($csvrow, $eval["MODE"]);
+							break;
+						default:
+							array_push($csvrow, $matches[1]);
+							array_push($csvrow, $matches[2]);
+							break;
+					}
+					array_push($csvrow, $eval["MODE_NR_OF_SELECTIONS"]);
+					array_push($csvrow, $eval["MEDIAN"]);
+					array_push($csvrow, $eval["ARITHMETIC_MEAN"]);
+					array_push($csvrow, $eval["GEOMETRIC_MEAN"]);
+					array_push($csvrow, $eval["HARMONIC_MEAN"]);
+					array_push($csvfile, $csvrow);
+					break;
 				case "excel":
 					$mainworksheet->write($counter+1, 0, $data["title"]);
 					$mainworksheet->write($counter+1, 1, $data["questiontext"]);
@@ -2251,6 +2294,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$workbook->close();
 				exit();
 				break;
+			case "csv":
+				$user_agent = strtolower ($_SERVER["HTTP_USER_AGENT"]);
+				header( "Content-type: application/force-download" );
+				if ((is_integer (strpos($user_agent, "msie"))) && (is_integer (strpos($user_agent, "win")))) {
+					header( "Content-Disposition: filename=eval.txt");
+				} else {
+					header( "Content-Disposition: attachment; filename=eval.txt");
+				}
+				header( "Content-Description: File Transfer");
+				foreach ($csvfile as $csvrow)
+				{
+					print join($csvrow, ",") . "\n";
+				}
+				exit();
+				break;
 		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
@@ -2266,6 +2324,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("HARMONIC_MEAN", $this->lng->txt("harmonic_mean"));
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
 		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("excel"));
+		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("csv"));
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$this->tpl->parseCurrentBlock();
 	}

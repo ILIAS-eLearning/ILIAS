@@ -3145,3 +3145,4 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#export_data_as#:#Export data as
 survey#:#excel#:#Microsoft Excel
+survey#:#csv#:#Comma separated value (CSV)
