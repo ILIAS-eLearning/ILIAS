@@ -247,6 +247,36 @@ function displayForm ()
 
 	// language selection
 	$languages = $lng->getInstalledLanguages();
+	
+		$count = (int) round(count($languages) / 2);
+		$num = 1;
+		
+		foreach ($languages as $lang_key)
+		{
+			/*
+			if ($num === $count)
+			{
+				$tpl->touchBlock("lng_new_row");
+			}
+			*/
+
+			$tpl->setCurrentBlock("languages");
+			$tpl->setVariable("LINK_LANG", "./register.php?lang=".$lang_key);
+			$tpl->setVariable("LANG_NAME", $lng->txt("lang_".$lang_key));
+			$tpl->setVariable("LANG_ICON", $lang_key);
+			$tpl->setVariable("BORDER", 0);
+			$tpl->setVariable("VSPACE", 0);
+			$tpl->parseCurrentBlock();
+
+			$num++;
+		}
+		
+		/*
+		if (count($languages) % 2)
+		{
+			$tpl->touchBlock("lng_empty_cell");
+		}
+		*/
 
 	// preselect previous chosen language otherwise default language
 	$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? $_SESSION["error_post_vars"]["Fobject"]["language"] : $ilias->getSetting("language");
@@ -286,6 +316,7 @@ function displayForm ()
 	}
 	
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
+	$tpl->setVariable("TXT_PAGETITLE", "ILIAS3 - ".$lng->txt("registration"));
 	$tpl->setVariable("TXT_REGISTER_INFO", $lng->txt("register_info"));
 	$tpl->setVariable("AGREEMENT", getUserAgreement());
 	$tpl->setVariable("ACCEPT_CHECKBOX", ilUtil::formCheckbox(0, "status", "accepted"));
@@ -305,7 +336,14 @@ function getUserAgreement()
 	chdir($agrPath);
 
 	$agreement = "agreement_".$lng->lang_key.".html";
-	if ($agreement)
+
+	// fallback to default language if selected translated user agreement of selected language was not found
+	if (!file_exists($agreement))
+	{
+		$agreement = "agreement_".$lng->lang_default.".html";
+	}
+	
+	if (file_exists($agreement))
 	{
 		if ($content = file($agreement))
 		{
@@ -325,6 +363,7 @@ function getUserAgreement()
 	{
 		$ilias->raiseError($lng->txt("file_not_found"),$ilias->error_obj->MESSAGE);
 	}
+	
 	chdir($tmpsave);
 }
 ?>
