@@ -167,14 +167,14 @@ class ilSearch
 	// PUBLIC
 	function getNumberOfResults()
 	{
-		$number = count($this->getResultByType("usr")) + count($this->getResultByType("grp"));
+		$number = count($this->getResultByType("usr")) + count($this->getResultByType("grp")) + count($this->getResultByType("role"));
 
 		$tmp_res = $this->getResultByType("dbk");
 		$number += count($tmp_res["meta"]) + count($tmp_res["content"]);
 
 		$tmp_res = $this->getResultByType("lm");
 		$number += count($tmp_res["meta"]) + count($tmp_res["content"]);
-		
+					
 		return $number;
 	}
 
@@ -256,6 +256,7 @@ class ilSearch
 
 					$this->act_type = 'role';
 					$result["role"] = ilObjRole::_search($this);
+
 					#$result["role"] = $this->__checkAccess($result["role"],'role');
 					break;
 			}
