@@ -240,7 +240,7 @@ class ilSetup extends PEAR
 	{
 		if ($this->client->checkDatabaseExists())
 		{
-			$this->error = "database_exists";
+			$this->error = $this->lng->txt("database_exists");
 			return false;
 		}
 		
@@ -248,7 +248,7 @@ class ilSetup extends PEAR
 		$db = DB::connect($this->client->dsn_host);
 		if (DB::isError($db))
 		{
-			$this->error = $db->getMessage()."! connection_failed";
+			$this->error = "connection_failed";
 			return false;
 		}
 
@@ -257,7 +257,7 @@ class ilSetup extends PEAR
 
 		if (DB::isError($r))
 		{
-			$this->error = $r->getMessage()."! create_database_failed";
+			$this->error = "create_database_failed";
 			return false;
 		}
 
@@ -324,7 +324,7 @@ class ilSetup extends PEAR
 		else
 		{
 			$arr["status"] = false;
-			$arr["comment"] = "Cannot write in folder! Please check your permission settings in your filesystem!";
+			$arr["comment"] = $this->lng->txt("pre_folder_write_error");
 		}
 
 		return $arr;
@@ -348,7 +348,7 @@ class ilSetup extends PEAR
 		else
 		{
 			$arr["status"] = false;
-			$arr["comment"] = "Cannot create subfolders! Please check your permission settings in your filesystem!";
+			$arr["comment"] = $this->lng->txt("pre_folder_create_error");
 		}
 
 		return $arr;
@@ -370,7 +370,7 @@ class ilSetup extends PEAR
 		else
 		{
 			$arr["status"] = false;
-			$arr["comment"] = "Cookies are disabled!";
+			$arr["comment"] = $this->lng->txt("pre_cookies_disabled");
 		}
 
 		return $arr;
@@ -391,7 +391,7 @@ class ilSetup extends PEAR
 			case 2:
 			case 3:
 				$arr["status"] = false;
-				$arr["comment"] = "Your PHP version is much too old for using ILIAS 3! Please upgrade your PHP.";
+				$arr["comment"] = $this->lng->txt("pre_php_version_3");
 				break;
 
 			case 4:
@@ -404,23 +404,23 @@ class ilSetup extends PEAR
 				elseif ($second == 2)
 				{
 					$arr["status"] = false;
-					$arr["comment"] = "DOMXML and XSLT support won't work properly with this version!";
+					$arr["comment"] = $this->lng->txt("pre_php_version_4.2");
 				}
 				else
 				{
 					$arr["status"] = false;
-					$arr["comment"] = "PEAR classes won't work properly with this version! Please upgrade your PHP.";
+					$arr["comment"] = $this->lng->txt("pre_php_version_4.1");
 				}
 				break;
 
 			case 5:
 				$arr["status"] = true;
-				$arr["comment"] = "";
+				$arr["comment"] = $this->lng->txt("pre_php_version_5");
 				break;
 
 			default:
 				$arr["status"] = true;
-				$arr["comment"] = "ILIAS setup don't know this version. Use with own risk!";
+				$arr["comment"] = $this->lng->txt("pre_php_version_unknown");
 				break;
 		}
 
@@ -450,9 +450,8 @@ class ilSetup extends PEAR
 		$a["php"] = $this->checkPHPVersion();
 		$a["root"] = $this->checkWritable();
 		$a["create"] = $this->checkCreatable();
-		//$a["db"] = $this->checkDatabaseExists();
 		$a["cookies"] = $this->checkCookiesEnabled();
-		//return value
+
 		return $a;
 	}
 

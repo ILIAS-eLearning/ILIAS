@@ -719,7 +719,7 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
 			}			
 			
-			sendInfo("settings_saved",true);
+			sendInfo($this->lng->txt("settings_saved"),true);
 			
 			header("Location: setup.php?cmd=startup");
 			exit();
@@ -1537,7 +1537,7 @@ class ilSetupGUI extends ilSetup
 					{
 						if (!$this->createDatabase())
 						{
-							$message = $this->getError();
+							$message = $this->lng->txt($this->getError());
 							$this->raiseError($message,$this->error_obj->MESSAGE);
 						}
 					}
@@ -1550,7 +1550,7 @@ class ilSetupGUI extends ilSetup
 				
 				if (!$this->installDatabase())
 				{
-					$message = $this->getError();
+					$message = $this->lng->txt($this->getError());
 					$this->client->status["db"]["status"] = false;
 					$this->client->status["db"]["comment"] = "install_error";
 				}
