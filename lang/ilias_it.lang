@@ -821,7 +821,7 @@ common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_create_url#:#Creare URL
 common#:#cat_delete#:#Eliminare un contesto
-common#:#cat_edit#:#Modificare un contesto
+common#:#cat_edit#:#Propriet&#224; del contesto
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#cat_new#:#Nuovo contesto
 common#:#cat_read#:#Accedere in lettura ad un contesto
@@ -1444,7 +1444,7 @@ common#:#install#:#Installa
 common#:#installed#:#Installata
 common#:#institution#:#Istituzione
 common#:#internal_local_roles_only#:#Ruoli locali (generati automaticamente)
-common#:#internal_system#:#Sistema interno
+common#:#internal_system#:#sistema interno
 common#:#ip_address#:#Indirizzo IP
 common#:#is_already_your#:#&#232; gi&#224;
 common#:#item#:#item
@@ -1529,7 +1529,7 @@ common#:#literature_bookmarks#:#Preferiti letteratura
 common#:#lm#:#Modulo ILIAS
 common#:#lm_a#:#un Modulo ILIAS
 common#:#lm_add#:#Aggiungi modulo ILIAS
-common#:#lm_added#:#Modulo ILIAS aggiunto
+common#:#lm_added#:#Modulo aggiunto
 common#:#lm_create#:#Crea un modulo ILIAS
 common#:#lm_delete#:#Eliminare un modulo ILIAS
 common#:#lm_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1571,7 +1571,7 @@ common#:#logout_text#:#Sei uscito da ILIAS 3. La tua sessione &#232; terminata.
 common#:#logs#:#Log con i dati
 common#:#los#:#Unit&#224; didattica
 common#:#los_last_visited#:#Ultima unit&#224; didattica visitata
-common#:#mail#:#Posta
+common#:#mail#:#Impostazioni della posta
 common#:#mail_a_root#:#Posta
 common#:#mail_addressbook#:#Rubrica
 common#:#mail_allow_smtp#:#Consenti SMTP
@@ -1822,7 +1822,7 @@ common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le impostazioni globali LDAP.
 common#:#obj_lm#:#Modulo ILIAS
 common#:#obj_lng#:#Lingua
-common#:#obj_lngf#:#Impostazioni lingue
+common#:#obj_lngf#:#Gestione lingue
 common#:#obj_lngf_desc#:#Per configurare e installare le lingue di sistema.
 common#:#obj_lo#:#Unit&#224; didattica
 common#:#obj_mail#:#Impostazioni posta
@@ -2309,7 +2309,7 @@ common#:#uncheck_all#:#Deseleziona tutto
 common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.
 common#:#unknown#:#Sconosciuto
-common#:#unread#:#non letti
+common#:#unread#:#non lette
 common#:#unselected#:#Deseleziona
 common#:#unsubscribe#:#Annulla l&#039;iscrizione
 common#:#unzip#:#Unzip
@@ -2617,7 +2617,7 @@ content#:#cont_lk_survey#:#Esame
 content#:#cont_lk_term#:#Glossario
 content#:#cont_lk_term_new#:#Glossario (Nuovo frame)
 content#:#cont_lm_menu#:#Menu
-content#:#cont_lm_properties#:#Propriet&#224; del modulo
+content#:#cont_lm_properties#:#Propriet&#224;
 content#:#cont_lvalue#:#Dati
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
