@@ -1511,6 +1511,32 @@ class ASS_QuestionGUI extends PEAR {
     return $result;
   }
 
+
+/**
+* Shuffles the values of a given array
+*
+* Shuffles the values of a given array
+*
+* @param array $array An array which should be shuffled
+* @access public
+*/
+	function pc_array_shuffle($array) {
+    $i = count($array);
+
+    while(--$i) {
+        $j = mt_rand(0, $i);
+
+        if ($i != $j) {
+            // swap elements
+            $tmp = $array[$j];
+            $array[$j] = $array[$i];
+            $array[$i] = $tmp;
+        }
+    }
+
+    return $array;
+	}
+	
 /**
 * Creates the learners output of a multiple choice question
 *
@@ -1544,7 +1570,12 @@ class ASS_QuestionGUI extends PEAR {
 
     if ($this->question->response == RESPONSE_SINGLE) {
       $this->tpl->setCurrentBlock("single");
-      foreach ($this->question->answers as $key => $value) {
+			$akeys = array_keys($this->question->answers);
+			if ($this->question->shuffle) {
+				$akeys = $this->pc_array_shuffle($akeys);
+			}
+      foreach ($akeys as $key) {
+				$value = $this->question->answers[$key];
         $this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_VALUE", $key);
         $this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_TEXT", $value->get_answertext());
 				foreach ($solutions as $idx => $solution_value) {
@@ -1556,7 +1587,12 @@ class ASS_QuestionGUI extends PEAR {
       }
     } else {
       $this->tpl->setCurrentBlock("multiple");
-      foreach ($this->question->answers as $key => $value) {
+			$akeys = array_keys($this->question->answers);
+			if ($this->question->shuffle) {
+				$akeys = $this->pc_array_shuffle($akeys);
+			}
+      foreach ($akeys as $key) {
+				$value = $this->question->answers[$key];
         $this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_VALUE", $key);
         $this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_TEXT", $value->get_answertext());
 				foreach ($solutions as $idx => $solution_value) {
