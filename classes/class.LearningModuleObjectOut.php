@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.3 2002/12/12 14:25:10 shofmann Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.4 2002/12/12 15:33:25 shofmann Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -45,7 +45,8 @@ class LearningModuleObjectOut extends ObjectOut
 	*/
 	function uploadObject()
 	{
-		header("Location: adm_object.php?cmd=view&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&message=".urlencode($this->data["msg"]));
+		header("Location: adm_object.php?cmd=view&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"].
+			   "&message=".urlencode($this->data["msg"]));
 		exit();
 		
 		//nada para mirar ahora :-)

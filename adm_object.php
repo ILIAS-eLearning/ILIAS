@@ -71,15 +71,6 @@ $obj = new $class_constr($data);
 $obj->$method();
 
 
-// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
-if ($_GET["message"])
-{
-    $tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
-	$tpl->setCurrentBlock("message");
-	$tpl->setVariable("MSG", urldecode($_GET["message"]));
-	$tpl->parseCurrentBlock();
-}
-
 // display basicdata formular
 // TODO: must be changed for clientel processing
 if ($_GET["cmd"] == "view" && $obj->type == "adm")

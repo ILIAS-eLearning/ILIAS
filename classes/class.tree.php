@@ -421,21 +421,15 @@ class Tree
 	/**
 	* get path from a given startnode to a given endnode
 	* if startnode is not given the rootnode is startnode
-	* if endnode is not given the current node is endnode
 	* @access	private
-	* @param	integer		node_id of endnode (optional)
-	* @param	integer		node_id of endparent (optional)
+	* @param	integer		node_id of endnode 
+	* @param	integer		node_id of endparent
 	* @param	integer		node_id of startnode (optional)
 	* @param	integer		node_id of startparent (optional)
 	* @return	object		query result
 	*/
-	function fetchPath ($a_endnode = 0, $a_endparent = 0, $a_startnode = 0, $a_startparent = 0)
+	function fetchPath ($a_endnode, $a_endparent, $a_startnode = 0, $a_startparent = 0)
 	{
-		if (empty($a_endnode))
-		{
-			$a_endnode = $this->node_id;
-		}
-
 		if (!empty($a_startnode) && empty($a_startparent))
 		{
 			$this->ilias->raiseError("function fetchPath(start,startparent,end,endparent) needs one more Argument",
@@ -447,12 +441,6 @@ class Tree
 			$a_startnode = $this->root_id;
 			$a_startparent = '0';
 		}
-
-		if (empty($a_endparent))
-		{
-			$a_endparent = $this->parent_id;
-		}
-
 		$query = "SELECT T2.parent,object_data.title,T2.child,(T2.rgt - T2.lft) AS sort_col ".
 				 "FROM tree AS T1, tree AS T2, tree AS T3 ".
 				 "LEFT JOIN object_data ON T2.child=object_data.obj_id ".
@@ -488,11 +476,8 @@ class Tree
 	* @param	integer	node_id of startparent (optional)
 	* @return	array	ordered path info (id,title,parent) from start to end
 	*/
-	function getPathFull ($a_endnode = 0, $a_endparent = 0, $a_startnode = 0 , $a_startparent = 0)
+	function getPathFull ($a_endnode, $a_endparent, $a_startnode = 0 , $a_startparent = 0)
 	{
-		$a_end = $a_end ? $a_end : $_GET["obj_id"];
-		$a_endparent = $a_endparent ? $a_endparent : $_GET["parent"];
-
 		$res = $this->fetchPath($a_endnode ,$a_endparent, $a_startnode, $a_startparent);
 		
 		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))

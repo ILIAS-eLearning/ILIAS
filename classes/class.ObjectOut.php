@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.5 2002/12/12 14:30:07 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.6 2002/12/13 14:50:04 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -395,6 +395,7 @@ class ObjectOut
 		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 		exit();
+
 	}
 	function clearAdmObject()
 	{
