@@ -62,9 +62,15 @@ if (!$ilias->getSetting("pub_section"))
 // catch reload
 if ($_GET["reload"])
 {
-	echo "<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true\";\n</script>\n";
+	if (!empty($_GET["return_to"]))
+	{
+		$return_to = "&return_to=".$_GET["return_to"];
+	}
+
+	echo "<script language=\"Javascript\">\ntop.location.href = \"./login.php?expired=true".$return_to."\";\n</script>\n";
 	exit();
 }
+
 // check for auth
 if ($ilias->auth->getAuth())
 {

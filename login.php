@@ -58,8 +58,15 @@ if ($ilias->auth->getAuth())
 		include_once "./chat/classes/class.ilChatServerCommunicator.php";
 		ilChatServerCommunicator::_login();
 	}
+	
+	$return_to = "start.php";
+	
+	if (!empty($_GET["return_to"]))
+	{
+		$return_to = urldecode($_GET["return_to"]);
+	}
 
-	header("location: start.php");
+	header("location: ".$return_to);
 	exit();
 }
 
