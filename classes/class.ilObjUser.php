@@ -318,21 +318,21 @@ class ilObjUser extends ilObject
 
 		$q = "UPDATE usr_data SET ".
 			 "gender='".$this->gender."', ".
-			 "title='".ilUtil::addSlashes($this->utitle)."', ".
-			 "firstname='".ilUtil::addSlashes($this->firstname)."', ".
-			 "lastname='".ilUtil::addSlashes($this->lastname)."', ".
-			 "email='".$this->email."', ".
-			 "hobby='".ilUtil::addSlashes($this->hobby)."', ".
-			 "institution='".ilUtil::addSlashes($this->institution)."', ".
-			 "department='".ilUtil::addSlashes($this->department)."', ".
-			 "street='".ilUtil::addSlashes($this->street)."', ".
-			 "city='".ilUtil::addSlashes($this->city)."', ".
-			 "zipcode='".$this->zipcode."', ".
-			 "country='".ilUtil::addSlashes($this->country)."', ".
-			 "phone_office='".$this->phone_office."', ".
-			 "phone_home='".$this->phone_home."', ".
-			 "phone_mobile='".$this->phone_mobile."', ".
-			 "fax='".$this->fax."', ".
+			 "title='".ilUtil::prepareDBString($this->utitle)."', ".
+			 "firstname='".ilUtil::prepareDBString($this->firstname)."', ".
+			 "lastname='".ilUtil::prepareDBString($this->lastname)."', ".
+			 "email='".ilUtil::prepareDBString($this->email)."', ".
+			 "hobby='".ilUtil::prepareDBString($this->hobby)."', ".
+			 "institution='".ilUtil::prepareDBString($this->institution)."', ".
+			 "department='".ilUtil::prepareDBString($this->department)."', ".
+			 "street='".ilUtil::prepareDBString($this->street)."', ".
+			 "city='".ilUtil::prepareDBString($this->city)."', ".
+			 "zipcode='".ilUtil::prepareDBString($this->zipcode)."', ".
+			 "country='".ilUtil::prepareDBString($this->country)."', ".
+			 "phone_office='".ilUtil::prepareDBString($this->phone_office)."', ".
+			 "phone_home='".ilUtil::prepareDBString($this->phone_home)."', ".
+			 "phone_mobile='".ilUtil::prepareDBString($this->phone_mobile)."', ".
+			 "fax='".ilUtil::prepareDBString($this->fax)."', ".
 			 "last_update=now() ".
 			 "WHERE usr_id='".$this->id."'";
 
