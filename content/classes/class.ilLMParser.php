@@ -23,7 +23,7 @@
 
 require_once("content/classes/class.ilPageObject.php");
 require_once("content/classes/class.ilStructureObject.php");
-require_once("content/classes/class.ilLearningModule.php");
+require_once("content/classes/class.ilObjLearningModule.php");
 require_once("classes/class.ilMetaData.php");
 require_once("content/classes/class.ilParagraph.php");
 require_once("content/classes/class.ilLMTable.php");

@@ -78,6 +78,9 @@ class ilLMObject
 		$this->meta_data =& new ilMetaData($this->type, $this->id);
 	}
 
+	/**
+	* 
+	*/
 	function setTitle($a_title)
 	{
 		$this->meta_data->setTitle($a_title);

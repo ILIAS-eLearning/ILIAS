@@ -70,8 +70,8 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->tpl->setVariable("BTN_TXT_WIDTH", $this->lng->txt("cont_set_width"));
 		// todo: we need a css concept here!
 		$select_class = ilUtil::formSelect ("","td_class",
-			array("" => $this->lng->txt("none"), "ilc_Cell1" => "ilc_Cell1", "ilc_Cell2" => "ilc_Cell2",
-			"ilc_Cell3" => "ilc_Cell3", "ilc_Cell4" => "ilc_Cell4"),false,true);
+			array("" => $this->lng->txt("none"), "ilc_Cell1" => "Cell1", "ilc_Cell2" => "Cell2",
+			"ilc_Cell3" => "Cell3", "ilc_Cell4" => "Cell4"),false,true);
 		$this->tpl->setVariable("SELECT_CLASS", $select_class);
 		$this->tpl->setVariable("BTN_CLASS", "setClass");
 		$this->tpl->setVariable("BTN_TXT_CLASS", $this->lng->txt("cont_set_class"));

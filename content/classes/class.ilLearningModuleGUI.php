@@ -21,8 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilLearningModule.php");
-require_once("classes/class.ilObjLearningModuleGUI.php");
+require_once("content/classes/class.ilObjLearningModule.php");
+require_once("content/classes/class.ilObjLearningModuleGUI.php");
 
 /**
 * Class ilLearningModuleGUI
@@ -60,6 +60,14 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		$this->lm_tree =& $a_tree;*/
 
 		//$this->read(); todo
+	}
+
+	/**
+	*
+	*/
+	function assignObject()
+	{
+		$this->object =& new ilObjLearningModule($this->id, true);
 	}
 
 	/*

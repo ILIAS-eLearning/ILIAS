@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/class.ilLearningModule.php");
+require_once("./content/classes/class.ilObjLearningModule.php");
 require_once("./classes/class.ilMainMenuGUI.php");
 require_once("./classes/class.ilObjStyleSheet.php");
 
@@ -49,7 +49,7 @@ class ilLMPresentationGUI
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "layout";
 
 		// Todo: check lm id
-		$this->lm =& new ilLearningModule($_GET["ref_id"]);
+		$this->lm =& new ilObjLearningModule($_GET["ref_id"], true);
 
 		$this->$cmd();
 	}
@@ -228,7 +228,7 @@ class ilLMPresentationGUI
 		$builded = $pg_obj->buildDom();
 		$content = $pg_obj->getXMLFromDom(false, true);
 
-		$pg_title = $pg_obj->getPresentationTitle();
+		$pg_title = $pg_obj->getPresentationTitle($this->lm->getPageHeader());
 
 		// convert bb code to xml
 		$pg_obj->bbCode2XML($content);
@@ -294,7 +294,7 @@ class ilLMPresentationGUI
 			$this->tpl->setCurrentBlock("ilLMNavigation_Prev");
 			$pre_page =& new ilPageObject($pre_node["obj_id"]);
 			$pre_page->setLMId($this->lm->getId());
-			$pre_title = $pre_page->getPresentationTitle();
+			$pre_title = $pre_page->getPresentationTitle($this->lm->getPageHeader());
 			$output = "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 				$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
 				"\">&lt; ".$pre_title."</a>";
@@ -306,7 +306,7 @@ class ilLMPresentationGUI
 			$this->tpl->setCurrentBlock("ilLMNavigation_Next");
 			$succ_page =& new ilPageObject($succ_node["obj_id"]);
 			$succ_page->setLMId($this->lm->getId());
-			$succ_title = $succ_page->getPresentationTitle();
+			$succ_title = $succ_page->getPresentationTitle($this->lm->getPageHeader());
 			$output = " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 				$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
 				"\">".$succ_title." &gt;</a>";

@@ -22,10 +22,6 @@
 */
 
 
-define ("IL_CHAPTER_TITLE", "st_title");
-define ("IL_PAGE_TITLE", "pg_title");
-define ("IL_NO_HEADER", "none");
-
 /**
 * Class ilObjLearningModule
 *
@@ -38,6 +34,7 @@ define ("IL_NO_HEADER", "none");
 
 require_once "classes/class.ilObject.php";
 require_once "classes/class.ilMetaData.php";
+require_once("content/classes/class.ilPageObject.php");
 
 class ilObjLearningModule extends ilObject
 {
@@ -68,6 +65,9 @@ class ilObjLearningModule extends ilObject
 	function create()
 	{
 		parent::create();
+		$this->meta_data->setId($this->getId());
+		$this->meta_data->setType($this->getType());
+		$this->meta_data->create();
 		$this->createProperties();
 	}
 
@@ -78,6 +78,7 @@ class ilObjLearningModule extends ilObject
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
 		$this->lm_tree->setTreeTablePK("lm_id");
 		$this->meta_data =& new ilMetaData("lm", $this->getId());
+
 		$this->readProperties();
 		//parent::read();
 	}
@@ -141,93 +142,6 @@ class ilObjLearningModule extends ilObject
 
 		// make new tree for this object
 		$tree->addTree($this->getId());
-	}
-
-	function getLayout()
-	{
-		return $this->layout;
-	}
-
-	function setLayout($a_layout)
-	{
-		$this->layout = $a_layout;
-	}
-
-	function getStyleSheetId()
-	{
-		return $this->style_id;
-	}
-
-	function setStyleSheetId($a_style_id)
-	{
-		$this->style_id = $a_style_id;
-	}
-
-	function getPageHeader()
-	{
-		return $this->pg_header;
-	}
-
-	/**
-	* @param string $a_pg_header		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
-	*/
-	function setPageHeader($a_pg_header = IL_CHAPTER_TITLE)
-	{
-		$this->pg_header = $a_pg_header;
-	}
-
-	function readProperties()
-	{
-		$q = "SELECT * FROM learning_module WHERE id = '".$this->getId()."'";
-		$lm_set = $this->ilias->db->query($q);
-		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
-		$this->setLayout($lm_rec["default_layout"]);
-		$this->setStyleSheetId($lm_rec["stylesheet"]);
-		$this->setPageHeader($lm_rec["page_header"]);
-	}
-
-	function updateProperties()
-	{
-		$q = "UPDATE learning_module SET ".
-			" default_layout = '".$this->getLayout()."', ".
-			" stylesheet = '".$this->getStyleSheetId()."',".
-			" page_header = '".$this->getPageHeader()."'".
-			" WHERE id = '".$this->getId()."'";
-		$this->ilias->db->query($q);
-	}
-
-	function createProperties()
-	{
-		$q = "INSERT INTO learning_module (id) VALUES ('".$this->getId()."')";
-		$this->ilias->db->query($q);
-	}
-
-
-	/**
-	* get all available lm layouts
-	*
-	* static
-	*/
-	function getAvailableLayouts()
-	{
-		// read sdir, copy files and copy directories recursively
-		$dir = opendir("./layouts/lm");
-
-		$layouts = array();
-
-		while($file = readdir($dir))
-		{
-			if ($file != "." && $file != ".." && $file != "CVS")
-			{
-				// directories
-				if (@is_dir("./layouts/lm/".$file))
-				{
-					$layouts[$file] = $file;
-				}
-			}
-		}
-		asort($layouts);
-		return $layouts;
 	}
 
 
@@ -451,17 +365,106 @@ echo "Build Tree<br>";
 	}
 
 	/**
-	* delete learning module and all related data	
+	* delete learning module and all related data
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
-	{		
+	{
 		// put here learning module specific stuff
-		
+
 		// always call parent delete function at the end!!
 		return (parent::delete()) ? true : false;
 	}
+
+	function getLayout()
+	{
+		return $this->layout;
+	}
+
+	function setLayout($a_layout)
+	{
+		$this->layout = $a_layout;
+	}
+
+	function getStyleSheetId()
+	{
+		return $this->style_id;
+	}
+
+	function setStyleSheetId($a_style_id)
+	{
+		$this->style_id = $a_style_id;
+	}
+
+	function getPageHeader()
+	{
+		return $this->pg_header;
+	}
+
+	/**
+	* @param string $a_pg_header		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
+	*/
+	function setPageHeader($a_pg_header = IL_CHAPTER_TITLE)
+	{
+		$this->pg_header = $a_pg_header;
+	}
+
+	function readProperties()
+	{
+		$q = "SELECT * FROM learning_module WHERE id = '".$this->getId()."'";
+		$lm_set = $this->ilias->db->query($q);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setLayout($lm_rec["default_layout"]);
+		$this->setStyleSheetId($lm_rec["stylesheet"]);
+		$this->setPageHeader($lm_rec["page_header"]);
+	}
+
+	function updateProperties()
+	{
+		$q = "UPDATE learning_module SET ".
+			" default_layout = '".$this->getLayout()."', ".
+			" stylesheet = '".$this->getStyleSheetId()."',".
+			" page_header = '".$this->getPageHeader()."'".
+			" WHERE id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+	}
+
+	function createProperties()
+	{
+		$q = "INSERT INTO learning_module (id) VALUES ('".$this->getId()."')";
+		$this->ilias->db->query($q);
+		$this->readProperties();		// to get db default values
+	}
+
+
+	/**
+	* get all available lm layouts
+	*
+	* static
+	*/
+	function getAvailableLayouts()
+	{
+		// read sdir, copy files and copy directories recursively
+		$dir = opendir("./layouts/lm");
+
+		$layouts = array();
+
+		while($file = readdir($dir))
+		{
+			if ($file != "." && $file != ".." && $file != "CVS")
+			{
+				// directories
+				if (@is_dir("./layouts/lm/".$file))
+				{
+					$layouts[$file] = $file;
+				}
+			}
+		}
+		asort($layouts);
+		return $layouts;
+	}
+
 } // END class.ilObjLearningModule
 ?>

@@ -22,7 +22,7 @@
 */
 
 require_once ("content/classes/class.ilLMObjectFactory.php");
-require_once ("content/classes/class.ilLearningModule.php");
+require_once ("content/classes/class.ilObjLearningModule.php");
 require_once ("content/classes/class.ilLearningModuleGUI.php");
 require_once ("content/classes/class.ilPageObjectGUI.php");
 require_once ("content/classes/class.ilStructureObjectGUI.php");
@@ -114,7 +114,7 @@ class ilLMEditorGUI
 				break;
 
 			default:
-				$this->lm_obj =& new ilLearningModule($this->ref_id);
+				$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
 
 				$this->tpl->setCurrentBlock("ContentStyle");
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -275,7 +275,7 @@ class ilLMEditorGUI
 	{
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		// get learning module object
-		$this->lm_obj =& new ilLearningModule($this->ref_id);
+		$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
 
 		$path = (substr($this->tpl->tplPath,0,2) == "./") ?
 			".".$this->tpl->tplPath :

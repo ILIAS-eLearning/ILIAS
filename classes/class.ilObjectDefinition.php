@@ -91,6 +91,17 @@ class ilObjectDefinition extends ilSaxParser
 
 
 	/**
+	* get class name by type
+	*
+	* @access	public
+	*/
+	function getModule($a_obj_name)
+	{
+		return $this->obj_data[$a_obj_name]["module"];
+	}
+
+
+	/**
 	* should the object get a checkbox (needed for 'cut','copy' ...)
 	*
 	* @param	string	object type
@@ -266,6 +277,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data["$a_attribs[name]"]["class_name"] = $a_attribs["class_name"];
 				$this->obj_data["$a_attribs[name]"]["checkbox"] = $a_attribs["checkbox"];
 				$this->obj_data["$a_attribs[name]"]["inherit"] = $a_attribs["inherit"];
+				$this->obj_data["$a_attribs[name]"]["module"] = $a_attribs["module"];
 				break;
 			case 'subobj':
 				$this->current_tag = "subobj";

@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.22 2003/07/13 09:08:09 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.23 2003/07/15 08:23:56 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -73,11 +73,11 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 
 		// always call parent method first to create an object_data entry & a reference
 		//$newObj = parent::saveObject();
-		// TODO: fix MetaDataGUI implementation to make it compatible to use parent call 
+		// TODO: fix MetaDataGUI implementation to make it compatible to use parent call
 
 
 		// create and insert object in objecttree
-		include_once("classes/class.ilObjLearningModule.php");
+		include_once("content/classes/class.ilObjLearningModule.php");
 		$newObj = new ilObjLearningModule();
 		$newObj->setType("lm");
 		$newObj->setTitle("dummy");			// set by meta_gui->save
@@ -241,7 +241,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 	{
 		global $HTTP_POST_FILES, $rbacsystem;
 
-		require_once "classes/class.ilObjLearningModule.php";
+		require_once "content/classes/class.ilObjLearningModule.php";
 
 		// check if file was uploaded
 		$source = $HTTP_POST_FILES["xmldoc"]["tmp_name"];
@@ -262,7 +262,6 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		}
 
 		// create and insert object in objecttree
-		require_once("classes/class.ilObjLearningModule.php");
 		$newObj = new ilObjLearningModule();
 		$newObj->setType("lm");
 		$newObj->setTitle("dummy");			// set by meta_gui->save
