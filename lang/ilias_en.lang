@@ -43,6 +43,7 @@ common#:#add_member#:#Add Member
 common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
+common#:#allow_register#:#Available in registration form for new users
 common#:#adopt#:#adopt
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#all_objects#:#All Objects

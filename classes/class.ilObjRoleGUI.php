@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.40 2003/08/08 10:10:47 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.41 2003/08/08 11:53:19 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -47,6 +47,39 @@ class ilObjRoleGUI extends ilObjectGUI
 	}
 
 	/**
+	* display role create form
+	*/
+	function createObject()
+	{
+		global $rbacsystem;
+
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		
+		if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $new_type))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			$this->getTemplateFile("edit","role");
+
+			// fill in saved values in case of error
+			$this->tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
+			$this->tpl->setVariable("DESC",$_SESSION["error_post_vars"]["Fobject"]["desc"]);
+			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
+
+			$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
+			$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
+			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
+			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
+			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+	
+		}
+	}
+
+	/**
 	* save a new role object
 	*
 	* @access	public
@@ -61,23 +94,28 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_role"),$this->ilias->error_obj->WARNING);
 		}
-		else
-		{
-			// check if role title is unique
-			if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
-			{
-				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
-										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-			}
 
-			// save
-			include_once("./classes/class.ilObjRole.php");
-			$roleObj = new ilObjRole();
-			$roleObj->setTitle($_POST["Fobject"]["title"]);
-			$roleObj->setDescription($_POST["Fobject"]["desc"]);
-			$roleObj->create();
-			$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"],'y');
+		// check required fields
+		if (empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		// check if role title is unique
+		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// save
+		include_once("./classes/class.ilObjRole.php");
+		$roleObj = new ilObjRole();
+		$roleObj->assignData($_POST["Fobject"]);
+		//$roleObj->setTitle($_POST["Fobject"]["title"]);
+		//$roleObj->setDescription($_POST["Fobject"]["desc"]);
+		$roleObj->create();
+		$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"],'y');
 		
 		sendInfo($this->lng->txt("role_added"),true);
 
@@ -591,6 +629,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			// update
 			$this->object->setTitle($_POST["Fobject"]["title"]);
 			$this->object->setDescription($_POST["Fobject"]["desc"]);
+			$this->object->setAllowRegister($_POST["Fobject"]["allow_register"]);
 			$this->object->update();
 		}
 		
@@ -598,6 +637,51 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
+	}
+	
+	/**
+	* edit object
+	*
+	* @access	public
+	*/
+	function editObject()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			$this->getTemplateFile("edit");
+
+			if ($_SESSION["error_post_vars"])
+			{
+				// fill in saved values in case of error
+				$this->tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
+				$this->tpl->setVariable("DESC",$_SESSION["error_post_vars"]["Fobject"]["desc"]);
+				
+				$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
+			}
+			else
+			{
+				$this->tpl->setVariable("TITLE",$this->object->getTitle());
+				$this->tpl->setVariable("DESC",$this->object->getDescription());
+				
+				$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
+			}
+
+			$obj_str = "&obj_id=".$this->obj_id;
+
+			$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
+			$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
+			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
+			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
+			$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=update");
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		}
 	}
 	
 	/**
