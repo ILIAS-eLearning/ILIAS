@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.29 2003/06/26 14:18:25 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.30 2003/07/07 13:03:06 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -315,7 +315,9 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $tpl, $rbacsystem, $rbacreview, $lng, $rbacadmin;
 
-		if (!$rbacsystem->checkAccess('write',$_GET["ref_id"]) || ($this->id == $_SESSION["AccountId"]))
+		// deactivated:
+		// or ($this->id != $_SESSION["AccountId"])
+		if (!$rbacsystem->checkAccess('write',$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->WARNING);
 		}
