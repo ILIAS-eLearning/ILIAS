@@ -39,7 +39,7 @@ $objekt = new ilCalGroupHandler;
 
 if ($_POST["day"] != null) {
 	$appointment = new ilAppointment();
-	$appointment->setOwnerId($ilias->account->Id);
+	$appointment->setOwnerId($ilias->account->getId());
 	$appointment->setCategoryId($_POST["category"]);
 	$appointment->setDescription($_POST["description"]);
 	$appointment->setPriorityId($_POST["priority"]);
@@ -57,7 +57,7 @@ if ($_POST["day"] != null) {
 		$users=array_values(array_unique($users));
 	}
 	else {
-		$users=array($ilias->account->Id);
+		$users=array($ilias->account->getId());
 	}
 	
 	if	($_POST["aid"] != null) {
@@ -206,7 +206,7 @@ if ($_POST["day"] != null) {
 		$appointmentHandler = new ilAppointmentHandler();
 		$startTimestamp = $appointment->getStartTimestamp();
 		$endTimestamp = strtotime( "+".$appointment->getDuration()." minutes", $startTimestamp);
-		$result = $appointmentHandler->getAppointmentArrayList($ilias->account->Id, $startTimestamp, $endTimestamp);
+		$result = $appointmentHandler->getAppointmentArrayList($ilias->account->getId(), $startTimestamp, $endTimestamp);
 	}
 	else {
 		if ($appointmentErrDate == True) {
@@ -315,7 +315,7 @@ if ($_POST["day"] != null) {
 		else {
 			$aehhhWieNennIchDasJetzt = $appointmentHandler->getSingleAppointment($appointment->getAppointmentId());
 			$appointment->setAppointmentUnionId($aehhhWieNennIchDasJetzt->getAppointmentUnionId());
-			$updateOK = $appointmentHandler->appointmentUpdate($ilias->account->Id, $appointment);
+			$updateOK = $appointmentHandler->appointmentUpdate($ilias->account->getId(), $appointment);
 			
 			$updateconf = TRUE;
 		}
@@ -334,7 +334,7 @@ elseif ($_GET["aid"] != null) {
 	$edit = TRUE;
 }
 elseif ($_GET["delete"] != null) {
-	$userId = $ilias->account->Id;
+	$userId = $ilias->account->getId();
 	$appointmentId = $_GET["delete"];
 	$rnts = $_GET["ts"];
 	$appointmentHandler = new ilAppointmentHandler();
@@ -361,7 +361,7 @@ elseif ($_GET["delete"] != null) {
 	}
 }
 elseif ($_GET["deleteS"] != null) {
-	$userId = $ilias->account->Id;
+	$userId = $ilias->account->getId();
 	$appointmentId = $_GET["deleteS"];
 	$rnts = $_GET["ts"];
 	$appointmentHandler = new ilAppointmentHandler();
@@ -388,6 +388,10 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 	//add template for buttons
 	$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
+	// display tabs
+	include "./include/inc.calendar_tabs.php";
+
+
 	if ($edit == TRUE) 
 	{
 		//add template for buttons
@@ -408,36 +412,11 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 			$tpl->setVariable("BTN_TXT","l&ouml;sche Termin");
 			$tpl->parseCurrentBlock();
 		}
-		
+
 	}
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","cal_edit_entry.php?ts=".$chosents);
-	$tpl->setVariable("BTN_TXT","neuer Termin");
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","cal_date.php?ts=".$chosents);
-	$tpl->setVariable("BTN_TXT","Tagesübersicht");
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","cal_week_overview.php?ts=".$chosents);
-	$tpl->setVariable("BTN_TXT","Wochenübersicht");
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","cal_month_overview.php?ts=".$chosents);
-	$tpl->setVariable("BTN_TXT","Monatsübersicht");
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","cal_appointment_list.php?ts=".$todayts);
-	$tpl->setVariable("BTN_TXT","Halbjahresübersicht");
-	$tpl->parseCurrentBlock();
-	
+
 	$tpl->touchBlock("btn_row");
-	
+
 	$tpl->setCurrentBlock("content");
 	$tpl->setVariable("VAL_aid", $appointment->getAppointmentId());
 	$tpl->setVariable("TXT_PAGEHEADLINE", "Termin hinzuf&uuml;gen / &auml;ndern");
@@ -534,7 +513,7 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 	$tpl->setVariable("TXT_Group", "Gruppentermin");
 	$tpl->setVariable("TXT_Groups", "Gruppe");
 			
-	$groupy = $objekt->getGroups($ilias->account->Id);
+	$groupy = $objekt->getGroups($ilias->account->getId());
 	if(count($groupy) > 0) {
 		foreach ($groupy as $value) {
 			$groupyId = $value["ID"];
@@ -661,34 +640,10 @@ elseif ($confirmation == TRUE || $delete == TRUE || $app_double == TRUE || $upda
 	}
 	//add template for buttons
 	$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","cal_edit_entry.php?ts=".$chosents);
-	$tpl->setVariable("BTN_TXT","neuer Termin");
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","cal_date.php?ts=".$chosents);
-	$tpl->setVariable("BTN_TXT","Tagesübersicht");
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","cal_week_overview.php?ts=".$chosents);
-	$tpl->setVariable("BTN_TXT","Wochenübersicht");
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","cal_month_overview.php?ts=".$chosents);
-	$tpl->setVariable("BTN_TXT","Monatsübersicht");
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","cal_appointment_list.php?ts=".$todayts);
-	$tpl->setVariable("BTN_TXT","Halbjahresübersicht");
-	$tpl->parseCurrentBlock();
-	
-	$tpl->parseCurrentBlock();
-	
+
+	// display tabs
+	include "./include/inc.calendar_tabs.php";
+
 	$tpl->touchBlock("btn_row");
 	$tpl->setCurrentBlock("content");
 	$tpl->setVariable("TXT_PAGEHEADLINE","Bestätigung");

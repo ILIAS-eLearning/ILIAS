@@ -44,35 +44,13 @@ $todayts = mktime(0,0,0,$today["mon"],$today["mday"],$today["year"]);
 $weekdayFirstDay = $cal->getFirstWeekday($chosen["mon"], $chosen["year"] );
 
 $ah = new ilAppointmentHandler();
-$appointments = $ah->getAppointmentArrayList($ilias->account->Id, $todayts, strtotime("+6 month", $todayts));
+$appointments = $ah->getAppointmentArrayList($ilias->account->getId(), $todayts, strtotime("+6 month", $todayts));
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.cal_appointment_list.html");
 
-//add template for buttons
-$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_edit_entry.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","neuer Termin");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_date.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","Tagesübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_week_overview.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","Wochenübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_month_overview.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","Monatsübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->touchBlock("btn_row");
+// display tabs
+include "./include/inc.calendar_tabs.php";
 
 $tpl->setCurrentBlock("content");
 

@@ -77,12 +77,17 @@ td.std {
 	padding:4px;
 }
 
+td.il_invisible {
+	background-color:#b9c0d5;
+	background-image: none;
+}
+
 .tbltitle {
 	color:#222222;
 	font-size:16px;
 	font-weight:bold;
 	background-color: #C0C0C0;
-	background-image: url(blueshadow/images/cellpic5.gif)
+	background-image: url(blueshadow/images/cellpic5.gif);
 }
 
 .tblheader {
@@ -503,6 +508,126 @@ div.il_editarea
    please use this style class always when using this blind image */
 img.spacer {
 	display:block;
+}
+
+/* --- calendar styles -- */
+td.even
+{
+	color:#222222;
+	background-color:#F7F7F7;
+	padding: 3px;
+}
+
+td.uneven
+{
+	color:#222222;
+	background-color:#EEEEEE;
+	padding: 3px;
+}
+
+td.today
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #E0E0FF;
+}
+
+td.chosenDate
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #FFE0E0;
+}
+
+td.date
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #F7F7F7;
+}
+
+td.prevMonth
+{
+	text-align: center;
+	font-size: smaller;
+	background-color: #DFDFDF;
+}
+
+td.todayMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color: #E0E0FF;
+}
+
+td.chosenDateMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color:  #FFE0E0;
+}
+
+td.dateMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color: #F7F7F7;
+}
+
+td.prevMonthMO
+{
+	height: 40px;
+	text-align: center;
+	vertical-align: top;
+	font-size: smaller;
+	background-color: #DFDFDF;
+}
+
+td.evenMO
+{
+	color:#222222;
+	background-color:#eeeeee;
+	font-size: smaller;
+	padding: 3px;
+}
+
+td.unevenMO
+{
+	color:#222222;
+	background-color:#bbbbbb;
+	font-size: smaller;
+	padding: 3px;
+}
+
+td.weeknumber
+{
+	color: #5F5F5F;
+	background-color: none;
+	font-size: smaller;
+}
+
+a.weekLink
+{
+	font-size: x-small;
+}
+
+td.appointmentConfTitle
+{
+	font-size: 2em;
+	font-style: italic;
+}
+
+td.doubleComment
+{
+	font-size: 1em;
+	color: #FF0000;
+	font-weight: bold;
 }
 
 /* --- content styles (will move to content.css) --- */

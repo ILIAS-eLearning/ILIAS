@@ -13,7 +13,7 @@
 
 require_once "./classes/Calendar/class.ilAppointment.php";
 
-class CalendarTools
+class ilCalendarTools
 {
 	var $months = array(1 => "Januar",
 						2 => "Februar",
@@ -27,7 +27,7 @@ class CalendarTools
 						10 => "Oktober",
 						11 => "November",
 						12 => "Dezember");
-						
+
 	var $shortMonths = array(1 => "Jan",
 						2 => "Feb",
 						3 => "Mrz",
@@ -40,7 +40,7 @@ class CalendarTools
 						10 => "Okt",
 						11 => "Nov",
 						12 => "Dez");
-	 
+
 	var $weekdays = array(1 => "Montag",
 		 			      2 => "Dienstag",
 					      3 => "Mittwoch",
@@ -48,7 +48,7 @@ class CalendarTools
 				    	  5 => "Freitag",
 					      6 => "Samstag",
 						  7 => "Sonntag",);
-						  
+
 	var $shortWeekdays = array(1 => "Mo",
 							   		2 => "Di",
 							   		3 => "Mi",
@@ -56,21 +56,21 @@ class CalendarTools
 							  			5 => "Fr",
 							   		6 => "Sa",
 							   		7 => "So");
-							   
+
 	var $daymapping = array(7,1,2,3,4,5,6);
-	
+
 	function getMonth($month) {
 		return $this->months[$month];
 	}
-	
+
 	function getShortMonth($month) {
 		return $this->shortMonths[$month];
 	}
-	
+
 	function getMappedWeekday($wday) {
 		return $this->weekdays[$this->daymapping[$wday]];
 	}
-	
+
 	function getMappedShortWeekday($wday) {
 		return $this->shortWeekdays[$this->daymapping[$wday]];
 	}

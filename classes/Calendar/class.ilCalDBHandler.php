@@ -10,7 +10,7 @@
  * @author Mark Ulbrich <Mark_Ulbrich@web.de>
  **/
 
-class DBHandler
+class ilCalDBHandler
 {
 	/**
 	* ilias object
@@ -33,7 +33,7 @@ class DBHandler
 	* @access private
 	*/
 
-	var $className="DBHandler";
+	var $className="ilCalDBHandler";
 
 	/**
 	* database table field for sorting the resultset
@@ -95,7 +95,7 @@ class DBHandler
 	* DBHandler Constructor
 	* @ access public
 	*/
-	function DBHandler() {
+	function ilCalDBHandler() {
 		global $ilias;
 		$this->ilias =& $ilias;
 	}

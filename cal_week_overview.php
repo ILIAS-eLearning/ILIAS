@@ -58,35 +58,13 @@ $beginningDay = array("mday" => array(1 => date("d", strtotime("", $beginningDay
 												  7 => strtotime("+6 days", $beginningDayts)));
 
 $ah = new ilAppointmentHandler();
-$appointments = $ah->getAppointmentArrayList($ilias->account->Id, $beginningDay["ts"][1], mktime(23,59,59,$beginningDay["mon"][7],$beginningDay["mday"][7],$chosen["year"]));
+$appointments = $ah->getAppointmentArrayList($ilias->account->getId(), $beginningDay["ts"][1], mktime(23,59,59,$beginningDay["mon"][7],$beginningDay["mday"][7],$chosen["year"]));
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.cal_week_overview.html");
 
-//add template for buttons
-$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_edit_entry.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","neuer Termin");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_date.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","Tagesübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_month_overview.php?ts=".$chosents);
-$tpl->setVariable("BTN_TXT","Monatsübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","cal_appointment_list.php?ts=".$todayts);
-$tpl->setVariable("BTN_TXT","Halbjahresübersicht");
-$tpl->parseCurrentBlock();
-
-$tpl->touchBlock("btn_row");
+// display tabs
+include "./include/inc.calendar_tabs.php";
 
 $tpl->setCurrentBlock("content");
 
