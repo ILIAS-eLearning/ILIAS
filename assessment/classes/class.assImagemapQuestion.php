@@ -84,24 +84,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
   var $image_filename;
 
 /**
-* The variable containing path of the file to be uploaded
-*
-* The variable containing path of the file to be uploaded
-*
-* @var string
-*/
-  var $image_path='./data/image/';
-
-/**
-* The variable containing path of the imagemap to be uploaded
-*
-* The variable containing path of the imagemap to be uploaded
-*
-* @var string
-*/
-  var $imagemap_path='./data/imagemap/';
-
-/**
 * The variable containing contents of an imagemap file
 *
 * The variable containing contents of an imagemap file
@@ -120,9 +102,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
 * @param string $comment A comment string to describe the question
 * @param string $author A string containing the name of the questions author
 * @param integer $owner A numerical ID to identify the owner/creator
-* @param boolean $private Defines the privacy status
-* @param boolean $free_use Defines the usage status
-* @param boolean $copyable Defines the copy status
 * @param string $imagemap_file The imagemap file name of the imagemap question
 * @param string $image_file The image file name of the imagemap question
 * @param string $question The question string of the imagemap question
@@ -134,9 +113,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
     $comment = "",
     $author = "",
     $owner = -1,
-    $private = FALSE,
-    $free_use = TRUE,
-    $copyable = TRUE,
     $question = "",
     $imagemap_filename = "",
     $image_filename = "",
@@ -144,12 +120,12 @@ class ASS_ImagemapQuestion extends ASS_Question {
 
   )
   {
-    $this->ASS_Question($title, $comment, $author, $owner, $private, $free_use, $copyable, $materials);
+    $this->ASS_Question($title, $comment, $author, $owner, $materials);
     $this->question = $question;
     $this->imagemap_filename = $imagemap_filename;
     $this->image_filename = $image_filename;
     $this->answers = array();
-	$this->points = $points;
+		$this->points = $points;
   }
 
 /**
@@ -377,12 +353,11 @@ class ASS_ImagemapQuestion extends ASS_Question {
       $this->image_filename = $image_filename;
     }
 		if (!empty($image_tempfilename)) {
-			$webspace_dir = CLIENT_WEB_DIR;
-			$object_dir = "/assessment/$this->ref_id/images/";
-			if (!file_exists($webspace_dir . $object_dir)) {
-				ilUtil::makeDir_parents($webspace_dir . $object_dir);
+			$imagepath = $this->get_image_path();
+			if (!file_exists($imagepath)) {
+				ilUtil::makeDirParents($imagepath);
 			}
-			if (!move_uploaded_file($image_tempfilename, $webspace_dir . $object_dir . "/" . $image_filename)) {
+			if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename)) {
 				print "image not uploaded!!!! ";
 			}
 		}
@@ -398,14 +373,14 @@ class ASS_ImagemapQuestion extends ASS_Question {
 * @see $imagemap_contents
 */
   function get_imagemap_contents() {
-	$imagemap_contents = "<map name=\"".$this->title."\"> ";
-	for ($i = 0; $i < count($this->answers); $i++) {
-	 $imagemap_contents .= "<area alt=\"".$this->answers[$i]->get_answertext()."\" ";
-	 $imagemap_contents .= "shape=\"".$this->answers[$i]->get_area()."\" ";
-	 $imagemap_contents .= "coords=\"".$this->answers[$i]->get_coords()."\" ";
-	 $imagemap_contents .= "href=\"il_as_question_manager.php\"> ";
-	}
-	$imagemap_contents .= "</map>";
+		$imagemap_contents = "<map name=\"".$this->title."\"> ";
+		for ($i = 0; $i < count($this->answers); $i++) {
+	 		$imagemap_contents .= "<area alt=\"".$this->answers[$i]->get_answertext()."\" ";
+	 		$imagemap_contents .= "shape=\"".$this->answers[$i]->get_area()."\" ";
+	 		$imagemap_contents .= "coords=\"".$this->answers[$i]->get_coords()."\" ";
+	 		$imagemap_contents .= "href=\"il_as_question_manager.php\" /> ";
+		}
+		$imagemap_contents .= "</map>";
     return $imagemap_contents;
   }
 
