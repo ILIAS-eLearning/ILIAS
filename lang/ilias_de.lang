@@ -629,6 +629,7 @@ common#:#alm_leave#:#AICC Lernmodulabonnement aufheben
 common#:#alm_read#:#AICC Lernmodul lesen
 common#:#alm_visible#:#AICC Lernmodul ist sichtbar
 common#:#alm_write#:#AICC Lernmodul bearbeiten
+common#:#already_delivered_files#:#Already delivered files###06 Oct 2004 new variable
 common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
@@ -903,6 +904,7 @@ common#:#delete_selected#:#Auswahl löschen
 common#:#delete_tr_data#:#Tracking Daten löschen
 common#:#deleted#:#Gelöscht
 common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
+common#:#deliver#:#Deliver exercise###06 Oct 2004 new variable
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
@@ -927,6 +929,7 @@ common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!###1
 common#:#enable#:#Aktivieren
 common#:#enable_registration#:#Neuanmeldung zulassen
 common#:#enabled#:#Eingeschaltet
+common#:#enter_filename_deliver#:#Enter exercise to deliver###06 Oct 2004 new variable
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
 common#:#err_2_param#:#Nur 2 Parameter!
@@ -964,6 +967,7 @@ common#:#exc_edit_exercise#:#Übung bearbeiten
 common#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis
 common#:#exc_files#:#Dateien
+common#:#exc_files_returned#:#Returned files###06 Oct 2004 new variable
 common#:#exc_groups#:#Gruppen
 common#:#exc_header_members#:#Übung(Mitglieder)###14 Sep 2004 content changed
 common#:#exc_instruction#:#Arbeitsanweisung
@@ -989,6 +993,7 @@ common#:#exc_visible#:#Übung ist sichtbar
 common#:#exc_write#:#Übung bearbeiten
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
+common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###06 Oct 2004 new variable
 common#:#export#:#Export
 common#:#export_group_members#:#Gruppenmitglieder exportieren (nach Microsoft Excel)
 common#:#export_html#:#Exportieren als HTML-Datei###14 Sep 2004 content changed
@@ -1013,6 +1018,7 @@ common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
 common#:#file_visible#:#Datei ist sichtbar
 common#:#file_write#:#Datei bearbeiten
+common#:#filename#:#Filename###06 Oct 2004 new variable
 common#:#files#:#Dateien
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
@@ -1452,6 +1458,7 @@ common#:#mep_visible#:#Media-Pool ist sichtbar
 common#:#mep_write#:#Inhalt des Media-Pools bearbeiten
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
+common#:#message_no_delivered_files#:#You don't have delivered a file!###06 Oct 2004 new variable
 common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten###14 Sep 2004 content changed
 common#:#migrate#:#Migrieren
@@ -1784,6 +1791,8 @@ common#:#phone_office#:#Telefon Arbeit
 common#:#phrase#:#Phrase
 common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
 common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
+common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###06 Oct 2004 new variable
+common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!###06 Oct 2004 new variable
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#preconditions#:#Vorbedingungen
