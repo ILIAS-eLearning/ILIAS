@@ -33,6 +33,12 @@
 require_once "./include/inc.header.php";
 require_once "classes/class.ilObjForum.php";
 
+
+// MOVED TO class.ilObjForumGUI.php
+// ****************************************************************************
+#ilUtil::redirect('repository.php?ref_id='.$_GET['ref_id']);
+// ****************************************************************************
+
 function prepOutput($frm)
 {
 	global $tpl, $lng;

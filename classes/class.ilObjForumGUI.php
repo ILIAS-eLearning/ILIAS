@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjForumGUI.php,v 1.15 2004/06/18 07:59:16 smeyer Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.16 2004/11/26 10:43:49 smeyer Exp $
 *
 * @extends ilObject
 * @package ilias-core
@@ -233,7 +233,7 @@ class ilObjForumGUI extends ilObjectGUI
 				} // while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
 		
 				$this->tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));		
-				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+				$this->tpl->setVariable("FORMACTION",'forums_threads_liste.php?ref_id='.$this->object->getRefId());
 				$this->tpl->setVariable("TXT_OK",$this->lng->txt("ok"));			
 				$this->tpl->setVariable("TXT_EXPORT_HTML", $this->lng->txt("export_html"));
 				$this->tpl->setVariable("TXT_EXPORT_XML", $this->lng->txt("export_xml"));
@@ -260,8 +260,6 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_LAST_POST", $this->lng->txt("forums_last_post"));
 		$this->tpl->parseCurrentBlock("threadtable");
 	}
-		
-
 
 	function createObject()
 	{
