@@ -81,6 +81,7 @@ class ilEditClipboardGUI
 		{
 			case "ilobjmediaobjectgui":
 //echo "<br>calling objmediaomjgui";
+				$this->ctrl->setReturn($this, "view");
 				require_once("classes/class.ilTabsGUI.php");
 				$tabs_gui =& new ilTabsGUI();
 				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["clip_mob_id"],false, false);

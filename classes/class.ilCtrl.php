@@ -232,7 +232,7 @@ class ilCtrl
 			}
 		}
 //echo "<br>"; var_dump($this->transit);
-		$next = $this->searchNext($path, $a_class, $a_target_class);
+		$next = $this->searchNext($path, $a_class, $a_target_class, array($a_class));
 		$this->transit = $this->store_transit;
 //foreach($path as $a_next) { echo "<br>->".$a_next; } echo "<br>";
 		$this->bench->stop("GUIControl", "getPath");
@@ -244,37 +244,27 @@ class ilCtrl
 	function searchNext(&$a_path, $a_class, $a_target_class, $c_path = "")
 	{
 //echo "SN";
-		$c_path[] = $a_class;
+		$a_target_class = strtolower($a_target_class);
+		$a_class = strtolower($a_class);
 
-		if ($transClass = $this->getNextTransit())
+		if ($targetClass = $this->getNextTransit())
 		{
-			$targetClass = $transClass;
-//echo "_trans_";
+			if ($a_class == $targetClass)
+			{
+				$this->removeTransit();
+			}
 		}
 		else
 		{
 			$targetClass = $a_target_class;
-		}
-
-//echo "<br>...$a_class:$targetClass:";
-
-		if ($a_class == strtolower($targetClass))
-		{
-			// found command class
-			if ($a_class == strtolower($a_target_class))
+			if ($a_class == $a_target_class)
 			{
 				$a_path = $c_path;
 				return true;
 			}
-
-			// found a transit class
-//echo "_remove_";
-			$this->removeTransit();					// remove transit
-			//if ($this->searchNext($a_path, $a_class, $a_target_class, $c_path))	// go on with search
-			//{
-			//	return true;
-			//}
 		}
+
+//echo "<br>...$a_class:$targetClass:";
 
 		// recursively search each forward
 		if (is_array($this->forward[$a_class]))
@@ -282,6 +272,32 @@ class ilCtrl
 			reset($this->forward[$a_class]);
 			foreach($this->forward[$a_class] as $next_class)
 			{
+				if ($next_class == strtolower($targetClass))
+				{
+					// found command class
+					if ($next_class == $a_target_class)
+					{
+						$c_path[] = $next_class;
+						$a_path = $c_path;
+						return true;
+					}
+					else
+					{
+						// found a transit class
+						$c_path[] = $next_class;
+						$this->removeTransit();					// remove transit
+						if ($this->searchNext($a_path, $next_class, $a_target_class, $c_path))
+						{
+							return true;
+						}
+						return false;
+					}
+				}
+			}
+			reset($this->forward[$a_class]);
+			foreach($this->forward[$a_class] as $next_class)
+			{
+				$c_path[] = $next_class;
 				if ($this->searchNext($a_path, $next_class, $a_target_class, $c_path))
 				{
 					return true;
@@ -361,22 +377,31 @@ class ilCtrl
 		return strtolower($_GET["cmdClass"]);
 	}
 
-	function getFormAction(&$a_gui_obj)
+	function getFormAction(&$a_gui_obj, $a_transits = "", $a_prepend_transits = false)
 	{
-		$script =  $this->getFormActionByClass(get_class($a_gui_obj));
+		$script =  $this->getFormActionByClass(get_class($a_gui_obj), $a_transits, $a_prepend_transits);
 		return $script;
 	}
 
-	function getFormActionByClass($a_class, $a_transits = "")
+	function getFormActionByClass($a_class, $a_transits = "", $a_prepend_transits = false)
 	{
-		$script = $this->getLinkTargetByClass($a_class, "post");
+		$script = $this->getLinkTargetByClass($a_class, "post", $a_transits, $a_prepend_transits);
 		return $script;
 	}
 
 	function redirect(&$a_gui_obj, $a_cmd = "")
 	{
-
+//echo "<br>class:".get_class($a_gui_obj).":";
 		$script = $this->getLinkTargetByClass(get_class($a_gui_obj), $a_cmd);
+//echo "<br>script:$script:";
+		ilUtil::redirect($script);
+	}
+
+	function redirectByClass($a_class, $a_cmd = "")
+	{
+//echo "<br>class:".get_class($a_gui_obj).":";
+		$script = $this->getLinkTargetByClass($a_class, $a_cmd);
+//echo "<br>script:$script:";
 		ilUtil::redirect($script);
 	}
 

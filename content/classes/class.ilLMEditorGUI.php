@@ -85,12 +85,17 @@ class ilLMEditorGUI
 
 	}
 
+	/**
+	* execute command
+	*/
 	function &executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd("frameset");
-		if ($cmd == "view" && $this->ctrl->getRedirectSource() == "ilinternallinkgui")
+
+		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
 		{
-			$cmd = "explorer";
+			$this->explorer();
+			return;
 		}
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -112,7 +117,7 @@ class ilLMEditorGUI
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
-
+// if ($this->lm_obj->getType()
 		switch($next_class)
 		{
 			case "ilobjdlbookgui":
@@ -135,50 +140,11 @@ class ilLMEditorGUI
 		}
 		return;
 
-		/*
-		$hier_id = $_GET["hier_id"];
-		if(isset($_POST["new_hier_id"]))
-		{
-			$hier_id = $_POST["new_hier_id"];
-		}*/
-//echo ":hier_id_a:$hier_id:";
-		/*
-		$cmd = (empty($_GET["cmd"]))
-			? "frameset"
-			: $_GET["cmd"];*/
-
+/*
 		$new_type = (isset($_GET["new_type"]))
 			? $_GET["new_type"]
 			: $_POST["new_type"];
 
-		/*
-		if ($cmd == "post")
-		{
-			$cmd = key($_POST["cmd"]);
-		}*/
-
-		/*
-		if ($cmd == "edpost" || $_GET["hier_id"])
-		{
-			$type = "content";
-			if (isset($_GET["hier_id"]))
-			{
-				if($cmd == "edpost")
-				{
-					$cmd = key($_POST["cmd"]);
-					$hier_id = $_GET["hier_id"];
-				}
-			}
-			else
-			{
-				$cmd = explode("_", key($_POST["cmd"]));
-				unset($cmd[0]);
-				$hier_id = implode($cmd, "_");
-				$cmd = $_POST["command".$hier_id];
-			}
-		}*/
-
-//echo ":hier_id_c:$hier_id:";
 
 		switch($cmd)
 		{
@@ -281,7 +247,7 @@ class ilLMEditorGUI
 				}
 				$this->tpl->show();
 				break;
-		}
+		}*/
 	}
 
 	function _forwards()
@@ -306,6 +272,18 @@ class ilLMEditorGUI
 	*/
 	function explorer()
 	{
+		switch ($this->lm_obj->getType())
+		{
+			case "lm":
+				$gui_class = "ilobjlearningmodulegui";
+				break;
+
+			case "dlb":
+				$gui_class = "ilobjdlbookgui";
+				break;
+		}
+
+
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		// get learning module object
 		$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
@@ -316,7 +294,9 @@ class ilLMEditorGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 		require_once ("content/classes/class.ilLMEditorExplorer.php");
-		$exp = new ilLMEditorExplorer("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId(),$this->lm_obj);
+		$exp = new ilLMEditorExplorer("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId(),
+			$this->lm_obj, $gui_class);
+
 		$exp->setTargetGet("obj_id");
 
 		if ($_GET["lmexpand"] == "")
@@ -383,6 +363,7 @@ class ilLMEditorGUI
 	/**
 	* output a cell in object list
 	*/
+	/*
 	function add_cell($val, $link = "")
 	{
 		if(!empty($link))
@@ -398,7 +379,7 @@ class ilLMEditorGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("table_cell");
 		$this->tpl->parseCurrentBlock();
-	}
+	}*/
 
 	/**
 	* display locator
@@ -412,13 +393,14 @@ class ilLMEditorGUI
 		$contObjLocator->display();
 	}
 
+	/*
 	function setAdminTabs($a_type)
 	{
 		include_once("classes/class.ilTabsGUI.php");
 		$tabs_gui =& new ilTabsGUI;
 		$tabs_gui->getTargetsByObjectType($this, $a_type);
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-	}
+	}*/
 
 
 }

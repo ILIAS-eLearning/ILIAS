@@ -73,10 +73,31 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		switch($next_class)
 		{
 			default:
-//echo "HH".$this->obj->getId().":";
-				$ret =& $this->$cmd();
+				if (($cmd == "create") && ($_POST["new_type"] == "pg"))
+				{
+					$this->setTabs();
+					$pg_gui =& new ilLMPageObjectGUI($this->content_object);
+					$ret =& $pg_gui->executeCommand();
+				}
+				else
+				{
+					$ret =& $this->$cmd();
+				}
 				break;
 		}
+	}
+
+
+	/**
+	* create new page or chapter in chapter
+	*/
+	function create()
+	{
+		if ($_GET["obj_id"] != "")
+		{
+			$this->setTabs();
+		}
+		parent::create();
 	}
 
 
@@ -94,7 +115,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->tpl->setCurrentBlock("form");
 		$this->ctrl->setParameter($this, "backcmd", "view");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_pages"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
@@ -117,7 +139,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 			// link
 			$this->ctrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $child["obj_id"]);
-			$link = $this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view");
+			$link = $this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view", "", true);
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
 			// title
@@ -277,13 +299,17 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+
+	/**
+	* save new chapter
+	*/
 	function save()
 	{
 		$meta_data =& new ilMetaData($_GET["new_type"], $this->content_object->getId());
 
 		$this->obj =& new ilStructureObject($this->content_object);
 		$this->obj->assignMetaData($meta_data);
-		$this->obj->setType($_GET["new_type"]);
+		$this->obj->setType("st");
 		$this->obj->setTitle($_POST["Fobject"]["title"]);
 		$this->obj->setDescription($_POST["Fobject"]["desc"]);
 		$this->obj->setLMId($this->content_object->getId());
@@ -296,18 +322,31 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		if (!empty($_GET["obj_id"]))
 		{
-			ilUtil::redirect("lm_edit.php?cmd=subchap&ref_id=".$this->content_object->getRefId()."&obj_id=".
-				$_GET["obj_id"]);
-		}
-		else
-		{
-			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->content_object->getRefId());
+			$this->ctrl->redirect($this, "subchap");
 		}
 
 	}
 
+	/**
+	* save meta data
+	*/
+	function saveMeta()
+	{
+//echo "lmobjectgui_Savemeta1<br>";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->obj);
+//echo "lmobjectgui_Savemeta2<br>"; exit;
+		$meta_gui->save($_POST["meta_section"]);
+//echo "lmobjectgui_Savemeta3<br>";
+		$this->ctrl->redirect($this, "view");
+	}
+
+	/**
+	* put chapter into tree
+	*/
 	function putInTree()
 	{
+//echo "st:putInTree";
 		// chapters should be behind pages in the tree
 		// so if target is first node, the target is substituted with
 		// the last child of type pg
@@ -388,9 +427,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			sendInfo($this->lng->txt("msg_cut_clipboard"), true);
 		}
-		//$this->view();
-		ilUtil::redirect("lm_edit.php?cmd=view&obj_id=".$_GET["obj_id"].
-			"&ref_id=".$_GET["ref_id"]);
+
+		$this->ctrl->redirect($this, "view");
 	}
 
 	/**
@@ -426,10 +464,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		// check the tree
 		$this->checkTree();
 
-		ilUtil::redirect("lm_edit.php?cmd=view&obj_id=".$_GET["obj_id"].
-			"&ref_id=".$_GET["ref_id"]);
-
-		//$this->view();
+		$this->ctrl->redirect($this, "view");
 	}
 
 
@@ -441,8 +476,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
 			true, false);
 		$cont_obj_gui->moveChapter($this->obj->getId());
-		ilUtil::redirect("lm_edit.php?cmd=subchap&obj_id=".$_GET["obj_id"].
-			"&ref_id=".$_GET["ref_id"]);
+
+		$this->ctrl->redirect($this, "subchap");
 	}
 
 
@@ -462,23 +497,29 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			true, false);
 		$cont_obj_gui->pasteChapter($this->obj->getId());
 
-		ilUtil::redirect("lm_edit.php?cmd=subchap&obj_id=".$_GET["obj_id"].
-			"&ref_id=".$_GET["ref_id"]);
+		$this->ctrl->redirect($this, "subchap");
 	}
 
+
+	/**
+	* cancel creation of new page or chapter
+	*/
 	function cancel()
 	{
-		if ($_GET["new_type"] == "pg")
+		sendInfo($this->lng->txt("msg_cancel"), true);
+		if ($_GET["obj_id"] != 0)
 		{
-			ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
-				$_GET["obj_id"]);
-		}
-		else
-		{
-			ilUtil::redirect("lm_edit.php?cmd=subchap&ref_id=".$this->content_object->getRefId()."&obj_id=".
-				$_GET["obj_id"]);
+			if ($_GET["new_type"] == "pg")
+			{
+				$this->ctrl->redirect($this, "view");
+			}
+			else
+			{
+				$this->ctrl->redirect($this, "subchap");
+			}
 		}
 	}
+
 
 	/**
 	* output tabs

@@ -71,6 +71,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// get current command
 		$cmd = $this->ctrl->getCmd();
 
+
 		switch($next_class)
 		{
 			case "ilobjstylesheetgui":
@@ -88,25 +89,68 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 
 			case "illmpageobjectgui":
-				$this->ctrl->setReturn($this, "view");
+				$this->ctrl->setReturn($this, "properties");
 //echo "!";
 				//$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
 
 				$pg_gui =& new ilLMPageObjectGUI($this->object);
-				$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
-				$pg_gui->setLMPageObject($obj);
+				if ($_GET["obj_id"] != "")
+				{
+					$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
+					$pg_gui->setLMPageObject($obj);
+				}
 				$ret =& $pg_gui->executeCommand();
+				if ($cmd == "save" || $cmd == "cancel")
+				{
+					$this->ctrl->redirect($this, "pages");
+				}
 				break;
 
 			case "ilstructureobjectgui":
+				$this->ctrl->setReturn($this, "properties");
 				$st_gui =& new ilStructureObjectGUI($this->object, $this->object->lm_tree);
-				$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
-				$st_gui->setStructureObject($obj);
+				if ($_GET["obj_id"] != "")
+				{
+					$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
+					$st_gui->setStructureObject($obj);
+				}
 				$ret =& $st_gui->executeCommand();
+				if ($cmd == "save" || $cmd == "cancel")
+				{
+					if ($_GET["obj_id"] == "")
+					{
+						$this->ctrl->redirect($this, "chapters");
+					}
+					else
+					{
+						$this->ctrl->setCmd("subchap");
+						$this->executeCommand();
+					}
+				}
 				break;
 
 			default:
-				$ret =& $this->$cmd();
+				if ($cmd == "create")
+				{
+					switch ($_POST["new_type"])
+					{
+						case "pg":
+							$this->setTabs();
+							$this->ctrl->setCmdClass("ilLMPageObjectGUI");
+							$ret =& $this->executeCommand();
+							break;
+
+						case "st":
+							$this->setTabs();
+							$this->ctrl->setCmdClass("ilStructureObjectGUI");
+							$ret =& $this->executeCommand();
+							break;
+					}
+				}
+				else
+				{
+					$ret =& $this->$cmd();
+				}
 				break;
 		}
 
@@ -828,6 +872,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_item"), $this->ilias->error_obj->MESSAGE);
 		}
 
+		if ($a_parent_subobj_id == 0)
+		{
+			$this->setTabs();
+		}
+
 		// SAVE POST VALUES
 		$_SESSION["saved_post"] = $_POST["id"];
 
@@ -835,10 +884,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
-		$this->ctrl->setParameter($this, "backcmd", $_GET["backcmd"]);
 		if ($a_parent_subobj_id != 0)
 		{
-			$this->ctrl->setParameter($this, "obj_id", $a_parent_subobj_id);
+			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "backcmd", $_GET["backcmd"]);
+			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $a_parent_subobj_id);
 			$this->tpl->setVariable("FORMACTION",
 				$this->ctrl->getFormActionByClass("ilStructureObjectGUI"));
 		}
@@ -1019,6 +1068,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function perm()
 	{
+		$this->setTabs();
+
 		$this->setFormAction("addRole", $this->ctrl->getLinkTarget($this, "addRole"));
 		$this->setFormAction("permSave", $this->ctrl->getLinkTarget($this, "permSave"));
 		$this->permObject();
@@ -1050,6 +1101,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function owner()
 	{
+		$this->setTabs();
 		$this->ownerObject();
 	}
 
@@ -1241,6 +1293,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		global $tree;
 
+		$this->setTabs();
+
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -1370,6 +1424,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		$this->setTabs();
 
 		// SAVE POST VALUES
 		$_SESSION["ilExportFiles"] = $_POST["file"];

@@ -928,11 +928,11 @@ class ilObjContentObject extends ilObject
 	*/
 	function exportXMLMediaObjects(&$a_xml_writer, $a_inst = 0, $a_target_dir = "")
 	{
-		include_once("content/classes/Pages/class.ilMediaObject.php");
+		include_once("content/classes/Media/class.ilObjMediaObject.php");
 
 		foreach ($this->mob_ids as $mob_id)
 		{
-			$media_obj = new ilMediaObject($mob_id);
+			$media_obj = new ilObjMediaObject($mob_id);
 			$media_obj->exportXML($a_xml_writer, $a_inst);
 			$media_obj->exportFiles($a_target_dir);
 			unset($media_obj);
