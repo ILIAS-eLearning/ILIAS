@@ -1967,3 +1967,6 @@ CREATE TABLE `xml_tree` (
   PRIMARY KEY  (`node_id`),
   KEY `xml_id` (`xml_id`)
 ) TYPE=MyISAM;
+<#121>
+ALTER TABLE chat_user DROP PRIMARY KEY;
+ALTER TABLE chat_user ADD PRIMARY KEY(usr_id,chat_id,room_id);
