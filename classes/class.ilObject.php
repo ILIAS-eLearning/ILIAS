@@ -157,7 +157,7 @@ class ilObject
 	*/
 	function read($a_force_db = false)
 	{
-		global $ilias,$log;
+		global $log;
 
 		if (isset($this->obj_data_record) && !$a_force_db)
 		{
@@ -170,21 +170,21 @@ class ilObject
 			{
 				$message = "ilObject::read(): No ref_id given!";
 				$log->writeWarning($message);
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
 			// read object data
 			$q = "SELECT * FROM object_data ".
 				 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
 				 "WHERE object_reference.ref_id='".$this->ref_id."'";
-			$object_set = $ilias->db->query($q);
+			$object_set = $this->ilias->db->query($q);
 
 			// check number of records
 			if ($object_set->numRows() == 0)
 			{
 				$message = "ilObject::read(): Object with ref_id ".$this->ref_id." not found!";
 				$log->writeWarning($message);
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
 			$obj = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -196,20 +196,20 @@ class ilObject
 			{
 				$message = "ilObject::read(): No obj_id given!";
 				$log->writeWarning($message);
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
 			// read object data
 			$q = "SELECT * FROM object_data ".
 				 "WHERE obj_id = '".$this->id."'";
-			$object_set = $ilias->db->query($q);
+			$object_set = $this->ilias->db->query($q);
 
 			// check number of records
 			if ($object_set->numRows() == 0)
 			{
 				$message = "ilObject::read(): Object with obj_id: ".$this->id." not found!";
 				$log->writeWarning($message);
-				$ilias->raiseError($message,$ilias->error_obj->WARNING);
+				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
 			$obj = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
@@ -358,9 +358,7 @@ class ilObject
 	*/
 	function getOwnerName()
 	{
-		global $lng;
-
-		if($this->getOwner() != -1)
+		if ($this->getOwner() != -1)
 		{
 			$owner = new ilObjUser($this->getOwner());
 		}
@@ -371,7 +369,7 @@ class ilObject
 		}
 		else
 		{
-			$own_name = $lng->txt("unknown");
+			$own_name = $this->lng->txt("unknown");
 		}
 
 		return $own_name;
@@ -436,19 +434,20 @@ class ilObject
 	*/
 	function create()
 	{
-		global $ilias;
+		global $log;
 
 		if (!isset($this->type))
 		{
 			$message = "Object->create(): No object type given!";
-			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
 		if (empty($this->title))
 		{
 			$message = "Object->create(): No title given! A title is required!";
-			//$ilias->raiseError($message,$ilias->error_obj->WARNING);
-//echo "Object->create() (type:".$this->type."): No title given! A title is required!"; exit;
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
 		$this->title = addslashes(ilUtil::shortenText($this->title, $this->max_title, $this->add_dots));
@@ -459,7 +458,7 @@ class ilObject
 			 "VALUES ".
 			 "('".$this->type."','".$this->title."','".$this->desc."',".
 			 "'".$this->ilias->account->getId()."',now(),now())";
-		$ilias->db->query($q);
+		$this->ilias->db->query($q);
 
 		$this->id = getLastInsertId();
 
@@ -487,15 +486,13 @@ class ilObject
 	*/
 	function update()
 	{
-		global $ilias;
-
 		$q = "UPDATE object_data ".
 			"SET ".
 			"title = '".$this->getTitle()."',".
 			"description = '".$this->getDescription()."', ".
 			"last_update = now() ".
 			"WHERE obj_id = '".$this->getId()."'";
-		$ilias->db->query($q);
+		$this->ilias->db->query($q);
 
 		// the line ($this->read();) messes up meta data handling: meta data,
 		// that is not saved at this time, gets lost, so we query for the dates alone
@@ -517,8 +514,8 @@ class ilObject
 	*/
 	function putInTree($a_parent_ref)
 	{
-		global $tree, $rbacadmin;
-
+		global $tree;
+		
 		$tree->insertNode($this->getRefId(), $a_parent_ref);
 	}
 
@@ -530,7 +527,7 @@ class ilObject
 	*/
 	function setPermissions($a_parent_ref)
 	{
-		global $rbacadmin,$rbacreview;
+		global $rbacadmin, $rbacreview;
 		
 		$parentRoles = $rbacreview->getParentRoleIds($a_parent_ref);
 
@@ -550,10 +547,13 @@ class ilObject
 	*/
 	function createReference()
 	{
+		global $log;
+
 		if (!isset($this->id))
 		{
 			$message = "ilObject::createNewReference(): No obj_id given!";
-			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+			$log->writeWarning($message);
+			$this->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
 		$q = "INSERT INTO object_reference ".
@@ -574,18 +574,18 @@ class ilObject
 	*/
 	function countReferences()
 	{
-		global $ilias, $log;
+		global $log;
 
 		if (!isset($this->obj_id))
 		{
 			$message = "ilObject::countReferences(): No obj_id given!";
 			$log->writeWarning($message);
-			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
 		$q = "SELECT COUNT(ref_id) AS num FROM object_reference ".
 		 	"WHERE obj_id = '".$this->obj_id."'";
-		$row = $ilias->db->getRow($q);
+		$row = $this->ilias->db->getRow($q);
 
 		return $row->num;
 	}
@@ -603,7 +603,7 @@ class ilObject
 	*/
 	function clone($a_parent_ref)
 	{
-		global $tree,$rbacadmin,$rbacreview;
+		global $rbacadmin, $rbacreview;
 
 		$new_obj = new ilObject();
 		$new_obj->setTitle($this->getTitle());
@@ -629,7 +629,7 @@ class ilObject
 	*/
 	function delete()
 	{
-		global $rbacadmin, $tree;
+		global $rbacadmin;
 
 		// ALL OBJECT ENTRIES IN TREE HAVE BEEN DELETED FROM CLASS ADMIN.PHP
 
@@ -667,7 +667,7 @@ class ilObject
 	*/
 	function getSubObjects()
 	{
-		global $rbacsystem,$rbacadmin,$rbacreview;
+		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		$data = array();
 
@@ -684,5 +684,5 @@ class ilObject
 
 		return $data;
 	}
-} // class
+} // END class.ilObject
 ?>

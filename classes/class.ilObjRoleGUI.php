@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.25 2003/06/11 08:41:44 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.26 2003/06/12 14:37:40 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -48,30 +48,30 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	/**
 	* save a new role object
+	*
 	* @access	public
-	* @return	new ID
 	*/
 	function saveObject()
 	{
-		global $rbacsystem,$rbacadmin, $rbacreview;
+		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		// CHECK ACCESS 'write' to role folder
-		// TODO: check for create role permission should be better
+		// TODO: check for create role permission should be better. Need 'new type'->role
 		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("You have no permission to create new roles in this role folder",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_role"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
 			// check if role title is unique
 			if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
 			{
-				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
-										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 			}
 
-			// create new role object
-			require_once("classes/class.ilObjRole.php");
+			// save
+			include_once("./classes/class.ilObjRole.php");
 			$roleObj = new ilObjRole();
 			$roleObj->setTitle($_POST["Fobject"]["title"]);
 			$roleObj->setDescription($_POST["Fobject"]["desc"]);
@@ -81,21 +81,23 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		
 		sendInfo($this->lng->txt("role_added"),true);
+
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 
 	/**
 	* display permission template
+	*
 	* @access	public
 	*/
 	function permObject()
 	{
-		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng, $objDefinition;
+		global $rbacadmin, $rbacreview, $rbacsystem;
 
 		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
@@ -106,9 +108,9 @@ class ilObjRoleGUI extends ilObjectGUI
 			if ($_GET["ref_id"] != ROLE_FOLDER_ID)
 			{
 				// first get object in question (parent of role folder object)
-				$parent_data = $tree->getParentNodeData($_GET["ref_id"]);
+				$parent_data = $this->tree->getParentNodeData($_GET["ref_id"]);
 				// get allowed subobject of object
-				$obj_data2 = $objDefinition->getSubObjects($parent_data["type"]);
+				$obj_data2 = $this->objDefinition->getSubObjects($parent_data["type"]);
 			
 				// remove not allowed object types from array but keep the type definition of object itself
 				foreach ($obj_data as $key => $type)
@@ -166,21 +168,22 @@ class ilObjRoleGUI extends ilObjectGUI
 			$box = ilUtil::formCheckBox($checked,"recursive",1);
 
 			$output["col_anz"] = count($obj_data);
-			$output["txt_save"] = $lng->txt("save");
-			$output["txt_permission"] = $lng->txt("permission");
-			$output["txt_obj_type"] = $lng->txt("obj_type");
-			$output["txt_stop_inheritance"] = $lng->txt("stop_inheritance");
+			$output["txt_save"] = $this->lng->txt("save");
+			$output["txt_permission"] = $this->lng->txt("permission");
+			$output["txt_obj_type"] = $this->lng->txt("obj_type");
+			$output["txt_stop_inheritance"] = $this->lng->txt("stop_inheritance");
 			$output["check_bottom"] = $box;
-			$output["message_table"] = $lng->txt("change_existing_objects");
+			$output["message_table"] = $this->lng->txt("change_existing_objects");
 
 			// USER ASSIGNMENT
 			if ($rbacreview->isAssignable($this->object->getId(),$_GET["ref_id"]))
 			{
-				require_once "./classes/class.ilObjUser.php";
+				include_once "./classes/class.ilObjUser.php";
 				
 				// TODO: NEED ANOTHER METHOD SINCE SEARCHING WITH LIKE IS TOO SLOW
 				$user_ids = ilObjUser::searchUsers("");
 				$assigned_users = $rbacreview->assignedUsers($this->object->getId());
+
 				foreach ($user_ids as $key => $user)
 				{
 					$output["users"][$key]["css_row_user"] = $key % 2 ? "tblrow1" : "tblrow2";
@@ -190,12 +193,12 @@ class ilObjRoleGUI extends ilObjectGUI
 					$output["users"][$key]["username"] = $user["login"];
 				}
 
-				$output["message_bottom"] = $lng->txt("assign_user_to_role");
+				$output["message_bottom"] = $this->lng->txt("assign_user_to_role");
 				$output["formaction_assign"] = "adm_object.php?cmd=assignSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
 			}
 
 			// ADOPT PERMISSIONS
-			$output["message_middle"] = $lng->txt("adopt_perm_from_template");
+			$output["message_middle"] = $this->lng->txt("adopt_perm_from_template");
 
 			// BEGIN ADOPT_PERMISSIONS
 			$parent_role_ids = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
@@ -323,15 +326,17 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	/**
 	* save permissions
+	* 
+	* @access	public
 	*/
 	function permSaveObject()
 	{
-		global $tree, $rbacsystem, $rbacadmin, $rbacreview;
+		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		// SET TEMPLATE PERMISSIONS
 		if (!$rbacsystem->checkAccess('edit permission', $_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
@@ -360,12 +365,12 @@ class ilObjRoleGUI extends ilObjectGUI
 				}
 				else
 				{
-					$node_id = $tree->getParentId($_GET["ref_id"]);
+					$node_id = $this->tree->getParentId($_GET["ref_id"]);
 				}
 
 				// GET ALL SUBNODES
-				$node_data = $tree->getNodeData($node_id);
-				$subtree_nodes = $tree->getSubTree($node_data);
+				$node_data = $this->tree->getNodeData($node_id);
+				$subtree_nodes = $this->tree->getSubTree($node_data);
 
 				// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
 				$all_rolf_obj = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
@@ -376,9 +381,9 @@ class ilObjRoleGUI extends ilObjectGUI
 
 				$check = false;
 
-				foreach($subtree_nodes as $node)
+				foreach ($subtree_nodes as $node)
 				{
-					if(!$check)
+					if (!$check)
 					{
 						if(in_array($node["child"],$all_rolf_obj))
 						{
@@ -387,11 +392,12 @@ class ilObjRoleGUI extends ilObjectGUI
 							$check = true;
 							continue;
 						}
+
 						$valid_nodes[] = $node;
 					}
 					else
 					{
-						if(($node["lft"] > $lft) && ($node["rgt"] < $rgt))
+						if (($node["lft"] > $lft) && ($node["rgt"] < $rgt))
 						{
 							continue;
 						}
@@ -418,6 +424,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}// END CHECK ACCESS
 	
 		sendinfo($this->lng->txt("saved_successfully"),true);
+
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		exit();
 	}
@@ -425,6 +432,8 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	/**
 	* copy permissions from role
+	* 
+	* @access	public
 	*/
 	function adoptPermSaveObject()
 	{
@@ -439,8 +448,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
+
+		$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
+		sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 	
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		exit();
@@ -449,16 +461,24 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	/**
 	* assign users to role
+	*
+	* @access	public
 	*/
 	function assignSaveObject()
 	{
-		global $tree, $rbacsystem, $rbacadmin, $rbacreview;
+		global $rbacsystem, $rbacadmin, $rbacreview;
 		
-		// TODO: get rid of $_GET variables
-		 
-		if ($rbacreview->isAssignable($_GET["obj_id"],$_GET["ref_id"]))
+		if (!$rbacreview->isAssignable($_GET["obj_id"],$_GET["ref_id"]))
 		{
-			if ($rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+			$this->ilias->raiseError("It's worth a try. ;-)",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+			}
+			else
 			{
 				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
 				$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
@@ -473,53 +493,47 @@ class ilObjRoleGUI extends ilObjectGUI
 					$rbacadmin->assignUser($_GET["obj_id"],$user,false);
 				}
 			}
-			else
-			{
-				$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
-			}
-
-		}
-		else
-		{
-			$this->ilias->raiseError("It's worth a try. ;-)",$this->ilias->error_obj->WARNING);
 		}
 
+		sendInfo($this->lng->txt("msg_userassignment_changed"),true);
+		
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		exit();
 	}
 	
 	/**
 	* update role object
+	* 
+	* @access	public
 	*/
 	function updateObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview;
+		global $rbacsystem, $rbacreview;
 
 		// check write access
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("No permission to modify role",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_role"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
 			// check if role title is unique
 			if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
 			{
-				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
-										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
+										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 			}
 
-			// create new role object
-			require_once("classes/class.ilObjRole.php");
-			$roleObj = new ilObjRole($this->object->getId());
-			$roleObj->setTitle($_POST["Fobject"]["title"]);
-			$roleObj->setDescription($_POST["Fobject"]["desc"]);
-			$roleObj->update();
+			// update
+			$this->object->setTitle($_POST["Fobject"]["title"]);
+			$this->object->setDescription($_POST["Fobject"]["desc"]);
+			$this->object->update();
 		}
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
+
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
-} // END class.RoleObjectOut
+} // END class.ilObjRoleGUI
 ?>
