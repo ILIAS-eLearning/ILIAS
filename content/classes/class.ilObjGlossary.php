@@ -394,6 +394,8 @@ class ilObjGlossary extends ilObject
 		$this->file_ids = array();
 		foreach ($terms as $term)
 		{
+			include_once "./content/classes/class.ilGlossaryDefinition.php";
+			
 			$defs = ilGlossaryDefinition::getDefinitionList($term[id]);
 
 			foreach($defs as $def)

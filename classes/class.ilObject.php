@@ -995,5 +995,10 @@ class ilObject
 	{
 		return false;
 	}
+	function getHTMLDirectory()
+	{
+		return false;
+	}
+
 } // END class.ilObject
 ?>

@@ -77,6 +77,8 @@ class ilFileDataChat extends ilFileData
 
 		fwrite($fp,$data);
 		fclose($fp);
+
+		return $this->chat_path."/chatrooms_".$_SESSION["AccountId"];
 	}
 
 	function zip()
@@ -93,7 +95,7 @@ class ilFileDataChat extends ilFileData
 	}
 
 	// DESTUCTOR CALLED BY PEAR BASE CLASS
-	function _ilFilDataChat()
+	function _ilFileDataChat()
 	{
 		ilUtil::delDir($this->chat_path);
 	}
