@@ -208,6 +208,7 @@ class ilSetupGUI extends ilSetup
 				break;
 
 			case "delete":
+				$this->setDisplayMode("view");
 				$this->displayDeleteConfirmation();
 				break;
 
@@ -226,6 +227,7 @@ class ilSetupGUI extends ilSetup
 			case "view":
 				if ($this->client->db_installed)
 				{
+					$this->setDisplayMode("view"); 
 					$this->displayClientOverview();
 				}
 				else
@@ -253,7 +255,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "contact":
-				if (!$this->client->db_installed)
+				if (!$this->client->status["lang"]["status"])
 				{
 					$this->cmd = "db";
 					$this->displayDatabase();
@@ -265,7 +267,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "nic":
-				if (!$this->client->db_installed)
+				if (!$this->client->status["contact"]["status"])
 				{
 					$this->cmd = "db";
 					$this->displayDatabase();
@@ -277,7 +279,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "lang":
-				if (!$this->client->db_installed)
+				if (!$this->client->status["db"]["status"])
 				{
 					$this->cmd = "db";
 					$this->displayDatabase();
@@ -325,11 +327,12 @@ class ilSetupGUI extends ilSetup
 
 	function displayClientOverview()
 	{		
-		$this->tpl->addBlockFile("CONTENT","content","tpl.clientview.html");
+		$this->checkDisplayMode();
+		/*$this->tpl->addBlockFile("CONTENT","content","tpl.clientview.html");
 		// display tabs
 		include "./include/inc.client_tabs.php";
 		$this->tpl->setVariable("TXT_HEADER","Client details of \"".$this->client->getName()."\" (Id: ".$this->client->getId().")");	
-		
+		*/		
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.client_overview.html");
 
 		if ($this->client->db_installed)
@@ -378,7 +381,7 @@ class ilSetupGUI extends ilSetup
 		// client data
 		$this->tpl->setVariable("INST_ID",($this->client->db_installed) ? $settings["inst_id"] : $txt_no_database);
 		$this->tpl->setVariable("CLIENT_ID2",$this->client->getId());
-		$this->tpl->setVariable("INST_NAME",$this->client->getName());
+		$this->tpl->setVariable("INST_NAME",($this->client->getName()) ? $this->client->getName() : "&lt;".$this->lng->txt("no_client_name")."&gt;");
 		$this->tpl->setVariable("INST_INFO",$this->client->getDescription());
 		$this->tpl->setVariable("DB_VERSION",($this->client->db_installed) ? $settings["db_version"] : $txt_no_database);
 		$this->tpl->setVariable("ACCESS_STATUS",$this->lng->txt($access_status).$access_link);
@@ -570,6 +573,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_SETUP_DATABASE_DESC", $this->lng->txt("setup_database_desc"));
 		$this->tpl->setVariable("TXT_SETUP_LANGUAGES_DESC", $this->lng->txt("setup_languages_desc"));
 		$this->tpl->setVariable("TXT_SETUP_PASSWORD_DESC", $this->lng->txt("setup_password_desc"));		
+		$this->tpl->setVariable("TXT_SETUP_NIC_DESC", $this->lng->txt("setup_nic_desc"));	
 	
 		$server_os = php_uname();
 		$server_web = $_SERVER["SERVER_SOFTWARE"];
@@ -743,11 +747,11 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("datadir_path"));
 		$this->tpl->setVariable("TXT_DATADIR_COMMENT1", $this->lng->txt("datadir_path_comment1"));
 		$this->tpl->setVariable("TXT_CREATE", $this->lng->txt("create"));
-		$this->tpl->setVariable("TXT_TARGET", $this->lng->txt("target"));
 		// values
 		$this->tpl->setVariable("DATADIR_PATH", $_SESSION["error_post_vars"]["form"]["datadir_path"]);
-		$chk_datadir_path = ($_SESSION["error_post_vars"]["form"]["chk_datadir_path"]) ? "CHK_DATADIR_PATH_TARGET" : "CHK_DATADIR_PATH_CREATE";
-		$this->tpl->setVariable($chk_datadir_path,$checked);
+		//$chk_datadir_path = ($_SESSION["error_post_vars"]["form"]["chk_datadir_path"]) ? "CHK_DATADIR_PATH_TARGET" : "CHK_DATADIR_PATH_CREATE";
+		$chk_datadir_path = ($_SESSION["error_post_vars"]["form"]["chk_datadir_path"]) ? $checked : "";
+		$this->tpl->setVariable("CHK_DATADIR_PATH",$chk_datadir_path);
 		$this->tpl->parseCurrentBlock();
 		
 		// logging
@@ -799,7 +803,8 @@ class ilSetupGUI extends ilSetup
 		
 		// setup password
 		$this->tpl->setCurrentBlock("setup_pass");
-		$this->tpl->setVariable("TXT_SETUP_PASS_TITLE", $this->lng->txt("password_info"));
+		$this->tpl->setVariable("TXT_SETUP_PASS_TITLE", $this->lng->txt("setup_pass_title"));
+		$this->tpl->setVariable("TXT_SETUP_PASS_COMMENT", $this->lng->txt("password_info"));
 		$this->tpl->setVariable("TXT_SETUP_PASS", $this->lng->txt("setup_pass"));
 		$this->tpl->setVariable("TXT_SETUP_PASS2", $this->lng->txt("setup_pass2"));
 		// values
@@ -936,10 +941,12 @@ class ilSetupGUI extends ilSetup
 
 			$access_html = "<a href=\"setup.php?cmd=changeaccess&client_id=".$key."&back=clientlist\">".$this->lng->txt($access)."</a>";
 			
+			$client_name = ($client->getName()) ? $client->getName() : "&lt;".$this->lng->txt("no_client_name")."&gt;";
+			
 			//visible data part
 			$data["data"][] = array(
 							"default"		=> "<input type=\"radio\" name=\"form[default]\" value=\"".$key."\"".$default."/>",
-							"name"			=> $client->getName()."#separator#".$client->getDescription(),
+							"name"			=> $client_name."#separator#".$client->getDescription(),
 							"id"			=> $key,
 							"login"			=> $login,
 							"details"		=> "<a href=\"setup.php?cmd=view&client_id=".$key."\">Details</a>",
@@ -1268,7 +1275,7 @@ class ilSetupGUI extends ilSetup
 			if ($db_installed and (!$this->ini_ilias_exists or ($this->client->getDbName() != $old_db_name)))
 			{
 				$_POST["form"]["db_name"] = $old_db_name;
-				$message = ucfirst($this->lng->txt("database"))." \"".$this->client->getDbName()."\" ".$this->lng->txt("ini_db_name_exists_");
+				$message = ucfirst($this->lng->txt("database"))." \"".$this->client->getDbName()."\" ".$this->lng->txt("ini_db_name_exists");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 			
@@ -1433,14 +1440,17 @@ class ilSetupGUI extends ilSetup
 
 	function displayStatusPanel()
 	{
+		$OK = "<font color=\"green\"><strong>OK</strong></font>";
+
 		$this->tpl->addBlockFile("STATUS_PANEL","status_panel","tpl.status_panel.html");
 
+		$this->tpl->setVariable("TXT_OVERALL_STATUS",$this->lng->txt("overall_status"));
 		// display status
 		if ($this->client->status)
 		{
 			foreach ($this->client->status as $key => $val)
 			{
-				$status = ($val["status"]) ? "ok" : "no";
+				$status = ($val["status"]) ? $OK : "&nbsp;";
 				$this->tpl->setCurrentBlock("status_row");
 				$this->tpl->setVariable("TXT_STEP",$key.":&nbsp;");
 				$this->tpl->setVariable("TXT_STATUS",$status);
@@ -1459,7 +1469,8 @@ class ilSetupGUI extends ilSetup
 				$this->tpl->addBlockFile("CONTENT","content","tpl.clientview.html");
 				// display tabs
 				include "./include/inc.client_tabs.php";
-				$this->tpl->setVariable("TXT_HEADER","Client details of \"".$this->client->getName()."\" (Id: ".$this->client->getId().")");		
+				$client_name = ($this->client->getName()) ? $this->client->getName() : $this->lng->txt("no_client_name");
+				$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("client")." \"".$client_name."\" (ID: ".$this->client->getId().")");		
 				break;
 			
 			case "setup":
@@ -1654,11 +1665,21 @@ class ilSetupGUI extends ilSetup
 		// output
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_lang.html");
 
-		$languages = $this->lng->getLanguages($this->lng->lang_path);
+		$languages = $this->lng->getLanguages();
 		$installed_langs = $this->lng->getInstalledLanguages();
 		$default_lang = $this->client->getDefaultLanguage();
 		
 		$lang_count = count($installed_langs);
+		
+		$this->tpl->setVariable("TXT_LANG_HEADER", ucfirst($this->lng->txt("available_languages")));
+		$this->tpl->setVariable("TXT_LANGUAGE", ucfirst($this->lng->txt("languages")));
+		$this->tpl->setVariable("TXT_INSTALLED", ucfirst($this->lng->txt("installed")));
+		$this->tpl->setVariable("TXT_DEFAULT", ucfirst($this->lng->txt("default")));
+
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		
+		$this->tpl->setVariable("TXT_SETUP_TITLE",ucfirst(trim($this->lng->txt("setup_languages"))));
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_lang"));
 		
 		if ($lang_count > 0)
 		{
@@ -1690,16 +1711,6 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setVariable("TXT_LANG_HEADER", ucfirst($this->lng->txt("available_languages")));
-		$this->tpl->setVariable("TXT_LANGUAGE", ucfirst($this->lng->txt("languages")));
-		$this->tpl->setVariable("TXT_INSTALLED", ucfirst($this->lng->txt("installed")));
-		$this->tpl->setVariable("TXT_DEFAULT", ucfirst($this->lng->txt("default")));
-
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		
-		$this->tpl->setVariable("TXT_SETUP_TITLE",ucfirst(trim($this->lng->txt("setup_languages"))));
-		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_lang"));
-
 		$this->setButtonPrev("db");
 		
 		if ($lang_count > 0)
@@ -2104,15 +2115,19 @@ class ilSetupGUI extends ilSetup
 			header("Location: setup.php");
 			exit();
 		}
+
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_delete"));
 		
 		// output
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_delete_client.html");
 
 		// delete panel
-		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 		$this->tpl->setVariable("TXT_DELETE_CONFIRM", $this->lng->txt("delete_confirm"));
 		$this->tpl->setVariable("TXT_DELETE_INFO", $this->lng->txt("delete_info"));
+
+		$this->checkPanelMode();
 	}
 	
 	function changeAccessMode($a_back)
@@ -2129,7 +2144,7 @@ class ilSetupGUI extends ilSetup
 			$message = "client_setup_not_finished";
 		}
 		
-		sendInfo($message,true);
+		sendInfo($this->lng->txt($message),true);
 		
 		header("Location: setup.php?cmd=".$a_back);
 		exit();
@@ -2143,7 +2158,7 @@ class ilSetupGUI extends ilSetup
 
 			if (!$client->init())
 			{
-				$this->raiseError("no_valid_client_id",$this->error_obj->MESSAGE);
+				$this->raiseError($this->lng->txt("no_valid_client_id"),$this->error_obj->MESSAGE);
 			}
 			
 			$status = $this->getStatus($client);
@@ -2160,7 +2175,7 @@ class ilSetupGUI extends ilSetup
 			}
 		}
 		
-		sendInfo($message,true);
+		sendInfo($this->lng->txt($message),true);
 		
 		header("Location: setup.php");
 		exit();

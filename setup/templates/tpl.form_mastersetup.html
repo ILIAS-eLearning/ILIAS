@@ -8,9 +8,7 @@
     <tr>
       <td class="option">{TXT_DATADIR_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="250" name="form[datadir_path]" value="{DATADIR_PATH}" /></td>
-      <td class="option_value">
-	  <input type="radio" name="form[chk_datadir_path]" value="0" {CHK_DATADIR_PATH_CREATE}/>create&nbsp;
-	  <input type="radio" name="form[chk_datadir_path]" value="1" {CHK_DATADIR_PATH_TARGET}/>target
+      <td class="option_value"><input type="checkbox" name="form[chk_datadir_path]" value="1" {CHK_DATADIR_PATH}/>{TXT_CREATE}</td>
 	  </td>
       <td class="option_desc">{TXT_DATADIR_COMMENT1}</td>
     </tr>
@@ -80,11 +78,12 @@
 </tr>
 <tr>
 	<td class="option">{TXT_SETUP_PASS}</td>
-	<td colspan="3" class="option_value"><input type="password" name="form[setup_pass]" maxlength="40" size="40" value="{SETUP_PASS}"/></td>
+	<td class="option_value"><input type="password" name="form[setup_pass]" maxlength="40" size="40" value="{SETUP_PASS}"/></td>
+    <td colspan="2" rowspan="2" class="option_desc">{TXT_SETUP_PASS_COMMENT}</td>
 </tr>
 <tr>
 	<td class="option">{TXT_SETUP_PASS2}</td>
-	<td colspan="3" class="option_value"><input type="password" name="form[setup_pass2]" maxlength="40" size="40" value="{SETUP_PASS2}"/></td>
+	<td class="option_value"><input type="password" name="form[setup_pass2]" maxlength="40" size="40" value="{SETUP_PASS2}"/></td>
 </tr>
 <!-- END setup_pass -->
 <tr>

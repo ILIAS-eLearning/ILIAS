@@ -626,10 +626,12 @@ class ilSetup extends PEAR
 		if ($client->getSetting("setup_ok"))
 		{
 			$arr["status"] = true;
+			$arr["comment"] = $this->lng->txt("setup_finished");
 		}
 		else
 		{
 			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("setup_not_finished");
 		}
 		
 		return $arr;
@@ -640,10 +642,12 @@ class ilSetup extends PEAR
 		if ($client->ini->readVariable("client","access") == "1")
 		{
 			$arr["status"] = true;
+			$arr["comment"] = $this->lng->txt("online");
 		}
 		else
 		{
 			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("disabled");
 		}
 		
 		return $arr;
@@ -668,14 +672,14 @@ class ilSetup extends PEAR
 //		if (!$arr["status"] = $client->checkDatabaseExists())
 		if (!$arr["status"] = $client->db_exists)
 		{
-			$arr["comment"] = "no_db";
+			$arr["comment"] = $this->lng->txt("no_database");
 			return $arr;
 		}
 		
 //		if ($arr["status"] = $client->connect())
 		if (!$arr["status"] = $client->db_installed)
 		{
-			$arr["comment"] = "db_not_installed";
+			$arr["comment"] = $this->lng->txt("db_not_installed");
 			return $arr;
 		}
 		
@@ -688,7 +692,7 @@ class ilSetup extends PEAR
 				
 		if (!$arr["status"] = $dbupdate->getDBVersionStatus())
 		{
-			$arr["comment"] = "db_needs_update";
+			$arr["comment"] = $this->lng->txt("db_needs_update");
 			return $arr;
 		}
 
@@ -705,12 +709,12 @@ class ilSetup extends PEAR
 		if ($count < 1)
 		{
 			$arr["status"] = false;
-			$arr["comment"] = "no_language_installed";		
+			$arr["comment"] = $this->lng->txt("lang_none_installed");		
 		}
 		else
 		{
 			$arr["status"] = true;
-			$arr["comment"] = $count." language(s) installed";
+			$arr["comment"] = $count." ".$this->lng->txt("languages_installed");
 		}
 		
 		return $arr;
@@ -719,7 +723,7 @@ class ilSetup extends PEAR
 	function checkClientContact(&$client)
 	{
 		$arr["status"] = true;
-		$arr["comment"] = "filled out";
+		$arr["comment"] = $this->lng->txt("filled_out");
 
 		$settings = $client->getAllSettings();
 		$client_name = $client->getName();
@@ -732,14 +736,14 @@ class ilSetup extends PEAR
 			or empty($client_name) or empty($settings["inst_institution"]))
 		{
 			$arr["status"] = false;
-			$arr["comment"] = "missing_data";
+			$arr["comment"] = $this->lng->txt("missing_data");
 		}
 			
 		// admin email
 		if (!ilUtil::is_email($settings["admin_email"]) and $arr["status"] != false)
 		{
 			$arr["status"] = false;
-			$arr["comment"] = "invalid_email";
+			$arr["comment"] = $this->lng->txt("email_not_valid");
 		}
 		
 		return $arr;
@@ -752,7 +756,7 @@ class ilSetup extends PEAR
 		if (!isset($settings["nic_enabled"]))
 		{
 			$arr["status"] = false;
-			$arr["comment"] = "no nic & not disabled";
+			$arr["comment"] = $this->lng->txt("nic_not_disabled");
 			return $arr;
 		}
 		
@@ -760,17 +764,17 @@ class ilSetup extends PEAR
 
 		if ($settings["nic_enabled"] == "-1")
 		{
-			$arr["comment"] = "nic_registration_failed";
+			$arr["comment"] = $this->lng->txt("nic_reg_failed");
 			return $arr;
 		}
 
 		if (!$settings["nic_enabled"])
 		{
-			$arr["comment"] = "disabled";
+			$arr["comment"] = $this->lng->txt("nic_reg_disabled");
 		}
 		else
 		{
-			$arr["comment"] = "nic_id: ".$settings["inst_id"];
+			$arr["comment"] = $this->lng->txt("nic_reg_enabled");
 		}
 
 		return $arr;
@@ -794,7 +798,7 @@ class ilSetup extends PEAR
 	// saves intial settings
 	function saveMasterSetup($a_formdata)
 	{
-		if ($a_formdata["chk_datadir_path"] == 0)	// mode create dir 
+		if ($a_formdata["chk_datadir_path"] == 1)	// mode create dir 
 		{
 			if (!ilUtil::makeDir($a_formdata["datadir_path"]))
 			{
@@ -879,7 +883,7 @@ class ilSetup extends PEAR
 
 			if (empty($convert_path))
 			{
-				$this->error = "no_path_given_convert";
+				$this->error = "no_path_convert";
 				return false;
 			}
 			
@@ -898,7 +902,7 @@ class ilSetup extends PEAR
 			
 			if (empty($zip_path))
 			{
-				$this->error = "no_path_given_zip";
+				$this->error = "no_path_zip";
 				return false;
 			}
 		
@@ -917,7 +921,7 @@ class ilSetup extends PEAR
 
 			if (empty($unzip_path))
 			{
-				$this->error = "no_path_given_unzip";
+				$this->error = "no_path_unzip";
 				return false;
 			}
 
@@ -936,7 +940,7 @@ class ilSetup extends PEAR
 
 			if (empty($java_path))
 			{
-				$this->error = "no_path_given_java";
+				$this->error = "no_path_java";
 				return false;
 			}
 		
@@ -955,7 +959,7 @@ class ilSetup extends PEAR
 
 			if (empty($htmldoc_path))
 			{
-				$this->error = "no_path_given_htmldoc";
+				$this->error = "no_path_htmldoc";
 				return false;
 			}
 		
@@ -977,19 +981,19 @@ class ilSetup extends PEAR
 
 		if (empty($datadir_path))
 		{
-			$this->error = "no_path_given_datadir";
+			$this->error = "no_path_datadir";
 			return false;
 		}
 
 		// create dir
-		if ($a_formdata["chk_datadir_path"] == 0)
+		if ($a_formdata["chk_datadir_path"] == 1)
 		{
 			$dir_to_create = substr(strrchr($datadir_path, "/"), 1);
 			$dir_to_check = substr($datadir_path,0,- strlen($dir_to_create)-1);
 
 			if (is_writable($datadir_path))
 			{
-				$this->error = "no_datadir_given_if_you_want_to_set_your_datadir_to_current_directory_select_target";
+				$this->error = "dir_exists_create";
 				return false;
 			}
 
@@ -1038,7 +1042,7 @@ class ilSetup extends PEAR
 
 			if (empty($log_path))
 			{
-				$this->error = "no_path_given_log";
+				$this->error = "no_path_log";
 				return false;
 			}
 
