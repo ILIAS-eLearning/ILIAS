@@ -1277,6 +1277,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter$add_sequence");
 			$this->tpl->parseCurrentBlock();
 		} else {
+			$user_question_order =& $this->object->getAllQuestionsForActiveUser();
 			if ($this->sequence <= $this->object->get_question_count()) {
 				// show next/previous question
 				$postpone = "";
@@ -1296,7 +1297,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$postpone = true;
 				}
 				$active = $this->object->get_active_test_user();
-				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id(), $active, $postpone);
+				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id(), $active, $postpone, $user_question_order);
 			} else {
 				// finish test
 				$this->object->set_active_test_user(1, "", true);
