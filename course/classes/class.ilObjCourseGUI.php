@@ -1580,7 +1580,8 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("crs_search_members"));
 		$this->tpl->setVariable("SEARCH_SEARCH_TERM",$this->lng->txt("search_search_term"));
-		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["crs_search_str"] ? $_SESSION["crs_search_str"] : "");
+		$this->tpl->setVariable("SEARCH_VALUE",$_SESSION["crs_search_str"] ? 
+								ilUtil::prepareFormOutput($_SESSION["crs_search_str"],true) : "");
 		$this->tpl->setVariable("SEARCH_FOR",$this->lng->txt("exc_search_for"));
 		$this->tpl->setVariable("SEARCH_ROW_TXT_USER",$this->lng->txt("exc_users"));
 		$this->tpl->setVariable("SEARCH_ROW_TXT_GROUP",$this->lng->txt("exc_groups"));
@@ -1605,10 +1606,17 @@ class ilObjCourseGUI extends ilObjectGUI
 	{
 		global $rbacsystem,$tree;
 
-
-		$_SESSION["crs_search_str"] = $_POST["search_str"] = $_POST["search_str"] ? $_POST["search_str"] : $_SESSION["crs_search_str"];
-		$_SESSION["crs_search_for"] = $_POST["search_for"] = $_POST["search_for"] ? $_POST["search_for"] : $_SESSION["crs_search_for"];
+		#$this->__unsetSessionVariables();
 		
+
+		$_SESSION["crs_search_str"] = $_POST["search_str"] = $_POST["search_str"] 
+			? $_POST["search_str"] 
+			: $_SESSION["crs_search_str"];
+		$_SESSION["crs_search_for"] = $_POST["search_for"] = $_POST["search_for"] 
+			? $_POST["search_for"] 
+			: $_SESSION["crs_search_for"];
+		
+
 		// MINIMUM ACCESS LEVEL = 'administrate'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
@@ -1623,7 +1631,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			
 			return false;
 		}
-		if(!count($result = $this->__search(ilUtil::stripSlashes($_POST["search_str"]),$_POST["search_for"])))
+		if(!count($result = $this->__search($_POST["search_str"],$_POST["search_for"])))
 		{
 			sendInfo($this->lng->txt("crs_no_results_found"));
 			$this->searchUserObject();
@@ -2752,7 +2760,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$search =& new ilSearch($_SESSION["AccountId"]);
 		$search->setPerformUpdate(false);
-		$search->setSearchString(ilUtil::stripSlashes($a_search_string));
+		$search->setSearchString($a_search_string);
 		$search->setCombination("and");
 		$search->setSearchFor(array(0 => $a_search_for));
 		$search->setSearchType('new');
