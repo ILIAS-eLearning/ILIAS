@@ -210,7 +210,8 @@ class ilSearch
 		$result = array("usr" => array(),
 						"grp" => array(),
 						"lm"  => array(),
-						"dbk" => array());
+						"dbk" => array(),
+						"role"=> array());
 
 		foreach($this->getSearchFor() as $obj_type)
 		{
@@ -245,6 +246,14 @@ class ilSearch
 					$result["dbk"][$this->getSearchInByType("dbk")] = ilObjDlBook::_search($this,$this->getSearchInByType("dbk"));
 					$result["dbk"][$this->getSearchInByType("dbk")]
 						= $this->__checkAccess($result["dbk"][$this->getSearchInByType("dbk")]);
+					break;
+
+				case "role":
+					include_once "./classes/class.ilObjRole.php";
+
+					$this->act_type = 'role';
+					$result["role"] = ilObjRole::_search($this);
+					$result["role"] = $this->__checkAccess($result["role"]);
 					break;
 			}
 		}

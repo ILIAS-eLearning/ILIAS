@@ -3520,4 +3520,9 @@ survey#:#users_skipped#:#Übersprungen
 survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben haben
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
+common#:#exc_roles#:#Rollen
+common#:#grp_search_members#:#Benutzersuche
+common#:#grp_header_edit_members#:#Mitglieder bearbeiten
+common#:#grp_list_users#:#Benutzer auflisten
+common#:#grp_count_members#:#Anzahl der Mitglieder
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.

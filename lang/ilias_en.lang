@@ -55,6 +55,11 @@ administration#:#options#:#Options
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
 administration#:#purge_trash#:#Purge deleted objects
+common#:#exc_roles#:#Roles
+common#:#grp_search_members#:#User search
+common#:#grp_header_edit_members#:#Edit members
+common#:#grp_list_users#:#List users
+common#:#grp_count_members#:#Number of members
 administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.
 administration#:#purging#:#Purging...
 administration#:#purging_missing_objs#:#Purging missing objects...
