@@ -173,6 +173,14 @@ class ilObjUser extends ilObject
 
 			// fill member vars in one shot
 			$this->assignData($data);
+			if ($a_data["i2passwd"] != "" && $a_data["passwd"] == "")
+			{
+				$this->setPasswd($a_data["i2passwd"], IL_PASSWD_CRYPT);
+			}
+			else
+			{
+				$this->setPasswd($a_data["passwd"], IL_PASSWD_MD5);
+			}
 
 			//get userpreferences from usr_pref table
 			$this->readPrefs();
@@ -225,10 +233,12 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @param	array		userdata
 	*/
-	function assignData($a_data)
+	function assignData($a_data, $a_passwd_type = IL_PASSWD_PLAIN)
 	{
 		// basic personal data
 		$this->setLogin($a_data["login"]);
+		$this->setPasswd($a_data["passwd"]);
+		/*
 		if ($a_data["passwd"])
 		{
 			$this->setPasswd($a_data["passwd"], IL_PASSWD_MD5);
@@ -236,7 +246,7 @@ class ilObjUser extends ilObject
 		else
 		{
 			$this->setPasswd($a_data["il2passwd"], IL_PASSWD_CRYPT);
-		}
+		}*/
 		$this->setGender($a_data["gender"]);
 		$this->setUTitle($a_data["title"]);
 		$this->setFirstname($a_data["firstname"]);
@@ -1002,7 +1012,7 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* set password md5 encrypted
+	* set password
 	* @access	public
 	* @param	string	passwd
 	*/
