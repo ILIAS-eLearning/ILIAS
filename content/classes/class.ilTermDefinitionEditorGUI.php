@@ -393,10 +393,7 @@ class ilTermDefinitionEditorGUI
 
 	function saveShortText()
 	{
-		$page =& $this->definition->getPageObject();
-		$text = $page->getFirstParagraphText();
-		$this->definition->setShortText(ilUtil::shortenText($text, 190, true));
-		$this->definition->update();
+		$this->definition->updateShortText();
 	}
 }
 ?>
