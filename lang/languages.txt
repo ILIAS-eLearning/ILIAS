@@ -75,7 +75,7 @@ setup_welcome	Welcome to the setup of ILIAS.<br>To make Ilias operatable please 
 status	status	Status	stato	status
 street	street	Straße	via	street
 student	student	Student	studente	student
-subject	subject	subject	oggetto	subject
+subject	subject	Betreff	oggetto	subject
 submit	submit	abschicken	invia	submit
 system	system	System	sistema	system
 system_grp	system group	Systemgruppe	gruppo sistema	system_grp

@@ -12,7 +12,7 @@ include("./include/inc.main.php");
 $lng = new Language($ilias->account->data["language"]);
 $tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("profile"));
 
-
+//display buttons
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","usr_profile.php");
@@ -29,8 +29,11 @@ $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
 
+//instantiate profile-template
 $tpl = new Template("tpl.usr_profile.html", true, true);
 $tpl->setVariable("BUTTONS",$tplbtn->get());
+
+//if data are posted
 if ($_POST["u_id"]!="")
 {
 	$ilias->account->setFirstName($_POST["usr_fname"]);

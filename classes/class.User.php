@@ -176,8 +176,8 @@ class User extends PEAR
                   email='".$this->data[Email]."',
                   language='".$this->data[language]."'
                   WHERE usr_id='".$this->Id."'";
-
 		 $this->db->query($query);
+		 
 		 $this->getUserData();
 		 return true;
 	 }
@@ -435,7 +435,7 @@ class User extends PEAR
 	 {
 		 $this->data["LastName"] = $str;
 	 }
-	 	 
+
 	 /**
 	  * set gender
 
