@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.15 2004/02/27 11:07:14 shofmann Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.16 2004/03/23 00:24:29 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -37,6 +37,8 @@ require_once "class.ilObjectGUI.php";
 
 class ilObjFolderGUI extends ilObjectGUI
 {
+	var $folder_tree;		// folder tree
+
 	/**
 	* Constructor
 	* @access	public
@@ -60,6 +62,14 @@ class ilObjFolderGUI extends ilObjectGUI
 		$this->setReturnLocation("confirmedDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("removeFromSystem","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		$this->setReturnLocation("undelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+	}
+
+	/**
+	* set tree
+	*/
+	function setFolderTree($a_tree)
+	{
+		$this->folder_tree =& $a_tree;
 	}
 
 	/**
@@ -124,10 +134,16 @@ class ilObjFolderGUI extends ilObjectGUI
 		$folderObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$folderObj->create();
 		$this->object =& $folderObj;
-		if($this->withReferences())
-		{
+		if($this->withReferences())		// check if this folders use references
+		{								// note: e.g. folders in media pools don't
 			$folderObj->createReference();
 		}
+
+		if(is_object($this->folder_tree))		// groups gui should call ObjFolderGUI->setFolderTree also
+		{
+			$folderObj->setFolderTree($this->folder_tree);
+		}
+
 		//insert folder in grp_tree
 		$folderObj->putInTree($a_parent);
 

@@ -25,7 +25,7 @@
 /**
 * Class ilObjFolder
 *
-* @author Wolfgang Merkens <wmerkens@databay.de> 
+* @author Wolfgang Merkens <wmerkens@databay.de>
 * @version $Id$
 *
 * @extends ilObject
@@ -37,6 +37,8 @@ require_once "class.ilGroupTree.php";
 
 class ilObjFolder extends ilObject
 {
+	var $folder_tree;
+	
 	/**
 	* Constructor
 	* @access	public
@@ -48,18 +50,39 @@ class ilObjFolder extends ilObject
 		$this->type = "fold";
 		$this->ilObject($a_id,false);
 	}
-	
+
+	function setFolderTree($a_tree)
+	{
+		$this->folder_tree =& $a_tree;
+	}
+
 	/**
 	* insert folder into grp_tree
 	*
 	*/
-	function putInTree($a_parent_ref)
+	function putInTree($a_parent)
 	{
-		$grp_id = ilUtil::getGroupId($a_parent_ref);
-		
-		$gtree = new ilGroupTree($grp_id);
-		
-		$gtree->insertNode($this->getRefId(), $a_parent_ref);
+		if (is_object($this->folder_tree))
+		{
+			if($this->withReferences())
+			{
+				// put reference id into tree
+				$this->folder_tree->insertNode($this->getRefId(), $a_parent);
+			}
+			else
+			{
+				// put object id into tree
+				$this->folder_tree->insertNode($this->getId(), $a_parent);
+			}
+		}
+		else
+		{
+			// that's not reusable!
+			// use setTree, to allow folder in other contexts (e.g. media pools), too
+			$grp_id = ilUtil::getGroupId($a_parent);
+			$gtree = new ilGroupTree($grp_id);
+			$gtree->insertNode($this->getRefId(), $a_parent);
+		}
 	}
 
 	function clone()
