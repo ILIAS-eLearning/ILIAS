@@ -1904,11 +1904,6 @@ class ilObjectGUI
 					//build link
 					$link = "adm_object.php?";
 
-					if ($_GET["type"] == "lo" && $key == "type")
-					{
-						$link = "lo_view.php?";
-					}
-
 					$n = 0;
 
 					foreach ($ctrl as $key2 => $val2)
@@ -1922,7 +1917,7 @@ class ilObjectGUI
 						}
 					}
 
-					if ($key == "title" || $key == "type")
+					if ($key == "title" || $key == "name" || $key == "type")
 					{
 						$this->tpl->setCurrentBlock("begin_link");
 						$this->tpl->setVariable("LINK_TARGET", $link);

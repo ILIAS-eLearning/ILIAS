@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.16 2003/08/14 15:23:15 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.17 2003/08/15 11:05:48 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -412,6 +412,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 				foreach ($data as $key => $val)
 				{
+					//build link
+					$link = "adm_object.php?ref_id=7&obj_id=".$ctrl["obj_id"];
+
+					if ($key == "login")
+					{
+						$this->tpl->setCurrentBlock("begin_link");
+						$this->tpl->setVariable("LINK_TARGET", $link);
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->touchBlock("end_link");
+					}
+
 					$this->tpl->setCurrentBlock("text");
 					$this->tpl->setVariable("TEXT_CONTENT", $val);					
 					$this->tpl->parseCurrentBlock();
