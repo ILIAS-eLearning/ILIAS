@@ -170,6 +170,7 @@ java_path_comment#:#required for SCORM Learning modules
 lang_de#:#German
 lang_zh#:#Chinese
 lang_dk#:#Danish
+lang_nl#:#Dutch
 lang_en#:#English
 lang_error_occurred#:#Encountered an error. Action aborted.
 lang_es#:#Spanish
