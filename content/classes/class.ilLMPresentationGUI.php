@@ -1374,7 +1374,7 @@ class ilLMPresentationGUI
 	*/
 	function ilLMNavigation()
 	{
-		global $ilBench;
+		global $ilBench,$ilUser;
 
 		$ilBench->start("ContentPresentation", "ilLMNavigation");
 
@@ -1453,6 +1453,12 @@ class ilLMPresentationGUI
 					$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
 					"\" target=\"_top\">$prev_img ".ilUtil::shortenText($pre_title, 50, true)."</a>";
 			}
+			
+			if ($ilUser->getId() == ANONYMOUS_USER_ID and ($this->lm->getPublicAccessMode() == "selected" and !ilLMObject::_isPagePublic($pre_node["obj_id"])))
+			{
+				$output = $this->lng->txt("msg_page_not_public");
+			}
+			
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 
 			$this->tpl->setVariable("LMNAVIGATION_PREV", $output);
@@ -1496,6 +1502,12 @@ class ilLMPresentationGUI
 					$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
 					"\" target=\"_top\">".ilUtil::shortenText($succ_title,50,true)." $succ_img</a>";
 			}
+			
+			if ($ilUser->getId() == ANONYMOUS_USER_ID and ($this->lm->getPublicAccessMode() == "selected" and !ilLMObject::_isPagePublic($succ_node["obj_id"])))
+			{
+				$output = $this->lng->txt("msg_page_not_public");
+			}
+
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_getPresentationTitle");
 
 			$this->tpl->setVariable("LMNAVIGATION_NEXT", $output);

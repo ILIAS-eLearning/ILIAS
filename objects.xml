@@ -184,6 +184,7 @@
 	<property name="editMeta">meta_data</property>
 	<property name="chapters" module="1">cont_chapters</property>
 	<property name="pages" module="1">cont_all_pages</property>
+	<property name="editPublicSection" module="1">public_section</property>
 	<property name="linkChecker" module="1">link_check</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>

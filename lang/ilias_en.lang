@@ -2739,6 +2739,12 @@ content#:#read offline#:#Read Offline
 content#:#select_a_file#:#Please select a file.
 content#:#st#:#Chapter
 content#:#start export#:#Start Export
+content#:#public_section#:#Public Section
+content#:#set_public_mode#:#Set public access mode
+content#:#choose_public_mode#:#Unregistered users may access
+content#:#choose_public_pages#:#Choose public accessible pages
+content#:#all_pages#:#the entire Learning module 
+content#:#selected_pages_only#:#only that pages selected below 
 crs#:#crs_accept_subscriber#:#Course subscription
 crs#:#crs_accept_subscriber_body#:#You have been assigned to this course.
 crs#:#crs_access_password#:#Password

@@ -1,0 +1,63 @@
+<script type="text/javascript">
+<!--
+function setCheckboxes(a_form, a_page, a_nodes, a_check)
+{
+	for(i=0;i<a_nodes.length;i++) {
+		if (typeof(document.forms[a_form].elements[a_page + a_nodes[i]]) != 'undefined') {
+    		document.forms[a_form].elements[a_page + a_nodes[i]].checked = a_check;
+    	}
+    }
+
+    return true;
+}
+
+function alterCheckboxes(a_form, a_page, a_nodes)
+{
+	for(i=0;i<a_nodes.length;i++) {
+		if (typeof(document.forms[a_form].elements[a_page + a_nodes[i]]) != 'undefined') {
+    		document.forms[a_form].elements[a_page + a_nodes[i]].checked = (document.forms[a_form].elements[a_page + a_nodes[i]].checked ^ true);
+    	}
+    }
+
+    return true;
+}
+//-->
+</script>
+<style>
+body { margin:4px; }
+</style>
+<form name="PublicSelector" action="{FORMACTION}" {TARGET} method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="tblheader" colspan="2">
+	{TXT_SET_PUBLIC_MODE}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_CHOOSE_PUBLIC_MODE}
+	</td>
+	<td class="option_value">
+	{SELECT_PUBLIC_MODE}
+	</td>
+</tr>
+</table>
+<br />
+<div class="il_ExplorerHeader">
+{TXT_EXPLORER_HEADER}
+</div>
+<div class="il_Explorer">
+{EXPLORER}
+</div>
+<div align="left">
+    <a href="" onclick="setCheckboxes('PublicSelector','page_',{ONCLICK},true); return false;">{TXT_CHECKALL}</a>&nbsp;&nbsp;
+    <a href="" onclick="setCheckboxes('PublicSelector','page_',{ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
+<p><input class="submit" type="submit" name="cmd[savePublicSection]" value="{TXT_SAVE}" /></p>
+</div>
+</form>
+
+
+
+
+
+

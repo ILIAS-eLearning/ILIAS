@@ -1,0 +1,19 @@
+<table cellpadding="1" cellspacing="0" border="0">
+<tr>
+<!-- BEGIN row -->
+<!-- BEGIN lines -->
+<td nowrap valign="top" align="left"><img class="spacer" src="{IMGPATH_LINES}" border="0" /></td>
+<!-- END lines -->
+<!-- BEGIN expander -->
+<td nowrap="nowrap" valign="top" align="left"><a href="{LINK_TARGET_EXPANDER}"><img class="spacer" src="{IMGPATH}" border="0" /></a></td>
+<!-- END expander -->
+<!-- BEGIN checkbox -->
+<td nowrap="nowrap" valign="top" align="left"><input type="checkbox" id="page_{PAGE_ID}" name="pages[]" value="{PAGE_ID}" {CHECKED}/></td>
+<!-- END checkbox -->
+<td nowrap="nowrap" valign="top" align="left"><!-- BEGIN icon --><img class="spacer" id="icon_{PAGE_ID}" name="icon_{PAGE_ID}" src="{ICON_IMAGE}" alt="{TXT_ALT_ICON_IMG}" title="{TXT_ALT_IMG}" border="0" /><!-- END icon --></td>
+<td align="left">
+<!-- BEGIN text --><label for="page_{PAGE_ID}"{ONCLICK}>{OBJ_TITLE}</label><!-- END text -->
+</td>
+<!-- END row -->
+</tr>
+</table>

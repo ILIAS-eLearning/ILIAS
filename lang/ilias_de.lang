@@ -2739,6 +2739,12 @@ content#:#read offline#:#Offline lesen
 content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
+content#:#public_section#:#Öffentlicher Bereich
+content#:#set_public_mode#:#Zugriffsmodus setzen
+content#:#choose_public_mode#:#Zugriffsrecht für nicht angemeldete Benutzer
+content#:#choose_public_pages#:#Öffentlich zugängliche Seiten auswählen
+content#:#all_pages#:#für das gesamte Lernmodul 
+content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten 
 crs#:#crs_accept_subscriber#:#Kursanmeldung
 crs#:#crs_accept_subscriber_body#:#Sie wurden in den Kurs aufgenommen.
 crs#:#crs_access_password#:#Passwort

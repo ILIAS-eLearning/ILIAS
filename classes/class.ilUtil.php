@@ -2268,5 +2268,24 @@ $a_allow = "<strong><em><code><cite><gap>";
 		return $path;
 	}
 	
+	/**
+	 * convert php arrays to javascript arrays
+	 * 
+	 * @author gigi@orsone.com
+	 * @access	public
+	 * @param	array
+	 * @return	string
+	 */
+	function array_php2js($data)
+	{
+		foreach($data as $k=>$datum)
+  		{
+  			if(is_null($datum)) $data[$k] = 'null';
+   			if(is_string($datum)) $data[$k] = "'" . $datum . "'";
+   			if(is_array($datum)) $data[$k] = array_php2js($datum);
+   		}
+   		
+   		return "[" . implode(', ', $data) . "]";
+   	}
 } // END class.ilUtil
 ?>
