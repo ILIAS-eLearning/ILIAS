@@ -36,6 +36,7 @@
 
 
 require_once "include/inc.header.php";
+require_once "./classes/class.ilGroupGUI.php";
 
 // for security
 unset($id);
@@ -74,92 +75,94 @@ if (!isset($_GET["type"]))
 
 	$_GET["type"] = $obj->getType();
 }
-if ($_GET["type"]!="root"  ) 
-{
-	if ($_GET["type"]!="cat"  ) 
-	{
-		
-		if (is_array($_POST["cmd"]))
-		{
-			$cmd = key($_POST["cmd"]);
-		}else{
-			$cmd = $_GET["cmd"];
-		}
 
-	}
+//var_dump ($_GET);
+//echo "---------------------------";
+if (isset($_POST["cmd"]))
+{
+//	echo "post ";
+
+//	var_dump($_POST);
 }
 
-// determine command
-//if (($cmd = $_GET["cmd"]) == "gateway")
-//{
-//	$cmd = key($_POST["cmd"]);
-//}
-//if (empty($cmd)) // if no cmd is given default to first property
-//{
-	/*$cmd = $_GET["cmd"] = $objDefinition->getFirstProperty($_GET["type"]);
-	$cmd = $_GET["cmd"] = "content";*/
-//}
-
-// determine object type
-if ($_POST["new_type"] && (($cmd == "create") || ($cmd == "import")))
-{
-	$obj_type = $_POST["new_type"];
-}
-elseif ($_GET["new_type"])
-{
-	$obj_type = $_GET["new_type"];
-}
-else
-{
-	$obj_type = $_GET["type"];
-}
-
-//echo "e";
+//echo "-------------";
 //var_dump($_GET);
-//var_dump($_POST);
-
-// call gui object method
-//$method = $cmd."Object";
-$class_name = $objDefinition->getClassName($obj_type);
-//var_dump($_POST);
-if ($_GET["type"]=="root" or $_GET["type"]=="cat" or $_POST["new_type"]=="frm" or $_GET["new_type"]=="frm")
+if (isset($_POST["cmd"])or isset($_GET["new_type"]))
 {
-	$class_constr = "ilObj".$class_name."GUI";
-	require_once("./classes/class.ilObj".$class_name."GUI.php");
+	//echo " post";
+
+		//echo " post new type";
+		if ($_GET["gateway"]== "true")
+		{
+
+			$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
+
+			exit();
+		}
+		else
+		{
+
+			if (isset($_POST["cmd"]))
+			{
+				$cmd = key($_POST["cmd"]);
+			}
+			else
+			{
+				$cmd = $_GET["cmd"];
+			}
+			if (isset($_POST["new_type"]))
+			{
+				$obj_type = $_POST["new_type"];
+			}
+			else
+
+			{
+				$obj_type = $_GET["new_type"];
+			}
+			$class_name = $objDefinition->getClassName($obj_type);
+			if ($obj_type == "lm" or $obj_type == "crs" or $obj_type == "fold" or $obj_type == "file")
+			{
+
+				$module = $objDefinition->getModule($obj_type);
+				$module_dir = ($module == "")
+				? ""
+				: $module."/";
+				$class_constr = "il".$class_name."GUI";
+				require_once("./".$module_dir."classes/class.il".$class_name."GUI.php");
+				$obj = new $class_constr($data, $id, $call_by_reference);
+				$method= $cmd."Object";
+//				echo ("hit ".$class_constr.$method);
+				$obj->$method();
+			}
+			else
+			{
+
+				//echo ("objtype: ".$obj_type);
+				$module = $objDefinition->getModule($obj_type);
+				//echo ("modul:  ".$module);
+				$module_dir = ($module == "")
+					? ""
+					: $module."/";
+				$class_constr = "ilObj".$class_name."GUI";
+				require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
+				$obj = new $class_constr($data, $id, $call_by_reference);
+
+
+
+				$method= $cmd."Object";
+//				echo ("hit ".$class_constr.$method);
+				$obj->$method();
+			}
+		}
 }
 else
 {
-	$class_constr = "il".$class_name."GUI";
-	require_once("./classes/class.il".$class_name."GUI.php");
-}
-//echo $class_constr.":".$method;
-//$obj = new $class_constr($data, $id, $call_by_reference);
-//$obj->$method();
 
-//$tpl->show();
-
-require_once "./include/inc.header.php";
-require_once "./classes/class.ilGroupGUI.php";
-      // echo $_GET["expand"];
-//var_dump($_GET);echo "sssssss";var_dump($_POST);
-//echo "ref_id".$_GET["ref_id"]."grp_id".$_GET["grp_id"];
-
-
-//var_dump($_GET); echo "fffff";var_dump($_POST);
-//$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
-if ($_POST["new_type"]!="fold")
-{
 $grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
-}
-//echo $class_constr;
 
-
-if ($_POST["new_type"]=="fold" )
-{
-	$obj = new $class_constr($data, $id, $call_by_reference);
-	$method= $cmd."Object";
-	$obj->$method();
+	exit();
 }
+
 
 
 ?>
