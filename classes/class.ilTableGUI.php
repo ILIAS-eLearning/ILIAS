@@ -97,7 +97,7 @@ class ilTableGUI
 
 		$this->global_tpl = $a_global_tpl;
 		$this->ilias =& $ilias;
-
+		$this->header_vars = array();
 		if ($this->global_tpl)
 		{
 			$this->tpl =& $tpl;
