@@ -3167,7 +3167,7 @@ class ilRepositoryGUI
 				{
 					$actions['copy'] = $this->lng->txt("copy");
 				}
-				if($type == 'grp')
+				if($type == 'grp' or $type == 'frm')
 				{
 					$actions['no_content'] = $this->lng->txt('crs_no_content');
 				}
@@ -3219,6 +3219,8 @@ class ilRepositoryGUI
 
 	function duplicate($post,$a_target,$a_source)
 	{
+		$stop_recursion = false;
+
 		$tmp_object =& ilObjectFactory::getInstanceByRefId($a_source);
 		$type = $tmp_object->getType();
 
@@ -3231,8 +3233,17 @@ class ilRepositoryGUI
 				$new_ref = $this->linkObject($a_target,$a_source);
 				break;
 			case "no_content":
-				$stop_recursion = true;
-				$new_ref = $this->copyObject($a_target,$a_source);
+				switch($type)
+				{
+					case 'grp':
+						$stop_recursion = true;
+						$new_ref = $this->copyObject($a_target,$a_source);
+						break;
+
+					case 'frm':
+						$new_ref = $this->copyObject($a_target,$a_source,false);
+						break;
+				}
 				break;
 
 			default:
@@ -3249,10 +3260,18 @@ class ilRepositoryGUI
 		}
 		return true;
 	}
-	function copyObject($a_target,$a_source)
+	function copyObject($a_target,$a_source,$a_with_content = true)
 	{
 		$tmp_source =& ilObjectFactory::getInstanceByRefId($a_source);
-		$new_ref = $tmp_source->ilClone($a_target);
+
+		if($a_with_content)
+		{
+			$new_ref = $tmp_source->ilClone($a_target);
+		}
+		else
+		{
+			$new_ref = $tmp_source->ilClone($a_target,false);
+		}
 		unset($tmp_source);
 
 		return $new_ref;
