@@ -1112,6 +1112,7 @@ class ASS_QuestionGUI extends PEAR {
 				}
 			}
     }
+		$this->question->update_all_gap_params();
 		if ($saved) {
 			// If the question was saved automatically before an upload, we have to make
 			// sure, that the state after the upload is saved. Otherwise the user could be
@@ -1544,7 +1545,7 @@ class ASS_QuestionGUI extends PEAR {
 						$solution_value = $solution->value2;
 					}
 				}
-				$output = preg_replace("/" . "<gap[^<]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
+				$output = preg_replace("/" . "<gap[^>]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
 			} 
 				else 
 			{
@@ -1568,7 +1569,7 @@ class ASS_QuestionGUI extends PEAR {
 					$select .= "<option value=\"" . $value->get_order() . "\"$selected>" . $value->get_answertext() . "</option>";
 				}
 				$select .= "</select>";
-				$output = preg_replace("/" . "<gap[^<]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", $select, $output);
+				$output = preg_replace("/" . "<gap[^>]*?>" . preg_quote($this->question->get_gap_text_list($gapIndex), "/") . preg_quote($this->question->get_end_tag(), "/") . "/", $select, $output);
 			}
 		}
 		$this->tpl->setVariable("TEXT", $output);
