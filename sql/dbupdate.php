@@ -2572,7 +2572,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 
 	// change existing objects
 	$node_id = $tree->getParentId($dest_rolf_id);
-	
+
 	if (empty($node_id))
 	{
 		continue;
@@ -2650,3 +2650,11 @@ UPDATE settings SET value = '3.0.0RC1 2004/04/18' WHERE keyword = 'ilias_version
 
 <#164>
 ALTER TABLE `scorm_tracking` ADD `student_name` VARCHAR( 255 ) NOT NULL ;
+
+<#165>
+CREATE TABLE scorm_lm
+(
+	id INT NOT NULL PRIMARY KEY,
+	online ENUM('y','n') DEFAULT 'n',
+	api_adapter VARCHAR(80) DEFAULT 'API'
+);

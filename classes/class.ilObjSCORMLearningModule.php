@@ -53,24 +53,54 @@ class ilObjSCORMLearningModule extends ilObject
 	}
 
 	/**
+	* create file based lm
+	*/
+	function create()
+	{
+		global $ilDB;
+
+		parent::create();
+		$this->createDataDirectory();
+		/*
+		$this->meta_data->setId($this->getId());
+		$this->meta_data->setType($this->getType());
+		$this->meta_data->setTitle($this->getTitle());
+		$this->meta_data->setDescription($this->getDescription());
+		$this->meta_data->setObject($this);
+		$this->meta_data->create();*/
+
+		$q = "INSERT INTO scorm_lm (id, online, api_adapter) VALUES ".
+			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").",".
+			$ilDB->quote("API").")";
+		$ilDB->query($q);
+	}
+
+	/**
+	* read object
+	*/
+	function read()
+	{
+		parent::read();
+		//$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+
+		$q = "SELECT * FROM scorm_lm WHERE id = '".$this->getId()."'";
+		$lm_set = $this->ilias->db->query($q);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
+		$this->setAPIAdapterName($lm_rec["api_adapter"]);
+
+	}
+
+
+	/**
 	* creates data directory for package files
 	* ("./data/lm_data/lm_<id>")
 	*/
 	function createDataDirectory()
 	{
 		$lm_data_dir = ilUtil::getWebspaceDir()."/lm_data";
-		if(!is_writable($lm_data_dir))
-		{
-			$this->ilias->raiseError("LM Data Directory (".$lm_data_dir
-				.") not writeable.",$this->ilias->error_obj->FATAL);
-		}
-		$lm_dir = $lm_data_dir."/lm_".$this->getId();
-		@mkdir($lm_dir);
-		@chmod($lm_dir,0755);
-		if(!@is_dir($lm_dir))
-		{
-			$this->ilias->raiseError("Creation of Data Directory failed.",$this->ilias->error_obj->FATAL);
-		}
+		ilUtil::makeDir($lm_data_dir);
+		ilUtil::makeDir($this->getDataDirectory());
 	}
 
 	/**
@@ -79,26 +109,62 @@ class ilObjSCORMLearningModule extends ilObject
 	function getDataDirectory($mode = "filesystem")
 	{
 		$lm_data_dir = ilUtil::getWebspaceDir($mode)."/lm_data";
-
 		$lm_dir = $lm_data_dir."/lm_".$this->getId();
-		if(@is_dir($lm_dir))
-		{
-			return $lm_dir;
-		}
-		else
-		{
-			return false;
-		}
+
+		return $lm_dir;
 	}
 
-	/*
-	function getWebDirectory() {
-	        $lm_data_dir = "/lm_data";
+	/**
+	* update object data
+	*
+	* @access	public
+	* @return	boolean
+	*/
+	function update()
+	{
+		//$this->updateMetaData();
 
-                $lm_dir = $lm_data_dir."/lm_".$this->getId();
-                        return $lm_dir;
-                        return false;
-	}*/
+		$q = "UPDATE scorm_lm SET ".
+			" online = '".ilUtil::tf2yn($this->getOnline())."',".
+			" api_adapter = '".$this->getAPIAdapterName()."'".
+			" WHERE id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+
+		return true;
+	}
+
+	/**
+	* get api adapter name
+	*/
+	function getAPIAdapterName()
+	{
+		return $this->api_adapter;
+	}
+
+	/**
+	* set api adapter name
+	*/
+	function setAPIAdapterName($a_api)
+	{
+		$this->api_adapter = $a_api;
+	}
+
+	/**
+	* get online
+	*/
+	function setOnline($a_online)
+	{
+		$this->online = $a_online;
+	}
+
+	/**
+	* set online
+	*/
+	function getOnline()
+	{
+		return $this->online;
+	}
+
 
 	/**
 	* copy all properties and subobjects of a SCROM LearningModule.

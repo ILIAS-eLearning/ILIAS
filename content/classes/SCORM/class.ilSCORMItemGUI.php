@@ -68,6 +68,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 				$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
 				$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
 				$this->tpl->setVariable("USER_ID",$ilias->account->getId());
+				$this->tpl->setVariable("ADAPTER_NAME", $slm_obj->getAPIAdapterName());
 //				echo "itemid: ".$_GET["obj_id"]."userid: ".$ilias->account->getId();
 				$this->tpl->show();
 				exit;
@@ -111,7 +112,14 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 	{
 		global $ilias;
 
+		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+
+		$func_tpl = new ilTemplate("tpl.scorm_functions.html", true, true, true);
+		$func_tpl->setVariable("PREFIX", "LMS");
+		$func_tpl->parseCurrentBlock();
+
 		$this->tpl =& new ilTemplate("tpl.scorm_api.html", true, true, true);
+		$this->tpl->setVariable("SCORM_FUNCTIONS", $func_tpl->get());
 		$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
 		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
 		$this->tpl->setVariable("SESSION_ID",session_id());

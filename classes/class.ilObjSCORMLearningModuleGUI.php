@@ -22,6 +22,8 @@
 */
 
 require_once "classes/class.ilObjectGUI.php";
+require_once("classes/class.ilFileSystemGUI.php");
+require_once("classes/class.ilTabsGUI.php");
 
 /**
 * Class ilObjSCORMLearningModuleGUI
@@ -46,7 +48,52 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$lng->loadLanguageModule("content");
 		$this->type = "slm";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		$this->tabs_gui =& new ilTabsGUI();
+
 	}
+
+	function _forwards()
+	{
+		return array("ilFileSystemGUI");
+	}
+
+	/**
+	* execute command
+	*/
+	function executeCommand()
+	{
+		$this->fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
+		$this->getTemplate();
+		$this->setLocator();
+		$this->setTabs();
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+//echo "<br>cmd:$cmd:next_class:$next_class:";
+		switch($next_class)
+		{
+			case "ilfilesystemgui":
+//echo "<br>data_dir:".$this->object->getDataDirectory().":";
+				/*
+				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
+				if ($this->object->getStartFile() != "")
+				{
+					$fs_gui->labelFile($this->object->getStartFile(),
+						$this->lng->txt("cont_startfile"));
+				}
+				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
+				*/
+				$ret =& $this->fs_gui->executeCommand();
+				break;
+
+			default:
+				$cmd = $this->ctrl->getCmd("frameset");
+				$ret =& $this->$cmd();
+				break;
+		}
+		$this->tpl->show();
+	}
+
 
 	function viewObject()
 	{
@@ -56,10 +103,72 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","content/scorm_presentation.php?ref_id=".$this->object->getRefID());
-		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
+
+		// view button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","content/scorm_edit.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
+		$this->tpl->parseCurrentBlock();
 	}
+
+	/**
+	* scorm module properties
+	*/
+	function properties()
+	{
+		global $rbacsystem, $tree, $tpl;
+
+		// edit button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// view link
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", "scorm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
+		$this->tpl->parseCurrentBlock();
+
+		// scorm lm properties
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_properties.html", true);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
+
+		// online
+		$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
+		$this->tpl->setVariable("CBOX_ONLINE", "cobj_online");
+		$this->tpl->setVariable("VAL_ONLINE", "y");
+		if ($this->object->getOnline())
+		{
+			$this->tpl->setVariable("CHK_ONLINE", "checked");
+		}
+
+		// api adapter name
+		$this->tpl->setVariable("TXT_API_ADAPTER", $this->lng->txt("cont_api_adapter"));
+		$this->tpl->setVariable("VAL_API_ADAPTER", $this->object->getAPIAdapterName());
+
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+
+	}
+
+	/**
+	* save properties
+	*/
+	function saveProperties()
+	{
+		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+		$this->object->setAPIAdapterName($_POST["api_adapter"]);
+		$this->object->update();
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+
 
 
 	/**
@@ -206,5 +315,75 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}
+
+	/**
+	* output main header (title and locator)
+	*/
+	function getTemplate()
+	{
+		global $lng;
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		//$this->tpl->setVariable("HEADER", $a_header_title);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		//$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+	}
+
+	/**
+	* output main frameset of media pool
+	* left frame: explorer tree of folders
+	* right frame: media pool content
+	*/
+	function frameset()
+	{
+		$this->tpl = new ilTemplate("tpl.scorm_edit_frameset.html", false, false, "content");
+		$this->tpl->setVariable("REF_ID",$this->ref_id);
+		$this->tpl->show();
+	}
+
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
+		$this->getTabs($this->tabs_gui);
+		$this->tpl->setVariable("TABS", $this->tabs_gui->getHTML());
+		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// properties
+		$tabs_gui->addTarget("properties",
+			$this->ctrl->getLinkTarget($this, "properties"), "properties",
+			get_class($this));
+
+		// file system gui tabs
+		$this->fs_gui->getTabs($tabs_gui);
+
+		// edit meta
+		/*
+		$tabs_gui->addTarget("meta_data",
+			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
+			get_class($this));*/
+
+		// perm
+		$tabs_gui->addTarget("perm_settings",
+			$this->ctrl->getLinkTarget($this, "perm"), "perm",
+			get_class($this));
+
+		// owner
+		$tabs_gui->addTarget("owner",
+			$this->ctrl->getLinkTarget($this, "owner"), "owner",
+			get_class($this));
+	}
+
+
+
 } // END class.ilObjSCORMLearningModule
 ?>
