@@ -1391,6 +1391,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
   {
 		global $ilias;
 		
+		$this->lng->loadLanguageModule("assessment");
+		
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
@@ -1458,6 +1460,15 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 						"&item_ref_id=".$tst_data["ref_id"]."&type=tst");
 
 					$tpl->setVariable("TXT_SUBSCRIBE", $this->lng->txt("to_desktop"));
+					$tpl->parseCurrentBlock();
+				}
+
+				// add anonymous aggregated test results link
+				if ($this->rbacsystem->checkAccess('write',$tst_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("tst_anon_eval");
+					$tpl->setVariable("ANON_EVAL_LINK", "assessment/test.php?cmd=eval_a&ref_id=".$tst_data["ref_id"]);
+					$tpl->setVariable("TXT_ANON_EVAL", $this->lng->txt("tst_anon_eval"));
 					$tpl->parseCurrentBlock();
 				}
 

@@ -1322,6 +1322,130 @@ class ilObjTest extends ilObject
 		$this->setDescription($this->meta_data->getDescription());
 		parent::update();
 	}
+	
+/**
+* Returns the number of persons who started the test
+* 
+* Returns the number of persons who started the test
+*
+* @return integer The number of persons who started the test
+* @access public
+*/
+	function evalTotalPersons()
+	{
+		$q = sprintf("SELECT COUNT(*) as total FROM tst_active WHERE test_fi = %s",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($q);
+		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->total;
+	}
+	
+/**
+* Returns the number of total finished tests
+* 
+* Returns the number of total finished tests
+*
+* @return integer The number of total finished tests
+* @access public
+*/
+	function evalTotalFinished()
+	{
+		$q = sprintf("SELECT COUNT(*) as total FROM tst_active WHERE test_fi = %s AND tries > 0",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($q);
+		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->total;
+	}
+	
+/**
+* Returns the total passed tests and the average reached points
+* 
+* Returns the total passed tests and the average reached points
+*
+* @return array The total passed tests and the avarage reached points. 
+* array("total_passed" => VALUE, "total_failed" => VALUE, "average_points" => VALUE, "maximum_points" => VALUE)
+* @access public
+*/
+	function evalTotalFinishedPassed()
+	{
+		$q = sprintf("SELECT * FROM tst_active WHERE test_fi = %s AND tries > 0",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($q);
+		$points = array();
+		$passed_tests = 0;
+		$failed_tests = 0;
+		$maximum_points = 0;
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			$res =& $this->get_test_result($row->user_fi);
+			$percentage = ($res["test"]["total_max_points"] / $res["test"]["total_reached_points"]) * 100.0;
+			$mark_obj = $res["test"]["test"]->mark_schema->get_matching_mark($percentage);
+			$maximum_points = $res["test"]["total_max_points"];
+			if ($mark_obj->get_passed()) {
+				$passed_tests++;
+				array_push($points, $res["test"]["total_reached_points"]);
+			} else {
+				$failed_tests++;
+			}
+		}
+		$reached_points = 0;
+		$counter = 0;
+		foreach ($points as $key => $value) {
+			$reached_points += $value;
+			$counter++;
+		}
+		if ($counter) {
+			$average_points = round($reached_points / $counter);
+		} else {
+			$average_points = 0;
+		}
+		return array(
+			"total_passed" => $passed_tests,
+			"total_failed" => $failed_tests,
+			"average_points" => $average_points,
+			"maximum_points" => $maximum_points
+		);
+	}
+	
+/**
+* Returns the average processing time for total finished tests
+* 
+* Returns the average processing time for total finished tests
+*
+* @return integer The average processing time for total finished tests
+* @access public
+*/
+	function evalTotalFinishedAverageTime()
+	{
+		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.tries > 0 AND tst_active.active_id = tst_times.active_fi",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($q);
+		$times = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
+			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->finished, $matches);
+			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			$times[$row->active_fi] += ($epoch_2 - $epoch_1);
+		}
+		$max_time = 0;
+		$counter = 0;
+		foreach ($times as $key => $value) {
+			$max_time += $value;
+			$counter++;
+		}
+		if ($counter) {
+			$average_time = round($max_time / $counter);
+		} else {
+			$average_time = 0;
+		}
+		return $average_time;
+	}
+	
+
 
 } // END class.ilObjTest
 ?>

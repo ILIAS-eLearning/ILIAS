@@ -144,6 +144,7 @@ assessment#:#question_type#:#Question Type
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
 assessment#:#reset_filter#:#Reset filter
+assessment#:#result#:#Result
 assessment#:#save_finish#:#Save and finish the test
 assessment#:#save_introduction#:#Save and goto introduction
 assessment#:#save_next#:#Save and goto next question
@@ -154,8 +155,15 @@ assessment#:#solution_order#:#Solution order
 assessment#:#text_gap#:#Text gap
 assessment#:#true#:#True
 assessment#:#tst_already_taken#:#Tests already taken
+assessment#:#tst_anon_eval#:#Anonymous aggregated results
 assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
+assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.
+assessment#:#tst_eval_total_finished#:#Total finished tests
+assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests
+assessment#:#tst_eval_total_passed#:#Total passed tests
+assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests
+assessment#:#tst_eval_total_persons#:#Total number of persons entered the test
 assessment#:#tst_general_properties#:#General properties
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_introduction#:#Introduction
