@@ -100,5 +100,7 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 
 // instantiate and init user
 	$ilias->account =& new User($ilias->db,$AccountId);
+	$lng = new Language($ilias->account->data["language"]);
+
 }
 ?>
