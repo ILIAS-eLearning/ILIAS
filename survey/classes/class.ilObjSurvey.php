@@ -24,7 +24,7 @@
 /**
 * Class ilObjSurvey
 * 
-* @author Helmut Schottmüller <hschottm@tzi.de> 
+* @author Helmut Schottmï¿½ller <hschottm@tzi.de> 
 * @version $Id$
 *
 * @extends ilObject
@@ -2614,6 +2614,7 @@ class ilObjSurvey extends ilObject
 				$x_i = 0;
 				$p_i = 1;
 				$x_i_inv = 0;
+				$sum_part_zero = false;
 				foreach ($cumulated as $value => $key)
 				{
 					$total += $key;
@@ -2624,6 +2625,7 @@ class ilObjSurvey extends ilObject
 						$p_i *= $value;
 						if ($value != 0)
 						{
+							$sum_part_zero = true;
 							$x_i_inv += 1/$value;
 						}
 					}
@@ -2646,7 +2648,14 @@ class ilObjSurvey extends ilObject
 				}
 				if (($questions[$question_id]["subtype"] == SUBTYPE_RATIO_NON_ABSOLUTE) or ($questions[$question_id]["subtype"] == SUBTYPE_RATIO_ABSOLUTE))
 				{
-					$result_array["GEOMETRIC_MEAN"] = sprintf("%.2f", (double)pow($p_i, 1/$total));
+					if ($p_i > 0)
+					{
+						$result_array["GEOMETRIC_MEAN"] = sprintf("%.2f", (double)pow($p_i, 1/$total));
+					}
+					else
+					{
+						$result_array["GEOMETRIC_MEAN"] = "";
+					}
 				}
 				else
 				{
@@ -2654,7 +2663,14 @@ class ilObjSurvey extends ilObject
 				}
 				if ($questions[$question_id]["subtype"] == SUBTYPE_RATIO_ABSOLUTE)
 				{
-					$result_array["HARMONIC_MEAN"] = sprintf("%.2f", (double)$total/$x_i_inv);
+					if ($sum_part_zero)
+					{
+						$result_array["HARMONIC_MEAN"] = "";
+					}
+					else
+					{
+						$result_array["HARMONIC_MEAN"] = sprintf("%.2f", (double)$total/$x_i_inv);
+					}
 				}
 				else
 				{
