@@ -29,19 +29,22 @@ var is_mac = (clientPC.indexOf("mac")!=-1);
 b_help = "Strong text: [str]text[/str]  (alt+s)";
 i_help = "Emph text: [emp]text[/emp]  (alt+e)";
 u_help = "Comment: [com]text[/com]  (alt+c)";
-q_help = "Quote text: [quote]text[/quote]  (alt+q)";
+f_help = "Footnote: [fn]text[/fn]  (alt+f)";
+q_help = "Quotation: [quot]text[/quot]  (alt+q)";
 c_help = "Code display: [code]code[/code]  (alt+c)";
+
+// old helpline messages of phpbb
 l_help = "List: [list]text[/list] (alt+l)";
 o_help = "Ordered list: [list=]text[/list]  (alt+o)";
 p_help = "Insert image: [img]http://image_url[/img]  (alt+p)";
 w_help = "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)";
 a_help = "Close all open bbCode tags";
 s_help = "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000";
-f_help = "Font size: [size=x-small]small text[/size]";
+//f_help = "Font size: [size=x-small]small text[/size]";
 
 // Define the bbCode tags
 bbcode = new Array();
-bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]');
+bbtags = new Array('[str]','[/str]','[emp]','[/emp]','[com]','[/com]','[quot]','[/quot]','[code]','[/code]','[fn]','[/fn]','[list]','[/list]','[list=]','[/list]','[url]','[/url]');
 imageTag = false;
 
 // Shows the help messages in the helpline window
@@ -236,17 +239,35 @@ function storeCaret(textEl) {
 <form action="{FORMACTION}" name="post" method="post">
 <table class="fullwidth">
 <tr class="tblheader">
-	<td class="std" >
+	<td class="std" colspan="4">
 		{TXT_ACTION}
 	</td>
 </tr>
+<tr>
+	<td class="option" width="1">
+		{TXT_LANGUAGE}
+	</td>
+	<td class="option_value" width="1">
+		{SELECT_LANGUAGE}
+	</td>
+	<td class="option" width="1">
+		{TXT_CHARACTERISTIC}
+	</td>
+	<td class="option_value">
+		{SELECT_CHARACTERISTIC}
+	</td>
+</tr>
+
 <tr class="std">
-	<td class="std">
+	<td class="std" colspan="4">
 	<input type="text" name="helpbox" size="45" maxlength="100" class="ilEditHelpline" value="Tip: Styles can be applied quickly to selected text." />
 	<br />
 	<input type="button" class="ilEditSubmit" accesskey="s" name="addbbcode0" value=" str " style="font-weight:bold; width: 30px" onClick="bbstyle(0)" onMouseOver="helpline('b')" />
 	<input type="button" class="ilEditSubmit" accesskey="e" name="addbbcode2" value=" emp " style="font-style:italic; width: 30px" onClick="bbstyle(2)" onMouseOver="helpline('i')" />
 	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode4" value=" com " style="text-decoration: underline; width: 30px" onClick="bbstyle(4)" onMouseOver="helpline('u')" />
+	<input type="button" class="ilEditSubmit" accesskey="q" name="addbbcode6" value=" quot " style="width: 30px" onClick="bbstyle(6)" onMouseOver="helpline('q')" />
+	<input type="button" class="ilEditSubmit" accesskey="c" name="addbbcode8" value=" code " style="width: 30px" onClick="bbstyle(8)" onMouseOver="helpline('c')" />
+	<input type="button" class="ilEditSubmit" accesskey="f" name="addbbcode10" value=" fn " style="width: 30px" onClick="bbstyle(10)" onMouseOver="helpline('f')" />
 <!--
 	<input type="button" class="button" accesskey="q" name="addbbcode6" value="Quote" style="width: 50px" onClick="bbstyle(6)" onMouseOver="helpline('q')" />
 	<input type="button" class="button" accesskey="c" name="addbbcode8" value="Code" style="width: 40px" onClick="bbstyle(8)" onMouseOver="helpline('c')" />
@@ -258,20 +279,20 @@ function storeCaret(textEl) {
 	</td>
 </tr>
 <tr class="std">
-<td class="std">
+<td class="std" colspan="4">
 <textarea name="{PAR_TA_NAME}" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
 </td>
 </tr>
 <!-- BEGIN commands -->
 <tr>
-	<td class="submit" >
+	<td class="submit"  colspan="4">
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
 	</td>
 </tr>
 <!-- END commands -->
 <!-- BEGIN content_selection -->
 <tr>
-	<td class="submit" >
+	<td class="submit"  colspan="4">
 		{SELECT_CONTENT}
 		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SELECT}" />
 	</td>

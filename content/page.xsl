@@ -10,12 +10,18 @@
   <xsl:copy-of select="."/>
 </xsl:template>
 
-<!-- we dump the MetaData and Bibliography -->
+<!-- dump MetaData -->
 <xsl:template match="MetaData"/>
 
 <!-- PageObject -->
 <xsl:param name="mode"/>
+<xsl:param name="pg_title"/>
 <xsl:template match="PageObject">
+	<xsl:if test="$pg_title != ''">
+		<div class="ilc_PageTitle">
+		<xsl:value-of select="$pg_title"/>
+		</div>
+	</xsl:if>
 	<xsl:if test="$mode = 'edit'">
 		<select size="1" class="ilEditSelect">
 			<xsl:attribute name="name">command<xsl:value-of select="@HierId"/></xsl:attribute>
@@ -28,7 +34,28 @@
 		<br/>
 	</xsl:if>
 	<xsl:apply-templates/>
+
+	<!-- Footnote List -->
+	<xsl:if test="count(//Footnote) > 0">
+		<hr />
+		<xsl:for-each select="//Footnote">
+			<div class="ilc_Footnote">
+			<a>
+			<xsl:attribute name="name">fn<xsl:number count="Footnote" level="any"/></xsl:attribute>
+			<span class="ilc_Strong">[<xsl:number count="Footnote" level="any"/>] </span>
+			</a>
+			<xsl:value-of select="."/>
+			</div>
+		</xsl:for-each>
+	</xsl:if>
 </xsl:template>
+
+
+<!-- PageContent -->
+<xsl:template match="PageContent">
+	<xsl:apply-templates/>
+</xsl:template>
+
 
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
@@ -47,13 +74,13 @@
 		<!-- command selectbox -->
 		<xsl:if test="$mode = 'edit'">
 			<br />
-			<!-- <xsl:value-of select="@HierId"/> -->
+			<!-- <xsl:value-of select="../@HierId"/> -->
 			<input type="checkbox" name="target[]">
-				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
 				</xsl:attribute>
 			</input>
 			<select size="1" class="ilEditSelect">
-				<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+				<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
 				</xsl:attribute>
 			<option value="edit">edit</option>
 			<option value="insert_par">insert Paragr.</option>
@@ -63,17 +90,29 @@
 			<option value="moveBefore">move before</option>
 			</select>
 			<input class="ilEditSubmit" type="submit" value="Go">
-				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]
+				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]
 				</xsl:attribute>
 			</input>
 		</xsl:if>
 	</p>
 </xsl:template>
 
-<xsl:template match="Emph|Strong|Comment">
+<!-- Emph, Strong, Comment, Quotation -->
+<xsl:template match="Emph|Strong|Comment|Quotation">
 	<xsl:variable name="Tagname" select="name()"/>
-	<span class="il{$Tagname}"><xsl:apply-templates/></span>
+	<span class="ilc_{$Tagname}"><xsl:apply-templates/></span>
 </xsl:template>
+
+<!-- Code -->
+<xsl:template match="Code">
+	<code><xsl:apply-templates/></code>
+</xsl:template>
+
+<!-- Footnote (Links) -->
+<xsl:template match="Footnote"><a class="ilc_FootnoteLink"><xsl:attribute name="href">#fn<xsl:number count="Footnote" level="any"/></xsl:attribute>[<xsl:number count="Footnote" level="any"/>]
+	</a>
+</xsl:template>
+
 
 <!-- Tables -->
 <xsl:template match="Table">
@@ -151,13 +190,13 @@
 	</table>
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">
-		<!-- <xsl:value-of select="@HierId"/> -->
+		<!-- <xsl:value-of select="../@HierId"/> -->
 		<input type="checkbox" name="target[]">
-			<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
 		</input>
 		<select size="1" class="ilEditSelect">
-			<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+			<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
 		<option value="edit">edit properties</option>
 		<option value="insert_par">insert Paragr.</option>
@@ -167,7 +206,7 @@
 		<option value="moveBefore">move before</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
-			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]
+			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]
 			</xsl:attribute>
 		</input>
 		<br/>

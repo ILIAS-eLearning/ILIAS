@@ -216,10 +216,12 @@ class ilLMPresentationGUI
 
 		require_once("content/classes/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject($page_id);
+		$pg_obj->setLMId($this->lm->getId());
 		$content = $pg_obj->getXMLContent();
+		$pg_title = $pg_obj->getPresentationTitle();
 
 		// convert bb code to xml
-		//$this->bbCode2XML($content);
+		$pg_obj->bbCode2XML($content);
 
 		// todo: utf-header should be set globally
 		header('Content-type: text/html; charset=UTF-8');
@@ -229,7 +231,7 @@ class ilLMPresentationGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$params = array ('mode' => 'preview');
+		$params = array ('mode' => 'preview', 'pg_title' => $pg_title);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
@@ -242,6 +244,10 @@ class ilLMPresentationGUI
 	}
 
 
+	/**
+	* inserts sequential learning module navigation
+	* at template variable LMNAVIGATION_CONTENT
+	*/
 	function ilLMNavigation()
 	{
 		$page_id = $this->getCurrentPageId();
@@ -250,7 +256,7 @@ class ilLMPresentationGUI
 		{
 			return;
 		}
-		
+
 		$lmtree = new ilTree($this->lm->getId());
 		$lmtree->setTableNames('lm_tree','lm_data');
 		$lmtree->setTreeTablePK("lm_id");
@@ -265,16 +271,20 @@ class ilLMPresentationGUI
 
 		$output = "";
 
-		// todo: frame geschichten!?
+		// determine target frame
+		$framestr = (!empty($_GET["frame"]))
+			? "frame=".$_GET["frame"]."&"
+			: "";
+
 		if($pre_node != "")
 		{
-			$output .= "<a href=\"lm_presentation.php?frame=maincontent&cmd=layout&obj_id=".
+			$output .= "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 				$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
 				"\">".$pre_node["obj_id"]."&lt;</a>";
 		}
 		if($succ_node != "")
 		{
-			$output .= " <a href=\"lm_presentation.php?frame=maincontent&cmd=layout&obj_id=".
+			$output .= " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 				$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
 				"\">&gt;".$succ_node["obj_id"]."</a>";
 		}

@@ -46,6 +46,10 @@ class ilParagraphGUI extends ilPageContentGUI
 		parent::ilPageContentGUI($a_lm_obj, $a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
+
+	/**
+	* edit paragraph form
+	*/
 	function edit()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", true);
@@ -57,31 +61,51 @@ class ilParagraphGUI extends ilPageContentGUI
 			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
 			"&hier_id=".$this->hier_id."&cmd=edpost");
 
+		$this->displayValidationError();
+
+		// language and characteristic selection
+		if (key($_POST["cmd"]) == "update")
+		{
+			$s_lang = $_POST["par_language"];
+			$s_char = $_POST["par_characteristic"];
+		}
+		else
+		{
+			$s_lang = $this->content_obj->getLanguage();
+			$s_char = $this->content_obj->getCharacteristic();
+		}
+		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+		require_once("classes/class.ilMetaData.php");
+		$lang = ilMetaData::getLanguages();
+		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
+		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
+		$char = array("" => $this->lng->txt("none"),
+			"Headline" => $this->lng->txt("cont_Headline"),
+			"Example" => $this->lng->txt("cont_Example"),
+			"Citation" => $this->lng->txt("cont_Citation"),
+			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
+			"Additional" => $this->lng->txt("cont_Additional"));
+		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
+		$select_char = ilUtil::formSelect ($s_char,
+			"par_characteristic",$char,false,true);
+		$this->tpl->setVariable("SELECT_CHARACTERISTIC", $select_char);
+
+
 		// content is in utf-8, todo: set globally
 		header('Content-type: text/html; charset=UTF-8');
 
-		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
-		$this->tpl->setVariable("PAR_TA_CONTENT", $this->content_obj->xml2output($this->content_obj->getText()));
-		$this->tpl->parseCurrentBlock();
-
-		/*
-		reset($content);
-		foreach ($content as $content_obj)
+//echo "cmd:".key($_POST["cmd"]).":<br>";
+		if (key($_POST["cmd"]) == "update")
 		{
-			switch (get_class($content_obj))
-			{
-				case "ilparagraph":
-					$cont_sel[$cnt] = ilUtil::shortenText($content_obj->getText(),40);
-					break;
-			}
-			$cnt++;
+			$s_text = stripslashes($_POST["par_content"]);
 		}
-		$this->tpl->setCurrentBlock("content_selection");
-		$this->tpl->setVariable("SELECT_CONTENT" ,
-			ilUtil::formSelect($this->hier_id, "new_hier_id",$cont_sel, false, true));
-		$this->tpl->setVariable("BTN_NAME", "edit");
-		$this->tpl->setVariable("TXT_SELECT",$this->lng->txt("select"));
-		$this->tpl->parseCurrentBlock();*/
+		else
+		{
+			$s_text = $this->content_obj->xml2output($this->content_obj->getText());
+		}
+		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
+		$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
+		$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
@@ -92,6 +116,9 @@ class ilParagraphGUI extends ilPageContentGUI
 	}
 
 
+	/**
+	* insert paragraph form
+	*/
 	function insert()
 	{
 		// add paragraph edit template
@@ -101,12 +128,49 @@ class ilParagraphGUI extends ilPageContentGUI
 			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
 			"&hier_id=".$this->hier_id."&cmd=edpost");
 
+		$this->displayValidationError();
+
+		// language and characteristic selection
+		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+		require_once("classes/class.ilMetaData.php");
+		$lang = ilMetaData::getLanguages();
+
+		// get values from new object (repeated form display on error)
+		//if (is_object($this->content_obj))
+		if (key($_POST["cmd"]) == "create_par")
+		{
+			$s_lang = $_POST["par_language"];
+			$s_char = $_POST["par_characteristic"];
+		}
+
+		require_once("classes/class.ilMetaData.php");
+		$lang = ilMetaData::getLanguages();
+		$select_lang = ilUtil::formSelect ($s_lang,"par_language",$lang,false,true);
+		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
+		$char = array("" => $this->lng->txt("none"),
+			"Headline" => $this->lng->txt("cont_Headline"),
+			"Example" => $this->lng->txt("cont_Example"),
+			"Citation" => $this->lng->txt("cont_Citation"),
+			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
+			"Additional" => $this->lng->txt("cont_Additional"));
+		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
+		$select_char = ilUtil::formSelect ($s_char,
+			"par_characteristic",$char,false,true);
+		$this->tpl->setVariable("SELECT_CHARACTERISTIC", $select_char);
+
 		// content is in utf-8, todo: set globally
 		header('Content-type: text/html; charset=UTF-8');
 
 		// input text area
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
-		$this->tpl->setVariable("PAR_TA_CONTENT", "");
+		if (key($_POST["cmd"]) == "create_par")
+		{
+			$this->tpl->setVariable("PAR_TA_CONTENT", stripslashes($_POST["par_content"]));
+		}
+		else
+		{
+			$this->tpl->setVariable("PAR_TA_CONTENT", "");
+		}
 		$this->tpl->parseCurrentBlock();
 
 		// operations
@@ -118,46 +182,63 @@ class ilParagraphGUI extends ilPageContentGUI
 	}
 
 
+	/**
+	* update paragraph in dom and update page in db
+	*/
 	function update()
 	{
-		//$content = $this->pg_obj->getContent();
+		// set language and characteristic
+		$this->content_obj->setLanguage($_POST["par_language"]);
+		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
 
-		//$cur_content_obj =& $content[$_GET["hier_id"] - 1];
 //echo "PARupdate:".$this->content_obj->input2xml($_POST["par_content"]).":<br>";
-		$this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
-		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
-		exit;
-
-	}
-
-	function create()
-	{
-		$new_par = new ilParagraph($this->dom);
-		$new_par->createNode();
-		$new_par->setText($new_par->input2xml($_POST["par_content"]));
-		$this->pg_obj->insertContent($new_par, $this->hier_id, IL_INSERT_AFTER);
-		$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
-		exit;
+		$this->updated = $this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
+		if ($this->updated !== true)
+		{
+			$this->edit();
+			return;
+		}
+		$this->updated = $this->pg_obj->update();
+		if ($this->updated === true)
+		{
+			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+				$this->pg_obj->getId());
+			exit;
+		}
+		else
+		{
+			$this->edit();
+		}
 	}
 
 	/**
-	* create paragraph as first child of a container (e.g. a TableData Element)
+	* create new paragraph in dom and update page in db
 	*/
-	/*
-	function create_child()
+	function create()
 	{
-		$new_par = new ilParagraph($this->dom);
-		$new_par->createNode();
-		$new_par->setText($new_par->input2xml($_POST["par_content"]));
-		$this->pg_obj->insertContent($new_par, $this->hier_id, IL_INSERT_CHILD);
-		//$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
-	}*/
+		$this->content_obj =& new ilParagraph($this->dom);
+		$this->content_obj->create($this->pg_obj, $this->hier_id);
+		$this->content_obj->setLanguage($_POST["par_language"]);
+		$this->content_obj->setCharacteristic($_POST["par_characteristic"]);
+		$this->updated = $this->content_obj->setText($this->content_obj->input2xml($_POST["par_content"]));
+		if ($this->updated !== true)
+		{
+			$this->insert();
+			return;
+		}
+		$this->updated = $this->pg_obj->update();
+		if ($this->updated === true)
+		{
+			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+				$this->pg_obj->getId());
+			exit;
+		}
+		else
+		{
+			$this->insert();
+		}
+	}
+
 
 }
 ?>

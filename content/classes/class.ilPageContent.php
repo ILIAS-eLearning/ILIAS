@@ -38,7 +38,7 @@ class ilPageContent
 {
 	var $ilias;
 	var $type;
-	var $hier_id; 		// hierarchical editing id
+	var $hier_id; 				// hierarchical editing id
 	var $node;
 
 	/**
@@ -63,11 +63,15 @@ class ilPageContent
 		return $this->type;
 	}
 
+	/**
+	*/
 	function setNode(&$a_node)
 	{
 		$this->node =& $a_node;
 	}
 
+	/**
+	*/
 	function &getNode()
 	{
 		return $this->node;

@@ -398,38 +398,76 @@ img.imgtab {
 
 /* ------------------ styles for lm content, should be separated
 	in a distinct css sometime, alex -------------- */
-span.ilStrong
+
+div.ilc_PageTitle
+{
+	margin-top: 5px;
+	margin-bottom: 20px;
+	font-size:23px;
+	font-weight: bold;
+	padding-bottom: 3px;
+	border-bottom-width: 1px;
+  	border-bottom-style: solid;
+	border-color: #000000;
+}
+
+
+span.ilc_Strong
 {
 	font-weight: bold;
 }
 
-span.ilEmph
+span.ilc_Emph
 {
 	font-style: italic;
 }
 
-span.ilComment
+span.ilc_Comment
+{
+	color: green;
+}
+
+span.ilc_Quotation
+{
+	color: brown;
+	font-style: italic;
+}
+
+a.ilc_FootnoteLink
 {
 	color: blue;
+	font-weight: normal;
+}
+
+a.ilc_FootnoteLink:hover
+{
+	color:#000000;
+}
+
+div.ilc_Footnote
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-style: italic;
 }
 
 div.ilLMNavigation
 {
-	background-color:#FFFFFF;
+	background-color:#EEEEEE;
 	padding:5px;
 	border-spacing: 1px;
-	border-style: solid;
-	border-color: #000000;
+	border-style: outset;
+	border-color: #EEEEEE;
 	border-width: 1px;
 }
 
 div.ilPage
 {
-	background-color:#FFFFFF;
+	background-color:#EEEEEE;
 	padding:20px;
 	border-spacing: 1px;
-	border-style: solid;
-	border-color: #000000;
+	border-style: outset;
+	border-color: #EEEEEE;
 	border-width: 1px;
 }
 

@@ -57,7 +57,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 	}
 
 	/*
-	* display content of page
+	* display content of page (edit view)
 	*/
 	function view()
 	{
@@ -70,54 +70,29 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
 			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
-		// setting to utf-8 here
-		$this->obj->buildDom();
-		$this->obj->addHierIDs();
-		$content = $this->obj->getXMLFromDom();
 
-		header('Content-type: text/html; charset=UTF-8');
-
-		$xsl = file_get_contents("./content/page.xsl");
-		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
-		$xh = xslt_create();
-//echo "<b>XML</b>:".htmlentities($content).":<br>";
-//echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$params = array ('mode' => 'edit');
-		$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, $params);
-		echo xslt_error($xh);
-		xslt_free($xh);
-
-		$this->tpl->setVariable("PAGE_CONTENT", $output);
-
-	}
-
-
-	/*
-	* display content of page (wysiwyg test)
-	*/
-	function viewWysiwyg()
-	{
-		global $tree;
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit_wysiwyg.html", true);
-		$num = 0;
-
-		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
-
-
-		$this->obj->buildDom();
+		$builded = $this->obj->buildDom();
 		$this->obj->addHierIDs();
 		$content = $this->obj->getXMLFromDom();
 
 		// convert bb code to xml
+		/*
 		$content = eregi_replace("\[com\]","<Comment>",$content);
 		$content = eregi_replace("\[\/com\]","</Comment>",$content);
 		$content = eregi_replace("\[emp]","<Emph>",$content);
 		$content = eregi_replace("\[\/emp\]","</Emph>",$content);
 		$content = eregi_replace("\[str]","<Strong>",$content);
-		$content = eregi_replace("\[\/str\]","</Strong>",$content);
+		$content = eregi_replace("\[\/str\]","</Strong>",$content);*/
+
+		if($builded !== true)
+		{
+			$this->displayValidationError($builded);
+		}
+		else
+		{
+			$this->displayValidationError($_SESSION["il_pg_error"]);
+		}
+		unset($_SESSION["il_pg_error"]);
 
 		header('Content-type: text/html; charset=UTF-8');
 
@@ -156,7 +131,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$content = $this->obj->getXMLContent();
 
 		// convert bb code to xml
-		$this->bbCode2XML($content);
+		$this->obj->bbCode2XML($content);
 
 		// todo: utf-header should be set globally
 		header('Content-type: text/html; charset=UTF-8');
@@ -176,16 +151,6 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$output = str_replace("&gt;",">",$output);
 //echo "<b>HTML</b>".htmlentities($output);
 		$this->tpl->setVariable("PAGE_CONTENT", $output);
-	}
-
-	function bbCode2XML(&$a_content)
-	{
-		$a_content = eregi_replace("\[com\]","<Comment>",$a_content);
-		$a_content = eregi_replace("\[\/com\]","</Comment>",$a_content);
-		$a_content = eregi_replace("\[emp]","<Emph>",$a_content);
-		$a_content = eregi_replace("\[\/emp\]","</Emph>",$a_content);
-		$a_content = eregi_replace("\[str]","<Strong>",$a_content);
-		$a_content = eregi_replace("\[\/str\]","</Strong>",$a_content);
 	}
 
 
@@ -237,6 +202,23 @@ class ilPageObjectGUI extends ilLMObjectGUI
 			$this->putInTree();
 			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
+		}
+	}
+
+	function displayValidationError($a_error)
+	{
+		if(is_array($a_error))
+		{
+			$error_str = "<b>Validation Error(s):</b><br>";
+			foreach ($a_error as $error)
+			{
+				$err_mess = implode($error, " - ");
+				if (!is_int(strpos($err_mess, ":0:")))
+				{
+					$error_str .= htmlentities($err_mess)."<br />";
+				}
+			}
+			$this->tpl->setVariable("MESSAGE", $error_str);
 		}
 	}
 }

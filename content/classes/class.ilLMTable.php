@@ -36,6 +36,7 @@ require_once("content/classes/class.ilPageContent.php");
 class ilLMTable extends ilPageContent
 {
 	var $dom;
+	var $tab_node;
 
 
 	/**
@@ -50,9 +51,19 @@ class ilLMTable extends ilPageContent
 		$this->dom =& $a_dom;
 	}
 
-	function createNode()
+	function setNode(&$a_node)
 	{
-		$this->node =& $this->dom->create_element("Table");
+		parent::setNode($a_node);		// this is the PageContent node
+		$this->tab_node =& $a_node->first_child();		// this is the Table node
+	}
+
+	function create(&$a_pg_obj, $a_hier_id)
+	{
+		$this->node =& $this->dom->create_element("PageContent");
+		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
+		$this->tab_node =& $this->dom->create_element("Table");
+		$this->tab_node =& $this->node->append_child($this->tab_node);
+		$this->tab_node->set_attribute("Language", "");
 	}
 
 	function addRows($a_nr_rows, $a_nr_cols)
@@ -60,7 +71,7 @@ class ilLMTable extends ilPageContent
 		for ($i=1; $i<=$a_nr_rows; $i++)
 		{
 			$new_tr =& $this->dom->create_element("TableRow");
-			$new_tr =& $this->node->append_child($new_tr);
+			$new_tr =& $this->tab_node->append_child($new_tr);
 			for ($j=1; $j<=$a_nr_cols; $j++)
 			{
 				$new_td =& $this->dom->create_element("TableData");
@@ -74,7 +85,7 @@ class ilLMTable extends ilPageContent
 	*/
 	function getLanguage()
 	{
-		return $this->node->get_attribute("Language");
+		return $this->tab_node->get_attribute("Language");
 	}
 
 	/**
@@ -86,7 +97,7 @@ class ilLMTable extends ilPageContent
 	{
 		if($a_lang != "")
 		{
-			$this->node->set_attribute("Language", $a_lang);
+			$this->tab_node->set_attribute("Language", $a_lang);
 		}
 	}
 
@@ -95,7 +106,7 @@ class ilLMTable extends ilPageContent
 	*/
 	function getWidth()
 	{
-		return $this->node->get_attribute("Width");
+		return $this->tab_node->get_attribute("Width");
 	}
 
 	/**
@@ -107,11 +118,11 @@ class ilLMTable extends ilPageContent
 	{
 		if($a_width != "")
 		{
-			$this->node->set_attribute("Width", $a_width);
+			$this->tab_node->set_attribute("Width", $a_width);
 		}
 		else
 		{
-			$this->node->remove_attribute("Width");
+			$this->tab_node->remove_attribute("Width");
 		}
 	}
 
@@ -120,7 +131,7 @@ class ilLMTable extends ilPageContent
 	*/
 	function getBorder()
 	{
-		return $this->node->get_attribute("Border");
+		return $this->tab_node->get_attribute("Border");
 	}
 
 	/**
@@ -132,11 +143,11 @@ class ilLMTable extends ilPageContent
 	{
 		if($a_border != "")
 		{
-			$this->node->set_attribute("Border", $a_border);
+			$this->tab_node->set_attribute("Border", $a_border);
 		}
 		else
 		{
-			$this->node->remove_attribute("Border");
+			$this->tab_node->remove_attribute("Border");
 		}
 	}
 
@@ -145,7 +156,7 @@ class ilLMTable extends ilPageContent
 	*/
 	function getCellSpacing()
 	{
-		return $this->node->get_attribute("CellSpacing");
+		return $this->tab_node->get_attribute("CellSpacing");
 	}
 
 	/**
@@ -157,11 +168,11 @@ class ilLMTable extends ilPageContent
 	{
 		if($a_spacing != "")
 		{
-			$this->node->set_attribute("CellSpacing", $a_spacing);
+			$this->tab_node->set_attribute("CellSpacing", $a_spacing);
 		}
 		else
 		{
-			$this->node->remove_attribute("CellSpacing");
+			$this->tab_node->remove_attribute("CellSpacing");
 		}
 	}
 
@@ -170,7 +181,7 @@ class ilLMTable extends ilPageContent
 	*/
 	function getCellPadding()
 	{
-		return $this->node->get_attribute("CellPadding");
+		return $this->tab_node->get_attribute("CellPadding");
 	}
 
 	/**
@@ -182,11 +193,11 @@ class ilLMTable extends ilPageContent
 	{
 		if($a_padding != "")
 		{
-			$this->node->set_attribute("CellPadding", $a_padding);
+			$this->tab_node->set_attribute("CellPadding", $a_padding);
 		}
 		else
 		{
-			$this->node->remove_attribute("CellPadding");
+			$this->tab_node->remove_attribute("CellPadding");
 		}
 	}
 
@@ -284,7 +295,7 @@ class ilLMTable extends ilPageContent
 
 	function deleteAllChildsByName($a_node_names)
 	{
-		$childs = $this->node->child_nodes();
+		$childs = $this->tab_node->child_nodes();
 		foreach($childs as $child)
 		{
 			$child_name = $child->node_name();
@@ -300,7 +311,7 @@ class ilLMTable extends ilPageContent
 		$search = $a_predecessors;
 		$search[] = $a_node_name;
 
-		$childs = $this->node->child_nodes();
+		$childs = $this->tab_node->child_nodes();
 		$cnt_childs = count($childs);
 		$found = false;
 		foreach($childs as $child)
@@ -318,7 +329,7 @@ class ilLMTable extends ilPageContent
 			$new_node =& $this->dom->create_element($a_node_name);
 			if($cnt_childs == 0)
 			{
-				$new_node =& $this->node->append_child($new_node);
+				$new_node =& $this->tab_node->append_child($new_node);
 			}
 			else
 			{
