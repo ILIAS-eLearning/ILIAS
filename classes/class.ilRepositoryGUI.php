@@ -1042,7 +1042,7 @@ class ilRepositoryGUI
 	*/
 	function showGroups()
 	{
-		global  $tree, $rbacsystem;
+		global  $tree, $rbacsystem, $ilias, $lng;
 
 		// set offset & limit
 		//$offset = intval($_GET["offset"]);
@@ -1082,6 +1082,17 @@ class ilRepositoryGUI
 				$tpl->setVariable("TITLE", $cont_data["title"]);
 				$tpl->setVariable("LINK", $obj_link);
 				$tpl->setVariable("LINK_TARGET", "bottom");
+				
+				// add to desktop link
+				if (!$ilias->account->isDesktopItem($cont_data["ref_id"], "grp"))
+				{
+					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+						"&item_ref_id=".$cont_data["ref_id"].
+						"&type=grp&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+						"&sort_by=".$_GET["sort_by"]);
+
+					$tpl->setVariable("TXT_TO_DESK", $lng->txt("to_desktop"));
+				}
 				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cont_data["ref_id"]));
 				//$tpl->setVariable("IMG", $obj_icon);
 				//$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));

@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.64 2004/01/30 14:30:33 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.67 2004/02/09 11:15:49 neiken Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -165,7 +165,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin;
+		global $rbacadmin, $ilias;
 
 		include_once "./classes/class.ilGroup.php";
 		$grp = new ilGroup();
@@ -205,9 +205,11 @@ class ilObjGroupGUI extends ilObjectGUI
 		//save new group in grp_tree table
 		$groupObj->createNewGroupTree($groupObj->getRefId());
 
-		$this->ilias->account->addDesktopItem($groupObj->getRefId(),"grp");		
+				
+		//$this->ilias->account->addDesktopItem($groupObj->getRefId(),"grp");		
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
+	
 		header("Location: ".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}

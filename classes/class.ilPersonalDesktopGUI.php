@@ -333,8 +333,8 @@ class ilPersonalDesktopGUI
 			$this->tpl->setVariable("GRP_TITLE", $grp_item["title"]);
 			if ($rbacsystem->checkaccess('leave',$grp_item["id"],'usr'))
 			{
-				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=removeMember&ref_id=".$grp_item["id"]."&mem_id=".$this->ilias->account->getID()."&header_location=usr_personaldesktop.php");
-				$this->tpl->setVariable("TXT_DROP", "[".$this->lng->txt("unsubscribe")."]");
+				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=grp&id=".$grp_item["id"]);
+				$this->tpl->setVariable("TXT_DROP", "[".$this->lng->txt("drop")."]");
 			}
 			$this->tpl->parseCurrentBlock();
 		}
