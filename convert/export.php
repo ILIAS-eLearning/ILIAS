@@ -755,6 +755,62 @@ class ILIAS2export
 		return $MetaData;
 	}
 	
+	// ILIAS2 File (only undeleted) --> ILIAS3 LearningObject AggregationLevel 1
+	function exportFile ($id, $parent)
+	{
+		//-------------------------
+		// get data from db tables:
+		//-------------------------
+		
+		// table 'file'
+		$sql =	"SELECT file, version ".
+				"FROM file ".
+				"WHERE id = $id;";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		$file = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		// free result set
+		$result->free();
+		
+		//-----------------------------------------------
+		// create LearningObject AggregationLevel 1 tree:
+		//-----------------------------------------------
+		
+		// LearningObject
+		$LearningObject = $this->writeNode($parent, "LearningObject");
+		
+		// LearningObject..MetaData ***
+		$MetaData = $this->exportMetadata($id, "file", $LearningObject);
+		
+		// *** update Metadata!!!!!
+		
+		// LearningObject..Content --> unavailable for AggregationLevel 1
+		
+		// LearningObject..Test --> unavailable for AggregationLevel 1
+		
+		// LearningObject..Glossary --> unavailable for AggregationLevel 1
+		
+		// LearningObject..Bibliography --> unavailable for AggregationLevel 1
+		
+		// *** copy file !!!!
+		
+		//-------------
+		// free memory: ***
+		//-------------
+		unset($sql, $row, $attrs, $file);
+		
+		//-------------------------------
+		// return LearningObject subtree:
+		//-------------------------------
+		return $LearningObject;
+	}
+	
 	// ILIAS2 Element (only undeleted) --> ILIAS3 LearningObject AggregationLevel 1 or 2 or Text (depends on type)
 	function exportElement ($id, $parent)
 	{
@@ -847,7 +903,7 @@ class ILIAS2export
 				// *** (convert VRIs, HTML and Layout (alignment))
 				//--------------------------
 				
-				// MetaData *** (Parent LearningObjet already has MetaData) Unterschlagen???
+				// MetaData *** (Parent LearningObject already has MetaData) Unterschlagen???
 				
 				// Paragraph ***
 				$attrs = array(	"Language" => "de", // *** aus meta holen
@@ -1096,21 +1152,63 @@ class ILIAS2export
 				
 				// table multimedia is treated separatly
 				break;
+			*/
 			
-			// filelist
-			case 8:
-				$sql =	"SELECT * ".
+			case 8: // filelist
+				
+				
+				// table 'el_filelist' 
+				/* *** not needed
+				$sql =	"SELECT sort ".
 						"FROM el_filelist ".
 						"WHERE id = $id;";
+				*/
 				
-				// filelist_entry (filelist entries)
-				$sql =	"SELECT DISTINCT * ".
+				// table 'filelist_entry'
+				$sql =	"SELECT file_id, nr ".
 						"FROM filelist_entry ".
-						"WHERE el_id = $id;";
+						"WHERE el_id = $id ".
+						"ORDER BY nr;";
 				
-				// table file is treated separatly
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
+				// get row(s)
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$entry[] = $row;
+				}
+				// free result set
+				$result->free();
+				
+				//--------------------------
+				// create Paragraph subtree:
+				//--------------------------
+				
+				// MetaData *** (Parent LearningObject already has MetaData) Unterschlagen???
+				
+				// Paragraph ***
+				$attrs = array(	"Language" => "de", // *** aus meta holen
+								"Characteristic" => "Example"); // *** aus bsp holen
+				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+				
+				// Paragraph..Reference ***
+				if (is_array($entry))
+				{
+					foreach ($entry as $value) 
+					{
+						$attrs = array(	"Reference_to" => "file_".$value["file_id"],
+										"Type" => "LearningObject");
+						$Reference = $this->writeNode($Paragraph, "Reference", $attrs, "File ".$value["nr"]); // *** besser Name der Datei
+					}
+				}
+				
 				break;
 			
+			/*
 			// sourcecode
 			case 9:
 				$sql =	"SELECT * ".
@@ -1652,6 +1750,37 @@ class ILIAS2export
 		{
 			// ..Content.. ***
 			$Page = $this->exportPage($row["id"], $Content);
+		}
+		// free result set
+		$result->free();
+		
+		// (files)
+		$sql =	"SELECT DISTINCT fi.id AS id ".
+				"FROM lerneinheit AS le, page AS pg, element AS el, filelist_entry AS fl_en, file AS fi ".
+				"WHERE le.id = $id ".
+				"AND pg.lerneinheit = le.id ".
+				"AND el.page = pg.id ".
+				"AND fl_en.el_id = el.id ".
+				"AND fi.id = fl_en.file_id ".				
+				"AND fi.deleted = '0000-00-00 00:00:00';";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// check row number
+		if ($result->numRows() > 0 and
+			!is_object($Content))
+		{
+			$Content = $this->writeNode($LearningObject, "Content");
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			// ..Content.. ***
+			$File = $this->exportFile($row["id"], $Content);
 		}
 		// free result set
 		$result->free();
