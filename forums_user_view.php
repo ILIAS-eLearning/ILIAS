@@ -50,7 +50,7 @@ $tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 $tpl->setVariable("EMAIL",$author["Email"]);
 
 $tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-$tpl->setVariable("REGISTERED",$author["create_date"] = $frm->convertDate($author["create_date"]));
+$tpl->setVariable("REGISTERED",$author["create_date"] = $frm->convertDate($author["CreateDate"]));
 
 $numPosts = $frm->countUserArticles($_GET["user"]);
 $tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));

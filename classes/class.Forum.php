@@ -409,7 +409,12 @@ class Forum
     {
         global $lng;
 			
-		if ($date > date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d"), date("Y"))))
+		if ($date == "0000-00-00 00:00:00")
+		{
+			
+			return "00.00.0000 00:00:00";
+		}
+		elseif ($date > date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d"), date("Y"))))
         {
             
 			return  $lng->txt("today")." " . substr($date, 11);

@@ -107,6 +107,7 @@ class User
 				"Email"      => $data["email"],
 				"Role"       => $data["rol_id"],
 				"LastLogin"  => $data["last_login"],
+				"CreateDate"  => $data["create_date"]
 			);
 
 			//get userpreferences from usr_pref table
