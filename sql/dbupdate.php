@@ -4781,4 +4781,21 @@ INDEX ( `user_id` )
 );
 <#314>
 ALTER TABLE `usr_data` ADD `matriculation` VARCHAR( 40 ) AFTER `referral_comment` ;
+<#315>
+DROP TABLE `survey_relation`;
+
+CREATE TABLE `survey_relation` (
+  `relation_id` int(11) NOT NULL auto_increment,
+  `longname` varchar(20) NOT NULL default '',
+  `shortname` char(2) NOT NULL default '',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`relation_id`)
+) TYPE=MyISAM AUTO_INCREMENT=7 ;
+
+INSERT INTO `survey_relation` VALUES (1, 'less', '<', 20040518195753);
+INSERT INTO `survey_relation` VALUES (2, 'less_or_equal', '<=', 20040518195808);
+INSERT INTO `survey_relation` VALUES (3, 'equal', '=', 20040518195816);
+INSERT INTO `survey_relation` VALUES (4, 'not_equal', '<>', 20040518195839);
+INSERT INTO `survey_relation` VALUES (5, 'more_or_equal', '>=', 20040518195852);
+INSERT INTO `survey_relation` VALUES (6, 'more', '>', 20040518195903);
 

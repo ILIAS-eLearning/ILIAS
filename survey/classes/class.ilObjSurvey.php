@@ -2259,7 +2259,7 @@ class ilObjSurvey extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			array_push($result_array, array("id" => $row->constraint_id, "question" => $row->question_fi, "short" => $row->short, "long" => $row->long, "value" => $row->value));
+			array_push($result_array, array("id" => $row->constraint_id, "question" => $row->question_fi, "short" => $row->shortname, "long" => $row->longname, "value" => $row->value));
 		}
 		return $result_array;
 	}
@@ -2329,7 +2329,7 @@ class ilObjSurvey extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$result_array[$row->relation_id] = array("short" => $row->short, "long" => $row->long);
+			$result_array[$row->relation_id] = array("short" => $row->shortname, "long" => $row->longname);
 		}
 		return $result_array;
 	}
