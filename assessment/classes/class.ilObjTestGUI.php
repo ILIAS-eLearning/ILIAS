@@ -504,7 +504,6 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		// import qti data
 		$qtiresult = $newObj->importObject($qti_file, $_POST["qpl"]);
-		
 		// import page data
 		include_once ("content/classes/class.ilContObjParser.php");
 		$contParser = new ilContObjParser($newObj, $xml_file, $subdir);
