@@ -1,7 +1,9 @@
 <tr class="{CSS_ROW}">
+	<!-- BEGIN check_col -->
 	<td class="std" valign="top">
 		<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED}/>
 	</td>
+	<!-- END check_col -->
 	<td class="std" valign="top">
 		<a href="{TARGET_TERM}">
 		{TEXT_TERM}
@@ -17,5 +19,9 @@
 		</a><br />
 		{DEF_SHORT}<br />
 	<!-- END definition -->
+	<!-- BEGIN definition_no_link -->
+		<b>{DEF_TEXT}</b><br />
+		{DEF_SHORT}<br />
+	<!-- END definition_no_link -->
 	</td>
 </tr>

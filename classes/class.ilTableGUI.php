@@ -429,13 +429,13 @@ class ilTableGUI
 		// table header
 		foreach ($this->header_names as $key => $tbl_header_cell)
 		{
-			if ($key == $this->order_column)
-			{ 
+			if (($key == $this->order_column) && ($this->order_direction != ""))
+			{
 				$this->tpl->setCurrentBlock("tbl_order_image");
 				$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.png"));
 				$this->tpl->parseCurrentBlock();
 			}
-			
+
 			$this->tpl->setCurrentBlock("tbl_header_cell");
 			$this->tpl->setVariable("TBL_HEADER_CELL",$tbl_header_cell);
 			

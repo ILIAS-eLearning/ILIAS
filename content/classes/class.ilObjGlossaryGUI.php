@@ -43,6 +43,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 {
 	var $admin_tabs;
 	var $mode;
+	var $term;
 
 	/**
 	* Constructor
@@ -178,7 +179,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
-//echo "1";
+
 		if($_GET["def"] > 0)
 		{
 //echo "2";
@@ -285,10 +286,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->tpl->setVariable("DEF_SHORT", $short_str);
 					$this->tpl->parseCurrentBlock();
 				}
+				$this->tpl->setCurrentBlock("check_col");
+				$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("tbl_content");
 
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-				$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
 				$this->tpl->setVariable("TARGET_TERM", "glossary_edit.php?ref_id=".
 					$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]);
 				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
@@ -317,6 +322,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		//$this->admin_tabs[] = array("cont_definitions","listDefinitions");
 		//$this->admin_tabs[] = array("meta_data","editTerm");
 		$term =& new ilGlossaryTerm($_GET["term_id"]);
+		$this->term =& $term;
 
 		// load template for table
 		$this->tpl->addBlockfile("CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
@@ -328,9 +334,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$_GET["ref_id"].
 			"&cmd=post&term_id=".$_GET["term_id"]);
+
+		$this->tpl->setCurrentBlock("add_def");
 		$this->tpl->setVariable("TXT_ADD_DEFINITION",
 			$this->lng->txt("cont_add_definition"));
 		$this->tpl->setVariable("BTN_ADD", "addDefinition");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("def_list");
 
 		$defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
 
@@ -371,15 +381,17 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveDown&def=".$def["id"]);
 				$this->tpl->parseCurrentBlock();
 			}
-
-			$this->tpl->setCurrentBlock("definition");
-			$this->tpl->setVariable("PAGE_CONTENT", $output);
+			$this->tpl->setCurrentBlock("submit_btns");
 			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 			$this->tpl->setVariable("LINK_EDIT",
 				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
 			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 			$this->tpl->setVariable("LINK_DELETE",
 				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=confirmDefinitionDeletion&def=".$def["id"]);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("definition");
+			$this->tpl->setVariable("PAGE_CONTENT", $output);
 			$this->tpl->parseCurrentBlock();
 		}
 		//$this->tpl->setCurrentBlock("def_list");
@@ -487,6 +499,18 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			if(is_object($this->object))
 			{
+				require_once("content/classes/class.ilGlossaryLocatorGUI.php");
+				$gloss_loc =& new ilGlossaryLocatorGUI();
+				if (is_object($this->term))
+				{
+					$gloss_loc->setTerm($this->term);
+				}
+				$gloss_loc->setGlossary($this->object);
+				//$gloss_loc->setDefinition($this->definition);
+				$gloss_loc->display();
+				return;
+
+
 
 				// ### AA 03.11.10 added new locator GUI class ###
 				$i = 1;
@@ -516,7 +540,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
 						"&cmd=listDefinitions&term_id=".$term->getId());
 					$this->tpl->parseCurrentBlock();
-					
+
 					// ### AA 03.11.10 added new locator GUI class ###
 					// navigate locator
 					$ilias_locator->navigate($i++,$term->getTerm(),"glossary_edit.php?ref_id=".$_GET["ref_id"].
@@ -673,7 +697,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	function editTerm()
 	{
 		$this->loadAdmTemplate();
+		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->setAdminTabs("term_edit");
+		$this->term =& new ilGlossaryTerm($_GET["term_id"]);
 		$this->setLocator();
 		$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
 		$term_gui->editTerm();
