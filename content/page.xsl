@@ -1664,7 +1664,6 @@
 									<xsl:when test="//render_choice/response_label/material/matimage"></xsl:when>
 									<xsl:otherwise>dd.elements.definition_<xsl:value-of select="@ident"/>.write('<xsl:value-of select="material/mattext"/>');</xsl:otherwise>
 								</xsl:choose>
-								document.test_output.sel_matching_<xsl:value-of select="@ident"/>.value = -1;
 							</xsl:if>
 					</xsl:for-each>
 				}
@@ -1772,6 +1771,7 @@
     						<table border="0">
     						<tr><td align="left">
 	    					<img border="0">
+	    						<xsl:attribute name="id">definition_<xsl:value-of select="@ident"/></xsl:attribute>
 	    						<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>/assessment/<xsl:value-of select="$parent_id"/>/<xsl:value-of select="//questestinterop/item/@ident"/>/images/<xsl:value-of select="material/matimage/@label"/>.thumb.jpg</xsl:attribute>
 	    					</img>
     						</td>
@@ -1785,7 +1785,7 @@
     						</td>
     						</tr>
     						</table>
-    					</div>
+							</div>
     				</xsl:if>
                 </td>
             </xsl:if>
