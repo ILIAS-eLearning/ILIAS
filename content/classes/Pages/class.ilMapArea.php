@@ -422,8 +422,10 @@ class ilMapArea
 
 	/**
 	* draw image to
+	*
+	* @param	boolean		$a_close_poly		close polygon
 	*/
-	function draw(&$a_image, $a_col1, $a_col2)
+	function draw(&$a_image, $a_col1, $a_col2, $a_close_poly = true)
 	{
 		switch ($this->getShape())
 		{
@@ -436,7 +438,7 @@ class ilMapArea
 				break;
 
 			case "Poly" :
-				$this->drawPoly($a_image, $this->getCoords(), $a_col1, $a_col2, true);
+				$this->drawPoly($a_image, $this->getCoords(), $a_col1, $a_col2, $a_close_poly);
 				break;
 		}
 	}

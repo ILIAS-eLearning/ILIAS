@@ -581,8 +581,9 @@ class ilMediaItem
 		// add new area to work image
 		$area = new ilMapArea();
 		$area->setShape($a_shape);
+//echo "addAreaToMap:".$a_shape.":<br>";
 		$area->setCoords($a_coords);
-		$area->draw($this->getMapWorkImage(), $this->color1, $this->color2);
+		$area->draw($this->getMapWorkImage(), $this->color1, $this->color2, false);
 
 		$this->saveMapWorkImage();
 	}
