@@ -37,22 +37,17 @@
 */
 class ilRbacReview
 {
-    /**
-	* ilias object
-	* @var		object	ilias
-	* @access	public
-	*/
-	var $ilias;
-
 	/**
 	* Constructor
 	* @access	public
 	*/
 	function ilRbacReview()
 	{
-	    global $ilias;
-		
-		$this->ilias =& $ilias;
+		global $ilDB,$ilErr;
+
+		// set db & error handler
+		$this->ilDB =& $ilDB;
+		$this->ilErr =& $ilErr;
 	}
 
 	/**
@@ -67,7 +62,7 @@ class ilRbacReview
 		if (empty($a_title))
 		{
 			$message = get_class($this)."::roleExists(): No title given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
 		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
@@ -76,7 +71,7 @@ class ilRbacReview
 			 "WHERE title ='".addslashes($a_title)."' ".
 			 "AND type IN('role','rolt')".
 			 $clause;
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		if ($r->numRows() == 1)
 		{
@@ -101,7 +96,7 @@ class ilRbacReview
 		if (!isset($a_path) or !is_array($a_path))
 		{
 			$message = get_class($this)."::getParentRoles(): No path given or wrong datatype!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$parentRoles = array();
@@ -119,7 +114,7 @@ class ilRbacReview
 			$q = "SELECT * FROM tree ".
 				 "WHERE child ".$in.
 				 "AND parent = '".$path."'";
-			$r = $this->ilias->db->query($q);
+			$r = $this->ilDB->query($q);
 
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
@@ -153,7 +148,7 @@ class ilRbacReview
 		if (!isset($a_endnode_id))
 		{
 			$message = get_class($this)."::getParentRoleIds(): No node_id (ref_id) given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 	
 		$pathIds  = $tree->getPathId($a_endnode_id);
@@ -178,7 +173,7 @@ class ilRbacReview
 			$message = get_class($this)."::getRoleListByObject(): Missing parameter!".
 					   "ref_id: ".$a_ref_id.
 					   "tpl_flag: ".$a_templates;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$role_list = array();
@@ -189,7 +184,7 @@ class ilRbacReview
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
 			 "AND rbac_fa.parent = '".$a_ref_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -217,7 +212,7 @@ class ilRbacReview
 			 "JOIN rbac_fa ".$where.
 			 "AND object_data.obj_id = rbac_fa.rol_id ".
 			 "AND rbac_fa.assign = 'y'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -303,13 +298,13 @@ class ilRbacReview
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::assignedUsers(): No role_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 	    $usr_arr = array();
 	   
 		$q = "SELECT usr_id FROM rbac_ua WHERE rol_id='".$a_rol_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -330,13 +325,13 @@ class ilRbacReview
 		if (!isset($a_usr_id))
 		{
 			$message = get_class($this)."::assignedRoles(): No user_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$role_arr = array();
 		
 		$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = '".$a_usr_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -346,7 +341,7 @@ class ilRbacReview
 		if (!count($role_arr))
 		{
 			$message = get_class($this)."::assignedRoles(): No assigned roles found or user doesn't exists!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		return $role_arr;
@@ -371,13 +366,13 @@ class ilRbacReview
 		{
 			$message = get_class($this)."::isAssignable(): Missing parameter!".
 					   " role_id: ".$a_rol_id." ,ref_id: ".$a_ref_id;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
 		$q = "SELECT * FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 "AND parent = '".$a_ref_id."'";
-		$row = $this->ilias->db->getRow($q);
+		$row = $this->ilDB->getRow($q);
 
 		return $row->assign == 'y' ? true : false;
 	}
@@ -397,7 +392,7 @@ class ilRbacReview
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::getFoldersAssignedToRole(): No role_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
 		if ($a_assignable)
@@ -407,7 +402,7 @@ class ilRbacReview
 
 		$q = "SELECT DISTINCT parent FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."'".$where;
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -430,7 +425,7 @@ class ilRbacReview
 		if (!isset($a_ref_id))
 		{
 			$message = get_class($this)."::getRolesifRoleFolder(): No ref_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
 		if ($a_nonassignable === false)
@@ -441,7 +436,7 @@ class ilRbacReview
 		$q = "SELECT rol_id FROM rbac_fa ".
 			 "WHERE parent = '".$a_ref_id."'".
 			 $and;
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -471,7 +466,7 @@ class ilRbacReview
 		$parent = array();
 		
 		$q = "SELECT DISTINCT parent FROM rbac_fa";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -494,7 +489,7 @@ class ilRbacReview
 		if (!isset($a_ref_id))
 		{
 			$message = get_class($this)."::getRoleFolderOfObject(): No ref_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$childs = $tree->getChildsByType($a_ref_id,"rolf");
@@ -519,7 +514,7 @@ class ilRbacReview
 					   "role_id: ".$a_rol_id.
 					   "type: ".$a_type.
 					   "parent_id: ".$a_parent;
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$ops_arr = array();
@@ -530,7 +525,7 @@ class ilRbacReview
 			 "WHERE type ='".$a_type."' ".
 			 "AND rol_id = '".$a_rol_id."' ".
 			 "AND parent = '".$a_parent."'";
-		$r  = $this->ilias->db->query($q);
+		$r  = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -551,11 +546,11 @@ class ilRbacReview
 		if (!isset($a_typ_id))
 		{
 			$message = get_class($this)."::getOperationsOnType(): No type_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		$q = "SELECT * FROM rbac_ta WHERE typ_id = '".$a_typ_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -577,12 +572,12 @@ class ilRbacReview
 		if (!isset($a_rol_id))
 		{
 			$message = get_class($this)."::getObjectsWithStopedInheritance(): No role_id given!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 			
 		$q = "SELECT DISTINCT parent FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -605,14 +600,14 @@ class ilRbacReview
 	function isDeleted($a_node_id)
 	{
 		$q = "SELECT tree FROM tree WHERE child ='".$a_node_id."'";
-		$r = $this->ilias->db->query($q);
+		$r = $this->ilDB->query($q);
 		
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		if (!$row)
 		{
 			$message = get_class($this)."::isDeleted(): Rolefolder with ref_id '".$a_node_id."' not found!";
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
 		// rolefolder is deleted

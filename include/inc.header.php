@@ -78,9 +78,6 @@ require_once "classes/class.ilMailbox.php";
 require_once "classes/class.ilRbacAdmin.php";
 require_once "classes/class.ilRbacSystem.php";
 require_once "classes/class.ilRbacReview.php";
-require_once "classes/class.ilRbacAdminH.php";
-require_once "classes/class.ilRbacSystemH.php";
-require_once "classes/class.ilRbacReviewH.php";
 
 // ### AA 03.10.29 added new LocatorGUI class ###
 //include LocatorGUI
@@ -168,9 +165,9 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 $lng = new ilLanguage($ilias->account->prefs["language"]);
 
 // init rbac
-$rbacsystem = new ilRbacSystemH();
-$rbacadmin = new ilRbacAdminH();
-$rbacreview = new ilRbacReviewH();
+$rbacsystem = new ilRbacSystem();
+$rbacadmin = new ilRbacAdmin();
+$rbacreview = new ilRbacReview();
 
 // init ref_id on first start ref_id is set to ROOT_FOLDER_ID
 $_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
@@ -200,6 +197,8 @@ $styleDefinition->startParsing();
 	I really don't know in which case the following code is needed.
 	If any errors occur due to disabling this, please do
 	not hesitate to mail me... alex.killing@gmx.de
+	
+	this function was used for the no_frames template set... shofmann@databay.de
 
 if ($script != "login.php" && $script != "index.php")
 {
@@ -229,7 +228,4 @@ if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 									"text"	=> "new_mail"
 									//"img"	=> "icon_mail.gif"
 									);
-}
-
-//vd($ilError);exit;
-?>
+}?>
