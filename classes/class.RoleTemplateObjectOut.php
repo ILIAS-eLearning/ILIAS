@@ -3,7 +3,7 @@
 * Class RoleTemplateObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id$
+* $Id$Id: class.RoleTemplateObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -15,9 +15,10 @@ class RoleTemplateObjectOut extends ObjectOut
 	* Constructor
 	* @access public
 	*/
-	function RoleTemplateObjectOut($a_data)
+	function RoleTemplateObjectOut($a_data,$a_id,$a_call_by_reference)
 	{
-		$this->ObjectOut($a_data);
+		$this->type = "rolt";
+		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
 	}
 
 	function updateObject()

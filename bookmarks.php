@@ -10,7 +10,7 @@
 require_once "./include/inc.header.php";
 require_once "./classes/class.Bookmarks.php";
 
-$myBm = new Bookmarks($ilias->account->Id);
+$myBm = new Bookmarks($ilias->account->getId());
 
 if ($_GET["cmd"] != "")
 {

@@ -12,7 +12,7 @@ require_once "./classes/class.Bookmarks.php";
 
 $tpl = new Template("tpl.bookmark_new.html", true, true);
 
-$myBm = new Bookmarks($ilias->account->Id);
+$myBm = new Bookmarks($ilias->account->getId());
 
 //form has been submitted
 if ($_POST["submit"] != "")

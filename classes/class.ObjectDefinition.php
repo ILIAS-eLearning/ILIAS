@@ -9,31 +9,30 @@
 * @extends PEAR
 * @package ilias-core
 */
-
-include_once("./classes/class.SaxParser.php");
+require_once("./classes/class.SaxParser.php");
 
 class ObjectDefinition extends SaxParser
 {
-
 	/**
-	 * object id of specific object
-	 * @var obj_id
-	 * @access private
-	 */
+	* // TODO: var is not used
+	* object id of specific object
+	* @var obj_id
+	* @access private
+	*/
 	var $obj_id;
 	
 	/**
-	 * parent id of object
-	 * @var parent id
-	 * @access private
-	 */
+	* parent id of object
+	* @var parent id
+	* @access private
+	*/
 	var $parent;
 
 	/**
-	 * array representation of objects
-	 * @var objects
-	 * @access private
-	 */
+	* array representation of objects
+	* @var objects
+	* @access private
+	*/
 	var $obj_data;
 
 	/**
@@ -56,6 +55,7 @@ class ObjectDefinition extends SaxParser
 	{
 		return $this->obj_data[$a_obj_name];
 	}
+
 	/**
 	* get class name by type
 	* 
@@ -65,6 +65,7 @@ class ObjectDefinition extends SaxParser
 	{
 		return $this->obj_data[$a_obj_name]["class_name"];
 	}
+
 	/**
 	* should the object get a checkbox (needed for 'cut','copy' ...)
 	* 
@@ -74,6 +75,7 @@ class ObjectDefinition extends SaxParser
 	{
 		return (bool) $this->obj_data[$a_obj_name]["checkbox"];
 	}
+
 	/**
 	* get properties by type
 	* 
@@ -83,6 +85,7 @@ class ObjectDefinition extends SaxParser
 	{
 		return $this->obj_data[$a_obj_name]["properties"];
 	}
+
 	/**
 	* get subobjects by type
 	* 
@@ -92,6 +95,7 @@ class ObjectDefinition extends SaxParser
 	{
 		return $this->obj_data[$a_obj_name]["subobjects"];
 	}
+
 	/**
 	* get possible actions by type
 	* 
@@ -104,6 +108,7 @@ class ObjectDefinition extends SaxParser
 			array();
 		return $ret;
 	}
+
 	/**
 	* get default property by type
 	* 
@@ -114,6 +119,7 @@ class ObjectDefinition extends SaxParser
 		$data = array_keys($this->obj_data[$a_obj_name]["properties"]);
 		return $data[0];
 	}
+
 	/**
 	* get name of property by type
 	* 
@@ -123,6 +129,7 @@ class ObjectDefinition extends SaxParser
 	{
 		return $this->obj_data[$a_obj_name]["properties"][$a_cmd]["lng"];
 	}
+
 	/**
 	* get a string of all subobjects by type
 	* 
@@ -130,10 +137,12 @@ class ObjectDefinition extends SaxParser
 	*/
 	function getSubObjectsAsString($a_obj_name)
 	{
-		$string = '';
-		if(is_array($this->obj_data[$a_obj_name]["subobjects"]))
+		$string = "";
+		
+		if (is_array($this->obj_data[$a_obj_name]["subobjects"]))
 		{
 			$data = array_keys($this->obj_data[$a_obj_name]["subobjects"]);
+			
 			$string = "'".implode("','", $data)."'";
 		}
 			return $string;
@@ -151,6 +160,7 @@ class ObjectDefinition extends SaxParser
 		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
 		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
 	}
+
 	/**
 	* start tag handler
 	* 
@@ -191,6 +201,7 @@ class ObjectDefinition extends SaxParser
 				
 
 	}
+
 	/**
 	* end tag handler
 	* 
@@ -219,6 +230,7 @@ class ObjectDefinition extends SaxParser
 			}
 		}
 	}
+
 	/**
 	* end tag handler
 	* 

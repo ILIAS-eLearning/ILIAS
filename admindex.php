@@ -27,6 +27,6 @@ if (file_exists($startfilename))
 else
 {
 	header("location: adm_object.php?expand=1");
+	exit;
 }
-
 ?>

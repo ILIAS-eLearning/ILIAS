@@ -305,7 +305,7 @@ class xml2sql
 	function insertStructureIntoTree($a_nodes,$a_id)
 	{
 		// init tree
-		$lm_tree = new Tree($a_id,$a_id,$a_id,$a_id);
+		$lm_tree = new Tree($a_id,$a_id,$a_id);
 		
 		//prepare array and kick all nodes with no children
 		foreach ($a_nodes as $key => $nodes)

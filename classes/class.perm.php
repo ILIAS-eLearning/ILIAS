@@ -33,7 +33,7 @@ function createNewObject ($a_type,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TI
 		 "(type,title,description,owner,create_date,last_update) ".
 		 "VALUES ".
 		 "('".$a_type."','".$a_title."','".$a_desc."',".
-		 "'".$ilias->account->Id."',now(),now())";
+		 "'".$ilias->account->getId()."',now(),now())";
 	$ilias->db->query($q);
 
 	return getLastInsertId();
@@ -61,6 +61,28 @@ function getObject ($a_obj_id)
 }
 
 /**
+* get an object by reference id
+* @access	public
+* @param	integer	reference id
+* @return	array	object data
+*/
+function getObjectByReference ($a_ref_id)
+{
+	global $ilias;
+
+	$q = "SELECT * FROM object_data ".
+		 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
+		 "WHERE object_reference.ref_id='".$a_ref_id."'";
+	$r = $ilias->db->query($q);
+	
+	$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+	$arr = fetchObjectData($row);
+
+	return $arr;
+}
+
+/**
 * creates a copy of an existing object
 * @access	public
 * @param	integer	object id of object you want to copy
@@ -76,7 +98,7 @@ function copyObject ($a_obj_id)
 		 "(type,title,description,owner,create_date,last_update) ".
 		 "VALUES ".
 		 "('".$old_object_data["type"]."','".$old_object_data["title"]."','".$old_object_data["desc"]."',".
-		 "'".$ilias->account->Id."',now(),now())";
+		 "'".$ilias->account->getId()."',now(),now())";
 	$ilias->db->query($q);
 	
 	return getLastInsertId();
@@ -160,18 +182,19 @@ function fetchObjectData($a_row)
 {
 	$arr = array (
 					"obj_id"		=> $a_row->obj_id,
+					"ref_id"		=> $a_row->ref_id,
 					"type"			=> $a_row->type,
 					"title"			=> stripslashes($a_row->title),
 					"description"	=> stripslashes($a_row->description),	// for compability only
 					"desc"			=> stripslashes($a_row->description),
-					"usr_id"		=> $a_row->owner,
+					"usr_id"		=> $a_row->owner,	// compability
 					"owner"			=> $a_row->owner,
 					"create_date"	=> $a_row->create_date,
 					"last_update"	=> $a_row->last_update,
-					"last_login"	=> $a_row->last_login
+					"last_login"	=> $a_row->last_login	// maybe senseless
 				);
 
-	return $arr;
+	return $arr ? $arr : array();	// maybe senseless
 }
 
 /*
@@ -182,6 +205,8 @@ function fetchObjectData($a_row)
 */
 function createNewReference ($a_obj_id)
 {
+	global $ilias;
+	
 	$q = "INSERT INTO object_reference ".
 		 "(obj_id) VALUES ('".$a_obj_id."')";
 	$ilias->db->query($q);
@@ -240,7 +265,8 @@ function getObjectList ($a_obj_type = "",$a_order = "", $a_direction = "ASC", $a
 }
 
 /**
-* get operation list
+* get operation list by object type
+* TODO: rename function to: getOperationByType
 * @access	public
 * @param	string	object type you want to have the operation list
 * @param	string	order column
@@ -304,6 +330,23 @@ function createNewOperation ($a_operation,$a_description)
 	return getLastInsertId();
 }
 
+/**
+* get operation id by name of operation
+* @access	public
+* @param	string	operation name
+* @return	integer	operation id
+*/
+function getOperationId($a_operation)
+{
+	global $ilias;
+
+	$q = "SELECT DISTINCT ops_id FROM rbac_operations ".
+		 "WHERE operation ='".$a_operation."'";		    
+	$row = $ilias->db->getRow($q);
+
+	return $row->ops_id;
+}
+
 /*
 * get last insert id of a mysql query
 * @access	public
@@ -329,7 +372,9 @@ function isUserLoggedIn ()
 {
 	global $ilias;
 
-	if (empty($ilias->account->Id))
+	$user_id = $ilias->account->getId();
+
+	if (empty($user_id))
 	{
 		return false;
 	}

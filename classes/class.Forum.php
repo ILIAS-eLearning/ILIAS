@@ -18,27 +18,27 @@ class Forum
 	var $ilias;
 	
 	/**
-    * database table name
-    * @var string
-    * @see setDbTable(), getDbTable()
-    * @access private
-    */
-    var $dbTable;
+	* database table name
+	* @var string
+	* @see setDbTable(), getDbTable()
+	* @access private
+	*/
+	var $dbTable;
 	
 	/**
-    * class name
-    * @var object
-    * @access private
-    */
+	* class name
+	* @var object
+	* @access private
+	*/
 	var $className="Forum";
 	
 	/**
-    * database table field for sorting the results
-    * @var string
-    * @see setOrderField()
-    * @access private
-    */
-    var $orderField;
+	* database table field for sorting the results
+	* @var string
+	* @see setOrderField()
+	* @access private
+	*/
+	var $orderField;
 	
 	var $whereCondition = "1";
 	
@@ -63,109 +63,122 @@ class Forum
 	
 	
 	/**
-    * set database field for sorting results
-    * @param string $orderField database field for sorting
-    * @see $orderField
-    * @access private
-    */
-    function setOrderField($orderField) {
-        if ($orderField == "") {
-            die($this->className . "::setOrderField(): No orderField given.");			
-        } else {
-            $this->orderField = $orderField;
-        }
-    }
+	* set database field for sorting results
+	* @param	string	$orderField database field for sorting
+	* @see				$orderField
+	* @access	private
+	*/
+	function setOrderField($orderField)
+	{
+		if ($orderField == "")
+		{
+			die($this->className . "::setOrderField(): No orderField given.");			
+		}
+		else
+		{
+			$this->orderField = $orderField;
+		}
+	}
 	
 	/**
-    * get name of orderField
-    * @return string name of orderField
-    * @see $orderField
-    * @access public
-    */
+	* get name of orderField
+	* @return	string	name of orderField
+	* @see				$orderField
+	* @access	public
+	*/
 	function getOrderField()
-	 {
-		 return $this->orderField;
-	 }
+	{
+		return $this->orderField;
+	}
 	
 	/**
-    * set database table
-    * @param string $dbTable database table
-    * @see $dbTable
-    * @access public
-    */
-    function setDbTable($dbTable) {
-        if ($dbTable == "") {
-            die($this->className . "::setDbTable(): No database table given.");
-        } else {
-            $this->dbTable = $dbTable;
-        }
-    }
+	* set database table
+	* @param	string	$dbTable database table
+	* @see				$dbTable
+	* @access	public
+	*/
+	function setDbTable($dbTable)
+	{
+		if ($dbTable == "")
+		{
+			die($this->className . "::setDbTable(): No database table given.");
+		}
+		else
+		{
+			$this->dbTable = $dbTable;
+		}
+	}
 
-    /**
-    * get name of database table
-    * @return string name of database table
-    * @see $dbTable
-    * @access public
-    */
-    function getDbTable() {
-        return $this->dbTable;
-    }
+	/**
+	* get name of database table
+	* @return	string	name of database table
+	* @see				$dbTable
+	* @access	public
+	*/
+	function getDbTable()
+	{
+		return $this->dbTable;
+	}
 	
 	/**
-    * set content of WHERE condition
-    * @param string $whereCondition 
-    * @see $whereCondition
-    * @access public
-    */
-	function setWhereCondition($whereCondition = "1") {
-        $this->whereCondition = $whereCondition;
-        return true;
-    }
+	* set content of WHERE condition
+	* @param	string	$whereCondition 
+	* @see				$whereCondition
+	* @access	public
+	*/
+	function setWhereCondition($whereCondition = "1")
+	{
+		$this->whereCondition = $whereCondition;
+		return true;
+	}
 	
 	/**
-    * get content of whereCondition
-    * @return string 
-    * @see $whereCondition
-    * @access public
-    */
-    function getWhereCondition() {
-        return $this->whereCondition;
-    }
+	* get content of whereCondition
+	* @return	string 
+	* @see				$whereCondition
+	* @access	public
+	*/
+	function getWhereCondition()
+	{
+		return $this->whereCondition;
+	}
 	
 	/**
-    * set number of max. visible datasets
-    * @param int $pageHits 
-    * @see $pageHits
-    * @access public
-    */
-	function setPageHits($pageHits) {
-         if ($pageHits < 1) {
-            die($this->className . "::setPageHits(): No int pageHits given.");
-        } else {
-            $this->pageHits = $pageHits;
+	* set number of max. visible datasets
+	* @param	integer	$pageHits 
+	* @see				$pageHits
+	* @access	public
+	*/
+	function setPageHits($pageHits)
+	{
+		if ($pageHits < 1)
+		{
+			die($this->className . "::setPageHits(): No int pageHits given.");
+		}
+		else
+		{
+			$this->pageHits = $pageHits;
 			return true;
-        }
-    }
+		}
+	}
 	
 	/**
-    * get number of max. visible datasets
-    * @return int $pageHits 
-    * @see $pageHits
-    * @access public
-    */
-    function getPageHits() {
-        return $this->pageHits;
-    }
-	
-	
+	* get number of max. visible datasets
+	* @return	integer	$pageHits 
+	* @see				$pageHits
+	* @access	public
+	*/
+	function getPageHits()
+	{
+		return $this->pageHits;
+	}
 	
 	// *******************************************************************************
 	
-	
 	/**
 	* get one dataset from set Table and set WhereCondition
-	* @return array $res dataset 
-	* @access public
+	* @return	array	$res dataset 
+	* @access	public
 	*/
 	function getOneDataset()
 	{	
@@ -176,17 +189,16 @@ class Forum
 			$q .= " ORDER BY ".$this->orderField;				
 			
 		$res = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
-     		
+
 		$this->setWhereCondition("1");
 		
 		return $res;	
 	}
 	
-	
 	/**
 	* get one topic-dataset by WhereCondition
-	* @return array $result dataset of the topic
-	* @access public
+	* @return	array	$result dataset of the topic
+	* @access	public
 	*/
 	function getOneTopic()
 	{	
@@ -194,7 +206,7 @@ class Forum
 		$query = "SELECT * FROM frm_data WHERE ( ".$this->whereCondition." )";
 		
 		$result = $this->ilias->db->getRow($query, DB_FETCHMODE_ASSOC);
-     		
+
 		$this->setWhereCondition("1");
 		
 		$result["top_name"] = trim(stripslashes($result["top_name"]));
@@ -203,11 +215,10 @@ class Forum
 		return $result;	
 	}
 	
-	
 	/**
 	* get one thread-dataset by WhereCondition
-	* @return array $result dataset of the thread
-	* @access public
+	* @return	array	$result dataset of the thread
+	* @access	public
 	*/
 	function getOneThread()
 	{	
@@ -215,7 +226,7 @@ class Forum
 		$query = "SELECT * FROM frm_threads WHERE ( ".$this->whereCondition." )";
 		
 		$result = $this->ilias->db->getRow($query, DB_FETCHMODE_ASSOC);
-     		
+
 		$this->setWhereCondition("1");
 		
 		$result["thr_subject"] = trim(stripslashes($result["thr_subject"]));
@@ -223,11 +234,10 @@ class Forum
 		return $result;	
 	}
 	
-	
 	/**
 	* get one post-dataset 
-	* @return array $result dataset of the post
-	* @access public
+	* @return	array	$result dataset of the post
+	* @access	public
 	*/
 	function getOnePost($post)
 	{				
@@ -243,27 +253,26 @@ class Forum
 		return $result;
 	}
 	
-	
 	/**
 	* generate new dataset in frm_posts
-	* @param	int	$topic
-	* @param	int	$thread
-	* @param	int	$user
+	* @param	integer	$topic
+	* @param	integer	$thread
+	* @param	integer	$user
 	* @param	string	$message	
-	* @param	int	$parent_pos	
-	* @return int $lastInsert: new post ID
-	* @access public
+	* @param	integer	$parent_pos	
+	* @return	integer	$lastInsert: new post ID
+	* @access	public
 	*/
 	function generatePost($topic, $thread, $user, $message, $parent_pos=0)
 	{		
 				
 		$pos_data = array(
-            "pos_top_fk"   	=> $topic,
-			"pos_thr_fk"   	=> $thread,
-            "pos_usr_id" 	=> $user,
-            "pos_message"   => strip_tags(addslashes($message)),
-            "pos_date"   	=> date("Y-m-d H:i:s")            
-        );
+			"pos_top_fk"	=> $topic,
+			"pos_thr_fk"	=> $thread,
+			"pos_usr_id" 	=> $user,
+			"pos_message"=> strip_tags(addslashes($message)),
+			"pos_date"		=> date("Y-m-d H:i:s")            
+		);
 		
 		// insert new post into frm_posts
 		$q = "INSERT INTO frm_posts ";
@@ -273,53 +282,53 @@ class Forum
 		$result = $this->ilias->db->query($q);
 		
 		// get last insert id and return it
-		$query = "SELECT LAST_INSERT_ID()";
-		$res = $this->ilias->db->query($query);
-		$lastInsert = $res->fetchRow();					
+		$lastInsert = getLastInsertId();					
 		
 		// entry in tree-table
-		if ($parent_pos == 0) $this->addPostTree($thread, $lastInsert[0]);		
-		else $this->insertPostNode($lastInsert[0],$parent_pos,$thread);
+		if ($parent_pos == 0)
+		{
+			$this->addPostTree($thread, $lastInsert);
+		}		
+		else
+		{
+			$this->insertPostNode($lastInsert,$parent_pos,$thread);
+		}
 		
 		// string last post
-		$lastPost = $topic."#".$thread."#".$lastInsert[0];
+		$lastPost = $topic."#".$thread."#".$lastInsert;
 			
 		// update thread
 		$q = "UPDATE frm_threads SET thr_num_posts = thr_num_posts + 1, ";
-        $q .= "thr_last_post = '".$lastPost. "' ";        
+		$q .= "thr_last_post = '".$lastPost. "' ";        
 		$q .= "WHERE thr_pk = '" . $thread . "'";
-        $result = $this->ilias->db->query($q);
+		$result = $this->ilias->db->query($q);
 		
 		// update topic
-        $q = "UPDATE frm_data SET top_num_posts = top_num_posts + 1, ";
-        $q .= "top_last_post = '" .$lastPost. "' ";
-        $q .= "WHERE top_pk = '" . $topic . "'";
-        $result = $this->ilias->db->query($q);
+		$q = "UPDATE frm_data SET top_num_posts = top_num_posts + 1, ";
+		$q .= "top_last_post = '" .$lastPost. "' ";
+		$q .= "WHERE top_pk = '" . $topic . "'";
+		$result = $this->ilias->db->query($q);
 				
-		
-		return 	$lastInsert[0];
-		
+		return $lastInsert;
 	}
-	
 	
 	/**
 	* generate new dataset in frm_threads
-	* @param	int	$topic
-	* @param	int	$user
+	* @param	integer	$topic
+	* @param	integer	$user
 	* @param	string	$subject
 	* @param	string	$message
-	* @return int: new post ID
+	* @return	integer	new post ID
 	* @access public
 	*/
 	function generateThread($topic, $user, $subject, $message)
-	{			
-		
+	{
 		$thr_data = array(
-            "thr_top_fk"   	=> $topic,
-			"thr_usr_id" 	=> $user,
-            "thr_subject"   => addslashes($subject),
-            "thr_date"   	=> date("Y-m-d H:i:s")            
-        );
+			"thr_top_fk"	=> $topic,
+			"thr_usr_id"	=> $user,
+			"thr_subject"	=> addslashes($subject),
+			"thr_date"		=> date("Y-m-d H:i:s")
+		);
 		
 		// insert new thread into frm_threads
 		$q = "INSERT INTO frm_threads ";
@@ -329,26 +338,22 @@ class Forum
 		$result = $this->ilias->db->query($q);
 		
 		// get last insert id and return it
-		$query = "SELECT LAST_INSERT_ID()";
-		$res = $this->ilias->db->query($query);
-		$lastInsert = $res->fetchRow();				
+		$lastInsert = getLastInsertId();				
 				
 		// update topic
-        $q = "UPDATE frm_data SET top_num_threads = top_num_threads + 1 ";
-        $q .= "WHERE top_pk = '" . $topic . "'";
-        $result = $this->ilias->db->query($q);
+		$q = "UPDATE frm_data SET top_num_threads = top_num_threads + 1 ";
+		$q .= "WHERE top_pk = '" . $topic . "'";
+		$result = $this->ilias->db->query($q);
 		
-		return $this->generatePost($topic, $lastInsert[0], $user, $message);
-		
+		return $this->generatePost($topic, $lastInsert, $user, $message);
 	}
-	
 	
 	/**
 	* update dataset in frm_posts
-	* @param	int	$pos_pk	
+	* @param	integer	$pos_pk	
 	* @param	string	$message	
 	* @return	boolean
-	* @access public
+	* @access	public
 	*/
 	function updatePost($message, $pos_pk)
 	{		
@@ -361,15 +366,13 @@ class Forum
 		$res = $this->ilias->db->query($query);
 	
 		return true;		
-		
 	}
-	
 	
 	/**
 	* delete post and sub-posts
-	* @param	int	$post: ID	
-	* @access public
-	* @return int: 0 or thread-ID
+	* @param	integer	$post: ID	
+	* @access	public
+	* @return	integer	0 or thread-ID
 	*/
 	function deletePost($post)
 	{		
@@ -393,14 +396,13 @@ class Forum
 			$query2 = "UPDATE frm_data ".
 					 "SET ".
 					 "top_num_threads = top_num_threads - 1 ".					
-					 "WHERE top_frm_fk = '".$_GET["obj_id"]."'";
+					 "WHERE top_frm_fk = '".$_GET["ref_id"]."'";
 			$this->ilias->db->query($query2);
 			
 			// delete all posts of this thread
 			$query3 = "DELETE FROM frm_posts ".
 					 "WHERE pos_thr_fk = '".$p_node["tree"]."'";					 
 			$this->ilias->db->query($query3);				
-			
 		}
 		else
 		{
@@ -426,48 +428,63 @@ class Forum
 			
 			$res1 = $this->ilias->db->query($q);
 			
-			if ($res1->numRows() == 0) $lastPost_thr = "";
+			if ($res1->numRows() == 0)
+			{
+				$lastPost_thr = "";
+			}
 			else
 			{
 				$z = 0;
+
 				while ($selData = $res1->fetchRow(DB_FETCHMODE_ASSOC))
 				{
-					if ($z > 0) break;
+					if ($z > 0)
+					{
+						break;
+					}
+
 					$lastPost_thr = $selData["pos_top_fk"]."#".$selData["pos_thr_fk"]."#".$selData["pos_pk"];
 					$z ++;
 				}
 			}
 			
 			$query4 = "UPDATE frm_threads ".
-					 "SET ".
-					 "thr_last_post = '".$lastPost_thr."' ".					
-					 "WHERE thr_pk = '".$p_node["tree"]."'";
+					  "SET ".
+					  "thr_last_post = '".$lastPost_thr."' ".					
+					  "WHERE thr_pk = '".$p_node["tree"]."'";
 			$this->ilias->db->query($query4);	
-			
 		}
 		
 		// update num_posts in frm_data
 		$qu = "UPDATE frm_data ".
 			"SET ".
 			"top_num_posts = top_num_posts - $dead_pos ".					
-			"WHERE top_frm_fk = '".$_GET["obj_id"]."'";
+			"WHERE top_frm_fk = '".$_GET["ref_id"]."'";
 		$this->ilias->db->query($qu);
 		
 		// get latest post of forum and update last_post
 		$q = "SELECT * FROM frm_posts, frm_data WHERE ";
 		$q .= "pos_top_fk = top_pk AND ";
-		$q .= "top_frm_fk ='".$_GET["obj_id"]."' ";
+		$q .= "top_frm_fk ='".$_GET["ref_id"]."' ";
 		$q .= "ORDER BY pos_date DESC";
 		
 		$res2 = $this->ilias->db->query($q);
 		
-		if ($res2->numRows() == 0) $lastPost_top = "";
+		if ($res2->numRows() == 0)
+		{
+			$lastPost_top = "";
+		}
 		else
 		{
 			$z = 0;
+
 			while ($selData = $res2->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if ($z > 0) break;
+				if ($z > 0)
+				{
+					break;
+				}
+
 				$lastPost_top = $selData["pos_top_fk"]."#".$selData["pos_thr_fk"]."#".$selData["pos_pk"];
 				$z ++;
 			}
@@ -476,68 +493,66 @@ class Forum
 		$query5 = "UPDATE frm_data ".
 				 "SET ".
 				 "top_last_post = '".$lastPost_top."' ".					
-				 "WHERE top_frm_fk = '".$_GET["obj_id"]."'";
+				 "WHERE top_frm_fk = '".$_GET["ref_id"]."'";
 		$this->ilias->db->query($query5);		
-		
-	
+
 		return $dead_thr;		
-		
 	}
 	
-	
 	/**
-   	* get all threads of given forum
-	*
-	* @param int $topic: forum-ID
-	* @return object $res result identifier for use with fetchRow
-	* @access public
-   	*/
+	* get all threads of given forum
+	* @param	integer	$topic: forum-ID
+	* @return	object	$res result identifier for use with fetchRow
+	* @access	public
+	*/
 	function getThreadList($topic)
 	{
 		$q = "SELECT frm_threads.*, usr_data.lastname FROM frm_threads, usr_data WHERE ";
 		$q .= "thr_top_fk ='".$topic."' AND ";
 		$q .= "thr_usr_id = usr_id";
+
 		if ($this->orderField != "")
-			$q .= " ORDER BY ".$this->orderField;	
-		
+		{
+			$q .= " ORDER BY ".$this->orderField;
+		}
+	
 		$res = $this->ilias->db->query($q);			
-		
-		
+
 		return $res;
 	}
 	
 	
 	/**
-   	* get all posts of given thread
+	* get all posts of given thread
 	*
-	* @param int $topic: forum-ID
-	* @param int $thread: thread-ID
-	* @return object $res result identifier for use with fetchRow
-	* @access public
-   	*/
+	* @param	integer	$topic: forum-ID
+	* @param	integer	$thread: thread-ID
+	* @return	object	$res result identifier for use with fetchRow
+	* @access	public
+	*/
 	function getPostList($topic, $thread)
 	{
 		$q = "SELECT frm_posts.*, usr_data.lastname FROM frm_posts, usr_data WHERE ";
 		$q .= "pos_top_fk ='".$topic."' AND ";
 		$q .= "pos_thr_fk ='".$thread."' AND ";
 		$q .= "pos_usr_id = usr_id";
+
 		if ($this->orderField != "")
+		{
 			$q .= " ORDER BY ".$this->orderField;
+		}
 		
 		$res = $this->ilias->db->query($q);			
-		
-		
+
 		return $res;
 	}
-	
-	
+
 	/**
-   	* get content of given ID's
-	*
-	* @param string $lastPost: ID's, separated with #
-	* @return array $result 
-	* @access public
-   	*/
+	* get content of given ID's
+	* @param	string	$lastPost: ID's, separated with #
+	* @return	array	$result 
+	* @access	public
+	*/
 	function getLastPost($lastPost)
 	{
 		$LP = explode("#", $lastPost);		
@@ -554,44 +569,42 @@ class Forum
 		$result["pos_message"] = $this->prepareText($result["pos_message"],2);
 		
 		if (strpos($result["pos_message"], $this->txtQuote2) > 0)
-		{			
+		{
 			$viewPos = strrpos($result["pos_message"], $this->txtQuote2) + strlen($this->txtQuote2);
 			$result["pos_message"] = substr($result["pos_message"], $viewPos);				
-		}			
+		}
+		
 		if (strlen($result["pos_message"]) > 40)
 			$result["pos_message"] = substr($result["pos_message"], 0, 37)."...";
 		
 		$result["pos_message"] = stripslashes($result["pos_message"]);
-				
+	
 		// convert date
 		$result["pos_date"] = $this->convertDate($result["pos_date"]);
 				
-		
 		return $result;
 	}	
 	
-	
 	/**
-   	* get content of given user-ID
+	* get content of given user-ID
 	*
-	* @param int $mod_user_id: user-ID
-	* @return array 
-	* @access public
+	* @param	integer $a_user_id: user-ID
+	* @return	object	user object 
+	* @access	public
    	*/
-	function getUser($mod_user_id)
+	function getUser($a_user_id)
 	{
-		$userObj = new User($mod_user_id);
+		$userObj = new User($a_user_id);
 		
 		return $userObj;
 	}
 	
-	
 	/**
    	* checks edit-right for given post-ID
 	*
-	* @param int $post_id: post-ID
+	* @param	integer	$post_id: post-ID
 	* @return	boolean
-	* @access public
+	* @access	public
    	*/
 	function checkEditRight($post_id)
 	{
@@ -601,25 +614,30 @@ class Forum
 		$q = "SELECT * FROM frm_posts WHERE ";
 		$q .= "pos_usr_id ='".$_SESSION["AccountId"]."' ";
 		$q .= "AND pos_pk ='".$post_id."'";
-				
 		$res = $this->ilias->db->query($q);			
 		
 		// if not, is he authorised to edit?
-		if ($res->numRows() > 0) 
+		if ($res->numRows() > 0)
+		{
 			return true;
-		elseif ($rbacsystem->checkAccess("edit post", $_GET["obj_id"], $_GET["parent"]))
+		}
+		elseif ($rbacsystem->checkAccess("edit post", $_GET["ref_id"]))
+		{
 			return true;		
+		}
 		else
+		{
 			return false;
+		}
 	}
 	
 	
 	/**
    	* get number of articles from given user-ID
 	*
-	* @param int $user: user-ID
-	* @return int
-	* @access public
+	* @param	integer	$user: user-ID
+	* @return	integer
+	* @access	public
    	*/
 	function countUserArticles($user)
 	{
@@ -631,37 +649,38 @@ class Forum
 		return $res->numRows();
 	}
 	
-	
 	/**
    	* builds a string to show the forum-context
-	*
-	* @param int $obj_id
-	* @param int $parent_id
-	* @return string
-	* @access public
+	* @param	integer	$ref_id
+	* @param	integer	$parent_id //OBSOLETE
+	* @return	string
+	* @access	public
    	*/
-	function getForumPath($obj_id, $parent_id)
+	function getForumPath($a_ref_id)
 	{
 		global $tree;		
 		
 		$path = "";		
 					
-		$tmpPath = $tree->getPathFull($obj_id, $parent_id);		
+		$tmpPath = $tree->getPathFull($a_ref_id);		
 		// count -1, to exclude the forum itself
 		for ($i = 0; $i < (count($tmpPath)-1); $i++)
 		{
-			if ($path != "") $path .= " > ";
+			if ($path != "")
+			{
+				$path .= " > ";
+			}
+
 			$path .= $tmpPath[$i]["title"];						
 		}						
 		
 		return $path;
 	}
 	
-	
 	/**
     * converts the date format
-    * @param	string $date 
-    * @return	formatted datetime
+    * @param	string	$date 
+    * @return	string	formatted datetime
     * @access	public
     */
     function convertDate($date)
@@ -698,7 +717,6 @@ class Forum
 		return true;
 	}
 	
-	
 	/**
 	* insert node under parent node
 	* @access	public
@@ -712,7 +730,6 @@ class Forum
 	    $query = "SELECT * FROM frm_posts_tree ".
 		   "WHERE pos_fk = '".$a_parent_id."' ".		   
 		   "AND thr_fk = '".$tree_id."'";
-
 	    $res = $this->ilias->db->getRow($query);
 		
 		$left = $res->lft;
@@ -733,7 +750,6 @@ class Forum
 				 "ELSE rgt ".
 				 "END ".
 				 "WHERE thr_fk = '".$tree_id."'";
-
 		$this->ilias->db->query($query);
 		
 		$depth = $this->getPostDepth($a_parent_id, $tree_id) + 1;
@@ -744,8 +760,7 @@ class Forum
 				 "('".$tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."','".date("Y-m-d H:i:s")."')";
 		$this->ilias->db->query($query);
 	}
-	
-	
+
 	/**
 	* Return depth of an object
 	* @access	private
@@ -770,8 +785,7 @@ class Forum
 			return 0;
 		}
 	}
-	
-	
+
 	/**
 	* get all nodes in the subtree under specified node
 	* 
@@ -779,7 +793,6 @@ class Forum
 	* @param	array		node_data
 	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
 	*/
-	
 	function getPostTree($a_node)
 	{
 	    $subtree = array();
@@ -800,8 +813,7 @@ class Forum
 					
 		return $subtree;
 	}
-	
-	
+
 	/**
 	* get data of the first node from frm_posts_tree and frm_posts
 	* @access	public
@@ -820,8 +832,7 @@ class Forum
 
 		return $this->fetchPostNodeData($row);
 	}
-	
-	
+
 	/**
 	* get data of given node from frm_posts_tree and frm_posts
 	* @access	public
@@ -839,8 +850,7 @@ class Forum
 
 		return $this->fetchPostNodeData($row);
 	}
-	
-	
+
 	/**
 	* get data of parent node from frm_posts_tree and frm_posts
 	* @access	private
@@ -869,14 +879,12 @@ class Forum
 		
 		return $data ? $data : array();
 	}
-	
-	
-	
+
 	/**
 	* delete node and the whole subtree under this node
 	* @access	public
-	* @param	array		node_data of a node
-	* @return array: ID's of deleted posts
+	* @param	array	node_data of a node
+	* @return	array	ID's of deleted posts
 	*/
 	function deletePostTree($a_node)
 	{
@@ -886,6 +894,7 @@ class Forum
 			"AND pos_fk = '".$a_node["pos_pk"]."' ".
 			"AND parent_pos = '".$a_node["parent"]."'";
 		$res = $this->ilias->db->query($query);
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$a_node["lft"] = $row->lft;
@@ -930,12 +939,11 @@ class Forum
 		
 		return $del_id;
 	}
-	
-	
+
 	/**
 	* update page hits of given forum- or thread-ID
 	* @access	public
-	* @param	int	
+	* @param	integer	
 	*/
 	function updateVisits($ID)
 	{
@@ -954,13 +962,12 @@ class Forum
 		
 		$this->setWhereCondition("1");
 	}
-	
-	
+
 	/**
 	* prepares given string
 	* @access	public
 	* @param	string	
-	* @param	int	
+	* @param	integer	
 	* @return	string	
 	*/
 	function prepareText($text,$edit=0)
@@ -983,6 +990,7 @@ class Forum
 				if ($startZ > $endZ) 
 				{
 					$diff = $startZ - $endZ;
+
 					for ($i = 0; $i < $diff; $i++)
 					{
 						$text .= $this->txtQuote2;
@@ -991,6 +999,7 @@ class Forum
 				elseif ($startZ < $endZ)
 				{
 					$diff = $endZ - $startZ;
+
 					for ($i = 0; $i < $diff; $i++)
 					{				
 						$text = $this->txtQuote1.$text;
@@ -1018,17 +1027,10 @@ class Forum
 					$text = str_replace($this->txtQuote1, $this->replQuote1, $text);		
 					$text = str_replace($this->txtQuote2, $this->replQuote2, $text);					
 				}
-			
 			}		
 		}
-		
 		$text = stripslashes($text);
-		
 		return $text;
 	}
-	
-	
-	
 } // END class.Forum
-
 ?>

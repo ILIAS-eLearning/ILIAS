@@ -11,8 +11,8 @@ class RbacReview
 {
     /**
 	* ilias object
-	* @var object ilias
-	* @access public
+	* @var		object	ilias
+	* @access	public
 	*/
 	var $ilias;
 
@@ -28,350 +28,167 @@ class RbacReview
 	}
 
 	/**
-	* DESCRIPTION MISSING
+	* get all assigned users to a given role
 	* @access	public
-	* @param	integer
-	* @return	array		2-dim array: role_id <-> user_id
+	* @param	integer	role_id
+	* @return	array	all users (id) assigned to role
 	*/
 	function assignedUsers($a_rol_id)
 	{
-	    $usr = array();
+	    $usr_arr = array();
 	   
-		$query = "SELECT usr_id FROM rbac_ua WHERE rol_id='".$a_rol_id."'";
-		$res = $this->ilias->db->query($query);
+		$q = "SELECT usr_id FROM rbac_ua WHERE rol_id='".$a_rol_id."'";
+		$r = $this->ilias->db->query($q);
 
-		while($row = $res->fetchRow())
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			array_push($usr,$row[0]);
+			array_push($usr_arr,$row["usr_id"]);
 		}
-
-		return $usr;
+		
+		return $usr_arr;
 	}
 	
 	/**
-	* get user data
-	* @access	public
-	* @param	integer
-	* @return	array		user data
-	*/
-	function getUserData($a_usr_id)
-	{
-		$query = "SELECT * FROM usr_data WHERE usr_id='".$a_usr_id."'";
-		$res = $this->ilias->db->query($query);	
-
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{	
-			$arr = array(
-						"usr_id"		=>	$row->usr_id,
-						"login"			=>	$row->login,
-						"firstname"		=>	$row->firstname,
-						"lastname"		=>	$row->lastname,
-						"title"			=>	$row->title,
-						"gender"		=>	$row->gender,	
-						"email"			=>	$row->email,
-						"last_login"	=>	$row->last_login,
-						"last_update"	=>	$row->last_update,
-						"create_date"	=>	$row->create_date
-						);
-		}
-		
-		return $arr;
-	}
-
-	/**
-	* DESCRIPTION MISSING
+	* get all assigned roles to a given user
 	* @access	public
 	* @param	integer		usr_id
-	* @return	integer		RoleID des Users
+	* @return	array		all roles (id) the user have
 	*/
 	function assignedRoles($a_usr_id)
 	{
-		$rol = array();
+		$role_arr = array();
 		
-		$query = "SELECT rol_id FROM rbac_ua WHERE usr_id = '".$a_usr_id."'";
-		$res = $this->ilias->db->query($query);
+		$q = "SELECT rol_id FROM rbac_ua WHERE usr_id = '".$a_usr_id."'";
+		$r = $this->ilias->db->query($q);
 
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$rol[] = $row->rol_id;
+			$role_arr[] = $row->rol_id;
 		}
 
-		if (!count($rol))
+		if (!count($role_arr))
 		{
-			$this->ilias->raiseError("No such user",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError("No assigned roles found or user doesn't exists!",$this->ilias->error_obj->WARNING);
 		}
 
-		return $rol;
+		return $role_arr;
 	}
 
 	/**
 	* DESCRIPTION MISSING
+	* TODO: function is very similar to perm:getOperationList ????
 	* @access	public
-	* @param	integer		usr_id
-	* @return	string		Role Title des Users
-	*/
-	function assignedRoleTitles($a_usr_id)
-	{
-		$query = "SELECT title FROM object_data ".
-				 "JOIN rbac_ua ".
-				 "WHERE object_data.obj_id = rbac_ua.rol_id ".
-				 "AND rbac_ua.usr_id = '".$a_usr_id."'";
-		$res = $this->ilias->db->query($query);
-
-		while ($row = $res->fetchRow())
-		{
-			$role_title[] = $row[0];
-		}
-
-		if (!count($rol))
-		{
-			$this->ilias->raiseError("No such role",$this->ilias->error_obj->WARNING);
-		}
-
-		return $role_title;
-	}
-
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	* @param	integer
-	* @param	integer
-	* @return	array		2-dim. Array: Objekt-Permissions,Object-ID zu einer Rolle
-	*/
-	function rolePermissons($a_rol_id,$a_obj_id = 0)
-	{
-		$ops = array();
-		   
-		$query = "SELECT ops_id,obj_id FROM rbac_pa WHERE rol_id='".$a_rol_id."'";
-
-		if ($a_obj_id)
-		{
-			$query .= " AND obj_id='".$a_obj_id."'";
-		}
-		
-		$res = $this->ilias->db->query($query);
-
-		while ($row = $res->fetchRow())
-		{
-			array_push($ops,$row[0],$row[1]);
-		}
-
-		if (!count($ops))
-		{
-			$this->ilias->raiseError("No such Role or Object!",$this->ilias->error_obj->WARNING);
-		}
-
-		return $ops;
-	}
-	
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	* @param	integer		user_id
-	* @return	array		object permissions of a user
-	*/
-	function userPermissions($a_usr_id)
-	{
-		$ops = array();
-
-		$query = "SELECT ops_id,obj_id FROM rbac_pa ".
-				 "JOIN rbac_ua WHERE rbac_ua.usr_id='".$a_usr_id."'";
-		$res = $this->ilias->db->query($query);
-
-		while ($row = $res->fetchRow())
-		{
-			array_push($ops,$row[0]);
-		}
-
-		if (!count($ops))
-		{
-			$this->ilias->raiseError("No such user",$this->ilias->error_obj->WARNING);
-		}
-
-		return $ops;
-	}
-
-	/**
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	*/
-	function getErrorMessage()
-	{
-		return $this->Error;
-	}
-	
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	*/
-	function createSession()
-	{
-
-	}
-
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	*/
-	function deleteSession()
-	{
-
-	}
-	
-	/**
-	* adds an active role in $_SESSION["RoleId"]
-	* @access	public
-	*/
-	function addActiveRole()
-	{
-
-	}
-
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	*/
-	function dropActiveRole()
-	{
-
-	}
-
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	*/
-	function sessionRoles()
-	{
-
-	}
-	
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	*/
-	function sessionPermissions()
-	{
-	}
-	
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	* @param	integer 	role_id
-	* @param	integer 	object_id
-	* @return	array		2-dim array: permissions for role/object 
-	*/
-	function roleOperationsOnObject($a_rol_id,$a_obj_id)
-	{
-		$query = "SELECT ops_id FROM rbac_pa ".
-				 "WHERE rol_id='".$a_rol_id."' ".
-				 "AND obj_id='".$a_obj_id."'";
-		$res = $this->ilias->db->query($query);
-
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$ops = unserialize(stripslashes($row->ops_id));
-		}
-
-		if (!count($ops))
-		{
-			$this->ilias->raiseError("No such role or object",$this->ilias->error_obj->WARNING);
-		}
-
-		return $ops ? $ops : array();
-	}
-
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	* @param	integer
-	* @param	string
-	* @param	integer
-	* @return	array	Array of operation_id
+	* @param	integer	role_id
+	* @param	string	object type
+	* @param	integer	???
+	* @return	array	array of operation_id
 	*/
 	function getOperations($a_rol_id,$a_type,$a_parent = 0)
 	{
-		$ops = array();
+		$ops_arr = array();
 
 		// TODO: what happens if $a_parent is empty???????
 		
-		$query = "SELECT ops_id FROM rbac_templates ".
-				 "WHERE type ='".$a_type."' ".
-				 "AND rol_id = '".$a_rol_id."' ".
-				 "AND parent = '".$a_parent."'";
-		$res  = $this->ilias->db->query($query);
+		$q = "SELECT ops_id FROM rbac_templates ".
+			 "WHERE type ='".$a_type."' ".
+			 "AND rol_id = '".$a_rol_id."' ".
+			 "AND parent = '".$a_parent."'";
+		$r  = $this->ilias->db->query($q);
 
-//		if($res->numRows == 0)
-//		{
-//			return $this->raiseError("No such type or template entry",$this->error_class->WARNING);
-//		}
-
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$ops[] = $row->ops_id;
+			$ops_arr[] = $row->ops_id;
 		}
 
-		return $ops;
+		return $ops_arr;
 	}
 
-	/**
-	* DESCRIPTION MISSING
-	* @access	public
-	* @param	integer
-	* @param	integer
-	* @return	array		permissions of user/object
-	*/
 	function userOperationsOnObject($a_usr_id,$a_obj_id)
 	{
-		$ops = array();
 
-		$query = "SELECT ops_id FROM rbac_pa ".
-				 "JOIN rbac_ua WHERE rbac_ua.usr_id='".$a_usr_id."'";
-		$res = $this->ilias->db->query($query);
-
-		while ($row = $res->fetchRow())
-		{
-			array_push($ops,$row[0]);
-		}
-
-		if (!count($ops))
-		{
-			$this->ilias->raiseError("No such user",$this->ilias->error_obj->WARNING);
-		}
-
-		return $ops;
 	}
 
 	/**
 	* Assign an existing permission to an object 
 	* @access	public
-	* @param	integer
-	* @param	integer
+	* @param	integer	object type
+	* @param	integer	operation_id
 	* @return	boolean
 	*/
 	function assignPermissionToObject($a_type_id,$a_ops_id)
 	{
-		$query = "INSERT INTO rbac_ta ".
-				 "VALUES('".$a_type_id."','".$a_ops_id."')";
-		$res = $this->ilias->db->query($query);
+		$q = "INSERT INTO rbac_ta ".
+			 "VALUES('".$a_type_id."','".$a_ops_id."')";
+		$this->ilias->db->query($q);
 
 		return true;
 	}
+
 	/**
 	* Deassign an existing permission from an object 
 	* @access	public
-	* @param	integer
-	* @param	integer
+	* @param	integer	object type
+	* @param	integer	operation_id
 	* @return	boolean
 	*/
 	function deassignPermissionFromObject($a_type_id,$a_ops_id)
 	{
-		$query = "DELETE FROM rbac_ta ".
-			"WHERE typ_id = '".$a_type_id."' ".
-			"AND ops_id = '".$a_ops_id."'";
-		$res = $this->ilias->db->query($query);
+		$q = "DELETE FROM rbac_ta ".
+			 "WHERE typ_id = '".$a_type_id."' ".
+			 "AND ops_id = '".$a_ops_id."'";
+		$this->ilias->db->query($q);
+	
 		return true;
 	}
+	
+	function rolePermissons($a_rol_id,$a_obj_id = 0)
+	{
 
+	}
+	
+	function userPermissions($a_usr_id)
+	{
+
+	}
+
+	function getErrorMessage()
+	{
+		return $this->Error;
+	}
+	
+	function createSession()
+	{
+
+	}
+
+	function deleteSession()
+	{
+
+	}
+	
+	function addActiveRole()
+	{
+
+	}
+
+	function dropActiveRole()
+	{
+
+	}
+
+	function sessionRoles()
+	{
+
+	}
+	
+	function sessionPermissions()
+	{
+	
+	}
+	
+	function roleOperationsOnObject($a_rol_id,$a_obj_id)
+	{
+
+	}
 } // END class.RbacReview
 ?>

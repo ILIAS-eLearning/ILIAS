@@ -3,7 +3,7 @@
 * Class UserFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserFolderObjectOut.php,v 1.2 2003/02/25 17:36:49 akill Exp $
+* $Id$Id: class.UserFolderObjectOut.php,v 1.3 2003/02/26 13:44:10 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -15,9 +15,10 @@ class UserFolderObjectOut extends ObjectOut
 	* Constructor
 	* @access public
 	*/
-	function UserFolderObjectOut($a_data)
+	function UserFolderObjectOut($a_data,$a_id,$a_call_by_reference)
 	{
-		$this->ObjectOut($a_data);
+		$this->type = "usrf";
+		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
 	}
 
 	/**
@@ -33,7 +34,7 @@ class UserFolderObjectOut extends ObjectOut
 		$this->data["ctrl"] = array();
 
 		$this->data["cols"] = array("", "type", "name", "description", "last_change");
-		if ($rbacsystem->checkAccess("read", $_GET["obj_id"], $_GET["parent"]))
+		if ($rbacsystem->checkAccess("read", $_GET["ref_id"]))
 		{
 			if ($usr_data = getObjectList("usr",$_GET["order"], $_GET["direction"]))
 			{
@@ -49,15 +50,11 @@ class UserFolderObjectOut extends ObjectOut
 
 					//control information
 					$this->data["ctrl"][] = array(
-						"type" => "usr",
-						"obj_id" => $val["obj_id"],
-						"parent" => $_GET["obj_id"],
-						"parent_parent" => $_GET["parent"],
+						"ref_id"	=> $this->id,
+						"obj_id"	=> $val["obj_id"],
+						"type"		=> "usr"
 					);
-
 				}
-
-
 			} //if userdata
 
 			parent::displayList();
@@ -68,6 +65,5 @@ class UserFolderObjectOut extends ObjectOut
 			$ilias->raiseError("No permission to read user folder",$ilias->error_obj->MESSAGE);
 		}
 	} //function
-
 } // END class.UserFolderObjectOut
 ?>

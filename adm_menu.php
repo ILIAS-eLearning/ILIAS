@@ -2,7 +2,6 @@
 require_once "include/inc.header.php";
 require_once "classes/class.Explorer.php";
 
-
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 $explorer = new Explorer("adm_object.php");
@@ -31,5 +30,4 @@ $tpl->setVariable("ACTION", "adm_menu.php?expand=".$_GET["expand"]);
 $tpl->parseCurrentBlock();
 
 $tpl->show();
-
 ?>

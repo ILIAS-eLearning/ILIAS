@@ -65,7 +65,7 @@ class Explorer
 		$this->output = "";
 		$this->expanded = array();
 		$this->target = $a_target;		
-		$this->tree = new Tree(1,0);
+		$this->tree = new Tree(ROOT_FOLDER_ID);
 		$this->frameTarget = "content";
 	}
 	
@@ -102,7 +102,7 @@ class Explorer
 						}
 
 						$this->format_options["$counter"]["parent"] = $object["parent"];
-						$this->format_options["$counter"]["obj_id"] = $object["id"];
+						$this->format_options["$counter"]["ref_id"] = $object["id"];
 						$this->format_options["$counter"]["title"] = $object["title"];
 						$this->format_options["$counter"]["type"] = $object["type"];
 						$this->format_options["$counter"]["depth"] = $tab;
@@ -168,7 +168,7 @@ class Explorer
 		{
 			if ($options["visible"] or $key == 0 )
 			{
-				$this->formatObject($options["obj_id"],$options);
+				$this->formatObject($options["ref_id"],$options);
 			}
 		}
 
@@ -183,7 +183,7 @@ class Explorer
 	* @param	integer
 	* @return	string
 	*/
-	function formatObject($a_obj_id,$a_option)
+	function formatObject($a_ref_id,$a_option)
 	{
 		$tpl = new Template("tpl.tree.html", true, true);
 		
@@ -191,7 +191,7 @@ class Explorer
 		{
 			if ($picture == 'plus')
 			{
-				$target = $this->createTarget('+',$a_obj_id);
+				$target = $this->createTarget('+',$a_ref_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET", $target);
 				$tpl->setVariable("ICONIMG", $picture);
@@ -199,7 +199,7 @@ class Explorer
 			}
 			if ($picture == 'minus')
 			{
-				$target = $this->createTarget('-',$a_obj_id);
+				$target = $this->createTarget('-',$a_ref_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET", $target);
 				$tpl->setVariable("ICONIMG", $picture);
@@ -216,7 +216,7 @@ class Explorer
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", $a_option["type"]);
-		$tpl->setVariable("LINK_TARGET", $this->target."?obj_id=".$a_obj_id."&parent=".$a_option["parent"]);
+		$tpl->setVariable("LINK_TARGET", $this->target."?ref_id=".$a_ref_id);
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
 		if ($this->frameTarget != "")
@@ -235,15 +235,15 @@ class Explorer
 	* @param	integer
 	* @return	string
 	*/
-	function createTarget($a_type,$a_obj_id)
+	function createTarget($a_type,$a_ref_id)
 	{
 		// SET expand parameter:
 		//     positive if object is expanded
 		//     negative if object is compressed
-		$a_obj_id = $a_type == '+' ? $a_obj_id : -(int) $a_obj_id;
+		$a_ref_id = $a_type == '+' ? $a_ref_id : -(int) $a_ref_id;
 
-		return $_SERVER["SCRIPT_NAME"]."?expand=".$a_obj_id.
-			"&amp;obj_id=".$_GET["obj_id"]."&amp;parent=".$_GET["parent"];
+		return $_SERVER["SCRIPT_NAME"]."?expand=".$a_ref_id.
+			"&amp;ref_id=".$_GET["ref_id"];
 	}
 
 	/**
@@ -320,7 +320,7 @@ class Explorer
 	}
 
 	/**
-	* get index of format_options array from specific obj_id,parent_id
+	* get index of format_options array from specific ref_id,parent_id
 	* @access	private
 	* @param	array		object data
 	* @return	integer		index
@@ -329,14 +329,14 @@ class Explorer
 	{
 		foreach ($this->format_options as $key => $value)
 		{
-			if (($value["obj_id"] == $a_data["obj_id"]) 
+			if (($value["ref_id"] == $a_data["ref_id"]) 
 			   && ($value["parent"] == $a_data["parent"]))
 			{
 				return $key;
 			}
 		}
 
-		$this->ilias->raiseError(get_class($this).": Error in tree",$this->ilias->error_obj->FATAL);
+		$this->ilias->raiseError(get_class($this).": Error in tree. No index found",$this->ilias->error_obj->FATAL);
 	}
 
 	/**

@@ -3,7 +3,7 @@
 * Class RoleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id$
+* $Id$Id: class.RoleObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -15,9 +15,10 @@ class RoleObjectOut extends ObjectOut
 	* Constructor
 	* @access public
 	*/
-	function RoleObjectOut($a_data)
+	function RoleObjectOut($a_data,$a_id,$a_call_by_reference)
 	{
-		$this->ObjectOut($a_data);
+		$this->type = "role";
+		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
 	}
 
 	function updateObject()

@@ -4,7 +4,7 @@
  * Objectmanagement functions
  * 
  * @author Stefan Meyer <smeyer@databay.de>
- * @author SAscha Hofamnn <shofmann@databay.de> 
+ * @author SAscha Hofmann <shofmann@databay.de> 
  * @version $Id$
  * 
  * @package ilias-core
@@ -12,24 +12,23 @@
 class Admin 
 {
 	/**
-	 * ilias object
-	 * @var object ilias
-	 * @access private
-	 */
+	* ilias object
+	* @var	object	ilias
+	* @access	private
+	*/
 	var $ilias;
 	
 	/**
-	 * language object
-	 * @var object language
-	 * @access private
-	 */
+	* language object
+	* @var	object	language
+	* @access	private
+	*/
 	var $lng;
 
-
 	/**
-	 * Constructor
-	 * @access public
-	 */
+	* Constructor
+	* @access	public
+	*/
 	function Admin()
 	{
 		global $ilias, $lng;
@@ -40,10 +39,10 @@ class Admin
 	
 	/**
 	 * cut an object out from tree an copy information to clipboard
-	 * @access public
-	 * @param array of obj_ids to delete
-	 * @param delete command
-	 * @param obj_id
+	 * @access	public
+	 * @param	array	array of obj_ids to delete
+	 * @param	string	delete command
+	 * @param	integer	obj_id
 	 */
 	function cutObject($a_post_data,$a_post_cmd,$a_obj_id)
 	{
@@ -86,10 +85,10 @@ class Admin
 	}
 	
 	/**
-	 * create an new reference of an object in tree
-	 * it's like a hard link of unix
-	 * @access public
-	 */	
+	* create an new reference of an object in tree
+	* it's like a hard link of unix
+	* @access public
+	*/	
 	function linkObject($a_post_data,$a_post_cmd,$a_obj_id)
 	{
 		global $clipboard,$tree,$rbacsystem,$rbacadmin,$objDefinition;
@@ -182,7 +181,6 @@ class Admin
 		$_SESSION["clipboard"] = $clipboard;
 	}
 		
-
 	function pasteObject($a_obj_id,$a_parent_id)
 	{
 		global $rbacsystem,$tree,$objDefinition,$lng;
@@ -221,41 +219,47 @@ class Admin
 				$not_allowed_subobject[] = $obj_data["type"];
 			}
 		}
+
 		if(count($exists))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_obj_exists"),$this->ilias->error_obj->MESSAGE);
 		}
+
 		if(count($is_child))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
 									 $this->ilias->error_obj->MESSAGE);
 		}
+
 		if(count($not_allowed_subobject))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
 									 $this->ilias->error_obj->MESSAGE);
 		}
+
 		if(count($no_paste))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ". 
 									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 		}
-		foreach($_SESSION["clipboard"] as $id => $object)
+
+		foreach ($_SESSION["clipboard"] as $id => $object)
 		{
 			$this->insertSavedNodes($id,$object["parent"],$a_obj_id,$a_parent_id,-(int) $id);
 		}
+
 		$this->clearObject();
 	}
 
 	/**
-	 * clone Object subtree
-	 * @access private
-	 */	
+	* clone Object subtree
+	* @access	private
+	*/	
 	function cloneObject($a_obj_id,$a_parent_id)
 	{
 		global $objDefinition,$tree,$rbacsystem;
 
-		foreach($_SESSION["clipboard"] as $id => $object)
+		foreach ($_SESSION["clipboard"] as $id => $object)
 		{
 			// CHECK SOME THNGS
 			$obj_data = getObject($id);
@@ -268,36 +272,40 @@ class Admin
 			}
 
 			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
-			if($tree->isGrandChild($id,$object["parent"],$a_obj_id,$a_parent_id))
+			if ($tree->isGrandChild($id,$object["parent"],$a_obj_id,$a_parent_id))
 			{
 				$is_child[] = $id;
 			}
 
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 			$object = getObject($a_obj_id);
-			if(!in_array($obj_data["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
+
+			if (!in_array($obj_data["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
 			{
 				$not_allowed_subobject[] = $obj_data["type"];
 			}
 		}
-		if(count($no_paste))
+
+		if (count($no_paste))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create")." ".
 									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 		}
-		if(count($is_child))
+
+		if (count($is_child))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
 									 $this->ilias->error_obj->MESSAGE);
 		}
-		if(count($not_allowed_subobject))
+
+		if (count($not_allowed_subobject))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
 									 $this->ilias->error_obj->MESSAGE);
 		}
 		// NOW CLONE ALL OBJECTS
 		// THERFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
-		foreach($_SESSION["clipboard"] as $id => $object)
+		foreach ($_SESSION["clipboard"] as $id => $object)
 		{
 			$this->cloneSavedNodes($id,$object["parent"],$a_obj_id,$a_parent_id,-(int) $id);
 		}
@@ -305,18 +313,19 @@ class Admin
 	}
 	
 	/**
-	 * remove clipboard from session
-	 * @access private
+	* remove clipboard from session
+	* @access	private
 	*/	
 	function clearObject()
 	{
 		foreach($_SESSION["clipboard"] as $id => $object)
 		{
-			$saved_tree = new Tree($id,$object["parent"],0,-(int)$id);
+			$saved_tree = new Tree($id,0,-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id,$object["parent"]));
 		}
 		session_unregister("clipboard");
 	}
+
 	function cloneSavedNodes($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent,$a_tree_id)
 	{
 		global $tree;
@@ -324,7 +333,7 @@ class Admin
 		$object = getObject($a_source_id);
 		$new_object_id = $this->callCloneMethod($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent,$object["type"]);
 
-		$saved_tree = new Tree($a_source_id,$a_source_parent,0,$a_tree_id);
+		$saved_tree = new Tree($a_source_id,0,$a_tree_id);
 		$childs = $saved_tree->getChilds($a_source_id);
 		foreach($childs as $child)
 		{
@@ -332,11 +341,10 @@ class Admin
 		}
 	}
 
-
 	/**
-	 * recursive method to insert all saved nodes of the clipboard
-	 * @access private
-	 */	
+	* recursive method to insert all saved nodes of the clipboard
+	* @access	private
+	*/	
 	function insertSavedNodes($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent,$a_tree_id)
 	{
 		global $tree,$rbacadmin,$rbacreview;
@@ -346,28 +354,29 @@ class Admin
 		// SET PERMISSIONS
 		$parentRoles = $rbacadmin->getParentRoleIds($a_dest_id,$a_dest_parent);
 		$obj = getObject($a_source_id);
+
 		foreach ($parentRoles as $parRol)
 		{
 			$ops = $rbacreview->getOperations($parRol["obj_id"], $obj["type"], $parRol["parent"]);
 			$rbacadmin->grantPermission($parRol["obj_id"],$ops,$a_source_id,$a_dest_id);
 		}
 
-		$saved_tree = new Tree($a_source_id,$a_source_parent,0,$a_tree_id);
+		$saved_tree = new Tree($a_source_id,0,$a_tree_id);
 		$childs = $saved_tree->getChilds($a_source_id);
+
 		foreach($childs as $child)
 		{
 			$this->insertSavedNodes($child["child"],$child["parent"],$a_source_id,$a_dest_id,$a_tree_id);
 		}
 	}
 
-
 	/**
-	 * delete objects from ILIAS
-	 * However objects are only removed from tree!! That means that the objects
-	 * itself stay in the database but are not linked in any context within the system.
-	 * Trash Bin Feature: Objects can be refreshed in trash
-	 * @access public
-	 */
+	* delete objects from ILIAS
+	* However objects are only removed from tree!! That means that the objects
+	* itself stay in the database but are not linked in any context within the system.
+	* Trash Bin Feature: Objects can be refreshed in trash
+	* @access	public
+	*/
 	function deleteObject($a_post_data,$a_obj_id,$a_parent_id)
 	{
 		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
@@ -379,7 +388,7 @@ class Admin
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		// FOR ALL SELECTED OBJECTS
-		foreach($a_post_data as $id)
+		foreach ($a_post_data as $id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
 			$node_data = $tree->getNodeData($id,$a_obj_id);
@@ -389,27 +398,28 @@ class Admin
 			$all_subtree_nodes[] = $subtree_nodes;
 
 			// CHECK DELETE PERMISSION OF ALL OBJECTS
-			foreach($subtree_nodes as $node)
+			foreach ($subtree_nodes as $node)
 			{
-				if(!$rbacsystem->checkAccess('delete',$node["obj_id"],$node["parent"]))
+				if (!$rbacsystem->checkAccess('delete',$node["obj_id"],$node["parent"]))
 				{
 					$not_deletable[] = $node["obj_id"];
 					$perform_delete = false;
 				}
 			}
 		}
+
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
-		if(count($not_deletable))
+		if (count($not_deletable))
 		{
 			$not_deletable = implode(',',$not_deletable);
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ". 
 									 $not_deletable,$this->ilias->error_obj->MESSAGE);
 		}
+
 		// DELETE THEM
-		if(!$all_node_data[0]["type"])
+		if (!$all_node_data[0]["type"])
 		{
 			// OBJECTS ARE NO 'TREE OBJECTS'
-			
 			if($rbacsystem->checkAccess('delete',$a_obj_id,$a_parent_id))
 			{
 				foreach($a_post_data as $id)
@@ -426,27 +436,31 @@ class Admin
 		else
 		{
 			// SAVE SUBTREE AND DELETE SUBTREE FROM TREE
-			foreach($a_post_data as $id)
+			foreach ($a_post_data as $id)
 			{
 				// DELETE OLD PERMISSION ENTRIES
 				$subnodes = $tree->getSubtree($tree->getNodeData($id,$a_obj_id));
-				foreach($subnodes as $subnode)
+	
+				foreach ($subnodes as $subnode)
 				{
 					$rbacadmin->revokePermission($subnode["obj_id"],$subnode["parent"]);
 				}
+
 				$tree->saveSubtree($id,$a_obj_id,1);
 				$tree->deleteTree($tree->getNodeData($id,$a_obj_id));
 			}
 		}
+
 		$this->ilias->error_obj->sendInfo($this->lng->txt("info_deleted"));
 	}
+
 	/**
-	 * remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method 
-	 * @param array of id to remove
-	 * @param obj_id
-	 * @param parent_id
-	 * @access public
-	 */
+	* remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method 
+	* @param	array	array of id to remove
+	* @param	integer	obj_id
+	* @param	integer	parent_id
+	* @access	public
+	*/
 	function removeObject($a_trash_data,$a_obj_id,$a_parent_id)
 	{
 		global $rbacsystem,$tree;
@@ -456,30 +470,35 @@ class Admin
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+
 		foreach($a_trash_data as $id)
 		{
 			$obj_data = getObject($id);
+
 			if(!$rbacsystem->checkAccess('delete',$a_obj_id,$a_parent_id))
 			{
 				$no_delete[] = $id;
 			}
 		}
+
 		if(count($no_delete))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ". 
 									 implode(',',$no_delete),$this->ilias->error_obj->MESSAGE);
 		}
+
 		// DELETE THEM
-		foreach($a_trash_data as $id)
+		foreach ($a_trash_data as $id)
 		{
 
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$saved_tree = new Tree($id,$a_obj_id,0,-(int)$id);
+			$saved_tree = new Tree($id,0,-(int)$id);
 			$node_data = $saved_tree->getNodeData($id,$a_obj_id);
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
 
 			// FIRST DELETE AL ENTRIES IN TREE
 			$tree->deleteTree($node_data);
+
 			foreach($subtree_nodes as $node)
 			{
 				$this->callDeleteMethod($node["obj_id"],$node["parent"],$node["type"]);
@@ -488,12 +507,12 @@ class Admin
 	}
 
 	/**
-	 * undelete objects from trash bin
-	 * @param array of id to undelete
-	 * @param obj_id
-	 * @param parent_id
-	 * @access public
-	 */
+	* undelete objects from trash bin
+	* @param	array	array of id to undelete
+	* @param	integer	obj_id
+	* @param	integer	parent_id
+	* @access	public
+	*/
 	function undeleteObject($a_trash_id,$a_obj_id,$a_parent_id)
 	{
 		global $rbacsystem;
@@ -503,32 +522,37 @@ class Admin
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+
 		foreach($a_trash_id as $id)
 		{
 			$obj_data = getObject($id);
+
 			if(!$rbacsystem->checkAccess('create',$a_obj_id,$a_parent_id,$obj_data["type"]))
 			{
 				$no_create[] = $id;
 			}
 		}
+
 		if(count($no_create))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ". 
 									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 		}
+
 		foreach($a_trash_id as $id)
 		{
 			// INSERT AND SET PERMISSIONS
 			$this->insertSavedNodes($id,$a_obj_id,$a_obj_id,$a_parent_id,-(int) $id);
 			// DELETE SAVED TREE
-			$saved_tree = new Tree($id,$a_obj_id,0,-(int)$id);
+			$saved_tree = new Tree($id,0,-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id,$a_obj_id));
 		}
-	}		
+	}
+		
 	/**
-	 * Call delete method of a specific object type
-	 * @access private
-	 */	
+	* Call delete method of a specific object type
+	* @access	private
+	*/	
 	function callDeleteMethod($a_obj_id, $a_parent, $a_type)
 	{
 		global $objDefinition;
@@ -538,12 +562,14 @@ class Admin
 		require_once("./classes/class.".$class_name."Object.php");
 
 		$obj = new $class_constr();
+
 		return $obj->deleteObject($a_obj_id,$a_parent);
 	}
+
 	/**
-	 * Call clone method of a specific object type
-	 * @access private
-	 */	
+	* Call clone method of a specific object type
+	* @access	private
+	*/	
 	function callCloneMethod($a_obj_id, $a_parent,$a_dest_id,$a_dest_parent, $a_type)
 	{
 		global $objDefinition;
@@ -553,6 +579,7 @@ class Admin
 		require_once("./classes/class.".$class_name."Object.php");
 
 		$obj = new $class_constr();
+
 		return $obj->cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent);
 	}
 } // END class.Admin

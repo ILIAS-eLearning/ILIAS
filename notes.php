@@ -1,6 +1,6 @@
 <?php
 /**
-* bookmark view
+* notes view
 *
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
@@ -11,9 +11,8 @@ require_once "./include/inc.header.php";
 require_once "./classes/class.NoteObject.php";
 require_once "./classes/class.NoteFolderObject.php";
 
-global $rbacadmin;
 $myNote = new NoteObject();
-$myNoteFolder = new NoteFolderObject($ilias->account->Id);
+$myNoteFolder = new NoteFolderObject($ilias->account->getId());
 $testNoteFolder = new NoteFolderObject(320);
 
 //zeige gruppenmitglieder an
@@ -28,10 +27,6 @@ foreach($users as $user)
 }
 
 */
-//$test2=$rbacadmin->getRoleListByObject(244,);
-//$test2=$rbacadmin->getRolesAssignedToFolder(244);
-//$test2=$rbacadmin->getRoleFolderOfObject(244);
-//print_r($test2);
 
 //form has been submitted
 if ($_POST["submit"] = "delete")
@@ -42,8 +37,6 @@ if ($_POST["submit"] = "delete")
 		$myNoteFolder->deleteNotes($id);
 	}
 }
-
-
 
 if ($_GET["cmd"] != "")
 {
@@ -70,7 +63,6 @@ if ($_GET["cmd"] != "")
 	header("location: notes.php");
 	exit;
 }
-
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.notes.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");

@@ -5,12 +5,16 @@
 * @version $Id$
 */
 
-if(is_dir($tpl->tplPath."/".$ilias->account->prefs["style"]))
+if (is_dir($tpl->tplPath."/".$ilias->account->prefs["style"]))
+{
 	$image_dir = "/".$ilias->account->prefs["style"];
+}
 else
+{
 	$image_dir = "";
+}
 
-if ($rbacsystem->checkAccess("write", SYSTEM_FOLDER_ID, ROOT_FOLDER_ID))
+if ($rbacsystem->checkAccess("write", SYSTEM_FOLDER_ID))
 {
 	$tpl->setCurrentBlock("userisadmin");
 	$tpl->setVariable("IMAGE_DIR", $image_dir);
@@ -18,7 +22,7 @@ if ($rbacsystem->checkAccess("write", SYSTEM_FOLDER_ID, ROOT_FOLDER_ID))
 	$tpl->parseCurrentBlock();
 }
 // limit access only to authors
-if ($rbacsystem->checkAccess("write", ROOT_FOLDER_ID, 0))
+if ($rbacsystem->checkAccess("write", ROOT_FOLDER_ID))
 {
 	$tpl->setCurrentBlock("userisauthor");
 	$tpl->setVariable("IMAGE_DIR", $image_dir);

@@ -12,7 +12,7 @@ require_once "./classes/class.NoteObject.php";
 require_once "./classes/class.NoteFolderObject.php";
 
 $myNote = new NoteObject();
-$myNoteFolder = new NoteFolderObject($ilias->account->Id);
+$myNoteFolder = new NoteFolderObject($ilias->account->getId());
 
 if ($_GET["cmd"] == "edit")
 {

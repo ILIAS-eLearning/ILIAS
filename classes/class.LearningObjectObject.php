@@ -24,11 +24,11 @@ class LearningObjectObject extends Object
 	* Constructor
 	* @access public
 	*/
-	function LearningObjectObject($a_id="")
+	function LearningObjectObject($a_id = 0,$a_call_by_reference = "")
 	{
 		//require_once "classes/class.domxml.php";
 		//$this->domxml = new domxml();
-		$this->Object($a_id);
+		$this->Object($a_id,$a_call_by_reference);
 	}
 } // END class.LearningObject
 ?>

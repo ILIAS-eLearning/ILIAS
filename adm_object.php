@@ -9,18 +9,44 @@
 *
 * @package ilias-core
 */
-
-
-
 require_once "include/inc.header.php";
 require_once "classes/class.Object.php";	// base class for all Object Types
 require_once "classes/class.ObjectOut.php";
 
+// for security
+unset($id);
+
+//determine call mode for object classes
+//TODO: don't use same var $id for both
+if (isset($_GET["obj_id"]))
+{
+	$call_by_reference = false;
+	$id = $_GET["obj_id"];
+}
+else
+{
+	$call_by_reference = true;
+	$id = $_GET["ref_id"];
+}
+
+// exit if no valid ID was given
+if (!isset($_GET["ref_id"]))
+{
+	$ilias->raiseError("No valid ID given! Action aborted",$this->ilias->error_obj->MESSAGE);
+}
 
 if (!isset($_GET["type"]))
 {
-	$obj = getObject($_GET["obj_id"]);
-	$_GET["type"] = $obj["type"];
+	if ($call_by_reference)
+	{
+		$obj = getObjectByReference($id);
+	}
+	else
+	{
+		$obj = getObject($id);
+	}
+	
+	$_GET["type"] = $obj["type"];	
 }
 
 //if no cmd is given default to first property
@@ -32,34 +58,35 @@ if (!isset($_GET["cmd"]))
 // CREATE OBJECT CALLS 'createObject' METHOD OF THE NEW OBJECT
 if($_REQUEST["new_type"])
 {
-	$type = $_REQUEST["new_type"];
+	$obj_type = $_REQUEST["new_type"];
 }
 else
 {
-	$type = $_GET["type"];
+	$obj_type = $_GET["type"];
 }
-$method = $_GET["cmd"]."Object";
 
+$method = $_GET["cmd"]."Object";
 
 // build object instance
 // e.g: cmd = 'view' type = 'frm'
 // => $obj = new ForumObject(); $obj->viewObject()
-$class_name = $objDefinition->getClassName($type);
+$class_name = $objDefinition->getClassName($obj_type);
 $class_constr = $class_name."Object";
 require_once("./classes/class.".$class_name."Object.php");
-$obj = new $class_constr($_GET["obj_id"]);
-
+$obj = new $class_constr($id,$call_by_reference);
 
 // call object method
 switch ($_GET["cmd"])
 {
 	// no more view() here! all calls moved to "out" class
 	case "view":
+		//TODO: can be removed i think
 		break;
 
 	// save object
+	// removed 2nd param parent_id. $id is parent_id
 	case "save":
-		$data = $obj->saveObject($_GET["obj_id"], $_GET["parent"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]);
+		$data = $obj->saveObject($_GET["ref_id"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]);
 		break;
 
 	// update object
@@ -74,7 +101,7 @@ switch ($_GET["cmd"])
 
 	// edit object
 	case "create":
-		$data = $obj->createObject($_GET["obj_id"], $_POST["new_type"]);
+		$data = $obj->createObject($id, $_POST["new_type"]);
 		break;
 
 	// show permission templates of object
@@ -104,26 +131,21 @@ switch ($_GET["cmd"])
 		break;
 }
 
-
 // CALL OUTPUT METHOD OF OBJECT
 $class_constr = $class_name."ObjectOut";
 
 require_once("./classes/class.".$class_name."ObjectOut.php");
-$obj = new $class_constr($data);
-//echo "$class_constr().$method<br>";
+$obj = new $class_constr($data,$id,$call_by_reference);
 $obj->$method();
-
-
 
 // display basicdata formular
 // TODO: must be changed for clientel processing
-if ($_GET["cmd"] == "view" && $type == "adm")
+if ($_GET["cmd"] == "view" && $_GET["type"] == "adm")
 {
 	$tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
 	$tpl->setCurrentBlock("systemsettings");
-	require_once("./include/inc.basicdata.php");
+	require_once "./include/inc.basicdata.php";
 	$tpl->parseCurrentBlock();
 }
-
 $tpl->show();
 ?>

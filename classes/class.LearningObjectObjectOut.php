@@ -16,9 +16,10 @@ class LearningObjectObjectOut extends ObjectOut
 	* 
 	* @access public 
 	*/
-	function LearningObjectObjectOut($a_data)
+	function LearningObjectObjectOut($a_data,$a_id,$a_call_by_reference)
 	{
-		$this->ObjectOut($a_data);
+		$this->type = "lo";
+		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
 	} 
 
 	function viewObject()
@@ -37,7 +38,7 @@ class LearningObjectObjectOut extends ObjectOut
 		}
 		
 		// TODO get rid of these $_GET variables
-		$lotree = new Tree($_GET["lo_id"],$_GET["lo_parent"],$_GET["lm_id"],$_GET["lm_id"]);
+		$lotree = new Tree($_GET["lo_id"],$_GET["lm_id"],$_GET["lm_id"]);
 		//prepare objectlist
 		$this->data = array();
 		$this->data["data"] = array();

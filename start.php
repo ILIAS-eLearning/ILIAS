@@ -20,6 +20,7 @@ if (file_exists($startfilename))
 else
 {
 	header("location: usr_personaldesktop.php");
+	exit;
 }
 
 ?>

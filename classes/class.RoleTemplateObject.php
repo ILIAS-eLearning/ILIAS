@@ -14,9 +14,9 @@ class RoleTemplateObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function RoleTemplateObject($a_id)
+	function RoleTemplateObject($a_id,$a_call_by_reference = "")
 	{
-		$this->Object($a_id);
+		$this->Object($a_id,$a_call_by_reference);
 	}
 
 	//
@@ -79,12 +79,23 @@ class RoleTemplateObject extends Object
 	/**
 	* delete a role template object 
 	* @access	public
+	* @param	integer	object_id
+	* @param	integer parent_id // WE DON'T NEED THIS
+	* @param	integer	tree_id // WE DON'T NEED THIS
+	* @return	boolean
 	**/
 	function deleteObject($a_obj_id, $a_parent, $a_tree_id = 1)
 	{
 		global $rbacsystem, $rbacadmin;
 
-		$rbacadmin->deleteTemplate($a_obj_id, $a_parent);
+		// delete rbac permissions
+		$rbacadmin->deleteTemplate($a_obj_id);
+		
+		// delete object data entry
+		deleteObject($a_obj_id);
+		
+		//TODO: delete references	
+
 		return true;
 	}
 
@@ -193,7 +204,7 @@ class RoleTemplateObject extends Object
 			// ADOPT PERMISSIONS
 			$output["message_middle"] = "Adopt Permissions from Role Template";
 			// BEGIN ADOPT_PERMISSIONS
-			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
+			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["ref_id"],true);
 
 			// sort output for correct color changing
 			ksort($parent_role_ids);
@@ -212,7 +223,7 @@ class RoleTemplateObject extends Object
 			// END ADOPT_PERMISSIONS
 			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".
 				$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent;
-			$role_data = $rbacadmin->getRoleData($this->id);
+			$role_data = getObject($this->id);
 			$output["message_top"] = "Permission Template of Role: ".$role_data["title"];
 		}
 		else

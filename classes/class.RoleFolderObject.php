@@ -14,9 +14,9 @@ class RoleFolderObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function RoleFolderObject($a_id)
+	function RoleFolderObject($a_id,$a_call_by_reference = "")
 	{
-		$this->Object($a_id);
+		$this->Object($a_id,$a_call_by_reference);
 	}
 
 

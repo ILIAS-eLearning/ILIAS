@@ -21,12 +21,13 @@ class UserObject extends Object
 	* Contructor
 	* @access	public
 	*/
-	function UserObject($a_id)
+	function UserObject($a_id,$a_call_by_reference = "")
 	{
 		global $lng;
 
-		$this->Object($a_id);
+		$this->Object($a_id,$a_call_by_reference);
 
+		// for gender selection. don't change this
 		$this->gender = array(
 							  'm'    => "salutation_m",
 							  'f'    => "salutation_f"
@@ -36,21 +37,37 @@ class UserObject extends Object
 	/**
 	* create user
 	* @access	public
+	* @param	integer	reference_id
+	* @param	string	object type
 	*/
-	function createObject($a_id, $a_new_type)
+	/**
+	 * UserObject::createObject()
+	 * 
+	 * @param $a_ref_id
+	 * @param $a_new_type
+	 * @return 
+	 **/
+	function createObject($a_ref_id, $a_new_type)
 	{
 		global $tree,$tpl,$rbacsystem;
 
-		$obj = getObject($a_id);
+		$obj = getObjectByReference($a_ref_id);
 		
 		// TODO: get rid of $_GET variables
 
-		if ($rbacsystem->checkAccess('write',$a_id,$_GET["parent"]))
+		if ($rbacsystem->checkAccess('write',$a_ref_id))
 		{
 			// gender selection
 			$gender = TUtil::formSelect($Fobject["gender"],"Fobject[gender]",$this->gender);
+
 			// role selection
-			$rol = TUtil::getRoles();
+			$obj_list = getObjectList("role");
+			
+			foreach ($obj_list as $obj_data)
+			{
+				$rol[$obj_data["obj_id"]] = $obj_data["title"];
+			}
+			
 			$role = TUtil::formSelectWoTranslation($Fobject["default_role"],"Fobject[default_role]",$rol);
 
 			$data = array();
@@ -83,11 +100,11 @@ class UserObject extends Object
 	* save user data
 	* @access	public
 	*/
-	function saveObject($a_obj_id, $a_parent, $a_type, $a_new_type, $a_data)
+	function saveObject($a_parent_ref_id, $a_type, $a_new_type, $a_data)
 	{
 		global $rbacsystem,$rbacadmin,$tree;
 		
-		if ($rbacsystem->checkAccess('write', $a_obj_id, $a_parent))
+		if ($rbacsystem->checkAccess('write', $a_parent_ref_id))
 		{
 			$user = new User();
 			$user->setData($a_data);
@@ -95,22 +112,27 @@ class UserObject extends Object
 			//create new Object, return ObjectID of new Object
 			$user_id = createNewObject("usr",$user->getFullname(),$user->getEmail());
 			$user->setId($user_id);
+
 			//insert user data in table user_data
-			$rbacadmin->addUser($user); // deprecated
 			$user->saveAsNew();
+
 			//set role entries
 			$rbacadmin->assignUser($a_data["default_role"],$user->getId(),true);
 			
 			//create new usersetting entry 
 			$uset_id = createNewObject("uset",$user->getFullname(),"User Setting Folder");
+			$uset_ref = createNewReference($uset_id);
 			
-			//create usertree from class.user.php	
-			$tree->addTree($user->getId(), $uset_id);
+			//create usertree from class.user.php
+			// tree_id is the obj_id of user not ref_id!
+			// this could become a problem with same ids
+			$tree->addTree($user->getId(), $uset_ref);
 			
 			//add notefolder to user tree
-			$userTree = new tree(0,0,0,$user->getId());
+			$userTree = new tree(0,0,$user->getId());
 			$notf_id = createNewObject("notf",$user->getFullname(),"Note Folder Object");
-			$userTree->insertNode($notf_id, $uset_id, 0);			
+			$notf_ref = createNewReference($notf_id);
+			$userTree->insertNode($notf_ref, $uset_ref);			
 		}
 		else
 		{
@@ -126,8 +148,15 @@ class UserObject extends Object
 	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
 	{
 		global $rbacadmin;
+		
+		// delete user data
+		$user = new User();
+		$user->delete($a_obj_id);
 
-		$rbacadmin->deleteUserData($a_obj_id);
+		// delete rbac data of user
+		$rbacadmin->removeUser($a_obj_id);
+		
+		// delete object_data entry
 		return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1);
 	}
 	
@@ -140,15 +169,22 @@ class UserObject extends Object
 		global $tpl, $rbacsystem, $rbacreview, $lng, $rbacadmin;
 		
 		// TODO: get rid of $_GET vars
-
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $this->id == $_SESSION["AccountId"])
+		if ($rbacsystem->checkAccess('write',$_GET["parent"]) || $this->id == $_SESSION["AccountId"])
 		{
 			// Userobjekt erzeugen
 			$user = new User($this->id);
+			
 			// gender selection
 			$gender = TUtil::formSelect($user->gender,"Fobject[gender]",$this->gender);
+
 			// role selection
-			$rol = TUtil::getRoles();
+			$obj_list = getObjectList("role");
+			
+			foreach ($obj_list as $obj_data)
+			{
+				$rol[$obj_data["obj_id"]] = $obj_data["title"];
+			}
+			
 			$def_role = $rbacadmin->getDefaultRole($user->getId());
 			$role = TUtil::formSelectWoTranslation($def_role,"Fobject[default_role]",$rol);
 
@@ -173,10 +209,12 @@ class UserObject extends Object
 
 			// BEGIN ACTIVE ROLE
 			$assigned_roles = $rbacreview->assignedRoles($user->getId());
+
 			foreach ($assigned_roles as $key => $role)
 			{
 			   // BEGIN TABLE_ROLES
 			   $obj = getObject($role);
+
 			   if($user->getId() == $_SESSION["AccountId"])
 			   {
 				  $data["active_role"]["access"] = true;
@@ -187,6 +225,7 @@ class UserObject extends Object
 				  $data["active_role"]["access"] = false;
 				  $box = "";
 			   }
+
 			   $data["active_role"][$role]["checkbox"] = $box;
 			   $data["active_role"][$role]["title"] = $obj["title"];
 			}
@@ -213,13 +252,13 @@ class UserObject extends Object
 			$user = new User($this->id);
 			$user->setData($a_data);
 			$user->update();
+			
+			// update object_data entry
 			updateObject($user->getId(),$user->getFullname(),$user->getEmail());
 
-			//$Fuserdata = $a_data;
-			//$Fuserdata = $_POST["Fobject"];
-			//$Fuserdata["Id"] = $this->id;
-			//$rbacadmin->updateUser($Fuserdata);
+			// update default role if changed
 			$rbacadmin->updateDefaultRole($a_data["default_role"], $user->getId());
+			
 			// TODO: Passwort muss gesondert abgefragt werden
 		}
 		else

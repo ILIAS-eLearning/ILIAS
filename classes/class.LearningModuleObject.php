@@ -16,9 +16,9 @@ class LearningModuleObject extends Object
 	* 
 	* @access public
 	*/
-	function LearningModuleObject($a_id)
+	function LearningModuleObject($a_id,$a_call_by_reference = "")
 	{
-		$this->Object($a_id);
+		$this->Object($a_id,$a_call_by_reference);
 	}
 
 

@@ -3,7 +3,7 @@
 * Class RoleFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleFolderObjectOut.php,v 1.2 2003/02/25 17:36:49 akill Exp $
+* $Id$Id: class.RoleFolderObjectOut.php,v 1.3 2003/02/26 13:44:10 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -15,9 +15,10 @@ class RoleFolderObjectOut extends ObjectOut
 	* Constructor
 	* @access public
 	*/
-	function RoleFolderObjectOut($a_data)
+	function RoleFolderObjectOut($a_data,$a_id,$a_call_by_reference)
 	{
-		$this->ObjectOut($a_data);
+		$this->type = "rolf";
+		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
 	}
 
 	function viewObject()
@@ -30,9 +31,9 @@ class RoleFolderObjectOut extends ObjectOut
 		$this->data["ctrl"] = array();
 
 		$this->data["cols"] = array("", "type", "name", "description", "last_change");
-		if ($rbacsystem->checkAccess("read", $_GET["obj_id"], $_GET["parent"]))
+		if ($rbacsystem->checkAccess("read", $_GET["ref_id"]))
 		{
-			if ($list = $rbacadmin->getRoleAndTemplateListByObject($_GET["obj_id"], $_GET["order"], $_GET["direction"]))
+			if ($list = $rbacadmin->getRoleListByObject($_GET["ref_id"],true,$_GET["order"],$_GET["direction"]))
 			{
 				foreach ($list as $key => $val)
 				{
@@ -48,12 +49,11 @@ class RoleFolderObjectOut extends ObjectOut
 					);
 					//control information
 					$this->data["ctrl"][] = array(
-						"type" => $val["type"],
-						"obj_id" => $val["obj_id"],
+						"ref_id"	=> $this->id,
+						"obj_id"	=> $val["obj_id"],
+						"type"		=> $val["type"],
 						// DEFAULT ACTION IS 'permObject()'
-						"cmd"    => "perm",
-						"parent" => $_GET["obj_id"],
-						"parent_parent" => $_GET["parent"],
+						"cmd"		=> "perm"
 					);
 				}
 			} //if userdata
@@ -70,8 +70,8 @@ class RoleFolderObjectOut extends ObjectOut
 
 	function adoptPermSaveObject()
 	{
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&parent=".
+			   $_GET["parent"]."&cmd=perm");
 		exit();
 	}
 

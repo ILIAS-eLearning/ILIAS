@@ -14,9 +14,9 @@ class RoleObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function RoleObject($a_id)
+	function RoleObject($a_id,$a_call_by_reference = "")
 	{
-		$this->Object($a_id);
+		$this->Object($a_id,$a_call_by_reference);
 	}
 
 	/**
@@ -47,30 +47,31 @@ class RoleObject extends Object
 	* save a new role object
 	* @access	public
 	* @return new ID
-	**/
+	*/
 	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	{
 		global $rbacsystem, $rbacadmin;
 
 	
 		// CHECK ACCESS 'write' to role folder
-		if ($rbacsystem->checkAccess('write',$a_obj_id,$a_parent))
+		// TODO: check for create role permission should be better
+		if (!$rbacsystem->checkAccess("write",$a_obj_id,$a_parent))
 		{
+			$this->ilias->raiseError("You have no permission to create new roles in this role folder",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			// check if role title is unique
 			if ($rbacadmin->roleExists($a_data["title"]))
 			{
 				$this->ilias->raiseError("A role with the name '".$a_data["title"].
 										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
 			}
 
+			// save new role
 			$new_obj_id = createNewObject("role",$a_data["title"],$a_data["desc"]);
 			$rbacadmin->assignRoleToFolder($new_obj_id,$a_obj_id,$a_parent,'y');
 		}
-		else
-		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
-		}
-		
-		//return true;
 		
 		return $new_obj_id;
 	}
@@ -78,7 +79,7 @@ class RoleObject extends Object
 	/**
 	* delete a role object
 	* @access	public
-	**/
+	*/
 	function deleteObject($a_obj_id, $a_parent, $a_tree_id = 1)
 	{
 		global $tree, $rbacadmin;
@@ -87,12 +88,20 @@ class RoleObject extends Object
 		{
 			// IT'S THE BASE ROLE
 			$rbacadmin->deleteRole($a_obj_id,$a_parent);
+			
+			//remove role entry in object_data
+			deleteObject($a_rol_id);
+			
+			//TODO: delete references	
 		}
 		else
 		{
-			// INHERITANCE WAS STOPED, SO DELETE ONLY THIS LOCAL ROLE
+			// INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
 			$rbacadmin->deleteLocalRole($a_obj_id,$a_parent);
+
+			//TODO: delete references	
 		}
+
 		return true;
 	}
 
@@ -100,7 +109,7 @@ class RoleObject extends Object
 	* edit a role object
 	* @access	public
 	* 
-	**/
+	*/
 	function editObject($a_order, $a_direction)
 	{
 		global $rbacsystem;
@@ -126,32 +135,41 @@ class RoleObject extends Object
 	/**
 	* update a role object
 	* @access	public
-	**/
+	* @param	array	object data of role
+	* @return	boolean
+	*/
 	function updateObject($a_data)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $rbacadmin;
 
 		// TODO: get rid of $_GET variables
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
+		if (!$rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
-			updateObject($this->id,$a_data["title"],$a_data["desc"]);
-			return true;
+			$this->ilias->raiseError("You have no permission to edit this role",$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
+			// check if role title is unique
+			if ($rbacadmin->roleExists($a_data["title"]))
+			{
+				$this->ilias->raiseError("A role with the name '".$a_data["title"].
+										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
+			}
+
+			updateObject($this->id,$a_data["title"],$a_data["desc"]);
+			return true;
 		}
 	}
 
 	/**
 	* show permission templates of role object
 	* @access	public
-	**/
+	*/
 	function permObject()
 	{
 		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
 
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 		{
 			$obj_data = getObjectList("typ","title","ASC");
 
@@ -223,7 +241,7 @@ class RoleObject extends Object
 			// ADOPT PERMISSIONS
 			$output["message_middle"] = "Adopt Permissions from Role Template";
 			// BEGIN ADOPT_PERMISSIONS
-			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
+			$parent_role_ids = $rbacadmin->getParentRoleIds($_GET["ref_id"],true);
 
 			// sort output for correct color changing
 			ksort($parent_role_ids);
@@ -242,7 +260,7 @@ class RoleObject extends Object
 			// END ADOPT_PERMISSIONS
 			$output["formaction"] = "adm_object.php?cmd=permSave&obj_id=".
 				$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent;
-			$role_data = $rbacadmin->getRoleData($this->id);
+			$role_data = getObject($this->id);
 			$output["message_top"] = "Permission Template of Role: ".$role_data["title"];
 		}
 		else
@@ -255,7 +273,7 @@ class RoleObject extends Object
 	/**
 	* save permission templates of a role object
 	* @access	public
-	**/
+	*/
 	function permSaveObject($a_perm, $a_stop_inherit, $a_type, $a_template_perm, $a_recursive)
 	{
 		global $tree, $rbacsystem, $rbacadmin;
@@ -357,7 +375,7 @@ class RoleObject extends Object
 	/**
 	* copy permissions from role
 	* @access	public
-	**/
+	*/
 	function adoptPermSaveObject()
 	{
 		global $rbacadmin, $rbacsystem;
@@ -381,7 +399,7 @@ class RoleObject extends Object
 	/**
 	* assign user to role
 	* @access	public
-	**/
+	*/
 	function assignSaveObject()
 	{
 		global $tree, $rbacsystem, $rbacadmin, $rbacreview;

@@ -23,15 +23,14 @@ class ForumObject extends Object
 	/**
 	* Constructor
 	*
-	* @param	int		$a_id		object id
+	* @param	integer	$a_id object id
 	* @access	public
 	*/
-	function ForumObject($a_id)
+	function ForumObject($a_id,$a_call_by_reference = "")
 	{
-		$this->Object($a_id);
+		$this->Object($a_id,$a_call_by_reference);
 		$this->Forum = new Forum();
 	}
-	
 	
 	/**
 	* saves new object in admin interface
@@ -43,7 +42,7 @@ class ForumObject extends Object
 	* @param	array		title & description
 	* @return	integer		new obj_id
 	* @access	public
-	**/
+	*/
 	function saveObject($a_obj_id, $a_parent,$a_type, $a_new_type, $a_data)
 	{
 		global $tree, $rbacadmin;
@@ -93,18 +92,15 @@ class ForumObject extends Object
 		$rbacadmin->assignUser($roleID,$frm_data["owner"],"n");
 		
 		return $newFrm_ID;	
-		
 	}
-	
-	
 			
 	/**
 	* update forum data
+	* @param	array	forum data
 	* @access	public
-	**/
+	*/
 	function updateObject($a_data)
-	{		
-		
+	{
 		if (parent::updateObject($a_data))
 		{			
 			$a_obj_data = $a_data;
@@ -120,25 +116,21 @@ class ForumObject extends Object
 		
 			return true;
 		}	
-		
 	}
-	
-	
 	
 	/**
 	* delete forum and all its contents	
-	* @param	int		a_obj_id
-	* @param	int		a_parent_id
-	* @param	int		a_tree_id (optional)
-	* @access public
+	* @param	integer	a_obj_id
+	* @param	integer	a_parent_id
+	* @param	integer	a_tree_id (optional)
+	* @access	public
 	*/
 	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
 	{		
-		
 		global $tree;
 		
 		// IF THERE IS NO REFERENCE, DELETE ENTRY IN OBJECT_DATA
-		if($tree->countTreeEntriesOfObject($a_tree_id,$a_obj_id))
+		if ($tree->countTreeEntriesOfObject($a_tree_id,$a_obj_id))
 		{
 			return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id);		
 		}
@@ -162,7 +154,6 @@ class ForumObject extends Object
 			$query = "DELETE FROM frm_threads WHERE thr_pk = '".$thrData["thr_pk"]."'";
 			$this->ilias->db->query($query);
 		}
-		
 		// delete topic
 		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$a_obj_id."'";
 		$this->ilias->db->query($query);
@@ -172,23 +163,19 @@ class ForumObject extends Object
 		$this->ilias->db->query($query);
 		
 		return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id);
-		
-		
 	}
-	
-	
+
 	/**
 	* copy all entries of a forum object !!! IT MUST RETURN THE NEW OBJECT ID !!
-	* @param	int		a_obj_id
-	* @param	int		a_parent
-	* @param	int		a_dest_id
-	* @param	int		a_dest_parent
+	* @param	integer	a_obj_id
+	* @param	integer	a_parent
+	* @param	integer	a_dest_id
+	* @param	integer	a_dest_parent
 	* @access	public
-	* @return new object id
+	* @return	integer	new object id
 	*/
 	function cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent)
 	{		
-		
 		$new_obj_id = parent::cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent);
 		
 		// get forum data
@@ -253,15 +240,9 @@ class ForumObject extends Object
 				$q4 .= "('".$new_thr_pk."','".$new_pos_pk."','".$treeData["parent_pos"]."','".$treeData["lft"]."','".$treeData["rgt"]."','".$treeData["depth"]."','".$treeData["date"]."')";
 				$this->ilias->db->query($q4);
 			}
-			
 		}
-		
+
 		return $new_obj_id;
-		
 	}
-	
-	
-	
-	
 } // END class.ForumObject
 ?>

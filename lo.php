@@ -18,7 +18,6 @@ if (isset($_GET["viewmode"]))
 	$_SESSION["viewmode"] = $_GET["viewmode"];
 }
 
-
 // TODO: Treeview not implemented yet
 if (file_exists($startfilename) and ($_SESSION["viewmode"] == "tree"))
 {
