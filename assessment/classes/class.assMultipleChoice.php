@@ -221,18 +221,18 @@ class ASS_MultipleChoice extends ASS_Question
 											$render_choice = $node_type;
 											if (strcmp($render_choice->node_name(), "render_choice") == 0)
 											{
-												// select gap
 												$shuffle = $render_choice->get_attribute("shuffle");
+												$shuf = 0;
+												if (strcmp(strtolower($shuffle), "yes") == 0)
+												{
+													$shuf = 1;
+												}
+												$this->setShuffle($shuf);
 												$labels = $render_choice->child_nodes();
 												foreach ($labels as $lidx => $response_label)
 												{
 													$material = $response_label->first_child();
 													$mattext = $material->first_child();
-													$shuf = 0;
-													if (strcmp(strtolower($shuffle), "yes") == 0)
-													{
-														$shuf = 1;
-													}
 													$this->add_answer($mattext->get_content(), 0, 0,  $response_label->get_attribute("ident"));
 												}
 											}
