@@ -479,18 +479,16 @@ class Object
 	* get role and template ids of all parent role folder 
 	* @access private
 	* @param string object id of start node
+	* @param string object id of parent start node
 	* @return string 
 	*/
-	function getParentRoleTemplateIds($a_start_node = '')
+	function getParentRoleTemplateIds($a_start_node, $a_start_parent)
 	{
 		global $rbacadmin, $tree;
 		
-		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
 
-		$pathIds  = $tree->getPathId($a_start_node,1);
+		$pathIds  = $tree->getPathId($a_start_node,$a_start_parent);
 		
-		// TODO: löscht den system folder raus, setzt dabei aber vorraus, dass dieser im ersten array element steht!
-		// das ist etwas gefährlich!
 		$pathIds[0] = SYSTEM_FOLDER_ID;
 		
 		return $rbacadmin->getParentRoles($pathIds,'',true);

@@ -65,16 +65,16 @@
 <tr>
   <td bgcolor="#ffffff" valign="bottom" class="tab-small" 
    align="center"><font face="Verdana, Arial, Helvetica" 
-   size="1" color="#000000">&nbsp;<a href="{OBJ_SELF}"><span style="color: #000000;"><strong>Contents</strong></span></a>&nbsp;</font></td>
+   size="1" color="#000000">&nbsp;<a href="{TARGET_TOP}"><span style="color: #000000;"><strong>Contents</strong></span></a>&nbsp;</font></td>
   <td bgcolor="#efefef" valign="bottom" class="tab-small" 
    align="center"><font face="Verdana, Arial, Helvetica" 
-   size="1" color="#000000">&nbsp;<a href="./object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=edit"><span style="color: #000000;"><strong>Properties</strong></span></a>&nbsp;</font></td>
+   size="1" color="#000000">&nbsp;<a href="./object.php?obj_id={OBJ_ID}&parent={TPOS}&parent_parent={PAR}&cmd=edit"><span style="color: #000000;"><strong>Properties</strong></span></a>&nbsp;</font></td>
   <td bgcolor="#efefef" valign="bottom" class="tab-small" 
    align="center"><font face="Verdana, Arial, Helvetica" 
-   size="1" color="#000000">&nbsp;<a href="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=perm"><span style="color: #000000;"><strong>Security</strong></span></a>&nbsp;</font></td>
+   size="1" color="#000000">&nbsp;<a href="object.php?obj_id={OBJ_ID}&parent={TPOS}&parent_parent={PAR}&cmd=perm"><span style="color: #000000;"><strong>Security</strong></span></a>&nbsp;</font></td>
   <td bgcolor="#efefef" valign="bottom" class="tab-small" 
    align="center"><font face="Verdana, Arial, Helvetica" 
-   size="1" color="#000000">&nbsp;<a href="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=owner"><span style="color: #000000;"><strong>Ownership</strong></span></a>&nbsp;</font></td>
+   size="1" color="#000000">&nbsp;<a href="object.php?obj_id={OBJ_ID}&parent={TPOS}&parent_parent={PAR}&cmd=owner"><span style="color: #000000;"><strong>Ownership</strong></span></a>&nbsp;</font></td>
 </tr>
 <tr>
   <td colspan="3" bgcolor="#ffffff"><img src="images/spacer.gif"
@@ -116,7 +116,7 @@
   </strong>
 </span>
 <br><br>
-	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=permSave" name="objectItems" method="post">
+	<form action="object.php?obj_id={OBJ_ID}&parent_parent={PAR}&parent={TPOS}&cmd=permSave" name="objectItems" method="post">
 	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="header">
 			<td width="20%" align="left">
@@ -171,7 +171,7 @@
   </strong>
 <br><br>
 </span>
-	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=adoptPermSave" name="objectItems" method="post">
+	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&parent_parent={PAR}&cmd=adoptPermSave" name="objectItems" method="post">
 	  <table width="50%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="header">
 			<td width="10%" align="left">
@@ -184,9 +184,6 @@
 			<td width="30%" align="left"><div class="list-item"> 
 				<strong>Type:</strong></div>
 			</td>
-			<td width="50%" align="left"><div class="list-item"> 
-				<strong>Location:</strong></div>
-			</td>
 		  </tr>
 			<!-- BEGIN ADOPT_PERMISSIONS -->
 			<tr class={CSS_ROW_ADOPT}>
@@ -198,9 +195,6 @@
 			  </td>
 			  <td>
 				{TYPE}
-			  </td>
-			  <td>
-				{LOCATION}
 			  </td>
 			</tr>
 			<!-- END ADOPT_PERMISSIONS -->
@@ -221,7 +215,7 @@
 	{MESSAGE_BOTTOM}
   </strong>
 <br><br>
-	<form action="object.php?obj_id={ASSIGN_OBJ_ID}&parent={ASSIGN_TPOS}&cmd=assignSave" name="objectItems" method="post">
+	<form action="object.php?obj_id={ASSIGN_OBJ_ID}&parent={ASSIGN_TPOS}&parent_parent={ASSIGN_PAR}&cmd=assignSave" name="objectItems" method="post">
 	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="header">
 			<td width="20%" align="left">

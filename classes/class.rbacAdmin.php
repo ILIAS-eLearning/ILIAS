@@ -223,7 +223,8 @@ class RbacAdmin extends PEAR
 	}
 
 /**
- * Get parent roles in a path
+ * Get parent roles in a path. If last parameter is set 'true'
+ * it delivers also all templates in the path
  * @access public
  * @param array Path Id
  * @param string
