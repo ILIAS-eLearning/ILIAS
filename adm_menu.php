@@ -40,6 +40,12 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 $explorer = new ilExplorer("adm_object.php");
 
 $explorer->setExpand($_GET["expand"]);
+
+// hide RecoveryFolder if empty
+if (!$tree->getChilds(RECOVERY_FOLDER_ID))
+{
+	$explorer->addFilter("recf");
+}
 /*
 $explorer->addFilter("root");
 $explorer->addFilter("cat");

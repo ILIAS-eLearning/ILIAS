@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.23 2004/03/05 10:42:54 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.24 2004/03/05 17:36:42 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -85,6 +85,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			
 			// hide object types in devmode
 			if ($this->objDefinition->getDevMode($val["type"]))
+			{
+				continue;
+			}
+			
+			// hide RecoveryFolder if empty
+			if ($val["ref_id"] == RECOVERY_FOLDER_ID and !$this->tree->getChilds(RECOVERY_FOLDER_ID))
 			{
 				continue;
 			}
