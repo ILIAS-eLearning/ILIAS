@@ -126,7 +126,7 @@ if ($cont_num > 0)
 	$num = 0;
 
 	foreach ($cont_arr as $cont_data)
-	{	var_dump($cont_data);
+	{	
 		$tpl->setCurrentBlock("tbl_content");
 
 		// change row color
