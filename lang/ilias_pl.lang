@@ -1,5 +1,5 @@
 /**
-* ILIAS language file
+* ILIAS language filename
 *
 * @module		language file polish
 * @modulegroup	language
@@ -57,7 +57,7 @@ administration#:#purge_missing_desc#:#Usunięcie wszystkich zaginionych i niepod
 administration#:#purge_trash#:#Czyszczenie usuniętych obiektów
 administration#:#purge_trash_desc#:#Usunięcie wszystkich obiektów z kosza systemu.
 administration#:#purging#:#Czyszczenie...
-administration#:#purging_missing_objs#:#Purging missing objects...###17 Apr 2004 new variable
+administration#:#purging_missing_objs#:#Czyszczenie brakujących obiektów...
 administration#:#purging_trash#:#Opróżnianie kosza...
 administration#:#purging_unbound_objs#:#Czyszczenie niepodłączonych obiektów...
 administration#:#removing_invalid_childs#:#Usuwanie niewłaściwych pozycji drzewa...
@@ -80,57 +80,53 @@ administration#:#searching_invalid_childs#:#Poszukiwanie niewłaściwych pozycji
 administration#:#searching_invalid_refs#:#Poszukiwanie niewłaściwych odwołań...
 administration#:#searching_missing_objs#:#Poszukiwanie zaginionych obiektów...
 administration#:#searching_unbound_objs#:#Poszukiwanie niepodłączonych obiektów...
-administration#:#skipped#:#skipped###17 Apr 2004 new variable
+administration#:#skipped#:#pominięty
 administration#:#start_scan#:#Start!
-administration#:#stop_scan#:#Stop!###31 May 2004 new variable
+administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#Sprawdzenie Systemu
 administration#:#view_last_log#:#Podgląd ostatniego logu skanowania
 administration#:#view_log#:#Podgląd szczegółów
-assessment#:#0_unlimited#:#(0 = nielimitowane)###31 May 2004 content changed
+assessment#:#0_unlimited#:#(0 = nielimitowane)
 assessment#:#add_answer#:#Dodaj odpowiedź
 assessment#:#add_answer_tf#:#Dodaj odpowiedź prawda/fałsz
 assessment#:#add_answer_yn#:#Dodaj odpowiedź tak/nie
-assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
-assessment#:#add_area#:#Add area###15 Jun 2004 new variable
-assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
-assessment#:#add_imagemap#:#Add imagemap###21 Jun 2004 new variable
+assessment#:#add_applet_parameter#:#Dodaj parametr apletu
+assessment#:#add_area#:#Dodaj obszar
+assessment#:#add_gap#:#Dodaj tekst odstępu
 assessment#:#add_matching_pair#:#dodaj pasującą parę
-assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
+assessment#:#all_available_question_pools#:#Wszystkie dostępne pule pytań
 assessment#:#answer#:#Odpowiedź
 assessment#:#answer_picture#:#Obrazek odpowiedzi
 assessment#:#answer_text#:#Tekst odpowiedzi
-assessment#:#applet_attributes#:#Applet attributes###19 May 2004 new variable
-assessment#:#applet_new_parameter#:#New parameter###19 May 2004 new variable
-assessment#:#applet_parameter#:#Parameter###19 May 2004 new variable
-assessment#:#applet_parameters#:#Applet parameters###19 May 2004 new variable
+assessment#:#applet_attributes#:#Atrybuty Apletu
+assessment#:#applet_new_parameter#:#Nowy parametr
+assessment#:#applet_parameter#:#Parametr
+assessment#:#applet_parameters#:#Parametry Apletu
 assessment#:#apply#:#Zastosuj
 assessment#:#ass_questions#:#Pytania
 assessment#:#by#:#przez
-assessment#:#circle#:#Circle###15 Jun 2004 new variable
-assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
-assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
+assessment#:#circle#:#Koło
+assessment#:#circle_click_center#:#Kliknij w środek wskazanego pola.
 assessment#:#cloze_text#:#Uzupełnij tekst
-assessment#:#code#:#Code###19 May 2004 new variable
-assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
+assessment#:#code#:#Kod
+assessment#:#coordinates#:#Koordynaty
 assessment#:#create_date#:#Utworzony
 assessment#:#create_gaps#:#Twórz odstęp
-assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
+assessment#:#create_imagemap#:#Twórz mapę bitową
 assessment#:#create_new#:#Twórz nowe
-assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
-assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
+assessment#:#delete_area#:#Usuń obszar
 assessment#:#duplicate#:#Kopiuj
-assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
-assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
+assessment#:#end_tag#:#Znacznik Końca
 assessment#:#eval_choice_result#:#Wybór opcji %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_cloze_result#:#Uzupełnienie nr %s tekstem %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_imagemap_result#:#Wybór w mapie bitowej jest %s. Otrzymałeś %s punktów.
-assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.###19 May 2004 new variable
+assessment#:#eval_java_result#:#Odpowiedź dla zmiennej %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_legend_link#:#Zajrzyj do legendy aby sprawdzić znaczenie nagłówków.
 assessment#:#eval_matching_result#:#Dopasowana para %s - %s jest %s. Otrzymałeś %s punktów.
 assessment#:#eval_order_result#:#Uporządkowanie %s jest %s. Otrzymałeś %s punktów.
-assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
-assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
-assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
+assessment#:#exp_eval_data#:#Eksport Daty Ważności
+assessment#:#exp_type_excel#:#  Excel
+assessment#:#exp_type_spss#:#  SPSS
 assessment#:#export#:#Eksport
 assessment#:#false#:#Fałsz
 assessment#:#fill_out_all_answer_fields#:#Wypełnij wszystkie pola odpowiedzi przed dodaniem nowego!
@@ -138,24 +134,22 @@ assessment#:#fill_out_all_matching_pairs#:#Wypełnij wszystkie pary przed dodani
 assessment#:#fill_out_all_required_fields_add_answer#:#Wypełnij wszystkie niezbędne pola przed dodaniem odpowiedzi!
 assessment#:#fill_out_all_required_fields_add_matching#:#Wypełnij wszystkie niezbędne pola przed dodaniem pasującej pary!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Wypełnij wszystkie niezbędne pola przed utworzeniem odstępu!
-assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!###15 Jun 2004 new variable
-assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!###15 Jun 2004 new variable
-assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!###15 Jun 2004 new variable
+assessment#:#fill_out_all_required_fields_upload_image#:#Wypełnij wszystkie wymagane pola przed załadowaniem obrazka!
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Wypełnij wszystkie wymagane pola przed załadowaniem mapy bitowej!
+assessment#:#fill_out_all_required_fields_upload_material#:#Wypełnij wszystkie wymagane pola przed załadowaniem materiałów!
 assessment#:#filter#:#Filtr
-assessment#:#gap#:#Gap###18 Apr 2004 new variable
-assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
+assessment#:#gap#:#Luka
+assessment#:#gap_definition#:#Definicja luki
 assessment#:#gap_selection#:#Wybór odstępu
-assessment#:#height#:#Height###19 May 2004 new variable
+assessment#:#height#:#Wysokość
 assessment#:#imagemap#:#Mapa bitowa
-assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
-assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
-assessment#:#insert_before#:#Insert before###22 Jun 2004 new variable
-assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
-assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
-assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
+assessment#:#imagemap_source#:#Źródło mapy bitowej
+assessment#:#internal_links#:#Łączniki wewnętrzne
+assessment#:#internal_links_update#:#Uaktualnij
+assessment#:#javaapplet#:#Java Aplet Javy
 assessment#:#last_update#:#Ostatnia aktualizacja
 assessment#:#legend#:#Legenda
-assessment#:#locked#:#locked###27 Apr 2004 new variable
+assessment#:#locked#:#zablokowany
 assessment#:#mark_schema#:#Zaznaczenie schematu
 assessment#:#match_terms_and_definitions#:#Dobierz terminy i definicje
 assessment#:#match_terms_and_pictures#:#Dobierz terminy i obrazki
@@ -166,18 +160,14 @@ assessment#:#material_download#:#Materiał do pobrania
 assessment#:#material_file#:#Plik z materiałem
 assessment#:#maximum_nr_of_tries_reached#:#Przekroczyłeś maksymalną ilość prób w tym teście. Test nie może być wprowadzony!
 assessment#:#meaning#:#Znaczenie
-assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
-assessment#:#no_target_selected_for_move#:#You must select a target position!###22 Jun 2004 new variable
-assessment#:#or#:#or###07 Apr 2004 new variable
+assessment#:#or#:#lub
 assessment#:#order_pictures#:#Uporządkuj obrazy
 assessment#:#order_terms#:#Uporzadkuj terminy
-assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
+assessment#:#please_select#:#---- wybierz ----
 assessment#:#points#:#Punkty
-assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
-assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###21 Jun 2004 new variable
-assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.###21 Jun 2004 new variable
-assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
+assessment#:#polygon#:#Wielobok
+assessment#:#polygon_click_starting_point#:#Kliknij na punkt startowy wieloboku.
 assessment#:#postpone#:#Odłożone pytanie
 assessment#:#postponed#:#odłożone
 assessment#:#preview#:#Podgląd
@@ -185,7 +175,7 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Brak oceny wybranego py
 assessment#:#qpl_assessment_of_questions#:#Ocena pytań
 assessment#:#qpl_assessment_total_of_answers#:#Ogółem odpowiedzi
 assessment#:#qpl_assessment_total_of_right_answers#:#Ogółem procent prawidłowych  odpowiedzi (procent maksymalnej punktacji)
-assessment#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)? If you delete locked questions the results of all tests containing a locked question will be deleted too.###29 Apr 2004 new variable
+assessment#:#qpl_confirm_delete_questions#:#Czy jesteś pewien, że chcesz usunąć następujące pytania? Jeśli usuniesz zaznaczone pytania to tezultaty wszystkich testów zawierających zaznaczone pytania będą również usunięte.
 assessment#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usunięcia tego pytania!
 assessment#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia
 assessment#:#qpl_display_fullsize_image#:#Kliknij tu aby wyświetlić oryginalny obraz!
@@ -194,10 +184,10 @@ assessment#:#qpl_edit_rbac_error#:#Nie masz uprawnień do edycji tego pytania!
 assessment#:#qpl_edit_select_multiple#:#Wybierz tylko jedno pytanie do edycji
 assessment#:#qpl_edit_select_none#:#Wybierz jedno pytanie do edycji
 assessment#:#qpl_export_select_none#:#Wybierz conajmniej jedno pytanie do wyeksportowania
-assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
+assessment#:#qpl_questions_deleted#:#Usunięte pytania.
 assessment#:#qt_cloze#:#Pytanie na uzupełnianie
 assessment#:#qt_imagemap#:#Pytanie - Mapa Bitowa
-assessment#:#qt_javaapplet#:#Java Applet Question###19 May 2004 new variable
+assessment#:#qt_javaapplet#:#Pytanie - Aplet Javy
 assessment#:#qt_matching#:#Pytanie na dopasowanie
 assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowiedzi)
 assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
@@ -205,41 +195,38 @@ assessment#:#qt_ordering#:#Pytanie na porządkowanie
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#P
 assessment#:#question_type#:#Typ pytania
-assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
-assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
-assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable
-assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
+assessment#:#random_selection#:#Wybór przypadkowy
+assessment#:#rectangle#:#Prostokąt
+assessment#:#rectangle_click_tl_corner#:#Kliknij na lewy górny narożnik wybranego obszaru.
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Usuń
 assessment#:#report_date_not_reached#:#Teraz nie możesz przeglądać raportu. Będziesz mógł przejrzeć rezultaty %s
 assessment#:#reset_filter#:#Resetuj filtr
 assessment#:#result#:#Wynik
-assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!###19 May 2004 new variable
-assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!###19 May 2004 new variable
+assessment#:#save_before_upload_imagemap#:#Musisz zastosować zmiany przed załadowaniem mapy bitowej!
+assessment#:#save_before_upload_javaapplet#:#Musisz zastosować zmiany przed załadowaniem apletu javy!
 assessment#:#save_finish#:#Zachowaj i zakończ test
 assessment#:#save_introduction#:#Zachowaj i skocz do wstępu
 assessment#:#save_next#:#Zachowaj i skocz do następnego pytania
 assessment#:#save_previous#:#Zachowaj i skocz do poprzedniego pytania
 assessment#:#select_gap#:#Wybierz odstęp
-assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
 assessment#:#set_filter#:#Ustaw filtr
-assessment#:#shape#:#Shape###19 Jun 2004 new variable
-assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
+assessment#:#shape#:#Kształt
+assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
 assessment#:#solution_order#:#Porządek rozwiązywania
-assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
-assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
+assessment#:#start_tag#:#Znacznik początku
 assessment#:#symbol#:#Symbol
 assessment#:#text_gap#:#Tekst odstępu
-assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
-assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
+assessment#:#time_format#:#GG MM SS
+assessment#:#too_many_empty_parameters#:#Wypełnij puste parametry apletu przed dodaniem nowego parametru!
 assessment#:#true#:#Prawda
 assessment#:#tst_already_taken#:#Testy już pobrane
 assessment#:#tst_anon_eval#:#Rezultaty anonimowe
 assessment#:#tst_browse_for_questions#:#Przegląd pytań
 assessment#:#tst_delete_missing_mark#:#Wybierz conajmniej jedną pozycję aby ją usunąć
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nikt jeszcze nie użył testu. Brak anonimowych wyników.
-assessment#:#tst_eval_total_finished#:#Ogółem ukończonych testów###12 Jun 2004 content changed
-assessment#:#tst_eval_total_finished_average_time#:#Średni czas wykonania ukończonych testów###12 Jun 2004 content changed
+assessment#:#tst_eval_total_finished#:#Ogółem ukończonych testów
+assessment#:#tst_eval_total_finished_average_time#:#Średni czas wykonania ukończonych testów
 assessment#:#tst_eval_total_passed#:#Ogółem zaliczonych testów
 assessment#:#tst_eval_total_passed_average_points#:#Średnia punktów wykonanych testów
 assessment#:#tst_eval_total_persons#:#Ilość osób, które przystąpiły do testu
@@ -265,13 +252,13 @@ assessment#:#tst_nr_of_tries#:#Maks. ilość prób
 assessment#:#tst_percent_solved#:#Procent rozwiązanych
 assessment#:#tst_processing_time#:#Maks. czas wykonania
 assessment#:#tst_question_no#:#Porządek
-assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?###07 Apr 2004 new variable
+assessment#:#tst_question_offer#:#Akceptujesz ten przykład czy chcesz inny?
 assessment#:#tst_question_title#:#Tytuł
 assessment#:#tst_question_type#:#Typ pytania
 assessment#:#tst_questions_inserted#:#Pytania wstawione!
 assessment#:#tst_questions_removed#:#Pytania usunięte!
-assessment#:#tst_random_nr_of_questions#:#How many questions?###07 Apr 2004 new variable
-assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from###07 Apr 2004 new variable
+assessment#:#tst_random_nr_of_questions#:#Ile pytań?
+assessment#:#tst_random_select_questionpool#:#Wybierz pulę pytań dla wyboru pytań
 assessment#:#tst_reached_points#:#Osiągnięte punkty
 assessment#:#tst_remove_questions#:#Chcesz usunąć następujące pytania z testu?
 assessment#:#tst_remove_questions_and_results#:#Ten test został wykonany przez %s użytkowników. Usunięcie pytań z tego testu spowoduje usunięcie wszystkich rezultatów tych użytkowników. Chcesz usunać następujące pytania z testu?
@@ -310,9 +297,9 @@ assessment#:#tst_stat_selected_users#:#Wybrani użytkownicy
 assessment#:#tst_stat_users_intro#:#Pokaż ocenę statystyczną dla
 assessment#:#tst_statistical_evaluation#:#Narzędzie oceny statystycznej
 assessment#:#tst_status_completed#:#ukończony
-assessment#:#tst_status_completed_more_tries_possible#:#(ukończony)###30 Apr 2004 content changed
-assessment#:#tst_status_not_entered#:#nie wprowadzony###30 Apr 2004 content changed
-assessment#:#tst_status_progress#:#wykonywany###30 Apr 2004 content changed
+assessment#:#tst_status_completed_more_tries_possible#:#(ukończony)
+assessment#:#tst_status_not_entered#:#nie wprowadzony
+assessment#:#tst_status_progress#:#wykonywany
 assessment#:#tst_type#:#Typ Testu
 assessment#:#tst_types#:#Typy testów
 assessment#:#tst_your_mark_is#:#Twój wybór to
@@ -320,70 +307,70 @@ assessment#:#tt_assessment#:#Ocena testu
 assessment#:#tt_navigation_controlling#:#Kontrola wykonywania testów przez uczniów
 assessment#:#tt_self_assessment#:#Test samooceny
 assessment#:#unlimited#:#nielimitowany
-assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
-assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
-assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
+assessment#:#unlock#:#Oblokuj
+assessment#:#unlock_question#:#To pytanie jest używane przez conajmniej jeden test i są   %s potwierdzone rezultaty. Jeśli odznaczysz pytanie wszystkie rezultaty testów z tym pytaniem zostaną usunięte po zapisaniu pytania. Jeśli chcesz używać zmienionej wersji tego pytania, ale nie chcesz usuwać dotychczasowych rezultatów, to możesz zduplikować pytanie w puli pytań i zmienić jego wersję.
+assessment#:#upload_imagemap#:#Załaduj mapę bitową
 assessment#:#uploaded_material#:#Załadowany Materiał
-assessment#:#width#:#Width###19 May 2004 new variable
-assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
-bibitem#:#bibitem_add#:#Add###06 May 2004 new variable
-bibitem#:#bibitem_author#:#Author###06 May 2004 new variable
-bibitem#:#bibitem_av#:#AV###06 May 2004 new variable
-bibitem#:#bibitem_bibitem#:#Bibliographical information###06 May 2004 new variable
-bibitem#:#bibitem_book#:#Book###06 May 2004 new variable
-bibitem#:#bibitem_booktitle#:#Booktitle###06 May 2004 new variable
-bibitem#:#bibitem_catalog#:#Catalog###06 May 2004 new variable
-bibitem#:#bibitem_choose_index#:#Please select a bibliographical information:###06 May 2004 new variable
-bibitem#:#bibitem_cross_reference#:#Cross reference###06 May 2004 new variable
-bibitem#:#bibitem_delete#:#Delete###06 May 2004 new variable
-bibitem#:#bibitem_dissertation#:#Dissertation###06 May 2004 new variable
-bibitem#:#bibitem_edition#:#Edition###06 May 2004 new variable
-bibitem#:#bibitem_editor#:#Editor###06 May 2004 new variable
-bibitem#:#bibitem_entry#:#Entry###06 May 2004 new variable
-bibitem#:#bibitem_first_name#:#First name###06 May 2004 new variable
-bibitem#:#bibitem_grey_literature#:#Grey literature###06 May 2004 new variable
-bibitem#:#bibitem_how_published#:#How published###06 May 2004 new variable
-bibitem#:#bibitem_identifier#:#Identifier###06 May 2004 new variable
-bibitem#:#bibitem_inbook#:#Inbook###06 May 2004 new variable
-bibitem#:#bibitem_inproceedings#:#Inproceedings###06 May 2004 new variable
-bibitem#:#bibitem_institution#:#Institution###06 May 2004 new variable
-bibitem#:#bibitem_internet#:#Internet###06 May 2004 new variable
-bibitem#:#bibitem_isbn#:#ISBN###06 May 2004 new variable
-bibitem#:#bibitem_issn#:#ISSN###06 May 2004 new variable
-bibitem#:#bibitem_journal#:#Journal###06 May 2004 new variable
-bibitem#:#bibitem_journal_article#:#Journal article###06 May 2004 new variable
-bibitem#:#bibitem_keyword#:#Keyword###06 May 2004 new variable
-bibitem#:#bibitem_label#:#Label###06 May 2004 new variable
-bibitem#:#bibitem_language#:#Language###06 May 2004 new variable
-bibitem#:#bibitem_last_name#:#Last name###06 May 2004 new variable
-bibitem#:#bibitem_manual#:#Manual###06 May 2004 new variable
-bibitem#:#bibitem_master_thesis#:#Master thesis###06 May 2004 new variable
-bibitem#:#bibitem_middle_name#:#Middle name###06 May 2004 new variable
-bibitem#:#bibitem_month#:#Month###06 May 2004 new variable
-bibitem#:#bibitem_new_element#:#New element###06 May 2004 new variable
-bibitem#:#bibitem_newspaper_article#:#Newspaper article###06 May 2004 new variable
-bibitem#:#bibitem_not_found#:#No bibliographical information available.###06 May 2004 new variable
-bibitem#:#bibitem_note#:#Note###06 May 2004 new variable
-bibitem#:#bibitem_number#:#Number###06 May 2004 new variable
-bibitem#:#bibitem_organization#:#Organization###06 May 2004 new variable
-bibitem#:#bibitem_pages#:#Pages###06 May 2004 new variable
-bibitem#:#bibitem_phd_thesis#:#PhD thesis###06 May 2004 new variable
-bibitem#:#bibitem_please_select#:#Please select###06 May 2004 new variable
-bibitem#:#bibitem_print#:#Print###06 May 2004 new variable
-bibitem#:#bibitem_proceedings#:#Proceedings###06 May 2004 new variable
-bibitem#:#bibitem_publisher#:#Publisher###06 May 2004 new variable
-bibitem#:#bibitem_save#:#Save###06 May 2004 new variable
-bibitem#:#bibitem_school#:#School###06 May 2004 new variable
-bibitem#:#bibitem_series#:#Series###06 May 2004 new variable
-bibitem#:#bibitem_series_editor#:#Editor###06 May 2004 new variable
-bibitem#:#bibitem_series_title#:#Series title###06 May 2004 new variable
-bibitem#:#bibitem_series_volume#:#Volume###06 May 2004 new variable
-bibitem#:#bibitem_technical_report#:#Technical report###06 May 2004 new variable
-bibitem#:#bibitem_type#:#Type###06 May 2004 new variable
-bibitem#:#bibitem_unpublished#:#Unpublished###06 May 2004 new variable
-bibitem#:#bibitem_url#:#URL###06 May 2004 new variable
-bibitem#:#bibitem_where_published#:#Where published###06 May 2004 new variable
-bibitem#:#bibitem_year#:#Year###06 May 2004 new variable
+assessment#:#width#:#Szerokość
+assessment#:#working_time#:#Czas Pracy
+bibitem#:#bibitem_add#:#Dodaj
+bibitem#:#bibitem_author#:#Autor
+bibitem#:#bibitem_av#:#ŚR
+bibitem#:#bibitem_bibitem#:#Informacje bibliograficzne
+bibitem#:#bibitem_book#:#Książka
+bibitem#:#bibitem_booktitle#:#Tytuł książki
+bibitem#:#bibitem_catalog#:#Katalog
+bibitem#:#bibitem_choose_index#:#Wybierz informacje bibliograficzne:
+bibitem#:#bibitem_cross_reference#:#Odniesienie
+bibitem#:#bibitem_delete#:#Usuń
+bibitem#:#bibitem_dissertation#:#Rozprawa
+bibitem#:#bibitem_edition#:#Edycja
+bibitem#:#bibitem_editor#:#Edytor
+bibitem#:#bibitem_entry#:#Wstęp
+bibitem#:#bibitem_first_name#:#Imię
+bibitem#:#bibitem_grey_literature#:#Literatura Szara
+bibitem#:#bibitem_how_published#:#Jak opublikowane
+bibitem#:#bibitem_identifier#:#Identyfikator
+bibitem#:#bibitem_inbook#:#Wydawnictwo wewnętrzne
+bibitem#:#bibitem_inproceedings#:#Inproceedings
+bibitem#:#bibitem_institution#:#Instytucja
+bibitem#:#bibitem_internet#:#Internet
+bibitem#:#bibitem_isbn#:#ISBN
+bibitem#:#bibitem_issn#:#ISSN
+bibitem#:#bibitem_journal#:#Pismo
+bibitem#:#bibitem_journal_article#:#Artykuł w piśmie
+bibitem#:#bibitem_keyword#:#Klucz
+bibitem#:#bibitem_label#:#Poziom
+bibitem#:#bibitem_language#:#Język
+bibitem#:#bibitem_last_name#:#Nazwisko
+bibitem#:#bibitem_manual#:#Instrukcja
+bibitem#:#bibitem_master_thesis#:#Główna teza
+bibitem#:#bibitem_middle_name#:#Drugie Imię
+bibitem#:#bibitem_month#:#Miesiąc
+bibitem#:#bibitem_new_element#:#Nowy element
+bibitem#:#bibitem_newspaper_article#:#Artykuł w czasopiśmie
+bibitem#:#bibitem_not_found#:#Brak informacji bibliograficznych.
+bibitem#:#bibitem_note#:#Notatka
+bibitem#:#bibitem_number#:#Numer
+bibitem#:#bibitem_organization#:#Organizacja
+bibitem#:#bibitem_pages#:#Stron
+bibitem#:#bibitem_phd_thesis#:#Praca doktorska
+bibitem#:#bibitem_please_select#:#Wybierz
+bibitem#:#bibitem_print#:#Drukuj
+bibitem#:#bibitem_proceedings#:#Proceedings
+bibitem#:#bibitem_publisher#:#Wydawca
+bibitem#:#bibitem_save#:#Zachowaj
+bibitem#:#bibitem_school#:#Szkoła
+bibitem#:#bibitem_series#:#Seria
+bibitem#:#bibitem_series_editor#:#Edytor
+bibitem#:#bibitem_series_title#:#Tytuł serii
+bibitem#:#bibitem_series_volume#:#Wolumen
+bibitem#:#bibitem_technical_report#:#Raport techniczny
+bibitem#:#bibitem_type#:#Typ
+bibitem#:#bibitem_unpublished#:#Niepublikowany
+bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_where_published#:#Gdzie publikowany
+bibitem#:#bibitem_year#:#Rok
 chat#:#chat_active#:#Aktywny
 chat#:#chat_active_users#:#Użytkownik (aktywny)
 chat#:#chat_add_allowed_hosts#:#Podaj adres hosta(ów), które mają prawo dostępu do serwera czat.
@@ -484,7 +471,7 @@ common#:#active_roles#:#Aktywnne role
 common#:#add#:#Dodaj
 common#:#add_author#:#Dodaj autora
 common#:#add_member#:#Dodaj członka
-common#:#add_members#:#Add Members###16 Apr 2004 new variable
+common#:#add_members#:#dodaj członków
 common#:#add_translation#:#Dodaj tłumaczenie
 common#:#adm_edit_permission#:#Zmień ustawienia uprawnień
 common#:#adm_read#:#Prawo czytania do podstawowych ustawień systemu
@@ -510,7 +497,7 @@ common#:#are_you_sure#:#Jesteś pewien?
 common#:#assign#:#Przydziel
 common#:#assign_global_role#:#Przydziel do globalnej roli
 common#:#assign_lo_forum#:#Przydziel forum (PN)
-common#:#assign_local_role#:#Assign to local role###25 May 2004 new variable
+common#:#assign_local_role#:#Wybierz lokalną rolę
 common#:#assign_user_to_role#:#Przydziel użytkownikowi rolę
 common#:#at_location#:#w miejscu
 common#:#attachment#:#Załącznik
@@ -526,7 +513,7 @@ common#:#basic_data#:#Dane podstawowe
 common#:#benchmark#:#Test wydajności
 common#:#benchmark_settings#:#Ustawienia testu wydajności
 common#:#benchmarks#:#Testy wydajności
-common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
+common#:#bib_data#:#Data bibliografii
 common#:#bm#:#Zakładka
 common#:#bmf#:#Folder zakładek
 common#:#bookmark_edit#:#Edytuj zakładkę
@@ -558,13 +545,13 @@ common#:#cat_create_exc#:#Twórz Ćwiczenie
 common#:#cat_create_frm#:#Twórz Forum
 common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
-common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
+common#:#cat_create_htlm#:#Twórz Moduł Nauczania HTML
 common#:#cat_create_lm#:#Twórz Moduł Nauczania
 common#:#cat_create_mep#:#Twórz pulę mediów
-common#:#cat_create_qpl#:#Twórz pulę pytań###07 May 2004 content changed
+common#:#cat_create_qpl#:#Twórz pulę pytań
 common#:#cat_create_slm#:#Twórz Moduł Nauczania SCORM
-common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
-common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
+common#:#cat_create_spl#:#Twórz Pulę Pytań (ankieta)
+common#:#cat_create_svy#:#Twórz ankietę
 common#:#cat_create_tst#:#Twórz test
 common#:#cat_delete#:#Usuń Kategorię
 common#:#cat_edit#:#Edytuj kategorię
@@ -595,7 +582,7 @@ common#:#change#:#Zmień
 common#:#change_active_assignment#:#Zmień aktywny przydział
 common#:#change_assignment#:#Zmień przydział
 common#:#change_existing_objects#:#zmień istniejące obiekty
-common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
+common#:#change_header_title#:#Edytuj Tytuł Nagłówka
 common#:#change_lo_info#:#Zmień Informacje (PN)
 common#:#change_metadata#:#Zmień Metadane
 common#:#change_sort_direction#:#Zmień kierunek sortowania
@@ -623,7 +610,6 @@ common#:#choose_location#:#Wybierz miejsce
 common#:#choose_only_one_language#:#Wybierz tylko jeden język
 common#:#city#:#Miasto
 common#:#clear#:#Wyczyść
-common#:#client ip#:#Client Ip###24 Jun 2004 new variable
 common#:#client_id#:#ID Klienta
 common#:#clipboard#:#Schowek
 common#:#close#:#Zamknij
@@ -633,13 +619,12 @@ common#:#compose#:#Utwórz nową
 common#:#confirm#:#Zatwierdź
 common#:#cont_object#:#Obiekt
 common#:#contact_data#:#Informacje kontaktowe
-common#:#container#:#Container###11 Apr 2004 new variable
+common#:#container#:#Kontener
 common#:#context#:#Kontekst
-common#:#continue_work#:#Continue###16 Jun 2004 new variable
+common#:#continue_work#:#Kontynuuj
 common#:#copy#:#Kopiuj
-common#:#copyPage#:#Copy###10 May 2004 new variable
+common#:#copyPage#:#Kopiuj
 common#:#copy_of#:#Kopia
-common#:#count#:#Count###24 Jun 2004 new variable
 common#:#country#:#Kraj
 common#:#course#:#Kurs
 common#:#courses#:#Kursy
@@ -666,7 +651,7 @@ common#:#crs_new#:#Nowy kurs
 common#:#crs_read#:#Prawo czytania Kursu
 common#:#crs_visible#:#Kurs jest widoczny
 common#:#crs_write#:#Edycja Kursu
-common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
+common#:#cumulative_time#:#Czas skumulowany
 common#:#cur_number_rec#:#Bieżąca liczba rekordów
 common#:#current_password#:#Aktualne hasło
 common#:#cut#:#Wytnij
@@ -743,10 +728,10 @@ common#:#err_no_param#:#Brak parametru!
 common#:#err_over_3_param#:#Więcej niż 3 parametry!
 common#:#err_role_not_assignable#:#W tym miejscu nie możesz przydzielić użytkowników do tej roli.
 common#:#err_session_expired#:#Twoja sesja się zakończyła!
-common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
+common#:#err_unknown_error#:#nieznany błąd
 common#:#err_wrong_header#:#Powód: Zły nagłówek.
 common#:#err_wrong_login#:#Zły login (pseudonim)
-common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
+common#:#err_wrong_password#:#Złe hasło
 common#:#error_parser#:#Błąd startu parsera.
 common#:#error_recipient#:#Odbiorca błędu
 common#:#exc#:#Ćwiczenie
@@ -798,50 +783,49 @@ common#:#file#:#Plik
 common#:#file_a#:#Plik
 common#:#file_add#:#Wyślij plik
 common#:#file_added#:#Plik załadowany
-common#:#file_delete#:#Delete File###17 Apr 2004 new variable
-common#:#file_edit#:#Edit File###16 Apr 2004 new variable
-common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
+common#:#file_delete#:#Usuń plik
+common#:#file_edit#:#Edytuj plik
+common#:#file_edit_permission#:#Zmiana ustawienia uprawnień
 common#:#file_new#:#Nowy plik
 common#:#file_not_found#:#Plik nie odnaleziony
 common#:#file_not_valid#:#Plik nieważny!
-common#:#file_notice#:#Please take care of the filesizelimit of  ###23 Jun 2004 new variable
-common#:#file_read#:#Download File###17 Apr 2004 new variable
+common#:#file_read#:#Pobierz plik
 common#:#file_valid#:#Plik ważny!
 common#:#file_version#:#Wersja podana w pliku
-common#:#file_visible#:#File is visible###17 Apr 2004 new variable
-common#:#file_write#:#Edit File###17 Apr 2004 new variable
-common#:#files#:#Files###16 Apr 2004 new variable
+common#:#file_visible#:#Plik jest widoczny
+common#:#file_write#:#Edycja pliku
+common#:#files#:#Pliki
 common#:#files_location#:#Miejsce plików
-common#:#fill_out_all_required_fields#:#Wypęłnij wszystkie konieczne pola
+common#:#fill_out_all_required_fields#:#Wypełnij wszystkie konieczne pola
 common#:#firstname#:#Imię
 common#:#flatview#:#Widok płaski
 common#:#fold#:#Folder
 common#:#fold_a#:#Folder
 common#:#fold_add#:#Dodaj Folder
 common#:#fold_added#:#Folder dodany
-common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
-common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
-common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
-common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
-common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
-common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
-common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
-common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
-common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
-common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
+common#:#fold_create_chat#:#Twórz czat
+common#:#fold_create_file#:#Załaduj plik
+common#:#fold_create_fold#:#Twórz Folder
+common#:#fold_create_frm#:#Twórz Forum
+common#:#fold_create_glo#:#Twórz Słownik
+common#:#fold_create_lm#:#Twórz Moduł Nauczania
+common#:#fold_create_slm#:#Twórz Moduł Nauczania SCORM
+common#:#fold_delete#:#Usuń Folder
+common#:#fold_edit#:#Edytuj Folder
+common#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
 common#:#fold_new#:#Nowy Folder
-common#:#fold_read#:#Read access to Folder###17 Apr 2004 new variable
-common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
-common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
+common#:#fold_read#:#Prawo czytania Folderu
+common#:#fold_visible#:#Folder jest widoczny
+common#:#fold_write#:#Edycja Folderu
 common#:#folder#:#Folder
 common#:#folders#:#Foldery
 common#:#force_accept_usr_agreement#:#Musisz zaakceptować zasady użytkowania.
 common#:#forename#:#Nazwisko
-common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
+common#:#forgot_password#:#Zapomniałeś hasła?
 common#:#form_empty_fields#:#Wypełnij te pola:
 common#:#forum#:#Forum
-common#:#forum_import#:#Forum import###09 Apr 2004 new variable
-common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
+common#:#forum_import#:#Import Forum
+common#:#forum_import_file#:#Import pliku
 common#:#forum_notification#:#Powiadomienie
 common#:#forum_notify_me#:#Powiadom mnie kiedy odpowiedź jest wysłana
 common#:#forum_post_replied#:#Twój wpis w forum uzyskał odpowiedź.
@@ -881,7 +865,7 @@ common#:#glo_join#:#Subskrybuj Słownik
 common#:#glo_leave#:#Rezygnuję z subskrybcji Słownika
 common#:#glo_new#:#Nowy Słownik
 common#:#glo_read#:#Prawo czytania Słownika
-common#:#glo_upload_file#:#File###07 May 2004 new variable
+common#:#glo_upload_file#:#Plik
 common#:#glo_visible#:#Słownik jest widoczny
 common#:#glo_write#:#Edycja Słownika
 common#:#glossaries#:#Słowniki
@@ -893,8 +877,8 @@ common#:#group_create_chat#:#Twórz czat
 common#:#group_desc#:#Opis grupy
 common#:#group_details#:#Szczegóły grupy
 common#:#group_filesharing#:#Group File Sharing
-common#:#group_import#:#Group import###20 Apr 2004 new variable
-common#:#group_import_file#:#Import file###20 Apr 2004 new variable
+common#:#group_import#:#Import Grupy
+common#:#group_import_file#:#Plik Importowany
 common#:#group_members#:#Członkowie grupy
 common#:#group_memstat#:#Status członka
 common#:#group_memstat_admin#:#Administrator
@@ -915,9 +899,9 @@ common#:#group_req_password#:#Wymagane hasło rejestracji
 common#:#group_req_registration#:#Wymagana rejestracja
 common#:#group_req_registration_msg#:#aby przystąpić do tej grupy, musisz się zarejestrować. Administrator grupy przydzieli Cię do grupy. Podaj przedmiot do  przydzielenia.<br>Otrzymasz wiadomość o przydziale do grupy.
 common#:#group_reset#:#Przywróć ustawienia domyslne grupy
-common#:#group_status#:#Status grupy###08 May 2004 content changed
+common#:#group_status#:#Status grupy
 common#:#group_status_closed#:#Zamknięta
-common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open' <br/>Public: Group is visible; User may subscribe. <br/> Closed: Group is not visible for non-members; User has to be invited by a member to join.###08 May 2004 new variable
+common#:#group_status_desc#:#Określa inicjalny status grupy przy użyciu szablonu uprawnień roli 'il_grp_status_closed' lub 'il_grp_status_open' <br/>Publiczna: Grupa jest widoczna; Użytkownik może ją subskrybować. <br/> Zamknięta: Grupa nie jest widoczna dla użytkowników niebędacych członkami grupy; Użytkownik musi być zaproszony do wstąpienia przez członka grupy.
 common#:#group_status_public#:#Publiczna
 common#:#groups#:#Grupy
 common#:#groups_overview#:#Przegląd grup
@@ -925,23 +909,23 @@ common#:#grp#:#Grupa
 common#:#grp_a#:#Grupa
 common#:#grp_add#:#Dodaj Grupę
 common#:#grp_added#:#Grupa została dodana
-common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
-common#:#grp_back#:#Back###18 Apr 2004 new variable
+common#:#grp_already_applied#:#Już jesteś wybrany do tej grupy! Czekaj na potwierdzenie
+common#:#grp_back#:#Powrót
 common#:#grp_create#:#Twórz Grupę
 common#:#grp_create_chat#:#Twórz czat
-common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
-common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
-common#:#grp_create_file#:#Użytkownik może przysyłać pliki###17 Apr 2004 content changed
-common#:#grp_create_fold#:#Użytkownik może tworzyć foldery###17 Apr 2004 content changed
+common#:#grp_create_dbk#:#Twórz Książkę Cyfrową
+common#:#grp_create_exc#:#Twórz Ćwiczenie
+common#:#grp_create_file#:#Użytkownik może przysyłać pliki
+common#:#grp_create_fold#:#Użytkownik może tworzyć foldery
 common#:#grp_create_frm#:#Twórz Forum
-common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
-common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
+common#:#grp_create_glo#:#Twórz Słownik
+common#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
 common#:#grp_create_lm#:#Twórz Moduł Nauczania
-common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
+common#:#grp_create_mep#:#Twórz Pulę Mediów
 common#:#grp_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#grp_delete#:#Usuń Grupę
 common#:#grp_dismiss_member#:#Czy jesteś pewien, że chcesz usunąć następujących członków z grupy?
-common#:#grp_dismiss_myself#:#Czy jesteś pewien, że chcesz usunąć siebie z grupy?###19 Jun 2004 content changed
+common#:#grp_dismiss_myself#:#Czy jesteś pewien, że chcesz usunąć siebie z grupy?
 common#:#grp_edit#:#Edytuj Grupę
 common#:#grp_edit_permission#:#Zmień ustawienia uprawnień
 common#:#grp_err_administrator_required#:#Ten członek grupy nie może być usunięty, powinien być conajmniej jeden admninistrator grupy!
@@ -956,9 +940,9 @@ common#:#grp_leave#:#Użytkownik może opuścić grupę
 common#:#grp_mem_change_status#:#Zmień status członka
 common#:#grp_mem_leave#:#Wyklucz członka grupy
 common#:#grp_mem_send_mail#:#Wyślij członkowi wiadomość
-common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)###18 Apr 2004 new variable
-common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.###18 Apr 2004 new variable
-common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 2004 new variable
+common#:#grp_msg_applicants_assigned#:#Kandydaci przydzieleni jako członkowie grupy.
+common#:#grp_msg_applicants_removed#:#Kandydaci usunięci z listy.
+common#:#grp_msg_member_assigned#:#Użytkownicy przydzieleni jako członkowie grupy
 common#:#grp_msg_membership_annulled#:#Członkostwo anulowane
 common#:#grp_name_exists#:#Już jest grupa o takiej samej nazwie! Wybierz inną nazwę.
 common#:#grp_new#:#Nowa Grupa
@@ -969,26 +953,26 @@ common#:#grp_visible#:#Grupa jest widoczna
 common#:#grp_write#:#Edycja Grupy
 common#:#guest#:#Gość
 common#:#guests#:#Goście
-common#:#header_title#:#Header Title###03 May 2004 new variable
+common#:#header_title#:#Tytuł Nagłówka
 common#:#help#:#Pomoc
 common#:#hide_details#:#ukryj szczegóły
 common#:#hide_structure#:#Wyłącz widok strukturalny
 common#:#hobby#:#Zainteresowania/Hobby
 common#:#home#:#Strona domowa
 common#:#host#:#Serwer
-common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_edit#:#Edit HTML Learning Module Properties###07 Apr 2004 new variable
-common#:#htlm_edit_permission#:#Change permission settings###07 Apr 2004 new variable
-common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
-common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm#:#Moduł Nauczania HTML
+common#:#htlm_add#:#dodajModuł Nauczania HTML
+common#:#htlm_delete#:#Usuń Moduł Nauczania HTML
+common#:#htlm_edit#:#Edytuj właściwości Modułu Nauczania HTML
+common#:#htlm_edit_permission#:#Zmiana uprawnień dostępu
+common#:#htlm_new#:#Nowy Moduł Nauczania HTML
+common#:#htlm_read#:#Czytanie Modułu Nauczania HTML
+common#:#htlm_visible#:#Moduł Nauczania HTML jest widoczny
+common#:#htlm_write#:#Edycja Modułu Nauczania HTML
 common#:#http_path#:#Ścieżka http
 common#:#id#:#ID
 common#:#identifier#:#identyfikator
-common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
+common#:#if_no_title_then_filename#:#Pozostaw puste dla wyświetlenia nazwy pliku
 common#:#ilias_version#:#Wersja ILIAS
 common#:#image#:#Obrazek
 common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z administratorem systemu i sprawdź ścieżkę konwersji.
@@ -997,14 +981,14 @@ common#:#import_categories#:#Import kategorii
 common#:#import_file#:#Plik Importowy
 common#:#import_file_not_valid#:#Plik importowy nie jest prawidłowy.
 common#:#import_finished#:#Ilość zaimportowanych wiadomości.
-common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
-common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
-common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
+common#:#import_forum_finished#:#Forum zostało zaimportowane.
+common#:#import_glossary#:#Import Słownika
+common#:#import_grp_finished#:#Zaimportowana grupa bez błędów
 common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_root_user#:#Import użytkownika root
 common#:#import_slm#:#Importuj pakiet SCORM
 common#:#import_users#:#Import Użytkowników
-common#:#imported#:#imported###30 Apr 2004 new variable
+common#:#imported#:#zaimportowany
 common#:#in#:#w
 common#:#in_use#:#język użytkownika
 common#:#inbox#:#Skrzynka odbiorcza
@@ -1051,10 +1035,10 @@ common#:#item#:#Pozycja
 common#:#kb#:#KB
 common#:#keywords#:#Klucze
 common#:#lang_cs#:#Czeski
-common#:#lang_da#:#Danish###22 Apr 2004 new variable
+common#:#lang_da#:#Duński
 common#:#lang_dateformat#:#r-m-d
 common#:#lang_de#:#Niemiecki
-common#:#lang_el#:#Greek###22 Apr 2004 new variable
+common#:#lang_el#:#Grecki
 common#:#lang_en#:#Angielski
 common#:#lang_es#:#Hiszpański
 common#:#lang_fi#:#Fiński
@@ -1070,11 +1054,11 @@ common#:#lang_pl#:#Polski
 common#:#lang_pt#:#Portugalski
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
-common#:#lang_sv#:#Swedish###22 Apr 2004 new variable
+common#:#lang_sv#:#Szwedzki
 common#:#lang_timeformat#:#G:m:s
 common#:#lang_ua#:#Ukraiński
 common#:#lang_version#:#1
-common#:#lang_vi#:#Vietnamese###22 Apr 2004 new variable
+common#:#lang_vi#:#Wietnamski
 common#:#lang_xx#:#Inny
 common#:#lang_zh#:#Uproszczony Chiński
 common#:#langfile_found#:#Plik językowy został odnaleziony
@@ -1093,7 +1077,6 @@ common#:#ldap_edit_permission#:#Zmień uprawnienia dostępu
 common#:#ldap_read#:#Prawo czytania ustawień LDAP
 common#:#ldap_visible#:#Ustawienia LDAP są widoczne
 common#:#ldap_write#:#Edycja ustawień LDAP
-common#:#learning module#:#Learning Module###24 Jun 2004 new variable
 common#:#learning_objects#:#Przedmioty Nauczania (PN)
 common#:#learning_resources#:#Zasoby nauczania
 common#:#level#:#Poziom
@@ -1134,7 +1117,7 @@ common#:#login#:#Loguj
 common#:#login_as#:#Zalogowany jako
 common#:#login_data#:#Data zalogowania
 common#:#login_exists#:#Już jest użytkownik z taką nazwą (pseudonim)! Wybierz inną.
-common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~###08 May 2004 new variable
+common#:#login_invalid#:#Wybrany pseudonim jest błędny! Tylko następujące znaki są dozwolone (minimum 4 znaki): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Biezący czas pracy
 common#:#login_to_ilias#:#Logowanie do ILIAS-a
 common#:#logout#:#Wyloguj
@@ -1154,7 +1137,7 @@ common#:#mail_e_sent#:#Wysłane
 common#:#mail_edit_permission#:#Zmień ustawienia uprawnień
 common#:#mail_folders#:#Foldery pocztowe
 common#:#mail_import#:#Import
-common#:#mail_import_file#:#Plik eksportowy ILIAS 2###30 Apr 2004 content changed
+common#:#mail_import_file#:#Plik eksportowy ILIAS 2
 common#:#mail_intern_enable#:#Wybierz
 common#:#mail_mail_visible#:#Użytkownik może używać systemu pocztowego
 common#:#mail_mails_of#:#Poczta
@@ -1180,7 +1163,7 @@ common#:#mails#:#Wiadomości
 common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
 common#:#mark_all_unread#:#Zaznacz wszystkie jako nieodczytane
 common#:#max_number_rec#:#Maksymalna liczba rekordów
-common#:#max_time#:#Maximum time###09 Apr 2004 new variable
+common#:#max_time#:#Maksymalny czas
 common#:#member#:#Członek
 common#:#members#:#Członkowie
 common#:#membership_annulled#:#Twoje członkostwo zostało anulowane.
@@ -1199,7 +1182,7 @@ common#:#message_content#:#Zawartość wiadomości
 common#:#message_to#:#Wiadomość do:
 common#:#meta_data#:#Meta dane
 common#:#migrate#:#Migrate
-common#:#min_time#:#Minimum time###09 Apr 2004 new variable
+common#:#min_time#:#Minimalny czas
 common#:#mob#:#Obiekt multimedialny
 common#:#module#:#moduł
 common#:#modules#:#Moduły
@@ -1327,7 +1310,7 @@ common#:#no_bm_in_personal_list#:#Nie zdefiniowano zakładek.
 common#:#no_chat_in_personal_list#:#Brak czatów na prywatnej liście
 common#:#no_checkbox#:#Nie wybrano opcji!
 common#:#no_date#:#Brak daty.
-common#:#no_description#:#No description###13 Apr 2004 new variable
+common#:#no_description#:#Brak opisu
 common#:#no_frm_in_personal_list#:#Brak forów na prywatnej liście.
 common#:#no_grp_in_personal_list#:#Brak grup na prywatnej liście.
 common#:#no_import_available#:#Import nie jest dostępny dla typu
@@ -1339,7 +1322,7 @@ common#:#no_title#:#Brak tytułu
 common#:#no_tst_in_personal_list#:#Brak testów na prywatnej liście.
 common#:#none#:#Brak
 common#:#normal#:#Normalny
-common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
+common#:#not_implemented_yet#:#Jeszcze nie implementowane
 common#:#not_installed#:#Nie zainstalowany
 common#:#not_logged_in#:#Nie jesteś zalogowany.
 common#:#number_of_records#:#Liczba rekordów
@@ -1359,7 +1342,7 @@ common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Słownik
 common#:#obj_grp#:#Grupa
-common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
+common#:#obj_htlm#:#Moduł Nauczania HTML
 common#:#obj_ldap#:#Ustawienia LDAP
 common#:#obj_ldap_desc#:#Konfiguracja globalnych ustawień LDAP.
 common#:#obj_lm#:#Moduł Nauczania (MN)
@@ -1378,7 +1361,7 @@ common#:#obj_objf#:#Definicja obiektu
 common#:#obj_objf_desc#:#Zarządzanie typami obiektów ILIAS i uprawnieniami do nich. (tylko dla ekspertów!)
 common#:#obj_owner#:#Ten obiekt jest własnością
 common#:#obj_pg#:#Strona
-common#:#obj_qpl#:#Pula pytań###07 May 2004 content changed
+common#:#obj_qpl#:#Pula pytań
 common#:#obj_recf#:#Odtworzone Obiekty
 common#:#obj_recf_desc#:#Zawiera odtworzone obiekty powstałe przy sprawdzeniu systemu.
 common#:#obj_role#:#Rola
@@ -1389,12 +1372,12 @@ common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych ról.
 common#:#obj_rolt#:#Szablon roli
 common#:#obj_root#:#korzeń
 common#:#obj_slm#:#SCORM (MN)
-common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
+common#:#obj_spl#:#Question Pool (ankieta)
 common#:#obj_st#:#Rozdział
-common#:#obj_svy#:#Survey###07 May 2004 new variable
-common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
-common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
-common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
+common#:#obj_svy#:#Ankieta
+common#:#obj_tax#:#Systematyka
+common#:#obj_taxf#:#Systematyki
+common#:#obj_taxf_desc#:#Folder dla systematyki
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definicja typu obiektu
 common#:#obj_type#:#Typ obiektu
@@ -1410,7 +1393,7 @@ common#:#objf_read#:#Prawo czytania definicji obiektów
 common#:#objf_visible#:#Definicje obiektów są widoczne
 common#:#objf_write#:#Edycja definicji obiektów
 common#:#objs_cat#:#Kategorie
-common#:#objs_chat#:#Chats###12 Apr 2004 new variable
+common#:#objs_chat#:#Czaty
 common#:#objs_confirm#:#Potwierdź usunięcie
 common#:#objs_crs#:#Kursy
 common#:#objs_dbk#:#Książki cyfrowe
@@ -1421,21 +1404,21 @@ common#:#objs_fold#:#Foldery
 common#:#objs_frm#:#Fora
 common#:#objs_glo#:#Słowniki
 common#:#objs_grp#:#Grupy
-common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
+common#:#objs_htlm#:#Moduły Nauczania HTML
 common#:#objs_lm#:#Moduły nauczania
 common#:#objs_lng#:#Języki
 common#:#objs_lo#:#Obiekty nauczania
-common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
+common#:#objs_mep#:#Pule Mediów
 common#:#objs_mob#:#Obiekty multimedialne
 common#:#objs_note#:#Notatki
 common#:#objs_pg#:#Strony
-common#:#objs_qpl#:#Pule pytań###07 May 2004 content changed
+common#:#objs_qpl#:#Pule pytań
 common#:#objs_role#:#Role
 common#:#objs_rolt#:#Szablony Ról
 common#:#objs_slm#:#Moduły nauczania SCORM
-common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
+common#:#objs_spl#:#Pule pytań (Ankieta)
 common#:#objs_st#:#Rozdziały
-common#:#objs_svy#:#Surveys###07 May 2004 new variable
+common#:#objs_svy#:#Ankiety
 common#:#objs_tst#:#Testy
 common#:#objs_type#:#Typy obiektów
 common#:#objs_usr#:#Użytkownicy
@@ -1479,7 +1462,7 @@ common#:#perm_settings#:#Uprawnienia
 common#:#permission#:#Uprawnienia
 common#:#permission_denied#:#Dostęp zabroniony
 common#:#permission_settings#:#Ustawienia uprawnień dostępu
-common#:#person_title#:#Title###14 May 2004 new variable
+common#:#person_title#:#Tytuł
 common#:#personal_data#:#Dane osobowe
 common#:#personal_desktop#:#Pulpit osobisty
 common#:#personal_picture#:#Osobista fotografia
@@ -1511,7 +1494,7 @@ common#:#publication#:#Publikowanie
 common#:#publication_date#:#Data opublikowania
 common#:#published#:#Opublikowane
 common#:#publishing_organisation#:#Organizacja publikująca
-common#:#qpl#:#Pula pytań###07 May 2004 content changed
+common#:#qpl#:#Pula pytań
 common#:#qpl_add#:#Dodaj pulę pytań
 common#:#qpl_delete#:#Usuń pulę pytań
 common#:#qpl_edit_permission#:#Zmień ustawienia uprawnień
@@ -1524,12 +1507,12 @@ common#:#question_pools#:#Pule pytań
 common#:#quit#:#Wyjście
 common#:#quote#:#Kwota
 common#:#read#:#Czytaj
-common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
+common#:#recf_edit#:#Edycja Folderu Odzyskiwania
 common#:#recipient#:#Odbiorca
 common#:#refresh#:#Odśwież
 common#:#refresh_languages#:#Odśwież języki
 common#:#refresh_list#:#Lista odświeżona
-common#:#refuse#:#Refuse###18 Apr 2004 new variable
+common#:#refuse#:#Odmowa
 common#:#register#:#Rejestruj
 common#:#register_info#:#Wypełnij formularz do rejestracji (Pola zaznaczone gwiazdką są niezbędne).
 common#:#registered_since#:#Zarejestrowany od
@@ -1538,10 +1521,9 @@ common#:#registered_users#:#zarejestrowani użytkownicy
 common#:#registration#:#Rejestracja nowego konta
 common#:#registration_expired#:#Termin rejestracji minął...
 common#:#remove#:#Wyklucz
-common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
 common#:#remove_translation#:#Usuń tłumaczenie
 common#:#rename#:#Zmień nazwę
-common#:#rename_file#:#Rename File###03 May 2004 new variable
+common#:#rename_file#:#Zmień nazwę pliku
 common#:#reply#:#Odpowiedz
 common#:#repository#:#Dostępne zasoby
 common#:#required_field#:#Pole niezbędne
@@ -1560,8 +1542,8 @@ common#:#role_deleted#:#Rola usunięta
 common#:#role_edit#:#Edytuj rolę
 common#:#role_new#:#Nowa rola
 common#:#roles#:#Role
-common#:#roles_of_import_global#:#Global roles of import file###25 May 2004 new variable
-common#:#roles_of_import_local#:#Local roles of import file###25 May 2004 new variable
+common#:#roles_of_import_global#:#Globalne role plików importowych
+common#:#roles_of_import_local#:#Lokalne role plików importowanych
 common#:#rolf#:#Folder roli
 common#:#rolf_added#:#Folder roli został dodany
 common#:#rolf_create_role#:#Twórz definicję Roli
@@ -1596,7 +1578,6 @@ common#:#save_settings#:#Zachowaj ustawienia
 common#:#saved#:#Zapisane
 common#:#saved_successfully#:#Zapis Udany
 common#:#search#:#Szukaj
-common#:#search_for#:#Search For###24 Jun 2004 new variable
 common#:#search_in#:#Szukaj w
 common#:#search_new#:#Nowe szukanie
 common#:#search_recipient#:#Wyszukaj Odbiorcę
@@ -1608,7 +1589,7 @@ common#:#select_all#:#Wybierz wszystkie
 common#:#select_file#:#Wybierz plik
 common#:#select_mode#:#Wybierz tryb
 common#:#selected#:#Wybrany
-common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
+common#:#selected_items#:#Pozycje osobowe
 common#:#send#:#Wyślij
 common#:#sender#:#Nadawca
 common#:#sent#:#Wyślij
@@ -1629,7 +1610,7 @@ common#:#show_list#:#Pokaż listę
 common#:#show_members#:#Wyświetl użytkowników
 common#:#show_owner#:#Pokaż właściciela
 common#:#show_structure#:#Włącz widok strukturalny
-common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
+common#:#show_users_online#:#Pokaż pracujących użytkowników
 common#:#signature#:#Podpis
 common#:#slm#:#SCORM (MN)
 common#:#slm_added#:#Moduł Nauczania SCORM został dodany.
@@ -1643,14 +1624,14 @@ common#:#slm_visible#:#Moduł Nauczania SCORM jest widoczny
 common#:#slm_write#:#Edycja Modułu Nauczania SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sortuj wg tej kolumny
-common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
-common#:#spl_add#:#Add question pool###07 May 2004 new variable
-common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
-common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
-common#:#spl_new#:#New question pool###07 May 2004 new variable
-common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
-common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
-common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
+common#:#spl#:#Pula pytań (ankieta)
+common#:#spl_add#:#Dodaj pulę pytań
+common#:#spl_delete#:#Usuń pulę pytań
+common#:#spl_edit_permission#:#Zmiana uprawnień dostępu
+common#:#spl_new#:#Nowa pula pytań
+common#:#spl_read#:#Prawo czytania puli pytań
+common#:#spl_visible#:#Pula pytań jest widoczna
+common#:#spl_write#:#Edycja puli pytań
 common#:#st_a#:#rozdział
 common#:#st_add#:#Dodaj rozdział
 common#:#st_added#:#Rozdział dodany
@@ -1665,21 +1646,20 @@ common#:#structure#:#Struktura
 common#:#subcat_name#:#Nazwa podkategorii
 common#:#subchapter_new#:#Nowy podrozdział
 common#:#subject#:#Temat
-common#:#subject_module#:#Subject Module###24 Jun 2004 new variable
 common#:#submit#:#Wykonaj
 common#:#subobjects#:#Podobiekty
 common#:#subscription#:#Subskrypcja
 common#:#summary#:#Podsumowanie
-common#:#svy#:#Survey###07 May 2004 new variable
-common#:#svy_add#:#Add survey###07 May 2004 new variable
-common#:#svy_delete#:#Delete survey###07 May 2004 new variable
-common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
-common#:#svy_invite#:#Invite users to a survey###26 May 2004 new variable
-common#:#svy_new#:#New survey###07 May 2004 new variable
-common#:#svy_participate#:#Participate in a survey###26 May 2004 new variable
-common#:#svy_read#:#Read access to survey###07 May 2004 new variable
-common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
-common#:#svy_write#:#Edit survey###07 May 2004 new variable
+common#:#svy#:#Ankieta
+common#:#svy_add#:#Dodaj ankietę
+common#:#svy_delete#:#Usuń ankietę
+common#:#svy_edit_permission#:#Zmiana uprawnień dostępu
+common#:#svy_invite#:#Zaproś użytkowników do ankiety
+common#:#svy_new#:#Nowa ankieta
+common#:#svy_participate#:#Branie udziału w ankiecie
+common#:#svy_read#:#Prawo czytania ankiety
+common#:#svy_visible#:#Ankieta jest widoczna
+common#:#svy_write#:#Edycja ankiety
 common#:#system#:#System
 common#:#system_check#:#Sprawdzenie Systemu
 common#:#system_choose_language#:#Wybór języka systemowego
@@ -1687,25 +1667,20 @@ common#:#system_groups#:#Grupy systemowe
 common#:#system_grp#:#Grupa systemowa
 common#:#system_language#:#Język systemowy
 common#:#system_message#:#Wiadomość systemowa
-common#:#table_mail_import#:#Import poczty z ILIAS 2###30 Apr 2004 content changed
-common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
-common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
-common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
-common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
-common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable
-common#:#taxf_edit_permission#:#Change permission settings###19 Jun 2004 new variable
-common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
-common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
-common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
+common#:#table_mail_import#:#Import poczty z ILIAS 2
+common#:#tax_delete#:#Usuń systematykę
+common#:#tax_edit_permission#:#Zmiana uprawnień dostępu
+common#:#tax_read#:#Prawo czytania systematyki
+common#:#tax_visible#:#Systematyka jest widoczna
+common#:#tax_write#:#Prawo zapisu do systematyki
+common#:#taxf_edit_permission#:#Zmiana uprawnień dostępu
+common#:#taxf_read#:#Prawo czytania folderu systematyki
+common#:#taxf_visible#:#Folder Systematyki jest widoczny
+common#:#taxf_write#:#Prawo zapisu do folderu systematyki
 common#:#term#:#Termin
-common#:#test#:#Test###24 Jun 2004 new variable
 common#:#test_intern#:#Test wewnętrzny
-common#:#test_module#:#Test Module###24 Jun 2004 new variable
 common#:#tests#:#Testy
 common#:#time#:#Czas
-common#:#time_d#:#Day###24 Jun 2004 new variable
-common#:#time_h#:#Hour###24 Jun 2004 new variable
-common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
 common#:#title#:#Tytuł
 common#:#to#:#Do
 common#:#to_client_list#:#Do wyboru klienta
@@ -1736,7 +1711,7 @@ common#:#uninstalled#:#odinstalowane.
 common#:#unknown#:#NIEZNANY
 common#:#unread#:#Nie czytany
 common#:#unsubscribe#:#przerwij subskrybcję
-common#:#unzip#:#Unzip###07 Apr 2004 new variable
+common#:#unzip#:#Unzip
 common#:#up#:#W górę
 common#:#update_applied#:#Uaktualnienie wykonane
 common#:#update_language#:#Uaktualnij język
@@ -1756,7 +1731,6 @@ common#:#username#:#Login (pseudonim)
 common#:#users#:#Użytkownicy
 common#:#users_not_imported#:#Następujący użytkownicy nie istnieją, ich wiadomości nie mogą być importowane.
 common#:#users_online#:#Użytkownicy zalogowani
-common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
 common#:#usr#:#Użytkownik
 common#:#usr_a#:#Użytkownik
 common#:#usr_add#:#Dodaj użytkownika
@@ -1801,7 +1775,7 @@ content#:#cont_Additional#:#Dodatkowe
 content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...
 content#:#cont_Circle#:#Koło
 content#:#cont_Citation#:#Cytat
-content#:#cont_Code#:#Code###08 May 2004 new variable
+content#:#cont_Code#:#Kod
 content#:#cont_Example#:#Przykład
 content#:#cont_Headline1#:#Nagłówek 1
 content#:#cont_Headline2#:#Nagłówek 2
@@ -1815,9 +1789,9 @@ content#:#cont_Rect#:#Wielokąt
 content#:#cont_Reference#:#Referencja
 content#:#cont_Remark#:#Komentarz
 content#:#cont_Roman#:#Rzymskie I, II, ...
-content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
+content#:#cont_TableContent#:#Zawartość tabeli
 content#:#cont_Unordered#:#Nieposortowany
-content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
+content#:#cont_active#:#Aktywuj Menu
 content#:#cont_add_area#:#Dodaj powierzchnię
 content#:#cont_add_definition#:#Dodaj definicję
 content#:#cont_add_fullscreen#:#dodaj Pełny widok
@@ -1825,8 +1799,8 @@ content#:#cont_added_term#:#Termin dodany
 content#:#cont_all_definitions#:#Wszystkie definicje
 content#:#cont_all_pages#:#Wszystkie strony
 content#:#cont_alphabetic#:#Alfabetycznie a, b, ...
-content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
-content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
+content#:#cont_api_adapter#:#Nazwa adaptera API
+content#:#cont_api_func_prefix#:#Prefiks funkcji API
 content#:#cont_areas_deleted#:#Obszar mapy usunięty.
 content#:#cont_assign_full#:#Przydziel pełny widok
 content#:#cont_assign_std#:#Przydziel standardowy widok
@@ -1835,7 +1809,7 @@ content#:#cont_assignments_deleted#:#Przydziały zostały usunięte
 content#:#cont_back#:#Powrót
 content#:#cont_booktitle#:#Tytuł książki
 content#:#cont_bottom#:#Spód
-content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
+content#:#cont_cant_copy_folders#:#Foldery nie mogą być kopiowane do schowka
 content#:#cont_cant_del_full#:#Usunięcie pliku pełnoekranowego widoku nie jest możliwe.
 content#:#cont_cant_del_std#:#Usunięcie pliku standardowego widoku nie jest możliwe
 content#:#cont_caption#:#Nagłówek
@@ -1843,8 +1817,8 @@ content#:#cont_change_type#:#Zmień typ
 content#:#cont_chap_and_pages#:#Rozdziały i strony
 content#:#cont_chap_select_target_now#:#Rozdział zaznaczony do przesunięcia. Teraz wybierz przeznaczenie.
 content#:#cont_chapters#:#Rozdziały
-content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
-content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
+content#:#cont_chapters_and_pages#:#Rozdziały i Strony
+content#:#cont_chapters_only#:#Tylko Rozdziały
 content#:#cont_characteristic#:#Charakterystyka
 content#:#cont_choose_cont_obj#:#Wybierz zawartość obiektu
 content#:#cont_choose_glossary#:#Wybierz słownik
@@ -1852,7 +1826,7 @@ content#:#cont_choose_media_source#:#Wybierz źródło mediów
 content#:#cont_citation_err_one#:#Musisz wybrać dokładnie jedną edycję
 content#:#cont_citation_selection_not_valid#:#Twój wybór nie jest prawidłowy
 content#:#cont_citations#:#Cytaty
-content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
+content#:#cont_clean_frames#:#Czyść dodatkowe ramki nawigacji
 content#:#cont_click_br_corner#:#Kliknij na prawy dolny róg określanej powierzchni.
 content#:#cont_click_center#:#Kliknij na środek określanej powierzchni.
 content#:#cont_click_circle#:#Kliknij na środek określanej powierzchni.
@@ -1862,21 +1836,21 @@ content#:#cont_click_starting_point#:#Kliknij na punkt startowy wielokąta.
 content#:#cont_click_tl_corner#:#Kliknij na lewy górny róg określanej powierzchni.
 content#:#cont_content#:#Zawartość
 content#:#cont_content_obj#:#Zawartość obiektu
-content#:#cont_contents#:#Contents###14 Apr 2004 new variable
+content#:#cont_contents#:#Zawartość
 content#:#cont_coords#:#Koordynaty
-content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
+content#:#cont_copy_to_clipboard#:#Kopiuj do schowka
 content#:#cont_create_dir#:#Utwórz katalog
 content#:#cont_create_export_file#:#Twórz plik eksportowy
 content#:#cont_create_folder#:#Twórz Folder
 content#:#cont_create_mob#:#Twórz Obiekt Medialny
-content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
-content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
-content#:#cont_credit_on#:#Credit###14 Jun 2004 new variable
-content#:#cont_credits#:#Credits###03 May 2004 new variable
+content#:#cont_credit_mode#:#Tryb kredytowy (dla trybu lekcji 'normalny')
+content#:#cont_credit_off#:#Brak kredytu
+content#:#cont_credit_on#:#Kredyt
+content#:#cont_credits#:#Kredyty
 content#:#cont_cross_reference#:#Odsyłacz
 content#:#cont_data_from_lms#:#Dane z lms
 content#:#cont_def_layout#:#Domyślny wygląd
-content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
+content#:#cont_def_lesson_mode#:#Domyślny tryb lekcji
 content#:#cont_def_organization#:#domyślny
 content#:#cont_definition#:#Definicja
 content#:#cont_definitions#:#Definicje
@@ -1885,8 +1859,8 @@ content#:#cont_dependencies#:#Zależności
 content#:#cont_derive_from_obj#:#Pochodzi od Obiektu
 content#:#cont_details#:#Szczegóły
 content#:#cont_dir_file#:#Katalog/Plik
-content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
-content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
+content#:#cont_disable_media#:#Wyłącz Media
+content#:#cont_download_title#:#Pobierz Tytuł
 content#:#cont_edit_area#:#Edytuj obszar
 content#:#cont_edit_file_list_properties#:#Edytuj listę właściwości pliku
 content#:#cont_edit_mob#:#Edytuj obiekt multimedialny
@@ -1894,22 +1868,22 @@ content#:#cont_edit_mob_alias_prop#:#Edytuj właściwości instancji obiektu mul
 content#:#cont_edit_mob_files#:#Pliki obiektowe
 content#:#cont_edit_mob_properties#:#Edytuj właściwości obiektu multimedialnego
 content#:#cont_edit_par#:#Edytuj Paragraf
-content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
+content#:#cont_edit_src#:#Edytuj źródło
 content#:#cont_edit_tab_properties#:#Właściwości tablicy
 content#:#cont_edit_term#:#Edytuj termin
 content#:#cont_edition#:#Edycja
-content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
+content#:#cont_enable_media#:#Włącz Media
 content#:#cont_export_files#:#Eksport plików
 content#:#cont_external#:#zewnętrzny
 content#:#cont_file#:#Plik
 content#:#cont_files#:#Pliki
 content#:#cont_format#:#Format
-content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
+content#:#cont_free_pages#:#Wolne strony
 content#:#cont_full_is_in_dir#:#Usunięcie nie jest możliwe. Plik pełnoekranowy jest w katalogu.
 content#:#cont_fullscreen#:#Pełen ekran
-content#:#cont_get_link#:#podaj łącznik
+content#:#cont_get_link#:#Podaj łącznik
 content#:#cont_get_orig_size#:#Ustaw oryginalny rozmiar
-content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
+content#:#cont_glo_properties#:#Właściwości Słownika
 content#:#cont_height#:#Wysokość
 content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href
@@ -1922,7 +1896,7 @@ content#:#cont_insert_list#:#Wstaw listę
 content#:#cont_insert_mob#:#Wstaw obiekt multimedialny
 content#:#cont_insert_par#:#Wstaw paragraf
 content#:#cont_insert_search#:#Wstaw szukany termin
-content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
+content#:#cont_insert_src#:#Wstaw kod źródłowy
 content#:#cont_insert_table#:#Wstaw tablicę
 content#:#cont_internal#:#wewnętrzny
 content#:#cont_internal_link#:#Łącznik wewnętrzny
@@ -1933,12 +1907,12 @@ content#:#cont_item#:#Pozycja
 content#:#cont_journal#:#Dziennik
 content#:#cont_keyword#:#Słowo kluczowe
 content#:#cont_link#:#Łącznik
-content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
+content#:#cont_link_area#:#Obszar Łącznika
 content#:#cont_link_ext#:#Łącznik (zewnętrzny)
 content#:#cont_link_int#:#Łącznik (wewnętrzny)
 content#:#cont_link_select#:#Łącznik wewnętrzny
 content#:#cont_link_type#:#Typ łącznika
-content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
+content#:#cont_list_files#:#Lista plików
 content#:#cont_list_properties#:#Lista właściwości
 content#:#cont_lk_chapter#:#Rozdział
 content#:#cont_lk_chapter_new#:#Rozdział (nowa ramka)
@@ -1949,12 +1923,12 @@ content#:#cont_lk_media_new#:#Multimedia (nowa ramka)
 content#:#cont_lk_page#:#Strona
 content#:#cont_lk_page_faq#:#Strona (ramka FAQ)
 content#:#cont_lk_page_new#:#Strona (nowa ramka)
-content#:#cont_lk_survey#:#Survey###04 Jun 2004 new variable
+content#:#cont_lk_survey#:#Ankieta
 content#:#cont_lk_term#:#Hasło słownika
 content#:#cont_lk_term_new#:#Hasło słownika (nowa ramka)
-content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
+content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Właściwiści modułu nauczania
-content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
+content#:#cont_lvalue#:#Element danych
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Pole Łącznikowe
 content#:#cont_mastery_score#:#adlcp:masteryscore
@@ -1975,15 +1949,15 @@ content#:#cont_new_file#:#Nowy plik
 content#:#cont_new_media_obj#:#Nowy obiekt multimedialny
 content#:#cont_new_term#:#Nowy termin
 content#:#cont_no_assign_itself#:#Obiekt nie może być przydzielony do samego siebie.
-content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.###20 Apr 2004 new variable
+content#:#cont_no_manifest#:#Brak pliku imsmanifest.xml w głównym katalogu.
 content#:#cont_no_object_found#:#Nie można znaleźć żadnego obiektu o takim tytule
 content#:#cont_no_page#:#Żadna strona nie została odnaleziona.
 content#:#cont_none#:#Brak
 content#:#cont_nr_cols#:#Liczba kolumn
 content#:#cont_nr_items#:#Liczba pozycji
 content#:#cont_nr_rows#:#Liczba wierszy
-content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
-content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
+content#:#cont_obj_removed#:#Obiekty usunięte.
+content#:#cont_offline#:#Wersje Offline
 content#:#cont_online#:#Online
 content#:#cont_order#:#Typ porządkowy
 content#:#cont_organization#:#Organizacja
@@ -2009,19 +1983,19 @@ content#:#cont_resource#:#Zasób
 content#:#cont_resource_type#:#typ
 content#:#cont_resources#:#Zasoby
 content#:#cont_roman#:#Rzymskie i, ii, ...
-content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
+content#:#cont_rvalue#:#Wartość
 content#:#cont_saved_map_area#:#Zachowany obszar mapy
 content#:#cont_saved_map_data#:#Zachowana mapa danych
-content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
-content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
-content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
-content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
-content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
-content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
-content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
-content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
-content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
-content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
+content#:#cont_sc_auto_review#:#Ustaw tryb lekcji 'review' jeśli student wykonał SCO
+content#:#cont_sc_less_mode_browse#:#Przegląd
+content#:#cont_sc_less_mode_normal#:#Normalny
+content#:#cont_sc_stat_browsed#:#Przejrzany
+content#:#cont_sc_stat_completed#:#Skończony
+content#:#cont_sc_stat_failed#:#Błędny
+content#:#cont_sc_stat_incomplete#:#Niekompletny
+content#:#cont_sc_stat_not_attempted#:#Niepróbowany
+content#:#cont_sc_stat_passed#:#Wykonany
+content#:#cont_sc_stat_running#:#Uruchomiony
 content#:#cont_sc_title#:#tytuł
 content#:#cont_school#:#Szkoła
 content#:#cont_scorm_type#:#Typ SCORM
@@ -2038,22 +2012,22 @@ content#:#cont_series_editor#:#Edytor serii
 content#:#cont_series_title#:#Tyuł serii
 content#:#cont_series_volume#:#Wolumen serii
 content#:#cont_set_class#:#Ustaw klasę
-content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
+content#:#cont_set_edit_mode#:#Ustaw tryb edycji
 content#:#cont_set_link#:#Ustaw Łącznik
 content#:#cont_set_shape#:#Edytuj kształt
-content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
+content#:#cont_set_start_file#:#Ustaw Plik Startowy
 content#:#cont_set_width#:#Ustaw szerokość
 content#:#cont_shape#:#Kontur
 content#:#cont_show#:#Pokaż
 content#:#cont_show_citation#:#Pokaż z cytatem
-content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
+content#:#cont_show_line_numbers#:#Pokaż numery wierszy
 content#:#cont_size#:#Rozmiar (Bajtów)
 content#:#cont_source#:#Źródło
-content#:#cont_src#:#Source code###16 Jun 2004 new variable
-content#:#cont_src_other#:#other###18 Jun 2004 new variable
+content#:#cont_src#:#Kod źródłowy
+content#:#cont_src_other#:#inny
 content#:#cont_st_title#:#Tytuł rozdziału
-content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
-content#:#cont_status#:#Status###03 May 2004 new variable
+content#:#cont_startfile#:#Plik startowy
+content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Usunięcie nie jest możliwe. Plik widoku standardowego jest w katalogu.
 content#:#cont_std_view#:#Widok standardowy
 content#:#cont_structure#:#struktura
@@ -2068,33 +2042,33 @@ content#:#cont_term#:#Termin
 content#:#cont_terms#:#Terminy
 content#:#cont_time_limit_action#:#Limit czasu
 content#:#cont_toc#:#Spis treści
-content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
+content#:#cont_toc_mode#:#Tryb TOC
 content#:#cont_top#:#Góra
-content#:#cont_total_time#:#Total Time###03 May 2004 new variable
-content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
-content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
+content#:#cont_total_time#:#Czas Łączny
+content#:#cont_tracking_data#:#Dane śledzone
+content#:#cont_tracking_items#:#Pozycje śledzone
 content#:#cont_translations#:#Tłumaczenia
 content#:#cont_translations_assigned#:#Tłumaczenia zostały przydzielone
 content#:#cont_update#:#Uaktualnij
 content#:#cont_update_names#:#Uaktualnij nazwy
 content#:#cont_upload_file#:#Wyślij plik
 content#:#cont_url#:#URL
-content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
-content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
-content#:#cont_validate_file#:#Validate File###20 Apr 2004 new variable
+content#:#cont_users_have_mob_in_clip1#:#Ten obiekt medialny jest w schowku
+content#:#cont_users_have_mob_in_clip2#:#użytkowników.
+content#:#cont_validate_file#:#Plik Walidacyjny
 content#:#cont_version#:#wersja
-content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
+content#:#cont_view_last_export_log#:#Ostatni eksport logu
 content#:#cont_where_published#:#Gdzie opublikowane
 content#:#cont_width#:#Szerokość
 content#:#cont_wysiwyg#:#Zawartość WYSIWYG
 content#:#cont_xml_base#:#xml:baza
 content#:#cont_year#:#Rok
-content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
+content#:#copied_to_clipboard#:#Obiekty skopiowane do schowka.
 content#:#pages from#:#Strony od
 content#:#par#:#Paragraf
 content#:#pg#:#Strona
 content#:#read offline#:#Czytaj Offline
-content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
+content#:#select_a_file#:#Wybierz plik.
 content#:#st#:#Rozdział
 content#:#start export#:#Start Eksport
 dateplaner#:#DateText#:#Wiadomość
@@ -2191,16 +2165,16 @@ dateplaner#:#dv_whole_rotation#:#Chcesz usunąć cały termin cykliczny? (klikni
 dateplaner#:#end_date#:#DataKon:
 dateplaner#:#endtime_for_view#:#Czas końca widoku:
 dateplaner#:#error_minical_img#:#Nie mona utworzyć strumienia obrazu GD
-dateplaner#:#execute#:#execute choices###07 Apr 2004 new variable
+dateplaner#:#execute#:#dokonanie wyboru
 dateplaner#:#extra_dates#:#Terminy jednodniowe
 dateplaner#:#free#:#wolny
 dateplaner#:#freetime#:#Czas wolny grupy
 dateplaner#:#group#:#Grupa
 dateplaner#:#help_day#:#Terminarz - widok dnia
 dateplaner#:#help_day_l#:#W widoku dnia są wyświetlone wszystkie terminy wybranego dnia.
-dateplaner#:#help_enddate#:#Data końcowa - format[dd//mm/rrrr]###14 Apr 2004 content changed
+dateplaner#:#help_enddate#:#Data końcowa - format[dd//mm/rrrr]
 dateplaner#:#help_enddate_l#:#Zawiera punkt końcowy spotkania. <br> Symbol otwiera mały kalendarz do wyboru daty.
-dateplaner#:#help_endrotation#:#Czas końca format[dd//mm/rrrr]###14 Apr 2004 content changed
+dateplaner#:#help_endrotation#:#Czas końca format[dd//mm/rrrr]
 dateplaner#:#help_endrotation_l#:#Tego dnia cykl się kończy.<br> Symbol otwiera mały kalendarz do wyboru daty.
 dateplaner#:#help_endtime#:#Czas końca - format[gg/mm] 24g
 dateplaner#:#help_endtime_l#:#Zawiera punkt końcowy spotkania w formacie 24 godzinnym.
@@ -2233,7 +2207,7 @@ dateplaner#:#help_rotation#:#Cykl
 dateplaner#:#help_rotation_l#:#Zawiera typ cyklu / powtórzeń.
 dateplaner#:#help_shorttext#:#Opis skrócony maks. 50 znaków
 dateplaner#:#help_shorttext_l#:#Tu można podać krótki opis terminu.
-dateplaner#:#help_startdate#:#Data początkowaa - format[dd//mm/rrrr]###14 Apr 2004 content changed
+dateplaner#:#help_startdate#:#Data początkowaa - format[dd//mm/rrrr]
 dateplaner#:#help_startdate_l#:#Zawiera punkt startowy spotkania. <br> Symbol otwiera mały kalendarz do wyboru daty.
 dateplaner#:#help_starttime#:#Czas początkowy - format[gg/mm] 24g
 dateplaner#:#help_starttime_l#:#Zawiera punkt startowy spotkania w formacie 24 godzinnym.
@@ -2346,7 +2320,7 @@ forum#:#forums_posts_not_available#:#Artykuły nie są dostępne
 forum#:#forums_print_thread#:#Drukuj wątek
 forum#:#forums_quote#:#Kwota
 forum#:#forums_respond#:#Wyślij odpowiedź
-forum#:#forums_subject#:#Subject###20 Apr 2004 new variable
+forum#:#forums_subject#:#Przedmiot
 forum#:#forums_the_post#:#Artykuł
 forum#:#forums_thread#:#Temat
 forum#:#forums_thread_articles#:#Artykuły do tematu
@@ -2410,7 +2384,7 @@ mail#:#mail_moved_to_trash#:#Wiadomości zostały przeniesione do kosza.
 mail#:#mail_new_file#:#Dodaj nowy plik:
 mail#:#mail_no_attach_allowed#:#Wiadomości systemowe nie mogą zawierać załączników
 mail#:#mail_no_attachments_found#:#Nie znaleziono załączników
-mail#:#mail_no_permissions_write_smtp#:#Nie masz uprawnień do pisania poczty zewnętrznej###15 May 2004 content changed
+mail#:#mail_no_permissions_write_smtp#:#Nie masz uprawnień do pisania poczty zewnętrznej
 mail#:#mail_options_of#:#Opcje
 mail#:#mail_options_saved#:#Opcje zachowane
 mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidłowy.
@@ -2994,232 +2968,232 @@ search#:#search_select_one_result#:#Wybierz conajmniej jeden rezultat wyszukania
 search#:#search_select_one_select#:#--Wybierz jeden folder--
 search#:#search_show_result#:#Pokaż
 search#:#search_user#:#Użytkownicy
-survey#:#add_category#:#Add category###21 May 2004 new variable
-survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as categories.###07 Jun 2004 new variable
-survey#:#add_phrase#:#Add phrase###23 May 2004 new variable
-survey#:#add_phrase_introduction#:#Please select a phrase:###23 May 2004 new variable
-survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###31 May 2004 new variable
-survey#:#answer#:#Answer###27 May 2004 new variable
-survey#:#apply#:#Apply###21 May 2004 new variable
-survey#:#arithmetic_mean#:#Arithmetic mean###02 Jun 2004 new variable
-survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?###10 Jun 2004 new variable
-survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?###24 May 2004 new variable
-survey#:#back#:#<< Back###26 May 2004 new variable
-survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
-survey#:#category#:#Category###21 May 2004 new variable
-survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
-survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
-survey#:#category_nr_selected#:#Number of users that selected this category###04 Jun 2004 new variable
-survey#:#concatenation#:#Concatenation###27 May 2004 new variable
-survey#:#constraints#:#Constraints###26 May 2004 new variable
-survey#:#contains#:#Contains###10 Jun 2004 new variable
-survey#:#continue#:#Continue >>###26 May 2004 new variable
-survey#:#create_date#:#Created###21 May 2004 new variable
-survey#:#create_new#:#Create new###21 May 2004 new variable
-survey#:#csv#:#Comma separated value (CSV)###12 Jun 2004 new variable
-survey#:#dc_agree#:#agree###23 May 2004 new variable
-survey#:#dc_always#:#always###23 May 2004 new variable
-survey#:#dc_definitelyfalse#:#definitely false###23 May 2004 new variable
-survey#:#dc_definitelytrue#:#definitely true###23 May 2004 new variable
-survey#:#dc_desired#:#desired###23 May 2004 new variable
-survey#:#dc_disagree#:#disagree###23 May 2004 new variable
-survey#:#dc_fair#:#fair###23 May 2004 new variable
-survey#:#dc_false#:#false###23 May 2004 new variable
-survey#:#dc_good#:#good###23 May 2004 new variable
-survey#:#dc_manytimes#:#many times###23 May 2004 new variable
-survey#:#dc_morenegative#:#more negative###23 May 2004 new variable
-survey#:#dc_morepositive#:#more positive###23 May 2004 new variable
-survey#:#dc_mostcertainly#:#most certainly###23 May 2004 new variable
-survey#:#dc_mostcertainlynot#:#most certainly not###23 May 2004 new variable
-survey#:#dc_must#:#must###23 May 2004 new variable
-survey#:#dc_mustnot#:#must not###23 May 2004 new variable
-survey#:#dc_neutral#:#neutral###23 May 2004 new variable
-survey#:#dc_never#:#never###23 May 2004 new variable
-survey#:#dc_no#:#no###23 May 2004 new variable
-survey#:#dc_notacceptable#:#not acceptable###23 May 2004 new variable
-survey#:#dc_poor#:#poor###23 May 2004 new variable
-survey#:#dc_rarely#:#rarely###23 May 2004 new variable
-survey#:#dc_should#:#should###23 May 2004 new variable
-survey#:#dc_shouldnot#:#should not###23 May 2004 new variable
-survey#:#dc_sometimes#:#sometimes###23 May 2004 new variable
-survey#:#dc_stronglyagree#:#strongly agree###23 May 2004 new variable
-survey#:#dc_stronglydesired#:#strongly desired###23 May 2004 new variable
-survey#:#dc_stronglydisagree#:#strongly disagree###23 May 2004 new variable
-survey#:#dc_stronglyundesired#:#strongly undesired###23 May 2004 new variable
-survey#:#dc_true#:#true###23 May 2004 new variable
-survey#:#dc_undecided#:#undecided###23 May 2004 new variable
-survey#:#dc_undesired#:#undesired###23 May 2004 new variable
-survey#:#dc_varying#:#varying###23 May 2004 new variable
-survey#:#dc_verygood#:#very good###23 May 2004 new variable
-survey#:#dc_yes#:#yes###23 May 2004 new variable
-survey#:#define_questionblock#:#Define question block###23 May 2004 new variable
-survey#:#disinvite#:#Disinvite###27 May 2004 new variable
-survey#:#display_all_available#:#Display all available###10 Jun 2004 new variable
-survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)###23 May 2004 new variable
-survey#:#dp_standard_attitude_agree_disagree#:#Standard attitude (agree-disagree)###23 May 2004 new variable
-survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard attitude (agree-undecided-disagree)###23 May 2004 new variable
-survey#:#dp_standard_attitude_desired5#:#Standard attitude (strongly desired-desired-neutral-undesired-strongly undesired)###23 May 2004 new variable
-survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard attitude (desired-neutral-undesired)###23 May 2004 new variable
-survey#:#dp_standard_attitude_desired_undesired#:#Standard attitude (desired-undesired)###23 May 2004 new variable
-survey#:#dp_standard_attitude_good5#:#Standard attitude (very good-good-fair-poor-not acceptable)###23 May 2004 new variable
-survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard attitude (good-fair-not acceptable)###23 May 2004 new variable
-survey#:#dp_standard_attitude_good_notacceptable#:#Standard attitude (good-not acceptable)###23 May 2004 new variable
-survey#:#dp_standard_attitude_must5#:#Standard attitude (must-should-undecided-should not-must not)###23 May 2004 new variable
-survey#:#dp_standard_attitude_shold_shouldnot#:#Standard attitude (should-should not)###23 May 2004 new variable
-survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard attitude (should-undecided-should not)###23 May 2004 new variable
-survey#:#dp_standard_behaviour_certainly5#:#Standard behaviour (most certainly-more positive-undecided-more negative-most certainly not)###23 May 2004 new variable
-survey#:#dp_standard_behaviour_yes_no#:#Standard behaviour (yes-no)###23 May 2004 new variable
-survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard behaviour (yes-undecided-no)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varying-rarely-never)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_always_never#:#Standard beliefs (always-never)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard beliefs (always-sometimes-never)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-undecided-false-definitely false)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)###23 May 2004 new variable
-survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)###23 May 2004 new variable
-survey#:#dp_standard_numbers#:#Standard numbers###07 Jun 2004 new variable
-survey#:#duplicate#:#Duplicate###21 May 2004 new variable
-survey#:#edit_ask_continue#:#Do you want to continue and edit this question?###04 Jun 2004 new variable
-survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints###26 May 2004 new variable
-survey#:#end_date#:#End date###23 May 2004 new variable
-survey#:#enter_phrase_title#:#Please enter a phrase title###07 Jun 2004 new variable
-survey#:#enter_value#:#Enter a value###26 May 2004 new variable
-survey#:#evaluation#:#Evaluation###02 Jun 2004 new variable
-survey#:#evaluation_access#:#Evaluation access###23 May 2004 new variable
-survey#:#excel#:#Microsoft Excel###12 Jun 2004 new variable
-survey#:#exit#:#Exit###01 Jun 2004 new variable
-survey#:#export_data_as#:#Export data as###12 Jun 2004 new variable
-survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!###21 May 2004 new variable
-survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!###21 May 2004 new variable
-survey#:#filter#:#Filter###21 May 2004 new variable
-survey#:#finished#:#finished###07 Jun 2004 new variable
-survey#:#found_questions#:#Found questions###10 Jun 2004 new variable
-survey#:#geometric_mean#:#Geometric mean###02 Jun 2004 new variable
-survey#:#given_answers#:#Given answers###04 Jun 2004 new variable
-survey#:#harmonic_mean#:#Harmonic mean###02 Jun 2004 new variable
-survey#:#insert_after#:#Insert after###22 May 2004 new variable
-survey#:#insert_before#:#Insert before###22 May 2004 new variable
-survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!###10 Jun 2004 new variable
-survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!###10 Jun 2004 new variable
-survey#:#introduction#:#Introduction###23 May 2004 new variable
-survey#:#invitation#:#Invitation###27 May 2004 new variable
-survey#:#invitation_mode#:#Invitation mode###27 May 2004 new variable
-survey#:#invite_participants#:#Invite participants###26 May 2004 new variable
-survey#:#invited_groups#:#Invited groups###27 May 2004 new variable
-survey#:#invited_users#:#Invited users###27 May 2004 new variable
-survey#:#last_update#:#Last update###21 May 2004 new variable
-survey#:#lower_limit#:#Lower limit###07 Jun 2004 new variable
-survey#:#material_file#:#Material file###21 May 2004 new variable
-survey#:#maximum#:#Maximum value###22 May 2004 new variable
-survey#:#median#:#Median###02 Jun 2004 new variable
-survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###31 May 2004 new variable
-survey#:#minimum#:#Minimum value###22 May 2004 new variable
-survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!###07 Jun 2004 new variable
-survey#:#mode#:#Most selected value###02 Jun 2004 new variable
-survey#:#mode_nr_of_selections#:#Nr of selections###02 Jun 2004 new variable
-survey#:#mode_text#:#Most selected value (Text)###12 Jun 2004 new variable
-survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)###21 May 2004 new variable
-survey#:#multiple_choice_single_response#:#Multiple choice (single response)###21 May 2004 new variable
-survey#:#no_available_constraints#:#There are no constraints defined!###26 May 2004 new variable
-survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!###22 May 2004 new variable
-survey#:#no_category_selected_for_move#:#Please check at least one category to move it!###22 May 2004 new variable
-survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!###26 May 2004 new variable
-survey#:#no_question_selected_for_move#:#Please check at least one question to move it!###24 May 2004 new variable
-survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!###25 May 2004 new variable
-survey#:#no_questionblocks_available#:#There are no questionblocks available###10 Jun 2004 new variable
-survey#:#no_questions_available#:#There are no questions available!###21 May 2004 new variable
-survey#:#no_search_results#:#There are no search results!###10 Jun 2004 new variable
-survey#:#no_target_selected_for_move#:#You must select a target position!###24 May 2004 new variable
-survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###27 May 2004 new variable
-survey#:#nominal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
-survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
-survey#:#not_finished#:#not finished###07 Jun 2004 new variable
-survey#:#not_started#:#not started###12 Jun 2004 new variable
-survey#:#obligatory#:#obligatory###24 May 2004 new variable
-survey#:#off#:#off###23 May 2004 new variable
-survey#:#offline#:#offline###23 May 2004 new variable
-survey#:#on#:#on###23 May 2004 new variable
-survey#:#online#:#online###23 May 2004 new variable
-survey#:#or#:#or###24 May 2004 new variable
-survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
-survey#:#percentage_of_entered_values#:#Percentage of users that entered this value###04 Jun 2004 new variable
-survey#:#percentage_of_selections#:#Percentage of users that selected this category###04 Jun 2004 new variable
-survey#:#predefined_users#:#Predefined user set###27 May 2004 new variable
-survey#:#preview#:#Preview###21 May 2004 new variable
-survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?###22 May 2004 new variable
-survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!###07 Jun 2004 new variable
-survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!###23 May 2004 new variable
-survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!###22 May 2004 new variable
-survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!###22 May 2004 new variable
-survey#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it!###07 Jun 2004 new variable
-survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?###07 Jun 2004 new variable
-survey#:#qpl_questions_deleted#:#Question(s) deleted.###22 May 2004 new variable
-survey#:#qpl_questions_pasted#:#Question(s) pasted.###07 Jun 2004 new variable
-survey#:#qpl_savephrase_empty#:#Please enter a phrase title!###07 Jun 2004 new variable
-survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.###07 Jun 2004 new variable
-survey#:#qpl_unfold_select_none#:#Please select a least one questionblock if you want to unfold question blocks!###23 May 2004 new variable
-survey#:#qt_metric#:#Metric question###21 May 2004 new variable
-survey#:#qt_nominal#:#Nominal question###21 May 2004 new variable
-survey#:#qt_ordinal#:#Ordinal question###21 May 2004 new variable
-survey#:#qt_text#:#Text question###21 May 2004 new variable
-survey#:#question_has_constraints#:#Constraints###02 Jun 2004 new variable
-survey#:#question_obligatory#:#The question is obligatory!###02 Jun 2004 new variable
-survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###22 May 2004 new variable
-survey#:#question_type#:#Question type###21 May 2004 new variable
-survey#:#questionblock#:#Question block###25 May 2004 new variable
-survey#:#questionblock_has_constraints#:#Constraints###02 Jun 2004 new variable
-survey#:#questionblocks#:#Questionblocks###10 Jun 2004 new variable
-survey#:#questions#:#Questions###10 Jun 2004 new variable
-survey#:#questions_inserted#:#Question(s) inserted!###24 May 2004 new variable
-survey#:#questions_removed#:#Question(s) and/or question block(s) removed!###25 May 2004 new variable
-survey#:#questiontype#:#Question type###21 May 2004 new variable
-survey#:#ratio_absolute#:#Ratio-Absolute###22 May 2004 new variable
-survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
-survey#:#remove_question#:#Remove###24 May 2004 new variable
-survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?###25 May 2004 new variable
-survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
-survey#:#resume_survey#:#Resume the survey###31 May 2004 new variable
-survey#:#save_phrase#:#Save as phrase###07 Jun 2004 new variable
-survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!###07 Jun 2004 new variable
-survey#:#save_phrase_introduction#:#If you want to save the categories below as default phrase, please enter a phrase title. You can access a default phrase whenever you want to add a phrase to an ordinal question.###07 Jun 2004 new variable
-survey#:#search_field_all#:#Search in all fields###10 Jun 2004 new variable
-survey#:#search_for#:#Search for###27 May 2004 new variable
-survey#:#search_groups#:#Groups###27 May 2004 new variable
-survey#:#search_invitation#:#Search for users or groups to invite###27 May 2004 new variable
-survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
-survey#:#search_term#:#Search term###27 May 2004 new variable
-survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
-survey#:#search_users#:#Users###27 May 2004 new variable
-survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
-survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
-survey#:#select_relation#:#Select a relation###26 May 2004 new variable
-survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
-survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
-survey#:#select_value#:#Select a value###26 May 2004 new variable
-survey#:#set_filter#:#Set filter###21 May 2004 new variable
-survey#:#start_date#:#Start date###23 May 2004 new variable
-survey#:#start_survey#:#Start survey###25 May 2004 new variable
-survey#:#subtype#:#Subtype###04 Jun 2004 new variable
-survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
-survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
-survey#:#survey_next#:#save and next page >>>###01 Jun 2004 new variable
-survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###04 Jun 2004 new variable
-survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable
-survey#:#survey_previous#:#<<< save and previous page###01 Jun 2004 new variable
-survey#:#survey_questions#:#Questions###21 May 2004 new variable
-survey#:#survey_skip_finish#:#skip and finish survey >>>###01 Jun 2004 new variable
-survey#:#survey_skip_next#:#skip and next page >>>###01 Jun 2004 new variable
-survey#:#survey_skip_previous#:#<<< skip and previous page###01 Jun 2004 new variable
-survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new variable
-survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
-survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
-survey#:#unfold#:#Unfold###23 May 2004 new variable
-survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
-survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
-survey#:#upper_limit#:#Upper limit###07 Jun 2004 new variable
-survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!###07 Jun 2004 new variable
-survey#:#users_answered#:#Users answered###02 Jun 2004 new variable
-survey#:#users_skipped#:#Users skipped###02 Jun 2004 new variable
-survey#:#value_nr_entered#:#Number of users that entered that value###04 Jun 2004 new variable
-survey#:#values#:#Values###04 Jun 2004 new variable
-survey#:#view_phrase#:#View phrase###31 May 2004 new variable
-survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###04 Jun 2004 new variable
+survey#:#add_category#:#Dodaj kategorię
+survey#:#add_limits_for_standard_numbers#:#Podaj dolny i górny limit dla numeracji kategorii.
+survey#:#add_phrase#:#Dodaj frazę
+survey#:#add_phrase_introduction#:#Wybierz frazę:
+survey#:#already_completed_survey#:#Już ukończyłeś ankietę! Już nie możesz powtórzyć ankiety.
+survey#:#answer#:#Odpowiedź
+survey#:#apply#:#Zastosuj
+survey#:#arithmetic_mean#:#Średnia arytmetyczna
+survey#:#ask_insert_questionblocks#:#Czy chcesz wstawić wybrany blok pytań do ankiety?
+survey#:#ask_insert_questions#:#Czy chcesz wstawić wybrane pytania do ankiety?
+survey#:#back#:#<< Powrót
+survey#:#browse_for_questions#:#Szukanie pytań
+survey#:#category#:#Kategoria
+survey#:#category_delete_confirm#:#Czy chcesz usunąć wybrane kategorie?
+survey#:#category_delete_select_none#:#Zaznacz conajmniej jedną kategorię do usunięcia!
+survey#:#category_nr_selected#:#Ilość użytkowników, którzy wybrali tę kategorię
+survey#:#concatenation#:#Połączenie
+survey#:#constraints#:#Ograniczenia wyboru
+survey#:#contains#:#Zawiera
+survey#:#continue#:#Kontynuuj >>
+survey#:#create_date#:#Utworzony
+survey#:#create_new#:#Twórz nowy
+survey#:#csv#:#Wartości rozdzielone przecinkami (CSV)
+survey#:#dc_agree#:#zgodny
+survey#:#dc_always#:#zawsze
+survey#:#dc_definitelyfalse#:#wyraźnie fałsz
+survey#:#dc_definitelytrue#:#wyraźnie prawda
+survey#:#dc_desired#:#pożądany
+survey#:#dc_disagree#:#niezgodny
+survey#:#dc_fair#:#dość dobrze
+survey#:#dc_false#:#fałsz
+survey#:#dc_good#:#dobrze
+survey#:#dc_manytimes#:#wiele razy
+survey#:#dc_morenegative#:#bardziej negatywny
+survey#:#dc_morepositive#:#bardziej pozytywny
+survey#:#dc_mostcertainly#:#najpewniejszy
+survey#:#dc_mostcertainlynot#:#niepewny wogóle
+survey#:#dc_must#:#musi
+survey#:#dc_mustnot#:#nie musi
+survey#:#dc_neutral#:#neutralny
+survey#:#dc_never#:#nigdy
+survey#:#dc_no#:#nie
+survey#:#dc_notacceptable#:#nie akceptowalnie
+survey#:#dc_poor#:#słabo
+survey#:#dc_rarely#:#rzadko
+survey#:#dc_should#:#powinien
+survey#:#dc_shouldnot#:#nie powinien
+survey#:#dc_sometimes#:#czasami
+survey#:#dc_stronglyagree#:#mocno zgodny
+survey#:#dc_stronglydesired#:#mocno pożądany
+survey#:#dc_stronglydisagree#:#mocno niezgodny
+survey#:#dc_stronglyundesired#:#mocno niepożądany
+survey#:#dc_true#:#prawda
+survey#:#dc_undecided#:#nie wiem
+survey#:#dc_undesired#:#niepożądany
+survey#:#dc_varying#:#zmiennie
+survey#:#dc_verygood#:#bardzo dobrze
+survey#:#dc_yes#:#tak
+survey#:#define_questionblock#:#Definiuj blok pytań
+survey#:#disinvite#:#Anuluj zaproszenie
+survey#:#display_all_available#:#Wyświetl wszystkie dostępne
+survey#:#dp_standard_attitude_agree5#:#Standardowe stany (mocno zgodny-zgodny-nie wiem-niezgodny-mocno niezgodny)
+survey#:#dp_standard_attitude_agree_disagree#:#Standardowe stany (zgodny-niezgodny)
+survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standardowe stany (zgodny-nie wiem-niezgodny)
+survey#:#dp_standard_attitude_desired5#:#Standardowe stany (mocno pożądany-pożądany-neutralny-niepożądany-mocno niepożądany)
+survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standardowe stany  (pożądany-neutralny-niepożądany)
+survey#:#dp_standard_attitude_desired_undesired#:#Standardowe stany (pożądany-niepożądany)
+survey#:#dp_standard_attitude_good5#:#Standardowe stany (bardzo dobrze-dobrze-dość dobrze-słabo-nie akceptowalnie)
+survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standardowe stany (dobrze-dość dobrze-nie akceptowalnie)
+survey#:#dp_standard_attitude_good_notacceptable#:#Standardowe stany (dobrze-nie akceptowalnie)
+survey#:#dp_standard_attitude_must5#:#Standardowe stany (musi-powinien-nie wiem-nie  powinien-nie musi)
+survey#:#dp_standard_attitude_shold_shouldnot#:#Standardowe stany (powinien-nie powinien)
+survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standardowe stany (powinien-nie wiem-nie powinien)
+survey#:#dp_standard_behaviour_certainly5#:#Standardowe zachowanie (najpewniejszy-bardziej pozytywny-nie wiem-bardziej negatywny-niepewny wogóle)
+survey#:#dp_standard_behaviour_yes_no#:#Standardowe zachowanie (tak-nie)
+survey#:#dp_standard_behaviour_yes_undecided_no#:#Standardowe zachowanie (tak -nie wiem-nie)
+survey#:#dp_standard_beliefs_always5#:#Standardowe przekonanie (zawsze-wiele razy -zmiennie-rzadko-nigdy)
+survey#:#dp_standard_beliefs_always_never#:#Standardowe przekonanie (zawsze-nigdy)
+survey#:#dp_standard_beliefs_always_sometimes_never#:#Standardowe przekonanie  (zawsze-czasami-nigdy)
+survey#:#dp_standard_beliefs_true5#:#Standardowe przekonanie (wyraźnie prawda -prawda-nie wiem-fałsz-wyraźnie fałsz)
+survey#:#dp_standard_beliefs_true_false#:#Standardowe przekonanie (prawda-fałsz)
+survey#:#dp_standard_beliefs_true_undecided_false#:#Standardowe przekonanie (prawda-nie wiem-fałsz)
+survey#:#dp_standard_numbers#:#Standardowe numery
+survey#:#duplicate#:#Powiel
+survey#:#edit_ask_continue#:#Chcesz kontynuować edycję pytania?
+survey#:#edit_constraints_introduction#:#Wybrałeś następujące pytania/bloki pytań do edycji ograniczeń
+survey#:#end_date#:#Data końca
+survey#:#enter_phrase_title#:#Podaj frazę tytułową
+survey#:#enter_value#:#Podaj wartość
+survey#:#evaluation#:#Dostępność
+survey#:#evaluation_access#:#Ograniczenie dostępu
+survey#:#excel#:#Microsoft Excel
+survey#:#exit#:#Wyjście
+survey#:#export_data_as#:#Eksportuj dane jako
+survey#:#fill_out_all_category_fields#:#Wypełnij wszystkie pola kategorii przed dodaniem nowej!
+survey#:#fill_out_all_required_fields_add_category#:#Wypełnij wszystkie niezbędne pola  przed dodaniem kategorii!
+survey#:#filter#:#Filtr
+survey#:#finished#:#skończone
+survey#:#found_questions#:#Znalezione pytania
+survey#:#geometric_mean#:#Średnia geometryczna
+survey#:#given_answers#:#Podane odpowiedzi
+survey#:#harmonic_mean#:#Średnia harmoniczna
+survey#:#insert_after#:#Wstaw po
+survey#:#insert_before#:#Wstaw przed
+survey#:#insert_missing_question#:#Wybierz conajmniej jedno pytanie do ankiety!
+survey#:#insert_missing_questionblock#:#Wybierz conajmniej jeden blok pytań do ankiety!
+survey#:#introduction#:#Wstęp
+survey#:#invitation#:#Zaproszenie
+survey#:#invitation_mode#:#Tryb zaproszenia
+survey#:#invite_participants#:#Przydzieleni do zaproszenia
+survey#:#invited_groups#:#Zaproszone grupy
+survey#:#invited_users#:#Zaproszeni użytkownicy
+survey#:#last_update#:#Ostatnia aktualizacja
+survey#:#lower_limit#:#Limit dolny
+survey#:#material_file#:#Plik z materiałami
+survey#:#maximum#:#Maksymalna wartość
+survey#:#median#:#Środkowa
+survey#:#metric_question_out_of_bounds#:#Wprowadzona wartość nie jest pomiędzy minimalną a maksymalną wartością!
+survey#:#minimum#:#Minimalna wartość
+survey#:#missing_upper_or_lower_limit#:#Podaj dolny i górny limit!
+survey#:#mode#:#Najczęściej wybierana wartość
+survey#:#mode_nr_of_selections#:#Nr wyboru
+survey#:#mode_text#:#Najczęściej wybierana wartość (Tekst)
+survey#:#multiple_choice_multiple_response#:#Wielokrotny wybór (wiele odpowiedzi)
+survey#:#multiple_choice_single_response#:#Wielokrotny wybór (jedna odpowiedź)
+survey#:#no_available_constraints#:#Brak zdefiniowanych ograniczeń!
+survey#:#no_category_selected_for_deleting#:#Wybierz conajmniej jedną kategorię do usunięcia!
+survey#:#no_category_selected_for_move#:#Wybierz conajmniej jedną kategorię do przesunięcia!
+survey#:#no_constraints_checked#:#Wybierz conajmniej jedno pytanie lub blok pytań dla edycji ograniczeń!
+survey#:#no_question_selected_for_move#:#Wybierz conajmniej jedno pytanie do przesunięcia!
+survey#:#no_question_selected_for_removal#:#Wybierz conajmniej jedno pytanie lub blok pytań do usunięcia!
+survey#:#no_questionblocks_available#:#Brak dostępnych bloków pytań
+survey#:#no_questions_available#:#Brak dostępnych pytań!
+survey#:#no_search_results#:#Brak rezultatów wyszukania!
+survey#:#no_target_selected_for_move#:#Musisz wybrać pozycję docelową!
+survey#:#no_user_or_group_selected#:#Wybierz opcję której szukasz (użytkownicy i/lub  grupy)!
+survey#:#nominal_question_not_checked#:#Wybierz jedną z oferowanych odpowiedzi!
+survey#:#non_ratio#:#Brak-Współczynnika
+survey#:#not_finished#:#nie skończona
+survey#:#not_started#:#nie rozpoczęta
+survey#:#obligatory#:#obowiązkowa
+survey#:#off#:#wył
+survey#:#offline#:#offline
+survey#:#on#:#wł
+survey#:#online#:#online
+survey#:#or#:#lub
+survey#:#ordinal_question_not_checked#:#Wybierz jedną z proponowanych odpowiedzi!
+survey#:#percentage_of_entered_values#:#Procent użytkowników, którzy wprowadzila tę wartość
+survey#:#percentage_of_selections#:#Procent użytkowników, którzy wybrali tę kategorię
+survey#:#predefined_users#:#Predefiniowany zestaw użytkowników
+survey#:#preview#:#Podgląd
+survey#:#qpl_confirm_delete_questions#:#Chcesz usunąć wybrane pytania?
+survey#:#qpl_copy_select_none#:#Wybierz conajmniej jedno pytanie do skopiowania!
+survey#:#qpl_define_questionblock_select_missing#:#Wybierz conajmniej dwa pytania aby zdefiniować blok pytań!
+survey#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usuwania pytań!
+survey#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia!
+survey#:#qpl_duplicate_select_none#:#Wybierz conajmniej jedno pytanie do powielenia!
+survey#:#qpl_past_questions_confirmation#:#Chcesz wkleić wybrane pytania do puli pytań?
+survey#:#qpl_questions_deleted#:#Pytania usunięte.
+survey#:#qpl_questions_pasted#:#Pytania wklejone.
+survey#:#qpl_savephrase_empty#:#Podaj frazę tytułową!
+survey#:#qpl_savephrase_exists#:#Taka fraza już jest! Podaj inną frazę tytułową.
+survey#:#qpl_unfold_select_none#:#Wybierz conajmniej jeden blok pytań aby go rozwinąć!
+survey#:#qt_metric#:#Pytanie metryczne
+survey#:#qt_nominal#:#Pytanie nominalne
+survey#:#qt_ordinal#:#Pytanie porządkowe
+survey#:#qt_text#:#Pytanie tekstowe
+survey#:#question_has_constraints#:#Ograniczenia wyboru
+survey#:#question_obligatory#:#Pytanie jest obowiązkowe!
+survey#:#question_saved_for_upload#:#Pytanie zostało automatycznie zapisane aby zarezerwować miejsce na dysku dla ładowanego pliku. Jeśli anulujesz ten formularz, to będziesz musiał usunąć pytanie z puli pytań!
+survey#:#question_type#:#Typ pytania
+survey#:#questionblock#:#Blok pytań
+survey#:#questionblock_has_constraints#:#Ograniczenia wyboru
+survey#:#questionblocks#:#Bloki pytań
+survey#:#questions#:#Pytania
+survey#:#questions_inserted#:#Pytania wstawione!
+survey#:#questions_removed#:#Pytania i/lub bloki pytań usunięte!
+survey#:#questiontype#:#Typ pytania
+survey#:#ratio_absolute#:#Współczynnik-Absolutny
+survey#:#ratio_non_absolute#:#Współczynnik-nie-Absolutny
+survey#:#remove_question#:#Usuń
+survey#:#remove_questions#:#Chcesz usunąć wybrane pytania i/lub bloki pytań z testu?
+survey#:#reset_filter#:#Czyść filtr
+survey#:#resume_survey#:#Streszczenie ankiety
+survey#:#save_phrase#:#Zapisz jako frazę
+survey#:#save_phrase_categories_not_checked#:#Wybierz conajmniej dwie kategorie dla zachowania nowej frazy!
+survey#:#save_phrase_introduction#:#Jeśli chcesz zachować poniższą kategorię jako domyślną frazę, podaj tytuł frazy. Możesz mieć dostęp do domyślnej frazy kiedy będziesz chciał dodać frazę do pytania porządkowego.
+survey#:#search_field_all#:#Szukaj we wszystkich polach
+survey#:#search_for#:#Szukaj
+survey#:#search_groups#:#Grupy
+survey#:#search_invitation#:#Szukaj użytkowników lub grup do zaproszenia
+survey#:#search_questions#:#Szuakne Pytania
+survey#:#search_term#:#Szukany termin
+survey#:#search_type_all#:#Szukaj we wszystkich typach pytań
+survey#:#search_users#:#Użytkownicy
+survey#:#select_prior_question#:#wybierz z góry pytanie
+survey#:#select_questionpool#:#Wybierz pulę pytań dla zachowania utworzonego pytania
+survey#:#select_relation#:#Wybierz relację
+survey#:#select_target_position_for_move#:#Wybierz pozycję docelową dla przesunięcia kategorii i naciśnij jeden z przycisków wstawiających!
+survey#:#select_target_position_for_move_question#:#Wybierz pozycję docelową dla przesunięcia pytania i naciśnij jeden z przycisków wstawiających!
+survey#:#select_value#:#wybierz wartość
+survey#:#set_filter#:#Ustaw filtr
+survey#:#start_date#:#Data startowa
+survey#:#start_survey#:#Rozpocznij ankietę
+survey#:#subtype#:#Podtyp
+survey#:#survey_finish#:#zapisz i zakończ ankietę >>>
+survey#:#survey_finished#:#ankieta jest zakończona. Dziękujemy za uczestnictwo!
+survey#:#survey_next#:#zapisz i przejdź do nast. strony >>>
+survey#:#survey_offline_message#:#Nie można zaprosić użytkowników. Ankieta jest offline!
+survey#:#survey_online_warning#:#ankieta jest online. Nie możesz edytować pytań ankiety!
+survey#:#survey_previous#:#<<< zapisz i przejdź do poprz. strony
+survey#:#survey_questions#:#Pytania
+survey#:#survey_skip_finish#:#pomiń i zakończ ankietę >>>
+survey#:#survey_skip_next#:#pomiń i przejdź do nast. strony >>>
+survey#:#survey_skip_previous#:#<<< pomiń i przejdź do poprz. strony
+survey#:#survey_skip_start#:#<<< pomiń i skocz na pierwszą stronę
+survey#:#survey_start#:#<<< zapisz i skocz na pierwszą stronę
+survey#:#text_question_not_filled_out#:#Wypełnij pole odpowiedzi!
+survey#:#unfold#:#Rozwiń
+survey#:#unlimited_users#:#Nielimitowany
+survey#:#uploaded_material#:#Materiał załadowany
+survey#:#upper_limit#:#Górny limit
+survey#:#upper_limit_must_be_greater#:#Górny limit musi być większy niż dolny limit!
+survey#:#users_answered#:#Użytkownicy, którzy udzielili odpowiedzi
+survey#:#users_skipped#:#Użytkownicy, którzy pominęli odpowiedź
+survey#:#value_nr_entered#:#Ilość uzytkowników, która opodała tę wartość
+survey#:#values#:#Wartości
+survey#:#view_phrase#:#Pokaż frazę
+survey#:#warning_question_in_use#:#Uwaga! Pytanie, które chcesz edytować jest używane przez podane poniżej ankiety. Jeśli będziesz kontynuował i zapiszesz/zastosujesz pytanie,  wszystkie odpowiedzi poniższych ankiet zostaną usunięte. Jeśli chcesz zmienić pytanie i użyć go w innej ankiecie, wybierz powielenie w przeglądarce pytań dla utworzenia nowej wersji tego pytania.
