@@ -180,15 +180,47 @@ class ASS_JavaApplet extends ASS_Question
 		// add material with question text to presentation
 		$qtiMaterial = $this->domxml->create_element("material");
 		$qtiMatText = $this->domxml->create_element("mattext");
-		$qtiMatTextText = $this->domxml->create_text_node($this->get_question());
+		$qtiMatTextText = $this->domxml->create_text_node($this->getQuestion());
 		$qtiMatText->append_child($qtiMatTextText);
 		$qtiMaterial->append_child($qtiMatText);
 		$qtiFlow->append_child($qtiMaterial);
 
 		$qtiMaterial = $this->domxml->create_element("material");
 		$qtiMatApplet = $this->domxml->create_element("matapplet");
+		$qtiMatApplet->set_attribute("label", "applet data");
+		$qtiMatApplet->set_attribute("uri", $this->getJavaAppletFilename());
+		$qtiMatApplet->set_attribute("height", $this->getJavaHeight());
+		$qtiMatApplet->set_attribute("width", $this->getJavaWidth());
+		$qtiMatApplet->set_attribute("embedded", "base64");
+		$javapath = $this->getJavaPath() . $this->getJavaAppletFilename();
+		$fh = @fopen($javapath, "rb");
+		if ($fh == false)
+		{
+			global $ilErr;
+			$ilErr->raiseError($this->lng->txt("error_open_java_file"), $ilErr->WARNING);
+			return;
+		}
+		$javafile = fread($fh, filesize($javapath));
+		fclose($fh);
+		$base64 = base64_encode($javafile);
+		$qtiBase64Data = $this->domxml->create_text_node($base64);
+		$qtiMatApplet->append_child($qtiBase64Data);
 		$qtiMaterial->append_child($qtiMatApplet);
 		$qtiFlow->append_child($qtiMaterial);
+
+		if ($this->buildParamsOnly())
+		{
+			$qtiMaterial = $this->domxml->create_element("material");
+			$qtiMatApplet = $this->domxml->create_element("matapplet");
+			$qtiMatApplet->set_attribute("label", "applet params");
+			$qtiAppletParams = $this->domxml->create_text_node($this->buildParamsOnly());
+			$qtiMatApplet->append_child($qtiAppletParams);
+			$qtiMaterial->append_child($qtiMatApplet);
+			$qtiFlow->append_child($qtiMaterial);
+		}
+
+		$qtiPresentation->append_child($qtiFlow);
+		$qtiIdent->append_child($qtiPresentation);
 
 		$xml = $this->domxml->dump_mem(true);
 		if (!$a_include_header)
@@ -209,7 +241,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @param string $params All applet parameters in a list
 	* @access public
 	*/
-	function split_params($params = "")
+	function splitParams($params = "")
 	{
 		$params_array = split("<separator>", $params);
 		foreach ($params_array as $pair)
@@ -248,7 +280,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @return string All applet parameters
 	* @access public
 	*/
-	function build_params()
+	function buildParams()
 	{
 		$params_array = array();
 		if ($this->java_code)
@@ -272,6 +304,25 @@ class ASS_JavaApplet extends ASS_Question
 	}
 
 	/**
+	* Returns a string containing the additional applet parameters
+	*
+	* Returns a string containing the additional applet parameters
+	*
+	* @return string All additional applet parameters
+	* @access public
+	*/
+	function buildParamsOnly()
+	{
+		$params_array = array();
+		foreach ($this->parameters as $key => $value)
+		{
+			array_push($params_array, "param_name_$key=" . $value["name"]);
+			array_push($params_array, "param_value_$key=" . $value["value"]);
+		}
+		return join($params_array, "<separator>");
+	}
+
+	/**
 	* Returns true, if a imagemap question is complete for use
 	*
 	* Returns true, if a imagemap question is complete for use
@@ -281,7 +332,7 @@ class ASS_JavaApplet extends ASS_Question
 	*/
 	function isComplete()
 	{
-		if (($this->title) and ($this->author) and ($this->question) and ($this->javaapplet) and ($this->java_width) and ($this->java_height))
+		if (($this->title) and ($this->author) and ($this->question) and ($this->javaapplet_filename) and ($this->java_width) and ($this->java_height))
 		{
 			return true;
 		}
@@ -312,7 +363,7 @@ class ASS_JavaApplet extends ASS_Question
 
 		$db = & $ilias->db;
 
-		$params = $this->build_params();
+		$params = $this->buildParams();
 		$estw_time = $this->getEstimatedWorkingTime();
 		$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
@@ -332,19 +383,19 @@ class ASS_JavaApplet extends ASS_Question
 			$question_type = 7;
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, image_file, params, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($question_type),
-				$db->quote($this->obj_id),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->owner),
-				$db->quote($this->question),
-				$db->quote($estw_time),
-				$db->quote("$this->shuffle"),
-				$db->quote("$complete"),
-				$db->quote($this->javaapplet_filename),
-				$db->quote($params),
-				$db->quote($created),
+				$db->quote($question_type . ""),
+				$db->quote($this->obj_id . ""),
+				$db->quote($this->title . ""),
+				$db->quote($this->comment . ""),
+				$db->quote($this->author . ""),
+				$db->quote($this->owner . ""),
+				$db->quote($this->question . ""),
+				$db->quote($estw_time . ""),
+				$db->quote($this->shuffle . ""),
+				$db->quote($complete . ""),
+				$db->quote($this->javaapplet_filename . ""),
+				$db->quote($params . ""),
+				$db->quote($created . ""),
 				$original_id
 			);
 
@@ -367,16 +418,16 @@ class ASS_JavaApplet extends ASS_Question
 		{
 			// Vorhandenen Datensatz aktualisieren
 			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, shuffle = %s, complete = %s, image_file = %s, params = %s WHERE question_id = %s",
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->question),
-				$db->quote($estw_time),
-				$db->quote("$this->shuffle"),
-				$db->quote("$complete"),
-				$db->quote($this->javaapplet_filename),
-				$db->quote($params),
-				$db->quote($this->id)
+				$db->quote($this->title . ""),
+				$db->quote($this->comment . ""),
+				$db->quote($this->author . ""),
+				$db->quote($this->question . ""),
+				$db->quote($estw_time . ""),
+				$db->quote($this->shuffle . ""),
+				$db->quote($complete . ""),
+				$db->quote($this->javaapplet_filename . ""),
+				$db->quote($params . ""),
+				$db->quote($this->id . "")
 			);
 			$result = $db->query($query);
 		}
@@ -414,7 +465,7 @@ class ASS_JavaApplet extends ASS_Question
 				$this->owner = $data->owner;
 				$this->javaapplet_filename = $data->image_file;
 				$this->question = $data->question_text;
-				$this->split_params($data->params);
+				$this->splitParams($data->params);
 				$this->setShuffle($data->shuffle);
 				$this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
 			}
@@ -480,7 +531,7 @@ class ASS_JavaApplet extends ASS_Question
 		{
 			ilUtil::makeDirParents($javapath);
 		}
-		$filename = $this->get_javaapplet_filename();
+		$filename = $this->getJavaAppletFilename();
 		if (!copy($javapath_original . $filename, $javapath . $filename)) {
 			print "java applet could not be duplicated!!!! ";
 		}
@@ -495,7 +546,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function get_question()
+	function getQuestion()
 	{
 		return $this->question;
 	}
@@ -509,7 +560,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $question
 	*/
-	function set_question($question = "")
+	function setQuestion($question = "")
 	{
 		$this->question = $question;
 	}
@@ -548,7 +599,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @return string java applet code parameter
 	* @access public
 	*/
-	function get_java_code()
+	function getJavaCode()
 	{
 		return $this->java_code;
 	}
@@ -561,7 +612,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @param string java applet code parameter
 	* @access public
 	*/
-	function set_java_code($java_code = "")
+	function setJavaCode($java_code = "")
 	{
 		$this->java_code = $java_code;
 	}
@@ -574,7 +625,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @return integer java applet width parameter
 	* @access public
 	*/
-	function get_java_width()
+	function getJavaWidth()
 	{
 		return $this->java_width;
 	}
@@ -587,7 +638,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @param integer java applet width parameter
 	* @access public
 	*/
-	function set_java_width($java_width = "")
+	function setJavaWidth($java_width = "")
 	{
 		$this->java_width = $java_width;
 	}
@@ -600,7 +651,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @return integer java applet height parameter
 	* @access public
 	*/
-	function get_java_height()
+	function getJavaHeight()
 	{
 		return $this->java_height;
 	}
@@ -613,7 +664,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @param integer java applet height parameter
 	* @access public
 	*/
-	function set_java_height($java_height = "")
+	function setJavaHeight($java_height = "")
 	{
 		$this->java_height = $java_height;
 	}
@@ -693,9 +744,9 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $parameters
 	*/
-	function add_parameter($name = "", $value = "")
+	function addParameter($name = "", $value = "")
 	{
-		$index = get_parameter_index($name);
+		$index = getParameterIndex($name);
 		if ($index > -1)
 		{
 			$this->parameters[$index] = array("name" => $name, "value" => $value);
@@ -717,7 +768,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $parameters
 	*/
-	function add_parameter_at_index($index = 0, $name = "", $value = "")
+	function addParameterAtIndex($index = 0, $name = "", $value = "")
 	{
 		$this->parameters[$index] = array("name" => $name, "value" => $value);
 	}
@@ -731,7 +782,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $parameters
 	*/
-	function remove_parameter($name)
+	function removeParameter($name)
 	{
 		foreach ($this->parameters as $key => $value)
 		{
@@ -753,7 +804,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $parameters
 	*/
-	function get_parameter($index)
+	function getParameter($index)
 	{
 		if (($index < 0) or ($index >= count($this->parameters)))
 		{
@@ -772,7 +823,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @access private
 	* @see $parameters
 	*/
-	function get_parameter_index($name)
+	function getParameterIndex($name)
 	{
 		foreach ($this->parameters as $key => $value)
 		{
@@ -793,7 +844,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $parameters
 	*/
-	function get_parameter_count()
+	function getParameterCount()
 	{
 		return count($this->parameters);
 	}
@@ -806,7 +857,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $parameters
 	*/
-	function flush_params()
+	function flushParams()
 	{
 		$this->parameters = array();
 	}
@@ -882,7 +933,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $javaapplet_filename
 	*/
-	function get_javaapplet_filename()
+	function getJavaAppletFilename()
 	{
 		return $this->javaapplet_filename;
 	}
@@ -896,7 +947,7 @@ class ASS_JavaApplet extends ASS_Question
 	* @access public
 	* @see $javaapplet_filename
 	*/
-	function set_javaapplet_filename($javaapplet_filename, $javaapplet_tempfilename = "")
+	function setJavaAppletFilename($javaapplet_filename, $javaapplet_tempfilename = "")
 	{
 		if (!empty($javaapplet_filename))
 		{
