@@ -40,6 +40,7 @@ class ilRepositoryGUI
 	var $rbacsystem;
 	var $cur_ref_id;
 	var $cmd;
+	var $mode;
 
 	/**
 	* Constructor
@@ -59,6 +60,15 @@ class ilRepositoryGUI
 		$this->cur_ref_id = (!empty($_GET["ref_id"]))
 			? $_GET["ref_id"]
 			: $this->tree->getRootId();
+
+		if (!empty($_GET["set_mode"]))
+		{
+			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
+		}
+
+		$this->mode = ($_SESSION["il_rep_mode"] != "")
+			? $_SESSION["il_rep_mode"]
+			: "flat";
 
 		$this->categories = array();
 		$this->learning_resources = array();
@@ -83,6 +93,74 @@ class ilRepositoryGUI
 	}
 
 	function showList()
+	{
+		switch ($this->mode)
+		{
+			case "tree":
+				$this->showTree();
+				break;
+
+			default:
+				$this->showFlatList();
+				break;
+		}
+	}
+
+	function showTree()
+	{
+		// output objects
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.repository.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		// output tabs
+		//$this->setTabs();
+
+		// output locator
+		$this->setLocator();
+
+		// output message
+		if($this->message)
+		{
+			sendInfo($this->message);
+		}
+
+		// display infopanel if something happened
+		infoPanel();
+
+		// set header
+		$this->setHeader();
+
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_explorer.html");
+
+		require_once ("classes/class.ilRepositoryExplorer.php");
+		$exp = new ilRepositoryExplorer("repository.php?cmd=goto");
+		$exp->setTargetGet("ref_id");
+
+		if ($_GET["repexpand"] == "")
+		{
+			$expanded = $this->tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["repexpand"];
+		}
+
+		$exp->setExpand($expanded);
+
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		$this->tpl->setCurrentBlock("objects");
+		//$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
+		$this->tpl->setVariable("EXPLORER", $output);
+		//$this->tpl->setVariable("ACTION", "repository.php?repexpand=".$_GET["repexpand"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+	}
+
+	function showFlatList()
 	{
 		// get all objects of current node
 		$objects = $this->tree->getChilds($this->cur_ref_id, "title");
@@ -184,7 +262,10 @@ class ilRepositoryGUI
 		if ($this->cur_ref_id == $this->tree->getRootId())
 		{
 			$this->tpl->setVariable("HEADER",  $this->lng->txt("repository"));
-			$this->showPossibleSubObjects("root");
+			if($this->mode != "tree")
+			{
+				$this->showPossibleSubObjects("root");
+			}
 		}
 		else
 		{
@@ -192,11 +273,28 @@ class ilRepositoryGUI
 			$cat =& new ilObjCategory($this->cur_ref_id, true);
 			$this->tpl->setVariable("HEADER",  $cat->getTitle());
 			$this->tpl->setVariable("H_DESCRIPTION",  $cat->getDescription());
-
-			$this->showPossibleSubObjects("cat");
+			if($this->mode != "tree")
+			{
+				$this->showPossibleSubObjects("cat");
+			}
 		}
 		$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$_GET["ref_id"].
 			"&cmd=post");
+
+		if ($this->cur_ref_id != $this->tree->getRootId())
+		{
+			$par_id = $this->tree->getParentId($this->cur_ref_id);
+			$this->tpl->setCurrentBlock("top");
+			$this->tpl->setVariable("LINK_TOP", "repository.php?ref_id=".$par_id);
+			$this->tpl->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.gif"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("LINK_FLAT", "repository.php?set_mode=flat&ref_id=".$this->cur_ref_id);
+		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
+
+		$this->tpl->setVariable("LINK_TREE", "repository.php?set_mode=tree&ref_id=".$this->cur_ref_id);
+		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
 	}
 
 	/**
