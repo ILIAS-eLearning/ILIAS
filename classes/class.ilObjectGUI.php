@@ -1500,26 +1500,6 @@ class ilObjectGUI
 			}
 		}
 
-		// TODO: needs review. $_GET[parent] doesn't exists!!!!
-		$rolf_data = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
-		$permission = $rolf_data ? 'write' : 'create';
-		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $this->object->getRefId();
-		$rolf_parent = $role_data["parent"] ? $rolf_data["parent"] : $_GET["parent"];
-
-		if ($rbacsystem->checkAccess("edit permission", $this->object->getRefId()) &&
-		   $rbacsystem->checkAccess($permission, $rolf_id, "rolf"))
-		{
-
-			// Check if object is able to contain role folder
-			$child_objects = $rbacreview->getModules($this->object->getType(), $this->object->getRefId());
-
-			if ($child_objects["rolf"])
-			{
-				$data["local_role"]["child"] = $this->object->getRefId();
-				$data["local_role"]["parent"] = $_GET["parent"];
-			}
-		}
-
 		/////////////////////
 		// START DATA OUTPUT
 		/////////////////////
@@ -1586,16 +1566,31 @@ class ilObjectGUI
 		if ($this->object->getRefId() != ROLE_FOLDER_ID)
 		{
 			$this->tpl->setCurrentBlock("LOCAL_ROLE");
-			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-			$this->tpl->setVariable("MESSAGE_BOTTOM", $this->lng->txt("you_may_add_local_roles"));
+
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+			}
+
 			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("role_add_local"));
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("addRole"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->parseCurrentBlock();
 		}
 
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION",
-			$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
+		$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("COL_ANZ",$colspan);
 		$this->tpl->parseCurrentBlock();
@@ -1710,12 +1705,12 @@ class ilObjectGUI
 		global $rbacsystem, $rbacreview, $rbacadmin;
 
 		// first save the new permission settings for all roles
-		$rbacadmin->revokePermission($_GET["ref_id"]);
+		$rbacadmin->revokePermission($this->ref_id);
 
 		foreach ($_POST["perm"] as $key => $new_role_perms)
 		{
 			// $key enthaelt die aktuelle Role_Id
-			$rbacadmin->grantPermission($key,$new_role_perms,$_GET["ref_id"]);
+			$rbacadmin->grantPermission($key,$new_role_perms,$this->ref_id);
 		}
 		
 		// update object data entry (to update last modification date)
@@ -1729,64 +1724,50 @@ class ilObjectGUI
 		//   und das Permission Template an den Wert des n�hst hher gelegenen Permission Templates angepasst
 
 		// get rolefolder data if a rolefolder already exists
-		$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
+		$rolf_data = $rbacreview->getRoleFolderOfObject($this->ref_id);
+		$rolf_id = $rolf_data["child"];
 
 		if ($_POST["stop_inherit"])
 		{
 			// rolefolder doesn't exists, so create one
-			if (empty($rolf_data["child"]))
+			if (empty($rolf_id))
 			{
 				// CHECK ACCESS 'create' rolefolder
-				if (!$rbacsystem->checkAccess('create',$_GET["ref_id"],'rolf'))
+				if (!$rbacsystem->checkAccess('create',$this->ref_id,'rolf'))
 				{
 					$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
 				}
-				else
-				{
-					// create a local role folder
-					$rfoldObj = $this->object->createRoleFolder();
 
-					/*include_once ("classes/class.ilObjRoleFolder.php");
-					$rolfObj = new ilObjRoleFolder();
-					$rolfObj->setTitle("Local roles");
-					$rolfObj->setDescription("Role Folder of object no. ".$_GET["ref_id"]);
-					$rolfObj->create();
-					$rolfObj->createReference();
-					$rolfObj->putInTree($_GET["ref_id"]);
-					$rolfObj->setPermissions($_GET["ref_id"]);
-					unset($rolfObj);
-					*/
-			
-					// now load rolefolder data again
-					// TODO: why don't take the data from object above??
-					$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
-				}
+				// create a local role folder
+				$rfoldObj = $this->object->createRoleFolder();
+
+				// set rolf_id again from new rolefolder object
+				$rolf_id = $rfoldObj->getRefId();
 			}
 
 			// CHECK ACCESS 'write' of role folder
-			if (!$rbacsystem->checkAccess('write',$rolf_data["child"]))
+			if (!$rbacsystem->checkAccess('write',$rolf_id))
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 			}
-			else
-			{
-				foreach ($_POST["stop_inherit"] as $stop_inherit)
-				{
-					$roles_of_folder = $rbacreview->getRolesOfRoleFolder($rolf_data["ref_id"]);
 
-					// create role entries for roles with stopped inheritance
-					if (!in_array($stop_inherit,$roles_of_folder))
-					{
-						$parentRoles = $rbacreview->getParentRoleIds($rolf_data["child"]);
-						$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
-													   $rolf_data["child"],$stop_inherit);
-						$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],'n');
-					}
+			foreach ($_POST["stop_inherit"] as $stop_inherit)
+			{
+				$roles_of_folder = $rbacreview->getRolesOfRoleFolder($rolf_id);
+
+				// create role entries for roles with stopped inheritance
+				if (!in_array($stop_inherit,$roles_of_folder))
+				{
+					$parentRoles = $rbacreview->getParentRoleIds($rolf_id);
+					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
+												   $rolf_id,$stop_inherit);
+					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id,'n');
 				}
 			}// END FOREACH
 		}// END STOP INHERIT
-		elseif 	(!empty($rolf_data["child"]))
+		elseif 	(!empty($rolf_id))
 		{
+			// TODO: this feature doesn't work at the moment
 			// ok. if the rolefolder is not empty, delete the local roles
 			//if (!empty($roles_of_folder = $rbacreview->getRolesOfRoleFolder($rolf_data["ref_id"])));
 			//{
@@ -2284,7 +2265,7 @@ class ilObjectGUI
 	/**
 	* adds a local role
 	* This method is only called when choose the option 'you may add local roles'. This option
-	* is displayed in the permission settings dialogue for an object and ONLY if no local role folder exists
+	* is displayed in the permission settings dialogue for an object
 	* TODO: this will be changed
 	* @access	public
 	*/
@@ -2293,61 +2274,51 @@ class ilObjectGUI
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
 		// first check if role title is unique
-		if ($rbacreview->roleExists($_POST["Flocal_role"]))
+		if ($rbacreview->roleExists($_POST["Fobject"]["title"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Flocal_role"]."' ".
+			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".$_POST["Fobject"]["title"]."' ".
 									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// if the current object is no role folder, create one
 		if ($this->object->getType() != "rolf")
 		{
-			$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
+			$rolf_data = $rbacreview->getRoleFolderOfObject($this->ref_id);
 
 			// is there already a rolefolder?
 			if (!($rolf_id = $rolf_data["child"]))
 			{
 				// can the current object contain a rolefolder?
-				$mods = $rbacreview->getModules($this->object->getType(),$_GET["ref_id"]);
-
-				if (!isset($mods["rolf"]))
+				$subobjects = $this->objDefinition->getSubObjects($this->object->getType());
+				
+				if (!isset($subobjects["rolf"]))
 				{
 					$this->ilias->raiseError($this->lng->txt("msg_no_rolf_allowed1")." '".$this->object->getTitle()."' ".
 											$this->lng->txt("msg_no_rolf_allowed2"),$this->ilias->error_obj->WARNING);
 				}
 
 				// CHECK ACCESS 'create' rolefolder
-				if (!$rbacsystem->checkAccess('create',$_GET["ref_id"],'rolf'))
+				if (!$rbacsystem->checkAccess('create',$this->ref_id,'rolf'))
 				{
 					$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
 				}
-				else
+
+				// create a rolefolder
+				$rolfObj = $this->object->createRoleFolder();
+				$rolf_id = $rolfObj->getRefId();
+
+// TODO: this is done by object->createRoleFolder
+				// Suche aller Parent Rollen im Baum
+				/*
+				$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
+
+				foreach ($parentRoles as $parRol)
 				{
-					// create a rolefolder
-					$rolfObj = $this->object->createRoleFolder();
+					// Es werden die im Baum am 'n�hsten liegenden' Templates ausgelesen
+					$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"],'rolf',$parRol["parent"]);
 					
-					/*include_once ("./classes/class.ilObjRoleFolder.php");
-					$rolfObj = new ilObjRoleFolder();
-					$rolfObj->setTitle("Role Folder");
-					$rolfObj->setDescription("Automatically generated Role Folder for ref no. ".$this->object->getRefId());
-					$rolfObj->create();
-					$rolfObj->createReference();
-					$rolfObj->putInTree($this->object->getRefId());
-					$rolfObj->setPermissions($_GET["ref_id"]);*/
-
-					$rolf_id = $rolfObj->getRefId();
-
-					// Suche aller Parent Rollen im Baum
-					$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
-
-					foreach ($parentRoles as $parRol)
-					{
-						// Es werden die im Baum am 'n�hsten liegenden' Templates ausgelesen
-						$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"],'rolf',$parRol["parent"]);
-						// TODO: make this work:
-						//$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id);
-					}
-				}
+					//$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id);
+				}*/
 			}
 		}
 		else
@@ -2361,16 +2332,17 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
-		else
+		else	// create role
 		{
-			// TODO: we can use the member function"createRole" of rolefolder object above!!!
-			include_once ("./classes/class.ilObjRole.php");
-			$roleObj = new ilObjRole();
-			$roleObj->setTitle($_POST["Flocal_role"]);
-			$roleObj->setDescription("No description");
-			$roleObj->create();
-			$new_obj_id = $roleObj->getId();
-			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,'y');
+			if ($this->object->getType() == "rolf")
+			{
+				$this->object->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
+			}
+			else
+			{
+				$rfoldObj = $this->ilias->obj_factory->getInstanceByRefId($rolf_id);
+				$rfoldObj->createRole($_POST["Fobject"]["title"],$_POST["Fobject"]["desc"]);
+			}
 		}
 
 		sendInfo($this->lng->txt("role_added"),true);
@@ -2456,7 +2428,7 @@ class ilObjectGUI
 		{
 			$d = $this->sub_objects;
 		}
-
+		
 		$import = false;
 
 		if (count($d) > 0)

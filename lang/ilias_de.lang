@@ -582,6 +582,7 @@ common#:#retype_password#:#Passwort wiederholen
 common#:#right#:#Recht
 common#:#rights#:#Rechte
 common#:#role#:#Rolle
+common#:#role_add_local#:#Lokale Rolle hinzufügen
 common#:#role_added#:#Rolle angelegt
 common#:#role_assignment#:#Rollenzuweisung
 common#:#role_deleted#:#Rolle gelöscht

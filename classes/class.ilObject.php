@@ -76,13 +76,11 @@ class ilObject
 	*/
 	var $objectList;
 
-
 	/**
 	* max title length
 	* @var integer
 	*/
 	var $max_title;
-
 
 	/**
 	* max description length
@@ -90,19 +88,16 @@ class ilObject
 	*/
 	var $max_desc;
 
-
 	/**
 	* add dots to shortened titles and descriptions
 	* @var boolean
 	*/
 	var $add_dots;
 
-
 	/**
 	* object_data record
 	*/
 	var $obj_data_record;
-
 
 	/**
 	* Constructor
@@ -148,7 +143,6 @@ class ilObject
 			$this->read();
 		}
 	}
-
 
 	/**
 	* read object data from db into object
@@ -248,7 +242,6 @@ class ilObject
 		}
 	}
 
-
 	/**
 	* get object id
 	* @access	public
@@ -259,7 +252,6 @@ class ilObject
 		return $this->id;
 	}
 
-
 	/**
 	* set object id
 	* @access	public
@@ -269,7 +261,6 @@ class ilObject
 	{
 		$this->id = $a_id;
 	}
-
 
 	/**
 	* set reference id
@@ -282,7 +273,6 @@ class ilObject
 		$this->referenced = true;
 	}
 
-
 	/**
 	* get reference id
 	* @access	public
@@ -292,7 +282,6 @@ class ilObject
 	{
 		return $this->ref_id;
 	}
-
 
 	/**
 	* get object type
@@ -304,7 +293,6 @@ class ilObject
 		return $this->type;
 	}
 
-
 	/**
 	* set object type
 	* @access	public
@@ -315,7 +303,6 @@ class ilObject
 		$this->type = $a_type;
 	}
 
-
 	/**
 	* get object title
 	* @access	public
@@ -325,7 +312,6 @@ class ilObject
 	{
 		return $this->title;
 	}
-
 
 	/**
 	* set object title
@@ -343,7 +329,6 @@ class ilObject
 		$this->title = addslashes(ilUtil::shortenText($a_title, $this->max_title, $this->add_dots));
 	}
 
-
 	/**
 	* get object description
 	*
@@ -354,7 +339,6 @@ class ilObject
 	{
 		return $this->desc;
 	}
-
 
 	/**
 	* set object description
@@ -377,7 +361,6 @@ class ilObject
 	{
 		return $this->owner;
 	}
-
 
 	/*
 	* get full name of object owner
@@ -404,7 +387,6 @@ class ilObject
 		return $own_name;
 	}
 
-
 	/**
 	* set object owner
 	*
@@ -416,7 +398,6 @@ class ilObject
 		$this->owner = $a_owner;
 	}
 
-
 	/**
 	* get create date
 	* @access	public
@@ -427,7 +408,6 @@ class ilObject
 		return $this->create_date;
 	}
 
-
 	/**
 	* get last update date
 	* @access	public
@@ -437,7 +417,6 @@ class ilObject
 	{
 		return $this->last_update;
 	}
-
 
 	/**
 	* set object_data record (note: this method should
@@ -451,7 +430,6 @@ class ilObject
 	{
 		$this->obj_data_record = $a_record;
 	}
-
 
 	/**
 	* create
@@ -528,7 +506,6 @@ class ilObject
 		return true;
 	}
 
-
 	/**
 	* maybe this method should be in tree object!?
 	*
@@ -559,7 +536,6 @@ class ilObject
 			$rbacadmin->grantPermission($parRol["obj_id"], $ops, $this->getRefId());
 		}
 	}
-		
 
 	/**
 	* creates reference for object
@@ -685,31 +661,6 @@ class ilObject
 	}
 
 	/**
-	* DESC MISSING
-	* @access	public
-	* @return	array
-	*/
-	function getSubObjects()
-	{
-		global $rbacsystem, $rbacreview;
-
-		$data = array();
-
-		// show only objects with permission 'create'
-		$objects = $rbacreview->getModules($this->type,$this->id);
-
-		foreach ($objects as $key => $object)
-		{
-			if ($rbacsystem->checkAccess("create", $this->id, $key))
-			{
-				$data[$key] = $object;
-			} //if
-		} //foreach
-
-		return $data;
-	}
-
-	/**
 	* init default roles settings
 	* Purpose of this function is to create a local role folder and local roles, that are needed depending on the object type 
 	* If you want to setup default local roles you MUST overwrite this method in derived object classes (see ilObjForum for an example)
@@ -732,14 +683,26 @@ class ilObject
 	*/
 	function createRoleFolder()
 	{
-		include_once ("classes/class.ilObjRoleFolder.php");
-		$rfoldObj = new ilObjRoleFolder();
-		$rfoldObj->setTitle($this->getId());
-		$rfoldObj->setDescription(" (ref_id ".$this->getRefId().")");
-		$rfoldObj->create();
-		$rfoldObj->createReference();
-		$rfoldObj->putInTree($this->getRefId());
-		$rfoldObj->setPermissions($this->getRefId());
+		global $rbacreview;
+		
+		// does a role folder already exists?
+		// (this check is only 'to be sure' that no second role folder is created under one object.
+		// the if-construct should never return true)
+		if ($rolf_data = $rbacreview->getRoleFolderofObject($this->getRefId()))
+		{
+			$rfoldObj = $this->ilias->obj_factory->getInstanceByRefId($rolf_data["ref_id"]);
+		}
+		else
+		{
+			include_once ("classes/class.ilObjRoleFolder.php");
+			$rfoldObj = new ilObjRoleFolder();
+			$rfoldObj->setTitle($this->getId());
+			$rfoldObj->setDescription(" (ref_id ".$this->getRefId().")");
+			$rfoldObj->create();
+			$rfoldObj->createReference();
+			$rfoldObj->putInTree($this->getRefId());
+			$rfoldObj->setPermissions($this->getRefId());
+		}
 		
 		return $rfoldObj;
 	}

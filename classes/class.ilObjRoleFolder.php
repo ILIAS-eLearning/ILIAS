@@ -117,17 +117,6 @@ class ilObjRoleFolder extends ilObject
 	}
 
 	/**
-	* getSubObjects
-	* 
-	* @access	public
-	* @return	boolean
-	*/
-	function getSubObjects()	
-	{
-		return false;
-	}
-
-	/**
 	* creates a local role in current rolefolder (this object)
 	* 
 	* @access	public
