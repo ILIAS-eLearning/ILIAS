@@ -374,7 +374,20 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilPage":
-						if($_GET["obj_id"])
+						if($_POST["action"] == "show")
+						{
+							if(is_array($_POST["target"]))
+							{
+								$_SESSION["bib_id"] = ",";
+								$_SESSION["bib_id"] .= implode(',',$_POST["target"]);
+								$_SESSION["bib_id"] .= ",";
+							}
+							else
+							{
+								$_SESSION["bib_id"] = ",0,";
+							}
+						}
+						if($_GET["obj_id"] or $_POST["action"] == "show")
 						{
 							// SHOW PAGE IF PAGE WAS SELECTED
 							$pageContent = $this->ilPage($child);
@@ -392,7 +405,7 @@ class ilLMPresentationGUI
 
 					case "ilLMNavigation":
 						// NOT FOR ABSTRACT
-						if($_GET["obj_id"] or $this->lm->getType() == 'lm')
+						if($_GET["obj_id"] or $_POST["action"] == "show" or $this->lm->getType() == 'lm')
 						{
 							$this->ilLMNavigation();
 						}
@@ -441,7 +454,7 @@ class ilLMPresentationGUI
 		{
 			case "dbk":
 	#			return $this->ilPage($a_child);
-				return $this->lm_gui->showAbstract($_POST["target"]);
+				return $this->lm_gui->showAbstract($_POST["target"][0]);
 
 			case "lm":
 				return $this->ilPage($a_child);
@@ -668,6 +681,9 @@ class ilLMPresentationGUI
 		$lm_pg_obj->setLMId($this->lm->getId());
 		//$pg_obj->setParentId($this->lm->getId());
 		$page_object_gui->setLinkTargets($targets);
+
+		// USED FOR DBK PAGE TURNS
+		$page_object_gui->setBibId($_SESSION["bib_id"]);
 
 		// determine target frames for internal links
 		//$pg_frame = $_GET["frame"];

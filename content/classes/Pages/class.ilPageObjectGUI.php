@@ -47,6 +47,7 @@ class ilPageObjectGUI
 	var $target_var;
 	var $output2template;
 	var $link_params;
+	var $bib_id;
 
 	/**
 	* Constructor
@@ -63,6 +64,16 @@ class ilPageObjectGUI
 		$this->output_mode = "presentation";
 		$this->setPageObject($a_page_object);
 		$this->output2template = true;
+	}
+
+	function setBibId($a_id)
+	{
+		// USED FOR SELECTION WHICH PAGE TURNS AND LATER PAGES SHOULD BE SHOWN
+		$this->bib_id = $a_id;
+	}
+	function getBibId()
+	{
+		return $this->bib_id ? $this->bib_id : 0;
 	}
 
 	function setPageObject(&$a_pg_obj)
@@ -215,7 +226,8 @@ class ilPageObjectGUI
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
-			'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params);
+						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params, 
+						 'bib_id' => $this->getBibId());
 
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;

@@ -29,6 +29,7 @@
 <xsl:param name="pg_frame"/>
 <xsl:param name="webspace_path"/>
 <xsl:param name="enlarge_path"/>
+<xsl:param name="bib_id" />
 <xsl:template match="PageObject">
 	<!--<xsl:value-of select="@HierId"/>-->
 	<xsl:if test="$pg_title != ''">
@@ -69,27 +70,41 @@
 	<xsl:if test="count(//PageTurn) > 0">
 		<hr />
 		<xsl:for-each select="//PageTurn">
+          <xsl:variable name="entry_one"><xsl:value-of select="./BibItemIdentifier/@Entry" /></xsl:variable>
+          <xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
+          <xsl:if test="contains($entry_two,$entry_one)">
 			<div class="ilc_PageTurn">
 			<a>
-			<xsl:attribute name="name">pt<xsl:number count="PageTurn" level="any"/></xsl:attribute>
-			<span class="ilc_Strong">[<xsl:number count="PageTurn" level="any"/>.pageturn] </span>
-			</a>
+              <xsl:attribute name="name">pt<xsl:number count="PageTurn" level="multiple"/></xsl:attribute>
+              <span class="ilc_Strong">[<xsl:number count="PageTurn" level="multiple"/>.pageturn] </span>
+            </a>
             <xsl:call-template name="searchEdition">
                 <xsl:with-param name="Entry">
-                    <xsl:value-of select="./BibItemIdentifier/@Entry"/>
+                  <xsl:value-of select="$entry_one" />
                 </xsl:with-param>
             </xsl:call-template>
 			</div>
+          </xsl:if>
 		</xsl:for-each>
 	</xsl:if>
 
+</xsl:template>
+
+<!-- GET BIB ITEM ENTRY BY BIB ID -->
+<xsl:template name="get_bib_item">
+  <xsl:for-each select="//Bibliography/BibItem">
+    <xsl:if test="contains($bib_id,concat(',',position(),','))">
+      <xsl:value-of select="./Identifier/@Entry" /><xsl:text>,</xsl:text>
+    </xsl:if>
+  </xsl:for-each>
 </xsl:template>
 
 <!-- Sucht zu den Pageturns die Edition und das Jahr raus -->
 <xsl:template name="searchEdition">
     <xsl:param name="Entry"/>
     <xsl:for-each select="//Bibliography/BibItem">
-        <xsl:if test="./Identifier/@Entry=$Entry">
+      <xsl:variable name="entry_cmp"><xsl:value-of select="./Identifier/@Entry" /></xsl:variable>
+        <xsl:if test="$entry_cmp=$Entry">
             <xsl:value-of select="./Edition/."/><xsl:text>, </xsl:text><xsl:value-of select="./Year/."/>
         </xsl:if>
     </xsl:for-each>
@@ -175,9 +190,14 @@
 </xsl:template>
 
 <!-- PageTurn (Links) -->
-<xsl:template match="PageTurn"><a class="ilc_PageTurnLink"><xsl:attribute name="href">#pt<xsl:number count="PageTurn" level="any"/></xsl:attribute>[<xsl:number count="PageTurn" level="any"/>.pageturn]
-	</a>
-</xsl:template>
+<xsl:template match="PageTurn">
+  <xsl:variable name="entry_one"><xsl:value-of select="./BibItemIdentifier/@Entry" /></xsl:variable>
+  <xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
+  <xsl:if test="contains($entry_two,$entry_one)">
+    <a class="ilc_PageTurnLink">
+      <xsl:attribute name="href">#pt<xsl:number count="PageTurn" level="any"/></xsl:attribute>[<xsl:number count="PageTurn" level="any"/>.pageturn]</a>
+    </xsl:if>
+  </xsl:template>
 
 <!-- IntLink -->
 <xsl:template match="IntLink">
