@@ -477,7 +477,9 @@ class ilPageObject
 			"ed_delete_row", "ed_class", "ed_width", "ed_align_left",
 			"ed_align_right", "ed_align_center", "ed_align_left_float",
 			"ed_align_right_float", "ed_delete_item", "ed_new_item_before",
-			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page");
+			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
+			"ed_item_up", "ed_item_down", "ed_row_up", "ed_row_down",
+			"ed_col_left", "ed_col_right");
 
 		foreach ($lang_vars as $lang_var)
 		{
@@ -749,6 +751,10 @@ class ilPageObject
 	function addHierIDs()
 	{
 		$this->hier_ids = array();
+		$this->first_row_ids = array();
+		$this->first_col_ids = array();
+		$this->list_item_ids = array();
+		$this->file_item_ids = array();
 		
 		// set hierarchical ids for Paragraphs, Tables, TableRows and TableData elements
 		$xpc = xpath_new_context($this->dom);
@@ -758,6 +764,7 @@ class ilPageObject
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$cnode = $res->nodeset[$i];
+			$ctag = $cnode->node_name();
 
 			// get hierarchical id of previous sibling
 			$sib_hier_id = "";
@@ -777,6 +784,21 @@ class ilPageObject
 				$node_hier_id = ilPageContent::incEdId($sib_hier_id);
 				$res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
 				$this->hier_ids[] = $node_hier_id;
+				if ($ctag == "TableData")
+				{
+					if (substr($par_hier_id,strlen($par_hier_id)-2) == "_1")
+					{
+						$this->first_row_ids[] = $node_hier_id;
+					}
+				}
+				if ($ctag == "ListItem")
+				{
+					$this->list_item_ids[] = $node_hier_id;
+				}
+				if ($ctag == "FileItem")
+				{
+					$this->file_item_ids[] = $node_hier_id;
+				}
 			}
 			else						// no sibling -> node is first child
 			{
@@ -799,6 +821,23 @@ class ilPageObject
 					$node_hier_id = $par_hier_id."_1";
 					$res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
 					$this->hier_ids[] = $node_hier_id;
+					if ($ctag == "TableData")
+					{
+						$this->first_col_ids[] = $node_hier_id;
+						if (substr($par_hier_id,strlen($par_hier_id)-2) == "_1")
+						{
+							$this->first_row_ids[] = $node_hier_id;
+						}
+					}
+					if ($ctag == "ListItem")
+					{
+						$this->list_item_ids[] = $node_hier_id;
+					}
+					if ($ctag == "FileItem")
+					{
+						$this->file_item_ids[] = $node_hier_id;
+					}
+					
 				}
 				else		// no sibling, no parent -> first node
 				{
@@ -828,7 +867,43 @@ class ilPageObject
 	{
 		return $this->hier_ids;
 	}
-
+	
+	
+	/**
+	* get ids of all first table rows
+	*/
+	function getFirstRowIds()
+	{
+		return $this->first_row_ids;
+	}
+	
+	/**
+	* get ids of all first table columns
+	*/
+	function getFirstColumnIds()
+	{
+		return $this->first_col_ids;
+	}
+	
+	/**
+	* get ids of all list items
+	*/
+	function getListItemIds()
+	{
+		return $this->list_item_ids;
+	}
+	
+	/**
+	* get ids of all file items
+	*/
+	function getFileItemIds()
+	{
+		return $this->file_item_ids;
+	}
+	
+	/**
+	* strip all hierarchical id attributes out of the dom tree
+	*/
 	function stripHierIDs()
 	{
 		if(is_object($this->dom))
@@ -1233,6 +1308,65 @@ class ilPageObject
 		}
 	}
 
+	/**
+	* delete content object with hierarchical id >= $a_hid
+	*
+	* @param	string		$a_hid		hierarchical id of content object
+	* @param	boolean		$a_update	update page in db (note: update deletes all
+	*									hierarchical ids in DOM!)
+	*/
+	function deleteContentFromHierId($a_hid, $a_update = true)
+	{
+		$hier_ids = $this->getHierIds();
+		
+		// iterate all hierarchical ids
+		foreach ($hier_ids as $hier_id)
+		{
+			// delete top level nodes only
+			if (!is_int(strpos($hier_id, "_")))
+			{
+				if ($hier_id != "pg" && $hier_id >= $a_hid)
+				{
+					$curr_node =& $this->getContentNode($hier_id);
+					$curr_node->unlink_node($curr_node);
+				}
+			}
+		}
+		if ($a_update)
+		{
+			return $this->update();
+		}
+	}
+
+	/**
+	* delete content object with hierarchical id < $a_hid
+	*
+	* @param	string		$a_hid		hierarchical id of content object
+	* @param	boolean		$a_update	update page in db (note: update deletes all
+	*									hierarchical ids in DOM!)
+	*/
+	function deleteContentBeforeHierId($a_hid, $a_update = true)
+	{
+		$hier_ids = $this->getHierIds();
+		
+		// iterate all hierarchical ids
+		foreach ($hier_ids as $hier_id)
+		{
+			// delete top level nodes only
+			if (!is_int(strpos($hier_id, "_")))
+			{
+				if ($hier_id != "pg" && $hier_id < $a_hid)
+				{
+					$curr_node =& $this->getContentNode($hier_id);
+					$curr_node->unlink_node($curr_node);
+				}
+			}
+		}
+		if ($a_update)
+		{
+			return $this->update();
+		}
+	}
 
 	/**
 	* insert a content node before/after a sibling or as first child of a parent

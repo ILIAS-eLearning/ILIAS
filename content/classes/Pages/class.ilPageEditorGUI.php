@@ -164,6 +164,15 @@ class ilPageEditorGUI
 			$hier_id = implode($cmd, "_");
 			$cmd = $_POST["command".$hier_id];
 		}
+		
+		// strip "c" "r" of table ids from hierarchical id
+		$first_hier_character = substr($hier_id, 0, 1);
+		if ($first_hier_character == "c" ||
+			$first_hier_character == "r" ||
+			$first_hier_character == "i")
+		{
+			$hier_id = substr($hier_id, 1);
+		}
 
 		$this->page->buildDom();
 		$this->page->addHierIDs();

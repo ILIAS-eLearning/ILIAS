@@ -48,7 +48,7 @@
 <xsl:param name="javascript" />
 <xsl:param name="file_download_link" />
 <xsl:param name="fullscreen_link" />
-<xsl:param name="enable_split"/>
+<xsl:param name="enable_split_new"/>
 
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
@@ -65,9 +65,9 @@
 	</xsl:if>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:if test="$javascript = 'enable'">
-			<img border="1">
+			<img border="0">
 				<xsl:attribute name="onMouseOver">doMouseOver(this.id);</xsl:attribute>
-				<xsl:attribute name="onMouseOut">doMouseOut(this.id);</xsl:attribute>
+				<xsl:attribute name="onMouseOut">doMouseOut(this.id,false);</xsl:attribute>
 				<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
 				<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
 				<xsl:attribute name="onClick">doMouseClick(event,this.id,'PageObject');</xsl:attribute>
@@ -268,7 +268,7 @@
 		<div class="il_editarea">
 		<xsl:if test="$javascript = 'enable'">
 			<xsl:attribute name="onMouseOver">doMouseOver(this.id);</xsl:attribute>
-			<xsl:attribute name="onMouseOut">doMouseOut(this.id);</xsl:attribute>
+			<xsl:attribute name="onMouseOut">doMouseOut(this.id,true);</xsl:attribute>
             <xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
             <xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
 			<xsl:attribute name="onClick">doMouseClick(event,this.id,'<xsl:value-of select="$content_type"/>');</xsl:attribute>
@@ -385,7 +385,7 @@
 		</xsl:call-template>
 
 		<!-- split page -->
-		<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split = 'y'">
+		<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
 			<xsl:call-template name="EditMenuItem">
 				<xsl:with-param name="command">splitPage</xsl:with-param>
 				<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
@@ -393,12 +393,7 @@
 		</xsl:if>
 		
 	</xsl:if>
-	
-	<xsl:call-template name="EditMenuItem">
-		<xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
-		<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param>
-	</xsl:call-template>
-	
+		
 </xsl:template>
 
 <!-- Insert Menu Items -->
@@ -440,6 +435,10 @@
 		<xsl:with-param name="langvar">ed_insert_filelist</xsl:with-param>
 	</xsl:call-template>
 	
+	<!-- paste from clipboard -->
+	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
+	<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param></xsl:call-template>
+
 </xsl:template>
 
 <!-- Align Menu Items -->
@@ -499,6 +498,41 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- Icon -->
+<xsl:template name="Icon">
+	<xsl:param name="img_src"/>
+	<xsl:param name="img_id"/>
+
+	<img border="0">
+		<xsl:attribute name="onMouseOver">doMouseOver(this.id);</xsl:attribute>
+		<xsl:attribute name="onMouseOut">doMouseOut(this.id,false);</xsl:attribute>
+		<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
+		<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
+		<xsl:attribute name="onClick">doMouseClick(event,this.id,'PageObject');</xsl:attribute>
+		<xsl:attribute name="id"><xsl:value-of select="$img_id"/></xsl:attribute>
+		<xsl:attribute name="src"><xsl:value-of select="$img_src"/></xsl:attribute>
+	</img>
+</xsl:template>
+
+<!-- Add Icon -->
+<xsl:template name="AddIcon">
+	<xsl:param name="hier_id"/>
+
+	<xsl:call-template name="Icon">
+		<xsl:with-param name="img_src"><xsl:value-of select="$img_add"/></xsl:with-param>
+		<xsl:with-param name="img_id">CONTENT<xsl:value-of select="$hier_id"/></xsl:with-param>
+	</xsl:call-template>
+	
+	<div style="position:absolute;left:0;top:0;visibility:hidden;">
+		<xsl:attribute name="id">contextmenu_<xsl:value-of select="$hier_id"/></xsl:attribute>
+		<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
+			<table cellspacing="0" cellpadding="2" border="0">
+			<!-- <xsl:call-template name="TableDataMenu"/> -->
+			<xsl:call-template name="EditMenuInsertItems"/>
+			</table>
+		</td></tr></table>
+	</div>
+</xsl:template>
 
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
@@ -755,12 +789,13 @@
 		<xsl:value-of select="."/>
 		</caption>
 	</xsl:for-each>
-	<xsl:for-each select="TableRow">
+	<xsl:for-each select = "TableRow">
+		<xsl:variable name = "rowpos" select = "position()"/>
 		<tr valign="top">
-			<xsl:for-each select="TableData">
+			<xsl:for-each select = "TableData">
 				<td>
-					<xsl:attribute name="class"><xsl:value-of select="@Class"/></xsl:attribute>
-					<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
+					<xsl:attribute name = "class"><xsl:value-of select = "@Class"/></xsl:attribute>
+					<xsl:attribute name = "width"><xsl:value-of select = "@Width"/></xsl:attribute>
 					<!-- insert commands -->
 					<!-- <xsl:value-of select="@HierId"/> -->
 					<xsl:call-template name="EditReturnAnchors"/>
@@ -787,23 +822,38 @@
 								<br/>
 							</xsl:if>
 							<xsl:if test= "$javascript = 'enable'">
-								<img border="1">
-									<xsl:attribute name="onMouseOver">doMouseOver(this.id);</xsl:attribute>
-									<xsl:attribute name="onMouseOut">doMouseOut(this.id);</xsl:attribute>
-									<xsl:attribute name="onMouseDown">doMouseDown(this.id);</xsl:attribute>
-									<xsl:attribute name="onMouseUp">doMouseUp(this.id);</xsl:attribute>
-									<xsl:attribute name="onClick">doMouseClick(event,this.id,'PageObject');</xsl:attribute>
-									<xsl:attribute name="id">CONTENT<xsl:value-of select="@HierId"/></xsl:attribute>
-									<xsl:attribute name="src"><xsl:value-of select="$img_add"/></xsl:attribute>
-								</img>
-								<div style="position:absolute;left:0;top:0;visibility:hidden;">
-									<xsl:attribute name="id">contextmenu_<xsl:value-of select="@HierId"/></xsl:attribute>
-									<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
-										<table cellspacing="0" cellpadding="2" border="0">
-										<xsl:call-template name="TableDataMenu"/>
-										</table>
-									</td></tr></table>
-								</div>
+								<xsl:call-template name="AddIcon">
+									<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+								</xsl:call-template>
+
+								<xsl:if test = "position() = 1">
+									<xsl:call-template name="Icon">
+										<xsl:with-param name="img_src"><xsl:value-of select="$img_row"/></xsl:with-param>
+										<xsl:with-param name="img_id">CONTENTr<xsl:value-of select="@HierId"/></xsl:with-param>
+									</xsl:call-template>
+									<div style="position:absolute;left:0;top:0;visibility:hidden;">
+										<xsl:attribute name="id">contextmenu_r<xsl:value-of select="@HierId"/></xsl:attribute>
+										<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
+											<table cellspacing="0" cellpadding="2" border="0">
+											<xsl:call-template name="TableRowMenu"/>
+											</table>
+										</td></tr></table>
+									</div>
+								</xsl:if>
+								<xsl:if test = "$rowpos = 1">
+									<xsl:call-template name="Icon">
+										<xsl:with-param name="img_src"><xsl:value-of select="$img_col"/></xsl:with-param>
+										<xsl:with-param name="img_id">CONTENTc<xsl:value-of select="@HierId"/></xsl:with-param>
+									</xsl:call-template>
+									<div style="position:absolute;left:0;top:0;visibility:hidden;">
+										<xsl:attribute name="id">contextmenu_c<xsl:value-of select="@HierId"/></xsl:attribute>
+										<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
+											<table cellspacing="0" cellpadding="2" border="0">
+											<xsl:call-template name="TableColMenu"/>
+											</table>
+										</td></tr></table>
+									</div>
+								</xsl:if>
 							</xsl:if>
 						</xsl:if>
 					</xsl:if>
@@ -861,29 +911,59 @@
 
 	<xsl:call-template name="EditMenuInsertItems"/>
 	
+	<xsl:call-template name="TableRowMenu"/>
+	
+	<xsl:call-template name="TableColMenu"/>
+		
+</xsl:template>
+
+<!-- Table Row Menu -->
+<xsl:template name="TableRowMenu">
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">newRowAfter</xsl:with-param>
 	<xsl:with-param name="langvar">ed_new_row_after</xsl:with-param></xsl:call-template>
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">newRowBefore</xsl:with-param>
 	<xsl:with-param name="langvar">ed_new_row_before</xsl:with-param></xsl:call-template>
+	
+	<xsl:variable name="ni"><xsl:number from="PageContent" level="single" count="TableRow"/></xsl:variable>
 
+	<xsl:if test= "$ni != 1">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveRowUp</xsl:with-param>
+		<xsl:with-param name="langvar">ed_row_up</xsl:with-param></xsl:call-template>
+	</xsl:if>
+	
+	<xsl:if test= "../../TableRow[number($ni + 1)]">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveRowDown</xsl:with-param>
+		<xsl:with-param name="langvar">ed_row_down</xsl:with-param></xsl:call-template>
+	</xsl:if>
+
+	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteRow</xsl:with-param>
+	<xsl:with-param name="langvar">ed_delete_row</xsl:with-param></xsl:call-template>
+</xsl:template>
+
+<!-- Table Col Menu -->
+<xsl:template name="TableColMenu">
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">newColAfter</xsl:with-param>
 	<xsl:with-param name="langvar">ed_new_col_after</xsl:with-param></xsl:call-template>
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">newColBefore</xsl:with-param>
 	<xsl:with-param name="langvar">ed_new_col_before</xsl:with-param></xsl:call-template>
 
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteRow</xsl:with-param>
-	<xsl:with-param name="langvar">ed_delete_row</xsl:with-param></xsl:call-template>
-
+	<xsl:variable name="ni"><xsl:number from="TableRow" level="single" count="TableData"/></xsl:variable>
+	
+	<xsl:if test= "$ni != 1">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveColLeft</xsl:with-param>
+		<xsl:with-param name="langvar">ed_col_left</xsl:with-param></xsl:call-template>
+	</xsl:if>
+	
+	<xsl:if test= "../TableData[number($ni + 1)]">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveColRight</xsl:with-param>
+		<xsl:with-param name="langvar">ed_col_right</xsl:with-param></xsl:call-template>
+	</xsl:if>
+	
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteCol</xsl:with-param>
 	<xsl:with-param name="langvar">ed_delete_col</xsl:with-param></xsl:call-template>
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
-	<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param></xsl:call-template>
-	
 </xsl:template>
-
 
 <!-- Table Menu -->
 <xsl:template name="TableMenu">
@@ -904,7 +984,7 @@
 	<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>
 
 	<!-- split page -->
-	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split = 'y'">
+	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">splitPage</xsl:with-param>
 			<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
@@ -912,10 +992,7 @@
 	</xsl:if>
 
 	<xsl:call-template name="EditMenuAlignItems"/>
-	
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
-	<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param></xsl:call-template>	
-	
+		
 </xsl:template>
 
 
@@ -974,6 +1051,7 @@
 			<select size="1" class="ilEditSelect">
 				<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
 				</xsl:attribute>
+				<xsl:call-template name="EditMenuInsertItems"/>
 				<xsl:call-template name="ListItemMenu"/>
 			</select>
 			<input class="ilEditSubmit" type="submit">
@@ -983,8 +1061,15 @@
 			<br/>
 		</xsl:if>
 		<xsl:if test="$javascript = 'enable'">
+			<xsl:call-template name="AddIcon">
+				<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="Icon">
+				<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/></xsl:with-param>
+				<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
+			</xsl:call-template>
 			<div style="position:absolute;left:0;top:0;visibility:hidden;">
-				<xsl:attribute name="id">contextmenu_<xsl:value-of select="@HierId"/></xsl:attribute>
+				<xsl:attribute name="id">contextmenu_i<xsl:value-of select="@HierId"/></xsl:attribute>
 				<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
 					<table cellspacing="0" cellpadding="2" border="0">
 					<xsl:call-template name="ListItemMenu"/>
@@ -1001,8 +1086,6 @@
 <!-- List Item Menu -->
 <xsl:template name="ListItemMenu">
 
-	<xsl:call-template name="EditMenuInsertItems"/>
-	
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">newItemAfter</xsl:with-param>
 	<xsl:with-param name="langvar">ed_new_item_after</xsl:with-param></xsl:call-template>
 
@@ -1011,12 +1094,19 @@
 
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteItem</xsl:with-param>
 	<xsl:with-param name="langvar">ed_delete_item</xsl:with-param></xsl:call-template>
+	
+	<xsl:variable name="ni"><xsl:number level="single" count="ListItem|FileItem"/></xsl:variable>
+	<xsl:if test= "$ni != 1">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveItemUp</xsl:with-param>
+		<xsl:with-param name="langvar">ed_item_up</xsl:with-param></xsl:call-template>
+	</xsl:if>
 
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
-	<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param></xsl:call-template>
+	<xsl:if test= "../ListItem[number($ni + 1)] or ../FileItem[number($ni + 1)]">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveItemDown</xsl:with-param>
+		<xsl:with-param name="langvar">ed_item_down</xsl:with-param></xsl:call-template>
+	</xsl:if>
 	
 </xsl:template>
-
 
 <!-- FileList -->
 <xsl:template match="FileList">
@@ -1051,6 +1141,41 @@
 	<tr class="ilc_FileItem">
 		<td class="ilc_FileItem">
 		<xsl:call-template name="EditReturnAnchors"/>
+		<!-- <xsl:value-of select="@HierId"/> -->
+		<xsl:if test="$mode = 'edit'">
+			<xsl:if test="$javascript='disable'">
+				<!-- checkbox -->
+				<input type="checkbox" name="target[]">
+					<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+					</xsl:attribute>
+				</input>
+				<select size="1" class="ilEditSelect">
+					<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
+					</xsl:attribute>
+					<xsl:call-template name="ListItemMenu"/>
+				</select>
+				<input class="ilEditSubmit" type="submit">
+					<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
+				</input>
+				<br/>
+			</xsl:if>
+			<xsl:if test="$javascript = 'enable'">
+				<xsl:call-template name="Icon">
+					<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/></xsl:with-param>
+					<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
+				</xsl:call-template>
+				&amp;nbsp;
+				<div style="position:absolute;left:0;top:0;visibility:hidden;">
+					<xsl:attribute name="id">contextmenu_i<xsl:value-of select="@HierId"/></xsl:attribute>
+					<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
+						<table cellspacing="0" cellpadding="2" border="0">
+						<xsl:call-template name="ListItemMenu"/>
+						</table>
+					</td></tr></table>
+				</div>
+			</xsl:if>
+		</xsl:if>
 		<xsl:if test="$mode != 'print'">
 			<a>
 				<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
@@ -1062,50 +1187,8 @@
 				<xsl:call-template name="FileItemText"/>
 			</span>
 		</xsl:if>
-		<!-- <xsl:value-of select="@HierId"/> -->
-		<xsl:if test="$mode = 'edit'">
-			<xsl:if test="$javascript = 'disable'">
-				<!-- checkbox -->
-				<br />
-				<select size="1" class="ilEditSelect">
-					<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
-					</xsl:attribute>
-					<xsl:call-template name="FileItemMenu"/>
-				</select>
-				<input class="ilEditSubmit" type="submit">
-					<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
-				</input>
-				<br/>
-			</xsl:if>
-			<xsl:if test="$javascript = 'enable'">
-				<div style="position:absolute;left:0;top:0;visibility:hidden;">
-					<xsl:attribute name="id">contextmenu_<xsl:value-of select="@HierId"/></xsl:attribute>
-					<table border="1" cellspacing="0" cellpadding="0" bgcolor="white"><tr><td>
-						<table cellspacing="0" cellpadding="2" border="0">
-						<xsl:call-template name="FileItemMenu"/>
-						</table>
-					</td></tr></table>
-				</div>
-			</xsl:if>
-		</xsl:if>
 		</td>
 	</tr>
-</xsl:template>
-
-
-<!-- File Item Menu -->
-<xsl:template name="FileItemMenu">
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">newItemAfter</xsl:with-param>
-	<xsl:with-param name="langvar">ed_new_item_after</xsl:with-param></xsl:call-template>
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">newItemBefore</xsl:with-param>
-	<xsl:with-param name="langvar">ed_new_item_before</xsl:with-param></xsl:call-template>
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">deleteItem</xsl:with-param>
-	<xsl:with-param name="langvar">ed_delete_item</xsl:with-param></xsl:call-template>
-	
 </xsl:template>
 
 
@@ -1395,7 +1478,7 @@
 	<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>
 	
 	<!-- split page -->
-	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split = 'y'">
+	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">splitPage</xsl:with-param>
 			<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
@@ -1407,9 +1490,6 @@
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">copyToClipboard</xsl:with-param>
 	<xsl:with-param name="langvar">ed_copy_clip</xsl:with-param></xsl:call-template>
 	
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">pasteFromClipboard</xsl:with-param>
-	<xsl:with-param name="langvar">ed_paste_clip</xsl:with-param></xsl:call-template>
-
 </xsl:template>
 
 

@@ -92,7 +92,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	/**
 	* insert new list item after current one
 	*/
-	function newItemAfterForm()
+	function newItemAfter()
 	{
 		$this->setTabs();
 
@@ -110,7 +110,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "newItemAfter");
+		$this->tpl->setVariable("BTN_NAME", "insertNewItemAfter");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 
@@ -119,7 +119,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	/**
 	* insert new file item after another item
 	*/
-	function newItemAfter()
+	function insertNewItemAfter()
 	{
 		$this->newFileItem();
 		$this->content_obj->newItemAfter($this->file_object->getId(),
@@ -131,14 +131,14 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		}
 		else
 		{
-			$this->newItemAfterForm();
+			$this->newItemAfter();
 		}
 	}
 
 	/**
 	* insert new list item before current one
 	*/
-	function newItemBeforeForm()
+	function newItemBefore()
 	{
 		$this->setTabs();
 
@@ -156,7 +156,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
-		$this->tpl->setVariable("BTN_NAME", "newItemBefore");
+		$this->tpl->setVariable("BTN_NAME", "insertNewItemBefore");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 
@@ -165,7 +165,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	/**
 	* insert new list item before current one
 	*/
-	function newItemBefore()
+	function insertNewItemBefore()
 	{
 		$this->newFileItem();
 		$this->content_obj->newItemBefore($this->file_object->getId(),
@@ -177,7 +177,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
 		}
 		else
 		{
-			$this->newItemBeforeForm();
+			$this->newItemBefore();
 		}
 	}
 
@@ -215,6 +215,27 @@ class ilPCFileItemGUI extends ilPageContentGUI
 			$this->ctrl->getParentReturn($this), "",
 			"");
 	}
+	
+	/**
+	* move list item down
+	*/
+	function moveItemDown()
+	{
+		$this->content_obj->moveItemDown();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	* move list item up
+	*/
+	function moveItemUp()
+	{
+		$this->content_obj->moveItemUp();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
 
 }
 ?>

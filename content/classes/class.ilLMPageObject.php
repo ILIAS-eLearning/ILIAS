@@ -185,7 +185,6 @@ class ilLMPageObject extends ilLMObject
 		// get content object (learning module / digilib book)
 		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
 		$type = ilObject::_lookupType($lm_id, false);
-		
 		switch ($type)
 		{
 			case "lm":
@@ -214,7 +213,6 @@ class ilLMPageObject extends ilLMObject
 		$page =& $lm_page->getPageObject();
 		$page->setXMLContent($source_page->getXMLContent());
 		$page->buildDom();
-		$page->update();
 		
 		// insert new page in tree (after original page)
 		$tree = new ilTree($cont_obj->getId());
@@ -225,7 +223,16 @@ class ilLMPageObject extends ilLMObject
 			$parent_node = $tree->getParentNodeData($source_lm_page->getId());
 			$tree->insertNode($lm_page->getId(), $parent_node["child"], $source_lm_page->getId());
 		}
-
+		
+		// remove all nodes >= hierarchical id from source page
+		$source_page->buildDom();
+		$source_page->addHierIds();
+		$source_page->deleteContentFromHierId($a_hier_id);
+		
+		// remove all nodes < hierarchical id from new page (incl. update)
+		$page->addHierIds();
+		$page->deleteContentBeforeHierId($a_hier_id);
+		
 		return $lm_page;
 		
 	}

@@ -98,5 +98,25 @@ class ilPCListItemGUI extends ilPageContentGUI
 		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 	}
 
+	/**
+	* move list item down
+	*/
+	function moveItemDown()
+	{
+		$this->content_obj->moveItemDown();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
+	/**
+	* move list item up
+	*/
+	function moveItemUp()
+	{
+		$this->content_obj->moveItemUp();
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+	}
+
 }
 ?>

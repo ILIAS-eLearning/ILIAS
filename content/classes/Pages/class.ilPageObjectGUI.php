@@ -419,11 +419,49 @@ class ilPageObjectGUI
 			$this->obj->addHierIDs();
 			
 			$hids = $this->obj->getHierIds();
+			$row1_ids = $this->obj->getFirstRowIds();
+			$col1_ids = $this->obj->getFirstColumnIds();
+			$litem_ids = $this->obj->getListItemIds();
+			$fitem_ids = $this->obj->getFileItemIds();
 			
+			// standard menues
+			$hids = $this->obj->getHierIds();
 			foreach($hids as $hid)
 			{
 				$this->tpl->setCurrentBlock("add_dhtml");
 				$this->tpl->setVariable("CONTEXTMENU", "contextmenu_".$hid);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// column menues for tables
+			foreach($col1_ids as $hid)
+			{
+				$this->tpl->setCurrentBlock("add_dhtml");
+				$this->tpl->setVariable("CONTEXTMENU", "contextmenu_r".$hid);
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			// row menues for tables
+			foreach($row1_ids as $hid)
+			{
+				$this->tpl->setCurrentBlock("add_dhtml");
+				$this->tpl->setVariable("CONTEXTMENU", "contextmenu_c".$hid);
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			// list item menues
+			foreach($litem_ids as $hid)
+			{
+				$this->tpl->setCurrentBlock("add_dhtml");
+				$this->tpl->setVariable("CONTEXTMENU", "contextmenu_i".$hid);
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			// file item menues
+			foreach($fitem_ids as $hid)
+			{
+				$this->tpl->setCurrentBlock("add_dhtml");
+				$this->tpl->setVariable("CONTEXTMENU", "contextmenu_i".$hid);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -468,6 +506,7 @@ class ilPageObjectGUI
 		$add_path = ilUtil::getImagePath("add.gif");
 		$col_path = ilUtil::getImagePath("col.gif");
 		$row_path = ilUtil::getImagePath("row.gif");
+		$item_path = ilUtil::getImagePath("item.gif");
 		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
 		$wb_path = ilUtil::getWebspaceDir("output");
 		$pg_title_class = ($this->getOutputMode() == "print")
@@ -476,11 +515,23 @@ class ilPageObjectGUI
 			
 		// page splitting only for learning modules and
 		// digital books
-		$enable_split = ($this->obj->getParentType() == "lm" ||
+		$enable_split_new = ($this->obj->getParentType() == "lm" ||
 			$this->obj->getParentType() == "dbk")
 			? "y"
 			: "n";
-		
+
+		// page splitting to next page only for learning modules and
+		// digital books if next page exists in tree
+		if ($this->obj->getParentType() == "lm" ||
+			$this->obj->getParentType() == "dbk")
+		{
+			$enable_split_next = "y";
+		}
+		else
+		{
+			$enable_split_next = "n";
+		}
+
 //$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 //echo "-".$this->sourcecode_download_script.":";
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title,
@@ -489,7 +540,9 @@ class ilPageObjectGUI
 						 'img_add' => $add_path,
 						 'img_col' => $col_path,
 						 'img_row' => $row_path,
-						 'enable_split' => $enable_split,
+						 'img_item' => $item_path,
+						 'enable_split_new' => $enable_split_new,
+						 'enable_split_next' => $enable_split_next,
 						 'link_params' => $this->link_params,
 						 'file_download_link' => $this->getFileDownloadLink(),
 						 'fullscreen_link' => $this->getFullscreenLink(),
