@@ -712,15 +712,16 @@ class RbacAdmin extends PEAR
  * @param string object id of start node
  * @return string 
  */
-	function getParentRoleIds($a_start_node = "")
+	function getParentRoleIds($a_start_node = "",$a_start_parent = '')
 	{
 		global $ilias;
 
 		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
-		$tree = new Tree($_GET["parent"],$ilias->ini->readVariable('system','ROOT_FOLDER_ID'));
+		$a_start_parent = $a_start_parent ? $a_start_parent : $_GET["parent"];
 
-		$pathIds  = $tree->getPathId($a_start_node,1);
-		$pathIds[0] = $ilias->ini->readVariable('system','SYSTEM_FOLDER_ID');
+		$a_tree =  new Tree($a_start_node,$a_start_parent,ROOT_FOLDER_ID,1);
+		$pathIds  = $a_tree->getPathId($a_start_node,$a_start_parent);
+		$pathIds[0] = SYSTEM_FOLDER_ID;
 		
 		return $this->getParentRoles($pathIds);
 	}
