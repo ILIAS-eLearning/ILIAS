@@ -196,7 +196,7 @@ class User
 				  '".$this->data["FirstName"]."','".$this->data["SurName"]."',
 				  '".$this->data["Title"]."','".$this->data["Gender"]."',
 				  '".$this->data["Email"]."',
-				  ',0,now(),now())";
+				  0,now(),now())";
 		$res = $this->ilias->db->query($query);
 
 		$this->Id = $this->data["Id"];
@@ -225,7 +225,22 @@ class User
 
 		return true;
 	}
-
+	
+	
+	/**
+	* updates the login data of a "user"
+	* @access	public
+	*/
+	function refreshLogin ()
+	{
+		$q = "UPDATE usr_data SET ";
+		$q .= "last_login = '".date("Y-m-d H:i:s")."' ";
+		$q .= "WHERE usr_id = '".$this->Id."'";
+	
+		$this->ilias->db->query($q);	
+		
+	}
+	
 	
 	/**
 	* updates password
