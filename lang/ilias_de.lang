@@ -3436,7 +3436,7 @@ survey#:#contains#:#Beinhaltet
 survey#:#continue#:#Weiter >>
 survey#:#create_date#:#Erstellt am
 survey#:#create_new#:#Erstelle neue
-survey#:#create_questionpool_before_add_question#:#You must create at least one questionpool to store your questions!###01 Sep 2004 new variable
+survey#:#create_questionpool_before_add_question#:#Sie müssen mindestens einen Fragenpool erzeugen, um Ihre Fragen ablegen zu können!
 survey#:#csv#:#Durch Komma getrennte Werte (CSV)
 survey#:#dc_agree#:#einverstanden
 survey#:#dc_always#:#immer
@@ -3502,7 +3502,7 @@ survey#:#duplicate#:#Duplizieren
 survey#:#edit_ask_continue#:#Wollen Sie die Bearbeitung dieser Frage wirklich fortführen?
 survey#:#edit_constraints_introduction#:#Sie haben die folgenden Fragen/Fragenblöcke ausgewählt, um die Beschränkungen zu bearbeiten
 survey#:#end_date#:#Enddatum
-survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!###01 Sep 2004 new variable
+survey#:#end_date_reached#:#Sie können die Umfrage nicht mehr starten. Das letzte zulässige Datum wurde überschritten!
 survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#evaluation#:#Evaluation
@@ -3536,7 +3536,7 @@ survey#:#manage_phrases#:#Phrasen verwalten
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
 survey#:#median#:#Median
-survey#:#median_between#:#between###01 Sep 2004 new variable
+survey#:#median_between#:#zwischen
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!
 survey#:#minimum#:#Minimalwert
 survey#:#missing_upper_or_lower_limit#:#Bitte geben Sie eine untere und obere Schranke an!
@@ -3629,7 +3629,7 @@ survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielp
 survey#:#select_value#:#Wert auswählen
 survey#:#set_filter#:#Filter setzen
 survey#:#start_date#:#Startdatum
-survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###01 Sep 2004 new variable
+survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
 survey#:#start_survey#:#Umfrage beginnen
 survey#:#subtype#:#Untertyp
 survey#:#survey_finish#:#Speichern und Umfrage beenden >>>
