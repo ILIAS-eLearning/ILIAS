@@ -576,6 +576,17 @@ class ilPageObject extends ilLMObject
 	}
 
 	/**
+	* updates page object with current xml content
+	*/
+	function updateFromXML()
+	{
+		$query = "UPDATE lm_page_object ".
+			"SET content = '".addslashes($this->getXMLContent())."' ".
+			"WHERE page_id = '".$this->getId()."'";
+		$this->ilias->db->query($query);
+	}
+
+	/**
 	* update complete page content in db (dom xml content is used)
 	*/
 	function update($a_validate = true)
