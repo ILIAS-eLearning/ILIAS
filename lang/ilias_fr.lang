@@ -2616,7 +2616,7 @@ content#:#cont_choose_media_source#:#Choisir une source de média
 content#:#cont_citation_err_one#:#Vous devez sélectionner exactement une édition
 content#:#cont_citation_selection_not_valid#:#Votre sélection n'est pas valide
 content#:#cont_citations#:#Citations
-content#:#cont_clean_frames#:#Nettoyer les cadres additionnels pour la navigation XXX
+content#:#cont_clean_frames#:#Actualiser l'affichage de tous les cadres à chaque changement de page
 content#:#cont_clean_frames_desc#:#Cette option vide les cadres additionnels (par exemple pour un cadre de média ou de glossaire) si une présentation avec plusieurs cadres (par exemple 3window) est utilisé et que l'utilisateur passe d'une page à une autre.
 content#:#cont_click_br_corner#:#Veuillez cliquer sur le coin inférieur droit de la zone désirée
 content#:#cont_click_center#:#Veuillez cliquer sur le centre de la zone désirée
