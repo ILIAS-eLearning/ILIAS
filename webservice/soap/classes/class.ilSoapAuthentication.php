@@ -142,6 +142,14 @@ class ilSoapAuthentication
 		{
 			return false;
 		}
+		if(!$this->__checkSOAPEnabled())
+		{
+			$this->__setMessage('SOAP is not enabled in ILIAS administration for this client');
+			$this->__setMessageCode('Server');
+
+			return false;
+		}
+
 
 		$this->auth->start();
 
@@ -191,6 +199,13 @@ class ilSoapAuthentication
 		{
 			return false;
 		}
+		if(!$this->__checkSOAPEnabled())
+		{
+			$this->__setMessage('SOAP is not enabled in ILIAS administration for this client');
+			$this->__setMessageCode('Server');
+
+			return false;
+		}
 		$this->auth->start();
 		if(!$this->auth->getAuth())
 		{
@@ -232,6 +247,21 @@ class ilSoapAuthentication
 
 	}
 	// PRIVATE
+	function __checkSOAPEnabled()
+	{
+		include_once './classes/class.ilDBx.php';
+
+		
+		$db =& new ilDBx($this->dsn);
+
+		$query = "SELECT * FROM settings WHERE keyword = 'soap_user_administration' AND value = 1";
+
+		$res = $db->query($query);
+
+		return $res->numRows() ? true : false;
+	}
+
+
 	function __buildAuth()
 	{
 		include_once './classes/class.ilIniFile.php';
