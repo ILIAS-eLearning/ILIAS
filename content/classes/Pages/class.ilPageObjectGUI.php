@@ -314,6 +314,10 @@ class ilPageObjectGUI
 			? ""
 			: " target=\"".$link_target."\" ";
 
+		$content_obj = (empty($_SESSION["il_link_cont_obj"]))
+			? $_GET["ref_id"]
+			: $_SESSION["il_link_cont_obj"];
+
 		$tpl =& new ilTemplate("tpl.link_help.html", true, true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=post");
@@ -341,7 +345,7 @@ class ilPageObjectGUI
 			// page link
 			case "PageObject":
 				require_once("./content/classes/class.ilObjContentObject.php");
-				$cont_obj =& new ilObjContentObject($_GET["ref_id"], true);
+				$cont_obj =& new ilObjContentObject($content_obj, true);
 
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
@@ -378,7 +382,7 @@ class ilPageObjectGUI
 			// chapter link
 			case "StructureObject":
 				require_once("./content/classes/class.ilObjContentObject.php");
-				$cont_obj =& new ilObjContentObject($_GET["ref_id"], true);
+				$cont_obj =& new ilObjContentObject($content_obj, true);
 
 				// get all chapters
 				$ctree =& $cont_obj->getLMTree();
@@ -413,6 +417,55 @@ class ilPageObjectGUI
 	{
 		$_SESSION["il_link_type"] = $_POST["ltype"];
 		$this->showLinkHelp();
+	}
+
+	function changeContentObject()
+	{
+		if($_GET["do"] == "set")
+		{
+			$_SESSION["il_link_cont_obj"] = $_GET["sel_id"];
+			$this->showLinkHelp();
+			return;
+		}
+		$tpl =& new ilTemplate("tpl.link_help_explorer.html", true, true, true);
+		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+
+		require_once "classes/class.ilExplorer.php";
+		$tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+
+		$exp = new ilExplorer("lm_edit.php?do=set");
+
+		$exp->setExpand($_GET["expand"]);
+		$exp->setTargetGet("sel_id");
+		$exp->setParamsGet(array("ref_id"=>$_GET["ref_id"],
+			"cmd"=>"changeContentObject", "mode"=>"page_edit", "obj_id"=>$_GET["obj_id"]));
+
+		$exp->addFilter("root");
+		$exp->addFilter("cat");
+		$exp->addFilter("grp");
+		$exp->addFilter("crs");
+		$exp->addFilter("lm");
+		$exp->addFilter("dbk");
+		$exp->setFiltered(true);
+
+		$exp->setClickable("cat", false);
+		$exp->setClickable("grp", false);
+		$exp->setClickable("crs", false);
+
+		$exp->setFrameTarget("");
+		$exp->setOutput(0);
+
+		$output = $exp->getOutput();
+
+		$tpl->setCurrentBlock("content");
+		$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_cont_obj"));
+		$tpl->setVariable("EXPLORER",$output);
+		$tpl->setVariable("ACTION", "lm_edit.php?expand=".$_GET["expand"].
+			"&obj_id=".$_GET["obj_id"]."&ref_id=".$_GET["ref_id"]."&cmd=changeContentObject");
+		$tpl->parseCurrentBlock();
+
+		$tpl->show();
+		exit;
 	}
 
 }

@@ -105,6 +105,17 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
 		$page_gui->changeLinkType();
 	}
+#
+	function changeContentObject()
+	{
+		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
+		$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
+		$page_gui->setTargetScript("lm_edit.php?ref_id=".
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
+		$page_gui->setReturnLocation("lm_edit.php?ref_id=".
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
+		$page_gui->changeContentObject();
+	}
 
 	/*
 	* preview

@@ -42,6 +42,7 @@ class ilLMObject
 	var $meta_data;
 	var $data_record;		// assoc array of lm_data record
 	var $content_object;
+	var $title;
 
 	/**
 	* @param	object		$a_content_obj		content object (digi book or learning module)
@@ -79,6 +80,7 @@ class ilLMObject
 		$this->type = $this->data_record["type"];
 		$this->meta_data =& new ilMetaData($this->type, $this->id);
 		$this->setImportId($this->data_record["import_id"]);
+		$this->setTitle($this->data_record["title"]);
 	}
 
 	/**
@@ -87,10 +89,12 @@ class ilLMObject
 	function setTitle($a_title)
 	{
 		$this->meta_data->setTitle($a_title);
+		$this->title = $a_title;
 	}
 
 	function getTitle()
 	{
+		return $this->title;
 		return $this->meta_data->getTitle();
 	}
 
