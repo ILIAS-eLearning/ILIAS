@@ -343,3 +343,6 @@ DELETE FROM settings WHERE keyword='group_file_sharing';
 DELETE FROM settings WHERE keyword='babylon_path';
 DELETE FROM settings WHERE keyword='news';
 DELETE FROM settings WHERE keyword='payment_system';
+
+<#45>
+ALTER TABLE grp_data CHANGE status register INTEGER DEFAULT '1';
