@@ -5,13 +5,15 @@ include_once "include/ilias_header.inc";
 $tplContent = new Template("content_operations.html",true,true);
 $tplContent->setVariable($ilias->ini["layout"]);
 // Show path
-$path = $tree->showPath($tree->getPathFull($_GET["parent"],1),"content.php");
+$path = $tree->showPath($tree->getPathFull($_GET["parent"],$_GET["parent_parent"]),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 
-$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"].
+						 "&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
 $tplContent->setVariable("CMD","save");
 $tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 $tplContent->setVariable("TPOS",$_GET["parent"]);		
+$tplContent->setVariable("PAR",$_GET["parent_parent"]);
 
 // determine sort direction
 if(!$_GET["direction"] || $_GET["direction"] == 'ASC')

@@ -101,6 +101,8 @@ class Object
 			$tplContent = new Template("object_form.html",true,true);
 
 			$tplContent->setVariable($this->ilias->ini["layout"]);
+			$tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+			$tplContent->setVariable("TARGET","object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 			$tplContent->setVariable("TREEPATH",$this->getPath());
 			$tplContent->setVariable("CMD","update");
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
@@ -447,7 +449,8 @@ class Object
 			}
 		}
 		
-		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
 		exit;
 	}
 
