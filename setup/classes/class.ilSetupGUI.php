@@ -1863,6 +1863,7 @@ class ilSetupGUI extends ilSetup
 		$this->checkDisplayMode("nic_registration");
 
 		$settings = $this->client->getAllSettings();
+		$nic_key = $this->client->getNICkey();
 		
 		// formular sent
 		if ($_POST["form"])
@@ -1890,7 +1891,11 @@ class ilSetupGUI extends ilSetup
 			{
 				$nic_by_email = (int) $_POST["form"]["nic_id"];
 				
-				if (!$nic_by_email)
+				$checksum = md5($nic_key.$nic_by_email);
+				
+				var_dump($checksum);
+				
+				if (!$nic_by_email or $_POST["form"]["nic_checksum"] != $checksum)
 				{
 					$message = $this->lng->txt("nic_reg_enter_correct_id");		
 				}
@@ -1936,6 +1941,7 @@ class ilSetupGUI extends ilSetup
 	
 			// register form
 			$this->tpl->setVariable("TXT_NIC_ENTER_ID",$this->lng->txt("nic_reg_enter_id"));
+			$this->tpl->setVariable("TXT_NIC_ENTER_CHECKSUM",$this->lng->txt("nic_reg_enter_checksum"));
 			$this->tpl->setVariable("TXT_NIC_REGISTER",$this->lng->txt("nic_registration"));
 			$this->tpl->setVariable("TXT_NIC_ENABLE",$this->lng->txt("nic_reg_online"));
 			$this->tpl->setVariable("TXT_NIC_EMAIL",$this->lng->txt("nic_reg_email"));
