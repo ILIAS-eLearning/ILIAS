@@ -2392,11 +2392,11 @@ class ilObjSurvey extends ilObject
 		{
 			if ($short_as_key)
 			{
-				$result_array[$row->short] = array("short" => $row->shortname, "long" => $row->longname, "id" => $row->relation_id);
+				$result_array[$row->shortname] = array("short" => $row->shortname, "long" => $row->longname, "id" => $row->relation_id);
 			}
 			else
 			{
-				$result_array[$row->relation_id] = array("short" => $row->short, "long" => $row->long);
+				$result_array[$row->relation_id] = array("short" => $row->shortname, "long" => $row->longname);
 			}
 		}
 		return $result_array;
