@@ -479,3 +479,4 @@ common#:#uninstalled#:#deinstalliert.
 common#:#mail_sent#:#Mail erfolgreich versendet!
 common#:#mail_not_sent#:#Mail konnte nicht gesendet werden!
 common#:#smtp#:#SMTP
+common#:#typ#:#Objekttyp-Definition

@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.14 2003/03/19 11:46:55 shofmann Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.15 2003/03/19 21:12:02 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -217,54 +217,70 @@ class UserObjectOut extends ObjectOut
 	{
 		global $rbacsystem,$rbacadmin,$tree;
 
-		if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
-		{
-			$user = new User();
-			$user->setData($_POST["Fobject"]);
-			
-			//create new UserObject
-			$userObj = new UserObject();
-			$userObj->setTitle($user->getFullname());
-			$userObj->setDescription($user->getEmail());
-			$userObj->create();
-
-			$user->setId($userObj->getId());
-
-			//insert user data in table user_data
-			$user->saveAsNew();
-
-			//set role entries
-			$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$user->getId(),true);
-			
-			//create new usersetting entry 
-			$settingObj = new Object();
-			$settingObj->setType("uset");
-			$settingObj->setTitle($user->getFullname());
-			$settingObj->setDescription("User Setting Folder");
-			$settingObj->create();
-			$settingObj->createReference();
-			
-			//create usertree from class.user.php
-			// tree_id is the obj_id of user not ref_id!
-			// this could become a problem with same ids
-			//$tree->addTree($user->getId(), $settingObj->getRefId());
-			
-			//add notefolder to user tree
-			//$userTree = new tree(0,0,$user->getId());
-			require_once ("classes/class.NoteFolderObject.php");
-			$notfObj = new NoteFolderObject();
-			$notfObj->setType("notf");
-			$notfObj->setTitle($user->getFullname());
-			$notfObj->setDescription("Note Folder Object");
-			$notfObj->create();
-			$notfObj->createReference();
-			//$userTree->insertNode($notfObj->getRefId(), $settingObj->getRefId());
-		}
-		else
+		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
 		}
+
+		// check required fields
+		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
+			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
+			or empty($_POST["Fobject"]["passwd"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
 		
+		// validate email
+		if (!TUtil::is_email($_POST["Fobject"]["email"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// TODO: check if login or passwd already exists
+		// TODO: check length of login and passwd
+		
+		// checks passed. save user		
+		$user = new User();
+		$user->setData($_POST["Fobject"]);
+		
+		//create new UserObject
+		$userObj = new UserObject();
+		$userObj->setTitle($user->getFullname());
+		$userObj->setDescription($user->getEmail());
+		$userObj->create();
+
+		$user->setId($userObj->getId());
+
+		//insert user data in table user_data
+		$user->saveAsNew();
+
+		//set role entries
+		$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$user->getId(),true);
+		
+		//create new usersetting entry 
+		$settingObj = new Object();
+		$settingObj->setType("uset");
+		$settingObj->setTitle($user->getFullname());
+		$settingObj->setDescription("User Setting Folder");
+		$settingObj->create();
+		$settingObj->createReference();
+			
+		//create usertree from class.user.php
+		// tree_id is the obj_id of user not ref_id!
+		// this could become a problem with same ids
+		//$tree->addTree($user->getId(), $settingObj->getRefId());
+		
+		//add notefolder to user tree
+		//$userTree = new tree(0,0,$user->getId());
+		require_once ("classes/class.NoteFolderObject.php");
+		$notfObj = new NoteFolderObject();
+		$notfObj->setType("notf");
+		$notfObj->setTitle($user->getFullname());
+		$notfObj->setDescription("Note Folder Object");
+		$notfObj->create();
+		$notfObj->createReference();
+		//$userTree->insertNode($notfObj->getRefId(), $settingObj->getRefId());
+
 		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}
@@ -277,23 +293,39 @@ class UserObjectOut extends ObjectOut
 	{
 		global $rbacsystem, $rbacadmin;
 
-		if ($rbacsystem->checkAccess("write", $_GET["ref_id"])
-			|| $this->object->getId() == $_SESSION["AccountId"])
-		{
-			$user = new User($this->object->getId());
-			$user->setData($_POST["Fobject"]);
-			$user->update();
-			$this->object->setTitle($user->getFullname());
-			$this->object->setDescription($user->getEmail());
-			$this->update = $this->object->update();
-			$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $user->getId());
-		}
-		else
+		// check write access
+		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]) || $this->object->getId() == $_SESSION["AccountId"])
 		{
 			$this->ilias->raiseError("No permission to modify user",$this->ilias->error_obj->WARNING);
 		}
-		//echo "adm_object.php?ref_id=".$this->ref_id."&cmd=view";
-		header("Location: adm_object.php?ref_id=".$this->ref_id."&cmd=view");
+
+		// check required fields
+		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
+			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// validate email
+		if (!TUtil::is_email($_POST["Fobject"]["email"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// TODO: password cannot changed in form
+		// TODO: check if login or passwd already exists
+		// TODO: check length of login and passwd
+
+		// checks passed. save user
+		$user = new User($this->object->getId());
+		$user->setData($_POST["Fobject"]);
+		$user->update();
+		$this->object->setTitle($user->getFullname());
+		$this->object->setDescription($user->getEmail());
+		$this->update = $this->object->update();
+		$rbacadmin->updateDefaultRole($_POST["Fobject"]["default_role"], $user->getId());
+
+		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}
 

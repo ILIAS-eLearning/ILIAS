@@ -69,7 +69,7 @@ class ObjectOut
 	function ObjectOut($a_data, $a_id, $a_call_by_reference)
 	{
 		global $ilias, $objDefinition, $tpl, $tree, $lng;
-
+		
 		$this->ilias =& $ilias;
 		$this->objDefinition =& $objDefinition;
 		$this->tpl =& $tpl;
