@@ -1,5 +1,5 @@
 <form name="frm_javaapplet" action="{ACTION_JAVAAPPLET_QUESTION}" method="post" enctype="multipart/form-data">
-<input type="hidden" name="id" value="{JAVAAPPLET_ID}">
+<input type="hidden" name="id" value="{JAVAAPPLET_ID}" />
 <table class="fullwidth">
 <tr>
 	<td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
@@ -18,7 +18,7 @@
 	<td class="option_value" colspan="4"><textarea class="fullwidth" name="question" id="question" cols="40" rows="10">{VALUE_QUESTION}</textarea></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_WORKING_TIME}:<br>({TIME_FORMAT})</td>
+  <td class="option">{TEXT_WORKING_TIME}:<br />({TIME_FORMAT})</td>
   <td class="option_value" colspan="4">{VALUE_WORKING_TIME} </td>
 </tr>
 <tr>
@@ -41,7 +41,7 @@
 	<td class="option">{TEXT_JAVAAPPLET}:</td>
 	<td class="option_value">
 	<!-- BEGIN javaappletupload -->
-	{UPLOADED_JAVAAPPLET} <br>
+	{UPLOADED_JAVAAPPLET} <br />
 	<!-- END javaappletupload -->
 	<input type="hidden" name="uploaded_javaapplet" value="{JAVAAPPLET_FILENAME}">
 	<input type="hidden" name="MAX_FILE_SIZE" value="2097152">
@@ -90,4 +90,4 @@
 </td></tr>
 </table>
 </form>
-{JAVASCRIPT_SELECTION}
+<a name="bottom"></a>

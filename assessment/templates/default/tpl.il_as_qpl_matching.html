@@ -1,5 +1,5 @@
 <form name="frm_matching" action="{ACTION_MATCHING_QUESTION}" method="post" enctype="multipart/form-data">
-<input type="hidden" name="id" value="{MATCHING_ID}">
+<input type="hidden" name="id" value="{MATCHING_ID}" />
 <table class="fullwidth">
 <tr>
 	<td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
@@ -19,7 +19,7 @@
 	<td class="option_value" colspan="5"><select name="shuffle" size="1"><option value="0"{SELECTED_NO}>{TXT_NO}</option><option value="1"{SELECTED_YES}>{TXT_YES}</option></select></td>
 </tr>
 <tr>
-	<td class="option">{TEXT_WORKING_TIME}:<br>({TIME_FORMAT})</td>
+	<td class="option">{TEXT_WORKING_TIME}:<br />({TIME_FORMAT})</td>
 	<td class="option_value" colspan="5">{VALUE_WORKING_TIME} </td>
 </tr>
 <tr>
@@ -54,7 +54,7 @@
 		<!-- BEGIN pictures -->
 		<td class="option_value">
 		<!-- BEGIN imageupload -->
-		{UPLOADED_IMAGE}<br>
+		{UPLOADED_IMAGE}<br />
 		<!-- END imageupload -->
 		<input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}" />
 		<input type="hidden" name="picture_{ANSWER_ORDER}_{PICTURE_ID}" value="{IMAGE_FILENAME}" />
@@ -82,5 +82,4 @@
 	</tr>
 </table>
 </form>
-{JAVASCRIPT_SELECTION}
 <a name="bottom"></a>

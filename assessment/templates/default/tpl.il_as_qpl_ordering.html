@@ -1,5 +1,5 @@
 <form name="frm_ordering" action="{ACTION_ORDERING_QUESTION}" method="post" enctype="multipart/form-data">
-<input type="hidden" name="id" value="{ORDERING_ID}">
+<input type="hidden" name="id" value="{ORDERING_ID}" />
 <table class="fullwidth">
 <tr>
   <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
@@ -19,7 +19,7 @@
   <td class="option_value" colspan="4"><select name="shuffle" size="1"><option value="0"{SELECTED_NO}>{TXT_NO}</option><option value="1"{SELECTED_YES}>{TXT_YES}</option></select></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_WORKING_TIME}:<br>({TIME_FORMAT})</td>
+  <td class="option">{TEXT_WORKING_TIME}:<br />({TIME_FORMAT})</td>
   <td class="option_value" colspan="4">{VALUE_WORKING_TIME} </td>
 </tr>
 <tr>
@@ -55,7 +55,7 @@
   <td class="option"><a name="answer_{VALUE_ANSWER_COUNTER}"></a>{TEXT_ANSWER_PICTURE} {VALUE_ANSWER_COUNTER}:</td>
   <td class="option_value">
   <!-- BEGIN imageupload -->
-	{UPLOADED_IMAGE}<br>
+	{UPLOADED_IMAGE}<br />
   <!-- END imageupload -->
   <input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}" />
   <input type="hidden" name="answer_{ANSWER_ORDER}" value="{IMAGE_FILENAME}" />
@@ -81,5 +81,4 @@
 </td></tr>
 </table>
 </form>
-{JAVASCRIPT_SELECTION}
 <a name="bottom"></a>

@@ -197,18 +197,19 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setCurrentBlock("question_data");
-		echo $this->ctrl->getCmd();
-		$javascript = "<script type=\"text/javascript\">%s</script>";
+		$this->tpl->setCurrentBlock("HeadContent");
+		$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 		switch ($this->ctrl->getCmd())
 		{
 			case "addItem":
-				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_ordering.answer_".($this->object->get_answer_count()).".focus(); document.frm_ordering.answer_".($this->object->get_answer_count()).".scrollIntoView(\"true\");"));
+				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_ordering.answer_".($this->object->get_answer_count()).".focus(); document.frm_ordering.answer_".($this->object->get_answer_count()).".scrollIntoView(\"true\");"));
 				break;
 			default:
-				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_ordering.title.focus();"));
+				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_ordering.title.focus();"));
 				break;
 		}
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("question_data");
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -273,6 +274,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
 	}
 

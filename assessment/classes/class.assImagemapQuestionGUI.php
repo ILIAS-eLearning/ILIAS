@@ -292,11 +292,11 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("TEXT_POLY", $this->lng->txt("polygon"));
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setCurrentBlock("question_data");
-			$javascript = "<script type=\"text/javascript\">%s</script>";
+			$this->tpl->setCurrentBlock("HeadContent");
+			$javascript = "<script type=\"text/javascript\">function initialSelect() {\n%s\n}</script>";
 			if (strcmp($_GET["markarea"], "") != 0)
 			{
-				$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_imagemap.answer_".$_GET["markarea"].".focus(); document.frm_imagemap.answer_".$_GET["markarea"].".scrollIntoView(\"true\");"));
+				$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_imagemap.answer_".$_GET["markarea"].".focus(); document.frm_imagemap.answer_".$_GET["markarea"].".scrollIntoView(\"true\");"));
 			}
 			else
 			{
@@ -306,18 +306,20 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 					case "deletearea":
 						if ($this->object->get_answer_count() > 0)
 						{
-							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_imagemap.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_imagemap.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(\"true\");"));
+							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_imagemap.answer_".($this->object->get_answer_count() - 1).".focus(); document.frm_imagemap.answer_".($this->object->get_answer_count() - 1).".scrollIntoView(\"true\");"));
 						}
 						else
 						{
-							$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_imagemap.title.focus();"));
+							$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_imagemap.title.focus();"));
 						}
 						break;
 					default:
-						$this->tpl->setVariable("JAVASCRIPT_SELECTION", sprintf($javascript, "document.frm_imagemap.title.focus();"));
+						$this->tpl->setVariable("CONTENT_BLOCK", sprintf($javascript, "document.frm_imagemap.title.focus();"));
 						break;
 				}
 			}
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("question_data");
 			$img = $this->object->get_image_filename();
 			$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
 			if (!empty($img))
@@ -402,6 +404,7 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initialSelect();\""); 
 		$this->tpl->parseCurrentBlock();
 	}
 
