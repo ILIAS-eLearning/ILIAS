@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.49 2003/10/15 14:07:24 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.50 2003/10/17 13:55:19 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -693,8 +693,6 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			// fetch context path of role
 			$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
-			
-			var_dump("<pre>",$rolf,"</pre>");
 			
 			// only list roles that are not deleted
 			if (!$rbacreview->isDeleted($rolf[0]))
