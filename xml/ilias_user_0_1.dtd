@@ -4,35 +4,31 @@
 <!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
 <!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
 
+<!-- Action attribute for entities. -->
+<!ENTITY % entityAction "Insert | Update | Delete">
+
+<!-- Action attribute for relationships. -->
+<!ENTITY % relationshipAction "Assign | Detach">
+
 <!-- Users -->
 <!ELEMENT Users (User*)>
 
 <!-- User -->
-<!ELEMENT User (Action?, Login, Role*, Password?, Firstname?, Lastname?, Title?, Gender?, Email?,
+<!ELEMENT User (Login, Role*, Password?, Firstname?, Lastname?, Title?, Gender?, Email?,
 	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
-	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?)>
+	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?)>
 <!ATTLIST User
 	Id CDATA #REQUIRED
 	Language (%langcode;) #REQUIRED
+	Action (%entityAction;) "insert"
 >
 
-<!-- Action 
-     The action element specifies what to do, when the user 
-     is imported into ILIAS.
-     The following content is supported for this element:
-        insert
-        update
-        delete
-     If this element is missing, the action "insert" is
-     assumed. 
--->
-<!ELEMENT Action (#PCDATA)>
-
-<!-- Role -->
+!-- Role -->
 <!ELEMENT Role (#PCDATA)>
 <!ATTLIST Role
 	Id CDATA #REQUIRED
 	Type (Global | Local) #REQUIRED
+	Action (%relationshipAction;) "assign"
 >
 
 <!-- Other Elements -->
@@ -44,7 +40,7 @@
 <!ELEMENT Firstname (#PCDATA)>
 <!ELEMENT Lastname (#PCDATA)>
 <!ELEMENT Title (#PCDATA)>
-<!ELEMENT Gender (#PCDATA)>
+<!ELEMENT Gender (#PCDATA)> <!-- content must be "f" (female) or "m" (male) -->
 <!ELEMENT Email (#PCDATA)>
 <!ELEMENT Institution (#PCDATA)>
 <!ELEMENT Street (#PCDATA)>
@@ -59,3 +55,4 @@
 <!ELEMENT Department (#PCDATA)>
 <!ELEMENT Comment (#PCDATA)>
 <!ELEMENT Matriculation (#PCDATA)>
+<!ELEMENT Active (#PCDATA)> <!-- content must be "true" or "false" -->
