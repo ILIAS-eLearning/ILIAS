@@ -1400,16 +1400,16 @@ class ilObjTestGUI extends ilObjectGUI
 		//		$this->outTestResults();
 				return;
 			}
-			if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)
-			{
-				$this->tpl->setCurrentBlock("direct_feedback");
-				$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("direct_feedback"));
-				$this->tpl->parseCurrentBlock();
-			}
-			
 			$user_question_order =& $this->object->getAllQuestionsForActiveUser();
 			if ($this->sequence <= $this->object->getQuestionCount())
 			{
+				if ($this->object->getScoreReporting() == REPORT_AFTER_QUESTION)
+				{
+					$this->tpl->setCurrentBlock("direct_feedback");
+					$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("direct_feedback"));
+					$this->tpl->parseCurrentBlock();
+				}
+				
 				// show next/previous question
 				$postpone = "";
 				if ($_POST["cmd"]["postpone"])
@@ -1881,7 +1881,7 @@ class ilObjTestGUI extends ilObjectGUI
 					"lastvisit" => $_POST["chb_result_lastvisit"],
 					"resultspoints" => $_POST["chb_result_resultspoints"],
 					"resultsmarks" => $_POST["chb_result_resultsmarks"],
-					"distancemean" => $_POST["chb_result_distancemean"],
+					"distancemedian" => $_POST["chb_result_distancemedian"],
 					"distancequintile" => $_POST["chb_result_distancequintile"]
 				);
 				$this->object->evalSaveStatisticalSettings($eval_statistical_settings, $ilUser->id);
@@ -1898,7 +1898,7 @@ class ilObjTestGUI extends ilObjectGUI
 					"lastvisit" => $user_settings["lastvisit"],
 					"resultspoints" => $user_settings["resultspoints"],
 					"resultsmarks" => $user_settings["resultsmarks"],
-					"distancemean" => $user_settings["distancemean"],
+					"distancemedian" => $user_settings["distancemedian"],
 					"distancequintile" => $user_settings["distancequintile"]
 				);
 			}
@@ -2079,25 +2079,51 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$char++;
 			}
-			if ($eval_statistical_settings["distancemean"]) {
+			if ($eval_statistical_settings["distancemedian"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_distancemean") . "\">$char</div>");
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_mark_median") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("legendrow");
-				$this->tpl->setVariable("TXT_SYMBOL", $char);
-				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_distancemean"));
+				$this->tpl->setVariable("TXT_SYMBOL", $char++);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_mark_median"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_rank_participant") . "\">$char</div>");
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char++);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_rank_participant"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_rank_median") . "\">$char</div>");
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char++);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_rank_median"));
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_total_participants") . "\">$char</div>");
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char++);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_total_participants"));
 				$this->tpl->parseCurrentBlock();
 				switch ($_POST["export_type"])
 				{
 					case TYPE_XLS:
-						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_distancemean"), $format_title);
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_mark_median"), $format_title);
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_rank_participant"), $format_title);
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_rank_median"), $format_title);
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_total_participants"), $format_title);
 						break;
 					case TYPE_SPSS:
 					case TYPE_PRINT:
-						array_push($csvrow, $this->lng->txt("tst_stat_result_distancemean"));
+						array_push($csvrow, $this->lng->txt("tst_stat_result_mark_median"));
+						array_push($csvrow, $this->lng->txt("tst_stat_result_rank_participant"));
+						array_push($csvrow, $this->lng->txt("tst_stat_result_rank_median"));
+						array_push($csvrow, $this->lng->txt("tst_stat_result_total_participants"));
 						break;
 				}
-				$char++;
 			}
 			if ($eval_statistical_settings["distancequintile"]) {
 				$this->tpl->setCurrentBlock("titlecol");
@@ -2170,9 +2196,37 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$row = 0;
 			$question_legend = false;
+			$evaluation_array = array();
 			foreach ($selected_users as $key => $value) {
 				// receive array with statistical information on the test for a specific user
 				$stat_eval =& $this->object->evalStatistical($key);
+				$evaluation_array[$key] = $stat_eval;
+			}
+			
+			// calculate the median
+			$median_array = array();
+			foreach ($evaluation_array as $key => $value)
+			{
+				array_push($median_array, $value["resultspoints"]);
+			}
+			sort($median_array);
+			reset($median_array);
+
+			$median = 0;
+			if ((count($median_array) % 2) == 0)
+			{
+				$median = ($median_array[(count($median_array) / 2) - 1] + $median_array[(count($median_array) / 2)]) / 2;
+			}
+			else
+			{
+				$median = $median_array[((count($median_array) + 1) / 2) - 1];
+			}
+
+//			print_r($median_array);
+//			print "<br>Median: $median<br>";
+
+			foreach ($evaluation_array as $key => $stat_eval)
+			{
 				$csvrow = array();
 				//$t = print_r($stat_eval, true);
 				//$t = preg_replace("/\n/", "<br>", $t);
@@ -2195,17 +2249,17 @@ class ilObjTestGUI extends ilObjectGUI
 					$question_legend = true;
 				}
 				$this->tpl->setCurrentBlock("datacol");
-				$this->tpl->setVariable("TXT_DATA", $value);
+				$this->tpl->setVariable("TXT_DATA", $selected_users[$key]);
 				$column = 0;
 				$row++;
 				switch ($_POST["export_type"])
 				{
 					case TYPE_XLS:
-						$worksheet->write($row, $column++, $value);
+						$worksheet->write($row, $column++, $selected_users[$key]);
 						break;
 					case TYPE_SPSS:
 					case TYPE_PRINT:
-						array_push($csvrow, $value);
+						array_push($csvrow, $selected_users[$key]);
 						break;
 				}
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
@@ -2361,22 +2415,61 @@ class ilObjTestGUI extends ilObjectGUI
 							break;
 					}
 				}
-				if ($eval_statistical_settings["distancemean"]) {
+				
+				if ($eval_statistical_settings["distancemedian"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$this->tpl->setVariable("TXT_DATA", $stat_eval["distancemean"]);
+					if ($stat_eval["maxpoints"] == 0)
+					{
+						$pct = 0;
+					}
+					else
+					{
+						$pct = ($median / $stat_eval["maxpoints"]) * 100.0;
+					}
+					$mark = $this->object->mark_schema->get_matching_mark($pct);
+					$this->tpl->setVariable("TXT_DATA", $mark->get_short_name());
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$rank_participant = array_search($stat_eval["resultspoints"], $median_array) + 1;
+					$this->tpl->setVariable("TXT_DATA", $rank_participant);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					if ((count($median_array) % 2) == 0)
+					{
+						$rank_median = (count($median_array) + count($median_array) + 1) / 2;
+					}
+					else
+					{
+						$rank_median = (count($median_array) + 1) / 2;
+					}
+					$this->tpl->setVariable("TXT_DATA", $rank_median);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$total_participants = count($median_array);
+					$this->tpl->setVariable("TXT_DATA", $total_participants);
 					$this->tpl->parseCurrentBlock();
 					switch ($_POST["export_type"])
 					{
 						case TYPE_XLS:
-							$worksheet->write($row, $column++, $stat_eval["distancemean"]);
+							$worksheet->write($row, $column++, $mark->get_short_name());
+							$worksheet->write($row, $column++, $rank_participant);
+							$worksheet->write($row, $column++, $rank_median);
+							$worksheet->write($row, $column++, $total_participants);
 							break;
 						case TYPE_SPSS:
 						case TYPE_PRINT:
-							array_push($csvrow, $stat_eval["distancemean"]);
+							array_push($csvrow, $mark->get_short_name());
+							array_push($csvrow, $rank_participant);
+							array_push($csvrow, $rank_median);
+							array_push($csvrow, $total_participants);
 							break;
 					}
 				}
+				
 				if ($eval_statistical_settings["distancequintile"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
@@ -2404,7 +2497,7 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						$this->tpl->setCurrentBlock("questions_datacol");
 						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-						$this->tpl->setVariable("TXT_DATA", $value);
+						$this->tpl->setVariable("TXT_DATA", $selected_users[$key]);
 						$this->tpl->parseCurrentBlock();
 					}
 					$this->tpl->setCurrentBlock("questions_datacol");
@@ -2494,7 +2587,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_LASTVISIT", $this->lng->txt("tst_stat_result_lastvisit"));
 			$this->tpl->setVariable("TXT_RESULTSPOINTS", $this->lng->txt("tst_stat_result_resultspoints"));
 			$this->tpl->setVariable("TXT_RESULTSMARKS", $this->lng->txt("tst_stat_result_resultsmarks"));
-			$this->tpl->setVariable("TXT_DISTANCEMEAN", $this->lng->txt("tst_stat_result_distancemean"));
+			$this->tpl->setVariable("TXT_DISTANCEMEDIAN", $this->lng->txt("tst_stat_result_distancemedian"));
 			$this->tpl->setVariable("TXT_DISTANCEQUINTILE", $this->lng->txt("tst_stat_result_distancequintile"));
 			$this->tpl->setVariable("TXT_SPECIFICATION", $this->lng->txt("tst_stat_result_specification"));
 			$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
@@ -2513,7 +2606,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHECKED_LASTVISIT", $user_settings["lastvisit"]);
 			$this->tpl->setVariable("CHECKED_RESULTSPOINTS", $user_settings["resultspoints"]);
 			$this->tpl->setVariable("CHECKED_RESULTSMARKS", $user_settings["resultsmarks"]);
-			$this->tpl->setVariable("CHECKED_DISTANCEMEAN", $user_settings["distancemean"]);
+			$this->tpl->setVariable("CHECKED_DISTANCEMEDIAN", $user_settings["distancemedian"]);
 			$this->tpl->setVariable("CHECKED_DISTANCEQUINTILE", $user_settings["distancequintile"]);
 			$this->tpl->parseCurrentBlock();
 		}
