@@ -94,8 +94,7 @@ class ilLMObject
 
 	function getTitle()
 	{
-		return $this->title;
-		return $this->meta_data->getTitle();
+		return $this->title ? $this->title : $this->meta_data->getTitle();
 	}
 
 	function setType($a_type)
