@@ -122,7 +122,7 @@ assessment#:#ass_size#:#St&oslash;rrelse
 assessment#:#available_points#:#Tilg&aelig;ngelige point
 assessment#:#average_reached_points#:#Gennemsnitlig n&aring;et point
 assessment#:#by#:#af
-assessment#:#cancel_test#:#Afslut testen
+assessment#:#cancel_test#:#Afslut testen###30 Mar 2005 content changed
 assessment#:#cannot_edit_test#:#Du er ikke i besidelse af de rigtige rettigheder til at &aelig;ndre i denne test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
 assessment#:#cannot_export_qpl#:#Du er ikke i besiddelse af de rigtige rettigheder til at exportere denne sp&oslash;rgsm&aring;ls gruppe!

@@ -124,7 +124,7 @@ assessment#:#available_points#:#Points disponibles
 assessment#:#average_reached_points#:#Niveaux moyens atteints
 assessment#:#backtocallingtest#:#Retour au test
 assessment#:#by#:#par
-assessment#:#cancel_test#:#Annuler le test
+assessment#:#cancel_test#:#Annuler le test###30 Mar 2005 content changed
 assessment#:#cannot_edit_test#:#Vous n'avez pas les permissions nécessaires pour modifier ce test.
 assessment#:#cannot_execute_test#:#Vous n'avez pas les permissions nécessaires pour lancer ce test
 assessment#:#cannot_export_test#:#Vous n'avez pas les permissions nécessaires pour exporter le test.

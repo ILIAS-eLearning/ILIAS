@@ -126,7 +126,7 @@ assessment#:#available_points#:#Punkty do zdobycia
 assessment#:#average_reached_points#:#Punkty powyżej średniej
 assessment#:#backtocallingtest#:#Powrót do uruchomionego testu
 assessment#:#by#:#przez
-assessment#:#cancel_test#:#Anuluj Test
+assessment#:#cancel_test#:#Anuluj Test###30 Mar 2005 content changed
 assessment#:#cannot_edit_test#:#Nie masz wystarczających uprawnień do edycji testu!
 assessment#:#cannot_execute_test#:#Nie masz wystarczających uprawnień do uruchomienia tego testu!
 assessment#:#cannot_export_qpl#:#Nie masz wystarczających uprawnień do eksportu puli pytań!
