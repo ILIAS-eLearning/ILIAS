@@ -32,7 +32,7 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start --> 
 common#:#absolute_path#:#percorso assoluto
-common#:#accept_usr_agreement#:#Accetti accordo utente?
+common#:#accept_usr_agreement#:#Accetti accordo utente?###19 Mar 2003 content changed
 common#:#access#:#accesso
 common#:#actions#:#azioni
 common#:#add#:#aggiungi

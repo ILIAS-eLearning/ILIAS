@@ -31,10 +31,18 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-available_languages#:#verfügbare Sprachen
+available_languages#:#verfügbare Sprachen###19 Mar 2003 content changed
+back#:#zurück
+change#:#ändern
+change_password#:#Passwort ändern
 choose_language#:#Bitte wählen Sie Ihre Sprache
+choose_languages#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder.
+choose_password#:#Bitte geben Sie das gewünschte Passwort ein
 database#:#Datenbank
 database_exists#:#Datenbank existiert bereits
+database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
+database_needs_update#:#Datenbank benötigt ein Update
+database_ready#:#Datenbank ist eingerichtet.
 database_update#:#Datenbank aktualisieren
 database_version#:#Ihre Datenbankversion
 date#:#Datum
@@ -46,94 +54,86 @@ db_user#:#Datenbankbenutzer
 db_version#:#Datenbankversion
 default#:#default
 delete#:#löschen
+en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
+enter_password#:#Bitte geben Sie das Passwort ein
+env_ok#:#Ok. Hört sich gut an.
+env_using#:#ILIAS 3 wird betrieben auf
+env_warning#:#ILIAS 3 wurde nur auf Linux und Windows mit einem Apache-Webserver getestet!<br />Möglicherweise läuft die Software auch in dieser Softwareumgebung.
+environment#:#Softwareumgebung
 err_create_database_failed#:#Datenbank konnte nicht erstellt werden
 err_wrong_login#:#Login ungültig
+file_does_not_exist#:#Datei existiert nicht.
+file_version#:#file version
+fill_both_fields#:#Bitte beide Felder ausfüllen!
 ilias_version#:#ILIAS Version
 inifile#:#ini-Datei
+inifile_can_write#:#ILIAS 3 setup kann eine neue ini-Datei erzeugen.
+inifile_cannot_write#:#Die Setup-Routine konnte die ini-Datei nicht erzeugen! Bitte überprüfen Sie die Schreibrechte in Ihrem Dateisystem.
+inifile_content#:#Ihre ini-Datei hat folgenden Inhalt:
+inifile_exists#:#Es exisitiert bereits eine ini-Datei! Wenn Sie fortfahren, wird die bestehende Datei überschrieben.
+inifile_fill_all#:#Bitte füllen Sie alle Felder aus.
+inifile_firsttime#:#Keine ini-Datei vorhanden! Offensichtlich ist das eine Neu-Installation von ILIAS 3.
+inifile_written#:#Die ini-Datei wurde erfolgreich auf Ihrem Server angelegt.
 inst_name#:#Installationsname
 install#:#installieren
+installation#:#Installation
 installed#:#installiert
-language#:#Sprache
-languages#:#Sprachen
-login#:#einloggen
-login_to_ilias#:#bei ILIAS anmelden
-password#:#Passwort
-setup#:#setup
-setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS 3 einloggen.
-setup_inifile#:#ini-Datei erzeugen
-setup_database#:#Datenbank anlegen
-setup_languages#:#Sprachen installieren
-setup_password#:#Passwort erstellen
-setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS 3. Diese Setup-Routine hilft Ihnen bei der
-setup_inifile_desc#:#Erzeugung der ini-Datei für Ihre Installation
-setup_database_desc#:#Erstellung der Datenbank
-setup_languages_desc#:#Installation zusätzlicher Sprachen
-setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen) 
-setup_ini_first#:#Bitte erzeugen Sie zuerst die ini-Datei!
-setup_db_first#:#Please legen Sie zuerst die Datenbank an!
-back#:#zurück
+intro_install#:#Das ist das Hauptmenü von ILIAS 3 Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS 3 durchführen.
 lang_de#:#Deutsch
-lang_en#:#Englisch
 lang_dk#:#D&auml;nisch
-lang_pl#:#Polnisch
-lang_se#:#Schwedisch
-lang_no#:#Norwegisch
+lang_en#:#Englisch
+lang_error_occurred#:#Ein Fehler ist aufgetreten. Aktion abgebrochen.
 lang_es#:#Spanisch
 lang_fr#:#Franz&ouml;sisch
-lang_it#:#Italienisch
 lang_id#:#Indonesisch
+lang_it#:#Italienisch
+lang_no#:#Norwegisch
+lang_pl#:#Polnisch
+lang_se#:#Schwedisch
 lang_xx#:#benutzerdefiniert
-change#:#ändern
-change_password#:#Passwort ändern
-logout#:#ausloggen
-set_oldpasswd#:#Bitte altes Passwort eingeben
-set_newpasswd#:#Bitte neues Passwort eingeben
-submit#:#Abschicken
-reset#:#Zurücksetzen
-logged_out#:#Sie sind nun ausgeloggt.
-file_does_not_exist#:#Datei existiert nicht.
-not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
-database_ready#:#Datenbank ist eingerichtet.
-enter_password#:#Bitte geben Sie das Passwort ein
-choose_password#:#Bitte geben Sie das gewünschte Passwort ein
+language#:#Sprache
+languages#:#Sprachen
 languages_installed#:#Sprachen installiert.
-lang_error_occurred#:#Ein Fehler ist aufgetreten. Aktion abgebrochen.
-password_set#:#Das Passwort wurde gespeichert.
+logged_out#:#Sie sind nun ausgeloggt.
+login#:#einloggen
+login_to_ilias#:#bei ILIAS anmelden
+logout#:#ausloggen
+no_changes#:#No changes.
+no_db_update_file#:#dbupdate.php nicht gefunden!
+not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
+password#:#Passwort
 password_changed#:#Das Passwort wurde geändert.
-setup_menu#:#setup menü
-inifile_exists#:#Es exisitiert bereits eine ini-Datei! Wenn Sie fortfahren, wird die bestehende Datei überschrieben.
-inifile_can_write#:#ILIAS 3 setup kann eine neue ini-Datei erzeugen.
-en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
-intro_install#:#Das ist das Hauptmenü von ILIAS 3 Setup. Hier können Sie Schritt für Schritt die Installation von ILIAS 3 durchführen.
-setup_mainmenu#:#Setup Hauptmenü
-version#:#Version
-preliminaries#:#Vorbereitende Massnahmen
-environment#:#Softwareumgebung
-with#:#mit
-env_using#:#ILIAS 3 wird betrieben auf
-env_ok#:#Ok. Hört sich gut an.
-env_warning#:#ILIAS 3 wurde nur auf Linux und Windows mit einem Apache-Webserver getestet!<br />Möglicherweise läuft die Software auch in dieser Softwareumgebung.
+password_empty#:#Kein Passwort angegeben!
+password_info#:#Um das Setup-Programm vor unbefugten Zugriff Dritter zu schützen, wählen Sie bitte ein Passwort. Sie benötigen dieses Passwort, um evtl. später Ihre Konfiguration zu ändern oder die Datenbank zu aktualisieren.
+password_set#:#Das Passwort wurde gespeichert.
+pre_error#:#Ein oder mehrere Tests wurden nicht bestanden. Bitte beheben Sie die Probleme bevor Sie mit der Installation fortfahren.
+pre_folder_create#:#Neue Ordner anlegen im ILIAS 3 Verzeichnis
+pre_folder_write#:#Schreibbares ILIAS 3 Verzeichnis
 pre_intro#:#Die Setup-Routine prüft, ob alle Vorraussetzungen für die Installation und den Betrieb von ILIAS 3 erfüllt sind.
 pre_php_version#:#PHP-Version
-pre_folder_write#:#Schreibbares ILIAS 3 Verzeichnis
-pre_folder_create#:#Neue Ordner anlegen im ILIAS 3 Verzeichnis
-pre_error#:#Ein oder mehrere Tests wurden nicht bestanden. Bitte beheben Sie die Probleme bevor Sie mit der Installation fortfahren.
-inifile_firsttime#:#Keine ini-Datei vorhanden! Offensichtlich ist das eine Neu-Installation von ILIAS 3.
-inifile_fill_all#:#Bitte füllen Sie alle Felder aus.
-inifile_cannot_write#:#Die Setup-Routine konnte die ini-Datei nicht erzeugen! Bitte überprüfen Sie die Schreibrechte in Ihrem Dateisystem.
-inifile_written#:#Die ini-Datei wurde erfolgreich auf Ihrem Server angelegt.
-inifile_content#:#Ihre ini-Datei hat folgenden Inhalt:
-choose_languages#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder.
-password_info#:#Um das Setup-Programm vor unbefugten Zugriff Dritter zu schützen, wählen Sie bitte ein Passwort. Sie benötigen dieses Passwort, um evtl. später Ihre Konfiguration zu ändern oder die Datenbank zu aktualisieren.
-wrong_password#:#Falsches Passwort!
-fill_both_fields#:#Bitte beide Felder ausfüllen!
-password_empty#:#Kein Passwort angegeben!
-installation#:#Installation
-no_db_update_file#:#dbupdate.php nicht gefunden!
-database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
-database_needs_update#:#Datenbank benötigt ein Update
-update_not_found#:#Update not found!
+preliminaries#:#Vorbereitende Massnahmen
+reset#:#Zurücksetzen
+set_newpasswd#:#Bitte neues Passwort eingeben
+set_oldpasswd#:#Bitte altes Passwort eingeben
+setup#:#setup
+setup_database#:#Datenbank anlegen
+setup_database_desc#:#Erstellung der Datenbank
+setup_db_first#:#Please legen Sie zuerst die Datenbank an!
+setup_ini_first#:#Bitte erzeugen Sie zuerst die ini-Datei!
+setup_inifile#:#ini-Datei erzeugen
+setup_inifile_desc#:#Erzeugung der ini-Datei für Ihre Installation
+setup_languages#:#Sprachen installieren
+setup_languages_desc#:#Installation zusätzlicher Sprachen
+setup_mainmenu#:#Setup Hauptmenü
+setup_menu#:#setup menü
+setup_password#:#Passwort erstellen
+setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen) 
+setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS 3 einloggen.
+setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS 3. Diese Setup-Routine hilft Ihnen bei der
+submit#:#Abschicken
 update_applied#:#Update applied
 update_error#:#Error while updating
-file_version#:#file version
-no_changes#:#No changes.
+update_not_found#:#Update not found!
+version#:#Version
+with#:#mit
+wrong_password#:#Falsches Passwort!

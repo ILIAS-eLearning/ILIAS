@@ -30,10 +30,18 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-available_languages#:#idiomas disponibles
+available_languages#:#idiomas disponibles###19 Mar 2003 content changed
+back#:#back
+change#:#cambiar
+change_password#:#Cambiar contrase&ntilde;a
 choose_language#:#escoge tu idioma
+choose_languages#:#Please choose additional languages and/or remove selected languages.
+choose_password#:#Por favor, escoja una contrase&ntilde;a
 database#:#base de datos
 database_exists#:#La base de datos existe.
+database_is_uptodate#:#La base de datos es actual.
+database_needs_update#:#La base de datos necesita una actualización.
+database_ready#:#La base de datos está lista.
 database_update#:#actualizar base da datos
 database_version#:#versión actual de la base de datos
 date#:#fecha
@@ -45,35 +53,35 @@ db_user#:#Usuario de la base de datos
 db_version#:#Versión de la base de datos
 default#:#por defecto
 delete#:#borrar
+en_by_default#:#(Instalado por defecto y no se puede borrar).
+enter_password#:#Por favor, introduce una contrase&ntilde;a
+env_ok#:#Ok. Sounds good.
+env_using#:#ILIAS 3 will be running on
+env_warning#:#ILIAS 3 was only tested on Linux and Windows using Apache web server!<br />However, ILIAS 3 may work with your environment too.
+environment#:#Environment
 err_create_database_failed#:#La creación de la base de datos no ha sido posible.
 err_wrong_login#:#Identificación fallida
+file_does_not_exist#:#El archivo no existe.
+file_version#:#file version
+fill_both_fields#:#Please fill out both fields!
 ilias_version#:#Versión de ILIAS
 inifile#:#archivo ini
+inifile_can_write#:#ILIAS 3 generará tu archivo ini.
+inifile_cannot_write#:#ILIAS 3 setup cannot write your ini-file. Please check write permissions first.
+inifile_content#:#Your ini-file has this content:
+inifile_exists#:#Atención, ya existe un archivo ini. Este proceso borrará la configuración anterior.
+inifile_fill_all#:#Please fill out all fields.
+inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 3.
+inifile_written#:#The ini-file has been successfully saved on your host.
 inst_name#:#nombre de la installación
 install#:#instalar
+installation#:#Installación
 installed#:#instalado
-language#:#Idioma
-languages#:#Idiomas
-login#:#Identificación
-login_to_ilias#:#Identificación en ILIAS
-password#:#contraseña
-setup#:#Configuración
-setup_ready#:#La configuración está lista. Ahora puedes continuar con la identificación y comprobar otras configuraciones del sistema.
-setup_inifile#:#create ini-file
-setup_database#:#setup database
-setup_languages#:#install languages
-setup_password#:#setup password
-setup_welcome#:#Bienvenido a la configuración de ILIAS 3.<br />
-setup_inifile_desc#:#create the ini-file for your installation
-setup_database_desc#:#setup the database
-setup_languages_desc#:#install additional languages
-setup_password_desc#:#create a password to access the setup-routine later on (i.e. to update your database)
-setup_ini_first#:#Please create your ini-file first!
-setup_db_first#:#Please setup your database first!
-back#:#back
+intro_install#:#Esta es la página de configuración de ILIAS 3. Aquí puedes proceder a la instalación paso a paso.
 lang_de#:#Alemán
 lang_dk#:#Dinamarqués
 lang_en#:#Inglés
+lang_error_occurred#:#Se ha encontrado un error. Acción cancelada.
 lang_es#:#Espa&ntilde;ol
 lang_fr#:#Franc&eacute;s
 lang_id#:#Indonés
@@ -82,57 +90,49 @@ lang_no#:#Noruego
 lang_pl#:#Polaco
 lang_se#:#Sueco
 lang_xx#:#Predefinido
-change#:#cambiar
-change_password#:#Cambiar contrase&ntilde;a
-logout#:#salir
-set_oldpasswd#:#Introduce tu antigua contrase&ntilde;a
-set_newpasswd#:#Introduce tu nueva contrase&ntilde;a
-submit#:#Enviar
-reset#:#Restablecer
-logged_out#:#Te has desconectado.
-file_does_not_exist#:#El archivo no existe.
-not_connected_to_db#:#No estas conectado al la base da datos.
-database_ready#:#La base de datos está lista.
-enter_password#:#Por favor, introduce una contrase&ntilde;a
-choose_password#:#Por favor, escoja una contrase&ntilde;a
+language#:#Idioma
+languages#:#Idiomas
 languages_installed#:#Idiomas installados.
-lang_error_occurred#:#Se ha encontrado un error. Acción cancelada.
-password_set#:#La contrase&ntilde;a ha sido guardada correctamente.
+logged_out#:#Te has desconectado.
+login#:#Identificación
+login_to_ilias#:#Identificación en ILIAS
+logout#:#salir
+no_changes#:#No changes.
+no_db_update_file#:#dbupdate.php not found!
+not_connected_to_db#:#No estas conectado al la base da datos.
+password#:#contraseña
 password_changed#:#La contrase&ntilde;a ha sido cambiada correctamente.
-setup_menu#:#Menú de configuración
-inifile_exists#:#Atención, ya existe un archivo ini. Este proceso borrará la configuración anterior.
-inifile_can_write#:#ILIAS 3 generará tu archivo ini.
-en_by_default#:#(Instalado por defecto y no se puede borrar).
-intro_install#:#Esta es la página de configuración de ILIAS 3. Aquí puedes proceder a la instalación paso a paso.
-setup_mainmenu#:#Menú de configuración
-version#:#Versión
-preliminaries#:#Preliminaries
-environment#:#Environment
-with#:#con
-env_using#:#ILIAS 3 will be running on
-env_ok#:#Ok. Sounds good.
-env_warning#:#ILIAS 3 was only tested on Linux and Windows using Apache web server!<br />However, ILIAS 3 may work with your environment too.
+password_empty#:#No password given!
+password_info#:#To protect your configuration data against other users you will need a password to access ILIAS 3 setup later again.
+password_set#:#La contrase&ntilde;a ha sido guardada correctamente.
+pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.
+pre_folder_create#:#New folders creatable in ILIAS 3 folder
+pre_folder_write#:#Writable ILIAS 3 folder
 pre_intro#:#Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system.
 pre_php_version#:#Versión PHP
-pre_folder_write#:#Writable ILIAS 3 folder
-pre_folder_create#:#New folders creatable in ILIAS 3 folder
-pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.
-inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 3.
-inifile_fill_all#:#Please fill out all fields.
-inifile_cannot_write#:#ILIAS 3 setup cannot write your ini-file. Please check write permissions first.
-inifile_written#:#The ini-file has been successfully saved on your host.
-inifile_content#:#Your ini-file has this content:
-choose_languages#:#Please choose additional languages and/or remove selected languages.
-password_info#:#To protect your configuration data against other users you will need a password to access ILIAS 3 setup later again.
-wrong_password#:#Identificación fallida!
-fill_both_fields#:#Please fill out both fields!
-password_empty#:#No password given!
-installation#:#Installación
-no_db_update_file#:#dbupdate.php not found!
-database_is_uptodate#:#La base de datos es actual.
-database_needs_update#:#La base de datos necesita una actualización.
-update_not_found#:#Update not found!
+preliminaries#:#Preliminaries
+reset#:#Restablecer
+set_newpasswd#:#Introduce tu nueva contrase&ntilde;a
+set_oldpasswd#:#Introduce tu antigua contrase&ntilde;a
+setup#:#Configuración
+setup_database#:#setup database
+setup_database_desc#:#setup the database
+setup_db_first#:#Please setup your database first!
+setup_ini_first#:#Please create your ini-file first!
+setup_inifile#:#create ini-file
+setup_inifile_desc#:#create the ini-file for your installation
+setup_languages#:#install languages
+setup_languages_desc#:#install additional languages
+setup_mainmenu#:#Menú de configuración
+setup_menu#:#Menú de configuración
+setup_password#:#setup password
+setup_password_desc#:#create a password to access the setup-routine later on (i.e. to update your database)
+setup_ready#:#La configuración está lista. Ahora puedes continuar con la identificación y comprobar otras configuraciones del sistema.
+setup_welcome#:#Bienvenido a la configuración de ILIAS 3.<br />
+submit#:#Enviar
 update_applied#:#Update applied
 update_error#:#Error while updating
-file_version#:#file version
-no_changes#:#No changes.
+update_not_found#:#Update not found!
+version#:#Versión
+with#:#con
+wrong_password#:#Identificación fallida!

@@ -32,7 +32,7 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absoluter Pfad
-common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
+common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?###19 Mar 2003 content changed
 common#:#access#:#Zugang
 common#:#actions#:#Aktionen
 common#:#add#:#hinzufügen
@@ -295,6 +295,7 @@ common#:#news#:#News
 common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
+common#:#no_date#:#Kein Datum
 common#:#no_objects#:#Keine Objekte
 common#:#no_title#:#Kein Titel
 common#:#none#:#Keine
@@ -455,4 +456,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-common#:#no_date#:#Kein Datum
