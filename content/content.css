@@ -85,22 +85,73 @@ div.ilc_Page
 	border-width: 1px;
 }
 
-.ilc_red
+.ilc_Cell1
 {
 	background-color:#FFCCCC;
 }
 
-.ilc_blue
+.ilc_Cell2
 {
 	background-color:#CCCCFF;
 }
 
-.ilc_green
+.ilc_Cell3
 {
 	background-color:#CCFFCC;
 }
 
-.ilc_yellow
+.ilc_Cell4
 {
 	background-color:#FFFFCC;
+}
+
+p.ilc_Standard
+{
+}
+
+p.ilc_List
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+p.ilc_Headline
+{
+	margin-top: 5px;
+	margin-bottom: 10px;
+	font-size:20px;
+	font-weight: bold;
+}
+
+p.ilc_Example
+{
+	padding-left: 20px;
+	border-left: 3px;
+	border-left-style: solid;
+	border-left-color: blue;
+}
+
+p.ilc_Citation
+{
+	color: brown;
+	font-style: italic;
+}
+
+p.ilc_Mnemonic
+{
+	margin-left: 20px;
+	margin-right: 20px;
+	color: red;
+	padding: 10px;
+	border: 1px;
+	border-style: solid;
+	border-color: red;
+}
+
+p.ilc_Additional
+{
+	padding: 10px;
+	border: 1px;
+	border-style: solid;
+	border-color: blue;
 }

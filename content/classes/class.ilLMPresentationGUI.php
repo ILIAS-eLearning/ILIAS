@@ -214,8 +214,11 @@ class ilLMPresentationGUI
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if ($this->lm->getStyleSheetId() > 0)
 		{
+			$this->tpl->setCurrentBlock("ContentStyle");
+			$rand = rand(1,999999);
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../".
-				ilUtil::getWebspaceDir()."/css/style_".$this->lm->getStyleSheetId().".css");
+				ilUtil::getWebspaceDir()."/css/style_".$this->lm->getStyleSheetId().".css?dummy=$rand");
+			$this->tpl->parseCurrentBlock();
 			//$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../style.php?obj_id=".$this->lm->getStyleSheetId());
 		}
 		else		// todo: work this out

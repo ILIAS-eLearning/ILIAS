@@ -132,11 +132,43 @@ class ilObjStyleSheet extends ilObject
 			array("tag" => "div", "class" => "Page", "parameter" => "border-style" ,"value" => "outset"),
 			array("tag" => "div", "class" => "Page", "parameter" => "border-color" ,"value" => "#EEEEEE"),
 			array("tag" => "div", "class" => "Page", "parameter" => "border-width" ,"value" => "1px"),
-			array("tag" => "td", "class" => "red", "parameter" => "background-color" ,"value" => "#FFCCCC"),
-			array("tag" => "td", "class" => "blue", "parameter" => "background-color" ,"value" => "#CCCCFF"),
-			array("tag" => "td", "class" => "green", "parameter" => "background-color" ,"value" => "#CCFFCC"),
-			array("tag" => "td", "class" => "yellow", "parameter" => "background-color" ,"value" => "#FFFFCC")
+			array("tag" => "td", "class" => "Cell1", "parameter" => "background-color" ,"value" => "#FFCCCC"),
+			array("tag" => "td", "class" => "Cell2", "parameter" => "background-color" ,"value" => "#CCCCFF"),
+			array("tag" => "td", "class" => "Cell3", "parameter" => "background-color" ,"value" => "#CCFFCC"),
+			array("tag" => "td", "class" => "Cell4", "parameter" => "background-color" ,"value" => "#FFFFCC"),
+
+			array("tag" => "p", "class" => "List", "parameter" => "margin-top" ,"value" => "0px"),
+			array("tag" => "p", "class" => "List", "parameter" => "margin-bottom" ,"value" => "0px"),
+
+			array("tag" => "p", "class" => "Headline", "parameter" => "margin-top" ,"value" => "5px"),
+			array("tag" => "p", "class" => "Headline", "parameter" => "margin-bottom" ,"value" => "10px"),
+			array("tag" => "p", "class" => "Headline", "parameter" => "font-size" ,"value" => "20px"),
+			array("tag" => "p", "class" => "Headline", "parameter" => "font-weight" ,"value" => "bold"),
+
+			array("tag" => "p", "class" => "Example", "parameter" => "padding-left" ,"value" => "20px"),
+			array("tag" => "p", "class" => "Example", "parameter" => "border-left" ,"value" => "3px"),
+			array("tag" => "p", "class" => "Example", "parameter" => "border-left-style" ,"value" => "solid"),
+			array("tag" => "p", "class" => "Example", "parameter" => "border-left-color" ,"value" => "blue"),
+
+			array("tag" => "p", "class" => "Citation", "parameter" => "color" ,"value" => "brown"),
+			array("tag" => "p", "class" => "Citation", "parameter" => "font-style" ,"value" => "italic"),
+
+			array("tag" => "p", "class" => "Mnemonic", "parameter" => "margin-left" ,"value" => "20px"),
+			array("tag" => "p", "class" => "Mnemonic", "parameter" => "margin-right" ,"value" => "20px"),
+			array("tag" => "p", "class" => "Mnemonic", "parameter" => "color" ,"value" => "red"),
+			array("tag" => "p", "class" => "Mnemonic", "parameter" => "padding" ,"value" => "10px"),
+			array("tag" => "p", "class" => "Mnemonic", "parameter" => "border" ,"value" => "1px"),
+			array("tag" => "p", "class" => "Mnemonic", "parameter" => "border-style" ,"value" => "solid"),
+			array("tag" => "p", "class" => "Mnemonic", "parameter" => "border-color" ,"value" => "red"),
+
+			array("tag" => "p", "class" => "Additional", "parameter" => "padding" ,"value" => "10px"),
+			array("tag" => "p", "class" => "Additional", "parameter" => "border" ,"value" => "1px"),
+			array("tag" => "p", "class" => "Additional", "parameter" => "border-style" ,"value" => "solid"),
+			array("tag" => "p", "class" => "Additional", "parameter" => "border-color" ,"value" => "blue")
+
 		);
+
+
 
 		// default style settings
 		foreach ($def as $sty)
@@ -161,6 +193,12 @@ class ilObjStyleSheet extends ilObject
 		$this->ilias->db->query($q);
 		$this->read();
 		$this->writeCSSFile();
+	}
+
+	function deleteParameter($a_id)
+	{
+		$q = "DELETE FROM style_parameter WHERE id = '".$a_id."'";
+		$this->ilias->db->query($q);
 	}
 
 	function read()
@@ -221,8 +259,19 @@ class ilObjStyleSheet extends ilObject
 	function update()
 	{
 		parent::update();
+		$this->read();				// this could be done better
+		$this->writeCSSFile();
 	}
 
+	function updateStyleParameter($a_id, $a_value)
+	{
+		$q = "UPDATE style_parameter SET VALUE='".$a_value."' WHERE id = '".$a_id."'";
+		$style_set = $this->ilias->db->query($q);
+	}
+
+	/**
+	* todo: bad style! should return array of objects, not multi-dim-arrays
+	*/
 	function getStyle()
 	{
 		return $this->style;
@@ -233,7 +282,9 @@ class ilObjStyleSheet extends ilObject
 		$tags = array("a.FootnoteLink", "a.FootnoteLink:hover", "a.IntLink", "a.IntLink:hover",
 			"div.Footnote", "div.LMNavigation", "div.Page", "div.PageTitle", "span.Comment",
 			"span.Emph", "span.Quotation", "span.Strong",
-			"td.blue", "td.green", "td.red", "td.yellow");
+			"td.Cell1", "td.Cell2", "td.Cell3", "td.Cell4",
+			"p.Standard", "p.List", "p.Headline", "p.Example", "p.Citation", "p.Mnemonic",
+			"p.Additional");
 
 		return $tags;
 	}

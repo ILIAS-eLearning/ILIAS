@@ -114,6 +114,22 @@ class ilLMEditorGUI
 
 			default:
 				$this->lm_obj =& new ilLearningModule($this->ref_id);
+
+				// set style sheet
+				if ($this->lm_obj->getStyleSheetId() > 0)
+				{
+					$this->tpl->setCurrentBlock("ContentStyle");
+					$rand = rand(1,999999);
+					$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../".
+						ilUtil::getWebspaceDir()."/css/style_".$this->lm_obj->getStyleSheetId().".css?dummy=$rand");
+					$this->tpl->parseCurrentBlock();
+					//$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../style.php?obj_id=".$this->lm->getStyleSheetId());
+				}
+				else		// todo: work this out
+				{
+					$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../content/content.css");
+				}
+
 				$this->tree = new ilTree($this->lm_obj->getId());
 				$this->tree->setTableNames('lm_tree','lm_data');
 				$this->tree->setTreeTablePK("lm_id");
