@@ -108,6 +108,7 @@ common#:#course#:#Kurs
 common#:#courses#:#Kurse
 common#:#create#:#Erstellen
 common#:#create_in#:#Erstellen in
+common#:#create_stylesheet#:#Create Style###10 Jul 2003 new variable
 common#:#crs#:#Kurs
 common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_management_system#:#Kursmanagement-System
@@ -144,6 +145,7 @@ common#:#edit#:#Bearbeiten
 common#:#edit_data#:#Daten bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
 common#:#edit_properties#:#Eigenschaften
+common#:#edit_stylesheet#:#Edit Style###10 Jul 2003 new variable
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
 common#:#email#:#Email
@@ -330,28 +332,22 @@ common#:#min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Roll
 common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
+common#:#msg_cancel_delete#:#Aktion abgebrochen.
+common#:#msg_changes_ok#:#Die Änderungen wurden übernommen.
+common#:#msg_clear_clipboard#:#Zwischenablage gel&ouml;scht.
+common#:#msg_cloned#:#Objekt(e) kopiert.
 common#:#msg_copy_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren).
 common#:#msg_cut_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben).
-common#:#msg_clear_clipboard#:#Zwischenablage gel&ouml;scht.
-common#:#msg_link_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verkn&uuml;pfen).
-common#:#msg_cloned#:#Objekt(e) kopiert.
-common#:#msg_linked#:#Objekt(e) verkn&uuml;pft.
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
-common#:#msg_changes_ok#:#Die Änderungen wurden übernommen.
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
-common#:#msg_undeleted#:#Objekt(e) wiederhergestellt.
-common#:#msg_removed#:#Objekt(e) aus dem System entfernt
-common#:#msg_cancel_delete#:#Aktion abgebrochen.
-common#:#msg_obj_created#:#Objekt angelegt.
-common#:#msg_obj_modified#:#&Auml;nderungen gespeichert.
+common#:#msg_link_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verkn&uuml;pfen).
+common#:#msg_linked#:#Objekt(e) verkn&uuml;pft.
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: 
-common#:#msg_no_rolf_allowed1#:#Das Objekt
-common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten.
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren:###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen:###04 Jul 2003 content changed
-common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung, um einen Rollenordner anzulegen. Deshalb k&ouml;nnen Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
 common#:#msg_no_perm_create_role#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollen anzulegen
+common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung, um einen Rollenordner anzulegen. Deshalb k&ouml;nnen Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
 common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollenvorlagen anzulegen
 common#:#msg_no_perm_create_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzer anzulegen###08 Jul 2003 content changed
 common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:###04 Jul 2003 content changed
@@ -363,17 +359,23 @@ common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung,
 common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):###08 Jul 2003 new variable
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung
+common#:#msg_no_rolf_allowed1#:#Das Objekt
+common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten.
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
 common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
 common#:#msg_nothing_found#:#Nichts gefunden
+common#:#msg_obj_created#:#Objekt angelegt.
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
+common#:#msg_obj_modified#:#&Auml;nderungen gespeichert.
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)###09 Jul 2003 content changed
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu &uuml;bernehmen.
+common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
 common#:#msg_role_exists2#:#existiert bereits! Bitte w&auml;hlen Sie einen anderen Namen.
 common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte 
-common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:
+common#:#msg_undeleted#:#Objekt(e) wiederhergestellt.
+common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:###10 Jul 2003 content changed
 common#:#msg_user_last_role2#:#Bitte l&ouml;schen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
 common#:#msg_userassignment_changed#:#Benutzerzuweisung ge&auml;ndert.
 common#:#multimedia#:#Multimedia
@@ -440,6 +442,7 @@ common#:#overview#:#Übersicht
 common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
+common#:#parameter#:#Parameter###10 Jul 2003 new variable
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
 common#:#passwd_invalid#:#Das neue Passwort ist ungültig! Bitte wählen Sie ein anderes Passwort.
@@ -592,7 +595,7 @@ common#:#usr_skin#:#Benutzeroberfläche
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
 common#:#validate#:#Validieren
-common#:#value#:#Wert
+common#:#value#:#Wert###10 Jul 2003 content changed
 common#:#version#:#Version
 common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
