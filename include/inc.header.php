@@ -164,7 +164,8 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 }
 
 //init language
-$lng = new ilLanguage($ilias->account->prefs["language"]);
+$lang_key = ($_GET["lang"]) ? $_GET["lang"] : $ilias->account->prefs["language"];
+$lng = new ilLanguage($lang_key);
 
 // init rbac
 $rbacsystem = new ilRbacSystem();
