@@ -1006,7 +1006,7 @@ class ilObjUser extends ilObject
 	*/
 	function getLanguage ()
 	{
-		 return $this->data["language"];
+		 return $this->prefs["language"];
 	}
 
 	/**
