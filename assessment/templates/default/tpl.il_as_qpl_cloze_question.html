@@ -1,6 +1,6 @@
 <form name="frm_cloze_test" action="{ACTION_CLOZE_TEST}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="id" value="{CLOZE_ID}">
-<table class="std">
+<table class="fullwidth">
 <tr>
   <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
   <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_CLOZE_TITLE}" size="50" /></td>
@@ -15,7 +15,7 @@
 </tr>
 <tr>
   <td class="option">{TEXT_CLOZE_TEXT}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><textarea name="clozetext" id="clozetext" cols="40" rows="10">{VALUE_CLOZE_TEXT}</textarea></td>
+  <td class="option_value" colspan="4"><textarea class="fullwidth" name="clozetext" id="clozetext" cols="40" rows="10">{VALUE_CLOZE_TEXT}</textarea></td>
 </tr>
 {OTHER_QUESTION_DATA}
 <tr>
@@ -34,8 +34,8 @@
 <!-- BEGIN textgap_value -->
 <tr>
   <td class="option">{TEXT_VALUE}: </td>
-  <td class="option_value" colspan="3"><input name="textgap_{VALUE_GAP_COUNTER}" type="text" id="textgap_{VALUE_GAP_COUNTER}" size="50" value="{VALUE_TEXT_GAP}" /></td>
-	<td class="option_value"><input type="submit" class="submit" name="cmd[delete_{VALUE_GAP_COUNTER}]" value="{DELETE}" /></td>
+  <td class="option_value" colspan="3"><input class="fullwidth" name="textgap_{VALUE_GAP_COUNTER}" type="text" id="textgap_{VALUE_GAP_COUNTER}" size="30" value="{VALUE_TEXT_GAP}" /></td>
+	<td class="option_value"><div align="right"><input type="submit" class="submit" name="cmd[delete_{VALUE_GAP_COUNTER}]" value="{DELETE}" /></div></td>
 </tr>
 <!-- END textgap_value -->
 <tr>
@@ -61,16 +61,16 @@
 <!-- END textgap_suggested_solution -->
 <tr>
   <td class="option">{TEXT_POINTS}:</td>
-  <td class="option_value" colspan="4"><input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="10" value="{VALUE_TEXT_GAP_POINTS}" /></td>
+  <td class="option_value" colspan="4"><input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="3" value="{VALUE_TEXT_GAP_POINTS}" /></td>
 </tr>
 <!-- END textgap -->
 <!-- BEGIN selectgap -->
 <!-- BEGIN selectgap_value -->
 <tr>
   <td class="option">{TEXT_VALUE}: </td>
-  <td class="option_value"><input name="selectgap_{VALUE_GAP_COUNTER}" type="text" id="selectgap_{VALUE_GAP_COUNTER}" size="50" value="{VALUE_SELECT_GAP}" /></td>
+  <td class="option_value"><input class="fullwidth" name="selectgap_{VALUE_GAP_COUNTER}" type="text" id="selectgap_{VALUE_GAP_COUNTER}" size="30" value="{VALUE_SELECT_GAP}" /></td>
   <td class="option_value" colspan="2">{TEXT_POINTS}: <input name="points_{VALUE_GAP_COUNTER}" type="text" id="points_{VALUE_GAP_COUNTER}" size="3" value="{VALUE_SELECT_GAP_POINTS}" /> {TEXT_WHEN} <select name="status_{VALUE_GAP_COUNTER}" size="1"><option value="0"{UNCHECKED_SELECTED}>{TEXT_UNCHECKED}</option><option value="1"{CHECKED_SELECTED}>{TEXT_CHECKED}</option></select></td>
-  <td class="option_value"><input type="submit" class="submit" name="cmd[delete_{VALUE_GAP_COUNTER}]" value="{DELETE}" /></td>
+  <td class="option_value"><div align="right"><input type="submit" class="submit" name="cmd[delete_{VALUE_GAP_COUNTER}]" value="{DELETE}" /></div></td>
 </tr>
 
 <!-- END selectgap_value -->

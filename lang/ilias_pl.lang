@@ -4069,19 +4069,20 @@ survey#:#start_survey#:#Rozpocznij ankietę
 survey#:#subject_mail_survey_id#:#Twój kod ankiety dla "%s"
 survey#:#subtype#:#Podtyp
 survey#:#survey_code_message_sent#:#Kod ankiety umożliwiający powrót do niej został przesłany do twojej skrzynki odbiorczej!
-survey#:#survey_finish#:#zapisz i zakończ ankietę >>>
+survey#:#survey_finish#:#zapisz i zakończ ankietę >>>###26 Nov 2004 content changed
 survey#:#survey_finished#:#ankieta jest zakończona. Dziękujemy za uczestnictwo!
-survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###05 Nov 2004 new variable
-survey#:#survey_next#:#zapisz i przejdź do nast. strony >>>
+survey#:#survey_is_offline#:#Nie możesz rozpocząć ankiety! Ankieta nie jest aktywna.
+survey#:#survey_next#:#zapisz i przejdź do nast. strony >>>###26 Nov 2004 content changed
 survey#:#survey_offline_message#:#Nie można zaprosić użytkowników. Ankieta jest offline!
 survey#:#survey_online_warning#:#ankieta jest online. Nie możesz edytować pytań ankiety!
-survey#:#survey_previous#:#<<< zapisz i przejdź do poprz. strony
+survey#:#survey_previous#:#<<< zapisz i przejdź do poprz. strony###26 Nov 2004 content changed
+survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)###26 Nov 2004 new variable
 survey#:#survey_questions#:#Pytania
 survey#:#survey_skip_finish#:#pomiń i zakończ ankietę >>>
 survey#:#survey_skip_next#:#pomiń i przejdź do nast. strony >>>
 survey#:#survey_skip_previous#:#<<< pomiń i przejdź do poprz. strony
 survey#:#survey_skip_start#:#<<< pomiń i przejdź na pierwszą stronę
-survey#:#survey_start#:#<<< zapisz i przejdź na pierwszą stronę
+survey#:#survey_start#:#<<< zapisz i przejdź na pierwszą stronę###26 Nov 2004 content changed
 survey#:#svy_all_user_data_deleted#:#Wszystkie dane użytkowników tego przeglądu zostały usunięte!
 survey#:#svy_create_export_file#:#Create export file###05 Nov 2004 new variable
 survey#:#svy_delete_all_user_data#:#Usuń wszystkie dane użytkowników

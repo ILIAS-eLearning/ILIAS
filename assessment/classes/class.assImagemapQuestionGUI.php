@@ -220,8 +220,9 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 		{
 			if ($this->object->get_answer_count())
 			{
-				$this->tpl->setCurrentBlock("deletebutton");
+				$this->tpl->setCurrentBlock("QFooter");
 				$this->tpl->setVariable("DELETE_AREA", $this->lng->txt("delete_area"));
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" />");
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("answerheader");
 				$this->tpl->setVariable("TEXT_NAME", $this->lng->txt("name"));
@@ -282,6 +283,15 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
+			if (strcmp($this->object->get_image_filename(), "") != 0)
+			{
+				$this->tpl->setCurrentBlock("addarea");
+				$this->tpl->setVariable("ADD_AREA", $this->lng->txt("add_area"));
+				$this->tpl->setVariable("TEXT_RECT", $this->lng->txt("rectangle"));
+				$this->tpl->setVariable("TEXT_CIRCLE", $this->lng->txt("circle"));
+				$this->tpl->setVariable("TEXT_POLY", $this->lng->txt("polygon"));
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->setCurrentBlock("question_data");
 			$img = $this->object->get_image_filename();
 			$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
@@ -346,10 +356,6 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
 			}
 
-			$this->tpl->setVariable("ADD_AREA", $this->lng->txt("add_area"));
-			$this->tpl->setVariable("TEXT_RECT", $this->lng->txt("rectangle"));
-			$this->tpl->setVariable("TEXT_CIRCLE", $this->lng->txt("circle"));
-			$this->tpl->setVariable("TEXT_POLY", $this->lng->txt("polygon"));
 			$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 			$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 			$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));

@@ -4075,6 +4075,7 @@ survey#:#survey_next#:#save and next page >>>###01 Jun 2004 new variable
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###04 Jun 2004 new variable
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable
 survey#:#survey_previous#:#<<< save and previous page###01 Jun 2004 new variable
+survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)###26 Nov 2004 new variable
 survey#:#survey_questions#:#Questions###21 May 2004 new variable
 survey#:#survey_skip_finish#:#skip and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_skip_next#:#skip and next page >>>###01 Jun 2004 new variable
