@@ -1838,11 +1838,15 @@ class ilGroupGUI extends ilObjectGUI
 					$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 					$num++;
 
-					if ($cont_data["type"] == "lm" || $cont_data["type"] == "frm" )
+					if ($cont_data["type"] == "lm")
 					{
-//						$link_target = "_parent";
+						$link_target = "_top";
+					}
+					elseif ($cont_data["type"] == "frm")
+					{
+						
 						$link_target = "bottom";
-//						$link_target = "top";
+					
 					}
 					else
 					{
