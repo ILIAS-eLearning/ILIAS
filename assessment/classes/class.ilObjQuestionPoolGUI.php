@@ -79,6 +79,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
+		$this->ctrl->setReturn($this, "questions");
 echo "<br>nextclass:$next_class:cmd:$cmd:";
 		switch($next_class)
 		{
@@ -89,12 +90,18 @@ echo "<br>nextclass:$next_class:cmd:$cmd:";
 						? $_POST["sel_question_types"]
 						: $_GET["sel_question_types"];
 				}
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type);
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setRefId($_GET["ref_id"]);
-				$this->getQuestionTemplate($q_gui, $q_type);
+				if ($cmd != "preview")
+				{
+					$this->getQuestionTemplate($q_gui, $q_type);
+				}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
-				$this->tpl->setCurrentBlock("adm_content");
-				$this->tpl->parseCurrentBlock();
+				if ($cmd != "preview")
+				{
+					$this->tpl->setCurrentBlock("adm_content");
+					$this->tpl->parseCurrentBlock();
+				}
 				break;
 
 			case "ass_clozetestgui":
@@ -726,18 +733,36 @@ echo "<br>ilObjQuestionPoolGUI->questionsObject()";
 				$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 				if ($editable)
 				{
+					$class = strtolower(ASS_QuestionGUI::_getGUIClassNameForId($data["question_id"]));
+
+					$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
 					if ($this->object->isInUse($data["question_id"]))
 					{
+						$this->ctrl->setParameterByClass($class, "locked", "1");
 						//$link = $this->ctrl->getLinkTarget("
-						$this->tpl->setVariable("EDIT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=" . $data["question_id"] . "&locked=1\">" . $img_locked . "</a>");
+						$this->tpl->setVariable("TXT_EDIT", $img_locked);
+						$this->tpl->setVariable("LINK_EDIT",
+							$this->ctrl->getLinkTargetByClass($class, "editQuestion"));
+						//$this->tpl->setVariable("EDIT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=" . $data["question_id"] . "&locked=1\">" . $img_locked . "</a>");
 					}
 					else
 					{
-						$this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=" . $data["question_id"] . "\">" . $this->lng->txt("edit") . "</a>]");
+						$this->ctrl->setParameterByClass($class, "locked", "");
+						$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+						$this->tpl->setVariable("LINK_EDIT",
+							$this->ctrl->getLinkTargetByClass($class, "editQuestion"));
+						//$this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=" . $data["question_id"] . "\">" . $this->lng->txt("edit") . "</a>]");
 					}
 				}
 				$this->tpl->setVariable("QUESTION_TITLE", "<strong>" .$data["title"] . "</strong>");
+
 				$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
+
+				$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
+				$this->tpl->setVariable("LINK_PREVIEW",
+					$this->ctrl->getLinkTargetByClass($class, "preview"));
+
+
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 				$this->tpl->setVariable("QUESTION_ASSESSMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=assessment&edit=" . $data["question_id"] . "" . "\"><img src=\"" . ilUtil::getImagePath("assessment.gif", true) . "\" alt=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" title=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" border=\"0\" /></a>");

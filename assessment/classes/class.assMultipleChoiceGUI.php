@@ -252,6 +252,11 @@ echo "<br>ASS_MultipleChoiceGUI->showEditForm()";
 		}
 	}
 
+	function editQuestion()
+	{
+		$this->showEditForm();
+	}
+
 	/**
 	* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
 	*
@@ -698,10 +703,10 @@ echo "<br>ASS_MultipleChoiceGUI->writePostData()";
 	*/
 	function outWorkingForm($test_id = "", $is_postponed = false)
 	{
-echo "<br>ASS_MultipleChoiceGUI->outWorkingForm()";
 		$this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
 		$solutions = array();
 		$postponed = "";
+
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
@@ -710,6 +715,7 @@ echo "<br>ASS_MultipleChoiceGUI->outWorkingForm()";
 		{
 			$postponed = " (" . $this->lng->txt("postponed") . ")";
 		}
+
 		if (!empty($this->object->materials))
 		{
 			$i = 1;
@@ -730,10 +736,12 @@ echo "<br>ASS_MultipleChoiceGUI->outWorkingForm()";
 		{
 			$this->tpl->setCurrentBlock("single");
 			$akeys = array_keys($this->object->answers);
+
 			if ($this->object->shuffle)
 			{
 				$akeys = $this->object->pcArrayShuffle($akeys);
 			}
+
 			foreach ($akeys as $key)
 			{
 				$value = $this->object->answers[$key];
@@ -780,8 +788,6 @@ echo "<br>ASS_MultipleChoiceGUI->outWorkingForm()";
 	}
 
 	/**
-	* Creates a preview of the question
-	*
 	* Creates a preview of the question
 	*
 	* @access private

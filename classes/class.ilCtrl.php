@@ -776,7 +776,9 @@ class ilCtrl
 		return $_GET["redirectSource"];
 	}
 
-
+	/**
+	* 
+	*/
 	function getParentReturn(&$a_gui_obj)
 	{
 		return $this->getParentReturnByClass(get_class($a_gui_obj));
