@@ -7,10 +7,9 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
-* @extends PEAR 
 * @package ilias-core
 */
-class Tree extends PEAR
+class Tree
 {
 	/**
 	* ilias object
@@ -404,10 +403,11 @@ class Tree extends PEAR
 	*/
 	function deleteTree($a_node_id = 0, $a_parent_id = 0)
 	{
-		$left = "";			// tree_left
-		$right = "";		// tree_right
-		$diff = "";			// difference between lft & rgt
-		$new_parent = "";	// new parent_id
+		$left		= "";		// tree_left
+		$right		= "";		// tree_right
+		$diff		= "";		// difference between lft & rgt
+		$new_parent = "";		// new parent_id
+		$delete		= array();	// contains nodes which will be deleted
 
 		if (empty($a_node_id))
 		{
@@ -760,7 +760,7 @@ class Tree extends PEAR
 				 "AND parent = '".$a_parent."' ".
 				 "AND tree = '".$a_tree."'";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 		
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
