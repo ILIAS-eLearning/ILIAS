@@ -41,7 +41,6 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
-common#:#err_role_not_assignable#:#You cannot assign users to this role at this location
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_translation#:#Add translation
@@ -53,8 +52,6 @@ common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
-common#:#default_perm_settings#:#Default permissions
-common#:#permission_settings#:#Permission settings
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#all_objects#:#All Objects
 common#:#allow_register#:#Available in registration form for new users
@@ -210,6 +207,7 @@ common#:#dbk_visible#:#Digibook is visible
 common#:#dbk_write#:#Edit Digibook
 common#:#default#:#Default
 common#:#default_language#:#Default Language
+common#:#default_perm_settings#:#Default permissions
 common#:#default_role#:#Default Role
 common#:#default_roles#:#Default Roles
 common#:#default_skin#:#Default Skin
@@ -249,6 +247,7 @@ common#:#err_in_line#:#Error in line
 common#:#err_no_langfile_found#:#No language file found!
 common#:#err_no_param#:#No parameter!
 common#:#err_over_3_param#:#More than 3 parameters!
+common#:#err_role_not_assignable#:#You cannot assign users to this role at this location
 common#:#err_session_expired#:#Your session is expired!
 common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login
@@ -816,6 +815,7 @@ common#:#payment_system#:#Payment System
 common#:#perm_settings#:#Permissions
 common#:#permission#:#Permission
 common#:#permission_denied#:#Permission Denied
+common#:#permission_settings#:#Permission settings
 common#:#personal_data#:#Personal information
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Personal Picture
@@ -1060,10 +1060,8 @@ content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages
 content#:#all#:#All
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
-content#:#cont_Citation#:#Citation
-content#:#cont_Rect#:#Rectangle
 content#:#cont_Circle#:#Circle
-content#:#cont_Poly#:#Polygon
+content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
@@ -1072,6 +1070,8 @@ content#:#cont_List#:#List
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
+content#:#cont_Poly#:#Polygon
+content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
 content#:#cont_Roman#:#Roman I, II, ...

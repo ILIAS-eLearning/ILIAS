@@ -207,6 +207,7 @@ common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
 common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
 common#:#default#:#Умовчання
 common#:#default_language#:#Мова за Умовчанням
+common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
 common#:#default_role#:#Роль по Замовчанню
 common#:#default_roles#:#Ролі по Замовчанню
 common#:#default_skin#:#Вигляд по Замовчанню
@@ -246,6 +247,7 @@ common#:#err_in_line#:#Помилка в стрічці
 common#:#err_no_langfile_found#:#Жодного файлу мов не було знайдено!
 common#:#err_no_param#:#Немає параметру!
 common#:#err_over_3_param#:#Більш ніж 3 параметри!
+common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
 common#:#err_session_expired#:#Термін дії вашої сесії скінчився!
 common#:#err_wrong_header#:#Причина: Невірний заголовок.
 common#:#err_wrong_login#:#Невірний Логін
@@ -813,6 +815,7 @@ common#:#payment_system#:#Платіжна Система
 common#:#perm_settings#:#Права
 common#:#permission#:#Права
 common#:#permission_denied#:#В Доступі Відмовлено
+common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
 common#:#personal_data#:#Особиста інформація
 common#:#personal_desktop#:#Особстий Робочий Стіл
 common#:#personal_picture#:#Особиста Картинка
@@ -1057,6 +1060,7 @@ content#:#PDF export#:#Експорт PDF
 content#:#Pages#:#Сторінки
 content#:#all#:#Асі
 content#:#cont_Alphabetic#:#Алфавіт A, B, ...
+content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
 content#:#cont_Citation#:#Цитата
 content#:#cont_Example#:#Приклад
 content#:#cont_Headline1#:#Заголовок 1
@@ -1066,6 +1070,8 @@ content#:#cont_List#:#Список
 content#:#cont_LocalFile#:#Локальний Файл
 content#:#cont_Mnemonic#:#Мнемонічний
 content#:#cont_Number#:#Число
+content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
+content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
 content#:#cont_Reference#:#Посилання
 content#:#cont_Remark#:#Ремарка
 content#:#cont_Roman#:#Римські I, II, ...

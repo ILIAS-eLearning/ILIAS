@@ -207,6 +207,7 @@ common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
 common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
 common#:#default#:#default
 common#:#default_language#:#Default Language###20 Mar 2003 new variable
+common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
 common#:#default_role#:#Default Role###05 Nov 2003 new variable
 common#:#default_roles#:#Default Roles###01 Nov 2003 new variable
 common#:#default_skin#:#Default Skin###20 Mar 2003 new variable
@@ -246,6 +247,7 @@ common#:#err_in_line#:#Error in line###26 Mar 2003 new variable
 common#:#err_no_langfile_found#:#No language file found!###26 Mar 2003 new variable
 common#:#err_no_param#:#No parameter!###26 Mar 2003 new variable
 common#:#err_over_3_param#:#More than 3 parameters!###26 Mar 2003 new variable
+common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
 common#:#err_session_expired#:#Your session is expired!###04 Aug 2003 new variable
 common#:#err_wrong_header#:#Reason: Wrong header.###26 Mar 2003 new variable
 common#:#err_wrong_login#:#wrong login
@@ -813,6 +815,7 @@ common#:#payment_system#:#payment system
 common#:#perm_settings#:#permissions
 common#:#permission#:#permission
 common#:#permission_denied#:#permission denied
+common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
 common#:#personal_data#:#Personal information###25 Mar 2003 new variable
 common#:#personal_desktop#:#personal desktop
 common#:#personal_picture#:#Personal Picture###07 Jun 2003 new variable
@@ -1057,6 +1060,7 @@ content#:#PDF export#:#PDF Export###22 Sep 2003 new variable
 content#:#Pages#:#Pages###22 Sep 2003 new variable
 content#:#all#:#All###22 Sep 2003 new variable
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...###12 Jul 2003 new variable
+content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
 content#:#cont_Citation#:#Citation###23 Jun 2003 new variable
 content#:#cont_Example#:#Example###23 Jun 2003 new variable
 content#:#cont_Headline1#:#Headline 1###06 Sep 2003 new variable
@@ -1066,6 +1070,8 @@ content#:#cont_List#:#List###12 Jul 2003 new variable
 content#:#cont_LocalFile#:#Local File###06 Aug 2003 new variable
 content#:#cont_Mnemonic#:#Mnemonic###23 Jun 2003 new variable
 content#:#cont_Number#:#Number###12 Jul 2003 new variable
+content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
+content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
 content#:#cont_Reference#:#Reference###06 Aug 2003 new variable
 content#:#cont_Remark#:#Remark###06 Sep 2003 new variable
 content#:#cont_Roman#:#Roman I, II, ...###12 Jul 2003 new variable

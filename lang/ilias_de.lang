@@ -41,15 +41,12 @@ common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
-common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Benutzer zugeordnet werden
-common#:#permission_settings#:#Rechteeinstellungen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
 common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemgrunddaten
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar
-common#:#default_perm_settings#:#Rechtevorgaben
 common#:#adm_write#:#Systemgrunddaten bearbeiten
 common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
@@ -210,6 +207,7 @@ common#:#dbk_visible#:#Digilib-Buch ist sichtbar
 common#:#dbk_write#:#Digilib-Buch bearbeiten
 common#:#default#:#Standard
 common#:#default_language#:#Standard-Sprache
+common#:#default_perm_settings#:#Rechtevorgaben
 common#:#default_role#:#Standardrolle
 common#:#default_roles#:#Standardrollen
 common#:#default_skin#:#Standard-Benutzeroberfläche
@@ -249,6 +247,7 @@ common#:#err_in_line#:#Fehler in Zeile
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
 common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
+common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Benutzer zugeordnet werden
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Login ungültig
@@ -816,6 +815,7 @@ common#:#payment_system#:#Bezahlungssystem
 common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
+common#:#permission_settings#:#Rechteeinstellungen
 common#:#personal_data#:#Daten zur Person
 common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Persönliches Bild
@@ -1060,6 +1060,7 @@ content#:#PDF export#:#PDF Export
 content#:#Pages#:#Seiten
 content#:#all#:#Alle
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
+content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
 content#:#cont_Citation#:#Zitat
 content#:#cont_Example#:#Beispiel
 content#:#cont_Headline1#:#Überschrift 1
@@ -1069,6 +1070,8 @@ content#:#cont_List#:#Liste
 content#:#cont_LocalFile#:#Lokale Datei
 content#:#cont_Mnemonic#:#Merksatz
 content#:#cont_Number#:#Nummer
+content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
+content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
 content#:#cont_Reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
 content#:#cont_Roman#:#Römisch I, II, ...

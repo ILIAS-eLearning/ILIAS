@@ -207,6 +207,7 @@ common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
 common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
 common#:#default#:#Standaard
 common#:#default_language#:#Standaard taal
+common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
 common#:#default_role#:#Standaard rol
 common#:#default_roles#:#Default rollen
 common#:#default_skin#:#Default gebruikers-scherm
@@ -246,6 +247,7 @@ common#:#err_in_line#:#Fout in regel
 common#:#err_no_langfile_found#:#Geen taal-bestand gevonden!
 common#:#err_no_param#:#Geen parameter!
 common#:#err_over_3_param#:#Meer dan 3 parameters!
+common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
 common#:#err_session_expired#:#Uw sessie is verlopen!
 common#:#err_wrong_header#:#Reden: Verkeerde header.
 common#:#err_wrong_login#:#Foutief ingelogd
@@ -813,6 +815,7 @@ common#:#payment_system#:#Betaal-systeem
 common#:#perm_settings#:#Rechten
 common#:#permission#:#Recht
 common#:#permission_denied#:#Toegang gewijgerd
+common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
 common#:#personal_data#:#Persoonlijke informatie
 common#:#personal_desktop#:#Persoonlijke scherm
 common#:#personal_picture#:#Persoonlijke plaatje
@@ -1057,6 +1060,7 @@ content#:#PDF export#:#PDF-export
 content#:#Pages#:#Pagina's
 content#:#all#:#Alles
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
+content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
 content#:#cont_Citation#:#Citaat
 content#:#cont_Example#:#Voorbeeld
 content#:#cont_Headline1#:#Kopregel 1
@@ -1066,6 +1070,8 @@ content#:#cont_List#:#Lijst
 content#:#cont_LocalFile#:#Lokaal-bestand
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Nummer
+content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
+content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
 content#:#cont_Reference#:#Referentie
 content#:#cont_Remark#:#Opmerking
 content#:#cont_Roman#:#Romeins I, II, ...
