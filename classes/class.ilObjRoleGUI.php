@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.71 2004/01/21 16:56:38 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.72 2004/01/31 13:11:21 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -75,13 +75,18 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->getTemplateFile("edit","role");
 
+		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
+		{
+			$this->tpl->setCurrentBlock("allow_register");
+			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
+			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
+			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
+			$this->tpl->parseCurrentBlock();
+		}
+
 		// fill in saved values in case of error
 		$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]),true);
 		$this->tpl->setVariable("DESC",ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]));
-
-		$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
-		$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
-		$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
 
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
