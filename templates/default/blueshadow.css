@@ -66,8 +66,9 @@ td.std {
 
 tr.tblheader {
 	color: #000000; font-size: 13px; font-weight : bold;
-	background-color: #006699;
+	background-color: #E3E3E3;
 	background-image: url(blueshadow/images/cellpic1.gif);
+	background-repeat: repeat-x;
 }
 
 tr.std {
@@ -228,6 +229,7 @@ input.submit {
 	text-decoration:none;
 	font-size:small;
 	font-weight:bold;
+	cursor:pointer;
 }
 
 input.tblrow1, input.tblrow2
