@@ -525,7 +525,10 @@ class ilPageObject extends ilLMObject
 		$res =& xpath_eval($xpc, $path);
 		for($i = 0; $i < count($res->nodeset); $i++)	// should only be 1
 		{
-			$res->nodeset[$i]->remove_attribute("HierId");
+			if ($res->nodeset[$i]->has_attribute("HierId"))
+			{
+				$res->nodeset[$i]->remove_attribute("HierId");
+			}
 		}
 		unset($xpc);
 	}

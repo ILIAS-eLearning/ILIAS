@@ -80,7 +80,10 @@ class ilLMList extends ilPageContent
 		{
 			case "Unordered":
 				$this->list_node->set_attribute("Type", "Unordered");
-				$this->list_node->remove_attribute("NumberingType");
+				if($this->list_node->has_attribute("NumberingType")
+				{
+					$this->list_node->remove_attribute("NumberingType");
+				}
 				break;
 
 			case "Number":

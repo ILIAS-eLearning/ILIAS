@@ -122,7 +122,10 @@ class ilLMTable extends ilPageContent
 		}
 		else
 		{
-			$this->tab_node->remove_attribute("Width");
+			if ($this->tab_node->has_attribute("Width"))
+			{
+				$this->tab_node->remove_attribute("Width");
+			}
 		}
 	}
 
@@ -147,7 +150,10 @@ class ilLMTable extends ilPageContent
 		}
 		else
 		{
-			$this->tab_node->remove_attribute("Border");
+			if ($this->tab_node->has_attribute("Border"))
+			{
+				$this->tab_node->remove_attribute("Border");
+			}
 		}
 	}
 
@@ -172,7 +178,10 @@ class ilLMTable extends ilPageContent
 		}
 		else
 		{
-			$this->tab_node->remove_attribute("CellSpacing");
+			if ($this->tab_node->has_attribute("CellSpacing"))
+			{
+				$this->tab_node->remove_attribute("CellSpacing");
+			}
 		}
 	}
 
@@ -197,7 +206,10 @@ class ilLMTable extends ilPageContent
 		}
 		else
 		{
-			$this->tab_node->remove_attribute("CellPadding");
+			if ($this->tab_node->has_attribute("CellPadding"))
+			{
+				$this->tab_node->remove_attribute("CellPadding");
+			}
 		}
 	}
 
@@ -217,7 +229,10 @@ class ilLMTable extends ilPageContent
 			}
 			else
 			{
-				$res->nodeset[0]->remove_attribute("Width");
+				if ($res->nodeset[0]->has_attribute("Width"))
+				{
+					$res->nodeset[0]->remove_attribute("Width");
+				}
 			}
 		}
 	}
@@ -238,7 +253,10 @@ class ilLMTable extends ilPageContent
 			}
 			else
 			{
-				$res->nodeset[0]->remove_attribute("Class");
+				if ($res->nodeset[0]->has_attribute("Class"))
+				{
+					$res->nodeset[0]->remove_attribute("Class");
+				}
 			}
 		}
 	}
