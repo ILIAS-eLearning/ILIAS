@@ -239,7 +239,7 @@ class ilSCORMItem extends ilSCORMObject
 			$a_user_id = $ilUser->getId();
 		}
 
-		$q = "SELECT * FROM scorm_tracking2 WHERE ".
+		$q = "SELECT * FROM scorm_tracking WHERE ".
 			"sco_id = '".$this->getId()."' AND ".
 			"user_id = '".$a_user_id."'";
 
@@ -253,34 +253,6 @@ class ilSCORMItem extends ilSCORMObject
 		return $trdata;
 	}
 
-	function getAllTrackingData()
-	{
-		global $ilDB, $ilUser;
-
-		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sc_item_id = '".$this->getId()."'";
-
-		$track_set = $ilDB->query($q);
-
-		$data = array();
-		while($row = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$user =& new ilObjUser($row["usr_id"]);
-			$row["user_lastname"] = $user->getLastname();
-			$row["user_firstname"] = $user->getFirstname();
-			$data[] = $row;
-			unset($user);
-		}
-
-		return $data;
-	}
-
-	function getCumulativeTrackingData()
-	{
-		$q = "SELECT count(*) FROM scorm_tracking WHERE ".
-			"sc_item_id = '".$this->getId()."' AND ".
-			"usr_id = '".$a_user_id."'";
-	}
 
 	function delete()
 	{
@@ -292,15 +264,15 @@ class ilSCORMItem extends ilSCORMObject
 		$ilDB->query($q);
 
 		$q = "DELETE FROM scorm_tracking WHERE ".
-			"sc_item_id = ".$ilDB->quote($this->getId());
+			"sco_id = ".$ilDB->quote($this->getId());
 		$ilDB->query($q);
 
 	}
 
 	function insertTrackData($a_lval, $a_rval, $a_ref_id)
 	{
-		require_once("content/classes/SCORM/class.ilObjSCORMTracking2.php");
-		ilObjSCORMTracking2::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
+		require_once("content/classes/SCORM/class.ilObjSCORMTracking.php");
+		ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
 	}
 
 }

@@ -154,6 +154,31 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_API_PREFIX", $this->lng->txt("cont_api_func_prefix"));
 		$this->tpl->setVariable("VAL_API_PREFIX", $this->object->getAPIFunctionsPrefix());
 
+		// default lesson mode
+		$this->tpl->setVariable("TXT_LESSON_MODE", $this->lng->txt("cont_def_lesson_mode"));
+		$lesson_modes = array("normal" => $this->lng->txt("cont_sc_less_mode_normal"),
+			"browse" => $this->lng->txt("cont_sc_less_mode_browse"));
+		$sel_lesson = ilUtil::formSelect($this->object->getDefaultLessonMode(),
+			"lesson_mode", $lesson_modes, false, true);
+		$this->tpl->setVariable("SEL_LESSON_MODE", $sel_lesson);
+
+		// credit mode
+		$this->tpl->setVariable("TXT_CREDIT_MODE", $this->lng->txt("cont_credit_mode"));
+		$credit_modes = array("credit" => $this->lng->txt("cont_credit_on"),
+			"no_credit" => $this->lng->txt("cont_credit_off"));
+		$sel_credit = ilUtil::formSelect($this->object->getCreditMode(),
+			"credit_mode", $credit_modes, false, true);
+		$this->tpl->setVariable("SEL_CREDIT_MODE", $sel_credit);
+
+		// auto review mode
+		$this->tpl->setVariable("TXT_AUTO_REVIEW", $this->lng->txt("cont_sc_auto_review"));
+		$this->tpl->setVariable("CBOX_AUTO_REVIEW", "auto_review");
+		$this->tpl->setVariable("VAL_AUTO_REVIEW", "y");
+		if ($this->object->getAutoReview())
+		{
+			$this->tpl->setVariable("CHK_AUTO_REVIEW", "checked");
+		}
+
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
@@ -167,8 +192,11 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	function saveProperties()
 	{
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+		$this->object->setAutoReview(ilUtil::yn2tf($_POST["auto_review"]));
 		$this->object->setAPIAdapterName($_POST["api_adapter"]);
 		$this->object->setAPIFunctionsPrefix($_POST["api_func_prefix"]);
+		$this->object->setCreditMode($_POST["credit_mode"]);
+		$this->object->setDefaultLessonMode($_POST["lesson_mode"]);
 		$this->object->update();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");
@@ -688,7 +716,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		#$tbl->disable("footer");
 
-		$tr_data = $this->object->getTrackingData2($_GET["obj_id"]);
+		$tr_data = $this->object->getTrackingData($_GET["obj_id"]);
 
 		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
 		$tbl->setMaxCount(count($tr_data));

@@ -1164,7 +1164,7 @@ if ($row->ref_id > 0)
 {
 	// init tree
 	$tree = new ilTree(ROOT_FOLDER_ID);
-	
+
 	$ldap_node = $tree->getNodeData($row->ref_id);
 	
 	// check if ldap is already deactivated
@@ -2470,7 +2470,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 
 	// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
 	$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($dest_role_id);
-	
+
 	// DELETE ACTUAL ROLE FOLDER FROM ARRAY
 	$key = array_keys($all_parent_obj_of_rolf,$node_id);
 	
@@ -3523,3 +3523,14 @@ INSERT INTO `survey_phrase_category` (`phrase_category_id`,`phrase_fi`,`category
 INSERT INTO `survey_phrase_category` (`phrase_category_id`,`phrase_fi`,`category_fi`,`sequence`) VALUES (NULL,'21','35','5');
 <#211>
 ALTER  TABLE  `qpl_questions`  CHANGE  `question_id`  `question_id` INT( 11  ) DEFAULT  '0' NOT  NULL  AUTO_INCREMENT;
+
+<#212>
+DROP TABLE IF EXISTS scorm_tracking;
+RENAME TABLE scorm_tracking2 TO scorm_tracking;
+
+<#213>
+ALTER TABLE scorm_lm ADD COLUMN credit ENUM('credit','no_credit') NOT NULL DEFAULT 'credit';
+
+<#214>
+ALTER TABLE scorm_lm ADD COLUMN default_lesson_mode ENUM('normal','browse') NOT NULL DEFAULT 'normal';
+ALTER TABLE scorm_lm ADD COLUMN auto_review ENUM('y','n') NOT NULL DEFAULT 'n';

@@ -1749,7 +1749,16 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')
+content#:#cont_credit_on#:#Credit
+content#:#cont_credit_off#:#No Credit
 content#:#cont_LocalFile#:#Local File
+content#:#cont_lvalue#:#Data element
+content#:#cont_rvalue#:#Value
+content#:#cont_def_lesson_mode#:#Default lesson mode
+content#:#cont_sc_less_mode_normal#:#Normal
+content#:#cont_sc_less_mode_browse#:#Browse
+content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon

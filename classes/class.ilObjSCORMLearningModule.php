@@ -95,8 +95,11 @@ class ilObjSCORMLearningModule extends ilObject
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
+		$this->setAutoReview(ilUtil::yn2tf($lm_rec["auto_review"]));
 		$this->setAPIAdapterName($lm_rec["api_adapter"]);
+		$this->setDefaultLessonMode($lm_rec["default_lesson_mode"]);
 		$this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
+		$this->setCreditMode($lm_rec["credit"]);
 
 	}
 
@@ -226,13 +229,18 @@ class ilObjSCORMLearningModule extends ilObject
 	*/
 	function update()
 	{
+		global $ilDB;
+
 		$this->updateMetaData();
 
 		$q = "UPDATE scorm_lm SET ".
-			" online = '".ilUtil::tf2yn($this->getOnline())."',".
-			" api_adapter = '".$this->getAPIAdapterName()."',".
-			" api_func_prefix = '".$this->getAPIFunctionsPrefix()."'".
-			" WHERE id = '".$this->getId()."'";
+			" online = ".$ilDB->quote(ilUtil::tf2yn($this->getOnline())).",".
+			" api_adapter = ".$ilDB->quote($this->getAPIAdapterName()).",".
+			" api_func_prefix = ".$ilDB->quote($this->getAPIFunctionsPrefix()).",".
+			" auto_review = ".$ilDB->quote(ilUtil::tf2yn($this->getAutoReview())).",".
+			" default_lesson_mode = ".$ilDB->quote($this->getDefaultLessonMode()).",".
+			" credit = ".$ilDB->quote($this->getCreditMode())."".
+			" WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 
 		return true;
@@ -271,6 +279,38 @@ class ilObjSCORMLearningModule extends ilObject
 	}
 
 	/**
+	* get credit mode
+	*/
+	function getCreditMode()
+	{
+		return $this->credit_mode;
+	}
+
+	/**
+	* set credit mode
+	*/
+	function setCreditMode($a_credit_mode)
+	{
+		$this->credit_mode = $a_credit_mode;
+	}
+
+	/**
+	* set default lesson mode
+	*/
+	function setDefaultLessonMode($a_lesson_mode)
+	{
+		$this->lesson_mode = $a_lesson_mode;
+	}
+
+	/**
+	* get default lesson mode
+	*/
+	function getDefaultLessonMode()
+	{
+		return $this->lesson_mode;
+	}
+
+	/**
 	* get online
 	*/
 	function setOnline($a_online)
@@ -284,6 +324,22 @@ class ilObjSCORMLearningModule extends ilObject
 	function getOnline()
 	{
 		return $this->online;
+	}
+
+	/**
+	* get auto review
+	*/
+	function setAutoReview($a_auto_review)
+	{
+		$this->auto_review = $a_auto_review;
+	}
+
+	/**
+	* set auto review
+	*/
+	function getAutoReview()
+	{
+		return $this->auto_review;
 	}
 
 
@@ -476,8 +532,7 @@ class ilObjSCORMLearningModule extends ilObject
 	{
 		global $ilUser, $ilDB, $ilUser;
 
-		$query = "SELECT DISTINCT sco_id FROM scorm_tracking2 WHERE".
-			//" user_id = ".$ilDB->quote($ilUser->getId()).
+		$query = "SELECT DISTINCT sco_id FROM scorm_tracking WHERE".
 			" ref_id = ".$ilDB->quote($this->getRefId());
 
 		$sco_set = $ilDB->query($query);
@@ -496,11 +551,11 @@ class ilObjSCORMLearningModule extends ilObject
 		return $items;
 	}
 
-	function getTrackingData2($a_sco_id)
+	function getTrackingData($a_sco_id)
 	{
 		global $ilDB;
-		
-		$query = "SELECT * FROM scorm_tracking2 WHERE".
+
+		$query = "SELECT * FROM scorm_tracking WHERE".
 			" ref_id = ".$ilDB->quote($this->getRefId()).
 			" AND sco_id = ".$ilDB->quote($a_sco_id).
 			" ORDER BY user_id, lvalue";
