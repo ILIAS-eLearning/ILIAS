@@ -1707,6 +1707,7 @@ class ilSetupGUI extends ilSetup
 			// referencing db handler in language class
 			$this->lng->setDbHandler($this->client->db);
 
+			include_once "../classes/class.ilDBUpdate.php";
 			$dbupdate = new ilDBUpdate($this->client->db);
 
 			if (!$db_status = $dbupdate->getDBVersionStatus())

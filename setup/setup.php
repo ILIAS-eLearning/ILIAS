@@ -35,7 +35,6 @@
 */
 
 require_once "./include/inc.setup_header.php";
-require_once "../classes/class.ilDBUpdate.php";
 
 // display info messages
 //sendInfo();
