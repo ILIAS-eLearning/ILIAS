@@ -93,7 +93,8 @@ class ilLMPresentationGUI
 				//$this->lm_gui->offlineexport();
 				$_GET["frame"] = "maincontent";
 				
-				$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$_GET["ref_id"]."' AND object_reference.obj_id=object_data.obj_id ";
+				$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".
+					$_GET["ref_id"]."' AND object_reference.obj_id=object_data.obj_id ";
 				$result = $this->ilias->db->query($query);
 				$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				$_GET["obj_id"] = $objRow["obj_id"];
@@ -381,12 +382,14 @@ class ilLMPresentationGUI
 						else
 						{
 							// IF NO PAGE ID IS GIVEN SHOW BOOK/LE ABSTRACT
+							
+							$pageContent = $this->ilAbstract($child);
 						}
 						break;
 
 					case "ilLMNavigation":
 						// NOT FOR ABSTRACT
-						if($_GET["obj_id"])
+						if($_GET["obj_id"] or $this->lm->getType() == 'lm')
 						{
 							$this->ilLMNavigation();
 						}
@@ -427,8 +430,22 @@ class ilLMPresentationGUI
 	}
 
 	/**
-	* output table of content
+	* output abstract
 	*/
+	function ilAbstract($a_child)
+	{
+		switch($this->lm->getType())
+		{
+			case "dbk":
+				return $this->ilPage($a_child);
+				return $this->lm_gui->showAbstract();
+
+			case "lm":
+				return $this->ilPage($a_child);
+		}
+	}
+
+
 	function ilTOC($a_target)
 	{
 		require_once("./content/classes/class.ilLMTOCExplorer.php");
