@@ -33,6 +33,9 @@
 define("ILIAS_MODULE", "content");
 chdir("..");
 require_once "./include/inc.header.php";
+
+//echo "lm_edit begin:".$_SESSION["il_map_il_target"].":<br>";
+
 $lng->loadLanguageModule("content");
 
 // check write permission
@@ -50,4 +53,5 @@ $lm_editor_gui =& new ilLMEditorGUI();
 
 //$tpl->show();
 
+//echo "lm_edit end:".$_SESSION["il_map_il_target"].":<br>";
 ?>

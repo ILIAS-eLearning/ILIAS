@@ -128,32 +128,30 @@
 					<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
 					<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
 					<xsl:for-each select="./IntLink">
-						<xsl:variable name="frametype" select="@TargetFrame"/>
-						<xsl:variable name="targetframe">
-							<xsl:value-of select="//LinkTargets/LinkTarget[@Type=$frametype]/@Frame"/>
-						</xsl:variable>
-						<xsl:if test="$targetframe != ''">
-							<xsl:attribute name="target"><xsl:value-of select="$targetframe"/></xsl:attribute>
-						</xsl:if>
-						<xsl:if test="$mode = 'media'">	<!-- for map editing, may be not correct for presentation? -->
-							<xsl:attribute name="target">_new</xsl:attribute>
-						</xsl:if>
 
-						<!-- frame parameter for link -->
-						<xsl:variable name="frame">
+						<!-- determine link_href and link_target -->
+						<xsl:variable name="target" select="@Target"/>
+						<xsl:variable name="type" select="@Type"/>
+						<xsl:variable name="targetframe">
 							<xsl:choose>
-								<xsl:when test="$targetframe = ''">
-									<xsl:value-of select="$pg_frame"/>
+								<xsl:when test="@TargetFrame and @TargetFrame!=''">
+									<xsl:value-of select="@TargetFrame"/>
 								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="$targetframe"/>
-								</xsl:otherwise>
+								<xsl:otherwise>None</xsl:otherwise>
 							</xsl:choose>
 						</xsl:variable>
+						<xsl:variable name="link_href">
+							<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkHref"/>
+						</xsl:variable>
+						<xsl:variable name="link_target">
+							<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget"/>
+						</xsl:variable>
 
-						<xsl:call-template name="IntLinkHref">
-							<xsl:with-param name="frame" select="$frame" />
-						</xsl:call-template>
+						<!-- set attributes -->
+						<xsl:attribute name="href"><xsl:value-of select="$link_href"/></xsl:attribute>
+						<xsl:if test="$link_target != ''">
+							<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
+						</xsl:if>
 
 						<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
 						<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
@@ -364,12 +362,7 @@
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkHref"/>
 			</xsl:variable>
 			<xsl:variable name="link_target">
-				<!--<xsl:choose>
-					<xsl:when test="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget != ''">-->
-						<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget"/>
-					<!--</xsl:when>
-					<xsl:otherwise>$pg_frame</xsl:otherwise>
-				</xsl:choose>-->
+				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target]/@LinkTarget"/>
 			</xsl:variable>
 
 			<a class="ilc_IntLink">
@@ -377,26 +370,6 @@
 				<xsl:if test="$link_target != ''">
 					<xsl:attribute name="target"><xsl:value-of select="$link_target"/></xsl:attribute>
 				</xsl:if>
-				<!--
-				<xsl:variable name="targetframe">
-					<xsl:value-of select="//LinkTargets/LinkTarget[@Type=$frametype]/@Frame"/>
-				</xsl:variable>
-				<xsl:if test="$targetframe != ''">
-					<xsl:attribute name="target"><xsl:value-of select="$targetframe"/></xsl:attribute>
-				</xsl:if>
-				<xsl:variable name="frame">
-					<xsl:choose>
-						<xsl:when test="$targetframe = ''">
-							<xsl:value-of select="$pg_frame"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="$targetframe"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
-				<xsl:call-template name="IntLinkHref">
-					<xsl:with-param name="frame" select="$frame" />
-				</xsl:call-template>-->
 				<xsl:apply-templates/>
 			</a>
 		</xsl:when>
@@ -434,53 +407,6 @@
 	</xsl:choose>
 </xsl:template>
 
-<!-- build href attribute for interna links -->
-<xsl:template name="IntLinkHref">
-	<xsl:param name="frame"/>
-
-	<!-- Page Objects -->
-	<xsl:if test="@Type = 'PageObject'">
-		<xsl:if test="$mode = 'edit'">
-			<xsl:attribute name="href">lm_edit.php?cmd=view&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
-		</xsl:if>
-		<xsl:if test="$mode = 'preview'">
-			<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
-		</xsl:if>
-		<xsl:if test="$mode = 'presentation' or $mode = 'media'">
-			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
-		</xsl:if>
-	</xsl:if>
-	<!-- Structure Objects -->
-	<xsl:if test="@Type = 'StructureObject'">
-		<xsl:if test="$mode = 'edit'">
-			<xsl:attribute name="href">lm_edit.php?cmd=view&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
-		</xsl:if>
-		<xsl:if test="$mode = 'preview'">
-			<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
-		</xsl:if>
-		<xsl:if test="$mode = 'presentation' or $mode = 'media'">
-			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
-		</xsl:if>
-	</xsl:if>
-	<!-- Glossary Items -->
-	<xsl:if test="@Type = 'GlossaryItem'">
-		<xsl:if test="$mode = 'edit' or $mode = 'preview'">
-			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=_new&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'git_')"/></xsl:attribute>
-		</xsl:if>
-		<xsl:if test="$mode = 'presentation' or $mode = 'media'">
-			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'git_')"/></xsl:attribute>
-		</xsl:if>
-	</xsl:if>
-	<!-- Media Objects -->
-	<xsl:if test="@Type = 'MediaObject'">
-		<xsl:if test="$mode = 'edit' or $mode = 'preview'">
-			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=media&amp;frame=_new&amp;<xsl:value-of select="$link_params"/>&amp;mob_id=<xsl:value-of select="substring-after(@Target,'mob_')"/></xsl:attribute>
-		</xsl:if>
-		<xsl:if test="$mode = 'presentation' or $mode = 'media'">
-			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=media&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;mob_id=<xsl:value-of select="substring-after(@Target,'mob_')"/></xsl:attribute>
-		</xsl:if>
-	</xsl:if>
-</xsl:template>
 
 <!-- ExtLink -->
 <xsl:template match="ExtLink">
