@@ -296,10 +296,11 @@ class ilGlossaryTerm
 	/**
 	* static
 	*/
-	function getTermList($a_glo_id)
+	function getTermList($a_glo_id, $searchterm="")
 	{
 		$terms = array();
-		$q = "SELECT * FROM glossary_term WHERE glo_id ='".$a_glo_id."' ORDER BY language, term";
+		$searchterm = (!empty ($searchterm))?" AND term like '$searchterm%'":"";
+		$q = "SELECT * FROM glossary_term WHERE glo_id ='".$a_glo_id."' $searchterm ORDER BY language, term";
 		$term_set = $this->ilias->db->query($q);
 		while ($term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
