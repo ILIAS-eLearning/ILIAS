@@ -138,7 +138,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_details.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_details.html","course");
 
 
 		$this->tpl->setVariable("TITLE",$this->lng->txt("crs_details"));
@@ -239,7 +239,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		#$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
 
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit.html","course");
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 
@@ -583,7 +583,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->archives_obj->initCourseFilesObject();
 
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive.html","course");
 
 		
 		if($edit_perm)
@@ -661,7 +661,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->initCourseArchiveObject();
 		$this->object->archives_obj->initCourseFilesObject();
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive_adm.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_archive_adm.html","course");
 
 		$this->__showButton('addXMLArchive',$this->lng->txt("crs_add_archive_xml"));
 		$this->__showButton('selectArchiveLanguage',$this->lng->txt("crs_add_archive_html"));
@@ -828,7 +828,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt('crs_select_archive_language'));
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_selectLanguage.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_selectLanguage.html","course");
 
 		$this->tpl->setVariable("SELECT_FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("LANG_SELECTOR",ilUtil::formSelect($selected,'lang',$actions,false,true));
@@ -890,7 +890,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members.html","course");
 		$this->__showButton("printMembers",$this->lng->txt("crs_print_list"),"target=\"_blank\"");
 
 		// INFO NO MEMBERS
@@ -1031,7 +1031,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		
 		$member_data = $this->object->members_obj->getUserData((int) $_GET["member_id"]);
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html","course");
 
 
 		$f_result = array();
@@ -1345,7 +1345,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("crs_delete_subscribers_sure"));
 
 		// SHOW DELETE SCREEN
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html","course");
 		$this->object->initCourseMemberObject();
 
 		// SAVE IDS IN SESSION
@@ -1384,7 +1384,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html","course");
 		sendInfo($this->lng->txt('crs_unsubscribe_sure'));
 		
 		$this->tpl->setVariable("UNSUB_FORMACTION",$this->ctrl->getFormAction($this));
@@ -1432,7 +1432,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		sendInfo($this->lng->txt("crs_delete_members_sure"));
 
 		// SHOW DELETE SCREEN
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editMembers.html","course");
 		$this->object->initCourseMemberObject();
 
 		// SAVE IDS IN SESSION
@@ -1576,7 +1576,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 			return false;
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members_search.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.crs_members_search.html","course");
 		
 		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("crs_search_members"));
@@ -1632,7 +1632,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html","course");
 		$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
 		
 		$counter = 0;
@@ -1733,7 +1733,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html","course");
 		$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
 		$this->object->initCourseMemberObject();
 
@@ -1796,7 +1796,7 @@ class ilObjCourseGUI extends ilObjectGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_usr_selection.html","course");
 		$this->__showButton("searchUser",$this->lng->txt("crs_new_search"));
 		$this->object->initCourseMemberObject();
 
@@ -1901,7 +1901,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 	function printMembersObject()
 	{
-		$tpl =& new ilTemplate('tpl.crs_members_print.html',true,true,true);
+		$tpl =& new ilTemplate('tpl.crs_members_print.html',true,true,'course');
 
 		$this->object->initCourseMemberObject();
 

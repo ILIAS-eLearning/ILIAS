@@ -48,8 +48,8 @@ class ilObjCourse extends ilObject
 	*/
 	function ilObjCourse($a_id = 0,$a_call_by_reference = true)
 	{
-		define("ILIAS_MODULE","course");
-		define("KEEP_IMAGE_PATH",1);
+		#define("ILIAS_MODULE","course");
+		#define("KEEP_IMAGE_PATH",1);
 
 		$this->SUBSCRIPTION_DEACTIVATED = 1;
 		$this->SUBSCRIPTION_CONFIRMATION = 2;
