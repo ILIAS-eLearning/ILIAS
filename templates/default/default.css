@@ -24,12 +24,14 @@ input, textarea {
 	color:#222222;
 	background-color:#eeeeee;
 	font-size:13px;
+	padding:3px;
 }
 
 .tblrow1 {
 	color:#222222;
 	background-color:#bbbbbb;
 	font-size:13px;
+	padding:3px;
 }
 
 /* -------------------- table formatting ------------------ */
@@ -40,7 +42,7 @@ table.std {
 
 table.fullwidth {
 	width: 100%;
-	border-spacing: 0px;
+	border-spacing:1px;
 }
 
 td.std {
@@ -78,30 +80,30 @@ h2 {
 /* ----------------- alternative text styles ------------- */
 .small {
 	text-decoration:none;
-	font-size:9px;
+	font-size:11px;
 }
 
 .smallgreen {
 	text-decoration:none;
-	font-size:9px;
+	font-size:11px;
 	color:green;
 }
 
 .smallred {
 	text-decoration:none;
-	font-size:9px;
+	font-size:11px;
 	color:red;
 }
 
 .warning {
 	text-decoration:none;
-	font-weight;bold;
+	font-weight:bold;
 	color:red;
 }
 
 .asterisk {
 	color:red;
-	font-size:9px;
+	font-size:11px;
 }
 
 .default {
@@ -114,50 +116,8 @@ h2 {
 	font-weight:normal;
 }
 
-/* ---------------- forum design ----------------- */
-
-.frm_header {
-	padding:3px;
-	font-size:11px;
-	font-weight:bold;
-}
-
-.frm_topic {
-	text-decoration:none;
-	font-size:13px;
-}
-
-.frm_desc {
-	font-style:italic;
-	font-size:13px;
-}
-
-.frm_context {
-	font-size:9px;
-}
-
-.frm_column2 {
-	color:#222222;
-	background-color:#eeeeee;
-	text-decoration:none;
-	font-size:9px;
-}
-
-.frm_column1 {
-	color:#222222;
-	background-color:#bbbbbb;
-	text-decoration:none;
-	font-size:9px;
-}
-
-.frm_option {
-	text-decoration:none;
-	font-size:9px;
-}
-
 /* ----------------- normal links ------------- */
 a {
-	font-weight:bold;
 	text-decoration:none;
 	color:#0066ff;
 }
@@ -211,18 +171,17 @@ a.btn:hover {
 }
 
 .message {
-	color: #dd0000;
-	line-height: 25px;
-	font-weight: bold;
-	text-align: center;
-	vertical-align: top;
+	color:#dd0000;
+	line-height:25px;
+	font-weight:bold;
+	text-align:center;
+	vertical-align:top;
 }
 
 /* ------------------ tabs -------------- */
 .tab {
-	font-size:9px;
+	font-size:11px;
 	color:#000000;
-	font-weight:bold;
 	background-color:#000000;
 }
 
@@ -241,8 +200,4 @@ a.btn:hover {
 /* --- to prevent images from spacing when using DOCTYPE xhtml --- */
 img {
 	display:block;
-}
-
-sup {
-	color:#ff0000;
 }

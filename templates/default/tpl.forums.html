@@ -2,43 +2,44 @@
 <h1>{TXT_FORUM_GROUP}</h1>
 {COUNT_FORUM}<br/>
 <!-- BEGIN linkbar -->
-<table cellpadding="3" cellspacing="1" border="0">
-<tr><td>{LINKBAR}</td></tr>
+<table class="std">
+<tr>
+<td class="std">{LINKBAR}</td>
+</tr>
 </table>
 <!-- END linkbar -->
 {MESSAGE}
-<table cellpadding="4" cellspacing="1" border="0" width="100%" bgcolor="#000000">
+<table class="fullwidth">
 <tr class="tblheader">
-  <td class="frm_header" width=60%>{TXT_FORUM}</td>
-  <td class="frm_header" align="center">{TXT_NUM_THREADS}</td>
-  <td class="frm_header" align="center">{TXT_NUM_POSTS}</td>
-  <td class="frm_header" align="center">{TXT_NUM_VISITS}</td>
-  <td class="frm_header" width="20%" align="center" nowrap="nowrap">{TXT_LAST_POST}</td>
-  <td class="frm_header" width="20%" align="center">{TXT_MODS}</td>
+  <td class="std" width=60%>{TXT_FORUM}</td>
+  <td class="std" align="center">{TXT_NUM_THREADS}</td>
+  <td class="std" align="center">{TXT_NUM_POSTS}</td>
+  <td class="std" align="center">{TXT_NUM_VISITS}</td>
+  <td class="std" width="20%" align="center" nowrap="nowrap">{TXT_LAST_POST}</td>
+  <td class="std" width="20%" align="center">{TXT_MODS}</td>
 </tr>
 <!-- BEGIN forum_row -->
 <tr>
- <td width="60%" class="frm_column2">
- <span class="frm_topic">{TITLE}</span><br/>
- <span class="frm_desc">{DESCRIPTION}</span><br/>
- <span class="frm_context">{TXT_FORUMPATH}: {FORUMPATH}</span><br/>
+ <td width="60%" class="tblrow2">{TITLE}<br/>
+ <span class="quote">{DESCRIPTION}</span><br/>
+ <span class="small">{TXT_FORUMPATH}: {FORUMPATH}</span><br/>
  <!-- BEGIN start_data -->
  <span class="small">{START_DATE_TXT1}: {START_DATE} {START_DATE_TXT2} {START_DATE_USER}</span>
  <!-- END start_data -->
  <!-- BEGIN update_data -->
- <br/>{LAST_UPDATE_TXT1}: {LAST_UPDATE} {LAST_UPDATE_TXT2} {LAST_UPDATE_USER}
+ <br/><span class="small">{LAST_UPDATE_TXT1}: {LAST_UPDATE} {LAST_UPDATE_TXT2} {LAST_UPDATE_USER}</span>
  <!-- END update_data -->
  </td>
- <td align="center" nowrap="nowrap" class="frm_column1">{NUM_THREADS}</td>
- <td align="center" nowrap="nowrap" class="frm_column2">{NUM_POSTS}</td>
- <td align="center" nowrap="nowrap" class="frm_column1">{NUM_VISITS}</td>
- <td width="20%" nowrap="nowrap" class="frm_column2">{LAST_POST}</td>
- <td align="center" width="20%" class="frm_column1">{MODS}</td>
+ <td align="center" nowrap="nowrap" class="tblrow1">{NUM_THREADS}</td>
+ <td align="center" nowrap="nowrap" class="tblrow2">{NUM_POSTS}</td>
+ <td align="center" nowrap="nowrap" class="tblrow1">{NUM_VISITS}</td>
+ <td width="20%" nowrap="nowrap" class="tblrow2">{LAST_POST}</td>
+ <td align="center" width="20%" class="tblrow1">{MODS}</td>
 </tr>
 <!-- END forum_row -->
 <!-- BEGIN forum_no -->
 <tr class="std">
- <td class="std" colspan="6">{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
+ <td class="std" colspan="5">{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
 </tr>
 <!-- END forum_no -->
 </table>

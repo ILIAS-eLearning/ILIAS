@@ -1,19 +1,21 @@
 <h1>{HEADER}</h1>
 {LOCATOR}
-<table width="100%" cellpadding="0" cellsapcing="0" border="0">
+<table class="fullwidth">
 <tr>
 	<td width="1%" nowrap="nowrap" valign="top">{COUNT_POST}</td>
 	<td align="right">{BUTTONS}</td>
 </tr>
 </table>
 {NO_BTN}
-<table width="100%" cellpadding="3" cellspacing="1" border="0">
+<table class="fullwidth">
 <tr>
 	<td width="25%" nowrap="nowrap" valign="top">{LINK_SORT}</td>
 	<td valign="top">
 		<!-- BEGIN linkbar -->
-		<table cellpadding="3" cellspacing="1" border="0">
-		<tr><td>{LINKBAR}</td></tr>
+		<table class="std">
+		  <tr>
+			<td class="std">{LINKBAR}</td>
+		  </tr>
 		</table>
 		<!-- END linkbar -->
 	</td>
@@ -21,10 +23,10 @@
 </table>
 {MESSAGE}
 <!-- BEGIN posttable -->
-<table cellpadding="4" cellspacing="1" border="0" width="100%" bgcolor="#000000">
+<table class="fullwidth">
 <tr class="tblheader">
-  <td class="frm_header" width="25%">{TXT_AUTHOR}</td>
-  <td class="frm_header">{TXT_POST}</td>
+  <td class="std" width="25%">{TXT_AUTHOR}</td>
+  <td class="std">{TXT_POST}</td>
 </tr>
 <!-- BEGIN posts_row -->
 <tr>
@@ -39,19 +41,19 @@
  <span class="small">{POST_UPDATE}</span>
  <!-- BEGIN reply_cell -->
  {SPACER}
- <span class="frm_option">[{REPLY_BUTTON}]&nbsp;</span>
+ <span class="small">[{REPLY_BUTTON}]&nbsp;</span>
  <!-- BEGIN edit_cell -->
- <span class="frm_option">[{EDIT_BUTTON}]&nbsp;</span>
+ <span class="small">[{EDIT_BUTTON}]&nbsp;</span>
  <!-- END edit_cell -->
   <!-- BEGIN del_cell -->
- <span class="frm_option">[{DEL_BUTTON}]&nbsp;</span>
+ <span class="small">[{DEL_BUTTON}]&nbsp;</span>
  <!-- END del_cell -->
  <br/>
  <!-- END reply_cell -->
  <!-- BEGIN kill_cell -->
  <form name="formular2" action="{DEL_FORMACTION}" method="post">
  {KILL_SPACER}<a name="{KILL_ANKER}"></a>
- <p><b><font color="red">{TXT_KILL}</font></b></p>
+ <p class="warning">{TXT_KILL}</p>
  <input class="submit" type="submit" name="cancel" value="{CANCEL_BUTTON}"/>
  &nbsp;&nbsp;
  <input class="submit" type="submit" name="confirm" value="{CONFIRM_BUTTON}"/>
@@ -60,19 +62,18 @@
  <!-- END kill_cell -->
  <!-- BEGIN reply_post -->
 <a name="{REPLY_ANKER}"></a>
-<table cellpadding="3" cellspacing="1" border="0">
+<table class="std">
 	<tr>
-		<td valign=top>
+		<td>
 			<br/><p><b>{TXT_FORM_HEADER}</b></p>
 			<form name="formular1" action="{FORMACTION}" method="post" onSubmit="return isEmpty(this, 'all', '')">
-
-			<table cellspacing="0" cellpadding="3" border="0">
+			<table class="std">
 			<tr>
 			    <td valign="top">
 				<textarea id="{TXT_FORM_MESSAGE}" name="formData[message]" cols="50" rows="15" wrap=virtual style="width:550px; height=250px">{FORM_MESSAGE}</textarea></td>
 			</tr>
 			<tr>
-			    <td align="right" nowrap="nowrap"><input class="submit" type="submit" name="SUB" value="{SUBMIT}">&nbsp;&nbsp;<input class="submit" type="Reset" value ="{RESET}"/></td>
+			    <td align="right" nowrap="nowrap"><input class="submit" type="submit" name="SUB" value="{SUBMIT}"/>&nbsp;&nbsp;<input class="submit" type="Reset" value ="{RESET}"/></td>
 			</tr>
 			</table>
 			</form>

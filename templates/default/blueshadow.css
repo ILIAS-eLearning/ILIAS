@@ -11,31 +11,30 @@ td {
 }
 
 .btnbar {
-	background-color:#FFFFFF;
+	background-color:#ffffff;
 	background-image: url(blueshadow/images/navbar/back.gif);
 }
 
 input, textarea {
-        font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
 }
 
 
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {
-	background-color:#F7F7F7;
+	background-color:#f7f7f7;
 	color:#222222;
 	font-size:13px;
 	padding:4px;
 }
 
 .tblrow1 {
-	background-color:#EEEEEE;
+	background-color:#eeeeee;
 	color:#222222;
 	font-size:13px;
 	padding:4px;
 }
-
 
 /* -------------------- table formatting ------------------ */
 
@@ -44,18 +43,18 @@ table.std {
 	background-color:#b9c0d5;
 	border-spacing: 1px;
 	border-style: outset;
-	border-color: #BBBBBB;
+	border-color: #bbbbbb;
 	border-width: 1px;
 }
 
 table.fullwidth {
 	color:#222222;
 	background-color:#b9c0d5;
-	width: 100%;
-	border-spacing: 1px;
-	border-style: outset;
-	border-color: #BBBBBB;
-	border-width: 1px;
+	width:100%;
+	border-spacing:1px;
+	border-style:outset;
+	border-color:#bbbbbb;
+	border-width:1px;
 }
 
 td.std {
@@ -69,20 +68,22 @@ td.std {
 }
 
 tr.tblheader {
-	color: #000000; font-size: 13px; font-weight : bold;
-	background-color: #E3E3E3;
-	background-image: url(blueshadow/images/cellpic1.gif);
-	background-repeat: repeat-x;
+	color:#000000;
+	font-size:13px;
+	font-weight:bold;
+	background-color:#e3e3e3;
+	background-image:url(blueshadow/images/cellpic1.gif);
+	background-repeat:repeat-x;
 }
 
 tr.std {
-	background-color:#EEEEEE;
+	background-color:#eeeeee;
 	color:#222222;
 	padding:4px;
 }
 
 td.option {
-	background-color:#E2E2E2;
+	background-color:#e2e2e2;
 	color:#222222;
 	padding:4px;
 	font-size:13px;
@@ -92,7 +93,7 @@ td.option {
 }
 
 td.option_value {
-	background-color:#F7F7F7;
+	background-color:#f7f7f7;
 	color:#222222;
 	padding:4px;
 	font-size:13px;
@@ -103,7 +104,7 @@ td.option_value {
 
 a.tblheader, a.tblheader:visited
 {
-	color:#3444AA;
+	color:#3444aa;
 }
 
 a.tblheader:hover
@@ -150,18 +151,18 @@ div.invisible_border {
 /* ----------------- alternative text styles ------------- */
 .small {
 	text-decoration:none;
-	font-size:9px;
+	font-size:11px;
 }
 
 .smallgreen {
 	text-decoration:none;
-	font-size:9px;
+	font-size:11px;
 	color:green;
 }
 
 .smallred {
 	text-decoration:none;
-	font-size:9px;
+	font-size:11px;
 	color:red;
 }
 
@@ -173,7 +174,7 @@ div.invisible_border {
 
 .asterisk {
 	color:red;
-	font-size:9px;
+	font-size:11px;
 }
 
 .default {
@@ -186,53 +187,13 @@ div.invisible_border {
 	font-weight:normal;
 }
 
-/* ---------------- forum design ----------------- */
-
-.frm_header {
-	padding:3px;
-	font-size:11px;
-	font-weight:bold;
-}
-
-.frm_topic {
-	text-decoration:none;
-	font-size:13px;
-}
-
-.frm_desc {
-	font-style:italic;
-	font-size:13px;
-}
-
-.frm_context {
-	font-size:9px;
-}
-
-.frm_column2 {
-	color:#222222;
-	background-color:#eeeeee;
-	text-decoration:none;
-	font-size:9px;
-}
-
-.frm_column1 {
-	color:#222222;
-	background-color:#bbbbbb;
-	text-decoration:none;
-	font-size:9px;
-}
-
-.frm_option {
-	text-decoration:none;
-	font-size:9px;
-}
 
 /* ----------------- normal links ------------- */
 
 a:link, a:visited {
 	font-weight:bold;
 	text-decoration:none;
-	color:#2255A0;
+	color:#2255a0;
 }
 
 a:hover {
@@ -243,12 +204,12 @@ a:hover {
 a.mailread
 {
 	font-weight: normal;
-	color: #2255A0;
+	color: #2255a0;
 }
 
 a.mailunread
 {
-	color: #2255A0;
+	color: #2255a0;
 	font-weight: bold;
 }
 
@@ -265,9 +226,9 @@ td.btn {
 }
 
 a.btn:link, a.btn:visited {
-	color:#2255A0;
+	color:#2255a0;
 	text-decoration:none;
-	font-size:small;
+	font-size:13px;
 }
 
 
@@ -276,20 +237,20 @@ a.btn:hover {
 }
 
 input {
-	background-color:#FFFFFF;
+	background-color:#ffffff;
 	color:#000000;
 	border-width:2px;
-	border-color:#BBBBBB;
+	border-color:#bbbbbb;
 	border-style:inset;
 	font-size:13px;
 }
 
 
 input.submit {
-	background-color:#FFFFFF;
-	color:#2255A0;
+	background-color:#ffffff;
+	color:#2255a0;
 	border-width:2px;
-	border-color:#BBBBBB;
+	border-color:#bbbbbb;
 	border-style:outset;
 	padding:3px;
 	background-image: url(blueshadow/images/cellpic2.jpg);
@@ -301,17 +262,17 @@ input.submit {
 
 input.tblrow1, input.tblrow2
 {
-	background-color:#FFFFFF;
+	background-color:#ffffff;
 	color:#000000;
 	background-image: none;
 	padding:0px;
 }
 
 textarea {
-	background-color:#FFFFFF;
+	background-color:#ffffff;
 	color:#000000;
 	border-width:2px;
-	border-color:#BBBBBB;
+	border-color:#bbbbbb;
 	border-style:inset;
 	padding:3px;
 	text-decoration:none;
@@ -325,13 +286,13 @@ input.submit:hover {
 
 .message {
 	color: #dd0000;
-	font-weight: bold;
-	text-align: center;
+	font-weight:bold;
+	text-align:center;
 }
 
 /* ------------------ tabs -------------- */
 .tab {
-	font-size:9px;
+	font-size:11px;
 	color: #000000;
 	font-weight: bold;
 	background-color:#000000;
@@ -352,8 +313,4 @@ input.submit:hover {
 /* --- to prevent images from spacing when using DOCTYPE xhtml --- */
 img {
 	display: block;
-}
-
-sup {
-	color:ff0000;
 }
