@@ -544,20 +544,92 @@ class ASS_QuestionGUI
 	function removeSuggestedSolution()
 	{
 		$this->object->suggested_solutions = array();
+		$this->object->saveToDb();
 		$this->editQuestion();
 	}
 	
-	function linkChilds()
+	function addPG()
 	{
 		$subquestion_index = 0;
 		if ($_SESSION["subquestion_index"] >= 0)
 		{
 			$subquestion_index = $_SESSION["subquestion_index"];
 		}
-		$this->object->setSuggestedSolution("il__lm_" . $_GET["source_id"], $subquestion_index);
+		$this->object->setSuggestedSolution("il__pg_" . $_GET["pg"], $subquestion_index);
 		unset($_SESSION["subquestion_index"]);
 		unset($_SESSION["link_new_type"]);
+		unset($_SESSION["search_link_type"]);
+		sendInfo($this->lng->txt("suggested_solution_added_successfully"));
 		$this->editQuestion();
+	}
+	
+	function addST()
+	{
+		$subquestion_index = 0;
+		if ($_SESSION["subquestion_index"] >= 0)
+		{
+			$subquestion_index = $_SESSION["subquestion_index"];
+		}
+		$this->object->setSuggestedSolution("il__st_" . $_GET["st"], $subquestion_index);
+		unset($_SESSION["subquestion_index"]);
+		unset($_SESSION["link_new_type"]);
+		unset($_SESSION["search_link_type"]);
+		sendInfo($this->lng->txt("suggested_solution_added_successfully"));
+		$this->editQuestion();
+	}
+	
+	function linkChilds()
+	{
+		switch ($_SESSION["search_link_type"])
+		{
+			case "pg":
+			case "st":
+				$_GET["q_id"] = $this->object->getId();
+				$this->tpl->setVariable("HEADER", $this->object->getTitle());
+				$this->getQuestionTemplate("qt_ordering");
+				$color_class = array("tblrow1", "tblrow2");
+				$counter = 0;
+				require_once("./content/classes/class.ilObjContentObject.php");
+				$cont_obj =& new ilObjContentObject($_GET["source_id"], true);
+				// get all chapters
+				$ctree =& $cont_obj->getLMTree();
+				$nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
+				$this->tpl->addBlockFile("LINK_SELECTION", "link_selection", "tpl.il_as_qpl_internallink_selection.html", true);
+				foreach($nodes as $node)
+				{
+					if($node["type"] == $_SESSION["search_link_type"])
+					{
+						$this->tpl->setCurrentBlock("linktable_row");
+						$this->tpl->setVariable("TEXT_LINK", $node["title"]);
+						$this->tpl->setVariable("TEXT_ADD", $this->lng->txt("add"));
+						$this->tpl->setVariable("LINK_HREF", $this->ctrl->getLinkTargetByClass(get_class($this), "add" . strtoupper($node["type"])) . "&" . $node["type"] . "=" . $node["obj_id"]);
+						$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+						$this->tpl->parseCurrentBlock();
+						$counter++;
+					}
+				}
+				$this->tpl->setCurrentBlock("link_selection");
+				$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
+				$this->tpl->setVariable("TEXT_LINK_TYPE", $this->lng->txt("obj_" . $_SESSION["search_link_type"]));
+				$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+				$this->tpl->parseCurrentBlock();
+				break;
+			case "glo":
+				break;
+			case "lm":
+				$subquestion_index = 0;
+				if ($_SESSION["subquestion_index"] >= 0)
+				{
+					$subquestion_index = $_SESSION["subquestion_index"];
+				}
+				$this->object->setSuggestedSolution("il__lm_" . $_GET["source_id"], $subquestion_index);
+				unset($_SESSION["subquestion_index"]);
+				unset($_SESSION["link_new_type"]);
+				unset($_SESSION["search_link_type"]);
+				sendInfo($this->lng->txt("suggested_solution_added_successfully"));
+				$this->editQuestion();
+				break;
+		}
 	}
 }
 ?>

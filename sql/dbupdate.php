@@ -4930,4 +4930,8 @@ if ($res->numRows())
 ?>
 <#326>
 ALTER TABLE `qpl_questions` DROP `solution_hint`;
+<#327>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 

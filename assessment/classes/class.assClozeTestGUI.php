@@ -108,6 +108,11 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	*/
 	function editQuestion()
 	{
+		$internallinks = array(
+			"lm" => $this->lng->txt("obj_lm"),
+			"st" => $this->lng->txt("obj_st"),
+			"pg" => $this->lng->txt("obj_pg")
+		);
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_cloze");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_question.html", true);
@@ -126,6 +131,15 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
+
+				foreach ($internallinks as $key => $value)
+				{
+					$this->tpl->setCurrentBlock("textgap_internallink");
+					$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
+					$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
+					$this->tpl->parseCurrentBlock();
+				}
+
 				$this->tpl->setCurrentBlock("textgap_suggested_solution");
 				$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
 				if (array_key_exists($i, $this->object->suggested_solutions))
@@ -133,14 +147,14 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$solution_array = $this->object->getSuggestedSolution($i);
 					$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
 					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
+					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER_REMOVE", $i);
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
 					$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
 				}
 				else
 				{
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
 				}
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
 				$this->tpl->parseCurrentBlock();
@@ -152,6 +166,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i + 1);
 				$this->tpl->parseCurrentBlock();
+				
 			}
 			elseif ($gap[0]->get_cloze_type() == CLOZE_SELECT)
 			{
@@ -177,6 +192,15 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
 					$this->tpl->parseCurrentBlock();
 				}
+
+				foreach ($internallinks as $key => $value)
+				{
+					$this->tpl->setCurrentBlock("selectgap_internallink");
+					$this->tpl->setVariable("TYPE_INTERNAL_LINK", $key);
+					$this->tpl->setVariable("TEXT_INTERNAL_LINK", $value);
+					$this->tpl->parseCurrentBlock();
+				}
+
 				$this->tpl->setCurrentBlock("selectgap_suggested_solution");
 				$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
 				if (array_key_exists($i, $this->object->suggested_solutions))
@@ -184,14 +208,14 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$solution_array = $this->object->getSuggestedSolution($i);
 					$href = ASS_Question::_getInternalLinkHref($solution_array["internal_link"]);
 					$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
-					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
+					$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove"));
 					$this->tpl->setVariable("VALUE_GAP_COUNTER_REMOVE", $i);
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change"));
 					$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
 				}
 				else
 				{
-					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
+					$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add"));
 				}
 				$this->tpl->setVariable("VALUE_GAP_COUNTER", $i);
 				$this->tpl->parseCurrentBlock();
@@ -743,7 +767,8 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		{
 			unset($this->object->suggested_solutions[$removeFromGap]);
 		}
-		$this->editQuestion();
+	$this->object->saveToDb();
+	$this->editQuestion();
 	}
 	
 }

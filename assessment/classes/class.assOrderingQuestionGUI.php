@@ -187,8 +187,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$internallinks = array(
 			"lm" => $this->lng->txt("obj_lm"),
 			"st" => $this->lng->txt("obj_st"),
-			"pg" => $this->lng->txt("obj_pg"),
-			"glo" => $this->lng->txt("obj_glo")
+			"pg" => $this->lng->txt("obj_pg")
 		);
 		foreach ($internallinks as $key => $value)
 		{
