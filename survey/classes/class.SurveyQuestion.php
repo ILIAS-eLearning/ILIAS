@@ -809,8 +809,8 @@ class SurveyQuestion {
 * @access public
 */
 	function getImagePathWeb() {
-		$webdir = CLIENT_WEB_DIR . "/survey/$this->obj_id/$this->id/images/";
-		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 
 /**
@@ -822,8 +822,8 @@ class SurveyQuestion {
 * @access public
 */
 	function getMaterialsPathWeb() {
-		$webdir = CLIENT_WEB_DIR . "/survey/$this->obj_id/$this->id/materials/";
-		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 
 /**

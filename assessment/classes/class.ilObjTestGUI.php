@@ -3982,7 +3982,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if (!defined("ILIAS_MODULE")) {
 			foreach ($path as $key => $row)
 			{
-				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/adm_object.php?ref_id=".$row["child"],"");
+				$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/adm_object.php?ref_id=".$row["child"],"");
 			}
 		} else {
 			foreach ($path as $key => $row)
@@ -3996,15 +3996,15 @@ class ilObjTestGUI extends ilObjectGUI
 					} else {
 						$param = "";
 					}
-					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param,"");
+					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/test.php" . "?ref_id=".$row["child"] . $param,"");
 					if ($this->sequence) {
 						if (($this->sequence <= $this->object->getQuestionCount()) and (!$_POST["cmd"]["showresults"])) {
-							$ilias_locator->navigate($i++, $this->object->getQuestionTitle($this->sequence), ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"");
+							$ilias_locator->navigate($i++, $this->object->getQuestionTitle($this->sequence), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"");
 						} else {
 						}
 					}
 				} else {
-					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"");
+					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?ref_id=".$row["child"],"");
 				}
 			}
 

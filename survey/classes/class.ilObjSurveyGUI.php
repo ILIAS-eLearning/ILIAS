@@ -200,7 +200,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_POST["cmd"]["exit"])
 		{
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel",ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH)."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 
@@ -662,7 +662,7 @@ class ilObjSurveyGUI extends ilObjectGUI
     if ($_POST["cmd"]["cancel"]) {
       sendInfo($this->lng->txt("msg_cancel"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel",ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH)."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
       exit();
     }
 
@@ -3323,7 +3323,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_POST["cmd"]["cancel"])
 		{
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel",ILIAS_HTTP_PATH."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel",ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH)."/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 		if (count($_POST))
@@ -3550,7 +3550,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if (!defined("ILIAS_MODULE")) {
 			foreach ($path as $key => $row)
 			{
-				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/adm_object.php?ref_id=".$row["child"],"");
+				$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/adm_object.php?ref_id=".$row["child"],"");
 			}
 		} else {
 			foreach ($path as $key => $row)
@@ -3564,9 +3564,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 					} else {
 						$param = "";
 					}
-					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/survey/survey.php" . "?ref_id=".$row["child"] . $param,"target=\"bottom\"");
+					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/survey/survey.php" . "?ref_id=".$row["child"] . $param,"target=\"bottom\"");
 				} else {
-					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"target=\"bottom\"");
+					$ilias_locator->navigate($i++, $row["title"], ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH) . "/" . $scriptname."?ref_id=".$row["child"],"target=\"bottom\"");
 				}
 			}
 
