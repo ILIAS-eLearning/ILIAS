@@ -4021,6 +4021,7 @@ survey#:#svy_missing_author#:#Non hai indicato il nome dell'autore tra le propri
 survey#:#svy_missing_questions#:#Non hai inserito nessuna domanda nel sondaggio! Per favore aggiungi almeno una domanda al sondaggio.
 survey#:#svy_missing_title#:#Non hai indicato il titolo del sondaggio! Per favore vai nella sezione dei metadati e specifica il titolo.
 survey#:#svy_select_questionpools#:#Per favore scegli la raccolta nella quale inserire le domande importate
+survey#:#svy_show_questiontitles#:#Show question titles in survey###27 Oct 2004 new variable
 survey#:#svy_statistical_evaluation#:#Valutazione statistica
 survey#:#svy_status_missing#:#Ci sono elementi obbligatori che mancano nel sondaggio!
 survey#:#svy_status_missing_elements#:#I seguenti elementi sono mancanti:
