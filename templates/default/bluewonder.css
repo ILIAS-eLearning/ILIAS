@@ -147,3 +147,7 @@ textarea {
 img {
 	display: block;
 }
+
+sup {
+	color:ff0000;
+}
