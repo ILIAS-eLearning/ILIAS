@@ -144,6 +144,7 @@ assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
+assessment#:#result#:#Result###17 Mar 2004 new variable
 assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
 assessment#:#save_introduction#:#Save and goto introduction###07 Mar 2004 new variable
 assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
@@ -154,8 +155,15 @@ assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
 assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
 assessment#:#true#:#True###05 Feb 2004 new variable
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
+assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
 assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
+assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
+assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
+assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
+assessment#:#tst_eval_total_passed#:#Total passed tests###17 Mar 2004 new variable
+assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests###17 Mar 2004 new variable
+assessment#:#tst_eval_total_persons#:#Total number of persons entered the test###17 Mar 2004 new variable
 assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###23 Feb 2004 new variable
 assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
@@ -501,6 +509,7 @@ common#:#default_skin_style#:#Default Skin / Stylee###26 Nov 2003 new variable
 common#:#default_style#:#Style par défaut
 common#:#delete#:#Détruire
 common#:#delete_all#:#Détruire tout
+common#:#delete_all_rec#:#Delete all records###17 Mar 2004 new variable
 common#:#delete_object#:#Détruire objet(s)
 common#:#delete_selected#:#Détruire sélection
 common#:#deleted#:#Détruit
@@ -920,6 +929,30 @@ common#:#mob#:#Objet média
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#month#:#Mois
+common#:#month_01_long#:#January###17 Mar 2004 new variable
+common#:#month_01_short#:#Jan###17 Mar 2004 new variable
+common#:#month_02_long#:#February###17 Mar 2004 new variable
+common#:#month_02_short#:#Feb###17 Mar 2004 new variable
+common#:#month_03_long#:#March###17 Mar 2004 new variable
+common#:#month_03_short#:#Mar###17 Mar 2004 new variable
+common#:#month_04_long#:#April###17 Mar 2004 new variable
+common#:#month_04_short#:#Apr###17 Mar 2004 new variable
+common#:#month_05_long#:#May###17 Mar 2004 new variable
+common#:#month_05_short#:#May###17 Mar 2004 new variable
+common#:#month_06_long#:#June###17 Mar 2004 new variable
+common#:#month_06_short#:#Jun###17 Mar 2004 new variable
+common#:#month_07_long#:#July###17 Mar 2004 new variable
+common#:#month_07_short#:#Jul###17 Mar 2004 new variable
+common#:#month_08_long#:#August###17 Mar 2004 new variable
+common#:#month_08_short#:#Aug###17 Mar 2004 new variable
+common#:#month_09_long#:#September###17 Mar 2004 new variable
+common#:#month_09_short#:#Sep###17 Mar 2004 new variable
+common#:#month_10_long#:#October###17 Mar 2004 new variable
+common#:#month_10_short#:#Oct###17 Mar 2004 new variable
+common#:#month_11_long#:#November###17 Mar 2004 new variable
+common#:#month_11_short#:#Nov###17 Mar 2004 new variable
+common#:#month_12_long#:#December###17 Mar 2004 new variable
+common#:#month_12_short#:#Dec###17 Mar 2004 new variable
 common#:#move#:#Move###20 Jan 2004 new variable
 common#:#moveChapter#:#Déplacer
 common#:#movePage#:#Déplacer
@@ -1261,6 +1294,7 @@ common#:#save_and_back#:#Enregistrement et retour
 common#:#save_message#:#Enregistrer message
 common#:#save_refresh#:#Enregistrement et rafraîchissement
 common#:#save_return#:#Enregistrement et retour
+common#:#save_settings#:#Save Settings###17 Mar 2004 new variable
 common#:#saved#:#Enregistré
 common#:#saved_successfully#:#Enregistré avec succès
 common#:#search#:#Rechercher
