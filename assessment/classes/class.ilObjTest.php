@@ -540,6 +540,22 @@ class ilObjTest extends ilObject
 		}
 	}
 
+	function save_complete_status() {
+    global $ilias;
+    $db =& $ilias->db->db;
+		$complete = 0;
+		if ($this->isComplete()) {
+			$complete = 1;
+		}
+    if ($this->test_id > 0) {
+      $query = sprintf("UPDATE tst_tests SET complete = %s WHERE test_id = %s",
+				$db->quote("$complete"),
+        $db->quote($this->test_id) 
+      );
+      $result = $db->query($query);
+		}
+	}
+
 /**
 * Saves a ilObjTest object to a database
 * 
@@ -634,16 +650,22 @@ class ilObjTest extends ilObject
         $this->starting_time = $data->starting_time;
 
 				$this->mark_schema->load_from_db($this->test_id);
-				$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
-					$db->quote($this->test_id)
-				);
-				$result = $db->query($query);
-				while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-					$this->questions[$data->sequence] = $data->question_fi;
-				}
+				$this->load_questions();
       }
     }
  }
+
+	function load_questions() {
+    $db = $this->ilias->db->db;
+		$this->questions = array();
+		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
+			$db->quote($this->test_id)
+		);
+		$result = $db->query($query);
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			$this->questions[$data->sequence] = $data->question_fi;
+		}
+	}
 
 /**
 * Sets the authors name
@@ -999,6 +1021,7 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
+		$this->load_questions();
 	}
 	
 /**
@@ -1039,6 +1062,7 @@ class ilObjTest extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
+		$this->load_questions();
 	}
 	
 /**
@@ -1079,6 +1103,7 @@ class ilObjTest extends ilObject
 			);
 			$result = $this->ilias->db->query($query);
 		}
+		$this->load_questions();
 	}
 	
 	function insert_question($question_id) {
@@ -1106,6 +1131,7 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote($this->get_test_id())
 		);
 		$result = $this->ilias->db->query($query);
+		$this->load_questions();
 	}
 	
 /**

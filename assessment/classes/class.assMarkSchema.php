@@ -127,12 +127,12 @@ class ASS_MarkSchema extends PEAR {
 		$db =& $ilias->db->db;
 		
     if (!$test_id) return;
-    if (count($this->mark_steps) == 0) return;
     // Alte Einträge löschen
     $query = sprintf("DELETE FROM tst_mark WHERE test_fi = %s",
       $db->quote($test_id)
     );
     $result = $db->query($query);
+    if (count($this->mark_steps) == 0) return;
     
     // Neue Datensätze schreiben
     foreach ($this->mark_steps as $key => $value) {
