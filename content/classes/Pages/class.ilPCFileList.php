@@ -76,6 +76,29 @@ class ilPCFileList extends ilPageContent
 		}
 	}*/
 
+	function appendItem($a_id, $a_location, $a_format)
+	{
+		// File Item
+		$new_item =& $this->dom->create_element("FileItem");
+		$new_item =& $this->list_node->append_child($new_item);
+
+		// Identifier
+		$id_node =& $this->dom->create_element("Identifier");
+		$id_node =& $new_item->append_child($id_node);
+		$id_node->set_attribute("Catalog", "ILIAS");
+		$id_node->set_attribute("Entry", "flit_".$a_id);
+
+		// Location
+		$loc_node =& $this->dom->create_element("Location");
+		$loc_node =& $new_item->append_child($loc_node);
+		$loc_node->set_attribute("Type", "LocalFile");
+		$loc_node->set_content($a_location);
+
+		// Format
+		$form_node =& $this->dom->create_element("Format");
+		$form_node =& $new_item->append_child($form_node);
+		$form_node->set_content($a_location);
+	}
 
 	function setListTitle($a_title, $a_language)
 	{
