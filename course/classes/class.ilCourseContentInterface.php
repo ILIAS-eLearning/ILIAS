@@ -1381,6 +1381,7 @@ class ilCourseContentInterface
 		{
 			return array();
 		}
+		$this->accomplished = array();
 		foreach($objective_ids as $objective_id)
 		{
 			if($tmp_obj_res->hasAccomplishedObjective($objective_id))
@@ -1401,6 +1402,7 @@ class ilCourseContentInterface
 
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 
+		$this->suggested = array();
 		foreach($this->accomplished as $objective_id => $ok)
 		{
 			if($ok)
