@@ -45,7 +45,7 @@ class ilFileData extends ilFile
 	{
 		require_once("classes/class.ilFile.php");
 		parent::ilFile();
-		$this->readPath();
+		$this->path = CLIENT_DATA_DIR;
 	}
 
 	/**
@@ -65,21 +65,7 @@ class ilFileData extends ilFile
 			return false;
 		}
 	}
-	/**
-	* read path from ilias_ini
-	* the path is set during the setup routine
-	* @access	public
-	* @return string path
-	*/
-	function readPath()
-	{
-		//$path = $this->ilias->ini->readVariable("server","data_dir");
-		if(!is_writable(ILIAS_DATA_DIR))
-		{
-			$this->ilias->raiseError("DATA DIRECTORY IS NOT WRITABLE",$this->ilias->error_obj->FATAL);
-		}
-		return $this->path = $this->deleteTrailingSlash($path);
-	}
+
 	/**
 	* get Path 
 	* @access	public
