@@ -545,14 +545,14 @@ class ilLMPresentationGUI
 
 					if($row["child"] != $lm_tree->getRootId())
 					{
-						$this->tpl->setVariable("ITEM", $row["title"]);
+						$this->tpl->setVariable("ITEM", ilUtil::shortenText($row["title"],50,true));
 						// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
 						$this->tpl->setVariable("LINK_ITEM", "lm_presentation.php?frame=".$_GET["frame"]."&cmd=layout&ref_id=".
 							$_GET["ref_id"]."&obj_id=".$row["child"]);
 					}
 					else
 					{
-						$this->tpl->setVariable("ITEM", $this->lm->getTitle());
+						$this->tpl->setVariable("ITEM", ilUtil::shortenText($this->lm->getTitle(),50,true));
 						// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
 						$this->tpl->setVariable("LINK_ITEM", "lm_presentation.php?frame=".$_GET["frame"]."&cmd=layout&ref_id=".
 							$_GET["ref_id"]);
@@ -912,8 +912,12 @@ class ilLMPresentationGUI
 			$pre_title = $pre_page->getPresentationTitle($this->lm->getPageHeader());
 			$output = "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 				$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-				"\">&lt; ".$pre_title."</a>";
+				"\">&lt; ".ilUtil::shortenText($pre_title,50,true)."</a>";
 			$this->tpl->setVariable("LMNAVIGATION_PREV", $output);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("ilLMNavigation_Prev2");
+			$this->tpl->setVariable("LMNAVIGATION_PREV2", $output);
 			$this->tpl->parseCurrentBlock();
 		}
 		if($succ_node != "")
@@ -924,10 +928,13 @@ class ilLMPresentationGUI
 			$succ_title = $succ_page->getPresentationTitle($this->lm->getPageHeader());
 			$output = " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 				$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-				"\">".$succ_title." &gt;</a>";
+				"\">".ilUtil::shortenText($succ_title,50,true)." &gt;</a>";
 			$this->tpl->setVariable("LMNAVIGATION_NEXT", $output);
 			$this->tpl->parseCurrentBlock();
 
+			$this->tpl->setCurrentBlock("ilLMNavigation_Next2");
+			$this->tpl->setVariable("LMNAVIGATION_NEXT2", $output);
+			$this->tpl->parseCurrentBlock();
 		}
 
 
