@@ -151,11 +151,13 @@ assessment#:#set_filter#:#Definir filtro
 assessment#:#solution_order#:#Ordem solução
 assessment#:#text_gap#:#Espaço de Texto
 assessment#:#true#:#Verdadeiro
+assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
 assessment#:#tst_browse_for_questions#:#Browse for questions###08 Mar 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###08 Mar 2004 new variable
 assessment#:#tst_general_properties#:#Propriedades gerais
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###08 Mar 2004 new variable
 assessment#:#tst_introduction#:#Introdução
+assessment#:#tst_mark#:#Mark###12 Mar 2004 new variable
 assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###08 Mar 2004 new variable
 assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###08 Mar 2004 new variable
 assessment#:#tst_mark_minimum_level#:#Minimum level (in %)###08 Mar 2004 new variable
@@ -190,6 +192,10 @@ assessment#:#tst_session_settings#:#Parâmetros de sessão
 assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
 assessment#:#tst_start_test#:#Start the test###08 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Tempo de começo
+assessment#:#tst_status_completed#:#completed###12 Mar 2004 new variable
+assessment#:#tst_status_completed_more_tries_possible#:#(completed)###12 Mar 2004 new variable
+assessment#:#tst_status_not_entered#:#not entered###12 Mar 2004 new variable
+assessment#:#tst_status_progress#:#in progress###12 Mar 2004 new variable
 assessment#:#tst_type#:#Test type###08 Mar 2004 new variable
 assessment#:#tst_types#:#Tipos de teste
 assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
