@@ -26,7 +26,7 @@
 * Class ilObjRoleFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$
+* $Id$
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -126,6 +126,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $role_list = $rbacreview->getRoleListByObject($_GET["ref_id"],true);
         }
 
+		$rbacreview->setRoleType($role_list);
+
         $counter = 0;
 
 		foreach ($role_list as $role)
@@ -181,7 +183,10 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$checkbox = ilUtil::formCheckBox(0,"role_id[]",$role["obj_id"],$disabled);
 
 			// disable checkbox for system role for the system user
-			if ($role["obj_id"] == SYSTEM_ROLE_ID or $role["obj_id"] == ANONYMOUS_ROLE_ID or substr($role["title"],0,3) == "il_")
+			if ($role["role_type"] != 'linked'
+				&& ($role["obj_id"] == SYSTEM_ROLE_ID 
+					or $role["obj_id"] == ANONYMOUS_ROLE_ID 
+					or substr($role["title"],0,3) == "il_"))
 			{
 				$disabled = true;
 				$checkbox = "";
@@ -234,8 +239,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 			if ($obj->getType() == "role")
 			{
-                $rolf_list = $rbacreview->getFoldersAssignedToRole($id,true);
-				$obj->setParent($rolf_list[0]);
+				$obj->setParent($this->object->getRefId());
 				$feedback["role"] = true;
 			}
 			else
