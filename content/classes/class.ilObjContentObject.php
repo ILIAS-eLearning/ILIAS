@@ -605,6 +605,26 @@ class ilObjContentObject extends ilObject
 				break;
 
 			case 'content':
+				$in		= $search_obj->getInStatement("r.ref_id");
+				$where	= $search_obj->getWhereCondition("like",array("pg.content"));
+
+				$query = "SELECT r.ref_id AS ref_id ,pg.page_id AS page_id FROM page_object AS pg ".
+					"INNER JOIN object_reference AS r ON pg.parent_id = r.obj_id ".
+					$where.
+					$in.
+					"AND pg.parent_type = 'lm' ";
+
+				$res = $search_obj->ilias->db->query($query);
+				$counter = 0;
+				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$result[$counter]["id"]		= $row->ref_id;
+					$result[$counter]["page_id"] = $row->page_id;
+					$result[$counter]["link"]	= "content/lm_presentation.php?ref_id=".$row->ref_id;
+					$result[$counter]["target"]	= "_top";
+					
+					++$counter;
+				}
 				break;
 		}
 		return $result ? $result : array();

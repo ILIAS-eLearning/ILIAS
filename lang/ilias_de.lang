@@ -1322,3 +1322,20 @@ meta#:#meta_l_zh#:#Chinesisch
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Sprache
 meta#:#meta_title#:#Titel
+search#:#search_no_match#:#Ihre Suche ergab keine Treffer
+search#:#search_user#:#Benutzer
+search#:#search_dbk_meta#:#Digitale Bibliothek (Metadaten)
+search#:#search_dbk_content#:#Digitale Bibliothek (Inhalt)
+search#:#search_lm_meta#:#Lernmaterialien (Metadaten)
+search#:#search_lm_content#:#Lernmaterialien (Inhalt)
+search#:#search_all_results#:#Alle Resultate
+search#:#search_show_result#:#Anzeigen
+search#:#search_search_term#:#Suchbegriff
+search#:#search_concatenation#:#Verknüpfung
+search#:#search_search_for#:#Suchen nach
+search#:#search_in_result#:#In den Resultaten suchen
+search#:#search_no_search_term#:#Sie haben keinen Suchbegriff gewählt
+search#:#search_no_category#:#Sie haben keine Suchkategorie ausgewählt
+search#:#search_meta#:#Metadaten
+search#:#search_content#:#Seiteninhalt
+search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein

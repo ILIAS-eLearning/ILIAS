@@ -38,6 +38,7 @@ class ilSearch
 	* @access public
 	*/	
 	var $ilias;
+	var $lng;
 	var $rbacsystem;
 	var $user_id;				// INTEGER USED FOR SAVED RESULTS
 	var $search_string;			// INPUT FROM SEARCH FORM
@@ -54,10 +55,12 @@ class ilSearch
 	*/
 	function ilSearch($a_user_id = 0)
 	{
-		global $ilias,$rbacsystem;
+		global $ilias,$rbacsystem,$lng;
 		
 		// Initiate variables
 		$this->ilias =& $ilias;
+		$this->lng =& $lng;
+		$this->lng->loadLanguageModule("search");
 		$this->rbacsystem =& $rbacsystem;
 		$this->user_id = $a_user_id;
 
@@ -138,13 +141,26 @@ class ilSearch
 	}
 
 	// PUBLIC
+	function getNumberOfResults()
+	{
+		$number = count($this->getResultByType("usr")) + count($this->getResultByType("grp"));
+
+		$tmp_res = $this->getResultByType("dbk");
+		$number += count($tmp_res["meta"]) + count($tmp_res["content"]);
+
+		$tmp_res = $this->getResultByType("lm");
+		$number += count($tmp_res["meta"]) + count($tmp_res["content"]);
+		
+		return $number;
+	}
+
 	function validate(&$message)
 	{
 		$ok = true;
 
 		if(!$this->getSearchString())
 		{
-			$message .= "Kein Suchbegriff<br/>";
+			$message .= $this->lng->txt("search_no_seach_term")."<br/>";
 			$ok = false;
 		}
 		$this->__parseSearchString();
@@ -155,7 +171,7 @@ class ilSearch
 		}
 		if(!$this->getSearchFor())
 		{
-			$message .= "Keine Kategorie gewählt<br/>";
+			$message .= $this->lng->txt("search_no_category")."<br/>";
 			$ok = false;
 		}
 		return $ok;
@@ -184,15 +200,17 @@ class ilSearch
 				case "lm":
 					include_once "./content/classes/class.ilObjContentObject.php";
 					$this->act_type = 'lm';
-					$result["lm"] = ilObjContentObject::_search($this,$this->getSearchInByType("lm"));
-					$result["lm"] = $this->__checkAccess($result["lm"]);
+					$result["lm"][$this->getSearchInByType("lm")] = ilObjContentObject::_search($this,$this->getSearchInByType("lm"));
+					$result["lm"][$this->getSearchInByType("lm")] 
+						= $this->__checkAccess($result["lm"][$this->getSearchInByType("lm")]);
 					break;
 
 				case "dbk":
 					include_once "./content/classes/class.ilObjDlBook.php";
 					$this->act_type = 'dbk';
-					$result["dbk"] = ilObjDlBook::_search($this,$this->getSearchInByType("dbk"));
-					$result["dbk"] = $this->__checkAccess($result["dbk"]);
+					$result["dbk"][$this->getSearchInByType("dbk")] = ilObjDlBook::_search($this,$this->getSearchInByType("dbk"));
+					$result["dbk"][$this->getSearchInByType("dbk")] 
+						= $this->__checkAccess($result["dbk"][$this->getSearchInByType("dbk")]);
 					break;
 			}
 		}
@@ -228,7 +246,7 @@ class ilSearch
 				break;
 
 			case "result":
-				$in .= "AND $a_primary IN('".implode("','",$this->__getResultIdsByType($this->act_type))."') ";
+				$in .= "AND $a_primary IN('".implode("','",$this->__getResultIdsByActualType())."') ";
 				break;
 
 		}
@@ -355,7 +373,7 @@ class ilSearch
 		{
 			foreach($type as $word)
 			{
-				if(strlen($word) <= 3)
+				if(strlen($word) < 3)
 				{
 					$to_short = true;
 				}
@@ -363,7 +381,7 @@ class ilSearch
 		}
 		if($to_short)
 		{
-			$message .= "Wörter mit weniger als 3 Zeichen werden ignoriert<br/>";
+			$message .= $this->lng->txt("search_minimum_three")."<br/>";
 			return false;
 		}
 		return true;
@@ -414,9 +432,19 @@ class ilSearch
 		return true;
 	}
 
-	function __getResultIdsByType()
+	function __getResultIdsByActualType()
 	{
 		$results = $this->getResultByType($this->act_type);
+
+		// GET 'content' or 'meta' array
+		switch($this->act_type)
+		{
+
+			case "lm":
+			case "dbk":
+				$results = $results[$this->getSearchInByType($this->act_type)];
+				break;
+		}
 
 		foreach($results as $result)
 		{
