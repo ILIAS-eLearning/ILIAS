@@ -52,8 +52,9 @@ switch($_GET["cmd"])
 
 	case "leaveGroup":
 		$groupObj = $ilias->obj_factory->getInstanceByRefId($_GET["id"]);
-		$groupObj->leaveGroup($ilias->account->getId());
-		$ilias->account->dropDesktopItem($groupObj->getRefId(), $groupObj->getType());
+		$err_msg = $groupObj->removeMember($ilias->account->getId());
+		if(strlen($err_msg) > 0)
+			$ilias->raiseError($lng->txt($err_msg),$ilias->error_obj->MESSAGE);
 		break;
 }
 
