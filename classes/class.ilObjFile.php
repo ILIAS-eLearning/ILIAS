@@ -38,7 +38,6 @@ class ilObjFile extends ilObject
 {
 	var $filename;
 	var $filetype;
-	var $filepath;
 	var $filemaxsize = "20000000";	// not used yet
 
 	/**
@@ -52,11 +51,6 @@ class ilObjFile extends ilObject
 		$this->version = 0;
 		$this->type = "file";
 		$this->ilObject($a_id,$a_call_by_reference);
-
-		/*if ($a_id != 0)
-		{
-			$this->read();
-		}*/
 	}
 
 	function create()
@@ -71,9 +65,16 @@ class ilObjFile extends ilObject
 		$this->ilias->db->query($q);
 	}
 
-	function getDirectory()
+	function getDirectory($a_version = 0)
 	{
-		return ilUtil::getDataDir()."/files/file_".$this->getId();
+		$version_subdir = "";
+
+		if ($a_version)
+		{
+			$version_subdir = "/".sprintf("%03d", $a_version);
+		}
+		
+		return ilUtil::getDataDir()."/files/file_".$this->getId().$version_subdir;
 	}
 
 	function createDirectory()
@@ -83,9 +84,15 @@ class ilObjFile extends ilObject
 
 	function getUploadFile($a_upload_file, $a_filename)
 	{
-		$file = $this->getDirectory()."/".$a_filename;
-		move_uploaded_file($a_upload_file, $file);
 		$this->setVersion($this->getVersion() + 1);
+
+		if (@!is_dir($this->getDirectory($this->getVersion())))
+		{
+			ilUtil::makeDir($this->getDirectory($this->getVersion()));
+		}
+
+		$file = $this->getDirectory($this->getVersion())."/".$a_filename;
+		move_uploaded_file($a_upload_file, $file);
 	}
 
 	/**
@@ -93,7 +100,7 @@ class ilObjFile extends ilObject
 	*/
 	function replaceFile($a_upload_file, $a_filename)
 	{
-		$this->clearDataDirectory();		// ! This has to be changed, if multiple versions should be supported
+		//$this->clearDataDirectory();		// ! This has to be changed, if multiple versions should be supported
 		$this->getUploadFile($a_upload_file, $a_filename);
 		
 		require_once("classes/class.ilHistory.php");
@@ -103,7 +110,7 @@ class ilObjFile extends ilObject
 
 
 	/**
-	* clear data directory
+	* copy file
 	*/
 	function copy($a_source,$a_destination)
 	{
@@ -132,7 +139,6 @@ class ilObjFile extends ilObject
 
 		$this->setFileName(ilUtil::stripSlashes($row->file_name));
 		$this->setFileType($row->file_type);
-		$this->setFilePath($this->getDirectory());
 		$this->setVersion($row->version);
 	}
 
@@ -160,16 +166,6 @@ class ilObjFile extends ilObject
 	function getFileName()
 	{
 		return $this->filename;
-	}
-
-	function setFilePath($a_path)
-	{
-		$this->filepath = $a_path;
-	}
-
-	function getFilePath()
-	{
-		return $this->filepath;
 	}
 
 	function setFileType($a_type)
@@ -213,6 +209,12 @@ class ilObjFile extends ilObject
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
 		$file = ilUtil::getDataDir()."/files/file_".$a_id."/".$row->file_name;
+
+		if (@!is_file($file))
+		{
+			$version_subdir = "/".sprintf("%03d", ilObjFile::_lookupVersion($a_id));
+			$file = ilUtil::getDataDir()."/files/file_".$a_id.$version_subdir."/".$row->file_name;
+		}
 
 		if (is_file($file))
 		{
@@ -258,30 +260,18 @@ class ilObjFile extends ilObject
 
 	function sendFile()
 	{
-		$file = $this->getDirectory()."/".$this->getFileName();
+		$file = $this->getDirectory($this->getVersion())."/".$this->getFileName();
+
+		// if not found lookup for file in file object's main directory for downward compability
+		if (@!is_file($file))
+		{
+			$file = $this->getDirectory()."/".$this->getFileName();
+		}
 
 		if (@is_file($file))
 		{
 			ilUtil::deliverFile($file, $this->getFileName());
 			return true;
-			/*
-			// send file
-			$file_type = ($this->getFileType() != "")
-				? $this->getFileType()
-				: "application/octet-stream";
-			header("Content-type: ".$file_type);
-			header("Content-disposition: attachment; filename=\"".$this->getFileName()."\"");
-			//readfile($file);
-			$fp = @fopen($file, 'r');
-
-			do
-			{
-				echo fread($fp, 10000);
-			} while (!feof($fp));
-
-			@fclose($fp);
-			exit;			// prevent any output
-			return true;*/
 		}
 
 		return false;
@@ -294,16 +284,22 @@ class ilObjFile extends ilObject
 
 		$fileObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 		$fileObj->createDirectory();
+		
+		// copy all versions of file
+		ilUtil::rCopy($this->getDirectory(),$fileObj->getDirectory());
+		
+		//copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$this->getFileName());
 
-		copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$this->getFileName());
+		// copy file_data entry
+		$q = "INSERT INTO file_data (file_id,file_name,file_type,version) VALUES ('".$fileObj->getId()."','".
+			ilUtil::addSlashes($this->getFileName())."','".$this->getFileType()."','".$this->getVersion()."')";
+		$this->ilias->db->query($q);
 
+		// copy history entries
+		require_once("classes/class.ilHistory.php");
+		ilHistory::_copyEntriesForObject($this->getId(),$fileObj->getId());
 
-		$query = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$fileObj->getId()."','".
-			ilUtil::addSlashes($this->getFileName())."','".$this->getFileType()."')";
-
-		$this->ilias->db->query($query);
-
-
+		// dump object
 		unset($fileObj);
 
 		// ... and finally always return new reference ID!!
@@ -332,14 +328,12 @@ class ilObjFile extends ilObject
 			// delete file data entry
 			$q = "DELETE FROM file_data WHERE file_id = '".$this->getId()."'";
 			$this->ilias->db->query($q);
-
-			// unlink file
-			$file = $this->getDirectory()."/".$this->getFileName();
-			if (@is_file($file))
-			{
-				unlink($file);
-			}
-
+			
+			// delete history entries
+			require_once("classes/class.ilHistory.php");
+			ilHistory::_removeEntriesForObject($this->getId());
+			
+			// delete entire directory and its content
 			if (@is_dir($this->getDirectory()))
 			{
 				ilUtil::delDir($this->getDirectory());
@@ -363,7 +357,13 @@ class ilObjFile extends ilObject
 		$subdir = "il_".IL_INST_ID."_file_".$this->getId();
 		ilUtil::makeDir($a_target_dir."/objects/".$subdir);
 
-		$filedir = $this->getDirectory();
+		$filedir = $this->getDirectory($this->getVersion());
+		
+		if (@!is_dir($filedir))
+		{
+			$filedir = $this->getDirectory();
+		}
+		
 		ilUtil::rCopy($filedir, $a_target_dir."/objects/".$subdir);
 	}
 
@@ -405,18 +405,18 @@ class ilObjFile extends ilObject
 
 		return $ret;
 	}
+
+	// TODO: What is this function good for??
 	function getXMLZip()
 	{
 		global $ilias;
 
 		$zip = PATH_TO_ZIP;
 
-		exec($zip.' '.ilUtil::escapeShellArg($this->getFilePath().'/'.$this->getFileName())." ".
-			 ilUtil::escapeShellArg($this->getFilePath().'/'.'1.zip'));
+		exec($zip.' '.ilUtil::escapeShellArg($this->getDirectory().'/'.$this->getFileName())." ".
+			 ilUtil::escapeShellArg($this->getDirectory().'/'.'1.zip'));
 
-		return $this->getFilePath().'/1.zip';
+		return $this->getDirectory().'/1.zip';
 	}
-	
-
 } // END class.ilObjFile
 ?>
