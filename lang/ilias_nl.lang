@@ -1,0 +1,1800 @@
+/**
+* ILIAS language file
+*
+* @module		language file dutch
+* @modulegroup	language
+* @author 		Gerrit Blankestijn <GerritBlankestijn@TXS.NL>
+* @version		$Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+<!-- language file start -->
+common#:#3rd_party_software#:#software van derden
+common#:#absolute_path#:#Absolute pad
+common#:#accept_usr_agreement#:#Gebruikers-overeenkomst accepteren?
+common#:#access#:#Toegang
+common#:#action_aborted#:#Activiteit afgebroken
+common#:#actions#:#Activiteiten
+common#:#active_roles#:#Actieve rollen
+common#:#add#:#Toevoegen
+common#:#add_author#:#Toevoegen Auteur
+common#:#add_member#:#Lid toevoegen
+common#:#add_translation#:#Vertaling toevoegen
+common#:#administrate#:#Administreren
+common#:#administration#:#Administratie
+common#:#administrator#:#Administrateur
+common#:#adopt#:#overnemen
+common#:#adopt_perm_from_template#:#Overnemen permissie-instelling van rol-sjabloon
+common#:#all_objects#:#Alle objecten
+common#:#allow_register#:#Beschikbaar in registratieformulier voor nieuwe gebruikers
+common#:#and#:#en
+common#:#announce#:#Aankondigen
+common#:#announce_changes#:#Wijzigingen aankondigen
+common#:#answers#:#Antwoorden
+common#:#application_completed#:#De toepassing is compleet
+common#:#application_date#:#Applicatie-datum
+common#:#appointment#:#Afspraak
+common#:#appointment_list#:#Afsprakenlijst
+common#:#archive#:#Archief
+common#:#are_you_sure#:#Weet u het zeker?
+common#:#assign#:#Toewijzen
+common#:#assign_lo_forum#:#Leerobject-forum toewijzen
+common#:#assign_user_to_role#:#Gebruikersrol toewijzen
+common#:#at_location#:#op locatie
+common#:#attachment#:#Attachment
+common#:#attachments#:#Attachments
+common#:#author#:#Auteur
+common#:#authors#:#Auteurs
+common#:#available_languages#:#Beschikbare talen
+common#:#back#:#Terug
+common#:#basedn#:#BaseDN
+common#:#basic_data#:#Basis-gegevens
+common#:#bm#:#Bookmark
+common#:#bmf#:#Bookmark-map
+common#:#bookmark_edit#:#Bookmark wijzigen
+common#:#bookmark_folder_edit#:#Wijzig bookmark-map
+common#:#bookmark_folder_new#:#Nieuwe bookmark-map
+common#:#bookmark_new#:#Nieuwe bookmark
+common#:#bookmark_target#:#Doel
+common#:#bookmarks#:#Bookmarken
+common#:#bookmarks_of#:#Bookmarken van
+common#:#btn_remove_system#:#Uit het systeem verwijderen
+common#:#btn_undelete#:#Herstellen
+common#:#by#:#Door
+common#:#calendar#:#Kalender
+common#:#cancel#:#Annuleren
+common#:#cannot_uninstall_language_in_use#:#U kunt geen talen deïnstalleren die in gebruik zijn!
+common#:#cannot_uninstall_systemlanguage#:#U kunt de systeem-taal niet deïnstalleren!
+common#:#cat#:#Kategorie
+common#:#cat_a#:#een kategorie
+common#:#cat_add#:#Kategorie toevoegen
+common#:#cat_added#:#Kategorie toegevoegd
+common#:#cat_edit#:#Kategorie gewijzigd
+common#:#cat_new#:#Nieuwe kategorie
+common#:#categories#:#Kategoriën
+common#:#cc#:#CC
+common#:#censorship#:#Censuur
+common#:#change#:#Wijzigen
+common#:#change_active_assignment#:#wijzig de actieve toewijziging
+common#:#change_assignment#:#Toewijzing wijzigen
+common#:#change_existing_objects#:#Bestaande objecten wijzigen
+common#:#change_lo_info#:#Leerobject-informatie wijzigen
+common#:#change_metadata#:#Metadata wijzigen
+common#:#change_sort_direction#:#Sorteervolgorde wijzigen
+common#:#changed_to#:#gewijzigd in
+common#:#chapter#:#Hoofdstuk
+common#:#chapter_number#:#Hoofdstuk-nummer
+common#:#chapter_title#:#Hoofdstuk titel
+common#:#check#:#Controleer
+common#:#check_langfile#:#Controleer A.u.b. uw taal-bestand
+common#:#check_languages#:#Talen controleren
+common#:#chg_language#:#Taal wijzigen
+common#:#chg_password#:#Wijzig wachtwoord
+common#:#choose_language#:#A.u.b. kies uw taal
+common#:#choose_location#:#Kies locatie
+common#:#choose_only_one_language#:#A.u.b. slechts  één taal kiezen
+common#:#city#:#Stad
+common#:#clear#:#Afbreken
+common#:#client_id#:#Cliënt-ID
+common#:#clipboard#:#Klembord
+common#:#close#:#Sluiten
+common#:#comma_separated#:#Door komma's gescheiden
+common#:#comment#:#commentaar
+common#:#compose#:#Samenstellen
+common#:#confirm#:#Bevestigen
+common#:#cont_object#:#Object
+common#:#contact_data#:#Contact-informatie
+common#:#context#:#Context
+common#:#copy#:#Copie
+common#:#copy_of#:#Copie van
+common#:#country#:#Land
+common#:#course#:#Cursus
+common#:#courses#:#Cursussen
+common#:#create#:#Creëren
+common#:#create_in#:#Creëren in
+common#:#create_stylesheet#:#Creëer stijl
+common#:#crs#:#Cursus
+common#:#crs_a#:#een cursus
+common#:#crs_add#:#Cursus toevoegen
+common#:#crs_added#:#Cursus toegevoegd
+common#:#crs_available#:#Beschikbare cursussen
+common#:#crs_edit#:#Cursus wijzigen
+common#:#crs_management_system#:#Cursus Management System
+common#:#crs_new#:#Nieuwe cursus
+common#:#current_password#:#Huidig wachtwoord
+common#:#cut#:#Knippen
+common#:#cutPage#:#Knippen
+common#:#database#:#Databank
+common#:#database_version#:#Huidige databank-versie
+common#:#dataset#:#Item
+common#:#date#:#Datum
+common#:#dateplaner#:#Dateplaner###17 Dec 2003 new variable
+common#:#day#:#Dag
+common#:#days#:#Dagen
+common#:#db_host#:#Databank-host
+common#:#db_name#:#Databank naam
+common#:#db_need_update#:#Uw databank heeft een update nodig!
+common#:#db_pass#:#Databank-wachtwoord
+common#:#db_type#:#databank-type
+common#:#db_user#:#Databank gebruiker
+common#:#db_version#:#Databank-versie
+common#:#dbk#:#Digilib-boek
+common#:#dbk_a#:#een Digilib-boek
+common#:#dbk_add#:#Digilib-boek toevoegen
+common#:#dbk_added#:#Digilib-boek toegevoegd
+common#:#dbk_new#:#Nieuw Digilib-boek
+common#:#default#:#Standaard
+common#:#default_language#:#Standaard taal
+common#:#default_role#:#Standaard rol
+common#:#default_roles#:#Default rollen
+common#:#default_skin#:#Default gebruikers-scherm
+common#:#default_skin_style#:#Default gebruikers-scherm / Stijl
+common#:#default_style#:#Standaard stijl
+common#:#delete#:#Verwijderen
+common#:#delete_all#:#Alles verwijderen
+common#:#delete_object#:#Verwijder object(en)
+common#:#delete_selected#:#Verwijder het geselecteerde
+common#:#deleted#:#Gewist
+common#:#department#:#Afdeling
+common#:#desc#:#Beschrijving
+common#:#description#:#Beschrijving
+common#:#desired_password#:#Gewenste wachtwoord
+common#:#disabled#:#Uitgeschakeld
+common#:#down#:#Naar beneden
+common#:#download#:#Download
+common#:#drafts#:#Klad
+common#:#drop#:#Erop laten vallen
+common#:#edit#:#Wijzigen
+common#:#edit_data#:#Wijzigen gegevens
+common#:#edit_operations#:#Bewerkingen wijzigen
+common#:#edit_properties#:#Eigenschappen wijzigen
+common#:#edit_stylesheet#:#Stijl wijzigen
+common#:#edited_at#:#Gewijzigd op
+common#:#editor#:#Editor
+common#:#email#:#E-mail
+common#:#email_not_valid#:#Het opgegeven email-adres is niet goed!
+common#:#enable#:#Inschakelen
+common#:#enable_registration#:#Nieuwe gebruikers-registratie inschakelen
+common#:#enabled#:#Ingeschakeld
+common#:#enumerate#:#Opsommen
+common#:#err_1_param#:#Slechts 1 parameter!
+common#:#err_2_param#:#Slechts 2 parameters!
+common#:#err_count_param#:#Reden: Verkeerde aantal parameters
+common#:#err_in_line#:#Fout in regel
+common#:#err_no_langfile_found#:#Geen taal-bestand gevonden!
+common#:#err_no_param#:#Geen parameter!
+common#:#err_over_3_param#:#Meer dan 3 parameters!
+common#:#err_session_expired#:#Uw sessie is verlopen!
+common#:#err_wrong_header#:#Reden: Verkeerde header.
+common#:#err_wrong_login#:#Foutief ingelogd
+common#:#error_recipient#:#Ontvanger van foutmeldingen
+common#:#exc#:#Oefening
+common#:#exc_add#:#Toevoegen oefening
+common#:#exc_added#:#Oefening toegevoegd
+common#:#exc_ask_delete#:#Verwijderen bestand?
+common#:#exc_assign_usr#:#Toewijzen gebruiker
+common#:#exc_date_not_valid#:#De datum is niet geldig
+common#:#exc_deassign_members#:#Verwijderen lid/leden
+common#:#exc_edit#:#Nieuwe oefening gecreëerd
+common#:#exc_edit_exercise#:#Wijzigen oefening
+common#:#exc_edit_until#:#Wijzigen tot
+common#:#exc_files#:#Bestanden
+common#:#exc_groups#:#Groepen
+common#:#exc_header_members#:#Oefening(leden)
+common#:#exc_instruction#:#Werk-instructies
+common#:#exc_members_already_assigned#:#Deze gebruikers zijn al aan deze oefening toegewezen
+common#:#exc_members_assigned#:#Leden toegewezen
+common#:#exc_new#:#Nieuwe oefening
+common#:#exc_no_members_assigned#:#Geen leden toegewezen
+common#:#exc_notices#:#Notities
+common#:#exc_obj#:#Oefening
+common#:#exc_save_changes#:#Opslaan
+common#:#exc_search_for#:#Zoeken naar
+common#:#exc_send_exercise#:#Zend oefening
+common#:#exc_sent#:#De oefening is naar de geselecteerde gebruikers gezonden
+common#:#exc_status_returned#:#Teruggekeerd
+common#:#exc_status_saved#:#Oefening bijgewerkt
+common#:#exc_status_solved#:#Opgelost
+common#:#exc_upload_error#:#Fout bij het uploaden van het bestand
+common#:#exc_users#:#Gebruikers
+common#:#excs#:#Exercises###17 Dec 2003 new variable
+common#:#execute#:#Uitvoeren
+common#:#export_html#:#exporteren als html-bestand
+common#:#export_xml#:#exporteren als xml-estand
+common#:#faq_exercise#:#FAQ-oefening
+common#:#fax#:#Fax
+common#:#feedback#:#Feedback
+common#:#feedback_recipient#:#Feedback ontvanger
+common#:#file#:#Bestand
+common#:#file_a#:#een bestand
+common#:#file_add#:#Upload-bestand
+common#:#file_added#:#Bestand uploaded
+common#:#file_new#:#Nieuw bestand
+common#:#file_not_found#:#Bestand niet gevonden
+common#:#file_not_valid#:#Bestand niet geldig!
+common#:#file_valid#:#Bestand is geldig!
+common#:#file_version#:#Versie is in bestand
+common#:#files_location#:#Locatie van bestand
+common#:#fill_out_all_required_fields#:#AUB alle benodigde velden invullen
+common#:#firstname#:#Voornaam
+common#:#flatview#:#Lijst-overzicht
+common#:#fold#:#Map
+common#:#fold_a#:#een map
+common#:#fold_add#:#map toevoegen
+common#:#fold_added#:#Map toegevoegd
+common#:#fold_new#:#Nieuwe map
+common#:#folder#:#folder###17 Dec 2003 new variable
+common#:#folders#:#Mappen
+common#:#force_accept_usr_agreement#:#U moet de gebruikers-overeenkomst accepteren!
+common#:#forename#:#Familienaam
+common#:#form_empty_fields#:#AUB volgende velden invullen:
+common#:#forum#:#Forum
+common#:#forums#:#Forums
+common#:#forums_overview#:#Forums-overzicht
+common#:#frm#:#Forum
+common#:#frm_a#:#een Forum
+common#:#frm_add#:#Forum toevoegen
+common#:#frm_added#:#Forum toegevoegd
+common#:#frm_edit#:#Forum wijzigen
+common#:#frm_new#:#Nieuw Forum
+common#:#from#:#Van
+common#:#fullname#:#Volledige naam
+common#:#functions#:#Functies
+common#:#gdf_add#:#Definitie toevoegen
+common#:#gdf_new#:#Nieuwe definitie
+common#:#gender#:#Geslacht
+common#:#gender_f#:#Vrouwelijk
+common#:#gender_m#:#Mannelijk
+common#:#generate#:#Genereren
+common#:#glo#:#Woordenlijst
+common#:#glo_a#:#een woordenlijst
+common#:#glo_add#:#Woordenlijst toevoegen
+common#:#glo_added#:#Woordenlijst toegevoegd
+common#:#glo_new#:#Nieuwe Woordenlijst
+common#:#glossaries#:#Glossaries
+common#:#glossary#:#Woordenlijst
+common#:#glossary_added#:#Woordenlijst toegevoegd
+common#:#group_access_denied#:#Toegang gewijgerd
+common#:#group_any_objects#:#Geen sub-objecten beschikbaar
+common#:#group_desc#:#Groeps-beschrijving
+common#:#group_details#:#Groep File Sharing
+common#:#group_filesharing#:#Groeps-file-sharing
+common#:#group_members#:#Groepsleden
+common#:#group_memstat#:#Status lid
+common#:#group_memstat_admin#:#Administrateur
+common#:#group_memstat_member#:#Lid
+common#:#group_name#:#Geen groep beschikbaar
+common#:#group_new_registrations#:#Nieuwe registraties
+common#:#group_no_registration#:#nee registratie-verplicht
+common#:#group_no_registration_msg#:#U bent tot nog toe geen lid van deze groep. Om administratieve redenen moet u lid worden van de gevraagde groep.<br> Als lid heeft u de volgende voordelen:<br>- U wordt geïnformeerd over nieuws en wijzigingen<br>- U krijgt toegang tot de bijbehorende objecten als forums, lesmodules, enz.<br><br>U kunt op elk moment uw lidmaatschap opzeggen.
+common#:#group_not_available#:#Groep objecten
+common#:#group_objects#:#Groeps-objecten
+common#:#group_password_registration_expired_msg#:#De periode voor registratie voor deze groep is voorbij, een meededeling is niet langer mogelijk. A.u.b. neem contact op met de groeps-eigenaar of de administrateur.
+common#:#group_password_registration_msg#:#Om in deze groep opgenomen te worden moet u het door de administrateur van deze groep  gegeven wachtwoord invoeren.<br>U woord automatisch lid van deze groep als het wachtwoord correct is.
+common#:#group_registration_expiration_date#:#Verval-datum
+common#:#group_registration_expiration_time#:#Verval-tijd
+common#:#group_registration_expired#:#Periode van registratie is afgelopen
+common#:#group_registration_mode#:#Registratie-modus
+common#:#group_req_password#:#Registratie wachtwoord nodig
+common#:#group_req_registration#:#Registratie-verplicht
+common#:#group_req_registration_msg#:#Om bij deze groep te horen moet u zich registeren hetgeen alleen maar door de betreffende groeps-administrateur gedaan kan worden. Geef a.u.b. een reden voor uw registratie.<br>U ontvangt bericht van wanneer uw aan de groep bent toegevoegd.
+common#:#group_reset#:#Terugzetten groeps-rechten
+common#:#group_status#:#Groeps-status
+common#:#group_status_closed#:#Besloten
+common#:#group_status_public#:#Publiek
+common#:#groups#:#Groepen
+common#:#groups_overview#:#Groepen-overzicht
+common#:#grp#:#Groep
+common#:#grp_a#:#een groep
+common#:#grp_add#:#Toevoegen van een groep
+common#:#grp_added#:#Groep toegevoegd
+common#:#grp_edit#:#Groep wijzigen
+common#:#grp_err_administrator_required#:#Lid kan niet verwijderd worden, tenminste één administrateur per groep is verplicht !
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Elke groep heeft op zijn minst één groeps-administrateur nodig
+common#:#grp_err_error#:#Er is en fout opgetreden
+common#:#grp_err_last_member#:#Laatste lid kan niet verwijderd worden, verwijderen daarvoor de groep.
+common#:#grp_err_member_could_not_be_removed#:#Lid kan niet verwijderd worden. Controleer alle  afhankelijkheden van deze gebruiker.
+common#:#grp_err_no_permission#:#U bezit niet de rechten voor deze handeling.
+common#:#grp_err_registration_data#:#Voer een wachtwoord, de verval-datum en -tijd voor een geldige registratie-periode !
+common#:#grp_mem_change_status#:#Lid-status wijzigen
+common#:#grp_mem_leave#:#Lid uit groep verwijderen
+common#:#grp_mem_send_mail#:#Lid een bericht sturen
+common#:#grp_msg_membership_annulled#:#Het lidmaatschap is gecancelled
+common#:#grp_name_exists#:#Er is al een groep met deze naam! Kies een andere naam s.v.p.
+common#:#grp_new#:#Nieuwe groep
+common#:#grp_register#:#Registreer
+common#:#grp_registration_completed#:#De registratie is klaar
+common#:#guest#:#Gast
+common#:#guests#:#Gasten
+common#:#help#:#Hulp
+common#:#hide_details#:#details verbergen
+common#:#hide_structure#:#Structuurscherm verbergen
+common#:#hobby#:#Interessen/Hobbys
+common#:#home#:#Startscherm
+common#:#host#:#Host
+common#:#http_path#:#Http-pad
+common#:#id#:#ID
+common#:#identifier#:#identifier
+common#:#ilias_version#:#ILIAS-versie
+common#:#image#:#Image
+common#:#image_gen_unsucc#:#Image-generatie niet succesvol. Neem contact op met uw systeem-administrateur en controleer het conversie-pad.
+common#:#import#:#Importeren
+common#:#import_lm#:#Importeren van een lesmodule
+common#:#import_slm#:#SCORM-package importeren
+common#:#in#:#in
+common#:#in_use#:#Gebruikers-taal
+common#:#inbox#:#Inbox
+common#:#info_assign_sure#:#Weet u zeker dat u de volgende gebruiker(s) wil toewijzen?
+common#:#info_delete_sure#:#Weet u zeker dat u het/de volgende object(en) wilt verwijderen)?
+common#:#info_deleted#:#Object(en) verwijderd
+common#:#info_trash#:#Verwijderde objecten
+common#:#inform_user_mail#:#Zend en email om de gebruiker te informeren over de wijzigingen
+common#:#information_abbr#:#Informatie
+common#:#ingmedia_all_offers#:#Alle lessen
+common#:#ingmedia_back_to_le#:#Terug naar les
+common#:#ingmedia_good_afternoon#:#Goede middag
+common#:#ingmedia_good_evening#:#Goede avond
+common#:#ingmedia_good_morning#:#Goede morgen
+common#:#ingmedia_good_night#:#Goede nacht
+common#:#ingmedia_hello#:#Hallo
+common#:#ingmedia_info_about_work1#:#U heeft hier op
+common#:#ingmedia_info_about_work2#:#, voor het laatst online gewerkt. Door hier te klikken, kunt u nu daar verder werken, waar u vorige keer gestopt bent:
+common#:#ingmedia_level_zero#:#Niveau omhoog
+common#:#ingmedia_pers_dates#:#Persoonlijke gegevens
+common#:#ingmedia_reg_fo#:#Geregistreerde forums
+common#:#ingmedia_reg_le#:#Geregistereerde lessen
+common#:#ingmedia_use_info1#:#Hier kunt u uw persoonlijke gegevens wijzigen. Behalve uw INGMEDIA gebruikersnaam en wachtwoord, bent u niet verplicht verdere gegevens te verstrekken. Bedenk dat een vergeten wachtwoord alleen per e-mail toegestuurd kan worden (!).
+common#:#ingmedia_use_info2#:#Het gebruik van de speciale karakters  (zoals , ; . = - * + #) is niet toegestaan
+common#:#ingmedia_use_info3#:#Kies AUB  één van de links in de menubalk hiernaast.
+common#:#ingmedia_use_title#:#Gebruikersgegevens wijzigen.
+common#:#ingmedia_user_agree#:#Overeenkomst
+common#:#ingmedia_vis_le#:#Bezochte lessen
+common#:#ingmedia_visited_le#:#Alle lessen die u tot nu toe hebt bezocht.
+common#:#ingmedia_welcome#:#, welkom op uw persoonlijk bureaublad!!
+common#:#inifile#:#ini-bestand
+common#:#input_error#:#Invoer fout
+common#:#insert#:#Invoegen
+common#:#inst_id#:#Installatie-ID
+common#:#inst_info#:#Installatie-informatie
+common#:#inst_name#:#Naam installatie
+common#:#install#:#Installeren
+common#:#installed#:#Geïnstalleerd
+common#:#institution#:#Instituut
+common#:#internal_system#:#Intern system
+common#:#ip_address#:#IP-adres
+common#:#is_already_your#:#is reeds uw
+common#:#item#:#Item
+common#:#kb#:#KByte
+common#:#keywords#:#Sleutelwoorden
+common#:#lang_dateformat#:#Y-m-d
+common#:#lang_cz#:#Tsjechisch
+common#:#lang_de#:#Duits
+common#:#lang_dk#:#Deens
+common#:#lang_en#:#Engels
+common#:#lang_es#:#Spaans
+common#:#lang_fi#:#Fins
+common#:#lang_fr#:#Frans
+common#:#lang_gr#:#Grieks
+common#:#lang_id#:#Indonesisch
+common#:#lang_it#:#Italiaans
+common#:#lang_ja#:#Japans
+common#:#lang_lt#:#Litauisch
+common#:#lang_nl#:#Nederlands
+common#:#lang_no#:#Noorweegs
+common#:#lang_path#:#Taal-pad
+common#:#lang_pl#:#Pools
+common#:#lang_pt#:#Portugees
+common#:#lang_se#:#Zweeds
+common#:#lang_sep_decimal#:#.
+common#:#lang_sep_thousand#:#,
+common#:#lang_timeformat#:#H:i:s
+commom#:#lang_ua#:#Oekrainsch
+common#:#lang_version#:#1
+common#:#lang_xx#:#Door gebruiker gedefinieerd
+common#:#lang_zh#:#Vereenvoudigd Chinees
+common#:#langfile_found#:#Taal-bestand gevonden
+common#:#language#:#Taal
+common#:#language_not_installed#:#is niet geïnstalleerd. A.u.b. eerst de taal installeren
+common#:#languages#:#Talen
+common#:#languages_already_installed#:#Gekozen taal/talen is/zijn reeds geïnstalleerd
+common#:#languages_already_uninstalled#:#Gekozen taal/talen is/zijn reeds gedeïnstalleerd
+common#:#languages_updated#:#Alle geïnstalleerde talen zijn bijgewerkt
+common#:#last_change#:#Laatste wijziging
+common#:#last_visit#:#Laatste bezoek
+common#:#lastname#:#Achternaam
+common#:#launch#:#Start
+common#:#ldap#:#LDAP
+common#:#learning_objects#:#Lesobjecten
+common#:#learning_resources#:#Leerbronnen
+common#:#level#:#Niveau
+common#:#link#:#Link
+common#:#linked_pages#:#Gelinkte pagina's
+common#:#list_of_pages#:#Pagina-lijst
+common#:#list_of_questions#:#Vragenlijst
+common#:#literature#:#Literatuur
+common#:#literature_bookmarks#:#Literatuur bookmarks
+common#:#lm#:#Lesmodule
+common#:#lm_a#:#een lesmodule
+common#:#lm_add#:#Lesmodule toevoegen
+common#:#lm_added#:#Lesmodule toegevoegd
+common#:#lm_new#:#Nieuwe lesmodule
+common#:#lng#:#Taal
+common#:#lngf#:#Taal-map
+common#:#lo#:#Leer-object
+common#:#lo_available#:#Overzicht van lesmodulen en cursussen
+common#:#lo_categories#:#Lesobject-kategoriën
+common#:#lo_edit#:#Lesobject wijzigen
+common#:#lo_new#:#Nieuw lesobject
+common#:#lo_no_content#:#Geen leermiddelen beschikbaar
+common#:#lo_other_langs#:#Lesobjecten in andere talen
+common#:#lo_overview#:#Lesobjecten-overzicht
+common#:#locator#:#Locatie:
+common#:#login#:#Inloggen
+common#:#login_as#:#Ingelogd als
+common#:#login_data#:#Login-gegevens
+common#:#login_exists#:#Deze gebruikersnaam is reeds geregistreerd! Kies AUB een andere.
+common#:#login_time#:#Actuele online-tijd
+common#:#login_to_ilias#:#Inloggen op ILIAS
+common#:#logout#:#Uiloggen
+common#:#logout_text#:#U bent uitgelogd. Uw sessie is gesloten.
+common#:#los#:#Lesobjecten
+common#:#los_last_visited#:#Laatst bezochte lesobjecten
+common#:#mail#:#Mail
+common#:#mail_a_root#:#Mailbox
+common#:#mail_addressbook#:#Adresboek
+common#:#mail_allow_smtp#:#SMTP toestaan
+common#:#mail_b_inbox#:#Inbox
+common#:#mail_c_trash#:#Prullenbak
+common#:#mail_d_drafts#:#Klad
+common#:#mail_delete_error#:#Fout bij verwijderen
+common#:#mail_delete_error_file#:#Fout bij het verwijderen van bestand
+common#:#mail_e_sent#:#Gezonden
+common#:#mail_folders#:#Post-mappen
+common#:#mail_intern_enable#:#Inschakelen
+common#:#mail_mails_of#:#Mails
+common#:#mail_maxsize_attach#:#Max. attachment-grootte
+common#:#mail_maxsize_box#:#Max. mailbox-grootte
+common#:#mail_maxsize_mail#:#Max. mail-grootte
+common#:#mail_maxtime_attach#:#Max. dagen bewaartijd attachments
+common#:#mail_maxtime_mail#:#Max. dagen bewaartijd mails
+common#:#mail_not_sent#:#Mail niet gezonden!
+common#:#mail_search_no#:#Geen ingangen gevonden
+common#:#mail_search_word#:#Zoek woord
+common#:#mail_select_one#:#U moet een mail selecteren
+common#:#mail_send_error#:#Fout bij zenden mail
+common#:#mail_sent#:#Mail gezonden!
+common#:#mail_system#:#Systeem-bericht
+common#:#mail_z_local#:#Gebruikers-mappen
+common#:#mails#:#Mails
+common#:#mark_all_read#:#Markeer alles als gelezen
+common#:#mark_all_unread#:#Markeer alles als niet gelezen
+common#:#member#:#Lid
+common#:#members#:#Leden
+common#:#membership_annulled#:#Uw lidmaatschap is gecancelled
+common#:#message#:#Bericht
+common#:#message_content#:#Inhoud-bericht
+common#:#message_to#:#Bericht aan:
+common#:#meta_data#:#Meta-data
+common#:#migrate#:#Migreren
+common#:#mob#:#Media-object
+common#:#module#:#module
+common#:#modules#:#Modules
+common#:#month#:#Maand
+common#:#moveChapter#:#Verplaatsen
+common#:#movePage#:#Verplaatsen
+common#:#move_to#:#Verplaatsen naar
+common#:#msg_cancel#:#Activiteit gestopt
+common#:#msg_changes_ok#:#De wijzigingen waren in order
+common#:#msg_clear_clipboard#:#Klembord leeggemaakt
+common#:#msg_cloned#:#Geselecteerde object(en) gekopiëerd
+common#:#msg_copy_clipboard#:#Geselecteerde object(en) gekopiëerd naar klembord (Activiteit: Kopiëren)
+common#:#msg_cut_clipboard#:#Geselecteerde object(en) gekopiëerd naar Klembord (Activiteit: Knippen)
+common#:#msg_cut_copied#:#Geselecteerde object(en) verplaatst.
+common#:#msg_deleted_role#:#Rol gewist
+common#:#msg_deleted_roles#:#Rollen gewist
+common#:#msg_deleted_roles_rolts#:#Rollen & rol-sjablonen gewist
+common#:#msg_deleted_rolt#:#Rol-sjablonen gewist
+common#:#msg_deleted_rolts#:#Rol-sjablonen gewist
+common#:#msg_error_copy#:#Kopiëer-fout
+common#:#msg_failed#:#Activiteit is mislukt
+common#:#msg_is_last_role#:#U hebt de toewijzing van de laatste globale rol  van de volgende gebruikers verwijderd
+common#:#msg_link_clipboard#:#Geselecteerde object(en) gekopiëerd naar Klembord (Activiteit: Link)
+common#:#msg_linked#:#Geselecteerde object(en) gelinked.
+common#:#msg_may_not_contain#:#Dit object mag geen objects van het volgende type bevatten:
+common#:#msg_min_one_active_role#:#Elke gebruiker moet op zijn minst één actieve globale rol hebben!
+common#:#msg_min_one_role#:#Elke gebruiker moet op zijn minst één globale rol hebben!
+common#:#msg_multi_language_selected#:#U hebt dezelfde taal voor verschillende vertalingen gekozen!
+common#:#msg_no_default_language#:#Geen standaard-taal gespecificeerd! U moet één  default-taal definiëren.
+common#:#msg_no_delete_yourself#:#U kunt uw eigen gebruikers-account niet verwijderen.
+common#:#msg_no_language_selected#:#Geen vertaal-taal gespecificeerd! U moet een taal  definiëren voor elke vertaling
+common#:#msg_no_perm_copy#:#U heeft geen toestemming voor het creëren van een kopie van het/de volgende object(en):
+common#:#msg_no_perm_create#:#U heeft geen toestemming voor het creëren van het/de volgende object(en):
+common#:#msg_no_perm_create_object1#:#U heeft geen toestemming voor het creëren van
+common#:#msg_no_perm_create_object2#:#op deze locatie!
+common#:#msg_no_perm_create_role#:#U heeft geen toestemming voor het toevoegen van rollen
+common#:#msg_no_perm_create_rolf#:#U heeft geen toestemming voor het creëren van een rollen-map. Daarom mag u het erven van rollen of het hier toevoegen van lokale rollen niet stoppen.
+common#:#msg_no_perm_create_rolt#:#U heeft geen toestemming voor het toevoegen van rol-sjablonen
+common#:#msg_no_perm_create_user#:#U heeft geen toestemming voor het toevoegen van gebruikers
+common#:#msg_no_perm_cut#:#U heeft geen toestemming voor het knippen van het/de volgende object(en):
+common#:#msg_no_perm_delete#:#U heeft geen toestemming voor het verwijderen van het/de volgende object(en):
+common#:#msg_no_perm_link#:#U heeft geen toestemming voor het creëren van een link naar het/de volgende object(en):
+common#:#msg_no_perm_modify_role#:#U heeft geen toestemming voor het wijzigen van rollen
+common#:#msg_no_perm_modify_rolt#:#U heeft geen toestemming voor het wijzigen van rol-sjablonen
+common#:#msg_no_perm_modify_user#:#U heeft geen toestemming voor het wijzigen van gebruikers-gegevens
+common#:#msg_no_perm_paste#:#U heeft geen toestemming voor het plakken van het/de volgende object(en):
+common#:#msg_no_perm_perm#:#U heeft geen toestemming voor het wijzigen van de instellingen van rechten
+common#:#msg_no_perm_undelete#:#U heeft geen toestemming voor het herstellen van het/de volgende object(en):
+common#:#msg_no_perm_write#:#U heeft geen toestemming voor schrijven
+common#:#msg_no_rolf_allowed1#:#Het object
+common#:#msg_no_rolf_allowed2#:#kan geen rollen-map bevatten
+common#:#msg_no_search_result#:#Geen ingangen gevonden
+common#:#msg_no_search_string#:#Voer uw vraag in a.u.b
+common#:#msg_not_available_for_anon#:#De pagine die uw heeft gekozen is alleen toegankelijk voor geregistreerde gebruikers
+common#:#msg_not_in_itself#:#Het is niet mogelijk het object in zichzelf te plakken
+common#:#msg_not_possible_link#:#Het is niet mogelijk een link te creëren van dit object: Type
+common#:#msg_nothing_found#:#msg_nothing_found
+common#:#msg_obj_created#:#Object  gecreëerd.
+common#:#msg_obj_exists#:#Dit object bestaat al in deze map
+common#:#msg_obj_modified#:#Wijzigingen opgeslagen.
+common#:#msg_perm_adopted_from1#:#Instellingen van rechten overgenomen van
+common#:#msg_perm_adopted_from2#:#(Instellingen zijn opgeslagen!)
+common#:#msg_perm_adopted_from_itself#:#U kunt de instellingen van rechten niet overnemen van de huidige rol-sjabloon/sjablonen zelf.
+common#:#msg_removed#:#Object(en) verwijderd van het systeem.
+common#:#msg_role_exists1#:#Een rol/rol-sjabloon met dezelfde naam
+common#:#msg_role_exists2#:#bestaat al! Kies een andere naam
+common#:#msg_role_reserved_prefix#:#De prefix 'il_' is gereserveerd voor automatisch gegenereerde rollen. Kies een andere naam
+common#:#msg_roleassignment_active_changed#:#Actieve rol-toewijzing gewijzigd
+common#:#msg_roleassignment_active_changed_comment#:#De instellingen worden niet opgeslagen in het gebruikers-profiel!  Als de gebruiker inlogt worden alle actieve rol-toewijzingen weer terug gezet naar de opgeslagen waarden.
+common#:#msg_roleassignment_changed#:#Rol-toewijzingen gewijzigd
+common#:#msg_sysrole_not_deletable#:#De systeem-rol kan niet verwijderd worden
+common#:#msg_sysrole_not_editable#:#The instellingen van de rechten van de systeem-rol kunnen niet gewijzigd worden. The systeem-rol geeft alle toegewijzen gebruikers ongelimiteerde toegang tot alle objecten en functies.
+common#:#msg_trash_empty#:#Er zijn geen verwijderde objecten
+common#:#msg_undeleted#:#Object(en) hersteld.
+common#:#msg_user_last_role1#:#De volgende gebruikers zijn alleen aan deze rol toegewezen:
+common#:#msg_user_last_role2#:#Verwijderen de gebruikers of wijs ze toe aan een andere rol om deze rol te kunnen verwijderen.
+common#:#msg_userassignment_changed#:#Gebruikers-toewijzing gewijzigd
+common#:#multimedia#:#Multimedia
+common#:#my_bms#:#Mijn bookmarken
+common#:#my_frms#:#Mijn forums
+common#:#my_grps#:#Mijn groepen
+common#:#my_los#:#Mijn lesobjecten
+common#:#name#:#Naam
+common#:#new#:#Nieuw
+common#:#new_appointment#:#Nieuwe afspraak
+common#:#new_folder#:#Nieuwe map
+common#:#new_group#:#Nieuwe groep
+common#:#new_language#:#Nieuwe taal
+common#:#new_mail#:#Nieuwe mail!
+common#:#news#:#Nieuws
+common#:#next#:#volgende
+common#:#nickname#:#Login
+common#:#no#:#Nee
+common#:#no_bm_in_personal_list#:#Geen bookmarken gedefiniëerd.
+common#:#no_checkbox#:#Geen keuze gemaakt!
+common#:#no_date#:#Geen datum
+common#:#no_frm_in_personal_list#:#Geen forums in de persoonlijke lijst.
+common#:#no_grp_in_personal_list#:#Geen groepen in de persoonlijke lijst.
+common#:#no_import_available#:#Importeren niet mogelijk voor type
+common#:#no_lo_in_personal_list#:#Geen lesobjecten in de persoonlijke lijst.
+common#:#no_objects#:#Geen objecten
+common#:#no_permission_to_join#:#Het is niet toegestaan bij deze groep tegaan!
+common#:#no_title#:#Geen titel
+common#:#none#:#Geen enkele
+common#:#normal#:#Normaal
+common#:#not_installed#:#Niet geïnstalleerd
+common#:#not_logged_in#:#U bent niet ingelogd
+common#:#obj#:#Object
+common#:#obj_adm#:#Systeem-instellingen
+common#:#obj_adm_desc#:#Bevat alle functionaliteit voor de administratie van uw  ILIAS-installatie.
+common#:#obj_cat#:#Kategorie
+common#:#obj_crs#:#Cursus
+common#:#obj_dbk#:#Digilib-boek
+common#:#obj_file#:#Bestand
+common#:#obj_fold#:#Map
+common#:#obj_frm#:#Forum
+common#:#obj_glo#:#Woordenlijst
+common#:#obj_grp#:#Groep
+common#:#obj_ldap#:#LDAP-instellingen
+common#:#obj_ldap_desc#:#Configureer de globale LDAP-instellingen hier.
+common#:#obj_le#:#Lesmodule
+common#:#obj_lm#:#Lesmodule
+common#:#obj_lng#:#Taal
+common#:#obj_lngf#:#Talen
+common#:#obj_lngf_desc#:#Beheer uw systeem-talen hier.
+common#:#obj_lo#:#Leerobject
+common#:#obj_mail#:#Mail-instellingen
+common#:#obj_mail_desc#:#Configureer de globale Mail-instellingen hier.
+common#:#obj_not_found#:#Object niet gevonden
+common#:#obj_note#:#Notitie
+common#:#obj_notf#:#Notitie-administratie
+common#:#obj_objf#:#Object-definities
+common#:#obj_objf_desc#:#Beheer van ILIAS object-typen en object-rechten. (alleen voor experts!)
+common#:#obj_owner#:#Dit object is eigendom van
+common#:#obj_pg#:#Pagina
+common#:#obj_role#:#Rol
+common#:#obj_rolf#:#Rollen
+common#:#obj_rolf_desc#:#Beheer uw rollen hier.
+common#:#obj_rolf_local#:#Lokale rollen
+common#:#obj_rolf_local_desc#:#Bevat lokale rollen van objectnr.
+common#:#obj_rolt#:#Rol-sjabloon
+common#:#obj_root#:#root
+common#:#obj_slm#:#SCORM lesmodule
+common#:#obj_st#:#Hoofdstuk
+common#:#obj_typ#:#Object-type definitie
+common#:#obj_type#:#Object-type
+common#:#obj_uset#:#Gebruikers-instellingen
+common#:#obj_usr#:#Gebruiker
+common#:#obj_usrf#:#Gebruiker
+common#:#obj_usrf_desc#:#Beheer gebruiker-accounts hier.
+common#:#objects#:#Objecten
+common#:#objf#:#Object-definities
+common#:#objs_confirm#:#Bevestig activiteit
+common#:#objs_delete#:#Verwijderen objecten
+common#:#of#:#van
+common#:#offline_version#:#Offline Versie
+common#:#ok#:#OK
+common#:#old#:#Oud
+common#:#online_chapter#:#Online hoofdstuk
+common#:#online_version#:#Online Versie
+common#:#operation#:#Operatie
+common#:#optimize#:#Optimaliseren
+common#:#options#:#Opties
+common#:#order_by#:#In volgorder van
+common#:#other#:#Andere
+common#:#overview#:#Overzicht
+common#:#owner#:#Eigenaar
+common#:#page#:#Pagina
+common#:#page_edit#:#Wijzigen Pagina
+common#:#pages#:#Pagina's
+common#:#parameter#:#Parameter
+common#:#parse#:#Parsen
+common#:#passwd#:#Wachtwoord
+common#:#passwd_invalid#:#Het nieuwe wachtwoord is ongeldig. Alleen de volgende karakters zijn toegestaan(minimaal 6 karakters): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_not_match#:#Uw ingaven voor het nieuwe wachtwoord komen niet overeen! Geef uw nieuwe wachtwoord opnieuw.
+common#:#passwd_wrong#:#Het opgegeven wachtwoord is fout!
+common#:#password#:#Wachtwoord
+common#:#paste#:#Plakken
+common#:#pasteChapter#:#Plakken
+common#:#pastePage#:#Plakken
+common#:#path#:#Pad
+common#:#path_not_set#:#Pad niet ingesteld
+common#:#path_to_babylon#:#Pad naar Babylon
+common#:#path_to_convert#:#Pad naar Converteer
+common#:#path_to_htmldoc#:#Pad naar HTMLdoc
+common#:#path_to_java#:#Pad naar Java
+common#:#path_to_unzip#:#Pad naar Unzip
+common#:#path_to_zip#:#Pad naar Zip
+common#:#pathes#:#Paden
+common#:#payment_system#:#Betaal-systeem
+common#:#perm_settings#:#Rechten
+common#:#permission#:#Recht
+common#:#permission_denied#:#Toegang gewijgerd
+common#:#personal_data#:#Persoonlijke informatie
+common#:#personal_desktop#:#Persoonlijke scherm
+common#:#personal_picture#:#Persoonlijke plaatje
+common#:#personal_profile#:#Persoonlijke profiel
+common#:#persons#:#Personen
+common#:#pg_a#:#een pagina
+common#:#pg_add#:#Toevoegen van een pagina
+common#:#pg_added#:#Pagina toegevoegd
+common#:#pg_edit#:#Wijzigen pagina
+common#:#pg_new#:#Nieuwe pagina
+common#:#phone#:#Telefoon
+common#:#phone_home#:#Privé telefoon
+common#:#phone_mobile#:#Mobile telefoon
+common#:#phone_office#:#Telefoon op het werk
+common#:#phrase#:#Phrase
+common#:#please_enter_target#:#Voer een doel in
+common#:#please_enter_title#:#Voer een titel in
+common#:#port#:#Port
+common#:#position#:#Positie
+common#:#presentation_options#:#Presentatie van opties
+common#:#previous#:#vorige
+common#:#print#:#Print
+common#:#profile_changed#:#Uw profiel is gewijzigd
+common#:#profile_of#:#Profiel van
+common#:#properties#:#Eigenschappen
+common#:#pub_section#:#Publieke sectie
+common#:#public_profile#:#Publiek Profiel
+common#:#publication#:#Publikatie
+common#:#publication_date#:#Publikatie-datum
+common#:#published#:#gepubliceerd
+common#:#publishing_organisation#:#Uitgevers-organisatie
+common#:#question#:#Vraag
+common#:#quit#:#Loguit
+common#:#quote#:#Citeren
+common#:#read#:#Lezen
+common#:#recipient#:#Ontvanger
+common#:#refresh#:#Verversen
+common#:#refresh_languages#:#Ververs talen
+common#:#refresh_list#:#Ververs lijs
+common#:#register#:#Registreer
+common#:#register_info#:#A.u.b. vul het registratie-formulier in (Velden met een asteriks zijn verplicht).
+common#:#registered_since#:#Registreerd sinds
+common#:#registered_user#:#geregistreerde gebruiker
+common#:#registered_users#:#geregistreerde gebruikers
+common#:#registration#:#Registratie van een nieuw account
+common#:#registration_expired#:#De registratie-peride is verlopen
+common#:#remove#:#Verwijder
+common#:#remove_translation#:#Verwijder vertaling
+common#:#rename#:#Geef een nieuwe naam
+common#:#reply#:#Beantwoorden
+common#:#repository#:#Depot
+common#:#required_field#:#Verplicht veld
+common#:#reset#:#Terugzetten
+common#:#resources#:#Bronnen
+common#:#retype_password#:#Type wachtwoord opnieuw
+common#:#right#:#Recht
+common#:#rights#:#Rechten
+common#:#role#:#Rol
+common#:#role_a#:#een rol
+common#:#role_add#:#Toevoegen Rol
+common#:#role_add_local#:#Toevoegen lokale rol
+common#:#role_added#:#Rol toegevoegd
+common#:#role_assignment#:#Rol-toewijzing
+common#:#role_deleted#:#Rol gewist
+common#:#role_edit#:#Wijzigen rol
+common#:#role_new#:#Nieuwe rol
+common#:#roles#:#Rollen
+common#:#rolf#:#Rol Map
+common#:#rolf_added#:#Rolmap toegevoegd
+common#:#rolt#:#Rol-sjabloon
+common#:#rolt_a#:#een rol-sjabloon
+common#:#rolt_add#:#Toevoegen rol-sjabloon
+common#:#rolt_added#:#Rol-sjabloon toegevoegd
+common#:#rolt_edit#:#Wijzigen rol-sjabloon
+common#:#rolt_new#:#Nieuwe rol-sjabloon
+common#:#salutation#:#Aanhef
+common#:#salutation_f#:#Hr./Mevr.
+common#:#salutation_m#:#Mr.
+common#:#save#:#Opslaan
+common#:#save_and_back#:#Opslaan en terug
+common#:#save_message#:#Sla bericht op
+common#:#save_refresh#:#Opslaan en verversen
+common#:#save_return#:#Opslaan en terugkeren
+common#:#saved#:#Opgeslagen
+common#:#saved_successfully#:#Succesvol opgeslagen
+common#:#search#:#Zoeken
+common#:#search_in#:#Zoeken in
+common#:#search_new#:#Nieuwe zoekopdracht
+common#:#search_recipient#:#Zoek ontvanger
+common#:#search_result#:#Zoek resultaat
+common#:#search_user#:#Zoek gebruiker
+common#:#sections#:#Secties
+common#:#select#:#Selecteren
+common#:#select_all#:#Selecteer alles
+common#:#select_file#:#Selecteer bestand
+common#:#select_mode#:#Selecteer modus
+common#:#selected#:#Geselecteerd
+common#:#send#:#zend
+common#:#sender#:#Zender
+common#:#sent#:#Gezonden
+common#:#sequence#:#Volgorde
+common#:#sequences#:#Volgorden
+common#:#server#:#Server
+common#:#server_data#:#Server-gegevens 
+common#:#server_software#:#Server-software
+common#:#set#:#Instellen
+common#:#setSystemLanguage#:#Stel systeemtaal in
+common#:#setUserLanguage#:#Stel gebruikerstaal in
+common#:#set_offline#:#Ga offline
+common#:#set_online#:#Ga online
+common#:#settings#:#Instellingen
+common#:#show_details#:#Laat details zien
+common#:#show_list#:#Laat lijst zien
+common#:#show_members#:#Laat leden zien
+common#:#show_owner#:#Laat eigenaar zien
+common#:#show_structure#:#Schakelen structured-View in
+common#:#signature#:#Handtekening
+common#:#slm#:#SCORM lesmodule
+common#:#slm_added#:#SCORM Lesmodule toegevoegd
+common#:#smtp#:#SMTP
+common#:#sort_by_this_column#:#Sorteer op deze kolom
+common#:#st_a#:#een hoofdstuk
+common#:#st_add#:#Voeg hoofdstuk toe
+common#:#st_added#:#Hoofdstuk toegevoegd
+common#:#st_edit#:#Wijzigen hoofdstuk
+common#:#st_new#:#Nieuw hoofdstuk
+common#:#startpage#:#Startpagina
+common#:#status#:#Status
+common#:#step#:#Stap
+common#:#stop_inheritance#:#Stop overerven
+common#:#street#:#Straat
+common#:#structure#:#Indeling
+common#:#subcat_name#:#Subcategorie-naam
+common#:#subchapter_new#:#Nieuwe paragraaf
+common#:#subject#:#Subject
+common#:#submit#:#Verzend
+common#:#subobjects#:#Subobjecten
+common#:#subscription#:#Abonnement
+common#:#summary#:#Samenvatting
+common#:#system#:#Systeem
+common#:#system_choose_language#:#Systeemtaal kiezen
+common#:#system_groups#:#Systeem-groepen
+common#:#system_grp#:#Systeem-groep
+common#:#system_language#:#Systeemtaal
+common#:#system_message#:#Systeem-bericht
+common#:#term#:#Begrip
+common#:#test_intern#:#Interne test
+common#:#time#:#Tijd
+common#:#title#:#Titel
+common#:#to#:#Aan
+common#:#to_client_list#:#To Client selection###17 Dec 2003 new variable
+common#:#to_desktop#:#Abonneren
+common#:#today#:#Vandaag
+common#:#total#:#Totaal
+common#:#tpl_path#:#Sjabloon-pad
+common#:#translation#:#Vertaling
+common#:#trash#:#Prullenbak
+common#:#treeview#:#Tonen
+common#:#txt_add_object_instruction1#:#Blader naar de locatie waar u wilt toevoegen
+common#:#txt_add_object_instruction2#:#.
+common#:#txt_registered#:#U heeft u met succes aangemeld aan ILIAS. A.u.b. klik op de onderstaande button om op ILIAS in te  loggen met uw gebruikers-account.
+common#:#typ#:#Objecttype-definition
+common#:#type#:#Type
+common#:#type_your_message_here#:#Type uw bericht hier
+common#:#uid#:#UID
+common#:#uninstall#:#Deïnstalleer
+common#:#uninstalled#:#Gedeïnstalleerd.
+common#:#unknown#:#Onbekend
+common#:#unread#:#Ongelezen
+common#:#unsubscribe#:#abonnement beëindigen
+common#:#up#:#Omhoog
+common#:#update_applied#:#Bijgewerkt
+common#:#update_language#:#Taal bijwerken
+common#:#upload#:#Upload
+common#:#url#:#URL
+common#:#url_description#:#URL Beschrijving
+common#:#user#:#Gebruiker
+common#:#user_added#:#Gebruiker toegevoegd
+common#:#user_assignment#:#Gebruiker-toewijzing
+common#:#user_deleted#:#Gebruiker gewist
+common#:#user_language#:#Gebruikers-taal
+common#:#user_not_chosen#:#You did not choose a group-member!###17 Dec 2003 new variable
+common#:#userdata#:#Gebruikers-gegevens
+common#:#username#:#Gebruikers-naam
+common#:#users#:#Gebruikers
+common#:#users_online#:#Gebruikers online
+common#:#usr#:#Gebruiker
+common#:#usr_a#:#een gebruiker
+common#:#usr_add#:#Toevoegen gebruiker
+common#:#usr_added#:#Gebruiker toegevoegd
+common#:#usr_agreement#:#Gebruikers-overeenkomst
+common#:#usr_agreement_empty#:#De overeenkomst bevat geen tekst
+common#:#usr_edit#:#Wijzigen gebruiker
+common#:#usr_new#:#Nieuwe gebruiker
+common#:#usr_skin_style#:#Skin / Style
+common#:#usr_style#:#Gebruikers-stijl
+common#:#usrf#:#Gebruikers-map
+common#:#validate#:#Valideer
+common#:#value#:#Waarde
+common#:#version#:#Versie
+common#:#view#:#Tonen
+common#:#view_content#:#Toon inhoud
+common#:#visible_layers#:#Zichtbare laag
+common#:#visits#:#Boezoeken
+common#:#week#:#Week
+common#:#who_is_online#:#Wie is online?
+common#:#with#:#met
+common#:#write#:#Schrijven
+common#:#yes#:#Ja
+common#:#you_may_add_local_roles#:#U mag lokale rollen toevoegen
+common#:#your_message#:#Uw bericht
+common#:#zip#:#Postkode
+common#:#zipcode#:#Postkode
+content#:#HTML export#:#HTM-export
+content#:#PDF export#:#PDF-export
+content#:#Pages#:#Pagina's
+content#:#all#:#Alles
+content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
+content#:#cont_Citation#:#Citaat
+content#:#cont_Example#:#Voorbeeld
+content#:#cont_Headline1#:#Kopregel 1
+content#:#cont_Headline2#:#Kopregel 2
+content#:#cont_Headline3#:#Kopregel 3
+content#:#cont_List#:#Lijst
+content#:#cont_LocalFile#:#Lokaal-bestand
+content#:#cont_Mnemonic#:#Mnemonic
+content#:#cont_Number#:#Nummer
+content#:#cont_Reference#:#Referentie
+content#:#cont_Remark#:#Opmerking
+content#:#cont_Roman#:#Romeins I, II, ...
+content#:#cont_Unordered#:#Ongesorteerd
+content#:#cont_add_definition#:#Definitie toevoegen
+content#:#cont_added_term#:#Begrip toegevoegd
+content#:#cont_all_definitions#:#Alle definities
+content#:#cont_all_pages#:#Alle paginas
+content#:#cont_alphabetic#:#Alphabetisch a, b, ...
+content#:#cont_assign_full#:#Toewijzen Fullscreen
+content#:#cont_assign_std#:#Toewijzen Standaard
+content#:#cont_assign_translation#:#Toewijzen vertaling
+content#:#cont_assignments_deleted#:#De toewijzing is gewist
+content#:#cont_back#:#Terug
+content#:#cont_booktitle#:#Boektitel
+content#:#cont_bottom#:#Onderkant
+content#:#cont_cant_del_full#:#Verwijderen fullscreen-bestand niet mogelijk.
+content#:#cont_cant_del_std#:#Verwijderen van het standaard-scherm-bestand niet mogelijk.
+content#:#cont_caption#:#Schermnaam
+content#:#cont_change_type#:#Wijzig type
+content#:#cont_chap_and_pages#:#Hoofdstukken en pagina's
+content#:#cont_chap_select_target_now#:#Hoofdstuk gemarkeerd voor verplaatsen. Selecteer nu nieuwe positie.
+content#:#cont_chapters#:#Hoofdstukken
+content#:#cont_characteristic#:#Karakteristieken
+content#:#cont_choose_cont_obj#:#Kies het content-object
+content#:#cont_choose_glossary#:#Kies de woordenlijst
+content#:#cont_citation_err_one#:#U moet exact één editie kiezen
+content#:#cont_citation_selection_not_valid#:#Uw selectie is niet geldig
+content#:#cont_citations#:#Citaten
+content#:#cont_content#:#Inhoud
+content#:#cont_content_obj#:#Content-object
+content#:#cont_create_dir#:#Creëer directory
+content#:#cont_cross_reference#:#Verwijzing
+content#:#cont_data_from_lms#:#adlcp:datafromlms
+content#:#cont_def_layout#:#Default layout
+content#:#cont_def_organization#:#default
+content#:#cont_definition#:#Definitie
+content#:#cont_definitions#:#Definities
+content#:#cont_del_assignment#:#Verwijderen toewijzing
+content#:#cont_dependencies#:#Afhankelijkheden
+content#:#cont_details#:#Details
+content#:#cont_dir_file#:#Directory/Bestand
+content#:#cont_edit_file_list_properties#:#Wijzigen bestandslijst-eigenschappen
+content#:#cont_edit_mob#:#Wijzigen media-object
+content#:#cont_edit_mob_alias_prop#:#Wijzigen media-object-instance eigenschappen
+content#:#cont_edit_mob_files#:#Object-bestanden
+content#:#cont_edit_mob_properties#:#Wijzigen media-object-eigenschappen
+content#:#cont_edit_par#:#Wijzigen paragrafen
+content#:#cont_edit_tab_properties#:#Tabel-eigenschappen
+content#:#cont_edit_term#:#Wijzigen begrip
+content#:#cont_edition#:#Editie
+content#:#cont_file#:#Bestand
+content#:#cont_files#:#Bestanden
+content#:#cont_full_is_in_dir#:#Verwijderen niet mogelijk. Fullscreen-bestand is in de directory.
+content#:#cont_fullscreen#:#Fullscreen
+content#:#cont_height#:#Hoogte
+content#:#cont_how_published#:#Hoe gepubliceerd
+content#:#cont_href#:#href
+content#:#cont_id_ref#:#identifierref
+content#:#cont_import_id#:#identifier
+content#:#cont_insert_file_item#:#Invoegen bestand
+content#:#cont_insert_file_list#:#Invoegen bestandslijst
+content#:#cont_insert_list#:#Invoegen lijst
+content#:#cont_insert_mob#:#Invoegen media-object
+content#:#cont_insert_par#:#Invoegen paragraaf
+content#:#cont_insert_search#:#Invoegen van een zoeksleutel
+content#:#cont_insert_table#:#Invoegen tabel
+content#:#cont_internal_link#:#interne link
+content#:#cont_is_visible#:#onzichtbaar
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN
+content#:#cont_item#:#Item
+content#:#cont_journal#:#Journaal
+content#:#cont_keyword#:#Sleutelwoord
+content#:#cont_link_select#:#Interne link
+content#:#cont_link_type#:#Link-type
+content#:#cont_list_properties#:#Lijst-eigenschappen
+content#:#cont_lk_chapter#:#Hoofdstuk
+content#:#cont_lk_chapter_new#:#Hoofdstuk (Nieuw Frame)
+content#:#cont_lk_media_faq#:#Media (FAQ Frame)
+content#:#cont_lk_media_inline#:#Media (Inline)
+content#:#cont_lk_media_media#:#Media (Media Frame)
+content#:#cont_lk_media_new#:#Media (Nieuw Frame)
+content#:#cont_lk_page#:#Pagina
+content#:#cont_lk_page_faq#:#Pagina (FAQ Frame)
+content#:#cont_lk_page_new#:#Pagina (Nieuw Frame)
+content#:#cont_lk_term#:#Woordenlijst begrip
+content#:#cont_lk_term_new#:#Woordenlijst begrip (Nieuw Frame)
+content#:#cont_lm_properties#:#Eigenschappen leermodule
+content#:#cont_manifest#:#Manifest
+content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_mob_files#:#Object-bestanden
+content#:#cont_mob_inst_prop#:#Instantie-eigenschappen
+content#:#cont_mob_prop#:#Object-eigenschappen
+content#:#cont_mob_usages#:#Gebruik
+content#:#cont_month#:#Maand
+content#:#cont_msg_multiple_editions#:#Het is niet mogelijk om details van meerdere edities te laten zien
+content#:#cont_new_assignment#:#Nieuwe toewijzing
+content#:#cont_new_dir#:#Nieuwe directory
+content#:#cont_new_file#:#Nieuw bestand
+content#:#cont_new_media_obj#:#Nieuw media-object
+content#:#cont_new_term#:#Nieuw begrip
+content#:#cont_no_assign_itself#:#Het object kan niet aan zichzelf toegewezen worden
+content#:#cont_no_object_found#:#Kan geen object met deze titel vinden
+content#:#cont_no_page#:#Geen pagina gevonden.
+content#:#cont_none#:#Geen enkele
+content#:#cont_nr_cols#:#Aantal kolommen
+content#:#cont_nr_items#:#Aantal eenheden
+content#:#cont_nr_rows#:#Aantal rijen
+content#:#cont_online#:#Online
+content#:#cont_order#:#Type volgorde
+content#:#cont_organization#:#Organisatie
+content#:#cont_organizations#:#Organisaties
+content#:#cont_orig_size#:#Organisatie-grootte
+content#:#cont_page_header#:#Pagina-kopregel
+content#:#cont_page_select_target_now#:#Pagina geselecteerd voor verplaatsing. Selecteer waarheen.
+content#:#cont_pages#:#Pagina's
+content#:#cont_parameter#:#Parameter
+content#:#cont_parameters#:#parameters
+content#:#cont_personal_clipboard#:#Klembord
+content#:#cont_pg_content#:#Pagina-inhoud
+content#:#cont_pg_title#:#Pagina-titel
+content#:#cont_prereq_type#:#adlcp:prerequisites.type
+content#:#cont_prerequisites#:#adlcp:prerequisites
+content#:#cont_preview#:#Laten zien
+content#:#cont_publisher#:#Uitgever
+content#:#cont_purpose#:#Doel
+content#:#cont_ref_helptext#:#(bijv. http://www.server.org/myimage.jpg)
+content#:#cont_reference#:#Referentie
+content#:#cont_resource#:#Middelen
+content#:#cont_resource_type#:#type
+content#:#cont_resources#:#Bronnen
+content#:#cont_roman#:#Romeins I, II, ...
+content#:#cont_sc_title#:#titel
+content#:#cont_school#:#School
+content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_max_one_item#:#selecteer slechts één item
+content#:#cont_select_max_one_term#:#Selecteer slechts één begrip
+content#:#cont_select_one_edition#:#Please select at least one edition.###17 Dec 2003 new variable
+content#:#cont_select_one_translation#:#selecteer slechts één vertaling
+content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.###17 Dec 2003 new variable
+content#:#cont_select_term#:#Selecteer een begrip
+content#:#cont_select_translation#:#selecter de toewijzing van bovenstaande lijst
+content#:#cont_series#:#Series
+content#:#cont_series_editor#:#Auteur van de serie
+content#:#cont_series_title#:#Titel van de serie
+content#:#cont_series_volume#:#Band van de serie
+content#:#cont_set_class#:#Instellen class
+content#:#cont_set_width#:#Instellen breedte
+content#:#cont_show#:#laat zien
+content#:#cont_show_citation#:#Laat zien met citaat
+content#:#cont_size#:#Grootte (Bytes)
+content#:#cont_source#:#Bron
+content#:#cont_st_title#:#Hoofdstuk titel
+content#:#cont_std_is_in_dir#:#Verwijderen niet mogelijk. Standaard view-bestand is in de directory.
+content#:#cont_std_view#:#Standaard view
+content#:#cont_structure#:#structuur
+content#:#cont_subchapters#:#Paragrafen
+content#:#cont_table#:#Tabel
+content#:#cont_table_border#:#Tabel-randen
+content#:#cont_table_cellpadding#:#Tussen-cellen-ruimte in tabel
+content#:#cont_table_cellspacing#:#Cel-ruimte in tabel
+content#:#cont_table_width#:#Tabel-breedte
+content#:#cont_target_within_source#:#Doel mag niet binnen het bron-Object.
+content#:#cont_term#:#Begrip
+content#:#cont_terms#:#Begrippen
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_toc#:#Inhoudsopgave
+content#:#cont_top#:#Bovenzijde
+content#:#cont_translations#:#Vertaling(en)
+content#:#cont_translations_assigned#:#De vertaling(en) zijn toegewezen
+content#:#cont_upload_file#:#Upload-bestand
+content#:#cont_url#:#URL
+content#:#cont_version#:#versie
+content#:#cont_where_published#:#Waar gepubliceerd
+content#:#cont_width#:#Breedte
+content#:#cont_wysiwyg#:#Inhoud Wysiwyg
+content#:#cont_xml_base#:#xml:base
+content#:#cont_year#:#Jaar
+content#:#pages from#:#Pagina's van
+content#:#par#:#Paragrafen
+content#:#pg#:#Pagina
+content#:#read offline#:#Lezen offline
+content#:#st#:#Hoofdstuk
+content#:#start export#:#Start exporteren
+forum#:#forums#:#Forums
+forum#:#forums_articles#:#Artikelen
+forum#:#forums_attachments#:#Attachments
+forum#:#forums_attachments_add#:#Toevoegen Attachment
+forum#:#forums_attachments_edit#:#Wijzigen Attachment
+forum#:#forums_available#:#Beschikbare forums
+forum#:#forums_censor_comment#:#Commentaar van de censor
+forum#:#forums_count#:#Aantal forums
+forum#:#forums_count_art#:#Aantal artikelen
+forum#:#forums_count_thr#:#Aantal threads
+forum#:#forums_delete_file#:#Verwijderen attachment
+forum#:#forums_download_attachment#:#Download bestand
+forum#:#forums_edit_post#:#Wijzigen artikel
+forum#:#forums_info_censor2_post#:#Herroep censor?
+forum#:#forums_info_censor_post#:#Weet u zeker, dat u dit artikel wil verbergen?
+forum#:#forums_info_delete_post#:#Weet u zeker, dat u dit artikel wil verwijderen inclusief elke reactie?
+forum#:#forums_last_post#:#Laatste artikel
+forum#:#forums_moderators#:#Moderatoren
+forum#:#forums_new_entries#:#Nieuwe forum-bijdragen
+forum#:#forums_new_thread#:#Nieuw thema
+forum#:#forums_not_available#:#Forums niet beschikbaar
+forum#:#forums_overview#:#Forums-overzicht
+forum#:#forums_post_deleted#:#Artikl is gewist
+forum#:#forums_post_modified#:#Artikel is gewijzigd
+forum#:#forums_post_new_entry#:#Nieuw artikel werd toegevoegd
+forum#:#forums_posts#:#Alle artikelen
+forum#:#forums_posts_not_available#:#Artikelen niet beschikbaar
+forum#:#forums_print_thread#:#Print thread
+forum#:#forums_quote#:#Citeren
+forum#:#forums_respond#:#Beantwoorden
+forum#:#forums_the_post#:#Artikel
+forum#:#forums_thread#:#Thema
+forum#:#forums_thread_articles#:#Bijdrage aan thema's
+forum#:#forums_thread_create_date#:#Gecreëerd op
+forum#:#forums_thread_create_from#:#Gecreëerd van
+forum#:#forums_thread_new_entry#:#Nieuw thema is toegevoegd
+forum#:#forums_threads#:#Threads
+forum#:#forums_threads_not_available#:#Thema niet beschikbaar
+forum#:#forums_topics_overview#:#Overzicht thema's
+forum#:#forums_your_reply#:#Uw antwoord
+mail#:#also_as_email#:#Ook als email
+mail#:#bc#:#BC
+mail#:#forward#:#Verzenden
+mail#:#linebreak#:#Linebreak
+mail#:#mail_add_recipient#:#Voer een ontvanger in
+mail#:#mail_add_subfolder#:#Toevoegen submap
+mail#:#mail_add_subject#:#Voer een subject in
+mail#:#mail_add_to_addressbook#:#Toevoegen aan adresboek
+mail#:#mail_add_type#:#Voeg het type mail toe dat u wilt verzenden
+mail#:#mail_addr_entries#:#Ingangen
+mail#:#mail_attachments#:#Attachments
+mail#:#mail_bc_not_valid#:#De BC-ontvanger is niet geldig
+mail#:#mail_bc_search#:#BC zoeken
+mail#:#mail_byte#:#Byte
+mail#:#mail_cc_not_valid#:#e CC-ontvanger is geldig
+mail#:#mail_cc_search#:#CC zoeken
+mail#:#mail_change_to_folder#:#Ga naar map:
+mail#:#mail_check_your_email_addr#:#Uw email-adres is niet geldig
+mail#:#mail_compose#:#Samenstellen Bericht
+mail#:#mail_deleted#:#De mail-bericht(en) word(t/en) gewist
+mail#:#mail_deleted_entry#:#De bijdragen worden gewist
+mail#:#mail_email_forbidden#:#U bent niet gemachtigd email te zenden
+mail#:#mail_entry_added#:#Voeg een nieuwe post toe
+mail#:#mail_entry_changed#:#De bijdrage is gewijzigd
+mail#:#mail_file_name#:#Bestandsnaam
+mail#:#mail_file_size#:#Bestandsgrootte
+mail#:#mail_files_deleted#:#De bestanden worden gewist
+mail#:#mail_folder_created#:#Een nieuwe map wordt gecreëerd
+mail#:#mail_folder_deleted#:#De map wordt verwijderd
+mail#:#mail_folder_exists#:#Een map met deze naam bestaat al
+mail#:#mail_folder_name#:#Map-naam
+mail#:#mail_folder_name_changed#:#De map-naam is gewijzigd
+mail#:#mail_folder_options#:#Map-opties
+mail#:#mail_following_rcp_not_valid#:#De volgende ontvangers zijn niet geldig:
+mail#:#mail_global_options#:#Globale opties
+mail#:#mail_insert_folder_name#:#Voeg een map-naam in
+mail#:#mail_insert_query#:#Voeg een vraag in
+mail#:#mail_intern#:#intern
+mail#:#mail_mark_read#:#Markeer gelezen mail
+mail#:#mail_mark_unread#:#Markeer ongelezen mail
+mail#:#mail_maxsize_attachment_error#:#De limit voor upload is:
+mail#:#mail_message_send#:#Bericht verzonden
+mail#:#mail_move_error#:#Fout met verplaatsen mail
+mail#:#mail_move_to#:#Verplaatsen naar:
+mail#:#mail_moved#:#Mail is verplaatst
+mail#:#mail_moved_to_trash#:#Mail is verplaats naar de prullenbak
+mail#:#mail_new_file#:#Voeg een nieuw bestand toe:
+mail#:#mail_no_attach_allowed#:#Systeem berichten mogen geen attachments hebben
+mail#:#mail_no_attachments_found#:#Geen attachments gevonden
+mail#:#mail_options_of#:#Opties
+mail#:#mail_options_saved#:#Opties opgeslagen
+mail#:#mail_recipient_not_valid#:#De ontvanger is niet geldig
+mail#:#mail_s#:#Mail
+mail#:#mail_s_unread#:#Ongelezen Mail
+mail#:#mail_saved#:#Het bericht is opgeslagen
+mail#:#mail_search_addressbook#:#zoek in het adresboek
+mail#:#mail_search_system#:#zoek in het systeem
+mail#:#mail_select_one_entry#:#U moet één bijdrage selecteren
+mail#:#mail_select_one_file#:#U moet één bestand selecteren
+mail#:#mail_sure_delete#:#Weet u zeker dat u de geselecteerde mail wilt verwijderen
+mail#:#mail_sure_delete_entry#:#Weet u zeker dat u de volgende bijdragen wilt verwijderen
+mail#:#mail_sure_delete_file#:#Het bestand wordt definitief verwijderd
+mail#:#mail_sure_delete_folder#:#De map en zijn inhoud worden definitief verwijderd
+mail#:#mail_to_search#:#zoeken
+mail#:#mail_user_addr_n_valid#:#De volgende gebruikers hebben geen correct emailadres
+mail#:#search_bc_recipient#:#Zoek BC-ontvanger
+mail#:#search_cc_recipient#:#Zoek CC-ontvanger
+meta#:#meta_accessibility_restrictions#:#Toegangs-restricties
+meta#:#meta_active#:#Actief
+meta#:#meta_add#:#Toevoegen
+meta#:#meta_annotation#:#Verklaring
+meta#:#meta_atomic#:#Atomisch
+meta#:#meta_author#:#Auteur
+meta#:#meta_browser#:#Browser
+meta#:#meta_c_AD#:#Andorra
+meta#:#meta_c_AE#:#Verenigde Arabische Emiraten
+meta#:#meta_c_AF#:#Afghanistan
+meta#:#meta_c_AG#:#Antigua en Barbuda
+meta#:#meta_c_AI#:#Anguilla
+meta#:#meta_c_AL#:#Albanië
+meta#:#meta_c_AM#:#Armenië
+meta#:#meta_c_AN#:#Nederlandse Antillen
+meta#:#meta_c_AO#:#Angola
+meta#:#meta_c_AQ#:#Antarctica
+meta#:#meta_c_AR#:#Argentinië
+meta#:#meta_c_AS#:#Amerikaans Samoa
+meta#:#meta_c_AT#:#Oostenrijk
+meta#:#meta_c_AU#:#Australië
+meta#:#meta_c_AW#:#Aruba
+meta#:#meta_c_AZ#:#Azerbaijan
+meta#:#meta_c_BA#:#Bosnië en Herzegowina
+meta#:#meta_c_BB#:#Barbados
+meta#:#meta_c_BD#:#Bangladesh
+meta#:#meta_c_BE#:#België
+meta#:#meta_c_BF#:#Burkina Faso
+meta#:#meta_c_BG#:#Bulgarije
+meta#:#meta_c_BH#:#Bahrain
+meta#:#meta_c_BI#:#Burundi
+meta#:#meta_c_BJ#:#Benin
+meta#:#meta_c_BM#:#Bermuda
+meta#:#meta_c_BN#:#Brunei Darussalam
+meta#:#meta_c_BO#:#Bolivia
+meta#:#meta_c_BR#:#Brazilië
+meta#:#meta_c_BS#:#Bahamas
+meta#:#meta_c_BT#:#Bhutan
+meta#:#meta_c_BV#:#Bouvet Island
+meta#:#meta_c_BW#:#Botswana
+meta#:#meta_c_BY#:#Belarus
+meta#:#meta_c_BZ#:#Belize
+meta#:#meta_c_CA#:#Canada
+meta#:#meta_c_CC#:#Cocos (Keeling) eilanden
+meta#:#meta_c_CF#:#Centraalafrikaanse Republiek
+meta#:#meta_c_CG#:#Congo
+meta#:#meta_c_CH#:#Switserland
+meta#:#meta_c_CI#:#Cote D' Ivoire
+meta#:#meta_c_CK#:#Cook Islands
+meta#:#meta_c_CL#:#Chili
+meta#:#meta_c_CM#:#Cameroon
+meta#:#meta_c_CN#:#China
+meta#:#meta_c_CO#:#Colombia
+meta#:#meta_c_CR#:#Costa Rica
+meta#:#meta_c_CU#:#Cuba
+meta#:#meta_c_CV#:#Kaap Verdische eilanden
+meta#:#meta_c_CX#:#Christmas Island
+meta#:#meta_c_CY#:#Cyprus
+meta#:#meta_c_CZ#:#Tsjechische Republiek
+meta#:#meta_c_DE#:#Duitsland
+meta#:#meta_c_DJ#:#Djibouti
+meta#:#meta_c_DK#:#Denemarken
+meta#:#meta_c_DM#:#Dominica
+meta#:#meta_c_DO#:#Dominicaanse Republiek
+meta#:#meta_c_DZ#:#Algerië
+meta#:#meta_c_EC#:#Ecuador
+meta#:#meta_c_EE#:#Estland
+meta#:#meta_c_EG#:#Egypte
+meta#:#meta_c_EH#:#Westerse Sahara
+meta#:#meta_c_ER#:#Eritrea
+meta#:#meta_c_ES#:#Spanje
+meta#:#meta_c_ET#:#Ethiopië
+meta#:#meta_c_FI#:#Finland
+meta#:#meta_c_FJ#:#Fiji
+meta#:#meta_c_FK#:#Falkland Eilanden
+meta#:#meta_c_FM#:#Micronesia
+meta#:#meta_c_FO#:#Faroe Eilanden
+meta#:#meta_c_FR#:#Frankrijk
+meta#:#meta_c_FX#:#Frankrijk
+meta#:#meta_c_GA#:#Gabon
+meta#:#meta_c_GB#:#Verenigd Koninkrijk
+meta#:#meta_c_GD#:#Grenada
+meta#:#meta_c_GE#:#Giorgië
+meta#:#meta_c_GF#:#Frans Guiana
+meta#:#meta_c_GH#:#Ghana
+meta#:#meta_c_GI#:#Gibraltar
+meta#:#meta_c_GL#:#Groenland
+meta#:#meta_c_GM#:#Gambia
+meta#:#meta_c_GN#:#Guinea
+meta#:#meta_c_GP#:#Guadeloupe
+meta#:#meta_c_GQ#:#Equatoriaal Guinea
+meta#:#meta_c_GR#:#Griekenland
+meta#:#meta_c_GS#:#South Georgia en de South Sandwich Eilanden
+meta#:#meta_c_GT#:#Guatemala
+meta#:#meta_c_GU#:#Guam
+meta#:#meta_c_GW#:#Guinea-Bissau
+meta#:#meta_c_GY#:#Guyana
+meta#:#meta_c_HM#:#Heard en Nc Donald Eilanden
+meta#:#meta_c_HN#:#Honduras
+meta#:#meta_c_HR#:#Croatië
+meta#:#meta_c_HT#:#Haiti
+meta#:#meta_c_HU#:#Hongarije
+meta#:#meta_c_ID#:#Indonesië
+meta#:#meta_c_IE#:#Ierland
+meta#:#meta_c_IL#:#Israël
+meta#:#meta_c_IN#:#India
+meta#:#meta_c_IO#:#British Indian Ocean Territory
+meta#:#meta_c_IQ#:#Iraq
+meta#:#meta_c_IR#:#Iran
+meta#:#meta_c_IS#:#IJsland
+meta#:#meta_c_IT#:#Italië
+meta#:#meta_c_JM#:#Jamaica
+meta#:#meta_c_JO#:#Jordanië
+meta#:#meta_c_JP#:#Japan
+meta#:#meta_c_KE#:#Kenya
+meta#:#meta_c_KG#:#Kyrgyzstan
+meta#:#meta_c_KH#:#Cambodia
+meta#:#meta_c_KI#:#Kiribati
+meta#:#meta_c_KM#:#Comoros
+meta#:#meta_c_KN#:#Saint Kitts en Nevis
+meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)
+meta#:#meta_c_KR#:#South Korea (Republic van Korea)
+meta#:#meta_c_KW#:#Kuwait
+meta#:#meta_c_KY#:#Cayman Islands
+meta#:#meta_c_KZ#:#Kazakhstan
+meta#:#meta_c_LA#:#Lao People's Republic
+meta#:#meta_c_LB#:#Libanon
+meta#:#meta_c_LC#:#Saint Lucia
+meta#:#meta_c_LI#:#Liechtenstein
+meta#:#meta_c_LK#:#Sri Lanka
+meta#:#meta_c_LR#:#Liberia
+meta#:#meta_c_LS#:#Lesotho
+meta#:#meta_c_LT#:#Lithunia
+meta#:#meta_c_LU#:#Luxemburg
+meta#:#meta_c_LV#:#Letland
+meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
+meta#:#meta_c_MA#:#Marocco
+meta#:#meta_c_MC#:#Monaco
+meta#:#meta_c_MD#:#Moldova
+meta#:#meta_c_MG#:#Madagascar
+meta#:#meta_c_MH#:#Marshall Islands
+meta#:#meta_c_MK#:#Macedonië
+meta#:#meta_c_ML#:#Mali
+meta#:#meta_c_MM#:#Myanmar
+meta#:#meta_c_MN#:#Mongolië
+meta#:#meta_c_MO#:#Macau
+meta#:#meta_c_MP#:#Northern Mariana Islands
+meta#:#meta_c_MQ#:#Martinique
+meta#:#meta_c_MR#:#Mauritanië
+meta#:#meta_c_MS#:#Montserrat
+meta#:#meta_c_MT#:#Malta
+meta#:#meta_c_MU#:#Mauritius
+meta#:#meta_c_MV#:#Maldives
+meta#:#meta_c_MW#:#Malawi
+meta#:#meta_c_MX#:#Mexico
+meta#:#meta_c_MY#:#Malaysië
+meta#:#meta_c_MZ#:#Mozambique
+meta#:#meta_c_NA#:#Namibia
+meta#:#meta_c_NC#:#New Caledonia
+meta#:#meta_c_NE#:#Niger
+meta#:#meta_c_NF#:#Norfolk Island
+meta#:#meta_c_NG#:#Nigeria
+meta#:#meta_c_NI#:#Nicaragua
+meta#:#meta_c_NL#:#Nederland
+meta#:#meta_c_NO#:#Noorwegen
+meta#:#meta_c_NP#:#Nepal
+meta#:#meta_c_NR#:#Nauru
+meta#:#meta_c_NU#:#Niue
+meta#:#meta_c_NZ#:#Nieuw Zeeland
+meta#:#meta_c_OM#:#Oman
+meta#:#meta_c_PA#:#Panama
+meta#:#meta_c_PE#:#Peru
+meta#:#meta_c_PF#:#Frans Polynesië
+meta#:#meta_c_PG#:#Papua Nieuw Guinea
+meta#:#meta_c_PH#:#Philipijnen
+meta#:#meta_c_PK#:#Pakistan
+meta#:#meta_c_PL#:#Polen
+meta#:#meta_c_PM#:#St. Pierre And Miquelon
+meta#:#meta_c_PN#:#Pitcairn
+meta#:#meta_c_PR#:#Puerto Rico
+meta#:#meta_c_PT#:#Portugal
+meta#:#meta_c_PW#:#Palau
+meta#:#meta_c_PY#:#Paraguay
+meta#:#meta_c_QA#:#Qatar
+meta#:#meta_c_RE#:#Reunion
+meta#:#meta_c_RO#:#Romanië
+meta#:#meta_c_RU#:#Ran Federation
+meta#:#meta_c_RW#:#Ruanda
+meta#:#meta_c_SA#:#Saudi Arabië
+meta#:#meta_c_SB#:#Solomon Islands
+meta#:#meta_c_SC#:#Seychelles
+meta#:#meta_c_SD#:#Sudan
+meta#:#meta_c_SE#:#Zweden
+meta#:#meta_c_SG#:#Singapore
+meta#:#meta_c_SH#:#St. Helena
+meta#:#meta_c_SI#:#Slovenië
+meta#:#meta_c_SJ#:#Svalbard en Jan Mayen Islands
+meta#:#meta_c_SK#:#Slowakije
+meta#:#meta_c_SL#:#Siearra Leone
+meta#:#meta_c_SM#:#San Marino
+meta#:#meta_c_SN#:#Senegal
+meta#:#meta_c_SO#:#Somalië
+meta#:#meta_c_SR#:#Suriname
+meta#:#meta_c_ST#:#Sao Tome And Principe
+meta#:#meta_c_SV#:#El Salvador
+meta#:#meta_c_SY#:#Syrië
+meta#:#meta_c_SZ#:#Swaziland
+meta#:#meta_c_TC#:#Turks And Caicos Islands
+meta#:#meta_c_TD#:#Chad
+meta#:#meta_c_TF#:#French Southern Territories
+meta#:#meta_c_TG#:#Togo
+meta#:#meta_c_TH#:#Thailand
+meta#:#meta_c_TJ#:#Tajikistan
+meta#:#meta_c_TK#:#Tokelau
+meta#:#meta_c_TM#:#Turkmenistan
+meta#:#meta_c_TN#:#Tunesië
+meta#:#meta_c_TO#:#Tonga
+meta#:#meta_c_TP#:#Oost Timor
+meta#:#meta_c_TR#:#Turkije
+meta#:#meta_c_TT#:#Trinidad And Tobago
+meta#:#meta_c_TV#:#Tuvalu
+meta#:#meta_c_TW#:#Taiwan
+meta#:#meta_c_TZ#:#Tanzania
+meta#:#meta_c_UA#:#Ukraïne
+meta#:#meta_c_UG#:#Uganda
+meta#:#meta_c_UM#:#U.S. Minor Outlying Islands
+meta#:#meta_c_US#:#U.S.A
+meta#:#meta_c_UY#:#Uruguay
+meta#:#meta_c_UZ#:#Uzbekistan
+meta#:#meta_c_VA#:#Vaticaan
+meta#:#meta_c_VC#:#Saint Vincent en de Grenadines
+meta#:#meta_c_VE#:#Venezuela
+meta#:#meta_c_VG#:#Virgin Islands (British)
+meta#:#meta_c_VI#:#Virgin Islands (US)
+meta#:#meta_c_VN#:#Vietnam
+meta#:#meta_c_VU#:#Vanuatu
+meta#:#meta_c_WF#:#Wallis And Futuna Islands
+meta#:#meta_c_WS#:#Samoa
+meta#:#meta_c_YE#:#Yemen
+meta#:#meta_c_YT#:#Mayotte
+meta#:#meta_c_ZA#:#Zuid Afrika
+meta#:#meta_c_ZM#:#Zambia
+meta#:#meta_c_ZR#:#Zaïre
+meta#:#meta_c_ZW#:#Zimbabwe
+meta#:#meta_c_ZZ#:#Ander land
+meta#:#meta_catalog#:#Katalogus
+meta#:#meta_choose_element#:#Kies een element dat u wilt toevoegen!
+meta#:#meta_choose_language#:#Kies een taal
+meta#:#meta_choose_section#:#Kies een sectie
+meta#:#meta_classification#:#Klassificatie
+meta#:#meta_collection#:#Collectie
+meta#:#meta_competency#:#Competensie
+meta#:#meta_context#:#Context
+meta#:#meta_contribute#:#Bijdragen
+meta#:#meta_copyright_and_other_restrictions#:#Copyright en andere restricties
+meta#:#meta_cost#:#Kosten
+meta#:#meta_coverage#:#Dekking
+meta#:#meta_date#:#Datum
+meta#:#meta_delete#:#Verwijderen
+meta#:#meta_description#:#Beschrijving
+meta#:#meta_diagramm#:#Diagram
+meta#:#meta_difficulty#:#Moeilijkheid
+meta#:#meta_dificult#:#Moeilijk
+meta#:#meta_draft#:#Klad
+meta#:#meta_duration#:#Duur
+meta#:#meta_easy#:#Gemakkelijk
+meta#:#meta_education#:#Opleiding
+meta#:#meta_educational_level#:#Opleidingsniveau
+meta#:#meta_educational_objective#:#Opleidingsdoelstelling
+meta#:#meta_entity#:#Instantie
+meta#:#meta_entry#:#Post
+meta#:#meta_exam#:#Examen
+meta#:#meta_exercise#:#Oefening
+meta#:#meta_experiment#:#Experiment
+meta#:#meta_expositive#:#Verklarend
+meta#:#meta_figure#:#Afbeelding
+meta#:#meta_final#:#Uiteindelijk
+meta#:#meta_format#:#Formaat
+meta#:#meta_general#:#Algemeen
+meta#:#meta_graph#:#Graph
+meta#:#meta_has_format#:#Heeft formaat
+meta#:#meta_has_part#:#Heeft deel
+meta#:#meta_has_version#:#Heeft versie
+meta#:#meta_hierarchical#:#Hierarchiesch
+meta#:#meta_high#:#Hoog
+meta#:#meta_higher_education#:#Hogere opleiding
+meta#:#meta_id#:#ID
+meta#:#meta_idea#:#Idee
+meta#:#meta_identifier#:#Identifier
+meta#:#meta_index#:#Index
+meta#:#meta_installation_remarks#:#Installatie-opmerkingen
+meta#:#meta_intended_end_user_role#:#Bedoelde eindgebruikers rol
+meta#:#meta_interactivity_level#:#Interactiviteits-niveau
+meta#:#meta_interactivity_type#:#Interactiviteits-type
+meta#:#meta_is_based_on#:#Is gebaseerd op
+meta#:#meta_is_basis_for#:#Is de basis voor
+meta#:#meta_is_format_of#:#Is formaat van
+meta#:#meta_is_part_of#:#Is deel van
+meta#:#meta_is_referenced_by#:#Wordt aan gerefereerd door
+meta#:#meta_is_required_by#:#Is noodzakelijk voor
+meta#:#meta_is_version_of#:#Is een versie van
+meta#:#meta_keyword#:#Sleutelwoord
+meta#:#meta_kind#:#Soort
+meta#:#meta_l_aa#:#Afar
+meta#:#meta_l_ab#:#Abkhaziaans
+meta#:#meta_l_af#:#Afrikaans
+meta#:#meta_l_am#:#Amhari
+meta#:#meta_l_ar#:#Arabisch
+meta#:#meta_l_as#:#Assamese
+meta#:#meta_l_ay#:#Aymara
+meta#:#meta_l_az#:#Aserbaidschanisch
+meta#:#meta_l_ba#:#Baschkirisch
+meta#:#meta_l_be#:#Witrussisch
+meta#:#meta_l_bg#:#Bulgaars
+meta#:#meta_l_bh#:#Biharisch
+meta#:#meta_l_bi#:#Bislamisch
+meta#:#meta_l_bn#:#Bengalisch
+meta#:#meta_l_bo#:#Tibetanisch
+meta#:#meta_l_br#:#Bretons
+meta#:#meta_l_ca#:#Katalanisch
+meta#:#meta_l_co#:#Korsisch
+meta#:#meta_l_cs#:#Tsjechisch
+meta#:#meta_l_cy#:#Walisisch
+meta#:#meta_l_da#:#deens
+meta#:#meta_l_de#:#duits
+meta#:#meta_l_dz#:#Bhutani
+meta#:#meta_l_el#:#Grieks
+meta#:#meta_l_en#:#Engels
+meta#:#meta_l_eo#:#Esperanto
+meta#:#meta_l_es#:#spaans
+meta#:#meta_l_et#:#Estisch
+meta#:#meta_l_eu#:#Baskisch
+meta#:#meta_l_fa#:#Persisch
+meta#:#meta_l_fi#:#Fins
+meta#:#meta_l_fj#:#Fiji
+meta#:#meta_l_fo#:#Faröisch
+meta#:#meta_l_fr#:#Frans
+meta#:#meta_l_fy#:#Fries
+meta#:#meta_l_ga#:#Iers
+meta#:#meta_l_gd#:#Schots gälisch
+meta#:#meta_l_gl#:#Galizisch
+meta#:#meta_l_gn#:#Guarani
+meta#:#meta_l_gu#:#Gujaratisch
+meta#:#meta_l_ha#:#Haussa
+meta#:#meta_l_he#:#Hebreews
+meta#:#meta_l_hi#:#Hindi
+meta#:#meta_l_hr#:#Kroatisch
+meta#:#meta_l_hu#:#Hongaars
+meta#:#meta_l_hy#:#Armenisch
+meta#:#meta_l_ia#:#Interlingue
+meta#:#meta_l_id#:#indonesisch
+meta#:#meta_l_ie#:#Interlingue
+meta#:#meta_l_ik#:#Inupiak
+meta#:#meta_l_is#:#IJslands
+meta#:#meta_l_it#:#italiaans
+meta#:#meta_l_iu#:#Inuktitut
+meta#:#meta_l_ja#:#Japans
+meta#:#meta_l_jv#:#Javaans
+meta#:#meta_l_ka#:#Georgisch
+meta#:#meta_l_kk#:#Kasachisch
+meta#:#meta_l_kl#:#Groenlands
+meta#:#meta_l_km#:#Kambodschanisch
+meta#:#meta_l_kn#:#Canadees
+meta#:#meta_l_ko#:#Koreaans
+meta#:#meta_l_ks#:#Kashmirisch
+meta#:#meta_l_ku#:#Koerdisch
+meta#:#meta_l_ky#:#Kirgisisch
+meta#:#meta_l_la#:#Latijns
+meta#:#meta_l_ln#:#Lingalisch
+meta#:#meta_l_lo#:#Laotisch
+meta#:#meta_l_lt#:#Litauisch
+meta#:#meta_l_lv#:#Lettisch
+meta#:#meta_l_mg#:#Malagasisch
+meta#:#meta_l_mi#:#maorisch
+meta#:#meta_l_mk#:#mazedonisch
+meta#:#meta_l_ml#:#malajalam
+meta#:#meta_l_mn#:#Mongools
+meta#:#meta_l_mo#:#Moldavisch
+meta#:#meta_l_mr#:#Marathi
+meta#:#meta_l_ms#:#Malayisch
+meta#:#meta_l_mt#:#Maltesisch
+meta#:#meta_l_my#:#Burmesisch
+meta#:#meta_l_na#:#nauruïsch
+meta#:#meta_l_ne#:#Nepalesisch
+meta#:#meta_l_nl#:#nederlands
+meta#:#meta_l_no#:#Noorweegs
+meta#:#meta_l_oc#:#Okzitanisch
+meta#:#meta_l_om#:#Oromo
+meta#:#meta_l_or#:#Oriya
+meta#:#meta_l_pa#:#Punjabisch
+meta#:#meta_l_pl#:#pools
+meta#:#meta_l_ps#:#Paschtu
+meta#:#meta_l_pt#:#Portugees
+meta#:#meta_l_qu#:#Quechua
+meta#:#meta_l_rm#:#Rheatoromanisch
+meta#:#meta_l_rn#:#Kurundisch
+meta#:#meta_l_ro#:#Romanisch
+meta#:#meta_l_ru#:#Russisch
+meta#:#meta_l_rw#:#Kinyarwanda
+meta#:#meta_l_sa#:#Sanskrit
+meta#:#meta_l_sd#:#Zinti
+meta#:#meta_l_sg#:#Sango
+meta#:#meta_l_sh#:#Serbokroatisch
+meta#:#meta_l_si#:#Singhalesisch
+meta#:#meta_l_sk#:#Slowaaks
+meta#:#meta_l_sl#:#Slovenisch
+meta#:#meta_l_sm#:#Samoanisch
+meta#:#meta_l_sn#:#Shona
+meta#:#meta_l_so#:#Somalisch
+meta#:#meta_l_sq#:#Albanisch
+meta#:#meta_l_sr#:#Serbisch
+meta#:#meta_l_ss#:#Swasilands
+meta#:#meta_l_st#:#Sesothisch
+meta#:#meta_l_su#:#Sundanesisch
+meta#:#meta_l_sv#:#zweeds
+meta#:#meta_l_sw#:#Suaheli
+meta#:#meta_l_ta#:#Tamilisch
+meta#:#meta_l_te#:#Telugu
+meta#:#meta_l_tg#:#Tadschikisch
+meta#:#meta_l_th#:#Thai
+meta#:#meta_l_ti#:#Tigrinja
+meta#:#meta_l_tk#:#Turkmenisch
+meta#:#meta_l_tl#:#Tagalog
+meta#:#meta_l_tn#:#Sezuan
+meta#:#meta_l_to#:#tongaas
+meta#:#meta_l_tr#:#Turks
+meta#:#meta_l_ts#:#Tsongaisch
+meta#:#meta_l_tt#:#Tatarisch
+meta#:#meta_l_tw#:#Twi
+meta#:#meta_l_ug#:#Uigur
+meta#:#meta_l_uk#:#Oekrainsch
+meta#:#meta_l_ur#:#Urdu
+meta#:#meta_l_uz#:#Usbekisch
+meta#:#meta_l_vi#:#Vietnamees
+meta#:#meta_l_vo#:#Volapük
+meta#:#meta_l_wo#:#Wolof
+meta#:#meta_l_xh#:#Xhosa
+meta#:#meta_l_yi#:#Jiddish
+meta#:#meta_l_yo#:#Joruba
+meta#:#meta_l_za#:#Zhuang
+meta#:#meta_l_zh#:#Chinesisch
+meta#:#meta_l_zu#:#Zulu
+meta#:#meta_language#:#Taal
+meta#:#meta_learner#:#Leerling
+meta#:#meta_learning_resource_type#:#Type leermiddel
+meta#:#meta_lecture#:#lektuur
+meta#:#meta_lifecycle#:#Levenscyclus
+meta#:#meta_linear#:#Lineair
+meta#:#meta_local_file#:#Lokaal-bestand
+meta#:#meta_location#:#Locatie
+meta#:#meta_low#:#Laag
+meta#:#meta_mac_os#:#MacOS
+meta#:#meta_manager#:#Manager
+meta#:#meta_maximum_version#:#Maximum Versie
+meta#:#meta_medium#:#Medium
+meta#:#meta_meta_metadata#:#Meta-detadata
+meta#:#meta_metadatascheme#:#Metadata scheme
+meta#:#meta_minimum_version#:#Minimum Versie
+meta#:#meta_mixed#:#Gemixed
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_multi_os#:#Multi-OS
+meta#:#meta_name#:#Naam
+meta#:#meta_narrative_text#:#Verhalende tekst
+meta#:#meta_networked#:#Vernetwerkt
+meta#:#meta_new_element#:#Nieuw element
+meta#:#meta_no#:#Nee
+meta#:#meta_no_annotation#:#Geen Meta-data beschikbaar voor het deel Aantekeningen.
+meta#:#meta_no_classification#:#Geen Meta-data beschikbaar voor het deel klassificering.
+meta#:#meta_no_educational#:#Geen Meta-data beschikbaar voor het deel Educatie.
+meta#:#meta_no_lifecycle#:#Geen Meta-data beschikbaar voor het deel Lifecyclus.
+meta#:#meta_no_meta_metadata#:#Geen Meta-data beschikbaar voor het deel Meta-metadata.
+meta#:#meta_no_relation#:#Geen Meta-data beschikbaar voor het deel Relaties.
+meta#:#meta_no_rights#:#Geen Meta-data beschikbaar voor het deel Rechten.
+meta#:#meta_no_technical#:#Geen Meta-data beschikbaar voor het deel Techniek.
+meta#:#meta_none#:#Geen enkele
+meta#:#meta_operating_system#:#Bedrijfs-systeem
+meta#:#meta_or_composite#:#Of samenstelling
+meta#:#meta_other#:#Andere
+meta#:#meta_other_plattform_requirements#:#Verdere platform vereisten
+meta#:#meta_pc_dos#:#PC-DOS
+meta#:#meta_please_select#:#Selecteer a.u.b
+meta#:#meta_prerequisite#:#Eerste vereisten
+meta#:#meta_problem_statement#:#Probleemstelling
+meta#:#meta_publisher#:#Uitgever
+meta#:#meta_purpose#:#Doel
+meta#:#meta_questionnaire#:#Vragenlijst
+meta#:#meta_reference#:#Referentie
+meta#:#meta_references#:#Referenties
+meta#:#meta_relation#:#Relaties
+meta#:#meta_requirement#:#Vereisten
+meta#:#meta_requires#:#Vereist
+meta#:#meta_resource#:#Middelen
+meta#:#meta_revised#:#Herzien
+meta#:#meta_rights#:#Rechten
+meta#:#meta_role#:#Rol
+meta#:#meta_school#:#School
+meta#:#meta_security_level#:#Beveiligings-niveau
+meta#:#meta_self_assessment#:#Zelftest
+meta#:#meta_semantic_density#:#Semantische dichtheid
+meta#:#meta_simulation#:#Simulatie
+meta#:#meta_size#:#Grootte
+meta#:#meta_skill_level#:#Vaardigheids-niveau
+meta#:#meta_slide#:#Folie
+meta#:#meta_source#:#Bron
+meta#:#meta_status#:#Status
+meta#:#meta_structure#:#Indeling
+meta#:#meta_table#:#Tabel
+meta#:#meta_taxon#:#Taxonomie
+meta#:#meta_taxon_path#:#Taxonomie-pad
+meta#:#meta_teacher#:#Leraar
+meta#:#meta_technical#:#Technisch
+meta#:#meta_title#:#Titel
+meta#:#meta_training#:#Training
+meta#:#meta_type#:#Type
+meta#:#meta_typical_age_range#:#Typisch leeftijds-bereik
+meta#:#meta_typical_learning_time#:#Typische leerduur
+meta#:#meta_unavailable#:#Niet beschikbaar
+meta#:#meta_unix#:#Unix
+meta#:#meta_value#:#Waarde
+meta#:#meta_version#:#Versie
+meta#:#meta_very_difficult#:#Heel moeilijk
+meta#:#meta_very_easy#:#Heel gemakkelijk
+meta#:#meta_very_high#:#Heel hoog
+meta#:#meta_very_low#:#Heel laag
+meta#:#meta_yes#:#Ja
+search#:#search_all_results#:#Alle resultaten
+search#:#search_concatenation#:#Aaneenschakeling
+search#:#search_content#:#Pagina-inhoud
+search#:#search_dbk_content#:#Digitale bibliotheek(inhoud)
+search#:#search_dbk_meta#:#Digitale bibliotheek(Meta-data)
+search#:#search_delete_sure#:#The object and its content will be deleted permanantly###17 Dec 2003 new variable
+search#:#search_group#:#Groups###17 Dec 2003 new variable
+search#:#search_in_result#:#Zoeken binnen de resultaten
+search#:#search_lm_content#:#Leer-materialen(inhoud)
+search#:#search_lm_meta#:#Leer-materialen(Meta-data)
+search#:#search_meta#:#Meta-data
+search#:#search_minimum_three#:#Uw zoekargument is minstens drie karakters lang geweest
+search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###17 Dec 2003 new variable
+search#:#search_move_to#:#Move to:###17 Dec 2003 new variable
+search#:#search_my_search_results#:#My search results###17 Dec 2003 new variable
+search#:#search_new_folder#:#New folder###17 Dec 2003 new variable
+search#:#search_no_category#:#U heeft geen enkele zoek-kategorie geselecteerd
+search#:#search_no_match#:#Uw zoekopdracht heeft geen enkel resultaat
+search#:#search_no_results_saved#:#No results saved.###17 Dec 2003 new variable
+search#:#search_no_search_term#:#U heeft geen enkel zoek-begrip geselecteerd
+search#:#search_no_selection#:#You did no selection.###17 Dec 2003 new variable
+search#:#search_object_renamed#:#Object renamed.###17 Dec 2003 new variable
+search#:#search_objects_deleted#:#Object(s) deleted.###17 Dec 2003 new variable
+search#:#search_objects_moved#:#Objects moved.###17 Dec 2003 new variable
+search#:#search_one_action#:#Select one action.###17 Dec 2003 new variable
+search#:#search_rename_title#:#Rename title###17 Dec 2003 new variable
+search#:#search_results_saved#:#Search results saved###17 Dec 2003 new variable
+search#:#search_save_as_select#:#Save as:###17 Dec 2003 new variable
+search#:#search_search_for#:#Zoeken naar
+search#:#search_search_no_results_saved#:#There are no search results saved###17 Dec 2003 new variable
+search#:#search_search_results#:#Search results###17 Dec 2003 new variable
+search#:#search_search_term#:#Zoek-begrip
+search#:#search_select_exactly_one_object#:#You have to select exactly one object.###17 Dec 2003 new variable
+search#:#search_select_one#:#Select one folder###17 Dec 2003 new variable
+search#:#search_select_one_action#:#--Select one action--###17 Dec 2003 new variable
+search#:#search_select_one_folder_select#:#--Select one folder--###17 Dec 2003 new variable
+search#:#search_select_one_result#:#Select at least one search result###17 Dec 2003 new variable
+search#:#search_select_one_select#:#--Select one folder--###17 Dec 2003 new variable
+search#:#search_show_result#:#laat zien
+search#:#search_user#:#Gebruikers
