@@ -52,7 +52,7 @@ class RoleObject extends Object
 		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
-			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"]);
+			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],'y');
 		}
 		else
 		{
@@ -271,6 +271,7 @@ class RoleObject extends Object
 
 		if($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
 		{
+		 
 			$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
 			$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
 			foreach( array_diff($assigned_users,$_POST["user"]) as $user)
@@ -279,17 +280,28 @@ class RoleObject extends Object
 			}
 			foreach( array_diff($_POST["user"],$assigned_users) as $user)
 			{
-				$rbacadmin->assignUser($_GET["obj_id"],$user);
+
+				if($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
+				{
+					$rbacadmin->assignUser($_GET["obj_id"],$user);
+				}
+				else
+				{
+					// NO Assignment to parent roles
+					$_SESSION["Error_Message"] = "It's only possible to assign users to local roles" ;
+					header("Location: content.php?obj_id=$_GET[parent]&parent=$parent_obj_id");
+					exit();
+				}
 			}
 		}
 		else
 		{
 			// NO ACCESS TO EDIT PERMISSIONS
 			$_SESSION["Error_Message"] = "No permission to edit permissions" ;
-			header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+			header("Location: content.php?obj_id=$_GET[parent]&parent=$parent_obj_id");
 			exit();
 		}
-       	header("location:object.php?cmd=perm&obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+		header("location:object.php?cmd=perm&obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
 	// PRIVATE
 }

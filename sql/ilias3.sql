@@ -106,6 +106,7 @@ INSERT INTO object_types VALUES (26, 'type', 'n', 'Object type', 'Defines an obj
 CREATE TABLE rbac_fa (
   rol_id int(11) NOT NULL default '0',
   parent int(11) NOT NULL default '0',
+  assign enum('y','n'),
   PRIMARY KEY  (rol_id,parent)
 ) TYPE=MyISAM;
 
@@ -113,13 +114,13 @@ CREATE TABLE rbac_fa (
 # Dumping data for table `rbac_fa`
 #
 
-INSERT INTO rbac_fa VALUES (2, 8);
-INSERT INTO rbac_fa VALUES (3, 8);
-INSERT INTO rbac_fa VALUES (3, 152);
-INSERT INTO rbac_fa VALUES (4, 8);
-INSERT INTO rbac_fa VALUES (4, 152);
-INSERT INTO rbac_fa VALUES (5, 8);
-INSERT INTO rbac_fa VALUES (5, 152);
+INSERT INTO rbac_fa VALUES (2, 8,'y');
+INSERT INTO rbac_fa VALUES (3, 8,'y');
+INSERT INTO rbac_fa VALUES (3, 152,'n');
+INSERT INTO rbac_fa VALUES (4, 8,'y');
+INSERT INTO rbac_fa VALUES (4, 152,'n');
+INSERT INTO rbac_fa VALUES (5, 8,'y');
+INSERT INTO rbac_fa VALUES (5, 152,'n');
 # --------------------------------------------------------
 
 #

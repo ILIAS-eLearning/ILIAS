@@ -571,10 +571,10 @@ class RbacAdmin
  * @params int (ObjectId des RoleFolders)  
  * @return array(int) (Array mit setIDs)
  */
-	function assignRoleToFolder($a_rol_id,$a_parent)
+	function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = 'y')
 	{
-		$query = "INSERT INTO rbac_fa (rol_id,parent) ".
-			"VALUES ('".$a_rol_id."','".$a_parent."')";
+		$query = "INSERT INTO rbac_fa (rol_id,parent,assign) ".
+			"VALUES ('".$a_rol_id."','".$a_parent."','".$a_assign."')";
 		$res = $this->db->query($query);
 		if(DB::isError($res))
 		{
@@ -583,6 +583,23 @@ class RbacAdmin
 			return -1;
 		}
 		return true;
+	}
+/**
+ * Check if its possible to assign users
+ * @access public
+ * @params int,int  (ObjectId of RoleFolder and objectId of role)  
+ * @return bool 
+ */
+	function isAssignable($a_rol_id,$a_parent)
+	{
+		$query = "SELECT * FROM rbac_fa ".
+			"WHERE rol_id = '".$a_rol_id."' ".
+			"AND parent = '".$a_parent."'";
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->assign == 'y' ? true : false;
+		}
 	}
 /**
  * @access public

@@ -302,7 +302,7 @@ class Object
 							break;
 						}
 					}
-					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id);
+					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id,'n');
 				}
 				else
 				{
@@ -357,7 +357,7 @@ class Object
 			$role_data["title"] = $_POST["Flocal_role"];
 			$role_data["desc"] = "";
 			$new_obj_id = createNewObject('role',$role_data);
-			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id);
+			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,'y');
 		}
 		else
 		{
