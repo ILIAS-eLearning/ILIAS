@@ -51,19 +51,10 @@
 		</div>
 	</xsl:if>
 	<xsl:if test="$mode = 'edit'">
-		<select size="1" class="ilEditSelect">
-			<xsl:attribute name="name">command<xsl:value-of select="@HierId"/></xsl:attribute>
-			<option value="insert_par">insert Paragr.</option>
-			<option value="insert_src">insert Sourcecode</option>
-			<option value="insert_tab">insert Table</option>
-			<option value="insert_mob">insert Media</option>
-			<option value="insert_list">insert List</option>
-			<option value="insert_flst">insert File List</option>
-			<option value="pasteFromClipboard">paste from clipboard</option>
-		</select>
-		<input class="ilEditSubmit" type="submit" value="Go">
-			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
-		</input>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="@HierId" />
+			<xsl:with-param name="edit">n</xsl:with-param>
+		</xsl:call-template>
 		<br/>
 	</xsl:if>
 	<xsl:if test="$citation = 1">
@@ -284,6 +275,38 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- Edit Menu -->
+<xsl:template name="EditMenu">
+	<xsl:param name="hier_id"/>
+	<xsl:param name="edit"/>
+
+	<select size="1" class="ilEditSelect">
+		<xsl:attribute name="name">command<xsl:value-of select="$hier_id"/></xsl:attribute>
+		<xsl:if test="$edit = 'y'">
+			<option value="edit"><xsl:value-of select="//LVs/LV[@name='ed_edit']/@value"/></option>
+		</xsl:if>
+		<xsl:if test="$edit = 'p'">
+			<option value="edit"><xsl:value-of select="//LVs/LV[@name='ed_edit_prop']/@value"/></option>
+		</xsl:if>
+		<option value="insert_par"><xsl:value-of select="//LVs/LV[@name='ed_insert_par']/@value"/></option>
+		<option value="insert_src"><xsl:value-of select="//LVs/LV[@name='ed_insert_code']/@value"/></option>
+		<option value="insert_tab"><xsl:value-of select="//LVs/LV[@name='ed_insert_table']/@value"/></option>
+		<option value="insert_mob"><xsl:value-of select="//LVs/LV[@name='ed_insert_media']/@value"/></option>
+		<option value="insert_list"><xsl:value-of select="//LVs/LV[@name='ed_insert_list']/@value"/></option>
+		<option value="insert_flst"><xsl:value-of select="//LVs/LV[@name='ed_insert_filelist']/@value"/></option>
+		<xsl:if test="$edit = 'y' or $edit = 'p'">
+			<option value="delete"><xsl:value-of select="//LVs/LV[@name='ed_delete']/@value"/></option>
+			<option value="moveAfter"><xsl:value-of select="//LVs/LV[@name='ed_moveafter']/@value"/></option>
+			<option value="moveBefore"><xsl:value-of select="//LVs/LV[@name='ed_movebefore']/@value"/></option>
+		</xsl:if>
+		<option value="pasteFromClipboard"><xsl:value-of select="//LVs/LV[@name='ed_paste_clip']/@value"/></option>
+	</select>
+	<input class="ilEditSubmit" type="submit">
+		<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
+		<xsl:attribute name="name">cmd[exec_<xsl:value-of select="$hier_id"/>]</xsl:attribute>
+	</input>
+</xsl:template>
+
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
 	<xsl:param name="par_counter" select="-1" />
@@ -310,15 +333,6 @@
 	<xsl:if test="@Characteristic and not (@Characteristic = 'Code')">
 	<xsl:attribute name="class">ilc_<xsl:value-of select="@Characteristic"/></xsl:attribute>
 	</xsl:if>
-	<!-- <xsl:value-of select="@HierId"/> -->
-	<!-- checkbox -->
-	<!--
-	<xsl:if test="$mode = 'edit'">
-		<input type="checkbox" name="target[]">
-			<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
-			</xsl:attribute>
-		</input>
-	</xsl:if> -->
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- content -->
 	<xsl:choose>
@@ -340,24 +354,10 @@
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
 		</input>
-		<select size="1" class="ilEditSelect">
-			<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
-			</xsl:attribute>
-		<option value="edit">edit</option>
-		<option value="insert_par">insert Paragr.</option>
-			<option value="insert_src">insert Sourcecode</option>
-		<option value="insert_tab">insert Table</option>
-		<option value="insert_mob">insert Media</option>
-		<option value="insert_list">insert List</option>
-		<option value="insert_flst">insert File List</option>
-		<option value="delete">delete</option>
-		<option value="moveAfter">move after</option>
-		<option value="moveBefore">move before</option>
-		<option value="pasteFromClipboard">paste from clipboard</option>
-		</select>
-		<input class="ilEditSubmit" type="submit" value="Go">
-			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
-		</input>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="edit">y</xsl:with-param>
+		</xsl:call-template>
 	</xsl:if>
 </xsl:template>
 
@@ -572,21 +572,22 @@
 							<select size="1" class="ilEditSelect">
 								<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
 								</xsl:attribute>
-								<option value="insert_par">insert Paragr.</option>
-								<option value="insert_src">insert Sourcecode</option>
-								<option value="insert_tab">insert Table</option>
-								<option value="insert_mob">insert Media</option>
-								<option value="insert_list">insert List</option>
-								<option value="insert_flst">insert File List</option>
-								<option value="newRowAfter">new Row after</option>
-								<option value="newRowBefore">new Row before</option>
-								<option value="newColAfter">new Col after</option>
-								<option value="newColBefore">new Col before</option>
-								<option value="deleteRow">delete Row</option>
-								<option value="deleteCol">delete Col</option>
-								<option value="pasteFromClipboard">paste from clipboard</option>
+								<option value="insert_par"><xsl:value-of select="//LVs/LV[@name='ed_insert_par']/@value"/></option>
+								<option value="insert_src"><xsl:value-of select="//LVs/LV[@name='ed_insert_code']/@value"/></option>
+								<option value="insert_tab"><xsl:value-of select="//LVs/LV[@name='ed_insert_table']/@value"/></option>
+								<option value="insert_mob"><xsl:value-of select="//LVs/LV[@name='ed_insert_media']/@value"/></option>
+								<option value="insert_list"><xsl:value-of select="//LVs/LV[@name='ed_insert_list']/@value"/></option>
+								<option value="insert_flst"><xsl:value-of select="//LVs/LV[@name='ed_insert_filelist']/@value"/></option>
+								<option value="newRowAfter"><xsl:value-of select="//LVs/LV[@name='ed_new_row_after']/@value"/></option>
+								<option value="newRowBefore"><xsl:value-of select="//LVs/LV[@name='ed_new_row_before']/@value"/></option>
+								<option value="newColAfter"><xsl:value-of select="//LVs/LV[@name='ed_new_col_after']/@value"/></option>
+								<option value="newColBefore"><xsl:value-of select="//LVs/LV[@name='ed_new_col_before']/@value"/></option>
+								<option value="deleteRow"><xsl:value-of select="//LVs/LV[@name='ed_delete_row']/@value"/></option>
+								<option value="deleteCol"><xsl:value-of select="//LVs/LV[@name='ed_delete_col']/@value"/></option>
+								<option value="pasteFromClipboard"><xsl:value-of select="//LVs/LV[@name='ed_paste_clip']/@value"/></option>
 							</select>
-							<input class="ilEditSubmit" type="submit" value="Go">
+							<input class="ilEditSubmit" type="submit">
+								<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
 								<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
 							</input>
 							<br/>
@@ -595,8 +596,8 @@
 					<!-- class and width output for table edit -->
 					<xsl:if test="$mode = 'table_edit'">
 					<br />
-					<b>Class: <xsl:value-of select="@Class"/></b><br />
-					<b>Width: <xsl:value-of select="@Width"/></b><br />
+					<b><xsl:value-of select="//LVs/LV[@name='ed_class']/@value"/>: <xsl:value-of select="@Class"/></b><br />
+					<b><xsl:value-of select="//LVs/LV[@name='ed_width']/@value"/>: <xsl:value-of select="@Width"/></b><br />
 					</xsl:if>
 					<!-- content -->
 					<xsl:apply-templates/>
@@ -615,24 +616,25 @@
 		<select size="1" class="ilEditSelect">
 			<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
-		<option value="edit">edit properties</option>
-		<option value="insert_par">insert Paragr.</option>
-		<option value="insert_src">insert Sourcecode</option>
-		<option value="insert_tab">insert Table</option>
-		<option value="insert_mob">insert Media</option>
-		<option value="insert_list">insert List</option>
-		<option value="insert_flst">insert File List</option>
-		<option value="delete">delete</option>
-		<option value="moveAfter">move after</option>
-		<option value="moveBefore">move before</option>
-		<option value="leftAlign">align: left</option>
-		<option value="rightAlign">align: right</option>
-		<option value="centerAlign">align: center</option>
-		<option value="leftFloatAlign">align: left float</option>
-		<option value="rightFloatAlign">align: right float</option>
-		<option value="pasteFromClipboard">paste from clipboard</option>
+		<option value="edit"><xsl:value-of select="//LVs/LV[@name='ed_edit_prop']/@value"/></option>
+		<option value="insert_par"><xsl:value-of select="//LVs/LV[@name='ed_insert_par']/@value"/></option>
+		<option value="insert_src"><xsl:value-of select="//LVs/LV[@name='ed_insert_code']/@value"/></option>
+		<option value="insert_tab"><xsl:value-of select="//LVs/LV[@name='ed_insert_table']/@value"/></option>
+		<option value="insert_mob"><xsl:value-of select="//LVs/LV[@name='ed_insert_media']/@value"/></option>
+		<option value="insert_list"><xsl:value-of select="//LVs/LV[@name='ed_insert_list']/@value"/></option>
+		<option value="insert_flst"><xsl:value-of select="//LVs/LV[@name='ed_insert_filelist']/@value"/></option>
+		<option value="delete"><xsl:value-of select="//LVs/LV[@name='ed_delete']/@value"/></option>
+		<option value="moveAfter"><xsl:value-of select="//LVs/LV[@name='ed_moveafter']/@value"/></option>
+		<option value="moveBefore"><xsl:value-of select="//LVs/LV[@name='ed_movebefore']/@value"/></option>
+		<option value="leftAlign"><xsl:value-of select="//LVs/LV[@name='ed_align_left']/@value"/></option>
+		<option value="rightAlign"><xsl:value-of select="//LVs/LV[@name='ed_align_right']/@value"/></option>
+		<option value="centerAlign"><xsl:value-of select="//LVs/LV[@name='ed_align_center']/@value"/></option>
+		<option value="leftFloatAlign"><xsl:value-of select="//LVs/LV[@name='ed_align_left_float']/@value"/></option>
+		<option value="rightFloatAlign"><xsl:value-of select="//LVs/LV[@name='ed_align_right_float']/@value"/></option>
+		<option value="pasteFromClipboard"><xsl:value-of select="//LVs/LV[@name='ed_paste_clip']/@value"/></option>
 		</select>
-		<input class="ilEditSubmit" type="submit" value="Go">
+		<input class="ilEditSubmit" type="submit">
+			<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
 		</input>
 		<br/>
@@ -666,24 +668,10 @@
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
 		</input>
-		<select size="1" class="ilEditSelect">
-			<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
-			</xsl:attribute>
-		<option value="edit">edit properties</option>
-		<option value="insert_par">insert Paragr.</option>
-		<option value="insert_src">insert Sourcecode</option>
-		<option value="insert_tab">insert Table</option>
-		<option value="insert_mob">insert Media</option>
-		<option value="insert_list">insert List</option>
-		<option value="insert_flst">insert File List</option>
-		<option value="delete">delete</option>
-		<option value="moveAfter">move after</option>
-		<option value="moveBefore">move before</option>
-		<option value="pasteFromClipboard">paste from clipboard</option>
-		</select>
-		<input class="ilEditSubmit" type="submit" value="Go">
-			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
-		</input>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="edit">p</xsl:with-param>
+		</xsl:call-template>
 		<br/>
 	</xsl:if>
 </xsl:template>
@@ -703,18 +691,19 @@
 		<select size="1" class="ilEditSelect">
 			<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
 			</xsl:attribute>
-			<option value="insert_par">insert Paragr.</option>
-			<option value="insert_src">insert Sourcecode</option>
-			<option value="insert_tab">insert Table</option>
-			<option value="insert_mob">insert Media</option>
-			<option value="insert_list">insert List</option>
-			<option value="insert_flst">insert File List</option>
-			<option value="newItemAfter">new Item after</option>
-			<option value="newItemBefore">new Item before</option>
-			<option value="deleteItem">delete Item</option>
-			<option value="pasteFromClipboard">paste from clipboard</option>
+			<option value="insert_par"><xsl:value-of select="//LVs/LV[@name='ed_insert_par']/@value"/></option>
+			<option value="insert_src"><xsl:value-of select="//LVs/LV[@name='ed_insert_code']/@value"/></option>
+			<option value="insert_tab"><xsl:value-of select="//LVs/LV[@name='ed_insert_table']/@value"/></option>
+			<option value="insert_mob"><xsl:value-of select="//LVs/LV[@name='ed_insert_media']/@value"/></option>
+			<option value="insert_list"><xsl:value-of select="//LVs/LV[@name='ed_insert_list']/@value"/></option>
+			<option value="insert_flst"><xsl:value-of select="//LVs/LV[@name='ed_insert_filelist']/@value"/></option>
+			<option value="newItemAfter"><xsl:value-of select="//LVs/LV[@name='ed_new_item_after']/@value"/></option>
+			<option value="newItemBefore"><xsl:value-of select="//LVs/LV[@name='ed_new_item_before']/@value"/></option>
+			<option value="deleteItem"><xsl:value-of select="//LVs/LV[@name='ed_delete_item']/@value"/></option>
+			<option value="pasteFromClipboard"><xsl:value-of select="//LVs/LV[@name='ed_paste_clip']/@value"/></option>
 		</select>
-		<input class="ilEditSubmit" type="submit" value="Go">
+		<input class="ilEditSubmit" type="submit">
+			<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
 		</input>
 		<br/>
@@ -740,24 +729,10 @@
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
 		</input>
-		<select size="1" class="ilEditSelect">
-			<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
-			</xsl:attribute>
-		<option value="edit">edit properties</option>
-		<option value="insert_par">insert Paragr.</option>
-		<option value="insert_src">insert Sourcecode</option>
-		<option value="insert_tab">insert Table</option>
-		<option value="insert_mob">insert Media</option>
-		<option value="insert_list">insert List</option>
-		<option value="insert_flst">insert File List</option>
-		<option value="delete">delete</option>
-		<option value="moveAfter">move after</option>
-		<option value="moveBefore">move before</option>
-		<option value="pasteFromClipboard">paste from clipboard</option>
-		</select>
-		<input class="ilEditSubmit" type="submit" value="Go">
-			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
-		</input>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="edit">p</xsl:with-param>
+		</xsl:call-template>
 		<br/>
 	</xsl:if>
 </xsl:template>
@@ -791,11 +766,12 @@
 			<select size="1" class="ilEditSelect">
 				<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
 				</xsl:attribute>
-				<option value="newItemAfterForm">new Item after</option>
-				<option value="newItemBeforeForm">new Item before</option>
-				<option value="deleteItem">delete Item</option>
+				<option value="newItemAfterForm"><xsl:value-of select="//LVs/LV[@name='ed_new_item_after']/@value"/></option>
+				<option value="newItemBeforeForm"><xsl:value-of select="//LVs/LV[@name='ed_new_item_before']/@value"/></option>
+				<option value="deleteItem"><xsl:value-of select="//LVs/LV[@name='ed_delete_item']/@value"/></option>
 			</select>
-			<input class="ilEditSubmit" type="submit" value="Go">
+			<input class="ilEditSubmit" type="submit">
+				<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
 				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
 			</input>
 			<br/>
@@ -1027,25 +1003,26 @@
 				<select size="1" class="ilEditSelect">
 					<xsl:attribute name="name">command<xsl:value-of select="../../@HierId"/>
 					</xsl:attribute>
-				<option value="editAlias">edit properties</option>
-				<option value="insert_par">insert Paragr.</option>
-				<option value="insert_src">insert Sourcecode</option>
-				<option value="insert_tab">insert Table</option>
-				<option value="insert_mob">insert Media</option>
-				<option value="insert_list">insert List</option>
-				<option value="insert_flst">insert File List</option>
-				<option value="delete">delete</option>
-				<option value="moveAfter">move after</option>
-				<option value="moveBefore">move before</option>
-				<option value="leftAlign">align: left</option>
-				<option value="rightAlign">align: right</option>
-				<option value="centerAlign">align: center</option>
-				<option value="leftFloatAlign">align: left float</option>
-				<option value="rightFloatAlign">align: right float</option>
-				<option value="copyToClipboard">copy to clipboard</option>
-				<option value="pasteFromClipboard">paste from clipboard</option>
+				<option value="editAlias"><xsl:value-of select="//LVs/LV[@name='ed_edit_prop']/@value"/></option>
+				<option value="insert_par"><xsl:value-of select="//LVs/LV[@name='ed_insert_par']/@value"/></option>
+				<option value="insert_src"><xsl:value-of select="//LVs/LV[@name='ed_insert_code']/@value"/></option>
+				<option value="insert_tab"><xsl:value-of select="//LVs/LV[@name='ed_insert_table']/@value"/></option>
+				<option value="insert_mob"><xsl:value-of select="//LVs/LV[@name='ed_insert_media']/@value"/></option>
+				<option value="insert_list"><xsl:value-of select="//LVs/LV[@name='ed_insert_list']/@value"/></option>
+				<option value="insert_flst"><xsl:value-of select="//LVs/LV[@name='ed_insert_filelist']/@value"/></option>
+				<option value="delete"><xsl:value-of select="//LVs/LV[@name='ed_delete']/@value"/></option>
+				<option value="moveAfter"><xsl:value-of select="//LVs/LV[@name='ed_moveafter']/@value"/></option>
+				<option value="moveBefore"><xsl:value-of select="//LVs/LV[@name='ed_movebefore']/@value"/></option>
+				<option value="leftAlign"><xsl:value-of select="//LVs/LV[@name='ed_align_left']/@value"/></option>
+				<option value="rightAlign"><xsl:value-of select="//LVs/LV[@name='ed_align_right']/@value"/></option>
+				<option value="centerAlign"><xsl:value-of select="//LVs/LV[@name='ed_align_center']/@value"/></option>
+				<option value="leftFloatAlign"><xsl:value-of select="//LVs/LV[@name='ed_align_left_float']/@value"/></option>
+				<option value="rightFloatAlign"><xsl:value-of select="//LVs/LV[@name='ed_align_right_float']/@value"/></option>
+				<option value="copyToClipboard"><xsl:value-of select="//LVs/LV[@name='ed_copy_clip']/@value"/></option>
+				<option value="pasteFromClipboard"><xsl:value-of select="//LVs/LV[@name='ed_paste_clip']/@value"/></option>
 				</select>
-				<input class="ilEditSubmit" type="submit" value="Go">
+				<input class="ilEditSubmit" type="submit">
+					<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
 					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>]</xsl:attribute>
 				</input>
 			</td></tr>
@@ -1074,7 +1051,7 @@
 				</xsl:if>
 				<xsl:if test="$height != ''">
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				</xsl:if>				
+				</xsl:if>
 				<xsl:attribute name="src"><xsl:value-of select="$med_disabled_path"/></xsl:attribute>
 			</img>
 		</xsl:when>
@@ -1094,7 +1071,7 @@
 					</xsl:if>
 					<xsl:if test="$height != ''">
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-					</xsl:if>		
+					</xsl:if>
 					<xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[1]">
 						<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
 					</xsl:if>
@@ -1148,12 +1125,12 @@
 		<xsl:when test="$type = 'application/x-java-applet'">
 			<xsl:variable name="upper-case" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ'" />
 			<xsl:variable name="lower-case" select="'abcdefghijklmnopqrstuvwxyzäöü'" />
-	
+
 			<!-- filename normalisieren: trim, toLowerCase -->
-			<xsl:variable name="_filename" select="normalize-space(translate(substring-after($data,'/'), $upper-case, $lower-case))" />						
-									
+			<xsl:variable name="_filename" select="normalize-space(translate(substring-after($data,'/'), $upper-case, $lower-case))" />
+
 			<applet width="{$width}" height="{$height}" >
-				
+
 				<xsl:choose>
 					<!-- if is single class file: filename ends-with (class) -->
       					<xsl:when test="'class' = substring($_filename, string-length($_filename) - string-length('class') + 1)">
@@ -1183,7 +1160,7 @@
 					<xsl:with-param name="cmobid" select="$cmobid" />
 				</xsl:call-template>
 					</xsl:when>
-					
+
 					<!-- assuming is applet archive: filename ends-with something else -->
 					<xsl:otherwise>
 						<xsl:choose>
@@ -1205,22 +1182,22 @@
                 							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
               							</xsl:if>
             						</xsl:when>
-          					</xsl:choose>          					
+          					</xsl:choose>
 						<!-- object or instance parameters -->
 						<!-- nescessary because attribute code is part of applet-tag and others are sub elements -->
 						<!-- code attribute -->
 						<xsl:choose>
-							<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']">								
+							<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']">
 								<xsl:attribute name="code"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']/@Value" /></xsl:attribute>
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:attribute name="code"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']/@Value" /></xsl:attribute>
 							</xsl:otherwise>
 						</xsl:choose>
-						
-						<xsl:choose>						
-						
-							<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter">								
+
+						<xsl:choose>
+
+							<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter">
 							<!-- alias parameters -->
 		          					<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
             								<xsl:if test="@Name != 'code'">
@@ -1242,7 +1219,7 @@
 	            							</xsl:if>
         		  					</xsl:for-each>
 							</xsl:otherwise>
-							
+
 						</xsl:choose>
 					</xsl:otherwise>
 				</xsl:choose>
@@ -1367,23 +1344,10 @@
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
 		</input>
-		<select size="1" class="ilEditSelect">
-			<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
-			</xsl:attribute>
-		<option value="edit">edit</option>
-		<option value="insert_par">insert Paragr.</option>
-		<option value="insert_src">insert Sourcecode</option>
-		<option value="insert_tab">insert Table</option>
-		<option value="insert_mob">insert Media</option>
-		<option value="insert_list">insert List</option>
-		<option value="insert_flst">insert File List</option>
-		<option value="moveAfter">move after</option>
-		<option value="moveBefore">move before</option>
-		<option value="pasteFromClipboard">paste from clipboard</option>
-		</select>
-		<input class="ilEditSubmit" type="submit" value="Go">
-			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
-		</input>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="edit">y</xsl:with-param>
+		</xsl:call-template>
 	</xsl:if>
 
 	</div>
@@ -1543,7 +1507,7 @@
 				<xsl:attribute name="name"><xsl:value-of select="@ident"/></xsl:attribute>
 				<xsl:variable name="crespstr"><xsl:value-of select="@ident"/></xsl:variable>
 
-				<option value="-1" selected="selected">-- please select --</option>
+				<option value="-1" selected="selected">-- <xsl:value-of select="//LVs/LV[@name='please_select']/@value"/> --</option>
 				<xsl:for-each select="render_choice/response_label">
 					<option>
 					<xsl:attribute name="value"><xsl:value-of select="@ident"/></xsl:attribute>
@@ -1577,7 +1541,7 @@
 					</a>
 				</xsl:if>
 			</td>
-			<td class="nobackground">matches</td>
+			<td class="nobackground"><xsl:value-of select="//LVs/LV[@name='matches']/@value"/></td>
 			<td class="nobackground">
 			<select>
 				<xsl:attribute name="name">sel_matching_<xsl:value-of select="@ident"/></xsl:attribute>
@@ -1585,7 +1549,7 @@
 				<xsl:variable name="mgrp"><xsl:value-of select="@match_group"/></xsl:variable>
 				<xsl:variable name="clabel"><xsl:value-of select="@ident"/></xsl:variable>
 
-				<option value="-1" selected="selected">-- please select --</option>
+				<option value="-1" selected="selected">-- <xsl:value-of select="//LVs/LV[@name='please_select']/@value"/> --</option>
 				<xsl:for-each select="../response_label">
 					<xsl:if test="contains($mgrp, concat(',',@ident,',')) or
 						starts-with($mgrp, concat(@ident,',')) or

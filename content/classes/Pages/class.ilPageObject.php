@@ -428,7 +428,8 @@ class ilPageObject
 				{
 					$bibs =& $this->getBibliographyXML();
 				}
-				return "<dummy>".$this->dom->dump_node($this->node).$mobs.$bibs.$a_append_str."</dummy>";
+				$trans =& $this->getLanguageVariablesXML();
+				return "<dummy>".$this->dom->dump_node($this->node).$mobs.$bibs.$trans.$a_append_str."</dummy>";
 			}
 			else
 			{
@@ -457,6 +458,41 @@ class ilPageObject
 		}
 	}
 
+	/**
+	* get language variables as XML
+	*/
+	function getLanguageVariablesXML()
+	{
+		global $lng;
+
+		$xml = "<LVs>";
+		$lang_vars = array("matches", "ed_insert_par", "ed_insert_code",
+			"ed_insert_table", "ed_insert_media", "ed_insert_list",
+			"ed_insert_filelist", "ed_paste_clip", "ed_edit",
+			"ed_edit_prop", "ed_delete", "ed_moveafter", "ed_movebefore",
+			"ed_go", "ed_new_row_after", "ed_new_row_before",
+			"ed_new_col_after", "ed_new_col_before", "ed_delete_col",
+			"ed_delete_row", "ed_class", "ed_width", "ed_align_left",
+			"ed_align_right", "ed_align_center", "ed_align_left_float",
+			"ed_align_right_float", "ed_delete_item", "ed_new_item_before",
+			"ed_new_item_after", "ed_copy_clip", "please_select");
+
+		foreach ($lang_vars as $lang_var)
+		{
+			$this->appendLangVarXML($xml, $lang_var);
+		}
+
+		$xml.= "</LVs>";
+
+		return $xml;
+	}
+
+	function appendLangVarXML(&$xml, $var)
+	{
+		global $lng;
+
+		$xml.= "<LV name=\"$var\" value=\"".$lng->txt("cont_".$var)."\"/>";
+	}
 
 	function getFirstParagraphText()
 	{
