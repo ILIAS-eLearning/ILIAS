@@ -698,16 +698,23 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		else
 		{
-			// SHOW VALID ACTIONS
+			$acts = array("delete" => "delete", "movePage" => "movePage");
+
+			if (ilEditClipboard::getContentObjectType() == "st")
+			{
+				$acts["pasteChapter"] =  "pasteChapter";
+			}
+			$this->setActions($acts);
 			$this->tpl->setVariable("NUM_COLS", 4);
+			$this->showActions();
+
+			// SHOW VALID ACTIONS
+			/*
 			$this->tpl->setCurrentBlock("operation_btn");
 			$this->tpl->setVariable("BTN_NAME", "delete");
 			$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();*/
 
-			$this->tpl->setCurrentBlock("operation");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->parseCurrentBlock();
 		}
 
 		// SHOW POSSIBLE SUB OBJECTS
@@ -1017,6 +1024,26 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->chapters();
 	}
 
+	/**
+	* move chapter
+	*/
+	function movePage()
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// SAVE POST VALUES
+		ilEditClipboard::storeContentObject("pg", $_POST["id"][0]);
+
+		sendInfo($this->lng->txt("cont_page_select_target_now"));
+		$this->pages();
+	}
 
 } // END class.ilObjContentObjectGUI
 ?>
