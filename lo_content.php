@@ -101,13 +101,11 @@ switch ($_SESSION["viewmode"])
 				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");
-				$tpl->setVariable("LAST_CHANGE", $lr_data["last_update"]);
+				$tpl->setVariable("LAST_CHANGE", Format::formatDate($lr_data["last_update"]));
 				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"], $lr_data["parent"]));
 				
 				$tpl->parseCurrentBlock("learningstuff_row");
 			}
-		
-		
 		}
 		else
 		{
@@ -175,13 +173,11 @@ if ($objects = $tree->getChilds($_GET["obj_id"],"title"))
 				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");
-				$tpl->setVariable("LAST_CHANGE", $lr_data["last_update"]);
+				$tpl->setVariable("LAST_CHANGE", Format::formatDate($lr_data["last_update"]));
 				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["obj_id"], $lr_data["parent"]));
 				
 				$tpl->parseCurrentBlock("learningstuff_row");
 			}
-		
-		
 		}
 		else
 		{

@@ -660,38 +660,21 @@ class Forum
 	
 	/**
     * converts the date format
-    * @param string $date 
-    * @return Timestamp
-    * @access public
+    * @param	string $date 
+    * @return	formatted datetime
+    * @access	public
     */
     function convertDate($date)
     {
         global $lng;
-			
-		if ($date == "0000-00-00 00:00:00")
-		{
-			
-			return "00.00.0000 00:00:00";
+		
+		if ($date > date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d"), date("Y"))))
+        {
+			return  $lng->txt("today")." ".Format::formatDate($date,"time");
 		}
-		elseif ($date > date("Y-m-d H:i:s", mktime(0, 0, 0, date("m"), date("d"), date("Y"))))
-        {
-            
-			return  $lng->txt("today")." " . substr($date, 11);
-        }
-        else
-        {
-            
-			return date("d.m.Y H:i:s", mktime(substr($date, 11, 2),
-                                              substr($date, 14, 2),
-                                              substr($date, 17, 2),
-                                              substr($date, 5, 2),
-                                              substr($date, 8, 2),
-                                              substr($date, 0, 4)
-                                              )
-                        );
-        }
+		
+		return Format::formatDate($date);
     }
-	
 	
 	/**
 	* create a new post-tree

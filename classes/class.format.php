@@ -251,57 +251,52 @@ class Format
 	/** 
 	* formatting function for dates
 	*
-	* in different languages, dates are formatted different. 
-	* formatDate reads a value "lang_dateformat" from the languagefile.
-	* if it is not present it sets it to a defaultvalue given in the class
-	* the format must have DD, MM, and YYYY strings
-	* formatDate replaces the strings with the current values given in str
+	* In different languages, dates are formatted different. 
+	* fmtDate expects a sql timestamp and a date format.
+	* Optional you may specify a time format. If you skip this parameter no time is displayed
+	* The format options follows the rules of the PHP date-function. See in the PHP manual
+	* for a list of possible formatting options
 	* @access	public
-	* @param	string	date date, given in sql-format YYYY-MM-DD
+	* @param	string	date date, given in sql-format YYYY-MM-DD HH:MM:SS
+	* @param	string	date format (default is Y-m-d)
+	* @param	string	time format (default is H:i:s)
+	* @param	string	format mode (datetime, time or date)
 	* @return	string	formatted date
 	*/
-	function fmtDate($a_str,$a_dateformat)
+	function fmtDateTime($a_str,$a_dateformat,$a_timeformat,$a_mode = "datetime")
 	{
-		//read the format
-		$date = $a_dateformat;
-
-		//no format defined set to defaultformat
-		if ($a_dateformat == "-lang_dateformat-")
+		//no format defined. set to default format
+		if ($a_dateformat == "")
 		{
-			$date = "MM/DD/YYYY";
+			$a_dateformat = "Y-m-d";
 		}
 
+		// same for time format
+		if ($a_timeformat == "")
+		{
+			$a_timeformat = "H:i:s";
+		}
+			
 		//get values from given sql-date
 		$d = substr($a_str,8,2);
 		$m = substr($a_str,5,2);
 		$y = substr($a_str,0,4);
+		$h = substr($a_str,11,2);
+		$i = substr($a_str,14,2);
+		$s = substr($a_str,17,4);
 		
-		//do substitutions
-		$date = ereg_replace("DD", $d, $date);
-		$date = ereg_replace("MM", $m, $date);
-		$date = ereg_replace("YYYY", $y, $date);
+		if ($a_mode == "time")
+		{
+			return date($a_timeformat,mktime($h,$i,$s,1,1,1999));		
+		}
+		
+		if ($a_mode == "date")
+		{
+			return date($a_dateformat,mktime($h,$i,$s,$m,$d,$y));		
+		}
 
-		return $date;
+		return date($a_dateformat." ".$a_timeformat,mktime($h,$i,$s,$m,$d,$y));		
 	}
-
-	/** 
-	* formatting function for datetime
-	* @access	public
-	* @param	string	datetime given in sql-format YYYY-MM-DD HH:MM:SS
-	* @param	string	format type (normal is as given in lang_dateformat)
-	* @return	string	formatted date
-	* @see		fmtDate()
-	*/
-	function fmtDateTime($a_str, $a_fmt="normal")
-	{
-		//formate date-part
-		$datetime = $this->fmtDate($a_str, $a_fmt);
-
-		//format timeformat
-		$datetime .= " ".substr($a_str,11,2).":".substr($a_str,14,2);
-		
-		return $datetime;
-	}	
 	
 	/**
 	* format a float
@@ -320,7 +315,7 @@ class Format
 		//thousandskomma?
 		if (!empty($a_th))
 		{
-			if ($a_th == "-sep_thousand-")
+			if ($a_th == "-lang_sep_thousand-")
 			{
 				$a_th = ",";
 			}
@@ -329,12 +324,42 @@ class Format
 		//decimalpoint?
 		$dec = $a_decimals;
 		
-		if ($dec == "-sep_decimal-")
+		if ($dec == "-lang_sep_decimal-")
 		{
 			$dec = ".";
 		}
 
 		return number_format($a_float, $a_decimals, $dec, $a_th);
-	}	
+	}
+
+
+	/*
+	* format a date according to the user language 
+	* shortcut for Format::fmtDateTime
+	* @access	public
+	* @param	string	sql date
+	* @param	string	format mode
+	* @return	string	formatted date
+	* @see		Format::fmtDateTime
+	*/
+	function formatDate($a_date,$a_mode = "datetime")
+	{
+		global $lng;
+
+		$dateformat = $lng->txt("lang_dateformat");
+		$timeformat = $lng->txt("lang_timeformat");
+		
+		if ($dateformat == "-lang_dateformat-")
+		{
+			$dateformat = "";
+		}
+		
+		if ($timeformat == "-lang_timeformat-")
+		{
+			$timeformat = "";
+		}
+	
+		return Format::fmtDateTime($a_date,$dateformat,$timeformat,$a_mode);
+	}
 }
 ?>

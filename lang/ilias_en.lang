@@ -30,7 +30,7 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-<!-- language file start --> 
+<!-- language file start -->
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
@@ -209,7 +209,8 @@ common#:#institution#:#Institution
 common#:#ip_address#:#IP Address
 common#:#item#:#Item
 common#:#keywords#:#Keywords
-common#:#lang_dateformat#:#MM/DD/YYYY
+common#:#lang_dateformat#:#Y-m-d
+common#:#lang_timeformat#:#H:i:s
 common#:#lang_de#:#German
 common#:#lang_dk#:#Danish
 common#:#lang_en#:#English
@@ -379,8 +380,8 @@ common#:#selected#:#Selected
 common#:#send#:#Send
 common#:#sender#:#Sender
 common#:#sent#:#Sent
-common#:#sep_decimal#:#.
-common#:#sep_thousand#:#,
+common#:#lang_sep_decimal#:#.
+common#:#lang_sep_thousand#:#,
 common#:#sequence#:#Sequence
 common#:#sequences#:#Sequences
 common#:#server#:#Server
