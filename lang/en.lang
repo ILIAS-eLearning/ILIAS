@@ -216,3 +216,15 @@ message#:#message
 archive#:#archive
 drafts#:#drafts
 trash#:#trash
+overview#:#overview
+information_abbr#:#info
+structure#:#structure
+list_of_pages#:#pages list
+glossary#:#glossary
+list_of_questions#:#question list
+multimedia#:#multimedia
+subchapter_new#:#new subchapter
+enumerate#:#enumerate
+page_edit#:#edit page
+forum_new#:#new forum
+link#:#link

@@ -1,13 +1,24 @@
 <h1>{TXT_PAGEHEADLINE}</h1>
 
-<h2>{TXT_VERSION}</h2>
 <p><font color="red">
 <!-- BEGIN versionmessage -->
 {MSG}<br>
 <!-- END versionmessage -->
 </font></p>
-<p>{TXT_DATABASE_VERSION}</p>
-<p>{TXT_FILE_VERSION}</p>
+<table cellpadding=2 cellspacing=0 border=0>
+<tr class="tblheader">
+  <td colspan=2>{TXT_VERSION}</td>
+</tr>
+<tr class="tblrow2">
+  <td>&nbsp;{TXT_DATABASE_VERSION}&nbsp;</td>
+  <td>&nbsp;{DATABASE_VERSION}&nbsp;</td>
+</tr>
+<tr class="tblrow2">
+  <td>&nbsp;{TXT_FILE_VERSION}&nbsp;</td>
+  <td>&nbsp;{FILE_VERSION}&nbsp;</td>
+</tr>
+</table>
+
 <p><font color="red"><b>{TXT_DATABASE_VERSION_STATUS}</b></font></p>
 
 <!-- BEGIN migrate -->

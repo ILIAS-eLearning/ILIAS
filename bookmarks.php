@@ -8,6 +8,9 @@
  */
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
+include("./classes/class.Bookmarks.php");
+
+$myBm = new Bookmarks($ilias->db, $ilias->account->Id);
 
 if ($_GET["func"] != "")
 {
@@ -42,7 +45,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("bookmarks"));
 $tpl->setVariable("TXT_URL", $lng->txt("url"));
 $tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 
-$bm = $ilias->account->getBookmarks();
+$bm = $myBm->getBookmarkList();
 
 foreach ($bm as $row)
 {
@@ -58,9 +61,6 @@ foreach ($bm as $row)
 	$tpl->setVariable("LINK_EDIT", "bookmarks.php?func=edit&amp;id=".$row["id"]);
 	$tpl->parseCurrentBlock();
 }
-
-
-
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();

@@ -522,4 +522,40 @@ CREATE TABLE settings (
   UNIQUE KEY keyword (keyword)
 ) TYPE=MyISAM;
 
-INSERT INTO settings VALUES ('db_version', '', 1);
+INSERT INTO settings VALUES ('db_version', '', 5);
+
+CREATE TABLE mail (
+  id int(11) NOT NULL auto_increment,
+  snd int(11) NOT NULL default '0',
+  rcp int(11) NOT NULL default '0',
+  snd_flag tinyint(1) NOT NULL default '0',
+  rcp_flag tinyint(1) NOT NULL default '0',
+  rcp_folder varchar(50) NOT NULL default 'inbox',
+  subject varchar(255) NOT NULL default '',
+  body text NOT NULL,
+  as_email tinyint(1) NOT NULL default '0',
+  date_send datetime NOT NULL default '0000-00-00 00:00:00',
+  timest timestamp(14) NOT NULL,
+  UNIQUE KEY id (id)
+) TYPE=MyISAM;
+
+CREATE TABLE bookmarks (
+  usr_fk int(11) NOT NULL default '0',
+  id int(11) NOT NULL default '0',
+  pos int(11) NOT NULL default '0',
+  url varchar(255) NOT NULL default '',
+  name varchar(255) NOT NULL default '',
+  folder varchar(255) NOT NULL default 'top',
+  timest timestamp(14) NOT NULL,
+  KEY usr_fk (usr_fk),
+  KEY id (id),
+  KEY pos (pos)
+) TYPE=MyISAM;
+
+#
+# Daten für Tabelle `bookmarks`
+#
+
+INSERT INTO bookmarks VALUES (6, 1, 0, 'www.ilias.uni-koeln.de', 'ILIAS Uni-Köln', 'top', 20020813174241);
+INSERT INTO bookmarks VALUES (6, 2, 0, 'www.databay.de', 'Databay AG', 'top', 20020813174351);
+

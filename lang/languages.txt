@@ -41,7 +41,7 @@ database	database	Datenbank	banca dati	database
 database_exists	database exists	Datenbank existiert bereits	database esiste	database exists
 database_is_uptodate	the database is up-to-date	Ihre Datenbank ist auf dem neuesten Stand	database uptodate	database uptodate
 database_needs_update	database needs an update	Datenbank benötigt Update	database needs update	database needs update
-database_update	update database	Datenbank updated	update database	update database
+database_update	update database	Datenbank aktualisieren	update database	update database
 database_version	current database version	Ihre Datenbankversion	current database version	current database version
 date	date	Datum	data	date
 db_host	database host	Datenbank Host	database host	db_host
@@ -218,3 +218,15 @@ message	message	Nachricht	messaggio	message
 archive	archive	Archiv	Archivio	archive
 drafts	drafts	Entwürfe	drafts	drafts
 trash	trash	Papierkorb	trash	trash
+overview	overview	Übersicht	overview	overview
+information_abbr	info	Infos	info	info
+structure	structure	Gliederung	structura	structure
+list_of_pages	pages list	Seitenliste	lista di pagina	list of pages
+glossary	glossary	Glossar	glossary	glossary
+list_of_questions	question list	Fragenliste	question list	question list
+multimedia	multimedia	Multimedia	multimedia	multimedia
+subchapter_new	new subchapter	neues Unterkapitel	new subchapter	new subchapter
+enumerate	enumerate	nummerieren	enumerate	enumerate
+page_edit	edit page	Seite bearbeiten	edit page	edit page
+forum_new	new forum	Neues Forum	new forum	new forum
+link	link	verknüpfen	link	link
