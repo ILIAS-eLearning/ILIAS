@@ -438,6 +438,37 @@ class ilMail
 			"m_message"       => stripslashes($a_row->m_message));
 	}
 
+	function updateDraft($a_folder_id,
+						 $a_attachments,
+						 $a_rcp_to,
+						 $a_rcp_cc,
+						 $a_rcp_bcc,
+						 $a_m_type,
+						 $a_m_email,
+						 $a_m_subject,
+						 $a_m_message,
+						 $a_draft_id = 0)
+	{
+		$query = "UPDATE $this->table_mail ".
+			"SET folder_id = '".$a_folder_id."',".
+			"attachments = '".addslashes(serialize($a_attachments))."',".
+			"send_time = now(),".
+			"rcp_to = '".addslashes($a_rcp_to)."',".
+			"rcp_cc = '".addslashes($a_rcp_cc)."',".
+			"rcp_bcc = '".addslashes($a_rcp_bcc)."',".
+			"m_status = 'read',".
+			"m_type = '".addslashes(serialize($a_m_type))."',".
+			"m_email = '".$a_m_email."',".
+			"m_subject = '".addslashes($a_m_subject)."',".
+			"m_message = '".addslashes($a_m_message)."' ".
+			"WHERE mail_id = '".$a_draft_id."'";
+			
+
+		$res = $this->ilias->db->query($query);
+
+		return $a_draft_id;
+	}
+
 	/**
 	* save mail in folder
 	* @access	private

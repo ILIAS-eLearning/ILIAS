@@ -75,6 +75,9 @@ if(isset($_POST["cmd"]["delete"]))
 if(isset($_POST["cmd"]["save"]))
 {
 	$umail->updateOptions($_POST["signature"],$_POST["linebreak"]);
+	sendInfo("mail_options_saved",true);
+	header("location: mail.php?mobj_id=$_GET[mobj_id]");
+	exit;
 }
 	
 
