@@ -1,4 +1,6 @@
 <?php
+include_once("classes/class.Object.php");
+
 /**
  * Class UserObject
  * @extends class.Object.php
@@ -7,21 +9,19 @@
  * @package ilias-core
  * 
 */
-include_once("classes/class.Object.php");
-
 class UserObject extends Object
 {
 /**
  * array of gender abbreviations
  * @var array
- **/
+ */
 	var $gender;
 
 /**
  * contructor
  * @param object ilias
  * @access public
- **/
+ */
 	function UserObject(&$a_ilias)
 	{
 		$this->Object($a_ilias);
@@ -32,7 +32,7 @@ class UserObject extends Object
 /**
  * create user
  * @access public
- **/
+ */
 	function createObject()
 	{
 		global $tree;
@@ -85,7 +85,7 @@ class UserObject extends Object
 /**
  * save user data
  * @access public
- **/
+ */
 	function saveObject()
 	{
 		$Fuserdata = $_POST["Fuserdata"];
@@ -113,7 +113,7 @@ class UserObject extends Object
 /**
  * delete user
  * @access public
- **/
+ */
 	function deleteObject()
 	{
 		$rbacadmin = new RbacAdminH($this->ilias->db);
@@ -134,7 +134,7 @@ class UserObject extends Object
 /**
  * edit user data
  * @access public
- **/
+ */
 	function editObject()
 	{
 		global $tplContent;
@@ -186,7 +186,7 @@ class UserObject extends Object
 /**
  * update user data
  * @access public
- **/
+ */
 	function updateObject()
 	{
 		$Fuserdata = $_POST["Fuserdata"];
@@ -209,5 +209,5 @@ class UserObject extends Object
 		header("Location: content_user.php?obj_id=$_GET[parent]&parent=$this->SYSTEM_FOLDER_ID");
 	}
 
-}
+} //end class
 ?>

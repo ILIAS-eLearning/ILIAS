@@ -1,4 +1,6 @@
 <?php
+include_once("classes/class.Object.php");
+
 /**
  * Class GroupObject
  * @extends class.Object.php
@@ -7,17 +9,16 @@
  * @package ilias-core
  * 
 */
-include_once("classes/class.Object.php");
 class GroupObject extends Object
 {
 /**
- * contructor
+ * constructor
  * @param object ilias
  * @access public
- **/
+ */
 	function GroupObject(&$a_dbhandle)
 	{
 		$this->Object($a_dbhandle);
 	}
-}
+} //end class
 ?>

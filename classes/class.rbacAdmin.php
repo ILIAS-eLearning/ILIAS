@@ -11,14 +11,22 @@ include_once "classes/class.Object.php";
  */
 class RbacAdmin extends PEAR
 {
-    var $db;			//  Database Handle
+	/**
+	* Database Handle
+	* @var object db
+	*/
+    var $db;		
 
+	/**
+	* error class
+	* @var object error_class
+	*/
 	var $error_class;
 
 /**
  * Constructor 
+ * @param object db
  * @access public
- * 
  */
     function RbacAdmin(&$dbhandle)
     {
@@ -186,10 +194,12 @@ class RbacAdmin extends PEAR
 		$res = $this->db->query($query);
 		return true;
 	}
+
 /**
  * Get parent roles in a path
  * @access public
  * @param array Path Id
+ * @param string
  * @return bool true/false
  */
 	function getParentRoles($a_path,$a_child = "")
@@ -238,7 +248,7 @@ class RbacAdmin extends PEAR
  * Assigns a user to a role
  * @access public
  * @param int object id of role
- * @param int object id of user
+ * @param integer object id of user
  * @return bool true/false
  */
     function assignUser($a_rol_id,$a_usr_id = 0)
@@ -290,8 +300,8 @@ class RbacAdmin extends PEAR
  * Revokes permissions of object
  * @access public
  * @param int object id
- * @param int role id
- * @param int id of parent object
+ * @param string role id
+ * @param string id of parent object
  * @return bool true/false
  */
     function revokePermission($a_obj_id,$a_rol_id = "",$a_set_id = "")
@@ -344,7 +354,7 @@ class RbacAdmin extends PEAR
  * @param int role id source
  * @param int parent id source
  * @param int role id destination
- * @param int parent id destination
+ * @param string parent id destination
  * @return bool 
  */
 	function copyRolePermission($a_rol_id,$a_from,$a_to,$a_dest_rol_id = '')
@@ -362,6 +372,7 @@ class RbacAdmin extends PEAR
 		}
 		return true;
 	}
+	
 /**
  * Deletes a template
  * @access public
@@ -377,6 +388,7 @@ class RbacAdmin extends PEAR
 		$res = $this->db->query($query);
 		return true;
 	}
+	
 /**
  * Inserts template permissions in rbac_templates
  * @access public
@@ -399,6 +411,7 @@ class RbacAdmin extends PEAR
 		}
 		return 1;
     }
+	
 /**
  * Returns parent id of an object (obsolete)
  * @access public
@@ -417,10 +430,13 @@ class RbacAdmin extends PEAR
         }
 		return $set_id;
     }
+	
 /**
  * Returns a list of roles in an container
  * @access public
  * @param int object id
+ * @param string
+ * @param string
  * @return array set ids
  */
 	function getRoleListByObject($a_parent,$a_order='',$a_direction='')
@@ -546,10 +562,10 @@ class RbacAdmin extends PEAR
 		}
 		return $rol_id ? $rol_id : array();
 	}
+	
 /**
  * all role folder ids
  * @access public
- * @param int object id of role folder  
  * @return array
  */
 	function getRoleFolder()

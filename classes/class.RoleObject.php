@@ -1,4 +1,6 @@
 <?php
+include_once("classes/class.Object.php");
+
 /**
  * Class RoleObject
  * @extends class.Object.php
@@ -7,15 +9,13 @@
  * @package ilias-core
  * 
 */
-include_once("classes/class.Object.php");
-
 class RoleObject extends Object
 {
 /**
  * Constructor
  * @param object ilias
  * @access public
- **/
+ */
 	function RoleObject(&$a_ilias)
 	{
 		$this->Object($a_ilias);
@@ -27,7 +27,7 @@ class RoleObject extends Object
 /**
  * create a role object 
  * @access public
- **/
+ */
 	function createObject()
 	{
 		// Creates a child object
