@@ -76,9 +76,12 @@ define ("TPLPATH","./templates/blueshadow");
 
 // init session
 $sess = new Session();
-		
+
+$lang = ($_GET["lang"]) ? $_GET["lang"] : $_SESSION["lang"];
+$_SESSION["lang"] = $lang;
+
 // init languages 
-$lng = new ilLanguage($_GET["lang"]);
+$lng = new ilLanguage($lang);
 
 // init log
 $log = new ilLog(ILIAS_ABSOLUTE_PATH,"ilias.log","SETUP",false);
