@@ -864,7 +864,7 @@ class ilUtil
 			}
 			else
 			{
-				return "./".ILIAS_WEB_DIR"/".$ilias->client_id;
+				return "./".ILIAS_WEB_DIR."/".$ilias->client_id;
 			}
 		}
 
