@@ -182,7 +182,8 @@ class Tree
 
 		$query = "SELECT * FROM tree ".
 				 "WHERE child = '".$a_node_id."' ".
-				 "AND parent = '".$a_parent_id."'";
+				 "AND parent = '".$a_parent_id."' ".
+				 "AND tree = '".$this->tree_id."'";
 
 		$res = $this->ilias->db->query($query);
 	
@@ -196,7 +197,8 @@ class Tree
 				 "LEFT JOIN object_data ON tree.child = object_data.obj_id ".
 				 "WHERE object_data.type = '".$a_type."' ".
 				 "AND tree.lft BETWEEN '".$left."' AND '".$right."' ".
-				 "AND tree.rgt BETWEEN '".$left."' AND '".$right."'";
+				 "AND tree.rgt BETWEEN '".$left."' AND '".$right."' ".
+				 "AND tree.tree = '".$this->tree_id."'";
 		$res = $this->ilias->db->query($query);
 		
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
