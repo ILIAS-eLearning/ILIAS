@@ -2620,13 +2620,20 @@ class ilObjSurvey extends ilObject
 						array_push($median, $value+1);
 					}
 				}
-				if (($total % 2) == 0)
+				if ($total > 0)
 				{
-					$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+					if (($total % 2) == 0)
+					{
+						$median_value = 0.5 * ($median[($total/2)-1] + $median[($total/2)]);
+					}
+					else
+					{
+						$median_value = $median[(($total+1)/2)-1];
+					}
 				}
 				else
 				{
-					$median_value = $median[(($total+1)/2)-1];
+					$median_value = "";
 				}
 				$result_array["ARITHMETIC_MEAN"] = "";
 				$result_array["GEOMETRIC_MEAN"] = "";
@@ -2676,13 +2683,20 @@ class ilObjSurvey extends ilObject
 				{
 					$median_value = $median[(($total+1)/2)-1];
 				}
-				if (($x_i/$total) == (int)($x_i/$total))
+				if ($total > 0)
 				{
-					$result_array["ARITHMETIC_MEAN"] = $x_i/$total;
+					if (($x_i/$total) == (int)($x_i/$total))
+					{
+						$result_array["ARITHMETIC_MEAN"] = $x_i/$total;
+					}
+					else
+					{
+						$result_array["ARITHMETIC_MEAN"] = sprintf("%.2f", $x_i/$total);
+					}
 				}
 				else
 				{
-					$result_array["ARITHMETIC_MEAN"] = sprintf("%.2f", $x_i/$total);
+					$result_array["ARITHMETIC_MEAN"] = "";
 				}
 				if (($questions[$question_id]["subtype"] == SUBTYPE_RATIO_NON_ABSOLUTE) or ($questions[$question_id]["subtype"] == SUBTYPE_RATIO_ABSOLUTE))
 				{
