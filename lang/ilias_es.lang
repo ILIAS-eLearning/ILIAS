@@ -117,8 +117,10 @@ assessment#:#create_gaps#:#Create gaps###05 Feb 2004 new variable
 assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Create new###05 Feb 2004 new variable
 assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
+assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
 assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
+assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
@@ -225,6 +227,7 @@ assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
+assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
@@ -799,6 +802,7 @@ common#:#file_edit_permission#:#Modificar configuración de permisos
 common#:#file_new#:#Nuevo Fichero
 common#:#file_not_found#:#Fichero no encontrado
 common#:#file_not_valid#:#Fichero no válido
+common#:#file_notice#:#Please take care of the filesizelimit of  ###23 Jun 2004 new variable
 common#:#file_read#:#Descarga fichero
 common#:#file_valid#:#Fichero válido
 common#:#file_version#:#version facilitada en el fichero
