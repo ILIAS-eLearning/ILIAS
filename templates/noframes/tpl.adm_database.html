@@ -19,7 +19,7 @@
 </tr>
 </table>
 
-<p><font color="red"><b>{TXT_DATABASE_VERSION_STATUS}</b></font></p>
+<p><font color="red"><b>{DATABASE_VERSION_STATUS}</b></font></p>
 
 <!-- BEGIN migrate -->
  <a href="adm_database.php?cmd=migrate">[ {TXT_MIGRATE} ]</a>
@@ -32,15 +32,16 @@
   <TD>&nbsp;{TXT_TABLE}&nbsp;</TD>
   <TD ALIGN=right>&nbsp;</TD>
 </TR>
-<TR class="tblrow2">
-  <td>&nbsp;{TABLE}&nbsp;</TD>
-  <TD ALIGN=right><INPUT TYPE="checkbox" NAME="tab_count[]" VALUE="bearbeitet">&nbsp;</TD>
-</TR>
-<TR>
-  <TD colspan=2>&nbsp;<INPUT TYPE=submit NAME="act" VALUE="{TXT_SELECT_ALL}">
-&nbsp;<INPUT TYPE=submit NAME="act" VALUE="{TXT_SELECT_NONE}">
- &nbsp;<INPUT TYPE=submit NAME="act" VALUE="{TXT_OPTIMIZE}"> uparrow</TD>
-</TR>
+<!-- BEGIN optrow -->
+<tr class="{ROWCOL}">
+  <td><input type="checkbox" name="tables[{TABLEID}]" value="1">&nbsp;</td>
+  <td>&nbsp;{TABLE}&nbsp;</td>
+</tr>
+<!-- END optrow -->
+<tr>
+  <td><img src="{TPLPATH}/images/arrow_downright.gif"></td>
+  <td>&nbsp;<input type="submit" name="cmd" value="{TXT_OPTIMIZE}"></td>
+</tr>
 </table>
 
 </form>

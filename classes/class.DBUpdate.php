@@ -259,5 +259,32 @@ function getDBVersionStatus()
 		return "database_is_uptodate";
 }
 
+function getTables()
+{
+	$a = array();
+
+	$query = "SHOW TABLES";	
+	$res = $this->db->query($query);
+	while ($row = $res->fetchRow())
+	{
+		$a[] = array(
+			"table" => $row[0]
+		);
+	}
+	return $a;
+}
+
+function optimizeTables($tables)
+{
+	$msg = array();
+	foreach ($_POST["tables"] as $key => $value)
+	{
+		$query = "OPTIMIZE TABLE ".$key;	
+		$res = $this->db->query($query);
+		$msg[] = "table $key: ok";
+	}	
+	return $msg;
+}
+
 } //class
 ?>

@@ -132,8 +132,6 @@ $tpl->setVariable("TXT_GROUP_FILE_SHARING", $lng->txt("group_filesharing"));
 $tpl->setVariable("TXT_CRS_MANAGEMENT_SYSTEM", $lng->txt("crs_management_system"));
 $tpl->setVariable("TXT_USR_SKIN", $lng->txt("usr_skin"));
 $tpl->setVariable("TXT_DEFAULT", $lng->txt("default"));
-$tpl->setVariable("TXT_PDA", $lng->txt("pda"));
-$tpl->setVariable("TXT_PORTAL", $lng->txt("portal"));
 $tpl->setVariable("TXT_LDAP", $lng->txt("ldap"));
 $tpl->setVariable("TXT_ENABLE", $lng->txt("enable"));
 $tpl->setVariable("TXT_SERVER", $lng->txt("server"));
