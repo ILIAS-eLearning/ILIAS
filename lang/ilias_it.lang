@@ -85,8 +85,11 @@ administration#:#view_last_log#:#View last Scanlog###09 Mar 2004 new variable
 administration#:#view_log#:#View details###09 Mar 2004 new variable
 assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Aggiungi risposta
+assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
+assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
 assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
 assessment#:#answer#:#Rispondi
+assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#Rispondi il testo
 assessment#:#apply#:#Esegui
 assessment#:#ass_questions#:#Domande
@@ -99,6 +102,7 @@ assessment#:#duplicate#:#Duplica
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###23 Mar 2004 new variable
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#export#:#Esporta
@@ -112,6 +116,7 @@ assessment#:#filter#:#Filtro
 assessment#:#gap_selection#:#Selezione vuota
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#Ultimo aggiornamento
+assessment#:#legend#:#Legend###23 Mar 2004 new variable
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
@@ -119,8 +124,12 @@ assessment#:#matches#:#corrispondenti
 assessment#:#matching_pair#:#Coppia corrispondente
 assessment#:#material#:#Material###11 Mar 2004 new variable
 assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
+assessment#:#material_file#:#Material file###23 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
+assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
 assessment#:#no_questions_available#:#Non ci sono domande disponibili
+assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
+assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
 assessment#:#points#:#Punti
 assessment#:#possible_gap_text#:#Possibile testo vuoto
 assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
@@ -132,6 +141,7 @@ assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 ne
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
 assessment#:#qpl_delete_rbac_error#:#Non hai i diritti per cancellare questa domanda!
 assessment#:#qpl_delete_select_none#:#Seleziona la domanda da cancellare
+assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!###23 Mar 2004 new variable
 assessment#:#qpl_duplicate_select_none#:#Seleziona la domanda da duplicare
 assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa domanda!
 assessment#:#qpl_edit_select_multiple#:#Seleziona solo una domanda da modificare
@@ -144,6 +154,7 @@ assessment#:#qt_multiple_choice_mr#:#Domanda a scelta multipla (risposta multipl
 assessment#:#qt_multiple_choice_sr#:#Domanda a scelta multipla (risposta singola)
 assessment#:#qt_ordering#:#Domanda con risposte da ordinare
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
+assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Tipo di domanda
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
@@ -157,6 +168,7 @@ assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new v
 assessment#:#select_gap#:#Seleziona spazio
 assessment#:#set_filter#:#Imposta filtro
 assessment#:#solution_order#:#Ordine risposte
+assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#Spazio vuoto
 assessment#:#true#:#Vero
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
@@ -1556,6 +1568,7 @@ content#:#cont_content_obj#:#Contenuto dell&#039;oggetto
 content#:#cont_coords#:#Coordinate
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
+content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
 content#:#cont_cross_reference#:#Riferimento incrociato
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Layout predefinito
@@ -1629,6 +1642,7 @@ content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
 content#:#cont_mastery_score#:#punteggio minimo
 content#:#cont_max_time_allowed#:#tempo massimo consentito
+content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#File oggetto
 content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza
 content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto

@@ -85,8 +85,11 @@ administration#:#view_last_log#:#View last Scanlog###09 Mar 2004 new variable
 administration#:#view_log#:#View details###09 Mar 2004 new variable
 assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Voeg antwoord toe
+assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
+assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
 assessment#:#add_matching_pair#:#Voeg overeenkomend paar toe
 assessment#:#answer#:#Antwoord
+assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#Antwoord-tekst
 assessment#:#apply#:#Toepassen
 assessment#:#ass_questions#:#Vragen
@@ -99,6 +102,7 @@ assessment#:#duplicate#:#Duplikaat
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###23 Mar 2004 new variable
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#export#:#Exporteer
@@ -112,6 +116,7 @@ assessment#:#filter#:#Filter
 assessment#:#gap_selection#:#Selectie van een gat
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#Laatst bijgewerkt
+assessment#:#legend#:#Legend###23 Mar 2004 new variable
 assessment#:#mark_schema#:#Markeer schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
@@ -119,8 +124,12 @@ assessment#:#matches#:#overeenkomsten
 assessment#:#matching_pair#:#Overeenkomend paar
 assessment#:#material#:#Material###11 Mar 2004 new variable
 assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
+assessment#:#material_file#:#Material file###23 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
+assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
 assessment#:#no_questions_available#:#Er zijn geen vragen beschikbaar!
+assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
+assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
 assessment#:#points#:#Punten
 assessment#:#possible_gap_text#:#Mogelijke gat-tekst
 assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
@@ -132,6 +141,7 @@ assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 ne
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
 assessment#:#qpl_delete_rbac_error#:#U heeft het recht deze vraag te verwijderen!
 assessment#:#qpl_delete_select_none#:#Controleer a.u.b. minstens één vraag voor verwijderen
+assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!###23 Mar 2004 new variable
 assessment#:#qpl_duplicate_select_none#:#Controleer a.u.b. minstens één vraag voor dupliceren
 assessment#:#qpl_edit_rbac_error#:#U heeft niet het recht deze vraag te wijzigen!
 assessment#:#qpl_edit_select_multiple#:#Controleer a.u.b. maar één vraag voor wijzigen
@@ -144,6 +154,7 @@ assessment#:#qt_multiple_choice_mr#:#Meerkeuze vraag (meerdere antwoorden)
 assessment#:#qt_multiple_choice_sr#:#Meerkeuze vraag (één  antwoord)
 assessment#:#qt_ordering#:#Volgorde-vraag
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
+assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Vraag-type
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
@@ -157,6 +168,7 @@ assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new v
 assessment#:#select_gap#:#Selecteren gat
 assessment#:#set_filter#:#Instellen filter
 assessment#:#solution_order#:#Oplossings-volgorde
+assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#Tekst-gat
 assessment#:#true#:#Waar
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
@@ -1556,6 +1568,7 @@ content#:#cont_content_obj#:#Content-object
 content#:#cont_coords#:#Coördinaten
 content#:#cont_create_dir#:#Creëer directory
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
+content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
 content#:#cont_cross_reference#:#Verwijzing
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default layout
@@ -1629,6 +1642,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link gebieden
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#Object-bestanden
 content#:#cont_mob_inst_prop#:#Instantie-eigenschappen
 content#:#cont_mob_prop#:#Object-eigenschappen

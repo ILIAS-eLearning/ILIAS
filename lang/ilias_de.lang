@@ -85,8 +85,11 @@ administration#:#view_last_log#:#View last Scanlog###16 Mar 2004 new variable
 administration#:#view_log#:#View details###16 Mar 2004 new variable
 assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
+assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
+assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
 assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
 assessment#:#answer#:#Answer###05 Feb 2004 new variable
+assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
 assessment#:#apply#:#Apply###05 Feb 2004 new variable
 assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
@@ -99,6 +102,7 @@ assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###16 Mar 2004 new variable
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###16 Mar 2004 new variable
 assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###16 Mar 2004 new variable
+assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###23 Mar 2004 new variable
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###16 Mar 2004 new variable
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###16 Mar 2004 new variable
 assessment#:#export#:#Export###05 Feb 2004 new variable
@@ -112,6 +116,7 @@ assessment#:#filter#:#Filter###05 Feb 2004 new variable
 assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#Last update###05 Feb 2004 new variable
+assessment#:#legend#:#Legend###23 Mar 2004 new variable
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
@@ -119,8 +124,12 @@ assessment#:#matches#:#matches###05 Feb 2004 new variable
 assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
 assessment#:#material#:#Material###16 Mar 2004 new variable
 assessment#:#material_download#:#Material to download###16 Mar 2004 new variable
+assessment#:#material_file#:#Material file###23 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
+assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
+assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
+assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
 assessment#:#points#:#Points###05 Feb 2004 new variable
 assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
 assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
@@ -132,6 +141,7 @@ assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 ne
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
 assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!###08 Feb 2004 new variable
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###07 Feb 2004 new variable
+assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!###23 Mar 2004 new variable
 assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###07 Feb 2004 new variable
 assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###08 Feb 2004 new variable
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
@@ -144,6 +154,7 @@ assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
 assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###16 Mar 2004 new variable
+assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
@@ -157,6 +168,7 @@ assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new v
 assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
 assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
 assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
+assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
 assessment#:#true#:#True###05 Feb 2004 new variable
 assessment#:#tst_already_taken#:#Tests already taken###16 Mar 2004 new variable
@@ -1556,6 +1568,7 @@ content#:#cont_content_obj#:#Content Object
 content#:#cont_coords#:#Koordinaten
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
+content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
@@ -1629,6 +1642,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#Objektdateien
 content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
 content#:#cont_mob_prop#:#Eigenschaften des Objektes

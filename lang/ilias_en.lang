@@ -85,12 +85,12 @@ administration#:#view_last_log#:#View last Scanlog
 administration#:#view_log#:#View details
 assessment#:#0_unlimited#:#(0 = unlimited)
 assessment#:#add_answer#:#Add answer
-assessment#:#add_answer_yn#:#Add yes/no answers
 assessment#:#add_answer_tf#:#Add true/false answers
+assessment#:#add_answer_yn#:#Add yes/no answers
 assessment#:#add_matching_pair#:#Add matching pair
 assessment#:#answer#:#Answer
-assessment#:#answer_text#:#Answer text
 assessment#:#answer_picture#:#Answer picture
+assessment#:#answer_text#:#Answer text
 assessment#:#apply#:#Apply
 assessment#:#ass_questions#:#Questions
 assessment#:#by#:#by
@@ -113,25 +113,23 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all requi
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#filter#:#Filter
-assessment#:#legend#:#Legend
-assessment#:#symbol#:#Symbol
-assessment#:#meaning#:#Meaning
 assessment#:#gap_selection#:#Gap selection
-assessment#:#question_short#:#Q
 assessment#:#imagemap#:#Image map
 assessment#:#last_update#:#Last update
+assessment#:#legend#:#Legend
 assessment#:#mark_schema#:#Mark schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions
 assessment#:#match_terms_and_pictures#:#Match terms and pictures
-assessment#:#order_terms#:#Order terms
-assessment#:#order_pictures#:#Order pictures
 assessment#:#matches#:#matches
 assessment#:#matching_pair#:#Matching pair
 assessment#:#material#:#Material
 assessment#:#material_download#:#Material to download
 assessment#:#material_file#:#Material file
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!
+assessment#:#meaning#:#Meaning
 assessment#:#no_questions_available#:#There are no questions available!
+assessment#:#order_pictures#:#Order pictures
+assessment#:#order_terms#:#Order terms
 assessment#:#points#:#Points
 assessment#:#possible_gap_text#:#Possible gap text
 assessment#:#postpone#:#Postpone question
@@ -143,12 +141,12 @@ assessment#:#qpl_assessment_total_of_answers#:#Total of answers
 assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)
 assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!
 assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it
+assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!
 assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it
 assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!
 assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing
 assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
-assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!
 assessment#:#qt_cloze#:#Cloze Question
 assessment#:#qt_imagemap#:#Image Map Question
 assessment#:#qt_matching#:#Matching Question
@@ -156,6 +154,7 @@ assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
 assessment#:#qt_ordering#:#Ordering Question
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
+assessment#:#question_short#:#Q
 assessment#:#question_type#:#Question Type
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
@@ -169,6 +168,7 @@ assessment#:#save_previous#:#Save and goto previous question
 assessment#:#select_gap#:#Select gap
 assessment#:#set_filter#:#Set filter
 assessment#:#solution_order#:#Solution order
+assessment#:#symbol#:#Symbol
 assessment#:#text_gap#:#Text gap
 assessment#:#true#:#True
 assessment#:#tst_already_taken#:#Tests already taken
@@ -1513,14 +1513,12 @@ content#:#all#:#All
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Circle#:#Circle
-content#:#cont_create_folder#:#Create Folder
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
-content#:#cont_mep_structure#:#Media Pool Structure
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
@@ -1570,6 +1568,7 @@ content#:#cont_content_obj#:#Content Object
 content#:#cont_coords#:#Coordinates
 content#:#cont_create_dir#:#Create Directory
 content#:#cont_create_export_file#:#Create Export File
+content#:#cont_create_folder#:#Create Folder
 content#:#cont_cross_reference#:#Cross reference
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
@@ -1643,6 +1642,7 @@ content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_mep_structure#:#Media Pool Structure
 content#:#cont_mob_files#:#Object Files
 content#:#cont_mob_inst_prop#:#Instance Properties
 content#:#cont_mob_prop#:#Object Properties
