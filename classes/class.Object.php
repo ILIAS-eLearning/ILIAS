@@ -434,125 +434,6 @@ class Object
 		return $new_id;
 	}
 
-	/**
-	* copy object to clipboard
-	*/
-	function copyObject($a_post_data,$a_post_cmd,$a_obj_id)
-	{
-		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
-
-		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
-		if (!isset($a_post_data))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-		// FOR ALL SELECTED OBJECTS
-		foreach($a_post_data as $id)
-		{
-			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			$node_data = $tree->getNodeData($id);
-			$subtree_nodes = $tree->getSubTree($node_data);
-
-			$all_node_data[] = $node_data;
-			$all_subtree_nodes[] = $subtree_nodes;
-
-			// CHECK DELETE PERMISSION OF ALL OBJECTS
-			foreach($subtree_nodes as $node)
-			{
-				if(!$rbacsystem->checkAccess('read',$node["obj_id"]))
-				{
-					$no_copy[] = $node["obj_id"];
-					$perform_copy = false;
-				}
-			}
-		}
-
-		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'read'
-		if (count($no_copy))
-		{
-			$no_copy = implode(',',$no_copy);
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".
-									 $no_copy,$this->ilias->error_obj->MESSAGE);
-		}
-
-		// COPY TRHEM
-		// SAVE SUBTREE
-		foreach($a_post_data as $id)
-		{
-			$tree->saveSubTree($id);
-			$clipboard[$id]["parent"] = $a_obj_id;
-			$clipboard[$id]["cmd"] = $a_post_cmd;
-		}
-		$_SESSION["clipboard"] = $clipboard;
-	}
-
-	/**
-	*
-	*/
-	function pasteObject($a_obj_id,$a_parent_id)
-	{
-		global $rbacsystem,$tree,$objDefinition,$lng;
-
-		// CHECK SOME THINGS
-		foreach($_SESSION["clipboard"] as $id => $object)
-		{
-			// IF CMD WAS 'copy' CALL PRIVATE CLONE METHOD
-			if($object["cmd"] == $lng->txt('copy'))
-			{
-				$this->cloneObject($a_obj_id,$a_parent_id);
-				return true;
-			}
-
-			$obj_data = getObject($id);
-			$data = $tree->getNodeData($id);
-			// CHECK ACCESS
-			if(!$rbacsystem->checkAccess('create',$a_obj_id,$obj_data["type"]))
-			{
-				$no_paste[] = $id;
-			}
-			// CHECK IF REFERENCE ALREADY EXISTS
-			if($data["obj_id"])
-			{
-				$exists[] = $id;
-			}
-			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
-			if ($tree->isGrandChild($id,$a_obj_id))
-			{
-				$is_child[] = $id;
-			}
-			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
-			$object = getObject($a_obj_id);
-			if(!in_array($obj_data["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
-			{
-				$not_allowed_subobject[] = $obj_data["type"];
-			}
-		}
-		if(count($exists))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_obj_exists"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(count($is_child))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
-									 $this->ilias->error_obj->MESSAGE);
-		}
-		if(count($not_allowed_subobject))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
-									 $this->ilias->error_obj->MESSAGE);
-		}
-		if(count($no_paste))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
-									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
-		}
-		foreach($_SESSION["clipboard"] as $id => $object)
-		{
-			$this->insertSavedNodes($id,$object["parent"],$a_obj_id,$a_parent_id,-(int) $id);
-		}
-		$this->clearObject();
-	}
-
 
 	/**
 	* add a new local role
@@ -622,6 +503,7 @@ class Object
 		return true;
 	}
 
+
 	/**
 	* show owner of object
 	* @access	public
@@ -645,7 +527,7 @@ class Object
 
 
 	/**
-	* This method is called automatically from class.Admin.php
+	* This method is called automatically from out class
 	* It removes all object entries for a specific object
 	* This method should be overwritten by all object types
 	* @access public
@@ -653,7 +535,7 @@ class Object
 	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
 	{
 		global $rbacadmin, $tree;
-		
+
 		// ALL OBJECT ENTRIES IN TREE HAVE BEEN DELETED FROM CLASS ADMIN.PHP
 
 		// IF THERE IS NO OTHER REFERENCE, DELETE ENTRY IN OBJECT_DATA
@@ -679,7 +561,7 @@ class Object
 		{
 			$data["empty"] = false;
 			$data["cols"] = array("","type", "title", "description", "last_change");
-			
+
 			foreach($objects as $obj_data)
 			{
 				$data["data"]["$obj_data[child]"] = array(
@@ -707,6 +589,7 @@ class Object
 	* @param	integer		node_id where to start
 	* @return	integer
 	*/
+	/*            deprecated!?
 	function getParentObjectId($a_start = 0)
 	{
 		global $tree;
@@ -717,7 +600,7 @@ class Object
 		array_pop($path_ids);
 
 		return array_pop($path_ids);
-	} //function
+	} //function*/
 
 
 	function getSubObjects()
