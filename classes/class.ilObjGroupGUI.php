@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.15 2003/07/07 10:55:00 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.16 2003/07/14 07:50:36 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -40,6 +40,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	/**
 	*comment fails
 	*/
+	
 	var $grp_tree;
 
 	
@@ -55,6 +56,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		//$this->lng =& $lng;
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 
+		
 		
 		$this->grp_tree = new ilTree($this->object->getRefId());
 		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
@@ -76,7 +78,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 
 			$this->getTemplateFile("new","group");
-
+			
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
@@ -113,7 +115,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$newObj->setDescription($_POST["Fobject"]["desc"]);
 		$newObj->create();
 		$newObj->createReference();
-
+	
 		$refGrpId = $newObj->getRefId();
 		$GrpId = $newObj->getId();
 
