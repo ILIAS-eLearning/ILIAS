@@ -1,10 +1,10 @@
 <form action="{FORMACTION}" name="objectItems" method="post">
 
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
+<table class="fullwidth">
 <!-- BEGIN table_header_row -->
 <tr class="tblheader">
 <!-- BEGIN table_header_cell -->
-  <td><a class="tblheader" href="{LINK}"><strong>{TEXT}</strong></a></td>
+  <td class="std"><a class="tblheader" href="{LINK}"><strong>{TEXT}</strong></a></td>
 <!-- END table_header_cell -->
 </tr>
 <!-- END table_header_row -->
@@ -12,7 +12,7 @@
 <!-- BEGIN table_row -->
 <tr class="{CSS_ROW}">
 <!-- BEGIN table_cell -->
-  <td valign="top" nowrap="1">
+  <td class="std" valign="top" nowrap="1">
 <!-- BEGIN image -->
   	<img src="{TPLPATH}/images/{IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
 <!-- END image -->
@@ -28,12 +28,9 @@
 </tr>
 <!-- END table_row -->
 
-<tr>
-<td colspan="4">&nbsp;</td>
-<td><input type="submit" name="cmd" value="{BTN_VALUE}" /></td>
-</tr>
-
 </table>
+<br />
+<input class="submit" type="submit" name="cmd" value="{BTN_VALUE}" />
 
 </form>
 
@@ -53,7 +50,7 @@
 
 		{SELECT_OBJTYPE}
 
-		    <input type="submit" name="submit" value="{TXT_ADD}" />
+		    <input class="submit" type="submit" name="submit" value="{TXT_ADD}" />
 
 	    </form>
 
