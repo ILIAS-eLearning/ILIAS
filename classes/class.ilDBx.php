@@ -153,6 +153,19 @@ class ilDBx extends PEAR
 		{
 			return $r;
 		}
-	} //end function	
+	} //end function
+
+
+	/**
+	* get last insert id
+	*/
+	function getLastInsertId()
+	{
+		$r = $this->query("SELECT LAST_INSERT_ID()");
+		$row = $r->fetchRow();
+
+		return $row[0];
+	}
+
 } //end Class
 ?>

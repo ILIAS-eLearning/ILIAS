@@ -23,6 +23,7 @@
 
 require_once("classes/class.ilObjectGUI.php");
 require_once("content/classes/class.ilObjGlossary.php");
+require_once("content/classes/class.ilGlossaryTermGUI.php");
 
 /**
 * Class ilGlossaryGUI
@@ -222,7 +223,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
-		$this->setActions(array("deleteTerm" => array("name" => "deleteTerm", "lng" => "delete")));
+		$this->setActions(array("deleteTerm" => "delete"));
+		$this->setSubObjects(array("term" => array()));
 		$this->showActions(true);
 
 		// footer
@@ -293,6 +295,32 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->viewObject();
 	}
 
+	/**
+	* create new (subobject) in glossary
+	*/
+	function create()
+	{
+		switch($_POST["new_type"])
+		{
+			case "term":
+				$term_gui =& new ilGlossaryTermGUI();
+				$term_gui->create();
+				break;
+		}
+	}
+
+	function saveTerm()
+	{
+		$term_gui =& new ilGlossaryTermGUI();
+		$term_gui->setGlossary($this->object);
+		$term_gui->save();
+
+		sendinfo($this->lng->txt("added_glossary_term"),true);
+
+		header("location: glossary_edit.php?ref_id=".$_GET["ref_id"]."cmd=listTerms");
+		exit();
+
+	}
 }
 
 ?>
