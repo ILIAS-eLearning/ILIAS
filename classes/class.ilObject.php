@@ -472,7 +472,9 @@ class ilObject
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->last_update = $obj_rec["last_update"];
 		$this->create_date = $obj_rec["create_date"];
-
+		
+		// set owner for new objects
+		$this->setOwner($this->ilias->account->getId());
 
 		return $this->id;
 	}
