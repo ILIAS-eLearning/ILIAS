@@ -132,6 +132,7 @@ common#:#create_stylesheet#:#Style erstellen
 common#:#crs#:#Kurs
 common#:#crs_a#:#einen Kurs
 common#:#crs_add#:#Kurs anlegen
+common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_added#:#Kurs angelegt
 common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_management_system#:#Kursmanagement-System
@@ -217,6 +218,7 @@ common#:#forums_overview#:#Übersicht Foren
 common#:#frm#:#Forum
 common#:#frm_a#:#ein Forum
 common#:#frm_add#:#Forum anlegen
+common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_added#:#Forum angelegt
 common#:#frm_new#:#Neues Forum
 common#:#from#:#Von
@@ -242,6 +244,7 @@ common#:#groups#:#Gruppen
 common#:#groups_overview#:#Gruppen übersicht
 common#:#grp#:#Gruppe
 common#:#grp_a#:#eine Gruppe
+common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_new#:#Neue Gruppe
