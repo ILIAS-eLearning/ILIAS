@@ -791,12 +791,12 @@ class ilObjGroup extends ilObject
 	* @access	public
 	* @return	integer	new ref id
 	*/
-	function clone($a_parent_ref)
+	function ilClone($a_parent_ref)
 	{
 		global $rbacadmin;
 
-		// always call parent clone function first!!
-		$new_ref_id = parent::clone($a_parent_ref);
+		// always call parent ilClone function first!!
+		$new_ref_id = parent::ilClone($a_parent_ref);
 		
 		// get object instance of cloned group
 		$groupObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
@@ -828,7 +828,7 @@ class ilObjGroup extends ilObject
 		// 0=public/visible for all,1=closed/invisible for all
 		$groupObj->setGroupStatus($this->getGroupStatus());
 
-		// always destroy objects in clone method because clone() is recursive and creates instances for each object in subtree!
+		// always destroy objects in ilClone method because clone() is recursive and creates instances for each object in subtree!
 		unset($groupObj);
 		unset($rfoldObj);
 		unset($roleObj);

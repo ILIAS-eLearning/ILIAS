@@ -206,10 +206,10 @@ class ilObjFile extends ilObject
 		return false;
 	}
 
-	function clone()
+	function ilClone()
 	{
 		// always call parent clone function first!!
-		$new_ref_id = parent::clone($a_parent_ref);
+		$new_ref_id = parent::ilClone($a_parent_ref);
 
 		$fileObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 		$fileObj->createDirectory();

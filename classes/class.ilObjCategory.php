@@ -60,13 +60,13 @@ class ilObjCategory extends ilObject
 	* @access	public
 	* @return	integer	new ref id
 	*/
-	function clone($a_parent_ref)
+	function ilClone($a_parent_ref)
 	{		
 		global $rbacadmin;
 
 		// always call parent clone function first!!
-		$new_ref_id = parent::clone($a_parent_ref);
-		
+		$new_ref_id = parent::ilClone($a_parent_ref);
+
 		// put here cat specific stuff
 		
 		// ... and finally always return new reference ID!!

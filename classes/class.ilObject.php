@@ -795,16 +795,16 @@ class ilObject
 
 
 	/**
-	* clone object into tree
+	* ilClone object into tree
 	* basic clone function. Register new object in object_data, creates reference and
-	* insert reference ID in tree. All object specific data must be copied in the clone function of the appropriate object class.
-	* Look in ilObjForum::clone() for example code
+	* insert reference ID in tree. All object specific data must be copied in the ilClone function of the appropriate object class.
+	* Look in ilObjForum::ilClone() for example code
 	* 
 	* @access	public
 	* @param	integer		$a_parent_ref		ref id of parent object
 	* @return	integer		new ref id
 	*/
-	function clone($a_parent_ref)
+	function ilClone($a_parent_ref)
 	{
 		$new_obj = new ilObject();
 		$new_obj->setTitle($this->getTitle());
@@ -814,7 +814,7 @@ class ilObject
 		$new_ref_id = $new_obj->createReference();
 		$new_obj->putInTree($a_parent_ref);
 		$new_obj->setPermissions($a_parent_ref);
-		
+
 		unset($new_obj);
 	
 		// ... and finally always return new reference ID!!

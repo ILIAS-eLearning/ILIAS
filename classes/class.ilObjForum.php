@@ -91,12 +91,12 @@ class ilObjForum extends ilObject
 	* @access	public
 	* @return	integer	new ref id
 	*/
-	function clone($a_parent_ref)
+	function ilClone($a_parent_ref)
 	{		
 		global $rbacadmin;
 
-		// always call parent clone function first!!
-		$new_ref_id = parent::clone($a_parent_ref);
+		// always call parent ilClone function first!!
+		$new_ref_id = parent::ilClone($a_parent_ref);
 		
 		// get object instance of cloned forum
 		$forumObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
@@ -155,7 +155,7 @@ class ilObjForum extends ilObject
 
 				// CLONE POST ATTACHMENTS
 				$tmp_file_obj->setPosId($posData["pos_pk"]);
-				$tmp_file_obj->clone($forumObj->getId(),$new_pos_pk);
+				$tmp_file_obj->ilClone($forumObj->getId(),$new_pos_pk);
 				
 				// get tree data from old post and insert copy
 			    $q3 = "SELECT * FROM frm_posts_tree ";
