@@ -989,11 +989,13 @@
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">delete</xsl:with-param>
 	<xsl:with-param name="langvar">ed_delete</xsl:with-param></xsl:call-template>	
 
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveAfter</xsl:with-param>
-	<xsl:with-param name="langvar">ed_moveafter</xsl:with-param></xsl:call-template>	
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveBefore</xsl:with-param>
-	<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>
+	<xsl:if test="$javascript = 'disable'">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveAfter</xsl:with-param>
+		<xsl:with-param name="langvar">ed_moveafter</xsl:with-param></xsl:call-template>	
+	
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveBefore</xsl:with-param>
+		<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>
+	</xsl:if>
 
 	<!-- split page -->
 	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
@@ -1002,6 +1004,15 @@
 			<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
+	
+	<!-- split page to next page -->
+	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_next = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">splitPageNext</xsl:with-param>
+			<xsl:with-param name="langvar">ed_split_page_next</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+
 
 	<xsl:call-template name="EditMenuAlignItems"/>
 		
@@ -1483,17 +1494,27 @@
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">delete</xsl:with-param>
 	<xsl:with-param name="langvar">ed_delete</xsl:with-param></xsl:call-template>
 
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveAfter</xsl:with-param>
-	<xsl:with-param name="langvar">ed_moveafter</xsl:with-param></xsl:call-template>
-
-	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveBefore</xsl:with-param>
-	<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>
+	<xsl:if test="$javascript = 'disable'">
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveAfter</xsl:with-param>
+		<xsl:with-param name="langvar">ed_moveafter</xsl:with-param></xsl:call-template>
+	
+		<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">moveBefore</xsl:with-param>
+		<xsl:with-param name="langvar">ed_movebefore</xsl:with-param></xsl:call-template>
+	</xsl:if>
 	
 	<!-- split page -->
 	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_new = 'y'">
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">splitPage</xsl:with-param>
 			<xsl:with-param name="langvar">ed_split_page</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+	
+	<!-- split page to next page -->
+	<xsl:if test = "substring-after($hier_id,'_') = '' and $hier_id != '1' and $enable_split_next = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">splitPageNext</xsl:with-param>
+			<xsl:with-param name="langvar">ed_split_page_next</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
 
