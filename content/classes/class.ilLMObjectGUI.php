@@ -381,6 +381,9 @@ class ilLMObjectGUI
 			}
 		}
 
+		// check the tree
+		$this->checkTree();
+
 		// feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 
@@ -472,5 +475,9 @@ class ilLMObjectGUI
 		}
 	}
 
+	function checkTree()
+	{
+		$this->content_object->checkTree();
+	}
 }
 ?>

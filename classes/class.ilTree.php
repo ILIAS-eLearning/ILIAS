@@ -666,7 +666,7 @@ class ilTree
 		
 		return $arr;
 	}
-	
+
 	/**
 	* check consistence of tree
 	* @access	public
@@ -676,7 +676,7 @@ class ilTree
 	{
 		$q = "SELECT lft,rgt FROM ".$this->table_tree." ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."'";
-				 
+
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
@@ -684,13 +684,48 @@ class ilTree
 			$lft[] = $row->lft;
 			$rgt[] = $row->rgt;
 		}
-			
+
 		$all = array_merge($lft,$rgt);
 		$uni = array_unique($all);
-			
+
 		if (count($all) != count($uni))
 		{
 			$this->ilias->raiseError(get_class($this)."::checkTree(): Tree is corrupted!",$this->ilias->error_obj->WARNING);
+		}
+
+		return true;
+	}
+
+	/**
+	* check, if all childs of tree nodes exist in object table
+	*/
+	function checkTreeChilds($a_no_zero_child = true)
+	{
+		$q = "SELECT * FROM ".$this->table_tree." ".
+			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
+			 "ORDER BY lft";
+		$r1 = $this->ilias->db->query($q);
+		while ($row = $r1->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+//echo "tree:".$row[$this->tree_pk].":lft:".$row["lft"].":rgt:".$row["rgt"].":child:".$row["child"].":<br>";
+			if (($row["child"] == 0) && $a_no_zero_child)
+			{
+				$this->ilias->raiseError(get_class($this)."::checkTreeChilds(): Tree contains child with ID 0!",$this->ilias->error_obj->WARNING);
+			}
+
+			$q = "SELECT * FROM ".$this->table_obj_data." WHERE ".$this->obj_pk."='".$row["child"]."'";
+			$r2 = $this->ilias->db->query($q);
+//echo "num_childs:".$r2->numRows().":<br>";
+			if ($r2->numRows() == 0)
+			{
+				$this->ilias->raiseError(get_class($this)."::checkTree(): No child found for ID ".
+					$row["child"]."!",$this->ilias->error_obj->WARNING);
+			}
+			if ($r2->numRows() > 1)
+			{
+				$this->ilias->raiseError(get_class($this)."::checkTree(): More childs found for ID ".
+					$row["child"]."!",$this->ilias->error_obj->WARNING);
+			}
 		}
 
 		return true;
@@ -705,7 +740,7 @@ class ilTree
 	{
 		$q = "SELECT MAX(depth) FROM ".$this->table_tree;
 		$r = $this->ilias->db->query($q);
-		
+
 		$row = $r->fetchRow();
 		
 		return $row[0];
