@@ -1464,13 +1464,13 @@ class ilObjTest extends ilObject
 		{
 			// Error
 		}
-		$this->saveCompleteStatus();
 		// remove test_active entries, because test has changed
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 			);
 		$result = $this->ilias->db->query($query);
 		$this->loadQuestions();
+		$this->saveCompleteStatus();
 	}
 
 /**
