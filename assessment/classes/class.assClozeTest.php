@@ -1312,32 +1312,35 @@ class ASS_ClozeTest extends ASS_Question
       $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
+		$user_result = array();
     while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-      array_push($found_value1, $data->value1);
-      array_push($found_value2, $data->value2);
+			$user_result[$data->value1] = array(
+				"gap_id" => $data->value1,
+				"value" => $data->value2
+			);
     }
     $points = 0;
     $counter = 0;
-    foreach ($found_value1 as $key => $value) {
-      if ($this->gaps[$value][0]->get_cloze_type() == CLOZE_TEXT) {
-        foreach ($this->gaps[$value] as $k => $v) {
-          if (strcmp($v->get_answertext(), $found_value2[$key]) == 0) {
+		foreach ($user_result as $gap_id => $value) {
+      if ($this->gaps[$gap_id][0]->get_cloze_type() == CLOZE_TEXT) {
+        foreach ($this->gaps[$gap_id] as $k => $v) {
+          if (strcmp($v->get_answertext(), $value["value"]) == 0) {
             $points += $v->get_points();
           }
         }
       } else {
-				foreach ($this->gaps[$value] as $answerkey => $answer)
+				foreach ($this->gaps[$gap_id] as $answerkey => $answer)
 				{
 					if ($answer->isStateChecked())
 					{
-						if ($found_value2[$value] == $answerkey)
+						if ($value["value"] == $answerkey)
 						{
 							$points += $answer->get_points();
 						}
 					}
 					else
 					{
-						if ($found_value2[$value] != $answerkey)
+						if ($value["value"] != $answerkey)
 						{
 							$points += $answer->get_points();
 						}
