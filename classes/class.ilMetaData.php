@@ -547,12 +547,19 @@ class ilMetaData
 		$this->nested->init($this->id, $this->getType());
 		if ( !$this->nested->initDom() )
 		{
+			
+			if (is_object($this->obj)) 
+			{
+				$title = $this->obj->getTitle();
+				$desc = $this->obj->getDescription();
+			}
+			
 			$xml = '
 				<MetaData>
 					<General Structure="Hierarchical">
 						<Identifier Catalog="ILIAS" Entry="' . substr(md5(uniqid(rand())), 0, 6) . '"></Identifier>
-						<Title Language="' . $this->ilias->account->getLanguage() . '">' . $this->obj->getTitle() . '</Title>
-						<Description Language="' . $this->ilias->account->getLanguage() . '">' . $this->obj->getDescription() . '</Description>
+						<Title Language="' . $this->ilias->account->getLanguage() . '">' . $title . '</Title>
+						<Description Language="' . $this->ilias->account->getLanguage() . '">' . $desc . '</Description>
 						<Keyword Language="' . $this->ilias->account->getLanguage() . '"></Keyword>
 					</General>
 				</MetaData>
