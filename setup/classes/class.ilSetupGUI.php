@@ -970,7 +970,7 @@ class ilSetupGUI extends ilSetup
 		foreach ($list as $key => $client)
 		{
 			// check status
-			// TODO: aufräumen!!!	
+			// TODO: aufrï¿½umen!!!	
 			$status_arr = $this->getStatus($client);
 
 			if (!$status_arr["db"]["status"])
@@ -1066,7 +1066,6 @@ class ilSetupGUI extends ilSetup
 		{
 			$header_names[] = ucfirst($this->lng->txt($val));
 		}
-		
 		$tbl->setHeaderNames($header_names);
 		$tbl->setHeaderVars($data["cols"],$header_params);
 		$tbl->setColumnWidth(array("5%","30%","10%","10%","10%","20%","15%"));
