@@ -47,15 +47,35 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function ilObjStyleSheetGUI($a_data,$a_id,$a_call_by_reference)
 	{
+		global $ilCtrl, $lng, $tpl;
+
+		$this->ctrl =& $ilCtrl;
+		$this->lng =& $lng;
+
 		$this->type = "sty";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
-
-		$this->cmd_update = "update";
-		$this->cmd_new_par = "newStyleParameter";
-		$this->cmd_refresh = "refresh";
-		$this->cmd_delete = "deleteStyleParameter";
 	}
 
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				$cmd.= "Object";
+				$ret =& $this->$cmd();
+				break;
+		}
+
+		return $ret;
+	}
+
+	/*
 	function setCmdUpdate($a_cmd = "update")
 	{
 		$this->cmd_update = $a_cmd;
@@ -74,33 +94,39 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	function setCmdDeleteStyleParameter($a_cmd = "deleteStyleParameter")
 	{
 		$this->cmd_delete = $a_cmd;
-	}
+	}*/
 
 	/**
-	*
+	* create
 	*/
 	function createObject()
 	{
-		global $rbacsystem, $lng;
+		global $rbacsystem, $lng, $tpl;
+
+		$this->setTabs();
+
+		$this->lng =& $lng;
 
 		$this->getTemplateFile("create", "sty");
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("create_stylesheet"));
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",
-			"adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=save"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 	}
 
 	/**
-	*
+	* edit style sheet
 	*/
 	function editObject()
 	{
 		global $rbacsystem, $lng;
+
+		$this->setTabs();
 
 		// set style sheet
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -178,24 +204,29 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_PAR", $par_select);
 		$this->tpl->setVariable("TXT_NEW_PAR", $this->lng->txt("add"));
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",
-			"adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=post"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_return"));
-		$this->tpl->setVariable("BTN_SAVE", $this->cmd_update);
+		$this->tpl->setVariable("BTN_SAVE", "update");
 		$this->tpl->setVariable("TXT_REFRESH", $this->lng->txt("save_refresh"));
-		$this->tpl->setVariable("BTN_REFRESH", $this->cmd_refresh);
+		$this->tpl->setVariable("BTN_REFRESH", "refresh");
 		$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete_selected"));
-		$this->tpl->setVariable("BTN_DELETE", $this->cmd_delete);
-		$this->tpl->setVariable("BTN_NEW_PAR", $this->cmd_new_par);
+		$this->tpl->setVariable("BTN_DELETE", "deleteStyleParameter");
+		$this->tpl->setVariable("BTN_NEW_PAR", "newStyleParameter");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 
+	/**
+	* add style parameter
+	*/
 	function newStyleParameterObject()
 	{
 		$this->object->addParameter($_POST["tag"], $_POST["parameter"]);
 		$this->editObject();
 	}
 
+	/**
+	* refresh style sheet
+	*/
 	function refreshObject()
 	{
 		//$class_name = "ilObjStyleSheet";
@@ -211,6 +242,9 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->editObject();
 	}
 
+	/**
+	* delete style parameters
+	*/
 	function deleteStyleParameterObject()
 	{
 		if (is_array($_POST["sty_select"]))
@@ -225,9 +259,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->editObject();
 	}
 
+	/**
+	* save style sheet
+	*/
 	function saveObject()
 	{
-
+//echo "HH"; exit;
 		$class_name = "ilObjStyleSheet";
 		require_once("classes/class.ilObjStyleSheet.php");
 		$newObj = new ilObjStyleSheet();
@@ -235,21 +272,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$newObj->setDescription($_POST["style_description"]);
 		$newObj->create();
 
-		$location = $this->getReturnLocation("save","adm_object.php?".$this->link_params);
-
-		// "return" path is needed in content/classes/class.ilLearningModuleGUI
-		// i don't know if this is a good solution, but it works
-		if ($location == "return")
-		{
-			return $newObj->getId();
-		}
-		else
-		{
-			header("Location:".$location);
-			exit();
-		}
+		return $newObj->getId();
 	}
 
+	/**
+	* update style sheet
+	*/
 	function updateObject()
 	{
 		//$class_name = "ilObjStyleSheet";
@@ -263,11 +291,55 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		}
 		$this->object->update();
 
-		$location = $this->getReturnLocation("update","adm_object.php?".$this->link_params);
-
-		header("Location:".$location);
-		exit();
+		$this->ctrl->returnToParent($this);
 	}
+
+	/**
+	* update style sheet
+	*/
+	function cancelObject()
+	{
+		global $lng;
+
+		sendInfo($lng->txt("msg_cancel"), true);
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
+		global $lng;
+
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		if (get_class($this->object) == "ilobjstylesheet")
+		{
+			$this->tpl->setVariable("HEADER", $this->object->getTitle());
+		}
+		else
+		{
+			$this->tpl->setVariable("HEADER", $lng->txt("create_stylesheet"));
+		}
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// back to upper context
+		$tabs_gui->addTarget("cont_back",
+			$this->ctrl->getParentReturn($this), "",
+			"");
+	}
+
 
 } // END class.ObjStyleSheetGUI
 ?>

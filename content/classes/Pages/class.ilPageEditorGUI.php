@@ -63,6 +63,8 @@ class ilPageEditorGUI
 
 	/**
 	* Constructor
+	*
+	* @param	object		$a_page_object		page object
 	* @access	public
 	*/
 	function ilPageEditorGUI(&$a_page_object)
@@ -81,6 +83,11 @@ class ilPageEditorGUI
 		$this->ctrl->saveParameter($this, "hier_id");
 	}
 
+	/**
+	* get all gui classes that are called from this one (see class ilCtrl)
+	*
+	* @param	array		array of gui classes that are called
+	*/
 	function _forwards()
 	{
 		return array("ilPCParagraphGUI", "ilPCTableGUI",
@@ -89,51 +96,47 @@ class ilPageEditorGUI
 		"ilObjMediaObjectGUI");
 	}
 
-	function setTargetScript($a_target_script)
-	{
-		$this->target_script = $a_target_script;
-	}
-
-	function getTargetScript()
-	{
-		return $this->target_script;
-	}
-
+	/**
+	* set header title
+	*
+	* @param	string		$a_header		header title
+	*/
 	function setHeader($a_header)
 	{
 		$this->header = $a_header;
 	}
 
+	/**
+	* get header title
+	*
+	* @return	string		header title
+	*/
 	function getHeader()
 	{
 		return $this->header;
 	}
 
-	function setReturnLocation($a_location)
-	{
-		$this->return_location = $a_location;
-	}
-
-	function getReturnLocation()
-	{
-		return $this->return_location;
-	}
-
+	/**
+	* set locator object
+	*
+	* @param	object		$a_locator		locator object
+	*/
 	function setLocator(&$a_locator)
 	{
 		$this->locator =& $a_locator;
 	}
 
-	function setTabs($a_tabs)
-	{
-		$this->tabs = $a_tabs;
-	}
-
+	/**
+	* redirect to parent context
+	*/
 	function returnToContext()
 	{
-		ilUtil::redirect($this->getReturnLocation());
+		$this->ctrl->returnToParent($this);
 	}
 
+	/**
+	* execute command
+	*/
 	function &executeCommand()
 	{
 //echo "execute";
@@ -188,12 +191,6 @@ class ilPageEditorGUI
 		{
 			$this->tpl->setVariable("HEADER", $this->getHeader());
 			$this->displayLocator();
-			$this->setAdminTabs("pg");
-		}
-
-		if($cmd == "returnToContext")
-		{
-			$this->returnToContext();
 		}
 
 		$this->cont_obj =& $cont_obj;
@@ -317,46 +314,23 @@ class ilPageEditorGUI
 				$ret =& $file_item_gui->executeCommand();
 				break;
 
+			default:
+				$ret =& $this->$cmd();
+				break;
+
 		}
 
-		//$this->tpl->show();
-
+		return $ret;
 	}
 
+	/**
+	* display locator
+	*/
 	function displayLocator()
 	{
-		/*
-		require_once("content/classes/class.ilContObjLocatorGUI.php");
-		$contObjLocator =& new ilContObjLocatorGUI($this->tree);
-		$contObjLocator->setObject($this->page);*/
-
-		//$cont_obj = ilObjContentObject$this->page->getParentId()
-		//$contObjLocator->setContentObject($this->page->getParentId());
 		if(is_object($this->locator))
 		{
 			$this->locator->display();
-		}
-	}
-
-	function setAdminTabs($mode = "pg", $a_hier_id = "")
-	{
-		$tabs_gui =& new ilTabsGUI();
-
-		$tabs_gui->setTargetScript($this->getTargetScript());
-
-		if ($mode != "mob")
-		{
-			if(empty($this->tabs))
-			{
-				$tabs_gui->setObjectType($mode);
-			}
-			else
-			{
-				// glossary fix
-				$tabs_gui->setTargetScript($this->getTargetScript());
-				$tabs_gui->setTabs($this->tabs);
-				$tabs_gui->setTabs(array());
-			}
 		}
 	}
 

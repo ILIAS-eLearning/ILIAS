@@ -24,7 +24,7 @@
 require_once("./content/classes/class.ilLMObjectGUI.php");
 require_once("./content/classes/class.ilLMPageObject.php");
 require_once("./content/classes/Pages/class.ilPageObjectGUI.php");
-//require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+require_once ("content/classes/class.ilEditClipboardGUI.php");
 require_once ("content/classes/class.ilInternalLinkGUI.php");
 
 /**
@@ -55,9 +55,14 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 	}
 
+	/**
+	* get all gui classes that are called from this one (see class ilCtrl)
+	*
+	* @param	array		array of gui classes that are called
+	*/
 	function _forwards()
 	{
-		return (array("ilPageObjectGUI", "ilInternalLinkGUI"));
+		return (array("ilPageObjectGUI", "ilInternalLinkGUI", "ilEditClipboardGUI"));
 	}
 
 	/**
@@ -75,42 +80,43 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function &executeCommand()
 	{
+//echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":";
 		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
 
-		if ($next_class != "")
+		switch($next_class)
 		{
-			$cmd = $this->ctrl->getCmd();
+			case "ilpageobjectgui":
+				require_once("content/classes/class.ilContObjLocatorGUI.php");
+				$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
+				$contObjLocator->setObject($this->obj);
+				$contObjLocator->setContentObject($this->content_object);
 
-			switch($next_class)
-			{
-				case "ilpageobjectgui":
-					require_once("content/classes/class.ilContObjLocatorGUI.php");
-					$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
-					$contObjLocator->setObject($this->obj);
-					$contObjLocator->setContentObject($this->content_object);
+				$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
+				$page_gui->setTemplateTargetVar("ADM_CONTENT");
+				$page_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($this->obj->getId(), $this->content_object->getPageHeader()));
+				$page_gui->setLocator($contObjLocator);
+				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
+				$ret =& $page_gui->executeCommand();
+				break;
 
-					require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
-					$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
-					$page_gui->setLocator($contObjLocator);
-					$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
-					$page_gui->setTargetScript("lm_edit.php?ref_id=".
-						$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
-					$page_gui->setReturnLocation("lm_edit.php?ref_id=".
-						$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
-					$ret =& $page_gui->executeCommand();
-					break;
+			case "ilinternallinkgui":
+				$link_gui = new ilInternalLinkGUI("StructureObject", $this->content_object->getRefId());
+				$link_gui->setMode("normal");
+				$link_gui->setSetLinkTargetScript(
+					$this->ctrl->getLinkTarget($this, "setInternalLink"));
+				//$link_gui->filterLinkType("Media");
+				$ret =& $link_gui->executeCommand();
+				break;
 
-				case "ilinternallinkgui":
-					require_once("content/classes/class.ilInternalLinkGUI.php");
-					$link_gui = new ilInternalLinkGUI("StructureObject", $this->content_object->getRefId());
-					$link_gui->setMode("normal");
-					$link_gui->setSetLinkTargetScript(
-						$this->ctrl->getLinkTarget($this, "setInternalLink"));
-					//$link_gui->filterLinkType("Media");
-					$ret =& $link_gui->executeCommand();
-					break;
+			case "ileditclipboardgui":
+				$clip_gui = new ilEditClipboardGUI();
+				$ret =& $clip_gui->executeCommand();
+				break;
 
-			}
+			default:
+				$ret =& $this->$cmd();
+				break;
 		}
 	}
 
@@ -120,36 +126,46 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function view()
 	{
-		$page_object_gui =& new ilPageObjectGUI($this->obj->getPageObject());
-		//$page_object_gui->setPresentationTitle($this->obj->getPresentationTitle($this->content_object->getPageHeader()));
-		$page_object_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($this->obj->getId(), $this->content_object->getPageHeader()));
-		$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
-		$page_object_gui->setLinkParams("ref_id=".$this->content_object->getRefId());
-		$page_object_gui->setTemplateTargetVar("ADM_CONTENT");
-		$page_object_gui->view();
+//echo "<br>umschuss";
+		$this->setTabs();
+		$this->ctrl->setCmdClass("ilpageobjectgui");
+		$this->ctrl->setCmd("view");
+		$this->executeCommand();
+	}
 
+	/*
+	* display content of page (edit view)
+	*/
+	function preview()
+	{
+		$this->setTabs();
+		$this->ctrl->setCmdClass("ilpageobjectgui");
+		$this->ctrl->setCmd("preview");
+		$this->executeCommand();
 	}
 
 	/**
 	* show page editor
 	*/
+/*
 	function showPageEditor()
 	{
 		$this->forwardToPageObjGUI("showPageEditor");
-	}
+	}*/
 
 	/**
 	* show internal link help
 	*/
+/*
 	function showLinkHelp()
 	{
 		$this->forwardToPageObjGUI("showLinkHelp");
-	}
+	}*/
 
 	/**
 	* change internal link type
 	*/
+/*
 	function changeLinkType()
 	{
 		$this->forwardToPageObjGUI("changeLinkType");
@@ -158,19 +174,21 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	function closeLinkHelp()
 	{
 		;
-	}
+	}*/
 
 	/**
 	* reset internal link list
 	*/
+	/*
 	function resetLinkList()
 	{
 		$this->forwardToPageObjGUI("resetLinkList");
-	}
+	}*/
 
 	/**
 	* reset internal link list
 	*/
+/*
 	function changeTargetObject()
 	{
 		$this->forwardToPageObjGUI("changeTargetObject");
@@ -199,8 +217,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	function newMediaObject()
 	{
 		$this->forwardToPageObjGUI("createMediaInClipboard");
-	}
+	}*/
 
+	/*
 	function forwardToPageObjGUI($cmd)
 	{
 		require_once("content/classes/class.ilContObjLocatorGUI.php");
@@ -217,7 +236,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$page_gui->setReturnLocation("lm_edit.php?ref_id=".
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=view");
 		$page_gui->$cmd();
-	}
+	}*/
 
 	/*
 	function editMob()
@@ -244,25 +263,11 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$media_gui->$cmd();
 	}*/
 
-	/*
-	* preview
-	*/
-	function preview()
-	{
-		$page_object_gui =& new ilPageObjectGUI($this->obj->getPageObject());
-
-		//$page_object_gui->setPresentationTitle($this->obj->getPresentationTitle($this->content_object->getPageHeader()));
-		$page_object_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($this->obj->getId(), $this->content_object->getPageHeader()));
-		$page_object_gui->setTargetScript("lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
-		$page_object_gui->setLinkParams("ref_id=".$this->content_object->getRefId());
-		$page_object_gui->setTemplateTargetVar("ADM_CONTENT");
-		$page_object_gui->preview();
-	}
 
 	/**
 	* output a cell in object list
 	*/
+/*
 	function add_cell($val, $link = "")
 	{
 		if(!empty($link))
@@ -278,7 +283,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("table_cell");
 		$this->tpl->parseCurrentBlock();
-	}
+	}*/
 
 
 	/**
@@ -301,7 +306,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		// -> a free page is created (not in the tree)
 		if (empty($_GET["obj_id"]))
 		{
-			ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".$this->content_object->getRefId());
+			ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".
+				$this->content_object->getRefId());
 		}
 		else
 		{
@@ -314,6 +320,43 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$_GET["obj_id"]);
 		}
 	}
+
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		$this->tpl->setVariable("HEADER",
+			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// back to upper context
+		$tabs_gui->addTarget("edit", $this->ctrl->getLinkTarget($this, "view")
+			, "view", get_class($this));
+
+		$tabs_gui->addTarget("cont_preview", $this->ctrl->getLinkTarget($this, "preview")
+			, "preview", get_class($this));
+
+		$tabs_gui->addTarget("meta_data", $this->ctrl->getLinkTarget($this, "editMeta")
+			, "editMeta", get_class($this));
+
+		$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
+			, "view", "ilEditClipboardGUI");
+
+	}
+
 
 }
 ?>

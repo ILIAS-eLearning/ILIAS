@@ -843,8 +843,6 @@ class ilLMPresentationGUI
 		//$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
 		$page_object_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(), $this->lm->getPageHeader()));
 		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
-		$page_object_gui->setTargetScript("lm_presentation.php?ref_id=".
-										  $this->lm->getRefId()."&obj_id=".$_GET["obj_id"]);
 #		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
 		$page_object_gui->setLinkParams("ref_id=".$_SESSION["tr_id"]);
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
@@ -925,8 +923,6 @@ class ilLMPresentationGUI
 		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
 
 		// ADDED FOR CITATION
-		$page_object_gui->setTargetScript("lm_presentation.php?ref_id=".
-			$this->lm->getRefId()."&obj_id=".($_GET["obj_id"] ? $_GET["obj_id"] : $page_id)."&cmd=ilCitation&frame=".$_GET["frame"]);
 		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
 

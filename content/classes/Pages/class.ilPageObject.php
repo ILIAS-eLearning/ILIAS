@@ -558,7 +558,7 @@ class ilPageObject
 		$path = "//MediaAlias";
 		$res =& xpath_eval($xpc, $path);
 
-		require_once("content/classes/Pages/class.ilMediaItem.php");
+		require_once("content/classes/Media/class.ilMediaItem.php");
 		for($i = 0; $i < count($res->nodeset); $i++)
 		{
 			$oid = $res->nodeset[$i]->get_attribute("OriginId");

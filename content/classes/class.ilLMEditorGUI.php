@@ -27,8 +27,6 @@ require_once ("content/classes/class.ilObjLearningModule.php");
 require_once ("content/classes/class.ilObjLearningModuleGUI.php");
 require_once ("content/classes/class.ilObjDlBook.php");
 require_once ("content/classes/class.ilObjDlBookGUI.php");
-require_once ("content/classes/class.ilLMPageObjectGUI.php");
-require_once ("content/classes/class.ilStructureObjectGUI.php");
 require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 //require_once ("content/classes/Pages/class.ilMediaItem.php");
 require_once ("classes/class.ilObjStyleSheet.php");
@@ -79,61 +77,87 @@ class ilLMEditorGUI
 		$this->objDefinition =& $objDefinition;
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
+
+		$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
+		$this->tree = new ilTree($this->lm_obj->getId());
+		$this->tree->setTableNames('lm_tree','lm_data');
+		$this->tree->setTreeTablePK("lm_id");
+
 	}
 
 	function &executeCommand()
 	{
-		$next_class = $this->ctrl->getNextClass($this);
-
-		if ($next_class != "")
+		$cmd = $this->ctrl->getCmd("frameset");
+		if ($cmd == "view" && $this->ctrl->getRedirectSource() == "ilinternallinkgui")
 		{
-			$cmd = $this->ctrl->getCmd();
-			switch($next_class)
-			{
-				case "illmpageobjectgui":
-					$this->ctrl->setReturn($this, "view");
-
-					$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
-					//$this->tree = new ilTree($this->lm_obj->getId());
-					//$this->tree->setTableNames('lm_tree','lm_data');
-					//$this->tree->setTreeTablePK("lm_id");
-					//$this->main_header($this->lng->txt($this->lm_obj->getType()).": ".$this->lm_obj->getTitle(),$this->lm_obj->getType());
-
-					if(!empty($_GET["obj_id"]))		// we got a page or structure object
-					{
-						$obj =& ilLMObjectFactory::getInstance($this->lm_obj, $_GET["obj_id"]);
-					}
-					$pg_gui =& new ilLMPageObjectGUI($this->lm_obj);
-					if (is_object($obj))
-					{
-						$pg_gui->setLMPageObject($obj);
-					}
-					$ret =& $pg_gui->executeCommand();
-					$this->tpl->show();
-					return;
-					break;
-			}
+			$cmd = "explorer";
 		}
 
+		$next_class = $this->ctrl->getNextClass($this);
+//echo "lmeditorgui:$next_class:".$this->ctrl->getCmdClass().":<br>";
+		$cmd = $this->ctrl->getCmd("frameset");
+
+		if ($next_class == "" && ($cmd != "explorer") && ($cmd != "frameset")
+			&& ($cmd != "showImageMap"))
+		{
+			switch($this->lm_obj->getType())
+			{
+				case "lm":
+					$this->ctrl->setCmdClass("ilObjLearningModuleGUI");
+					break;
+
+				case "dbk":
+					$this->ctrl->setCmdClass("ilObjDlBookGUI");
+					break;
+			}
+			$next_class = $this->ctrl->getNextClass($this);
+		}
+
+		switch($next_class)
+		{
+			case "ilobjdlbookgui":
+				$this->main_header();
+				$book_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
+				$ret =& $book_gui->executeCommand();
+				$this->tpl->show();
+				break;
+
+			case "ilobjlearningmodulegui":
+				$this->main_header();
+				$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
+				$ret =& $lm_gui->executeCommand();
+				$this->tpl->show();
+				break;
+
+			default:
+				$ret =& $this->$cmd();
+				break;
+		}
+		return;
+
+		/*
 		$hier_id = $_GET["hier_id"];
 		if(isset($_POST["new_hier_id"]))
 		{
 			$hier_id = $_POST["new_hier_id"];
-		}
+		}*/
 //echo ":hier_id_a:$hier_id:";
+		/*
 		$cmd = (empty($_GET["cmd"]))
 			? "frameset"
-			: $_GET["cmd"];
+			: $_GET["cmd"];*/
 
 		$new_type = (isset($_GET["new_type"]))
 			? $_GET["new_type"]
 			: $_POST["new_type"];
 
+		/*
 		if ($cmd == "post")
 		{
 			$cmd = key($_POST["cmd"]);
-		}
+		}*/
 
+		/*
 		if ($cmd == "edpost" || $_GET["hier_id"])
 		{
 			$type = "content";
@@ -152,23 +176,15 @@ class ilLMEditorGUI
 				$hier_id = implode($cmd, "_");
 				$cmd = $_POST["command".$hier_id];
 			}
-		}
+		}*/
 
 //echo ":hier_id_c:$hier_id:";
 
-		if ($cmd == "view" && $this->ctrl->getRedirectSource() == "ilinternallinkgui")
-		{
-			$cmd = "explorer";
-		}
 		switch($cmd)
 		{
 			case "explorer":
 			case "frameset":
 				$this->$cmd();
-				break;
-
-			case "closeLinkHelp":
-				$this->explorer();
 				break;
 
 			case "showImageMap":
@@ -186,9 +202,6 @@ class ilLMEditorGUI
 
 				$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 
-				$this->tree = new ilTree($this->lm_obj->getId());
-				$this->tree->setTableNames('lm_tree','lm_data');
-				$this->tree->setTreeTablePK("lm_id");
 				if(!empty($_GET["obj_id"]))		// we got a page or structure object
 				{
 					$obj =& ilLMObjectFactory::getInstance($this->lm_obj, $_GET["obj_id"]);
@@ -273,8 +286,7 @@ class ilLMEditorGUI
 
 	function _forwards()
 	{
-		return array("ilLMPageObjectGUI", "ilStructureObjectGUI",
-			"ilObjDlBookGUI", "ilMetaDataGUI", "ilObjLearningModuleGUI");
+		return array("ilObjDlBookGUI", "ilMetaDataGUI", "ilObjLearningModuleGUI");
 	}
 
 	/**
@@ -348,15 +360,23 @@ class ilLMEditorGUI
 	/**
 	* output main header (title and locator)
 	*/
-	function main_header($a_header_title, $a_type)
+	function main_header()
 	{
 		global $lng;
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->setVariable("HEADER", $a_header_title);
+		//$this->tpl->setVariable("HEADER", $a_header_title);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
 		$this->displayLocator();
-		$this->setAdminTabs($a_type);
+
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->lm_obj->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+
+		//$this->setAdminTabs($a_type);
 	}
 
 
@@ -395,7 +415,6 @@ class ilLMEditorGUI
 	function setAdminTabs($a_type)
 	{
 		include_once("classes/class.ilTabsGUI.php");
-//echo "HH";
 		$tabs_gui =& new ilTabsGUI;
 		$tabs_gui->getTargetsByObjectType($this, $a_type);
 		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());

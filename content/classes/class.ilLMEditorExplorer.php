@@ -42,11 +42,33 @@ class ilLMEditorExplorer extends ilLMExplorer
 	*/
 	function ilLMEditorExplorer($a_target,&$a_lm_obj)
 	{
+		global $ilCtrl;
+
+		$this->ctrl =& $ilCtrl;
+
 		parent::ilLMExplorer($a_target, $a_lm_obj);
 		$this->setExpandTarget("lm_edit.php?cmd=explorer&ref_id=".$this->lm_obj->getRefId());
 	}
 
-	
+	/**
+	* build link target
+	*/
+	function buildLinkTarget($a_node_id, $a_type)
+	{
+		switch($a_type)
+		{
+			case "pg":
+				$this->ctrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $a_node_id);
+				return $this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view");
+				break;
+
+			case "st":
+				$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $a_node_id);
+				return $this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view");
+				break;
+		}
+	}
+
 
 } // END class.ilLMEditorExplorer
 ?>

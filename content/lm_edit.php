@@ -46,7 +46,9 @@ if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 
 require_once "./content/classes/class.ilLMEditorGUI.php";
 $ilCtrl->setTargetScript("lm_edit.php");
+$ilBench->start("Editor", "getCallStructure");
 $ilCtrl->getCallStructure("ilLMEditorGUI");
+$ilBench->stop("Editor", "getCallStructure");
 
 // editor GUI class does the rest
 $lm_editor_gui =& new ilLMEditorGUI();
@@ -55,4 +57,5 @@ $lm_editor_gui->executeCommand();
 //$tpl->show();
 
 //echo "lm_edit end:".$_SESSION["il_map_il_target"].":<br>";
+$ilBench->save();
 ?>

@@ -1166,7 +1166,7 @@ common#:#obj_lo#:#LearningObject
 common#:#obj_mail#:#Mail Settings
 common#:#obj_mail_desc#:#Configure global mail settings here.
 common#:#obj_mep#:#Media Pool
-common#:#obj_mob#:#Multimedia Object
+common#:#obj_mob#:#Media Object
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Note Administration
@@ -1214,7 +1214,7 @@ common#:#objs_grp#:#Groups
 common#:#objs_lm#:#Learning Modules
 common#:#objs_lng#:#Languages
 common#:#objs_lo#:#Learning Objects
-common#:#objs_mob#:#Multimedia Objects
+common#:#objs_mob#:#Media Objects
 common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
 common#:#objs_qpl#:#Question Pools

@@ -92,6 +92,8 @@ class ilLMObjectGUI
 	*/
 	function addMeta()
 	{
+		$this->setTabs();
+
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
 		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
@@ -108,8 +110,8 @@ class ilLMObjectGUI
 		{
 			sendInfo($this->lng->txt("meta_choose_element"));
 		}
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $meta_section);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
+			$meta_section);
 	}
 
 
@@ -118,12 +120,14 @@ class ilLMObjectGUI
 	*/
 	function deleteMeta()
 	{
+		$this->setTabs();
+
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
 		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
 		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_GET["meta_section"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
+			$_GET["meta_section"]);
 	}
 
 
@@ -132,10 +136,12 @@ class ilLMObjectGUI
 	*/
 	function chooseMetaSection()
 	{
+		$this->setTabs();
+
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_REQUEST["meta_section"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
+			$_REQUEST["meta_section"]);
 	}
 
 
@@ -144,10 +150,12 @@ class ilLMObjectGUI
 	*/
 	function editMeta()
 	{
+		$this->setTabs();
+
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId());
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $this->ctrl->getLinkTarget($this),
+			$_GET["meta_section"]);
 	}
 
 
@@ -159,11 +167,10 @@ class ilLMObjectGUI
 //echo "lmobjectgui_Savemeta1<br>";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
-//echo "lmobjectgui_Savemeta2<br>";
+//echo "lmobjectgui_Savemeta2<br>"; exit;
 		$meta_gui->save($_POST["meta_section"]);
 //echo "lmobjectgui_Savemeta3<br>";
-		ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
-			$this->obj->getId());
+		$this->ctrl->returnToParent($this);
 	}
 
 
@@ -200,6 +207,7 @@ class ilLMObjectGUI
 	* @access	public
 	* @return	string
 	*/
+	/*
 	function getFormAction($a_cmd, $a_formaction ="")
 	{
 		if ($this->formaction[$a_cmd] != "")
@@ -210,7 +218,7 @@ class ilLMObjectGUI
 		{
 			return $a_formaction;
 		}
-	}
+	}*/
 
 
 	/**
@@ -266,8 +274,8 @@ class ilLMObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","lm_edit.php?cmd=post&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&new_type=".$new_type));
+		$this->ctrl->setParameter($this, "new_type", $new_type);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -347,8 +355,7 @@ class ilLMObjectGUI
 	function cancelDelete()
 	{
 		session_unregister("saved_post");
-		ilUtil::redirect("lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->content_object->getRefId()."&obj_id=".
-			$this->obj->getId());
+		$this->ctrl->redirect($this, $_GET["backcmd"]);
 	}
 
 

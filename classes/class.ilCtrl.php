@@ -42,6 +42,9 @@ class ilCtrl
 	*/
 	function ilCtrl()
 	{
+		global $ilBench;
+
+		$this->bench =& $ilBench;
 		$this->transit = array();
 //echo "<br><br>:".$_GET["cmdTransit"].":";
 		if (is_array($_GET["cmdTransit"]))
@@ -62,7 +65,7 @@ class ilCtrl
 			if ($transClass != "")
 			{
 //echo "<br><br>".$transClass;
-				return $transClass;
+				return strtolower($transClass);
 			}
 		}
 
@@ -71,12 +74,12 @@ class ilCtrl
 
 	function removeTransit()
 	{
-		for($i=0; $i<count($this->transit); $i++)
+		reset($this->transit);
+		foreach($this->transit as $key => $transClass)
 		{
-			if ($this->transit[$i] != "")
+			if ($transClass != "")
 			{
-				$this->transit[$i] = "";
-				return;
+				$this->transit[$key] = "";
 			}
 		}
 	}
@@ -172,69 +175,120 @@ class ilCtrl
 	}
 
 	/**
+	* set a parameter (note: if this is also a saved parameter, the saved
+	* value will be overwritten)
+	*/
+	function setParameterByClass($a_class, $a_parameter, $a_value)
+	{
+		$this->parameter[strtolower($a_class)][$a_parameter] = $a_value;
+	}
+
+	/**
 	* get next class
 	*/
 	function getNextClass($a_gui_obj)
 	{
-		$this->store_transit = $this->transit;
+//echo "<br>getNextClass::"; flush();
+		$path = array();
+		$this->getPath($path, get_class($a_gui_obj));
 
-		$next = $this->searchNext(get_class($a_gui_obj));
-		$this->transit = $this->store_transit;
+		$next = $path[1];
+
 		if ($this->getNextTransit() == $next)
 		{
 			$this->removeTransit();
 		}
-//echo "<br><br><b>".get_class($a_gui_obj)."</b>->$next";
+//echo "<br><b>".get_class($a_gui_obj).":".$this->getCmdClass().":</b>";
+//foreach($path as $a_next) { echo "<br>->".$a_next; } echo "<br>";
 		return $next;
+	}
+
+	function getPath(&$path, $a_class, $a_target_class = "", $a_transits = "")
+	{
+		$this->bench->start("GUIControl", "getPath");
+//echo "<br>"; var_dump($a_transits);
+		if ($a_target_class == "")
+		{
+			$a_target_class = $this->getCmdClass();
+		}
+		if ($a_target_class == "")
+		{
+			$path = array($a_class);
+			return;
+		}
+//echo "<br><b>FROM:".$a_class.":TO:".$a_target_class.":</b>";
+//echo "1";
+		$this->store_transit = $this->transit;
+		if (is_array($a_transits))
+		{
+			$this->transit = $a_transits;
+		}
+		else
+		{
+			if ($a_target_class != $this->getCmdClass())
+			{
+//echo "<br>:$a_target_class:".$this->getCmdClass().":DELTRANSIT";
+				$this->transit = array();
+			}
+		}
+//echo "<br>"; var_dump($this->transit);
+		$next = $this->searchNext($path, $a_class, $a_target_class);
+		$this->transit = $this->store_transit;
+//foreach($path as $a_next) { echo "<br>->".$a_next; } echo "<br>";
+		$this->bench->stop("GUIControl", "getPath");
 	}
 
 	/**
 	* private
 	*/
-	function searchNext($a_class)
+	function searchNext(&$a_path, $a_class, $a_target_class, $c_path = "")
 	{
+//echo "SN";
+		$c_path[] = $a_class;
+
 		if ($transClass = $this->getNextTransit())
 		{
 			$targetClass = $transClass;
+//echo "_trans_";
 		}
 		else
 		{
-			$targetClass = $this->getCmdClass();
+			$targetClass = $a_target_class;
 		}
+
 //echo "<br>...$a_class:$targetClass:";
 
-//echo "search:$a_class:".$this->getCmdClass().":<br>";
-		if (is_array($this->forward[$a_class]))
+		if ($a_class == strtolower($targetClass))
 		{
-			// check forwards of current class
-			foreach($this->forward[$a_class] as $next_class)
+			// found command class
+			if ($a_class == strtolower($a_target_class))
 			{
-				if (strtolower($next_class) == strtolower($targetClass))
-				{
-					// found command class
-					if (strtolower($next_class) == strtolower($this->getCmdClass()))
-					{
-						return $this->getCmdClass();
-					}
-
-					// found a transit class
-					$this->removeTransit();				// remove transit
-					$this->searchNext($next_class);		// go on with search
-				}
+				$a_path = $c_path;
+				return true;
 			}
 
-			// recursively search each forward
+			// found a transit class
+//echo "_remove_";
+			$this->removeTransit();					// remove transit
+			//if ($this->searchNext($a_path, $a_class, $a_target_class, $c_path))	// go on with search
+			//{
+			//	return true;
+			//}
+		}
+
+		// recursively search each forward
+		if (is_array($this->forward[$a_class]))
+		{
 			reset($this->forward[$a_class]);
 			foreach($this->forward[$a_class] as $next_class)
 			{
-				$ret = $this->searchNext($next_class);
-				if ($ret != "")
+				if ($this->searchNext($a_path, $next_class, $a_target_class, $c_path))
 				{
-					return $next_class;
+					return true;
 				}
 			}
 		}
-		return "";
+		return false;
 	}
 
 	/**
@@ -295,6 +349,7 @@ class ilCtrl
 	*/
 	function setCmdClass($a_cmd_class)
 	{
+//echo "<br><b>setCmdClass:$a_cmd_class:</b>";
 		$_GET["cmdClass"] = $a_cmd_class;
 	}
 
@@ -309,14 +364,10 @@ class ilCtrl
 	function getFormAction(&$a_gui_obj)
 	{
 		$script =  $this->getFormActionByClass(get_class($a_gui_obj));
-		if($_GET["cmdClass"] == get_class($a_gui_obj))
-		{
-			$script = $this->appendTransitClasses($script);
-		}
 		return $script;
 	}
 
-	function getFormActionByClass($a_class)
+	function getFormActionByClass($a_class, $a_transits = "")
 	{
 		$script = $this->getLinkTargetByClass($a_class, "post");
 		return $script;
@@ -324,34 +375,51 @@ class ilCtrl
 
 	function redirect(&$a_gui_obj, $a_cmd = "")
 	{
+
 		$script = $this->getLinkTargetByClass(get_class($a_gui_obj), $a_cmd);
 		ilUtil::redirect($script);
 	}
 
 	function getLinkTarget(&$a_gui_obj, $a_cmd = "")
 	{
+//echo "<br>getLinkTarget";
 		$script = $this->getLinkTargetByClass(get_class($a_gui_obj), $a_cmd);
-		if($_GET["cmdClass"] == get_class($a_gui_obj))
-		{
-			$script = $this->appendTransitClasses($script);
-		}
 		return $script;
 	}
 
-	function getLinkTargetByClass($a_class, $a_cmd  = "", $a_transits = "")
+	function getLinkTargetByClass($a_class, $a_cmd  = "", $a_transits = "", $a_prepend_transits = false)
 	{
 		$a_class = strtolower($a_class);
-		$cmd_str = ($a_cmd != "")
-			? "&cmd=".$a_cmd
-			: "";
-		$script = $this->getTargetScript();
-		$script = $this->getUrlParameters($a_class, $script, $a_cmd);
+//echo "<br>:".strtolower($_GET["cmdClass"]).":".$a_class.":";
+		$transits = array();
+		if((strtolower($_GET["cmdClass"]) == $a_class) ||
+			$a_prepend_transits)
+		{
+			$transits = $this->getTransitArray();
+		}
 
 		if(is_array($a_transits))
 		{
 			foreach($a_transits as $transit)
 			{
+				$transits[] = $transit;
+			}
+		}
+
+
+//echo "<br>getLinkTargetByClass";
+		$cmd_str = ($a_cmd != "")
+			? "&cmd=".$a_cmd
+			: "";
+		$script = $this->getTargetScript();
+		$script = $this->getUrlParameters($a_class, $script, $a_cmd, $transits);
+
+		if(is_array($transits))
+		{
+			foreach($transits as $transit)
+			{
 				$script = ilUtil::appendUrlParameterString($script, "cmdTransit[]=".$transit);
+//echo "<br>append:$transit:";
 			}
 		}
 //echo $script.":$a_class:<br>";
@@ -365,7 +433,7 @@ class ilCtrl
 	{
 		$script = $this->getTargetScript();
 		$script = $this->getUrlParameters(get_class($a_gui_obj), $script, $a_cmd);
-//echo ":".$script.":<br>";
+//echo "<br>setReturn:".get_class($a_gui_obj).":".$script.":<br>";
 		$this->return[get_class($a_gui_obj)] = $script;
 	}
 
@@ -423,11 +491,13 @@ class ilCtrl
 		return false;
 	}
 
-	function getUrlParameters($a_class, $a_str, $a_cmd = "")
+	function getUrlParameters($a_class, $a_str, $a_cmd = "", $a_transits = "")
 	{
+//echo "<br>getUrlParameters";
+//echo "<br>"; var_dump($a_transits);
 		$a_class = strtolower($a_class);
 
-		$params = $this->getParameterArrayByClass($a_class, $a_cmd);
+		$params = $this->getParameterArrayByClass($a_class, $a_cmd, $a_transits);
 		foreach ($params as $par => $value)
 		{
 			$a_str = ilUtil::appendUrlParameterString($a_str, $par."=".$value);
@@ -465,48 +535,60 @@ class ilCtrl
 
 	function getParameterArray(&$a_gui_obj, $a_cmd = "", $a_incl_transit = true)
 	{
-		$par_arr = $this->getParameterArrayByClass(get_class($a_gui_obj), $a_cmd);
-
 		if ($a_incl_transit)
 		{
 			$trans_arr = $this->getTransitArray();
+		}
+		$par_arr = $this->getParameterArrayByClass(get_class($a_gui_obj), $a_cmd,
+			$trans_arr);
+
+		if ($a_incl_transit)
+		{
 			$par_arr = array_merge($par_arr, $trans_arr);
 		}
 		return $par_arr;
 	}
 
-	function getParameterArrayByClass($a_class, $a_cmd = "")
+	function getParameterArrayByClass($a_class, $a_cmd = "", $a_transits = "")
 	{
 		$a_class = strtolower($a_class);
+
+//echo "-$a_class-";
+		if ($a_class == "")
+		{
+			return array();
+		}
+
+		// get root class
+		$root = $a_class;
+		while (isset($this->parent[$root][0]))
+		{
+			$root = $this->parent[$root][0];
+		}
+//echo "<br>:$a_class:$root:";
+		$path = array();
+		$this->getPath($path, $root, $a_class, $a_transits);
 
 		$params = array();
 
 		// append parameters of parent classes
-		if (is_array($this->parent[$a_class]))
+		foreach($path as $class)
 		{
-			foreach($this->parent[$a_class] as $parent)
+//echo "<br>->:$class:";
+			if (is_array($this->save_parameter[$class]))
 			{
-				$par_params = $this->getParameterArrayByClass($parent);
-				foreach($par_params as $key => $value)
+				foreach($this->save_parameter[$class] as $par)
 				{
-					$params[$key] = $value;
+					$params[$par] = $_GET[$par];
 				}
 			}
-		}
 
-		// append parameters of current class
-		if (is_array($this->save_parameter[$a_class]))
-		{
-			foreach($this->save_parameter[$a_class] as $par)
+			if (is_array($this->parameter[$class]))
 			{
-				$params[$par] = $_GET[$par];
-			}
-		}
-		if (is_array($this->parameter[$a_class]))
-		{
-			foreach($this->parameter[$a_class] as $par => $value)
-			{
-				$params[$par] = $value;
+				foreach($this->parameter[$class] as $par => $value)
+				{
+					$params[$par] = $value;
+				}
 			}
 		}
 
@@ -514,6 +596,7 @@ class ilCtrl
 		{
 			$params["cmd"] = $a_cmd;
 		}
+
 		$params["cmdClass"] = $a_class;
 
 		return $params;

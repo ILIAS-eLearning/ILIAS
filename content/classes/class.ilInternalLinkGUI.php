@@ -192,7 +192,7 @@ class ilInternalLinkGUI
 			default:
 				break;
 		}
-
+//echo "<br><br>:".$this->ctrl->getFormAction($this).":";
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("FORMACTION2", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
@@ -638,6 +638,7 @@ class ilInternalLinkGUI
 		$exp->setTargetGet("sel_id");
 		$this->ctrl->setParameter($this, "target_type", $a_type);
 		$exp->setParamsGet($this->ctrl->getParameterArray($this, "changeTargetObject"));
+//echo "<br>"; var_dump($this->ctrl->getParameterArray($this, "changeTargetObject"));
 		/*$exp->setParamsGet(array("ref_id" => $_GET["ref_id"],
 			"cmd" => "changeTargetObject", "mode" => "page_edit", "obj_id" => $_GET["obj_id"],
 			"target_type" => $a_type, "linkmode" => $_GET["linkmode"]));*/
