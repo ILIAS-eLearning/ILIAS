@@ -90,7 +90,7 @@ class ilCourseContentInterface
 		$write_perm = $rbacsystem->checkAccess("write",$this->cci_ref_id);
 			
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_view.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_view.html","course");
 		#$this->tpl->setVariable("FORMACTION",$this->cci_client_obj->ctrl->getFormAction($this->cci_client_obj));
 		
 		if($write_perm)
@@ -115,7 +115,7 @@ class ilCourseContentInterface
 		$maxcount = count($items);
 
 		$cont_arr = array_slice($items, $_GET["offset"], $_GET["limit"]);
-		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html",true);
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.crs_content_row.html","course");
 		$cont_num = count($cont_arr);
 
 		// render table content data
@@ -362,7 +362,7 @@ class ilCourseContentInterface
 			return false;
 		}
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editItem.html",true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_editItem.html","course");
 		$this->cci_client_obj->ctrl->setParameter($this->cci_client_obj,"item_id",$_GET["item_id"]);
 		$this->tpl->setVariable("FORMACTION",$this->cci_client_obj->ctrl->getFormAction($this->cci_client_obj));
 
