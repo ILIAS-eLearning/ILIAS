@@ -752,14 +752,14 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
-			 	echo "parent_id:".$ref_id;
+			 	
 				$parent_id = $this->tree->getParentId($ref_id);
-				echo "parent_id:".$parent_id;
+				//echo $parent_id;
 				
-				$tmpObj =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
+				/*$tmpObj =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
 				$tmpObj->notify("cut", $tmpObj->getRefId());
 				unset($tmpObj);
-
+				*/
 				// get node data
 				$top_node = $this->tree->getNodeData($ref_id);
 
@@ -768,8 +768,13 @@ class ilGroupGUI extends ilObjectGUI
 			
 				// delete old tree entries
 				$this->tree->deleteTree($top_node);
+				
+				$tmpObj =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
+				$tmpObj->notify("cut", $tmpObj->getRefId());
+				
+				unset($tmpObj);
 			}
-
+			
 			// now move all subtrees to new location
 			foreach($subnodes as $key => $subnode)
 			{
@@ -780,7 +785,7 @@ class ilGroupGUI extends ilObjectGUI
 				$obj_data->setPermissions($_GET["ref_id"]);
 				
 				// paste top_node also to the grp_tree table          
-				$this->object->insertGroupNode($obj_data->getId(),$this->object->getId(),$this->object->getId(),$obj_data->getRefId());
+				//$this->object->insertGroupNode($obj_data->getId(),$this->object->getId(),$this->object->getId(),$obj_data->getRefId());
 				
 				// ... remove top_node from list ...
 				array_shift($subnode);
@@ -796,8 +801,8 @@ class ilGroupGUI extends ilObjectGUI
 						$obj_data->setPermissions($node["parent"]);
 						
 						// ... put the node also into the grp_tree table
-						$new_parent_data =& $this->ilias->obj_factory->getInstanceByRefId($node["parent"]);
-						$this->object->insertGroupNode($obj_data->getId(),$new_parent_data->getId(),$this->object->getId(),$obj_data->getRefId());
+						//$new_parent_data =& $this->ilias->obj_factory->getInstanceByRefId($node["parent"]);
+						//$this->object->insertGroupNode($obj_data->getId(),$new_parent_data->getId(),$this->object->getId(),$obj_data->getRefId());
 						
 					}
 				}
@@ -828,7 +833,7 @@ class ilGroupGUI extends ilObjectGUI
 				$obj_data->setPermissions($_GET["ref_id"]);
 				
 				// paste top_node also to the grp_tree table          
-				$this->object->insertGroupNode($obj_data->getId(),$this->object->getId(),$this->object->getId(),$obj_data->getRefId());
+				//$this->object->insertGroupNode($obj_data->getId(),$this->object->getId(),$this->object->getId(),$obj_data->getRefId());
 				
 				// ... remove top_node from list ...
 				array_shift($subnode);
@@ -856,8 +861,8 @@ class ilGroupGUI extends ilObjectGUI
 							$obj_data->setPermissions($new_parent);
 							
 							// ... put the node also into the grp_tree table
-							$new_parent_data =& $this->ilias->obj_factory->getInstanceByRefId($new_parent);
-							$this->object->insertGroupNode($obj_data->getId(),$new_parent_data->getId(),$this->object->getId(),$obj_data->getRefId());
+							//$new_parent_data =& $this->ilias->obj_factory->getInstanceByRefId($new_parent);
+							//$this->object->insertGroupNode($obj_data->getId(),$new_parent_data->getId(),$this->object->getId(),$obj_data->getRefId());
 							
 						}
 						else

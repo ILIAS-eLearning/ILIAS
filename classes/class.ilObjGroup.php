@@ -810,8 +810,62 @@ class ilObjGroup extends ilObject
 		}
 	}
 	
+	/**
+	* updates the Group trees
+	+
+	*@access  public
+	*@param	 integer	reference id of object where the event occured	
+	*/
+	function pasteGrpTree($a_ref_id)
+	{
+		
+		$grp_tree = new ilTree($this->getId());
+		$grp_tree->setTableNames("grp_tree","object_data");
 	
-
+		$childrenNodes = $this->tree->getChilds($a_ref_id); 
+		foreach ( $childrenNodes as $child)
+		{
+			$object =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+			
+			if( !$object->getId()==$grp_tree->getParentId($child["obj_id"]) )
+			{
+				$this->insertGroupNode($child["obj_id"],$object->getId(),$this->getId(),$child["ref_id"]);
+				
+				//repeat the procedure one level deeper			
+				$this->pasteGrpTree($child["ref_id"]);
+			
+			}
+			
+			
+		}
+	
+	
+	}
+	
+	function cutGrpTree($a_ref_id)
+	{	
+		$tmp_object =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+		$grp_tree = new ilTree($tmp_object->getId());
+		$grp_tree->setTableNames("grp_tree","object_data");
+		
+		$childrenNodes = $grp_tree->getChilds($tmp_object->getId());
+		
+		
+		foreach ( $childrenNodes as $child)
+		{	
+			
+			if( ! $this->tree->isInTree($child["ref_id"]) )
+			{
+				//echo "drin_obj_id:".$child["obj_id"]."drin_ref_id:".$child["ref_id"]."--";
+				
+				$note_data = $grp_tree->getNodeData($child["obj_id"]);
+				$grp_tree->deleteTree($note_data);
+			
+			}
+		}		
+	}
+	
+	
 	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
@@ -834,7 +888,10 @@ class ilObjGroup extends ilObject
 				break;
 			
 			case "cut":
-				echo "cut";
+				
+				$this->cutGrpTree($a_ref_id);
+				
+				//echo "cut";
 				//echo "Group ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
@@ -846,7 +903,9 @@ class ilObjGroup extends ilObject
 				break;
 
 			case "paste":
-				echo "paste";
+				
+				$this->pasteGrpTree($a_ref_id);
+				
 				//echo "Group ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
