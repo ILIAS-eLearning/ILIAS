@@ -33,57 +33,57 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-administration#:#analyze_data#:#Analyze data Integrity###09 Mar 2004 new variable
-administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###09 Mar 2004 new variable
-administration#:#analyzing#:#Analyzing...###09 Mar 2004 new variable
-administration#:#clean#:#Clean up###09 Mar 2004 new variable
-administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.###09 Mar 2004 new variable
-administration#:#cleaning#:#Cleaning...###09 Mar 2004 new variable
-administration#:#cleaning_final#:#Final cleaning...###09 Mar 2004 new variable
-administration#:#closing_gaps#:#Closing gaps in tree...###09 Mar 2004 new variable
-administration#:#disabled#:#disabled###09 Mar 2004 new variable
-administration#:#done#:#Done###09 Mar 2004 new variable
-administration#:#found#:#found.###09 Mar 2004 new variable
-administration#:#found_none#:#none found.###09 Mar 2004 new variable
-administration#:#log_scan#:#Log scan results###09 Mar 2004 new variable
-administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.###09 Mar 2004 new variable
-administration#:#nothing_to_purge#:#Nothing to purge...###09 Mar 2004 new variable
-administration#:#nothing_to_remove#:#Nothing to remove...###09 Mar 2004 new variable
-administration#:#nothing_to_restore#:#Nothing to restore...###09 Mar 2004 new variable
-administration#:#options#:#Options###09 Mar 2004 new variable
-administration#:#purge_missing#:#Purge missing objects###09 Mar 2004 new variable
-administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.###09 Mar 2004 new variable
-administration#:#purge_trash#:#Purge deleted objects###09 Mar 2004 new variable
-administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.###09 Mar 2004 new variable
-administration#:#purging#:#Purging...###09 Mar 2004 new variable
-administration#:#purging_trash#:#Purging trash...###09 Mar 2004 new variable
-administration#:#purging_unbound_objs#:#Purging unbound objects...###09 Mar 2004 new variable
-administration#:#removing_invalid_childs#:#Removing invalid tree entries...###09 Mar 2004 new variable
-administration#:#removing_invalid_refs#:#Removing invalid references...###09 Mar 2004 new variable
-administration#:#restore_missing#:#Restore missing objects###09 Mar 2004 new variable
-administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.###09 Mar 2004 new variable
-administration#:#restore_trash#:#Restore deleted objects###09 Mar 2004 new variable
-administration#:#restore_trash_desc#:#Restore all objects in trash bin to RecoveryFolder.###09 Mar 2004 new variable
-administration#:#restoring#:#Restoring...###09 Mar 2004 new variable
-administration#:#restoring_missing_objs#:#Restoring missing objects...###09 Mar 2004 new variable
-administration#:#restoring_trash#:#Restoring trash...###09 Mar 2004 new variable
-administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...###09 Mar 2004 new variable
-administration#:#scan_completed#:#Scan completed###09 Mar 2004 new variable
-administration#:#scan_details#:#Scan details###09 Mar 2004 new variable
-administration#:#scan_modes#:#Scan modes used###09 Mar 2004 new variable
-administration#:#scan_only#:#Scan only###09 Mar 2004 new variable
-administration#:#scanning_system#:#Scanning system...###09 Mar 2004 new variable
-administration#:#searching_deleted_objs#:#Searching for deleted objects...###09 Mar 2004 new variable
-administration#:#searching_invalid_childs#:#Searching for invalid tree entries...###09 Mar 2004 new variable
-administration#:#searching_invalid_refs#:#Searching for invalid references...###09 Mar 2004 new variable
-administration#:#searching_missing_objs#:#Searching for missing objects...###09 Mar 2004 new variable
-administration#:#searching_unbound_objs#:#Searching for unbound objects...###09 Mar 2004 new variable
-administration#:#skippede#:#skipped###09 Mar 2004 new variable
-administration#:#start_scan#:#Start!###09 Mar 2004 new variable
-administration#:#systemcheck#:#Systemcheck###09 Mar 2004 new variable
-administration#:#view_last_log#:#View last Scanlog###09 Mar 2004 new variable
-administration#:#view_log#:#View details###09 Mar 2004 new variable
-assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
+administration#:#analyze_data#:#Analiza integralności danych
+administration#:#analyze_desc#:#Skanowanie systemu w poszukiwaniu uszkodzonych/błędnych/brakujących/niepodłączonych obiektów.
+administration#:#analyzing#:#Analizowanie...
+administration#:#clean#:#Wyczyść
+administration#:#clean_desc#:#Usuń niewłaściwe odwołania i pozycje struktury drzewa. Zamknij luki struktury drzewa.
+administration#:#cleaning#:#Czyszczenie...
+administration#:#cleaning_final#:#Czyszczenie finalne...
+administration#:#closing_gaps#:#Zamykanie luk w drzewie...
+administration#:#disabled#:#wyłączony
+administration#:#done#:#Wykonane
+administration#:#found#:#znaleziono.
+administration#:#found_none#:#nie znaleziono.
+administration#:#log_scan#:#Log rezultatów skanowania
+administration#:#log_scan_desc#:#Zapisz rezultaty skanowania do 'scanlog.log' w katalogu danych klienta.
+administration#:#nothing_to_purge#:#Nic do wyczyszczenia...
+administration#:#nothing_to_remove#:#Nic do usunięcia...
+administration#:#nothing_to_restore#:#Nic do odtworzenia...
+administration#:#options#:#Opcje
+administration#:#purge_missing#:#Czyszczenie zaginionych obiektów
+administration#:#purge_missing_desc#:#Usunięcie wszystkich zaginionych i niepodłaczonych obiektów z systemu.
+administration#:#purge_trash#:#Czyszczenie usuniętych obiektów
+administration#:#purge_trash_desc#:#Usunięcie wszystkich obiektów z kosza systemu.
+administration#:#purging#:#Czyszczenie...
+administration#:#purging_trash#:#Opróżnianie kosza...
+administration#:#purging_unbound_objs#:#Czyszczenie niepodłączonych obiektów...
+administration#:#removing_invalid_childs#:#Usuwanie niewłaściwych pozycji drzewa...
+administration#:#removing_invalid_refs#:#Usuwanie niewłaściwych odwołań...
+administration#:#restore_missing#:#Odtwarzanie zaginionych obiektów
+administration#:#restore_missing_desc#:#Odtwarzanie zaginionych i niepodłączonych obiektów do Folderu Odtwarzania.
+administration#:#restore_trash#:#Odtwarzanie usuniętych obiektów
+administration#:#restore_trash_desc#:#Odtwarzanie wszystkich obiektów z kosza do Foldera Odtwarzania
+administration#:#restoring#:#Odtwarzanie...
+administration#:#restoring_missing_objs#:#Odtwarzanie zaginionych obiektów...
+administration#:#restoring_trash#:#Odtwarzanie kosza...
+administration#:#restoring_unbound_objs#:#Odtwarzanie niepodłączonych obiektów i podobiektów...
+administration#:#scan_completed#:#Skanowanie zakończone
+administration#:#scan_details#:#Szczegóły skanowania
+administration#:#scan_modes#:#Użyte tryby skanowania
+administration#:#scan_only#:#Skanowanie tylko
+administration#:#scanning_system#:#System skanowania...
+administration#:#searching_deleted_objs#:#Poszukiwanie usuniętych obiektów...
+administration#:#searching_invalid_childs#:#Poszukiwanie niewłaściwych pozycji drzewa...
+administration#:#searching_invalid_refs#:#Poszukiwanie niewłaściwych odwołań...
+administration#:#searching_missing_objs#:#Poszukiwanie zaginionych obiektów...
+administration#:#searching_unbound_objs#:#Poszukiwanie niepodłączonych obiektów...
+administration#:#skippede#:#pominięte
+administration#:#start_scan#:#Start!
+administration#:#systemcheck#:#Sprawdzenie Systemu
+administration#:#view_last_log#:#Podgląd ostatniego logu skanowania
+administration#:#view_log#:#Podgląd szczegółów
+assessment#:#0_unlimited#:#(0 = nielimitowane)
 assessment#:#add_answer#:#Dodaj odpowiedź
 assessment#:#add_matching_pair#:#dodaj pasującą parę
 assessment#:#answer#:#Odpowiedź
@@ -105,26 +105,26 @@ assessment#:#export#:#Eksport
 assessment#:#false#:#Fałsz
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!###13 Mar 2004 new variable
 assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!###13 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###09 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
+assessment#:#fill_out_all_required_fields_add_answer#:#Wypełnij wszystkie niezbędne pola przed dodaniem odpowiedzi!
+assessment#:#fill_out_all_required_fields_add_matching#:#Wypełnij wszystkie niezbędne pola przed dodaniem pasującej pary!
+assessment#:#fill_out_all_required_fields_create_gaps#:#Wypełnij wszystkie niezbędne pola przed utworzeniem odstępu!
 assessment#:#filter#:#Filtr
 assessment#:#gap_selection#:#Wybór odstępu
-assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
+assessment#:#imagemap#:#Mapa bitowa
 assessment#:#last_update#:#Ostatnia aktualizacja
-assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
-assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
-assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
+assessment#:#mark_schema#:#Zaznaczenie schematu
+assessment#:#match_terms_and_definitions#:#Dobierz terminy i definicje
+assessment#:#match_terms_and_pictures#:#Dobierz terminy i obrazki
 assessment#:#matches#:#zgodne
 assessment#:#matching_pair#:#Pasujące pary
 assessment#:#material#:#Material###11 Mar 2004 new variable
 assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
-assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
+assessment#:#maximum_nr_of_tries_reached#:#Przekroczyłeś maksymalną ilość prób w tym teście. Test nie może być wprowadzony!
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#points#:#Punkty
 assessment#:#possible_gap_text#:#Możliwy tekst odstępu
-assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
-assessment#:#postponed#:#postponed###07 Mar 2004 new variable
+assessment#:#postpone#:#Odłożone pytanie
+assessment#:#postponed#:#odłożone
 assessment#:#preview#:#Podgląd
 assessment#:#qpl_delete_rbac_error#:#Nie masz uprawnień do usunięcia tego pytania!
 assessment#:#qpl_delete_select_none#:#Wybierz conajmniej jedno pytanie do usunięcia
@@ -134,21 +134,21 @@ assessment#:#qpl_edit_select_multiple#:#Wybierz tylko jedno pytanie do edycji
 assessment#:#qpl_edit_select_none#:#Wybierz jedno pytanie do edycji
 assessment#:#qpl_export_select_none#:#Wybierz conajmniej jedno pytanie do wyeksportowania
 assessment#:#qt_cloze#:#Uzupełnij pytanie
-assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
+assessment#:#qt_imagemap#:#Pytanie - Mapa BitowaImage
 assessment#:#qt_matching#:#Pasujące pytanie
 assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowiedzi)
 assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
 assessment#:#qt_ordering#:#Pytanie porządkowe
-assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
+assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_type#:#Typ pytania
-assessment#:#region#:#Region###25 Feb 2004 new variable
-assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
+assessment#:#region#:#Region
+assessment#:#remove_question#:#Usuń
 assessment#:#reset_filter#:#Resetuj filtr
 assessment#:#result#:#Result###17 Mar 2004 new variable
-assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
-assessment#:#save_introduction#:#Save and goto introduction###07 Mar 2004 new variable
-assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
-assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
+assessment#:#save_finish#:#Zapisz i zakończ test
+assessment#:#save_introduction#:#Zapisz i skocz do wstępu
+assessment#:#save_next#:#Zapisz i skocz do następnego pytania
+assessment#:#save_previous#:#Zapisz i skocz do poprzedniego pytania
 assessment#:#select_gap#:#Wybierz odstęp
 assessment#:#set_filter#:#Ustaw filtr
 assessment#:#solution_order#:#Porządek rozwiązywania
@@ -156,8 +156,8 @@ assessment#:#text_gap#:#Tekst odstępu
 assessment#:#true#:#Prawda
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
 assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
-assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
-assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
+assessment#:#tst_browse_for_questions#:#Przegląd pytań
+assessment#:#tst_delete_missing_mark#:#Wybierz conajmniej jedną pozycję aby ją usunąć
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
@@ -165,33 +165,33 @@ assessment#:#tst_eval_total_passed#:#Total passed tests###17 Mar 2004 new variab
 assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests###17 Mar 2004 new variable
 assessment#:#tst_eval_total_persons#:#Total number of persons entered the test###17 Mar 2004 new variable
 assessment#:#tst_general_properties#:#Cechy ogólne
-assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###23 Feb 2004 new variable
+assessment#:#tst_insert_missing_question#:#Wybierz conajmniej jedno pytanie aby je wstawić do testu!
 assessment#:#tst_introduction#:#Wstęp
 assessment#:#tst_mark#:#Mark###12 Mar 2004 new variable
-assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###20 Feb 2004 new variable
-assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###20 Feb 2004 new variable
-assessment#:#tst_mark_minimum_level#:#Minimum level (in %)###20 Feb 2004 new variable
-assessment#:#tst_mark_official_form#:#Official form###20 Feb 2004 new variable
-assessment#:#tst_mark_passed#:#Passed###20 Feb 2004 new variable
-assessment#:#tst_mark_short_form#:#Short form###20 Feb 2004 new variable
+assessment#:#tst_mark_create_new_mark_step#:#Twórz nową pozycję wyboru
+assessment#:#tst_mark_create_simple_mark_schema#:#Twórz prosty schemat wyboru
+assessment#:#tst_mark_minimum_level#:#Minimalny poziom (w %)
+assessment#:#tst_mark_official_form#:#Oficjalna forma
+assessment#:#tst_mark_passed#:#Wykonany
+assessment#:#tst_mark_short_form#:#Krótka forma
 assessment#:#tst_maximum_points#:#Maximum points###11 Mar 2004 new variable
-assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
-assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
-assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
+assessment#:#tst_no_marks_defined#:#Brak zdefiniowanycjh pozycji wyboru, utwórz chociaż  prosty schemat wyboru!
+assessment#:#tst_no_question_selected_for_removal#:#Wybierz conajmniej jedno pytanie do susunięcia!
+assessment#:#tst_no_questions_available#:#Brak dostępnych pytań! Powinieneś utworzyć nowe pytania lub wybrać z istniejących.
 assessment#:#tst_no_taken_tests#:#There are no taken tests!###13 Mar 2004 new variable
 assessment#:#tst_nr_of_tries#:#Maks. ilość prób
 assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
 assessment#:#tst_processing_time#:#Maks. czas wykonania
 assessment#:#tst_question_no#:#Order###11 Mar 2004 new variable
-assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
-assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
+assessment#:#tst_question_title#:#Tytuł
+assessment#:#tst_question_type#:#Typ pytania
 assessment#:#tst_reached_points#:#Reached points###11 Mar 2004 new variable
 assessment#:#tst_report_after_question#:#Raportuj punktację po rozwiązaniu każdego pytania
 assessment#:#tst_report_after_test#:#Raportuj punktację po wykonaniu całego testu
 assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.###11 Mar 2004 new variable
 assessment#:#tst_result_sorry#:#Sorry, you failed the test.###11 Mar 2004 new variable
-assessment#:#tst_results#:#Test results###08 Mar 2004 new variable
-assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
+assessment#:#tst_results#:#Rezultaty testu
+assessment#:#tst_resume_test#:#Podsumowanie testu
 assessment#:#tst_score_reporting#:#Raport punktacji
 assessment#:#tst_score_reporting_date#:#Data raportu punktacji
 assessment#:#tst_score_type#:#Typ raportu punktacji
@@ -200,108 +200,108 @@ assessment#:#tst_sequence_fixed#:#Sekwencja pytań została ustawiona
 assessment#:#tst_sequence_postpone#:#Uczeń może odłożyć pytanie na koniec testu
 assessment#:#tst_sequence_properties#:#Cechy sekwencji
 assessment#:#tst_session_settings#:#Ustawienia sesji
-assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
-assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
+assessment#:#tst_show_results#:#Pokaż rezultaty testu
+assessment#:#tst_start_test#:#Start testu
 assessment#:#tst_starting_time#:#Czas rozpoczęcia
 assessment#:#tst_status_completed#:#completed###12 Mar 2004 new variable
 assessment#:#tst_status_completed_more_tries_possible#:#(completed)###12 Mar 2004 new variable
 assessment#:#tst_status_not_entered#:#not entered###12 Mar 2004 new variable
 assessment#:#tst_status_progress#:#in progress###12 Mar 2004 new variable
-assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
+assessment#:#tst_type#:#Typ Testu
 assessment#:#tst_types#:#Typy testów
 assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
-assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
-assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
-assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
-assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
+assessment#:#tt_assessment#:#Ocena testu
+assessment#:#tt_navigation_controlling#:#Kontrola wykonywania testów przez uczniów
+assessment#:#tt_self_assessment#:#Test samooceny
+assessment#:#unlimited#:#nielimitowany
 assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
-chat#:#chat_active#:#Aktive###05 Mar 2004 new variable
-chat#:#chat_active_users#:#User (aktive)###05 Mar 2004 new variable
-chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###06 Mar 2004 new variable
-chat#:#chat_add_ip#:#Please add the server ip.###05 Mar 2004 new variable
-chat#:#chat_add_moderator_password#:#Please add a moderator password.###05 Mar 2004 new variable
-chat#:#chat_add_port#:#Please add the server port.###05 Mar 2004 new variable
-chat#:#chat_aqua#:#aqua###05 Mar 2004 new variable
-chat#:#chat_arial#:#Arial###05 Mar 2004 new variable
-chat#:#chat_black#:#black###05 Mar 2004 new variable
-chat#:#chat_blue#:#blue###05 Mar 2004 new variable
-chat#:#chat_bold#:#Bold###05 Mar 2004 new variable
-chat#:#chat_chatroom_body#:#Chatroom:###05 Mar 2004 new variable
-chat#:#chat_chatroom_rename#:#Edit chatroom###05 Mar 2004 new variable
-chat#:#chat_chatrooms#:#Chatrooms###05 Mar 2004 new variable
-chat#:#chat_color#:#Font color###05 Mar 2004 new variable
-chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom###05 Mar 2004 new variable
-chat#:#chat_drop_user#:#User kicked###09 Mar 2004 new variable
-chat#:#chat_edit#:#Edit chat ###05 Mar 2004 new variable
-chat#:#chat_face#:#Font type###05 Mar 2004 new variable
-chat#:#chat_fuchsia#:#fuchsia###05 Mar 2004 new variable
-chat#:#chat_gray#:#gray###05 Mar 2004 new variable
-chat#:#chat_green#:#green###05 Mar 2004 new variable
-chat#:#chat_hide_details#:#Hide details###05 Mar 2004 new variable
-chat#:#chat_html_export#:#HTML export###05 Mar 2004 new variable
-chat#:#chat_ilias#:#Ilias Chat module###05 Mar 2004 new variable
-chat#:#chat_inactive#:#Inaktive###05 Mar 2004 new variable
-chat#:#chat_input#:#Input###05 Mar 2004 new variable
-chat#:#chat_insert_message#:#PLease insert a message###05 Mar 2004 new variable
-chat#:#chat_invitation_body#:#Invitation to chat from:###05 Mar 2004 new variable
-chat#:#chat_invitation_subject#:#Chat invitation###05 Mar 2004 new variable
-chat#:#chat_invite_user#:#Invite user###05 Mar 2004 new variable
-chat#:#chat_italic#:#Italic###05 Mar 2004 new variable
-chat#:#chat_level_all#:#All###05 Mar 2004 new variable
-chat#:#chat_level_debug#:#Debug###05 Mar 2004 new variable
-chat#:#chat_level_error#:#Error###05 Mar 2004 new variable
-chat#:#chat_level_fatal#:#Fatal###05 Mar 2004 new variable
-chat#:#chat_level_info#:#Info###05 Mar 2004 new variable
-chat#:#chat_lime#:#lime###05 Mar 2004 new variable
-chat#:#chat_maroon#:#maroon###05 Mar 2004 new variable
-chat#:#chat_messages_deleted#:#Messages have been deleted.###05 Mar 2004 new variable
-chat#:#chat_moderator_password#:#Moderator password###05 Mar 2004 new variable
-chat#:#chat_navy#:#navy###05 Mar 2004 new variable
-chat#:#chat_no_active_users#:#No users present.###05 Mar 2004 new variable
-chat#:#chat_no_connection#:#Cannot contact chatserver.###05 Mar 2004 new variable
-chat#:#chat_no_delete_public#:#The public chatroom cannot be deleted###05 Mar 2004 new variable
-chat#:#chat_no_refresh_public#:#the public chatroom cannot be refreshed.###05 Mar 2004 new variable
-chat#:#chat_no_rename_public#:#The public room cannot be renamed###05 Mar 2004 new variable
-chat#:#chat_no_write_perm#:#No permission to write###05 Mar 2004 new variable
-chat#:#chat_olive#:#olive###05 Mar 2004 new variable
-chat#:#chat_online_users#:#User (online)###05 Mar 2004 new variable
-chat#:#chat_private_message#:#Private Message###05 Mar 2004 new variable
-chat#:#chat_public_room#:#Public chatroom###05 Mar 2004 new variable
-chat#:#chat_purple#:#purple###05 Mar 2004 new variable
-chat#:#chat_red#:#red###05 Mar 2004 new variable
-chat#:#chat_refresh#:#Refresh###05 Mar 2004 new variable
-chat#:#chat_room_added#:#Added new chatroom###05 Mar 2004 new variable
-chat#:#chat_room_name#:#Name of chatroom###05 Mar 2004 new variable
-chat#:#chat_room_renamed#:#Chatroom renamed.###05 Mar 2004 new variable
-chat#:#chat_room_select#:#Private chatroom###05 Mar 2004 new variable
-chat#:#chat_rooms#:#Chatrooms###05 Mar 2004 new variable
-chat#:#chat_rooms_deleted#:#Chatroom(s) deleted.###05 Mar 2004 new variable
-chat#:#chat_select_one_room#:#Please select one chatroom###05 Mar 2004 new variable
-chat#:#chat_server_allowed#:#Allowed hosts###05 Mar 2004 new variable
-chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)###05 Mar 2004 new variable
-chat#:#chat_server_ip#:#Server Ip###05 Mar 2004 new variable
-chat#:#chat_server_logfile#:#Logfile path###05 Mar 2004 new variable
-chat#:#chat_server_loglevel#:#Loglevel###05 Mar 2004 new variable
-chat#:#chat_server_not_active#:#The chatserver is not active###05 Mar 2004 new variable
-chat#:#chat_server_port#:#Server Port###05 Mar 2004 new variable
-chat#:#chat_server_settings#:#Chatserver settings###05 Mar 2004 new variable
-chat#:#chat_settings_saved#:#Settings saved###05 Mar 2004 new variable
-chat#:#chat_show_details#:#Show details###05 Mar 2004 new variable
-chat#:#chat_silver#:#silver###05 Mar 2004 new variable
-chat#:#chat_status#:#Status###05 Mar 2004 new variable
-chat#:#chat_status_saved#:#The status has been changed###05 Mar 2004 new variable
-chat#:#chat_tahoma#:#Tahoma###05 Mar 2004 new variable
-chat#:#chat_teal#:#teal###05 Mar 2004 new variable
-chat#:#chat_times#:#Times###05 Mar 2004 new variable
-chat#:#chat_title_missing#:#Please insert a name.###05 Mar 2004 new variable
-chat#:#chat_to_chat_body#:#To the chat###05 Mar 2004 new variable
-chat#:#chat_type#:#Font face###05 Mar 2004 new variable
-chat#:#chat_underlined#:#Underlined###05 Mar 2004 new variable
-chat#:#chat_user_dropped#:#User kicked###05 Mar 2004 new variable
-chat#:#chat_user_invited#:#Invited user to chat.###05 Mar 2004 new variable
-chat#:#chat_yellow#:#yellow###05 Mar 2004 new variable
-chat#:#chats#:#Chats###05 Mar 2004 new variable
-chat#:#my_chats#:#My Chats###05 Mar 2004 new variable
+chat#:#chat_active#:#Aktywny
+chat#:#chat_active_users#:#Użytkownik (aktywny)
+chat#:#chat_add_allowed_hosts#:#Podaj adres hosta(ów), które mają prawo dostępu do serwera czat.
+chat#:#chat_add_ip#:#Podaj numer ip serwera czat.
+chat#:#chat_add_moderator_password#:#Podaj hasło moderatora.
+chat#:#chat_add_port#:#podaj port serwera.
+chat#:#chat_aqua#:#akwa
+chat#:#chat_arial#:#Arial
+chat#:#chat_black#:#czarny
+chat#:#chat_blue#:#niebieski
+chat#:#chat_bold#:#Wytłuszczony
+chat#:#chat_chatroom_body#:#Pokój czat:
+chat#:#chat_chatroom_rename#:#Edytuj pokój czat
+chat#:#chat_chatrooms#:#Pokoje czat
+chat#:#chat_color#:#Kolor czcionki
+chat#:#chat_delete_sure#:#Jesteś pewien, że chcesz usunąć ten pokój czat?
+chat#:#chat_drop_user#:#Odrzuceni użytkownicy
+chat#:#chat_edit#:#Edytuj czat
+chat#:#chat_face#:#Typ czcionki
+chat#:#chat_fuchsia#:#fuksja
+chat#:#chat_gray#:#szary
+chat#:#chat_green#:#zielony
+chat#:#chat_hide_details#:#Ukryj szczegóły
+chat#:#chat_html_export#:#Eksport HTML
+chat#:#chat_ilias#:#Moduł Ilias Czat
+chat#:#chat_inactive#:#Nieaktywny
+chat#:#chat_input#:#Wejście
+chat#:#chat_insert_message#:#Wstaw wiadomość
+chat#:#chat_invitation_body#:#Zaproszenie z czatu:
+chat#:#chat_invitation_subject#:#Zaproszenie do czatu
+chat#:#chat_invite_user#:#Zaproś użytkownika
+chat#:#chat_italic#:#Pochylony
+chat#:#chat_level_all#:#Wszystko
+chat#:#chat_level_debug#:#Debuging
+chat#:#chat_level_error#:#Błędy
+chat#:#chat_level_fatal#:#Krytyczny
+chat#:#chat_level_info#:#Info
+chat#:#chat_lime#:#limona
+chat#:#chat_maroon#:#kasztanowaty
+chat#:#chat_messages_deleted#:#Wiadomości zostały usunięte.
+chat#:#chat_moderator_password#:#Hasło Moderatora
+chat#:#chat_navy#:#granatowy
+chat#:#chat_no_active_users#:#Brak obecnych użytkowników.
+chat#:#chat_no_connection#:#Nie można skontaktować się z serwerem czat.
+chat#:#chat_no_delete_public#:#Publiczny pokój czat nie może być usunięty
+chat#:#chat_no_refresh_public#:#publiczny pokój czat nie może być odświeżony
+chat#:#chat_no_rename_public#:#Publiczny pokój nie może mieć zmienionej nazwy
+chat#:#chat_no_write_perm#:#Brak prawa do zapisu
+chat#:#chat_olive#:#oliwkowy
+chat#:#chat_online_users#:#Użytkownik (online)
+chat#:#chat_private_message#:#Prywatna wiadomość
+chat#:#chat_public_room#:#Publiczny pokój czat
+chat#:#chat_purple#:#purpurowy
+chat#:#chat_red#:#czerwony
+chat#:#chat_refresh#:#Odśwież
+chat#:#chat_room_added#:#Dodany nowy pokój czat
+chat#:#chat_room_name#:#Nazwa pokoju czat
+chat#:#chat_room_renamed#:#Zmieniono nazwę pokoju czat.
+chat#:#chat_room_select#:#Prywatny pokój czat
+chat#:#chat_rooms#:#Pokoje czat
+chat#:#chat_rooms_deleted#:#Usunięte pokoje czat.
+chat#:#chat_select_one_room#:#Wybierz jeden pokój czat
+chat#:#chat_server_allowed#:#Dostępne hosty
+chat#:#chat_server_allowed_b#:#(np. 192.168.1.1,192.168.1.2)
+chat#:#chat_server_ip#:#Ip Serwera
+chat#:#chat_server_logfile#:#cieżka do pliku logu
+chat#:#chat_server_loglevel#:#Poziom zapisów Logu
+chat#:#chat_server_not_active#:#Serwer czat nie jest aktywny
+chat#:#chat_server_port#:#Port Serwera
+chat#:#chat_server_settings#:#Ustawienia serwera czat
+chat#:#chat_settings_saved#:#Ustawienia zostały zapisane
+chat#:#chat_show_details#:#Pokaż szczegóły
+chat#:#chat_silver#:#srebrny
+chat#:#chat_status#:#Status
+chat#:#chat_status_saved#:#Status został zmieniony
+chat#:#chat_tahoma#:#Tahoma
+chat#:#chat_teal#:#cyraneczkowy
+chat#:#chat_times#:#Times
+chat#:#chat_title_missing#:#Podaj nazwę
+chat#:#chat_to_chat_body#:#Do czat
+chat#:#chat_type#:#Wygląd czcionki
+chat#:#chat_underlined#:#Podkreślony
+chat#:#chat_user_dropped#:#Odrzuceni użytkownicy
+chat#:#chat_user_invited#:#Zaproszony użytkownik do czata.
+chat#:#chat_yellow#:#żółty
+chat#:#chats#:#Czaty
+chat#:#my_chats#:#Moje Czaty
 common#:#3rd_party_software#:#Oprogramowanie innych firm
 common#:#DD.MM.YYYY#:#DD.MM.RRRR
 common#:#HH:MM#:#GG:MM
@@ -338,7 +338,7 @@ common#:#appointment_list#:#Lista umówionych spotkań
 common#:#archive#:#Archiwuj
 common#:#are_you_sure#:#Jesteś pewien?
 common#:#assign#:#Przydziel
-common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
+common#:#assign_global_role#:#Przydziel do globalnej roli
 common#:#assign_lo_forum#:#Przydziel forum (PN)
 common#:#assign_user_to_role#:#Przydziel użytkownikowi rolę
 common#:#at_location#:#w miejscu
@@ -395,7 +395,7 @@ common#:#cat_read#:#Prawo czytania Kategorii
 common#:#cat_visible#:#Kategoria jest widoczna
 common#:#cat_write#:#Edycja Kategorii
 common#:#categories#:#Kategorie
-common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
+common#:#categories_imported#:#Zakończony import kategorii.
 common#:#cc#:#CC
 common#:#censorship#:#cenzura
 common#:#chac_edit_permission#:#Zmień ustawienia uprawnień
@@ -413,11 +413,11 @@ common#:#changed_to#:#zmienione na
 common#:#chapter#:#Rozdział
 common#:#chapter_number#:#Numer rozdziału
 common#:#chapter_title#:#Tytuł rozdziału
-common#:#chat#:#Chat###05 Mar 2004 new variable
-common#:#chat_add#:#Add Chat###05 Mar 2004 new variable
+common#:#chat#:#Czat
+common#:#chat_add#:#dodaj Czat
 common#:#chat_delete#:#Usuń czat
 common#:#chat_edit_permission#:#Zmień ustawienia uprawnień
-common#:#chat_new#:#New Chat###05 Mar 2004 new variable
+common#:#chat_new#:#Nowy Czat
 common#:#chat_read#:#Czytanie/Pisanie w czacie
 common#:#chat_visible#:#Czat jest widoczny
 common#:#chat_write#:#Edycja czatu
@@ -646,7 +646,7 @@ common#:#gender_m#:#Mężczyzna
 common#:#generate#:#Generuj
 common#:#glo#:#Słownik
 common#:#glo_a#:#Słownik
-common#:#glo_add#:#Dodaj słownia
+common#:#glo_add#:#Dodaj słownik
 common#:#glo_added#:#Słownik został dodany
 common#:#glo_create#:#Twórz Słownik
 common#:#glo_delete#:#Usuń Słownik
@@ -742,12 +742,12 @@ common#:#ilias_version#:#Wersja ILIAS
 common#:#image#:#Obrazek
 common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z administratorem systemu i sprawdź ścieżkę konwersji.
 common#:#import#:#Import
-common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
-common#:#import_file#:#Import File###27 Feb 2004 new variable
+common#:#import_categories#:#Import kategorii
+common#:#import_file#:#Plik Importowy
 common#:#import_lm#:#Importuj moduł nauczania
-common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
+common#:#import_root_user#:#Import użytkownika root
 common#:#import_slm#:#Importuj pakiet SCORM
-common#:#import_users#:#Import Users###27 Feb 2004 new variable
+common#:#import_users#:#Import Użytkowników
 common#:#in#:#w
 common#:#in_use#:#język użytkownika
 common#:#inbox#:#Skrzynka odbiorcza
@@ -793,7 +793,7 @@ common#:#is_already_your#:#jest już twój
 common#:#item#:#Pozycja
 common#:#kb#:#KB
 common#:#keywords#:#Klucze
-common#:#lang_cs#:#Czech###17 Mar 2004 new variable
+common#:#lang_cs#:#Czeski
 common#:#lang_dateformat#:#r-m-d
 common#:#lang_de#:#Niemiecki
 common#:#lang_dk#:#Duński
@@ -1003,7 +1003,7 @@ common#:#msg_no_perm_undelete#:#Nie masz uprawnienień do odzyskania następują
 common#:#msg_no_perm_write#:#Nie masz uprawnień do pisania.
 common#:#msg_no_rolf_allowed1#:#Obiekt
 common#:#msg_no_rolf_allowed2#:#nie może zawierać Folderu Roli.
-common#:#msg_no_scan_log#:#Scan log not implemented yet###06 Mar 2004 new variable
+common#:#msg_no_scan_log#:#Skanowanie logu nie zostało jeszcze zaimplementowane
 common#:#msg_no_search_result#:#Brak pozycji.
 common#:#msg_no_search_string#:#Podaj swoje zapytanie
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Nie możesz przydzielić użytkowników do roli Administratora Systemu nie mając sam takiej roli.
@@ -1036,7 +1036,7 @@ common#:#my_bms#:#Moje zakładki
 common#:#my_frms#:#Moje Fora
 common#:#my_grps#:#Moje grupy
 common#:#my_los#:#Moje Przedmioty Nauczania
-common#:#my_tsts#:#My Tests###08 Mar 2004 new variable
+common#:#my_tsts#:#Moje Testy
 common#:#name#:#Nazwa
 common#:#new#:#Nowy
 common#:#new_appointment#:#Nowe spotkanie
@@ -1049,28 +1049,28 @@ common#:#next#:#następny
 common#:#nickname#:#Pseudonim
 common#:#no#:#Nie
 common#:#no_bm_in_personal_list#:#Nie zdefiniowano zakładek.
-common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
+common#:#no_chat_in_personal_list#:#Brak czatów na prywatnej liście
 common#:#no_checkbox#:#Nie wybrano opcji!
 common#:#no_date#:#Brak daty.
-common#:#no_frm_in_personal_list#:#Brak forów na liście osobistej.
-common#:#no_grp_in_personal_list#:#Brak grup w liście prywatnej.
-common#:#no_import_available#:#Import nie jest dostepny dla typu
-common#:#no_lo_in_personal_list#:#Brak Przedmiotów Nauczania na liście osobistej.
+common#:#no_frm_in_personal_list#:#Brak forów na prywatnej liście.
+common#:#no_grp_in_personal_list#:#Brak grup na prywatnej liście.
+common#:#no_import_available#:#Import nie jest dostępny dla typu
+common#:#no_lo_in_personal_list#:#Brak Przedmiotów Nauczania na prywatnej liście.
 common#:#no_objects#:#Brak obiektów
 common#:#no_permission_to_join#:#Nie możesz przystąpić do tej grupy!
 common#:#no_title#:#Brak tytułu
-common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
+common#:#no_tst_in_personal_list#:#Brak testów na prywatnej liście.
 common#:#none#:#Brak
 common#:#normal#:#Normalny
 common#:#not_installed#:#Nie zainstalowany
 common#:#not_logged_in#:#Nie jesteś zalogowany.
 common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
 common#:#obj#:#Obiekt
-common#:#obj_adm#:#Ustawienia systemowe###05 Mar 2004 content changed
+common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_cat#:#Kategoria
 common#:#obj_chac#:#Ustawienia czatu
-common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###09 Mar 2004 new variable
+common#:#obj_chac_desc#:#Tu skonfiguruj serwer czat. Włącz/Wyłacz czat.
 common#:#obj_chat#:#Czat
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Książka Cyfrowa
@@ -1098,8 +1098,8 @@ common#:#obj_objf_desc#:#Zarządzanie typami obiektów ILIAS i uprawnieniami do 
 common#:#obj_owner#:#Ten obiekt jest własnością
 common#:#obj_pg#:#Strona
 common#:#obj_qpl#:#Pula pytań
-common#:#obj_recf#:#Restored Objects###09 Mar 2004 new variable
-common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.###09 Mar 2004 new variable
+common#:#obj_recf#:#Odtworzone Obiekty
+common#:#obj_recf_desc#:#Zawiera odtworzone obiekty powstałe przy sprawdzeniu systemu.
 common#:#obj_role#:#Rola
 common#:#obj_rolf#:#Role
 common#:#obj_rolf_desc#:#Zarządzanie rolami.
@@ -1263,7 +1263,7 @@ common#:#role_deleted#:#Rola usunięta
 common#:#role_edit#:#Edytuj rolę
 common#:#role_new#:#Nowa rola
 common#:#roles#:#Role
-common#:#roles_of_import#:#Roles of Import File###27 Feb 2004 new variable
+common#:#roles_of_import#:#Role Pliku Importowego
 common#:#rolf#:#Folder roli
 common#:#rolf_added#:#Folder roli został dodany
 common#:#rolf_create_role#:#Twórz definicję Roli
@@ -1361,7 +1361,7 @@ common#:#subobjects#:#Podobiekty
 common#:#subscription#:#Subskrypcja
 common#:#summary#:#Podsumowanie
 common#:#system#:#System
-common#:#system_check#:#System Check###05 Mar 2004 new variable
+common#:#system_check#:#Sprawdzenie Systemu
 common#:#system_choose_language#:#Wybór języka systemowego
 common#:#system_groups#:#Grupy systemowe
 common#:#system_grp#:#Grupa systemowa
@@ -1378,7 +1378,7 @@ common#:#to_desktop#:#Subskrybuj
 common#:#today#:#Dzisiaj
 common#:#total#:#Razem
 common#:#tpl_path#:#Scieżka do szablonu
-common#:#translation#:#Tłumaczenmie
+common#:#translation#:#Tłumaczenie
 common#:#trash#:#Kosz
 common#:#treeview#:#Widok drzewa
 common#:#tst#:#Test
@@ -1411,7 +1411,7 @@ common#:#user#:#Użytkownik
 common#:#user_added#:#Użytkownik dodany
 common#:#user_assignment#:#Przydział użytkownika
 common#:#user_deleted#:#Użytkownik usunięty
-common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
+common#:#user_imported#:#Zakończony import użytkowników.
 common#:#user_language#:#Język użytkownika
 common#:#user_not_chosen#:#Nie możesz wybrać członka grupy!
 common#:#userdata#:#Dane użytkownika
@@ -1457,7 +1457,7 @@ content#:#HTML export#:#Eksport HTML
 content#:#PDF export#:#Eksport PDF
 content#:#Pages#:#Strony
 content#:#all#:#Wszystko
-content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
+content#:#cont_Additional#:#Dodatkowe
 content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...
 content#:#cont_Circle#:#Koło
 content#:#cont_Citation#:#Cytat
@@ -1477,7 +1477,7 @@ content#:#cont_Roman#:#Rzymskie I, II, ...
 content#:#cont_Unordered#:#Nieposortowany
 content#:#cont_add_area#:#Dodaj powierzchnię
 content#:#cont_add_definition#:#Dodaj definicję
-content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
+content#:#cont_add_fullscreen#:#dodaj Pełny widok
 content#:#cont_added_term#:#Termin dodany
 content#:#cont_all_definitions#:#Wszystkie definicje
 content#:#cont_all_pages#:#Wszystkie strony
@@ -1522,10 +1522,10 @@ content#:#cont_definition#:#Definicja
 content#:#cont_definitions#:#Definicje
 content#:#cont_del_assignment#:#Usuń przydział
 content#:#cont_dependencies#:#Zależności
-content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
+content#:#cont_derive_from_obj#:#Pochodzi od Obiektu
 content#:#cont_details#:#Szczegóły
 content#:#cont_dir_file#:#Katalog/Plik
-content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
+content#:#cont_edit_area#:#Edytuj obszar
 content#:#cont_edit_file_list_properties#:#Edytuj listę właściwości pliku
 content#:#cont_edit_mob#:#Edytuj obiekt multimedialny
 content#:#cont_edit_mob_alias_prop#:#Edytuj właściwości instancji obiektu multimedialnego
@@ -1538,11 +1538,11 @@ content#:#cont_edition#:#Edycja
 content#:#cont_external#:#zewnętrzny
 content#:#cont_file#:#Plik
 content#:#cont_files#:#Pliki
-content#:#cont_format#:#Format###23 Feb 2004 new variable
+content#:#cont_format#:#Format
 content#:#cont_full_is_in_dir#:#Usunięcie nie jest możliwe. Plik pełnoekranowy jest w katalogu.
 content#:#cont_fullscreen#:#Pełen ekran
 content#:#cont_get_link#:#podaj łącznik
-content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
+content#:#cont_get_orig_size#:#Ustaw oryginalny rozmiar
 content#:#cont_height#:#Wysokość
 content#:#cont_how_published#:#Jak opublikowany
 content#:#cont_href#:#href
@@ -1626,7 +1626,7 @@ content#:#cont_publisher#:#Wydawca
 content#:#cont_purpose#:#Cel
 content#:#cont_ref_helptext#:#(np. http://www.serwer.org/myimage.jpg)
 content#:#cont_reference#:#Referencja
-content#:#cont_remove_fullscreen#:#Remove Fullscreen###23 Feb 2004 new variable
+content#:#cont_remove_fullscreen#:#Usuń pełny widok
 content#:#cont_resource#:#Zasób
 content#:#cont_resource_type#:#typ
 content#:#cont_resources#:#Zasoby
@@ -1636,7 +1636,7 @@ content#:#cont_saved_map_data#:#Zachowana mapa danych
 content#:#cont_sc_title#:#tytuł
 content#:#cont_school#:#Szkoła
 content#:#cont_scorm_type#:#Typ SCORM
-content#:#cont_select_item#:#Select at least one item.###02 Mar 2004 new variable
+content#:#cont_select_item#:#Wybierz conajmniej jedną pozycję.
 content#:#cont_select_max_one_item#:#Wybierz tylko jedną pozycję.
 content#:#cont_select_max_one_term#:#Wybierz tylko jeden termin.
 content#:#cont_select_one_edition#:#Wybierz conajmniej jedną edycję.
@@ -1649,8 +1649,8 @@ content#:#cont_series_editor#:#Edytor serii
 content#:#cont_series_title#:#Tyuł serii
 content#:#cont_series_volume#:#Wolumen serii
 content#:#cont_set_class#:#Ustaw klasę
-content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
-content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
+content#:#cont_set_link#:#Ustaw Łącznik
+content#:#cont_set_shape#:#Edytuj kształt
 content#:#cont_set_width#:#Ustaw szerokość
 content#:#cont_shape#:#Kontur
 content#:#cont_show#:#Pokaż
@@ -1676,7 +1676,7 @@ content#:#cont_top#:#Góra
 content#:#cont_translations#:#Tłumaczenia
 content#:#cont_translations_assigned#:#Tłumaczenia zostały przydzielone
 content#:#cont_update#:#Uaktualnij
-content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
+content#:#cont_update_names#:#Uaktualnij nazwy
 content#:#cont_upload_file#:#Wyślij plik
 content#:#cont_url#:#URL
 content#:#cont_version#:#wersja
