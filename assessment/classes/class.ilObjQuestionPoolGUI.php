@@ -156,7 +156,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
 
-    if (!$_GET["edit"]) {
+    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"])) {
       $missing_required_fields = $question_gui->set_question_data_from_template($question_type);
     }
     if (strlen($_POST["cmd"]["save"]) > 0) {
