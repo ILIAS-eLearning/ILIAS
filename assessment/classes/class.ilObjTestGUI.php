@@ -121,7 +121,7 @@ class ilObjTestGUI extends ilObjectGUI
   function propertiesObject()
   {
 		global $rbacsystem;
-		// Set the patch for the image directory
+		// Set the path for the image directory
 		setcookie("imagepath", $this->object->getImagePath());
 		if (!is_dir($this->object->getImagePath()))
 		{

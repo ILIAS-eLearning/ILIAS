@@ -255,10 +255,26 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function out_multiple_choice_data() {
+		// Set the path for the image directory
+		setcookie("imagepath", $this->question->get_image_path());
+		if (!is_dir($this->question->get_image_path()))
+		{
+			ilUtil::makeDirParents($this->question->get_image_path());
+		}
+		setcookie("imagepathweb", $this->question->get_image_path_web());
+		setcookie("convertpath", preg_replace("/convert/", "", PATH_TO_CONVERT));
+		// Creating prerequisites for JavaScript Editor		
+		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.il_as_htmlarea.html", true);
+		$this->tpl->setCurrentBlock("htmlarea");
+		$this->tpl->setVariable("AREA_NAME", "question");
+		$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("JAVASCRIPT_PATH", "templates/default/javascript");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
 
-    if ($this->question->get_response() == RESPONSE_SINGLE) {
+	  if ($this->question->get_response() == RESPONSE_SINGLE) {
       $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
-	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
+		  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
       // output of existing single response answers
       for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
@@ -546,6 +562,23 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function out_ordering_question_data() {
+		// Set the path for the image directory
+		setcookie("imagepath", $this->question->get_image_path());
+		if (!is_dir($this->question->get_image_path()))
+		{
+			ilUtil::makeDirParents($this->question->get_image_path());
+		}
+		setcookie("imagepathweb", $this->question->get_image_path_web());
+		setcookie("convertpath", preg_replace("/convert/", "", PATH_TO_CONVERT));
+		// Creating prerequisites for JavaScript Editor		
+		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.il_as_htmlarea.html", true);
+		$this->tpl->setCurrentBlock("htmlarea");
+		$this->tpl->setVariable("AREA_NAME", "question");
+		$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("JAVASCRIPT_PATH", "templates/default/javascript");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
+
     $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_ordering.html", true);
     $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
@@ -669,6 +702,23 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function out_matching_question_data() {
+		// Set the path for the image directory
+		setcookie("imagepath", $this->question->get_image_path());
+		if (!is_dir($this->question->get_image_path()))
+		{
+			ilUtil::makeDirParents($this->question->get_image_path());
+		}
+		setcookie("imagepathweb", $this->question->get_image_path_web());
+		setcookie("convertpath", preg_replace("/convert/", "", PATH_TO_CONVERT));
+		// Creating prerequisites for JavaScript Editor		
+		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.il_as_htmlarea.html", true);
+		$this->tpl->setCurrentBlock("htmlarea");
+		$this->tpl->setVariable("AREA_NAME", "question");
+		$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("JAVASCRIPT_PATH", "templates/default/javascript");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
+
     $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_matching.html", true);
     $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
@@ -788,8 +838,25 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function out_imagemap_question_data() {
+		// Set the path for the image directory
+		setcookie("imagepath", $this->question->get_image_path());
+		if (!is_dir($this->question->get_image_path()))
+		{
+			ilUtil::makeDirParents($this->question->get_image_path());
+		}
+		setcookie("imagepathweb", $this->question->get_image_path_web());
+		setcookie("convertpath", preg_replace("/convert/", "", PATH_TO_CONVERT));
+		// Creating prerequisites for JavaScript Editor		
+		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.il_as_htmlarea.html", true);
+		$this->tpl->setCurrentBlock("htmlarea");
+		$this->tpl->setVariable("AREA_NAME", "question");
+		$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("JAVASCRIPT_PATH", "templates/default/javascript");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
 
-      $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
+
+		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
 
@@ -884,6 +951,22 @@ class ASS_QuestionGUI extends PEAR {
 * @access private
 */
   function out_javaapplet_question_data() {
+		// Set the path for the image directory
+		setcookie("imagepath", $this->question->get_image_path());
+		if (!is_dir($this->question->get_image_path()))
+		{
+			ilUtil::makeDirParents($this->question->get_image_path());
+		}
+		setcookie("imagepathweb", $this->question->get_image_path_web());
+		setcookie("convertpath", preg_replace("/convert/", "", PATH_TO_CONVERT));
+		// Creating prerequisites for JavaScript Editor		
+		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.il_as_htmlarea.html", true);
+		$this->tpl->setCurrentBlock("htmlarea");
+		$this->tpl->setVariable("AREA_NAME", "question");
+		$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("JAVASCRIPT_PATH", "templates/default/javascript");
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
 
     $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_javaapplet_question.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
