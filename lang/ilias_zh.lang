@@ -894,11 +894,15 @@ common#:#grp_already_applied#:#You have already applied to this group! Please wa
 common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#创建组
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
+common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
+common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
 common#:#grp_create_file#:#用户可以上载文件###17 Apr 2004 content changed
 common#:#grp_create_fold#:#用户可以创建文件夹###17 Apr 2004 content changed
 common#:#grp_create_frm#:#创建论坛
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#创建学习模块
+common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#创建SCORM学习模块
 common#:#grp_delete#:#删除组
 common#:#grp_dismiss_member#:#您肯定要从组中撤消下述成员吗？
@@ -1299,6 +1303,7 @@ common#:#no_title#:#无标题
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#none#:#无
 common#:#normal#:#正常
+common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#未安装
 common#:#not_logged_in#:#您未登录
 common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
@@ -1480,6 +1485,7 @@ common#:#question_pools#:#问题集
 common#:#quit#:#离开
 common#:#quote#:#引用
 common#:#read#:#读
+common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#收件人
 common#:#refresh#:#更新
 common#:#refresh_languages#:#更新语言
@@ -2323,7 +2329,7 @@ mail#:#mail_moved_to_trash#:#邮件已移到拉圾箱
 mail#:#mail_new_file#:#增加新文件
 mail#:#mail_no_attach_allowed#:#系统消息不允许包含附件
 mail#:#mail_no_attachments_found#:#未找到附件
-mail#:#mail_no_permissions_write_smtp#:#您具有写外部邮件的许可
+mail#:#mail_no_permissions_write_smtp#:#您具有写外部邮件的许可###15 May 2004 content changed
 mail#:#mail_options_of#:#选项
 mail#:#mail_options_saved#:#选项已存
 mail#:#mail_recipient_not_valid#:#收件人无效

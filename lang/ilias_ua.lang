@@ -877,11 +877,15 @@ common#:#grp_already_applied#:#You have already applied to this group! Please wa
 common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Створити Групу
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
+common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
+common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
 common#:#grp_create_file#:#Користувач може завантажувати Файли###17 Apr 2004 content changed
 common#:#grp_create_fold#:#Користувач може створювати Папки###17 Apr 2004 content changed
 common#:#grp_create_frm#:#Створити Форум
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Створити Учбовий Модуль
+common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Стоврити SCORM Учбовий Модуль
 common#:#grp_delete#:#Видалити Групу
 common#:#grp_dismiss_member#:#Ви впевнені що бажаєте видалити наступного(их) члена(ів з групи.
@@ -1282,6 +1286,7 @@ common#:#no_title#:#Немає Назви
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#none#:#Ніщо
 common#:#normal#:#Нормальний
+common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#Не Інстальовано
 common#:#not_logged_in#:#Ви не залогінені в
 common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
@@ -1463,6 +1468,7 @@ common#:#question_pools#:#Черги питань
 common#:#quit#:#Вихід
 common#:#quote#:#Цитата
 common#:#read#:#Читати
+common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#Одержувач
 common#:#refresh#:#Обновити
 common#:#refresh_languages#:#Обновити Мови
@@ -2306,7 +2312,7 @@ mail#:#mail_moved_to_trash#:#Пошта була переміщена в смі�
 mail#:#mail_new_file#:#Додати новий файл:
 mail#:#mail_no_attach_allowed#:#Системному повідомленню не дозволено містити прикріплення
 mail#:#mail_no_attachments_found#:#Прикріплення не знайдене
-mail#:#mail_no_permissions_write_smtp#:#Ви маєте права писати зовнішні листи
+mail#:#mail_no_permissions_write_smtp#:#Ви маєте права писати зовнішні листи###15 May 2004 content changed
 mail#:#mail_options_of#:#Опції
 mail#:#mail_options_saved#:#Опції збережені
 mail#:#mail_recipient_not_valid#:#Отримувач є некорректним

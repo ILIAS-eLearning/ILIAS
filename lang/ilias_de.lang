@@ -462,7 +462,6 @@ common#:#appointment_list#:#Terminliste
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
 common#:#assign#:#Annehmen
-common#:#recf_edit#:#Rettungsordner bearbeiten
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
@@ -878,11 +877,15 @@ common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten S
 common#:#grp_back#:#Zurück
 common#:#grp_create#:#Neue Gruppe anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
+common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
+common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
 common#:#grp_create_file#:#Neue Datei hochladen
 common#:#grp_create_fold#:#Neuen Ordner anlegen
 common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_glo#:#Neues Glossar anlegen
+common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Neues Lernmodul anlegen
+common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen.
@@ -1283,6 +1286,7 @@ common#:#no_title#:#Kein Titel
 common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Liste.
 common#:#none#:#Keine
 common#:#normal#:#Normal
+common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
 common#:#number_of_records#:#Zahl der Einträge
@@ -1464,6 +1468,7 @@ common#:#question_pools#:#Fragenpools
 common#:#quit#:#Logout
 common#:#quote#:#Zitat
 common#:#read#:#Lesen
+common#:#recf_edit#:#Rettungsordner bearbeiten
 common#:#recipient#:#Empfänger
 common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Sprachen aktualisieren
@@ -2307,7 +2312,7 @@ mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb versch
 mail#:#mail_new_file#:#Neue Datei hinzufügen:
 mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
 mail#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
-mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
+mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.###15 May 2004 content changed
 mail#:#mail_options_of#:#Einstellungen
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
 mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig

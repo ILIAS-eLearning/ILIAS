@@ -877,11 +877,15 @@ common#:#grp_already_applied#:#You have already applied to this group! Please wa
 common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Creëer groep
 common#:#grp_create_chat#:#Creëer Chat
+common#:#grp_create_dbk#:#Create Digibook###15 May 2004 new variable
+common#:#grp_create_exc#:#Create Exercise###15 May 2004 new variable
 common#:#grp_create_file#:#Gebruiker mag bestanden uploaden###17 Apr 2004 content changed
 common#:#grp_create_fold#:#De gebruiker mag mappen creëren###17 Apr 2004 content changed
 common#:#grp_create_frm#:#Creëer forum
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Creëer lesmodule
+common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Creëer SCORM lesmodule
 common#:#grp_delete#:#Verwijder groep
 common#:#grp_dismiss_member#:#Weet u het zeker, dat u de volgende leden van de groep wil verwijderen.
@@ -1282,6 +1286,7 @@ common#:#no_title#:#Geen titel
 common#:#no_tst_in_personal_list#:#Geen testen in persoonlijke lijst.
 common#:#none#:#Geen enkele
 common#:#normal#:#Normaal
+common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#Niet geïnstalleerd
 common#:#not_logged_in#:#U bent niet ingelogd
 common#:#number_of_records#:#Aantal rekords
@@ -1463,6 +1468,7 @@ common#:#question_pools#:#Vraagbakken
 common#:#quit#:#Loguit
 common#:#quote#:#Citeren
 common#:#read#:#Lees
+common#:#recf_edit#:#Edit RecoveryFolder###15 May 2004 new variable
 common#:#recipient#:#Ontvanger
 common#:#refresh#:#Verversen
 common#:#refresh_languages#:#Ververs talen
@@ -2306,7 +2312,7 @@ mail#:#mail_moved_to_trash#:#Mail is verplaats naar de prullenbak
 mail#:#mail_new_file#:#Voeg een nieuw bestand toe:
 mail#:#mail_no_attach_allowed#:#Systeem berichten mogen geen attachments hebben
 mail#:#mail_no_attachments_found#:#Geen attachments gevonden
-mail#:#mail_no_permissions_write_smtp#:#U heb het recht om externe emails te schrijven
+mail#:#mail_no_permissions_write_smtp#:#U heb het recht om externe emails te schrijven###15 May 2004 content changed
 mail#:#mail_options_of#:#Opties
 mail#:#mail_options_saved#:#Opties opgeslagen
 mail#:#mail_recipient_not_valid#:#De ontvanger is niet geldig
