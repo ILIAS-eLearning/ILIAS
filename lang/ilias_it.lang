@@ -354,6 +354,7 @@ common#:#msg_nothing_found#:#niente trovato
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from###08 Jul 2003 new variable
 common#:#msg_perm_adopted_from2#:#(The setting have been saved!)###08 Jul 2003 new variable
+common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.###09 Jul 2003 new variable
 common#:#msg_role_exists1#:#A role/role template with the name###08 Jul 2003 new variable
 common#:#msg_role_exists2#:#already exists! Please choose another name.###08 Jul 2003 new variable
 common#:#msg_trash_empty#:#There are no deleted objects
