@@ -1824,6 +1824,7 @@ class ilObjectGUI
 		foreach($this->data["data"] as $key1 => $value)
 		{
 			// BEGIN TABLE CELL
+			$color = 0;		// DigiLib-Template
 			foreach($value as $key2 => $cell_data)
 			{
 				$this->tpl->setCurrentBlock("table_cell");
@@ -1842,7 +1843,7 @@ class ilObjectGUI
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
 				}
-
+				$this->tpl->setVariable("CELLSTYLE", ilUtil::switchColor($color++,"tblrow1","tblrow2"));	// DigiLib-Template
 				$this->tpl->parseCurrentBlock();
 			}
 
