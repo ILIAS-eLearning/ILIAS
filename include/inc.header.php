@@ -84,6 +84,7 @@ require_once "classes/class.ilLog.php";
 require_once "classes/class.ilMailbox.php";
 require_once "classes/class.ilCtrl.php";
 require_once "classes/class.ilConditionHandler.php";
+require_once "classes/class.ilBrowser.php";
 
 //include role based access control system
 require_once "classes/class.ilRbacAdmin.php";
@@ -369,6 +370,9 @@ if (version_compare(PHP_VERSION,'5','>='))
 {
 	require_once("include/inc.xsl5compliance.php");
 }
+
+// provide global browser information
+$ilBrowser = new ilBrowser();
 
 $ilBench->stop("Core", "HeaderInclude");
 $ilBench->save();

@@ -161,9 +161,13 @@ class ilInternalLinkGUI
 	}
 
 	
-	function prepareJavascriptOutput($str) {
+	function prepareJavascriptOutput($str)
+	{
 		global $ilUser;
-		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable") {
+		
+		include_once("content/classes/Pages/class.ilPageEditorGUI.php");
+		if (ilPageEditorGUI::_doJSEditing())
+		{
 			$str = htmlspecialchars($str);
 		}
 		return($str);

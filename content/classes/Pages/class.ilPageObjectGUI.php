@@ -364,8 +364,10 @@ class ilPageObjectGUI
 				$this->tpl->setVariable("TXT_INSERT_AFTER", $this->lng->txt("cont_set_after"));
 				$this->tpl->setVariable("TXT_INSERT_CANCEL", $this->lng->txt("cont_set_cancel"));
 				$this->tpl->setVariable("TXT_CONFIRM_DELETE", $this->lng->txt("cont_confirm_delete"));
-				
-                
+				if (!ilPageEditorGUI::_isBrowserJSEditCapable())
+				{
+					$this->tpl->setVariable("TXT_JAVA_SCRIPT_CAPABLE", "<br />".$this->lng->txt("cont_browser_not_js_capable"));
+				}
 				$this->tpl->setVariable("TXT_CHANGE_EDIT_MODE", $this->lng->txt("cont_set_edit_mode"));
                 
 				$med_mode = array("enable" => $this->lng->txt("cont_enable_media"),
@@ -391,7 +393,7 @@ class ilPageObjectGUI
 				$sel_js_mode = "disable";
 				if($ilias->getSetting("enable_js_edit"))
 				{
-					$sel_js_mode = ($ilUser->getPref("ilPageEditor_JavaScript") == "enable")
+					$sel_js_mode = (ilPageEditorGUI::_doJSEditing())
 						? "enable"
 						: "disable";
 					$this->tpl->setVariable("SEL_JAVA_SCRIPT",
