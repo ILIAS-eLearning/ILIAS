@@ -508,14 +508,16 @@ class ilExplorer
 		if($this->isClickable($a_option["type"]))	// output link
 		{
 			$tpl->setCurrentBlock("link");
-			$target = (strpos($this->target, "?") === false) ?
-				$this->target."?" : $this->target."&";
-			$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
+			//$target = (strpos($this->target, "?") === false) ?
+			//	$this->target."?" : $this->target."&";
+			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
+			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
 			$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 
-			if ($this->frame_target != "")
+			$frame_target = $this->buildFrameTarget($a_option["type"]);
+			if ($frame_target != "")
 			{
-				$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
+				$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
 			}
 			$tpl->parseCurrentBlock();
 		}
@@ -531,6 +533,20 @@ class ilExplorer
 
 		$this->output[] = $tpl->get();
 	}
+
+	function buildLinkTarget($a_node_id, $a_type)
+	{
+		$target = (strpos($this->target, "?") === false)
+			? $this->target."?"
+			: $this->target."&";
+		return $target.$this->target_get."=".$a_node_id.$this->params_get;
+	}
+
+	function buildFrameTarget($a_type)
+	{
+		return $this->frame_target;
+	}
+
 
 	/**
 	* Creates Get Parameter
