@@ -1580,18 +1580,18 @@ class ilRepositoryGUI
 				// edit
 				if ($this->rbacsystem->checkAccess('write', $data["ref_id"]))
 				{
-					$tpl->setCurrentBlock("forum_edit");
+					// $tpl->setCurrentBlock("forum_edit");
 					$tpl->setVariable("EDIT_LINK","forums_threads_liste.php?cmd=properties&ref_id=".$data["ref_id"]);
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-					$tpl->parseCurrentBlock();
+					// $tpl->parseCurrentBlock();
 				}
 
 				if ($this->rbacsystem->checkAccess('delete', $data["ref_id"]))
 				{
-					// $tpl->setCurrentBlock("forum_delete"); // jk: bug fix
+					// $tpl->setCurrentBlock("forum_delete");
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-					// $tpl->parseCurrentBlock(); // jk: bug fix
+					// $tpl->parseCurrentBlock();
 				}
 
 				// add to desktop link
