@@ -936,11 +936,16 @@ class ilObjTest extends ilObject
 		{
 			$ects_fx = $this->ects_fx;
 		}
+		$random_question_count = "NULL";
+		if ($this->random_question_count > 0)
+		{
+			$random_question_count = $this->ilias->db->quote($this->random_question_count . "");
+		}
     if ($this->test_id == -1) {
       // Neuen Datensatz schreiben
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO tst_tests (test_id, obj_fi, author, test_type_fi, introduction, sequence_settings, score_reporting, nr_of_tries, processing_time, enable_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, ects_e, ects_fx, random_test, random_question_count, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->getId() . ""),
         $db->quote($this->author . ""),
         $db->quote($this->test_type . ""),
@@ -962,6 +967,7 @@ class ilObjTest extends ilObject
 				$db->quote($this->ects_grades["E"] . ""),
 				$ects_fx,
 				$db->quote(sprintf("%d", $this->random_test) . ""),
+				$random_question_count,
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -4188,6 +4194,38 @@ class ilObjTest extends ilObject
 	}
 
 /**
+* Duplicates the source random questionpools for another test
+* 
+* Duplicates the source random questionpools for another test
+*
+* @param integer $new_id Test id of the new test which should take the random questionpools
+* @access public
+*/
+	function cloneRandomQuestions($new_id)
+	{
+		if ($new_id > 0)
+		{
+			$query = sprintf("SELECT * FROM tst_test_random WHERE test_fi = %s",
+				$this->ilias->db->quote($this->getTestId() . "")
+			);
+			$result = $this->ilias->db->query($query);
+			if ($result->numRows())
+			{
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$query = sprintf("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+						$this->ilias->db->quote($new_id . ""),
+						$this->ilias->db->quote($row["questionpool_fi"] . ""),
+						$this->ilias->db->quote($row["num_of_q"] . "")
+					);
+					$insertresult = $this->ilias->db->query($query);
+				}
+			}
+		}
+	}
+	
+	
+/**
 * Creates a 1:1 copy of the object and places the copy in a given repository
 * 
 * Creates a 1:1 copy of the object and places the copy in a given repository
@@ -4225,18 +4263,28 @@ class ilObjTest extends ilObject
 		$newObj->ects_output = $original->ects_output;
 		$newObj->ects_fx = $original->ects_fx;
 		$newObj->ects_grades = $original->ects_grades;
-
-		// clone the questions
-		foreach ($original->questions as $key => $question_id)
+		$newObj->random_test = $original->random_test;
+		$newObj->random_question_count = $original->random_question_count;
+		$newObj->saveToDb();		
+		if ($original->isRandomTest())
 		{
-			$question = ilObjTest::_instanciateQuestion($question_id);
-			$newObj->questions[$key] = $question->duplicate();
-//			$question->id = -1;
-			$original_id = ASS_Question::_getOriginalId($question_id);
-			$question = ilObjTest::_instanciateQuestion($newObj->questions[$key]);
-			$question->saveToDb($original_id);
+			$newObj->saveRandomQuestionCount($newObj->random_question_count);
+			$original->cloneRandomQuestions($newObj->getTestId());
 		}
-
+		else
+		{
+			// clone the questions
+			foreach ($original->questions as $key => $question_id)
+			{
+				$question = ilObjTest::_instanciateQuestion($question_id);
+				$newObj->questions[$key] = $question->duplicate();
+	//			$question->id = -1;
+				$original_id = ASS_Question::_getOriginalId($question_id);
+				$question = ilObjTest::_instanciateQuestion($newObj->questions[$key]);
+				$question->saveToDb($original_id);
+			}
+		}
+		
 		$newObj->saveToDb();		
 
 		// clone meta data
