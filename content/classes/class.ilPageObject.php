@@ -315,8 +315,12 @@ class ilPageObject extends ilLMObject
 	{
 		// build full http path for XML DOCTYPE header.
 		// Under windows a relative path doesn't work :-(
+		// unfortunately this fix doesn't work also.
+		// the class is used in scripts outside the content
+		// module as well.
+		/*
 		$split = preg_split("/\/content\//",$_SERVER["PHP_SELF"]);
-		$http_path = "http://".$_SERVER["HTTP_HOST"].$split[0]."/xml/";
+		$http_path = "http://".$_SERVER["HTTP_HOST"].$split[0]."/xml/";*/
 
 		if($a_incl_head)
 		{
@@ -324,7 +328,7 @@ class ilPageObject extends ilLMObject
 				? "encoding=\"".$this->encoding."\""
 				: "";
 			return "<?xml version=\"1.0\" $ecn_str ?>".
-				"<!DOCTYPE PageObject SYSTEM \"".$http_path.$this->cur_dtd."\">".
+				"<!DOCTYPE PageObject SYSTEM \"xml/".$this->cur_dtd."\">".
 				$this->xml;
 		}
 		else
