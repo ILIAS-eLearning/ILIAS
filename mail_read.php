@@ -176,8 +176,8 @@ if($mail_data["attachments"])
 
 // MESSAGE
 $tpl->setVariable("TXT_MESSAGE", $lng->txt("message"));
-//$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlentities($mail_data["m_message"]))));
-$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlspecialchars($mail_data["m_message"]))));
+$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable($mail_data["m_message"])));
+//$tpl->setVariable("MAIL_MESSAGE", nl2br(ilUtil::makeClickable(htmlspecialchars($mail_data["m_message"]))));
 
 $tpl->show();
 ?>
