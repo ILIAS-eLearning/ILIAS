@@ -881,6 +881,7 @@ class ilContObjParser extends ilSaxParser
 						include_once("./classes/class.ilNestedSetXML.php");
 						$nested = new ilNestedSetXML();
 						$xml = $this->meta_data->getXMLContent();
+//echo "<br><br>".htmlentities($xml);
 						$nested->dom = domxml_open_mem($xml);
 						$nodes = $nested->getDomContent("//MetaData/General", "Identifier");
 						if (is_array($nodes))
@@ -889,6 +890,8 @@ class ilContObjParser extends ilSaxParser
 							$nested->updateDomContent("//MetaData/General", "Identifier", 0, $nodes[0]);
 						}
 						$xml = $nested->dom->dump_mem(0);
+//$xml = str_replace("&quot;", "\"", $xml);
+//echo "<br><br>".htmlentities($xml);
 						$nested->import($xml,$this->lm_page_object->getId(),"pg");
 					}
                 }
@@ -1058,6 +1061,7 @@ class ilContObjParser extends ilSaxParser
 			if ($this->in_meta_data  )
 			{
 				$this->meta_data->appendXMLContent($a_data);
+//echo "<br>".$a_data;
 			}
 
 			if ($this->in_bib_item  )

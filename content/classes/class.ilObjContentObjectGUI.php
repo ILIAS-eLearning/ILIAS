@@ -239,6 +239,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$pg_header, false, true);
 		$this->tpl->setVariable("SELECT_PAGE_HEADER", $select_pg_head);
 
+		// toc mode
+		$this->tpl->setVariable("TXT_TOC_MODE", $this->lng->txt("cont_toc_mode"));
+		$arr_toc_mode = array ("chapters" => $this->lng->txt("cont_chapters_only"),
+			"pages" => $this->lng->txt("cont_chapters_and_pages"));
+		$select_toc_mode = ilUtil::formSelect ($this->object->getTOCMode(), "toc_mode",
+			$arr_toc_mode, false, true);
+		$this->tpl->setVariable("SELECT_TOC_MODE", $select_toc_mode);
+
 		// lm menu
 		$this->tpl->setVariable("TXT_LM_MENU", $this->lng->txt("cont_lm_menu"));
 		$this->tpl->setVariable("TXT_ACT_MENU", $this->lng->txt("cont_active"));
@@ -271,6 +279,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		$this->object->setLayout($_POST["lm_layout"]);
 		$this->object->setPageHeader($_POST["lm_pg_header"]);
+		$this->object->setTOCMode($_POST["toc_mode"]);
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->setActiveLMMenu(ilUtil::yn2tf($_POST["cobj_act_lm_menu"]));
 		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));

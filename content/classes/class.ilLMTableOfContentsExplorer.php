@@ -55,18 +55,37 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 		$this->setExpandTarget("lm_presentation.php?cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId());
 		$this->setSessionExpandVariable("lmtocexpand");
 
-		$this->addFilter("pg");
+		$this->addFilter("du");
+		$this->addFilter("st");
+		if ($a_lm_obj->getTOCMode() == "pages")
+		{
+			$this->addFilter("pg");
+		}
 		$this->setFiltered(true);
+		$this->setFilterMode(IL_FM_POSITIVE);
+
 
 		$this->setFrameTarget("_top");
 
 	}
 
-	/*
-	function buildLinkTarget($a_node_id, $a_type)
+	/**
+	* standard implementation for title, maybe overwritten by derived classes
+	*/
+	function buildTitle($a_title, $a_id, $a_type)
 	{
-		$this
-	}*/
+		if ($this->lm_obj->getTOCMode() == "chapters" || $a_type != "pg")
+		{
+			return $a_title;
+		}
+		else
+		{
+			if ($a_type == "pg")
+			{
+				return ilLMPageObject::_getPresentationTitle($a_id, $this->lm_obj->getPageHeader());
+			}
+		}
+	}
 
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
 	{

@@ -46,5 +46,23 @@ class ilLMTOCExplorer extends ilLMExplorer
 		$this->setExpandTarget("lm_presentation.php?frame=".$_GET["frame"]."&cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId());
 	}
 
+	/**
+	* standard implementation for title, maybe overwritten by derived classes
+	*/
+	function buildTitle($a_title, $a_id, $a_type)
+	{
+		if ($this->lm_obj->getTOCMode() == "chapters" || $a_type != "pg")
+		{
+			return $a_title;
+		}
+		else
+		{
+			if ($a_type == "pg")
+			{
+				return ilLMPageObject::_getPresentationTitle($a_id, $this->lm_obj->getPageHeader());
+			}
+		}
+	}
+
 } // END class.ilLMTOCExplorer
 ?>

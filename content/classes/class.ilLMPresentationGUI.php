@@ -600,6 +600,10 @@ class ilLMPresentationGUI
 		$exp->setFrameTarget($a_target);
 		$exp->addFilter("du");
 		$exp->addFilter("st");
+		if ($this->lm->getTOCMode() == "pages")
+		{
+			$exp->addFilter("pg");
+		}
 		$exp->setFiltered(true);
 		$exp->setFilterMode(IL_FM_POSITIVE);
 

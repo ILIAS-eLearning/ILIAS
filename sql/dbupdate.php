@@ -2584,7 +2584,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	
 	// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
 	$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($dest_role_id);
-	
+
 	// DELETE ACTUAL ROLE FOLDER FROM ARRAY
 	$key = array_keys($all_parent_obj_of_rolf,$node_id);
 	
@@ -2677,3 +2677,6 @@ UPDATE usr_pref SET value='blueshadow' WHERE value='blueshadow_ie' AND keyword='
 <#169>
 ALTER TABLE frm_posts ADD import_name TEXT;
 ALTER TABLE frm_threads ADD import_name TEXT;
+
+<#170>
+ALTER TABLE content_object ADD COLUMN toc_mode ENUM('chapters','pages') DEFAULT 'chapters';
