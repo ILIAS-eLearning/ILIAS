@@ -7,6 +7,7 @@
   
   <xsl:template match="/">
     <xsl:for-each select="/Bibliography/Abstract">
+      {MESSAGE}
       <h1><xsl:value-of select="text()"/></h1>        
     </xsl:for-each>
     <!-- VIEW SIMPLE -->
@@ -25,7 +26,7 @@
             </tr>
             <!-- BEGIN TRANSLATION_ROW -->
             <tr class="std">
-              <td class="option_value" width="5%"><input type="radio" name="tr_id" value="{ROW_ID}" /></td>
+              <td class="option_value" width="5%"><input type="checkbox" name="tr_id[]" value="{ROW_ID}" /></td>
               <td class="option_value">{ROW_TITLE}</td>
             </tr>
             <!-- END TRANSLATION_ROW -->

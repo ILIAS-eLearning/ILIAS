@@ -471,7 +471,12 @@ class ilLMPresentationGUI
 
 							case "dbk":
 								$this->setSessionVars();
-								if($_GET["obj_id"] or ($_POST["action"] == "show") or ($_POST["action"] == "show_citation"))
+								if((count($_POST["tr_id"]) > 1) or
+								   (!$_POST["target"] and ($_POST["action"] == "show" or $_POST["action"] == "show_citation")))
+								{
+									$pageContent = $this->lm_gui->showAbstract($_POST["target"]);
+								}
+								else if($_GET["obj_id"] or ($_POST["action"] == "show") or ($_POST["action"] == "show_citation"))
 								{
 									// SHOW PAGE IF PAGE WAS SELECTED
 									$pageContent = $this->ilPage($child);
@@ -485,6 +490,7 @@ class ilLMPresentationGUI
 									// IF NO PAGE ID IS GIVEN SHOW BOOK/LE ABSTRACT
 									$pageContent = $this->lm_gui->showAbstract($_POST["target"]);
 								}
+
 								break;
 						}
 						break;
@@ -494,10 +500,11 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilLMNavigation":
+						
 						// NOT FOR ABSTRACT
-						if($_GET["obj_id"] or
-						   $_POST["action"] == "show" or
-						   $_POST["action"] == "show_citation" or
+						if($_GET["obj_id"] or 
+						   ((count($_POST["tr_id"]) < 2) and $_POST["target"] and
+							($_POST["action"] == "show" or $_POST["action"] == "show_citation")) or
 						   $this->lm->getType() == 'lm')
 						{
 							$this->ilLMNavigation();
@@ -1155,10 +1162,9 @@ class ilLMPresentationGUI
 			{
 				unset($_SESSION["citation"]);
 			}
-
 			if(isset($_POST["tr_id"]))
 			{
-				$_SESSION["tr_id"] = $_POST["tr_id"];
+				$_SESSION["tr_id"] = $_POST["tr_id"][0];
 			}
 			else
 			{
