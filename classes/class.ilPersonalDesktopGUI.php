@@ -409,14 +409,13 @@ class ilPersonalDesktopGUI
 		$mbox = new ilMailBox($_SESSION["AccountId"]);
 		$inbox = $mbox->getInboxFolder();
 
-		//anzeige mails für jeden user
+		//SHOW MAILS FOR EVERY USER
 		$mail_data = $umail->getMailsOfFolder($inbox);
 		$mail_counter = $umail->getMailCounterData();
 		$this->tpl->setVariable("MAIL_COUNTER", $mail_counter["total"]);
 		$this->tpl->setVariable("MAIL_UNREAD", $mail_counter["unread"]);
 
 
-		// Um die Seite nicht zu voll erscheinen zu lassen max. 20 Einträge
 		$mail_max_hits = 20;
 		$counter = 0;
 
