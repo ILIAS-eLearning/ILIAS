@@ -37,6 +37,9 @@
 administration#:#analyze_data#:#Analyze data Integrity###16 Mar 2004 new variable
 administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###16 Mar 2004 new variable
 administration#:#analyzing#:#Analyzing...###16 Mar 2004 new variable
+administration#:#analyzing_tree_structure#:#Analyzing tree structure...###17 Nov 2004 new variable
+administration#:#check_tree#:#Check tree structure###17 Nov 2004 new variable
+administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!###17 Nov 2004 new variable
 administration#:#clean#:#Clean up###16 Mar 2004 new variable
 administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.###16 Mar 2004 new variable
 administration#:#cleaning#:#Cleaning...###16 Mar 2004 new variable
@@ -62,6 +65,7 @@ administration#:#purging_trash#:#Purging trash...###16 Mar 2004 new variable
 administration#:#purging_unbound_objs#:#Purging unbound objects...###16 Mar 2004 new variable
 administration#:#removing_invalid_childs#:#Removing invalid tree entries...###16 Mar 2004 new variable
 administration#:#removing_invalid_refs#:#Removing invalid references...###16 Mar 2004 new variable
+administration#:#removing_invalid_rolfs#:#Removing invalid rolefolders...###17 Nov 2004 new variable
 administration#:#restore_missing#:#Restore missing objects###16 Mar 2004 new variable
 administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.###16 Mar 2004 new variable
 administration#:#restore_trash#:#Restore deleted objects###16 Mar 2004 new variable
@@ -78,12 +82,14 @@ administration#:#scanning_system#:#Scanning system...###16 Mar 2004 new variable
 administration#:#searching_deleted_objs#:#Searching for deleted objects...###16 Mar 2004 new variable
 administration#:#searching_invalid_childs#:#Searching for invalid tree entries...###16 Mar 2004 new variable
 administration#:#searching_invalid_refs#:#Searching for invalid references...###16 Mar 2004 new variable
+administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...###17 Nov 2004 new variable
 administration#:#searching_missing_objs#:#Searching for missing objects...###16 Mar 2004 new variable
 administration#:#searching_unbound_objs#:#Searching for unbound objects...###16 Mar 2004 new variable
 administration#:#skipped#:#skipped###17 Apr 2004 new variable
 administration#:#start_scan#:#Start!###16 Mar 2004 new variable
 administration#:#stop_scan#:#Stop!###31 May 2004 new variable
 administration#:#systemcheck#:#Systemcheck###16 Mar 2004 new variable
+administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.###17 Nov 2004 new variable
 administration#:#view_last_log#:#View last Scanlog###16 Mar 2004 new variable
 administration#:#view_log#:#View details###16 Mar 2004 new variable
 assessment#:#0_unlimited#:#(0 = unlimited)###16 Mar 2004 new variable

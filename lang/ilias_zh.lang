@@ -55,6 +55,9 @@
 administration#:#analyze_data#:#分析数据完整性
 administration#:#analyze_desc#:#扫描系统中已破坏/无效/丢失/未用的对象
 administration#:#analyzing#:#分析中。。。
+administration#:#analyzing_tree_structure#:#Analyzing tree structure...###17 Nov 2004 new variable
+administration#:#check_tree#:#Check tree structure###17 Nov 2004 new variable
+administration#:#check_tree_desc#:#Check consistence of entire tree structure. Depending on tree size this may take a while!###17 Nov 2004 new variable
 administration#:#clean#:#清理
 administration#:#clean_desc#:#清除无效的引用与目录树入口。关闭目录树结构缺口
 administration#:#cleaning#:#清除中。。。
@@ -80,6 +83,7 @@ administration#:#purging_trash#:#清除垃圾筒。。。
 administration#:#purging_unbound_objs#:#清除无用的对象中。。。
 administration#:#removing_invalid_childs#:#清除无效目录树入口。。。
 administration#:#removing_invalid_refs#:#清除无效引用。。。
+administration#:#removing_invalid_rolfs#:#Removing invalid rolefolders...###17 Nov 2004 new variable
 administration#:#restore_missing#:#恢复丢失的对象
 administration#:#restore_missing_desc#:#恢复丢失与未用的对象至“恢复目录”中
 administration#:#restore_trash#:#恢复已删除对象
@@ -96,12 +100,14 @@ administration#:#scanning_system#:#扫描系统中。。。
 administration#:#searching_deleted_objs#:#搜索删除的对象。。。
 administration#:#searching_invalid_childs#:#搜索无效的目录树入口。。。
 administration#:#searching_invalid_refs#:#搜索无效的引用。。。
+administration#:#searching_invalid_rolfs#:#Searching for invalid rolefolders...###17 Nov 2004 new variable
 administration#:#searching_missing_objs#:#搜索丢失的对象。。。
 administration#:#searching_unbound_objs#:#搜索未用的对象。。。
 administration#:#skipped#:#跳过
 administration#:#start_scan#:#开始
 administration#:#stop_scan#:#停止
 administration#:#systemcheck#:#系统检查
+administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.###17 Nov 2004 new variable
 administration#:#view_last_log#:#查看最后一次扫描日志
 administration#:#view_log#:#查看详细
 assessment#:#0_unlimited#:#(0 = 无限的)
