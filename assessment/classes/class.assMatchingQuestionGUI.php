@@ -535,7 +535,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				{
 					$imagepath = $this->object->getImagePathWeb() . $answer->getPicture();
 					$solutionoutput .= "<tr><td><div class=\"textbox\">" . $answer->getTerm() . "</div></td><td width=\"10\"></td><td><div class=\"imagebox\"><img src=\"" . $imagepath . ".thumb.jpg\" /></div></td></tr>\n";
-					$size = GetImageSize ($this->object->getImagePath() . $answer->getPicture() . ".thumb.jpg", &$info);
+					$size = GetImageSize ($this->object->getImagePath() . $answer->getPicture() . ".thumb.jpg");
 					$output = str_replace("<img border=\"0\" id=\"definition_" . $answer->getDefinitionId() . "\"", "<img border=\"0\" id=\"definition_" . $answer->getDefinitionId() . "\" " . $size[3], $output);
 				}
 				else

@@ -950,12 +950,21 @@ class ASS_MultipleChoice extends ASS_Question
 	*/
 	function getMaximumPoints()
 	{
-		$points = 0;
-		foreach ($this->answers as $key => $value)
-		{
-			$points += $value->get_points();
+		$points = array("set" => 0, "unset" => 0);
+		foreach ($this->answers as $key => $value) {
+			if ($value->isStateChecked())
+			{
+				if ($value->get_points() > $points["set"])
+				{
+					$points["set"] = $value->get_points();
+				}
+			}
+			else
+			{
+				$points["unset"] += $value->get_points();
+			}
 		}
-		return $points;
+		return $points["set"] + $points["unset"];
 	}
 
 	/**
