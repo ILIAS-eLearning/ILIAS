@@ -1515,7 +1515,6 @@ class ilObjTest extends ilObject
 		
 		$qpl_titles = array();
 		// get all available questionpools and remove the trashed questionspools
-		$forbidden_pools = array();
 		$query = "SELECT object_data.*, object_data.obj_id, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl'";
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))

@@ -656,7 +656,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("SELECTED_OFFLINE", " selected=\"selected\"");
 		}
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+    if ($rbacsystem->checkAccess("write", $this->ref_id)) {
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
@@ -679,22 +679,27 @@ class ilObjSurveyGUI extends ilObjectGUI
     $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_svy_qpl_action_buttons.html", true);
     $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_svy_filter_questions.html", true);
 
-    $filter_fields = array(
-      "title" => $this->lng->txt("title"),
-      "description" => $this->lng->txt("description"),
-      "author" => $this->lng->txt("author"),
-    );
-    $this->tpl->setCurrentBlock("filterrow");
-    foreach ($filter_fields as $key => $value) {
-      $this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
-      $this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
-      if (!$_POST["cmd"]["reset"]) {
-        if (strcmp($_POST["sel_filter_type"], $key) == 0) {
-          $this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
-        }
-      }
-      $this->tpl->parseCurrentBlock();
-    }
+		$filter_type = $_GET["sel_filter_type"];
+		if (!$filter_type)
+		{
+			$filter_type = $_POST["sel_filter_type"];
+		}
+		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
+		{
+			$filter_type = "";
+		}
+		$add_parameter .= "&sel_filter_type=$filter_type";
+
+		$filter_text = $_GET["filter_text"];
+		if (!$filter_text)
+		{
+			$filter_text = $_POST["filter_text"];
+		}
+		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
+		{
+			$filter_text = "";
+		}
+		$add_parameter .= "&filter_text=$filter_text";
 
 		$browsequestions = 1;
 		if (strcmp($_POST["cmd"]["datatype"], "") != 0)
@@ -710,11 +715,91 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$add_parameter .= "&browsetype=$browsequestions";
 
-    $this->tpl->setCurrentBlock("filter_questions");
+		$filter_fields = array(
+			"title" => $this->lng->txt("title"),
+			"comment" => $this->lng->txt("description"),
+			"author" => $this->lng->txt("author"),
+		);
+		$this->tpl->setCurrentBlock("filterrow");
+		foreach ($filter_fields as $key => $value) {
+			$this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
+			$this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
+			if (strcmp($_POST["cmd"]["resetFilter"], "") == 0) {
+				if (strcmp($filter_type, $key) == 0) {
+					$this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
+				}
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$filter_question_type = $_POST["sel_question_type"];
+		if (!$filter_question_type)
+		{
+			$filter_question_type = $_GET["sel_question_type"];
+		}
+		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
+		{
+			$filter_question_type = "";
+		}
+		$add_parameter .= "&sel_question_type=$filter_question_type";
+
+		if ($browsequestions)
+		{
+			$questiontypes =& $this->object->_getQuestiontypes();
+			foreach ($questiontypes as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("questiontype_row");
+				$this->tpl->setVariable("VALUE_QUESTION_TYPE", $value);
+				$this->tpl->setVariable("TEXT_QUESTION_TYPE", $this->lng->txt($value));
+				if (strcmp($filter_question_type, $value) == 0)
+				{
+					$this->tpl->setVariable("SELECTED_QUESTION_TYPE", " selected=\"selected\"");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		$filter_questionpool = $_POST["sel_questionpool"];
+		if (!$filter_questionpool)
+		{
+			$filter_questionpool = $_GET["sel_questionpool"];
+		}
+		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
+		{
+			$filter_questionpool = "";
+		}
+		$add_parameter .= "&sel_questionpool=$filter_questionpool";
+		
+		if ($browsequestions)
+		{
+			foreach ($questionpools as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("questionpool_row");
+				$this->tpl->setVariable("VALUE_QUESTIONPOOL", $key);
+				$this->tpl->setVariable("TEXT_QUESTIONPOOL", $value);
+				if (strcmp($filter_questionpool, $key) == 0)
+				{
+					$this->tpl->setVariable("SELECTED_QUESTIONPOOL", " selected=\"selected\"");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		if ($browsequestions)
+		{
+			$this->tpl->setCurrentBlock("question_filters");
+			$this->tpl->setVariable("SHOW_QUESTION_TYPES", $this->lng->txt("filter_show_question_types"));
+			$this->tpl->setVariable("TEXT_ALL_QUESTION_TYPES", $this->lng->txt("filter_all_question_types"));
+			$this->tpl->setVariable("SHOW_QUESTIONPOOLS", $this->lng->txt("filter_show_questionpools"));
+			$this->tpl->setVariable("TEXT_ALL_QUESTIONPOOLS", $this->lng->txt("filter_all_questionpools"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("filter_questions");
     $this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
     $this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
     if (!$_POST["cmd"]["reset"]) {
-      $this->tpl->setVariable("VALUE_FILTER_TEXT", $_POST["filter_text"]);
+      $this->tpl->setVariable("VALUE_FILTER_TEXT", $filter_text);
     }
     $this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
     $this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
@@ -756,11 +841,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		if ($browsequestions)
 		{
-			$table = $this->object->getQuestionsTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow, 1);
+			$table = $this->object->getQuestionsTable($_GET["sort"], $filter_text, $filter_type, $startrow, 1, $filter_question_type, $filter_questionpool);
 		}
 		else
 		{
-			$table = $this->object->getQuestionblocksTable($_GET["sort"], $_POST["filter_text"], $_POST["sel_filter_type"], $startrow);
+			$table = $this->object->getQuestionblocksTable($_GET["sort"], $filter_text, $filter_type, $startrow);
 		}
     $colors = array("tblrow1", "tblrow2");
     $counter = 0;
@@ -770,7 +855,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			foreach ($table["rows"] as $data)
 			{
-				if ($rbacsystem->checkAccess("read", $data["ref_id"])) {
+				if ($rbacsystem->checkAccess("write", $data["ref_id"])) {
 					$this->tpl->setCurrentBlock("QTab");
 					if ($data["complete"]) {
 						// make only complete questions selectable
@@ -1999,7 +2084,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("block");
 					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-			    if ($rbacsystem->checkAccess('write', $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
+			    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
 						$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
 						$this->tpl->setVariable("HREF_EDIT", $_SERVER['PHP_SELF'] . "$add_parameter&editblock=" . $data["questionblock_id"]);
 					}
@@ -2077,7 +2162,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
 			$this->tpl->parseCurrentBlock();
 		} else {
-	    if ($rbacsystem->checkAccess('write', $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
+	    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
 				$this->tpl->setCurrentBlock("QFooter");
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
@@ -2089,7 +2174,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 
-    if ($rbacsystem->checkAccess('write', $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
+    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
 			$this->tpl->setCurrentBlock("QTypes");
 			$query = "SELECT * FROM survey_questiontype";
 			$query_result = $this->ilias->db->query($query);
@@ -2110,7 +2195,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("TEXT_EDIT", $this->lng->txt("edit"));
 
-    if ($rbacsystem->checkAccess('write', $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
+    if ($rbacsystem->checkAccess("write", $this->ref_id) and (!$this->object->getStatus() == STATUS_ONLINE)) {
 			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("browse_for_questions"));
 			$this->tpl->setVariable("BUTTON_SEARCH_QUESTION", $this->lng->txt("search_questions"));
 			$this->tpl->setVariable("TEXT_OR", " " . strtolower($this->lng->txt("or")));
@@ -2989,7 +3074,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("SELECTED_OFF", " selected=\"selected\"");
 		}
-    if ($rbacsystem->checkAccess('write', $this->ref_id) or $rbacsystem->checkAccess('invite', $this->ref_id)) {
+    if ($rbacsystem->checkAccess("write", $this->ref_id) or $rbacsystem->checkAccess('invite', $this->ref_id)) {
 			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
 		}
@@ -3014,7 +3099,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$add_parameter = $this->getAddParameter();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", true);
-		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("svy_delete_all_user_data"));
@@ -3390,8 +3475,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$rolf_id = $rfoldObj->getRefId();
 			}
 
-			// CHECK ACCESS 'write' of role folder
-			if (!$rbacsystem->checkAccess('write',$rolf_id))
+			// CHECK ACCESS write of role folder
+			if (!$rbacsystem->checkAccess("write",$rolf_id))
 			{
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 			}
