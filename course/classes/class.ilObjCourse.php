@@ -395,7 +395,7 @@ class ilObjCourse extends ilObject
 	* @access	public
 	* @return	integer	new ref id
 	*/
-	function mclone($a_parent_ref)
+	function clone($a_parent_ref)
 	{		
 		global $rbacadmin;
 

@@ -657,6 +657,9 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$this->object->initCourseMemberObject();
 
+		// USED FOR NOTIFICATION
+		$user_data = $this->object->members_obj->getUserData($_GET["member_id"]);
+
 		// MINIMUM ACCESS LEVEL = 'administrate'
 		if(!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
@@ -716,6 +719,13 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		$this->object->members_obj->update((int) $_GET["member_id"],$role,$status);
 
+		// NOTIFICATION
+		if($user_data["role"] != $role or $user_data["status"] != $status)
+		{
+			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_STATUS_CHANGED,$_GET["member_id"]);
+		}
+		
+
 		sendInfo($this->lng->txt("member_updated"));
 		$this->membersObject();
 	}
@@ -756,6 +766,8 @@ class ilObjCourseGUI extends ilObjectGUI
 				break;
 			}
 			$this->object->members_obj->add($tmp_obj,$this->object->members_obj->ROLE_MEMBER);
+			$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_USER,$user_id);
+
 			++$added_users;
 		}
 		if($limit_reached)
@@ -817,6 +829,14 @@ class ilObjCourseGUI extends ilObjectGUI
 			$this->membersObject();
 
 			return false;
+		}
+		else
+		{
+			// SEND NOTIFICATION
+			foreach($_POST["subscriber"] as $usr_id)
+			{
+				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_ACCEPT_SUBSCRIBER,$usr_id);
+			}
 		}
 		sendInfo($this->lng->txt("crs_subscribers_assigned"));
 		$this->membersObject();
@@ -983,6 +1003,14 @@ class ilObjCourseGUI extends ilObjectGUI
 
 			return false;
 		}
+		else
+		{
+			// SEND NOTIFICATION
+			foreach($_SESSION["crs_delete_member_ids"] as $usr_id)
+			{
+				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_MEMBER,$usr_id);
+			}
+		}
 		unset($_SESSION["crs_delete_member_ids"]);
 		sendInfo($this->lng->txt("members_deleted"));
 		$this->membersObject();
@@ -1016,6 +1044,15 @@ class ilObjCourseGUI extends ilObjectGUI
 
 			return false;
 		}
+		else
+		{
+			// SEND NOTIFICATION
+			foreach($_SESSION["crs_delete_subscriber_ids"] as $usr_id)
+			{
+				$this->object->members_obj->sendNotification($this->object->members_obj->NOTIFY_DISMISS_SUBSCRIBER,$usr_id);
+			}
+		}
+
 		unset($_SESSION["crs_delete_subscriber_ids"]);
 		sendInfo($this->lng->txt("subscribers_deleted"));
 		$this->membersObject();

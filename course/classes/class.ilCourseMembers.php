@@ -51,6 +51,16 @@ class ilCourseMembers
 		$this->STATUS_BLOCKED = 3;
 		$this->STATUS_UNBLOCKED = 4;
 
+		$this->NOTIFY_DISMISS_SUBSCRIBER = 1;
+		$this->NOTIFY_ACCEPT_SUBSCRIBER = 2;
+		$this->NOTIFY_DISMISS_MEMBER = 3;
+		$this->NOTIFY_BLOCK_MEMBER = 4;
+		$this->NOTIFY_UNBLOCK_MEMBER = 5;
+		$this->NOTIFY_ACCEPT_USER = 6;
+		$this->NOTIFY_ADMINS = 7;
+		$this->NOTIFY_STATUS_CHANGED = 8;
+
+
 		$this->ROLE_ADMIN = 1;
 		$this->ROLE_MEMBER = 2;
 		$this->ROLE_TUTOR = 3;
@@ -447,6 +457,10 @@ class ilCourseMembers
 			{
 				continue;
 			}
+			else
+			{
+				$this->sendNotification($this->NOTIFY_ACCEPT_SUBSCRIBER,$subscriber);
+			}
 			++$counter;
 		}
 		
@@ -507,6 +521,57 @@ class ilCourseMembers
 			return true;
 		}
 		return false;
+	}
+
+	function sendNotification($a_type, $a_usr_id = 0)
+	{
+		include_once("./classes/class.ilFormatMail.php");
+
+		$tmp_user =& ilObjectFactory::getInstanceByObjId($a_usr_id,false);
+
+		$mail = new ilFormatMail($_SESSION["AccountId"]);
+
+		switch($a_type)
+		{
+			case $this->NOTIFY_DISMISS_SUBSCRIBER:
+				$subject = $this->lng->txt("crs_reject_subscriber")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$body = $this->lng->txt("crs_reject_subscriber_body");
+				break;
+				
+			case $this->NOTIFY_ACCEPT_SUBSCRIBER:
+				$subject = $this->lng->txt("crs_accept_subscriber")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$body = $this->lng->txt("crs_accept_subscriber_body");
+				break;
+			case $this->NOTIFY_DISMISS_MEMBER:
+				$subject = $this->lng->txt("crs_dismiss_member")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$body = $this->lng->txt("crs_dismiss_member_body");
+				break;
+			case $this->NOTIFY_BLOCK_MEMBER:
+				$subject = $this->lng->txt("crs_blocked_member")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$body = $this->lng->txt("crs_blocked_member_body");
+				break;
+			case $this->NOTIFY_UNBLOCK_MEMBER:
+				$subject = $this->lng->txt("crs_unblocked_member")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$body = $this->lng->txt("crs_unblocked_member_body");
+				break;
+			case $this->NOTIFY_ACCEPT_USER:
+				$subject = $this->lng->txt("crs_added_member")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$body = $this->lng->txt("crs_added_member_body");
+				break;
+			case $this->NOTIFY_STATUS_CHANGED:
+				$subject = $this->lng->txt("crs_status_changed")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+				$body = $this->lng->txt("crs_status_changed_body");
+				break;
+
+
+			case $this->NOTIFY_ADMINS:
+				break;
+		}
+
+		$mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
+
+		unset($tmp_user);
+		return true;
 	}
 
 	// PRIVATE METHODS
