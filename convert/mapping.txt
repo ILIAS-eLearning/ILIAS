@@ -1,6 +1,6 @@
 Mapping of ILIAS 2 Lerneinheiten to ILIAS 3 LearningObjects
 -----------------------------------------------------------
-2003-01-20, Matthias Rulinski
+2003-02-12, Matthias Rulinski
 
 
 METADATA (id, typ, parent)
@@ -52,37 +52,41 @@ METADATA (id, typ, parent)
 
 
 MULTIMEDIA ***
+(ILIAS2 Multimedia (only undeleted) --> ILIAS3 LearningObject AggregationLevel 1)
 
 	METADATA ('mm')
 	
 	multimedia (*** copy mm object files)
-		id
-		inst
-		typ
-		file
-		deleted
-		defparam
-		verweis
-		startklasse
-		width
-		height
-		caption
-		orig_size
-		full_view
-		full_orig_size
-		full_width
-		full_height
-		full_file
-		st_type
-		full_type
-		full_ref
+		id					-->		used in METADATA
+		st_type				-->		(*** object normal view type)
+									file
+									reference
+		file				-->		*** meta (location)
+		full_file			-->		unavailable in ILIAS3 (only the file will be copied)
+		verweis				-->		*** meta (location)
+		full_ref			-->		unavailable in ILIAS3 (only the file will be copied)
+		typ					-->		*** (Type of multimedia object) meta (format, mimetype)
+									image
+									java
+									toolbook2
+									flash
+									quicktime
+									realvideo
+									wav
+		defparam			-->		*** layout
+		startklasse			-->		unavailable in ILIAS3 (file or verweis is used instead)
+		width				-->		*** layout
+		height				-->		*** layout
+		caption				-->		unavailable in ILIAS3
+		orig_size			-->		unavailable in ILIAS3
+		full_view			-->		unavailable in ILIAS3
+		full_orig_size		-->		unavailable in ILIAS3
+		full_width			-->		unavailable in ILIAS3
+		full_height			-->		unavailable in ILIAS3
+		full_type			-->		unavailable in ILIAS3
+		deleted				-->		***
 	
-	mmtyp ***
-		typ
-		info
-		active
-	
-	(*** el_multimedia)
+	-> copy files
 
 
 FILE
@@ -93,7 +97,7 @@ FILE
 	file
 		id					-->		used in METADATA
 		file				-->		*** meta (location)
-		deleted
+		deleted				-->		***
 		version				-->		*** meta
 		
 	-> copy files
