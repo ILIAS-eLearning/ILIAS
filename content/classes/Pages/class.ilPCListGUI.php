@@ -99,6 +99,7 @@ class ilPCListGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
+//echo "::".is_object($this->dom).":";
 		$this->content_obj = new ilPCList($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->addItems($_POST["nr_items"]);

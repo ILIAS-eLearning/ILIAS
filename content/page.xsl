@@ -32,7 +32,7 @@
 <xsl:param name="bib_id" />
 <xsl:param name="citation" />
 <xsl:template match="PageObject">
-	<!--<xsl:value-of select="@HierId"/>-->
+	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$pg_title != ''">
 		<div class="ilc_PageTitle">
 		<xsl:value-of select="$pg_title"/>

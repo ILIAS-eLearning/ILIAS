@@ -59,6 +59,7 @@ class ilPCList extends ilPageContent
 
 	function create(&$a_pg_obj, $a_hier_id)
 	{
+echo "::".is_object($this->dom).":";
 		$this->node =& $this->dom->create_element("PageContent");
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
 		$this->list_node =& $this->dom->create_element("List");
