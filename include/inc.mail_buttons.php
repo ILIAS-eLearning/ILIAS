@@ -20,6 +20,7 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+
 $lng->loadLanguageModule("mail");
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
@@ -29,7 +30,7 @@ $file_name = basename($_SERVER["SCRIPT_NAME"]);
 
 // FOLDER
 $tpl->setCurrentBlock("tab");
-$tpl->setVAriable("TAB_TYPE",$script_name == "mail.php" ? "tabactive" : "tabinactive");
+$tpl->setVariable("TAB_TYPE",$script_name == "mail.php" ? "tabactive" : "tabinactive");
 $tpl->setVariable("TAB_LINK", "mail.php?mobj_id=$_GET[mobj_id]&type=new");
 $tpl->setVariable("TAB_TEXT", $lng->txt("folder"));
 $tpl->parseCurrentBlock();
@@ -74,5 +75,4 @@ else
 	$tpl->setVariable("TAB_TEXT", $lng->txt("flatview"));
 	$tpl->parseCurrentBlock();
 }
-
 ?>
