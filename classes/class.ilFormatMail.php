@@ -269,7 +269,7 @@ class ilFormatMail extends ilMail
 	*/
 	function appendSignature()
 	{
-		return $this->mail_data["m_message"] .= "\n".$this->getSignature();
+		return $this->mail_data["m_message"] .= "\n\n\n".$this->getSignature();
 	}
 } // END class.ilFormatMail
 ?>

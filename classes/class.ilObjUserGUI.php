@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.12 2003/04/07 07:16:24 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.13 2003/04/18 13:42:26 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -409,8 +409,6 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$umail = new ilFormatMail($_SESSION["AccountId"]);
 
-			$attachments = array();
-
 			// mail body
 			$body = $this->lng->txt("login").": ".$this->object->getLogin()."\n\r".
 					$this->lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r".
@@ -427,7 +425,8 @@ class ilObjUserGUI extends ilObjectGUI
 					$this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
 					$this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
 
-			if ($error_message = $umail->sendMail($this->object->getLogin(),"","",$this->lng->txt("profile_changed"),$body,$attachments,"normal",0))
+			if ($error_message = $umail->sendMail($this->object->getLogin(),"","",
+												  $this->lng->txt("profile_changed"),$body,array(),array("normal")))
 			{
 				$msg = $this->lng->txt("saved_successfully")."<br/>".$error_message;
 			}

@@ -581,7 +581,7 @@ mail#:#mail_message_send#:#The message is send
 mail#:#mail_move_error#:#Error moving mail(s)
 mail#:#mail_move_to#:#Move to:
 mail#:#mail_moved#:#The mail(s) have been moved
-mail#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash
+mail#:#mail_moved_to_trash#:#Mail(s) have been moved to trash
 mail#:#mail_new_file#:#Add new file:
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
 mail#:#mail_no_attachments_found#:#No attachments found
@@ -602,3 +602,7 @@ mail#:#search_addressbook#:#Addressbook search
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
 mail#:#search_system#:#System search
+mail#:#mail_change_to_folder#:#Switch to folder:
+mail#:#mail_new_file#:#Add new file:
+mail#:#mail_add_type#:#Please add the type of mail you want to send
+mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:

@@ -50,3 +50,9 @@ function isEmpty(form, a_values, a_checks)
 	
 	return true;
 }
+
+function printPage()
+{
+	window.print();
+	return true;
+}

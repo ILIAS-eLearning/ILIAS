@@ -68,12 +68,6 @@ class ilMail
 	*/
 	var $mail_data;
 
-	/**
-	* all email recipients
-	* @var array
-	* @access private
-	*/
-	var $email_rcp;
 
 	/**
 	* mail object id used for check access
@@ -81,6 +75,25 @@ class ilMail
 	* @access private
 	*/
 	var $mail_obj_ref_id;
+
+	/**
+	* variable for sending mail
+	* @var array of send type usally 'normal','system','email'
+	* @access private
+	*/
+	var $mail_send_type;
+
+	/**
+	* variable for sending mail
+	* @var string 
+	* @access private
+	*/
+	var $mail_rcp_to;
+	var $mail_rcp_cc;
+	var $mail_rcp_bc;
+	var $mail_subject;
+	var $mail_message;
+
 
 	/**
 	* Constructor
@@ -105,6 +118,65 @@ class ilMail
 		// GET REFERENCE ID OF MAIL OBJECT
 		$this->readMailObjectReferenceId();
 
+	}
+	/**
+	* set mail send type
+	* @var array of send types ('system','normal','email')
+	* @access	public
+	*/
+	function setMailSendType($a_types)
+	{
+		$this->mail_send_type = $a_types;
+	}
+
+	/**
+	* set mail recipient to
+	* @var string rcp_to
+	* @access	public
+	*/
+	function setMailRcpTo($a_rcp_to)
+	{
+		$this->mail_rcp_to = $a_rcp_to;
+	}
+
+	/**
+	* set mail recipient cc
+	* @var string rcp_to
+	* @access	public
+	*/
+	function setMailRcpCc($a_rcp_cc)
+	{
+		$this->mail_rcp_cc = $a_rcp_cc;
+	}
+
+	/**
+	* set mail recipient bc
+	* @var string rcp_to
+	* @access	public
+	*/
+	function setMailRcpBc($a_rcp_bc)
+	{
+		$this->mail_rcp_bc = $a_rcp_bc;
+	}
+
+	/**
+	* set mail subject
+	* @var string subject
+	* @access	public
+	*/
+	function setMailSubject($a_subject)
+	{
+		$this->mail_subject = $a_subject;
+	}
+
+	/**
+	* set mail message
+	* @var string message
+	* @access	public
+	*/
+	function setMailMessage($a_message)
+	{
+		$this->mail_message = $a_message;
 	}
 
 	/**
@@ -298,7 +370,7 @@ class ilMail
 			"rcp_cc"          => stripslashes($a_row->rcp_cc),
 			"rcp_bcc"         => stripslashes($a_row->rcp_bcc),
 			"m_status"        => $a_row->m_status,
-			"m_type"          => $a_row->m_type,
+			"m_type"          => unserialize(stripslashes($a_row->m_type)),
 			"m_email"         => $a_row->m_email,
 			"m_subject"       => stripslashes($a_row->m_subject),
 			"m_message"       => stripslashes($a_row->m_message));
@@ -346,7 +418,7 @@ class ilMail
 			"rcp_cc = '".addslashes($a_rcp_cc)."',".
 			"rcp_bcc = '".addslashes($a_rcp_bcc)."',".
 			"m_status = '".$a_status."',".
-			"m_type = '".$a_m_type."',".
+			"m_type = '".addslashes(serialize($a_m_type))."',".
 			"m_email = '".$a_m_email."',".
 			"m_subject = '".addslashes($a_m_subject)."',".
 			"m_message = '".addslashes($a_m_message)."'";
@@ -371,7 +443,7 @@ class ilMail
 	* @param    string 'normal' or 'system'
 	* @return	bool
 	*/
-	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id,$a_type = 'normal')
+	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id,$a_type)
 	{
 		require_once "classes/class.ilMailbox.php";
 
@@ -380,89 +452,27 @@ class ilMail
 		$rcp_ids = $this->getUserIds(trim($a_rcp_to).",".trim($a_rcp_cc).",".trim($a_rcp_bcc));
 		foreach($rcp_ids as $id)
 		{
-			if($a_type == 'normal')
+			if(in_array('system',$a_type))
+			{
+				$inbox_id = 0;
+			}
+			else
 			{
 				$mbox->setUserId($id);
 				$inbox_id = $mbox->getInboxFolder();
 			}
-			else
-			{
-				$inbox_id = 0;
-			}
 			$mail_id = $this->sendInternalMail($inbox_id,$this->user_id,
 								  $a_attachments,$a_rcp_to,
-								  $a_rcp_cc,'','unread','normal',
+								  $a_rcp_cc,'','unread',$a_type,
 								  0,$a_subject,$a_message,$id);
 			if($a_attachments)
 			{
 				$this->mfile->assignAttachmentsToDirectory($mail_id,$sent_mail_id,$a_attachments);
 			}
-	}		
+		}		
 		return true;
 	}
 	
-	/**
-	* check if all recipients have a valid email address
-	* and stores all recipients in member variable email_recipients
-	* @access	public
-	* @param    string to
-	* @param    string cc
-	* @param    string bcc
-	* @return	array user login which have no valid email
-	*/
-	function checkEmailRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bcc)
-	{
-		$login_names = array();
-		$this->email_rcp_to = array();
-		$this->email_rcp_cc = array();
-		$this->email_rcp_bcc = array();
-		
-		require_once "classes/class.ilObjUser.php";
-
-		// TO
-		$rcp_ids_to = $this->getUserIds(trim($a_rcp_to));
-		if(is_array($rcp_ids_to))
-		{
-			foreach($rcp_ids_to as $id)
-			{
-				$tmp_user = new ilObjUser($id);
-				if(!ilUtil::is_email($tmp_user->getEmail()))
-				{
-					$login_names[] = $tmp_user->getLogin();
-				}
-				$this->email_rcp_to["$id"] = $tmp_user->getEmail();
-			}
-		}
-		// CC
-		$rcp_ids_cc = $this->getUserIds(trim($a_rcp_cc));
-		if(is_array($rcp_ids_cc))
-		{
-			foreach($rcp_ids_cc as $id)
-			{
-				$tmp_user = new ilObjUser($id);
-				if(!ilUtil::is_email($tmp_user->getEmail()))
-				{
-					$login_names[] = $tmp_user->getLogin();
-				}
-				$this->email_rcp_cc["$id"] = $tmp_user->getEmail();
-			}
-		}
-		// BCC
-		$rcp_ids_bcc = $this->getUserIds(trim($a_rcp_bcc));
-		if(is_array($rcp_ids_bcc))
-		{
-			foreach($rcp_ids_bcc as $id)
-			{
-				$tmp_user = new ilObjUser($id);
-				if(!ilUtil::is_email($tmp_user->getEmail()))
-				{
-					$login_names[] = $tmp_user->getLogin();
-				}
-				$this->email_rcp_bcc["$id"] = $tmp_user->getEmail();
-			}
-		}
-		return $login_names;
-	}
 
 	/**
 	* get user_ids
@@ -474,8 +484,6 @@ class ilMail
 		require_once "classes/class.ilObjUser.php";
 		require_once "classes/class.ilGroup.php";
 
-		$user = new ilObjUser();
-
 		$tmp_names = $this->explodeRecipients($a_recipients);
 		
 		for($i = 0;$i < count($tmp_names); $i++)
@@ -486,7 +494,14 @@ class ilMail
 			}
 			else if(!empty($tmp_names[$i]))
 			{
-				$ids[] = $user->getUserId(addslashes($tmp_names[$i]));
+				if($id = ilObjUser::getUserIdByLogin(addslashes($tmp_names[$i])))
+				{
+					$ids[] = $id;
+				}
+				else if($id = ilObjUser::getUserIdByEmail(addslashes($tmp_names[$i])))
+				{
+					$ids[] = $id;
+				}
 			}
 		}
 		return $ids;
@@ -501,129 +516,82 @@ class ilMail
 	* @param    string m_message
 	* @return	string error message
 	*/
-	function checkMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message)
+	function checkMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_type)
 	{
 		$error_message = '';
 
+		if(!is_array($a_type))
+		{
+			$error_message = $this->lng->txt("mail_add_type");
+		}
 		if(empty($a_m_subject))
 		{
-			$error_message = $this->lng->txt("mail_add_subject");
+			$error_message .= $error_message ? "<br>" : '';
+			$error_message .= $this->lng->txt("mail_add_subject");
 		}
 		if(empty($a_rcp_to))
 		{
 			$error_message .= $error_message ? "<br>" : '';
 			$error_message .= $this->lng->txt("mail_add_recipient");
-		}
-		else if(!$this->checkRecipients($a_rcp_to))
-		{
-			$error_message .= $error_message ? "<br>" : '';
-			$error_message .= $this->lng->txt("mail_recipient_not_valid");
-		}
-		if(!empty($a_rcp_cc))
-		{
-			if(!$this->checkRecipients($a_rcp_cc))
-			{
-				$error_message .= $error_message ? "<br>" : '';
-				$error_message .= $this->lng->txt("mail_cc_not_valid");
-			}
-		}
-		if(!empty($a_rcp_bcc))
-		{
-			if(!$this->checkRecipients($a_rcp_bcc))
-			{
-				$error_message .= $error_message ? "<br>" : '';
-				$error_message .= $this->lng->txt("mail_bc_not_valid");
-			}
 		}
 		return $error_message;
 	}
 
 	/**
-	* check if mail can be send as valid email
+	* get email addresses of recipients
 	* @access	public
-	* @param	string rcp_to
-	* @param    string rcp_cc
-	* @param    string rcp_bcc
-	* @param    string m_subject
-	* @param    string m_message
-	* @return	string error message
+	* @param    string string with login names or group names (start with #) or email address
+	* @return	string seperated by ','
 	*/
-	function checkOnlyEmail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message)
+	function getEmailsOfRecipients($a_rcp)
 	{
-		$error_message = '';
+		$addresses = array();
 
-		if(empty($a_m_subject))
+		require_once "classes/class.ilObjUser.php";
+		require_once "classes/class.ilGroup.php";
+
+		$group = new ilGroup();
+
+		$tmp_rcp = $this->explodeRecipients($a_rcp);
+
+		foreach($tmp_rcp as $rcp)
 		{
-			$error_message = $this->lng->txt("mail_add_subject");
-		}
-		if(empty($a_rcp_to))
-		{
-			$error_message .= $error_message ? "<br>" : '';
-			$error_message .= $this->lng->txt("mail_add_recipient");
-		}
-		$arr_rcp = $this->explodeRecipients($a_rcp_to);
-		$valid = true;
-		foreach($arr_rcp as $rcp)
-		{
-			if(!ilUtil::is_email($rcp))
+			// NO GROUP
+			if(substr($rcp,0,1) != '#')
 			{
-				$valid = false;
-			}
-		}
-		if(!$valid)
-		{
-			$error_message .= $error_message ? "<br>" : '';
-			$error_message .= $this->lng->txt("mail_recipient_not_valid");
-		}
-		if(!empty($a_rcp_cc))
-		{
-			$arr_rcp = $this->explodeRecipients($a_rcp_cc);
-			$valid = true;
-			foreach($arr_rcp as $rcp)
-			{
-				if(!ilUtil::is_email($rcp))
+				if(strpos($rcp,'@'))
 				{
-					$valid = false;
+					$addresses[] = $rcp;
+					continue;
+				}
+				if($id = ilObjUser::getUserIdByLogin(addslashes($rcp)))
+				{
+					$tmp_user = new ilObjUser($id);
+					$addresses[] = $tmp_user->getEmail();
+					continue;
 				}
 			}
-			if(!$valid)
+			else
 			{
-				$error_message .= $error_message ? "<br>" : '';
-				$error_message .= $this->lng->txt("mail_cc_not_valid");
+				// GROUP THINGS
 			}
 		}
-		if(!empty($a_rcp_bcc))
-		{
-			$arr_rcp = $this->explodeRecipients($a_rcp_bcc);
-			$valid = true;
-			foreach($arr_rcp as $rcp)
-			{
-				if(!ilUtil::is_email($rcp))
-				{
-					$valid = false;
-				}
-			}
-			if(!$valid)
-			{
-				$error_message .= $error_message ? "<br>" : '';
-				$error_message .= $this->lng->txt("mail_bc_not_valid");
-			}
-		}
-		return $error_message;
+		return $addresses;
 	}
-
+		
 	/**
 	* check if recipients are valid
 	* @access	public
 	* @param    string string with login names or group names (start with #)
 	* @return	bool
 	*/
-	function checkRecipients($a_recipients)
+	function checkRecipients($a_recipients,$a_type)
 	{
+		$wrong_rcps = '';
+
 		require_once "classes/class.ilObjUser.php";
 		require_once "classes/class.ilGroup.php";
 		
-		$user = new ilObjUser();
 		$group = new ilGroup();
 
 		$tmp_rcp = $this->explodeRecipients($a_recipients);
@@ -632,14 +600,40 @@ class ilMail
 		{
 			if(empty($rcp))
 			{
-				return false;
+				continue;
 			}
+			// NO GROUP
 			if(substr($rcp,0,1) != '#')
 			{
-				if(!$user->getUserId(addslashes($rcp)))
+				// ONLY SYSTEM AND/OR NORMAL SELECTED => NO RECIPIENTS WITH UNKNOWN EMAIL ADDRESSES
+				if((in_array('normal',$a_type) or in_array('system',$a_type)) and !in_array('email',$a_type))
 				{
-					return false;
+					if(!ilObjUser::getUserIdByLogin(addslashes($rcp)) and
+					   !ilObjUser::getUserIdByEmail(addslashes($rcp)))					
+					{
+						$wrong_rcps .= "<BR/>".$rcp;
+						continue;
+					}
 				}
+				// ONLY EMAIL SELECTED => ALL RECIPIENTS MUST HAVE A VALID EMAIL ADDRESS
+				if(in_array('email',$a_type) and !in_array('normal',$a_type) and !in_array('system',$a_type))
+				{
+					if(!ilUtil::is_email($rcp) and
+					   !ilObjUser::getUserIdByLogin(addslashes($rcp)))
+					{
+						$wrong_rcps .= "<BR/>".$rcp;
+						continue;
+					}
+				}
+				// ALL OTHER CASES => LOGIN OR EMAIL IS KNOWN OR EMAIL IS VALID
+				if(!ilObjUser::getUserIdByLogin(addslashes($rcp)) and
+				   !ilObjUser::getUserIdByEmail(addslashes($rcp)) and
+				   !ilUtil::is_email($rcp))
+				{
+					$wrong_rcps .= "<BR/>".$rcp;
+					continue;
+				}
+				
 			}
 			else
 			{
@@ -647,7 +641,7 @@ class ilMail
 					return false;
 			}
 		}
-		return true;
+		return $wrong_rcps;
 	}
 	/**
 	* save post data in table
@@ -657,7 +651,7 @@ class ilMail
 	* @param    string to
 	* @param    string cc
 	* @param    string bcc
-	* @param    string type of mail (system,normal)
+	* @param    array type of mail (system,normal,email)
 	* @param    int as email (1,0)
 	* @param    string subject
 	* @param    string message
@@ -683,8 +677,8 @@ class ilMail
 			"rcp_to = '".addslashes($a_rcp_to)."',".
 			"rcp_cc = '".addslashes($a_rcp_cc)."',".
 			"rcp_bcc = '".addslashes($a_rcp_bcc)."',".
-			"m_type = '".$a_m_type."',".
-			"m_email = '".$a_m_email."',".
+			"m_type = '".addslashes(serialize($a_m_type))."',".
+			"m_email = '',".
 			"m_subject = '".addslashes($a_m_subject)."',".
 			"m_message = '".addslashes($a_m_message)."'";
 
@@ -714,15 +708,16 @@ class ilMail
 	* @param string subject
 	* @param string message
 	* @param array attachments
-	* @param string type (normal,system or email)
+	* @param array type (normal and/or system and/or email)
 	* @param integer also as email (0,1)
 	* @access	public
 	* @return	array of saved data
 	*/
-	function sendMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachment,$a_type,$a_as_email)
+	function sendMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$a_type)
 	{
 		global $lng;
 		$error_message = '';
+		$message = '';
 
 		if($a_attachment)
 		{
@@ -731,108 +726,84 @@ class ilMail
 				return "YOUR LIST OF ATTACHMENTS IS NOT VALID, PLEASE EDIT THE LIST";
 			}
 		}
-
-		switch($a_type)
+		// CHECK NECESSARY MAIL DATA FOR ALL TYPES
+		if($error_message = $this->checkMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_type))
 		{
-			case 'normal':
-				if($error_message = $this->checkMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message))
-				{
-					return $error_message;
-				}
-				if($a_as_email)
-				{
-					if($this->ilias->getSetting("mail_allow_smtp") == 'n')
-					{
-						return $lng->txt("mail_email_forbidden");
-					}
-					if(!$this->getEmailOfSender())
-					{
-						return $lng->txt("mail_check_your_email_addr");
-					}
-					if($logins = $this->checkEmailRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bcc))
-					{
-						$error_message = $lng->txt("mail_user_addr_n_valid")."<BR>";
-						$error_message .= implode("<BR>",$logins);
-
-						return $error_message;
-					}
-					$this->sendMimeMail(implode(',',$this->email_rcp_to),implode(',',$this->email_rcp_cc),
-										implode(',',$this->email_rcp_bcc),$a_m_subject,$a_m_message,$a_attachment);
-				}
-				// SAVE MAIL IN SENT BOX
-				$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,'normal',
-												$a_as_email,$a_m_subject,$a_m_message);
-				
-				if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachment,$sent_id))
-				{
-					return $lng->txt("mail_send_error");
-				}
-				// SAVE ATTACHMENTS
-				if($error = $this->mfile->saveFiles($sent_id,$a_attachment))
-				{
-					return $error;
-				}
-				break;
-
-			case 'email':
-				if($this->ilias->getSetting("mail_allow_smtp") == 'n')
-				{
-					return $lng->txt("mail_email_forbidden");
-				}
-				if(!$this->getEmailOfSender())
-				{
-					return $lng->txt("mail_check_your_email_addr");
-				}
-				if($error_message = $this->checkOnlyEmail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message))
-				{
-					return $error_message;
-				}
-				$this->sendMimeMail($a_rcp_to,$a_rcp_cc,
-									$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachment);
-				// SAVE IN SENTBOX
-				$sent_id = $this->saveInSentbox(array(),$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,'email',
-												$a_as_email,$a_m_subject,$a_m_message);
-				break;
-
-			case 'system':
-				if($error_message = $this->checkMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message))
-				{
-					return $error_message;
-				}
-				if(!empty($a_attachment))
-				{
-					return $lng->txt("mail_no_attach_allowed");
-				}
-				if($a_as_email)
-				{
-					if($this->ilias->getSetting("mail_allow_smtp") == 'n')
-					{
-						return $lng->txt("mail_email_forbidden");
-					}
-					if(!$this->getEmailOfSender())
-					{
-						return $lng->txt("mail_check_your_email_addr");
-					}
-					if($logins = $this->checkEmailRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bcc))
-					{
-						$error_message = $lng->txt("mail_user_addr_n_valid")."<BR>";
-						$error_message .= implode("<BR>",$logins);
-
-						return $error_message;
-					}
-					$this->sendMimeMail(implode(',',$this->email_rcp_to),implode(',',$this->email_rcp_cc),
-										implode(',',$this->email_rcp_bcc),$a_m_subject,$a_m_message,$a_attachment);
-				}
-				$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,'system',
-												$a_as_email,$a_m_subject,$a_m_message);
-				
-				if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,'system'))
-				{
-					return $lng->txt("mail_send_error");
-				}
-				break;
+			return $error_message;
 		}
-		return $error_message;
+		// check recipients
+		if($error_message = $this->checkRecipients($a_rcp_to,$a_type))
+		{
+			$message .= $error_message;
+		}
+		if($error_message = $this->checkRecipients($a_rcp_cc,$a_type))
+		{
+			$message .= $error_message;
+		}
+		if($error_message = $this->checkRecipients($a_rcp_bc,$a_type))
+		{
+			$message .= $error_message;
+		}
+		// if there was an error
+		if(!empty($message))
+		{
+			return $this->lng->txt("mail_following_rcp_not_valid").$message;
+		}
+
+		// CHECK FOR SYSTEM MAIL
+		if(in_array('system',$a_type))
+		{
+			if(!empty($a_attachment))
+			{
+				return $lng->txt("mail_no_attach_allowed");
+			}
+		}
+		// CHECK FOR EMAIL
+		if(in_array('email',$a_type))
+		{
+			if(!$this->getEmailOfSender())
+			{
+				return $lng->txt("mail_check_your_email_addr");
+			}
+		}
+
+		// ACTIONS FOR ALL TYPES
+		// save mail in sent box
+		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type,
+										$a_m_subject,$a_m_message);
+		// ACTIONS FOR NORMAL
+		// save attachments
+		if(in_array('normal',$a_type))
+		{
+			if($error = $this->mfile->saveFiles($sent_id,$a_attachment))
+			{
+				return $error;
+			}
+		}
+		// ACTIONS FOR TYPE SYSTEM AND NORMAL
+		if(in_array('normal',$a_type))
+		{
+			if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type))
+			{
+				return $lng->txt("mail_send_error");
+			}
+		}
+		if(in_array('system',$a_type))
+		{
+			if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type))
+			{
+				return $lng->txt("mail_send_error");
+			}
+		}
+		// ACTIONS FOR EMAIL
+		if(in_array('email',$a_type))
+		{
+			$this->sendMimeMail($this->getEmailsOfRecipients($a_rcp_to),
+								$this->getEmailsOfRecipients($a_rcp_cc),
+								$this->getEmailsOfRecipients($a_rcp_bc),
+								$a_m_subject,$a_m_message,$a_attachment);
+		}
+		return '';
 	}
 
 
@@ -843,14 +814,13 @@ class ilMail
 	* @param string cc
 	* @param string bcc
 	* @param string type
-	* @param int as email
 	* @param string subject
 	* @param string message
 	* @access	public
 	* @return	int mail id
 	*/
 	function saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_type,
-						   $a_as_email,$a_m_subject,$a_m_message)
+						   $a_m_subject,$a_m_message)
 	{
 		require_once "classes/class.ilMailbox.php";
 
@@ -862,9 +832,9 @@ class ilMail
 
 	/**
 	* send mime mail using class.ilMimeMail.php
-	* @param string to
-	* @param string cc
-	* @param string bcc
+	* @param string to or array of recipients
+	* @param string cc array of recipients
+	* @param string bcc array of recipients
 	* @param string subject
 	* @param string message
 	* @param array attachments
@@ -878,6 +848,7 @@ class ilMail
 		$sender = $this->getEmailOfSender();
 
 		$mmail = new ilMimeMail();
+		$mmail->autoCheck(false);
 		$mmail->From($sender);
 		$mmail->To($a_rcp_to);
 		// Add installation name to subject

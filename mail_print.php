@@ -13,12 +13,12 @@ require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMail.php";
 
 $tplprint = new ilTemplate("tpl.mail_print.html",true,true);
-$tplprint->setVariable("MESSAGE","hallo");
-
+$tplprint->setVariable("JSPATH",dirname($_SERVER["SCRIPT_FILENAME"]));
 
 //get the mail from user
 $umail = new ilMail($_SESSION["AccountId"]);
 $mail_data = $umail->getMail($_GET["mail_id"]);
+
 
 // SET MAIL DATA
 // FROM
