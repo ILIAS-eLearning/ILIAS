@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.38 2003/08/06 16:26:56 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.39 2003/08/08 10:10:47 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -684,7 +684,7 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		if (!count($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("min_one_active_role"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("msg_min_one_active_role"),$this->ilias->error_obj->MESSAGE);
 		}
 		
 		if ($this->object->getId() == $_SESSION["AccountId"])
@@ -730,8 +730,16 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
 			
-			$assigned_roles = array_intersect($rbacreview->assignedRoles($this->object->getId()),$_SESSION["role_list"]);
-
+			$assigned_roles_all = $rbacreview->assignedRoles($this->object->getId());
+			$assigned_roles = array_intersect($assigned_roles_all,$_SESSION["role_list"]);
+			
+			//var_dump("<pre>",$_POST["id"],$assigned_roles_all,$_SESSION["role_list"],$assigned_roles,"</pre>");exit;
+			
+			if (empty($_POST["id"]) and (count($assigned_roles_all) == count($assigned_roles)))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
+			}
+			
 			foreach (array_diff($assigned_roles,$_POST["id"]) as $role)
 			{
 				$rbacadmin->deassignUser($role,$this->object->getId());

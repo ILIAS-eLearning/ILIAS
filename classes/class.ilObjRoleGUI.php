@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.39 2003/08/06 16:26:56 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.40 2003/08/08 10:10:47 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -411,7 +411,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&cmd=perm");
 		exit();
 	}
 
@@ -429,16 +429,16 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
 		}
-		elseif ($_GET["obj_id"] == $_POST["adopt"])
+		elseif ($this->object->getId() == $_POST["adopt"])
 		{
 			sendInfo($this->lng->txt("msg_perm_adopted_from_itself"),true);
 		}
 		else
 		{
-			$rbacadmin->deleteRolePermission($_GET["obj_id"], $_GET["ref_id"]);
+			$rbacadmin->deleteRolePermission($this->object->getId(), $_GET["ref_id"]);
 			$parentRoles = $rbacreview->getParentRoleIds($_GET["ref_id"],true);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
-										   $_GET["ref_id"],$_GET["obj_id"]);		
+										   $_GET["ref_id"],$this->object->getId());		
 
 			// update object data entry (to update last modification date)
 			$this->object->update();
@@ -448,7 +448,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 		}
 
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&cmd=perm");
 		exit();
 	}
 
@@ -462,7 +462,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview;
 
-		if (!$rbacreview->isAssignable($_GET["obj_id"],$_GET["ref_id"]))
+		if (!$rbacreview->isAssignable($this->object->getId(),$_GET["ref_id"]))
 		{
 			$this->ilias->raiseError("It's worth a try. ;-)",$this->ilias->error_obj->WARNING);
 		}
@@ -475,12 +475,39 @@ class ilObjRoleGUI extends ilObjectGUI
 			else
 			{
 				$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
-
+			
 				$online_users_all = ilUtil::getUsersOnline();
-				$assigned_users = array_intersect($rbacreview->assignedUsers($_GET["obj_id"]),$_SESSION["user_list"]);
+				$assigned_users_all = $rbacreview->assignedUsers($this->object->getId());
+				$assigned_users = array_intersect($assigned_users_all,$_SESSION["user_list"]);
 				$online_users_keys = array_intersect(array_keys($online_users_all),$_SESSION["user_list"]);
 				$affected_users = array();
 				
+				// check for each user if the current role is his last role before deassigning him
+				$last_role = array();
+				
+				foreach ($assigned_users as $user_id)
+				{
+					if (!in_array($user_id,$_POST["id"]))
+					{
+						$assigned_roles = $rbacreview->assignedRoles($user_id);
+						
+						if (count($assigned_roles) == 1)
+						{
+							$userObj = $this->ilias->obj_factory->getInstanceByObjId($user_id);
+							$last_role[$user_id] = $userObj->getFullName();
+							unset($userObj);
+						}
+					}
+				}
+				
+				// raise error if last role was taken from a user...
+				if (count($last_role) > 0)
+				{
+					$user_list = implode(", ",$last_role);
+					$this->ilias->raiseError($this->lng->txt("msg_is_last_role").": ".$user_list."<br/>".$this->lng->txt("msg_min_one_role")."<br/>".$this->lng->txt("action_aborted"),$this->ilias->error_obj->MESSAGE);
+				}
+
+				// ...otherwise continue assignment
 				foreach ($online_users_all as $user_id => $user_data)
 				{
 					if (in_array($user_id,$online_users_keys))
@@ -491,7 +518,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 				foreach (array_diff($assigned_users,$_POST["id"]) as $user)
 				{
-					$rbacadmin->deassignUser($_GET["obj_id"],$user);
+					$rbacadmin->deassignUser($this->object->getId(),$user);
 					
 					if (array_key_exists($user,$online_users))
 					{
@@ -501,7 +528,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 				foreach (array_diff($_POST["id"],$assigned_users) as $user)
 				{
-					$rbacadmin->assignUser($_GET["obj_id"],$user,false);
+					$rbacadmin->assignUser($this->object->getId(),$user,false);
 
 					if (array_key_exists($user,$online_users))
 					{
@@ -534,7 +561,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_userassignment_changed"),true);
 		
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=userassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&cmd=userassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
 		exit();
 	}
 	
