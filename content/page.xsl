@@ -31,6 +31,7 @@
 <xsl:param name="pg_id"/>
 <xsl:param name="ref_id"/>
 <xsl:param name="link_params"/>
+<xsl:param name="download_script"/>
 <xsl:param name="pg_frame"/>
 <xsl:param name="webspace_path"/>
 <xsl:param name="enlarge_path"/>
@@ -52,6 +53,7 @@
 		<select size="1" class="ilEditSelect">
 			<xsl:attribute name="name">command<xsl:value-of select="@HierId"/></xsl:attribute>
 			<option value="insert_par">insert Paragr.</option>
+			<option value="insert_src">insert Sourcecode</option>
 			<option value="insert_tab">insert Table</option>
 			<option value="insert_mob">insert Media</option>
 			<option value="insert_list">insert List</option>
@@ -246,11 +248,15 @@
 <xsl:template match="PageContent">
 	<xsl:if test="$mode = 'edit'">
 		<div class="il_editarea">
-		<xsl:apply-templates/>
+		<xsl:apply-templates>
+			<xsl:with-param name="par_counter" select ="position()" />
+		</xsl:apply-templates>
 		</div>
 	</xsl:if>
 	<xsl:if test="$mode != 'edit'">
-		<xsl:apply-templates/>
+		<xsl:apply-templates>
+			<xsl:with-param name="par_counter" select ="position()" />
+		</xsl:apply-templates>
 	</xsl:if>
 </xsl:template>
 
@@ -278,17 +284,24 @@
 
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
-	<xsl:if test="not(@Characteristic = 'Code')">
+	<xsl:param name="par_counter" select="-1" />
+	
+	<xsl:choose>
+		<xsl:when test="not (@Characteristic) or @Characteristic != 'Code'">
 		<p>
 			<xsl:call-template name="ShowParagraph"/>
 		</p>
-	</xsl:if>
-	<xsl:if test="@Characteristic = 'Code'">
-		<xsl:call-template name="ShowParagraph"/>
-	</xsl:if>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:call-template name="ShowParagraph">
+				<xsl:with-param name="p_id" select="$par_counter" />
+			</xsl:call-template>
+		</xsl:otherwise>
+	</xsl:choose>
 </xsl:template>
 
 <xsl:template name="ShowParagraph">
+	<xsl:param name="p_id" select = "-1"/>
 	<xsl:if test="not(@Characteristic)">
 	<xsl:attribute name="class">ilc_Standard</xsl:attribute>
 	</xsl:if>
@@ -306,12 +319,20 @@
 	</xsl:if> -->
 	<xsl:call-template name="EditReturnAnchors"/>
 	<!-- content -->
-	<xsl:if test="not(@Characteristic = 'Code')">
+	<xsl:choose>
+		<xsl:when test="@Characteristic = 'Code' and not (@SubCharacteristic)">
+			<pre><xsl:apply-templates /></pre>
+		</xsl:when>
+		<xsl:when test="@Characteristic = 'Code' and @SubCharacteristic != ''">
+			<xsl:call-template name='Sourcecode'>
+				<xsl:with-param name="p_id" select="$p_id" />
+			</xsl:call-template>			
+		</xsl:when>
+		<xsl:otherwise>
 		<xsl:apply-templates/>
-	</xsl:if>
-	<xsl:if test="@Characteristic = 'Code'">
-		<pre><xsl:apply-templates/></pre>
-	</xsl:if>
+		</xsl:otherwise>
+	</xsl:choose>
+
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">
 		<br />
@@ -325,6 +346,7 @@
 			</xsl:attribute>
 		<option value="edit">edit</option>
 		<option value="insert_par">insert Paragr.</option>
+			<option value="insert_src">insert Sourcecode</option>
 		<option value="insert_tab">insert Table</option>
 		<option value="insert_mob">insert Media</option>
 		<option value="insert_list">insert List</option>
@@ -338,6 +360,17 @@
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
 		</input>
 	</xsl:if>
+</xsl:template>
+
+<xsl:template name="Sourcecode">
+	<xsl:param name="p_id" select="-1"/>
+	<p class="ilc_Code"><table class="ilc_Sourcecode" cellpadding="0" cellspacing="0" border="0">
+		<xsl:value-of select="." />
+		<xsl:if test="@DownloadTitle != '' and $download_script != ''">
+			<xsl:variable name="downloadtitle" select="@DownloadTitle"/>
+			<tr><td colspan="2"><div class="il_Tab"><a class="tabactive" href="{$download_script}&amp;cmd=download_paragraph&amp;downloadtitle={$downloadtitle}&amp;pg_id={$pg_id}&amp;par_id={$p_id}" ><xsl:value-of select="$downloadtitle"/></a></div></td></tr>
+		</xsl:if>
+	</table></p>
 </xsl:template>
 
 <!-- Emph, Strong, Comment, Quotation -->
@@ -528,6 +561,7 @@
 								<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
 								</xsl:attribute>
 								<option value="insert_par">insert Paragr.</option>
+								<option value="insert_src">insert Sourcecode</option>
 								<option value="insert_tab">insert Table</option>
 								<option value="insert_mob">insert Media</option>
 								<option value="insert_list">insert List</option>
@@ -571,6 +605,7 @@
 			</xsl:attribute>
 		<option value="edit">edit properties</option>
 		<option value="insert_par">insert Paragr.</option>
+		<option value="insert_src">insert Sourcecode</option>
 		<option value="insert_tab">insert Table</option>
 		<option value="insert_mob">insert Media</option>
 		<option value="insert_list">insert List</option>
@@ -620,6 +655,7 @@
 			</xsl:attribute>
 		<option value="edit">edit properties</option>
 		<option value="insert_par">insert Paragr.</option>
+		<option value="insert_src">insert Sourcecode</option>
 		<option value="insert_tab">insert Table</option>
 		<option value="insert_mob">insert Media</option>
 		<option value="insert_list">insert List</option>
@@ -652,6 +688,7 @@
 			<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
 			</xsl:attribute>
 			<option value="insert_par">insert Paragr.</option>
+			<option value="insert_src">insert Sourcecode</option>
 			<option value="insert_tab">insert Table</option>
 			<option value="insert_mob">insert Media</option>
 			<option value="insert_list">insert List</option>
@@ -692,6 +729,7 @@
 			</xsl:attribute>
 		<option value="edit">edit properties</option>
 		<option value="insert_par">insert Paragr.</option>
+		<option value="insert_src">insert Sourcecode</option>
 		<option value="insert_tab">insert Table</option>
 		<option value="insert_mob">insert Media</option>
 		<option value="insert_list">insert List</option>
@@ -713,8 +751,8 @@
 	<tr class="ilc_FileItem">
 		<td class="ilc_FileItem">
 		<xsl:call-template name="EditReturnAnchors"/>
-		<a>
-			<xsl:attribute name="href"><xsl:value-of select="$file_download_link"/>&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
+		<a href="lm_presentation.php?cmd=downloadFile&amp;file_id=">
+			<xsl:attribute name="href">lm_presentation.php?cmd=downloadFile&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
 			<xsl:value-of select="./Location"/>
 			<xsl:if test="./Size">
 				<xsl:choose>
@@ -975,6 +1013,7 @@
 					</xsl:attribute>
 				<option value="editAlias">edit properties</option>
 				<option value="insert_par">insert Paragr.</option>
+				<option value="insert_src">insert Sourcecode</option>
 				<option value="insert_tab">insert Table</option>
 				<option value="insert_mob">insert Media</option>
 				<option value="insert_list">insert List</option>
@@ -1082,8 +1121,18 @@
 		</xsl:when>
 
 		<!-- java -->
-		<xsl:when test="substring-after(substring-after($data,'/'),'.') = 'class'">
-			<applet>
+		<xsl:when test="$type = 'application/x-java-applet'">
+			<xsl:variable name="upper-case" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ'" />
+			<xsl:variable name="lower-case" select="'abcdefghijklmnopqrstuvwxyzäöü'" />
+	
+			<!-- filename normalisieren: trim, toLowerCase -->
+			<xsl:variable name="_filename" select="normalize-space(translate(substring-after($data,'/'), $upper-case, $lower-case))" />						
+									
+			<applet width="{$width}" height="{$height}" >
+				
+				<xsl:choose>
+					<!-- if is single class file: filename ends-with (class) -->
+      					<xsl:when test="'class' = substring($_filename, string-length($_filename) - string-length('class') + 1)">
 				<xsl:choose>
 					<xsl:when test="$location_mode = 'curpurpose'">
 						<xsl:if test="$curType = 'LocalFile'">
@@ -1104,13 +1153,75 @@
 						</xsl:if>
 					</xsl:when>
 				</xsl:choose>
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				<xsl:call-template name="MOBParams">
 					<xsl:with-param name="curPurpose" select="$curPurpose" />
 					<xsl:with-param name="mode">elements</xsl:with-param>
 					<xsl:with-param name="cmobid" select="$cmobid" />
 				</xsl:call-template>
+					</xsl:when>
+					
+					<!-- assuming is applet archive: filename ends-with something else -->
+					<xsl:otherwise>
+						<xsl:choose>
+							<xsl:when test="$location_mode = 'curpurpose'">
+              							<xsl:if test="$curType = 'LocalFile'">
+                							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
+                							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
+              							</xsl:if>
+              							<xsl:if test="$curType = 'Reference'">
+                							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/Location"/></xsl:attribute>
+              							</xsl:if>
+            						</xsl:when>
+            						<xsl:when test="$location_mode = 'standard'">
+              							<xsl:if test="$curType = 'LocalFile'">
+                							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
+                							<xsl:attribute name="codebase"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/</xsl:attribute>
+                						</xsl:if>
+              							<xsl:if test="$curType = 'Reference'">
+                							<xsl:attribute name="archive"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = 'Standard']/Location"/></xsl:attribute>
+              							</xsl:if>
+            						</xsl:when>
+          					</xsl:choose>          					
+						<!-- object or instance parameters -->
+						<!-- nescessary because attribute code is part of applet-tag and others are sub elements -->
+						<!-- code attribute -->
+						<xsl:choose>
+							<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']">								
+								<xsl:attribute name="code"><xsl:value-of select="../MediaAliasItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']/@Value" /></xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="code"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'code']/@Value" /></xsl:attribute>
+							</xsl:otherwise>
+						</xsl:choose>
+						
+						<xsl:choose>						
+						
+							<xsl:when test="../MediaAliasItem[@Purpose=$curPurpose]/Parameter">								
+							<!-- alias parameters -->			
+		          					<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
+            								<xsl:if test="@Name != 'code'">
+          									<param>
+  	      							  			<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
+											<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
+       										</param>
+	            							</xsl:if>
+        		  					</xsl:for-each>
+							</xsl:when>
+							<!-- object parameters -->
+							<xsl:otherwise>
+		          					<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter">
+            								<xsl:if test="@Name != 'code'">
+             									<param>
+       	      							  			<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
+      								  			<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
+       										</param>
+	            							</xsl:if>
+        		  					</xsl:for-each>
+							</xsl:otherwise>
+							
+						</xsl:choose>
+					</xsl:otherwise>
+				</xsl:choose>
 			</applet>
 		</xsl:when>
 

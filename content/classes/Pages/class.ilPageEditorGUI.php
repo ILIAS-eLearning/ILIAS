@@ -25,6 +25,7 @@
 require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
 require_once ("content/classes/Pages/class.ilPCParagraphGUI.php");
+require_once ("content/classes/Pages/class.ilPCSourcecodeGUI.php");
 require_once ("content/classes/Pages/class.ilPCTableGUI.php");
 require_once ("content/classes/Pages/class.ilPCTableDataGUI.php");
 require_once ("content/classes/Pages/class.ilPCListGUI.php");
@@ -93,7 +94,7 @@ class ilPageEditorGUI
 		return array("ilPCParagraphGUI", "ilPCTableGUI",
 		"ilPCTableDataGUI", "ilPCMediaObjectGUI", "ilPCListGUI",
 		"ilPCListItemGUI", "ilPCFileListGUI", "ilPCFileItemGUI",
-		"ilObjMediaObjectGUI");
+		"ilObjMediaObjectGUI","ilPCSourcecodeGUI");
 	}
 
 	/**
@@ -210,6 +211,10 @@ class ilPageEditorGUI
 		{
 			switch($ctype)
 			{
+				case "src":
+					$this->ctrl->setCmdClass("ilPCSourcecodeGUI");
+					break;
+				
 				case "par":
 					$this->ctrl->setCmdClass("ilPCParagraphGUI");
 					break;
@@ -249,6 +254,13 @@ class ilPageEditorGUI
 
 		switch($next_class)
 		{
+			// Sourcecode
+			case "ilpcsourcecodegui":
+
+				$src_gui =& new ilPCSourcecodeGUI($this->page, $cont_obj, $hier_id);
+				$ret =& $src_gui->executeCommand();
+				break;
+
 			// Paragraph
 			case "ilpcparagraphgui":
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id);

@@ -159,6 +159,81 @@ class ilPCParagraph extends ilPageContent
 		return $this->par_node->get_attribute("Characteristic");
 	}
 
+
+	/**
+	* set attribute subcharacteristic
+	*/
+
+	function setSubCharacteristic($a_char)
+	{
+		if (!empty($a_char))
+		{
+			$this->par_node->set_attribute("SubCharacteristic", $a_char);
+		}
+		else
+		{
+			if ($this->par_node->has_attribute("SubCharacteristic"))
+			{
+				$this->par_node->remove_attribute("SubCharacteristic");
+			}
+		}
+	}
+
+	/**
+	* get attribute subcharacteristic
+	*/
+	function getSubCharacteristic()
+	{
+		return $this->par_node->get_attribute("SubCharacteristic");
+	}
+	
+	/**
+	* set attribute download title
+	*/
+	
+	function setDownloadTitle($a_char)
+	{
+		if (!empty($a_char))
+		{
+			$this->par_node->set_attribute("DownloadTitle", $a_char);
+		}
+		else
+		{
+			if ($this->par_node->has_attribute("DownloadTitle"))
+			{
+				$this->par_node->remove_attribute("DownloadTitle");
+			}
+		}
+	}
+
+	/**
+	* get attribute download title
+	*/
+	function getDownloadTitle()
+	{
+		return $this->par_node->get_attribute("DownloadTitle");
+	}
+	
+	/**
+	* set attribute showlinenumbers
+	*/
+	
+	function setShowLineNumbers($a_char)
+	{
+		$a_char = empty($a_char)?"n":$a_char;
+		
+		$this->par_node->set_attribute("ShowLineNumbers", $a_char);
+	}
+
+	/**
+	* get attribute showlinenumbers
+	* 
+	*/
+	function getShowLineNumbers()
+	{
+		return $this->par_node->get_attribute("ShowLineNumbers");
+	}
+	
 	/**
 	* set language
 	*/
@@ -432,5 +507,14 @@ echo htmlentities($a_text);*/
 		//return str_replace("<br />", chr(13).chr(10), $a_text);
 	}
 
+	/** 
+	* need to override getType from ilPageContent to distinguish between Pararagraph and Source
+	*/
+	
+	function getType()
+	{
+		return ($this->getSubCharacteristic() != "")?"src":parent::getType();
+	}
+	
 }
 ?>
