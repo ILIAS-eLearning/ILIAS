@@ -92,12 +92,12 @@
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
-	<property name="import">import</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
+	<action name="import">import</action>
 </object>
 <object name="lo">
 	<property name="view">view_content</property>

@@ -30,6 +30,9 @@ if ($_POST["cmd"] != "")
 		case $lng->txt("clear"):
 			$_GET["cmd"] = "clearAdm";
 			break;
+		case $lng->txt("import"):
+			$_GET["cmd"] = "import";
+			break;
 	}
 }
 
@@ -215,7 +218,8 @@ if ($_GET["message"])
 	$tpl->parseCurrentBlock();
 }
 
-
+// display basicdata formular
+// TODO: must be changed for clientel processing
 if ($_GET["cmd"] == "view" && $obj->type == "adm")
 {
 	$tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
