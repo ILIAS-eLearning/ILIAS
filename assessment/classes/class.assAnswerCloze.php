@@ -55,6 +55,8 @@ class ASS_AnswerCloze extends ASS_AnswerTrueFalse {
 */
   var $name;
   
+	var $shuffle;
+	
 /**
 * ASS_AnswerCloze constructor
 * 
@@ -73,12 +75,14 @@ class ASS_AnswerCloze extends ASS_AnswerTrueFalse {
     $order = 0,
     $correctness = FALSE,
 		$cloze_type = 0,
-		$name = ""
+		$name = "",
+		$shuffle = 1
   )
   {
     $this->ASS_AnswerTrueFalse($answertext, $points, $order, $correctness);
     $this->cloze_type = $cloze_type;
 		$this->name = $name;
+		$this->shuffle = $shuffle;
   }
   
   
@@ -95,6 +99,10 @@ class ASS_AnswerCloze extends ASS_AnswerTrueFalse {
     return $this->cloze_type;
   }
   
+	function get_shuffle() {
+		return $this->shuffle;
+	}
+	
 /**
 * Sets the answer type
 * 
@@ -133,6 +141,10 @@ class ASS_AnswerCloze extends ASS_AnswerTrueFalse {
   function set_name($name = 0) {
     $this->name = $name;
   }
+	
+	function set_shuffle($shuffle = 1) {
+		$this->shuffle = $shuffle;
+	}
 }
 
 ?>
