@@ -26,8 +26,9 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.91 2005/02/15 13:34:13 shofmann Exp $
+* $Id$
 * 
+*
 * @extends ilObjectGUI
 * @package ilias-core
 */
@@ -57,14 +58,14 @@ class ilObjRoleGUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObjRoleGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjRoleGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		define("USER_FOLDER_ID",7);
 
 		global $ilCtrl;
 
 		$this->type = "role";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$this->rolf_ref_id =& $this->ref_id;
 
 		$this->ctrl =& $ilCtrl;
@@ -75,14 +76,20 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
+		if($this->ctrl->getTargetScript() == 'role.php')
+		{
+			$this->__prepareOutput();
+		}
+
 		$next_class = $this->ctrl->getNextClass($this);
+
 		$cmd = $this->ctrl->getCmd();
 		switch($next_class)
 		{
 			default:
 				if(!$cmd)
 				{
-					$cmd = "view";
+					$cmd = "perm";
 				}
 				$cmd .= "Object";
 				$this->$cmd();
@@ -578,11 +585,13 @@ class ilObjRoleGUI extends ilObjectGUI
 				}
 			}
 
-			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
+			#$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
+			$output["formaction_adopt"] = $this->ctrl->getFormAction($this,'adoptPermSave');
 			// END ADOPT_PERMISSIONS
 		}
 
-		$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
+		#$output["formaction"] = "adm_object.php?cmd=permSave&ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId();
+		$output["formaction"] = $this->ctrl->getFormAction($this,'permSave');
 
 		$this->data = $output;
 
@@ -591,8 +600,8 @@ class ilObjRoleGUI extends ilObjectGUI
 /*			generate output			*/
 /************************************/
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+#		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+#		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html");
 
 		foreach ($rbac_objects as $obj_data)
@@ -868,9 +877,15 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 
 
-		sendinfo($this->lng->txt("saved_successfully"),true);
-
-		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
+		sendInfo($this->lng->txt("saved_successfully"),true);
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
+		}
+		else
+		{
+			$this->permObject();
+		}
 	}
 
 
@@ -903,10 +918,18 @@ class ilObjRoleGUI extends ilObjectGUI
 
 			// send info
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_POST["adopt"]);
-			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
+			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".
+					 $this->lng->txt("msg_perm_adopted_from2"),true);
 		}
 
-		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
+		}
+		else
+		{
+			$this->permObject();
+		}
 	}
 
 	/**
@@ -981,7 +1004,18 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->object->update();
 
 		sendInfo($this->lng->txt("msg_userassignment_changed"),true);
-		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=userassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".
+							 $this->object->getId()."&cmd=userassignment&sort_by=".$_GET["sort_by"]."&sort_order=".
+							 $_GET["sort_order"]."&offset=".$_GET["offset"]);
+		}
+		else
+		{
+			$this->userassignmentObject();
+			return true;
+		}
 	}
 	
 	/**
@@ -1055,7 +1089,18 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->object->update();
 
 		sendInfo($this->lng->txt("msg_userassignment_changed"),true);
-		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=userassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".
+							 $this->object->getId()."&cmd=userassignment&sort_by=".$_GET["sort_by"]."&sort_order=".
+							 $_GET["sort_order"]."&offset=".$_GET["offset"]);
+		}
+		else
+		{
+			$this->userassignmentObject();
+			return true;
+		}
 	}
 	
 	/**
@@ -1105,7 +1150,15 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
 
-		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
+		if($this->ctrl->getTargetScript() == 'adm_object.php')
+		{
+			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
+		}
+		else
+		{
+			$this->editObject();
+		}
+		return true;
 	}
 	
 	/**
@@ -1157,7 +1210,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		// exclude allow register option for anonymous role, system role and all local roles
 		$global_roles = $rbacreview->getGlobalRoles();
 
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->rolf_ref_id.$obj_str));
+		#$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".
+		#														   $this->rolf_ref_id.$obj_str));
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
@@ -1201,9 +1257,13 @@ class ilObjRoleGUI extends ilObjectGUI
 		$assigned_users = $rbacreview->assignedUsers($this->object->getId(),array("login","firstname","lastname","usr_id"));
 
 		//if current user is admin he is able to add new members to group
-		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("role_user_send_mail")."\" title=\"".$this->lng->txt("role_user_send_mail")."\" border=\"0\" vspace=\"0\"/>";
-		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("role_user_edit")."\" title=\"".$this->lng->txt("role_user_edit")."\" border=\"0\" vspace=\"0\"/>";
-		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("role_user_deassign")."\" title=\"".$this->lng->txt("role_user_deassign")."\" border=\"0\" vspace=\"0\"/>";
+		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".
+			$this->lng->txt("role_user_send_mail")."\" title=\"".
+			$this->lng->txt("role_user_send_mail")."\" border=\"0\" vspace=\"0\"/>";
+		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".
+			$this->lng->txt("role_user_edit")."\" title=\"".$this->lng->txt("role_user_edit")."\" border=\"0\" vspace=\"0\"/>";
+		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".
+			$this->lng->txt("role_user_deassign")."\" title=\"".$this->lng->txt("role_user_deassign")."\" border=\"0\" vspace=\"0\"/>";
 
 		$counter = 0;
 
@@ -1220,7 +1280,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
                 //build function
                 $member_functions = "<a href=\"".$link_contact."\">".$val_contact."</a>";
-                $member_functions .= "<a href=\"".$link_change."\">".$val_change."</a>";
+				if($this->ctrl->getTargetScript() == 'adm_object.php')
+				{
+					$member_functions .= "<a href=\"".$link_change."\">".$val_change."</a>";
+				}
 
                 if ($this->object->getId() != SYSTEM_ROLE_ID or $user["usr_id"] != SYSTEM_USER_ID)
                 {
@@ -1296,7 +1359,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		$tbl->setTitle($this->lng->txt("assigned_users"),"icon_usr_b.gif",$this->lng->txt("users"));
 
 		//user must be administrator
-		$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("grp_options")));
+		$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),
+								   $this->lng->txt("lastname"),$this->lng->txt("grp_options")));
 		$tbl->setHeaderVars(array("","login","firstname","lastname","functions"),$this->ctrl->getParameterArray($this,"",false));
 		$tbl->setColumnWidth(array("","30%","30%","30%","10%"));
 		
@@ -1825,6 +1889,118 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		return $path;
 	}
+
+	function __prepareOutput()
+	{
+		// output objects
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.role.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		// output locator
+		$this->__setLocator();
+
+		// output message
+		if ($this->message)
+		{
+			sendInfo($this->message);
+		}
+
+		// display infopanel if something happened
+		infoPanel();
+
+		// set header
+		$this->__setHeader();
+	}
+
+	function __setHeader()
+	{
+		include_once './classes/class.ilTabsGUI.php';
+
+		$this->tpl->setVariable("HEADER",$this->lng->txt('role'));
+		$this->tpl->setVariable("H_DESCRIPTION",$this->object->getTitle());
+
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+
+		// output tabs
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+	}
+
+	function __setLocator()
+	{
+		global $tree;
+		global $ilias_locator;
+
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+		$counter = 0;
+		foreach ($tree->getPathFull($this->rolf_ref_id) as $key => $row)
+		{
+			if($counter++)
+			{
+				$this->tpl->touchBlock('locator_separator_prefix');
+			}
+
+			$this->tpl->setCurrentBlock("locator_item");
+
+			if($row["type"] == 'rolf')
+			{
+				$this->tpl->setVariable("ITEM",$this->object->getTitle());
+				$this->tpl->setVariable("LINK_ITEM",$this->ctrl->getLinkTarget($this));
+			}
+			elseif ($row["child"] != $tree->getRootId())
+			{
+				$this->tpl->setVariable("ITEM", $row["title"]);
+				$this->tpl->setVariable("LINK_ITEM","repository.php?ref_id=".$row["child"]);
+			}
+			else
+			{
+				$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
+				$this->tpl->setVariable("LINK_ITEM","repository.php?ref_id=".$row["child"]);
+			}
+
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function getTabs(&$tabs_gui)
+	{
+		global $rbacsystem,$rbacreview;
+
+		
+		$base_role_folder = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
+		$real_local_role = in_array($this->rolf_ref_id,$base_role_folder);
+
+		$this->ctrl->setParameter($this,"ref_id",$this->rolf_ref_id);
+		$this->ctrl->setParameter($this,"obj_id",$this->object->getId());
+		
+		if($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
+		{
+			$tabs_gui->addTarget("edit_properties",
+								 $this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+		}
+		if($rbacsystem->checkAccess('write',$this->rolf_ref_id))
+		{
+			$tabs_gui->addTarget("default_perm_settings",
+								 $this->ctrl->getLinkTarget($this, "perm"), "perm", get_class($this));
+		}
+		if($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
+		{
+			$tabs_gui->addTarget("user_assignment",
+								 $this->ctrl->getLinkTarget($this, "userassignment"), "userassignment", get_class($this));
+		}
+		if($rbacsystem->checkAccess('write',$this->rolf_ref_id) and $real_local_role)
+		{
+			$tabs_gui->addTarget("desktop_items",
+								 $this->ctrl->getLinkTarget($this, "listDesktopItems"), "listDesktopItems", get_class($this));
+		}
+
+	}
+
+
 
 } // END class.ilObjRoleGUI
 ?>

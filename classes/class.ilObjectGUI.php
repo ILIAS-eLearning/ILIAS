@@ -1777,12 +1777,10 @@ class ilObjectGUI
 		$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
 
 		$local_roles = array();
-
 		if ($role_folder)
 		{
 			$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
 		}
-
 		foreach ($parentRoles as $key => $r)
 		{
 			if ($r["obj_id"] == SYSTEM_ROLE_ID)
@@ -1853,12 +1851,35 @@ class ilObjectGUI
 
 		foreach ($data["roles"] as $role)
 		{
-			if(0 and $role['role_type'] != 'global' and is_object($this->ctrl))
+			$tmp_role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
+			$tmp_local_roles = array();
+			if ($tmp_role_folder)
 			{
+				$tmp_local_roles = $rbacreview->getRolesOfRoleFolder($tmp_role_folder["ref_id"]);
+			}
+			// Is it a real or linked lokal role
+			if(in_array($role['obj_id'],$tmp_local_roles))
+			{
+				$role_folder_data = $rbacreview->getRoleFolderOfObject($_GET['ref_id']);
+				$role_folder_id = $role_folder_data['ref_id'];
+
+
 				$this->tpl->setCurrentBlock("ROLELINK_OPEN");
-				$this->ctrl->setParameterByClass('ilobjrolegui','obj_id',$role['obj_id']);
-				$this->tpl->setVariable("LINK_ROLE_RULESET",
-										$this->ctrl->getLinkTargetByClass('ilobjrolegui','perm'));
+
+				if($this->ctrl->getTargetScript() != 'adm_object.php')
+				{
+					$this->tpl->setVariable("LINK_ROLE_RULESET",'role.php?cmd=perm&ref_id='.
+											$role_folder_id.'&obj_id='.$role['obj_id']);
+
+					#$this->ctrl->setParameterByClass('ilobjrolegui','obj_id',$role['obj_id']);
+					#$this->tpl->setVariable("LINK_ROLE_RULESET",
+					#						$this->ctrl->getLinkTargetByClass('ilobjrolegui','perm'));
+				}
+				else
+				{
+					$this->tpl->setVariable("LINK_ROLE_RULESET",'adm_object.php?cmd=perm&ref_id='.
+											$role_folder_id.'&obj_id='.$role['obj_id']);
+				}
 				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
 				$this->tpl->parseCurrentBlock();
 
