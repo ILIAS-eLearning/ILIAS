@@ -228,7 +228,7 @@ class ilRepositoryGUI
 				// execute repository cmd
 				if (empty($cmd))
 				{
-					if($obj_type == "crs" or $obj_type == 'fold')
+					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp')
 					{
 						$this->prepareOutput();
 						$this->ctrl->forwardCommand($this->gui_obj);

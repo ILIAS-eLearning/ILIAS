@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.87 2004/07/07 15:39:23 akill Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.88 2004/07/13 13:51:01 smeyer Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -48,6 +48,28 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->type = "grp";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
+
+	function viewObject()
+	{
+		global $tree;
+
+		if($this->ctrl->getTargetScript() == "adm_object.php")
+		{
+			parent::viewObject();
+			return true;
+		}
+		else if(!$tree->checkForParentType($this->ref_id,'crs'))
+		{
+			$this->ctrl->returnToParent($this);
+		}
+		else
+		{
+			$this->initCourseContentInterface();
+			$this->cci_view();
+		}
+		return true;
+	}
+
 
 	function &executeCommand()
 	{
@@ -71,7 +93,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 				if (empty($cmd))
 				{
-					$this->ctrl->returnToParent($this);
+					#$this->ctrl->returnToParent($this);
 					// NOT ACCESSIBLE SINCE returnToParent() starts a redirect
 					$cmd = "view";
 				}
@@ -1408,6 +1430,61 @@ class ilObjGroupGUI extends ilObjectGUI
 		return true;
 	}
 	
+	// METHODS FOR COURSE CONTENT INTERFACE
+	function initCourseContentInterface()
+	{
+		include_once "./course/classes/class.ilCourseContentInterface.php";
+			
+		aggregate($this,"ilCourseContentInterface");
+		$this->cci_init($this,$this->object->getRefId());
+	}
+
+	function cciEditObject()
+	{
+		global $rbacsystem;
+
+		// CHECK ACCESS
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->initCourseContentInterface();
+		$this->cci_edit();
+
+		return true;;
+	}
+
+	function cciUpdateObject()
+	{
+		global $rbacsystem;
+
+		// CHECK ACCESS
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->initCourseContentInterface();
+		$this->cci_update();
+
+		return true;;
+	}
+	function cciMoveObject()
+	{
+		global $rbacsystem;
+
+		// CHECK ACCESS
+		if(!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->initCourseContentInterface();
+		$this->cci_move();
+
+		return true;;
+	}
 
 
 } // END class.ilObjGroupGUI
