@@ -86,16 +86,28 @@ class ilExerciseMembers
 
 	function assignMembers($a_members)
 	{
+		$assigned = 0;
 		if(is_array($a_members))
 		{
 			foreach($a_members as $member)
 			{
-				$this->assignMember($member);
+				if(!$this->isAssigned($member))
+				{
+					$this->assignMember($member);
+				}
+				else
+				{
+					++$assigned;
+				}
 			}
+		}
+		if($assigned == count($a_members))
+		{
+			return false;
 		}
 		else
 		{
-			return false;
+			return true;
 		}
 	}
 	function deassignMember($a_usr_id)

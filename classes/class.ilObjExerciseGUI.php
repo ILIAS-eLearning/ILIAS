@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id$
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.1 2003/11/05 15:29:30 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -298,14 +298,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 			header("location: adm_object.php?ref_id=$_GET[ref_id]");
 			exit;
 		}
-
+		
 		if(isset($_POST["select"]))
 		{
 			if(is_array($_POST["id"]))
 			{
-				$this->object->members_obj->assignMembers($_POST["id"]);
-
-				sendInfo($this->lng->txt("exc_members_assigned"),true);
+				if(!$this->object->members_obj->assignMembers($_POST["id"]))
+				{
+					sendInfo($this->lng->txt("exc_members_already_assigned"),true);
+				}
+				else
+				{
+					sendInfo($this->lng->txt("exc_members_assigned"),true);
+				}
 				header("location: adm_object?ref_id=".$_GET["ref_id"]."&cmd=members");
 				exit;
 			}
@@ -317,28 +322,65 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		if($_POST["search_str"])
 		{
-			$result = $this->__searchMembers(ilUtil::stripSlashes($_POST["search_str"]));
-			$result = $this->__filterAssignedUsers($result);
+			$result = $this->__searchMembers(ilUtil::stripSlashes($_POST["search_str"]),$_POST["search_for"]);
 			
 			switch(count($result))
 			{
 				case 0:
+					// SHOW ERROR MESSAGE
 					sendInfo($this->lng->txt("cont_no_object_found"));
 					break;
 
-				default:
+				case 1:
+					$result = $this->__getMembersOfObject($result,$_POST["search_for"]);
 					$this->__showMembersSelect($result);
+					$show_search = false;
+					break;
+
+				default:
+					if($_POST["search_for"] == 'usr')
+					{
+						$this->__showMembersSelect($result);
+					}
+					else
+					{
+						$this->__showObjectSelect($result,$_POST["search_for"]);
+					}
 					$show_search = false;
 					break;
 			}
 		}
+		if($_POST["obj_select"])
+		{
+			if(count($_POST["obj"]))
+			{
+				$result = $this->__getMembersOfObject($_POST["obj"],"grp");
+				$this->__showMembersSelect($result);
+				$show_search = false;
+			}
+		}
+
+
 		if($show_search)
 		{
 			$this->lng->loadLanguageModule("content");
 			$this->lng->loadLanguageModule("search");
 
-			$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("exc_assign_usr"));
+			$search_for = array("usr" => $this->lng->txt("exc_users"),
+								"grp"	=> $this->lng->txt("exc_groups"));
+#								"role"	=> $this->lng->txt("!!Rollen"));
+			
+			$counter = 0;
+			foreach($search_for as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("USR_SEARCH_ROW");
+				$this->tpl->setVariable("SEARCH_ROW_CHECK",ilUtil::formRadioButton(++$counter == 1 ? 1 : 0,"search_for",$key));
+				$this->tpl->setVariable("SEARCH_ROW_TXT",$value);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("add_member"));
 			$this->tpl->setVariable("SEARCH_SEARCH_TERM",$this->lng->txt("search_search_term"));
+			$this->tpl->setVariable("SEARCH_FOR",$this->lng->txt("exc_search_for"));
 			$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt("search"));
 			$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt("cancel"));
 		}
@@ -382,7 +424,63 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		return true;
-	}			
+	}
+
+	function __getMembersOfObject($a_result,$a_type)
+	{
+
+		switch($a_type)
+		{
+			case "usr":
+				return $a_result;
+
+			case "grp":
+				include_once "./classes/class.ilObjGroup.php";
+
+				$all_members = array();
+				foreach($a_result as $group)
+				{
+					$tmp_grp_obj = ilObjectFactory::getInstanceByRefId($group["id"]);
+					
+					$members = $tmp_grp_obj->getGroupMemberIds();
+					$all_members = array_merge($all_members,$members);
+				}
+				// FORMAT ARRAY
+				$all_members = array_unique($all_members);
+				foreach($all_members as $member)
+				{
+					$result[] = array("id" => $member);
+				}
+				return $result;
+		}
+		return true;
+	}
+					
+	function __showObjectSelect($a_result,$a_type)
+	{
+		include_once "./classes/class.ilObjectFactory.php";
+		
+		foreach($a_result as $obj)
+		{
+			$tmp_obj =& ilObjectFactory::getInstanceByRefId($obj["id"]);
+
+			$this->tpl->setCurrentBlock("OBJ_SELECT_ROW");
+			$this->tpl->setVariable("OBJ_ROW_TITLE",$tmp_obj->getTitle());
+			$this->tpl->setVariable("OBJ_ROW_ID",$tmp_obj->getRefId());
+			$this->tpl->setVariable("OBJ_ROW_DESCRIPTION",$tmp_obj->getDescription());
+			$this->tpl->parseCurrentBlock();
+			
+			unset($tmp_obj);
+		}
+		$this->tpl->setCurrentBlock("OBJ_SELECT");
+		$this->tpl->setVariable("OBJ_SELECT_TITLE",$this->lng->txt("title"));
+		$this->tpl->setVariable("OBJ_SELECT_DESCRIPTION",$this->lng->txt("description"));
+
+		$this->tpl->setVariable("OBJ_BTN1_VALUE",$this->lng->txt("select"));
+		$this->tpl->setVariable("OBJ_BTN2_VALUE",$this->lng->txt("cancel"));
+
+		$this->tpl->parseCurrentBlock();
+	}
 
 	function __showMembersSelect($a_result)
 	{
@@ -411,7 +509,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$this->tpl->parseCurrentBlock();
 	}
-	function __searchMembers($a_search_str)
+	function __searchMembers($a_search_str,$a_search_for)
 	{
 		include_once("./classes/class.ilSearch.php");
 
@@ -421,7 +519,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$search->setPerformUpdate(false);
 		$search->setSearchString(ilUtil::stripSlashes($_POST["search_str"]));
 		$search->setCombination("and");
-		$search->setSearchFor(array(0 => 'usr'));
+		$search->setSearchFor(array(0 => $a_search_for));
 		$search->setSearchType('new');
 
 		if($search->validate($message))
@@ -434,7 +532,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			header("location: adm_object.php?ref_id=".$this->object->getRefId()."&cmd=newMembers");
 			exit;
 		}
-		return $search->getResultByType('usr');
+		return $search->getResultByType($a_search_for);
 	}		
 	function __deassignMembers()
 	{
