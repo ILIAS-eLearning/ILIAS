@@ -211,6 +211,7 @@ echo "<br>nextclass:$next_class:cmd:$cmd:";
 	* @param string $question_id The database id of the question
 	* @access public
 	*/
+	/*
 	function outPreviewForm($question_id)
 	{
 echo "<br>ilObjQuestionPoolGUI->outPreviewForm()";
@@ -221,7 +222,7 @@ echo "<br>ilObjQuestionPoolGUI->outPreviewForm()";
 		$this->tpl->setVariable("ACTION_PREVIEW", $_SERVER["PHP_SELF"] . $this->getAddParameter());
 		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
 		$this->tpl->parseCurrentBlock();
-	}
+	}*/
 
 	/**
 	* Cancels actions editing this question

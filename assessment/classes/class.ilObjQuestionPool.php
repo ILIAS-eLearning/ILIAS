@@ -316,6 +316,7 @@ class ilObjQuestionPool extends ilObject
 		}
 	}
 
+	/* moved to ASS_Question
 	function get_total_answers($question_id)
 	{
 		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
@@ -338,8 +339,9 @@ class ilObjQuestionPool extends ilObject
 
 		$result = $this->ilias->db->query($query);
 		return $result->numRows();
-	}
+	}*/
 
+	/* moved to ASS_Question
 	function get_total_right_answers($question_id)
 	{
 		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
@@ -375,7 +377,7 @@ class ilObjQuestionPool extends ilObject
 			$reached += $value["reached"];
 		}
 		return $reached / $max;
-	}
+	}*/
 
 	/**
 	* get description of content object
