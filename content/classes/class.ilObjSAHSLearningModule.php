@@ -148,6 +148,7 @@ class ilObjSAHSLearningModule extends ilObject
 	*/
 	function setTitle($a_title)
 	{
+		parent::setTitle($a_title);
 		$this->meta_data->setTitle($a_title);
 	}
 
