@@ -90,6 +90,21 @@ class ilObjSCORMLearningModule extends ilObject
 		}
 	}
 
+	/**
+	* copy all properties and subobjects of a SCROM LearningModule.
+	* 
+	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		global $rbacadmin;
 
-} // END class.ilSCORMLearningModule
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// put here slm specific stuff
+	}
+
+} // END class.ilObjSCORMLearningModule
 ?>
