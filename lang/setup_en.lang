@@ -168,6 +168,7 @@ ip_address#:#IP address
 java_path#:#Path to Java
 java_path_comment#:#required for SCORM Learning modules
 lang_de#:#German
+lang_zh#:#Chinese
 lang_dk#:#Danish
 lang_en#:#English
 lang_error_occurred#:#Encountered an error. Action aborted.
