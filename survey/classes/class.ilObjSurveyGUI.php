@@ -187,6 +187,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function runObject() {
 		global $ilUser;
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("read", $this->ref_id)) 
+		{
+			// only with read access it is possible to run the test
+			$this->ilias->raiseError($this->lng->txt("cannot_read_survey"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		if ($_POST["cmd"]["exit"])
 		{
