@@ -639,8 +639,10 @@ common#:#err_no_param#:#无参数！
 common#:#err_over_3_param#:#多于三个参数！
 common#:#err_role_not_assignable#:#您不能在此处将用户设置为此角色
 common#:#err_session_expired#:#您的对话已过期！
+common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
 common#:#err_wrong_header#:#原因错误文件头！
 common#:#err_wrong_login#:#错误登录。
+common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
 common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#错误收件人
 common#:#exc#:#练习
@@ -813,6 +815,8 @@ common#:#grp#:#组
 common#:#grp_a#:#一个组
 common#:#grp_add#:#增加组
 common#:#grp_added#:#已增加组
+common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
+common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#创建组
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
 common#:#grp_create_file#:#用户可以上载文件###17 Apr 2004 content changed
@@ -838,6 +842,9 @@ common#:#grp_leave#:#用户可以离开组
 common#:#grp_mem_change_status#:#更改组状态
 common#:#grp_mem_leave#:#从组中删除成员
 common#:#grp_mem_send_mail#:#给成员发消息
+common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)###18 Apr 2004 new variable
+common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.###18 Apr 2004 new variable
+common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 2004 new variable
 common#:#grp_msg_membership_annulled#:#成员资格已取消
 common#:#grp_name_exists#:#已有一个组使用这个名字！请选择另一名字！
 common#:#grp_new#:#新组
@@ -1390,6 +1397,7 @@ common#:#recipient#:#收件人
 common#:#refresh#:#更新
 common#:#refresh_languages#:#更新语言
 common#:#refresh_list#:#更新列表
+common#:#refuse#:#Refuse###18 Apr 2004 new variable
 common#:#register#:#注册
 common#:#register_info#:#请填写表格注册（标记星号的格为必填项）。
 common#:#registered_since#:#注册于

@@ -622,8 +622,10 @@ common#:#err_no_param#:#Pas de paramètre !
 common#:#err_over_3_param#:#Plus de 3 paramètres !
 common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
 common#:#err_session_expired#:#Votre session a expiré
+common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
 common#:#err_wrong_header#:#Raison : entête invalide
 common#:#err_wrong_login#:#Login erronné
+common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
 common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#Erreur de destinataire
 common#:#exc#:#Exercice
@@ -796,6 +798,8 @@ common#:#grp#:#Groupe
 common#:#grp_a#:#un groupe
 common#:#grp_add#:#Ajouter groupe
 common#:#grp_added#:#Groupe ajouté
+common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
+common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Create Group###13 Jan 2004 new variable
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
 common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
@@ -821,6 +825,9 @@ common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
 common#:#grp_mem_change_status#:#Changer le statut de membre
 common#:#grp_mem_leave#:#Enlever le membre du groupe
 common#:#grp_mem_send_mail#:#Envoyer un message au membre
+common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)###18 Apr 2004 new variable
+common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.###18 Apr 2004 new variable
+common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 2004 new variable
 common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
 common#:#grp_name_exists#:#Un groupe portant ce nom existe déjà ! Veuillez choisir un autre nom.
 common#:#grp_new#:#Nouveau groupe
@@ -1373,6 +1380,7 @@ common#:#recipient#:#Destinataire
 common#:#refresh#:#Rafraîchir
 common#:#refresh_languages#:#Rafraîchir langues
 common#:#refresh_list#:#Rafraîchir liste
+common#:#refuse#:#Refuse###18 Apr 2004 new variable
 common#:#register#:#S'abonner
 common#:#register_info#:#Veuillez remplir le formulaire pour vous abonner (les champs marqués par un astérisque sont des informations obligatoires)###09 Feb 2004 content changed
 common#:#registered_since#:#Abonné depuis

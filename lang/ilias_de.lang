@@ -67,9 +67,6 @@ administration#:#restore_trash#:#Restore deleted objects###16 Mar 2004 new varia
 administration#:#restore_trash_desc#:#Restore all objects in trash bin to RecoveryFolder.###16 Mar 2004 new variable
 administration#:#restoring#:#Restoring...###16 Mar 2004 new variable
 administration#:#restoring_missing_objs#:#Restoring missing objects...###16 Mar 2004 new variable
-common#:#err_wrong_password#:#Falsches Passwort
-common#:#grp_back#:#Zurück
-common#:#err_unknown_error#:#Unbekannter Fehler
 administration#:#restoring_trash#:#Restoring trash...###16 Mar 2004 new variable
 administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...###16 Mar 2004 new variable
 administration#:#scan_completed#:#Scan completed###16 Mar 2004 new variable
@@ -98,9 +95,6 @@ assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
 assessment#:#apply#:#Apply###05 Feb 2004 new variable
 assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
-common#:#grp_msg_applicants_removed#:#Anmeldung(en) abgelehnt und aus der Liste entfernt
-common#:#grp_msg_applicants_assigned#:#Benutzer als Mitglied aufgenommen
-common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
 assessment#:#by#:#by###05 Feb 2004 new variable
 assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
 assessment#:#create_date#:#Created###05 Feb 2004 new variable
@@ -278,7 +272,6 @@ assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variabl
 assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
 assessment#:#uploaded_material#:#Uploaded Material###16 Mar 2004 new variable
 assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
-common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten Sie auf Bestätigung
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Benutzer (aktiv)
 chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
@@ -293,7 +286,6 @@ chat#:#chat_bold#:#Fett
 chat#:#chat_chatroom_body#:#Chatraum:
 chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
 chat#:#chat_chatrooms#:#Chaträume
-common#:#refuse#:#Ablehnen
 chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
 chat#:#chat_drop_user#:#User kicked###16 Mar 2004 new variable
@@ -630,8 +622,10 @@ common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
 common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Benutzer zugeordnet werden
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
+common#:#err_unknown_error#:#Unbekannter Fehler
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Login ungültig
+common#:#err_wrong_password#:#Falsches Passwort
 common#:#error_parser#:#Fehler beim Starten des Parsers.
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#exc#:#Übung
@@ -804,6 +798,8 @@ common#:#grp#:#Gruppe
 common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
+common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten Sie auf Bestätigung
+common#:#grp_back#:#Zurück
 common#:#grp_create#:#Neue Gruppe anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
 common#:#grp_create_file#:#Neue Datei hochladen###17 Apr 2004 content changed
@@ -829,6 +825,9 @@ common#:#grp_leave#:#Benutzer kann Gruppe verlassen
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
+common#:#grp_msg_applicants_assigned#:#Benutzer als Mitglied aufgenommen
+common#:#grp_msg_applicants_removed#:#Anmeldung(en) abgelehnt und aus der Liste entfernt
+common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
 common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
 common#:#grp_new#:#Neue Gruppe
@@ -1381,6 +1380,7 @@ common#:#recipient#:#Empfänger
 common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Sprachen aktualisieren
 common#:#refresh_list#:#Liste aktualisieren
+common#:#refuse#:#Ablehnen
 common#:#register#:#Anmelden
 common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit

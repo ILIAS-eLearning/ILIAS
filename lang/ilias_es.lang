@@ -622,8 +622,10 @@ common#:#err_no_param#:#No parameter!###26 Mar 2003 new variable
 common#:#err_over_3_param#:#More than 3 parameters!###26 Mar 2003 new variable
 common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
 common#:#err_session_expired#:#Your session is expired!###04 Aug 2003 new variable
+common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
 common#:#err_wrong_header#:#Reason: Wrong header.###26 Mar 2003 new variable
 common#:#err_wrong_login#:#wrong login
+common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
 common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
 common#:#error_recipient#:#error recipient
 common#:#exc#:#Exercise###07 Nov 2003 new variable
@@ -796,6 +798,8 @@ common#:#grp#:#grp
 common#:#grp_a#:#a Group###06 Aug 2003 new variable
 common#:#grp_add#:#Add Group###06 Aug 2003 new variable
 common#:#grp_added#:#Group added###16 Jul 2003 new variable
+common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
+common#:#grp_back#:#Back###18 Apr 2004 new variable
 common#:#grp_create#:#Create Group###13 Jan 2004 new variable
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
 common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
@@ -821,6 +825,9 @@ common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
 common#:#grp_mem_change_status#:#Change member status###02 Oct 2003 new variable
 common#:#grp_mem_leave#:#Dismiss member from group###02 Oct 2003 new variable
 common#:#grp_mem_send_mail#:#Send member a message###02 Oct 2003 new variable
+common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)###18 Apr 2004 new variable
+common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.###18 Apr 2004 new variable
+common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 2004 new variable
 common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
 common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.###17 Oct 2003 new variable
 common#:#grp_new#:#New Group###06 Aug 2003 new variable
@@ -1373,6 +1380,7 @@ common#:#recipient#:#recipient
 common#:#refresh#:#refresh
 common#:#refresh_languages#:#Refresh Languages###12 Jun 2003 new variable
 common#:#refresh_list#:#refresh list
+common#:#refuse#:#Refuse###18 Apr 2004 new variable
 common#:#register#:#Register###12 Aug 2003 new variable
 common#:#register_info#:#Please fill out the form to register (Fields marked with an asteriks are required information).###19 Aug 2003 new variable
 common#:#registered_since#:#registered since###25 Mar 2003 content changed
