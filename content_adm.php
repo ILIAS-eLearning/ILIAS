@@ -10,8 +10,7 @@ $tplContent = new Template("content_adm.html",true,true);
 $tree =& new Tree($obj_id,1,1);
 
 // display path
-$tree->getPath();
-$path = showPath($tree->Path,"content.php");
+$path = showPath($tree->getPathFull(),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 //$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
 $tplContent->setVariable("OBJ_SELF","content.php?parent=$parent&obj_id=$obj_id");

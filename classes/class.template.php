@@ -53,7 +53,6 @@ class Template extends IntegratedTemplateExtension {
             echo "template ".$fname." was not found.";
             return false;
         }
-
         $this->IntegratedTemplateExtension(dirname($fname));
         $this->LoadTemplatefile(basename($fname), $flag1, $flag2);
 
@@ -88,8 +87,11 @@ class Template extends IntegratedTemplateExtension {
         } else {
             parent::show($part);
         }
-
-
+		if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php"
+			&& substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")
+		{
+			$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
+		}
     }
 
     /**

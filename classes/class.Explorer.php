@@ -44,7 +44,7 @@ class Explorer extends PEAR
 	* @param int
 	*
 	*/
-	function Explorer(&$a_ilias,$a_depth)
+	function Explorer(&$a_ilias)
 	{
 		$this->PEAR();
 		$this->ilias = $a_ilias;
@@ -63,7 +63,7 @@ class Explorer extends PEAR
 	function setOutput($a_depth,$a_parent)
 	{
 		global $rbacadmin, $rbacsystem, $expanded;
-	
+
 		if($objects =  $this->tree->getChildsByDepth($a_depth,$a_parent))
 		{
 			$tab = ++$a_depth - 2;
@@ -72,9 +72,10 @@ class Explorer extends PEAR
 			{
 				if($rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
 				{
-					$this->format_options["$object[id]"]["parent"]	  = $object["parent"];
-					$this->format_options["$object[id]"]["title"]	  = $object["title"];
-					$this->format_options["$object[id]"]["depth"]	  = $tab;
+					$this->format_options["$object[id]"]["parent"] = $object["parent"];
+					$this->format_options["$object[id]"]["title"] = $object["title"];
+					$this->format_options["$object[id]"]["type"] = $object["type"];
+					$this->format_options["$object[id]"]["depth"] = $tab;
 					$this->format_options["$object[id]"]["container"] = false;
 					$this->format_options["$object[id]"]["visible"]	  = true;
 
@@ -112,8 +113,7 @@ class Explorer extends PEAR
 	{
 		$this->format_options[1]["tab"] = array();
 		
-		$tree = new Tree();
-		$depth = $tree->getMaximumDepth();
+		$depth = $this->tree->getMaximumDepth();
 		
 		$tmp = $this->format_options;
 		unset($this->format_options);
@@ -168,7 +168,7 @@ class Explorer extends PEAR
 					$picture.".gif\" border=\"0\"></td>";
 			}
 		}
-		$tmp  .= "<td nowrap align=\"left\"><img src=\"./images/icon_cat.gif\" border=\"0\"></td>\n";
+		$tmp  .= "<td nowrap align=\"left\"><img src=\"./images/icon_".$a_option["type"].".gif\" border=\"0\"></td>\n";
 		$tmp  .= "<td nowrap align=\"left\"><a href=\"content.php?obj_id=".$a_obj_id.
 			"&parent=".$a_option["parent"]."\" target=\"content\">".$a_option["title"]."</a></td>\n";
 		$tmp  .= "</tr>\n";
@@ -260,4 +260,4 @@ class Explorer extends PEAR
 		return false;
 	}
 }
-?>
+?>f

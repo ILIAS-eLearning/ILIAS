@@ -91,7 +91,7 @@ class RbacSystem extends PEAR
 		if($Aoperation == 'create')
 		{
 			$obj = new Object($ilias);
-			$path_ids = $tree->showPathId($a_obj_id,$obj->ROOT_FOLDER_ID);
+			$path_ids = $tree->getPathId($a_obj_id,$obj->ROOT_FOLDER_ID);
 			array_unshift($path_ids,$obj->SYSTEM_FOLDER_ID);
 			$parent_roles = $rbacadmin->getParentRoles($path_ids);
 			foreach($parent_roles as $par_rol)
