@@ -182,7 +182,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			// Hole User-Daten		
 			unset($author);
 			$author = $frm->getModerator($node["author"]);	
-			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author["SurName"]."</a>"); 
+			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author["SurName"]."</a>"); 
 			
 			if ($node["update"] != $node["create_date"]) {
 				$node["update"] = $frm->convertDate($node["update"]);
