@@ -1571,7 +1571,8 @@ class ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);
 
 		// display action buttons only if at least 1 object in the list can be manipulated
-		if (is_array($this->data["data"][0]))
+		// temp. deactivated
+		/*if (is_array($this->data["data"][0]))
 		{
 			foreach ($this->data["ctrl"] as $val)
 			{
@@ -1583,7 +1584,9 @@ class ilObjectGUI
 					break;
 				}				
 			}
-		}
+		}*/
+		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));		
+		$this->showActions(true);
 		
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
