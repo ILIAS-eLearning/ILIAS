@@ -121,7 +121,21 @@ function showAssistanceForm($message="", $username="", $email="")
 	$tpl->setVariable("TARGET","target=\"_parent\"");
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("password_assistance"));
 	$tpl->setVariable("TXT_MESSAGE", str_replace("\\n","<br>",$message));
-	$tpl->setVariable("TXT_ENTER_USERNAME_AND_EMAIL", str_replace("\\n","<br>",$lng->txt("pwassist_enter_username_and_email")));
+
+	$contact_address = $ilias->getSetting("admin_email");
+	$tpl->setVariable
+	(
+		"TXT_ENTER_USERNAME_AND_EMAIL", 
+		str_replace
+		(
+			"\\n","<br>",
+			sprintf
+				(
+				$lng->txt("pwassist_enter_username_and_email"),
+				"<a href=\"mailto:".$contact_address."\">".$contact_address."</a>"
+				)
+		)
+	);
 	$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 	$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
 	$tpl->setVariable("USERNAME", $username);
