@@ -201,7 +201,7 @@ if($entries)
 		{
 			$tpl->setCurrentBlock("smtp");
 			$tpl->setVariable("EMAIL_SMTP",$entry["email"]);
-			$tpl->setVariable("EMAIL_LINK","./mail_new?mobj_id=".$_GET["mobj_id"].
+			$tpl->setVariable("EMAIL_LINK","./mail_new.php?mobj_id=".$_GET["mobj_id"].
 									"&type=address&rcp=".urlencode($entry["email"]));
 			$tpl->parseCurrentBlock();
 		}
@@ -242,7 +242,7 @@ if($entries)
 			$tpl->setVariable("CHECKED",in_array($entry["addr_id"],$_POST["entry_id"]) ? 'checked' : '');
 		}
 		$tpl->setVariable("ENTRY_ID",$entry["addr_id"]);
-		$tpl->setVariable("LOGIN_LINK","./mail_new?mobj_id=".$_GET["mobj_id"]."&type=address&rcp=".urlencode($entry["login"]));
+		$tpl->setVariable("LOGIN_LINK","./mail_new.php?mobj_id=".$_GET["mobj_id"]."&type=address&rcp=".urlencode($entry["login"]));
 		$tpl->setVariable("LOGIN",$entry["login"]);
 		$tpl->setVariable("FIRSTNAME",$entry["firstname"]);
 		$tpl->setVariable("LASTNAME",$entry["lastname"]);
