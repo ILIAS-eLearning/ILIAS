@@ -676,6 +676,8 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
 content#:#cont_new_term#:#New Term
+content#:#cont_edit_term#:#Edit Term
+content#:#cont_added_term#:#Term added
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation

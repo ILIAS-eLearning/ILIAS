@@ -187,6 +187,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function listTerms()
 	{
+		$this->lng->loadLanguageModule("meta");
 		include_once "./classes/class.ilTableGUI.php";
 
 		// load template for table
@@ -211,7 +212,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			 $this->lng->txt("language"), $this->lng->txt("last_change")));
 
 		$cols = array("", "term", "language", "last_change", "id");
-		$header_params = array("ref_id" => $this->ref_id);
+		$header_params = array("ref_id" => $this->ref_id, "cmd" => "listTerms");
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("15","45%","30%","25%"));
 
@@ -250,7 +251,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-				$this->tpl->setVariable("TEXT_LANGUAGE", $term["language"]);
+				$this->tpl->setVariable("TARGET_TERM", "glossary_edit.php?ref_id=".
+					$_GET["ref_id"]."&cmd=editTerm&term_id=".$term["id"]);
+				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
 				$this->tpl->setVariable("TEXT_LASTCHANGE", $term["last_change"]);
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();
@@ -332,12 +335,31 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$term_gui->setGlossary($this->object);
 		$term_gui->save();
 
-		sendinfo($this->lng->txt("added_glossary_term"),true);
+		sendinfo($this->lng->txt("cont_added_term"),true);
 
 		header("location: glossary_edit.php?ref_id=".$_GET["ref_id"]."cmd=listTerms");
 		exit();
 
 	}
+
+	function editTerm()
+	{
+		$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
+		$term_gui->editTerm();
+	}
+
+	function updateTerm()
+	{
+		$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
+		$term_gui->update();
+
+		sendinfo($this->lng->txt("msg_obj_modified"),true);
+
+		header("location: glossary_edit.php?ref_id=".$_GET["ref_id"]."cmd=listTerms");
+		exit();
+
+	}
+
 }
 
 ?>

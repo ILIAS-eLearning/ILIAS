@@ -40,6 +40,7 @@ class ilGlossaryTerm
 	var $glossary;
 	var $term;
 	var $language;
+	var $glo_id;
 
 	/**
 	* Constructor
@@ -55,7 +56,7 @@ class ilGlossaryTerm
 
 		$this->id = $a_id;
 		$this->type = "term";
-		if ($a_id == 0)
+		if ($a_id != 0)
 		{
 			$this->read();
 		}
@@ -66,6 +67,14 @@ class ilGlossaryTerm
 	*/
 	function read()
 	{
+		$q = "SELECT * FROM glossary_term WHERE id = '".$this->id."'";
+		$term_set = $this->ilias->db->query($q);
+		$term_rec = $term_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		$this->setTerm($term_rec["term"]);
+		$this->setLanguage($term_rec["language"]);
+		$this->setGlossaryId($term_rec["glo_id"]);
+
 	}
 
 	function setId($a_id)
@@ -84,6 +93,17 @@ class ilGlossaryTerm
 	function setGlossary(&$a_glossary)
 	{
 		$this->glossary =& $a_glossary;
+		$this->setGlossaryId($a_glossary->getId());
+	}
+
+	function setGlossaryId($a_glo_id)
+	{
+		$this->glo_id = $a_glo_id;
+	}
+
+	function getGlossaryId()
+	{
+		return $this->glo_id;
 	}
 
 	function setTerm($a_term)
@@ -91,18 +111,39 @@ class ilGlossaryTerm
 		$this->term = $a_term;
 	}
 
+	function getTerm()
+	{
+		return $this->term;
+	}
+
+
 	function setLanguage($a_language)
 	{
 		$this->language = $a_language;
 	}
 
+	function getLanguage()
+	{
+		return $this->language;
+	}
+
 	function create()
 	{
 		$q = "INSERT INTO glossary_term (glo_id, term, language)".
-			" VALUES ('".$this->glossary->getId()."', '".$this->term.
+			" VALUES ('".$this->getGlossaryId()."', '".$this->term.
 			"', '".$this->language."')";
 		$this->ilias->db->query($q);
 		$this->setId($this->ilias->db->getLastInsertId());
+	}
+
+	function update()
+	{
+		$q = "UPDATE glossary_term SET ".
+			" glo_id = '".$this->getGlossaryId()."', ".
+			" term = '".$this->getTerm()."', ".
+			" language = '".$this->getLanguage()."' ".
+			" WHERE id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
 	}
 
 	/**
