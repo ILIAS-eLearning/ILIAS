@@ -3044,3 +3044,25 @@ CREATE TABLE aicc_lm (
 ALTER TABLE scorm_tracking2 DROP PRIMARY KEY;
 ALTER TABLE scorm_tracking2 MODIFY lvalue VARCHAR(64) NOT NULL;
 ALTER TABLE scorm_tracking2 ADD PRIMARY KEY (user_id, sco_id, lvalue);
+
+<#196>
+# add operations 'invite' and 'participate' for survey objects
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('44', 'invite', 'invite');
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('45', 'participate', 'participate');
+
+<#197>
+<?php
+
+// retrieve survey object data
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='svy'";
+$result = $this->db->query($query);
+$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+$typ_id = $row->obj_id;
+
+// append operation assignment to survey object definition
+// 44: invite, 45: participate
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','44')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','45')";
+$this->db->query($query);
+?>
