@@ -48,6 +48,8 @@ class ilObjectFactory
 	*/
 	function ObjectIdExists($a_obj_id)
 	{
+		global $ilias;
+
 		$query = "SELECT * FROM object_data ".
 			"WHERE obj_id = '".$a_obj_id."'";
 
