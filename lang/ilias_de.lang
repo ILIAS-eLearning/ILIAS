@@ -2004,6 +2004,7 @@ content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
 content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle
 content#:#cont_src#:#Programmiersprache
+content#:#cont_src_other#:#other###18 Jun 2004 new variable
 content#:#cont_st_title#:#Titel des Kapitels
 content#:#cont_startfile#:#Startdatei
 content#:#cont_status#:#Status

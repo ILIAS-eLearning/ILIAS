@@ -2004,6 +2004,7 @@ content#:#cont_show_line_numbers#:#Show line numbers###16 Jun 2004 new variable
 content#:#cont_size#:#Velikost (Bajty)
 content#:#cont_source#:#Zdroj###01 Apr 2004 content changed
 content#:#cont_src#:#Source code###16 Jun 2004 new variable
+content#:#cont_src_other#:#other###18 Jun 2004 new variable
 content#:#cont_st_title#:#Název kapitoly
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_status#:#Status###03 May 2004 new variable
