@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Nov 19, 2004 at 04:15 PM
+# Generation Time: Nov 22, 2004 at 02:28 PM
 # Server version: 3.23.56
 # PHP Version: 4.3.6
-# Database : `ilias322rel`
+# Database : `ilias323rel`
 # --------------------------------------------------------
 
 #
@@ -7113,8 +7113,8 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '338');
-INSERT INTO `settings` VALUES ('ilias_version', '3.2.2 2004-11-19');
+INSERT INTO `settings` VALUES ('db_version', '340');
+INSERT INTO `settings` VALUES ('ilias_version', '3.2.3 2004-11-22');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
 INSERT INTO `settings` VALUES ('java_path', '');
