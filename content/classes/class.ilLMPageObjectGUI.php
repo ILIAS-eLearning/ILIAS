@@ -99,6 +99,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui =& new ilPageObjectGUI($page_object);
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setLinkXML($link_xml);
+				$page_gui->setLinkParams("ref_id=".$this->content_object->getRefId());
 				$page_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($this->obj->getId(), $this->content_object->getPageHeader()));
 				$page_gui->setLocator($contObjLocator);
 				$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());

@@ -29,6 +29,7 @@
 <xsl:param name="media_mode"/>
 <xsl:param name="pg_title"/>
 <xsl:param name="pg_id"/>
+<xsl:param name="ref_id"/>
 <xsl:param name="link_params"/>
 <xsl:param name="pg_frame"/>
 <xsl:param name="webspace_path"/>
@@ -691,7 +692,7 @@
 		<td class="ilc_FileItem">
 		<xsl:call-template name="EditReturnAnchors"/>
 		<a href="lm_presentation.php?cmd=downloadFile&amp;file_id=">
-			<xsl:attribute name="href">lm_presentation.php?cmd=downloadFile&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/></xsl:attribute>
+			<xsl:attribute name="href">lm_presentation.php?cmd=downloadFile&amp;file_id=<xsl:value-of select="./Identifier/@Entry"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
 			<xsl:value-of select="./Location"/>
 			<xsl:if test="./Size">
 				<xsl:choose>
@@ -1122,7 +1123,7 @@
 		count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Fullscreen']) = 1 and
 		$mode != 'fullscreen'">
 		<a target="_new">
-		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;<xsl:value-of select="$link_params"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
+		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="substring-after($cmobid,'mob_')"/>&amp;<xsl:value-of select="$link_params"/>&amp;pg_id=<xsl:value-of select="$pg_id"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
 		<img border="0" align="right">
 		<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 		</img>
