@@ -42,6 +42,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 	/**
 	* Constructor
+	*
+	* @param	object		$a_content_obj		content object (lm | dbk)
 	* @access	public
 	*/
 	function ilLMPageObjectGUI(&$a_content_obj)
@@ -52,12 +54,17 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 	}
 
+
+	/**
+	* set content object dependent page object (co page)
+	*/
 	function setLMPageObject(&$a_pg_obj)
 	{
 		$this->obj =& $a_pg_obj;
 		$this->obj->setLMId($this->content_object->getId());
 		$this->actions = $this->objDefinition->getActions($this->obj->getType());
 	}
+
 
 	/*
 	* display content of page (edit view)
@@ -74,16 +81,25 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 	}
 
+	/**
+	* show page editor
+	*/
 	function showPageEditor()
 	{
 		$this->forwardToPageObjGUI("showPageEditor");
 	}
 
+	/**
+	* show internal link help
+	*/
 	function showLinkHelp()
 	{
 		$this->forwardToPageObjGUI("showLinkHelp");
 	}
 
+	/**
+	* change internal link type
+	*/
 	function changeLinkType()
 	{
 		$this->forwardToPageObjGUI("changeLinkType");
@@ -94,11 +110,17 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		;
 	}
 
+	/**
+	* reset internal link list
+	*/
 	function resetLinkList()
 	{
 		$this->forwardToPageObjGUI("resetLinkList");
 	}
 
+	/**
+	* reset internal link list
+	*/
 	function changeTargetObject()
 	{
 		$this->forwardToPageObjGUI("changeTargetObject");
@@ -183,6 +205,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	}
 
 
+	/**
+	* save co page object
+	*/
 	function save()
 	{
 		// create new object

@@ -393,65 +393,38 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->view();
 	}
 
+
 	/**
-	* move chapter
+	* move a single chapter  (selection)
 	*/
 	function moveChapter()
 	{
-		if(!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(count($_POST["id"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// SAVE POST VALUES
-		ilEditClipboard::storeContentObject("st", $_POST["id"][0]);
-
-		sendInfo($this->lng->txt("cont_chap_select_target_now"));
+		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+			true, false);
+		$cont_obj_gui->moveChapter($this->obj->getId());
 		$this->subchap();
 	}
+
 
 	/**
 	* paste chapter
 	*/
 	function pasteChapter()
 	{
-		if (ilEditClipboard::getContentObjectType() != "st")
-		{
-			$this->ilias->raiseError($this->lng->txt("no_chapter_in_clipboard"),$this->ilias->error_obj->MESSAGE);
-		}
-
-
-		$tree = new ilTree($this->content_object->getId());
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
-
-		// cut selected object
 		$id = ilEditClipboard::getContentObjectId();
-
-		$node = $tree->getNodeData($id);
-		$subnodes = $tree->getSubtree($node);
-
-		// check, if target is within subtree
-		foreach ($subnodes as $node)
-		{
-			if($node["obj_id"] == $this->obj->getId())
-			{
-				$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
-			}
-		}
 		if($id == $_POST["id"][0])
 		{
 			ilEditClipboard::clear();
 			$this->subchap();
 			return;
 		}
+		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+			true, false);
+		$cont_obj_gui->pasteChapter($this->obj->getId());
 
 		//echo ":".$id.":";
 		// delete old tree entries
+		/*
 		$tree->deleteTree($node);
 
 		if(!isset($_POST["id"]))
@@ -484,7 +457,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		ilEditClipboard::clear();
 
 		// check the tree
-		$this->checkTree();
+		$this->checkTree();*/
 
 		$this->subchap();
 	}
