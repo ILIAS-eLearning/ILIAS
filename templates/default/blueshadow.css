@@ -463,6 +463,30 @@ a.ilc_IntLink:hover
 	color:#000000;
 }
 
+td.ilc_MobCaption
+{
+	background-color:#E0E0E0;
+	padding:3px;
+}
+
+td.ilc_Mob
+{
+	background-color:#E0E0E0;
+	padding:0px;
+}
+
+table.ilc_MobTable
+{
+	margin-top: 15px;
+	margin-bottom: 15px;
+	margin-left: 15px;
+	margin-right: 15px;
+	border-spacing: 0px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #C0C0C0;
+	background-color:#E0E0E0;
+}
 
 div.ilLMNavigation
 {

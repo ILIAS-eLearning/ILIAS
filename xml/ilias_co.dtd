@@ -398,7 +398,7 @@
 	KeepWithPrevious (Yes | No) #IMPLIED
 	KeepWithNext (Yes | No) #IMPLIED
 	CSS-URL CDATA #IMPLIED
-	HorizontalAlign (Left | Center | Right) #IMPLIED
+	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
 	VerticalAlign (Top | Middle | Bottom) #IMPLIED
 	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
 	Width CDATA #IMPLIED
