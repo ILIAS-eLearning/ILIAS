@@ -35,6 +35,12 @@
 require_once "classes/class.ilObject.php";
 require_once "class.assMarkSchema.php";
 require_once("classes/class.ilMetaData.php");
+require_once "class.assClozeTest.php";
+require_once "class.assImagemapQuestion.php";
+require_once "class.assJavaApplet.php";
+require_once "class.assMatchingQuestion.php";
+require_once "class.assMultipleChoice.php";
+require_once "class.assOrderingQuestion.php";
 
 define("TEST_FIXED_SEQUENCE", 0);
 define("TEST_POSTPONE", 1);
