@@ -13,6 +13,7 @@
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action exec ="false" name="link">link</action>
@@ -42,6 +43,7 @@
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action exec ="false" name="link">link</action>
@@ -60,6 +62,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="members">show_members</property>
 	<property name="owner">show_owner</property>
+	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action exec ="false" name="link">link</action>
@@ -97,6 +100,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="members">show_members</property>
 	<property name="owner">show_owner</property>
+	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action exec ="false" name="link">link</action>
@@ -112,6 +116,7 @@
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
+	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action exec ="true" name="link">link</action>
@@ -155,7 +160,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="rolf" class_name="RoleFolder" chkbox="0">
+<object name="rolf" class_name="RoleFolder" chkbox="1">
 	<subobj name="rolt">rolt</subobj>
 	<subobj name="role">role</subobj>
 	<property name="view">view_content</property>
