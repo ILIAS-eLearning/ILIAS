@@ -2925,6 +2925,7 @@ survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
+survey#:#concatenation#:#Concatenation###27 May 2004 new variable
 survey#:#constraints#:#Constraints###26 May 2004 new variable
 survey#:#continue#:#Continue >>###26 May 2004 new variable
 survey#:#create_date#:#Erstellt am
@@ -2997,6 +2998,8 @@ survey#:#filter#:#Filter
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
 survey#:#introduction#:#Einleitung
+survey#:#invitation#:#Invitation###27 May 2004 new variable
+survey#:#invitation_mode#:#Invitation mode###27 May 2004 new variable
 survey#:#invite_participants#:#Invite participants###26 May 2004 new variable
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#material_file#:#Material-Datei
@@ -3019,6 +3022,7 @@ survey#:#offline#:#nicht aktiviert
 survey#:#on#:#an
 survey#:#online#:#aktiviert
 survey#:#or#:#oder
+survey#:#predefined_users#:#Predefined user set###27 May 2004 new variable
 survey#:#preview#:#Vorschau
 survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
 survey#:#qpl_define_questionblock_select_missing#:#Bitte wählen Sie mindestens zwei Fragen aus, um einen Fragenblock zu definieren!
@@ -3041,6 +3045,11 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus dem Test enfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
+survey#:#search_for#:#Search for###27 May 2004 new variable
+survey#:#search_groups#:#Groups###27 May 2004 new variable
+survey#:#search_invitation#:#Search for users or groups to invite###27 May 2004 new variable
+survey#:#search_term#:#Search term###27 May 2004 new variable
+survey#:#search_users#:#Users###27 May 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
 survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
 survey#:#select_relation#:#Select a relation###26 May 2004 new variable
@@ -3052,5 +3061,6 @@ survey#:#start_date#:#Startdatum
 survey#:#start_survey#:#Umfrage beginnen
 survey#:#survey_questions#:#Fragen
 survey#:#unfold#:#Fragenblock auflösen
+survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
 survey#:#uploaded_material#:#Hochgeladene Materialien
 survey#:#view_phrase#:#Phrase ansehen
