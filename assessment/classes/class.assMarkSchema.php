@@ -122,8 +122,24 @@ class ASS_MarkSchema {
 */
   function saveToDb($test_id)
   {
-		global $ilias;
+		global $ilias, $lng;
 		$db =& $ilias->db->db;
+
+		$oldmarks = array();
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
+				$db->quote($test_id)
+			);
+			$result = $db->query($query);
+			if ($result->numRows())
+			{
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$oldmarks[$row["minimum_level"]] = $row;
+				}
+			}
+		}
 		
     if (!$test_id) return;
     // Delete all entries
@@ -134,7 +150,8 @@ class ASS_MarkSchema {
     if (count($this->mark_steps) == 0) return;
     
     // Write new datasets
-    foreach ($this->mark_steps as $key => $value) {
+    foreach ($this->mark_steps as $key => $value) 
+		{
       $query = sprintf("INSERT INTO tst_mark (mark_id, test_fi, short_name, official_name, minimum_level, passed, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
         $db->quote($test_id),
         $db->quote($value->get_short_name()), 
@@ -146,6 +163,66 @@ class ASS_MarkSchema {
       if ($result == DB_OK) {
       }
     }
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			$query = sprintf("SELECT * FROM tst_mark WHERE test_fi = %s ORDER BY minimum_level",
+				$db->quote($test_id)
+			);
+			$result = $db->query($query);
+			$newmarks = array();
+			if ($result->numRows())
+			{
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$newmarks[$row["minimum_level"]] = $row;
+				}
+			}
+			foreach ($oldmarks as $level => $row)
+			{
+				if (array_key_exists($level, $newmarks))
+				{
+					$difffields = array();
+					foreach ($row as $key => $value)
+					{
+						if (strcmp($value, $newmarks[$level][$key]) != 0)
+						{
+							switch ($key)
+							{
+								case "mark_id":
+								case "TIMESTAMP":
+									break;
+								default:
+									array_push($difffields, "$key: $value => " .$newmarks[$level][$key]); 
+									break;
+							}
+						}
+					}
+					if (count($difffields))
+					{
+						$this->logAction($test_id, $lng->txt("log_mark_changed") . ": " . join($difffields, ", "));
+					}
+				}
+				else
+				{
+					$this->logAction($test_id, $lng->txt("log_mark_removed") . ": " . 
+						$lng->txt("tst_mark_minimum_level") . " = " . $row["minimum_level"] . ", " .
+						$lng->txt("tst_mark_short_form") . " = " . $row["short_name"] . ", " .
+						$lng->txt("tst_mark_official_form") . " = " . $row["official_name"] . ", " .
+						$lng->txt("tst_mark_passed") . " = " . $row["passed"]);
+				}
+			}
+			foreach ($newmarks as $level => $row)
+			{
+				if (!array_key_exists($level, $oldmarks))
+				{
+					$this->logAction($test_id, $lng->txt("log_mark_added") . ": " . 
+						$lng->txt("tst_mark_minimum_level") . " = " . $row["minimum_level"] . ", " .
+						$lng->txt("tst_mark_short_form") . " = " . $row["short_name"] . ", " .
+						$lng->txt("tst_mark_official_form") . " = " . $row["official_name"] . ", " .
+						$lng->txt("tst_mark_passed") . " = " . $row["passed"]);
+				}
+			}
+		}
   }
 
 /**
@@ -296,6 +373,27 @@ class ASS_MarkSchema {
 			return "no_passed_mark";
 		}
 		return true;
+	}
+
+/**
+* Logs an action into the Test&Assessment log
+* 
+* Logs an action into the Test&Assessment log
+*
+* @param integer $test_id The database id of the test
+* @param string $logtext The log text
+* @access public
+*/
+	function logAction($test_id, $logtext = "")
+	{
+		global $ilUser, $ilDB;
+
+		$query = sprintf("INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL, NULL, NULL)",
+			$ilDB->quote($ilUser->id . ""),
+			$ilDB->quote($test_id . ""),
+			$ilDB->quote($logtext . "")
+		);
+		$result = $ilDB->query($query);
 	}
 }
 
