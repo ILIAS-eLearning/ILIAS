@@ -12,12 +12,12 @@ body { margin:0px; }
 </tr>
 <tr>
 <td align="left">
-<!-- BEGIN prev -->
+<!-- BEGIN top_prev -->
 <input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
-<!-- END prev -->
-<!-- BEGIN skipprev -->
+<!-- END top_prev -->
+<!-- BEGIN top_skipprev -->
 <input type="submit" class="submit" name="cmd[skip_previous]" value="{BTN_SKIP_PREV}" />
-<!-- END skipprev -->
+<!-- END top_skipprev -->
 </td>
 <td align="center">
 <!-- BEGIN percentage -->
@@ -42,12 +42,12 @@ text-align: center;">
 <!-- END percentage -->
 </td>
 <td align="right">
-<!-- BEGIN skipnext -->
+<!-- BEGIN top_skipnext -->
 <input type="submit" class="submit" name="cmd[skip_next]" value="{BTN_SKIP_NEXT}" />
-<!-- END skipnext -->
-<!-- BEGIN next -->
+<!-- END top_skipnext -->
+<!-- BEGIN top_next -->
 <input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
-<!-- END next -->
+<!-- END top_next -->
 </td>
 </tr>
 </table>
@@ -71,6 +71,31 @@ text-align: center;">
 <!-- END survey_content -->
 {SYSTEMSETTINGS}
 </div>
+<br/>
+<!-- BEGIN bottom_navigation -->
+<div class="il_Header">
+<table width="100%">
+<tr>
+<td align="left">
+<!-- BEGIN bottom_prev -->
+<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" />
+<!-- END bottom_prev -->
+<!-- BEGIN bottom_skipprev -->
+<input type="submit" class="submit" name="cmd[skip_previous]" value="{BTN_SKIP_PREV}" />
+<!-- END bottom_skipprev -->
+</td>
+<td align="right">
+<!-- BEGIN bottom_skipnext -->
+<input type="submit" class="submit" name="cmd[skip_next]" value="{BTN_SKIP_NEXT}" />
+<!-- END bottom_skipnext -->
+<!-- BEGIN bottom_next -->
+<input type="submit" class="submit" name="cmd[next]" value="{BTN_NEXT}" />
+<!-- END bottom_next -->
+</td>
+</tr>
+</table>
+</div>
+<!-- END bottom_navigation -->
 </form>
 <!--</div>-->
 </td></tr></table>
