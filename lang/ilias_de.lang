@@ -31,187 +31,187 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-common#:#absolute_path#:#Absoluter Pfad###04 Mar 2003 content changed
-common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?###04 Mar 2003 content changed
-common#:#access#:#Zugang###04 Mar 2003 content changed
-common#:#actions#:#Aktionen###04 Mar 2003 content changed
-common#:#add#:#hinzufügen###04 Mar 2003 content changed
-common#:#add_author#:#Autor hinzufügen###04 Mar 2003 content changed
-common#:#add_member#:#Mitglied hinzufügen###04 Mar 2003 content changed
-common#:#administrate#:#Administrieren###04 Mar 2003 content changed
-common#:#administration#:#Administration###04 Mar 2003 content changed
-common#:#administrator#:#Administrator###04 Mar 2003 content changed
-common#:#also_as_email#:#auch als eMail###04 Mar 2003 content changed
-common#:#announce#:#ankündigen###04 Mar 2003 content changed
-common#:#announce_changes#:#Änderungen bekanntgeben###04 Mar 2003 content changed
-common#:#answers#:#Antworten###04 Mar 2003 content changed
-common#:#archive#:#Archiv###04 Mar 2003 content changed
-common#:#are_you_sure#:#Sind Sie Sicher?###04 Mar 2003 content changed
-common#:#assign_lo_forum#:#Lerneinheiten-Forum zuordnen###04 Mar 2003 content changed
-common#:#author#:#Autor###04 Mar 2003 content changed
-common#:#authors#:#Autoren###04 Mar 2003 content changed
-common#:#available_languages#:#Verfügbare Sprachen###04 Mar 2003 content changed
-common#:#back#:#Zurück###04 Mar 2003 content changed
+common#:#absolute_path#:#Absoluter Pfad
+common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
+common#:#access#:#Zugang
+common#:#actions#:#Aktionen
+common#:#add#:#hinzufügen
+common#:#add_author#:#Autor hinzufügen
+common#:#add_member#:#Mitglied hinzufügen
+common#:#administrate#:#Administrieren
+common#:#administration#:#Administration
+common#:#administrator#:#Administrator
+common#:#also_as_email#:#auch als eMail
+common#:#announce#:#ankündigen
+common#:#announce_changes#:#Änderungen bekanntgeben
+common#:#answers#:#Antworten
+common#:#archive#:#Archiv
+common#:#are_you_sure#:#Sind Sie Sicher?
+common#:#assign_lo_forum#:#Lerneinheiten-Forum zuordnen
+common#:#author#:#Autor
+common#:#authors#:#Autoren
+common#:#available_languages#:#Verfügbare Sprachen
+common#:#back#:#Zurück
 common#:#basedn#:#BaseDN
-common#:#basic_data#:#Grunddaten###04 Mar 2003 content changed
-common#:#bc#:#BC###04 Mar 2003 content changed
-common#:#bookmark_new#:#Bookmark hinzufügen###04 Mar 2003 content changed
-common#:#bookmarks#:#Bookmarks###04 Mar 2003 content changed
-common#:#btn_remove_system#:#Aus System entfernen###04 Mar 2003 content changed
-common#:#btn_undelete#:#Wiederherstellen###04 Mar 2003 content changed
-common#:#by#:#durch###04 Mar 2003 content changed
-common#:#cancel#:#Verwerfen###04 Mar 2003 content changed
-common#:#cat#:#Kategorie###04 Mar 2003 content changed
-common#:#categories#:#Kategorien###04 Mar 2003 content changed
-common#:#cc#:#CC###04 Mar 2003 content changed
-common#:#change#:#ändern###04 Mar 2003 content changed
-common#:#change_language#:#Benutzersprache ändern###04 Mar 2003 content changed
-common#:#change_lo_info#:#Lerneinheiten-Infos ändern###04 Mar 2003 content changed
-common#:#change_metadata#:#Metadaten ändern###04 Mar 2003 content changed
-common#:#chapter#:#Kapitel###04 Mar 2003 content changed
-common#:#chapter_number#:#Kapitelnummer###04 Mar 2003 content changed
-common#:#chapter_title#:#Kapiteltitel###04 Mar 2003 content changed
-common#:#check#:#Prüfen###04 Mar 2003 content changed
-common#:#check_language#:#Sprache checken###04 Mar 2003 content changed
-common#:#chg_language#:#Sprache ändern###04 Mar 2003 content changed
-common#:#chg_password#:#Passwort ändern###04 Mar 2003 content changed
-common#:#choose_language#:#Bitte wählen Sie Ihre Sprache###04 Mar 2003 content changed
-common#:#city#:#Stadt###04 Mar 2003 content changed
-common#:#clear#:#Abbrechen###04 Mar 2003 content changed
-common#:#comma_separated#:#Kommagetrennt###04 Mar 2003 content changed
-common#:#compose#:#Schreiben###04 Mar 2003 content changed
-common#:#confirm#:#Bestätigen###04 Mar 2003 content changed
-common#:#contact_information#:#Kontakt###04 Mar 2003 content changed
-common#:#context#:#Kontext###04 Mar 2003 content changed
-common#:#copy#:#Kopieren###04 Mar 2003 content changed
-common#:#country#:#Land###04 Mar 2003 content changed
-common#:#course#:#Kurs###04 Mar 2003 content changed
-common#:#courses#:#Kurse###04 Mar 2003 content changed
-common#:#create#:#Erstellen###04 Mar 2003 content changed
-common#:#create_in#:#Erstellen in###04 Mar 2003 content changed
-common#:#crs#:#Kurs###04 Mar 2003 content changed
-common#:#crs_available#:#Verfügbare Kurse###04 Mar 2003 content changed
-common#:#crs_management_system#:#Kursmanagement-System###04 Mar 2003 content changed
-common#:#current_password#:#Derzeitiges Passwort###04 Mar 2003 content changed
-common#:#cut#:#Ausschneiden###04 Mar 2003 content changed
-common#:#database#:#Datenbank###04 Mar 2003 content changed
-common#:#database_version#:#Ihre Datenbankversion###04 Mar 2003 content changed
-common#:#date#:#Datum###04 Mar 2003 content changed
-common#:#db_host#:#Datenbank Host###04 Mar 2003 content changed
-common#:#db_name#:#Datenbankname###04 Mar 2003 content changed
-common#:#db_pass#:#Datenbankpassword###04 Mar 2003 content changed
-common#:#db_type#:#Datenbank Typ###04 Mar 2003 content changed
-common#:#db_user#:#Datenbankbenutzer###04 Mar 2003 content changed
-common#:#db_version#:#Datenbankversion###04 Mar 2003 content changed
-common#:#default#:#default###04 Mar 2003 content changed
-common#:#default_role#:#Standardrolle###04 Mar 2003 content changed
-common#:#delete#:#Löschen###04 Mar 2003 content changed
-common#:#delete_all#:#Alle löschen###04 Mar 2003 content changed
-common#:#delete_object#:#Lösche Objekte###04 Mar 2003 content changed
-common#:#delete_selected#:#Auswahl löschen###04 Mar 2003 content changed
-common#:#deleted#:#Gelöscht###04 Mar 2003 content changed
-common#:#desc#:#Beschreibung###04 Mar 2003 content changed
-common#:#description#:#Beschreibung###04 Mar 2003 content changed
-common#:#desired_password#:#Neues Password###04 Mar 2003 content changed
-common#:#disabled#:#Ausgeschaltet###04 Mar 2003 content changed
-common#:#drafts#:#Entwürfe###04 Mar 2003 content changed
-common#:#edit#:#Bearbeiten###04 Mar 2003 content changed
+common#:#basic_data#:#Grunddaten
+common#:#bc#:#BC
+common#:#bookmark_new#:#Bookmark hinzufügen
+common#:#bookmarks#:#Bookmarks
+common#:#btn_remove_system#:#Aus System entfernen
+common#:#btn_undelete#:#Wiederherstellen
+common#:#by#:#durch
+common#:#cancel#:#Verwerfen
+common#:#cat#:#Kategorie
+common#:#categories#:#Kategorien
+common#:#cc#:#CC
+common#:#change#:#ändern
+common#:#change_language#:#Benutzersprache ändern
+common#:#change_lo_info#:#Lerneinheiten-Infos ändern
+common#:#change_metadata#:#Metadaten ändern
+common#:#chapter#:#Kapitel
+common#:#chapter_number#:#Kapitelnummer
+common#:#chapter_title#:#Kapiteltitel
+common#:#check#:#Prüfen
+common#:#check_language#:#Sprache checken
+common#:#chg_language#:#Sprache ändern
+common#:#chg_password#:#Passwort ändern
+common#:#choose_language#:#Bitte wählen Sie Ihre Sprache
+common#:#city#:#Stadt
+common#:#clear#:#Abbrechen
+common#:#comma_separated#:#Kommagetrennt
+common#:#compose#:#Schreiben
+common#:#confirm#:#Bestätigen
+common#:#contact_information#:#Kontakt
+common#:#context#:#Kontext
+common#:#copy#:#Kopieren
+common#:#country#:#Land
+common#:#course#:#Kurs
+common#:#courses#:#Kurse
+common#:#create#:#Erstellen
+common#:#create_in#:#Erstellen in
+common#:#crs#:#Kurs
+common#:#crs_available#:#Verfügbare Kurse
+common#:#crs_management_system#:#Kursmanagement-System
+common#:#current_password#:#Derzeitiges Passwort
+common#:#cut#:#Ausschneiden
+common#:#database#:#Datenbank
+common#:#database_version#:#Ihre Datenbankversion
+common#:#date#:#Datum
+common#:#db_host#:#Datenbank Host
+common#:#db_name#:#Datenbankname
+common#:#db_pass#:#Datenbankpassword
+common#:#db_type#:#Datenbank Typ
+common#:#db_user#:#Datenbankbenutzer
+common#:#db_version#:#Datenbankversion
+common#:#default#:#default
+common#:#default_role#:#Standardrolle
+common#:#delete#:#Löschen
+common#:#delete_all#:#Alle löschen
+common#:#delete_object#:#Lösche Objekte
+common#:#delete_selected#:#Auswahl löschen
+common#:#deleted#:#Gelöscht
+common#:#desc#:#Beschreibung
+common#:#description#:#Beschreibung
+common#:#desired_password#:#Neues Password
+common#:#disabled#:#Ausgeschaltet
+common#:#drafts#:#Entwürfe
+common#:#edit#:#Bearbeiten
 common#:#edit_data#:#Daten bearbeiten
-common#:#edit_operations#:#Operationen bearbeiten###04 Mar 2003 content changed
-common#:#edit_properties#:#Eigenschaften###04 Mar 2003 content changed
-common#:#edited_at#:#Bearbeitet am###04 Mar 2003 content changed
-common#:#editor#:#Editor###04 Mar 2003 content changed
-common#:#email#:#eMail###04 Mar 2003 content changed
-common#:#employee#:#Angestellter###04 Mar 2003 content changed
-common#:#enable#:#Aktivieren###04 Mar 2003 content changed
-common#:#enabled#:#Eingeschaltet###04 Mar 2003 content changed
-common#:#enumerate#:#Nummerieren###04 Mar 2003 content changed
-common#:#err_wrong_login#:#Login ungültig###04 Mar 2003 content changed
-common#:#error_recipient#:#Empfänger von Fehlermeldungen###04 Mar 2003 content changed
-common#:#execute#:#Ausführen###04 Mar 2003 content changed
-common#:#faq_exercise#:#FAQ/Übungskapitel###04 Mar 2003 content changed
-common#:#feedback#:#Feedback###04 Mar 2003 content changed
-common#:#feedback_recipient#:#Feedback-Empfänger###04 Mar 2003 content changed
-common#:#file#:#Datei###04 Mar 2003 content changed
-common#:#file_not_found#:#Datei nicht gefunden###04 Mar 2003 content changed
-common#:#file_version#:#Verfügbare Version###04 Mar 2003 content changed
-common#:#files_location#:#Dateiort###04 Mar 2003 content changed
-common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus###04 Mar 2003 content changed
-common#:#firstname#:#Vorname###04 Mar 2003 content changed
-common#:#flatview#:#Flache Ansicht###04 Mar 2003 content changed
-common#:#flatview#:#Flache Ansichtcommon###04 Mar 2003 content changed
-common#:#folder#:#Ordner###04 Mar 2003 content changed
-common#:#folder#:#Ordner###04 Mar 2003 content changed
-common#:#folders#:#Ordner###04 Mar 2003 content changed
-common#:#forename#:#Vorname###04 Mar 2003 content changed
-common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:###04 Mar 2003 content changed
-common#:#forum#:#Forum###04 Mar 2003 content changed
-common#:#forum_new#:#Neues Forum###04 Mar 2003 content changed
-common#:#forums#:#Foren###04 Mar 2003 content changed
-common#:#forums_articles#:#Beiträge###04 Mar 2003 content changed
-common#:#forums_available#:#Verfügbare Foren###04 Mar 2003 content changed
-common#:#forums_count#:#Anzahl Foren###04 Mar 2003 content changed
-common#:#forums_count_art#:#Anzahl Beiträge###04 Mar 2003 content changed
-common#:#forums_count_thr#:#Anzahl Themen###04 Mar 2003 content changed
-common#:#forums_edit_post#:#Beitrag bearbeiten###04 Mar 2003 content changed
+common#:#edit_operations#:#Operationen bearbeiten
+common#:#edit_properties#:#Eigenschaften
+common#:#edited_at#:#Bearbeitet am
+common#:#editor#:#Editor
+common#:#email#:#eMail
+common#:#employee#:#Angestellter
+common#:#enable#:#Aktivieren
+common#:#enabled#:#Eingeschaltet
+common#:#enumerate#:#Nummerieren
+common#:#err_wrong_login#:#Login ungültig
+common#:#error_recipient#:#Empfänger von Fehlermeldungen
+common#:#execute#:#Ausführen
+common#:#faq_exercise#:#FAQ/Übungskapitel
+common#:#feedback#:#Feedback
+common#:#feedback_recipient#:#Feedback-Empfänger
+common#:#file#:#Datei
+common#:#file_not_found#:#Datei nicht gefunden
+common#:#file_version#:#Verfügbare Version
+common#:#files_location#:#Dateiort
+common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
+common#:#firstname#:#Vorname
+common#:#flatview#:#Flache Ansicht
+common#:#flatview#:#Flache Ansichtcommon
+common#:#folder#:#Ordner
+common#:#folder#:#Ordner
+common#:#folders#:#Ordner
+common#:#forename#:#Vorname
+common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
+common#:#forum#:#Forum
+common#:#forum_new#:#Neues Forum
+common#:#forums#:#Foren
+common#:#forums_articles#:#Beiträge
+common#:#forums_available#:#Verfügbare Foren
+common#:#forums_count#:#Anzahl Foren
+common#:#forums_count_art#:#Anzahl Beiträge
+common#:#forums_count_thr#:#Anzahl Themen
+common#:#forums_edit_post#:#Beitrag bearbeiten
 common#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gelöscht werden soll?
-common#:#forums_last_post#:#Letzter Beitrag###04 Mar 2003 content changed
-common#:#forums_moderators#:#Moderatoren###04 Mar 2003 content changed
-common#:#forums_new_entries#:#Neue Foren-Einträge###04 Mar 2003 content changed
-common#:#forums_new_thread#:#Neues Thema###04 Mar 2003 content changed
-common#:#forums_not_available#:#Keine Foren verfügbar###04 Mar 2003 content changed
-common#:#forums_overview#:#Übersicht Foren###04 Mar 2003 content changed
-common#:#forums_post_deleted#:#Beitrag wurde gelöscht###04 Mar 2003 content changed
-common#:#forums_post_modified#:#Beitrag wurde bearbeitet###04 Mar 2003 content changed
-common#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen###04 Mar 2003 content changed
-common#:#forums_posts#:#Alle Beiträge###04 Mar 2003 content changed
-common#:#forums_posts_not_available#:#Keine Artikel verfügbar###04 Mar 2003 content changed
-common#:#forums_respond#:#Beitrag beantworten###04 Mar 2003 content changed
-common#:#forums_the_post#:#Beitrag###04 Mar 2003 content changed
-common#:#forums_thread#:#Thema###04 Mar 2003 content changed
-common#:#forums_thread_articles#:#Beiträge zum Thema###04 Mar 2003 content changed
-common#:#forums_thread_create#:#Erstellt von###04 Mar 2003 content changed
-common#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen###04 Mar 2003 content changed
-common#:#forums_threads#:#Themen###04 Mar 2003 content changed
-common#:#forums_threads_not_available#:#Keine Themen verfügbar###04 Mar 2003 content changed
-common#:#forums_topics_overview#:#Themen-Übersicht###04 Mar 2003 content changed
-common#:#forums_your_reply#:#Ihre Antwort###04 Mar 2003 content changed
-common#:#forward#:#Weiterleiten###04 Mar 2003 content changed
-common#:#frm#:#Forum###04 Mar 2003 content changed
-common#:#from#:#Von###04 Mar 2003 content changed
-common#:#functions#:#Funktionen###04 Mar 2003 content changed
-common#:#gender#:#Geschlecht###04 Mar 2003 content changed
-common#:#generate#:#generieren###04 Mar 2003 content changed
-common#:#glossary#:#Glossar###04 Mar 2003 content changed
-common#:#group_filesharing#:#Gruppen Filesharing###04 Mar 2003 content changed
-common#:#groupname#:#Gruppenname###04 Mar 2003 content changed
-common#:#groups#:#Gruppen###04 Mar 2003 content changed
-common#:#groupscope#:#Gruppenziel###04 Mar 2003 content changed
-common#:#grp#:#Gruppe###04 Mar 2003 content changed
-common#:#guest#:#Gast###04 Mar 2003 content changed
-common#:#help#:#Hilfe###04 Mar 2003 content changed
-common#:#host#:#Host###04 Mar 2003 content changed
-common#:#http_path#:#HTTP Pfad###04 Mar 2003 content changed
+common#:#forums_last_post#:#Letzter Beitrag
+common#:#forums_moderators#:#Moderatoren
+common#:#forums_new_entries#:#Neue Foren-Einträge
+common#:#forums_new_thread#:#Neues Thema
+common#:#forums_not_available#:#Keine Foren verfügbar
+common#:#forums_overview#:#Übersicht Foren
+common#:#forums_post_deleted#:#Beitrag wurde gelöscht
+common#:#forums_post_modified#:#Beitrag wurde bearbeitet
+common#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
+common#:#forums_posts#:#Alle Beiträge
+common#:#forums_posts_not_available#:#Keine Artikel verfügbar
+common#:#forums_respond#:#Beitrag beantworten
+common#:#forums_the_post#:#Beitrag
+common#:#forums_thread#:#Thema
+common#:#forums_thread_articles#:#Beiträge zum Thema
+common#:#forums_thread_create#:#Erstellt von
+common#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
+common#:#forums_threads#:#Themen
+common#:#forums_threads_not_available#:#Keine Themen verfügbar
+common#:#forums_topics_overview#:#Themen-Übersicht
+common#:#forums_your_reply#:#Ihre Antwort
+common#:#forward#:#Weiterleiten
+common#:#frm#:#Forum
+common#:#from#:#Von
+common#:#functions#:#Funktionen
+common#:#gender#:#Geschlecht
+common#:#generate#:#generieren
+common#:#glossary#:#Glossar
+common#:#group_filesharing#:#Gruppen Filesharing
+common#:#groupname#:#Gruppenname
+common#:#groups#:#Gruppen
+common#:#groupscope#:#Gruppenziel
+common#:#grp#:#Gruppe
+common#:#guest#:#Gast
+common#:#help#:#Hilfe
+common#:#host#:#Host
+common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
 common#:#ilias_version#:#ILIAS Version
-common#:#import#:#Import###04 Mar 2003 content changed
-common#:#in_use#:#Benutzersprache###04 Mar 2003 content changed
-common#:#inbox#:#Posteingang###04 Mar 2003 content changed
-common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:###04 Mar 2003 content changed
-common#:#info_deleted#:#Objekt(e) gelöscht###04 Mar 2003 content changed
+common#:#import#:#Import
+common#:#in_use#:#Benutzersprache
+common#:#inbox#:#Posteingang
+common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
+common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_trash#:#Gelöschte Objekte
-common#:#information_abbr#:#Infos###04 Mar 2003 content changed
-common#:#inifile#:#Ini-Datei###04 Mar 2003 content changed
-common#:#inst_id#:#Installations ID###04 Mar 2003 content changed
-common#:#inst_info#:#Installations-Info###04 Mar 2003 content changed
-common#:#inst_name#:#Installationsname###04 Mar 2003 content changed
-common#:#install#:#Installieren###04 Mar 2003 content changed
-common#:#installed#:#Installiert###04 Mar 2003 content changed
-common#:#institution#:#Institution###04 Mar 2003 content changed
-common#:#ip_address#:#IP Adresse###04 Mar 2003 content changed
-common#:#item#:#Begriff###04 Mar 2003 content changed
-common#:#keywords#:#Schlüsselwörter###04 Mar 2003 content changed
-common#:#lang_dateformat#:#d.m.Y###04 Mar 2003 content changed
+common#:#information_abbr#:#Infos
+common#:#inifile#:#Ini-Datei
+common#:#inst_id#:#Installations ID
+common#:#inst_info#:#Installations-Info
+common#:#inst_name#:#Installationsname
+common#:#install#:#Installieren
+common#:#installed#:#Installiert
+common#:#institution#:#Institution
+common#:#ip_address#:#IP Adresse
+common#:#item#:#Begriff
+common#:#keywords#:#Schlüsselwörter
+common#:#lang_dateformat#:#d.m.Y
 common#:#lang_de#:#Deutsch
 common#:#lang_dk#:#D&auml;nisch
 common#:#lang_en#:#Englisch
@@ -220,7 +220,7 @@ common#:#lang_fr#:#Franz&ouml;sisch
 common#:#lang_id#:#Indonesisch
 common#:#lang_it#:#Italienisch
 common#:#lang_no#:#Norwegisch
-common#:#lang_path#:#Sprachdateien-Pfad###04 Mar 2003 content changed
+common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_pl#:#Polnisch
 common#:#lang_se#:#Schwedisch
 common#:#lang_sep_decimal#:#,
@@ -228,52 +228,52 @@ common#:#lang_sep_thousand#:#.
 common#:#lang_timeformat#:#H:i:s###04 Mar 2003 new variable
 common#:#lang_version#:#1
 common#:#lang_xx#:#benutzerdefiniert
-common#:#language#:#Sprache###04 Mar 2003 content changed
-common#:#languages#:#Sprachen###04 Mar 2003 content changed
-common#:#last_change#:#Letzte Änderung###04 Mar 2003 content changed
-common#:#last_visit#:#Letzter Besuch###04 Mar 2003 content changed
-common#:#lastname#:#Nachname###04 Mar 2003 content changed
-common#:#launch#:#Start###04 Mar 2003 content changed
+common#:#language#:#Sprache
+common#:#languages#:#Sprachen
+common#:#last_change#:#Letzte Änderung
+common#:#last_visit#:#Letzter Besuch
+common#:#lastname#:#Nachname
+common#:#launch#:#Start
 common#:#ldap#:#LDAP
-common#:#le#:#Lernmodul###04 Mar 2003 content changed
-common#:#level#:#Stufe###04 Mar 2003 content changed
-common#:#linebreak#:#Zeilenumbruch###04 Mar 2003 content changed
-common#:#link#:#verknüpfen###04 Mar 2003 content changed
-common#:#linked_pages#:#Verknüpft mit den Seiten###04 Mar 2003 content changed
-common#:#list_of_pages#:#Seitenliste###04 Mar 2003 content changed
-common#:#list_of_questions#:#Fragenliste###04 Mar 2003 content changed
-common#:#literature#:#Literatur###04 Mar 2003 content changed
-common#:#literature_bookmarks#:#Literatur Bookmarks###04 Mar 2003 content changed
-common#:#lng#:#Sprache###04 Mar 2003 content changed
-common#:#lngf#:#Sprachordner###04 Mar 2003 content changed
-common#:#lo#:#Lerneinheit###04 Mar 2003 content changed
-common#:#lo_available#:#Übersicht Lerneinheiten & Kurse###07 Feb 2003 content changed
-common#:#lo_categories#:#Lerneinheiten Kategorien###04 Mar 2003 content changed
-common#:#lo_edit#:#Lerneinheiten editieren###04 Mar 2003 content changed
-common#:#lo_new#:#neue Lerneinheit###04 Mar 2003 content changed
-common#:#lo_no_content#:#Keine Lernmaterialien vorhanden###04 Mar 2003 content changed
-common#:#lo_other_langs#:#Lerneinheiten in anderen Sprachen###04 Mar 2003 content changed
-common#:#lo_overview#:#LE Übersicht###04 Mar 2003 content changed
-common#:#login#:#Login###04 Mar 2003 content changed
-common#:#login_to_ilias#:#Bei ILIAS anmelden###04 Mar 2003 content changed
-common#:#logout#:#Logout###04 Mar 2003 content changed
-common#:#los#:#Lerneinheiten###04 Mar 2003 content changed
-common#:#los_last_visited#:#Zuletzt besuchte Lerneinheiten###04 Mar 2003 content changed
-common#:#mail#:#Mail###04 Mar 2003 content changed
-common#:#mail_s#:#Mail(s)###04 Mar 2003 content changed
-common#:#mail_s_unread#:#Ungelesene Mail(s)###04 Mar 2003 content changed
-common#:#mails#:#Mails###04 Mar 2003 content changed
-common#:#mandatory_fields#:#Pflichtfelder###04 Mar 2003 content changed
-common#:#mark_all_read#:#Als gelesen markieren###04 Mar 2003 content changed
-common#:#mark_all_unread#:#Als ungelesen markieren###04 Mar 2003 content changed
-common#:#members#:#Mitglieder###04 Mar 2003 content changed
-common#:#message#:#Nachricht###04 Mar 2003 content changed
-common#:#message_content#:#Nachrichteninhalt###04 Mar 2003 content changed
-common#:#message_to#:#Nachricht an:###04 Mar 2003 content changed
-common#:#migrate#:#Migrieren###04 Mar 2003 content changed
-common#:#move_to#:#Ablegen in###04 Mar 2003 content changed
-common#:#msg_changes_ok#:#Die Änderungen wurden übernommen###04 Mar 2003 content changed
-common#:#msg_failed#:#Aktion fehlgeschlagen###04 Mar 2003 content changed
+common#:#le#:#Lernmodul
+common#:#level#:#Stufe
+common#:#linebreak#:#Zeilenumbruch
+common#:#link#:#verknüpfen
+common#:#linked_pages#:#Verknüpft mit den Seiten
+common#:#list_of_pages#:#Seitenliste
+common#:#list_of_questions#:#Fragenliste
+common#:#literature#:#Literatur
+common#:#literature_bookmarks#:#Literatur Bookmarks
+common#:#lng#:#Sprache
+common#:#lngf#:#Sprachordner
+common#:#lo#:#Lerneinheit
+common#:#lo_available#:#Übersicht Lerneinheiten & Kurse
+common#:#lo_categories#:#Lerneinheiten Kategorien
+common#:#lo_edit#:#Lerneinheiten editieren
+common#:#lo_new#:#neue Lerneinheit
+common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
+common#:#lo_other_langs#:#Lerneinheiten in anderen Sprachen
+common#:#lo_overview#:#LE Übersicht
+common#:#login#:#Login
+common#:#login_to_ilias#:#Bei ILIAS anmelden
+common#:#logout#:#Logout
+common#:#los#:#Lerneinheiten
+common#:#los_last_visited#:#Zuletzt besuchte Lerneinheiten
+common#:#mail#:#Mail
+common#:#mail_s#:#Mail(s)
+common#:#mail_s_unread#:#Ungelesene Mail(s)
+common#:#mails#:#Mails
+common#:#mandatory_fields#:#Pflichtfelder
+common#:#mark_all_read#:#Als gelesen markieren
+common#:#mark_all_unread#:#Als ungelesen markieren
+common#:#members#:#Mitglieder
+common#:#message#:#Nachricht
+common#:#message_content#:#Nachrichteninhalt
+common#:#message_to#:#Nachricht an:
+common#:#migrate#:#Migrieren
+common#:#move_to#:#Ablegen in
+common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
+common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: 
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren: Nr.
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen: Nr.
@@ -286,174 +286,175 @@ common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu v
 common#:#msg_nothing_found#:#Nichts gefunden
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
 common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte 
-common#:#multimedia#:#Multimedia###04 Mar 2003 content changed
-common#:#must_fill_in#:#Felder müssen ausgefüllt werden###04 Mar 2003 content changed
-common#:#name#:#Name###04 Mar 2003 content changed
-common#:#new#:#Neu###04 Mar 2003 content changed
-common#:#new_folder#:#Neuer Ordner###04 Mar 2003 content changed
-common#:#new_group#:#Neue Gruppe###04 Mar 2003 content changed
-common#:#new_language#:#Neue Sprache###04 Mar 2003 content changed
-common#:#news#:#News###04 Mar 2003 content changed
-common#:#nickname#:#Login###04 Mar 2003 content changed
-common#:#no#:#Nein###04 Mar 2003 content changed
+common#:#multimedia#:#Multimedia
+common#:#must_fill_in#:#Felder müssen ausgefüllt werden
+common#:#name#:#Name
+common#:#new#:#Neu
+common#:#new_folder#:#Neuer Ordner
+common#:#new_group#:#Neue Gruppe
+common#:#new_language#:#Neue Sprache
+common#:#news#:#News
+common#:#nickname#:#Login
+common#:#no#:#Nein
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
-common#:#no_objects#:#Keine Objekte###04 Mar 2003 content changed
-common#:#no_title#:#Kein Titel###04 Mar 2003 content changed
-common#:#none#:#Keine###04 Mar 2003 content changed
-common#:#normal#:#Normal###04 Mar 2003 content changed
-common#:#not_installed#:#Nicht installiert###04 Mar 2003 content changed
-common#:#obj#:#Objekt###04 Mar 2003 content changed
-common#:#obj_not_found#:#Kein Objekt gefunden###04 Mar 2003 content changed
-common#:#obj_owner#:#Besitzer des Objekts ist###04 Mar 2003 content changed
-common#:#objects#:#Objekte###04 Mar 2003 content changed
-common#:#objf#:#Objektordner###04 Mar 2003 content changed
-common#:#of#:#von###04 Mar 2003 content changed
-common#:#offline_version#:#Offline Version###04 Mar 2003 content changed
-common#:#old#:#Alt###04 Mar 2003 content changed
-common#:#online_chapter#:#Online Kapitel###04 Mar 2003 content changed
-common#:#online_version#:#Online Version###04 Mar 2003 content changed
+common#:#no_objects#:#Keine Objekte
+common#:#no_title#:#Kein Titel
+common#:#none#:#Keine
+common#:#normal#:#Normal
+common#:#not_installed#:#Nicht installiert
+common#:#obj#:#Objekt
+common#:#obj_not_found#:#Kein Objekt gefunden
+common#:#obj_owner#:#Besitzer des Objekts ist
+common#:#objects#:#Objekte
+common#:#objf#:#Objektordner
+common#:#of#:#von
+common#:#offline_version#:#Offline Version
+common#:#old#:#Alt
+common#:#online_chapter#:#Online Kapitel
+common#:#online_version#:#Online Version
 common#:#operation#:#Operation
-common#:#optimize#:#Optimieren###04 Mar 2003 content changed
-common#:#options#:#Optionen###04 Mar 2003 content changed
-common#:#order_by#:#Sortieren nach###04 Mar 2003 content changed
-common#:#other#:#Andere###04 Mar 2003 content changed
-common#:#overview#:#Übersicht###04 Mar 2003 content changed
-common#:#owner#:#Besitzer###04 Mar 2003 content changed
-common#:#page#:#Seite###04 Mar 2003 content changed
-common#:#page_edit#:#Seite bearbeiten###04 Mar 2003 content changed
+common#:#optimize#:#Optimieren
+common#:#options#:#Optionen
+common#:#order_by#:#Sortieren nach
+common#:#other#:#Andere
+common#:#overview#:#Übersicht
+common#:#owner#:#Besitzer
+common#:#page#:#Seite
+common#:#page_edit#:#Seite bearbeiten
 common#:#parse#:#Parsen
-common#:#passwd#:#Passwort###04 Mar 2003 content changed
-common#:#password#:#Passwort###04 Mar 2003 content changed
-common#:#paste#:#Einfügen###04 Mar 2003 content changed
-common#:#path#:#Pfad###04 Mar 2003 content changed
-common#:#path_to_babylon#:#BABYLON Befehlszeile###04 Mar 2003 content changed
-common#:#path_to_convert#:#CONVERT Befehlszeile###04 Mar 2003 content changed
-common#:#path_to_java#:#JAVA Befehlszeile###04 Mar 2003 content changed
-common#:#path_to_unzip#:#UNZIP Befehlszeile###04 Mar 2003 content changed
-common#:#path_to_zip#:#ZIP Befehszeile###04 Mar 2003 content changed
-common#:#payment_system#:#Bezahlungssystem###04 Mar 2003 content changed
-common#:#perm_settings#:#Rechte###04 Mar 2003 content changed
-common#:#permission#:#Recht###04 Mar 2003 content changed
-common#:#permission_denied#:#Kein Zugriffsrecht###04 Mar 2003 content changed
-common#:#personal_desktop#:#Persönlicher Schreibtisch###04 Mar 2003 content changed
-common#:#personal_profile#:#persönliches Profil###04 Mar 2003 content changed
-common#:#phone#:#Telefon###04 Mar 2003 content changed
-common#:#phrase#:#Phrase###04 Mar 2003 content changed
-common#:#port#:#Port###04 Mar 2003 content changed
-common#:#position#:#Position###04 Mar 2003 content changed
-common#:#presentation_options#:#Präsentationsoptionen###04 Mar 2003 content changed
-common#:#print#:#Drucken###04 Mar 2003 content changed
-common#:#profile#:#Profil###04 Mar 2003 content changed
-common#:#pub_section#:#öffentlicher Bereich###04 Mar 2003 content changed
-common#:#publication#:#Veröffentlichung###04 Mar 2003 content changed
-common#:#publication_date#:#Veröffentlichungsdatum###04 Mar 2003 content changed
-common#:#published#:#Veröffentlicht###04 Mar 2003 content changed
-common#:#publishing_organisation#:#Veröffentlichende Organisation###04 Mar 2003 content changed
-common#:#question#:#Frage###04 Mar 2003 content changed
-common#:#quit#:#Logout###04 Mar 2003 content changed
-common#:#read#:#Lesen###04 Mar 2003 content changed
-common#:#recipient#:#Empfänger###04 Mar 2003 content changed
-common#:#refresh#:#Aktualisieren###04 Mar 2003 content changed
-common#:#refresh_list#:#Refresh List###04 Mar 2003 content changed
-common#:#registered_since#:#Eingetragen seit###04 Mar 2003 content changed
-common#:#reply#:#Antworten###04 Mar 2003 content changed
-common#:#required_field#:#erforderliches Feld###04 Mar 2003 content changed
-common#:#reset#:#Zurücksetzen###04 Mar 2003 content changed
-common#:#retype_password#:#Passwort wiederholen###04 Mar 2003 content changed
-common#:#right#:#Recht###04 Mar 2003 content changed
-common#:#rights#:#Rechte###04 Mar 2003 content changed
-common#:#role#:#Rolle###04 Mar 2003 content changed
-common#:#roles#:#Rollen###04 Mar 2003 content changed
-common#:#rolf#:#Rollenordner###04 Mar 2003 content changed
-common#:#rolt#:#Rollenvorlage###04 Mar 2003 content changed
-common#:#salutation#:#Anrede###04 Mar 2003 content changed
+common#:#passwd#:#Passwort
+common#:#password#:#Passwort
+common#:#paste#:#Einfügen
+common#:#path#:#Pfad
+common#:#path_to_babylon#:#BABYLON Befehlszeile
+common#:#path_to_convert#:#CONVERT Befehlszeile
+common#:#path_to_java#:#JAVA Befehlszeile
+common#:#path_to_unzip#:#UNZIP Befehlszeile
+common#:#path_to_zip#:#ZIP Befehszeile
+common#:#payment_system#:#Bezahlungssystem
+common#:#perm_settings#:#Rechte
+common#:#permission#:#Recht
+common#:#permission_denied#:#Kein Zugriffsrecht
+common#:#personal_desktop#:#Persönlicher Schreibtisch
+common#:#personal_profile#:#persönliches Profil
+common#:#phone#:#Telefon
+common#:#phrase#:#Phrase
+common#:#port#:#Port
+common#:#position#:#Position
+common#:#presentation_options#:#Präsentationsoptionen
+common#:#print#:#Drucken
+common#:#profile#:#Profil
+common#:#pub_section#:#öffentlicher Bereich
+common#:#publication#:#Veröffentlichung
+common#:#publication_date#:#Veröffentlichungsdatum
+common#:#published#:#Veröffentlicht
+common#:#publishing_organisation#:#Veröffentlichende Organisation
+common#:#question#:#Frage
+common#:#quit#:#Logout
+common#:#read#:#Lesen
+common#:#recipient#:#Empfänger
+common#:#refresh#:#Aktualisieren
+common#:#refresh_list#:#Refresh List
+common#:#registered_since#:#Eingetragen seit
+common#:#reply#:#Antworten
+common#:#required_field#:#erforderliches Feld
+common#:#reset#:#Zurücksetzen
+common#:#retype_password#:#Passwort wiederholen
+common#:#right#:#Recht
+common#:#rights#:#Rechte
+common#:#role#:#Rolle
+common#:#roles#:#Rollen
+common#:#rolf#:#Rollenordner
+common#:#rolt#:#Rollenvorlage
+common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
-common#:#save#:#Speichern###04 Mar 2003 content changed
-common#:#save_and_back#:#Speichern und zurück###04 Mar 2003 content changed
-common#:#save_message#:#Nachricht speichern###04 Mar 2003 content changed
-common#:#saved#:#Gespeichert###04 Mar 2003 content changed
-common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert###04 Mar 2003 content changed
-common#:#search#:#Suchen###04 Mar 2003 content changed
-common#:#search_bc_recipient#:#BC Empfänger suchen###04 Mar 2003 content changed
-common#:#search_cc_recipient#:#CC Empfänger suchen###04 Mar 2003 content changed
-common#:#search_in#:#Suchen in###04 Mar 2003 content changed
-common#:#search_recipient#:#Empfänger suchen###04 Mar 2003 content changed
-common#:#sections#:#Bereiche###04 Mar 2003 content changed
-common#:#select_all#:#Alle auswählen###04 Mar 2003 content changed
-common#:#select_file#:#Datei wählen
+common#:#save#:#Speichern
+common#:#save_and_back#:#Speichern und zurück
+common#:#save_message#:#Nachricht speichern
+common#:#saved#:#Gespeichert
+common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
+common#:#search#:#Suchen
+common#:#search_bc_recipient#:#BC Empfänger suchen
+common#:#search_cc_recipient#:#CC Empfänger suchen
+common#:#search_in#:#Suchen in
+common#:#search_recipient#:#Empfänger suchen
+common#:#sections#:#Bereiche
+common#:#select_all#:#Alle auswählen
+common#:#select_file#:#Datei wählen###04 Mar 2003 content changed
 common#:#select_mode#:#Modus wählen
-common#:#selected#:#Ausgewählte###04 Mar 2003 content changed
-common#:#send#:#Abschicken###04 Mar 2003 content changed
-common#:#sender#:#Absender###04 Mar 2003 content changed
-common#:#sent#:#Gesendet###04 Mar 2003 content changed
-common#:#sequence#:#Sequenz###04 Mar 2003 content changed
-common#:#sequences#:#Sequenzen###04 Mar 2003 content changed
-common#:#server#:#Server###04 Mar 2003 content changed
-common#:#server_software#:#Server Software###04 Mar 2003 content changed
-common#:#set#:#Setzen###04 Mar 2003 content changed
-common#:#set_offline#:#Offline setzen###04 Mar 2003 content changed
-common#:#set_online#:#Online stellen###04 Mar 2003 content changed
-common#:#set_system_language#:#Systemsprache ändern###04 Mar 2003 content changed
-common#:#show_list#:#Auflistung anzeigen###04 Mar 2003 content changed
-common#:#show_members#:#Mitglieder anzeigen###04 Mar 2003 content changed
-common#:#show_owner#:#Besitzerinfo###04 Mar 2003 content changed
-common#:#signature#:#Signatur###04 Mar 2003 content changed
-common#:#startpage#:#Startseite###04 Mar 2003 content changed
-common#:#status#:#Status###04 Mar 2003 content changed
-common#:#step#:#Schritt###04 Mar 2003 content changed
-common#:#street#:#Straße###04 Mar 2003 content changed
-common#:#structure#:#Gliederung###04 Mar 2003 content changed
-common#:#student#:#Student###04 Mar 2003 content changed
-common#:#subcat_name#:#Unterkategorie Name###04 Mar 2003 content changed
-common#:#subchapter_new#:#Neues Unterkapitel###04 Mar 2003 content changed
-common#:#subject#:#Betreff###04 Mar 2003 content changed
-common#:#submit#:#Abschicken###04 Mar 2003 content changed
-common#:#subscription#:#Abo###04 Mar 2003 content changed
-common#:#summary#:#Zusammenfassung###04 Mar 2003 content changed
-common#:#system#:#System###04 Mar 2003 content changed
-common#:#system_choose_language#:#Systemsprache w&auml;hlen###04 Mar 2003 content changed
-common#:#system_groups#:#Systemgruppen###04 Mar 2003 content changed
-common#:#system_grp#:#Systemgruppe###04 Mar 2003 content changed
-common#:#system_language#:#Systemsprache###04 Mar 2003 content changed
-common#:#system_message#:#Systemnachricht###04 Mar 2003 content changed
-common#:#test_intern#:#Interner Test###04 Mar 2003 content changed
-common#:#time#:#Zeit###04 Mar 2003 content changed
-common#:#title#:#Titel###04 Mar 2003 content changed
-common#:#to#:#An###04 Mar 2003 content changed
-common#:#today#:#Heute###04 Mar 2003 content changed
-common#:#total#:#Gesamt###04 Mar 2003 content changed
-common#:#tpl_path#:#Template-Pfad###04 Mar 2003 content changed
-common#:#trash#:#Papierkorb###04 Mar 2003 content changed
-common#:#treeview#:#Baumansicht###04 Mar 2003 content changed
-common#:#type#:#Typ###04 Mar 2003 content changed
-common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier###04 Mar 2003 content changed
-common#:#uid#:#UID###04 Mar 2003 content changed
-common#:#uninstall#:#Deinstallieren###04 Mar 2003 content changed
+common#:#selected#:#Ausgewählte
+common#:#send#:#Abschicken
+common#:#sender#:#Absender
+common#:#sent#:#Gesendet
+common#:#sequence#:#Sequenz
+common#:#sequences#:#Sequenzen
+common#:#server#:#Server
+common#:#server_software#:#Server Software
+common#:#set#:#Setzen
+common#:#set_offline#:#Offline setzen
+common#:#set_online#:#Online stellen
+common#:#set_system_language#:#Systemsprache ändern
+common#:#show_list#:#Auflistung anzeigen
+common#:#show_members#:#Mitglieder anzeigen
+common#:#show_owner#:#Besitzerinfo
+common#:#signature#:#Signatur
+common#:#startpage#:#Startseite
+common#:#status#:#Status
+common#:#step#:#Schritt
+common#:#street#:#Straße
+common#:#structure#:#Gliederung
+common#:#student#:#Student
+common#:#subcat_name#:#Unterkategorie Name
+common#:#subchapter_new#:#Neues Unterkapitel
+common#:#subject#:#Betreff
+common#:#submit#:#Abschicken
+common#:#subscription#:#Abo
+common#:#summary#:#Zusammenfassung
+common#:#system#:#System
+common#:#system_choose_language#:#Systemsprache w&auml;hlen
+common#:#system_groups#:#Systemgruppen
+common#:#system_grp#:#Systemgruppe
+common#:#system_language#:#Systemsprache
+common#:#system_message#:#Systemnachricht
+common#:#test_intern#:#Interner Test
+common#:#time#:#Zeit
+common#:#title#:#Titel
+common#:#to#:#An
+common#:#today#:#Heute
+common#:#total#:#Gesamt
+common#:#tpl_path#:#Template-Pfad
+common#:#trash#:#Papierkorb
+common#:#treeview#:#Baumansicht
+common#:#type#:#Typ
+common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
+common#:#uid#:#UID
+common#:#uninstall#:#Deinstallieren
 common#:#unknown#:#UNBEKANNT
-common#:#unread#:#Ungelesen###04 Mar 2003 content changed
-common#:#update_applied#:#Datenbankupdate erfolgreich###04 Mar 2003 content changed
-common#:#update_language#:#Sprache updaten###04 Mar 2003 content changed
+common#:#unread#:#Ungelesen
+common#:#update_applied#:#Datenbankupdate erfolgreich
+common#:#update_language#:#Sprache updaten
 common#:#upload#:#Hochladen
-common#:#url#:#URL###04 Mar 2003 content changed
-common#:#url_description#:#URL Beschreibung###04 Mar 2003 content changed
-common#:#user#:#Benutzer###04 Mar 2003 content changed
-common#:#userdata#:#Benutzerdaten###04 Mar 2003 content changed
-common#:#username#:#Benutzername###04 Mar 2003 content changed
-common#:#users#:#Benutzer###04 Mar 2003 content changed
-common#:#usr#:#Benutzer###04 Mar 2003 content changed
-common#:#usr_agreement#:#Vereinbarung###04 Mar 2003 content changed
-common#:#usr_skin#:#Benutzeroberfläche###04 Mar 2003 content changed
-common#:#usr_style#:#Stil###04 Mar 2003 content changed
-common#:#usrf#:#Benutzerordner###04 Mar 2003 content changed
+common#:#url#:#URL
+common#:#url_description#:#URL Beschreibung
+common#:#user#:#Benutzer
+common#:#userdata#:#Benutzerdaten
+common#:#username#:#Benutzername
+common#:#users#:#Benutzer
+common#:#usr#:#Benutzer
+common#:#usr_agreement#:#Vereinbarung
+common#:#usr_skin#:#Benutzeroberfläche
+common#:#usr_style#:#Stil
+common#:#usrf#:#Benutzerordner
 common#:#validate#:#Validieren
-common#:#version#:#Version###04 Mar 2003 content changed
+common#:#version#:#Version
 common#:#view#:#Zeigen
-common#:#view_content#:#Inhalt###04 Mar 2003 content changed
-common#:#visible_layers#:#Sichtbare Ebenen###04 Mar 2003 content changed
-common#:#visits#:#Besuche###04 Mar 2003 content changed
-common#:#write#:#Schreiben###04 Mar 2003 content changed
-common#:#yes#:#Ja###04 Mar 2003 content changed
-common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen###04 Mar 2003 content changed
-common#:#your_message#:#Ihre Nachricht###04 Mar 2003 content changed
+common#:#view_content#:#Inhalt
+common#:#visible_layers#:#Sichtbare Ebenen
+common#:#visits#:#Besuche
+common#:#write#:#Schreiben
+common#:#yes#:#Ja
+common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
+common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+common#:#zzz#:#Zzzzzzz###04 Mar 2003 new variable
