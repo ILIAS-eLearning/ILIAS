@@ -45,6 +45,9 @@ change_password#:#Change password
 choose_language#:#choose your language
 choose_languages#:#Please choose additional languages and/or remove selected languages.
 choose_password#:#Please choose a password
+could_not_create_logfile#:#Could not create logfile
+dir_exists_create#:#Directory already exists. uncheck 'create' to select this directory as your data directory
+cannot_create_datadir_no_write_access#:#No write access. Cannot create data directory
 city#:#City
 client_data#:#Client Information
 client_id#:#Client ID
@@ -52,12 +55,22 @@ client_info#:#Description
 client_institution#:#Institution
 client_login#:#Login with your Client ID
 client_name#:#Name
+client_setup_not_finished#:#Client setup is not finished yet
+client_access_mode_changed#:#Client's access mode changed
+contact#:#Contact Information
 contact_data#:#Contact Information
 convert_path#:#Path to Convert
 convert_path_comment#:#required for displaying thumbnails of images
 country#:#Country
 create#:#create
 create_new_client#:#Create new client
+create_datadir_failed#:#Creation of data directory failed
+create_webdir_failed#:#Creation of web directory failed
+check_failed_convert#:#Testing convert failed
+check_failed_zip#:#Testing zip failed
+check_failed_unzip#:#Testing unzip failed
+check_failed_java#:#Testing java failed
+check_failed_htmldoc#:#Testing HTMLdoc failed
 data_path#:#data path
 database#:#database
 database_create#:#Create database
@@ -86,10 +99,12 @@ disable_check#:#disable check
 disable_logging#:#disable logging
 disabled#:#disabled
 email#:#Email
-email_not_valid#:#Email is not valid
+filled_out#:#filled out correctly
+email_not_valid#:#Invalid email address
 en_by_default#:#(English is installed by default and cannot be deleted).
 enable#:#enable
 enabled#:#enabled
+missing_data#:#Missing data
 enter_password#:#Please enter password
 env_ok#:#Ok. Sounds good.
 env_using#:#ILIAS 3 will be running on
@@ -100,7 +115,7 @@ err_wrong_login#:#Wrong login
 file_does_not_exist#:#File does not exist.
 file_version#:#file version
 fill_both_fields#:#Please fill out both fields!
-fill_out_required_fields#:#Please fill out all fields remarked as required.
+fill_out_required_fields#:#Please fill out all fields marked as required.
 finish#:#Finish setup
 finish_setup#:#Finishing setup
 firstname#:#Firstname
@@ -127,7 +142,7 @@ ini_client_id_invalid#:#The client ID you entered contains invalid characers
 ini_client_id_no_change#:#Client Id cannot be changed in this version after client directories has been created successfully.
 ini_client_id_too_long#:#Client Id too long
 ini_client_id_too_short#:#Client ID too short
-ini_db_name_exists#:#already exists! Please choose another db name
+ini_db_name_exists#:#already exists! Please choose another database name
 ini_no_client_id#:#No client ID given.
 ini_no_db_host#:#No hostname
 ini_no_db_name#:#no database name
@@ -170,8 +185,11 @@ lang_xx#:#Custom
 language#:#language
 languages#:#languages
 languages_installed#:#Language(s) installed
+client#:#Client
+unknown_display_mode#:#Unknown display mode
 lastname#:#Lastname
 list#:#list
+overall_status#:#Overall status
 log_path#:#Path to Logfile
 log_path_comment#:#enter with filename. File will be created.
 logged_out#:#You logged out.
@@ -179,6 +197,7 @@ logging#:#Logging
 login#:#login
 login_invalid#:#Login invalid
 login_to_ilias#:#login to ILIAS
+no_client_name#:#NO CLIENT NAME
 logout#:#logout
 main_datadir_outside_webspace#:#Main data directory outside webspace
 name#:#Name
@@ -194,6 +213,7 @@ nic_reg_enter_id#:#please enter id sent by email
 nic_reg_failed#:#NIC registration failed
 nic_reg_online#:#register online
 nic_registration#:#NIC Registration
+nic_not_disabled#:#No NIC-ID & not disabled
 no_changes#:#No changes.
 no_client_id#:#No Client ID given
 no_clients_available#:#No Clients available
@@ -203,7 +223,16 @@ no_db_update_file#:#dbupdate.php not found!
 no_password#:#No password given
 no_path_given#:#No path given
 no_username#:#No username given
-not_connected_to_db#:#You are not connected to database.
+not_connected_to_db#:#You are not connected to database
+no_valid_client_id#:#No valid client ID
+default_client_changed#:#Changed default client
+no_path_log#:#No log path given
+no_path_datadir#:#No data directory given
+no_path_convert#:#No convert path given
+no_path_unzip#:#No unzip path given
+no_path_zip#:#No zip path given
+no_path_java#:#No java path given
+no_path_htmldoc#:#No HTMLdoc path given
 online#:#online
 or#:#or
 out_of_webspace#:#(out of webspace)
@@ -214,11 +243,11 @@ password_empty#:#No password given!
 password_enter_old#:#You must enter your old password first!
 password_info#:#To protect your configuration data from unauthorized access please enter a password to change these settings later again.
 password_new_master#:#Set new master password
-password_not_match#:#New Passwords entered does not match!
+password_not_match#:#New Password entered does not match!
 password_old_wrong#:#Old password entered is wrong!
 password_retype#:#Retype new password
 password_same#:#Old and new password are the same!
-password_set#:#Password saved.
+password_set#:#Password saved
 path_not_set#:#Path not set
 path_to_convert#:#Path to Convert
 path_to_htmldoc#:#Path to HTMLdoc
@@ -253,6 +282,9 @@ set_oldpasswd#:#Please enter old password
 settings_changed#:#Settings changed
 settings_saved#:#Settings saved
 setup#:#setup
+setup_finished#:#Setup finished
+delete_confirm#:#Confirm client deletion
+delete_info#:#Are you sure?
 setup_basic_settings#:#Setup basic settings
 setup_contact_data#:#Setup Contact Information
 setup_database#:#setup database
@@ -267,9 +299,11 @@ setup_languages_desc#:#install additional languages
 setup_login#:#Login to Setup
 setup_mainmenu#:#Setup mainmenu
 setup_menu#:#setup menu
+setup_nic_desc#:#registration of your installation at ILIAS-NIC-Server
 setup_not_finished#:#Setup not finished
-setup_pass#:#Setup password
-setup_pass2#:#Retype setup Password
+setup_pass_title#:#Set master password
+setup_pass#:#Password
+setup_pass2#:#Retype password
 setup_password#:#create password
 setup_password_desc#:#create a password to access the setup-routine later on (i.e. to update your database)
 setup_process_status#:#Setup Process Status
@@ -285,7 +319,6 @@ status#:#Status
 step#:#Step
 street#:#Street
 submit#:#Submit
-target#:#target
 title#:#Title
 unknown_client_id#:#Unknown Client
 unzip_path#:#Path to Unzip
@@ -301,3 +334,5 @@ wrong_password#:#Wrong password!
 zip_path#:#Path to Zip
 zip_path_comment#:#required for exporting learning modules
 zipcode#:#Zipcode
+unknown_command#:#Unknown command
+db_needs_update#:#Database needs update
