@@ -198,15 +198,12 @@ class ilPersonalDesktopGUI
 				}
 				
 				// drop link
-				if($item['type'] != 'crs' or $rbacsystem->checkAccess('leave',$item['id']))
-				{
-					$tpl->setCurrentBlock("drop_link");
-					$tpl->setVariable("TYPE", $item["type"]);
-					$tpl->setVariable("ID", $item["id"]);
-					$tpl->setVariable("TXT_DROP", $this->lng->txt("drop"));
-					$tpl->setVariable("IMG_DROP", ilUtil::getImagePath("delete.gif"));
-					$tpl->parseCurrentBlock();
-				}
+				$tpl->setCurrentBlock("drop_link");
+				$tpl->setVariable("TYPE", $item["type"]);
+				$tpl->setVariable("ID", $item["id"]);
+				$tpl->setVariable("TXT_DROP", $this->lng->txt("drop"));
+				$tpl->setVariable("IMG_DROP", ilUtil::getImagePath("delete.gif"));
+				$tpl->parseCurrentBlock();
 
 				// description
 				if ($item["description"] != "")
@@ -230,7 +227,7 @@ class ilPersonalDesktopGUI
 					}
 					$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($id);
 
-					if(!$conditions_ok)
+					if(!$conditions_ok and 0)
 					{
 						foreach(ilConditionHandler::_getConditionsOfTarget($id) as $condition)
 						{

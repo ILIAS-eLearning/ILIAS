@@ -1023,7 +1023,7 @@ class ilObject
 		switch($a_operator)
 		{
 			default:
-				return false;
+				return true;
 		}
 	}
 

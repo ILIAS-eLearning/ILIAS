@@ -3530,3 +3530,21 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
+common#:#condition_select_one#:#-Please select one condition-
+common#:#condition_passed#:#Passed
+common#:#condition_update#:#Save
+common#:#add_condition#:#Create new association
+common#:#preconditions#:#Preconditions
+common#:#condition#:#Condition
+common#:#condition_select_object#:#Please select one object.
+common#:#conditions_updated#:#Conditions saved
+common#:#crs_status_blocked#:#[Access refused]
+common#:#crs_status_pending#:#[Waiting for registration]
+common#:#condition_precondition#:#Preconditions:
+common#:#condition_already_assigned#:#Object already assigned.
+common#:#condition_circle_created#:#This association is not possible, since the objects would interdepend.
+crs#:#crs_add_html_archive#:#Add HTML archive
+common#:#crs_member_passed#:#Passed
+common#:#crs_member_not_passed#:#Not passed
+common#:#crs_subscribers_assigned#:#Assigned new user(s)
+crs#:#crs_passed#:#Passed

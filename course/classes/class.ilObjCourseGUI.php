@@ -677,7 +677,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		if(!count($archives = $this->object->archives_obj->getArchives()))
 		{
-			sendInfo("crs_no_archives_available");
+			sendInfo($this->lng->txt("crs_no_archives_available"));
 			return true;
 		}
 		
@@ -1858,7 +1858,7 @@ class ilObjCourseGUI extends ilObjectGUI
 					$tpl->setVariable("STATUS",$status);
 					$tpl->setVariable("PASSED",$member_data['passed'] ? 
 									  $this->lng->txt('crs_member_passed') :
-									  $this->lng->txt('crs_members_not_passed'));
+									  $this->lng->txt('crs_member_not_passed'));
 					$tpl->parseCurrentBlock();
 				}
 			}

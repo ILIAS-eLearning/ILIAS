@@ -61,7 +61,7 @@ class ilConditionHandlerInterface
 	{
 		global $rbacsystem;
 
-		$operators = array(''			=> $this->lng->txt('select_one'),
+		$operators = array(''			=> $this->lng->txt('condition_select_one'),
 						   'passed'		=> $this->lng->txt('condition_passed'));
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
@@ -73,10 +73,10 @@ class ilConditionHandlerInterface
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",4);
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 		if(count(ilConditionHandler::_getConditionsOfTarget($this->target_obj->getId())))
 		{
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
 			$tpl->setCurrentBlock("tbl_action_btn");
 			$tpl->setVariable("BTN_NAME","chi_delete");
