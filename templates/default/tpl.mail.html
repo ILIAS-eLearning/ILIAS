@@ -5,9 +5,9 @@
 	  {MESSAGE}
 	<form method="post" name="cmd" action="{ACTION}">
 	  <!-- BEGIN confirm_delete -->
-	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
+	  <table class="fullwidth">
 		  <tr>
-			<td align="center" valign="top" height="30">
+			<td class="std"  align="center" valign="top" height="30">
 			  <input class="submit" type="submit" name="confirm" value="{BUTTON_CONFIRM}"/>
 			  <input class="submit" type="submit" name="cancel" value="{BUTTON_CANCEL}"/>
 			</td>
@@ -22,36 +22,36 @@
 		  </tr>
 	  </table>
 	  <!-- END linkbar -->
-	  <table width="100%" cellpadding=3 cellspacing=1 border=0>
+	  <table class="fullwidth">
 		  <tr class="tblheader">
-			<td width="4%">&nbsp;</td>
-			<td>{TXT_SENDER}</td>
-			<td>{TXT_SUBJECT}</td>
-			<td>{TXT_DATE}</td>
+			<td class="std"  width="4%">&nbsp;</td>
+			<td class="std" >{TXT_SENDER}</td>
+			<td class="std" >{TXT_SUBJECT}</td>
+			<td class="std" >{TXT_DATE}</td>
 		  </tr>
 
 		  <!-- BEGIN mails -->
 		  <tr class="{ROWCOL}">
-			<td>&nbsp;<input type="checkbox" name="mail_id[]" value="{MAIL_ID}" {CHECKBOX_CHECKED}></td>
-			<td valign="middle">&nbsp;{MAIL_FROM}</TD>
-			<td valign="middle">&nbsp;<a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJECT}</a></td>
-			<td valign="middle">&nbsp;{MAIL_DATE}</td>
+			<td class="std" >&nbsp;<input type="checkbox" name="mail_id[]" value="{MAIL_ID}" {CHECKBOX_CHECKED}></td>
+			<td class="std"  valign="middle">&nbsp;{MAIL_FROM}</TD>
+			<td class="std"  valign="middle">&nbsp;<a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJECT}</a></td>
+			<td class="std"  valign="middle">&nbsp;{MAIL_DATE}</td>
 		  </tr>
 		  <!-- END mails -->
 	  </table>
-	  <table width="100%" cellpadding=3 cellspacing=1 border=0>
+	  <table class="fullwidth">
 		  <tr class="tblrow2">
-			<td colspan=4>&nbsp;<input type="checkbox" name="all" value="check_all" onClick="CheckAll();">&nbsp;
+			<td class="std"  colspan=4>&nbsp;<input type="checkbox" name="all" value="check_all" onClick="CheckAll();">&nbsp;
 			  <strong>{TXT_SELECT_ALL}</strong>
 			</td>
 		  </tr>
 	  </table>
-	  <table width="100%" cellpadding=10 cellspacing=1 border=0>
+	  <table class="fullwidth">
 		  <tr>
-			<td width="4%">
+			<td class="std"  width="4%" align="center">
 			  <img src="{IMGPATH}/images/arrow_downright.gif" />
 			</td>
-			<td>
+			<td class="std" >
 			  <select name="cmd">
 				<!-- BEGIN mailactions -->
 				<option value="{MAILACTION_NAME}" {MAILACTION_SELECTED}>{MAILACTION_VALUE}</option>
@@ -67,7 +67,7 @@
 	</form>
 	<form action="{ACTION_FLAT}" method="GET">
 	  <!-- BEGIN show_folder -->
-	  <td align="right">{TXT_FOLDERS}
+	  <td class="std"  align="right">{TXT_FOLDERS}
 		<select name="mobj_id">
 		  <!-- BEGIN flat_select -->
 		  <option value="{FLAT_VALUE}" "{FLAT_SELECTED}">{FLAT_NAME}</option>

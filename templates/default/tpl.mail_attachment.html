@@ -4,9 +4,9 @@
 	  {MESSAGE}
 	<form action="{ACTION}" METHOD="post">
 	  <!-- BEGIN confirm_delete -->
-	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
+	  <table class="fullwidth">
 		  <tr>
-			<td align="center" valign="top" height="30">
+			<td class="std"  align="center" valign="top" height="30">
 			  <input class="submit" type="submit" name="confirm" value="{BUTTON_CONFIRM}">
 			  <input class="submit" type="submit" name="cancel" value="{BUTTON_CANCEL}">
 			</td>
@@ -14,42 +14,42 @@
 	  </table>
 	  <!-- END confirm_delete -->
 	  <H3>{TXT_ATTACHMENT}</H3>
-	  <table CELLPADDING=3 CELLSPACING=1 BORDER=0 WIDTH="100%">
+	  <table class="fullwidth">
 		  <tr class="tblheader" valign="top">
-			<td width="4%">
+			<td class="std" width="4%">
 			  &nbsp;			
 			</td>
-			<td width="40%">
+			<td class="std"  width="40%">
 			  <b>{TXT_FILENAME}</b>
 			</td>
-			<td width="20%">
+			<td class="std"  width="20%">
 			  <b>{TXT_FILESIZE}</b>
 			</td>
-			<td width="25%">
+			<td class="std"  width="25%">
 			  <b>{TXT_CREATE_TIME}</b>
 			</td>
 		  </tr>
 
 		  <!-- BEGIN files -->
 		  <tr class="{CSSROW}">
-			<td>
+			<td class="std" align="center">
 			  <input type="checkbox" name="filename[]" value="{FILE_NAME}" {CHECKED}>			
 			</td> 
-			<td valign="top">{NAME}</td>
-			<td valign="top">{SIZE}</td>
-			<td valign="top">{CTIME}</td>
+			<td class="std"  valign="top">{NAME}</td>
+			<td class="std"  valign="top">{SIZE}</td>
+			<td class="std"  valign="top">{CTIME}</td>
 		  </tr>
 		  <!-- END files -->
 		  <!-- BEGIN no_content -->
 		  <tr class="tblrow1">
-			<td colspan=4 align="center">{TXT_ATTACHMENT_NO}</td>
+			<td class="std"  colspan=4 align="center">{TXT_ATTACHMENT_NO}</td>
 		  </tr>
 		  <!-- END no_content -->
 		  <tr>
-			<td width="4%">
+			<td class="std" align="center">
 			  <img src="templates/default/images/arrow_downright.gif" />
 			</td>
-			<td colspan="4">
+			<td class="std"  colspan="4">
 			  <select name="cmd">
 				<!-- BEGIN actions -->
 				<option value="{ACTION_NAME}" {ACTION_SELECTED}>{ACTION_VALUE}</option>
@@ -60,9 +60,9 @@
 		  </tr>
 	  </table>
 	</form>
-	<table width="100%">
+	<table class="fullwidth">
 		<tr>
-		  <td align="left">
+		  <td class="std"  align="left">
 			<form action="{UPLOAD}" method="POST" enctype="multipart/form-data">
 			  <input class="submit" type="file" name="userfile" />
 			  <input class="submit" type="submit" name="cmd" value="{BUTTON_UPLOAD}" />
