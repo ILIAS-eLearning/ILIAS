@@ -10,6 +10,7 @@
 	var item_id="{ITEM_ID}";
 	var session_id="{SESSION_ID}";
 
+
 function ILIASLaunchSCO(sco_id)
 {
  	return document.APIAdapter.IliasLaunchSco(sco_id);
@@ -75,6 +76,8 @@ function LMSTerminate(inString)
 
 <body>
 
+<a onclick="LMSCommit('d');">test</a>
+
 <applet code="IliasApiAdapterApplet" codebase="./apiadapter"
 	archive="gnu.jar,IliasApiAdapterApplet.class,PfPLMS-API-adapter-core.jar"
 	ID="APIAdapter" NAME="APIAdapter" width="10" height="10">
@@ -87,6 +90,9 @@ function LMSTerminate(inString)
 <param name = "language" value="de_DE">
 </applet>
 
+<script language="JavaScript">
+	var API = APIAdapter;
+</script>
 
 </body>
 </html>
