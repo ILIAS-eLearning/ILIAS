@@ -79,6 +79,11 @@
 				</tr>
 				
 				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_RbacReview()"><h4>RbacReview(object db &$dbhandle)</h4></a>constructor</td>
+				</tr>
+				
+				<tr>
 					<td align="right" valign="top">int</td>
 					<td align="left" valign="top" width="100%"><a href="#function_assignedUsers()"><h4>assignedUsers(int $Arol_id)</h4></a></td>
 				</tr>
@@ -95,7 +100,7 @@
 				
 				<tr>
 					<td align="right" valign="top">Array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_rolePermissons()"><h4>rolePermissons(int $Arol_id, integer $Aobj_id)</h4></a></td>
+					<td align="left" valign="top" width="100%"><a href="#function_rolePermissons()"><h4>rolePermissons(integer $Arol_id, [ integer $Aobj_id ])</h4></a></td>
 				</tr>
 				
 				<tr>
@@ -104,38 +109,33 @@
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">String</td>
+					<td align="right" valign="top">void</td>
 					<td align="left" valign="top" width="100%"><a href="#function_sessionRoles()"><h4>sessionRoles()</h4></a></td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">String</td>
+					<td align="right" valign="top">void</td>
 					<td align="left" valign="top" width="100%"><a href="#function_sessionPermissions()"><h4>sessionPermissions()</h4></a></td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">int</td>
-					<td align="left" valign="top" width="100%"><a href="#function_roleOperationsOnObject()"><h4>roleOperationsOnObject(int $Arol_id,  $Aobj_id)</h4></a></td>
+					<td align="left" valign="top" width="100%"><a href="#function_roleOperationsOnObject()"><h4>roleOperationsOnObject(integer $Arol_id, integer $Aobj_id)</h4></a></td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getOperations()"><h4>getOperations(int $Arol_id,  $Atype, string $Aparent)</h4></a></td>
+					<td align="left" valign="top" width="100%"><a href="#function_getOperations()"><h4>getOperations(int $Arol_id, int $Atype, [ string $Aparent ])</h4></a></td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">int</td>
-					<td align="left" valign="top" width="100%"><a href="#function_userOperationsOnObject()"><h4>userOperationsOnObject(int $Ausr_id,  $Aobj_id)</h4></a></td>
+					<td align="left" valign="top" width="100%"><a href="#function_userOperationsOnObject()"><h4>userOperationsOnObject(int $Ausr_id, int $Aobj_id)</h4></a></td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_assignPermissionToObject()"><h4>assignPermissionToObject(int $a_type_id,  $a_ops_id)</h4></a>Assign an existing permission to an object</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">void</td>
-					<td align="left" valign="top" width="100%"><a href="#function_RbacReview()"><h4>RbacReview( &$dbhandle)</h4></a>Warning: documentation is missing.</td>
+					<td align="left" valign="top" width="100%"><a href="#function_assignPermissionToObject()"><h4>assignPermissionToObject(int $a_type_id, int $a_ops_id)</h4></a>Assign an existing permission to an object</td>
 				</tr>
 				
 			</table>
@@ -151,7 +151,7 @@
 				
 				<tr>
 					<td align="right" valign="top">void</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getUserData()"><h4>getUserData( $Ausr_id)</h4></a>Warning: documentation is missing.</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getUserData()"><h4>getUserData(integer $Ausr_id)</h4></a>get uer data</td>
 				</tr>
 				
 			</table>
@@ -168,13 +168,13 @@
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">unknown</td>
-					<td align="left" valign="top" width="100%"><a href="#variable_$db"><h4>$db</h4></a></td>
+					<td align="right" valign="top">object db</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$db"><h4>$db</h4></a>Database Handle</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">unknown</td>
-					<td align="left" valign="top" width="100%"><a href="#variable_$error_class"><h4>$error_class</h4></a></td>
+					<td align="right" valign="top">object error_class</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$error_class"><h4>$error_class</h4></a>Error Handle</td>
 				</tr>
 				
 			</table>
@@ -191,6 +191,66 @@
 			<table width="100%" border="0">
 				<tr>
 					<td colspan="2" align="left" valign="top"><h2>Public Method Details</h2></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_RbacReview()"><h4>RbacReview</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    void RbacReview( object db &$dbhandle )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						constructor
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">object db</td>
+								<td align="left" valign="top">&$dbhandle</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>void <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
 				</tr>
 				
 				<tr><td colspan="2" align="left" valign="top"><a name="function_assignedUsers()"><h4>assignedUsers</h4></a></td></tr>
@@ -225,7 +285,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">(rol_id)</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -235,7 +295,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>int <p>array (Uid der Rolle)</td>
+					<td>int <p>array Role-Uid</td>
 				</tr>
 				
 				
@@ -376,7 +436,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_rolePermissons()"><h4>rolePermissons</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    Array rolePermissons( int $Arol_id, integer $Aobj_id )</b><p>
+						<b>public    Array rolePermissons( integer $Arol_id, [ integer $Aobj_id ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -399,13 +459,13 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$Arol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">,int (RoleID und optional ID eines Objektes)</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -418,11 +478,11 @@
 							<tr>
 								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$Aobj_id</td>
-								<td align="left" valign="top"><code></code></td>
+								<td align="left" valign="top"><code>= >>0<<</code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -482,7 +542,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">(UserID)</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -513,7 +573,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_sessionRoles()"><h4>sessionRoles</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    String sessionRoles(  )</b><p>
+						<b>public    void sessionRoles(  )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -530,7 +590,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>String <p></td>
+					<td>void <p></td>
 				</tr>
 				
 				
@@ -551,7 +611,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_sessionPermissions()"><h4>sessionPermissions</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    String sessionPermissions(  )</b><p>
+						<b>public    void sessionPermissions(  )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -568,7 +628,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>String <p></td>
+					<td>void <p></td>
 				</tr>
 				
 				
@@ -589,7 +649,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_roleOperationsOnObject()"><h4>roleOperationsOnObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    int roleOperationsOnObject( int $Arol_id,  $Aobj_id )</b><p>
+						<b>public    int roleOperationsOnObject( integer $Arol_id, integer $Aobj_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -612,13 +672,13 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$Arol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">,int (RoleID und ObjektID)</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -629,13 +689,13 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top"></td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$Aobj_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -666,7 +726,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getOperations()"><h4>getOperations</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getOperations( int $Arol_id,  $Atype, string $Aparent )</b><p>
+						<b>public    array getOperations( int $Arol_id, int $Atype, [ string $Aparent ] )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -695,7 +755,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">int ROlID Type und RoleFolderId</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -706,13 +766,13 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top"></td>
+								<td align="left" valign="top">int</td>
 								<td align="left" valign="top">$Atype</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -725,11 +785,11 @@
 							<tr>
 								<td align="left" valign="top">string</td>
 								<td align="left" valign="top">$Aparent</td>
-								<td align="left" valign="top"><code></code></td>
+								<td align="left" valign="top"><code>= >>&quot;&quot;<<</code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -760,7 +820,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_userOperationsOnObject()"><h4>userOperationsOnObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    int userOperationsOnObject( int $Ausr_id,  $Aobj_id )</b><p>
+						<b>public    int userOperationsOnObject( int $Ausr_id, int $Aobj_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -789,7 +849,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">,int (UserID und ObjektID)</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -800,13 +860,13 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top"></td>
+								<td align="left" valign="top">int</td>
 								<td align="left" valign="top">$Aobj_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -837,7 +897,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_assignPermissionToObject()"><h4>assignPermissionToObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool assignPermissionToObject( int $a_type_id,  $a_ops_id )</b><p>
+						<b>public    bool assignPermissionToObject( int $a_type_id, int $a_ops_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -866,7 +926,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">,int (type_id,ops_id)</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -877,13 +937,13 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top"></td>
+								<td align="left" valign="top">int</td>
 								<td align="left" valign="top">$a_ops_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -894,66 +954,6 @@
 				<tr>
 					<td align="left" valign="top">Returns</td>
 					<td>bool <p>true /false</td>
-				</tr>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				<tr>
-					<td colspan="2" align="left" valign="top"><hr></td>
-				</tr>
-				
-				<tr><td colspan="2" align="left" valign="top"><a name="function_RbacReview()"><h4>RbacReview</h4></a></td></tr>
-				<tr>
-					<td colspan="2" align="left" valign="top">
-						<b>public    void RbacReview(  &$dbhandle )</b><p>
-					</td>
-				</tr>
-				<tr>
-					<td width="10" align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">
-						
-						<br>
-						
-						<p>
-						Warning: documentation is missing.
-					</td>
-				</tr>
-				
-				<tr>
-					<td colspan="2" align="left" valign="top">Parameter</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top"></td>
-								<td align="left" valign="top">&$dbhandle</td>
-								<td align="left" valign="top"><code></code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				
-				
-				<tr>
-					<td align="left" valign="top">Returns</td>
-					<td>void <p></td>
 				</tr>
 				
 				
@@ -984,17 +984,17 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getUserData()"><h4>getUserData</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>private    void getUserData(  $Ausr_id )</b><p>
+						<b>private    void getUserData( integer $Ausr_id )</b><p>
 					</td>
 				</tr>
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						
+						get uer data
 						<br>
 						
 						<p>
-						Warning: documentation is missing.
+						
 					</td>
 				</tr>
 				
@@ -1007,13 +1007,13 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top"></td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$Ausr_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td colspan="2" align="left" valign="top">Warning: documentation is missing.</td>
+								<td colspan="2" align="left" valign="top"></td>
 							</tr>
 						</table>
 					</td>
@@ -1055,11 +1055,11 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="variable_$db"><h4>$db</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>private   unknown $db</b>
+						<b>private   object db $db</b>
 						<p>
 						>><code></code><<
 						<p>
-						
+						Database Handle
 						<br>
 						
 					</td>
@@ -1080,11 +1080,11 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="variable_$error_class"><h4>$error_class</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>private   unknown $error_class</b>
+						<b>private   object error_class $error_class</b>
 						<p>
 						>><code></code><<
 						<p>
-						
+						Error Handle
 						<br>
 						
 					</td>
