@@ -2673,3 +2673,7 @@ DELETE FROM style_parameter WHERE tag='div' AND class='LMNavigation' and paramet
 
 <#168>
 UPDATE usr_pref SET value='blueshadow' WHERE value='blueshadow_ie' AND keyword='style';
+
+<#169>
+ALTER TABLE frm_posts ADD import_name TEXT;
+ALTER TABLE frm_threads ADD import_name TEXT;

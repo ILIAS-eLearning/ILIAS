@@ -1025,7 +1025,7 @@ common#:#mail_e_sent#:#Sent
 common#:#mail_edit_permission#:#Change permission settings
 common#:#mail_folders#:#Mail Folders
 common#:#mail_import#:#Import
-common#:#mail_import_file#:#ILIAS 2 export file
+common#:#mail_import_file#:#Export file
 common#:#mail_intern_enable#:#Enable
 common#:#mail_mail_visible#:#User may use mail system
 common#:#mail_mails_of#:#Mails
@@ -1524,7 +1524,7 @@ common#:#system_groups#:#System Groups
 common#:#system_grp#:#System Group
 common#:#system_language#:#System Language
 common#:#system_message#:#System Message
-common#:#table_mail_import#:#Import from ILIAS 2 Mails
+common#:#table_mail_import#:#Mail import
 common#:#term#:#Term
 common#:#test_intern#:#Test Intern
 common#:#tests#:#Tests
@@ -2780,3 +2780,5 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+common#:#import_grp_finished#:#Imported group without any error
+common#:#imported#:#imported

@@ -147,7 +147,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 			if (($thrNum > $pageHits && $z >= $Start) || $thrNum <= $pageHits)
 			{
 				// GET USER DATA, USED FOR IMPORTED USERS
-				$usr_data = $frm->getUserData($thrData["thr_usr_id"]);
+				$usr_data = $frm->getUserData($thrData["thr_usr_id"],$thrData["import_name"]);
 
 
 				$tpl->setCurrentBlock("threads_row");
@@ -191,7 +191,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 					$lastPost = $frm->getLastPost($thrData["thr_last_post"]);
 				}
 				// TODOOOOOOOOOOOOOOOOOOO
-				$last_usr_data = $frm->getUserData($lastPost["pos_usr_id"]);
+				$last_usr_data = $frm->getUserData($lastPost["pos_usr_id"],$lastPost["import_name"]);
 				if (is_array($lastPost))
 				{				
 					$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);

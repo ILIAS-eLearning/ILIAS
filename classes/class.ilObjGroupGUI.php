@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.79 2004/04/28 14:59:49 smeyer Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.80 2004/04/28 15:53:10 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1393,7 +1393,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		// FINALLY CHECK ERROR
 		if(!$this->message)
 		{
-			sendInfo($this->lng->txt("import_forum_finished"),true);
+			sendInfo($this->lng->txt("import_grp_finished"),true);
 			ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 		}
 		else

@@ -27,7 +27,7 @@ require_once("classes/class.ilSaxParser.php");
 * Forum Import Parser
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilForumImportParser.php,v 1.1 2004/04/08 09:59:21 smeyer Exp $
+* @version $Id$Id: class.ilForumImportParser.php,v 1.2 2004/04/19 16:04:39 smeyer Exp $
 *
 * @extends ilSaxParser
 * @package core
@@ -47,7 +47,7 @@ class ilForumImportParser extends ilSaxParser
 
 	function ilForumImportParser($a_xml_file,$a_parent_id)
 	{
-		define('EXPORT_VERSION',3);
+		define('EXPORT_VERSION',4);
 
 		parent::ilSaxParser($a_xml_file);
 
@@ -117,7 +117,7 @@ class ilForumImportParser extends ilSaxParser
 				if($a_attribs["exportVersion"] < EXPORT_VERSION)
 				{
 					$ilErr->raiseError("!!! This export Version isn't supported, update your ILIAS 2 installation"
-									   ,$ilErr->WARNING);
+									   ,$ilErr->WARNING);	
 				}
 				$this->__createNew($a_attribs["id"]);
 
@@ -146,6 +146,7 @@ class ilForumImportParser extends ilSaxParser
 
 			case "threadAuthor":
 				$this->thread["author"] = ilObjUser::_getImportedUserId($a_attribs["id"]);
+				$this->thread["login"] = $a_attribs["login"];
 				break;
 
 			// POST DATA
@@ -156,6 +157,7 @@ class ilForumImportParser extends ilSaxParser
 
 			case "postingAuthor":
 				$this->post["author"] = ilObjUser::_getImportedUserId($a_attribs["id"]);
+				$this->post["login"] = $a_attribs["login"];
 				break;
 				
 		}
@@ -281,6 +283,7 @@ class ilForumImportParser extends ilSaxParser
 	{
 		$this->__initForumObject();
 
+		$this->forum_obj->setImportName($this->thread["login"]);
 		$this->forum_obj->setWhereCondition("top_frm_fk = ".$this->forum->getId());
 		$topic = $this->forum_obj->getOneTopic();
 
@@ -300,6 +303,7 @@ class ilForumImportParser extends ilSaxParser
 
 	function __addPost()
 	{
+		$this->forum_obj->setImportName($this->post["login"]);
 		$this->forum_obj->setWhereCondition("top_frm_fk = ".$this->forum->getId());
 		$topic = $this->forum_obj->getOneTopic();
 		$post = $this->forum_obj->getPostById($this->__getParentId());
