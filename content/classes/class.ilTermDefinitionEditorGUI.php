@@ -72,6 +72,7 @@ class ilTermDefinitionEditorGUI
 		$page_gui =& new ilPageObjectGUI($this->definition->getPageObject());
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_gui->setOutputMode("edit");
+		$page_gui->setPresentationTitle($this->term->getTerm());
 		$page_gui->setTargetScript("glossary_edit.php?ref_id=".
 			$this->glossary->getRefId()."&def=".$this->definition->getId()."&mode=page_edit");
 		$page_gui->setReturnLocation("glossary_edit.php?ref_id=".
@@ -84,6 +85,7 @@ class ilTermDefinitionEditorGUI
 		else
 		{
 			$cmd = $_GET["cmd"];
+			$this->setAdminTabs();
 //echo "cmd:".$_GET["cmd"].":<br>";
 			$page_gui->$cmd();
 		}
@@ -106,21 +108,13 @@ class ilTermDefinitionEditorGUI
 
 
 
-	function setAdminTabs($a_type)
+	function setAdminTabs()
 	{
 		$tabs = array();
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-		$d = $this->objDefinition->getProperties($a_type);
 
-		foreach ($d as $key => $row)
-		{
-			$tabs[] = array($row["lng"], $row["name"]);
-		}
-
-		if (isset($_GET["obj_id"]))
-		{
-			$object_link = "&obj_id=".$_GET["obj_id"];
-		}
+		$tabs[] = array("edit", "view");
+		$tabs[] = array("cont_preview", "preview");
 
 		foreach ($tabs as $row)
 		{
@@ -140,10 +134,8 @@ class ilTermDefinitionEditorGUI
 			$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable("TAB_TYPE", $tabtype);
 			$this->tpl->setVariable("TAB_TYPE2", $tab);
-			$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
-			$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
-			$this->tpl->setVariable("TAB_LINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".
-				$_GET["obj_id"]."&cmd=".$row[1]);
+			$this->tpl->setVariable("TAB_LINK", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&def=".
+				$_GET["def"]."&cmd=".$row[1]);
 			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -160,6 +152,11 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"]);
 		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setCurrentBlock("locator_item");
+		$this->tpl->setVariable("ITEM", $this->term->getTerm());
+		$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
+			"&cmd=editTerm&term_id=".$this->term->getId());
+		$this->tpl->parseCurrentBlock();
 
 		//$this->tpl->touchBlock("locator_separator");
 

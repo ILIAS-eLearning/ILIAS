@@ -702,6 +702,7 @@ content#:#cont_select_term#:#Select a term
 content#:#cont_select_max_one_term#:#Select one term only
 content#:#cont_add_definition#:#Add Definition
 content#:#cont_definitions#:#Definitions
+content#:#cont_definition#:#Definition
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation

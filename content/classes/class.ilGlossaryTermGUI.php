@@ -91,6 +91,8 @@ class ilGlossaryTermGUI
 
 	function editTerm()
 	{
+		$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$this->term->getTerm());
+
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_edit.html", true);
 		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".$_GET["term_id"]."&cmd=post");
