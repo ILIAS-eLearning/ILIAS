@@ -391,6 +391,9 @@ class ilObjectGUI
 			$modifier = 0;
 		}
 
+		// ### AA 03.11.10 added new locator GUI class ###
+		$i = 1;
+		
 		foreach ($path as $key => $row)
 		{
 			if ($key < count($path)-$modifier)
@@ -404,6 +407,9 @@ class ilObjectGUI
 			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$row["child"]);
 			$this->tpl->parseCurrentBlock();
 
+			// ### AA 03.11.10 added new locator GUI class ###
+			// navigate locator
+			$ilias_locator->navigate($i++,$row["title"],$scriptname."?ref_id=".$row["child"],"bottom");
 		}
 
 		if (isset($_GET["obj_id"]))
@@ -415,6 +421,10 @@ class ilObjectGUI
 			
 			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			$this->tpl->parseCurrentBlock();
+			
+			// ### AA 03.11.10 added new locator GUI class ###
+			// navigate locator
+			$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
 		}
 
 		$this->tpl->setCurrentBlock("locator");

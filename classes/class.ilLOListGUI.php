@@ -593,6 +593,9 @@ class ilLOListGUI
 		{
 			$modifier = 0;
 		}
+		
+		// ### AA 03.11.10 added new locator GUI class ###
+		$i = 1;
 
 		foreach ($path as $key => $row)
 		{
@@ -615,6 +618,16 @@ class ilLOListGUI
 
 			$this->tpl->parseCurrentBlock();
 
+			// ### AA 03.11.10 added new locator GUI class ###
+			// navigate locator
+			if ($row["child"] != $a_tree->getRootId())
+			{
+				$ilias_locator->navigate($i++,$row["title"],"lo_list.php?cmd=displayList&ref_id=".$row["child"],"bottom");
+			}
+			else
+			{
+				$ilias_locator->navigate($i++,$this->lng->txt("lo_available"),"lo_list.php?cmd=displayList&ref_id=".$row["child"],"bottom");
+			}
 		}
 
 		/*
