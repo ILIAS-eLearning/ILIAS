@@ -1799,3 +1799,4 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+common#:#check_max_allowed_packet_size#:#The page content size is too large.
