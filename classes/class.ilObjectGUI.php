@@ -2450,7 +2450,7 @@ class ilObjectGUI
 	{
 		if($this->sub_objects == "")
 		{
-			$d = $this->objDefinition->getSubObjects($_GET["type"]);
+			$d = $this->objDefinition->getCreatableSubObjects($_GET["type"]);
 		}
 		else
 		{

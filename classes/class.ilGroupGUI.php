@@ -1871,7 +1871,7 @@ class ilGroupGUI extends ilObjectGUI
  	*/
 	function showPossibleSubObjects()
 	{
-		$d = $this->objDefinition->getSubObjects("grp");
+		$d = $this->objDefinition->getCreatableSubObjects("grp");
 
 		$import = false;
 
