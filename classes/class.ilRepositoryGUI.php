@@ -27,7 +27,6 @@ include_once("classes/class.ilObjFolderGUI.php");
 include_once("classes/class.ilObjFolder.php");
 include_once("classes/class.ilObjFileGUI.php");
 include_once("classes/class.ilObjFile.php");
-include_once("./course/classes/class.ilObjCourseGUI.php");
 include_once("classes/class.ilTabsGUI.php");
 include_once("classes/class.ilObjUserGUI.php");
 include_once("classes/class.ilObjUserFolderGUI.php");
@@ -228,17 +227,20 @@ class ilRepositoryGUI
 
 				break;
 
-			case "ilcourseobjectivesgui":
+			case "ilobjcoursegroupinggui":
+				include_once("./course/classes/class.ilObjCourseGroupingGUI.php");
 				include_once("./course/classes/class.ilObjCourseGUI.php");
 
 				$this->gui_obj =& new ilObjCourseGUI("",$this->cur_ref_id,true,false);
+				
+				$crs_obj =& ilObjectFactory::getInstanceByRefId($this->cur_ref_id);
+				$grouping_obj =& new ilObjCourseGroupingGUI($crs_obj,(int) $_GET['obj_id']);
 
 				$this->prepareOutput();
-				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+				$ret =& $this->ctrl->forwardCommand($grouping_obj);
+
 				$this->tpl->show();
-
 				break;
-
 
 			case "ilobjfilegui":
 				include_once("./classes/class.ilObjFileGUI.php");
@@ -335,7 +337,8 @@ class ilRepositoryGUI
 				// execute repository cmd
 				if (empty($cmd))
 				{
-					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp' or $obj_type == 'frm')
+					if($obj_type == "crs" or $obj_type == 'fold' or $obj_type == 'grp' or $
+					   $obj_type == 'frm' or $obj_type == 'crsg')
 					{
 //echo "<br>--grp";
 						$this->prepareOutput();

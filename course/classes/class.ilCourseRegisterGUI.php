@@ -174,6 +174,11 @@ class ilCourseRegisterGUI
 
 		$this->tpl->setVariable("TXT_INFO_REG",$this->lng->txt("crs_info_reg"));
 
+		if($courses = $this->__getGroupingCourses())
+		{
+			$this->tpl->setVariable("INFO_REG_PRE",$this->lng->txt('crs_grp_info_reg').$courses.'<br>');
+		}
+
 		switch($this->course_obj->getSubscriptionType())
 		{
 			case $this->course_obj->SUBSCRIPTION_DEACTIVATED:
@@ -283,8 +288,67 @@ class ilCourseRegisterGUI
 		{
 			$this->course_obj->appendMessage($this->lng->txt("crs_reg_subscription_max_members_reached"));
 		}
+		$this->__checkGroupingDependencies();
 
 		return $this->course_obj->getMessage() ? false : true;
+	}
+	function __checkGroupingDependencies()
+	{
+		global $ilUser;
+
+		include_once './classes/class.ilConditionHandler.php';
+		include_once './course/classes/class.ilCourseMembers.php';
+
+		foreach(ilConditionHandler::_getConditionsOfTarget($this->course_obj->getId(),'crs') as $condition)
+		{
+			if($condition['operator'] == 'not_member')
+			{
+				$trigger_id = $condition['trigger_obj_id'];
+				break;
+			}
+		}
+		if(!$trigger_id)
+		{
+			return true;
+		}
+		foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
+		{
+			if($condition['operator'] == 'not_member')
+			{
+				if(ilCourseMembers::_isMember($ilUser->getId(),$condition['target_obj_id'],$condition['value']))
+				{
+					$this->course_obj->appendMessage($this->lng->txt('crs_grp_already_assigned'));
+
+					return false;
+				}
+			}
+		}
+	}
+	function __getGroupingCourses()
+	{
+		include_once './classes/class.ilConditionHandler.php';
+		include_once './course/classes/class.ilCourseMembers.php';
+
+		foreach(ilConditionHandler::_getConditionsOfTarget($this->course_obj->getId(),'crs') as $condition)
+		{
+			if($condition['operator'] == 'not_member')
+			{
+				$trigger_id = $condition['trigger_obj_id'];
+			}
+		}
+		if(!$trigger_id)
+		{
+			return true;
+		}
+		foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
+		{
+			if($condition['operator'] == 'not_member')
+			{
+				$tmp_obj =& ilObjectFactory::getInstanceByRefId($condition['target_ref_id']);
+				$courses .= (' '.$tmp_obj->getTitle());
+			}
+		}
+		return $courses;
 	}
 }
 ?>

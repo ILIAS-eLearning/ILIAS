@@ -505,7 +505,7 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="crsg" class_name="CourseGrouping" module="course" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
+<object name="crsg" class_name="CourseGrouping" module="course" checkbox="0" inherit="0" translate="0" rbac="0" devmode="0">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>

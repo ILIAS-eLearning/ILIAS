@@ -222,7 +222,7 @@ class ilConditionHandlerInterface
 		$tpl->setVariable("COLUMN_COUNTS",4);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
-		if(count(ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType())))
+		if(count($conditions = $this->__getConditionsOfTarget()))
 		{
 
 			$tpl->setCurrentBlock("tbl_action_btn");
@@ -246,7 +246,8 @@ class ilConditionHandlerInterface
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.condition_handler_row.html");
 
 		$counter = 0;
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType()) as $condition)
+		#foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType()) as $condition)
+		foreach($conditions as $condition)
 		{
 			$tmp_obj =& ilObjectFactory::getInstanceByRefId($condition['trigger_ref_id']);
 
@@ -452,7 +453,7 @@ class ilConditionHandlerInterface
 
 		#	return false;
 		#}
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType()) as $condition)
+		foreach($this->__getConditionsOfTarget() as $condition)
 		{
 			$this->ch_obj->setOperator($_POST['operator'][$condition["id"]]);
 			$this->ch_obj->setValue($_POST['value'][$condition["id"]]);
@@ -464,6 +465,23 @@ class ilConditionHandlerInterface
 		$this->ctrl->returnToParent($this);
 
 		return true;
+	}
+	function __getConditionsOfTarget()
+	{
+		include_once './classes/class.ilConditionHandler.php';
+
+		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType()) as $condition)
+		{
+			if($condition['operator'] == 'not_member')
+			{
+				continue;
+			}
+			else
+			{
+				$cond[] = $condition;
+			}
+		}
+		return $cond ? $cond : array();
 	}
 
 }

@@ -4641,3 +4641,25 @@ crs#:#edit_content#:#Kursinhalt bearbeiten
 common#:#not_accessed#:#Noch nicht aufgerufen
 crs#:#crs_objectives_info_pretest_non_suggest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Demnach haben Sie alle Lernziele erreicht. Sie können nun den Abschlußtest durchführen.
 crs#:#crs_objective_not_accomplished#:#Nicht erfüllt
+crs#:#crs_groupings#:#Kursgruppierungen
+crs#:#crs_no_groupings_assigned#:#Diesem Kurs sind keine Gruppierungen zugeordnet.
+crs#:#crs_add_grouping#:#Kursgruppierung hinzufügen
+common#:#unambiguousness#:#Eindeutigkeit
+crs#:#crs_grp_enter_title#:#Bitte geben Sie einen Titel ein.
+crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Kurse.
+crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
+crs#:#crs_groupings_ask_delete#:#Kursgruppierung löschen
+crs#:#crs_grouping_delete_sure#:#Sind Sie sicher, daß Sie die folgenden Gruppierungen entfernen möchten?
+crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
+crs#:#crs_grouping#:#Kursgruppierung
+crs#:#crs_grp_assign_crs#:#Kurs zuordnen
+crs#:#crs_grp_crs_assignment#:#Kurszuordnung
+crs#:#crs_grp_no_course_selected#:#Bitte wählen Sie mindestens einen Kurs aus.
+crs#:#crs_grp_assigned_courses#:#Die ausgewählten Kurse wurden zugeordnet.
+crs#:#crs_grp_assigned_courses_info#:#Zugeordnete Kurse:
+crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Kurse
+crs#:#crs_grp_modified_grouping#:#Die Änderungen wurden übernommen.
+crs#:#crs_grp_courses_already_assigned#:#Die ausgewählten Kurse sind bereits zugeordnet.
+crs#:#crs_grp_deassigned_courses#:#Die Zuordnung wurde entfernt.
+crs#:#crs_grp_already_assigned#:#Sie sind bereits Mitglied dieser Kursgruppierung.
+crs#:#crs_grp_info_reg#:#Die folgenden Kurse sind verknüpft. Sie können sich nur an einen dieser Kurse anmelden:

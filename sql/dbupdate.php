@@ -5672,3 +5672,19 @@ ALTER TABLE `survey_survey_question` ADD INDEX ( `survey_fi` );
 ALTER TABLE `survey_survey_question` ADD INDEX ( `question_fi` );
 ALTER TABLE `survey_variable` ADD INDEX ( `category_fi` );
 ALTER TABLE `survey_variable` ADD INDEX ( `question_fi` );
+<#402>
+CREATE TABLE IF NOT EXISTS `crs_groupings` (
+  `crs_grp_id` int(11) NOT NULL default '0',
+  `crs_id` int(11) NOT NULL default '0',
+  `unique_field` char(32) NOT NULL default '',
+  PRIMARY KEY  (`crs_grp_id`),
+  KEY `crs_id` (`crs_id`)
+) TYPE=MyISAM;
+<#403>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+
+
+

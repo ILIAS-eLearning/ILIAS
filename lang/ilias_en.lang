@@ -4645,3 +4645,25 @@ crs#:#edit_content#:#Edit content
 common#:#not_accessed#:#Not accessed
 crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.
 crs#:#crs_objective_not_accomplished#:#Not accomplished
+crs#:#crs_groupings#:#Kurs groupings
+crs#:#crs_no_groupings_assigned#:#No groupings assigned to this course.
+crs#:#crs_add_grouping#:#Add course grouping
+common#:#unambiguousness#:#Unambiguousness
+crs#:#crs_grp_enter_title#:#Please enter a title.
+crs#:#crs_grp_no_courses_assigned#:#No assigned courses.
+crs#:#crs_grouping_select_one#:#Please select a course grouping.
+crs#:#crs_groupings_ask_delete#:#Delete course grouping
+crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
+crs#:#crs_add_grp_assignment#:#Assign course(s)
+crs#:#crs_grouping#:#Course grouping
+crs#:#crs_grp_assign_crs#:#Assign course
+crs#:#crs_grp_crs_assignment#:#Course assignment
+crs#:#crs_grp_no_course_selected#:#Please select one course.
+crs#:#crs_grp_assigned_courses#:#Assigned courses.
+crs#:#crs_grp_assigned_courses_info#:#Assigned courses:
+crs#:#crs_grp_table_assigned_courses#:#Assigned courses
+crs#:#crs_grp_modified_grouping#:#Saved modifications.
+crs#:#crs_grp_courses_already_assigned#:#The selected courses were already assigned.
+crs#:#crs_grp_deassigned_courses#:#Delete assignment
+crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
+crs#:#crs_grp_info_reg#:#You can only register to one of this courses:

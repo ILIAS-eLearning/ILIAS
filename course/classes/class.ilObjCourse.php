@@ -537,6 +537,10 @@ class ilObjCourse extends ilObject
 
 		ilCourseObjective::_deleteAll($this->getId());
 
+		include_once './course/classes/class.ilObjCourseGrouping.php';
+
+		ilObjCourseGrouping::_deleteAll($this->getId());
+
 		return true;
 	}
 

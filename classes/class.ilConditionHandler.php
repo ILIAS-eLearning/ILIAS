@@ -285,6 +285,9 @@ class ilConditionHandler
 			case 'tst':
 				return array('passed','finished','not_finished');
 
+			case 'crsg':
+				return array('not_member');
+
 			default:
 				return array();
 		}
@@ -320,6 +323,19 @@ class ilConditionHandler
 		return true;
 	}
 
+	function checkExists()
+	{
+		$query = "SELECT * FROM conditions ".
+			"WHERE target_ref_id = '".$this->getTargetRefId()."' ".
+			"AND target_obj_id = '".$this->getTargetObjId()."' ".
+			"AND trigger_ref_id = '".$this->getTriggerRefId()."' ".
+			"AND trigger_obj_id = '".$this->getTriggerObjId()."' ".
+			"AND operator = '".$this->getOperator()."'";
+
+		$res = $this->db->query($query);
+
+		return $res->numRows() ? true : false;
+	}
 	/**
 	* update condition
 	*/
@@ -350,6 +366,20 @@ class ilConditionHandler
 
 		return true;
 	}
+	/**
+	* delete all trigger and target entries
+	* This method is called from ilObject::delete() if an object os removed from trash
+	*/
+	function deleteByObjId($a_obj_id)
+	{
+		$query = "DELETE FROM conditions WHERE ".
+			"target_obj_id = '".$a_obj_id."' ".
+			"OR trigger_obj_id = '".$a_obj_id."'";
+
+		$res = $this->db->query($query);
+
+		return true;
+	}
 
 	/**
 	* delete condition
@@ -372,8 +402,29 @@ class ilConditionHandler
 	*/
 	function _getConditionsOfTrigger($a_trigger_obj_type, $a_trigger_id)
 	{
-		// TODO
+		global $ilDB;
+	
+		$query = "SELECT * FROM conditions ".
+			"WHERE trigger_obj_id = '".$a_trigger_id."'".
+			" AND trigger_type = '".$a_trigger_obj_type."'";
 
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$tmp_array['id']			= $row->id;
+			$tmp_array['target_ref_id'] = $row->target_ref_id;
+			$tmp_array['target_obj_id'] = $row->target_obj_id;
+			$tmp_array['target_type']	= $row->target_type;
+			$tmp_array['trigger_ref_id'] = $row->trigger_ref_id;
+			$tmp_array['trigger_obj_id'] = $row->trigger_obj_id;
+			$tmp_array['trigger_type']	= $row->trigger_type;
+			$tmp_array['operator']		= $row->operator;
+			$tmp_array['value']			= $row->value;
+
+			$conditions[] = $tmp_array;
+			unset($tmp_array);
+		}
+		
 		return $conditions ? $conditions : array();
 	}
 
@@ -473,6 +524,11 @@ class ilConditionHandler
 				include_once './classes/class.ilObjExercise.php';
 
 				return ilObjExercise::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
+
+			case 'crsg':
+				include_once './course/classes/class.ilObjCourseGrouping.php';
+
+				return ilObjCourseGrouping::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			default:
 				return false;
