@@ -2435,12 +2435,11 @@ content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents
 content#:#cont_coords#:#Coordinates
-content#:#cont_public_access#:#Public access
 content#:#cont_copy_object#:#copy object
 content#:#cont_copy_to_clipboard#:#Copy to clipboard
 content#:#cont_create_dir#:#Create Directory
-content#:#cont_create_export_file_xml#:#Create Export File (XML)
 content#:#cont_create_export_file_html#:#Create Export File (HTML)
+content#:#cont_create_export_file_xml#:#Create Export File (XML)
 content#:#cont_create_folder#:#Create Folder
 content#:#cont_create_html_version#:#Create HTML Package
 content#:#cont_create_mob#:#Create Media Object
@@ -2633,6 +2632,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Preview
 content#:#cont_print_view#:#Print View
+content#:#cont_public_access#:#Public access
 content#:#cont_publisher#:#Publisher
 content#:#cont_purpose#:#Purpose
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
@@ -4071,6 +4071,7 @@ survey#:#category_nr_selected#:#Number of users that selected this category
 survey#:#chart#:#Chart
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!
 survey#:#codes#:#Access codes
+survey#:#combobox#:#Combobox
 survey#:#concatenation#:#Concatenation
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?
@@ -4118,6 +4119,7 @@ survey#:#dc_varying#:#varying
 survey#:#dc_verygood#:#very good
 survey#:#dc_yes#:#yes
 survey#:#define_questionblock#:#Define question block
+survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 survey#:#disinvite#:#Uninvite
 survey#:#display_all_available#:#Display all available
 survey#:#dp_standard_attitude_agree5#:#Standard attitude (strongly agree-agree-undecided-disagree-strongly disagree)
@@ -4199,6 +4201,7 @@ survey#:#lower_limit#:#Lower limit
 survey#:#maintenance#:#Maintenance
 survey#:#manage_phrases#:#Manage phrases
 survey#:#material_file#:#Material file
+survey#:#maxchars#:#Maximum number of characters
 survey#:#maximum#:#Maximum value
 survey#:#median#:#Median
 survey#:#median_between#:#between
@@ -4298,6 +4301,7 @@ survey#:#search_term#:#Search term
 survey#:#search_type_all#:#Search in all question types
 survey#:#search_users#:#Users
 survey#:#select_max_one_item#:#Please select one item only
+survey#:#select_option#:#--- Please select an option ---
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!
 survey#:#select_prior_question#:#Select a prior question
 survey#:#select_questionpool#:#Please select a question pool to store the created question
@@ -4307,6 +4311,7 @@ survey#:#select_svy_option#:#--- Please select a survey ---
 survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 survey#:#select_value#:#Select a value
+survey#:#selection#:#Selection
 survey#:#set_filter#:#Set filter
 survey#:#skipped#:#skipped
 survey#:#spl_select_file_for_import#:#You must select a file for import!
@@ -4355,6 +4360,7 @@ survey#:#svy_statistical_evaluation#:#Statistical evaluation
 survey#:#svy_status_missing#:#There are required elements missing in this survey!
 survey#:#svy_status_missing_elements#:#The following elements are missing:
 survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.
+survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
 survey#:#title_resume_survey#:#Resume the survey - Enter survey code
@@ -4374,9 +4380,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-survey#:#combobox#:#Combobox
-survey#:#select_option#:#--- Please select an option ---
-survey#:#selection#:#Selection
-survey#:#maxchars#:#Maximum number of characters
-survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.

@@ -2413,7 +2413,8 @@ content#:#cont_coords#:#Coordonnées
 content#:#cont_copy_object#:#insérer l'objet
 content#:#cont_copy_to_clipboard#:#Copier dans le presse-papier
 content#:#cont_create_dir#:#Créer répertoire
-content#:#cont_create_export_file#:#Créer répertoire d'exportation
+content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
+content#:#cont_create_export_file_xml#:#Create Export File (XML)###22 Dec 2004 new variable
 content#:#cont_create_folder#:#Créer répertoire
 content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Créer objet média
@@ -2605,6 +2606,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Prévisualisation
 content#:#cont_print_view#:#Vue imprimable
+content#:#cont_public_access#:#Public access###22 Dec 2004 new variable
 content#:#cont_publisher#:#Editeur
 content#:#cont_purpose#:#But
 content#:#cont_ref_helptext#:#(par ex. http://www.serveur.org/monimage.jpg)
@@ -4038,6 +4040,7 @@ survey#:#category_nr_selected#:#Nombre d'utilisateurs qui ont sélectionné cett
 survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
 survey#:#codes#:#Access codes###20 Dec 2004 new variable
+survey#:#combobox#:#Combobox###22 Dec 2004 new variable
 survey#:#concatenation#:#Concaténation
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
@@ -4085,6 +4088,7 @@ survey#:#dc_varying#:#variable
 survey#:#dc_verygood#:#très bien
 survey#:#dc_yes#:#oui
 survey#:#define_questionblock#:#Définir bloc de questions
+survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###22 Dec 2004 new variable
 survey#:#disinvite#:#Annuler l'invitation
 survey#:#display_all_available#:#Afficher disponibles XXX
 survey#:#dp_standard_attitude_agree5#:#Attitude standard (tout à fait d'accord – d'accord – sans opinion – pas d'accord – pas d'accord du tout)
@@ -4166,6 +4170,7 @@ survey#:#lower_limit#:#Limite basse
 survey#:#maintenance#:#Maintenance
 survey#:#manage_phrases#:#Gérer expressions
 survey#:#material_file#:#Fichier matériau
+survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
 survey#:#maximum#:#Valeur maximale
 survey#:#median#:#Médiane
 survey#:#median_between#:#entre
@@ -4262,6 +4267,7 @@ survey#:#search_term#:#Terme de recherche
 survey#:#search_type_all#:#Rechercher dans tous les types de question
 survey#:#search_users#:#Utilisateurs
 survey#:#select_max_one_item#:#Veuillez ne saisir qu'un seul objet
+survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Sélectionner une question antérieure
 survey#:#select_questionpool#:#Veuillez sélectionner un jeu de questions pour stocker la question créée
@@ -4271,6 +4277,7 @@ survey#:#select_svy_option#:#--- Veuillez choisir un sondage ---
 survey#:#select_target_position_for_move#:#Veuillez sélectionner une position cible pour déplacer les catégories et presser un des boutons 'insérer'.
 survey#:#select_target_position_for_move_question#:#Veuillez sélectionner une position cible pour déplacer les questions et presser un des boutons 'insérer'.
 survey#:#select_value#:#Selectionner une valeur
+survey#:#selection#:#Selection###22 Dec 2004 new variable
 survey#:#set_filter#:#Régler filtre
 survey#:#skipped#:#skipped###10 Dec 2004 new variable
 survey#:#spl_select_file_for_import#:#Vous devez choisir un fichier à importer
@@ -4319,6 +4326,7 @@ survey#:#svy_statistical_evaluation#:#Evaluation statistique
 survey#:#svy_status_missing#:#Des éléments requis sont absents dans ce sondage.
 survey#:#svy_status_missing_elements#:#Les éléments suivants sont absents :
 survey#:#svy_status_ok#:#Le statut du sondage est OK. Il n'y a pas d'éléments absents.
+survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###22 Dec 2004 new variable
 survey#:#text_question_not_filled_out#:#Veuillez remplir le champ de réponse.
 survey#:#text_resume_survey#:#Vous essayez de reprendre un sondage anonyme. Pour continuer le sondage avec les valeurs que vous avez saisies précédemment,  veuillez saisir le code de sondage à 32 chiffres que vous avez reçu après avoir commencé le sondage (il a été envoyé dans un message sur votre boîte aux lettres ILIAS). Au lieu de saisir votre code de sondage, vous pouvez aussi le copier/coller depuis votre boîte aux lettres.
 survey#:#title_resume_survey#:#Reprendre le sondage – Saisir code de sondage
