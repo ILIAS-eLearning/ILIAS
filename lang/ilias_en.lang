@@ -965,6 +965,7 @@ common#:#edit_stylesheet#:#Edit Style
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
 common#:#email#:#E-mail
+common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#The email address you entered is not valid!
 common#:#enable#:#Enable
 common#:#enable_registration#:#Enable new user registration
