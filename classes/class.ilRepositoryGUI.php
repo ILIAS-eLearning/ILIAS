@@ -252,6 +252,7 @@ class ilRepositoryGUI
 				case "lm":
 				case "slm":
 				case "dbk":
+				case "htlm":
 					$this->learning_resources[$key] = $object;
 
 					// check if lm is online
@@ -598,15 +599,32 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 
 				$obj_icon = "icon_".$lr_data["type"]."_b.gif";
 
-				// learning modules
-				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk")
+				switch($lr_data["type"])
 				{
-					$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
+					case "lm":
+					case "dbk":
+						$read_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
+						$edit_link = "content/lm_edit.php?ref_id=".$lr_data["ref_id"];
+						$desk_type = "lm";
+						break;
+
+					case "htlm":
+						$read_link = "content/fblm_presentation.php?ref_id=".$lr_data["ref_id"];
+						$edit_link = "content/fblm_edit.php?ref_id=".$lr_data["ref_id"];
+						$desk_type = "htlm";
+						break;
+				}
+
+				// learning modules
+				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk" || $lr_data["type"] == "htlm")
+				{
+
+					//$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
 					//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$lr_data["ref_id"]));
 					if ($this->rbacsystem->checkAccess('read',$lr_data["ref_id"]))
 					{
 						$tpl->setCurrentBlock("lres_read");
-						$tpl->setVariable("VIEW_LINK", $obj_link);
+						$tpl->setVariable("VIEW_LINK", $read_link);
 						$tpl->setVariable("VIEW_TARGET", "ilContObj".$lr_data["obj_id"]);
 						$tpl->setVariable("R_TITLE", $lr_data["title"]);
 //echo "LM_Title:".$lr_data["title"].":<br>";
@@ -625,7 +643,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 					if ($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]))
 					{
 						$tpl->setCurrentBlock("lres_edit");
-						$tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);
+						$tpl->setVariable("EDIT_LINK", $edit_link);
 						$tpl->setVariable("EDIT_TARGET","bottom");
 						$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 						$tpl->parseCurrentBlock();
@@ -640,14 +658,14 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 					}
 					$tpl->setCurrentBlock("tbl_content");
 
-					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], "lm"))
+					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], $desk_type))
 					{
 						if ($this->rbacsystem->checkAccess('read', $lr_data["ref_id"]))
 						{
 							$tpl->setCurrentBlock("lres_desklink");
 							$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
 								"&item_ref_id=".$lr_data["ref_id"].
-								"&type=lm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+								"&type=".$desk_type."&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 								"&sort_by=".$_GET["sort_by"]);
 							$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
 							$tpl->parseCurrentBlock();
@@ -1776,7 +1794,8 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 				}
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("lm", "grp", "frm", "cat", "glo", "exc", "qpl", "tst", "chat")))
+					if (in_array($row["name"], array("lm", "grp", "frm",
+						"cat", "glo", "exc", "qpl", "tst", "chat", "htlm")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{
