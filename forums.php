@@ -81,7 +81,7 @@ if ($frmNum > 0)
 				
 				if (is_array($lastPost)) {					
 					$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&obj_id=".$data["obj_id"]."&parent=".$data["parent"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
-					$lpCont .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums&offset=".$Start."\">".$lastPost["surname"]."</a><br>";
+					$lpCont .= "<a href=\"forums_user_view.php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums&offset=".$Start."\">".$lastPost["surname"]."</a><br>";
 					$lpCont .= $lastPost["pos_date"];							
 				}
 				$tpl->setVariable("LAST_POST", $lpCont);
@@ -94,7 +94,7 @@ if ($frmNum > 0)
 						unset($modData);
 						$modData = $frm->getModerator($MODS[$i]);	
 						if ($moderators != "") $moderators .= ", ";
-						$moderators .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$MODS[$i]."&backurl=forums&offset=".$Start."\">".$modData["SurName"]."</a>";
+						$moderators .= "<a href=\"forums_user_view.php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$MODS[$i]."&backurl=forums&offset=".$Start."\">".$modData["SurName"]."</a>";
 					}
 				}
 							
