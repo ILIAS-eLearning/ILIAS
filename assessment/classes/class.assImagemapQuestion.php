@@ -183,7 +183,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $db->quote($this->points),
         $db->quote($this->imagemap_filename),
         $db->quote($this->image_filename),
-				$db->quote($complete),
+				$db->quote("$complete"),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -204,7 +204,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $db->quote($this->points),
         $db->quote($this->imagemap_filename),
         $db->quote($this->image_filename),
-				$db->quote($complete),
+				$db->quote("$complete"),
         $db->quote($this->id)
       );
       $result = $db->query($query);

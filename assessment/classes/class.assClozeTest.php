@@ -172,7 +172,7 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($this->start_tag),
         $db->quote($this->end_tag),
         $db->quote($this->cloze_type),
-				$db->quote($complete),
+				$db->quote("$complete"),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -191,7 +191,7 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($this->author),
         $db->quote($this->cloze_text),
         $db->quote($this->cloze_type),
-				$db->quote($complete),
+				$db->quote("$complete"),
         $db->quote($this->id)
       );
       $result = $db->query($query);
