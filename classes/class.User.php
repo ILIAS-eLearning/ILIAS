@@ -133,15 +133,21 @@ class User extends PEAR
 	 {
 		 // fill user_data
 		 $query = "INSERT INTO user_data
-                 (usr_id,login,passwd,firstname,surname,title,gender,email,language,
+                 (usr_id,login,passwd,
+				 firstname,surname,
+				 title,gender,
+				 email,
+				 language,
                    last_login,last_update,create_date)
                   VALUES
-                  ('".$this->data["Id"]."','".$this->data["Login"]."',
-                   '".md5($this->data["Passwd"])."','".$this->data["FirstName"]."',
-                   '".$this->data["SurName"]."','".$this->data["Title"]."',
-                   '".$this->data["Gender"]."','".$this->data["Email"]."','".$this->data["language"]."',0,now(),now())";
+                  ('".$this->data["Id"]."','".$this->data["Login"]."','".md5($this->data["Passwd"])."',
+				   '".$this->data["FirstName"]."','".$this->data["SurName"]."',
+				   '".$this->data["Title"]."','".$this->data["Gender"]."',
+				   '".$this->data["Email"]."',
+				   '".$this->data["language"]."',0,now(),now())";
 
 		$res = $this->db->query($query);
+
 		if(DB::isError($res))
 		{
 			die ($res->getMessage());
