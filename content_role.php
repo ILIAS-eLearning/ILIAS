@@ -57,7 +57,6 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$tplContent->parseCurrentBlock("row");
 		}
 	}
-	$tplContent->touchBlock("options");
 }
 else
 {

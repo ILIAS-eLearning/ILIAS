@@ -10,6 +10,11 @@
 include_once("classes/class.Object.php");
 class SystemFolderObject extends Object
 {
+/**
+ * contructor
+ * @param object ilias
+ * @access public
+ **/
 	function SystemFolderObject(&$a_ilias)
 	{
 		$this->Object($a_ilias);
