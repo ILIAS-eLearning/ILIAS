@@ -98,7 +98,7 @@ else
 }
 
 $tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","group_new.php");
+$tpl->setVariable("BTN_LINK","group_new.php?parent_ref_id=".$_GET["ref_id"]);
 $tpl->setVariable("BTN_TXT", $lng->txt("group_new"));
 $tpl->parseCurrentBlock();
 
