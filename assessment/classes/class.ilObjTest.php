@@ -997,6 +997,52 @@ class ilObjTest extends ilObject
 		}
 	}
 	
+	function insert_question($question_id) {
+    // get maximum sequence index in test
+    $query = sprintf("SELECT MAX(sequence) AS seq FROM tst_test_question WHERE test_fi=%s",
+      $this->ilias->db->db->quote($this->get_test_id())
+    );
+    $result = $this->ilias->db->query($query);
+    $sequence = 1;
+    if ($result->numRows() == 1) {
+      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+      $sequence = $data->seq + 1;
+    }
+    $query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+      $this->ilias->db->db->quote($this->get_test_id()),
+      $this->ilias->db->db->quote($question_id),
+      $this->ilias->db->db->quote($sequence)
+    );
+    $result = $this->ilias->db->query($query);
+    if ($result != DB_OK) {
+      // Error
+    }
+	}
+	
+	function &get_qpl_titles() {
+		$qpl_titles = array();
+		$query = sprintf("SELECT object_data.title, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = %s",
+			$this->ilias->db->db->quote("qpl")
+		);
+		$result = $this->ilias->db->query($query);
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			$qpl_titles["$data->ref_id"] = $data->title;
+		}
+		return $qpl_titles;
+	}
+	
+	function &get_existing_questions() {
+		$existing_questions = array();
+		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s",
+			$this->ilias->db->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			array_push($existing_questions, $data->question_fi);
+		}
+		return $existing_questions;
+	}
+	
   function get_question_type($question_id) {
     if ($question_id < 1)
       return -1;
