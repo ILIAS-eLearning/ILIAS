@@ -734,9 +734,9 @@ class ilObjGroup extends ilObject
 	{
 		require_once "class.ilTree.php";
 		
-		$this->grp_tree = new ilTree($objGrpId);
-		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
-		$this->grp_tree->addTree($objGrpId);
+		$grp_tree = new ilTree($objGrpId);
+		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
+		$grp_tree->addTree($objGrpId);
 		
 		$q1 = "UPDATE grp_tree SET perm=1 WHERE parent=0 AND child=".$objGrpId." AND ref_id IS NULL";
 		$this->ilias->db->query($q1);
@@ -745,9 +745,8 @@ class ilObjGroup extends ilObject
 		$this->ilias->db->query($q2);
 			
 		
-
 		//var_dump($this->grp_tree);
-		//return $this->grp_tree;
+		return $grp_tree;
 	}
 	
 	/*
@@ -756,9 +755,9 @@ class ilObjGroup extends ilObject
 	*@param integer ref_id of the new object
 	*@param integer obj_id of the group;root/tree id of the group
 	*/
-	function insertGroupNode($new_node_obj_id,$new_node_ref_id, $parent_obj_id )
+	function insertGroupNode($new_node_obj_id,$new_node_ref_id, $parent_obj_id,$grp_tree )
 	{	
-		$this->grp_tree->insertNode($new_node_obj_id,$parent_obj_id);
+		$grp_tree->insertNode($new_node_obj_id,$parent_obj_id);
 		
 		if(isset($new_node_ref_id) && $new_node_ref_id>0)
 		{
@@ -769,7 +768,10 @@ class ilObjGroup extends ilObject
 			$this->ilias->db->query($q2);
 		}
 		else
-		{
+		{	
+			$q1 = "UPDATE grp_tree SET ref_id=-1 WHERE parent=".$parent_obj_id." AND child=".$new_node_obj_id;
+			$this->ilias->db->query($q1);
+			
 			$q2 = "UPDATE grp_tree SET perm=0 WHERE parent=".$parent_obj_id." AND child=".$new_node_obj_id;
 			$this->ilias->db->query($q2);
 		}

@@ -1658,93 +1658,34 @@ class ilGroupGUI extends ilObjGroupGUI
 	*/
 	function save()
 	{	
-	
 		//TODO: check the acces rights; compare class.ilObjectGUI.php
 		global $rbacadmin,$ilias;
 
-		$newObj = new ilObject();
-		$newObj->setType("grp");
-		$newObj->setTitle($_POST["Fobject"]["title"]);
-		$newObj->setDescription($_POST["Fobject"]["desc"]);
-		$newObj->create();
-		$newObj->createReference();
+		// always call parent method first to create an object_data entry & a reference
+		$groupObj = parent::saveObject();
+
+		$rfoldObj = $groupObj->initRoleFolder();
+
+		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
+
+		$groupObj->createDefaultGroupRoles($rfoldObj->getRefId());
+		$groupObj->joinGroup($this->ilias->account->getId(),1); //join as admin=1
 		
-		
-		$refGrpId = $newObj->getRefId();
-		$objGrpId = $newObj->getId();
-
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-
-		unset($newObj);
-		//rolefolder
-
-		//create new rolefolder-object
-		$newObj = new ilObject();
-		$newObj->setType("rolf");
-		$newObj->setTitle("Rolefolder:".$_POST["Fobject"]["title"]);
-		$newObj->setDescription($_POST["Fobject"]["desc"]);
-
-		$newObj->create();
-		$newObj->createReference();
-		$newObj->putInTree($refGrpId);		//assign rolefolder to group
-		$newObj->setPermissions($refGrpId);
-
-		$refRolf = $newObj->getRefId();
-		$objRolf = $newObj->getId();
-		unset($newObj);
-
-		// create new role objects
-		$newGrp = new ilObjGroup($refGrpId,true);
-		//create standard group roles:member,admin,request(!),depending on group status(public,private,closed)
-
-		//the order is very important, please do not change: first create roles and join group, then setGroupStatus !!!
-		$newGrp->createGroupRoles($refRolf);
-		//creator becomes admin of group
-		//$newGrp->joinGroup($ilias->account->getId(),"admin");
-		$newGrp->joinGroup($ilias->account->getId(),1);
-
 		//0=public,1=private,2=closed
-		$newGrp->setGroupStatus($_POST["group_status_select"]);
+		$groupObj->setGroupStatus($_POST["group_status_select"]);
+		$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
+		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId());
 
-		//create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
-		$newGrp->createNewGroupTree();
-		$newGrp->insertGroupNode($objRolf,$refRolf,$objGrpId);
+
+		// always send a message
+		sendInfo($this->lng->txt("grp_added"),true);
+		
 		
 		header("location: group.php?cmd=DisplayList");
 		exit();
 		
 		
-		/*global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
 		
-		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
-		{
-			// create and insert object in objecttree
-			$class_name = "ilObj".$objDefinition->getClassName($_GET["new_type"]);
-			echo $class_name;
-			
-			require_once("classes/class.".$class_name.".php");
-			$newObj = new $class_name();
-			$newObj->setType($_GET["new_type"]);
-			$newObj->setTitle($_POST["Fobject"]["title"]);
-			$newObj->setDescription($_POST["Fobject"]["desc"]);
-			$newObj->create();
-			$newObj->createReference();
-			$newObj->putInTree($_GET["ref_id"]);
-			$newObj->setPermissions($_GET["ref_id"]);
-			
-			insert object in grp_tree
-			$newObj->id.
-			
-			unset($newObj);
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
-		}
-		
-		header("location: group.php?cmd=DisplayList");
-		exit();*/
 	}
 	
 
