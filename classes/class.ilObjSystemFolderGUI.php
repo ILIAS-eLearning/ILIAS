@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.34 2004/05/06 15:06:50 akill Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.35 2004/07/09 15:38:16 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1136,7 +1136,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function benchmarkObject()
 	{
-		global $ilBench;
+		global $ilBench,$rbacsystem;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
