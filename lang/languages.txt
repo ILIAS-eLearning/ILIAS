@@ -173,3 +173,4 @@ set_online	set online	Online stellen	mettere online	set online
 announce	announce	ankündigen	annunciare	announce
 generate	generate	generieren	generare	generate
 lo_last_visited	last visited lessons	zuletzt besuchte Lerneinheit	ultima lezione visitata	last visited lessons
+new_group	new group	neue Gruppe	new group	new group
