@@ -2141,6 +2141,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
 					$this->tpl->parseCurrentBlock();
 				}
+				if (preg_match("/cb_qb_(\d+)/", $key, $matches))
+				{
+					$checked_move++;
+					$ids = $this->object->getQuestionblockQuestionIds($matches[1]);
+					foreach ($ids as $qkey => $qid)
+					{
+						$this->tpl->setCurrentBlock("move");
+						$this->tpl->setVariable("MOVE_COUNTER", $qid);
+						$this->tpl->setVariable("MOVE_VALUE", $qid);
+						$this->tpl->parseCurrentBlock();
+					}
+				}
 			}
 			if ($checked_move)
 			{

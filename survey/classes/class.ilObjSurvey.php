@@ -1504,9 +1504,9 @@ class ilObjSurvey extends ilObject
 	}
 	
 /**
-* Move questions to another position
+* Move questions and/or questionblocks to another position
 *
-* Move questions to another position
+* Move questions and/or questionblocks to another position
 *
 * @param array $move_questions An array with the question id's of the questions to move
 * @param integer $target_index The question id of the target position
@@ -1660,6 +1660,29 @@ class ilObjSurvey extends ilObject
 			$titles[$row->sequence] = $row->questiontitle;
 		}
 		return $titles;
+	}
+	
+/**
+* Returns the question id's of all questions of a question block
+* 
+* Returns the question id's of all questions of a question block
+*
+* @result array The id's of the the question block questions
+* @access public
+*/
+	function &getQuestionblockQuestionIds($questionblock_id)
+	{
+		$ids = array();
+		$query = sprintf("SELECT survey_questionblock.*, survey_survey.obj_fi, survey_question.question_id AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = object_reference.obj_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_survey.obj_fi = %s AND survey_questionblock.questionblock_id = %s ORDER BY survey_survey_question.sequence ASC",
+			$this->ilias->db->quote($this->getId()),
+			$this->ilias->db->quote($questionblock_id)
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($ids, $row->question_id);
+		}
+		return $ids;
 	}
 	
 /**
