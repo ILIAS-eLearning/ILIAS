@@ -581,3 +581,5 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+common#:#mail_file_name#:#Dateiname
+common#:#mail_file_size#:#Dateigröße

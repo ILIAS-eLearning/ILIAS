@@ -101,9 +101,9 @@ if($_POST["cmd"] == "delete" and !$error_delete and !isset($_POST["confirm"]))
 
 // SET STATIC VARIABLES ;-)
 $tpl->setVariable("TXT_ATTACHMENT",$lng->txt("attachment"));
-$tpl->setVariable("TXT_FILENAME",$lng->txt("file_name"));
-$tpl->setVariable("TXT_FILESIZE",$lng->txt("file_size"));
-$tpl->setVariable("TXT_CREATE_TIME",$lng->txt("create_time"));
+$tpl->setVariable("TXT_FILENAME",$lng->txt("mail_file_name"));
+$tpl->setVariable("TXT_FILESIZE",$lng->txt("mail_file_size"));
+$tpl->setVariable("TXT_CREATE_TIME",$lng->txt("forums_thread_create_date"));
 
 // ACTIONS
 $tpl->setCurrentBlock("actions");
