@@ -2857,6 +2857,7 @@ content#:#cont_organization#:#组织
 content#:#cont_organizations#:#组织
 content#:#cont_orig_size#:#原始大小
 content#:#cont_page_header#:#页眉
+content#:#cont_page_link#:#Page Link###11 Mar 2005 new variable
 content#:#cont_page_select_target_now#:#页标已记为移动。现在选择目标。
 content#:#cont_pages#:#页
 content#:#cont_parameter#:#参数
