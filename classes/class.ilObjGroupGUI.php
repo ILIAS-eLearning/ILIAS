@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.37 2003/09/30 12:35:34 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.38 2003/10/09 09:22:09 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -81,10 +81,11 @@ class ilObjGroupGUI extends ilObjectGUI
 			}
 		}
 
-		$stati = array("group_status_public","group_status_closed");
-
+		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
+		
+		
 		//build form
-		$opts = ilUtil::formSelect(0,"group_status",$stati);
+		$opts = ilUtil::formSelect(0,"group_status",$stati,false,true);
 		
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
@@ -96,6 +97,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
+		
 	}
 
 
@@ -182,8 +184,8 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable(strtoupper($key), $val);
 			$this->tpl->parseCurrentBlock();
 		}
-
-		$stati = array(0=>"group_status_public",1=>"group_status_private",2=>"group_status_closed");
+		
+		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
 
 		//build form
 		$grp_status = $this->object->getGroupStatus();
