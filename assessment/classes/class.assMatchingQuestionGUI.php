@@ -406,6 +406,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$output = $this->outQuestionPage("MATCHING_QUESTION", $is_postponed);
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
 		$solutionoutput = preg_replace("/\"match/", "\"solution_match", $solutionoutput);
+		$solutionoutput = preg_replace("/name\=\"sel_matching/", "name=\"solution_sel_matching", $solutionoutput);
 
 		// set solutions
 
