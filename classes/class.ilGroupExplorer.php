@@ -247,6 +247,10 @@ class ilGroupExplorer extends ilExplorer
 			case "fold":
 				$URL = "group.php?ref_id=".$cont_data["child"]."&cmd=show_content";
 				break;
+
+			case "file":
+				$URL = "group.php?cmd=get_file&ref_id=".$cont_data["child"];
+				break;
 		}
 
 		return $URL;
