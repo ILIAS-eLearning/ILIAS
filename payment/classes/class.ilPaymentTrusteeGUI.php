@@ -201,6 +201,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 	function searchUser()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.paya_user_search.html",true);
+		$this->showButton('showTrustees',$this->lng->txt('back'));
 
 		$this->lng->loadLanguageModule('search');
 

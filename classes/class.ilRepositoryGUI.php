@@ -41,6 +41,8 @@ include_once("classes/class.ilTabsGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjLearningModuleGUI, ilObjDlBookGUI, ilObjGlossaryGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjQuestionPoolGUI, ilObjSurveyQuestionPoolGUI, ilObjTestGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjSurveyGUI, ilObjExerciseGUI, ilObjMediaPoolGUI, ilObjFileBasedLMGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI
+
 *
 * @package core
 */
@@ -151,6 +153,16 @@ class ilRepositoryGUI
 		$cmd = $this->ctrl->getCmd();
 		switch ($next_class)
 		{
+			case "ilobjcategorygui":
+				include_once("./classes/class.ilObjCategoryGUI.php");
+				$this->gui_obj = new ilObjCategoryGUI("", $this->cur_ref_id, true, false);
+
+				$this->prepareOutput();
+				$ret =& $this->ctrl->forwardCommand($this->gui_obj);
+
+				$this->tpl->show();
+				break;
+
 			case "ilobjgroupgui":
 				include_once("./classes/class.ilObjGroupGUI.php");
 				$this->gui_obj = new ilObjGroupGUI("", $this->cur_ref_id, true, false);

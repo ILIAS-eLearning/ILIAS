@@ -28,6 +28,7 @@
 *
 * @package core
 */
+include_once './payment/classes/class.ilPaymentObject.php';
 
 class ilPaymentObjectGUI extends ilPaymentBaseGUI
 {
@@ -40,10 +41,10 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		global $ilCtrl;
 
 		$this->ctrl =& $ilCtrl;
-
 		$this->ilPaymentBaseGUI();
-
 		$this->user_obj =& $user_obj;
+
+
 
 	}
 	/**
@@ -69,26 +70,88 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 	function showObjects()
 	{
+		$this->showButton('showObjectSelector',$this->lng->txt('paya_sell_object'));
+
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_objects.html',true);
-		$this->tpl->setVariable("TRUSTEE_TABLE","O B J E C T S");
+
+		if(!count($objects = ilPaymentObject::_getObjectsData($this->user_obj->getId())))
+		{
+			sendInfo($this->lng->txt('paya_no_objects_assigned'));
+			
+			return true;
+		}
+		
+		foreach($objects as $data)
+		{
+			;
+		}
+		return true;
 	}
 
-	// PRIVATE
-	function showButton($a_cmd,$a_text,$a_target = '')
+	function showObjectSelector()
 	{
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		global $tree;
+
+		include_once './payment/classes/class.ilPaymentObjectSelector.php';
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paya_object_selector.html",true);
+		$this->showButton('showObjects',$this->lng->txt('back'));
+
+
+		sendInfo($this->lng->txt("paya_select_object_to_sell"));
+
+		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'));
+		$exp->setExpand($_GET["paya_link_expand"] ? $_GET["paya_link_expand"] : $tree->readRootId());
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showObjectSelector'));
 		
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,$a_cmd));
-		$this->tpl->setVariable("BTN_TXT",$a_text);
-		if($a_target)
+		$exp->setOutput(0);
+
+		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+
+		return true;
+	}
+
+	function showSelectedObject()
+	{
+		if(!$_GET['sell_id'])
 		{
-			$this->tpl->setVariable("BTN_TARGET",$a_target);
+			sendInfo($this->lng->txt('paya_no_object_selected'));
+			
+			$this->showObjectSelector();
+			return true;
 		}
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.paya_selected_object.html',true);
+		$this->showButton('showObjectSelector',$this->lng->txt('back'));
 
-		$this->tpl->parseCurrentBlock();
-	}		
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays.gif',false));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('details'));
 
+		$this->ctrl->setParameter($this,'sell_id',$_GET['sell_id']);
+		$this->tpl->setVariable("SO_FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
+		$this->tpl->setVariable("TXT_DESCRIPTION",$this->lng->txt('description'));
+		$this->tpl->setVariable("TXT_OWNER",$this->lng->txt('owner'));
+		$this->tpl->setVariable("TXT_PATH",$this->lng->txt('path'));
+		$this->tpl->setVariable("TXT_VENDOR",$this->lng->txt('pays_vendor'));
+		$this->tpl->setVariable("BTN1_NAME",'showObjects');
+		$this->tpl->setVariable("BTN1_VALUE",$this->lng->txt('cancel'));
+		$this->tpl->setVariable("BTN2_NAME",'addObject');
+		$this->tpl->setVariable("BTN2_VALUE",$this->lng->txt('next'));
+
+		// fill values
+		$this->tpl->setVariable("DETAILS",$this->lng->txt('details'));
+		
+		if($tmp_obj =& ilObjectFactory::getInstanceByRefId($_GET['sell_id']))
+		{
+			$this->tpl->setVariable("TITLE",$tmp_obj->getTitle());
+			$this->tpl->setVariable("DESCRIPTION",$tmp_obj->getDescription());
+			$this->tpl->setVariable("OWNER",$tmp_obj->getOwnerName());
+			$this->tpl->setVariable("PATH","hallo");
+			$this->tpl->setVariable("VENDOR","Vendor");
+		}
+		return true;
+	}
+	
+	// PRIVATE
 }
 ?>

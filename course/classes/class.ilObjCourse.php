@@ -68,7 +68,7 @@ class ilObjCourse extends ilObject
 
 		if($a_id)
 		{
-			$this->__initMetaObject();
+			#$this->__initMetaObject();
 			$this->initCourseMemberObject();
 		}
 		else
@@ -84,7 +84,7 @@ class ilObjCourse extends ilObject
 		parent::setId($a_id);
 		
 		unset($this->meta_data);
-		$this->__initMetaObject();
+		#$this->__initMetaObject();
 	}
 
 

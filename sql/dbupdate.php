@@ -4481,5 +4481,21 @@ CREATE TABLE `payment_trustees` (
 `perm_obj` INT( 1 ) NOT NULL ,
 PRIMARY KEY ( `vendor_id` , `trustee_id` )
 );
+
 <#275>
 ALTER TABLE content_object ADD COLUMN numbering ENUM('y','n') DEFAULT 'n';
+
+<#276>
+CREATE TABLE `payment_objects` (
+`pobject_id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
+`ref_id` INT( 11 ) NOT NULL ,
+`status` INT( 2 ) NOT NULL ,
+`pay_method` INT( 2 ) NOT NULL ,
+`vendor_id` INT( 11 ) NOT NULL ,
+PRIMARY KEY ( `pobject_id` )
+);
+
+<#277>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
