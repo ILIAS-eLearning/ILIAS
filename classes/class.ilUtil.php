@@ -17,7 +17,7 @@ class ilUtil
 	*/
 	function getImageTagByType($a_type,$a_path)
 	{
-		return "<img src=\"".$a_path."/images/"."icon_".$a_type.".gif\" border=\"0\">";
+		return "<img src=\"".$a_path."/images/"."icon_".$a_type."_b.gif\" border=\"0\"/>";
 	}
 	
 	/**
