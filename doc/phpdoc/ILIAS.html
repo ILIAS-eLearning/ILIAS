@@ -1,0 +1,843 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- Generated with PHPDoc, http://www.phpdoc.de -->
+<html>
+<head>
+	<title>ILIAS3 -  - Class: ILIAS</title>
+	<link href="phpdoc.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<table width="100%" border="0">
+	<tr>
+		<td align="left" valign="top" bgcolor="#B0BAFF">			
+			<table width="100%">
+				<tr>
+					<td align="left" valign="top"><a href="phpdoc_packagelist.html">Packageindex</a></td>
+					<td align="left" valign="top"><a href="phpdoc_classtree.html">Classtrees</a></td>
+					<td align="left" valign="top"><a href="phpdoc_modulegroup.html">Modulegroups</a></td>
+					<td align="left" valign="top"><a href="phpdoc_elementlist.html">Elementlist</a></td>
+					<td align="left" valign="top"><a href="phpdoc_warnings.html">Report</a></td>
+					<td align="left" valign="top"><a href="phpdoc_xmlfiles.html">XML Files</a></td>
+				</tr>
+			</table>	
+		</td>
+	</tr>
+	<tr>	
+		<td height="20" align="left" valign="top"><hr></td>
+	</tr>
+	<tr>
+		<td align="left" valign="top">			
+			File: <a href="file:///home/pgabriel/public_html/ilias3/classes/class.ilias.php" target="_new">/home/pgabriel/public_html/ilias3/classes/class.ilias.php</a>
+			<h5>ILIAS3 - </h5>
+			<h1>ILIAS</h1>
+			ILIAS<br>
+			<p>
+			Warning: documentation is missing.
+			<p>
+			&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top">
+			<h4>private    class ILIAS extends <a href="PEAR.html">PEAR</a></h4>
+			
+			<br>
+			
+			<p>
+			<table>
+				
+				
+				
+				
+				
+				
+				
+				
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td height="10" align="left" valign="top">&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td height="20" align="left" valign="top"><hr></td>
+	</tr>
+	
+	
+	<tr>
+		<td align="left" valign="top">		
+			<table width="100%" border="0">
+				<tr>
+					<td colspan="2" align="left" valign="top"><h2>Public Method Summary</h2></td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_ILIAS()"><h4>ILIAS()</h4></a>constructor</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">string</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getSettingsStr()"><h4>getSettingsStr(string $key)</h4></a>read string value from settingstable</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">int</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getSettingsInt()"><h4>getSettingsInt(string $key)</h4></a>read integer value from settingstable</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">int</td>
+					<td align="left" valign="top" width="100%"><a href="#function_setSettingsInt()"><h4>setSettingsInt(string $key, int $value)</h4></a>write integer value to settingstable</td>
+				</tr>
+				
+			</table>
+		</td>
+	</tr>
+	
+	<tr>
+		<td align="left" valign="top">		
+			<table width="100%" border="0">
+				<tr>
+					<td colspan="2" align="left" valign="top"><h2>Private Method Summary</h2></td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function__ILIAS()"><h4>_ILIAS()</h4></a>destructor</td>
+				</tr>
+				
+			</table>
+		</td>
+	</tr>
+	
+	
+	
+	<tr>
+		<td align="left" valign="top">		
+			<table width="100%" border="0">
+				<tr>
+					<td colspan="2" align="left" valign="top"><h2>Public Field Summary</h2></td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">string</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$dsn"><h4>$dsn</h4></a>database connector</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">string</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$account"><h4>$account</h4></a>user account</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">string</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$auth"><h4>$auth</h4></a>auth handler</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">array</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$ini"><h4>$ini</h4></a>system settings</td>
+				</tr>
+				
+			</table>
+		</td>
+	</tr>
+	
+	<tr>
+		<td align="left" valign="top">		
+			<table width="100%" border="0">
+				<tr>
+					<td colspan="2" align="left" valign="top"><h2>Private Field Summary</h2></td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">string</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$INI_FILE"><h4>$INI_FILE</h4></a>ini file</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">string</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$db"><h4>$db</h4></a>database handle</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">string</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$tplPath"><h4>$tplPath</h4></a>template path</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">array</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$auth_params"><h4>$auth_params</h4></a>auth parameters</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">string</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$operations"><h4>$operations</h4></a>operation list</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">array</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$typedefinition"><h4>$typedefinition</h4></a>type definition</td>
+				</tr>
+				
+			</table>
+		</td>
+	</tr>
+	
+	
+	
+	
+	
+	<tr>
+		<td align="left" valign="top">
+			<table width="100%" border="0">
+				<tr>
+					<td align="left" valign="top" colspan=2><h3>Included files Summary, Type: include_once</h3></td>
+				</tr>
+				
+				<tr>
+					<td align="left" valign="top"><a href="#uses_./classes/class.IniFile.php">./classes/class.IniFile.php</a></td>
+					<td align="left" valign="top" width="100%"><a href="#uses_./classes/class.IniFile.php">Warning: documentation is missing.</a></td>
+				</tr>
+				
+			</table>
+		</td>
+	</tr>
+	
+	
+	<tr>
+		<td align="left" valign="top">
+			<table width="100%" border="0">
+				<tr>
+					<td colspan="2" align="left" valign="top"><h2>Public Method Details</h2></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_ILIAS()"><h4>ILIAS</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    boolean ILIAS(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						constructor
+						<br>
+						setup ILIAS global object
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>boolean <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_getSettingsStr()"><h4>getSettingsStr</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    string getSettingsStr( string $key )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						read string value from settingstable
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">string</td>
+								<td align="left" valign="top">$key</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>string <p>value </td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_getSettingsInt()"><h4>getSettingsInt</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    int getSettingsInt( string $key )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						read integer value from settingstable
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">string</td>
+								<td align="left" valign="top">$key</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>int <p>value </td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_setSettingsInt()"><h4>setSettingsInt</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    int setSettingsInt( string $key, int $value )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						write integer value to settingstable
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">string</td>
+								<td align="left" valign="top">$key</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">$value</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>int <p>value </td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+			</table>
+	</tr>
+	
+	<tr>
+		<td align="left" valign="top">
+			<table width="100%" border="0">
+				<tr>
+					<td colspan="2" align="left" valign="top"><h2>Private Method Details</h2></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function__ILIAS()"><h4>_ILIAS</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>private    boolean _ILIAS(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						destructor
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>boolean <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+			</table>
+	</tr>
+		
+	
+	<tr>
+		<td align="left" valign="top">
+			<table width="100%" border="0">
+				<tr>
+					<td colspan="2" align="left" valign="top"><h2>Public Field Details</h2></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$dsn"><h4>$dsn</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public   string $dsn</b>
+						<p>
+						>><code>&quot;&quot;</code><<
+						<p>
+						database connector
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$account"><h4>$account</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public   string $account</b>
+						<p>
+						>><code>&quot;&quot;</code><<
+						<p>
+						user account
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$auth"><h4>$auth</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public   string $auth</b>
+						<p>
+						>><code>&quot;&quot;</code><<
+						<p>
+						auth handler
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$ini"><h4>$ini</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public   array $ini</b>
+						<p>
+						>><code>array()</code><<
+						<p>
+						system settings
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+			</table>
+	</tr>
+	
+	<tr>
+		<td align="left" valign="top">
+			<table width="100%" border="0">
+				<tr>
+					<td colspan="2" align="left" valign="top"><h2>Private Field Details</h2></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$INI_FILE"><h4>$INI_FILE</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>private   string $INI_FILE</b>
+						<p>
+						>><code>&quot;./ilias.ini&quot;</code><<
+						<p>
+						ini file
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$db"><h4>$db</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>private   string $db</b>
+						<p>
+						>><code>&quot;&quot;</code><<
+						<p>
+						database handle
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$tplPath"><h4>$tplPath</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>private   string $tplPath</b>
+						<p>
+						>><code>&quot;&quot;</code><<
+						<p>
+						template path
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$auth_params"><h4>$auth_params</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>private   array $auth_params</b>
+						<p>
+						>><code>array()</code><<
+						<p>
+						auth parameters
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$operations"><h4>$operations</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>private   string $operations</b>
+						<p>
+						>><code>&quot;&quot;</code><<
+						<p>
+						operation list
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$typedefinition"><h4>$typedefinition</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>private   array $typedefinition</b>
+						<p>
+						>><code>array(
+								&quot;grp&quot;  =&gt; &quot;'frm','le','crs','file','rolf'&quot;,
+								&quot;cat&quot;  =&gt; &quot;'cat','frm','le','grp','crs','file','rolf'&quot;,
+								&quot;frm&quot;  =&gt; &quot;'rolf'&quot;,
+								&quot;le&quot;   =&gt; &quot;'rolf'&quot;,
+								&quot;crs&quot;  =&gt; &quot;'le','frm','grp','file','rolf'&quot;,
+								&quot;file&quot; =&gt; &quot;'rolf'&quot;,
+								&quot;adm&quot;  =&gt; &quot;'usrf','rolf','objf'&quot;,
+								&quot;usrf&quot; =&gt; &quot;'user'&quot;,
+								&quot;rolf&quot; =&gt; &quot;'role'&quot;,
+								&quot;objf&quot; =&gt; &quot;'type'&quot;
+							)</code><<
+						<p>
+						type definition
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+			</table>
+	</tr>
+		
+	
+	
+	<tr>
+		<td align="left" valign="top">
+			<table width="100%" border="0">
+				<tr>
+					<td colspan="2" align="left" valign="top"><h2>Included Files, Type: include_once</h2></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="uses_./classes/class.IniFile.php"><h4>./classes/class.IniFile.php</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>include_once( ./classes/class.IniFile.php )</b>
+						<p>
+						
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+			</table>
+	</tr>
+	
+	<tr>
+		<td height="10" align="left" valign="top"><hr></td>
+	</tr>
+	<tr>
+		<td align="left" valign="top" bgcolor="#C0C0C0">			
+			<table>
+				<tr>
+					<td align="left" valign="top"><a href="phpdoc_packagelist.html">Packageindex</a></td>
+					<td align="left" valign="top"><a href="phpdoc_classtree.html">Classtrees</a></td>
+					<td align="left" valign="top"><a href="phpdoc_modulegroup.html">Modulegroups</a></td>
+					<td align="left" valign="top"><a href="phpdoc_elementlist.html">Elementlist</a></td>
+					<td align="left" valign="top"><a href="phpdoc_warnings.html">Report</a></td>
+					<td align="left" valign="top"><a href="phpdoc_xmlfiles.html">XML Files</a></td>
+				</tr>
+			</table>	
+		</td>
+	</tr>
+	<tr>
+		<td align="left" valign="top">PHPDoc 1.0beta</td>
+	</tr>
+</table>
+
+</body>
+</html>

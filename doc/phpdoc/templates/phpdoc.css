@@ -1,0 +1,92 @@
+BODY {
+	background-color : #EEEEEE;
+	color : #000000;
+	font-family : Arial, Tahoma, Helvetica, sans-serif;
+	font-size : 10pt;
+	margin-left : 1em;
+	margin-right : 0;
+
+}
+
+A:LINK, A:VISITED {
+	color : #000099;
+	text-decoration : none;
+}
+
+A:HOVER {
+	background-color : #FFFFFF;
+	color : #00009F;
+	text-decoration : none;
+}
+
+H1 {
+	color : Black;
+	font-family : Verdana, Tahoma, Arial, Helvetica, sans-serif;
+	font-size : 16pt;
+	padding-bottom : 5px;
+	padding-top : 5px;
+	padding-left : 5px;
+}
+
+H2 {
+	color : Black;
+	font-family : Verdana, Tahoma, Arial, Helvetica, sans-serif;
+	font-size : 14pt;
+	margin-top : 2em;
+}
+
+H3 {
+	color : Navy;
+	font-family : Verdana, Tahoma, Arial, Helvetica, sans-serif;
+	font-size : 12pt;
+	margin-top :1em;
+}
+
+H4 {
+	color : Navy;
+	font-family : Verdana, Tahoma, Arial, Helvetica, sans-serif;
+	font-size : 11pt;
+	background-color : #E6E6FA;
+	padding-bottom : 2px;
+	padding-top : 2px;
+	padding-left : 2px;
+	margin-top : 1em;
+}
+
+H5 {
+	color : Navy;
+	font-family : Verdana, Tahoma, Arial, Helvetica, sans-serif;
+	font-size : 10pt;
+	font-weight : 900;
+	margin-bottom : -1em;
+}
+
+H6 {
+	color : #000000;
+	font-family : Arial, Helvetica, sans-serif;
+	font-size : 10pt;
+	font-weight : 800;	
+	margin-bottom : -1em;
+}
+
+BLOCKQUOTE {
+	margin-left : 0;
+}
+
+CAPTION {
+	font-family : Verdana, Tahoma, Arial, Helvetica, sans-serif;
+	font-weight : 800;
+}
+
+TH {
+	background-color : #FFFFFF;
+}
+
+TD {
+	background-color : #F0F0F0;
+	font-size : 10pt;
+}
+
+CODE {
+	font-size: 8pt;
+}
