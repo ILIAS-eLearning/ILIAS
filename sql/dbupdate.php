@@ -854,3 +854,6 @@ $query = "UPDATE tree SET ".
 		 "WHERE tree = 1";
 $this->db->query($query);
 ?>
+
+<#64>
+ALTER TABLE page_object MODIFY content MEDIUMTEXT;

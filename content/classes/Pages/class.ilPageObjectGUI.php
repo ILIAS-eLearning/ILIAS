@@ -270,6 +270,7 @@ class ilPageObjectGUI
 
 		// get content
 		$builded = $this->obj->buildDom();
+
 		if($this->getOutputMode() == "edit")
 		{
 			$this->obj->addHierIDs();
