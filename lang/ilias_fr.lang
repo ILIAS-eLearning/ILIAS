@@ -93,7 +93,7 @@ assessment#:#add_area#:#Ajouter zone
 assessment#:#add_gap#:#Ajouter texte à trous
 assessment#:#add_imagemap#:#Ajouter image réactive
 assessment#:#add_matching_pair#:#Ajouter appariements
-assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
+assessment#:#add_solution#:#Ajouter propositions de solution
 assessment#:#all_available_question_pools#:#Tous les jeux de questions disponibles
 assessment#:#answer#:#Réponse
 assessment#:#answer_is_right#:#Votre solution est correcte
@@ -112,11 +112,11 @@ assessment#:#ass_questions#:#Questions
 assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#available_points#:#Points disponibles
 assessment#:#by#:#par
-assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
-assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###07 Oct 2004 new variable
-assessment#:#cannot_maintain_test#:#Vous n'avez pas de permission suffisante pour assurer la maintenance du test
-assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
-assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
+assessment#:#cancel_test#:#Annuler le test
+assessment#:#cannot_export_test#:#Vous n'avez pas les permissions nécessaires pour exporter le test.
+assessment#:#cannot_maintain_test#:#Vous n'avez pas les permissions nécessaires pour assurer la maintenance du test
+assessment#:#cannot_save_metaobject#:#Vous n'avez pas les permissions nécessaires pour enregistrer les métadonnées
+assessment#:#change_solution#:#Modifier proposition de solution
 assessment#:#checkbox_checked#:#Coché
 assessment#:#checkbox_unchecked#:#Non coché
 assessment#:#circle#:#Cercle
@@ -126,7 +126,7 @@ assessment#:#cloze_text#:#Texte de closure
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Coordonnées
 assessment#:#correct_solution_is#:#La solution correcte est
-assessment#:#counter#:#Counter###06 Oct 2004 new variable
+assessment#:#counter#:#Compteur
 assessment#:#create_date#:#Créé
 assessment#:#create_gaps#:#Créer lacune
 assessment#:#create_imagemap#:#Créer  une image réactive
@@ -159,9 +159,9 @@ assessment#:#ects_use_fx_grade#:#Utiliser le niveau 'FX', si des participants on
 assessment#:#ects_use_fx_grade_part2#:#pourcentage du total
 assessment#:#end_tag#:#Balise de fin
 assessment#:#ending_time_reached#:#Vous êtes arrivé à la fin du temps
-assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
-assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
-assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
+assessment#:#enhanced#:#Mode enrichi
+assessment#:#error_image_upload_copy_file#:#Une erreur s'est produite pendant le déplacement du fichier téléversé dans son répertoire de destination.
+assessment#:#error_image_upload_wrong_format#:#Veuillez téléverser un fichier image valide. Les formats d'images acceptés sont gif, jpeg et png.
 assessment#:#error_importing_question#:#Il y a eu une erreur lors de l'importation de la (des) question(s) depuis le fichier spécifié
 assessment#:#error_open_image_file#:#Erreur à l'ouverture d'un fichier image
 assessment#:#error_open_java_file#:#Erreur à l'ouverture d'une applet java
@@ -190,10 +190,10 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Veuillez remplir tous l
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Veuillez remplir tous les champs obligatoires avant de télécharger des images réactives.
 assessment#:#fill_out_all_required_fields_upload_material#:#Veuillez remplir tous les champs obligatoires avant de télécharger des matériaux
 assessment#:#filter#:#Filtre
-assessment#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
-assessment#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
-assessment#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
-assessment#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
+assessment#:#filter_all_question_types#:#Tous les types de question
+assessment#:#filter_all_questionpools#:#Tous les jeux de questions
+assessment#:#filter_show_question_types#:#Afficher types de question
+assessment#:#filter_show_questionpools#:#Afficher jeux de questions
 assessment#:#gap#:#Lacune
 assessment#:#gap_definition#:#Définition de lacune
 assessment#:#gap_selection#:#Sélection de lacune
@@ -277,7 +277,7 @@ assessment#:#rectangle_click_br_corner#:#Veuillez cliquer sur le coin inférieur
 assessment#:#rectangle_click_tl_corner#:#Veuillez cliquer sur le coin supérieur gauche de la zone désirée.
 assessment#:#region#:#Zone
 assessment#:#remove_question#:#Supprimer
-assessment#:#remove_solution#:#Remove suggested solution###05 Oct 2004 new variable
+assessment#:#remove_solution#:#Supprimer proposition de solution
 assessment#:#report_date_not_reached#:#Vous n'avez pas atteint la date de rapport. Vous pourrez voir les résultats du test le %s
 assessment#:#reset_filter#:#Remettre le filtre à zéro
 assessment#:#result#:#Resultat
@@ -294,12 +294,12 @@ assessment#:#selected_image#:#Image sélectionnée
 assessment#:#set_filter#:#Définir le filtre
 assessment#:#shape#:#Forme
 assessment#:#shuffle_answers#:#Mélanger les réponses
-assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
+assessment#:#solution_hint#:#Proposition de solution
 assessment#:#solution_order#:#Ordre correct
 assessment#:#start_tag#:#Point de départ
 assessment#:#starting_time_not_reached#:#Vous n'avez pas atteint la date de début
 assessment#:#symbol#:#Symbole
-assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
+assessment#:#test_cancelled#:#Le test a été annulé
 assessment#:#text_gap#:#Lacune du texte
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Veuillez remplir les paramètres vides de votre applet avant d'ajouter un nouveau paramètre.
@@ -308,11 +308,11 @@ assessment#:#tst_all_user_data_deleted#:#Toutes les données utilisateur de ce t
 assessment#:#tst_already_taken#:#Tests déjà pris
 assessment#:#tst_anon_eval#:#Résultats anonymes agrégés
 assessment#:#tst_browse_for_questions#:#Parcourir les questions
-assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of tries, you already needed for this test. Do you really want to reset all your previous entered results? ###28 Sep 2004 new variable
-assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!###28 Sep 2004 new variable
+assessment#:#tst_confirm_delete_results#:#Vous êtes sur le point de détruire tous les résultats précédents de ce test.  Cette action va remettre toutes les questions à leur valeur par défaut. Notez que vous ne pouvez pas réinitialiser le nombre de tentatives dont vous avez eu besoin pour ce test. Voulez-vous vraiment réinitialiser tous les résultats précédents ?
+assessment#:#tst_confirm_delete_results_info#:#Vos résultats précédents ont été détruts. Vous avez réinitialisé le test avec succès.
 assessment#:#tst_delete_all_user_data#:#Détruire toutes les données utilisateur
 assessment#:#tst_delete_missing_mark#:#Veuillez sélectionner au moins une étape pour la supprimer
-assessment#:#tst_delete_results#:#Reset test###28 Sep 2004 new variable
+assessment#:#tst_delete_results#:#Réinitialiser test
 assessment#:#tst_ending_time#:#Date de fin
 assessment#:#tst_enter_questionpool#:#Veuillez saisir un nom pour un jeu de questions dans lequel la nouvelle question sera stockée.
 assessment#:#tst_eval_no_anonymous_aggregation#:#Personne n'a fait le test. Les résultats agrégés anonymes ne sont pas disponibles
@@ -409,11 +409,11 @@ assessment#:#tst_status_ok#:#L'état du test est valide. Il n'y a pas d'élémen
 assessment#:#tst_status_progress#:#en cours
 assessment#:#tst_time_already_spent#:#Temps déjà passé
 assessment#:#tst_type#:#Type de test
-assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!###06 Oct 2004 new variable
-assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
+assessment#:#tst_type_changed#:#Vous avez changé le type du test. Tous les tests précédents ont été détruits.
+assessment#:#tst_type_comment#:#Attention : le changement du type d'un test actif provoque la destruction des tous les tests déjà terminés.
 assessment#:#tst_types#:#Types de test
-assessment#:#tst_use_javascript#:#Utiliser Javascript pour glisser/déposer des actions###03 Oct 2004 content changed
-assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
+assessment#:#tst_use_javascript#:#Utiliser Javascript pour glisser/déposer des actions (le navigateur Safari d'Apple n'est pas supporté)
+assessment#:#tst_your_ects_mark_is#:#Votre niveau ECTS est
 assessment#:#tst_your_mark_is#:#Votre note est
 assessment#:#tt_assessment#:#Test d'évaluation
 assessment#:#tt_navigation_controlling#:#Contrôle du test de navigation des étudiants
@@ -629,7 +629,7 @@ common#:#alm_leave#:#Se désabonner d'un module d'apprentissage AICC
 common#:#alm_read#:#Accès en lecture à un module d'apprentissage AICC
 common#:#alm_visible#:#Le module d'apprentissage AICC est visible
 common#:#alm_write#:#Modifier module d'apprentissage AICC
-common#:#already_delivered_files#:#Already delivered files###06 Oct 2004 new variable
+common#:#already_delivered_files#:#Fichiers déjà délivrés
 common#:#and#:#et
 common#:#announce#:#Annonce
 common#:#announce_changes#:#Annoncer les changements
@@ -638,7 +638,7 @@ common#:#any_language#:#N'importe quel langage
 common#:#application_completed#:#Inscription terminée
 common#:#application_date#:#Date d'inscription
 common#:#applied_users#:#Utilisateurs inscrits
-common#:#apply#:#Apply###02 Oct 2004 new variable
+common#:#apply#:#Appliquer
 common#:#apply_filter#:#Appliquer le filtre
 common#:#appointment#:#Rendez-vous
 common#:#appointment_list#:#Liste de rendez-vous
@@ -916,7 +916,7 @@ common#:#delete_selected#:#Détruire sélection
 common#:#delete_tr_data#:#Détruire données de suivi
 common#:#deleted#:#Détruit
 common#:#deleted_user#:#L'utilisateur a été détruit
-common#:#deliver#:#Deliver exercise###06 Oct 2004 new variable
+common#:#deliver#:#Délivrer exercice
 common#:#department#:#Département
 common#:#desc#:#Description
 common#:#description#:#Description
@@ -941,7 +941,7 @@ common#:#email_not_valid#:#L'adresse email que vous avez saisie n'est pas valide
 common#:#enable#:#Activer
 common#:#enable_registration#:#Autoriser les nouveaux enregistrements d'utilisateurs
 common#:#enabled#:#Activé
-common#:#enter_filename_deliver#:#Enter exercise to deliver###06 Oct 2004 new variable
+common#:#enter_filename_deliver#:#Saisir l'exercice à délivrer
 common#:#enumerate#:#Enumérer
 common#:#err_1_param#:#Seulement 1 paramètre !
 common#:#err_2_param#:#Seulement 2 paramètres !
@@ -979,7 +979,7 @@ common#:#exc_edit_exercise#:#Modifier exercice
 common#:#exc_edit_permission#:#Changer les paramètres de permission
 common#:#exc_edit_until#:#Modifier jusqu'à
 common#:#exc_files#:#Fichiers
-common#:#exc_files_returned#:#Returned files###06 Oct 2004 new variable
+common#:#exc_files_returned#:#Fichiers retournés
 common#:#exc_groups#:#Groupes
 common#:#exc_header_members#:#Exercice (membres)
 common#:#exc_instruction#:#Consigne de travail
@@ -1005,9 +1005,9 @@ common#:#exc_visible#:#L'exercice est visible
 common#:#exc_write#:#Modifier exercice
 common#:#excs#:#Exercices
 common#:#execute#:#Exécuter
-common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!###06 Oct 2004 new variable
+common#:#exercise_time_over#:#Vous avez atteint la date de fin de cet exercice, vousne pouvez plus délivrer des fichiers.
 common#:#export#:#Exporter
-common#:#export_group_members#:#Export group members (to Microsoft Excel)###04 Oct 2004 new variable
+common#:#export_group_members#:#Exporter les membres du groupe (au format MS Excel)
 common#:#export_html#:#exporter sous la forme d'un fichier html
 common#:#export_xml#:#exporter sous la forme d'un fichier xml
 common#:#faq_exercise#:#Exercice de FAQ
@@ -1030,7 +1030,7 @@ common#:#file_valid#:#Le fichier est valide !
 common#:#file_version#:#Version fournie dans le fichier
 common#:#file_visible#:#Le fichier est visible
 common#:#file_write#:#Modifier fichier
-common#:#filename#:#Filename###06 Oct 2004 new variable
+common#:#filename#:#Nom de fichier
 common#:#files#:#Fichiers
 common#:#files_location#:#Emplacement des fichiers
 common#:#fill_out_all_required_fields#:#Veuillez renseigner tous les champs obligatoires
@@ -1121,37 +1121,37 @@ common#:#global_user#:#Utilisateurs globaux
 common#:#glossaries#:#Glossaires
 common#:#glossary#:#Glossaire
 common#:#glossary_added#:#Glossaire ajouté
-common#:#group_access_denied#:#Accès refusé
+common#:#group_access_denied#:#Attention&nbsp;!
 common#:#group_any_objects#:#Aucun sous-objet disponible
 common#:#group_create_chat#:#Créer chat
 common#:#group_desc#:#Description de groupe
 common#:#group_details#:#Détails de groupe
 common#:#group_filesharing#:#Partage de fichiers par groupe
 common#:#group_import#:#Importation de groupe
-common#:#group_import_file#:#Importer file
+common#:#group_import_file#:#Importer fichier
 common#:#group_members#:#Membres du groupe
 common#:#group_memstat#:#Statut du membre
 common#:#group_memstat_admin#:#Administrateur
 common#:#group_memstat_member#:#Membre
 common#:#group_name#:#Nom du groupe
-common#:#group_new_registrations#:#Nouveaux abonnements
-common#:#group_no_registration#:#Pas d'abonnement nécessaire
-common#:#group_no_registration_msg#:#Vous n'êtes pas encore membre de ce groupe.  Pour des raisons d'administration, il est nécessaire de s'inscrire dans le groupe souhaité.<br> En tant que membre, vous aurez les avantages suivants :<br>- Vous êtes informé(e) des nouveautés et des mises à jour<br>- Vous pouvez accéder aux objets associés, tels que les forums, les cours, etc.<br><br>Vous pouvez résilier votre abonnement à tout moment.
+common#:#group_new_registrations#:#Nouvelles inscriptions
+common#:#group_no_registration#:#Accès libre
+common#:#group_no_registration_msg#:#Vous n'êtes pas encore membre de ce groupe.  Pour des raisons d'administration, il est nécessaire de s'inscrire dans le groupe souhaité.<br> En tant que membre, vous aurez les avantages suivants :<br>- Vous êtes informé(e) des nouveautés et des mises à jour<br>- Vous pouvez accéder aux objets associés, tels que les forums, les cours, etc.<br><br>Vous pouvez résilier votre inscription à tout moment.
 common#:#group_not_available#:#Aucun groupe disponible
 common#:#group_objects#:#Objets du groupe
-common#:#group_password_registration_expired_msg#:#La période d'abonnement de ce groupe a expiré, il n'est plus possible de faire une annonce.  Veuillez contacter le propriétaire ou l'administrateur du groupe idoine.
+common#:#group_password_registration_expired_msg#:#La période d'inscription de ce groupe a expiré, il n'est plus possible de faire une annonce.  Veuillez contacter le propriétaire ou l'administrateur du groupe idoine.
 common#:#group_password_registration_msg#:#Pour rejoindre ce groupe, vous devez saisir le mot de passe fourni par l'administrateur de ce groupe.<br> Vous serez automatiquement placé(e) dans le groupe si le mot de passe est correct
 common#:#group_registration_expiration_date#:#Date d'expiration
-common#:#group_registration_expiration_time#:#Date d'expiration
-common#:#group_registration_expired#:#Période d'abonnement expirée
-common#:#group_registration_mode#:#Mode abonnement
-common#:#group_req_password#:#Mot de passe d'abonnement requis
-common#:#group_req_registration#:#Abonnement requis
-common#:#group_req_registration_msg#:#Pour rejoindre ce groupe, vous devez vous abonner.  L'administrateur du groupe correspondant vous placera dans le groupe. Veuillez saisir un sujet pour justifier votre adhésion.<br> Vous recevrez un message quand vous aurez été inscrit(e) dans le groupe.
+common#:#group_registration_expiration_time#:#Heure d'expiration
+common#:#group_registration_expired#:#Période d'inscription expirée
+common#:#group_registration_mode#:#Contrôle des inscriptions au groupe
+common#:#group_req_password#:#Mot de passe d'inscription requis
+common#:#group_req_registration#:#Accès contrôlé
+common#:#group_req_registration_msg#:#Pour rejoindre ce groupe, vous devez vous inscrire.  L'administrateur du groupe correspondant vous placera dans le groupe. Veuillez indiquer une raison pour justifier votre adhésion.<br> Vous recevrez un message quand vous aurez été inscrit(e) dans le groupe.
 common#:#group_reset#:#Réinitialiser groupe
 common#:#group_status#:#Statut du groupe
 common#:#group_status_closed#:#Fermé
-common#:#group_status_desc#:#Détermine le statut initial du groupe en utilisant les paramètres de permission du modèle 'il_grp_status_closed' ou 'il_grp_status_open'<br/>Public : le groupe est visible ; les utilisateurs peuvent s'abonner.<br/>Fermé : le groupe n'est pas visible pour les personnes extérieures au groupe ; les utilisateurs doivent être invités pour rejoindre le groupe.
+common#:#group_status_desc#:#Détermine le statut initial du groupe en utilisant les paramètres de permission du modèle 'il_grp_status_closed' ou 'il_grp_status_open'<br/>Public : le groupe est visible ; les utilisateurs peuvent s'inscrire.<br/>Fermé : le groupe n'est pas visible pour les personnes extérieures au groupe ; les utilisateurs doivent être invités pour rejoindre le groupe.
 common#:#group_status_public#:#Public
 common#:#groups#:#Groupes
 common#:#groups_overview#:#Vue générale des groupes
@@ -1213,8 +1213,8 @@ common#:#grp_no_results_found#:#Aucun résultat
 common#:#grp_no_roles_selected#:#Aucun rôle sélectionné
 common#:#grp_options#:#Options
 common#:#grp_read#:#Accès en lecture au groupe
-common#:#grp_register#:#Enregistrement
-common#:#grp_registration_completed#:#Enregistrement terminé
+common#:#grp_register#:#Inscription
+common#:#grp_registration_completed#:#Inscription terminée
 common#:#grp_search_enter_search_string#:#Veuillez saisir une chaîne de recherche
 common#:#grp_search_members#:#Recherche d'utilisateur
 common#:#grp_visible#:#Le groupe est visible
@@ -1225,7 +1225,7 @@ common#:#header_title#:#Titre d'entête
 common#:#help#:#Aide
 common#:#hide_details#:#cacher détails
 common#:#hide_structure#:#Désactiver vue structurée
-common#:#hits_per_page#:#Hits/Page
+common#:#hits_per_page#:#Nombre de lignes par page
 common#:#hlm#:#Module d'apprentissage HACP
 common#:#hlm_added#:#Module d'apprentissage  HACP ajouté
 common#:#hlm_create#:#Créer module d'apprentissage HACP 
@@ -1330,8 +1330,6 @@ common#:#lang_en#:#Anglais
 common#:#lang_es#:#Espagnol
 common#:#lang_fi#:#Finlandais
 common#:#lang_fr#:#Français
-common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
-common#:#lang_hu#:#Hungarian###12 Oct 2004 new variable
 common#:#lang_id#:#Indonésien
 common#:#lang_it#:#Italien
 common#:#lang_ja#:#Japonais
@@ -1448,7 +1446,7 @@ common#:#mail_folders#:#Dossiers de messagerie
 common#:#mail_import#:#Importer
 common#:#mail_import_file#:#Fichier d'exportation ILIAS 2
 common#:#mail_intern_enable#:#Activer
-common#:#mail_mail_visible#:#L'utilisateur peut utiliser la messagerie système
+common#:#mail_mail_visible#:#L'utilisateur peut utiliser la messagerie interne
 common#:#mail_mails_of#:#Messages
 common#:#mail_maxsize_attach#:#Taille maximale d'attachement
 common#:#mail_maxsize_box#:#Taille maximale de boîte aux lettres
@@ -1472,7 +1470,7 @@ common#:#mails#:#Messages
 common#:#manage_tracking_data#:#Gérer données de suivi
 common#:#mark_all_read#:#Marquer tout comme lu
 common#:#mark_all_unread#:#Marquer tout comme non lu
-common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
+common#:#matriculation#:#Numéro matricule
 common#:#max_number_rec#:#Nombre maximum d'enregistrement
 common#:#max_time#:#Durée maximale
 common#:#member#:#Membre
@@ -1490,7 +1488,7 @@ common#:#mep_visible#:#Le media pool est visible
 common#:#mep_write#:#Modifier contenu du media pool
 common#:#message#:#Message
 common#:#message_content#:#Contenu du message
-common#:#message_no_delivered_files#:#You don't have delivered a file!###06 Oct 2004 new variable
+common#:#message_no_delivered_files#:#Vous n'avez pas délivré de fichier
 common#:#message_to#:#Message à:
 common#:#meta_data#:#Méta-données
 common#:#migrate#:#Migrer
@@ -1641,8 +1639,6 @@ common#:#no_title#:#Pas de titre
 common#:#no_tst_in_personal_list#:#Pas de tests dans la liste personnelle
 common#:#no_users_applied#:#Veuillez sélectionner un utilisateur
 common#:#no_users_selected#:#Veuillez sélectionner un utilisateur
-common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
-common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
 common#:#non_internal_local_roles_only#:#Rôles locaux (seulement définis par l'utilisateur)
 common#:#none#:#Aucun
 common#:#normal#:#Normal
@@ -1795,7 +1791,7 @@ common#:#path_to_java#:#Chemin de Java
 common#:#path_to_unzip#:#Chemin de Unzip
 common#:#path_to_zip#:#Chemin de Zip
 common#:#pathes#:#Chemins
-common#:#pay_methods#:#Pay methods###02 Oct 2004 new variable
+common#:#pay_methods#:#Méthodes de paiement
 common#:#payment_system#:#Système de paiement
 common#:#pays_edit#:#Modifier paramètres de paiement
 common#:#pays_edit_permission#:#Changer paramètres de permission
@@ -1825,8 +1821,8 @@ common#:#phone_office#:#Téléphone, bureau
 common#:#phrase#:#Phrase
 common#:#please_enter_target#:#Veuillez saisir une cible
 common#:#please_enter_title#:#Veuillez saisir un titre
-common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###06 Oct 2004 new variable
-common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!###06 Oct 2004 new variable
+common#:#please_select_a_delivered_file_to_delete#:#Vous devez sélectionner au moins un fichier délivré pour le supprimer.
+common#:#please_select_a_delivered_file_to_download#:# Vous devez sélectionner au moins un fichier délivré pour le télécharger.
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#preconditions#:#Conditions préalables
@@ -1912,7 +1908,7 @@ common#:#role_add_local#:#Ajouter rôle local
 common#:#role_add_user#:#Ajouter utilisateur(s) au rôle
 common#:#role_added#:#Rôle ajouté
 common#:#role_assignment#:#Assignation de rôle
-common#:#role_assignment_updated#:#L'assignation de ôle a été mise à jour.
+common#:#role_assignment_updated#:#L'assignation de rôle a été mise à jour.
 common#:#role_count_users#:#Nombre d'utilisateurs
 common#:#role_deleted#:#Rôle détruit
 common#:#role_edit#:#Modifier rôle
@@ -1930,7 +1926,7 @@ common#:#role_user_deassign#:#Enlever l'assignation d'un utilisateur au rôle
 common#:#role_user_edit#:#Modifier données de compte
 common#:#role_user_send_mail#:#Envoyer un message à l'utilisateur
 common#:#roles#:#Rôles
-common#:#roles_of_import_global#:#Rôles globaux du fichier d'importation XXX
+common#:#roles_of_import_global#:#Rôles globaux du fichier d'importation
 common#:#roles_of_import_local#:#Rôles locaux du fichier d'importation
 common#:#rolf#:#Dossier de rôles
 common#:#rolf_added#:#Dossier de rôles ajouté
@@ -2043,7 +2039,7 @@ common#:#street#:#Rue
 common#:#structure#:#Structure
 common#:#subcat_name#:#Nom de sous-catégorie
 common#:#subchapter_new#:#Nouveau sous-chapitre
-common#:#subject#:#Sujet
+common#:#subject#:#Objet&nbsp;
 common#:#subject_module#:#Module sujet XXX
 common#:#submit#:#Envoyer
 common#:#subobjects#:#Sous-objets
@@ -2103,7 +2099,7 @@ common#:#time_segment#:#Unité de temps
 common#:#title#:#Titre
 common#:#to#:#à
 common#:#to_client_list#:#Vers la sélection de client
-common#:#to_desktop#:#S'abonner
+common#:#to_desktop#:#Lien sur le bureau
 common#:#today#:#Aujourd'hui
 common#:#total#:#Total
 common#:#tpl_path#:#Chemin des modèles
@@ -2160,7 +2156,7 @@ common#:#user_detail#:#Détail
 common#:#user_imported#:#Importation des utilisateurs terminée
 common#:#user_language#:#Langue utilisateur
 common#:#user_not_chosen#:#Vous n'avez pas choisi un membre du groupe.
-common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
+common#:#user_profile_other#:#Autres informations
 common#:#user_statistics#:#Données statistiques
 common#:#userdata#:#Données utilisateur
 common#:#username#:#Nom d'utilisateur
@@ -2175,7 +2171,7 @@ common#:#usr_added#:#Utilisateur ajouté
 common#:#usr_agreement#:#Charte d'utilisation
 common#:#usr_agreement_empty#:#La charte d'utilisation ne contient pas de texte
 common#:#usr_edit#:#Modifier utilisateur
-common#:#usr_hits_per_page#:#Hits/page dans les tableaux
+common#:#usr_hits_per_page#:#Nombre de lignes par page dans les tableaux
 common#:#usr_new#:#Nouvel utilisateur
 common#:#usr_skin_style#:#Thème / Style
 common#:#usr_style#:#Style utilisateur
@@ -2386,7 +2382,7 @@ content#:#cont_link_ext#:#Lien (externe)
 content#:#cont_link_int#:#Lien (interne)
 content#:#cont_link_select#:#Lien interne
 content#:#cont_link_type#:#Type de lien
-content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
+content#:#cont_linked_mobs#:#Objets média liés
 content#:#cont_list_files#:#Liste des fichiers
 content#:#cont_list_properties#:#Propriétés de la liste
 content#:#cont_lk_chapter#:#Chapitre
@@ -2619,7 +2615,7 @@ crs#:#crs_info_reg#:#Informations pour l'enregistrement
 crs#:#crs_info_reg_confirmation#:#Ce cours nécessite la confirmation par un administrateur du cours. Vous recevrez un message si vous êtes accepté pour ce cours.
 crs#:#crs_info_reg_deactivated#:#Aucun enregistrement possible
 crs#:#crs_info_reg_direct#:#Il est nécessaire de s'enregistrer pour ce cours
-crs#:#crs_info_reg_password#:#L'enregistrement requiert un mot de passe valide
+crs#:#crs_info_reg_password#:#L'enregistrement                               requiert un mot de passe valide
 crs#:#crs_list_users#:#Liste des utilisateurs
 crs#:#crs_max_members_reached#:#Le nombre maximal de membres a été atteint
 crs#:#crs_mem_change_status#:#Changer statut
@@ -2731,7 +2727,7 @@ dateplaner#:#ERROR_ENDDATE#:#format de date de fin erroné. Format: jj/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Format d'heure de fin erroné. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Date de fin erronée. La date de fin est antérieure à la date de début
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Prenez soin d'utiliser un fichier CSV valide.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>XXXyour browser doesn't except JavaScript. <BR> Please close this Window après insérer manually. <BR> Thank you</CENTER></B>###03 Oct 2004 content changed
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Votre navigateur n'accepte pas JavaScript. <BR> Veuillez fermer la fenêtre manuellement après l'insertion.</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Format de date de fin de répétition erronée. Format: jj/mm/yyyy
 dateplaner#:#ERROR_ROT_END_START#:#Date de fin de répétition erronée. La date de fin est antérieure à la date de départ.
 dateplaner#:#ERROR_SHORTTEXT#:#Veuillez taper un message court (obligatoire).
@@ -2763,7 +2759,7 @@ dateplaner#:#app_#:#xxxgroup dates inbox
 dateplaner#:#app_date#:#Ajouter un événement
 dateplaner#:#app_day#:#Vue par journée	
 dateplaner#:#app_freetime#:#disponibilités des autres membres du groupe (xxxcatch a time)
-dateplaner#:#app_inbox#:#Boîte des événements de groupe
+dateplaner#:#app_inbox#:#A noter&nbsp;!
 dateplaner#:#app_list#:#Liste des événements	
 dateplaner#:#app_month#:#Vue par mois
 dateplaner#:#app_properties#:#Propriétés
@@ -2834,7 +2830,7 @@ dateplaner#:#help_fullday_l#:#Si l'événement s'étend sur plus d'une journée 
 dateplaner#:#help_further#:#<br/> <b>Cliquez ici pour des informations complémentaires</b>
 dateplaner#:#help_group#:#xxx Groupdates selection
 dateplaner#:#help_group_l#:#Les groupesaffichés sont ceux pour lesquels vous avez des droits d'administrateurs et pour lesquels vous pouvez attribuer un événement. <br>Après sélection du groupe, vous verrez l'emploi du temps du groupe.
-dateplaner#:#help_inbox#:#xxx Dateplaner Inbox
+dateplaner#:#help_inbox#:#A noter&nbsp;!
 dateplaner#:#help_inbox_l#:#Ici, tous les événements de groupe nouveaux, modifiés ou supprimés sont affichés.
 dateplaner#:#help_keyword#:#Choix de mot clé
 dateplaner#:#help_keywordUse#:#Choix de mot clé
@@ -2868,7 +2864,7 @@ dateplaner#:#help_week#:#Agenda par semaine
 dateplaner#:#help_week_l#:#Avec l'affichage par semaine, tous les événements de la semaine choisie sont affichés.
 dateplaner#:#hour#:#Heure
 dateplaner#:#importDates#:#Importation des événements depuis Outlook
-dateplaner#:#inbox#:#xxx Inbox
+dateplaner#:#inbox#:#A noter&nbsp;!
 dateplaner#:#insertImportDates#:#Ces événements ont été correctement enregistrés :
 dateplaner#:#k_alldates#:#Tous les événements
 dateplaner#:#keep#:#Conserver
@@ -2941,7 +2937,6 @@ dateplaner#:#today#:#aujourd'hui
 dateplaner#:#viewlist#:#Voir
 dateplaner#:#week#:#semaine
 dateplaner#:#year#:#année 
-détails
 forum#:#forums#:#Forums
 forum#:#forums_articles#:#Articles
 forum#:#forums_attachments#:#Attachements
@@ -3579,88 +3574,88 @@ meta#:#meta_very_easy#:#Très facile
 meta#:#meta_very_high#:#Très haut
 meta#:#meta_very_low#:#Très bas
 meta#:#meta_yes#:#Oui
-payment#:#currency_cent#:#Cent###04 Oct 2004 new variable
-payment#:#currency_euro#:#Euro###04 Oct 2004 new variable
-payment#:#duration#:#Duration###04 Oct 2004 new variable
-payment#:#pay_deleted_booking#:#The entry has been deleted.###04 Oct 2004 new variable
-payment#:#pay_header#:#Payment###02 Oct 2004 new variable
-payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
+payment#:#currency_cent#:#Centime
+payment#:#currency_euro#:#Euro
+payment#:#duration#:#Durée
+payment#:#pay_deleted_booking#:#Cette entrée a été détruite.
+payment#:#pay_header#:#Paiement
+payment#:#pay_locator#:#Paiement
 payment#:#pay_no_vendors_created#:#Pas de vendeurs créés
-payment#:#paya_access#:#Access###04 Oct 2004 new variable
-payment#:#paya_add_price#:#Add new price###04 Oct 2004 new variable
-payment#:#paya_add_price_title#:#New price###04 Oct 2004 new variable
-payment#:#paya_added_new_object#:#Added new object. Please edit the pay method and the prices.###04 Oct 2004 new variable
-payment#:#paya_added_new_price#:#Created new price###04 Oct 2004 new variable
-payment#:#paya_added_trustee#:#Created new trustee.###02 Oct 2004 new variable
-payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.###04 Oct 2004 new variable
-payment#:#paya_buyable#:#Buyable###04 Oct 2004 new variable
-payment#:#paya_count_purchaser#:#Number of purchasers###04 Oct 2004 new variable
-payment#:#paya_customer#:#Customer###04 Oct 2004 new variable
-payment#:#paya_delete_price#:#Delete price###04 Oct 2004 new variable
-payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.###02 Oct 2004 new variable
-payment#:#paya_deleted_last_price#:#The last price has been deleted.###04 Oct 2004 new variable
-payment#:#paya_deleted_object#:#Stoped payment for the selected object.###04 Oct 2004 new variable
-payment#:#paya_details_updated#:#Details updated.###04 Oct 2004 new variable
-payment#:#paya_disabled#:#Disabled###02 Oct 2004 new variable
-payment#:#paya_edit_details#:#Edit details###04 Oct 2004 new variable
-payment#:#paya_edit_pay_method#:#Edit pay method###04 Oct 2004 new variable
-payment#:#paya_edit_prices#:#Edit prices###04 Oct 2004 new variable
-payment#:#paya_edit_prices_first#:#Please edit the prices first.###04 Oct 2004 new variable
-payment#:#paya_enabled#:#Enabled###02 Oct 2004 new variable
-payment#:#paya_enter_login#:#Please enter an user name.###02 Oct 2004 new variable
-payment#:#paya_err_adding_object#:#Error adding object###04 Oct 2004 new variable
-payment#:#paya_error_update_booking#:#Error saving statistic data.###04 Oct 2004 new variable
-payment#:#paya_expires#:#Expire payment###04 Oct 2004 new variable
-payment#:#paya_header#:#Payment administration###02 Oct 2004 new variable
-payment#:#paya_insert_only_numbers#:#Please insert only integers.###04 Oct 2004 new variable
-payment#:#paya_locator#:#Payment administration###02 Oct 2004 new variable
-payment#:#paya_months#:#Month(s)###04 Oct 2004 new variable
-payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given###04 Oct 2004 new variable
+payment#:#paya_access#:#Accès
+payment#:#paya_add_price#:#Ajouter nouveau prix
+payment#:#paya_add_price_title#:#Nouveau prix
+payment#:#paya_added_new_object#:#Nouvel objet ajouté. Veuillez modifier la méthode de paiement et les prix.
+payment#:#paya_added_new_price#:#Nouveau prix créé
+payment#:#paya_added_trustee#:#Nouvel administrateur créé
+payment#:#paya_bookings_available#:#Cet objet a été vendu. Veuillez d'abord détruire toutes les données statistiques.
+payment#:#paya_buyable#:#En vente
+payment#:#paya_count_purchaser#:#Nombre d'acheteurs
+payment#:#paya_customer#:#Client
+payment#:#paya_delete_price#:#Détruire prix
+payment#:#paya_delete_trustee_msg#:#Administrateur sélectionné détruit
+payment#:#paya_deleted_last_price#:#Le dernie prix a été détruit.
+payment#:#paya_deleted_object#:#Paiement arrêté pour l'objet sélectionné.
+payment#:#paya_details_updated#:#Détails mis à jour
+payment#:#paya_disabled#:#Inactif
+payment#:#paya_edit_details#:#Modifier détails
+payment#:#paya_edit_pay_method#:#Modifier méthode de paiement
+payment#:#paya_edit_prices#:#Modifier prix
+payment#:#paya_edit_prices_first#:#Veuillez d'abord modifier les prix
+payment#:#paya_enabled#:#Actif
+payment#:#paya_enter_login#:#Veuillez saisir un nom d'utilisateur
+payment#:#paya_err_adding_object#:#Erreur lors de l'ajout du fichier
+payment#:#paya_error_update_booking#:#Erreur lors de l'enregistrement des données statistiques.
+payment#:#paya_expires#:#Paiement expiré
+payment#:#paya_header#:#Administration du paiement
+payment#:#paya_insert_only_numbers#:#Veuillez ne saisir que des entiers
+payment#:#paya_locator#:#Administration du paiement
+payment#:#paya_months#:#Mois
+payment#:#paya_no_booking_id_given#:#Erreur : pas d' ID de réservation donné
 payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###04 Oct 2004 new variable
-payment#:#paya_no_object_selected#:#Please select one object.###04 Oct 2004 new variable
-payment#:#paya_no_objects_assigned#:#There are no sellable objects.###04 Oct 2004 new variable
-payment#:#paya_no_price_available#:#No prices available###04 Oct 2004 new variable
-payment#:#paya_no_prices_selected#:#Please select one price###04 Oct 2004 new variable
-payment#:#paya_no_settings_necessary#:#There are no settings necessary for this pay method###04 Oct 2004 new variable
-payment#:#paya_no_trustees#:#No trustees created.###02 Oct 2004 new variable
-payment#:#paya_no_valid_login#:#This user name is not valid.###02 Oct 2004 new variable
-payment#:#paya_no_vendor_selected#:#You haven't selected a vendor.###04 Oct 2004 new variable
-payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.###02 Oct 2004 new variable
-payment#:#paya_not_buyable#:#Not buyable###04 Oct 2004 new variable
-payment#:#paya_object#:#Objekts###02 Oct 2004 new variable
-payment#:#paya_object_not_purchasable#:#It is not possible to sell this object.###04 Oct 2004 new variable
-payment#:#paya_order_date#:#Order date###04 Oct 2004 new variable
-payment#:#paya_pay_method#:#Pay method###04 Oct 2004 new variable
-payment#:#paya_pay_method_not_specified#:#Not specified###04 Oct 2004 new variable
-payment#:#paya_payed#:#Payed###04 Oct 2004 new variable
-payment#:#paya_payed_access#:#Payed/Access###04 Oct 2004 new variable
-payment#:#paya_perm_obj#:#Edit objects###02 Oct 2004 new variable
-payment#:#paya_perm_stat#:#Edit statistics###02 Oct 2004 new variable
-payment#:#paya_price_not_valid#:#This price is not valid. Please insert only numbers###04 Oct 2004 new variable
-payment#:#paya_select_object_to_sell#:#Please select the object which you want to sell.###04 Oct 2004 new variable
-payment#:#paya_select_pay_method_first#:#Please select one pay method first.###04 Oct 2004 new variable
-payment#:#paya_sell_object#:#Sell object###04 Oct 2004 new variable
-payment#:#paya_shopping_cart#:#Shopping cart###02 Oct 2004 new variable
-payment#:#paya_statistic#:#Statistic###02 Oct 2004 new variable
-payment#:#paya_sure_delete_object#:#Are you sure, you want to stop payment for this object? All assigned data will get lost.###04 Oct 2004 new variable
-payment#:#paya_sure_delete_selected_prices#:#Are you sure you want to delete the selected prices?###04 Oct 2004 new variable
-payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?###02 Oct 2004 new variable
-payment#:#paya_sure_delete_stat#:#Are you sure, you want to delete this statistic?###04 Oct 2004 new variable
-payment#:#paya_transaction#:#Transaction###04 Oct 2004 new variable
-payment#:#paya_trustee_table#:#Trustees###02 Oct 2004 new variable
-payment#:#paya_trustees#:#Trustees###02 Oct 2004 new variable
-payment#:#paya_update_price#:#Update prices###04 Oct 2004 new variable
-payment#:#paya_updated_booking#:#Updated statistic.###04 Oct 2004 new variable
-payment#:#paya_updated_prices#:#Updated prices###04 Oct 2004 new variable
-payment#:#paya_updated_trustees#:#Updated permissions.###02 Oct 2004 new variable
-payment#:#paya_user_already_assigned#:#User already assigned.###02 Oct 2004 new variable
-payment#:#paya_vendor#:#Vendor###04 Oct 2004 new variable
-payment#:#pays_active_bookings#:#Réservations actives###04 Oct 2004 content changed
+payment#:#paya_no_object_selected#:#Veuillez sélectionner un objet
+payment#:#paya_no_objects_assigned#:#Il n'y a pas d'objet en vente
+payment#:#paya_no_price_available#:#Pas de prix disponible
+payment#:#paya_no_prices_selected#:#Veuillez sélectionner un prix
+payment#:#paya_no_settings_necessary#:#Aucune configuration n'est nécessaire pour cette méthode de paiement.
+payment#:#paya_no_trustees#:#Pas d'administrateur créé
+payment#:#paya_no_valid_login#:#Ce nom d'utilisateur n'est pas valide.
+payment#:#paya_no_vendor_selected#:#Vous n'avez pas sélectionné de vendeur.
+payment#:#paya_not_assign_yourself#:#Vous ne pouvez pas vous assigner à vous-même
+payment#:#paya_not_buyable#:#Non achetable
+payment#:#paya_object#:#Objets
+payment#:#paya_object_not_purchasable#:#Il n'est pas possible de vendre cet objet.
+payment#:#paya_order_date#:#Ordonner date
+payment#:#paya_pay_method#:#Méthode de paiement
+payment#:#paya_pay_method_not_specified#:#Non spécifié
+payment#:#paya_payed#:#Payé
+payment#:#paya_payed_access#:#Payé/Accès
+payment#:#paya_perm_obj#:#Modifier objets
+payment#:#paya_perm_stat#:#Modifier statistiques
+payment#:#paya_price_not_valid#:#Ce prix n'est pas valide, veuillez ne saisir que des nombres.
+payment#:#paya_select_object_to_sell#:#Veuillez sélectionner l'objet que vous voulez vendre.
+payment#:#paya_select_pay_method_first#:#Veuillez d'abord sélectionner un méthode de paiement.
+payment#:#paya_sell_object#:#Vendre objet
+payment#:#paya_shopping_cart#:#Panier
+payment#:#paya_statistic#:#Statistiques
+payment#:#paya_sure_delete_object#:#Etes-vous sûr(e) de vouloir arrêter le paiement pour cet objet ? Toutes les données assignées seront perdues.
+payment#:#paya_sure_delete_selected_prices#:# Etes-vous sûr(e) de vouloir détruire les prix sélectionnés ?
+payment#:#paya_sure_delete_selected_trustees#:# Etes-vous sûr(e) de vouloir détruire les administrateurs sélectionnés ?
+payment#:#paya_sure_delete_stat#:# Etes-vous sûr(e) de vouloir détruire ces statistiques ?
+payment#:#paya_transaction#:#Transaction
+payment#:#paya_trustee_table#:#Administrateurs
+payment#:#paya_trustees#:#Administrateurs
+payment#:#paya_update_price#:#Mettre à jour prix
+payment#:#paya_updated_booking#:#Statistiques mises à jour
+payment#:#paya_updated_prices#:#Prix mis à jour
+payment#:#paya_updated_trustees#:#Permissions mises à jour
+payment#:#paya_user_already_assigned#:#Utilisateur déjà assigné
+payment#:#paya_vendor#:#Vendeur
+payment#:#pays_active_bookings#:#Il y a des réservations actives pour le vendeur sélectionné. Veuillez d'abord les détruire.
 payment#:#pays_add_vendor#:#Ajouter vendeur
 payment#:#pays_added_vendor#:#Nouveau vendeur ajouté
 payment#:#pays_already_assigned_vendors#:#Le nombre d'utilisateurs suivant a déjà été assigné.
 payment#:#pays_assigned_vendors#:#Le nombre d'utilisateurs suivant a été assigné à la liste des vendeurs.
-payment#:#pays_bill#:#Bill###02 Oct 2004 new variable
+payment#:#pays_bill#:#Facture
 payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
 payment#:#pays_cost_center#:#Centre de coût
 payment#:#pays_delete_vendor#:#Supprimer l'assignation de ll'utilisateur
@@ -3670,17 +3665,17 @@ payment#:#pays_no_username_given#:#Pas de nom d'utilisateur donné
 payment#:#pays_no_valid_username_given#:#Pas de nom d'utilisateur valide donné
 payment#:#pays_no_vendor_selected#:#Pas de vendeur sélectionné
 payment#:#pays_number_bookings#:#Réservations actives
-payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
-payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
-payment#:#pays_offline#:#Offline###02 Oct 2004 new variable
-payment#:#pays_online#:#Online###02 Oct 2004 new variable
-payment#:#pays_pay_methods#:#Pay methods###02 Oct 2004 new variable
+payment#:#pays_objects_bill_exist#:#La méthode de paiement 'facture' est active pour certains objets.  Elle ne peut donc pas être désactivée.
+payment#:#pays_objects_bmf_exist#:#La méthode de paiement 'BMF' est active pour certains objets.  Elle ne peut donc pas être désactivée.
+payment#:#pays_offline#:#Hors ligne
+payment#:#pays_online#:#En ligne
+payment#:#pays_pay_methods#:#Méthodes de paiement
 payment#:#pays_sure_delete_selected_vendors#:#Voulez-vous vraiment détruire le(s) vendeur(s) suivant(s)
-payment#:#pays_updated_pay_method#:#Changed pay method.###02 Oct 2004 new variable
+payment#:#pays_updated_pay_method#:#Méthode de paiement changée
 payment#:#pays_user_already_assigned#:#L'utilisateur est déjà assigné au vendeur
 payment#:#pays_vendor#:#Vendeur
-payment#:#price_a#:#Price###04 Oct 2004 new variable
-payment#:#update#:#Update###04 Oct 2004 new variable
+payment#:#price_a#:#Prix
+payment#:#update#:#Mise à jour
 search#:#search_active#:#Inclure utilisateurs actifs
 search#:#search_all_results#:#Tous les résultats
 search#:#search_and#:#et
@@ -3730,8 +3725,8 @@ survey#:#add_limits_for_standard_numbers#:#Veuillez saisir des limites basse et 
 survey#:#add_phrase#:#Ajouter expression
 survey#:#add_phrase_introduction#:#Veuillez sélectionner une expression
 survey#:#already_completed_survey#:#Vous avez déjà répondu au sondage ! Vous ne pouvez pas y entrer à nouveau.
-survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
-survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.###03 Oct 2004 new variable
+survey#:#anonymize_survey#:#Anonymiser les données du sondage
+survey#:#anonymize_survey_explanation#:#Quand cette option est active, toutes les informations utilisateurs sont anonymisées et ne peuvent pas être suivies.
 survey#:#answer#:#Réponse
 survey#:#apply#:#Appliquer
 survey#:#arithmetic_mean#:#Moyenne arithmétique
@@ -3742,7 +3737,7 @@ survey#:#browse_for_questions#:#Rechercher des questions
 survey#:#cannot_maintain_survey#:#Vous n'avez pas de droit d'écriture pour maintenir le sondage.
 survey#:#cannot_manage_phrases#:#Vous n'avez pas de droit d'écriture pour gérer les expressions.
 survey#:#cannot_participate_survey#:#Vous n'avez pas le droit de participer au sondage!
-survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
+survey#:#cannot_save_metaobject#:#Vous n'avez pas les permissions nécessaires pour enregistrer les méta-données
 survey#:#cannot_switch_to_online_no_questions#:#Le statut ne peut pas être changé en &quot;en ligne&quot; car il n'y a pas de question dans le test.
 survey#:#category#:#Catégorie
 survey#:#category_delete_confirm#:#Etes-vous sûr(e) de vouloir détruire les catégories suivantes ?
@@ -3823,8 +3818,8 @@ survey#:#end_date#:#Date de fin
 survey#:#end_date_reached#:#Vous ne pouvez pas commencer le sondage. La date de fin est dépassée.
 survey#:#enter_phrase_title#:#Veuillez saisir un titre d'expression XXX
 survey#:#enter_value#:#Saisissez une valeur
-survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###15 Oct 2004 new variable
-survey#:#error_retrieving_anonymous_survey#:#The system could not find your survey data for survey code %s. Please check the survey code you have entered!###04 Oct 2004 new variable
+survey#:#error_importing_question#:#Une erreur s'est produite pendant l'importation des questions depuis le fichier que vous avez sélectionné.
+survey#:#error_retrieving_anonymous_survey#:#Le système n'a pas pu trouver vos données de sondage pour le sondage code %s. Veuillez vérifier le code du sondage que vous avez saisi.
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Accès à l'évaluation
 survey#:#excel#:#Microsoft Excel
@@ -3833,10 +3828,10 @@ survey#:#export_data_as#:#Exporter données sous :
 survey#:#fill_out_all_category_fields#:#Veuillez remplir tous les champs de catégorie avant d'en ajouter un nouveau
 survey#:#fill_out_all_required_fields_add_category#:#Veuillez remplir tous les champs obligatoires avant d'ajouter des catégories
 survey#:#filter#:#Filtre
-survey#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
-survey#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
-survey#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
-survey#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
+survey#:#filter_all_question_types#:#Tous les types de question
+survey#:#filter_all_questionpools#:#Tous les jeux de questions
+survey#:#filter_show_question_types#:#Montrer les types de question
+survey#:#filter_show_questionpools#:#Montrer les jeux de questions
 survey#:#finished#:#terminé
 survey#:#found_questions#:#Questions trouvées
 survey#:#geometric_mean#:#Moyenne géométrique
@@ -3854,7 +3849,7 @@ survey#:#invitation_mode#:#Mode d'invitation
 survey#:#invite_participants#:#Inviter participants
 survey#:#invited_groups#:#Groupes invités
 survey#:#invited_users#:#Utilisateurs invités
-survey#:#label_resume_survey#:#Enter your 32 digit survey code###04 Oct 2004 new variable
+survey#:#label_resume_survey#:#Saisissez votre code de sondage à 32 chiffres
 survey#:#last_update#:#Dernière mise à jour
 survey#:#lower_limit#:#Limite basse
 survey#:#maintenance#:#Maintenance
@@ -3863,7 +3858,7 @@ survey#:#material_file#:#Fichier matériau
 survey#:#maximum#:#Valeur maximale
 survey#:#median#:#Médiane
 survey#:#median_between#:#entre
-survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.###04 Oct 2004 new variable
+survey#:#message_mail_survey_id#:#Vous avez commencé le sondage anonyme &quot;%s&quot;. Pour reprendre ce sondage, vous avez besoin de ce code de sondage à 32 chiffres:<br /><br /><strong>%s</strong><br /><br />. Reprendre un sondage est possible seulement si vous vous interrompez avant la fin du sondage.
 survey#:#metric_question_out_of_bounds#:#La valeur que vous avez saisie n'est pas comprise entre les valeurs minimale et maximale
 survey#:#minimum#:#Valeur minimale
 survey#:#missing_upper_or_lower_limit#:#Veuillez saisir des limites basse et haute
@@ -3959,9 +3954,9 @@ survey#:#set_filter#:#Régler filtre
 survey#:#start_date#:#Date de départ
 survey#:#start_date_not_reached#:#Vous ne pouvez pas commencer le sondage tant que la date de départ n'est pas arrivée.
 survey#:#start_survey#:#Commencer sondage
-survey#:#subject_mail_survey_id#:#Your survey code for "%s"###04 Oct 2004 new variable
+survey#:#subject_mail_survey_id#:#Votre code de sondage pour "%s"
 survey#:#subtype#:#Sous-type
-survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Oct 2004 new variable
+survey#:#survey_code_message_sent#:#Un code de sondage qui vous permet de reprendre le sondage a été envoyé dans votre boîte aux lettres.
 survey#:#survey_finish#:#enregistrer et terminer sondage >>>
 survey#:#survey_finished#:#Le sondage est terminé. Merci pour votre participation.
 survey#:#survey_is_offline#:# Vous ne pouvez pas commencer le sondage. Le sondage est hors-ligne.
@@ -3986,8 +3981,8 @@ survey#:#svy_status_missing#:#Des éléments requis sont absents dans ce sondage
 survey#:#svy_status_missing_elements#:#Les éléments suivants sont absents :
 survey#:#svy_status_ok#:#Le statut du sondage est OK. Il n'y a pas d'éléments absents.
 survey#:#text_question_not_filled_out#:#Veuillez remplir le champ de réponse.
-survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.###04 Oct 2004 new variable
-survey#:#title_resume_survey#:#Resume the survey - Enter survey code###04 Oct 2004 new variable
+survey#:#text_resume_survey#:#Vous essayez de reprendre un sondage anonyme. Pour continuer le sondage avec les données que vous avez déjà saisies, veuillez saisir votre code de sondage à 32 chiffres, que vous avez reçu aprèsavoir commencé le sondage (il a été envoyé dans un message dans votre boîte aux lettres ILIAS). Plutôt que de taper votre code, vous pouvez aussi le copier dans le message et le coller dans le champ texte ci-dessous.
+survey#:#title_resume_survey#:#Reprendre le sondage – Saisir code de sondage
 survey#:#unfold#:#Dissocier
 survey#:#unlimited_users#:#Illimité
 survey#:#uploaded_material#:#Matériau téléversé
