@@ -147,7 +147,6 @@ if ($ilias->auth->getAuth())
 	{
 		$ilias->account->refreshLogin();
 	}	
-
 }
 elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php")
 {

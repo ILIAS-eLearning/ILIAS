@@ -310,6 +310,7 @@ common#:#lm_added#:#Lernmodul angelegt
 common#:#lm_new#:#Neues Lernmodul
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachordner
+common#:#registration#:#Neuanmeldung
 common#:#lo#:#Lerneinheit
 common#:#lo_available#:#Lernmaterialien
 common#:#lo_categories#:#Kategorien
@@ -327,6 +328,7 @@ common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#los#:#Lernmodule
+common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Nachrichten
@@ -650,6 +652,7 @@ common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
+common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_language#:#Benutzersprache
 common#:#userdata#:#Benutzerdaten
@@ -670,6 +673,7 @@ common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
 common#:#welcome#:#Willkommen
+common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte unten auf 'Login', um sich mit Ihrem Benutzerkonto anzumelden.
 common#:#who_is_online#:#Wer ist Online?
 common#:#with#:#mit
 common#:#write#:#Schreiben
