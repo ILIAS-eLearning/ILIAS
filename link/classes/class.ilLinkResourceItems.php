@@ -350,7 +350,7 @@ class ilLinkResourceItems
 
 
 	// STATIC
-	function deleteAll($webr_id)
+	function _deleteAll($webr_id)
 	{
 		global $ilDB;
 		
