@@ -338,3 +338,7 @@ ALTER TABLE `usr_data` CHANGE `usr_id` `usr_id` INT(10) UNSIGNED DEFAULT '0' NOT
 ALTER TABLE `usr_pref` CHANGE `usr_id` `usr_id` INT( 10 ) UNSIGNED DEFAULT '0' NOT NULL;
 ALTER TABLE `tree` ADD INDEX (`child`);
 ALTER TABLE `tree` ADD INDEX (`parent`);
+
+<#13>
+#due to problems changed index back for rbac_fa
+ALTER TABLE `rbac_fa` DROP PRIMARY KEY, ADD PRIMARY KEY (rol_id,parent);
