@@ -316,7 +316,7 @@ class ASS_MultipleChoice extends ASS_Question {
     $db = & $ilias->db->db;
 
 	$estw_time = $this->get_estimated_working_time();
-	$estw_time = sprintf("%02d%02d%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+	$estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('qpl_questions');
@@ -417,7 +417,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $this->owner = $data->owner;
         $this->question = $data->question_text;
         $this->response = $data->choice_response;
-        $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 2, 2), substr($data->working_time, 4, 2));
+        $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       // loads materials uris from database
       $this->load_material_from_db($question_id);
