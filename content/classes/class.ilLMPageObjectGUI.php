@@ -182,9 +182,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$contObjLocator->setObject($this->obj);
 		$contObjLocator->setContentObject($this->content_object);
 
-		require_once ("content/classes/Pages/class.ilMediaObjectGUI.php");
+		require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
 		$media =& new ilMediaObject($_GET["mob_id"]);
-		$media_gui =& new ilMediaObjectGUI($this->obj->getPageObject(), $media);
+		$media_gui =& new ilPCMediaObjectGUI($this->obj->getPageObject(), $media);
 		//$page_gui->setLocator($contObjLocator);
 		//$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
 		//$page_gui->setTargetScript("lm_edit.php?ref_id=".

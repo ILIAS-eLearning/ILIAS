@@ -241,8 +241,8 @@ class ilPageEditorGUI
 					$this->setAdminTabs("mob", $hier_id);
 				}
 
-				require_once ("content/classes/Pages/class.ilMediaObjectGUI.php");
-				$mob_gui =& new ilMediaObjectGUI($this->page, $cont_obj, $hier_id);
+				require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+				$mob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
 				$mob_gui->setTargetScript($this->getTargetScript());
 				$mob_gui->setReturnLocation($this->getReturnLocation());
 				$mob_gui->$cmd();
