@@ -41,7 +41,7 @@ define("INVALID_PARAM",INVALID_PARAM);
 
 $validator = new ilValidator();
 
-$validator->setMode("all",true);
+//$validator->setMode("all",true);
 
 // general clean up first
 
