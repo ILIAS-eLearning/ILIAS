@@ -110,18 +110,26 @@ class ErrorHandling
 	* @access	public
     * @param	string	message
 	*/
-	function sendInfo($a_info)
+	function sendInfo($a_info = "",$a_keep = false)
 	{
 		global $tpl;
 
-		if (!$_SESSION["info"])
+		if (!empty($a_info))
 		{
 			$_SESSION["info"] = $a_info;
+		}
+
+		if (!empty($_SESSION["info"]))
+		{
 			$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
 			$tpl->setCurrentBlock("message");
-			$tpl->setVariable("MSG",$_SESSION["info"]);
-			session_unregister("info");
+			$tpl->setVariable("INFO",$_SESSION["info"]);
 			$tpl->parseCurrentBlock();
+		}
+
+		if (!$a_keep)
+		{
+			session_unregister("info");
 		}
 	}
 } // END class.ErrorHandling
