@@ -53,7 +53,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $tree, $rbacsystem;
+		global $rbacsystem;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -86,7 +86,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		require_once "./include/inc.sort.php";
+		include_once "./include/inc.sort.php";
 		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 
@@ -113,9 +113,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
  	*/
 	function displayList()
 	{
-		global $tree, $rbacsystem;
-
-		require_once "./classes/class.ilTableGUI.php";
+		include "./classes/class.ilTableGUI.php";
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
@@ -229,5 +227,5 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-} // END class.ObjectFolderObjectOut
+} // END class.ilObjObjectFolderGUI
 ?>
