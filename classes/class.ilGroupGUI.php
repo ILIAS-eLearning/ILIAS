@@ -161,6 +161,24 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
+		/*if ($settabs)
+		{
+			
+			$this->tpl->setCurrentBlock("tab");
+			$this->tpl->setVariable("TAB_TYPE", $ttabtype);
+			$this->tpl->setVariable("TAB_TARGET", "bottom");
+			$this->tpl->setVariable("TAB_LINK", "group.php?viewmode=tree&ref_id=".$_GET["ref_id"]);
+			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("treeview"));
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("tab");
+			$this->tpl->setVariable("TAB_TYPE", $ftabtype);
+			$this->tpl->setVariable("TAB_TARGET", "bottom");
+			$this->tpl->setVariable("TAB_LINK", "group.php?viewmode=flat&ref_id=".$_GET["ref_id"]);
+			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("flatview"));
+			$this->tpl->parseCurrentBlock();
+		}*/
+
 		if (!empty($addtabs))
 		{
 			foreach($addtabs as $addtab)
