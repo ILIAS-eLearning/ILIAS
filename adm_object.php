@@ -374,6 +374,19 @@ switch($_GET["cmd"])
 			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
 		exit();
 		break;
+		
+	case "import":
+		getTemplateFile("import");
+		$tpl->setVariable("FORMACTION", "adm_object.php?cmd=upload&type=".$_GET["type"].
+						  "&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
+		$tpl->setVariable("TXT_SAVE", $lng->txt("import"));
+		break;
+		
+	case "upload":
+		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		exit();
+		break;
 
 	case "view": 
 	default:
