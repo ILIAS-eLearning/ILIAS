@@ -257,7 +257,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 
-		header("Location:".$this->getReturnLocation("save","questionpool.php?".$this->link_params));
+		$returnlocation = "questionpool.php";
+		if (!defined("ILIAS_MODULE"))
+		{
+			$returnlocation = "adm_object.php";
+		}
+		header("Location:".$this->getReturnLocation("save","$returnlocation?".$this->link_params));
 		exit();
 	}
 
