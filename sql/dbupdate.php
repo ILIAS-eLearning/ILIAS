@@ -5036,3 +5036,14 @@ CREATE TABLE `payment_statistic` (
   `transaction_extern` char(64) default NULL,
   PRIMARY KEY  (`booking_id`)
 ) TYPE=MyISAM;
+
+<#345>
+DROP TABLE IF EXISTS `history`;
+CREATE TABLE `history` (
+  `obj_id` int(11) NOT NULL,
+  `action` char(20) NOT NULL DEFAULT '',
+  `hdate` DATETIME,
+  `usr_id` int(11) NOT NULL,
+  INDEX object_id (`obj_id`)
+) TYPE=MyISAM;
+
