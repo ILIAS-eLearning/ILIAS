@@ -447,3 +447,5 @@ common#:#your_message#:#your message
 common#:#zip#:#zip code
 common#:#show_members#:#display members
 common#:#last_visit#:#Last visit
+common#:#treeview#:#Tree view
+common#:#flatview#:#Flat view

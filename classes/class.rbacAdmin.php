@@ -746,11 +746,14 @@ class RbacAdmin
 			"AND object_data.type = 'rolf' ".
 			"AND tree.tree = '1'";
 			
+			//echo $query;exit;
+			
 		$res = $this->ilias->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$rolf_data["child"] = $row->child;
-			$rolf_data["parent"] = $row->parent;
+			//$rolf_data["child"] = $row->child;
+			//$rolf_data["parent"] = $row->parent;
+			$rolf_data = $row;
 		}
 		return $rolf_data;
 	}

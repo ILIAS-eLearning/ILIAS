@@ -17,10 +17,18 @@ require_once "classes/class.domxml.php";
 ob_start(); 
 
 //$T1 = TUtil::StopWatch();
+
 $sql2xml = new sql2xml($_GET["lm_id"],$_GET["lo_id"]);
 $lo = $sql2xml->getLearningObject();
 $navbar = $sql2xml->setNavigation();
-//echo TUtil::StopWatch($T1)." get_XMLdata total<br>"; 
+
+//echo TUtil::StopWatch($T1)." get_XMLdata total<br/>"; 
+
+//echo "<pre>".$lo."</pre>";
+//exit;
+
+//echo "<pre>".htmlentities($lo)."</pre>";
+
 
 //$T1 = TUtil::StopWatch(); 
 // load xsl into string
@@ -32,7 +40,7 @@ $xh = xslt_create();
 $output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args);
 echo xslt_error($xh);
 xslt_free($xh);
-//echo TUtil::StopWatch($T1)." XSLT_parsing total<br>"; 
+//echo TUtil::StopWatch($T1)." XSLT_parsing total<br/>"; 
 
 //$T1 = TUtil::StopWatch(); 
 $tpl->addBlockFile("CONTENT", "content", "tpl.lo_content.html");
@@ -44,7 +52,7 @@ $tpl->setVariable("LO_CONTENT",$output);
 $tpl->parseCurrentBlock();
 
 $tpl->show();
-//echo TUtil::StopWatch($T1)." template_output<br>"; 
+//echo TUtil::StopWatch($T1)." template_output<br/>"; 
 
 $ret_str = ob_get_contents(); 
 ob_end_clean(); 

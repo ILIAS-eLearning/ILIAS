@@ -99,37 +99,37 @@ class Object
 		include_once ("classes/class.Admin.php");
 		
 		$admin = new Admin();
-
-		switch($_POST["cmd"])
+		
+		switch(key($_POST["cmd"]))
 		{
-			case $lng->txt("cut"):
+			case "cut":
 				return $admin->cutObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
 				break;
-			case $lng->txt("copy"):
+			case "copy":
 				return $admin->copyObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
 				break;
-			case $lng->txt("link"):
+			case "link":
 				return $admin->linkObject($_POST["id"],$_POST["cmd"],$_GET["obj_id"]);
 				break;
-			case $lng->txt("paste"):
+			case "paste":
 				return $admin->pasteObject($_GET["obj_id"],$_GET["parent"]);
 				break;
-			case $lng->txt("clear"):
+			case "clear":
 				return $admin->clearObject();
 				break;
-			case $lng->txt("delete"):
+			case "delete":
 				return $this->confirmDeleteAdmObject();
 				break;
-			case $lng->txt("btn_undelete"):
+			case "btn_undelete":
 				return $admin->undeleteObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]); 
 				break;
-			case $lng->txt("btn_remove_system"):
+			case "btn_remove_system":
 				return $admin->removeObject($_POST["trash_id"],$_GET["obj_id"],$_GET["parent"]); 
 				break;
-			case $lng->txt("cancel"):
+			case "cancel":
 				session_unregister("saved_post");
 				break;
-			case $lng->txt("confirm"):
+			case "confirm":
 				return $admin->deleteObject($_SESSION["saved_post"],$_GET["obj_id"],$_GET["parent"]);
 				break;
 			default: 
@@ -591,8 +591,8 @@ class Object
 				"desc"        => $obj_data["desc"],
 				"last_update" => $obj_data["last_update"]);
 		}
-		$data["buttons"] = array( "button1"  => $lng->txt("cancel"),
-								  "button2"  => $lng->txt("confirm"));
+		$data["buttons"] = array( "cancel"  => $lng->txt("cancel"),
+								  "confirm"  => $lng->txt("confirm"));
 
 		return $data;
 	}
@@ -616,8 +616,8 @@ class Object
 					"desc"        => $obj_data["desc"],
 					"last_update" => $obj_data["last_update"]);
 			}
-			$data["buttons"] = array( "button1"  => $lng->txt("btn_undelete"),
-									  "button2"  => $lng->txt("btn_remove_system"));
+			$data["buttons"] = array( "btn_undelete"  => $lng->txt("btn_undelete"),
+									  "btn_remove_system"  => $lng->txt("btn_remove_system"));
 			return $data;
 		}
 		else

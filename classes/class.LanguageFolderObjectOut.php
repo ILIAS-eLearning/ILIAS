@@ -3,7 +3,7 @@
 * Class LanguageFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.LanguageFolderObjectOut.php,v 1.2 2002/12/21 01:52:37 shofmann Exp $
+* $Id$Id: class.LanguageFolderObjectOut.php,v 1.3 2003/01/30 14:56:05 smeyer Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -30,29 +30,29 @@ class LanguageFolderObjectOut extends ObjectOut
 	{
 		global $lng;
 
-		switch($_POST["cmd"])
+		switch(key($_POST["cmd"]))
 		{
-			case $lng->txt("install"):
+			case "install":
 				return $this->out();
 				break;
 				
-			case $lng->txt("uninstall"):
+			case "uninstall":
 				return $this->out();
 				break;
 
-			case $lng->txt("refresh"):
+			case "refresh":
 				return $this->refreshObject();
 				break;
 
-			case $lng->txt("set_system_language"):
+			case "set_system_language":
 				return $this->out();
 				break;
 
-			case $lng->txt("change_language"):
+			case "change_language":
 				return $this->out();
 				break;
 
-			case $lng->txt("check_language"):
+			case "check_language":
 				return $this->out();
 				break;
 
