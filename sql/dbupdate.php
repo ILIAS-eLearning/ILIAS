@@ -3100,3 +3100,15 @@ CREATE TABLE `ut_access` (
 	`acctime` datetime default NULL,
 	PRIMARY KEY (`obj_id`)
 ) TYPE=MyISAM AUTO_INCREMENT=1;
+
+<#201>
+ALTER TABLE ut_access CHANGE obj_id id int(10) NOT NULL auto_increment;
+ALTER TABLE ut_access CHANGE acctime acc_time datetime default NULL;
+ALTER TABLE ut_access CHANGE sub_type acc_sub_type char(10) NOT NULL default '';
+ALTER TABLE ut_access CHANGE sub_id acc_sub_id int(10) NOT NULL default '0';
+
+<#202>
+ALTER TABLE ut_access CHANGE browser browser char(60) NOT NULL default '';
+
+<#203>
+ALTER TABLE ut_access CHANGE php_script php_script char(100) NOT NULL default '';

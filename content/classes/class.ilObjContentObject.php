@@ -1205,8 +1205,8 @@ class ilObjContentObject extends ilObject
 		{
 			if ($entry != "." and
 				$entry != ".." and
-				substr($entry, -4) == ".zip" and
-				ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.pdf\$", $entry))
+				substr($entry, -3) == ".fo" and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.fo\$", $entry))
 			{
 				$file[] = $entry;
 			}
@@ -1220,6 +1220,108 @@ class ilObjContentObject extends ilObject
 		reset ($file);
 
 		return $file;
+	}
+
+	/**
+	* export object to fo
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportFO(&$a_xml_writer, $a_target_dir)
+	{
+		global $ilBench;
+
+		// fo:root (start)
+		$attrs = array();
+		$attrs["xmlns:fo"] = "http://www.w3.org/1999/XSL/Format";
+		$a_xml_writer->xmlStartTag("fo:root", $attrs);
+
+		// fo:layout-master-set (start)
+		$attrs = array();
+		$a_xml_writer->xmlStartTag("fo:layout-master-set", $attrs);
+
+		// fo:simple-page-master (start)
+		$attrs = array();
+		$attrs["master-name"] = "DinA4";
+		$attrs["page-height"] = "29.7cm";
+		$attrs["page-width"] = "21cm";
+		$attrs["margin-top"] = "4cm";
+		$attrs["margin-bottom"] = "1cm";
+		$attrs["margin-left"] = "2.8cm";
+		$attrs["margin-right"] = "7.3cm";
+		$a_xml_writer->xmlStartTag("fo:simple-page-master", $attrs);
+
+		// fo:region-body (complete)
+		$attrs = array();
+		$attrs["margin-top"] = "0cm";
+		$attrs["margin-bottom"] = "1.25cm";
+		$a_xml_writer->xmlElement("fo:region-body", $attrs);
+
+		// fo:region-before (complete)
+		$attrs = array();
+		$attrs["extent"] = "1cm";
+		$a_xml_writer->xmlElement("fo:region-before", $attrs);
+
+		// fo:region-after (complete)
+		$attrs = array();
+		$attrs["extent"] = "1cm";
+		$a_xml_writer->xmlElement("fo:region-after", $attrs);
+
+		// fo:simple-page-master (end)
+		$a_xml_writer->xmlEndTag("fo:simple-page-master");
+
+		// fo:layout-master-set (end)
+		$a_xml_writer->xmlEndTag("fo:layout-master-set");
+
+		// fo:page-sequence (start)
+		$attrs = array();
+		$attrs["master-reference"] = "DinA4";
+		$a_xml_writer->xmlStartTag("fo:page-sequence", $attrs);
+
+		// fo:flow (start)
+		$attrs = array();
+		$attrs["flow-name"] = "xsl-region-body";
+		$a_xml_writer->xmlStartTag("fo:flow", $attrs);
+
+
+		// StructureObjects
+		//$expLog->write(date("[y-m-d H:i:s] ")."Start Export Structure Objects");
+		$ilBench->start("ContentObjectExport", "exportFOStructureObjects");
+		$this->exportFOStructureObjects($a_xml_writer, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportFOStructureObjects");
+		//$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Structure Objects");*/
+
+		// fo:flow (end)
+		$a_xml_writer->xmlEndTag("fo:flow");
+
+		// fo:page-sequence (end)
+		$a_xml_writer->xmlEndTag("fo:page-sequence");
+
+		// fo:root (end)
+		$a_xml_writer->xmlEndTag("fo:root");
+	}
+
+	/**
+	* export structure objects to fo
+	*
+	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	*										xml data
+	*/
+	function exportFOStructureObjects(&$a_xml_writer)
+	{
+		$childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
+		foreach ($childs as $child)
+		{
+			if($child["type"] != "st")
+			{
+				continue;
+			}
+
+			$structure_obj = new ilStructureObject($this, $child["obj_id"]);
+			$structure_obj->exportFO($a_xml_writer, $expLog);
+			unset($structure_obj);
+		}
 	}
 
 }

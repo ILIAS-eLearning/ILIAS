@@ -1545,6 +1545,26 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$_POST["file"][0]);
 	}
 
+	/**
+	* download export file
+	*/
+	function downloadPDFFile()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
+		$export_dir = $this->object->getOfflineDirectory();
+		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
+			$_POST["file"][0]);
+	}
 
 	/**
 	* confirmation screen for export file deletion
@@ -1710,8 +1730,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		//$tbl->disable("footer");
 
-		$tbl->setMaxCount(count($export_files));
-		$offline_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+		$tbl->setMaxCount(count($offline_files));
+		$offline_files = array_slice($offline_files, $_GET["offset"], $_GET["limit"]);
 
 		$tbl->render();
 		if(count($offline_files) > 0)
@@ -1745,6 +1765,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* export content object
+	*/
+	function createPDF()
+	{
+		require_once("content/classes/class.ilContObjectExport.php");
+		$cont_exp = new ilContObjectExport($this->object, "pdf");
+		$cont_exp->buildExportFile();
+		$this->offlineList();
+	}
 
 	/**
 	* output tabs

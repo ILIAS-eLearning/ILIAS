@@ -35,19 +35,19 @@
 class ilUserTracking {
 
 	var $objId;
-	var $userId;		
-	var $actionType;		
-	var $phpScript;		
-	var $clientIp;		
-	var $accObjType;		
-	var $accObjId;		
-	var $accSubType;		
-	var $accSubId;		
-	var $lanugage;		
-	var $browser;		
-	var $sessionId;		
+	var $userId;
+	var $actionType;
+	var $phpScript;
+	var $clientIp;
+	var $accObjType;
+	var $accObjId;
+	var $accSubType;
+	var $accSubId;
+	var $lanugage;
+	var $browser;
+	var $sessionId;
 	var $accTime;
-	
+
 	function ilUserTracking()
 	{
 		global $ilias,$tpl,$lng;
@@ -58,78 +58,55 @@ class ilUserTracking {
 
 	}
 
-	function getaccSubTitle($obj_id) {
-		$q = "SELECT title FROM object_data "
-			." WHERE "
-			." obj_id = ".$obj_id;
-		$res = $this->ilias->db->query($q);
-		$result = $res->fetchRow();
-		return $result[0];	
-	}
-	function getaccSubType($obj_id) {
-		$q = "SELECT type FROM object_data "
-			." WHERE "
-			." obj_id = ".$obj_id;
-		$res = $this->ilias->db->query($q);
-		$result = $res->fetchRow();
-		return $result[0];	
-	}
-
-	function getaccSubId($ref_id) {
-		$q = "SELECT obj_id FROM object_reference "
-			." WHERE "
-			." ref_id = ".$ref_id;
-		$res = $this->ilias->db->query($q);
-		$result = $res->fetchRow();
-		return $result[0];
-	}
-
-	function getLanguage($user_id) {
-		$q = "SELECT value from usr_pref "
-			." WHERE "
-			." keyword = 'language' "
-			." AND "
-			." usr_id = ".$user_id;
-		$res = $this->ilias->db->query($q);
-		$result = $res->fetchRow();
-		return $result[0];
-	}
-	function getSessionId($user_id) {
-		$q = "SELECT session_id from usr_session "
-		." WHERE "
-		." user_id = ".$user_id;
-		$res = $this->ilias->db->query($q);
-		$result = $res->fetchRow();
-		return $result[0];
-	}
-	function currentSessionId($user_id) {
-		$q = "SELECT session_id from ut_access "
-		." WHERE "
-		." user_id = ".$user_id
-		." order by acctime desc limit 1 ";
-		$res = $this->ilias->db->query($q);
-		$result = $res->fetchRow();
-		return $result[0];
-	}
-	function currentId($user_id){
-		$q = "SELECT acc_obj_id from ut_access "
-		." WHERE "
-		." user_id = ".$user_id
-		." order by acctime desc limit 1 ";
-		$res = $this->ilias->db->query($q);
-		$result = $res->fetchRow();
-		return $result[0];
-	}
-		
-
-	function insertUserTracking($user_id,$ref_id,$client_ip) 
+	/**
+	* get last access data of current user
+	*/
+	function _getLastAccess()
 	{
-		if(($this->getSessionId($user_id) == $this->currentSessionId($user_id)) and ($this->getaccSubId($ref_id)==$this->currentId($user_id)))
+		global $ilUser, $ilDB;
+
+		$q = "SELECT * from ut_access "
+		." WHERE "
+		." user_id = ".$ilDB->quote($ilUser->getId())
+		." order by acc_time desc limit 1 ";
+		$res = $ilDB->query($q);
+		return $res->fetchRow(DB_FETCHMODE_ASSOC);
+	}
+
+	/**
+	* track access to an object by current user
+	*
+	* @param	int			$a_obj_id			object id
+	* @param	string		$a_obj_type			object type (e.g. "lm")
+	* @param	int			$a_sub_id			subobject id
+	* @param	string		$a_sub_type			subobject type (e.g. "pg")
+	* @param	string		$a_action_type		"read", "write", ...
+	*/
+	function _trackAccess($a_obj_id, $a_obj_type,
+		$a_sub_id = 0, $a_sub_type = "", $a_action_type = "read")
+	{
+		global $ilUser, $ilDB;
+
+		$user_id = $ilUser->getId();
+		$client_ip = getenv("REMOTE_ADDR");
+		$script = substr($_SERVER["SCRIPT_FILENAME"], strlen(IL_ABSOLUTE_PATH) - 1,
+			strlen($_SERVER["SCRIPT_FILENAME"]) - strlen(IL_ABSOLUTE_PATH) + 1);
+		$language = $ilUser->getLanguage();
+		$session_id = session_id();
+
+		$last_access = ilUserTracking::_getLastAccess();
+		if(($session_id == $last_access["session_id"]) &&
+			($a_obj_id == $last_access["acc_obj_id"]) &&
+			($a_obj_type == $last_access["acc_obj_type"]) &&
+			($a_sub_id == $last_access["acc_sub_id"]) &&
+			($a_sub_type == $last_access["acc_sub_type"])
+			)
 		{
 			return true;
 		}
 		else
 		{
+			/*
 			if(strstr($_SERVER["HTTP_USER_AGENT"], "MSIE"))
 			{
 				$browser = 'msie';
@@ -141,21 +118,25 @@ class ilUserTracking {
 			else
 			{
 				$browser = 'others';
-			}
+			}*/
 			$q = "INSERT INTO ut_access ("
-				."user_id,client_ip,"
-				."acc_obj_type,acc_obj_id,language,browser,session_id,acctime"
+				."user_id, action_type, php_script, client_ip,"
+				."acc_obj_type, acc_obj_id, acc_sub_type, acc_sub_id,"
+				."language, browser, session_id, acc_time"
 				.") VALUES ("
-				."'".$user_id."',"
-				."'".$client_ip."',"
-				."'".$this->getaccSubType($this->getaccSubId($ref_id))."',"
-				."'".$this->getaccSubId($ref_id)."',"
-				."'".$this->getLanguage($user_id)."',"
-				."'".$browser."',"
-				."'".$this->getSessionId($user_id)."','"
-				.date("y-m-d H:i")
-				."')";
-		   $this->ilias->db->query($q);
+				.$ilDB->quote($user_id).","
+				.$ilDB->quote($a_action_type).","
+				.$ilDB->quote($script).","
+				.$ilDB->quote($client_ip).","
+				.$ilDB->quote($a_obj_type).","
+				.$ilDB->quote($a_obj_id).","
+				.$ilDB->quote($a_sub_type).","
+				.$ilDB->quote($a_sub_id).","
+				.$ilDB->quote($language).","
+				.$ilDB->quote($_SERVER["HTTP_USER_AGENT"]).","
+				.$ilDB->quote($session_id).", now()"
+				.")";
+		   $ilDB->query($q);
 		}
 	}
 	function TestTitle($user_id)
@@ -338,8 +319,8 @@ class ilUserTracking {
 	function countNum($from,$from1,$condition)
 	{
 		$q = "SELECT count(*) from ut_access "
-			." WHERE (acctime > '".$from
-			."' AND acctime <='".$from1."')"
+			." WHERE (acc_time > '".$from
+			."' AND acc_time <='".$from1."')"
 			." AND ".$condition;
 			//echo $condition;echo "<br>";
 		$res = $this->ilias->db->query($q);
@@ -348,9 +329,9 @@ class ilUserTracking {
 	}
 	function selectTime($from,$to,$condition)
 	{
-		$q = "SELECT acctime from ut_access "
-			." WHERE (acctime >= '".$from
-			."' AND acctime <='".$to."')"
+		$q = "SELECT acc_time from ut_access "
+			." WHERE (acc_time >= '".$from
+			."' AND acc_time <='".$to."')"
 			." AND ".$condition;
 			echo $q;
 			echo "<br>";

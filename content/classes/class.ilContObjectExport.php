@@ -40,12 +40,13 @@ class ilContObjectExport
 	var $ilias;			// ilias object
 	var $cont_obj;		// content object (learning module | digilib book)
 	var $inst_id;		// installation id
+	var $mode;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilContObjectExport(&$a_cont_obj)
+	function ilContObjectExport(&$a_cont_obj, $a_mode = "xml")
 	{
 		global $ilErr, $ilDB, $ilias;
 
@@ -54,16 +55,28 @@ class ilContObjectExport
 		$this->err =& $ilErr;
 		$this->ilias =& $ilias;
 		$this->db =& $ilDB;
+		$this->mode = $a_mode;
 
 		$settings = $this->ilias->getAllSettings();
 		$this->inst_id = $settings["inst_id"];
 
 		$date = time();
-		$this->export_dir = $this->cont_obj->getExportDirectory();
-		$this->subdir = $date."__".$this->inst_id."__".
-			$this->cont_obj->getType()."_".$this->cont_obj->getId();
-		$this->filename = $this->subdir.".xml";
+		switch($this->mode)
+		{
+			case "pdf":
+				$this->export_dir = $this->cont_obj->getOfflineDirectory();
+				$this->subdir = $date."__".$this->inst_id."__".
+					$this->cont_obj->getType()."_".$this->cont_obj->getId();
+				$this->filename = $this->subdir.".fo";
+				break;
 
+			default:
+				$this->export_dir = $this->cont_obj->getExportDirectory();
+				$this->subdir = $date."__".$this->inst_id."__".
+					$this->cont_obj->getType()."_".$this->cont_obj->getId();
+				$this->filename = $this->subdir.".xml";
+				break;
+		}
 	}
 
 	function getInstId()
@@ -77,7 +90,7 @@ class ilContObjectExport
     *   @param  integer $depth
     *   @param  integer $left   left border of nested-set-structure
     *   @param  integer $right  right border of nested-set-structure
-    *   @access public  
+    *   @access public
     *   @return string  xml-structure
     */
     function exportRekursiv($depth, $left, $right)
@@ -147,15 +160,6 @@ class ilContObjectExport
 	}
 
 
-	/**
-	*	exports the digi-lib-object into a xml structure
-    *   ay: what for ist this method ?
-	*/
-	function export()
-	{
-		
-	}
-
 
     /**
     *   build export file (complete zip file)
@@ -164,6 +168,23 @@ class ilContObjectExport
     *   @return
     */
 	function buildExportFile()
+	{
+		switch ($this->mode)
+		{
+			case "pdf":
+				$this->buildExportFilePDF();
+				break;
+
+			default:
+				$this->buildExportFileXML();
+				break;
+		}
+	}
+
+	/**
+	* build xml export file
+	*/
+	function buildExportFileXML()
 	{
 		global $ilBench;
 
@@ -209,7 +230,6 @@ class ilContObjectExport
 		echo "</PRE>";
 		*/
 
-
 		// dump xml document to file
 		$ilBench->start("ContentObjectExport", "buildExportFile_dumpToFile");
 		$this->xml->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->filename
@@ -227,6 +247,70 @@ class ilContObjectExport
 
 		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
 		$ilBench->stop("ContentObjectExport", "buildExportFile");
+	}
+
+	/**
+	* build pdf offline file
+	*/
+	function buildExportFilePDF()
+	{
+		global $ilBench;
+
+		$ilBench->start("ContentObjectExport", "buildPDFFile");
+
+		require_once("classes/class.ilXmlWriter.php");
+
+		$this->xml = new ilXmlWriter;
+
+		// set dtd definition
+		//$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd\">");
+
+		// set generated comment
+		//$this->xml->xmlSetGenCmt("Export of ILIAS Content Module ".
+		//	$this->cont_obj->getId()." of installation ".$this->inst.".");
+
+		// set xml header
+		$this->xml->xmlHeader();
+
+		// create directories
+		$this->cont_obj->createOfflineDirectory();
+		//ilUtil::makeDir($this->export_dir."/".$this->subdir);
+		//ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
+
+		// get Log File
+		/*
+		$expDir = $this->cont_obj->getExportDirectory();
+		$expLog = new ilLog($expDir, "export.log");
+		$expLog->delete();
+		$expLog->setLogFormat("");
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");*/
+
+		// get xml content
+		$ilBench->start("ContentObjectExport", "buildPDFFile_getFO");
+		$this->cont_obj->exportFO($this->xml,
+			$this->export_dir."/".$this->subdir, $expLog);
+		$ilBench->stop("ContentObjectExport", "buildPDFFile_getFO");
+
+
+		// dump fo document to file
+		$ilBench->start("ContentObjectExport", "buildPDFFile_dumpToFile");
+//echo "dumping:".$this->export_dir."/".$this->filename;
+		$this->xml->xmlDumpFile($this->export_dir."/".$this->filename
+			, false);
+		$ilBench->stop("ContentObjectExport", "buildPDFFile_dumpToFile");
+
+		// convert fo to pdf file
+		//$ilBench->start("ContentObjectExport", "buildExportFile_zipFile");
+		include_once("classes/class.ilFOPUtil.php");
+		ilFOPUtil::makePDF($this->export_dir."/".$this->filename,
+			$this->export_dir."/".$this->subdir.".pdf");
+		//$ilBench->stop("ContentObjectExport", "buildExportFile_zipFile");
+
+		// destroy writer object
+		$this->xml->_XmlWriter;
+
+		//$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
+		$ilBench->stop("ContentObjectExport", "buildPDFFile");
 	}
 
 }
