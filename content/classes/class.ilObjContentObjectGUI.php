@@ -247,6 +247,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$arr_toc_mode, false, true);
 		$this->tpl->setVariable("SELECT_TOC_MODE", $select_toc_mode);
 
+		// clean frames
+		$this->tpl->setVariable("TXT_CLEAN_FRAMES", $this->lng->txt("cont_clean_frames"));
+		$this->tpl->setVariable("CBOX_CLEAN_FRAMES", "cobj_clean_frames");
+		$this->tpl->setVariable("VAL_CLEAN_FRAMES", "y");
+		if ($this->object->cleanFrames())
+		{
+			$this->tpl->setVariable("CHK_CLEAN_FRAMES", "checked");
+		}
+
 		// lm menu
 		$this->tpl->setVariable("TXT_LM_MENU", $this->lng->txt("cont_lm_menu"));
 		$this->tpl->setVariable("TXT_ACT_MENU", $this->lng->txt("cont_active"));
@@ -283,6 +292,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->setActiveLMMenu(ilUtil::yn2tf($_POST["cobj_act_lm_menu"]));
 		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));
+		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));
 		$this->object->updateProperties();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");

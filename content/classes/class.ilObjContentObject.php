@@ -629,6 +629,16 @@ class ilObjContentObject extends ilObject
 		return $this->toc_active;
 	}
 
+	function setCleanFrames($a_clean)
+	{
+		$this->clean_frames = $a_clean;
+	}
+
+	function cleanFrames()
+	{
+		return $this->clean_frames;
+	}
+
 	/**
 	* read content object properties
 	*/
@@ -644,6 +654,7 @@ class ilObjContentObject extends ilObject
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
 		$this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
+		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
 	}
 
 	/**
@@ -658,6 +669,7 @@ class ilObjContentObject extends ilObject
 			" toc_mode = '".$this->getTOCMode()."',".
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
 			" toc_active = '".ilUtil::tf2yn($this->isActiveTOC())."',".
+			" clean_frames = '".ilUtil::tf2yn($this->cleanFrames())."',".
 			" lm_menu_active = '".ilUtil::tf2yn($this->isActiveLMMenu())."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
