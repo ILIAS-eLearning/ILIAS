@@ -1,9 +1,9 @@
-﻿/**
+/**
 * ILIAS language file 
 *
 * @module		language file Danish
 * @modulegroup	language
-* @author 		Kasper Nielsen <kasper@kittik.dk> Gilbert Ditlevsen
+* @author 		Preben Christensen <pch@tec.dk> Kasper Nielsen <kasper@kittik.dk> Gilbert Ditlefsen
 * @version		$Id$
 */
 
@@ -56,8 +56,8 @@ administration#:#nothing_to_remove#:#Intet at fjerne...
 administration#:#nothing_to_restore#:#Intet at genskabe...
 administration#:#options#:#Egenskaber
 administration#:#purge_missing#:#Find manglende objekter
-administration#:#purge_missing_desc#:#Fjern alle manglende og ikke bunde objekter fundet i system.
-administration#:#purge_trash#:#Find slettet objekter
+administration#:#purge_missing_desc#:#Fjern alle manglende og ikke bundende objekter fundet i system.
+administration#:#purge_trash#:#Find slettede objekter
 administration#:#purge_trash_desc#:#Fjern alle objekter i papirkurv fra systemet.
 administration#:#purging#:#Finder...
 administration#:#purging_missing_objs#:#Finder manglende objekter...
@@ -75,10 +75,10 @@ administration#:#restoring_missing_objs#:#Genskaber manglende objekter...
 administration#:#restoring_trash#:#Genskaber affald...
 administration#:#restoring_unbound_objs#:#Genskaber ikke bundne objekter og under objekter...
 administration#:#scan_completed#:#Scan f&aelig;rdig
-administration#:#scan_details#:#Scan detaljer
-administration#:#scan_modes#:#Scan mode brugt
-administration#:#scan_only#:#Scan kun
-administration#:#scanning_system#:#Scanner system...
+administration#:#scan_details#:#Skan detaljer
+administration#:#scan_modes#:#Skan mode brugt
+administration#:#scan_only#:#Skan kun
+administration#:#scanning_system#:#Skanner system...
 administration#:#searching_deleted_objs#:#S&oslash;ger efter slettede objekter...
 administration#:#searching_invalid_childs#:#S&oslash;ger efter ugyldige tr&aelig; indgange...
 administration#:#searching_invalid_refs#:#S&oslash;ger efter ugyldige referencer...
@@ -121,14 +121,13 @@ assessment#:#ass_questions#:#Sp&oslash;rgsm&aring;l
 assessment#:#ass_size#:#St&oslash;rrelse
 assessment#:#available_points#:#Tilg&aelig;ngelige point
 assessment#:#average_reached_points#:#Gennemsnitlig n&aring;et point
-assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new variable
 assessment#:#by#:#af
 assessment#:#cancel_test#:#Afslut testen
-assessment#:#cannot_edit_test#:#Du er ikke i besidelse af de rigtige rettighedder til at &aelig;ndre i denne test!
-assessment#:#cannot_export_qpl#:#Du er ikke i besidelser af de rigtige rettighedder til at exportere denne sp&oslash;rgsm&aring;ls gruppe!
-assessment#:#cannot_export_test#:#Du er ikke i besidelse af de rigtige rettighedder til at exportere denne test!
-assessment#:#cannot_maintain_test#:#Du er ikke i besidelse af de rigtige rettighedder til at vedligeholde denne test!
-assessment#:#cannot_save_metaobject#:#Du er ikke i besidelse af de rigtige rettighedder til at gemme meta data!
+assessment#:#cannot_edit_test#:#Du er ikke i besidelse af de rigtige rettigheder til at &aelig;ndre i denne test!
+assessment#:#cannot_export_qpl#:#Du er ikke i besiddelse af de rigtige rettigheder til at exportere denne sp&oslash;rgsm&aring;ls gruppe!
+assessment#:#cannot_export_test#:#Du er ikke i besiddelse af de rigtige rettigheder til at exporterer denne test!
+assessment#:#cannot_maintain_test#:#Du er ikke i besiddelse af de rigtige rettigheder til at vedligeholde denne test!
+assessment#:#cannot_save_metaobject#:#Du er ikke i besiddelse af de rigtige rettigheder til at gemme meta data!
 assessment#:#change_solution#:#&aelig;ndre foresl&aring;et l&oslash;sning
 assessment#:#checkbox_checked#:#Kontrolleret 
 assessment#:#checkbox_unchecked#:#Uchecket
@@ -137,7 +136,7 @@ assessment#:#circle_click_center#:#Klik venligst i midten af det &oslash;nkede o
 assessment#:#circle_click_circle#:#Klik venligst p&aring; et dirkelpunkt i det &oslash;nkede omr&aring;de.
 assessment#:#cloze_text#:#Luk tekst
 assessment#:#code#:#Kode
-assessment#:#confirm_delete_all_user_data#:#Er du sikker p&aring; at du vil slette alle bruger data fra denne test?
+assessment#:#confirm_delete_all_user_data#:#Er du sikker p&aring; at du vil slette alle brugerdata fra denne test?
 assessment#:#confirm_sync_questions#:#Sp&oslash;rgsm&aring;let du har &aelig;ndret er en kopi som er blevet lavet for at blive brugt i en aktiv test. &oslash;nsker du at &aelig;ndre det originale sp&oslash;rgsm&aring;l?
 assessment#:#coordinates#:#Kordinater
 assessment#:#correct_solution_is#:#Den rigtige l&oslash;sning er
@@ -152,7 +151,7 @@ assessment#:#detail_max_processing_time_reached#:#Du har n&aring;et maximum brug
 assessment#:#detail_starting_time_not_reached#:#Du har ikke n&aring;et start tidspunktet for denne test. Testen e r tilg&aelig;ngelig efter %s
 assessment#:#direct_feedback#:#Godkend din l&oslash;sning
 assessment#:#duplicate#:#Kopier
-assessment#:#duplicate_matching_values_selected#:#Du har valgt at kopier ens v&aelig;rdier!
+assessment#:#duplicate_matching_values_selected#:#Du har valgt at kopiere ens v&aelig;rdier!
 assessment#:#duplicate_order_values_entered#:#Du har indtastet ens v&aelig;rdier!
 assessment#:#duplicate_tst#:#Kopier test
 assessment#:#ects_allow_ects_grades#:#Vis ECTS karakter sammen med modtaget m&aelig;rke
@@ -162,7 +161,7 @@ assessment#:#ects_grade_a#:#Fantastisk pr&aelig;station med meget f&aring; fejl
 assessment#:#ects_grade_a_short#:#Glimrende
 assessment#:#ects_grade_b#:#over gennemsnittet men med nogen fejl
 assessment#:#ects_grade_b_short#:#Meget godt
-assessment#:#ects_grade_c#:#Gennerelt godt arbejde men med nogen m&aelig;rkbare fejl
+assessment#:#ects_grade_c#:#Generelt godt arbejde men med nogen m&aelig;rkbare fejl
 assessment#:#ects_grade_c_short#:#Godt
 assessment#:#ects_grade_d#:#Ok men med tydelige mangler
 assessment#:#ects_grade_d_short#:#Tilfredsstillende
@@ -180,8 +179,6 @@ assessment#:#ects_range_error_d#:#Indtast venligst et tal mellem 0 og 100 for EC
 assessment#:#ects_range_error_e#:#Indtast venligst et tal mellem 0 og 100 for ECTS karakter E!
 assessment#:#ects_use_fx_grade#:#Brug 'FX' karakteren, hvis dumpet deltagere n&aring;r mindst
 assessment#:#ects_use_fx_grade_part2#:#procent af de totale point.
-assessment#:#edit_content#:#Edit content###14 Feb 2005 new variable
-assessment#:#edit_properties#:#Edit properties###14 Feb 2005 new variable
 assessment#:#end_tag#:#Afslut
 assessment#:#ending_time_reached#:#Du har n&aring;et slut tidspunktet
 assessment#:#error_image_upload_copy_file#:#Der opstod en fejl da du ville flytte den uploadede image fil til dens destinationsmappe!
@@ -243,7 +240,7 @@ assessment#:#match_terms_and_definitions#:#Sammens&aelig;t forklaring og definat
 assessment#:#match_terms_and_pictures#:#Sammens&aelig;t forklaring og billede
 assessment#:#matches#:#Sammens&aelig;t
 assessment#:#matching_pair#:#Matchende par
-assessment#:#material#:#Materialler
+assessment#:#material#:#Materialer
 assessment#:#material_download#:#Materialler til download
 assessment#:#material_file#:#Materialle fil
 assessment#:#maximum_nr_of_tries_reached#:#Du har n&aring;et maximum antallet af fors&oslash;g for denne test. Testen kan ikke &aring;bnes!
@@ -270,18 +267,18 @@ assessment#:#polygon_click_next_point#:#Klik venligst p&aring; n&aelig;ste punkt
 assessment#:#polygon_click_starting_point#:#Klik venligst p&aring; startpunktet af polygonen.
 assessment#:#postpone#:#Udskyd sp&oslash;rgsm&aring;l
 assessment#:#postponed#:#udskydt
-assessment#:#preview#:#Preview
+assessment#:#preview#:#Eksempel
 assessment#:#previous_question_rows#:#<< Sp&oslash;rgsm&aring;l %d - %d af %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Der er ingen sp&oslash;rgsm&aring;l tilg&aelig;ngelige for det valgte sp&oslash;rgsm&aring;l. Sp&oslash;rgsm&aring;let blev aldrig brugt i en test
 assessment#:#qpl_assessment_of_questions#:#Assessment of questions
 assessment#:#qpl_assessment_total_of_answers#:#Total antal svar
 assessment#:#qpl_assessment_total_of_right_answers#:#Total procentdel af korrekte svar (procentdel af maximum point)
 assessment#:#qpl_confirm_delete_questions#:#Er du sikker p&aring; du vil slette f&oslash;lgende sp&oslash;rgsm&aring;l? Hvis du sletter l&aring;ste sp&oslash;rgsm&aring;l vil resultater af alle test der bruger et l&aring;st sp&oslash;rgsm&aring;l ogs&aring; blive slettet.
-assessment#:#qpl_delete_rbac_error#:#Du har ikke rettighedder til at slette dette sp&oslash;rgsm&aring;l!
+assessment#:#qpl_delete_rbac_error#:#Du har ikke rettigheder til at slette dette sp&oslash;rgsm&aring;l!
 assessment#:#qpl_delete_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l for at slette det
 assessment#:#qpl_display_fullsize_image#:#Klik her for at se det originale billed!
 assessment#:#qpl_duplicate_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l for at kopiere det
-assessment#:#qpl_edit_rbac_error#:#Du har ikke rettighedder til at &aelig;ndre i dette sp&oslash;rgsm&aring;l!
+assessment#:#qpl_edit_rbac_error#:#Du har ikke rettigheder til at &aelig;ndre i dette sp&oslash;rgsm&aring;l!
 assessment#:#qpl_edit_select_multiple#:#Marker venligst kun et sp&oslash;rgsm&aring;l at &aelig;ndre
 assessment#:#qpl_edit_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l at &aelig;ndre
 assessment#:#qpl_export_select_none#:#Marker venligst et sp&oslash;rgsm&aring;l for at eksportere det
@@ -405,8 +402,8 @@ assessment#:#tst_result_sorry#:#Desv&aelig;rre, du bestod ikke testen.
 assessment#:#tst_results#:#Test resultat
 assessment#:#tst_resume_test#:#Genoptag testen
 assessment#:#tst_score_reporting#:#Resultat report
-assessment#:#tst_score_reporting_date#:#Resultat report dato
-assessment#:#tst_score_type#:#Resultat report type
+assessment#:#tst_score_reporting_date#:#Resultat raporteringsdato
+assessment#:#tst_score_type#:#Resultat rapport type
 assessment#:#tst_select_file_for_import#:#Du skal v&aelig;l&aelig;ge en fil for at importere!
 assessment#:#tst_select_questionpool#:#V&aelig;lg venligst en sp&oslash;rgsm&aring;lsgruppe hvor du vil gemme de oprettede sp&oslash;rgsm&aring;l
 assessment#:#tst_select_questionpools#:#V&aelig;lg venligst en sp&oslash;rgsm&aring;lsgruppe hvor du vil gemme de impoterede sp&oslash;rgsm&aring;l
@@ -422,7 +419,7 @@ assessment#:#tst_starting_time#:#Start tid
 assessment#:#tst_stat_all_users#:#Alle brugere
 assessment#:#tst_stat_choose_users#:#(V&aelig;lg en eller flere brugere fra brugerlisten)
 assessment#:#tst_stat_result_atimeofwork#:#Gennemsnits tidsforbrug p&aring; arbejde
-assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean
+assessment#:#tst_stat_result_distancemean#:#Afstand til aritmetik betyder?
 assessment#:#tst_stat_result_distancemedian#:#Distance til median
 assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile
 assessment#:#tst_stat_result_firstvisit#:#F&oslash;rste bes&oslash;g
@@ -456,9 +453,9 @@ assessment#:#tst_types#:#Test typer
 assessment#:#tst_use_javascript#:#Brug Javascript for tr&aelig;k og slip aktioner
 assessment#:#tst_your_ects_mark_is#:#Din ECTS karakter er
 assessment#:#tst_your_mark_is#:#Dit m&aelig;rke er
-assessment#:#tt_assessment#:#Assessment test
+assessment#:#tt_assessment#:#Opgave test
 assessment#:#tt_navigation_controlling#:#Kontrollere deltagers navigations test
-assessment#:#tt_self_assessment#:#Selv vurderings test
+assessment#:#tt_self_assessment#:#Selv vurderingstest
 assessment#:#unlimited#:#Uendelig
 assessment#:#unlock#:#Ul&aring;s
 assessment#:#unlock_question#:#Dette sp&oslash;rgsm&aring;l er i brug i mindst en test og der er %s angivet resultater. Hvis du v&aelig;lger at l&aring;se sp&oslash;rgsm&aring;let op vil alle resultaterne af de p&aring;virket brugere blive slettet n&aring;r du v&aelig;lger at gemme sp&oslash;rgsm&aring;let. Hvis du vil &aelig;ndre sp&oslash;rgsm&aring;let men ikke vil slette tidligere resultater, kan du kopiere sp&oslash;rgsm&aring;let i sp&oslash;rgsm&aring;lsgruppen og &aelig;ndre den version.
@@ -486,7 +483,7 @@ bibitem#:#bibitem_edition#:#&aelig;ndring
 bibitem#:#bibitem_editor#:#&aelig;ndring lavet af
 bibitem#:#bibitem_entry#:#Indgang
 bibitem#:#bibitem_first_name#:#Fornavn
-bibitem#:#bibitem_grey_literature#:#Gr&aring; literatur
+bibitem#:#bibitem_grey_literature#:#Gr&aring; litteratur
 bibitem#:#bibitem_how_published#:#Hvordan publiceret
 bibitem#:#bibitem_identifier#:#Identifier
 bibitem#:#bibitem_inbook#:#I bog
@@ -498,29 +495,29 @@ bibitem#:#bibitem_issn#:#ISSN
 bibitem#:#bibitem_journal#:#Journal
 bibitem#:#bibitem_journal_article#:#Journal artikel
 bibitem#:#bibitem_keyword#:#N&oslash;gleord
-bibitem#:#bibitem_label#:#Label
+bibitem#:#bibitem_label#:#M&aelig;rke
 bibitem#:#bibitem_language#:#sprog
 bibitem#:#bibitem_last_name#:#Efternavn
 bibitem#:#bibitem_manual#:#Manual
-bibitem#:#bibitem_master_thesis#:#Master thesis
+bibitem#:#bibitem_master_thesis#:#Mester these
 bibitem#:#bibitem_middle_name#:#Mellemnavn
 bibitem#:#bibitem_month#:#M&aring;ned
 bibitem#:#bibitem_new_element#:#Nyt element
 bibitem#:#bibitem_newspaper_article#:#Avis artikel
 bibitem#:#bibitem_not_found#:#Ingen bibliografiske informationer tilg&aelig;ngelige.
-bibitem#:#bibitem_note#:#Note
+bibitem#:#bibitem_note#:#Notat
 bibitem#:#bibitem_number#:#Nummer
 bibitem#:#bibitem_organization#:#Organisation
 bibitem#:#bibitem_pages#:#Sider
-bibitem#:#bibitem_phd_thesis#:#PhD thesis
+bibitem#:#bibitem_phd_thesis#:#PhD these
 bibitem#:#bibitem_please_select#:#V&aelig;lg venligst
 bibitem#:#bibitem_print#:#Print
-bibitem#:#bibitem_proceedings#:#Precess
+bibitem#:#bibitem_proceedings#:#Pr&aelig;sis
 bibitem#:#bibitem_publisher#:#Udgiver
 bibitem#:#bibitem_save#:#Gem
 bibitem#:#bibitem_school#:#Skole
 bibitem#:#bibitem_series#:#Serie
-bibitem#:#bibitem_series_editor#:#Editor
+bibitem#:#bibitem_series_editor#:#Redakt&oslash;r
 bibitem#:#bibitem_series_title#:#Serie titel
 bibitem#:#bibitem_series_volume#:#Lydstyrke
 bibitem#:#bibitem_technical_report#:#Teknisk report
@@ -532,6 +529,7 @@ bibitem#:#bibitem_year#:#&aring;r
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Bruger (aktiv)
 chat#:#chat_add_allowed_hosts#:#Tilf&oslash;j venligst adressen p&aring; den v&aelig;rt der er tilladt at bruge chat serveren.
+chat#:#chat_add_ip#:#Tilf&oslash;j venligst serverens IP.
 chat#:#chat_add_moderator_password#:#Tilf&oslash;j venligst et password.
 chat#:#chat_add_port#:#Tilf&oslash;j venligst en server port.
 chat#:#chat_aqua#:#aqua
@@ -567,7 +565,7 @@ chat#:#chat_level_fatal#:#Alvorlig
 chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
-chat#:#chat_messages_deleted#:#Besked er blevey slettet.
+chat#:#chat_messages_deleted#:#Besked er blevet slettet.
 chat#:#chat_moderator_password#:#Password
 chat#:#chat_navy#:#navy
 chat#:#chat_no_active_users#:#Ingen brugere tilstede.
@@ -592,6 +590,7 @@ chat#:#chat_rooms_deleted#:#Chat rum slettet.
 chat#:#chat_select_one_room#:#V&aelig;lg venligst et chat rum
 chat#:#chat_server_allowed#:#Tilladte v&aelig;rter
 chat#:#chat_server_allowed_b#:#(e.g. 192.168.1.1,192.168.1.2)
+chat#:#chat_server_ip#:#Server IP
 chat#:#chat_server_logfile#:#Log fil sti
 chat#:#chat_server_loglevel#:#Log level
 chat#:#chat_server_not_active#:#Chat serveren er ikke aktiv
@@ -637,7 +636,7 @@ common#:#add_members#:#Tilf&oslash;j medlemmer
 common#:#add_translation#:#Tilf&oslash;j overs&aelig;ttelse
 common#:#add_user#:#Tilf&oslash;j lokal bruger
 common#:#added_new_condition#:#Tilf&oslash;jet ny tilstand.
-common#:#adm_create_tax#:#Create taxonomy
+common#:#adm_create_tax#:#lav taksonomi 
 common#:#adm_edit_permission#:#Rediger rettigheds tilladelser
 common#:#adm_read#:#Skrive rettigheds adgang til system indstillinger
 common#:#adm_visible#:#System indstillinger er synlige
@@ -660,8 +659,8 @@ common#:#allow_assign_users#:#Tillad Bruger tilmeldelse til lokal administrator.
 common#:#allow_register#:#Tilg&aelig;ngelig i registration formularen for nye brugere
 common#:#alm#:#L&aelig;rer Modul AICC
 common#:#alm_added#:#AICC L&aelig;rer Modul tilf&oslash;jet
-common#:#alm_create#:#Create AICC L&aelig;rer modul
-common#:#alm_delete#:#Delete AICC L&aelig;rer Modul
+common#:#alm_create#:#lav AICC L&aelig;rer modul
+common#:#alm_delete#:#slet AICC L&aelig;rer Modul
 common#:#alm_edit_permission#:#Rediger rettigheds indstillinger
 common#:#alm_join#:#Tilmeldelse til AICC L&aelig;rer Modul
 common#:#alm_leave#:#Frameld AICC L&aelig;rer Modul
@@ -691,11 +690,10 @@ common#:#assign_local_role#:#Tildel en lokal rolle
 common#:#assign_user_to_role#:#Tildel bruger en rolle
 common#:#assigned_roles#:#Tildelte roller
 common#:#assigned_users#:#Tildelte brugere
-common#:#at_least_one_style#:#At least one style must remain activated.###02 Mar 2005 new variable
 common#:#at_location#:#Sted
 common#:#attachment#:#Vedh&aelig;ft
 common#:#attachments#:#Vedh&aelig;ftede
-common#:#attend#:#Attend
+common#:#attend#:# Vedh&aelig;ft
 common#:#auth_configure#:#Konfigurer...
 common#:#auth_edit_permission#:#Rediger rettigheds indstillinger
 common#:#auth_ldap#:#LDAP
@@ -703,14 +701,14 @@ common#:#auth_ldap_desc#:#Vertificer brugere via LDAP serveren
 common#:#auth_local#:#ILIAS database
 common#:#auth_local_desc#:#Vertificer brugere via local ILIAS databasen (standard)
 common#:#auth_mode#:#Vertifikation mode
-common#:#auth_mode_changed_to#:#Authentication mode &aelig;ndret til
+common#:#auth_mode_changed_to#:#Vertifikation mode &aelig;ndret til
 common#:#auth_mode_not_changed#:#(intet er &aelig;ndret)
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Vertificer brugere via RADIUS serveren
 common#:#auth_read#:#adgang til vertifikations indstllinger
 common#:#auth_remark_non_local_auth#:#N&aring;r man v&aelig;lger en anden vertifikations mode end standarden bliver bruger login og passwords sl&aring;et fra. Og der kan ikke oprettes nye brugere
-common#:#auth_script#:#Custom
-common#:#auth_script_desc#:#Vertificer brugerev via external script
+common#:#auth_script#:#brugervalgte
+common#:#auth_script_desc#:#Vertificer brugeren via external script
 common#:#auth_select#:#V&aelig;lg vertifikations mode
 common#:#auth_visible#:#Vertifikations indstllinger er synlige
 common#:#auth_write#:#Rediger Vertifikations adgang
@@ -745,7 +743,6 @@ common#:#cannot_find_xml#:#Kan ikke finde nogle XML-filer.
 common#:#cannot_uninstall_language_in_use#:#Du kan ikke afinstallere et sprog der er i brug!
 common#:#cannot_uninstall_systemlanguage#:#Du kan ikke afinstallere system sproget!
 common#:#cannot_unzip_file#:#Kan ikke udpakke fil.
-common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###02 Mar 2005 new variable
 common#:#cat#:#Kategori
 common#:#cat_a#:#en Kategori
 common#:#cat_add#:#Tilf&oslash;j Kategori
@@ -831,14 +828,13 @@ common#:#choose_only_one_language#:#V&aelig;lg venligst kun et sprog
 common#:#city#:#By, 
 common#:#clear#:#Ryd
 common#:#client ip#:#Klient IP
-common#:#client#:#Client###06 Mar 2005 new variable
 common#:#client_id#:#Klient ID
 common#:#client_ip#:#Klient IP
 common#:#clipboard#:#Udklipsholder
 common#:#close#:#Luk
 common#:#comma_separated#:#Komma Separaret
 common#:#comment#:#Kommentar
-common#:#compose#:#Komponer
+common#:#compose#:#Ny Mail
 common#:#condition#:#Tilstand
 common#:#condition_already_assigned#:#Objekt er allerede tildelt.
 common#:#condition_circle_created#:#Denne sammens&aelig;tning er ikke mulig, siden objekterne ikke er uafh&aelig;ngige.
@@ -846,7 +842,7 @@ common#:#condition_deleted#:#Tilstand slettet.
 common#:#condition_passed#:#Best&aring;et
 common#:#condition_precondition#:#Preconditions:
 common#:#condition_select_object#:#V&aelig;lg venligst et objekt.
-common#:#condition_select_one#:#-Please select one condition-
+common#:#condition_select_one#:#v&aelig;lg venligst kun et objekt
 common#:#condition_update#:#Gem
 common#:#conditions_updated#:#Conditions er Gemt
 common#:#confirm#:#Bekr&aelig;ft
@@ -854,7 +850,6 @@ common#:#confirmation#:#Bekr&aelig;fteldr
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontakt Information
 common#:#container#:#Kontainer
-common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Kontekst
 common#:#continue_work#:#Forts&aelig;t
 common#:#copied_object#:#Kopieret Objekt
@@ -943,7 +938,6 @@ common#:#dbk_new#:#Ny Digilib Bog
 common#:#dbk_read#:#L&aelig;se adgang til Digilib Bog
 common#:#dbk_visible#:#Digilib Bog er synlig
 common#:#dbk_write#:#Rediger Digilib Bog
-common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
 common#:#default#:#Standard
 common#:#default_language#:#standard Sprog
 common#:#default_perm_settings#:#Standard Sprog
@@ -964,7 +958,6 @@ common#:#department#:#Afdeling
 common#:#desc#:#Beskrivelse
 common#:#description#:#Beskrivelse
 common#:#desired_password#:#&oslash;nsket Password
-common#:#desktop_items#:#Personal desktop items###04 Mar 2005 new variable
 common#:#disabled#:#Ikke Tilsluttet
 common#:#domain#:#Dom&aelig;ne
 common#:#down#:#Nede
@@ -980,7 +973,7 @@ common#:#edit_roleassignment#:#Rediger Rolle Tildeling
 common#:#edit_stylesheet#:#Rediger Stil
 common#:#edited_at#:#Redigeret den
 common#:#editor#:#Redigeret af
-common#:#email#:#E-mail###04 Mar 2005 content changed
+common#:#email#:#E-mail
 common#:#email_not_valid#:#Den indtastede email adresse er ikke gyldig!
 common#:#enable#:#Aktiver
 common#:#enable_registration#:#Aktiver en ny registration
@@ -1141,7 +1134,7 @@ common#:#gdf_new#:#Ny Defination
 common#:#gender#:#K&oslash;n
 common#:#gender_f#:#Kvinde
 common#:#gender_m#:#Mand
-common#:#generate#:#Generate
+common#:#generate#:#lav
 common#:#glo#:#Ordbog
 common#:#glo_a#:#en Ordbog
 common#:#glo_add#:#TIlf&oslash;j Ordbog
@@ -1149,49 +1142,49 @@ common#:#glo_added#:#Ordbog er tilf&oslash;jet
 common#:#glo_create#:#Opret ordbog
 common#:#glo_delete#:#Slet Ordbog
 common#:#glo_edit_permission#:#&aelig;ndrer rettigheds indstillinger
-common#:#glo_join#:#Subscribe to Glossary
-common#:#glo_leave#:#Unsubscribe from Glossary
-common#:#glo_new#:#New Glossary
-common#:#glo_read#:#Read access to Glossary
-common#:#glo_upload_file#:#File
-common#:#glo_visible#:#Glossary is visible
-common#:#glo_write#:#Edit Glossary
+common#:#glo_join#:#skriv til ordbog
+common#:#glo_leave#:#slet fra ordbog
+common#:#glo_new#:#ny ordbog
+common#:#glo_read#:#skrive rettigheder til ordbog
+common#:#glo_upload_file#:#Fil
+common#:#glo_visible#:#ordbog er synlig
+common#:#glo_write#:#&aelig;ndre ordbog
 common#:#global#:#Global
-common#:#global_user#:#Global users
-common#:#glossaries#:#Glossaries
-common#:#glossary#:#Glossary
-common#:#glossary_added#:#Glossary added
-common#:#group_access_denied#:#Access Denied
-common#:#group_any_objects#:#No subobjects available
-common#:#group_create_chat#:#Create chat
-common#:#group_desc#:#Group Description
-common#:#group_details#:#Group Details
-common#:#group_filesharing#:#Group File Sharing
+common#:#global_user#:#Global bruger
+common#:#glossaries#:#ordb&oslash;ger
+common#:#glossary#:#ordbog
+common#:#glossary_added#:#ordbog tilf&oslash;jet
+common#:#group_access_denied#:#Ingen adgang
+common#:#group_any_objects#:#ingen objekter mulige
+common#:#group_create_chat#:#lav chat
+common#:#group_desc#:#Gruppe beskrivelse
+common#:#group_details#:#Gruppe Detajler
+common#:#group_filesharing#:#Gruppe Fil deling
 common#:#group_import#:#Group import
-common#:#group_import_file#:#Import file
-common#:#group_members#:#Group Members
-common#:#group_memstat#:#Member Status
+common#:#group_import_file#:#Import fil
+common#:#group_members#:#gruppe medlemer
+common#:#group_memstat#:#medlems status
 common#:#group_memstat_admin#:#Administrator
-common#:#group_memstat_member#:#Member
-common#:#group_name#:#Group name
-common#:#group_new_registrations#:#New registrations
-common#:#group_no_registration#:#no registration required
-common#:#group_no_registration_msg#:#You are not a member of this group so far. Due to reasons of administration it is necessary to join the requested group.<br />As a member you have the following advantages:<br />- You get informed about news and updates<br />- You can access the according objects like forums, learning modules, etc.<br /><br />You can annul your membership at any time.
-common#:#group_not_available#:#No group available
-common#:#group_objects#:#Group Objects
-common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.
-common#:#group_password_registration_msg#:#To join this group you must enter the password provided by the administrator of this group.<br />You are automatically assigned to the group if your password is correct.
-common#:#group_registration_expiration_date#:#Expiration Date
-common#:#group_registration_expiration_time#:#Expiration Time
-common#:#group_registration_expired#:#Period of registration expired
-common#:#group_registration_mode#:#Registration Mode
-common#:#group_req_password#:#Registration password required
-common#:#group_req_registration#:#Registration required
-common#:#group_req_registration_msg#:#To join this group you must register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br />You will receive a message when you get assigned to the group.
-common#:#group_reset#:#Reset Group Permissions
-common#:#group_status#:#Group is
-common#:#group_status_closed#:#Closed
-common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open'<br />Public: Group is visible; User may subscribe.<br />Closed: Group is not visible for non-members; User has to be invited by a member to join.
+common#:#group_memstat_member#:#medlemer
+common#:#group_name#:#gruppe navn
+common#:#group_new_registrations#:#Ny registrering
+common#:#group_no_registration#:#ingen registrering p&aring;gr&aelig;vet
+common#:#group_no_registration_msg#:#Du er ikke medlem at denne gruppe endnu. Du er n&oslash;d til at blive medlem at den p&aring;gr&aelig;vet gruppe.<br />Som medlem har du f&oslash;lgende fordele:<br />- Du bliver informeret med nyheder og opdates<br />- du har adgang til forums l&aelig;rings moduler.<br /><br />Du kan annullere dit medlemskab til hver en tid.
+common#:#group_not_available#:#ingen gruppe mulige
+common#:#group_objects#:#Gruppe objekt
+common#:#group_password_registration_expired_msg#:#tiden for gruppen er udl&oslash;bet, en annonce er ikke l&aelig;ngere mulig. Kontakt venligst ejeren af gruppen eller administratoren.
+common#:#group_password_registration_msg#:#for at blive medlem af denne gruppe skal du enter administrator password.<br />Du bliver automatisk medlem af gruppen hvis dit password er correct.
+common#:#group_registration_expiration_date#:#udl&oslash;belses dag
+common#:#group_registration_expiration_time#:#udl&oslash;bs tid
+common#:#group_registration_expired#:#registreringsperioden er udl&oslash;bet
+common#:#group_registration_mode#:#Registrerings metode
+common#:#group_req_password#:#Registrerings password p&aring;gr&aelig;vet
+common#:#group_req_registration#:#Registrerings p&aring;gr&aelig;vet
+common#:#group_req_registration_msg#:#for at blive medlem at gruppen skal du registrere dig. Den f&oslash;lgende administrator af gruppen g&oslash;re dig medlem af gruppen. Skriv hvorfor du skal v&aelig;re medlem.<br />du modtager en besked n&aring;r du er medlem af gruppen.
+common#:#group_reset#:#Reset gruppe rettigheder
+common#:#group_status#:#gruppen er
+common#:#group_status_closed#:#lukket
+common#:#group_status_desc#:# Bestemmer status for en gruppe ved hj&aelig;lp af rettigheds indstillinger fra rolle templaten 'il_grp_status_closed' or 'il_grp_status_open'<br />Public: Gruppen er synlig; Bruger kan tilmeldes.<br />Closed: gruppen er ikke synlig for ikke medlemmer;Brugeren kan inviteres af et medlem for at f&aring; adgang.
 common#:#group_status_public#:#Offebtlig
 common#:#groups#:#Grupper
 common#:#groups_overview#:#Oversigt over Grupper
@@ -1223,29 +1216,29 @@ common#:#grp_create_spl#:#Create Question Pool for Survey
 common#:#grp_create_svy#:#Opret Unders&oslash;gelse
 common#:#grp_create_tst#:#Opret test
 common#:#grp_delete#:#Slet gruppe
-common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
-common#:#grp_dismiss_myself#:#Are you sure you want to dismiss yourself from the group?
+common#:#grp_dismiss_member#:#er du sikker du gerne afmelde den f&oslash;lgende bruger fra gruppen
+common#:#grp_dismiss_myself#:#er du sikker du gerne vil afmelde dig selv fra gruppen
 common#:#grp_edit#:#Rediger Gruppe
 common#:#grp_edit_permission#:#&aelig;ndrer rettigheds indstillinger
-common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
-common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator
+common#:#grp_err_administrator_required#:#bruger kunne ikke blive fjernet, en administrator per gruppe er n&oslash;dvendig!
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:# hver gruppe skal mindst have en administrator
 common#:#grp_err_error#:#En fejl opstod
-common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.
-common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.
-common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.
-common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !
-common#:#grp_header_edit_members#:#Edit members
+common#:#grp_err_last_member#:#sidste medlem kan ikke fjernes, fjern venligst gruppen istedet for.
+common#:#grp_err_member_could_not_be_removed#:#bruger kan ikke blive fjernet.
+common#:#grp_err_no_permission#:#du har ikke rettigeder til denne handling 
+common#:#grp_err_registration_data#:#skriv venligst et password, the expiration date and time for a valid registration period !
+common#:#grp_header_edit_members#:#&aelig;ndre medlem
 common#:#grp_join#:#Brugeren kan tilmelde sig gruppem
 common#:#grp_leave#:#Brugeren kan forlade gruppen
 common#:#grp_list_users#:#List Brugere
 common#:#grp_mem_change_status#:#Rediger status for medlemmer
 common#:#grp_mem_leave#:#n&aelig;gt adgang til bruger fra en gruppe 
 common#:#grp_mem_send_mail#:#Send melem en besked
-common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
-common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.
-common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
+common#:#grp_msg_applicants_assigned#:#modtager er blevet gruppe medlem
+common#:#grp_msg_applicants_removed#:#modtager er fjernet fra listen.
+common#:#grp_msg_member_assigned#:#bruger er blevet gruppe medlem
 common#:#grp_msg_membership_annulled#:#Membership annulled
-common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.
+common#:#grp_name_exists#:#der er allerede en gruppe med det navn, v&aelig;lg venligst et andet navn.
 common#:#grp_new#:#Ny gruppe
 common#:#grp_new_search#:#Ny gruppe
 common#:#grp_no_groups_selected#:#V&aelig;lg venligst en gruppe
@@ -1337,13 +1330,13 @@ common#:#ingmedia_good_night#:#Godnat
 common#:#ingmedia_hello#:#Hallo
 common#:#ingmedia_info_about_work1#:#P&aring;
 common#:#ingmedia_info_about_work2#:#, Du har arbejdet her for sidste gang. Du kan forts&aelig;tte ved at klikke her.
-common#:#ingmedia_level_zero#:#Level up
+common#:#ingmedia_level_zero#:#et niveau op
 common#:#ingmedia_pers_dates#:#Personlig data
 common#:#ingmedia_reg_fo#:#Registrede forummer
 common#:#ingmedia_reg_le#:#Registrede LE
-common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).###04 Mar 2005 content changed
-common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you must accept the user agreement.
-common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.
+common#:#ingmedia_use_info1#:#her kan du &aelig;ndre personlige data. men ikke INGMEDIA brugernavn og password, du beh&oslash;ver ikke udfylde resten. Husk at glemte passwords kan kun blive retuneret p&aring; email(!).
+common#:#ingmedia_use_info2#:#du m&aring; ikke bruge speciel karaktere(som , ; . = - * + #) i dit INGMEDIA brugernavn og password. For at kunne bruge INGMEDIA platform, m&aring; du acceptere brugeraftale.
+common#:#ingmedia_use_info3#:#v&aelig;lg venligst et af de links der er i din side bar.
 common#:#ingmedia_use_title#:#&aelig;ndrer Bruger data.
 common#:#ingmedia_user_agree#:#Aftale
 common#:#ingmedia_vis_le#:#Bes&oslash;gte LE
@@ -1366,33 +1359,33 @@ common#:#item#:#Ting
 common#:#kb#:#KByte
 common#:#keywords#:#N&oslash;gleord
 common#:#lang_cs#:#Czech
-common#:#lang_da#:#Danish
+common#:#lang_da#:#dansk
 common#:#lang_dateformat#:#Y-m-d
-common#:#lang_de#:#German
-common#:#lang_el#:#Greek
-common#:#lang_en#:#English
-common#:#lang_es#:#Spanish
-common#:#lang_fi#:#Finnish
-common#:#lang_fr#:#French
-common#:#lang_hu#:#Hungarian
-common#:#lang_id#:#Indonesian
-common#:#lang_it#:#Italian
-common#:#lang_ja#:#Japanese
+common#:#lang_de#:#Tysk
+common#:#lang_el#:#gr&aelig;kenland
+common#:#lang_en#:#Engelsk
+common#:#lang_es#:#Spansk
+common#:#lang_fi#:#Finsk
+common#:#lang_fr#:#Fransk
+common#:#lang_hu#:#ungarsk
+common#:#lang_id#:#Indonesisk
+common#:#lang_it#:#Italiensk
+common#:#lang_ja#:#Japansk
 common#:#lang_lt#:#Lithuanian
-common#:#lang_nl#:#Dutch
-common#:#lang_no#:#Norwegian
-common#:#lang_path#:#Language Path
-common#:#lang_pl#:#Polish
-common#:#lang_pt#:#Portuguese
+common#:#lang_nl#:#tysk
+common#:#lang_no#:#Norgsk
+common#:#lang_path#:#sprog ski
+common#:#lang_pl#:#Polsk
+common#:#lang_pt#:#Portugisk
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
-common#:#lang_sv#:#Swedish
+common#:#lang_sv#:#Svensk
 common#:#lang_timeformat#:#H:i:s
-common#:#lang_ua#:#Ukrainian
+common#:#lang_ua#:#Ukrainsk
 common#:#lang_version#:#1
 common#:#lang_vi#:#Vietnamese
-common#:#lang_xx#:#Custom
-common#:#lang_zh#:#Simplified Chinese
+common#:#lang_xx#:#brugervalgte
+common#:#lang_zh#:#simple kinesisk
 common#:#langfile_found#:#Sprog fil ikke fundet
 common#:#language#:#Sprog
 common#:#language_not_installed#:#er ikke installeret. Installer venligst sproget f&oslash;rst
@@ -1569,7 +1562,6 @@ common#:#move#:#Flyt
 common#:#moveChapter#:#Flyt
 common#:#movePage#:#Flyt
 common#:#move_to#:#Flyt til
-common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
 common#:#msg_cancel#:#Handling annulleret
 common#:#msg_changes_ok#:#&aelig;ndringerne er ok
 common#:#msg_clear_clipboard#:#Udklipsholder er t&oslash;mt
@@ -1587,35 +1579,35 @@ common#:#msg_failed#:#Undskyld, Handlingen fejlede
 common#:#msg_is_last_role#:#Du har fjernet den sidste globale rolle fra de f&oslash;lgende brugere
 common#:#msg_link_clipboard#:#Valgte objekter er gemt i udklipsholder (Handling: link)
 common#:#msg_linked#:#Valgte objekter linked.
-common#:#msg_may_not_contain#:#This object may not contain objects of type:
-common#:#msg_min_one_active_role#:#Each user must have at least one active global role!
-common#:#msg_min_one_role#:#Each user must have at least one global role!
-common#:#msg_multi_language_selected#:#You selected the same language for different translations!
-common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
-common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
-common#:#msg_no_file#:#You didn't choose a file
-common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
-common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
-common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
-common#:#msg_no_perm_create_object1#:#You have no permission to create
-common#:#msg_no_perm_create_object2#:#at this location!
-common#:#msg_no_perm_create_role#:#You have no permission to add roles
-common#:#msg_no_perm_create_rolf#:#You have no permission to create a Role Folder. Therefore you may not stop inheritance of roles or add local roles here.
-common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates
-common#:#msg_no_perm_create_user#:#You have no permission to add users
-common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s):
-common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s):
-common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.
-common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s):
-common#:#msg_no_perm_modify_role#:#You have no permission to modify roles
-common#:#msg_no_perm_modify_rolt#:#You have no permission to modify role templates
-common#:#msg_no_perm_modify_user#:#You have no permission to modify user data
-common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
-common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
-common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.
-common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.
-common#:#msg_no_perm_undelete#:#You have no permission to undelete the following object(s):
+common#:#msg_may_not_contain#:#dette objekt m&aring; ikke indeholde f&oslash;lgende typer:
+common#:#msg_min_one_active_role#:#hver bruger skal have mindst en aktiv global rolle!
+common#:#msg_min_one_role#:#hver bruger skal have mindst en global rolle!
+common#:#msg_multi_language_selected#:#du valgte det samme sprog for forskellige overs&aelig;ttelser!
+common#:#msg_no_default_language#:#igen standard valgt! Du skal v&aelig;lge et standard overs&aelig;ttelse.
+common#:#msg_no_delete_yourself#:#du kan ikke slette din egen bruger konto.
+common#:#msg_no_file#:#du valgte ikke en fil
+common#:#msg_no_language_selected#:#intet sprog valgt! Du skal v&aelig;lge et sprog for hver overs&aelig;ttelse
+common#:#msg_no_perm_assign_role_to_user#:#du har ingen rettigheder til at skifte rettigheder
+common#:#msg_no_perm_copy#:#du har ikke rettigheder til at lave en kopi af f&oslash;lgende objekt:
+common#:#msg_no_perm_create#:#du har ikke rettigheder til at lave et objekt.
+common#:#msg_no_perm_create_object1#:#du har ingen rettigheder til at lave
+common#:#msg_no_perm_create_object2#:#p&aring; dette sted
+common#:#msg_no_perm_create_role#:#du har ingen rettigheder til at lave nye regler
+common#:#msg_no_perm_create_rolf#:#du har ikke rettigheder til at lave en regl mappe. Therefore you may not stop inheritance of roles or add local roles here.
+common#:#msg_no_perm_create_rolt#:#du har ingen rettigheder til at lave en regl role templates
+common#:#msg_no_perm_create_user#:#du har ikke rettigheder til at tilf&oslash;je bruger
+common#:#msg_no_perm_cut#:#du har ikke rettigheder til at klippe f&oslash;lgende objekt:
+common#:#msg_no_perm_delete#:#du har ingen rettigheder til at slette f&oslash;lgende objekter:
+common#:#msg_no_perm_delete_track#:#du har ikke rettigheder til at slette opsporet data.
+common#:#msg_no_perm_link#:#du har ikke retighedder til at lave et link fra f&oslash;lgende objekt:
+common#:#msg_no_perm_modify_role#:# du har ikke rettigheder til at &aelig;ndre regler
+common#:#msg_no_perm_modify_rolt#:#du har ikke rettigheder til at &aelig;ndre regler
+common#:#msg_no_perm_modify_user#:#du har ikke rettigneder til at &aelig;ndre bruger data
+common#:#msg_no_perm_paste#:#du har ikke rettighedert til at inds&aelig;tte f&oslash;lgende objekt
+common#:#msg_no_perm_perm#:#du har ikke rettigheder til at &aelig;ndre rettigheds indstillinger
+common#:#msg_no_perm_read_lm#:#du har ingen rettigheder l&aelig;se dette l&aelig;ringsmodul.
+common#:#msg_no_perm_read_track#:#du har ingen rettigheder til at komme ind p&aring; brugeren.
+common#:#msg_no_perm_undelete#:#du har ingen rettigheder til at undelete f&oslash;lgende objekt:
 common#:#msg_no_perm_write#:#du har ikke rettigheder til at skrive
 common#:#msg_no_rolf_allowed1#:#Objektet
 common#:#msg_no_rolf_allowed2#:#er ikke tilladt at indeholde en rolle mappe
@@ -1636,7 +1628,7 @@ common#:#msg_perm_adopted_from_itself#:#Du kan ikke arve rettigheds indstillinge
 common#:#msg_removed#:#Objekt(er) er fjernet fra systemet.
 common#:#msg_role_exists1#:#en rolle/rolle template med navnet
 common#:#msg_role_exists2#:#eksisteret allerede! V&aelig;lg venligst et andet navn
-common#:#msg_role_reserved_prefix#:#The prefix 'il_' is reserved for automatically generated roles. Please choose another name
+common#:#msg_role_reserved_prefix#:#f&oslash;lgende prefix 'il_' er reseveret til automatisk at lave regler, v&aelig;lg venligst et andet navn
 common#:#msg_roleassignment_active_changed#:#Aktiv rolle tildeling er &aelig;ndret
 common#:#msg_roleassignment_active_changed_comment#:#Disse &aelig;ndringer er ikke gemt i brugerens profil! Hvis brugeren logger ind igen, vil alle aktive roller blive reset 
 common#:#msg_roleassignment_changed#:#Rolle tildeling er &aelig;ndret
@@ -1693,7 +1685,6 @@ common#:#normal#:#Normal
 common#:#not_implemented_yet#:#Ikke implementeret endnu
 common#:#not_installed#:#Ikke installeret
 common#:#not_logged_in#:#Du er ikke logget ind
-common#:#num_users#:#Number of users###02 Mar 2005 new variable
 common#:#number_of_accesses#:#Antal adgang
 common#:#number_of_records#:#Antal data
 common#:#obj#:#Objekt
@@ -1750,8 +1741,6 @@ common#:#obj_root#:#ILIAS root node
 common#:#obj_sahs#:#L&aelig;rer Modul SCORM/AICC
 common#:#obj_spl#:#Sp&oslash;rgsm&aring;l afstemning til unders&oslash;gelse
 common#:#obj_st#:#Kapitel
-common#:#obj_stys#:#Style Settings ###02 Mar 2005 new variable
-common#:#obj_stys_desc#:#Manage system skin and style settings here###02 Mar 2005 new variable
 common#:#obj_svy#:#Unders&oslash;gelse
 common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf#:#Taxonomies
@@ -1958,15 +1947,10 @@ common#:#role_add#:#Tilf&oslash;j Rolle
 common#:#role_add_local#:#Tilf&oslash;j lokal Rolle
 common#:#role_add_user#:#Tilf&oslash;j Brug(ere) til en rolle
 common#:#role_added#:#Roll Tilf&oslash;jet
-common#:#role_assigned_desk_items#:#Assigned desktop items###04 Mar 2005 new variable
-common#:#role_assigned_desktop_item#:#Created new assignment.###04 Mar 2005 new variable
 common#:#role_assignment#:#Rolle tildeling
 common#:#role_assignment_updated#:#Rolle tildeling er blevet opdateret
 common#:#role_count_users#:#Antal brugere
 common#:#role_deleted#:#Rolle slettet
-common#:#role_deleted_desktop_items#:#Deleted assignment.###04 Mar 2005 new variable
-common#:#role_desk_add#:#Assign desktop item###04 Mar 2005 new variable
-common#:#role_desk_none_created#:#No desktop items assigned to this role.###04 Mar 2005 new variable
 common#:#role_edit#:#Rediger Rolle
 common#:#role_header_edit_users#:#&aelig;ndrer bruger tildeling
 common#:#role_list_users#:#Liste af brugere
@@ -1975,29 +1959,25 @@ common#:#role_new_search#:#Ny s&oslash;gning
 common#:#role_no_groups_selected#:#V&aelig;lg venligst en gruppe
 common#:#role_no_results_found#:#Ingen reultater fundet
 common#:#role_no_roles_selected#:#V&aelig;lg en rolle
-common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.###04 Mar 2005 new variable
 common#:#role_search_enter_search_string#:#indtast et s&oslash;geord
 common#:#role_search_users#:#Bruger s&oslash;gning
-common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.###04 Mar 2005 new variable
-common#:#role_select_one_item#:#Please select one object.###04 Mar 2005 new variable
-common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###04 Mar 2005 new variable
 common#:#role_templates_only#:#Kun Rolle templates 
 common#:#role_user_deassign#:#Deassign user from role
 common#:#role_user_edit#:#Rediger konto data
 common#:#role_user_send_mail#:#Send bruger en besked
 common#:#roles#:#Roller
-common#:#roles_of_import_global#:#Global roles of import file
-common#:#roles_of_import_local#:#Local roles of import file
-common#:#rolf#:#Roles
-common#:#rolf_added#:#Role Folder added
-common#:#rolf_create_role#:#Create new Role definition
-common#:#rolf_create_rolt#:#Create new Role definition template
-common#:#rolf_delete#:#Delete Roles/Role templates
-common#:#rolf_edit_permission#:#Change permission settings
-common#:#rolf_edit_userassignment#:#Change user assignment of Roles
-common#:#rolf_read#:#Read access to Roles/Role templates
-common#:#rolf_visible#:#Roles/Role templates are visible
-common#:#rolf_write#:#Edit default permission settings of Roles/Role templates
+common#:#roles_of_import_global#:#Globale regler for importeret filer
+common#:#roles_of_import_local#:#Lokale regler for filer.
+common#:#rolf#:#Regler
+common#:#rolf_added#:#regl mappe &aelig;ndret
+common#:#rolf_create_role#:#lav nu regl definition
+common#:#rolf_create_rolt#:#lav ny rolle definition template
+common#:#rolf_delete#:#slet Regl/Rolle templates
+common#:#rolf_edit_permission#:#skift rettigheds indstillinger
+common#:#rolf_edit_userassignment#:#skift bruger medlemsskab
+common#:#rolf_read#:#skrive rettigheder til Rolle template
+common#:#rolf_visible#:#Role template er synlig
+common#:#rolf_write#:#&aelig;ndre standard rettigheds indstillinger af f&oslash;lgende template
 common#:#rolt#:#Rolle Template
 common#:#rolt_a#:#En Rolle Template
 common#:#rolt_add#:#Tilf&oslash;j Rolle Template
@@ -2047,9 +2027,9 @@ common#:#select#:#v&aelig;lg
 common#:#select_all#:#V&aelig;lg alle
 common#:#select_file#:#V&aelig;lg fil
 common#:#select_mode#:#V&aelig;lg mode
-common#:#select_object_to_copy#:#Please select the object you want to copy
-common#:#select_object_to_link#:#Please select the object which you want to link
-common#:#select_questionpool#:#Question pool for Test
+common#:#select_object_to_copy#:#v&aelig;lg venligst det objekt du vil copier
+common#:#select_object_to_link#:#v&aelig;lg venligst det objekt du vil linke til
+common#:#select_questionpool#:#sp&oslash;rgsm&aring;l afstemning for Test
 common#:#select_questionpool_option#:#--- V&aelig;lg en afstemning ---
 common#:#selected#:#Valgte
 common#:#selected_items#:#Personlige Ting
@@ -2098,11 +2078,6 @@ common#:#step#:#Skridt
 common#:#stop_inheritance#:#Stop indblanding
 common#:#street#:#Gade
 common#:#structure#:#Struktur
-common#:#style_activation#:#Style Activation###02 Mar 2005 new variable
-common#:#stys_edit_permission#:#Change permission settings###02 Mar 2005 new variable
-common#:#stys_read#:#Read access to style settings###02 Mar 2005 new variable
-common#:#stys_visible#:#Style settings are visible###02 Mar 2005 new variable
-common#:#stys_write#:#Edit style settings###02 Mar 2005 new variable
 common#:#subcat_name#:#Underkategoriens navn
 common#:#subchapter_new#:#Nyt Uderkapitel
 common#:#subject#:#Emne
@@ -2131,20 +2106,19 @@ common#:#system_grp#:#System Gruppe
 common#:#system_information#:#System Information
 common#:#system_language#:#System sprog
 common#:#system_message#:#System besked
-common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
 common#:#table_mail_import#:#Mail importering
 common#:#tax#:#Taxonomy
-common#:#tax_add#:#Add Taxonomy
-common#:#tax_delete#:#Delete taxonomies
-common#:#tax_edit#:#Edit Taxonomy
-common#:#tax_edit_permission#:#Change permission settings
-common#:#tax_new#:#New Taxonomy
-common#:#tax_read#:#Read access to taxonomies
-common#:#tax_visible#:#Taxonomy is visible
-common#:#tax_write#:#Write access to taxonomies
-common#:#taxf_edit_permission#:#Change permission settings
-common#:#taxf_read#:#Read access to taxonomy folder
-common#:#taxf_visible#:#Taxonomy folder is visible
+common#:#tax_add#:#tilf&oslash;j skatteafgift 
+common#:#tax_delete#:#slet skatteafgift
+common#:#tax_edit#:#&aelig;ndre skatteafgift
+common#:#tax_edit_permission#:#skift rettigheds indstillinger
+common#:#tax_new#:#Ny skatteafgift 
+common#:#tax_read#:#skrive rettigheder til skatteafgift
+common#:#tax_visible#:# skatteafgift er synlig
+common#:#tax_write#:#skrive rettigheder til skatteafgift
+common#:#taxf_edit_permission#:#skift rettigheds indstillinger
+common#:#taxf_read#:#skrive rettigheder til skatteafgift mappe
+common#:#taxf_visible#:# skatteafgift mappe er synlig
 common#:#taxf_write#:#Skrive rettigheder til taxonomy mappen
 common#:#term#:#Term
 common#:#test#:#Test
@@ -2177,7 +2151,7 @@ common#:#trac_read#:#L&aelig;s Sporings data
 common#:#trac_visible#:#Sporede objekter er synlige
 common#:#tracked_objects#:#Sporede objekter
 common#:#tracking_data#:# Leder efter data 
-common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?
+common#:#tracking_data_del_confirm#:#Vil du slette alle sporingsdata for den specificerede m&aring;ned og forg&aring;ende ?
 common#:#tracking_data_deleted#:#Sporings data er slettet
 common#:#tracking_settings#:#Sporings indstillinger
 common#:#translation#:#Overs&aelig;ttelse
@@ -2248,7 +2222,6 @@ common#:#usrf_create_user#:#Opret ny brugerkonto
 common#:#usrf_delete#:#Slet bruger konti
 common#:#usrf_edit_permission#:#Change access to user accounts
 common#:#usrf_edit_roleassignment#:#Change role assignment of user accounts
-common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###04 Mar 2005 new variable
 common#:#usrf_read#:#Skrive adgang til bruger konti
 common#:#usrf_read_users#:#Rolle tildeling for lokale administratorer
 common#:#usrf_visible#:#Bruger konti er synlige
@@ -2327,10 +2300,10 @@ content#:#cont_characteristic#:#Karakteristisk
 content#:#cont_choose_cont_obj#:#V&aelig;lg indhold til objektet
 content#:#cont_choose_glossary#:#Choose Glossary
 content#:#cont_choose_media_source#:#V&aelig;lg media kilde
-content#:#cont_citation_err_one#:#You have to select exactly one edition
+content#:#cont_citation_err_one#:#Du skal kun v&aelig;lge EN udgave
 content#:#cont_citation_selection_not_valid#:#Dit valg er ikke muligt
 content#:#cont_citations#:#Citater
-content#:#cont_clean_frames#:#Clean additional frames on navigation
+content#:#cont_clean_frames#:#Ryd standard rammer i navigationen
 content#:#cont_click_br_corner#:#klik i det h&oslash;jre nederste hj&oslash;rne i det &oslash;nskede omr&aring;de
 content#:#cont_click_center#:#Klik i midten af det &oslash;nskede omr&aring;de 
 content#:#cont_click_circle#:#Klik i cirklen af det &oslash;nskede omr&aring;de
@@ -2347,7 +2320,7 @@ content#:#cont_create_dir#:#Opret Bibliotek
 content#:#cont_create_export_file#:#Opret Exportfil
 content#:#cont_create_folder#:#Opret mappe
 content#:#cont_create_mob#:#Opret Media Objekt
-content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')
+content#:#cont_credit_mode#:#Credit mode (for l&aelig;rer mode 'normal')
 content#:#cont_credit_off#:#Ingen Credit
 content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credits
@@ -2371,7 +2344,7 @@ content#:#cont_edit_mob#:#Rediger Media Objekt
 content#:#cont_edit_mob_alias_prop#:#Rediger Media Objekt Vigtige Egenskaber
 content#:#cont_edit_mob_files#:#Objekt Filer
 content#:#cont_edit_mob_properties#:#Rediger Media Objekt Egenskaber
-content#:#cont_edit_par#:#Rediger Paragraph
+content#:#cont_edit_par#:#Rediger Paragraf
 content#:#cont_edit_src#:#Rediger Kildekode
 content#:#cont_edit_tab_properties#:#Egenskaber for tables
 content#:#cont_edit_term#:#Rediger s&oslash;geord
@@ -2429,12 +2402,12 @@ content#:#cont_lk_page_faq#:#Side (FAQ Frame)
 content#:#cont_lk_page_new#:#Side (Ny Frame)
 content#:#cont_lk_survey#:#Unders&oslash;gelser
 content#:#cont_lk_term#:#Glossary Term
-content#:#cont_lk_term_new#:#Glossary Term (New Frame)
+content#:#cont_lk_term_new#:#Ordbogs ops&aelig;tning (Ny Ramme)
 content#:#cont_lm_menu#:#Menu
-content#:#cont_lm_properties#:#Egenskaber for Learning Module
+content#:#cont_lm_properties#:#Egenskaber for L&aelig;rermodul
 content#:#cont_lvalue#:#Data element
 content#:#cont_manifest#:#Manifest
-content#:#cont_map_areas#:#Link Areas
+content#:#cont_map_areas#:#Link omr&aring;der
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtid tilladt
 content#:#cont_media_source#:#Media Kilde
@@ -2457,9 +2430,9 @@ content#:#cont_no_manifest#:#Ingen imsmanifest.xml filer er fundet i hoved bibli
 content#:#cont_no_object_found#:#Kunne ikke finde nogen objekter med dette navn
 content#:#cont_no_page#:#Ingen sider fundet.
 content#:#cont_none#:#Ingen
-content#:#cont_nr_cols#:#Number of Columns
-content#:#cont_nr_items#:#Number of Items
-content#:#cont_nr_rows#:#Number of Rows
+content#:#cont_nr_cols#:#Antal kolonner
+content#:#cont_nr_items#:#Antal ting
+content#:#cont_nr_rows#:#Antal linjer
 content#:#cont_obj_removed#:#Objekter er fjernede.
 content#:#cont_offline#:#Offline Versioner
 content#:#cont_online#:#Online
@@ -2468,16 +2441,16 @@ content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationer
 content#:#cont_orig_size#:#Original St&oslash;rrelse
 content#:#cont_page_header#:#Page Header
-content#:#cont_page_select_target_now#:#Page marked for moving. Select target now.
+content#:#cont_page_select_target_now#:#Side er markeret til flytning. V&aelig;lg destination nu.
 content#:#cont_pages#:#Sider
 content#:#cont_parameter#:#Parameter
-content#:#cont_parameters#:#parameters
+content#:#cont_parameters#:#parametrer
 content#:#cont_personal_clipboard#:#Personlig udklipsholder
 content#:#cont_pg_content#:#Side Indhold
 content#:#cont_pg_title#:#Side Titel
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
-content#:#cont_preview#:#Preview
+content#:#cont_preview#:#Se eksempel
 content#:#cont_print_view#:#Udskriv
 content#:#cont_publisher#:#Udgiver
 content#:#cont_purpose#:#Form&aring;ler
@@ -2504,27 +2477,27 @@ content#:#cont_sc_stat_running#:#K&oslash;rer
 content#:#cont_sc_title#:#titel
 content#:#cont_school#:#Skole
 content#:#cont_scorm_type#:#adlcp:scormtype
-content#:#cont_select_item#:#Select at least one item.
-content#:#cont_select_max_one_item#:#Please select one item only
-content#:#cont_select_max_one_term#:#Select one term only
+content#:#cont_select_item#:#V&aelig;lg mindst et obejkt.
+content#:#cont_select_max_one_item#:#V&aelig;lg kun en ting
+content#:#cont_select_max_one_term#:#V&aelig;lg kun en s&aelig;tning
 content#:#cont_select_one_edition#:#V&aelig;lg venligst en udgave/mulighed.
 content#:#cont_select_one_translation#:#V&aelig;lg venligst en overs&aelig;ttelse
 content#:#cont_select_one_translation_warning#:#Det er ikke muligt at vise mere end en overs&aelig;ttelse.
-content#:#cont_select_term#:#Select a term
+content#:#cont_select_term#:#V&aelig;lg en s&aelig;tning
 content#:#cont_select_translation#:#V&aelig;lg en opgave fra listen ovenover
-content#:#cont_series#:#Series
-content#:#cont_series_editor#:#Series editor
-content#:#cont_series_title#:#Series titel
-content#:#cont_series_volume#:#Series volume
-content#:#cont_set_class#:#Set Class
-content#:#cont_set_edit_mode#:#Set Edit Mode
+content#:#cont_series#:#Serier
+content#:#cont_series_editor#:#Seriens redakt&oslash;r
+content#:#cont_series_title#:#Seriens titel
+content#:#cont_series_volume#:#Seriens volume
+content#:#cont_set_class#:#S&aelig;t klasse
+content#:#cont_set_edit_mode#:#S&aelig;t til rediger Mode
 content#:#cont_set_link#:#Rediger Link
-content#:#cont_set_shape#:#Rediger Shape
+content#:#cont_set_shape#:#Rediger form
 content#:#cont_set_start_file#:#S&aelig;t Start Fil
 content#:#cont_set_width#:#s&aelig;t bredde
-content#:#cont_shape#:#Shape
+content#:#cont_shape#:#Form
 content#:#cont_show#:#Vis
-content#:#cont_show_citation#:#Show with citation
+content#:#cont_show_citation#:#Vis med Citat
 content#:#cont_show_line_numbers#:#Vis linje numre
 content#:#cont_size#:#St&oslash;rrelse (Bytes)
 content#:#cont_source#:#kilde
@@ -2580,8 +2553,8 @@ crs#:#crs_accept_subscriber#:#Kursus Tilmeldelse
 crs#:#crs_accept_subscriber_body#:#Du er blevet tilmeldt dette kursus.
 crs#:#crs_access_password#:#Password
 crs#:#crs_activation#:#Aktivering
-crs#:#crs_add_archive_html#:#Tilf&oslash;j HTML-Arkiv###04 Mar 2005 content changed
-crs#:#crs_add_archive_xml#:#Tilf&oslash;j XML-Arkiv###04 Mar 2005 content changed
+crs#:#crs_add_archive_html#:#Tilf&oslash;j HTML-Arkiv
+crs#:#crs_add_archive_xml#:#Tilf&oslash;j XML-Arkiv
 crs#:#crs_add_html_archive#:#Tilf&oslash;j HTML arkiv
 crs#:#crs_add_member#:#Tilf&oslash;j medlem/medlemmer
 crs#:#crs_add_subscribers#:#Tilf&oslash;j abonnent
@@ -2593,7 +2566,7 @@ crs#:#crs_admin#:#Administrator
 crs#:#crs_admin_no_notify#:#Administrator (ingen underettelse)
 crs#:#crs_admin_notify#:#Administrator (underettelse)
 crs#:#crs_archive#:#Arkiver
-crs#:#crs_archive_disabled#:#Disabled
+crs#:#crs_archive_disabled#:#Deaktiveret
 crs#:#crs_archive_download#:#Download
 crs#:#crs_archive_lang#:#Sprog
 crs#:#crs_archive_read#:#L&aelig;serettighed
@@ -2630,8 +2603,6 @@ crs#:#crs_end#:#Slut
 crs#:#crs_export#:#Eksporter kursus
 crs#:#crs_file_name#:#Filnavn
 crs#:#crs_from#:#Fra:
-crs#:#crs_grouping_deleted#:#Deleted course grouping.###02 Mar 2005 new variable
-crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.###02 Mar 2005 new variable
 crs#:#crs_header_archives#:#Kursus arkiver
 crs#:#crs_header_delete_members#:#Slet medlem
 crs#:#crs_header_edit_members#:#Rediger medlem
@@ -2647,7 +2618,7 @@ crs#:#crs_max_members_reached#:#Det maximale antal medlemmer n&aring;ed
 crs#:#crs_mem_change_status#:#&aelig;ndre status
 crs#:#crs_mem_send_mail#:#Send mail
 crs#:#crs_member#:#Medlem
-crs#:#crs_member_blocked#:#Medlem (blokeret)###04 Mar 2005 content changed
+crs#:#crs_member_blocked#:#Medlem (blokeret)
 crs#:#crs_member_unblocked#:#Medlem (ublokeret)
 crs#:#crs_member_updated#:#Medlemmet er blevet opdateret
 crs#:#crs_members_deleted#:#Slettede medlemmer
@@ -2667,6 +2638,7 @@ crs#:#crs_no_items_found#:#Ingen genstande
 crs#:#crs_no_language#:#Intet sprog
 crs#:#crs_no_member_selected#:#V&aelig;lg venligst et medlem
 crs#:#crs_no_members_assigned#:#Ingen medlemmer tilmeldt dette kursus
+crs#:#crs_no?notify#:#No notify for new registrations
 crs#:#crs_no_results_found#:#Ingen resultater fundet
 crs#:#crs_no_roles_selected#:#V&aelig;lg venligst en rolle
 crs#:#crs_no_subscribers_selected#:#V&aelig;lg venligst en bruger
@@ -2681,7 +2653,7 @@ crs#:#crs_options#:#Egenskaber
 crs#:#crs_passed#:#Passed
 crs#:#crs_password_not_valid#:#Dit password er ugyldigt
 crs#:#crs_pdf#:#PDF
-crs#:#crs_print_list#:#Print list
+crs#:#crs_print_list#:#Udprint Liste
 crs#:#crs_reg_subscription_deactivated#:#Registration er sl&aring;et fra
 crs#:#crs_reg_subscription_end_earlier#:#Tidsgr&aelig;nsen for registration er udl&oslash;bet
 crs#:#crs_reg_subscription_max_members_reached#:#Maximal antal brugere overskrevet.
@@ -2726,20 +2698,20 @@ crs#:#crs_subscription_successful#:#You have been subscribed to this course
 crs#:#crs_subscription_type#:#Subscription type
 crs#:#crs_sure_delete_selected_archives#:#Are you sure to delete the selected archives
 crs#:#crs_syllabus#:#Syllabus
-crs#:#crs_time#:#Subscription time
-crs#:#crs_to#:#To:
-crs#:#crs_tutor#:#Tutor
-crs#:#crs_tutor_no_notify#:#Tutor (no notification)
-crs#:#crs_tutor_notify#:#Tutor (notification)
-crs#:#crs_unblocked#:#Free entrance
-crs#:#crs_unblocked_member#:#Course membership
-crs#:#crs_unblocked_member_body#:#Your membership has been restored
-crs#:#crs_unlimited#:#Unlimited
-crs#:#crs_unsubscribe#:#Unsubscribe
-crs#:#crs_unsubscribe_sure#:#Do you want to unsubscribe from this course
-crs#:#crs_unsubscribed_from_crs#:#You subscribed to this course
-crs#:#crs_users_added#:#Added user to the course
-crs#:#crs_users_already_assigned#:#The user is already assigned to this course
+crs#:#crs_time#:#Tildmeldning periode
+crs#:#crs_to#:#Til:
+crs#:#crs_tutor#:#L&aelig;rer
+crs#:#crs_tutor_no_notify#:#L&aelig;rer (Skal ikke underettes)
+crs#:#crs_tutor_notify#:#L&aelig;rer (Underettes)
+crs#:#crs_unblocked#:#Gratis Entre
+crs#:#crs_unblocked_member#:#Kursus medlemsskab
+crs#:#crs_unblocked_member_body#:#Dit medlemsskab er blevet gen&aring;bnet
+crs#:#crs_unlimited#:#Ubegr&aelig;nset
+crs#:#crs_unsubscribe#:#Afmeld
+crs#:#crs_unsubscribe_sure#:#Vil du afmeldes dette kursus
+crs#:#crs_unsubscribed_from_crs#:#Du er tilmeldt dette kursus
+crs#:#crs_users_added#:#Tilf&oslash;jet bruger til dette kursus
+crs#:#crs_users_already_assigned#:#Brugeren er allerede tilmeldt dette kursus
 crs#:#crs_xml#:#XML
 crs_#:#crs_archives#:#Arkiver
 dateplaner#:#DateText#:#Besked
@@ -2753,8 +2725,8 @@ dateplaner#:#ERROR_ENDTIME#:#Forkert sluttidspunkt. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Forkert Slutdato input. Slutdato er f&oslash;r Startdato.
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Bug en gyldig csv Fil.
 dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Din browser underst&oslash;tter ikke Javascript. <BR> Luk dette vindue efter manuel inds&aelig;tning. <BR> Tak</CENTER></B>
-dateplaner#:#ERROR_ROTATIONEND#:#Wrong Rotation Enddate input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_ROT_END_START#:#Wrong Rotation Enddate input. Rotation Enddate is before Startdate.
+dateplaner#:#ERROR_ROTATIONEND#:#Forkert R&aelig;kkef&oslash;lge Slutdato input. Format: dd/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#Forkert R&aelig;kkef&oslash;lge  slutdato er f&oslash;r dtartdato.
 dateplaner#:#ERROR_SHORTTEXT#:#Forkert korttekst input. Korttekst er p&aring;kr&aelig;vet.
 dateplaner#:#ERROR_STARTDATE#:#Forkert startdato input. Format: dd/mm/yyyy
 dateplaner#:#ERROR_STARTTIME#:#Forkert starttidspunkt. Format: hh:mm
@@ -2825,16 +2797,16 @@ dateplaner#:#dv_message#:#Besked:
 dateplaner#:#dv_noGroup#:#ingen gruppe
 dateplaner#:#dv_noKey#:#intet n&oslash;gleord
 dateplaner#:#dv_preview#:#      <b>! Preview !</b>
-dateplaner#:#dv_rotation#:#Rotation:
-dateplaner#:#dv_rotation_date#:#Rotation dato:
-dateplaner#:#dv_rotation_end#:#Rotation end:
+dateplaner#:#dv_rotation#:#R&aelig;kkef&oslash;lge:
+dateplaner#:#dv_rotation_date#:#R&aelig;kkef&oslash;lge dato:
+dateplaner#:#dv_rotation_end#:#R&aelig;kkef&oslash;lge slut:
 dateplaner#:#dv_shorttext#:#Emne:
 dateplaner#:#dv_startdate#:#Startdato:
 dateplaner#:#dv_text#:#Tekst:
 dateplaner#:#dv_whole_day#:#Hele dagen:
-dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate? (click the checkbox)
-dateplaner#:#end_date#:#End of Date
-dateplaner#:#endtime_for_view#:#Endtime for view:
+dateplaner#:#dv_whole_rotation#:#Vil du slette hele Rotationdatoen? (Marker checkboxen)
+dateplaner#:#end_date#:#Slutdato
+dateplaner#:#endtime_for_view#:#Slutdato for gennemgang:
 dateplaner#:#error_minical_img#:#kan ikke oprette GD-picture-stream
 dateplaner#:#execute#:#K&oslash;r din valg
 dateplaner#:#extra_dates#:#Endags dato.er
@@ -2873,8 +2845,8 @@ dateplaner#:#help_properties_import_l#:#Her kan en  CSC-File V&aelig;lges, som i
 dateplaner#:#help_properties_new#:#Tilf&oslash;jer et nyt n&oslash;gleord, max. 20 Karakterer
 dateplaner#:#help_properties_new_l#:#Tilf&oslash;jer et ny n&oslash;gleord til feltet \"ny\". Vigtigt: max. 20 Karakterer.
 dateplaner#:#help_properties_time#:#Visertid for dagoversigt/ugeoversigt
-dateplaner#:#help_properties_time_l#:#The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.
-dateplaner#:#help_rotation#:#Rotation
+dateplaner#:#help_properties_time_l#:#Standard visningstid for dagsoversigten og uge oversigten kan &aelig;ndres. Hvis dato er udenfor visningstiden for en given dag eller uge, Tidspunktet vil s&aring; blive &aelig;ndret for denne dato/uge. Standard er 8 timer - 18timer.
+dateplaner#:#help_rotation#:#R&aelig;kkef&oslash;lge
 dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.
 dateplaner#:#help_shorttext#:#Kort tekst med max 50 karaktere
 dateplaner#:#help_shorttext_l#:#Her kan du skrive en lille tekst for en given dato.
@@ -2900,6 +2872,7 @@ dateplaner#:#long_02#:#Feburar
 dateplaner#:#long_03#:#Marts
 dateplaner#:#long_04#:#April
 dateplaner#:#long_05#:#Maj
+dateplaner#:#long_06#:#Juni
 dateplaner#:#long_06#:#Juni
 dateplaner#:#long_07#:#Juli
 dateplaner#:#long_08#:#August
@@ -2955,7 +2928,7 @@ dateplaner#:#singleDate#:#enkelt dato
 dateplaner#:#starttime_for_view#:#Starttid for visning:
 dateplaner#:#timedate#:#Tid / Dato
 dateplaner#:#timeslice#:#Tid:
-dateplaner#:#title#:#Ilias dateplaner
+dateplaner#:#title#:#Ilias dato plan&aelig;gning
 dateplaner#:#to#:#til
 dateplaner#:#today#:#idag
 dateplaner#:#viewlist#:#vis
@@ -2974,14 +2947,14 @@ forum#:#forums_count_thr#:#Antal tr&aring;de
 forum#:#forums_delete_file#:#Slet vedh&aelig;ftning
 forum#:#forums_download_attachment#:#Download fil
 forum#:#forums_edit_post#:#Rediger Artikel
-forum#:#forums_info_censor2_post#:#Revoke Censorship?
+forum#:#forums_info_censor2_post#:#Genkald moderator?
 forum#:#forums_info_censor_post#:#Er du sikker p&aring; du vil skjule denne artikel?
 forum#:#forums_info_delete_post#:#Er du sikker p&aring; at du vil slette den artikel inkl. eventuelle svar p&aring; den?
-forum#:#forums_last_post#:#Sidste Artikel
+forum#:#forums_last_post#:#Sidste Armtikel
 forum#:#forums_mark_read#:#Marker alle som l&aelig;st
 forum#:#forums_moderators#:#Moderatore
 forum#:#forums_new_articles#:#Nye artikler
-forum#:#forums_new_entries#:#New Forums Entries
+forum#:#forums_new_entries#:#Ny forum tr&aring;d
 forum#:#forums_new_thread#:#Nyt emne
 forum#:#forums_not_available#:#Forums ikke tilg&aelig;ngelige
 forum#:#forums_overview#:#Forum Oversigt
@@ -2991,15 +2964,16 @@ forum#:#forums_post_new_entry#:#Ny artikel oprettet
 forum#:#forums_posts#:#Alle artikler
 forum#:#forums_posts_not_available#:#Artikler ikke tilg&aelig;ngelige
 forum#:#forums_print_thread#:#Print Tr&aring;d
-forum#:#forums_quote#:#Quote
+forum#:#forums_quote#:#Citat
 forum#:#forums_respond#:#Skriv Svar
 forum#:#forums_subject#:#Emne
 forum#:#forums_the_post#:#Artikel
 forum#:#forums_thread#:#Overskrift
-forum#:#forums_thread_articles#:#Articles of the topic
+forum#:#forums_thread_articles#:#Artikler om alle emner
 forum#:#forums_thread_create_date#:#Oprettet den
 forum#:#forums_thread_create_from#:#Oprettet af
 forum#:#forums_thread_marked#:#Denne tr&aring;d er markeret som l&aelig;st.
+forum#:#fo?ums_thread_new_entry#:#Nyt emne oprettet
 forum#:#forums_threads#:#Tr&aring;de
 forum#:#forums_threads_not_available#:#Emner ikke tilg&aelig;ngelige
 forum#:#forums_topics_overview#:#Emne Oversigt
@@ -3007,14 +2981,16 @@ forum#:#forums_your_reply#:#Dit Svar
 forum#:#frm_default_view#:#Standard fremvisning
 forum#:#frm_title_required#:#Inds&aelig;t venligst en titel.
 forum#:#is_read#:#marker som l&aelig;st
-jscalendar#:#about_calendar#:#About the calendar
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the �, � buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
-jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.
-jscalendar#:#close#:#Close
-jscalendar#:#day_first#:#Display %s first
-jscalendar#:#def_date_format#:#%Y-%m-%d
-jscalendar#:#drag_to_move#:#Drag to move
-jscalendar#:#go_today#:#Go Today
+jscalendar#:#about_calendar#:#Om kalenderen
+jscalendar#:#about_calendar_long#:#DHTML Dato/Tid Selector\n(c) dynarch.com 2002-2003\nFor seneste versions bes&oslash;g: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Se http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the ., / knapper for at v&aelig;lge &aring;r\n- Brug <, > knapperne for at v&aelig;lge m&aring;ned\n- Hold muse kanp over en af de n&aelig;vnte knapper for at v&aelig;&aelig;lge hurtigere.
+jscalendar#:#about_time#:#\n\nTime selection:\n- Klik p&aring; en vilk&aring;rlig del for at &oslash;ge den\n- eller shift-klik for at mindske den\n- eller klik og tr&aelig;k for at v&aelig;lge hurtigere.
+jscalendar#:#close#:#Luk
+jscalendar#:#day_first#:#Vis %s f&oslash;rst
+jscalendar#:#def_date_format#:#%d-%m-%y
+jscalendar#:#drag_to_move#:#Tr&aelig;k til
+jscalendar#:#s_02#:#Feb
+jscalendar#:#s_03#:#Mar
+jscalendar#:#go_today#:#G&aring; til dag
 jscalendar#:#l_01#:#Januar
 jscalendar#:#l_02#:#Feburar
 jscalendar#:#l_03#:#Marts
@@ -3034,15 +3010,13 @@ jscalendar#:#l_su#:#S&oslash;ndag
 jscalendar#:#l_th#:#Torsdag
 jscalendar#:#l_tu#:#Tirsdag
 jscalendar#:#l_we#:#Onsdag
-jscalendar#:#next_month#:#Next month (hold for menu)
-jscalendar#:#next_year#:#Next year (hold for menu)
-jscalendar#:#open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)
-jscalendar#:#part_today#:# (today)
-jscalendar#:#prev_month#:#Prev. month (hold for menu)
-jscalendar#:#prev_year#:#Prev. year (hold for menu)
+jscalendar#:#next_month#:#N&aelig;ste m&aring;ned (hold for menu)
+jscalendar#:#next_year#:#N&aelig;ste &aring;r (hold for menu)
+jscalendar#:#open_calendar#:#Klik her for at &aring;bne en kalender for at v&aelig;lge en dato (JavaScript n&oslash;dvendigt!)
+jscalendar#:#part_today#:# (idag)
+jscalendar#:#prev_month#:#Tidligere m&aring;ned (hold for menu)
+jscalendar#:#prev_year#:#Tidligere &aring;r (hold for menu)
 jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mar
 jscalendar#:#s_04#:#Apr
 jscalendar#:#s_05#:#Maj
 jscalendar#:#s_06#:#Jun
@@ -3061,7 +3035,7 @@ jscalendar#:#s_tu#:#Ti
 jscalendar#:#s_we#:#On
 jscalendar#:#select_date#:#V&aelig;lg dato
 jscalendar#:#time#:#Tid
-jscalendar#:#time_part#:#(Shift-)Click or drag to change value
+jscalendar#:#time_part#:#(Shift-)klik eller tr&aelig;k for at &aelig;ndre v&aelig;rdi
 jscalendar#:#today#:#I dag
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
@@ -3074,7 +3048,7 @@ mail#:#mail_add_subfolder#:#Tilf&oslash;j undermappe
 mail#:#mail_add_subject#:#Indtast et emne
 mail#:#mail_add_to_addressbook#:#Tilf&oslash;j til adressebog
 mail#:#mail_add_type#:#V&aelig;lg venligst hvilken type mail du vil sende
-mail#:#mail_addr_entries#:#Entries
+mail#:#mail_addr_entries#:#Emne
 mail#:#mail_attachments#:#Vedh&aelig;ftninger
 mail#:#mail_bc_not_valid#:#BCC modtageren er ikke gyldig
 mail#:#mail_bc_search#:#BCC s&oslash;gning
@@ -3085,10 +3059,10 @@ mail#:#mail_change_to_folder#:#Skift til mappe:
 mail#:#mail_check_your_email_addr#:#Din email adresse er ugyldig
 mail#:#mail_compose#:#Ny meddelelse
 mail#:#mail_deleted#:#Mailen er slettet
-mail#:#mail_deleted_entry#:#The entries are deleted
-mail#:#mail_email_forbidden#:#You are not allowed to send email
-mail#:#mail_entry_added#:#Added new Entry
-mail#:#mail_entry_changed#:#The entry is changed
+mail#:#mail_deleted_entry#:#Emnet er slettet
+mail#:#mail_email_forbidden#:#Du har ikke tilladelse til at sende mail
+mail#:#mail_entry_added#:#Tilf&oslash;jet nyt emne
+mail#:#mail_entry_changed#:#Emnet er &aelig;ndret
 mail#:#mail_file_name#:#Fil navn
 mail#:#mail_file_size#:#Fil st&oslash;rrelse
 mail#:#mail_files_deleted#:#Filen/Filerne er slettet
@@ -3127,10 +3101,10 @@ mail#:#mail_s_unread#:#Ul&aelig;ste Mail
 mail#:#mail_saved#:#Meddelelsen er gemt
 mail#:#mail_search_addressbook#:#s&oslash;g i adressebogen
 mail#:#mail_search_system#:#s&oslash;g i systemet
-mail#:#mail_select_one_entry#:#You must select one entry
+mail#:#mail_select_one_entry#:#Du skal v&aelig;lge et emne
 mail#:#mail_select_one_file#:#Du skal v&aelig;lge en fil
 mail#:#mail_sure_delete#:#Er du sikker p&aring; du vil slette de/den markerede mail
-mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
+mail#:#mail_sure_delete_entry#:#Er du sikker p&aring; du vil slette f&oslash;lgende emne
 mail#:#mail_sure_delete_file#:#Filen vil blive slettet permanent
 mail#:#mail_sure_delete_folder#:#Mappen og dens indhold vil blive slettet permant
 mail#:#mail_to_search#:#Til s&oslash;gning
@@ -3145,27 +3119,27 @@ meta#:#meta_atomic#:#Atomic
 meta#:#meta_author#:#Forfatter
 meta#:#meta_browser#:#Browser
 meta#:#meta_c_AD#:#Andorra
-meta#:#meta_c_AE#:#United Arab Emirates
+meta#:#meta_c_AE#:#Forenede Arabiske Emirater
 meta#:#meta_c_AF#:#Afghanistan
 meta#:#meta_c_AG#:#Antigua And Barbuda
 meta#:#meta_c_AI#:#Anguilla
-meta#:#meta_c_AL#:#Albania
-meta#:#meta_c_AM#:#Armenia
+meta#:#meta_c_AL#:#Albanien
+meta#:#meta_c_AM#:#Armenien
 meta#:#meta_c_AN#:#Netherlands Antilles
 meta#:#meta_c_AO#:#Angola
 meta#:#meta_c_AQ#:#Antarctica
 meta#:#meta_c_AR#:#Argentina
 meta#:#meta_c_AS#:#American Samoa
-meta#:#meta_c_AT#:#Austria
-meta#:#meta_c_AU#:#Australia
+meta#:#meta_c_AT#:#&oslash;strig
+meta#:#meta_c_AU#:#Australien
 meta#:#meta_c_AW#:#Aruba
 meta#:#meta_c_AZ#:#Azerbaijan
-meta#:#meta_c_BA#:#Bosnia And Herzegowina
+meta#:#meta_c_BA#:#Bosnien og Herzegowina
 meta#:#meta_c_BB#:#Barbados
 meta#:#meta_c_BD#:#Bangladesh
-meta#:#meta_c_BE#:#Belgium
+meta#:#meta_c_BE#:#Belgien
 meta#:#meta_c_BF#:#Burkina Faso
-meta#:#meta_c_BG#:#Bulgaria
+meta#:#meta_c_BG#:#Bulgarien
 meta#:#meta_c_BH#:#Bahrain
 meta#:#meta_c_BI#:#Burundi
 meta#:#meta_c_BJ#:#Benin
@@ -3177,58 +3151,58 @@ meta#:#meta_c_BS#:#Bahamas
 meta#:#meta_c_BT#:#Bhutan
 meta#:#meta_c_BV#:#Bouvet Island
 meta#:#meta_c_BW#:#Botswana
-meta#:#meta_c_BY#:#Belarus
+meta#:#meta_c_BY#:#Hviderusland
 meta#:#meta_c_BZ#:#Belize
 meta#:#meta_c_CA#:#Canada
 meta#:#meta_c_CC#:#Cocos (Keeling) Islands
 meta#:#meta_c_CF#:#Central African Republic
 meta#:#meta_c_CG#:#Congo
-meta#:#meta_c_CH#:#Switzerland
+meta#:#meta_c_CH#:#Schweiz
 meta#:#meta_c_CI#:#Cote D' Ivoire
 meta#:#meta_c_CK#:#Cook Islands
 meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Cameroon
-meta#:#meta_c_CN#:#China
+meta#:#meta_c_CN#:#Kina
 meta#:#meta_c_CO#:#Colombia
 meta#:#meta_c_CR#:#Costa Rica
 meta#:#meta_c_CU#:#Cuba
 meta#:#meta_c_CV#:#Cape Verde
 meta#:#meta_c_CX#:#Christmas Island
-meta#:#meta_c_CY#:#Cyprus
-meta#:#meta_c_CZ#:#Czech Republic
+meta#:#meta_c_CY#:#Cypern
+meta#:#meta_c_CZ#:#Tjekkiet
 meta#:#meta_c_DE#:#Tyskland
 meta#:#meta_c_DJ#:#Djibouti
 meta#:#meta_c_DK#:#Danmark
 meta#:#meta_c_DM#:#Dominica
-meta#:#meta_c_DO#:#Dominican Republic
-meta#:#meta_c_DZ#:#Algeria
+meta#:#meta_c_DO#:#Dominicanske Republik
+meta#:#meta_c_DZ#:#Algeriet
 meta#:#meta_c_EC#:#Ecuador
-meta#:#meta_c_EE#:#Estonia
-meta#:#meta_c_EG#:#Egypt
+meta#:#meta_c_EE#:#Estland
+meta#:#meta_c_EG#:#Egypten
 meta#:#meta_c_EH#:#Western Sahara
 meta#:#meta_c_ER#:#Eritrea
-meta#:#meta_c_ES#:#Spain
+meta#:#meta_c_ES#:#Spanien
 meta#:#meta_c_ET#:#Ethiopia
 meta#:#meta_c_FI#:#Finland
 meta#:#meta_c_FJ#:#Fiji
-meta#:#meta_c_FK#:#Falkland Islands
+meta#:#meta_c_FK#:#Falklands&oslash;erne
 meta#:#meta_c_FM#:#Micronesia
-meta#:#meta_c_FO#:#Faroe Islands
+meta#:#meta_c_FO#:#F&aelig;r&oslash;erne
 meta#:#meta_c_FR#:#Frankrig
 meta#:#meta_c_FX#:#France, Metropolitan
 meta#:#meta_c_GA#:#Gabon
-meta#:#meta_c_GB#:#United Kingdom
+meta#:#meta_c_GB#:#England
 meta#:#meta_c_GD#:#Grenada
 meta#:#meta_c_GE#:#Giorgia
 meta#:#meta_c_GF#:#French Guiana
 meta#:#meta_c_GH#:#Ghana
 meta#:#meta_c_GI#:#Gibraltar
-meta#:#meta_c_GL#:#Greenland
+meta#:#meta_c_GL#:#Gr&oslash;nland
 meta#:#meta_c_GM#:#Gambia
 meta#:#meta_c_GN#:#Guinea
 meta#:#meta_c_GP#:#Guadeloupe
 meta#:#meta_c_GQ#:#Equatorial Guinea
-meta#:#meta_c_GR#:#Greece
+meta#:#meta_c_GR#:#Gr&aelig;kenland
 meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
 meta#:#meta_c_GT#:#Guatemala
 meta#:#meta_c_GU#:#Guam
@@ -3236,11 +3210,11 @@ meta#:#meta_c_GW#:#Guinea-Bissau
 meta#:#meta_c_GY#:#Guyana
 meta#:#meta_c_HM#:#Heard And Nc Donald Islands
 meta#:#meta_c_HN#:#Honduras
-meta#:#meta_c_HR#:#Croatia
+meta#:#meta_c_HR#:#Kroatien
 meta#:#meta_c_HT#:#Haiti
-meta#:#meta_c_HU#:#Hungary
-meta#:#meta_c_ID#:#Indonesia
-meta#:#meta_c_IE#:#Ireland
+meta#:#meta_c_HU#:#Ungarn
+meta#:#meta_c_ID#:#Indonesien
+meta#:#meta_c_IE#:#Irland
 meta#:#meta_c_IL#:#Israel
 meta#:#meta_c_IN#:#Indien
 meta#:#meta_c_IO#:#British Indian Ocean Territory
@@ -3257,15 +3231,15 @@ meta#:#meta_c_KH#:#Cambodia
 meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Comoros
 meta#:#meta_c_KN#:#Saint Kitts And Nevis
-meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)
-meta#:#meta_c_KR#:#South Korea (Republic Of Korea)
+meta#:#meta_c_KP#:#Nord Korea (People's Republic Of Korea)
+meta#:#meta_c_KR#:#Syd Korea (Republic Of Korea)
 meta#:#meta_c_KW#:#Kuwait
 meta#:#meta_c_KY#:#Cayman Islands
 meta#:#meta_c_KZ#:#Kazakhstan
 meta#:#meta_c_LA#:#Lao People's Republic
 meta#:#meta_c_LB#:#Lebanon
 meta#:#meta_c_LC#:#Saint Lucia
-meta#:#meta_c_LI#:#Liechtenstein
+meta#:#meta_c_LI#:#Luxemborg
 meta#:#meta_c_LK#:#Sri Lanka
 meta#:#meta_c_LR#:#Liberia
 meta#:#meta_c_LS#:#Lesotho
@@ -3289,7 +3263,7 @@ meta#:#meta_c_MR#:#Mauritania
 meta#:#meta_c_MS#:#Montserrat
 meta#:#meta_c_MT#:#Malta
 meta#:#meta_c_MU#:#Mauritius
-meta#:#meta_c_MV#:#Maldives
+meta#:#meta_c_MV#:#Maldiverne
 meta#:#meta_c_MW#:#Malawi
 meta#:#meta_c_MX#:#Mexico
 meta#:#meta_c_MY#:#Malaysia
@@ -3300,7 +3274,7 @@ meta#:#meta_c_NE#:#Niger
 meta#:#meta_c_NF#:#Norfolk Island
 meta#:#meta_c_NG#:#Nigeria
 meta#:#meta_c_NI#:#Nicaragua
-meta#:#meta_c_NL#:#Netherlands
+meta#:#meta_c_NL#:#Holland
 meta#:#meta_c_NO#:#Norge
 meta#:#meta_c_NP#:#Nepal
 meta#:#meta_c_NR#:#Nauru
@@ -3311,9 +3285,9 @@ meta#:#meta_c_PA#:#Panama
 meta#:#meta_c_PE#:#Peru
 meta#:#meta_c_PF#:#French Polynesia
 meta#:#meta_c_PG#:#Papua New Guinea
-meta#:#meta_c_PH#:#Philippines
+meta#:#meta_c_PH#:#Philippinerne
 meta#:#meta_c_PK#:#Pakistan
-meta#:#meta_c_PL#:#Poland
+meta#:#meta_c_PL#:#Polen
 meta#:#meta_c_PM#:#St. Pierre And Miquelon
 meta#:#meta_c_PN#:#Pitcairn
 meta#:#meta_c_PR#:#Puerto Rico
@@ -3322,10 +3296,10 @@ meta#:#meta_c_PW#:#Palau
 meta#:#meta_c_PY#:#Paraguay
 meta#:#meta_c_QA#:#Qatar
 meta#:#meta_c_RE#:#Reunion
-meta#:#meta_c_RO#:#Romania
+meta#:#meta_c_RO#:#Romanien
 meta#:#meta_c_RU#:#Ran Federation
 meta#:#meta_c_RW#:#Rwanda
-meta#:#meta_c_SA#:#Saudi Arabia
+meta#:#meta_c_SA#:#Saudi Arabien
 meta#:#meta_c_SB#:#Solomon Islands
 meta#:#meta_c_SC#:#Seychelles
 meta#:#meta_c_SD#:#Sudan
@@ -3334,7 +3308,7 @@ meta#:#meta_c_SG#:#Singapore
 meta#:#meta_c_SH#:#St. Helena
 meta#:#meta_c_SI#:#Slovenia
 meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands
-meta#:#meta_c_SK#:#Slovakia
+meta#:#meta_c_SK#:#Slovakiet
 meta#:#meta_c_SL#:#Siearra Leone
 meta#:#meta_c_SM#:#San Marino
 meta#:#meta_c_SN#:#Senegal
@@ -3352,7 +3326,7 @@ meta#:#meta_c_TH#:#Thailand
 meta#:#meta_c_TJ#:#Tajikistan
 meta#:#meta_c_TK#:#Tokelau
 meta#:#meta_c_TM#:#Turkmenistan
-meta#:#meta_c_TN#:#Tunisia
+meta#:#meta_c_TN#:#Tunisien
 meta#:#meta_c_TO#:#Tonga
 meta#:#meta_c_TP#:#East Timor
 meta#:#meta_c_TR#:#Tyrkiet
@@ -3371,7 +3345,7 @@ meta#:#meta_c_VC#:#Saint Vincent And The Grenadines
 meta#:#meta_c_VE#:#Venezuela
 meta#:#meta_c_VG#:#Virgin Islands (British)
 meta#:#meta_c_VI#:#Virgin Islands (US)
-meta#:#meta_c_VN#:#Viet Nam
+meta#:#meta_c_VN#:#Vietnam
 meta#:#meta_c_VU#:#Vanuatu
 meta#:#meta_c_WF#:#Wallis And Futuna Islands
 meta#:#meta_c_WS#:#Samoa
@@ -3388,7 +3362,7 @@ meta#:#meta_choose_language#:#V&aelig;lg sprog
 meta#:#meta_choose_section#:#V&aelig;lg en sektion
 meta#:#meta_classification#:#klassifikation
 meta#:#meta_collection#:#Samling
-meta#:#meta_competency#:#Competance
+meta#:#meta_competency#:#Kompetance
 meta#:#meta_context#:#Indhold
 meta#:#meta_contribute#:#Bidrag
 meta#:#meta_copyright_and_other_restrictions#:#Copyright og andre Restriktioner
@@ -3415,7 +3389,7 @@ meta#:#meta_expositive#:#positiv
 meta#:#meta_figure#:#Figur
 meta#:#meta_final#:#Slut
 meta#:#meta_format#:#Format
-meta#:#meta_general#:#Generalt
+meta#:#meta_general#:#Generelt
 meta#:#meta_graph#:#Graf
 meta#:#meta_has_format#:#Har format
 meta#:#meta_has_part#:#Har del
@@ -3429,7 +3403,7 @@ meta#:#meta_identifier#:#Identificering
 meta#:#meta_index#:#Indeks
 meta#:#meta_installation_remarks#:#Installations bem&aelig;rkning
 meta#:#meta_intended_end_user_role#:#&oslash;nsket slut bruger role
-meta#:#meta_interactivity_level#:#Interaktiv level
+meta#:#meta_interactivity_level#:#Interaktiv level   
 meta#:#meta_interactivity_type#:#Interaktiv type
 meta#:#meta_is_based_on#:#IEr baseret p&aring;
 meta#:#meta_is_basis_for#:#Er basis af
@@ -3438,13 +3412,13 @@ meta#:#meta_is_part_of#:#Er del af
 meta#:#meta_is_referenced_by#:#Er refereret af
 meta#:#meta_is_required_by#:#Er n&oslash;dvendig af
 meta#:#meta_is_version_of#:#Er version af
-meta#:#meta_keyword#:#Keyword
-meta#:#meta_kind#:#Kind
+meta#:#meta_keyword#:#N&oslash;gleord
+meta#:#meta_kind#:#Slags
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#abkhazian
-meta#:#meta_l_af#:#afrikaans
+meta#:#meta_l_af#:#afrikansk
 meta#:#meta_l_am#:#amharic
-meta#:#meta_l_ar#:#arabic
+meta#:#meta_l_ar#:#arabisk
 meta#:#meta_l_as#:#assamese
 meta#:#meta_l_ay#:#aymara
 meta#:#meta_l_az#:#azerbaijani
@@ -3458,21 +3432,21 @@ meta#:#meta_l_bo#:#tibetan
 meta#:#meta_l_br#:#breton
 meta#:#meta_l_ca#:#catalan
 meta#:#meta_l_co#:#corsican
-meta#:#meta_l_cs#:#czech
+meta#:#meta_l_cs#:#Tjekkisk
 meta#:#meta_l_cy#:#welsh
 meta#:#meta_l_da#:#dansk
 meta#:#meta_l_de#:#tysk
 meta#:#meta_l_dz#:#bhutani
-meta#:#meta_l_el#:#greek
+meta#:#meta_l_el#:#gr&aelig;ak
 meta#:#meta_l_en#:#engelsk
 meta#:#meta_l_eo#:#esperanto
 meta#:#meta_l_es#:#spansk
-meta#:#meta_l_et#:#estonian
+meta#:#meta_l_et#:#Estisk
 meta#:#meta_l_eu#:#basque
 meta#:#meta_l_fa#:#persian (farsi)
 meta#:#meta_l_fi#:#finsk
 meta#:#meta_l_fj#:#fiji
-meta#:#meta_l_fo#:#faroese
+meta#:#meta_l_fo#:#f&aelig;r&oslash;sk
 meta#:#meta_l_fr#:#fransk
 meta#:#meta_l_fy#:#frisian
 meta#:#meta_l_ga#:#irsk
@@ -3483,11 +3457,11 @@ meta#:#meta_l_gu#:#gujarati
 meta#:#meta_l_ha#:#hausa
 meta#:#meta_l_he#:#hebrew
 meta#:#meta_l_hi#:#hindi
-meta#:#meta_l_hr#:#croatian
-meta#:#meta_l_hu#:#hungarian
-meta#:#meta_l_hy#:#armenian
+meta#:#meta_l_hr#:#Kroatisk
+meta#:#meta_l_hu#:#Ungansk
+meta#:#meta_l_hy#:#armensk
 meta#:#meta_l_ia#:#interlingua
-meta#:#meta_l_id#:#indonesian
+meta#:#meta_l_id#:#indonesisk
 meta#:#meta_l_ie#:#interlingue
 meta#:#meta_l_ik#:#inupiak
 meta#:#meta_l_is#:#islandsk
@@ -3507,13 +3481,13 @@ meta#:#meta_l_ky#:#kirghiz
 meta#:#meta_l_la#:#latinsk
 meta#:#meta_l_ln#:#lingala
 meta#:#meta_l_lo#:#laothian
-meta#:#meta_l_lt#:#lithuanian
+meta#:#meta_l_lt#:#lithausk
 meta#:#meta_l_lv#:#latvian;lettish
 meta#:#meta_l_mg#:#malagasy
 meta#:#meta_l_mi#:#maori
-meta#:#meta_l_mk#:#macedonian
+meta#:#meta_l_mk#:#macedonsk
 meta#:#meta_l_ml#:#malayalam
-meta#:#meta_l_mn#:#mongolian
+meta#:#meta_l_mn#:#mongolsk
 meta#:#meta_l_mo#:#moldavian
 meta#:#meta_l_mr#:#marathi
 meta#:#meta_l_ms#:#malay
@@ -3556,7 +3530,7 @@ meta#:#meta_l_sw#:#swahili
 meta#:#meta_l_ta#:#tamil
 meta#:#meta_l_te#:#telugu
 meta#:#meta_l_tg#:#tajik
-meta#:#meta_l_th#:#thai
+meta#:#meta_l_th#:#thailandsk
 meta#:#meta_l_ti#:#tigrinya
 meta#:#meta_l_tk#:#turkmen
 meta#:#meta_l_tl#:#tagalog
@@ -3618,7 +3592,7 @@ meta#:#meta_other#:#Andre
 meta#:#meta_other_plattform_requirements#:#Anden platform egenskaber
 meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#V&aelig;lg venligst
-meta#:#meta_prerequisite#:#Prerequisite
+meta#:#meta_prerequisite#:#Foruds&aelig;tning
 meta#:#meta_problem_statement#:#Problem udtalelse
 meta#:#meta_publisher#:#Udgiver
 meta#:#meta_purpose#:#Form&aring;l
@@ -3645,12 +3619,12 @@ meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Struktur
 meta#:#meta_table#:#Tabel
 meta#:#meta_taxon#:#Taxon
-meta#:#meta_taxon_path#:#Taxon Path
+meta#:#meta_taxon_path#:#Taxon sti
 meta#:#meta_teacher#:#L&aelig;rer
 meta#:#meta_technical#:#Teknisk
 meta#:#meta_title#:#Titel
 meta#:#meta_training#:#Tr&aelig;ning
-meta#:#meta_type#:#Tybe
+meta#:#meta_type#:#Type
 meta#:#meta_typical_age_range#:#Typisk alders fordeling
 meta#:#meta_typical_learning_time#:#Typisk l&aelig;rings tid
 meta#:#meta_unavailable#:#Ikke tilg&aelig;ngelig
@@ -3688,7 +3662,7 @@ payment#:#pay_bmf_debit_entry#:#Meddelelse ved indbetaling (kun tyske bankkontoe
 payment#:#pay_bmf_debit_entry_data#:#Meddelelse ved indbetaling
 payment#:#pay_bmf_debit_entry_not_valid#:#Meddelelsen du indtastede er ikke gyldig. Check venligst om du har udfyldt alle felter korrekt.
 payment#:#pay_bmf_description_credit_card#:#Check venligst om alle de varer du gerne vil bestille er i indk&oslash;bskurven. S&aring; snart du har udfyldt kreditinformationer og trykket p&aring; Gem godkender du nemlig din ordre. Der kan forekomme et par sekunders proceseseringstid.
-payment#:#pay_bmf_description_debit_entry#:#Please check out whether all arti?les you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
+payment#:#pay_bmf_description_debit_entry#:#Check venligst at alle varer du gerne vil bestille er i indk&oslash;bskurven. Ved at indtaste din data og klikke p&aring; gem knappen godkender du straks din ordre. Datatjekket kan tage et par sekunder.
 payment#:#pay_bmf_description_payment_type#:#V&aelig;lg venligst betalingsform.
 payment#:#pay_bmf_description_personal_data#:#Udfyld venligst formularen fuldst&aelig;ndig.
 payment#:#pay_bmf_house_number#:#Husnummer
@@ -3718,9 +3692,9 @@ payment#:#pay_bmf_your_order#:#Din ordre
 payment#:#pay_click_to_buy#:#K&oslash;b nu
 payment#:#pay_confirm_order#:#Godkend venligst din ordre ved at indtaste dit personlige password.
 payment#:#pay_customer_no#:#Kundenummer.
-payment#:#pay_deleted_booking#:#The entry has been deleted.
+payment#:#pay_deleted_booking#:#Din vare er fjernet fra kurven.
 payment#:#pay_deleted_items#:#Den valgte vare er blevet slettet.
-payment#:#pay_ending#:#ends with
+payment#:#pay_ending#:#ender p&aring;
 payment#:#pay_entitled_retrieve#:#Du har ret til at modtage data i
 payment#:#pay_expires_info#:#Din betalingsfrist er udl&oslash;bet.
 payment#:#pay_filter#:#Filter
@@ -3735,7 +3709,7 @@ payment#:#pay_message_hello#:#Til
 payment#:#pay_message_regards#:#Venlig hilsen
 payment#:#pay_message_subject#:#Din ILIAS bestilling
 payment#:#pay_message_thanks#:#Tak for din ILIAS 3 bestilling.
-payment#:#pay_no_vendors_created#:#No vendors created
+payment#:#pay_no_vendors_created#:#Ingen s&aelig;lger oprettet.
 payment#:#pay_not_buyed_any_object#:#Du har ikke k&oslash;bt nogen objekter/moduler.
 payment#:#pay_order_date_from#:#Ordre dato fra
 payment#:#pay_order_date_til#:#Ordre dato til
@@ -3757,14 +3731,14 @@ payment#:#paya_add_price#:#Tilf&oslash;j ny pris
 payment#:#paya_add_price_title#:#Ny pris
 payment#:#paya_added_new_object#:#Tilf&oslash;jet nyt objekt/modul. Indtast venligst betalingsform og priser.
 payment#:#paya_added_new_price#:#Oprettet ny pris
-payment#:#paya_added_trustee#:#Created new trustee.
+payment#:#paya_added_trustee#:#Oprettet ny fuldm&aelig;gtig/bestyrer.
 payment#:#paya_bookings_available#:#Dette objekt/modul er blevet solgt. Slet venligst alle statistik data.
 payment#:#paya_buyable#:#Til salg
 payment#:#paya_buyed_objects#:#K&oslash;bte objekter/moduler
 payment#:#paya_count_purchaser#:#Antal k&oslash;bere
 payment#:#paya_customer#:#Kunde
 payment#:#paya_delete_price#:#Slet pris
-payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.
+payment#:#paya_delete_trustee_msg#:#Valgte fuldm&aelig;gtige/bestyrer slettet.
 payment#:#paya_deleted_last_price#:#Sidste pris er blevet slettet.
 payment#:#paya_deleted_object#:#Stoppet betalingen for det valgte objekt/modul.
 payment#:#paya_details_updated#:#Detaljer opdateret.
@@ -3780,7 +3754,7 @@ payment#:#paya_error_update_booking#:#Fejl under gemning af statistik data.
 payment#:#paya_expires#:#Udl&oslash;bet betaling
 payment#:#paya_filter_reseted#:#Filter nulstillet.
 payment#:#paya_header#:#Betalingsadministration
-payment#:#paya_insert_only_numbers#:#Please insert only integers.
+payment#:#paya_insert_only_numbers#:#Inds&aelig;t kun heltal(IKKE kommatal).
 payment#:#paya_locator#:#Betalingsadministration
 payment#:#paya_months#:#M&aring;ned/m&aring;neder
 payment#:#paya_no_booking_id_given#:#Fejl: ingen 'booking id' givet
@@ -3790,7 +3764,7 @@ payment#:#paya_no_objects_assigned#:#Der er ingen objekter til salg.
 payment#:#paya_no_price_available#:#Ingen priser til r&aring;dighed
 payment#:#paya_no_prices_selected#:#V&aelig;lg venligst en pris
 payment#:#paya_no_settings_necessary#:#Der er ingen indstillinger til denne betalingsmetode
-payment#:#paya_no_trustees#:#No trustees created.
+payment#:#paya_no_trustees#:#Ingen fuldm&aelig;gtige/bestyrer oprettet.
 payment#:#paya_no_valid_login#:#Brugernavnet er ugyldigt.
 payment#:#paya_no_vendor_selected#:#Du har ikke valgt en forhandler.
 payment#:#paya_not_assign_yourself#:#Det er ikke muligt at tilmelde dig selv.
@@ -3812,11 +3786,11 @@ payment#:#paya_shopping_cart#:#Indk&oslash;bskurv
 payment#:#paya_statistic#:#Statistik
 payment#:#paya_sure_delete_object#:#Er du sikker p&aring; at du vil stoppe for betalingen af dette objekt? Alle indtastede data vil g&aring; tabt.
 payment#:#paya_sure_delete_selected_prices#:#Er du sikker p&aring; at du vil slette de valgte priser?
-payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?
+payment#:#paya_sure_delete_selected_trustees#:#Er du sikker p&aring; du vil slette de valgte fuldm&aelig;gtige/bestyrere?
 payment#:#paya_sure_delete_stat#:#Er du sikker p&aring; at du vil slette de valgte statistikker?
 payment#:#paya_transaction#:#Overf&oslash;rsel
-payment#:#paya_trustee_table#:#Trustees
-payment#:#paya_trustees#:#Trustees
+payment#:#paya_trustee_table#:#Bestyrere
+payment#:#paya_trustees#:#Bestyrere
 payment#:#paya_update_price#:#Opdater priser
 payment#:#paya_updated_booking#:#Opdaterede statistikker.
 payment#:#paya_updated_prices#:#Opdaterede priser
@@ -3833,9 +3807,9 @@ payment#:#pays_assigned_vendors#:#Det f&oslash;lgende antal brugere er blevet ti
 payment#:#pays_bank_data#:#Bankoplysninger til faktura
 payment#:#pays_bill#:#Faktura
 payment#:#pays_bmf#:#BMF
-payment#:#pays_cost_center#:#Cost center
-payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.
-payment#:#pays_currency_subunit#:#Valuta (1/100) (e.g. Cent)
+payment#:#pays_cost_center#:#Betalingscenter
+payment#:#pays_cost_center_not_valid#:#Skriv venligst et gyldigt betalingscenter.
+payment#:#pays_currency_subunit#:#Valuta (1/100) (eks. &oslash;re)
 payment#:#pays_currency_unit#:#Valuta (eks. EURO)
 payment#:#pays_delete_vendor#:#Afmeld bruger
 payment#:#pays_deleted_number_vendors#:#Det f&oslash;lgende antal forhandler er blevet slettet:
@@ -3864,19 +3838,19 @@ payment#:#price_a#:#Pris
 payment#:#prices#:#Priser
 payment#:#update#:#Opdater
 pwassist#:#password_assistance#:#Password Hj&aelig;lp
-pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilh&oslash;rende e-mail adresse i felterne nedenfor.\nILIAS vil derefter sende en besked til den e-mail addresse. Beskeden indeholder en adresse til en hjemmeside, hvor du kan indtaste et nyt password.\nSkulle det v&aelig;re tilf&aelig;ldet at dette ikke virker skal du kontakte din kursusadministrator eller sende en email til %1$s.###04 Mar 2005 content changed
+pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilh&oslash;rende e-mail adresse i felterne nedenfor.\nILIAS vil derefter sende en besked til den e-mail addresse. Beskeden indeholder en adresse til en hjemmeside, hvor du kan indtaste et nyt password.\nSkulle det v&aelig;re tilf&aelig;ldet at dette ikke virker skal du kontakte din kursusadministrator eller sende en email til %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Indtast brugernavn og password i feltet nedenfor.
-pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.###04 Mar 2005 content changed
-pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance.
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the?ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.###04 Mar 2005 content changed
+pwassist#:#pwassist_invalid_username_or_email#:#Check venligst de udfyldte felter. Brugernavn og Emailadressen du har indtastet matcher ikke nogen i databasen.
+pwassist#:#pwassist_login_not_match#:#Indtast venligst et andet brugernavn.\nDet brugernavn du har indtastet matcher ikke det brugernavn som du har bedt om passwordassistance for.
+pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the?ILIAS server by accident:\Registrer et nyt password for din brugerkonto:\n\t%1$s\n\ndenne besked er blevet generet automatisk af ILIAS serveren\n\t%2$s\n\ndig (eller nogen ved %3$s) har anmodet om password asistance til en brugerkonto  "%4$s".\n\nTjek venligst forsigtigt tilstandene der er beskrevet nedenunder, og forts&aelig;t i trin derfra:\n\n- Hvis du har brugt password asistance formularen p&aring; ILIAS ved et uheld?:\n Slet denne mail.\n\n- Hvis du er sikker p&aring; du aldrig har brugt password assistance ved denne ILIAS server:\nKontakt venligst %5$s.\n\n- Hvis du HAR bedt om password assistance kan du fors&aelig;tte p&aring; f&oslash;lgende m&aring;de:\n\n1. &aring;ben din browser.\n\n2. Indtast f&oslash;lgende URL: \n\t%1$s\n\nVIGTIGT: URL er 1 linke. Hvis du ser denne URL delt op i flere linjer, er det dit email der har delt den op. \n\n3. P&aring; websiden indtaster du et nyt password for din brugerkonto\n\n Bem&aelig;rk venligst at du af sikkerhedsgrunde kun kan g&oslash;re dette 1 gang, og indenfor en vis tidsgr&aelig;nse. Hvis dette ikke lykkedes, skal du bede om password assistance igen.
 pwassist#:#pwassist_mail_sent#:#En besked er blevet sendt til %1$s.\nCheck venligst din mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Hj&aelig;lp
-pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered.
+pwassist#:#pwassist_not_permitted#:#Indtast venligst et andet brugernavn.\nPasswordassistance er ikke tilladt for det brugernavn du har indtastet.
 pwassist#:#pwassist_password_assigned#:#Passwordet blev tilf&oslash;jet til bruger "%1$s".
-pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been e-mailed to you more than once, or because too much time has passed since the link has been sent to you.###04 Mar 2005 content changed
+pwassist#:#pwassist_session_expired#:#Udfyld venligst formularen igen.\nDin passwordassistancesession er udl&oslash;bet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig p&aring; email mere end 1 gang, eller fordi der er g&aring;et for lang tid siden linket blev sendt til dig.
 pwassist#:#pwassist_update_error#:#Kontakt venligst din system administrator.\nPasswordet kunne ikke blive tildelt brugerkontoen p&aring; grund af en fejl under opdatering af databasen.
-search#:#search_all_results#:#Alle resultater
 search#:#search_and#:#og
+search#:#search_all_results#:#Alle resultater
 search#:#search_concatenation#:#Sammenk&aelig;dning
 search#:#search_content#:#Side indhold
 search#:#search_dbk_content#:#Digitalt bibliotek (indhold)
@@ -3888,7 +3862,7 @@ search#:#search_lm_content#:# L&aelig;rings materialer (indhold)
 search#:#search_lm_meta#:#L&aelig;rings materialer (meta data)
 search#:#search_meta#:#Meta data
 search#:#search_minimum_three#:#Din s&oslash;gning skal v&aelig;re p&aring; mindst 3 bogstaver
-search#:#search_move_folder_not_allowed#:#Folder kan ikke flyttes.
+search#:#search_move_folder_not_allowed#:#Mappen kan ikke flyttes.
 search#:#search_move_to#:#Flyt til:
 search#:#search_my_search_results#:#Mine s&oslash;geresultater
 search#:#search_new_folder#:#Ny mappe
@@ -3940,18 +3914,18 @@ survey#:#cannot_maintain_survey#:#Du har ikke de rigtige rettighedder til at ved
 survey#:#cannot_manage_phrases#:#Du har ikke de rigtige rettighedder til at bruge disse s&aelig;tninger!
 survey#:#cannot_participate_survey#:#Du har ikke de rigtige rettighedder til at deltage i dette sp&oslash;rgeskema!
 survey#:#cannot_save_metaobject#:#Du har ikke de rigtige rettighedder til at gemme meta data!
-survey#:#cannot_switch_to_online_no_questions#:#Statusen kan ikke bliv e&aelig;ndret til &quot;online&quot; fordi der ikke er nogen sp&oslash;rgsm&aring;l i testen!
+survey#:#cannot_switch_to_online_no_questions#:#Din status kan ikke bliv e&aelig;ndret til &quot;online&quot; fordi der ikke er nogen sp&oslash;rgsm&aring;l i testen!
 survey#:#category#:#Kategori
 survey#:#category_delete_confirm#:#Er du sikke rp&aring; du vil slette f&oslash;lgende kategorier?
 survey#:#category_delete_select_none#:#Marker venligst en kategori for at slette den!
 survey#:#category_nr_selected#:#Antal brugere der har valgt denne kategori
 survey#:#combobox#:#Combobox
-survey#:#concatenation#:#Concatenation
+survey#:#concatenation#:#sammenk&aelig;dning
 survey#:#confirm_delete_all_user_data#:#Er du sikker p&aring; du vil slette al bruger data fra dette sp&oslash;rgeskema?
 survey#:#confirm_remove_heading#:#Er du sikker p&aring; du vil fjerne overskriften?
 survey#:#confirm_sync_questions#:#Det sp&oslash;rgsm&aring;l du &aelig;ndrede er en kmopi der er blevet oprettet til brug i det aktive sp&oslash;rgeskema. Vil du &aelig;ndre det originale sp&oslash;rgsm&aring;l ogs&aring;?
 survey#:#constraints#:#Constraints
-survey#:#contains#:#Contains
+survey#:#contains#:#Indeholder
 survey#:#continue#:#Forts&aelig;t >>
 survey#:#create_date#:#Oprettet
 survey#:#create_new#:#Opret nyt
@@ -4055,7 +4029,7 @@ survey#:#insert_before#:#Inds&aelig;t f&oslash;r
 survey#:#insert_missing_question#:#V&aelig;lg venligst mindst et sp&oslash;rgsm&aring;l at inds&aelig;tte i sp&oslash;rgeskemaet!
 survey#:#insert_missing_questionblock#:#V&aelig;lg venligst mindst en sp&oslash;rgsm&aring;ls blok at inds&aelig;tte i sp&oslash;rgeskemaet!
 survey#:#introduction#:#Introduktion
-survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.
+survey#:#introduction_manage_phrases#:#H&aring;ndtere dine egne s&aelig;tninger som er til r&aring;dighed for alle de ordinale (ordenstal = 1. 2. 3. osv.) sp&oslash;rgsm&aring;l som du laver
 survey#:#invitation#:#Invitation
 survey#:#invitation_mode#:#Invitations mode
 survey#:#invite_participants#:#Inviter deltagere
@@ -4084,7 +4058,7 @@ survey#:#mode_text#:#Mest valgte v&aelig;rdi (Tekst)
 survey#:#multiple_choice_multiple_response#:#Multiple choice (flere svar)
 survey#:#multiple_choice_single_response#:#Multiple choice (enkelt svar)
 survey#:#next_question_rows#:#sp&oslash;rgsm&aring;l %d - %d af %d >>
-survey#:#no_available_constraints#:#Der er ikke defineret nogen constraints!
+survey#:#no_available_constraints#:#Der er ikke defineret nogen begr&aelig;sninger!
 survey#:#no_category_selected_for_deleting#:#Valg venligst en kategori hvis du vil slette kategorier!
 survey#:#no_category_selected_for_move#:#Marker venligst en kategori for at flytte den!
 survey#:#no_constraints_checked#:#V&aelig;lg venligst mindst et sp&oslash;rgsm&aring;l eller sp&oslash;rgsm&aring;lsblok hvis du vil &aelig;ndre i det!
@@ -4110,8 +4084,8 @@ survey#:#ordinal_question_not_checked#:#Marker venligst et af de tilbudte svar!
 survey#:#orientation#:#Orientering
 survey#:#percentage_of_entered_values#:#Procent af brugere der har indtastet denne v&aelig;rdi
 survey#:#percentage_of_selections#:#Procent af brugere der har valgt denne gruppe
-survey#:#predefined_users#:#Predefined user set
-survey#:#preview#:#Preview
+survey#:#predefined_users#:#Pr&aelig;defineret brugers&aelig;t
+survey#:#preview#:#pr&oslash;vevisning
 survey#:#previous_question_rows#:#<< Sp&oslash;rgsm&aring;l %d - %d af %d
 survey#:#qpl_confirm_delete_phrases#:#Er du sikker p&aring; du vil slette den f&oslash;lgende s&aelig;tning?
 survey#:#qpl_confirm_delete_questions#:#Er du sikker p&aring; du vil slette det f&oslash;lgende sp&oslash;rgsm&aring;l?
@@ -4128,17 +4102,17 @@ survey#:#qpl_questions_deleted#:#Sp&oslash;rgsm&aring;l slettet.
 survey#:#qpl_questions_pasted#:#Sp&oslash;rgsm&aring;l sat ind.
 survey#:#qpl_savephrase_empty#:#Indtast venligst en titel!
 survey#:#qpl_savephrase_exists#:#Titlen eksistere allerede! Indtast venligst en anden titel.
-survey#:#qpl_unfold_select_none#:#Please select at least one question block if you want to unfold question blocks!
+survey#:#qpl_unfold_select_none#:#V&aelig;lg venligst minimum et sp&oslash;rgsm&aring;lblok, hvis du vil &aring;bne sp&oslash;rgsm&aring;lsblokkens tr&aelig;oversigt!
 survey#:#qt_metric#:#Metrik sp&oslash;rgsm&aring;l
 survey#:#qt_nominal#:#Nomale sp&oslash;rgsm&aring;l
-survey#:#qt_ordinal#:#Ordinal question
+survey#:#qt_ordinal#:#Ordinal sp&oslash;rgsm&aring;l
 survey#:#qt_text#:#Tekst sp&oslash;rgsm&aring;l
-survey#:#question_has_constraints#:#Constraints
+survey#:#question_has_constraints#:#Begr&aelig;nsninger.
 survey#:#question_obligatory#:#Sp&oslash;rgsm&aring;let er obligatorisk!
 survey#:#question_saved_for_upload#:#Sp&oslash;rgsm&aring;let blev gemt automatisk for at spare hard disk plads til at gemme den uploadede fil. hvis du stopper denne handling ny, skal du v&aelig;re opm&aelig;rksom p&aring; at du skal slette sp&oslash;rgsm&aring;let fra sp&oslash;rgsm&aring;lsgruppen hvis du ikke &oslash;nsker at beholde det!
 survey#:#question_type#:#Sp&oslash;rgsm&aring;ls type
 survey#:#questionblock#:#Sp&oslash;rgsm&aring;ls blok
-survey#:#questionblock_has_constraints#:#Constraints
+survey#:#questionblock_has_constraints#:#Begr&aelig;nsninger.
 survey#:#questionblocks#:#Sp&oslash;rgsm&aring;ls blok
 survey#:#questions#:#Sp&oslash;rgsm&aring;l
 survey#:#questions_inserted#:#Sp&oslash;rgsm&aring;l indsat!
@@ -4150,7 +4124,7 @@ survey#:#remove_question#:#Fjern
 survey#:#remove_questions#:#Er du sikker p&aring; at du vil fjerne f&oslash;lgende sp&oslash;rgsm&aring;l og/eller sp&oslash;rgsm&aring;lsblokke fra denne test?
 survey#:#reset_filter#:#Nulstil filter
 survey#:#resume_survey#:#Genstart sp&oslash;rgeskema
-survey#:#save_obligatory_state#:#Save obligatory states
+survey#:#save_obligatory_state#:#Gem obligatoriske states
 survey#:#save_phrase#:#Gem som s&aelig;tning
 survey#:#save_phrase_categories_not_checked#:#Marker venligst mindst to kategorier for at gemme kategorier i denne s&aelig;tning!
 survey#:#save_phrase_introduction#:#Hvis du vil &aelig;ndre kategorierne herunder som standart s&aelig;tning, s&aring; indtast en titel. Du kan &aring;bne en standart s&aelig;tning n&aring;r du har lyst til at tilf&oslash;je en s&aelig;tning til et sp&oslash;rgsm&aring;l.
@@ -4162,13 +4136,14 @@ survey#:#search_questions#:#S&oslash;g efter sp&oslash;rgsm&aring;l
 survey#:#search_term#:#S&oslash;ge krav
 survey#:#search_type_all#:#S&oslash;g i alle sp&oslash;rgsm&aring;ls typer
 survey#:#search_users#:#Brugere
+survey#:#select_max_one_item#:#V&aelig;lg kun en ting
 survey#:#select_prior_question#:#V&aelig;lg et tidligere sp&oslash;rgsm&aring;l
 survey#:#select_questionpool#:#V&aelig;lg en sp&oslash;rgs,&aring;lsgruppe for at gemme sp&oslash;rgsm&aring;let
 survey#:#select_questionpool_short#:#Sp&oslash;rgsm&aring;lsgruppe for sp&oslash;rgeskema
 survey#:#select_relation#:#Select a relation
 survey#:#select_svy_option#:#--- V&aelig;lg et sp&oslash;rgeskema ---
-survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!
-survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
+survey#:#select_target_position_for_move#:#V&aelig;lg venligst en destination for at flytte kategorierne og tryk p&aring; 1 af inds&aelig;t knapperne!
+survey#:#select_target_position_for_move_question#:#V&aelig;lg venligst en destination for at flytte sp&oslash;rgsm&aring;let/sp&oslash;rgsm&aring;lene og tryk p&aring; 1 af inds&aelig;t knapperne!
 survey#:#select_value#:#V&aelig;lg en v&aelig;rdi
 survey#:#set_filter#:#S&aelig;t filter
 survey#:#spl_select_file_for_import#:#Du skal v&aelig;lge en fil at importere!
@@ -4193,17 +4168,17 @@ survey#:#survey_skip_previous#:#<<< Undlad
 survey#:#survey_skip_start#:#Undlad og g&aring; til start side
 survey#:#survey_start#:#g&aring; til start side
 survey#:#svy_all_user_data_deleted#:#Alt bruger data for dette sp&oslash;rgeskema er blevet slettet!
-survey#:#svy_create_export_file#:#Create export file
-survey#:#svy_delete_all_user_data#:#Delete all user data
+survey#:#svy_create_export_file#:#Opret eksport fil
+survey#:#svy_delete_all_user_data#:#Slet alle brugerinformationer
 survey#:#svy_export_files#:#Exporter filer
 survey#:#svy_file#:#Fil
-survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name.
-survey#:#svy_missing_questions#:#You do not have any questions in the survey! Please add at least one question to the survey.
-survey#:#svy_missing_title#:#You have not entered a survey title! Please go to the metadata section and enter a title.
-survey#:#svy_page_error#:#There was an error answering a survey question. Please refer to the question to get more information on the error!
-survey#:#svy_page_errors#:#There were errors answering the survey questions. Please refer to the questions to get more information on the errors!
-survey#:#svy_select_file_for_import#:#You must select a file for import!
-survey#:#svy_select_questionpools#:#Please select a question pool to store the imported questions
+survey#:#svy_missing_author#:#Du har ikke indtastet forfatters navn i unders&oslash;gelsesegenskaber! Indtast venligst forfatters navn.
+survey#:#svy_missing_questions#:#Du har ikke lavet nogen sp&oslash;rgsm&aring;l til denne unders&oslash;gelse! Tilf&oslash;j venligst minimum 1 sp&oslash;rgsm&aring;l.
+survey#:#svy_missing_title#:#Du har ikke angivet en unders&oslash;gelsesoverskrift! G&aring; venligst til metadata sektionen og indtast en overskrift.
+survey#:#svy_page_error#:#Der opstod en fejl i et af sp&oslash;rgsm&aring;lene i unders&oslash;gelsen.Referer venligst til sp&oslash;rgsm&aring;let for at f&aring; mere information om fejlen.
+survey#:#svy_page_errors#:#Der opstod fejl under besvarelse af nogen af sp&oslash;rgsm&aring;lene. Referer venligst til sp&oslash;rgsm&aring;lene for at f&aring; mere information om fejlen!
+survey#:#svy_select_file_for_import#:#Du skal v&aelig;lge en fil til import!
+survey#:#svy_select_questionpools#:#V&aelig;lg venligst en sp&oslash;rgsm&aring;lgruppe til at gemme de importerede sp&oslash;rgsm&aring;l
 survey#:#svy_select_surveys#:#V&aelig;lg et sp&oslash;rgeskema at kopier
 survey#:#svy_show_questiontitles#:#Vis sp&oslash;rgsm&aring;lstitel i sp&oslash;rgeskema
 survey#:#svy_size#:#St&oslash;rrelse
@@ -4212,7 +4187,7 @@ survey#:#svy_status_missing#:#Der mangler n&oslash;dvendige elementer i sp&oslas
 survey#:#svy_status_missing_elements#:#F&oslash;lgende elementer mangler:
 survey#:#svy_status_ok#:#Status for dette sp&oslash;rgeskema er ok. Der mangler ingen elementer.
 survey#:#text_question_not_filled_out#:#Udfyld venligst svar feltet!
-survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.
+survey#:#text_resume_survey#:#Du fors&oslash;ger at genoptage en anonym unders&oslash;gelse. For at forts&aelig;tte denne unders&oslash;gelse med dine tidligere indtastninger, indtast venligst den 32 cifrede kode som du modtog da du tidligere startede unders&oslash;gelsen(Det var sendt til din Ilias mail)
 survey#:#title_resume_survey#:#Genoptag sp&oslash;rgeskema- Indtast koden
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Uendelig
@@ -4223,9 +4198,9 @@ survey#:#users_answered#:#Brugere svaret
 survey#:#users_skipped#:#Brugere undladt
 survey#:#value_nr_entered#:#Antal brugere der skrev denne v&aelig;rdi
 survey#:#values#:#V&aelig;rdier
-survey#:#vertical#:#vertical
-survey#:#view_constraints_introduction#:#You are viewing the constraints of the following question/question block:
-survey#:#view_phrase#:#View phrase
+survey#:#vertical#:#vertikalt
+survey#:#view_constraints_introduction#:#Du viser begr&aelig;nsinger p&aring; f&oslash;lgende sp&oslash;rgsm&aring;lsgruppe:
+survey#:#view_phrase#:#Vis s&aelig;tning
 survey#:#warning_question_in_use#:#Advarsel! Sp&oslash;rgsm&aring;let du vil &aelig;ndre er i brug af sp&oslash;rgeskemaet herunder. Hvis du v&aelig;lger at forts&aelig;tte og gemme dette sp&oslash;rgsm&aring;l, vil alle svarende i sp&oslash;rgeskemaet blive slettet. Hvis du vil &aelig;ndre sp&oslash;rgsm&aring;let og bruge det i et andet sp&oslash;rgeskema, v&aelig;lg da kopier i sp&oslash;rgsm&aring;ls browseren for at oprette en kopi af sp&oslash;rgsm&aring;let.
 survey#:#warning_question_not_complete#:#Sp&oslash;rgeskemaet er ikke f&aelig;rdigt!
 survey#:#warning_survey_not_complete#:#Sp&oslash;rgeskemaet er ikke f&aelig;rdigt!
