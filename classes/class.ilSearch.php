@@ -49,13 +49,14 @@ class ilSearch
 	var $search_type;			// STRING 'new' or 'result'
 	var $result;				// RESULT SET array['object_type']['counter']
 	var $perform_update;		// UPDATE USER SEARCH HISTORY default is true SEE function setPerformUpdate()
+	var $read_db_result;		// READ db result true/false
 
 	var $allow_empty_search;		// ALLOW EMPTY SEARCH TERM use setEmtySearch(true | false) TO SET THIS VALUE DEFAULT (FALSE)
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilSearch($a_user_id = 0)
+	function ilSearch($a_user_id = 0,$a_read = false)
 	{
 		global $ilias,$rbacsystem,$lng;
 		
@@ -68,6 +69,8 @@ class ilSearch
 
 		$this->setPerformUpdate(true);
 		$this->setEmptySearch(false);
+		$this->read_db_result = $a_read;
+
 		// READ OLD SEARCH RESULTS FROM DATABASE
 		$this->__readDBResult();
 	}
@@ -471,7 +474,7 @@ class ilSearch
 	
 	function __readDBResult()
 	{
-		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID)
+		if ($this->getUserId() != 0 and $this->getUserId() != ANONYMOUS_USER_ID and $this->read_db_result)
 		{
 			$query = "SELECT search_result FROM usr_search ".
 				"WHERE usr_id = '".$this->getUserId()."'";
@@ -565,6 +568,10 @@ class ilSearch
 
 		global $tree,$ilias;
 
+		if(!$tree->isInTree($a_ref_id))
+		{
+			return false;
+		}
 		foreach($tree->getPathFull($a_ref_id) as $node_data)
 		{
 			if(!ilPaymentObject::_hasAccess($node_data['child']))
