@@ -34,12 +34,31 @@ $tplbtn->parseCurrentBlock();
 
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
+$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+$tpl->setVariable("TXT_ONLINE_VERSION", $lng->txt("online_version"));
+$tpl->setVariable("TXT_OFFLINE_VERSION", $lng->txt("offline_version"));
+$tpl->setVariable("TXT_PUBLISHED", $lng->txt("published"));
+
 for ($i = 0; $i < 5; $i++)
 {
+	$id = $i;
 	$tpl->setCurrentBlock("row");
 	$tpl->setVariable("ROWCOL", "tblrow".(($i%2)+1));
 	$tpl->setVAriable("DATE", date("d.m.Y H:i:s"));
 	$tpl->setVAriable("TITLE", $lng->txt("lo").$i);
+	$status = "on";
+	$switchstatus = "off";
+	$tpl->setVariable("LINK_STATUS", "editor.php?func=set".$switchstatus."line&amp;id=".$id);
+	$tpl->setVariable("LINK_GENERATE", "editor.php?func=generate&amp;id=".$id);
+	$tpl->setVariable("LINK_ANNOUNCE", "mail.php?func=announce&amp;id=".$id);
+	$tpl->setVariable("LINK_EDIT", "lo_edit.php?id=".$id);
+	$tpl->setVAriable("STATUS", $status);
+	$tpl->setVariable("TXT_LO_SET_STATUS", $lng->txt("set_".$switchstatus."line"));
+	$tpl->setVariable("TXT_ANNOUNCE", $lng->txt("announce"));
+	$tpl->setVariable("TXT_GENERATE", $lng->txt("generate"));
+	$tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+	$tpl->setVAriable("TITLE", $lng->txt("lo").$i);
+	
 	$tpl->parseCurrentBlock();
 }
 $tpl->setCurrentBlock("tbl_lo");
