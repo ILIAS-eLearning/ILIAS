@@ -1715,6 +1715,26 @@ class ilObjSurvey extends ilObject
 	}
 	
 /**
+* Returns an array with all existing question types
+* 
+* Returns an array with all existing question types
+*
+* @result array An array containing the question types
+* @access public
+*/
+	function &getQuestiontypes()
+	{
+		$query = "SELECT type_tag FROM survey_questiontype";
+		$result = $this->ilias->db->query($query);
+		$result_array = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($result_array, $row->type_tag);
+		}
+		return $result_array;
+	}
+	
+/**
 * Returns the survey pages in an array (a page contains one or more questions)
 * 
 * Returns the survey pages in an array (a page contains one or more questions)

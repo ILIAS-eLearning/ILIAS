@@ -3,7 +3,10 @@
 <input type="hidden" name="move_{MOVE_COUNTER}" value="{MOVE_VALUE}">
 <!-- END move -->
 <!-- BEGIN browser_actions -->
-<p><input type="submit" class="submit" name="cmd[insert_question]" value="{BUTTON_INSERT_QUESTION}" />&nbsp;{TEXT_CREATE_NEW}&nbsp;
+<p><input type="submit" class="submit" name="cmd[insert_question]" value="{BUTTON_INSERT_QUESTION}" />
+&nbsp;{TEXT_OR}&nbsp;
+<input type="submit" class="submit" name="cmd[search_question]" value="{BUTTON_SEARCH_QUESTION}" />
+&nbsp;{TEXT_CREATE_NEW}&nbsp;
 <select name="sel_question_types">
 <!-- BEGIN QTypes -->
 <option value="{QUESTION_TYPE_ID}"{QUESTION_TYPE_SELECTED}>{QUESTION_TYPE}</option>

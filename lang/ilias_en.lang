@@ -3137,3 +3137,8 @@ survey#:#contains#:#Contains
 survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!
 survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!
 survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?
+survey#:#search_questions#:#Search questions
+survey#:#search_field_all#:#Search in all fields
+survey#:#search_type_all#:#Search in all question types
+survey#:#no_search_results#:#There are no search results!
+survey#:#found_questions#:#Found questions
