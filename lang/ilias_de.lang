@@ -491,8 +491,8 @@ common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_rolf_allowed1#:#Das Objekt
 common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten
-common#:#msg_no_search_result#:#Keine Einträge gefunden!
-common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein!
+common#:#msg_no_search_result#:#Keine Einträge gefunden
+common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#msg_not_available_for_anon#:#Die von Ihnen gewählte Seite steht nur angemeldeten Benutzern zur Verfügung
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
 common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
