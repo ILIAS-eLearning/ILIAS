@@ -1166,7 +1166,7 @@ common#:#obj_lo#:#Lernobjekt
 common#:#obj_mail#:#Maileinstellungen
 common#:#obj_mail_desc#:#Globale Mailkonfiguration
 common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
-common#:#obj_mob#:#Multimedia Objekt
+common#:#obj_mob#:#Multimedia Objekt###06 Apr 2004 content changed
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
@@ -1214,7 +1214,7 @@ common#:#objs_grp#:#Gruppen
 common#:#objs_lm#:#Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte
-common#:#objs_mob#:#Multimedia Objekte
+common#:#objs_mob#:#Multimedia Objekte###06 Apr 2004 content changed
 common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
 common#:#objs_qpl#:#Fragenpools

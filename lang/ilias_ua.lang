@@ -1166,7 +1166,7 @@ common#:#obj_lo#:#Учбовий Об'єкт
 common#:#obj_mail#:#Настойки Пошти
 common#:#obj_mail_desc#:#КОнфігуруйте глобальні поштові настройки тут.
 common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
-common#:#obj_mob#:#Мультимедіа Об'єкт
+common#:#obj_mob#:#Мультимедіа Об'єкт###06 Apr 2004 content changed
 common#:#obj_not_found#:#Об'єкт Не Знайдений
 common#:#obj_note#:#Примітка
 common#:#obj_notf#:#Адмініструввання Примітками

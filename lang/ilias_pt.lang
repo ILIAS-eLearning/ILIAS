@@ -1166,7 +1166,7 @@ common#:#obj_lo#:#Módulo de Aprendizagem
 common#:#obj_mail#:#Definições de Correio
 common#:#obj_mail_desc#:#Configure aqui as definições globais de correio.
 common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
-common#:#obj_mob#:#Objecto Multimédia
+common#:#obj_mob#:#Objecto Multimédia###06 Apr 2004 content changed
 common#:#obj_not_found#:#Objecto Não Encontrado
 common#:#obj_note#:#Nota
 common#:#obj_notf#:#Administração de Notas
@@ -1214,7 +1214,7 @@ common#:#objs_grp#:#Grupos
 common#:#objs_lm#:#Módulos de Aprendizagem
 common#:#objs_lng#:#Linguagens
 common#:#objs_lo#:#Objectos de Aprendizagem
-common#:#objs_mob#:#Objectos Multimédia
+common#:#objs_mob#:#Objectos Multimédia###06 Apr 2004 content changed
 common#:#objs_note#:#Notas
 common#:#objs_pg#:#Páginas
 common#:#objs_qpl#:#Bancos de Questões

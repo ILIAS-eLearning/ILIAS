@@ -1183,7 +1183,7 @@ common#:#obj_lo#:#学习对象
 common#:#obj_mail#:#邮件设置
 common#:#obj_mail_desc#:#在此配置全局邮件设置
 common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
-common#:#obj_mob#:#多媒体对象
+common#:#obj_mob#:#多媒体对象###06 Apr 2004 content changed
 common#:#obj_not_found#:#未找到对象
 common#:#obj_note#:#注解
 common#:#obj_notf#:#注解管理

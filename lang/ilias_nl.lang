@@ -1166,7 +1166,7 @@ common#:#obj_lo#:#Leerobject
 common#:#obj_mail#:#Mail-instellingen
 common#:#obj_mail_desc#:#Configureer de globale Mail-instellingen hier.
 common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
-common#:#obj_mob#:#Multimedia-object
+common#:#obj_mob#:#Multimedia-object###06 Apr 2004 content changed
 common#:#obj_not_found#:#Object niet gevonden
 common#:#obj_note#:#Notitie
 common#:#obj_notf#:#Notitie-administratie
@@ -1214,7 +1214,7 @@ common#:#objs_grp#:#Groepen
 common#:#objs_lm#:#Lesmodules
 common#:#objs_lng#:#Talen
 common#:#objs_lo#:#Lesobjecten
-common#:#objs_mob#:#Multimedia Objecten
+common#:#objs_mob#:#Multimedia Objecten###06 Apr 2004 content changed
 common#:#objs_note#:#Opmerkingen
 common#:#objs_pg#:#Pagina's
 common#:#objs_qpl#:#Vraagbakken
