@@ -519,3 +519,18 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+common#:#langfile_found#:#Language file found
+common#:#module#:#module
+common#:#identifier#:#identifier
+common#:#value#:#value
+common#:#err_in_line#:#Error in line
+common#:#err_no_param#:#No parameter!
+common#:#err_1_param#:#Only 1 parameter!
+common#:#err_2_param#:#Only 2 parameter!
+common#:#err_over_3_param#:#More than 3 parameters!
+common#:#check_langfile#:#Please check your language file.
+common#:#err_count_param#:#Reason: Wrong parameter count.
+common#:#file_not_valid#:#File not valid!
+common#:#file_valid#:#File is valid!
+common#:#err_wrong_header#:#Reason: Wrong header.
+common#:#err_no_langfile_found#:#No language file found!
