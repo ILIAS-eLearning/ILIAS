@@ -65,7 +65,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	
 	// Link-Pfad 3.Teil
 	$tpl->setCurrentBlock("locator_item");
-	$tpl->setVariable("ITEM", $lng->txt("forums_thread").": ".$threadData["thr_subject"]);
+	$tpl->setVariable("ITEM", $lng->txt("forums_thread_articles").": ".$threadData["thr_subject"]);
 	$tpl->setVariable("LINK_ITEM", "forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 	$tpl->parseCurrentBlock();
 	
@@ -105,58 +105,88 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	// Hole gesamten Tree des Threads
 	$frm->setOrderField($orderField);
 	$subtree_nodes = $frm->getPostTree($first_node);
+	$posNum = count($subtree_nodes);
+	$pageHits = $frm->getPageHits();
 	
 	$z = 0;
 	
+	// Navigation zum Blättern der Seiten
+	if ($posNum > $pageHits)
+	{
+		$params = array(
+			"obj_id"		=> $_GET["obj_id"],	
+			"parent"		=> $_GET["parent"],
+			"thr_pk"		=> $_GET["thr_pk"],		
+			"orderby"		=> $_GET["orderby"]
+		);
+		
+		if (!$_GET["offset"]) $Start = 0;
+		else $Start = $_GET["offset"];
+		
+		$linkbar = TUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$posNum,$pageHits,$Start,$params);
+		
+		if ($linkbar != "")
+			$tpl->setVariable("LINKBAR", $linkbar);
+	}
+	
 	foreach($subtree_nodes as $node)
 	{
-		// Auf Post antworten
-		if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"])) 
+		
+		if ($posNum > $pageHits && $z >= ($Start+$pageHits))
+			break;
+		
+		if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
 		{
-			if ($_GET["cmd"] == "showreply" && $_GET["pos_pk"] == $node["pos_pk"])
+		
+			// Auf Post antworten
+			if ($rbacsystem->checkAccess("write", $_GET["obj_id"], $_GET["parent"])) 
 			{
-				$tpl->setCurrentBlock("reply_post");
-				$tpl->setVariable("FORM_ANKER", $_GET["pos_pk"]);
-				$tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_your_reply"));
-				$tpl->setVariable("TXT_FORM_MESSAGE", $lng->txt("forums_the_post"));
-				$tpl->setVariable("FORM_MESSAGE", "[quote]".$node["message"]."[/quote]");
-				$tpl->setVariable("SUBMIT", $lng->txt("submit"));
-				$tpl->setVariable("RESET", $lng->txt("reset"));
-				$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=replypost&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$_GET["thr_pk"]);
-				$tpl->parseCurrentBlock("reply_post");
+				if ($_GET["cmd"] == "showreply" && $_GET["pos_pk"] == $node["pos_pk"])
+				{
+					$tpl->setCurrentBlock("reply_post");
+					$tpl->setVariable("FORM_ANKER", $_GET["pos_pk"]);
+					$tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_your_reply"));
+					$tpl->setVariable("TXT_FORM_MESSAGE", $lng->txt("forums_the_post"));
+					$tpl->setVariable("FORM_MESSAGE", "[quote]".$node["message"]."[/quote]");
+					$tpl->setVariable("SUBMIT", $lng->txt("submit"));
+					$tpl->setVariable("RESET", $lng->txt("reset"));
+					$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=replypost&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);
+					$tpl->parseCurrentBlock("reply_post");
+				}
+				else
+				{			
+					$tpl->setCurrentBlock("reply_cell");
+					$tpl->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>"); 
+					$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".$node["pos_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("reply")."</a>"); 
+					$tpl->parseCurrentBlock("reply_cell");
+					$tpl->setVariable("POST_ANKER", $node["pos_pk"]);
+				}
 			}
-			else
-			{			
-				$tpl->setCurrentBlock("reply_cell");
-				$tpl->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>"); 
-				$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".$node["pos_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("reply")."</a>"); 
-				$tpl->parseCurrentBlock("reply_cell");
-				$tpl->setVariable("POST_ANKER", $node["pos_pk"]);
-			}
-		}
-		else $tpl->setVariable("POST_ANKER", $node["pos_pk"]);
+			else $tpl->setVariable("POST_ANKER", $node["pos_pk"]);
+			
+			$tpl->setCurrentBlock("posts_row");
+			$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
+			$tpl->setVariable("ROWCOL", $rowCol);
+			
+			// Hole User-Daten		
+			unset($author);
+			$author = $frm->getModerator($node["author"]);	
+			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author["SurName"]."</a>"); 
+			
+			if ($node["update"] != $node["create_date"]) {
+				$node["update"] = $frm->convertDate($node["update"]);
+				$tpl->setVariable("POST_UPDATE",$lng->txt("edited_at").": ".$node["update"]);
+			}		
+			$node["create_date"] = $frm->convertDate($node["create_date"]);
+			$tpl->setVariable("POST_DATE",$node["create_date"]);	
+			
+			$node["message"] = $frm->prepareText($node["message"]);
+			
+			$tpl->setVariable("POST",$node["message"]);	
+			
+			$tpl->parseCurrentBlock("posts_row");		
 		
-		$tpl->setCurrentBlock("posts_row");
-		$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
-		$tpl->setVariable("ROWCOL", $rowCol);
-		
-		// Hole User-Daten		
-		unset($author);
-		$author = $frm->getModerator($node["author"]);	
-		$tpl->setVariable("AUTHOR","<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$node["author"]."&backurl=forums_threads_view&thr_pk=".$_GET["thr_pk"]."\">".$author["SurName"]."</a>"); 
-		
-		if ($node["update"] != $node["create_date"]) {
-			$node["update"] = $frm->convertDate($node["update"]);
-			$tpl->setVariable("POST_UPDATE",$lng->txt("edited_at").": ".$node["update"]);
-		}		
-		$node["create_date"] = $frm->convertDate($node["create_date"]);
-		$tpl->setVariable("POST_DATE",$node["create_date"]);	
-		
-		$node["message"] = $frm->prepareText($node["message"]);
-		
-		$tpl->setVariable("POST",$node["message"]);	
-		
-		$tpl->parseCurrentBlock("posts_row");					
+		}			
 		
 		$z ++;		
 	}

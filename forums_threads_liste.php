@@ -50,39 +50,69 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	
 	$frm->setOrderField("thr_date DESC");
 	$resThreads = $frm->getThreadList($topicData["top_pk"]);
+	$thrNum = $resThreads->numRows();
+	$pageHits = $frm->getPageHits();
 	
-	if ($resThreads->numRows() > 0)
+	if ($thrNum > 0)
 	{
 		$z = 0;
+		
+		// Navigation zum Blättern der Seiten
+		if ($thrNum > $pageHits)
+		{
+			$params = array(
+				"obj_id"		=> $_GET["obj_id"],	
+				"parent"		=> $_GET["parent"]		
+			);
+			
+			if (!$_GET["offset"]) $Start = 0;
+			else $Start = $_GET["offset"];
+			
+			$linkbar = TUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$thrNum,$pageHits,$Start,$params);
+			
+			if ($linkbar != "")
+				$tpl->setVariable("LINKBAR", $linkbar);
+		}
+		
 		while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$tpl->setCurrentBlock("threads_row");
-			$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
-			$tpl->setVariable("ROWCOL", $rowCol);
 			
-			$thrData["thr_date"] = $frm->convertDate($thrData["thr_date"]);
-			$tpl->setVariable("DATE",$thrData["thr_date"]);
-			$tpl->setVariable("TITLE","<a href=\"forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."\">".$thrData["thr_subject"]."</a>");
+			if ($thrNum > $pageHits && $z >= ($Start+$pageHits))
+			break;
+		
+			if (($thrNum > $pageHits && $z >= $Start) || $thrNum <= $pageHits)
+			{
 			
-			unset($author);
-			$author = $frm->getModerator($thrData["thr_usr_id"]);	
-			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste\">".$author["SurName"]."</a>"); 
+				$tpl->setCurrentBlock("threads_row");
+				$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
+				$tpl->setVariable("ROWCOL", $rowCol);
+				
+				$thrData["thr_date"] = $frm->convertDate($thrData["thr_date"]);
+				$tpl->setVariable("DATE",$thrData["thr_date"]);
+				$tpl->setVariable("TITLE","<a href=\"forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."\">".$thrData["thr_subject"]."</a>");
+				
+				unset($author);
+				$author = $frm->getModerator($thrData["thr_usr_id"]);	
+				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$author["SurName"]."</a>"); 
+				
+				$tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"]);	
+				
+				$tpl->setVariable("NUM_VISITS",$thrData["visits"]);	
+				
+				$lpCont = "";				
+				if ($thrData["thr_last_post"] != "") $lastPost = $frm->getLastPost($thrData["thr_last_post"]);	
+				if (is_array($lastPost)) {				
+					$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
+					$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
+					$lpCont .= "<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$lastPost["surname"]."</a><br>";
+					$lpCont .= $lastPost["pos_date"];				
+				}
+				$tpl->setVariable("LAST_POST", $lpCont);			
+				
+				$tpl->parseCurrentBlock("threads_row");
 			
-			$tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"]);	
-			
-			$tpl->setVariable("NUM_VISITS",$thrData["visits"]);	
-			
-			$lpCont = "";				
-			if ($thrData["thr_last_post"] != "") $lastPost = $frm->getLastPost($thrData["thr_last_post"]);	
-			if (is_array($lastPost)) {				
-				$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
-				$lpCont = "<a href=\"forums_threads_view.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
-				$lpCont .= "<a href=\"forums_user_view?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums_threads_liste\">".$lastPost["surname"]."</a><br>";
-				$lpCont .= $lastPost["pos_date"];				
 			}
-			$tpl->setVariable("LAST_POST", $lpCont);			
 			
-			$tpl->parseCurrentBlock("threads_row");
 			$z ++;
 		}
 	}			
