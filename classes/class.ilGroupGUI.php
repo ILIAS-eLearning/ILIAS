@@ -212,7 +212,7 @@ class ilGroupGUI extends ilObjectGUI
 		$_SESSION["status"] 	= 0;
 
 		$tab[0] = array ();
-//		$tab[0]["tab_cmd"] = "cmd=confirmedAssignMemberObject&ref_id=".$_GET["ref_id"]; 	//link for tab
+		$tab[0]["tab_cmd"] = "cmd=confirmedAssignMemberObject&ref_id=".$_GET["ref_id"]; 	//link for tab
 		$tab[0]["ftabtype"] = "tabinactive"; 					//tab is marked
 		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
 		$tab[0]["tab_text"] = $this->lng->txt("grp_access");
