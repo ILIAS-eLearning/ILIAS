@@ -1350,7 +1350,7 @@ foreach ($arr_roles as $role)
 
 		// detect create permission
 		$obj_data["create"] = array_search("5",$arr_selected);
-	
+
 		// remove create permission and remember pa_entries with create permission
 		if ($obj_data["create"] !== false)
 		{
@@ -2467,7 +2467,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	// GET ALL SUBNODES
 	$node_data = $tree->getNodeData($node_id);
 	$subtree_nodes = $tree->getSubTree($node_data);
-	
+
 	// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
 	$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($dest_role_id);
 	
@@ -2658,3 +2658,6 @@ CREATE TABLE scorm_lm
 	online ENUM('y','n') DEFAULT 'n',
 	api_adapter VARCHAR(80) DEFAULT 'API'
 );
+
+<#166>
+ALTER TABLE scorm_lm ADD COLUMN  api_func_prefix VARCHAR(20) DEFAULT 'LMS';

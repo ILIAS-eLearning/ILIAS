@@ -115,7 +115,7 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 		$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
 
 		$func_tpl = new ilTemplate("tpl.scorm_functions.html", true, true, true);
-		$func_tpl->setVariable("PREFIX", "LMS");
+		$func_tpl->setVariable("PREFIX", $slm_obj->getAPIFunctionsPrefix());
 		$func_tpl->parseCurrentBlock();
 
 		$this->tpl =& new ilTemplate("tpl.scorm_api.html", true, true, true);
