@@ -1407,6 +1407,93 @@ class ilObjTest extends ilObject
 	}
 	
 /**
+* Retrieves the user settings for the statistical evaluation tool
+* 
+* Retrieves the user settings for the statistical evaluation tool
+*
+* @return array An array containing the user settings
+* @access public
+*/
+	function evalLoadStatisticalSettings($user_id)
+	{
+		$q = sprintf("SELECT * FROM tst_eval_settings WHERE user_fi = %s",
+			$this->ilias->db->quote("$user_id")
+		);
+		$result = $this->ilias->db->query($q);
+		if (!$result->numRows()) {
+			$row = array(
+				"qworkedthrough" => "1",
+				"pworkedthrough" => "1",
+				"timeofwork" => "1",
+				"atimeofwork" => "1",
+				"firstvisit" => "1",
+				"lastvisit" => "1",
+				"resultspoints" => "1",
+				"resultsmarks" => "1",
+				"distancemean" => "1",
+				"distancequintile" => "1"
+			);
+		} else {
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		}
+		return $row;		
+	}
+	
+/**
+* Saves the user settings for the statistical evaluation tool
+* 
+* Saves the user settings for the statistical evaluation tool
+*
+* @param array $settings_array An array containing the user settings
+* @access public
+*/
+	function evalSaveStatisticalSettings($settings_array, $user_id)
+	{
+		$q = sprintf("SELECT * FROM tst_eval_settings WHERE user_fi = %s",
+			$this->ilias->db->quote("$user_id")
+		);
+		$result = $this->ilias->db->query($q);
+		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		$update = $row["eval_settings_id"];
+		if (!$update) {
+			$q = sprintf("INSERT INTO tst_eval_settings ".
+					 "(eval_settings_id, user_fi, qworkedthrough, pworkedthrough, timeofwork, atimeofwork, firstvisit, " .
+					 "lastvisit, resultspoints, resultsmarks, distancemean, distancequintile, TIMESTAMP) VALUES " .
+					 "(NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote("$user_id"),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["qworkedthrough"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["pworkedthrough"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["timeofwork"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["atimeofwork"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["firstvisit"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["lastvisit"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultspoints"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultsmarks"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancemean"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancequintile"]))
+			);
+		} else {
+			$q = sprintf("UPDATE tst_eval_settings SET ".
+					 "qworkedthrough = %s, pworkedthrough = %s, timeofwork = %s, atimeofwork = %s, firstvisit = %s, " .
+					 "lastvisit = %s, resultspoints = %s, resultsmarks = %s, distancemean = %s, distancequintile = %s " .
+					 "WHERE eval_settings_id = %s",
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["qworkedthrough"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["pworkedthrough"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["timeofwork"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["atimeofwork"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["firstvisit"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["lastvisit"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultspoints"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["resultsmarks"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancemean"])),
+				$this->ilias->db->quote(sprintf("%01d", $settings_array["distancequintile"])),
+				$this->ilias->db->quote("$update")
+			);
+		}
+		$result = $this->ilias->db->query($q);
+	}
+	
+/**
 * Returns the statistical evaluation of the test for a specified user
 * 
 * Returns the statistical evaluation of the test for a specified user
@@ -1466,6 +1553,7 @@ class ilObjTest extends ilObject
 			"firstvisit" => $first_date,
 			"lastvisit" => $last_date,
 			"resultspoints" => $test_result["test"]["total_reached_points"],
+			"maxpoints" => $test_result["test"]["total_max_points"],
 			"resultsmarks" => $mark_obj->get_short_name(),
 			"distancemean" => "0",
 			"distancequintile" => "0"

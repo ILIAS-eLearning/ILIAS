@@ -73,6 +73,17 @@ table.fullwidth {
 	border-width:1px;
 }
 
+table.fullwidth_nowrap {
+	color:#222222;
+	background-color:#b9c0d5;
+	width:100%;
+	border-spacing:1px;
+	border-style:outset;
+	border-color:#bbbbbb;
+	border-width:1px;
+	white-space: nowrap;
+}
+
 table.fullwidth_invisible {
 	color:#222222;
 	background-color:#b9c0d5;

@@ -2128,5 +2128,21 @@ foreach($role_ids as $id)
 		$rbacadmin->grantPermission($id,$ops,$ref_id);
 	}
 }
-		
 ?>
+<#138>
+CREATE TABLE `tst_eval_settings` (
+  `eval_settings_id` int(11) NOT NULL auto_increment,
+  `user_fi` int(11) NOT NULL default '0',
+  `qworkedthrough` enum('0','1') NOT NULL default '1',
+  `pworkedthrough` enum('0','1') NOT NULL default '1',
+  `timeofwork` enum('0','1') NOT NULL default '1',
+  `atimeofwork` enum('0','1') NOT NULL default '1',
+  `firstvisit` enum('0','1') NOT NULL default '1',
+  `lastvisit` enum('0','1') NOT NULL default '1',
+  `resultspoints` enum('0','1') NOT NULL default '1',
+  `resultsmarks` enum('0','1') NOT NULL default '1',
+  `distancemean` enum('0','1') NOT NULL default '1',
+  `distancequintile` enum('0','1') NOT NULL default '1',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`eval_settings_id`)
+) TYPE=MyISAM COMMENT='User settings for statistical evaluation tool';
