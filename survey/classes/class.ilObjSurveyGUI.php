@@ -2350,7 +2350,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->tpl->setVariable("QUESTION_TITLE", $data["question_id"]);
+					$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
 				}
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 				{

@@ -3900,6 +3900,5 @@ class ilObjTest extends ilObject
 		}
 		return 0;
 	}
-	
 } // END class.ilObjTest
 ?>
