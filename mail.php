@@ -142,7 +142,6 @@ foreach ($mails["msg"] as $row)
 
 //headline
 //get parameter
-$tpl->setCurrentBlock("content");
 $tpl->setVariable("FOLDERNAME", $lng->txt($folder));
 $tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
 $tpl->setVariable("TXT_MAIL_S", $lng->txt("mail_s"));
@@ -161,7 +160,6 @@ $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
 //	$tpl->setVariable("MAIL_SORT_SUBJ","link");
 $tpl->setVariable("TXT_DATE",$lng->txt("date"));
 $tpl->setVariable("DIRECTION", "up");
-$tpl->parseCurrentBlock();
 
 $tpl->show();
 

@@ -4,7 +4,7 @@ require_once "./classes/class.Search.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.search.html");
 
-$ilias->error_obj->sendInfo("Attention: Search function doesn't work in this release.",$ilias->error_obj->MESSAGE);
+$ilias->error_obj->sendInfo("Attention: Search function doesn't work in this release.");
 
 if ($_POST["search"] != "")
 {
@@ -61,7 +61,6 @@ $tpl->setVariable("SELVALUE", "grp");
 $tpl->setVariable("SELOPTION", $lng->txt("groups"));
 $tpl->parseCurrentBlock();
 
-$tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
 
 $tpl->setVariable("TXT_SEARCH_IN", $lng->txt("search_in"));
@@ -69,7 +68,6 @@ $tpl->setVariable("TXT_KEYWORDS",$lng->txt("keywords"));
 $tpl->setVariable("TXT_PHRASE", $lng->txt("phrase"));
 
 $tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
-$tpl->parseCurrentBlock();
 
 $tpl->show();
 ?>
