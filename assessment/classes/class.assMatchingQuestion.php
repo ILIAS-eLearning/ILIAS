@@ -617,7 +617,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			// Neuen Datensatz schreiben
 			$now = getdate();
-			$question_type = 4;
+			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, matching_type, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type. ""),
@@ -1399,6 +1399,20 @@ class ASS_MatchingQuestion extends ASS_Question
 			$result = $db->query($query);
 		}
 	}
+
+	/**
+	* Returns the question type of the question
+	*
+	* Returns the question type of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return 4;
+	}
+	
 }
 
 ?>

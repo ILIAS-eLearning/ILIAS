@@ -630,7 +630,7 @@ class ASS_JavaApplet extends ASS_Question
 		{
 			// Neuen Datensatz schreiben
 			$now = getdate();
-			$question_type = 7;
+			$question_type = $this->getQuestionType();
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, points, working_time, shuffle, complete, image_file, params, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type . ""),
@@ -1276,6 +1276,19 @@ class ASS_JavaApplet extends ASS_Question
 
 			parent::syncWithOriginal();
 		}
+	}
+
+	/**
+	* Returns the question type of the question
+	*
+	* Returns the question type of the question
+	*
+	* @return integer The question type of the question
+	* @access public
+	*/
+	function getQuestionType()
+	{
+		return 7;
 	}
 }
 

@@ -136,7 +136,7 @@ assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
-assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable
+assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von <gap></gap> an der gewünschten Position im Text. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
 assessment#:#cloze_text#:#Lückentext-Frage
 assessment#:#code#:#Code
 assessment#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Nutzerdaten des Tests löschen wollen?
@@ -149,7 +149,7 @@ assessment#:#create_gaps#:#Lücken erzeugen
 assessment#:#create_imagemap#:#Neue Imagemap erzeugen
 assessment#:#create_new#:#Erzeuge neue(n)
 assessment#:#delete_area#:#Region löschen
-assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###07 Jan 2005 new variable
+assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 assessment#:#detail_ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungszeit des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
 assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
@@ -247,15 +247,15 @@ assessment#:#javaapplet_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
-assessment#:#log_create_new_test#:#Created new test###07 Jan 2005 new variable
-assessment#:#log_mark_added#:#Mark added###07 Jan 2005 new variable
-assessment#:#log_mark_changed#:#Mark changed###07 Jan 2005 new variable
-assessment#:#log_mark_removed#:#Mark removed###07 Jan 2005 new variable
-assessment#:#log_modified_test#:#The test was modified###07 Jan 2005 new variable
-assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed###07 Jan 2005 new variable
-assessment#:#log_question_added#:#Question added at position###07 Jan 2005 new variable
-assessment#:#log_question_position_changed#:#Question position changed###07 Jan 2005 new variable
-assessment#:#log_question_removed#:#Question removed###07 Jan 2005 new variable
+assessment#:#log_create_new_test#:#Neuer Test erzeugt
+assessment#:#log_mark_added#:#Note hinzugefügt
+assessment#:#log_mark_changed#:#Note geändert
+assessment#:#log_mark_removed#:#Note entfernt
+assessment#:#log_modified_test#:#Der Test wurde verändert
+assessment#:#log_no_test_fields_changed#:#Ohne Änderungen gespeichert
+assessment#:#log_question_added#:#Frage hinzugefügt an Position
+assessment#:#log_question_position_changed#:#Fragenposition geändert
+assessment#:#log_question_removed#:#Frage entfernt
 assessment#:#maintenance#:#Wartung
 assessment#:#mark_schema#:#Notenschema
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
@@ -265,7 +265,7 @@ assessment#:#matching_pair#:#Zuordnungspaar
 assessment#:#material#:#Material
 assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
-assessment#:#maxchars#:#Maximum number of characters###07 Jan 2005 new variable
+assessment#:#maxchars#:#Maximale Anzahl von Zeichen
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#meaning#:#Bedeutung
 assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen, damit alle erreichten Punktezahlen berücksichtigt werden können. Das Notenschema wurde nicht gespeichert!
@@ -316,7 +316,7 @@ assessment#:#qt_matching#:#Zuordnungsfrage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#qt_ordering#:#Objekte anordnen
-assessment#:#qt_text#:#Short Answer (Text) Question###07 Jan 2005 new variable
+assessment#:#qt_text#:#Freitext-Frage
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_title#:#Fragentitel
@@ -365,7 +365,7 @@ assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erf
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#text_gap#:#Text-Lücke
-assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
+assessment#:#text_maximum_chars_allowed#:#Bitte geben Sie nicht mehr als ein Maximum von %s Zeichen ein. Alle weiteren Zeichen werden am Ende abgeschnitten.
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter hinzufügen!
 assessment#:#true#:#Wahr
@@ -662,7 +662,7 @@ common#:#account_expires_subject#:#[ILIAS 3] Benutzerzugang
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
-common#:#activate_assessment_logging#:#Activate Test&Assessment logging###07 Jan 2005 new variable
+common#:#activate_assessment_logging#:#Protokollieren von Test&Assessment aktivieren
 common#:#activate_https#:#Https aktivieren (Payment, Anmeldung)
 common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Aktivierung
@@ -726,11 +726,11 @@ common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie sicher?
 common#:#articels_unread#:#Ungelesene Beiträge:
 common#:#as_of#:#Stand
-common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
-common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
-common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
-common#:#assf_visible#:#Test&Assessment administration is visible###07 Jan 2005 new variable
-common#:#assf_write#:#Edit Test&Assessment administration###07 Jan 2005 new variable
+common#:#assessment_settings#:#Test&Assessment Adminstration
+common#:#assf_edit_permission#:#Rechteeinstellungen ändern
+common#:#assf_read#:#Zugriff auf Test&Assessment Adminstration
+common#:#assf_visible#:#Test&Assessment Administration ist sichtbar
+common#:#assf_write#:#Bearbeiten der Test&Assessment Administration
 common#:#assign#:#Annehmen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
@@ -1798,7 +1798,7 @@ common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_alm#:#Lernmodul AICC
-common#:#obj_assf#:#Test&Assessment###07 Jan 2005 new variable
+common#:#obj_assf#:#Test&Assessment
 common#:#obj_auth#:#Authentifizierung
 common#:#obj_auth_desc#:#Stellen Sie hier ein, wie Benutzer authentifiziert werden sollen (Lokal, LDAP, ...)
 common#:#obj_cat#:#Kategorie
@@ -2315,7 +2315,7 @@ common#:#up#:#Hoch
 common#:#update_applied#:#Datenbankupdate erfolgreich
 common#:#update_language#:#Sprache updaten
 common#:#upload#:#Hochladen
-common#:#upload_error_file_not_found#:#Upload error: File not found.###07 Jan 2005 new variable
+common#:#upload_error_file_not_found#:#Fehler beim Hochladen: Datei nicht gefunden
 common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, Sie können sie nun importieren.
 common#:#url#:#URL
 common#:#url_a#:#eine URL
@@ -3233,64 +3233,64 @@ forum#:#forums_your_reply#:#Ihre Antwort
 forum#:#frm_default_view#:#Standardansicht
 forum#:#frm_title_required#:#Bitte geben Sie einen Titel ein.
 forum#:#is_read#:#gelesen
-jscalendar#:#about_calendar#:#About the calendar###07 Jan 2005 new variable
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.###07 Jan 2005 new variable
-jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.###07 Jan 2005 new variable
-jscalendar#:#close#:#Close###07 Jan 2005 new variable
-jscalendar#:#day_first#:#Display %s first###07 Jan 2005 new variable
-jscalendar#:#def_date_format#:#%Y-%m-%d###07 Jan 2005 new variable
-jscalendar#:#drag_to_move#:#Drag to move###07 Jan 2005 new variable
-jscalendar#:#go_today#:#Go Today###07 Jan 2005 new variable
-jscalendar#:#l_01#:#January###07 Jan 2005 new variable
-jscalendar#:#l_02#:#Feburary###07 Jan 2005 new variable
-jscalendar#:#l_03#:#March###07 Jan 2005 new variable
-jscalendar#:#l_04#:#April###07 Jan 2005 new variable
-jscalendar#:#l_05#:#May###07 Jan 2005 new variable
-jscalendar#:#l_06#:#June###07 Jan 2005 new variable
-jscalendar#:#l_07#:#July###07 Jan 2005 new variable
-jscalendar#:#l_08#:#August###07 Jan 2005 new variable
-jscalendar#:#l_09#:#September###07 Jan 2005 new variable
-jscalendar#:#l_10#:#October###07 Jan 2005 new variable
-jscalendar#:#l_11#:#November###07 Jan 2005 new variable
-jscalendar#:#l_12#:#December###07 Jan 2005 new variable
-jscalendar#:#l_fr#:#Friday###07 Jan 2005 new variable
-jscalendar#:#l_mo#:#Monday###07 Jan 2005 new variable
-jscalendar#:#l_sa#:#Saturday###07 Jan 2005 new variable
-jscalendar#:#l_su#:#Sunday###07 Jan 2005 new variable
-jscalendar#:#l_th#:#Thursday###07 Jan 2005 new variable
-jscalendar#:#l_tu#:#Tuesday###07 Jan 2005 new variable
-jscalendar#:#l_we#:#Wednesday###07 Jan 2005 new variable
-jscalendar#:#next_month#:#Next month (hold for menu)###07 Jan 2005 new variable
-jscalendar#:#next_year#:#Next year (hold for menu)###07 Jan 2005 new variable
-jscalendar#:#open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###07 Jan 2005 new variable
-jscalendar#:#part_today#:# (today)###07 Jan 2005 new variable
-jscalendar#:#prev_month#:#Prev. month (hold for menu)###07 Jan 2005 new variable
-jscalendar#:#prev_year#:#Prev. year (hold for menu)###07 Jan 2005 new variable
-jscalendar#:#s_01#:#Jan###07 Jan 2005 new variable
-jscalendar#:#s_02#:#Feb###07 Jan 2005 new variable
-jscalendar#:#s_03#:#Mar###07 Jan 2005 new variable
-jscalendar#:#s_04#:#Apr###07 Jan 2005 new variable
-jscalendar#:#s_05#:#May###07 Jan 2005 new variable
-jscalendar#:#s_06#:#Jun###07 Jan 2005 new variable
-jscalendar#:#s_07#:#Jul###07 Jan 2005 new variable
-jscalendar#:#s_08#:#Aug###07 Jan 2005 new variable
-jscalendar#:#s_09#:#Sep###07 Jan 2005 new variable
-jscalendar#:#s_10#:#Oct###07 Jan 2005 new variable
-jscalendar#:#s_11#:#Nov###07 Jan 2005 new variable
-jscalendar#:#s_12#:#Dec###07 Jan 2005 new variable
-jscalendar#:#s_fr#:#Fr###07 Jan 2005 new variable
-jscalendar#:#s_mo#:#Mo###07 Jan 2005 new variable
-jscalendar#:#s_sa#:#Sa###07 Jan 2005 new variable
-jscalendar#:#s_su#:#Su###07 Jan 2005 new variable
-jscalendar#:#s_th#:#Th###07 Jan 2005 new variable
-jscalendar#:#s_tu#:#Tu###07 Jan 2005 new variable
-jscalendar#:#s_we#:#We###07 Jan 2005 new variable
-jscalendar#:#select_date#:#Select date###07 Jan 2005 new variable
-jscalendar#:#time#:#Time###07 Jan 2005 new variable
-jscalendar#:#time_part#:#(Shift-)Click or drag to change value###07 Jan 2005 new variable
-jscalendar#:#today#:#Today###07 Jan 2005 new variable
-jscalendar#:#tt_date_format#:#%a, %b %e###07 Jan 2005 new variable
-jscalendar#:#wk#:#wk###07 Jan 2005 new variable
+jscalendar#:#about_calendar#:#Über den Kalender
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums::\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
+jscalendar#:#about_time#:#\n\nAuswahl der Zeit:\n- Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen\n- or Umschalten+Klicken, um den Wert zu erniedrigen\n- oder klicken und ziehen für eine Schnellauswahl.
+jscalendar#:#close#:#Schließen
+jscalendar#:#day_first#:#%s zuerst Anzeigen
+jscalendar#:#def_date_format#:#%Y-%m-%d
+jscalendar#:#drag_to_move#:#Ziehen zum Verschieben
+jscalendar#:#go_today#:#Heute
+jscalendar#:#l_01#:#Januar
+jscalendar#:#l_02#:#Februar
+jscalendar#:#l_03#:#März
+jscalendar#:#l_04#:#April
+jscalendar#:#l_05#:#Mai
+jscalendar#:#l_06#:#Juni
+jscalendar#:#l_07#:#Juli
+jscalendar#:#l_08#:#August
+jscalendar#:#l_09#:#September
+jscalendar#:#l_10#:#Oktober
+jscalendar#:#l_11#:#November
+jscalendar#:#l_12#:#Dezember
+jscalendar#:#l_fr#:#Freitag
+jscalendar#:#l_mo#:#Montag
+jscalendar#:#l_sa#:#Samstag
+jscalendar#:#l_su#:#Sonntag
+jscalendar#:#l_th#:#Donnerstag
+jscalendar#:#l_tu#:#Dienstag
+jscalendar#:#l_we#:#Mittwoch
+jscalendar#:#next_month#:#Nächster Monat (Festhalten für Schnellauswahl)
+jscalendar#:#next_year#:#Nächstes Jahr (Festhalten für Schnellauswahl)
+jscalendar#:#open_calendar#:#Klicken Sie hier, um einen Kalender zur Datumsauswahl anzuzeigen (Javascript benötigt!)
+jscalendar#:#part_today#:# (heute)
+jscalendar#:#prev_month#:#Voriger Monate (Festhalten für Schnellauswahl)
+jscalendar#:#prev_year#:#Voriges Jahr (Festhalten für Schnellauswahl)
+jscalendar#:#s_01#:#Jan
+jscalendar#:#s_02#:#Feb
+jscalendar#:#s_03#:#Mär
+jscalendar#:#s_04#:#Apr
+jscalendar#:#s_05#:#Mai
+jscalendar#:#s_06#:#Jun
+jscalendar#:#s_07#:#Jul
+jscalendar#:#s_08#:#Aug
+jscalendar#:#s_09#:#Sep
+jscalendar#:#s_10#:#Okt
+jscalendar#:#s_11#:#Nov
+jscalendar#:#s_12#:#Dez
+jscalendar#:#s_fr#:#Fr
+jscalendar#:#s_mo#:#Mo
+jscalendar#:#s_sa#:#Sa
+jscalendar#:#s_su#:#So
+jscalendar#:#s_th#:#Do
+jscalendar#:#s_tu#:#Di
+jscalendar#:#s_we#:#Mi
+jscalendar#:#select_date#:#Datum auswählen
+jscalendar#:#time#:#Zeit
+jscalendar#:#time_part#:#(Umschalten-)Klick oder Festhalten und Ziehen um den Wert zu ändern
+jscalendar#:#today#:#Heute
+jscalendar#:#tt_date_format#:#%a, %b %e
+jscalendar#:#wk#:#KW
 mail#:#also_as_email#:#Auch als E-Mail
 mail#:#bc#:#BC
 mail#:#forward#:#Weiterleiten
