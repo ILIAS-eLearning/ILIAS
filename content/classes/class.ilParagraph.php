@@ -72,9 +72,16 @@ class ilParagraph extends ilPageContent
 	/**
 	*
 	*/
-	function getText()
+	function getText($a_short_mode = false)
 	{
-		return $this->text;
+		if (!$a_short_mode)
+		{
+			return $this->text;
+		}
+		else
+		{
+			return ilUtil::shortenText($this->xml2output($this->text), 100);
+		}
 	}
 
 	/**
@@ -103,19 +110,72 @@ class ilParagraph extends ilPageContent
 		return $this->language;
 	}
 
-	function getXML($a_utf8_encoded = false)
+	function getXML($a_utf8_encoded = false, $a_short_mode = false)
 	{
 		if ($a_utf8_encoded)
 		{
 			return "<Paragraph Language=\"".$this->getLanguage().
-				"\">".utf8_encode($this->getText())."</Paragraph>";
+				"\">".utf8_encode($this->getText($a_short_mode))."</Paragraph>";
 		}
 		else
 		{
 			return "<Paragraph Language=\"".$this->getLanguage().
-				"\">".$this->getText()."</Paragraph>";
+				"\">".$this->getText($a_short_mode)."</Paragraph>";
 		}
 
+	}
+
+	function input2xml($a_text)
+	{
+		// note: the order of the processing steps is crucial
+		// and should be the same as in xml2output() in REVERSE order!
+
+		$a_text = trim($a_text);
+
+		// mask html
+		$a_text = str_replace("<","&lt;",$a_text);
+		$a_text = str_replace(">","&gt;",$a_text);
+
+		// linefeed to br
+		$a_text = str_replace(chr(13).chr(10),"<br />",$a_text);
+		$a_text = str_replace(chr(13),"<br />", $a_text);
+		$a_text = str_replace(chr(10),"<br />", $a_text);
+
+		// bb code to xml
+		$a_text = eregi_replace("\[com\]","<Comment>",$a_text);
+		$a_text = eregi_replace("\[\/com\]","</Comment>",$a_text);
+		$a_text = eregi_replace("\[emp]","<Emph>",$a_text);
+		$a_text = eregi_replace("\[\/emp\]","</Emph>",$a_text);
+		$a_text = eregi_replace("\[str]","<Strong>",$a_text);
+		$a_text = eregi_replace("\[\/str\]","</Strong>",$a_text);
+		/*$blob = ereg_replace("<NR><NR>","<P>",$blob);
+		$blob = ereg_replace("<NR>"," ",$blob);*/
+
+		//$a_text = nl2br($a_text);
+		return $a_text;
+	}
+
+	function xml2output($a_text)
+	{
+		// note: the order of the processing steps is crucial
+		// and should be the same as in input2xml() in REVERSE order!
+
+		// xml to bb code
+		$a_text = eregi_replace("<Comment>","[com]",$a_text);
+		$a_text = eregi_replace("</Comment>","[/com]",$a_text);
+		$a_text = eregi_replace("<Emph>","[emp]",$a_text);
+		$a_text = eregi_replace("</Emph>","[/emp]",$a_text);
+		$a_text = eregi_replace("<Strong>","[str]",$a_text);
+		$a_text = eregi_replace("</Strong>","[/str]",$a_text);
+
+		// br to linefeed
+		$a_text = str_replace("<br />", "\n", $a_text);
+
+		// unmask html
+		$a_text = str_replace("&lt;", "<", $a_text);
+		$a_text = str_replace("&gt;", ">",$a_text);
+		return $a_text;
+		//return str_replace("<br />", chr(13).chr(10), $a_text);
 	}
 
 

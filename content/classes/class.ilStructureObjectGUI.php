@@ -103,7 +103,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		if($cnt == 0)
 		{
 			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("NUM_COLS", 2);
+			$this->tpl->setVariable("NUM_COLS", 3);
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -245,8 +245,16 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->putInTree();
 
-		header("location: lm_edit.php?cmd=subchap&lm_id=".$this->lm_obj->getId()."&obj_id=".
-			$_GET["obj_id"]);
+		if (!empty($_GET["obj_id"]))
+		{
+			header("location: lm_edit.php?cmd=subchap&lm_id=".$this->lm_obj->getId()."&obj_id=".
+				$_GET["obj_id"]);
+		}
+		else
+		{
+			header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId());
+		}
+
 	}
 
 	function putInTree()
@@ -259,8 +267,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$tree = new ilTree($_GET["lm_id"]);
 			$tree->setTableNames('lm_tree','lm_data');
 			$tree->setTreeTablePK("lm_id");
+
+			// determine parent node id
+			$parent_id = (!empty($_GET["obj_id"]))
+				? $_GET["obj_id"]
+				: $tree->getRootId();
+
 			// determine last child of type pg
-			$childs =& $tree->getChildsByType($_GET["obj_id"], "pg");
+			$childs =& $tree->getChildsByType($parent_id, "pg");
 			if (count($childs) != 0)
 			{
 				$_GET["target"] = $childs[count($childs) - 1]["obj_id"];

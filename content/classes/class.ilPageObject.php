@@ -139,7 +139,7 @@ class ilPageObject extends ilLMObject
 		}
 	}
 
-	function getXMLContent($a_utf8_encoded = false)
+	function getXMLContent($a_utf8_encoded = false, $a_short_mode = false)
 	{
 		$xml = "";
 		reset($this->content);
@@ -147,7 +147,7 @@ class ilPageObject extends ilLMObject
 		{
 			if (get_class($co_object) == "ilparagraph")
 			{
-				$xml .= $co_object->getXML($a_utf8_encoded);
+				$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode);
 			}
 		}
 		$utfstr = ($a_utf8_encoded)
@@ -205,6 +205,14 @@ class ilPageObject extends ilLMObject
 		}
 		$this->content[$a_pos - 1] =& $a_cont_obj;
 		$this->update();
+	}
+
+	/**
+	* static
+	*/
+	function getPageList($lm_id)
+	{
+		return ilLMObject::getObjectList($lm_id, "pg");
 	}
 
 

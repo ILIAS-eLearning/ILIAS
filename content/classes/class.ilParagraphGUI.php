@@ -76,7 +76,7 @@ class ilParagraphGUI
 
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
 		//echo htmlentities($this->para_obj->getText());
-		$this->tpl->setVariable("PAR_TA_CONTENT", $this->xml2output($this->para_obj->getText()));
+		$this->tpl->setVariable("PAR_TA_CONTENT", $this->para_obj->xml2output($this->para_obj->getText()));
 		//$this->tpl->setVariable("PAR_TA_CONTENT", "Hallo Echo");
 		$this->tpl->parseCurrentBlock();
 
@@ -161,7 +161,7 @@ class ilParagraphGUI
 
 		//$cur_content_obj =& $content[$_GET["cont_cnt"] - 1];
 
-		$this->para_obj->setText($this->input2xml($_POST["par_content"]));
+		$this->para_obj->setText($this->para_obj->input2xml($_POST["par_content"]));
 		$this->pg_obj->update();
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->pg_obj->getId());
@@ -172,7 +172,7 @@ class ilParagraphGUI
 	function create()
 	{
 		$new_par = new ilParagraph();
-		$new_par->setText($this->input2xml($_POST["par_content"]));
+		$new_par->setText($new_par->input2xml($_POST["par_content"]));
 		$this->pg_obj->insertContent($new_par, $this->cont_cnt + 1);
 		//$this->pg_obj->update();
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".

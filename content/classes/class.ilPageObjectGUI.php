@@ -63,79 +63,27 @@ class ilPageObjectGUI extends ilLMObjectGUI
 	{
 		global $tree;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_view.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit_wysiwyg.html", true);
 		$num = 0;
 
+		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=post");
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
-		//table header
-		$this->tpl->setCurrentBlock("table_header_cell");
-		$cols = array("", "type", "cont_content");
-		foreach ($cols as $key)
-		{
-			if ($key != "")
-			{
-			    $out = $this->lng->txt($key);
-			}
-			else
-			{
-				$out = "&nbsp;";
-			}
-			$num++;
+		// setting to utf-8 here
+		$content = $this->obj->getXMLContent(true, true);
+		header('Content-type: text/html; charset=UTF-8');
 
-			$this->tpl->setVariable("HEADER_TEXT", $out);
-			//$this->tpl->setVariable("HEADER_LINK", "usr_bookmarks.php?bmf_id=".$this->id."&order=type&direction=".
-			//$_GET["dir"]."&cmd=".$_GET["cmd"]);
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
+		$xh = xslt_create();
+//echo "<b>XML</b>:".htmlentities($content).":<br>";
+//echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args);
+		echo xslt_error($xh);
+		xslt_free($xh);
 
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$cnt = 0;
-		$content = $this->obj->getContent();
-		foreach ($content as $content_obj)
-		{
-			// color changing
-			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
-
-			// checkbox
-			$this->tpl->setCurrentBlock("checkbox");
-			$type = (get_class($content_obj) == "ilparagraph") ? "par" : "mob";
-			$this->tpl->setVariable("CHECKBOX_ID", $type.":".$cnt);
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("table_cell");
-			$this->tpl->parseCurrentBlock();
-
-			// type
-			$link = "lm_edit.php?cmd=edit&lm_id=".$this->lm_obj->getId()."&obj_id=".
-				$this->obj->getId()."&cont_cnt=".$cnt;
-			$this->add_cell($this->lng->txt("par"), $link);
-
-			// content
-			$this->add_cell($content_obj->getText(),"");
-
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-		}
-		if($cnt == 0)
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("NUM_COLS", 3);
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			// SHOW VALID ACTIONS
-			//$this->tpl->setVariable("NUM_COLS", 3);
-			//$this->showActions();
-		}
-
-		// SHOW POSSIBLE SUB OBJECTS
-		$this->tpl->setVariable("NUM_COLS", 3);
-		$this->showPossibleSubObjects("pg");
+		$this->tpl->setVariable("PAGE_CONTENT", $output);
 
 	}
 
@@ -207,10 +155,18 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$this->obj->setLMId($_GET["lm_id"]);
 		$this->obj->create();
 
-		$this->putInTree();
-
-		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
-			$_GET["obj_id"]);
+		// obj_id is empty, if page is created from "all pages" screen
+		// -> a free page is created (not in the tree)
+		if (empty($_GET["obj_id"]))
+		{
+			header("location: lm_edit.php?cmd=pages&lm_id=".$this->lm_obj->getId());
+		}
+		else
+		{
+			$this->putInTree();
+			header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+				$_GET["obj_id"]);
+		}
 	}
 }
 ?>

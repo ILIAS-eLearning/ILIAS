@@ -22,6 +22,7 @@
 */
 
 require_once("content/classes/class.ilMetaData.php");
+require_once("classes/class.ilObjLearningModule.php");
 
 /**
 * Class ilLearningModule
@@ -80,6 +81,11 @@ class ilLearningModule
 		return $this->id;
 	}
 
+	function getType()
+	{
+		return "lm";
+	}
+
 	function getTitle()
 	{
 		return $this->meta_data->getTitle();
@@ -89,6 +95,12 @@ class ilLearningModule
 	{
 		$this->meta_data =& $a_meta_data;
 	}
+
+	function &getMetaData()
+	{
+		return $this->meta_data;
+	}
+
 
 	function update()
 	{

@@ -40,6 +40,7 @@ class ilLMObjectGUI
 	var $tpl;
 	var $lng;
 	var $obj;
+	var $objDefinition;
 
 	function ilLMObjectGUI()
 	{
@@ -83,9 +84,12 @@ class ilLMObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setLMObject($this->lm_obj);
 		//$meta_gui->setObject($this->obj);
+		$obj_str = (is_object($this->obj))
+			? "&obj_id=".$this->obj->getId()
+			: "";
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&new_type=".$_POST["new_type"].
-			"&target=".$target."&obj_id=".$this->obj->getId()."&cmd=save");
+			$this->lm_obj->getId().$obj_str."&new_type=".$_POST["new_type"].
+			"&target=".$target."&cmd=save");
 	}
 
 	function putInTree()
@@ -93,6 +97,11 @@ class ilLMObjectGUI
 		$tree = new ilTree($_GET["lm_id"]);
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
+
+		$parent_id = (!empty($_GET["obj_id"]))
+			? $_GET["obj_id"]
+			: $tree->getRootId();
+
 		if (!empty($_GET["target"]))
 		{
 			$target = $_GET["target"];
@@ -100,7 +109,7 @@ class ilLMObjectGUI
 		else
 		{
 			// determine last child of current type
-			$childs =& $tree->getChildsByType($_GET["obj_id"], $this->obj->getType());
+			$childs =& $tree->getChildsByType($parent_id, $this->obj->getType());
 			if (count($childs) == 0)
 			{
 				$target = IL_FIRST_NODE;
@@ -111,7 +120,7 @@ class ilLMObjectGUI
 			}
 		}
 
-		$tree->insertNode($this->obj->getId(), $_GET["obj_id"], $target);
+		$tree->insertNode($this->obj->getId(), $parent_id, $target);
 	}
 
 
