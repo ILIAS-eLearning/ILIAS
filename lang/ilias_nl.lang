@@ -212,6 +212,8 @@ assessment#:#qt_ordering#:#Volgorde-vraag
 assessment#:#question_saved_for_upload#:#De vraag is automatisch opgeslagen om ruimte op de schijf te reserveren voor het te uploaden bestand. Als U nu annuleert, moet u er rekening mee houden, dat de vraag uit de vraagbaak verwijderd moet worden indien u hem niet bewaren wil!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Vraag-type
+assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
+assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
 assessment#:#random_selection#:#Random selectie
 assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
 assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable

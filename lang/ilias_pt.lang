@@ -212,6 +212,8 @@ assessment#:#qt_ordering#:#Questão de ordenação
 assessment#:#question_saved_for_upload#:#A questão foi guardada automáticamente para reservar espaço no disco para guardar o ficheiro enviado. Se você cancelar esta operação agora, tenha atenção que você tem de apagar a questão no banco de questões se não quiser mantê-la!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Tipo de questão
+assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
+assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
 assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
 assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
 assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable

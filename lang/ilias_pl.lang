@@ -202,6 +202,8 @@ assessment#:#qt_ordering#:#Pytanie na porządkowanie
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#P
 assessment#:#question_type#:#Typ pytania
+assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
+assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
 assessment#:#random_selection#:#Wybór przypadkowy
 assessment#:#rectangle#:#Prostokąt
 assessment#:#rectangle_click_tl_corner#:#Kliknij na lewy górny narożnik wybranego obszaru.
