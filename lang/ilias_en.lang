@@ -265,9 +265,9 @@ assessment#:#tst_stat_selected_users#:#Selected users
 assessment#:#tst_stat_users_intro#:#Show statistical evaluation for
 assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool
 assessment#:#tst_status_completed#:#completed
-assessment#:#tst_status_completed_more_tries_possible#:#(completed)
-assessment#:#tst_status_not_entered#:#not entered
-assessment#:#tst_status_progress#:#in progress
+assessment#:#tst_status_completed_more_tries_possible#:#Completed
+assessment#:#tst_status_not_entered#:#Not started
+assessment#:#tst_status_progress#:#In progress
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
 assessment#:#tst_your_mark_is#:#Your mark is
