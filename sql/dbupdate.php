@@ -4936,4 +4936,34 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#328>
 ALTER  TABLE  `survey_survey`  ADD  `show_question_titles` ENUM(  '0',  '1'  ) DEFAULT  '1' NOT  NULL  AFTER  `anonymize` ;
+<#329>
+CREATE TABLE `survey_question_obligatory` (
+`question_obligatory_id` INT NOT NULL AUTO_INCREMENT ,
+`survey_fi` INT NOT NULL ,
+`question_fi` INT NOT NULL ,
+`obligatory` ENUM( '0', '1' ) DEFAULT '1' NOT NULL ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `question_obligatory_id` ) ,
+INDEX ( `survey_fi` , `question_fi` )
+) COMMENT = 'Contains the obligatory state of questions in a survey';
+<#330>
+<?php
+// convert former questionblock obligatory states into the question obligatory table
+$query = "SELECT * FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock_question.questionblock_fi = survey_questionblock.questionblock_id";
+$res = $this->db->query($query);
+if ($res->numRows())
+{
+	while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+	{
+		$qinsert = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+			$this->db->quote($row["survey_fi"] . ""),
+			$this->db->quote($row["question_fi"] . ""),
+			$this->db->quote($row["obligatory"] . "")
+		);
+		$result = $this->db->query($qinsert);
+	}
+}
+?>
+<#331>
+ALTER TABLE `survey_questionblock` DROP COLUMN `obligatory`;
 

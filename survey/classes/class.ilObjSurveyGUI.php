@@ -1403,20 +1403,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("HIDDEN_VALUE", $questionblock_id);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setCurrentBlock("obligatory");
-		$this->tpl->setVariable("TEXT_OBLIGATORY", $this->lng->txt("obligatory"));
-		if ($questionblock_id)
-		{
-			if ($questionblock["obligatory"])
-			{
-				$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
-			}
-		}
-		else
-		{
-			$this->tpl->setVariable("CHECKED_OBLIGATORY", " checked=\"checked\"");
-		}
-		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("DEFINE_QUESTIONBLOCK_HEADING", $this->lng->txt("define_questionblock"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
@@ -1963,7 +1949,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				if ($_POST["questionblock_id"])
 				{
-					$this->object->modifyQuestionblock($_POST["questionblock_id"], ilUtil::stripSlashes($_POST["title"]), $_POST["obligatory"]);
+					$this->object->modifyQuestionblock($_POST["questionblock_id"], ilUtil::stripSlashes($_POST["title"]));
 				}
 				else
 				{
@@ -1975,7 +1961,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							array_push($questionblock, $value);
 						}
 					}
-					$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $_POST["obligatory"], $questionblock);
+					$this->object->createQuestionblock(ilUtil::stripSlashes($_POST["title"]), $questionblock);
 				}
 			}
 		}
@@ -2225,9 +2211,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock("QTab");
 				$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
-				if ($data["obligatory"] == 1)
+				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 				{
-					$this->tpl->setVariable("QUESTION_OBLIGATORY", $obligatory);
+					$obligatory_checked = "";
+					if ($data["obligatory"] == 1)
+					{
+						$obligatory_checked = " checked=\"checked\"";
+					}
+					$this->tpl->setVariable("QUESTION_OBLIGATORY", "<input type=\"checkbox\" name=\"obligatory_" . $data["question_id"] . "\" value=\"1\"$obligatory_checked />");
+				}
+				else
+				{
+					if ($data["obligatory"] == 1)
+					{
+						$this->tpl->setVariable("QUESTION_OBLIGATORY", $obligatory);
+					}
 				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) {
@@ -2312,6 +2310,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
 				$this->tpl->setVariable("MOVE", $this->lng->txt("move"));
+				$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 				$this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
 				$this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
 				$this->tpl->setVariable("CONSTRAINTS", $this->lng->txt("constraints"));
@@ -2335,6 +2334,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $add_parameter);
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
+		$this->tpl->setVariable("QUESTION_OBLIGATORY", $this->lng->txt("obligatory"));
 		$this->tpl->setVariable("QUESTION_CONSTRAINTS", $this->lng->txt("constraints"));
 		$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("sequence"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("question_type"));
