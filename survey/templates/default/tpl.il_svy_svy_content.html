@@ -8,7 +8,7 @@ body { margin:0px; }
 <div class="il_Header">
 <table width="100%">
 <tr colspan="2">
-<td><h1>{HEADER}</h1></td>
+<td><h1>{HEADER}<!-- BEGIN print_block -->[<a href="{PRINT_ACTION}" target="_blank"><img src="{PRINT_IMAGE}" width="18" height="18" alt="{PRINT_TEXT}" title="{PRINT_TEXT}" border="0"></a> <a href="{PRINT_ACTION}" target="_blank">{PRINT_TEXT}</a>]<!-- END print_block --></h1></td>
 </tr>
 <tr>
 <td align="left">
@@ -22,18 +22,18 @@ body { margin:0px; }
 <td align="center">
 <!-- BEGIN percentage -->
 <div align="left" style="height: 15px;
-width: {HUNDRED_PERCENT}px; 
-background: #ffffff; 
-border: 1px solid #333333; 
-margin: .5em; 
+width: {HUNDRED_PERCENT}px;
+background: #ffffff;
+border: 1px solid #333333;
+margin: .5em;
 padding: 0;">
-<div align="center" style="height:15px; 
-width: {PERCENTAGE}px; 
-margin: 0; 
-padding: 0; 
+<div align="center" style="height:15px;
+width: {PERCENTAGE}px;
+margin: 0;
+padding: 0;
 background: #C0C0C0" >
-<span style="font: 12px Verdana, Arial, sans-serif; 
-color: #000000; 
+<span style="font: 12px Verdana, Arial, sans-serif;
+color: #000000;
 text-align: center;">
 &nbsp;{PERCENTAGE_VALUE}%
 </span>

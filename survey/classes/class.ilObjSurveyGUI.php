@@ -42,6 +42,11 @@ require_once "./classes/class.ilObjGroup.php";
 require_once "./survey/classes/class.SurveySearch.php";
 require_once './classes/Spreadsheet/Excel/Writer.php';
 
+define ("TYPE_XLS", "excel");
+define ("TYPE_SPSS", "csv");
+define ("TYPE_PRINT", "prnt");
+
+
 class ilObjSurveyGUI extends ilObjectGUI
 {
 	/**
@@ -85,7 +90,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "y");
 
 		// put here object specific stuff
-			
+
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
@@ -111,11 +116,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 *
 * @access public
 */
-  function getAddParameter() 
+  function getAddParameter()
   {
     return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
   }
-	
+
 	function writePropertiesFormData()
 	{
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
@@ -127,7 +132,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->object->setEndDateEnabled($_POST["checked_end_date"]);
 		$this->object->setIntroduction(ilUtil::stripSlashes($_POST["introduction"]));
 	}
-	
+
 /**
 * Creates the form output for running the survey
 *
@@ -137,7 +142,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function runObject() {
 		global $ilUser;
-		
+
 		if ($_POST["cmd"]["start"])
 		{
 			$this->object->startSurvey($ilUser->id);
@@ -149,9 +154,9 @@ class ilObjSurveyGUI extends ilObjectGUI
       header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
-		
+
     $add_parameter = $this->getAddParameter();
-		
+
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_svy_svy_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$title = $this->object->getTitle();
@@ -270,7 +275,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				sendInfo($errormsg);
 			}
-			
+
 			if ($_POST["cmd"]["previous"] or $_POST["cmd"]["skip_previous"])
 			{
 				$activepage = $_GET["qid"];
@@ -287,7 +292,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$direction = 1;
 				}
 			}
-			
+
 			$page = $this->object->getNextPage($activepage, $direction);
 			$constraint_true = 0;
 			// check for constraints
@@ -307,7 +312,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 				}
 			}
-			
+
 			$qid = "";
 			if ($page === 0)
 			{
@@ -401,7 +406,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->runShowIntroductionPage();
 		}
 	}
-	
+
 /**
 * Creates the introduction page for a running survey
 *
@@ -481,7 +486,7 @@ class ilObjSurveyGUI extends ilObjectGUI
   function propertiesObject()
   {
 		global $rbacsystem;
-				
+
     $add_parameter = $this->getAddParameter();
 		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"])
 		{
@@ -533,7 +538,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHECKED_START_DATE", " checked=\"checked\"");
 		}
-		
+
 		if ($this->object->getEvaluationAccess() == EVALUATION_ACCESS_ON)
 		{
 			$this->tpl->setVariable("SELECTED_ON", " selected=\"selected\"");
@@ -558,7 +563,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
     $this->tpl->parseCurrentBlock();
   }
-	
+
 /**
 * Creates the questionbrowser to select questions from question pools
 *
@@ -615,7 +620,7 @@ class ilObjSurveyGUI extends ilObjectGUI
     $this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
     $this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
     $this->tpl->setVariable("OPTION_QUESTIONS", $this->lng->txt("questions"));
-    $this->tpl->setVariable("OPTION_QUESTIONBLOCKS", $this->lng->txt("questionblocks"));		
+    $this->tpl->setVariable("OPTION_QUESTIONBLOCKS", $this->lng->txt("questionblocks"));
 		if ($browsequestions)
 		{
 	    $this->tpl->setVariable("SELECTED_QUESTIONS", " selected=\"selected\"");
@@ -636,7 +641,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if ($_GET["prevrow"])
 		{
 			$startrow = $_GET["prevrow"];
-		}		
+		}
 		if ($_GET["nextrow"])
 		{
 			$startrow = $_GET["nextrow"];
@@ -679,7 +684,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 					$counter++;
 				}
-			}		
+			}
 			if ($table["rowcount"] > count($table["rows"]))
 			{
 				$this->tpl->setCurrentBlock("questions_navigation_bottom");
@@ -735,7 +740,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		
+
     // if there are no questions, display a message
     if ($counter == 0) {
       $this->tpl->setCurrentBlock("Emptytable");
@@ -755,7 +760,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("selection");
 			$this->tpl->setVariable("INSERT", $this->lng->txt("insert"));
 			$this->tpl->parseCurrentBlock();
-	
+
 			$this->tpl->setCurrentBlock("Footer");
 			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 			$this->tpl->parseCurrentBlock();
@@ -857,7 +862,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				sendInfo($this->lng->txt("no_search_results"));
 			}
 		}
-		
+
 		sendInfo();
 		$add_parameter = $this->getAddParameter();
 		$questiontypes = &$this->object->getQuestiontypes();
@@ -915,7 +920,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter . "&search_question=1&browsetype=1&insert_question=1");
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
 /**
 * Creates a confirmation form to insert questions into the survey
 *
@@ -1198,7 +1203,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		else if ($_POST["cmd"]["cancel_add_constraint"])
 		{
 			// do nothing, just cancel the form
-			$add_constraint = 0;			
+			$add_constraint = 0;
 		}
 		else
 		{
@@ -1207,7 +1212,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_add_constraint.html", true);
 			$found = 0;
-			if ($_POST["cmd"]["select_relation"] or $_POST["cmd"]["select_value"]) 
+			if ($_POST["cmd"]["select_relation"] or $_POST["cmd"]["select_value"])
 			{
 				$this->tpl->setCurrentBlock("option_q");
 				$this->tpl->setVariable("OPTION_VALUE", $_POST["q"]);
@@ -1215,7 +1220,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			else
-			{ 
+			{
 				foreach ($pages as $question_array)
 				{
 					if (!$found)
@@ -1468,7 +1473,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("HIDDEN_VALUE", "$id");
 				$this->tpl->parseCurrentBlock();
 			}
-	
+
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("TEXT_EDIT_CONSTRAINTS", $this->lng->txt("edit_constraints_introduction"));
 			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
@@ -1524,13 +1529,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
 			}
 		}
-		
+
 		if ($_GET["editblock"])
 		{
 			$this->defineQuestionblock($_GET["editblock"]);
 			return;
 		}
-		
+
 		if ($_POST["cmd"]["questionblock"])
 		{
 			$questionblock = array();
@@ -1551,7 +1556,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				return;
 			}
 		}
-		
+
 		if ($_POST["cmd"]["unfold"])
 		{
 			$unfoldblocks = array();
@@ -1571,7 +1576,7 @@ class ilObjSurveyGUI extends ilObjectGUI
         sendInfo($this->lng->txt("qpl_unfold_select_none"));
 			}
 		}
-		
+
 		if ($_POST["cmd"]["save_questionblock"])
 		{
 			if ($_POST["title"])
@@ -1596,7 +1601,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		$add_constraint = 0;
-		$delete_constraint = 0;		
+		$delete_constraint = 0;
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/add_constraint_(\d+)/", $key, $matches)) {
 				$add_constraint = 1;
@@ -1641,7 +1646,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				return;
 			}
 		}
-		
+
 		if ($_POST["cmd"]["create_question"]) {
 			$this->questionpoolSelectForm();
 			return;
@@ -1722,7 +1727,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				return;
 			}
 		}
-		
+
 		if (strlen($_POST["cmd"]["confirm_insert"]) > 0)
 		{
 			// insert questions from test after confirmation
@@ -1855,7 +1860,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$checked_move = 0;
 		if ($_POST["cmd"]["move"])
 		{
-			foreach ($_POST as $key => $value) 
+			foreach ($_POST as $key => $value)
 			{
 				if (preg_match("/cb_(\d+)/", $key, $matches))
 				{
@@ -1879,7 +1884,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				sendInfo($this->lng->txt("no_question_selected_for_move"));
 			}
 		}
-		
+
 
 		if ($counter == 0) {
 			$this->tpl->setCurrentBlock("Emptytable");
@@ -1930,10 +1935,75 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("survey_online_warning"));
 		}
-		
+
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
+	function printEvaluationObject()
+	{
+		$tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluation_preview.html", true, true);
+		$row_classes = array("tblrow1", "tblrow2");
+		if (!$_GET[$this->lng->txt("question")]) {
+			foreach ($_SESSION["print_eval"] as $key => $value)
+			{
+				if ($key == 0)
+				{
+					$tpl->setCurrentBlock("titlecol");
+					for ($i = 0; $i < count($value); $i++)
+					{
+						$tpl->setVariable("TXT_TITLE", $value[$i]);
+						$tpl->parseCurrentBlock();
+					}
+				}
+				else if (preg_match("/\d+/", $key))
+				{
+					$tpl->setCurrentBlock("datacol");
+					for ($i = 0; $i < count($value); $i++)
+					{
+						$tpl->setVariable("TXT_DATA", $value[$i]);
+						$tpl->parseCurrentBlock();
+					}
+					$tpl->setCurrentBlock("row");
+					$tpl->setVariable("ROW_CLASS", $row_classes[$key % 2]);
+					$tpl->parseCurrentBlock();
+				}
+			}
+
+			$tpl->setCurrentBlock("heading");
+			$tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("svy_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
+			$tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
+			$tpl->setVariable("PRINT_TYPE", "summary");
+			$tpl->parseCurrentBlock();
+			$tpl->show();
+		}
+		else
+		{
+			foreach ($_SESSION[$this->lng->txt("question").$_GET[$this->lng->txt("question")]] as $key => $value)
+			{
+				$i=0;
+				$row_num = 1;
+				while ($i < count($value))
+				{
+					$tpl->setCurrentBlock("detail_title");
+					$tpl->setVariable("TXT_TITLE", $value[$i++]);
+					$tpl->setVariable("TXT_DATA", $value[$i++]);
+					$tpl->parseCurrentBlock();
+
+					$tpl->setCurrentBlock("row");
+					$tpl->setVariable("ROW_CLASS", $row_classes[$row_num % 2]);
+					$tpl->parseCurrentBlock();
+					$row_num++;
+				}
+			}
+			$tpl->setCurrentBlock("heading");
+			$tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("svy_statistical_evaluation") . " " . $this->lng->txt("of") . " " . $this->object->getTitle());
+			$tpl->setVariable("PRINT_CSS", "./templates/default/print.css");
+			$tpl->parseCurrentBlock();
+			$tpl->show();
+		}
+		exit();
+	}
+
 	/**
 	* Creates the evaluation form
 	*
@@ -1944,11 +2014,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function evaluationObject()
 	{
 		global $ilUser;
-		
+
 		$surveyname = preg_replace("/\s/", "_", $this->object->getTitle());
+
+		if (!$_POST["export_format"])
+		{
+			$_POST["export_format"] = TYPE_PRINT;
+		}
+
 		switch ($_POST["export_format"])
 		{
-			case "csv":
+			case (TYPE_SPSS || TYPE_PRINT):
 				$csvfile = array();
 				$csvrow = array();
 				array_push($csvrow, $this->lng->txt("title"));
@@ -1957,7 +2033,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 				array_push($csvrow, $this->lng->txt("users_answered"));
 				array_push($csvrow, $this->lng->txt("users_skipped"));
 				array_push($csvrow, $this->lng->txt("mode"));
-				array_push($csvrow, $this->lng->txt("mode_text"));
+
+/* I commented it because there was no corresponding value for this column
+	   Muzaffar
+*/
+				//array_push($csvrow, $this->lng->txt("mode_text"));
+
+
 				array_push($csvrow, $this->lng->txt("mode_nr_of_selections"));
 				array_push($csvrow, $this->lng->txt("median"));
 				array_push($csvrow, $this->lng->txt("arithmetic_mean"));
@@ -1965,12 +2047,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				array_push($csvrow, $this->lng->txt("harmonic_mean"));
 				array_push($csvfile, $csvrow);
 				break;
-			case "excel":
+			case TYPE_XLS:
 				// Creating a workbook
 				$workbook = new Spreadsheet_Excel_Writer();
 				// sending HTTP headers
 				$workbook->send("$surveyname.xls");
-				
+
 				$format_bold =& $workbook->addFormat();
 				$format_bold->setBold();
 				$format_percent =& $workbook->addFormat();
@@ -2046,7 +2128,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
 			switch ($_POST["export_format"])
 			{
-				case "csv":
+				case (TYPE_SPSS || TYPE_PRINT):
 					$csvrow = array();
 					array_push($csvrow, $data["title"]);
 					array_push($csvrow, $data["questiontext"]);
@@ -2072,7 +2154,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					array_push($csvrow, $eval["HARMONIC_MEAN"]);
 					array_push($csvfile, $csvrow);
 					break;
-				case "excel":
+				case TYPE_XLS:
 					$mainworksheet->write($counter+1, 0, $data["title"]);
 					$mainworksheet->write($counter+1, 1, $data["questiontext"]);
 					$mainworksheet->write($counter+1, 2, $this->lng->txt($eval["QUESTION_TYPE"]));
@@ -2095,14 +2177,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$mainworksheet->write($counter+1, 9, $eval["ARITHMETIC_MEAN"]);
 					$mainworksheet->write($counter+1, 10, $eval["GEOMETRIC_MEAN"]);
 					$mainworksheet->write($counter+1, 11, $eval["HARMONIC_MEAN"]);
-					break;				
+					break;
 			}
 			$this->tpl->parseCurrentBlock();
 			if ($_GET["details"])
 			{
+				$printDetail = array();
 				switch ($_POST["export_format"])
 				{
-					case "excel":
+					case TYPE_XLS:
 						$worksheet =& $workbook->addWorksheet($data["title"]);
 						$worksheet->write(0, 0, $this->lng->txt("title"), $format_bold);
 						$worksheet->write(0, 1, $data["title"]);
@@ -2115,6 +2198,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$worksheet->write(4, 0, $this->lng->txt("users_skipped"), $format_bold);
 						$worksheet->write(4, 1, $eval["USERS_SKIPPED"]);
 						$rowcounter = 5;
+						break;
+					case TYPE_PRINT:
+						array_push($printDetail, $this->lng->txt("title"));
+						array_push($printDetail, $data["title"]);
+						array_push($printDetail, $this->lng->txt("question"));
+						array_push($printDetail, $data["questiontext"]);
+						array_push($printDetail, $this->lng->txt("question_type"));
+						array_push($printDetail, $this->lng->txt($eval["QUESTION_TYPE"]));
+						array_push($printDetail, $this->lng->txt("users_answered"));
+						array_push($printDetail, $eval["USERS_ANSWERED"]);
+						array_push($printDetail, $this->lng->txt("users_skipped"));
+						array_push($printDetail, $eval["USERS_SKIPPED"]);
 						break;
 				}
 				$this->tpl->setCurrentBlock("detail");
@@ -2132,7 +2227,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					case "qt_ordinal":
 						switch ($_POST["export_format"])
 						{
-							case "excel":
+							case TYPE_XLS:
 								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
 								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
 								$worksheet->write($rowcounter++, 1, $matches[1]);
@@ -2159,12 +2254,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$categories = "";
 						foreach ($eval["variables"] as $key => $value)
 						{
-							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" . 
-								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" . 
+							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
+								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
 								$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
 								switch ($_POST["export_format"])
 								{
-									case "excel":
+									case TYPE_XLS:
 										$worksheet->write($rowcounter, 1, $value["title"]);
 										$worksheet->write($rowcounter, 2, $key+1);
 										$worksheet->write($rowcounter, 3, $value["selected"]);
@@ -2174,11 +2269,24 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 						$categories = "<ol>$categories</ol>";
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
+						switch ($_POST["export_format"])
+						{
+							case TYPE_PRINT:
+								array_push($printDetail, $this->lng->txt("mode"));
+								array_push($printDetail, $eval["MODE"]);
+								array_push($printDetail, $this->lng->txt("mode_nr_of_selections"));
+								array_push($printDetail, $eval["MODE_NR_OF_SELECTIONS"]);
+								array_push($printDetail, $this->lng->txt("median"));
+								array_push($printDetail, $eval["MEDIAN"]);
+								array_push($printDetail, $this->lng->txt("categories"));
+								array_push($printDetail, $categories);
+								break;
+						}
 						break;
 					case "qt_nominal":
 						switch ($_POST["export_format"])
 						{
-							case "excel":
+							case TYPE_XLS:
 								preg_match("/(.*?)\s+-\s+(.*)/", $eval["MODE"], $matches);
 								$worksheet->write($rowcounter, 0, $this->lng->txt("mode"), $format_bold);
 								$worksheet->write($rowcounter++, 1, $matches[1]);
@@ -2193,14 +2301,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 								$worksheet->write($rowcounter++, 4, $this->lng->txt("percentage_of_selections"), $format_title);
 								break;
 						}
+						array_push($printDetail, $this->lng->txt("subtype"));
 						$this->tpl->setVariable("TEXT_QUESTION_SUBTYPE", $this->lng->txt("subtype"));
 						switch ($data["subtype"])
 						{
 							case SUBTYPE_MCSR:
 								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("multiple_choice_single_response"));
+								array_push($printDetail, $this->lng->txt("multiple_choice_single_response"));
 								break;
 							case SUBTYPE_MCMR:
 								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("multiple_choice_multiple_response"));
+								array_push($printDetail, $this->lng->txt("multiple_choice_multiple_response"));
 								break;
 						}
 						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
@@ -2211,12 +2322,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$categories = "";
 						foreach ($eval["variables"] as $key => $value)
 						{
-							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" . 
-								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" . 
+							$categories .= "<li>" . $this->lng->txt("title") . ":" . "<span class=\"bold\">" . $value["title"] . "</span><br />" .
+								$this->lng->txt("category_nr_selected") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
 								$this->lng->txt("percentage_of_selections") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
 							switch ($_POST["export_format"])
 							{
-								case "excel":
+								case TYPE_XLS:
 									$worksheet->write($rowcounter, 1, $value["title"]);
 									$worksheet->write($rowcounter, 2, $key+1);
 									$worksheet->write($rowcounter, 3, $value["selected"]);
@@ -2226,11 +2337,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 						$categories = "<ol>$categories</ol>";
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
+						switch ($_POST["export_format"])
+						{
+							case TYPE_PRINT:
+								array_push($printDetail, $this->lng->txt("mode"));
+								array_push($printDetail, $eval["MODE"]);
+								array_push($printDetail, $this->lng->txt("mode_nr_of_selections"));
+								array_push($printDetail, $eval["MODE_NR_OF_SELECTIONS"]);
+								array_push($printDetail, $this->lng->txt("categories"));
+								array_push($printDetail, $categories);
+								break;
+						}
 						break;
 					case "qt_metric":
 						switch ($_POST["export_format"])
 						{
-							case "excel":
+							case TYPE_XLS:
 								$worksheet->write($rowcounter, 0, $this->lng->txt("subtype"), $format_bold);
 								switch ($data["subtype"])
 								{
@@ -2271,16 +2393,20 @@ class ilObjSurveyGUI extends ilObjectGUI
 								break;
 						}
 						$this->tpl->setVariable("TEXT_QUESTION_SUBTYPE", $this->lng->txt("subtype"));
+						array_push($printDetail, $this->lng->txt("subtype"));
 						switch ($data["subtype"])
 						{
 							case SUBTYPE_NON_RATIO:
 								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("non_ratio"));
+								array_push($printDetail, $this->lng->txt("non_ratio"));
 								break;
 							case SUBTYPE_RATIO_NON_ABSOLUTE:
 								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("ratio_non_absolute"));
+								array_push($printDetail, $this->lng->txt("ratio_non_absolute"));
 								break;
 							case SUBTYPE_RATIO_ABSOLUTE:
 								$this->tpl->setVariable("QUESTION_SUBTYPE", $this->lng->txt("ratio_absolute"));
+								array_push($printDetail, $this->lng->txt("ratio_absolute"));
 								break;
 						}
 						$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("mode"));
@@ -2305,12 +2431,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$values = "";
 						foreach ($eval["values"] as $key => $value)
 						{
-							$values .= "<li>" . $this->lng->txt("value") . ": " . "<span class=\"bold\">" . $value["value"] . "</span><br />" . 
-								$this->lng->txt("value_nr_entered") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" . 
+							$values .= "<li>" . $this->lng->txt("value") . ": " . "<span class=\"bold\">" . $value["value"] . "</span><br />" .
+								$this->lng->txt("value_nr_entered") . ": " . "<span class=\"bold\">" . $value["selected"] . "</span><br />" .
 								$this->lng->txt("percentage_of_entered_values") . ": " . "<span class=\"bold\">" . sprintf("%.2f", 100*$value["percentage"]) . "</span></li>";
 							switch ($_POST["export_format"])
 							{
-								case "excel":
+								case TYPE_XLS:
 									$worksheet->write($rowcounter, 1, $value["value"]);
 									$worksheet->write($rowcounter, 2, $value["selected"]);
 									$worksheet->write($rowcounter++, 3, $value["percentage"], $format_percent);
@@ -2319,11 +2445,34 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 						$values = "<ol>$values</ol>";
 						$this->tpl->setVariable("VALUE_VALUES", $values);
+						switch ($_POST["export_format"])
+						{
+							case TYPE_PRINT:
+								array_push($printDetail, $this->lng->txt("mode"));
+								array_push($printDetail, $eval["MODE"]);
+								array_push($printDetail, $this->lng->txt("mode_nr_of_selections"));
+								array_push($printDetail, $eval["MODE_NR_OF_SELECTIONS"]);
+								array_push($printDetail, $this->lng->txt("median"));
+								array_push($printDetail, $eval["MEDIAN"]);
+								if (($data["subtype"] == SUBTYPE_RATIO_NON_ABSOLUTE) or ($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE))
+								{
+									array_push($printDetail, $this->lng->txt("geometric_mean"));
+									array_push($printDetail, $eval["GEOMETRIC_MEAN"]);
+								}
+								if ($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE)
+								{
+									array_push($printDetail, $this->lng->txt("harmonic_mean"));
+									array_push($printDetail, $eval["HARMONIC_MEAN"]);
+								}
+								array_push($printDetail, $this->lng->txt("values"));
+								array_push($printDetail, $values);
+								break;
+						}
 						break;
 					case "qt_text":
 						switch ($_POST["export_format"])
 						{
-							case "excel":
+							case TYPE_XLS:
 								$worksheet->write($rowcounter, 0, $this->lng->txt("given_answers"), $format_bold);
 								break;
 						}
@@ -2334,28 +2483,56 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$textvalues .= "<li>" . preg_replace("/\n/", "<br>", $textvalue) . "</li>";
 							switch ($_POST["export_format"])
 							{
-								case "excel":
+								case TYPE_XLS:
 									$worksheet->write($rowcounter++, 1, $textvalue);
 									break;
 							}
 						}
 						$textvalues = "<ul>$textvalues</ul>";
 						$this->tpl->setVariable("VALUE_TEXTVALUES", $textvalues);
+						switch ($_POST["export_format"])
+						{
+							case TYPE_PRINT:
+								array_push($printDetail, $this->lng->txt("given_answers"));
+								array_push($printDetail, $textvalues);
+								break;
+						}
 						break;
+				}
+
+				if ($_POST["export_format"]==TYPE_PRINT)
+				{
+					$printdetail_file = array();
+					array_push($printdetail_file, $printDetail);
+					$s_question = $counter+1;
+					$_SESSION[$this->lng->txt("question").$s_question] = $printdetail_file;
+					$this->tpl->setVariable("PRINT_ACTION", $_SERVER['PHP_SELF'] . "?ref_id=" . $_GET["ref_id"] . "&cmd=printEvaluation&".$this->lng->txt("question")."=".$s_question);
+					$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+					$this->tpl->setVariable("PRINT_IMAGE", ilUtil::getImagePath("icon_print.gif"));
 				}
 				$this->tpl->parseCurrentBlock();
 			}
 			$counter++;
 		}
-		
+		if ($_POST["export_format"]==TYPE_PRINT)
+		{
+			$_SESSION["print_eval"] = $csvfile;
+			$this->tpl->setCurrentBlock("print_block");
+			$this->tpl->setVariable("PRINT_ACTION", $_SERVER['PHP_SELF'] . "?ref_id=" . $_GET["ref_id"] . "&cmd=printEvaluation");
+			$this->tpl->setVariable("PRINT_TEXT", $this->lng->txt("print"));
+			$this->tpl->setVariable("PRINT_IMAGE", ilUtil::getImagePath("icon_print.gif"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+
 		switch ($_POST["export_format"])
 		{
-			case "excel":
+			case TYPE_XLS:
 				// Let's send the file
 				$workbook->close();
 				exit();
 				break;
-			case "csv":
+			case TYPE_SPSS:
 				$csv = "";
 				foreach ($csvfile as $csvrow)
 				{
@@ -2383,7 +2560,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
 	/**
 	* Extracts the results of a posted invitation form
 	*
@@ -2394,7 +2571,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function writeInviteFormData()
 	{
 		global $ilUser;
-		
+
 		$message = "";
 		$this->object->setInvitationAndMode($_POST["invitation"], $_POST["mode"]);
 		if ($_POST["cmd"]["disinvite"])
@@ -2416,7 +2593,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+
 		if ($_POST["cmd"]["add"])
 		{
 			// add users to invitation
@@ -2436,7 +2613,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+
 		if ($_POST["cmd"]["search"])
 		{
 			if (is_array($_POST["search_for"]))
@@ -2497,7 +2674,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 	}
-	
+
 	/**
 	* Creates the search output for the user/group search form
 	*
@@ -2570,7 +2747,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 		}
 	}
-		
+
 	/**
 	* Creates the output for user/group invitation to a survey
 	*
@@ -2794,7 +2971,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
 				}
 			}
-	
+
 			if (isset($_GET["obj_id"]))
 			{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
