@@ -43,7 +43,8 @@ common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
-common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuwesiung des Benutzers zu ändern
+common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind 
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
@@ -892,11 +893,11 @@ common#:#rolf_added#:#Rollenordner angelegt
 common#:#rolf_create_role#:#Neue Rolle anlegen
 common#:#rolf_create_rolt#:#Neue Rollenvorlage anlegen
 common#:#rolf_delete#:#Rollen/Rollenvorlagen löschen
-common#:#rolf_edit_permission#:#Zugriff auf Rollen/Rollenvorlagen ändern###22 Jan 2004 content changed
+common#:#rolf_edit_permission#:#Zugriff auf Rechteeinstellungen für Rollen/Rollenvorlagen###22 Jan 2004 content changed
 common#:#rolf_edit_userassignment#:#Benutzerzuweisung von Rollen ändern
 common#:#rolf_read#:#Lesezugriff auf Rollen/Rollenvorlagen
 common#:#rolf_visible#:#Rollen/Rollenvorlagen sind sichtbar
-common#:#rolf_write#:#Rechteeinstellungen von Rollen/Rollenvorlagen bearbeiten###22 Jan 2004 content changed
+common#:#rolf_write#:#Rechtevorlagen von Rollen/Rollenvorlagen bearbeiten###22 Jan 2004 content changed
 common#:#rolt#:#Rollenvorlage
 common#:#rolt_a#:#eine Rollenvorlage
 common#:#rolt_add#:#Rollenvorlage anlegen

@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.70 2004/01/20 14:03:32 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.71 2004/01/21 16:56:38 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -184,15 +184,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			$rbac_objects[$key]["ops"] = $rbac_operations[$key];
 		}
 
-		sort($rbac_objects);
-			
-		foreach ($rbac_objects as $key => $obj_data)
-		{
-			sort($rbac_objects[$key]["ops"]);
-		}
-		
-		// sort by (translated) name of object type
-		$rbac_objects = ilUtil::sortArray($rbac_objects,"name","asc");
 
 		// for local roles display only the permissions settings for allowed subobjects 
 		if ($this->rolf_ref_id != ROLE_FOLDER_ID)
@@ -211,10 +202,43 @@ class ilObjRoleGUI extends ilObjectGUI
 				}
 			}
 		} // end if local roles
-
-		// BEGIN CHECK_PERM
+		
+		// now sort computed result
+		sort($rbac_objects);
+			
 		foreach ($rbac_objects as $key => $obj_data)
 		{
+			sort($rbac_objects[$key]["ops"]);
+		}
+		
+		// sort by (translated) name of object type
+		$rbac_objects = ilUtil::sortArray($rbac_objects,"name","asc");
+
+		// BEGIN CHECK_PERM
+		$global_roles_all = $rbacreview->getGlobalRoles();
+		$global_roles_user = array_intersect($_SESSION["RoleId"],$global_roles_all);
+		
+		// is this role a global role?
+		if (in_array($this->object->getId(),$global_roles_all))
+		{
+			$global_role = true;
+		}
+		else
+		{
+			$global_role = false;
+		}
+
+		foreach ($rbac_objects as $key => $obj_data)
+		{
+			$allowed_ops_on_type = array();
+
+			foreach ($global_roles_user as $role_id)
+			{
+				$allowed_ops_on_type = array_merge($allowed_ops_on_type,$rbacreview->getOperationsOfRole($role_id,$obj_data["type"]));
+			}
+				
+			$allowed_ops_on_type = array_unique($allowed_ops_on_type);
+				
 			$arr_selected = $rbacreview->getOperationsOfRole($this->object->getId(), $obj_data["type"], $this->rolf_ref_id);
 			$arr_checked = array_intersect($arr_selected,array_keys($rbac_operations[$obj_data["obj_id"]]));
 
@@ -229,7 +253,16 @@ class ilObjRoleGUI extends ilObjectGUI
 				else
 				{
 					$checked = in_array($operation["ops_id"],$arr_checked);
-					$disabled = false;
+
+					// for global roles only allow to set those permission the current user is granted himself except SYSTEM_ROLE_ID !!
+					if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) and $global_role == true and !in_array($operation["ops_id"],$allowed_ops_on_type))
+					{
+						$disabled = true;
+					}
+					else
+					{
+						$disabled = false;
+					}
 				}
 
 				// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
@@ -255,7 +288,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		if ($this->object->getId() == SYSTEM_ROLE_ID)
 		{
 			$output["adopt"] = array();
-			sendinfo($this->lng->txt("msg_sysrole_not_editable"));
+			$output["sysrole_msg"] = $this->lng->txt("msg_sysrole_not_editable");
 		}
 		else
 		{
@@ -352,6 +385,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("tblfooter_sysrole");
 			$this->tpl->setVariable("COL_ANZ_SYS",3);
 			$this->tpl->parseCurrentBlock();
+
+			// display sysrole_msg
+			$this->tpl->setCurrentBlock("sysrole_msg");
+			$this->tpl->setVariable("TXT_SYSROLE_MSG",$this->data["sysrole_msg"]);
+			$this->tpl->parseCurrentBlock();
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
@@ -381,6 +419,62 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		// first safe permissions that were disabled in HTML form due to missing lack of permissions of user who changed it
+		// TODO: move this following if-code into an extra function. this part is also used in $this->permObject !!
+		if (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		{
+			// build array with all rbac object types
+			$q = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
+				 "LEFT JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
+				 "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
+			$r = $this->ilias->db->query($q);
+	
+			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
+												    "type"		=> $row->title
+													);
+	
+				$rbac_operations[$row->typ_id][$row->ops_id] = array(
+										   							"ops_id"	=> $row->ops_id,
+										  							"title"		=> $row->operation,
+																	"name"		=> $this->lng->txt($row->title."_".$row->operation)
+																   );
+			}
+				
+			foreach ($rbac_objects as $key => $obj_data)
+			{
+				$rbac_objects[$key]["name"] = $this->lng->txt("obj_".$obj_data["type"]);
+				$rbac_objects[$key]["ops"] = $rbac_operations[$key];
+			}
+	
+			$global_roles_all = $rbacreview->getGlobalRoles();
+			$global_roles_user = array_intersect($_SESSION["RoleId"],$global_roles_all);
+			
+			foreach ($rbac_objects as $key => $obj_data)
+			{
+				$allowed_ops_on_type = array();
+	
+				foreach ($global_roles_user as $role_id)
+				{
+					$allowed_ops_on_type = array_merge($allowed_ops_on_type,$rbacreview->getOperationsOfRole($role_id,$obj_data["type"]));
+				}
+					
+				$allowed_ops_on_type = array_unique($allowed_ops_on_type);
+					
+				$arr_previous = $rbacreview->getOperationsOfRole($this->object->getId(), $obj_data["type"], $this->rolf_ref_id);
+				$arr_missing = array_diff($arr_previous,$allowed_ops_on_type);
+				
+				$_POST["template_perm"][$obj_data["type"]] = array_merge($_POST["template_perm"][$obj_data["type"]],$arr_missing);
+				
+				// remove empty types
+				if (empty($_POST["template_perm"][$obj_data["type"]]))
+				{
+					unset($_POST["template_perm"][$obj_data["type"]]);
+				}
+			}
+		} // END TODO: move!!!
 
 		// delete all template entries
 		$rbacadmin->deleteRolePermission($this->object->getId(), $this->rolf_ref_id);
@@ -720,10 +814,10 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
 		
-		// exclude allow register option for anonymous role and all local roles
+		// exclude allow register option for anonymous role, system role and all local roles
 		$global_roles = $rbacreview->getGlobalRoles();
 
-		if ($this->object->getId() != ANONYMOUS_ROLE_ID and in_array($this->object->getId(),$global_roles))
+		if ($this->object->getId() != ANONYMOUS_ROLE_ID and $this->object->getId() != SYSTEM_ROLE_ID and in_array($this->object->getId(),$global_roles))
 		{
 			$this->tpl->setCurrentBlock("allow_register");
 			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
@@ -753,6 +847,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		// do not allow to assign admin users roles to administrator role if current user does not has SYSTEM_ROLE_ID
+		if ($this->object->getId() == SYSTEM_ROLE_ID and !in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_sysadmin_sysrole_not_assignable"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		if (!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id))
 		{
@@ -781,6 +881,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			foreach ($usr_data as $key => $val)
 			{
+				// exclude anonymous user account from list
 				if ($key != ANONYMOUS_USER_ID)
 				{
 					//visible data part

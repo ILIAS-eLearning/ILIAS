@@ -247,37 +247,56 @@ class ilObjectGUI
 			$show = true;
 
 			// only check permissions for tabs if object is a permission object
-			if ($this->call_by_reference)
+			// TODO: automize checks by using objects.xml definitions!!
+			if (true)
+			//if ($this->call_by_reference)
 			{
 				// only show tab when the corresponding permission is granted
 				switch ($row[1])
 				{
-				  case 'view':
-					  if (!$rbacsystem->checkAccess('visible',$this->ref_id))
-					  {
-						  $show = false;
-					  }
-					  break;
+					case 'view':
+						if (!$rbacsystem->checkAccess('visible',$this->ref_id))
+						{
+							$show = false;
+						}
+						break;
 
-				  case 'edit':
-					  if (!$rbacsystem->checkAccess('write',$this->ref_id))
-					  {
-						  $show = false;
-					  }
-					  break;
+					case 'edit':
+						if (!$rbacsystem->checkAccess('write',$this->ref_id))
+						{
+							$show = false;
+						}
+						break;
 
-				  case 'perm':
-					  if (!$rbacsystem->checkAccess('edit_permission',$this->ref_id))
-					  {
-						  $show = false;
-					  }
-					  break;
-				  case 'trash':
-					  if (!$this->tree->getSavedNodeData($this->ref_id))
-					  {
-						  $show = false;
-					  }
-					  break;
+					case 'perm':
+						if (!$rbacsystem->checkAccess('edit_permission',$this->ref_id))
+						{
+							$show = false;
+						}
+						break;
+
+					case 'trash':
+						if (!$this->tree->getSavedNodeData($this->ref_id))
+						{
+							$show = false;
+						}
+						break;
+
+					// user object only
+					case 'roleassignment':
+						if (!$rbacsystem->checkAccess('edit_roleassignment',$this->ref_id))
+						{
+							$show = false;
+						}
+						break;
+
+					// role object only
+					case 'userassignment':
+						if (!$rbacsystem->checkAccess('edit_userassignment',$this->ref_id))
+						{
+							$show = false;
+						}
+						break;
 				} //switch
 			}
 

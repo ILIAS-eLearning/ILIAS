@@ -517,7 +517,7 @@ class ilRbacReview
 	*/
 	function getOperationsOfRole($a_rol_id,$a_type,$a_parent = 0)
 	{
-		if (!isset($a_rol_id) or !isset($a_type) or func_num_args() != 3)
+		if (!isset($a_rol_id) or !isset($a_type))
 		{
 			$message = get_class($this)."::getOperationsOfRole(): Missing Parameter!".
 					   "role_id: ".$a_rol_id.
