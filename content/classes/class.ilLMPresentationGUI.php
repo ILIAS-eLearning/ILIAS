@@ -102,16 +102,26 @@ class ilLMPresentationGUI
 				$result = $this->ilias->db->query($query);
 				
 				$page = 0;
+				$showpage = 0;
 				while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) 
 				{
-					$page++;
 					
+					$page++;
+										
 					if ($_POST["pages"]=="all" || ($_POST["pages"]=="fromto" && $page>=$_POST["pagefrom"] && $page<=$_POST["pageto"] )) {
 					
+						if($showpage>0) $output .= "<p style=\"page-break-after:always\" />";
+						$showpage++;
+					
+						
 						$_GET["obj_id"] = $row["obj_id"];
 						$o = $this->layout("main.xml",false);
 						$output .= $o;
-						$output .= "\n\n\n";
+						
+						$output .= "<table cellpadding=0 cellspacing=0 border=0 width=100%><tr><td valign=top align=center>- ".$page." -</td></tr></table>";
+						$output .= "<hr>";
+						
+						
 					}
 				}
 				
@@ -120,9 +130,21 @@ class ilLMPresentationGUI
 				//vd(ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
 				
 				
-				$printTpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()) );
 				
-				$printTpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());	
+				if($_POST["type"] == "print")
+				{
+					$printTpl->touchBlock("printreq");
+					$css1 = ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId());
+					$css2 = ilUtil::getStyleSheetLocation();
+				} 
+				else 
+				{
+					$css1 = "./css/blueshadow.css";
+					$css2 = "./css/content.css";
+				}
+				$printTpl->setVariable("LOCATION_CONTENT_STYLESHEET", $css1 );
+				
+				$printTpl->setVariable("LOCATION_STYLESHEET", $css2);	
 				$printTpl->setVariable("CONTENT",$output);
 				
 				/*
@@ -131,9 +153,94 @@ class ilLMPresentationGUI
 				echo "</font>";
 				*/
 				
-				$printTpl->show();
+				$html = $printTpl->get();
 				
-				break;
+				
+				/**
+				*	Check if export-directory exists
+				*/
+				$export_dir = $this->lm->getExportDirectory();
+				if ($export_dir==false) 
+				{
+					$this->lm->createExportDirectory();
+					
+					$export_dir = $this->lm->getExportDirectory();
+					if ($export_dir==false) 
+					{
+						$this->ilias->raiseError("Creation of Export-Directory failed.",$this->ilias->error_obj->FATAL);
+					}
+				}
+
+				/**
+				*	create html-offline-directory
+				*/
+				$fileName = "offline";
+				$fileName = str_replace(" ","_",$fileName);
+				
+				if (!file_exists($export_dir."/".$fileName)) 
+				{
+					@mkdir($export_dir."/".$fileName);
+					@chmod($export_dir."/".$fileName, 0755);
+					
+					@mkdir($export_dir."/".$fileName."/css");
+					@chmod($export_dir."/".$fileName."/css", 0755);
+					
+				}
+				
+				if($_POST["type"] == "print") 
+				{
+					echo $html;
+				} 
+				else 
+				{
+				
+					/**
+					*	copy data into dir 
+					*	zip all end deliver zip-file for download 
+					*/
+					
+					$css1 = file("./templates/default/blueshadow.css");
+					$css1 = implode($css1,"");
+					
+					$fp = fopen($export_dir."/".$fileName."/css/blueshadow.css","wb");
+					fwrite($fp,$css1);
+					fclose($fp);
+	
+					$css2 = file("./content/content.css");
+					$css2 = implode($css2,"");
+					
+					$fp = fopen($export_dir."/".$fileName."/css/content.css","wb");
+					fwrite($fp,$css2);
+					fclose($fp);
+					
+					
+					$fp = fopen($export_dir."/".$fileName."/".$fileName.".html","wb");
+					fwrite($fp,$html);
+					fclose($fp);
+					
+					ilUtil::zip($export_dir."/".$fileName, $export_dir."/".$fileName.".zip");
+					
+					
+					header("Expires: Mon, 1 Jan 1990 00:00:00 GMT");
+					header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+					header("Cache-Control: no-store, no-cache, must-revalidate");
+					header("Cache-Control: post-check=0, pre-check=0", false);
+					header("Pragma: no-cache");
+					header("Content-type: application/octet-stream");
+					if (stristr(" ".$GLOBALS["HTTP_SERVER_VARS"]["HTTP_USER_AGENT"],"MSIE") ) 
+					{
+						header ("Content-Disposition: attachment; filename=" . $fileName.".zip");
+					} 
+					else 
+					{
+						header ("Content-Disposition: inline; filename=".$fileName.".zip" );
+					}
+					header ("Content-length:".(string)(strlen ($html)) );
+					
+					readfile( $export_dir."/".$fileName.".zip" );
+					
+				}	
+				exit;
 		}
 		
 	}
