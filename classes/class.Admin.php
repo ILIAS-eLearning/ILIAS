@@ -124,10 +124,10 @@ class Admin
 			$this->ilias->raiseError($this->lng->txt("msg_not_possible_link")." ".
 									 implode(',',$no_link),$this->ilias->error_obj->MESSAGE);
 		}
-		// SAVE SUBTREE
+		// SAVE OBJECT
 		foreach($a_post_data as $id)
 		{
-			$tree->saveSubtree($id,$a_obj_id,1);
+			$tree->saveNode($id,$a_obj_id,1);
 			$clipboard[$id]["parent"] = $a_obj_id;
 			$clipboard[$id]["cmd"] = $a_post_cmd;
 		}
