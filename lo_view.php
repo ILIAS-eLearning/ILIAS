@@ -9,7 +9,7 @@
 */
 require_once "include/inc.header.php";
 require_once "classes/class.sql2xml.php";
-require_once "classes/class.domxml.php";
+require_once "classes/class.ilDOMXML.php";
 
 ob_start(); 
 
