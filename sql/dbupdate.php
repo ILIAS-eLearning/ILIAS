@@ -181,3 +181,7 @@ INSERT INTO cal_priority (priorityId, description, term) VALUES ('1','high','hig
 INSERT INTO cal_priority (priorityId, description, term) VALUES ('2','middle','middle');
 INSERT INTO cal_priority (priorityId, description, term) VALUES ('3','low','low');
 INSERT INTO cal_category (categoryId, description, term) VALUES ('1','test','test');
+
+<#29>
+ALTER TABLE page_object CHANGE content content TEXT NOT NULL;
+ALTER TABLE page_object ADD FULLTEXT ( content );
