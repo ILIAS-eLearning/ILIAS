@@ -29,7 +29,7 @@ $tpl->setVariable("ACTION","mail_new.php?mobj_id=$_GET[mobj_id]&type=search_res"
 
 
 // BEGIN ADDRESSBOOK
-if($_GET["type"] == 'addr')
+if($_GET["addressbook"])
 {
 	$tpl->setCurrentBlock("addr");
 	$abook = new ilAddressbook($_SESSION["AccountId"]);
@@ -69,7 +69,7 @@ if($_GET["type"] == 'addr')
 	$tpl->parseCurrentBlock();
 }
 
-if($_GET["type"] == 'system')
+if($_GET["system"])
 {
 	$user = new ilObjUser();
 	$users = $user->searchUsers(addslashes(urldecode($_GET["search"])));
