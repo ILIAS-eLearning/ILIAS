@@ -136,7 +136,7 @@ $tpl->addBlockfile("GROUP_TABLE", "group_table", "tpl.table.html");
 $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
 $cont_num = count($cont_arr);
 
-var_dump ($cont_arr);
+
 // render table content data
 if ($cont_num > 0)
 { 
