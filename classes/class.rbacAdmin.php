@@ -589,8 +589,7 @@ class RbacAdmin
 	* Assigns a role to an role folder
 	* @access	public
 	* @param	integer		object id of role
-	* @param	integer		role folder id
-	* @param    integer     parent object id
+	* @param	integer		ref_id of role folder
 	* @param	string		assignable('y','n'); default: 'y'
 	* @return	boolean
 	*/
@@ -606,15 +605,22 @@ class RbacAdmin
 	/**
 	* Check if its possible to assign users
 	* @access	public
-	* @param	integer		object id
-	* @param	integer		parent id
+	* @param	integer	object id of role
+	* @param	integer	ref_id of object in question
 	* @return	boolean 
 	*/
-	function isAssignable($a_rol_id, $a_parent_id)
+	function isAssignable($a_rol_id, $a_ref_id)
 	{
+		if (!isset($a_rol_id) or !isset($a_ref_id))
+		{
+			$message = get_class($this)."::isAssignable(): Missing parameter!".
+					   "role_id: ".$a_rol_id." ref_id: ".$a_ref_id;
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
 		$q = "SELECT * FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND parent = '".$a_parent_id."'";
+			 "AND parent = '".$a_ref_id."'";
 		$row = $this->ilias->db->getRow($q);
 
 		return $row->assign == 'y' ? true : false;

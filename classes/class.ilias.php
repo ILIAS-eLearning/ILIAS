@@ -253,8 +253,8 @@ class ILIAS extends PEAR
 	/**
 	* skin system: get all available styles from current templates
 	* @access	public
-	* @param	string
-	* @return	array
+	* @param	string	name of template set/directory name
+	* @return	array	filenames of styleheets
 	* @author	Peter Gabriel <pgabriel@databay.de>
 	*/
 	function getStyles($skin)
@@ -263,17 +263,17 @@ class ILIAS extends PEAR
 
 		//open directory for reading and search for subdirectories
 		$tplpath = $this->ini->readVariable("server", "tpl_path")."/".$skin;
+
 		if ($dp = @opendir($tplpath))
 		{
-
 			while (($file = readdir($dp)) != false)
 			{
 				//is the file a stylesheet?
 				if (strpos($file, ".css") > 0)
 				{
 					$styles[] = array(
-						"name" => substr($file,0,-4)
-					);
+										"name" => substr($file,0,-4)
+									);
 				}
 			} // while
 		}
@@ -281,7 +281,9 @@ class ILIAS extends PEAR
 		{
 			return false;
 		}
+		
 		$this->styles = $styles;
+
 		return true;
 	}
 	

@@ -12,6 +12,10 @@
       <td class="option_value">{DB_VERSION}</td>
     </tr>
     <tr>
+      <td class="option">{TXT_ILIAS_VERSION}</td>
+      <td class="option_value">{ILIAS_VERSION}</td>
+    </tr>
+    <tr>
       <td class="option">{TXT_INST_ID}</td>
       <td class="option_value">{INST_ID}</td>
     </tr>
@@ -47,7 +51,50 @@
       <td class="option">{TXT_INST_INFO}</td>
       <td class="option_value"><input type="text" size="40" maxlength="128" name="inst_info" value="{INST_INFO}" /></td>
     </tr>
-
+    <tr>
+        <td class="option">{TXT_DEFAULT_SKIN}</td>
+        <td class="option_value">
+          <select name="default_skin">
+<!-- BEGIN selectskin -->
+             <option value="{SKINVALUE}"{SKINSELECTED}>{SKINOPTION}</option>
+<!-- END selectskin -->
+          </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="option">{TXT_DEFAULT_STYLE}</td>
+        <td class="option_value">
+          <select name="default_style">
+<!-- BEGIN selectstyle -->
+             <option value="{STYLEVALUE}"{STYLESELECTED}>{STYLEOPTION}</option>
+<!-- END selectstyle -->
+          </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="option">{TXT_DEFAULT_LANGUAGE}</td>
+        <td class="option_value">
+          <select name="default_language">
+<!-- BEGIN selectlanguage -->
+             <option value="{LANGVALUE}"{LANGSELECTED}>{LANGOPTION}</option>
+<!-- END selectlanguage -->
+          </select>
+        </td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_FEEDBACK_RECIPIENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="feedback_recipient" value="{FEEDBACK_RECIPIENT}" /></td>
+    </tr>
+    <tr>
+      <td class="option">{TXT_ERROR_RECIPIENT}</td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="error_recipient" value="{ERROR_RECIPIENT}" /></td>
+    </tr>
+	<tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+	<tr class="tblheader">
+      <td class="std" colspan="2">{TXT_PATHES}</td>
+    </tr>
     <tr>
       <td class="option">{TXT_TPL_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="128" name="tpl_path" value="{TPL_PATH}" /></td>
@@ -56,7 +103,6 @@
       <td class="option">{TXT_LANG_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="128" name="lang_path" value="{LANG_PATH}" /></td>
     </tr>
-
     <tr>
       <td class="option">{TXT_CONVERT_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="convert_path" value="{CONVERT_PATH}" /></td>
@@ -77,13 +123,11 @@
       <td class="option">{TXT_BABYLON_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="250" name="babylon_path" value="{BABYLON_PATH}" /></td>
     </tr>
-    <tr>
-      <td class="option">{TXT_FEEDBACK_RECIPIENT}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="feedback_recipient" value="{FEEDBACK_RECIPIENT}" /></td>
+	<tr>
+      <td colspan="2">&nbsp;</td>
     </tr>
-    <tr>
-      <td class="option">{TXT_ERROR_RECIPIENT}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="error_recipient" value="{ERROR_RECIPIENT}" /></td>
+	<tr class="tblheader">
+      <td class="std" colspan="2">{TXT_MODULES}</td>
     </tr>
     <tr>
       <td class="option">{TXT_PUB_SECTION}</td>
@@ -124,18 +168,10 @@
       <td class="option">{TXT_CRS_MANAGEMENT_SYSTEM}</td>
       <td class="option_value"><input type="checkbox" name="crs_enable"  value="y" {CRS_MANAGEMENT_SYSTEM} /></td>
     </tr>
-    <tr>
-        <td class="option">{TXT_DEFAULT_SKIN}</td>
-        <td class="option_value">
-          <select name="default_skin">
-<!-- BEGIN selectskin -->
-             <option value="{SKINVALUE}" {SKINSELECTED}>{SKINOPTION}</option>
-<!-- END selectskin -->
-          </select>
-        </td>
+	<tr>
+      <td colspan="2">&nbsp;</td>
     </tr>
-    
-	<tr class="tblheader">
+ 	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_LDAP}</td>
     </tr>
     <tr>
@@ -154,7 +190,9 @@
       <td class="option">{TXT_BASEDN}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="ldap_basedn" value="{LDAP_BASEDN}" /></td>
     </tr>
-
+	<tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
 	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_CONTACT_INFORMATION}</td>
     </tr>
@@ -176,37 +214,37 @@
     </tr>
     <tr>
       <td class="option">{TXT_INSTITUTION}</td>
-      <td class="option_value"><input type="text" size="40" maxlength="200" name="institution" value="{INSTITUTION}" /></td>
+      <td class="option_value"><input type="text" size="40" maxlength="200" name="admin_institution" value="{ADMIN_INSTITUTION}" /></td>
     </tr>
     <tr>
       <td class="option">{TXT_STREET} *</td>
-      <td class="option_value"><input type="text" size="40" maxlength="64" name="street" value="{STREET}" /></td>
+      <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_street" value="{ADMIN_STREET}" /></td>
     </tr>
     <tr>
       <td class="option">{TXT_ZIPCODE} *</td>
-      <td class="option_value"><input type="text" size="5" maxlength="10" name="zipcode" value="{ZIPCODE}" /></td>
+      <td class="option_value"><input type="text" size="5" maxlength="10" name="admin_zipcode" value="{ADMIN_ZIPCODE}" /></td>
     </tr>
     <tr>
       <td class="option">{TXT_CITY} *</td>
-      <td class="option_value"><input type="text" size="40" maxlength="64" name="city" value="{CITY}" /></td>
+      <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_city" value="{ADMIN_CITY}" /></td>
     </tr>
     <tr>
       <td class="option">{TXT_COUNTRY} *</td>
-      <td class="option_value"><input type="text" size="40" maxlength="64" name="country" value="{COUNTRY}" /></td>
+      <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_country" value="{ADMIN_COUNTRY}" /></td>
     </tr>
     <tr>
       <td class="option">{TXT_PHONE} *</td>
-      <td class="option_value"><input type="text" size="40" maxlength="64" name="phone" value="{PHONE}" /></td>
+      <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_phone" value="{ADMIN_PHONE}" /></td>
     </tr>
     <tr>
       <td class="option">{TXT_EMAIL} *</td>
-      <td class="option_value"><input type="text" size="40" maxlength="64" name="email" value="{EMAIL}" /></td>
+      <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_email" value="{ADMIN_EMAIL}" /></td>
     </tr>
     </table>
 	<br />
 	* {TXT_MUST_FILL_IN}
 
     <br /><br />
-    <input class="submit" type="submit" name="save" value="{TXT_SAVE}" />
+    <input class="submit" type="submit" name="save_settings" value="{TXT_SAVE}" />
 
     </form>

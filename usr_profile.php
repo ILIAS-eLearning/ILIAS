@@ -75,7 +75,7 @@ foreach ($languages as $lang_key)
 
 	if ($ilias->account->prefs["language"] == $lang_key)
 	{
-		$tpl->setVariable("SELECTED_LANG", "selected");
+		$tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
 	}
 
 	$tpl->parseCurrentBlock();
@@ -90,7 +90,7 @@ foreach ($ilias->skins as $row)
 
 	if ($ilias->account->skin == $row["name"])
 	{
-		$tpl->setVariable("SKINSELECTED", "selected");
+		$tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
 	}
 
 	$tpl->setVariable("SKINVALUE", $row["name"]);
@@ -107,7 +107,7 @@ foreach ($ilias->styles as $row)
 
 	if ($ilias->account->prefs["style"] == $row["name"])
 	{
-		$tpl->setVariable("STYLESELECTED", "selected");
+		$tpl->setVariable("STYLESELECTED", "selected=\"selected\"");
 	}
 
 	$tpl->setVariable("STYLEVALUE", $row["name"]);
