@@ -209,9 +209,9 @@ $tpl->setVariable("COUNTRY", $ilias->account->getCountry());
 $tpl->setVariable("PHONE", $ilias->account->getPhone());
 $tpl->setVariable("EMAIL", $ilias->account->getEmail());
 
-
-$obj = getObject($rbacadmin->getDefaultRole($_SESSION["AccountId"]));
-$tpl->setVariable("DEFAULT_ROLE",$obj["title"]);
+require_once "./classes/class.ilObjRole.php";
+$roleObj = new ilObjRole($rbacadmin->getDefaultRole($_SESSION["AccountId"]));
+$tpl->setVariable("DEFAULT_ROLE",$roleObj->getTitle());
 
 $tpl->setVariable("TXT_REQUIRED_FIELDS",$lng->txt("required_field"));
 //button

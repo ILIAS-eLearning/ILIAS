@@ -22,7 +22,7 @@ $roles = $rbacreview->assignedRoles(305);
 /*
 foreach($users as $user)
 {
-	$user_details = getObject($user);	
+	//$user_details = getObject($user);	
 	print_r($user_details);
 }
 

@@ -606,6 +606,8 @@ class RbacAdmin
 	*/
 	function assignRoleToFolder($a_rol_id,$a_parent,$a_parent_obj,$a_assign = "y")
 	{
+		global $log;
+		
 		if (!isset($a_rol_id) or !isset($a_parent) or !isset($a_parent_obj) or func_num_args() != 4)
 		{
 			$message = get_class($this)."::assignRoleToFolder(): Missing Parameter!".

@@ -3,7 +3,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.3 2003/03/31 09:38:20 akill Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.4 2003/04/01 07:31:53 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -209,6 +209,18 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	function permSaveObject()
 	{
 		global $tree, $rbacadmin, $rbacsystem;
+
+
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"]))
+		{
+			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
+			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
+			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles["$_POST[adopt]"]["parent"],$_GET["parent"],$_GET["obj_id"]);
+		}
+		else
+		{
+			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
+		}
 
 		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 		{

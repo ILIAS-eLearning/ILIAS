@@ -11,15 +11,14 @@ require_once "./include/inc.header.php";
 require_once "./classes/class.ilObjNote.php";
 require_once "./classes/class.ilObjNoteFolder.php";
 
-$myNote = new ilObjNote();
+$myNote = new ilObjNote($_GET["id"], false);
 $myNoteFolder = new ilObjNoteFolder($ilias->account->getId());
 
 if ($_GET["cmd"] == "edit")
 {
 	$myNotes = $myNoteFolder->viewNote($_GET["id"]);
-	$obj_note = getObject($_GET["id"]);		//gets title out of object_data
 
-	$tpl->setVariable("LOTITLE", $obj_note["title"]);
+	$tpl->setVariable("LOTITLE", $myNote->getTitle());
 	$tpl->setVariable("NOTETEXT", $myNotes->text);
 	$tpl->setVariable("LOID", $myNotes->lo_id);
 	if($myNotes->important =='y') $tpl->setVariable("IMPORTANT_CHECKED", "checked");

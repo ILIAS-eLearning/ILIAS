@@ -81,27 +81,15 @@ function getObjectByReference ($a_ref_id)
 	return $arr;
 }
 
+
 /**
-* creates a copy of an existing object
-* @access	public
-* @param	integer	object id of object you want to copy
-* @return	integer	returns object id
+* deprecated: use ilObject->clone()
 */
+/*
 function copyObject ($a_obj_id)
 {
-	global $ilias;
+}*/
 
-	$old_object_data = getObject($a_obj_id);
-
-	$q = "INSERT INTO object_data ".
-		 "(type,title,description,owner,create_date,last_update) ".
-		 "VALUES ".
-		 "('".$old_object_data["type"]."','".$old_object_data["title"]."','".$old_object_data["desc"]."',".
-		 "'".$ilias->account->getId()."',now(),now())";
-	$ilias->db->query($q);
-	
-	return getLastInsertId();
-}
 
 /**
 * delete an object from tbl.object_data
@@ -119,6 +107,7 @@ function deleteObject ($a_obj_id)
 
 	return true;
 }
+
 
 /**
 * updates an object

@@ -936,6 +936,7 @@ class ilObjectGUI
 		{
 			// create and insert object in objecttree
 			$class_name = "ilObj".$objDefinition->getClassName($_GET["new_type"]);
+			require_once("./classes/class.".$class_name.".php");
 			$newObj = new $class_name();
 			$newObj->setType($_GET["new_type"]);
 			$newObj->setTitle($_POST["Fobject"]["title"]);
@@ -1223,7 +1224,6 @@ class ilObjectGUI
 				if ($rbacsystem->checkAccess('write',$rolf_data["child"]))
 				{
 					$parentRoles = $rbacadmin->getParentRoleIds($rolf_data["child"]);
-					
 					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
 												   $rolf_data["child"],$stop_inherit);
 					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],$_GET["ref_id"],'n');
@@ -1377,17 +1377,8 @@ class ilObjectGUI
 				}
 				else
 				{
-					if ($ctrl["type"] == "usr" or $ctrl["type"] == "role")
-					{
-						$link_id = $ctrl["obj_id"];
-					}
-					else
-					{
-						$link_id = $ctrl["ref_id"];					
-					}
-
 					$this->tpl->setCurrentBlock("checkbox");
-					$this->tpl->setVariable("CHECKBOX_ID", $link_id);
+					$this->tpl->setVariable("CHECKBOX_ID", $ctrl["ref_id"]);
 					$this->tpl->setVariable("CSS_ROW", $css_row);
 					$this->tpl->parseCurrentBlock();
 				}
@@ -1539,25 +1530,16 @@ class ilObjectGUI
 
 		foreach($_POST["id"] as $id)
 		{
-			if ($this->call_by_reference)
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);			
-			}
-			else
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
-			}
-
 			//$obj_data = getObject($id);
-			//$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
-
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
 			$this->data["data"]["$id"] = array(
 				"type"        => $obj_data->getType(),
 				"title"       => $obj_data->getTitle(),
 				"desc"        => $obj_data->getDescription(),
 				"last_update" => $obj_data->getLastUpdateDate());
 		}
-		$this->data["buttons"] = array( "cancel"  => $lng->txt("cancel"),"confirm"  => $lng->txt("confirm"));
+		$this->data["buttons"] = array( "cancel"  => $lng->txt("cancel"),
+								  "confirm"  => $lng->txt("confirm"));
 
 		$this->getTemplateFile("confirm");
 
@@ -1583,7 +1565,7 @@ class ilObjectGUI
 				$this->tpl->setCurrentBlock("table_cell");
 
 				// CREATE TEXT STRING
-				if ($key == "type")
+				if($key == "type")
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
 				}
@@ -1591,7 +1573,6 @@ class ilObjectGUI
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
 				}
-
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -1612,8 +1593,39 @@ class ilObjectGUI
 		}
 	}
 
+
+	/**
+	* show trash content of object
+	*/
 	function trashObject()
 	{
+		global $lng,$tree;
+
+		$objects = $tree->getSavedNodeData($_GET["ref_id"]);
+
+		if(count($objects) == 0)
+		{
+			sendInfo($lng->txt("msg_trash_empty"));
+			$this->data["empty"] = true;
+		}
+		else
+		{
+			$this->data["empty"] = false;
+			$this->data["cols"] = array("","type", "title", "description", "last_change");
+
+			foreach($objects as $obj_data)
+			{
+				$this->data["data"]["$obj_data[child]"] = array(
+					"checkbox"    => "",
+					"type"        => $obj_data["type"],
+					"title"       => $obj_data["title"],
+					"desc"        => $obj_data["desc"],
+					"last_update" => $obj_data["last_update"]);
+			}
+			$this->data["buttons"] = array( "btn_undelete"  => $lng->txt("btn_undelete"),
+									  "btn_remove_system"  => $lng->txt("btn_remove_system"));
+		}
+
 		$this->getTemplateFile("confirm");
 
 		if ($this->data["empty"] == true)

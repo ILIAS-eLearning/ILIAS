@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.6 2003/03/31 12:17:47 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.7 2003/04/01 07:31:53 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -346,15 +346,67 @@ class ilObjRoleGUI extends ilObjectGUI
 	}
 
 
+	/**
+	* copy permissions from role
+	*/
 	function adoptPermSaveObject()
 	{
+		global $rbacadmin, $rbacsystem;
+
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
+		{
+			$rbacadmin->deleteRolePermission($_GET["obj_id"], $_GET["parent"]);
+			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
+			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles[$_POST["adopt"]]["parent"],
+										   $_GET["parent"],$_GET["obj_id"]);
+		}
+		else
+		{
+			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
+		}
+	
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		exit();
 	}
 
 
+	/**
+	* assign users to role
+	*/
 	function assignSaveObject()
 	{
+		global $tree, $rbacsystem, $rbacadmin, $rbacreview;
+		
+		// TODO: get rid of $_GET variables
+		 
+		if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
+		{
+			if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
+			{
+				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
+				$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
+
+				foreach (array_diff($assigned_users,$_POST["user"]) as $user)
+				{
+					$rbacadmin->deassignUser($_GET["obj_id"],$user);
+				}
+
+				foreach (array_diff($_POST["user"],$assigned_users) as $user)
+				{
+					$rbacadmin->assignUser($_GET["obj_id"],$user,false);
+				}
+			}
+			else
+			{
+				$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
+			}
+
+		}
+		else
+		{
+			$this->ilias->raiseError("It's worth a try. ;-)",$this->ilias->error_obj->WARNING);
+		}
+
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		exit();
 	}

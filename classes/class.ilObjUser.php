@@ -58,22 +58,5 @@ class ilObjUser extends ilObject
 		return parent::delete();
 	}
 
-
-	/**
-	* add active role in session
-	* @access	public
-	**/
-	function activeRoleSaveObject()
-	{
-		// TODO: get rif of $_POST var
-	   if (!count($_POST["active"]))
-	   {
-		  $this->ilias->raiseError("You must leave one active role",$this->ilias->error_obj->MESSAGE);
-	   }
-
-	   $_SESSION["RoleId"] = $_POST["active"];
-
-	   return true;
-	}
 } //end class.UserObject
 ?>
