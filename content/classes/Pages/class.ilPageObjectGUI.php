@@ -318,9 +318,29 @@ class ilPageObjectGUI
 			? $_GET["ref_id"]
 			: $_SESSION["il_link_cont_obj"];
 
+		$glossary = $_SESSION["il_link_glossary"];
+
+		if(($link_type == "GlossaryItem") &&
+			empty($_SESSION["il_link_glossary_obj"]))
+		{
+			$this->changeTargetObject("glossary");
+		}
+
 		$tpl =& new ilTemplate("tpl.link_help.html", true, true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=post");
+
+		switch($link_type)
+		{
+			case "GlossaryItem":
+				$typestr = "&target_type=glossary";
+				break;
+
+			default:
+				$typestr = "";
+				break;
+		}
+
+		$tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=post".$typestr);
 		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
 		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
 		$ltypes = array("StructureObject" => $this->lng->txt("cont_lk_chapter"),
@@ -353,7 +373,7 @@ class ilPageObjectGUI
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
 				$tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
-				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeContentObject");
+				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
 
 				foreach($nodes as $node)
@@ -390,7 +410,7 @@ class ilPageObjectGUI
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("cont_content_obj"));
 				$tpl->setVariable("TXT_CONT_TITLE", $cont_obj->getTitle());
-				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeContentObject");
+				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
 				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
 
 				foreach($nodes as $node)
@@ -407,6 +427,31 @@ class ilPageObjectGUI
 				$tpl->setCurrentBlock("chapter_list");
 				$tpl->parseCurrentBlock();
 				break;
+
+			// glossary item link
+			case "GlossaryItem":
+				require_once("./content/classes/class.ilObjGlossary.php");
+				$glossary =& new ilObjGlossary($glossary, true);
+
+				// get all glossary items
+				$terms = $glossary->getTermList();
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("glossary"));
+				$tpl->setVariable("TXT_CONT_TITLE", $glossary->getTitle());
+				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
+				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
+
+				foreach($terms as $term)
+				{
+					$tpl->setCurrentBlock("chapter_row");
+					$tpl->setVariable("TXT_CHAPTER", $term["term"]);
+					$tpl->setVariable("LINK_CHAPTER",
+						"[iln term=\"".$term["id"]."\"".$target_str."]".$term["term"]."[/iln]");
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->parseCurrentBlock();
+				break;
 		}
 
 		$tpl->show();
@@ -419,14 +464,27 @@ class ilPageObjectGUI
 		$this->showLinkHelp();
 	}
 
-	function changeContentObject()
+	function changeTargetObject($a_type = "")
 	{
 		if($_GET["do"] == "set")
 		{
-			$_SESSION["il_link_cont_obj"] = $_GET["sel_id"];
+			if($_GET["target_type"] != "glossary")
+			{
+				$_SESSION["il_link_cont_obj"] = $_GET["sel_id"];
+			}
+			else
+			{
+				$_SESSION["il_link_glossary"] = $_GET["sel_id"];
+			}
 			$this->showLinkHelp();
 			return;
 		}
+
+		if(empty($a_type))
+		{
+			$a_type = $_GET["target_type"];
+		}
+
 		$tpl =& new ilTemplate("tpl.link_help_explorer.html", true, true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
@@ -437,15 +495,24 @@ class ilPageObjectGUI
 
 		$exp->setExpand($_GET["expand"]);
 		$exp->setTargetGet("sel_id");
-		$exp->setParamsGet(array("ref_id"=>$_GET["ref_id"],
-			"cmd"=>"changeContentObject", "mode"=>"page_edit", "obj_id"=>$_GET["obj_id"]));
+		$exp->setParamsGet(array("ref_id" => $_GET["ref_id"],
+			"cmd" => "changeTargetObject", "mode" => "page_edit", "obj_id" => $_GET["obj_id"],
+			"target_type" => $a_type));
 
 		$exp->addFilter("root");
 		$exp->addFilter("cat");
 		$exp->addFilter("grp");
 		$exp->addFilter("crs");
-		$exp->addFilter("lm");
-		$exp->addFilter("dbk");
+
+		if ($a_type != "glossary")
+		{
+			$exp->addFilter("lm");
+			$exp->addFilter("dbk");
+		}
+		else
+		{
+			$exp->addFilter("glo");
+		}
 		$exp->setFiltered(true);
 
 		$exp->setClickable("cat", false);
@@ -458,10 +525,18 @@ class ilPageObjectGUI
 		$output = $exp->getOutput();
 
 		$tpl->setCurrentBlock("content");
-		$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_cont_obj"));
+		if ($a_type != "glossary")
+		{
+			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_cont_obj"));
+		}
+		else
+		{
+			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_glossary"));
+		}
 		$tpl->setVariable("EXPLORER",$output);
 		$tpl->setVariable("ACTION", "lm_edit.php?expand=".$_GET["expand"].
-			"&obj_id=".$_GET["obj_id"]."&ref_id=".$_GET["ref_id"]."&cmd=changeContentObject");
+			"&obj_id=".$_GET["obj_id"]."&ref_id=".$_GET["ref_id"]."&cmd=changeTargetObject".
+			"&target_type=".$a_type);
 		$tpl->parseCurrentBlock();
 
 		$tpl->show();

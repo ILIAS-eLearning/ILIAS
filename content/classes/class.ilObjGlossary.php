@@ -23,6 +23,7 @@
 
 require_once("classes/class.ilObject.php");
 require_once("classes/class.ilMetaData.php");
+require_once("./content/classes/class.ilGlossaryTerm.php");
 
 /**
 * Class ilObjGlossary
@@ -79,7 +80,8 @@ class ilObjGlossary extends ilObject
 	*/
 	function getTitle()
 	{
-		return $this->meta_data->getTitle();
+		return $this->title;
+		//return $this->meta_data->getTitle();
 	}
 
 	/**
