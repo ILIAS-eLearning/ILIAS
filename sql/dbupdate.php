@@ -3378,3 +3378,68 @@ CREATE TABLE `survey_variable` (
 <#205>
 
 ALTER TABLE `survey_questionblock_question` ADD `survey_fi` INT NOT NULL AFTER `questionblock_question_id` ;
+
+<#206>
+DROP TABLE IF EXISTS `aicc_course`;
+CREATE TABLE `aicc_course` (
+  `obj_id` int(11) NOT NULL default '0',
+  `course_creator` varchar(255) default NULL,
+  `course_id` varchar(50) default NULL,
+  `course_system` varchar(50) default NULL,
+  `course_title` varchar(255) default NULL,
+  `level` varchar(5) default NULL,
+  `max_fields_cst` smallint(6) default NULL,
+  `max_fields_ort` smallint(6) default NULL,
+  `total_aus` smallint(6) default NULL,
+  `total_blocks` smallint(6) default NULL,
+  `total_complex_obj` smallint(6) default NULL,
+  `total_objectives` smallint(6) default NULL,
+  `version` varchar(10) default NULL,
+  `max_normal` tinyint(4) default NULL,
+  `description` text,
+  PRIMARY KEY  (`obj_id`)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS `aicc_object`;
+CREATE TABLE `aicc_object` (
+  `obj_id` int(11) NOT NULL auto_increment,
+  `alm_id` int(11) NOT NULL default '0',
+  `system_id` varchar(50) NOT NULL default '',
+  `title` text NOT NULL,
+  `description` text,
+  `developer_id` varchar(50) default NULL,
+  `type` char(3) NOT NULL default '',
+  PRIMARY KEY  (`obj_id`),
+  KEY `alm_id` (`alm_id`)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS `aicc_tree`;
+CREATE TABLE `aicc_tree` (
+  `alm_id` int(11) NOT NULL default '0',
+  `child` int(11) unsigned NOT NULL default '0',
+  `parent` int(11) unsigned default NULL,
+  `lft` int(11) unsigned NOT NULL default '0',
+  `rgt` int(11) unsigned NOT NULL default '0',
+  `depth` smallint(5) unsigned NOT NULL default '0',
+  KEY `child` (`child`),
+  KEY `parent` (`parent`)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS `aicc_units`;
+CREATE TABLE `aicc_units` (
+  `obj_id` int(11) NOT NULL auto_increment,
+  `type` varchar(50) default NULL,
+  `command_line` varchar(255) default NULL,
+  `max_time_allowed` time default NULL,
+  `time_limit_action` varchar(50) default NULL,
+  `max_score` decimal(10,0) default NULL,
+  `core_vendor` text,
+  `system_vendor` text,
+  `file_name` varchar(255) default NULL,
+  `mastery_score` smallint(6) default NULL,
+  `web_launch` varchar(255) default NULL,
+  `au_password` varchar(50) default NULL,
+  PRIMARY KEY  (`obj_id`)
+) TYPE=MyISAM;
+
+
