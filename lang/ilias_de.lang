@@ -4270,6 +4270,9 @@ survey#:#survey_start#:#<<< Zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_create_export_file#:#Exportdatei erzeugen
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
+survey#:#svy_eval_cumulated#:#Cumulated results###08 Dec 2004 new variable
+survey#:#svy_eval_detail#:#Cumulated results (details)###08 Dec 2004 new variable
+survey#:#svy_eval_user#:#User specific results###08 Dec 2004 new variable
 survey#:#svy_export_files#:#Dateien exportieren
 survey#:#svy_file#:#Datei
 survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.

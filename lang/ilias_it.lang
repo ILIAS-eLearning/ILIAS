@@ -4269,6 +4269,9 @@ survey#:#survey_start#:#<<< Salva e vai alla pagina iniziale
 survey#:#svy_all_user_data_deleted#:#Tutti i dati degli utenti di questo sondaggio sono stati eliminati!
 survey#:#svy_create_export_file#:#Crea il file di export
 survey#:#svy_delete_all_user_data#:#Elimina tutti i dati degli utenti
+survey#:#svy_eval_cumulated#:#Cumulated results###08 Dec 2004 new variable
+survey#:#svy_eval_detail#:#Cumulated results (details)###08 Dec 2004 new variable
+survey#:#svy_eval_user#:#User specific results###08 Dec 2004 new variable
 survey#:#svy_export_files#:#Exporta file
 survey#:#svy_file#:#File
 survey#:#svy_missing_author#:#Non hai indicato il nome dell'autore tra le propriet&#224; del sondaggio! Per favore inserisci il nome dell'autore.
