@@ -555,16 +555,22 @@ common#:#yes#:#si
 common#:#you_may_add_local_roles#:#you_may_add_local_roles
 common#:#your_message#:#Tuo messagio
 common#:#zipcode#:#codice postale
-content#:#cont_all_pages#:#All Pages###02 Jun 2003 new variable
-content#:#cont_chapters#:#Chapters###02 Jun 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
+content#:#cont_edit_tab_properties#:#Table Properties###09 Jun 2003 new variable
 content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable
+content#:#cont_insert_table#:#Insert Table###09 Jun 2003 new variable
 content#:#cont_meta_data#:#Meta Data###14 May 2003 new variable
+content#:#cont_nr_cols#:#Number of Columns###09 Jun 2003 new variable
+content#:#cont_nr_rows#:#Number of Rows###09 Jun 2003 new variable
 content#:#cont_pages#:#Pages###28 May 2003 new variable
 content#:#cont_pg_content#:#Page Content###24 May 2003 new variable
 content#:#cont_preview#:#Preview###07 Jun 2003 new variable
 content#:#cont_subchapters#:#Subchapters###28 May 2003 new variable
+content#:#cont_table_border#:#Table Border###09 Jun 2003 new variable
+content#:#cont_table_cellpadding#:#Table Cell Padding###09 Jun 2003 new variable
+content#:#cont_table_cellspacing#:#Table Cell Spacing###09 Jun 2003 new variable
+content#:#cont_table_width#:#Table Width###09 Jun 2003 new variable
 content#:#cont_wysiwyg#:#Content Wysiwyg###24 May 2003 new variable
 content#:#par#:#Paragraph###12 May 2003 new variable
 content#:#pg#:#Page###12 May 2003 new variable
