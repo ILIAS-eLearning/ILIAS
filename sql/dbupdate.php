@@ -3863,3 +3863,6 @@ $tree->insertNode($row->id,SYSTEM_FOLDER_ID);
 $query = "INSERT INTO settings (keyword,value) VALUES('sys_user_tracking_id','".$row->id."')";
 $res = $this->db->query($query);
 ?>
+
+<#229>
+ALTER TABLE `survey_questionblock` CHANGE `title` `title` TEXT DEFAULT NULL;

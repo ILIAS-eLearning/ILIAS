@@ -1775,7 +1775,7 @@ class ilRepositoryGUI
 			{
           $obj_link = "assessment/test.php?cmd=run&ref_id=".$tst_data["ref_id"];
 
-				if ($this->rbacsystem->checkAccess('read',$tst_data["ref_id"]) and ($tst_data["complete"]))
+				if ($tst_data["complete"])
 				{
 					$tpl->setCurrentBlock("tst_read");
 					$tpl->setVariable("VIEW_LINK", $obj_link);
@@ -1951,7 +1951,7 @@ class ilRepositoryGUI
 			{
           $obj_link = "survey/survey.php?cmd=run&ref_id=".$svy_data["ref_id"];
 
-				if (($this->rbacsystem->checkAccess('read',$svy_data["ref_id"])) and ($svy_data["complete"]) and ($svy_data["status"] == 1))
+				if (($svy_data["complete"]) and ($svy_data["status"] == 1))
 				{
 					$tpl->setCurrentBlock("svy_read");
 					$tpl->setVariable("VIEW_LINK", $obj_link);

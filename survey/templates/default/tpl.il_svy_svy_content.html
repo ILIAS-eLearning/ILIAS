@@ -19,6 +19,28 @@ body { margin:0px; }
 <input type="submit" class="submit" name="cmd[skip_previous]" value="{BTN_SKIP_PREV}" />
 <!-- END skipprev -->
 </td>
+<td align="center">
+<!-- BEGIN percentage -->
+<div align="left" style="height: 15px;
+width: {HUNDRED_PERCENT}px; 
+background: #ffffff; 
+border: 1px solid #333333; 
+margin: .5em; 
+padding: 0;">
+<div align="center" style="height:15px; 
+width: {PERCENTAGE}px; 
+margin: 0; 
+padding: 0; 
+background: #C0C0C0" >
+<span style="font: 12px Verdana, Arial, sans-serif; 
+color: #000000; 
+text-align: center;">
+&nbsp;{PERCENTAGE_VALUE}%
+</span>
+</div>
+</div>
+<!-- END percentage -->
+</td>
 <td align="right">
 <!-- BEGIN skipnext -->
 <input type="submit" class="submit" name="cmd[skip_next]" value="{BTN_SKIP_NEXT}" />
@@ -31,6 +53,7 @@ body { margin:0px; }
 </table>
 </div>
 <br/>
+<div class="surveySheet">
 {BUTTONS}
 {MESSAGE}
 {ADM_CONTENT}
@@ -39,6 +62,7 @@ body { margin:0px; }
 {METRIC_QUESTION}
 {TEXT_QUESTION}
 {SYSTEMSETTINGS}
+</div>
 </form>
 <!--</div>-->
 </td></tr></table>

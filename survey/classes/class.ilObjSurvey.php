@@ -1843,6 +1843,17 @@ class ilObjSurvey extends ilObject
 			}
 			array_push($all_pages[$pageindex], $all_questions[$question_id]);
 		}
+		// calculate position percentage for every page
+		$max = count($all_pages);
+		$counter = 1;
+		foreach ($all_pages as $index => $block)
+		{
+			foreach ($block as $blockindex => $question)
+			{
+				$all_pages[$index][$blockindex][position] = $counter / $max;
+			}
+			$counter++;
+		}
 		return $all_pages;
 	}
 	

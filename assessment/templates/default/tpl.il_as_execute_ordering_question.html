@@ -1,11 +1,15 @@
 <div class="questionTitle">{ORDERING_QUESTION_HEADLINE}</div>
-<p>
-<table class="std">
-<tr class="tblheader"><td class="std" colspan="2">{ORDERING_QUESTION}</td></tr>
+<p>{ORDERING_QUESTION}</p>
+<table class="nobackground">
 <!-- BEGIN orderingQuestion -->
 <tr>
-<td class="option_value" width="30"><input name="order_{ORDERING_QUESTION_ANSWER_VALUE}" type="text" id="{ORDERING_QUESTION_ANSWER_VALUE}" value="{VALUE_ORDER}" size="2"/></td>
-<td class="tblrow1" align="left" ><label for="{ORDERING_QUESTION_ANSWER_VALUE}">{ORDERING_QUESTION_ANSWER_TEXT}</label>
+<td class="nobackground" width="30"><input name="order_{ORDERING_QUESTION_ANSWER_VALUE}" type="text" id="{ORDERING_QUESTION_ANSWER_VALUE}" value="{VALUE_ORDER}" size="2"/></td>
+<!-- BEGIN text_answer -->
+<td class="nobackground" align="left" ><label for="{ORDERING_QUESTION_ANSWER_VALUE_TEXT}">{ORDERING_QUESTION_ANSWER_TEXT}</label>
+<!-- END text_answer -->
+<!-- BEGIN image_answer -->
+<td class="boxed" align="left" ><label for="{ORDERING_QUESTION_ANSWER_VALUE_IMAGE}">{ORDERING_QUESTION_ANSWER_IMAGE}</label>
+<!-- END image_answer -->
 <tr>
 <!-- END orderingQuestion -->
 </table>

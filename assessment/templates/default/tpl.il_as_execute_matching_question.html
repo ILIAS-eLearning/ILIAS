@@ -1,23 +1,28 @@
 <div class="questionTitle">{MATCHING_QUESTION_HEADLINE}</div>
 <p>
-<table class="std">
-<tr class="tblheader"><td class="std" colspan="3">{MATCHING_QUESTION}</td></tr>
+{MATCHING_QUESTION}
+</p>
+<table class="nobackground">
 <!-- BEGIN matching_question -->
 <tr>
-<td class="option_value">
- <select name="sel_matching_{COUNTER}">
+<td class="nobackground">
+<select name="sel_matching_{COUNTER}">
 <option value="-1" selected="selected">{PLEASE_SELECT}</option>
 <!-- BEGIN matching_combo -->
 <option value="{COMBO_MATCHING}"{VALUE_SELECTED}>{COMBO_MATCHING_VALUE}</option>
 <!-- END matching_combo -->
 </select>
 </td>
-<td class="option_value">{TEXT_MATCHES}</td>
-<td class="option_value">{MATCHING_TEXT}</td>
+<td class="nobackground">{TEXT_MATCHES}</td>
+<!-- BEGIN matching_text -->
+<td class="nobackground">{MATCHING_TEXT}</td>
+<!-- END matching_text -->
+<!-- BEGIN matching_picture -->
+<td class="boxed">{MATCHING_PICTURE}</td>
+<!-- END matching_picture -->
 <tr>
 <!-- END matching_question -->
 </table>
-</p>
 <!-- BEGIN material_download -->
 <p>
 <table class="std">
