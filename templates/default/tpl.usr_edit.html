@@ -1,5 +1,5 @@
-<form action="{FORMACTION}" method="post">
 <table class="std">
+<form action="{FORMACTION}" method="post">
   <tr class="tblheader">
     <td class="std" colspan="2">{TXT_LOGIN_DATA}</td>
   </tr>
@@ -72,22 +72,20 @@
   <tr>
 	<td class="option">{TXT_HOBBY}</td>
 	<td class="option_value">
-	<textarea name="usr_hobby" rows=3 cols=45>{HOBBY}</textarea>
-
+	<textarea name="usr_hobby" rows="3" cols="40">{HOBBY}</textarea>
   </td>
   </tr>
-
   <tr class="tblheader">
     <td class="std" colspan="2">{TXT_SETTINGS}</td>
   </tr>
+<!-- BEGIN role -->
   <tr>
     <td class="option">{TXT_DEFAULT_ROLE}<span class="asterisk">*</span></td>
     <td class="option_value">
-<!-- BEGIN role -->
         {DEFAULT_ROLE}
-<!-- END role -->
     </td>
   </tr>
+<!-- END role -->
 <!-- BEGIN inform_user -->
   <tr>
     <td class="option" colspan="2">{TXT_INFORM_USER_MAIL} <input type="checkbox" name="send_mail"  value="y" {SEND_MAIL} /></td>
@@ -98,36 +96,27 @@
 	<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
 	<div align="right"><input class="submit" type="submit" value="{TXT_SAVE}"/></div></td>
   </tr>
-</table>
 </form>
 <!-- BEGIN ACTIVE_ROLE -->
-	<form action="{ACTIVE_ROLE_FORMACTION}" name="objectItems" method="post">
-	  <table class="std">
-		  <tr class="tblheader">
-			<td class="std" colspan="2">
-				Active Roles
-			</td>
-		  </tr>
-			<!-- BEGIN TABLE_ROLES -->
-			<tr class="{ACTIVE_ROLE_CSS_ROW}">
-			  <td class="std">
-				{CHECK_ROLE}
-			  </td>
-			  <td class="std">
-				{ROLENAME}
-			  </td>
-			</tr>
-			<!-- END TABLE_ROLES -->
-		  <!-- BEGIN TABLE_SUBMIT -->
-			<tr>
-			  <td class="submit">
-				<img src="images/pfeil_rechts.gif" />
-			  </td>
-			  <td class="submit">
-				<div align="right"><input class="submit" type="submit" value="assign" /></div>
-			  </td>
-			</tr>
-		  <!-- END TABLE_SUBMIT -->
-	  </table>
-	  </form>
+<form action="{ACTIVE_ROLE_FORMACTION}" name="objectItems" method="post">
+  <tr class="tblheader">
+    <td class="std" colspan="2">{TXT_ACTIVE_ROLES}</td>
+  </tr>
+  <!-- BEGIN TABLE_ROLES -->
+  <tr class="{ACTIVE_ROLE_CSS_ROW}">
+    <td class="std">{ROLENAME}</td>
+	<td class="std">{ROLECONTEXT}</td>
+  </tr>
+  <!-- END TABLE_ROLES -->  
+  <tr>
+	<td class="submit" colspan="2">
+	<div align="right"><input class="submit" type="submit" value="{TXT_ASSIGN}"/></div></td>
+  </tr>
+</form>
 <!-- END ACTIVE_ROLE -->
+</table>
+
+
+
+
+
