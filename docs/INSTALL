@@ -594,6 +594,7 @@ components:
         --enable-xslt
         --with-xslt-sablot=/opt/ilias
         --with-expat-dir=/opt/ilias
+        --with-pear=/opt/ilias/lib/pear
 
     Note: If compilation/linking fails with a compile error concerning undefined
     references in 'libsablot.so' try to set the and LDFLAGS environment variable
@@ -609,8 +610,8 @@ components:
     They can directly be obtained from the Web using the PEAR command line
     installer that comes with PHP:
 
-        /opt/ilias/bin/pear install Auth
-        /opt/ilias/bin/pear install HTML_Template_IT
+        /opt/ilias/lib/pear install Auth
+        /opt/ilias/lib/pear install HTML_Template_IT
 
     The default PHP configuration file must be copied to /opt/ilias/config:
 
@@ -651,6 +652,11 @@ components:
       should be corrected. 'post_max_size' should be at least as high as
       'upload_max_filesize'.
 
+    - include_path
+
+      make sure that the pear library is within your include path of php.
+      if you followed the installation instruction above, just add
+      '.:/opt/ilias/lib/pear'.
 
 (d) Apache
 
