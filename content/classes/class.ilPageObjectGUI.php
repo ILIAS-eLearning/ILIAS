@@ -104,9 +104,11 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
+		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => 'edit', 'pg_title' => $pg_title,
-			'ref_id' => $this->lm_obj->getRefId(), 'webspace_path' => $wb_path);
+			'ref_id' => $this->lm_obj->getRefId(), 'webspace_path' => $wb_path,
+			'enlarge_path' => $enlarge_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
@@ -153,8 +155,10 @@ class ilPageObjectGUI extends ilLMObjectGUI
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
+		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$params = array ('mode' => 'preview', 'pg_title' => $pg_title,
-			'ref_id' => $this->lm_obj->getRefId(), 'webspace_path' => $wb_path);
+			'ref_id' => $this->lm_obj->getRefId(), 'webspace_path' => $wb_path,
+			'enlarge_path' => $enlarge_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);

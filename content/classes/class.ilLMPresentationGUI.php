@@ -71,11 +71,11 @@ class ilLMPresentationGUI
 	/**
 	* generates frame layout
 	*/
-	function layout()
+	function layout($a_xml = "main.xml")
 	{
 		$layout = $this->lm->getLayout();
 
-		$doc = xmldocfile("./layouts/lm/".$layout."/main.xml");
+		$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
 		$xpc = xpath_new_context($doc);
 		$path = (empty($_GET["frame"]))
 			? "/ilFrame[1]"
@@ -131,10 +131,19 @@ class ilLMPresentationGUI
 					case "ilLMNavigation":
 						$this->ilLMNavigation();
 						break;
+
+					case "ilMedia":
+						$this->ilMedia();
+						break;
 				}
 			}
 		}
 		$this->tpl->show();
+	}
+
+	function fullscreen()
+	{
+		$this->layout("fullscreen.xml");
 	}
 
 	/**
@@ -256,6 +265,46 @@ class ilLMPresentationGUI
 		$output = str_replace("&gt;",">",$output);
 //echo "<b>HTML</b>".htmlentities($output);
 		$this->tpl->setVariable("PAGE_CONTENT", $output);
+	}
+
+	function ilMedia()
+	{
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setCurrentBlock("ilMedia");
+
+		require_once("content/classes/class.ilMediaObject.php");
+		$media_obj =& new ilMediaObject($_GET["mob_id"]);
+
+		/*
+		$pg_obj->setLMId($this->lm->getId());
+		$builded = $pg_obj->buildDom();
+		$content = $pg_obj->getXMLFromDom(false, true);
+
+
+		// todo: utf-header should be set globally
+		header('Content-type: text/html; charset=UTF-8');
+
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
+		$xh = xslt_create();
+
+		// determine target frames for internal links
+		$pg_frame = $_GET["frame"];
+		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
+		$params = array ('mode' => 'presentation', 'pg_title' => $pg_title,
+			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		echo xslt_error($xh);
+		xslt_free($xh);
+
+		// unmask user html
+		$this->tpl->setVariable("PAGE_CONTENT", $output);
+		*/
 	}
 
 

@@ -79,6 +79,17 @@ class ilMediaObject extends ilObjMediaObject
 		return $this->media_items;
 	}
 
+	function &getMediaItem($a_purpose)
+	{
+		for($i=0; $i<count($this->media_items); $i++)
+		{
+			if($this->media_items[$i]->getPurpose() == $a_purpose)
+			{
+				return $this->media_items[$i];
+			}
+		}
+	}
+
 	/**
 	* read media object data from db
 	*/
@@ -410,25 +421,32 @@ class ilMediaObject extends ilObjMediaObject
 		$this->mal_node =& $this->dom->create_element("MediaAlias");
 		$this->mal_node =& $this->mob_node->append_child($this->mal_node);
 		$this->mal_node->set_attribute("OriginId", $this->getId());
+
+		// standard view
+		$item_node =& $this->dom->create_element("MediaItem");
+		$item_node =& $this->mob_node->append_child($item_node);
+		$item_node->set_attribute("Purpose", "Standard");
+		$media_item =& $this->getMediaItem("Standard");
+
 		$layout_node =& $this->dom->create_element("Layout");
-		$layout_node =& $this->mob_node->append_child($layout_node);
-		if ($this->getWidth() > 0)
+		$layout_node =& $item_node->append_child($layout_node);
+		if ($media_item->getWidth() > 0)
 		{
-			$layout_node->set_attribute("Width", $this->getWidth());
+			$layout_node->set_attribute("Width", $media_item->getWidth());
 		}
-		if ($this->getHeight() > 0)
+		if ($media_item->getHeight() > 0)
 		{
-			$layout_node->set_attribute("Height", $this->getHeight());
+			$layout_node->set_attribute("Height", $media_item->getHeight());
 		}
 		$layout_node->set_attribute("HorizontalAlign", "Left");
 
 		// caption
-		if ($this->getCaption() != "")
+		if ($media_item->getCaption() != "")
 		{
-			$par_node =& $this->dom->create_element("Parameter");
-			$par_node =& $this->mob_node->append_child($par_node);
-			$par_node->set_attribute("Name", "il_Caption");
-			$par_node->set_attribute("Value", $this->getCaption());
+			$cap_node =& $this->dom->create_element("Caption");
+			$cap_node =& $item_node->append_child($cap_node);
+			$cap_node->set_attribute("Align", "bottom");
+			$cap_node->set_content($media_item->getCaption());
 		}
 	}
 

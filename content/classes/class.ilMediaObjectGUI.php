@@ -103,9 +103,11 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		// determine and create mob directory, move uploaded file to directory
 		$mob_dir = $this->ilias->ini->readVariable("server","webspace_dir").
 			"/mobs/mm_".$this->content_obj->getId();
-		@mkdir($mob_dir);
-		@chmod($mob_dir, 0755);
+		ilUtil::createDirectory($mob_dir);
 
+		$media_item =& new ilMediaItem();
+		$this->content_obj->addMediaItem($media_item);
+		$media_item->setPurpose("Standard");
 		if ($_POST["standard_type"] == "File")
 		{
 			$file = $mob_dir."/".$_FILES['standard_file']['name'];
@@ -115,26 +117,24 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$format = ilMediaObject::getMimeType($file);
 			$meta =& $this->content_obj->getMetaData();
 			$meta_technical =& new ilMetaTechnical($meta);
-			$meta_technical->setFormat($format);
+			$meta_technical->addFormat($format);
 			$meta_technical->setSize($_FILES['standard_file']['size']);
-			$meta_technical->addLocation($_FILES['standard_file']['name']);
+			$meta_technical->addLocation("LocalFile", $_FILES['standard_file']['name']);
 			$meta->addTechnicalSection($meta_technical);
 			$this->content_obj->setTitle($_FILES['standard_file']['name']);
 			$this->content_obj->setDescription($format);
-			$this->content_obj->setStandardType("File");
 		}
 		else	// standard type: reference
 		{
 			$format = ilMediaObject::getMimeType($_POST["standard_reference"]);
 			$meta =& $this->content_obj->getMetaData();
 			$meta_technical =& new ilMetaTechnical($meta);
-			$meta_technical->setFormat($format);
+			$meta_technical->addFormat($format);
 			$meta_technical->setSize(0);
-			$meta_technical->addLocation($_POST["standard_reference"]);
+			$meta_technical->addLocation("Reference", $_POST["standard_reference"]);
 			$meta->addTechnicalSection($meta_technical);
 			$this->content_obj->setTitle($_POST["standard_reference"]);
 			$this->content_obj->setDescription($format);
-			$this->content_obj->setStandardType("Reference");
 		}
 
 		// determine width and height of known image types
@@ -146,22 +146,22 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				($format == "image/psd") || ($format == "image/iff"))
 			{
 				$size = getimagesize($file);
-				$this->content_obj->setWidth($size[0]);
-				$this->content_obj->setHeight($size[1]);
+				$media_item->setWidth($size[0]);
+				$media_item->setHeight($size[1]);
 			}
 		}
 		else
 		{
-			$this->content_obj->setWidth($_POST["standard_width"]);
-			$this->content_obj->setHeight($_POST["standard_height"]);
+			$media_item->setWidth($_POST["standard_width"]);
+			$media_item->setHeight($_POST["standard_height"]);
 		}
 
 		if ($_POST["standard_caption"] != "")
 		{
-			$this->content_obj->setCaption($_POST["standard_caption"]);
+			$media_item->setCaption($_POST["standard_caption"]);
 		}
 
-		$this->content_obj->setHAlign("Left");
+		$media_item->setHAlign("Left");
 		$this->content_obj->update();
 
 		$this->content_obj->setDom($this->dom);
