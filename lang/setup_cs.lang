@@ -4,7 +4,7 @@
 * @module		language file czech
 * @modulegroup	language
 * @author 		Jakub Ďurovec <xdurovec@informatics.muni.cz> 
-* @version		v 0.9 2004/02/09
+* @version		Id: setup_cs.lang,v 1.1 2004/01/21 11:26:31 mrus Exp $
 */
 
     +-----------------------------------------------------------------------------+
@@ -191,6 +191,7 @@ intro_install#:#Toto je hlavní stránka instalace ILIAS 3, odkud můžete proj�
 ip_address#:#IP adresa
 java_path#:#Cesta k Javě
 java_path_comment#:#požadováno pro výukové moduly SCORM
+lang_cs#:#Czech###new variable 08 Mar 2004
 lang_de#:#Němčina
 lang_dk#:#Dánština
 lang_en#:#Angličtina
