@@ -59,7 +59,11 @@ class ilGroupExplorer extends ilExplorer
 			if ($options["visible"] and $key != 0)
 			{
 				$node = $obj_factory->getInstanceByRefId($options["child"]); 
-				$this->formatObject($options["child"],$options,$node->getType());
+				$this->formatObject($options["child"],$options);
+			}
+			if ($key == 0)
+			{
+				$this->formatHeader($options["child"],$options);
 			}
 		}
 
@@ -75,7 +79,7 @@ class ilGroupExplorer extends ilExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject($a_node_id,$a_option,$a_type)
+	function formatObject($a_node_id,$a_option)
 	{
 		global $lng;
 
@@ -116,30 +120,46 @@ class ilGroupExplorer extends ilExplorer
 				$tpl->parseCurrentBlock();
 			}
 		}
-
-		$tpl->setCurrentBlock("row");
-		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
-		//$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
-		$target = (strpos($this->target, "?") === false) ?
-			$this->target."?" : $this->target."&";
 		
-		if (!strcmp($a_type,"grp"))
-		{
-			$tpl->setVariable("LINK_TARGET", "group.php?cmd=show_content&ref_id=".$a_node_id);
-		}
-		else
-		{
-			$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id);
-		}
 		
-		$tpl->setVariable("TITLE", $a_option["title"]);
-
-		if ($this->frameTarget != "")
+		
+		if ($this->output_icons)
 		{
-			$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
+			$tpl->setCurrentBlock("icon");
+			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+			$tpl->parseCurrentBlock();
 		}
 
-		$tpl->parseCurrentBlock();
+		if($this->isClickable($a_option["type"]))	// output link
+		{
+			$tpl->setCurrentBlock("link");
+			$target = (strpos($this->target, "?") === false) ?
+				$this->target."?" : $this->target."&";
+			
+			if (!strcmp($a_option["type"],"grp"))
+			{
+				$tpl->setVariable("LINK_TARGET", "group.php?cmd=show_content&ref_id=".$a_node_id);
+			}
+			else
+			{
+				$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
+			}
+			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
+			$tpl->setVariable("TITLE", $a_option["title"]);
+
+			if ($this->frameTarget != "")
+			{
+				$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
+			}
+			$tpl->parseCurrentBlock();
+		}
+		else			// output text only
+		{
+			$tpl->setCurrentBlock("text");
+			$tpl->setVariable("OBJ_TITLE", $a_option["title"]);
+			$tpl->parseCurrentBlock();
+		}
 
 		$this->output[] = $tpl->get();
 	}
