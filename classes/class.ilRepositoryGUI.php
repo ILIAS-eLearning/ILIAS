@@ -203,6 +203,7 @@ class ilRepositoryGUI
 					$cmd = $this->ctrl->getCmd("ShowList");
 					//$next_class = "";
 				}
+
 				$this->cmd = $cmd;
 				$this->$cmd();
 				break;

@@ -2512,7 +2512,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		$node_ids[] = $node["child"];
 		$valid_nodes[$key]["perms"] = $rbacreview->getOperationsOfRole($mem_role_id,$node["type"],ROLE_FOLDER_ID);
 	}
-	
+
 	// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
 	$rbacadmin->revokePermissionList($node_ids,$dest_role_id);
 	
@@ -2581,7 +2581,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	// GET ALL SUBNODES
 	$node_data = $tree->getNodeData($node_id);
 	$subtree_nodes = $tree->getSubTree($node_data);
-	
+
 	// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
 	$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($dest_role_id);
 
@@ -3445,3 +3445,5 @@ CREATE TABLE `aicc_units` (
 <#207>
 INSERT  INTO  `survey_phrase` (`phrase_id` ,  `title` ,  `defaultvalue` ,  `owner_fi` ,  `TIMESTAMP`) VALUES (NULL,  'dp_standard_numbers',  '1',  '0', NOW());
 
+<#208>
+ALTER TABLE scorm_tracking2 ADD COLUMN ref_id INT NOT NULL DEFAULT '0';

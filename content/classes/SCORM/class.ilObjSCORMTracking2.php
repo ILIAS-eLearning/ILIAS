@@ -92,23 +92,58 @@ class ilObjSCORMTracking2
 		// writing to scorm test log
 		$f = fopen("content/scorm.log", "a");
 		fwrite($f, "\nCALLING SCORM store()\n");
-		foreach($this->insert as $insert)
+		if ($_GET["ref_id"] <= 1)
 		{
-			/*$q = "REPLACE INTO scorm_tracking2 (user_id, sco_id, lvalue, rvalue) VALUES ".
-				"(".$ilDB->quote($user_id).",".$ilDB->quote($sco_id).",".
-				$ilDB->quote($insert["left"]).",".$ilDB->quote($insert["right"]).")";
-			$ilDB->query($q);*/
-			fwrite($f, "Insert - L:".$insert["left"].",R:".
-				$insert["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
+			fwrite($f, "Error: No ref_id given.\n");
 		}
-		foreach($this->update as $update)
+		else
 		{
-			/*$q = "REPLACE INTO scorm_tracking2 (user_id, sco_id, lvalue, rvalue) VALUES ".
-				"(".$ilDB->quote($user_id).",".$ilDB->quote($sco_id).",".
-				$ilDB->quote($update["left"]).",".$ilDB->quote($update["right"]).")";
-			$ilDB->query($q);*/
-			fwrite($f, "Update - L:".$update["left"].",R:".
-				$update["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
+			foreach($this->insert as $insert)
+			{
+				$q = "SELECT * FROM scorm_tracking2 WHERE ".
+					" user_id = ".$ilDB->quote($user_id).
+					" AND sco_id = ".$ilDB->quote($sco_id).
+					" AND lvalue = ".$ilDB->quote($insert["left"]);
+				$set = $ilDB->query($q);
+				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					fwrite($f, "Error Insert, left value already exists. L:".$insert["left"].",R:".
+						$insert["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
+				}
+				else
+				{
+					$q = "INSERT INTO scorm_tracking2 (user_id, sco_id, ref_id, lvalue, rvalue) VALUES ".
+						"(".$ilDB->quote($user_id).",".$ilDB->quote($sco_id).",".
+						$ilDB->quote($_GET["ref_id"]).",".
+						$ilDB->quote($insert["left"]).",".$ilDB->quote($insert["right"]).")";
+					$ilDB->query($q);
+					fwrite($f, "Insert - L:".$insert["left"].",R:".
+						$insert["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
+				}
+			}
+			foreach($this->update as $update)
+			{
+				$q = "SELECT * FROM scorm_tracking2 WHERE ".
+					" user_id = ".$ilDB->quote($user_id).
+					" AND sco_id = ".$ilDB->quote($sco_id).
+					" AND lvalue = ".$ilDB->quote($update["left"]);
+				$set = $ilDB->query($q);
+				if ($rec = $set->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$q = "REPLACE INTO scorm_tracking2 (user_id, sco_id, ref_id, lvalue, rvalue) VALUES ".
+						"(".$ilDB->quote($user_id).",".$ilDB->quote($sco_id).",".
+						$ilDB->quote($_GET["ref_id"]).",".
+						$ilDB->quote($update["left"]).",".$ilDB->quote($update["right"]).")";
+					$ilDB->query($q);
+					fwrite($f, "Update - L:".$update["left"].",R:".
+						$update["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
+				}
+				else
+				{
+					fwrite($f, "ERROR Update, left value does not exist. L:".$update["left"].",R:".
+						$update["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
+				}
+			}
 		}
 		fclose($f);
 	}

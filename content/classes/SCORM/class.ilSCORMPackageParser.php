@@ -182,7 +182,7 @@ class ilSCORMPackageParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-
+//echo "<br>handlerBeginTag:".$a_name;
 		switch($a_name)
 		{
 			case "manifest":
@@ -292,6 +292,7 @@ class ilSCORMPackageParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
+//echo "<br>handlerEndTag:".$a_name;
 
 		switch($a_name)
 		{
@@ -327,6 +328,7 @@ class ilSCORMPackageParser extends ilSaxParser
 	*/
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
+//echo "<br>handlerCharacterData:".$this->getCurrentElement().":".$a_data;
 		// DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
 		$a_data = preg_replace("/\n/","",$a_data);
 		$a_data = preg_replace("/\t+/","",$a_data);
