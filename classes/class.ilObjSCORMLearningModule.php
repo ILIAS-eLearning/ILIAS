@@ -92,6 +92,14 @@ class ilObjSCORMLearningModule extends ilObject
 		}
 	}
 
+	function getWebDirectory() {
+	        $lm_data_dir = "/lm_data";
+                                                                                                                             
+                $lm_dir = $lm_data_dir."/lm_".$this->getId();
+                        return $lm_dir;
+                        return false;
+	}
+
 	/**
 	* copy all properties and subobjects of a SCROM LearningModule.
 	*
