@@ -67,11 +67,10 @@ class ilCtrl
 	function &forwardCommand(&$a_gui_object)
 	{
 		$class = strtolower(get_class($a_gui_object));
-//echo "<br>wanna forward from :".$this->current_node.": to :$class:";
+
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
 		if ($nr > 0)
 		{
-//echo "<br>-> forwarding to class:<b>$class</b>, command:".$this->getCmd()."():"; flush();
 			$this->current_node = $nr;
 			return $a_gui_object->executeCommand();
 		}

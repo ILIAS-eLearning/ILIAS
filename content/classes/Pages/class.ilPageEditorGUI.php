@@ -465,7 +465,7 @@ class ilPageEditorGUI
 	}
 
 	/**
-	*
+	* set media and editing mode
 	*/
 	function setMediaMode()
 	{
@@ -476,11 +476,26 @@ class ilPageEditorGUI
 		{
 			if ($ilUser->getPref("ilPageEditor_JavaScript") != $_POST["js_mode"])
 			{
-				$this->ctrl->setParameterByClass("illmpageobjectgui", "reloadTree", "y");
+				// not nice, should be solved differently in the future
+				if ($this->page->getParentType() == "lm" ||
+					$this->page->getParentType() == "dbk")
+				{
+					$this->ctrl->setParameterByClass("illmpageobjectgui", "reloadTree", "y");
+				}
 			}
 			$ilUser->writePref("ilPageEditor_JavaScript", $_POST["js_mode"]);
 		}
-		$this->ctrl->redirectByClass("illmpageobjectgui", "view");
+		
+		// again not so nice...
+		if ($this->page->getParentType() == "lm" ||
+			$this->page->getParentType() == "dbk")
+		{
+			$this->ctrl->redirectByClass("illmpageobjectgui", "view");
+		}
+		else
+		{
+			$this->ctrl->returnToParent($this);
+		}
 	}
 	
 	/**
