@@ -690,3 +690,15 @@ $this->db->query($query12);
 $query13 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','rolf','6','".$rol_fold["parent"]."')";
 $this->db->query($query13);
 ?>
+
+<#60>
+<?php
+$query1 = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'folder', 'Folder object', -1, now(), now())";
+$this->db->query($query1);
+$query2 = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'file', 'File object', -1, now(), now())";
+$this->db->query($query2);
+
+?>
+
