@@ -118,6 +118,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 * @access public
 */
   function set_question_form($type, $edit = "") {
+		if ($_POST["cmd"]["unlock_no"]) {
+	    header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+			exit;
+		}
+		
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
@@ -153,6 +158,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
+
+		if ($_GET["locked"] == 1) {
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_askunlock.html", true);
+	    $this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&edit=$edit");
+			$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("unlock"));
+			$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("cancel"));
+			$this->tpl->setVariable("UNLOCK_QUESTION", sprintf($this->lng->txt("unlock_question"), $this->object->is_in_use($edit)));
+			$this->tpl->parseCurrentBlock();
+			return;
+		}		
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
 
@@ -245,6 +261,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
   function questionsObject()
   {
     global $rbacsystem;
+
     $type = $_GET["sel_question_types"];
     if ($_GET["preview"]) {
       $this->out_preview_page($_GET["preview"]);
@@ -466,8 +483,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.ref_fi = " . $_GET["ref_id"] . " $where$order";
     $query_result = $this->ilias->db->query($query);
     $colors = array("tblrow1", "tblrow2");
-   	$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" />";
-   	$img_preview = "<img src=\"" . ilUtil::getImagePath("preview.gif", true) . "\" alt=\"" . $this->lng->txt("preview") . "\" title=\"" . $this->lng->txt("preview") . "\" border=\"1\" />";
+   	$img_locked = "<img src=\"" . ilUtil::getImagePath("locked.gif", true) . "\" alt=\"" . $this->lng->txt("locked") . "\" title=\"" . $this->lng->txt("locked") . "\" border=\"0\" />";
     $counter = 0;
     if ($query_result->numRows() > 0)
     {
@@ -477,7 +493,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
           $this->tpl->setVariable("QUESTION_ID", $data->question_id);
           if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
 						if ($this->object->is_in_use($data->question_id)) {
-	            $this->tpl->setVariable("EDIT", $img_locked);
+	            $this->tpl->setVariable("EDIT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id&locked=1\">" . $img_locked . "</a>");
 						} else {
 	            $this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id\">" . $this->lng->txt("edit") . "</a>]");
 						}
