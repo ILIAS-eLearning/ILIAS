@@ -171,6 +171,11 @@ class ilLanguage
 
 		return true;
 	}
+
+	function getLangKey()
+	{
+		return $this->lang_key;
+	}
 	
 	/**
 	* gets the text for a given topic

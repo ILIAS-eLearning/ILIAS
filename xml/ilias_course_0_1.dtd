@@ -68,7 +68,7 @@
     Type CDATA #REQUIRED
 >
 
-<!ELEMENT Object (Title,Description,Start,End,Object*)>
+<!ELEMENT Object (Title,Description,Start,End,FileType?,Object*)>
 
 <!ELEMENT Object EMPTY>
 <!ATTLIST Object
