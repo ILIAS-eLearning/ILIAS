@@ -1,7 +1,7 @@
-﻿/**
+/**
 * ILIAS language file
 *
-* @module		language file english
+* @module		language file English
 * @modulegroup	language
 * @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
 * @version		$Id$
@@ -83,8 +83,8 @@ administration#:#searching_unbound_objs#:#Searching for unbound objects...
 administration#:#skipped#:#skipped
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!
-administration#:#systemcheck#:#Systemcheck
-administration#:#view_last_log#:#View last Scanlog
+administration#:#systemcheck#:#System check
+administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#add_answer#:#Add answer
@@ -93,7 +93,7 @@ assessment#:#add_answer_yn#:#Add yes/no answers
 assessment#:#add_applet_parameter#:#Add applet parameter
 assessment#:#add_area#:#Add area
 assessment#:#add_gap#:#Add Gap Text
-assessment#:#add_imagemap#:#Import imagemap
+assessment#:#add_imagemap#:#Import image map
 assessment#:#add_matching_pair#:#Add matching pair
 assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#answer#:#Answer
@@ -113,7 +113,7 @@ assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
-assessment#:#cloze_text#:#Cloze text
+assessment#:#cloze_text#:#Close text
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Coordinates
 assessment#:#correct_solution_is#:#The correct solution is
@@ -137,7 +137,7 @@ assessment#:#error_save_image_file#:#Error saving an image file!
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.
 assessment#:#eval_data#:#Evaluation Data
-assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.
+assessment#:#eval_imagemap_result#:#The image map selection is %s. You received %s points.
 assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.
@@ -155,7 +155,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all requi
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!
-assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload image maps!
 assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!
 assessment#:#filter#:#Filter
 assessment#:#gap#:#Gap
@@ -221,14 +221,14 @@ assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
-assessment#:#qt_cloze#:#Cloze Question
+assessment#:#qt_cloze#:#Close Question
 assessment#:#qt_imagemap#:#Image Map Question
 assessment#:#qt_javaapplet#:#Java Applet Question
 assessment#:#qt_matching#:#Matching Question
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
 assessment#:#qt_ordering#:#Ordering Question
-assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
+assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Question Type
 assessment#:#radio_set#:#Set
@@ -245,11 +245,11 @@ assessment#:#report_date_not_reached#:#You have not reached the reporting date. 
 assessment#:#reset_filter#:#Reset filter
 assessment#:#result#:#Result
 assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!
-assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!
+assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a Java applet!
 assessment#:#save_finish#:#Save and finish the test
-assessment#:#save_introduction#:#Save and goto introduction
-assessment#:#save_next#:#Save and goto next question
-assessment#:#save_previous#:#Save and goto previous question
+assessment#:#save_introduction#:#Save and go to introduction
+assessment#:#save_next#:#Save and go to next question
+assessment#:#save_previous#:#Save and go to previous question
 assessment#:#select_gap#:#Select gap
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!
 assessment#:#selected_image#:#Selected image
@@ -271,7 +271,7 @@ assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_delete_all_user_data#:#Delete all user data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_ending_time#:#Ending time
-assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.
+assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
 assessment#:#tst_eval_total_finished#:#Total completed tests
 assessment#:#tst_eval_total_finished_average_time#:#Average processing time for completed tests
 assessment#:#tst_eval_total_passed#:#Total passed tests
@@ -291,10 +291,10 @@ assessment#:#tst_mark_official_form#:#Official form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short form
 assessment#:#tst_maximum_points#:#Maximum points
-assessment#:#tst_missing_author#:#You don't have entered the authors name in the test properties! Please add an authors name.
-assessment#:#tst_missing_marks#:#You don't have a mark schema in the test! Please add at least a simple mark schema into the test.
-assessment#:#tst_missing_questions#:#You don't have any questions in the test! Please add at least one question into the test.
-assessment#:#tst_missing_title#:#You don't have entered a test title! Please go to the meta data section and enter a title.
+assessment#:#tst_missing_author#:#You have not entered the authors name in the test properties! Please add an authors name.
+assessment#:#tst_missing_marks#:#You do not have a mark schema in the test! Please add at least a simple mark schema to the test.
+assessment#:#tst_missing_questions#:#You do not have any questions in the test! Please add at least one question into the test.
+assessment#:#tst_missing_title#:#You have not entered a test title! Please go to the meta data section and enter a title.
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
@@ -369,7 +369,7 @@ assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test
 assessment#:#unlimited#:#unlimited
 assessment#:#unlock#:#Unlock
-assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.
+assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you do not want to delete the users test results, you can duplicate the question in the question pool and change that version.
 assessment#:#upload_imagemap#:#Upload an Image map
 assessment#:#uploaded_material#:#Uploaded Material
 assessment#:#warning_question_not_complete#:#The question is not complete!
@@ -384,7 +384,7 @@ bibitem#:#bibitem_author#:#Author
 bibitem#:#bibitem_av#:#AV
 bibitem#:#bibitem_bibitem#:#Bibliographical information
 bibitem#:#bibitem_book#:#Book
-bibitem#:#bibitem_booktitle#:#Booktitle
+bibitem#:#bibitem_booktitle#:#Book title
 bibitem#:#bibitem_catalog#:#Catalog
 bibitem#:#bibitem_choose_index#:#Please select a bibliographical information:
 bibitem#:#bibitem_cross_reference#:#Cross reference
@@ -397,8 +397,8 @@ bibitem#:#bibitem_first_name#:#First name
 bibitem#:#bibitem_grey_literature#:#Grey literature
 bibitem#:#bibitem_how_published#:#How published
 bibitem#:#bibitem_identifier#:#Identifier
-bibitem#:#bibitem_inbook#:#Inbook
-bibitem#:#bibitem_inproceedings#:#Inproceedings
+bibitem#:#bibitem_inbook#:#In book
+bibitem#:#bibitem_inproceedings#:#In proceedings
 bibitem#:#bibitem_institution#:#Institution
 bibitem#:#bibitem_internet#:#Internet
 bibitem#:#bibitem_isbn#:#ISBN
@@ -437,10 +437,10 @@ bibitem#:#bibitem_unpublished#:#Unpublished
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Where published
 bibitem#:#bibitem_year#:#Year
-chat#:#chat_active#:#Aktive
-chat#:#chat_active_users#:#User (aktive)
+chat#:#chat_active#:#Active
+chat#:#chat_active_users#:#User (active)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.
-chat#:#chat_add_ip#:#Please add the server ip.
+chat#:#chat_add_ip#:#Please add the server IP.
 chat#:#chat_add_moderator_password#:#Please add a moderator password.
 chat#:#chat_add_port#:#Please add the server port.
 chat#:#chat_aqua#:#aqua
@@ -448,11 +448,11 @@ chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#black
 chat#:#chat_blue#:#blue
 chat#:#chat_bold#:#Bold
-chat#:#chat_chatroom_body#:#Chatroom:
-chat#:#chat_chatroom_rename#:#Edit chatroom
-chat#:#chat_chatrooms#:#Chatrooms
+chat#:#chat_chatroom_body#:#Chat room:
+chat#:#chat_chatroom_rename#:#Edit chat room
+chat#:#chat_chatrooms#:#Chat rooms
 chat#:#chat_color#:#Font color
-chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom
+chat#:#chat_delete_sure#:#Are you sure, you want to delete this chat room
 chat#:#chat_drop_user#:#User kicked
 chat#:#chat_edit#:#Edit chat 
 chat#:#chat_face#:#Font type
@@ -461,8 +461,8 @@ chat#:#chat_gray#:#gray
 chat#:#chat_green#:#green
 chat#:#chat_hide_details#:#Hide details
 chat#:#chat_html_export#:#HTML export
-chat#:#chat_ilias#:#Ilias Chat module
-chat#:#chat_inactive#:#Inaktive
+chat#:#chat_ilias#:#ILIAS Chat module
+chat#:#chat_inactive#:#Inactive
 chat#:#chat_input#:#Input
 chat#:#chat_insert_message#:#PLease insert a message
 chat#:#chat_invitation_body#:#Invitation to chat from:
@@ -480,33 +480,33 @@ chat#:#chat_messages_deleted#:#Messages have been deleted.
 chat#:#chat_moderator_password#:#Moderator password
 chat#:#chat_navy#:#navy
 chat#:#chat_no_active_users#:#No users present.
-chat#:#chat_no_connection#:#Cannot contact chatserver.
-chat#:#chat_no_delete_public#:#The public chatroom cannot be deleted
-chat#:#chat_no_refresh_public#:#the public chatroom cannot be refreshed.
+chat#:#chat_no_connection#:#Cannot contact chat server.
+chat#:#chat_no_delete_public#:#The public chat room cannot be deleted
+chat#:#chat_no_refresh_public#:#the public chat room cannot be refreshed.
 chat#:#chat_no_rename_public#:#The public room cannot be renamed
 chat#:#chat_no_write_perm#:#No permission to write
 chat#:#chat_olive#:#olive
 chat#:#chat_online_users#:#User (online)
 chat#:#chat_private_message#:#Private Message
-chat#:#chat_public_room#:#Public chatroom
+chat#:#chat_public_room#:#Public chat room
 chat#:#chat_purple#:#purple
 chat#:#chat_red#:#red
 chat#:#chat_refresh#:#Refresh
-chat#:#chat_room_added#:#Added new chatroom
-chat#:#chat_room_name#:#Name of chatroom
-chat#:#chat_room_renamed#:#Chatroom renamed.
-chat#:#chat_room_select#:#Private chatroom
-chat#:#chat_rooms#:#Chatrooms
-chat#:#chat_rooms_deleted#:#Chatroom(s) deleted.
-chat#:#chat_select_one_room#:#Please select one chatroom
+chat#:#chat_room_added#:#Added new chat room
+chat#:#chat_room_name#:#Name of chat room
+chat#:#chat_room_renamed#:#Chat room renamed.
+chat#:#chat_room_select#:#Private chat room
+chat#:#chat_rooms#:#Chat rooms
+chat#:#chat_rooms_deleted#:#Chat room(s) deleted.
+chat#:#chat_select_one_room#:#Please select one chat room
 chat#:#chat_server_allowed#:#Allowed hosts
-chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#Server Ip
-chat#:#chat_server_logfile#:#Logfile path
-chat#:#chat_server_loglevel#:#Loglevel
-chat#:#chat_server_not_active#:#The chatserver is not active
+chat#:#chat_server_allowed_b#:#(e.g. 192.168.1.1,192.168.1.2)
+chat#:#chat_server_ip#:#Server IP
+chat#:#chat_server_logfile#:#Log file path
+chat#:#chat_server_loglevel#:#Log level
+chat#:#chat_server_not_active#:#The chat server is not active
 chat#:#chat_server_port#:#Server Port
-chat#:#chat_server_settings#:#Chatserver settings
+chat#:#chat_server_settings#:#Chat server settings
 chat#:#chat_settings_saved#:#Settings saved
 chat#:#chat_show_details#:#Show details
 chat#:#chat_silver#:#silver
@@ -536,6 +536,7 @@ common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#activate_tracking#:#Activate Tracking
 common#:#activation#:#Activation
+common#:#active#:#Active
 common#:#active_roles#:#Active Roles
 common#:#add#:#Add
 common#:#add_author#:#Add Author
@@ -547,7 +548,7 @@ common#:#add_user#:#Add local user
 common#:#added_new_condition#:#Created new condition.
 common#:#adm_edit_permission#:#Change permission settings
 common#:#adm_read#:#Read access to System settings
-common#:#adm_visible#:#Systemsettings are visible
+common#:#adm_visible#:#System settings are visible
 common#:#adm_write#:#Edit Basic system settings
 common#:#administrate#:#Administrate
 common#:#administrate_users#:#Local user administration
@@ -582,6 +583,8 @@ common#:#applied_users#:#Applied users
 common#:#apply_filter#:#Apply filter
 common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
+common#:#approve_date#:#Approved On
+common#:#approve_recipient#:#Login ID of approver
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#assign#:#Assign
@@ -613,6 +616,7 @@ common#:#auth_visible#:#Authentication settings are visible
 common#:#auth_write#:#Edit authentication settings
 common#:#author#:#Author
 common#:#authors#:#Authors
+common#:#auto_registration#:#Automatically approve registration
 common#:#available_languages#:#Available Languages
 common#:#average_time#:#Average time
 common#:#back#:#Back
@@ -722,11 +726,11 @@ common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
 common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language
-common#:#city#:#City
+common#:#city#:#City, State
 common#:#clear#:#Clear
-common#:#client ip#:#Client Ip
+common#:#client ip#:#Client IP
 common#:#client_id#:#Client ID
-common#:#client_ip#:#Client Ip
+common#:#client_ip#:#Client IP
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
 common#:#comma_separated#:#Comma Separated
@@ -759,6 +763,7 @@ common#:#country#:#Country
 common#:#course#:#Course
 common#:#courses#:#Courses
 common#:#create#:#Create
+common#:#create_date#:#Created On
 common#:#create_in#:#Create in
 common#:#create_stylesheet#:#Create Style
 common#:#crs#:#Course
@@ -800,7 +805,7 @@ common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Item
 common#:#date#:#Date
-common#:#dateplaner#:#Dateplaner
+common#:#dateplaner#:#Calendar
 common#:#day#:#Day
 common#:#days#:#Days
 common#:#days_of_period#:#Days of period
@@ -857,7 +862,7 @@ common#:#edit_stylesheet#:#Edit Style
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
 common#:#email#:#E-mail
-common#:#email_not_valid#:#The email addess you entered is not valid!
+common#:#email_not_valid#:#The email address you entered is not valid!
 common#:#enable#:#Enable
 common#:#enable_registration#:#Enable new user registration
 common#:#enabled#:#Enabled
@@ -867,6 +872,7 @@ common#:#err_2_param#:#Only 2 parameter!
 common#:#err_count_param#:#Reason: Wrong parameter count
 common#:#err_enter_current_passwd#:#Please enter your current password
 common#:#err_in_line#:#Error in line
+common#:#err_inactive#:#This account has not been activated. Please contact the system administrator for access.
 common#:#err_invalid_port#:#Invalid port number
 common#:#err_ldap_auth_failed#:#User not authenticated on LDAP server! Please ensure that you have the same password in ILIAS and LDAP
 common#:#err_ldap_connect_failed#:#Connection to LDAP server failed! Please check your settings
@@ -898,7 +904,7 @@ common#:#exc_edit_permission#:#Change permission settings
 common#:#exc_edit_until#:#Edit until
 common#:#exc_files#:#Files
 common#:#exc_groups#:#Groups
-common#:#exc_header_members#:#Exercise(members)
+common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work instructions
 common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
 common#:#exc_members_assigned#:#Members assigned
@@ -923,8 +929,8 @@ common#:#exc_write#:#Edit exercise
 common#:#excs#:#Exercises
 common#:#execute#:#Execute
 common#:#export#:#Export
-common#:#export_html#:#export as html file
-common#:#export_xml#:#export as xml file
+common#:#export_html#:#export as HTML file
+common#:#export_xml#:#export as XML file
 common#:#faq_exercise#:#FAQ Exercise
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
@@ -939,7 +945,7 @@ common#:#file_edit_permission#:#Change Permission settings
 common#:#file_new#:#New File
 common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
-common#:#file_notice#:#Please take care of the filesizelimit of  
+common#:#file_notice#:#Please take note of the maximum file size of
 common#:#file_read#:#Download File
 common#:#file_valid#:#File is valid!
 common#:#file_version#:#Version Provided in File
@@ -1028,32 +1034,32 @@ common#:#glossaries#:#Glossaries
 common#:#glossary#:#Glossary
 common#:#glossary_added#:#Glossary added
 common#:#group_access_denied#:#Access Denied
-common#:#group_any_objects#:#No Subobjects available
+common#:#group_any_objects#:#No subobjects available
 common#:#group_create_chat#:#Create chat
 common#:#group_desc#:#Group Description
 common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_import#:#Group import
 common#:#group_import_file#:#Import file
-common#:#group_members#:#Members
+common#:#group_members#:#Group Members
 common#:#group_memstat#:#Member Status
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Member
-common#:#group_name#:#Groupname
+common#:#group_name#:#Group name
 common#:#group_new_registrations#:#New registrations
 common#:#group_no_registration#:#no registration required
-common#:#group_no_registration_msg#:#You are not a member of this group so far. Due to reasons of administration it is necessary to join the requested group.<br> As a member you have the following advantages:<br>- You get informed about news and updates<br>- You can access the according objects like forums, learning modules, etc.<br><br>You can annul your membership at any time.
+common#:#group_no_registration_msg#:#You are not a member of this group so far. Due to reasons of administration it is necessary to join the requested group.<br />As a member you have the following advantages:<br />- You get informed about news and updates<br />- You can access the according objects like forums, learning modules, etc.<br /><br />You can annul your membership at any time.
 common#:#group_not_available#:#No group available
 common#:#group_objects#:#Group Objects
 common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.
-common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.
+common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the administrator of this group.<br />You are automatically assigned to the group if your password is correct.
 common#:#group_registration_expiration_date#:#Expiration Date
 common#:#group_registration_expiration_time#:#Expiration Time
-common#:#group_registration_expired#:#Period of registraton expired
+common#:#group_registration_expired#:#Period of registration expired
 common#:#group_registration_mode#:#Registration Mode
 common#:#group_req_password#:#Registration password required
 common#:#group_req_registration#:#Registration required
-common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.
+common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br />You will receive a message when you get assigned to the group.
 common#:#group_reset#:#Reset Group Permissions
 common#:#group_status#:#Group is
 common#:#group_status_closed#:#Closed
@@ -1090,7 +1096,7 @@ common#:#grp_edit#:#Edit Group
 common#:#grp_edit_permission#:#Change permission settings
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator
-common#:#grp_err_error#:#An error occured
+common#:#grp_err_error#:#An error occurred
 common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.
 common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.
 common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.
@@ -1155,7 +1161,7 @@ common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to display the file name
 common#:#ilias_version#:#ILIAS version
 common#:#image#:#Image
-common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.
+common#:#image_gen_unsucc#:#Image generation unsuccessful. Contact your system administrator and verify the convert path.
 common#:#import#:#Import
 common#:#import_alm#:#Import AICC Package
 common#:#import_categories#:#Import Categories
@@ -1166,13 +1172,14 @@ common#:#import_forum_finished#:#The forum has been imported.
 common#:#import_glossary#:#Import Glossary
 common#:#import_grp_finished#:#Imported group without any error
 common#:#import_hlm#:#Import HACP Package
-common#:#import_lm#:#Import Learningmodule
+common#:#import_lm#:#Import Learning module
 common#:#import_root_user#:#Import Root User
 common#:#import_sahs#:#Import SCORM/AICC Package
 common#:#import_users#:#Import Users
 common#:#imported#:#imported
 common#:#in#:#in
 common#:#in_use#:#User Language
+common#:#inactive#:#Inactive
 common#:#inbox#:#Inbox
 common#:#info_assign_sure#:#Are you sure you want to assign the following user(s)?
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)?
@@ -1247,8 +1254,8 @@ common#:#langfile_found#:#Language file found
 common#:#language#:#Language
 common#:#language_not_installed#:#is not installed. Please install that language first
 common#:#languages#:#Languages
-common#:#languages_already_installed#:#Chosen language(s) are already installed
-common#:#languages_already_uninstalled#:#Chosen language(s) are already uninstalled
+common#:#languages_already_installed#:#Selected language(s) are already installed
+common#:#languages_already_uninstalled#:#Selected language(s) are already uninstalled
 common#:#languages_updated#:#All installed languages have been updated
 common#:#last_change#:#Last Change
 common#:#last_visit#:#Last Visit
@@ -1309,7 +1316,7 @@ common#:#lo_categories#:#LO Categories
 common#:#lo_edit#:#Edit Learning Object
 common#:#lo_new#:#New Learning Object
 common#:#lo_no_content#:#No Learning Resources Available
-common#:#lo_other_langs#:#LO's in Other Langauges
+common#:#lo_other_langs#:#LOs in Other Languages
 common#:#lo_overview#:#LO Overview
 common#:#local#:#Local
 common#:#locator#:#Location:
@@ -1318,7 +1325,7 @@ common#:#logic_or#:#or
 common#:#login#:#Login
 common#:#login_as#:#Logged in as
 common#:#login_data#:#Login data
-common#:#login_exists#:#There is already a user with this loginname! Please choose another one.
+common#:#login_exists#:#There is already a user with this login name! Please choose another one.
 common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Time online
 common#:#login_to_ilias#:#Login to ILIAS
@@ -1328,7 +1335,7 @@ common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
-common#:#mail_addressbook#:#Addressbook
+common#:#mail_addressbook#:#Address book
 common#:#mail_allow_smtp#:#Allow SMTP
 common#:#mail_b_inbox#:#Inbox
 common#:#mail_c_trash#:#Trash
@@ -1342,12 +1349,12 @@ common#:#mail_import#:#Import
 common#:#mail_import_file#:#Export file
 common#:#mail_intern_enable#:#Enable
 common#:#mail_mail_visible#:#User may use mail system
-common#:#mail_mails_of#:#Mails
+common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_maxsize_box#:#Max. mailbox size
 common#:#mail_maxsize_mail#:#Max. mail size
 common#:#mail_maxtime_attach#:#Max. days to keep attachments
-common#:#mail_maxtime_mail#:#Max. days to keep mails
+common#:#mail_maxtime_mail#:#Max. days to keep mail
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_read#:#Read access to Mail settings
 common#:#mail_search_no#:#No entries found
@@ -1546,7 +1553,7 @@ common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)
 common#:#obj_cat#:#Category
 common#:#obj_cen#:#Centra Event
 common#:#obj_chac#:#Chat settings
-common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.
+common#:#obj_chac_desc#:#Configure your chat server here. Enable/disable chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Course
 common#:#obj_dbk#:#Digilib Book
@@ -1969,7 +1976,7 @@ common#:#tst_visible#:#Test is visible
 common#:#tst_write#:#Edit Test
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAs with your useraccount.
+common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your useraccount.
 common#:#typ#:#Object Type Definition
 common#:#type#:#Type
 common#:#type_your_message_here#:#Type Your Message Here
@@ -2564,7 +2571,7 @@ dateplaner#:#ERROR_ENDDATE#:#Wrong Enddate input. Format: dd/mm/yyyy
 dateplaner#:#ERROR_ENDTIME#:#Wrong Endtime. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Wrong Enddate input. Enddate is before Startdate.
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid csv File.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't except JavaScript. <BR> Please close this Window after insert manually. <BR> Thank you</CENTER></B>
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't except JavaScript.<br />Please close this Window after insert manually.<br />Thank you</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Wrong Rotation Enddate input. Format: dd/mm/yyyy
 dateplaner#:#ERROR_ROT_END_START#:#Wrong Rotation Enddate input. Rotation Enddate is before Startdate.
 dateplaner#:#ERROR_SHORTTEXT#:#Wrong Shorttext input. Shorttext is required.
@@ -2573,7 +2580,7 @@ dateplaner#:#ERROR_STARTTIME#:#Wrong Starttime. Format: hh:mm
 dateplaner#:#ERROR_TS#:#Incorrect date format
 dateplaner#:#Fr_long#:#Friday
 dateplaner#:#Fr_short#:#Fr
-dateplaner#:#Language_file#:#english
+dateplaner#:#Language_file#:#English
 dateplaner#:#Listbox_long#:#List of Dates
 dateplaner#:#Mo_long#:#Monday
 dateplaner#:#Mo_short#:#Mo
@@ -2594,17 +2601,17 @@ dateplaner#:#Week_long#:#Week View
 dateplaner#:#add_data#:#Additional data
 dateplaner#:#app_#:#group dates inbox
 dateplaner#:#app_date#:#insert date
-dateplaner#:#app_day#:#dayview
-dateplaner#:#app_freetime#:#freetime of other group members (catch a time)
+dateplaner#:#app_day#:#day view
+dateplaner#:#app_freetime#:#free time of other group members (catch a time)
 dateplaner#:#app_inbox#:#group dates inbox
 dateplaner#:#app_list#:#date list
-dateplaner#:#app_month#:#monthview
+dateplaner#:#app_month#:#month view
 dateplaner#:#app_properties#:#properties
-dateplaner#:#app_week#:#weekview
-dateplaner#:#application#:#Dateplaner
+dateplaner#:#app_week#:#week view
+dateplaner#:#application#:#Calendar
 dateplaner#:#apply#:#apply
 dateplaner#:#back#:#back
-dateplaner#:#begin_date#:#Begin of Date
+dateplaner#:#begin_date#:#Begin Date
 dateplaner#:#busytime#:#busy time in group
 dateplaner#:#c_date#:#Create Date
 dateplaner#:#changeTo#:#Change to:
@@ -2624,60 +2631,60 @@ dateplaner#:#dv_button_cancel#:#Cancel
 dateplaner#:#dv_button_delete#:#Delete
 dateplaner#:#dv_button_insert#:#Insert
 dateplaner#:#dv_button_update#:#Update
-dateplaner#:#dv_date_begin#:#Date Start:
-dateplaner#:#dv_date_end#:#Date End:
+dateplaner#:#dv_date_begin#:#Start Date:
+dateplaner#:#dv_date_end#:#End Date:
 dateplaner#:#dv_date_hm#:#Hour:Minute
-dateplaner#:#dv_enddate#:#Enddate:
-dateplaner#:#dv_groupselect#:#Groupselect:
-dateplaner#:#dv_groupview#:#Groupdate:
-dateplaner#:#dv_groupview_text#:#Group:<br>
+dateplaner#:#dv_enddate#:#End date:
+dateplaner#:#dv_groupselect#:#Group select:
+dateplaner#:#dv_groupview#:#Group date:
+dateplaner#:#dv_groupview_text#:#Group:<br />
 dateplaner#:#dv_keywords#:#Keywords:
-dateplaner#:#dv_keywordselect#:#Keywordselect:
+dateplaner#:#dv_keywordselect#:#Keyword select:
 dateplaner#:#dv_message#:#Message:
 dateplaner#:#dv_noGroup#:#no Group
 dateplaner#:#dv_noKey#:#no Keyword
-dateplaner#:#dv_preview#:#      <b>! Preview !</b>
-dateplaner#:#dv_rotation#:#Rotation:
-dateplaner#:#dv_rotation_date#:#Rotation date:
-dateplaner#:#dv_rotation_end#:#Rotation end:
-dateplaner#:#dv_shorttext#:#Shorttext:
-dateplaner#:#dv_startdate#:#Startdate:
+dateplaner#:#dv_preview#:#<b>! Preview !</b>
+dateplaner#:#dv_rotation#:#Recurrence:
+dateplaner#:#dv_rotation_date#:#Recurrence date:
+dateplaner#:#dv_rotation_end#:#Recurrence end:
+dateplaner#:#dv_shorttext#:#Short text:
+dateplaner#:#dv_startdate#:#Start date:
 dateplaner#:#dv_text#:#Text:
 dateplaner#:#dv_whole_day#:#Whole day:
-dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate? (click the checkbox)
-dateplaner#:#end_date#:#End of Date
-dateplaner#:#endtime_for_view#:#Endtime for view:
-dateplaner#:#error_minical_img#:#Cant create GD-picture-stream
+dateplaner#:#dv_whole_rotation#:#Would you like to delete the entire recurring series? (click the checkbox)
+dateplaner#:#end_date#:#End Date
+dateplaner#:#endtime_for_view#:#End time for view:
+dateplaner#:#error_minical_img#:#Cannot create GD-picture-stream
 dateplaner#:#execute#:#execute choices
 dateplaner#:#extra_dates#:#One Day Dates
 dateplaner#:#free#:#free
 dateplaner#:#freetime#:#free Time in group
 dateplaner#:#group#:#group
-dateplaner#:#help_day#:#Dateplaner dayview
+dateplaner#:#help_day#:#Calendar dayview
 dateplaner#:#help_day_l#:#In the dayview all dates of a chosen day are displayed.
 dateplaner#:#help_enddate#:#Enddate - syntax[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.
+dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment.<br />The symbol opens a small calendar for chosing the appropriate date.
 dateplaner#:#help_endrotation#:#Endtime syntax[dd/mm/yyyy]
-dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date
+dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br />The symbol opens a small calender for choosing the appropriate date
 dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format
 dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.
 dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]
-dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.
-dateplaner#:#help_further#:#<br> <b>click here for further information.</b>
+dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br />Hereby the starttime, endtime and enddate are hidden.
+dateplaner#:#help_further#:#<br /><b>click here for further information.</b>
 dateplaner#:#help_group#:#Groupdates selection
-dateplaner#:#help_group_l#:#Contains the groups for which the loged-in user has administrator rights and for which a date can be created. <br> After chosing this it is possible to view the unscheduled time of the group.
-dateplaner#:#help_inbox#:#Dateplaner Inbox
+dateplaner#:#help_group_l#:#Contains the groups for which the loged-in user has administrator rights and for which a date can be created.<br />After chosing this it is possible to view the unscheduled time of the group.
+dateplaner#:#help_inbox#:#Calendar Inbox
 dateplaner#:#help_inbox_l#:#Here all new, changed and deleted groupdates are displayed.
 dateplaner#:#help_keyword#:#Keyword selection
 dateplaner#:#help_keywordUse#:#Keyword  selection
-dateplaner#:#help_keywordUse_l#:#Chose one or more keywords from the dialog box. <br>TIP: use the CTRL key for selecting several entrys.
+dateplaner#:#help_keywordUse_l#:#Chose one or more keywords from the dialog box.<br />TIP: use the CTRL key for selecting several entrys.
 dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.
-dateplaner#:#help_list#:#Dateplaner datelist
+dateplaner#:#help_list#:#Calendar datelist
 dateplaner#:#help_list_l#:#In the datelis all dates over a given period of time are displayed.
-dateplaner#:#help_month#:#Dateplaner monthview
+dateplaner#:#help_month#:#Calendar monthview
 dateplaner#:#help_month_l#:#In the monthviel all dates of a given month are displayed.
 dateplaner#:#help_properties_alt#:#Changes the keyword
-dateplaner#:#help_properties_alt_l#:#Chose a keyword from the dialog box.<br>Change the keyword in the textfield . Important: max. 20 characters.
+dateplaner#:#help_properties_alt_l#:#Chose a keyword from the dialog box.<br />Change the keyword in the textfield . Important: max. 20 characters.
 dateplaner#:#help_properties_del#:#Deletes the keyword
 dateplaner#:#help_properties_del_l#:#Chose a keyword from the dialog box. Click the button to delete the keyword.
 dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files
@@ -2691,12 +2698,12 @@ dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.
 dateplaner#:#help_shorttext#:#Shorttext whith max. 50 characters
 dateplaner#:#help_shorttext_l#:#Here one can enter the shorttext for a given date.
 dateplaner#:#help_startdate#:#Startdate - syntax[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.
+dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment.<br />The symbol opens a small calendar for chosing the appropriate date.
 dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h format
 dateplaner#:#help_starttime_l#:#Contains the startpoint of the appointment using the 24h format.
 dateplaner#:#help_text#:#Text
 dateplaner#:#help_text_l#:#Here one can enter the text for a given date.
-dateplaner#:#help_week#:#Dateplaner weekview
+dateplaner#:#help_week#:#Calendar weekview
 dateplaner#:#help_week_l#:#In the weekview all dates of a given week are displayed.
 dateplaner#:#hour#:#hour
 dateplaner#:#importDates#:#Import of Outlook Dates
@@ -2767,7 +2774,7 @@ dateplaner#:#singleDate#:#single date
 dateplaner#:#starttime_for_view#:#Starttime for view:
 dateplaner#:#timedate#:#Time / Date
 dateplaner#:#timeslice#:#Time:
-dateplaner#:#title#:#Ilias dateplaner
+dateplaner#:#title#:#ILIAS calendar
 dateplaner#:#to#:#to
 dateplaner#:#today#:#today
 dateplaner#:#viewlist#:#view
@@ -2821,7 +2828,7 @@ mail#:#linebreak#:#Linebreak
 mail#:#mail_add_recipient#:#Please enter a recipient
 mail#:#mail_add_subfolder#:#Add Subfolder
 mail#:#mail_add_subject#:#Please enter a subject
-mail#:#mail_add_to_addressbook#:#Add to addressbook
+mail#:#mail_add_to_addressbook#:#Add to address book
 mail#:#mail_add_type#:#Please add the type of mail you want to send
 mail#:#mail_addr_entries#:#Entries
 mail#:#mail_attachments#:#Attachments
@@ -2874,7 +2881,7 @@ mail#:#mail_recipient_not_valid#:#The recipient is not valid
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_s_unread#:#Unread Mail(s)
 mail#:#mail_saved#:#The message has been saved
-mail#:#mail_search_addressbook#:#search in addressbook
+mail#:#mail_search_addressbook#:#search in address book
 mail#:#mail_search_system#:#search in system
 mail#:#mail_select_one_entry#:#You have to select one entry
 mail#:#mail_select_one_file#:#You have to select one file
@@ -3494,7 +3501,7 @@ survey#:#contains#:#Contains
 survey#:#continue#:#Continue >>
 survey#:#create_date#:#Created
 survey#:#create_new#:#Create new
-survey#:#create_questionpool_before_add_question#:#You must create at least one questionpool to store your questions!
+survey#:#create_questionpool_before_add_question#:#You must create at least one question pool to store your questions!
 survey#:#csv#:#Comma separated value (CSV)
 survey#:#dc_agree#:#agree
 survey#:#dc_always#:#always
@@ -3653,7 +3660,7 @@ survey#:#qt_ordinal#:#Ordinal question
 survey#:#qt_text#:#Text question
 survey#:#question_has_constraints#:#Constraints
 survey#:#question_obligatory#:#The question is obligatory!
-survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
+survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the question pool if you do not want to keep it!
 survey#:#question_type#:#Question type
 survey#:#questionblock#:#Question block
 survey#:#questionblock_has_constraints#:#Constraints
@@ -3705,9 +3712,9 @@ survey#:#survey_skip_start#:#skip and go to start page
 survey#:#survey_start#:#save and go to start page
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
 survey#:#svy_delete_all_user_data#:#Delete all user data
-survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.
-survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.
-survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.
+survey#:#svy_missing_author#:#You have not entered the author's name in the survey properties! Please add an authors name.
+survey#:#svy_missing_questions#:#You do not have any questions in the survey! Please add at least one question to the survey.
+survey#:#svy_missing_title#:#You have not entered a survey title! Please go to the meta data section and enter a title.
 survey#:#svy_statistical_evaluation#:#Statistical evaluation
 survey#:#svy_status_missing#:#There are required elements missing in this survey!
 survey#:#svy_status_missing_elements#:#The following elements are missing:
