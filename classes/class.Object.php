@@ -58,9 +58,9 @@ class Object
 	}
 
 	/**
-	* copy all entries of an object
+	* copy all entries of an object !!! IT MUST RETURN THE NEW OBJECT ID !!
 	* @access	public
-	* @return 
+	* @return new object id
 	*/
 	function cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent)
 	{
