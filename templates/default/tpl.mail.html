@@ -21,7 +21,7 @@ function CheckAll(){
 {BUTTONS}
 
 <form method="post" name="formmsg" action="{ACTION}">
-<input type="hidden" name="func" value="">
+
 <h2>{FOLDERNAME}</h2>
 
 <p>{MAIL_COUNT}&nbsp;{TXT_MAIL} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</p>
@@ -32,10 +32,10 @@ function CheckAll(){
 <table cellpadding=4 cellspacing=0 border=0>
 <tr class="tblrow2">
   <td><img src="{TPLPATH}/images/arrow_upright.gif" border=0 alt="{TXT_ARROW_UPRIGHT}"></td>
-  <td><input type="submit" name="read" onClick="document.formmsg.func.value='read';" value="{TXT_READ}"></td>
-  <td><input type="submit" name="delete" onClick="document.formmsg.func.value='del';" value="{TXT_DELETE}"></td>
+  <td><input type="submit" name="read" value="{TXT_READ}"></td>
+  <td><input type="submit" name="delete" value="{TXT_DELETE}"></td>
   <td>
-	<select name="action" onChange="document.formmsg.func.value=document.formmsg.action[document.formmsg.action.selectedIndex].value; document.formmsg.submit();">
+	<select name="action" onChange="document.formmsg.submit();">
 	   <option selected>{TXT_ACTIONS}</option>
 <!-- BEGIN mailactions -->
 	   <option value="{MAILACTION_VALUE}">{MAILACTION_OPTION}</option>
@@ -43,7 +43,7 @@ function CheckAll(){
 	</select></font>
   </td>
   <td>
-	<select name="move_to" onChange="submit()">
+	<select name="move_to" onChange="document.formmsg.submit();">
 	   <option selected>{TXT_MOVE_TO}</option>
 <!-- BEGIN mailmoveto -->
 	   <option value="{MAILMOVE_VALUE}">{MAILMOVE_OPTION}</option>
@@ -57,7 +57,7 @@ function CheckAll(){
 <table cellpadding=4 cellspacing=0 border=0>
 <tr class="tblrow2">
 	<td align="right">{TXT_FOLDERS}
-	<select name="folder" onChange="submit()">
+	<select name="folder" onChange="document.formmsg.submit();">
 <!-- BEGIN folder -->
 	   <option value="{FOLDER_VALUE}" {FOLDER_SELECTED}>{FOLDER_OPTION}</option>
 <!-- END folder -->	  
