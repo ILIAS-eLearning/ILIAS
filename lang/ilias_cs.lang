@@ -127,8 +127,11 @@ assessment#:#detail_max_processing_time_reached#:#You have reached the maximum a
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
 assessment#:#direct_feedback#:#Verify your solution###19 Aug 2004 new variable
 assessment#:#duplicate#:#Duplicate###16 Mar 2004 new variable
+assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!###31 Aug 2004 new variable
+assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!###31 Aug 2004 new variable
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
+assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###31 Aug 2004 new variable
 assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
 assessment#:#error_save_image_file#:#Error saving an image file!###25 Aug 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###16 Mar 2004 new variable
@@ -1636,6 +1639,7 @@ common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
 common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
 common#:#pays_read#:#Access payment settings###28 Aug 2004 new variable
 common#:#pays_visible#:#Payment settings are visible###28 Aug 2004 new variable
+common#:#pays_write#:#Edit payment settings###31 Aug 2004 new variable
 common#:#per_object#:#Access per object###29 Jul 2004 new variable
 common#:#perm_settings#:#Přístupová práva
 common#:#permission#:#Oprávnění
@@ -1973,6 +1977,7 @@ common#:#usrf_visible#:#User accounts are visible###16 Mar 2004 new variable
 common#:#usrf_write#:#Edit user accounts###16 Mar 2004 new variable
 common#:#validate#:#Validovat
 common#:#value#:#Hodnota
+common#:#vendors#:#Vendors###31 Aug 2004 new variable
 common#:#version#:#Verze
 common#:#view#:#Prohlížet
 common#:#view_content#:#Prohlížet obsah
@@ -3348,6 +3353,23 @@ meta#:#meta_very_easy#:#Velmi snadné
 meta#:#meta_very_high#:#Velmi vysoká
 meta#:#meta_very_low#:#Velmi nízká
 meta#:#meta_yes#:#Ano
+payment#:#pay_no_vendors_created#:#No vendors created###31 Aug 2004 new variable
+payment#:#pays_active_bookings#:#Active bookings###31 Aug 2004 new variable
+payment#:#pays_add_vendor#:#Add vendor###31 Aug 2004 new variable
+payment#:#pays_added_vendor#:#Added new vendor###31 Aug 2004 new variable
+payment#:#pays_already_assigned_vendors#:#The following number of user was already assigned:###31 Aug 2004 new variable
+payment#:#pays_assigned_vendors#:#The following number of users has been assigned to the vendor list:###31 Aug 2004 new variable
+payment#:#pays_cost_center#:#Cost center###31 Aug 2004 new variable
+payment#:#pays_delete_vendor#:#Deassign user###31 Aug 2004 new variable
+payment#:#pays_deleted_number_vendors#:#The following number of vendors has been deleted:###31 Aug 2004 new variable
+payment#:#pays_header_select_vendor#:#Vendor selection###31 Aug 2004 new variable
+payment#:#pays_no_username_given#:#No username given###31 Aug 2004 new variable
+payment#:#pays_no_valid_username_given#:#No valid username given###31 Aug 2004 new variable
+payment#:#pays_no_vendor_selected#:#No vendor selected###31 Aug 2004 new variable
+payment#:#pays_number_bookings#:#Active bookings###31 Aug 2004 new variable
+payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
+payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
+payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
 search#:#search_all_results#:#Všechny výsledky
 search#:#search_concatenation#:#Způsob zřetězení
 search#:#search_content#:#Obsah stránky

@@ -127,8 +127,11 @@ assessment#:#detail_max_processing_time_reached#:#Hai raggiunto il tempo massimo
 assessment#:#detail_starting_time_not_reached#:#Non &#232; ancora possibile eseguire il test. Il test sar&#224; disponibile il %s
 assessment#:#direct_feedback#:#Controlla la tua soluzione
 assessment#:#duplicate#:#Duplica
+assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!###31 Aug 2004 new variable
+assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!###31 Aug 2004 new variable
 assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
+assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###31 Aug 2004 new variable
 assessment#:#error_open_image_file#:#Errore nell'apertura dell'immagine!
 assessment#:#error_save_image_file#:#Errore nel salvataggio di un file immagine!
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
@@ -1634,6 +1637,7 @@ common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
 common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
 common#:#pays_read#:#Access payment settings###28 Aug 2004 new variable
 common#:#pays_visible#:#Payment settings are visible###28 Aug 2004 new variable
+common#:#pays_write#:#Edit payment settings###31 Aug 2004 new variable
 common#:#per_object#:#Permessi sull'oggetto
 common#:#perm_settings#:#Modifica i permessi
 common#:#permission#:#Permesso
@@ -1971,6 +1975,7 @@ common#:#usrf_visible#:#Vedere le registrazioni degli utenti
 common#:#usrf_write#:#Modificare le registrazioni degli utenti
 common#:#validate#:#Valida
 common#:#value#:#Valore
+common#:#vendors#:#Vendors###31 Aug 2004 new variable
 common#:#version#:#Versione
 common#:#view#:#Anteprima
 common#:#view_content#:#Vedi il contenuto
@@ -3345,6 +3350,23 @@ meta#:#meta_very_easy#:#Molto facile
 meta#:#meta_very_high#:#Molto alto
 meta#:#meta_very_low#:#Molto basso
 meta#:#meta_yes#:#Si
+payment#:#pay_no_vendors_created#:#No vendors created###31 Aug 2004 new variable
+payment#:#pays_active_bookings#:#Active bookings###31 Aug 2004 new variable
+payment#:#pays_add_vendor#:#Add vendor###31 Aug 2004 new variable
+payment#:#pays_added_vendor#:#Added new vendor###31 Aug 2004 new variable
+payment#:#pays_already_assigned_vendors#:#The following number of user was already assigned:###31 Aug 2004 new variable
+payment#:#pays_assigned_vendors#:#The following number of users has been assigned to the vendor list:###31 Aug 2004 new variable
+payment#:#pays_cost_center#:#Cost center###31 Aug 2004 new variable
+payment#:#pays_delete_vendor#:#Deassign user###31 Aug 2004 new variable
+payment#:#pays_deleted_number_vendors#:#The following number of vendors has been deleted:###31 Aug 2004 new variable
+payment#:#pays_header_select_vendor#:#Vendor selection###31 Aug 2004 new variable
+payment#:#pays_no_username_given#:#No username given###31 Aug 2004 new variable
+payment#:#pays_no_valid_username_given#:#No valid username given###31 Aug 2004 new variable
+payment#:#pays_no_vendor_selected#:#No vendor selected###31 Aug 2004 new variable
+payment#:#pays_number_bookings#:#Active bookings###31 Aug 2004 new variable
+payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)###31 Aug 2004 new variable
+payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list###31 Aug 2004 new variable
+payment#:#pays_vendor#:#Vendor###31 Aug 2004 new variable
 search#:#search_all_results#:#Ricerca tutti i risultati
 search#:#search_concatenation#:#Concatenazione
 search#:#search_content#:#Contenuto della pagina
