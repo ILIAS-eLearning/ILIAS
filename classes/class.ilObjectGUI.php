@@ -1299,16 +1299,13 @@ class ilObjectGUI
 			// END TABLE DATA OUTER
 		}
 
-		if ($data["local_role"] != "")
-		{
-			// ADD LOCAL ROLE
-			$this->tpl->setCurrentBlock("LOCAL_ROLE");
-			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-			$this->tpl->setVariable("MESSAGE_BOTTOM", $this->lng->txt("you_may_add_local_roles"));
-			$this->tpl->setVariable("FORMACTION_LR","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole");
+		// ADD LOCAL ROLE
+		$this->tpl->setCurrentBlock("LOCAL_ROLE");
+		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+		$this->tpl->setVariable("MESSAGE_BOTTOM", $this->lng->txt("you_may_add_local_roles"));
+		$this->tpl->setVariable("FORMACTION_LR","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole");
 
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->parseCurrentBlock();
 
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
