@@ -376,6 +376,7 @@ assessment#:#tst_score_reporting#:#Score reporting###16 Mar 2004 new variable
 assessment#:#tst_score_reporting_date#:#Score reporting date###16 Mar 2004 new variable
 assessment#:#tst_score_type#:#Score reporting type###16 Mar 2004 new variable
 assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
+assessment#:#tst_select_questionpools#:#Please select a question pool to store the imported questions###14 Oct 2004 new variable
 assessment#:#tst_sequence#:#Sequence###16 Mar 2004 new variable
 assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###16 Mar 2004 new variable
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###16 Mar 2004 new variable
@@ -1250,6 +1251,7 @@ common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#Importovat Learning module###14 Sep 2004 content changed
 common#:#import_root_user#:#Import Root User###16 Mar 2004 new variable
 common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
+common#:#import_tst#:#Import Test###14 Oct 2004 new variable
 common#:#import_users#:#Import Users###16 Mar 2004 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#v
@@ -1971,6 +1973,8 @@ common#:#select_file#:#Vybrat soubor
 common#:#select_mode#:#Vybrat mód
 common#:#select_object_to_copy#:#Please select the object you want to copy###07 Aug 2004 new variable
 common#:#select_object_to_link#:#Please select the object which you want to link###01 Sep 2004 new variable
+common#:#select_questionpool#:#Question pool for Test###14 Oct 2004 new variable
+common#:#select_questionpool_option#:#Please select a question pool###14 Oct 2004 new variable
 common#:#selected#:#Vybrané
 common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#Odeslat
