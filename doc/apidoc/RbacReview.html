@@ -39,7 +39,7 @@
 	</tr>
 	<tr>
 		<td align="left" valign="top">
-			<h4>private    class RbacReview extends <a href="PEAR.html">PEAR</a></h4>
+			<h4>private    class RbacReview </h4>
 			class RbacReview
 			<br>
 			
@@ -49,9 +49,7 @@
 				
 				<tr><td align="left" valign="top">Authors</td><td align="left" valign="top">Stefan Meyer &lt;<a href="mailto:smeyer@databay.de">smeyer@databay.de</a>&gt;</td></tr>
 				
-				<tr><td align="left" valign="top">Version</td><td align="left" valign="top">$Id$
-
-@extends PEAR</td></tr>
+				<tr><td align="left" valign="top">Version</td><td align="left" valign="top">$Id$</td></tr>
 				
 				
 				
@@ -82,67 +80,97 @@
 				
 				<tr>
 					<td align="right" valign="top">void</td>
-					<td align="left" valign="top" width="100%"><a href="#function_RbacReview()"><h4>RbacReview(object db &$dbhandle)</h4></a>Cnstructor</td>
+					<td align="left" valign="top" width="100%"><a href="#function_RbacReview()"><h4>RbacReview()</h4></a>Constructor</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_assignedUsers()"><h4>assignedUsers(integer $Arol_id)</h4></a>DESCRIPTION MISSING</td>
+					<td align="left" valign="top" width="100%"><a href="#function_assignedUsers()"><h4>assignedUsers(integer $a_rol_id)</h4></a>DESCRIPTION MISSING</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getUserData()"><h4>getUserData(integer $Ausr_id)</h4></a>get user data</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getUserData()"><h4>getUserData(integer $a_usr_id)</h4></a>get user data</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">integer</td>
-					<td align="left" valign="top" width="100%"><a href="#function_assignedRoles()"><h4>assignedRoles(integer $Ausr_id)</h4></a>DESCRIPTION MISSING</td>
+					<td align="left" valign="top" width="100%"><a href="#function_assignedRoles()"><h4>assignedRoles(integer $a_usr_id)</h4></a>DESCRIPTION MISSING</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">string</td>
-					<td align="left" valign="top" width="100%"><a href="#function_assignedRoleTitles()"><h4>assignedRoleTitles(integer $Ausr_id)</h4></a>DESCRIPTION MISSING</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">Array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_rolePermissons()"><h4>rolePermissons(integer $Arol_id, [ integer $Aobj_id ])</h4></a></td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">int</td>
-					<td align="left" valign="top" width="100%"><a href="#function_userPermissions()"><h4>userPermissions(int $Ausr_id)</h4></a></td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">void</td>
-					<td align="left" valign="top" width="100%"><a href="#function_sessionRoles()"><h4>sessionRoles()</h4></a></td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">void</td>
-					<td align="left" valign="top" width="100%"><a href="#function_sessionPermissions()"><h4>sessionPermissions()</h4></a></td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">int</td>
-					<td align="left" valign="top" width="100%"><a href="#function_roleOperationsOnObject()"><h4>roleOperationsOnObject(integer $Arol_id, integer $Aobj_id)</h4></a></td>
+					<td align="left" valign="top" width="100%"><a href="#function_assignedRoleTitles()"><h4>assignedRoleTitles(integer $a_usr_id)</h4></a>DESCRIPTION MISSING</td>
 				</tr>
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getOperations()"><h4>getOperations(int $Arol_id, int $Atype, [ string $Aparent ])</h4></a></td>
+					<td align="left" valign="top" width="100%"><a href="#function_rolePermissons()"><h4>rolePermissons(integer $a_rol_id, [ integer $a_obj_id ])</h4></a>DESCRIPTION MISSING</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">int</td>
-					<td align="left" valign="top" width="100%"><a href="#function_userOperationsOnObject()"><h4>userOperationsOnObject(int $Ausr_id, int $Aobj_id)</h4></a></td>
+					<td align="right" valign="top">array</td>
+					<td align="left" valign="top" width="100%"><a href="#function_userPermissions()"><h4>userPermissions(integer $a_usr_id)</h4></a>DESCRIPTION MISSING</td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">bool</td>
-					<td align="left" valign="top" width="100%"><a href="#function_assignPermissionToObject()"><h4>assignPermissionToObject(int $a_type_id, int $a_ops_id)</h4></a>Assign an existing permission to an object</td>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getErrorMessage()"><h4>getErrorMessage()</h4></a>DESCRIPTION MISSING</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_createSession()"><h4>createSession()</h4></a>DESCRIPTION MISSING</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_deleteSession()"><h4>deleteSession()</h4></a>DESCRIPTION MISSING</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_addActiveRole()"><h4>addActiveRole()</h4></a>adds an active role in $_SESSION[&quot;RoleId&quot;]</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_dropActiveRole()"><h4>dropActiveRole()</h4></a>DESCRIPTION MISSING</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_sessionRoles()"><h4>sessionRoles()</h4></a>DESCRIPTION MISSING</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">void</td>
+					<td align="left" valign="top" width="100%"><a href="#function_sessionPermissions()"><h4>sessionPermissions()</h4></a>DESCRIPTION MISSING</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">array</td>
+					<td align="left" valign="top" width="100%"><a href="#function_roleOperationsOnObject()"><h4>roleOperationsOnObject(integer $a_rol_id, integer $a_obj_id)</h4></a>DESCRIPTION MISSING</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">array</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getOperations()"><h4>getOperations(integer $a_rol_id, string $a_type, [ integer $a_parent ])</h4></a>DESCRIPTION MISSING</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">array</td>
+					<td align="left" valign="top" width="100%"><a href="#function_userOperationsOnObject()"><h4>userOperationsOnObject(integer $a_usr_id, integer $a_obj_id)</h4></a>DESCRIPTION MISSING</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_assignPermissionToObject()"><h4>assignPermissionToObject(integer $a_type_id, integer $a_ops_id)</h4></a>Assign an existing permission to an object</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">boolean</td>
+					<td align="left" valign="top" width="100%"><a href="#function_deassignPermissionFromObject()"><h4>deassignPermissionFromObject(integer $a_type_id, integer $a_ops_id)</h4></a>Deassign an existing permission from an object</td>
 				</tr>
 				
 			</table>
@@ -155,17 +183,12 @@
 		<td align="left" valign="top">		
 			<table width="100%" border="0">
 				<tr>
-					<td colspan="2" align="left" valign="top"><h2>Private Field Summary</h2></td>
+					<td colspan="2" align="left" valign="top"><h2>Public Field Summary</h2></td>
 				</tr>
 				
 				<tr>
-					<td align="right" valign="top">object db</td>
-					<td align="left" valign="top" width="100%"><a href="#variable_$db"><h4>$db</h4></a>Database Handle</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">object error_class</td>
-					<td align="left" valign="top" width="100%"><a href="#variable_$error_class"><h4>$error_class</h4></a>Error Handle</td>
+					<td align="right" valign="top">object ilias</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$ilias"><h4>$ilias</h4></a>ilias object</td>
 				</tr>
 				
 			</table>
@@ -187,41 +210,19 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_RbacReview()"><h4>RbacReview</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    void RbacReview( object db &$dbhandle )</b><p>
+						<b>public    void RbacReview(  )</b><p>
 					</td>
 				</tr>
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						Cnstructor
+						Constructor
 						<br>
 						
 						<p>
 						
 					</td>
 				</tr>
-				
-				<tr>
-					<td colspan="2" align="left" valign="top">Parameter</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">object db</td>
-								<td align="left" valign="top">&$dbhandle</td>
-								<td align="left" valign="top"><code></code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
 				
 				
 				<tr>
@@ -247,7 +248,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_assignedUsers()"><h4>assignedUsers</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array assignedUsers( integer $Arol_id )</b><p>
+						<b>public    array assignedUsers( integer $a_rol_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -271,7 +272,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$Arol_id</td>
+								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -286,7 +287,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>array <p>Role -Uid</td>
+					<td>array <p> 2-dim array: role_id &lt;-&gt; user_id</td>
 				</tr>
 				
 				
@@ -307,7 +308,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getUserData()"><h4>getUserData</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getUserData( integer $Ausr_id )</b><p>
+						<b>public    array getUserData( integer $a_usr_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -331,7 +332,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$Ausr_id</td>
+								<td align="left" valign="top">$a_usr_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -367,7 +368,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_assignedRoles()"><h4>assignedRoles</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    integer assignedRoles( integer $Ausr_id )</b><p>
+						<b>public    integer assignedRoles( integer $a_usr_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -391,7 +392,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$Ausr_id</td>
+								<td align="left" valign="top">$a_usr_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -427,7 +428,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_assignedRoleTitles()"><h4>assignedRoleTitles</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    string assignedRoleTitles( integer $Ausr_id )</b><p>
+						<b>public    string assignedRoleTitles( integer $a_usr_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -451,7 +452,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$Ausr_id</td>
+								<td align="left" valign="top">$a_usr_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -487,13 +488,13 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_rolePermissons()"><h4>rolePermissons</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    Array rolePermissons( integer $Arol_id, [ integer $Aobj_id ] )</b><p>
+						<b>public    array rolePermissons( integer $a_rol_id, [ integer $a_obj_id ] )</b><p>
 					</td>
 				</tr>
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						
+						DESCRIPTION MISSING
 						<br>
 						
 						<p>
@@ -511,7 +512,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$Arol_id</td>
+								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -528,7 +529,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$Aobj_id</td>
+								<td align="left" valign="top">$a_obj_id</td>
 								<td align="left" valign="top"><code>= >>0<<</code></td>
 							</tr>
 							<tr>
@@ -543,7 +544,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>Array <p> (Objekt-Permissions,Object-ID zu einer Rolle)</td>
+					<td>array <p> 2-dim. Array: Objekt-Permissions,Object-ID zu einer Rolle</td>
 				</tr>
 				
 				
@@ -564,13 +565,13 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_userPermissions()"><h4>userPermissions</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    int userPermissions( int $Ausr_id )</b><p>
+						<b>public    array userPermissions( integer $a_usr_id )</b><p>
 					</td>
 				</tr>
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						
+						DESCRIPTION MISSING
 						<br>
 						
 						<p>
@@ -587,8 +588,8 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
-								<td align="left" valign="top">$Ausr_id</td>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_usr_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -603,7 +604,197 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>int <p>array (Objekt-Permissions eines Users)</td>
+					<td>array <p>object permissions of a user</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_getErrorMessage()"><h4>getErrorMessage</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    void getErrorMessage(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						DESCRIPTION MISSING
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>void <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_createSession()"><h4>createSession</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    void createSession(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						DESCRIPTION MISSING
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>void <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_deleteSession()"><h4>deleteSession</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    void deleteSession(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						DESCRIPTION MISSING
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>void <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_addActiveRole()"><h4>addActiveRole</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    void addActiveRole(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						adds an active role in $_SESSION[&quot;RoleId&quot;]
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>void <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_dropActiveRole()"><h4>dropActiveRole</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    void dropActiveRole(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						DESCRIPTION MISSING
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>void <p></td>
 				</tr>
 				
 				
@@ -630,7 +821,7 @@
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						
+						DESCRIPTION MISSING
 						<br>
 						
 						<p>
@@ -668,7 +859,7 @@
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						
+						DESCRIPTION MISSING
 						<br>
 						
 						<p>
@@ -700,13 +891,13 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_roleOperationsOnObject()"><h4>roleOperationsOnObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    int roleOperationsOnObject( integer $Arol_id, integer $Aobj_id )</b><p>
+						<b>public    array roleOperationsOnObject( integer $a_rol_id, integer $a_obj_id )</b><p>
 					</td>
 				</tr>
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						
+						DESCRIPTION MISSING
 						<br>
 						
 						<p>
@@ -724,7 +915,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$Arol_id</td>
+								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -741,7 +932,7 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">integer</td>
-								<td align="left" valign="top">$Aobj_id</td>
+								<td align="left" valign="top">$a_obj_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -756,7 +947,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>int <p>array (Permissions fÅr Rolle/Objekt)</td>
+					<td>array <p> 2-dim array: permissions for role/object</td>
 				</tr>
 				
 				
@@ -777,13 +968,13 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_getOperations()"><h4>getOperations</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    array getOperations( int $Arol_id, int $Atype, [ string $Aparent ] )</b><p>
+						<b>public    array getOperations( integer $a_rol_id, string $a_type, [ integer $a_parent ] )</b><p>
 					</td>
 				</tr>
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						
+						DESCRIPTION MISSING
 						<br>
 						
 						<p>
@@ -800,25 +991,8 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
-								<td align="left" valign="top">$Arol_id</td>
-								<td align="left" valign="top"><code></code></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td colspan="2" align="left" valign="top"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-				
-				<tr>
-					<td></td>
-					<td align="left" valign="top">						
-						<table>
-							<tr>
-								<td align="left" valign="top">int</td>
-								<td align="left" valign="top">$Atype</td>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_rol_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -835,8 +1009,25 @@
 						<table>
 							<tr>
 								<td align="left" valign="top">string</td>
-								<td align="left" valign="top">$Aparent</td>
-								<td align="left" valign="top"><code>= >>&quot;&quot;<<</code></td>
+								<td align="left" valign="top">$a_type</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_parent</td>
+								<td align="left" valign="top"><code>= >>0<<</code></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -850,7 +1041,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>array <p> (int) Array der Operations</td>
+					<td>array <p>Array of operation_id</td>
 				</tr>
 				
 				
@@ -871,13 +1062,13 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_userOperationsOnObject()"><h4>userOperationsOnObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    int userOperationsOnObject( int $Ausr_id, int $Aobj_id )</b><p>
+						<b>public    array userOperationsOnObject( integer $a_usr_id, integer $a_obj_id )</b><p>
 					</td>
 				</tr>
 				<tr>
 					<td width="10" align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">
-						
+						DESCRIPTION MISSING
 						<br>
 						
 						<p>
@@ -894,8 +1085,8 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
-								<td align="left" valign="top">$Ausr_id</td>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_usr_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -911,8 +1102,8 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
-								<td align="left" valign="top">$Aobj_id</td>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_obj_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
 							<tr>
@@ -927,7 +1118,7 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>int <p>array (Permisions fÅr User/Objekt)</td>
+					<td>array <p>permissions of user/object</td>
 				</tr>
 				
 				
@@ -948,7 +1139,7 @@
 				<tr><td colspan="2" align="left" valign="top"><a name="function_assignPermissionToObject()"><h4>assignPermissionToObject</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>public    bool assignPermissionToObject( int $a_type_id, int $a_ops_id )</b><p>
+						<b>public    boolean assignPermissionToObject( integer $a_type_id, integer $a_ops_id )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -971,7 +1162,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_type_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -988,7 +1179,7 @@
 					<td align="left" valign="top">						
 						<table>
 							<tr>
-								<td align="left" valign="top">int</td>
+								<td align="left" valign="top">integer</td>
 								<td align="left" valign="top">$a_ops_id</td>
 								<td align="left" valign="top"><code></code></td>
 							</tr>
@@ -1004,7 +1195,84 @@
 				
 				<tr>
 					<td align="left" valign="top">Returns</td>
-					<td>bool <p>true /false</td>
+					<td>boolean <p></td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_deassignPermissionFromObject()"><h4>deassignPermissionFromObject</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    boolean deassignPermissionFromObject( integer $a_type_id, integer $a_ops_id )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						Deassign an existing permission from an object
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2" align="left" valign="top">Parameter</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_type_id</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				<tr>
+					<td></td>
+					<td align="left" valign="top">						
+						<table>
+							<tr>
+								<td align="left" valign="top">integer</td>
+								<td align="left" valign="top">$a_ops_id</td>
+								<td align="left" valign="top"><code></code></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" align="left" valign="top"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>boolean <p></td>
 				</tr>
 				
 				
@@ -1030,42 +1298,17 @@
 		<td align="left" valign="top">
 			<table width="100%" border="0">
 				<tr>
-					<td colspan="2" align="left" valign="top"><h2>Private Field Details</h2></td>
+					<td colspan="2" align="left" valign="top"><h2>Public Field Details</h2></td>
 				</tr>
 				
-				<tr><td colspan="2" align="left" valign="top"><a name="variable_$db"><h4>$db</h4></a></td></tr>
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$ilias"><h4>$ilias</h4></a></td></tr>
 				<tr>
 					<td colspan="2" align="left" valign="top">
-						<b>private   object db $db</b>
+						<b>public   object ilias $ilias</b>
 						<p>
 						>><code></code><<
 						<p>
-						Database Handle
-						<br>
-						
-					</td>
-				</tr>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				<tr>
-					<td colspan="2" align="left" valign="top"><hr></td>
-				</tr>
-				
-				<tr><td colspan="2" align="left" valign="top"><a name="variable_$error_class"><h4>$error_class</h4></a></td></tr>
-				<tr>
-					<td colspan="2" align="left" valign="top">
-						<b>private   object error_class $error_class</b>
-						<p>
-						>><code></code><<
-						<p>
-						Error Handle
+						ilias object
 						<br>
 						
 					</td>

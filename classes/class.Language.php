@@ -17,9 +17,9 @@
 * 
 * @package application
 * 
-* TODO: Das Datefeld wird bei Änderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
-* TODO: Die Formatfunktionen gehören nicht in class.Language. Die sind auch woanders einsetzbar!!!
-* TODO: Daher->besser in class.Format
+* @todo Das Datefeld wird bei Änderungen einer Sprache (update, install, deinstall) nicht richtig gesetzt!!!
+*  Die Formatfunktionen gehören nicht in class.Language. Die sind auch woanders einsetzbar!!!
+*  Daher->besser in class.Format
 */
 class Language
 {
@@ -224,7 +224,6 @@ class Language
 	* formatDate replaces the strings with the current values given in str
 	* @access	public
 	* @param	string	date date, given in sql-format YYYY-MM-DD
-	* @param	string	format type (normal is as given in lang_dateformat)
 	* @return	string	formatted date
 	*/
 	function fmtDate($a_str)

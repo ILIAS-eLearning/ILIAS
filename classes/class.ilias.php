@@ -10,7 +10,7 @@
 * @extends PEAR
 * @package ilias-core
 * @todo review the concept how the object type definition is loaded. We need a concept to
-* @todo edit the definitions via webfrontend in the admin console.
+* edit the definitions via webfrontend in the admin console.
 */
 class ILIAS extends PEAR
 {
@@ -291,6 +291,11 @@ class ILIAS extends PEAR
 		return true;
 	}
 	
+	/**
+	* get first available stylesheet from skindirectory
+	* @param string
+	* @access public
+	*/
 	function getFirstStyle($skin)
 	{
 		if (!is_array($this->styles))

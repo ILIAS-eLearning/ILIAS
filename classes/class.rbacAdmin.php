@@ -212,6 +212,7 @@ class RbacAdmin
 	* @access	public
 	* @param	integer		object_id of role
 	* @param	integer		object_id of parent object
+	* @param	integer	
 	* @return	boolean
 	*/
 	function deleteLocalRole($a_rol_id,$a_parent,$a_parent_obj)
