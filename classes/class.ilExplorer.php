@@ -443,7 +443,7 @@ class ilExplorer
 		$sep = (is_int(strpos($this->expand_target, "?")))
 			? "&"
 			: "?";
-		return $this->expand_target.$sep."expand=".$a_node_id;
+		return $this->expand_target.$sep."expand=".$a_node_id.$this->params_get;
 	}
 
 	/**

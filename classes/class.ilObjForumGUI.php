@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjForumGUI.php,v 1.7 2003/07/15 08:23:56 shofmann Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.8 2003/07/31 15:19:57 shofmann Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -40,10 +40,10 @@ class ilObjForumGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilObjForumGUI($a_data,$a_id,$a_call_by_reference)
+	function ilObjForumGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		$this->type = "frm";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 
 	/**
@@ -53,7 +53,7 @@ class ilObjForumGUI extends ilObjectGUI
 	function saveObject()
 	{
 		global $rbacadmin;
-
+		
 		// create and insert forum in objecttree
 		$forumObj = parent::saveObject();
 

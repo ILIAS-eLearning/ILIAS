@@ -86,7 +86,8 @@ class ilObjectGUI
 	var $maxcount;			// contains number of child objects
 	var $formaction;		// special formation (array "cmd" => "formaction")
 	var $return_location;	// special return location (array "cmd" => "location")
-
+	var $target_frame;	// special target frame (array "cmd" => "location")
+	
 	/**
 	* Constructor
 	* @access	public
@@ -105,10 +106,12 @@ class ilObjectGUI
 		$this->tree =& $tree;
 		$this->formaction = array();
 		$this->return_location = array();
+		$this->target_frame = array();
 
 		$this->data = $a_data;
 		$this->id = $a_id;
 		$this->call_by_reference = $a_call_by_reference;
+		$this->prepare_output = $a_prepare_output;
 
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
@@ -1149,10 +1152,15 @@ class ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 				$this->tpl->setVariable(strtoupper($key), $val);
-				$this->tpl->parseCurrentBlock();
+				
+				if ($this->prepare_output)
+				{
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 
 			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=save&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
@@ -1187,6 +1195,9 @@ class ilObjectGUI
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 			$newObj->setPermissions($_GET["ref_id"]);
+
+//			$location = $this->getReturnLocation("save","adm_object.php");
+//			$newObj->setReturnLocation("save",$location);
 
 			return $newObj;
 		}
@@ -1549,6 +1560,41 @@ class ilObjectGUI
 	function setReturnLocation($a_cmd, $a_location)
 	{
 		$this->return_location[$a_cmd] = $a_location;
+	}
+
+	/**
+	* get target frame for command (command is method name without "Object", e.g. "perm")
+	* @param	string		$a_cmd			command
+	* @param	string		$a_target_frame	default target frame (is returned, if no special
+	*										target frame was set)
+	* @access	public 
+	*/
+	function getTargetFrame($a_cmd, $a_target_frame = "")
+	{
+		if ($this->target_frame[$a_cmd] != "")
+		{
+			return $this->target_frame[$a_cmd];
+		}
+		elseif (!empty($a_target_frame))
+		{
+			return "target=\"".$a_target_frame."\"";
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	/**
+	* set specific target frame for command
+	* @param	string		$a_cmd			command
+	* @param	string		$a_target_frame	default target frame (is returned, if no special
+	*										target frame was set)
+	* @access	public 
+	*/
+	function setTargetFrame($a_cmd, $a_target_frame)
+	{
+		$this->target_frame[$a_cmd] = "target=\"".$a_target_frame."\"";
 	}
 
 	/**

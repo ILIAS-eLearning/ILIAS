@@ -92,7 +92,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		$this->lng =& $this->object->lng;
 		//$this->setLocator();
 
-		sendInfo();
+		//sendInfo();
 
 		$this->lng =& $this->object->lng;
 
@@ -178,6 +178,10 @@ class ilGroupGUI extends ilObjGroupGUI
 
 	$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_detail.html");
 	$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+
+	// catch stored message
+	sendInfo();	
+	
 	infoPanel();
 	$this->setLocator();
 	$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]);
@@ -224,11 +228,12 @@ class ilGroupGUI extends ilObjGroupGUI
 	}
 
 	$this->tpl->setCurrentBlock("btn_cell");
-	$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp");
-	$this->tpl->setVariable("BTN_TXT", $this->lng->txt("group_new"));
+	$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=group.php");
+	$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
+	$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
 	$this->tpl->parseCurrentBlock();
-
-	if($this->tree->getSavedNodeData($this->ref_id))
+	
+	if ($this->tree->getSavedNodeData($this->ref_id))
 	{
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","group.php?cmd=trash&ref_id=".$_GET["ref_id"]);
@@ -240,31 +245,31 @@ class ilGroupGUI extends ilObjGroupGUI
 	switch ($_SESSION["viewmode"])
 	{
 		case "flat":
-		$cont_arr = ilUtil::getObjectsByOperations('grp','visible');
-		break;
+			$cont_arr = ilUtil::getObjectsByOperations('grp','visible');
+			break;
 		
 		case "tree":
-		//go through valid objects and filter out the lessons only
-		$cont_arr = array();
+			//go through valid objects and filter out the lessons only
+			$cont_arr = array();
 		
-		$objects = $tree->getChilds($_GET["ref_id"],"title");
+			$objects = $tree->getChilds($_GET["ref_id"],"title");
 		
-		if (count($objects) > 0)
-		{
-			foreach ($objects as $key => $object)
+			if (count($objects) > 0)
 			{
-				if ($object["type"] == "grp" && $rbacsystem->checkAccess('visible',$object["child"]))
+				foreach ($objects as $key => $object)
 				{
-					$cont_arr[$key] = $object;
+					if ($object["type"] == "grp" && $rbacsystem->checkAccess('visible',$object["child"]))
+					{
+						$cont_arr[$key] = $object;
+					}
 				}
 			}
-		}
-		break;
+			break;
 	}
 
 	$maxcount = count($cont_arr);
 
-	require_once "./include/inc.sort.php";
+	include_once "./include/inc.sort.php";
 	$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
 	$cont_arr = array_slice($cont_arr,$offset,$limit);
 	

@@ -184,7 +184,19 @@ class ilLOListGUI
 			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("flatview"));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=lm&from=lo_list.php");
+		$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("lm_new"));
+		$this->tpl->parseCurrentBlock();
 
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=crs&from=lo_list.php");
+		$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("crs_new"));
+		$this->tpl->parseCurrentBlock();
+		
 		// display different content depending on viewmode
 		switch ($_SESSION["viewmode"])
 		{
@@ -212,7 +224,7 @@ class ilLOListGUI
 		}
 
 		$maxcount = count($lr_arr);		// for numinfo in table footer
-		require_once "./include/inc.sort.php";
+		include_once "./include/inc.sort.php";
 		$lr_arr = sortArray($lr_arr,$_GET["sort_by"],$_GET["sort_order"]);
 		$lr_arr = array_slice($lr_arr,$offset,$limit);
 
