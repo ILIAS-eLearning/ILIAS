@@ -344,6 +344,7 @@ assessment#:#save_finish#:#Zachowaj i zakończ test###21 Dec 2004 content change
 assessment#:#save_introduction#:#Zachowaj i przejdź do wstępu###21 Dec 2004 content changed
 assessment#:#save_next#:#Zachowaj i przejdź do następnego pytania###21 Dec 2004 content changed
 assessment#:#save_previous#:#Zachowaj i przejdź do poprzedniego pytania###21 Dec 2004 content changed
+assessment#:#save_text_answer_points#:#Save text question points###07 Jan 2005 new variable
 assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
 assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#Przejrzyj opis szczegółowy sugerowanych rozwiązań
@@ -364,6 +365,7 @@ assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
 assessment#:#suggested_solution_added_successfully#:#Udało się ustawić sugerowane rozwiązanie!
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Test został anulowany
+assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
 assessment#:#text_gap#:#Tekst odstępu
 assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
 assessment#:#time_format#:#GG MM SS

@@ -344,6 +344,7 @@ assessment#:#save_finish#:#Зберегтри та закінчити тест##
 assessment#:#save_introduction#:#Зберегти та перейти до передмови###21 Dec 2004 content changed
 assessment#:#save_next#:#Зберегти та перейти до наступного питання###21 Dec 2004 content changed
 assessment#:#save_previous#:#Зберегти та перейти до попереднього питання###21 Dec 2004 content changed
+assessment#:#save_text_answer_points#:#Save text question points###07 Jan 2005 new variable
 assessment#:#search_found_groups#:#Found groups###15 Dec 2004 new variable
 assessment#:#search_found_users#:#Found users###15 Dec 2004 new variable
 assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
@@ -364,6 +365,7 @@ assessment#:#statistical_data#:#Statistical data###15 Dec 2004 new variable
 assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Символ
 assessment#:#test_cancelled#:#Тест був відмінений
+assessment#:#text_answers_saved#:#Text question points modified!###07 Jan 2005 new variable
 assessment#:#text_gap#:#Текстовий проміжок
 assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
 assessment#:#time_format#:#HH MM SS###05 Nov 2004 new variable
