@@ -637,7 +637,10 @@ class ilUserImportParser extends ilSaxParser
 							//set role entries
 							foreach($this->roles as $role_id => $role)
 							{
-								$this->assignToRole($this->userObj, $this->role_assign[$role_id]);
+								if ($this->role_assign[$role_id])
+								{
+									$this->assignToRole($this->userObj, $this->role_assign[$role_id]);
+								}
 							}
 						}
 						break;
@@ -692,14 +695,17 @@ class ilUserImportParser extends ilSaxParser
 							//-------------------
 							foreach ($this->roles as $role_id => $role)
 							{
-								switch ($role["action"])
+								if ($this->role_assign[$role_id])
 								{
-									case "Assign" :
-										$this->assignToRole($updateUser, $this->role_assign[$role_id]);
-										break;
-									case "Detach" :
-										$this->detachFromRole($updateUser, $this->role_assign[$role_id]);
-										break;
+									switch ($role["action"])
+									{
+										case "Assign" :
+											$this->assignToRole($updateUser, $this->role_assign[$role_id]);
+											break;
+										case "Detach" :
+											$this->detachFromRole($updateUser, $this->role_assign[$role_id]);
+											break;
+									}
 								}
 							}
 						}
@@ -858,11 +864,6 @@ class ilUserImportParser extends ilSaxParser
 						{	
 							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Firstname", "Insert"));
 						}
-						/*
-						if (is_null($this->userObj->getEmail()))
-						{	
-							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Email", "Insert"));
-						}*/
 						if (count($this->roles) == 0)
 						{	
 							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required","Role"), "Insert"));
