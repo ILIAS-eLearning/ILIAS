@@ -12,14 +12,14 @@ include("./include/inc.main.php");
 
 $tpl = new Template("tpl.forums.html", true, true);
 
-$tpl->setVariable("TXT_PAGEHEADLINE","_Available Forums");
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("forums_available"));
 
 for ($i = 0; $i < 3; $i++)
 {
 	$tpl->setCurrentBlock("forum_row");
 	if ($i % 2 == 0) 
 	{
-		$tpl->setVariable("ROWCOL","tblrow2");
+		$tpl->setVariable("ROWCOL", "tblrow2");
 	}
 	else 
 	{
@@ -29,10 +29,10 @@ for ($i = 0; $i < 3; $i++)
 	$tpl->parseCurrentBlock();
 }
 $tpl->setCurrentBlock("forum");
-$tpl->setVariable("TXT_FORUM_GROUP","_Forums of Your Groups");
-$tpl->setVariable("TXT_TITLE","_Title");
-$tpl->setVariable("TXT_OWNER","_owner");
-$tpl->setVariable("TXT_LAST_CHANGE","_lastchange");
+$tpl->setVariable("TXT_FORUM_GROUP", $lng->txt("forums_your_groups"));
+$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
+$tpl->setVariable("TXT_OWNER", $lng->txt("owner"));
+$tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("lastchange"));
 $tpl->parseCurrentBlock();
 	
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
