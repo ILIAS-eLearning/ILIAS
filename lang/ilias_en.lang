@@ -61,15 +61,15 @@ common#:#back#:#Back
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Basic Data
 common#:#bc#:#BC
-common#:#bookmark_new#:#New Bookmark
+common#:#bm#:#Bookmark
+common#:#bmf#:#Bookmark Folder
 common#:#bookmark_edit#:#Edit Bookmark
-common#:#bookmark_folder_new#:#New Bookmark Folder
 common#:#bookmark_folder_edit#:#Edit Bookmark Folder
+common#:#bookmark_folder_new#:#New Bookmark Folder
+common#:#bookmark_new#:#New Bookmark
+common#:#bookmark_target#:#Target
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks of
-common#:#bookmark_target#:#Target
-common#:#bmf#:#Bookmark Folder
-common#:#bm#:#Bookmark
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
 common#:#by#:#By
