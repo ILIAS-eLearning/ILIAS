@@ -926,6 +926,44 @@ class ilObjCourseGUI extends ilObjectGUI
 	}
 		
 	
+	function unsubscribeObject()
+	{
+		global $rbacsystem;
+
+		// CHECK ACCESS
+		if(!$rbacsystem->checkAccess("leave", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html",true);
+		sendInfo($this->lng->txt('crs_unsubescribe_sure'));
+		
+		$this->tpl->setVariable("UNSUB_FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("CMD_SUBMIT",'performUnsubscribe');
+		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("crs_unsubscribe"));
+		
+		return true;
+	}
+
+	function performUnsubscribeObject()
+	{
+		global $rbacsystem;
+
+		// CHECK ACCESS
+		if(!$rbacsystem->checkAccess("leave", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->object->initCourseMemberObject();
+		$this->object->members_obj->delete($this->ilias->account->getId());
+		
+		sendInfo($this->lng->txt('crs_unsubescribed_from_crs'),true);
+		$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->ref_id));
+		$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
+	}
+
 	function deleteMembers()
 	{
 		global $rbacsystem;
@@ -1307,14 +1345,12 @@ class ilObjCourseGUI extends ilObjectGUI
 	{
 		$this->__initMetaDataGUI();
 		
-		$this->meta_gui->edit("ADM_CONTENT","adm_content",$this->__getMetaTarget(),$_REQUEST["meta_section"]);
+		$this->meta_gui->edit("ADM_CONTENT","adm_content",$this->ctrl->getLinkTarget($this),$_REQUEST["meta_section"]);
 
 		return true;
 	}
 	function editMeta()
 	{
-		// TOODOO
-		$this->__setMetaTarget($this->ctrl->getLinkTarget($this));
 		return $this->editMetaObject();
 	}
 	function saveMetaObject()
@@ -1325,25 +1361,21 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
 
-		ilUtil::redirect(ilUtil::appendUrlParameterString(
-							 $this->__getMetaTarget(),
-							 "meta_section=".$_POST["meta_section"]));
+		$this->ctrl->setParameter($this,'meta_section',$_POST["meta_section"]);
+		$this->ctrl->redirect($this,'editMeta');
 	}
 	function saveMeta()
 	{
-		// TOODOO
-		$this->__setMetaTarget($this->ctrl->getLinkTarget($this,"editMeta"));
 		return $this->saveMetaObject();
 	}
 	function chooseMetaSectionObject()
 	{
 		$this->__initMetaDataGUI();
-		$this->meta_gui->edit("ADM_CONTENT", "adm_content",$this->__getMetaTarget(),$_REQUEST["meta_section"]);
+
+		$this->meta_gui->edit("ADM_CONTENT", "adm_content",$this->ctrl->getLinkTarget($this),$_REQUEST["meta_section"]);
 	}
 	function chooseMetaSection()
 	{
-		// TOODOO
-		$this->__setMetaTarget($this->ctrl->getLinkTarget($this,"editMeta"));
 		$this->chooseMetaSectionObject();
 	}
 	function addMetaObject()
@@ -1368,8 +1400,6 @@ class ilObjCourseGUI extends ilObjectGUI
 	}
 	function addMeta()
 	{
-		// TOODOO
-		$this->__setMetaTarget($this->ctrl->getLinkTarget($this,"editMeta"));
 		$this->addMetaObject();
 	}
 	function deleteMetaObject()
@@ -1384,8 +1414,6 @@ class ilObjCourseGUI extends ilObjectGUI
 	}
 	function deleteMeta()
 	{
-		// TOODOO
-		$this->__setMetaTarget($this->ctrl->getLinkTarget($this,"editMeta"));
 		$this->deleteMetaObject();
 	}
 	// END META DATA METHODS
@@ -1847,15 +1875,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->meta_gui->setObject($this->object);
 	}
 
-	function __getMetaTarget()
-	{
-		return $this->meta_target ? $this->meta_target : "adm_object.php?cmd=editMeta&ref_id=".$this->object->getRefId();
-	}
-	function __setMetaTarget($a_target)
-	{
-		$this->meta_target = $a_target;
-	}
-		
+	
 	function __getDateSelect($a_type,$a_varname,$a_selected)
 	{
 		switch($a_type)
@@ -2027,44 +2047,6 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->cci_move();
 
 		return true;;
-	}
-
-	function unsubscribeObject()
-	{
-		global $rbacsystem;
-
-		// CHECK ACCESS
-		if(!$rbacsystem->checkAccess("leave", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html",true);
-		sendInfo($this->lng->txt('crs_unsubescribe_sure'));
-		
-		$this->tpl->setVariable("UNSUB_FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("CMD_SUBMIT",'performUnsubscribe');
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("crs_unsubscribe"));
-		
-		return true;
-	}
-
-	function performUnsubscribeObject()
-	{
-		global $rbacsystem;
-
-		// CHECK ACCESS
-		if(!$rbacsystem->checkAccess("leave", $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		$this->object->initCourseMemberObject();
-		$this->object->members_obj->delete($this->ilias->account->getId());
-		
-		sendInfo($this->lng->txt('crs_unsubescribed_from_crs'),true);
-		$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->ref_id));
-		$this->ctrl->redirectByClass("ilRepositoryGUI","ShowList");
 	}
 } // END class.ilObjCourseGUI
 ?>
