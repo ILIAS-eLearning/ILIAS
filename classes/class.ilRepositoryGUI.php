@@ -174,16 +174,16 @@ class ilRepositoryGUI
 		$class_constr = "ilObj".$class_name."GUI";
 		include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 		$this->gui_obj = new $class_constr("", $this->cur_ref_id, true, false);
-		
+
 				// execute repository cmd
 				if (empty($cmd))
 				{
 					$cmd = $this->ctrl->getCmd("ShowList");
 					//$next_class = "";
 				}
-				
+
 				$this->cmd = $cmd;
-				$this->$cmd();	
+				$this->$cmd();
 				break;
 		}		
 	}
@@ -344,6 +344,16 @@ class ilRepositoryGUI
 					{
 						include_once("content/classes/class.ilObjFileBasedLM.php");
 						$lm_obj =& new ilObjFileBasedLM($object["ref_id"]);
+						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
+						{
+							unset ($this->learning_resources[$key]);
+						}
+					}
+					// check if scorm is online
+					if ($object["type"] == "slm")
+					{
+						include_once("classes/class.ilObjSCORMLearningModule.php");
+						$lm_obj =& new ilObjSCORMLearningModule($object["ref_id"]);
 						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
 						{
 							unset ($this->learning_resources[$key]);
@@ -749,10 +759,18 @@ class ilRepositoryGUI
 						$edit_link = "content/fblm_edit.php?ref_id=".$lr_data["ref_id"];
 						$desk_type = "htlm";
 						break;
+
+					case "slm":
+						$read_link = "content/scorm_presentation.php?ref_id=".$lr_data["ref_id"];
+						$edit_link = "content/scorm_edit.php?ref_id=".$lr_data["ref_id"];
+						$desk_type = "slm";
+						break;
+
 				}
 
 				// learning modules
-				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk" || $lr_data["type"] == "htlm")
+				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk" ||
+					$lr_data["type"] == "htlm" || $lr_data["type"] == "slm")
 				{
 
 					//$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
@@ -810,37 +828,6 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("tbl_content");
 				}
 
-				// scorm learning modules
-				if ($lr_data["type"] == "slm")
-				{
-					$obj_link = "content/scorm_presentation.php?ref_id=".$lr_data["ref_id"];
-					$tpl->setVariable("VIEW_LINK", $obj_link);
-					$tpl->setVariable("VIEW_TARGET", "bottom");
-					$tpl->setVariable("R_TITLE", $lr_data["title"]);
-//echo "SCO_Title:".$lr_data["title"].":<br>";
-					if ($this->rbacsystem->checkAccess('delete', $lr_data["ref_id"]))
-					{
-						$tpl->setCurrentBlock("lres_delete");
-						$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$lr_data["ref_id"]);
-						$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-						$tpl->parseCurrentBlock();
-					}
-
-					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], "slm"))
-					{
-						if ($this->rbacsystem->checkAccess('read', $lr_data["ref_id"]))
-						{
-							$tpl->setCurrentBlock("lres_desklink");
-							$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
-								"&item_ref_id=".$lr_data["ref_id"].
-								"&type=slm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
-								"&sort_by=".$_GET["sort_by"]);
-							$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
-							$tpl->parseCurrentBlock();
-						}
-					}
-					$tpl->setCurrentBlock("tbl_content");
-				}
 
 				$tpl->setVariable("LRES_IMG", ilUtil::getImagePath("icon_".$lr_data["type"].".gif"));
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$lr_data["type"]));
@@ -2193,9 +2180,8 @@ class ilRepositoryGUI
 
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("lm", "grp", "frm", "mep",
+					if (in_array($row["name"], array("slm", "lm", "grp", "frm", "mep",
 						"cat", "glo", "exc", "qpl", "tst", "chat", "htlm","fold","file")))
-
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{
@@ -2296,6 +2282,7 @@ class ilRepositoryGUI
 
 				$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id."&new_type=".$new_type);
 				$obj->setTargetFrame("save", "bottom");
+//echo "<br>meth:".$method;
 				$obj->$method();
 			}
 		}
