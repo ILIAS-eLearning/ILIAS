@@ -254,7 +254,7 @@ class ilLMPresentationGUI
 		// determine target frames for internal links
 		$pg_frame = $_GET["frame"];
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-		$params = array ('mode' => 'presentation', 'pg_title' => $pg_title,
+		$params = array ('mode' => 'presentation', 'pg_title' => $pg_title, 'pg_id' => $page_id,
 			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
@@ -281,14 +281,20 @@ class ilLMPresentationGUI
 		require_once("content/classes/class.ilMediaObject.php");
 		$media_obj =& new ilMediaObject($_GET["mob_id"]);
 
+		require_once("content/classes/class.ilPageObject.php");
+		$pg_obj =& new ilPageObject($_GET["pg_id"]);
+		$pg_obj->buildDom();
+
 		$xml = "<dummy>";
-		$xml.= $media_obj->getXML(IL_MODE_ALIAS);
+		// todo: we get always the first alias now (problem if mob is used multiple
+		// times in page)
+		$xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
 		$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
 		$xml.="</dummy>";
 
 
 		// todo: utf-header should be set globally
-		header('Content-type: text/html; charset=UTF-8');
+		//header('Content-type: text/html; charset=UTF-8');
 
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );

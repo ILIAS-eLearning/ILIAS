@@ -435,6 +435,20 @@ class ilPageObject extends ilLMObject
 		return $mobs_xml;
 	}
 
+	/**
+	* get complete media object (alias) element
+	*/
+	function getMediaAliasElement($a_mob_id, $a_nr = 1)
+	{
+		$xpc = xpath_new_context($this->dom);
+		$path = "//MediaObject/MediaAlias[@OriginId='$a_mob_id']";
+		$res =& xpath_eval($xpc, $path);
+		$mal_node =& $res->nodeset[$a_nr - 1];
+		$mob_node =& $mal_node->parent_node();
+
+		return $this->dom->dump_node($mob_node);
+	}
+
 	function validateDom()
 	{
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":"; exit;
