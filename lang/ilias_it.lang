@@ -338,7 +338,7 @@ assessment#:#width#:#Larghezza
 assessment#:#working_time#:#Tempo di esecuzione
 bibitem#:#bibitem_add#:#Aggiungi
 bibitem#:#bibitem_author#:#Autore
-bibitem#:#bibitem_av#:#Disp
+bibitem#:#bibitem_av#:#Disponibile
 bibitem#:#bibitem_bibitem#:#Informazioni bibliografiche
 bibitem#:#bibitem_book#:#Libro
 bibitem#:#bibitem_booktitle#:#Titolo
@@ -360,7 +360,7 @@ bibitem#:#bibitem_institution#:#Istituzione
 bibitem#:#bibitem_internet#:#Internet
 bibitem#:#bibitem_isbn#:#ISBN
 bibitem#:#bibitem_issn#:#ISSN
-bibitem#:#bibitem_journal#:#Riviste
+bibitem#:#bibitem_journal#:#Rivista
 bibitem#:#bibitem_journal_article#:#Articolo di rivista
 bibitem#:#bibitem_keyword#:#Chiave
 bibitem#:#bibitem_label#:#Etichetta
@@ -378,7 +378,7 @@ bibitem#:#bibitem_number#:#Numero
 bibitem#:#bibitem_organization#:#Organizzazione
 bibitem#:#bibitem_pages#:#Pagine
 bibitem#:#bibitem_phd_thesis#:#Tesi scientifica
-bibitem#:#bibitem_please_select#:#Scegline una
+bibitem#:#bibitem_please_select#:#Scegli uno dei seguenti
 bibitem#:#bibitem_print#:#Stampa
 bibitem#:#bibitem_proceedings#:#Procedimenti
 bibitem#:#bibitem_publisher#:#Editore
@@ -506,7 +506,7 @@ common#:#administration#:#Amministrazione
 common#:#administrator#:#Amministratore
 common#:#adopt#:#Adotta
 common#:#adopt_perm_from_template#:#Assegna i permessi del Template di Ruolo
-common#:#all_authors#:#All authors###21 Jul 2004 new variable
+common#:#all_authors#:#Tutti gli autori
 common#:#all_lms#:#Tutti i moduli
 common#:#all_objects#:#Tutti gli oggetti
 common#:#all_tsts#:#Tutti i test
@@ -541,24 +541,24 @@ common#:#at_location#:#alla locazione
 common#:#attachment#:#Allegato
 common#:#attachments#:#Allegati
 common#:#attend#:#Frequenta
-common#:#auth_configure#:#configure...###24 Jul 2004 new variable
-common#:#auth_edit_permission#:#Change permission settings###24 Jul 2004 new variable
-common#:#auth_ldap#:#LDAP###24 Jul 2004 new variable
-common#:#auth_ldap_desc#:#Authenticate users via LDAP server###24 Jul 2004 new variable
-common#:#auth_local#:#ILIAS database###24 Jul 2004 new variable
-common#:#auth_local_desc#:#Authenticate users via local ILIAS database (default)###24 Jul 2004 new variable
-common#:#auth_mode#:#Authentication mode###28 Jul 2004 new variable
-common#:#auth_mode_changed_to#:#Authentication mode changed to###28 Jul 2004 new variable
-common#:#auth_mode_not_changed#:#(Nothing changed)###28 Jul 2004 new variable
-common#:#auth_radius#:#RADIUS###24 Jul 2004 new variable
-common#:#auth_radius_desc#:#Authenticate users via RADIUS server###24 Jul 2004 new variable
-common#:#auth_read#:#Access	authentication settings###24 Jul 2004 new variable
-common#:#auth_remark_non_local_auth#:#When selecting another authentication mode except default mode user logins and passwords cannot be changed anymore and the new registration option is disabled.###24 Jul 2004 new variable
-common#:#auth_script#:#Custom###24 Jul 2004 new variable
-common#:#auth_script_desc#:#Authenticate users via external script###24 Jul 2004 new variable
-common#:#auth_select#:#Select authentication mode###24 Jul 2004 new variable
-common#:#auth_visible#:#Authentication settings are visible###24 Jul 2004 new variable
-common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
+common#:#auth_configure#:#configura...
+common#:#auth_edit_permission#:#Modifica le impostazioni dei permessi
+common#:#auth_ldap#:#LDAP
+common#:#auth_ldap_desc#:#Autenticazione degli utenti tramite server LDAP
+common#:#auth_local#:#Database ILIAS
+common#:#auth_local_desc#:#Autenticazione degli utenti tramite database locale (predefinito)
+common#:#auth_mode#:#Modalit&#224; di autenticazione
+common#:#auth_mode_changed_to#:#Modalit&#224; di autenticazione modificata in
+common#:#auth_mode_not_changed#:#(Nessuna modifica)
+common#:#auth_radius#:#RADIUS
+common#:#auth_radius_desc#:#Autenticazione degli utenti tramite server RADIUS
+common#:#auth_read#:#Impostazioni per l'autenticazione
+common#:#auth_remark_non_local_auth#:#Quando selezioni un'altra modalit&#224; di autenticazione diversa da quella predefinita, nome utente e password non possono essere cambiate e l'opzione nuova registrazione &#232; disabilitata.
+common#:#auth_script#:#Personale
+common#:#auth_script_desc#:#Autenticazione degli utenti tramite script esterni
+common#:#auth_select#:#Seleziona la modalit&#224; di autenticazione
+common#:#auth_visible#:#Vedere le modalit&#224; di autenticazione
+common#:#auth_write#:#Modificare le modalit&#224; di autenticazione
 common#:#author#:#Autore
 common#:#authors#:#Autori
 common#:#available_languages#:#Lingue disponibili
@@ -670,7 +670,6 @@ common#:#city#:#Citt&#224;
 common#:#clear#:#Annulla
 common#:#client ip#:#Client Ip
 common#:#client_id#:#Client ID
-common#:#client_ip#:#Client Ip###21 Jul 2004 new variable
 common#:#clipboard#:#Appunti
 common#:#close#:#Chiudi
 common#:#comma_separated#:#Separati da virgola
@@ -788,7 +787,7 @@ common#:#err_1_param#:#Solo 1 parametro!
 common#:#err_2_param#:#Solo 2 parametri!
 common#:#err_count_param#:#Causa: errato numero dei parametri.
 common#:#err_in_line#:#Errore nella linea
-common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
+common#:#err_invalid_port#:#Porta non valida
 common#:#err_no_langfile_found#:#Non ho trovato il file della lingua!
 common#:#err_no_param#:#Manca il parametro!
 common#:#err_over_3_param#:#Ci sono pi&#249; 3 parametri!
@@ -1055,7 +1054,7 @@ common#:#http_path#:#Percorso HTTP
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
 common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
-common#:#ilias_version#:#Versione ILIAS3
+common#:#ilias_version#:#Versione ILIAS 3
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
 common#:#import#:#Importa
@@ -1157,18 +1156,18 @@ common#:#last_visit#:#Ultima visita
 common#:#lastname#:#Cognome
 common#:#launch#:#Lancia
 common#:#ldap#:#LDAP
-common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
-common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
+common#:#ldap_basedn#:#LDAP BaseDN
+common#:#ldap_configure#:#Configura la modalit&#224; di autenticazione LDAP
 common#:#ldap_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
-common#:#ldap_read#:#Accesso in lettura alle impostazioni del LDAP
-common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
-common#:#ldap_server#:#LDAP Server URL###28 Jul 2004 new variable
-common#:#ldap_tls#:#Use LDAP TLS###28 Jul 2004 new variable
+common#:#ldap_port#:#Porta LDAP
+common#:#ldap_read#:#Accedere in lettura alle impostazioni del LDAP
+common#:#ldap_search_base#:#Ricerca basatat su LDAP
+common#:#ldap_server#:#Url del server LDAP
+common#:#ldap_tls#:#Usa canale TLS di LDAP
 common#:#ldap_visible#:#Le impostazioni LDAP sono visibili
 common#:#ldap_write#:#Modificare le impostazioni LDAP
 common#:#learning module#:#Modulo
-common#:#learning_objects#:#Unit&#224; didattica
+common#:#learning_objects#:#Unit&#224; didattiche
 common#:#learning_resources#:#Risorse didattiche
 common#:#level#:#Livello
 common#:#link#:#Collega
@@ -1210,9 +1209,9 @@ common#:#login_data#:#Dati per l&#039;accesso
 common#:#login_exists#:#Esiste gi&#224; un utente con questo nome! Per favore, scegline un altro.
 common#:#login_invalid#:#L'utente scelto non &#232; valido! Solo i seguenti caratteri sono consentiti (minimo 4 caratteri): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Tempo di accesso
-common#:#login_to_ilias#:#Entra in ILIAS3
+common#:#login_to_ilias#:#Entra in ILIAS 3
 common#:#logout#:#Logout
-common#:#logout_text#:#Sei uscito da Ilias3. La tua sessione &#232; terminata.
+common#:#logout_text#:#Sei uscito da Ilias 3. La tua sessione &#232; terminata.
 common#:#los#:#Unit&#224; didattica
 common#:#los_last_visited#:#Ultima unit&#224; didattica visitata
 common#:#mail#:#Posta
@@ -1419,15 +1418,15 @@ common#:#none#:#Nessuno
 common#:#normal#:#Normale
 common#:#not_implemented_yet#:#Non ancora implementato
 common#:#not_installed#:#Non installata
-common#:#not_logged_in#:#Non sei entrato in ILIAS3
+common#:#not_logged_in#:#Non sei entrato in ILIAS 3
 common#:#number_of_accesses#:#Numero di accessi
 common#:#number_of_records#:#Numero di record
 common#:#obj#:#Oggetto
 common#:#obj_adm#:#Impostazioni di sistema
-common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS3.
+common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS 3.
 common#:#obj_alm#:#Modulo AICC
-common#:#obj_auth#:#Authentication###24 Jul 2004 new variable
-common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)###24 Jul 2004 new variable
+common#:#obj_auth#:#Autenticazione
+common#:#obj_auth_desc#:#Configura la tua modalit&#224; di autenticazione (locale, LDAP, ...)
 common#:#obj_cat#:#Categoria
 common#:#obj_cen#:#Evento principale
 common#:#obj_chac#:#Impostazioni chat
@@ -1458,7 +1457,7 @@ common#:#obj_not_found#:#Oggetto non trovato
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Gestione note
 common#:#obj_objf#:#Gestione oggetti
-common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS3. (solo per utenti esperti!)
+common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS 3. (solo per utenti esperti!)
 common#:#obj_owner#:#Questo oggetto &#232; posseduto da
 common#:#obj_pg#:#Pagina
 common#:#obj_qpl#:#Raccolta di domande
@@ -1487,7 +1486,7 @@ common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
 common#:#obj_usrf_desc#:#Configura gli utenti qui.
-common#:#object#:#Object###21 Jul 2004 new variable
+common#:#object#:#Oggetto
 common#:#object_added#:#Oggetto aggiunto
 common#:#objects#:#Oggetti
 common#:#objf#:#Oggetti
@@ -1672,7 +1671,7 @@ common#:#root_edit#:#Modificare il nodo di sistema
 common#:#root_edit_permission#:#Modificare le impostazioni dei permessi del sistema
 common#:#root_read#:#Accedere in lettura al sistema
 common#:#root_visible#:#Vedere il sistema
-common#:#root_write#:#Modificare il nodo radice di ILIAS3
+common#:#root_write#:#Modificare il nodo radice di ILIAS 3
 common#:#salutation#:#Titolo
 common#:#salutation_f#:#Signora/Signorina
 common#:#salutation_m#:#Signore
@@ -1830,7 +1829,7 @@ common#:#tst_visible#:#Vedere il test
 common#:#tst_write#:#Modificare il test
 common#:#txt_add_object_instruction1#:#Cerca la cartella nella quale vuoi aggiungere
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#Ti sei registrato con successo a ILIAS3. Per favore, utilizza il pulsante sotto per accedere ad ILIAS3 con il tuo utente.
+common#:#txt_registered#:#Ti sei registrato con successo a ILIAS 3. Per favore, utilizza il pulsante sotto per accedere ad ILIAS 3 con il tuo utente.
 common#:#typ#:#Definizione di tipo di oggetto
 common#:#type#:#Tipo
 common#:#type_your_message_here#:#Scrivi il tuo messaggio qua
@@ -1853,11 +1852,11 @@ common#:#user_access#:#Accesso utente
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utente assegnato
 common#:#user_deleted#:#Cancellazione eseguita
-common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
+common#:#user_detail#:#Dettagli dei dati
 common#:#user_imported#:#Importazione utenti completata.
 common#:#user_language#:#Lingua
 common#:#user_not_chosen#:#Non hai scelto un membro del gruppo!
-common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
+common#:#user_statistics#:#Dati statistici
 common#:#userdata#:#Dati utente
 common#:#username#:#Nome utente
 common#:#users#:#Utenti
@@ -1926,7 +1925,7 @@ content#:#cont_TableContent#:#Indice
 content#:#cont_Unordered#:#Non ordinato
 content#:#cont_active#:#Abilita menu
 content#:#cont_add_area#:#Aggiungi paese
-content#:#cont_add_definition#:#Aggiungi definizione
+content#:#cont_add_definition#:#Aggiungi termine
 content#:#cont_add_fullscreen#:#Aggiungi a tutto schermo 
 content#:#cont_added_term#:#Termine aggiunto
 content#:#cont_all_definitions#:#Tutte le definizioni
@@ -2187,7 +2186,7 @@ content#:#cont_translations#:#Traduzione(i)
 content#:#cont_translations_assigned#:#La traduzione deve essere assegnata
 content#:#cont_update#:#Aggiorna
 content#:#cont_update_names#:#Aggiorna i nomi
-content#:#cont_upload_file#:#Upload del file
+content#:#cont_upload_file#:#Aggiungi file
 content#:#cont_url#:#URL
 content#:#cont_users_have_mob_in_clip1#:#Questo oggetto &#232; negli appunti di
 content#:#cont_users_have_mob_in_clip2#:#utente(i).
@@ -2300,7 +2299,7 @@ dateplaner#:#dv_whole_day#:#Giorno intero:
 dateplaner#:#dv_whole_rotation#:#Vuoi eliminare tutti gli appuntamenti ricorrenti? (seleziona la casella)
 dateplaner#:#end_date#:#Fine dell'appuntamento
 dateplaner#:#endtime_for_view#:#Ora finale della vista:
-dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###16 Mar 2004 new variable
+dateplaner#:#error_minical_img#:#Impossibile creare un GD-picture-stream
 dateplaner#:#execute#:#scelte eseguite
 dateplaner#:#extra_dates#:#Appuntamento di un giorno
 dateplaner#:#free#:#libero

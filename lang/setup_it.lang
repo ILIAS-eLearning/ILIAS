@@ -65,7 +65,7 @@ client_login#:#Entra con il tuo Client ID
 client_name#:#Nome
 client_setup_not_finished#:#L&#039;installazione del client non &#232; ancora terminata
 contact#:#Informazioni utente
-contact_data#:#Informazioni
+contact_data#:#Dati dell'amministratore
 convert_path#:#Percorso del programma di conversione di immagini
 convert_path_comment#:#Richiesto per poter mostrare le immagini in formato piccolo
 could_not_create_logfile#:#Impossibile creare il file di log
@@ -148,7 +148,7 @@ ilias_nic#:#Registrazione NIC
 ilias_nic_id#:#NIC ID
 ilias_setup#:#Installazione di ILIAS3
 ilias_version#:#Versione di ILIAS3
-info_text_contact#:#Qui puoi specificare le informazioni aggiuntive del client ed i riferimenti per i contatti dell&#039;amministratore. I campi marcati con un asterisco sono obbligatori. <br/>Tutte le informazioni vengono memorizzate all&#039;interno del database. <br/>Nella pagina successiva potrai registrare l&#039;installazione al server ILIAS-NIC, dove questi dati saranno trasmessi.
+info_text_contact#:#Qui puoi specificare le informazioni aggiuntive del client ed i riferimenti per i contatti dell&#039;amministratore. I campi indicati con un asterisco sono obbligatori. <br/>Tutte le informazioni vengono memorizzate all&#039;interno del database. <br/>Nella pagina successiva potrai registrare l&#039;installazione al server ILIAS-NIC, dove questi dati saranno trasmessi.
 info_text_db#:#Il database non esiste o &#232; vuoto. <br/>Clicca sul pulsante qui sotto per creare il tuo database. Se un database con il nome indicato non esiste ancora, per favore seleziona l&#039;opzione 'crea il database'. La procedura di installazione prover&#224; a creare il database automaticamente. <br/>Se la creazione dovesse fallire(per es. per un problema di permessi), contatta l&#039;amministratore di sistema e/o del database e chiedi a lui di crearti il database con il nome desiderato.
 info_text_delete#:#Puoi cancellare questo client agendo cliccando sul pulsante qui sotto. Comunque, solamente il tuo file client.ini verr&#224; cancellato, tutti i file contenuti nelle cartelle di dati ed il contenuto del database saranno mantenuti. I file ed il database potranno essere rimossi successivamente manualmente dall&#039;amministratore di sistema.
 info_text_finish1#:#Congratulazioni! <br/>L&#039;installazione del client &#232; stata eseguita con successo. <br/>Clicca su 'Login' per entrare in ILIAS3.
@@ -159,11 +159,11 @@ info_text_ini#:#Per favore, definisci un client ID. <br/>Il client ID deve esser
 info_text_lang#:#Per favore, scegli altre lingue e/o rimuovi quelle selezionate.
 info_text_list#:#In questa pagina puoi vedere tutti i client che sono disponibili ed il loro setup e stato. In alto a destra puoi abilitare o meno la selezione dei client. Se la selezione dei client &#232; abilitata, tutti i client disponibili (che sono in online) verranno mostrati in una lista nella pagina di Login di ILIAS3. Se invece, la selezione dei client &#232; disabilitata, all&#039;utente generico che accede alla pagina di Login, verr&#224; sempre mostrato il client <i>predefinito</i>. Puoi definire quale &#232; il client predefinito con il pulsante qui sotto.
 info_text_login#:#Per favore, indica il client ID della tua installazione e i tuoi dati di accesso. I tuoi dati di accesso ti sono stati forniti dall&#039;amministratore.
-info_text_nic1#:#Procurati un id dell&#039;istallazione (nic-id) dal nostro server ILIAS3.<br/>Il nic-id &#232; necessario se vuoi condividere il contenuto di ILIAS3 con altre installazioni.<br/> Noi ti raccomandiamo di effettuare la registrazione online. Se hai problemi nella connessione (per es. sei protetto da un firewall) puoi ottenere il tuo nic-id anche via email: se vuoi utilizzare questo metodo, clicca qui
-info_text_nic2#:#invierai una email con i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo nic-id via email, seleziona 'registrati tramite Email' e inseriscilo nel campo appropriato.
+info_text_nic1#:#Procurati un id dell&#039;istallazione (nic-id) dal nostro server ILIAS3.<br/>Il nic-id &#232; necessario se vuoi condividere il contenuto di ILIAS3 con altre installazioni.<br/> Noi ti raccomandiamo di effettuare la registrazione online. Se hai problemi nella connessione (per es. sei protetto da un firewall) puoi ottenere il tuo nic-id anche via email: se vuoi utilizzare questo metodo, clicca su
+info_text_nic2#:#ed invierai una email con i dati dell&#039;installazione a ilias-info@uni-koeln.de. <br/>Una volta ricevuto il tuo nic-id via email, seleziona 'registrati tramite Email' e inserisci i dati nei campi appropriati.
 info_text_nic3#:#E&#039;stata registrata la tua installazione. Il tuo nic-id &#232;
 info_text_password#:#Indica la vecchia password e poi digita due volte la nuova
-info_text_pathes#:#ILIAS3 supporta pi&#249; client connessi a database differenti. Qui sotto puoi specificare il percorso della cartella dei dati, la posizione del file di log e di eventuali programmi di altri produttori.<br/> Queste impostazioni saranno valide per tutti i client che verranno creati successivamente.
+info_text_pathes#:#ILIAS 3 supporta pi&#249; client connessi a database differenti. Qui sotto puoi specificare il percorso della cartella dei dati, la posizione del file di log e di eventuali programmi di altri produttori.<br/> Queste impostazioni saranno valide per tutti i client che verranno creati successivamente.
 ini_client_id_exists#:#Un client con questo ID esiste gi&#224;! Per favore, scegline un altro.
 ini_client_id_invalid#:#Il client ID che hai specificato contiene caratteri non validi
 ini_client_id_no_change#:#L&#039;Id del client non pu&#242; essere cambiato (in questa versione) dopo che sono state create con successo le cartelle del client.
@@ -175,12 +175,12 @@ ini_no_db_host#:#Manca il nome del host
 ini_no_db_name#:#manca il nome del database
 ini_no_db_user#:#Manca l&#039;utente del database
 inifile#:#File ilias.ini
-inifile_can_write#:#Il processo di installazione di ILIAS3 pu&ograve; scrivere il tuo file ilias.ini.
-inifile_cannot_write#:#Il processo di installazione di ILIAS3 non pu&ograve; scrivere il tuo file ilias.ini. Per favore, verifica i diritti di accesso.
+inifile_can_write#:#Il processo di installazione di ILIAS 3 pu&ograve; scrivere il tuo file ilias.ini.
+inifile_cannot_write#:#Il processo di installazione di ILIAS 3 non pu&ograve; scrivere il tuo file ilias.ini. Per favore, verifica i diritti di accesso.
 inifile_content#:#Questo &#232; il contenuto del tuo file ilias.ini:
 inifile_exists#:#Il file ilias.ini esiste. Attenzione: il processo di installazione cancella le impostazioni precedenti.
 inifile_fill_all#:#Per favore, riempi tutti i campi.
-inifile_firsttime#:#Non &#232; prefente il file ilias.ini! Potrebbe essere la prima esecuzione di ILIAS3.
+inifile_firsttime#:#Non &#232; prefente il file ilias.ini! Potrebbe essere la prima esecuzione di ILIAS 3.
 inifile_written#:#Il file ilias.ini &egrave, stato salvato con successo sulla macchina.
 input_error#:#Errore di inserimento
 inst_identification#:#Identificativo dell&#039;installazione
@@ -189,7 +189,7 @@ install#:#Installa
 installation#:#Installa
 installed#:#Installata
 institution#:#Istituzione
-intro_install#:#Questa &#232; la pagina principale del processo di installazione di ILIAS3. Da qui puoi procedere con l&#039;installazione.
+intro_install#:#Questa &#232; la pagina principale del processo di installazione di ILIAS 3. Da qui puoi procedere con l&#039;installazione.
 ip_address#:#Indirizzo IP
 java_path#:#Percorso a Java
 java_path_comment#:#Richiesto per i moduli di tipo SCORM
@@ -228,7 +228,7 @@ logged_out#:#Sei uscito dalla procedura di installazione.
 logging#:#Logging
 login#:#Login
 login_invalid#:#Login non valido
-login_to_ilias#:#Entra in ILIAS3
+login_to_ilias#:#Entra in ILIAS 3
 logout#:#Esci
 main_datadir_outside_webspace#:#Cartella principale dei dati
 missing_data#:#Dati non trovati
@@ -278,7 +278,7 @@ password#:#Password
 password_changed#:#Password modificata.
 password_empty#:#Manca la password!
 password_enter_old#:#You must enter your old password first!
-password_info#:#Per proteggere i dati della configurazione, in futuro dovrai specificare questa password per poter accedere all'installazione di ILIAS3.
+password_info#:#Per proteggere i dati della configurazione, in futuro dovrai specificare questa password per poter accedere all'installazione di ILIAS 3.
 password_new_master#:#Specifica la nuova password
 password_not_match#:#New Password entered does not match!
 password_old_wrong#:#Old password entered is wrong!
@@ -296,22 +296,22 @@ pathes#:#Configurazione
 phone#:#Telefono
 port#:#porta
 position#:#Posizione
-pre_cookies_disabled#:#I cookie sono disabilitati. I Cookie sono richiesti per poter accedere ad ILIAS3.
+pre_cookies_disabled#:#I cookie sono disabilitati. I Cookie sono richiesti per poter accedere ad ILIAS 3.
 pre_cookies_enabled#:#Cookies abilitati
-pre_error#:#Si sono verificati alcuni errori. Per favore, correggi i problemi o non potrai proseguire con l&#039;installazione di ILIAS3.
-pre_folder_create#:#Nuove cartelle create nella cartella di ILIAS3
+pre_error#:#Si sono verificati alcuni errori. Per favore, correggi i problemi o non potrai proseguire con l&#039;installazione di ILIAS 3.
+pre_folder_create#:#Nuove cartelle create nella cartella di ILIAS 3
 pre_folder_create_error#:#Non riesco a creare delle cartelle! Verifica le impostazioni dei permessi nel filesystem!
-pre_folder_write#:#Cartella di ILIAS3 scrivibile
-pre_folder_write_error#:#Non riesco a scrivere nella cartella di ILIAS3! Verifica le impostazioni dei permessi nel filesystem!
-pre_intro#:#Per prima cosa verifichiamo se il sistema rispetta i requisiti per l&#039;installazione e l&#039;esecuzione di ILIAS3.
-pre_javascript_comment#:#Puoi utilizzare ILIAS3 senza Javascript ma perdereai alcune funzionalit&#224; dell&#039;interfccia.
+pre_folder_write#:#Cartella di ILIAS 3 scrivibile
+pre_folder_write_error#:#Non riesco a scrivere nella cartella di ILIAS 3! Verifica le impostazioni dei permessi nel filesystem!
+pre_intro#:#Per prima cosa verifichiamo se il sistema rispetta i requisiti per l&#039;installazione e l&#039;esecuzione di ILIAS 3.
+pre_javascript_comment#:#Puoi utilizzare ILIAS 3 senza Javascript ma perdereai alcune funzionalit&#224; dell&#039;interfccia.
 pre_javascript_enabled#:#Javascript abilitati
 pre_php_version#:#Versione di PHP
-pre_php_version_3#:#La tua versione di PHP &#232; troppo vecchia per ILIAS3! Per favore, aggiorna la versione di PHP.
+pre_php_version_3#:#La tua versione di PHP &#232; troppo vecchia per ILIAS 3! Per favore, aggiorna la versione di PHP.
 pre_php_version_4.1#:#Le classi PEAR non funzionano correttamente con questa versione! Per favore, aggiorna la versione di PHP.
 pre_php_version_4.2#:#DOMXML e XSLT non vengono supportati correttamente con questa versione!
-pre_php_version_5#:#ILIAS3 non &#232; stato ancora testato con PHP 5. Lo usi a tuo rischio.
-pre_php_version_unknown#:#L&#039;installazione di ILIAS3 non ha riconosciuto questa versione. Lo usi a tuo rischio!
+pre_php_version_5#:#ILIAS 3 non &#232; stato ancora testato con PHP 5. Lo usi a tuo rischio.
+pre_php_version_unknown#:#L&#039;installazione di ILIAS 3 non ha riconosciuto questa versione. Lo usi a tuo rischio!
 preliminaries#:#Preliminari
 prev#:#Precedente
 required_field#:#Campi richiesti
@@ -331,12 +331,12 @@ settings_changed#:#Impostazioni cambiate
 settings_saved#:#Impostazioni salvate
 setup#:#Installazione
 setup_basic_settings#:#Impostazioni di base
-setup_contact_data#:#Informazioni del contatto
+setup_contact_data#:#Dati del client e dell'amministratore
 setup_database#:#Installazione del database
 setup_database_desc#:#installare il database
 setup_db_first#:#Per favore, crea prima il database!
 setup_finished#:#Installazione completata
-setup_first_client#:#Definisci il tuoi primo client
+setup_first_client#:#Definisci il tuo primo client
 setup_ini_first#:#Per favore, crea prima il file ilias.ini!
 setup_inifile#:#Creazione del file ilias.ini
 setup_inifile_desc#:#creare il file ilias.ini con i dati dell&#039;installazione
@@ -359,8 +359,8 @@ setup_process_step_finish#:#termina l&#039;installazione
 setup_process_step_ini#:#imposta i dati di base
 setup_process_step_lang#:#installa le lingue di sistema
 setup_process_step_nic#:#registrati a ILIAS-NIC
-setup_ready#:#Installazione terminata. Puoi accedere adesso ad ILIAS3 e completare le impostazioni di sistema.
-setup_welcome#:#Benvenuti nel programma di installazione di ILIAS3. La procedura di installazione ti aiuter&#224; a:
+setup_ready#:#Installazione terminata. Puoi accedere adesso ad ILIAS 3 e completare le impostazioni di sistema.
+setup_welcome#:#Benvenuti nel programma di installazione di ILIAS 3. La procedura di installazione ti aiuter&#224; a:
 sort_by_this_column#:#Ordina secondo questa colonna
 status#:#Stato
 step#:#Passo
