@@ -1803,3 +1803,6 @@ PRIMARY KEY ( `entry_id` )
 );
 <#118>
 ALTER TABLE chat_user ADD chat_id INT( 11 ) NOT NULL AFTER usr_id ;
+
+<#119>
+ALTER TABLE usr_data ADD i2passwd VARCHAR(32) NOT NULL DEFAULT '';
