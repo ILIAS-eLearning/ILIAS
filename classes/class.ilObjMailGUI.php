@@ -46,9 +46,9 @@ class ilObjMailGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 	}
 
-	function editObject()
+	function viewObject()
 	{
-		parent::editObject();
+#		parent::editObject();
 		
 		$this->lng->loadLanguageModule("mail");
 
