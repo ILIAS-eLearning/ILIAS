@@ -71,7 +71,7 @@ $tpl->setVariable("BUTTONS2",$tplbtn->get());
 $tpl->setVariable("FROM", $mail["from"]);
 $tpl->setVariable("TO", $ilias->account->Id);
 $tpl->setVariable("SUBJECT", $mail["body"]);
-$tpl->setVariable("DATE", $mail["datetime"]);
+$tpl->setVariable("DATE", Format::formatDate($mail["datetime"]));
 $tpl->setVariable("MESSAGE", $mail["body"]);
 $tpl->setVariable("URL", "".$mail["url"]);
 
