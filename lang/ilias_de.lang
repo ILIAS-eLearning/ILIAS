@@ -868,3 +868,25 @@ meta#:#meta_identifier#:#Identifier###14 May 2003 new variable
 meta#:#meta_language#:#Language###14 May 2003 new variable
 meta#:#meta_title#:#Title###14 May 2003 new variable
 common#:#forum_added#:#Forum angelegt
+common#:#obj_usr#:#Benutzer
+common#:#obj_le#:#Lernmodul
+common#:#obj_frm#:#Forum
+common#:#obj_grp#:#Gruppe
+common#:#obj_cat#:#Kategorie
+common#:#obj_crs#:#Kurs
+common#:#obj_file#:#Datei
+common#:#obj_mail#:#Maileinstellungen
+common#:#obj_adm#:#Systemverwaltung
+common#:#obj_usrf#:#Benutzerverwaltung
+common#:#obj_rolf#:#Rollenverwaltung
+common#:#obj_objf#:#Objektverwaltung
+common#:#obj_typ#:#Objekttyp-Definition
+common#:#obj_rolt#:#Rollenvorlage
+common#:#obj_lngf#:#Sprachenverwaltung
+common#:#obj_lng#:#Sprache
+common#:#obj_role#:#Rolle
+common#:#obj_lo#:#LearningObject
+common#:#obj_uset#:#Benutzereinstellungen
+common#:#obj_root#:#root
+common#:#obj_notf#:#Notizenverwaltung
+common#:#obj_note#:#Notiz

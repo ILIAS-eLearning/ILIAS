@@ -103,7 +103,7 @@ switch ($_SESSION["viewmode"])
 					$tpl->setVariable("EDIT", "(".$lng->txt("edit").")");
 				}
 				$tpl->setVariable("IMG", $obj_icon);
-				$tpl->setVariable("ALT_IMG", $lr_data["data"]);
+				$tpl->setVariable("ALT_IMG", $lng->txt("obj_".$lr_data["type"]));
 				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");

@@ -85,7 +85,8 @@ class ilObjObjectFolderGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 
 					//data
-					$data = array("type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_type_b.gif\" border=\"0\">",
+					$data = array(
+							"type" => ilUtil::getImageTagByType("type",$this->tpl->tplPath),
 							"name" => $obj["title"],
 							"description" => $obj["desc"],
 							"last_change" => ilFormat::formatDate($obj["last_update"]));

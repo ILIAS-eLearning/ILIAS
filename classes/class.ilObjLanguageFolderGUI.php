@@ -102,7 +102,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			//data
 			$data = array(
-						"type" => "<img src=\"".$this->tpl->tplPath."/images/icon_lng_b.gif\" border=\"0\">",
+						"type" => ilUtil::getImageTagByType("lng",$this->tpl->tplPath),
 						"name" => $lang_data["name"].$status,
 						"status" => $this->lng->txt($lang_data["desc"]),
 						"remark" => $remark,

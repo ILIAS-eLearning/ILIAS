@@ -140,6 +140,7 @@ class ilExplorer
 						$this->format_options["$counter"]["child"]		= $object["child"];
 						$this->format_options["$counter"]["title"]		= $object["title"];
 						$this->format_options["$counter"]["type"]		= $object["type"];
+						$this->format_options["$counter"]["desc"] 		= "obj_".$object["type"];
 						$this->format_options["$counter"]["depth"]		= $tab;
 						$this->format_options["$counter"]["container"]	= false;
 						$this->format_options["$counter"]["visible"]	= true;
@@ -220,6 +221,8 @@ class ilExplorer
 	*/
 	function formatObject($a_node_id,$a_option)
 	{
+		global $lng;
+
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
 			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
@@ -253,13 +256,14 @@ class ilExplorer
 			{
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/".$picture.".gif"));
+				$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 				$tpl->parseCurrentBlock();
 			}
 		}
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
-		//$tpl->setVariable("TYPE", $a_option["type"]);
+		$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
 		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id);

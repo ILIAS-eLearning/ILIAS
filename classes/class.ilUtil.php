@@ -11,6 +11,7 @@ class ilUtil
 {
 	/**
 	* Builds an html image tag
+	* TODO: function still in use, but in future use getImagePath and move HTML-Code to your template file
 	* @access	public
 	* @param	string	object type
 	* @param	string	tpl path
@@ -19,7 +20,7 @@ class ilUtil
 	{
 		global $lng;
 
-		return "<img src=\"".$a_path."/images/"."icon_".$a_type."_b.gif\" alt=\"".$lng->txt($a_type)."\" title=\"".$lng->txt($a_type)."\" border=\"0\" vspace=\"0\"/>";
+		return "<img src=\"".$a_path."/images/"."icon_".$a_type."_b.gif\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 	}
 
 	/**

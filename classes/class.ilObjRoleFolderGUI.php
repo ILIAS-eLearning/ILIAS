@@ -39,12 +39,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			{
 				foreach ($list as $key => $val)
 				{
-					// determine image (role object or role template?)
-					$image = $val["type"] == "rolt" ? "icon_rtpl_b" : "icon_role_b";
-
 					//visible data part
 					$this->data["data"][] = array(
-						"type" => "<img src=\"".$tpl->tplPath."/images/".$image.".gif\" border=\"0\">",
+						"type" => ilUtil::getImageTagByType($val["type"],$this->tpl->tplPath),
 						"name" => $val["title"],
 						"description" => $val["desc"],
 						"last_change" => ilFormat::formatDate($val["last_update"])
