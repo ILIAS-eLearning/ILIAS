@@ -163,7 +163,6 @@ class ilGroupGUI extends ilObjectGUI
 			case 0:
 				$stat = $this->lng->txt("group_no_registration");
 				$msg  = $this->lng->txt("group_no_registratoin_msg");
-
 				$readonly ="readonly";
 				$subject ="";
 				$cmd_submit = "joinGroup";
@@ -2005,7 +2004,20 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		// load template for table
-		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");
+		// two possibilites: 1. extend tpl.table.html with templ.variable {STRUCTURED_VIEW}
+		//		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");		
+		//		     2. create new template tpl.grp_view.html :
+		//					{BUTTONS}
+		//					{MESSAGE}
+		//					{TABLE}
+		//					{OBJECTS}
+
+
+
+		$this->tpl->addBlockfile("CONTENT", "group_content", "tpl.grp_view.html");
+		$this->tpl->addBlockfile("TABLE", "group_table", "tpl.table.html");		
+		$this->tpl->setCurrentBlock("group_table");
+		
 		// load template for table content data
 		$access = false;
 
@@ -2104,58 +2116,34 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		// render table
-		$tbl->render();
-//		$this->tpl->show();
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));// footer
+		$tbl->render();		// render table
 
 // SHOW GROUP-RESOURCE-STRUCTURE
 		if($_GET["tree"] == true)
 		{
-			$this->tpl->addBlockFile("EXPLORER", "structure34", "tpl.explorer.html");
-			//TODO: is obsolet, wenn man an $exp->setOutput(0); die ref_id der Gruppe bergeben kann
+			$this->tpl->setCurrentBlock("content");
+			$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.rep_explorer.html");
 
-			$exp = new ilGroupExplorer("group.php",$this->grp_id);
+			$exp = new ilGroupExplorer("group.php?cmd=show_content",$this->grp_id);
 
-			if ($_GET["expand"] == "")
-			{
-				$expanded = $this->grp_id;
-			}
+			if ($_GET["grp_expand"] == "")
+				$expanded = $this->tree->readRootId();
 			else
-			{
-				$expanded = $_GET["expand"];
-			}
+				$expanded = $_GET["grp_expand"];
 
-			$exp->setExpand($expanded);
-//			$exp->setExpandTarget("group.php?cmd=explorer&ref_id=".$this->grp_id);
-			$exp->setExpandTarget("group.php?cmd=show_content&ref_id=".$this->grp_id);
+			$exp->setExpand($_GET["grp_expand"]);
 
-			//filter object types
-			$exp->addFilter("root");
-			$exp->addFilter("cat");
-			$exp->addFilter("grp");
-			$exp->addFilter("frm");
-			$exp->addFilter("lm");
-			$exp->addFilter("slm");
-			$exp->addFilter("glo");
-			$exp->addFilter("crs");
-			$exp->addFilter("fold");
-			$exp->addFilter("file");
-			$exp->setFiltered(true);
-
-			//build html-output
+			// build html-output
 			$exp->setOutput(0);
 			$output = $exp->getOutput();
-			$obj_grp = & $this->ilias->obj_factory->getInstanceByRefId($this->grp_id);
-			$this->tpl->setCurrentBlock("structure");
-			$this->tpl->setVariable("TXT_EXPLORER_HEADER",ilUtil::shortenText($this->lng->txt("obj_grp").":".$obj_grp->getTitle(), "50", true));
-			$this->tpl->setVariable("EXPLORER",$output);
+
+			$this->tpl->setCurrentBlock("objects");
+			$this->tpl->setVariable("EXPLORER", $output);
 			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->show();
-
 	}
 
 	/**
