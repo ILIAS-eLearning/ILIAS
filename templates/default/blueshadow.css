@@ -243,6 +243,17 @@ td.option_desc, p.option_desc {
 	text-align:left;
 }
 
+td.option_info { 
+	background-color:#f7f7f7;
+	background-image: none;
+	color:#222222;
+	padding:3px;
+	font-size:13px;
+    font-weight:bold;
+	vertical-align:top;
+	text-align:center;
+}
+
 td.boxed {
 	border-style: solid;
 	border-width: thin;

@@ -4346,3 +4346,6 @@ common#:#link_check_message_b#:#Wenn diese Option eingeschaltet ist, werden sie 
 common#:#link_checker_refreshed#:#Die Ansicht wurde aktualisiert.
 common#:#link_check_subject#:#[ILIAS 3] Link check
 common#:#link_check_body_top#:#Sie erhalten diese Mail, da sie über ungültige Links der folgenden ILIAS Lerneinheiten informiert werden möchten:
+common#:#no_invalid_links#:#Es wurden keine ungültigen Links gefunden.
+common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert. 
+common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktiviert.

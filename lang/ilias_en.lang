@@ -4346,3 +4346,6 @@ common#:#link_check_message_b#:#If enabled, you will be informed about invalid l
 common#:#link_checker_refreshed#:#Refreshed view
 common#:#link_check_subject#:#[ILIAS 3] Link check
 common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:
+common#:#no_invalid_links#:#No invalid links found.
+common#:#link_check_message_enabled#:#Messages enabled
+common#:#link_check_message_disabled#:#Messages diabled
