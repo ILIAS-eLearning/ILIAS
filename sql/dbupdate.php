@@ -1289,4 +1289,16 @@ ALTER TABLE rbac_fa DROP parent_obj;
 ALTER TABLE rbac_pa DROP set_id;
 <#63>
 # add primary key to rbac_ua (required for REPLACE statement)
-ALTER TABLE rbac_ua ADD PRIMARY KEY (usr_id,rol_id); 
+ALTER TABLE rbac_ua ADD PRIMARY KEY (usr_id,rol_id);
+<#64>
+# add table for db-driven sessionmanagement
+CREATE TABLE usr_session (
+session_id VARCHAR(32) NOT NULL,
+expires INT NOT NULL,
+data TEXT NOT NULL,
+ctime INT NOT NULL,
+user_id INT(10) unsigned NOT NULL,
+PRIMARY KEY (session_id),
+INDEX (expires),
+INDEX (user_id)
+);

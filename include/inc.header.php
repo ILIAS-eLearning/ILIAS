@@ -58,6 +58,7 @@ else
 }
 
 //include classes and function libraries
+require_once "include/inc.db_session_handler.php";
 require_once "classes/class.ilIniFile.php";
 require_once "classes/class.ilDBx.php";
 require_once "classes/class.ilias.php";
@@ -81,18 +82,20 @@ require_once "classes/class.ilRbacReviewH.php";
 // include error_handling
 require_once "classes/class.ilErrorHandling.php";
 
-ini_set("session.save_handler", "files");
-session_save_path("/tmp");
-session_start();
+// load main class
+$ilias = new ILIAS();
+
+if (!db_set_save_handler())
+{
+	$message = "Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini";
+	$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+}
 
 // LOAD OLD POST VARS IF ERROR HANDLER 'MESSAGE' WAS CALLED
 if ($_SESSION["message"])
 {
 	$_POST = $_SESSION["post_vars"];
 }
-
-// load main class
-$ilias = new ILIAS();
 
 // put debugging functions here
 if (DEBUG)
@@ -161,6 +164,9 @@ if ($script != "login.php" && $script != "index.php")
 	// init tree
 	$tree = new ilTree(ROOT_FOLDER_ID);
 }
+
+//var_dump($_SESSION);exit;
+
 
 // instantiate main template
 $tpl = new ilTemplate("tpl.main.html", true, true);
