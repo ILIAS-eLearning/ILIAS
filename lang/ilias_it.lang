@@ -146,6 +146,8 @@ assessment#:#gap_selection#:#Selezione vuota
 assessment#:#height#:#Altezza
 assessment#:#imagemap#:#Mappa di immagine
 assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
+assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
+assessment#:#insert_before#:#Insert before###22 Jun 2004 new variable
 assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
 assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
 assessment#:#javaapplet#:#Applet Java
@@ -162,7 +164,9 @@ assessment#:#material_download#:#Materiale da scaricare
 assessment#:#material_file#:#File disponibili
 assessment#:#maximum_nr_of_tries_reached#:#Hai raggiunto il numero massimo di tentativi per questo test. Il test non pu&#242; essere inserito!
 assessment#:#meaning#:#Significato
+assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
 assessment#:#no_questions_available#:#Non ci sono domande disponibili
+assessment#:#no_target_selected_for_move#:#You must select a target position!###22 Jun 2004 new variable
 assessment#:#or#:#oppure
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
@@ -215,6 +219,7 @@ assessment#:#save_introduction#:#Salva e vai all'introduzione
 assessment#:#save_next#:#Salva e vai alla omanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
 assessment#:#select_gap#:#Seleziona spazio
+assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
 assessment#:#set_filter#:#Imposta filtro
 assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Trascina le risposte
