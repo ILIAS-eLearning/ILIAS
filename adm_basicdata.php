@@ -98,7 +98,7 @@ else //wurde nicht abgeschickt -> Daten werden geladen
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("basic_data"));
 
 //language things
-$tpl->setVariable("ILIAS_RELEASE", $lng->txt("ilias_version"));
+$tpl->setVariable("TXT_ILIAS_RELEASE", $lng->txt("ilias_version"));
 $tpl->setVariable("TXT_DB_VERSION", $lng->txt("db_version"));
 $tpl->setVariable("TXT_INST_ID", $lng->txt("installation_id"));
 $tpl->setVariable("TXT_HOSTNAME", $lng->txt("host"));
@@ -202,6 +202,9 @@ $tpl->setVariable("EMAIL",$settings["email"]);
 $tpl->setCurrentBlock("sys_message");
 $tpl->parseCurrentBlock();
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+if ($eingebunden == false)
+{
+	$tplmain->setVariable("PAGECONTENT",$tpl->get());
+	$tplmain->show();
+}
 ?>
