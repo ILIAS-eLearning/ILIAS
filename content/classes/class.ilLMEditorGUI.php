@@ -117,11 +117,14 @@ class ilLMEditorGUI
 				$this->tree = new ilTree($this->lm_obj->getId());
 				$this->tree->setTableNames('lm_tree','lm_data');
 				$this->tree->setTreeTablePK("lm_id");
-
+//echo "1:".$this->lm_obj->getId().":";
 				if(!empty($_GET["obj_id"]))		// we got a page or structure object
 				{
+//echo "1a";
 					$obj =& ilLMObjectFactory::getInstance($_GET["obj_id"]);
+//echo "1b";
 					$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
+//echo "1c"; exit;
 					if($type != "content")
 					{
 						$type = ($cmd == "create" || $cmd == "save")
@@ -149,6 +152,7 @@ class ilLMEditorGUI
 							? $new_type
 							: "lm";
 				}
+//echo "2"; exit;
 //echo "type:$type:cmd:$cmd:ctype:$ctype:";
 				if($type == "content")
 				{
@@ -313,13 +317,15 @@ class ilLMEditorGUI
 
 		if(!empty($this->obj_id))
 		{
+//echo "dL0a:".$this->obj_id.":";
 			$path = $this->tree->getPathFull($this->obj_id);
+//echo "dL0b"; exit;
 		}
 		else
 		{
 			$path = $this->tree->getPathFull($this->tree->getRootId());
 		}
-
+//echo "dL1"; exit;
 		$modifier = 1;
 
 		foreach ($path as $key => $row)

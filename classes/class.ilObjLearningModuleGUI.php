@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.12 2003/06/13 22:47:59 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.13 2003/06/15 17:41:24 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -50,6 +50,58 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		$this->type = "lm";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 
+	}
+
+	/**
+	* form for new lm creation
+	*/
+	function createObject()
+	{
+		require_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		//$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			"adm_object.php?ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]."&cmd=save");
+	}
+
+	/**
+	*
+	*/
+	function saveObject()
+	{
+		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
+
+		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		{
+			// create and insert object in objecttree
+			require_once("classes/class.ilObjLearningModule.php");
+			$newObj = new ilObjLearningModule();
+			$newObj->setType("lm");
+			$newObj->setTitle("");			// set by meta_gui->save
+			$newObj->setDescription("");	// set by meta_gui->save
+			$newObj->create();
+			$newObj->createReference();
+			$newObj->putInTree($_GET["ref_id"]);
+			$newObj->setPermissions($_GET["ref_id"]);
+
+			// save meta data
+			require_once "classes/class.ilMetaDataGUI.php";
+			$meta_gui =& new ilMetaDataGUI();
+			$meta_gui->setObject($newObj);
+			$meta_gui->save();
+
+			// create learning module tree
+			$newObj->createLMTree();
+
+			unset($newObj);
+		}
+		else
+		{
+			$this->ilias->raiseError($this->lng->txt("no_create_permission"), $this->ilias->error_obj->WARNING);
+		}
+
+		header("Location: adm_object.php?".$this->link_params);
+		exit();
 	}
 
 	function editMetaObject()

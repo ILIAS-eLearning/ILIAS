@@ -49,6 +49,8 @@ class ilObjLearningModule extends ilObject
 	function ilObjLearningModule($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "lm";
+
+		// this also calls read() method! (if $a_id is set)
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
@@ -119,11 +121,19 @@ class ilObjLearningModule extends ilObject
 		return "toc2win";
 	}
 
+	function createLMTree()
+	{
+		$this->lm_tree =& new ilTree($this->getId());
+		$this->lm_tree->setTreeTablePK("lm_id");
+		$this->lm_tree->setTableNames('lm_tree','lm_data');
+		$this->lm_tree->addTree($this->getId(), 1);
+	}
+
+
 	function &getLMTree()
 	{
 		return $this->lm_tree;
 	}
-
 
 
 	/**

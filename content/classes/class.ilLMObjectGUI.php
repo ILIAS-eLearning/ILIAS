@@ -22,6 +22,7 @@
 */
 
 require_once("classes/class.ilMetaData.php");
+require_once("classes/class.ilMetaDataGUI.php");
 
 /**
 * Class ilLMObject
@@ -82,8 +83,6 @@ class ilLMObjectGUI
 			: "";
 
 		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setLMObject($this->lm_obj);
-		//$meta_gui->setObject($this->obj);
 		$obj_str = (is_object($this->obj))
 			? "&obj_id=".$this->obj->getId()
 			: "";
@@ -121,6 +120,7 @@ class ilLMObjectGUI
 		}
 
 		$tree->insertNode($this->obj->getId(), $parent_id, $target);
+echo "insert:".$this->obj->getId().":parent:$parent_id:target:$target:";
 	}
 
 
