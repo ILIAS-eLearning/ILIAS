@@ -716,6 +716,7 @@ common#:#crs_join#:#Subscribe to Course###16 Mar 2004 new variable
 common#:#crs_leave#:#Unsubscribe from Course###16 Mar 2004 new variable
 common#:#crs_management_system#:#Systém pro správu kurzů
 common#:#crs_new#:#Nový kurz
+common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
 common#:#crs_read#:#Read access to Course###16 Mar 2004 new variable
 common#:#crs_visible#:#Course is visible###16 Mar 2004 new variable
 common#:#crs_write#:#Edit Course###16 Mar 2004 new variable
@@ -792,6 +793,7 @@ common#:#enumerate#:#Vyčíslit
 common#:#err_1_param#:#Pouze 1 parametr!
 common#:#err_2_param#:#Pouze 2 parametry!
 common#:#err_count_param#:#Důvod: Chybný počet parametrů
+common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#Chyba na řádce
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_no_langfile_found#:#Jazykový soubor nebyl nalezen!
@@ -1166,6 +1168,7 @@ common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
 common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#ldap_login_key#:#Attribute for login name###07 Aug 2004 new variable
+common#:#ldap_passwd#:#Your current password###10 Aug 2004 new variable
 common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#Read access to LDAP settings###16 Mar 2004 new variable
 common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
@@ -1637,6 +1640,7 @@ common#:#registered_since#:#Registrace od
 common#:#registered_user#:#registovaný uživatel
 common#:#registered_users#:#registovaných uživatelů
 common#:#registration#:#Registrace nového účtu
+common#:#registration_disabled#:#Only available when using local authentication###10 Aug 2004 new variable
 common#:#registration_expired#:#Registrační období vypršelo...
 common#:#remove#:#Opustit###25 Mar 2004 content changed
 common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable

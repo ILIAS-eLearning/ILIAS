@@ -716,6 +716,7 @@ common#:#crs_join#:#Abonneren op cursus
 common#:#crs_leave#:#Abonnement op cursus beëindigen
 common#:#crs_management_system#:#Cursus Management System
 common#:#crs_new#:#Nieuwe cursus
+common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
 common#:#crs_read#:#Lees-toegang op cursus
 common#:#crs_visible#:#Cursus is zichtbaar
 common#:#crs_write#:#Cursus wijzigen
@@ -792,6 +793,7 @@ common#:#enumerate#:#Opsommen
 common#:#err_1_param#:#Slechts 1 parameter!
 common#:#err_2_param#:#Slechts 2 parameters!
 common#:#err_count_param#:#Reden: Verkeerde aantal parameters
+common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#Fout in regel
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_no_langfile_found#:#Geen taal-bestand gevonden!
@@ -1166,6 +1168,7 @@ common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
 common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#Wijzig rechten-instellingen
 common#:#ldap_login_key#:#Attribute for login name###07 Aug 2004 new variable
+common#:#ldap_passwd#:#Your current password###10 Aug 2004 new variable
 common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#Lees-recht tot LDAP-instellingen
 common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
@@ -1637,6 +1640,7 @@ common#:#registered_since#:#Registreerd sinds
 common#:#registered_user#:#geregistreerde gebruiker
 common#:#registered_users#:#geregistreerde gebruikers
 common#:#registration#:#Registratie van een nieuw account
+common#:#registration_disabled#:#Only available when using local authentication###10 Aug 2004 new variable
 common#:#registration_expired#:#De registratie-peride is verlopen...
 common#:#remove#:#Verwijder
 common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable

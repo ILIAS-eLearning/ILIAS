@@ -732,6 +732,7 @@ common#:#crs_join#:#注册课程
 common#:#crs_leave#:#注销课程
 common#:#crs_management_system#:#课程管理系统
 common#:#crs_new#:#新课程
+common#:#crs_no_content#:#Without content###10 Aug 2004 new variable
 common#:#crs_read#:#课程设为读访问
 common#:#crs_visible#:#课程可视
 common#:#crs_write#:#编辑课程
@@ -808,6 +809,7 @@ common#:#enumerate#:#例举
 common#:#err_1_param#:#只一个参数！
 common#:#err_2_param#:#只两个参数！
 common#:#err_count_param#:#原因错误参数计算！
+common#:#err_enter_current_passwd#:#Please enter your current password###10 Aug 2004 new variable
 common#:#err_in_line#:#行内出错
 common#:#err_invalid_port#:#Invalid port number###28 Jul 2004 new variable
 common#:#err_no_langfile_found#:#未找到语言文件！
@@ -1182,6 +1184,7 @@ common#:#ldap_basedn#:#LDAP BaseDN###28 Jul 2004 new variable
 common#:#ldap_configure#:#Configure LDAP Authentication###28 Jul 2004 new variable
 common#:#ldap_edit_permission#:#更改许可设置
 common#:#ldap_login_key#:#Attribute for login name###07 Aug 2004 new variable
+common#:#ldap_passwd#:#Your current password###10 Aug 2004 new variable
 common#:#ldap_port#:#LDAP Port###28 Jul 2004 new variable
 common#:#ldap_read#:#LDAP设置为读访问
 common#:#ldap_search_base#:#LDAP Search base###28 Jul 2004 new variable
@@ -1653,6 +1656,7 @@ common#:#registered_since#:#注册于
 common#:#registered_user#:#已注册用户
 common#:#registered_users#:#已注册用户
 common#:#registration#:#新账号注册
+common#:#registration_disabled#:#Only available when using local authentication###10 Aug 2004 new variable
 common#:#registration_expired#:#注册时间已过期...
 common#:#remove#:#撤除###25 Mar 2004 content changed
 common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
