@@ -1779,3 +1779,5 @@ search#:#search_one_action#:#Bitte wählen Sie eine Aktion.
 search#:#search_move_to#:#Verschieben nach:
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 common#:#to_client_list#:#Zur Mandantenauswahl
+content#:#cont_select_one_translation_warning#:#Es kann nur maximal eine Übersetzung angezeigt werden.
+content#:#cont_select_one_edition#:#Bitte wählen Sie mindestens eine Auflage aus.
