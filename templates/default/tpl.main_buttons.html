@@ -1,0 +1,133 @@
+<HTML>
+<HEAD>
+  <TITLE>{TXT_PAGETITLE}</TITLE>
+  <LINK REL="shortcut icon" HREF="favicon.ico" TYPE="image/x-icon">
+  <link REL="STYLESHEET" TYPE="text/css" HREF="./css/style.css">
+</HEAD>
+<BODY MARGINWIDTH=0 MARGINHEIGHT=0 TEXT="#000000" LINK="#ff6600" VLINK="#ff6600" LEFTMARGIN=0 RIGHTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0>
+<SCRIPT LANGUAGE="JavaScript" type="text/javascript">
+<!--
+function popup_window(url, x1, x2, y1, y2)
+{
+var xpos;
+xpos = screen.availWidth / 100 * x1;
+ypos = screen.availHeight / 100 * y1;
+xwidth = (screen.availWidth / 100 * (x2 - x1)) - 5;
+yheight = (screen.availHeight / 100 * (y2 - y1)) - 30;
+window.open(url,"list","height=" + yheight + ",width=" + xwidth + ",left=" +xpos + ",ScreenX=" + xpos + ",ScreenY=" + ypos + ",top=" + ypos + ",resizable=yes,menubar=no,status=no,directories=no,toolbar=no,scrollbars=yes");
+return false;
+}
+//-->
+</SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" type="text/javascript">
+<!--
+if (document.images)
+{
+        imag = new Array();
+        imag[0]  = "images/navbar/desk.gif";
+        imag[1]  = "images/navbar/course.gif";
+        imag[2]  = "images/navbar/bookma.gif";
+        imag[3]  = "images/navbar/search.gif";
+        imag[4]  = "images/navbar/literat.gif";
+        imag[5]  = "images/navbar/mail.gif";
+        imag[6]  = "images/navbar/newsgr.gif";
+        imag[7]  = "images/navbar/groups.gif";
+        imag[8]  = "images/navbar/help.gif";
+        imag[9]  = "images/navbar/feedb.gif";
+        imag[10] = "images/navbar/logout.gif";
+        imag[11] = "images/navbar/desk_o.gif";
+        imag[12] = "images/navbar/course_o.gif";
+        imag[13] = "images/navbar/bookma_o.gif";
+        imag[14] = "images/navbar/search_o.gif";
+        imag[15] = "images/navbar/literat_o.gif";
+        imag[16] = "images/navbar/mail_o.gif";
+        imag[17] = "images/navbar/newsgr_o.gif";
+        imag[18] = "images/navbar/groups_o.gif";
+        imag[19] = "images/navbar/help_o.gif";
+        imag[20] = "images/navbar/feedb_o.gif";
+        imag[21] = "images/navbar/logout_o.gif";
+        imag[22] = "images/navbar/login.gif";
+        imag[23] = "images/navbar/login_o.gif";
+        imag[24] = "images/navbar/editor.gif";
+        imag[25] = "images/navbar/editor_o.gif";
+        imag[26] = "images/navbar/admin.gif";
+        imag[27] = "images/navbar/admin_o.gif";
+        im = new Array();
+        for (var i = 0; i < imag.length; i++)
+        {
+                im[i] = new Image();
+                im[i].src = imag[i];
+        }
+        function swtch(num,imgname)
+        {
+                imgname.src = im[num].src;
+        }
+}
+//-->
+</SCRIPT>
+<TABLE WIDTH="100%" CELLPADDING=0 CELLSPACING=0 BORDER=0>
+<TR class="btnbar">
+  <TD WIDTH="1%" HEIGHT=1></TD>
+  <TD WIDTH="59%" HEIGHT=1></TD>
+  <TD WIDTH="39%" HEIGHT=1></TD>
+  <TD WIDTH="1%" HEIGHT=1></TD>
+</TR>
+<TR class="btnbar">
+  <TD><img src="images/layout/spacer.gif" border="0" width="10" height="1"></TD>
+  <TD WIDTH="100%">
+    <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
+    <TR>
+      <TD COLSPAN=6><IMG VSPACE=0 BORDER=0 SRC="images/layout/kopf1h.gif" WIDTH=1 HEIGHT=5></TD>
+    </TR>
+    <TR>
+      <TD><A HREF="usr_personaldesktop.php" target="bottom" onMouseOver="swtch(11,desk);window.status='Personal Desktop';return true;" onMouseOut="swtch(0,desk)"><IMG BORDER=0 SRC="images/navbar/desk.gif" WIDTH=32 HEIGHT=32 ALT="Personal Desktop" name="desk"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="lo.php" target="bottom" onMouseOver="swtch(12,courses);window.status='Courses Overview';return true;" onMouseOut="swtch(1,courses)"><IMG BORDER=0 SRC="images/navbar/course.gif" WIDTH=32 HEIGHT=32 ALT="Courses Overview" TITLE="Courses Overview"  NAME="courses"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="bookmarks.php" target="bottom" onMouseOver="swtch(13,bookmarks);window.status='Bookmarks';return true;" onMouseOut="swtch(2,bookmarks)"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/bookma.gif" WIDTH=32 HEIGHT=32 ALT="Bookmarks" TITLE="Bookmarks"  NAME="bookmarks"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="search.php?act=index_suche&co_id=&co_inst=&lowcat=" target="bottom" onMouseOver="swtch(14,srch);window.status='Search Engine';return true;" onMouseOut="swtch(3,srch)"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/search.gif" WIDTH=32 HEIGHT=32 ALT="Search Engine" TITLE="Search Engine"  NAME="srch"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="literature.php?act=&amp;back=index.php" target="bottom" onMouseOver="swtch(15,literat);window.status='Literature';return true;" onMouseOut="swtch(4,literat)"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/literat.gif" WIDTH=32 HEIGHT=32 ALT="Literature" TITLE="Literature"  NAME="literat"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="mail.php" target="bottom" onMouseOver="swtch(16,mail);window.status='_mails';return true;" onMouseOut="swtch(5,mail)"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/mail.gif" WIDTH=32 HEIGHT=32 ALT="Messages" TITLE="Messages"  NAME="mail"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="forums.php" target="bottom" onMouseOver="swtch(17,newsgr);window.status='_forums';return true;" onMouseOut="swtch(6,newsgr)"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/newsgr.gif" WIDTH=32 HEIGHT=32 ALT="Newsgroups" TITLE="Newsgroups"  NAME="newsgr"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="groups.php" target="bottom" onMouseOver="swtch(18,groups);window.status='_groups';return true;" onMouseOut="swtch(7,groups)"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/groups.gif" WIDTH=32 HEIGHT=32 ALT="Groups" TITLE="Groups"  NAME="groups"></A></TD>
+
+<!-- BEGIN userisauthor -->
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="editor.php" target="bottom" onMouseOver="swtch(25,editor);window.status='Editor';return true;" onMouseOut="swtch(24,editor)"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/editor.gif" WIDTH=32 HEIGHT=32 ALT="Editor" TITLE="Editor"  NAME="editor"></A></TD>
+<!-- END userisauthor -->
+
+<!-- BEGIN userisadmin -->
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="admin.php" target="bottom" onMouseOver="swtch(27,admin);window.status='Administration';return true;" onMouseOut="swtch(26,admin)"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/admin.gif" WIDTH=32 HEIGHT=32 ALT="Administration" TITLE="Administration"  NAME="admin"></A></TD>
+<!-- END userisadmin -->
+    </TR>
+    <TR>
+      <TD COLSPAN=6><IMG VSPACE=0 BORDER=0 SRC="images/layout/kopf1h.gif" WIDTH=1 HEIGHT=5></TD>
+    </TR>
+    </TABLE>
+  </TD>
+  <TD ALIGN="RIGHT">
+    <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
+    <TR>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="help.php" target="bottom" onMouseOver="swtch(19,help);window.status='Help';return true;" onMouseOut="swtch(8,help)" TARGET="_iliashelp"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/help.gif" WIDTH=32 HEIGHT=32 ALT="Help" TITLE="Help"  NAME="help"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="feedback.php" target="bottom" onMouseOver="swtch(20,feed);window.status='Feedback';return true;" onMouseOut="swtch(9,feed)"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/feedb.gif" WIDTH=32 HEIGHT=32 ALT="Feedback" TITLE="Feedback"  NAME="feed"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="logout.php" target="_top" onMouseOver="swtch(21,logout);window.status='Logout';return true;" onMouseOut="swtch(10,logout)"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/logout.gif" WIDTH=32 HEIGHT=32 ALT="Logout" TITLE="Logout"  NAME="logout"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="images/navbar/limiter.gif" WIDTH=5></TD>
+      <TD><A HREF="http://www.ilias.uni-koeln.de" target="_blank" onMouseOver="window.status='ILIAS open source';return true;"><IMG VSPACE=0 BORDER=0 SRC="images/navbar/ilias.gif" WIDTH=32 HEIGHT=32 ALT="ILIAS open source" TITLE="ILIAS open source" ></A></TD>
+      <TD><small>&nbsp;</small></TD>
+    </TR>
+    </TABLE>
+  </TD>
+  <TD class="btnbar"><small>&nbsp;</small></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>
