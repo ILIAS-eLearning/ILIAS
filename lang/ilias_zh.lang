@@ -2052,6 +2052,7 @@ content#:#cont_Remark#:#注释
 content#:#cont_Roman#:#罗马数字 I, II, ...
 content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
 content#:#cont_Unordered#:#未排序的
+content#:#cont_act_number#:#Chapter Numeration###05 Sep 2004 new variable
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#增加区域
 content#:#cont_add_definition#:#增加定义
