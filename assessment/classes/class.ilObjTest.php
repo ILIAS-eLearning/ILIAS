@@ -2348,6 +2348,11 @@ class ilObjTest extends ilObject
 		{
 			$atimeofwork = $max_time / $worked_through_result->numRows();
 		}
+		$result_mark = "";
+		if ($mark_obj)
+		{
+			$result_mark = $mark_obj->get_short_name();
+		}
 		$result_array = array(
 			"qworkedthrough" => $worked_through_result->numRows(),
 			"qmax" => count($this->questions),
@@ -2358,7 +2363,7 @@ class ilObjTest extends ilObject
 			"lastvisit" => $last_date,
 			"resultspoints" => $test_result["test"]["total_reached_points"],
 			"maxpoints" => $test_result["test"]["total_max_points"],
-			"resultsmarks" => $mark_obj->get_short_name(),
+			"resultsmarks" => $result_mark,
 			"distancemedian" => "0"
 		);
 		foreach ($test_result as $key => $value)
@@ -2412,9 +2417,12 @@ class ilObjTest extends ilObject
 			$total = $test_result["test"]["total_max_points"];
 			$percentage = $reached/$total;
 			$mark = $this->mark_schema->get_matching_mark($percentage*100.0);
-			if ($mark->get_passed())
+			if ($mark)
 			{
-				array_push($totalpoints_array, $test_result["test"]["total_reached_points"]);
+				if ($mark->get_passed())
+				{
+					array_push($totalpoints_array, $test_result["test"]["total_reached_points"]);
+				}
 			}
 		}
 		return $totalpoints_array;
@@ -2488,11 +2496,14 @@ class ilObjTest extends ilObject
 			}
 			$mark_obj = $this->mark_schema->get_matching_mark($percentage);
 			$maximum_points = $res["test"]["total_max_points"];
-			if ($mark_obj->get_passed()) {
-				$passed_tests++;
-				array_push($points, $res["test"]["total_reached_points"]);
-			} else {
-				$failed_tests++;
+			if ($mark_obj)
+			{
+				if ($mark_obj->get_passed()) {
+					$passed_tests++;
+					array_push($points, $res["test"]["total_reached_points"]);
+				} else {
+					$failed_tests++;
+				}
 			}
 		}
 		$reached_points = 0;
@@ -3779,6 +3790,11 @@ class ilObjTest extends ilObject
 			{
 				return "F";
 			}
+	}
+	
+	function checkMarks()
+	{
+		return $this->mark_schema->checkMarks();
 	}
 } // END class.ilObjTest
 ?>
