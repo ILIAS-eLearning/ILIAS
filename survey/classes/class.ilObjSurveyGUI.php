@@ -2021,6 +2021,51 @@ class ilObjSurveyGUI extends ilObjectGUI
 	}
 
 /**
+* Remove a survey heading after confirmation
+*
+* Remove a survey heading after confirmation
+*
+* @access public
+*/
+	function confirmRemoveHeadingObject()
+	{
+		$this->object->saveHeading("", $_POST["removeheading"]);
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+/**
+* Cancels the removal of survey headings
+*
+* Cancels the removal of survey headings
+*
+* @access public
+*/
+	function cancelRemoveHeadingObject()
+	{
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+/**
+* Displays a confirmation form to delete a survey heading
+*
+* Displays a confirmation form to delete a survey heading
+*
+* @access public
+*/
+	function confirmRemoveHeadingForm()
+	{
+		sendInfo($this->lng->txt("confirm_remove_heading"));
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_confirm_removeheading.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BTN_CONFIRM_REMOVE", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL_REMOVE", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("REMOVE_HEADING", $_GET["removeheading"]);
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	
+/**
 * Creates the questions form for the survey object
 *
 * Creates the questions form for the survey object
@@ -2154,7 +2199,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if ($_GET["removeheading"])
 		{
-			$this->object->saveHeading("", $_GET["removeheading"]);
+			$this->confirmRemoveHeadingForm();
+			return;
 		}
 		
 		if ($_GET["editblock"])
