@@ -149,14 +149,14 @@ class ilForum
 	{
 		if ($orderField == "")
 		{
-			die($this->className . "::setOrderField(): No orderField given.");			
+			die($this->className . "::setOrderField(): No orderField given.");
 		}
 		else
 		{
 			$this->orderField = $orderField;
 		}
 	}
-	
+
 	/**
 	* get name of orderField
 	* @return	string	name of orderField
@@ -260,18 +260,18 @@ class ilForum
 	function getOneDataset()
 	{	
 		
-		$q = "SELECT * FROM ".$this->dbTable." WHERE ( ".$this->whereCondition." )";		
+		$q = "SELECT * FROM ".$this->dbTable." WHERE ( ".$this->whereCondition." )";
 		
 		if ($this->orderField != "")
-			$q .= " ORDER BY ".$this->orderField;				
-			
+			$q .= " ORDER BY ".$this->orderField;
+
 		$res = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
 
 		$this->setWhereCondition("1");
-		
-		return $res;	
+
+		return $res;
 	}
-	
+
 	/**
 	* get one topic-dataset by WhereCondition
 	* @return	array	$result dataset of the topic
@@ -896,21 +896,23 @@ class ilForum
 	function getPostTree($a_node)
 	{
 	    $subtree = array();
-	
+
 		$query = "SELECT * FROM frm_posts_tree ".
 				 "LEFT JOIN frm_posts ON frm_posts.pos_pk = frm_posts_tree.pos_fk ".
 				 "WHERE frm_posts_tree.lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
 				 "AND thr_fk = '".$a_node["tree"]."'";
-		if ($this->orderField != "")
-			$query .= " ORDER BY ".$this->orderField." DESC";		 
-		
+		if ($this->orderField == "frm_posts_tree.date")
+			$query .= " ORDER BY ".$this->orderField." ASC";
+		else if ($this->orderField != "")
+			$query .= " ORDER BY ".$this->orderField." DESC";
+//echo ":".$this->orderField.":<br>";
 		$res = $this->ilias->db->query($query);
-		
+
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$subtree[] = $this->fetchPostNodeData($row);
 		}
-					
+
 		return $subtree;
 	}
 
