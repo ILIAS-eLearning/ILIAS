@@ -129,7 +129,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setTemplateTargetVar("ADM_CONTENT");
 				$page_gui->setOutputMode("edit");
 				//$page_gui->setLocator($gloss_loc);
-				//$page_gui->setHeader($question->getTitle());
+				$page_gui->setHeader($question->getTitle());
 				//$page_gui->setFileDownloadLink("glossary_presentation.php?cmd=downloadFile".
 				//	"&amp;ref_id=".$_GET["ref_id"]);
 				/*
