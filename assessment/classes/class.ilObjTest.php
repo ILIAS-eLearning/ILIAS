@@ -1009,7 +1009,22 @@ class ilObjTest extends ilObject
 			$result = $this->ilias->db->query($query);
 			$counter++;
 		}
-		
+		$this->remove_all_test_editings();
+		$this->load_questions();
+	}
+
+/**
+* Removes all references to the question in executed tests in case the question has been changed
+*
+* Removes all references to the question in executed tests in case the question has been changed.
+* If a question was changed it cannot be guaranteed that the content and the meaning of the question
+* is the same as before. So we have to delete all already started or completed tests using that question.
+* Therefore we have to delete all references to that question in tst_solutions and the tst_active
+* entries which were created for the user and test in the tst_solutions entry.
+*
+* @access public
+*/
+	function remove_all_test_editings() {
 		// remove test_active entries, because test has changed
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
 			$this->ilias->db->quote($this->get_test_id())
@@ -1021,7 +1036,6 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
-		$this->load_questions();
 	}
 	
 /**

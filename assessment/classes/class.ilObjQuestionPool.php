@@ -268,6 +268,9 @@ class ilObjQuestionPool extends ilObject
         $this->ilias->db->db->quote($question_id)
       );
       $result = $this->ilias->db->db->query($query);
+			$question = new ASS_Question();
+			$question->set_id($question_id);
+			$question->remove_all_question_references();
     } else {
       return;
     }

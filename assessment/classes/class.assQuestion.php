@@ -876,12 +876,39 @@ class ASS_Question extends PEAR {
 * @access public
 */
 	function is_in_use() {
-		$query = sprintf("SELECT COUNT(solution_id) AS solution_count WHERE question_fi = %s",
+		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s",
 			$this->ilias->db->quote("$this->id")
 		);
 		$result = $this->ilias->db->query($query);
 		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->solution_count;
+	}
+	
+/**
+* Removes all references to the question in executed tests in case the question has been changed
+*
+* Removes all references to the question in executed tests in case the question has been changed.
+* If a question was changed it cannot be guaranteed that the content and the meaning of the question
+* is the same as before. So we have to delete all already started or completed tests using that question.
+* Therefore we have to delete all references to that question in tst_solutions and the tst_active
+* entries which were created for the user and test in the tst_solutions entry.
+*
+* @access public
+*/
+	function remove_all_question_references() {
+		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$this->id"));
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			// Mark all tests containing this question as "not started"
+			$querychange = sprintf("DELETE FROM tst_active WHERE user_fi = %s AND test_fi = %s",
+				$this->ilias->db->quote("$result->user_fi"),
+				$this->ilias->db->quote("$result->test_fi")
+			);
+			$changeresult = $this->ilias->db->query($querychange);
+		}
+		// delete all resultsets for this question
+		$querydelete = sprintf("DELETE FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$this->id"));
+		$deleteresult = $this->ilias->db->query($querydelete);
 	}
 }
 
