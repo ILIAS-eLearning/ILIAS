@@ -191,8 +191,8 @@ HTMLArea.Config = function () {
 	// italic: [ "Italic", "ed_format_italic.gif", false, function(e) {e.execCommand("italic");} ],
 
 	this.btnList = {
-		bold: [ "Bold", "&nbsp;<span class=ilc_Strong>B</span>", false, function(e) {e.execCommand("bold");} ],
-		italic: [ "Italic", "&nbsp;<span class=ilc_Emph>I</span>", false, function(e) {e.execCommand("italic");} ],
+		bold: [ "Bold", "<span class=ilc_Strong>B</span>", false, function(e) {e.execCommand("bold");} ],
+		italic: [ "Italic", "<span class=ilc_Emph>I</span>", false, function(e) {e.execCommand("italic");} ],
 		underline: [ "Underline", "ed_format_underline.gif", false, function(e) {e.execCommand("underline");} ],
 		strikethrough: [ "Strikethrough", "ed_com.gif", false, function(e) {e.execCommand("strikethrough");} ],
 		subscript: [ "Subscript", "ed_format_sub.gif", false, function(e) {e.execCommand("subscript");} ],
@@ -561,9 +561,12 @@ HTMLArea.prototype._createToolbar = function () {
 				img.style.width = "18px";
 				img.style.height = "18px";
 			} else {
-				var img = document.createElement("span");
-				
-				img.innerHTML = btn[1];
+				var img = document.createElement("div");
+				H = "<table width=18 height=18 cellspacing=0 cellpadding=0 border=0><tr><td align=center>"+btn[1]+"</td></tr></table>";
+				H += "<div style='position:relative;left:0;top:-18;'>";
+				H += "<div style='z-index:1000;position:absolute;'><img src='./htmlarea/images/blank.gif' width=18 height=18></div>";
+				H += "</div>";
+				img.innerHTML = H;
 			}
 			el.appendChild(img);
 			
