@@ -338,7 +338,10 @@ class ilPageObjectGUI
 			{
 //echo ":".$this->getTemplateTargetVar().":";
 				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "content");
+                
+                
 				$this->tpl->setVariable("TXT_CHANGE_EDIT_MODE", $this->lng->txt("cont_set_edit_mode"));
+                
 				$med_mode = array("enable" => $this->lng->txt("cont_enable_media"),
 					"disable" => $this->lng->txt("cont_disable_media"));
 				$sel_media_mode = ($ilUser->getPref("ilPageEditor_MediaMode") == "disable")
