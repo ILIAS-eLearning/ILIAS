@@ -549,15 +549,15 @@ class ilExplorer
 		// IF ISN'T SET CREATE SESSION VARIABLE
 		if(!is_array($_SESSION["expand"]))
 		{
-			$_SESSION["expand"] = array();
+			$_SESSION["expand"] = array(ROOT_FOLDER_ID);
 		}
 		// IF $_GET["expand"] is positive => expand this node
-		if($a_node_id > 0 && !in_array($a_node_id,$_SESSION["expand"]))
+		if ($a_node_id > 0 && !in_array($a_node_id,$_SESSION["expand"]))
 		{
 			array_push($_SESSION["expand"],$a_node_id);
 		}
 		// IF $_GET["expand"] is negative => compress this node
-		if($a_node_id < 0)
+		if ($a_node_id < 0)
 		{
 			$key = array_keys($_SESSION["expand"],-(int) $a_node_id);
 			unset($_SESSION["expand"][$key[0]]);
