@@ -146,7 +146,7 @@ class ILIAS extends PEAR
 			header("Location: ./setup.php?error=".$this->ini->ERROR);
 			exit();
 		}
-
+		
 		// set constants
 		define ("DEBUG",$this->ini->readVariable("system","DEBUG"));
 		define ("ROOT_FOLDER_ID",$this->ini->readVariable('system','ROOT_FOLDER_ID'));
@@ -155,6 +155,9 @@ class ILIAS extends PEAR
 
 		define ("MAXLENGTH_OBJ_TITLE",$this->ini->readVariable('system','MAXLENGTH_OBJ_TITLE'));		
 		define ("MAXLENGTH_OBJ_DESC",$this->ini->readVariable('system','MAXLENGTH_OBJ_DESC'));
+
+		define ("ILIAS_HTTP_PATH",$this->ini->readVariable('server','http_path'));
+		define ("ILIAS_ABSOLUTE_PATH",$this->ini->readVariable('server','absolute_path'));
 
 		// build dsn of database connection and connect
 		$this->dsn = $this->ini->readVariable("db","type").
