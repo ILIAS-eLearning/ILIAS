@@ -460,7 +460,7 @@ common#:#cat_visible#:#Vedere una categoria
 common#:#cat_write#:#Modifica categoria
 common#:#categories#:#Categorie
 common#:#categories_imported#:#Imporazione categorie completata.
-common#:#cc#:#cc
+common#:#cc#:#CC
 common#:#cen#:#Evento principale
 common#:#cen_add#:#Aggiungi l'evento principale
 common#:#cen_added#:#Aggiunto l'evento principale
@@ -770,8 +770,8 @@ common#:#group_create_chat#:#Crea una chat
 common#:#group_desc#:#Descrizione del gruppo
 common#:#group_details#:#Dettagli gruppo
 common#:#group_filesharing#:#Condivisione file al gruppo
-common#:#group_import#:#Group import###20 Apr 2004 new variable
-common#:#group_import_file#:#Import file###20 Apr 2004 new variable
+common#:#group_import#:#Importa gruppo
+common#:#group_import_file#:#Importa file
 common#:#group_members#:#Membri del gruppo
 common#:#group_memstat#:#Stato del membro
 common#:#group_memstat_admin#:#Amministratore
@@ -1774,7 +1774,7 @@ content#:#cont_new_file#:#Nuovo file
 content#:#cont_new_media_obj#:#Nuovo oggetto multimediale
 content#:#cont_new_term#:#Nuovo termine
 content#:#cont_no_assign_itself#:#L&#039;oggetto non pu&#242; essere assegnato a s&eacute; stesso
-content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.###20 Apr 2004 new variable
+content#:#cont_no_manifest#:#Non &#232; stato trovato il file manifest nella cartella principale.
 content#:#cont_no_object_found#:#Non &#232; stato trovato nessun oggetto con questo titolo
 content#:#cont_no_page#:#Nessuna pagina trovata.
 content#:#cont_none#:#Nessuno
@@ -1860,7 +1860,7 @@ content#:#cont_upload_file#:#Upload del file
 content#:#cont_url#:#URL
 content#:#cont_users_have_mob_in_clip1#:#Questo oggetto &#232; negli appunti di
 content#:#cont_users_have_mob_in_clip2#:#utente(i).
-content#:#cont_validate_file#:#Validate File###20 Apr 2004 new variable
+content#:#cont_validate_file#:#Valida file
 content#:#cont_version#:#Versione
 content#:#cont_view_last_export_log#:#Ultimo Log di Export
 content#:#cont_where_published#:#Dove pubblicata
@@ -1921,12 +1921,12 @@ dateplaner#:#app_freetime#:#Tempo libero dei membri degli altri gruppi
 dateplaner#:#app_inbox#:#Appuntamenti dei gruppi in ingresso
 dateplaner#:#app_list#:#Lista appuntamenti
 dateplaner#:#app_month#:#Vista mensile
-dateplaner#:#app_properties#:#propriet&#224;
+dateplaner#:#app_properties#:#Propriet&#224;
 dateplaner#:#app_week#:#Vista settimanale
 dateplaner#:#application#:#Agenda
 dateplaner#:#apply#:#Salva
 dateplaner#:#back#:#Indietro
-dateplaner#:#begin_date#:#Inizio appuntamento
+dateplaner#:#begin_date#:#Inizio appuntamento:
 dateplaner#:#busytime#:#Tempo occupato del gruppo
 dateplaner#:#c_date#:#Crea appuntamento
 dateplaner#:#changeTo#:#Modifica a:
@@ -1946,10 +1946,10 @@ dateplaner#:#dv_button_cancel#:#Annulla
 dateplaner#:#dv_button_delete#:#Elimina
 dateplaner#:#dv_button_insert#:#Inserisci
 dateplaner#:#dv_button_update#:#Modifica
-dateplaner#:#dv_date_begin#:#Inizio appuntamento
-dateplaner#:#dv_date_end#:#Fine appuntamento
+dateplaner#:#dv_date_begin#:#Inizio appuntamento:
+dateplaner#:#dv_date_end#:#Fine appuntamento:
 dateplaner#:#dv_date_hm#:#Ore:Minuti
-dateplaner#:#dv_enddate#:#Fine appuntamento
+dateplaner#:#dv_enddate#:#Fine appuntamento:
 dateplaner#:#dv_groupselect#:#Gruppi scelti:
 dateplaner#:#dv_groupview#:#Appuntamenti gruppo:
 dateplaner#:#dv_groupview_text#:#Gruppi:<br>
@@ -1977,9 +1977,9 @@ dateplaner#:#freetime#:#tempo libero del gruppo
 dateplaner#:#group#:#Gruppo
 dateplaner#:#help_day#:#Vista giornaliera dell'agenda
 dateplaner#:#help_day_l#:#In una vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.
-dateplaner#:#help_enddate#:#Appuntamento finale - sintassi[dd//mm/yyyy]
+dateplaner#:#help_enddate#:#Fine appuntamento - sintassi[dd/mm/yyyy]
 dateplaner#:#help_enddate_l#:#Contiene la scadenza dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
-dateplaner#:#help_endrotation#:#Data finale sintassi[dd//mm/yyyy]
+dateplaner#:#help_endrotation#:#Data finale sintassi[dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminerà .<br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
 dateplaner#:#help_endtime#:#Ora finale - sintassi[hh/mm] 24h format
 dateplaner#:#help_endtime_l#:#Contiene l'ora finale dell'appuntamento nel formato 24h.
@@ -2012,7 +2012,7 @@ dateplaner#:#help_rotation#:#Ripetizione
 dateplaner#:#help_rotation_l#:#Contiene il tipo di rotazione/ripetizione.
 dateplaner#:#help_shorttext#:#Test breve con max. 50 caratteri
 dateplaner#:#help_shorttext_l#:#Qui puoi inserire il testo breve per un appuntamento specifico.
-dateplaner#:#help_startdate#:#Data di inizio - sintassi[dd//mm/yyyy]
+dateplaner#:#help_startdate#:#Inizio appuntamento - sintassi[dd/mm/yyyy]
 dateplaner#:#help_startdate_l#:#Contiene l'inizio dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data appropriata.
 dateplaner#:#help_starttime#:#Ora di inizio - sintassi[hh/mm] formato 24h
 dateplaner#:#help_starttime_l#:#Contiene l'inizio dell'appuntamento usando il formato 24h.
@@ -2125,7 +2125,7 @@ forum#:#forums_posts_not_available#:#Articoli non disponibili
 forum#:#forums_print_thread#:#Stampa questo tema
 forum#:#forums_quote#:#Citazione
 forum#:#forums_respond#:#Rispondi ad un articolo
-forum#:#forums_subject#:#Subject###20 Apr 2004 new variable
+forum#:#forums_subject#:#Argomento
 forum#:#forums_the_post#:#Articolo
 forum#:#forums_thread#:#Tema
 forum#:#forums_thread_articles#:#Articoli del tema
@@ -2147,11 +2147,11 @@ mail#:#mail_add_to_addressbook#:#Aggiungi alla rubrica
 mail#:#mail_add_type#:#Per favore, specifica il tipo di mail che vuoi inviare
 mail#:#mail_addr_entries#:#Indirizzi
 mail#:#mail_attachments#:#Attachment
-mail#:#mail_bc_not_valid#:#Il campo Bc non &#232; valido
-mail#:#mail_bc_search#:#Cerca Bc
+mail#:#mail_bc_not_valid#:#Il campo BC non &#232; valido
+mail#:#mail_bc_search#:#Cerca in BC
 mail#:#mail_byte#:#Byte
-mail#:#mail_cc_not_valid#:#Il campo Cc non &#232; valido
-mail#:#mail_cc_search#:#Cerca Cc
+mail#:#mail_cc_not_valid#:#Il campo CC non &#232; valido
+mail#:#mail_cc_search#:#Cerca in CC
 mail#:#mail_change_to_folder#:#Spostare nella cartella:
 mail#:#mail_check_your_email_addr#:#Il tuo indirizzo di email non &#232; valido
 mail#:#mail_compose#:#Scrivi Messaggio
@@ -2206,8 +2206,8 @@ mail#:#mail_sure_delete_file#:#Sei sicuro di voler cancellare il file selezionat
 mail#:#mail_sure_delete_folder#:#Sei sicuro di voler cancellare la cartella selezionata
 mail#:#mail_to_search#:#Cerca in
 mail#:#mail_user_addr_n_valid#:#I seguenti utenti non hanno un indirizzo di email valido
-mail#:#search_bc_recipient#:#Cerca destinatario BC
-mail#:#search_cc_recipient#:#Cerca destinatario CC
+mail#:#search_bc_recipient#:#Cerca destinatario in BC
+mail#:#search_cc_recipient#:#Cerca destinatario in CC
 meta#:#meta_accessibility_restrictions#:#Restrizioni nell&#039;accesso
 meta#:#meta_active#:#Attivo
 meta#:#meta_add#:#Aggiungi
