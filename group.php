@@ -120,7 +120,17 @@ switch ($obj->getType())
 			require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 			$obj = new $class_constr($data, $id, $call_by_reference,false);
 			$method= $cmd."Object";
+			$obj->setReturnLocation("cancel","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 			$obj->setReturnLocation("save","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("cut","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("clear","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("copy","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("link","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("paste","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("cancelDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("confirmedDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("removeFromSystem","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("undelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 			$obj->$method();
 		}
 }

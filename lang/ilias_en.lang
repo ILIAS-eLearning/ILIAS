@@ -202,6 +202,10 @@ common#:#faq_exercise#:#FAQ Exercise
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Feedback Recipient
 common#:#file#:#File
+common#:#file_a#:#a File
+common#:#file_added#:#File uploaded
+common#:#file_add#:#Upload File
+common#:#file_new#:#New File
 common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
 common#:#file_valid#:#File is valid!
@@ -211,9 +215,17 @@ common#:#fill_out_all_required_fields#:#Please fill out all required fields
 common#:#firstname#:#Firstname
 common#:#flatview#:#Flat View
 common#:#fold#:#Folder
-common#:#folder#:#Folder
-common#:#folder_added#:#Folder added
+common#:#fold_a#:#a Folder
+common#:#fold_added#:#Folder added
+common#:#fold_add#:#Add Folder
+common#:#fold_new#:#New Folder
 common#:#folders#:#Folders
+common#:#obj_lngf_desc#:#Manage your system languages here.
+common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
+common#:#obj_usrf_desc#:#Manage user accounts here.
+common#:#obj_rolf_desc#:#Manage your roles here.
+common#:#obj_mail_desc#:#Configure global mail settings here.
+common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
@@ -233,6 +245,7 @@ common#:#gdf_new#:#New Definition
 common#:#gender#:#Gender
 common#:#generate#:#Generate
 common#:#glo#:#Glossary
+common#:#glo_a#:#a Glossary
 common#:#glo_add#:#Add Glossary
 common#:#glo_added#:#Added glossary
 common#:#glo_new#:#New Glossary
@@ -524,17 +537,17 @@ common#:#obj_grp#:#Group
 common#:#obj_le#:#Learning Module
 common#:#obj_lm#:#Learning Module
 common#:#obj_lng#:#Language
-common#:#obj_lngf#:#Language Administration
+common#:#obj_lngf#:#Languages
 common#:#obj_lo#:#LearningObject
 common#:#obj_mail#:#Mail Settings
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_note#:#Note
 common#:#obj_notf#:#Note Administration
-common#:#obj_objf#:#Object Administration
+common#:#obj_objf#:#Objectdefinitions
 common#:#obj_owner#:#This Object is owned by
 common#:#obj_pg#:#Page
 common#:#obj_role#:#Role
-common#:#obj_rolf#:#Role Administration
+common#:#obj_rolf#:#Roles
 common#:#obj_rolf_local#:#Local Roles
 common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
@@ -545,7 +558,7 @@ common#:#obj_typ#:#Objecttype Definition
 common#:#obj_type#:#Object Type
 common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
-common#:#obj_usrf#:#User Administration
+common#:#obj_usrf#:#User accounts
 common#:#objects#:#Objects
 common#:#objf#:#Object Folder
 common#:#of#:#Of

@@ -37,6 +37,11 @@ require_once "class.ilGroupTree.php";
 
 class ilObjFile extends ilObject
 {
+	var $filename;
+	var $filetype;
+	var $filepath;
+	var $filemaxsize = "20000000";	// not used yet
+	
 	/**
 	* Constructor
 	* @access	public

@@ -202,17 +202,29 @@ common#:#faq_exercise#:#FAQ/übungskapitel
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
+common#:#file_a#:#eine Datei
+common#:#file_added#:#Datei hochgeladen
+common#:#file_add#:#Datei hochladen
+common#:#file_new#:#Neue Datei
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
 common#:#files_location#:#Dateiort
+common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
+common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
+common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
+common#:#obj_rolf_desc#:#Rollenverwaltung
+common#:#obj_mail_desc#:#Globale Mailkonfiguration
+common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#firstname#:#Vorname
 common#:#flatview#:#Flache Ansicht
 common#:#fold#:#Ordner
-common#:#folder#:#Ordner
-common#:#folder_added#:#Ordner angelegt
+common#:#fold_a#:#ein Ordner
+common#:#fold_added#:#Ordner angelegt
+common#:#fold_add#:#Ordner anlegen
+common#:#fold_new#:#Neuer Ordner
 common#:#folders#:#Ordner
 common#:#forename#:#Vorname
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
@@ -233,15 +245,16 @@ common#:#gdf_new#:#New Definition###22 Sep 2003 new variable
 common#:#gender#:#Geschlecht
 common#:#generate#:#generieren
 common#:#glo#:#Glossar
+common#:#glo_a#:#ein Glossar
 common#:#glo_add#:#Add Glossary###22 Sep 2003 new variable
 common#:#glo_added#:#Glossar hinzugefügt
 common#:#glo_new#:#New Glossary###22 Sep 2003 new variable
 common#:#glossary#:#Glossar
 common#:#glossary_added#:#Glossar hinzugefügt
 common#:#group_any_objects#:#Keine Unterobjekte vorhanden###09 Sep 2003 content changed
-common#:#group_details#:#Gruppen-Details
+common#:#group_details#:#Gruppendetails
 common#:#group_filesharing#:#Gruppen-Filesharing
-common#:#group_members#:#Gruppen-Mitglieder
+common#:#group_members#:#Gruppenmitglieder
 common#:#group_name#:#Gruppenname
 common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppen Objekte###09 Sep 2003 new variable
@@ -514,7 +527,7 @@ common#:#normal#:#Normal
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
 common#:#obj#:#Objekt
-common#:#obj_adm#:#Systemverwaltung
+common#:#obj_adm#:#Systemeinstellungen
 common#:#obj_cat#:#Kategorie
 common#:#obj_crs#:#Kurs
 common#:#obj_file#:#Datei
@@ -524,17 +537,17 @@ common#:#obj_grp#:#Gruppe
 common#:#obj_le#:#Lernmodul
 common#:#obj_lm#:#Lernmodul
 common#:#obj_lng#:#Sprache
-common#:#obj_lngf#:#Sprachenverwaltung
+common#:#obj_lngf#:#Sprachen
 common#:#obj_lo#:#Lernobjekt
 common#:#obj_mail#:#Maileinstellungen
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
-common#:#obj_notf#:#Notizenverwaltung
-common#:#obj_objf#:#Objektverwaltung
+common#:#obj_notf#:#Notizen
+common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pg#:#Seite
 common#:#obj_role#:#Rolle
-common#:#obj_rolf#:#Rollenverwaltung
+common#:#obj_rolf#:#Rollen
 common#:#obj_rolf_local#:#Lokale Rollen
 common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
@@ -545,7 +558,7 @@ common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
 common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
-common#:#obj_usrf#:#Benutzerverwaltung
+common#:#obj_usrf#:#Benutzerkonten
 common#:#objects#:#Objekte
 common#:#objf#:#Objektordner
 common#:#of#:#von
