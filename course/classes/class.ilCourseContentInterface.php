@@ -105,7 +105,7 @@ class ilCourseContentInterface
 		
 		// NO ITEMS FOUND
 		if(!count($items))
-		{
+		{	
 			sendInfo($this->lng->txt("crs_no_items_found"));
 
 			return true;

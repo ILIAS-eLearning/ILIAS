@@ -4519,3 +4519,36 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
+crs#:#crs_objectives#:#Lernziele
+crs#:#crs_add_objective#:#Lernziel hinzufügen
+crs#:#crs_no_objectives_created#:#Diesem Kurs sind keine Lernziele zugeordnet.
+crs#:#crs_lm_assignment#:#Lernmaterialien-Zuordnung
+crs#:#crs_question_assignment#:#Fragen-Zuordnung
+crs#:#crs_no_objective_selected#:#Bitte wählen Sie mindestens ein Lernziel aus.
+crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, daß die ausgewählten Lernziele entfernt werden sollen?
+crs#:#crs_objectives_deleted#:#Die Lernziele wurden entfernt.
+crs#:#crs_objectives_assigned_lms#:#Zugeordnete Lernmaterialien
+crs#:#crs_objective_delete_lm_assignment#:#Zuordung entfernen
+crs#:#crs_objective_assign_lm#:#Lernmaterial zuorden
+crs#:#crs_lm_no_assignments_selected#:#Bitte wählen Sie mindestens eine Zuordnung aus.
+crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, daß diese Zuordnung entfernt werden soll?
+crs#:#crs_lm_deassign#:#Zuornung entfernen
+crs#:#crs_lm_assignment_deleted#:#Die Zuordnung wurde entfernt.
+crs#:#crs_objective_assign_chapter#:#Kapitel zuordnen
+crs#:#crs_objectives_lm_assignment#:#Zuordnen von Lernmaterialien
+crs#:#crs_no_lm_selected#:#Bitte wählen Sie mindestens eine Lerneinheit aus.
+crs#:#crs_objectives_assigned_lm#:#Die ausgewählten Lernmaterialien wurden zugeordnet.
+crs#:#crs_select_exactly_one_lm#:#Bitte wählen Sie genau eine Lerneinheit aus.
+crs#:#crs_select_native_lm#:#Einzelne Kapitel können nur aus ILIAS-Lerneinheiten zugeordnet werden.
+crs#:#crs_objectives_chapter_assignment#:#Kapitel-Zuordnung
+crs#:#crs_objectives_assign_chapter#:#Kapitel zuordnen
+crs#:#crs_no_chapter_selected#:#Bitte wählen Sie mindestens ein Kapitel aus.
+crs#:#crs_chapter_already_assigned#:#Diese(s) Kapitel wurde(n) bereits zugeordnet.
+crs#:#crs_added_objective#:#Eine neues Lernziel wurde hinzugefügt.
+crs#:#crs_no_lms_assigned#:#Diesem Lernziel sind keine Lernmaterialien zugeordnet.
+crs#:#crs_lms_already_assigned#:#Diese Lernmaterialien wurde bereits zugeordnet.
+crs#:#crs_update_objective#:#Lernziel bearbeiten
+common#:#update#:#Übernehmen
+crs#:#crs_objective_modified#:#Die Änderungen wurden übernommen.
+crs#:#crs_objective_no_title_given#:#Bitte geben Sie einen Titel ein.
+crs#:#crs_moved_objective#:#Das Lernziel wurde verschoben.

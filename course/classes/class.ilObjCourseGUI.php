@@ -28,7 +28,7 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 *
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -36,6 +36,7 @@
 
 require_once "./classes/class.ilObjectGUI.php";
 require_once "./course/classes/class.ilCourseRegisterGUI.php";
+
 
 class ilObjCourseGUI extends ilObjectGUI
 {
@@ -1900,6 +1901,11 @@ class ilObjCourseGUI extends ilObjectGUI
 			$tabs_gui->addTarget("crs_archives",
 								 $this->ctrl->getLinkTarget($this, "archive"), "archive", get_class($this));
 		}
+		if($rbacsystem->checkAccess('write',$this->ref_id))
+		{
+			$tabs_gui->addTarget("crs_objectives",
+								 $this->ctrl->getLinkTarget($this, "listObjectives"), "objectives", get_class($this));
+		}
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
 		{
 			$tabs_gui->addTarget("perm_settings",
@@ -1917,7 +1923,6 @@ class ilObjCourseGUI extends ilObjectGUI
 									 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
 			}
 		}
-
 		if($rbacsystem->checkAccess('leave',$this->ref_id) and 
 		   $this->object->members_obj->isMember($this->ilias->account->getId()))
 		{
@@ -2908,12 +2913,29 @@ class ilObjCourseGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
 				break;
 
+			case "ilcourseobjectivesgui":
+				include_once './course/classes/class.ilCourseObjectivesGUI.php';
+
+				$this->ctrl->setReturn($this,"");
+				$reg_gui =& new ilCourseObjectivesGUI($this->object->getRefId());
+				$ret =& $this->ctrl->forwardCommand($reg_gui);
+				break;
+
 			default:
 				if(!$rbacsystem->checkAccess("read",$this->object->getRefId()))
 				{
 					$this->ctrl->setReturn($this,"");
 					$reg_gui =& new ilCourseRegisterGUI($this->object->getRefId());
 					$ret =& $this->ctrl->forwardCommand($reg_gui);
+					break;
+				}
+				elseif($cmd == 'listObjectives')
+				{
+					include_once './course/classes/class.ilCourseObjectivesGUI.php';
+
+					$this->ctrl->setReturn($this,"");
+					$obj_gui =& new ilCourseObjectivesGUI($this->object->getRefId());
+					$ret =& $this->ctrl->forwardCommand($obj_gui);
 					break;
 				}
 				if(!$cmd)

@@ -4520,3 +4520,36 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
+crs#:#crs_objectives#:#Learning objectives
+crs#:#crs_add_objective#:#Add objective
+crs#:#crs_no_objectives_created#:#There are no objectives assigned.
+crs#:#crs_lm_assignment#:#Learning material assignment
+crs#:#crs_question_assignment#:#Question assignment
+crs#:#crs_no_objective_selected#:#Please select one objective.
+crs#:#crs_delete_objectve_sure#:#Are you sure, you want to delete the selected objectives?
+crs#:#crs_objectives_deleted#:#Delete learning objectives
+crs#:#crs_objectives_assigned_lms#:#Assigned learning materials
+crs#:#crs_objective_delete_lm_assignment#:#Delete assignment
+crs#:#crs_objective_assign_lm#:#Assign learning material
+crs#:#crs_lm_no_assignments_selected#:#Please select one assignment.
+crs#:#crs_deassign_lm_sure#:#Are you sure you want to delete this assignment?
+crs#:#crs_lm_deassign#:#Delete assignment.
+crs#:#crs_lm_assignment_deleted#:#Deleted assignment.
+crs#:#crs_objective_assign_chapter#:#Assign chapters
+crs#:#crs_objectives_lm_assignment#:#Learning material assignment
+crs#:#crs_no_lm_selected#:#Please select one learning material.
+crs#:#crs_objectives_assigned_lm#:#The selected learning materials have been assigned.
+crs#:#crs_select_exactly_one_lm#:#Please select exactly one learning module.
+crs#:#crs_select_native_lm#:#Single chapters can only be assigned to native ILIAS learning modules.
+crs#:#crs_objectives_chapter_assignment#:#Chapter assignment
+crs#:#crs_objectives_assign_chapter#:#Assign chapter
+crs#:#crs_no_chapter_selected#:#Please select a chapter.
+crs#:#crs_chapter_already_assigned#:#These chapters are already assigned.
+crs#:#crs_added_objective#:#A new learning objective has been created.
+crs#:#crs_no_lms_assigned#:#There are no learning materials assigned.
+crs#:#crs_lms_already_assigned#:#These learning materials were already assigned.
+crs#:#crs_update_objective#:#Edit learning objective
+common#:#update#:#Edit
+crs#:#crs_objective_modified#:#Updated learning objective.
+crs#:#crs_objective_no_title_given#:#Please enter a title.
+crs#:#crs_moved_objective#:#Moved learing objective.

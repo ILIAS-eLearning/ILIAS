@@ -120,6 +120,14 @@ table.fullwidth {
 	border-width:0px;
 }
 
+table.halfwidth {
+	color:#222222;
+	background-color:#bbbbbb;
+	width:50%;
+	border-spacing:1px;
+	border-width:0px;
+}
+
 table.ilPDSelectedItemBlock {
 	color:#222222;
 	background-color:#bbbbbb;
