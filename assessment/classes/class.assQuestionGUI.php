@@ -308,6 +308,14 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 			$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
 			$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
+			if ($this->question->get_shuffle())
+			{
+				$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
+			}
+				else
+			{
+				$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
+			}
       $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
       $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
       $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
@@ -371,6 +379,14 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 			$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
 			$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
+			if ($this->question->get_shuffle())
+			{
+				$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
+			}
+				else
+			{
+				$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
+			}
       $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
       $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
       $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
@@ -477,6 +493,14 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("TEXT_TEXT_GAP", $this->lng->txt("text_gap"));
     $this->tpl->setVariable("TEXT_SELECT_GAP", $this->lng->txt("select_gap"));
 		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
+		if ($this->question->get_shuffle())
+		{
+			$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
+		}
+			else
+		{
+			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
+		}
 		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
 		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
     $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
@@ -579,6 +603,14 @@ class ASS_QuestionGUI extends PEAR {
 		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
 		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
+		if ($this->question->get_shuffle())
+		{
+			$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
+		}
+			else
+		{
+			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
+		}
     $this->tpl->setVariable("ORDERING_ID", $this->question->get_id());
     $this->tpl->setVariable("VALUE_ORDERING_TITLE", $this->question->get_title());
     $this->tpl->setVariable("VALUE_ORDERING_COMMENT", $this->question->get_comment());
@@ -691,6 +723,14 @@ class ASS_QuestionGUI extends PEAR {
 		$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 		$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
 		$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
+		if ($this->question->get_shuffle())
+		{
+			$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
+		}
+			else
+		{
+			$this->tpl->setVariable("SELECTED_NO", " selected=\"selected\"");
+		}
     $this->tpl->setVariable("MATCHING_ID", $this->question->get_id());
     $this->tpl->setVariable("VALUE_MATCHING_TITLE", $this->question->get_title());
     $this->tpl->setVariable("VALUE_MATCHING_COMMENT", $this->question->get_comment());
@@ -877,6 +917,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
+		$this->question->set_shuffle($_POST["shuffle"]);
     // adding materials uris
     $this->set_question_data_from_other_template();
 
@@ -1000,6 +1041,7 @@ class ASS_QuestionGUI extends PEAR {
 			$_POST["cmd"]["add"] = "";
 		}
 
+		$this->question->set_shuffle($_POST["shuffle"]);
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
@@ -1010,7 +1052,7 @@ class ASS_QuestionGUI extends PEAR {
 		$this->question->set_start_tag($start_tag);
 		$this->question->set_end_tag($end_tag);
     // adding materials uris
-    $saved = $saved | $this->set_question_material_from_material_template();
+    $saved = $saved | $this->set_question_data_from_other_template();
 
     if (strlen($_POST["creategaps"]) == 0) {
       // Create gaps wasn't activated => check gaps for changes and/or deletions
@@ -1151,6 +1193,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
+		$this->question->set_shuffle($_POST["shuffle"]);
     // adding estimated working time and materials uris
     $saved = $saved | $this->set_question_data_from_other_template();
 		$this->question->set_matching_type($_POST["matching_type"]);
@@ -1246,6 +1289,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
+		$this->question->set_shuffle($_POST["shuffle"]);
     // adding estimated working time and materials uris
     $saved = $saved | $this->set_question_data_from_other_template();
     $this->question->set_ordering_type($_POST["ordering_type"]);
@@ -1307,6 +1351,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
+		$this->question->set_shuffle($_POST["shuffle"]);
 
 		if ($_POST["id"] > 0) {
 			// adding estimated working time and materials uris

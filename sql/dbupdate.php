@@ -2260,3 +2260,5 @@ $this->db->query($query);
 ?>
 <#150>
 ALTER  TABLE  `qpl_questions`  ADD  `working_time` TIME DEFAULT  '00:00:00' NOT  NULL  AFTER  `question_text` ;
+<#151>
+ALTER  TABLE  `qpl_questions`  ADD  `shuffle` ENUM(  '0',  '1'  ) DEFAULT  '1' NOT  NULL  AFTER  `working_time` ;
