@@ -367,7 +367,7 @@ class ilSearchGUI
 		$tbl->setLimit(RESULT_LIMIT);
 		$tbl->setOffset($this->offset);
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-#		$this->tpl->setVariable(strtoupper($a_type),$tbl->render());
+		#$this->tpl->setVariable(strtoupper($a_type),$tbl->render());
 
 		$tbl->render();
 		unset($tbl);
@@ -496,6 +496,7 @@ class ilSearchGUI
 		{
 			if(!ilObjectFactory::ObjectIdExists($user["id"]))
 			{
+				++$counter;
 				continue;
 			}
 			$tmp_obj = ilObjectFactory::getInstanceByObjId($user["id"]);
@@ -527,6 +528,7 @@ class ilSearchGUI
 		{
 			if(!$this->tree->isInTree($group["id"]))
 			{
+				++$counter;
 				continue;
 			}
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($group["id"]);
@@ -557,6 +559,7 @@ class ilSearchGUI
 		{
 			if(!$this->tree->isInTree($book["id"]))
 			{
+				++$counter;
 				continue;
 			}
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($book["id"]);
@@ -614,6 +617,7 @@ class ilSearchGUI
 		{
 			if(!$this->tree->isInTree($book["id"]))
 			{
+				++$counter;
 				continue;
 			}
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($book["id"]);
