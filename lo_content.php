@@ -102,7 +102,7 @@ switch ($_SESSION["viewmode"])
 				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");
-				$tpl->setVariable("LAST_CHANGE", Format::formatDate($lr_data["last_update"]));
+				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
 				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["ref_id"]));
 				
 				$tpl->parseCurrentBlock("learningstuff_row");
@@ -177,7 +177,7 @@ switch ($_SESSION["viewmode"])
 				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
 				$tpl->setVariable("STATUS", "N/A");
 				$tpl->setVariable("LAST_VISIT", "N/A");
-				$tpl->setVariable("LAST_CHANGE", Format::formatDate($lr_data["last_update"]));
+				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
 				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["ref_id"]));
 				
 				$tpl->parseCurrentBlock("learningstuff_row");

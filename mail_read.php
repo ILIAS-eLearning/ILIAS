@@ -107,7 +107,7 @@ $tpl->setVariable("CSSROW_SUBJ",(++$counter)%2 ? 'tblrow1' : 'tblrow2');
 
 // DATE
 $tpl->setVariable("TXT_DATE", $lng->txt("date"));
-$tpl->setVariable("DATE", Format::formatDate($mail_data["send_time"]));
+$tpl->setVariable("DATE", ilFormat::formatDate($mail_data["send_time"]));
 $tpl->setVariable("CSSROW_DATE",(++$counter)%2 ? 'tblrow1' : 'tblrow2');
 
 // ATTACHMENTS

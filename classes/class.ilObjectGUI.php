@@ -1507,7 +1507,7 @@ class ilObjectGUI
 				"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_".$val["type"]."_b.gif\" border=\"0\">",
 				"title" => $val["title"],
 				"description" => $val["desc"],
-				"last_change" => Format::formatDate($val["last_update"])
+				"last_change" => ilFormat::formatDate($val["last_update"])
 			);
 			//control information
 			$this->data["ctrl"][] = array(

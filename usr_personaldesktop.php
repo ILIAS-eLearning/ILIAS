@@ -42,6 +42,12 @@ $tpl->setVariable("BTN_LINK","usr_agreement.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
 $tpl->parseCurrentBlock();
 
+/*
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","bookmarks.php");
+$tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
+$tpl->parseCurrentBlock();*/
+
 $tpl->touchBlock("btn_row");
 
 $tpl->setCurrentBlock("content");
@@ -91,7 +97,7 @@ if(count($smails))
 		$tpl->setVariable("MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
 		$tpl->setVariable("MAIL_FROM", $user->getFullname());
 		$tpl->setVariable("MAIL_SUBJ", $mail["m_subject"]);
-		$tpl->setVariable("MAIL_DATE", Format::formatDate($mail["send_time"]));
+		$tpl->setVariable("MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
 		$target_name = htmlentities(urlencode("mail_read.php?mobj_id=".$inbox."&mail_id=".$mail["mail_id"]));
 		$tpl->setVariable("MAIL_LINK_READ", "mail_frameset.php?target=".$target_name);
 		$tpl->parseCurrentBlock();
@@ -114,7 +120,7 @@ if (count($lessonsLastVisited)>0)
                 $i++;
                 $tpl->setCurrentBlock("tbl_lo_row");
                 $tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-                $tpl->setVAriable("LO_TIME", Format::formatDate($row["datetime"],"date"));
+                $tpl->setVAriable("LO_TIME", ilFormat::formatDate($row["datetime"],"date"));
                 $tpl->setVAriable("LO_LINK_LO", "lo.php?id=".$row["child"]);
                 $tpl->setVAriable("LO_LINK_LO_PAGE", "lo.php?id=".$row["child"]."&amp;page=".$row["pageid"]);
                 $tpl->setVAriable("LO_TITLE", $row["title"]);
@@ -167,7 +173,7 @@ if ($frmNum > 0)
 		unset($topicData);
 		
 		// get forum data
-		$frm->setWhereCondition("top_frm_fk = ".$frm_data["obj_id"]);			
+		$frm->setWhereCondition("top_frm_fk = ".$frm_data["obj_id"]);
 		$topicData = $frm->getOneTopic();		
 		
 		$lastPost = "";
