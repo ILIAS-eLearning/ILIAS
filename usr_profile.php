@@ -81,11 +81,8 @@ function upload_file()
 // End of function upload file
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
-
-// display infopanel if something happened
-infoPanel();
-
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+//$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 // set locator 
 $tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
@@ -100,40 +97,13 @@ $tpl->setVariable("ITEM", $lng->txt("personal_profile"));
 $tpl->setVariable("LINK_ITEM", "usr_profile.php");
 $tpl->parseCurrentBlock();
 
-//add template for buttons
-$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+// catch feedback message
+sendInfo();
+// display infopanel if something happened
+infoPanel();
 
-// display buttons
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","usr_profile.php");
-$tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));
-$tpl->parseCurrentBlock();
-
-if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-{
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","usr_password.php");
-	$tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","usr_agreement.php");
-	$tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","usr_bookmarks.php?cmd=frameset");
-	$tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
-	$tpl->parseCurrentBlock();
-}
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","usr_personaldesktop.php?cmd=whois");
-$tpl->setVariable("BTN_TXT",$lng->txt("who_is_online"));
-$tpl->parseCurrentBlock();
-
-$tpl->touchBlock("btn_row");
-
+// display tabs
+include "./include/inc.personaldesktop_buttons.php";
 
 // To display picture after Uploaded
 //$tpl->setVariable("IMAGE_PATH","./".$webspace_dir."/usr_images/".$ilias->account->prefs["profile_image"]);
@@ -409,7 +379,8 @@ foreach ($ilias->styles as $row)
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("FORMACTION", "usr_profile.php?cmd=save");
 
-$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("personal_profile"));
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
+//$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("personal_profile"));
 $tpl->setVariable("TXT_OF",strtolower($lng->txt("of")));
 $tpl->setVariable("USR_FULLNAME",$ilias->account->getFullname());
 

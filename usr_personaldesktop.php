@@ -52,6 +52,7 @@ switch($_GET["cmd"])
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+//$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 // set locator
 $tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
@@ -65,43 +66,8 @@ sendInfo();
 // display infopanel if something happened
 infoPanel();
 
-$tpl->setCurrentBlock("subtitle");
-$tpl->setVariable("TXT_SUBTITLE",strtolower($lng->txt("of"))." ".$ilias->account->getFullname());
-$tpl->parseCurrentBlock();
-
-//add template for buttons
-$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-// display buttons
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","usr_profile.php");
-$tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));
-$tpl->parseCurrentBlock();
-
-if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-{
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","usr_password.php");
-	$tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","usr_agreement.php");
-	$tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
-	$tpl->parseCurrentBlock();
-	
-	$tpl->setCurrentBlock("btn_cell");
-	$tpl->setVariable("BTN_LINK","usr_bookmarks.php?cmd=frameset");
-	$tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
-	$tpl->parseCurrentBlock();
-}
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","usr_personaldesktop.php?cmd=whois");
-$tpl->setVariable("BTN_TXT",$lng->txt("who_is_online"));
-$tpl->parseCurrentBlock();
-
-$tpl->touchBlock("btn_row");
+// display tabs
+include "./include/inc.personaldesktop_buttons.php";
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
