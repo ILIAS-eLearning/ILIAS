@@ -182,6 +182,9 @@ function saveForm()
 
 	//insert user data in table user_data
 	$userObj->saveAsNew();
+	
+	// store acceptance of user agreement
+	$userObj->writeAccepted();
 
 	// setup user preferences
 	$userObj->setLanguage($_POST["Fobject"]["language"]);

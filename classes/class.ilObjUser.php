@@ -257,6 +257,7 @@ class ilObjUser extends ilObject
         $this->setComment($a_data["referral_comment"]);
         $this->approve_date = $a_data["approve_date"];
         $this->active = $a_data["active"];
+		$this->accept_date = $a_data["agree_date"];
 
         // time limitation
         $this->setTimeLimitOwner($a_data["time_limit_owner"]);
@@ -264,6 +265,7 @@ class ilObjUser extends ilObject
         $this->setTimeLimitFrom($a_data["time_limit_from"]);
         $this->setTimeLimitUntil($a_data["time_limit_until"]);
 		$this->setTimeLimitMessage($a_data['time_limit_message']);
+		
 	}
 
 	/**
@@ -404,6 +406,19 @@ class ilObjUser extends ilObject
 		$this->read();
 
 		return true;
+	}
+		
+	/**
+	* write accept date of user agreement to db
+	*/
+	function writeAccepted()
+	{
+		global $ilDB;
+		
+		$q = "UPDATE usr_data SET agree_date = now()".
+			 "WHERE usr_id = ".$ilDB->quote($this->getId());
+		$ilDB->query($q);
+
 	}
 
 	/**
@@ -904,7 +919,18 @@ class ilObjUser extends ilObject
 
 		return $literature;
 	}
-
+	
+	/**
+	* check wether user has accepted user agreement
+	*/
+	function hasAcceptedUserAgreement()
+	{
+		if ($this->accept_date != "0000-00-00 00:00:00")
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	* set login / username
