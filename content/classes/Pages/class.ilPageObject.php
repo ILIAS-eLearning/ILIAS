@@ -127,6 +127,7 @@ class ilPageObject
 	function freeDom()
 	{
 		$this->dom->free();
+		//unset($this->dom);
 	}
 
 	function &getDom()

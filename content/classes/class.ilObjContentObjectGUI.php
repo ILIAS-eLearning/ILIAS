@@ -88,7 +88,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "lm_edit.php?cmd=export&ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK", "lm_edit.php?cmd=exportList&ref_id=".$this->object->getRefID());
 		//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("export"));
 		$this->tpl->parseCurrentBlock();
@@ -1236,8 +1236,223 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$cont_exp = new ilContObjectExport($this->object);
 		//$cont_exp->export();	// old method
 		$cont_exp->buildExportFile();
+		$this->exportList();
 	}
 
+	/*
+	* list all export files
+	*/
+	function exportList()
+	{
+		global $tree;
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// view button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".$this->object->getRefID().
+			"&cmd=export");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_create_export_file"));
+		$this->tpl->parseCurrentBlock();
+
+		$export_dir = $this->object->getExportDirectory();
+
+		$export_files = $this->object->getExportFiles($export_dir);
+
+		if($_GET["limit"] == 0 )
+		{
+			$_GET["limit"] = 15;
+		}
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// load files templates
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.export_file_row.html", true);
+
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".$_GET["ref_id"].
+			"&cmd=post");
+
+		$tbl->setTitle($this->lng->txt("cont_export_files"));
+
+		$tbl->setHeaderNames(array("", $this->lng->txt("cont_file"),
+			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
+
+		$cols = array("", "file", "size", "date");
+		$header_params = array("ref_id" => $_GET["ref_id"]);
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
+		// delete button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "downloadExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+		$this->tpl->parseCurrentBlock();
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		$tbl->setMaxCount(count($export_files));
+		$export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($export_files) > 0)
+		{
+			$i=0;
+			foreach($export_files as $exp_file)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("TXT_FILENAME", $exp_file);
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", filesize($export_dir."/".$exp_file));
+				$this->tpl->setVariable("CHECKBOX_ID", $exp_file);
+
+				$file_arr = explode("__", $exp_file);
+				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 3);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+
+	/**
+	* download export file
+	*/
+	function downloadExportFile()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+
+		$export_dir = $this->object->getExportDirectory();
+		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
+			$_POST["file"][0]);
+	}
+
+
+	/**
+	* confirmation screen for export file deletion
+	*/
+	function confirmDeleteExportFile()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// SAVE POST VALUES
+		$_SESSION["ilExportFiles"] = $_POST["file"];
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+
+		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".$_GET["ref_id"].
+			"&cmd=post");
+
+		// BEGIN TABLE HEADER
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
+		$this->tpl->parseCurrentBlock();
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+		foreach($_POST["file"] as $file)
+		{
+				$this->tpl->setCurrentBlock("table_row");
+				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+				$this->tpl->setVariable("TEXT_CONTENT", $file);
+				$this->tpl->parseCurrentBlock();
+		}
+
+		// cancel/confirm button
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
+			"deleteExportFile"  => $this->lng->txt("confirm"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+
+	/**
+	* cancel deletion of export files
+	*/
+	function cancelDeleteExportFile()
+	{
+		session_unregister("ilExportFiles");
+		ilUtil::redirect("lm_edit.php?cmd=exportList&ref_id=".$_GET["ref_id"]);
+	}
+
+
+	/**
+	* delete export files
+	*/
+	function deleteExportFile()
+	{
+		$export_dir = $this->object->getExportDirectory();
+		foreach($_SESSION["ilExportFiles"] as $file)
+		{
+			$exp_file = $export_dir."/".$file;
+			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
+			if (@is_file($exp_file))
+			{
+				unlink($exp_file);
+			}
+			if (@is_dir($exp_dir))
+			{
+				ilUtil::delDir($exp_dir);
+			}
+		}
+		ilUtil::redirect("lm_edit.php?cmd=exportList&ref_id=".$_GET["ref_id"]);
+	}
 
 } // END class.ilObjContentObjectGUI
 ?>
