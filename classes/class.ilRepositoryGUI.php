@@ -1483,6 +1483,15 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 					$tpl->parseCurrentBlock();
 				}
 
+				// add statistical evaluation tool
+				if ($this->rbacsystem->checkAccess('write',$tst_data["ref_id"]) and ($tst_data["complete"]))
+				{
+					$tpl->setCurrentBlock("tst_statistical_evaluation");
+					$tpl->setVariable("STATISTICAL_EVALUATION_LINK", "assessment/test.php?cmd=eval_stat&ref_id=".$tst_data["ref_id"]);
+					$tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
+					$tpl->parseCurrentBlock();
+				}
+
 				$tpl->setCurrentBlock("tbl_content");
 
 				// change row color

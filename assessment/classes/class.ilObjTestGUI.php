@@ -1050,7 +1050,214 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 	}
-    
+  
+	function eval_statObject()
+	{
+		global $ilUser;
+		
+    $add_parameter = $this->get_add_parameter();
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+		$this->setLocator();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation.html", true);
+
+		$color_class = array("tblrow1", "tblrow2");
+		$counter = 0;
+		if ($_POST["cmd"]["stat_all_users"] or $_POST["cmd"]["stat_selected_users"]) 
+		{
+			// bild title columns
+			$this->tpl->setCurrentBlock("titlecol");
+			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("name"));
+			$this->tpl->parseCurrentBlock();
+			if ($_POST["chb_result_qworkedthrough"]) {
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_qworkedthrough"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($_POST["chb_result_pworkedthrough"]) {
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_pworkedthrough"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($_POST["chb_result_timeofwork"]) {
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_timeofwork"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($_POST["chb_result_atimeofwork"]) {
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_atimeofwork"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($_POST["chb_result_firstvisit"]) {
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_firstvisit"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($_POST["chb_result_lastvisit"]) {
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_lastvisit"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($_POST["chb_result_resultspoints"]) {
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_resultspoints"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($_POST["chb_result_resultsmarks"]) {
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_resultsmarks"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($_POST["chb_result_distancemean"]) {
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_distancemean"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($_POST["chb_result_distancequintile"]) {
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_distancequintile"));
+				$this->tpl->parseCurrentBlock();
+			}
+			if ($_POST["cmd"]["stat_all_users"]) {
+				$selected_users =& $this->object->evalTotalPersonsArray();
+			} else {
+				$sel_users =& $this->object->evalTotalPersonsArray();
+				$selected_users = array();
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/chb_user_(\d+)/", $key, $matches)) {
+						$selected_users[$matches[1]] = $sel_users[$matches[1]];
+					}
+				}
+			}
+			foreach ($selected_users as $key => $value) {
+				$stat_eval =& $this->object->evalStatistical($key);
+				$this->tpl->setCurrentBlock("datacol");
+				$this->tpl->setVariable("TXT_DATA", $value);
+				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$this->tpl->parseCurrentBlock();
+				if ($_POST["chb_result_qworkedthrough"]) {
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", $stat_eval["qworkedthrough"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($_POST["chb_result_pworkedthrough"]) {
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", sprintf("%2.2f", $stat_eval["pworkedthrough"] * 100.0));
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($_POST["chb_result_timeofwork"]) {
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", $stat_eval["timeofwork"] . " s");
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($_POST["chb_result_atimeofwork"]) {
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", sprintf("%2.2f s", $stat_eval["atimeofwork"]));
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($_POST["chb_result_firstvisit"]) {
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", sprintf("%04d-%02d-%02d %02d:%02d:%02d", $stat_eval["firstvisit"]["year"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"]));
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($_POST["chb_result_lastvisit"]) {
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", sprintf("%04d-%02d-%02d %02d:%02d:%02d", $stat_eval["lastvisit"]["year"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"]));
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($_POST["chb_result_resultspoints"]) {
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", $stat_eval["resultspoints"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($_POST["chb_result_resultsmarks"]) {
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", $stat_eval["resultsmarks"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($_POST["chb_result_distancemean"]) {
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", $stat_eval["distancemean"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				if ($_POST["chb_result_distancequintile"]) {
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", $stat_eval["distancequintile"]);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("row");
+				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+			}
+			$this->tpl->setCurrentBlock("output");
+		} 
+			else 
+		{
+			$total_persons =& $this->object->evalTotalPersonsArray();
+			foreach ($total_persons as $user_id => $user_name)
+			{
+				$this->tpl->setCurrentBlock("userrow");
+				$this->tpl->setVariable("ID_USER", $user_id);
+				$this->tpl->setVariable("TXT_USER_NAME", $user_name);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("userselect");
+			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $add_parameter);
+			$this->tpl->setVariable("TXT_STAT_USERS_INTRO", $this->lng->txt("tst_stat_users_intro"));
+			$this->tpl->setVariable("TXT_STAT_ALL_USERS", $this->lng->txt("tst_stat_all_users"));
+			$this->tpl->setVariable("TXT_STAT_SELECTED_USERS", $this->lng->txt("tst_stat_selected_users"));
+			$this->tpl->setVariable("TXT_STAT_CHOOSE_USERS", $this->lng->txt("tst_stat_choose_users"));
+			$this->tpl->setVariable("TXT_QWORKEDTHROUGH", $this->lng->txt("tst_stat_result_qworkedthrough"));
+			$this->tpl->setVariable("TXT_PWORKEDTHROUGH", $this->lng->txt("tst_stat_result_pworkedthrough"));
+			$this->tpl->setVariable("TXT_TIMEOFWORK", $this->lng->txt("tst_stat_result_timeofwork"));
+			$this->tpl->setVariable("TXT_ATIMEOFWORK", $this->lng->txt("tst_stat_result_atimeofwork"));
+			$this->tpl->setVariable("TXT_FIRSTVISIT", $this->lng->txt("tst_stat_result_firstvisit"));
+			$this->tpl->setVariable("TXT_LASTVISIT", $this->lng->txt("tst_stat_result_lastvisit"));
+			$this->tpl->setVariable("TXT_RESULTSPOINTS", $this->lng->txt("tst_stat_result_resultspoints"));
+			$this->tpl->setVariable("TXT_RESULTSMARKS", $this->lng->txt("tst_stat_result_resultsmarks"));
+			$this->tpl->setVariable("TXT_DISTANCEMEAN", $this->lng->txt("tst_stat_result_distancemean"));
+			$this->tpl->setVariable("TXT_DISTANCEQUINTILE", $this->lng->txt("tst_stat_result_distancequintile"));
+			$this->tpl->setVariable("TXT_SPECIFICATION", $this->lng->txt("tst_stat_result_specification"));
+			$this->tpl->setVariable("CHECKED_QWORKEDTHROUGH", " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_PWORKEDTHROUGH", " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_TIMEOFWORK", " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_ATIMEOFWORK", " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_FIRSTVISIT", " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_LASTVISIT", " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_RESULTSPOINTS", " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_RESULTSMARKS", " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_DISTANCEMEAN", " checked=\"checked\"");
+			$this->tpl->setVariable("CHECKED_DISTANCEQUINTILE", " checked=\"checked\"");
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
+		$this->tpl->parseCurrentBlock();
+	}
+		
 	function eval_aObject() 
 	{
 		global $ilUser;

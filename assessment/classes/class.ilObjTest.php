@@ -1407,6 +1407,95 @@ class ilObjTest extends ilObject
 	}
 	
 /**
+* Returns the statistical evaluation of the test for a specified user
+* 
+* Returns the statistical evaluation of the test for a specified user
+*
+* @return arrary The statistical evaluation array of the test
+* @access public
+*/
+	function &evalStatistical($user_id)
+	{
+		$test_result =& $this->get_test_result($user_id);
+
+		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
+			$this->ilias->db->quote($this->get_test_id()),
+			$this->ilias->db->quote($user_id)
+		);
+		$result = $this->ilias->db->query($q);
+		$times = array();
+		$first_visit = "";
+		$last_visit = "";
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->started, $matches);
+			$epoch_1 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			if (!$first_visit) {
+				$first_visit = $epoch_1;
+			}
+			if ($epoch_1 < $first_visit) {
+				$first_visit = $epoch_1;
+			}
+			preg_match("/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/", $row->finished, $matches);
+			$epoch_2 = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+			if (!$last_visit) {
+				$last_visit = $epoch_2;
+			}
+			if ($epoch_2 > $last_visit) {
+				$last_visit = $epoch_2;
+			}
+			$times[$row->active_fi] += ($epoch_2 - $epoch_1);
+		}
+		$max_time = 0;
+		foreach ($times as $key => $value) {
+			$max_time += $value;
+		}
+		if (!$test_result["test"]["total_reached_points"]) {
+			$percentage = 0.0;
+		} else {
+			$percentage = ($test_result["test"]["total_max_points"] / $test_result["test"]["total_reached_points"]) * 100.0;
+		}
+		$mark_obj = $test_result["test"]["test"]->mark_schema->get_matching_mark($percentage);
+		$first_date = getdate($first_visit);
+		$last_date = getdate($last_visit);
+		$result_array = array(
+			"qworkedthrough" => (count($test_result) - 1),
+			"qmax" => count($test_result["test"]["test"]->questions),
+			"pworkedthrough" => (count($test_result) - 1) / count($test_result["test"]["test"]->questions),
+			"timeofwork" => $max_time,
+			"atimeofwork" => $max_time / (count($test_result) - 1),
+			"firstvisit" => $first_date,
+			"lastvisit" => $last_date,
+			"resultspoints" => $test_result["test"]["total_reached_points"],
+			"resultsmarks" => $mark_obj->get_short_name(),
+			"distancemean" => "0",
+			"distancequintile" => "0"
+		);
+		return $result_array;
+	}
+
+/**
+* Returns all persons who started the test
+* 
+* Returns all persons who started the test
+*
+* @return arrary The user id's and names of the persons who started the test
+* @access public
+*/
+	function &evalTotalPersonsArray()
+	{
+		$q = sprintf("SELECT tst_active.user_fi, usr_data.firstname, usr_data.lastname FROM tst_active, usr_data WHERE tst_active.test_fi = %s AND tst_active.user_fi = usr_data.usr_id", 
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($q);
+		$persons_array = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$persons_array[$row->user_fi] = trim("$row->firstname $row->lastname");
+		}
+		return $persons_array;
+	}
+	
+/**
 * Returns the number of total finished tests
 * 
 * Returns the number of total finished tests

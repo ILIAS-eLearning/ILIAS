@@ -1,0 +1,52 @@
+<h2>{TXT_STATISTICAL_EVALUATION}</h2>
+<!-- BEGIN userselect -->
+<form name="formuserselect" method="post" action="{FORM_ACTION}">
+<table class="invisible">
+<tr><td colspan="2">{TXT_STAT_USERS_INTRO} <input type="submit" class="submit" name="cmd[stat_all_users]" value="{TXT_STAT_ALL_USERS}" /></td>
+<td width="20"></td>
+<td><h2>{TXT_SPECIFICATION}</h2></td>
+</tr>
+<tr><td colspan="2">{TXT_STAT_USERS_INTRO} <input type="submit" class="submit" name="cmd[stat_selected_users]" value="{TXT_STAT_SELECTED_USERS}" /><br />{TXT_STAT_CHOOSE_USERS}</td>
+<td width="20"></td>
+<td rowspan="2">
+<input type="checkbox" name="chb_result_qworkedthrough" id="chb_result_qworkedthrough" value="1"{CHECKED_QWORKEDTHROUGH} /><label for="chb_result_qworkedthrough">{TXT_QWORKEDTHROUGH}</label><br />
+<input type="checkbox" name="chb_result_pworkedthrough" id="chb_result_pworkedthrough" value="1"{CHECKED_PWORKEDTHROUGH} /><label for="chb_result_pworkedthrough">{TXT_PWORKEDTHROUGH}</label><br />
+<input type="checkbox" name="chb_result_timeofwork" id="chb_result_timeofwork" value="1"{CHECKED_TIMEOFWORK} /><label for="chb_result_timeofwork">{TXT_TIMEOFWORK}</label><br />
+<input type="checkbox" name="chb_result_atimeofwork" id="chb_result_atimeofwork" value="1"{CHECKED_ATIMEOFWORK} /><label for="chb_result_atimeofwork">{TXT_ATIMEOFWORK}</label><br />
+<input type="checkbox" name="chb_result_firstvisit" id="chb_result_firstvisit" value="1"{CHECKED_FIRSTVISIT} /><label for="chb_result_firstvisit">{TXT_FIRSTVISIT}</label><br />
+<input type="checkbox" name="chb_result_lastvisit" id="chb_result_lastvisit" value="1"{CHECKED_LASTVISIT} /><label for="chb_result_lastvisit">{TXT_LASTVISIT}</label><br />
+<input type="checkbox" name="chb_result_resultspoints" id="chb_result_resultspoints" value="1"{CHECKED_RESULTSPOINTS} /><label for="chb_result_resultspoints">{TXT_RESULTSPOINTS}</label><br />
+<input type="checkbox" name="chb_result_resultsmarks" id="chb_result_resultsmarks" value="1"{CHECKED_RESULTSMARKS} /><label for="chb_result_resultsmarks">{TXT_RESULTSMARKS}</label><br />
+<input type="checkbox" name="chb_result_distancemean" id="chb_result_distancemean" value="1"{CHECKED_DISTANCEMEAN} /><label for="chb_result_distancemean">{TXT_DISTANCEMEAN}</label><br />
+<input type="checkbox" name="chb_result_distancequintile" id="chb_result_distancequintile" value="1"{CHECKED_DISTANCEQUINTILE} /><label for="chb_result_distancequintile">{TXT_DISTANCEQUINTILE}</label>
+</td>
+</tr>
+<tr><td colspan="3" valign="top"><br />
+<!-- BEGIN userrow -->
+<input type="checkbox" name="chb_user_{ID_USER}" value="1" id="chb_user_{ID_USER}" /><label for="chb_user_{ID_USER}">{TXT_USER_NAME}</label><br />
+<!-- END userrow -->
+</td></tr>
+</table>
+</form>
+<!-- END userselect -->
+<!-- BEGIN output -->
+<table class="fullwidth">
+<tr class="tblheader">
+<!-- BEGIN titlecol -->
+<td class="std" valign="top">{TXT_TITLE}</td>
+<!-- END titlecol -->
+</tr>
+<!-- BEGIN row --> 
+<tr class="{COLOR_CLASS}">
+<!-- BEGIN datacol -->
+<td class="{COLOR_CLASS}">{TXT_DATA}</td>
+<!-- END datacol -->
+</tr>
+<!-- END row --> 
+<!-- BEGIN emptyrow --> 
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}" colspan="2">{TXT_NO_ANONYMOUS_AGGREGATION}</td>
+</tr>
+<!-- END emptyrow --> 
+</table>
+<!-- END output -->
