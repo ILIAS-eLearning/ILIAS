@@ -25,7 +25,7 @@
 /**
 * Class ilObjSurveyGUI
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author Helmut Schottmï¿½ller <hschottm@tzi.de>
 * $Id$
 *
 * @extends ilObjectGUI
@@ -2788,7 +2788,7 @@ class ilObjSurveyGUI extends ilObjectGUI
       header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
-		if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
+		if (($this->object->getInvitationMode() == MODE_PREDEFINED_USERS) and ($this->object->getInvitation() == INVITATION_ON))
 		{
 			if ($rbacsystem->checkAccess('invite', $this->ref_id))
 			{
@@ -2839,13 +2839,26 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->outUserGroupTable("grp", $invited_groups, "invited_group_result", "invited_group_row", $this->lng->txt("invited_groups"), $buttons);
 			}
 		}
+		if ($this->object->getInvitation() == INVITATION_ON)
+		{
+			$this->tpl->setCurrentBlock("invitation_mode");
+			$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("invitation_mode"));
+			$this->tpl->setVariable("VALUE_UNLIMITED", $this->lng->txt("unlimited_users"));
+			$this->tpl->setVariable("VALUE_PREDEFINED", $this->lng->txt("predefined_users"));
+			if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
+			{
+				$this->tpl->setVariable("SELECTED_PREDEFINED", " selected=\"selected\"");
+			}
+			else
+			{
+				$this->tpl->setVariable("SELECTED_UNLIMITED", " selected=\"selected\"");
+			}
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_INVITATION", $this->lng->txt("invitation"));
 		$this->tpl->setVariable("VALUE_ON", $this->lng->txt("on"));
 		$this->tpl->setVariable("VALUE_OFF", $this->lng->txt("off"));
-		$this->tpl->setVariable("TEXT_MODE", $this->lng->txt("invitation_mode"));
-		$this->tpl->setVariable("VALUE_UNLIMITED", $this->lng->txt("unlimited_users"));
-		$this->tpl->setVariable("VALUE_PREDEFINED", $this->lng->txt("predefined_users"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		if ($this->object->getInvitation() == INVITATION_ON)
 		{
@@ -2854,14 +2867,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		else
 		{
 			$this->tpl->setVariable("SELECTED_OFF", " selected=\"selected\"");
-		}
-		if ($this->object->getInvitationMode() == MODE_PREDEFINED_USERS)
-		{
-			$this->tpl->setVariable("SELECTED_PREDEFINED", " selected=\"selected\"");
-		}
-		else
-		{
-			$this->tpl->setVariable("SELECTED_UNLIMITED", " selected=\"selected\"");
 		}
     if ($rbacsystem->checkAccess('write', $this->ref_id) or $rbacsystem->checkAccess('invite', $this->ref_id)) {
 			$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));

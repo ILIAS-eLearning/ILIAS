@@ -188,7 +188,7 @@ class ilObjSurvey extends ilObject
 		$this->startdate_enabled = 0;
 		$this->enddate_enabled = 0;
 		$this->questions = array();
-		$this->invitation = INVITATION_ON;
+		$this->invitation = INVITATION_OFF;
 		$this->invitation_mode = MODE_PREDEFINED_USERS;
 	}
 
