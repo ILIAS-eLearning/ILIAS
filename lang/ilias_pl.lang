@@ -289,6 +289,7 @@ assessment#:#save_finish#:#Zachowaj i zakończ test
 assessment#:#save_introduction#:#Zachowaj i przejdź do wstępu
 assessment#:#save_next#:#Zachowaj i przejdź do następnego pytania
 assessment#:#save_previous#:#Zachowaj i przejdź do poprzedniego pytania
+assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Wybierz odstęp
 assessment#:#selected_image#:#Wybrany obrazek
@@ -298,6 +299,7 @@ assessment#:#shuffle_answers#:#Mieszaj odpowiedzi
 assessment#:#solution_hint#:#Sugerowana odpowiedź
 assessment#:#solution_order#:#Porządek rozwiązywania
 assessment#:#start_tag#:#Znacznik początku
+assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Test został anulowany
 assessment#:#text_gap#:#Tekst odstępu

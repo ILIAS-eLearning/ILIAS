@@ -307,6 +307,7 @@ assessment#:#save_finish#:#Save and finish the test###16 Mar 2004 new variable
 assessment#:#save_introduction#:#Save and goto introduction###16 Mar 2004 new variable
 assessment#:#save_next#:#Save and goto next question###16 Mar 2004 new variable
 assessment#:#save_previous#:#Save and goto previous question###16 Mar 2004 new variable
+assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Select gap###16 Mar 2004 new variable
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
@@ -318,6 +319,7 @@ assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Solution order###16 Mar 2004 new variable
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
+assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
 assessment#:#text_gap#:#Text gap###16 Mar 2004 new variable

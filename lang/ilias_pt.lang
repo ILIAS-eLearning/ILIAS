@@ -307,6 +307,7 @@ assessment#:#save_finish#:#Guardar e finalizar o teste
 assessment#:#save_introduction#:#Guardar e ir para a introdução###14 Sep 2004 content changed
 assessment#:#save_next#:#Guardar e ir para a próxima questão###14 Sep 2004 content changed
 assessment#:#save_previous#:#Guardar e ir para para a questão anterior###14 Sep 2004 content changed
+assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
 assessment#:#select_gap#:#Seleccionar espaço
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
@@ -318,6 +319,7 @@ assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Ordem solução
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
+assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Símbolo
 assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
 assessment#:#text_gap#:#Espaço de Texto

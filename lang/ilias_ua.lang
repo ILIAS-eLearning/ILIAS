@@ -307,6 +307,7 @@ assessment#:#save_finish#:#Зберегтри та закінчити тест
 assessment#:#save_introduction#:#Зберегти та перейти до передмови
 assessment#:#save_next#:#Зберегти та перейти до наступного питання
 assessment#:#save_previous#:#Зберегти та перейти до попереднього питання
+assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
 assessment#:#select_an_answer#:#--- Будь ласка виберіть відповідь ---
 assessment#:#select_gap#:#Вибрати проміжок
 assessment#:#select_target_position_for_move_question#:#Будь ласка виберіть цільову позицію для перміщення питань та натисніть одну з кнопок вставки!
@@ -318,6 +319,7 @@ assessment#:#solution_hint#:#Запропоноване рішення
 assessment#:#solution_order#:#Порядок розв'язку
 assessment#:#start_tag#:#Початковий тег
 assessment#:#starting_time_not_reached#:#Ви не досягли початкового часу
+assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
 assessment#:#symbol#:#Символ
 assessment#:#test_cancelled#:#Тест був відмінений
 assessment#:#text_gap#:#Текстовий проміжок
