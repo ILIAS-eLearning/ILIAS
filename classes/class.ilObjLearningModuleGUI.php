@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.4 2003/04/11 15:03:49 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.5 2003/04/18 18:22:08 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -87,6 +87,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_lm"));
 		$this->tpl->setVariable("TXT_PARSE", $this->lng->txt("parse"));
 		$this->tpl->setVariable("TXT_VALIDATE", $this->lng->txt("validate"));
+		$this->tpl->setVariable("TXT_PARSE2", $this->lng->txt("parse2"));
 		$this->tpl->setVariable("TXT_SELECT_MODE", $this->lng->txt("select_mode"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
 
@@ -118,6 +119,16 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
 		}
+		
+		// --- start: test of alternate parsing / lm storing
+		if ($_POST["parse_mode"] == 2)
+		{
+			require_once ("classes/class.ilLMParser.php");
+			$lmParser = new ilLMParser($HTTP_POST_FILES["xmldoc"]["tmp_name"]);
+			$lmParser->startParsing();
+			exit;
+		}
+		// --- end: test of alternate parsing / lm storing
 
 		//
 		$lmObj = new ilObjLearningModule($_GET["ref_id"]);
