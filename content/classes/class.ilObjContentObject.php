@@ -27,7 +27,8 @@
 *
 * @author Sascha Hofmann <shofmann@databay.de>
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
+*
+* $Id$
 *
 * @extends ilObject
 * @package ilias-core
@@ -493,26 +494,35 @@ class ilObjContentObject extends ilObject
 	{
 		global $ilDB;
 
+		global $ilBench;
+
+		#$ilBench->start('NestedSet','lm_delete');
+
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
 
+		#$ilBench->start('NestedSet','delete_all_object_data');
 		// delete lm object data
 		include_once("content/classes/class.ilLMObject.php");
 		ilLMObject::_deleteAllObjectData($this);
+		#$ilBench->stop('NestedSet','delete_all_object_data');
+
 
 		// delete meta data of content object
 		$nested = new ilNestedSetXML();
 		$nested->init($this->getId(), $this->getType());
 		$nested->deleteAllDBData();
+		
 
 		// delete bibitem data
 		$nested = new ilNestedSetXML();
 		$nested->init($this->getId(), "bib");
 		$nested->deleteAllDBData();
 
+		
 		// delete learning module tree
 		$this->lm_tree->removeTree($this->lm_tree->getTreeId());
 
@@ -523,6 +533,9 @@ class ilObjContentObject extends ilObject
 		$q = "DELETE FROM content_object WHERE id = ".$ilDB->quote($this->getId());
 		$this->ilias->db->query($q);
 
+		#$ilBench->stop('NestedSet','lm_delete');
+		#$ilBench->save();
+	
 		return true;
 	}
 
