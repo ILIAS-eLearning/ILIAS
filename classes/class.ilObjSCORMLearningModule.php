@@ -59,7 +59,8 @@ class ilObjSCORMLearningModule extends ilObject
 	*/
 	function createDataDirectory()
 	{
-		$lm_data_dir = $this->ilias->ini->readVariable("server","webspace_dir")."/lm_data";
+									//changed from web_dir into data_dir
+		$lm_data_dir = $this->ilias->ini->readVariable("server","data_dir")."/lm_data";
 		if(!is_writable($lm_data_dir))
 		{
 			$this->ilias->raiseError("LM Data Directory (".$lm_data_dir
