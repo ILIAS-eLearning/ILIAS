@@ -128,7 +128,8 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview, $styleDefinition;
 
-		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id))
+		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
+			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -241,7 +242,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		#$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
 		#														   $this->usrf_ref_id."&new_type=".$this->type));
-
+		$this->ctrl->setParameter($this,'new_type',$this->type);
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
@@ -526,7 +527,8 @@ class ilObjUserGUI extends ilObjectGUI
 
 		// deactivated:
 		// or ($this->id != $_SESSION["AccountId"])
-		if (!$rbacsystem->checkAccess('visible,read',$this->usrf_ref_id))
+		if (!$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id) and
+			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -860,7 +862,8 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacadmin;
 
-		if (!$rbacsystem->checkAccess('create_user',$this->usrf_ref_id))
+		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
+			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -988,7 +991,8 @@ class ilObjUserGUI extends ilObjectGUI
 		global $rbacsystem, $rbacadmin;
 
 		// check write access
-		if (!$rbacsystem->checkAccess("write", $this->usrf_ref_id))
+		if (!$rbacsystem->checkAccess('write', $this->usrf_ref_id) and
+			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}

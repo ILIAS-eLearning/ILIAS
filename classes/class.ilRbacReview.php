@@ -233,6 +233,29 @@ class ilRbacReview
 		
 		return $role_list;
 	}
+
+	/**
+	* Get all assignable roles under a specific node
+	* @access	public
+	* @param ref_id
+	* @return	array	set ids
+	*/
+	function getAssignableChildRoles($a_ref_id)
+	{
+		global $tree;
+
+		$roles_data = $this->getAssignableRoles();
+		
+		// Filter childs of node
+		foreach($roles_data as $role)
+		{
+			if($tree->isGrandChild($a_ref_id,$role['parent']))
+			{
+				$filtered[] = $role; 
+			}
+		}
+		return $filtered ? $filtered : array();
+	}
 	
 	/**
 	* get roles and templates or only roles; returns string for where clause
@@ -469,13 +492,33 @@ class ilRbacReview
 	}
 	
 	/**
-	* get only 'global' roles (all assignalbe roles from main rolefolder with ROLE_FOLDER_ID)
+	* get only 'global' roles
 	* @access	public
 	* @return	array		Array with rol_ids
 	*/
 	function getGlobalRoles()
 	{
 		return $this->getRolesOfRoleFolder(ROLE_FOLDER_ID,false);
+	}
+
+	/**
+	* get only 'global' roles (with flag 'assign_users')
+	* @access	public
+	* @return	array		Array with rol_ids
+	*/
+	function getGlobalAssignableRoles()
+	{
+		include_once './classes/class.ilObjRole.php';
+
+		foreach($this->getGlobalRoles() as $role_id)
+		{
+			if(ilObjRole::_getAssignUsersStatus($role_id))
+			{
+				$ga[] = array('obj_id' => $role_id,
+							  'role_type' => 'global');
+			}
+		}
+		return $ga ? $ga : array();
 	}
 
 	/**

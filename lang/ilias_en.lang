@@ -3692,3 +3692,19 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
+common#:#administrate_users#:#Local user administration
+common#:#add_user#:#Add local user
+common#:#all_users#:#All users
+common#:#global_user#:#Global users
+common#:#filter#:#Filter:
+common#:#apply_filter#:#Apply filter
+common#:#no_users_selected#:#Please select one user.
+common#:#local#:#Local
+common#:#global#:#Global
+common#:#no_global_role_left#:#Every user has to be assigned to one role.
+common#:#role_assignment_updated#:#Role assignment has been updated.
+common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)
+common#:#deleted_user#:#The user has been deleted
+common#:#cat_cat_administrate_users#:#Administrate local user accounts
+common#:#cat_read_users#:#Read access to local user accounts
+common#:#usrf_read_users#:#Role assignment for local administrators

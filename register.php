@@ -142,7 +142,7 @@ function saveForm()
 	$userObj->setDescription($userObj->getEmail());
 
 	// Time limit
-	$userObj->setTimeLimitOwner(0);
+	$userObj->setTimeLimitOwner(7);
 	$userObj->setTimeLimitUnlimited(1);
 	$userObj->setTimeLimitFrom(time());
 	$userObj->setTimeLimitUntil(time());
