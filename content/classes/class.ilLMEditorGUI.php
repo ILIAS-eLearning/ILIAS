@@ -76,16 +76,34 @@ class ilLMEditorGUI
 		{
 			$cont_cnt = $_POST["new_cont_cnt"];
 		}
-		$cmd = (empty($_GET["cmd"])) ? "frameset" : $_GET["cmd"];
+
+		$cmd = (empty($_GET["cmd"]))
+			? "frameset"
+			: $_GET["cmd"];
+
+		$new_type = (isset($_GET["new_type"]))
+			? $_GET["new_type"]
+			: $_POST["new_type"];
+
 		if ($cmd == "post")
 		{
 			$cmd = key($_POST["cmd"]);
 		}
+
 		if ($cmd == "edpost")
 		{
-			$cmd = explode("_", key($_POST["cmd"]));
-			$cont_cnt = $cmd[1];
-			$cmd = $_POST["command".$cont_cnt];
+			$type = "content";
+			if (isset($_GET["cont_cnt"]))
+			{
+				$cmd = key($_POST["cmd"]);
+				$cont_cnt = $_GET["cont_cnt"];
+			}
+			else
+			{
+				$cmd = explode("_", key($_POST["cmd"]));
+				$cont_cnt = $cmd[1];
+				$cmd = $_POST["command".$cont_cnt];
+			}
 		}
 
 		switch($cmd)
@@ -104,26 +122,32 @@ class ilLMEditorGUI
 				{
 					$obj =& ilLMObjectFactory::getInstance($_GET["obj_id"]);
 					$this->main_header($this->lng->txt($obj->getType()).": ".$obj->getTitle(),$obj->getType());
-					$type = ($cmd == "create") ? $_POST["new_type"] : $obj->getType();
+					if($type != "content")
+					{
+						$type = ($cmd == "create" || $cmd == "save")
+							? $new_type
+							: $obj->getType();
+					}
+					else
+					{
+				 		$content =& $obj->getContent();
+						$cont_obj =& $content[$cont_cnt - 1];
+						$ctype = ($cmd == "insert" || $cmd == "create")
+							? "par"
+							: $cont_obj->getType();
+					}
 				}
 				else		// command belongs to learning module
 				{
 					$this->main_header($this->lng->txt("lm").": ".$this->lm_obj->getTitle(),"lm");
 					$type = "lm";
 				}
-				if (is_int(strpos($cmd, "_meta")))
+//echo "type:$type:cmd:$cmd:ctype:$ctype:";
+				if($type == "content")
 				{
-					$cmd = explode("_", $cmd);
-					$cmd = $cmd[0];
-					$type = "meta";
-				}
-				if(($cont_cnt > 0) || ($type == "par"))
-				{
-			 		$content =& $obj->getContent();
-					$cont_obj =& $content[$cont_cnt - 1];
-					switch(get_class($cont_obj))
+					switch($ctype)
 					{
-						case "ilparagraph":
+						case "par":
 							$par_gui =& new ilParagraphGUI($this->lm_obj, $obj, $cont_obj, $cont_cnt);
 							$par_gui->$cmd();
 							break;

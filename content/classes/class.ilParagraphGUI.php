@@ -69,7 +69,7 @@ class ilParagraphGUI
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId().
-			"&cont_cnt=".$this->cont_cnt."&cmd=post");
+			"&cont_cnt=".$this->cont_cnt."&cmd=edpost");
 
 		// content edit
 		$cur_content_obj = $content[$this->cont_cnt - 1];
@@ -113,10 +113,10 @@ class ilParagraphGUI
 		$content = $this->pg_obj->getContent();
 		$cnt = 1;
 
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_inser_par"));
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId().
-			"&cont_cnt=".$this->cont_cnt."&cmd=post");
+			"&cont_cnt=".$this->cont_cnt."&cmd=edpost");
 
 		// content edit
 		//--$cur_content_obj = $content[$this->cont_cnt - 1];

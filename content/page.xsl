@@ -15,6 +15,13 @@
 
 <!-- start of explicit template declaration -->
 <xsl:template match="PageObject">
+	<select size="1" class="ilEditSelect">
+		<xsl:attribute name="name">command0</xsl:attribute>
+	<option value="insert">insert</option>
+	</select>
+	<input class="ilEditSubmit" type="submit" value="Go">
+		<xsl:attribute name="name">cmd[exec_0]</xsl:attribute>
+	</input>
 	<xsl:apply-templates/>
 </xsl:template>
 

@@ -226,10 +226,21 @@ class ilMetaData
 		}
 	}
 
+	function delete()
+	{
+		$query = "DELETE FROM meta_data  WHERE obj_id = '".$this->getId()
+			."' AND obj_type = '".$this->getType()."'";
+		$this->ilias->db->query($query);
+
+		$query = "DELETE FROM meta_keyword  WHERE obj_id = '".$this->getId()
+			."' AND obj_type = '".$this->getType()."'";
+		$this->ilias->db->query($query);
+	}
+
 	function getCountries()
 	{
 		global $lng;
-		
+
 		$cntcodes = array ("DE","ES","FR","GB","AT","CH","AF","AL","DZ","AS","AD","AO",
 			"AI","AQ","AG","AR","AM","AW","AU","AT","AZ","BS","BH","BD","BB","BY",
 			"BE","BZ","BJ","BM","BT","BO","BA","BW","BV","BR","IO","BN","BG","BF",

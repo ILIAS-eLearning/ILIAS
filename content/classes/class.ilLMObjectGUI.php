@@ -39,6 +39,7 @@ class ilLMObjectGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
+	var $obj;
 
 	function ilLMObjectGUI()
 	{
@@ -49,6 +50,157 @@ class ilLMObjectGUI
 		$this->lng =& $lng;
 		$this->objDefinition =& $objDefinition;
 	}
+
+	function edit_meta()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setLMObject($this->lm_obj);
+		$meta_gui->setObject($this->obj);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?lm_id=".
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=save_meta");
+	}
+
+	function save_meta()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setLMObject($this->lm_obj);
+		$meta_gui->setObject($this->obj);
+		$meta_gui->save();
+		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$this->obj->getId());
+	}
+
+	function create()
+	{
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_max_one_pos"),$this->ilias->error_obj->MESSAGE);
+		}
+		$target = (count($_POST["id"]) == 1)
+			? $_POST["id"][0]
+			: "";
+
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setLMObject($this->lm_obj);
+		//$meta_gui->setObject($this->obj);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?lm_id=".
+			$this->lm_obj->getId()."&new_type=".$_POST["new_type"].
+			"&target=".$target."&obj_id=".$this->obj->getId()."&cmd=save");
+	}
+
+	function putInTree()
+	{
+		$tree = new ilTree($_GET["lm_id"]);
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+		if (!empty($_GET["target"]))
+		{
+			$target = $_GET["target"];
+		}
+		else
+		{
+			// determine last child of current type
+			$childs =& $tree->getChildsByType($_GET["obj_id"], $this->obj->getType());
+			if (count($childs) == 0)
+			{
+				$target = IL_FIRST_NODE;
+			}
+			else
+			{
+				$target = $childs[count($childs) - 1]["obj_id"];
+			}
+		}
+
+		$tree->insertNode($this->obj->getId(), $_GET["obj_id"], $target);
+	}
+
+
+	/**
+	* confirm deletion screen
+	*/
+	function delete()
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		// SAVE POST VALUES
+		$_SESSION["saved_post"] = $_POST["id"];
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
+
+		sendInfo($this->lng->txt("info_delete_sure"));
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=post");
+		// BEGIN TABLE HEADER
+		$this->tpl->setCurrentBlock("table_header");
+		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
+		$this->tpl->parseCurrentBlock();
+
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+		foreach($_POST["id"] as $id)
+		{
+			$obj =& new ilLMObject($id);
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->setVariable("TEXT_CONTENT", $obj->getTitle());
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// cancel/confirm button
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$buttons = array( "cancelDelete"  => $this->lng->txt("cancel"),
+								  "confirmedDelete"  => $this->lng->txt("confirm"));
+		foreach ($buttons as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	function cancelDelete()
+	{
+		session_unregister("saved_post");
+
+		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$this->obj->getId());
+		exit();
+
+	}
+
+	function confirmedDelete()
+	{
+		$tree = new ilTree($_GET["lm_id"]);
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+
+		// check number of objects
+		if (!isset($_SESSION["saved_post"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// delete all selected objects
+		foreach ($_SESSION["saved_post"] as $id)
+		{
+			$tree->deleteTree($tree->getNodeData($id));
+			$obj =& ilLMObjectFactory::getInstance($id);
+			$obj->delete();
+		}
+
+		// feedback
+		sendInfo($this->lng->txt("info_deleted"),true);
+
+		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$this->obj->getId());
+		exit();
+	}
+
 
 	function showPossibleSubObjects($a_type)
 	{
@@ -95,6 +247,56 @@ class ilLMObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+
+	/**
+	* show possible action (form buttons)
+	*
+	* @access	public
+	*/
+	function showActions()
+	{
+		$notoperations = array();
+		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
+		if (empty($_SESSION["clipboard"]))
+		{
+			$notoperations[] = "paste";
+			$notoperations[] = "clear";
+		}
+		// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
+		if ($_SESSION["clipboard"])
+		{
+			$notoperations[] = "cut";
+			$notoperations[] = "copy";
+			$notoperations[] = "link";
+		}
+
+		$operations = array();
+
+		$d = $this->objDefinition->getActions($this->obj->getType());
+
+		foreach ($d as $row)
+		{
+			if (!in_array($row["name"], $notoperations))
+			{
+				$operations[] = $row;
+			}
+		}
+
+		if (count($operations)>0)
+		{
+			foreach ($operations as $val)
+			{
+				$this->tpl->setCurrentBlock("operation_btn");
+				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
+				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("operation");
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
 
 
 }

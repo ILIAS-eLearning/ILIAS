@@ -21,43 +21,51 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilMetaData.php");
-require_once("content/classes/class.ilLMObject.php");
 
 /**
-* Class ilStructreObject
+* Class ilPageContent
 *
-* Handles StructureObjects of ILIAS Learning Modules (see ILIAS DTD)
+* Content object of ilPageObject (see ILIAS DTD). Every concrete object
+* should be an instance of a class derived from ilPageContent (e.g. ilParagraph,
+* ilMediaObject, ...)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package application
+* @package content
 */
-class ilStructureObject extends ilLMObject
+class ilPageContent
 {
-	var $is_alias;
-	var $origin_id;
+	var $ilias;
+	var $type;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilStructureObject()
+	function ilPageContent()
 	{
-		parent::ilLMObject();
-		$this->setType("st");
-	}
-	
-	function create()
-	{
-		parent::create();
-		
+		global $ilias;
+
+		$this->ilias =& $ilias;
 	}
 
-	// todo: make this work
-	function delete()
+	/**
+	* abstract function, must be implemented by derived classes
+	*/
+	function getXML($a_utf8_encoded = false)
 	{
 	}
+
+	function setType($a_type)
+	{
+		$this->type = $a_type;
+	}
+
+	function getType()
+	{
+		return $this->type;
+	}
+
 }
 ?>
