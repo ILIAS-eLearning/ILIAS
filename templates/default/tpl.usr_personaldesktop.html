@@ -13,50 +13,17 @@ body { margin:0px; }
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
 <tr>
 <td width="50%" valign="top">
-<!-- BEGIN tbl_lo -->
-<h2>{TXT_LO_HEADER}</h2>
-<table class="fullwidth">
-	<tr class="tblheader">
-	<td class="std"><b>{TXT_LO_TITLE}</b></td>
-	</tr>
-<!-- BEGIN tbl_lo_row -->
-	<tr class="{ROWCOL}">
-	<td class="std"><a href="{LO_LINK}" class="navigation" target="{LO_TARGET}">{LO_TITLE}</a>&nbsp;
-<!-- BEGIN tbl_lo_edit -->
-	 [<a href="{EDIT_LINK}" class="navigation">{TXT_EDIT}</a>]
-<!-- END tbl_lo_edit -->
-	 [<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
-	</td>
-	</tr>
-<!-- END tbl_lo_row -->
-<!-- BEGIN tbl_no_lo -->
-	<tr class="{ROWCOL}">
-	<td class="std">{TXT_NO_LO}</td>
-	</tr>
-<!-- END tbl_no_lo -->
-</table>
-<!-- END tbl_lo -->
+<!-- BEGIN selected_items -->
+<h2>{TXT_SELECTED_ITEMS}</h2>
+{SELECTED_ITEMS}
+<!-- END selected_items -->
 
-<!-- BEGIN tbl_frm -->
-<h2>{TXT_FRM_HEADER}</h2>
-<table class="fullwidth">
-  <tr class="tblheader">
-	<td class="std"><b>{TXT_FRM_TITLE}</b></td>
-  </tr>
-<!-- BEGIN tbl_frm_row -->
-  <tr class="{ROWCOL}">
-	<td class="std"><a href="{FRM_LINK}" class="navigation" target="bottom">{FRM_TITLE}</a>
-	&nbsp;[<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
-	</td>
-  </tr>
-<!-- END tbl_frm_row -->
-<!-- BEGIN tbl_no_frm -->
-  <tr class="{ROWCOL}">
-	<td class="std">{TXT_NO_FRM}</td>
-  </tr>
-<!-- END tbl_no_frm -->
-</table>
-<!-- END tbl_frm -->
+</td>
+<td>
+<img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="1" />
+</td>
+<td width="50%" valign="top">
+
 <!-- BEGIN tbl_system_msg -->
 <h2>{SYSTEM_MAILS}</h2>
     <table class="fullwidth">
@@ -107,11 +74,6 @@ body { margin:0px; }
 <!-- END tbl_users -->
 
 
-<td>
-<img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="1" />
-</td>
-
-<td width="50%" valign="top">
 <!-- BEGIN tbl_bm -->
 <h2>{TXT_BM_HEADER}</h2>
 <table class="fullwidth">
@@ -135,48 +97,6 @@ body { margin:0px; }
 <!-- END tbl_no_bm -->
 </table>
 <!-- END tbl_bm -->
-
-<!-- BEGIN tbl_grp -->
-<h2>{TXT_GRP_HEADER}</h2>
-<table class="fullwidth">
-  <tr class="tblheader">
-	<td class="std"><b>{TXT_GRP_TITLE}</b></td>
-  </tr>
-<!-- BEGIN tbl_grp_row -->
-  <tr class="{ROWCOL}">
-	<td class="std"><a href="{GRP_LINK}" class="navigation" target="bottom">{GRP_TITLE}</a>
-	&nbsp;<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>
-	</td>
-  </tr>
-<!-- END tbl_grp_row -->
-<!-- BEGIN tbl_no_grp -->
-  <tr class="{ROWCOL}">
-	<td class="std">{TXT_NO_GRP}</td>
-  </tr>
-<!-- END tbl_no_grp -->
-</table>
-<!-- END tbl_grp -->
-
-<!-- BEGIN tbl_chat -->
-<h2>{TXT_CHAT_HEADER}</h2>
-<table class="fullwidth">
-  <tr class="tblheader">
-	<td class="std"><b>{TXT_CHAT_TITLE}</b></td>
-  </tr>
-<!-- BEGIN tbl_chat_row -->
-  <tr class="{ROWCOL}">
-	<td class="std"><a href="{CHAT_LINK}" class="navigation" target="bottom">{CHAT_TITLE}</a>
-	&nbsp;<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>
-	</td>
-  </tr>
-<!-- END tbl_chat_row -->
-<!-- BEGIN tbl_no_chat -->
-  <tr class="{ROWCOL}">
-	<td class="std">{TXT_NO_CHAT}</td>
-  </tr>
-<!-- END tbl_no_chat -->
-</table>
-<!-- END tbl_chat -->
 
 <!-- BEGIN tbl_tst -->
 <h2>{TXT_TST_HEADER}</h2>

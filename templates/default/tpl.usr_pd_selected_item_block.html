@@ -1,0 +1,25 @@
+<table class="ilPDSelectedItemBlock">
+<tr class="tblheader">
+	<td class="std" colspan="3"><img border="0" src="{IMG_HEADER}" align="middle" />
+	{TXT_BLOCK_HEADER}</td>
+</tr>
+<!-- BEGIN block_row -->
+<tr class="{ROWCOL}">
+	<td class="std"><a href="{LINK_SHOW}" class="navigation" target="{TARGET_SHOW}">{TXT_ITEM_TITLE}</a>
+	<!-- BEGIN description -->
+	<br />{TXT_ITEM_DESCRIPTION}
+	<!-- END description -->
+	</td>
+	<td class="std" width="1px">{EDIT}
+	<!-- BEGIN edit_link -->
+	<a href="{LINK_EDIT}" class="navigation" target="{TARGET_EDIT}">{TXT_EDIT}</a>
+	<!-- END edit_link -->
+	</td>
+	<td class="std" width="1px">{DROP}
+	<!-- BEGIN drop_link -->
+	<a href="usr_personaldesktop.php?cmd=dropItem&type={TYPE}&id={ID}" class="navigation" target="{TARGET_DROP}">{TXT_DROP}</a>
+	<!-- END drop_link -->
+	</td>
+</tr>
+<!-- END block_row -->
+</table>

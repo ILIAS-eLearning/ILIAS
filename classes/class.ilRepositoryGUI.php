@@ -965,20 +965,20 @@ class ilRepositoryGUI
 					$tpl->setVariable("V_TITLE", $mep_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
-				/*
-				if (!$this->ilias->account->isDesktopItem($gl_data["ref_id"], "glo"))
+
+				if (!$this->ilias->account->isDesktopItem($mep_data["ref_id"], "mep"))
 				{
-					if ($this->rbacsystem->checkAccess('read', $gl_data["ref_id"]))
+					if ($this->rbacsystem->checkAccess('write', $mep_data["ref_id"]))
 					{
-						$tpl->setCurrentBlock("glo_delete");
+						$tpl->setCurrentBlock("mep_desklink");
 						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
-							"&item_ref_id=".$gl_data["ref_id"].
-							"&type=glo&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+							"&item_ref_id=".$mep_data["ref_id"].
+							"&type=mep&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 							"&sort_by=".$_GET["sort_by"]);
 						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
 						$tpl->parseCurrentBlock();
 					}
-				}*/
+				}
 
 				$tpl->setCurrentBlock("tbl_content");
 

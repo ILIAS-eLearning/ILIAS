@@ -1571,125 +1571,135 @@ class ilObjUser extends ilObject
 	* reading tables object_data and object_reference), must be revised someday...
 	* (maybe it should be a method in all object classes)
 	*/
-	function getDesktopItems($a_type)
+	function getDesktopItems($a_types)
 	{
-		$items = array();
+		global $ilUser;
 
-		switch ($a_type)
+		if (!is_array($a_types))
 		{
-			case "lm":
-			case "glo":
-			case "tst":
-			case "dbk":
-			case "slm":
-			case "htlm":
-				$q = "SELECT oref.ref_id, obj.title, parameters, oref.obj_id FROM desktop_item AS it, object_reference AS oref ".
-					", object_data AS obj WHERE ".
-					"it.item_id = oref.ref_id AND ".
-					"oref.obj_id = obj.obj_id AND ".
-					"it.type = '$a_type' AND ".
-					"it.user_id = '".$this->getId()."' ".
-					"ORDER BY title";
-				$item_set = $this->ilias->db->query($q);
-				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					if($a_type == "glo")
-					{
-						$link = "content/glossary_presentation.php?ref_id=".$item_rec["ref_id"].
-							"&obj_id=".$item_rec["parameters"];
-						$edit_link = "content/glossary_edit.php?ref_id=".$item_rec["ref_id"].
-							"&obj_id=".$item_rec["parameters"];
-						$target = "bottom";
-					}
-					elseif ($a_type == "slm")
-					{
-						$link = "content/scorm_presentation.php?ref_id=".$item_rec["ref_id"].
-							"&obj_id=".$item_rec["parameters"];
-						$target = "bottom";
-					}
-					elseif ($a_type == "htlm")
-					{
-						$link = "content/fblm_presentation.php?ref_id=".$item_rec["ref_id"];
-						$edit_link = "content/fblm_edit.php?ref_id=".$item_rec["ref_id"];
-						$target = "ilContObj".$item_rec["obj_id"];
-					}
-					elseif ($a_type == "tst")
-					{
-						$link = "assessment/test.php?ref_id=".$item_rec["ref_id"]."&cmd=run";
-						$target = "bottom";
-						$whereclause .= sprintf("ref_fi = %s OR ", $this->ilias->db->quote($item_rec["ref_id"]));
-					}
-					else
-					{
-						$link = "content/lm_presentation.php?ref_id=".$item_rec["ref_id"].
-							"&obj_id=".$item_rec["parameters"];
-						$edit_link = "content/lm_edit.php?ref_id=".$item_rec["ref_id"].
-							"&obj_id=".$item_rec["parameters"];
-						$target = "ilContObj".$item_rec["obj_id"];
-					}
-					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-						"parameters" => $item_rec["parameters"],
-						"link" => $link, "target" => $target, "edit_link" => $edit_link);
-				}
-				break;
-
-			case "frm":
-				$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-					", object_data AS obj WHERE ".
-					"it.item_id = oref.ref_id AND ".
-					"oref.obj_id = obj.obj_id AND ".
-					"it.type = 'frm' AND ".
-					"it.user_id = '".$this->getId()."' ".
-					"ORDER BY title";
-				$item_set = $this->ilias->db->query($q);
-				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-						"link" => "forums_threads_liste.php?ref_id=".$item_rec["ref_id"]."&backurl=forums", "target" => "bottom");
-				}
-				break;
-
-			case "grp":
-				$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-					", object_data AS obj WHERE ".
-					"it.item_id = oref.ref_id AND ".
-					"oref.obj_id = obj.obj_id AND ".
-					"it.type = 'grp' AND ".
-					"it.user_id = '".$this->getId()."' ".
-					"ORDER BY title";
-				$item_set = $this->ilias->db->query($q);
-				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-						"link" => "group.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
-				}
-				break;
-
-			case "chat":
-				$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
-					", object_data AS obj WHERE ".
-					"it.item_id = oref.ref_id AND ".
-					"oref.obj_id = obj.obj_id AND ".
-					"it.type = 'chat' AND ".
-					"it.user_id = '".$this->getId()."' ".
-					"ORDER BY title";
-				$item_set = $this->ilias->db->query($q);
-				while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					$items[] = array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-						"link" => "chat/chat_rep.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
-				}
-				break;
-			default:
-				break;
+			$a_types = array($a_types);
 		}
-
-		switch ($a_type)
+		$items = array();
+		foreach($a_types as $a_type)
 		{
-			case "tst":
-				// get the users test status from the database
-				global $ilUser;
+			switch ($a_type)
+			{
+				case "lm":
+				case "glo":
+				case "tst":
+				case "dbk":
+				case "slm":
+				case "htlm":
+				case "mep":
+					$q = "SELECT oref.ref_id, obj.title, parameters, oref.obj_id FROM desktop_item AS it, object_reference AS oref ".
+						", object_data AS obj WHERE ".
+						"it.item_id = oref.ref_id AND ".
+						"oref.obj_id = obj.obj_id AND ".
+						"it.type = '$a_type' AND ".
+						"it.user_id = '".$this->getId()."' ".
+						"ORDER BY title";
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						if($a_type == "glo")
+						{
+							$link = "content/glossary_presentation.php?ref_id=".$item_rec["ref_id"].
+								"&obj_id=".$item_rec["parameters"];
+							$edit_link = "content/glossary_edit.php?ref_id=".$item_rec["ref_id"].
+								"&obj_id=".$item_rec["parameters"];
+							$target = "bottom";
+						}
+						elseif ($a_type == "slm")
+						{
+							$link = "content/scorm_presentation.php?ref_id=".$item_rec["ref_id"].
+								"&obj_id=".$item_rec["parameters"];
+							$target = "bottom";
+						}
+						elseif ($a_type == "htlm")
+						{
+							$link = "content/fblm_presentation.php?ref_id=".$item_rec["ref_id"];
+							$edit_link = "content/fblm_edit.php?ref_id=".$item_rec["ref_id"];
+							$target = "ilContObj".$item_rec["obj_id"];
+						}
+						elseif ($a_type == "tst")
+						{
+							$link = "assessment/test.php?ref_id=".$item_rec["ref_id"]."&cmd=run";
+							$target = "bottom";
+							$whereclause .= sprintf("ref_fi = %s OR ", $this->ilias->db->quote($item_rec["ref_id"]));
+						}
+						elseif ($a_type == "mep")
+						{
+							$link = "content/mep_edit.php?ref_id=".$item_rec["ref_id"];
+							$target = "bottom";
+						}
+						else
+						{
+							$link = "content/lm_presentation.php?ref_id=".$item_rec["ref_id"].
+								"&obj_id=".$item_rec["parameters"];
+							$edit_link = "content/lm_edit.php?ref_id=".$item_rec["ref_id"].
+								"&obj_id=".$item_rec["parameters"];
+							$target = "ilContObj".$item_rec["obj_id"];
+						}
+						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"parameters" => $item_rec["parameters"],
+							"link" => $link, "target" => $target, "edit_link" => $edit_link);
+					}
+					break;
 
+				case "frm":
+					$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+						", object_data AS obj WHERE ".
+						"it.item_id = oref.ref_id AND ".
+						"oref.obj_id = obj.obj_id AND ".
+						"it.type = 'frm' AND ".
+						"it.user_id = '".$this->getId()."' ".
+						"ORDER BY title";
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"link" => "forums_threads_liste.php?ref_id=".$item_rec["ref_id"]."&backurl=forums", "target" => "bottom");
+					}
+					break;
+
+				case "grp":
+					$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+						", object_data AS obj WHERE ".
+						"it.item_id = oref.ref_id AND ".
+						"oref.obj_id = obj.obj_id AND ".
+						"it.type = 'grp' AND ".
+						"it.user_id = '".$this->getId()."' ".
+						"ORDER BY title";
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"link" => "group.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
+					}
+					break;
+
+				case "chat":
+					$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+						", object_data AS obj WHERE ".
+						"it.item_id = oref.ref_id AND ".
+						"oref.obj_id = obj.obj_id AND ".
+						"it.type = 'chat' AND ".
+						"it.user_id = '".$this->getId()."' ".
+						"ORDER BY title";
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"link" => "chat/chat_rep.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
+					}
+					break;
+			}
+			if ($a_type == "tst")
+			{
 				$whereclause = preg_replace("/ OR $/", "", $whereclause);
 				if ($whereclause) {
 					$status_array = array();
@@ -1717,9 +1727,9 @@ class ilObjUser extends ilObject
 						}
 					}
 				}
-				break;
+			}
 		}
-
+		ksort($items);
 		return $items;
 	}
 
