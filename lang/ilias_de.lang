@@ -33,7 +33,7 @@
 <!-- language file start -->
 common#:#absolute_path#:#Absoluter Pfad
 common#:#lm_added#:#Lernmodul angelegt
-common#:#cat_added#:#Kategorie added
+common#:#cat_added#:#Kategorie angelegt
 common#:#slm_added#:#SCORM Lernmodul angelegt
 common#:#crs_added#:#Kurs angelegt
 common#:#grp_added#:#Gruppe angelegt
@@ -42,16 +42,16 @@ common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen!
 common#:#actions#:#Aktionen
-common#:#add#:#hinzufügen###16 Apr 2003 content changed
-common#:#add_author#:#Autor hinzufügen
-common#:#add_member#:#Mitglied hinzufügen
+common#:#add#:#hinzuf&uuml;gen
+common#:#add_author#:#Autor hinzuf&uuml;gen
+common#:#add_member#:#Mitglied hinzuf&uuml;gen
 common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
-common#:#adopt#:#Übernehmen
-common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
-common#:#announce#:#ankündigen
-common#:#announce_changes#:#Änderungen bekanntgeben
+common#:#adopt#:#&Uuml;bernehmen
+common#:#adopt_perm_from_template#:#&Uuml;bernehme Rechteeinstellungen von Rollenvorlage
+common#:#announce#:#ank&uuml;ndigen
+common#:#announce_changes#:#&Auml;nderungen bekanntgeben
 common#:#answers#:#Antworten
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie Sicher?
@@ -61,8 +61,8 @@ common#:#attachment#:#Attachment###28 Mar 2003 new variable
 common#:#attachments#:#Attachments###28 Mar 2003 new variable
 common#:#author#:#Autor
 common#:#authors#:#Autoren
-common#:#available_languages#:#Verfügbare Sprachen
-common#:#back#:#Zurück
+common#:#available_languages#:#Verf&uuml;gbare Sprachen
+common#:#back#:#Zur&uuml;ck
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Grunddaten
 common#:#bm#:#Bookmark###09 Apr 2003 new variable
@@ -70,7 +70,7 @@ common#:#bmf#:#Bookmark Folder###09 Apr 2003 new variable
 common#:#bookmark_edit#:#Edit Bookmark###09 Apr 2003 new variable
 common#:#bookmark_folder_edit#:#Edit Bookmark Folder###09 Apr 2003 new variable
 common#:#bookmark_folder_new#:#New Bookmark Folder###09 Apr 2003 new variable
-common#:#bookmark_new#:#Bookmark hinzufügen
+common#:#bookmark_new#:#Bookmark hinzuf&uuml;gen
 common#:#bookmark_target#:#Target###09 Apr 2003 new variable
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks of###09 Apr 2003 new variable
@@ -78,34 +78,34 @@ common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
 common#:#cancel#:#Verwerfen
-common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
-common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
+common#:#cannot_uninstall_language_in_use#:#Sie k&ouml;nnen keine aktuell benutzte Sprache deinstallieren!
+common#:#cannot_uninstall_systemlanguage#:#Sie k&ouml;nnen die Systemsprache nicht deinstallieren.
 common#:#cat#:#Kategorie
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
-common#:#change#:#ändern
-common#:#change_existing_objects#:#Vorhandene Objekte ändern
-common#:#change_lo_info#:#Lerneinheiten-Infos ändern
-common#:#change_metadata#:#Metadaten ändern
-common#:#change_sort_direction#:#Sortierrichtung ändern
+common#:#change#:#&auml;ndern
+common#:#change_existing_objects#:#Vorhandene Objekte &auml;ndern
+common#:#change_lo_info#:#Lerneinheiten-Infos &auml;ndern
+common#:#change_metadata#:#Metadaten &auml;ndern
+common#:#change_sort_direction#:#Sortierrichtung &auml;ndern
 common#:#changed_to#:#gewechselt zu
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
-common#:#check#:#Prüfen
-common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei.
+common#:#check#:#Pr&uuml;fen
+common#:#check_langfile#:#Bitte &uuml;berpr&uuml;fen Sie die Sprachdatei.
 common#:#check_languages#:#Sprachen checken
-common#:#chg_language#:#Sprache ändern
-common#:#chg_password#:#Passwort ändern
-common#:#choose_language#:#Bitte wählen Sie Ihre Sprache
-common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen.
+common#:#chg_language#:#Sprache &auml;ndern
+common#:#chg_password#:#Passwort &auml;ndern
+common#:#choose_language#:#Bitte w&auml;hlen Sie Ihre Sprache
+common#:#choose_only_one_language#:#Bitte nur eine Sprache ausw&auml;hlen.
 common#:#city#:#Stadt
 common#:#clear#:#Abbrechen
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
-common#:#confirm#:#Bestätigen
+common#:#confirm#:#Best&auml;tigen
 common#:#contact_data#:#Kontaktinformationen
 common#:#context#:#Kontext
 common#:#copy#:#Kopieren
@@ -116,7 +116,7 @@ common#:#create#:#Erstellen
 common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Create Style###10 Jul 2003 new variable
 common#:#crs#:#Kurs
-common#:#crs_available#:#Verfügbare Kurse
+common#:#crs_available#:#Verf&uuml;gbare Kurse
 common#:#crs_management_system#:#Kursmanagement-System
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
@@ -134,19 +134,19 @@ common#:#db_version#:#Datenbankversion
 common#:#default#:#default
 common#:#default_language#:#Standard-Sprache
 common#:#default_role#:#Standardrolle
-common#:#default_skin#:#Standard-Benutzeroberfläche
+common#:#default_skin#:#Standard-Benutzeroberfl&auml;che
 common#:#default_style#:#Standard-Stylesheet
-common#:#delete#:#Löschen
-common#:#delete_all#:#Alle löschen
-common#:#delete_object#:#Lösche Objekte
-common#:#delete_selected#:#Auswahl löschen
-common#:#deleted#:#Gelöscht
+common#:#delete#:#L&ouml;schen
+common#:#delete_all#:#Alle l&ouml;schen
+common#:#delete_object#:#L&ouml;sche Objekte
+common#:#delete_selected#:#Auswahl l&ouml;schen
+common#:#deleted#:#Gel&ouml;scht
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#disabled#:#Ausgeschaltet
 common#:#download#:#Herunterladen
-common#:#drafts#:#Entwürfe
+common#:#drafts#:#Entw&uuml;rfe
 common#:#edit#:#Bearbeiten
 common#:#edit_data#:#Daten bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
@@ -155,7 +155,7 @@ common#:#edit_stylesheet#:#Edit Style###10 Jul 2003 new variable
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
 common#:#email#:#Email
-common#:#email_not_valid#:#Die eingegebene Email-Adresse ist nicht gültig!
+common#:#email_not_valid#:#Die eingegebene Email-Adresse ist nicht g&uuml;ltig!
 common#:#enable#:#Aktivieren
 common#:#enabled#:#Eingeschaltet
 common#:#enumerate#:#Nummerieren
@@ -167,21 +167,21 @@ common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
 common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
 common#:#err_wrong_header#:#Grund: Falscher Header.
-common#:#err_wrong_login#:#Login ungültig
-common#:#error_recipient#:#Empfänger von Fehlermeldungen
-common#:#execute#:#Ausführen
+common#:#err_wrong_login#:#Login ung&uuml;ltig
+common#:#error_recipient#:#Empf&auml;nger von Fehlermeldungen
+common#:#execute#:#Ausf&uuml;hren
 common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
-common#:#faq_exercise#:#FAQ/Übungskapitel
+common#:#faq_exercise#:#FAQ/&Uuml;bungskapitel
 common#:#feedback#:#Feedback
-common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
+common#:#feedback_recipient#:#Empf&auml;nger von Feedbackmeldungen
 common#:#file#:#Datei
 common#:#file_not_found#:#Datei nicht gefunden
-common#:#file_not_valid#:#Datei ist ungültig!
-common#:#file_valid#:#Datei ist gültig!
-common#:#file_version#:#Verfügbare Version
+common#:#file_not_valid#:#Datei ist ung&uuml;ltig!
+common#:#file_valid#:#Datei ist g&uuml;ltig!
+common#:#file_version#:#Verf&uuml;gbare Version
 common#:#files_location#:#Dateiort
-common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
+common#:#fill_out_all_required_fields#:#Bitte f&uuml;llen Sie alle ben&ouml;tigten Felder aus
 common#:#firstname#:#Vorname
 common#:#flatview#:#Flache Ansicht
 common#:#fold#:#Ordner
@@ -189,7 +189,7 @@ common#:#folder#:#Ordner
 common#:#folder_added#:#Ordner angelegt
 common#:#folders#:#Ordner
 common#:#forename#:#Vorname
-common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
+common#:#form_empty_fields#:#Diese Felder bitte noch ausf&uuml;llen:
 common#:#forum#:#Forum
 common#:#forum_added#:#Forum angelegt
 common#:#forum_new#:#Neues Forum
@@ -206,13 +206,13 @@ common#:#group_filesharing#:#Gruppen Filesharing
 common#:#group_members#:#Gruppen Mitglieder
 common#:#group_name#:#Groupname###29 Apr 2003 new variable
 common#:#group_new#:#Neue Gruppe
-common#:#group_not_available#:#keine Gruppe verfügbar
+common#:#group_not_available#:#keine Gruppe verf&uuml;gbar
 common#:#group_status#:#Group Status###29 Apr 2003 new variable
 common#:#group_status_closed#:#Closed###29 Apr 2003 new variable
 common#:#group_status_private#:#Private###29 Apr 2003 new variable
 common#:#group_status_public#:#Public###29 Apr 2003 new variable
 common#:#groups#:#Gruppen
-common#:#groups_overview#:#Gruppen Übersicht
+common#:#groups_overview#:#Gruppen &Uuml;bersicht
 common#:#grp#:#Gruppe
 common#:#help#:#Hilfe
 common#:#hobby#:#Interests/Hobbies###01 Jul 2003 new variable
@@ -226,10 +226,10 @@ common#:#import_lm#:#Import Learningmodule###12 Apr 2003 new variable
 common#:#import_slm#:#Import SCORM Package###23 Jun 2003 new variable
 common#:#in_use#:#Benutzersprache
 common#:#inbox#:#Posteingang
-common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
-common#:#info_deleted#:#Objekt(e) gelöscht
-common#:#info_trash#:#Gelöschte Objekte
-common#:#inform_user_mail#:#Benutzer per Email über Änderungen informieren
+common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gel&ouml;scht werden sollen:
+common#:#info_deleted#:#Objekt(e) gel&ouml;scht
+common#:#info_trash#:#Gel&ouml;schte Objekte
+common#:#inform_user_mail#:#Benutzer per Email &uuml;ber &Auml;nderungen informieren
 common#:#information_abbr#:#Infos
 common#:#inifile#:#Ini-Datei
 common#:#input_error#:#Eingabefehler
@@ -245,7 +245,7 @@ common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
 common#:#kb#:#KByte
-common#:#keywords#:#Schlüsselwörter
+common#:#keywords#:#Schl&uuml;sselw&ouml;rter
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_de#:#Deutsch
 common#:#lang_dk#:#D&auml;nisch
@@ -267,17 +267,17 @@ common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
 common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
 common#:#languages#:#Sprachen
-common#:#languages_already_installed#:#Lustig! Angewählte Sprache(n) sind bereits installiert.
-common#:#languages_already_uninstalled#:#Lustig! Angewählte Sprache(n) sind bereits deinstalliert.
+common#:#languages_already_installed#:#Lustig! Angew&auml;hlte Sprache(n) sind bereits installiert.
+common#:#languages_already_uninstalled#:#Lustig! Angew&auml;hlte Sprache(n) sind bereits deinstalliert.
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert.
-common#:#last_change#:#Letzte Änderung
+common#:#last_change#:#Letzte &Auml;nderung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
 common#:#level#:#Stufe
-common#:#link#:#verknüpfen
-common#:#linked_pages#:#Verknüpft mit den Seiten
+common#:#link#:#verkn&uuml;pfen
+common#:#linked_pages#:#Verkn&uuml;pft mit den Seiten
 common#:#list_of_pages#:#Seitenliste
 common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
@@ -286,16 +286,16 @@ common#:#lm#:#Lernmodul
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachordner
 common#:#lo#:#Lerneinheit
-common#:#lo_available#:#Übersicht Lerneinheiten & Kurse
+common#:#lo_available#:#&Uuml;bersicht Lerneinheiten & Kurse
 common#:#lo_categories#:#Lerneinheiten Kategorien
 common#:#lo_edit#:#Lerneinheiten editieren
 common#:#lo_new#:#neue Lerneinheit
 common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lerneinheiten in anderen Sprachen
-common#:#lo_overview#:#LE Übersicht
+common#:#lo_overview#:#LE &Uuml;bersicht
 common#:#login#:#Login
 common#:#login_data#:#Logindaten
-common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
+common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte w&auml;hlen Sie einen anderen Benutzernamen
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
 common#:#los#:#Lerneinheiten
@@ -306,21 +306,21 @@ common#:#mail_addressbook#:#Adressbuch
 common#:#mail_allow_smtp#:#SMTP zulassen
 common#:#mail_b_inbox#:#Posteingang
 common#:#mail_c_trash#:#Papierkorb
-common#:#mail_d_drafts#:#Entwürfe
-common#:#mail_delete_error#:#Fehler beim Löschen###28 Mar 2003 content changed
-common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
+common#:#mail_d_drafts#:#Entw&uuml;rfe
+common#:#mail_delete_error#:#Fehler beim L&ouml;schen###28 Mar 2003 content changed
+common#:#mail_delete_error_file#:#Fehler beim L&ouml;schen der Datei
 common#:#mail_e_sent#:#Gesendete
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mails_of#:#Nachrichten###24 Apr 2003 content changed
-common#:#mail_maxsize_attach#:#Max. Attachmentgrösse
-common#:#mail_maxsize_box#:#Max. Mailboxgrösse
-common#:#mail_maxsize_mail#:#Max. Mailgrösse
-common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
-common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails###16 Apr 2003 content changed
+common#:#mail_maxsize_attach#:#Max. Attachmentgr&ouml;sse
+common#:#mail_maxsize_box#:#Max. Mailboxgr&ouml;sse
+common#:#mail_maxsize_mail#:#Max. Mailgr&ouml;sse
+common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit f&uuml;r Attachments
+common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit f&uuml;r Mails###16 Apr 2003 content changed
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_search_word#:#Suche
-common#:#mail_select_one#:#Sie müßen mindestens eine Nachricht auswählen
+common#:#mail_select_one#:#Sie m&uuml;ßen mindestens eine Nachricht ausw&auml;hlen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_system#:#Systemnachricht
@@ -339,7 +339,7 @@ common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
 common#:#msg_cancel_delete#:#Aktion abgebrochen.
-common#:#msg_changes_ok#:#Die Änderungen wurden übernommen.
+common#:#msg_changes_ok#:#Die &Auml;nderungen wurden &uuml;bernommen.
 common#:#msg_clear_clipboard#:#Zwischenablage gel&ouml;scht.
 common#:#msg_cloned#:#Objekt(e) kopiert.
 common#:#msg_copy_clipboard#:#Ausgew&auml;hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren).
@@ -357,8 +357,8 @@ common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung,
 common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollenvorlagen anzulegen
 common#:#msg_no_perm_create_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzer anzulegen###08 Jul 2003 content changed
 common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:###04 Jul 2003 content changed
-common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen:###04 Jul 2003 content changed
-common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen:###04 Jul 2003 content changed
+common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu l&ouml;schen:###04 Jul 2003 content changed
+common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verkn&uuml;pfung f&uuml;r die folgenden Objekte zu erstellen:###04 Jul 2003 content changed
 common#:#msg_no_perm_modify_role#:#Sie besitzen keine ausreichende Berechtigung, um Rollen zu &auml;ndern
 common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung, um Rollenvorlagen zu &auml;ndern
 common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu &auml;ndern
@@ -367,19 +367,19 @@ common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung
 common#:#msg_no_rolf_allowed1#:#Das Objekt
 common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten.
-common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
-common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
+common#:#msg_not_in_itself#:#Es ist nicht m&ouml;glich die folgenden Objekte in sich selbst einzuf&uuml;gen:
+common#:#msg_not_possible_link#:#Es ist nicht m&ouml;glich die folgenden Objekte zu verkn&uuml;pfen: Typ
 common#:#msg_nothing_found#:#Nichts gefunden
 common#:#msg_obj_created#:#Objekt angelegt.
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
 common#:#msg_obj_modified#:#&Auml;nderungen gespeichert.
-common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
+common#:#msg_perm_adopted_from1#:#Rechteeinstellungen &uuml;bernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)###09 Jul 2003 content changed
-common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu &uuml;bernehmen.
+common#:#msg_perm_adopted_from_itself#:#Es ist nicht m&ouml;glich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu &uuml;bernehmen.
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
 common#:#msg_role_exists2#:#existiert bereits! Bitte w&auml;hlen Sie einen anderen Namen.
-common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte 
+common#:#msg_trash_empty#:#In diesem Ordner existieren keine gel&ouml;schten Objekte 
 common#:#msg_undeleted#:#Objekt(e) wiederhergestellt.
 common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:###10 Jul 2003 content changed
 common#:#msg_user_last_role2#:#Bitte l&ouml;schen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
@@ -444,18 +444,18 @@ common#:#optimize#:#Optimieren
 common#:#options#:#Einstellungen
 common#:#order_by#:#Sortieren nach
 common#:#other#:#Andere
-common#:#overview#:#Übersicht
+common#:#overview#:#&Uuml;bersicht
 common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
 common#:#parameter#:#Parameter###10 Jul 2003 new variable
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
-common#:#passwd_invalid#:#Das neue Passwort ist ungültig! Bitte wählen Sie ein anderes Passwort.
-common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
+common#:#passwd_invalid#:#Das neue Passwort ist ung&uuml;ltig! Bitte w&auml;hlen Sie ein anderes Passwort.
+common#:#passwd_not_match#:#Ihre Eingaben f&uuml;r das neue Passwort stimmen nicht &uuml;berein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
-common#:#paste#:#Einfügen
+common#:#paste#:#Einf&uuml;gen
 common#:#path#:#Pfad
 common#:#path_to_babylon#:#BABYLON Befehlszeile
 common#:#path_to_convert#:#CONVERT Befehlszeile
@@ -468,9 +468,9 @@ common#:#perm_settings#:#Rechte
 common#:#permission#:#Recht
 common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#personal_data#:#Daten zur Person
-common#:#personal_desktop#:#Persönlicher Schreibtisch
+common#:#personal_desktop#:#Pers&ouml;nlicher Schreibtisch
 common#:#personal_picture#:#Personal Picture###07 Jun 2003 new variable
-common#:#personal_profile#:#Persönliches Profil
+common#:#personal_profile#:#Pers&ouml;nliches Profil
 common#:#persons#:#Personen###28 Mar 2003 new variable
 common#:#phone#:#Telefon
 common#:#phrase#:#Phrase
@@ -478,21 +478,21 @@ common#:#please_enter_target#:#Please enter a target.###12 Apr 2003 new variable
 common#:#please_enter_title#:#Please enter a title.###12 Apr 2003 new variable
 common#:#port#:#Port
 common#:#position#:#Position
-common#:#presentation_options#:#Präsentationsoptionen
-common#:#previous#:#zurück
+common#:#presentation_options#:#Pr&auml;sentationsoptionen
+common#:#previous#:#zur&uuml;ck
 common#:#print#:#Drucken
-common#:#profile_changed#:#Ihr Profil wurde geändert
-common#:#pub_section#:#öffentlicher Bereich
+common#:#profile_changed#:#Ihr Profil wurde ge&auml;ndert
+common#:#pub_section#:#&ouml;ffentlicher Bereich
 common#:#public_profile#:#Public Profile###14 May 2003 new variable
-common#:#publication#:#Veröffentlichung
-common#:#publication_date#:#Veröffentlichungsdatum
-common#:#published#:#Veröffentlicht
-common#:#publishing_organisation#:#Veröffentlichende Organisation
+common#:#publication#:#Ver&ouml;ffentlichung
+common#:#publication_date#:#Ver&ouml;ffentlichungsdatum
+common#:#published#:#Ver&ouml;ffentlicht
+common#:#publishing_organisation#:#Ver&ouml;ffentlichende Organisation
 common#:#question#:#Frage
 common#:#quit#:#Logout
 common#:#quote#:#Zitat
 common#:#read#:#Lesen
-common#:#recipient#:#Empfänger
+common#:#recipient#:#Empf&auml;nger
 common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Sprachen aktualisieren
 common#:#refresh_list#:#Refresh List
@@ -500,7 +500,7 @@ common#:#registered_since#:#Eingetragen seit
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
 common#:#required_field#:#erforderliches Feld
-common#:#reset#:#Zurücksetzen
+common#:#reset#:#Zur&uuml;cksetzen
 common#:#retype_password#:#Passwort wiederholen
 common#:#right#:#Recht
 common#:#rights#:#Rechte
@@ -515,21 +515,21 @@ common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
 common#:#save#:#Speichern
-common#:#save_and_back#:#Speichern und zurück
+common#:#save_and_back#:#Speichern und zur&uuml;ck
 common#:#save_message#:#Nachricht speichern
 common#:#save_refresh#:#Save and Refresh###11 Jul 2003 new variable
 common#:#save_return#:#Save and Return###11 Jul 2003 new variable
 common#:#saved#:#Gespeichert
-common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
+common#:#saved_successfully#:#Ihre &Auml;nderungen wurden gespeichert
 common#:#search#:#Suchen
 common#:#search_in#:#Suchen in
-common#:#search_recipient#:#Empfänger suchen
+common#:#search_recipient#:#Empf&auml;nger suchen
 common#:#sections#:#Bereiche
 common#:#select#:#Select###12 May 2003 new variable
-common#:#select_all#:#Alle auswählen
-common#:#select_file#:#Datei wählen
-common#:#select_mode#:#Modus wählen
-common#:#selected#:#Ausgewählte
+common#:#select_all#:#Alle ausw&auml;hlen
+common#:#select_file#:#Datei w&auml;hlen
+common#:#select_mode#:#Modus w&auml;hlen
+common#:#selected#:#Ausgew&auml;hlte
 common#:#send#:#Abschicken
 common#:#sender#:#Absender
 common#:#sent#:#Gesendet
@@ -538,8 +538,8 @@ common#:#sequences#:#Sequenzen
 common#:#server#:#Server
 common#:#server_software#:#Server Software
 common#:#set#:#Setzen
-common#:#setSystemLanguage#:#Systemsprache ändern
-common#:#setUserLanguage#:#Benutzersprache ändern
+common#:#setSystemLanguage#:#Systemsprache &auml;ndern
+common#:#setUserLanguage#:#Benutzersprache &auml;ndern
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#settings#:#Einstellungen
@@ -599,7 +599,7 @@ common#:#username#:#Benutzername
 common#:#users#:#Benutzer
 common#:#usr#:#Benutzer
 common#:#usr_agreement#:#Vereinbarung
-common#:#usr_skin#:#Benutzeroberfläche
+common#:#usr_skin#:#Benutzeroberfl&auml;che
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
 common#:#validate#:#Validieren
@@ -611,7 +611,7 @@ common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
 common#:#write#:#Schreiben
 common#:#yes#:#Ja
-common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
+common#:#you_may_add_local_roles#:#Sie k&ouml;nnen lokale Rollen hinzuf&uuml;gen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
 content#:#cont_Additional#:#Additional###23 Jun 2003 new variable
@@ -664,70 +664,70 @@ content#:#par#:#Paragraph###12 May 2003 new variable
 content#:#pg#:#Page###12 May 2003 new variable
 content#:#st#:#Chapter###12 May 2003 new variable
 forum#:#forums#:#Forums###08 May 2003 new variable
-forum#:#forums_articles#:#Beiträge
-forum#:#forums_available#:#Verfügbare Foren
+forum#:#forums_articles#:#Beitr&auml;ge
+forum#:#forums_available#:#Verf&uuml;gbare Foren
 forum#:#forums_count#:#Anzahl Foren
-forum#:#forums_count_art#:#Anzahl Beiträge
+forum#:#forums_count_art#:#Anzahl Beitr&auml;ge
 forum#:#forums_count_thr#:#Anzahl Themen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, daß dieser Beitrag auch weiterhin nicht angezeigt werden soll?
 forum#:#forums_info_censor_post#:#Sind Sie sicher, daß dieser Beitrag nicht mehr angezeigt werden soll?
-forum#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gelöscht werden soll?
+forum#:#forums_info_delete_post#:#Sind Sie sicher, daß dieser Beitrag inklusive aller Antworten gel&ouml;scht werden soll?
 forum#:#forums_last_post#:#Letzter Beitrag
 forum#:#forums_moderators#:#Moderatoren
-forum#:#forums_new_entries#:#Neue Foren-Einträge
+forum#:#forums_new_entries#:#Neue Foren-Eintr&auml;ge
 forum#:#forums_new_thread#:#Neues Thema
-forum#:#forums_not_available#:#Keine Foren verfügbar
-forum#:#forums_overview#:#Übersicht Foren
-forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
+forum#:#forums_not_available#:#Keine Foren verf&uuml;gbar
+forum#:#forums_overview#:#&Uuml;bersicht Foren
+forum#:#forums_post_deleted#:#Beitrag wurde gel&ouml;scht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
-forum#:#forums_posts#:#Alle Beiträge
-forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
+forum#:#forums_posts#:#Alle Beitr&auml;ge
+forum#:#forums_posts_not_available#:#Keine Artikel verf&uuml;gbar
 forum#:#forums_respond#:#Beitrag beantworten
 forum#:#forums_the_post#:#Beitrag
 forum#:#forums_thread#:#Thema
-forum#:#forums_thread_articles#:#Beiträge zum Thema
+forum#:#forums_thread_articles#:#Beitr&auml;ge zum Thema
 forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 forum#:#forums_threads#:#Themen
-forum#:#forums_threads_not_available#:#Keine Themen verfügbar
-forum#:#forums_topics_overview#:#Themen-Übersicht
+forum#:#forums_threads_not_available#:#Keine Themen verf&uuml;gbar
+forum#:#forums_topics_overview#:#Themen-&Uuml;bersicht
 forum#:#forums_your_reply#:#Ihre Antwort
 mail#:#also_as_email#:#Auch als eMail
 mail#:#bc#:#BC###16 Apr 2003 new variable
 mail#:#forward#:#Weiterleiten
 mail#:#linebreak#:#Zeilenumbruch
-mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
-mail#:#mail_add_subfolder#:#Unterordner hinzufügen
+mail#:#mail_add_recipient#:#Bitte geben Sie einen Empf&auml;nger ein
+mail#:#mail_add_subfolder#:#Unterordner hinzuf&uuml;gen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
-mail#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
+mail#:#mail_add_to_addressbook#:#Zum Adressbuch hinzuf&uuml;gen
 mail#:#mail_add_type#:#Bitte geben Sie den Typ der Nachricht an
-mail#:#mail_addr_entries#:#Einträge
+mail#:#mail_addr_entries#:#Eintr&auml;ge
 mail#:#mail_attachments#:#Attachments###16 Apr 2003 new variable
-mail#:#mail_bc_not_valid#:#Der Bc Empfänger ist nicht gültig
-mail#:#mail_bc_search#:#BC Empfänger suchen
-mail#:#mail_cc_not_valid#:#Der Cc Empfänger ist nicht gültig
-mail#:#mail_cc_search#:#CC Empfänger suchen
+mail#:#mail_bc_not_valid#:#Der Bc Empf&auml;nger ist nicht g&uuml;ltig
+mail#:#mail_bc_search#:#BC Empf&auml;nger suchen
+mail#:#mail_cc_not_valid#:#Der Cc Empf&auml;nger ist nicht g&uuml;ltig
+mail#:#mail_cc_search#:#CC Empf&auml;nger suchen
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
-mail#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre eMail Adresse
+mail#:#mail_check_your_email_addr#:#Bitte &uuml;berpr&uuml;fen Sie Ihre eMail Adresse
 mail#:#mail_compose#:#Nachricht erstellen
-mail#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
-mail#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
+mail#:#mail_deleted#:#Die Nachricht(en) wurden gel&ouml;scht
+mail#:#mail_deleted_entry#:#Die Eintr&auml;ge wurden gel&ouml;scht
 mail#:#mail_email_forbidden#:#Sie sind nicht berechtigt eMails zu verschicken
-mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
-mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
+mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugef&uuml;gt
+mail#:#mail_entry_changed#:#Der Eintrag wurde ge&auml;ndert
 mail#:#mail_file_name#:#Dateiname
-mail#:#mail_file_size#:#Dateigröße
-mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
+mail#:#mail_file_size#:#Dateigr&ouml;ße
+mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gel&ouml;scht
 mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
-mail#:#mail_folder_deleted#:#Der Ordner wurde gelöscht
+mail#:#mail_folder_deleted#:#Der Ordner wurde gel&ouml;scht
 mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 mail#:#mail_folder_name#:#Ordnername
 mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
 mail#:#mail_folder_options#:#Ordner Einstellungen
-mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gültig:
+mail#:#mail_following_rcp_not_valid#:#Die folgenden Empf&auml;nger sind nicht g&uuml;ltig:
 mail#:#mail_global_options#:#Allgemeine Einstellungen
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
@@ -739,26 +739,26 @@ mail#:#mail_move_error#:#Fehler beim Senden der Nachricht
 mail#:#mail_move_to#:#Verschieben nach:###24 Apr 2003 content changed
 mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
 mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben###25 Apr 2003 content changed
-mail#:#mail_new_file#:#Neue Datei hinzufügen:
-mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
+mail#:#mail_new_file#:#Neue Datei hinzuf&uuml;gen:
+mail#:#mail_no_attach_allowed#:#Systemnachrichten k&ouml;nnen keine Attachments beinhalten
 mail#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
 mail#:#mail_options_of#:#Einstellungen###24 Apr 2003 content changed
-mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
+mail#:#mail_recipient_not_valid#:#Der Empf&auml;nger ist nicht g&uuml;ltig
 mail#:#mail_s#:#Nachrichten
 mail#:#mail_s_unread#:#Ungelesene Nachrichten
 mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert
 mail#:#mail_search_addressbook#:#im Addressbuch suchen
 mail#:#mail_search_system#:#im System suchen
-mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
-mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
-mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen
-mail#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen
-mail#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen
-mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gelöscht
-mail#:#mail_to_search#:#Empfänger suchen
-mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
-mail#:#search_bc_recipient#:#BC Empfänger suchen
-mail#:#search_cc_recipient#:#CC Empfänger suchen
+mail#:#mail_select_one_entry#:#Sie m&uuml;ssen mindestens einen Eintrag ausw&auml;hlen
+mail#:#mail_select_one_file#:#Sie m&uuml;ssen mindestens eine Datei ausw&auml;hlen
+mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gel&ouml;scht werden sollen
+mail#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Eintr&auml;ge gel&ouml;scht werden sollen
+mail#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gel&ouml;scht werden sollen
+mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gel&ouml;scht
+mail#:#mail_to_search#:#Empf&auml;nger suchen
+mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine g&uuml;ltige eMail Adresse
+mail#:#search_bc_recipient#:#BC Empf&auml;nger suchen
+mail#:#search_cc_recipient#:#CC Empf&auml;nger suchen
 meta#:#meta_c_AD#:#Andorra###14 May 2003 new variable
 meta#:#meta_c_AE#:#United Arab Emirates###14 May 2003 new variable
 meta#:#meta_c_AF#:#Afghanistan###14 May 2003 new variable
