@@ -64,7 +64,10 @@ class ilDOMUtil
 		{
 			$new_node =& $doc->create_element($a_node_name);
 			$new_node =& $parent_node->append_child($new_node);
-			$new_node->set_content($a_content);
+			if ($a_content != "")
+			{
+				$new_node->set_content($a_content);
+			}
 			ilDOMUtil::set_attributes($new_node, $a_attributes);
 		}
 		else
@@ -79,14 +82,20 @@ class ilDOMUtil
 						$child->remove_child($childs2[$i]);
 					}
 				}
-				$child->set_content($a_content);
+				if ($a_content != "")
+				{
+					$child->set_content($a_content);
+				}
 				ilDOMUtil::set_attributes($child, $a_attributes);
 			}
 			else
 			{
 				$new_node =& $doc->create_element($a_node_name);
 				$new_node =& $child->insert_before($new_node, $child);
-				$new_node->set_content($a_content);
+				if ($a_content != "")
+				{
+					$new_node->set_content($a_content);
+				}
 				ilDOMUtil::set_attributes($new_node, $a_attributes);
 			}
 		}

@@ -651,6 +651,7 @@ class ilPageObject
 
 	function validateDom()
 	{
+//echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":"; exit;
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":"; exit;
 		$this->stripHierIDs();
 		@$this->dom->validate($error);
