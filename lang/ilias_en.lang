@@ -602,7 +602,7 @@ common#:#all_tsts#:#All tests
 common#:#all_users#:#All users
 common#:#allow_assign_users#:#Allow user assignment for local administrators.
 common#:#allow_register#:#Available in registration form for new users
-common#:#alm#:#AICC Learning Module
+common#:#alm#:#Learning Module AICC
 common#:#alm_added#:#AICC Learning Module added
 common#:#alm_create#:#Create AICC Learning Module
 common#:#alm_delete#:#Delete AICC Learning Module
@@ -696,7 +696,7 @@ common#:#cat_create_alm#:#Create AICC Learning Module
 common#:#cat_create_cat#:#Create Category
 common#:#cat_create_chat#:#Create Chat
 common#:#cat_create_crs#:#Create Course
-common#:#cat_create_dbk#:#Create Digibook
+common#:#cat_create_dbk#:#Create Digilib Book
 common#:#cat_create_exc#:#Create Exercise
 common#:#cat_create_file#:#Upload File
 common#:#cat_create_frm#:#Create Forum
@@ -704,11 +704,11 @@ common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
 common#:#cat_create_hlm#:#Create HACP Learning Module
 common#:#cat_create_htlm#:#Create HTML Learning Module
-common#:#cat_create_lm#:#Create Learning Module
+common#:#cat_create_lm#:#Create ILIAS Learning Module
 common#:#cat_create_mep#:#Create Media Pool
-common#:#cat_create_qpl#:#Create Question Pool (Assessment)
+common#:#cat_create_qpl#:#Create Question Pool for Test
 common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#cat_create_spl#:#Create Question Pool (Survey)
+common#:#cat_create_spl#:#Create Question Pool for Survey
 common#:#cat_create_svy#:#Create Survey
 common#:#cat_create_tst#:#Create Test
 common#:#cat_delete#:#Delete Category
@@ -820,7 +820,7 @@ common#:#crs_create_alm#:#Create AICC Learning Module
 common#:#crs_create_frm#:#Create Forum
 common#:#crs_create_glo#:#Create Glossary
 common#:#crs_create_hlm#:#Create HACP Learning Module
-common#:#crs_create_lm#:#Create Learning Module
+common#:#crs_create_lm#:#Create ILIAS Learning Module
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#crs_delete#:#Delete Course
 common#:#crs_edit#:#Edit Course
@@ -862,13 +862,13 @@ common#:#dbk#:#Digilib Book
 common#:#dbk_a#:#a Digilib Book
 common#:#dbk_add#:#Add Digilib Book
 common#:#dbk_added#:#Digilib Book added
-common#:#dbk_create#:#Create Digibook
-common#:#dbk_delete#:#Delete Digibook
+common#:#dbk_create#:#Create Digilib Book
+common#:#dbk_delete#:#Delete Digilib Book
 common#:#dbk_edit_permission#:#Change permission settings
 common#:#dbk_new#:#New Digilib Book
-common#:#dbk_read#:#Read access to Digibook
-common#:#dbk_visible#:#Digibook is visible
-common#:#dbk_write#:#Edit Digibook
+common#:#dbk_read#:#Read access to Digilib Book
+common#:#dbk_visible#:#Digilib Book is visible
+common#:#dbk_write#:#Edit Digilib Book
 common#:#default#:#Default
 common#:#default_language#:#Default Language
 common#:#default_perm_settings#:#Default permissions
@@ -1011,7 +1011,7 @@ common#:#fold_create_fold#:#Create Folder
 common#:#fold_create_frm#:#Create Forum
 common#:#fold_create_glo#:#Create Glossary
 common#:#fold_create_hlm#:#Create HACP Learning Module
-common#:#fold_create_lm#:#Create Learning Module
+common#:#fold_create_lm#:#Create ILIAS Learning Module
 common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
@@ -1121,7 +1121,7 @@ common#:#grp_count_members#:#Number of members
 common#:#grp_create#:#Create Group
 common#:#grp_create_alm#:#Create AICC Learning Module
 common#:#grp_create_chat#:#Create Chat
-common#:#grp_create_dbk#:#Create Digibook
+common#:#grp_create_dbk#:#Create Digilib Book
 common#:#grp_create_exc#:#Create Exercise
 common#:#grp_create_file#:#Upload File
 common#:#grp_create_fold#:#Create Folder
@@ -1129,7 +1129,7 @@ common#:#grp_create_frm#:#Create Forum
 common#:#grp_create_glo#:#Create Glossary
 common#:#grp_create_hlm#:#Create HACP Learning Module
 common#:#grp_create_htlm#:#Create HTML Learning Module
-common#:#grp_create_lm#:#Create Learning Module
+common#:#grp_create_lm#:#Create ILIAS Learning Module
 common#:#grp_create_mep#:#Create Media Pool
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
 common#:#grp_delete#:#Delete Group
@@ -1176,7 +1176,7 @@ common#:#help#:#Help
 common#:#hide_details#:#hide details
 common#:#hide_structure#:#Disable Structured-View
 common#:#hits_per_page#:#Hits/Page
-common#:#hlm#:#HACP Learning Module
+common#:#hlm#:#Learning Module HACP
 common#:#hlm_added#:#HACP Learning Module added
 common#:#hlm_create#:#Create HACP Learning Module
 common#:#hlm_delete#:#Delete HACP Learning Module
@@ -1190,7 +1190,7 @@ common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Home
 common#:#host#:#Host
 common#:#hours_of_day#:#Hours of day
-common#:#htlm#:#HTML Learning Module
+common#:#htlm#:#Learning Module HTML
 common#:#htlm_add#:#Add HTML Learning Module
 common#:#htlm_delete#:#Delete HTML Learning Module
 common#:#htlm_edit#:#Edit HTML Learning Module Properties
@@ -1217,7 +1217,7 @@ common#:#import_forum_finished#:#The forum has been imported.
 common#:#import_glossary#:#Import Glossary
 common#:#import_grp_finished#:#Imported group without any error
 common#:#import_hlm#:#Import HACP Package
-common#:#import_lm#:#Import Learning module
+common#:#import_lm#:#Import ILIAS Learning module
 common#:#import_root_user#:#Import Root User
 common#:#import_sahs#:#Import SCORM/AICC Package
 common#:#import_users#:#Import Users
@@ -1335,22 +1335,22 @@ common#:#list_of_pages#:#Pages List
 common#:#list_of_questions#:#Question List
 common#:#literature#:#Literature
 common#:#literature_bookmarks#:#Literature Bookmarks
-common#:#lm#:#Learning Module
-common#:#lm_a#:#a Learning Module
-common#:#lm_add#:#Add Learning Module
-common#:#lm_added#:#Learning Module added
-common#:#lm_create#:#Create Learning Module
-common#:#lm_delete#:#Delete Learning Module
+common#:#lm#:#Learning Module ILIAS
+common#:#lm_a#:#an ILIAS Learning Module
+common#:#lm_add#:#Add ILIAS Learning Module
+common#:#lm_added#:#ILIAS Learning Module added
+common#:#lm_create#:#Create ILIAS Learning Module
+common#:#lm_delete#:#Delete ILIAS Learning Module
 common#:#lm_edit_permission#:#Change permission settings
-common#:#lm_join#:#Subscribe to Learning Module
-common#:#lm_leave#:#Unsubscribe from Learning Module
-common#:#lm_new#:#New Learning Module
-common#:#lm_read#:#Read access to Learning Module
+common#:#lm_join#:#Subscribe to ILIAS Learning Module
+common#:#lm_leave#:#Unsubscribe from ILIASLearning Module
+common#:#lm_new#:#New ILIAS Learning Module
+common#:#lm_read#:#Read access to ILIAS Learning Module
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Learning Module is visible
-common#:#lm_write#:#Edit Learning Module
+common#:#lm_visible#:#ILIAS Learning Module is visible
+common#:#lm_write#:#Edit ILIAS Learning Module
 common#:#lng#:#Language
 common#:#lngf#:#Languages
 common#:#lngf_edit_permission#:#Change permission settings
@@ -1596,7 +1596,7 @@ common#:#number_of_records#:#Number of records
 common#:#obj#:#Object
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
-common#:#obj_alm#:#AICC Learning Module
+common#:#obj_alm#:#Learning Module AICC
 common#:#obj_auth#:#Authentication
 common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)
 common#:#obj_cat#:#Category
@@ -1612,11 +1612,11 @@ common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossary
 common#:#obj_grp#:#Group
-common#:#obj_hlm#:#HACP Learning Module
-common#:#obj_htlm#:#HTML Learning Module
+common#:#obj_hlm#:#Learning Module HACP
+common#:#obj_htlm#:#Learning Module HTML
 common#:#obj_ldap#:#LDAP Settings
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
-common#:#obj_lm#:#Learning Module
+common#:#obj_lm#:#Learning Module ILIAS
 common#:#obj_lng#:#Language
 common#:#obj_lngf#:#Languages
 common#:#obj_lngf_desc#:#Manage your system languages here.
@@ -1634,7 +1634,7 @@ common#:#obj_owner#:#This Object is owned by
 common#:#obj_pays#:#Payment settings
 common#:#obj_pays_desc#:#Configure payment settings and vendors
 common#:#obj_pg#:#Page
-common#:#obj_qpl#:#Question Pool (Assessment)
+common#:#obj_qpl#:#Question Pool Test
 common#:#obj_recf#:#Restored Objects
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
 common#:#obj_role#:#Role
@@ -1644,8 +1644,8 @@ common#:#obj_rolf_local#:#Local Roles
 common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
-common#:#obj_sahs#:#SCORM/AICC Learning Module
-common#:#obj_spl#:#Question Pool (Survey)
+common#:#obj_sahs#:#Learning Module SCORM/AICC
+common#:#obj_spl#:#Question Pool Survey
 common#:#obj_st#:#Chapter
 common#:#obj_svy#:#Survey
 common#:#obj_tax#:#Taxonomy
@@ -1683,18 +1683,18 @@ common#:#objs_glo#:#Glossaries
 common#:#objs_grp#:#Groups
 common#:#objs_hlm#:#HACP Learning Modules
 common#:#objs_htlm#:#HTML Learning Modules
-common#:#objs_lm#:#Learning Modules
+common#:#objs_lm#:#ILIAS Learning Modules
 common#:#objs_lng#:#Languages
 common#:#objs_lo#:#Learning Objects
 common#:#objs_mep#:#Media Pools
 common#:#objs_mob#:#Media Objects
 common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
-common#:#objs_qpl#:#Question Pools (Assessment)
+common#:#objs_qpl#:#Question Pools Test
 common#:#objs_role#:#Roles
 common#:#objs_rolt#:#Role Templates
 common#:#objs_sahs#:#SCORM/AICC Learning Modules
-common#:#objs_spl#:#Question Pools (Surveys)
+common#:#objs_spl#:#Question Pools Survey
 common#:#objs_st#:#Chapters
 common#:#objs_svy#:#Surveys
 common#:#objs_tst#:#Tests
@@ -1781,14 +1781,14 @@ common#:#publication#:#Publication
 common#:#publication_date#:#Publication Date
 common#:#published#:#Published
 common#:#publishing_organisation#:#Publishing Organization
-common#:#qpl#:#Question pool (Assessment)
-common#:#qpl_add#:#Add question pool
-common#:#qpl_delete#:#Delete Question Pool
+common#:#qpl#:#Question Pool Test
+common#:#qpl_add#:#Add question pool for test
+common#:#qpl_delete#:#Delete Question Pool for Test
 common#:#qpl_edit_permission#:#Change permission settings
-common#:#qpl_new#:#New question pool
-common#:#qpl_read#:#Read access to Question Pool
-common#:#qpl_visible#:#Question Pool is visible
-common#:#qpl_write#:#Edit Question Pool
+common#:#qpl_new#:#New question pool for test
+common#:#qpl_read#:#Read access to Question Pool for Test
+common#:#qpl_visible#:#Question Pool for Test is visible
+common#:#qpl_write#:#Edit Question Pool for Test
 common#:#query_data#:#Query data
 common#:#question#:#Question
 common#:#question_pools#:#Question pools
@@ -1893,7 +1893,7 @@ common#:#root_edit_permission#:#Change permission settings
 common#:#root_read#:#Read access to ILIAS system
 common#:#root_visible#:#ILIAS system is visible
 common#:#root_write#:#Edit metadata of system root node
-common#:#sahs#:#SCORM/AICC Learning Module
+common#:#sahs#:#Learning Module SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC Learning Module added
 common#:#sahs_create#:#Create SCORM/AICC Learning Module
 common#:#sahs_delete#:#Delete SCORM/AICC Learning Module
@@ -1958,14 +1958,14 @@ common#:#show_users_online#:#Show users online
 common#:#signature#:#Signature
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
-common#:#spl#:#Question pool (Survey)
-common#:#spl_add#:#Add question pool
-common#:#spl_delete#:#Delete Question Pool
+common#:#spl#:#Question Pool Survey
+common#:#spl_add#:#Add question pool for survey
+common#:#spl_delete#:#Delete Question Pool for Survey
 common#:#spl_edit_permission#:#Change permission settings
-common#:#spl_new#:#New question pool
-common#:#spl_read#:#Read access to Question Pool
-common#:#spl_visible#:#Question Pool is visible
-common#:#spl_write#:#Edit Question Pool
+common#:#spl_new#:#New question pool for survey
+common#:#spl_read#:#Read access to Question Pool for Survey
+common#:#spl_visible#:#Question Pool for Survey is visible
+common#:#spl_write#:#Edit Question Pool for Survey
 common#:#st_a#:#a chapter
 common#:#st_add#:#Add chapter
 common#:#st_added#:#Chapter added
