@@ -313,12 +313,16 @@ class ilRbacReview
 	}
 
 	/**
-	* returns an array of role folder ids assigned to a role
+	* returns an array of role folder ids assigned to a role. A role with stopped inheritance
+	* may be assigned to more than one rolefolder.
+	* To get only the original location of a role, set the second parameter to true
+	*
 	* @access	public
 	* @param	integer		role id
+	* @param	boolean		get only rolefolders where role is assignable (true) 
 	* @return	array		reference IDs of role folders
 	*/
-	function getFoldersAssignedToRole($a_rol_id)
+	function getFoldersAssignedToRole($a_rol_id, $a_assignable = false)
 	{
 		global $log;
 
@@ -328,9 +332,14 @@ class ilRbacReview
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
+		
+		if ($a_assignable)
+		{
+			$where = " AND assign ='y'";
+		}
 
 		$q = "SELECT DISTINCT parent FROM rbac_fa ".
-			 "WHERE rol_id = '".$a_rol_id."'";
+			 "WHERE rol_id = '".$a_rol_id."'".$where;
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
