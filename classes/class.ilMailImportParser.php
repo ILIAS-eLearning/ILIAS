@@ -28,7 +28,7 @@ require_once("./classes/class.ilMailbox.php");
 * Mail Import Parser
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id$
+* @version $Id$Id: class.ilMailImportParser.php,v 1.1 2004/03/31 13:42:19 smeyer Exp $
 *
 * @extends ilSaxParser
 * @package core
@@ -272,12 +272,16 @@ class ilMailImportParser extends ilSaxParser
 
 		$ilDB->executeMultiple($sth,$this->__buildSQLArray());
 
-
 		return true;
 	}
 	function __buildSQLArray()
 	{
 		$sql = array();
+
+		if(!count($this->mails))
+		{
+			return array();
+		}
 
 		foreach($this->mails as $mail)
 		{
