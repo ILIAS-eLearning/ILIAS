@@ -609,6 +609,13 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
+		
+		if ($_GET["evaluation"]) {
+			$question_gui = new ASS_QuestionGui();
+			$question_gui->create_question("", $_GET["evaluation"]);
+			$question_gui->out_evaluation($this->object->get_test_id());
+			return;
+		}
 
 		if (($_POST["cmd"]["showresults"]) or ($_GET["sortres"])) {
 			$this->out_test_results();
@@ -793,7 +800,7 @@ class ilObjTestGUI extends ilObjectGUI
       $total_reached_points += $reached_points;
 			$row = array(
 				"nr" => "$key",
-				"title" => $question->get_title(),
+				"title" => "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&evaluation=" . $question->get_id() . "\">" . $question->get_title() . "</a>",
 				"max" => sprintf("%d", $max_points),
 				"reached" => sprintf("%d", $reached_points),
 				"percent" => sprintf("%2.2f ", ($reached_points / $max_points) * 100) . "%"

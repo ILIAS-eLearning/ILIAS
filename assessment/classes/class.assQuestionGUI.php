@@ -1598,6 +1598,75 @@ class ASS_QuestionGUI extends PEAR {
   }
 
 /**
+* Creates a preview of a question using the preview template
+*
+* Creates a preview of a question using the preview template
+*
+* @access public
+*/
+  function out_evaluation($test_id) {
+		global $ilUser;
+    $question_type = $this->get_question_type($this->question);
+    
+    $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
+    switch($question_type)
+    {
+      case "qt_cloze":
+        $this->out_working_cloze_question($test_id, false);
+        break;
+      case "qt_multiple_choice_sr":
+      case "qt_multiple_choice_mr":
+        $this->out_working_multiple_choice_question($test_id, false);
+        break;
+      case "qt_ordering":
+        $this->out_working_ordering_question($test_id, false);
+        break;
+      case "qt_matching":
+        $this->out_working_matching_question($test_id, false);
+        break;
+      case "qt_imagemap":
+				$formaction = "#";
+        $this->out_working_imagemap_question($test_id, false, $formaction);
+        break;
+    }
+    $this->tpl->setCurrentBlock("adm_content");
+		$eval_result = $this->question->get_reached_information($ilUser->id, $test_id);
+    switch($question_type)
+    {
+      case "qt_cloze":
+				foreach ($eval_result as $key => $value) {
+					$out_eval_results .= "Gap " . $value["gap"] . " " . $value["value"] . " is " . $value["true"] . " (" . $value["points"] . " points)<br>";
+				}
+        break;
+      case "qt_multiple_choice_sr":
+      case "qt_multiple_choice_mr":
+				foreach ($eval_result as $key => $value) {
+					$out_eval_results .= "Choice " . $value["order"] . " " . $value["value"] . " is " . $value["true"] . " (" . $value["points"] . " points)<br>";
+				}
+        break;
+      case "qt_ordering":
+				foreach ($eval_result as $key => $value) {
+					$out_eval_results .= "Order " . $value["order"] . " " . $value["value"] . " is " . $value["true"] . " (" . $value["points"] . " points)<br>";
+				}
+        break;
+      case "qt_matching":
+				foreach ($eval_result as $key => $value) {
+					$out_eval_results .= "Matching pair " . $value["order"] . " " . $value["value1"] . " - " . $value["value2"] . " is " . $value["true"] . " (" . $value["points"] . " points)<br>";
+				}
+        break;
+      case "qt_imagemap":
+				foreach ($eval_result as $key => $value) {
+					$out_eval_results .= "Selection " . $value["order"] . " " . $value["value"] . " is " . $value["true"] . " (" . $value["points"] . " points)<br>";
+				}
+        break;
+    }
+    $this->tpl->setVariable("EVALUATION_RESULTS", $out_eval_results);
+    $this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter());
+    $this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
+    $this->tpl->parseCurrentBlock();
+  }
+
+/**
 * Creates the learners output of a question
 *
 * Creates the learners output of a question
