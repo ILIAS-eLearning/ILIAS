@@ -193,3 +193,85 @@ CREATE TABLE dbk_translations
 	tr_id		int(11) NOT NULL,
 	PRIMARY KEY (id,tr_id)
 );
+
+<#31>
+<?php
+// 1. replace all '-1' values in ref_id
+$q = "SELECT * FROM grp_tree WHERE ref_id = '-1'";
+$res = $this->db->query($q);
+
+$grp_data = array();
+
+while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$grp_data[] = $row;
+}
+
+if (count($grp_data) > 0)
+{
+	foreach ($grp_data as $entry)
+	{
+		$q = "INSERT INTO object_reference ".
+			 "(ref_id,obj_id) VALUES (0,'".$entry["child"]."')";
+		$this->db->query($q);
+	
+		$q = "SELECT LAST_INSERT_ID()";
+		$res = $this->db->query($q);
+		$row = $res->fetchRow(); 
+		$entry["ref_id"] = $row[0];
+	
+		$q = "UPDATE grp_data SET ref_id='".$entry["ref_id"]."' WHERE child='".$entry["child"]."'";
+		$this->db->query($q);
+	}
+}
+
+unset($grp_data);
+$grp_data = array();
+
+// 2. replace child and parent (both are obj_ids) with ref_ids
+$q = "SELECT * FROM grp_tree";
+$res = $this->db->query($q);
+
+while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$grp_data[] = $row;
+}
+
+$q = "DELETE FROM grp_tree";
+$this->db->query($q);
+
+if (count($grp_data) > 0)
+{
+	foreach ($grp_data as $key => $entry)
+	{
+		$q = "SELECT ref_id FROM object_reference WHERE obj_id='".$entry["parent"]."'";
+		$res = $this->db->query($q);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC); 
+		$entry["parent"] = $row["ref_id"];
+		
+		$q = "INSERT INTO grp_tree (tree,child,parent,lft,rgt,depth,perm,ref_id) VALUES ".
+			 "('".$entry["tree"]."',".
+			 "'".$entry["ref_id"]."',".
+			 "'".$entry["parent"]."',".
+			 "'".$entry["lft"]."',".
+			 "'".$entry["rgt"]."',".
+			 "'".$entry["depth"]."',".
+			 "'".$entry["perm"]."',".
+			 "'".$entry["child"]."')";
+		$this->db->query($q);
+	}
+}
+
+unset($grp_data);
+?>
+
+<#32>
+ALTER TABLE grp_tree CHANGE ref_id obj_id INT(11);
+
+<#33>
+CREATE TABLE file_data
+(
+	file_id INT NOT NULL,
+	file_type CHAR(64) NOT NULL,
+	PRIMARY KEY (file_id)
+);

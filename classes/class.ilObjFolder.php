@@ -28,28 +28,14 @@
 * @author Wolfgang Merkens <wmerkens@databay.de> 
 * @version $Id$
 *
-* @extends Object
+* @extends ilObject
 * @package ilias-core
 */
 
-require_once "class.ilFolder.php";
 require_once "class.ilObject.php";
 
 class ilObjFolder extends ilObject
-{/**
-	* ilias object
-	* @var object ilias
-	* @access private
-	*/
-	var $ilias;
-
-	/**
-	* lng object
-	* @var		object language
-	* @access	private
-	*/
-	var $lng;
-
+{
 	/**
 	* tree object
 	* @var object tree
@@ -63,8 +49,6 @@ class ilObjFolder extends ilObject
 	* @access private
 	*/
 	var $group_id;
-
-
 
 	/**
 	* table name of table mail object data
@@ -81,13 +65,6 @@ class ilObjFolder extends ilObject
 	var $table_tree;
 
 	/**
-	* Forum object
-	* @var		object Forum
-	* @access	private
-	*/
-	var $Folder;
-	
-	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -97,20 +74,11 @@ class ilObjFolder extends ilObject
 	{
 		$this->type = "fold";
 		$this->ilObject($a_id,false);
-		
-		
-		
-		
 	}
 	
 	//todo make it more flexible; it should be useful also for categories  
 	function putInGrpTree($local_table,$parent_id)
 	{  
-		require_once("classes/class.ilTree.php");
-		
-		global $ilias,$lng;
-		
-		
 		//echo "type".$parent_type."type";
 		$this->ilias = &$ilias;
 		$this->lng = &$lng;
@@ -123,9 +91,7 @@ class ilObjFolder extends ilObject
 		$this->gtree = new ilTree($tree_id);
 		$this->gtree->setTableNames($this->table_tree,$this->table_obj_data);
 		
-		
 		$local_tree->insertNode($this->getId(), $parent_id);
-		
 	}
 	
 	function setRefId($tree_id,$obj_id,$parent)
@@ -133,9 +99,5 @@ class ilObjFolder extends ilObject
 		$query = "UPDATE grp_tree SET ref_id = -1 WHERE tree=".$tree_id." AND child=".$obj_id." AND parent=".$parent;   
 		$this->ilias->db->query($query);
 	}
-	
-	
-	
-	
-} // END class.FolderObject
+} // END class.ilObjFolder
 ?>

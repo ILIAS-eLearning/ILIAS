@@ -27,16 +27,13 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilFolderGUI.php,v 1.4 2003/09/02 12:28:28 mrus Exp $
+* $Id$Id: class.ilFolderGUI.php,v 1.5 2003/09/18 15:08:29 mrus Exp $
 * 
-* @extends ilObject
+* @extends ilObjFolderGUI
 * @package ilias-core
 */
 
-require_once "class.ilObjectGUI.php";
-require_once "class.ilObjFolder.php";
 require_once "class.ilObjFolderGUI.php";
-require_once "class.ilObjGroup.php";
 
 class ilFolderGUI extends ilObjFolderGUI
 {
@@ -49,11 +46,7 @@ class ilFolderGUI extends ilObjFolderGUI
 	* name of the database table where the folder is included (e.g. grp_tree)
 	*/
 	var $tree_table;
-	
 	var $local_tree;
-	
-	
-	var $tpl;
 	
 	/**
 	* Constructor
@@ -61,35 +54,19 @@ class ilFolderGUI extends ilObjFolderGUI
 	*/
 	function ilFolderGUI($a_data,$a_id,$a_call_by_reference)
 	{ 
-		 
-		
 		$this->type = "fold";
 		$this->ilObjFolderGUI($a_data,$a_id,$a_call_by_reference);
 		
-		
 		//$this->tpl = new ilTemplate("tpl.folder.html", false, false);
-		
-
-		
 		$this->tree_id = $_GET["tree_id"];
-			
-		
-		
 		
 		//temporary substituted
 		$this->tree_table = $_GET["tree_table"];
 		//$this->tree_table = "grp_tree";
 		
-		
-		
 		$this->local_tree = new ilTree($this->tree_id);
 		//echo $this->tree_table;
 		$this->local_tree->setTableNames($this->tree_table,"object_data");
-		
-		
-		//$_GET[ref_id];
-		//$this->grp_tree = new ilTree($this->object->getRefId());
-		//$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 	}
 	
 	/**
@@ -109,7 +86,6 @@ class ilFolderGUI extends ilObjFolderGUI
 		}
 		else
 		{*/
-			
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
@@ -131,57 +107,49 @@ class ilFolderGUI extends ilObjFolderGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			
 			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","group.php?cmd=save&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=".$_GET["tree_table"]."&new_type=".$_POST["new_type"]."&parent_non_rbac_id=".$_GET["obj_id"]));
 			//$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			
+
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 			$this->tpl->show();
 		//}
 	}
 
-	
 	/**
 	* save object
 	* @access	public
 	*/
 	function saveObject()
-	{ 
-		
+	{
 		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
-		
-		
+
 		//if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
 		//{
-		
 		// create and insert Folder in objecttree
-		require_once("classes/class.ilObjFolder.php");
+		include_once("classes/class.ilObjFolder.php");
 		$folderObj = new ilObjFolder();
 		$folderObj->setType($_GET["new_type"]);
 		$folderObj->setTitle($_POST["Fobject"]["title"]);
 		$folderObj->setDescription($_POST["Fobject"]["desc"]);
 		$folderObj->create();
-		
+
 		//$folderObj->createReference();
-		
-		
 		//insert folder in local_tree
 		//echo $folderObj->getId()."-".$_GET["obj_id"]."-".$_GET["tree_id"];
-		
+		include_once "class.ilObjGroup.php";
 		ilObjGroup::insertGroupNode($folderObj->getId(), $_GET["obj_id"],$_GET["tree_id"]);
-		
+
 		/*//$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		//echo "folder_id:".$folderObj->getId()."übergeordnetes Objekt".$object->getId();
 		//insert folder in local_tree
 		$this->local_tree->insertNode($folderObj->getId(), $_GET["obj_id"]);
 		//make sure that objects without a ref_id gets -1 as substitution 
 		$folderObj->setRefId($_GET["tree_id"],$folderObj->getId(),$_GET["obj_id"]);
-  		*/
-		
+		*/
 		/*}
 		else
 		{
@@ -192,10 +160,5 @@ class ilFolderGUI extends ilObjFolderGUI
 		header("Location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		exit();
 	}
-	
-	
-	
-	
-	
-}
+} // END class.ilFolderGUI.php
 ?>
