@@ -10,7 +10,7 @@
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
 require_once "classes/class.User.php";
-require_once "classes/class.Group.php";
+require_once "classes/class.ilGroup.php";
 require_once "classes/class.ilAddressbook.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_search.html");
@@ -93,7 +93,7 @@ if($_GET["type"] == 'system')
 		$tpl->setVariable("TXT_PERSON_NO",$lng->txt("mail_search_no"));
 		$tpl->parseCurrentBlock();
 	}
-	$group = new Group();
+	$group = new ilGroup();
 	$groups = $group->searchGroups(addslashes(urldecode($_GET["search"])));
 	if($groups)
 	{
