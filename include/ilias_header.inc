@@ -96,12 +96,19 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 	// At the moment the method in the 3 main classes are not separated properly
 	// to do this. All rbac-classes need to be cleaned up
 		
-	// instantiate and init user
+	// init user
 	$ilias->account =& new User($ilias->db,$AccountId);
 	
-	// init language
-	$lng = new Language($ilias->account->data["language"]);
+	//language handling
+	// TODO: Load user settings for languages first
+	if ($lang == "")
+	{
+		$lang = $ilias->ini->readVariable("language","default");
+	}
 	
+	//init language
+	$lng = new Language($lang);
+
 	// init obj_id & parent; on first start obj_id is set to 1
 	$obj_id = $obj_id ? $obj_id : ROOT_FOLDER_ID; // for downward compatibility
 	$_GET["obj_id"] = $_GET["obj_id"] ? $_GET["obj_id"] : ROOT_FOLDER_ID;

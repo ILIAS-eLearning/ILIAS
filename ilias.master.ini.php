@@ -20,6 +20,7 @@ passcol = passwd
 
 [language]
 default = en
+masterfile = languages.txt
 
 [error]
 debug = false

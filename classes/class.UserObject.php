@@ -2,46 +2,49 @@
 include_once("classes/class.Object.php");
 
 /**
- * Class UserObject
- * @extends class.Object.php
- * @author Stefan Meyer <smeyer@databay.de> 
- * @version $Id$ 
- * @package ilias-core
- * 
+* Class UserObject
+* @extends class.Object.php
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id$ 
+* @package ilias-core
+* 
 */
 class UserObject extends Object
 {
-/**
- * array of gender abbreviations
- * @var array
- */
+	/**
+	* array of gender abbreviations
+	* @var array
+	*/
 	var $gender;
 
-/**
- * contructor
- * @param object ilias
- * @access public
- */
+	/**
+	* contructor
+	* TODO: remove ilias parameter in all object classes
+	* @param object ilias
+	* @access public
+	*/
 	function UserObject(&$a_ilias)
 	{
+		global $lng;
+
 		$this->Object($a_ilias);
 		$this->gender = array(
-			'm'    => 'Herr',
-			'f'    => 'Frau');
+							  'm'    => $lng->txt("salutation_m"),
+							  'f'    => $lng->txt("salutation_f")
+							  );
 	}
-/**
- * create user
- * @access public
- */
+
+	/**
+	* create user
+	* @access public
+	*/
 	function createObject()
 	{
-		global $tree;
-		global $tplContent;
+		global $tree,$tplContent,$rbacsystem;
 
 		$obj = getObject($_GET["obj_id"]);
-		$rbacsystem = new RbacSystemH($this->ilias->db);
 
-		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			$tplContent = new Template("user_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]); 
@@ -78,21 +81,21 @@ class UserObject extends Object
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_class->WARNING);
-			exit();
+			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
 		}
 	}
-/**
- * save user data
- * @access public
- */
+
+	/**
+	* save user data
+	* @access public
+	*/
 	function saveObject()
 	{
+		global $rbacsystem,$rbacadmin;
+		
 		$Fuserdata = $_POST["Fuserdata"];
-		$rbacsystem = new RbacSystemH($this->ilias->db);
-		$rbacadmin = new RbacAdminH($this->ilias->db);
 
-		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			// create object
 			$Fobject["title"] = User::buildFullName($Fuserdata["Title"],$Fuserdata["FirstName"],$Fuserdata["SurName"]);
@@ -105,46 +108,46 @@ class UserObject extends Object
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_class->WARNING);
-			exit();
+			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
 		}
-		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+		
+		header("Location: content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+		exit;
 	}
-/**
- * delete user
- * @access public
- */
+	
+	/**
+	* delete user
+	* @access public
+	*/
 	function deleteObject()
 	{
-		$rbacadmin = new RbacAdminH($this->ilias->db);
-		$rbacsystem = new RbacSystemH($this->ilias->db);
+		global $rbacadmin,$rbacsystem;
 		
 		// CHECK ACCESS
-		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
+		if ($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			$rbacadmin->deleteUser($_POST["id"]);
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to delete user",$this->ilias->error_class->WARNING);
-			exit();
+			$this->ilias->raiseError("No permission to delete user",$this->ilias->error_obj->WARNING);
 		}
-		header("Location: content_user.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+		
+		header("Location: content_user.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+		exit;
 	}
-/**
- * edit user data
- * @access public
- */
+	
+	/**
+	* edit user data
+	* @access public
+	*/
 	function editObject()
 	{
-		global $tplContent;
-
-		$rbacsystem = new RbacSystemH($this->ilias->db);
-		$rbacreview = new RbacReviewH($this->ilias->db);
+		global $tplContent,$rbacsystem,$rbacreview;
 
 		$parent_obj_id = $this->getParentObjectId();
 
-		if($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id) || $_GET["obj_id"] == $_SESSION["AccountId"])
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
 			// Userobjekt erzeugen
 			$user = new User($this->ilias->db,$_GET["obj_id"]);
@@ -179,14 +182,15 @@ class UserObject extends Object
 			$tplContent->setVariable("USR_SURNAME",$user->data["SurName"]);
 			$tplContent->setVariable("USR_EMAIL",$user->data["Email"]);
 
-			if($_GET["obj_id"] == $_SESSION["AccountId"])
+			if ($_GET["obj_id"] == $_SESSION["AccountId"])
 			{
 				// BEGIN AVTIVE ROLE
 
 				// BEGIN TABLE_ROLES
 				$tplContent->setCurrentBlock("TABLE_ROLES");
 				$assigned_roles = $rbacreview->assignedRoles($_GET["obj_id"]);
-				foreach($assigned_roles as $key => $role)
+				
+				foreach ($assigned_roles as $key => $role)
 				{
 					$obj = getObject($role);
 					$tplContent->setVariable("CSS_ROW_ROLE",$key % 2 ? 'row_low' : 'row_high');
@@ -195,6 +199,7 @@ class UserObject extends Object
 					$tplContent->setVariable("ROLENAME",$obj["title"]);
 					$tplContent->parseCurrentBlock();
 				}
+				
 				$tplContent->setCurrentBlock("ACTIVE_ROLE");
 				$tplContent->setVariable("ACTIVE_ROLE_OBJ_ID",$_GET["obj_id"]);
 				$tplContent->setVariable("ACTIVE_ROLE_TPOS",$_GET["parent"]);
@@ -203,55 +208,59 @@ class UserObject extends Object
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to edit user",$this->ilias->error_class->WARNING);
-			exit();
+			$this->ilias->raiseError("No permission to edit user",$this->ilias->error_obj->WARNING);
 		}
 	}
-/**
- * update user data
- * @access public
- */
+	/**
+	* update user data
+	* TODO: The entrry in object_data must be changed too!!
+	* @access public
+	*/
 	function updateObject()
 	{
-		if($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id) || $_GET["obj_id"] == $_SESSION["AccountId"])
+		global $rbacsystem,$rbacadmin;
+		
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
 			$Fuserdata = $_POST["Fuserdata"];
-			$rbacadmin = new RbacAdminH($this->ilias->db);
-			$rbacsystem = new RbacSystemH($this->ilias->db);
 			
 			$parent_obj_id = $this->getParentObjectId();
+
 			$rbacadmin->updateUser($Fuserdata);
 			$rbacadmin->assignUser($Fuserdata["Role"],$_GET["obj_id"]);
 			// TODO: Passwort muss gesondert abgefragt werden
 		}
 		else
 		{
-			$this->ilias->raiseError("No permission to delete user",$this->ilias->error_class->WARNING);
-			exit();
+			$this->ilias->raiseError("No permission to delete user",$this->ilias->error_obj->WARNING);
 		}
-		header("Location: content_user.php?obj_id=$_GET[parent]&parent=$this->SYSTEM_FOLDER_ID");
+		
+		header("Location: content_user.php?obj_id=".$_GET["parent"]."&parent=".SYSTEM_FOLDER_ID);
+		exit;
 	}
-/**
- * add active role in session
- * @access public
- *
- **/
+	
+	/**
+	* add active role in session
+	* @access public
+	*
+	**/
 	function activeRoleSaveObject()
 	{
 		if($_GET["obj_id"] == $_SESSION["AccountId"])
 		{
 			if(!count($_POST["active"]))
 			{
-				$this->ilias->raiseError("You must leave one active role",$this->ilias->error_class->WARNING);
+				$this->ilias->raiseError("You must leave one active role",$this->ilias->error_obj->WARNING);
 			}
 			$_SESSION["RoleId"] = $_POST["active"];
 		}
 		else
 		{
-			$this->ilias->raiseError("You can only change your own account",$this->ilias->error_class->WARNING);
+			$this->ilias->raiseError("You can only change your own account",$this->ilias->error_obj->WARNING);
 		}
-		header("Location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=edit");
-	}		
-
+		
+		header("Location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit");
+		exit;
+	}
 } //end class
 ?>
