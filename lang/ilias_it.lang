@@ -115,6 +115,7 @@ common#:#choose_only_one_language#:#Please choose only one language.###20 Mar 20
 common#:#city#:#città
 common#:#clear#:#clear
 common#:#clipboard#:#Clipboard###15 Sep 2003 new variable
+common#:#close#:#Close###28 Sep 2003 new variable
 common#:#comma_separated#:#separati di un comma
 common#:#comment#:#comment###13 May 2003 new variable
 common#:#compose#:#comporre
@@ -389,6 +390,7 @@ common#:#message_content#:#contenuto del messaggio
 common#:#message_to#:#messaggio a:
 common#:#meta_data#:#Meta Data###14 Jun 2003 new variable
 common#:#migrate#:#migrare
+common#:#mob#:#Media Object###28 Sep 2003 new variable
 common#:#module#:#module###26 Mar 2003 new variable
 common#:#modules#:#Modules###20 Mar 2003 new variable
 common#:#month#:#Month###01 Sep 2003 new variable
