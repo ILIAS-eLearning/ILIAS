@@ -573,8 +573,12 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		// load files templates
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.mob_files.html", true);
 
-		$this->tpl->setVariable("FORMACTION1", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
+		//$this->tpl->setVariable("FORMACTION1", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
+		//	"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
+		$this->tpl->setVariable("FORMACTION1", $this->getTargetScript().
 			"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
+//echo "--".$this->getTargetScript().
+			//"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post"."--<br>";
 		$this->tpl->setVariable("TXT_NEW_DIRECTORY", $this->lng->txt("cont_new_dir"));
 		$this->tpl->setVariable("TXT_NEW_FILE", $this->lng->txt("cont_new_file"));
 		$this->tpl->setVariable("CMD_NEW_DIR", "createDirectory");
@@ -591,7 +595,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$num = 0;
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
+		$this->tpl->setVariable("FORMACTION", $this->getTargetScript().
 			"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
 
 		$tbl->setTitle($this->lng->txt("cont_files")." ".$cur_subdir);
@@ -661,7 +665,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				{
 					$this->tpl->setCurrentBlock("FileLink");
 					$this->tpl->setVariable("LINK_FILENAME",
-						"lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
+						$this->getTargetScript().
 						"&hier_id=".$_GET["hier_id"]."&cmd=editFiles&cdir=".$cur_subdir."&newdir=".
 						rawurlencode($entry["entry"]));
 					$this->tpl->setVariable("TXT_FILENAME", $entry["entry"]);
@@ -736,7 +740,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		}
 
 		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
 	/**
@@ -756,7 +760,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 				$cur_dir."/".$_FILES["new_file"]["name"]);
 		}
 		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
 	/**
@@ -796,7 +800,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$format = ilMediaObject::getMimeType($file);
 		$this->content_obj->update();
 		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
 
@@ -831,6 +835,11 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->ilias->raiseError($this->lng->txt("cont_select_file"),$this->ilias->error_obj->MESSAGE);
 		}
 
+		if(!$this->content_obj->hasFullScreenItem())
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_no_fullscreen_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$full_item =& $this->content_obj->getMediaItem("Fullscreen");
 
 		$full_item->setLocationType("LocalFile");
@@ -838,7 +847,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$format = ilMediaObject::getMimeType($file);
 		$this->content_obj->update();
 		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
 
@@ -872,9 +881,12 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->ilias->raiseError($this->lng->txt("cont_cant_del_std"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		if ($location == $full_item->getLocation())
+		if($this->content_obj->hasFullScreenItem())
 		{
-			$this->ilias->raiseError($this->lng->txt("cont_cant_del_full"),$this->ilias->error_obj->MESSAGE);
+			if ($location == $full_item->getLocation())
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_cant_del_full"),$this->ilias->error_obj->MESSAGE);
+			}
 		}
 
 		if (@is_dir($file))
@@ -901,7 +913,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		}
 
 		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
-			"cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
 
