@@ -214,6 +214,7 @@ class ilUserImportParser extends ilSaxParser
 							$rbacadmin->assignUser($this->role_assign[$role_id],
 								$this->userObj->getId(), true);
 						}
+
 					}
 
 					// init role array for next user
