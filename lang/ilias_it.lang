@@ -542,6 +542,7 @@ common#:#crs_new#:#Nuovo corso
 common#:#crs_read#:#Accesso in lettura al corso
 common#:#crs_visible#:#Corso &#232; visibile
 common#:#crs_write#:#Modifica il corso
+common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Numero corrente di record
 common#:#current_password#:#Password attuale
 common#:#cut#:#Taglia
@@ -691,6 +692,8 @@ common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
 common#:#forename#:#Nome
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
+common#:#forum_import#:#Forum import###09 Apr 2004 new variable
+common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
 common#:#forum_notification#:#Notifica
 common#:#forum_notify_me#:#Avvisami quando viene aggiunta una risposta
 common#:#forum_post_replied#:#E&#039;stato risposto al tuo intervento
@@ -830,6 +833,7 @@ common#:#import_categories#:#Importa categorie
 common#:#import_file#:#Importa file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
 common#:#import_finished#:#Numero di messaggi importati.
+common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_lm#:#Importa modulo
 common#:#import_root_user#:#Importa utente root
 common#:#import_slm#:#Importa SCORM Package
@@ -1006,6 +1010,7 @@ common#:#mails#:#Mail
 common#:#mark_all_read#:#Contrassegna tutto come letto
 common#:#mark_all_unread#:#Contrassegna tutto come non letto
 common#:#max_number_rec#:#Numero massimo di record
+common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Membro
 common#:#members#:#Membri
 common#:#membership_annulled#:#La tua iscrizione &#232; stata cancellata
@@ -1024,6 +1029,7 @@ common#:#message_content#:#Contenuto del messaggio
 common#:#message_to#:#Messaggio a:
 common#:#meta_data#:#Meta Dati
 common#:#migrate#:#migrare
+common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Oggetto multimediale
 common#:#module#:#Modulo
 common#:#modules#:#Moduli
@@ -1799,6 +1805,7 @@ content#:#cont_update_names#:#Aggiorna i nomi
 content#:#cont_upload_file#:#Upload del file
 content#:#cont_url#:#URL
 content#:#cont_version#:#Versione
+content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Dove pubblicata
 content#:#cont_width#:#Larghezza
 content#:#cont_wysiwyg#:#Contenuto WYSIWYG

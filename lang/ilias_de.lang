@@ -542,6 +542,7 @@ common#:#crs_new#:#Neuer Kurs
 common#:#crs_read#:#Kurs lesen
 common#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_write#:#Kurs bearbeiten
+common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
@@ -691,6 +692,8 @@ common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzep
 common#:#forename#:#Vorname
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
+common#:#forum_import#:#Forum Import
+common#:#forum_import_file#:#Importdatei
 common#:#forum_notification#:#Benachrichtigung
 common#:#forum_notify_me#:#Benachrichtigung, wenn eine Antwort gesendet wurde
 common#:#forum_post_replied#:#Ihr Forumsbeitrag wurde beantwortet.
@@ -830,6 +833,7 @@ common#:#import_categories#:#Kategorien importieren
 common#:#import_file#:#Importdatei
 common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Nachrichten:
+common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
 common#:#import_lm#:#Import Lernmodul
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Import SCORM-Datei
@@ -1006,6 +1010,7 @@ common#:#mails#:#Mails
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
 common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
+common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Mitglied
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
@@ -1024,6 +1029,7 @@ common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
+common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Media Objekt
 common#:#module#:#Modul
 common#:#modules#:#Module
@@ -1799,6 +1805,7 @@ content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_url#:#URL
 content#:#cont_version#:#version
+content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Veröffentlichungsort
 content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt Wysiwyg
@@ -2706,6 +2713,3 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
-common#:#forum_import#:#Forum Import
-common#:#forum_import_file#:#Importdatei

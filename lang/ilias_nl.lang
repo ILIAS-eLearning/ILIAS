@@ -542,6 +542,7 @@ common#:#crs_new#:#Nieuwe cursus
 common#:#crs_read#:#Lees-toegang op cursus
 common#:#crs_visible#:#Cursus is zichtbaar
 common#:#crs_write#:#Cursus wijzigen
+common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_password#:#Huidig wachtwoord
 common#:#cut#:#Knippen
@@ -691,6 +692,8 @@ common#:#force_accept_usr_agreement#:#U moet de gebruikers-overeenkomst accepter
 common#:#forename#:#Familienaam
 common#:#form_empty_fields#:#AUB volgende velden invullen:
 common#:#forum#:#Forum
+common#:#forum_import#:#Forum import###09 Apr 2004 new variable
+common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
 common#:#forum_notification#:#Bekendmaking
 common#:#forum_notify_me#:#Informeer mij wanneer een antwoord wordt ontvangen
 common#:#forum_post_replied#:#Uw forum-bijdrage is beantwoord.
@@ -830,6 +833,7 @@ common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
+common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_lm#:#Importeren van een lesmodule
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#SCORM-package importeren
@@ -1006,6 +1010,7 @@ common#:#mails#:#Mails
 common#:#mark_all_read#:#Markeer alles als gelezen
 common#:#mark_all_unread#:#Markeer alles als niet gelezen
 common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
+common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Lid
 common#:#members#:#Leden
 common#:#membership_annulled#:#Uw lidmaatschap is beëindigd
@@ -1024,6 +1029,7 @@ common#:#message_content#:#Inhoud-bericht
 common#:#message_to#:#Bericht aan:
 common#:#meta_data#:#Meta-data
 common#:#migrate#:#Migreren
+common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Media-object
 common#:#module#:#module
 common#:#modules#:#Modules
@@ -1799,6 +1805,7 @@ content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#Upload-bestand
 content#:#cont_url#:#URL
 content#:#cont_version#:#versie
+content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Waar gepubliceerd
 content#:#cont_width#:#Breedte
 content#:#cont_wysiwyg#:#Inhoud Wysiwyg

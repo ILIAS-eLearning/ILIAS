@@ -559,6 +559,7 @@ common#:#crs_new#:#新课程
 common#:#crs_read#:#课程设为读访问
 common#:#crs_visible#:#课程可视
 common#:#crs_write#:#编辑课程
+common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_password#:#当前口令
 common#:#cut#:#剪切
@@ -708,6 +709,8 @@ common#:#force_accept_usr_agreement#:#您必须接受用户协议！
 common#:#forename#:#名
 common#:#form_empty_fields#:#请填写这些域
 common#:#forum#:#论坛
+common#:#forum_import#:#Forum import###09 Apr 2004 new variable
+common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
 common#:#forum_notification#:#通知
 common#:#forum_notify_me#:#张贴答复时通知我
 common#:#forum_post_replied#:#论坛中您的条目已被回答。
@@ -847,6 +850,7 @@ common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
+common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_lm#:#导入学习模块
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#导入SCORM包
@@ -1023,6 +1027,7 @@ common#:#mails#:#邮件
 common#:#mark_all_read#:#全部邮件标记为已读
 common#:#mark_all_unread#:#全部邮件标记为未读
 common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
+common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#成员
 common#:#members#:#成员
 common#:#membership_annulled#:#您的成员资格已被取消!
@@ -1041,6 +1046,7 @@ common#:#message_content#:#消息内容
 common#:#message_to#:#消息发送到
 common#:#meta_data#:#元数据
 common#:#migrate#:#移植
+common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#媒体对象
 common#:#module#:#模块
 common#:#modules#:#模块
@@ -1816,6 +1822,7 @@ content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#上载文件
 content#:#cont_url#:#URL
 content#:#cont_version#:#版本
+content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#发行处
 content#:#cont_width#:#宽度
 content#:#cont_wysiwyg#:#所得即所见内容
