@@ -22,6 +22,7 @@
 */
 
 require_once "./survey/classes/class.SurveyTextQuestion.php";
+require_once "./survey/classes/class.SurveyQuestionGUI.php";
 
 /**
 * Text survey question GUI representation
@@ -34,18 +35,7 @@ require_once "./survey/classes/class.SurveyTextQuestion.php";
 * @module   class.SurveyTextQuestionGUI.php
 * @modulegroup   Survey
 */
-class SurveyTextQuestionGUI {
-/**
-* Question object
-*
-* A reference to the text question object
-*
-* @var object
-*/
-  var $object;
-
-	var $tpl;
-	var $lng;
+class SurveyTextQuestionGUI extends SurveyQuestionGUI {
 
 /**
 * SurveyTextQuestionGUI constructor
@@ -60,12 +50,7 @@ class SurveyTextQuestionGUI {
   )
 
   {
-		global $lng;
-		global $tpl;
-
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
-
+		$this->SurveyQuestionGUI();
 		$this->object = new SurveyTextQuestion();
 		if ($id >= 0)
 		{
@@ -93,7 +78,7 @@ class SurveyTextQuestionGUI {
 *
 * @access public
 */
-  function showEditForm() {
+  function editQuestion() {
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_text.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
 
@@ -119,7 +104,7 @@ class SurveyTextQuestionGUI {
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_text");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
   }
 
@@ -195,10 +180,12 @@ class SurveyTextQuestionGUI {
 *
 * @access private
 */
-	function outPreviewForm()
+	function preview()
 	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", true);
 		$this->tpl->addBlockFile("TEXT", "text", "tpl.il_svy_out_text.html", true);
 		$this->outWorkingForm();
+		$this->tpl->parseCurrentBlock();
 	}
 
 /**
@@ -280,6 +267,9 @@ class SurveyTextQuestionGUI {
 		return $saved;
 	}
 
-
+	function setQuestionTabs()
+	{
+		$this->setQuestionTabsForClass("surveytextquestiongui");
+	}
 }
 ?>

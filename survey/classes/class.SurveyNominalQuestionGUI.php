@@ -22,6 +22,7 @@
 */
 
 require_once "./survey/classes/class.SurveyNominalQuestion.php";
+require_once "./survey/classes/class.SurveyQuestionGUI.php";
 
 /**
 * Nominal survey question GUI representation
@@ -34,18 +35,7 @@ require_once "./survey/classes/class.SurveyNominalQuestion.php";
 * @module   class.SurveyNominalQuestionGUI.php
 * @modulegroup   Survey
 */
-class SurveyNominalQuestionGUI {
-/**
-* Question object
-*
-* A reference to the nominal question object
-*
-* @var object
-*/
-  var $object;
-	
-	var $tpl;
-	var $lng;
+class SurveyNominalQuestionGUI extends SurveyQuestionGUI {
 
 /**
 * SurveyNominalQuestionGUI constructor
@@ -60,12 +50,7 @@ class SurveyNominalQuestionGUI {
   )
 
   {
-		global $lng;
-		global $tpl;
-		
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
-		
+		$this->SurveyQuestionGUI();
 		$this->object = new SurveyNominalQuestion();
 		if ($id >= 0)
 		{
@@ -87,53 +72,13 @@ class SurveyNominalQuestionGUI {
 	}
 
 /**
-* Creates an output for the confirmation to delete categories
-*
-* Creates an output for the confirmation to delete categories
-*
-* @access public
-*/
-  function showDeleteCategoryForm() 
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_confirm_remove_categories.html", true);
-		$rowclass = array("tblrow1", "tblrow2");
-		$counter = 0;
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-				$this->tpl->setCurrentBlock("row");
-				$this->tpl->setVariable("TXT_TITLE", $_POST["category_$matches[1]"]);
-				$this->tpl->setVariable("COLOR_CLASS", $rowclass[$counter % 2]);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("hidden");
-				$this->tpl->setVariable("HIDDEN_NAME", $key);
-				$this->tpl->setVariable("HIDDEN_VALUE", $value);
-				$this->tpl->parseCurrentBlock();
-				$counter++;
-			}
-		}
-
-		// set the id to return to the selected question
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "id");
-		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["id"]);
-		$this->tpl->parseCurrentBlock();
-		
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("category"));
-		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("BTN_CONFIRM",$this->lng->txt("confirm"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_nominal");
-		$this->tpl->parseCurrentBlock();
-	}
-	
-/**
 * Creates an output of the edit form for the question
 *
 * Creates an output of the edit form for the question
 *
 * @access public
 */
-  function showEditForm() {
+  function editQuestion() {
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_nominal.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
     // output of existing single response answers
@@ -149,7 +94,7 @@ class SurveyNominalQuestionGUI {
 			$this->tpl->setVariable("TEXT_CATEGORY", $this->lng->txt("category"));
 			$this->tpl->parseCurrentBlock();
 		}
-		if (strlen($_POST["cmd"]["add"]) > 0) {
+		if (strcmp($_POST["cmd"]["addCategory"], "") != 0) {
 			// Create template for a new category
 			$this->tpl->setCurrentBlock("categories");
 			$this->tpl->setVariable("CATEGORY_ORDER", $this->object->getCategoryCount());
@@ -157,34 +102,6 @@ class SurveyNominalQuestionGUI {
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if ($_POST["cmd"]["move"])
-		{
-			$checked_move = 0;
-			foreach ($_POST as $key => $value) 
-			{
-				if (preg_match("/chb_category_(\d+)/", $key, $matches))
-				{
-					$checked_move++;
-					$this->tpl->setCurrentBlock("move");
-					$this->tpl->setVariable("MOVE_COUNTER", $matches[1]);
-					$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			if ($checked_move)
-			{
-				$this->tpl->setCurrentBlock("move_buttons");
-				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
-				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
-				$this->tpl->parseCurrentBlock();
-				sendInfo($this->lng->txt("select_target_position_for_move"));
-			}
-			else
-			{
-				sendInfo($this->lng->txt("no_category_selected_for_move"));
-			}
-		}
-		
 		// call to other question data
 		$this->outOtherQuestionData();
 
@@ -238,7 +155,7 @@ class SurveyNominalQuestionGUI {
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_nominal");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
   }
 
@@ -349,10 +266,12 @@ class SurveyNominalQuestionGUI {
 *
 * @access private
 */
-	function outPreviewForm()
+	function preview()
 	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", true);
 		$this->tpl->addBlockFile("NOMINAL", "nominal", "tpl.il_svy_out_nominal.html", true);
 		$this->outWorkingForm();
+		$this->tpl->parseCurrentBlock();
 	}
 
 /**
@@ -393,60 +312,6 @@ class SurveyNominalQuestionGUI {
 	}
 
 /**
-* Removes selected categories from the question
-*
-* Removes selected categories from the question
-*
-* @access public
-*/
-	function removeCategories() {
-		if ($_POST["cmd"]["confirm_delete"]) {
-			$delete_categories = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-					array_push($delete_categories, $matches[1]);
-				}
-			}
-			if (count($delete_categories))
-			{
-				$this->object->removeCategories($delete_categories);
-			}
-			else
-			{
-				sendInfo($this->lng->txt("no_category_selected_for_deleting"));
-			}
-		}
-	}
-
-/**
-* Checks if there are any categories selected for deleting
-*
-* Checks if there are any categories selected for deleting
-*
-* @result boolean TRUE, if there are categories checked for deleting, otherwise FALSE
-* @access public
-*/
-	function canRemoveCategories() {
-		if ($_POST["cmd"]["delete"]) {
-			$delete_categories = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/chb_category_(\d+)/", $key, $matches)) {
-					array_push($delete_categories, $matches[1]);
-				}
-			}
-			if (count($delete_categories))
-			{
-				return TRUE;
-			}
-			else
-			{
-				return FALSE;
-			}
-		}
-		return FALSE;
-	}
-
-/**
 * Evaluates a posted edit form and writes the form data in the question object
 *
 * Evaluates a posted edit form and writes the form data in the question object
@@ -462,24 +327,6 @@ class SurveyNominalQuestionGUI {
     // Set the question id from a hidden form parameter
     if ($_POST["id"] > 0)
       $this->object->setId($_POST["id"]);
-
-		if (($result) and ($_POST["cmd"]["add"])) {
-			// You cannot add answers before you enter the required data
-      sendInfo($this->lng->txt("fill_out_all_required_fields_add_category"));
-			$_POST["cmd"]["add"] = "";
-		}
-
-		// Check for blank fields before a new category field is inserted
-		if ($_POST["cmd"]["add"]) {
-			foreach ($_POST as $key => $value) {
-	   		if (preg_match("/category_(\d+)/", $key, $matches)) {
-					if (!$value) {
-						$_POST["cmd"]["add"] = "";
-						sendInfo($this->lng->txt("fill_out_all_category_fields"));
-					}
-			 	}
-		  }
-		}
 
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
     $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
@@ -507,56 +354,12 @@ class SurveyNominalQuestionGUI {
     $this->object->flushCategories();
 
 		$array1 = array();
-		$array2 = array();
-	
-		// Move selected categories
-		$move_categories = array();
-		$selected_category = -1;
-		if (($_POST["cmd"]["insert_before"]) or ($_POST["cmd"]["insert_after"]))
-		{
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/^move_(\d+)$/", $key, $matches))
-				{
-					array_push($move_categories, $value);
-					array_push($array2, ilUtil::stripSlashes($_POST["category_$value"]));
-				}
-				if (preg_match("/^chb_category_(\d+)/", $key, $matches))
-				{
-					if ($selected_category < 0)
-					{
-						// take onley the first checked category (if more categories are checked)
-						$selected_category = $matches[1];
-					}
-				}
-			}
-		}
-		
     // Add all categories from the form into the object
 		foreach ($_POST as $key => $value) {
 			if (preg_match("/^category_(\d+)/", $key, $matches)) {
-				if (!in_array($matches[1], $move_categories) or ($selected_category < 0))
-				{
-					array_push($array1, ilUtil::stripSlashes($value));
-				}
+				array_push($array1, ilUtil::stripSlashes($value));
 			}
 		}
-		if ($selected_category >= 0)
-		{
-			$array_pos = array_search($_POST["category_$selected_category"], $array1);
-			if ($_POST["cmd"]["insert_before"])
-			{
-				$part1 = array_slice($array1, 0, $array_pos);
-				$part2 = array_slice($array1, $array_pos);
-			}
-			else if ($_POST["cmd"]["insert_after"])
-			{
-				$part1 = array_slice($array1, 0, $array_pos + 1);
-				$part2 = array_slice($array1, $array_pos + 1);
-			}
-			$array1 = array_merge($part1, $array2, $part2);
-		}
-		
 		$this->object->addCategoryArray($array1);
 		
 		if ($saved) {
@@ -604,6 +407,10 @@ class SurveyNominalQuestionGUI {
 		return $saved;
 	}
 
+	function setQuestionTabs()
+	{
+		$this->setQuestionTabsForClass("surveynominalquestiongui");
+	}
 
 }
 ?>

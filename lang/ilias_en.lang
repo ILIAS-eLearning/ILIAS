@@ -3833,6 +3833,8 @@ survey#:#arithmetic_mean#:#Arithmetic mean
 survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following question block(s) to the survey?
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
+survey#:#menuback#:#Back
+survey#:#menubacktosurvey#:#Back to the survey
 survey#:#before#:#before
 survey#:#browse_for_questions#:#Browse for questions
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!
@@ -3934,7 +3936,13 @@ survey#:#exit#:#Exit
 survey#:#export_data_as#:#Export data as
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
+survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!
+survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!
+survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!
+survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!
+survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!
 survey#:#filter#:#Filter
+survey#:#phrase_saved#:#The phrase was saved successfully!
 survey#:#filter_all_question_types#:#All question types
 survey#:#filter_all_questionpools#:#All questionpools
 survey#:#filter_show_question_types#:#Show question types

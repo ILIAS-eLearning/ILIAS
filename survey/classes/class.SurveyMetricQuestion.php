@@ -216,7 +216,7 @@ class SurveyMetricQuestion extends SurveyQuestion {
       $result = $this->ilias->db->query($query);
       if (strcmp(strtolower(get_class($result)), db_result) == 0) {
         if ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-          $this->minmum = $data->value1;
+          $this->minimum = $data->value1;
 					if (($data->value2 < 0) or (strcmp($data->value2, "") == 0))
 					{
 						$this->maximum = "&infin;";

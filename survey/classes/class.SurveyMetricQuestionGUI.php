@@ -22,6 +22,7 @@
 */
 
 require_once "./survey/classes/class.SurveyMetricQuestion.php";
+require_once "./survey/classes/class.SurveyQuestionGUI.php";
 
 /**
 * Metric survey question GUI representation
@@ -34,19 +35,7 @@ require_once "./survey/classes/class.SurveyMetricQuestion.php";
 * @module   class.SurveyMetricQuestionGUI.php
 * @modulegroup   Survey
 */
-class SurveyMetricQuestionGUI {
-/**
-* Question object
-*
-* A reference to the metric question object
-*
-* @var object
-*/
-  var $object;
-
-	var $tpl;
-	var $lng;
-
+class SurveyMetricQuestionGUI extends SurveyQuestionGUI {
 /**
 * SurveyMetricQuestionGUI constructor
 *
@@ -60,12 +49,7 @@ class SurveyMetricQuestionGUI {
   )
 
   {
-		global $lng;
-		global $tpl;
-
-    $this->lng =& $lng;
-    $this->tpl =& $tpl;
-
+		$this->SurveyQuestionGUI();
 		$this->object = new SurveyMetricQuestion();
 		if ($id >= 0)
 		{
@@ -93,7 +77,7 @@ class SurveyMetricQuestionGUI {
 *
 * @access public
 */
-  function showEditForm() {
+  function editQuestion() {
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_metric.html", true);
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_svy_qpl_other_question_data.html", true);
 		// call to other question data
@@ -138,7 +122,7 @@ class SurveyMetricQuestionGUI {
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&sel_question_types=qt_metric");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
   }
 
@@ -274,10 +258,12 @@ class SurveyMetricQuestionGUI {
 *
 * @access private
 */
-	function outPreviewForm()
+	function preview()
 	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_preview.html", true);
 		$this->tpl->addBlockFile("METRIC", "metric", "tpl.il_svy_out_metric.html", true);
 		$this->outWorkingForm();
+		$this->tpl->parseCurrentBlock();
 	}
 
 /**
@@ -315,6 +301,9 @@ class SurveyMetricQuestionGUI {
 		return $saved;
 	}
 
-
+	function setQuestionTabs()
+	{
+		$this->setQuestionTabsForClass("surveymetricquestiongui");
+	}
 }
 ?>

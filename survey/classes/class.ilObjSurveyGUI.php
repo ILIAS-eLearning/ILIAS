@@ -950,7 +950,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 					}
 					$this->tpl->setVariable("QUESTION_TITLE", "<strong>" . $data["title"] . "</strong>");
-					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . "questionpool.php?ref_id=" . $data["ref_id"] . "&cmd=questions&preview=" . $data["question_id"] . " \" target=\"_blank\">" . $this->lng->txt("preview") . "</a>]");
+					$this->tpl->setVariable("PREVIEW", "[<a href=\"" . "questionpool.php?ref_id=" . $data["ref_id"] . "&cmd=preview&preview=" . $data["question_id"] . " \" target=\"_blank\">" . $this->lng->txt("preview") . "</a>]");
 					$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
@@ -1917,6 +1917,18 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function questionsObject() {
 		global $rbacsystem;
+
+		if ($_GET["new_id"] > 0)
+		{
+			// add a question to the survey previous created in a questionpool
+			$this->object->insertQuestion($_GET["new_id"]);
+		}
+		
+		if ($_GET["eqid"] and $_GET["eqpl"])
+		{
+			header("Location:questionpool.php?ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForSurvey&calling_survey=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
+		}
+
 		$_SESSION["calling_survey"] = $this->object->getRefId();
     $add_parameter = $this->getAddParameter();
 
@@ -2166,8 +2178,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		if ($_POST["cmd"]["create_question_execute"])
 		{
-			$_SESSION["survey_id"] = $this->object->getRefId();
-			header("Location:questionpool.php?ref_id=" . $_POST["sel_spl"] . "&cmd=questions&create=" . $_POST["sel_question_types"]);
+			header("Location:questionpool.php?ref_id=" . $_POST["sel_spl"] . "&cmd=createQuestionForSurvey&new_for_survey=".$_GET["ref_id"]."&sel_question_types=".$_POST["sel_question_types"]);
 			exit();
 		}
 
@@ -2372,12 +2383,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$ref_id = SurveyQuestion::_getRefIdFromObjId($data["obj_fi"]);
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 				{
-					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. <a href=\"questionpool.php?ref_id=" . $ref_id . "&cmd=questions&edit=" . $data["question_id"] . "\">" . $data["title"] . "</a>");
+					$q_id = $data["question_id"];
+					$qpl_ref_id = $this->object->_getRefIdFromObjId($data["obj_fi"]);
+					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. <a href=\"" . $_SERVER["PHP_SELF"] . $add_parameter . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
+//					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. <a href=\"questionpool.php?ref_id=" . $ref_id . "&cmd=questions&edit=" . $data["question_id"] . "\">" . $data["title"] . "</a>");
 				}
 				else
 				{
 					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. ". $data["title"]);
 				}
+
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 				{
 					$obligatory_checked = "";
@@ -2840,6 +2855,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
 						
 						// display chart for ordinal question for array $eval["variables"]
+						$this->tpl->setVariable("TEXT_CHART", "Chart");
+						$this->tpl->setVariable("CHART", "<img src=\"\">");
 						
 						switch ($_POST["export_format"])
 						{
