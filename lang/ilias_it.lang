@@ -91,30 +91,30 @@ assessment#:#action#:#Action###20 Oct 2004 new variable
 assessment#:#add_answer#:#Aggiungi risposta
 assessment#:#add_answer_tf#:#Aggiungi risposta di tipo Vero/Falso
 assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
-assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
-assessment#:#add_applet_parameter#:#Aggiungi i parametri dell'applet
+assessment#:#add_answerblock#:#Aggiungi blocco di risposte
+assessment#:#add_applet_parameter#:#Aggiungi parametri dell'applet
 assessment#:#add_area#:#Aggiungi area
 assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
 assessment#:#add_imagemap#:#Aggiungi immagine con mappa
 assessment#:#add_matching_pair#:#Aggiungi coppia da associare
-assessment#:#add_solution#:#Aggiungi la soluzione suggerita
+assessment#:#add_solution#:#Aggiungi soluzione suggerita
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Risposta
 assessment#:#answer_is_right#:#La soluzione &#232; giusta.
 assessment#:#answer_is_wrong#:#La soluzione &#232; sbagliata.
 assessment#:#answer_picture#:#Rispondi alla figura
 assessment#:#answer_text#:#Testo della risposta
-assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
+assessment#:#answerblock#:#Blocco di risposte
 assessment#:#applet_attributes#:#Attributi dell'applet
 assessment#:#applet_new_parameter#:#Nuovi parametri
 assessment#:#applet_parameter#:#Parametri
 assessment#:#applet_parameters#:#Parametri dell'applet
 assessment#:#apply#:#Conferma
-assessment#:#ass_create_export_file#:#Create export file###19 Oct 2004 new variable
-assessment#:#ass_export_files#:#Export files###19 Oct 2004 new variable
-assessment#:#ass_file#:#File###19 Oct 2004 new variable
+assessment#:#ass_create_export_file#:#Crea file di export
+assessment#:#ass_export_files#:#File di export
+assessment#:#ass_file#:#File
 assessment#:#ass_questions#:#Domande
-assessment#:#ass_size#:#Size###19 Oct 2004 new variable
+assessment#:#ass_size#:#Dimensioni
 assessment#:#available_points#:#Punti disponibili
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
@@ -171,7 +171,7 @@ assessment#:#ects_use_fx_grade#:#Usa il voto 'FX', se i partecipanti che fallisc
 assessment#:#ects_use_fx_grade_part2#:#percentuale dei punti totali.
 assessment#:#end_tag#:#Fine tag
 assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
-assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
+assessment#:#enhanced#:#Modalit&#224; avanzata
 assessment#:#error_image_upload_copy_file#:#Si &#232; verificato un errore nello spostamento dell'immagine nella cartella di destinazione!
 assessment#:#error_image_upload_wrong_format#:#Per favore indica un formato di immagine valida! I formati consentiti sono gif, jpeg e png.
 assessment#:#error_importing_question#:#Si &#232; verificato un errore nell'importazione delle domande dal file che hai selezionato!
@@ -203,7 +203,7 @@ assessment#:#fill_out_all_required_fields_upload_imagemap#:#Per favore, riempi t
 assessment#:#fill_out_all_required_fields_upload_material#:#Per favore, riempi tutti i campi richiesti prima di eseguire l'upload del materiale!
 assessment#:#filter#:#Filtro
 assessment#:#filter_all_question_types#:#Tutti i tipi di domande
-assessment#:#filter_all_questionpools#:#Tutte le raccolte di domande###19 Oct 2004 content changed
+assessment#:#filter_all_questionpools#:#Tutte le raccolte di domande
 assessment#:#filter_show_question_types#:#Mostra i tipi di domande
 assessment#:#filter_show_questionpools#:#Mostra le raccolte di domande
 assessment#:#gap#:#Vuoto
@@ -235,10 +235,10 @@ assessment#:#material_download#:#Materiale da scaricare
 assessment#:#material_file#:#File disponibili
 assessment#:#maximum_nr_of_tries_reached#:#Hai raggiunto il numero massimo di tentativi per questo test. Il test non pu&#242; essere inserito!
 assessment#:#meaning#:#Significato
-assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.###22 Oct 2004 new variable
+assessment#:#min_percentage_ne_0#:#Devi definire la percentuale minima dello 0 percento! Lo schema voti non &#232; stato salvato.
 assessment#:#negative_points_not_allowed#:#Non &#232; possibile inserire valori negativi!
 assessment#:#next_question_rows#:#Domande %d - %d di %d >>
-assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn't saved.###22 Oct 2004 new variable
+assessment#:#no_passed_mark#:#Devi scegliere almeno un voto come SUPERATO! Lo schema voti non &#232; stato salvato.
 assessment#:#no_question_selected_for_move#:#Per favore seleziona la domanda che vuoi spostare!
 assessment#:#no_questions_available#:#Non ci sono domande disponibili
 assessment#:#no_target_selected_for_move#:#Devi selezionare la posizione di arrivo!
@@ -281,7 +281,7 @@ assessment#:#qt_matching#:#con risposte da associare
 assessment#:#qt_multiple_choice_mr#:#a scelta multipla (risposta multipla)
 assessment#:#qt_multiple_choice_sr#:#a scelta multipla (risposta singola)
 assessment#:#qt_ordering#:#con risposte da ordinare
-assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
+assessment#:#question_no_answerblocks#:#Non ci sono blocchi di risposte definiti
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
@@ -307,7 +307,7 @@ assessment#:#save_finish#:#Salva e finisci il test
 assessment#:#save_introduction#:#Salva e vai all'introduzione
 assessment#:#save_next#:#Salva e vai alla domanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
-assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
+assessment#:#select_an_answer#:#--- Seleziona una risposta ---
 assessment#:#select_gap#:#Seleziona spazio
 assessment#:#select_target_position_for_move_question#:#Per favore, seleziona la posizione di destinazione nella qualespostare la domanda e premere il pulsante Aggiungi!
 assessment#:#selected_image#:#Immagine selezionata
@@ -618,7 +618,7 @@ common#:#add_members#:#aggiungi membri
 common#:#add_translation#:#Aggiungi traduzione
 common#:#add_user#:#Aggiungi utenti locali
 common#:#added_new_condition#:#Creata nuova condizione
-common#:#adm_create_tax#:#Create taxonomy###19 Oct 2004 new variable
+common#:#adm_create_tax#:#Crea tassonomia
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
 common#:#adm_visible#:#Vedere le impostazioni di sistema
@@ -718,7 +718,7 @@ common#:#bookmark_target#:#Indirizzo
 common#:#bookmarks#:#Preferiti
 common#:#bookmarks_of#:#Preferiti di
 common#:#btn_remove_system#:#Rimuovi dal sistema
-common#:#btn_undelete#:#Annulla la cancellazione
+common#:#btn_undelete#:#Ripristina
 common#:#by#:#da
 common#:#calendar#:#Agenda
 common#:#cancel#:#Annulla
@@ -728,7 +728,7 @@ common#:#cannot_uninstall_systemlanguage#:#Non &#232; possibile rimuovere la lin
 common#:#cannot_unzip_file#:#Non posso decomprimere il file.
 common#:#cat#:#Categoria
 common#:#cat_a#:#Una categoria
-common#:#cat_add#:#Aggiungi una categoria
+common#:#cat_add#:#Aggiungi categoria
 common#:#cat_added#:#Categoria aggiunta
 common#:#cat_cat_administrate_users#:#Amministrare utenti locali
 common#:#cat_create#:#Crea una categoria
@@ -751,7 +751,7 @@ common#:#cat_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#cat_create_spl#:#Creare una raccolta di domande (per sondaggi)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
-common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#cat_create_url#:#Creare URL
 common#:#cat_delete#:#Eliminare un categoria
 common#:#cat_edit#:#Modificare un categoria
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
@@ -856,23 +856,23 @@ common#:#crs_available#:#Corsi disponibili
 common#:#crs_container_link_not_allowed#:#Non &#232; possibile collegare contenitori di oggetti
 common#:#crs_create#:#Creare un corso
 common#:#crs_create_alm#:#Creare un modulo AICC
-common#:#crs_create_chat#:#Create Chat###19 Oct 2004 new variable
-common#:#crs_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
-common#:#crs_create_exc#:#Create Exercise###19 Oct 2004 new variable
-common#:#crs_create_file#:#Upload File###19 Oct 2004 new variable
-common#:#crs_create_fold#:#Create Folder###19 Oct 2004 new variable
+common#:#crs_create_chat#:#Creare chat
+common#:#crs_create_dbk#:#Creare libro digitale
+common#:#crs_create_exc#:#Creare esercizio
+common#:#crs_create_file#:#Eseguire upload di un file
+common#:#crs_create_fold#:#Creare una cartella
 common#:#crs_create_frm#:#Creare un forum
 common#:#crs_create_glo#:#Creare un glossario
-common#:#crs_create_grp#:#Create Group###19 Oct 2004 new variable
+common#:#crs_create_grp#:#Creare un gruppo
 common#:#crs_create_hlm#:#Creare un modulo HACP
-common#:#crs_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
+common#:#crs_create_htlm#:#Creare un modulo HTML
 common#:#crs_create_lm#:#Creare un modulo ILIAS
-common#:#crs_create_mep#:#Create Media Pool###19 Oct 2004 new variable
-common#:#crs_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
+common#:#crs_create_mep#:#Creare una raccolta multimediale
+common#:#crs_create_qpl#:#Creare una raccolta di domande per test
 common#:#crs_create_sahs#:#Creare un modulo SCORM/AICC
-common#:#crs_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
-common#:#crs_create_svy#:#Create Survey###19 Oct 2004 new variable
-common#:#crs_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#crs_create_spl#:#Creare Una raccolta di domande per sondaggi
+common#:#crs_create_svy#:#Creare un sondaggio
+common#:#crs_create_tst#:#Creare un test
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1059,25 +1059,25 @@ common#:#firstname#:#Nome
 common#:#flatview#:#Indirizzo
 common#:#fold#:#Cartella
 common#:#fold_a#:#una cartella
-common#:#fold_add#:#Aggiungi una cartella
+common#:#fold_add#:#Aggiungi cartella
 common#:#fold_added#:#Cartella aggiunta
-common#:#fold_create_alm#:#Creare una moduli AICC
+common#:#fold_create_alm#:#Creare un modulo AICC
 common#:#fold_create_chat#:#Creare una chat
-common#:#fold_create_dbk#:#Create Digilib Book###19 Oct 2004 new variable
-common#:#fold_create_exc#:#Create Exercise###19 Oct 2004 new variable
+common#:#fold_create_dbk#:#Creare una libreria digitale
+common#:#fold_create_exc#:#Creare un esercizio
 common#:#fold_create_file#:#Creare un file
 common#:#fold_create_fold#:#Creare una cartella
 common#:#fold_create_frm#:#Creare un forum
 common#:#fold_create_glo#:#Creare un glossario
 common#:#fold_create_hlm#:#Creare un modulo HACP
-common#:#fold_create_htlm#:#Create HTML Learning Module###19 Oct 2004 new variable
+common#:#fold_create_htlm#:#Creare un modulo HTML
 common#:#fold_create_lm#:#Creare un modulo ILIAS
-common#:#fold_create_mep#:#Create Media Pool###19 Oct 2004 new variable
-common#:#fold_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
+common#:#fold_create_mep#:#Creare una raccolta multimediale
+common#:#fold_create_qpl#:#Creare una raccolta di domande per test
 common#:#fold_create_sahs#:#Creare un modulo SCORM/AICC
-common#:#fold_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
-common#:#fold_create_svy#:#Create Survey###19 Oct 2004 new variable
-common#:#fold_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#fold_create_spl#:#Creare una raccolta di domande per sondaggi
+common#:#fold_create_svy#:#Creare un sondaggio
+common#:#fold_create_tst#:#Creare un test
 common#:#fold_delete#:#Cancellare una cartella
 common#:#fold_edit#:#Modificare una cartella
 common#:#fold_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1181,7 +1181,7 @@ common#:#grp_add#:#Aggiungi gruppo
 common#:#grp_add_member#:#Aggiungi membri
 common#:#grp_added#:#Gruppo aggiunto
 common#:#grp_already_applied#:#E' gi&#224; stato applicato a questo gruppo! Aspetta la conferma
-common#:#grp_app_send_mail#:#Send applicant a message###19 Oct 2004 new variable
+common#:#grp_app_send_mail#:#Invia una eMail al mittente
 common#:#grp_back#:#Indietro
 common#:#grp_count_members#:#Numero di membri
 common#:#grp_create#:#Crea un gruppo
@@ -1197,11 +1197,11 @@ common#:#grp_create_hlm#:#Creare un modulo HACP
 common#:#grp_create_htlm#:#Creare un modulo HTML
 common#:#grp_create_lm#:#Creare un modulo ILIAS
 common#:#grp_create_mep#:#Creare una raccolta multimediale
-common#:#grp_create_qpl#:#Create Question Pool for Test###19 Oct 2004 new variable
+common#:#grp_create_qpl#:#Creare una raccolta di domande per test
 common#:#grp_create_sahs#:#Creare un modulo SCORM/AICC
-common#:#grp_create_spl#:#Create Question Pool for Survey###19 Oct 2004 new variable
-common#:#grp_create_svy#:#Create Survey###19 Oct 2004 new variable
-common#:#grp_create_tst#:#Create Test###19 Oct 2004 new variable
+common#:#grp_create_spl#:#Creare una raccolta di domande per sondaggi
+common#:#grp_create_svy#:#Creare un sondaggio
+common#:#grp_create_tst#:#Creare un test
 common#:#grp_delete#:#Eliminare un gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
@@ -1275,7 +1275,7 @@ common#:#https_not_possible#:#Questo server non supporta connessioni HTTPS
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
 common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
-common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
+common#:#if_no_title_then_url#:#Lascia vuoto se vuoi far vedere l'URL
 common#:#ilias_version#:#Versione ILIAS 3
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
@@ -1601,7 +1601,7 @@ common#:#msg_no_scan_log#:#Scansione del log non ancora implementata.
 common#:#msg_no_search_result#:#Nessun risultato trovato
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Non puoi assegnare il ruolo di amministratore di sistema se non sei amministratore di sistema
-common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
+common#:#msg_no_url#:#Non hai indicato l'URL
 common#:#msg_not_available_for_anon#:#La pagina che hai scelto &#232; accessibile solamente agli utenti registrati
 common#:#msg_not_in_itself#:#Non &#232; possibile incollare l&#039;oggetto su se stesso
 common#:#msg_nothing_found#:#Nessun risultato
@@ -1736,7 +1736,7 @@ common#:#obj_trac_desc#:#Dati accessi utente
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
-common#:#obj_url#:#URL###23 Oct 2004 new variable
+common#:#obj_url#:#URL
 common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
@@ -1780,7 +1780,7 @@ common#:#objs_st#:#Capitoli
 common#:#objs_svy#:#Sondaggi
 common#:#objs_tst#:#Test
 common#:#objs_type#:#Tipi di oggetti
-common#:#objs_url#:#URLs###23 Oct 2004 new variable
+common#:#objs_url#:#URL
 common#:#objs_usr#:#Utenti
 common#:#of#:#di
 common#:#offline_version#:#Versione offline
@@ -2149,7 +2149,7 @@ common#:#tst_delete#:#Eliminare un test
 common#:#tst_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#tst_new#:#Nuovo test
 common#:#tst_read#:#Accedere in lettura ad un test
-common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
+common#:#tst_upload_file#:#Upload del file
 common#:#tst_visible#:#Vedere un test
 common#:#tst_write#:#Modificare un test
 common#:#txt_add_object_instruction1#:#Cerca la cartella nella quale vuoi aggiungere
@@ -2174,19 +2174,19 @@ common#:#update_language#:#Lingua aggiornata
 common#:#upload#:#Upload
 common#:#uploaded_and_checked#:#E'stato eseguito l'upload ed il controllo del file, adesso pu&#242; essere importato.
 common#:#url#:#URL
-common#:#url_a#:#a URL###23 Oct 2004 new variable
-common#:#url_add#:#Add URL###23 Oct 2004 new variable
-common#:#url_added#:#URL added###23 Oct 2004 new variable
-common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
-common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
+common#:#url_a#:#una URL
+common#:#url_add#:#Aggiungi URL
+common#:#url_added#:#URL aggiunta
+common#:#url_create_url#:#Creare una URL
+common#:#url_delete#:#Eliminare una URL
 common#:#url_description#:#Descrizione URL
-common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
-common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
-common#:#url_new#:#New URL###23 Oct 2004 new variable
-common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
-common#:#url_read#:#Open URL###23 Oct 2004 new variable
-common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
-common#:#url_write#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit#:#odificare una URL
+common#:#url_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#url_new#:#Nuova URL
+common#:#url_not_found#:#File non trovato
+common#:#url_read#:#Aprire URL
+common#:#url_visible#:#Vedere un URL
+common#:#url_write#:#Scrivere URL
 common#:#user#:#Utente
 common#:#user_access#:#Accessi utente
 common#:#user_added#:#Utente aggiunto
@@ -2556,8 +2556,8 @@ content#:#cont_table#:#Tabella
 content#:#cont_table_border#:#Bordo tabella
 content#:#cont_table_cellpadding#:#Cell Padding della tabella
 content#:#cont_table_cellspacing#:#Cell Spacing della tabella
-content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
-content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
+content#:#cont_table_html_import#:#Importare una tabella HTML
+content#:#cont_table_html_import_info#:#Importare solo lavori con tabelle conformi allo standard XHTML. "Table" deve essere il tag radice!
 content#:#cont_table_width#:#Larghezza tabella
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.
 content#:#cont_term#:#Termine
@@ -3765,7 +3765,7 @@ search#:#search_show_result#:#Mostra
 search#:#search_user#:#Utenti
 survey#:#add_category#:#Aggiungi categoria
 survey#:#add_limits_for_standard_numbers#:#Per favore, indica il limite inferiore e quello superiore per la numerazione standard che vuoi aggiungere come categorie.
-survey#:#add_phrase#:#Aggiungi una frase
+survey#:#add_phrase#:#Aggiungi la frase
 survey#:#add_phrase_introduction#:#Per favore, scegli una frase:
 survey#:#already_completed_survey#:#Hai gi&#224; completato il sondaggio! Non puoi eseguirlo di nuovo.
 survey#:#anonymize_survey#:#Rendi anonimi i dati del sondaggio
