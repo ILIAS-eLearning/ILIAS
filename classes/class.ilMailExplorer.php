@@ -166,7 +166,8 @@ class ilMailExplorer extends ilExplorer
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$tpl->setCurrentBlock("row");
-		$tpl->setVariable("TYPE", $a_option["type"]);
+		$tpl->setVariable("TYPE", $a_option["title"]);
+		$tpl->setVariable("IMGPATH", ilUtil::getImagePath("icon_cat.gif"));
 		$tpl->setVariable("TITLE", $a_option["title"]." ".strtolower($lng->txt("of"))." ".$ilias->account->getFullname());
 
 		$tpl->parseCurrentBlock();
