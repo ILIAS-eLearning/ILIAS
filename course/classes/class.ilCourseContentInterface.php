@@ -896,7 +896,7 @@ class ilCourseContentInterface
 				$this->tpl->setVariable("VISIBLE_LINK_LMS",$tmp_lm->getTitle());
 				$this->tpl->parseCurrentBlock();
 			}
-				// add to desktop link
+			// add to desktop link
 			if(!$ilias->account->isDesktopItem($tmp_lm->getRefId(),$tmp_lm->getType()) and 
 			   ($this->cci_course_obj->getAboStatus() == $this->cci_course_obj->ABO_ENABLED))
 			{
@@ -945,10 +945,9 @@ class ilCourseContentInterface
 				$this->tpl->setVariable("INFO_LMS",$this->lng->txt('not_accessed'));
 			}
 			
-			$this->tpl->setCurrentBlock("lm_row");
-			$this->tpl->setVariable("OBJ_NR_LMS",$counter.'.');
 
-			if($this->details_id and !$this->accomplished[$this->details_id] and $this->suggested[$this->details_id])
+			#if($this->details_id and !$this->accomplished[$this->details_id] and $this->suggested[$this->details_id])
+			if($this->details_id)
 			{
 				$objectives_lm_obj->setLMRefId($tmp_lm->getRefId());
 				#$objectives_lm_obj->setLMObjId($tmp_lm->getId());
@@ -960,6 +959,11 @@ class ilCourseContentInterface
 					{
 						foreach($objectives_lm_obj->getChapters() as $lm_obj_data)
 						{
+							if($lm_obj_data['ref_id'] != $lm_id)
+							{
+								continue;
+							}
+
 							include_once './content/classes/class.ilLMObjectFactory.php';
 							
 							$st_obj = ilLMObjectFactory::getInstance($tmp_lm,$lm_obj_data['obj_id']);
@@ -987,6 +991,8 @@ class ilCourseContentInterface
 				$this->tpl->setVariable("OBJ_CLASS_CENTER_LMS",'option_value_center');
 				$this->tpl->setVariable("OBJ_CLASS_LMS",'option_value');
 			}
+			$this->tpl->setCurrentBlock("lm_row");
+			$this->tpl->setVariable("OBJ_NR_LMS",$counter.'.');
 			$this->tpl->parseCurrentBlock();
 
 			++$counter;
@@ -1034,8 +1040,11 @@ class ilCourseContentInterface
 			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($tmp_tst->getId());
 				
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_tst->getRefId(),$tmp_tst->getType());
-			$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_tst->getType(),$tmp_tst->getRefId(),$tmp_tst->getId());
-			$obj_frame = $obj_frame ? $obj_frame : 'bottom';
+
+			#$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_tst->getType(),$tmp_tst->getRefId(),$tmp_tst->getId());
+			#$obj_frame = $obj_frame ? $obj_frame : 'bottom';
+			// Always open in frameset
+			$obj_frame = 'bottom';
 
 			if(ilRepositoryExplorer::isClickable($tmp_tst->getType(),$tmp_tst->getRefId(),$tmp_tst->getId()))
 			{
@@ -1107,6 +1116,7 @@ class ilCourseContentInterface
 				break;
 
 			case 'pretest':
+			case 'pretest_non_suggest':
 				$status = $this->lng->txt('crs_objective_pretest');
 				break;
 
@@ -1168,13 +1178,13 @@ class ilCourseContentInterface
 			$this->tpl->setVariable("OBJ_LINK_1_OBJECTIVES",$this->ctrl->getLinkTarget($this->cci_client_obj,'cciObjectives'));
 			$this->tpl->setVariable("OBJ_TITLE_1_OBJECTIVES",$tmp_objective->getTitle());
 
-			$img = $this->accomplished["$objective_ids[$i]"] ? 
+			$img = !$this->suggested["$objective_ids[$i]"] ? 
 				ilUtil::getImagePath('crs_accomplished.gif') :
 				ilUtil::getImagePath('crs_not_accomplished.gif');
 
-			$txt = $this->accomplished["$objective_ids[$i]"] ? 
-				$this->lng->txt('crs_accomplished') :
-				$this->lng->txt('crs_not_accomplished');
+			$txt = !$this->suggested["$objective_ids[$i]"] ? 
+				$this->lng->txt('crs_objective_accomplished') :
+				$this->lng->txt('crs_objective_not_accomplished');
 
 			$this->tpl->setVariable("OBJ_STATUS_IMG_1_OBJECTIVES",$img);
 			$this->tpl->setVariable("OBJ_STATUS_ALT_1_OBJECTIVES",$txt);
@@ -1202,13 +1212,13 @@ class ilCourseContentInterface
 
 
 				$objective_id = $objective_ids[$i + $max / 2];
-				$img = $this->accomplished[$objective_id] ? 
+				$img = !$this->suggested[$objective_id] ? 
 					ilUtil::getImagePath('crs_accomplished.gif') :
 					ilUtil::getImagePath('crs_not_accomplished.gif');
 
-				$txt = $this->accomplished[$objective_id] ? 
-					$this->lng->txt('crs_accomplished') :
-					$this->lng->txt('crs_not_accomplished');
+				$txt = !$this->suggested[$objective_id] ? 
+					$this->lng->txt('crs_objective_accomplished') :
+					$this->lng->txt('crs_objective_not_accomplished');
 
 				$this->tpl->setVariable("OBJ_STATUS_IMG_2_OBJECTIVES",$img);
 				$this->tpl->setVariable("OBJ_STATUS_ALT_2_OBJECTIVES",$txt);
@@ -1291,6 +1301,19 @@ class ilCourseContentInterface
 		$tmp_obj_res =& new ilCourseObjectiveResult($ilUser->getId());
 
 		$this->objective_status = $tmp_obj_res->getStatus($this->cci_course_obj->getId());
+
+		if($this->objective_status == 'pretest')
+		{
+			$none_suggested = true;
+			foreach($this->suggested as $value)
+			{
+				if($value)
+				{
+					return true;
+				}
+			}
+			$this->objective_status = 'pretest_non_suggest';
+		}
 
 		return true;
 	}

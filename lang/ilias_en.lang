@@ -4642,3 +4642,5 @@ common#:#last_access#:#Last access:
 crs#:#learners_view#:#Learners view
 crs#:#edit_content#:#Edit content
 common#:#not_accessed#:#Not accessed
+crs#:#crs_objectives_info_pretest_non_suggest#:#The following are the results of your self assessment. <br />According to this you have fullfilled any learning objective. You can now take the final exam of this course, which is located in the test section of this page.
+crs#:#crs_objective_not_accomplished#:#Not accomplished

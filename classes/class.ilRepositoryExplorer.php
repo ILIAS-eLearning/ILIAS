@@ -280,6 +280,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "";
 
 			case "tst":
+				$showViewInFrameset = $ilias->ini->readVariable("layout","view_target") == "frame";
 				if ($showViewInFrameset) 
 				{
 	  				return "bottom";

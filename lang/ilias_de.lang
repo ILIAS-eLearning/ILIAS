@@ -4637,5 +4637,7 @@ crs#:#crs_objective_pretest#:#Selbsteinschätzung
 crs#:#crs_objective_result#:#Nach Test
 common#:#last_access#:#Letzter Zugriff:
 crs#:#learners_view#:#Lerneransicht
-crs#:#edit_content#:#Kursinhalt besarbeiten
+crs#:#edit_content#:#Kursinhalt bearbeiten
 common#:#not_accessed#:#Noch nicht aufgerufen
+crs#:#crs_objectives_info_pretest_non_suggest#:#Dies sind die Ergebnisse Ihrer Selbsteinschätzung. <br />Demnach haben Sie alle Lernziele erreicht. Sie können nun den Abschlußtest durchführen.
+crs#:#crs_objective_not_accomplished#:#Nicht erfüllt
