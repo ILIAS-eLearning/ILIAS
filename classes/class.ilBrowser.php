@@ -37,284 +37,282 @@
   //**************************************************************************/
 
 /**
-* Hilfsmodul-Klasse von ILIAS
-* Bisher noch nicht genutzt 
+* Browser check
+*
 * @package ilias-core
 * @version $Id$
 */
-	class ilBrowser
+class ilBrowser
+{
+	var $BROWSER_AGENT;
+	var $BROWSER_VER;
+	var $BROWSER_PLATFORM;
+	var $br;
+	var $p;
+	var $data;
+
+	function ilBrowser()
 	{
-		var $BROWSER_AGENT;
-		var $BROWSER_VER;
-		var $BROWSER_PLATFORM;
-		var $br;
-		var $p;
-		var $data;
-
-		function ilBrowser ()
-		{
-			global $HTTP_USER_AGENT;
-			/*
-				Determine browser and version
-			*/
-			if (ereg( 'MSIE ([0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version))
-			{
-				$this->BROWSER_VER = $log_version[1];
-				$this->BROWSER_AGENT = 'IE';
-			}
-			elseif (ereg( 'Opera ([0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version) ||
-				ereg( 'Opera/([0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version))
-			{
-				$this->BROWSER_VER   = $log_version[1];
-				$this->BROWSER_AGENT = 'OPERA';
-			}
-			elseif ( eregi( 'iCab ([0-9].[0-9a-zA-Z]{1,4})',$HTTP_USER_AGENT,$log_version) ||
-				eregi( 'iCab/([0-9].[0-9a-zA-Z]{1,4})',$HTTP_USER_AGENT,$log_version))
-			{
-				$this->BROWSER_VER   = $log_version[1];
-				$this->BROWSER_AGENT = 'iCab';
-			} 
-			elseif ( eregi( 'Netscape6/([0-9].[0-9a-zA-Z]{1,4})',$HTTP_USER_AGENT,$log_version)) 
-			{
-				$this->BROWSER_VER   = $log_version[1];
-				$this->BROWSER_AGENT = 'Netscape';
-			}
-
-			elseif (ereg( 'Mozilla/([0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version))
-			{
-				$this->BROWSER_VER=$log_version[1];
-				$this->BROWSER_AGENT='MOZILLA';
-			}
-			else
-			{
-				$this->BROWSER_VER=0;
-				$this->BROWSER_AGENT='OTHER';
-			}
-
-			/*
-				Determine platform
-			*/
-			if (strstr($HTTP_USER_AGENT,'Win'))
-			{
-				$this->BROWSER_PLATFORM='Win';
-			}
-			else if (strstr($HTTP_USER_AGENT,'Mac'))
-			{
-				$this->BROWSER_PLATFORM='Mac';
-			}
-			else if (strstr($HTTP_USER_AGENT,'Linux'))
-			{
-				$this->BROWSER_PLATFORM='Linux';
-			}
-			else if (strstr($HTTP_USER_AGENT,'Unix'))
-			{
-				$this->BROWSER_PLATFORM='Unix';
-			}
-			else if (strstr($HTTP_USER_AGENT,'Beos'))
-			{
-				$this->BROWSER_PLATFORM='Beos';
-			}
-			else
-			{
-				$this->BROWSER_PLATFORM='Other';
-			}
-
-
-			echo "\n\nAgent: $HTTP_USER_AGENT";
-			echo "\nIE: ".browser_is_ie();
-			echo "\nMac: ".browser_is_mac();
-			echo "\nWindows: ".browser_is_windows();
-			echo "\nPlatform: ".browser_get_platform();
-			echo "\nVersion: ".browser_get_version();
-			echo "\nAgent: ".browser_get_agent();
-
-
-			// The br and p functions are supposed to return the correct
-			// value for tags that do not need to be closed.  This is
-			// per the xhmtl spec, so we need to fix this to include
-			// all compliant browsers we know of.
-			if ($this->BROWSER_AGENT == 'IE')
-			{
-				$this->br = '<br/>';
-			}
-			else
-			{
-				$this->br = '<br>';
-			}
-
-			if ($this->BROWSER_AGENT =='IE')
-			{
-				$this->p = '<p/>';
-			}
-			else
-			{
-				$this->p = '<p>';
-			}
-		}
-
-		function return_array()
-		{
-			$this->data = array(
-				'agent'    => $this->get_agent(),
-				'version'  => $this->get_version(),
-				'platform' => $this->get_platform()
-			);
-
-			return $this->data;
-		}
-
-		function get_agent()
-		{
-			return $this->BROWSER_AGENT;
-		}
-
-		function get_version()
-		{
-			return $this->BROWSER_VER;
-		}
-
-		function get_platform()
-		{
-			return $this->BROWSER_PLATFORM;
-		}
-
-		function is_linux()
-		{
-			if ($this->get_platform()=='Linux')
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		function is_unix()
-		{
-			if ($this->get_platform()=='Unix')
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		function is_beos()
-		{
-			if ($this->get_platform()=='Beos')
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		function is_mac()
-		{
-			if ($this->get_platform()=='Mac')
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		function is_windows()
-		{
-			if ($this->get_platform()=='Win')
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		function is_ie()
-		{
-			if ($this->get_agent()=='IE')
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		function is_netscape()
-		{
-			if ($this->get_agent()=='MOZILLA')
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		function is_opera()
-		{
-			if ($this->get_agent()=='OPERA')
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		/**
-		* Echo content headers for file downloads
-		* @param string
-		* @param string
-		* @param string
-		* @param string
-		*/
+		$HTTP_USER_AGENT = $_SERVER['HTTP_USER_AGENT'];
 		/*
-		// use ilUtil::deliverFile instead
-		function content_header($fn='',$mime='',$length='',$nocache=True)
+			Determine browser and version
+		*/
+		if(ereg('MSIE ([0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version))
 		{
-			if (!$mime)
-			{
-				$mime='application/octet-stream';
-			}
-			if ($fn)
-			{
-				if ($this->get_agent() == 'IE') // && browser_get_version() == "5.5")
-				{
-					$attachment = '';
-				}
-				else
-				{
-					$attachment = ' attachment;';
-				}
+			$this->BROWSER_VER = $log_version[1];
+			$this->BROWSER_AGENT = 'IE';
+		}
+		elseif(ereg('Opera ([0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version) ||
+			ereg('Opera/([0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version))
+		{
+			$this->BROWSER_VER   = $log_version[1];
+			$this->BROWSER_AGENT = 'OPERA';
+		}
+		elseif(ereg('Safari ([0-9/.]*)',$HTTP_USER_AGENT,$log_version) ||
+			ereg('Safari/([0-9/.]*)',$HTTP_USER_AGENT,$log_version))
+		{
+			$this->BROWSER_VER   = $log_version[1];
+			$this->BROWSER_AGENT = 'Safari';
+		}
+		elseif(ereg('Firefox ([0-9/.]*))',$HTTP_USER_AGENT,$log_version) ||
+			ereg('Firefox/([0-9/.]*)',$HTTP_USER_AGENT,$log_version))
+		{
+			$this->BROWSER_VER   = $log_version[1];
+			$this->BROWSER_AGENT = 'Firefox';
+		}
+		elseif(eregi('iCab ([0-9].[0-9a-zA-Z]{1,4})',$HTTP_USER_AGENT,$log_version) ||
+			eregi('iCab/([0-9].[0-9a-zA-Z]{1,4})',$HTTP_USER_AGENT,$log_version))
+		{
+			$this->BROWSER_VER   = $log_version[1];
+			$this->BROWSER_AGENT = 'iCab';
+		} 
+		elseif(ereg('Gecko',$HTTP_USER_AGENT,$log_version))
+		{
+			$this->BROWSER_VER   = $log_version[1];
+			$this->BROWSER_AGENT = 'MOZILLA';
+		}
+		elseif(ereg('Konqueror/([0-9].[0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version) ||
+			ereg('Konqueror/([0-9].[0-9]{1,2})',$HTTP_USER_AGENT,$log_version))
+		{
+			$this->BROWSER_VER=$log_version[1];
+			$this->BROWSER_AGENT='Konqueror';
+		}
+		else
+		{
+			$this->BROWSER_VER=0;
+			$this->BROWSER_AGENT='OTHER';
+		}
 
-				// Show this for all
-				header('Content-disposition:'.$attachment.' filename="'.$fn.'"');
-				header('Content-type: '.$mime);
+		/*
+			Determine platform
+		*/
+		if(strstr($HTTP_USER_AGENT,'Win'))
+		{
+			$this->BROWSER_PLATFORM='Win';
+		}
+		elseif(strstr($HTTP_USER_AGENT,'Mac'))
+		{
+			$this->BROWSER_PLATFORM='Mac';
+		}
+		elseif(strstr($HTTP_USER_AGENT,'Linux'))
+		{
+			$this->BROWSER_PLATFORM='Linux';
+		}
+		elseif(strstr($HTTP_USER_AGENT,'Unix'))
+		{
+			$this->BROWSER_PLATFORM='Unix';
+		}
+		elseif(strstr($HTTP_USER_AGENT,'Beos'))
+		{
+			$this->BROWSER_PLATFORM='Beos';
+		}
+		else
+		{
+			$this->BROWSER_PLATFORM='Other';
+		}
 
-				if ($length)
-				{
-					header("Content-length: ".$length);
-				}
+		/*
+		echo "<br>Agent: $HTTP_USER_AGENT";
+		echo "<br><b>Browser</b>";
+		echo "<br>IE: ".$this->isIE();
+		echo "<br>Netscape: ".$this->isNetscape();
+		echo "<br>Firefox: ".$this->isFirefox();
+		echo "<br>Safari: ".$this->isSafari();
+		echo "<br>Opera: ".$this->isOpera();
+		echo "<br><b>OS</b>";
+		echo "<br>Mac: ".$this->isMac();
+		echo "<br>Windows: ".$this->isWindows();
+		echo "<br>Linux: ".$this->isLinux();
+		echo "<br>Unix: ".$this->isUnix();
+		echo "<br>Beos: ".$this->isBeos();
+		echo "<br><b>Summary</b>";
+		echo "<br>OS: ".$this->getPlatform();
+		echo "<br>Version: ".$this->getVersion();
+		echo "<br>Agent: ".$this->getAgent();
+		*/
 
-				if ($nocache)
-				{
-					header('Pragma: no-cache');
-					header('Expires: 0');
-				}
-			}
-		}*/
+		// The br and p functions are supposed to return the correct
+		// value for tags that do not need to be closed.  This is
+		// per the xhmtl spec, so we need to fix this to include
+		// all compliant browsers we know of.
+		if($this->BROWSER_AGENT == 'IE')
+		{
+			$this->br = '<br/>';
+			$this->p = '<p/>';
+		}
+		else
+		{
+			$this->br = '<br>';
+			$this->p = '<p>';
+		}
 	}
+
+	function returnArray()
+	{
+		$this->data = array(
+			'agent'    => $this->getAgent(),
+			'version'  => $this->getVersion(),
+			'platform' => $this->getPlatform()
+		);
+
+		return $this->data;
+	}
+
+	function getAgent()
+	{
+		return $this->BROWSER_AGENT;
+	}
+
+	function getVersion()
+	{
+		return $this->BROWSER_VER;
+	}
+
+	function getPlatform()
+	{
+		return $this->BROWSER_PLATFORM;
+	}
+
+	function isLinux()
+	{
+		if($this->getPlatform()=='Linux')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	function isUnix()
+	{
+		if($this->getPlatform()=='Unix')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	function isBeos()
+	{
+		if($this->getPlatform()=='Beos')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	function isMac()
+	{
+		if($this->getPlatform()=='Mac')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	function isWindows()
+	{
+		if($this->getPlatform()=='Win')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	function isIE()
+	{
+		if($this->getAgent()=='IE')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	function isNetscape()
+	{
+		if($this->getAgent()=='MOZILLA')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	function isOpera()
+	{
+		if($this->getAgent()=='OPERA')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	function isSafari()
+	{
+		if($this->getAgent()=='Safari')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	function isFirefox()
+	{
+		if($this->getAgent()=='Firefox')
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+}
+
 ?>

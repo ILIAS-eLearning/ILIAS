@@ -453,8 +453,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 
-		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable" &&
-			$ilias->getSetting("enable_js_edit")) 
+		include_once("content/classes/Pages/class.ilPageEditorGUI.php");
+		if (ilPageEditorGUI::_doJSEditing()) 
 		{
 			//$this->tpl->touchBlock("includejavascript");
 			

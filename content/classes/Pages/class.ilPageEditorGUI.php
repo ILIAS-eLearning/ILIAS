@@ -428,6 +428,38 @@ class ilPageEditorGUI
 
 		return $ret;
 	}
+	
+	/**
+	* checks if current user has activated js editing and
+	* if browser is js capable
+	*/
+	function _doJSEditing()
+	{
+		global $ilUser, $ilias;
+		
+		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable"
+			&& $ilias->getSetting("enable_js_edit")
+			&& ilPageEditorGUI::_isBrowserJSEditCapable())
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	* checks wether browser is javascript editing capable
+	*/
+	function _isBrowserJSEditCapable()
+	{
+		global $ilBrowser;
+		
+		if ($ilBrowser->isFirefox() ||
+			($ilBrowser->isIE() && !$ilBrowser->isMac()))
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	*

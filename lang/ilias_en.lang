@@ -849,10 +849,10 @@ common#:#check_all#:#Check all
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages
 common#:#check_link#:#Link check
-common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.
+common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be checked if they are active.
 common#:#check_max_allowed_packet_size#:#The page content size is too large.
 common#:#check_user_accounts#:#Check user accounts
-common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.
+common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be informed by email.
 common#:#checked_files#:#Importable files
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
@@ -2400,6 +2400,7 @@ content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Annex
+content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.

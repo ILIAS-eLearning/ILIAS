@@ -150,8 +150,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
 		$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
 		
-		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable" &&
-			$ilias->getSetting("enable_js_edit")) 
+		if (ilPageEditorGUI::_doJSEditing()) 
 		{
 			$this->tpl->touchBlock("initwysiwygeditor");
 		}
@@ -281,7 +280,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		}
 		$this->tpl->parseCurrentBlock();
 
-		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable") 
+		if (ilPageEditorGUI::_doJSEditing()) 
 		{
 			$this->tpl->touchBlock("initwysiwygeditor");
 		}
