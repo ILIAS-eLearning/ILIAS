@@ -4,6 +4,7 @@
   <title>ILIAS - {TXT_SETUP}</title>
   <link rel="stylesheet" type="text/css" href="ilias.css">
 </head>
+
 <body>
 
 <table width="100%">
@@ -12,18 +13,26 @@
     <td>{TXT_SETUP} Version 0.9</td>
   </tr>
 </table>
-
-  <p>{TXT_SETUP_WELCOME}</p>
-
+<p>{TXT_SETUP_WELCOME}</p>
+<hr>
 <!-- BEGIN message -->
   <p class="msg"><font color="red">{TXT_ERR}</font></p>
 <!-- END message -->
 
-<!-- BEGIN step1 -->
-<h1>Setup Ini-File</h1>
-<form method="post" name="form" action="setup.php">
-<input type="hidden" name="step" value="2">
+<!-- BEGIN step0 -->
+<p>Welcome to ILIAS Setup. This setup-routine helps you
+<ul>
+<li>write the ini-file for your installation</li>
+<li>setup the database</li>
+</ul>
+</p>
+<p><a href="{LINK_STEP0}">[ {TXT_STEP0} ]</a></p>
+<!-- END step0 -->
 
+
+<!-- BEGIN step1 -->
+<h1>{TXT_INIFILE1}</h1>
+<form method="post" name="form" action="setup.php?step=2&amp;lang={LANG1}">
 <table>
   <tr>
     <td>{TXT_DB_TYPE}</td>
@@ -39,24 +48,57 @@
   </tr>
   <tr>
     <td>{TXT_DB_NAME}</td>
-    <td><input type="text" size=40 name="dbname" value="{DB_NAME}"></td>
+    <td><input type="text" size=20 name="dbname" value="{DB_NAME}"></td>
   </tr>
   <tr>
     <td>{TXT_DB_USER}</td>
-    <td><input type="text" name="dbuser" value="{DB_USER}"></td>
+    <td><input type="text" size=15 name="dbuser" value="{DB_USER}"></td>
   </tr>
   <tr>
     <td>{TXT_DB_PASS}</td>
-    <td><input type="text" name="dbpass" value="{DB_PASS}"></td>
+    <td><input type="text" size=15 name="dbpass" value="{DB_PASS}"></td>
   </tr>
 </table>
-
 <input type="submit" name="butSubmit" value="{TXT_SUBMIT}">&nbsp;<input type="reset" name="butReset" value="{TXT_RESET}"></form>
 <!-- END step1 -->
+
+
 <!-- BEGIN step2 -->
-<h1>Setup Database</h1>
-<p>The ini-File has been successfully saved on your host.</p>
-<p>
+<h1>{TXT_INIFILE2}</h1>
+<!-- BEGIN step2_success -->
+		<p>The ini-File has been successfully saved on your host.</p>
+		<p>Your Ini File has this content:</p>
+		<p>ILIAS.INI:</p>
+		<table>
+		<tr bgcolor="#eeeeee">
+			<td>
+				<font size=2>
+				<pre>
+{INIFILECONTENT}
+				</pre>
+				</font>
+			</td>
+		</tr>
+		</table>
+<!-- END step2_success -->
+<!-- BEGIN step2_error -->
+		<p>{MSG_ERROR}</p>
+<!-- END step2_error -->
+		<p><a href="{LINK_STEP2}">[ {TXT_STEP2} ]</a></p>
 <!-- END step2 -->
+
+
+<!-- BEGIN step3 -->
+	<p><h1>{TXT_DATABASE3}</h1></p>
+	<p><a href="{LINK_STEP3}">[ {TXT_STEP3} ]</a>
+<!-- END step3 -->
+
+<!-- BEGIN step4 -->
+	<p><h1>{TXT_DATABASE4}</h1></p>
+	<p>{MSG4}</p>
+	<p><a href="{LINK_STEP4}">[ {TXT_STEP4} ]</a>
+<!-- END step4 -->
+
+<hr>
 </body>
 </html>
