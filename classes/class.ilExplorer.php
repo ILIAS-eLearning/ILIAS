@@ -119,6 +119,13 @@ class ilExplorer
 	var $output_icons;
 
 	/**
+	* name of session expand variable
+	* @var boolean
+	* @access private
+	*/
+	var $expand_variable;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
@@ -143,6 +150,7 @@ class ilExplorer
 		$this->expand_target = $_SERVER["SCRIPT_NAME"];
 		$this->rbac_check = true;
 		$this->output_icons = true;
+		$this->expand_variable = "expand";
 	}
 
 	/**
@@ -169,11 +177,11 @@ class ilExplorer
 
 		$this->target_get = $a_target_get;
 	}
-	
+
 	/**
 	* set additional params to be passed in Get-string
 	* @access	public
-	* @param	array		
+	* @param	array
 	*/
 	function setParamsGet($a_params_get)
 	{
@@ -186,7 +194,7 @@ class ilExplorer
 		{
 			$str .= "&".$key."=".$val;
 		}
-	
+
 		$this->params_get = $str;
 	}
 
@@ -210,6 +218,16 @@ class ilExplorer
 	function checkPermissions($a_check)
 	{
 		$this->rbac_check = $a_check;
+	}
+
+	/**
+	* set name of expand session variable
+	*
+	* @param	string		$a_var_name		variable name
+	*/
+	function setSessionExpandVariable($a_var_name = "expand")
+	{
+		$this->expand_variable = $a_var_name;
 	}
 
 	/**
@@ -443,7 +461,7 @@ class ilExplorer
 		$sep = (is_int(strpos($this->expand_target, "?")))
 			? "&"
 			: "?";
-		return $this->expand_target.$sep."expand=".$a_node_id.$this->params_get;
+		return $this->expand_target.$sep.$this->expand_variable."=".$a_node_id.$this->params_get;
 	}
 
 	/**
@@ -627,22 +645,22 @@ class ilExplorer
 	function setExpand($a_node_id)
 	{
 		// IF ISN'T SET CREATE SESSION VARIABLE
-		if(!is_array($_SESSION["expand"]))
+		if(!is_array($_SESSION[$this->expand_variable]))
 		{
-			$_SESSION["expand"] = array($this->tree->getRootId());
+			$_SESSION[$this->expand_variable] = array($this->tree->getRootId());
 		}
 		// IF $_GET["expand"] is positive => expand this node
-		if ($a_node_id > 0 && !in_array($a_node_id,$_SESSION["expand"]))
+		if ($a_node_id > 0 && !in_array($a_node_id,$_SESSION[$this->expand_variable]))
 		{
-			array_push($_SESSION["expand"],$a_node_id);
+			array_push($_SESSION[$this->expand_variable],$a_node_id);
 		}
 		// IF $_GET["expand"] is negative => compress this node
 		if ($a_node_id < 0)
 		{
-			$key = array_keys($_SESSION["expand"],-(int) $a_node_id);
-			unset($_SESSION["expand"][$key[0]]);
+			$key = array_keys($_SESSION[$this->expand_variable],-(int) $a_node_id);
+			unset($_SESSION[$this->expand_variable][$key[0]]);
 		}
-		$this->expanded = $_SESSION["expand"];
+		$this->expanded = $_SESSION[$this->expand_variable];
 	}
 
 	/**
