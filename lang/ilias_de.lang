@@ -4577,3 +4577,5 @@ crs#:#crs_objective_updated_test#:#Die Änderungen wurden übernommen.
 crs#:#crs_no_questions_assigned#:#Diesem Lernziel sind keine Fragen zugeordnet.
 crs#:#crs_change_status#:#Darf Status des Lernziels ändern:
 crs#:#crs_suggest_lm#:#Empfehle Lernmaterialien bei:
+crs#:#crs_allow_abo#:#Erlaube Abonnierung von Kursobjekten
+crs#:#crs_sortorder_abo#:#Sortierung/Abo

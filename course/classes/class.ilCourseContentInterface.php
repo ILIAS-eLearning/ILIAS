@@ -261,8 +261,9 @@ class ilCourseContentInterface
 				}
 
 				// add to desktop link
-				if ($ilias->account->getId() != ANONYMOUS_USER_ID 
-				and !$ilias->account->isDesktopItem($cont_data['ref_id'], $cont_data["type"]))
+				if ($ilias->account->getId() != ANONYMOUS_USER_ID and 
+					!$ilias->account->isDesktopItem($cont_data['ref_id'], $cont_data["type"]) and
+					$this->cci_course_obj->getAboStatus() == $this->cci_course_obj->ABO_ENABLED)
 				{
 					if ($rbacsystem->checkAccess('read', $cont_data['ref_id']))
 					{

@@ -5498,3 +5498,5 @@ CREATE TABLE IF NOT EXISTS `crs_objective_tst` (
   `tst_limit` tinyint(3) default NULL,
   PRIMARY KEY  (`test_objective_id`)
 ) TYPE=MyISAM;
+<#391>
+ALTER TABLE `crs_settings` ADD `abo` TINYINT( 2 ) DEFAULT '1';

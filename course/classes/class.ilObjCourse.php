@@ -62,6 +62,8 @@ class ilObjCourse extends ilObject
 		$this->ARCHIVE_DISABLED = 1;
 		$this->ARCHIVE_READ = 2;
 		$this->ARCHIVE_DOWNLOAD = 3;
+		$this->ABO_ENABLED = 1;
+		$this->ABO_DISABLED = 0;
 
 		$this->type = "crs";
 		$this->ilObject($a_id,$a_call_by_reference);
@@ -293,6 +295,14 @@ class ilObjCourse extends ilObject
 	{
 		$this->archive_type = $a_value;
 	}
+	function setAboStatus($a_status)
+	{
+		$this->abo = $a_status;
+	}
+	function getAboStatus()
+	{
+		return $this->abo;
+	}
 
 
 	function getMessage()
@@ -356,6 +366,10 @@ class ilObjCourse extends ilObject
 		return true;
 	}
 
+	function allowAbo()
+	{
+		return $this->ABO == $this->ABO_ENABLED;
+	}
 
 	function read($a_force_db = false)
 	{
@@ -475,6 +489,7 @@ class ilObjCourse extends ilObject
 		$new_course->setArchiveStart($this->getArchiveStart());
 		$new_course->setArchiveEnd($this->getArchiveEnd());
 		$new_course->setArchiveType($this->getArchiveType());
+		$new_course->setAboStatus($this->getAboStatus());
 
 		$new_course->update();
 
@@ -651,7 +666,8 @@ class ilObjCourse extends ilObject
 			"sortorder = '".(int) $this->getOrderType()."', ".
 			"archive_start = '".$this->getArchiveStart()."', ".
 			"archive_end = '".$this->getArchiveEnd()."', ".
-			"archive_type = '".(int) $this->getArchiveType()."' ".
+			"archive_type = '".(int) $this->getArchiveType()."', ".
+			"abo = '".(int) $this->getAboStatus()."' ".
 			"WHERE obj_id = '".$this->getId()."'";
 
 		$res = $ilDB->query($query);
@@ -683,7 +699,8 @@ class ilObjCourse extends ilObject
 			"sortorder = '".(int) $this->SORT_MANUAL."', ".
 			"archive_start = '".$this->getArchiveStart()."', ".
 			"archive_end = '".$this->getArchiveEnd()."', ".
-			"archive_type = '".(int) $this->ARCHIVE_DISABLED."'";
+			"archive_type = '".(int) $this->ARCHIVE_DISABLED."', ".
+			"abo = '".(int) $this->ABO_ENABLED."'";
 
 		$res = $ilDB->query($query);
 	}
@@ -719,6 +736,7 @@ class ilObjCourse extends ilObject
 			$this->setArchiveStart($row->archive_start);
 			$this->setArchiveEnd($row->archive_end);
 			$this->setArchiveType($row->archive_type);
+			$this->setAboStatus($row->abo);
 		}
 		return true;
 	}
