@@ -574,9 +574,13 @@ class ilGroupGUI extends ilObjectGUI
 			foreach ($user_id as $id)
 			{
 				if($ref_IDs == "y")
+				{
 					$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
+				}
 				else
+				{
 					$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+				}
 
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
@@ -592,10 +596,15 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$maxcount = 1;
 			if($ref_IDs == "y")
+			{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($user_id);
+			}
 			else
+			{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($user_id);
+			}
 
+			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 			$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
 			$this->tpl->setVariable("TITLE", $obj_data->getTitle());
 			$this->tpl->setVariable("TYPE", ilUtil::getImageTagByType($obj_data->getType(),$this->tpl->tplPath));
