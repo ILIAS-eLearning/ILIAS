@@ -88,15 +88,18 @@ if ($script != "login.php" && $script != "index.php")
 		$_SESSION["AccountId"] = $ilias->account->getUserId($_SESSION["AccountId"]);
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new RbacReviewH();
-		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);	
+		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);			
 	}
 	else
 	{
 		// init user
-		$ilias->account->setId($_SESSION["AccountId"]);
-		$ilias->account->refreshLogin();
+		$ilias->account->setId($_SESSION["AccountId"]);				
 	}
 	$ilias->account->getUserdata();
+	
+	if ($script == "logout.php") {
+		$ilias->account->refreshLogin();		
+	}
 	
 	//init language
 	$lng = new Language($ilias->account->prefs["language"]);
