@@ -1833,7 +1833,7 @@ class ilObjUser extends ilObject
 	 * @static
 	 * @access	public
 	 */
-	function searchUsers($a_search_str)
+	function searchUsers($a_search_str, $active = 1)
 	{
 		// NO CLASS VARIABLES IN STATIC METHODS
 		global $ilias;
@@ -1858,6 +1858,9 @@ class ilObjUser extends ilObject
                 "OR email LIKE '%".$a_search_str."%') ".
                 "AND usr_id != '".ANONYMOUS_USER_ID."'";
         }
+        
+        if (is_numeric($active) && $active > -1)
+        	$query .= "AND active = '$active'";
 
         $res = $ilias->db->query($query);
         while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -1881,7 +1884,7 @@ class ilObjUser extends ilObject
 	 * @static
 	 * @access	public
 	 */
-	function _search(&$a_search_obj)
+	function _search(&$a_search_obj, $active=1)
 	{
 		global $ilBench;
 
@@ -1901,7 +1904,9 @@ class ilObjUser extends ilObject
 			"AND usr_data.usr_id != '".ANONYMOUS_USER_ID."' ";
 #			"AND usr_pref.keyword = 'public_profile' ";
 #			"AND usr_pref.value = 'y'";
-
+		
+  		if (is_numeric($active)  && $active > -1)
+        	$query .= "AND active = '$active'";
 
 		$ilBench->start("Search", "ilObjUser_search");
 		$res = $a_search_obj->ilias->db->query($query);
