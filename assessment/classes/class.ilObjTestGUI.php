@@ -614,6 +614,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if (!$this->sequence) {
 			// show introduction page
+			$active = $this->object->get_active_test_user();
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
 			$this->tpl->setCurrentBlock("info_row");
 			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_type") . ":");
@@ -647,16 +648,25 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("info");
 			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
+			if ($active) {
+				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_resume_test"));
+			} else {
+				$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
+			}
 			$this->tpl->setCurrentBlock("adm_content");
 			$introduction = $this->object->get_introduction();
 			$introduction = preg_replace("/0n/i", "<br />", $introduction);
 			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
-			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter&sequence=1");
+			$seq = 1;
+			if ($active) {
+				$seq = $active->lastindex;
+			}
+			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter&sequence=$seq");
 			$this->tpl->parseCurrentBlock();
 		} else {
 			if ($this->sequence <= $this->object->get_question_count()) {
 				// show next/previous question
+				$this->object->set_active_test_user($this->sequence);
 				$question_gui = new ASS_QuestionGui();
 				$question_gui->create_question("", $this->object->questions[$this->sequence]);
 				if ($this->sequence == $this->object->get_question_count()) {
@@ -667,6 +677,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id());
 			} else {
 				// finish test
+				$this->object->set_active_test_user($this->sequence, "", true);
 				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);
 				$this->tpl->setCurrentBlock("adm_content");
 				$this->tpl->setVariable("TEXT_FINISH", $this->lng->txt("tst_finished"));
