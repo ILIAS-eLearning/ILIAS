@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.43 2003/10/21 10:59:52 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.44 2003/10/26 18:04:29 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -67,7 +67,10 @@ class ilObjGroupGUI extends ilObjectGUI
 		$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
 		$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
 		$data["group_status"] = $_SESSION["error_post_vars"]["group_status"];
-		$data["registration_flag"] = $_SESSION["error_post_vars"]["registration_flag"];
+		$data["password"] =  $_SESSION["error_post_vars"]["password"];
+		$data["expirationdate"] = $_SESSION["error_post_vars"]["expirationdate"];//$this->grp_object->getExpirationDateTime()[0];
+		$data["expirationtime"] = $_SESSION["error_post_vars"]["expirationtime"];//$this->grp_object->getExpirationDateTime()[1];
+//		$data["registration_flag"] = $_SESSION["error_post_vars"]["registration_flag"];
 		
 		$this->getTemplateFile("edit",$new_type);
 
@@ -83,12 +86,30 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 
 		$stati 	= array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
-		
+//		//build form
+		$grp_status = $_SESSION["error_post_vars"]["group_status"];
+		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
+//		$checked = array(0=>0,1=>0,2=>0);
+		switch($_SESSION["error_post_vars"]["enable_registration"])
+		{
+			case 0: $checked[0]=1;
+				break;
+			case 1: $checked[1]=1;
+				break;
+			case 2: $checked[2]=1;
+				break;		
+//			default:$checked[0]=1;
+		}
+		$cb_registration[0] = ilUtil::formRadioButton($checked[0], "enable_registration", 0);
+		$cb_registration[1] = ilUtil::formRadioButton($checked[1], "enable_registration", 1);
+		$cb_registration[2] = ilUtil::formRadioButton($checked[2], "enable_registration", 2);
+//		
 		//build form
 		$opts 	= ilUtil::formSelect(0,"group_status",$stati,false,true);
 		$cb_registration = ilUtil::formCheckbox(0, "enable_registration", 1, false);
 		
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
+	
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -96,10 +117,30 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		
+		$this->tpl->setVariable("TXT_DISABLEREGISTRATION", $this->lng->txt("disabled"));				
+		$this->tpl->setVariable("RB_NOREGISTRATION", $cb_registration[0]);				
+		$this->tpl->setVariable("TXT_ENABLEREGISTRATION", $this->lng->txt("enabled"));						
+		$this->tpl->setVariable("RB_REGISTRATION", $cb_registration[1]);				
+		$this->tpl->setVariable("TXT_PASSWORDREGISTRATION", $this->lng->txt("password"));						
+		$this->tpl->setVariable("RB_PASSWORDREGISTRATION", $cb_registration[2]);						
+
+		$this->tpl->setVariable("TXT_EXPIRATIONDATE", $this->lng->txt("expiration_date"));						
+		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("DD.MM.YYYY"));						
+		$this->tpl->setVariable("TXT_TIME", $this->lng->txt("HH:MM"));								
+		
+		$this->tpl->setVariable("CB_KEYREGISTRATION", $cb_keyregistration);				
+		$this->tpl->setVariable("TXT_KEYREGISTRATION", $this->lng->txt("group_keyregistration"));		
+		$this->tpl->setVariable("TXT_PASSWORD", $this->lng->txt("password"));				
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
+
+		
+/*		
 		$this->tpl->setVariable("CB_REGISTRATION", $cb_registration);				
 		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));		
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
+*/		
 	}
 
 
