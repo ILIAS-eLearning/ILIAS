@@ -4463,3 +4463,6 @@ while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 
 ?>
 
+<#270>
+ALTER  TABLE `qpl_answers`   CHANGE `answertext`  `answertext`  TEXT NOT  NULL;
+ALTER  TABLE `qpl_answers`   CHANGE `matchingtext`  `matchingtext`  TEXT NULL;
