@@ -59,15 +59,20 @@ class ilRepositoryExplorer extends ilExplorer
 		$this->order_column = "title";
 		$this->setSessionExpandVariable("repexpand");
 
-		/*$this->addFilter("root");
+		// please do not uncomment this
+		$this->addFilter("root");
 		$this->addFilter("cat");
 		$this->addFilter("exc");
 		$this->addFilter("grp");
 		$this->addFilter("lm");
+		$this->addFilter("htlm");
+		$this->addFilter("mep");
 		$this->addFilter("frm");
 		$this->addFilter("dbk");
+		$this->addFilter("chat");
 		$this->addFilter("glo");
-		$this->setFiltered(true);*/
+		$this->setFiltered(true);
+		$this->setFilterMode(IL_FM_POSITIVE);
 
 	}
 
@@ -81,6 +86,12 @@ class ilRepositoryExplorer extends ilExplorer
 			case "lm":
 			case "dbk":
 				return "content/lm_presentation.php?ref_id=".$a_node_id;
+
+			case "htlm":
+				return "content/fblm_presentation.php?ref_id=".$a_node_id;
+
+			case "mep":
+				return "content/mep_edit.php?ref_id=".$a_node_id;
 
 			case "grp":
 				return "group.php?ref_id=".$a_node_id."&cmd=view";
@@ -108,6 +119,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 			case "lm":
 			case "dbk":
+			case "htlm":
 				return "ilContObj".$a_obj_id;
 
 			case "grp":
@@ -136,10 +148,43 @@ class ilRepositoryExplorer extends ilExplorer
 				return true;
 				break;
 
+			// media pools can only be edited
+			case "mep":
+				if ($rbacsystem->checkAccess("read", $a_ref_id))
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				break;
+
 			// all other types are only clickable, if read permission is given
 			default:
 				if ($rbacsystem->checkAccess("read", $a_ref_id))
 				{
+					// check if lm is online
+					if ($a_type == "lm")
+					{
+						include_once("content/classes/class.ilObjLearningModule.php");
+						$lm_obj =& new ilObjLearningModule($a_ref_id);
+						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write',$a_ref_id)))
+						{
+							return false;
+						}
+					}
+					// check if fblm is online
+					if ($a_type == "htlm")
+					{
+						include_once("content/classes/class.ilObjFileBasedLM.php");
+						$lm_obj =& new ilObjFileBasedLM($a_ref_id);
+						if((!$lm_obj->getOnline()) && (!$rbacsystem->checkAccess('write',$a_ref_id)))
+						{
+							return false;
+						}
+					}
+
 					return true;
 				}
 				else

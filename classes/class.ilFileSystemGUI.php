@@ -42,6 +42,10 @@ class ilFileSystemGUI
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->main_dir = $a_main_directory;
+		$this->commands = array();
+		$this->file_labels = array();
+		$this->label_enable = false;
+		$this->ctrl->saveParameter($this, "cdir");
 //echo "<br>main_dir:".$this->main_dir.":";
 	}
 
@@ -65,11 +69,93 @@ class ilFileSystemGUI
 		{
 
 			default:
-				$ret =& $this->$cmd();
+				if (substr($cmd, 0, 11) == "extCommand_")
+				{
+					$ret =& $this->extCommand(substr($cmd, 11, strlen($cmd) - 11));
+				}
+				else
+				{
+					$ret =& $this->$cmd();
+				}
 				break;
 		}
 
 		return $ret;
+	}
+
+
+	/**
+	* add command
+	*/
+	function addCommand(&$a_obj, $a_func, $a_name)
+	{
+		$i = count($this->commands);
+
+		$this->commands[$i]["object"] =& $a_obj;
+		$this->commands[$i]["method"] = $a_func;
+		$this->commands[$i]["name"] = $a_name;
+
+		//$this->commands[] = $arr;
+	}
+
+
+	/**
+	* label a file
+	*/
+	function labelFile($a_file, $a_label)
+	{
+		$this->file_labels[$a_file] = $a_label;
+	}
+
+	/**
+	* activate file labels
+	*/
+	function activateLabels($a_act, $a_label_header)
+	{
+		$this->label_enable = $a_act;
+		$this->label_header = $a_label_header;
+	}
+
+	/**
+	* call external command
+	*/
+	function &extCommand($a_nr)
+	{
+		if (!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if ($_POST["file"][0] == ".." )
+		{
+			$this->ilias->raiseError($this->lng->txt("select_a_file"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$file = (!empty($cur_subdir))
+			? $this->main_dir."/".$cur_subdir."/".$_POST["file"][0]
+			: $this->main_dir."/".$_POST["file"][0];
+
+		// check wether selected item is a directory
+		if (@is_dir($file))
+		{
+			$this->ilias->raiseError($this->lng->txt("select_a_file"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$file = (!empty($cur_subdir))
+			? $cur_subdir."/".$_POST["file"][0]
+			: $_POST["file"][0];
+
+		$obj =& $this->commands[$a_nr]["object"];
+		$method = $this->commands[$a_nr]["method"];
+
+
+		return $obj->$method($file);
 	}
 
 
@@ -135,24 +221,50 @@ class ilFileSystemGUI
 		$tbl->setTitle($this->lng->txt("cont_files")." ".$cur_subdir);
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
-		$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_dir_file"),
-			$this->lng->txt("cont_size")));
-
+		/*
 		$cols = array("", "", "dir_file", "size");
 		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
 			"cmd" => "listFiles", "hier_id" => $_GET["hier_id"]);
-		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%", "1%", "60%", "40%"));
+		$tbl->setHeaderVars($cols, $header_params);*/
+		//$tbl->setColumnWidth(array("1%", "1%", "60%", "40%"));
 
 		// control
+		/*
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);*/		// ???
+		//$tbl->setMaxCount(30);		// ???
+
+		if (!$this->label_enable)
+		{
+			$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_dir_file"),
+				$this->lng->txt("cont_size")));
+			$this->tpl->setVariable("COLUMN_COUNTS", 4);
+			$tbl->setColumnWidth(array("1%", "1%", "60%", "40%"));
+			$cols = array("", "", "dir_file", "size");
+			$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
+				"cmd" => "listFiles", "hier_id" => $_GET["hier_id"]);
+			$tbl->setHeaderVars($cols, $header_params);
+		}
+		else
+		{
+			$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_dir_file"),
+				$this->lng->txt("cont_size"), $this->label_header));
+			$this->tpl->setVariable("COLUMN_COUNTS", 5);
+			$tbl->setColumnWidth(array("1%", "1%", "50%", "25%", "25%"));
+			$cols = array("", "", "dir_file", "size", "label");
+			$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
+				"cmd" => "listFiles", "hier_id" => $_GET["hier_id"]);
+			$tbl->setHeaderVars($cols, $header_params);
+		}
+
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);		// ???
-		//$tbl->setMaxCount(30);		// ???
-
-		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 
 		// delete button
 		$this->tpl->setCurrentBlock("tbl_action_btn");
@@ -171,6 +283,22 @@ class ilFileSystemGUI
 		$this->tpl->setVariable("BTN_NAME", "downloadFile");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
 		$this->tpl->parseCurrentBlock();
+
+		// rename button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "renameFileForm");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("rename"));
+		$this->tpl->parseCurrentBlock();
+
+		// additional commands
+		for ($i=0; $i < count($this->commands); $i++)
+		{
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME", "extCommand_".$i);
+			$this->tpl->setVariable("BTN_VALUE", $this->commands[$i]["name"]);
+			$this->tpl->parseCurrentBlock();
+		}
+
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -191,6 +319,25 @@ class ilFileSystemGUI
 				if(($entry["entry"] == ".") || ($entry["entry"] == ".." && empty($cur_subdir)))
 				{
 					continue;
+				}
+
+				$cfile = (!empty($cur_subdir))
+					? $cur_subdir."/".$entry["entry"]
+					: $entry["entry"];
+
+				// label
+				if ($this->label_enable)
+				{
+					$this->tpl->setCurrentBlock("Label");
+					if ($this->file_labels[$cfile] != "")
+					{
+						$this->tpl->setVariable("TXT_LABEL", $this->file_labels[$cfile]);
+					}
+					else
+					{
+						$this->tpl->setVariable("TXT_LABEL", "&nbsp;");
+					}
+					$this->tpl->parseCurrentBlock();
 				}
 
 				//$this->tpl->setVariable("ICON", $obj["title"]);
@@ -238,6 +385,83 @@ class ilFileSystemGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* list files
+	*/
+	function renameFileForm()
+	{
+		if (!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if ($_POST["file"][0] == ".." )
+		{
+			$this->ilias->raiseError($this->lng->txt("select_a_file"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$file = (!empty($cur_subdir))
+			? $this->main_dir."/".$cur_subdir."/".$_POST["file"][0]
+			: $this->main_dir."/".$_POST["file"][0];
+
+		// load files templates
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.file_rename.html", false);
+
+		$this->ctrl->setParameter($this, "old_name", rawurlencode($_POST["file"][0]));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		if (@is_dir($file))
+		{
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("rename_dir"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("rename_file"));
+		}
+		$this->tpl->setVariable("TXT_NAME", $this->lng->txt("name"));
+		$this->tpl->setVariable("VAL_NAME", $_POST["file"][0]);
+		$this->tpl->setVariable("CMD_CANCEL", "cancelRename");
+		$this->tpl->setVariable("CMD_SUBMIT", "renameFile");
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("rename"));
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* rename a file
+	*/
+	function renameFile()
+	{
+		$new_name = str_replace("..", "", $_POST["new_name"]);
+		$new_name = str_replace("/", "", $new_name);
+		if ($new_name == "")
+		{
+			$this->ilias->raiseError($this->lng->txt("enter_new_name"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$dir = (!empty($cur_subdir))
+			? $this->main_dir."/".$cur_subdir."/"
+			: $this->main_dir."/";
+
+		rename($dir.$_GET["old_name"], $dir.$new_name);
+
+		$this->ctrl->redirect($this, "listFiles");
+	}
+
+	/**
+	* cancel renaming a file
+	*/
+	function cancelRename()
+	{
+		$this->ctrl->redirect($this, "listFiles");
+	}
 
 	/**
 	* create directory
