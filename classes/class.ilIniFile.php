@@ -21,20 +21,20 @@
 * $ini->setVariable("NEW","USER","JOHN");
 * //Save the file
 * $ini->save_data();
-* 
+*
 * @author Mircho Mirev <mircho@macropoint.com>
 * @author Peter Gabriel <peter@gabriel-online.net>
 * @version $Id$
-* 
-* @package application 
+*
+* @package application
 */
-class IniFile
+class ilIniFile
 {
 	/**
 	* name of file
 	* @var string
 	* @access public
-	*/	
+	*/
 	var $INI_FILE_NAME = "";
 
 	/**
@@ -63,7 +63,7 @@ class IniFile
 	* @access	public
 	* @param	string		name of file to be parsed
 	*/
-	function INIFile($a_iniFileName)
+	function ilIniFile($a_iniFileName)
 	{
 		//check if a filename is given
 		if (empty($a_iniFileName))
@@ -71,7 +71,7 @@ class IniFile
 			$this->error("no_file_given");
 			return false;
 		}
-		
+
 		$this->INI_FILE_NAME = $a_iniFileName;
 		return true;
 	}
