@@ -74,6 +74,7 @@ class ilLMPresentationGUI
 				include_once("./content/classes/class.ilObjLearningModuleGUI.php");
 
 				$this->lm_gui = new ilObjLearningModuleGUI($data,$_GET["ref_id"],true,false);
+				
 				break;
 		}
 		$this->lm =& $this->lm_gui->object;
@@ -100,13 +101,13 @@ class ilLMPresentationGUI
 			"WHERE usr_id='".$usr_id."' ".
 			"AND lm_id='".$lm_id."'";
 		$this->ilias->db->query($q);
-
+		$title = (is_object($this->lm))?$this->lm->getTitle():"- no title -";
 		// insert new entry
 		$pg_title = "";
 		$q = "INSERT INTO lo_access ".
 			"(timestamp,usr_id,lm_id,obj_id,lm_title) ".
 			"VALUES ".
-			"(now(),'".$usr_id."','".$lm_id."','".$obj_id."','".ilUtil::prepareDBString($this->lm->getTitle())."')";
+			"(now(),'".$usr_id."','".$lm_id."','".$obj_id."','".ilUtil::prepareDBString($title)."')";
 		$this->ilias->db->query($q);
 	}
 
@@ -926,7 +927,11 @@ class ilLMPresentationGUI
 
 
 	function getLayoutLinkTargets()
-	{
+	{		
+		
+		if (!is_object($this->layout_doc))
+			return array ();
+			
 		$xpc = xpath_new_context($this->layout_doc);
 
 		$path = "/ilLayout/ilLinkTargets/LinkTarget";
