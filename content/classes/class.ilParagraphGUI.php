@@ -58,22 +58,26 @@ class ilParagraphGUI
 	{
 		$this->tpl->addBlockFile($a_template_var, "paragraph_edit", "tpl.paragraph_edit.html", true);
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
-echo htmlentities($this->para_obj->getText());
-		$this->tpl->setVariable("PAR_TA_CONTENT", $this->xml2nl($this->para_obj->getText()));
+		//echo htmlentities($this->para_obj->getText());
+		$this->tpl->setVariable("PAR_TA_CONTENT", $this->xml2output($this->para_obj->getText()));
 		//$this->tpl->setVariable("PAR_TA_CONTENT", "Hallo Echo");
 		$this->tpl->parseCurrentBlock();
 	}
 
 	function processInput()
 	{
-		$this->para_obj->setText($this->nl2xml($_POST["par_content"]));
+		$this->para_obj->setText($this->input2xml($_POST["par_content"]));
 	}
 
-	function nl2xml($a_text)
+	function input2xml($a_text)
 	{
-		$a_text = ereg_replace(chr(13).chr(10),"<br />",trim($a_text));
-		$a_text = ereg_replace(chr(13),"<br />", $a_text);
-		$a_text = ereg_replace(chr(10),"<br />", $a_text);
+		$a_text = trim($a_text);
+		$a_text = str_replace("<","&lt;",$a_text);
+		$a_text = str_replace(">","&gt;",$a_text);
+
+		$a_text = str_replace(chr(13).chr(10),"<br />",$a_text);
+		$a_text = str_replace(chr(13),"<br />", $a_text);
+		$a_text = str_replace(chr(10),"<br />", $a_text);
 		/*$blob = ereg_replace("<NR><NR>","<P>",$blob);
 		$blob = ereg_replace("<NR>"," ",$blob);*/
 
@@ -81,9 +85,12 @@ echo htmlentities($this->para_obj->getText());
 		return $a_text;
 	}
 
-	function xml2nl($a_text)
+	function xml2output($a_text)
 	{
-		return str_replace("<br />", "\n", $a_text);
+		$a_text = str_replace("<br />", "\n", $a_text);
+		$a_text = str_replace("&lt;", "<", $a_text);
+		$a_text = str_replace("&gt;", ">",$a_text);
+		return $a_text;
 		//return str_replace("<br />", chr(13).chr(10), $a_text);
 	}
 
