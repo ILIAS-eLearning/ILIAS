@@ -208,7 +208,7 @@ class ilMetaData
 	*/
 	function addTechnicalSection(&$a_tech)
 	{
-//echo "ilMetaData::addingTechnicalSection<br>";
+//echo "1) ilMetaData::addingTechnicalSection<br>";
 //echo "type:".$this->getType().":id:".$this->getId().":<br>";
 		$this->technicals[] =& $a_tech;
 //echo "count TechnicalSections:".count($this->technicals).":<br>";
@@ -221,7 +221,6 @@ class ilMetaData
 
 	function updateTechnicalSections()
 	{
-//echo "ilMetaData::updatetechnicals<br>";
 //echo "count TechnicalSections:".count($this->technicals).":<br>";
 //echo "type:".$this->getType().":id:".$this->getId().":<br>";
 		ilMetaTechnical::delete($this->getId(), $this->getType());

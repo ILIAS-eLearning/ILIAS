@@ -241,6 +241,21 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- MediaAlias -->
+<xsl:template match="MediaAlias">
+	<xsl:variable name="cmobid" select="@OriginId"/>
+	<object>
+		<xsl:attribute name="data">../../iliaswbdata/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
+		<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/@Format"/></xsl:attribute>
+		<xsl:attribute name="width"><xsl:value-of select="../Layout[1]/@Width"/></xsl:attribute>
+		<xsl:attribute name="height"><xsl:value-of select="../Layout[1]/@Height"/></xsl:attribute>
+	</object>
+</xsl:template>
+
+<!-- MediaObject -->
+<xsl:template match="MediaObject">
+	<xsl:apply-templates select="MediaAlias"/>
+</xsl:template>
 
 
 <!--

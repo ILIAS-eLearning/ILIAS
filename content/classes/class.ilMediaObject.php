@@ -238,6 +238,23 @@ class ilMediaObject extends ilObjMediaObject
 	}
 
 	/**
+	* get import id
+	*/
+	function getImportId()
+	{
+		if($this->isAlias())
+		{
+//echo "getting import id for mob alias:".$this->getOriginId().":<br>";
+			return $this->getOriginId();
+		}
+		else
+		{
+//echo "getting import id for mob:".$this->meta_data->getImportIdentifierEntryID().":<br>";
+			return $this->meta_data->getImportIdentifierEntryID();
+		}
+	}
+
+	/**
 	* create media object in db
 	*/
 	function create()
@@ -291,10 +308,11 @@ class ilMediaObject extends ilObjMediaObject
 	function getXML($a_mode = IL_MODE_FULL)
 	{
 		// TODO: full implementation of all parameters
-		$xml = "<MediaObject>\n";
+
 		switch ($a_mode)
 		{
 			case IL_MODE_ALIAS:
+				$xml = "<MediaObject>\n";
 				$xml .= "<MediaAlias OriginId=\"".$this->getId()."\"/>\n";
 				$xml .= "<Layout Width=\"".$this->getWidth()."\" Height=\"".$this->getHeight()."\"/>\n";
 				$parameters = $this->getParameters();
@@ -308,9 +326,11 @@ class ilMediaObject extends ilObjMediaObject
 			case IL_MODE_OUTPUT:
 				// get first technical section
 				$meta =& $this->getMetaData();
+				$xml = "<MediaObject Id=\"".$this->getId()."\">\n";
 				$technical =& $meta->getTechnicalSection(1);
 				if ($technical != false)
 				{
+//echo "<b>wanna technical</b>".$this->getId();
 					$xml .= $technical->getXML();
 				}
 				$xml .= "<Layout Width=\"".$this->getWidth()."\" Height=\"".$this->getHeight()."\"/>\n";

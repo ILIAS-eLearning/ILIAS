@@ -463,7 +463,16 @@ class ilObject
 
 		$this->id = getLastInsertId();
 
-		$this->read();
+		// the line ($this->read();) messes up meta data handling: meta data,
+		// that is not saved at this time, gets lost, so we query for the dates alone
+		//$this->read();
+		$q = "SELECT last_update, create_date FROM object_data".
+			 " WHERE obj_id = '".$this->id."'";
+		$obj_set = $this->ilias->db->query($q);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->last_update = $obj_rec["last_update"];
+		$this->create_date = $obj_rec["create_date"];
+
 
 		return $this->id;
 	}
@@ -486,7 +495,14 @@ class ilObject
 			"WHERE obj_id = '".$this->getId()."'";
 		$ilias->db->query($q);
 
-		$this->read();						// to get all data (incl. dates!)
+		// the line ($this->read();) messes up meta data handling: meta data,
+		// that is not saved at this time, gets lost, so we query for the dates alone
+		//$this->read();
+		$q = "SELECT last_update FROM object_data".
+			 " WHERE obj_id = '".$this->getId()."'";
+		$obj_set = $this->ilias->db->query($q);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->last_update = $obj_rec["last_update"];
 
 		return true;
 	}
