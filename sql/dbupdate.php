@@ -2016,3 +2016,5 @@ CREATE TABLE `tst_solutions` (
   UNIQUE KEY `solution_id` (`solution_id`),
   KEY `solution_id_2` (`solution_id`)
 ) TYPE=MyISAM COMMENT='Test and Assessment solutions';
+<#124>
+ALTER  TABLE  `tst_solutions`  ADD  `postponed` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `value2` ;
