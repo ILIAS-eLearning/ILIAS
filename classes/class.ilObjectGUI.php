@@ -623,7 +623,6 @@ class ilObjectGUI
 				// get subnodes of top nodes
 				$subnodes[$ref_id] = $this->tree->getSubtree($top_node);
 			}
-			
 			// now move all subtrees to new location
 			foreach ($subnodes as $key => $subnode)
 			{
@@ -660,23 +659,21 @@ class ilObjectGUI
 						}
 						else
 						{
-							// get the parent object that contains the rolefolder ...
-							$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-
 							// ... use mapping array to find out the correct new parent node where to put in the node...
 							$new_parent = array_search($node["parent"],$mapping);
 							
+							// get the parent object that contains the rolefolder ...
+							$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($new_parent);
 							// setup rolefolder and link in default local roles
 							// createRoleFolder
 							$rfoldObj = $obj_data->createRoleFolder("Local Roles","Role Folder of object ref_no.".$new_parent,$new_parent);
 							
-							$localroles = $rbacreview->getRolesOfRoleFolder($obj_data->getRefId(),false);
-//var_dump("<pre>",$localroles,"</pre>");exit;
+							$localroles = $rbacreview->getRolesOfRoleFolder($node["child"],false);
+
 							foreach ($localroles as $role_id)
 							{
 								$rbacadmin->assignRoleToFolder($role_id,$rfoldObj->getRefId(),"y");
 							} 
-							//$obj_data->link($new_parent);							
 						}
 					}
 				}
@@ -685,7 +682,7 @@ class ilObjectGUI
 
 		// save cmd for correct message output after clearing the clipboard
 		$last_cmd = $_SESSION["clipboard"]["cmd"];
-		
+
 		// clear clipboard
 		$this->clearObject();
 		

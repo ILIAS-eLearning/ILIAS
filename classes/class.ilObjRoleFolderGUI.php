@@ -127,17 +127,59 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		}
 		else
 		{
+			$feedback["count"] = count($_SESSION["saved_post"]);
+		
 			// FOR ALL SELECTED OBJECTS
 			foreach ($_SESSION["saved_post"] as $id)
 			{
 				// instatiate correct object class (role or rolt)
 				$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+
+				if ($obj->getType() == "role")
+				{
+					$obj->setParent($this->object->getRefId());
+					$feedback["role"] = true;
+				}
+				else
+				{
+					$feedback["rolt"] = true;
+				}
+
 				$obj->delete();
+				unset($obj);
 			}
 			
-			// Feedback
-			sendInfo($this->lng->txt("role_deleted"),true);
-
+			// Compose correct feedback
+			if ($feedback["count"] > 1)
+			{
+				if ($feedback["role"] === true)
+				{
+					if ($feedback["rolt"] === true)
+					{
+						sendInfo($this->lng->txt("msg_deleted_roles_rolts"),true);					
+					}
+					else
+					{
+						sendInfo($this->lng->txt("msg_deleted_roles"),true);						
+					}
+				}
+				else
+				{
+					sendInfo($this->lng->txt("msg_deleted_rolts"),true);						
+				}
+			}
+			else
+			{
+				if ($feedback["role"] === true)
+				{
+					sendInfo($this->lng->txt("msg_deleted_role"),true);	
+				}
+				else
+				{
+					sendInfo($this->lng->txt("msg_deleted_rolt"),true);	
+				}	
+			}
+			
 			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 			exit();
 		}

@@ -32,6 +32,11 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absoluter Pfad
+common#:#msg_deleted_role#:#Rolle gel&ouml;scht
+common#:#msg_deleted_roles#:#Rollen gel&ouml;scht
+common#:#msg_deleted_rolt#:#Rollenvorlage gel&ouml;scht
+common#:#msg_deleted_rolts#:#Rollenvorlagen gel&ouml;scht
+common#:#msg_deleted_roles_rolts#:#Rollen & Rollenvorlagen gel&ouuml;scht
 common#:#lm_added#:#Lernmodul angelegt
 common#:#cat_added#:#Kategorie angelegt
 common#:#slm_added#:#SCORM Lernmodul angelegt

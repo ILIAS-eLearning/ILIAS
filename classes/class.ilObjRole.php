@@ -145,7 +145,10 @@ class ilObjRole extends ilObject
 					$user_names[] = $tmp_obj->getFullname();
 					unset($tmp_obj);
 				}
-
+				
+				// TODO: This check must be done in rolefolder object because if multiple
+				// roles were selected the other roles are still deleted and the system does not
+				// give any feedback about this.
 				$users = implode(', ',$user_names);
 				$this->ilias->raiseError($this->lng->txt("msg_user_last_role1")." ".
 									 $users."<br/>".$this->lng->txt("msg_user_last_role2"),$this->ilias->error_obj->WARNING);				

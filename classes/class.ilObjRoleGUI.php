@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.30 2003/07/09 18:36:58 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.31 2003/07/15 08:23:56 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -383,6 +383,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
 				$all_rolf_obj = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
 				
+				//var_dump("<pre>",$all_rolf_obj,"</pre>");exit;
 				// DELETE ACTUAL ROLE FOLDER FROM ARRAY
 				$key = array_keys($all_rolf_obj,$node_id);
 				unset($all_rolf_obj["$key[0]"]);
@@ -416,15 +417,27 @@ class ilObjRoleGUI extends ilObjectGUI
 						}
 					}
 				}
-				// NOW SET ALL PERMISSIONS
-				foreach ($_POST["template_perm"] as $type => $a_perm)
+				
+				// revoke all permissions for valid nodes if nothing was posted
+				if (empty($_POST["template_perm"]))
 				{
 					foreach ($valid_nodes as $node)
 					{
-						if ($type == $node["type"])
+						$rbacadmin->revokePermission($node["child"],$this->object->getId());
+					}				
+				}
+				else
+				{
+					// NOW SET ALL PERMISSIONS
+					foreach ($_POST["template_perm"] as $type => $a_perm)
+					{
+						foreach ($valid_nodes as $node)
 						{
-							$rbacadmin->revokePermission($node["child"],$this->object->getId());
-							$rbacadmin->grantPermission($this->object->getId(),$a_perm,$node["child"]);
+							if ($type == $node["type"])
+							{
+								$rbacadmin->revokePermission($node["child"],$this->object->getId());
+								$rbacadmin->grantPermission($this->object->getId(),$a_perm,$node["child"]);
+							}
 						}
 					}
 				}

@@ -200,11 +200,11 @@ class ilIniFile
 			//prevent empty line at beginning of ini-file
 			if ($i==0)
 			{
-				$res = sprintf("[%s]\n",$group_name);
+				$res = sprintf("[%s]\r\n",$group_name);
 			}
 			else
 			{
-				$res = sprintf("\n[%s]\n",$group_name);
+				$res = sprintf("\r\n[%s]\r\n",$group_name);
 			}
 			
 			$result = fwrite($fp, $res);
@@ -212,7 +212,7 @@ class ilIniFile
 			
 			for (reset($group); $key=key($group);next($group))
 			{
-				$res = sprintf("%s = %s\n",$key,$group[$key]);
+				$res = sprintf("%s = %s\r\n",$key,$group[$key]);
 				$result = fwrite($fp,$res);
 			}
 		}

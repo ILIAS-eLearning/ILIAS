@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.32 2003/07/09 15:36:53 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.33 2003/07/09 18:36:58 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -540,7 +540,6 @@ class ilObjUserGUI extends ilObjectGUI
 		include_once "classes/class.ilBookmarkFolder.php";
 		$bmf = new ilBookmarkFolder(0, $userObj->getId());
 		$bmf->createNewBookmarkTree();
-
 
 		sendInfo($this->lng->txt("user_added"),true);
 
