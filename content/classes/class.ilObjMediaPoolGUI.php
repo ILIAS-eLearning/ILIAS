@@ -59,8 +59,8 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$this->type = "mep";
 		$lng->loadLanguageModule("content");
-
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+
 		$this->output_prepared = $a_prepare_output;
 
 		if (defined("ILIAS_MODULE"))
@@ -645,9 +645,11 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php")
 	{
 		global $ilias_locator;
+
 		if (!defined("ILIAS_MODULE"))
 		{
 			parent::setLocator();
+			return;
 		}
 		else
 		{

@@ -120,12 +120,12 @@ class ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 
 		$params = array("ref_id");
-		
+
 		if (!$a_call_by_reference)
 		{
 			$params = array("ref_id","obj_id");
 		}
-		
+
 		$this->ctrl->saveParameter($this, $params);
 
 		//$this->lng =& $lng;
@@ -487,7 +487,7 @@ class ilObjectGUI
 				ilUtil::appendUrlParameterString($scriptname, $a_child_param."=".$row["child"]),"bottom");
 		}
 
-		if (isset($_GET["obj_id"]) && $a_output_obj)
+		if (($_GET["obj_id"] != "") && $a_output_obj)
 		{
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 
@@ -520,6 +520,7 @@ class ilObjectGUI
 
 		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
 		$this->tpl->parseCurrentBlock();
+
 	}
 
 	/**
