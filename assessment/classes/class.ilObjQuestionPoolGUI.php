@@ -266,6 +266,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			{
 				foreach ($matches[1] as $index => $item)
 				{
+					$question = "";
 					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
 					{
 						switch ($questiontype[1])
@@ -286,10 +287,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 								$question = new ASS_OrderingQuestion();
 								break;
 						}
-						$question->setObjId($this->object->getId());
-						$question->from_xml("<questestinterop>$item</questestinterop>");
-//						$question->setObjId($this->object->getId());
-						$question->saveToDb();
+						if ($question)
+						{
+							$question->setObjId($this->object->getId());
+							$question->from_xml("<questestinterop>$item</questestinterop>");
+							$question->saveToDb();
+						}
 					}
 				}
 			}
