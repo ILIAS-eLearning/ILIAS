@@ -35,6 +35,7 @@
 	<subobj name="glo">glo</subobj>
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
+	<subobj name="exc">exc</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
     <subobj name="dbk">dbk</subobj>
 	<property name="view">view_content</property>
@@ -298,8 +299,17 @@
 <object name="sty" class_name="StyleSheet" checkbox="1" inherit="0" translate="0">
 	<property name="view">cont_content</property>
 </object>
+<object name="exc" class_name="Exercise" checkbox="1" inherit="1">
+	<property name="edit">edit_properties</property>
+	<property name="members">show_members</property>
+	<property name="newmembers">add_member</property>
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<action name="delete">delete</action>
+</object>
 <object name="file" class_name="File" checkbox="1" inherit="0" translate="0">
-	<property name="owner">show_owner</property>
+	<property name="owner">cont_exc</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
 	<action name="delete">delete</action>

@@ -1693,3 +1693,24 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+common#:#exc_obj#:#Exercise
+common#:#exc_instruction#:#Work instructions
+common#:#exc_edit_until#:#Edit until
+common#:#exc_date_not_valid#:#The date is not valid
+common#:#exc_edit#:#New exercise created
+common#:#exc_edit_exercise#:#Edit exercise
+common#:#exc_upload_error#:#Error uploading file
+common#:#exc_status_saved#:#Exercise updated
+common#:#exc_sent#:#The exercise has been sent to the selected users
+common#:#exc_no_members_assigned#:#No members assigned
+common#:#exc_members_assigned#:#Members assigned
+common#:#exc_save_changes#:#Save
+common#:#exc_send_exercise#:#Send exercise
+common#:#exc_deassign_members#:#Delete member(s)
+common#:#exc_header_members#:#Exercise(members)
+common#:#exc_notices#:#Notices
+common#:#exc_status_returned#:#Returned
+common#:#exc_status_solved#:#Solved
+common#:#exc_files#:#Files
+common#:#exc_ask_delete#:#Delete file?
+common#:#exc_assign_usr#:#Assign User
