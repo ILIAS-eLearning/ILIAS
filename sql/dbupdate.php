@@ -4755,4 +4755,7 @@ ALTER TABLE `survey_answer` ADD `anonymous_id` VARCHAR( 32 ) NOT NULL AFTER `use
 ALTER TABLE `survey_finished` DROP `anonymous_id`;
 <#309>
 ALTER TABLE `qpl_questions` CHANGE `materials` `solution_hint` TEXT DEFAULT NULL;
-
+<#310>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
