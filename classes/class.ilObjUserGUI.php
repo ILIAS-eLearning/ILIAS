@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.20 2003/06/05 13:46:05 smeyer Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.21 2003/06/06 12:33:14 rty Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -67,30 +67,31 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $tpl;
 		require_once "classes/class.ilForum.php";
-		$frm = new ilForum();
-		$author = $frm->getUser($_GET["user"]);
 
 		$tpl->addBlockFile($a_template_var, $a_template_block_name, "tpl.usr_public_profile.html");
-		$tpl->setCurrentBlock("profile");
+		$tpl->setCurrentBlock($a_template_block_name);
 		//$tpl->setVariable("ROWCOL1", "tblrow1");
 		//$tpl->setVariable("ROWCOL2", "tblrow2");
 
 		// Get name of picture of user
+
 		require_once "classes/class.ilObjUser.php";
 		$userObj = new ilObjUser($_GET["user"]);
 		// End of get picture of user
 		$tpl->setVariable("TXT_NAME","Name");
-		$tpl->setVariable("FIRSTNAME",$author->getFirstName());
-		$tpl->setVariable("LASTNAME",$author->getLastName());
-		$tpl->setVariable("TXT_TITLE","Title");
-		$tpl->setVariable("TITLE",$author->getTitle());
+
+		$tpl->setVariable("FIRSTNAME",$userObj->getFirstName());
+		$tpl->setVariable("LASTNAME",$userObj->getLastName());
+		//$tpl->setVariable("TXT_TITLE","Title");
+		//$tpl->setVariable("TITLE",$userObj->getTitle());
 		$tpl->setVariable("TXT_IMAGE","Image");
 		$tpl->setVariable("IMAGE_PATH","./docss/usr_images/".$userObj->getPref("profile_image"));
 
 		//echo "./docss/usr_images/".$userObj->getPref("profile_image");
 		//exit;
 
-		$tpl->parseCurrentBlock("profile");
+		//$tpl->parseCurrentBlock("profile");
+		$tpl->parseCurrentBlock();
 		//$tpl->show();
 	}
 
