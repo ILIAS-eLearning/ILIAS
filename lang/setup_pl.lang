@@ -97,7 +97,7 @@ db_conn#:#Podłączenie do bazy danych
 db_host#:#Serwer bazy danych
 db_name#:#Nazwa bazy danych
 db_needs_update#:#Baza danych wymaga uaktualnienia
-db_not_installed#:#Database not installed###01 Mar 2005 new variable
+db_not_installed#:#Baza danych nie jest zainstalowana
 db_pass#:#Hasło użytkownika bazy danych
 db_type#:#Typ bazy danych
 db_user#:#Użytkownik bazy danych
