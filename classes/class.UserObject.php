@@ -114,9 +114,8 @@ class UserObject extends Object
 		{
 			$this->ilias->raiseError("No permission to delete user",$this->ilias->error_obj->WARNING);
 		}
-		
-		header("Location: content_user.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-		exit;
+
+		return true;		
 	}
 	
 	/**
@@ -195,8 +194,10 @@ class UserObject extends Object
 		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
 			$Fuserdata = $_POST["Fuserdata"];
+			$Fuserdata["Id"] = $this->id;
+
 			$rbacadmin->updateUser($Fuserdata);
-			$rbacadmin->assignUser($Fuserdata["Role"],$_GET["obj_id"]);
+			//$rbacadmin->assignUser($Fuserdata["Role"],$_GET["obj_id"]);
 			// TODO: Passwort muss gesondert abgefragt werden
 		}
 		else
@@ -204,8 +205,7 @@ class UserObject extends Object
 			$this->ilias->raiseError("No permission to delete user",$this->ilias->error_obj->WARNING);
 		}
 		
-		header("Location: content_user.php?obj_id=".$_GET["parent"]."&parent=".SYSTEM_FOLDER_ID);
-		exit;
+		return true;
 	}
 	
 	/**
@@ -227,9 +227,8 @@ class UserObject extends Object
 		{
 			$this->ilias->raiseError("You can only change your own account",$this->ilias->error_obj->WARNING);
 		}
-		
-		header("Location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=edit");
-		exit;
+
+		return true;		
 	}
 } //end class.UserObject
 ?>
