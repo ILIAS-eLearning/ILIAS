@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.6 2002/12/13 14:50:04 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.7 2002/12/16 15:17:07 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -129,9 +129,11 @@ class ObjectOut
         //check if object isn't in tree, this is the case if parent_parent is set
 		if ($_GET["parent_parent"])
 		{
+			$subObj = getObject($_GET["obj_id"]);
+
 			$path[] = array(
 				"id"	 => $_GET["obj_id"],
-				"title"  => "TITLE",
+				"title"  => $this->lng->txt($subObj["title"]),
 				"parent" => $_GET["parent"],
 				"parent_parent" => $_GET["parent_parent"]
 				);
@@ -314,8 +316,8 @@ class ObjectOut
 				// color changing
 				$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
 			
-				//checkbox
-				if ($ctrl["type"] == "adm")
+				// surpress checkbox for particular object types
+				if ($ctrl["type"] == "adm" || $ctrl["type"] == "typ" || $ctrl["type"] == "perm")
 				{
 					$this->tpl->touchBlock("empty_cell");
 				}
@@ -365,8 +367,8 @@ class ObjectOut
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 		}
 
-		// SHOW VALID OPERATIONS
-		$this->showOperations();
+		// SHOW VALID ACTIONS
+		$this->showActions();
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->showPossibleSubObjects();
@@ -403,7 +405,7 @@ class ObjectOut
 			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 		exit();
 	}
-	function showOperations()
+	function showActions()
 	{
 		$notoperations = array();
 		if (empty($_SESSION["clipboard"]))
