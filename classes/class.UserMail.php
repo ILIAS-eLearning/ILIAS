@@ -68,7 +68,7 @@ class UserMail extends PEAR
 		 	//delete mail here
 			//TODO: security, only delete if it is allowed
 			
-			$sql = "UPDATE mail SET rcp_flag=3 WHERE id=".$aMsgId;
+			$sql = "UPDATE mail SET rcp_folder='trash' WHERE id=".$aMsgId;
 
 			$this->db->query($sql);
 
@@ -91,7 +91,7 @@ class UserMail extends PEAR
     */
 	 function setStatus($aMsgId, $who, $status)
 	 {
-		 if (empty($aMsgId) || ($who != "rcp" && $who != "snd") || $status==0)
+		 if (empty($aMsgId) || ($who != "rcp" && $who != "snd") || $status=="")
 		 {
 		 	return false;
 		 }
@@ -123,6 +123,7 @@ class UserMail extends PEAR
 
 			//perform query
 			$sql = "UPDATE mail SET ".$who."_flag=".$st." WHERE id=".$aMsgId;
+
 			$this->db->query($sql);
 
 			return true;
@@ -151,7 +152,8 @@ class UserMail extends PEAR
 		 //query
 		 $sql = "SELECT * FROM mail
                  WHERE rcp='".$this->id."'
-				 AND rcp_folder='".$folder."'";
+				 AND rcp_folder='".$folder."'
+				 AND (rcp_flag=1 OR rcp_flag=2)";
 		 $r = $this->db->query($sql);
 
 		 
@@ -175,6 +177,17 @@ class UserMail extends PEAR
 		 		 
 		 $mails["count"] = $mails["read"] + $mails["unread"];
 		 return $mails;
+	 }
+	 	 
+		 
+ 	 function sendMail($rcp, $subject, $body)
+	 {
+		$sql = "INSERT INTO mail
+				(snd, rcp, subject, body, snd_flag, rcp_flag, date_send)
+				VALUES
+				('".$this->id."', '".$rcp."', '".$subject."', '".$body."','6', '1', NOW())";
+
+		$this->db->query($sql);
 	 }
 	 
 } // END class user
