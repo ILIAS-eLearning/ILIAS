@@ -210,12 +210,16 @@ class ilPCParagraph extends ilPageContent
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-		while (eregi("\[(iln$ws(page$ws=$ws([\"0-9])*)$ws)\]", $a_text, $found))
+		while (eregi("\[(iln$ws((page|chap)$ws=$ws([\"0-9])*)$ws)\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
 			if (isset($attribs["page"]))
 			{
 				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"pg_".$attribs[page]."\" Type=\"PageObject\">", $a_text);
+			}
+			else if (isset($attribs["chap"]))
+			{
+				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"st_".$attribs[chap]."\" Type=\"StructureObject\">", $a_text);
 			}
 			else
 			{
