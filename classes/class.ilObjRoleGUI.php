@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.33 2003/07/22 14:44:54 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.34 2003/07/25 15:18:13 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -807,7 +807,162 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function searchUserObject ()
 	{
-		// do search and display result table
+		if (!empty($_POST["search_string"]))
+		{
+			$search_result = ilObjUser::searchUsers($_POST["search_string"]);
+			
+			$obj_str = "&obj_id=".$this->obj_id;
+			
+			$this->data["cols"] = array("", "login", "firstname", "lastname", "email");
+
+			if (count($search_result) > 0)
+			{
+				foreach ($search_result as $key => $val)
+				{
+					//visible data part
+					$this->data["data"][] = array(
+							"login"			=> $val["login"],
+							"firstname"		=> $val["firstname"],
+							"lastname"		=> $val["lastname"],
+							"email"			=> $val["email"],
+							"obj_id"		=> $val["usr_id"]
+						);
+				}
+
+				$this->maxcount = count($this->data["data"]);
+
+				// TODO: correct this in objectGUI
+				if ($_GET["sort_by"] == "title")
+				{
+					$_GET["sort_by"] = "login";
+				}
+
+				// sorting array
+				include_once "./include/inc.sort.php";
+				$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
+				$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+
+				//$assigned_users = $rbacreview->assignedUsers($this->object->getId());
+
+				// now compute control information
+				foreach ($this->data["data"] as $key => $val)
+				{
+					//$checked = in_array($this->data["data"][$key]["obj_id"],$assigned_users);
+
+					$this->data["ctrl"][$key] = array(
+												"ref_id"	=> $this->id,
+												"obj_id"	=> $val["obj_id"],
+												"assigned"	=> $checked
+											);
+					$tmp[] = $val["obj_id"];
+
+					unset($this->data["data"][$key]["obj_id"]);
+
+					//$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
+				}
+
+				// remember filtered users
+				$_SESSION["user_list"] = $tmp;		
+	
+				// load template for table
+				$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+				// load template for table content data
+				$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+
+				$num = 0;
+
+				$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=assignSave&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
+
+				include_once "./classes/class.ilTableGUI.php";
+
+				// create table
+				$tbl = new ilTableGUI();
+
+				// title & header columns
+				$tbl->setTitle($this->lng->txt("user_assignment")." (".$this->lng->txt("search_result").")","icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
+				$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		
+				foreach ($this->data["cols"] as $val)
+				{
+					$header_names[] = $this->lng->txt($val);
+				}
+		
+				$tbl->setHeaderNames($header_names);
+		
+				$header_params = array(
+										"ref_id"	=> $this->ref_id,
+										"obj_id"	=> $this->obj_id,
+										"cmd"		=> "userassignment"
+							  		);
+
+				$tbl->setHeaderVars($this->data["cols"],$header_params);
+				//$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
+
+				// control
+				$tbl->setOrderColumn($_GET["sort_by"]);
+				$tbl->setOrderDirection($_GET["sort_order"]);
+				$tbl->setLimit($_GET["limit"]);
+				$tbl->setOffset($_GET["offset"]);
+				$tbl->setMaxCount($this->maxcount);
+
+				$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));	
+
+					// display action button
+				$this->tpl->setCurrentBlock("tbl_action_btn");
+				$this->tpl->setVariable("BTN_NAME", "assignSave");
+				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("change_assignment"));
+				$this->tpl->parseCurrentBlock();
+
+				$this->showActions(true);
+		
+				// footer
+				$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+				// render table
+				$tbl->render();
+
+				if (is_array($this->data["data"][0]))
+				{
+					//table cell
+					for ($i=0; $i < count($this->data["data"]); $i++)
+					{
+						$data = $this->data["data"][$i];
+						$ctrl = $this->data["ctrl"][$i];
+
+						//var_dump("<pre>",$ctrl,"</pre>");
+						// color changing
+						$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
+		
+						//($ctrl["assigned"]) ? $checked = "checked=\"checked\"" : $checked = "";
+						
+						$this->tpl->setCurrentBlock("checkbox");
+						$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
+						$this->tpl->setVariable("CHECKED", $checked);
+						$this->tpl->setVariable("CSS_ROW", $css_row);
+						$this->tpl->parseCurrentBlock();
+			
+		
+						$this->tpl->setCurrentBlock("table_cell");
+						$this->tpl->setVariable("CELLSTYLE", "tblrow1");
+						$this->tpl->parseCurrentBlock();
+		
+						foreach ($data as $key => $val)
+						{
+							$this->tpl->setCurrentBlock("text");
+		
+							$this->tpl->setVariable("TEXT_CONTENT", $val);					
+							$this->tpl->parseCurrentBlock();
+							$this->tpl->setCurrentBlock("table_cell");
+							$this->tpl->parseCurrentBlock();
+						} //foreach
+		
+						$this->tpl->setCurrentBlock("tbl_content");
+						$this->tpl->setVariable("CSS_ROW", $css_row);
+						$this->tpl->parseCurrentBlock();
+					} //for
+				}
+			}
+		}
 	}
 } // END class.ilObjRoleGUI
 ?>
