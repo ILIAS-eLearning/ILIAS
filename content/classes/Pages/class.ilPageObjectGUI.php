@@ -280,6 +280,14 @@ class ilPageObjectGUI
 			$this->displayValidationError($_SESSION["il_pg_error"]);
 		}
 		unset($_SESSION["il_pg_error"]);
+		
+		if(isset($_SESSION["citation_error"]))
+		{
+			sendInfo($this->lng->txt("cont_citation_selection_not_valid"));
+			session_unregister("citation_error");
+			unset($_SESSION["citation_error"]);
+		}
+			
 
 		// get title
 		$pg_title = $this->getPresentationTitle();

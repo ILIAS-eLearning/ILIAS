@@ -8,6 +8,7 @@
     <!-- BEGIN citation_row -->
     <xsl:for-each select="//BibItem">
       <xsl:if test="contains($target_id,position())">
+        {CITATION}
         <xsl:call-template name="showAuthors" />
         <xsl:call-template name="showYear" />
         <xsl:call-template name="showTitle" />

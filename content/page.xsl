@@ -113,6 +113,7 @@
   <xsl:text> </xsl:text>
   <select class="ilEditSelect">
     <xsl:attribute name="name">ct_option[<xsl:value-of select="$pos" />]</xsl:attribute>
+    <option value="single">Paragraph</option>
     <option value="from">From</option>
     <option value="to">To</option>
     <option value="f">F</option>

@@ -62,7 +62,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	}
 
 
-	function showCitation($xml)
+	function showCitation($page_xml)
 	{
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -70,27 +70,28 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		
+
 		$parsed_post = $this->__parseCitationPost();
 		if(!count($parsed_post))
 		{
-			$error = true;
-			sendInfo($this->lng->txt("cont_citation_selection_not_valid"));
+			$_SESSION["citation_error"] = 1;
+			header("location: lm_presentation.php?cmd=layout&frame=maincontent&ref_id=$_GET[ref_id]&obj_id=$_GET[obj_id]");
+			exit;
 		}
 		$tmp_tpl = new ilTemplate("tpl.citation.xsl",true,true,"content");
 		$tmp_tpl->setVariable("CITATIONS",$this->lng->txt("cont_citations"));
 
-		foreach($parsed_post as $data)
+		foreach($parsed_post as $key => $data)
 		{
 			$tmp_tpl->setCurrentBlock("citation_row");
-			$tmp_tpl->setVariable("PAGES_ROW",$data);
+			$tmp_tpl->setVariable("CITATION",$this->__applyCitationText($page_xml,$data["start"],$data["end"]));
+			$tmp_tpl->setVariable("PAGES_ROW",$data["text"]);
 			$tmp_tpl->parseCurrentBlock();
 		}
 		$xsl = $tmp_tpl->get();
 
 		$this->object->initBibItemObject();
 		$xml = $this->object->bib_obj->getXML();
-		
 		if(empty($xml))
 		{
 			return true;
@@ -264,6 +265,24 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		$this->tpl->show();
 		
 	}
+	function setilCitationMenu()
+	{
+		include_once("./classes/class.ilTemplate.php");
+
+		$tpl_menu =& new ilTemplate("tpl.buttons.html",true,true);
+
+		$tpl_menu->setCurrentBlock("btn_cell");		
+
+		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+		$tpl_menu->setVariable("BTN_TXT",$this->lng->txt("back"));
+		$tpl_menu->parseCurrentBlock();
+
+		$tpl_menu->setCurrentBlock("btn_row");
+		$tpl_menu->parseCurrentBlock();
+
+		return $tpl_menu->get();
+	}		
+
 
     function setilLMMenu()
 	{
@@ -511,25 +530,73 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		{
 			switch($_POST["ct_option"][$key])
 			{
+				case "single":
+					$output[] = array("text"	=> $id,
+									  "start"	=> $key,
+									  "end"		=> $key);
+					break;
 				case "f":
-					$output[] = $id."f";
+					$output[] = array("text"	=> $id."f",
+									  "start"	=> $key,
+									  "end"		=> $key);
 					break;
 				case "ff":
-					$output[] = $id."ff";
+					$output[] = array("text"	=> $id."ff",
+									  "start"	=> $key,
+									  "end"		=> $key);
 					break;
 				case "from":
 					$start = $id."-";
+					$start_v = $key;
 					break;
 				case "to":
 					if($start)
 					{
-						$output[] = $start."".$id;
+						$output[] = array("text"		=> $start."".$id,
+										  "start"		=> $start_v,
+										  "end"			=> $key);
 					}
 					unset($start);
+					unset($start_v);
 					break;
 			}
 		}
 		return $output ? $output : array();
+	}
+
+	function __applyCitationText($page_xml,$a_start,$a_end)
+	{
+		global $tpl;
+
+		return true;
+/*
+		include_once("./content/classes/class.ilCitationTextParser.php");
+
+		$ct_parser = new ilCitationTextParser($page_xml);
+		$ct_parser->setStartId($a_start);
+		$ct_parser->setEndId($a_end);
+		$ct_parser->startParsing();
+
+		echo $ct_parser->output;
+
+		return "hallo";
+*/
+
+
+#		var_dump("<pre>",htmlentities($page_xml),"</pre>");exit;
+		// NO TRANSLATIONS IN THE MOMENT
+		#$tmp_tpl = new ilTemplate("tpl.citation_paragraph.xsl",true,true,"content");
+		#$xsl = $tmp_tpl->get();
+
+		$xsl = file_get_contents($tpl->tplPath."/tpl.citation_paragraph.xsl");
+		$args = array( '/_xml' => $page_xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+		$params = array ('start_id' => $a_start,
+						 'end_id'	=> $a_end);
+
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		
+		return $output;
 	}
 }
 	
