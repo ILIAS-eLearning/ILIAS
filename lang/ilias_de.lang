@@ -109,6 +109,7 @@ assessment#:#apply#:#Übernehmen
 assessment#:#ass_questions#:#Fragen
 assessment#:#available_points#:#Erreichbare Punkte
 assessment#:#by#:#von
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
 assessment#:#circle#:#Kreis
@@ -261,6 +262,7 @@ assessment#:#qt_ordering#:#Objekte anordnen
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#radio_set#:#Ausgewählt
 assessment#:#radio_unset#:#Nicht ausgewählt
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
@@ -301,6 +303,7 @@ assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
 assessment#:#tst_delete_all_user_data#:#Alle Nutzerdaten löschen
 assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
 assessment#:#tst_ending_time#:#Endzeit
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
 assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests
 assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests
@@ -600,7 +603,7 @@ common#:#all_tsts#:#Alle Tests
 common#:#all_users#:#Alle Benutzer
 common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
 common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
-common#:#alm#:#Lernmodul AICC
+common#:#alm#:#Lernmodul AICC###24 Sep 2004 content changed
 common#:#alm_create#:#Neues AICC Lernmodul anlegen
 common#:#alm_delete#:#AICC Lernmodul löschen
 common#:#alm_edit_permission#:#Rechteeinstellungen ändern
@@ -693,7 +696,7 @@ common#:#cat_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#cat_create_cat#:#Neue Kategorie anlegen
 common#:#cat_create_chat#:#Neuen Chat anlegen
 common#:#cat_create_crs#:#Neuen Kurs anlegen
-common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen
+common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen###24 Sep 2004 content changed
 common#:#cat_create_exc#:#Neue Übung anlegen
 common#:#cat_create_file#:#Neue Datei hochladen
 common#:#cat_create_frm#:#Neues Forum anlegen
@@ -701,11 +704,11 @@ common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
 common#:#cat_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#cat_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#cat_create_lm#:#Neues ILIAS Lernmodul anlegen
+common#:#cat_create_lm#:#Neues ILIAS Lernmodul anlegen###24 Sep 2004 content changed
 common#:#cat_create_mep#:#Lege Media-Pool an
-common#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
+common#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen###24 Sep 2004 content changed
 common#:#cat_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen###11 Sep 2004 new variable
-common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen###24 Sep 2004 content changed
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_delete#:#Kategorie löschen
@@ -817,7 +820,7 @@ common#:#crs_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#crs_create_frm#:#Neues Forum anlegen
 common#:#crs_create_glo#:#Neues Glossar anlegen
 common#:#crs_create_hlm#:#Neues HACP Lernmodul anlegen
-common#:#crs_create_lm#:#Neues ILIAS Lernmodul anlegen
+common#:#crs_create_lm#:#Neues ILIAS Lernmodul anlegen###24 Sep 2004 content changed
 common#:#crs_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
@@ -859,13 +862,13 @@ common#:#dbk#:#Digilib-Buch
 common#:#dbk_a#:#ein Digilib-Buch
 common#:#dbk_add#:#Digilib-Buch anlegen
 common#:#dbk_added#:#Digilib-Buch angelegt
-common#:#dbk_create#:#Neues Digilib-Buch anlegen
-common#:#dbk_delete#:#Digilib-Buch löschen
+common#:#dbk_create#:#Neues Digilib-Buch anlegen###24 Sep 2004 content changed
+common#:#dbk_delete#:#Digilib-Buch löschen###24 Sep 2004 content changed
 common#:#dbk_edit_permission#:#Rechteeinstellungen ändern
 common#:#dbk_new#:#Neues Digilib-Buch
-common#:#dbk_read#:#Digilib-Buch lesen
-common#:#dbk_visible#:#Digilib-Buch ist sichtbar
-common#:#dbk_write#:#Digilib-Buch bearbeiten
+common#:#dbk_read#:#Digilib-Buch lesen###24 Sep 2004 content changed
+common#:#dbk_visible#:#Digilib-Buch ist sichtbar###24 Sep 2004 content changed
+common#:#dbk_write#:#Digilib-Buch bearbeiten###24 Sep 2004 content changed
 common#:#default#:#Standard
 common#:#default_language#:#Standard-Sprache
 common#:#default_perm_settings#:#Rechtevorgaben
@@ -1008,7 +1011,7 @@ common#:#fold_create_fold#:#Neuen Ordner anlegen
 common#:#fold_create_frm#:#Neues Forum anlegen
 common#:#fold_create_glo#:#Neues Glossar anlegen
 common#:#fold_create_hlm#:#Neues HACP Lernmodul anlegen
-common#:#fold_create_lm#:#Neues ILIAS Lernmodul anlegen
+common#:#fold_create_lm#:#Neues ILIAS Lernmodul anlegen###24 Sep 2004 content changed
 common#:#fold_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen###11 Sep 2004 new variable
 common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
@@ -1118,7 +1121,7 @@ common#:#grp_count_members#:#Anzahl der Mitglieder
 common#:#grp_create#:#Neue Gruppe anlegen
 common#:#grp_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
-common#:#grp_create_dbk#:#Neues Digilib-Buch anlegen
+common#:#grp_create_dbk#:#Neues Digilib-Buch anlegen###24 Sep 2004 content changed
 common#:#grp_create_exc#:#Neue Übung anlegen
 common#:#grp_create_file#:#Neue Datei hochladen
 common#:#grp_create_fold#:#Neuen Ordner anlegen
@@ -1126,7 +1129,7 @@ common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_glo#:#Neues Glossar anlegen
 common#:#grp_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#grp_create_htlm#:#Neues HTML Lernmodul anlegen
-common#:#grp_create_lm#:#Neues ILIAS Lernmodul anlegen
+common#:#grp_create_lm#:#Neues ILIAS Lernmodul anlegen###24 Sep 2004 content changed
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#grp_delete#:#Gruppe löschen
@@ -1173,7 +1176,7 @@ common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hits_per_page#:#Treffer/Seite
-common#:#hlm#:#Lernmodul HACP
+common#:#hlm#:#Lernmodul HACP###24 Sep 2004 content changed
 common#:#hlm_create#:#Neues HACP Lernmodul anlegen
 common#:#hlm_delete#:#HACP Lernmodul löschen
 common#:#hlm_edit_permission#:#Rechteeinstellungen ändern
@@ -1186,7 +1189,7 @@ common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
 common#:#host#:#Host
 common#:#hours_of_day#:#24 Stunden
-common#:#htlm#:#Lernmodul HTML
+common#:#htlm#:#Lernmodul HTML###24 Sep 2004 content changed
 common#:#htlm_add#:#HTML Lernmodul hinzufügen
 common#:#htlm_delete#:#HTML Lernmodul löschen
 common#:#htlm_edit#:#Eigenschaften des HTML Lernmoduls bearbeiten
@@ -1195,6 +1198,7 @@ common#:#htlm_new#:#Neues HTML Lernmodul
 common#:#htlm_read#:#HTML Lernmodul ansehen
 common#:#htlm_visible#:#HTML Lernmodul ist sichtbar
 common#:#htlm_write#:#HTML Lernmodul bearbeiten
+common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.
 common#:#http_path#:#HTTP Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
 common#:#id#:#ID
@@ -1329,22 +1333,22 @@ common#:#list_of_pages#:#Seitenliste
 common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
 common#:#literature_bookmarks#:#Literatur-Bookmarks
-common#:#lm#:#Lernmodul ILIAS
-common#:#lm_a#:#ein ILIAS Lernmodul
-common#:#lm_add#:#ILIAS Lernmodul anlegen
-common#:#lm_added#:#ILIAS Lernmodul angelegt
-common#:#lm_create#:#Neues ILIAS Lernmodul anlegen
-common#:#lm_delete#:#ILIAS Lernmodul löschen
+common#:#lm#:#Lernmodul ILIAS###24 Sep 2004 content changed
+common#:#lm_a#:#ein ILIAS Lernmodul###24 Sep 2004 content changed
+common#:#lm_add#:#ILIAS Lernmodul anlegen###24 Sep 2004 content changed
+common#:#lm_added#:#ILIAS Lernmodul angelegt###24 Sep 2004 content changed
+common#:#lm_create#:#Neues ILIAS Lernmodul anlegen###24 Sep 2004 content changed
+common#:#lm_delete#:#ILIAS Lernmodul löschen###24 Sep 2004 content changed
 common#:#lm_edit_permission#:#Rechteeinstellungen ändern
-common#:#lm_join#:#ILIAS Lernmodul abonnieren
-common#:#lm_leave#:#ILIAS Lernmodulabonnement aufheben
-common#:#lm_new#:#Neues ILIAS Lernmodul
-common#:#lm_read#:#ILIAS Lernmodul lesen
+common#:#lm_join#:#ILIAS Lernmodul abonnieren###24 Sep 2004 content changed
+common#:#lm_leave#:#ILIAS Lernmodulabonnement aufheben###24 Sep 2004 content changed
+common#:#lm_new#:#Neues ILIAS Lernmodul###24 Sep 2004 content changed
+common#:#lm_read#:#ILIAS Lernmodul lesen###24 Sep 2004 content changed
 common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
 common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#ILIAS Lernmodul ist sichtbar
-common#:#lm_write#:#ILIAS Lernmodul bearbeiten
+common#:#lm_visible#:#ILIAS Lernmodul ist sichtbar###24 Sep 2004 content changed
+common#:#lm_write#:#ILIAS Lernmodul bearbeiten###24 Sep 2004 content changed
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachen
 common#:#lngf_edit_permission#:#Rechteeinstellungen ändern
@@ -1590,7 +1594,7 @@ common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
-common#:#obj_alm#:#Lernmodul AICC
+common#:#obj_alm#:#Lernmodul AICC###24 Sep 2004 content changed
 common#:#obj_auth#:#Authentifizierung
 common#:#obj_auth_desc#:#Stellen Sie hier ein, wie Benutzer authentifiziert werden sollen (Lokal, LDAP, ...)
 common#:#obj_cat#:#Kategorie
@@ -1606,11 +1610,11 @@ common#:#obj_fold#:#Ordner
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
-common#:#obj_hlm#:#Lernmodul HACP
-common#:#obj_htlm#:#Lernmodul HTML
+common#:#obj_hlm#:#Lernmodul HACP###24 Sep 2004 content changed
+common#:#obj_htlm#:#Lernmodul HTML###24 Sep 2004 content changed
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
-common#:#obj_lm#:#Lernmodul ILIAS
+common#:#obj_lm#:#Lernmodul ILIAS###24 Sep 2004 content changed
 common#:#obj_lng#:#Sprache
 common#:#obj_lngf#:#Sprachen
 common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
@@ -1628,7 +1632,7 @@ common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pays#:#Paymenteinstellungen
 common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
 common#:#obj_pg#:#Seite
-common#:#obj_qpl#:#Fragenpool für Test
+common#:#obj_qpl#:#Fragenpool für Test###24 Sep 2004 content changed
 common#:#obj_recf#:#Wiederhergestellte Objekte
 common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck###14 Sep 2004 content changed
 common#:#obj_role#:#Rolle
@@ -1639,7 +1643,7 @@ common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#ILIAS-System
 common#:#obj_sahs#:#Lernmodul SCORM/AICC###11 Sep 2004 new variable
-common#:#obj_spl#:#Fragenpool für Umfrage
+common#:#obj_spl#:#Fragenpool für Umfrage###24 Sep 2004 content changed
 common#:#obj_st#:#Kapitel
 common#:#obj_svy#:#Umfrage
 common#:#obj_tax#:#Taxonomie
@@ -1677,18 +1681,18 @@ common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
-common#:#objs_lm#:#ILIAS Lernmodule
+common#:#objs_lm#:#ILIAS Lernmodule###24 Sep 2004 content changed
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte
 common#:#objs_mep#:#Media-Pools
 common#:#objs_mob#:#Medienobjekte
 common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
-common#:#objs_qpl#:#Fragenpools für Tests
+common#:#objs_qpl#:#Fragenpools für Tests###24 Sep 2004 content changed
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
 common#:#objs_sahs#:#SCORM/AICC Lernmodule
-common#:#objs_spl#:#Fragenpools für Umfragen
+common#:#objs_spl#:#Fragenpools für Umfragen###24 Sep 2004 content changed
 common#:#objs_st#:#Kapitel
 common#:#objs_svy#:#Umfragen
 common#:#objs_tst#:#Tests
@@ -1775,14 +1779,14 @@ common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
 common#:#published#:#Veröffentlicht
 common#:#publishing_organisation#:#Veröffentlichende Organisation###14 Sep 2004 content changed
-common#:#qpl#:#Fragenpool für Test
-common#:#qpl_add#:#Fragenpool anfügen
-common#:#qpl_delete#:#Fragenpool löschen
+common#:#qpl#:#Fragenpool für Test###24 Sep 2004 content changed
+common#:#qpl_add#:#Fragenpool anfügen###24 Sep 2004 content changed
+common#:#qpl_delete#:#Fragenpool löschen###24 Sep 2004 content changed
 common#:#qpl_edit_permission#:#Rechteeinstellungen ändern
-common#:#qpl_new#:#Neuer Fragenpool für Test
-common#:#qpl_read#:#Lesezugriff auf Fragenpool
-common#:#qpl_visible#:#Fragenpool ist sichtbar
-common#:#qpl_write#:#Fragenpool bearbeiten
+common#:#qpl_new#:#Neuer Fragenpool für Test###24 Sep 2004 content changed
+common#:#qpl_read#:#Lesezugriff auf Fragenpool###24 Sep 2004 content changed
+common#:#qpl_visible#:#Fragenpool ist sichtbar###24 Sep 2004 content changed
+common#:#qpl_write#:#Fragenpool bearbeiten###24 Sep 2004 content changed
 common#:#query_data#:#Daten anzeigen
 common#:#question#:#Frage
 common#:#question_pools#:#Fragenpools
@@ -1887,7 +1891,7 @@ common#:#root_edit_permission#:#Rechteeinstellungen ändern
 common#:#root_read#:#Lesezugriff auf ILIAS System
 common#:#root_visible#:#ILIAS System ist sichtbar
 common#:#root_write#:#Daten des Systemknotens bearbeiten
-common#:#sahs#:#Lernmodul SCORM/AICC
+common#:#sahs#:#Lernmodul SCORM/AICC###24 Sep 2004 content changed
 common#:#sahs_added#:#SCORM/AICC Lernmodul angelegt
 common#:#sahs_create#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#sahs_delete#:#SCORM/AICC Lernmodul löschen
@@ -1952,14 +1956,14 @@ common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#signature#:#Signatur
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
-common#:#spl#:#Fragenpool für Umfrage
-common#:#spl_add#:#Fragenpool anfügen
-common#:#spl_delete#:#Fragenpool löschen
+common#:#spl#:#Fragenpool für Umfrage###24 Sep 2004 content changed
+common#:#spl_add#:#Fragenpool anfügen###24 Sep 2004 content changed
+common#:#spl_delete#:#Fragenpool löschen###24 Sep 2004 content changed
 common#:#spl_edit_permission#:#Rechteeinstellungen ändern
-common#:#spl_new#:#Neuer Fragenpool für Umfrage
-common#:#spl_read#:#Lesezugriff auf Fragenpool
-common#:#spl_visible#:#Fragenpool ist sichtbar
-common#:#spl_write#:#Fragenpool kann bearbeitet werden
+common#:#spl_new#:#Neuer Fragenpool für Umfrage###24 Sep 2004 content changed
+common#:#spl_read#:#Lesezugriff auf Fragenpool###24 Sep 2004 content changed
+common#:#spl_visible#:#Fragenpool ist sichtbar###24 Sep 2004 content changed
+common#:#spl_write#:#Fragenpool kann bearbeitet werden###24 Sep 2004 content changed
 common#:#st_a#:#ein Kapitel
 common#:#st_add#:#Kapitel anlegen
 common#:#st_added#:#Kapitel angelegt
@@ -3826,4 +3830,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.

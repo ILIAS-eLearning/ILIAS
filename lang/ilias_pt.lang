@@ -109,6 +109,7 @@ assessment#:#apply#:#Aplicar
 assessment#:#ass_questions#:#Questões
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#por
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
 assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
@@ -261,6 +262,7 @@ assessment#:#qt_ordering#:#Questão de ordenação
 assessment#:#question_saved_for_upload#:#A questão foi guardada automáticamente para reservar espaço no disco para guardar o ficheiro enviado. Se você cancelar esta operação agora, tenha atenção que você tem de apagar a questão no banco de questões se não quiser mantê-la!###14 Sep 2004 content changed
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Tipo de questão
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#radio_set#:#Set###17 Aug 2004 new variable
 assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
 assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
@@ -301,6 +303,7 @@ assessment#:#tst_browse_for_questions#:#Procurar por questões
 assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Por favor seleccione pelo menos um avanço de nota para apagá-lo
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Ninguém ainda entrou no teste. Não existem resultados agregados de testes disponíveis.###14 Sep 2004 content changed
 assessment#:#tst_eval_total_finished#:#Total de testes acabados###12 Jun 2004 content changed
 assessment#:#tst_eval_total_finished_average_time#:#Tempo médio de realização para os testes acabados###12 Jun 2004 content changed
@@ -694,7 +697,7 @@ common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Criar Categoria
 common#:#cat_create_chat#:#Criar Chat
 common#:#cat_create_crs#:#Criar Curso
-common#:#cat_create_dbk#:#Criar Digibook
+common#:#cat_create_dbk#:#Criar Digibook###24 Sep 2004 content changed
 common#:#cat_create_exc#:#Criar Exercício
 common#:#cat_create_file#:#Upload File###04 Sep 2004 new variable
 common#:#cat_create_frm#:#Criar Fórum
@@ -702,7 +705,7 @@ common#:#cat_create_glo#:#Criar Glossário
 common#:#cat_create_grp#:#Criar Grupo
 common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
-common#:#cat_create_lm#:#Criar Módulo de Aprendizagem
+common#:#cat_create_lm#:#Criar Módulo de Aprendizagem###24 Sep 2004 content changed
 common#:#cat_create_mep#:#Criar Banco de Média
 common#:#cat_create_qpl#:#Criar Banco de Questões###07 May 2004 content changed
 common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
@@ -818,7 +821,7 @@ common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#Criar Fórum
 common#:#crs_create_glo#:#Criar Glossário
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#crs_create_lm#:#Criar Módulo de Aprendizagem
+common#:#crs_create_lm#:#Criar Módulo de Aprendizagem###24 Sep 2004 content changed
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#Apagar Curso
 common#:#crs_edit#:#Editar Curso
@@ -860,13 +863,13 @@ common#:#dbk#:#Livro Digilib
 common#:#dbk_a#:#um Livro Digilib
 common#:#dbk_add#:#Adicionar Livro Digilib
 common#:#dbk_added#:#Livro Digilib adicionado
-common#:#dbk_create#:#Criar Digibook
-common#:#dbk_delete#:#Apagar Digibook
+common#:#dbk_create#:#Criar Digibook###24 Sep 2004 content changed
+common#:#dbk_delete#:#Apagar Digibook###24 Sep 2004 content changed
 common#:#dbk_edit_permission#:#Mudar definições de permissões
 common#:#dbk_new#:#Novo Livro Digilib
-common#:#dbk_read#:#Acesso de Leitura ao Digibook
-common#:#dbk_visible#:#O Digibook é visível
-common#:#dbk_write#:#Editar Digibook
+common#:#dbk_read#:#Acesso de Leitura ao Digibook###24 Sep 2004 content changed
+common#:#dbk_visible#:#O Digibook é visível###24 Sep 2004 content changed
+common#:#dbk_write#:#Editar Digibook###24 Sep 2004 content changed
 common#:#default#:#Defeito
 common#:#default_language#:#Linguagem Defeito
 common#:#default_perm_settings#:#Permissões default
@@ -1127,7 +1130,7 @@ common#:#grp_create_frm#:#Criar Fórum
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
-common#:#grp_create_lm#:#Criar Módulo de Aprendizagem
+common#:#grp_create_lm#:#Criar Módulo de Aprendizagem###24 Sep 2004 content changed
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#Apagar Grupo
@@ -1197,6 +1200,7 @@ common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
 common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
+common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#Caminho Http
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#ID
@@ -1333,22 +1337,22 @@ common#:#list_of_pages#:#Lista de Páginas
 common#:#list_of_questions#:#Lista de Questões
 common#:#literature#:#Literatura
 common#:#literature_bookmarks#:#Marcadores de Literatura
-common#:#lm#:#Módulo de Aprendizagem
-common#:#lm_a#:#um Módulo de Aprendizagem
-common#:#lm_add#:#Adicionar Módulo de Aprendizagem
-common#:#lm_added#:#Módulo de Aprendizagem adicionado
-common#:#lm_create#:#Criar Módulo de Aprendizagem
-common#:#lm_delete#:#Apagar Módulo de Aprendizagem
+common#:#lm#:#Módulo de Aprendizagem###24 Sep 2004 content changed
+common#:#lm_a#:#um Módulo de Aprendizagem###24 Sep 2004 content changed
+common#:#lm_add#:#Adicionar Módulo de Aprendizagem###24 Sep 2004 content changed
+common#:#lm_added#:#Módulo de Aprendizagem adicionado###24 Sep 2004 content changed
+common#:#lm_create#:#Criar Módulo de Aprendizagem###24 Sep 2004 content changed
+common#:#lm_delete#:#Apagar Módulo de Aprendizagem###24 Sep 2004 content changed
 common#:#lm_edit_permission#:#Mudar definições de permissões
-common#:#lm_join#:#Subscrever Módulo de Aprendizagem
-common#:#lm_leave#:#Desistir do Módulo de Aprendizagem
-common#:#lm_new#:#Novo Módulo de Aprendizagem
-common#:#lm_read#:#Acesso de Leitura ao Módulo de Aprendizagem
+common#:#lm_join#:#Subscrever Módulo de Aprendizagem###24 Sep 2004 content changed
+common#:#lm_leave#:#Desistir do Módulo de Aprendizagem###24 Sep 2004 content changed
+common#:#lm_new#:#Novo Módulo de Aprendizagem###24 Sep 2004 content changed
+common#:#lm_read#:#Acesso de Leitura ao Módulo de Aprendizagem###24 Sep 2004 content changed
 common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
 common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
-common#:#lm_visible#:#O Módulo de Aprendizagem é visível
-common#:#lm_write#:#Editar Módulo de Aprendizagem
+common#:#lm_visible#:#O Módulo de Aprendizagem é visível###24 Sep 2004 content changed
+common#:#lm_write#:#Editar Módulo de Aprendizagem###24 Sep 2004 content changed
 common#:#lng#:#Linguagem
 common#:#lngf#:#Linguagens
 common#:#lngf_edit_permission#:#Mudar definições de permissões
@@ -1614,7 +1618,7 @@ common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
 common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#Definições LDAP
 common#:#obj_ldap_desc#:#Configure aqui as definições globais de LDAP.
-common#:#obj_lm#:#Módulo de Aprendizagem
+common#:#obj_lm#:#Módulo de Aprendizagem###24 Sep 2004 content changed
 common#:#obj_lng#:#Linguagem
 common#:#obj_lngf#:#Linguagens
 common#:#obj_lngf_desc#:#Gira aqui as suas linguagens de sistema.
@@ -1681,7 +1685,7 @@ common#:#objs_glo#:#Glossários
 common#:#objs_grp#:#Grupos
 common#:#objs_hlm#:#HACP Learning Modules###15 Jul 2004 new variable
 common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
-common#:#objs_lm#:#Módulos de Aprendizagem
+common#:#objs_lm#:#Módulos de Aprendizagem###24 Sep 2004 content changed
 common#:#objs_lng#:#Linguagens
 common#:#objs_lo#:#Objectos de Aprendizagem
 common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
@@ -1780,13 +1784,13 @@ common#:#publication_date#:#Data da Publicação
 common#:#published#:#Publicado
 common#:#publishing_organisation#:#Organização Públicadora###14 Sep 2004 content changed
 common#:#qpl#:#Banco de Questões###07 May 2004 content changed
-common#:#qpl_add#:#Adicionar banco de questões
-common#:#qpl_delete#:#Apagar Banco de Questões
+common#:#qpl_add#:#Adicionar banco de questões###24 Sep 2004 content changed
+common#:#qpl_delete#:#Apagar Banco de Questões###24 Sep 2004 content changed
 common#:#qpl_edit_permission#:#Mudar definições de permissões
-common#:#qpl_new#:#Novo banco de questões
-common#:#qpl_read#:#Acesso de Leitura ao Banco de Questões
-common#:#qpl_visible#:#O Banco de Questões é visível
-common#:#qpl_write#:#Editar Banco de Questões
+common#:#qpl_new#:#Novo banco de questões###24 Sep 2004 content changed
+common#:#qpl_read#:#Acesso de Leitura ao Banco de Questões###24 Sep 2004 content changed
+common#:#qpl_visible#:#O Banco de Questões é visível###24 Sep 2004 content changed
+common#:#qpl_write#:#Editar Banco de Questões###24 Sep 2004 content changed
 common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#Questão
 common#:#question_pools#:#Bancos de Questões

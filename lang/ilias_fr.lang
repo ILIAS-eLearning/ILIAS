@@ -39,42 +39,42 @@ administration#:#analyze_desc#:#Recherche des objets  corrompus/invalides/absent
 administration#:#analyzing#:#Analyse en cours...
 administration#:#clean#:#Nettoyage
 administration#:#clean_desc#:#Suppression des références et des branches invalides.  Suppression des lacunes dans  l'arborescence.
-administration#:#cleaning_final#:#Nettoyage final...
 administration#:#cleaning#:#Nettoyage en cours...
+administration#:#cleaning_final#:#Nettoyage final...
 administration#:#closing_gaps#:#Suppression des lacunes dans l'arborescence...
 administration#:#disabled#:#inactif
 administration#:#done#:#Terminé
-administration#:#found_none#:#aucun trouvé.
 administration#:#found#:#trouvé.
-administration#:#log_scan_desc#:#Ecriture des résultats de l'analyse dans le fichier 'scanlog.log' dans le répertoire de données du client.
+administration#:#found_none#:#aucun trouvé.
 administration#:#log_scan#:#Résultats de l'analyse du journal.
+administration#:#log_scan_desc#:#Ecriture des résultats de l'analyse dans le fichier 'scanlog.log' dans le répertoire de données du client.
 administration#:#nothing_to_purge#:#Rien à purger...
 administration#:#nothing_to_remove#:#Rien à supprimer...
 administration#:#nothing_to_restore#:#Rien à restaurer...
 administration#:#options#:#Options
-administration#:#purge_missing_desc#:#Suppression des tous les objets manquants et orphelins trouvés sur le système.
 administration#:#purge_missing#:#Purge des objets manquants
-administration#:#purge_trash_desc#:#Suppression de tous les objets de la corbeille du système.
+administration#:#purge_missing_desc#:#Suppression des tous les objets manquants et orphelins trouvés sur le système.
 administration#:#purge_trash#:#Purge des objets détruits
-administration#:#purging_missing_objs#:#Purge des objets absents...
+administration#:#purge_trash_desc#:#Suppression de tous les objets de la corbeille du système.
 administration#:#purging#:#Purge en cours...
+administration#:#purging_missing_objs#:#Purge des objets absents...
 administration#:#purging_trash#:#Purge de la corbeille...
 administration#:#purging_unbound_objs#:#Purge des objets orphelins...
 administration#:#removing_invalid_childs#:#Suppression des branches invalides...
 administration#:#removing_invalid_refs#:#Suppression des références invalides...
-administration#:#restore_missing_desc#:#Restauration des objets manquants et orphelins
 administration#:#restore_missing#:#Restauration des objets manquants
-administration#:#restore_trash_desc#:#Restauration des tous les objets de la corbeille (dans le répertoire de restauration)
+administration#:#restore_missing_desc#:#Restauration des objets manquants et orphelins
 administration#:#restore_trash#:#Restauration des objets détruits
-administration#:#restoring_missing_objs#:#Restauration des objets manquants en cours...
+administration#:#restore_trash_desc#:#Restauration des tous les objets de la corbeille (dans le répertoire de restauration)
 administration#:#restoring#:#Restauration en cours...
+administration#:#restoring_missing_objs#:#Restauration des objets manquants en cours...
 administration#:#restoring_trash#:#Restauration de la corbeille en cours...
 administration#:#restoring_unbound_objs#:#Restauration des objets orphelins et des sous-objets
 administration#:#scan_completed#:#Examen terminé
 administration#:#scan_details#:#Détails de l'examen
 administration#:#scan_modes#:#Modes d'examen utilisés
-administration#:#scanning_system#:#Examen du système en cours...
 administration#:#scan_only#:#Examen seul
+administration#:#scanning_system#:#Examen du système en cours...
 administration#:#searching_deleted_objs#:#Recherche des objets détruits...
 administration#:#searching_invalid_childs#:#Recherche des branches invalides...
 administration#:#searching_invalid_refs#:#Recherche des références invalides...
@@ -109,6 +109,7 @@ assessment#:#apply#:#Appliquer
 assessment#:#ass_questions#:#Questions
 assessment#:#available_points#:#Points disponibles
 assessment#:#by#:#par
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#checkbox_checked#:#Coché
 assessment#:#checkbox_unchecked#:#Non coché
 assessment#:#circle#:#Cercle
@@ -143,13 +144,13 @@ assessment#:#ects_grade_e#:#la performance répond aux critères minimaux
 assessment#:#ects_grade_e_short#:#TRES MOYEN
 assessment#:#ects_grade_f#:#un travail supplémentaire important est nécessaire
 assessment#:#ects_grade_f_short#:#ECHEC
-assessment#:#ects_grade_fx_short#:#ECHEC
 assessment#:#ects_grade_fx#:#du travail supplémentaire est requis avant que le niveau soit suffisant XXX
+assessment#:#ects_grade_fx_short#:#ECHEC
 assessment#:#ects_output_of_ects_grades#:#Sortie des niveaux ECTS
-assessment#:#ects_use_fx_grade_part2#:#pourcentage du total
 assessment#:#ects_use_fx_grade#:#Utiliser le niveau 'FX', si des participants ont échoué
-assessment#:#ending_time_reached#:#Vous êtes arrivé à la fin du temps
+assessment#:#ects_use_fx_grade_part2#:#pourcentage du total
 assessment#:#end_tag#:#Balise de fin
+assessment#:#ending_time_reached#:#Vous êtes arrivé à la fin du temps
 assessment#:#error_importing_question#:#Il y a eu une erreur lors de l'importation de la (des) question(s) depuis le fichier spécifié
 assessment#:#error_open_image_file#:#Erreur à l'ouverture d'un fichier image
 assessment#:#error_open_java_file#:#Erreur à l'ouverture d'une applet java
@@ -163,9 +164,9 @@ assessment#:#eval_legend_link#:#Veuillez vous reporter à la légende pour conna
 assessment#:#eval_matching_result#:#L'appariement %s - %s est %s. Vous avez obtenu %s points.
 assessment#:#eval_order_result#:#L'ordre pour la valeur %s est %s. Vous avez obtenu %s points.
 assessment#:#exp_eval_data#:#Exporter les données d'évaluation
-assessment#:#export#:#Exporter
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
+assessment#:#export#:#Exporter
 assessment#:#failed_official#:#échec
 assessment#:#failed_short#:#échec
 assessment#:#false#:#Faux
@@ -175,16 +176,16 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Veuillez remplir tous les
 assessment#:#fill_out_all_required_fields_add_matching#:#Veuillez remplir tous les champs obligatoires avant d'ajouter un appariement
 assessment#:#fill_out_all_required_fields_create_gaps#:#Veuillez
  remplir tous les champs obligatoires avant d'ajouter une lacune
-assessment#:#fill_out_all_required_fields_upload_imagemap#:#Veuillez remplir tous les champs obligatoires avant de télécharger des images réactives.
 assessment#:#fill_out_all_required_fields_upload_image#:#Veuillez remplir tous les champs obligatoires avant de télécharger des images.
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Veuillez remplir tous les champs obligatoires avant de télécharger des images réactives.
 assessment#:#fill_out_all_required_fields_upload_material#:#Veuillez remplir tous les champs obligatoires avant de télécharger des matériaux
 assessment#:#filter#:#Filtre
-assessment#:#gap_definition#:#Définition de lacune
 assessment#:#gap#:#Lacune
+assessment#:#gap_definition#:#Définition de lacune
 assessment#:#gap_selection#:#Sélection de lacune
 assessment#:#height#:#Hauteur
-assessment#:#imagemap_file#:#Fichier d'image réactive
 assessment#:#imagemap#:#Image réactive
+assessment#:#imagemap_file#:#Fichier d'image réactive
 assessment#:#imagemap_source#:#Source d'image réactive
 assessment#:#import_question#:#Importer question(s)
 assessment#:#insert_after#:#Insérer après
@@ -197,35 +198,34 @@ assessment#:#legend#:#Légende
 assessment#:#locked#:#verrouillé
 assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Marquer schéma XXX
-assessment#:#matches#:#correspond
-assessment#:#matching_pair#:#Appariement
 assessment#:#match_terms_and_definitions#:#Termes d'appariement et définitions
 assessment#:#match_terms_and_pictures#:#Termes d'appariement et images
+assessment#:#matches#:#correspond
+assessment#:#matching_pair#:#Appariement
+assessment#:#material#:#Matériau 
 assessment#:#material_download#:#Matériau à télécharger
 assessment#:#material_file#:#Fichier matériau
-assessment#:#material#:#Matériau 
 assessment#:#maximum_nr_of_tries_reached#:#Vous avez atteint le nombre de tentatives maximal pour ce test. Vous ne pouvez plus entrer dans le test.
 assessment#:#meaning#:#Signification
 assessment#:#negative_points_not_allowed#:#Saisie de points négatifs interdite
 assessment#:#next_question_rows#:#Questions %d - %d sur %d >>
-assessment#:#no_questions_available#:#Il n'y a pas de questions disponibles !
 assessment#:#no_question_selected_for_move#:#Veuillez cocher au moins une question pour la déplacer
+assessment#:#no_questions_available#:#Il n'y a pas de questions disponibles !
 assessment#:#no_target_selected_for_move#:#Vous devez sélectionner une position de destination
+assessment#:#or#:#ou
 assessment#:#order_pictures#:#Ordonner les images
 assessment#:#order_terms#:#Ordonner les termes
-assessment#:#or#:#ou
-assessment#:#ou#:#ou
 assessment#:#passed_official#:#validé
 assessment#:#passed_short#:#validé
 assessment#:#percentage_solved#:#Vous avez résolu %.2f % de la question
 assessment#:#please_select#:#---- veuillez sélectionner ----
 assessment#:#points#:#Points
+assessment#:#polygon#:#Polygone
 assessment#:#polygon_click_next_or_save#:#Veuillez cliquer sur le point suivant du polygone ou enregistrer la zone. (Il n'est pas nécessaire de cliquer à nouveau sur le point de départ du polygone)
 assessment#:#polygon_click_next_point#:# Veuillez cliquer sur le point suivant du polygone.
 assessment#:#polygon_click_starting_point#:# Veuillez cliquer sur le premier point du polygone.
-assessment#:#polygon#:#Polygone
-assessment#:#postponed#:#reporté
 assessment#:#postpone#:#Reporter question à la fin
+assessment#:#postponed#:#reporté
 assessment#:#preview#:#Prévisualisation
 assessment#:#previous_question_rows#:#<< Questions %d - %d sur %d
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Il n'y a pas d'évaluation  pour la question sélectionnée.  La question n'a jamais été utilisée dans un test.
@@ -234,7 +234,6 @@ assessment#:#qpl_assessment_total_of_answers#:#Total des réponses
 assessment#:#qpl_assessment_total_of_right_answers#:#Pourcentage total de bonnes réponses
 assessment#:#qpl_confirm_delete_questions#:#Etes-vous sûr(e) de vouloir supprimer la(les) question(s) suivante(s) ? Si vous détruisez des questions verrouillées, les résultats de tous les tests contenant une question verrouillée seront détruits également.
 assessment#:#qpl_delete_rbac_error#:#Vous n'avez pas le droit de détruire cette question 
-!assessment#:#qpl_delete_select_none#:#Veuillez sélectionner au moins une question pour la détruire
 assessment#:#qpl_display_fullsize_image#:#Cliquez ici pour afficher l'image originale
 assessment#:#qpl_duplicate_select_none#:#Veuillez sélectionner au moins une question pour la dupliquer
 assessment#:#qpl_edit_rbac_error#:#Vous n'avez pas le droit de modifier cette question
@@ -254,14 +253,15 @@ assessment#:#qt_ordering#:#Question de remise en ordre
 assessment#:#question_saved_for_upload#:#La question a été enregistrée automatiquement pour réserver de l'espace de stockage pour le fichier téléversé.  Si vous quittez ce formulaire maintenant en annulant, pensez à détruire la question dans le jeu de questions si vous ne souhaitez pas la conserver.
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Type de Question
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#radio_set#:#Sélectionné
 assessment#:#radio_unset#:#Déselectionné
 assessment#:#random_accept_sample#:#Accepter échantillon
 assessment#:#random_another_sample#:#Obtenir un autre échantillon
 assessment#:#random_selection#:#Sélection aléatoire
+assessment#:#rectangle#:#Rectangle
 assessment#:#rectangle_click_br_corner#:#Veuillez cliquer sur le coin inférieur droit de la zone désirée.
 assessment#:#rectangle_click_tl_corner#:#Veuillez cliquer sur le coin supérieur gauche de la zone désirée.
-assessment#:#rectangle#:#Rectangle
 assessment#:#region#:#Zone
 assessment#:#remove_question#:#Supprimer
 assessment#:#report_date_not_reached#:#Vous n'avez pas atteint la date de rapport. Vous pourrez voir les résultats du test le %s
@@ -273,15 +273,15 @@ assessment#:#save_finish#:#Enregistrer et terminer le test
 assessment#:#save_introduction#:#Enregistrer et aller à l'introduction
 assessment#:#save_next#:#Enregistrer et aller à la prochaine question
 assessment#:#save_previous#:#Enregistrer et aller à la question précédente
-assessment#:#selected_image#:#Image sélectionnée
 assessment#:#select_gap#:#Selectionner lacune
 assessment#:#select_target_position_for_move_question#:#Veuillez sélectionner une position de destination pour déplacer la (les) question(s) et cliquez sur un des boutons d'insertion.
+assessment#:#selected_image#:#Image sélectionnée
 assessment#:#set_filter#:#Définir le filtre
 assessment#:#shape#:#Forme
 assessment#:#shuffle_answers#:#Mélanger les réponses
 assessment#:#solution_order#:#Ordre correct
-assessment#:#starting_time_not_reached#:#Vous n'avez pas atteint la date de début
 assessment#:#start_tag#:#Point de départ
+assessment#:#starting_time_not_reached#:#Vous n'avez pas atteint la date de début
 assessment#:#symbol#:#Symbole
 assessment#:#text_gap#:#Lacune du texte
 assessment#:#time_format#:#HH MM SS
@@ -294,21 +294,22 @@ assessment#:#tst_browse_for_questions#:#Parcourir les questions
 assessment#:#tst_delete_all_user_data#:#Détruire toutes les données utilisateur
 assessment#:#tst_delete_missing_mark#:#Veuillez sélectionner au moins une étape pour la supprimer
 assessment#:#tst_ending_time#:#Date de fin
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Personne n'a fait le test. Les résultats agrégés anonymes ne sont pas disponibles
-assessment#:#tst_eval_total_finished_average_time#:#Temps de réponse moyen pour les tests finis
 assessment#:#tst_eval_total_finished#:#Total des tests finis
-assessment#:#tst_eval_total_passed_average_points#:#Moyenne des tests passés
+assessment#:#tst_eval_total_finished_average_time#:#Temps de réponse moyen pour les tests finis
 assessment#:#tst_eval_total_passed#:#Total des tests passés
+assessment#:#tst_eval_total_passed_average_points#:#Moyenne des tests passés
 assessment#:#tst_eval_total_persons#:#Nombre total de personnes qui ont fait le test XXX
 assessment#:#tst_general_properties#:#Propriétés générales
 assessment#:#tst_generate_xls#:#Générer une sortie Excel
 assessment#:#tst_insert_missing_question#:#Veuillez sélectionner au moins une question pour l'insérer dans le test.
-assessment#:#tst_insert_questions_and_results#:#Ce test a déjà été exécuté par %s utilisateur(s). L'insertion de nouvelles questions effacera tous les résultats  de ces utilisateurs. Etes-vous sûr(e) de vouloir insérer cette (ces) question(s) dans le test ?
 assessment#:#tst_insert_questions#:#Etes-vous sûr(e) de vouloir insérer la (les) question(s) suivante(s) dans le test ?
+assessment#:#tst_insert_questions_and_results#:#Ce test a déjà été exécuté par %s utilisateur(s). L'insertion de nouvelles questions effacera tous les résultats  de ces utilisateurs. Etes-vous sûr(e) de vouloir insérer cette (ces) question(s) dans le test ?
 assessment#:#tst_introduction#:#Introduction
+assessment#:#tst_mark#:#Marque
 assessment#:#tst_mark_create_new_mark_step#:#Créer une nouvelle étape de note XXX
 assessment#:#tst_mark_create_simple_mark_schema#:#Créer un schéma de note simple 
-assessment#:#tst_mark#:#Marque
 assessment#:#tst_mark_minimum_level#:#Niveau minimal (en %)
 assessment#:#tst_mark_official_form#:#Forme officielle
 assessment#:#tst_mark_passed#:#Validé
@@ -319,8 +320,8 @@ assessment#:#tst_missing_marks#:#Vous n'avez pas de schéma de note dasn la test
 assessment#:#tst_missing_questions#:#Vous n'avez pas de question dans le test. Veuillez ajouter au moins une question.
 assessment#:#tst_missing_title#:#Vous n'avez pas saisi de titre de test. Veuillez aller dans la section des métadonnées et saisir un titre
 assessment#:#tst_no_marks_defined#:#Aucune note n'est définie, veuillez créer au moins un schéma de note simple.
-assessment#:#tst_no_questions_available#:#Aucune question n'est disponible. Vous devez créer des nouvelles questions, ou en rechercher.
 assessment#:#tst_no_question_selected_for_removal#:#Veuillez sélectionner au moins une question à supprimer.
+assessment#:#tst_no_questions_available#:#Aucune question n'est disponible. Vous devez créer des nouvelles questions, ou en rechercher.
 assessment#:#tst_no_taken_tests#:#Aucun test pris.
 assessment#:#tst_no_tries#:#aucun
 assessment#:#tst_nr_of_tries#:#Nombre maximal d'essais
@@ -329,36 +330,35 @@ assessment#:#tst_percent_solved#:#Pourcentage des résolution
 assessment#:#tst_processing_time#:#Temps de travail maximum
 assessment#:#tst_question_no#:#Ordre
 assessment#:#tst_question_offer#:#Acceptez-vous cet échantillon ou en voulez-vous un autre ?
-assessment#:#tst_questions_inserted#:#Question(s) insérée(s)
-assessment#:#tst_questions_removed#:#Question(s) supprimée(s)
 assessment#:#tst_question_title#:#Titre
 assessment#:#tst_question_type#:#Type de question
+assessment#:#tst_questions_inserted#:#Question(s) insérée(s)
+assessment#:#tst_questions_removed#:#Question(s) supprimée(s)
 assessment#:#tst_random_nr_of_questions#:#Combien de questions ?
 assessment#:#tst_random_select_questionpool#:#Sélectionnez le jeu de questions dans lequel vous choisirez la question
 assessment#:#tst_reached_points#:#Point atteint
-assessment#:#tst_remove_questions_and_results#:#Ce test a déjà été fait par %s utilisateur(s). En supprimant des questions de ce test, vous supprimerez les résultats de tous ces utilisateurs. Etes-vous sûr(e) de vouloir supprimer la (les) question(s) suivante(s) du test ?
 assessment#:#tst_remove_questions#:#Etes-vous sûr(e) de vouloir supprimer la (les) question(s) suivante(s) du test ?
+assessment#:#tst_remove_questions_and_results#:#Ce test a déjà été fait par %s utilisateur(s). En supprimant des questions de ce test, vous supprimerez les résultats de tous ces utilisateurs. Etes-vous sûr(e) de vouloir supprimer la (les) question(s) suivante(s) du test ?
 assessment#:#tst_report_after_question#:#Donner le score après chaque question.
 assessment#:#tst_report_after_test#:#Donner le score après la fin du test.
 assessment#:#tst_result_congratulations#:#Félicitations ! vous avez validé le test.
 assessment#:#tst_result_sorry#:#Désolé, vous avez échoué au test
 assessment#:#tst_results#:#Résultats du test
 assessment#:#tst_resume_test#:#Reprendre le test
-assessment#:#tst_score_reporting_date#:#Date de communication des scores
 assessment#:#tst_score_reporting#:#Communication des scores
+assessment#:#tst_score_reporting_date#:#Date de communication des scores
 assessment#:#tst_score_type#:#Type de communication des scores
 assessment#:#tst_select_questionpool#:#Veuillez choisir un jeu de questions pour stocker la question créée
+assessment#:#tst_sequence#:#Séquence
 assessment#:#tst_sequence_fixed#:#La séquence de questions est fixée
 assessment#:#tst_sequence_postpone#:#L'étudiant peut reporter une question à la fin du test
 assessment#:#tst_sequence_properties#:#Propriétés de la séquence
-assessment#:#tst_sequence#:#Séquence
 assessment#:#tst_session_settings#:#Paramètres de session
 assessment#:#tst_show_results#:#Montrer les résultats du test
-assessment#:#tst_starting_time#:#Date de début
 assessment#:#tst_start_test#:#Commencer le test
+assessment#:#tst_starting_time#:#Date de début
 assessment#:#tst_stat_all_users#:#Tous les utilisateurs
 assessment#:#tst_stat_choose_users#:#(sélectionnez un ou plusieurs utilisateurs dans la liste)
-assessment#:#tst_statistical_evaluation#:#Outil d'évaluation statistique
 assessment#:#tst_stat_result_atimeofwork#:#Temps de travail moyen
 assessment#:#tst_stat_result_distancemean#:#Distance à la moyenne arithmétique
 assessment#:#tst_stat_result_distancemedian#:#Distance à la médiane
@@ -377,27 +377,28 @@ assessment#:#tst_stat_result_specification#:#Spécification des données d'éval
 assessment#:#tst_stat_result_timeofwork#:#Temps de travail
 assessment#:#tst_stat_result_total_participants#:#Nombre total de participants
 assessment#:#tst_stat_selected_users#:#Utilisateurs sélectionnés
+assessment#:#tst_stat_users_intro#:#Montrer l'évaluation statistique pour
+assessment#:#tst_statistical_evaluation#:#Outil d'évaluation statistique
 assessment#:#tst_status_completed#:#terminé
 assessment#:#tst_status_completed_more_tries_possible#:#(terminé)
-assessment#:#tst_stat_users_intro#:#Montrer l'évaluation statistique pour
-assessment#:#tst_status_missing_elements#:#Les éléments suivants sont manquants
 assessment#:#tst_status_missing#:#Il y a des éléments manquants dans ce test.
+assessment#:#tst_status_missing_elements#:#Les éléments suivants sont manquants
 assessment#:#tst_status_not_entered#:#non saisi
 assessment#:#tst_status_ok#:#L'état du test est valide. Il n'y a pas d'élément manquant
 assessment#:#tst_status_progress#:#en cours
 assessment#:#tst_time_already_spent#:#Temps déjà passé
-assessment#:#tst_types#:#Types de test
 assessment#:#tst_type#:#Type de test
+assessment#:#tst_types#:#Types de test
 assessment#:#tst_use_javascript#:#Utiliser Javascript pour glisser/déposer des actions
 assessment#:#tst_your_mark_is#:#Votre note est
 assessment#:#tt_assessment#:#Test d'évaluation
 assessment#:#tt_navigation_controlling#:#Contrôle du test de navigation des étudiants
 assessment#:#tt_self_assessment#:#Test d'auto-évaluation
 assessment#:#unlimited#:#illimité
-assessment#:#unlock_question#:#Cette question est utilisée dans au moins un test et il y a %s résultats envoyés. Si vous choisissez de déverrouiller la question, les résultats complets des utilisateurs concernés seront effacés après l'enregistrement de la question. Si vous voulez utiliser une version modifiée de la question sans détruire les résultats des utilisateurs, vous pouvez dupliquer la question dans le jeu de questions et changer cette nouvelle version.
 assessment#:#unlock#:#Déverrouiller
-assessment#:#uploaded_material#:#Matériau téléchargé
+assessment#:#unlock_question#:#Cette question est utilisée dans au moins un test et il y a %s résultats envoyés. Si vous choisissez de déverrouiller la question, les résultats complets des utilisateurs concernés seront effacés après l'enregistrement de la question. Si vous voulez utiliser une version modifiée de la question sans détruire les résultats des utilisateurs, vous pouvez dupliquer la question dans le jeu de questions et changer cette nouvelle version.
 assessment#:#upload_imagemap#:#Télécharger une image réactive
+assessment#:#uploaded_material#:#Matériau téléchargé
 assessment#:#warning_question_not_complete#:#La question n'est pas terminée.
 assessment#:#warning_test_not_complete#:#Le test n'est pas terminé
 assessment#:#when#:#quand
@@ -429,8 +430,8 @@ bibitem#:#bibitem_institution#:#Institution
 bibitem#:#bibitem_internet#:#Internet
 bibitem#:#bibitem_isbn#:#ISBN
 bibitem#:#bibitem_issn#:#ISSN
-bibitem#:#bibitem_journal_article#:#Article de revue
 bibitem#:#bibitem_journal#:#Revue
+bibitem#:#bibitem_journal_article#:#Article de revue
 bibitem#:#bibitem_keyword#:#Mot-clé
 bibitem#:#bibitem_label#:#Etiquette
 bibitem#:#bibitem_language#:#Langue
@@ -441,8 +442,8 @@ bibitem#:#bibitem_middle_name#:#Deuxième prénom
 bibitem#:#bibitem_month#:#Mois
 bibitem#:#bibitem_new_element#:#Nouvel élément
 bibitem#:#bibitem_newspaper_article#:#Article de journal
-bibitem#:#bibitem_note#:#Note
 bibitem#:#bibitem_not_found#:#Pas d'information bibliographique disponible
+bibitem#:#bibitem_note#:#Note
 bibitem#:#bibitem_number#:#Nombre
 bibitem#:#bibitem_organization#:#Organisation
 bibitem#:#bibitem_pages#:#Pages
@@ -453,8 +454,8 @@ bibitem#:#bibitem_proceedings#:#Actes
 bibitem#:#bibitem_publisher#:#Editeur
 bibitem#:#bibitem_save#:#Enregistrer
 bibitem#:#bibitem_school#:#Ecole
-bibitem#:#bibitem_series_editor#:#Editeur
 bibitem#:#bibitem_series#:#Collection
+bibitem#:#bibitem_series_editor#:#Editeur
 bibitem#:#bibitem_series_title#:#Titre de collection
 bibitem#:#bibitem_series_volume#:#Volume
 bibitem#:#bibitem_technical_report#:#Rapport technique
@@ -521,10 +522,9 @@ chat#:#chat_refresh#:#Rafraîchir
 chat#:#chat_room_added#:#Nouveau salon ajouté
 chat#:#chat_room_name#:#Nom du salon
 chat#:#chat_room_renamed#:#Salon renommé
+chat#:#chat_room_select#:#Salon privé
 chat#:#chat_rooms#:#Salon
 chat#:#chat_rooms_deleted#:#Salon(s) détruit(s)
-chat#:#chat_room_select#:#Salon privé
-chat#:#chats#:#Chats
 chat#:#chat_select_one_room#:#Veuillez sélectionner un salon
 chat#:#chat_server_allowed#:#Hôtes autorisés
 chat#:#chat_server_allowed_b#:#(par ex. 192.168.1.1,192.168.1.2)
@@ -537,8 +537,8 @@ chat#:#chat_server_settings#:#Paramètres du serveur de chat
 chat#:#chat_settings_saved#:#Paramètres enregistrés
 chat#:#chat_show_details#:#Montrer détails
 chat#:#chat_silver#:#argent
-chat#:#chat_status_saved#:#Le statut a été changé
 chat#:#chat_status#:#Statut
+chat#:#chat_status_saved#:#Le statut a été changé
 chat#:#chat_tahoma#:#Tahoma
 chat#:#chat_teal#:#teal
 chat#:#chat_times#:#Times
@@ -549,8 +549,11 @@ chat#:#chat_underlined#:#Souligné
 chat#:#chat_user_dropped#:#Utilisateur expulsé
 chat#:#chat_user_invited#:#Utilisateur invité au chat
 chat#:#chat_yellow#:#jaune
+chat#:#chats#:#Chats
 chat#:#my_chats#:#Mes chats
 common#:#3rd_party_software#:#Logiciels tierce partie
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Chemin absolu
 common#:#accept_usr_agreement#:#Accepter la charte d'utilisation ?
 common#:#access#:#Accès
@@ -566,19 +569,19 @@ common#:#active_roles#:#Rôles actifs
 common#:#add#:#Ajouter
 common#:#add_author#:#Ajouter auteur
 common#:#add_condition#:#Créer nouvelle association
-common#:#added_new_condition#:#Nouvelle condition créée
 common#:#add_member#:#Ajouter membre
 common#:#add_members#:#Ajouter membres
 common#:#add_translation#:#Ajouter traduction
 common#:#add_user#:#Ajouter utilisateur local
+common#:#added_new_condition#:#Nouvelle condition créée
 common#:#adm_edit_permission#:#Changer les paramètres de permission
+common#:#adm_read#:#Accès en lecture aux paramètres de base du système
+common#:#adm_visible#:#Les paramètres du système sont visibles
+common#:#adm_write#:#Modifier les paramètres du système
 common#:#administrate#:#Administrer
 common#:#administrate_users#:#Administration des utilisateurs locaux
 common#:#administration#:#Administration
 common#:#administrator#:#Administrateur
-common#:#adm_read#:#Accès en lecture aux paramètres de base du système
-common#:#adm_visible#:#Les paramètres du système sont visibles
-common#:#adm_write#:#Modifier les paramètres du système
 common#:#adopt#:#Adopter
 common#:#adopt_perm_from_template#:#Adopter la permission à partir du modèle de rôle
 common#:#all_authors#:#Tous les auteurs
@@ -586,13 +589,13 @@ common#:#all_global_roles#:#Rôles globaux
 common#:#all_lms#:#Tous les modules d'apprentissage
 common#:#all_local_roles#:#Rôles locaux (tous)
 common#:#all_objects#:#Tous les objets
-common#:#allow_assign_users#:#Permettre l'assignation à des utilisateur par les administrateurs locaux
-common#:#allow_register#:#Disponible dans le formulaire d'enregistrement pour les nouveaux utilisateurs
 common#:#all_roles#:#Tous les rôles
 common#:#all_tsts#:#Tous les tests
 common#:#all_users#:#Tous les utilisateurs
+common#:#allow_assign_users#:#Permettre l'assignation à des utilisateur par les administrateurs locaux
+common#:#allow_register#:#Disponible dans le formulaire d'enregistrement pour les nouveaux utilisateurs
+common#:#alm#:# Module d'apprentissage AICC###24 Sep 2004 content changed
 common#:#alm_added#:#Module d'apprentissage AICC ajouté
-common#:#alm#:# Module d'apprentissage AICC
 common#:#alm_create#:#Créer module d'apprentissage AICC
 common#:#alm_delete#:#Détruire module d'apprentissage AICC
 common#:#alm_edit_permission#:#Changer les paramètres de permission
@@ -610,36 +613,34 @@ common#:#application_completed#:#Inscription terminée
 common#:#application_date#:#Date d'inscription
 common#:#applied_users#:#Utilisateurs inscrits
 common#:#apply_filter#:#Appliquer le filtre
-common#:#appointment_list#:#Liste de rendez-vous
 common#:#appointment#:#Rendez-vous
+common#:#appointment_list#:#Liste de rendez-vous
 common#:#approve_date#:#Approuvé le
 common#:#approve_recipient#:#Login de la personne qui donné son approbation
 common#:#archive#:#Archives
 common#:#are_you_sure#:#Etes-vous sûr(e) ?
 common#:#assign#:#Assigner
+common#:#assign_global_role#:#Assigner à un rôle global
+common#:#assign_lo_forum#:#Assigner le forum de cours
+common#:#assign_local_role#:#Assigner à un rôle local
+common#:#assign_user_to_role#:#Assigner l'utilisateur au rôle
 common#:#assigned_roles#:#Rôles assignés
 common#:#assigned_users#:#Utilisateurs assignés
-common#:#assign_global_role#:#Assigner à un rôle global
-common#:#assign_local_role#:#Assigner à un rôle local
-common#:#assign_lo_forum#:#Assigner le forum de cours
-common#:#assign_user_to_role#:#Assigner l'utilisateur au rôle
 common#:#at_location#:#à l'emplacement
 common#:#attachment#:#Attachement
 common#:#attachments#:#Attachements
 common#:#attend#:#Participer
 common#:#auth_configure#:#configuration en cours...
 common#:#auth_edit_permission#:#Changer les paramètres de permission
-common#:#auth_ldap_desc#:#Authentifier les utilisateurs avec LDAP
 common#:#auth_ldap#:#LDAP
-common#:#auth_local_desc#:#Authentifier les utilisateurs avec la base de données ILIAS locale (défaut)
+common#:#auth_ldap_desc#:#Authentifier les utilisateurs avec LDAP
 common#:#auth_local#:#Base de données ILIAS
+common#:#auth_local_desc#:#Authentifier les utilisateurs avec la base de données ILIAS locale (défaut)
 common#:#auth_mode#:#Mode d'authentification
 common#:#auth_mode_changed_to#:#Mode d'authentification changé en
 common#:#auth_mode_not_changed#:#(aucun changement)
-common#:#author#:#Auteur
-common#:#authors#:#Auteurs
-common#:#auth_radius_desc#:#Authentifier les utilisateurs avec un serveur RADIUS
 common#:#auth_radius#:#RADIUS
+common#:#auth_radius_desc#:#Authentifier les utilisateurs avec un serveur RADIUS
 common#:#auth_read#:#Accéder aux paramètres d'authentification
 common#:#auth_remark_non_local_auth#:#Quand un mode d'authentification autre que le mode par défaut est choisi, il n'est plus possible de changer les logins et mots de passe des utilisateurs et l'enregistrement de nouveaux utilisateurs est désactivé.
 common#:#auth_script#:#Personnalisé
@@ -647,6 +648,8 @@ common#:#auth_script_desc#:#Authentifier les utilisateurs par un script externe
 common#:#auth_select#:#Sélectionner un mode d'authentification
 common#:#auth_visible#:#Les paramètres d'authentification sont visibles
 common#:#auth_write#:#Modifier les paramètres d'authentification 
+common#:#author#:#Auteur
+common#:#authors#:#Auteurs
 common#:#auto_registration#:#Approuver les enregistrements automatiquement
 common#:#available_languages#:#Langues disponibles
 common#:#average_time#:#Temps moyen
@@ -654,18 +657,18 @@ common#:#back#:#Retour
 common#:#basedn#:#DN de base
 common#:#basic_data#:#Données de base
 common#:#benchmark#:#Banc d'essais
-common#:#benchmarks#:#Bancs d'essais
 common#:#benchmark_settings#:#Paramètres des bancs d'essais
+common#:#benchmarks#:#Bancs d'essais
 common#:#bib_data#:#Données bibliographiques
-common#:#bmf#:#Répertoire de signets
 common#:#bm#:#Signet
+common#:#bmf#:#Répertoire de signets
 common#:#bookmark_edit#:#Modifier signet
 common#:#bookmark_folder_edit#:#Modifier répertoire de signets
 common#:#bookmark_folder_new#:#Nouveau répertoire de signets
 common#:#bookmark_new#:#Nouveau signet
-common#:#bookmarks_of#:#Signets de
-common#:#bookmarks#:#Signets
 common#:#bookmark_target#:#Cible
+common#:#bookmarks#:#Signets
+common#:#bookmarks_of#:#Signets de
 common#:#btn_remove_system#:#Supprimer du système
 common#:#btn_undelete#:#Restaurer
 common#:#by#:#par
@@ -675,17 +678,17 @@ common#:#cannot_find_xml#:#Aucun fichier XML n'a été trouvé
 common#:#cannot_uninstall_language_in_use#:#Vous ne pouvez pas désinstaller le langage courant !
 common#:#cannot_uninstall_systemlanguage#:#Vous ne pouvez pas désinstaller le langage système !
 common#:#cannot_unzip_file#:#Impossible de décompresser le fichier
+common#:#cat#:#Catégorie
+common#:#cat_a#:#une catégorie
 common#:#cat_add#:#Ajouter catégorie
 common#:#cat_added#:#Categorie ajoutée
-common#:#cat_a#:#une catégorie
 common#:#cat_cat_administrate_users#:#Administrate local user accounts
-common#:#cat#:#Catégorie
+common#:#cat_create#:#Créer catégorie
 common#:#cat_create_alm#:#Créer module d'apprentissage AICC
 common#:#cat_create_cat#:#Créer catégorie
 common#:#cat_create_chat#:#Créer chat
-common#:#cat_create#:#Créer catégorie
 common#:#cat_create_crs#:#Créer cours
-common#:#cat_create_dbk#:#Créer digibook
+common#:#cat_create_dbk#:#Créer digibook###24 Sep 2004 content changed
 common#:#cat_create_exc#:#Créer exercice
 common#:#cat_create_file#:#Télécharger fichier
 common#:#cat_create_frm#:#Créer forum
@@ -693,28 +696,27 @@ common#:#cat_create_glo#:#Créer glossaire
 common#:#cat_create_grp#:#Créer groupe
 common#:#cat_create_hlm#:#Créer  module d'apprentissage HACP
 common#:#cat_create_htlm#:#Créer  module d'apprentissage HTML
-common#:#cat_create_lm#:#Créer  module d'apprentissage
+common#:#cat_create_lm#:#Créer  module d'apprentissage###24 Sep 2004 content changed
 common#:#cat_create_mep#:#Créer jeu de ressources multimédia
-common#:#cat_create_qpl#:#Créer jeu de questions
+common#:#cat_create_qpl#:#Créer jeu de questions###24 Sep 2004 content changed
 common#:#cat_create_sahs#:#Créer  module d'apprentissage SCORM/AICC
-common#:#cat_create_slm#:#Créer module d'apprentissage SCORM
-common#:#cat_create_spl#:#Créer jeu de questions (sondage)
+common#:#cat_create_spl#:#Créer jeu de questions (sondage)###24 Sep 2004 content changed
 common#:#cat_create_svy#:#Créer sondage
 common#:#cat_create_tst#:#Créer test
 common#:#cat_delete#:#Détruire catégorie
 common#:#cat_edit#:#Modifier catégorie
 common#:#cat_edit_permission#:#Changer paramètres de permission
-common#:#categories#:#Catégories
-common#:#categories_imported#:#Importation des catégorie terminée
 common#:#cat_new#:#Nouvelle catégorie
 common#:#cat_read#:#Accès en lecture à la catégorie
 common#:#cat_read_users#:#Accès en lecture aux comptes utilisateurs locaux
 common#:#cat_visible#:#La catégorie est visible
 common#:#cat_write#:#Modifier catégorie
+common#:#categories#:#Catégories
+common#:#categories_imported#:#Importation des catégorie terminée
 common#:#cc#:#CC
+common#:#cen#:# Evénement Centra
 common#:#cen_add#:#Ajouter événement Centra
 common#:#cen_added#:#Evénement Centra ajouté
-common#:#cen#:# Evénement Centra
 common#:#cen_delete#:#Détruire  événement Centra
 common#:#cen_edit#:#Modifier  événement Centra
 common#:#cen_new#:#Nouvel événement Centra
@@ -727,32 +729,32 @@ common#:#chac_edit_permission#:#Changer les paramètres de permission
 common#:#chac_read#:#Accès en lecture aux paramètres du chat
 common#:#chac_visible#:#Les paramètres du chat sont visibles
 common#:#chac_write#:#Modifier paramètres du chat
+common#:#change#:#Changer
 common#:#change_active_assignment#:#Changer attribution active
 common#:#change_assignment#:#Changer attribution 
-common#:#change#:#Changer
-common#:#changed_to#:#changé en
 common#:#change_existing_objects#:#Changer objets existants
 common#:#change_header_title#:#Modifier titre de l'entête
 common#:#change_lo_info#:#Changer informations sur le cours
 common#:#change_metadata#:#Changer méta-données
 common#:#change_sort_direction#:#Changer ordre de tri
+common#:#changed_to#:#changé en
 common#:#chapter#:#Chapitre
 common#:#chapter_number#:#Numéro de chapitre
 common#:#chapter_title#:#Titre du chapitre
-common#:#chat_add#:#Ajouter chat
 common#:#chat#:#Chat
+common#:#chat_add#:#Ajouter chat
 common#:#chat_delete#:#Détruire chat
 common#:#chat_edit_permission#:#Modifier les paramètres de permission
 common#:#chat_new#:#Nouveau chat
 common#:#chat_read#:#Accès en lecture/écriture au chat
 common#:#chat_visible#:#Le chat est visible
 common#:#chat_write#:#Modifier chat
+common#:#check#:#Vérifier
 common#:#check_all#:#Tout cocher
-common#:#checked_files#:#Fichiers importables
 common#:#check_langfile#:#Veuillez vérifier votre fichier de langue
 common#:#check_languages#:#Vérifier langues
 common#:#check_max_allowed_packet_size#:#La taille du contenu de la page est trop importante.
-common#:#check#:#Vérifier
+common#:#checked_files#:#Fichiers importables
 common#:#chg_language#:#Changer langue
 common#:#chg_password#:#Changer mot de passe
 common#:#choose_language#:#Choisissez votre langue
@@ -767,27 +769,27 @@ common#:#close#:#Fermer
 common#:#comma_separated#:#Séparé par des virgules (CSV)
 common#:#comment#:#commentaire
 common#:#compose#:#Composer
+common#:#condition#:#Condition
 common#:#condition_already_assigned#:#Objet déjà assigné
 common#:#condition_circle_created#:#L'association n'est pas possible, car elle introduirait une dépendance croisée.
-common#:#condition#:#Condition
 common#:#condition_deleted#:#Condition détruite
 common#:#condition_passed#:#Validé
 common#:#condition_precondition#:#Pré-conditions :
 common#:#condition_select_object#:#Veuillez sélectionner un objet
 common#:#condition_select_one#:#-Veuillez sélectionner une condition
-common#:#conditions_updated#:#Conditions enregistrées
 common#:#condition_update#:#Enregistrer
-common#:#confirmation#:#Confirmation
+common#:#conditions_updated#:#Conditions enregistrées
 common#:#confirm#:#Confirmer
+common#:#confirmation#:#Confirmation
+common#:#cont_object#:#Objet
 common#:#contact_data#:#Informations de contact
 common#:#container#:#Conteneur
 common#:#context#:#Contexte
 common#:#continue_work#:#Continuer
-common#:#cont_object#:#Objet
 common#:#copied_object#:#Objet copié
 common#:#copy#:#Copie
-common#:#copy_of#:#Copie de
 common#:#copyPage#:#Copie
+common#:#copy_of#:#Copie de
 common#:#copy_to#:#vers
 common#:#count#:#Décompte
 common#:#country#:#Pays
@@ -797,21 +799,20 @@ common#:#create#:#Créer
 common#:#create_date#:#Créé le
 common#:#create_in#:#Créer dans
 common#:#create_stylesheet#:#Créer style
+common#:#crs#:#Cours
+common#:#crs_a#:#un cours
 common#:#crs_add#:#Ajouter cours
 common#:#crs_added#:#Cours ajouté
 common#:#crs_archives#:#Archives
-common#:#crs_a#:#un cours
 common#:#crs_available#:#Cours disponibles
 common#:#crs_container_link_not_allowed#:#Il n'est pas possible de lier des objets conteneurs
-common#:#crs#:#Cours
-common#:#crs_create_alm#:#Créer module d'apprentissage AICC
 common#:#crs_create#:#Créer cours
+common#:#crs_create_alm#:#Créer module d'apprentissage AICC
 common#:#crs_create_frm#:#Créer forum
 common#:#crs_create_glo#:#Créer glossaire
 common#:#crs_create_hlm#:#Créer  module d'apprentissage HACP
-common#:#crs_create_lm#:#Créer  module d'apprentissage
+common#:#crs_create_lm#:#Créer  module d'apprentissage###24 Sep 2004 content changed
 common#:#crs_create_sahs#:#Créer module d'apprentissage SCORM/AICC
-common#:#crs_create_slm#:#Créer  module d'apprentissage SCORM
 common#:#crs_delete#:#Détruire cours
 common#:#crs_edit#:#Modifier cours
 common#:#crs_edit_permission#:#Changer les paramètres de permission
@@ -842,24 +843,23 @@ common#:#day#:#Jour
 common#:#days#:#Jours
 common#:#days_of_period#:#Jours de la période
 common#:#db_host#:#Hôte de base de données
-common#:#dbk_add#:#Ajouter un livre Digilib
-common#:#dbk_added#:#Livre Digilib ajouté
-common#:#dbk_a#:#un livre Digilib
-common#:#dbk_create#:#Créer digibook
-common#:#dbk_delete#:#Détruire Digibook
-common#:#dbk_edit_permission#:#Modifier paramètres de permission
-common#:#dbk#:#Livre Digilib
-common#:#dbk_new#:#Nouveau livre Digilib
-common#:#dbk_read#:#Accès en lecture au Digibook
-common#:#dbk_visible#:#Le Digibook est visible
-common#:#dbk_write#:#Modifier Digibook
 common#:#db_name#:#Nom de base de données
 common#:#db_need_update#:#La base de données doit être mise à jour
 common#:#db_pass#:#Mot de passe de base de données
 common#:#db_type#:#Type de base de données
 common#:#db_user#:#Utilisateur de base de données
 common#:#db_version#:#Version de la base de données
-common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#dbk#:#Livre Digilib
+common#:#dbk_a#:#un livre Digilib
+common#:#dbk_add#:#Ajouter un livre Digilib
+common#:#dbk_added#:#Livre Digilib ajouté
+common#:#dbk_create#:#Créer digibook###24 Sep 2004 content changed
+common#:#dbk_delete#:#Détruire Digibook###24 Sep 2004 content changed
+common#:#dbk_edit_permission#:#Modifier paramètres de permission
+common#:#dbk_new#:#Nouveau livre Digilib
+common#:#dbk_read#:#Accès en lecture au Digibook###24 Sep 2004 content changed
+common#:#dbk_visible#:#Le Digibook est visible###24 Sep 2004 content changed
+common#:#dbk_write#:#Modifier Digibook###24 Sep 2004 content changed
 common#:#default#:#Défaut
 common#:#default_language#:#Langue par défaut
 common#:#default_perm_settings#:#Permissions par défaut
@@ -868,14 +868,14 @@ common#:#default_roles#:#Rôles par défaut
 common#:#default_skin#:#Apparence par défaut
 common#:#default_skin_style#:#Thème / Style par défaut
 common#:#default_style#:#Style par défaut
+common#:#delete#:#Détruire
 common#:#delete_all#:#Détruire tout
 common#:#delete_all_rec#:#Détruire tous les enregistrements
-common#:#delete#:#Détruire
-common#:#deleted#:#Détruit
-common#:#deleted_user#:#L'utilisateur a été détruit
 common#:#delete_object#:#Détruire objet(s)
 common#:#delete_selected#:#Détruire sélection
 common#:#delete_tr_data#:#Détruire données de suivi
+common#:#deleted#:#Détruit
+common#:#deleted_user#:#L'utilisateur a été détruit
 common#:#department#:#Département
 common#:#desc#:#Description
 common#:#description#:#Description
@@ -886,27 +886,27 @@ common#:#down#:#Bas
 common#:#download#:#Télécharger
 common#:#drafts#:#Brouillons
 common#:#drop#:#Supprimer
-common#:#edit_data#:#modifier données
-common#:#edited_at#:#Modifié le
 common#:#edit#:#Modifier
+common#:#edit_data#:#modifier données
 common#:#edit_operations#:#Modifier opérations
-common#:#editor#:#Editeur
 common#:#edit_perm_ruleset#:#Modifier règles de permission par défaut
 common#:#edit_properties#:#Modifier propriétés
 common#:#edit_roleassignment#:#Modifier assignation de rôle
 common#:#edit_stylesheet#:#Modifier style
+common#:#edited_at#:#Modifié le
+common#:#editor#:#Editeur
 common#:#email#:#Email
 common#:#email_not_valid#:#L'adresse email que vous avez saisie n'est pas valide
 common#:#enable#:#Activer
-common#:#enabled#:#Activé
 common#:#enable_registration#:#Autoriser les nouveaux enregistrements d'utilisateurs
+common#:#enabled#:#Activé
 common#:#enumerate#:#Enumérer
 common#:#err_1_param#:#Seulement 1 paramètre !
 common#:#err_2_param#:#Seulement 2 paramètres !
 common#:#err_count_param#:#Raison : nombre de paramètre invalide
 common#:#err_enter_current_passwd#:#Veuillez saisir votre mot de passe courant
-common#:#err_inactive#:#Ce compte n'a pas été activé. Veuillez contacter l'administrateur système pour y accéder
 common#:#err_in_line#:#Erreur ligne
+common#:#err_inactive#:#Ce compte n'a pas été activé. Veuillez contacter l'administrateur système pour y accéder
 common#:#err_invalid_port#:#Numéro de port invalide
 common#:#err_ldap_auth_failed#:#Utilisateur non authentifié sur le serveur LDAP.  Veuillez vous assurer que vous avez le même mot de passe dans ILIAS et dans LDAP
 common#:#err_ldap_connect_failed#:#Echec de la connexion au serveur LDAP. Veuillez vérifier vos paramètres.
@@ -914,8 +914,6 @@ common#:#err_ldap_search_failed#:#Echec de la connexion au serveur LDAP. Veuille
 common#:#err_ldap_user_not_found#:#Utilisateur non trouvé sur le serveur LDAP. Veuillez vérifier les attributs login name et Objectclass
 common#:#err_no_langfile_found#:#Pas de fichier de langue détecté !
 common#:#err_no_param#:#Pas de paramètre !
-common#:#error_parser#:#Erreur au démarrage du parseur
-common#:#error_recipient#:#Erreur de destinataire
 common#:#err_over_3_param#:#Plus de 3 paramètres !
 common#:#err_role_not_assignable#:#Vous ne pouvez pas assigner des utilisateurs à ce rôle à cet endroit.
 common#:#err_session_expired#:#Votre session a expiré
@@ -923,6 +921,9 @@ common#:#err_unknown_error#:#Erreur inconnue
 common#:#err_wrong_header#:#Raison : entête invalide
 common#:#err_wrong_login#:#Login erroné
 common#:#err_wrong_password#:#Mot de passe incorrect
+common#:#error_parser#:#Erreur au démarrage du parseur
+common#:#error_recipient#:#Erreur de destinataire
+common#:#exc#:#Exercice
 common#:#exc_add#:#Ajouter exercice
 common#:#exc_added#:#Exercice ajouté
 common#:#exc_ask_delete#:#Détruire fichier ?
@@ -931,11 +932,10 @@ common#:#exc_create#:#Créer exercice
 common#:#exc_date_not_valid#:#La date n'est pas valide
 common#:#exc_deassign_members#:#Détruire membre(s)
 common#:#exc_delete#:#Détruire exercice
-common#:#exc_edit_exercise#:#Modifier exercice
 common#:#exc_edit#:#Nouvel exercice créé
+common#:#exc_edit_exercise#:#Modifier exercice
 common#:#exc_edit_permission#:#Changer les paramètres de permission
 common#:#exc_edit_until#:#Modifier jusqu'à
-common#:#exc#:#Exercice
 common#:#exc_files#:#Fichiers
 common#:#exc_groups#:#Groupes
 common#:#exc_header_members#:#Exercice (membres)
@@ -953,7 +953,6 @@ common#:#exc_search_for#:#Rechercher
 common#:#exc_select_one_file#:#Veuillez sélectionner exactement un fichier.
 common#:#exc_send_exercise#:#Envoyer exercice
 common#:#exc_sent#:#L'exercice a été envoyé aux utilisateurs sélectionnés
-common#:#excs#:#Exercices
 common#:#exc_status_returned#:#Renvoyé
 common#:#exc_status_saved#:#Exercice mis à jour
 common#:#exc_status_solved#:#Résolu
@@ -961,39 +960,41 @@ common#:#exc_upload_error#:#Erreur lors du téléversement du fichier
 common#:#exc_users#:#Utilisateurs
 common#:#exc_visible#:#L'exercice est visible
 common#:#exc_write#:#Modifier exercice
+common#:#excs#:#Exercices
 common#:#execute#:#Exécuter
 common#:#export#:#Exporter
 common#:#export_html#:#exporter sous la forme d'un fichier html
 common#:#export_xml#:#exporter sous la forme d'un fichier xml
 common#:#faq_exercise#:#Exercice de FAQ
 common#:#fax#:#Fax
-common#:#feedback_recipient#:#Destinataires des retours
 common#:#feedback#:#Retours
-common#:#file_added#:#Fichier téléversé
-common#:#file_add#:#Téléverser un fichier
+common#:#feedback_recipient#:#Destinataires des retours
+common#:#file#:#Fichier
 common#:#file_a#:#un fichier
+common#:#file_add#:#Téléverser un fichier
+common#:#file_added#:#Fichier téléversé
 common#:#file_delete#:#Détruire fichier
 common#:#file_edit#:#Modifier fichier
 common#:#file_edit_permission#:#Changer paramètres de permission
-common#:#file#:#Fichier
 common#:#file_new#:#Nouveau fichier
 common#:#file_not_found#:#Fichier non trouvé !
-common#:#file_notice#:#Veuillez prendre en compte la limite de taille des fichiers de 
 common#:#file_not_valid#:#Fichier non valide !
+common#:#file_notice#:#Veuillez prendre en compte la limite de taille des fichiers de 
 common#:#file_read#:#Télécharger fichier
-common#:#files#:#Fichiers
-common#:#files_location#:#Emplacement des fichiers
 common#:#file_valid#:#Le fichier est valide !
 common#:#file_version#:#Version fournie dans le fichier
 common#:#file_visible#:#Le fichier est visible
 common#:#file_write#:#Modifier fichier
+common#:#files#:#Fichiers
+common#:#files_location#:#Emplacement des fichiers
 common#:#fill_out_all_required_fields#:#Veuillez renseigner tous les champs obligatoires
 common#:#filter#:#Filtre
 common#:#firstname#:#Prénom
 common#:#flatview#:#A plat
+common#:#fold#:#Répertoire
+common#:#fold_a#:#un répertoire
 common#:#fold_add#:#Ajouter répertoire
 common#:#fold_added#:#Répertoire ajouté
-common#:#fold_a#:#un répertoire
 common#:#fold_create_alm#:#Créer module d'apprentissage AICC
 common#:#fold_create_chat#:#Créer chat
 common#:#fold_create_file#:#Téléverser fichier
@@ -1001,41 +1002,39 @@ common#:#fold_create_fold#:#Créer répertoire
 common#:#fold_create_frm#:#Créer forum
 common#:#fold_create_glo#:#Créer glossaire
 common#:#fold_create_hlm#:#Créer module d'apprentissage HACP
-common#:#fold_create_lm#:#Créer module d'apprentissage
+common#:#fold_create_lm#:#Créer module d'apprentissage###24 Sep 2004 content changed
 common#:#fold_create_sahs#:#Créer module d'apprentissage SCORM/AICC
-common#:#fold_create_slm#:#Créer module d'apprentissage SCORM
 common#:#fold_delete#:#Détruire répertoire
 common#:#fold_edit#:#Modifier répertoire
 common#:#fold_edit_permission#:#Modifier paramètres de permission
-common#:#folder#:#répertoire
-common#:#folders#:#Répertoires
 common#:#fold_new#:#Nouveau répertoire
-common#:#fold#:#Répertoire
 common#:#fold_read#:#Accès en lecture au répertoire
 common#:#fold_visible#:#Le répertoire est visible
 common#:#fold_write#:#Modifier répertoire
+common#:#folder#:#répertoire
+common#:#folders#:#Répertoires
 common#:#force_accept_usr_agreement#:#Vous devez accepter la charte d'utilisation !
 common#:#forename#:#Prénom
 common#:#forgot_password#:#Mot de passe oublié ?
 common#:#form_empty_fields#:#Veuillez renseigner ces champs :
 common#:#forum#:#Forum
-common#:#forum_import_file#:#Importer fichier
 common#:#forum_import#:#Importation de forum
+common#:#forum_import_file#:#Importer fichier
 common#:#forum_notification#:#Notification
 common#:#forum_notify_me#:#Me notifier quand une réponse est postée
 common#:#forum_post_replied#:#Une réponse a été faite à votre contribution au forum
 common#:#forums#:#Forums
 common#:#forums_overview#:#Vue générale des forums
+common#:#frm#:#Forum
+common#:#frm_a#:#un Forum
 common#:#frm_add#:#Ajouter forum
 common#:#frm_added#:#Forum ajouté
-common#:#frm_a#:#un Forum
 common#:#frm_create#:#Créer forum
 common#:#frm_delete#:#Détruire forum
 common#:#frm_delete_post#:#Détruire un message
 common#:#frm_edit#:#Modifier forum
 common#:#frm_edit_permission#:#Changer paramètres de permission
 common#:#frm_edit_post#:#Modifier un message
-common#:#frm#:#Forum
 common#:#frm_new#:#Nouveau forum
 common#:#frm_read#:#Accès en lecture au forum
 common#:#frm_visible#:#Le forum est visible
@@ -1045,45 +1044,45 @@ common#:#fullname#:#Nom complet
 common#:#functions#:#Fonctions
 common#:#gdf_add#:#Ajouter définition
 common#:#gdf_new#:#Nouvelle définition
+common#:#gender#:#Sexe
 common#:#gender_f#:#Féminin
 common#:#gender_m#:#Masculin
-common#:#gender#:#Sexe
 common#:#generate#:#Générer
+common#:#glo#:#Glossaire
+common#:#glo_a#:#un glossaire
 common#:#glo_add#:#Ajouter glossaire
 common#:#glo_added#:#Glossaire ajouté
-common#:#glo_a#:#un glossaire
-common#:#global#:#Global
-common#:#global_user#:#Utilisateurs globaux
 common#:#glo_create#:#Créer glossaire
 common#:#glo_delete#:#Détruire glossaire
 common#:#glo_edit_permission#:#Changer paramètres de permission
-common#:#glo#:#Glossaire
 common#:#glo_join#:#S'abonner au glossaire
 common#:#glo_leave#:#Se désabonner du glossaire
 common#:#glo_new#:#Nouveau glossaire
 common#:#glo_read#:#Accès en lecture au glossaire
-common#:#glossaries#:#Glossaires
-common#:#glossary_added#:#Glossaire ajouté
-common#:#glossary#:#Glossaire
 common#:#glo_upload_file#:#Fichier
 common#:#glo_visible#:#Le glossaire est visible
 common#:#glo_write#:#Modifier glossaire
+common#:#global#:#Global
+common#:#global_user#:#Utilisateurs globaux
+common#:#glossaries#:#Glossaires
+common#:#glossary#:#Glossaire
+common#:#glossary_added#:#Glossaire ajouté
 common#:#group_access_denied#:#Accès refusé
 common#:#group_any_objects#:#Aucun sous-objet disponible
 common#:#group_create_chat#:#Créer chat
 common#:#group_desc#:#Description de groupe
 common#:#group_details#:#Détails de groupe
 common#:#group_filesharing#:#Partage de fichiers par groupe
-common#:#group_import_file#:#Importer file
 common#:#group_import#:#Importation de groupe
+common#:#group_import_file#:#Importer file
 common#:#group_members#:#Membres du groupe
+common#:#group_memstat#:#Statut du membre
 common#:#group_memstat_admin#:#Administrateur
 common#:#group_memstat_member#:#Membre
-common#:#group_memstat#:#Statut du membre
 common#:#group_name#:#Nom du groupe
 common#:#group_new_registrations#:#Nouveaux abonnements
-common#:#group_no_registration_msg#:#Vous n'êtes pas encore membre de ce groupe.  Pour des raisons d'administration, il est nécessaire de s'inscrire dans le groupe souhaité.<br> En tant que membre, vous aurez les avantages suivants :<br>- Vous êtes informé(e) des nouveautés et des mises à jour<br>- Vous pouvez accéder aux objets associés, tels que les forums, les cours, etc.<br><br>Vous pouvez résilier votre abonnement à tout moment.
 common#:#group_no_registration#:#Pas d'abonnement nécessaire
+common#:#group_no_registration_msg#:#Vous n'êtes pas encore membre de ce groupe.  Pour des raisons d'administration, il est nécessaire de s'inscrire dans le groupe souhaité.<br> En tant que membre, vous aurez les avantages suivants :<br>- Vous êtes informé(e) des nouveautés et des mises à jour<br>- Vous pouvez accéder aux objets associés, tels que les forums, les cours, etc.<br><br>Vous pouvez résilier votre abonnement à tout moment.
 common#:#group_not_available#:#Aucun groupe disponible
 common#:#group_objects#:#Objets du groupe
 common#:#group_password_registration_expired_msg#:#La période d'abonnement de ce groupe a expiré, il n'est plus possible de faire une annonce.  Veuillez contacter le propriétaire ou l'administrateur du groupe idoine.
@@ -1096,23 +1095,24 @@ common#:#group_req_password#:#Mot de passe d'abonnement requis
 common#:#group_req_registration#:#Abonnement requis
 common#:#group_req_registration_msg#:#Pour rejoindre ce groupe, vous devez vous abonner.  L'administrateur du groupe correspondant vous placera dans le groupe. Veuillez saisir un sujet pour justifier votre adhésion.<br> Vous recevrez un message quand vous aurez été inscrit(e) dans le groupe.
 common#:#group_reset#:#Réinitialiser groupe
-common#:#groups#:#Groupes
-common#:#groups_overview#:#Vue générale des groupes
+common#:#group_status#:#Statut du groupe
 common#:#group_status_closed#:#Fermé
 common#:#group_status_desc#:#Détermine le statut initial du groupe en utilisant les paramètres de permission du modèle 'il_grp_status_closed' ou 'il_grp_status_open'<br/>Public : le groupe est visible ; les utilisateurs peuvent s'abonner.<br/>Fermé : le groupe n'est pas visible pour les personnes extérieures au groupe ; les utilisateurs doivent être invités pour rejoindre le groupe.
 common#:#group_status_public#:#Public
-common#:#group_status#:#Statut du groupe
-common#:#grp_add#:#Ajouter groupe
-common#:#grp_added#:#Groupe ajouté
-common#:#grp_add_member#:#Ajouter membres
-common#:#grp_already_applied#:#Vous avez déjà demandé votre inscription à ce groupe. Veuillez attendre la confirmation.
+common#:#groups#:#Groupes
+common#:#groups_overview#:#Vue générale des groupes
+common#:#grp#:#Groupe
 common#:#grp_a#:#un groupe
+common#:#grp_add#:#Ajouter groupe
+common#:#grp_add_member#:#Ajouter membres
+common#:#grp_added#:#Groupe ajouté
+common#:#grp_already_applied#:#Vous avez déjà demandé votre inscription à ce groupe. Veuillez attendre la confirmation.
 common#:#grp_back#:#Retour
 common#:#grp_count_members#:#Nombre de membres
+common#:#grp_create#:#Créer groupe
 common#:#grp_create_alm#:#Créer module d'apprentissage
 common#:#grp_create_chat#:#Créer chat
-common#:#grp_create#:#Créer groupe
-common#:#grp_create_dbk#:#Créer digibook
+common#:#grp_create_dbk#:#Créer digibook###24 Sep 2004 content changed
 common#:#grp_create_exc#:#Créer exercice
 common#:#grp_create_file#:#L'utilisateur peut téléverser des fichiers
 common#:#grp_create_fold#:#L'utilisateur peut créer des répertoires
@@ -1120,10 +1120,9 @@ common#:#grp_create_frm#:#Créer Forum
 common#:#grp_create_glo#:#Créer glossaire
 common#:#grp_create_hlm#:#Créer module d'apprentissage HACP 
 common#:#grp_create_htlm#:#Créer module d'apprentissage HTML 
-common#:#grp_create_lm#:#Créer module d'apprentissage
+common#:#grp_create_lm#:#Créer module d'apprentissage###24 Sep 2004 content changed
 common#:#grp_create_mep#:#Créer media pool
 common#:#grp_create_sahs#:#Créer module d'apprentissage  SCORM/AICC
-common#:#grp_create_slm#:#Créer module d'apprentissage SCORM
 common#:#grp_delete#:#Détruire groupe
 common#:#grp_dismiss_member#:#Etes-vous sûr(e) de vouloir exclure les utilisateurs suivants du groupe ?
 common#:#grp_dismiss_myself#:#Etes-vous sûr(e) de vouloir vous exclure du groupe ?
@@ -1136,7 +1135,6 @@ common#:#grp_err_last_member#:#Le dernier membre du groupe ne peut pas être exc
 common#:#grp_err_member_could_not_be_removed#:#Le membre ne peut pas être exclu. Veuillez vérifier toutes les dépendances concernant cet utilisateur.
 common#:#grp_err_no_permission#:#Vous n'avez pas les permissions nécessaires pour cette opération.
 common#:#grp_err_registration_data#:#Veuillez saisir un mot de passe, la date d'expiration et le moment dans une période d'inscription valide
-common#:#grp#:#Groupe
 common#:#grp_header_edit_members#:#Modifier les membres
 common#:#grp_join#:#L'utilisateur peut s'inscrire dans le groupe
 common#:#grp_leave#:#L'utilisateur peut quitter le groupe
@@ -1166,15 +1164,14 @@ common#:#guest#:#Invité
 common#:#guests#:#Invités
 common#:#header_title#:#Titre d'entête
 common#:#help#:#Aide
-common#:#HH:MM#:#HH:MM
 common#:#hide_details#:#cacher détails
 common#:#hide_structure#:#Désactiver vue structurée
 common#:#hits_per_page#:#Hits/Page
+common#:#hlm#:#Module d'apprentissage HACP###24 Sep 2004 content changed
 common#:#hlm_added#:#Module d'apprentissage  HACP ajouté
 common#:#hlm_create#:#Créer module d'apprentissage HACP 
 common#:#hlm_delete#:#Détruire module d'apprentissage HACP 
 common#:#hlm_edit_permission#:#Changer paramètres de permission
-common#:#hlm#:#Module d'apprentissage HACP
 common#:#hlm_join#:#S'abonner au module d'apprentissage HACP
 common#:#hlm_leave#:#Se désabonner du module d'apprentissage HACP
 common#:#hlm_read#:#Accès en lecture au module d'apprentissage HACP
@@ -1184,26 +1181,27 @@ common#:#hobby#:#Intérêts/hobbies
 common#:#home#:#Home
 common#:#host#:#Hôte
 common#:#hours_of_day#:#Heures du jour
+common#:#htlm#:#Module d'apprentissage HTML###24 Sep 2004 content changed
 common#:#htlm_add#:#Ajouter module d'apprentissage HTML
 common#:#htlm_delete#:#Détruire module d'apprentissage HTML
 common#:#htlm_edit#:#Modifier propriétés du module d'apprentissage HTML
 common#:#htlm_edit_permission#:#Changer paramètres de permission
-common#:#htlm#:#Module d'apprentissage HTML
 common#:#htlm_new#:#Nouveau module d'apprentissage HTML
 common#:#htlm_read#:#Lire module d'apprentissage HTML
 common#:#htlm_visible#:#Le module d'apprentissage HTML est visible
 common#:#htlm_write#:#Modifier module d'apprentissage HTML
+common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#Chemin HTTP
-common#:#identifier#:#identifiant
 common#:#https_not_possible#:#Ce serveur ne permet pas les connexions HTTPS.
 common#:#id#:#ID
+common#:#identifier#:#identifiant
 common#:#if_no_title_then_filename#:#Laisser vide pour conserver le nom du fichier
 common#:#ilias_version#:#Version ILIAS
-common#:#image_gen_unsucc#:#Echec de la génération d'image. Veuillez demander à votre administrateur système de vérifier le chemin vers l'utilitaire convert.
 common#:#image#:#Image
+common#:#image_gen_unsucc#:#Echec de la génération d'image. Veuillez demander à votre administrateur système de vérifier le chemin vers l'utilitaire convert.
+common#:#import#:#Importation
 common#:#import_alm#:#Importer paquet AICC
 common#:#import_categories#:#Importer catégories
-common#:#imported#:#importé
 common#:#import_file#:#Importer fichier
 common#:#import_file_not_valid#:#Le fichier d'importation n'est pas valide
 common#:#import_finished#:#Nombre de messages importés
@@ -1211,21 +1209,21 @@ common#:#import_forum_finished#:#Le forum a été importé
 common#:#import_glossary#:#Importer glossaire
 common#:#import_grp_finished#:#Groupe importé sans erreur
 common#:#import_hlm#:#Importer paquet HACP
-common#:#import#:#Importation
-common#:#import_lm#:#Importation de cours
+common#:#import_lm#:#Importation de cours###24 Sep 2004 content changed
 common#:#import_root_user#:#Importer utilisateur root
 common#:#import_sahs#:#Importer paquet SCORM/AICC
-common#:#import_slm#:#Importater  paquet SCORM
 common#:#import_users#:#Importer utilisateurs
+common#:#imported#:#importé
+common#:#in#:#dans
+common#:#in_use#:#Langue utilisateur
 common#:#inactive#:#Inactif
 common#:#inbox#:#Réception
-common#:#in#:#dans
 common#:#info_assign_sure#:#Etes-vous sûr(e) de vouloir inscrire les utilisateurs suivants ?
-common#:#info_deleted#:#Objet(s) détruit(s)
 common#:#info_delete_sure#:#Etes-vous sûr(e) de vouloir détruire les objets suivants ?
-common#:#information_abbr#:#Info
-common#:#inform_user_mail#:#Envoyer un email pour informer les utilisateurs des changements
+common#:#info_deleted#:#Objet(s) détruit(s)
 common#:#info_trash#:#Objets détruits
+common#:#inform_user_mail#:#Envoyer un email pour informer les utilisateurs des changements
+common#:#information_abbr#:#Info
 common#:#ingmedia_all_offers#:#Tous les LE
 common#:#ingmedia_back_to_le#:#Retour au LE
 common#:#ingmedia_good_afternoon#:#Bonjour
@@ -1242,23 +1240,22 @@ common#:#ingmedia_reg_le#:#LE avec abonnement
 common#:#ingmedia_use_info1#:#Ici, vous pouvez changer vos données personnelles.  Excepté pour le nom d'utilisateur et le mot de passe INGMEDIA, vous n'avez pas à remplir les autres champs.  Souvenez-vous que les mots de passe perdus ne peuvent être redonnés que par e-mail (!). 
 common#:#ingmedia_use_info2#:#Les caractères spéciaux (comme , ; . = - * + #) ne sont pas autorisés dans votre nom d'utilisateur et votre mot de passe INGMEDIA.  Pour utiliser la plateforme INGMEDIA, vous devez accepter la charte d'utilisation.
 common#:#ingmedia_use_info3#:#Veuillez sélectionner un des liens sur la barre latérale.
-common#:#ingmedia_user_agree#:#Accord
 common#:#ingmedia_use_title#:#Changer données utilisateurs
-common#:#ingmedia_visited_le#:#Tous les LE que vous avez visités jusqu'à maintenant.
+common#:#ingmedia_user_agree#:#Accord
 common#:#ingmedia_vis_le#:#LE visité
+common#:#ingmedia_visited_le#:#Tous les LE que vous avez visités jusqu'à maintenant.
 common#:#ingmedia_welcome#:#, bienvenue sur votre bureau personnel !
 common#:#inifile#:#Fichier ini
 common#:#input_error#:#Erreur d'entrée
 common#:#insert#:#insérerion
-common#:#installed#:#Installé
-common#:#install#:#Installer
 common#:#inst_id#:#Identifiant d'installation
 common#:#inst_info#:#Informations d'installation
-common#:#institution#:#Institution
 common#:#inst_name#:#Nom de l'installation
+common#:#install#:#Installer
+common#:#installed#:#Installé
+common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Rôles locaux (seulement auto-générés)
 common#:#internal_system#:#Système interne
-common#:#in_use#:#Langue utilisateur
 common#:#ip_address#:#Adresse IP
 common#:#is_already_your#:#est déjà votre
 common#:#item#:#Objet
@@ -1272,7 +1269,6 @@ common#:#lang_el#:#Grec
 common#:#lang_en#:#Anglais
 common#:#lang_es#:#Espagnol
 common#:#lang_fi#:#Finlandais
-common#:#langfile_found#:#Fichier de langue trouvé
 common#:#lang_fr#:#Français
 common#:#lang_id#:#Indonésien
 common#:#lang_it#:#Italien
@@ -1287,25 +1283,26 @@ common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_sv#:#Suédois
 common#:#lang_timeformat#:#H:i:s
-common#:#language#:#Langue
-common#:#language_not_installed#:#n'est pas installé.  Veuillez d'abord installer cette langue.
-common#:#languages_already_installed#:#La(les) langue(s) choisie(s) est(sont) déjà installée(s)
-common#:#languages_already_uninstalled#:#La(les) langue(s) choisie(s) est(sont) déjà désinstallée(s)
-common#:#languages#:#Langues
-common#:#languages_updated#:#Toutes les langues installées ont été mises à jour
 common#:#lang_ua#:#Ukrainien
 common#:#lang_version#:#1 XXX
 common#:#lang_vi#:#Vietnamien
 common#:#lang_xx#:#Personnalisé
 common#:#lang_zh#:#Chinois simplifié
+common#:#langfile_found#:#Fichier de langue trouvé
+common#:#language#:#Langue
+common#:#language_not_installed#:#n'est pas installé.  Veuillez d'abord installer cette langue.
+common#:#languages#:#Langues
+common#:#languages_already_installed#:#La(les) langue(s) choisie(s) est(sont) déjà installée(s)
+common#:#languages_already_uninstalled#:#La(les) langue(s) choisie(s) est(sont) déjà désinstallée(s)
+common#:#languages_updated#:#Toutes les langues installées ont été mises à jour
 common#:#last_change#:#Dernière modification
-common#:#lastname#:#Nom
 common#:#last_visit#:#Dernière visite
+common#:#lastname#:#Nom
 common#:#launch#:#Lancer
+common#:#ldap#:#LDAP
 common#:#ldap_basedn#:#BaseDN LDAP
 common#:#ldap_configure#:#Configurer authentification LDAP
 common#:#ldap_edit_permission#:#Changer paramètres de permission
-common#:#ldap#:#LDAP
 common#:#ldap_login_key#:#Attribut pour les login
 common#:#ldap_objectclass#:#ObjectClass des comptes utilisateurs
 common#:#ldap_passwd#:#Votre mot de passe actuel
@@ -1323,44 +1320,48 @@ common#:#learning module#:#module d'apprentissage
 common#:#learning_objects#:#Cours
 common#:#learning_resources#:#Ressources d'apprentissage
 common#:#level#:#Niveau
+common#:#link#:#Lien
 common#:#linked_object#:#L'objet a été lié
 common#:#linked_pages#:#Pages liées
-common#:#link#:#Lien
 common#:#list_of_pages#:#Liste des pages
 common#:#list_of_questions#:#Liste des questions
 common#:#literature#:#Bibliographie
 common#:#literature_bookmarks#:#Signets de bibliographie
-common#:#lm_add#:#Ajouter module d'apprentissage
-common#:#lm_added#:#Module d'apprentissage ajouté
-common#:#lm_a#:#un module d'apprentissage
-common#:#lm_create#:#Créer module d'apprentissage
-common#:#lm_delete#:#Détruire module d'apprentissage
+common#:#lm#:#Module d'apprentissage###24 Sep 2004 content changed
+common#:#lm_a#:#un module d'apprentissage###24 Sep 2004 content changed
+common#:#lm_add#:#Ajouter module d'apprentissage###24 Sep 2004 content changed
+common#:#lm_added#:#Module d'apprentissage ajouté###24 Sep 2004 content changed
+common#:#lm_create#:#Créer module d'apprentissage###24 Sep 2004 content changed
+common#:#lm_delete#:#Détruire module d'apprentissage###24 Sep 2004 content changed
 common#:#lm_edit_permission#:#Changer paramètres de permission
-common#:#lm_join#:#S'abonner au module d'apprentissage
-common#:#lm_leave#:#Se désabonner du module d'apprentissage
-common#:#lm#:#Module d'apprentissage
-common#:#lm_new#:#Module d'apprentissage
-common#:#lm_read#:#Accès en lecture au module d'apprentissage
+common#:#lm_join#:#S'abonner au module d'apprentissage###24 Sep 2004 content changed
+common#:#lm_leave#:#Se désabonner du module d'apprentissage###24 Sep 2004 content changed
+common#:#lm_new#:#Module d'apprentissage###24 Sep 2004 content changed
+common#:#lm_read#:#Accès en lecture au module d'apprentissage###24 Sep 2004 content changed
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Le module d'apprentissage est visible
-common#:#lm_write#:#Modifier module d'apprentissage
+common#:#lm_visible#:#Le module d'apprentissage est visible###24 Sep 2004 content changed
+common#:#lm_write#:#Modifier module d'apprentissage###24 Sep 2004 content changed
+common#:#lng#:#Langue
 common#:#lngf#:#Dossier de langues
 common#:#lngf_edit_permission#:#Changer paramètres de permission
 common#:#lngf_read#:#Accès en lecture aux paramètres de langues
 common#:#lngf_visible#:#Les paramètres de langues sont visibles
-common#:#lng#:#Langue
-common#:#lo_available#:#Vue d'ensemble des modules d'apprentissage et des cours
-common#:#local#:#Local
-common#:#lo_categories#:#Catégories de cours
-common#:#locator#:#Emplacement:
 common#:#lo#:#Cours
+common#:#lo_available#:#Vue d'ensemble des modules d'apprentissage et des cours
+common#:#lo_categories#:#Catégories de cours
 common#:#lo_edit#:#Modifier cours
+common#:#lo_new#:#Nouveau cours
+common#:#lo_no_content#:#Pas de ressource d'apprentissage disponible
+common#:#lo_other_langs#:#Cours dans d'autres langues
+common#:#lo_overview#:#Vue d'ensemble des cours
+common#:#local#:#Local
+common#:#locator#:#Emplacement:
 common#:#logic_and#:#et
 common#:#logic_or#:#ou
-common#:#login_as#:#Connecté en tant que
 common#:#login#:#Login
+common#:#login_as#:#Connecté en tant que
 common#:#login_data#:#Données de connexion
 common#:#login_exists#:#Il y a déjà un utilisateur avec ce login !  Veuillez en choisir un autre.
 common#:#login_invalid#:#Le login choisi n'est pas valide/ Seuls les caractères suivants sont autorisés (au moins 4 caractères) : A-Z a-z 0-9 _.-+*@!$%~
@@ -1368,34 +1369,30 @@ common#:#login_time#:#Temps de connexion
 common#:#login_to_ilias#:#Connexion à ILIAS
 common#:#logout#:#Déconnexion
 common#:#logout_text#:#Vous êtes déconnecté d'ILIAS.  Votre session est fermée.
-common#:#lo_new#:#Nouveau cours
-common#:#lo_no_content#:#Pas de ressource d'apprentissage disponible
-common#:#lo_other_langs#:#Cours dans d'autres langues
-common#:#lo_overview#:#Vue d'ensemble des cours
 common#:#los#:#Cours
 common#:#los_last_visited#:#Cours visités récemment
+common#:#mail#:#Messagerie
+common#:#mail_a_root#:#Boîte aux lettres
 common#:#mail_addressbook#:#Carnet d'adresses
 common#:#mail_allow_smtp#:#Permettre SMTP
-common#:#mail_a_root#:#Boîte aux lettres
 common#:#mail_b_inbox#:#Réception
 common#:#mail_c_trash#:#Corbeille
 common#:#mail_d_drafts#:#Brouillons
 common#:#mail_delete_error#:#Erreur pendant la suppression
 common#:#mail_delete_error_file#:#Erreur pendant la suppression du fichier
-common#:#mail_edit_permission#:#Changer paramètres de permission
 common#:#mail_e_sent#:#Envoyé
+common#:#mail_edit_permission#:#Changer paramètres de permission
 common#:#mail_folders#:#Dossiers de messagerie
-common#:#mail_import_file#:#Fichier d'exportation ILIAS 2
 common#:#mail_import#:#Importer
+common#:#mail_import_file#:#Fichier d'exportation ILIAS 2
 common#:#mail_intern_enable#:#Activer
-common#:#mail_mails_of#:#Messages
 common#:#mail_mail_visible#:#L'utilisateur peut utiliser la messagerie système
+common#:#mail_mails_of#:#Messages
 common#:#mail_maxsize_attach#:#Taille maximale d'attachement
 common#:#mail_maxsize_box#:#Taille maximale de boîte aux lettres
 common#:#mail_maxsize_mail#:#Taille maximale de message
 common#:#mail_maxtime_attach#:#Délai de conservation maximal des attachements (en jours)
 common#:#mail_maxtime_mail#:#Délai de conservation maximal des messages (en jours)
-common#:#mail#:#Messagerie
 common#:#mail_not_sent#:#Message non envoyé !
 common#:#mail_read#:#Accès en lecture aux paramètres de messagerie
 common#:#mail_search_no#:#Pas d'entrée trouvée !
@@ -1403,33 +1400,33 @@ common#:#mail_search_word#:#Rechercher mot
 common#:#mail_select_one#:#Vous devez sélectionner un message !
 common#:#mail_send_error#:#Erreur lors de l'envoi du message
 common#:#mail_sent#:#Message envoyé !
-common#:#mails#:#Messages
 common#:#mail_smtp_mail#:#L'utilisateur peut envoyer des messages par SMTP
 common#:#mail_system#:#Message système
 common#:#mail_system_message#:#L'utilisateur peut envoyer des messages système internes
 common#:#mail_visible#:#Les paramètres de messagerie sont visibles
 common#:#mail_write#:#Modifier paramètres de messagerie
 common#:#mail_z_local#:#Dossiers utilisateur
+common#:#mails#:#Messages
 common#:#manage_tracking_data#:#Gérer données de suivi
 common#:#mark_all_read#:#Marquer tout comme lu
 common#:#mark_all_unread#:#Marquer tout comme non lu
 common#:#max_number_rec#:#Nombre maximum d'enregistrement
 common#:#max_time#:#Durée maximale
 common#:#member#:#Membre
-common#:#membership_annulled#:#Votre inscription a été annulée
 common#:#members#:#Membres
+common#:#membership_annulled#:#Votre inscription a été annulée
+common#:#mep#:#Media pool
 common#:#mep_add#:#Ajouter media pool
 common#:#mep_added#:#Media pool ajouté
 common#:#mep_delete#:#Détruire media pool
 common#:#mep_edit#:#Modifier propriétés du media pool
 common#:#mep_edit_permission#:#Changer paramètres de permission
-common#:#mep#:#Media pool
 common#:#mep_new#:#Nouveau media pool
 common#:#mep_read#:#Lire le contenu du media pool
 common#:#mep_visible#:#Le media pool est visible
 common#:#mep_write#:#Modifier contenu du media pool
-common#:#message_content#:#Contenu du message
 common#:#message#:#Message
+common#:#message_content#:#Contenu du message
 common#:#message_to#:#Message à:
 common#:#meta_data#:#Méta-données
 common#:#migrate#:#Migrer
@@ -1437,6 +1434,7 @@ common#:#min_time#:#Temps minimum
 common#:#mob#:#Objet média
 common#:#module#:#module
 common#:#modules#:#Modules
+common#:#month#:#Mois
 common#:#month_01_long#:#Janvier
 common#:#month_01_short#:#Jan
 common#:#month_02_long#:#Février
@@ -1461,9 +1459,8 @@ common#:#month_11_long#:#Novembre
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Décembre
 common#:#month_12_short#:#Déc
-common#:#month#:#Mois
-common#:#moveChapter#:#Déplacer
 common#:#move#:#Déplacer
+common#:#moveChapter#:#Déplacer
 common#:#movePage#:#Déplacer
 common#:#move_to#:#Déplacer vers
 common#:#msg_cancel#:#Action annulée
@@ -1493,16 +1490,16 @@ common#:#msg_no_file#:#Vous n'avez pas choisi de fichier.
 common#:#msg_no_language_selected#:#Pas de langue de traduction spécifiée !  Vous devez définir une langue pour chaque traduction.
 common#:#msg_no_perm_assign_role_to_user#:#Vous n'avez pas la permission de changer les assignations de rôle de l'utilisateur
 common#:#msg_no_perm_copy#:#Vous n'avez pas la permission de créer une copie des objets suivants : 
+common#:#msg_no_perm_create#:#Vous n'avez pas la permission de créer les objets suivants :
 common#:#msg_no_perm_create_object1#:#Vous n'avez pas la permission de créer
 common#:#msg_no_perm_create_object2#:#à cet endroit !
 common#:#msg_no_perm_create_role#:#Vous n'avez pas la permission d'ajouter un rôle
 common#:#msg_no_perm_create_rolf#:#Vous n'avez pas la permission de créer un dossier de rôles.  Vous ne pouvez donc pas supprimer l'héritage des rôles ou ajouter des rôles locaux ici.
 common#:#msg_no_perm_create_rolt#:#Vous n'avez pas la permission d'ajouter des modèles de rôle.
 common#:#msg_no_perm_create_user#:#Vous n'avez pas la permission d'ajouter des utilisateurs
-common#:#msg_no_perm_create#:#Vous n'avez pas la permission de créer les objets suivants :
 common#:#msg_no_perm_cut#:#Vous n'avez pas la permission de couper les objets suivants :
-common#:#msg_no_perm_delete_track#:#Vous n'avez pas la permission de détruire les données de suivi
 common#:#msg_no_perm_delete#:#Vous n'avez pas la permission de détruire les objets suivants :
+common#:#msg_no_perm_delete_track#:#Vous n'avez pas la permission de détruire les données de suivi
 common#:#msg_no_perm_link#:#Vous n'avez pas la permission de créer un lien depuis les objets suivants :
 common#:#msg_no_perm_modify_role#:#Vous n'avez pas la permission de modifier les rôles
 common#:#msg_no_perm_modify_rolt#:#Vous n'avez pas la permission de modifier les modèles de rôle
@@ -1520,8 +1517,8 @@ common#:#msg_no_search_result#:#Pas d'entrée trouvée
 common#:#msg_no_search_string#:#Veuillez saisir votre requête
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Vous ne pouvez pas assigner des utilisateurs au rôle d'administrateur système si vous n'êtes pas vous-même assigné(e) à ce rôle
 common#:#msg_not_available_for_anon#:#La page que vous avez choisie n'est accessible que pour les utilisateurs enregistrés.
-common#:#msg_nothing_found#:#Rien n'a été trouvé
 common#:#msg_not_in_itself#:#Il n'est pas possible de coller l'objet dans lui-même
+common#:#msg_nothing_found#:#Rien n'a été trouvé
 common#:#msg_obj_created#:#Objet créé
 common#:#msg_obj_exists#:#Cet objet existe déjà dans le dossier.
 common#:#msg_obj_modified#:#Modifications enregistrées.
@@ -1530,19 +1527,19 @@ common#:#msg_perm_adopted_from1#:#Paramètres de permissions adoptés depuis
 common#:#msg_perm_adopted_from2#:#(Les paramètres ont été enregistrés !)
 common#:#msg_perm_adopted_from_itself#:#Vous ne pouvez pas adopter les paramètres de permissions depuis le rôle ou le modèle de rôle courant lui-même.
 common#:#msg_removed#:#Objet(s) supprimé(s) du système
-common#:#msg_roleassignment_active_changed#:#Assignation du rôle actif modifiée
-common#:#msg_roleassignment_active_changed_comment#:#Ces paramètres ne sont pas enregistrés dans le profil utilisateur !  Si l'utilisateur se connecte à nouveau, toutes les assignations de rôle actif seront réinitialisées aux valeurs enregistrées.
-common#:#msg_roleassignment_changed#:#Assignation de rôle changée
 common#:#msg_role_exists1#:#Un rôle/modèle de rôle portant le nom
 common#:#msg_role_exists2#:#existe déjà !  Veuillez choisir un autre nom.
 common#:#msg_role_reserved_prefix#:#Le préfixe 'il_' est réservé aux rôles générés automatiquement.  Veuillez choisir un autre nom.
+common#:#msg_roleassignment_active_changed#:#Assignation du rôle actif modifiée
+common#:#msg_roleassignment_active_changed_comment#:#Ces paramètres ne sont pas enregistrés dans le profil utilisateur !  Si l'utilisateur se connecte à nouveau, toutes les assignations de rôle actif seront réinitialisées aux valeurs enregistrées.
+common#:#msg_roleassignment_changed#:#Assignation de rôle changée
 common#:#msg_sysrole_not_deletable#:#Le rôle système ne peut pas être détruit.
 common#:#msg_sysrole_not_editable#:#Les paramètres de permissions du rôle système ne peuvent pas être modifiés.  Le rôle système donne à tous les utilisateurs assignés un accès illimité sur tous les objets et fonctions.
 common#:#msg_trash_empty#:#Il n'y a pas d'objet détruit.
 common#:#msg_undeleted#:#Objet(s) restauré(s).
-common#:#msg_userassignment_changed#:#Assignation de l'utilisateur modifiée
 common#:#msg_user_last_role1#:#Les utilisateurs suivants n'ont assignés que ce rôle :
 common#:#msg_user_last_role2#:#Veuillez détruire les utilisateurs ou leur assigner un autre rôle pour pouvoir détruire de rôle.
+common#:#msg_userassignment_changed#:#Assignation de l'utilisateur modifiée
 common#:#multimedia#:#Multimédia
 common#:#my_bms#:#Mes signets
 common#:#my_frms#:#Mes forums
@@ -1550,15 +1547,16 @@ common#:#my_grps#:#Mes groupes
 common#:#my_los#:#Mes cours
 common#:#my_tsts#:#Mes tests
 common#:#name#:#Nom
+common#:#new#:#Nouveau
 common#:#new_appointment#:#Nouveau rendez-vous
 common#:#new_folder#:#Nouveau fichier
 common#:#new_group#:#Nouveau groupe
 common#:#new_language#:#Nouvelle langue
 common#:#new_mail#:#Nouveau message !
-common#:#new#:#Nouveau
 common#:#news#:#Actualités
 common#:#next#:#suivant
 common#:#nickname#:#Surnom
+common#:#no#:#N°
 common#:#no_access_link_object#:#Vous n'êtes pas autorisé à lier cet objet.
 common#:#no_bm_in_personal_list#:#Pas de signets définis
 common#:#no_chat_in_personal_list#:#Pas de chat dans la liste personnelle
@@ -1571,26 +1569,26 @@ common#:#no_grp_in_personal_list#:#Pas de groupes dans la liste personnelle
 common#:#no_import_available#:#Importation non disponible pour le type
 common#:#no_limit#:#Pas de limite
 common#:#no_lo_in_personal_list#:#Pas de cours dans la liste personnelle
-common#:#no#:#N°
-common#:#none#:#Aucun
-common#:#non_internal_local_roles_only#:#Rôles locaux (seulement définis par l'utilisateur)
 common#:#no_local_users#:#Pas d'utilisateur local
 common#:#no_objects#:#Pas d'objet
 common#:#no_permission_to_join#:#Vous n'êtes pas autorisé à rejoindre ce groupe.
-common#:#normal#:#Normal
 common#:#no_roles_user_can_be_assigned_to#:#Il n'y a aucun rôle global auquel l'utilisateur peut être assigné. Vous n'êtes donc pas autorisé à ajouter des utilisateurs.
-common#:#not_implemented_yet#:#Pas encore implémenté
-common#:#not_installed#:#Non installé
 common#:#no_title#:#Pas de titre
-common#:#not_logged_in#:#Vous n'êtes pas connecté
 common#:#no_tst_in_personal_list#:#Pas de tests dans la liste personnelle
 common#:#no_users_applied#:#Veuillez sélectionner un utilisateur
 common#:#no_users_selected#:#Veuillez sélectionner un utilisateur
+common#:#non_internal_local_roles_only#:#Rôles locaux (seulement définis par l'utilisateur)
+common#:#none#:#Aucun
+common#:#normal#:#Normal
+common#:#not_implemented_yet#:#Pas encore implémenté
+common#:#not_installed#:#Non installé
+common#:#not_logged_in#:#Vous n'êtes pas connecté
 common#:#number_of_accesses#:#Nombre d'accès
 common#:#number_of_records#:#Nombre d'enregistrements
-common#:#obj_adm_desc#:#Dossier des paramètres principaux du système, contenant tous les outils pour administrer votre installation d'ILIAS
+common#:#obj#:#Objet
 common#:#obj_adm#:#Paramètres système
-common#:#obj_alm#:#Module d'apprentissage AICC
+common#:#obj_adm_desc#:#Dossier des paramètres principaux du système, contenant tous les outils pour administrer votre installation d'ILIAS
+common#:#obj_alm#:#Module d'apprentissage AICC###24 Sep 2004 content changed
 common#:#obj_auth#:#Authentification
 common#:#obj_auth_desc#:#Configurer votre mode d'authentification (local, LDAP, ...)
 common#:#obj_cat#:#Catégorie
@@ -1600,54 +1598,68 @@ common#:#obj_chac_desc#:#Configurez votre serveur de chat ici. Activez/désactiv
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Cours
 common#:#obj_dbk#:#Livre Digilib
-common#:#object_added#:#Objet ajouté
-common#:#object#:#Objet
-common#:#objects#:#Objets
 common#:#obj_exc#:#Exercice
-common#:#objf#:#Définition d'objet
-common#:#objf_edit_permission#:#Changer paramètres de permission
 common#:#obj_file#:#Fichier
 common#:#obj_fold#:#Dossier
-common#:#objf_read#:#Accès en lecture aux définitions d'objets
 common#:#obj_frm#:#Forum
-common#:#objf_visible#:#Les définitions d'objets sont visibles
-common#:#objf_write#:#Modifier définitions d'objets
 common#:#obj_glo#:#Glossaire
 common#:#obj_grp#:#Groupe
-common#:#obj_hlm#:#Module d'apprentissage HACP
-common#:#obj_htlm#:#Module d'apprentissage HTML
-common#:#obj_ldap_desc#:#Configurez les paramètres LDAP globaux ici.
+common#:#obj_hlm#:#Module d'apprentissage HACP###24 Sep 2004 content changed
+common#:#obj_htlm#:#Module d'apprentissage HTML###24 Sep 2004 content changed
 common#:#obj_ldap#:#Paramètres LDAP
-common#:#obj_lm#:#Module d'apprentissage
-common#:#obj_lngf_desc#:#Gérez les langues de votre système ici.
-common#:#obj_lngf#:#Langues
+common#:#obj_ldap_desc#:#Configurez les paramètres LDAP globaux ici.
+common#:#obj_lm#:#Module d'apprentissage###24 Sep 2004 content changed
 common#:#obj_lng#:#Langue
+common#:#obj_lngf#:#Langues
+common#:#obj_lngf_desc#:#Gérez les langues de votre système ici.
 common#:#obj_lo#:#Cours
-common#:#obj_mail_desc#:#Configurez les paramètres de messagerie globaux ici.
 common#:#obj_mail#:#Paramètres de messagerie
+common#:#obj_mail_desc#:#Configurez les paramètres de messagerie globaux ici.
 common#:#obj_mep#:#Media pool
 common#:#obj_mob#:#Objet multimedia
+common#:#obj_not_found#:#Objet non trouvé
 common#:#obj_note#:#Notes
 common#:#obj_notf#:#Administration des notes
-common#:#obj_not_found#:#Objet non trouvé
-common#:#obj#:#Objet
 common#:#obj_objf#:#Définition d'objet
 common#:#obj_objf_desc#:#Gestion des types d'objets ILIAS et des permissions sur les objets (réservé aux experts).
 common#:#obj_owner#:#Le propriétaire de cet objet est 
-common#:#obj_pays_desc#:#Configurer les paramètres de paiement et les vendeurs
 common#:#obj_pays#:#Paramètres de paiement
+common#:#obj_pays_desc#:#Configurer les paramètres de paiement et les vendeurs
 common#:#obj_pg#:#Page
-common#:#obj_qpl#:#Jeu de questions
-common#:#obj_recf_desc#:#Contient les objets restaurés lors de la vérification du système
+common#:#obj_qpl#:#Jeu de questions###24 Sep 2004 content changed
 common#:#obj_recf#:#Objets restaurés
+common#:#obj_recf_desc#:#Contient les objets restaurés lors de la vérification du système
 common#:#obj_role#:#Rôle
-common#:#obj_rolf_desc#:#Gérez vos rôles ici.
-common#:#obj_rolf_local_desc#:#Contient les rôles locaux de l'objet n°
-common#:#obj_rolf_local#:#Rôles locaux
 common#:#obj_rolf#:#Rôles
+common#:#obj_rolf_desc#:#Gérez vos rôles ici.
+common#:#obj_rolf_local#:#Rôles locaux
+common#:#obj_rolf_local_desc#:#Contient les rôles locaux de l'objet n°
 common#:#obj_rolt#:#Modèle de rôle
 common#:#obj_root#:#racine
-common#:#obj_sahs#:#Module d'apprentissage  SCORM/AICC
+common#:#obj_sahs#:#Module d'apprentissage  SCORM/AICC###24 Sep 2004 content changed
+common#:#obj_spl#:#Jeu de questions (sondage)###24 Sep 2004 content changed
+common#:#obj_st#:#Chapitre
+common#:#obj_svy#:#Sondage
+common#:#obj_tax#:#Taxinomie
+common#:#obj_taxf#:#Taxinomies
+common#:#obj_taxf_desc#:#Répertoires pour taxinomies
+common#:#obj_trac#:#Suivi utilisateur
+common#:#obj_trac_desc#:#Données de suivi des accès utilisateurs
+common#:#obj_tst#:#Test
+common#:#obj_typ#:#Définition de type d'objet
+common#:#obj_type#:#Type d'objet
+common#:#obj_uset#:#Paramètres utilisateur
+common#:#obj_usr#:#Utilisateur
+common#:#obj_usrf#:#Comptes utilisateurs
+common#:#obj_usrf_desc#:#Gérez les comptes utilisateurs ici.
+common#:#object#:#Objet
+common#:#object_added#:#Objet ajouté
+common#:#objects#:#Objets
+common#:#objf#:#Définition d'objet
+common#:#objf_edit_permission#:#Changer paramètres de permission
+common#:#objf_read#:#Accès en lecture aux définitions d'objets
+common#:#objf_visible#:#Les définitions d'objets sont visibles
+common#:#objf_write#:#Modifier définitions d'objets
 common#:#objs_alm#:#Module d'apprentissages AICC
 common#:#objs_cat#:#Catégories
 common#:#objs_chat#:#Chats
@@ -1663,40 +1675,23 @@ common#:#objs_glo#:#Glossaires
 common#:#objs_grp#:#Groupes
 common#:#objs_hlm#:#Modules d'apprentissage  HACP
 common#:#objs_htlm#:#Modules d'apprentissage HTML
-common#:#objs_lm#:#module d'apprentissage
-common#:#obj_slm#:#Module d'apprentissage SCORM
+common#:#objs_lm#:#module d'apprentissage###24 Sep 2004 content changed
 common#:#objs_lng#:#Langues
 common#:#objs_lo#:#Objets d'apprentissage
 common#:#objs_mep#:#Media pools
 common#:#objs_mob#:#Objets multimédia
 common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
-common#:#obj_spl#:#Jeu de questions (sondage)
-common#:#objs_qpl#:#Jeux de questions
+common#:#objs_qpl#:#Jeux de questions###24 Sep 2004 content changed
 common#:#objs_role#:#Rôles
 common#:#objs_rolt#:#Modèles de rôle
 common#:#objs_sahs#:#Module d'apprentissage SCORM/AICC
-common#:#objs_slm#:#Module d'apprentissage SCORM
-common#:#objs_spl#:#Jeux de questions (sondage)
+common#:#objs_spl#:#Jeux de questions (sondage)###24 Sep 2004 content changed
 common#:#objs_st#:#Chapitres
 common#:#objs_svy#:#Sondages
-common#:#obj_st#:#Chapitre
 common#:#objs_tst#:#Tests
 common#:#objs_type#:#Types d'objets
 common#:#objs_usr#:#Utilisateurs
-common#:#obj_svy#:#Sondage
-common#:#obj_taxf_desc#:#Répertoires pour taxinomies
-common#:#obj_taxf#:#Taxinomies
-common#:#obj_tax#:#Taxinomie
-common#:#obj_trac_desc#:#Données de suivi des accès utilisateurs
-common#:#obj_trac#:#Suivi utilisateur
-common#:#obj_tst#:#Test
-common#:#obj_typ#:#Définition de type d'objet
-common#:#obj_type#:#Type d'objet
-common#:#obj_uset#:#Paramètres utilisateur
-common#:#obj_usrf#:#Comptes utilisateurs
-common#:#obj_usrf_desc#:#Gérez les comptes utilisateurs ici.
-common#:#obj_usr#:#Utilisateur
 common#:#of#:#de
 common#:#offline_version#:#Version hors-ligne
 common#:#ok#:#OK
@@ -1706,27 +1701,26 @@ common#:#online_version#:#Version en ligne
 common#:#open_views_inside_frameset#:#Ouvrir les vues dans le jeu de cadres
 common#:#operation#:#Opération
 common#:#optimize#:#Optimiser
-common#:#options_for_subobjects#:#Options pour les sous-objets
 common#:#options#:#Options
+common#:#options_for_subobjects#:#Options pour les sous-objets
 common#:#order_by#:#Trié par
 common#:#other#:#Autre
 common#:#overview#:#Vue générale
 common#:#owner#:#Propriétaire
-common#:#page_edit#:#Modifier page
 common#:#page#:#Page
+common#:#page_edit#:#Modifier page
 common#:#pages#:#Pages
 common#:#parameter#:#Paramètre
 common#:#parse#:#Analyser
-common#:#passwd_invalid#:#Le nouveau mot de passe n'est pas valide !  Veuillez en choisir un autre.
 common#:#passwd#:#Mot de passe
+common#:#passwd_invalid#:#Le nouveau mot de passe n'est pas valide !  Veuillez en choisir un autre.
 common#:#passwd_not_match#:#Vos saisies pour le nouveau mot de passe ne correspondent pas !  Veuillez saisir votre nouveau mot de passe à nouveau.
 common#:#passwd_wrong#:#Le mot de passe que vous avez saisi est erroné.
 common#:#password#:#Mot de passe
-common#:#pasteChapter#:#Coller
 common#:#paste#:#Coller
+common#:#pasteChapter#:#Coller
 common#:#pastePage#:#Coller
 common#:#path#:#Chemin
-common#:#pathes#:#Chemins
 common#:#path_not_set#:#Chemin non défini
 common#:#path_to_babylon#:#Chemin de Babylon
 common#:#path_to_convert#:#Chemin de Convert
@@ -1734,32 +1728,33 @@ common#:#path_to_htmldoc#:#Chemin de HTMLdoc
 common#:#path_to_java#:#Chemin de Java
 common#:#path_to_unzip#:#Chemin de Unzip
 common#:#path_to_zip#:#Chemin de Zip
+common#:#pathes#:#Chemins
 common#:#payment_system#:#Système de paiement
 common#:#pays_edit#:#Modifier paramètres de paiement
 common#:#pays_edit_permission#:#Changer paramètres de permission
 common#:#pays_read#:#Accéder aux paramètres de paiement
 common#:#pays_visible#:#Les paramètres de paiement sont visibles
 common#:#pays_write#:#Modifier paramètres de paiement
-common#:#permission_denied#:#Permission refusée
-common#:#permission#:#Permission
-common#:#permission_settings#:#Paramètres de permission
-common#:#perm_settings#:#Permissions
 common#:#per_object#:#Accès par objet
+common#:#perm_settings#:#Permissions
+common#:#permission#:#Permission
+common#:#permission_denied#:#Permission refusée
+common#:#permission_settings#:#Paramètres de permission
+common#:#person_title#:#Titre
 common#:#personal_data#:#Informations personnelles
 common#:#personal_desktop#:#Bureau personnel
 common#:#personal_picture#:#Image personnelle
 common#:#personal_profile#:#Profil personnel
 common#:#persons#:#Personnes
-common#:#person_title#:#Titre
+common#:#pg_a#:#une page
 common#:#pg_add#:#Ajouter page
 common#:#pg_added#:#Page ajoutée
-common#:#pg_a#:#une page
 common#:#pg_edit#:#Modifier page
 common#:#pg_new#:#Nouvelle page
+common#:#phone#:#Téléphone
 common#:#phone_home#:#Téléphone, domicile
 common#:#phone_mobile#:#Téléphone, mobile
 common#:#phone_office#:#Téléphone, bureau
-common#:#phone#:#Téléphone
 common#:#phrase#:#Phrase
 common#:#please_enter_target#:#Veuillez saisir une cible
 common#:#please_enter_title#:#Veuillez saisir un titre
@@ -1772,53 +1767,52 @@ common#:#print#:#Imprimer
 common#:#profile_changed#:#Votre profil a changé
 common#:#profile_of#:#Profil de
 common#:#properties#:#Propriétés
-common#:#publication_date#:#Date de publication
-common#:#publication#:#Publication
+common#:#pub_section#:#Section publique
 common#:#public_profile#:#Profil public
+common#:#publication#:#Publication
+common#:#publication_date#:#Date de publication
 common#:#published#:#Publié
 common#:#publishing_organisation#:#Organisation de publication
-common#:#pub_section#:#Section publique
-common#:#qpl_add#:#Ajouter jeu de questions
-common#:#qpl_delete#:#Détruire jeu de questions
+common#:#qpl#:#Jeu de questions###24 Sep 2004 content changed
+common#:#qpl_add#:#Ajouter jeu de questions###24 Sep 2004 content changed
+common#:#qpl_delete#:#Détruire jeu de questions###24 Sep 2004 content changed
 common#:#qpl_edit_permission#:#Changer paramètres de permission
-common#:#qpl_new#:#Nouveau jeu de questions
-common#:#qpl#:#Jeu de questions
-common#:#qpl_read#:#Accès en lecture au jeu de questions
-common#:#qpl_visible#:#Le jeu de questions est visible
-common#:#qpl_write#:#Modifier jeu de questions
+common#:#qpl_new#:#Nouveau jeu de questions###24 Sep 2004 content changed
+common#:#qpl_read#:#Accès en lecture au jeu de questions###24 Sep 2004 content changed
+common#:#qpl_visible#:#Le jeu de questions est visible###24 Sep 2004 content changed
+common#:#qpl_write#:#Modifier jeu de questions###24 Sep 2004 content changed
 common#:#query_data#:#Lancer la requête
-common#:#question_pools#:#Jeux de questions
 common#:#question#:#Question
+common#:#question_pools#:#Jeux de questions
 common#:#quit#:#Quitter
 common#:#quote#:#Citation
 common#:#read#:#Lire
 common#:#recf_edit#:#Modifier répertoire de restauration
 common#:#recipient#:#Destinataire
 common#:#referral_comment#:#Comment avez-vous entendu parler d'ILIAS ?
+common#:#refresh#:#Rafraîchir
 common#:#refresh_languages#:#Rafraîchir langues
 common#:#refresh_list#:#Rafraîchir liste
-common#:#refresh#:#Rafraîchir
 common#:#refuse#:#Refuser
-common#:#registered_since#:#Abonné depuis
-common#:#registered_users#:#Utilisateurs abonnés
-common#:#registered_user#:#Utilisateur abonné
-common#:#register_info#:#Veuillez remplir le formulaire pour vous abonner (les champs marqués par un astérisque sont des informations obligatoires)
 common#:#register#:#S'enregistrer
+common#:#register_info#:#Veuillez remplir le formulaire pour vous abonner (les champs marqués par un astérisque sont des informations obligatoires)
+common#:#registered_since#:#Abonné depuis
+common#:#registered_user#:#Utilisateur abonné
+common#:#registered_users#:#Utilisateurs abonnés
+common#:#registration#:#Nouvel enregistrement de compte
 common#:#registration_disabled#:#Disponible uniquement si l'authentification locale est utilisée
 common#:#registration_expired#:#Période d'enregistrement expirée
-common#:#registration#:#Nouvel enregistrement de compte
 common#:#remove#:#Annuler
 common#:#remove_personal_picture#:#Supprimer
 common#:#remove_translation#:#Supprimer la traduction
-common#:#rename_file#:#Renommer fichier
 common#:#rename#:#Renommer
+common#:#rename_file#:#Renommer fichier
 common#:#reply#:#Répondre
 common#:#repository#:#Dépôt
 common#:#require_city#:#Exiger ville
 common#:#require_country#:#Exiger pays
 common#:#require_default_role#:#Exiger rôle
 common#:#require_department#:#Exiger service
-common#:#required_field#:#Champ obligatoire
 common#:#require_email#:#Exiger email
 common#:#require_fax#:#Exiger fax
 common#:#require_firstname#:#Exiger prénom
@@ -1828,26 +1822,28 @@ common#:#require_institution#:#Exiger institution
 common#:#require_lastname#:#Exiger nom
 common#:#require_login#:#Exiger login
 common#:#require_mandatory#:#obligatoire
-common#:#require_passwd2#:#Exiger confirmation du mot de passe
 common#:#require_passwd#:#Exiger mot de passe
+common#:#require_passwd2#:#Exiger confirmation du mot de passe
 common#:#require_phone_home#:#Exiger numéro de téléphone (domicile)
 common#:#require_phone_mobile#:#Exiger numéro de téléphone (mobile)
 common#:#require_phone_office#:#Exiger numéro de téléphone (bureau)
 common#:#require_referral_comment#:#Exiger commentaire du référent
 common#:#require_street#:#Exiger rue
 common#:#require_zipcode#:#Exiger code postal
+common#:#required_field#:#Champ obligatoire
 common#:#reset#:#Réinitialiser
 common#:#resources#:#Ressources
 common#:#retype_password#:#Saisir le mot de passe à nouveau
 common#:#right#:#Droit
 common#:#rights#:#Droits
+common#:#role#:#Rôle
+common#:#role_a#:#un rôle
 common#:#role_add#:#Ajouter rôle
-common#:#role_added#:#Rôle ajouté
 common#:#role_add_local#:#Ajouter rôle local
 common#:#role_add_user#:#Ajouter utilisateur(s) au rôle
+common#:#role_added#:#Rôle ajouté
 common#:#role_assignment#:#Assignation de rôle
 common#:#role_assignment_updated#:#L'assignation de ôle a été mise à jour.
-common#:#role_a#:#un rôle
 common#:#role_count_users#:#Nombre d'utilisateurs
 common#:#role_deleted#:#Rôle détruit
 common#:#role_edit#:#Modifier rôle
@@ -1858,32 +1854,30 @@ common#:#role_new_search#:#Nouvelle recherche
 common#:#role_no_groups_selected#:#Veuillez sélectionner un rôle
 common#:#role_no_results_found#:#Pas de résultats trouvés
 common#:#role_no_roles_selected#:#Veuillez sélectionner un rôle
-common#:#role#:#Rôle
 common#:#role_search_enter_search_string#:#Veuillez saisir une chaîne de recherche
 common#:#role_search_users#:#Recherche d'utilisateur
-common#:#roles_of_import_global#:#Rôles globaux du fichier d'importation XXX
-common#:#roles_of_import_local#:#Rôles locaux du fichier d'importation
-common#:#roles_of_import#:#Rôles du fichier d'importation
-common#:#roles#:#Rôles
 common#:#role_templates_only#:#Modèles de rôle seulement
 common#:#role_user_deassign#:#Enlever l'assignation d'un utilisateur au rôle
 common#:#role_user_edit#:#Modifier données de compte
 common#:#role_user_send_mail#:#Envoyer un message à l'utilisateur
+common#:#roles#:#Rôles
+common#:#roles_of_import_global#:#Rôles globaux du fichier d'importation XXX
+common#:#roles_of_import_local#:#Rôles locaux du fichier d'importation
+common#:#rolf#:#Dossier de rôles
 common#:#rolf_added#:#Dossier de rôles ajouté
 common#:#rolf_create_role#:#Créer une nouvelle définition de rôle
 common#:#rolf_create_rolt#:#Créer un nouveau modèle de définition de rôle
 common#:#rolf_delete#:#Détruire rôles/modèles de rôle
-common#:#rolf#:#Dossier de rôles
 common#:#rolf_edit_permission#:#Changer paramètres de permission
 common#:#rolf_edit_userassignment#:#Changer assignation des utilisateurs à des rôles
 common#:#rolf_read#:#Accès en lecture aux rôles/modèles de rôle
 common#:#rolf_visible#:#Les rôles/modèles de rôle sont visibles
 common#:#rolf_write#:#Modifier rôles/modèles de rôle
+common#:#rolt#:#Modèle de rôle
+common#:#rolt_a#:#un modèle de rôle
 common#:#rolt_add#:#Ajouter modèle de rôle
 common#:#rolt_added#:#Modèle de rôle ajouté
-common#:#rolt_a#:#un modèle de rôle
 common#:#rolt_edit#:#Modifier modèle de rôle
-common#:#rolt#:#Modèle de rôle
 common#:#rolt_new#:#Nouveau modèle de rôle
 common#:#root_create_cat#:#L'utilisateur peut créer des catégories
 common#:#root_edit#:#Modifier noeud racine du système
@@ -1891,6 +1885,7 @@ common#:#root_edit_permission#:#Changer paramètres de permission
 common#:#root_read#:#Accès en lecture au système ILIAS
 common#:#root_visible#:#Le système ILIAS est visible
 common#:#root_write#:#Modifier données du noeud racine d'ILIAS
+common#:#sahs#:#Module d'apprentissage SCORM/AICC###24 Sep 2004 content changed
 common#:#sahs_added#:#Module d'apprentissage SCORM/AICC ajouté
 common#:#sahs_create#:#Créer module d'apprentissage SCORM/AICC
 common#:#sahs_delete#:#Détruire module d'apprentissage SCORM/AICC
@@ -1898,103 +1893,93 @@ common#:#sahs_edit_permission#:#Changer paramètres de permission
 common#:#sahs_join#:#S'abonner au module d'apprentissage SCORM/AICC
 common#:#sahs_leave#:#Se désabonner du module d'apprentissage SCORM/AICC
 common#:#sahs_read#:#Accès en lecture au module d'apprentissage SCORM/AICC
-common#:#sahs#:#Module d'apprentissage SCORM/AICC
 common#:#sahs_visible#:#Le module d'apprentissage SCORM/AICC est visible
 common#:#sahs_write#:#Modifier module d'apprentissage SCORM/AICC
+common#:#salutation#:#Salutation
 common#:#salutation_f#:#Mme/Mlle
 common#:#salutation_m#:#M.
-common#:#salutation#:#Salutation
-common#:#save_and_back#:#Enregistrement et retour
-common#:#saved#:#Enregistré
-common#:#saved_successfully#:#Enregistré avec succès
 common#:#save#:#Enregistrer
+common#:#save_and_back#:#Enregistrement et retour
 common#:#save_message#:#Enregistrer message
 common#:#save_refresh#:#Enregistrement et rafraîchissement
 common#:#save_return#:#Enregistrement et retour
 common#:#save_settings#:#Enregistrer paramètres
 common#:#save_user_related_data#:#Enregistrer données relatives aux accès utilisateur
+common#:#saved#:#Enregistré
+common#:#saved_successfully#:#Enregistré avec succès
+common#:#search#:#Rechercher
 common#:#search_active#:#Inclure utilisateurs actifs
 common#:#search_for#:#Rechercher
-common#:#search_inactive#:#Inclure utilisateurs inactifs
 common#:#search_in#:#Rechercher dans
+common#:#search_inactive#:#Inclure utilisateurs inactifs
 common#:#search_new#:#Nouvelle recherche
 common#:#search_note#:#Si &quot;rechercher dans&quot; est laissé vide, tous les utilisateurs seront recherchés. Cela vous permet de trouver tous les utilisateurs actifs ou inactifs.
-common#:#search#:#Rechercher
 common#:#search_recipient#:#Rechercher destinataire
 common#:#search_result#:#Résultat de recherche
 common#:#search_user#:#Recherche utilisateur
 common#:#sections#:#Sections
+common#:#select#:#Sélection
 common#:#select_all#:#Sélectionner tout
-common#:#selected_items#:#Objets personnels
-common#:#selected#:#Sélectionné
 common#:#select_file#:#Sélectionner fichier
 common#:#select_mode#:#Sélectionner mode
 common#:#select_object_to_copy#:#Veuillez sélectionner l'objet que vous voulez copier
 common#:#select_object_to_link#:#Veuillez sélectionner l'objet que vous voulez lier
-common#:#select#:#Sélection
+common#:#selected#:#Sélectionné
+common#:#selected_items#:#Objets personnels
 common#:#send#:#Envoyer
 common#:#sender#:#Expéditeur
 common#:#sent#:#Envoyé
 common#:#sequence#:#Séquence
 common#:#sequences#:#Séquences
-common#:#server_data#:#Données Serveur
 common#:#server#:#Serveur
+common#:#server_data#:#Données Serveur
 common#:#server_software#:#Logiciel serveur
 common#:#set#:#Fixer
+common#:#setSystemLanguage#:#Fixer la langue du système
+common#:#setUserLanguage#:#Fixer la langue utilisateur
 common#:#set_offline#:#Mettre hors-ligne
 common#:#set_online#:#Mettre en ligne
-common#:#setSystemLanguage#:#Fixer la langue du système
 common#:#settings#:#Paramètres
-common#:#setUserLanguage#:#Fixer la langue utilisateur
+common#:#show#:#Afficher
 common#:#show_details#:#Afficher détails
 common#:#show_list#:#Afficher liste
 common#:#show_members#:#Afficher membres
 common#:#show_owner#:#Afficher propriétaire
-common#:#show#:#Afficher
 common#:#show_structure#:#Activer la vue structurée
 common#:#show_users_online#:#Afficher les utilisateurs connectés
 common#:#signature#:#Signature
-common#:#slm_added#:#Module d'apprentissage SCORM ajouté
-common#:#slm_create#:#Créer module d'apprentissage SCORM 
-common#:#slm_delete#:#Détruire module d'apprentissage SCORM
-common#:#slm_edit_permission#:#Changer paramètres de permission
-common#:#slm_join#:#S'abonner au module d'apprentissage SCORM
-common#:#slm_leave#:#Se désabonner du module d'apprentissage SCORM
-common#:#slm_read#:#Accès en lecture au module d'apprentissage SCORM
-common#:#slm#:#Module d'apprentissage SCORM
-common#:#slm_visible#:#Le module d'apprentissage SCORM est visible
-common#:#slm_write#:#Modifier le module d'apprentissage SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Trié selon cette colonne
-common#:#spl_add#:#Ajouter jeu de questions
-common#:#spl_delete#:#Détruire jeu de questions
+common#:#spl#:#Jeu de questions (sondage)###24 Sep 2004 content changed
+common#:#spl_add#:#Ajouter jeu de questions###24 Sep 2004 content changed
+common#:#spl_delete#:#Détruire jeu de questions###24 Sep 2004 content changed
 common#:#spl_edit_permission#:#Changer paramètres de permission
-common#:#spl_new#:#Nouveau jeu de questions
-common#:#spl#:#Jeu de questions (sondage)
-common#:#spl_read#:#Accès en lecture au jeu de questions
-common#:#spl_visible#:#Le jeu de questions est visible
-common#:#spl_write#:#Modifier jeu de questions
+common#:#spl_new#:#Nouveau jeu de questions###24 Sep 2004 content changed
+common#:#spl_read#:#Accès en lecture au jeu de questions###24 Sep 2004 content changed
+common#:#spl_visible#:#Le jeu de questions est visible###24 Sep 2004 content changed
+common#:#spl_write#:#Modifier jeu de questions###24 Sep 2004 content changed
+common#:#st_a#:#un chapitre
 common#:#st_add#:#Ajouter chapitre
 common#:#st_added#:#Chapitre ajouté
+common#:#st_edit#:#Modifier chapitre
+common#:#st_new#:#Nouveau chapitre
 common#:#startpage#:#Page de départ
 common#:#statistic#:#Statistiques
 common#:#status#:#Etat
-common#:#st_a#:#un chapitre
-common#:#st_edit#:#Modifier chapitre
 common#:#step#:#Etape
-common#:#st_new#:#Nouveau chapitre
 common#:#stop_inheritance#:#Supprimer l'héritage
 common#:#street#:#Rue
 common#:#structure#:#Structure
 common#:#subcat_name#:#Nom de sous-catégorie
 common#:#subchapter_new#:#Nouveau sous-chapitre
-common#:#subject_module#:#Module sujet XXX
 common#:#subject#:#Sujet
+common#:#subject_module#:#Module sujet XXX
 common#:#submit#:#Envoyer
 common#:#subobjects#:#Sous-objets
 common#:#subscription#:#Abonnement
 common#:#summary#:#Résumé
 common#:#sure_delete_selected_users#:#Etes-vous sûr(e) de vouloir détruire les utilisateurs sélectionnés ?
+common#:#svy#:#Sondage
 common#:#svy_add#:#Ajouter sondage
 common#:#svy_delete#:#Détruire sondage
 common#:#svy_edit_permission#:#Changer paramètres de permission
@@ -2002,9 +1987,9 @@ common#:#svy_invite#:#Inviter les utilisateurs à un sondage
 common#:#svy_new#:#Nouveau sondage
 common#:#svy_participate#:#Participer à un sondage
 common#:#svy_read#:#Accès en lecture au sondage
-common#:#svy#:#Sondage
 common#:#svy_visible#:#Le sondage est visible
 common#:#svy_write#:#Modifier sondage
+common#:#system#:#Système
 common#:#system_check#:#Vérification du système
 common#:#system_choose_language#:#Choix de la langue système
 common#:#system_groups#:#Groupes système
@@ -2012,64 +1997,63 @@ common#:#system_grp#:#Groupe système
 common#:#system_information#:#Informations système
 common#:#system_language#:#Langue système
 common#:#system_message#:#Message système
-common#:#system#:#Système
 common#:#table_mail_import#:#Importer à partir de messages d'ILIAS 2
+common#:#tax#:#Taxinomie
 common#:#tax_add#:#Ajouter taxinomie
 common#:#tax_delete#:#Détruire taxinomies
 common#:#tax_edit#:#Modifier taxinomie
 common#:#tax_edit_permission#:#Changer paramètres de permission
+common#:#tax_new#:#Nouvelle taxinomie
+common#:#tax_read#:#Accès en lecture aux taxinomies
+common#:#tax_visible#:#La taxinomie est visible
+common#:#tax_write#:#Accès en écriture aux taxinomies
 common#:#taxf_edit_permission#:#Changer paramètres de permission
 common#:#taxf_read#:#Accès en lecture au répertoire de taxinomie
 common#:#taxf_visible#:#Le répertoire de taxinomie est visible
 common#:#taxf_write#:#Accès en lecture au  répertoire de taxinomie
-common#:#tax_new#:#Nouvelle taxinomie
-common#:#tax_read#:#Accès en lecture aux taxinomies
-common#:#tax#:#Taxinomie
-common#:#tax_visible#:#La taxinomie est visible
-common#:#tax_write#:#Accès en écriture aux taxinomies
 common#:#term#:#Terme
+common#:#test#:#Test
 common#:#test_intern#:#Test interne
 common#:#test_module#:#Module de test
 common#:#tests#:#Tests
-common#:#test#:#Test
-common#:#time_d#:#Jour
 common#:#time#:#Heure
+common#:#time_d#:#Jour
 common#:#time_h#:#Heure
 common#:#time_limit#:#Accès
 common#:#time_limit_add_time_limit_for_selected#:#Veuillez saisir une période pour les utilisateurs sélectionnés
 common#:#time_limit_applied_users#:#Utilisateurs candidats
+common#:#time_limit_no_users_selected#:#Veuillez sélectionner un utilisateur
 common#:#time_limit_not_valid#:#La période n'est pas valide
 common#:#time_limit_not_within_owners#:#Votre accès est limité. La période est hors de vos limites.
-common#:#time_limit_no_users_selected#:#Veuillez sélectionner un utilisateur
 common#:#time_limit_reached#:#Votre période d'accès a expiré
-common#:#time_limits#:#Accès
 common#:#time_limit_users_updated#:#Données utilisateurs mises à jour
+common#:#time_limits#:#Accès
 common#:#time_segment#:#Unité de temps
 common#:#title#:#Titre
 common#:#to#:#à
 common#:#to_client_list#:#Vers la sélection de client
-common#:#today#:#Aujourd'hui
 common#:#to_desktop#:#S'abonner
+common#:#today#:#Aujourd'hui
 common#:#total#:#Total
 common#:#tpl_path#:#Chemin des modèles
 common#:#trac_delete#:#Détruire données de suivi
 common#:#trac_edit_permission#:#Changer paramètres de permission
-common#:#tracked_objects#:#Objets suivis
-common#:#tracking_data_del_confirm#:#Voulez-vous réellement détruire toutes les données de suivi du mois spécifié et des précédents ?
-common#:#tracking_data_deleted#:#Données de suivi détruites
-common#:#tracking_data#:#Données de suivi
-common#:#tracking_settings#:#Paramètres de suivi
 common#:#trac_read#:#Lire données de suivi
 common#:#trac_visible#:#Le suivi des utilisateurs est visible
+common#:#tracked_objects#:#Objets suivis
+common#:#tracking_data#:#Données de suivi
+common#:#tracking_data_del_confirm#:#Voulez-vous réellement détruire toutes les données de suivi du mois spécifié et des précédents ?
+common#:#tracking_data_deleted#:#Données de suivi détruites
+common#:#tracking_settings#:#Paramètres de suivi
 common#:#translation#:#Traduction
 common#:#trash#:#Corbeille
 common#:#treeview#:#Arborescence
+common#:#tst#:#Test
 common#:#tst_add#:#Ajouter test
 common#:#tst_delete#:#Détruire test
 common#:#tst_edit_permission#:#Changer paramètres de permission
 common#:#tst_new#:#Nouveau test
 common#:#tst_read#:#Accès en lecture au test
-common#:#tst#:#Test
 common#:#tst_visible#:#Le test est visible
 common#:#tst_write#:#Modifier test
 common#:#txt_add_object_instruction1#:#Parcourez jusqu'à l'endroit où vous voulez ajouter
@@ -2088,55 +2072,55 @@ common#:#unread#:#Non lu
 common#:#unselected#:#Désélectionné
 common#:#unsubscribe#:#désabonnement
 common#:#unzip#:#Unzip
+common#:#up#:#En haut
 common#:#update_applied#:#Mise à jour appliquée
 common#:#update_language#:#Mettre à jour langues
-common#:#up#:#En haut
-common#:#uploaded_and_checked#:#Le fichier a été téléversé et vérifié, vous pouvez commencer à l'importer
 common#:#upload#:#Téléverser
-common#:#url_description#:#Description de l'URL
+common#:#uploaded_and_checked#:#Le fichier a été téléversé et vérifié, vous pouvez commencer à l'importer
 common#:#url#:#URL
+common#:#url_description#:#Description de l'URL
+common#:#user#:#Utilisateur
 common#:#user_access#:#Accès par utilisateur
 common#:#user_added#:#Utilisateur ajouté
 common#:#user_assignment#:#Assignation d'utilisateur
-common#:#userdata#:#Données utilisateur
 common#:#user_deleted#:#Utilisateur détruit
 common#:#user_detail#:#Détail
 common#:#user_imported#:#Importation des utilisateurs terminée
 common#:#user_language#:#Langue utilisateur
-common#:#username#:#Nom d'utilisateur
 common#:#user_not_chosen#:#Vous n'avez pas choisi un membre du groupe.
+common#:#user_statistics#:#Données statistiques
+common#:#userdata#:#Données utilisateur
+common#:#username#:#Nom d'utilisateur
+common#:#users#:#Utilisateurs
 common#:#users_not_imported#:#Les utilisateurs suivants n'existent pas, leurs messages ne peuvent pas être importés
 common#:#users_online#:#Utilisateurs en ligne
-common#:#user_statistics#:#Données statistiques
-common#:#users#:#Utilisateurs
 common#:#usertracking#:#Suivi utilisateur
-common#:#user#:#Utilisateur
+common#:#usr#:#Utilisateur
+common#:#usr_a#:#un utilisateur
 common#:#usr_add#:#Ajouter utilisateur
 common#:#usr_added#:#Utilisateur ajouté
 common#:#usr_agreement#:#Charte d'utilisation
 common#:#usr_agreement_empty#:#La charte d'utilisation ne contient pas de texte
-common#:#usr_a#:#un utilisateur
 common#:#usr_edit#:#Modifier utilisateur
-common#:#usrf_create_user#:#Créer nouveau compte utilisateur
-common#:#usrf_delete#:#Détruire comptes utilisateurs
-common#:#usrf_edit_permission#:#Changer paramètres de permission
-common#:#usrf_edit_roleassignment#:#Change assignation de rôle des comptes utilisateurs
-common#:#usrf#:#Répertoire utilisateur
-common#:#usrf_read#:#Accès en lecture aux comptes utilisateurs
-common#:#usrf_read_users#:#Assignation de rôle pour les administrateurs locaux
-common#:#usrf_visible#:#Les comptes utilisateurs sont visibles
-common#:#usrf_write#:#Modifier comptes utilisateurs
 common#:#usr_hits_per_page#:#Hits/page dans les tableaux
 common#:#usr_new#:#Nouvel utilisateur
 common#:#usr_skin_style#:#Thème / Style
 common#:#usr_style#:#Style utilisateur
-common#:#usr#:#Utilisateur
+common#:#usrf#:#Répertoire utilisateur
+common#:#usrf_create_user#:#Créer nouveau compte utilisateur
+common#:#usrf_delete#:#Détruire comptes utilisateurs
+common#:#usrf_edit_permission#:#Changer paramètres de permission
+common#:#usrf_edit_roleassignment#:#Change assignation de rôle des comptes utilisateurs
+common#:#usrf_read#:#Accès en lecture aux comptes utilisateurs
+common#:#usrf_read_users#:#Assignation de rôle pour les administrateurs locaux
+common#:#usrf_visible#:#Les comptes utilisateurs sont visibles
+common#:#usrf_write#:#Modifier comptes utilisateurs
 common#:#validate#:#Valider
 common#:#value#:#Valeur
 common#:#vendors#:#Vendeurs
 common#:#version#:#Version
-common#:#view_content#:#Voir contenu
 common#:#view#:#Voir
+common#:#view_content#:#Voir contenu
 common#:#visible_layers#:#Couches visibles
 common#:#visits#:#Visites
 common#:#week#:#Semaine
@@ -2147,28 +2131,49 @@ common#:#write#:#Ecrire
 common#:#yes#:#Oui
 common#:#you_may_add_local_roles#:#Vous pouvez ajouter des rôles locaux
 common#:#your_message#:#Votre message
-common#:#zipcode#:#Code postal
 common#:#zip#:#Code posatal
+common#:#zipcode#:#Code postal
+content#:#HTML export#:#Exportation HTML
+content#:#PDF export#:#Exportation PDF
+content#:#Pages#:#Pages
 content#:#all#:#Tout
-content#:#cont_active#:#Activer menu
+content#:#cont_Additional#:#Additionel
+content#:#cont_Alphabetic#:#Alphabétique A, B, ...
+content#:#cont_Circle#:#Cercle
+content#:#cont_Citation#:#Citation
+content#:#cont_Code#:#Code
+content#:#cont_Example#:#Exemple
+content#:#cont_Headline1#:#Titre 1
+content#:#cont_Headline2#:#Titre 2
+content#:#cont_Headline3#:#Titre 3
+content#:#cont_List#:#Liste
+content#:#cont_LocalFile#:#Fichier local
+content#:#cont_Mnemonic#:#Mnémonique
+content#:#cont_Number#:#Nombre
+content#:#cont_Poly#:#Polygone
+content#:#cont_Rect#:#Rectangle
+content#:#cont_Reference#:#Référence
+content#:#cont_Remark#:#Remarque
+content#:#cont_Roman#:#Romain I, II, ...
+content#:#cont_TableContent#:#Contenu du tableau
+content#:#cont_Unordered#:#Non trié
 content#:#cont_act_number#:#Numérotation de chapitre
+content#:#cont_active#:#Activer menu
 content#:#cont_add_area#:#Ajouter zone
 content#:#cont_add_definition#:#Ajouter définition
-content#:#cont_added_term#:#Terme ajouté
 content#:#cont_add_fullscreen#:#Ajouter plein écran
-content#:#cont_Additional#:#Additionel
+content#:#cont_added_term#:#Terme ajouté
 content#:#cont_all_definitions#:#Toutes les définitions
 content#:#cont_all_pages#:#Toutes les pages
 content#:#cont_alphabetic#:#Alphabétique a, b, ...
-content#:#cont_Alphabetic#:#Alphabétique A, B, ...
 content#:#cont_annex#:#Annexe
 content#:#cont_api_adapter#:#Nom de l'adaptateur d'API
 content#:#cont_api_func_prefix#:#Préfixe des fonctions d'API
 content#:#cont_areas_deleted#:#Zones réactives détruites
 content#:#cont_assign_full#:#Assigner plein écran
-content#:#cont_assignments_deleted#:#Les assignations ont été détruites
 content#:#cont_assign_std#:#Assigner standard
 content#:#cont_assign_translation#:#Assigner traduction
+content#:#cont_assignments_deleted#:#Les assignations ont été détruites
 content#:#cont_autoindent#:#Auto-indententation
 content#:#cont_back#:#Retour
 content#:#cont_booktitle#:#Titre du livre
@@ -2180,18 +2185,16 @@ content#:#cont_caption#:#Titre
 content#:#cont_change_type#:#Changer type
 content#:#cont_chap_and_pages#:#Chapitres et pages
 content#:#cont_chap_select_target_now#:#Chapitre marqué pour déplacement.  Choisissez une cible maintenant.
-content#:#cont_chapters_and_pages#:#Chapitres et pages
 content#:#cont_chapters#:#Chapitres
+content#:#cont_chapters_and_pages#:#Chapitres et pages
 content#:#cont_chapters_only#:#Chapitres seulement
 content#:#cont_characteristic#:#Caractéristique
 content#:#cont_choose_cont_obj#:#Choisir l'objet de contenu
 content#:#cont_choose_glossary#:#Choisir glossaire
 content#:#cont_choose_media_source#:#Choisir une source de média
-content#:#cont_Circle#:#Cercle
-content#:#cont_Citation#:#Citation
 content#:#cont_citation_err_one#:#Vous devez sélectionner exactement une édition
-content#:#cont_citations#:#Citations
 content#:#cont_citation_selection_not_valid#:#Votre sélection n'est pas valide
+content#:#cont_citations#:#Citations
 content#:#cont_clean_frames#:#Nettoyer les cadres additionnels pour la navigation XXX
 content#:#cont_click_br_corner#:#Veuillez cliquer sur le coin inférieur droit de la zone désirée
 content#:#cont_click_center#:#Veuillez cliquer sur le centre de la zone désirée
@@ -2200,7 +2203,6 @@ content#:#cont_click_next_or_save#:#Veuillez cliquer sur le point suivant du pol
 content#:#cont_click_next_point#:# Veuillez cliquer sur le point suivant du polygone
 content#:#cont_click_starting_point#:# Veuillez cliquer sur le point de départ du polygone
 content#:#cont_click_tl_corner#:#Veuillez cliquer sur le coin supérieur gauche de la zone désirée
-content#:#cont_Code#:#Code
 content#:#cont_content#:#Contenu
 content#:#cont_content_obj#:#Objet de contenu
 content#:#cont_contents#:#Contenus
@@ -2216,11 +2218,11 @@ content#:#cont_credit_on#:#Crédit
 content#:#cont_credits#:#Crédits
 content#:#cont_cross_reference#:#Référence croisée
 content#:#cont_data_from_lms#:#adlcp:datafromlms
-content#:#cont_definition#:#Définition
-content#:#cont_definitions#:#Définitions
 content#:#cont_def_layout#:#Présentation standard
 content#:#cont_def_lesson_mode#:#Mode de leçon par défaut
 content#:#cont_def_organization#:#défaut
+content#:#cont_definition#:#Définition
+content#:#cont_definitions#:#Définitions
 content#:#cont_del_assignment#:#Supprimer assignation
 content#:#cont_dependencies#:#Dépendances
 content#:#cont_derive_from_obj#:#Alignement de l'objet
@@ -2235,8 +2237,8 @@ content#:#cont_ed_align_right#:#alignement : droite
 content#:#cont_ed_align_right_float#:#alignement : flottant à droite
 content#:#cont_ed_class#:#Style
 content#:#cont_ed_copy_clip#:#copier dans le presse-papier
-content#:#cont_ed_delete_col#:#Détruire colonne
 content#:#cont_ed_delete#:#détruire
+content#:#cont_ed_delete_col#:#Détruire colonne
 content#:#cont_ed_delete_item#:#détruire objet
 content#:#cont_ed_delete_row#:#détruire ligne
 content#:#cont_ed_edit#:#modifier
@@ -2248,17 +2250,6 @@ content#:#cont_ed_insert_list#:#insérer liste
 content#:#cont_ed_insert_media#:#insérer média
 content#:#cont_ed_insert_par#:#insérer paragr.
 content#:#cont_ed_insert_table#:#insérer tableau
-content#:#cont_edit_area#:#Modifier zone
-content#:#cont_edit_file_list_properties#:#Modifier propriétés de la liste de fichiers
-content#:#cont_edition#:#Modifierion
-content#:#cont_edit_mob_alias_prop#:#Modifier propriétés de l'instance de l'objet média
-content#:#cont_edit_mob_files#:#Fichiers objets
-content#:#cont_edit_mob#:#Modifier objet média
-content#:#cont_edit_mob_properties#:#Modifier propriétés de l'objet média
-content#:#cont_edit_par#:#Modifier paragraphe
-content#:#cont_edit_src#:#Modifier source code
-content#:#cont_edit_tab_properties#:#Propriétés du tableau
-content#:#cont_edit_term#:#Modifier terme
 content#:#cont_ed_moveafter#:#déplacer après
 content#:#cont_ed_movebefore#:#déplacer avant
 content#:#cont_ed_new_col_after#:#nouvelle colonne après
@@ -2269,14 +2260,24 @@ content#:#cont_ed_new_row_after#:#nouvelle ligne après
 content#:#cont_ed_new_row_before#:#nouvelle ligne avant
 content#:#cont_ed_paste_clip#:#coller depuis le presse-papier
 content#:#cont_ed_width#:#Largeur
+content#:#cont_edit_area#:#Modifier zone
+content#:#cont_edit_file_list_properties#:#Modifier propriétés de la liste de fichiers
+content#:#cont_edit_mob#:#Modifier objet média
+content#:#cont_edit_mob_alias_prop#:#Modifier propriétés de l'instance de l'objet média
+content#:#cont_edit_mob_files#:#Fichiers objets
+content#:#cont_edit_mob_properties#:#Modifier propriétés de l'objet média
+content#:#cont_edit_par#:#Modifier paragraphe
+content#:#cont_edit_src#:#Modifier source code
+content#:#cont_edit_tab_properties#:#Propriétés du tableau
+content#:#cont_edit_term#:#Modifier terme
+content#:#cont_edition#:#Modifierion
 content#:#cont_enable_media#:#Activer média
-content#:#cont_Example#:#Exemple
 content#:#cont_export_files#:#Exporter fichiers XXX
 content#:#cont_external#:#externe
 content#:#cont_file#:#Fichier
 content#:#cont_files#:#Fichiers
-content#:#cont_fix_tree_confirm#:#Veuillez exécuter cette commande seulement si l'arborescence de ce module d'apprentissage est corrompue, par ex. si des objets vides apparaissent dans la vue d'exploration.
 content#:#cont_fix_tree#:#Réparer la structure
+content#:#cont_fix_tree_confirm#:#Veuillez exécuter cette commande seulement si l'arborescence de ce module d'apprentissage est corrompue, par ex. si des objets vides apparaissent dans la vue d'exploration.
 content#:#cont_format#:#Format
 content#:#cont_free_pages#:#Pages libres
 content#:#cont_full_is_in_dir#:#Suppression impossible. Le fichier plein écran est dans le répertoire.
@@ -2284,9 +2285,6 @@ content#:#cont_fullscreen#:#Plein écran
 content#:#cont_get_link#:#récupérer lien
 content#:#cont_get_orig_size#:#Mettre à la taille originale
 content#:#cont_glo_properties#:#Propriétés de glossaire
-content#:#cont_Headline1#:#Titre 1
-content#:#cont_Headline2#:#Titre 2
-content#:#cont_Headline3#:#Titre 3
 content#:#cont_height#:#Hauteur
 content#:#cont_how_published#:#Publié comment XXX
 content#:#cont_href#:#href
@@ -2303,20 +2301,19 @@ content#:#cont_insert_src#:#insérer code source
 content#:#cont_insert_table#:#Insérer tableau
 content#:#cont_internal#:#interne
 content#:#cont_internal_link#:#lien interne
+content#:#cont_is_visible#:#est visible
 content#:#cont_isbn#:#ISBN
 content#:#cont_issn#:#ISSN
-content#:#cont_is_visible#:#est visible
 content#:#cont_item#:#Objet
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Mot-clé
+content#:#cont_link#:#Lien
 content#:#cont_link_area#:#Zone de lien
 content#:#cont_link_ext#:#Lien (externe)
 content#:#cont_link_int#:#Lien (interne)
-content#:#cont_link#:#Lien
 content#:#cont_link_select#:#Lien interne
 content#:#cont_link_type#:#Type de lien
 content#:#cont_list_files#:#Liste des fichiers
-content#:#cont_List#:#Liste
 content#:#cont_list_properties#:#Propriétés de la liste
 content#:#cont_lk_chapter#:#Chapitre
 content#:#cont_lk_chapter_new#:#Chapitre (nouveau cadre)
@@ -2324,15 +2321,14 @@ content#:#cont_lk_media_faq#:#Média (cadre FAQ)
 content#:#cont_lk_media_inline#:#Média (intégré)
 content#:#cont_lk_media_media#:#Média (cadre Média)
 content#:#cont_lk_media_new#:#Média (nouveau cadre)
+content#:#cont_lk_page#:#Page
 content#:#cont_lk_page_faq#:#Page (cadre FAQ)
 content#:#cont_lk_page_new#:#Page (nouveau cadre)
-content#:#cont_lk_page#:#Page
 content#:#cont_lk_survey#:#Sondage
-content#:#cont_lk_term_new#:#Terme de glossaire (nouveau cadre)
 content#:#cont_lk_term#:#Terme de glossaire
+content#:#cont_lk_term_new#:#Terme de glossaire (nouveau cadre)
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Propriété du module d'apprentissage
-content#:#cont_LocalFile#:#Fichier local
 content#:#cont_lvalue#:#Elément de données XXX
 content#:#cont_manifest#:#Manifeste
 content#:#cont_map_areas#:#Zone de lien
@@ -2342,7 +2338,6 @@ content#:#cont_matching_question_javascript_hint#:#Veuillez faire glisser une d�
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Source de média
 content#:#cont_mep_structure#:#Structure du média pool
-content#:#cont_Mnemonic#:#Mnémonique
 content#:#cont_mob_files#:#Fichiers objets
 content#:#cont_mob_inst_prop#:#Propriétés de l'instance
 content#:#cont_mob_prop#:#Propriétés de l'objet
@@ -2358,13 +2353,12 @@ content#:#cont_new_media_obj#:#Nouvel objet média
 content#:#cont_new_term#:#Nouveau terme
 content#:#cont_no_assign_itself#:#L'objet ne peut pas être assigné à lui-même
 content#:#cont_no_manifest#:#Pas de fichier imsmanifest.xml trouvé dans le répertoire principal
-content#:#cont_none#:#Aucun
 content#:#cont_no_object_found#:#Aucun objet portant ce titre n'a été trouvé
 content#:#cont_no_page#:#Aucune page trouvée
+content#:#cont_none#:#Aucun
 content#:#cont_nr_cols#:#Nombre de colonnes
 content#:#cont_nr_items#:#Nombre d'objets
 content#:#cont_nr_rows#:#Nombre de lignes
-content#:#cont_Number#:#Nombre
 content#:#cont_obj_removed#:#Objets supprimés
 content#:#cont_offline#:#Versions hors-ligne
 content#:#cont_online#:#En ligne
@@ -2381,35 +2375,27 @@ content#:#cont_personal_clipboard#:#Presse-papier personnel
 content#:#cont_pg_content#:#Contenu de page
 content#:#cont_pg_title#:#Titre de page
 content#:#cont_please_select#:#veuillez sélectionner
-content#:#cont_Poly#:#Polygone
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Prévisualisation
 content#:#cont_print_view#:#Vue imprimable
 content#:#cont_publisher#:#Editeur
 content#:#cont_purpose#:#But
-content#:#cont_Rect#:#Rectangle
-content#:#cont_reference#:#Référence
-content#:#cont_Reference#:#Référence
 content#:#cont_ref_helptext#:#(par ex. http://www.serveur.org/monimage.jpg)
-content#:#cont_Remark#:#Remarque
+content#:#cont_reference#:#Référence
 content#:#cont_remove_fullscreen#:#Supprimer plein écran
 content#:#cont_reset_definitions#:#Redéfinir la position de la définition
 content#:#cont_reset_pictures#:#Redéfinir la position de l'image
 content#:#cont_resource#:#Ressource
-content#:#cont_resources#:#Ressources
 content#:#cont_resource_type#:#type
+content#:#cont_resources#:#Ressources
 content#:#cont_roman#:#Romain i, ii, ...
-content#:#cont_Roman#:#Romain I, II, ...
 content#:#cont_rvalue#:#Valeur
 content#:#cont_saved_map_area#:#Zone enregistrée
 content#:#cont_saved_map_data#:#Données d'image réactive enregistrées
 content#:#cont_sc_auto_review#:#Mettre le mode de leçon en 'revision' si l'étudiant a terminé le SCO
-content#:#cont_school#:#Ecole
 content#:#cont_sc_less_mode_browse#:#Parcourir
 content#:#cont_sc_less_mode_normal#:#Normal
-content#:#cont_score#:#Score
-content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_sc_stat_browsed#:#Parcouru
 content#:#cont_sc_stat_completed#:#Terminé
 content#:#cont_sc_stat_failed#:#Echec
@@ -2418,6 +2404,9 @@ content#:#cont_sc_stat_not_attempted#:#Non tenté
 content#:#cont_sc_stat_passed#:#Passé
 content#:#cont_sc_stat_running#:#En cours
 content#:#cont_sc_title#:#titre
+content#:#cont_school#:#Ecole
+content#:#cont_score#:#Score
+content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_item#:#Selectionnez au moins un objet
 content#:#cont_select_max_one_item#:#Veuillez ne sélectionner qu'un seul objet
 content#:#cont_select_max_one_term#:#Sélectionner un seul objet
@@ -2443,38 +2432,36 @@ content#:#cont_show_line_numbers#:#Afficher numéros de lignes
 content#:#cont_show_print_view#:#Afficher vue imprimable
 content#:#cont_size#:#Taille (octets)
 content#:#cont_source#:#Source
-content#:#cont_src_other#:#autre
 content#:#cont_src#:#Code source
+content#:#cont_src_other#:#autre
+content#:#cont_st_title#:#Titre de chapitre
 content#:#cont_startfile#:#Fichier de départ
 content#:#cont_status#:#Statut
 content#:#cont_std_is_in_dir#:#Suppression impossible.  Le fichier de vue standard est dans le répertoire.
 content#:#cont_std_view#:#Vue standard
 content#:#cont_structure#:#structure
-content#:#cont_st_title#:#Titre de chapitre
 content#:#cont_subchapters#:#Sous-chapitres
+content#:#cont_table#:#Tableau
 content#:#cont_table_border#:#Bordure du tableau
 content#:#cont_table_cellpadding#:#Largeur des cellules du tableau
 content#:#cont_table_cellspacing#:#Espacement des cellules du tableau
-content#:#cont_TableContent#:#Contenu du tableau
-content#:#cont_table#:#Tableau
 content#:#cont_table_width#:#Largeur du tableau
 content#:#cont_target_within_source#:#La cible ne doit pas être dans l'objet source.
-content#:#cont_terms#:#Termes
 content#:#cont_term#:#Terme
-content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_terms#:#Termes
 content#:#cont_time#:#Temps
-content#:#cont_toc_mode#:#Mode de table des matières
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Table des matières
+content#:#cont_toc_mode#:#Mode de table des matières
 content#:#cont_top#:#En haut
 content#:#cont_total_time#:#Temps total
 content#:#cont_tracking_data#:#Données de suivi
 content#:#cont_tracking_items#:#Suivi d'objets
-content#:#cont_translations_assigned#:#Les traductions ont été assignées
 content#:#cont_translations#:#Traduction(s)
+content#:#cont_translations_assigned#:#Les traductions ont été assignées
 content#:#cont_tree_fixed#:#L'arborescence a été corrigée.
-content#:#cont_Unordered#:#Non trié
-content#:#cont_update_names#:#Mettre à jour les noms
 content#:#cont_update#:#Mettre à jour
+content#:#cont_update_names#:#Mettre à jour les noms
 content#:#cont_upload_file#:#Téléverser fichier
 content#:#cont_url#:#URL
 content#:#cont_users_have_mob_in_clip1#:#Cet objet média est dans le presse-papier de
@@ -2488,29 +2475,26 @@ content#:#cont_wysiwyg#:#Contenu WYSIWYG
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Année
 content#:#copied_to_clipboard#:#Objet(s) copié(s) dans le presse-papier.
-content#:#HTML export#:#Exportation HTML
 content#:#pages from#:#Pages depuis
-content#:#Pages#:#Pages
 content#:#par#:#Paragraphe
-content#:#PDF export#:#Exportation PDF
 content#:#pg#:#Page
 content#:#read offline#:#Lire hors ligne
 content#:#select_a_file#:#Veuillez choisir un fichier
-content#:#start export#:#Commencer l'exportation
 content#:#st#:#Chapitre
-crs#:#crs_accept_subscriber_body#:#Vous avez été inscrit à ce cours
+content#:#start export#:#Commencer l'exportation
 crs#:#crs_accept_subscriber#:#Abonnement au cours
+crs#:#crs_accept_subscriber_body#:#Vous avez été inscrit à ce cours
 crs#:#crs_access_password#:#Mot de passe
 crs#:#crs_activation#:#Activation
 crs#:#crs_add_archive_html#:#Ajouter archive HTML
 crs#:#crs_add_archive_xml#:#Ajouter archive XML
-crs#:#crs_added#:#Nouveau cours ajouté
-crs#:#crs_added_member_body#:#Vous avez été accepté(e) pour ce cours.
-crs#:#crs_added_member#:#Appartenance au cours
-crs#:#crs_added_new_archive#:#Une nouvelle archive a été ajoutée
 crs#:#crs_add_html_archive#:#Ajouter archive HTML
 crs#:#crs_add_member#:#Ajouter membres
 crs#:#crs_add_subscribers#:#Ajouter abonnés
+crs#:#crs_added#:#Nouveau cours ajouté
+crs#:#crs_added_member#:#Appartenance au cours
+crs#:#crs_added_member_body#:#Vous avez été accepté(e) pour ce cours.
+crs#:#crs_added_new_archive#:#Une nouvelle archive a été ajoutée
 crs#:#crs_admin#:#Administrateur
 crs#:#crs_admin_no_notify#:#Administrateur (sans notification)
 crs#:#crs_admin_notify#:#Administrateur (notification)
@@ -2519,19 +2503,18 @@ crs#:#crs_archive_disabled#:#Inactif
 crs#:#crs_archive_download#:#Télécharger
 crs#:#crs_archive_lang#:#Langue
 crs#:#crs_archive_read#:#Accès en lecture
-crs_#:#crs_archives#:#Archives
-crs#:#crs_archives_deleted#:#L'archive a été détruite
 crs#:#crs_archive_select_type#:#Type d'accès à l'archive
 crs#:#crs_archive_type#:#Type d'archive
 crs#:#crs_archive_type_disabled#:#Pas d'accès
+crs#:#crs_archives_deleted#:#L'archive a été détruite
 crs#:#crs_auto_fill#:#Auto-complètement
 crs#:#crs_blocked#:#Accès refusé
-crs#:#crs_blocked_member_body#:#Votre appartenance est terminée
 crs#:#crs_blocked_member#:#Appartenance au cours
-crs#:#crs_cancel_subscription_body#:#Un utilisateur s'est désabonné du cours
+crs#:#crs_blocked_member_body#:#Votre appartenance est terminée
 crs#:#crs_cancel_subscription#:#Désabonnement du cours
-crs#:#crs_contact_consultation#:#Consultation
+crs#:#crs_cancel_subscription_body#:#Un utilisateur s'est désabonné du cours
 crs#:#crs_contact#:#Contact
+crs#:#crs_contact_consultation#:#Consultation
 crs#:#crs_contact_email#:#Email
 crs#:#crs_contact_name#:#Nom
 crs#:#crs_contact_phone#:#Téléphone
@@ -2546,8 +2529,8 @@ crs#:#crs_delete_members_sure#:#Voulez-vous supprimer de ce cours les membres su
 crs#:#crs_delete_subscribers#:#Détruire abonné
 crs#:#crs_delete_subscribers_sure#:#Voulez-vous détruire les utilisateurs suivants ?
 crs#:#crs_details#:#Détails du cours
-crs#:#crs_dismiss_member_body#:#Votre appartenance au cours a été annulée
 crs#:#crs_dismiss_member#:#Appartenance au cours
+crs#:#crs_dismiss_member_body#:#Votre appartenance au cours a été annulée
 crs#:#crs_edit_archive#:#Modifier archives
 crs#:#crs_end#:#Fin
 crs#:#crs_export#:#Exportation de cours
@@ -2558,45 +2541,45 @@ crs#:#crs_header_delete_members#:#Détruire membres
 crs#:#crs_header_edit_members#:#Modifier membres
 crs#:#crs_header_members#:#Membres du cours
 crs#:#crs_html#:#HTML
+crs#:#crs_info_reg#:#Informations pour l'enregistrement
 crs#:#crs_info_reg_confirmation#:#Ce cours nécessite la confirmation par un administrateur du cours. Vous recevrez un message si vous êtes accepté pour ce cours.
 crs#:#crs_info_reg_deactivated#:#Aucun enregistrement possible
 crs#:#crs_info_reg_direct#:#Il est nécessaire de s'enregistrer pour ce cours
-crs#:#crs_info_reg#:#Informations pour l'enregistrement
 crs#:#crs_info_reg_password#:#L'enregistrement requiert un mot de passe valide
 crs#:#crs_list_users#:#Liste des utilisateurs
 crs#:#crs_max_members_reached#:#Le nombre maximal de membres a été atteint
-crs#:#crs_member_blocked#:#Membre (non bloqué) XXX
+crs#:#crs_mem_change_status#:#Changer statut
+crs#:#crs_mem_send_mail#:#Envoyer message
 crs#:#crs_member#:#Membre
+crs#:#crs_member_blocked#:#Membre (non bloqué) XXX
+crs#:#crs_member_unblocked#:#Membre (bloqué)
+crs#:#crs_member_updated#:#Le membre a été mis à jour
 crs#:#crs_members_deleted#:#Membres détruits
 crs#:#crs_members_print_title#:#Membres du cours
 crs#:#crs_members_title#:#Membres du cours
-crs#:#crs_member_unblocked#:#Membre (bloqué)
-crs#:#crs_member_updated#:#Le membre a été mis à jour
-crs#:#crs_mem_change_status#:#Changer statut
-crs#:#crs_mem_send_mail#:#Envoyer message
-crs#:#crs_moved_item#:#Objets du cours déplacés
 crs#:#crs_move_down#:#Déplacer vers le bas
 crs#:#crs_move_up#:#Déplacer vers e haut
+crs#:#crs_moved_item#:#Objets du cours déplacés
 crs#:#crs_new_search#:#Nouvelle recherche
-crs#:#crs_new_subscription_body#:#Un nouvel utilisateur a été inscrit
 crs#:#crs_new_subscription#:#Nouvel abonnement à un cours
-crs#:#crs_no_archives_available#:#Aucune archive disponible
+crs#:#crs_new_subscription_body#:#Un nouvel utilisateur a été inscrit
 crs#:#crs_no_archive_selected#:#Pas d'archive sélectionnée
+crs#:#crs_no_archives_available#:#Aucune archive disponible
 crs#:#crs_no_archives_selected#:#Veuillez sélectionner une archive
 crs#:#crs_no_groups_selected#:#Veuillez choisir un groupe
 crs#:#crs_no_items_found#:#Pas d'objets de cours
 crs#:#crs_no_language#:#Pas de langue
-crs#:#crs_no_members_assigned#:#Pas de membres assignés à ce cours
 crs#:#crs_no_member_selected#:#Veuillez choisir un membre
+crs#:#crs_no_members_assigned#:#Pas de membres assignés à ce cours
 crs#:#crs_no_notify#:#Pas de notification pour les nouvelles inscriptions
 crs#:#crs_no_results_found#:#Pas de résultat
 crs#:#crs_no_roles_selected#:#Veuillez sélectionner un rôle
 crs#:#crs_no_subscribers_selected#:#Veuillez sélectionner un utilisateur
-crs#:#crs_not_available#:#-Non disponible-
-crs#:#crs_notify#:#Notifier des nouvelles inscriptions
 crs#:#crs_no_users_added#:#Pas de membres ajoutés
 crs#:#crs_no_users_selected#:#Vous n'avez sélectionné aucun utilisateur
 crs#:#crs_no_valid_member_id_given#:#Pas d'id de membre valide
+crs#:#crs_not_available#:#-Non disponible-
+crs#:#crs_notify#:#Notifier des nouvelles inscriptions
 crs#:#crs_number_users_added#:#Le nombre d'utilisateurs suivant a été inscrit au cours
 crs#:#crs_offline#:#Hors-ligne
 crs#:#crs_options#:#Options
@@ -2604,7 +2587,6 @@ crs#:#crs_passed#:#Validé
 crs#:#crs_password_not_valid#:#Votre mot de passe n'est pas valide
 crs#:#crs_pdf#:#PDF
 crs#:#crs_print_list#:#Imprimer liste
-crs#:#crs_registration#:#Inscription au cours
 crs#:#crs_reg_subscription_deactivated#:#L'inscription est désactivée.
 crs#:#crs_reg_subscription_end_earlier#:#La période d'inscription a expiré.
 crs#:#crs_reg_subscription_max_members_reached#:#Le nombre maximal d'utilisateurs est dépassé.
@@ -2613,8 +2595,9 @@ crs#:#crs_reg_until#:#Date d'inscription
 crs#:#crs_reg_user_already_assigned#:#Vous êtes déjà inscrit à ce cours.
 crs#:#crs_reg_user_already_subscribed#:#Vous vous êtes déjà inscrit à ce cours
 crs#:#crs_reg_user_blocked#:#Vous êtes exclu de ce cours
-crs#:#crs_reject_subscriber_body#:#Votre inscription a été refusée
+crs#:#crs_registration#:#Inscription au cours
 crs#:#crs_reject_subscriber#:#Inscription au cours
+crs#:#crs_reject_subscriber_body#:#Votre inscription a été refusée
 crs#:#crs_role#:#Rôle
 crs#:#crs_role_status#:#Rôle / Statut
 crs#:#crs_search_enter_search_string#:#Veuillez saisir une chaîne de recherche
@@ -2628,71 +2611,108 @@ crs#:#crs_settings_saved#:#Paramètres enregistrés
 crs#:#crs_size#:#Taille de fichier
 crs#:#crs_sort_activation#:#Tri par date d'activation XXX
 crs#:#crs_sort_manual#:#Tri manuel XXX
-crs#:#crs_sortorder#:#Tri
 crs#:#crs_sort_title#:#Tri par titre
+crs#:#crs_sortorder#:#Tri
 crs#:#crs_start#:#Début
-crs#:#crs_status_changed_body#:#Votre statut de cours a été changé
-crs#:#crs_status_changed#:#Statut de cours
 crs#:#crs_status#:#Statut
+crs#:#crs_status_changed#:#Statut de cours
+crs#:#crs_status_changed_body#:#Votre statut de cours a été changé
 crs#:#crs_structure#:#Structure du cours
-crs#:#crs_subscribers_deleted#:#Détruired abonné(s)
 crs#:#crs_subscribers#:#Abonnements
+crs#:#crs_subscribers_deleted#:#Détruired abonné(s)
+crs#:#crs_subscription#:#Abonnement
 crs#:#crs_subscription_max_members#:#Nombre maximal de membres
 crs#:#crs_subscription_notify#:#Notifier pour les abonnements
 crs#:#crs_subscription_options_confirmation#:#Abonnement avec confirmation
 crs#:#crs_subscription_options_deactivated#:#Désactivé
 crs#:#crs_subscription_options_direct#:#Abonnement direct
 crs#:#crs_subscription_options_password#:#Abonnement avec mot de passe
-crs#:#crs_subscription#:#Abonnement
 crs#:#crs_subscription_successful#:#Vous avez été abonné à ce cours
 crs#:#crs_subscription_type#:#Type d'abonnement
 crs#:#crs_sure_delete_selected_archives#:#Etes-vous sûr(e) de vouloir détruire les archives sélectionnées ?
 crs#:#crs_syllabus#:#Syllabus XXX
 crs#:#crs_time#:#Date d'abonnement XXX
 crs#:#crs_to#:#Pour :
+crs#:#crs_tutor#:#Tuteur
 crs#:#crs_tutor_no_notify#:#Tuteur (pas de notification)
 crs#:#crs_tutor_notify#:#Tuteur (notification)
-crs#:#crs_tutor#:#Tuteur
 crs#:#crs_unblocked#:#Entrée libre
-crs#:#crs_unblocked_member_body#:#Votre appartenance a été restaurée
 crs#:#crs_unblocked_member#:#Appartenance au cours
+crs#:#crs_unblocked_member_body#:#Votre appartenance a été restaurée
 crs#:#crs_unlimited#:#Illimité
-crs#:#crs_unsubscribed_from_crs#:#Vous vous êtes abonné à ce cours
-crs#:#crs_unsubscribe_sure#:#Voulez-vous vous désabonner de ce cours ?
 crs#:#crs_unsubscribe#:#Se désabonner
+crs#:#crs_unsubscribe_sure#:#Voulez-vous vous désabonner de ce cours ?
+crs#:#crs_unsubscribed_from_crs#:#Vous vous êtes abonné à ce cours
 crs#:#crs_users_added#:#Utilisateur ajouté au cours
 crs#:#crs_users_already_assigned#:#L'utilisateur est déjà assigné au cours.
 crs#:#crs_xml#:#XML
+crs_#:#crs_archives#:#Archives
+dateplaner#:#DateText#:#Message
+dateplaner#:#Day_long#:#vue par journée
+dateplaner#:#ERROR_DATE_EXISTS#:#Ce créneau horaire est déjà pris.
+dateplaner#:#ERROR_DB#:#Erreur d'écriture dans la base de données !
+dateplaner#:#ERROR_DB_CONNECT#:#La base de données n'est pas accessible !
+dateplaner#:#ERROR_DEL_MSG#:#Cet événement est répétitif. Voulez-vous supprimer cet événement-là ou bien tous les événements répétés ?
+dateplaner#:#ERROR_ENDDATE#:#format de date de fin erroné. Format: jj/mm/yyyy
+dateplaner#:#ERROR_ENDTIME#:#Format d'heure de fin erroné. Format: hh:mm
+dateplaner#:#ERROR_END_START#:#Date de fin erronée. La date de fin est antérieure à la date de début
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Prenez soin d'utiliser un fichier CSV valide.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>XXXyour browser doesn't except JavaScript. <BR> Please close this Window après insérer manually. <BR> Thank you</CENTER></B>
+dateplaner#:#ERROR_ROTATIONEND#:#Format de date de fin de répétition erronée. Format: jj/mm/yyyy
+dateplaner#:#ERROR_ROT_END_START#:#Date de fin de répétition erronée. La date de fin est antérieure à la date de départ.
+dateplaner#:#ERROR_SHORTTEXT#:#Veuillez taper un message court (obligatoire).
+dateplaner#:#ERROR_STARTDATE#:#Format de date de départ erroné. Format: jj/mm/yyyy
+dateplaner#:#ERROR_STARTTIME#:#Format d'heure de départ erroné. Format: hh:mm
+dateplaner#:#ERROR_TS#:#Format de date erroné
+dateplaner#:#Fr_long#:#Vendredi
+dateplaner#:#Fr_short#:#Ve
+dateplaner#:#Language_file#:#Français
+dateplaner#:#Listbox_long#:#Liste des événements
+dateplaner#:#Mo_long#:#Lundi
+dateplaner#:#Mo_short#:#Lu
+dateplaner#:#Month_long#:#Vue par mois
+dateplaner#:#Sa_long#:#Samedi
+dateplaner#:#Sa_short#:#Sa
+dateplaner#:#Su_long#:#Dimanche
+dateplaner#:#Su_short#:#Di
+dateplaner#:#Text#:#Texte
+dateplaner#:#Th_long#:#Jeudi
+dateplaner#:#Th_short#:#Je
+dateplaner#:#Tu_long#:#Mardi
+dateplaner#:#Tu_short#:#Ma
+dateplaner#:#View#:#Voir
+dateplaner#:#We_long#:#Mercredi
+dateplaner#:#We_short#:#Me
+dateplaner#:#Week_long#:#Vue par semaine
 dateplaner#:#add_data#:#Données additionnelles
+dateplaner#:#app_#:#xxxgroup dates inbox
 dateplaner#:#app_date#:#Ajouter un événement
 dateplaner#:#app_day#:#Vue par journée	
 dateplaner#:#app_freetime#:#disponibilités des autres membres du groupe (xxxcatch a time)
 dateplaner#:#app_inbox#:#Boîte des événements de groupe
-dateplaner#:#application#:#Agenda
 dateplaner#:#app_list#:#Liste des événements	
-dateplaner#:#apply#:#Valider
 dateplaner#:#app_month#:#Vue par mois
 dateplaner#:#app_properties#:#Propriétés
 dateplaner#:#app_week#:#Vue par semaine
-dateplaner#:#app_#:#xxxgroup dates inbox
+dateplaner#:#application#:#Agenda
+dateplaner#:#apply#:#Valider
 dateplaner#:#back#:#Retour
 dateplaner#:#begin_date#:#Date de début
 dateplaner#:#busytime#:#temps occupé pour le groupe
 dateplaner#:#c_date#:#Ajouter un événement
-dateplaner#:#changedDates#:#Evénements modifiés
 dateplaner#:#changeTo#:#xxxChange to:
+dateplaner#:#changedDates#:#Evénements modifiés
 dateplaner#:#checkforfreetime#:#Vérifier si le créneau horaire est libre
 dateplaner#:#created#:#créé
-dateplaner#:#date_format_middle#:#xxx m/d/y//month/day/Year
-dateplaner#:#date_format#:#xxx m/d/Y H:i//month/day/Year4Digits Hour24:Minutes
-dateplaner#:#DateText#:#Message
 dateplaner#:#date#:#xxxDate
-dateplaner#:#Day_long#:#vue par journée
+dateplaner#:#date_format#:#xxx m/d/Y H:i//month/day/Year4Digits Hour24:Minutes
+dateplaner#:#date_format_middle#:#xxx m/d/y//month/day/Year
 dateplaner#:#del_all#:#Supprimer tous les événements
-dateplaner#:#deletedDates#:#Evénements supprimés
-dateplaner#:#delete#:#Supprimer
 dateplaner#:#del_one#:#Supprimer un événement
+dateplaner#:#delete#:#Supprimer
+dateplaner#:#deletedDates#:#Evénements supprimés
 dateplaner#:#discard#:#xxx discard
+dateplaner#:#dv_Grouptime#:#Temps disponible
 dateplaner#:#dv_button_cancel#:#Annuler
 dateplaner#:#dv_button_delete#:#Supprimer
 dateplaner#:#dv_button_insert#:#Ajouter
@@ -2702,18 +2722,17 @@ dateplaner#:#dv_date_end#:#Fin de l'événement :
 dateplaner#:#dv_date_hm#:#Heure:Minute
 dateplaner#:#dv_enddate#:#Date de fin :
 dateplaner#:#dv_groupselect#:#Attribution au groupe :
-dateplaner#:#dv_Grouptime#:#Temps disponible
 dateplaner#:#dv_groupview#:#Evénement du groupe :
 dateplaner#:#dv_groupview_text#:#Groupe :<br>
-dateplaner#:#dv_keywordselect#:#Sélection par mots clé :
 dateplaner#:#dv_keywords#:#Mots clé :
+dateplaner#:#dv_keywordselect#:#Sélection par mots clé :
 dateplaner#:#dv_message#:#Message
 dateplaner#:#dv_noGroup#:#Aucun groupe
 dateplaner#:#dv_noKey#:#Aucun mot clé
 dateplaner#:#dv_preview#:#      <b>! Previsualisation !</b>
+dateplaner#:#dv_rotation#:#Périodicité :
 dateplaner#:#dv_rotation_date#:#Périodicité de l'événement :
 dateplaner#:#dv_rotation_end#:#Fin de la périodicité :
-dateplaner#:#dv_rotation#:#Périodicité :
 dateplaner#:#dv_shorttext#:#Texte court
 dateplaner#:#dv_startdate#:#Date de début
 dateplaner#:#dv_text#:#Commentaire :
@@ -2721,28 +2740,11 @@ dateplaner#:#dv_whole_day#:#Journée entière :
 dateplaner#:#dv_whole_rotation#:#xxx Would you like to delete the whole Rotationdate? (click the checkbox)
 dateplaner#:#end_date#:#Fin de l'événement
 dateplaner#:#endtime_for_view#:#xxx Endtime for view:
-dateplaner#:#ERROR_DATE_EXISTS#:#Ce créneau horaire est déjà pris.
-dateplaner#:#ERROR_DB_CONNECT#:#La base de données n'est pas accessible !
-dateplaner#:#ERROR_DB#:#Erreur d'écriture dans la base de données !
-dateplaner#:#ERROR_DEL_MSG#:#Cet événement est répétitif. Voulez-vous supprimer cet événement-là ou bien tous les événements répétés ?
-dateplaner#:#ERROR_ENDDATE#:#format de date de fin erroné. Format: jj/mm/yyyy
-dateplaner#:#ERROR_END_START#:#Date de fin erronée. La date de fin est antérieure à la date de début
-dateplaner#:#ERROR_ENDTIME#:#Format d'heure de fin erroné. Format: hh:mm
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Prenez soin d'utiliser un fichier CSV valide.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>XXXyour browser doesn't except JavaScript. <BR> Please close this Window après insérer manually. <BR> Thank you</CENTER></B>
 dateplaner#:#error_minical_img#:#Impossible de créer le flux d'image GD
-dateplaner#:#ERROR_ROTATIONEND#:#Format de date de fin de répétition erronée. Format: jj/mm/yyyy
-dateplaner#:#ERROR_ROT_END_START#:#Date de fin de répétition erronée. La date de fin est antérieure à la date de départ.
-dateplaner#:#ERROR_SHORTTEXT#:#Veuillez taper un message court (obligatoire).
-dateplaner#:#ERROR_STARTDATE#:#Format de date de départ erroné. Format: jj/mm/yyyy
-dateplaner#:#ERROR_STARTTIME#:#Format d'heure de départ erroné. Format: hh:mm
-dateplaner#:#ERROR_TS#:#Format de date erroné
 dateplaner#:#execute#:#xxx Valider les choix
 dateplaner#:#extra_dates#:#xxx One Day Dates
 dateplaner#:#free#:#Libre
 dateplaner#:#freetime#:#Temps disponible du groupe
-dateplaner#:#Fr_long#:#Vendredi
-dateplaner#:#Fr_short#:#Ve
 dateplaner#:#group#:#Groupe
 dateplaner#:#help_day#:#Agenda par journée
 dateplaner#:#help_day_l#:#xxx In the dayview all dates of a chosen day are displayed.
@@ -2756,38 +2758,38 @@ dateplaner#:#help_filename#:#dp_help_en.html
 dateplaner#:#help_fullday#:#événement sur une journée complète - syntaxe[on/off]
 dateplaner#:#help_fullday_l#:#Si l'événement s'étend sur plus d'une journée complète, choisissez cette option.<br/>xxx Hereby the starttime, endtime and enddate are hidden.
 dateplaner#:#help_further#:#<br/> <b>Cliquez ici pour des informations complémentaires</b>
-dateplaner#:#help_group_l#:#Les groupesaffichés sont ceux pour lesquels vous avez des droits d'administrateurs et pour lesquels vous pouvez attribuer un événement. <br>Après sélection du groupe, vous verrez l'emploi du temps du groupe.
 dateplaner#:#help_group#:#xxx Groupdates selection
-dateplaner#:#help_inbox_l#:#Ici, tous les événements de groupe nouveaux, modifiés ou supprimés sont affichés.
+dateplaner#:#help_group_l#:#Les groupesaffichés sont ceux pour lesquels vous avez des droits d'administrateurs et pour lesquels vous pouvez attribuer un événement. <br>Après sélection du groupe, vous verrez l'emploi du temps du groupe.
 dateplaner#:#help_inbox#:#xxx Dateplaner Inbox
+dateplaner#:#help_inbox_l#:#Ici, tous les événements de groupe nouveaux, modifiés ou supprimés sont affichés.
 dateplaner#:#help_keyword#:#Choix de mot clé
-dateplaner#:#help_keyword_l#:#Contient les mots clé que vous pouvez associer aux événements.
 dateplaner#:#help_keywordUse#:#Choix de mot clé
 dateplaner#:#help_keywordUse_l#:#Choisissez un ou plusieurs mots clé dans la boîte de dialogue. <br>Astuce : utilisez la touche CTRL pour sélectionner plusieurs mots clé.
+dateplaner#:#help_keyword_l#:#Contient les mots clé que vous pouvez associer aux événements.
 dateplaner#:#help_list#:#Liste des événements dans l'agenda
 dateplaner#:#help_list_l#:#xxx In the datelis all dates over a given period of time are displayed.
 dateplaner#:#help_month#:#Agenda par mois
 dateplaner#:#help_month_l#:#Avec l'affichage par mois, tous les événements d'un mois donné sont affichés sur une seule page.
 dateplaner#:#help_properties_alt#:#Change de mot clé
 dateplaner#:#help_properties_alt_l#:#Choisissez un mot clé dans la boîte de dialogue.<br/>Changez le mot clé dans le champ de saisie. Attention : 20 caractères maximum.
-dateplaner#:#help_properties_del_l#:#xxx Chose a keyword from the dialog box. Click the button to delete the keyword.
 dateplaner#:#help_properties_del#:#Supprime les mots clé
+dateplaner#:#help_properties_del_l#:#xxx Chose a keyword from the dialog box. Click the button to delete the keyword.
 dateplaner#:#help_properties_import#:#Importer un fichier CSV depuis Outlook
 dateplaner#:#help_properties_import_l#:#Ici, un fichier csv contenant l'agenda d'Outlook peut être sélectionné. Les RDV contenus dans ce fichier seront importés dans l'Agenda en ligne.
 dateplaner#:#help_properties_new#:#Ajoutez un mot clé, 20 caractères max.
 dateplaner#:#help_properties_new_l#:#xxx Ajouter a new keyword to the field \"new\". Important: max. 20 characters.
-dateplaner#:#help_properties_time_l#:#xxx The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.
 dateplaner#:#help_properties_time#:#xxx Displaytime for dayview/weekview
-dateplaner#:#help_rotation_l#:#Choisissez le type de périodicité de l'événement.
+dateplaner#:#help_properties_time_l#:#xxx The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.
 dateplaner#:#help_rotation#:#Périodicité
-dateplaner#:#help_shorttext_l#:#Ici, on peut taper un texte court pour un événement donné.
+dateplaner#:#help_rotation_l#:#Choisissez le type de périodicité de l'événement.
 dateplaner#:#help_shorttext#:#Texte court. 50 caractères max.
+dateplaner#:#help_shorttext_l#:#Ici, on peut taper un texte court pour un événement donné.
 dateplaner#:#help_startdate#:#Date de début - syntaxe [jj//mm/yyyy]
 dateplaner#:#help_startdate_l#:#Contient le point de départ de l'événement. <br> L'icône ci-contre ouvre un petit calendrier pour chosir la date qui convient.
 dateplaner#:#help_starttime#:#Horaire de début - syntaxe [hh/mm] 24h format
 dateplaner#:#help_starttime_l#:#Contient le point de départ horaire de l'événement au format 24h.
-dateplaner#:#help_text_l#:#Ici, on peut taper un commentaire pour un événement donné.
 dateplaner#:#help_text#:#Texte
+dateplaner#:#help_text_l#:#Ici, on peut taper un commentaire pour un événement donné.
 dateplaner#:#help_week#:#Agenda par semaine
 dateplaner#:#help_week_l#:#Avec l'affichage par semaine, tous les événements de la semaine choisie sont affichés.
 dateplaner#:#hour#:#Heure
@@ -2798,9 +2800,7 @@ dateplaner#:#k_alldates#:#Tous les événements
 dateplaner#:#keep#:#Conserver
 dateplaner#:#keyword#:#Mot clé
 dateplaner#:#keywords#:#Mots clé
-dateplaner#:#Language_file#:#Français
 dateplaner#:#last_change#:#Dernièrement modifié(s)
-dateplaner#:#Listbox_long#:#Liste des événements
 dateplaner#:#long_01#:#Janvier
 dateplaner#:#long_02#:#Février
 dateplaner#:#long_03#:#Mars
@@ -2816,16 +2816,13 @@ dateplaner#:#long_12#:#Décembre
 dateplaner#:#main_dates#:#xxx Main Dates
 dateplaner#:#menue#:#Menu
 dateplaner#:#mmonth#:#Mois précédent
-dateplaner#:#Mo_long#:#Lundi
-dateplaner#:#Month_long#:#Vue par mois
 dateplaner#:#month#:#Mois
 dateplaner#:#more#:#Davantage
-dateplaner#:#Mo_short#:#Lu
 dateplaner#:#mweek#:#Semaine précédente
 dateplaner#:#myeahr#:#Année précédente
 dateplaner#:#newDates#:#Nouveaux événements
-dateplaner#:#new_doc#:#Ajouter un nouvel événement
 dateplaner#:#newKeyword#:#Nouveau
+dateplaner#:#new_doc#:#Ajouter un nouvel événement
 dateplaner#:#no_entry#:#Aucun événement prévu
 dateplaner#:#o_day_date#:#Evénement de 24h
 dateplaner#:#of#:#de
@@ -2838,16 +2835,14 @@ dateplaner#:#pyear#:#Année suivante
 dateplaner#:#r_14#:#Toutes les deux semaines
 dateplaner#:#r_4_weeks#:#Toutes les quatre semaines
 dateplaner#:#r_day#:#Tous les jours
-dateplaner#:#readimportfile#:#Insérer
 dateplaner#:#r_halfyear#:#Tous les six mois
 dateplaner#:#r_month#:#Tous les mois
 dateplaner#:#r_nonrecurring#:#pas de répétition
-dateplaner#:#rotation_dates#:#événements périodiques
-dateplaner#:#rotation#:#Périodicité
 dateplaner#:#r_week#:#Hebdomadaire
 dateplaner#:#r_year#:#Tous les ans
-dateplaner#:#Sa_long#:#Samedi
-dateplaner#:#Sa_short#:#Sa
+dateplaner#:#readimportfile#:#Insérer
+dateplaner#:#rotation#:#Périodicité
+dateplaner#:#rotation_dates#:#événements périodiques
 dateplaner#:#semester_name#:#xxx Semester Name
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Fev
@@ -2864,38 +2859,27 @@ dateplaner#:#short_12#:#Dec
 dateplaner#:#shorttext#:#Texte court
 dateplaner#:#singleDate#:#événement unique
 dateplaner#:#starttime_for_view#:#Heure de début pour l'affichage
-dateplaner#:#Su_long#:#Dimanche
-dateplaner#:#Su_short#:#Di
-dateplaner#:#Text#:#Texte
-dateplaner#:#Th_long#:#Jeudi
-dateplaner#:#Th_short#:#Je
 dateplaner#:#timedate#:#Heure / Date
 dateplaner#:#timeslice#:#Horaire :
 dateplaner#:#title#:#Agenda Ilias
-dateplaner#:#today#:#aujourd'hui
 dateplaner#:#to#:#à
-dateplaner#:#Tu_long#:#Mardi
-dateplaner#:#Tu_short#:#Ma
+dateplaner#:#today#:#aujourd'hui
 dateplaner#:#viewlist#:#Voir
-dateplaner#:#View#:#Voir
-dateplaner#:#Week_long#:#Vue par semaine
 dateplaner#:#week#:#semaine
-dateplaner#:#We_long#:#Mercredi
-dateplaner#:#We_short#:#Me
 dateplaner#:#year#:#année 
+forum#:#forums#:#Forums
 forum#:#forums_articles#:#Articles
-forum#:#forums_attachments_add#:#Ajouter attachement
 forum#:#forums_attachments#:#Attachements
+forum#:#forums_attachments_add#:#Ajouter attachement
 forum#:#forums_attachments_edit#:#Modifier attachement
 forum#:#forums_available#:#Forums disponibles
 forum#:#forums_censor_comment#:#Commentaire du modérateur
-forum#:#forums_count_art#:#Nombre d'articles
 forum#:#forums_count#:#Nombre de forums
+forum#:#forums_count_art#:#Nombre d'articles
 forum#:#forums_count_thr#:#Nombre de fils de discussion
 forum#:#forums_delete_file#:#Supprimer attachement
 forum#:#forums_download_attachment#:#Télécharger fichier
 forum#:#forums_edit_post#:#Modifier article
-forum#:#forums#:#Forums
 forum#:#forums_info_censor2_post#:#Etes-vous sûr(e) de vouloir continuer à cacher cet article ?
 forum#:#forums_info_censor_post#:#Etes-vous sûr(e) de vouloir cacher cet article ?
 forum#:#forums_info_delete_post#:#Etes-vous sûr(e) de vouloir détruire cet article et toutes les réponses ?
@@ -2908,32 +2892,31 @@ forum#:#forums_overview#:#Vue générale des forums
 forum#:#forums_post_deleted#:#L'article a été détruit
 forum#:#forums_post_modified#:#L'article a été modifié
 forum#:#forums_post_new_entry#:#Le nouvel article a été inscrit
-forum#:#forums_posts_not_available#:#Articles non disponibles
 forum#:#forums_posts#:#Tous les articles
+forum#:#forums_posts_not_available#:#Articles non disponibles
 forum#:#forums_print_thread#:#Imprimer fil de discussion
 forum#:#forums_quote#:#Citer
 forum#:#forums_respond#:#Envoyer réponse
 forum#:#forums_subject#:#Sujet
 forum#:#forums_the_post#:#Article
+forum#:#forums_thread#:#Sujet
 forum#:#forums_thread_articles#:#Articles du sujet
 forum#:#forums_thread_create_date#:#Créé à 
 forum#:#forums_thread_create_from#:#Créé par
 forum#:#forums_thread_new_entry#:#Le nouveau sujet a été inscrit
 forum#:#forums_threads#:#Fils de discussion
 forum#:#forums_threads_not_available#:#Sujets non disponibles
-forum#:#forums_thread#:#Sujet
 forum#:#forums_topics_overview#:#Vue générale des sujets
 forum#:#forums_your_reply#:#Votre réponse
-﻿mail#:#also_as_email#:#Egalement par email
 mail#:#bc#:#BCC
 mail#:#forward#:#Transmettre
 mail#:#linebreak#:#Retour à la ligne
 mail#:#mail_add_recipient#:#Veuillez saisir un destinataire
-mail#:#mail_addr_entries#:#Entrées
 mail#:#mail_add_subfolder#:#Ajouter sous-dossier
 mail#:#mail_add_subject#:#Veuillez saisir un sujet
 mail#:#mail_add_to_addressbook#:#Ajouter au carnet d'adresses
 mail#:#mail_add_type#:#Veuillez ajouter le type de message que vous voulez envoyer
+mail#:#mail_addr_entries#:#Entrées
 mail#:#mail_attachments#:#Attachements
 mail#:#mail_bc_not_valid#:#Le destinataire en BCC n'est pas valide
 mail#:#mail_bc_search#:#Recherche BCC
@@ -2943,25 +2926,25 @@ mail#:#mail_cc_search#:#Recherche CC
 mail#:#mail_change_to_folder#:#Passer au dossier:
 mail#:#mail_check_your_email_addr#:#Votre adresse email n'est pas valide
 mail#:#mail_compose#:#Composer message
-mail#:#mail_deleted_entry#:#Les entrées sont détruites XXX
 mail#:#mail_deleted#:#Le(s) message(s) est(sont) détruit(s)
+mail#:#mail_deleted_entry#:#Les entrées sont détruites XXX
 mail#:#mail_email_forbidden#:#Vous n'êtes pas autorisé(e) à envoyer des emails
 mail#:#mail_entry_added#:#Nouvelle entrée ajoutée
 mail#:#mail_entry_changed#:#L'entrée a été changée
 mail#:#mail_file_name#:#Nom du fichier
-mail#:#mail_files_deleted#:#Le(s) fichier(s) a(ont) été détruit(s)
 mail#:#mail_file_size#:#Taille du fichier
+mail#:#mail_files_deleted#:#Le(s) fichier(s) a(ont) été détruit(s)
 mail#:#mail_folder_created#:#Un nouveau dossier a été créé
 mail#:#mail_folder_deleted#:#Le dossier a été détruit
 mail#:#mail_folder_exists#:#Un dossier portant ce nom existe déjà
-mail#:#mail_folder_name_changed#:#Le dossier a été renommé
 mail#:#mail_folder_name#:#Nom du dossier
+mail#:#mail_folder_name_changed#:#Le dossier a été renommé
 mail#:#mail_folder_options#:#Options de dossier
 mail#:#mail_following_rcp_not_valid#:#Les destinataires suivants ne sont pas valides :
 mail#:#mail_global_options#:#Options globales
+mail#:#mail_incoming#:#Messages entrants
 mail#:#mail_incoming_both#:#local + redirection vers l'adresse externe
 mail#:#mail_incoming_local#:#pas de redirection
-mail#:#mail_incoming#:#Messages entrants
 mail#:#mail_incoming_smtp#:#redirection vers l'adresse externe
 mail#:#mail_insert_folder_name#:#Veuillez saisir un nom de dossier
 mail#:#mail_insert_query#:#Veuillez saisir une requête
@@ -2970,10 +2953,10 @@ mail#:#mail_mark_read#:#Marquer les messages comme lus
 mail#:#mail_mark_unread#:#Marquer les messages comme non lus
 mail#:#mail_maxsize_attachment_error#:#La limite de téléchargement est :
 mail#:#mail_message_send#:#Message envoyé
-mail#:#mail_moved#:#Message(s) déplacé(s)
-mail#:#mail_moved_to_trash#:#Message(s) déplacé(s) dans la corbeille
 mail#:#mail_move_error#:#Erreur lors du déplacement du(des) message(s)
 mail#:#mail_move_to#:#Déplacer vers :
+mail#:#mail_moved#:#Message(s) déplacé(s)
+mail#:#mail_moved_to_trash#:#Message(s) déplacé(s) dans la corbeille
 mail#:#mail_new_file#:#Ajouter nouveau fichier :
 mail#:#mail_no_attach_allowed#:#Les messages système ne peuvent pas contenir de pièce jointe
 mail#:#mail_no_attachments_found#:#Aucune pièce jointe trouvée
@@ -2981,15 +2964,15 @@ mail#:#mail_no_permissions_write_smtp#:#Vous n'avez pas la permission d'envoyer 
 mail#:#mail_options_of#:#Options
 mail#:#mail_options_saved#:#Options enregistrées
 mail#:#mail_recipient_not_valid#:#Le destinataire n'est pas valide
+mail#:#mail_s#:#Message(s)
+mail#:#mail_s_unread#:#Message(s) non lu(s)
 mail#:#mail_saved#:#Le message a été sauvé
 mail#:#mail_search_addressbook#:#Rechercher dans le carnet d'adresses
 mail#:#mail_search_system#:#chercher dans le système
 mail#:#mail_select_one_entry#:#Vous devez sélectionner une entrée
 mail#:#mail_select_one_file#:#Vous devez sélectionner un fichier
-mail#:#mail_s#:#Message(s)
-mail#:#mail_s_unread#:#Message(s) non lu(s)
-mail#:#mail_sure_delete_entry#:#Etes-vous sûr(e) de vouloir détruire les entrées suivantes
 mail#:#mail_sure_delete#:#Etes-vous sûr(e) de vouloir détruire les messages marqués ?
+mail#:#mail_sure_delete_entry#:#Etes-vous sûr(e) de vouloir détruire les entrées suivantes
 mail#:#mail_sure_delete_file#:#Le fichier sera supprimé définitivement
 mail#:#mail_sure_delete_folder#:#Le dossier et son contenu seront détruits définitivement
 mail#:#mail_to_search#:#Rechercher
@@ -3015,7 +2998,6 @@ meta#:#meta_c_AO#:#Angola
 meta#:#meta_c_AQ#:#Antarctique
 meta#:#meta_c_AR#:#Argentine
 meta#:#meta_c_AS#:#Samoa américaines
-meta#:#meta_catalog#:#Catalogue
 meta#:#meta_c_AT#:#Autriche
 meta#:#meta_c_AU#:#Australie
 meta#:#meta_c_AW#:#Aruba
@@ -3096,9 +3078,6 @@ meta#:#meta_c_GW#:#Guinée-Bissau
 meta#:#meta_c_GY#:#Guyana
 meta#:#meta_c_HM#:#Iles Heard et Nc Donald
 meta#:#meta_c_HN#:#Honduras
-meta#:#meta_choose_element#:#Veuillez choisir un élément que vous voulez ajouter
-meta#:#meta_choose_language#:#Veuillez choisir une langue
-meta#:#meta_choose_section#:#Veuillez choisir une section
 meta#:#meta_c_HR#:#Croatie
 meta#:#meta_c_HT#:#Haïti
 meta#:#meta_c_HU#:#Hongrie
@@ -3126,7 +3105,6 @@ meta#:#meta_c_KW#:#Koweit
 meta#:#meta_c_KY#:#Iles Caïman
 meta#:#meta_c_KZ#:#Kazakhstan
 meta#:#meta_c_LA#:#République populaire du Laos
-meta#:#meta_classification#:#Classification
 meta#:#meta_c_LB#:#Liban
 meta#:#meta_c_LC#:#Saint Lucia
 meta#:#meta_c_LI#:#Liechtenstein
@@ -3170,14 +3148,7 @@ meta#:#meta_c_NP#:#Népal
 meta#:#meta_c_NR#:#Nauru
 meta#:#meta_c_NU#:#Niue
 meta#:#meta_c_NZ#:#Nouvelle Zélande
-meta#:#meta_collection#:#Collection
 meta#:#meta_c_OM#:#Oman
-meta#:#meta_competency#:#Compétence
-meta#:#meta_context#:#Contexte
-meta#:#meta_contribute#:#Contribuer
-meta#:#meta_copyright_and_other_restrictions#:#Droits d'auteur et autres restrictions
-meta#:#meta_cost#:#Coût
-meta#:#meta_coverage#:#Portée
 meta#:#meta_c_PA#:#Panama
 meta#:#meta_c_PE#:#Pérou
 meta#:#meta_c_PF#:#Polynésie française
@@ -3253,6 +3224,18 @@ meta#:#meta_c_ZM#:#Zambie
 meta#:#meta_c_ZR#:#Zaïre
 meta#:#meta_c_ZW#:#Zimbabwé
 meta#:#meta_c_ZZ#:#Autre pays
+meta#:#meta_catalog#:#Catalogue
+meta#:#meta_choose_element#:#Veuillez choisir un élément que vous voulez ajouter
+meta#:#meta_choose_language#:#Veuillez choisir une langue
+meta#:#meta_choose_section#:#Veuillez choisir une section
+meta#:#meta_classification#:#Classification
+meta#:#meta_collection#:#Collection
+meta#:#meta_competency#:#Compétence
+meta#:#meta_context#:#Contexte
+meta#:#meta_contribute#:#Contribuer
+meta#:#meta_copyright_and_other_restrictions#:#Droits d'auteur et autres restrictions
+meta#:#meta_cost#:#Coût
+meta#:#meta_coverage#:#Portée
 meta#:#meta_date#:#Date
 meta#:#meta_delete#:#Supprimer
 meta#:#meta_description#:#Description
@@ -3262,9 +3245,9 @@ meta#:#meta_dificult#:#Difficile
 meta#:#meta_draft#:#Brouillon
 meta#:#meta_duration#:#Durée
 meta#:#meta_easy#:#Facile
+meta#:#meta_education#:#Education
 meta#:#meta_educational_level#:#Niveau pédagogique
 meta#:#meta_educational_objective#:#Objectif pédagogique
-meta#:#meta_education#:#Education
 meta#:#meta_entity#:#Entité
 meta#:#meta_entry#:#Entrée
 meta#:#meta_exam#:#Examen
@@ -3280,11 +3263,11 @@ meta#:#meta_has_format#:#A le format
 meta#:#meta_has_part#:#A la partie
 meta#:#meta_has_version#:#A la version
 meta#:#meta_hierarchical#:#Hiérarchique
-meta#:#meta_higher_education#:#Enseignement supérieur
 meta#:#meta_high#:#Haut
+meta#:#meta_higher_education#:#Enseignement supérieur
+meta#:#meta_id#:#Identifiant
 meta#:#meta_idea#:#Idée
 meta#:#meta_identifier#:#Identifiant
-meta#:#meta_id#:#Identifiant
 meta#:#meta_index#:#Index
 meta#:#meta_installation_remarks#:#Remarques sur l'installation
 meta#:#meta_intended_end_user_role#:#Rôle prévu de l'utilisateur final
@@ -3303,7 +3286,6 @@ meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#abkhazien
 meta#:#meta_l_af#:#afrikaans
 meta#:#meta_l_am#:#amharique
-meta#:#meta_language#:#Langue
 meta#:#meta_l_ar#:#arabe
 meta#:#meta_l_as#:#assamese
 meta#:#meta_l_ay#:#aymara
@@ -3323,9 +3305,6 @@ meta#:#meta_l_cy#:#gallois
 meta#:#meta_l_da#:#danois
 meta#:#meta_l_de#:#allemand
 meta#:#meta_l_dz#:#bhutani
-meta#:#meta_learner#:#Apprenant
-meta#:#meta_learning_resource_type#:#Type de ressource d'apprentissage
-meta#:#meta_lecture#:#Lecture
 meta#:#meta_l_el#:#grec
 meta#:#meta_l_en#:#anglais
 meta#:#meta_l_eo#:#esperanto
@@ -3352,9 +3331,7 @@ meta#:#meta_l_hy#:#arménien
 meta#:#meta_l_ia#:#interlingua
 meta#:#meta_l_id#:#indonésien
 meta#:#meta_l_ie#:#interlingue
-meta#:#meta_lifecycle#:#Cycle de vie
 meta#:#meta_l_ik#:#inupiak
-meta#:#meta_linear#:#Linéaire
 meta#:#meta_l_is#:#islandais
 meta#:#meta_l_it#:#italien
 meta#:#meta_l_iu#:#inuktitut
@@ -3388,12 +3365,9 @@ meta#:#meta_l_na#:#nauru
 meta#:#meta_l_ne#:#népalais
 meta#:#meta_l_nl#:#hollandais
 meta#:#meta_l_no#:#norvégien
-meta#:#meta_local_file#:#Fichier local
-meta#:#meta_location#:#Emplacement
 meta#:#meta_l_oc#:#occitan
 meta#:#meta_l_om#:#afan (oromo)
 meta#:#meta_l_or#:#oriya
-meta#:#meta_low#:#Bas
 meta#:#meta_l_pa#:#punjabi
 meta#:#meta_l_pl#:#polonais
 meta#:#meta_l_ps#:#pashto;pushto
@@ -3447,12 +3421,21 @@ meta#:#meta_l_yo#:#yoruba
 meta#:#meta_l_za#:#zhuang
 meta#:#meta_l_zh#:#chinois
 meta#:#meta_l_zu#:#zoulou
+meta#:#meta_language#:#Langue
+meta#:#meta_learner#:#Apprenant
+meta#:#meta_learning_resource_type#:#Type de ressource d'apprentissage
+meta#:#meta_lecture#:#Lecture
+meta#:#meta_lifecycle#:#Cycle de vie
+meta#:#meta_linear#:#Linéaire
+meta#:#meta_local_file#:#Fichier local
+meta#:#meta_location#:#Emplacement
+meta#:#meta_low#:#Bas
 meta#:#meta_mac_os#:#MacOS
 meta#:#meta_manager#:#Gestionnaire
 meta#:#meta_maximum_version#:#Version maximale
 meta#:#meta_medium#:#Moyen
-meta#:#meta_metadatascheme#:#Schéma de méta-données
 meta#:#meta_meta_metadata#:#Méta-Méta-données
+meta#:#meta_metadatascheme#:#Schéma de méta-données
 meta#:#meta_minimum_version#:#Version minimale
 meta#:#meta_mixed#:#Mixte
 meta#:#meta_ms_windows#:#MS-Windows
@@ -3461,16 +3444,16 @@ meta#:#meta_name#:#Nom
 meta#:#meta_narrative_text#:#Texte narratif
 meta#:#meta_networked#:#En réseau
 meta#:#meta_new_element#:#Nouvel élément
+meta#:#meta_no#:#Numéro
 meta#:#meta_no_annotation#:#Pas de méta-données disponibles pour la section Annotation.
 meta#:#meta_no_classification#:#Pas de méta-données disponibles pour la section Classification.
 meta#:#meta_no_educational#:#Pas de méta-données disponibles pour la section Pédagogie.
 meta#:#meta_no_lifecycle#:#Pas de méta-données disponibles pour la section Cycle de vie.
 meta#:#meta_no_meta_metadata#:#Pas de méta-données disponibles pour la section Méta-méta-données
-meta#:#meta_none#:#Aucun
-meta#:#meta_no#:#Numéro
 meta#:#meta_no_relation#:#Pas de méta-données disponibles pour la section Relations.
 meta#:#meta_no_rights#:#Pas de méta-données disponibles pour la section Droits.
 meta#:#meta_no_technical#:#Pas de méta-données disponibles pour la section Technique.
+meta#:#meta_none#:#Aucun
 meta#:#meta_operating_system#:#Système d'exploitation
 meta#:#meta_or_composite#:#Ou composite
 meta#:#meta_other#:#Autre
@@ -3503,8 +3486,8 @@ meta#:#meta_source#:#Source
 meta#:#meta_status#:#Statut
 meta#:#meta_structure#:#Structure
 meta#:#meta_table#:#Tableau
-meta#:#meta_taxon_path#:#Chemin de taxinomie
 meta#:#meta_taxon#:#Taxinomie
+meta#:#meta_taxon_path#:#Chemin de taxinomie
 meta#:#meta_teacher#:#Enseignant
 meta#:#meta_technical#:#Technique
 meta#:#meta_title#:#Titre
@@ -3523,13 +3506,13 @@ meta#:#meta_very_low#:#Très bas
 meta#:#meta_yes#:#Oui
 payment#:#pay_no_vendors_created#:#Pas de vendeurs créés
 payment#:#pays_active_bookings#:#Réservations actives
-payment#:#pays_added_vendor#:#Nouveau vendeur ajouté
 payment#:#pays_add_vendor#:#Ajouter vendeur
+payment#:#pays_added_vendor#:#Nouveau vendeur ajouté
 payment#:#pays_already_assigned_vendors#:#Le nombre d'utilisateurs suivant a déjà été assigné.
 payment#:#pays_assigned_vendors#:#Le nombre d'utilisateurs suivant a été assigné à la liste des vendeurs.
 payment#:#pays_cost_center#:#Centre de coût
-payment#:#pays_deleted_number_vendors#:#Le nombre de vendeurs suivant ont été détruits :
 payment#:#pays_delete_vendor#:#Supprimer l'assignation de ll'utilisateur
+payment#:#pays_deleted_number_vendors#:#Le nombre de vendeurs suivant ont été détruits :
 payment#:#pays_header_select_vendor#:#Sélection du vendeur
 payment#:#pays_no_username_given#:#Pas de nom d'utilisateur donné
 payment#:#pays_no_valid_username_given#:#Pas de nom d'utilisateur valide donné
@@ -3547,8 +3530,8 @@ search#:#search_dbk_content#:#Bibliothèque digitale (contenu)
 search#:#search_dbk_meta#:#Bibliothèque digitale (méta-données)
 search#:#search_delete_sure#:#L'objet et son contenu seront détruits de façon permanente.
 search#:#search_group#:#Groupes
-search#:#search_inactive#:#Inclure utilisateurs inactifs
 search#:#search_in_result#:#Chercher dans les résultats
+search#:#search_inactive#:#Inclure utilisateurs inactifs
 search#:#search_lm_content#:#Matériaux d'apprentissage (contenu)
 search#:#search_lm_meta#:#Matériaux d'apprentissage (méta-données)
 search#:#search_meta#:#Méta-données
@@ -3575,10 +3558,10 @@ search#:#search_search_no_results_saved#:#Aucun résultat de recherche enregistr
 search#:#search_search_results#:#Résultats de recherche
 search#:#search_search_term#:#Terme de recherche
 search#:#search_select_exactly_one_object#:#Vous devez sélectionner exactement un objet.
+search#:#search_select_one#:#Selectionner un répertoire
 search#:#search_select_one_action#:#--Selectionner une action--
 search#:#search_select_one_folder_select#:#--Selectionner un répertoire--
 search#:#search_select_one_result#:#Selectionner au moins un résultat de recherche
-search#:#search_select_one#:#Selectionner un répertoire
 search#:#search_select_one_select#:#--Selectionner un répertoire--
 search#:#search_show_result#:#Afficher
 search#:#search_user#:#Utilisateurs
@@ -3632,8 +3615,8 @@ survey#:#dc_no#:#non
 survey#:#dc_notacceptable#:#inacceptable
 survey#:#dc_poor#:#mauvais
 survey#:#dc_rarely#:#rarement
-survey#:#dc_shouldnot#:#ne devrait pas
 survey#:#dc_should#:#devrait
+survey#:#dc_shouldnot#:#ne devrait pas
 survey#:#dc_sometimes#:#parfois
 survey#:#dc_stronglyagree#:#tout à fait d'accord
 survey#:#dc_stronglydesired#:#tout à fait souhaitable
@@ -3677,8 +3660,8 @@ survey#:#end_date#:#Date de fin
 survey#:#end_date_reached#:#Vous ne pouvez pas commencer le sondage. La date de fin est dépassée.
 survey#:#enter_phrase_title#:#Veuillez saisir un titre d'expression XXX
 survey#:#enter_value#:#Saisissez une valeur
-survey#:#evaluation_access#:#Accès à l'évaluation
 survey#:#evaluation#:#Evaluation
+survey#:#evaluation_access#:#Accès à l'évaluation
 survey#:#excel#:#Microsoft Excel
 survey#:#exit#:#Sortie
 survey#:#export_data_as#:#Exporter données sous :
@@ -3692,23 +3675,23 @@ survey#:#given_answers#:#Réponses données
 survey#:#harmonic_mean#:#Moyenne harmonique
 survey#:#insert_after#:#Insérer après
 survey#:#insert_before#:#Insérer avant
-survey#:#insert_missing_questionblock#:#Veuillez sélectionner au moins un bloc de questions pour l'insérer dans le sondage.
 survey#:#insert_missing_question#:#Veuillez sélectionner au moins une question pour l'insérer dans le sondage.
+survey#:#insert_missing_questionblock#:#Veuillez sélectionner au moins un bloc de questions pour l'insérer dans le sondage.
 survey#:#introduction#:#Introduction
 survey#:#introduction_manage_phrases#:#Gérez vos expressions personnalisées qui sont disponibles pour toutes les questions ordinales XXX que vous modifiez/créez
 survey#:#invitation#:#Invitation
 survey#:#invitation_mode#:#Mode d'invitation
+survey#:#invite_participants#:#Inviter participants
 survey#:#invited_groups#:#Groupes invités
 survey#:#invited_users#:#Utilisateurs invités
-survey#:#invite_participants#:#Inviter participants
 survey#:#last_update#:#Dernière mise à jour
 survey#:#lower_limit#:#Limite basse
 survey#:#maintenance#:#Maintenance
 survey#:#manage_phrases#:#Gérer expressions
 survey#:#material_file#:#Fichier matériau
 survey#:#maximum#:#Valeur maximale
-survey#:#median_between#:#entre
 survey#:#median#:#Médiane
+survey#:#median_between#:#entre
 survey#:#metric_question_out_of_bounds#:#La valeur que vous avez saisie n'est pas comprise entre les valeurs minimale et maximale
 survey#:#minimum#:#Valeur minimale
 survey#:#missing_upper_or_lower_limit#:#Veuillez saisir des limites basse et haute
@@ -3722,25 +3705,25 @@ survey#:#no_available_constraints#:#Pas de contraintes définies
 survey#:#no_category_selected_for_deleting#:#Veuillez sélectionner au moins une catégorie si vous voulez détruire des catégories.
 survey#:#no_category_selected_for_move#:#Veuillez cocher au moins une catégorie pour la déplacer.
 survey#:#no_constraints_checked#:#Veuillez sélectionner au moins une question ou un bloc de questions pour modifier les contraintes.
-survey#:#nominal_question_not_checked#:#Veuillez cocher une des réponses proposées.
-survey#:#non_ratio#:#Non-Ratio XXX
-survey#:#no_questionblocks_available#:#Pas de bloc de questions disponible
-survey#:#no_questions_available#:#Pas de question disponible
 survey#:#no_question_selected_for_move#:#Veuillez cocher au moins une question pour la déplacer.
 survey#:#no_question_selected_for_removal#:#Veuillez cocher au moins une question ou un bloc de questions à déplacer.
+survey#:#no_questionblocks_available#:#Pas de bloc de questions disponible
+survey#:#no_questions_available#:#Pas de question disponible
 survey#:#no_search_results#:#Pas de résultats de recherche
 survey#:#no_target_selected_for_move#:#Vous devez sélectionner une position cible.
-survey#:#not_finished#:#non terminé
-survey#:#not_started#:#non commencé
 survey#:#no_user_or_group_selected#:#Veuillez cocher une option pour indiquer ce que vous cherchez (utilisateurs et/ou groupes)
 survey#:#no_user_phrases_defined#:#Pas d'expressions personnalisées disponibles.
+survey#:#nominal_question_not_checked#:#Veuillez cocher une des réponses proposées.
+survey#:#non_ratio#:#Non-Ratio XXX
+survey#:#not_finished#:#non terminé
+survey#:#not_started#:#non commencé
 survey#:#obligatory#:#obligatoire
-survey#:#offline#:#hors-ligne
 survey#:#off#:#off XXX
-survey#:#online#:#en ligne
+survey#:#offline#:#hors-ligne
 survey#:#on#:#on XXX
-survey#:#ordinal_question_not_checked#:#Veuillez cocher une des réponses proposées.
+survey#:#online#:#en ligne
 survey#:#or#:#ou
+survey#:#ordinal_question_not_checked#:#Veuillez cocher une des réponses proposées.
 survey#:#percentage_of_entered_values#:#Pourcentage des utilisateurs qui ont saisi cette valeur
 survey#:#percentage_of_selections#:#Pourcentage des utilisateurs qui ont sélectionné cette catégorie
 survey#:#predefined_users#:#Predefined user set XXX
@@ -3765,16 +3748,16 @@ survey#:#qt_metric#:#Question métrique
 survey#:#qt_nominal#:#Question nominale
 survey#:#qt_ordinal#:#Question ordinale
 survey#:#qt_text#:#Question à texte
-survey#:#questionblock_has_constraints#:#Contraintes
-survey#:#questionblock#:#Bloc de uestions
-survey#:#questionblocks#:#Blocs de questions
 survey#:#question_has_constraints#:#Contraintes
 survey#:#question_obligatory#:#La question est obligatoire.
 survey#:#question_saved_for_upload#:#La question a été enregistrée automatiquement pour réserver de l'espace disque pour stocker le fichier téléversé. Si vous quittez ce formulaire en annulant maintenant, pensez à détruire la question du jeu de questions si vous ne voulez pas la conserver.
-survey#:#questions_inserted#:#Question(s) insérée(s)
-survey#:#questions#:#Questions
-survey#:#questions_removed#:#Question(s) et/ou bloc(s) de questions supprimé(es)
 survey#:#question_type#:#Type de question
+survey#:#questionblock#:#Bloc de uestions
+survey#:#questionblock_has_constraints#:#Contraintes
+survey#:#questionblocks#:#Blocs de questions
+survey#:#questions#:#Questions
+survey#:#questions_inserted#:#Question(s) insérée(s)
+survey#:#questions_removed#:#Question(s) et/ou bloc(s) de questions supprimé(es)
 survey#:#questiontype#:#Type de question
 survey#:#ratio_absolute#:#Ratio-Absolute XXX
 survey#:#ratio_non_absolute#:#Ratio-Non-Absolute XXX
@@ -3782,9 +3765,9 @@ survey#:#remove_question#:#Supprimer
 survey#:#remove_questions#:#Etes-vous sûr(e) de vouloir supprimer les questions et/ou blocs de questions suivants du test ?
 survey#:#reset_filter#:#Remettre le filtre à zéro
 survey#:#resume_survey#:#Reprendre le sondage
+survey#:#save_phrase#:#Enregistrer comme expression
 survey#:#save_phrase_categories_not_checked#:#Veuillez cocher au moins deux catégories pour enregistrer des catégories dans une nouvelle expression.
 survey#:#save_phrase_introduction#:#Si vous voulez enregistrer les catégories ci-dessous comme expression par défaut, veuillez saisir un titre d'expression. Vous pouvez accéder à l'expression par défaut pour ajouter une expression à une question ordinale.
-survey#:#save_phrase#:#Enregistrer comme expression
 survey#:#search_field_all#:#Rechercher dans tous leschamps
 survey#:#search_for#:#Rechercher
 survey#:#search_groups#:#Groupes
@@ -3800,12 +3783,12 @@ survey#:#select_target_position_for_move#:#Veuillez sélectionner une position c
 survey#:#select_target_position_for_move_question#:#Veuillez sélectionner une position cible pour déplacer les questions et presser un des boutons 'insérer'.
 survey#:#select_value#:#Selectionner une valeur
 survey#:#set_filter#:#Régler filtre
-survey#:#start_date_not_reached#:#Vous ne pouvez pas commencer le sondage tant que la date de départ n'est pas arrivée.
 survey#:#start_date#:#Date de départ
+survey#:#start_date_not_reached#:#Vous ne pouvez pas commencer le sondage tant que la date de départ n'est pas arrivée.
 survey#:#start_survey#:#Commencer sondage
 survey#:#subtype#:#Sous-type
-survey#:#survey_finished#:#Le sondage est terminé. Merci pour votre participation.
 survey#:#survey_finish#:#enregistrer et terminer sondage >>>
+survey#:#survey_finished#:#Le sondage est terminé. Merci pour votre participation.
 survey#:#survey_is_offline#:# Vous ne pouvez pas commencer le sondage. Le sondage est hors-ligne.
 survey#:#survey_next#:#enregistrer  et page suivante >>>
 survey#:#survey_offline_message#:#Impossible d'inviter des utilisateurs. Le sondage est hors-ligne.
@@ -3823,15 +3806,15 @@ survey#:#svy_missing_author#:#Vous n'avez pas saisi les noms des auteurs du sond
 survey#:#svy_missing_questions#:#Vous n'avez aucune question dans le sondage. Veuillez ajouter au moins une question.
 survey#:#svy_missing_title#:#Vous n'avez pas saisi de titre pour le sondage. Veuillez allez dans la partie des méta-données et saisir un titre.
 survey#:#svy_statistical_evaluation#:#Evaluation statistique
-survey#:#svy_status_missing_elements#:#Les éléments suivants sont absents :
 survey#:#svy_status_missing#:#Des éléments requis sont absents dans ce sondage.
+survey#:#svy_status_missing_elements#:#Les éléments suivants sont absents :
 survey#:#svy_status_ok#:#Le statut du sondage est OK. Il n'y a pas d'éléments absents.
 survey#:#text_question_not_filled_out#:#Veuillez remplir le champ de réponse.
 survey#:#unfold#:#Dissocier
 survey#:#unlimited_users#:#Illimité
 survey#:#uploaded_material#:#Matériau téléversé
-survey#:#upper_limit_must_be_greater#:#La limite supérieure doit être plus grande que la limite inférieure.
 survey#:#upper_limit#:#Limite supérieure
+survey#:#upper_limit_must_be_greater#:#La limite supérieure doit être plus grande que la limite inférieure.
 survey#:#users_answered#:#Les utilisateurs ont répondu
 survey#:#users_skipped#:#Les utilisateurs ont passé
 survey#:#value_nr_entered#:#Nombre d'utilisateurs qui ont saisi cette valeur

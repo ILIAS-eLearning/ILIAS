@@ -108,6 +108,7 @@ assessment#:#apply#:#Zastosuj
 assessment#:#ass_questions#:#Pytania
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#przez
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#checkbox_checked#:#Wybrany
 assessment#:#checkbox_unchecked#:#Nie wybrany
 assessment#:#circle#:#Koło
@@ -244,6 +245,7 @@ assessment#:#qt_ordering#:#Pytanie na porządkowanie
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#P
 assessment#:#question_type#:#Typ pytania
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#radio_set#:#Wybrany
 assessment#:#radio_unset#:#Nie wybrany
 assessment#:#random_accept_sample#:#Akceptuj próbkę
@@ -281,6 +283,7 @@ assessment#:#tst_browse_for_questions#:#Przegląd pytań
 assessment#:#tst_delete_all_user_data#:#Usuń wszystkie dane uczestnika
 assessment#:#tst_delete_missing_mark#:#Wybierz conajmniej jedną pozycję aby ją usunąć
 assessment#:#tst_ending_time#:#Czas końca
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nikt jeszcze nie użył testu. Brak anonimowych wyników.
 assessment#:#tst_eval_total_finished#:#Ogółem ukończonych testów
 assessment#:#tst_eval_total_finished_average_time#:#Średni czas wykonania ukończonych testów
@@ -559,7 +562,7 @@ common#:#all_lms#:#Wszystkie moduły nauczania
 common#:#all_objects#:#Wszystkie obiekty
 common#:#all_tsts#:#Wszystkie testy
 common#:#allow_register#:#dostępne na formularzu rejestracyjnym dla nowego użytkownika
-common#:#alm#:#Moduł Nauczania AICC
+common#:#alm#:#Moduł Nauczania AICC###24 Sep 2004 content changed
 common#:#alm_added#:#Moduł Nauczania AICC został dodany
 common#:#alm_create#:#Twórz Moduł Nauczania AICC
 common#:#alm_delete#:#Usuń Moduł Nauczania AICC
@@ -646,17 +649,17 @@ common#:#cat_create_alm#:#Twórz Moduł Nauczania AICC
 common#:#cat_create_cat#:#Twórz Kategorię
 common#:#cat_create_chat#:#Twórz czat
 common#:#cat_create_crs#:#Twórz Kurs
-common#:#cat_create_dbk#:#Twórz Książkę Cyfrową
+common#:#cat_create_dbk#:#Twórz Książkę Cyfrową###24 Sep 2004 content changed
 common#:#cat_create_exc#:#Twórz Ćwiczenie
 common#:#cat_create_frm#:#Twórz Forum
 common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
 common#:#cat_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#cat_create_htlm#:#Twórz Moduł Nauczania HTML
-common#:#cat_create_lm#:#Twórz Moduł Nauczania
+common#:#cat_create_lm#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
 common#:#cat_create_mep#:#Twórz pulę mediów
-common#:#cat_create_qpl#:#Twórz pulę pytań
-common#:#cat_create_spl#:#Twórz Pulę Pytań (ankieta)
+common#:#cat_create_qpl#:#Twórz pulę pytań###24 Sep 2004 content changed
+common#:#cat_create_spl#:#Twórz Pulę Pytań (ankieta)###24 Sep 2004 content changed
 common#:#cat_create_svy#:#Twórz ankietę
 common#:#cat_create_tst#:#Twórz test
 common#:#cat_delete#:#Usuń Kategorię
@@ -764,7 +767,7 @@ common#:#crs_create_alm#:#Twórz Moduł Nauczania AICC
 common#:#crs_create_frm#:#Twórz Forum
 common#:#crs_create_glo#:#Twórz Słownik
 common#:#crs_create_hlm#:#Twórz Moduł Nauczania HACP
-common#:#crs_create_lm#:#Twórz Moduł Nauczania
+common#:#crs_create_lm#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
 common#:#crs_delete#:#Usuń Kurs
 common#:#crs_edit#:#Edytuj kurs
 common#:#crs_edit_permission#:#Zmień ustawienia uprawnień
@@ -805,13 +808,13 @@ common#:#dbk#:#Książka Cyfrowa
 common#:#dbk_a#:#Książka Cyfrowa
 common#:#dbk_add#:#Dodaj Książkę Cyfrową
 common#:#dbk_added#:#Książka Cyfrowa została dodana
-common#:#dbk_create#:#Twórz Książkę Cyfrową
-common#:#dbk_delete#:#Usuń Książkę Cyfrową
+common#:#dbk_create#:#Twórz Książkę Cyfrową###24 Sep 2004 content changed
+common#:#dbk_delete#:#Usuń Książkę Cyfrową###24 Sep 2004 content changed
 common#:#dbk_edit_permission#:#Zmień ustawienia uprawnień
 common#:#dbk_new#:#Nowa Książka Cyfrowa
-common#:#dbk_read#:#Prawo czytania Książki Cyfrowej
-common#:#dbk_visible#:#Książka Cyfrowa jest widoczna
-common#:#dbk_write#:#Edycja Książki Cyfrowej
+common#:#dbk_read#:#Prawo czytania Książki Cyfrowej###24 Sep 2004 content changed
+common#:#dbk_visible#:#Książka Cyfrowa jest widoczna###24 Sep 2004 content changed
+common#:#dbk_write#:#Edycja Książki Cyfrowej###24 Sep 2004 content changed
 common#:#default#:#Domyślne
 common#:#default_language#:#Domyślny język
 common#:#default_perm_settings#:#Domyślne uprawnienia
@@ -949,7 +952,7 @@ common#:#fold_create_fold#:#Twórz Folder
 common#:#fold_create_frm#:#Twórz Forum
 common#:#fold_create_glo#:#Twórz Słownik
 common#:#fold_create_hlm#:#Twórz Moduł Nauczania HACP
-common#:#fold_create_lm#:#Twórz Moduł Nauczania
+common#:#fold_create_lm#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
 common#:#fold_delete#:#Usuń Folder
 common#:#fold_edit#:#Edytuj Folder
 common#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
@@ -1055,7 +1058,7 @@ common#:#grp_count_members#:#Liczba członków
 common#:#grp_create#:#Twórz Grupę
 common#:#grp_create_alm#:#Twórz Moduł Nauczania AICC
 common#:#grp_create_chat#:#Twórz czat
-common#:#grp_create_dbk#:#Twórz Książkę Cyfrową
+common#:#grp_create_dbk#:#Twórz Książkę Cyfrową###24 Sep 2004 content changed
 common#:#grp_create_exc#:#Twórz Ćwiczenie
 common#:#grp_create_file#:#Użytkownik może przysyłać pliki
 common#:#grp_create_fold#:#Użytkownik może tworzyć foldery
@@ -1063,7 +1066,7 @@ common#:#grp_create_frm#:#Twórz Forum
 common#:#grp_create_glo#:#Twórz Słownik
 common#:#grp_create_hlm#:#Twórz Moduł Nauczania HACP
 common#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
-common#:#grp_create_lm#:#Twórz Moduł Nauczania
+common#:#grp_create_lm#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
 common#:#grp_create_mep#:#Twórz Pulę Mediów
 common#:#grp_delete#:#Usuń Grupę
 common#:#grp_dismiss_member#:#Czy jesteś pewien, że chcesz usunąć następujących członków z grupy?
@@ -1104,7 +1107,7 @@ common#:#header_title#:#Tytuł Nagłówka
 common#:#help#:#Pomoc
 common#:#hide_details#:#ukryj szczegóły
 common#:#hide_structure#:#Wyłącz widok strukturalny
-common#:#hlm#:#Moduł Nauczania HACP
+common#:#hlm#:#Moduł Nauczania HACP###24 Sep 2004 content changed
 common#:#hlm_added#:#Moduł Nauczania HACP został dodany
 common#:#hlm_create#:#Twórz Moduł Nauczania HACP
 common#:#hlm_delete#:#Usuń Moduł Nauczania HACP
@@ -1118,7 +1121,7 @@ common#:#hobby#:#Zainteresowania/Hobby
 common#:#home#:#Strona domowa
 common#:#host#:#Serwer
 common#:#hours_of_day#:#Godziny dnia
-common#:#htlm#:#Moduł Nauczania HTML
+common#:#htlm#:#Moduł Nauczania HTML###24 Sep 2004 content changed
 common#:#htlm_add#:#dodajModuł Nauczania HTML
 common#:#htlm_delete#:#Usuń Moduł Nauczania HTML
 common#:#htlm_edit#:#Edytuj właściwości Modułu Nauczania HTML
@@ -1127,6 +1130,7 @@ common#:#htlm_new#:#Nowy Moduł Nauczania HTML
 common#:#htlm_read#:#Czytanie Modułu Nauczania HTML
 common#:#htlm_visible#:#Moduł Nauczania HTML jest widoczny
 common#:#htlm_write#:#Edycja Modułu Nauczania HTML
+common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#Ścieżka http
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#ID
@@ -1145,7 +1149,7 @@ common#:#import_forum_finished#:#Forum zostało zaimportowane.
 common#:#import_glossary#:#Import Słownika
 common#:#import_grp_finished#:#Zaimportowana grupa bez błędów
 common#:#import_hlm#:#Import pakietu HACP
-common#:#import_lm#:#Importuj moduł nauczania
+common#:#import_lm#:#Importuj moduł nauczania###24 Sep 2004 content changed
 common#:#import_root_user#:#Import użytkownika root
 common#:#import_users#:#Import Użytkowników
 common#:#imported#:#zaimportowany
@@ -1259,20 +1263,20 @@ common#:#list_of_pages#:#Lista stron
 common#:#list_of_questions#:#Lista pytań
 common#:#literature#:#Literatura
 common#:#literature_bookmarks#:#Zakładki literatury
-common#:#lm#:#Moduł nauczania
-common#:#lm_a#:#Moduł nauczania
-common#:#lm_add#:#Dodaj moduł nauczania
-common#:#lm_added#:#Moduł nauczania został dodany
-common#:#lm_create#:#Twórz Moduł Nauczania
-common#:#lm_delete#:#Usuń Moduł Nauczania
+common#:#lm#:#Moduł nauczania###24 Sep 2004 content changed
+common#:#lm_a#:#Moduł nauczania###24 Sep 2004 content changed
+common#:#lm_add#:#Dodaj moduł nauczania###24 Sep 2004 content changed
+common#:#lm_added#:#Moduł nauczania został dodany###24 Sep 2004 content changed
+common#:#lm_create#:#Twórz Moduł Nauczania###24 Sep 2004 content changed
+common#:#lm_delete#:#Usuń Moduł Nauczania###24 Sep 2004 content changed
 common#:#lm_edit_permission#:#Zmień prawa dostępu
-common#:#lm_join#:#Subskrybuj Moduł Nauczania
-common#:#lm_leave#:#Rezygnuję z subskrypcji Modułu Nauczania
-common#:#lm_new#:#Nowy moduł nauczania
-common#:#lm_read#:#Prawo czytania Modułu Nauczania
+common#:#lm_join#:#Subskrybuj Moduł Nauczania###24 Sep 2004 content changed
+common#:#lm_leave#:#Rezygnuję z subskrypcji Modułu Nauczania###24 Sep 2004 content changed
+common#:#lm_new#:#Nowy moduł nauczania###24 Sep 2004 content changed
+common#:#lm_read#:#Prawo czytania Modułu Nauczania###24 Sep 2004 content changed
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Moduł Nauczania jest widoczny
-common#:#lm_write#:#Edycja Modułu Nauczania
+common#:#lm_visible#:#Moduł Nauczania jest widoczny###24 Sep 2004 content changed
+common#:#lm_write#:#Edycja Modułu Nauczania###24 Sep 2004 content changed
 common#:#lng#:#Język
 common#:#lngf#:#Folder języka
 common#:#lngf_edit_permission#:#Zmień ustawienia uprawnień
@@ -1513,7 +1517,7 @@ common#:#number_of_records#:#Liczba rekordów
 common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
-common#:#obj_alm#:#Moduł Nauczania AICC
+common#:#obj_alm#:#Moduł Nauczania AICC###24 Sep 2004 content changed
 common#:#obj_auth#:#Identyfikacja
 common#:#obj_auth_desc#:#Konfiguruj tryb identyfikacji (lokalnie, LDAP, ...)
 common#:#obj_cat#:#Kategoria
@@ -1529,11 +1533,11 @@ common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Słownik
 common#:#obj_grp#:#Grupa
-common#:#obj_hlm#:#Moduł Nauczania HACP
-common#:#obj_htlm#:#Moduł Nauczania HTML
+common#:#obj_hlm#:#Moduł Nauczania HACP###24 Sep 2004 content changed
+common#:#obj_htlm#:#Moduł Nauczania HTML###24 Sep 2004 content changed
 common#:#obj_ldap#:#Ustawienia LDAP
 common#:#obj_ldap_desc#:#Konfiguracja globalnych ustawień LDAP.
-common#:#obj_lm#:#Moduł Nauczania (MN)
+common#:#obj_lm#:#Moduł Nauczania (MN)###24 Sep 2004 content changed
 common#:#obj_lng#:#Język
 common#:#obj_lngf#:#Języki
 common#:#obj_lngf_desc#:#Zarządzanie językami systemowymi.
@@ -1551,7 +1555,7 @@ common#:#obj_owner#:#Ten obiekt jest własnością
 common#:#obj_pays#:#Ustawienia płatności
 common#:#obj_pays_desc#:#Konfiguruj ustawienia płatności i sprzedawców
 common#:#obj_pg#:#Strona
-common#:#obj_qpl#:#Pula pytań
+common#:#obj_qpl#:#Pula pytań###24 Sep 2004 content changed
 common#:#obj_recf#:#Odtworzone Obiekty
 common#:#obj_recf_desc#:#Zawiera odtworzone obiekty powstałe przy sprawdzeniu systemu.
 common#:#obj_role#:#Rola
@@ -1561,7 +1565,7 @@ common#:#obj_rolf_local#:#Lokalne role
 common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych ról.
 common#:#obj_rolt#:#Szablon roli
 common#:#obj_root#:#korzeń
-common#:#obj_spl#:#Question Pool (ankieta)
+common#:#obj_spl#:#Question Pool (ankieta)###24 Sep 2004 content changed
 common#:#obj_st#:#Rozdział
 common#:#obj_svy#:#Ankieta
 common#:#obj_tax#:#Systematyka
@@ -1599,17 +1603,17 @@ common#:#objs_glo#:#Słowniki
 common#:#objs_grp#:#Grupy
 common#:#objs_hlm#:#Moduły Nauczania HACP
 common#:#objs_htlm#:#Moduły Nauczania HTML
-common#:#objs_lm#:#Moduły nauczania
+common#:#objs_lm#:#Moduły nauczania###24 Sep 2004 content changed
 common#:#objs_lng#:#Języki
 common#:#objs_lo#:#Obiekty nauczania
 common#:#objs_mep#:#Pule Mediów
 common#:#objs_mob#:#Obiekty multimedialne
 common#:#objs_note#:#Notatki
 common#:#objs_pg#:#Strony
-common#:#objs_qpl#:#Pule pytań
+common#:#objs_qpl#:#Pule pytań###24 Sep 2004 content changed
 common#:#objs_role#:#Role
 common#:#objs_rolt#:#Szablony Ról
-common#:#objs_spl#:#Pule pytań (Ankieta)
+common#:#objs_spl#:#Pule pytań (Ankieta)###24 Sep 2004 content changed
 common#:#objs_st#:#Rozdziały
 common#:#objs_svy#:#Ankiety
 common#:#objs_tst#:#Testy
@@ -1696,14 +1700,14 @@ common#:#publication#:#Publikowanie
 common#:#publication_date#:#Data opublikowania
 common#:#published#:#Opublikowane
 common#:#publishing_organisation#:#Organizacja publikująca
-common#:#qpl#:#Pula pytań
-common#:#qpl_add#:#Dodaj pulę pytań
-common#:#qpl_delete#:#Usuń pulę pytań
+common#:#qpl#:#Pula pytań###24 Sep 2004 content changed
+common#:#qpl_add#:#Dodaj pulę pytań###24 Sep 2004 content changed
+common#:#qpl_delete#:#Usuń pulę pytań###24 Sep 2004 content changed
 common#:#qpl_edit_permission#:#Zmień ustawienia uprawnień
-common#:#qpl_new#:#Nowa pula pytań
-common#:#qpl_read#:#Prawo czytania puli pytań
-common#:#qpl_visible#:#Pula pytań jest widoczna
-common#:#qpl_write#:#Edycja puli pytań
+common#:#qpl_new#:#Nowa pula pytań###24 Sep 2004 content changed
+common#:#qpl_read#:#Prawo czytania puli pytań###24 Sep 2004 content changed
+common#:#qpl_visible#:#Pula pytań jest widoczna###24 Sep 2004 content changed
+common#:#qpl_write#:#Edycja puli pytań###24 Sep 2004 content changed
 common#:#query_data#:#Dane zapytań
 common#:#question#:#Pytanie
 common#:#question_pools#:#Pule pytań
@@ -1821,14 +1825,14 @@ common#:#show_users_online#:#Pokaż pracujących użytkowników
 common#:#signature#:#Podpis
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sortuj wg tej kolumny
-common#:#spl#:#Pula pytań (ankieta)
-common#:#spl_add#:#Dodaj pulę pytań
-common#:#spl_delete#:#Usuń pulę pytań
+common#:#spl#:#Pula pytań (ankieta)###24 Sep 2004 content changed
+common#:#spl_add#:#Dodaj pulę pytań###24 Sep 2004 content changed
+common#:#spl_delete#:#Usuń pulę pytań###24 Sep 2004 content changed
 common#:#spl_edit_permission#:#Zmiana uprawnień dostępu
-common#:#spl_new#:#Nowa pula pytań
-common#:#spl_read#:#Prawo czytania puli pytań
-common#:#spl_visible#:#Pula pytań jest widoczna
-common#:#spl_write#:#Edycja puli pytań
+common#:#spl_new#:#Nowa pula pytań###24 Sep 2004 content changed
+common#:#spl_read#:#Prawo czytania puli pytań###24 Sep 2004 content changed
+common#:#spl_visible#:#Pula pytań jest widoczna###24 Sep 2004 content changed
+common#:#spl_write#:#Edycja puli pytań###24 Sep 2004 content changed
 common#:#st_a#:#rozdział
 common#:#st_add#:#Dodaj rozdział
 common#:#st_added#:#Rozdział dodany

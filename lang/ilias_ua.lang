@@ -109,6 +109,7 @@ assessment#:#apply#:#Примінити
 assessment#:#ass_questions#:#Питання
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
 assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
@@ -261,6 +262,7 @@ assessment#:#qt_ordering#:#Порядкове Питання
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Тип Питання
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
 assessment#:#radio_set#:#Set###17 Aug 2004 new variable
 assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
 assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
@@ -301,6 +303,7 @@ assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new v
 assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
 assessment#:#tst_ending_time#:#Ending time###26 Jun 2004 new variable
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored###24 Sep 2004 new variable
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
 assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
@@ -694,7 +697,7 @@ common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Створити Категорію
 common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
 common#:#cat_create_crs#:#Створити Курс
-common#:#cat_create_dbk#:#Створити Електронну книжку
+common#:#cat_create_dbk#:#Створити Електронну книжку###24 Sep 2004 content changed
 common#:#cat_create_exc#:#Створити Вправу
 common#:#cat_create_file#:#Upload File###04 Sep 2004 new variable
 common#:#cat_create_frm#:#Створити Форум
@@ -702,7 +705,7 @@ common#:#cat_create_glo#:#Створити Глосарій
 common#:#cat_create_grp#:#Створити Групу
 common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
-common#:#cat_create_lm#:#Створити Учбовий Модуль
+common#:#cat_create_lm#:#Створити Учбовий Модуль###24 Sep 2004 content changed
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Створити Чергу Питань###07 May 2004 content changed
 common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
@@ -818,7 +821,7 @@ common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#Створити Форум
 common#:#crs_create_glo#:#Створити Глосарій
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#crs_create_lm#:#Створити Учбовий Модуль
+common#:#crs_create_lm#:#Створити Учбовий Модуль###24 Sep 2004 content changed
 common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#Видалити Курс
 common#:#crs_edit#:#Редагувати Курс
@@ -860,13 +863,13 @@ common#:#dbk#:#Digilib Book
 common#:#dbk_a#:#a Digilib Book
 common#:#dbk_add#:#Додати Digilib Book
 common#:#dbk_added#:#Digilib Book додана
-common#:#dbk_create#:#Створити Digibook
-common#:#dbk_delete#:#Видалити Digibook
+common#:#dbk_create#:#Створити Digibook###24 Sep 2004 content changed
+common#:#dbk_delete#:#Видалити Digibook###24 Sep 2004 content changed
 common#:#dbk_edit_permission#:#Змінити настройки прав
 common#:#dbk_new#:#Нова Digilib Book
-common#:#dbk_read#:#Доступ на читання до Digibook
-common#:#dbk_visible#:#Digibook є видимою
-common#:#dbk_write#:#Редагувати Digibook
+common#:#dbk_read#:#Доступ на читання до Digibook###24 Sep 2004 content changed
+common#:#dbk_visible#:#Digibook є видимою###24 Sep 2004 content changed
+common#:#dbk_write#:#Редагувати Digibook###24 Sep 2004 content changed
 common#:#default#:#Умовчання
 common#:#default_language#:#Мова за Умовчанням
 common#:#default_perm_settings#:#Права по замовчанню
@@ -1127,7 +1130,7 @@ common#:#grp_create_frm#:#Створити Форум
 common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
-common#:#grp_create_lm#:#Створити Учбовий Модуль
+common#:#grp_create_lm#:#Створити Учбовий Модуль###24 Sep 2004 content changed
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#Видалити Групу
@@ -1197,6 +1200,7 @@ common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
 common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
+common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
 common#:#http_path#:#Http Шлях
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
 common#:#id#:#ID
@@ -1333,22 +1337,22 @@ common#:#list_of_pages#:#Список Сторінок
 common#:#list_of_questions#:#Список Питань
 common#:#literature#:#Література
 common#:#literature_bookmarks#:#Літературні Закладки
-common#:#lm#:#Учбовий Модуль
-common#:#lm_a#:#Учбовий Модуль
-common#:#lm_add#:#Додати Учбовий Модудь
-common#:#lm_added#:#Учбовий Модуль доданий
-common#:#lm_create#:#Створити Учбовий Модуль
-common#:#lm_delete#:#Видалити Учбовий Модель
+common#:#lm#:#Учбовий Модуль###24 Sep 2004 content changed
+common#:#lm_a#:#Учбовий Модуль###24 Sep 2004 content changed
+common#:#lm_add#:#Додати Учбовий Модудь###24 Sep 2004 content changed
+common#:#lm_added#:#Учбовий Модуль доданий###24 Sep 2004 content changed
+common#:#lm_create#:#Створити Учбовий Модуль###24 Sep 2004 content changed
+common#:#lm_delete#:#Видалити Учбовий Модель###24 Sep 2004 content changed
 common#:#lm_edit_permission#:#Змінити настройки прав
-common#:#lm_join#:#Підписатись на Учбовий Модуль
-common#:#lm_leave#:#Відписатись від Учбового Модуля
-common#:#lm_new#:#Новий Учбовий Модуль
-common#:#lm_read#:#Доступ на читання до Учбового Модуля
+common#:#lm_join#:#Підписатись на Учбовий Модуль###24 Sep 2004 content changed
+common#:#lm_leave#:#Відписатись від Учбового Модуля###24 Sep 2004 content changed
+common#:#lm_new#:#Новий Учбовий Модуль###24 Sep 2004 content changed
+common#:#lm_read#:#Доступ на читання до Учбового Модуля###24 Sep 2004 content changed
 common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
 common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
-common#:#lm_visible#:#Учбовий Модуль є видимим
-common#:#lm_write#:#Редагувати Учбовий Модуль
+common#:#lm_visible#:#Учбовий Модуль є видимим###24 Sep 2004 content changed
+common#:#lm_write#:#Редагувати Учбовий Модуль###24 Sep 2004 content changed
 common#:#lng#:#Мова
 common#:#lngf#:#Мови
 common#:#lngf_edit_permission#:#Змінити настройки прав
@@ -1614,7 +1618,7 @@ common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
 common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#LDAP Настройки
 common#:#obj_ldap_desc#:#Конфігуруйте глобальні настройки LDAP тут.
-common#:#obj_lm#:#Учбовий Модуль
+common#:#obj_lm#:#Учбовий Модуль###24 Sep 2004 content changed
 common#:#obj_lng#:#Мова
 common#:#obj_lngf#:#Мови
 common#:#obj_lngf_desc#:#Управляйте вашими системними мовами тут.
@@ -1780,13 +1784,13 @@ common#:#publication_date#:#Дата Публікації
 common#:#published#:#Опублікований
 common#:#publishing_organisation#:#Організація що Публікує###14 Sep 2004 content changed
 common#:#qpl#:#Черга питань###07 May 2004 content changed
-common#:#qpl_add#:#Додати чергу питань
-common#:#qpl_delete#:#Видалити Чергу Питань
+common#:#qpl_add#:#Додати чергу питань###24 Sep 2004 content changed
+common#:#qpl_delete#:#Видалити Чергу Питань###24 Sep 2004 content changed
 common#:#qpl_edit_permission#:#Змінити настройки прав
-common#:#qpl_new#:#Нова черга питань
-common#:#qpl_read#:#Доступ на читання до черги питань
-common#:#qpl_visible#:#Черга питань є видимою
-common#:#qpl_write#:#Редагувати Чергу Птань
+common#:#qpl_new#:#Нова черга питань###24 Sep 2004 content changed
+common#:#qpl_read#:#Доступ на читання до черги питань###24 Sep 2004 content changed
+common#:#qpl_visible#:#Черга питань є видимою###24 Sep 2004 content changed
+common#:#qpl_write#:#Редагувати Чергу Птань###24 Sep 2004 content changed
 common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#Питання
 common#:#question_pools#:#Черги питань

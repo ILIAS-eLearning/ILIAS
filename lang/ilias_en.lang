@@ -109,6 +109,7 @@ assessment#:#apply#:#Apply
 assessment#:#ass_questions#:#Questions
 assessment#:#available_points#:#Available points
 assessment#:#by#:#by
+assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
@@ -193,7 +194,6 @@ assessment#:#imagemap#:#Image map
 assessment#:#imagemap_file#:#Image map file
 assessment#:#imagemap_source#:#Image map source
 assessment#:#import_question#:#Import question(s)
-assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!
 assessment#:#insert_after#:#Insert after
 assessment#:#insert_before#:#Insert before
 assessment#:#internal_links#:#Internal Links
@@ -262,6 +262,7 @@ assessment#:#qt_ordering#:#Ordering Question
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Question Type
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
 assessment#:#radio_set#:#Set
 assessment#:#radio_unset#:#Unset
 assessment#:#random_accept_sample#:#Accept sample
@@ -302,6 +303,7 @@ assessment#:#tst_browse_for_questions#:#Browse for questions
 assessment#:#tst_delete_all_user_data#:#Delete all user data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_ending_time#:#Ending time
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
 assessment#:#tst_eval_total_finished#:#Total completed tests
 assessment#:#tst_eval_total_finished_average_time#:#Average processing time for completed tests
@@ -355,9 +357,7 @@ assessment#:#tst_resume_test#:#Resume the test
 assessment#:#tst_score_reporting#:#Score reporting
 assessment#:#tst_score_reporting_date#:#Score reporting date
 assessment#:#tst_score_type#:#Score reporting type
-assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
 assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question
-assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
@@ -1200,6 +1200,7 @@ common#:#htlm_new#:#New HTML Learning Module
 common#:#htlm_read#:#Read HTML Learning Module
 common#:#htlm_visible#:#HTML Learning Module is visible
 common#:#htlm_write#:#Edit HTML Learning Module
+common#:#http_not_possible#:#This server is not supporting http requests.
 common#:#http_path#:#Http Path
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.
 common#:#id#:#ID
@@ -3833,4 +3834,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-common#:#http_not_possible#:#This server is not supporting http requests.
