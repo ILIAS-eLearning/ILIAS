@@ -30,7 +30,7 @@
 	<b><font color="#0000FF">private</font></b> String  IliasStudentName<font color="#990000">;</font>
 	<b><font color="#0000FF">private</font></b> String  IliasRefId<font color="#990000">;</font>
 
-	<b><font color="#0000FF">private</font></b> String  IliasScoId<font color="#990000">;</font>
+	<b><font color="#0000FF">private</font></b> String  IliasSahsId<font color="#990000">;</font>
 	<b><font color="#0000FF">private</font></b> String  IliasNextObjId<font color="#990000">;</font>
 
 	<b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> isLaunched  <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
@@ -60,7 +60,7 @@
 		<b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
 			<b><font color="#000000">getAppletContext</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">.</font><b><font color="#000000">showDocument</font></b> <font color="#990000">(</font>
 				<b><font color="#0000FF">new</font></b> <b><font color="#000000">URL</font></b><font color="#990000">(</font><b><font color="#000000">getCodeBase</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">+</font>s<font color="#990000">)</font><font color="#990000">,</font>
-				<font color="#FF0000">"scorm_content"</font>
+				<font color="#FF0000">"sahs_content"</font>
 			<font color="#990000">)</font><font color="#990000">;</font>
 		<font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font>Exception e<font color="#990000">)</font> <font color="#FF0000">{</font><font color="#FF0000">}</font>
 	<font color="#FF0000">}</font>
@@ -69,7 +69,7 @@
 <i><font color="#9A1900">	 * Methods for Ilias to call via Liveconnect</font></i>
 <i><font color="#9A1900">	 */</font></i>
 
-	<b><font color="#0000FF">public</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasLaunchSco</font></b> <font color="#990000">(</font>String sco_id<font color="#990000">)</font> <font color="#FF0000">{</font>
+	<b><font color="#0000FF">public</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasLaunchSahs</font></b> <font color="#990000">(</font>String sahs_id<font color="#990000">)</font> <font color="#FF0000">{</font>
 		<i><font color="#9A1900">/*</font></i>
 <i><font color="#9A1900">		if (System.currentTimeMillis() &lt; clickTime + 1000) {</font></i>
 <i><font color="#9A1900">			say ("Click ignored.");</font></i>
@@ -77,33 +77,34 @@
 <i><font color="#9A1900">		}</font></i>
 <i><font color="#9A1900">		*/</font></i>
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunching<font color="#990000">)</font> <font color="#FF0000">{</font>
-			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"SCO "</font> <font color="#990000">+</font>IliasScoId <font color="#990000">+</font><font color="#FF0000">" is launching."</font><font color="#990000">)</font><font color="#990000">;</font>
+			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"SAHS "</font> <font color="#990000">+</font>IliasSahsId <font color="#990000">+</font><font color="#FF0000">" is launching."</font><font color="#990000">)</font><font color="#990000">;</font>
 			<b><font color="#0000FF">return</font></b><font color="#990000">;</font>
 		<font color="#FF0000">}</font>
-		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunched <font color="#990000">&amp;</font><font color="#990000">&amp;</font> sco_id<font color="#990000">.</font><b><font color="#000000">equals</font></b><font color="#990000">(</font>IliasScoId<font color="#990000">)</font><font color="#990000">)</font> <font color="#FF0000">{</font>
-			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"SCO "</font> <font color="#990000">+</font>sco_id <font color="#990000">+</font><font color="#FF0000">" is already running."</font><font color="#990000">)</font><font color="#990000">;</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunched <font color="#990000">&amp;</font><font color="#990000">&amp;</font> sahs_id<font color="#990000">.</font><b><font color="#000000">equals</font></b><font color="#990000">(</font>IliasSahsId<font color="#990000">)</font><font color="#990000">)</font> <font color="#FF0000">{</font>
+			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"SAHS "</font> <font color="#990000">+</font>sahs_id <font color="#990000">+</font><font color="#FF0000">" is already running."</font><font color="#990000">)</font><font color="#990000">;</font>
 			<b><font color="#0000FF">return</font></b><font color="#990000">;</font>
 		<font color="#FF0000">}</font>
 		IliasScoCmi<font color="#990000">.</font><b><font color="#000000">clear</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 
-		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Launching sco "</font> <font color="#990000">+</font>sco_id<font color="#990000">)</font><font color="#990000">;</font>
+		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Launching sahs "</font> <font color="#990000">+</font>sahs_id<font color="#990000">)</font><font color="#990000">;</font>
 
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunched<font color="#990000">)</font> <font color="#FF0000">{</font>
-			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Sco "</font><font color="#990000">+</font>IliasScoId <font color="#990000">+</font><font color="#FF0000">" will be unloaded."</font><font color="#990000">)</font><font color="#990000">;</font>
-			IliasNextObjId <font color="#990000">=</font> sco_id<font color="#990000">;</font>
+			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"SAHS "</font><font color="#990000">+</font>IliasSahsId <font color="#990000">+</font><font color="#FF0000">" will be unloaded."</font><font color="#990000">)</font><font color="#990000">;</font>
+			IliasNextObjId <font color="#990000">=</font> sahs_id<font color="#990000">;</font>
 			<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
-				 <font color="#FF0000">"../scorm_presentation.php?cmd=unloadSco"</font>
-				  <font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font>  <font color="#990000">+</font> IliasScoId
+				 <font color="#FF0000">"../sahs_presentation.php?cmd=unloadSahs"</font>
+				  <font color="#990000">+</font><font color="#FF0000">"&amp;sahs_id="</font>  <font color="#990000">+</font> IliasSahsId
+				  <font color="#990000">+</font><font color="#FF0000">"&amp;ref_id="</font>  <font color="#990000">+</font> IliasRefId
 			<font color="#990000">)</font><font color="#990000">;</font>
 		<font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
 			isLaunching <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
 			<i><font color="#9A1900">//clickTime = System.currentTimeMillis();</font></i>
 			IliasNextObjId <font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
-			IliasScoId     <font color="#990000">=</font> sco_id<font color="#990000">;</font>
+			IliasSahsId     <font color="#990000">=</font> sahs_id<font color="#990000">;</font>
 			<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
-				 <font color="#FF0000">"../scorm_presentation.php?cmd=launchSco"</font>
+				 <font color="#FF0000">"../sahs_presentation.php?cmd=launchSahs"</font>
 				  <font color="#990000">+</font><font color="#FF0000">"&amp;ref_id="</font>  <font color="#990000">+</font> IliasRefId
-				  <font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font>  <font color="#990000">+</font> IliasScoId
+				  <font color="#990000">+</font><font color="#FF0000">"&amp;sahs_id="</font>  <font color="#990000">+</font> IliasSahsId
 			<font color="#990000">)</font><font color="#990000">;</font>
 		<font color="#FF0000">}</font>
 	<font color="#FF0000">}</font>
@@ -114,11 +115,11 @@
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>l <font color="#990000">!</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> IliasScoCmi<font color="#990000">.</font><b><font color="#000000">put</font></b> <font color="#990000">(</font>l<font color="#990000">,</font> r<font color="#990000">)</font><font color="#990000">;</font>
 	<font color="#FF0000">}</font>
 
-	<b><font color="#0000FF">public</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasAbortSco</font></b> <font color="#990000">(</font>String sco_id<font color="#990000">)</font> <font color="#FF0000">{</font>
-		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><font color="#990000">!</font>IliasScoId<font color="#990000">.</font><b><font color="#000000">equals</font></b> <font color="#990000">(</font>sco_id<font color="#990000">)</font><font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
+	<b><font color="#0000FF">public</font></b>	<b><font color="#0000FF">final</font></b> <font color="#009900">void</font> <b><font color="#000000">IliasAbortSahs</font></b> <font color="#990000">(</font>String sahs_id<font color="#990000">)</font> <font color="#FF0000">{</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><font color="#990000">!</font>IliasSahsId<font color="#990000">.</font><b><font color="#000000">equals</font></b> <font color="#990000">(</font>sahs_id<font color="#990000">)</font><font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
 		isLaunching <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font><font color="#990000">!</font>isLaunched<font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
-		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Warning: sco "</font> <font color="#990000">+</font>sco_id <font color="#990000">+</font><font color="#FF0000">" did not call LMSFinish()"</font><font color="#990000">)</font><font color="#990000">;</font>
+		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Warning: sahs "</font> <font color="#990000">+</font>sahs_id <font color="#990000">+</font><font color="#FF0000">" did not call LMSFinish()"</font><font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#000000">IliasFinish</font></b> <font color="#990000">(</font><b><font color="#0000FF">false</font></b><font color="#990000">)</font><font color="#990000">;</font>
 		core<font color="#990000">.</font><b><font color="#000000">reset</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 	<font color="#FF0000">}</font>
@@ -137,8 +138,8 @@
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>commit<font color="#990000">)</font> <b><font color="#000000">IliasCommit</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> <i><font color="#9A1900">// Stupid "implicit commit"</font></i>
 		isLaunched <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
 		<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
-			<font color="#FF0000">"../scorm_presentation.php?cmd=finishSco"</font>
-			  <font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font>  <font color="#990000">+</font> IliasScoId
+			<font color="#FF0000">"../sahs_presentation.php?cmd=finishSahs"</font>
+			  <font color="#990000">+</font><font color="#FF0000">"&amp;sahs_id="</font>  <font color="#990000">+</font> IliasSahsId
 			  <font color="#990000">+</font><font color="#FF0000">"&amp;ref_id="</font>  <font color="#990000">+</font> IliasRefId
 			  <font color="#990000">+</font><font color="#FF0000">"&amp;status="</font>  <font color="#990000">+</font> core<font color="#990000">.</font><b><font color="#000000">sysGet</font></b><font color="#990000">(</font><font color="#FF0000">"cmi.core.lesson_status"</font><font color="#990000">)</font>
 			  <font color="#990000">+</font><font color="#FF0000">"&amp;totime="</font>  <font color="#990000">+</font> core<font color="#990000">.</font><b><font color="#000000">sysGet</font></b><font color="#990000">(</font><font color="#FF0000">"cmi.core.total_time"</font><font color="#990000">)</font>
@@ -150,18 +151,18 @@
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunching<font color="#990000">)</font> <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
 		<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Launching asset: "</font> <font color="#990000">+</font>id<font color="#990000">)</font><font color="#990000">;</font>
 		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>isLaunched<font color="#990000">)</font> <font color="#FF0000">{</font>
-			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"Sco "</font><font color="#990000">+</font>IliasScoId <font color="#990000">+</font><font color="#FF0000">" will be unloaded."</font><font color="#990000">)</font><font color="#990000">;</font>
+			<b><font color="#000000">say</font></b> <font color="#990000">(</font><font color="#FF0000">"SAHS "</font><font color="#990000">+</font>IliasSahsId <font color="#990000">+</font><font color="#FF0000">" will be unloaded."</font><font color="#990000">)</font><font color="#990000">;</font>
 			IliasNextObjId <font color="#990000">=</font> id<font color="#990000">;</font>
 			<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
-				 <font color="#FF0000">"../scorm_presentation.php?cmd=unloadSco"</font>
-				  <font color="#990000">+</font><font color="#FF0000">"&amp;sco_id="</font>  <font color="#990000">+</font> IliasScoId
+				 <font color="#FF0000">"../sahs_presentation.php?cmd=unloadSahs"</font>
+				  <font color="#990000">+</font><font color="#FF0000">"&amp;sahs_id="</font>  <font color="#990000">+</font> IliasSahsId
 			<font color="#990000">)</font><font color="#990000">;</font>
 		<font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
 			<i><font color="#9A1900">//clickTime = System.currentTimeMillis();</font></i>
 			IliasNextObjId <font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
-			IliasScoId     <font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
+			IliasSahsId     <font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
 			<b><font color="#000000">IliasLaunchContent</font></b> <font color="#990000">(</font>
-				 <font color="#FF0000">"../scorm_presentation.php?cmd=launchAsset"</font>
+				 <font color="#FF0000">"../sahs_presentation.php?cmd=launchAsset"</font>
 				  <font color="#990000">+</font><font color="#FF0000">"&amp;ref_id="</font>  <font color="#990000">+</font> IliasRefId
 				  <font color="#990000">+</font><font color="#FF0000">"&amp;asset_id="</font>  <font color="#990000">+</font> id
 			<font color="#990000">)</font><font color="#990000">;</font>
@@ -169,7 +170,7 @@
 	<font color="#FF0000">}</font>
 
 	<b><font color="#0000FF">private</font></b> <b><font color="#0000FF">final</font></b> String <b><font color="#000000">IliasCommit</font></b> <font color="#990000">(</font><font color="#990000">)</font> <font color="#FF0000">{</font>
-		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>IliasScoId <font color="#990000">=</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <b><font color="#0000FF">return</font></b> <font color="#FF0000">"false"</font><font color="#990000">;</font>
+		<b><font color="#0000FF">if</font></b> <font color="#990000">(</font>IliasSahsId <font color="#990000">=</font><font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <b><font color="#0000FF">return</font></b> <font color="#FF0000">"false"</font><font color="#990000">;</font>
 
 		core<font color="#990000">.</font><b><font color="#000000">transEnd</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 		StringBuffer P <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">StringBuffer</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
@@ -203,11 +204,10 @@
 		<b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
 			po <font color="#990000">=</font> <font color="#990000">(</font>HttpURLConnection<font color="#990000">)</font> <font color="#990000">(</font> <b><font color="#0000FF">new</font></b> java<font color="#990000">.</font>net<font color="#990000">.</font><b><font color="#000000">URL</font></b> <font color="#990000">(</font>
 				<b><font color="#000000">getCodeBase</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">(</font><font color="#990000">)</font>
-				<font color="#990000">+</font> <font color="#FF0000">"../scorm_server.php"</font>
+				<font color="#990000">+</font> <font color="#FF0000">"../sahs_server.php"</font>
 				<font color="#990000">+</font> <font color="#FF0000">"?cmd=store"</font> 
-				<font color="#990000">+</font> <font color="#FF0000">"&amp;api=2"</font> 
 				<font color="#990000">+</font> <font color="#FF0000">"&amp;user_id="</font><font color="#990000">+</font>IliasStudentId
-				<font color="#990000">+</font> <font color="#FF0000">"&amp;sco_id="</font> <font color="#990000">+</font>IliasScoId
+				<font color="#990000">+</font> <font color="#FF0000">"&amp;sahs_id="</font> <font color="#990000">+</font>IliasSahsId
 				<font color="#990000">+</font> <font color="#FF0000">"&amp;ref_id="</font> <font color="#990000">+</font>IliasRefId
 			<font color="#990000">)</font><font color="#990000">)</font><font color="#990000">.</font><b><font color="#000000">openConnection</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 
