@@ -13,12 +13,18 @@
 <!-- BEGIN constraint -->
 <tr class="{COLOR_CLASS}">
 <td class="{COLOR_CLASS}">{CONSTRAINT_TEXT}</td>
-<td class="{COLOR_CLASS}"><input type="submit" class="submit" name="delete_constraint_{CONSTRAINT_ID}_{CONSTRAINT_QUESTION_ID}" value="{BTN_DELETE}" /></td>
+<td class="{COLOR_CLASS}">
+<!-- BEGIN delete_button -->
+<input type="submit" class="submit" name="delete_constraint_{CONSTRAINT_ID}_{CONSTRAINT_QUESTION_ID}" value="{BTN_DELETE}" />
+<!-- END delete_button -->
+</td>
 </tr>
 <!-- END constraint -->
 <tr class="std">
 <td class="std" colspan="2">
-<input type="submit" class="submit" name="add_constraint_{QUESTION_ID}" value="{BTN_ADD}" />
+<!-- BEGIN add_button -->
+<input type="submit" class="submit" name="add_constraint_{ADD_QUESTION_ID}" value="{BTN_ADD}" />
+<!-- END add_button -->
 </td>
 </tr>
 </table>

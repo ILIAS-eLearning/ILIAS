@@ -1490,6 +1490,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 */
 	function constraintsForm($checked_questions, $checked_questionblocks)
 	{
+		global $rbacsystem;
 		sendInfo();
 		$pages =& $this->object->getSurveyPages();
 		$all_questions =& $this->object->getSurveyQuestions();
@@ -1787,9 +1788,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 							}
 							$this->tpl->setCurrentBlock("constraint");
 							$this->tpl->setVariable("CONSTRAINT_TEXT", $all_questions[$constraint["question"]]["title"] . " " . $constraint["short"] . " $value");
-							$this->tpl->setVariable("CONSTRAINT_ID", $constraint["id"]);
-							$this->tpl->setVariable("CONSTRAINT_QUESTION_ID", $constraint["question"]);
-							$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
+							if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) {
+								$this->tpl->setVariable("CONSTRAINT_ID", $constraint["id"]);
+								$this->tpl->setVariable("CONSTRAINT_QUESTION_ID", $constraint["question"]);
+								$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
+							}
 							$this->tpl->parseCurrentBlock();
 						}
 					}
@@ -1808,7 +1811,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 					{
 						$this->tpl->setVariable("QUESTION_IDENTIFIER", $this->lng->txt($data["type_tag"]) . ": " . $data["title"]);
 					}
-					$this->tpl->setVariable("BTN_ADD", $this->lng->txt("add"));
+					if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) {
+						$this->tpl->setVariable("ADD_QUESTION_ID", $data["question_id"]);
+						$this->tpl->setVariable("BTN_ADD", $this->lng->txt("add"));
+					}
 					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 					$this->tpl->setVariable("BTN_BACK", $this->lng->txt("back"));
 					$this->tpl->parseCurrentBlock();
@@ -1830,7 +1836,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setCurrentBlock("adm_content");
-			$this->tpl->setVariable("TEXT_EDIT_CONSTRAINTS", $this->lng->txt("edit_constraints_introduction"));
+			if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) {
+				$this->tpl->setVariable("TEXT_EDIT_CONSTRAINTS", $this->lng->txt("edit_constraints_introduction"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TEXT_EDIT_CONSTRAINTS", $this->lng->txt("view_constraints_introduction"));
+			}
 			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
 			$this->tpl->parseCurrentBlock();
 		}
@@ -2281,11 +2293,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$questionpools =& $this->object->getQuestionpoolTitles();
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
+		$title_counter = 0;
 		$obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.gif", true) . "\" alt=\"" . $this->lng->txt("question_obligatory") . "\" title=\"" . $this->lng->txt("question_obligatory") . "\" />";
 		if (count($survey_questions) > 0)
 		{
 			foreach ($survey_questions as $question_id => $data)
 			{
+				$title_counter++;
 				if (($data["questionblock_id"] > 0) and ($data["questionblock_id"] != $last_questionblock_id))
 				{
 					if (($data["questionblock_id"] != $last_questionblock_id) and (strcmp($last_questionblock_id, "") != 0))
@@ -2307,10 +2321,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 						$this->tpl->setVariable("TEXT_EDIT", "<img src=\"" . ilUtil::getImagePath("icon_pencil.gif") . "\" alt=\"" . $this->lng->txt("edit") . "\" title=\"" . $this->lng->txt("edit") . "\" border=\"0\" />");
 						$this->tpl->setVariable("HREF_EDIT", $_SERVER['PHP_SELF'] . "$add_parameter&editblock=" . $data["questionblock_id"]);
-						if (count($data["constraints"]))
-						{
-							$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&constraints=" . $data["question_id"] . "\">" . $this->lng->txt("questionblock_has_constraints") . "</a>");
-						}
+					}
+					if (count($data["constraints"]))
+					{
+						$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&constraints=" . $data["question_id"] . "\">" . $this->lng->txt("questionblock_has_constraints") . "</a>");
 					}
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("QTab");
@@ -2346,11 +2360,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$ref_id = SurveyQuestion::_getRefIdFromObjId($data["obj_fi"]);
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 				{
-					$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"questionpool.php?ref_id=" . $ref_id . "&cmd=questions&edit=" . $data["question_id"] . "\">" . $data["title"] . "</a>");
+					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. <a href=\"questionpool.php?ref_id=" . $ref_id . "&cmd=questions&edit=" . $data["question_id"] . "\">" . $data["title"] . "</a>");
 				}
 				else
 				{
-					$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+					$this->tpl->setVariable("QUESTION_TITLE", "$title_counter. ". $data["title"]);
 				}
 				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) 
 				{
@@ -2384,12 +2398,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-				if ($rbacsystem->checkAccess("write", $this->ref_id) and ($this->object->isOffline())) {
-					if (count($data["constraints"]) and (strcmp($data["questionblock_id"], "") == 0))
-					{
-						$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&constraints=" . $data["question_id"] . "\">" . $this->lng->txt("question_has_constraints") . "</a>");
-					}
-				}	
+				if (count($data["constraints"]) and (strcmp($data["questionblock_id"], "") == 0))
+				{
+					$this->tpl->setVariable("QUESTION_CONSTRAINTS", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&constraints=" . $data["question_id"] . "\">" . $this->lng->txt("question_has_constraints") . "</a>");
+				}
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				if (!$data["questionblock_id"])
 				{
