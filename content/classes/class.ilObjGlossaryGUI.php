@@ -51,6 +51,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function ilObjGlossaryGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
+		global $ilCtrl;
+
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this, array("ref_id"));
+
 		$this->type = "glo";
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
 		if (defined("ILIAS_MODULE"))
@@ -63,6 +68,83 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* get forward classes
+	*/
+	function _forwards()
+	{
+		return array("ilGlossaryTermGUI");
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
+
+		switch ($next_class)
+		{
+			case "ilglossarytermgui":
+				$this->ctrl->setReturn($this, "listTerms");
+				$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
+				$term_gui->setGlossary($this->object);
+				$ret =& $term_gui->executeCommand();
+				break;
+
+			default:
+				$cmd = $this->ctrl->getCmd("ListTerms");
+
+				if (($cmd == "create") && ($_POST["new_type"] == "term"))
+				{
+					$this->ctrl->setCmd("create");
+					$this->ctrl->setCmdClass("ilGlossaryTermGUI");
+					$ret =& $this->executeCommand();
+					return;
+				}
+				else
+				{
+					$this->getTemplate();
+					$this->setTabs();
+					$this->setLocator();
+					$ret =& $this->$cmd();
+				}
+				break;
+		}
+
+		$this->tpl->show();
+		return;
+/*
+		if($_GET["def"] > 0)
+		{
+//echo "2";
+			$def_edit =& new ilTermDefinitionEditorGUI();
+			$def_edit->executeCommand();
+		}
+		else
+		{
+			$cmd = $_GET["cmd"];
+			if ($cmd != "listDefinitions" && $cmd != "editTerm")
+			{
+//echo "prep";
+				$this->prepareOutput();
+			}
+			if($cmd == "")
+			{
+				$cmd = "listTerms";
+			}
+
+			if ($cmd == "post")
+			{
+				$cmd = key($_POST["cmd"]);
+			}
+//echo "cmd:$cmd:";
+			$this->$cmd();
+		}
+		$this->tpl->show();*/
+	}
+
 
 	/**
 	* form for new content object creation
@@ -71,7 +153,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		parent::createObject();
 		return;
-
+/*
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		//$meta_gui->setObject($this->object);
@@ -82,6 +164,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$this->getFormAction("save","adm_object.php?ref_id=".$_GET["ref_id"]."&new_type=".$new_type."&cmd=save"));
+		*/
 	}
 
 	/**
@@ -126,52 +209,45 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 	}
 
-	function editMetaObject()
+	/**
+	* choose meta data section
+	* (called by administration)
+	*/
+	function chooseMetaSectionObject($a_target = "")
 	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
+		}
+
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
+			$a_target, $_REQUEST["meta_section"]);
 	}
 
-	function saveMetaObject()
-	{
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save($_POST["meta_section"]);
-		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
-	}
-
-	// called by administration
-	function chooseMetaSectionObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
-	{
-		if ($a_script == "")
-		{
-			$a_script = "adm_object.php?ref_id=".$_GET["ref_id"];
-		}
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_REQUEST["meta_section"]);
-	}
-
-	// called by editor
+	/**
+	* choose meta data section
+	* (called by module)
+	*/
 	function chooseMetaSection()
 	{
-		$this->chooseMetaSectionObject("glossary_edit.php?ref_id=".
-			$this->object->getRefId());
+		//$this->prepareOutput();
+		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
 	}
 
-	function addMetaObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	/**
+	* add meta data object
+	* (called by administration)
+	*/
+	function addMetaObject($a_target = "")
 	{
-		if ($a_script == "")
+		if ($a_target == "")
 		{
-			$a_script = "adm_object.php?ref_id=".$_GET["ref_id"];
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
 		}
+
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
@@ -189,34 +265,102 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("meta_choose_element"), true);
 		}
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $meta_section);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $meta_section);
 	}
 
+	/**
+	* add meta data object
+	* (called by module)
+	*/
 	function addMeta()
 	{
-		$this->addMetaObject("glossary_edit.php?ref_id=".
-			$this->object->getRefId());
+		//$this->prepareOutput();
+		$this->addMetaObject($this->ctrl->getLinkTarget($this));
 	}
 
-	function deleteMetaObject($a_script = "",
-		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+
+	/**
+	* delete meta data object
+	* (called by administration)
+	*/
+	function deleteMetaObject($a_target = "")
 	{
-		if ($a_script == "")
+		if ($a_target == "")
 		{
-			$a_script = "adm_object.php?ref_id=".$_GET["ref_id"];
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
 		}
+
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
 		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_GET["meta_section"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
 	}
 
+	/**
+	* delete meta data object
+	* (called by module)
+	*/
 	function deleteMeta()
 	{
-		$this->deleteMetaObject("glossary_edit.php?ref_id=".
-			$this->object->getRefId());
+		//$this->prepareOutput();
+		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
+	}
+
+	/**
+	* edit meta data
+	* (called by administration)
+	*/
+	function editMetaObject($a_target = "")
+	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
+		}
+
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
+	}
+
+	/**
+	* edit meta data
+	* (called by module)
+	*/
+	function editMeta()
+	{
+		//$this->prepareOutput();
+		$this->editMetaObject($this->ctrl->getLinkTarget($this));
+	}
+
+	/**
+	* save meta data
+	* (called by administration)
+	*/
+	function saveMetaObject($a_target = "")
+	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?cmd=editMeta&ref_id=".$this->object->getRefId();
+		}
+
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->save($_POST["meta_section"]);
+		ilUtil::redirect(ilUtil::appendUrlParameterString($a_target,
+			"meta_section=" . $_POST["meta_section"]));
+	}
+
+	/**
+	* save meta data
+	* (called by module)
+	*/
+	function saveMeta()
+	{
+		$this->saveMetaObject($this->ctrl->getLinkTarget($this, "editMeta"));
 	}
 
 
@@ -247,45 +391,32 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
-		parent::viewObject();
+		//parent::viewObject();
 	}
 
-	function executeCommand()
-	{
 
-		if($_GET["def"] > 0)
-		{
-//echo "2";
-			$def_edit =& new ilTermDefinitionEditorGUI();
-			$def_edit->executeCommand();
-		}
-		else
-		{
-			$cmd = $_GET["cmd"];
-			if ($cmd != "listDefinitions" && $cmd != "editTerm")
-			{
-//echo "prep";
-				$this->prepareOutput();
-			}
-			if($cmd == "")
-			{
-				$cmd = "listTerms";
-			}
-
-			if ($cmd == "post")
-			{
-				$cmd = key($_POST["cmd"]);
-			}
-//echo "cmd:$cmd:";
-			$this->$cmd();
-		}
-		$this->tpl->show();
-	}
-
+	/**
+	* list terms
+	*/
 	function listTerms()
 	{
+		//$this->getTemplate();
+		//$this->setTabs();
+		//$this->setLocator();
 		$this->lng->loadLanguageModule("meta");
 		include_once "./classes/class.ilTableGUI.php";
+
+
+		// view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","content/glossary_presentation.php?cmd=listTerms&ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
+		$this->tpl->parseCurrentBlock();
+
+
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
@@ -295,8 +426,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$this->ref_id."$obj_str&cmd=post");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// create table
 		$tbl = new ilTableGUI();
@@ -350,8 +480,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				{
 					$def = $defs[$j];
 					$this->tpl->setCurrentBlock("definition");
+					$this->ctrl->setParameterByClass("ilTermDefinitionEditorGUI", "term_id", $term["id"]);
+					$this->ctrl->setParameterByClass("ilTermDefinitionEditorGUI", "def", $def["id"]);
 					$this->tpl->setVariable("DEF_LINK",
-						"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
+						$this->ctrl->getLinkTargetByClass("ilTermDefinitionEditorGUI", "view"));
 					$this->tpl->setVariable("DEF_TEXT", $this->lng->txt("cont_definition")." ".($j + 1));
 					$short_str = ilPCParagraph::xml2output($def["short_text"]);
 					$short_str = str_replace("<", "&lt;", $short_str);
@@ -367,8 +499,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-				$this->tpl->setVariable("TARGET_TERM", "glossary_edit.php?ref_id=".
-					$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]);
+				$this->ctrl->setParameterByClass("ilGlossaryTermGUI", "term_id", $term["id"]);
+				$this->tpl->setVariable("TARGET_TERM",
+					$this->ctrl->getLinkTargetByClass("ilGlossaryTermGUI", "listDefinitions"));
+				//"glossary_edit.php?ref_id=".
+				//	$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]);
 				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();
@@ -383,98 +518,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 	}
 
-	function listDefinitions()
-	{
-		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
-
-		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
-		$this->tpl->parseCurrentBlock();
-
-		//$this->admin_tabs[] = array("cont_definitions","listDefinitions");
-		//$this->admin_tabs[] = array("meta_data","editTerm");
-		$term =& new ilGlossaryTerm($_GET["term_id"]);
-		$this->term =& $term;
-
-		// load template for table
-		$this->tpl->addBlockfile("CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
-		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->setLocator();
-		$this->setAdminTabs("term_edit");
-		$this->tpl->setVariable("TXT_HEADER",
-			$this->lng->txt("cont_term").": ".$term->getTerm());
-
-		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$_GET["ref_id"].
-			"&cmd=post&term_id=".$_GET["term_id"]);
-
-		$this->tpl->setCurrentBlock("add_def");
-		$this->tpl->setVariable("TXT_ADD_DEFINITION",
-			$this->lng->txt("cont_add_definition"));
-		$this->tpl->setVariable("BTN_ADD", "addDefinition");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("def_list");
-
-		$defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
-
-		$this->tpl->setVariable("TXT_TERM", $term->getTerm());
-
-		for($j=0; $j<count($defs); $j++)
-		{
-			$def = $defs[$j];
-			$page =& new ilPageObject("gdf", $def["id"]);
-			$page_gui =& new ilPageObjectGUI($page);
-			//$page_gui->setOutputMode("edit");
-			//$page_gui->setPresentationTitle($this->term->getTerm());
-			$page_gui->setTemplateOutput(false);
-			$output = $page_gui->preview();
-
-			if (count($defs) > 1)
-			{
-				$this->tpl->setCurrentBlock("definition_header");
-						$this->tpl->setVariable("TXT_DEFINITION",
-				$this->lng->txt("cont_definition")." ".($j+1));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			if ($j > 0)
-			{
-				$this->tpl->setCurrentBlock("up");
-				$this->tpl->setVariable("TXT_UP", $this->lng->txt("up"));
-				$this->tpl->setVariable("LINK_UP",
-					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveUp&def=".$def["id"]);
-				$this->tpl->parseCurrentBlock();
-			}
-
-			if ($j+1 < count($defs))
-			{
-				$this->tpl->setCurrentBlock("down");
-				$this->tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
-				$this->tpl->setVariable("LINK_DOWN",
-					"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=moveDown&def=".$def["id"]);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("submit_btns");
-			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-			$this->tpl->setVariable("LINK_EDIT",
-				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
-			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("LINK_DELETE",
-				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=confirmDefinitionDeletion&def=".$def["id"]);
-			$this->tpl->parseCurrentBlock();
-
-			$this->tpl->setCurrentBlock("definition");
-			$this->tpl->setVariable("PAGE_CONTENT", $output);
-			$this->tpl->parseCurrentBlock();
-		}
-		//$this->tpl->setCurrentBlock("def_list");
-		//$this->tpl->parseCurrentBlock();
-
-	}
-
-
+	/**
+	* confirm term deletion
+	*/
 	function confirmTermDeletion()
 	{
+		//$this->prepareOutput();
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
@@ -486,7 +535,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
 
 		sendInfo($this->lng->txt("info_delete_sure"));
-		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$this->ref_id."$obj_str&cmd=post");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// output table header
 		$cols = array("cont_term");
@@ -533,12 +582,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	function cancelTermDeletion()
 	{
 		session_unregister("term_delete");
-
 		sendInfo($this->lng->txt("msg_cancel"),true);
-
-		ilUtil::redirect("glossary_edit.php?ref_id=".$this->ref_id."&cmd=listTerms");
+		$this->ctrl->redirect($this, "listTerms");
 	}
 
+	/**
+	* delete selected terms
+	*/
 	function deleteTerms()
 	{
 		foreach($_SESSION["term_delete"] as $id)
@@ -547,8 +597,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$term->delete();
 		}
 		session_unregister("term_delete");
-
-		ilUtil::redirect("glossary_edit.php?ref_id=".$this->ref_id."&cmd=listTerms");
+		$this->ctrl->redirect($this, "listTerms");
 	}
 
 	/**
@@ -628,113 +677,50 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	}
 
-	function loadAdmTemplate()
-	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-
-		// catch feedback message
-		sendInfo();
-	}
-
-	function addDefinition()
-	{
-		if (empty($_GET["term_id"]))
-		{
-			if (count($_POST["id"]) < 1)
-			{
-				$this->ilias->raiseError($this->lng->txt("cont_select_term"),$this->ilias->error_obj->MESSAGE);
-			}
-
-			if (count($_POST["id"]) > 1)
-			{
-				$this->ilias->raiseError($this->lng->txt("cont_select_max_one_term"),$this->ilias->error_obj->MESSAGE);
-			}
-		}
-
-		$term_id = empty($_GET["term_id"])
-			? $_POST["id"][0]
-			: $_GET["term_id"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");
-		$this->tpl->setVariable("FORMACTION",
-			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".$term_id."&cmd=saveDefinition");
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("gdf_new"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("gdf_add"));
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
-		$this->tpl->setVariable("CMD_SUBMIT", "saveDefinition");
-		//$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->parseCurrentBlock();
-
-		/*
-		include_once "classes/class.ilMetaDataGUI.php";
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setTargetFrame("save",$this->getTargetFrame("save"));
-		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".$term_id."&cmd=saveDefinition");
-		*/
-
-	}
-
-	function saveDefinition()
-	{
-		//$meta_gui =& new ilMetaDataGUI();
-		//$meta_data =& $meta_gui->create();
-		$def =& new ilGlossaryDefinition();
-		$def->setTermId($_GET["term_id"]);
-		$def->setTitle($_POST["Fobject"]["title"]);#"content object ".$newObj->getId());		// set by meta_gui->save
-		$def->setDescription($_POST["Fobject"]["desc"]);	// set by meta_gui->save
-		$def->create();
-		ilUtil::redirect("glossary_edit.php?cmd=view&ref_id=".$this->object->getRefId().
-			"&def=".$def->getId());
-	}
-
-	function editMeta()
-	{
-		include_once("classes/class.ilMetaDataGUI.php");
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "glossary_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=saveMeta");
-	}
-
-	function saveMeta()
-	{
-		include_once("classes/class.ilMetaDataGUI.php");
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save();
-		ilUtil::redirect("glossary_edit.php?cmd=view&ref_id=".$this->object->getRefId());
-	}
-
+	/**
+	* edit permissions
+	*/
 	function perm()
 	{
+		//$this->prepareOutput();
 		$this->setFormAction("addRole", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=addRole");
 		$this->setFormAction("permSave", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=permSave");
 		$this->permObject();
 	}
 
+	/**
+	* save permissions
+	*/
 	function permSave()
 	{
 		$this->setReturnLocation("permSave", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
 		$this->permSaveObject();
 	}
 
+	/**
+	* add a local role
+	*/
 	function addRole()
 	{
 		$this->setReturnLocation("addRole", "glossary_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
 		$this->addRoleObject();
 	}
 
+	/**
+	* show owner
+	*/
 	function owner()
 	{
+		//$this->prepareOutput();
 		$this->ownerObject();
 	}
 
+	/**
+	* view content
+	*/
 	function view()
 	{
+		//$this->prepareOutput();
 		$this->viewObject();
 	}
 
@@ -761,78 +747,66 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		sendinfo($this->lng->txt("cont_added_term"),true);
 
 		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
+	}
+
+	function getTemplate()
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		$title = $this->object->getTitle();
+
+		// catch feedback message
+		sendInfo();
+
+		$this->tpl->setVariable("HEADER", $this->lng->txt("glo").": ".$title);
+
+		//$this->setAdminTabs($_POST["new_type"]);
+		//$this->setLocator();
 
 	}
 
-	function editTerm()
+	/**
+	* output tabs
+	*/
+	function setTabs()
 	{
-		$this->loadAdmTemplate();
-		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->setAdminTabs("term_edit");
-		$this->term =& new ilGlossaryTerm($_GET["term_id"]);
-		$this->setLocator();
-		$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
-		$term_gui->editTerm();
-	}
 
-	function updateTerm()
-	{
-		$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
-		$term_gui->update();
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
 
-		sendinfo($this->lng->txt("msg_obj_modified"),true);
-
-		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".
-			$_GET["term_id"]."&cmd=listDefinitions");
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 
 	}
 
-	function setAdminTabs($mode = "std")
+	/**
+	* get tabs
+	*/
+	function getTabs(&$tabs_gui)
 	{
-		if ($mode == "std" || $mode == "")
-		{
-			parent::setAdminTabs();
-		}
-		else
-		{
 
-			switch($mode)
-			{
-				case "term_edit":
-					$tabs[] = array("cont_definitions","listDefinitions");
-					$tabs[] = array("properties","editTerm");
-					break;
-			}
+		// list definitions
+		$tabs_gui->addTarget("cont_terms",
+			$this->ctrl->getLinkTarget($this, "listTerms"), "listTerms",
+			get_class($this));
 
-			$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+		// meta data
+		$tabs_gui->addTarget("meta_data",
+			$this->ctrl->getLinkTarget($this, "editMeta"), "editMeta",
+			get_class($this));
 
-			if (is_array($tabs))
-			{
-				foreach ($tabs as $row)
-				{
-					$i++;
+		// permissions
+		$tabs_gui->addTarget("permission_settings",
+			$this->ctrl->getLinkTarget($this, "perm"), "perm",
+			get_class($this));
 
-					if ($row[1] == $_GET["cmd"])
-					{
-						$tabtype = "tabactive";
-						$tab = $tabtype;
-					}
-					else
-					{
-						$tabtype = "tabinactive";
-						$tab = "tab";
-					}
+		// owner
+		$tabs_gui->addTarget("owner",
+			$this->ctrl->getLinkTarget($this, "owner"), "owner",
+			get_class($this));
 
-					$this->tpl->setCurrentBlock("tab");
-					$this->tpl->setVariable("TAB_TYPE", $tabtype);
-					$this->tpl->setVariable("TAB_TYPE2", $tab);
-					$this->tpl->setVariable("TAB_LINK", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&def=".
-						$_GET["def"]."&term_id=".$_GET["term_id"]."&cmd=".$row[1]);
-					$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-		}
 	}
 
 }
