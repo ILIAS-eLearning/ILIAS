@@ -629,6 +629,16 @@ class ilObjContentObject extends ilObject
 		return $this->toc_active;
 	}
 
+	function setActivePrintView($a_print)
+	{
+		$this->print_view_active = $a_print;
+	}
+
+	function isActivePrintView()
+	{
+		return $this->print_view_active;
+	}
+
 	function setCleanFrames($a_clean)
 	{
 		$this->clean_frames = $a_clean;
@@ -653,6 +663,7 @@ class ilObjContentObject extends ilObject
 		$this->setTOCMode($lm_rec["toc_mode"]);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
 		$this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
+		$this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
 		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
 	}
@@ -669,6 +680,7 @@ class ilObjContentObject extends ilObject
 			" toc_mode = '".$this->getTOCMode()."',".
 			" online = '".ilUtil::tf2yn($this->getOnline())."',".
 			" toc_active = '".ilUtil::tf2yn($this->isActiveTOC())."',".
+			" print_view_active = '".ilUtil::tf2yn($this->isActivePrintView())."',".
 			" clean_frames = '".ilUtil::tf2yn($this->cleanFrames())."',".
 			" lm_menu_active = '".ilUtil::tf2yn($this->isActiveLMMenu())."'".
 			" WHERE id = '".$this->getId()."'";
