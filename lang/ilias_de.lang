@@ -321,7 +321,7 @@ common#:#changed_to#:#gewechselt zu
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
-common#:#chat#:#Chat###05 Mar 2004 new variable
+common#:#chat#:#Chat
 common#:#chat_add#:#Chat hinzufügen
 common#:#chat_delete#:#Chat löschen
 common#:#chat_edit_permission#:#Rechteeinstellungen ändern
@@ -648,12 +648,12 @@ common#:#ilias_version#:#ILIAS Version
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#importieren
-common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
-common#:#import_file#:#Import File###27 Feb 2004 new variable
+common#:#import_categories#:#Kategorien importieren
+common#:#import_file#:#Importdatei
 common#:#import_lm#:#Import Lernmodul
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Import SCORM-Datei
-common#:#import_users#:#Import Users###27 Feb 2004 new variable
+common#:#import_users#:#Benutzer importieren
 common#:#in#:#in
 common#:#in_use#:#Benutzersprache
 common#:#inbox#:#Posteingang
@@ -917,7 +917,7 @@ common#:#my_bms#:#Meine Bookmarks
 common#:#my_frms#:#Meine Foren
 common#:#my_grps#:#Meine Gruppen
 common#:#my_los#:#Meine Lernobjekte
-common#:#my_tsts#:#My Tests###08 Mar 2004 new variable
+common#:#my_tsts#:#Meine Tests
 common#:#name#:#Name
 common#:#new#:#Neu
 common#:#new_appointment#:#Neuer Termin
@@ -939,17 +939,17 @@ common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_objects#:#Keine Objekte
 common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutreten!
 common#:#no_title#:#Kein Titel
-common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
+common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Liste.
 common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
 common#:#obj#:#Objekt
-common#:#obj_adm#:#Administration###05 Mar 2004 content changed
+common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
 common#:#obj_chac#:#Chateinstellungen
-common#:#obj_chat#:#Chat###18 Feb 2004 new variable
+common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_exc#:#Übung
@@ -1015,12 +1015,12 @@ common#:#objs_lo#:#Lernobjekte
 common#:#objs_mob#:#Multimedia Objekte
 common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
-common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
+common#:#objs_qpl#:#Fragenpools
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
 common#:#objs_slm#:#SCORM Lernmodule
 common#:#objs_st#:#Kapitel
-common#:#objs_tst#:#Tests###18 Feb 2004 new variable
+common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekttypen
 common#:#objs_usr#:#Benutzer
 common#:#of#:#von
@@ -1139,7 +1139,7 @@ common#:#role_deleted#:#Rolle gelöscht
 common#:#role_edit#:#Rolle bearbeiten
 common#:#role_new#:#Neue Rolle
 common#:#roles#:#Rollen
-common#:#roles_of_import#:#Roles of Import File###27 Feb 2004 new variable
+common#:#roles_of_import#:#Rollen der Importdatei
 common#:#rolf#:#Rollenordner
 common#:#rolf_added#:#Rollenordner angelegt
 common#:#rolf_create_role#:#Neue Rolle anlegen
@@ -1285,7 +1285,7 @@ common#:#user#:#Benutzer
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_deleted#:#Benutzer gelöscht
-common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
+common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_language#:#Benutzersprache
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
 common#:#userdata#:#Benutzerdaten
@@ -1331,7 +1331,7 @@ content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Seiten
 content#:#all#:#Alle
-content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
+content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Circle#:#Kreis
 content#:#cont_Citation#:#Zitat
@@ -1351,7 +1351,7 @@ content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_add_area#:#Bereich zufügen
 content#:#cont_add_definition#:#Definition hinzufügen
-content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
+content#:#cont_add_fullscreen#:#Vollansicht hinzufügen
 content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
@@ -1396,10 +1396,10 @@ content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitionen
 content#:#cont_del_assignment#:#Zuordnung löschen
 content#:#cont_dependencies#:#Abhängigkeiten
-content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
+content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
-content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
+content#:#cont_edit_area#:#Bereich ändern
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_mob#:#Media Objekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
@@ -1412,11 +1412,11 @@ content#:#cont_edition#:#Ausgabe
 content#:#cont_external#:#extern
 content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
-content#:#cont_format#:#Format###23 Feb 2004 new variable
+content#:#cont_format#:#Format
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
 content#:#cont_get_link#:#get link
-content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
+content#:#cont_get_orig_size#:#Originalgröße setzen
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
@@ -1467,7 +1467,7 @@ content#:#cont_mob_usages#:#Nutzung
 content#:#cont_month#:#Monat
 content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
 content#:#cont_name#:#Name
-content#:#cont_new_area#:#New Link Area###07 Feb 2004 new variable
+content#:#cont_new_area#:#Neuer Link-Bereich
 content#:#cont_new_assignment#:#Neue Zuordnung
 content#:#cont_new_dir#:#Neues Verzeichnis
 content#:#cont_new_file#:#Neue Datei
@@ -1500,13 +1500,13 @@ content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Verwendung
 content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
 content#:#cont_reference#:#Referenz
-content#:#cont_remove_fullscreen#:#Remove Fullscreen###23 Feb 2004 new variable
+content#:#cont_remove_fullscreen#:#Vollansicht entfernen
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
 content#:#cont_roman#:#Römisch i, ii, ...
-content#:#cont_saved_map_area#:#Saved map area###07 Feb 2004 new variable
-content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
+content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
+content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
 content#:#cont_scorm_type#:#adlcp:scormtype
@@ -1523,8 +1523,8 @@ content#:#cont_series_editor#:#Autor der Serie
 content#:#cont_series_title#:#Serientitel
 content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
-content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
-content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
+content#:#cont_set_link#:#Verweis ändern
+content#:#cont_set_shape#:#Form ändern
 content#:#cont_set_width#:#Breite festlegen
 content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
@@ -1550,7 +1550,7 @@ content#:#cont_top#:#Oben
 content#:#cont_translations#:#Übersetzung(en)
 content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
 content#:#cont_update#:#Update
-content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
+content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_url#:#URL
 content#:#cont_version#:#version
