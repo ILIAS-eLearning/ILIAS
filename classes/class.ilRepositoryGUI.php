@@ -912,6 +912,24 @@ class ilRepositoryGUI
 				}
 				$ilBench->stop("Repository", "showCategories_01Rows_DeleteLink");
 
+
+				// add to desktop link
+				$ilBench->start("Repository", "showCategories_01Rows_SubscribeLink");
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($cat["ref_id"], "cat"))
+				{
+					if ($this->rbacsystem->checkAccess('read', $cat["ref_id"]))
+					{
+						$tpl->setCurrentBlock("cat_subscribe");
+						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+							"&item_ref_id=".$cat["ref_id"]."&type=cat");
+
+						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+						$tpl->parseCurrentBlock();
+					}
+				}
+				$ilBench->stop("Repository", "showCategories_01Rows_SubscribeLink");
+
+
 				$ilBench->start("Repository", "showCategories_01Rows_setTemplateVars");
 				$tpl->setCurrentBlock("tbl_content");
 				// change row color
@@ -2715,6 +2733,20 @@ class ilRepositoryGUI
 					$tpl->setVariable("DELELTE_TARGET","bottom");
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
+				}
+
+				// add to desktop link
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$this->ilias->account->isDesktopItem($cont_data["ref_id"], "fold"))
+				{
+					if ($this->rbacsystem->checkAccess('read', $cont_data["ref_id"]))
+					{
+						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+							"&item_ref_id=".$cont_data["ref_id"].
+							"&type=fold&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+							"&sort_by=".$_GET["sort_by"]);
+
+						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+					}
 				}
 
 				$tpl->setCurrentBlock("tbl_content");
