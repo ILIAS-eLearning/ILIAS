@@ -308,9 +308,13 @@ class ilExplorer
 	*
 	* @return	boolean		true if linking is activated
 	*/
-	function isClickable($a_type)
+	function isClickable($a_type, $a_ref_id)
 	{
-		if($this->is_clickable[$a_type] == "n")
+		// in this standard implementation
+		// only the type determines, wether an object should be clickable or not
+		// but this method can be overwritten and make use of the ref id
+		// (this happens e.g. in class ilRepositoryExplorerGUI)
+		if ($this->is_clickable[$a_type] == "n")
 		{
 			return false;
 		}
@@ -347,7 +351,14 @@ class ilExplorer
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
 
-		$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
+		if ($this->showChilds($a_parent_id))
+		{
+			$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
+		}
+		else
+		{
+			$objects = array();
+		}
 
 		if (count($objects) > 0)
 		{
@@ -408,7 +419,7 @@ class ilExplorer
 
 						++$counter;
 
-						// stop recursion if 2. level beyond expanded nodes is reached 
+						// stop recursion if 2. level beyond expanded nodes is reached
 						if (in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
 						{
 							// recursive
@@ -419,6 +430,17 @@ class ilExplorer
 			} //foreach
 		} //if
 	} //function
+
+
+	/**
+	* determines wether the childs of an object should be shown or not
+	* note: this standard implementation always returns true
+	* but it could be overwritten by derived classes (e.g. ilRepositoryExplorerGUI)
+	*/
+	function showChilds($a_parent_id)
+	{
+		return true;
+	}
 
 	/**
 	* Creates output
@@ -522,7 +544,7 @@ class ilExplorer
 			$tpl->parseCurrentBlock();
 		}
 
-		if($this->isClickable($a_option["type"]))	// output link
+		if ($this->isClickable($a_option["type"], $a_node_id))	// output link
 		{
 			$tpl->setCurrentBlock("link");
 			//$target = (strpos($this->target, "?") === false) ?
