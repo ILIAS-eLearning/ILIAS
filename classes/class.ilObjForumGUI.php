@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjForumGUI.php,v 1.22.2.1 2005/03/18 13:15:41 smeyer Exp $
+* $Id$
 *
 * @extends ilObject
 * @package ilias-core
@@ -258,7 +258,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_DATE", $this->lng->txt("date"));
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_TOPIC", $this->lng->txt("forums_thread"));
-		$this->tpl->setVariable("TXT_AUTHOR", $this->lng->txt("author"));
+		$this->tpl->setVariable("TXT_AUTHOR", $this->lng->txt("forums_created_by"));
 		$this->tpl->setVariable("TXT_NUM_POSTS", $this->lng->txt("forums_articles").' ('.$this->lng->txt('unread').')');
 		$this->tpl->setVariable("TXT_NEW_POSTS",$this->lng->txt('forums_new_articles'));
 		$this->tpl->setVariable("TXT_NUM_VISITS", $this->lng->txt("visits"));

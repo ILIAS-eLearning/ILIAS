@@ -211,7 +211,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 	$menutpl->setVariable("BTN_LINK","forums_export.php?print_thread=".$_GET["thr_pk"].
 		"&thr_top_fk=".$threadData["thr_top_fk"]);
 	$menutpl->setVariable("BTN_TARGET","target=\"_new\"");
-	$menutpl->setVariable("BTN_TXT", $lng->txt("forums_print_thread"));
+	$menutpl->setVariable("BTN_TXT", $lng->txt("forums_print_view"));
 	$menutpl->parseCurrentBlock();
 
 	// ********************************************************************************
@@ -700,8 +700,14 @@ if (is_array($topicData = $frm->getOneTopic()))
 				$lastuser = $frm->getUser($node["update_user"]);
 				if ($span_class == "")
 					$span_class = "small";
+
+
+				$edited_author = "<a target=\"$t_frame\" href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
+					$lastuser->getId()."&backurl=".$backurl."\">".$lastuser->getLogin()."</a>";
+
+
 				$tpl->setVariable("POST_UPDATE","<span class=\"".$span_class."\"><br/>[".$lng->txt("edited_at").": ".
-								  $node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]</span>");
+								  $node["update"]." - ".strtolower($lng->txt("by"))." ".$edited_author."]</span>");
 
 			} // if ($node["update_user"] > 0)
 
