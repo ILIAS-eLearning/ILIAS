@@ -87,6 +87,9 @@ class ilObjContentObject extends ilObject
 		// create a local role folder
 		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of content object ".$this->getId());
 
+		// note: we don't need any roles here, local "author" roles must
+		// be created manually. subscription roles have been abandoned.
+		/*
 		// create author role and assign role to rolefolder...
 		$roleObj = $rfoldObj->createRole("author object ".$this->getRefId(),"author of content object ref id ".$this->getRefId());
 		$roles[] = $roleObj->getId();
@@ -97,27 +100,12 @@ class ilObjContentObject extends ilObject
 		// grant all allowed operations of role to current learning module
 		$rbacadmin->grantPermission($roleObj->getId(),
 			$rbacreview->getOperationsOfRole($roleObj->getId(), "lm", $rfoldObj->getRefId()),
-			$this->getRefId());
+			$this->getRefId());*/
 
 		unset($rfoldObj);
-		unset($roleObj);
+		//unset($roleObj);
 
 		return $roles ? $roles : array();
-	}
-
-
-	/**
-	* get author role template id
-	*
-	* @access	public
-	* @return	int		id of author role template
-	*/
-	function getAuthorRoleTemplateId()
-	{
-		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='lm_Author_rolt'";
-		$res = $this->ilias->db->query($q);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		return $row["obj_id"];
 	}
 
 
