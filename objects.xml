@@ -258,7 +258,8 @@
 	<action name="delete">delete_favorite</action>
 </object>
 <object name="st">
-	<property name="view">cont_content</property>
+	<property name="view">cont_pages</property>
+	<property name="subchap">cont_subchapters</property>
 	<property name="edit_meta">cont_meta_data</property>
 	<subobj name="st">st</subobj>
 	<subobj name="pg">pg</subobj>

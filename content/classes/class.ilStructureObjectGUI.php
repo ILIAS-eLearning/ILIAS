@@ -59,72 +59,50 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	}
 
 	/*
-	* display content of structure object
+	* display pages of structure object
 	*/
 	function view()
 	{
 		global $tree;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_view.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", true);
 		$num = 0;
 
+		$this->tpl->setCurrentBlock("form");
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 			$this->lm_obj->getId()."&obj_id=".$this->st_obj->getId()."&cmd=post");
-
-		//table header
-		$this->tpl->setCurrentBlock("table_header_cell");
-		$cols = array("", "type", "title");
-		foreach ($cols as $key)
-		{
-			if ($key != "")
-			{
-			    $out = $this->lng->txt($key);
-			}
-			else
-			{
-				$out = "&nbsp;";
-			}
-			$num++;
-
-			$this->tpl->setVariable("HEADER_TEXT", $out);
-			//$this->tpl->setVariable("HEADER_LINK", "usr_bookmarks.php?bmf_id=".$this->id."&order=type&direction=".
-			//$_GET["dir"]."&cmd=".$_GET["cmd"]);
-
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_pages"));
 
 		$cnt = 0;
 		$childs = $this->tree->getChilds($this->st_obj->getId());
 		foreach ($childs as $child)
 		{
+			if($child["type"] != "pg")
+			{
+				continue;
+			}
+			$this->tpl->setCurrentBlock("table_row");
 			// color changing
 			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
 
 			// checkbox
-			$this->tpl->setCurrentBlock("checkbox");
-			//$type = (get_class($content_obj) == "ilparagraph") ? "par" : "mob";
 			$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("table_cell");
-			$this->tpl->parseCurrentBlock();
 
 			// type
 			$link = "lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
 				$child["obj_id"];
-			$this->add_cell($this->lng->txt($child["type"]), $link);
+			$this->tpl->setVariable("LINK_TARGET", $link);
 
 			// title
-			$this->add_cell($child["title"], $link);
+			$this->tpl->setVariable("TEXT_CONTENT", $child["title"]);
 
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->parseCurrentBlock();
 		}
 		if($cnt == 0)
 		{
 			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("NUM_COLS", 4);
+			$this->tpl->setVariable("NUM_COLS", 2);
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -136,8 +114,76 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		}
 
 		// SHOW POSSIBLE SUB OBJECTS
-		$this->tpl->setVariable("NUM_COLS", 3);
+		$this->tpl->setVariable("NUM_COLS", 2);
 		$this->showPossibleSubObjects("st");
+
+		$this->tpl->setCurrentBlock("form");
+		$this->tpl->parseCurrentBlock();
+
+	}
+
+
+	/*
+	* display subchapters of structure object
+	*/
+	function subchap()
+	{
+		global $tree;
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", true);
+		$num = 0;
+
+		$this->tpl->setCurrentBlock("form");
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
+			$this->lm_obj->getId()."&obj_id=".$this->st_obj->getId()."&cmd=post");
+		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_subchapters"));
+
+		$cnt = 0;
+		$childs = $this->tree->getChilds($this->st_obj->getId());
+		foreach ($childs as $child)
+		{
+			if($child["type"] != "st")
+			{
+				continue;
+			}
+			$this->tpl->setCurrentBlock("table_row");
+			// color changing
+			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
+
+			// checkbox
+			$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+
+			// type
+			$link = "lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+				$child["obj_id"];
+			$this->tpl->setVariable("LINK_TARGET", $link);
+
+			// title
+			$this->tpl->setVariable("TEXT_CONTENT", $child["title"]);
+
+			$this->tpl->parseCurrentBlock();
+		}
+		if($cnt == 0)
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("NUM_COLS", 2);
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			// SHOW VALID ACTIONS
+			//$this->tpl->setVariable("NUM_COLS", 4);
+			//$this->showActions();
+		}
+
+		// SHOW POSSIBLE SUB OBJECTS
+		$this->tpl->setVariable("NUM_COLS", 2);
+		$this->showPossibleSubObjects("st");
+
+		$this->tpl->setCurrentBlock("form");
+		$this->tpl->parseCurrentBlock();
 
 	}
 
