@@ -1052,7 +1052,7 @@ class ilLMPresentationGUI
 					case "GlossaryItem":
 						if ($targetframe == "None")
 						{
-							$targetframe == "Glossary";
+							$targetframe = "Glossary";
 						}
 						$ltarget = $a_layoutframes[$targetframe]["Frame"];
 						$nframe = ($ltarget == "")
