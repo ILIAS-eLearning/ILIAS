@@ -330,19 +330,22 @@ common#:#module#:#module###26 Mar 2003 new variable
 common#:#modules#:#Modules###20 Mar 2003 new variable
 common#:#move_to#:#inserisci in cartella
 common#:#msg_changes_ok#:#cambio salvato
+common#:#msg_error_copy#:#Copy Error###04 Jul 2003 new variable
 common#:#msg_failed#:#fallito
 common#:#msg_may_not_contain#:#This object may not contain objects of type: 
-common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.
-common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.
-common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s): No.
-common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s): No.
-common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s): No.
-common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s): No.
+common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.###04 Jul 2003 content changed
+common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.###04 Jul 2003 content changed
+common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s): No.###04 Jul 2003 content changed
+common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s): No.###04 Jul 2003 content changed
+common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s): No.###04 Jul 2003 content changed
+common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
 common#:#msg_nothing_found#:#niente trovato
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_trash_empty#:#There are no deleted objects
+common#:#msg_user_last_role1#:#The following users are only assigned to this role:###04 Jul 2003 new variable
+common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.###04 Jul 2003 new variable
 common#:#multimedia#:#multimedia
 common#:#name#:#nome
 common#:#new#:#nuovo

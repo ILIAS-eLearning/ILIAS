@@ -330,19 +330,22 @@ common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#move_to#:#Ablegen in
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
+common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: 
-common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren:
-common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen:
-common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:
-common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen:
-common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen:
-common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte einzufügen:
+common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren:###04 Jul 2003 content changed
+common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen:###04 Jul 2003 content changed
+common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:###04 Jul 2003 content changed
+common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen:###04 Jul 2003 content changed
+common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen:###04 Jul 2003 content changed
+common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte einzufügen:###04 Jul 2003 content changed
 common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
 common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
 common#:#msg_nothing_found#:#Nichts gefunden
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
 common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte 
+common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser Rolle zugewiesen:
+common#:#msg_user_last_role2#:#Bitte l&ouml;schen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name
 common#:#new#:#Neu
@@ -1081,6 +1084,3 @@ meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
 meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
 meta#:#meta_language#:#Language###14 May 2003 new variable
 meta#:#meta_title#:#Title###14 May 2003 new variable
-common#:#msg_error_copy#:#Fehler beim Kopieren
-common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser Rolle zugewiesen:
-common#:#msg_user_last_role2#:#Bitte l&ouml;schen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
