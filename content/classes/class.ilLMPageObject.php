@@ -209,7 +209,7 @@ class ilLMPageObject extends ilLMObject
 		}
 		else
 		{
-			return $this->getTitle();
+			return $pg_rec["title"];
 		}
 	}
 
