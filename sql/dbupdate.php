@@ -24,3 +24,6 @@ CREATE TABLE desktop_item
 	type		CHAR(4) NOT NULL,
 	INDEX user_id (user_id)
 );
+
+<#4>
+UPDATE object_data SET title = 'ILIAS' WHERE title = 'ILIAS open source';
