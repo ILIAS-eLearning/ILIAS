@@ -79,7 +79,7 @@ function ZweiFrames(URI1,F1,URI2,F2)
 
 function UpdateLocatorFrame()
 {
-  Frame=eval("parent.locator");
+  Frame=eval("parent.parent.locator");
   Frame.location.href = "locator.php";
 }
 
