@@ -32,6 +32,7 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analyze_data#:#Analyze data Integrity###16 Mar 2004 new variable
 administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###16 Mar 2004 new variable

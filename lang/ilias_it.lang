@@ -32,6 +32,7 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 administration#:#analyze_data#:#Verifica dell'integrit&#224; dei dati
 administration#:#analyze_desc#:#Esame del sistema per oggetti corrotti/invalidi/mancanti/scollegati.
@@ -1165,7 +1166,7 @@ common#:#msg_roleassignment_active_changed#:#Cambiato il ruolo attivo assegnato
 common#:#msg_roleassignment_active_changed_comment#:#Queste impostazioni non verranno salvate nel profilo utente! Al prossimo accesso verranno ripristinate di nuovo le impostazioni di ruolo salvate. 
 common#:#msg_roleassignment_changed#:#Assegnamento del ruolo cambiato
 common#:#msg_sysrole_not_deletable#:#Il ruolo di sistema non pu&#242; essere cancellato
-common#:#msg_sysrole_not_editable#:#Le impostazioni dei permessi del ruolo di sistema non possono essere cambiate. Il ruolo di sistema garantisce agli utenti a cui è stato assegnato, accesso illimitato a tutti gli oggetti e tutte le funzioni.
+common#:#msg_sysrole_not_editable#:#Le impostazioni dei permessi del ruolo di sistema non possono essere cambiate. Il ruolo di sistema garantisce agli utenti a cui ï¿½stato assegnato, accesso illimitato a tutti gli oggetti e tutte le funzioni.
 common#:#msg_trash_empty#:#Non ci sono oggetti cancellati
 common#:#msg_undeleted#:#Cancellazione annullata.
 common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a questo ruolo:
@@ -1981,7 +1982,7 @@ dateplaner#:#help_day_l#:#In una vista giornaliera sono visibili tutti gli appun
 dateplaner#:#help_enddate#:#Fine appuntamento - sintassi[dd/mm/yyyy]
 dateplaner#:#help_enddate_l#:#Contiene la scadenza dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
 dateplaner#:#help_endrotation#:#Data finale sintassi[dd/mm/yyyy]
-dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminerà .<br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
+dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminerï¿½.<br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
 dateplaner#:#help_endtime#:#Ora finale - sintassi[hh/mm] 24h format
 dateplaner#:#help_endtime_l#:#Contiene l'ora finale dell'appuntamento nel formato 24h.
 dateplaner#:#help_fullday#:#Giorno intero - sintassi[si/no]
@@ -2723,7 +2724,7 @@ meta#:#meta_technical#:#Tecnico
 meta#:#meta_title#:#Titolo
 meta#:#meta_training#:#Apprendimento
 meta#:#meta_type#:#Tipo
-meta#:#meta_typical_age_range#:#Intervallo di età consigliato
+meta#:#meta_typical_age_range#:#Intervallo di etï¿½consigliato
 meta#:#meta_typical_learning_time#:#Tempo di apprendimento consigliato
 meta#:#meta_unavailable#:#Non disponibile
 meta#:#meta_unix#:#Unix
