@@ -1294,6 +1294,7 @@ class ilSetup extends PEAR
 			exec($zipCmd);
 				
 			chdir($curDir);
+
 		}
 	
 		// check wether zip generated test file or not

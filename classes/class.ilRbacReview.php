@@ -211,7 +211,7 @@ class ilRbacReview
 	* @param	boolean	if true fetch template roles too
 	* @return	array	set ids
 	*/
-	function getAssignableRoles($a_templates = false)
+	function getAssignableRoles($a_templates = false,$a_internal_roles = false)
 	{
 		$role_list = array();
 
@@ -225,6 +225,7 @@ class ilRbacReview
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			//ifd $row->title
 			$role_list[] = fetchObjectData($row);
 		}
 		
