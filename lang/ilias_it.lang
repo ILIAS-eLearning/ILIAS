@@ -673,6 +673,7 @@ common#:#chat_read#:#Accedere in lettura/scrittura alla chat
 common#:#chat_visible#:#Vedere le chat
 common#:#chat_write#:#Modificare le chat
 common#:#check#:#Controlla
+common#:#check_all#:#Check all###26 Aug 2004 new variable
 common#:#check_langfile#:#Per favore, controlla il file della lingua.
 common#:#check_languages#:#Verifica le lingue
 common#:#check_max_allowed_packet_size#:#Le dimensioni del contenuto della pagina sono troppo grandi.
@@ -1250,6 +1251,8 @@ common#:#lo_no_content#:#Non ci sono unit&#224; didattiche disponibili
 common#:#lo_other_langs#:#Unit&#224; didattiche in altre lingue
 common#:#lo_overview#:#Descrizione della unit&#224; didattica
 common#:#locator#:#Adesso sei in:
+common#:#logic_and#:#and###26 Aug 2004 new variable
+common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Login
 common#:#login_as#:#Sei entrato come
 common#:#login_data#:#Dati per l&#039;accesso
@@ -1897,6 +1900,7 @@ common#:#typ#:#Definizione di tipo di oggetto
 common#:#type#:#Tipo
 common#:#type_your_message_here#:#Scrivi il tuo messaggio qua
 common#:#uid#:#uid
+common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.
 common#:#unknown#:#Sconosciuto
@@ -3337,7 +3341,7 @@ search#:#search_move_folder_not_allowed#:#La cartella non pu&#242; essere sposta
 search#:#search_move_to#:#Sposta in:
 search#:#search_my_search_results#:#I miei risultati della ricerca
 search#:#search_new_folder#:#Nuova cartella
-search#:#search_no_category#:#Non hai selezionato il criterio di ricerca
+search#:#search_no_category#:#Non hai selezionato il criterio di ricerca###26 Aug 2004 content changed
 search#:#search_no_match#:#La ricerca non ha prodotto risultati
 search#:#search_no_results_saved#:#Nessun risultato salvato.
 search#:#search_no_search_term#:#Non hai scelto nessun termine di ricerca
@@ -3592,6 +3596,7 @@ survey#:#survey_skip_start#:#<<< Salta e torna alla pagina iniziale
 survey#:#survey_start#:#<<< Salva e vai alla pagina iniziale
 survey#:#svy_all_user_data_deleted#:#Tutti i dati degli utenti di questo questionario sono stati eliminati!
 survey#:#svy_delete_all_user_data#:#Elimina tutti i dati degli utenti
+survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#text_question_not_filled_out#:#Per favore, riempi il campo della risposta!
 survey#:#unfold#:#Apri blocco di domande
 survey#:#unlimited_users#:#Illimitato

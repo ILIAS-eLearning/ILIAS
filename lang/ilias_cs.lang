@@ -673,6 +673,7 @@ common#:#chat_read#:#Read/Write access to chat###16 Mar 2004 new variable
 common#:#chat_visible#:#Chat is visible###16 Mar 2004 new variable
 common#:#chat_write#:#Edit chat###16 Mar 2004 new variable
 common#:#check#:#Zkontrolovat
+common#:#check_all#:#Check all###26 Aug 2004 new variable
 common#:#check_langfile#:#Prosím zkontrolujte jazykový soubor
 common#:#check_languages#:#Zkontrolovat jazyky
 common#:#check_max_allowed_packet_size#:#The page content size is too large.###16 Mar 2004 new variable
@@ -1252,6 +1253,8 @@ common#:#lo_no_content#:#Žádné učební materiály nejsou k dispozici
 common#:#lo_other_langs#:#Výukové objekty v jiných jazycích
 common#:#lo_overview#:#Přehled výukových objektů
 common#:#locator#:#Umístění:
+common#:#logic_and#:#and###26 Aug 2004 new variable
+common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Přihlašovací jméno
 common#:#login_as#:#Přihlášen jako
 common#:#login_data#:#Přihlašovací údaje
@@ -1899,6 +1902,7 @@ common#:#typ#:#Definice typů objektů
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Napište zprávu sem
 common#:#uid#:#UID### identical translation
+common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#Odinstalovat
 common#:#uninstalled#:#Odinstalován.
 common#:#unknown#:#NEZNÁMÝ
@@ -3340,7 +3344,7 @@ search#:#search_move_folder_not_allowed#:#Složka nemůže být přesunuta.
 search#:#search_move_to#:#Přesunout do:
 search#:#search_my_search_results#:#Mé výsledky vyhledávání
 search#:#search_new_folder#:#Nová složka
-search#:#search_no_category#:#Nebyla vybrána žádná vyhledávací kategorie
+search#:#search_no_category#:#Nebyla vybrána žádná vyhledávací kategorie###26 Aug 2004 content changed
 search#:#search_no_match#:#Nebyla nalezena žádná data vyhovující zadané podmínce
 search#:#search_no_results_saved#:#Žádné výsledky nebyly uloženy
 search#:#search_no_search_term#:#Nebyl vybrán žádný vyhledávací výraz
@@ -3595,6 +3599,7 @@ survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new var
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable

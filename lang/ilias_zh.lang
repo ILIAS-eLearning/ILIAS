@@ -690,6 +690,7 @@ common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
 common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
 common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
 common#:#check#:#检查
+common#:#check_all#:#Check all###26 Aug 2004 new variable
 common#:#check_langfile#:#请检查语言文件
 common#:#check_languages#:#检查语言
 common#:#check_max_allowed_packet_size#:#页内容太长。
@@ -1268,6 +1269,8 @@ common#:#lo_no_content#:#无可用学习资源
 common#:#lo_other_langs#:#其它语言中学习对象的
 common#:#lo_overview#:#学习对象概观
 common#:#locator#:#地点
+common#:#logic_and#:#and###26 Aug 2004 new variable
+common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#登录
 common#:#login_as#:#已登录为
 common#:#login_data#:#登录数据
@@ -1915,6 +1918,7 @@ common#:#typ#:#对象类型定义
 common#:#type#:#类型
 common#:#type_your_message_here#:#在此输入您的消息
 common#:#uid#:#UID
+common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#卸载
 common#:#uninstalled#:#已卸载
 common#:#unknown#:#不知
@@ -3356,7 +3360,7 @@ search#:#search_move_folder_not_allowed#:#文件夹不能移动。
 search#:#search_move_to#:#移到：e
 search#:#search_my_search_results#:#我的搜索结果
 search#:#search_new_folder#:#新文件夹
-search#:#search_no_category#:#您未选择任何搜索种类
+search#:#search_no_category#:#您未选择任何搜索种类###26 Aug 2004 content changed
 search#:#search_no_match#:#搜索无任何匹配结果
 search#:#search_no_results_saved#:#未存任何结果。
 search#:#search_no_search_term#:#您未选择任何搜索术语
@@ -3611,6 +3615,7 @@ survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new var
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable

@@ -670,6 +670,7 @@ common#:#chat_read#:#Lese/Schreibzugriff auf Chat
 common#:#chat_visible#:#Chat ist sichtbar
 common#:#chat_write#:#Chat bearbeiten
 common#:#check#:#Prüfen
+common#:#check_all#:#Check all###26 Aug 2004 new variable
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen checken
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
@@ -1245,6 +1246,8 @@ common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Position:
+common#:#logic_and#:#and###26 Aug 2004 new variable
+common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Login
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
@@ -1891,6 +1894,7 @@ common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
 common#:#uid#:#UID
+common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#Deinstallieren
 common#:#uninstalled#:#deinstalliert.
 common#:#unknown#:#UNBEKANNT
@@ -3332,7 +3336,7 @@ search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden
 search#:#search_move_to#:#Verschieben nach:
 search#:#search_my_search_results#:#Meine Suchergebnisse
 search#:#search_new_folder#:#Neuer Ordner
-search#:#search_no_category#:#Sie haben keine Suchkategorie ausgewählt
+search#:#search_no_category#:#Sie haben keine Suchkategorie ausgewählt###26 Aug 2004 content changed
 search#:#search_no_match#:#Ihre Suche ergab keine Treffer
 search#:#search_no_results_saved#:#Es sind keine Ergebnisse gespeichert.
 search#:#search_no_search_term#:#Sie haben keinen Suchbegriff gewählt
@@ -3587,6 +3591,7 @@ survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
 survey#:#survey_start#:#<<< Speichern und zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
+survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt

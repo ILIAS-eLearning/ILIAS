@@ -660,6 +660,7 @@ common#:#chat_read#:#Czytanie/Pisanie w czacie
 common#:#chat_visible#:#Czat jest widoczny
 common#:#chat_write#:#Edycja czatu
 common#:#check#:#Sprawdź
+common#:#check_all#:#Check all###26 Aug 2004 new variable
 common#:#check_langfile#:#Sprawdź swój plik językowy
 common#:#check_languages#:#Sprawdź języki
 common#:#check_max_allowed_packet_size#:#Zawartość strony jest za duża.
@@ -1235,6 +1236,8 @@ common#:#lo_no_content#:#Brak dostępnych zasobów nauczania
 common#:#lo_other_langs#:#PN w innym języku
 common#:#lo_overview#:#Przegląd PN
 common#:#locator#:#Wybrana czynność:
+common#:#logic_and#:#and###26 Aug 2004 new variable
+common#:#logic_or#:#or###26 Aug 2004 new variable
 common#:#login#:#Loguj
 common#:#login_as#:#Zalogowany jako
 common#:#login_data#:#Data zalogowania
@@ -1874,6 +1877,7 @@ common#:#typ#:#Definicja typu obiektu
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Tu wpisz swoją wiadomość
 common#:#uid#:#UID
+common#:#uncheck_all#:#Uncheck all###26 Aug 2004 new variable
 common#:#uninstall#:#Odinstaluj
 common#:#uninstalled#:#odinstalowane.
 common#:#unknown#:#NIEZNANY
@@ -3314,7 +3318,7 @@ search#:#search_move_folder_not_allowed#:#Folder nie może być przesunięty
 search#:#search_move_to#:#Przesuń do:
 search#:#search_my_search_results#:#Rezultaty wyszukania
 search#:#search_new_folder#:#Nowy folder
-search#:#search_no_category#:#nie wybrałeś żadnej kategorii wyszukania.
+search#:#search_no_category#:#nie wybrałeś żadnej kategorii wyszukania.###26 Aug 2004 content changed
 search#:#search_no_match#:#Twoje szukanie nie dało żadnych rezultatów.
 search#:#search_no_results_saved#:#Brak zachowanych rezultatów.
 search#:#search_no_search_term#:#Nie wybrałeś żadnego terminu do szukania.
@@ -3569,6 +3573,7 @@ survey#:#survey_skip_start#:#<<< pomiń i skocz na pierwszą stronę
 survey#:#survey_start#:#<<< zapisz i skocz na pierwszą stronę
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
 survey#:#text_question_not_filled_out#:#Wypełnij pole odpowiedzi!
 survey#:#unfold#:#Rozwiń
 survey#:#unlimited_users#:#Nielimitowany
