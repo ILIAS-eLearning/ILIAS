@@ -49,6 +49,8 @@ $start_template = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.adm.htm
 if (file_exists($start_template))
 {
 	$tpl = new ilTemplate("tpl.adm.html", false, false);
+	$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+	$tpl->parseCurrentBlock();
 	$tpl->show();
 }
 else
