@@ -121,8 +121,8 @@ class ASS_OrderingQuestion extends ASS_Question {
 		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers)))
 		{
 			return true;
-		} 
-			else 
+		}
+			else
 		{
 			return false;
 		}
@@ -145,13 +145,16 @@ class ASS_OrderingQuestion extends ASS_Question {
 			$complete = 1;
 		}
 
+    $estw_time = $this->get_estimated_working_time();
+    $estw_time = sprintf("%02d%02d%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('qpl_questions');
       $now = getdate();
       $question_type = 5;
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, ordering_type, points, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, ordering_type, points, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote($question_type),
         $db->quote($this->ref_id),
@@ -160,6 +163,7 @@ class ASS_OrderingQuestion extends ASS_Question {
         $db->quote($this->author),
         $db->quote($this->owner),
         $db->quote($this->question),
+        $db->quote($estw_time),
         $db->quote($this->ordering_type),
         $db->quote($this->points),
 				$db->quote("$complete"),
@@ -175,11 +179,12 @@ class ASS_OrderingQuestion extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, ordering_type = %s, points = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, ordering_type = %s, points = %s, complete = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->question),
+        $db->quote($estw_time),
         $db->quote($this->ordering_type),
         $db->quote($this->points),
 				$db->quote("$complete"),
@@ -242,6 +247,7 @@ class ASS_OrderingQuestion extends ASS_Question {
         $this->question = $data->question_text;
         $this->ordering_type = $data->ordering_type;
         $this->points = $data->points;
+        $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 2, 2), substr($data->working_time, 4, 2));
       }
       // loads materials uris from database
       $this->load_material_from_db($question_id);

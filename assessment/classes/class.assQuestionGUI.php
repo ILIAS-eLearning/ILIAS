@@ -181,13 +181,13 @@ class ASS_QuestionGUI extends PEAR {
     return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
   }
 /**
-* Sets the material field of a question from a posted create/edit form
+* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
 *
-* Sets the material field of a question from a posted create/edit form
+* Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
 *
 * @access private
 */
-  function out_material_question_data() {
+  function out_other_question_data() {
 
 		$question_type = $this->get_question_type();
 			switch ($question_type) {
@@ -231,14 +231,18 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->parse("mainselect_block");
 		}
 
-    $this->tpl->setCurrentBlock("question_material");
+    $this->tpl->setCurrentBlock("other_question_data");
+	$est_working_time = $this->question->get_estimated_working_time();
+    $this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
+    $this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
+    $this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
+
     $this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
     $this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
     $this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
     $this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
     $this->tpl->parseCurrentBlock();
 }
-
 /**
 * Sets the fields of a multiple choice create/edit form
 *
@@ -250,7 +254,7 @@ class ASS_QuestionGUI extends PEAR {
 
     if ($this->question->get_response() == RESPONSE_SINGLE) {
       $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
-	  $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
+	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
       // output of existing single response answers
       for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
@@ -285,12 +289,10 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
         $this->tpl->parseCurrentBlock();
       }
-			
-      // call to materials block
-  	  $this->out_material_question_data();
+	  // call to other question data i.e. material, estimated working time block
+      $this->out_other_question_data();
 
       $this->tpl->setCurrentBlock("question_data");
-
       $this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->question->get_id());
       $this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", $this->question->get_title());
       $this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", $this->question->get_comment());
@@ -314,7 +316,7 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->parseCurrentBlock();
     } else {
       $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
-      $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
+      $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
       // output of existing multiple response answers
       for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
@@ -351,8 +353,8 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->parseCurrentBlock();
       }
 
-      // call to materials block
-  	  $this->out_material_question_data();
+	  // call to other question data i.e. material, estimated working time block
+  	  $this->out_other_question_data();
 
       $this->tpl->setCurrentBlock("question_data");
 
@@ -391,7 +393,7 @@ class ASS_QuestionGUI extends PEAR {
     } else {
       $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_select.html", true);
     }
-    $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
+    $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
     if ($this->question->get_cloze_type() == CLOZE_TEXT)
     {
@@ -444,8 +446,8 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->parseCurrentBlock();
       }
     }
-    // call to materials block
-	$this->out_material_question_data();
+    // call to other question data i.e. material, estimated working time block
+	$this->out_other_question_data();
 
     $this->tpl->setCurrentBlock("question_data");
     $this->tpl->setVariable("VALUE_CLOZE_TITLE", $this->question->get_title());
@@ -461,6 +463,7 @@ class ASS_QuestionGUI extends PEAR {
     {
       $this->tpl->setVariable("SELECTED_TEXT_GAP", " selected=\"selected\"");
     }
+
     $this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
     $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
     $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -493,7 +496,7 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_ordering_question_data() {
     $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_ordering.html", true);
-    $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
+    $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
     // Output of existing answers
     for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
@@ -564,8 +567,8 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", 0));
       $this->tpl->parseCurrentBlock();
     }
-    // call to materials block
-	$this->out_material_question_data();
+    // call to other question data i.e. material, estimated working time block
+	$this->out_other_question_data();
 
     $this->tpl->setCurrentBlock("question_data");
 
@@ -608,7 +611,7 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_matching_question_data() {
     $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_matching.html", true);
-    $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
+    $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
     // Vorhandene Anworten ausgeben
     for ($i = 0; $i < $this->question->get_matchingpair_count(); $i++) {
@@ -650,8 +653,8 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
       $this->tpl->parseCurrentBlock();
     }
-    // call to materials block
-	$this->out_material_question_data();
+    // call to other question data i.e. material, estimated working time block
+	$this->out_other_question_data();
 
     if (strlen($_POST["cmd"]["add"]) > 0) {
       // Template für neue Antwort erzeugen
@@ -719,9 +722,8 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_imagemap_question_data() {
 
-
       $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
-      $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
+	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
 
       // Create gap between head and answers
@@ -749,7 +751,8 @@ class ASS_QuestionGUI extends PEAR {
       }
 
 		if ($this->question->get_id() > 0) {
-			$this->out_material_question_data();
+			// call to other question data i.e. material, estimated working time block
+			$this->out_other_question_data();
 			// image block
 			$this->tpl->setCurrentBlock("post_save");
 			$img = $this->question->get_image_filename();
@@ -875,7 +878,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
     // adding materials uris
-    $this->set_question_material_from_material_template();
+    $this->set_question_data_from_other_template();
 
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_answers();
@@ -1002,6 +1005,8 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_cloze_type(ilUtil::stripSlashes($_POST["clozetype"]));
     $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
+    // adding estimated working time and materials uris
+    $saved = $saved | $this->set_question_data_from_other_template();
 		$this->question->set_start_tag($start_tag);
 		$this->question->set_end_tag($end_tag);
     // adding materials uris
@@ -1146,8 +1151,8 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
-    // adding materials uris
-    $saved = $saved | $this->set_question_material_from_material_template();
+    // adding estimated working time and materials uris
+    $saved = $saved | $this->set_question_data_from_other_template();
 		$this->question->set_matching_type($_POST["matching_type"]);
 
     // Delete all existing answers and create new answers from the form data
@@ -1241,8 +1246,8 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
-    // adding materials uris
-    $saved = $saved | $this->set_question_material_from_material_template();
+    // adding estimated working time and materials uris
+    $saved = $saved | $this->set_question_data_from_other_template();
     $this->question->set_ordering_type($_POST["ordering_type"]);
 
     // Add answers from the form
@@ -1304,8 +1309,8 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
 
 		if ($_POST["id"] > 0) {
-
-			$this->set_question_material_from_material_template();
+			// adding estimated working time and materials uris
+			$this->set_question_data_from_other_template();
 
 			// Question is already saved, so imagemaps and images can be uploaded
 			//setting image file
@@ -1346,14 +1351,21 @@ class ASS_QuestionGUI extends PEAR {
 		return $result;
   }
 /**
-* Sets the materials uris of a question from a posted create/edit form
+* Sets the other data i.e. estimated working time, materials uris of a question from a posted create/edit form
 *
-* Sets the materials uris of a question from a posted create/edit form
+* Sets the other data i.e. estimated working time, materials uris of a question from a posted create/edit form
 *
 * @return boolean Returns true, if the question had to be autosaved to get a question id for the save path of the material, otherwise returns false.
 * @access private
 */
-	function set_question_material_from_material_template() {
+	function set_question_data_from_other_template() {
+
+		$this->question->set_estimated_working_time(
+						ilUtil::stripSlashes($_POST["Estimated"][h]),
+						ilUtil::stripSlashes($_POST["Estimated"][m]),
+						ilUtil::stripSlashes($_POST["Estimated"][s])
+					);
+
 		// Add all materials uris from the form into the object
 		$saved = false;
 		$this->question->flush_materials();
@@ -1532,6 +1544,7 @@ class ASS_QuestionGUI extends PEAR {
 						$solution_value = $solution->value2;
 					}
 				}
+		$select .= "<option value=-1 SELECTED> please select </option>";
         foreach ($gap as $key => $value) {
 					$selected = "";
 					if ($solution_value == $value->get_order()) {
@@ -1663,7 +1676,7 @@ class ASS_QuestionGUI extends PEAR {
 			if ($this->question->get_ordering_type() == OQ_PICTURES) {
 				$imagepath = $this->question->get_image_path_web() . $value->get_answertext();
 				$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_TEXT", "<a href=\"$imagepath\" target=\"_blank\"><img src=\"$imagepath.thumb.jpg\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" /></a>");
-			} else {	
+			} else {
       	$this->tpl->setVariable("ORDERING_QUESTION_ANSWER_TEXT", $value->get_answertext());
 			}
       $this->tpl->parseCurrentBlock();

@@ -131,8 +131,8 @@ class ASS_ClozeTest extends ASS_Question {
 		if (($this->title) and ($this->author) and ($this->cloze_text) and (count($this->gaps)))
 		{
 			return true;
-		} 
-			else 
+		}
+			else
 		{
 			return false;
 		}
@@ -154,13 +154,15 @@ class ASS_ClozeTest extends ASS_Question {
 		if ($this->isComplete()) {
 			$complete = 1;
 		}
+    $estw_time = $this->get_estimated_working_time();
+    $estw_time = sprintf("%02d%02d%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('qpl_questions');
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, start_tag, end_tag, cloze_type, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, start_tag, end_tag, cloze_type, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote(3),
         $db->quote($this->ref_id),
@@ -169,6 +171,7 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($this->author),
         $db->quote($this->owner),
         $db->quote($this->cloze_text),
+        $db->quote($estw_time),
         $db->quote($this->start_tag),
         $db->quote($this->end_tag),
         $db->quote($this->cloze_type),
@@ -190,6 +193,7 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->cloze_text),
+        $db->quote($estw_time),
         $db->quote($this->cloze_type),
 				$db->quote("$complete"),
         $db->quote("$this->start_tag"),
@@ -258,6 +262,7 @@ class ASS_ClozeTest extends ASS_Question {
         $this->start_tag = $data->start_tag;
         $this->end_tag = $data->end_tag;
         $this->cloze_type = $data->cloze_type;
+        $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 2, 2), substr($data->working_time, 4, 2));
       }
       // loads materials uris from database
       $this->load_material_from_db($question_id);
@@ -717,7 +722,7 @@ class ASS_ClozeTest extends ASS_Question {
           }
         }
       } else {
-        if ($this->gaps[$value][$found_value2[$key]]->is_true()) {
+        if (($this->gaps[$value][$found_value2[$key]])&&($this->gaps[$value][$found_value2[$key]]->is_true())) {
           $points += $this->gaps[$value][$found_value2[$key]]->get_points();
         }
       }

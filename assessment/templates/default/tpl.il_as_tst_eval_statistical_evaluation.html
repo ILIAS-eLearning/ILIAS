@@ -55,6 +55,15 @@
 <!-- END emptyrow -->
 </table>
 </br>
+<!-- BEGIN export_btn -->
+<table>
+<tr>
+<td><input type="submit" class="submit" name="cmd[expEvalData]" value="{EXP_EVAL_DATA}" </td>
+<td align="left"><select name="export_type" id="export_type"><option value="0"{SELECTED_XLS}>{TEXT_TYPE_XLS}</option><option value="1"{SELECTED_SPSS}>{TEXT_TYPE_SPSS}</option></select></td>
+</tr>
+</table>
+<!-- END export_btn -->
+
 <!-- BEGIN xls_btn -->
 <input type="submit" class="submit" name="cmd[genXls]" value="{GENERATE_XLS}" />
 <!-- END xls_btn -->

@@ -140,8 +140,8 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		if (($this->title) and ($this->author) and ($this->question) and ($this->image_filename) and (count($this->answers)))
 		{
 			return true;
-		} 
-			else 
+		}
+			else
 		{
 			return false;
 		}
@@ -165,13 +165,16 @@ class ASS_ImagemapQuestion extends ASS_Question {
 
     $db = & $ilias->db->db;
 
+    $estw_time = $this->get_estimated_working_time();
+    $estw_time = sprintf("%02d%02d%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('qpl_questions');
       $now = getdate();
       $question_type = 6;
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, points, imagemap_file, image_file, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, points, imagemap_file, image_file, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote($question_type),
         $db->quote($this->ref_id),
@@ -180,6 +183,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $db->quote($this->author),
         $db->quote($this->owner),
         $db->quote($this->question),
+        $db->quote($estw_time),
         $db->quote($this->points),
         $db->quote($this->imagemap_filename),
         $db->quote($this->image_filename),
@@ -196,11 +200,12 @@ class ASS_ImagemapQuestion extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, points = %s, imagemap_file = %s, image_file = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time = %s, points = %s, imagemap_file = %s, image_file = %s, complete = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->question),
+        $db->quote($estw_time),
         $db->quote($this->points),
         $db->quote($this->imagemap_filename),
         $db->quote($this->image_filename),
@@ -267,6 +272,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $this->imagemap_filename = $data->imagemap_file;
         $this->image_filename = $data->image_file;
         $this->points = $data->points;
+        $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 2, 2), substr($data->working_time, 4, 2));
       }
       // loads materials uris from database
       $this->load_material_from_db($question_id);
@@ -638,7 +644,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 
 /**
 * Saves the learners input of the question to the database
-* 
+*
 * Saves the learners input of the question to the database
 *
 * @param integer $test_id The database id of the test containing this question
