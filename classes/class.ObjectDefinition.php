@@ -44,6 +44,7 @@ class ObjectDefinition extends PEAR
 
 			$data["name"] = $obj->getAttr("NAME");
 			$data["class_name"] = $obj->getAttr("CLASS_NAME");
+			$data["chkbox"] = (bool) $obj->getAttr("CHKBOX");
 			$data["subobjects"] = array();
 			$data["properties"] = array();
 			$data["actions"] = array();
@@ -103,6 +104,11 @@ class ObjectDefinition extends PEAR
 	function getClassName($a_objname)
 	{
 		return $this->data[$a_objname]["class_name"];
+	}
+	
+	function hasCheckbox($a_objname)
+	{
+		return $this->data[$a_objname]["chkbox"];
 	}
 	
 	function getProperties($a_objname)
