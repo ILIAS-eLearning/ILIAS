@@ -245,6 +245,17 @@ div.il_Explorer
 	padding-top: 21px;
 }
 
+div.il_RepExplorer
+{
+	background-color:#EEEEEE;
+	padding:20px;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #EEEEEE;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+
 div.il_ExplorerHeader
 {
 	padding-top:1px;
