@@ -32,6 +32,7 @@
 class ilPaymentStatisticGUI extends ilPaymentBaseGUI
 {
 	var $ctrl;
+
 	var $lng;
 	var $user_obj;
 
