@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.50 2003/08/22 13:01:27 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.51 2003/08/22 14:12:05 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -427,7 +427,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				// GET ALL SUBNODES
 				$node_data = $this->tree->getNodeData($node_id);
 				$subtree_nodes = $this->tree->getSubTree($node_data);
-				
+
 				// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
 				$all_rolf_obj = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
 
@@ -441,7 +441,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				{
 					if (!$check)
 					{
-						if(in_array($node["child"],$all_rolf_obj))
+						if (in_array($node["child"],$all_rolf_obj))
 						{
 							$lft = $node["lft"];
 							$rgt = $node["rgt"];
@@ -465,17 +465,23 @@ class ilObjRoleGUI extends ilObjectGUI
 					}
 				}
 
-				// NOW SET ALL PERMISSIONS
-				foreach ($_POST["template_perm"] as $type => $a_perm)
+				// prepare arrays for permission settings below
+				foreach ($valid_nodes as $key => $node)
 				{
-					foreach ($valid_nodes as $node)
+					$node_ids[] = $node["child"];
+					
+					$valid_nodes[$key]["perms"] = $_POST["template_perm"][$node["type"]];
+				}
+					
+				// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
+				$rbacadmin->revokePermissionList($node_ids,$this->object->getId());
+
+				// NOW SET ALL PERMISSIONS
+				foreach ($valid_nodes as $node)
+				{
+					if (is_array($node["perms"]))
 					{
-						$rbacadmin->revokePermission($node["child"],$this->object->getId());
-				
-						if ($type == $node["type"])
-						{
-							$rbacadmin->grantPermission($this->object->getId(),$a_perm,$node["child"]);
-						}
+						$rbacadmin->grantPermission($this->object->getId(),$node["perms"],$node["child"]);
 					}
 				}
 			}// END IF RECURSIVE
