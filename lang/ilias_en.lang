@@ -260,6 +260,7 @@ common#:#glo_new#:#New Glossary
 common#:#glossary#:#Glossary
 common#:#glossary_added#:#Glossary added
 common#:#group_any_objects#:#No Subobjects available
+common#:#group_desc#:#Group Description
 common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_members#:#Group Members
@@ -288,6 +289,7 @@ common#:#guest#:#Guest
 common#:#guests#:#Guests
 common#:#help#:#Help
 common#:#hide_details#:#hide details
+common#:#hide_structure#:#disable structuredview
 common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Home
 common#:#host#:#Host
@@ -721,6 +723,7 @@ common#:#show_details#:#show details
 common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_owner#:#Show Owner
+common#:#show_structure#:#enable structuredview
 common#:#signature#:#Signature
 common#:#slm#:#SCORM LM
 common#:#slm_added#:#SCORM LearningModule added
