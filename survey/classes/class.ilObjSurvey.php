@@ -500,7 +500,7 @@ class ilObjSurvey extends ilObject
       }
     } else {
       // update existing dataset
-      $query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s complete = %s WHERE survey_id = %s",
+      $query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s, complete = %s WHERE survey_id = %s",
         $this->ilias->db->quote($this->author),
         $this->ilias->db->quote($this->introduction),
         $this->ilias->db->quote($this->status),
@@ -833,6 +833,17 @@ class ilObjSurvey extends ilObject
 */
   function setInvitationMode($invitation_mode = 0) {
     $this->invitation_mode = $invitation_mode;
+		if ($invitation_mode == MODE_UNLIMITED)
+		{
+			$query = sprintf("DELETE FROM survey_invited_group WHERE survey_fi = %s",
+				$this->ilias->db->quote($this->getSurveyId())
+			);
+			$result = $this->ilias->db->query($query);
+			$query = sprintf("DELETE FROM survey_invited_user WHERE survey_fi = %s",
+				$this->ilias->db->quote($this->getSurveyId())
+			);
+			$result = $this->ilias->db->query($query);
+		}
   }
 
 /**
@@ -1648,5 +1659,133 @@ class ilObjSurvey extends ilObject
 		return $result_array;
 	}
 
+/**
+* Disinvites a user from a survey
+* 
+* Disinvites a user from a survey
+*
+* @param integer $user_id The database id of the disinvited user
+* @access public
+*/
+	function disinviteUser($user_id)
+	{
+		$query = sprintf("DELETE FROM survey_invited_user WHERE survey_fi = %s AND user_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId()),
+			$this->ilias->db->quote($user_id)
+		);
+		$result = $this->ilias->db->query($query);
+	}
+
+/**
+* Invites a user to a survey
+* 
+* Invites a user to a survey
+*
+* @param integer $user_id The database id of the invited user
+* @access public
+*/
+	function inviteUser($user_id)
+	{
+		$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE user_fi = %s AND survey_fi = %s",
+			$this->ilias->db->quote($user_id),
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() < 1)
+		{
+			$query = sprintf("INSERT INTO survey_invited_user (invited_user_id, survey_fi, user_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getSurveyId()),
+				$this->ilias->db->quote($user_id)
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+
+/**
+* Disinvites a group from a survey
+* 
+* Disinvites a group from a survey
+*
+* @param integer $group_id The database id of the disinvited group
+* @access public
+*/
+	function disinviteGroup($group_id)
+	{
+		$query = sprintf("DELETE FROM survey_invited_group WHERE survey_fi = %s AND group_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId()),
+			$this->ilias->db->quote($group_id)
+		);
+		$result = $this->ilias->db->query($query);
+	}
+
+/**
+* Invites a group to a survey
+* 
+* Invites a group to a survey
+*
+* @param integer $group_id The database id of the invited group
+* @access public
+*/
+	function inviteGroup($group_id)
+	{
+		$query = sprintf("SELECT group_fi FROM survey_invited_group WHERE group_fi = %s AND survey_fi = %s",
+			$this->ilias->db->quote($group_id),
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() < 1)
+		{
+			$query = sprintf("INSERT INTO survey_invited_group (invited_group_id, survey_fi, group_fi, TIMESTAMP) VALUES (NULL, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getSurveyId()),
+				$this->ilias->db->quote($group_id)
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+	
+/**
+* Returns a list of all invited users in a survey
+* 
+* Returns a list of all invited users in a survey
+*
+* @return array The user id's of the invited users
+* @access public
+*/
+	function &getInvitedUsers()
+	{
+		$result_array = array();
+		$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($result_array, $row->user_fi);
+		}
+		return $result_array;
+	}
+
+/**
+* Returns a list of all invited groups in a survey
+* 
+* Returns a list of all invited groups in a survey
+*
+* @return array The group id's of the invited groups
+* @access public
+*/
+	function &getInvitedGroups()
+	{
+		$result_array = array();
+		$query = sprintf("SELECT group_fi FROM survey_invited_group WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($result_array, $row->group_fi);
+		}
+		return $result_array;
+	}
+	
 } // END class.ilObjSurvey
 ?>
