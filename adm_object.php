@@ -35,12 +35,6 @@
 */
 require_once "include/inc.header.php";
 
-/*
-echo "<pre>";
-var_dump($_REQUEST);
-echo "</pre>";
-*/
-
 // for security
 unset($id);
 
@@ -67,12 +61,10 @@ if (!isset($_GET["type"]))
 {
 	if ($call_by_reference)
 	{
-		//$obj = getObjectByReference($id);
 		$obj = $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 	}
 	else
 	{
-		//$obj = getObject($id);
 		$obj = $ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 	}
 
@@ -108,7 +100,6 @@ $method = $cmd."Object";
 $class_name = $objDefinition->getClassName($obj_type);
 $class_constr = "ilObj".$class_name."GUI";
 require_once("./classes/class.ilObj".$class_name."GUI.php");
-#echo "$class_constr().$method<br>";
 $obj = new $class_constr($data, $id, $call_by_reference);
 $obj->$method();
 
