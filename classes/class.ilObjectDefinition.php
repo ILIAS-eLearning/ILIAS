@@ -181,7 +181,36 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getSubObjects($a_obj_name)
 	{
-		return $this->obj_data[$a_obj_name]["subobjects"];
+		// THIS IS TEMPORARY CODE! Purpose: hide fileobject and folderobject in admin console
+		if((basename($_SERVER["SCRIPT_NAME"]) == "adm_object.php" and $a_obj_name == "grp"))
+		{
+			$subs = array();
+			foreach ($this->obj_data[$a_obj_name]["subobjects"] as $data => $sub)
+			{
+				if($sub["module"] != 1)
+				{
+					$subs[$data] = $sub;
+				}
+			}
+			
+			return $subs;
+		}
+		else
+		{
+			$subs = array();
+			foreach ($this->obj_data[$a_obj_name]["subobjects"] as $data => $sub)
+			{
+				if($sub["module"] != "n")
+				{
+					$subs[$data] = $sub;
+				}
+			}
+
+			return $subs;
+		}
+		
+		// original code temp. disabled
+		//return $this->obj_data[$a_obj_name]["subobjects"];
 	}
 	
 	/**
@@ -270,7 +299,8 @@ class ilObjectDefinition extends ilSaxParser
 
 			$string = "'".implode("','", $data)."'";
 		}
-			return $string;
+		
+		return $string;
 	}
 
 	/**
@@ -344,6 +374,8 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["max"] = $a_attribs["max"];
 				// also allow import ("1" means yes)
 				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["import"] = $a_attribs["import"];
+				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["module"] = $a_attribs["module"];
+
 				break;
 			case 'property':
 				$this->current_tag = "property";
@@ -357,8 +389,6 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data[$this->parent_tag_name]["actions"][$this->current_tag_name]["name"] = $a_attribs["name"];
 				break;
 		}
-				
-
 	}
 
 	/**
