@@ -263,7 +263,6 @@ class User
 	/**
 	* get a user preference
 	* @param	string	name of parameter
-	* @param	string	value
 	* @access	public
 	*/
 	function getPref($a_keyword)

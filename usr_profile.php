@@ -152,7 +152,7 @@ $tpl->setVariable("PHONE", $ilias->account->data["phone"]);
 
 $tpl->setVariable("SYS_GRP", $lng->txt("administrator"));
 //button
-$tpl->setVariable("BTN_SUBMIT",$lng->txt("submit"));
+$tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
