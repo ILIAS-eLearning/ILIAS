@@ -66,6 +66,7 @@ client_institution#:#Institution
 client_login#:#Bei einem Mandanten anmelden
 client_name#:#Name
 client_setup_not_finished#:#Die Installation dieses Mandanten wurde noch nicht abgeschlossen
+collation#:#Collation###23 Mar 2005 new variable
 contact#:#Kontaktdaten
 contact_data#:#Kontaktdaten des Systemadministrators
 convert_path#:#Convert-Befehlszeile
@@ -129,6 +130,7 @@ environment#:#Softwareumgebung
 err_create_database_failed#:#Datenbank konnte nicht erstellt werden
 err_wrong_login#:#Login ungültig
 error_recipient#:#Empfnger von Fehlermeldungen
+example#:#Example###23 Mar 2005 new variable
 feedback_recipient#:#Empfänger von Feedbacknachrichten
 file_does_not_exist#:#Datei existiert nicht.
 file_version#:#file version
@@ -154,6 +156,8 @@ ilias_setup#:#ILIAS3 Setup
 ilias_version#:#ILIAS Version
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
 info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank zu installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn das nicht klappt (z.B. aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
+info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
+info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###23 Mar 2005 new variable
 info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
 info_text_finish1#:#Gratulation! Die Client-Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.

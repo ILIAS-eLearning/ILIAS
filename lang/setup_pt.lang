@@ -66,6 +66,7 @@ client_institution#:#Instituição
 client_login#:#Entre com o seu ID de Cliente
 client_name#:#Nome
 client_setup_not_finished#:#O setup do cliente ainda não acabou
+collation#:#Collation###23 Mar 2005 new variable
 contact#:#Informações de Contacto
 contact_data#:#Informações de Contacto
 convert_path#:#Caminho para o Convert
@@ -129,6 +130,7 @@ environment#:#Ambiente
 err_create_database_failed#:#a criação da base de dados falhou
 err_wrong_login#:#Entrada errada
 error_recipient#:#Recipiente errado
+example#:#Example###23 Mar 2005 new variable
 feedback_recipient#:#Recipiente de apreciação
 file_does_not_exist#:#O ficheiro não existe.
 file_version#:#versão do ficheiro
@@ -154,6 +156,8 @@ ilias_setup#:#Setup ILIAS3###14 Sep 2004 content changed
 ilias_version#:#Versão ILIAS
 info_text_contact#:#Aqui você pode indicar informação adicional do cliente e os dados de contacto do administrador de sistema deste cliente. Os campos marcados com um asterisco têm de ser preenchidos. Toda as informações são guardadas na sua base de dados. No próximo ecrã você pode registar a sua instalação no seu servidor ILIAS-NIC, para onde estes dados são transmitidos.###14 Sep 2004 content changed
 info_text_db#:#A base de dados não existe ou está vazia. Carregue no botão abaixo para instalar a sua base de dados. Se uma base de dados com o nome escolhido ainda não existir, escolha a opção 'criar base de dados'. O Setup depois tentará criar a base de dados automáticamente. Se a criação falhar, (e.g. devido a permissões de acesso restritas) por favor contacte o administrador de sistema responsável pelo servidor de bases da dados e peça-lhe para criar uma base de dados para si com o nome desejado.###14 Sep 2004 content changed
+info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
+info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###23 Mar 2005 new variable
 info_text_delete#:#Você pode apagar este cliente carregando no botão 'Apagar' abaixo. No entanto, apenas o seu ficheiro client.ini será removido, mantendo todos os ficheiros guardados nas directorias de dados dos clientes e bases de dados. Os ficheiros e a base de dados têm de ser removidos manualmente pelo administrador de sistema.
 info_text_finish1#:#Parabéns! O seu setup de cliente teve sucesso. Carregue em 'Entrar' para entrar na sua instalação do ILIAS.
 info_text_finish2#:#Algumas definições ainda faltam ou estão incorrectas. Por favor veja no cartaz do proceso o que tem de ser feito!
