@@ -27,13 +27,14 @@ public	class IliasApiAdapterApplet
 	private String  IliasStudentId;
 	private String  IliasStudentName;
 	private String  IliasRefId;
+
 	private String  IliasScoId;
-	private String  IliasNextScoId;
+	private String  IliasNextObjId;
 
 	private boolean isLaunched  = false;
 	private boolean isLaunching = false;
 	private boolean isVerbose   = false;
-	private long	clickTime = 0;
+	//private long	clickTime = 0;
 
 	public IliasApiAdapterApplet () {
 		core = new ch.ethz.pfplms.scorm.api.ApiAdapter ();
@@ -62,11 +63,17 @@ public	class IliasApiAdapterApplet
 		} catch (Exception e) {}
 	}
 
+	/*
+	 * Methods for Ilias to call via Liveconnect
+	 */
+
 	public	final void IliasLaunchSco (String sco_id) {
+		/*
 		if (System.currentTimeMillis() < clickTime + 1000) {
-			say ("Overclicked.");
+			say ("Click ignored.");
 			return;
 		}
+		*/
 		if (isLaunching) {
 			say ("SCO " +IliasScoId +" is launching.");
 			return;
@@ -76,20 +83,20 @@ public	class IliasApiAdapterApplet
 			return;
 		}
 		IliasScoCmi.clear();
-		clickTime = System.currentTimeMillis();
 
 		say ("Launching sco " +sco_id);
 
 		if (isLaunched) {
 			say ("Sco "+IliasScoId +" will be unloaded.");
-			IliasNextScoId = sco_id;
+			IliasNextObjId = sco_id;
 			IliasLaunchContent (
 				 "../scorm_presentation.php?cmd=unloadSco"
 				  +"&sco_id="  + IliasScoId
 			);
 		} else {
 			isLaunching = true;
-			IliasNextScoId = null;
+			//clickTime = System.currentTimeMillis();
+			IliasNextObjId = null;
 			IliasScoId     = sco_id;
 			IliasLaunchContent (
 				 "../scorm_presentation.php?cmd=launchSco"
@@ -133,8 +140,30 @@ public	class IliasApiAdapterApplet
 			  +"&ref_id="  + IliasRefId
 			  +"&status="  + core.sysGet("cmi.core.lesson_status")
 			  +"&totime="  + core.sysGet("cmi.core.total_time")
-			  +"&launch="  + IliasNextScoId
+			  +"&launch="  + IliasNextObjId
 		);
+	}
+
+	public	final void IliasLaunchAsset (String id) {
+		if (isLaunching) return;
+		say ("Launching asset: " +id);
+		if (isLaunched) {
+			say ("Sco "+IliasScoId +" will be unloaded.");
+			IliasNextObjId = id;
+			IliasLaunchContent (
+				 "../scorm_presentation.php?cmd=unloadSco"
+				  +"&sco_id="  + IliasScoId
+			);
+		} else {
+			//clickTime = System.currentTimeMillis();
+			IliasNextObjId = null;
+			IliasScoId     = null;
+			IliasLaunchContent (
+				 "../scorm_presentation.php?cmd=launchAsset"
+				  +"&ref_id="  + IliasRefId
+				  +"&asset_id="  + id
+			);
+		}
 	}
 
 	private final String IliasCommit () {
@@ -216,7 +245,6 @@ public	class IliasApiAdapterApplet
 			return "false";
 		}
 	}
-
 
 	/*
 	 * Liveconnect interface methods for SCO
