@@ -4,9 +4,16 @@
 * @author Peter Gabriel <pgabriel@databay.de>
 * @version $Id$
 */
+
+if(is_dir($tpl->tplPath."/".$ilias->account->prefs["style"]))
+	$image_dir = "/".$ilias->account->prefs["style"];
+else
+	$image_dir = "";
+
 if ($rbacsystem->checkAccess("write", SYSTEM_FOLDER_ID, ROOT_FOLDER_ID))
 {
 	$tpl->setCurrentBlock("userisadmin");
+	$tpl->setVariable("IMAGE_DIR", $image_dir);
 	$tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
 	$tpl->parseCurrentBlock();
 }
@@ -14,14 +21,10 @@ if ($rbacsystem->checkAccess("write", SYSTEM_FOLDER_ID, ROOT_FOLDER_ID))
 if ($rbacsystem->checkAccess("write", ROOT_FOLDER_ID, 0))
 {
 	$tpl->setCurrentBlock("userisauthor");
+	$tpl->setVariable("IMAGE_DIR", $image_dir);
 	$tpl->setVariable("TXT_EDITOR", $lng->txt("editor"));
 	$tpl->parseCurrentBlock();
 }
-
-if(is_dir($tpl->tplPath."/".$ilias->account->prefs["style"]))
-	$image_dir = "/".$ilias->account->prefs["style"];
-else
-	$image_dir = "";
 
 $tpl->setCurrentBlock("navigation");
 $tpl->setVariable("IMAGE_DIR", $image_dir);
