@@ -1,8 +1,67 @@
 	  {LOCATOR}
 	  {BUTTONS}
 	  {MESSAGE}
-	<h3>{TXT_PERSONS}</h3>
 	<form action="{ACTION}" METHOD="post">
+	  <!-- BEGIN addr -->
+	  <h3>{TXT_ADDR}</h3>
+	  <table class="fullwidth">
+		  <tr class="tblheader" valign="top">
+			<td width="4%">
+			  &nbsp;			
+			</td> 
+			<td>
+			  <b>{TXT_ADDR_LOGIN}</b>
+			</td>
+			<td>
+			  <b>{TXT_ADDR_FIRSTNAME}</b>
+			</td>
+			<td>
+			  <b>{TXT_ADDR_LASTNAME}</b>
+			</td>
+			<td width="4%">
+			  &nbsp;			
+			</td> 
+			<td>
+			  <b>{TXT_ADDR_EMAIL}</b>
+			</td>
+		  </tr>
+		  <!-- BEGIN addr_search -->
+		  <tr class="{ADDR_CSSROW}">
+			<td>
+			  <input type="checkbox" name="search_name[]" value="{ADDR_LOGIN_A}"/>			
+			</td> 
+			<td valign="top">{ADDR_LOGIN_B}</td>
+			<td valign="top">{ADDR_FIRSTNAME}</td>
+			<td valign="top">{ADDR_LASTNAME}</td>
+			<td>
+			  <input type="checkbox" name="search_name[]" value="{ADDR_EMAIL_A}"/>			
+			</td> 
+			<td valign="top">{ADDR_EMAIL_B}</td>
+		  </tr>
+		  <!-- END addr_search -->
+		  <!-- BEGIN addr_no_content -->
+		  <tr class="tblrow1">
+			<td colspan="6" align="center">{TXT_ADDR_NO}</td>
+		  </tr>
+		  <!-- END addr_no_content -->
+		  <tr>
+			<td>
+			  &nbsp;
+			</td>
+		  </tr>
+		  <tr>
+			<td width="4%">
+			  <img src="templates/default/images/arrow_downright.gif" />
+			</td>
+			<td>
+			  <input type="submit" name="cmd" value="{BUTTON_ADOPT}"/>
+			  <input type="submit" name="cmd" value="{BUTTON_CANCEL}"/>
+			</td>
+		  </tr>
+	  </table>
+	  <!-- END addr -->
+	  <!-- BEGIN system -->
+	<h3>{TXT_PERSONS}</h3>
 	  <table class="fullwidth">
 		  <tr class="tblheader" valign="top">
 			<td width="4%">
@@ -17,6 +76,12 @@
 			<td>
 			  <b>{TXT_LASTNAME}</b>
 			</td>
+			<td width="4%">
+			  &nbsp;			
+			</td> 
+			<td>
+			  <b>{TXT_EMAIL}</b>
+			</td>
 		  </tr>
 		  <!-- BEGIN person_search -->
 		  <tr class="{CSSROW}">
@@ -26,11 +91,15 @@
 			<td valign="top">{LOGIN}</td>
 			<td valign="top">{FIRSTNAME}</td>
 			<td valign="top">{LASTNAME}</td>
+			<td>
+			  <input type="checkbox" name="search_name[]" value="{PERSON_EMAIL}"/>			
+			</td> 
+			<td valign="top">{EMAIL}</td>
 		  </tr>
 		  <!-- END person_search -->
 		  <!-- BEGIN no_content -->
 		  <tr class="tblrow1">
-			<td colspan="4" align="center">{TXT_PERSON_NO}</td>
+			<td colspan="6" align="center">{TXT_PERSON_NO}</td>
 		  </tr>
 		  <!-- END no_content -->
 	  </table>
@@ -76,4 +145,5 @@
 			</td>
 		  </tr>
 	  </table>
+	  <!-- END system -->
 	</form>
