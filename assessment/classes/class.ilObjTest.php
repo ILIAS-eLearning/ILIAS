@@ -1101,6 +1101,11 @@ class ilObjTest extends ilObject
     if ($result != DB_OK) {
       // Error
     }
+		// remove test_active entries, because test has changed
+		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
+			$this->ilias->db->quote($this->get_test_id())
+		);
+		$result = $this->ilias->db->query($query);
 	}
 	
 /**
