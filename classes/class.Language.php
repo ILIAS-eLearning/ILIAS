@@ -203,7 +203,7 @@ class Language
 					$langs[] = array( "id" => trim($id),
 									  "name" => trim($name),
 									  "status" => "installed",
-									  "lastchange" => date("Y-m-d H:i:s",filectime($this->LANGUAGESDIR."/".$file))
+									  "lastchange" => date("Y-m-d H:i:s",filemtime($this->LANGUAGESDIR."/".$file))
 						);
 				}
 			}
@@ -441,7 +441,7 @@ class Language
 			
 			if ($status == "installed")
 			{
-				$lastchange = date("Y-m-d H:i:s",filectime($this->LANGUAGESDIR."/".trim($ids[$i]).".lang"));
+				$lastchange = date("Y-m-d H:i:s",filemtime($this->LANGUAGESDIR."/".trim($ids[$i]).".lang"));
 			}
 
 			//build arrayentry
