@@ -47,7 +47,11 @@ class ilCourseObjective
 		$this->course_obj =& $course_obj;
 
 		$this->objective_id = $a_objective_id;
-		$this->__read();
+		if($this->objective_id)
+		{
+			$this->__read();
+		}
+		$this->__cleanStructure();
 	}
 
 	function setTitle($a_title)
@@ -121,26 +125,33 @@ class ilCourseObjective
 
 		$this->db->query($query);
 
-		$this->__updateTop($this->objectives['objective_id']['position']);
+		$this->__updateTop();
 		
 		return true;
 	}
 
-	function moveUp($a_objective_id)
+	function moveUp()
 	{
-		$pos = $this->__getPosition();
-		
-		
+		if(!$this->getObjectiveId())
+		{
+			return false;
+		}
+		// Stop if position is first
+		if($this->__getPosition() == 1)
+		{
+			return false;
+		}
+
 		$query = "UPDATE crs_objectives ".
 			"SET position = position + 1 ".
-			"WHERE position = '".($pos - 1)."' ".
+			"WHERE position = '".($this->__getPosition() - 1)."' ".
 			"AND crs_id = '".$this->course_obj->getId()."'";
-
+		
 		$this->db->query($query);
-
+		
 		$query = "UPDATE crs_objectives ".
 			"SET position = position - 1 ".
-			"WHERE objective_id = '".$a_objective_id."' ".
+			"WHERE objective_id = '".$this->getObjectiveId()."' ".
 			"AND crs_id = '".$this->course_obj->getId()."'";
 
 		$this->db->query($query);
@@ -150,20 +161,28 @@ class ilCourseObjective
 		return true;
 	}
 
-	function moveDown($a_objective_id)
+	function moveDown()
 	{
-		$pos = $this->__getPosition();
+		if(!$this->getObjectiveId())
+		{
+			return false;
+		}
+		// Stop if position is last
+		if($this->__getPosition() == $this->__getLastPosition())
+		{
+			return false;
+		}
 		
 		$query = "UPDATE crs_objectives ".
-			"SET position = '".$pos."'".
-			"WHERE position = '".($pos + 1)."' ".
+			"SET position = position - 1 ".
+			"WHERE position = '".($this->__getPosition() + 1)."' ".
 			"AND crs_id = '".$this->course_obj->getId()."'";
 
 		$this->db->query($query);
 		
 		$query = "UPDATE crs_objectives ".
-			"SET position = '".($pos + 1)."' ".
-			"WHERE objective_id = '".$a_objective_id."' ".
+			"SET position = position + 1 ".
+			"WHERE objective_id = '".$this->getObjectiveId()."' ".
 			"AND crs_id = '".$this->course_obj->getId()."'";
 
 		$this->db->query($query);
@@ -194,7 +213,6 @@ class ilCourseObjective
 
 	function __read()
 	{
-
 		if($this->getObjectiveId())
 		{
 			$query = "SELECT * FROM crs_objectives ".
@@ -232,11 +250,12 @@ class ilCourseObjective
 		return false;
 	}
 
-	function __updateTop($a_position)
+	function __updateTop()
 	{
 		$query = "UPDATE crs_objectives ".
 			"SET position = position - 1 ".
-			"WHERE position > '".$a_position."'";
+			"WHERE position > '".$this->__getPosition()."' ".
+			"AND crs_id = '".$this->course_obj->getId()."'";
 
 		$this->db->query($query);
 
@@ -299,5 +318,29 @@ class ilCourseObjective
 
 		return true;
 	}
+
+	function __cleanStructure()
+	{
+		$query = "SELECT * FROM crs_objectives ".
+			"WHERE crs_id = '".$this->course_obj->getId()."' ".
+			"ORDER BY position";
+
+		$res = $this->db->query($query);
+
+		$counter = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if($row->position != ++$counter)
+			{
+				$query = "UPDATE crs_objectives SET ".
+					"position = '".$counter."' ".
+					"WHERE objective_id = '".$row->objective_id."'";
+
+				$this->db->query($query);
+			}
+		}
+		return true;
+	}
+
 }
 ?>
