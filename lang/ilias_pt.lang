@@ -542,6 +542,7 @@ common#:#crs_new#:#Novo Curso
 common#:#crs_read#:#Acesso de Leitura ao Curso
 common#:#crs_visible#:#O Curso é visível
 common#:#crs_write#:#Editar- Curso
+common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_password#:#Palavra-passe Actual
 common#:#cut#:#Cortar
@@ -691,6 +692,8 @@ common#:#force_accept_usr_agreement#:#Você tem de aceitar o acordo de utilizaç
 common#:#forename#:#Nome próprio
 common#:#form_empty_fields#:#Por favor complete estes campos:
 common#:#forum#:#Fórum
+common#:#forum_import#:#Forum import###09 Apr 2004 new variable
+common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
 common#:#forum_notification#:#Notificação
 common#:#forum_notify_me#:#Notifica-me quando uma resposta for enviada
 common#:#forum_post_replied#:#Responderam à sua mensagem para o no fórum
@@ -830,6 +833,7 @@ common#:#import_categories#:#Import Categories###08 Mar 2004 new variable
 common#:#import_file#:#Import File###08 Mar 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
+common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_lm#:#Importar Módulo de Aprendizagem
 common#:#import_root_user#:#Import Root User###08 Mar 2004 new variable
 common#:#import_slm#:#Importar Pacote SCORM
@@ -1006,6 +1010,7 @@ common#:#mails#:#Mensagens
 common#:#mark_all_read#:#Marcar Todas como Lidas
 common#:#mark_all_unread#:#Marcar Todas como Não Lidas
 common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
+common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Membro
 common#:#members#:#Membros
 common#:#membership_annulled#:#A sua inscrição foi cancelada
@@ -1024,6 +1029,7 @@ common#:#message_content#:#Conteúdo da Mensagem
 common#:#message_to#:#Mensagem para:
 common#:#meta_data#:#Meta Dados
 common#:#migrate#:#Migrar
+common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Objecto de Média
 common#:#module#:#módulo
 common#:#modules#:#Módulos
@@ -1799,6 +1805,7 @@ content#:#cont_update_names#:#Update Names###08 Mar 2004 new variable
 content#:#cont_upload_file#:#Mandar Ficheiro
 content#:#cont_url#:#URL
 content#:#cont_version#:#versão
+content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Foram publicados
 content#:#cont_width#:#Largura
 content#:#cont_wysiwyg#:#Conteúdo Wysiwyg

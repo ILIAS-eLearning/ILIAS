@@ -542,6 +542,7 @@ common#:#crs_new#:#Новий Курс
 common#:#crs_read#:#Доступ на читання до Курсу
 common#:#crs_visible#:#Курс є видимим
 common#:#crs_write#:#Редагувати Курс
+common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_password#:#Поточний Пароль
 common#:#cut#:#Вирізати
@@ -691,6 +692,8 @@ common#:#force_accept_usr_agreement#:#Ви маєте прийняти угод�
 common#:#forename#:#Ім'я
 common#:#form_empty_fields#:#Бедь ласка завершіть ці поля:
 common#:#forum#:#Форум
+common#:#forum_import#:#Forum import###09 Apr 2004 new variable
+common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
 common#:#forum_notification#:#Повідомлення
 common#:#forum_notify_me#:#Повідомити меня про відповідь
 common#:#forum_post_replied#:#На вашу відку в форумі з'явилась відповідь!
@@ -830,6 +833,7 @@ common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
+common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_lm#:#Імпортувати Учбовий модуль
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Імпортувати SCORM Пакет
@@ -1006,6 +1010,7 @@ common#:#mails#:#Пошта
 common#:#mark_all_read#:#Помітити усе як прочитане
 common#:#mark_all_unread#:#Помітити усе як непрочитане
 common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
+common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Член
 common#:#members#:#Члени
 common#:#membership_annulled#:#Ваше членство було відмінено
@@ -1024,6 +1029,7 @@ common#:#message_content#:#Зміст Повідомлення
 common#:#message_to#:#Повідомлення для:
 common#:#meta_data#:#Мета Дані
 common#:#migrate#:#Мігрувати
+common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Медіа Об'єкт
 common#:#module#:#модуль
 common#:#modules#:#Модулі
@@ -1799,6 +1805,7 @@ content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#Завантажити Файл
 content#:#cont_url#:#URL
 content#:#cont_version#:#версія
+content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Де опублікований
 content#:#cont_width#:#Ширина
 content#:#cont_wysiwyg#:#Вміст Wysiwyg

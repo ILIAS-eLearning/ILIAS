@@ -405,9 +405,6 @@ common#:#author#:#Author
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
 common#:#average_time#:#Average time
-common#:#min_time#:#Minimum time
-common#:#max_time#:#Maximum time
-common#:#cumulative_time#:#Cumulative time
 common#:#back#:#Back
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Basic Data
@@ -545,6 +542,7 @@ common#:#crs_new#:#New Course
 common#:#crs_read#:#Read access to Course
 common#:#crs_visible#:#Course is visible
 common#:#crs_write#:#Edit Course
+common#:#cumulative_time#:#Cumulative time
 common#:#cur_number_rec#:#Current number of records
 common#:#current_password#:#Current Password
 common#:#cut#:#Cut
@@ -694,6 +692,8 @@ common#:#force_accept_usr_agreement#:#You have to accept user agreement!
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#forum#:#Forum
+common#:#forum_import#:#Forum import
+common#:#forum_import_file#:#Import file
 common#:#forum_notification#:#Notification
 common#:#forum_notify_me#:#Notify me when a reply is posted
 common#:#forum_post_replied#:#Your forum entry has been replied.
@@ -833,6 +833,7 @@ common#:#import_categories#:#Import Categories
 common#:#import_file#:#Import File
 common#:#import_file_not_valid#:#The import file is not valid.
 common#:#import_finished#:#Number of imported messages.
+common#:#import_forum_finished#:#The forum has been imported.
 common#:#import_lm#:#Import Learningmodule
 common#:#import_root_user#:#Import Root User
 common#:#import_slm#:#Import SCORM Package
@@ -1009,6 +1010,7 @@ common#:#mails#:#Mails
 common#:#mark_all_read#:#Mark All as Read
 common#:#mark_all_unread#:#Mark All as Unread
 common#:#max_number_rec#:#Maximum number of records
+common#:#max_time#:#Maximum time
 common#:#member#:#Member
 common#:#members#:#Members
 common#:#membership_annulled#:#Your membership has been cancelled
@@ -1027,6 +1029,7 @@ common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
 common#:#meta_data#:#Meta Data
 common#:#migrate#:#Migrate
+common#:#min_time#:#Minimum time
 common#:#mob#:#Media Object
 common#:#module#:#module
 common#:#modules#:#Modules
@@ -1574,7 +1577,6 @@ content#:#all#:#All
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Circle#:#Circle
-content#:#cont_view_last_export_log#:#Last Export Log
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
@@ -1803,6 +1805,7 @@ content#:#cont_update_names#:#Update Names
 content#:#cont_upload_file#:#Upload File
 content#:#cont_url#:#URL
 content#:#cont_version#:#version
+content#:#cont_view_last_export_log#:#Last Export Log
 content#:#cont_where_published#:#Where published
 content#:#cont_width#:#Width
 content#:#cont_wysiwyg#:#Content Wysiwyg
@@ -2710,6 +2713,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#import_forum_finished#:#The forum has been imported.
-common#:#forum_import#:#Forum import
-common#:#forum_import_file#:#Import file

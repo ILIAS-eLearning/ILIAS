@@ -542,6 +542,7 @@ common#:#crs_new#:#New Course###06 Aug 2003 new variable
 common#:#crs_read#:#Read access to Course###13 Jan 2004 new variable
 common#:#crs_visible#:#Course is visible###13 Jan 2004 new variable
 common#:#crs_write#:#Edit Course###13 Jan 2004 new variable
+common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_password#:#current password
 common#:#cut#:#cut
@@ -691,6 +692,8 @@ common#:#force_accept_usr_agreement#:#You have to accept user agreement!###29 Oc
 common#:#forename#:#forename
 common#:#form_empty_fields#:#please complete these fields:
 common#:#forum#:#forum
+common#:#forum_import#:#Forum import###09 Apr 2004 new variable
+common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
 common#:#forum_notification#:#Notification###06 Feb 2004 new variable
 common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
 common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
@@ -830,6 +833,7 @@ common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
+common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_lm#:#Import Learningmodule###12 Apr 2003 new variable
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Import SCORM Package###23 Jun 2003 new variable
@@ -1006,6 +1010,7 @@ common#:#mails#:#mails
 common#:#mark_all_read#:#mark all as read
 common#:#mark_all_unread#:#mark all as unread
 common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
+common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Member###04 Nov 2003 new variable
 common#:#members#:#members
 common#:#membership_annulled#:#Your membership has been canceled###25 Nov 2003 new variable
@@ -1024,6 +1029,7 @@ common#:#message_content#:#message content
 common#:#message_to#:#message to:
 common#:#meta_data#:#Meta Data###14 Jun 2003 new variable
 common#:#migrate#:#migrate
+common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Media Object###28 Sep 2003 new variable
 common#:#module#:#module###26 Mar 2003 new variable
 common#:#modules#:#Modules###20 Mar 2003 new variable
@@ -1799,6 +1805,7 @@ content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#Upload File###22 Oct 2003 new variable
 content#:#cont_url#:#URL###19 Sep 2003 new variable
 content#:#cont_version#:#version###04 Aug 2003 new variable
+content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#Where published###19 Sep 2003 new variable
 content#:#cont_width#:#Width###08 Jul 2003 new variable
 content#:#cont_wysiwyg#:#Content Wysiwyg###24 May 2003 new variable

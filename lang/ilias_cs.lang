@@ -542,6 +542,7 @@ common#:#crs_new#:#Nový kurz
 common#:#crs_read#:#Read access to Course###16 Mar 2004 new variable
 common#:#crs_visible#:#Course is visible###16 Mar 2004 new variable
 common#:#crs_write#:#Edit Course###16 Mar 2004 new variable
+common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
 common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_password#:#Současné heslo
 common#:#cut#:#Vyjmout
@@ -691,6 +692,8 @@ common#:#force_accept_usr_agreement#:#Musíte akceptovat uživatelské ujednán�
 common#:#forename#:#Křestní jméno
 common#:#form_empty_fields#:#Vypňte prosím tato políčka:
 common#:#forum#:#Diskusní skupina
+common#:#forum_import#:#Forum import###09 Apr 2004 new variable
+common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
 common#:#forum_notification#:#Notification###16 Mar 2004 new variable
 common#:#forum_notify_me#:#Notify me when a reply is posted###16 Mar 2004 new variable
 common#:#forum_post_replied#:#Your forum entry has been replied.###16 Mar 2004 new variable
@@ -830,6 +833,7 @@ common#:#import_categories#:#Import Categories###16 Mar 2004 new variable
 common#:#import_file#:#Import File###16 Mar 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
+common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_lm#:#Importovat Learning module
 common#:#import_root_user#:#Import Root User###16 Mar 2004 new variable
 common#:#import_slm#:#Importovat balík SCORM
@@ -1006,6 +1010,7 @@ common#:#mails#:#Pošta
 common#:#mark_all_read#:#Označit všechny jako přečtené
 common#:#mark_all_unread#:#Označit všechny jako nepřečtené
 common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
+common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Člen
 common#:#members#:#Členové
 common#:#membership_annulled#:#Vaše členství bylo vypovězeno
@@ -1024,6 +1029,7 @@ common#:#message_content#:#Obsah zprávy
 common#:#message_to#:#Zpráva pro:
 common#:#meta_data#:#Meta data### identical translation
 common#:#migrate#:#Migrovat
+common#:#min_time#:#Minimum time###09 Apr 2004 new variable
 common#:#mob#:#Mediální objekt
 common#:#module#:#modul
 common#:#modules#:#Moduly
@@ -1799,6 +1805,7 @@ content#:#cont_update_names#:#Update Names###16 Mar 2004 new variable
 content#:#cont_upload_file#:#Nahrát soubor
 content#:#cont_url#:#URL### identical translation
 content#:#cont_version#:#verze
+content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
 content#:#cont_where_published#:#publikováno kde
 content#:#cont_width#:#Width###16 Mar 2004 new variable
 content#:#cont_wysiwyg#:#Wysiwyg obsah
