@@ -206,10 +206,11 @@ a.tabinactive
 
 div.il_Explorer
 {
-	margin-top: 23px;
+	margin-top: 3px;
 	margin-left: 4px;
 	margin-right: 3px;
 	margin-bottom: 3px;
+	padding-top: 20px;
 }
 
 div.il_ExplorerHeader
