@@ -319,8 +319,8 @@ class ilUserTracking {
 			." WHERE (acc_time >= '".$from
 			."' AND acc_time <='".$to."')"
 			." AND ".$condition;
-			echo $q;
-			echo "<br>";
+//echo $q;
+//echo "<br>";
 		$res = $this->ilias->db->query($q);
 		for($i=0;$i<$res->numRows();$i++)
 		{

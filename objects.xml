@@ -25,6 +25,7 @@
 	<subobj name="chac" max="1">chac</subobj>
 	<subobj name="ldap" max="1">ldap</subobj>
 	<subobj name="recf" max="1">recf</subobj>
+	<subobj name="trac" max="1">trac</subobj>
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
@@ -434,5 +435,9 @@
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="delete">delete</action>
+</object>
+<object name="trac" class_name="SysUserTracking" checkbox="1" translate="0" rbac="1" devmode="1">
+	<property name="trackingData">tracking_data</property>
+	<property name="owner">show_owner</property>
 </object>
 </objects>
