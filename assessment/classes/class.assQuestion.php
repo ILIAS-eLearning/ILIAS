@@ -920,17 +920,19 @@ class ASS_Question extends PEAR {
 */
 	function pcArrayShuffle($array) {
     $i = count($array);
+	if ($i > 0)
+	{
+		while(--$i) {
+			$j = mt_rand(0, $i);
 
-    while(--$i) {
-        $j = mt_rand(0, $i);
-
-        if ($i != $j) {
-            // swap elements
-            $tmp = $array[$j];
-            $array[$j] = $array[$i];
-            $array[$i] = $tmp;
-        }
-    }
+			if ($i != $j) {
+				// swap elements
+				$tmp = $array[$j];
+				$array[$j] = $array[$i];
+				$array[$i] = $tmp;
+			}
+		}
+	}
 
     return $array;
 	}

@@ -3910,3 +3910,10 @@ $this->db->query($query);
 
 <#234>
 UPDATE settings SET value = '3.1.0_beta1 2004/07/11' WHERE keyword = 'ilias_version' LIMIT 1;
+
+<#235>
+<?php
+
+$ilCtrlStructureReader->getStructure();
+
+?>

@@ -63,6 +63,7 @@ class ASS_QuestionGUI
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this, "q_id");
 
 		$this->object = new ASS_Question();
 	}
@@ -163,6 +164,17 @@ class ASS_QuestionGUI
 	*/
 	function outPreviewForm()
 	{
+	}
+
+	function preview()
+	{
+		//$question =& $this->object->createQuestion("", $_GET["q_id"]);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
+		$this->outPreviewForm();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("ACTION_PREVIEW", $this->ctrl->getParentReturn($this));
+		$this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
+		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
@@ -281,10 +293,11 @@ class ASS_QuestionGUI
 		return $question;
 	}
 
-	function _getGUIClassNameForId()
+	function _getGUIClassNameForId($a_q_id)
 	{
-		$q_type =  ASS_Question::getQuestionTypeFromDb($question_id);
+		$q_type =  ASS_Question::getQuestionTypeFromDb($a_q_id);
 		$class_name = ASS_QuestionGUI::_getClassNameForQType($q_type);
+		return $class_name;
 	}
 
 	function _getClassNameForQType($q_type)
