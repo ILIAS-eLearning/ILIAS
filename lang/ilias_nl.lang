@@ -3,7 +3,7 @@
 *
 * @module		language file dutch
 * @modulegroup	language
-* @author 		Gerrit Blankestijn <GerritBlankestijn@TXS.NL>
+* @author 		Gerrit Blankestijn <txs-cz@chello.cz>
 * @version		$Id$
 */
 
@@ -33,91 +33,91 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
-assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
-assessment#:#answer#:#Answer###05 Feb 2004 new variable
-assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
-assessment#:#apply#:#Apply###05 Feb 2004 new variable
-assessment#:#ass_questions#:#Questions###05 Feb 2004 new variable
-assessment#:#by#:#by###05 Feb 2004 new variable
-assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
-assessment#:#create_date#:#Created###05 Feb 2004 new variable
-assessment#:#create_gaps#:#Create gaps###05 Feb 2004 new variable
-assessment#:#create_new#:#Create new###05 Feb 2004 new variable
-assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
-assessment#:#export#:#Export###05 Feb 2004 new variable
-assessment#:#false#:#False###05 Feb 2004 new variable
-assessment#:#filter#:#Filter###05 Feb 2004 new variable
-assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
+assessment#:#add_answer#:#Voeg antwoord toe
+assessment#:#add_matching_pair#:#Voeg overeenkomend paar toe
+assessment#:#answer#:#Antwoord
+assessment#:#answer_text#:#Antwoord-tekst
+assessment#:#apply#:#Toepassen
+assessment#:#ass_questions#:#Vragen
+assessment#:#by#:#door
+assessment#:#cloze_text#:#Maak tekst af
+assessment#:#create_date#:#Gecreëerd
+assessment#:#create_gaps#:#Creëer gaten
+assessment#:#create_new#:#Creëer een nieuwe
+assessment#:#duplicate#:#Duplikaat
+assessment#:#export#:#Exporteer
+assessment#:#false#:#Verkeerd
+assessment#:#filter#:#Filter
+assessment#:#gap_selection#:#Selectie van een gat
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
-assessment#:#last_update#:#Last update###05 Feb 2004 new variable
-assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
+assessment#:#last_update#:#Laatst bijgewerkt
+assessment#:#mark_schema#:#Markeer schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
 assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
-assessment#:#matches#:#matches###05 Feb 2004 new variable
-assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
-assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
-assessment#:#points#:#Points###05 Feb 2004 new variable
-assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
-assessment#:#preview#:#Preview###07 Feb 2004 new variable
-assessment#:#qpl_delete_rbac_error#:#You have no rights to delete this question!###08 Feb 2004 new variable
-assessment#:#qpl_delete_select_none#:#Please check at least one question to delete it###07 Feb 2004 new variable
-assessment#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it###07 Feb 2004 new variable
-assessment#:#qpl_edit_rbac_error#:#You have no rights to edit this question!###08 Feb 2004 new variable
-assessment#:#qpl_edit_select_multiple#:#Please check only one question for editing###07 Feb 2004 new variable
-assessment#:#qpl_edit_select_none#:#Please check one question for editing###07 Feb 2004 new variable
-assessment#:#qpl_export_select_none#:#Please check at least one question to export it###07 Feb 2004 new variable
-assessment#:#qt_cloze#:#Cloze Question###05 Feb 2004 new variable
+assessment#:#matches#:#overeenkomsten
+assessment#:#matching_pair#:#Overeenkomend paar
+assessment#:#no_questions_available#:#Er zijn geen vragen beschikbaar!
+assessment#:#points#:#Punten
+assessment#:#possible_gap_text#:#Mogelijke gat-tekst
+assessment#:#preview#:#Laten zien
+assessment#:#qpl_delete_rbac_error#:#U heeft het recht deze vraag te verwijderen!
+assessment#:#qpl_delete_select_none#:#Controleer a.u.b. minstens één vraag voor verwijderen
+assessment#:#qpl_duplicate_select_none#:#Controleer a.u.b. minstens één vraag voor dupliceren
+assessment#:#qpl_edit_rbac_error#:#U heeft niet het recht deze vraag te wijzigen!
+assessment#:#qpl_edit_select_multiple#:#Controleer a.u.b. maar één vraag voor wijzigen
+assessment#:#qpl_edit_select_none#:#Controleer a.u.b. één vraag voor wijzigen
+assessment#:#qpl_export_select_none#:#Controleer a.u.b. minstens één vraag voor export
+assessment#:#qt_cloze#:#Bijna overeenkomende vraag
 assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
-assessment#:#qt_matching#:#Matching Question###05 Feb 2004 new variable
-assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)###05 Feb 2004 new variable
-assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)###05 Feb 2004 new variable
-assessment#:#qt_ordering#:#Ordering Question###05 Feb 2004 new variable
-assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
+assessment#:#qt_matching#:#Overeenkomende vraag
+assessment#:#qt_multiple_choice_mr#:#Meerkeuze vraag (meerdere antwoorden)
+assessment#:#qt_multiple_choice_sr#:#Meerkeuze vraag (één  antwoord)
+assessment#:#qt_ordering#:#Volgorde-vraag
+assessment#:#question_type#:#Vraag-type
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
-assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
-assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
-assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
-assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
-assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
-assessment#:#true#:#True###05 Feb 2004 new variable
+assessment#:#reset_filter#:#Terugzetten filter
+assessment#:#select_gap#:#Selecteren gat
+assessment#:#set_filter#:#Instellen filter
+assessment#:#solution_order#:#Oplossings-volgorde
+assessment#:#text_gap#:#Tekst-gat
+assessment#:#true#:#Waar
 assessment#:#tst_browse_for_questions#:#Browse for questions###23 Feb 2004 new variable
-assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
-assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
+assessment#:#tst_delete_missing_mark#:#Selecteer a.u.b tenminste één markering voor verwijdering
+assessment#:#tst_general_properties#:#Algemene eigenschappen
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###23 Feb 2004 new variable
-assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
-assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###20 Feb 2004 new variable
-assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###20 Feb 2004 new variable
-assessment#:#tst_mark_minimum_level#:#Minimum level (in %)###20 Feb 2004 new variable
-assessment#:#tst_mark_official_form#:#Official form###20 Feb 2004 new variable
-assessment#:#tst_mark_passed#:#Passed###20 Feb 2004 new variable
-assessment#:#tst_mark_short_form#:#Short form###20 Feb 2004 new variable
-assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
+assessment#:#tst_introduction#:#Introductie
+assessment#:#tst_mark_create_new_mark_step#:#Creëer een nieuwe markerings-stap
+assessment#:#tst_mark_create_simple_mark_schema#:#Creëer een eenvoudig markerings-schema
+assessment#:#tst_mark_minimum_level#:#Minimum niveau (in %)
+assessment#:#tst_mark_official_form#:#Officiële formulier
+assessment#:#tst_mark_passed#:#Gebeurd
+assessment#:#tst_mark_short_form#:#Kort formulier
+assessment#:#tst_no_marks_defined#:#Er zijn geen markeringen gedefiniëerd, Creëer minstens één eenvoudig markerings-schema!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
-assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
-assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
+assessment#:#tst_nr_of_tries#:#Max. aantal keer geprobeerd
+assessment#:#tst_processing_time#:#Max. processing tijd
 assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
 assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
-assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
-assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
-assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
-assessment#:#tst_score_reporting_date#:#Score reporting date###18 Feb 2004 new variable
-assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
-assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
-assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 2004 new variable
-assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
-assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new variable
-assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
-assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
-assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
-assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
-assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
-assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
-common#:#3rd_party_software#:#software van derden###09 Jan 2004 content changed
-common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
-common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
+assessment#:#tst_report_after_question#:#Rapporteer de score nadat elke vraag beantwoord is
+assessment#:#tst_report_after_test#:#Rapporteer de score nadat de gehele test klaar is
+assessment#:#tst_score_reporting#:#Rapportage score
+assessment#:#tst_score_reporting_date#:#Rapportage-datum score
+assessment#:#tst_score_type#:#Type rapportage score
+assessment#:#tst_sequence#:#Volgorde
+assessment#:#tst_sequence_fixed#:#De volgorde van de vragen is vast
+assessment#:#tst_sequence_postpone#:#De leerling mag een vraag tot het einde van de test uitstellen
+assessment#:#tst_sequence_properties#:#Volgorde eigenschappen
+assessment#:#tst_session_settings#:#Instellingen sessies
+assessment#:#tst_starting_time#:#Start-tijd
+assessment#:#tst_types#:#Test types
+assessment#:#tt_assessment#:#Assessment test
+assessment#:#tt_navigation_controlling#:#Besturen leerlings navigatie-test
+assessment#:#tt_self_assessment#:#Zelftest assessment
+common#:#3rd_party_software#:#3software van derden 
+common#:#DD.MM.YYYY#:#DD.MM.YYYY
+common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Absolute pad
 common#:#accept_usr_agreement#:#Gebruikers-overeenkomst accepteren?
 common#:#access#:#Toegang
@@ -125,13 +125,13 @@ common#:#action_aborted#:#Activiteit afgebroken
 common#:#actions#:#Activiteiten
 common#:#active_roles#:#Actieve rollen
 common#:#add#:#Toevoegen
-common#:#add_author#:#Toevoegen Auteur
+common#:#add_author#:#Toevoegen auteur
 common#:#add_member#:#Lid toevoegen
 common#:#add_translation#:#Vertaling toevoegen
-common#:#adm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#adm_read#:#Read access to Basic system settings###13 Jan 2004 new variable
-common#:#adm_visible#:#Systemsettings are visible###13 Jan 2004 new variable
-common#:#adm_write#:#Edit Basic system settings###13 Jan 2004 new variable
+common#:#adm_edit_permission#:#Wijzig rechten-instellingen
+common#:#adm_read#:#Lees-rechten Systeem-instellingen
+common#:#adm_visible#:#Systeem-instellingen zijn zichtbaar
+common#:#adm_write#:#Wijzigen standaard systeem-instellingen
 common#:#administrate#:#Administreren
 common#:#administration#:#Administratie
 common#:#administrator#:#Administrateur
@@ -179,36 +179,36 @@ common#:#cancel#:#Annuleren
 common#:#cannot_uninstall_language_in_use#:#U kunt geen talen deïnstalleren die in gebruik zijn!
 common#:#cannot_uninstall_systemlanguage#:#U kunt de systeem-taal niet deïnstalleren!
 common#:#cat#:#Kategorie
-common#:#cat_a#:#een kategorie###13 Jan 2004 content changed
+common#:#cat_a#:#een Kategorie
 common#:#cat_add#:#Kategorie toevoegen
 common#:#cat_added#:#Kategorie toegevoegd
-common#:#cat_create#:#Create Category###13 Jan 2004 new variable
-common#:#cat_create_cat#:#Create Category###13 Jan 2004 new variable
-common#:#cat_create_chat#:#Create chat###18 Feb 2004 new variable
-common#:#cat_create_crs#:#Create Course###13 Jan 2004 new variable
-common#:#cat_create_dbk#:#Create Digibook###13 Jan 2004 new variable
-common#:#cat_create_exc#:#Create Exercise###13 Jan 2004 new variable
-common#:#cat_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#cat_create_glo#:#Create Glossary###13 Jan 2004 new variable
-common#:#cat_create_grp#:#Create Group###13 Jan 2004 new variable
-common#:#cat_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#cat_create_qpl#:#Create Question Pool###05 Feb 2004 new variable
-common#:#cat_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#cat_create_tst#:#Create Test###05 Feb 2004 new variable
-common#:#cat_delete#:#Delete Category###13 Jan 2004 new variable
-common#:#cat_edit#:#Kategorie gewijzigd
-common#:#cat_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#cat_new#:#Nieuwe kategorie###13 Jan 2004 content changed
-common#:#cat_read#:#Read access to Category###13 Jan 2004 new variable
-common#:#cat_visible#:#Category is visible###13 Jan 2004 new variable
-common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
+common#:#cat_create#:#Creëer kategorie
+common#:#cat_create_cat#:#Creëer kategorie
+common#:#cat_create_chat#:#Creëer Chat
+common#:#cat_create_crs#:#Creëer cursus
+common#:#cat_create_dbk#:#Creëer digibook
+common#:#cat_create_exc#:#Creëer oefening
+common#:#cat_create_frm#:#Creëer forum
+common#:#cat_create_glo#:#Creëer woordenlijst
+common#:#cat_create_grp#:#Creëer groep
+common#:#cat_create_lm#:#Creëer lesmodule
+common#:#cat_create_qpl#:#Creëer vragenpool
+common#:#cat_create_slm#:#Creëer SCORM lesmodule
+common#:#cat_create_tst#:#Creëer een test
+common#:#cat_delete#:#Verwijder kategorie
+common#:#cat_edit#:#Wijzig kategorie
+common#:#cat_edit_permission#:#Wijzig rechten-instellingen
+common#:#cat_new#:#Nieuwe kategorie
+common#:#cat_read#:#Lees-recht op kategorie
+common#:#cat_visible#:#Kategorie is zichtbaar
+common#:#cat_write#:#Wijzig kategorie
 common#:#categories#:#Kategoriën
 common#:#cc#:#CC
 common#:#censorship#:#Censuur
-common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
-common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
-common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
-common#:#chac_write#:#Edit chat settings###18 Feb 2004 new variable
+common#:#chac_edit_permission#:#Wijzig rechten-instellingen
+common#:#chac_read#:#Leesrechten  op chat-instellingen
+common#:#chac_visible#:#Chat-instellingen zijn zichtbare
+common#:#chac_write#:#Wijzig chat-instellingen
 common#:#change#:#Wijzigen
 common#:#change_active_assignment#:#wijzig de actieve toewijziging
 common#:#change_assignment#:#Toewijzing wijzigen
@@ -216,19 +216,19 @@ common#:#change_existing_objects#:#Bestaande objecten wijzigen
 common#:#change_lo_info#:#Leerobject-informatie wijzigen
 common#:#change_metadata#:#Metadata wijzigen
 common#:#change_sort_direction#:#Sorteervolgorde wijzigen
-common#:#changed_to#:#gewijzigd in
+common#:#changed_to#:#Gewijzigd in
 common#:#chapter#:#Hoofdstuk
 common#:#chapter_number#:#Hoofdstuk-nummer
 common#:#chapter_title#:#Hoofdstuk titel
-common#:#chat_delete#:#Delete chat###18 Feb 2004 new variable
-common#:#chat_edit_permission#:#Change permission settings###18 Feb 2004 new variable
-common#:#chat_read#:#Read/Write access to chat###18 Feb 2004 new variable
-common#:#chat_visible#:#Chat is visible###18 Feb 2004 new variable
-common#:#chat_write#:#Edit chat###18 Feb 2004 new variable
+common#:#chat_delete#:#Verwijder chat
+common#:#chat_edit_permission#:#Wijzig rechten-instellingen
+common#:#chat_read#:#Lees/schrijf-rechten op chat
+common#:#chat_visible#:#Chat is zichtbaar
+common#:#chat_write#:#Wijzig chat
 common#:#check#:#Controleer
 common#:#check_langfile#:#Controleer A.u.b. uw taal-bestand
 common#:#check_languages#:#Talen controleren
-common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
+common#:#check_max_allowed_packet_size#:#De pagina-inhoud is te groot.
 common#:#chg_language#:#Taal wijzigen
 common#:#chg_password#:#Wijzig wachtwoord
 common#:#choose_language#:#A.u.b. kies uw taal
@@ -236,13 +236,13 @@ common#:#choose_location#:#Kies locatie
 common#:#choose_only_one_language#:#A.u.b. slechts  één taal kiezen
 common#:#city#:#Stad
 common#:#clear#:#Afbreken
-common#:#client_id#:#Cliënt-ID
-common#:#clipboard#:#Klembord
+common#:#client_id#:#Client-ID
+common#:#clipboard#:#Plakboord
 common#:#close#:#Sluiten
 common#:#comma_separated#:#Door komma's gescheiden
 common#:#comment#:#commentaar
 common#:#compose#:#Samenstellen
-common#:#confirm#:#Bevestigen
+common#:#confirm#:#Bevestig
 common#:#cont_object#:#Object
 common#:#contact_data#:#Contact-informatie
 common#:#context#:#Context
@@ -251,7 +251,7 @@ common#:#copy_of#:#Copie van
 common#:#country#:#Land
 common#:#course#:#Cursus
 common#:#courses#:#Cursussen
-common#:#create#:#Creëren
+common#:#create#:#Creëer
 common#:#create_in#:#Creëren in
 common#:#create_stylesheet#:#Creëer stijl
 common#:#crs#:#Cursus
@@ -259,52 +259,52 @@ common#:#crs_a#:#een cursus
 common#:#crs_add#:#Cursus toevoegen
 common#:#crs_added#:#Cursus toegevoegd
 common#:#crs_available#:#Beschikbare cursussen
-common#:#crs_create#:#Create Course###13 Jan 2004 new variable
-common#:#crs_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#crs_create_glo#:#Create Glossary###13 Jan 2004 new variable
-common#:#crs_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#crs_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#crs_delete#:#Delete Course###13 Jan 2004 new variable
+common#:#crs_create#:#Creëer cursus
+common#:#crs_create_frm#:#Creëer forum
+common#:#crs_create_glo#:#Creëer woordenlijst
+common#:#crs_create_lm#:#Creëer lesmodule
+common#:#crs_create_slm#:#Creëer SCORM lesmodule
+common#:#crs_delete#:#Verwijderen cursus
 common#:#crs_edit#:#Cursus wijzigen
-common#:#crs_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#crs_join#:#Subscribe to Course###13 Jan 2004 new variable
-common#:#crs_leave#:#Unsubscribe from Course###13 Jan 2004 new variable
+common#:#crs_edit_permission#:#Wijzig rechten-instellingen
+common#:#crs_join#:#Abonneren op cursus
+common#:#crs_leave#:#Abonnement op cursus beëindigen
 common#:#crs_management_system#:#Cursus Management System
 common#:#crs_new#:#Nieuwe cursus
-common#:#crs_read#:#Read access to Course###13 Jan 2004 new variable
-common#:#crs_visible#:#Course is visible###13 Jan 2004 new variable
-common#:#crs_write#:#Edit Course###13 Jan 2004 new variable
+common#:#crs_read#:#Lees-toegang op cursus
+common#:#crs_visible#:#Cursus is zichtbaar
+common#:#crs_write#:#Cursus wijzigen
 common#:#current_password#:#Huidig wachtwoord
 common#:#cut#:#Knippen
 common#:#cutPage#:#Knippen
-common#:#database#:#Databank
-common#:#database_version#:#Huidige databank-versie
+common#:#database#:#Gegevensbank
+common#:#database_version#:#huidige databank-versie
 common#:#dataset#:#Item
 common#:#date#:#Datum
-common#:#dateplaner#:#Dateplaner###17 Dec 2003 new variable
+common#:#dateplaner#:#Datum-planner
 common#:#day#:#Dag
 common#:#days#:#Dagen
 common#:#db_host#:#Databank-host
-common#:#db_name#:#Databank naam
+common#:#db_name#:#databank-naam
 common#:#db_need_update#:#Uw databank heeft een update nodig!
 common#:#db_pass#:#Databank-wachtwoord
 common#:#db_type#:#databank-type
 common#:#db_user#:#Databank gebruiker
-common#:#db_version#:#Databank-versie
+common#:#db_version#:#databank-versie
 common#:#dbk#:#Digilib-boek
 common#:#dbk_a#:#een Digilib-boek
 common#:#dbk_add#:#Digilib-boek toevoegen
 common#:#dbk_added#:#Digilib-boek toegevoegd
-common#:#dbk_create#:#Create Digibook###13 Jan 2004 new variable
-common#:#dbk_delete#:#Delete Digibook###13 Jan 2004 new variable
-common#:#dbk_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#dbk_create#:#Creëer digibook
+common#:#dbk_delete#:#Verwijd Digiboek
+common#:#dbk_edit_permission#:#Wijzig rechten-instellingen
 common#:#dbk_new#:#Nieuw Digilib-boek
-common#:#dbk_read#:#Read access to Digibook###13 Jan 2004 new variable
-common#:#dbk_visible#:#Digibook is visible###13 Jan 2004 new variable
-common#:#dbk_write#:#Edit Digibook###13 Jan 2004 new variable
+common#:#dbk_read#:#Lees-toegang op Digiboek
+common#:#dbk_visible#:#Digiboek is zichtbaar
+common#:#dbk_write#:#Wijzig Digiboek
 common#:#default#:#Standaard
 common#:#default_language#:#Standaard taal
-common#:#default_perm_settings#:#Default permissions###17 Jan 2004 new variable
+common#:#default_perm_settings#:#Standaard rechten
 common#:#default_role#:#Standaard rol
 common#:#default_roles#:#Default rollen
 common#:#default_skin#:#Default gebruikers-scherm
@@ -314,7 +314,7 @@ common#:#delete#:#Verwijderen
 common#:#delete_all#:#Alles verwijderen
 common#:#delete_object#:#Verwijder object(en)
 common#:#delete_selected#:#Verwijder het geselecteerde
-common#:#deleted#:#Gewist
+common#:#deleted#:#Verwijderd
 common#:#department#:#Afdeling
 common#:#desc#:#Beschrijving
 common#:#description#:#Beschrijving
@@ -324,10 +324,10 @@ common#:#down#:#Naar beneden
 common#:#download#:#Download
 common#:#drafts#:#Klad
 common#:#drop#:#Erop laten vallen
-common#:#edit#:#Wijzigen
+common#:#edit#:#Wijzig
 common#:#edit_data#:#Wijzigen gegevens
 common#:#edit_operations#:#Bewerkingen wijzigen
-common#:#edit_perm_ruleset#:#Edit default permission rules###18 Feb 2004 new variable
+common#:#edit_perm_ruleset#:#Wijzig standaard toegangs-regels
 common#:#edit_properties#:#Eigenschappen wijzigen
 common#:#edit_stylesheet#:#Stijl wijzigen
 common#:#edited_at#:#Gewijzigd op
@@ -345,7 +345,7 @@ common#:#err_in_line#:#Fout in regel
 common#:#err_no_langfile_found#:#Geen taal-bestand gevonden!
 common#:#err_no_param#:#Geen parameter!
 common#:#err_over_3_param#:#Meer dan 3 parameters!
-common#:#err_role_not_assignable#:#You cannot assign users to this role at this location###17 Jan 2004 new variable
+common#:#err_role_not_assignable#:#U kunt geen gebruikers toewijzen aan deze rol op deze locatie
 common#:#err_session_expired#:#Uw sessie is verlopen!
 common#:#err_wrong_header#:#Reden: Verkeerde header.
 common#:#err_wrong_login#:#Foutief ingelogd
@@ -355,13 +355,13 @@ common#:#exc_add#:#Toevoegen oefening
 common#:#exc_added#:#Oefening toegevoegd
 common#:#exc_ask_delete#:#Verwijderen bestand?
 common#:#exc_assign_usr#:#Toewijzen gebruiker
-common#:#exc_create#:#Create exercise###13 Jan 2004 new variable
+common#:#exc_create#:#Creëer oefening
 common#:#exc_date_not_valid#:#De datum is niet geldig
-common#:#exc_deassign_members#:#Verwijderen lid/leden
-common#:#exc_delete#:#Delete exercise###13 Jan 2004 new variable
+common#:#exc_deassign_members#:#Verwijderen lid/leden)
+common#:#exc_delete#:#Verwijder oefening
 common#:#exc_edit#:#Nieuwe oefening gecreëerd
 common#:#exc_edit_exercise#:#Wijzigen oefening
-common#:#exc_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#exc_edit_permission#:#Wijzig rechten-instellingen
 common#:#exc_edit_until#:#Wijzigen tot
 common#:#exc_files#:#Bestanden
 common#:#exc_groups#:#Groepen
@@ -373,10 +373,10 @@ common#:#exc_new#:#Nieuwe oefening
 common#:#exc_no_members_assigned#:#Geen leden toegewezen
 common#:#exc_notices#:#Notities
 common#:#exc_obj#:#Oefening
-common#:#exc_read#:#Access exercise###13 Jan 2004 new variable
+common#:#exc_read#:#Toegang tot oefening
 common#:#exc_save_changes#:#Opslaan
 common#:#exc_search_for#:#Zoeken naar
-common#:#exc_select_one_file#:#Please select exactly one file.###19 Dec 2003 new variable
+common#:#exc_select_one_file#:#Selecteer a.u.b. precies één bestand.
 common#:#exc_send_exercise#:#Zend oefening
 common#:#exc_sent#:#De oefening is naar de geselecteerde gebruikers gezonden
 common#:#exc_status_returned#:#Teruggekeerd
@@ -384,9 +384,9 @@ common#:#exc_status_saved#:#Oefening bijgewerkt
 common#:#exc_status_solved#:#Opgelost
 common#:#exc_upload_error#:#Fout bij het uploaden van het bestand
 common#:#exc_users#:#Gebruikers
-common#:#exc_visible#:#Exercise is visible###13 Jan 2004 new variable
-common#:#exc_write#:#Edit exercise###13 Jan 2004 new variable
-common#:#excs#:#Exercises###17 Dec 2003 new variable
+common#:#exc_visible#:#Oefening is zichtbaar
+common#:#exc_write#:#Wijzigen oefening
+common#:#excs#:#Oefeningen
 common#:#execute#:#Uitvoeren
 common#:#export_html#:#exporteren als html-bestand
 common#:#export_xml#:#exporteren als xml-estand
@@ -412,31 +412,31 @@ common#:#fold_a#:#een map
 common#:#fold_add#:#map toevoegen
 common#:#fold_added#:#Map toegevoegd
 common#:#fold_new#:#Nieuwe map
-common#:#folder#:#folder###17 Dec 2003 new variable
+common#:#folder#:#Map
 common#:#folders#:#Mappen
 common#:#force_accept_usr_agreement#:#U moet de gebruikers-overeenkomst accepteren!
 common#:#forename#:#Familienaam
 common#:#form_empty_fields#:#AUB volgende velden invullen:
 common#:#forum#:#Forum
-common#:#forum_notification#:#Notification###06 Feb 2004 new variable
-common#:#forum_notify_me#:#Notify me when a reply is posted###06 Feb 2004 new variable
-common#:#forum_post_replied#:#Your forum entry has been replied.###06 Feb 2004 new variable
+common#:#forum_notification#:#Bekendmaking
+common#:#forum_notify_me#:#Informeer mij wanneer een antwoord wordt ontvangen
+common#:#forum_post_replied#:#Uw forum-bijdrage is beantwoord.
 common#:#forums#:#Forums
 common#:#forums_overview#:#Forums-overzicht
 common#:#frm#:#Forum
 common#:#frm_a#:#een Forum
 common#:#frm_add#:#Forum toevoegen
 common#:#frm_added#:#Forum toegevoegd
-common#:#frm_create#:#Create Forum###13 Jan 2004 new variable
-common#:#frm_delete#:#Delete Forum###13 Jan 2004 new variable
-common#:#frm_delete_post#:#Delete a post###13 Jan 2004 new variable
-common#:#frm_edit#:#Forum wijzigen
-common#:#frm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#frm_edit_post#:#Edit a post###13 Jan 2004 new variable
+common#:#frm_create#:#Creëer forum
+common#:#frm_delete#:#Verwijder forum
+common#:#frm_delete_post#:#Verwijder een bijdrage
+common#:#frm_edit#:#Wijzig forum
+common#:#frm_edit_permission#:#Wijzig rechten-instellingen
+common#:#frm_edit_post#:#Wijzig een bijdrage
 common#:#frm_new#:#Nieuw Forum
-common#:#frm_read#:#Read access to Forum###13 Jan 2004 new variable
-common#:#frm_visible#:#Forum is visible###13 Jan 2004 new variable
-common#:#frm_write#:#Edit forum###13 Jan 2004 new variable
+common#:#frm_read#:#Lees-recht op forum
+common#:#frm_visible#:#Forum is zichtbaar
+common#:#frm_write#:#Wijzig forum/schrijf een bijdrage
 common#:#from#:#Van
 common#:#fullname#:#Volledige naam
 common#:#functions#:#Functies
@@ -445,26 +445,26 @@ common#:#gdf_new#:#Nieuwe definitie
 common#:#gender#:#Geslacht
 common#:#gender_f#:#Vrouwelijk
 common#:#gender_m#:#Mannelijk
-common#:#generate#:#Genereren
-common#:#glo#:#Woordenlijst
+common#:#generate#:#Genereer
+common#:#glo#:#Verklarende woordenlijst
 common#:#glo_a#:#een woordenlijst
 common#:#glo_add#:#Woordenlijst toevoegen
-common#:#glo_added#:#Woordenlijst toegevoegd###13 Jan 2004 content changed
-common#:#glo_create#:#Create Glossary###13 Jan 2004 new variable
-common#:#glo_delete#:#Delete Glossary###13 Jan 2004 new variable
-common#:#glo_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#glo_join#:#Subscribe to Glossary###13 Jan 2004 new variable
-common#:#glo_leave#:#Unsubscribe from Glossary###13 Jan 2004 new variable
+common#:#glo_added#:#Woordenlijst toegevoegd
+common#:#glo_create#:#Creëer woordenlijst
+common#:#glo_delete#:#Verwijder woordenlijst
+common#:#glo_edit_permission#:#Wijzig rechten-instellingen
+common#:#glo_join#:#Abonneer op een woordenlijst
+common#:#glo_leave#:#Abonnement op woordenlijst beëindigen
 common#:#glo_new#:#Nieuwe Woordenlijst
-common#:#glo_read#:#Read access to Glossary###13 Jan 2004 new variable
-common#:#glo_visible#:#Glossary is visible###13 Jan 2004 new variable
-common#:#glo_write#:#Edit Glossary###13 Jan 2004 new variable
+common#:#glo_read#:#Lees-recht op woordenlijst
+common#:#glo_visible#:#Woordenlijst is zichtbaar
+common#:#glo_write#:#Wijzigen woordenlijst
 common#:#glossaries#:#Glossaries
-common#:#glossary#:#Woordenlijst
+common#:#glossary#:#Verklarende woordenlijst
 common#:#glossary_added#:#Woordenlijst toegevoegd
 common#:#group_access_denied#:#Toegang gewijgerd
-common#:#group_any_objects#:#Geen sub-objecten beschikbaar
-common#:#group_create_chat#:#Create chat###18 Feb 2004 new variable
+common#:#group_any_objects#:#Geen subobjecten beschikbaar
+common#:#group_create_chat#:#Creëer chat
 common#:#group_desc#:#Groeps-beschrijving
 common#:#group_details#:#Groep File Sharing
 common#:#group_filesharing#:#Groeps-file-sharing
@@ -494,21 +494,21 @@ common#:#group_status_public#:#Publiek
 common#:#groups#:#Groepen
 common#:#groups_overview#:#Groepen-overzicht
 common#:#grp#:#Groep
-common#:#grp_a#:#een groep
+common#:#grp_a#:#een group
 common#:#grp_add#:#Toevoegen van een groep
 common#:#grp_added#:#Groep toegevoegd
-common#:#grp_create#:#Create Group###13 Jan 2004 new variable
-common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
-common#:#grp_create_file#:#User may upload Files###13 Jan 2004 new variable
-common#:#grp_create_fold#:#User may create Folders###13 Jan 2004 new variable
-common#:#grp_create_frm#:#Create Forum###13 Jan 2004 new variable
-common#:#grp_create_lm#:#Create Learning Module###13 Jan 2004 new variable
-common#:#grp_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#grp_delete#:#Delete Group###13 Jan 2004 new variable
-common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###14 Feb 2004 new variable
-common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###14 Feb 2004 new variable
+common#:#grp_create#:#Creëer groep
+common#:#grp_create_chat#:#Creëer Chat
+common#:#grp_create_file#:#Gebruiker mag bestanden uploaden
+common#:#grp_create_fold#:#De gebruiker mag mappen creëren
+common#:#grp_create_frm#:#Creëer forum
+common#:#grp_create_lm#:#Creëer lesmodule
+common#:#grp_create_slm#:#Creëer SCORM lesmodule
+common#:#grp_delete#:#Verwijder groep
+common#:#grp_dismiss_member#:#Weet u het zeker, dat u de volgende leden van de groep wil verwijderen.
+common#:#grp_dismiss_myself#:#Weet u het zeker, dat u uzelf van de groep wil verwijderen.
 common#:#grp_edit#:#Groep wijzigen
-common#:#grp_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#grp_edit_permission#:#Wijzig rechten-instellingen
 common#:#grp_err_administrator_required#:#Lid kan niet verwijderd worden, tenminste één administrateur per groep is verplicht !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Elke groep heeft op zijn minst één groeps-administrateur nodig
 common#:#grp_err_error#:#Er is en fout opgetreden
@@ -516,19 +516,19 @@ common#:#grp_err_last_member#:#Laatste lid kan niet verwijderd worden, verwijder
 common#:#grp_err_member_could_not_be_removed#:#Lid kan niet verwijderd worden. Controleer alle  afhankelijkheden van deze gebruiker.
 common#:#grp_err_no_permission#:#U bezit niet de rechten voor deze handeling.
 common#:#grp_err_registration_data#:#Voer een wachtwoord, de verval-datum en -tijd voor een geldige registratie-periode !
-common#:#grp_join#:#User may join Group###13 Jan 2004 new variable
-common#:#grp_leave#:#User may leave Group###13 Jan 2004 new variable
+common#:#grp_join#:#Gebruiker mag deelnemen aan de groep
+common#:#grp_leave#:#Gebruikermag de groep verlaten
 common#:#grp_mem_change_status#:#Lid-status wijzigen
 common#:#grp_mem_leave#:#Lid uit groep verwijderen
 common#:#grp_mem_send_mail#:#Lid een bericht sturen
 common#:#grp_msg_membership_annulled#:#Het lidmaatschap is gecancelled
 common#:#grp_name_exists#:#Er is al een groep met deze naam! Kies een andere naam s.v.p.
 common#:#grp_new#:#Nieuwe groep
-common#:#grp_read#:#Read access to Group###13 Jan 2004 new variable
+common#:#grp_read#:#Lees-recht tot de groep
 common#:#grp_register#:#Registreer
 common#:#grp_registration_completed#:#De registratie is klaar
-common#:#grp_visible#:#Group is visible###13 Jan 2004 new variable
-common#:#grp_write#:#Edit Group###13 Jan 2004 new variable
+common#:#grp_visible#:#De groep is zichtbaar
+common#:#grp_write#:#Groep wijzigen
 common#:#guest#:#Gast
 common#:#guests#:#Gasten
 common#:#help#:#Hulp
@@ -537,7 +537,7 @@ common#:#hide_structure#:#Structuurscherm verbergen
 common#:#hobby#:#Interessen/Hobbys
 common#:#home#:#Startscherm
 common#:#host#:#Host
-common#:#http_path#:#Http-pad
+common#:#http_path#:#HTTP-pad
 common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#ilias_version#:#ILIAS-versie
@@ -552,12 +552,12 @@ common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#in#:#in
 common#:#in_use#:#Gebruikers-taal
 common#:#inbox#:#Inbox
-common#:#info_assign_sure#:#Weet u zeker dat u de volgende gebruiker(s) wil toewijzen?
+common#:#info_assign_sure#:#Weet u zeker dat u de volgende gebruiker(s) wil toewijzen)?
 common#:#info_delete_sure#:#Weet u zeker dat u het/de volgende object(en) wilt verwijderen)?
 common#:#info_deleted#:#Object(en) verwijderd
 common#:#info_trash#:#Verwijderde objecten
 common#:#inform_user_mail#:#Zend en email om de gebruiker te informeren over de wijzigingen
-common#:#information_abbr#:#Informatie
+common#:#information_abbr#:#Info
 common#:#ingmedia_all_offers#:#Alle lessen
 common#:#ingmedia_back_to_le#:#Terug naar les
 common#:#ingmedia_good_afternoon#:#Goede middag
@@ -565,30 +565,30 @@ common#:#ingmedia_good_evening#:#Goede avond
 common#:#ingmedia_good_morning#:#Goede morgen
 common#:#ingmedia_good_night#:#Goede nacht
 common#:#ingmedia_hello#:#Hallo
-common#:#ingmedia_info_about_work1#:#U heeft hier op
+common#:#ingmedia_info_about_work1#:#Op
 common#:#ingmedia_info_about_work2#:#, voor het laatst online gewerkt. Door hier te klikken, kunt u nu daar verder werken, waar u vorige keer gestopt bent:
 common#:#ingmedia_level_zero#:#Niveau omhoog
 common#:#ingmedia_pers_dates#:#Persoonlijke gegevens
 common#:#ingmedia_reg_fo#:#Geregistreerde forums
 common#:#ingmedia_reg_le#:#Geregistereerde lessen
 common#:#ingmedia_use_info1#:#Hier kunt u uw persoonlijke gegevens wijzigen. Behalve uw INGMEDIA gebruikersnaam en wachtwoord, bent u niet verplicht verdere gegevens te verstrekken. Bedenk dat een vergeten wachtwoord alleen per e-mail toegestuurd kan worden (!).
-common#:#ingmedia_use_info2#:#Het gebruik van de speciale karakters  (zoals , ; . = - * + #) is niet toegestaan
+common#:#ingmedia_use_info2#:#Het is niet toegestaam speciale karakters (zoals , ; . = - * + #) te gebruiken
 common#:#ingmedia_use_info3#:#Kies AUB  één van de links in de menubalk hiernaast.
 common#:#ingmedia_use_title#:#Gebruikersgegevens wijzigen.
 common#:#ingmedia_user_agree#:#Overeenkomst
 common#:#ingmedia_vis_le#:#Bezochte lessen
 common#:#ingmedia_visited_le#:#Alle lessen die u tot nu toe hebt bezocht.
 common#:#ingmedia_welcome#:#, welkom op uw persoonlijk bureaublad!!
-common#:#inifile#:#ini-bestand
+common#:#inifile#:#Ini-bestand
 common#:#input_error#:#Invoer fout
 common#:#insert#:#Invoegen
 common#:#inst_id#:#Installatie-ID
 common#:#inst_info#:#Installatie-informatie
 common#:#inst_name#:#Naam installatie
-common#:#install#:#Installeren
+common#:#install#:#Installeer
 common#:#installed#:#Geïnstalleerd
 common#:#institution#:#Instituut
-common#:#internal_system#:#Intern system
+common#:#internal_system#:#intern systeem
 common#:#ip_address#:#IP-adres
 common#:#is_already_your#:#is reeds uw
 common#:#item#:#Item
@@ -606,7 +606,7 @@ common#:#lang_gr#:#Grieks
 common#:#lang_id#:#Indonesisch
 common#:#lang_it#:#Italiaans
 common#:#lang_ja#:#Japans
-common#:#lang_lt#:#Litauisch
+common#:#lang_lt#:#Litausch
 common#:#lang_nl#:#Nederlands
 common#:#lang_no#:#Noorweegs
 common#:#lang_path#:#Taal-pad
@@ -616,7 +616,7 @@ common#:#lang_se#:#Zweeds
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_timeformat#:#H:i:s
-common#:#lang_ua#:#Ukrainian###05 Jan 2004 new variable
+common#:#lang_ua#:#Oekrainsch
 common#:#lang_version#:#1
 common#:#lang_xx#:#Door gebruiker gedefinieerd
 common#:#lang_zh#:#Vereenvoudigd Chinees
@@ -632,10 +632,10 @@ common#:#last_visit#:#Laatste bezoek
 common#:#lastname#:#Achternaam
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
-common#:#ldap_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#ldap_read#:#Read access to LDAP settings###13 Jan 2004 new variable
-common#:#ldap_visible#:#LDAP settings are visible###13 Jan 2004 new variable
-common#:#ldap_write#:#Edit LDAP settings###13 Jan 2004 new variable
+common#:#ldap_edit_permission#:#Wijzig rechten-instellingen
+common#:#ldap_read#:#Lees-recht tot LDAP-instellingen
+common#:#ldap_visible#:#LDAP-instellingen zijn zichtbaar
+common#:#ldap_write#:#Wijzig LDAP-instellingen
 common#:#learning_objects#:#Lesobjecten
 common#:#learning_resources#:#Leerbronnen
 common#:#level#:#Niveau
@@ -646,23 +646,23 @@ common#:#list_of_questions#:#Vragenlijst
 common#:#literature#:#Literatuur
 common#:#literature_bookmarks#:#Literatuur bookmarks
 common#:#lm#:#Lesmodule
-common#:#lm_a#:#een lesmodule###13 Jan 2004 content changed
+common#:#lm_a#:#een lesmodule
 common#:#lm_add#:#Lesmodule toevoegen
-common#:#lm_added#:#Lesmodule toegevoegd###13 Jan 2004 content changed
-common#:#lm_create#:#Create Learning Module###13 Jan 2004 new variable
-common#:#lm_delete#:#Delete Learning Module###13 Jan 2004 new variable
-common#:#lm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#lm_join#:#Subscribe to Learning Module###13 Jan 2004 new variable
-common#:#lm_leave#:#Unsubscribe from Learning Module###13 Jan 2004 new variable
+common#:#lm_added#:#Lesmodule toegevoegd
+common#:#lm_create#:#Creëer lesmodule
+common#:#lm_delete#:#Verwijder lesmodule
+common#:#lm_edit_permission#:#Wijzig rechten-instellingen
+common#:#lm_join#:#Abonneer op  lesmodule
+common#:#lm_leave#:#Abonnement op lesmodule beëindigen
 common#:#lm_new#:#Nieuwe lesmodule
-common#:#lm_read#:#Read access to Learning Module###13 Jan 2004 new variable
-common#:#lm_visible#:#Learning Module is visible###13 Jan 2004 new variable
-common#:#lm_write#:#Edit Learning Module###13 Jan 2004 new variable
+common#:#lm_read#:#Lees-recht op lesmodule
+common#:#lm_visible#:#Lesmodule is zichtbaar
+common#:#lm_write#:#Wijzig lesmodule
 common#:#lng#:#Taal
-common#:#lngf#:#Taal-map###13 Jan 2004 content changed
-common#:#lngf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#lngf_read#:#Read access to Language settings###13 Jan 2004 new variable
-common#:#lngf_visible#:#Language settings are visible###13 Jan 2004 new variable
+common#:#lngf#:#Talen
+common#:#lngf_edit_permission#:#Wijzig rechten-instellingen
+common#:#lngf_read#:#Lees-recht op  taal-instellingen
+common#:#lngf_visible#:#Taal-instellingen
 common#:#lo#:#Leer-object
 common#:#lo_available#:#Overzicht van lesmodulen en cursussen
 common#:#lo_categories#:#Lesobject-kategoriën
@@ -678,7 +678,7 @@ common#:#login_data#:#Login-gegevens
 common#:#login_exists#:#Deze gebruikersnaam is reeds geregistreerd! Kies AUB een andere.
 common#:#login_time#:#Actuele online-tijd
 common#:#login_to_ilias#:#Inloggen op ILIAS
-common#:#logout#:#Uiloggen
+common#:#logout#:#Uitloggen
 common#:#logout_text#:#U bent uitgelogd. Uw sessie is gesloten.
 common#:#los#:#Lesobjecten
 common#:#los_last_visited#:#Laatst bezochte lesobjecten
@@ -692,7 +692,7 @@ common#:#mail_d_drafts#:#Klad
 common#:#mail_delete_error#:#Fout bij verwijderen
 common#:#mail_delete_error_file#:#Fout bij het verwijderen van bestand
 common#:#mail_e_sent#:#Gezonden
-common#:#mail_edit_permission#:#Change permission settings###13 Jan 2004 new variable
+common#:#mail_edit_permission#:#Wijzig rechten-instellingen
 common#:#mail_folders#:#Post-mappen
 common#:#mail_intern_enable#:#Inschakelen
 common#:#mail_mails_of#:#Mails
@@ -700,26 +700,26 @@ common#:#mail_maxsize_attach#:#Max. attachment-grootte
 common#:#mail_maxsize_box#:#Max. mailbox-grootte
 common#:#mail_maxsize_mail#:#Max. mail-grootte
 common#:#mail_maxtime_attach#:#Max. dagen bewaartijd attachments
-common#:#mail_maxtime_mail#:#Max. dagen bewaartijd mails
+common#:#mail_maxtime_mail#:#Max. dagen bewaartijd mail
 common#:#mail_not_sent#:#Mail niet gezonden!
-common#:#mail_read#:#Read access to Mail settings###13 Jan 2004 new variable
+common#:#mail_read#:#Lees-recht op mail-instellingen
 common#:#mail_search_no#:#Geen ingangen gevonden
 common#:#mail_search_word#:#Zoek woord
 common#:#mail_select_one#:#U moet een mail selecteren
 common#:#mail_send_error#:#Fout bij zenden mail
 common#:#mail_sent#:#Mail gezonden!
-common#:#mail_smtp_mail#:#User may send mail via SMTP###13 Jan 2004 new variable
+common#:#mail_smtp_mail#:#Gebruiker mag mail via SMTP zenden
 common#:#mail_system#:#Systeem-bericht
-common#:#mail_system_message#:#User may send internal system messages###13 Jan 2004 new variable
-common#:#mail_visible#:#Mail settings are visible###13 Jan 2004 new variable
-common#:#mail_write#:#Edit Mail settings###13 Jan 2004 new variable
+common#:#mail_system_message#:#Gebruiker mag berichten via intern systeem zenden
+common#:#mail_visible#:#Mail-instellingen zijn zichtbaar
+common#:#mail_write#:#Wijzig Mail-instellingen
 common#:#mail_z_local#:#Gebruikers-mappen
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Markeer alles als gelezen
 common#:#mark_all_unread#:#Markeer alles als niet gelezen
 common#:#member#:#Lid
 common#:#members#:#Leden
-common#:#membership_annulled#:#Uw lidmaatschap is gecancelled
+common#:#membership_annulled#:#Uw lidmaatschap is beëindigd
 common#:#message#:#Bericht
 common#:#message_content#:#Inhoud-bericht
 common#:#message_to#:#Bericht aan:
@@ -729,7 +729,7 @@ common#:#mob#:#Media-object
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#month#:#Maand
-common#:#move#:#Move###20 Jan 2004 new variable
+common#:#move#:#Verplaatsen
 common#:#moveChapter#:#Verplaatsen
 common#:#movePage#:#Verplaatsen
 common#:#move_to#:#Verplaatsen naar
@@ -755,16 +755,16 @@ common#:#msg_min_one_active_role#:#Elke gebruiker moet op zijn minst één actie
 common#:#msg_min_one_role#:#Elke gebruiker moet op zijn minst één globale rol hebben!
 common#:#msg_multi_language_selected#:#U hebt dezelfde taal voor verschillende vertalingen gekozen!
 common#:#msg_no_default_language#:#Geen standaard-taal gespecificeerd! U moet één  default-taal definiëren.
-common#:#msg_no_delete_yourself#:#U kunt uw eigen gebruikers-account niet verwijderen.
-common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
+common#:#msg_no_delete_yourself#:#U kunt uw eigen gebruikers-registratie niet verwijderen
+common#:#msg_no_file#:#U hebt geen bestand gekozen
 common#:#msg_no_language_selected#:#Geen vertaal-taal gespecificeerd! U moet een taal  definiëren voor elke vertaling
-common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
+common#:#msg_no_perm_assign_role_to_user#:#U heeft geen rechten om rol-toewijzing van de gebruiker te wijzigen
 common#:#msg_no_perm_copy#:#U heeft geen toestemming voor het creëren van een kopie van het/de volgende object(en):
 common#:#msg_no_perm_create#:#U heeft geen toestemming voor het creëren van het/de volgende object(en):
 common#:#msg_no_perm_create_object1#:#U heeft geen toestemming voor het creëren van
 common#:#msg_no_perm_create_object2#:#op deze locatie!
 common#:#msg_no_perm_create_role#:#U heeft geen toestemming voor het toevoegen van rollen
-common#:#msg_no_perm_create_rolf#:#U heeft geen toestemming voor het creëren van een rollen-map. Daarom mag u het erven van rollen of het hier toevoegen van lokale rollen niet stoppen.
+common#:#msg_no_perm_create_rolf#:#U hebt geen rechten om een map voor rollen te creëren.  Daarom mag u het erven van rollen niet tegenhouden en mag u hier geen rollen toevoegen.
 common#:#msg_no_perm_create_rolt#:#U heeft geen toestemming voor het toevoegen van rol-sjablonen
 common#:#msg_no_perm_create_user#:#U heeft geen toestemming voor het toevoegen van gebruikers
 common#:#msg_no_perm_cut#:#U heeft geen toestemming voor het knippen van het/de volgende object(en):
@@ -781,17 +781,17 @@ common#:#msg_no_rolf_allowed1#:#Het object
 common#:#msg_no_rolf_allowed2#:#kan geen rollen-map bevatten
 common#:#msg_no_search_result#:#Geen ingangen gevonden
 common#:#msg_no_search_string#:#Voer uw vraag in a.u.b
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#U mag gebruikers niet toewijzen aan de rol Systeem-administrateur als aan uzelf deze rol niet is toegewezentoewijzen gebruikers Rol Rol 
 common#:#msg_not_available_for_anon#:#De pagine die uw heeft gekozen is alleen toegankelijk voor geregistreerde gebruikers
 common#:#msg_not_in_itself#:#Het is niet mogelijk het object in zichzelf te plakken
 common#:#msg_nothing_found#:#msg_nothing_found
 common#:#msg_obj_created#:#Object  gecreëerd.
 common#:#msg_obj_exists#:#Dit object bestaat al in deze map
 common#:#msg_obj_modified#:#Wijzigingen opgeslagen.
-common#:#msg_obj_no_link#:#are not allowed to be linked###18 Feb 2004 new variable
+common#:#msg_obj_no_link#:#mogen niet gelinked worden
 common#:#msg_perm_adopted_from1#:#Instellingen van rechten overgenomen van
 common#:#msg_perm_adopted_from2#:#(Instellingen zijn opgeslagen!)
-common#:#msg_perm_adopted_from_itself#:#U kunt de instellingen van rechten niet overnemen van de huidige rol-sjabloon/sjablonen zelf.
+common#:#msg_perm_adopted_from_itself#:#U kunt geen  rechten-instellingen van de huidige rol/rollen-sjabloon overnemen
 common#:#msg_removed#:#Object(en) verwijderd van het systeem.
 common#:#msg_role_exists1#:#Een rol/rol-sjabloon met dezelfde naam
 common#:#msg_role_exists2#:#bestaat al! Kies een andere naam
@@ -821,7 +821,7 @@ common#:#new_mail#:#Nieuwe mail!
 common#:#news#:#Nieuws
 common#:#next#:#volgende
 common#:#nickname#:#Login
-common#:#no#:#Nee
+common#:#no#:#No
 common#:#no_bm_in_personal_list#:#Geen bookmarken gedefiniëerd.
 common#:#no_checkbox#:#Geen keuze gemaakt!
 common#:#no_date#:#Geen datum
@@ -840,15 +840,15 @@ common#:#obj#:#Object
 common#:#obj_adm#:#Systeem-instellingen
 common#:#obj_adm_desc#:#Bevat alle functionaliteit voor de administratie van uw  ILIAS-installatie.
 common#:#obj_cat#:#Kategorie
-common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
-common#:#obj_chat#:#Chat###18 Feb 2004 new variable
+common#:#obj_chac#:#Chat-instellingen
+common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Cursus
 common#:#obj_dbk#:#Digilib-boek
-common#:#obj_exc#:#Exercise###13 Jan 2004 new variable
+common#:#obj_exc#:#Oefening
 common#:#obj_file#:#Bestand
 common#:#obj_fold#:#Map
 common#:#obj_frm#:#Forum
-common#:#obj_glo#:#Woordenlijst
+common#:#obj_glo#:#Verklarende woordenlijst
 common#:#obj_grp#:#Groep
 common#:#obj_ldap#:#LDAP-instellingen
 common#:#obj_ldap_desc#:#Configureer de globale LDAP-instellingen hier.
@@ -859,63 +859,63 @@ common#:#obj_lngf_desc#:#Beheer uw systeem-talen hier.
 common#:#obj_lo#:#Leerobject
 common#:#obj_mail#:#Mail-instellingen
 common#:#obj_mail_desc#:#Configureer de globale Mail-instellingen hier.
-common#:#obj_mob#:#Multimedia Object###13 Jan 2004 new variable
+common#:#obj_mob#:#Multimedia-object
 common#:#obj_not_found#:#Object niet gevonden
 common#:#obj_note#:#Notitie
 common#:#obj_notf#:#Notitie-administratie
 common#:#obj_objf#:#Object-definities
 common#:#obj_objf_desc#:#Beheer van ILIAS object-typen en object-rechten. (alleen voor experts!)
 common#:#obj_owner#:#Dit object is eigendom van
-common#:#obj_pg#:#Pagina
-common#:#obj_qpl#:#Question Pool###04 Feb 2004 new variable
+common#:#obj_pg#:#Bladzijde
+common#:#obj_qpl#:#Vraagbak
 common#:#obj_role#:#Rol
 common#:#obj_rolf#:#Rollen
 common#:#obj_rolf_desc#:#Beheer uw rollen hier.
 common#:#obj_rolf_local#:#Lokale rollen
 common#:#obj_rolf_local_desc#:#Bevat lokale rollen van objectnr.
 common#:#obj_rolt#:#Rol-sjabloon
-common#:#obj_root#:#root###13 Jan 2004 content changed
-common#:#obj_slm#:#SCORM lesmodule###31 Jan 2004 content changed
+common#:#obj_root#:#ILIAS root node
+common#:#obj_slm#:#SCORM lesmodule
 common#:#obj_st#:#Hoofdstuk
-common#:#obj_tst#:#Test###04 Feb 2004 new variable
+common#:#obj_tst#:#Test
 common#:#obj_typ#:#Object-type definitie
 common#:#obj_type#:#Object-type
 common#:#obj_uset#:#Gebruikers-instellingen
 common#:#obj_usr#:#Gebruiker
-common#:#obj_usrf#:#Gebruiker
+common#:#obj_usrf#:#Gebruikers-registraties
 common#:#obj_usrf_desc#:#Beheer gebruiker-accounts hier.
 common#:#objects#:#Objecten
 common#:#objf#:#Object-definities
-common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
-common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
-common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
-common#:#objs_cat#:#Categories###18 Feb 2004 new variable
+common#:#objf_edit_permission#:#Wijzig rechten-instellingen
+common#:#objf_read#:#Lees-recht op object-definities
+common#:#objf_visible#:#Object-definities zijn zichtbaar
+common#:#objf_write#:#Wijzig object-definities
+common#:#objs_cat#:#Kategoriën
 common#:#objs_confirm#:#Bevestig activiteit
-common#:#objs_crs#:#Courses###18 Feb 2004 new variable
-common#:#objs_dbk#:#Digilib Books###18 Feb 2004 new variable
+common#:#objs_crs#:#Cursussen
+common#:#objs_dbk#:#Digilib-boeken
 common#:#objs_delete#:#Verwijderen objecten
-common#:#objs_exc#:#Exersices###18 Feb 2004 new variable
-common#:#objs_file#:#Files###18 Feb 2004 new variable
-common#:#objs_fold#:#Folders###18 Feb 2004 new variable
-common#:#objs_frm#:#Forums###18 Feb 2004 new variable
-common#:#objs_glo#:#Glossaries###18 Feb 2004 new variable
-common#:#objs_grp#:#Groups###18 Feb 2004 new variable
-common#:#objs_lm#:#Learning Modules###18 Feb 2004 new variable
-common#:#objs_lng#:#Languages###18 Feb 2004 new variable
-common#:#objs_lo#:#Learning Objects###18 Feb 2004 new variable
-common#:#objs_mob#:#Multimedia Objects###18 Feb 2004 new variable
-common#:#objs_note#:#Notes###18 Feb 2004 new variable
-common#:#objs_pg#:#Pages###18 Feb 2004 new variable
-common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
-common#:#objs_role#:#Roles###18 Feb 2004 new variable
-common#:#objs_rolt#:#Role Templates###18 Feb 2004 new variable
-common#:#objs_slm#:#SCORM Learning Modules###18 Feb 2004 new variable
-common#:#objs_st#:#Chapters###18 Feb 2004 new variable
-common#:#objs_tst#:#Tests###18 Feb 2004 new variable
-common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
-common#:#objs_usr#:#Users###18 Feb 2004 new variable
-common#:#of#:#van
+common#:#objs_exc#:#Oefeningen
+common#:#objs_file#:#Bestanden
+common#:#objs_fold#:#Mappen
+common#:#objs_frm#:#Forums
+common#:#objs_glo#:#Glossaries
+common#:#objs_grp#:#Groepen
+common#:#objs_lm#:#Lesmodules
+common#:#objs_lng#:#Talen
+common#:#objs_lo#:#Lesobjecten
+common#:#objs_mob#:#Multimedia Objecten
+common#:#objs_note#:#Opmerkingen
+common#:#objs_pg#:#Pagina's
+common#:#objs_qpl#:#Vraagbakken
+common#:#objs_role#:#Rollen
+common#:#objs_rolt#:#Rol-sjablonen
+common#:#objs_slm#:#SCORM lesmodules
+common#:#objs_st#:#Hoofdstukken
+common#:#objs_tst#:#Testen
+common#:#objs_type#:#Object-types
+common#:#objs_usr#:#Gebruikers
+common#:#of#:#Van
 common#:#offline_version#:#Offline Versie
 common#:#ok#:#OK
 common#:#old#:#Oud
@@ -928,7 +928,7 @@ common#:#order_by#:#In volgorder van
 common#:#other#:#Andere
 common#:#overview#:#Overzicht
 common#:#owner#:#Eigenaar
-common#:#page#:#Pagina
+common#:#page#:#Bladzijde
 common#:#page_edit#:#Wijzigen Pagina
 common#:#pages#:#Pagina's
 common#:#parameter#:#Parameter
@@ -951,10 +951,10 @@ common#:#path_to_unzip#:#Pad naar Unzip
 common#:#path_to_zip#:#Pad naar Zip
 common#:#pathes#:#Paden
 common#:#payment_system#:#Betaal-systeem
-common#:#perm_settings#:#Rechten
-common#:#permission#:#Recht
+common#:#perm_settings#:#Toestemming
+common#:#permission#:#Toestemming
 common#:#permission_denied#:#Toegang gewijgerd
-common#:#permission_settings#:#Permission settings###17 Jan 2004 new variable
+common#:#permission_settings#:#Rechten-instellingen
 common#:#personal_data#:#Persoonlijke informatie
 common#:#personal_desktop#:#Persoonlijke scherm
 common#:#personal_picture#:#Persoonlijke plaatje
@@ -986,40 +986,40 @@ common#:#publication#:#Publikatie
 common#:#publication_date#:#Publikatie-datum
 common#:#published#:#gepubliceerd
 common#:#publishing_organisation#:#Uitgevers-organisatie
-common#:#qpl#:#Question pool###04 Feb 2004 new variable
-common#:#qpl_add#:#Add question pool###04 Feb 2004 new variable
-common#:#qpl_delete#:#Delete Question Pool###04 Feb 2004 new variable
-common#:#qpl_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
-common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
-common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
-common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
+common#:#qpl#:#Vraagbak
+common#:#qpl_add#:#Toevoegen aan vraagbak
+common#:#qpl_delete#:#Verwijder vraagbak
+common#:#qpl_edit_permission#:#Wijzig rechten-instellingen
+common#:#qpl_new#:#Nieuwe vraagbak
+common#:#qpl_read#:#Lees-rechten op vraagbak
+common#:#qpl_visible#:#De vraagbak is zichtbaar
+common#:#qpl_write#:#Wijzig vraagbak
 common#:#question#:#Vraag
-common#:#question_pools#:#Question pools###04 Feb 2004 new variable
+common#:#question_pools#:#Vraagbakken
 common#:#quit#:#Loguit
 common#:#quote#:#Citeren
-common#:#read#:#Lezen
+common#:#read#:#Lees
 common#:#recipient#:#Ontvanger
 common#:#refresh#:#Verversen
 common#:#refresh_languages#:#Ververs talen
-common#:#refresh_list#:#Ververs lijs
+common#:#refresh_list#:#Ververs lijst
 common#:#register#:#Registreer
-common#:#register_info#:#A.u.b. vul het registratie-formulier in (Velden met een asteriks zijn verplicht).###09 Feb 2004 content changed
+common#:#register_info#:#A.u.b. vul het registratie-formulier in (Velden met een asteriks zijn verplicht).
 common#:#registered_since#:#Registreerd sinds
 common#:#registered_user#:#geregistreerde gebruiker
 common#:#registered_users#:#geregistreerde gebruikers
 common#:#registration#:#Registratie van een nieuw account
-common#:#registration_expired#:#De registratie-peride is verlopen
+common#:#registration_expired#:#De registratie-peride is verlopen...
 common#:#remove#:#Verwijder
 common#:#remove_translation#:#Verwijder vertaling
 common#:#rename#:#Geef een nieuwe naam
-common#:#reply#:#Beantwoorden
+common#:#reply#:#Beantwoord
 common#:#repository#:#Depot
 common#:#required_field#:#Verplicht veld
 common#:#reset#:#Terugzetten
 common#:#resources#:#Bronnen
 common#:#retype_password#:#Type wachtwoord opnieuw
-common#:#right#:#Recht
+common#:#right#:#Rechten
 common#:#rights#:#Rechten
 common#:#role#:#Rol
 common#:#role_a#:#een rol
@@ -1032,28 +1032,28 @@ common#:#role_edit#:#Wijzigen rol
 common#:#role_new#:#Nieuwe rol
 common#:#roles#:#Rollen
 common#:#roles_of_import#:#Roles of Import File###27 Feb 2004 new variable
-common#:#rolf#:#Rol Map###13 Jan 2004 content changed
+common#:#rolf#:#Rollen
 common#:#rolf_added#:#Rolmap toegevoegd
-common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable
-common#:#rolf_create_rolt#:#Create new Role definition template###13 Jan 2004 new variable
-common#:#rolf_delete#:#Delete Roles/Role templates###13 Jan 2004 new variable
-common#:#rolf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#rolf_edit_userassignment#:#Change userassignment of Roles###22 Jan 2004 new variable
-common#:#rolf_read#:#Read access to Roles/Role templates###13 Jan 2004 new variable
-common#:#rolf_visible#:#Roles/Role templates are visible###13 Jan 2004 new variable
-common#:#rolf_write#:#Edit Roles/Role templates###13 Jan 2004 new variable
+common#:#rolf_create_role#:#Creëer nieuwe rol-definitie
+common#:#rolf_create_rolt#:#Creëer nieuwe rol-definitie-sjabloon
+common#:#rolf_delete#:#Verwijderen rol-sjabloons
+common#:#rolf_edit_permission#:#Wijzig rechten-instellingen
+common#:#rolf_edit_userassignment#:#Wijzigen gebruikers-toewijzing aan rollen
+common#:#rolf_read#:#Lees-rechten op rol-sjablonen
+common#:#rolf_visible#:#Rol-sjablonen zijn zichtbaar
+common#:#rolf_write#:#Wijzig standaard recht-instellingen op de rol-sjablonen
 common#:#rolt#:#Rol-sjabloon
 common#:#rolt_a#:#een rol-sjabloon
 common#:#rolt_add#:#Toevoegen rol-sjabloon
 common#:#rolt_added#:#Rol-sjabloon toegevoegd
 common#:#rolt_edit#:#Wijzigen rol-sjabloon
 common#:#rolt_new#:#Nieuwe rol-sjabloon
-common#:#root_create_cat#:#User may create Categories###13 Jan 2004 new variable
-common#:#root_edit#:#Edit system rootnode###29 Jan 2004 new variable
-common#:#root_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#root_read#:#Read access to ILIAS system###13 Jan 2004 new variable
-common#:#root_visible#:#ILIAS system is visible###13 Jan 2004 new variable
-common#:#root_write#:#Edit ILIAS root node data ###13 Jan 2004 new variable
+common#:#root_create_cat#:#Gebruiker mag kategoriën creëren
+common#:#root_edit#:#Wijzigen de systeem-root
+common#:#root_edit_permission#:#Wijzig rechten-instellingen
+common#:#root_read#:#Lees-rechten op het ILIAS-systeem
+common#:#root_visible#:#Het ILIAS-systeem is zichtbaar
+common#:#root_write#:#Wijzigen de meta-gegevens van de system root node
 common#:#salutation#:#Aanhef
 common#:#salutation_f#:#Hr./Mevr.
 common#:#salutation_m#:#Mr.
@@ -1071,12 +1071,12 @@ common#:#search_recipient#:#Zoek ontvanger
 common#:#search_result#:#Zoek resultaat
 common#:#search_user#:#Zoek gebruiker
 common#:#sections#:#Secties
-common#:#select#:#Selecteren
+common#:#select#:#Selecteer
 common#:#select_all#:#Selecteer alles
 common#:#select_file#:#Selecteer bestand
 common#:#select_mode#:#Selecteer modus
 common#:#selected#:#Geselecteerd
-common#:#send#:#zend
+common#:#send#:#Zend
 common#:#sender#:#Zender
 common#:#sent#:#Gezonden
 common#:#sequence#:#Volgorde
@@ -1096,16 +1096,16 @@ common#:#show_members#:#Laat leden zien
 common#:#show_owner#:#Laat eigenaar zien
 common#:#show_structure#:#Schakelen structured-View in
 common#:#signature#:#Handtekening
-common#:#slm#:#SCORM lesmodule###13 Jan 2004 content changed
-common#:#slm_added#:#SCORM Lesmodule toegevoegd###13 Jan 2004 content changed
-common#:#slm_create#:#Create SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_delete#:#Delete SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#slm_join#:#Subscribe to SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_leave#:#Unsubscribe from SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_read#:#Read access to SCORM Learning Module###13 Jan 2004 new variable
-common#:#slm_visible#:#SCORM Learning Module is visible###13 Jan 2004 new variable
-common#:#slm_write#:#Edit SCORM Learning Module###13 Jan 2004 new variable
+common#:#slm#:#SCORM lesmodule
+common#:#slm_added#:#SCORM lesmodule toegevoegd
+common#:#slm_create#:#Creëer SCORM lesmodule
+common#:#slm_delete#:#Verwijder SCORM lesmodule
+common#:#slm_edit_permission#:#Wijzig rechten-instellingen
+common#:#slm_join#:#Abonneren op SCORM lesmodule
+common#:#slm_leave#:#Abonnement beëindigen op SCORM lesmodule
+common#:#slm_read#:#Leesrechten op SCORM lesmodule
+common#:#slm_visible#:#SCORM lesmodule is zichtbaar
+common#:#slm_write#:#Wijzig SCORM lesmodule
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sorteer op deze kolom
 common#:#st_a#:#een hoofdstuk
@@ -1115,7 +1115,7 @@ common#:#st_edit#:#Wijzigen hoofdstuk
 common#:#st_new#:#Nieuw hoofdstuk
 common#:#startpage#:#Startpagina
 common#:#status#:#Status
-common#:#step#:#Stap
+common#:#step#:#Het ILIAS-systeem is zichtbaar
 common#:#stop_inheritance#:#Stop overerven
 common#:#street#:#Straat
 common#:#structure#:#Indeling
@@ -1130,30 +1130,30 @@ common#:#system#:#Systeem
 common#:#system_choose_language#:#Systeemtaal kiezen
 common#:#system_groups#:#Systeem-groepen
 common#:#system_grp#:#Systeem-groep
-common#:#system_language#:#Systeemtaal
+common#:#system_language#:#Systeem-taal
 common#:#system_message#:#Systeem-bericht
 common#:#term#:#Begrip
 common#:#test_intern#:#Interne test
-common#:#tests#:#Tests###04 Feb 2004 new variable
+common#:#tests#:#Testen
 common#:#time#:#Tijd
 common#:#title#:#Titel
-common#:#to#:#Aan
-common#:#to_client_list#:#To Client selection###17 Dec 2003 new variable
-common#:#to_desktop#:#Abonneren
+common#:#to#:#To
+common#:#to_client_list#:#Naar klant-selectie
+common#:#to_desktop#:#Abonneer
 common#:#today#:#Vandaag
 common#:#total#:#Totaal
 common#:#tpl_path#:#Sjabloon-pad
 common#:#translation#:#Vertaling
 common#:#trash#:#Prullenbak
 common#:#treeview#:#Tonen
-common#:#tst#:#Test###04 Feb 2004 new variable
-common#:#tst_add#:#Add test###04 Feb 2004 new variable
-common#:#tst_delete#:#Delete Test###04 Feb 2004 new variable
-common#:#tst_edit_permission#:#Change permission settings###04 Feb 2004 new variable
-common#:#tst_new#:#New test###04 Feb 2004 new variable
-common#:#tst_read#:#Read access to Test###04 Feb 2004 new variable
-common#:#tst_visible#:#Test is visible###04 Feb 2004 new variable
-common#:#tst_write#:#Edit Test###04 Feb 2004 new variable
+common#:#tst#:#Test
+common#:#tst_add#:#Toevoegen test
+common#:#tst_delete#:#Verwijder test
+common#:#tst_edit_permission#:#Wijzig rechten-instellingen
+common#:#tst_new#:#Nieuwe test
+common#:#tst_read#:#Leesrechten op test
+common#:#tst_visible#:#De test is zichbaar
+common#:#tst_write#:#Wijzig test
 common#:#txt_add_object_instruction1#:#Blader naar de locatie waar u wilt toevoegen
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#U heeft u met succes aangemeld aan ILIAS. A.u.b. klik op de onderstaande button om op ILIAS in te  loggen met uw gebruikers-account.
@@ -1161,11 +1161,11 @@ common#:#typ#:#Objecttype-definition
 common#:#type#:#Type
 common#:#type_your_message_here#:#Type uw bericht hier
 common#:#uid#:#UID
-common#:#uninstall#:#Deïnstalleer
+common#:#uninstall#:#De-installeer
 common#:#uninstalled#:#Gedeïnstalleerd.
 common#:#unknown#:#Onbekend
 common#:#unread#:#Ongelezen
-common#:#unsubscribe#:#abonnement beëindigen
+common#:#unsubscribe#:#Abonnement beëindigen
 common#:#up#:#Omhoog
 common#:#update_applied#:#Bijgewerkt
 common#:#update_language#:#Taal bijwerken
@@ -1177,7 +1177,7 @@ common#:#user_added#:#Gebruiker toegevoegd
 common#:#user_assignment#:#Gebruiker-toewijzing
 common#:#user_deleted#:#Gebruiker gewist
 common#:#user_language#:#Gebruikers-taal
-common#:#user_not_chosen#:#You did not choose a group-member!###17 Dec 2003 new variable
+common#:#user_not_chosen#:#U heeft geen groeps-lid gekozen!
 common#:#userdata#:#Gebruikers-gegevens
 common#:#username#:#Gebruikers-naam
 common#:#users#:#Gebruikers
@@ -1188,27 +1188,27 @@ common#:#usr_add#:#Toevoegen gebruiker
 common#:#usr_added#:#Gebruiker toegevoegd
 common#:#usr_agreement#:#Gebruikers-overeenkomst
 common#:#usr_agreement_empty#:#De overeenkomst bevat geen tekst
-common#:#usr_edit#:#Wijzigen gebruiker
+common#:#usr_edit#:#Wijzig gebruiker
 common#:#usr_new#:#Nieuwe gebruiker
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#Gebruikers-stijl
-common#:#usrf#:#Gebruikers-map###13 Jan 2004 content changed
-common#:#usrf_create_user#:#Create new user account###13 Jan 2004 new variable
-common#:#usrf_delete#:#Delete user accounts###13 Jan 2004 new variable
-common#:#usrf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
-common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###22 Jan 2004 new variable
-common#:#usrf_read#:#Read access to user accounts###13 Jan 2004 new variable
-common#:#usrf_visible#:#User accounts are visible###13 Jan 2004 new variable
-common#:#usrf_write#:#Edit user accounts###13 Jan 2004 new variable
+common#:#usrf#:#Gebruikers-registraties
+common#:#usrf_create_user#:#Creëer een nieuwe gebruiker
+common#:#usrf_delete#:#Verwijder een gebruiker
+common#:#usrf_edit_permission#:#Wijzig de toegang tot gebruikers
+common#:#usrf_edit_roleassignment#:#Wijzig de rol-toewijzing aan gebruikers
+common#:#usrf_read#:#Leesrechten op gebruikers
+common#:#usrf_visible#:#Gebruikers zijn zichtbaar
+common#:#usrf_write#:#Wijzig gebruikers
 common#:#validate#:#Valideer
 common#:#value#:#Waarde
 common#:#version#:#Versie
-common#:#view#:#Tonen
+common#:#view#:#View
 common#:#view_content#:#Toon inhoud
 common#:#visible_layers#:#Zichtbare laag
 common#:#visits#:#Boezoeken
 common#:#week#:#Week
-common#:#welcome#:#Welcome###20 Jan 2004 new variable
+common#:#welcome#:#Welkom
 common#:#who_is_online#:#Wie is online?
 common#:#with#:#met
 common#:#write#:#Schrijven
@@ -1220,10 +1220,10 @@ common#:#zipcode#:#Postkode
 content#:#HTML export#:#HTM-export
 content#:#PDF export#:#PDF-export
 content#:#Pages#:#Pagina's
-content#:#all#:#Alles
+content#:#all#:#Allemaal
 content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
-content#:#cont_Circle#:#Circle###17 Jan 2004 new variable
+content#:#cont_Circle#:#Cirkel
 content#:#cont_Citation#:#Citaat
 content#:#cont_Example#:#Voorbeeld
 content#:#cont_Headline1#:#Kopregel 1
@@ -1233,20 +1233,20 @@ content#:#cont_List#:#Lijst
 content#:#cont_LocalFile#:#Lokaal-bestand
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Nummer
-content#:#cont_Poly#:#Polygon###17 Jan 2004 new variable
-content#:#cont_Rect#:#Rectangle###17 Jan 2004 new variable
+content#:#cont_Poly#:#Polygoon
+content#:#cont_Rect#:#Rechthoek
 content#:#cont_Reference#:#Referentie
 content#:#cont_Remark#:#Opmerking
 content#:#cont_Roman#:#Romeins I, II, ...
 content#:#cont_Unordered#:#Ongesorteerd
-content#:#cont_add_area#:#Add Area###15 Jan 2004 new variable
+content#:#cont_add_area#:#Toevoegen gebied
 content#:#cont_add_definition#:#Definitie toevoegen
 content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
 content#:#cont_added_term#:#Begrip toegevoegd
 content#:#cont_all_definitions#:#Alle definities
 content#:#cont_all_pages#:#Alle paginas
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
-content#:#cont_areas_deleted#:#Map areas deleted.###07 Feb 2004 new variable
+content#:#cont_areas_deleted#:#Kaart-gebieden verwijderd.
 content#:#cont_assign_full#:#Toewijzen Fullscreen
 content#:#cont_assign_std#:#Toewijzen Standaard
 content#:#cont_assign_translation#:#Toewijzen vertaling
@@ -1267,21 +1267,21 @@ content#:#cont_choose_glossary#:#Kies de woordenlijst
 content#:#cont_citation_err_one#:#U moet exact één editie kiezen
 content#:#cont_citation_selection_not_valid#:#Uw selectie is niet geldig
 content#:#cont_citations#:#Citaten
-content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_center#:#Please click on center of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_circle#:#Please click on a circle point of the desired area.###29 Jan 2004 new variable
-content#:#cont_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###07 Feb 2004 new variable
-content#:#cont_click_next_point#:#Please click on the next point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.###07 Feb 2004 new variable
-content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.###29 Jan 2004 new variable
+content#:#cont_click_br_corner#:#Klik op de rechter onderhoek van het gewenste gebied.
+content#:#cont_click_center#:#Klik op het centrum van het gewenste gebied.
+content#:#cont_click_circle#:#Klik op een cirkelpunt van het gewenste gebied.
+content#:#cont_click_next_or_save#:#Klik op het volgende punt van de polygoon of sla het gebied op.( Het is niet nodig weer op het startpunt van de polygoon te klikken !)
+content#:#cont_click_next_point#:#Klik op het volgende punt van de polygoon.
+content#:#cont_click_starting_point#:#Klik op het startpunt van de polygoon.
+content#:#cont_click_tl_corner#:#Klik in de linker bovenhoek van het gewenste gebied.
 content#:#cont_content#:#Inhoud
 content#:#cont_content_obj#:#Content-object
-content#:#cont_coords#:#Coordinates###14 Jan 2004 new variable
+content#:#cont_coords#:#Coördinaten
 content#:#cont_create_dir#:#Creëer directory
 content#:#cont_cross_reference#:#Verwijzing
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default layout
-content#:#cont_def_organization#:#default
+content#:#cont_def_organization#:#standaard
 content#:#cont_definition#:#Definitie
 content#:#cont_definitions#:#Definities
 content#:#cont_del_assignment#:#Verwijderen toewijzing
@@ -1299,19 +1299,19 @@ content#:#cont_edit_par#:#Wijzigen paragrafen
 content#:#cont_edit_tab_properties#:#Tabel-eigenschappen
 content#:#cont_edit_term#:#Wijzigen begrip
 content#:#cont_edition#:#Editie
-content#:#cont_external#:#external###14 Feb 2004 new variable
+content#:#cont_external#:#extern
 content#:#cont_file#:#Bestand
 content#:#cont_files#:#Bestanden
 content#:#cont_format#:#Format###23 Feb 2004 new variable
 content#:#cont_full_is_in_dir#:#Verwijderen niet mogelijk. Fullscreen-bestand is in de directory.
 content#:#cont_fullscreen#:#Fullscreen
-content#:#cont_get_link#:#get link###14 Feb 2004 new variable
+content#:#cont_get_link#:#Krijg link
 content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
 content#:#cont_height#:#Hoogte
 content#:#cont_how_published#:#Hoe gepubliceerd
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
-content#:#cont_imagemap#:#Image Map###14 Jan 2004 new variable
+content#:#cont_imagemap#:#Image Map
 content#:#cont_import_id#:#identifier
 content#:#cont_insert_file_item#:#Invoegen bestand
 content#:#cont_insert_file_list#:#Invoegen bestandslijst
@@ -1320,7 +1320,7 @@ content#:#cont_insert_mob#:#Invoegen media-object
 content#:#cont_insert_par#:#Invoegen paragraaf
 content#:#cont_insert_search#:#Invoegen van een zoeksleutel
 content#:#cont_insert_table#:#Invoegen tabel
-content#:#cont_internal#:#internal###14 Feb 2004 new variable
+content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interne link
 content#:#cont_is_visible#:#onzichtbaar
 content#:#cont_isbn#:#ISBN
@@ -1328,9 +1328,9 @@ content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Item
 content#:#cont_journal#:#Journaal
 content#:#cont_keyword#:#Sleutelwoord
-content#:#cont_link#:#Link###14 Jan 2004 new variable
-content#:#cont_link_ext#:#Link (external)###14 Feb 2004 new variable
-content#:#cont_link_int#:#Link (internal)###14 Feb 2004 new variable
+content#:#cont_link#:#Link
+content#:#cont_link_ext#:#Link (extern)
+content#:#cont_link_int#:#Link (intern)
 content#:#cont_link_select#:#Interne link
 content#:#cont_link_type#:#Link-type
 content#:#cont_list_properties#:#Lijst-eigenschappen
@@ -1340,14 +1340,14 @@ content#:#cont_lk_media_faq#:#Media (FAQ Frame)
 content#:#cont_lk_media_inline#:#Media (Inline)
 content#:#cont_lk_media_media#:#Media (Media Frame)
 content#:#cont_lk_media_new#:#Media (Nieuw Frame)
-content#:#cont_lk_page#:#Pagina
+content#:#cont_lk_page#:#Bladzijde
 content#:#cont_lk_page_faq#:#Pagina (FAQ Frame)
 content#:#cont_lk_page_new#:#Pagina (Nieuw Frame)
 content#:#cont_lk_term#:#Woordenlijst begrip
 content#:#cont_lk_term_new#:#Woordenlijst begrip (Nieuw Frame)
 content#:#cont_lm_properties#:#Eigenschappen leermodule
 content#:#cont_manifest#:#Manifest
-content#:#cont_map_areas#:#Link Areas###14 Jan 2004 new variable
+content#:#cont_map_areas#:#Link gebieden
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_mob_files#:#Object-bestanden
@@ -1356,8 +1356,8 @@ content#:#cont_mob_prop#:#Object-eigenschappen
 content#:#cont_mob_usages#:#Gebruik
 content#:#cont_month#:#Maand
 content#:#cont_msg_multiple_editions#:#Het is niet mogelijk om details van meerdere edities te laten zien
-content#:#cont_name#:#Name###14 Jan 2004 new variable
-content#:#cont_new_area#:#New Link Area###07 Feb 2004 new variable
+content#:#cont_name#:#Naam
+content#:#cont_new_area#:#Nieuw link gebied
 content#:#cont_new_assignment#:#Nieuwe toewijzing
 content#:#cont_new_dir#:#Nieuwe directory
 content#:#cont_new_file#:#Nieuw bestand
@@ -1395,16 +1395,16 @@ content#:#cont_resource#:#Middelen
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Bronnen
 content#:#cont_roman#:#Romeins I, II, ...
-content#:#cont_saved_map_area#:#Saved map area###07 Feb 2004 new variable
-content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
+content#:#cont_saved_map_area#:#Opgeslagen map gebied
+content#:#cont_saved_map_data#:#Opgeslagen map gebied
 content#:#cont_sc_title#:#titel
 content#:#cont_school#:#School
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_max_one_item#:#selecteer slechts één item
 content#:#cont_select_max_one_term#:#Selecteer slechts één begrip
-content#:#cont_select_one_edition#:#Please select at least one edition.###17 Dec 2003 new variable
+content#:#cont_select_one_edition#:#Selecteer a.u.b op zijn minst één editie.
 content#:#cont_select_one_translation#:#selecteer slechts één vertaling
-content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.###17 Dec 2003 new variable
+content#:#cont_select_one_translation_warning#:#Het is niet mogelijk meer dan één vertaling te laten zien.
 content#:#cont_select_term#:#Selecteer een begrip
 content#:#cont_select_translation#:#selecter de toewijzing van bovenstaande lijst
 content#:#cont_series#:#Series
@@ -1415,7 +1415,7 @@ content#:#cont_set_class#:#Instellen class
 content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
 content#:#cont_set_width#:#Instellen breedte
-content#:#cont_shape#:#Shape###14 Jan 2004 new variable
+content#:#cont_shape#:#Vorm
 content#:#cont_show#:#laat zien
 content#:#cont_show_citation#:#Laat zien met citaat
 content#:#cont_size#:#Grootte (Bytes)
@@ -1435,10 +1435,10 @@ content#:#cont_term#:#Begrip
 content#:#cont_terms#:#Begrippen
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Inhoudsopgave
-content#:#cont_top#:#Bovenzijde
+content#:#cont_top#:#Bovenkant
 content#:#cont_translations#:#Vertaling(en)
 content#:#cont_translations_assigned#:#De vertaling(en) zijn toegewezen
-content#:#cont_update#:#Update###15 Jan 2004 new variable
+content#:#cont_update#:#Bijwerken
 content#:#cont_update_names#:#Update Names###23 Feb 2004 new variable
 content#:#cont_upload_file#:#Upload-bestand
 content#:#cont_url#:#URL
@@ -1450,7 +1450,7 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jaar
 content#:#pages from#:#Pagina's van
 content#:#par#:#Paragrafen
-content#:#pg#:#Pagina
+content#:#pg#:#Bladzijde
 content#:#read offline#:#Lezen offline
 content#:#st#:#Hoofdstuk
 content#:#start export#:#Start exporteren
@@ -1496,7 +1496,7 @@ forum#:#forums_topics_overview#:#Overzicht thema's
 forum#:#forums_your_reply#:#Uw antwoord
 mail#:#also_as_email#:#Ook als email
 mail#:#bc#:#BC
-mail#:#forward#:#Verzenden
+mail#:#forward#:#Doorzenden
 mail#:#linebreak#:#Linebreak
 mail#:#mail_add_recipient#:#Voer een ontvanger in
 mail#:#mail_add_subfolder#:#Toevoegen submap
@@ -1520,7 +1520,7 @@ mail#:#mail_entry_added#:#Voeg een nieuwe post toe
 mail#:#mail_entry_changed#:#De bijdrage is gewijzigd
 mail#:#mail_file_name#:#Bestandsnaam
 mail#:#mail_file_size#:#Bestandsgrootte
-mail#:#mail_files_deleted#:#De bestanden worden gewist
+mail#:#mail_files_deleted#:#Het bestand is /de bestanden zijn verwijderd
 mail#:#mail_folder_created#:#Een nieuwe map wordt gecreëerd
 mail#:#mail_folder_deleted#:#De map wordt verwijderd
 mail#:#mail_folder_exists#:#Een map met deze naam bestaat al
@@ -1529,10 +1529,10 @@ mail#:#mail_folder_name_changed#:#De map-naam is gewijzigd
 mail#:#mail_folder_options#:#Map-opties
 mail#:#mail_following_rcp_not_valid#:#De volgende ontvangers zijn niet geldig:
 mail#:#mail_global_options#:#Globale opties
-mail#:#mail_incoming#:#Incoming mails###04 Feb 2004 new variable
-mail#:#mail_incoming_both#:#local and forwarding###04 Feb 2004 new variable
-mail#:#mail_incoming_local#:#only local###04 Feb 2004 new variable
-mail#:#mail_incoming_smtp#:#forward to email address###04 Feb 2004 new variable
+mail#:#mail_incoming#:#Binnenkomende mails
+mail#:#mail_incoming_both#:#Lokaal en verspreiden
+mail#:#mail_incoming_local#:#Alleen lokaal
+mail#:#mail_incoming_smtp#:#Doorzenden naar email-adres
 mail#:#mail_insert_folder_name#:#Voeg een map-naam in
 mail#:#mail_insert_query#:#Voeg een vraag in
 mail#:#mail_intern#:#intern
@@ -1540,25 +1540,25 @@ mail#:#mail_mark_read#:#Markeer gelezen mail
 mail#:#mail_mark_unread#:#Markeer ongelezen mail
 mail#:#mail_maxsize_attachment_error#:#De limit voor upload is:
 mail#:#mail_message_send#:#Bericht verzonden
-mail#:#mail_move_error#:#Fout met verplaatsen mail
+mail#:#mail_move_error#:#Fout met verplaatsen mail)
 mail#:#mail_move_to#:#Verplaatsen naar:
 mail#:#mail_moved#:#Mail is verplaatst
 mail#:#mail_moved_to_trash#:#Mail is verplaats naar de prullenbak
 mail#:#mail_new_file#:#Voeg een nieuw bestand toe:
 mail#:#mail_no_attach_allowed#:#Systeem berichten mogen geen attachments hebben
 mail#:#mail_no_attachments_found#:#Geen attachments gevonden
-mail#:#mail_no_permissions_write_smtp#:#You have permission to write extern emails###04 Feb 2004 new variable
+mail#:#mail_no_permissions_write_smtp#:#U heb het recht om externe emails te schrijven
 mail#:#mail_options_of#:#Opties
 mail#:#mail_options_saved#:#Opties opgeslagen
 mail#:#mail_recipient_not_valid#:#De ontvanger is niet geldig
-mail#:#mail_s#:#Mail
-mail#:#mail_s_unread#:#Ongelezen Mail
+mail#:#mail_s#:#Mail)
+mail#:#mail_s_unread#:#Ongelezen Mail)
 mail#:#mail_saved#:#Het bericht is opgeslagen
 mail#:#mail_search_addressbook#:#zoek in het adresboek
 mail#:#mail_search_system#:#zoek in het systeem
 mail#:#mail_select_one_entry#:#U moet één bijdrage selecteren
 mail#:#mail_select_one_file#:#U moet één bestand selecteren
-mail#:#mail_sure_delete#:#Weet u zeker dat u de geselecteerde mail wilt verwijderen
+mail#:#mail_sure_delete#:#Weet u zeker dat u de geselecteerde mail wilt verwijderen)
 mail#:#mail_sure_delete_entry#:#Weet u zeker dat u de volgende bijdragen wilt verwijderen
 mail#:#mail_sure_delete_file#:#Het bestand wordt definitief verwijderd
 mail#:#mail_sure_delete_folder#:#De map en zijn inhoud worden definitief verwijderd
@@ -1743,7 +1743,7 @@ meta#:#meta_c_PG#:#Papua Nieuw Guinea
 meta#:#meta_c_PH#:#Philipijnen
 meta#:#meta_c_PK#:#Pakistan
 meta#:#meta_c_PL#:#Polen
-meta#:#meta_c_PM#:#St. Pierre And Miquelon
+meta#:#meta_c_PM#:#St. Pierre en Miquelon
 meta#:#meta_c_PN#:#Pitcairn
 meta#:#meta_c_PR#:#Puerto Rico
 meta#:#meta_c_PT#:#Portugal
@@ -1836,7 +1836,7 @@ meta#:#meta_education#:#Opleiding
 meta#:#meta_educational_level#:#Opleidingsniveau
 meta#:#meta_educational_objective#:#Opleidingsdoelstelling
 meta#:#meta_entity#:#Instantie
-meta#:#meta_entry#:#Post
+meta#:#meta_entry#:#Bijdrage
 meta#:#meta_exam#:#Examen
 meta#:#meta_exercise#:#Oefening
 meta#:#meta_experiment#:#Experiment
@@ -1852,7 +1852,7 @@ meta#:#meta_has_version#:#Heeft versie
 meta#:#meta_hierarchical#:#Hierarchiesch
 meta#:#meta_high#:#Hoog
 meta#:#meta_higher_education#:#Hogere opleiding
-meta#:#meta_id#:#ID
+meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Identifier
 meta#:#meta_index#:#Index
@@ -1898,7 +1898,7 @@ meta#:#meta_l_eo#:#Esperanto
 meta#:#meta_l_es#:#spaans
 meta#:#meta_l_et#:#Estisch
 meta#:#meta_l_eu#:#Baskisch
-meta#:#meta_l_fa#:#Persisch
+meta#:#meta_l_fa#:#Persisch)
 meta#:#meta_l_fi#:#Fins
 meta#:#meta_l_fj#:#Fiji
 meta#:#meta_l_fo#:#Faröisch
@@ -1948,12 +1948,12 @@ meta#:#meta_l_mr#:#Marathi
 meta#:#meta_l_ms#:#Malayisch
 meta#:#meta_l_mt#:#Maltesisch
 meta#:#meta_l_my#:#Burmesisch
-meta#:#meta_l_na#:#nauruïsch
+meta#:#meta_l_na#:#Nauruïsch
 meta#:#meta_l_ne#:#Nepalesisch
-meta#:#meta_l_nl#:#nederlands
+meta#:#meta_l_nl#:#Nederlands
 meta#:#meta_l_no#:#Noorweegs
 meta#:#meta_l_oc#:#Okzitanisch
-meta#:#meta_l_om#:#Oromo
+meta#:#meta_l_om#:#Oromo)
 meta#:#meta_l_or#:#Oriya
 meta#:#meta_l_pa#:#Punjabisch
 meta#:#meta_l_pl#:#pools
@@ -2031,7 +2031,7 @@ meta#:#meta_name#:#Naam
 meta#:#meta_narrative_text#:#Verhalende tekst
 meta#:#meta_networked#:#Vernetwerkt
 meta#:#meta_new_element#:#Nieuw element
-meta#:#meta_no#:#Nee
+meta#:#meta_no#:#No
 meta#:#meta_no_annotation#:#Geen Meta-data beschikbaar voor het deel Aantekeningen.
 meta#:#meta_no_classification#:#Geen Meta-data beschikbaar voor het deel klassificering.
 meta#:#meta_no_educational#:#Geen Meta-data beschikbaar voor het deel Educatie.
@@ -2096,38 +2096,38 @@ search#:#search_concatenation#:#Aaneenschakeling
 search#:#search_content#:#Pagina-inhoud
 search#:#search_dbk_content#:#Digitale bibliotheek(inhoud)
 search#:#search_dbk_meta#:#Digitale bibliotheek(Meta-data)
-search#:#search_delete_sure#:#The object and its content will be deleted permanantly###17 Dec 2003 new variable
-search#:#search_group#:#Groups###17 Dec 2003 new variable
+search#:#search_delete_sure#:#Het object en zijn inhoud worden voorgoed gewist
+search#:#search_group#:#Groepen
 search#:#search_in_result#:#Zoeken binnen de resultaten
 search#:#search_lm_content#:#Leer-materialen(inhoud)
 search#:#search_lm_meta#:#Leer-materialen(Meta-data)
 search#:#search_meta#:#Meta-data
 search#:#search_minimum_three#:#Uw zoekargument is minstens drie karakters lang geweest
-search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###17 Dec 2003 new variable
-search#:#search_move_to#:#Move to:###17 Dec 2003 new variable
-search#:#search_my_search_results#:#My search results###17 Dec 2003 new variable
-search#:#search_new_folder#:#New folder###17 Dec 2003 new variable
+search#:#search_move_folder_not_allowed#:#Map kan niet verplaatst worden.
+search#:#search_move_to#:#Verplaatsen naar:
+search#:#search_my_search_results#:#Mijn zoekresultaten
+search#:#search_new_folder#:#Nieuwe map
 search#:#search_no_category#:#U heeft geen enkele zoek-kategorie geselecteerd
 search#:#search_no_match#:#Uw zoekopdracht heeft geen enkel resultaat
-search#:#search_no_results_saved#:#No results saved.###17 Dec 2003 new variable
+search#:#search_no_results_saved#:#Geen resultaten opgeslagen.
 search#:#search_no_search_term#:#U heeft geen enkel zoek-begrip geselecteerd
-search#:#search_no_selection#:#You did no selection.###17 Dec 2003 new variable
-search#:#search_object_renamed#:#Object renamed.###17 Dec 2003 new variable
-search#:#search_objects_deleted#:#Object(s) deleted.###17 Dec 2003 new variable
-search#:#search_objects_moved#:#Objects moved.###17 Dec 2003 new variable
-search#:#search_one_action#:#Select one action.###17 Dec 2003 new variable
-search#:#search_rename_title#:#Rename title###17 Dec 2003 new variable
-search#:#search_results_saved#:#Search results saved###17 Dec 2003 new variable
-search#:#search_save_as_select#:#Save as:###17 Dec 2003 new variable
+search#:#search_no_selection#:#U heeft niet geselecteerd.
+search#:#search_object_renamed#:#Object herbenoemd.
+search#:#search_objects_deleted#:#Object(en) verwijderd.
+search#:#search_objects_moved#:#Objecten zijn verplaatst.
+search#:#search_one_action#:#Selecteer één activiteit.
+search#:#search_rename_title#:#Geef een nieuwe titel
+search#:#search_results_saved#:#Zoekresultaten opgeslagen
+search#:#search_save_as_select#:#Opslaan als:
 search#:#search_search_for#:#Zoeken naar
-search#:#search_search_no_results_saved#:#There are no search results saved###17 Dec 2003 new variable
-search#:#search_search_results#:#Search results###17 Dec 2003 new variable
+search#:#search_search_no_results_saved#:#Er zijn geen zoekresultaten opgeslagen
+search#:#search_search_results#:#Zoekresultaten
 search#:#search_search_term#:#Zoek-begrip
-search#:#search_select_exactly_one_object#:#You have to select exactly one object.###17 Dec 2003 new variable
-search#:#search_select_one#:#Select one folder###17 Dec 2003 new variable
-search#:#search_select_one_action#:#--Select one action--###17 Dec 2003 new variable
-search#:#search_select_one_folder_select#:#--Select one folder--###17 Dec 2003 new variable
-search#:#search_select_one_result#:#Select at least one search result###17 Dec 2003 new variable
-search#:#search_select_one_select#:#--Select one folder--###17 Dec 2003 new variable
+search#:#search_select_exactly_one_object#:#U moet exact één editie kiezen.
+search#:#search_select_one#:#Selecteer een map
+search#:#search_select_one_action#:#--Selecteer één activiteit--
+search#:#search_select_one_folder_select#:#--Selecteer een map--
+search#:#search_select_one_result#:#Selecteren op zijn minst één zoekresultat
+search#:#search_select_one_select#:#--Selecteer een map--
 search#:#search_show_result#:#laat zien
 search#:#search_user#:#Gebruikers
