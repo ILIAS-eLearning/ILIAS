@@ -5121,4 +5121,6 @@ CREATE TABLE `history` (
 ) TYPE=MyISAM;
 <#354>
 ALTER TABLE content_object ADD COLUMN hist_user_comments ENUM('y','n') DEFAULT 'n';
+<#355>
+ALTER TABLE `tst_tests` ADD `random_test` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `ects_e` ;
 
