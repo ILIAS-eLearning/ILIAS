@@ -89,16 +89,22 @@ assessment#:#0_unlimited#:#(0 = ongelimiteerd)
 assessment#:#add_answer#:#Voeg antwoord toe
 assessment#:#add_answer_tf#:#Toevoegen goede/foute antwoorden
 assessment#:#add_answer_yn#:#Toevoegen ja/nee antwoorden
+assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
 assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#Voeg overeenkomend paar toe
 assessment#:#all_available_question_pools#:#Allemaal beschikbare vraagbakken
 assessment#:#answer#:#Antwoord
 assessment#:#answer_picture#:#Antwoord-figuur
 assessment#:#answer_text#:#Antwoord-tekst
+assessment#:#applet_attributes#:#Applet attributes###19 May 2004 new variable
+assessment#:#applet_new_parameter#:#New parameter###19 May 2004 new variable
+assessment#:#applet_parameter#:#Parameter###19 May 2004 new variable
+assessment#:#applet_parameters#:#Applet parameters###19 May 2004 new variable
 assessment#:#apply#:#Toepassen
 assessment#:#ass_questions#:#Vragen
 assessment#:#by#:#door
 assessment#:#cloze_text#:#Maak tekst af
+assessment#:#code#:#Code###19 May 2004 new variable
 assessment#:#create_date#:#Gecreëerd
 assessment#:#create_gaps#:#Creëer gaten
 assessment#:#create_new#:#Creëer een nieuwe
@@ -107,6 +113,7 @@ assessment#:#end_tag#:#Eind tag
 assessment#:#eval_choice_result#:#De keuze met de waarde %s is %s. U ontving %s punten.
 assessment#:#eval_cloze_result#:#Opening-nummer %s met waarde %s is %s. U ontving %s punten.
 assessment#:#eval_imagemap_result#:#De selectie van de figuur-kaart is %s. U ontving %s punten.
+assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.###19 May 2004 new variable
 assessment#:#eval_legend_link#:#Kijk in de legende voor de betekenis van de symbolen in de kolom-koppen.
 assessment#:#eval_matching_result#:#Het overeenkomende paar %s - %s is %s. U ontving %s  punten.
 assessment#:#eval_order_result#:#De volgorde van de waarde %s is %s. U ontving %s punten.
@@ -124,7 +131,9 @@ assessment#:#filter#:#Filter
 assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Definitie opening 
 assessment#:#gap_selection#:#Selectie van een gat
+assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image Map
+assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
 assessment#:#last_update#:#Laatst bijgewerkt
 assessment#:#legend#:#Legende
 assessment#:#locked#:#locked###27 Apr 2004 new variable
@@ -163,6 +172,7 @@ assessment#:#qpl_export_select_none#:#Controleer a.u.b. minstens één vraag voo
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qt_cloze#:#Bijna overeenkomende vraag
 assessment#:#qt_imagemap#:#Figuren-kaart Vraag
+assessment#:#qt_javaapplet#:#Java Applet Question###19 May 2004 new variable
 assessment#:#qt_matching#:#Overeenkomende vraag
 assessment#:#qt_multiple_choice_mr#:#Meerkeuze vraag (meerdere antwoorden)
 assessment#:#qt_multiple_choice_sr#:#Meerkeuze vraag (één  antwoord)
@@ -176,6 +186,8 @@ assessment#:#remove_question#:#Verwijder
 assessment#:#report_date_not_reached#:#U heeft de verslag-datum niet bereikt. U kunt de test-resultaten op %s bekijken
 assessment#:#reset_filter#:#Terugzetten filter
 assessment#:#result#:#Resultaat
+assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!###19 May 2004 new variable
+assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!###19 May 2004 new variable
 assessment#:#save_finish#:#Opslaan en beëindig de test
 assessment#:#save_introduction#:#Opslaan en ga naar introductie
 assessment#:#save_next#:#Opslaan en ga naar volgende vraag
@@ -188,6 +200,7 @@ assessment#:#start_tag#:#Start tag
 assessment#:#symbol#:#Symbool
 assessment#:#text_gap#:#Tekst-gat
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
+assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
 assessment#:#true#:#Waar
 assessment#:#tst_already_taken#:#Testen al gedaan
 assessment#:#tst_anon_eval#:#Anoniem geaggregeerde resultaten
@@ -279,6 +292,7 @@ assessment#:#unlimited#:#ongelimiteerd
 assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
 assessment#:#uploaded_material#:#Geuploaded Materiaal
+assessment#:#width#:#Width###19 May 2004 new variable
 assessment#:#working_time#:#Werktijd
 bibitem#:#bibitem_add#:#Add###06 May 2004 new variable
 bibitem#:#bibitem_author#:#Author###06 May 2004 new variable

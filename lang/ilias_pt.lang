@@ -89,16 +89,22 @@ assessment#:#0_unlimited#:#(0 = ilimitado)
 assessment#:#add_answer#:#Adicionar resposta
 assessment#:#add_answer_tf#:#Adicionar respostas verdadeiro/falso
 assessment#:#add_answer_yn#:#Adicionar respostas sim/não
+assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
 assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#Adicionar par correpondente
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Resposta
 assessment#:#answer_picture#:#Foto de resposta
 assessment#:#answer_text#:#Texto de resposta
+assessment#:#applet_attributes#:#Applet attributes###19 May 2004 new variable
+assessment#:#applet_new_parameter#:#New parameter###19 May 2004 new variable
+assessment#:#applet_parameter#:#Parameter###19 May 2004 new variable
+assessment#:#applet_parameters#:#Applet parameters###19 May 2004 new variable
 assessment#:#apply#:#Aplicar
 assessment#:#ass_questions#:#Questões
 assessment#:#by#:#por
 assessment#:#cloze_text#:#Fechar texto
+assessment#:#code#:#Code###19 May 2004 new variable
 assessment#:#create_date#:#Criado
 assessment#:#create_gaps#:#Criar espaços
 assessment#:#create_new#:#Criar novo
@@ -107,6 +113,7 @@ assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#A escolha com o valor %s é %s. Você recebeu %s pontos.
 assessment#:#eval_cloze_result#:#Número do espaço %s com o valor %s é %s. Você recebeu %s pontos.
 assessment#:#eval_imagemap_result#:#A selecção do mapa de imagem é %s. Você recebeu %s pontos.
+assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.###19 May 2004 new variable
 assessment#:#eval_legend_link#:#Por favor refira a legenda para o significado dos símbolos do cabeçalho da coluna.
 assessment#:#eval_matching_result#:#O par correspondente %s - %s é %s. Você recebeu %s pontos.
 assessment#:#eval_order_result#:#A ordem para o valor %s é %s. Você recebeu %s pontos.
@@ -124,7 +131,9 @@ assessment#:#filter#:#Filtro
 assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Selecção de espaço
+assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Mapa de imagem
+assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#locked###27 Apr 2004 new variable
@@ -163,6 +172,7 @@ assessment#:#qpl_export_select_none#:#Por favor seleccione pelo menos uma quest�
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qt_cloze#:#Fechar questão
 assessment#:#qt_imagemap#:#Questão de Mapa de Imagem
+assessment#:#qt_javaapplet#:#Java Applet Question###19 May 2004 new variable
 assessment#:#qt_matching#:#Questão correspondente
 assessment#:#qt_multiple_choice_mr#:#Questão de escolha múltipla (resposta múltipla)
 assessment#:#qt_multiple_choice_sr#:#Questão de escolha múltipla (resposta única)
@@ -176,6 +186,8 @@ assessment#:#remove_question#:#Remover
 assessment#:#report_date_not_reached#:#Você não chegou à data de reportação. Você poderá ver os resultados do teste em %s
 assessment#:#reset_filter#:#Reajustar filtro
 assessment#:#result#:#Resultado
+assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!###19 May 2004 new variable
+assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!###19 May 2004 new variable
 assessment#:#save_finish#:#Guardar e finalizar o teste
 assessment#:#save_introduction#:#Guardar e ir para a introdução
 assessment#:#save_next#:#Guardar e ir para a próxima questão
@@ -188,6 +200,7 @@ assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#symbol#:#Símbolo
 assessment#:#text_gap#:#Espaço de Texto
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
+assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
 assessment#:#true#:#Verdadeiro
 assessment#:#tst_already_taken#:#Testes já feitos
 assessment#:#tst_anon_eval#:#Resultados agregados anónimos
@@ -279,6 +292,7 @@ assessment#:#unlimited#:#ilimitado
 assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
 assessment#:#uploaded_material#:#Material enviado
+assessment#:#width#:#Width###19 May 2004 new variable
 assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
 bibitem#:#bibitem_add#:#Add###06 May 2004 new variable
 bibitem#:#bibitem_author#:#Author###06 May 2004 new variable

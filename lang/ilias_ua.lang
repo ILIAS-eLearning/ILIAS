@@ -89,16 +89,22 @@ assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Додати віповідь
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
 assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
+assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
 assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#Додати співпадаючу пару
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Відповідь
 assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#Текст відповіді
+assessment#:#applet_attributes#:#Applet attributes###19 May 2004 new variable
+assessment#:#applet_new_parameter#:#New parameter###19 May 2004 new variable
+assessment#:#applet_parameter#:#Parameter###19 May 2004 new variable
+assessment#:#applet_parameters#:#Applet parameters###19 May 2004 new variable
 assessment#:#apply#:#Примінити
 assessment#:#ass_questions#:#Питання
 assessment#:#by#:#
 assessment#:#cloze_text#:#Закрити текст
+assessment#:#code#:#Code###19 May 2004 new variable
 assessment#:#create_date#:#Створений
 assessment#:#create_gaps#:#Створити проміжок
 assessment#:#create_new#:#Створити новий
@@ -107,6 +113,7 @@ assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.###19 May 2004 new variable
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###23 Mar 2004 new variable
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
@@ -124,7 +131,9 @@ assessment#:#filter#:#Фільтр
 assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Вибір проміжку
+assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
+assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
 assessment#:#last_update#:#Останнє оновлення
 assessment#:#legend#:#Legend###23 Mar 2004 new variable
 assessment#:#locked#:#locked###27 Apr 2004 new variable
@@ -163,6 +172,7 @@ assessment#:#qpl_export_select_none#:#Будь ласка виберіть пр�
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
 assessment#:#qt_cloze#:#Закрити питання
 assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
+assessment#:#qt_javaapplet#:#Java Applet Question###19 May 2004 new variable
 assessment#:#qt_matching#:#Співпадаючі питання
 assessment#:#qt_multiple_choice_mr#:#Питання з множинним вибором (декілька відповідей)
 assessment#:#qt_multiple_choice_sr#:#Питання з множиннм вибором (єдина відповідь)
@@ -176,6 +186,8 @@ assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
 assessment#:#reset_filter#:#Сбросити фільтр
 assessment#:#result#:#Result###17 Mar 2004 new variable
+assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!###19 May 2004 new variable
+assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!###19 May 2004 new variable
 assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
 assessment#:#save_introduction#:#Save and goto introduction###07 Mar 2004 new variable
 assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
@@ -188,6 +200,7 @@ assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#Текстовий проміжок
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
+assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
 assessment#:#true#:#Правда
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
 assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
@@ -279,6 +292,7 @@ assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
 assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
 assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
+assessment#:#width#:#Width###19 May 2004 new variable
 assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
 bibitem#:#bibitem_add#:#Add###06 May 2004 new variable
 bibitem#:#bibitem_author#:#Author###06 May 2004 new variable
