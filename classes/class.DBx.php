@@ -7,6 +7,7 @@ require_once ("DB.php");
 * Database Wrapper
 *
 * this class should extend PEAR::DB, add error Management
+* in case of a db-error in any database query the DBx-class raises an error
 * 
 * @author Peter Gabriel <peter@gabriel-online.net>
 * 
@@ -37,6 +38,9 @@ class DBx extends PEAR
 
 	/**
 	* constructor
+	* 
+	* set up database conncetion and the errorhandling
+	* 
 	* @param string dsn database-connection-string for pear-db
 	*/
 	function DBx($dsn)
@@ -57,6 +61,7 @@ class DBx extends PEAR
 
 		//connect to database 	
 		$this->db = DB::connect($this->dsn, true);
+
 		//check error
 		if (DB::isError($this->db)) {
 			$this->raiseError($this->db->getMessage(), $this->error_class->FATAL);
@@ -72,6 +77,9 @@ class DBx extends PEAR
 		//$this->db->disconnect();
 	} //end destructor
 
+	/**
+	* disconnect from database
+	*/
 	function disconnect()
 	{
 //		$this->db->disconnect();
@@ -79,6 +87,10 @@ class DBx extends PEAR
 
 	/**
 	* query 
+	* 
+	* this is the wrapper itself. query a string, and return the resultobject,
+	* or in case of an error, jump to errorpage
+	* 
 	* @param string
 	* @return object DB
 	*/
