@@ -593,3 +593,55 @@ foreach($ops_ids as $id)
 	$this->db->query($query);
 }
 ?>
+
+<#58>
+<?php
+
+//GET ID OF THE IL_GRP_MEMBER TEMPLATE
+$query1 = "SELECT obj_id FROM object_data WHERE title = 'il_grp_member' ";
+$res = $this->db->query($query1);
+$tpl = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+//GET PROPER PARENT_ID
+$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
+$res = $this->db->query($query2);
+$rol_fold = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+
+//DELETE RIGHTS FOR COURSE OBJECT FROM THE TEMPLATE
+$query3 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'crs'";
+$this->db->query($query3);
+
+//CHANGE RIGHTS OF THE FORUM OBJECT IN THE TEMPLATE
+$query4 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'frm' AND ops_id = 5 ";
+$this->db->query($query4);
+$query5 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'frm' AND ops_id = 6 ";
+$this->db->query($query5);
+$query6 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','frm','9','".$rol_fold["parent"]."')";
+$this->db->query($query6);
+
+//CHANGE RIGHTS OF THE FORUM OBJECT IN THE TEMPLATE
+$query7 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','2','".$rol_fold["parent"]."')";
+$this->db->query($query7);
+$query8 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','3','".$rol_fold["parent"]."')";
+$this->db->query($query8);
+
+//CHANGE RIGHTS OF THE GROUP OBJECT IN THE TEMPLATE
+$query9 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','grp','5','".$rol_fold["parent"]."')";
+$this->db->query($query9);
+$query10 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'grp' AND ops_id = 4 ";
+$this->db->query($query10);
+
+//CHANGE RIGHTS OF THE LEARNING MODUL OBJECT IN THE TEMPLATE
+$query11 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','lm','2','".$rol_fold["parent"]."')";
+$this->db->query($query11);
+$query12 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','lm','3','".$rol_fold["parent"]."')";
+$this->db->query($query12);
+
+//CHANGE RIGHTS OF THE SCORM LEARNING MODUL OBJECT IN THE TEMPLATE
+$query13 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'slm' AND ops_id = 5 ";
+$this->db->query($query13);
+$query14 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'slm' AND ops_id = 6 ";
+$this->db->query($query14);
+
+?>
