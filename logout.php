@@ -22,11 +22,29 @@
 */
 
 
+/**
+* logout script for ilias
+*
+* @author Sascha Hofmann <shofmann@databay.de>
+* @version $Id$
+*
+* @package ilias-core
+*/
+
 require_once "include/inc.header.php";
 
 $ilias->auth->logout();
 session_destroy();
 
-header("Location: index.php");
-exit;
+//instantiate logout template
+$tpl->addBlockFile("CONTENT", "content", "tpl.logout.html");
+$tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("logout"));
+$tpl->setVariable("TXT_LOGOUT",$lng->txt("logout_text"));
+
+if ($ilias->getSetting("pub_section"))
+{
+	$tpl->touchBlock("homelink");
+}
+
+$tpl->show();
 ?>

@@ -34,7 +34,7 @@
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
-common#:#action_aborted#:#Aktion abgebrochen###09 Aug 2003 content changed
+common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
@@ -43,6 +43,7 @@ common#:#add_member#:#Mitglied hinzufügen
 common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
+common#:#msg_no_delete_yourself#:#Depressiv? Lebensmüde? Sie können nicht Ihr eigenes Benutzerkonto löschen.
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#all_objects#:#Alle Objekte
@@ -88,7 +89,7 @@ common#:#cc#:#CC
 common#:#censorship#:#Zensur
 common#:#change#:#ändern
 common#:#change_active_assignment#:#Aktive Zuweisung ändern
-common#:#change_assignment#:#Zuweisung ändern###07 Aug 2003 content changed
+common#:#change_assignment#:#Zuweisung ändern
 common#:#change_existing_objects#:#Vorhandene Objekte ändern
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
@@ -98,13 +99,13 @@ common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#check#:#Prüfen
-common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!###09 Aug 2003 content changed
+common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen checken
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position w&auml;hlen
-common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!###09 Aug 2003 content changed
+common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Stadt
 common#:#clear#:#Abbrechen
 common#:#comma_separated#:#Kommagetrennt
@@ -324,6 +325,7 @@ common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte w
 common#:#login_time#:#Onlinezeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
+common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#los#:#Lernmodule
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
 common#:#mail#:#Mail
