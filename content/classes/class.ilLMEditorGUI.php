@@ -24,6 +24,7 @@
 require_once ("content/classes/class.ilLMEditorExplorer.php");
 require_once ("content/classes/class.ilLMObjectFactory.php");
 require_once ("classes/class.ilObjLearningModule.php");
+require_once ("content/classes/class.ilPageObjectGUI.php");
 
 /**
 * GUI class for learning module editor
@@ -47,7 +48,7 @@ class ilLMEditorGUI
 	var $lm_obj;
 
 	var $tree;
-	var $id;
+	var $obj_id;
 
 	/**
 	* Constructor
@@ -62,11 +63,40 @@ class ilLMEditorGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->lm_id = $_GET["lm_id"];
+		$this->obj_id = $_GET["obj_id"];
 
 		$cmd = (empty($_GET["cmd"])) ? "frameset" : $_GET["cmd"];
 
-		$this->$cmd();
+		switch($cmd)
+		{
+			case "explorer":
+			case "frameset":
+				$this->$cmd();
+				break;
 
+			default:
+				if (empty($_GET["obj_id"]))
+				{
+					return;
+				}
+				$this->tree = new ilTree($_GET["lm_id"]);
+				$this->tree->setTableNames('lm_tree','lm_data');
+				$this->tree->setTreeTablePK("lm_id");
+				$this->lm_obj =& new ilObjLearningModule($this->lm_id, false);
+
+
+				$obj =& ilLMObjectFactory::getInstance($_GET["obj_id"]);
+				$this->main_header($obj->getTitle());
+				if($obj->getType()=="pg")
+				{
+					$pg_gui =& new ilPageObjectGUI();
+					$pg_gui->setPageObject($obj);
+					$pg_gui->setLMObject($this->lm_obj);
+					$pg_gui->$cmd();
+				}
+				$this->tpl->show();
+				break;
+		}
 	}
 
 
@@ -142,136 +172,6 @@ class ilLMEditorGUI
 	}
 
 
-	/*
-	* display content of bookmark folder
-	*/
-	function view()
-	{
-		global $tree, $rbacsystem;
-
-		if (empty($_GET["obj_id"]))
-		{
-			return;
-		}
-
-		$obj =& ilLMObjectFactory::getInstance($_GET["obj_id"]);
-
-		$this->main_header($obj->getTitle());
-
-
-		/*
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_view.html");
-		$num = 0;
-
-
-		$this->tpl->setVariable("FORMACTION", "usr_bookmarks.php?bmf_id=".$this->id."&cmd=post");
-
-		//table header
-		$this->tpl->setCurrentBlock("table_header_cell");
-		$cols = array("", "type", "title", "bookmark_target");
-		foreach ($cols as $key)
-		{
-			if ($key != "")
-			{
-			    $out = $this->lng->txt($key);
-			}
-			else
-			{
-				$out = "&nbsp;";
-			}
-			$num++;
-
-			$this->tpl->setVariable("HEADER_TEXT", $out);
-			$this->tpl->setVariable("HEADER_LINK", "usr_bookmarks.php?bmf_id=".$this->id."&order=type&direction=".
-							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
-
-			$this->tpl->parseCurrentBlock();
-		}
-
-
-		$this->objectList = array();
-		$this->data["data"] = array();
-		$this->data["ctrl"] = array();
-		$childs = $this->tree->getChilds($this->id, "title");
-
-		$objects = array();
-		$bookmarks = array();
-		foreach ($childs as $key => $child)
-		{
-			switch ($child["type"])
-			{
-				case "bmf":
-					$objects[] = $child;
-					break;
-
-				case "bm":
-					$bookmarks[] = $child;
-					break;
-			}
-		}
-		foreach ($bookmarks as $key => $bookmark)
-		{
-			$objects[] = $bookmark;
-		}
-
-		$cnt = 0;
-		foreach ($objects as $key => $object)
-		{
-			// color changing
-			$css_row = ilUtil::switchColor($cnt++,"tblrow1","tblrow2");
-
-			// surpress checkbox for particular object types
-			$this->tpl->setCurrentBlock("checkbox");
-			$this->tpl->setVariable("CHECKBOX_ID", $object["type"].":".$object["obj_id"]);
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("table_cell");
-			$this->tpl->parseCurrentBlock();
-
-			// type icon
-			$link = ($object["type"] == "bmf") ?
-				"usr_bookmarks.php?cmd=editForm&type=bmf&obj_id=".$object["obj_id"]."&bmf_id=".$this->id :
-				"usr_bookmarks.php?cmd=editForm&type=bm&obj_id=".$object["obj_id"]."&bmf_id=".$this->id;
-			$img_type = ($object["type"] == "bmf") ? "cat" : $object["type"];
-			$val = ilUtil::getImageTagByType($img_type, $this->tpl->tplPath);
-
-			$this->add_cell($val, $link);
-
-			// title
-			$link = ($object["type"] == "bmf") ?
-				"usr_bookmarks.php?bmf_id=".$object["obj_id"] :
-				$object["target"];
-			$this->add_cell($object["title"], $link);
-
-			// target
-			$this->add_cell($object["target"], $object["target"]);
-
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-		}
-		if(count($objects) == 0)
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("NUM_COLS", $num);
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			// SHOW VALID ACTIONS
-			$this->tpl->setVariable("NUM_COLS", 4);
-			$this->showActions();
-		}
-
-		// SHOW POSSIBLE SUB OBJECTS
-		$this->tpl->setVariable("NUM_COLS", 4);
-		$this->showPossibleSubObjects();*/
-
-		$this->tpl->show();
-
-	}
-
 	/**
 	* output a cell in object list
 	*/
@@ -299,14 +199,14 @@ class ilLMEditorGUI
 	{
 		global $lng;
 
-		if(empty($this->id))
+		if(empty($this->obj_id))
 		{
 			return;
 		}
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		$path = $this->tree->getPathFull($this->id);
+		$path = $this->tree->getPathFull($this->obj_id);
 
 		$modifier = 1;
 
@@ -319,11 +219,12 @@ class ilLMEditorGUI
 
 			$this->tpl->setCurrentBlock("locator_item");
 			$title = ($row["child"] == 1) ?
-				$lng->txt("bookmarks_of")." ".$this->ilias->account->getFullname() :
+				$this->lm_obj->getTitle() :
 				$row["title"];
 			$this->tpl->setVariable("ITEM", $title);
 			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$this->tpl->setVariable("LINK_ITEM", "usr_bookmarks.php?bmf_id=".$row["child"]);
+			$this->tpl->setVariable("LINK_ITEM", "lm_edit.php?cmd=view&lm_id=".
+				$this->lm_id."&obj_id=".$row["child"]);
 			$this->tpl->parseCurrentBlock();
 
 		}
