@@ -89,7 +89,12 @@ class ilErrorHandling extends PEAR
 
 		if ($_SESSION["message"])
 		{
-			return;
+			$m = "Fatal Error: Called raise error two times.<br>".
+				"First error: ".$_SESSION["message"];
+			//return;
+			$log->logError($a_error_obj->getCode(), $m);
+			unset($_SESSION["message"]);
+			die ($m);
 		}
 
 		if (is_object($log) and $log->enabled == true)

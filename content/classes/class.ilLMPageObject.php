@@ -172,23 +172,61 @@ class ilLMPageObject extends ilLMObject
 
 		return $lm_page;
 	}
-
+	
 	/**
+	* split page at hierarchical id
 	*
+	* the main reason for this method being static is that a lm page
+	* object is not available within ilPageContentGUI where this method
+	* is called
+	*/
+	function _splitPage($a_page_id, $a_pg_parent_type, $a_hier_id)
+	{
+		// get lm/dbk id
+		$lm_id = ilLMObject::_lookupContObjID($a_page_id);
+		$source_lm_page = 
+		
+		$meta =& new ilMetaData();
+		$lm_page =& new ilLMPageObject($this->getContentObject());
+		$lm_page->assignMetaData($meta);
+		$lm_page->setTitle($this->getTitle());
+		$lm_page->setLMId($this->getLMId());
+		$lm_page->setType($this->getType());
+		$lm_page->setDescription($this->getDescription());
+		$lm_page->create();
+
+		$page =& $lm_page->getPageObject();
+		$page->setXMLContent($this->page_object->getXMLContent());
+		$page->buildDom();
+		$page->update();
+
+		return $lm_page;
+		
+	}
+
+	
+	/**
+	* assign page object
+	*
+	* @param	object		$a_page_obj		page object
 	*/
 	function assignPageObject(&$a_page_obj)
 	{
 		$this->page_object =& $a_page_obj;
 	}
 
+	
 	/**
+	* get assigned page object
 	*
+	* @return	object		page object
 	*/
 	function &getPageObject()
 	{
 		return $this->page_object;
 	}
 
+	
 	/**
 	* set id
 	*/

@@ -869,7 +869,7 @@ class ilObjectGUI
 	*/
 	function clearObject()
 	{ 	
-		session_unregister("clipboard");
+		unset($_SESSION["clipboard"]);
 		
 		if (isset($_POST["cmd"]["clear"]))
 		{
@@ -1049,7 +1049,7 @@ class ilObjectGUI
 
 		// FIRST CLONE THE OBJECT (THEREFORE THE CLONE METHOD OF EACH OBJECT IS CALLED)
 		$source_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_source_id);
-		$new_ref_id = $source_obj->clone($a_dest_id);
+		$new_ref_id = $source_obj->ilClone($a_dest_id);
 		unset($source_obj);
 
 		$mapping[$new_ref_id] = $a_source_id;
@@ -1226,7 +1226,7 @@ class ilObjectGUI
 			}
 			else
 			{
-				session_unregister("saved_post");
+				unset($_SESSION["saved_post"]);
 				sendInfo($this->lng->txt("no_perm_delete")."<br/>".$this->lng->txt("msg_cancel"),true);
 				ilUtil::redirect($this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
 			}
