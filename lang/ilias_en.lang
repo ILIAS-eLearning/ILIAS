@@ -3090,3 +3090,12 @@ survey#:#view_phrase#:#View phrase
 survey#:#question_obligatory#:#The question is obligatory!
 survey#:#question_has_constraints#:#Constraints
 survey#:#questionblock_has_constraints#:#Constraints
+survey#:#evaluation#:#Evaluation
+survey#:#users_answered#:#Users answered
+survey#:#users_skipped#:#Users skipped
+survey#:#mode#:#Most selected value
+survey#:#mode_nr_of_selections#:#Nr of selections
+survey#:#median#:#Median
+survey#:#arithmetic_mean#:#Arithmetic mean
+survey#:#geometric_mean#:#Geometric mean
+survey#:#harmonic_mean#:#Harmonic mean
