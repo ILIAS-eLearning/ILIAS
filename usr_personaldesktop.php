@@ -52,7 +52,7 @@ switch($_GET["cmd"])
 
 	case "leaveGroup":
 		$groupObj = $ilias->obj_factory->getInstanceByRefId($_GET["id"]);
-		$groupObj->leave($ilias->account->getId());
+		$groupObj->leaveGroup($ilias->account->getId());
 		$ilias->account->dropDesktopItem($groupObj->getRefId(), $groupObj->getType());
 		break;
 }
