@@ -171,7 +171,14 @@ foreach($folders as $folder)
 		continue;
 	}
 	$tpl->setVariable("MAILMOVE_VALUE", $folder["obj_id"]);
-	$tpl->setVariable("MAILMOVE_NAME", $folder["title"]);
+	if($folder["type"] == 'user_folder')
+	{
+		$tpl->setVariable("MAILMOVE_NAME", $folder["title"]);
+	}
+	else
+	{
+		$tpl->setVariable("MAILMOVE_NAME", $lng->txt("mail_".$folder["title"]));
+	}
 	$tpl->parseCurrentBlock();
 }
 
@@ -190,13 +197,22 @@ if(!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == 'flat')
 			$tpl->setVariable("FLAT_SELECTED","selected");
 		}
 		$tpl->setVariable("FLAT_VALUE",$folder["obj_id"]);
-		$tpl->setVariable("FLAT_NAME",$folder["title"]);
+		if($folder["type"] == 'user_folder')
+		{
+			$tpl->setVariable("FLAT_NAME", $folder["title"]);
+		}
+		else
+		{
+			$tpl->setVariable("FLAT_NAME", $lng->txt("mail_".$folder["title"]));
+		}
 		$tpl->parseCurrentBlock();
 	}
 	$tpl->setVariable("TXT_FOLDERS", $lng->txt("folders"));
+	$tpl->setVariable("FOLDER_VALUE",$lng->txt("change"));
 	$tpl->parseCurrentBlock();
 }
 // END SHOW_FOLDER
+$tpl->setVariable("ACTION_FLAT","mail.php");
 
 // BEGIN MAILS
 $mail_data = $umail->getMailsOfFolder($_GET["mobj_id"]);

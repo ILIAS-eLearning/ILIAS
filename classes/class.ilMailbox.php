@@ -336,13 +336,14 @@ class ilMailbox
 		
 		foreach($this->default_folder as $key => $value)
 		{
-			$query = "SELECT obj_id FROM $this->table_mail_obj_data ".
+			$query = "SELECT obj_id,type FROM $this->table_mail_obj_data ".
 				"WHERE user_id = $this->user_id ".
 				"AND title = '".$key."'";
 			$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 			
 			$user_folder[] = array(
-				"title"    => $value,
+				"title"    => $key,
+				"type"     => $row->type,
 				"obj_id"   => $row->obj_id);
 		} 
 
@@ -357,6 +358,7 @@ class ilMailbox
 		{
 			$user_folder[] = array(
 				"title"      => stripslashes($row->title),
+				"type"    => $row->type,
 				"obj_id"  => $row->child);
 		}
 		return $user_folder;
