@@ -165,7 +165,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		if (!defined("ILIAS_MODULE"))
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","content/glossary_edit.php?ref_id=".$this->object->getRefID());
+			$this->tpl->setVariable("BTN_LINK","content/glossary_edit.php?cmd=listTerms&ref_id=".$this->object->getRefID());
 			$this->tpl->setVariable("BTN_TARGET"," target=\"bottom\" ");
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit"));
 			$this->tpl->parseCurrentBlock();

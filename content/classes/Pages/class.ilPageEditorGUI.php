@@ -151,7 +151,7 @@ class ilPageEditorGUI
 		}
 
 //echo "2"; exit;
-//echo "type:$type:cmd:$cmd:ctype:$ctype:";
+//echo "type:$type:cmd:$cmd:ctype:$ctype:<br>";
 		switch($ctype)
 		{
 			// Paragraph

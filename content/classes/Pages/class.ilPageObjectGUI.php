@@ -68,7 +68,7 @@ class ilPageObjectGUI
 		$this->obj =& $a_pg_obj;
 	}
 
-	function getPageObject()
+	function &getPageObject()
 	{
 		return $this->obj;
 	}

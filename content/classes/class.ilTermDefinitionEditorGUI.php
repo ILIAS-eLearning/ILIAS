@@ -69,7 +69,9 @@ class ilTermDefinitionEditorGUI
 		$this->main_header($this->lng->txt("cont_term").": ".$this->term->getTerm());
 
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
-		$page_gui =& new ilPageObjectGUI($this->definition->getPageObject());
+		$page =& $this->definition->getPageObject();
+		$page->addUpdateListener($this, "saveShortText");
+		$page_gui =& new ilPageObjectGUI($page);
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_gui->setOutputMode("edit");
 		$page_gui->setPresentationTitle($this->term->getTerm());
@@ -165,5 +167,12 @@ class ilTermDefinitionEditorGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function saveShortText()
+	{
+		$page =& $this->definition->getPageObject();
+		$text = $page->getFirstParagraphText();
+		$this->definition->setShortText(ilUtil::shortenText($text, 190, true));
+		$this->definition->update();
+	}
 }
 ?>
