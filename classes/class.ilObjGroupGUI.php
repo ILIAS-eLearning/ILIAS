@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 
-* $Id$Id: class.ilObjGroupGUI.php,v 1.28 2003/08/11 14:45:43 neiken Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.29 2003/08/12 13:07:32 mmaschke Exp $
 
 *
 * @extends ilObjectGUI
@@ -617,8 +617,8 @@ class ilObjGroupGUI extends ilObjectGUI
 	{
 		$this->getTemplateFile("newmember","grp");
 
-		$this->tpl->setVariable("TXT_MEMBER_NAME", $this->lng->txt("Username"));
-		$this->tpl->setVariable("TXT_STATUS", $this->lng->txt("Member Status"));
+		$this->tpl->setVariable("TXT_MEMBER_NAME", $this->lng->txt("username"));
+		$this->tpl->setVariable("TXT_STATUS", $this->lng->txt("member_status"));
 
 		$radio_member = ilUtil::formRadioButton($_POST["status"] ? 0:1,"status",0);
 		$radio_admin  = ilUtil::formRadioButton($_POST["status"] ? 1:0,"status",1);
@@ -759,10 +759,9 @@ class ilObjGroupGUI extends ilObjectGUI
 				"firstname"       => $member->getFirstname(),
 				"lastname"        => $member->getLastname(),
 				"grp_role" => $newObj->getTitle(),
-				"functions" => "<a href=\"$link_contact\">".$val_contact."</a>
-						<a href=\"$link_change\">$val_change</a>
-						<a href=\"$link_leave\">$val_leave</a>"
+				"functions" => "<a href=\"$link_contact\">".$val_contact."</a>".$member_functions
 				);
+			unset($member_functions);
 			unset($member);
 			unset($newObj);
 		}
@@ -771,7 +770,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		infoPanel();
 
 		$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
-		
+
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 
