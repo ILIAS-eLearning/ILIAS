@@ -1554,7 +1554,6 @@ class ilObjectGUI
 		global $rbacsystem, $rbacreview;
 
 		static $num = 0;
-
 		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
@@ -2514,11 +2513,15 @@ class ilObjectGUI
 		}
 
 		sendInfo($this->lng->txt("role_added"),true);
-		$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
-		$this->ctrl->setParameter($this,"ref_id",$rolf_id);
+		
+		if ($this->ctrl->getTargetScript() != "repository.php")
+		{
+			$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
+			$this->ctrl->setParameter($this,"ref_id",$rolf_id);
+			ilUtil::redirect($this->getReturnLocation("addRole",$this->ctrl->getLinkTarget($this,"perm")));
+		}
 
 		ilUtil::redirect($this->getReturnLocation("addRole",$this->ctrl->getLinkTarget($this,"perm")));
-		#ilUtil::redirect($this->getReturnLocation("addRole","adm_object.php?ref_id=".$rolf_id."&obj_id=".$roleObj->getId()."&cmd=perm"));
 	}
 
 	/**
