@@ -94,11 +94,19 @@ class ilObjSCORMTracking2
 		fwrite($f, "\nCALLING SCORM store()\n");
 		foreach($this->insert as $insert)
 		{
+			/*$q = "REPLACE INTO scorm_tracking2 (user_id, sco_id, lvalue, rvalue) VALUES ".
+				"(".$ilDB->quote($user_id).",".$ilDB->quote($sco_id).",".
+				$ilDB->quote($insert["left"]).",".$ilDB->quote($insert["right"]).")";
+			$ilDB->query($q);*/
 			fwrite($f, "Insert - L:".$insert["left"].",R:".
 				$insert["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
 		}
 		foreach($this->update as $update)
 		{
+			/*$q = "REPLACE INTO scorm_tracking2 (user_id, sco_id, lvalue, rvalue) VALUES ".
+				"(".$ilDB->quote($user_id).",".$ilDB->quote($sco_id).",".
+				$ilDB->quote($update["left"]).",".$ilDB->quote($update["right"]).")";
+			$ilDB->query($q);*/
 			fwrite($f, "Insert - L:".$update["left"].",R:".
 				$update["right"].",sco_id:".$sco_id.",user_id:".$user_id."\n");
 		}

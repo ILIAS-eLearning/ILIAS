@@ -128,6 +128,7 @@ class ilUserImportParser extends ilSaxParser
 			{
 				case "Role":
 					$this->current_role_id = $a_attribs["Id"];
+					$this->current_role_type = $a_attribs["Type"];
 					break;
 			}
 		}
@@ -139,6 +140,7 @@ class ilUserImportParser extends ilSaxParser
 			{
 				case "Role":
 					$this->current_role_id = $a_attribs["Id"];
+					$this->current_role_type = $a_attribs["Type"];
 					break;
 
 				case "User":
@@ -168,7 +170,9 @@ class ilUserImportParser extends ilSaxParser
 			switch($a_name)
 			{
 				case "Role":
-					$this->roles[$this->current_role_id] = $this->cdata;
+					$this->roles[$this->current_role_id]["name"] = $this->cdata;
+					$this->roles[$this->current_role_id]["type"] =
+						$this->current_role_type;
 					break;
 			}
 		}
@@ -179,7 +183,7 @@ class ilUserImportParser extends ilSaxParser
 			switch($a_name)
 			{
 				case "Role":
-					$this->roles[$this->current_role_id] = $this->cdata;
+					$this->roles[$this->current_role_id]["name"] = $this->cdata;
 					break;
 
 				case "User":

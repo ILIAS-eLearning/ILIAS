@@ -206,6 +206,8 @@ class ilSCORMPresentationGUI
 		//$this->tpl->setVariable("SCORM_FUNCTIONS", $func_tpl->get());
 		//$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
 		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
+		$this->tpl->setVariable("USER_FIRSTNAME",$ilias->account->getFirstname());
+		$this->tpl->setVariable("USER_LASTNAME",$ilias->account->getLastname());
 		$this->tpl->setVariable("REF_ID",$_GET["ref_id"]);
 		$this->tpl->setVariable("SESSION_ID",session_id());
 

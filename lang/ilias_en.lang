@@ -477,6 +477,7 @@ common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#assign#:#Assign
 common#:#assign_global_role#:#Assign to global role
+common#:#assign_local_role#:#Assign to local role
 common#:#assign_lo_forum#:#Assign LO Forum
 common#:#assign_user_to_role#:#Assign User to Role
 common#:#at_location#:#at location
@@ -1517,7 +1518,8 @@ common#:#role_deleted#:#Role deleted
 common#:#role_edit#:#Edit Role
 common#:#role_new#:#New Role
 common#:#roles#:#Roles
-common#:#roles_of_import#:#Roles of Import File
+common#:#roles_of_import_global#:#Global roles of import file
+common#:#roles_of_import_local#:#Local roles of import file
 common#:#rolf#:#Roles
 common#:#rolf_added#:#Role Folder added
 common#:#rolf_create_role#:#Create new Role definition
