@@ -1483,9 +1483,18 @@
 			<tr><td class="nobackground" align="center">
 			<map name="qmap">
 			<xsl:for-each select="render_hotspot/response_label">
-			<area nohref="1">
+			<area nohref="nohref">
+				<xsl:attribute name="id">map<xsl:value-of select="@ident"/></xsl:attribute>
 				<xsl:attribute name="shape">
-				<xsl:value-of select="@rarea"/>
+            	    <xsl:if test="@rarea='Rectangle'">
+                        <xsl:text>rect</xsl:text>
+            	    </xsl:if>
+            	    <xsl:if test="@rarea='Bounded'">
+                        <xsl:text>poly</xsl:text>
+            	    </xsl:if>
+            	    <xsl:if test="@rarea='Ellipse'">
+                        <xsl:text>circle</xsl:text>
+            	    </xsl:if>
 				</xsl:attribute>
 				<xsl:attribute name="coords">
 				<xsl:value-of select="."/>

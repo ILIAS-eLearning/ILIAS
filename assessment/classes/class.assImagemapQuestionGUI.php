@@ -560,54 +560,49 @@ class ASS_ImagemapQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false, &$formaction)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0, &$formaction)
 	{
 		global $ilUser;
-
-		$this->tpl->addBlockFile("IMAGEMAP_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
-		$solutions = array();
-		$postponed = "";
+		$output = $this->outQuestionPage("IMAGEMAP_QUESTION", $is_postponed);
+//		preg_match("/(<div[^<]*?ilc_Question.*?<\/div>)/is", $output, $matches);
+//		$solutionoutput = $matches[1];
+		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+		$solutionoutput = preg_replace("/\"map/", "\"solution_map", $solutionoutput);
+		$solutionoutput = preg_replace("/qmap/", "solution_qmap", $solutionoutput);
+		// set solutions
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
+//echo "<br>".htmlentities($repl_str);
+				$output = str_replace($repl_str, $repl_str." checked=\"checked\"", $output);
+			}
 		}
-		if ($is_postponed)
+		
+		foreach ($this->object->answers as $idx => $answer)
 		{
-			$postponed = " (" . $this->lng->txt("postponed") . ")";
+			$output = preg_replace("/nohref id\=\"map$idx\"/", "href=\"$formaction&selImage=$idx\"", $output);
+			if ($answer->isStateChecked())
+			{
+				$repl_str = "dummy=\"solution_mc$idx\"";
+				$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
+			}
+//			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_map$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
 		}
 
-		$this->tpl->setCurrentBlock("imagemapblock");
-		$this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->object->getTitle());
-		$this->tpl->setVariable("IMAGEMAP_QUESTION", $this->object->get_question());
-		$imagepath = "";
-		$preview = new ilImagemapPreview($this->object->getImagePath() . $this->object->get_image_filename());
-		foreach ($this->object->answers as $index => $answer)
+		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
+		if ($test_id) 
 		{
-			if (!$test_id)
-			{
-				$href = "";
-			}
-			else
-			{
-				$href = $formaction . "&selimage=" . $answer->get_order();
-			}
-			$visible = false;
-			if ((array_key_exists(0, $solutions)) and (isset($solutions[0]->value1)))
-			{
-				if ($solutions[0]->value1 == $index)
-				{
-					$formaction .= "&selimage=" . $answer->get_order();
-					$visible = true;
-				}
-			}
-			$preview->addArea($answer->get_area(), $answer->get_coords(), $answer->get_answertext(), $href, "", $visible);
+			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
 		}
-		$preview->createPreview();
-		$imagepath = "displaytempimage.php?gfx=" . $preview->getPreviewFilename();
-		$this->tpl->setVariable("IMAGEMAP", $preview->getImagemap($this->object->getTitle()));
-		$this->tpl->setVariable("IMAGE", $imagepath);
-		$this->tpl->setVariable("IMAGEMAP_NAME", $this->object->getTitle() . $postponed);
-		$this->tpl->parseCurrentBlock();
+		if (!$showsolution)
+		{
+			$solutionoutput = "";
+			$received_points = "";
+		}
+		$this->tpl->setVariable("IMAGEMAP_QUESTION", $output.$solutionoutput.$received_points);
 	}
 
 	/**

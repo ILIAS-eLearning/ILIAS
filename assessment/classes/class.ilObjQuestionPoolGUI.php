@@ -93,7 +93,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
-
 		if ($_GET["q_id"] < 1)
 		{
 			$q_type = ($_POST["sel_question_types"] != "")
