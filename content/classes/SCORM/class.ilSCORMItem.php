@@ -239,13 +239,18 @@ class ilSCORMItem extends ilSCORMObject
 			$a_user_id = $ilUser->getId();
 		}
 
-		$q = "SELECT * FROM scorm_tracking WHERE ".
-			"sc_item_id = '".$this->getId()."' AND ".
-			"usr_id = '".$a_user_id."'";
+		$q = "SELECT * FROM scorm_tracking2 WHERE ".
+			"sco_id = '".$this->getId()."' AND ".
+			"user_id = '".$a_user_id."'";
 
 		$track_set = $ilDB->query($q);
+		$trdata = array();
+		while ($track_rec = $track_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
+		}
 
-		return $track_set->fetchRow(DB_FETCHMODE_ASSOC);
+		return $trdata;
 	}
 
 	function getAllTrackingData()
