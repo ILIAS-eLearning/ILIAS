@@ -1843,6 +1843,7 @@ common#:#objs_type#:#Typy obiektów
 common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Użytkownicy
 common#:#of#:#z
+common#:#offline#:#offline###10 Dec 2004 new variable
 common#:#offline_version#:#Wersja Offline
 common#:#ok#:#OK###05 Nov 2004 new variable
 common#:#old#:#Stary
@@ -2308,6 +2309,7 @@ common#:#vcard#:#Visiting card###30 Oct 2004 new variable
 common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
 common#:#vendors#:#Sprzedawcy
 common#:#version#:#Wersja
+common#:#versions#:#Versions###10 Dec 2004 new variable
 common#:#view#:#Widok
 common#:#view_content#:#Zawartość
 common#:#visible_layers#:#Widoczne poziomy
@@ -4102,6 +4104,7 @@ survey#:#enter_value#:#Podaj wartość
 survey#:#error_add_heading#:#Please add a heading!###10 Nov 2004 new variable
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###15 Oct 2004 new variable
 survey#:#error_retrieving_anonymous_survey#:#System nie może odnaleźć danych ankiety dla kodu ankiety %s. Sprawdź podany kod ankiety!###09 Dec 2004 content changed
+survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
 survey#:#evaluation#:#Wyniki
 survey#:#evaluation_access#:#Ograniczenie dostępu
 survey#:#excel#:#Microsoft Excel###05 Nov 2004 new variable
@@ -4138,6 +4141,7 @@ survey#:#invited_groups#:#Zaproszone grupy
 survey#:#invited_users#:#Zaproszeni użytkownicy
 survey#:#label_resume_survey#:#Podaj swój 32 cyfrowy kod ankiety
 survey#:#last_update#:#Ostatnia aktualizacja
+survey#:#legend#:#Legend###10 Dec 2004 new variable
 survey#:#lower_limit#:#Limit dolny
 survey#:#maintenance#:#Konserwacja
 survey#:#manage_phrases#:#Zarządzaj frazami
@@ -4249,6 +4253,7 @@ survey#:#select_target_position_for_move#:#Wybierz pozycję docelową dla przesu
 survey#:#select_target_position_for_move_question#:#Wybierz pozycję docelową dla przesunięcia pytania i naciśnij jeden z przycisków wstawiających!
 survey#:#select_value#:#wybierz wartość
 survey#:#set_filter#:#Ustaw filtr
+survey#:#skipped#:#skipped###10 Dec 2004 new variable
 survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
 survey#:#start_date#:#Data startowa
 survey#:#start_date_not_reached#:#Nie możesz wystartować przeglądu dopóki nie zostanie osiągnięta data początkowa!

@@ -1843,6 +1843,7 @@ common#:#objs_type#:#Objekttypen
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Benutzer
 common#:#of#:#von
+common#:#offline#:#offline###10 Dec 2004 new variable
 common#:#offline_version#:#Offline Version
 common#:#ok#:#OK
 common#:#old#:#Alt
@@ -2287,7 +2288,6 @@ common#:#usr_a#:#ein Benutzer
 common#:#usr_add#:#Neuer Benutzer
 common#:#usr_added#:#Benutzer angelegt
 common#:#usr_agreement#:#Nutzervereinbarung
-common#:#versions#:#Versionen
 common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
@@ -2309,6 +2309,7 @@ common#:#vcard#:#Visitenkarte
 common#:#vcard_download#:#Visitenkarte herunterladen
 common#:#vendors#:#Verkäufer
 common#:#version#:#Version
+common#:#versions#:#Versionen
 common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
@@ -4103,6 +4104,7 @@ survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#error_add_heading#:#Bitte geben Sie eine Überschrift ein!
 survey#:#error_importing_question#:#Beim Importieren der Frage(n) der von Ihnen ausgewählten Datei ist ein Fehler aufgetreten!
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Umfragecode %s nicht finden. Bitte überprüfen Sie den Umfragecode!###09 Dec 2004 content changed
+survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###10 Dec 2004 new variable
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Evaluationszugriff
 survey#:#excel#:#Microsoft Excel
@@ -4139,6 +4141,7 @@ survey#:#invited_groups#:#Eingeladene Gruppen
 survey#:#invited_users#:#Eingeladene Nutzerinnen
 survey#:#label_resume_survey#:#Bitte geben Sie den aus 32 Zeichen bestehenden Umfragecode ein
 survey#:#last_update#:#Letzte Aktualisierung
+survey#:#legend#:#Legend###10 Dec 2004 new variable
 survey#:#lower_limit#:#Untere Schranke
 survey#:#maintenance#:#Wartung
 survey#:#manage_phrases#:#Phrasen verwalten
@@ -4250,6 +4253,7 @@ survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition a
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_value#:#Wert auswählen
 survey#:#set_filter#:#Filter setzen
+survey#:#skipped#:#skipped###10 Dec 2004 new variable
 survey#:#spl_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 survey#:#start_date#:#Startdatum
 survey#:#start_date_not_reached#:#Sie können die Umfrage erst starten, wenn das Startdatum erreicht ist!
