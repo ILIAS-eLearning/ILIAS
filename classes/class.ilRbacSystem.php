@@ -82,8 +82,27 @@ class ilRbacSystem
 	*/
 	function checkAccess($a_operations,$a_ref_id,$a_type = "")
 	{
+		global $ilUser;
+		
+		return $this->checkAccessOfUser($ilUser->getId(), $a_operations, $a_ref_id, $a_type);
+	}
+	
+	function checkAccessOfUser($a_user_id, $a_operations, $a_ref_id, $a_type = "")
+	{
+		global $ilUser, $rbacreview;
+		
+		// get roles
+		if ($a_user_id == $ilUser->getId())
+		{
+			$roles = $_SESSION["RoleId"];
+		}
+		else
+		{
+			$roles = $rbacreview->assignedRoles($a_user_id);
+		}
+		
 		// exclude system role from rbac
-		if (in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]))
+		if (in_array(SYSTEM_ROLE_ID, $roles))
 		{
 			return true;		
 		}
@@ -101,7 +120,7 @@ class ilRbacSystem
 
 		$operations = explode(",",$a_operations);
 
-		if(!$this->checkPreconditions($operations,$a_ref_id))
+		if(!$this->checkPreconditions($operations, $a_ref_id, $a_user_id))
 		{
 			return false;
 		}
@@ -125,7 +144,7 @@ class ilRbacSystem
 			
 			// Um nur eine Abfrage zu haben
 			$in = " IN ('";
-			$in .= implode("','",$_SESSION["RoleId"]);
+			$in .= implode("','", $roles);
 			$in .= "')";
 
 			$q = "SELECT * FROM rbac_pa ".
@@ -188,8 +207,13 @@ class ilRbacSystem
 		return in_array($ops_id,$ops);
 	}
 
-	function checkPreconditions($a_operations,$a_ref_id)
+	function checkPreconditions($a_operations,$a_ref_id, $a_user_id = "")
 	{
+		if ($a_user_id == "")
+		{
+			$a_user_id = $this->ilias->account->getId();
+		}
+		
 		// get obj_type 
 		$query = "SELECT type FROM object_data AS obd,object_reference AS obr ".
 			"WHERE obd.obj_id = obr.obj_id AND ".
@@ -212,7 +236,7 @@ class ilRbacSystem
 				$tmp_obj->initCourseMemberObject();
 
 				// CHECK COURSE SPECIFIC THINGS
-				if(!$tmp_obj->members_obj->hasAccess($this->ilias->account->getId()))
+				if(!$tmp_obj->members_obj->hasAccess($a_user_id))
 				{
 					unset($tmp_obj);
 					return false;

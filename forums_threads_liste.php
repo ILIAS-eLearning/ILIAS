@@ -278,7 +278,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 								  $thrData["thr_usr_id"]."&backurl=forums_threads_liste&offset=".
 								  $Start."\">".$author->getLogin()."</a>"); 
 				*/
-				if($thrData["thr_usr_id"])
+				if($thrData["thr_usr_id"] && $usr_data["usr_id"] != 0)
 				{
 					$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
 									  $usr_data["usr_id"]."&backurl=forums_threads_liste&offset=".
@@ -301,7 +301,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				if (is_array($lastPost))
 				{				
 					$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
-					$lpCont = $lastPost["pos_date"]."<br/>".strtolower($lng->txt("from"))."&nbsp;";			
+					$lpCont = $lastPost["pos_date"]."<br/>".strtolower($lng->txt("from"))."&nbsp;";
 					$lpCont .= "<a href=\"forums_frameset.php?pos_pk=".
 						$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".
 						$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$last_usr_data["login"]."</a>";

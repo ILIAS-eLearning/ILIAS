@@ -1068,8 +1068,12 @@ class ilForum
 		global $lng;
 
 		require_once("./classes/class.ilObjUser.php");
-		$tmp_user = new ilObjUser($a_row->pos_usr_id);
-		$fullname = $tmp_user->getFullname();
+		
+		if (ilObject::_exists($a_row->pos_usr_id))
+		{
+			$tmp_user = new ilObjUser($a_row->pos_usr_id);
+			$fullname = $tmp_user->getFullname();
+		}
 	
 		$fullname = $fullname ? $fullname : ($a_row->import_name ? $a_row->import_name : $lng->txt("unknown"));
 
@@ -1368,7 +1372,7 @@ class ilForum
 	{
 		global $lng;
 
-		if($a_id and ilObjectFactory::getInstanceByObjId($a_id,false))
+		if($a_id && ilObject::_exists($a_id) && ilObjectFactory::getInstanceByObjId($a_id,false))
 		{
 			$query = "SELECT * FROM usr_data WHERE usr_id = '".$a_id."'";
 			$res = $this->ilias->db->query($query);

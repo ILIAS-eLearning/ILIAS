@@ -751,6 +751,8 @@ class ilMail
 	*/
 	function checkRecipients($a_recipients,$a_type)
 	{
+		global $rbacsystem;
+		
 		$wrong_rcps = '';
 
 		$tmp_rcp = $this->explodeRecipients($a_recipients);
@@ -770,6 +772,16 @@ class ilMail
 				{
 					$wrong_rcps .= "<BR/>".$rcp;
 					continue;
+				}
+				
+				// CHECK IF USER CAN RECEIVE MAIL
+				if ($user_id = ilObjUser::getUserIdByLogin(addslashes($rcp)))
+				{
+					if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
+					{
+						$wrong_rcps .= "<BR/>".$rcp." (".$this->lng->txt("user_cant_receive_mail").")";
+						continue;
+					}
 				}
 			}
 			else
@@ -1239,7 +1251,7 @@ class ilMail
 				case "substitute":
 					if(strpos($name,"@") and loginExists($name))
 					{
-						$new_name[] = preg_replace("/@/","§#¢",$name);
+						$new_name[] = preg_replace("/@/","ï¿½#ï¿½",$name);
 					}
 					else
 					{
@@ -1248,9 +1260,9 @@ class ilMail
 					break;
 					
 				case "resubstitute":
-					if(stristr($name,"§#¢"))
+					if(stristr($name,"ï¿½#ï¿½"))
 					{
-						$new_name[] = preg_replace("/§#¢/","@",$name);
+						$new_name[] = preg_replace("/ï¿½#ï¿½/","@",$name);
 					}
 					else
 					{
