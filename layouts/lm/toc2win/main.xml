@@ -5,7 +5,7 @@
 	</ilFrame>
 	<ilFrame name="content" cols="30%,70%">
 		<ilFrame name="toc" template="tpl.toc.html" template_location="module">
-			<ilTOC />
+			<ilTOC target_frame="maincontent" />
 		</ilFrame>
 		<ilFrame name="maincontent" template="tpl.page.html" template_location="module">
 			<ilPage />

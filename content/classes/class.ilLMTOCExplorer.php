@@ -21,83 +21,49 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilMetaData.php");
-
-/**
-* Class ilLearningModule
-*
-* This class handles Learning Modules like ilObjLearningModule
-* , maybe they will be merged sometime. This class is only an
-* intermediate test class. All object_data storage and the like is done
-* by ilObjLearningModule. This class represents a LearningModule of ILIAS DTD.
+/*
+* Explorer View for Learning Module Editor
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
-class ilLearningModule
-{
-	var $ilias;
-	var $meta_data;
-	var $id;
 
+require_once("content/classes/class.ilLMExplorer.php");
+
+class ilLMTOCExplorer extends ilLMExplorer
+{
 	/**
 	* Constructor
 	* @access	public
+	* @param	string	scriptname
+	* @param    int user_id
 	*/
-	function ilLearningModule($a_id)
+	function ilLMTOCExplorer($a_target,&$a_lm_obj)
 	{
-		global $ilias;
-
-		$this->ilias =& $ilias;
-
-		$this->id = $a_id;
-		if(!empty($a_id))
-		{
-			$this->read();
-		}
+		parent::ilLMExplorer($a_target, $a_lm_obj);
 	}
 
-	function read()
+		/**
+	* Creates Get Parameter
+	* @access	private
+	* @param	string
+	* @param	integer
+	* @return	string
+	*/
+	function createTarget($a_type,$a_child)
 	{
-		$this->meta_data =& new ilMetaData("lm", $this->id);
+		// SET expand parameter:
+		//     positive if object is expanded
+		//     negative if object is compressed
+		$a_child = $a_type == '+' ? $a_child : -(int) $a_child;
+
+		return $_SERVER["SCRIPT_NAME"]."?frame=".$_GET["frame"].
+			"&cmd=".$_GET["cmd"]."&lm_id=".$this->lm_obj->getId()."&mexpand=".$a_child;
 	}
 
-	function getLayout()
-	{
-		// todo: make it real
-		return "toc2win";
-	}
 
-	function setId($a_id)
-	{
-		$this->id = $a_id;
-	}
 
-	function getId()
-	{
-		return $this->id;
-	}
-
-	function getTitle()
-	{
-		return $this->meta_data->getTitle();
-	}
-
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-
-	function update()
-	{
-		$lo_obj =& new ilObjLearningModule($this->getId(), false);
-		$lo_obj->setTitle($this->meta_data->getTitle());
-		$lo_obj->setDescription($this->meta_data->getDescription());
-		$lo_obj->update();
-		$this->meta_data->update();
-	}
-
-}
+} // END class.ilLMEditorExplorer
 ?>
