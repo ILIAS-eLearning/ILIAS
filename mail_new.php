@@ -61,7 +61,7 @@ setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 // SEND MESSAGE
 if(isset($_POST["cmd"]["send"]))
 {
-	$f_message = $umail->formatLinebreakMessage($_POST["m_message"]);
+	$f_message = $umail->formatLinebreakMessage(ilUtil::stripSlashes($_POST["m_message"]));
 	$umail->setSaveInSentbox(true);
 	if($error_message = $umail->sendMail($_POST["rcp_to"],$_POST["rcp_cc"],
 										 $_POST["rcp_bcc"],$_POST["m_subject"],$f_message,
@@ -93,7 +93,8 @@ if(isset($_POST["cmd"]["save_message"]))
 	{
 		$umail->updateDraft($drafts_id,$_POST["attachments"],$_POST["rcp_to"],$_POST["rcp_cc"],
 								  $_POST["rcp_bcc"],$_POST["m_type"],$_POST["m_email"],
-								  $_POST["m_subject"],$_POST["m_message"],$_SESSION["draft"]);
+								  ilUtil::stripSlashes($_POST["m_subject"]),
+								  ilUtil::stripSlashes($_POST["m_message"]),$_SESSION["draft"]);
 		session_unregister("draft");
 		sendInfo($lng->txt("mail_saved"),true);
 		header("location: mail.php?mobj_id=".$mbox->getInboxFolder());
@@ -106,7 +107,8 @@ if(isset($_POST["cmd"]["save_message"]))
 
 		if($umail->sendInternalMail($drafts_id,$_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],$_POST["rcp_cc"],
 									$_POST["rcp_bcc"],'read',$_POST["m_type"],$_POST["m_email"],
-									$_POST["m_subject"],$_POST["m_message"],$_SESSION["AccountId"]))
+									ilUtil::stripSlashes($_POST["m_subject"]),
+									ilUtil::stripSlashes($_POST["m_message"]),$_SESSION["AccountId"]))
 		{
 			sendInfo($lng->txt("mail_saved"));
 		}
@@ -139,7 +141,9 @@ if(isset($_POST["cmd"]["edit"]))
 {
 	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],
 						 $_POST["rcp_to"],$_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
-						 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
+						 $_POST["m_email"],
+						 ilUtil::stripSlashes($_POST["m_subject"]),
+						 ilUtil::stripSlashes($_POST["m_message"]));
 	header("location: mail_attachment.php?mobj_id=$_GET[mobj_id]");
 }
 
@@ -148,7 +152,9 @@ if(isset($_POST["cmd"]["search"]))
 {
 	$umail->savePostData($_SESSION["AccountId"],$_POST["attachments"],$_POST["rcp_to"],
 						 $_POST["rcp_cc"],$_POST["rcp_bcc"],$_POST["m_type"],
-						 $_POST["m_email"],$_POST["m_subject"],$_POST["m_message"]);
+						 $_POST["m_email"],
+						 ilUtil::stripSlashes($_POST["m_subject"]),
+						 ilUtil::stripSlashes($_POST["m_message"]));
 	// IF NO TYPE IS GIVEN SEARCH IN BOTH 'system' and 'addressbook'
 	if(!$_POST["type_system"] and !$_POST["type_addressbook"])
 	{
