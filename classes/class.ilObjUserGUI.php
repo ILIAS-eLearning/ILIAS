@@ -1254,8 +1254,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$_POST['Fobject']['time_limit_message'] = $this->object->getTimeLimitMessage();
 		}
-		$this->object->assignData($_POST["Fobject"], IL_NO_PASSWD);
-//echo "<br>gui_update::passwd".$_POST["Fobject"]["passwd"];
+		$this->object->assignData($_POST["Fobject"]);
 		if (AUTH_CURRENT == AUTH_LOCAL)
 		{
 			$this->object->updateLogin($_POST["Fobject"]["login"]);

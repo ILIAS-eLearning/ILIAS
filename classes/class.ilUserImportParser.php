@@ -858,10 +858,11 @@ class ilUserImportParser extends ilSaxParser
 						{	
 							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Firstname", "Insert"));
 						}
+						/*
 						if (is_null($this->userObj->getEmail()))
 						{	
 							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required"),"Email", "Insert"));
-						}
+						}*/
 						if (count($this->roles) == 0)
 						{	
 							$this->logFailure($this->userObj->getLogin(),sprintf($lng->txt("usrimport_xml_element_for_action_required","Role"), "Insert"));
