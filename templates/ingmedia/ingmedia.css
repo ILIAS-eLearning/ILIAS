@@ -185,7 +185,22 @@ td.il_no_style {
 	background-color:white;
 }
 
-/* locator */
+/* locator-in-a-frame */
+.il_Locator {
+	padding-top:0px;
+	padding-left:0px;
+	padding-right:0px;
+	padding-bottom:0px;
+	font-size:13px;
+	vertical-align:top;
+	text-align:left;
+	color: #ffffff;
+	background-color: #336699;
+	border-width: 0px;
+	border-style: outset;
+	border-color: #E0E0E0;
+}
+/* standard locator */
 div.il_Locator {
 	padding-top:0px;
 	padding-left:0px;
