@@ -109,9 +109,12 @@ assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#cloze_text#:#Fechar texto
 assessment#:#code#:#Code###19 May 2004 new variable
+assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
 assessment#:#create_date#:#Criado
 assessment#:#create_gaps#:#Criar espaços
+assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Criar novo
+assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
 assessment#:#duplicate#:#Duplicar
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#A escolha com o valor %s é %s. Você recebeu %s pontos.
@@ -140,6 +143,9 @@ assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Selecção de espaço
 assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Mapa de imagem
+assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
+assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
+assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
 assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legenda
@@ -205,6 +211,7 @@ assessment#:#save_next#:#Guardar e ir para a próxima questão
 assessment#:#save_previous#:#Guardar e ir para para a questão anterior
 assessment#:#select_gap#:#Seleccionar espaço
 assessment#:#set_filter#:#Definir filtro
+assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Ordem solução
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
@@ -302,6 +309,7 @@ assessment#:#tt_self_assessment#:#Teste de Auto-avaliação
 assessment#:#unlimited#:#ilimitado
 assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
+assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
 assessment#:#uploaded_material#:#Material enviado
 assessment#:#width#:#Width###19 May 2004 new variable
 assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
@@ -917,7 +925,7 @@ common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Criar Módulo de Aprendizagem SCORM
 common#:#grp_delete#:#Apagar Grupo
 common#:#grp_dismiss_member#:#Tem a certeza que quer dispensar os seguintes membros do grupo.
-common#:#grp_dismiss_myself#:#Tem a certeza que quer dispensar-se do grupo.
+common#:#grp_dismiss_myself#:#Tem a certeza que quer dispensar-se do grupo.###19 Jun 2004 content changed
 common#:#grp_edit#:#Editar Grupo
 common#:#grp_edit_permission#:#Mudar definições de permissões
 common#:#grp_err_administrator_required#:#O Membro não pôde ser removido, é necessário pelo menos um administrador por grupo !
@@ -1367,6 +1375,9 @@ common#:#obj_slm#:#Módulo de Aprendizagem SCORM
 common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Capítulo
 common#:#obj_svy#:#Survey###07 May 2004 new variable
+common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
+common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
+common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
 common#:#obj_tst#:#Teste
 common#:#obj_typ#:#Definição de Tipo de Objecto
 common#:#obj_type#:#Tipo de Objecto
@@ -1657,6 +1668,15 @@ common#:#system_grp#:#Grupo do Sistema
 common#:#system_language#:#Linguagem de Sistema
 common#:#system_message#:#Mensagem de Sistema
 common#:#table_mail_import#:#Importar mensagens do ILIAS 2###30 Apr 2004 content changed
+common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
+common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
+common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
+common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable
+common#:#taxf_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
+common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
+common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#Termo
 common#:#test_intern#:#Teste Interno
 common#:#tests#:#Testes

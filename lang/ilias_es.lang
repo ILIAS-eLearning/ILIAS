@@ -109,9 +109,12 @@ assessment#:#circle#:#Circle###15 Jun 2004 new variable
 assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
 assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
 assessment#:#code#:#Code###19 May 2004 new variable
+assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
 assessment#:#create_date#:#Created###05 Feb 2004 new variable
 assessment#:#create_gaps#:#Create gaps###05 Feb 2004 new variable
+assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
 assessment#:#create_new#:#Create new###05 Feb 2004 new variable
+assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
 assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
@@ -140,6 +143,9 @@ assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
 assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
+assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
+assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
+assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
 assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
 assessment#:#last_update#:#Last update###05 Feb 2004 new variable
 assessment#:#legend#:#Legend###23 Mar 2004 new variable
@@ -205,6 +211,7 @@ assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
 assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
 assessment#:#select_gap#:#Select gap###05 Feb 2004 new variable
 assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
+assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
@@ -302,6 +309,7 @@ assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variabl
 assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
 assessment#:#unlock#:#Unlock###7 June 2004 new variable
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###7 June 2004 new variable
+assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
 assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
 assessment#:#width#:#Width###19 May 2004 new variable
 assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
@@ -917,7 +925,7 @@ common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
 common#:#grp_create_slm#:#Crear Módulo de Aprendizaje SCORM
 common#:#grp_delete#:#Eliminar Grupo
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
-common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?
+common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?###19 Jun 2004 content changed
 common#:#grp_edit#:#Editar Grupo
 common#:#grp_edit_permission#:#Cambiar configuración de permisos
 common#:#grp_err_administrator_required#:#El miembro no puede ser borrado, al menos se requiere un administrador por grupo!
@@ -1367,6 +1375,9 @@ common#:#obj_slm#:#SCORM LM
 common#:#obj_spl#:#Question Pool (Survey)###07 June 2004 new variable
 common#:#obj_st#:#Capítulo
 common#:#obj_svy#:#Survey###07 June 2004 new variable
+common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
+common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
+common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objecttype Definition###15 May 2003 new variable
 common#:#obj_type#:#Tipo de Objeto
@@ -1657,6 +1668,15 @@ common#:#system_grp#:#grupo de sistema
 common#:#system_language#:#idioma de sistema
 common#:#system_message#:#mensaje de sistema
 common#:#table_mail_import#:#Importar Correos de ILIAS 2
+common#:#tax_delete#:#Delete taxonomies###19 Jun 2004 new variable
+common#:#tax_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#tax_read#:#Read access to taxonomies###19 Jun 2004 new variable
+common#:#tax_visible#:#Taxonomy is visible###19 Jun 2004 new variable
+common#:#tax_write#:#Write access to taxonomies###19 Jun 2004 new variable
+common#:#taxf_edit_permission#:#Change permission settings###19 Jun 2004 new variable
+common#:#taxf_read#:#Read access to taxonomy folder###19 Jun 2004 new variable
+common#:#taxf_visible#:#Taxonomy folder is visible###19 Jun 2004 new variable
+common#:#taxf_write#:#Write access to taxonomy folder###19 Jun 2004 new variable
 common#:#term#:#Term###16 Aug 2003 new variable
 common#:#test_intern#:#test intern
 common#:#tests#:#Tests###04 Feb 2004 new variable
