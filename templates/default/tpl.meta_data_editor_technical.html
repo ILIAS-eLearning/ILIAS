@@ -42,47 +42,36 @@
 
 <!-- BEGIN format_loop -->
 <tr>
-	<td class="option" colspan="6">
-		<div align="left">{FORMAT_LOOP_TXT_FORMAT} (Format)
+	<td class="option" colspan="5">
+		<div align="left">{FORMAT_LOOP_TXT_FORMAT} (Format)<br>
 		[ <a href="{FORMAT_LOOP_ACTION_DELETE}">{FORMAT_LOOP_TXT_DELETE}</a> ]
 		[ <a href="{FORMAT_LOOP_ACTION_ADD}">{FORMAT_LOOP_TXT_ADD}</a> ]</div>
 	</td>
-</tr>
-<tr>
-	<td class="option" width="10">&nbsp;</td>
-	<td class="sub_option" colspan="4">{FORMAT_LOOP_TXT_VALUE} (Value)</td>
 	<td class="option_value"><input type="text" maxlength="200" name="meta[Format][{FORMAT_LOOP_NO}]" value="{FORMAT_LOOP_VAL}"></td>
 </tr>
 <!-- END format_loop -->
 
 <!-- BEGIN size -->
 <tr>
-	<td class="option" colspan="6">
-		<div align="left">{SIZE_TXT_SIZE} (Size)
+	<td class="option" colspan="5">
+		<div align="left">{SIZE_TXT_SIZE} (Size)<br>
 		[ <a href="{SIZE_ACTION_DELETE}">{SIZE_TXT_DELETE}</a> ]</div>
 	</td>
-</tr>
-<tr>
-	<td class="option" width="10">&nbsp;</td>
-	<td class="sub_option" colspan="4">{SIZE_TXT_VALUE} (Value)</td>
 	<td class="option_value"><input type="text" maxlength="200" name="meta[Size]" value="{SIZE_VAL}"></td>
 </tr>
 <!-- END size -->
 
 <!-- BEGIN location_loop -->
 <tr>
-	<td class="option" colspan="6">
-		<div align="left">{LOCATION_LOOP_TXT_LOCATION} (Location)
+	<td class="option" colspan="5">
+		<div align="left">{LOCATION_LOOP_TXT_LOCATION} (Location)<br>
 		[ <a href="{LOCATION_LOOP_ACTION_DELETE}">{LOCATION_LOOP_TXT_DELETE}</a> ]
 		[ <a href="{LOCATION_LOOP_ACTION_ADD}">{LOCATION_LOOP_TXT_ADD}</a> ]</div>
 	</td>
-</tr>
-<tr>
-	<td class="option" width="10" rowspan="2">&nbsp;</td>
-	<td class="sub_option" colspan="4">{LOCATION_LOOP_TXT_VALUE} (Value)</td>
 	<td class="option_value"><input type="text" maxlength="200" name="meta[Location][{LOCATION_LOOP_NO}][Value]" value="{LOCATION_LOOP_VAL}"></td>
 </tr>
 <tr>
+	<td class="option" width="10">&nbsp;</td>
 	<td class="sub_option" colspan="4">{LOCATION_LOOP_TXT_TYPE} (Type)</td>
 	<td class="option_value">
 		<select name="meta[Location][{LOCATION_LOOP_NO}][Type]" size=1>
@@ -96,23 +85,26 @@
 
 <!-- BEGIN requirement_loop -->
 <tr>
-	<td class="option" colspan="6">
-		<div align="left">{REQUIREMENT_LOOP_TXT_REQUIREMENT} (Requirement)
+	<td class="option" colspan="5">
+		<div align="left">{REQUIREMENT_LOOP_TXT_REQUIREMENT} (Requirement)<br>
 		[ <a href="{REQUIREMENT_LOOP_ACTION_DELETE}">{REQUIREMENT_LOOP_TXT_DELETE}</a> ]
 		[ <a href="{REQUIREMENT_LOOP_ACTION_ADD}">{REQUIREMENT_LOOP_TXT_ADD}</a> ]</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option" width="10" rowspan="9">&nbsp;</td>
-	<td class="sub_option" colspan="5">
+	<td class="sub_option" colspan="4">
 		<div align="left">{REQUIREMENT_LOOP_TXT_TYPE} (Type)</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="sub_option" width="10" rowspan="8">&nbsp;</td>
-	<td class="option" colspan="4">
+	<td class="option" colspan="3">
 		<div align="left">{REQUIREMENT_LOOP_TXT_OPERATINGSYSTEM} (Operating System)</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option" width="10" rowspan="3">&nbsp;</td>
@@ -138,9 +130,10 @@
 	<td class="option_value"><input type="text" maxlength="200" name="meta[Requirement][{REQUIREMENT_LOOP_NO}][Type][OperatingSystem][MaximumVersion]" value="{REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION}"></td>
 </tr>
 <tr>
-	<td class="option" colspan="4">
+	<td class="option" colspan="3">
 		<div align="left">{REQUIREMENT_LOOP_TXT_BROWSER} (Browser)</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option" width="10" rowspan="3">&nbsp;</td>
@@ -169,34 +162,38 @@
 
 <!-- BEGIN orcomposite_loop -->
 <tr>
-	<td class="option" colspan="6">
-		<div align="left">{ORCOMPOSITE_LOOP_TXT_ORCOMPOSITE} (OrComposite)
+	<td class="option" colspan="5">
+		<div align="left">{ORCOMPOSITE_LOOP_TXT_ORCOMPOSITE} (OrComposite)<br>
 		[ <a href="{ORCOMPOSITE_LOOP_ACTION_DELETE}">{ORCOMPOSITE_LOOP_TXT_DELETE}</a> ]
 		[ <a href="{ORCOMPOSITE_LOOP_ACTION_ADD}">{ORCOMPOSITE_LOOP_TXT_ADD}</a> ]</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <!-- BEGIN orcomposite_requirement_loop -->
 <tr>
 	<td class="option" width="10" rowspan="10">&nbsp;</td>
-	<td class="sub_option" colspan="5">
-		<div align="left">{ORCOMPOSITE_REQUIREMENT_LOOP_TXT_REQUIREMENT} (Requirement)
+	<td class="sub_option" colspan="4">
+		<div align="left">{ORCOMPOSITE_REQUIREMENT_LOOP_TXT_REQUIREMENT} (Requirement)<br>
 <!-- BEGIN orcomposite_requirement_delete -->
 		[ <a href="{ORCOMPOSITE_REQUIREMENT_LOOP_ACTION_DELETE}">{ORCOMPOSITE_REQUIREMENT_LOOP_TXT_DELETE}</a> ]
 <!-- END orcomposite_requirement_delete -->
 		[ <a href="{ORCOMPOSITE_REQUIREMENT_LOOP_ACTION_ADD}">{ORCOMPOSITE_REQUIREMENT_LOOP_TXT_ADD}</a> ]</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="sub_option" width="10" rowspan="9">&nbsp;</td>
-	<td class="option" colspan="4">
+	<td class="option" colspan="3">
 		<div align="left">{ORCOMPOSITE_REQUIREMENT_LOOP_TXT_TYPE} (Type)</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="option" width="10" rowspan="8">&nbsp;</td>
-	<td class="sub_option" colspan="3">
+	<td class="sub_option" colspan="2">
 		<div align="left">{ORCOMPOSITE_REQUIREMENT_LOOP_TXT_OPERATINGSYSTEM} (Operating System)</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="sub_option" width="10" rowspan="3">&nbsp;</td>
@@ -222,9 +219,10 @@
 	<td class="option_value"><input type="text" maxlength="200" name="meta[OrComposite][{ORCOMPOSITE_REQUIREMENT_LOOP_ORCOMPOSITE_NO}][Requirement][{ORCOMPOSITE_REQUIREMENT_LOOP_NO}][Type][OperatingSystem][MaximumVersion]" value="{ORCOMPOSITE_REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION}"></td>
 </tr>
 <tr>
-	<td class="sub_option" colspan="3">
+	<td class="sub_option" colspan="2">
 		<div align="left">{ORCOMPOSITE_REQUIREMENT_LOOP_TXT_BROWSER} (Browser)</div>
 	</td>
+	<td class="option_value">&nbsp;</td>
 </tr>
 <tr>
 	<td class="sub_option" width="10" rowspan="3">&nbsp;</td>
@@ -254,17 +252,14 @@
 
 <!-- BEGIN installationremarks -->
 <tr>
-	<td class="option" colspan="6">
-		<div align="left">{INSTALLATIONREMARKS_TXT_INSTALLATIONREMARKS} (Installation Remarks)
+	<td class="option" colspan="5">
+		<div align="left">{INSTALLATIONREMARKS_TXT_INSTALLATIONREMARKS} (Installation Remarks)<br>
 		[ <a href="{INSTALLATIONREMARKS_ACTION_DELETE}">{INSTALLATIONREMARKS_TXT_DELETE}</a> ]</div>
 	</td>
-</tr>
-<tr>
-	<td class="option" width="10" rowspan="2">&nbsp;</td>
-	<td class="sub_option" colspan="4">{INSTALLATIONREMARKS_TXT_VALUE} (Value)</td>
 	<td class="option_value"><input type="text" maxlength="200" name="meta[InstallationRemarks][Value]" value="{INSTALLATIONREMARKS_VAL}"></td>
 </tr>
 <tr>
+	<td class="option" width="10">&nbsp;</td>
 	<td class="sub_option" colspan="4">{INSTALLATIONREMARKS_TXT_LANGUAGE} (Language)</td>
 	<td class="option_value">{INSTALLATIONREMARKS_VAL_LANGUAGE}</td>
 </tr>
@@ -272,17 +267,14 @@
 
 <!-- BEGIN otherplattformrequirements -->
 <tr>
-	<td class="option" colspan="6">
-		<div align="left">{OTHERPLATTFORMREQUIREMENTS_TXT_OTHERPLATTFORMREQUIREMENTS} (Other Plattform Requirements)
+	<td class="option" colspan="5">
+		<div align="left">{OTHERPLATTFORMREQUIREMENTS_TXT_OTHERPLATTFORMREQUIREMENTS} (Other Plattform Requirements)<br>
 		[ <a href="{OTHERPLATTFORMREQUIREMENTS_ACTION_DELETE}">{OTHERPLATTFORMREQUIREMENTS_TXT_DELETE}</a> ]</div>
 	</td>
-</tr>
-<tr>
-	<td class="option" width="10" rowspan="2">&nbsp;</td>
-	<td class="sub_option" colspan="4">{OTHERPLATTFORMREQUIREMENTS_TXT_VALUE} (Value)</td>
 	<td class="option_value"><input type="text" maxlength="200" name="meta[OtherPlattformRequirements][Value]" value="{OTHERPLATTFORMREQUIREMENTS_VAL}"></td>
 </tr>
 <tr>
+	<td class="option" width="10">&nbsp;</td>
 	<td class="sub_option" colspan="4">{OTHERPLATTFORMREQUIREMENTS_TXT_LANGUAGE} (Language)</td>
 	<td class="option_value">{OTHERPLATTFORMREQUIREMENTS_VAL_LANGUAGE}</td>
 </tr>
@@ -290,14 +282,10 @@
 
 <!-- BEGIN duration -->
 <tr>
-	<td class="option" colspan="6">
-		<div align="left">{DURATION_TXT_DURATION} (Duration)
+	<td class="option" colspan="5">
+		<div align="left">{DURATION_TXT_DURATION} (Duration)<br>
 		[ <a href="{DURATION_ACTION_DELETE}">{DURATION_TXT_DELETE}</a> ]</div>
 	</td>
-</tr>
-<tr>
-	<td class="option" width="10">&nbsp;</td>
-	<td class="sub_option" colspan="4">{DURATION_TXT_VALUE} (Value)</td>
 	<td class="option_value"><input type="text" maxlength="200" name="meta[Duration]" value="{DURATION_VAL}"></td>
 </tr>
 <!-- END duration -->

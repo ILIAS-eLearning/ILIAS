@@ -481,7 +481,7 @@ class ilMetaDataGUI
 
 					$tpl->setCurrentBlock("contribute_loop");
 					$tpl->setVariable("CONTRIBUTE_LOOP_NO", $i);
-					$tpl->setVariable("CONTRIBUTE_LOOP_ROWSPAN", (2* $entities) + 2);
+					$tpl->setVariable("CONTRIBUTE_LOOP_ROWSPAN", ($entities) + 2);
 					$tpl->setVariable("CONTRIBUTE_LOOP_TXT_CONTRIBUTE", $this->lng->txt("meta_contribute"));
 					$tpl->setVariable("CONTRIBUTE_LOOP_TXT_ROLE", $this->lng->txt("meta_role"));
 					$tpl->setVariable("CONTRIBUTE_LOOP_TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
@@ -874,7 +874,7 @@ class ilMetaDataGUI
 
 					$tpl->setCurrentBlock("taxonpath_loop");
 					$tpl->setVariable("TAXONPATH_LOOP_NO", $i);
-					$tpl->setVariable("TAXONPATH_LOOP_ROWSPAN", (4 * $taxons) + 3);
+					$tpl->setVariable("TAXONPATH_LOOP_ROWSPAN", (3 * $taxons) + 2);
 					$tpl->setVariable("TAXONPATH_LOOP_TXT_TAXONPATH", $this->lng->txt("meta_taxon_path"));
 					$tpl->setVariable("TAXONPATH_LOOP_TXT_SOURCE", $this->lng->txt("meta_source"));
 					$tpl->setVariable("TAXONPATH_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
@@ -1278,7 +1278,7 @@ class ilMetaDataGUI
 					$tpl->setVariable("DESCRIPTION_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Description&meta_language=" . $a_language . "&meta_path=Relation/Resource&meta_section=" . $a_section);
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
 					$tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_catalog"));
+					$tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 					$tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::stripSlashes($description[$i]["value"]));
 					$tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Resource][Description][" . $i . "][Language]", $description[$i]["Language"]));
 					$tpl->parseCurrentBlock();
