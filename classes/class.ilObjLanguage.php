@@ -107,11 +107,7 @@ class ilObjLanguage extends ilObject
 	*/
 	function install ()
 	{
-		$lang = getObject($this->id);
-		$lang_key = $lang["title"];
-		$lang_status = $lang["desc"];
-
-		if ($lang_status != "installed")
+		if ($this->getStatus() != "installed")
 		{
 			if ($this->check())
 			{
@@ -120,19 +116,18 @@ class ilObjLanguage extends ilObject
 				// ...re-insert data from lang-file
 				$this->insert();
 				// update information in db-table about available/installed languages
-				$this->setTitle($lang_key);
 				$this->setDescription("installed");
 				$this->update();
 				$this->optimizeData();
-				$lang_installed[] = $lang_key;
-				return $lang_key;
+				return $this->getKey();
 			}
 		}
 		return "";
 	}
 
+
 	/**
-	* uninstall a language
+	* uninstall current language
 	*
 	* @return	string	uninstalled language key
 	*/
@@ -151,6 +146,7 @@ class ilObjLanguage extends ilObject
 		return "";
 	}
 
+
 	/**
 	* remove language data from database
 	*/
@@ -159,6 +155,7 @@ class ilObjLanguage extends ilObject
 		$query = "DELETE FROM lng_data WHERE lang_key='".$this->key."'";
 		$this->ilias->db->query($query);
 	}
+
 
 	/**
 	* insert language data from file into database

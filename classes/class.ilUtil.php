@@ -144,7 +144,7 @@ class ilUtil
 	function checkInput ($vars)
 	{
 		// TO DO:
-		// Diese Funktion soll Formfeldeingaben berprfen (empty und required)
+		// Diese Funktion soll Formfeldeingaben berprfen (empty und required)
 	}
 
 	/**
@@ -163,33 +163,16 @@ class ilUtil
 		//return getcwd().$a_path;
 		return $a_path;
 	}
-	
+
+
 	/**
-	* returns owner of given object
-	* @access	public
-	* @param	integer	object_id
-	* @return	object	user object
+	* deprecated: use ilObject->getOwner() or ilObject->getOwnerName()
 	*/
+	/*
 	function getOwner ($a_obj_id)
 	{
-		$obj = getObject($a_obj_id);
-		
-		if (!is_array($obj))
-		{
-			// object not found
-			return false;
-		}
+	}*/
 
-		if ($obj["owner"] == -1)
-		{
-			// object has no owner
-			return false;
-		}
-
-		$owner = new ilUser($obj["owner"]);
-
-		return $owner;
-	}
 
 	/**
 	* switches style sheets for each even $a_num
@@ -363,7 +346,7 @@ class ilUtil
 			// if ($params) $params = substr($params,0,-1);
 			$link = $AScript."?".$params."offset=";
 
-			// übergehe "zurck"-link, wenn offset 0 ist.
+			// übergehe "zurck"-link, wenn offset 0 ist.
 			if ($AOffset >= 1)
 			{
 				$prevoffset = $AOffset - $ALimit;

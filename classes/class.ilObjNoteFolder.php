@@ -18,7 +18,7 @@ class ilObjNoteFolder extends ilObject
 	var $m_usr_id;
 	
 	var $m_tree;
-	
+
 	var $m_notefId ;
 	
 	/**
@@ -52,7 +52,7 @@ class ilObjNoteFolder extends ilObject
 
 	/**
 	* add note to notefolder 
-	* 
+	*
 	* @param	string  note_id
 	* @param	string  group_id = obj_id of group
 	* @access	public
@@ -104,8 +104,9 @@ class ilObjNoteFolder extends ilObject
 		foreach ($notes as $note)
 		{
 			//delete note in note_data, only owner can delete notes 
-			$note_obj = getObject($note);
-			if ($note_obj["owner"] == $this->m_usr_id)
+			//$note_obj = getObject($note);
+			$noteObj =& $this->ilias->obj_factory->getInstanceByObjId($note);
+			if ($noteObj->getOwner() == $this->m_usr_id)
 			{
 				$query = "DELETE FROM note_data WHERE note_id ='".$note."'";
 				$res = $this->ilias->db->query($query);
@@ -122,7 +123,7 @@ class ilObjNoteFolder extends ilObject
 
 	/**
 	* returns all notes of a specific notefolder
-	* 
+	*
 	* @param	string  title of learning object, i.e
 	* @param	string  short description of note
 	* @return	array 	data of notes [note_id|lo_id|text|create_date]
@@ -131,35 +132,52 @@ class ilObjNoteFolder extends ilObject
 	function getNotes($note_id = "")
 	{
 		$notes = array();
-		$myTree = new ilTree($this->m_notefId[0]["obj_id"], 0, 0, $this->m_usr_id); 	
-	
+		$myTree = new ilTree($this->m_notefId[0]["obj_id"], 0, 0, $this->m_usr_id);
+
 		$nodes = $myTree->getNodeDataByType("note");
-				
+
 		if($note_id == "")
 		{
 			foreach($nodes as $node_data)
 			{
-				$note_data = getObject($node_data["child"]);
+				//$note_data = getObject($node_data["child"]);
+				$noteObj =& $this->ilias->obj_factory->getInstanceByObjId($node_data["child"]);
+				// todo: full object handling (getNodes should return real objects)
+				$note_data = array(	"obj_id" => $noteObj->getId(),
+									"type" => $noteObj->getType(),
+									"description" => $noteObj->getDescription(),
+									"owner" => $noteObj->getOwner(),
+									"create_date" => $noteObj->getCreateDate(),
+									"last_update" => $noteObj->getCreateDate());
 				array_push($notes, $note_data);
 			}
 
 		}
 		else
-		{	
-			$node_data["child"] = $note_id;
-			$notes = getObject($node_data["child"]);
+		{
+			//$node_data["child"] = $note_id;
+			//$notes = getObject($node_data["child"]);
+			$noteObj =& $this->ilias->obj_factory->getInstanceByObjId($note_id);
+			// todo: full object handling (getNodes should return real objects)
+			$notes = array(	"obj_id" => $noteObj->getId(),
+							"type" => $noteObj->getType(),
+							"description" => $noteObj->getDescription(),
+							"owner" => $noteObj->getOwner(),
+							"create_date" => $noteObj->getCreateDate(),
+							"last_update" => $noteObj->getCreateDate());
+
 		}
-		return $notes;					
+		return $notes;
 	}
 
 	function viewNote($note_id)
 	{
 		$note = array();
-		$myTree = new ilTree($this->m_notefId[0]["obj_id"], 0, $this->m_usr_id); 	
-	
+		$myTree = new ilTree($this->m_notefId[0]["obj_id"], 0, $this->m_usr_id);
+
 		$nodes = $myTree->getNodeDataByType("note");
 		$node_data["child"] = $note_id;
-		$note = NoteObject::viewObject($node_data["child"]);		
+		$note = NoteObject::viewObject($node_data["child"]);
 		return $note;	
 	}
 

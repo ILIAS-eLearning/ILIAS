@@ -101,12 +101,12 @@ class ilLearningObjectGUI extends ilObjectGUI
 			$_GET["lo_parent"] = $_GET["lm_id"];
 		}
 
-		$this->setLOLocator($lotree, $_GET["lo_id"], $_GET["lo_parent"]); 
+		$this->setLOLocator($lotree, $_GET["lo_id"], $_GET["lo_parent"]);
 	}*/
 
 	/**
 	* DESC MISSING
-	* 
+	*
 	*/
 	function setLOLocator($a_tree = "", $a_obj_id = "", $a_parent = "", $a_parent_parent = "")
 	{
@@ -114,20 +114,20 @@ class ilLearningObjectGUI extends ilObjectGUI
 		{
 			$a_tree =& $this->tree;
 		}
-		
+
 		if (!($a_obj_id))
 		{
-			$a_obj_id = $_GET["obj_id"]; 
+			$a_obj_id = $_GET["obj_id"];
 		}
-		
+
 		if (!($a_parent))
 		{
-			$a_parent = $_GET["parent"]; 
+			$a_parent = $_GET["parent"];
 		}
 
 		if (!($a_parent_parent))
 		{
-			$a_parent_parent = $_GET["parent_parent"]; 
+			$a_parent_parent = $_GET["parent_parent"];
 		}
 
 		global $lng;
@@ -146,11 +146,12 @@ class ilLearningObjectGUI extends ilObjectGUI
 		//check if object isn't in tree, this is the case if parent_parent is set
 		if ($a_parent_parent)
 		{
-			$subObj = getObject($a_obj_id);
+			//$subObj = getObject($a_obj_id);
+			$subObj =& $this->ilias->obj_factory->getInstanceByObjId($a_obj_id);
 
 			$path[] = array(
 				"id"	 => $a_obj_id,
-				"title"  => $this->lng->txt($subObj["title"]),
+				"title"  => $this->lng->txt($subObj->getTitle()),
 				"parent" => $a_parent,
 				"parent_parent" => $a_parent_parent
 				);
@@ -162,7 +163,7 @@ class ilLearningObjectGUI extends ilObjectGUI
 			{
 				$this->tpl->touchBlock("locator_separator");
 			}
-			
+
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $row["title"]);
 			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?".$type_lo."obj_id=".$_GET["obj_id"].

@@ -3,7 +3,7 @@
 * Class ilObjLanguageFolderGUI
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.ilObjLanguageFolderGUI.php,v 1.4 2003/03/31 09:38:20 akill Exp $
+* @version	$Id$Id: class.ilObjLanguageFolderGUI.php,v 1.5 2003/03/31 11:03:41 akill Exp $
 *
 * @extends	ilObject
 * @package	ilias-core
@@ -180,7 +180,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		{
 			$langObj = new ilObjLanguage($obj_id);
 			$key = $langObj->install();
-			
+
 			if ($key != "")
 			{
 				$lang_installed[] = $key;
