@@ -242,7 +242,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	
 /**
 * Displays a form to edit/create a survey question
 *
@@ -276,16 +275,37 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$question = new SurveyTextQuestionGUI();
 				break;
 		}
+		$limit_error = 0;
 		if ($_GET["edit"])
 		{
 			$question->object->loadFromDb($_GET["edit"]);
 		}
-		if ($_POST["cmd"]["cancel_delete"] or $_POST["cmd"]["confirm_delete"] or $_POST["cmd"]["confirm_savephrase"] or $_POST["cmd"]["select_phrase"] or $_POST["cmd"]["cancel_savephrase"])
+		if ($_POST["cmd"]["cancel_delete"] or $_POST["cmd"]["confirm_delete"] or $_POST["cmd"]["confirm_savephrase"] or $_POST["cmd"]["select_phrase"] or $_POST["cmd"]["cancel_savephrase"] or $_POST["cmd"]["cancel_standard_numbers"] or $_POST["cmd"]["add_standard_numbers"])
 		{ 
 			$question->object->loadFromDb($_POST["id"]);
+			if ($_POST["cmd"]["add_standard_numbers"])
+			{
+				if ((strcmp($_POST["lower_limit"], "") == 0) or (strcmp($_POST["upper_limit"], "") == 0))
+				{
+					sendInfo($this->lng->txt("missing_upper_or_lower_limit"));
+					$limit_error = 1;
+				}
+				else if ((int)$_POST["upper_limit"] <= (int)$_POST["lower_limit"])
+				{
+					sendInfo($this->lng->txt("upper_limit_must_be_greater"));
+					$limit_error = 1;
+				}
+				else
+				{
+					$question->object->addStandardNumbers($_POST["lower_limit"], $_POST["upper_limit"]);
+				}
+			}
 			if ($_POST["cmd"]["select_phrase"])
 			{
-				$question->object->addPhrase($_POST["phrases"]);
+				if (strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") != 0)
+				{
+					$question->object->addPhrase($_POST["phrases"]);
+				}
 			}
 		}
 		$question->object->setRefId($_GET["ref_id"]);
@@ -310,7 +330,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     }
 
     $question_type = $question->getQuestionType();
-    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"]) and (!$_POST["cmd"]["confirm_delete"]) and (!$_POST["cmd"]["cancel_delete"]) and (!$_POST["cmd"]["cancel_savephrase"]) and (!$_POST["cmd"]["select_phrase"]) and (!$_POST["cmd"]["confirm_savephrase"])) {
+    if ((!$_GET["edit"]) and (!$_POST["cmd"]["create"]) and (!$_POST["cmd"]["confirm_delete"]) and (!$_POST["cmd"]["cancel_delete"]) and (!$_POST["cmd"]["cancel_savephrase"]) and (!$_POST["cmd"]["select_phrase"]) and (!$_POST["cmd"]["confirm_savephrase"]) and (!$_POST["cmd"]["add_standard_numbers"]) and (!$_POST["cmd"]["cancel_standard_numbers"])) {
       $missing_required_fields = $question->writePostData();
     }
 
@@ -387,6 +407,18 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
         sendInfo($this->lng->txt("fill_out_all_required_fields"));
 				$question->showEditForm();
       }
+		}
+		else if (($_POST["cmd"]["select_phrase"]) or ($limit_error == 1))
+		{
+			if ((strcmp($this->object->getPhrase($_POST["phrases"]), "dp_standard_numbers") == 0) or ($limit_error == 1))
+			{
+				$question->showStandardNumbersForm();
+				return;
+			}
+			else
+			{
+				$question->showEditForm();
+			}
 		}
 		else if (($_POST["cmd"]["save_phrase"]) or ($savephrase_error))
 		{

@@ -497,5 +497,22 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 			return true;
 		}
 	}
+	
+/**
+* Adds standard numbers as categories
+*
+* Adds standard numbers as categories
+*
+* @param integer $lower_limit The lower limit
+* @param integer $upper_limit The upper limit
+* @access public
+*/
+	function addStandardNumbers($lower_limit, $upper_limit)
+	{
+		for ($i = $lower_limit; $i <= $upper_limit; $i++)
+		{
+			array_push($this->categories, $i);
+		}
+	}
 }
 ?>

@@ -1,0 +1,20 @@
+<h2>{TEXT_ADD_LIMITS}</h2>
+<form name="addPhrases" method="post" action="{FORM_ACTION}">
+<table class="invisible">
+<tr>
+<td>{TEXT_LOWER_LIMIT}:</td>
+<td><input type="text" name="lower_limit" value="{VALUE_LOWER_LIMIT}" id="lower_limit" size="3" /></td>
+</tr>
+<tr>
+<td>{TEXT_UPPER_LIMIT}:</td>
+<td><input type="text" name="upper_limit" value="{VALUE_UPPER_LIMIT}" id="upper_limit" size="3" /></td>
+</tr>
+<tr><td colspan="2">
+<input type="submit" class="submit" name="cmd[add_standard_numbers]" value="{BTN_ADD}" />
+<input type="submit" class="submit" name="cmd[cancel_standard_numbers]" value="{BTN_CANCEL}" />
+</td></tr>
+</table>
+<!-- BEGIN hidden -->
+<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
+<!-- END hidden -->
+</form>

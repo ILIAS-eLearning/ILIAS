@@ -524,6 +524,19 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 		return $result_array;
 	}
+	
+	function getPhrase($phrase_id)
+	{
+		$query = sprintf("SELECT title FROM survey_phrase WHERE phrase_id = %s",
+			$this->ilias->db->quote($phrase_id)
+		);
+    $result = $this->ilias->db->query($query);
+		if ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			return $row["title"];
+		}
+		return "";
+	}
 
 } // END class.ilSurveyObjQuestionPool
 ?>
