@@ -49,7 +49,7 @@ $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 // display infopanel if something happened
 infoPanel();
 
-if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
+if (!$rbacsystem->checkAccess("read,visible", $_GET["ref_id"]))
 {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
