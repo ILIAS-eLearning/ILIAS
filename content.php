@@ -78,7 +78,7 @@ if ($tree->getChilds())
 		}
 		else
 		{
-			$checkbox = "<input type=\"checkbox\" name=\"id[]\" value=\"{OBJ_ID}\"/>\n";
+			$checkbox = "<input type=\"checkbox\" name=\"id[]\" value=\"".$val["id"]."\"/>\n";
 		}
 
 		$node = "[<a href=\"".$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
