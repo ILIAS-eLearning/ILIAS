@@ -311,7 +311,7 @@ class ilSetup extends PEAR
 	* @param	string	directory
 	* @return	array
 	*/
-	function checkWritable($a_dir = ".")
+	function checkWritable($a_dir = "..")
 	{
 		clearstatcache();
 		if (is_writable($a_dir))
@@ -333,7 +333,7 @@ class ilSetup extends PEAR
 	* @param	string	directory
 	* @return	array
 	*/
-	function checkCreatable($a_dir = ".")
+	function checkCreatable($a_dir = "..")
 	{
 		clearstatcache();
 		if (mkdir($a_dir."/crst879dldsk9d", 0774))
@@ -453,11 +453,11 @@ class ilSetup extends PEAR
 		//return value
 		return $a;
 	}
-	
+
 	function checkPreliminaries()
 	{
 		$this->preliminaries_result = $this->queryPreliminaries();
-		
+
 		foreach ($this->preliminaries_result as $val)
 		{
 			if ($val["status"] === false)
@@ -466,7 +466,7 @@ class ilSetup extends PEAR
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
