@@ -104,13 +104,18 @@ class ilCourseItems
 	}
 	function getItems()
 	{
+		global $rbacsystem;
+
 		foreach($this->items as $item)
 		{
 			if($item["type"] != "rolf" and
 			   ($item["activation_unlimited"] or
 				($item["activation_start"] <= time() and $item["activation_end"] >= time())))
-			{ 
-				$filtered[] = $item;
+			{
+				if($rbacsystem->checkAccess('visible',$item['ref_id']))
+				{
+					$filtered[] = $item;
+				}
 			}
 		}
 		return $filtered ? $filtered : array();
