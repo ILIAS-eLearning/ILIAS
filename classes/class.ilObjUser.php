@@ -1761,6 +1761,10 @@ class ilObjUser extends ilObject
 		$objects = array();
 		while ($obj = $objs->fetchRow(DB_FETCHMODE_ASSOC))
 		{
+			if ($obj["type"] == "mob")
+			{
+				$obj["title"] = ilObject::_lookupTitle($obj["item_id"]);
+			}
 			$objects[] = array ("id" => $obj["item_id"],
 				"type" => $obj["type"], "title" => $obj["title"]);
 		}

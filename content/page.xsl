@@ -51,6 +51,7 @@
 			<option value="insert_mob">insert Media</option>
 			<option value="insert_list">insert List</option>
 			<option value="insert_flst">insert File List</option>
+			<option value="pasteFromClipboard">paste from clipboard</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
@@ -289,6 +290,7 @@
 			<option value="delete">delete</option>
 			<option value="moveAfter">move after</option>
 			<option value="moveBefore">move before</option>
+			<option value="pasteFromClipboard">paste from clipboard</option>
 			</select>
 			<input class="ilEditSubmit" type="submit" value="Go">
 				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
@@ -474,6 +476,7 @@
 								<option value="newColBefore">new Col before</option>
 								<option value="deleteRow">delete Row</option>
 								<option value="deleteCol">delete Col</option>
+								<option value="pasteFromClipboard">paste from clipboard</option>
 							</select>
 							<input class="ilEditSubmit" type="submit" value="Go">
 								<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
@@ -513,6 +516,7 @@
 		<option value="delete">delete</option>
 		<option value="moveAfter">move after</option>
 		<option value="moveBefore">move before</option>
+		<option value="pasteFromClipboard">paste from clipboard</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
@@ -560,6 +564,7 @@
 		<option value="delete">delete</option>
 		<option value="moveAfter">move after</option>
 		<option value="moveBefore">move before</option>
+		<option value="pasteFromClipboard">paste from clipboard</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
@@ -590,6 +595,7 @@
 			<option value="newItemAfter">new Item after</option>
 			<option value="newItemBefore">new Item before</option>
 			<option value="deleteItem">delete Item</option>
+			<option value="pasteFromClipboard">paste from clipboard</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>]</xsl:attribute>
@@ -628,6 +634,7 @@
 		<option value="delete">delete</option>
 		<option value="moveAfter">move after</option>
 		<option value="moveBefore">move before</option>
+		<option value="pasteFromClipboard">paste from clipboard</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
 			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
@@ -901,6 +908,7 @@
 				<option value="leftFloatAlign">align: left float</option>
 				<option value="rightFloatAlign">align: right float</option>
 				<option value="copyToClipboard">copy to clipboard</option>
+				<option value="pasteFromClipboard">paste from clipboard</option>
 				</select>
 				<input class="ilEditSubmit" type="submit" value="Go">
 					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>]</xsl:attribute>

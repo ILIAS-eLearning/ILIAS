@@ -114,6 +114,7 @@ class ilRepositoryGUI
 		$this->exercises = array();
 		$this->questionpools = array();
 		$this->tests = array();
+		$this->media_pools = array();
 
 	}
 
@@ -272,6 +273,11 @@ class ilRepositoryGUI
 					$this->questionpools[$key] = $object;
 					break;
 
+				// media pools
+				case "mep":
+					$this->media_pools[$key] = $object;
+					break;
+
 				// learning resources
 				case "lm":
 				case "slm":
@@ -399,6 +405,14 @@ class ilRepositoryGUI
 		{
 			$this->showChats();
 		}
+
+		// media pools
+		if (count($this->media_pools))
+		{
+			$this->showMediaPools();
+		}
+
+
 		$this->tpl->show();
 
 		$ilBench->stop("Repository", "FlatList_03showObjects");
@@ -467,12 +481,12 @@ class ilRepositoryGUI
 		$cats = array_slice($this->categories, $_GET["offset"], $_GET["limit"]);
 
 		// render table content data
-$ilBench->start("Repository", "showCategories_01Rows");
+		$ilBench->start("Repository", "showCategories_01Rows");
 		if (count($cats) > 0)
 		{
-$ilBench->start("Repository", "showCategories_01Rows_AddBlockFile");
+			$ilBench->start("Repository", "showCategories_01Rows_AddBlockFile");
 			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_cat_row.html");
-$ilBench->stop("Repository", "showCategories_01Rows_AddBlockFile");
+			$ilBench->stop("Repository", "showCategories_01Rows_AddBlockFile");
 
 			// counter for rowcolor change
 			$num = 0;
@@ -480,16 +494,16 @@ $ilBench->stop("Repository", "showCategories_01Rows_AddBlockFile");
 			foreach ($cats as $cat)
 			{
 				// get category object
-$ilBench->start("Repository", "showCategories_00Rows_getCategoryObject");
+				$ilBench->start("Repository", "showCategories_00Rows_getCategoryObject");
 				include_once("classes/class.ilObjCategory.php");
 				$cat_obj =& new ilObjCategory($cat["ref_id"], true);
 				$obj_link = "repository.php?ref_id=".$cat["ref_id"];
-$ilBench->stop("Repository", "showCategories_00Rows_getCategoryObject");
+				$ilBench->stop("Repository", "showCategories_00Rows_getCategoryObject");
 
 				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cat["ref_id"]));
 
 				// read
-$ilBench->start("Repository", "showCategories_01Rows_ReadLink");
+				$ilBench->start("Repository", "showCategories_01Rows_ReadLink");
 				if ($this->rbacsystem->checkAccess('read',$cat["ref_id"]))
 				{
 					$tpl->setCurrentBlock("cat_link");
@@ -503,10 +517,10 @@ $ilBench->start("Repository", "showCategories_01Rows_ReadLink");
 					$tpl->setVariable("STITLE", $cat["title"]);
 					$tpl->parseCurrentBlock();
 				}
-$ilBench->stop("Repository", "showCategories_01Rows_ReadLink");
+				$ilBench->stop("Repository", "showCategories_01Rows_ReadLink");
 
 				// edit
-$ilBench->start("Repository", "showCategories_01Rows_EditLink");
+				$ilBench->start("Repository", "showCategories_01Rows_EditLink");
 				if ($this->rbacsystem->checkAccess('write',$cat["ref_id"]))
 				{
 					$tpl->setCurrentBlock("cat_edit");
@@ -514,10 +528,10 @@ $ilBench->start("Repository", "showCategories_01Rows_EditLink");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 					$tpl->parseCurrentBlock();
 				}
-$ilBench->stop("Repository", "showCategories_01Rows_EditLink");
+				$ilBench->stop("Repository", "showCategories_01Rows_EditLink");
 
 				// delete
-$ilBench->start("Repository", "showCategories_01Rows_DeleteLink");
+				$ilBench->start("Repository", "showCategories_01Rows_DeleteLink");
 				if ($this->rbacsystem->checkAccess('delete', $cat["ref_id"]))
 				{
 					$tpl->setCurrentBlock("cat_delete");
@@ -525,9 +539,9 @@ $ilBench->start("Repository", "showCategories_01Rows_DeleteLink");
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
 				}
-$ilBench->stop("Repository", "showCategories_01Rows_DeleteLink");
+				$ilBench->stop("Repository", "showCategories_01Rows_DeleteLink");
 
-$ilBench->start("Repository", "showCategories_01Rows_setTemplateVars");
+				$ilBench->start("Repository", "showCategories_01Rows_setTemplateVars");
 				$tpl->setCurrentBlock("tbl_content");
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
@@ -538,12 +552,12 @@ $ilBench->start("Repository", "showCategories_01Rows_setTemplateVars");
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_cat"));
 				$tpl->setVariable("DESCRIPTION", $cat_obj->getDescription());
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cat["last_update"]));
-$ilBench->stop("Repository", "showCategories_01Rows_setTemplateVars");
+				$ilBench->stop("Repository", "showCategories_01Rows_setTemplateVars");
 
 				// parse block
-$ilBench->start("Repository", "showCategories_01Rows_parseBlock");
+				$ilBench->start("Repository", "showCategories_01Rows_parseBlock");
 				$tpl->parseCurrentBlock();
-$ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
+				$ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 			}
 		}
 		else
@@ -906,6 +920,122 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 
 		$this->tpl->setCurrentBlock("glossaries");
 		$this->tpl->setVariable("GLOSSARIES", $tpl->get());
+		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
+		$this->tpl->parseCurrentBlock();
+
+	}
+
+	/**
+	* show media pools
+	*/
+	function showMediaPools()
+	{
+		$maxcount = count($this->media_pools);
+		$meps = array_slice($this->media_pools, $_GET["offset"], $_GET["limit"]);
+
+		$tpl =& new ilTemplate ("tpl.table.html", true, true);
+
+		$mep_num = count($meps);
+
+		// render table content data
+		if ($mep_num > 0)
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_mep_row.html");
+
+			// counter for rowcolor change
+			$num = 0;
+
+			foreach ($meps as $mep_data)
+			{
+
+				$obj_icon = "icon_mep_b.gif";
+				$obj_link = "content/mep_edit.php?ref_id=".$mep_data["ref_id"];
+
+				if ($this->rbacsystem->checkAccess('write',$mep_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("mep_edit");
+					$tpl->setVariable("VIEW_LINK", $obj_link);
+					$tpl->setVariable("VIEW_TARGET", "bottom");
+					$tpl->setVariable("R_TITLE", $mep_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("mep_visible");
+					$tpl->setVariable("V_TITLE", $mep_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				/*
+				if (!$this->ilias->account->isDesktopItem($gl_data["ref_id"], "glo"))
+				{
+					if ($this->rbacsystem->checkAccess('read', $gl_data["ref_id"]))
+					{
+						$tpl->setCurrentBlock("glo_delete");
+						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+							"&item_ref_id=".$gl_data["ref_id"].
+							"&type=glo&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+							"&sort_by=".$_GET["sort_by"]);
+						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+						$tpl->parseCurrentBlock();
+					}
+				}*/
+
+				$tpl->setCurrentBlock("tbl_content");
+
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+
+				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$gl_data["ref_id"]));
+				$tpl->setVariable("DESCRIPTION", $mep_data["description"]);
+				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($mep_data["last_update"]));
+				$tpl->parseCurrentBlock();
+			}
+
+		}
+		else
+		{
+			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
+			$tpl->setCurrentBlock("tbl_content");
+			$tpl->setVariable("ROWCOL", "tblrow1");
+			$tpl->setVariable("COLSPAN", "3");
+			$tpl->setVariable("TXT_NO_OBJECTS",$this->lng->txt("lo_no_content"));
+			$tpl->parseCurrentBlock();
+		}
+
+		//$this->showPossibleSubObjects("lrs");
+
+		// create table
+		$tbl = new ilTableGUI();
+		$tbl->setTemplate($tpl);
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("objs_mep"),"icon_mep_b.gif",$this->lng->txt("objs_mep"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array($this->lng->txt("title")));
+		$tbl->setHeaderVars(array("title"),
+			array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("1%", "99%"));
+
+		// control
+		//$tbl->setOrderColumn($_GET["sort_by"]);
+		//$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($maxcount);
+
+		// footer
+		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->disable("footer");
+		//$tbl->disable("title");
+
+		// render table
+		$tbl->render();
+		$tpl->parseCurrentBlock();
+
+
+		$this->tpl->setCurrentBlock("media_pools");
+		$this->tpl->setVariable("MEDIA_POOLS", $tpl->get());
 		//$this->tpl->setVariable("LEARNING_RESOURCES", "hh");
 		$this->tpl->parseCurrentBlock();
 
@@ -1841,7 +1971,7 @@ $ilBench->stop("Repository", "showCategories_01Rows_parseBlock");
 				}
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					if (in_array($row["name"], array("lm", "grp", "frm",
+					if (in_array($row["name"], array("lm", "grp", "frm", "mep",
 						"cat", "glo", "exc", "qpl", "tst", "chat", "htlm")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))

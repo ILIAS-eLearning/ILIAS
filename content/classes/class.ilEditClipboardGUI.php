@@ -52,8 +52,16 @@ class ilEditClipboardGUI
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
+		if ($_GET["returnCommand"] != "")
+		{
+			$this->mode = "getObject";
+		}
+		else
+		{
+			$this->mode = "";
+		}
 
-		$this->ctrl->saveParameter($this, "clip_mob_id");
+		$this->ctrl->saveParameter($this, array("clip_mob_id", "returnCommand"));
 	}
 
 	/**
@@ -111,7 +119,7 @@ class ilEditClipboardGUI
 		$this->setTabs();
 
 		include_once "./classes/class.ilTableGUI.php";
-
+//echo ":".$_GET["returnCommand"].":";
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 
@@ -121,6 +129,11 @@ class ilEditClipboardGUI
 		$num = 0;
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		if ($this->mode == "getObject")
+		{
+			$this->ctrl->setParameter($this, "returnCommand",
+				rawurlencode($_GET["returnCommand"]));
+		}
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// create table
@@ -148,19 +161,31 @@ class ilEditClipboardGUI
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 2);
 
-		// delete button
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", "remove");
-		$this->tpl->setVariable("BTN_VALUE", "remove");
-		$this->tpl->parseCurrentBlock();
+		if ($this->mode != "getObject")
+		{
+			// delete button
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME", "remove");
+			$this->tpl->setVariable("BTN_VALUE", "remove");
+			$this->tpl->parseCurrentBlock();
 
-		// add list
-		$opts = ilUtil::formSelect("","new_type",array("mob" => "mob"));
-		$this->tpl->setCurrentBlock("add_object");
-		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-		$this->tpl->setVariable("BTN_NAME", "createMediaInClipboard");
-		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
-		$this->tpl->parseCurrentBlock();
+			// add list
+			/*
+			$opts = ilUtil::formSelect("","new_type",array("mob" => "mob"));
+			$this->tpl->setCurrentBlock("add_object");
+			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+			$this->tpl->setVariable("BTN_NAME", "createMediaInClipboard");
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+			$this->tpl->parseCurrentBlock();*/
+		}
+		else
+		{
+			// insert button
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME", "insert");
+			$this->tpl->setVariable("BTN_VALUE", "insert");
+			$this->tpl->parseCurrentBlock();
+		}
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -177,17 +202,29 @@ class ilEditClipboardGUI
 			$i=0;
 			foreach($objs as $obj)
 			{
-				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("TEXT_OBJECT", $obj["title"].
-					" [".$obj["id"]."]");
-				$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
-				$this->ctrl->setParameter($this, "clip_mob_id", $obj["id"]);
-				$this->tpl->setVariable("EDIT_LINK",
-					$this->ctrl->getLinkTargetByClass("ilObjMediaObjectGUI", "edit",
-						array("ilEditClipboardGUI")));
+				if ($this->mode != "getObject")
+				{
+					$this->tpl->setCurrentBlock("edit");
+					$this->ctrl->setParameter($this, "clip_mob_id", $obj["id"]);
+					$this->tpl->setVariable("EDIT_LINK",
+						$this->ctrl->getLinkTargetByClass("ilObjMediaObjectGUI", "edit",
+							array("ilEditClipboardGUI")));
+					$this->tpl->setVariable("TEXT_OBJECT", $obj["title"].
+						" [".$obj["id"]."]");
+					$this->tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("show");
+					$this->tpl->setVariable("TEXT_OBJECT2", $obj["title"].
+						" [".$obj["id"]."]");
+					$this->tpl->parseCurrentBlock();
+				}
 
 				$this->tpl->setCurrentBlock("tbl_content");
+				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->setVariable("CHECKBOX_ID", $obj["id"]);
 				$this->tpl->parseCurrentBlock();
 			}
 		} //if is_array
@@ -200,6 +237,17 @@ class ilEditClipboardGUI
 		}
 
 	}
+
+
+	/**
+	* get Object
+	*/
+	function getObject()
+	{
+		$this->mode = "getObject";
+		$this->view();
+	}
+
 
 	/**
 	* remove item from clipboard
@@ -217,6 +265,27 @@ class ilEditClipboardGUI
 			$this->ilias->account->removeObjectFromClipboard($obj_id, "mob");
 		}
 		$this->ctrl->redirect($this, "view");
+	}
+
+	/**
+	* insert
+	*/
+	function insert()
+	{
+		// check number of objects
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		if(count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		ilUtil::redirect(ilUtil::appendUrlParameterString(
+			$_GET["returnCommand"], "clip_obj_type=mob&clip_obj_id=".$_POST["id"][0]));
+
+
 	}
 
 	/**
@@ -263,10 +332,20 @@ class ilEditClipboardGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		// back to upper context
-		$tabs_gui->addTarget("cont_back",
-			$this->ctrl->getParentReturn($this), "",
-			"");
+		if ($this->mode == "getObject")
+		{
+			// back to upper context
+			$tabs_gui->addTarget("cont_back",
+				$_GET["returnCommand"], "",
+				"");
+		}
+		else
+		{
+			// back to upper context
+			$tabs_gui->addTarget("cont_back",
+				$this->ctrl->getParentReturn($this), "",
+				"");
+		}
 	}
 
 }

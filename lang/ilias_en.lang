@@ -1583,6 +1583,7 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
+content#:#cont_obj_removed#:#Objects removed.
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
@@ -1682,7 +1683,10 @@ content#:#cont_internal#:#internal
 content#:#cont_internal_link#:#internal link
 content#:#cont_is_visible#:#isvisible
 content#:#cont_isbn#:#ISBN
+content#:#copied_to_clipboard#:#Copied object(s) to clipboard.
 content#:#cont_issn#:#ISSN
+content#:#cont_copy_to_clipboard#:#Copy to clipboard
+content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.
 content#:#cont_item#:#Item
 content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Keyword

@@ -178,8 +178,12 @@ class ilPageEditorGUI
 		}
 		else
 		{
-			$cont_obj =& $this->page->getContentObject($hier_id);
-			$ctype = $cont_obj->getType();
+//echo "<br>is_object:".is_object($this->page).":";
+			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard")
+			{
+				$cont_obj =& $this->page->getContentObject($hier_id);
+				$ctype = $cont_obj->getType();
+			}
 		}
 
 
@@ -315,13 +319,57 @@ class ilPageEditorGUI
 				break;
 
 			default:
-				$ret =& $this->$cmd();
+				if ($cmd == "pasteFromClipboard")
+				{
+					$ret =& $this->pasteFromClipboard($hier_id);
+				}
+				else
+				{
+					$ret =& $this->$cmd();
+				}
 				break;
 
 		}
 
 		return $ret;
 	}
+
+	/**
+	* paste from clipboard (redirects to clipboard)
+	*/
+	function pasteFromClipboard($a_hier_id)
+	{
+		global $ilCtrl;
+
+		$ilCtrl->setParameter($this, "hier_id", $a_hier_id);
+		$ilCtrl->setParameterByClass("ilEditClipboardGUI", "returnCommand",
+			rawurlencode($ilCtrl->getLinkTarget($this,
+			"insertFromClipboard")));
+//echo ":".$ilCtrl->getLinkTarget($this, "insertFromClipboard").":";
+		$ilCtrl->redirectByClass("ilEditClipboardGUI", "getObject");
+	}
+
+	/**
+	* insert object from clipboard
+	*/
+	function insertFromClipboard()
+	{
+		if ($_GET["clip_obj_id"] != "")
+		{
+			if ($_GET["clip_obj_type"] == "mob")
+			{
+//$this->dom =& $this->page->getDom();
+//echo "is_object:".is_object($this->dom).":";
+				$this->content_obj = new ilObjMediaObject($_GET["clip_obj_id"]);
+				$this->content_obj->setDom($this->page->getDom());
+				$this->content_obj->createAlias($this->page, $_GET["hier_id"]);
+				$this->updated = $this->page->update();
+			}
+		}
+		$this->ctrl->returnToParent($this);
+	}
+
+
 
 	/**
 	* display locator

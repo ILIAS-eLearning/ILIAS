@@ -605,8 +605,24 @@ class ilObject
 		$q = "SELECT title FROM object_data WHERE obj_id = '".$a_id."'";
 		$obj_set = $ilDB->query($q);
 		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
-		
+
 		return $obj_rec["title"];
+	}
+
+	/**
+	* lookup object type
+	*
+	* @param	int		$a_id		object id
+	*/
+	function _lookupType($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT type FROM object_data WHERE obj_id = '".$a_id."'";
+		$obj_set = $ilDB->query($q);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $obj_rec["type"];
 	}
 
 	/**

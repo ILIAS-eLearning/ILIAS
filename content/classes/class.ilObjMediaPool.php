@@ -35,6 +35,7 @@
 
 require_once "classes/class.ilObject.php";
 require_once "classes/class.ilMetaData.php";
+require_once("classes/class.ilObjFolder.php");
 
 class ilObjMediaPool extends ilObject
 {
@@ -277,6 +278,38 @@ class ilObjMediaPool extends ilObject
 		}
 
 		return $this->tree->getParentId($obj_id);
+	}
+
+	function deleteChild($obj_id)
+	{
+		$type = ilObject::_lookupType($obj_id);
+		$title = ilObject::_lookupTitle($obj_id);
+
+
+		$node_data = $this->tree->getNodeData($obj_id);
+		$subtree = $this->tree->getSubtree($node_data);
+
+		// delete tree
+		if($this->tree->isInTree($obj_id))
+		{
+			$this->tree->deleteTree($node_data);
+		}
+
+		// delete objects
+		foreach ($subtree as $node)
+		{
+			if ($node["type"] == "mob")
+			{
+				$obj =& new ilObjMediaObject($node["child"]);
+				$obj->delete();
+			}
+
+			if ($node["type"] == "fold")
+			{
+				$obj =& new ilObjFolder($node["child"]);
+				$obj->delete();
+			}
+		}
 	}
 }
 ?>
