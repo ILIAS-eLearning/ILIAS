@@ -1269,6 +1269,7 @@ content#:#cont_del_assignment#:#Видалити призначення
 content#:#cont_dependencies#:#Залежності
 content#:#cont_details#:#Деталі
 content#:#cont_dir_file#:#Директорія/Файл
+content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#Редагувати Властивлсті Списку Файлів
 content#:#cont_edit_mob#:#Редагувати Медіа Об'єкт
 content#:#cont_edit_mob_alias_prop#:#Редагувати Властивості Екземмпляр Медіа Об'єкта
@@ -1388,6 +1389,7 @@ content#:#cont_series_editor#:#Редактор Серій
 content#:#cont_series_title#:#Назва серій
 content#:#cont_series_volume#:#Гучність серій
 content#:#cont_set_class#:#Встановити Класс
+content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_width#:#Встановити Ширину
 content#:#cont_shape#:#Форма
 content#:#cont_show#:#Показати

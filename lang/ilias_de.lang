@@ -1269,6 +1269,7 @@ content#:#cont_del_assignment#:#Zuordnung löschen
 content#:#cont_dependencies#:#Abhängigkeiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
+content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_mob#:#Media Objekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
@@ -1388,6 +1389,7 @@ content#:#cont_series_editor#:#Autor der Serie
 content#:#cont_series_title#:#Serientitel
 content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
+content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_width#:#Breite festlegen
 content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen

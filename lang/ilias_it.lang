@@ -1269,6 +1269,7 @@ content#:#cont_del_assignment#:#Assegnamento cancellato
 content#:#cont_dependencies#:#Dipendenze
 content#:#cont_details#:#Dettagli
 content#:#cont_dir_file#:#Cartella/File
+content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.
 content#:#cont_edit_mob#:#Modifica oggetto multimediale
 content#:#cont_edit_mob_alias_prop#:#Modifica propriet&#224; dell&#039;istanza dell&#039;oggetto multimediale
@@ -1388,6 +1389,7 @@ content#:#cont_series_editor#:#Editore della serie
 content#:#cont_series_title#:#Titolo della serie
 content#:#cont_series_volume#:#Volume della serie
 content#:#cont_set_class#:#Imposta classe
+content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_width#:#Imposta larghezza
 content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostra

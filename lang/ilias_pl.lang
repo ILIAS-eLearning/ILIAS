@@ -1269,6 +1269,7 @@ content#:#cont_del_assignment#:#Usuń przydział
 content#:#cont_dependencies#:#Zależności
 content#:#cont_details#:#Szczegóły
 content#:#cont_dir_file#:#Katalog/Plik
+content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#Edytuj listę właściwości pliku
 content#:#cont_edit_mob#:#Edytuj obiekt multimedialny
 content#:#cont_edit_mob_alias_prop#:#Edytuj właściwości instancji obiektu multimedialnego
@@ -1388,6 +1389,7 @@ content#:#cont_series_editor#:#Edytor serii
 content#:#cont_series_title#:#Tyuł serii
 content#:#cont_series_volume#:#Wolumen serii
 content#:#cont_set_class#:#Ustaw klasę
+content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_width#:#Ustaw szerokość
 content#:#cont_shape#:#Kontur
 content#:#cont_show#:#Pokaż

@@ -1269,6 +1269,7 @@ content#:#cont_del_assignment#:#Verwijderen toewijzing
 content#:#cont_dependencies#:#Afhankelijkheden
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Directory/Bestand
+content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#Wijzigen bestandslijst-eigenschappen
 content#:#cont_edit_mob#:#Wijzigen media-object
 content#:#cont_edit_mob_alias_prop#:#Wijzigen media-object-instance eigenschappen
@@ -1388,6 +1389,7 @@ content#:#cont_series_editor#:#Auteur van de serie
 content#:#cont_series_title#:#Titel van de serie
 content#:#cont_series_volume#:#Band van de serie
 content#:#cont_set_class#:#Instellen class
+content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_width#:#Instellen breedte
 content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#laat zien

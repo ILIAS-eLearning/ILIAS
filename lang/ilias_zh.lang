@@ -1286,6 +1286,7 @@ content#:#cont_del_assignment#:#删除指派
 content#:#cont_dependencies#:#依属
 content#:#cont_details#:#详细情况
 content#:#cont_dir_file#:#目录/文件
+content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#编辑文件列表属性
 content#:#cont_edit_mob#:#编辑媒体对象
 content#:#cont_edit_mob_alias_prop#:#编辑媒体对象即时属性
@@ -1405,6 +1406,7 @@ content#:#cont_series_editor#:#系列编辑器
 content#:#cont_series_title#:#系列标题
 content#:#cont_series_volume#:#系列卷
 content#:#cont_set_class#:#设置班级
+content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_width#:#设置宽度
 content#:#cont_shape#:#形状
 content#:#cont_show#:#显示
