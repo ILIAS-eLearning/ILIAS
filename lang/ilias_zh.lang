@@ -319,6 +319,7 @@ common#:#accept_usr_agreement#:#接受用户协议？
 common#:#access#:#访问
 common#:#action_aborted#:#执行已中止
 common#:#actions#:#执行
+common#:#activation#:#Activation###16 Mar 2004 new variable
 common#:#active_roles#:#活动角色
 common#:#add#:#增加
 common#:#add_author#:#增加作者
@@ -355,9 +356,13 @@ common#:#attachments#:#附件
 common#:#author#:#作者
 common#:#authors#:#作者
 common#:#available_languages#:#可用的语言
+common#:#average_time#:#Average time###16 Mar 2004 new variable
 common#:#back#:#返回
 common#:#basedn#:#基本域名
 common#:#basic_data#:#基本数据
+common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
+common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
+common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
 common#:#bm#:#书签
 common#:#bmf#:#书签夹
 common#:#bookmark_edit#:#编辑书签
@@ -474,6 +479,7 @@ common#:#crs_new#:#新课程
 common#:#crs_read#:#课程设为读访问
 common#:#crs_visible#:#课程可视
 common#:#crs_write#:#编辑课程
+common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
 common#:#current_password#:#当前口令
 common#:#cut#:#剪切
 common#:#cutPage#:#剪切
@@ -918,6 +924,7 @@ common#:#mail_z_local#:#用户文件夹
 common#:#mails#:#邮件
 common#:#mark_all_read#:#全部邮件标记为已读
 common#:#mark_all_unread#:#全部邮件标记为未读
+common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
 common#:#member#:#成员
 common#:#members#:#成员
 common#:#membership_annulled#:#您的成员资格已被取消!
@@ -1041,6 +1048,7 @@ common#:#none#:#无
 common#:#normal#:#正常
 common#:#not_installed#:#未安装
 common#:#not_logged_in#:#您未登录
+common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
 common#:#obj#:#对象
 common#:#obj_adm#:#系统设置###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#主系统设置文件夹包含管理安装ILIAS的全部控制面板。
@@ -1298,6 +1306,7 @@ common#:#setUserLanguage#:#设定用户语言
 common#:#set_offline#:#设定离线
 common#:#set_online#:#设定在线
 common#:#settings#:#设置
+common#:#show#:#Show###16 Mar 2004 new variable
 common#:#show_details#:#显示详细情况
 common#:#show_list#:#显示列表
 common#:#show_members#:#显示成员
@@ -1665,6 +1674,224 @@ content#:#pg#:#页源于
 content#:#read offline#:#在线读
 content#:#st#:#章标题
 content#:#start export#:#开始导出
+dateplaner#:#DateText#:#Message###16 Mar 2004 new variable
+dateplaner#:#Day_long#:#Day View###16 Mar 2004 new variable
+dateplaner#:#ERROR_DATE_EXISTS#:#This date already exists.###16 Mar 2004 new variable
+dateplaner#:#ERROR_DB#:#Database write error!###16 Mar 2004 new variable
+dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.###16 Mar 2004 new variable
+dateplaner#:#ERROR_DEL_MSG#:#This is a Rotation Date. Would you like to delete one or all dates###16 Mar 2004 new variable
+dateplaner#:#ERROR_ENDDATE#:#Wrong Enddate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
+dateplaner#:#ERROR_ENDTIME#:#Wrong Endtime. Format: hh:mm###16 Mar 2004 new variable
+dateplaner#:#ERROR_END_START#:#Wrong Enddate input. Enddate is before Startdate.###16 Mar 2004 new variable
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid csv File.###16 Mar 2004 new variable
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't except JavaScript. <BR> Please close this Window after insert manually. <BR> Thank you</CENTER></B>###16 Mar 2004 new variable
+dateplaner#:#ERROR_ROTATIONEND#:#Wrong Rotation Enddate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
+dateplaner#:#ERROR_ROT_END_START#:#Wrong Rotation Enddate input. Rotation Enddate is before Startdate.###16 Mar 2004 new variable
+dateplaner#:#ERROR_SHORTTEXT#:#Wrong Shorttext input. Shorttext is required.###16 Mar 2004 new variable
+dateplaner#:#ERROR_STARTDATE#:#Wrong Startdate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
+dateplaner#:#ERROR_STARTTIME#:#Wrong Starttime. Format: hh:mm###16 Mar 2004 new variable
+dateplaner#:#ERROR_TS#:#Incorrect date format###16 Mar 2004 new variable
+dateplaner#:#Fr_long#:#Friday###16 Mar 2004 new variable
+dateplaner#:#Fr_short#:#Fr###16 Mar 2004 new variable
+dateplaner#:#Language_file#:#english###16 Mar 2004 new variable
+dateplaner#:#Listbox_long#:#List of Dates###16 Mar 2004 new variable
+dateplaner#:#Mo_long#:#Monday###16 Mar 2004 new variable
+dateplaner#:#Mo_short#:#Mo###16 Mar 2004 new variable
+dateplaner#:#Month_long#:#Month View###16 Mar 2004 new variable
+dateplaner#:#Sa_long#:#Saturday###16 Mar 2004 new variable
+dateplaner#:#Sa_short#:#Sa###16 Mar 2004 new variable
+dateplaner#:#Su_long#:#Sunday###16 Mar 2004 new variable
+dateplaner#:#Su_short#:#Su###16 Mar 2004 new variable
+dateplaner#:#Text#:#Text###16 Mar 2004 new variable
+dateplaner#:#Th_long#:#Thursday###16 Mar 2004 new variable
+dateplaner#:#Th_short#:#Th###16 Mar 2004 new variable
+dateplaner#:#Tu_long#:#Tuesday###16 Mar 2004 new variable
+dateplaner#:#Tu_short#:#Tu###16 Mar 2004 new variable
+dateplaner#:#View#:#View:###16 Mar 2004 new variable
+dateplaner#:#We_long#:#Wednesday###16 Mar 2004 new variable
+dateplaner#:#We_short#:#We###16 Mar 2004 new variable
+dateplaner#:#Week_long#:#Week View###16 Mar 2004 new variable
+dateplaner#:#add_data#:#Additional data###16 Mar 2004 new variable
+dateplaner#:#app_#:#group dates inbox###16 Mar 2004 new variable
+dateplaner#:#app_date#:#insert date###16 Mar 2004 new variable
+dateplaner#:#app_day#:#dayview###16 Mar 2004 new variable
+dateplaner#:#app_freetime#:#freetime of other group members (catch a time)###16 Mar 2004 new variable
+dateplaner#:#app_inbox#:#group dates inbox###16 Mar 2004 new variable
+dateplaner#:#app_list#:#date list###16 Mar 2004 new variable
+dateplaner#:#app_month#:#monthview###16 Mar 2004 new variable
+dateplaner#:#app_properties#:#properties###16 Mar 2004 new variable
+dateplaner#:#app_week#:#weekview###16 Mar 2004 new variable
+dateplaner#:#application#:#Dateplaner###16 Mar 2004 new variable
+dateplaner#:#apply#:#apply###16 Mar 2004 new variable
+dateplaner#:#back#:#back###16 Mar 2004 new variable
+dateplaner#:#begin_date#:#Begin of Date###16 Mar 2004 new variable
+dateplaner#:#busytime#:#busy time in group###16 Mar 2004 new variable
+dateplaner#:#c_date#:#Create Date###16 Mar 2004 new variable
+dateplaner#:#changeTo#:#Change to:###16 Mar 2004 new variable
+dateplaner#:#changedDates#:#Changed dates###16 Mar 2004 new variable
+dateplaner#:#checkforfreetime#:#Check for free time###16 Mar 2004 new variable
+dateplaner#:#created#:#Created###16 Mar 2004 new variable
+dateplaner#:#date#:#Date###16 Mar 2004 new variable
+dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes###16 Mar 2004 new variable
+dateplaner#:#date_format_middle#:#m/d/y//month/day/Year###16 Mar 2004 new variable
+dateplaner#:#del_all#:#delete all dates###16 Mar 2004 new variable
+dateplaner#:#del_one#:#delete one date###16 Mar 2004 new variable
+dateplaner#:#delete#:#delete###16 Mar 2004 new variable
+dateplaner#:#deletedDates#:#Deleted dates###16 Mar 2004 new variable
+dateplaner#:#discard#:#discard###16 Mar 2004 new variable
+dateplaner#:#dv_Grouptime#:#free time###16 Mar 2004 new variable
+dateplaner#:#dv_button_cancel#:#Cancel###16 Mar 2004 new variable
+dateplaner#:#dv_button_delete#:#Delete###16 Mar 2004 new variable
+dateplaner#:#dv_button_insert#:#Insert###16 Mar 2004 new variable
+dateplaner#:#dv_button_update#:#Update###16 Mar 2004 new variable
+dateplaner#:#dv_date_begin#:#Date Start:###16 Mar 2004 new variable
+dateplaner#:#dv_date_end#:#Date End:###16 Mar 2004 new variable
+dateplaner#:#dv_date_hm#:#Hour:Minute###16 Mar 2004 new variable
+dateplaner#:#dv_enddate#:#Enddate:###16 Mar 2004 new variable
+dateplaner#:#dv_groupselect#:#Groupselect:###16 Mar 2004 new variable
+dateplaner#:#dv_groupview#:#Groupdate:###16 Mar 2004 new variable
+dateplaner#:#dv_groupview_text#:#Group:<br>###16 Mar 2004 new variable
+dateplaner#:#dv_keywords#:#Keywords:###16 Mar 2004 new variable
+dateplaner#:#dv_keywordselect#:#Keywordselect:###16 Mar 2004 new variable
+dateplaner#:#dv_message#:#Message:###16 Mar 2004 new variable
+dateplaner#:#dv_noGroup#:#no Group###16 Mar 2004 new variable
+dateplaner#:#dv_noKey#:#no Keyword###16 Mar 2004 new variable
+dateplaner#:#dv_preview#:#      <b>! Preview !</b>###16 Mar 2004 new variable
+dateplaner#:#dv_rotation#:#Rotation:###16 Mar 2004 new variable
+dateplaner#:#dv_rotation_date#:#Rotation date:###16 Mar 2004 new variable
+dateplaner#:#dv_rotation_end#:#Rotation end:###16 Mar 2004 new variable
+dateplaner#:#dv_shorttext#:#Shorttext:###16 Mar 2004 new variable
+dateplaner#:#dv_startdate#:#Startdate:###16 Mar 2004 new variable
+dateplaner#:#dv_text#:#Text:###16 Mar 2004 new variable
+dateplaner#:#dv_whole_day#:#Whole day:###16 Mar 2004 new variable
+dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate? (click the checkbox)###16 Mar 2004 new variable
+dateplaner#:#end_date#:#End of Date###16 Mar 2004 new variable
+dateplaner#:#endtime_for_view#:#Endtime for view:###16 Mar 2004 new variable
+dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###16 Mar 2004 new variable
+dateplaner#:#extra_dates#:#One Day Dates###16 Mar 2004 new variable
+dateplaner#:#free#:#free###16 Mar 2004 new variable
+dateplaner#:#freetime#:#free Time in group###16 Mar 2004 new variable
+dateplaner#:#group#:#group###16 Mar 2004 new variable
+dateplaner#:#help_day#:#Dateplaner dayview###16 Mar 2004 new variable
+dateplaner#:#help_day_l#:#In the dayview all dates of a chosen day are displayed.###16 Mar 2004 new variable
+dateplaner#:#help_enddate#:#Enddate - syntax[dd//mm/yyyy]###16 Mar 2004 new variable
+dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.###16 Mar 2004 new variable
+dateplaner#:#help_endrotation#:#Endtime syntax[dd//mm/yyyy]###16 Mar 2004 new variable
+dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date###16 Mar 2004 new variable
+dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
+dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.###16 Mar 2004 new variable
+dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]###16 Mar 2004 new variable
+dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.###16 Mar 2004 new variable
+dateplaner#:#help_further#:#<br> <b>click here for further information.</b>###16 Mar 2004 new variable
+dateplaner#:#help_group#:#Groupdates selection###16 Mar 2004 new variable
+dateplaner#:#help_group_l#:#Contains the groups for which the loged-in user has administrator rights and for which a date can be created. <br> After chosing this it is possible to view the unscheduled time of the group.###16 Mar 2004 new variable
+dateplaner#:#help_inbox#:#Dateplaner Inbox###16 Mar 2004 new variable
+dateplaner#:#help_inbox_l#:#Here all new, changed and deleted groupdates are displayed.###16 Mar 2004 new variable
+dateplaner#:#help_keyword#:#Keyword selection###16 Mar 2004 new variable
+dateplaner#:#help_keywordUse#:#Keyword  selection###16 Mar 2004 new variable
+dateplaner#:#help_keywordUse_l#:#Chose one or more keywords from the dialog box. <br>TIP: use the CTRL key for selecting several entrys.###16 Mar 2004 new variable
+dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.###16 Mar 2004 new variable
+dateplaner#:#help_list#:#Dateplaner datelist###16 Mar 2004 new variable
+dateplaner#:#help_list_l#:#In the datelis all dates over a given period of time are displayed.###16 Mar 2004 new variable
+dateplaner#:#help_month#:#Dateplaner monthview###16 Mar 2004 new variable
+dateplaner#:#help_month_l#:#In the monthviel all dates of a given month are displayed.###16 Mar 2004 new variable
+dateplaner#:#help_properties_alt#:#Changes the keyword###16 Mar 2004 new variable
+dateplaner#:#help_properties_alt_l#:#Chose a keyword from the dialog box.<br>Change the keyword in the textfield . Important: max. 20 characters.###16 Mar 2004 new variable
+dateplaner#:#help_properties_del#:#Deletes the keyword###16 Mar 2004 new variable
+dateplaner#:#help_properties_del_l#:#Chose a keyword from the dialog box. Click the button to delete the keyword.###16 Mar 2004 new variable
+dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files###16 Mar 2004 new variable
+dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the dateplanner.###16 Mar 2004 new variable
+dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters###16 Mar 2004 new variable
+dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.###16 Mar 2004 new variable
+dateplaner#:#help_properties_time#:#Displaytime for dayview/weekview###16 Mar 2004 new variable
+dateplaner#:#help_properties_time_l#:#The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.###16 Mar 2004 new variable
+dateplaner#:#help_rotation#:#Rotation###16 Mar 2004 new variable
+dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.###16 Mar 2004 new variable
+dateplaner#:#help_shorttext#:#Shorttext whith max. 50 characters###16 Mar 2004 new variable
+dateplaner#:#help_shorttext_l#:#Here one can enter the shorttext for a given date.###16 Mar 2004 new variable
+dateplaner#:#help_startdate#:#Startdate - syntax[dd//mm/yyyy]###16 Mar 2004 new variable
+dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.###16 Mar 2004 new variable
+dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
+dateplaner#:#help_starttime_l#:#Contains the startpoint of the appointment using the 24h format.###16 Mar 2004 new variable
+dateplaner#:#help_text#:#Text###16 Mar 2004 new variable
+dateplaner#:#help_text_l#:#Here one can enter the text for a given date.###16 Mar 2004 new variable
+dateplaner#:#help_week#:#Dateplaner weekview###16 Mar 2004 new variable
+dateplaner#:#help_week_l#:#In the weekview all dates of a given week are displayed.###16 Mar 2004 new variable
+dateplaner#:#hour#:#hour###16 Mar 2004 new variable
+dateplaner#:#importDates#:#Import of Outlook Dates###16 Mar 2004 new variable
+dateplaner#:#inbox#:#Inbox###16 Mar 2004 new variable
+dateplaner#:#insertImportDates#:#These dates were successfully registered:###16 Mar 2004 new variable
+dateplaner#:#k_alldates#:#all dates###16 Mar 2004 new variable
+dateplaner#:#keep#:#keep###16 Mar 2004 new variable
+dateplaner#:#keyword#:#Keyword###16 Mar 2004 new variable
+dateplaner#:#keywords#:#Keywords###16 Mar 2004 new variable
+dateplaner#:#last_change#:#Last changed###16 Mar 2004 new variable
+dateplaner#:#long_01#:#January###16 Mar 2004 new variable
+dateplaner#:#long_02#:#February###16 Mar 2004 new variable
+dateplaner#:#long_03#:#March###16 Mar 2004 new variable
+dateplaner#:#long_04#:#April###16 Mar 2004 new variable
+dateplaner#:#long_05#:#May###16 Mar 2004 new variable
+dateplaner#:#long_06#:#June###16 Mar 2004 new variable
+dateplaner#:#long_07#:#July###16 Mar 2004 new variable
+dateplaner#:#long_08#:#August###16 Mar 2004 new variable
+dateplaner#:#long_09#:#September###16 Mar 2004 new variable
+dateplaner#:#long_10#:#October###16 Mar 2004 new variable
+dateplaner#:#long_11#:#November###16 Mar 2004 new variable
+dateplaner#:#long_12#:#December###16 Mar 2004 new variable
+dateplaner#:#main_dates#:#Main Dates###16 Mar 2004 new variable
+dateplaner#:#menue#:#Menu###16 Mar 2004 new variable
+dateplaner#:#mmonth#:#last month###16 Mar 2004 new variable
+dateplaner#:#month#:#month###16 Mar 2004 new variable
+dateplaner#:#more#:#more###16 Mar 2004 new variable
+dateplaner#:#mweek#:#last week###16 Mar 2004 new variable
+dateplaner#:#myeahr#:#last year###16 Mar 2004 new variable
+dateplaner#:#newDates#:#New dates###16 Mar 2004 new variable
+dateplaner#:#newKeyword#:#New:###16 Mar 2004 new variable
+dateplaner#:#new_doc#:#create new date###16 Mar 2004 new variable
+dateplaner#:#no_entry#:#no dates available###16 Mar 2004 new variable
+dateplaner#:#o_day_date#:#24h date###16 Mar 2004 new variable
+dateplaner#:#of#:#of###16 Mar 2004 new variable
+dateplaner#:#open_day#:#dayview###16 Mar 2004 new variable
+dateplaner#:#pmonth#:#next month###16 Mar 2004 new variable
+dateplaner#:#printlist#:#print###16 Mar 2004 new variable
+dateplaner#:#properties#:#Properties###16 Mar 2004 new variable
+dateplaner#:#pweek#:#next week###16 Mar 2004 new variable
+dateplaner#:#pyear#:#next year###16 Mar 2004 new variable
+dateplaner#:#r_14#:#every 14 days###16 Mar 2004 new variable
+dateplaner#:#r_4_weeks#:#every 4 weeks###16 Mar 2004 new variable
+dateplaner#:#r_day#:#every day###16 Mar 2004 new variable
+dateplaner#:#r_halfyear#:#every half year###16 Mar 2004 new variable
+dateplaner#:#r_month#:#every month###16 Mar 2004 new variable
+dateplaner#:#r_nonrecurring#:#Once###16 Mar 2004 new variable
+dateplaner#:#r_week#:#every week###16 Mar 2004 new variable
+dateplaner#:#r_year#:#every year###16 Mar 2004 new variable
+dateplaner#:#readimportfile#:#insert###16 Mar 2004 new variable
+dateplaner#:#rotation#:#Rotation###16 Mar 2004 new variable
+dateplaner#:#rotation_dates#:#Rotation Dates###16 Mar 2004 new variable
+dateplaner#:#semester_name#:#Semester Name###16 Mar 2004 new variable
+dateplaner#:#short_01#:#Jan###16 Mar 2004 new variable
+dateplaner#:#short_02#:#Feb###16 Mar 2004 new variable
+dateplaner#:#short_03#:#Mar###16 Mar 2004 new variable
+dateplaner#:#short_04#:#Apr###16 Mar 2004 new variable
+dateplaner#:#short_05#:#May###16 Mar 2004 new variable
+dateplaner#:#short_06#:#Jun###16 Mar 2004 new variable
+dateplaner#:#short_07#:#Jul###16 Mar 2004 new variable
+dateplaner#:#short_08#:#Aug###16 Mar 2004 new variable
+dateplaner#:#short_09#:#Sep###16 Mar 2004 new variable
+dateplaner#:#short_10#:#Oct###16 Mar 2004 new variable
+dateplaner#:#short_11#:#Nov###16 Mar 2004 new variable
+dateplaner#:#short_12#:#Dec###16 Mar 2004 new variable
+dateplaner#:#shorttext#:#Short Text###16 Mar 2004 new variable
+dateplaner#:#singleDate#:#single date###16 Mar 2004 new variable
+dateplaner#:#starttime_for_view#:#Starttime for view:###16 Mar 2004 new variable
+dateplaner#:#timedate#:#Time / Date###16 Mar 2004 new variable
+dateplaner#:#timeslice#:#Time:###16 Mar 2004 new variable
+dateplaner#:#title#:#Ilias dateplaner###16 Mar 2004 new variable
+dateplaner#:#to#:#to###16 Mar 2004 new variable
+dateplaner#:#today#:#today###16 Mar 2004 new variable
+dateplaner#:#viewlist#:#view###16 Mar 2004 new variable
+dateplaner#:#week#:#week###16 Mar 2004 new variable
+dateplaner#:#year#:#year###16 Mar 2004 new variable
 forum#:#forums#:#论坛
 forum#:#forums_articles#:#文章
 forum#:#forums_attachments#:#附件
