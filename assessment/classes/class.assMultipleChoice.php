@@ -470,42 +470,58 @@ class ASS_MultipleChoice extends ASS_Question {
 * 
 * Saves the learners input of the question to the database
 *
+* @param integer $test_id The database id of the test containing this question
 * @access public
 * @see $answers
 */
-  function save_working_data($limit_to = LIMIT_NO_LIMIT) {
-    global $ilias;
-    $db =& $ilias->db->db;
-    
-    $query = sprintf("DELETE FROM dum_assessment_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $db->quote($this->ilias->account->id),
-      $db->quote($_GET["test"]),
-      $db->quote($this->get_id())
-    );
-    $result = $db->query($query);
-    
+  function save_working_data($test_id, $limit_to = LIMIT_NO_LIMIT) {
+    global $ilDB;
+		global $ilUser;
+    $db =& $ilDB->db;
+
     if ($this->response == RESPONSE_SINGLE) {
-      $query = sprintf("INSERT INTO dum_assessment_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
-        $db->quote($this->ilias->account->id),
-        $db->quote($_GET["test"]),
-        $db->quote($this->get_id()),
-        $db->quote($_POST["multiple_choice_result"])
-      );
+			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",    
+				$db->quote($ilUser->id),
+				$db->quote($test_id),
+				$db->quote($this->get_id())
+			);
+			$result = $db->query($query);
+			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$update = $row->solution_id;
+			if ($update) {
+				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
+					$db->quote($_POST["multiple_choice_result"]),
+					$db->quote($update)
+				);
+			} else {
+				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+					$db->quote($ilUser->id),
+					$db->quote($test_id),
+					$db->quote($this->get_id()),
+					$db->quote($_POST["multiple_choice_result"])
+				);
+			}
       $result = $db->query($query);
     } else {
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",    
+				$db->quote($ilUser->id),
+				$db->quote($test_id),
+				$db->quote($this->get_id())
+			);
+			$result = $db->query($query);
       foreach ($_POST as $key => $value) {
         if (preg_match("/multiple_choice_result_(\d+)/", $key, $matches)) {
-          $query = sprintf("INSERT INTO dum_assessment_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
-            $db->quote($this->ilias->account->id),
-            $db->quote($_GET["test"]),
-            $db->quote($this->get_id()),
-            $db->quote($value)
-          );
+					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+						$db->quote($ilUser->id),
+						$db->quote($test_id),
+						$db->quote($this->get_id()),
+						$db->quote($value)
+					);
           $result = $db->query($query);
         }
       }
     }
-    parent::save_working_data($limit_to);
+    //parent::save_working_data($limit_to);
   }
 }
 

@@ -593,6 +593,9 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"]) {
 			// save question solution
+			$question_gui = new ASS_QuestionGui();
+			$question_gui->create_question("", $this->object->questions[$_GET["sequence"]]);
+			$question_gui->question->save_working_data($this->object->get_test_id());
 		}
 
 		$this->sequence = $_GET["sequence"];
@@ -661,7 +664,7 @@ class ilObjTestGUI extends ilObjectGUI
 				} else {
 					$finish = false;
 				}
-				$question_gui->out_working_question($this->sequence, $finish);
+				$question_gui->out_working_question($this->sequence, $finish, $this->object->get_test_id());
 			} else {
 				// finish test
 				$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_finish.html", true);

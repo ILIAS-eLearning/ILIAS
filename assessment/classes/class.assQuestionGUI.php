@@ -1133,13 +1133,22 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_multiple_choice_question() {
+  function out_working_multiple_choice_question($test_id = "") {
+		$solutions = array();
+		if ($test_id) {
+			$solutions =& $this->question->get_solution_values($test_id);
+		}
     $this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
     if ($this->question->response == RESPONSE_SINGLE) {
       $this->tpl->setCurrentBlock("single");
       foreach ($this->question->answers as $key => $value) {
         $this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_VALUE", $key);
         $this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_TEXT", $value->get_answertext());
+				foreach ($solutions as $idx => $solution_value) {
+					if ($solution_value->value1 == $key) {
+						$this->tpl->setVariable("VALUE_CHECKED", " checked=\"checked\"");
+					}
+				}
         $this->tpl->parseCurrentBlock();
       }
     } else {
@@ -1147,6 +1156,11 @@ class ASS_QuestionGUI extends PEAR {
       foreach ($this->question->answers as $key => $value) {
         $this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_VALUE", $key);
         $this->tpl->setVariable("MULTIPLE_CHOICE_ANSWER_TEXT", $value->get_answertext());
+				foreach ($solutions as $idx => $solution_value) {
+					if ($solution_value->value1 == $key) {
+						$this->tpl->setVariable("VALUE_CHECKED", " checked=\"checked\"");
+					}
+				}
         $this->tpl->parseCurrentBlock();
       }
     }
@@ -1164,13 +1178,23 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_cloze_question() {
+  function out_working_cloze_question($test_id = "") {
+		$solutions = array();
+		if ($test_id) {
+			$solutions =& $this->question->get_solution_values($test_id);
+		}
     $this->tpl->addBlockFile("CLOZE_TEST", "cloze_test", "tpl.il_as_execute_cloze_test.html", true);
     if ($this->question->cloze_type == CLOZE_TEXT) {
       $this->tpl->setCurrentBlock("cloze");
       $output = $this->question->get_cloze_text();
       for ($gapIndex = 0; $gapIndex < $this->question->get_gap_count(); $gapIndex++) {
-        $output = preg_replace("/" . preg_quote($this->question->get_start_tag()) . preg_quote($this->question->get_gap_text_list($gapIndex)) . preg_quote($this->question->get_end_tag()) . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"\" size=\"20\" />", $output);
+				$solution_value = "";
+				foreach ($solutions as $idx => $solution) {
+					if ($solution->value1 == $gapIndex) {
+						$solution_value = $solution->value2;
+					}
+				}
+        $output = preg_replace("/" . preg_quote($this->question->get_start_tag()) . preg_quote($this->question->get_gap_text_list($gapIndex)) . preg_quote($this->question->get_end_tag()) . "/", "<input type=\"text\" name=\"gap_$gapIndex\" value=\"$solution_value\" size=\"20\" />", $output);
       }
       $this->tpl->setVariable("TEXT", $output);
       $this->tpl->parseCurrentBlock();
@@ -1180,8 +1204,18 @@ class ASS_QuestionGUI extends PEAR {
       for ($gapIndex = 0; $gapIndex < $this->question->get_gap_count(); $gapIndex++) {
         $select = "<select name=\"gap_$gapIndex\">";
         $gap = $this->question->get_gap($gapIndex);
+				$solution_value = "";
+				foreach ($solutions as $idx => $solution) {
+					if ($solution->value1 == $gapIndex) {
+						$solution_value = $solution->value2;
+					}
+				}
         foreach ($gap as $key => $value) {
-          $select .= "<option value=\"" . $value->get_order() . "\">" . $value->get_answertext() . "</option>";
+					$selected = "";
+					if ($solution_value == $value->get_order()) {
+						$selected = " selected=\"selected\"";
+					}
+          $select .= "<option value=\"" . $value->get_order() . "\"$selected>" . $value->get_answertext() . "</option>";
         }
         $select .= "</select>";
         $output = preg_replace("/" . preg_quote($this->question->get_start_tag()) . preg_quote($this->question->get_gap_text_list($gapIndex)) . preg_quote($this->question->get_end_tag()) . "/", $select, $output);
@@ -1202,7 +1236,11 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_matching_question() {
+  function out_working_matching_question($test_id = "") {
+		$solutions = array();
+		if ($test_id) {
+			$solutions =& $this->question->get_solution_values($test_id);
+		}
     foreach ($this->question->matchingpairs as $key => $value) {
       $array_matching[$value->get_order()] = $value->get_answertext();
     }
@@ -1215,6 +1253,15 @@ class ASS_QuestionGUI extends PEAR {
       foreach ($array_matching as $match_key => $match_value) {
         $this->tpl->setVariable("COMBO_MATCHING_VALUE", $match_value);
         $this->tpl->setVariable("COMBO_MATCHING", $match_key);
+				$selected = "";
+				foreach ($solutions as $idx => $solution) {
+					if ($solution->value2 == $value->get_matchingtext_order()) {
+						if ($solution->value1 == $match_key) {
+							$selected = " selected=\"selected\"";
+						}
+					}
+				}
+				$this->tpl->setVariable("VALUE_SELECTED", $selected);
         $this->tpl->parseCurrentBlock();
       }
       $this->tpl->setVariable("COUNTER", $value->get_matchingtext_order());
@@ -1241,11 +1288,20 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_ordering_question() {
+  function out_working_ordering_question($test_id = "") {
+		$solutions = array();
+		if ($test_id) {
+			$solutions =& $this->question->get_solution_values($test_id);
+		}
     $this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html", true);
     $this->tpl->setCurrentBlock("orderingQuestion");
     foreach ($this->question->answers as $key => $value) {
       $this->tpl->setVariable("ORDERING_QUESTION_ANSWER_VALUE", $key);
+			foreach ($solutions as $idx => $solution) {
+				if ($solution->value1 == $key) {
+		      $this->tpl->setVariable("VALUE_ORDER", $solution->value2);
+				}
+			}
       $this->tpl->setVariable("ORDERING_QUESTION_ANSWER_TEXT", $value->get_answertext());
       $this->tpl->parseCurrentBlock();
     }
@@ -1263,7 +1319,7 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_imagemap_question() {
+  function out_working_imagemap_question($test_id = "") {
     $this->tpl->addBlockFile("ORDERING_QUESTION", "imagemapblock", "tpl.il_as_execute_imagemap_question.html", true);
     $this->tpl->setCurrentBlock("imagemapblock");
     $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->question->get_title());
@@ -1319,27 +1375,27 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access public
 */
-  function out_working_question($sequence = 1, $finish = false) {
+  function out_working_question($sequence = 1, $finish = false, $test_id) {
     $question_type = $this->get_question_type($this->question);
     
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_question_output.html", true);
     switch($question_type)
     {
       case "qt_cloze":
-        $this->out_working_cloze_question();
+        $this->out_working_cloze_question($test_id);
         break;
       case "qt_multiple_choice_sr":
       case "qt_multiple_choice_mr":
-        $this->out_working_multiple_choice_question();
+        $this->out_working_multiple_choice_question($test_id);
         break;
       case "qt_ordering":
-        $this->out_working_ordering_question();
+        $this->out_working_ordering_question($test_id);
         break;
       case "qt_matching":
-        $this->out_working_matching_question();
+        $this->out_working_matching_question($test_id);
         break;
       case "qt_imagemap":
-        $this->out_working_imagemap_question();
+        $this->out_working_imagemap_question($test_id);
         break;
     }
     $this->tpl->setCurrentBlock("adm_content");
