@@ -978,7 +978,7 @@ class ilLMPresentationGUI
 		// ADDED FOR CITATION
 		$page_object_gui->setLinkParams("ref_id=".$this->lm->getRefId());
 		$page_object_gui->setTemplateTargetVar("PAGE_CONTENT");
-		$page_object_gui->setSourcecodeDownloadScript("lm_presentation.php?ref_id=".$this->lm->getRefId());
+		$page_object_gui->setSourcecodeDownloadScript("lm_presentation.php?".session_name()."=".session_id()."&ref_id=".$this->lm->getRefId());
 
 		if($_SESSION["tr_id"])
 		{
@@ -1489,9 +1489,7 @@ class ilLMPresentationGUI
 		$fileObj->sendFile();
 		exit;
 	}
-	
-	
-	
+		
 	function download_paragraph () {			
 		require_once("content/classes/Pages/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject($this->lm->getType(), $_GET["pg_id"]);
