@@ -2623,12 +2623,16 @@ class ilRepositoryGUI
 				$tpl->setCurrentBlock("tbl_content");
 
 				$newuser = new ilObjUser($cont_data["owner"]);
+
+				$tmp_course =& ilObjectFactory::getInstanceByRefId($cont_data["ref_id"]);
+				$tmp_course->initCourseMemberObject();
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 				
-				if ($this->rbacsystem->checkAccess('join',$cont_data["ref_id"]) or
-					$this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
+				if(($rbacsystem->checkAccess('join',$cont_data["ref_id"]) 
+					or $rbacsystem->checkAccess('read',$cont_data["ref_id"])) and
+				   !$tmp_course->members_obj->isBlocked($this->ilias->account->getId()))
 				{
 					#$this->ctrl->setTargetScript("course.php");
 					$this->ctrl->setParameterByClass("ilObjCourseGUI", "ref_id", $cont_data["ref_id"]);
@@ -2646,6 +2650,33 @@ class ilRepositoryGUI
 					$tpl->setVariable("VIEW_TITLE", $cont_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
+				
+				// DISPLAY MEMBER STATUS
+				if($tmp_course->members_obj->isBlocked($this->ilias->account->getId()))
+				{
+					$tpl->setCurrentBlock("crs_status");
+					$tpl->setVariable("STATUS",$this->lng->txt("crs_status_blocked"));
+					$tpl->parseCurrentBlock();
+				}
+				if($tmp_course->members_obj->isSubscriber($this->ilias->account->getId()))
+				{
+					$tpl->setCurrentBlock("crs_status");
+					$tpl->setVariable("STATUS",$this->lng->txt("crs_status_pending"));
+					$tpl->parseCurrentBlock();
+				}
+				// END CRS STATUS
+
+				// DEACTIVATED
+				// SHOW UNSUBSCRIBE LINK IF USER HAS leave permission AND IS MEMBER
+				#if($tmp_course->members_obj->isMember($this->ilias->account->getId()) and 
+				#   $rbacsystem->checkAccess('leave',$cont_data["ref_id"]))
+				#{
+				#	$tpl->setCurrentBlock("crs_unsubscribe");
+				#	$this->ctrl->setReturn($this,'showList');
+				#	$tpl->setVariable("UNSUBSCRIBE_LINK",$this->ctrl->getLinkTargetByClass("ilObjCourseGUI",'unsubscribe'));
+				#	$tpl->setVariable("TXT_UNSUBSCRIBE",$this->lng->txt("crs_unsubscribe"));
+				#	$tpl->parseCurrentBlock();
+				#}
 
 				$tpl->setCurrentBlock("tbl_content");
 
@@ -2657,8 +2688,8 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
 				}
-				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and 
-					!$this->ilias->account->isDesktopItem($cont_data["ref_id"], "crs"))
+				if($this->ilias->account->getId() != ANONYMOUS_USER_ID and 
+				   !$this->ilias->account->isDesktopItem($cont_data["ref_id"], "crs"))
 				{
 					$tpl->setCurrentBlock("crs_desklink");
 					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
@@ -2669,8 +2700,6 @@ class ilRepositoryGUI
 					$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
 					$tpl->parseCurrentBlock();
 				}
-
-
 				$tpl->setCurrentBlock("tbl_content");
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
