@@ -149,6 +149,44 @@ class ILIAS2To3Converter
 		// type-specific tables
 		switch ($type) 
 		{
+			case "img":
+				
+				// reset type (img -> el)
+				// images are treated as a particual element type 
+				$type = "el";
+				
+				// table 'el_bild'
+				$sql =	"SELECT datei ".
+						"FROM el_bild ".
+						"WHERE id = ".$id.";";
+				
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
+				// get row(s)
+				$image = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// free result set
+				$result->free();
+				
+				// check for orginal file name and set it to id if empty
+				if ($image["datei"] == "")
+				{
+					$image["datei"] = $id;
+				}
+				
+				// set mimetype, size and location for the image file into an array
+				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/image".$id."/".$image["datei"]);
+				
+				/* ***
+				echo "<pre>";
+				print_r($tech);
+				echo "</pre>";
+				*/
+				break;
+			
 			case "mm":
 				
 				// table 'multimedia'
@@ -168,13 +206,11 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				// object's standard view 
-				// local file (object)
+				// object's standard view, local file (object)
 				if ($mm["st_type"] == "file")
 				{
 					// set mimetype, size and location for the multimedia file into an array
-					$tech[] = $this->utils->getTechInfo("./objects/mm".$id."/".$mm["file"], 
-														$this->iliasDir."objects/mm".$id."/".$mm["file"]);
+					$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/mm".$id."/".$mm["file"]);
 				}
 				else // referenced file (object)
 				{
@@ -189,8 +225,7 @@ class ILIAS2To3Converter
 					if ($mm["full_type"] == "file")
 					{
 						// set mimetype, size and location for the multimedia file into an array
-						$tech[] = $this->utils->getTechInfo("./objects/mm".$id."/".$mm["full_file"], 
-															$this->iliasDir."objects/mm".$id."/".$mm["full_file"]);
+						$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/mm".$id."/".$mm["full_file"]);
 					}
 					else // referenced file (object)
 					{
@@ -219,13 +254,7 @@ class ILIAS2To3Converter
 				$result->free();
 				
 				// set mimetype, size and location for the multimedia file into an array
-				$tech[] = $this->utils->getTechInfo("./objects/file".$id."/".$file["file"], 
-													$this->sourceDir."files/file".$id."/".$file["file"]);
-				
-				// ***
-				echo "<pre>";
-				print_r($tech);
-				echo "</pre>";
+				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/file".$id."/".$file["file"]);
 				break;
 			
 			case "gd": // *** Problem: Kapitel besitzen keine expliziten Metadaten in ILIAS2
@@ -662,7 +691,67 @@ class ILIAS2To3Converter
 		return $MetaData;
 	}
 	
-	// ILIAS2 Multimedia (only undeleted) --> ILIAS3 MediaObject
+	// ILIAS 2 Image (element) --> ILIAS 3 MediaObject
+	function exportImage ($id, $parent)
+	{
+		//-------------------------
+		// get data from db tables:
+		//-------------------------		
+		// table 'element' not needed at all!
+		
+		// table 'el_bild'
+		$sql =	"SELECT datei, align ".  // aling -> layout
+				"FROM el_bild ".
+				"WHERE id = ".$id.";";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		$image = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		// free result set
+		$result->free();
+		
+		// check for orginal file name and set it to id if empty
+		if ($image["datei"] == "")
+		{
+			$image["datei"] = $id;
+		}
+		
+		//--------------
+		// copy file(s): ***
+		//--------------
+		$this->utils->copyObjectFiles ($this->iliasDir."bilder/", $this->targetDir."objects/", $id, "img", $image["datei"]);
+		
+		//-------------------------
+		// create MediaObject tree:
+		//-------------------------		
+		// MediaObject
+		$MediaObject = $this->writeNode($parent, "MediaObject");
+		
+		// MediaObject..MetaData
+		$MetaData = $this->exportMetadata($id, "img", $MediaObject);
+		
+		// MediaObject..Layout ***
+		// *** align
+		
+		// MediaObject..Parameter --> unavailable in for images ILIAS 2
+		
+		//-------------
+		// free memory: ***
+		//-------------
+		unset($sql, $image);
+		
+		//-------------------------
+		// return MediaObject tree:
+		//-------------------------
+		return $MediaObject;
+	}
+	
+	// ILIAS 2 Multimedia --> ILIAS 3 MediaObject
 	function exportMultimedia ($id, $parent)
 	{
 		//-------------------------
@@ -684,6 +773,17 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
+		//--------------
+		// copy file(s): ***
+		//--------------
+		// if kept locally
+		if ($mm["st_type"] == "file" or
+			$mm["full_type"] == "file")
+		{
+			// *** copy file(s)
+			$this->utils->copyObjectFiles ($this->iliasDir."objects/", $this->targetDir."objects/", $id, "mm");
+		}
+		
 		//-------------------------
 		// create MediaObject tree:
 		//-------------------------		
@@ -693,7 +793,7 @@ class ILIAS2To3Converter
 		// MediaObject..MetaData
 		$MetaData = $this->exportMetadata($id, "mm", $MediaObject);
 		
-		// MediaObject..Layout ***
+		// MediaObject..Layout
 		$attrs = array(	"Width" => $mm["width"],
 						"Height" => $mm["height"]);
 		$Layout = $this->writeNode($MediaObject, "Layout", $attrs);
@@ -709,14 +809,6 @@ class ILIAS2To3Converter
 			}
 		}
 		
-		// *** copy file(s) if kept locally
-		if ($mm["st_type"] == "file" or
-			$mm["full_type"] == "file")
-		{
-			// *** copy file(s)
-			$this->utils->copyObjectFiles ($this->iliasDir."objects/", $this->targetDir."objects/", $id, "mm");
-		}
-		
 		//-------------
 		// free memory: ***
 		//-------------
@@ -728,13 +820,18 @@ class ILIAS2To3Converter
 		return $MediaObject;
 	}
 	
-	// ILIAS2 File (only undeleted) --> ILIAS3 MediaObject
+	// ILIAS 2 File --> ILIAS 3 MediaObject
 	function exportFile ($id, $parent)
 	{
 		//-------------------------
 		// get data from db tables:
 		//-------------------------		
 		// table 'file' not needed at all!
+		
+		//--------------
+		// copy file(s): ***
+		//--------------
+		$this->utils->copyObjectFiles ($this->sourceDir."files/", $this->targetDir."objects/", $id, "file");
 		
 		//-------------------------
 		// create MediaObject tree:
@@ -745,12 +842,9 @@ class ILIAS2To3Converter
 		// MediaObject..MetaData
 		$MetaData = $this->exportMetadata($id, "file", $MediaObject);
 		
-		// MediaObject..Layout --> unavailable in ILIAS2 for file
+		// MediaObject..Layout --> unavailable for files in ILIAS 2
 		
-		// MediaObject..Parameter --> unavailable in ILIAS2 for file
-		
-		// *** copy file(s)
-		$this->utils->copyObjectFiles ($this->sourceDir."files/", $this->targetDir."objects/", $id, "file");
+		// MediaObject..Parameter --> unavailable for files in ILIAS 2
 		
 		//-------------
 		// free memory: ***
@@ -810,7 +904,7 @@ class ILIAS2To3Converter
 		// *** return $ret;
 	}
 	
-	// ILIAS2 Element (only undeleted) --> ILIAS3 LearningObject AggregationLevel 1 or 2 or Text (depends on type)
+	// ILIAS 2 Element --> ILIAS 3 LearningObject AggregationLevel 1 or 2 or Text (depends on type)
 	function exportElement ($id, $parent)
 	{
 		//-------------------------
@@ -838,7 +932,6 @@ class ILIAS2To3Converter
 		switch($element["typ"]) 
 		{
 			case 1: // text
-				
 				// table 'el_text'
 				$sql =	"SELECT text, align ".
 						"FROM el_text ".
@@ -870,12 +963,12 @@ class ILIAS2To3Converter
 				*/
 				
 				// ***
-				$this->exportTextWithVri($text["text"], $parent);
-				
+				$this->exportTextWithVri($text["text"], $parent);				
 				break;
 			
 			// image (bild)
 			case 2:
+				/* ***
 				// table 'el_bild'
 				$sql =	"SELECT datei, align ".
 						"FROM el_bild ".
@@ -891,76 +984,10 @@ class ILIAS2To3Converter
 				$image = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				// free result set
 				$result->free();
+				*/
 				
-				// check for orginal file name and set it to id if empty
-				if ($image["datei"] == "")
-				{
-					$image["datei"] = $id;
-				}
-				
-				// get names (of existing image files)
-				$names = $this->utils->getImageNames ($this->iliasDir."bilder/", $id, $image["datei"]);
-				
-				// proceed only if at least one file was found, else no subtree will be created ***
-				if (is_array($names))
-				{
-					// set full path of the main file ***
-					$fileName = $this->iliasDir."bilder/".key($names); // *** old filename
-					
-					// get (image) file size and mimetype ***
-					$fileSize = filesize($fileName);
-					$mimetype = $this->utils->getMimeType($fileName);
-					
-					//-------------------------------------------------
-					// create LearningObject AggregationLevel 1 subtree:
-					//-------------------------------------------------
-					
-					// LearningObject
-					$LearningObject = $this->writeNode($parent, "LearningObject");
-					
-					// LearningObject..MetaData ***
-					$MetaData = $this->exportMetadata($id, "el", $LearningObject);
-					
-					// complete Metadata:
-					
-					// get position within the metadata tree to insert the additional information to
-					$elements = $MetaData->get_elements_by_tagname("Educational");
-					$refnode = $elements[0];
-					
-					// 4 MetaData..Technical ***
-					$attrs = array(	"Format" => $mimetype);
-					$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
-					
-					// 4.2 ..Technical..Size
-					$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
-					
-					// 4.3 ..Technical..Location
-					$Location = $this->writeNode($Technical, "Location", Null, "./objects/image".$id."/".$names[key($names)]); // *** new filename
-					
-					// 4.4 ..Technical..(Requirement | OrComposite) ***
-					
-					// 4.5 ..Technical..InstallationRemarks ***
-					
-					// 4.6 ..Technical..OtherPlatformRequirements ***
-					
-					// 4.7 ..Technical..Duration ***
-					
-					// LearningObject..Layout --> unavailable for file
-					
-					// LearningObject..Parameter --> unavailable for file
-					
-					// LearningObject..Content --> unavailable for AggregationLevel 1
-					
-					// LearningObject..Test --> unavailable for AggregationLevel 1
-					
-					// LearningObject..Glossary --> unavailable for AggregationLevel 1
-					
-					// LearningObject..Bibliography --> unavailable for AggregationLevel 1
-					
-					// *** copy file(s)
-					$this->utils->copyObjectFiles ($this->iliasDir."bilder/", $this->targetDir."objects/", $id, "img", $image["datei"]);
-				}
-				
+				// *** change to MediaAlias
+				$this->exportImage($id, $parent);				
 				break;
 			
 			// title
@@ -997,7 +1024,6 @@ class ILIAS2To3Converter
 			
 			// table
 			case 4:
-				
 				// table 'el_table'
 				$sql =	"SELECT rows, border, caption, capalign, width ". // *** auf weiter checken
 						"FROM el_table ".
@@ -1217,7 +1243,6 @@ class ILIAS2To3Converter
 			
 			// multiple choice
 			case 6:
-				
 				// table 'el_mc'
 				$sql =	"SELECT type, text, answer, vristr ".
 						"FROM el_mc ".
@@ -1306,7 +1331,6 @@ class ILIAS2To3Converter
 			
 			// multimedia
 			case 7:
-				
 				// table 'el_multimedia' and 'multimedia'
 				$sql =	"SELECT el.mm_id, el.align, mm.st_type, mm.file, mm.verweis ".
 						"FROM el_multimedia AS el, multimedia AS mm ".
@@ -1353,7 +1377,6 @@ class ILIAS2To3Converter
 				break;
 			
 			case 8: // filelist
-				
 				// table 'el_filelist' 
 				/* *** not needed
 				$sql =	"SELECT sort ".
@@ -1415,8 +1438,7 @@ class ILIAS2To3Converter
 			*/
 			
 			// temporary dummy ***
-			default: 
-				
+			default:
 				// Paragraph
 				$attrs = array(	"Language" => "en");
 				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, "Object not supported yet.");
@@ -1440,121 +1462,15 @@ class ILIAS2To3Converter
 		}
 	}
 	
-	// ILIAS2 Glossar --> ILIAS3 GlossaryItem
+	// ILIAS 2 Glossar --> ILIAS 3 GlossaryItem
 	function exportGlossary ($id, $parent)
 	{
 		//-------------------------
 		// get data from db tables:
-		//-------------------------
-		
-		// table 'glossar'
-		$sql =	"SELECT page, autor, begriff ".
-				"FROM glossar ".
-				"WHERE id = $id;";
-		
-		$result = $this->db->query($sql);		
-		// check $result for error
-		if (DB::isError($result))
-		{
-			die ($result->getMessage());
-		}
-		// get row(s)
-		$glossar = $result->fetchRow(DB_FETCHMODE_ASSOC);
-		// free result set
-		$result->free();
-		
-		//-----------------------------
-		// create GlossaryItem subtree:
-		//-----------------------------
-		
-		// GlossaryItem
-		$attrs = array(	"Id" => "gl_".$id); // *** gl id
-		$GlossaryItem = $this->writeNode($parent, "GlossaryItem", $attrs);
-		
-		// GlossaryItem..GlossaryTerm
-		$attrs = array(	"Definition" => "pg_".$glossar["page"]); // *** gl_page id
-		$GlossaryTerm = $this->writeNode($GlossaryItem, "GlossaryTerm", $attrs, $glossar["begriff"]);
-		
-		// Glossary..Definition *** mit text..paragraph statt paragraph!
-		$Definition = $this->exportPage($glossar["page"], $GlossaryItem);
-		
-		// free result set
-		$result->free();
-		
-		// *** --> mit Hilfe von Referenz realisieren! Wohin damit?
-		// table 'page_glossar'
-		/*
-		$sql =	"SELECT * ".
-				"FROM page_glossar ".
-				"WHERE glossar = $id;";
-		*/
-		
-		//-------------
-		// free memory: ***
-		//-------------
-		unset($sql, $row, $attrs, $glossar);
-		
-		//-----------------------------
-		// return GlossaryItem subtree:
-		//-----------------------------
-		return $GlossaryItem;
-	}
-	
-	/* *** obsolete!!!
-	// ILIAS2 Multiple Choice --> ILIAS3 TestItem
-	function exportTest ($id, $parent)
-	{
-		//-------------------------
-		// get data from db tables:
-		//-------------------------
-		
-		// not needed *** ggf. wieder bei exportLearnunit eingliedern!
-		
-		//-------------------------
-		// create TestItem subtree:
-		//-------------------------
-		
-		// TestItem
-		$attrs = array(	"Id" => "mc_".$id);
-		$TestItem = $this->writeNode($parent, "TestItem", $attrs);
-		
-		
-		$TestItem = $this->exportPage($id, $parent);
-		
-		// TestItem..Hint ***
-		
-		// free result set
-		$result->free();
-		
-		// *** --> mit Hilfe von Referenz realisieren! Wohin damit?
-		// table 'page_frage'
-		/*
-		$sql =	"SELECT * ".
-				"FROM page_frage ".
-				"WHERE mc_id = $id;";
-		*//*
-		
-		//-------------
-		// free memory: ***
-		//-------------
-		unset($sql, $row, $attrs);
-		
-		//-----------------------------
-		// return GlossaryItem subtree:
-		//-----------------------------
-		return $TestItem;
-	}
-	*/
-	
-	// ILIAS2 Page (only undeleted) --> ILIAS3 PageObject or Test or Glossary ***
-	function exportPage ($id, $parent)
-	{
-		//-------------------------
-		// get data from db tables:
 		//-------------------------		
-		// table 'page'
-		$sql =	"SELECT pg_typ ".
-				"FROM page ".
+		// table 'glossar'
+		$sql =	"SELECT page, autor, begriff ". // *** autor zu Metadaten
+				"FROM glossar ".
 				"WHERE id = ".$id.";";
 		
 		$result = $this->db->query($sql);		
@@ -1563,159 +1479,270 @@ class ILIAS2To3Converter
 		{
 			die ($result->getMessage());
 		}
-		// get row
-		$page = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		// get row(s)
+		$gloss = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		// free result set
 		$result->free();
 		
-		// select tables according to page's type
-		switch($page["pg_typ"]) 
+		// table 'page' not needed at all!
+		
+		//--------------------------
+		// create GlossaryItem tree:
+		//--------------------------		
+		// GlossaryItem
+		$GlossaryItem = $this->writeNode($parent, "GlossaryItem");
+		
+		// GlossaryItem..MetaData ***
+		// *** Problem metadata zu Page: typ 'pg' nicht 'gl':
+		$MetaData = $this->exportMetadata($gloss["page"], "pg", $GlossaryItem);
+		
+		// GlossaryItem..GlossaryTerm
+		$GlossaryTerm = $this->writeNode($GlossaryItem, "GlossaryTerm", Null, $gloss["begriff"]);
+		
+		// GlossaryItem..Definition
+		$Definition = $this->writeNode($GlossaryItem, "Definition");
+		
+		// GlossaryItem..Definition..[Paragraph | MediaObject] (= elements)
+		$sql =	"SELECT id ".
+				"FROM element ".
+				"WHERE page = ".$gloss["page"]." ".
+				"AND deleted = '0000-00-00 00:00:00' ".
+				"ORDER BY nr;";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
 		{
-			case "le": // Lerneinheit
-				
-				//-------------------------
-				// create PageObject tree:
-				//-------------------------				
-				// PageObject
-				$PageObject = $this->writeNode($parent, "PageObject");
-				
-				// PageObject..MetaData
-				$MetaData = $this->exportMetadata($id, "pg", $PageObject);
-				
-				// PageObject..(Paragraph | MediaObject) ***
-				$sql =	"SELECT id ".
-						"FROM element ".
-						"WHERE page = ".$id." ".
-						"AND deleted = '0000-00-00 00:00:00' ".
-						"ORDER BY nr;";
-				
-				$result = $this->db->query($sql);		
-				// check $result for error
-				if (DB::isError($result))
-				{
-					die ($result->getMessage());
-				}
-				// get row(s)
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					$Element = $this->exportElement($row["id"], $PageObject);
-				}
-				// free result set
-				$result->free();
-				
-				// PageObject..Layout --> unavailable in ILIAS2 for pages				
-				break;
-			
-			// Glossary *** (Metadata for Glossary unavailable in ILIAS3)
-			case "gl":
-				
-				//---------------------------
-				// create Definition subtree:
-				//---------------------------
-				
-				// Glossary..GlossaryItem..Definition *** nur Textelemente filtern?
-				$sql =	"SELECT id ".
-						"FROM element ".
-						"WHERE page = $id ".
-						"AND deleted = '0000-00-00 00:00:00' ".
-						"ORDER BY nr;";
-				
-				$result = $this->db->query($sql);		
-				// check $result for error
-				if (DB::isError($result))
-				{
-					die ($result->getMessage());
-				}
-				// check row number
-				if ($result->numRows() > 0)
-				{
-					$attrs = array(	"Id" => "pg_".$id); // *** gl_page id
-					$Definition = $this->writeNode($parent, "Definition", $attrs);
-				}
-				// get row(s)
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					// ..Definition.. ***
-					$Element = $this->exportElement($row["id"], $Definition);
-				}
-				// free result set
-				$result->free();
-				
-				break;
-			
-			// Multiple Choice (Test) ***
-			case "mc":
-				
-				//-------------------------
-				// create TestItem subtree:
-				//-------------------------
-				
-				// Test..TestItem
-				$sql =	"SELECT id ".
-						"FROM element ".
-						"WHERE page = $id ".
-						// "AND typ = 6 ". // *** nur mc elemente filtern? oder Item anders veranktern
-						"AND deleted = '0000-00-00 00:00:00' ".
-						"ORDER BY nr;";
-				
-				$result = $this->db->query($sql);		
-				// check $result for error
-				if (DB::isError($result))
-				{
-					die ($result->getMessage());
-				}
-				// check row number
-				if ($result->numRows() > 0)
-				{
-					$attrs = array(	"Id" => "mc_".$id); // *** mc_page id Problem, wenn >=2 el_mc pro mc_page
-					$TestItem = $this->writeNode($parent, "TestItem", $attrs);
-				}
-				// get row(s)
-				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					// ..TestItem.. ***
-					$Element = $this->exportElement($row["id"], $TestItem);
-				}
-				// free result set
-				$result->free();
-				
-				// free result set
-				$result->free();
-				
-				// *** --> mit Hilfe von Referenz realisieren! Wohin damit?
-				// table 'page_frage'
-				/*
-				$sql =	"SELECT * ".
-						"FROM page_frage ".
-						"WHERE mc_id = $id;";
-				*/
-				
-				break;
+			die ($result->getMessage());
 		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$Element = $this->exportElement($row["id"], $Definition);
+		}
+		// free result set
+		$result->free();
 		
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $row, $page, $attrs);
+		unset($sql, $row, $gloss);
 		
-		//---------------------------------------------------------
-		// return (LearningObject | Definition | TestItem) subtree: ***
-		//---------------------------------------------------------
-		if (!is_null($LearningObject))
-		{
-			return $LearningObject;
-		}
-		elseif (!is_null($Definition))
-		{
-			return $Definition;
-		}
-		elseif (!is_null($TestItem))
-		{
-			return $TestItem;
-		}
+		//--------------------------
+		// return GlossaryItem tree:
+		//--------------------------
+		return $GlossaryItem;
 	}
 	
-	// ILIAS2 Chapter --> ILIAS3 StructureObject
+	// ILIAS 2 multiple choice Test --> ILIAS 3 TestItem
+	function exportTest ($id, $parent)
+	{
+		//-------------------------
+		// get data from db tables:
+		//-------------------------		
+		// table 'page' not needed at all!
+		
+		//----------------------
+		// create TestItem tree:
+		//----------------------
+		// TestItem
+		$TestItem = $this->writeNode($parent, "TestItem");
+		
+		// TestItem..MetaData
+		$MetaData = $this->exportMetadata($id, "mc", $TestItem);
+		
+		// TestItem.. (= elements) ***
+		$sql =	"SELECT id ".
+				"FROM element ".
+				"WHERE page = ".$id." ".
+				// "AND typ = 6 ". // *** nur mc elemente filtern? oder Item anders verankern
+				"AND deleted = '0000-00-00 00:00:00' ".
+				"ORDER BY nr;";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$Element = $this->exportElement($row["id"], $TestItem);
+		}
+		// free result set
+		$result->free();
+		
+		//-------------
+		// free memory: ***
+		//-------------
+		unset($sql, $row);
+		
+		//----------------------
+		// return TestItem tree:
+		//----------------------
+		return $TestItem;
+	}
+	
+	// ILIAS 2 Page --> ILIAS 3 PageObject
+	function exportPage ($id, $parent)
+	{
+		//-------------------------
+		// get data from db tables:
+		//-------------------------		
+		// table 'page' not needed at all!
+		
+		// table 'page_glossar' // *** ggf. content für link
+		$sql =	"SELECT glossar ".
+				"FROM page_glossar ".
+				"WHERE page = ".$id." ". 
+				"ORDER BY id;";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$gloss[] = $row;
+		}
+		// free result set
+		$result->free();
+		
+		// table 'page_frage' // *** ggf. content für link
+		$sql =	"SELECT mc_id ".
+				"FROM page_frage ".
+				"WHERE pg_id = ".$id." ". 
+				"ORDER BY nr;";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$mc[] = $row;
+		}
+		// free result set
+		$result->free();
+		
+		// table 'page_link'
+		$sql =	"SELECT titel, url ".
+				"FROM page_link ".
+				"WHERE page = ".$id." ". 
+				"ORDER BY id;";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$link[] = $row;
+		}
+		// free result set
+		$result->free();
+		
+		//-------------------------
+		// create PageObject tree:
+		//-------------------------				
+		// PageObject
+		$PageObject = $this->writeNode($parent, "PageObject");
+		
+		// PageObject..MetaData
+		$MetaData = $this->exportMetadata($id, "pg", $PageObject);
+		
+		// PageObject..[Paragraph | MediaObject] (= Elements)
+		$sql =	"SELECT id ".
+				"FROM element ".
+				"WHERE page = ".$id." ".
+				"AND deleted = '0000-00-00 00:00:00' ".
+				"ORDER BY nr;";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$Element = $this->exportElement($row["id"], $PageObject);
+		}
+		// free result set
+		$result->free();
+		
+		// PageObject..Paragraph (= page's glossary items)
+		if (is_array($gloss))
+		{
+			foreach ($gloss as $value)
+			{
+				$attrs = array(	"Language" => "de", // *** aus ... holen
+								"Characteristic" => "Additional"); 
+				$Paragraph = $this->writeNode($PageObject, "Paragraph", $attrs);
+				
+				// ..IntLink (-> GlossaryItem)
+				$attrs = array(	"Target" => "gl_".$value["glossar"], // id abgleichen ***
+								"Type" => $this->utils->selectTargetType("gl"));
+				$IntLink = $this->writeNode($Paragraph, "IntLink", $attrs);
+			}
+		}
+		
+		// PageObject..Paragraph (= page's links)
+		if (is_array($link))
+		{
+			foreach ($link as $value)
+			{
+				$attrs = array(	"Language" => "de", // *** aus ... holen
+								"Characteristic" => "Additional"); 
+				$Paragraph = $this->writeNode($PageObject, "Paragraph", $attrs);
+				
+				// ..ExtLink (-> URL)
+				$attrs = array(	"Href" => $value["url"]);
+				$ExtLink = $this->writeNode($Paragraph, "ExtLink", $attrs, $value["titel"]);
+			}
+		}
+		
+		// PageObject..Paragraph (= page's mc questions)
+		if (is_array($mc))
+		{
+			foreach ($mc as $value)
+			{
+				$attrs = array(	"Language" => "de", // *** aus ... holen
+								"Characteristic" => "Additional"); 
+				$Paragraph = $this->writeNode($PageObject, "Paragraph", $attrs);
+				
+				// ..IntLink (-> TestItem)
+				$attrs = array(	"Target" => "mc_".$value["mc_id"], // id abgleichen ***
+								"Type" => $this->utils->selectTargetType("mc"));
+				$IntLink = $this->writeNode($Paragraph, "IntLink", $attrs);
+			}
+		}
+		
+		// PageObject..Layout --> unavailable for pages in ILIAS2
+		
+		//-------------
+		// free memory: ***
+		//-------------
+		unset($sql, $row, $gloss, $link, $mc, $attrs);
+		
+		//------------------
+		// return PageObject
+		//------------------
+		return $PageObject;
+	}
+	
+	// ILIAS 2 Structure (chapter) --> ILIAS 3 StructureObject
 	function exportStructure ($id, $parent)
 	{
 		//-------------------------
@@ -1779,7 +1806,7 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// StructureObject..Layout ***
+		// StructureObject..Layout --> unavailable for structure in ILIAS 2
 		
 		//-------------
 		// free memory: ***
@@ -1792,13 +1819,12 @@ class ILIAS2To3Converter
 		return $StructureObject;
 	}
 	
-	// ILIAS2 Learningunit --> ILIAS3 LearningModule
+	// ILIAS 2 Learningunit --> ILIAS 3 LearningModule
 	function exportLearningunit ($id)
 	{
 		//-------------------------
 		// get data from db tables:
-		//-------------------------
-		
+		//-------------------------		
 		// table 'lerneinheit'
 		/*
 		$sql =	"SELECT * ".
@@ -1809,15 +1835,14 @@ class ILIAS2To3Converter
 		
 		//----------------------------
 		// create LearningModule tree:
-		//----------------------------
-		
+		//----------------------------		
 		// LearningModule
 		$LearningModule = $this->writeNode($this->doc, "LearningModule");
 		
 		// LearningModule..MetaData
 		$MetaData = $this->exportMetadata($id, "le", $LearningModule);
 		
-		// LearningModule..StructureObject (= startpage of an ILIAS2 Learningunit)
+		// LearningModule..StructureObject (= "startpage" of an ILIAS 2 Learningunit)
 		$sql =	"SELECT id ".
 				"FROM gliederung ".
 				"WHERE lerneinheit = ".$id." ".
@@ -1837,7 +1862,7 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// LearningModule..StructureObject(s) (all chapters beeing childern of startpage above)
+		// LearningModule..StructureObject(s) (= all chapters beeing childern of "startpage" above)
 		$sql =	"SELECT id ".
 				"FROM gliederung ".
 				"WHERE lerneinheit = ".$id." ".
@@ -1977,13 +2002,20 @@ class ILIAS2To3Converter
 		// check row number
 		if ($result->numRows() > 0)
 		{
+			//------------------
+			// create Test tree:
+			//------------------
+			// Test
 			$Test = $this->writeNode($LearningModule, "Test");
+			
+			// Test..MetaData ***
+			// *** $MetaData = $this->exportMetadata($row["id"], "mc***", $LearningModule);
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			// ..Test.. ***
-			$TestItem = $this->exportPage($row["id"], $Test);
+			// Test..TestItem
+			$TestItem = $this->exportTest($row["id"], $Test);
 		}
 		// free result set
 		$result->free();
@@ -2004,29 +2036,36 @@ class ILIAS2To3Converter
 		// check row number
 		if ($result->numRows() > 0)
 		{
+			//----------------------
+			// create Glossary tree:
+			//----------------------
+			// Glossary
 			$Glossary = $this->writeNode($LearningModule, "Glossary");
+			
+			// Glossary..MetaData ***
+			// *** $MetaData = $this->exportMetadata($row["id"], "gl***", $LearningModule);
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			// ..Glossary.. ***
+			// Glossary..GlossaryItem ***
 			$GlossaryItem = $this->exportGlossary($row["id"], $Glossary);
 		}
 		// free result set
 		$result->free();
 		
-		// LearningModule..Bibliography --> unavailable in ILIAS2
+		// LearningModule..Bibliography --> unavailable for learningunits in ILIAS 2
 		
-		// LearningModule..Layout ***
+		// LearningModule..Layout --> unavailable in for learningunits ILIAS 2
 		
 		//-------------
 		// free memory: ***
 		//-------------
 		unset($sql, $row, $attrs, $test);
 		
-		//-------------------------------
-		// return LearningObject subtree:
-		//-------------------------------
+		//----------------------------
+		// return LearningModule tree:
+		//----------------------------
 		return $LearningModule;
 	}
 	

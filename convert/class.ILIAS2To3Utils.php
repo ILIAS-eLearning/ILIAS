@@ -36,7 +36,11 @@ class ILIAS2To3Utils
 				$str = "Collection";
 				break;
 			
-			case "mc": // *** -> test element ohne eigene Daten (*** gl auch unterbringen)
+			case "mc": // *** -> test element ohne eigene Daten
+				$str = "Collection";
+				break;
+			
+			case "gl": // *** -> glossary element ohne eigene Daten ***
 				$str = "Collection";
 				break;
 			
@@ -76,11 +80,15 @@ class ILIAS2To3Utils
 				$str = "PageObject";
 				break;
 			
-			/* ***
 			case "mc":
-				$str = "";
+				$str = "TestItem";
 				break;
 			
+			case "gl":
+				$str = "GlossryItem";
+				break;
+			
+			/* ***
 			case "el":
 				$str = "";
 				break;
@@ -511,17 +519,11 @@ class ILIAS2To3Utils
 	}
 	
 	// ***
-	function getTechInfo ($relPath, $absPath = "")
+	function getTechInfo ($tDir, $tFile = "")
 	{
-		// ***
-		if (!empty($absPath))
-		{
-			$path = $absPath;
-		}
-		else
-		{
-			$path = $relPath;
-		}
+		// set absolute and relative path to the file
+		$path = $tDir.$tFile;
+		$relPath = "./".$tFile;
 		
 		// *** proceed only if a file was found
 		// if (file_exists($path))
@@ -531,7 +533,6 @@ class ILIAS2To3Utils
 								"Size" => $this->getFileSize($path),
 								"Location" => $relPath);
 		// }
-		
 		return $arr;
 	}
 	
@@ -602,7 +603,7 @@ class ILIAS2To3Utils
 		return TRUE;
 	}
 	
-	function getImageNames ($sDir, $imageId, $imageName = "")
+	function getImageNames ($sDir, $imageId, $imageName)
 	{
 		// initialize arrays ***
 		$types = array("", ".gif", ".jpg", "-s.gif", "-s.jpg");
