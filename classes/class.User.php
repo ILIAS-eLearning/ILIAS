@@ -478,7 +478,7 @@ class User
 					"content" => "This is Lesson One",
 					"page" => "Contents",
 					"pageid" => "1",
-					"datetime" => Format::formatDate(date("Y-m-d"),"date")
+					"datetime" => date("Y-m-d")
 					);
 		return $lessons;
 	}
@@ -532,7 +532,7 @@ class User
 			"title" => "Course 1",
 			"desc" => "description of course one",
 			"content" => "This is Course One",
-			"datetime" => Format::formatDate(date("Y-m-d"),"date")
+			"datetime" => date("Y-m-d")
 			);
 		return $courses;
 	}
