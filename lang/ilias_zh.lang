@@ -737,6 +737,7 @@ common#:#delete_all#:#全部删除
 common#:#delete_all_rec#:#Delete all records###17 Mar 2004 new variable
 common#:#delete_object#:#删除对象
 common#:#delete_selected#:#删除已选对象
+common#:#delete_tr_data#:#Delete tracking data###09 Jul 2004 new variable
 common#:#deleted#:#已删除
 common#:#department#:#系
 common#:#desc#:#描述
@@ -1206,6 +1207,7 @@ common#:#mail_visible#:#邮件设置可视
 common#:#mail_write#:#编辑邮件设置
 common#:#mail_z_local#:#用户文件夹
 common#:#mails#:#邮件
+common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#全部邮件标记为已读
 common#:#mark_all_unread#:#全部邮件标记为未读
 common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
@@ -1371,6 +1373,7 @@ common#:#normal#:#正常
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
 common#:#not_installed#:#未安装
 common#:#not_logged_in#:#您未登录
+common#:#number_of_accesses#:#Number of accesses###09 Jul 2004 new variable
 common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
 common#:#obj#:#对象
 common#:#obj_adm#:#系统设置###05 Mar 2004 content changed
@@ -1749,6 +1752,8 @@ common#:#total#:#总计
 common#:#tpl_path#:#模板路径
 common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
 common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
+common#:#tracking_data_deleted#:#Tracking data deleted###09 Jul 2004 new variable
 common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#翻译
 common#:#trash#:#拉圾箱
@@ -1870,6 +1875,7 @@ content#:#cont_assign_full#:#指定全屏幕
 content#:#cont_assign_std#:#指定标准
 content#:#cont_assign_translation#:#指定翻译
 content#:#cont_assignments_deleted#:#指派已删除
+content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
 content#:#cont_back#:#返回
 content#:#cont_booktitle#:#书的题目
 content#:#cont_bottom#:#底部
