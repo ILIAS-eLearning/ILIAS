@@ -619,6 +619,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$a_id = $_GET["ref_id"];
 		}
+		if (!($scriptname))
+		{
+			$scriptname = "repository.php";
+		}
 
 		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
