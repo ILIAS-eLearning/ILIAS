@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.83 2004/05/07 18:15:07 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.84 2004/05/07 20:23:14 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -504,6 +504,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		foreach ($this->data["buttons"] as $name => $value)
 		{
 			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("spacer.gif"));
 			$this->tpl->setVariable("BTN_NAME",$name);
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
