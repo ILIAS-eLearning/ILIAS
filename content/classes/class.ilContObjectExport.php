@@ -247,6 +247,7 @@ class ilContObjectExport
 		// export style
 		if ($this->cont_obj->getStyleSheetId() > 0)
 		{
+			include("classes/class.ilObjStyleSheet.php");
 			$style_obj = new ilObjStyleSheet($this->cont_obj->getStyleSheetId(), false);
 			$style_obj->exportXML($this->export_dir."/".$this->subdir);
 		}
