@@ -484,15 +484,22 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
 	cfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
 	
+	cfg.pageStyle += "u {font-size:middle;font-weight:normal;font-style: italic;vertical-align:middle;text-decoration:none;}";
+	cfg.pageStyle += "strike {font-size:middle;font-weight:normal;font-style: italic;vertical-align:middle;text-decoration:none;}";
+	cfg.pageStyle += "sub {font-size:middle;font-weight:normal;font-style: italic;vertical-align:middle;}";
+	cfg.pageStyle += "sup {font-size:middle;font-weight:normal;color:green;vertical-align:middle;}";
+	
 	cfg.statusBar = false;
 	
 //		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator",
 // "bold", "italic",
 
+// "ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator",
+// "ilias-com", "ilias-quot", "ilias-code",
 	cfg.toolbar = [
 		[ 
           
-		  "ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator",
+		  "bold", "italic",  "separator",
 		  
 		   "ilias-xtl", "ilias-itl",
 		  "separator", "ilias-x", "separator",
@@ -501,6 +508,9 @@ function initEditor(TextAreaName)
           ],
 
 	];
+	/*
+	"separator","superscript","underline", "strikethrough", "subscript", "separator",
+	*/
 	// "ilias-fn",	"ilias-x", "separator", "separator","htmlmode"
 //"ilias-fn",,"htmlmode" "separator","htmlmode"
     
@@ -917,7 +927,7 @@ function buttonInternalLink()
         obj = document.getElementById("{PAR_TA_NAME}");
         T = obj.value;
 		
-		T = replaceAll(T,"<", "&lt;");
+		//T = replaceAll(T,"<", "&lt;");
 /*		
         T = replaceAll(T, "[str]","<span class=\"ilc_Strong\">");
         T = replaceAll(T, "[/str]","</span>");
