@@ -327,7 +327,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     if (strlen($_POST["cmd"]["export"]) > 0) {
       // export button was pressed
       if (count($checked_questions) > 0) {
-        // here comes the export routine call for qti export
+				foreach ($checked_questions as $key => $value) {
+					$question_gui =& new ASS_QuestionGUI();
+					$question =& $question_gui->create_question("", $value);
+					$xml .= $question_gui->question->to_xml();
+				}
+				if (count($checked_questions) > 1)
+				{
+					$xml = preg_replace("/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/", "", $xml);
+
+				}
+        header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
+        header ("Cache-Control: no-cache, must-revalidate");
+        header ("Pragma: no-cache");
+				// force downloading of the xml file: use octet-stream instead of text/xml
+				header ("Content-type: application/octet-stream");
+				header ("Content-Disposition: attachment; filename=qti_export.xml" );
+ 				print $xml;
+				exit();
       } elseif (count($checked_questions) == 0) {
         sendInfo($this->lng->txt("qpl_export_select_none"));
       }

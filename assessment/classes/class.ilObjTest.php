@@ -1126,6 +1126,25 @@ class ilObjTest extends ilObject
 		return $row->title;
 	}
 	
+/**
+* Returns the dataset for a given question id
+* 
+* Returns the dataset for a given question id
+*
+* @param integer $question_id The database id of the question
+* @return object Question dataset
+* @access public
+* @see $questions
+*/
+	function get_question_dataset($question_id) {
+		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+			$this->ilias->db->quote("$question_id")
+		);
+    $result = $this->ilias->db->query($query);
+		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row;
+	}
+	
 	function &get_qpl_titles() {
 		$qpl_titles = array();
 		$query = sprintf("SELECT object_data.title, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = %s",
@@ -1750,5 +1769,76 @@ class ilObjTest extends ilObject
 		return $result_array;
 	}
 
+/**
+* Returns a random selection of questions
+* 
+* Returns a random selection of questions
+*
+* @param integer $nr_of_questions Number of questions to return
+* @param integer $questionpool ID of questionpool to choose the questions from (0 = all available questionpools)
+* @return array A random selection of questions
+* @access public
+*/
+	function randomSelectQuestions($nr_of_questions, $questionpool)
+	{
+		$result_array = array();
+		if ($questionpool == 0)
+		{
+			$query = "SELECT COUNT(question_id) FROM qpl_questions, object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_reference.ref_id = qpl_questions.ref_fi AND qpl_questions.complete = '1'";
+		}
+			else
+		{
+			$query = sprintf("SELECT COUNT(question_id) FROM qpl_questions WHERE ref_fi = %s",
+				$this->ilias->db->quote("$questionpool")
+			);
+		}
+		$result = $this->ilias->db->query($query);
+		$row = $result->fetchRow(DB_FETCHMODE_ARRAY);
+		if (($row[0]-count($this->questions)) <= $nr_of_questions)
+		{
+			// take all available questions
+			if ($questionpool == 0)
+			{
+				$query = "SELECT question_id FROM qpl_questions, object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_reference.ref_id = qpl_questions.ref_fi AND qpl_questions.complete = '1'";
+			}
+				else
+			{
+				$query = sprintf("SELECT question_id FROM qpl_questions WHERE ref_fi = %s AND qpl_questions.complete = '1'",
+					$this->ilias->db->quote("$questionpool")
+				);
+			}
+			$result = $this->ilias->db->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
+			{
+				if (!in_array($row[0], $this->questions))
+					$result_array[$row[0]] = $row[0];
+			}
+		}
+			else
+		{
+			// select a random number out of the maximum number of questions
+			$random_number = mt_rand(0, $row[0] - 1);
+			while (count($result_array) < $nr_of_questions)
+			{
+				if ($questionpool == 0)
+				{
+					$query = "SELECT question_id FROM qpl_questions, object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = 'qpl' AND object_reference.ref_id = qpl_questions.ref_fi AND qpl_questions.complete = '1' LIMIT $random_number, 1";
+				}
+					else
+				{
+					$query = sprintf("SELECT question_id FROM qpl_questions WHERE ref_fi = %s AND qpl_questions.complete = '1' LIMIT $random_number, 1",
+						$this->ilias->db->quote("$questionpool")
+					);
+				}
+				$result = $this->ilias->db->query($query);
+				$result_row = $result->fetchRow(DB_FETCHMODE_ARRAY);
+				if (!in_array($result_row[0], $this->questions))
+					$result_array[$result_row[0]] = $result_row[0];
+				$random_number = mt_rand(0, $row[0] - 1);
+			}
+		}
+		return $result_array;
+	}
+	
 } // END class.ilObjTest
 ?>

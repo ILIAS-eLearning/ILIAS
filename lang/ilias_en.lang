@@ -88,6 +88,7 @@ assessment#:#add_answer#:#Add answer
 assessment#:#add_answer_tf#:#Add true/false answers
 assessment#:#add_answer_yn#:#Add yes/no answers
 assessment#:#add_matching_pair#:#Add matching pair
+assessment#:#all_available_question_pools#:#All available question pools
 assessment#:#answer#:#Answer
 assessment#:#answer_picture#:#Answer picture
 assessment#:#answer_text#:#Answer text
@@ -128,6 +129,7 @@ assessment#:#material_file#:#Material file
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!
 assessment#:#meaning#:#Meaning
 assessment#:#no_questions_available#:#There are no questions available!
+assessment#:#or#:#or
 assessment#:#order_pictures#:#Order pictures
 assessment#:#order_terms#:#Order terms
 assessment#:#points#:#Points
@@ -168,12 +170,18 @@ assessment#:#save_previous#:#Save and goto previous question
 assessment#:#select_gap#:#Select gap
 assessment#:#set_filter#:#Set filter
 assessment#:#solution_order#:#Solution order
+assessment#:#start_tag#:#Start tag
+assessment#:#end_tag#:#End tag
+assessment#:#random_selection#:#Random selection
+assessment#:#gap_definition#:#Gap definition
+assessment#:#shuffle_answers#:#Shuffle answers
 assessment#:#symbol#:#Symbol
 assessment#:#text_gap#:#Text gap
 assessment#:#true#:#True
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_anon_eval#:#Anonymous aggregated results
 assessment#:#tst_browse_for_questions#:#Browse for questions
+assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.
 assessment#:#tst_eval_total_finished#:#Total finished tests
@@ -207,6 +215,8 @@ assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question type
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
+assessment#:#tst_random_nr_of_questions#:#How many questions?
+assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_reached_points#:#Reached points
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?

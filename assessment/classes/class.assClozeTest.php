@@ -185,13 +185,15 @@ class ASS_ClozeTest extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, cloze_type = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, cloze_type = %s, complete = %s, start_tag = %s, end_tag = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->cloze_text),
         $db->quote($this->cloze_type),
 				$db->quote("$complete"),
+        $db->quote("$this->start_tag"),
+        $db->quote("$this->end_tag"),
         $db->quote($this->id)
       );
       $result = $db->query($query);

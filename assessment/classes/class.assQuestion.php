@@ -137,6 +137,15 @@ class ASS_Question extends PEAR {
   var $lng;
 
 /**
+* The domxml representation of the question in qti
+*
+* The domxml representation of the question in qti
+*
+* @var object
+*/
+  var $domxml;
+
+/**
 * ASS_Question constructor
 *
 * The constructor takes possible arguments an creates an instance of the ASS_Question object.
@@ -175,8 +184,29 @@ class ASS_Question extends PEAR {
     }
     $this->id = -1;
     $this->test_id = -1;
-  }
+		register_shutdown_function(array(&$this, '_ASS_Question'));
+	}
+	
+	function _ASS_Question() {
+		if (!empty($this->domxml)) {
+			$this->domxml->free();
+		}
+	}
 
+/**
+* Returns a QTI xml representation of the question
+*
+* Returns a QTI xml representation of the question and sets the internal
+* domxml variable with the DOM XML representation of the QTI xml representation
+*
+* @return string The QTI xml representation of the question
+* @access public
+*/
+	function to_xml()
+	{
+		// to be implemented in the successor classes of ASS_Question
+	}
+	
 /**
 * Returns true, if a question is complete for use
 *
