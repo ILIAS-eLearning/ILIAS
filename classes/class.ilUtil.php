@@ -449,11 +449,38 @@ class ilUtil
 	* @param	integer	Anzahl der Elemente pro Seite
 	* @param	integer	Das aktuelle erste Element in der Liste
 	* @param	array	Die zu übergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
-	* @return	array	linkbar or false on error
+	* @param	array	layout options (all optional)
+	* 					link	=> css name for <a>-tag
+	* 					prev	=> value for 'previous page' (default: '<<')
+	* 					next	=> value for 'next page' (default: '>>')
+ 	* @return	array	linkbar or false on error
 	*/
-	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = array())
+	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = array(),$ALayout = array())
 	{
 		$LinkBar = "";
+		
+		$layout_link = "";
+		$layout_prev = "&lt;&lt;";
+		$layout_next = "&gt;&gt;";
+
+		// layout options
+		if (count($ALayout > 0))
+		{
+			if ($ALayout["link"])
+			{
+				$layout_link = " class=\"".$ALayout["link"]."\"";
+			}
+
+			if ($ALayout["prev"])
+			{
+				$layout_prev = $ALayout["prev"];
+			}
+
+			if ($ALayout["next"])
+			{
+				$layout_next = $ALayout["next"];
+			}
+		} 
 
 		// Wenn Hits grösser Limit, zeige Links an
 		if ($AHits > $ALimit)
@@ -472,7 +499,7 @@ class ilUtil
 			if ($AOffset >= 1)
 			{
 				$prevoffset = $AOffset - $ALimit;
-				$LinkBar .= "<a class=\"inlist\" href=\"".$link.$prevoffset."\">&lt;&lt;&nbsp;</a>";
+				$LinkBar .= "<a".$layout_link." href=\"".$link.$prevoffset."\">".$layout_prev."&nbsp;</a>";
 			}
 
 			// Benötigte Seitenzahl kalkulieren
@@ -496,7 +523,7 @@ class ilUtil
 					}
 					else
 					{
-						$LinkBar .= "[<a class=\"inlist\" href=\"".$link.$newoffset."\">$i</a>]";
+						$LinkBar .= "[<a".$layout_link." href=\"".$link.$newoffset."\">$i</a>]";
 					}
 				}
 //			}
@@ -506,7 +533,7 @@ class ilUtil
 			if (! ( ($AOffset/$ALimit)==($pages-1) ) && ($pages!=1) )
 			{
 				$newoffset=$AOffset+$ALimit;
-				$LinkBar .= "<a class=\"inlist\" href=\"".$link.$newoffset."\">&nbsp;&gt;&gt;</a>";
+				$LinkBar .= "<a".$layout_link." href=\"".$link.$newoffset."\">&nbsp;".$layout_next."</a>";
 			}
 
 			return $LinkBar;
