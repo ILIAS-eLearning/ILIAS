@@ -107,17 +107,18 @@ class ilMetaData
 			{
 				/* Init DOM failed */
 			}
-#			if ( $nested->initDom() ) {
-#				$meta_rec["title"] = $nested->getFirstDomContent("//MetaData/General/Title");
-#			}
+		if( $this->nested->initDom() ) {
+				$meta_rec["title"] = $this->nested->getFirstDomContent("//MetaData/General/Title");
+			}
 
 		} 
 		
-/*		$this->setTitle($meta_rec["title"]);
-		$this->setDescription($meta_rec["description"]);
-		$this->setLanguage($meta_rec["language"]);
-		$this->readKeywords();
-		$this->readTechnicalSections();*/
+		$this->setTitle($meta_rec["title"]);
+		#$this->setDescription($meta_rec["description"]);
+		#$this->setLanguage($meta_rec["language"]);
+		#$this->readKeywords();
+		#$this->readTechnicalSections();
+
 	}
 
 	/**
