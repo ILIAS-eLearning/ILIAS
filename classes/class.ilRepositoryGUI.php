@@ -27,6 +27,8 @@ include_once("classes/class.ilObjFolderGUI.php");
 include_once("classes/class.ilObjFolder.php");
 include_once("classes/class.ilObjFileGUI.php");
 include_once("classes/class.ilObjFile.php");
+include_once("./course/classes/class.ilObjCourseGUI.php");
+include_once("./course/classes/class.ilObjCourse.php");
 include_once("classes/class.ilTabsGUI.php");
 
 /**
@@ -129,7 +131,7 @@ class ilRepositoryGUI
 	*/
 	function _forwards()
 	{
-		return array("ilObjGroupGUI","ilObjFolderGUI","ilObjFileGUI");
+		return array("ilObjGroupGUI","ilObjFolderGUI","ilObjFileGUI","ilObjCourseGUI");
 	}
 
 	/**
@@ -138,7 +140,6 @@ class ilRepositoryGUI
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
-
 		/*if (empty($next_class))
 		{
 			// get object of current ref id
@@ -160,6 +161,10 @@ class ilRepositoryGUI
 
 				$this->gui_obj->executeCommand();
 				$this->tpl->show();
+				break;
+
+			case "ilobjcoursegui":
+				echo "hier";
 				break;
 
 			case "ilobjfilegui":
@@ -432,6 +437,17 @@ class ilRepositoryGUI
 				// folders
 				case "fold":
 					$this->folders[$key] = $object;
+					break;
+
+				// courses
+				case "crs":
+					include_once "./course/classes/class.ilObjCourse.php";
+					
+					$tmp_course =& new ilObjCourse($object["ref_id"]);
+					if($tmp_course->isActivated() or $this->rbacsystem->checkAccess("administrate",$object["child"]))
+					{
+						$this->courses[$key] = $object;
+					}
 					break;
 			}
 		}
@@ -1529,7 +1545,7 @@ class ilRepositoryGUI
 	*/
 	function showExercises()
 	{
-		global  $tree, $rbacsystem;
+		global  $tree, $rbacsystem,$ilias;
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 
@@ -1552,6 +1568,21 @@ class ilRepositoryGUI
 			$num = 0;
 			foreach ($cont_arr as $cont_data)
 			{
+				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($cont_data["ref_id"], "exc"))
+				{
+					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+						"&item_ref_id=".$cont_data["ref_id"].
+						"&type=exc&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+						"&sort_by=".$_GET["sort_by"]);
+
+					$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+				}
+				if ($this->rbacsystem->checkAccess('delete', $cont_data["ref_id"]))
+				{
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+				}
+
 				$tpl->setCurrentBlock("tbl_content");
 				$newuser = new ilObjUser($cont_data["owner"]);
 				// change row color
@@ -2598,7 +2629,7 @@ class ilRepositoryGUI
 				if ($row["max"] == "" || $count < $row["max"])
 				{
 					if (in_array($row["name"], array("slm", "lm", "grp", "frm", "mep",
-						"cat", "glo", "dbk", "exc", "qpl", "tst", "svy", "spl", "chat", "htlm","fold","file")))
+													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", "htlm","fold","file")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{

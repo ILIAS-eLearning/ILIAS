@@ -145,7 +145,7 @@ class ilObjExercise extends ilObject
 		$tmp_file_obj->clone($tmp_obj->getId());
 
 		// CLONE MEMBERS
-		$tmp_members_obj =& new ilExerciseMembers($this->getId());
+		$tmp_members_obj =& new ilExerciseMembers($this->getId(),$new_ref_id);
 		$tmp_members_obj->clone($tmp_obj->getId());
 
 		// ... and finally always return new reference ID!!
@@ -207,7 +207,7 @@ class ilObjExercise extends ilObject
 			$this->setInstruction($row->instruction);
 			$this->setTimestamp($row->time_stamp);
 		}
-		$this->members_obj =& new ilExerciseMembers($this->getId());
+		$this->members_obj =& new ilExerciseMembers($this->getId(),$this->getRefId());
 		$this->members_obj->read();
 
 		// GET FILE ASSIGNED TO EXERCISE

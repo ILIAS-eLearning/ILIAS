@@ -35,6 +35,7 @@ class ilExerciseMembers
 {
 	var $ilias;
 
+	var $ref_id;
 	var $obj_id;
 	var $members;
 	var $status_solved;
@@ -42,15 +43,20 @@ class ilExerciseMembers
 	var $status_returned;
 	var $notice;
 
-	function ilExerciseMembers($a_obj_id)
+	function ilExerciseMembers($a_obj_id,$a_ref_id)
 	{
 		global $ilias;
 
 		$this->ilias =& $ilias;
 		$this->obj_id = $a_obj_id;
+		$this->ref_id = $a_ref_id;
 	}
 
 	// GET SET METHODS
+	function getRefId()
+	{
+		return $this->ref_id;
+	}
 	function getObjId()
 	{
 		return $this->obj_id;
@@ -69,6 +75,10 @@ class ilExerciseMembers
 	}
 	function assignMember($a_usr_id)
 	{
+		$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
+		$tmp_user->addDesktopItem($this->getRefId(),"exc");
+
+
 		$query = "REPLACE INTO exc_members ".
 			"SET obj_id = '".$this->getObjId()."', ".
 			"usr_id = '".$a_usr_id."', ".
@@ -112,6 +122,9 @@ class ilExerciseMembers
 	}
 	function deassignMember($a_usr_id)
 	{
+		$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
+		$tmp_user->dropDesktopItem($this->getRefId(),"exc");
+
 		$query = "DELETE FROM exc_members ".
 			"WHERE obj_id = '".$this->getObjId()." '".
 			"AND usr_id = '".$a_usr_id."'";
