@@ -132,8 +132,15 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 	function forwardToPageObjGUI($cmd)
 	{
+		require_once("content/classes/class.ilContObjLocatorGUI.php");
+		$contObjLocator =& new ilContObjLocatorGUI($this->content_object->getTree());
+		$contObjLocator->setObject($this->obj);
+		$contObjLocator->setContentObject($this->content_object);
+
 		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 		$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
+		$page_gui->setLocator($contObjLocator);
+		$page_gui->setHeader($this->lng->txt("page").": ".$this->obj->getTitle());
 		$page_gui->setTargetScript("lm_edit.php?ref_id=".
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");
 		$page_gui->setReturnLocation("lm_edit.php?ref_id=".
