@@ -1709,7 +1709,12 @@ class ilObjectGUI
 		}
 
 		// ADD LOCAL ROLE
-		if ($this->object->getRefId() != ROLE_FOLDER_ID and $rbacsystem->checkAccess('create_role',$this->object->getRefId()))
+		
+		// do not display this option for admin section and root node
+		$object_types_exclude = array("adm","root","mail","usrf","objf","lngf","trac","taxf","auth");
+
+		if (!in_array($this->object->getType(),$object_types_exclude) and $this->object->getRefId() != ROLE_FOLDER_ID)
+		//if ($this->object->getRefId() != ROLE_FOLDER_ID and $rbacsystem->checkAccess('create_role',$this->object->getRefId()))
 		{
 			$this->tpl->setCurrentBlock("LOCAL_ROLE");
 
