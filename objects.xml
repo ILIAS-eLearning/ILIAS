@@ -312,6 +312,7 @@
 	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
+	<property name="marks" module="1">mark_schema</property>
 	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>

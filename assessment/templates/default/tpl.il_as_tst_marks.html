@@ -1,0 +1,28 @@
+<form name="frm_marks" action="{ACTION_MARKS}" method="post">
+<p><input type="submit" class="submit" name="cmd[new]" value="{BUTTON_NEW}" />&nbsp;<input type="submit" class="submit" name="cmd[new_simple]" value="{BUTTON_NEW_SIMPLE}" /></p>
+<table class="std">
+<tr class="tblheader">
+  <td class="std"></td>
+  <td class="std">{HEADER_SHORT}</td>
+  <td class="std">{HEADER_OFFICIAL}</td>
+  <td class="std">{HEADER_PERCENTAGE}</td>
+  <td class="std">{HEADER_PASSED}</td>
+</tr>
+<!-- BEGIN markrow -->
+<tr class="{ROW_CLASS}">
+  <td class="{ROW_CLASS}"><input type="checkbox" name="cb_{MARK_ID}" value="1" id="cb_{MARK_ID}" /></td>
+  <td class="{ROW_CLASS}"><input type="text" name="mark_short_{MARK_ID}" value="{MARK_SHORT}" size="10" /></td>
+  <td class="{ROW_CLASS}"><input type="text" name="mark_official_{MARK_ID}" value="{MARK_OFFICIAL}" size="20" /></td>
+  <td class="{ROW_CLASS}"><input type="text" name="mark_percentage_{MARK_ID}" value="{MARK_PERCENTAGE}" size="10" /></td>
+  <td class="{ROW_CLASS}"><input type="checkbox" name="cb_passed_{MARK_ID}" id="cb_passed_{MARK_ID}" value="1" /> <label for="cb_passed_{MARK_ID}">{MARK_PASSED}</label></td>
+</tr>
+<!-- END markrow -->
+<!-- BEGIN Emptyrow -->
+<tr><td class="{ROW_CLASS}"><td class="{ROW_CLASS}" colspan="5">{EMPTY_ROW}</td></tr>
+<!-- END Emptyrow -->
+<!-- BEGIN Footer -->
+<tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="4"><input class="submit" type="submit" name="cmd[delete]" value="{BUTTON_DELETE}" /></td></tr>
+<!-- END Footer -->
+<tr><td colspan="5" class="option"><input name="cmd[apply]" type="submit" class="submit" id="apply" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" /></td></tr>
+</table>
+</form>
