@@ -117,15 +117,10 @@ class ilObjSCORMLearningModule extends ilObject
 	*/
 	function delete()
 	{		
-		// always call parent delete function first!!
-		if (!parent::delete())
-		{
-			return false;
-		}
-		
 		// put here SCORM learning module specific stuff
 		
-		return true;
+		// always call parent delete function at the end!!
+		return (parent::delete()) ? true : false;
 	}
 } // END class.ilObjSCORMLearningModule
 ?>

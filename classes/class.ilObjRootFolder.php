@@ -26,7 +26,7 @@
 * Class ilObjRootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolder.php,v 1.5 2003/06/12 14:37:40 smeyer Exp $
+* @version $Id$Id: class.ilObjRootFolder.php,v 1.6 2003/07/11 12:20:53 shofmann Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -85,16 +85,11 @@ class ilObjRootFolder extends ilObject
 		$log->writeWarning($message);
 		$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		return false;
-
-		// always call parent delete function first!!
-		if (!parent::delete())
-		{
-			return false;
-		}
 		
 		// put here rootfolder specific stuff
 		
-		return true;
+		// always call parent delete function at the end!!
+		return (parent::delete()) ? true : false;
 	}
 } // END class.ObjRootFolder
 ?>

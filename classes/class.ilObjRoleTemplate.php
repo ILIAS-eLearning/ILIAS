@@ -78,19 +78,14 @@ class ilObjRoleTemplate extends ilObject
 	*/
 	function delete()
 	{		
-		// always call parent delete function first!!
-		if (!parent::delete())
-		{
-			return false;
-		}
-
 		// put here role template specific stuff
 		global $rbacadmin;
 
 		// delete rbac permissions
 		$rbacadmin->deleteTemplate($this->getId(),$_GET["ref_id"]);
 
-		return true;
+		// always call parent delete function at the end!!
+		return (parent::delete()) ? true : false;
 	}
 
 	
