@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.11 2003/07/03 15:23:52 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.12 2003/07/09 18:36:58 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -53,7 +53,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $rbacsystem, $tpl, $ilias;
+		global $rbacsystem;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -65,7 +65,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 
-		$this->data["cols"] = array("", "type", "name", "description", "last_change");
+		$this->data["cols"] = array("", "type", "name", "email", "last_change");
 
 		if ($usr_data = getObjectList("usr",$_GET["order"], $_GET["direction"]))
 		{
