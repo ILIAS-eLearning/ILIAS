@@ -45,6 +45,8 @@ if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 require_once "./content/classes/class.ilLMPresentationGUI.php";
 $lm_presentation = new ilLMPresentationGUI();
 
+$ilBench->save();
+
 //$tpl->show();
 
 ?>

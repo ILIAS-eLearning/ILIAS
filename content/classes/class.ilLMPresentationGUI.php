@@ -355,8 +355,12 @@ class ilLMPresentationGUI
 	* generates frame layout
 	*/
 	function layout($a_xml = "main.xml", $doShow = true)
-	{ 
-		global $tpl;
+	{
+		global $tpl, $ilBench;
+
+		$ilBench->start("ContentPresentation", "layout");
+
+
 		$layout = $this->lm->getLayout();
 		//$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
 
@@ -364,13 +368,12 @@ class ilLMPresentationGUI
 		// But since using relative pathes with domxml under windows don't work,
 		// we need another solution:
 		$xmlfile = file_get_contents("./layouts/lm/".$layout."/".$a_xml);
-
 		if (!$doc = domxml_open_mem($xmlfile)) { echo "ilLMPresentation: XML File invalid"; exit; }
-
 		$this->layout_doc =& $doc;
 
+		// get current frame node
+		$ilBench->start("ContentPresentation", "layout_getFrameNode");
 		$xpc = xpath_new_context($doc);
-
 		$path = (empty($_GET["frame"]) || ($_GET["frame"] == "_new"))
 			? "/ilLayout/ilFrame[1]"
 			: "//ilFrame[@name='".$_GET["frame"]."']";
@@ -378,21 +381,26 @@ class ilLMPresentationGUI
 		$found = $result->nodeset;
 		if (count($found) != 1) { echo "ilLMPresentation: XML File invalid"; exit; }
 		$node = $found[0];
+		$ilBench->stop("ContentPresentation", "layout_getFrameNode");
 
+		// ProcessFrameset
 		// node is frameset, if it has cols or rows attribute
 		$attributes = $this->attrib2arr($node->attributes());
 		if((!empty($attributes["rows"])) || (!empty($attributes["cols"])))
 		{
+			$ilBench->start("ContentPresentation", "layout_processFrameset");
 			$content .= $this->buildTag("start", "frameset", $attributes);
 			$this->processNodes($content, $node);
 			$content .= $this->buildTag("end", "frameset");
 			$this->tpl = new ilTemplate("tpl.frameset.html", true, true, true);
 			$this->tpl->setVariable("FS_CONTENT", $content);
+			$ilBench->stop("ContentPresentation", "layout_processFrameset");
 //echo nl2br(htmlentities($content));
 		}
 		else	// node is frame -> process the content tags
 		{
-
+			// ProcessContentTag
+			$ilBench->start("ContentPresentation", "layout_processContentTag");
 			if ((empty($attributes["template"]) || !empty($_GET["obj_type"]))
 				&& ($_GET["frame"] != "_new"))
 			{
@@ -414,7 +422,7 @@ class ilLMPresentationGUI
 				$childs = $node->child_nodes();
 				$found = false;
 				foreach($childs as $child)
-				{ 
+				{
 					if ($child->node_name() == $obj_type)
 					{
 						$found = true;
@@ -499,9 +507,9 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilLMNavigation":
-						
+
 						// NOT FOR ABSTRACT
-						if($_GET["obj_id"] or 
+						if($_GET["obj_id"] or
 						   ((count($_POST["tr_id"]) < 2) and $_POST["target"] and
 							($_POST["action"] == "show" or $_POST["action"] == "show_citation")) or
 						   $this->lm->getType() == 'lm')
@@ -523,8 +531,16 @@ class ilLMPresentationGUI
 						break;
 				}
 			}
+			$ilBench->stop("ContentPresentation", "layout_processContentTag");
 		}
-		if ($doShow) $this->tpl->show();
+
+		if ($doShow)
+		{
+			$this->tpl->show();
+		}
+
+		$ilBench->stop("ContentPresentation", "layout");
+
 		return($pageContent);
 	}
 
@@ -565,14 +581,21 @@ class ilLMPresentationGUI
 	*/
 	function ilMainMenu()
 	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "ilMainMenu");
 		$menu = new ilMainMenuGUI("_top", true);
 		$menu->setTemplate($this->tpl);
 		$menu->addMenuBlock("CONTENT", "navigation");
 		$menu->setTemplateVars();
+		$ilBench->stop("ContentPresentation", "ilMainMenu");
 	}
 
 	function ilTOC($a_target)
 	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "ilTOC");
 		require_once("./content/classes/class.ilLMTOCExplorer.php");
 		$exp = new ilLMTOCExplorer("lm_presentation.php?cmd=layout&frame=$a_target&ref_id=".$this->lm->getRefId(),$this->lm);
 		$exp->setTargetGet("obj_id");
@@ -605,6 +628,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("ACTION", "lm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
 			"&ref_id=".$this->lm->getRefId()."&lmexpand=".$_GET["lmexpand"]);
 		$this->tpl->parseCurrentBlock();
+		$ilBench->stop("ContentPresentation", "ilTOC");
 	}
 
 	function ilLMMenu()
@@ -766,6 +790,7 @@ class ilLMPresentationGUI
 		}
 		return $page_id;
 	}
+
 	function mapCurrentPageId($current_page_id)
 	{
 		$lmtree = new ilTree($this->lm->getId());
@@ -786,8 +811,6 @@ class ilLMPresentationGUI
 
 		return $subtree[$pos]["child"];
 	}
-
-
 
 	function ilTranslation(&$a_page_node)
 	{
@@ -824,7 +847,8 @@ class ilLMPresentationGUI
 		$page_object_gui->setOutputMode("presentation");
 		$page_object_gui->setOutputSubmode("translation");
 
-		$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
+		//$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
+		$page_object_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(), $this->lm->getPageHeader()));
 		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
 		$page_object_gui->setTargetScript("lm_presentation.php?ref_id=".
 										  $this->lm->getRefId()."&obj_id=".$_GET["obj_id"]);
@@ -872,6 +896,10 @@ class ilLMPresentationGUI
 
 	function ilPage(&$a_page_node)
 	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "ilPage");
+
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		require_once("content/classes/class.ilLMPageObject.php");
 		$page_id = $this->getCurrentPageId();
@@ -897,7 +925,8 @@ class ilLMPresentationGUI
 		$page_object_gui->setLinkFrame($_GET["frame"]);
 		$page_object_gui->setOutputMode("presentation");
 
-		$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
+		//$page_object_gui->setPresentationTitle($lm_pg_obj->getPresentationTitle($this->lm->getPageHeader()));
+		$page_object_gui->setPresentationTitle(ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(), $this->lm->getPageHeader()));
 		//$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
 
 		// ADDED FOR CITATION
@@ -916,12 +945,18 @@ class ilLMPresentationGUI
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
-		return $page_object_gui->presentation(); 
+		$ilBench->stop("ContentPresentation", "ilPage");
+
+		return $page_object_gui->presentation();
 	}
 
 
 	function ilGlossary()
 	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "ilGlossary");
+
 		//require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		//require_once("content/classes/class.ilLMPageObject.php");
 
@@ -934,10 +969,16 @@ class ilLMPresentationGUI
 		$this->tpl->parseCurrentBlock();
 
 		$term_gui->output();
+
+		$ilBench->stop("ContentPresentation", "ilGlossary");
 	}
 
 	function ilMedia()
 	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "ilMedia");
+
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
@@ -994,6 +1035,8 @@ class ilLMPresentationGUI
 
 		// unmask user html
 		$this->tpl->setVariable("MEDIA_CONTENT", $output);
+
+		$ilBench->stop("ContentPresentation", "ilMedia");
 	}
 
 
@@ -1003,6 +1046,10 @@ class ilLMPresentationGUI
 	*/
 	function ilLMNavigation()
 	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "ilLMNavigation");
+
 		$page_id = $this->getCurrentPageId();
 
 		if(empty($page_id))
@@ -1018,11 +1065,18 @@ class ilLMPresentationGUI
 			return;
 		}
 
+		$ilBench->start("ContentPresentation", "ilLMNavigation_fetchSuccessor");
 		$succ_node = $lmtree->fetchSuccessorNode($page_id, "pg");
+		$ilBench->stop("ContentPresentation", "ilLMNavigation_fetchSuccessor");
+
 		$succ_str = ($succ_node !== false)
 			? " -> ".$succ_node["obj_id"]."_".$succ_node["type"]
 			: "";
+
+		$ilBench->start("ContentPresentation", "ilLMNavigation_fetchPredecessor");
 		$pre_node = $lmtree->fetchPredecessorNode($page_id, "pg");
+		$ilBench->stop("ContentPresentation", "ilLMNavigation_fetchPredecessor");
+
 		$pre_str = ($pre_node !== false)
 			? $pre_node["obj_id"]."_".$pre_node["type"]." -> "
 			: "";
@@ -1034,38 +1088,60 @@ class ilLMPresentationGUI
 
 		if($pre_node != "")
 		{
+			$ilBench->start("ContentPresentation", "ilLMNavigation_outputPredecessor");
 			$this->tpl->setCurrentBlock("ilLMNavigation_Prev");
-			$pre_page =& new ilLMPageObject($this->lm, $pre_node["obj_id"]);
-			$pre_page->setLMId($this->lm->getId());
-			$pre_title = $pre_page->getPresentationTitle($this->lm->getPageHeader());
+
+			// get page object
+			//$ilBench->start("ContentPresentation", "ilLMNavigation_getPageObject");
+			//$pre_page =& new ilLMPageObject($this->lm, $pre_node["obj_id"]);
+			//$pre_page->setLMId($this->lm->getId());
+			//$ilBench->stop("ContentPresentation", "ilLMNavigation_getPageObject");
+
+			// get presentation title
+			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
+			//$pre_title = $pre_page->getPresentationTitle($this->lm->getPageHeader());
+			$pre_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"], $this->lm->getPageHeader());
 			$output = "<a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 				$pre_node["obj_id"]."&ref_id=".$this->lm->getRefId().
-				"\">&lt; ".ilUtil::shortenText($pre_title,50,true)."</a>";
+				"\">&lt; ".ilUtil::shortenText($pre_title, 50, true)."</a>";
+			$ilBench->stop("ContentPresentation", "ilLMNavigation_getPresentationTitle");
+
 			$this->tpl->setVariable("LMNAVIGATION_PREV", $output);
 			$this->tpl->parseCurrentBlock();
-
 			$this->tpl->setCurrentBlock("ilLMNavigation_Prev2");
 			$this->tpl->setVariable("LMNAVIGATION_PREV2", $output);
 			$this->tpl->parseCurrentBlock();
+			$ilBench->stop("ContentPresentation", "ilLMNavigation_outputPredecessor");
 		}
 		if($succ_node != "")
 		{
+			$ilBench->start("ContentPresentation", "ilLMNavigation_outputSuccessor");
 			$this->tpl->setCurrentBlock("ilLMNavigation_Next");
-			$succ_page =& new ilLMPageObject($this->lm, $succ_node["obj_id"]);
-			$succ_page->setLMId($this->lm->getId());
-			$succ_title = $succ_page->getPresentationTitle($this->lm->getPageHeader());
+
+			// get page object
+			//$ilBench->start("ContentPresentation", "ilLMNavigation_getPageObject");
+			//$succ_page =& new ilLMPageObject($this->lm, $succ_node["obj_id"]);
+			//$ilBench->stop("ContentPresentation", "ilLMNavigation_getPageObject");
+			//$succ_page->setLMId($this->lm->getId());
+
+			// get presentation title
+			$ilBench->start("ContentPresentation", "ilLMNavigation_getPresentationTitle");
+			//$succ_title = $succ_page->getPresentationTitle($this->lm->getPageHeader());
+			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"], $this->lm->getPageHeader());
 			$output = " <a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
 				$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
 				"\">".ilUtil::shortenText($succ_title,50,true)." &gt;</a>";
+			$ilBench->stop("ContentPresentation", "ilLMNavigation_getPresentationTitle");
+
 			$this->tpl->setVariable("LMNAVIGATION_NEXT", $output);
 			$this->tpl->parseCurrentBlock();
-
 			$this->tpl->setCurrentBlock("ilLMNavigation_Next2");
 			$this->tpl->setVariable("LMNAVIGATION_NEXT2", $output);
 			$this->tpl->parseCurrentBlock();
+			$ilBench->stop("ContentPresentation", "ilLMNavigation_outputSuccessor");
 		}
 
-
+		$ilBench->stop("ContentPresentation", "ilLMNavigation");
 	}
 
 
