@@ -70,7 +70,7 @@ class ilFile
 	function deleteTrailingSlash($a_path)
 	{
 		// DELETE TRAILING '/'
-		if(substr($a_path,-1) == '/')
+		if (substr($a_path,-1) == '/' or substr($a_path,-1) == "\\")
 		{
 			$a_path = substr($a_path,0,-1);
 		}

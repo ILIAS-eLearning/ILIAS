@@ -71,6 +71,7 @@ check_failed_java#:#Java-Test fehlgeschlagen
 check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen
 database#:#Datenbank
 database_create#:#Datenbank erzeugen
+database_install#:#Datenbank installieren
 database_exists#:#Datenbank existiert bereits
 database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
 database_needs_update#:#Datenbank benötigt ein Update
@@ -282,7 +283,7 @@ settings_saved#:#Einstellungen gespeichert
 setup#:#setup
 setup_basic_settings#:#Grundeinstellungen bei Erstinstallation
 setup_contact_data#:#Kontaktdaten ausfüllen
-setup_database#:#Datenbank anlegen
+setup_database#:#Datenbank installieren
 setup_database_desc#:#Erstellung der Datenbank
 setup_db_first#:#Please legen Sie zuerst die Datenbank an!
 setup_first_client#:#Erstinstallation eines Mandanten
@@ -303,7 +304,7 @@ setup_password#:#Setup-Passwort erstellen
 setup_password_desc#:#Erstellung eines Passwortes, um die Setup-Routine später wieder aufrufen zu können (z.B. um ein Update der Datenbank durchzuführen) 
 setup_process_status#:#Status des Installationsverlaufes
 setup_process_step_contact#:#Kontaktinformationen ausfüllen
-setup_process_step_db#:#Datenbank anlegen & aktualisieren
+setup_process_step_db#:#Datenbank installieren/aktualisieren
 setup_process_step_finish#:#Installation abschliessen
 setup_process_step_ini#:#Basisverzeichnisse erzeugen
 setup_process_step_lang#:#Systemsprachen installieren
@@ -341,8 +342,8 @@ feedback_recipient#:#Empfnger von Feedbacknachrichten
 error_recipient#:#Empfnger von Fehlermeldungen
 change_sort_direction#:#Sortierrichtung ndern
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
-info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. Setup baut eine Testverbindung mit Ihren Verbindungsangaben auf und prüft, ob die Datenbank bereits vorhanden ist oder nicht. Falls nicht versucht Setup im nächsten Installationschritt eine Datenbank mit dem angegebenen Namen zu erzeugen. Sollten Sie nicht das Recht haben, eigene Datenbanken zu erzeugen, müssen Sie die vom Systemadministrator vorgebene Datenbank hier angeben.
-info_text_db#:#Dei Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank anzulegen.
+info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. Setup baut eine Testverbindung mit Ihren Verbindungsangaben auf und prüft, ob die Datenbank bereits vorhanden ist oder nicht. Falls nicht, können Sie über eine Option im nächsten Installationschritt Setup dazu veranlassen, eine Datenbank für Sie anzulegen.
+info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn dann nicht klappt (z.B aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
 info_text_finish1#:#Gratulation! Die Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
 info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
@@ -359,3 +360,4 @@ list_enabled#:#Mandantenauswahl aktiviert
 display_clientlist#:#Freie Mandantenauswahl
 hide_clientlist#:#keine Mandantenauswahl
 langs_not_valid_not_installed#:#Folgende Sprachen wurden nicht installiert, aufgrund fehlerhafter Sprachdateien
+database_not_exists_create_first#:#Datenbank existiert nicht. Bitte legen Sie zunächst eine neue Datenbank an.
