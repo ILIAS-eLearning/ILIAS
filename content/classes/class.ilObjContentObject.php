@@ -955,5 +955,44 @@ class ilObjContentObject extends ilObject
 		}
 	}
 
+
+	function getExportFiles($dir)
+	{
+		// quit if import dir not available
+		if (!@is_dir($dir) or
+			!is_writeable($dir))
+		{
+			$this->ilias->raiseError("Export directory is not writeable.",$this->ilias->error_obj->FATAL);
+		}
+
+		// open directory
+		$dir = dir($dir);
+
+		// initialize array
+		$file = array();
+
+		// get files and save the in the array
+		while ($entry = $dir->read())
+		{
+			if ($entry != "." and
+				$entry != ".." and
+				substr($entry, -4) == ".zip" and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.zip\$", $entry))
+			{
+				$file[] = $entry;
+			}
+		}
+
+		// close import directory
+		$dir->close();
+
+		// sort files
+		sort ($file);
+		reset ($file);
+
+		return $file;
+	}
+
+
 }
 ?>

@@ -1107,74 +1107,74 @@ class ilUtil
     *   @param  pdf_file    String  Filename to save pdf in
 	*/
 	function html2pdf($html, $pdf_file)
-    {
-        //global $ilias;
+	{
+		//global $ilias;
 
-        $html_file = str_replace(".pdf",".html",$pdf_file);
+		$html_file = str_replace(".pdf",".html",$pdf_file);
 
-        $fp = fopen( $html_file ,"wb");
-        fwrite($fp, $html);
-        fclose($fp);
-        
-        $htmldoc_path = PATH_TO_HTMLDOC;
+		$fp = fopen( $html_file ,"wb");
+		fwrite($fp, $html);
+		fclose($fp);
+
+		$htmldoc_path = PATH_TO_HTMLDOC;
 		//$htmldoc_path = $ilias->getSetting("htmldoc_path");
 
-        $htmldoc = $htmldoc_path." ";
-        $htmldoc .= "--no-toc ";
-        $htmldoc .= "--no-jpeg ";
-        $htmldoc .= "--webpage ";
-        $htmldoc .= "--outfile " . $pdf_file . " ";
-        $htmldoc .= "--bodyfont Arial ";
-        $htmldoc .= "--charset iso-8859-15 ";
-        $htmldoc .= "--color ";
-        $htmldoc .= "--size A4  ";      // --landscape
-        $htmldoc .= "--format pdf ";
-        $htmldoc .= "--footer ... ";
-        $htmldoc .= "--header ... ";
-        $htmldoc .= "--left 60 ";
-        // $htmldoc .= "--right 200 ";
-        $htmldoc .= $html_file;
-        exec($htmldoc);
+		$htmldoc = $htmldoc_path." ";
+		$htmldoc .= "--no-toc ";
+		$htmldoc .= "--no-jpeg ";
+		$htmldoc .= "--webpage ";
+		$htmldoc .= "--outfile " . $pdf_file . " ";
+		$htmldoc .= "--bodyfont Arial ";
+		$htmldoc .= "--charset iso-8859-15 ";
+		$htmldoc .= "--color ";
+		$htmldoc .= "--size A4  ";      // --landscape
+		$htmldoc .= "--format pdf ";
+		$htmldoc .= "--footer ... ";
+		$htmldoc .= "--header ... ";
+		$htmldoc .= "--left 60 ";
+		// $htmldoc .= "--right 200 ";
+		$htmldoc .= $html_file;
+		exec($htmldoc);
 
-    }
+	}
 
-    /**
-    *   deliver data for download via browser.
-    */
-    function deliverData($a_data, $a_filename)
-    {
-          $disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
-          $mime = "application/octet-stream"; // or whatever the mime type is
+	/**
+	*   deliver data for download via browser.
+	*/
+	function deliverData($a_data, $a_filename)
+	{
+		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
+		$mime = "application/octet-stream"; // or whatever the mime type is
 
-          if (isset($_SERVER["HTTPS"])) {
-              /**
-               * We need to set the following headers to make downloads work using IE in HTTPS mode.
-               */
-              header("Pragma: ");
-              header("Cache-Control: ");
-              header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-              header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-              header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
-              header("Cache-Control: post-check=0, pre-check=0", false);
-          }
-          else if ($disposition == "attachment")
-          {
-                  header("Cache-control: private");
-          }
-          else
-          {
-              header("Cache-Control: no-cache, must-revalidate");
-              header("Pragma: no-cache");
-          }
-          header("Content-Type: $mime");
-          header("Content-Disposition:$disposition; filename=\"".trim(htmlentities($a_filename))."\"");
-          header("Content-Description: ".trim(htmlentities($a_filename)));
-          header("Content-Length: ".(string)(strlen($a_data)));
-          header("Connection: close");
+		if (isset($_SERVER["HTTPS"])) {
+			/**
+			* We need to set the following headers to make downloads work using IE in HTTPS mode.
+			*/
+			header("Pragma: ");
+			header("Cache-Control: ");
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
+			header("Cache-Control: post-check=0, pre-check=0", false);
+		}
+		else if ($disposition == "attachment")
+		{
+			header("Cache-control: private");
+		}
+		else
+		{
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Pragma: no-cache");
+		}
+		header("Content-Type: $mime");
+		header("Content-Disposition:$disposition; filename=\"".trim(htmlentities($a_filename))."\"");
+		header("Content-Description: ".trim(htmlentities($a_filename)));
+		header("Content-Length: ".(string)(strlen($a_data)));
+		header("Connection: close");
 
-        echo $a_data;
+		echo $a_data;
 
-    }
+	}
 
 	/**
 	*   deliver file for download via browser.
@@ -1274,50 +1274,54 @@ class ilUtil
 	}
 
 
-/**
-* Create a new directory and all parent directories
-*
-* Creates a new directory and inherits all filesystem permissions of the parent directory
-* If the parent directories doesn't exist, they will be created recursively.
-* The directory name NEEDS TO BE an absolute path, because it seems that relative paths
-* are not working with PHP's file_exists function.
-*
-* @author Helmut Schottmüller <hschottm@tzi.de>
-* @param string $a_dir The directory name to be created
-* @access public
-*/
-function makeDirParents($a_dir) {
-    $dirs = array($a_dir);
-    $a_dir = dirname($a_dir);
-    $last_dirname = '';
-    while($last_dirname != $a_dir) { 
-        array_unshift($dirs, $a_dir);
-        $last_dirname = $a_dir;
-        $a_dir = dirname($a_dir);
-    }
+	/**
+	* Create a new directory and all parent directories
+	*
+	* Creates a new directory and inherits all filesystem permissions of the parent directory
+	* If the parent directories doesn't exist, they will be created recursively.
+	* The directory name NEEDS TO BE an absolute path, because it seems that relative paths
+	* are not working with PHP's file_exists function.
+	*
+	* @author Helmut Schottmüller <hschottm@tzi.de>
+	* @param string $a_dir The directory name to be created
+	* @access public
+	*/
+	function makeDirParents($a_dir)
+	{
+		$dirs = array($a_dir);
+		$a_dir = dirname($a_dir);
+		$last_dirname = '';
+		while($last_dirname != $a_dir)
+		{
+			array_unshift($dirs, $a_dir);
+			$last_dirname = $a_dir;
+			$a_dir = dirname($a_dir);
+		}
 
 		umask(0000);
-    foreach ($dirs as $dir) {
-        if (! file_exists($dir)) {
-					if (! mkdir($dir, $umask)) 
-					{
-							error_log("Can't make directory: $dir");
-							return false;
-					}
-        } 
-				elseif (! is_dir($dir)) 
+		foreach ($dirs as $dir)
+		{
+			if (! file_exists($dir))
+			{
+				if (! mkdir($dir, $umask))
 				{
-            error_log("$dir is not a directory");
-            return false;
-        }
-				else 
-				{
-					// get umask of the last existing parent directory
-					$umask = fileperms($dir);
+						error_log("Can't make directory: $dir");
+						return false;
 				}
-    }
-    return true;
-}
+			}
+			elseif (! is_dir($dir))
+			{
+				error_log("$dir is not a directory");
+				return false;
+			}
+			else
+			{
+				// get umask of the last existing parent directory
+				$umask = fileperms($dir);
+			}
+		}
+    	return true;
+	}
 
 	/**
 	* removes a dir and all its content (subdirs and files) recursively

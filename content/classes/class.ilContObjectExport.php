@@ -382,8 +382,8 @@ class ilContObjectExport
 		$this->xml->_XmlWriter;
 
 		// send file to user
-		ilUtil::deliverFile($this->export_dir."/".$this->subdir.".zip",
-			$this->subdir.".zip");
+		//ilUtil::deliverFile($this->export_dir."/".$this->subdir.".zip",
+		//	$this->subdir.".zip");
 	}
 
 }
