@@ -484,10 +484,11 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
 	cfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
 	
-	cfg.pageStyle += "u {font-size:middle;font-weight:normal;font-style: italic;vertical-align:middle;text-decoration:none;}";
-	cfg.pageStyle += "strike {font-size:middle;font-weight:normal;font-style: italic;vertical-align:middle;text-decoration:none;}";
-	cfg.pageStyle += "sub {font-size:middle;font-weight:normal;font-style: italic;vertical-align:middle;}";
-	cfg.pageStyle += "sup {font-size:middle;font-weight:normal;color:green;vertical-align:middle;}";
+	cfg.pageStyle += "u {font-size:middle;font-weight:normal;vertical-align:middle;color: green;}";
+	
+	cfg.pageStyle += "strike {font-size:middle;font-weight:normal;font-style: italic;vertical-align:middle;text-decoration:none;color: brown;}";
+	cfg.pageStyle += "sub {font-size:large;font-weight:normal;vertical-align:middle;font-family:courier;}";
+	cfg.pageStyle += "sup {font-size:large;font-weight:normal;color:green;vertical-align:middle;}";
 	
 	cfg.statusBar = false;
 	
@@ -496,10 +497,14 @@ function initEditor(TextAreaName)
 
 // "ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator",
 // "ilias-com", "ilias-quot", "ilias-code",
+// "bold", "italic",  "separator",
+//"ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator",
+// "bold","superscript","underline", "strikethrough", "subscript", "separator",
+
 	cfg.toolbar = [
 		[ 
-          
-		  "bold", "italic",  "separator",
+          "bold", "italic",
+		  
 		  
 		   "ilias-xtl", "ilias-itl",
 		  "separator", "ilias-x", "separator",
@@ -570,6 +575,12 @@ function buttonX()
 {
 
 	var ancestors = editor.getAllAncestors();
+	
+	var el = ancestors[0];
+	var cl = el.className;
+	var tn = el.tagName.toLowerCase();
+	if (tn=="em" || tn=="strong") return;
+	
 	if(ancestors.length<=1) {
 	
 		editor.surroundHTML("!1!1!","!2!2!");
@@ -927,7 +938,7 @@ function buttonInternalLink()
         obj = document.getElementById("{PAR_TA_NAME}");
         T = obj.value;
 		
-		//T = replaceAll(T,"<", "&lt;");
+		T = replaceAll(T,"<", "&lt;");
 /*		
         T = replaceAll(T, "[str]","<span class=\"ilc_Strong\">");
         T = replaceAll(T, "[/str]","</span>");
