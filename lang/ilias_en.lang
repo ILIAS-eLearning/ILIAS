@@ -718,6 +718,10 @@ common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#articels_unread#:#Unread articels:
 common#:#as_of#:#as of
+common#:#assf_write#:#Edit Test&Assessment administration
+common#:#assf_edit_permission#:#Change permission settings
+common#:#assf_read#:#Access Test&Assessment administration
+common#:#assf_visible#:#Test&Assessment administration is visible
 common#:#assign#:#Assign
 common#:#assign_global_role#:#Assign to global role
 common#:#assign_lo_forum#:#Assign LO Forum
@@ -1550,6 +1554,7 @@ common#:#login_time#:#Time online
 common#:#login_to_ilias#:#Login to ILIAS
 common#:#logout#:#Logout
 common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
+common#:#logs#:#Log data
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
@@ -1781,6 +1786,7 @@ common#:#obj#:#Object
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_alm#:#Learning Module AICC
+common#:#obj_assf#:#Test&Assessment
 common#:#obj_auth#:#Authentication
 common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)
 common#:#obj_cat#:#Category

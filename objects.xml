@@ -26,6 +26,7 @@
 	<subobj name="recf" max="1">recf</subobj>
 	<subobj name="trac" max="1">trac</subobj>
 	<subobj name="auth" max="1">auth</subobj>
+	<subobj name="assf" max="1">assf</subobj>
 	<property name="view">settings</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
@@ -451,6 +452,11 @@
 	<property name="trackingDataQueryForm">tracking_data</property>
 	<property name="settings">settings</property>
 	<property name="manageData">manage_tracking_data</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="assf" class_name="AssessmentFolder" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
+	<property name="settings">settings</property>
+	<property name="logs">logs</property>
 	<property name="perm">perm_settings</property>
 </object>
 <object name="auth" class_name="AuthSettings" checkbox="0" inherit="0" translate="sys" rbac="1">
