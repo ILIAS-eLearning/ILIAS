@@ -1297,7 +1297,9 @@ class ilObjUser extends ilObject
 		foreach($roles as $role)
 		{
 			//get all rolefolders of the relevant roles
-			$rolef = $rbacadmin->getFoldersAssignedToRole($role);
+			//$rolef = $rbacadmin->getFoldersAssignedToRole($role);
+			// canged by fgruemme  
+			$rolef = $rbacreview->getFoldersAssignedToRole($role);
 
 			foreach($rolef as $folder)
 			{
