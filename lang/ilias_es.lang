@@ -2787,24 +2787,42 @@ search#:#search_user#:#Usuarios
 survey#:#add_category#:#Add category###21 May 2004 new variable
 survey#:#apply#:#Apply###21 May 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
+survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
+survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
 survey#:#create_date#:#Created###21 May 2004 new variable
 survey#:#create_new#:#Create new###21 May 2004 new variable
 survey#:#duplicate#:#Duplicate###21 May 2004 new variable
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!###21 May 2004 new variable
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!###21 May 2004 new variable
 survey#:#filter#:#Filter###21 May 2004 new variable
+survey#:#insert_after#:#Insert after###22 May 2004 new variable
+survey#:#insert_before#:#Insert before###22 May 2004 new variable
 survey#:#last_update#:#Last update###21 May 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
+survey#:#maximum#:#Maximum value###22 May 2004 new variable
+survey#:#minimum#:#Minimum value###22 May 2004 new variable
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)###21 May 2004 new variable
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)###21 May 2004 new variable
+survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!###22 May 2004 new variable
+survey#:#no_category_selected_for_move#:#Please check at least one category to move it!###22 May 2004 new variable
 survey#:#no_questions_available#:#There are no questions available!###21 May 2004 new variable
+survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
 survey#:#preview#:#Preview###21 May 2004 new variable
+survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?###22 May 2004 new variable
+survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!###22 May 2004 new variable
+survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!###22 May 2004 new variable
+survey#:#qpl_questions_deleted#:#Question(s) deleted.###22 May 2004 new variable
 survey#:#qt_metric#:#Metric question###21 May 2004 new variable
 survey#:#qt_nominal#:#Nominal question###21 May 2004 new variable
 survey#:#qt_ordinal#:#Ordinal question###21 May 2004 new variable
 survey#:#qt_text#:#Text question###21 May 2004 new variable
+survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###22 May 2004 new variable
 survey#:#question_type#:#Question type###21 May 2004 new variable
 survey#:#questiontype#:#Question type###21 May 2004 new variable
+survey#:#ratio_absolute#:#Ratio-Absolute###22 May 2004 new variable
+survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
+survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
 survey#:#set_filter#:#Set filter###21 May 2004 new variable
 survey#:#survey_questions#:#Questions###21 May 2004 new variable
+survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
