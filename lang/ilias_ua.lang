@@ -1809,10 +1809,14 @@ content#:#cont_create_dir#:#Створити Директорію
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
 content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
+content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
+content#:#cont_credit_on#:#Credit###14 Jun 2004 new variable
 content#:#cont_credits#:#Credits###03 May 2004 new variable
 content#:#cont_cross_reference#:#Перехресне посилання
 content#:#cont_data_from_lms#:#adlcp:дані з lms
 content#:#cont_def_layout#:#Розміщення по Замовчанню
+content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
 content#:#cont_def_organization#:#по замовчанню
 content#:#cont_definition#:#Визначення
 content#:#cont_definitions#:#Визначення
@@ -1887,6 +1891,7 @@ content#:#cont_lk_term#:#Термін Глосарія
 content#:#cont_lk_term_new#:#Термін Глосарія (Новий Фрейм)
 content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Властивості Учбового Модуля
+content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
 content#:#cont_manifest#:#Маніфест
 content#:#cont_map_areas#:#Області Посилання
 content#:#cont_mastery_score#:#adlcp:masteryscore
@@ -1941,8 +1946,12 @@ content#:#cont_resource#:#Ресурс
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ресурси
 content#:#cont_roman#:#Римські i, ii, ...
+content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
 content#:#cont_saved_map_area#:#Збережена карта області
 content#:#cont_saved_map_data#:#Зберегти дані карти
+content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
 content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
 content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
 content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable

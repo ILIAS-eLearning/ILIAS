@@ -1749,16 +1749,7 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
-content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')
-content#:#cont_credit_on#:#Credit
-content#:#cont_credit_off#:#No Credit
 content#:#cont_LocalFile#:#Local File
-content#:#cont_lvalue#:#Data element
-content#:#cont_rvalue#:#Value
-content#:#cont_def_lesson_mode#:#Default lesson mode
-content#:#cont_sc_less_mode_normal#:#Normal
-content#:#cont_sc_less_mode_browse#:#Browse
-content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
@@ -1818,10 +1809,14 @@ content#:#cont_create_dir#:#Create Directory
 content#:#cont_create_export_file#:#Create Export File
 content#:#cont_create_folder#:#Create Folder
 content#:#cont_create_mob#:#Create Media Object
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')
+content#:#cont_credit_off#:#No Credit
+content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credits
 content#:#cont_cross_reference#:#Cross reference
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
+content#:#cont_def_lesson_mode#:#Default lesson mode
 content#:#cont_def_organization#:#default
 content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitions
@@ -1896,6 +1891,7 @@ content#:#cont_lk_term#:#Glossary Term
 content#:#cont_lk_term_new#:#Glossary Term (New Frame)
 content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Learning Module Properties
+content#:#cont_lvalue#:#Data element
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
@@ -1950,8 +1946,12 @@ content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
 content#:#cont_roman#:#Roman i, ii, ...
+content#:#cont_rvalue#:#Value
 content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
+content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO
+content#:#cont_sc_less_mode_browse#:#Browse
+content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Browsed
 content#:#cont_sc_stat_completed#:#Completed
 content#:#cont_sc_stat_failed#:#Failed

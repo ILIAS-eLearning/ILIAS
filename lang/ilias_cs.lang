@@ -1809,10 +1809,14 @@ content#:#cont_create_dir#:#Vytvořit Adresář
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
 content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
+content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
+content#:#cont_credit_on#:#Credit###14 Jun 2004 new variable
 content#:#cont_credits#:#Credits###03 May 2004 new variable
 content#:#cont_cross_reference#:#Křížový odkaz
 content#:#cont_data_from_lms#:#adlcp:datafromlms### translation not available
 content#:#cont_def_layout#:#Výchozí rozložení
+content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
 content#:#cont_def_organization#:#výchozí
 content#:#cont_definition#:#Definice
 content#:#cont_definitions#:#Definice
@@ -1887,6 +1891,7 @@ content#:#cont_lk_term#:#Pojem z glosáře
 content#:#cont_lk_term_new#:#Pojem z glosáře (nový rám)
 content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Vlastnosti výukového modulu
+content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
 content#:#cont_manifest#:#Manifest### identical translation
 content#:#cont_map_areas#:#Link Areas###16 Mar 2004 new variable
 content#:#cont_mastery_score#:#adlcp:masteryscore### identical translation
@@ -1941,8 +1946,12 @@ content#:#cont_resource#:#Zdroj
 content#:#cont_resource_type#:#typ
 content#:#cont_resources#:#Zdroje
 content#:#cont_roman#:#Římské i, ii, ...
+content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
 content#:#cont_saved_map_area#:#Saved map area###16 Mar 2004 new variable
 content#:#cont_saved_map_data#:#Saved map data###16 Mar 2004 new variable
+content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
 content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
 content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
 content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable

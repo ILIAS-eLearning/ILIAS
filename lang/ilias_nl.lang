@@ -1809,10 +1809,14 @@ content#:#cont_create_dir#:#Creëer directory
 content#:#cont_create_export_file#:#Creëer een Export-Bestand
 content#:#cont_create_folder#:#Creëer een Map
 content#:#cont_create_mob#:#Creëer een Media-object
+content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
+content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
+content#:#cont_credit_on#:#Credit###14 Jun 2004 new variable
 content#:#cont_credits#:#Credits###03 May 2004 new variable
 content#:#cont_cross_reference#:#Verwijzing
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default layout
+content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
 content#:#cont_def_organization#:#standaard
 content#:#cont_definition#:#Definitie
 content#:#cont_definitions#:#Definities
@@ -1887,6 +1891,7 @@ content#:#cont_lk_term#:#Woordenlijst begrip
 content#:#cont_lk_term_new#:#Woordenlijst begrip (Nieuw Frame)
 content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
 content#:#cont_lm_properties#:#Eigenschappen leermodule
+content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link gebieden
 content#:#cont_mastery_score#:#adlcp:masteryscore
@@ -1941,8 +1946,12 @@ content#:#cont_resource#:#Middelen
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Bronnen
 content#:#cont_roman#:#Romeins I, II, ...
+content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
 content#:#cont_saved_map_area#:#Opgeslagen map gebied
 content#:#cont_saved_map_data#:#Opgeslagen map gebied
+content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
+content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
 content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
 content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
 content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
