@@ -294,3 +294,24 @@ DELETE FROM rbac_templates WHERE rol_id='83' AND type='grp' AND ops_id=3 AND par
 
 <#37>
 ALTER TABLE media_item ADD COLUMN param TEXT;
+
+<#38>
+INSERT INTO object_data (type, title, description, owner, create_date, last_update)
+VALUES ('typ', 'exc', 'Exercise object', -1, now(), now());
+
+<#39>
+CREATE TABLE exc_data
+(
+	obj_id INT NOT NULL,
+	instruction TEXT,
+	time_stamp INT(10),
+	PRIMARY KEY (obj_id)
+	);
+CREATE TABLE exc_members
+(
+	obj_id INT(11) NOT NULL,
+	usr_id INT(11) NOT NULL,
+	solved TINYINT(1) NULL,
+	sent TINYINT(1) NULL,
+	PRIMARY KEY(obj_id,usr_id)
+	);
