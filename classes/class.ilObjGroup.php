@@ -441,7 +441,7 @@ class ilObjGroup extends ilObject
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);		
 		return $row["key_registration"];
 	}
-*/	
+*/
 	/**
 	* set group status
 	* @access	public
@@ -454,31 +454,27 @@ class ilObjGroup extends ilObject
 
 		//get Rolefolder of group
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
-			
-		//define all relevant roles that rights are needed to be changed
 
+		//define all relevant roles that rights are needed to be changed
 		$arr_globalRoles = array_diff(array_keys($rbacreview->getParentRoleIds($this->getRefId())),$this->getDefaultGroupRoles());
 
-		//group status opened/private		
+		//group status opened/private
 	  	if ($a_grpStatus == 0 )//|| $a_grpStatus == 1)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', ROLE_FOLDER_ID);
 			foreach ($arr_globalRoles as $globalRole)
 			{
-				if($this->getGroupStatus() != NULL)
-					$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
-				//revoke all permission on current group object for all(!) global roles
+				//delete old rolepermissions in rbac_fa
+				$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
+				//revoke all permission on current group object for global role
 				$rbacadmin->revokePermission($this->getRefId(), $globalRole);
 				//grant new permissions according to group status
 				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());
-				//copy permissiondefinitions of template for adminrole to localrolefolder of group
-				//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
+				//copy permissiondefinitions of openGroup_template
+				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),ROLE_FOLDER_ID,$rolf_data["child"],$globalRole);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
 				//$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$rolf_data["child"],$globalRole);
-				//$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],'n');
-				//the assignment stops the inheritation
-				//if( $rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join") == false)				
-				//		$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"n");
+				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"false");
 			}//END foreach
 		}
 
@@ -489,17 +485,14 @@ class ilObjGroup extends ilObject
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusClosedTemplateId(), 'grp', ROLE_FOLDER_ID);
 			foreach ($arr_globalRoles as $globalRole)
 			{
-				if($this->getGroupStatus() != NULL)
-				{	
-					$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
-				}
+				//delete old rolepermissions in rbac_fa
+				$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
 				//revoke all permission on current group object for all(!) global roles, may be a workaround
 				$rbacadmin->revokePermission($this->getRefId(), $globalRole);//refid des grpobjektes,dass rechte aberkannt werden, opti.:roleid, wenn nur dieser rechte aberkannt...
 				//set permissions of global role (admin,author,guest,learner) for group object
 				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());//rollenid,operationen,refid des objektes auf das rechte gesetzt werden
-				//copy permissiondefinitions of template for adminrole to localrolefolder of group
+				//copy permissiondefinitions of closedGroup_template
 				$rbacadmin->copyRolePermission($this->getGrpStatusClosedTemplateId(),ROLE_FOLDER_ID,$rolf_data["child"],$globalRole);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
-				//the assignment stops the inheritation
 				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"false");
 			}//END foreach
 		}
@@ -518,7 +511,7 @@ class ilObjGroup extends ilObject
 		$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
 
 		//get Rolefolder of group
-		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());		
+		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
 		//get all relevant roles
 		$arr_globalRoles = array_diff($local_roles, $this->getDefaultGroupRoles());
 
