@@ -1798,7 +1798,6 @@ class ilObjTest extends ilObject
     }
 		$result_array["test"]["total_max_points"] = $total_max_points;
 		$result_array["test"]["total_reached_points"] = $total_reached_points;
-		$result_array["test"]["test"] = $this;
 		return $result_array;
 	}
 	
@@ -2106,7 +2105,7 @@ class ilObjTest extends ilObject
 		} else {
 			$percentage = ($test_result["test"]["total_reached_points"] / $test_result["test"]["total_max_points"]) * 100.0;
 		}
-		$mark_obj = $test_result["test"]["test"]->mark_schema->get_matching_mark($percentage);
+		$mark_obj = $this->mark_schema->get_matching_mark($percentage);
 		$first_date = getdate($first_visit);
 		$last_date = getdate($last_visit);
 		$qworkedthrough = 0;
@@ -2125,8 +2124,8 @@ class ilObjTest extends ilObject
 		}
 		$result_array = array(
 			"qworkedthrough" => $worked_through_result->numRows(),
-			"qmax" => count($test_result["test"]["test"]->questions),
-			"pworkedthrough" => ($worked_through_result->numRows()) / count($test_result["test"]["test"]->questions),
+			"qmax" => count($this->questions),
+			"pworkedthrough" => ($worked_through_result->numRows()) / count($this->questions),
 			"timeofwork" => $max_time,
 			"atimeofwork" => $atimeofwork,
 			"firstvisit" => $first_date,
@@ -2147,9 +2146,9 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Returns an array with the total points of all users which participated the test
+* Returns an array with the total points of all users who participated the test
 * 
-* Returns an array with the total points of all users which participated the test
+* Returns an array with the total points of all users who participated the test
 * This array could be used for statistics
 *
 * @return array The total point values
@@ -2163,6 +2162,34 @@ class ilObjTest extends ilObject
 		{
 			$test_result =& $this->getTestResult($user_id);
 			array_push($totalpoints_array, $test_result["test"]["total_reached_points"]);
+		}
+		return $totalpoints_array;
+	}
+	
+/**
+* Returns an array with the total points of all users who passed the test
+* 
+* Returns an array with the total points of all users who passed the test
+* This array could be used for statistics
+*
+* @return array The total point values
+* @access public
+*/
+	function &getTotalPointsPassedArray()
+	{
+		$totalpoints_array = array();
+		$all_users =& $this->evalTotalPersonsArray();
+		foreach ($all_users as $user_id => $user_name)
+		{
+			$test_result =& $this->getTestResult($user_id);
+			$reached = $test_result["test"]["total_reached_points"];
+			$total = $test_result["test"]["total_max_points"];
+			$percentage = $reached/$total;
+			$mark = $this->mark_schema->get_matching_mark($percentage*100.0);
+			if ($mark->get_passed())
+			{
+				array_push($totalpoints_array, $test_result["test"]["total_reached_points"]);
+			}
 		}
 		return $totalpoints_array;
 	}
@@ -2233,7 +2260,7 @@ class ilObjTest extends ilObject
 			} else {
 				$percentage = ($res["test"]["total_reached_points"] / $res["test"]["total_max_points"]) * 100.0;
 			}
-			$mark_obj = $res["test"]["test"]->mark_schema->get_matching_mark($percentage);
+			$mark_obj = $this->mark_schema->get_matching_mark($percentage);
 			$maximum_points = $res["test"]["total_max_points"];
 			if ($mark_obj->get_passed()) {
 				$passed_tests++;
