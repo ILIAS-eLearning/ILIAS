@@ -10,7 +10,9 @@
   <option value="{VALUE_TEST_TYPE}"{SELECTED_TEST_TYPE}>{TEXT_TEST_TYPE}</option>
 <!-- END test_types -->  
   </select>
+<!-- BEGIN change_type -->
 	<input class="submit" type="submit" name="cmd[apply]" value="{SUBMIT_TYPE}" />
+<!-- END change_type -->
   </td>
 </tr>
 <tr>
@@ -70,9 +72,11 @@
 <!-- END starting_time -->
 <tr><td colspan="2" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+<!-- BEGIN command_buttons -->
 <div align="right">
 <input name="cmd[apply]" type="submit" class="submit" id="apply" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
 </div>
+<!-- END command_buttons -->
 </td></tr>
 </table>
 </form>

@@ -120,6 +120,8 @@ class ilObjTestGUI extends ilObjectGUI
 
   function propertiesObject()
   {
+		global $rbacsystem;
+		
 		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"]) {
 			// Check the values the user entered in the form
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
@@ -283,7 +285,9 @@ class ilObjTestGUI extends ilObjectGUI
 		}
     $this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("ACTION_PROPERTIES", $_SERVER['PHP_SELF'] . $add_parameter);
-		$this->tpl->setVariable("SUBMIT_TYPE", $this->lng->txt("change"));
+    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+			$this->tpl->setVariable("SUBMIT_TYPE", $this->lng->txt("change"));
+		}
 		$this->tpl->setVariable("HEADING_GENERAL", $this->lng->txt("tst_general_properties"));
 		$this->tpl->setVariable("TEXT_TEST_TYPES", $this->lng->txt("tst_types"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
@@ -329,9 +333,11 @@ class ilObjTestGUI extends ilObjectGUI
 		
 
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+			$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		}
     $this->tpl->parseCurrentBlock();
   }
 
@@ -706,6 +712,7 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	function questionsObject() {
+		global $rbacsystem;
     $add_parameter = $this->get_add_parameter();
 
 		if ($_GET["up"] > 0) {
@@ -858,7 +865,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", " tpl.il_as_tst_questions.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", true);
     $this->tpl->addBlockFile("A_BUTTONS", "question_buttons", "tpl.il_as_tst_question_buttons.html", true);
 
 		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
@@ -880,8 +887,11 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("QUESTION_TITLE", $data->title);
 				}
 				$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
-				$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("up.gif", true) . "\" alt=\"Up\" border=\"0\" /></a>");
-				$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("down.gif", true) . "\" alt=\"Down\" border=\"0\" /></a>");
+
+		    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+					$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("up.gif", true) . "\" alt=\"Up\" border=\"0\" /></a>");
+					$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("down.gif", true) . "\" alt=\"Down\" border=\"0\" /></a>");
+				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
 				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
@@ -896,21 +906,26 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("tst_no_questions_available"));
 			$this->tpl->parseCurrentBlock();
 		} else {
-			$this->tpl->setCurrentBlock("QFooter");
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
-			$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
+	    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+				$this->tpl->setCurrentBlock("QFooter");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->setVariable("REMOVE", $this->lng->txt("remove_question"));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+			$this->tpl->setCurrentBlock("QTypes");
+			$query = "SELECT * FROM qpl_question_type";
+			$query_result = $this->ilias->db->query($query);
+			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
+				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+				$this->tpl->parseCurrentBlock();
+			}
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setCurrentBlock("QTypes");
-		$query = "SELECT * FROM qpl_question_type";
-		$query_result = $this->ilias->db->query($query);
-		while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$this->tpl->setVariable("QUESTION_TYPE_ID", $data->type_tag);
-			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
-			$this->tpl->parseCurrentBlock();
-		}
-		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $_SERVER["PHP_SELF"] . $add_parameter);
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
@@ -918,11 +933,15 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $this->lng->txt("author"));
 		$this->tpl->setVariable("QUESTION_POOL", $this->lng->txt("qpl"));
-		$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("tst_browse_for_questions"));
-		$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
-		$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
-		$this->tpl->setVariable("TXT_OR", $this->lng->txt("or"));
-		$this->tpl->setVariable("TEXT_RANDOM_SELECT", $this->lng->txt("random_selection"));
+
+    if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+			$this->tpl->setVariable("BUTTON_INSERT_QUESTION", $this->lng->txt("tst_browse_for_questions"));
+			$this->tpl->setVariable("TEXT_CREATE_NEW", " " . strtolower($this->lng->txt("or")) . " " . $this->lng->txt("create_new"));
+			$this->tpl->setVariable("BUTTON_CREATE_QUESTION", $this->lng->txt("create"));
+			$this->tpl->setVariable("TXT_OR", $this->lng->txt("or"));
+			$this->tpl->setVariable("TEXT_RANDOM_SELECT", $this->lng->txt("random_selection"));
+		}
+		
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1021,6 +1040,7 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	function marksObject() {
+		global $rbacsystem;
     $add_parameter = $this->get_add_parameter();
 
 		if ($_POST["cmd"]["new_simple"]) {
@@ -1096,11 +1116,13 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
 			$this->tpl->parseCurrentBlock();
 		} else {
-			$this->tpl->setCurrentBlock("Footer");
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
-			$this->tpl->setVariable("BUTTON_EDIT", $this->lng->txt("edit"));
-			$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
-			$this->tpl->parseCurrentBlock();
+			if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+				$this->tpl->setCurrentBlock("Footer");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->setVariable("BUTTON_EDIT", $this->lng->txt("edit"));
+				$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("ACTION_MARKS", $_SERVER["PHP_SELF"] . $add_parameter);
@@ -1108,11 +1130,13 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADER_OFFICIAL", $this->lng->txt("tst_mark_official_form"));
 		$this->tpl->setVariable("HEADER_PERCENTAGE", $this->lng->txt("tst_mark_minimum_level"));
 		$this->tpl->setVariable("HEADER_PASSED", $this->lng->txt("tst_mark_passed"));
-		$this->tpl->setVariable("BUTTON_NEW", $this->lng->txt("tst_mark_create_new_mark_step"));
-		$this->tpl->setVariable("BUTTON_NEW_SIMPLE", $this->lng->txt("tst_mark_create_simple_mark_schema"));
-		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
-		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		if ($rbacsystem->checkAccess('write', $this->ref_id)) {
+			$this->tpl->setVariable("BUTTON_NEW", $this->lng->txt("tst_mark_create_new_mark_step"));
+			$this->tpl->setVariable("BUTTON_NEW_SIMPLE", $this->lng->txt("tst_mark_create_simple_mark_schema"));
+			$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
+			$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		}
 		$this->tpl->parseCurrentBlock();
 	}
 
