@@ -52,7 +52,7 @@ function setNavigation($timestamp,$rowSpan)
 
 	$today		= mktime(0,0,0);
 	$lastweek	= strtotime ("last week" , $timestamp) ;
-	$nextweek	= strtotime ("next week" , $timestamp) ;
+	$nextweek	= strtotime ("+7 days" , $timestamp) ;
 	$rowSpan = $rowSpan+1;
 
 	eval ("\$week_navigation = \"".$Gui->getTemplate("week_navigation")."\";");
