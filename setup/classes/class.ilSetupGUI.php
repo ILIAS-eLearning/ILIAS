@@ -337,11 +337,11 @@ class ilSetupGUI extends ilSetup
 			$settings = $this->client->getAllSettings();
 		}
 		
-		$txt_no_database = "no database";
+		$txt_no_database = $this->lng->txt("no_database");
 
 		$access_status = ($this->client->status["access"]["status"]) ? "online" : "disabled";
 		$access_button = ($this->client->status["access"]["status"]) ? "disable" : "enable";
-		$access_link = "&nbsp;&nbsp;[<a href=\"setup.php?cmd=changeaccess&client_id=".$this->client->getId()."&back=view\">".$access_button."</a>]";
+		$access_link = "&nbsp;&nbsp;[<a href=\"setup.php?cmd=changeaccess&client_id=".$this->client->getId()."&back=view\">".$this->lng->txt($access_button)."</a>]";
 		
 		// basic data
 		$this->tpl->setVariable("TXT_BASIC_DATA", $this->lng->txt("client_info"));
@@ -381,7 +381,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("INST_NAME",$this->client->getName());
 		$this->tpl->setVariable("INST_INFO",$this->client->getDescription());
 		$this->tpl->setVariable("DB_VERSION",($this->client->db_installed) ? $settings["db_version"] : $txt_no_database);
-		$this->tpl->setVariable("ACCESS_STATUS",$access_status.$access_link);
+		$this->tpl->setVariable("ACCESS_STATUS",$this->lng->txt($access_status).$access_link);
 
 		// server data
 		$this->tpl->setVariable("HTTP_PATH",ILIAS_HTTP_PATH);
@@ -397,7 +397,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("ERROR_RECIPIENT",($this->client->db_installed) ? $settings["error_recipient"] : $txt_no_database);
 
 		// pathes to tools
-		$not_set = "path_not_set";
+		$not_set = $this->lng->txt("path_not_set");
 				
 		$convert = $this->ini->readVariable("tools","convert");
 		$zip = $this->ini->readVariable("tools","zip");
@@ -454,23 +454,23 @@ class ilSetupGUI extends ilSetup
 				if ($this->display_mode != "setup")
 				{
 					$this->tpl->setCurrentBlock("add_client");
-					$this->tpl->setVariable("TXT_ADD_CLIENT","New");
+					$this->tpl->setVariable("TXT_ADD_CLIENT",ucfirst($this->lng->txt("new")));
 					$this->tpl->parseCurrentBlock();
 				}
 	
 				// client list link
 				$this->tpl->setCurrentBlock("display_list");
-				$this->tpl->setVariable("TXT_LIST","List");
+				$this->tpl->setVariable("TXT_LIST",ucfirst($this->lng->txt("list")));
 				$this->tpl->parseCurrentBlock();
 			
 				// edit pathes link
 				$this->tpl->setCurrentBlock("edit_pathes");
-				$this->tpl->setVariable("TXT_EDIT_PATHES","Pathes");
+				$this->tpl->setVariable("TXT_EDIT_PATHES",$this->lng->txt("pathes"));
 				$this->tpl->parseCurrentBlock();
 
 				// change password link
 				$this->tpl->setCurrentBlock("change_password");
-				$this->tpl->setVariable("TXT_CHANGE_PASSWORD","Password");
+				$this->tpl->setVariable("TXT_CHANGE_PASSWORD",ucfirst($this->lng->txt("password")));
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -478,7 +478,7 @@ class ilSetupGUI extends ilSetup
 			if ($this->isAuthenticated())
 			{
 				$this->tpl->setCurrentBlock("logout");
-				$this->tpl->setVariable("TXT_LOGOUT","logout");
+				$this->tpl->setVariable("TXT_LOGOUT",$this->lng->txt("logout"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -500,7 +500,7 @@ class ilSetupGUI extends ilSetup
 		{
 			if ($this->ini_ilias_exists and $this->display_mode == "setup" and isset($_SESSION["ClientId"]))
 			{
-				$this->tpl->setVariable("TXT_CLIENT_ID","<br/>(Client: ".$this->client->getName().", Id: ".$this->client->getId().")");
+				//$this->tpl->setVariable("TXT_CLIENT_ID","<br/>(Client: ".$this->client->getName().", Id: ".$this->client->getId().")");
 			}
 			elseif ($this->isAdmin())
 			{
@@ -712,7 +712,7 @@ class ilSetupGUI extends ilSetup
 			exit();
 		}
 
-		$this->tpl->addBlockFile("CONTENT","content","tpl.mastersetup.html");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
 
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html");
 
@@ -725,21 +725,25 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("setup_basic_settings"));
 		$this->tpl->setVariable("SUBMIT_CMD", "install");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_first_install")."<br/>".$this->lng->txt("info_text_pathes"));
+		
 		if ($this->safe_mode)
 		{
 			$this->tpl->setVariable("SAFE_MODE_STYLE", " class=\"message\" ");
-			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", "Safe mode is enabled!");
+			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", $this->lng->txt("safe_mode_enabled"));
 		}
 		else
 		{
-			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", "Safe mode is disabled.");
+			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", "");
 		}
 
 		// datadir
 		$this->tpl->setCurrentBlock("setup_datadir");
-		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("root datadir outside webspace"));
+		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("main_datadir_outside_webspace"));
 		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("datadir_path"));
+		$this->tpl->setVariable("TXT_DATADIR_COMMENT1", $this->lng->txt("datadir_path_comment1"));
+		$this->tpl->setVariable("TXT_CREATE", $this->lng->txt("create"));
+		$this->tpl->setVariable("TXT_TARGET", $this->lng->txt("target"));
 		// values
 		$this->tpl->setVariable("DATADIR_PATH", $_SESSION["error_post_vars"]["form"]["datadir_path"]);
 		$chk_datadir_path = ($_SESSION["error_post_vars"]["form"]["chk_datadir_path"]) ? "CHK_DATADIR_PATH_TARGET" : "CHK_DATADIR_PATH_CREATE";
@@ -750,6 +754,8 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setCurrentBlock("setup_log");
 		$this->tpl->setVariable("TXT_LOG_TITLE", $this->lng->txt("logging"));
 		$this->tpl->setVariable("TXT_LOG_PATH", $this->lng->txt("log_path"));
+		$this->tpl->setVariable("TXT_LOG_COMMENT", $this->lng->txt("log_path_comment"));
+		$this->tpl->setVariable("TXT_DISABLE_LOGGING", $this->lng->txt("disable_logging"));
 		// values
 		$this->tpl->setVariable("LOG_PATH", $_SESSION["error_post_vars"]["form"]["log_path"]);
 		$chk_log_path = ($_SESSION["error_post_vars"]["form"]["chk_log_status"]) ? $checked : "";
@@ -758,12 +764,19 @@ class ilSetupGUI extends ilSetup
 
 		// tools
 		$this->tpl->setCurrentBlock("setup_tools");
-		$this->tpl->setVariable("TXT_TOOLS_TITLE", $this->lng->txt("Configure 3rd party programs"));
+		$this->tpl->setVariable("TXT_DISABLE_CHECK", $this->lng->txt("disable_check"));
+		$this->tpl->setVariable("TXT_TOOLS_TITLE", $this->lng->txt("3rd_party_software"));
 		$this->tpl->setVariable("TXT_CONVERT_PATH", $this->lng->txt("convert_path"));
 		$this->tpl->setVariable("TXT_ZIP_PATH", $this->lng->txt("zip_path"));
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("unzip_path"));
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("java_path"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("htmldoc_path"));
+
+		$this->tpl->setVariable("TXT_CONVERT_COMMENT", $this->lng->txt("convert_path_comment"));
+		$this->tpl->setVariable("TXT_ZIP_COMMENT", $this->lng->txt("zip_path_comment"));
+		$this->tpl->setVariable("TXT_UNZIP_COMMENT", $this->lng->txt("unzip_path_comment"));
+		$this->tpl->setVariable("TXT_JAVA_COMMENT", $this->lng->txt("java_path_comment"));
+		$this->tpl->setVariable("TXT_HTMLDOC_COMMENT", $this->lng->txt("htmldoc_path_comment"));
 		// values
 		$this->tpl->setVariable("CONVERT_PATH", $_SESSION["error_post_vars"]["form"]["convert_path"]);
 		$this->tpl->setVariable("ZIP_PATH", $_SESSION["error_post_vars"]["form"]["zip_path"]);
@@ -786,14 +799,14 @@ class ilSetupGUI extends ilSetup
 		
 		// setup password
 		$this->tpl->setCurrentBlock("setup_pass");
-		$this->tpl->setVariable("TXT_SETUP_PASS_TITLE", $this->lng->txt("Please enter a password to enter ILIAS setup later again"));
+		$this->tpl->setVariable("TXT_SETUP_PASS_TITLE", $this->lng->txt("password_info"));
 		$this->tpl->setVariable("TXT_SETUP_PASS", $this->lng->txt("setup_pass"));
 		$this->tpl->setVariable("TXT_SETUP_PASS2", $this->lng->txt("setup_pass2"));
 		// values
 		$this->tpl->setVariable("SETUP_PASS", $_SESSION["error_post_vars"]["form"]["setup_pass"]);
 		$this->tpl->setVariable("SETUP_PASS2", $_SESSION["error_post_vars"]["form"]["setup_pass2"]);
 		$this->tpl->parseCurrentBlock();
-
+		
 		$this->setButtonPrev("preliminaries");
 
 		if ($this->isInstalled())
@@ -842,16 +855,18 @@ class ilSetupGUI extends ilSetup
 		// output
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_login.html");
 		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
-		$this->tpl->setVariable("TXT_HEADER","Login to setup");
+		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("setup_login"));
+
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_login"));
 
 		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_CLIENT_LOGIN","Client Login");
-		$this->tpl->setVariable("TXT_CLIENT_ID","Client ID");
-		$this->tpl->setVariable("TXT_USERNAME","Username");
-		$this->tpl->setVariable("TXT_PASSWORD","Password");
-		$this->tpl->setVariable("TXT_OR","OR");
-		$this->tpl->setVariable("TXT_ADMIN_LOGIN","Admin Login");
-		$this->tpl->setVariable("TXT_ADMIN_PASSWORD","Password");
+		$this->tpl->setVariable("TXT_CLIENT_LOGIN",$this->lng->txt("client_login"));
+		$this->tpl->setVariable("TXT_CLIENT_ID",$this->lng->txt("client_id"));
+		$this->tpl->setVariable("TXT_USERNAME",ucfirst($this->lng->txt("username")));
+		$this->tpl->setVariable("TXT_PASSWORD",ucfirst($this->lng->txt("password")));
+		$this->tpl->setVariable("TXT_OR",strtoupper($this->lng->txt("or")));
+		$this->tpl->setVariable("TXT_ADMIN_LOGIN",$this->lng->txt("admin_login"));
+		$this->tpl->setVariable("TXT_ADMIN_PASSWORD",ucfirst($this->lng->txt("password")));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("submit"));
 	}
 
@@ -885,11 +900,11 @@ class ilSetupGUI extends ilSetup
 			}
 			elseif (!$status_arr["finish"]["status"])
 			{
-				$status = "setup_not_finished";				
+				$status = $this->lng->txt("setup_not_finished");
 			}
 			else
 			{
-				$status = "ok";
+				$status = "<font color=\"green\"><strong>OK</strong></font>";
 			}
 			
 			if ($status_arr["access"]["status"])
@@ -919,7 +934,7 @@ class ilSetupGUI extends ilSetup
 				$login = "&nbsp;";
 			}
 
-			$access_html = "<a href=\"setup.php?cmd=changeaccess&client_id=".$key."&back=clientlist\">".$access."</a>";
+			$access_html = "<a href=\"setup.php?cmd=changeaccess&client_id=".$key."&back=clientlist\">".$this->lng->txt($access)."</a>";
 			
 			//visible data part
 			$data["data"][] = array(
@@ -941,6 +956,8 @@ class ilSetupGUI extends ilSetup
 
 		$this->tpl->addBlockFile("CONTENT","content","tpl.clientlist.html");
 		
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_list"));
+		
 		sendInfo();
 
 		// load template for table
@@ -949,7 +966,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
 
 		// common
-		$this->tpl->setVariable("TXT_HEADER","Select a client");
+		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("available_clients"));
 		$this->tpl->setVariable("FORMACTION","setup.php?cmd=gateway&lang=".$this->lang);
 
 		// build table
@@ -959,7 +976,7 @@ class ilSetupGUI extends ilSetup
 		$num = 0;
 
 		// title & header columns
-		$tbl->setTitle("Available Clients");
+		$tbl->setTitle(ucfirst($this->lng->txt("select_client")));
 
 		foreach ($data["cols"] as $val)
 		{
@@ -1068,7 +1085,7 @@ class ilSetupGUI extends ilSetup
 			exit;
 		}
 
-		$this->tpl->addBlockFile("CONTENT","content","tpl.mastersetup.html");
+		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
 
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html");
 
@@ -1081,27 +1098,31 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("change_basic_settings"));
 		$this->tpl->setVariable("SUBMIT_CMD", "mastersettings");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_pathes"));
+		
 		if ($this->safe_mode)
 		{
 			$this->tpl->setVariable("SAFE_MODE_STYLE", " class=\"message\" ");
-			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", "Safe mode is enabled!");
+			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", $this->lng->txt("safe_mode_enabled"));
 		}
 		else
 		{
-			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", "Safe mode is disabled.");
+			$this->tpl->setVariable("TXT_SAFE_MODE_INFO", "");
 		}
 		// datadir
 		$this->tpl->setCurrentBlock("display_datadir");
-		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("root datadir outside webspace"));
+		$this->tpl->setVariable("TXT_DATADIR_TITLE", $this->lng->txt("main_datadir_outside_webspace"));
 		$this->tpl->setVariable("TXT_DATADIR_PATH", $this->lng->txt("datadir_path"));
 		$this->tpl->setVariable("DATADIR_PATH", $this->ini->readVariable("clients","datadir"));
+		$this->tpl->setVariable("TXT_DATADIR_COMMENT2", $this->lng->txt("datadir_path_comment2"));
 		$this->tpl->parseCurrentBlock();
 
 		// logging
 		$this->tpl->setCurrentBlock("setup_log");
 		$this->tpl->setVariable("TXT_LOG_TITLE", $this->lng->txt("logging"));
 		$this->tpl->setVariable("TXT_LOG_PATH", $this->lng->txt("log_path"));
+		$this->tpl->setVariable("TXT_LOG_COMMENT", $this->lng->txt("log_path_comment"));
+		$this->tpl->setVariable("TXT_DISABLE_LOGGING", $this->lng->txt("disable_logging"));
 		// values
 		if ($_SESSION["error_post_vars"])
 		{
@@ -1120,12 +1141,19 @@ class ilSetupGUI extends ilSetup
 
 		// tools
 		$this->tpl->setCurrentBlock("setup_tools");
-		$this->tpl->setVariable("TXT_TOOLS_TITLE", $this->lng->txt("Configure 3rd party programs"));
+		$this->tpl->setVariable("TXT_DISABLE_CHECK", $this->lng->txt("disable_check"));
+		$this->tpl->setVariable("TXT_TOOLS_TITLE", $this->lng->txt("3rd_party_software"));
 		$this->tpl->setVariable("TXT_CONVERT_PATH", $this->lng->txt("convert_path"));
 		$this->tpl->setVariable("TXT_ZIP_PATH", $this->lng->txt("zip_path"));
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("unzip_path"));
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("java_path"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("htmldoc_path"));
+
+		$this->tpl->setVariable("TXT_CONVERT_COMMENT", $this->lng->txt("convert_path_comment"));
+		$this->tpl->setVariable("TXT_ZIP_COMMENT", $this->lng->txt("zip_path_comment"));
+		$this->tpl->setVariable("TXT_UNZIP_COMMENT", $this->lng->txt("unzip_path_comment"));
+		$this->tpl->setVariable("TXT_JAVA_COMMENT", $this->lng->txt("java_path_comment"));
+		$this->tpl->setVariable("TXT_HTMLDOC_COMMENT", $this->lng->txt("htmldoc_path_comment"));
 		// values
 		if ($_SESSION["error_post_vars"])
 		{
@@ -1169,38 +1197,38 @@ class ilSetupGUI extends ilSetup
 			// check client name
 			if (!$_POST["form"]["client_id"])
 			{
-				$this->raiseError($this->lng->txt("no_client_id_given"),$this->error_obj->MESSAGE);
+				$this->raiseError($this->lng->txt("ini_no_client_id"),$this->error_obj->MESSAGE);
 			}
 
 			if (strlen($_POST["form"]["client_id"]) != strlen(urlencode(($_POST["form"]["client_id"]))))
 			{
-				$this->raiseError($this->lng->txt("client_id_contains_invalid_characters"),$this->error_obj->MESSAGE);
+				$this->raiseError($this->lng->txt("ini_client_id_invalid"),$this->error_obj->MESSAGE);
 			}			
 
 			if (strlen($_POST["form"]["client_id"]) < 4)
 			{
-				$this->raiseError($this->lng->txt("client_id_too_short"),$this->error_obj->MESSAGE);
+				$this->raiseError($this->lng->txt("ini_client_id_too_short"),$this->error_obj->MESSAGE);
 			}
 
 			if (strlen($_POST["form"]["client_id"]) > 32)
 			{
-				$this->raiseError($this->lng->txt("client_id_too_long"),$this->error_obj->MESSAGE);
+				$this->raiseError($this->lng->txt("ini_client_id_too_long"),$this->error_obj->MESSAGE);
 			}
 
 			// check database
 			if (!$_POST["form"]["db_host"])
 			{
-				$this->raiseError($this->lng->txt("no_db_host_given"),$this->error_obj->MESSAGE);
+				$this->raiseError($this->lng->txt("ini_no_db_host"),$this->error_obj->MESSAGE);
 			}
 
 			if (!$_POST["form"]["db_name"])
 			{
-				$this->raiseError($this->lng->txt("no_db_name_given"),$this->error_obj->MESSAGE);
+				$this->raiseError($this->lng->txt("ini_no_db_name"),$this->error_obj->MESSAGE);
 			}
 			
 			if (!$_POST["form"]["db_user"])
 			{
-				$this->raiseError($this->lng->txt("no_db_user_given"),$this->error_obj->MESSAGE);
+				$this->raiseError($this->lng->txt("ini_no_db_user"),$this->error_obj->MESSAGE);
 			}
 
 			// create new client object if not exists !!
@@ -1211,7 +1239,7 @@ class ilSetupGUI extends ilSetup
 				// check for existing client dir (only for newly created clients not renaming)
 				if (!$this->ini_client_exists and file_exists(ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$client_id))
 				{
-					$this->raiseError($this->lng->txt("client_id_already_exists"),$this->error_obj->MESSAGE);
+					$this->raiseError($this->lng->txt("ini_client_id_exists"),$this->error_obj->MESSAGE);
 				}
 
 				$this->newClient($client_id);
@@ -1240,13 +1268,13 @@ class ilSetupGUI extends ilSetup
 			if ($db_installed and (!$this->ini_ilias_exists or ($this->client->getDbName() != $old_db_name)))
 			{
 				$_POST["form"]["db_name"] = $old_db_name;
-				$message = "Database \"".$this->client->getDbName()."\" already exists! Please choose another db name.";
+				$message = ucfirst($this->lng->txt("database"))." \"".$this->client->getDbName()."\" ".$this->lng->txt("ini_db_name_exists_");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 			
 			if ($this->ini_client_exists and $old_client_id != $this->client->getId())
 			{
-				$message = "client_id_cannot_be_changed_in_this_version";
+				$message = $this->lng->txt("ini_client_id_no_change");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 
@@ -1289,11 +1317,12 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_ini"));
+		
 		// display default values, loaded valus or saved error values
 		if ($_SESSION["error_post_vars"]["form"])
 		{
 			$this->tpl->setVariable("CLIENT_ID", $_SESSION["error_post_vars"]["form"]["client_id"]);
-			//$this->tpl->setVariable("CLIENT_INFO", $_SESSION["error_post_vars"]["form"]["client_info"]);
 			$this->tpl->setVariable("DB_HOST", $_SESSION["error_post_vars"]["form"]["db_host"]);	
 			$this->tpl->setVariable("DB_NAME", $_SESSION["error_post_vars"]["form"]["db_name"]);		
 			$this->tpl->setVariable("DB_USER", $_SESSION["error_post_vars"]["form"]["db_user"]);		
@@ -1302,12 +1331,20 @@ class ilSetupGUI extends ilSetup
 		else
 		{
 			$this->tpl->setVariable("CLIENT_ID", $this->client->getId());
-			//$this->tpl->setVariable("CLIENT_INFO", $this->client->getDescription());
 			$this->tpl->setVariable("DB_HOST", $this->client->getDbHost());	
 			$this->tpl->setVariable("DB_NAME", $this->client->getDbName());		
 			$this->tpl->setVariable("DB_USER", $this->client->getDbUser());		
 			$this->tpl->setVariable("DB_PASS", $this->client->getDbPass());		
 		}
+
+		$this->tpl->setVariable("TXT_CLIENT_HEADER", $this->lng->txt("inst_identification"));
+		$this->tpl->setVariable("TXT_CLIENT_ID", $this->lng->txt("client_id"));
+		$this->tpl->setVariable("TXT_DB_HEADER", $this->lng->txt("db_conn"));
+		$this->tpl->setVariable("TXT_DB_TYPE", $this->lng->txt("db_type"));
+		$this->tpl->setVariable("TXT_DB_HOST", $this->lng->txt("db_host"));
+		$this->tpl->setVariable("TXT_DB_NAME", $this->lng->txt("db_name"));	
+		$this->tpl->setVariable("TXT_DB_USER", $this->lng->txt("db_user"));
+		$this->tpl->setVariable("TXT_DB_PASS", $this->lng->txt("db_pass"));
 
 		if ($this->client->status["ini"]["status"])
 		{
@@ -1317,26 +1354,6 @@ class ilSetupGUI extends ilSetup
 		$this->checkPanelMode();
 	}
 	
-	function checkClientSetup_ini($a_formdata)
-	{
-		if (!is_array($a_formdata))
-		{
-			return false;
-		}
-
-		// convert path
-		if (!isset($a_formdata["chk_convert_path"]))
-		{
-			// remove trailing slash
-			$convert_path = ilFile::deleteTrailingSlash($a_formdata["convert_path"]);
-
-			if (empty($convert_path))
-			{
-				$this->raiseError($this->lng->txt("no_path_given").": convert",$this->error_obj->MESSAGE);
-			}
-		}
-	}
-
 	function displayError($a_message)
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
@@ -1361,9 +1378,9 @@ class ilSetupGUI extends ilSetup
 		session_destroy();
 
 		$this->logged_out = true;
-		$this->tpl->setVariable("TXT_HEADER","You logged out");		
+		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("logged_out"));		
 		$this->tpl->setCurrentBlock("home_link");
-		$this->tpl->setVariable("TXT_INDEX","ILIAS home");
+		$this->tpl->setVariable("TXT_INDEX",$this->lng->txt("ilias_homepage"));
 		$this->tpl->setVariable("LNK_INDEX",ILIAS_HTTP_PATH."/index.php");
 		$this->tpl->parseCurrentBlock();
 	}
@@ -1379,14 +1396,16 @@ class ilSetupGUI extends ilSetup
 		// remove access step
 		unset($steps["access"]);
 		
-		$steps["ini"]["text"]	= "create new client's basic data";
-		$steps["db"]["text"]	= "create database & update database";
-		$steps["lang"]["text"]	= "install system languages";
-		$steps["contact"]["text"]	= "enter contact & client information";
-		$steps["nic"]["text"]	= "register your installation to ILIAS-NIC";
-		$steps["finish"]["text"]	= "Finished! Ready to login to ILIAS";
+		$steps["ini"]["text"]		= $this->lng->txt("setup_process_step_ini");
+		$steps["db"]["text"]		= $this->lng->txt("setup_process_step_db");
+		$steps["lang"]["text"]		= $this->lng->txt("setup_process_step_lang");
+		$steps["contact"]["text"]	= $this->lng->txt("setup_process_step_contact");
+		$steps["nic"]["text"]		= $this->lng->txt("setup_process_step_nic");
+		$steps["finish"]["text"]	= $this->lng->txt("setup_process_step_finish");
 		
 		$this->tpl->addBlockFile("PROCESS_MENU","process_menu","tpl.process_panel.html");
+
+		$this->tpl->setVariable("TXT_SETUP_PROCESS_STATUS",$this->lng->txt("setup_process_status"));
 
 		$num = 1;
 
@@ -1473,14 +1492,8 @@ class ilSetupGUI extends ilSetup
 	{
 		$this->tpl->addBlockFile("CONTENT","content","tpl.clientsetup.html");
 		
-		$text = "It seems that you install ILIAS for the very first time, because no setup.ini was found.
-				In setup.ini we store a master password to protect ILIAS setup from unauthorized access 
-				and a mysql user account.
-				<p>ILIAS 3 supports multiple clients with different databases. 
-				You should use different database user accounts for each installation (client).</p>";
-
-		$this->tpl->setVariable("SETUP_CONTENT",$text);
-		$this->tpl->setVariable("TXT_SETUP_TITLE","Setup a new client");
+		$this->tpl->setVariable("TXT_INFO",$this->lng->txt("info_text_first_client"));
+		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("setup_first_client"));
 		
 		$this->displayProcessPanel();
 		
@@ -1556,7 +1569,6 @@ class ilSetupGUI extends ilSetup
 			// referencing db handler in language class
 			$this->lng->setDbHandler($this->client->db);
 
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("database_update"));
 			$dbupdate = new ilDBUpdate($this->client->db);
 
 			if (!$db_status = $dbupdate->getDBVersionStatus())
@@ -1565,6 +1577,10 @@ class ilSetupGUI extends ilSetup
 								  " (".$this->lng->txt("database_version").": ".$dbupdate->currentVersion.
 								  " ; ".$this->lng->txt("file_version").": ".$dbupdate->fileVersion.")</font>";
 				$this->tpl->setVariable("TXT_INFO", $remark);
+				
+				$this->tpl->setCurrentBlock("btn_submit");
+				$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("database_update"));
+				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
@@ -1576,11 +1592,18 @@ class ilSetupGUI extends ilSetup
 		else
 		{
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("database_create"));
+			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_db"));
 		}
 		
 		$this->tpl->parseCurrentBlock();
 		
-		$this->tpl->setVariable("TXT_SETUP_TITLE","setup Database");
+		$this->tpl->setVariable("TXT_SETUP_TITLE", $this->lng->txt("setup_database"));
+		$this->tpl->setVariable("TXT_DB_HEADER", $this->lng->txt("db_conn"));
+		$this->tpl->setVariable("TXT_DB_TYPE", $this->lng->txt("db_type"));
+		$this->tpl->setVariable("TXT_DB_HOST", $this->lng->txt("db_host"));
+		$this->tpl->setVariable("TXT_DB_NAME", $this->lng->txt("db_name"));	
+		$this->tpl->setVariable("TXT_DB_USER", $this->lng->txt("db_user"));
+		$this->tpl->setVariable("TXT_DB_PASS", $this->lng->txt("db_pass"));
 		
 		// only allow to return to ini if db not exists yet
 		if (!$this->client->db_installed)
@@ -1602,6 +1625,7 @@ class ilSetupGUI extends ilSetup
 
 		if (!$this->client->db_installed)
 		{
+			// programm should never come to this place
 			$message = "No database found! Please install database first.";
 			sendInfo($message);
 		}
@@ -1611,19 +1635,19 @@ class ilSetupGUI extends ilSetup
 		{
 			if (empty($_POST["form"]["lang_id"]))
 			{
-				$message = "You must install at least one language!";
+				$message = $this->lng->txt("lang_min_one_language");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 			
 			if (!in_array($_POST["form"]["lang_default"],$_POST["form"]["lang_id"]))
 			{
-				$message = "You selected an uninstalled language as default language!";
+				$message = $this->lng->txt("lang_not_installed_default");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 			
 			$this->lng->installLanguages($_POST["form"]["lang_id"]);
 			$this->client->setDefaultLanguage($_POST["form"]["lang_default"]);
-			$message = "Languages installed";
+			$message = $this->lng->txt("languages_installed");
 			sendInfo($message);
 		}
 
@@ -1639,12 +1663,12 @@ class ilSetupGUI extends ilSetup
 		if ($lang_count > 0)
 		{
 			$this->client->status["lang"]["status"] = true;
-			$this->client->status["lang"]["comment"] = $lang_count." language(s) installed";
+			$this->client->status["lang"]["comment"] = $lang_count." ".$this->lng->txt("languages_installed");
 		}
 		else
 		{
 			$this->client->status["lang"]["status"] = false;
-			$this->client->status["lang"]["comment"] = "no language installed";
+			$this->client->status["lang"]["comment"] = $this->lng->txt("lang_none_installed");
 		}
 
 		foreach ($languages as $lang_key)
@@ -1666,9 +1690,15 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		$this->tpl->setVariable("TXT_LANG_HEADER", ucfirst($this->lng->txt("available_languages")));
+		$this->tpl->setVariable("TXT_LANGUAGE", ucfirst($this->lng->txt("languages")));
+		$this->tpl->setVariable("TXT_INSTALLED", ucfirst($this->lng->txt("installed")));
+		$this->tpl->setVariable("TXT_DEFAULT", ucfirst($this->lng->txt("default")));
+
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		
-		$this->tpl->setVariable("TXT_SETUP_TITLE","install Languages");
+		$this->tpl->setVariable("TXT_SETUP_TITLE",ucfirst(trim($this->lng->txt("setup_languages"))));
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_lang"));
 
 		$this->setButtonPrev("db");
 		
@@ -1700,7 +1730,7 @@ class ilSetupGUI extends ilSetup
 				or empty($_POST["form"]["inst_name"]))
 			{
 				$form_valid = false;
-				$message = $this->lng->txt("fill_out_all_required_fields");
+				$message = $this->lng->txt("fill_out_required_fields");
 				//$this->raiseError($message,$this->error_obj->MESSAGE);
 				sendInfo($message);
 			}
@@ -1814,6 +1844,7 @@ class ilSetupGUI extends ilSetup
 		
 		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
 		$this->tpl->setVariable("TXT_SETUP_TITLE","contact information & client data");
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_contact"));
 		
 		$this->setButtonPrev("lang");
 		
@@ -1849,13 +1880,13 @@ class ilSetupGUI extends ilSetup
 				if (empty($this->client->nic_status[2]))
 				{
 					$this->client->setSetting("nic_enabled","-1");
-					$message = "nic-registration failed";				
+					$message = $this->lng->txt("nic_reg_failed");				
 				}
 				else
 				{
 					$this->client->setSetting("inst_id",$this->client->nic_status[2]);
 					$this->client->setSetting("nic_enabled","1");
-					$message = "nic-registration enabled";
+					$message = $this->lng->txt("nic_reg_enabled");		
 				}
 			}
 			elseif ($_POST["form"]["register"] == 2)
@@ -1864,20 +1895,20 @@ class ilSetupGUI extends ilSetup
 				
 				if (!$nic_by_email)
 				{
-					$message = "Please enter correct nic_id";
+					$message = $this->lng->txt("nic_reg_enter_correct_id");		
 				}
 				else
 				{
 					$this->client->setSetting("inst_id",$nic_by_email);
 					$this->client->setSetting("nic_enabled","1");
-					$message = "nic-registration enabled";
+					$message = $this->lng->txt("nic_reg_enabled");		
 				}
 			}
 			else
 			{
 				$this->client->setSetting("inst_id","0");
 				$this->client->setSetting("nic_enabled","0");
-				$message = "nic-registration disabled";
+				$message = $this->lng->txt("nic_reg_disabled");
 			}
 
 			sendInfo($message);
@@ -1888,8 +1919,7 @@ class ilSetupGUI extends ilSetup
 		
 		if ($settings["nic_enabled"] == "1")
 		{
-			$txt_info = "You registered already your installation. Your nic-id is ".$settings["inst_id"].".";
-			$this->tpl->setVariable("TXT_INFO",$txt_info);
+			$this->tpl->setVariable("TXT_INFO",$this->lng->txt("info_text_nic3")." ".$settings["inst_id"].".");
 		}
 		else
 		{
@@ -1900,17 +1930,19 @@ class ilSetupGUI extends ilSetup
 			$email_body = base64_encode($this->client->getURLStringForNIC($this->ilias_nic_server));
 			$email_link = "<a href=\"mailto:ilias-info@uni-koeln.de?subject=".$email_subject."&body=".$email_body."\">link</a>";
 			
-			$this->tpl->setVariable("TXT_INFO","Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations.<br/> We recommend to use the online registration. If you have problems to get connected (e.g. you are behind a firewall) you may alternatively obtain a nic-id via email: Please click this ".$email_link." to send an email with your installation infos to ilias-info@uni-koeln.de.");	
+			$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_nic1")." ".$email_link." ".$this->lng->txt("info_text_nic2"));
+
 			// output
 			$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_nic.html");
 	
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			
+	
 			// register form
-			$this->tpl->setVariable("TXT_NIC_REGISTER","NIC registration");
-			$this->tpl->setVariable("TXT_NIC_ENABLE","online registration");
-			$this->tpl->setVariable("TXT_NIC_EMAIL","email registration");
-			$this->tpl->setVariable("TXT_NIC_DISABLE","disable nic registration <span class=\"subtitle\">(register later)</span>");
+			$this->tpl->setVariable("TXT_NIC_ENTER_ID",$this->lng->txt("nic_reg_enter_id"));
+			$this->tpl->setVariable("TXT_NIC_REGISTER",$this->lng->txt("nic_registration"));
+			$this->tpl->setVariable("TXT_NIC_ENABLE",$this->lng->txt("nic_reg_online"));
+			$this->tpl->setVariable("TXT_NIC_EMAIL",$this->lng->txt("nic_reg_email"));
+			$this->tpl->setVariable("TXT_NIC_DISABLE",$this->lng->txt("nic_reg_disable")." <span class=\"subtitle\">".$this->lng->txt("nic_reg_disable_comment")."</span>");
 	
 			$checked = "checked=\"checked\"";
 			
@@ -1946,6 +1978,8 @@ class ilSetupGUI extends ilSetup
 	function changeMasterPassword()
 	{
 		$this->tpl->addBlockFile("CONTENT","content","tpl.std_layout.html");
+		
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_password"));
 
 		// formular sent
 		if ($_POST["form"])
@@ -1954,41 +1988,41 @@ class ilSetupGUI extends ilSetup
 
 			if (empty($_POST["form"]["pass_old"]))
 			{
-				$message = "You must enter your old password first!";
+				$message = $this->lng->txt("password_enter_old");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 				
 			if (md5($_POST["form"]["pass_old"]) != $pass_old)
 			{
-				$message = "Old password entered is wrong!";
+				$message = $this->lng->txt("password_old_wrong");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 			
 			if (empty($_POST["form"]["pass"]))
 			{
-				$message = "No password given!";
+				$message = $this->lng->txt("password_empty");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 			
 			if ($_POST["form"]["pass"] != $_POST["form"]["pass2"])
 			{
-				$message = "New Passwords entered does not match!";
+				$message = $this->lng->txt("password_not_match");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 			
 			if (md5($_POST["form"]["pass"]) == $pass_old)
 			{
-				$message = "Old and new password are the same!";
+				$message = $this->lng->txt("password_same");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 			
 			if (!$this->setPassword($_POST["form"]["pass"]))
 			{
-				$message = "save_error";
+				$message = $this->lng->txt("save_error");
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 
-			sendInfo("password_changed",true);
+			sendInfo($this->lng->txt("password_changed"),true);
 			header("Location: setup.php");
 			exit();
 		}
@@ -1996,15 +2030,15 @@ class ilSetupGUI extends ilSetup
 		// output
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_change_admin_password.html");
 
-		$this->tpl->setVariable("TXT_HEADER","enter new master password");
+		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("password_new_master"));
 
 		// pass form
 		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
 		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
-		$this->tpl->setVariable("TXT_PASS_TITLE","Update password");
-		$this->tpl->setVariable("TXT_PASS_OLD","Enter old password");
-		$this->tpl->setVariable("TXT_PASS","new password");
-		$this->tpl->setVariable("TXT_PASS2","retype password");
+		$this->tpl->setVariable("TXT_PASS_TITLE",$this->lng->txt("change_password"));
+		$this->tpl->setVariable("TXT_PASS_OLD",$this->lng->txt("set_oldpasswd"));
+		$this->tpl->setVariable("TXT_PASS",$this->lng->txt("set_newpasswd"));
+		$this->tpl->setVariable("TXT_PASS2",$this->lng->txt("password_retype"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 	}
 
