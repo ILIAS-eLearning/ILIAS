@@ -1211,7 +1211,7 @@ class ilUtil
 		header("Connection: close");
 
 		echo $a_data;
-
+		exit;
 	}
 
 	/**

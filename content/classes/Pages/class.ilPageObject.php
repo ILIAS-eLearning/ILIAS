@@ -1477,40 +1477,41 @@ class ilPageObject
 		$this->builddom();
 
 		$mydom = $this->dom;
-			
+
 		$xpc = xpath_new_context($mydom);
-		
+
 		$path = "//PageContent[position () = $par_id]/Paragraph";
-		
+
 		$res = & xpath_eval($xpc, $path);
-		
+
 		if (count ($res->nodeset) != 1)
 			die ("Should not happen");
 
 		$context_node = $res->nodeset[0];
-		
+
 		// get plain text
-		
+
 		$childs = $context_node->child_nodes();
-			
+
 		for($j=0; $j<count($childs); $j++)
-		{								
-			$content .= $mydom->dump_node($childs[$j]);							
+		{
+			$content .= $mydom->dump_node($childs[$j]);
 		}
-			
+
 		$content = str_replace("<br />", "\n", $content);
-		$content = str_replace("<br/>", "\n", $content);			
-		
-		$plain_content = html_entity_decode($content);		
-		
-		
+		$content = str_replace("<br/>", "\n", $content);
+
+		$plain_content = html_entity_decode($content);
+
+		ilUtil::deliverData($plain_content, $filename);
+		/*
 		$file_type = "application/octet-stream";
 		header("Content-type: ".$file_type);
 		header("Content-disposition: attachment; filename=\"$filename\"");
-		echo $plain_content;
+		echo $plain_content;*/
 		exit();
 	}
-	
+
 	/**
 	* get fo page content
 	*/
