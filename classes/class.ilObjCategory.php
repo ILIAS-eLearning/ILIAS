@@ -130,9 +130,9 @@ class ilObjCategory extends ilObject
 		$q = "INSERT INTO object_translation ".
 			 "(obj_id,title,description,lang_code,lang_default) ".
 			 "VALUES ".
-			 "(".$this->getId().",'".$a_title."','".$a_desc."','".$a_lang."',".$a_lang_default.")";
+			 "(".$this->getId().",'".ilUtil::prepareDBString($a_title)."','".ilUtil::prepareDBString($a_desc)."','".$a_lang."',".$a_lang_default.")";
 		$this->ilias->db->query($q);
-		
+
 		return true;
 	}
 } // END class.ilObjCategory
