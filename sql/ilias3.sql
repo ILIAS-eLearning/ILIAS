@@ -3,10 +3,10 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Apr 19, 2004 at 12:13 AM
+# Generation Time: May 15, 2004 at 01:21 AM
 # Server version: 3.23.56
-# PHP Version: 4.3.2
-# Database : `ilias3rc1`
+# PHP Version: 4.3.6
+# Database : `ilias3final`
 # --------------------------------------------------------
 
 #
@@ -171,6 +171,7 @@ CREATE TABLE `content_object` (
   `online` enum('y','n') default 'n',
   `toc_active` enum('y','n') default 'y',
   `lm_menu_active` enum('y','n') default 'y',
+  `toc_mode` enum('chapters','pages') default 'chapters',
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
@@ -400,6 +401,23 @@ CREATE TABLE `file_data` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `file_usage`
+#
+
+CREATE TABLE `file_usage` (
+  `id` int(11) NOT NULL default '0',
+  `usage_type` varchar(10) NOT NULL default '',
+  `usage_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`,`usage_type`,`usage_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `file_usage`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `frm_data`
 #
 
@@ -443,6 +461,7 @@ CREATE TABLE `frm_posts` (
   `pos_cens` tinyint(4) NOT NULL default '0',
   `pos_cens_com` text NOT NULL,
   `notify` tinyint(1) NOT NULL default '0',
+  `import_name` text,
   PRIMARY KEY  (`pos_pk`)
 ) TYPE=MyISAM;
 
@@ -488,11 +507,28 @@ CREATE TABLE `frm_threads` (
   `thr_date` datetime NOT NULL default '0000-00-00 00:00:00',
   `thr_update` datetime NOT NULL default '0000-00-00 00:00:00',
   `visits` int(11) NOT NULL default '0',
+  `import_name` text,
   PRIMARY KEY  (`thr_pk`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `frm_threads`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `glossary`
+#
+
+CREATE TABLE `glossary` (
+  `id` int(11) NOT NULL default '0',
+  `online` enum('y','n') default 'n',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `glossary`
 #
 
 # --------------------------------------------------------
@@ -2750,6 +2786,7 @@ CREATE TABLE `mail` (
   `m_email` tinyint(1) default NULL,
   `m_subject` varchar(255) default NULL,
   `m_message` text,
+  `import_name` text,
   PRIMARY KEY  (`mail_id`)
 ) TYPE=MyISAM;
 
@@ -3172,6 +3209,8 @@ INSERT INTO `object_data` VALUES (99, 'typ', 'recf', 'RecoveryFolder object', -1
 INSERT INTO `object_data` VALUES (100, 'recf', '__Restored Objects', 'Contains objects restored by recovery tool', -1, '2004-03-09 18:13:16', '2004-03-09 18:13:16', '');
 INSERT INTO `object_data` VALUES (101, 'typ', 'mep', 'Media pool object', -1, '2004-04-19 00:09:14', '2004-04-19 00:09:14', '');
 INSERT INTO `object_data` VALUES (102, 'typ', 'htlm', 'HTML LM object', -1, '2004-04-19 00:09:15', '2004-04-19 00:09:15', '');
+INSERT INTO `object_data` VALUES (103, 'typ', 'svy', 'Survey object', -1, '2004-05-15 01:18:59', '2004-05-15 01:18:59', '');
+INSERT INTO `object_data` VALUES (104, 'typ', 'spl', 'Question pool object (Survey)', -1, '2004-05-15 01:18:59', '2004-05-15 01:18:59', '');
 # --------------------------------------------------------
 
 #
@@ -3217,6 +3256,7 @@ CREATE TABLE `object_translation` (
 # Dumping data for table `object_translation`
 #
 
+INSERT INTO `object_translation` VALUES (9, 'Open Source eLearning', '', 'en', 1);
 # --------------------------------------------------------
 
 #
@@ -3441,6 +3481,8 @@ INSERT INTO `rbac_operations` VALUES (29, 'create_chat', 'create chat object');
 INSERT INTO `rbac_operations` VALUES (30, 'mail_visible', 'users can use mail system');
 INSERT INTO `rbac_operations` VALUES (31, 'create_mep', 'create new media pool');
 INSERT INTO `rbac_operations` VALUES (32, 'create_htlm', 'create new html learning module');
+INSERT INTO `rbac_operations` VALUES (42, 'create_svy', 'create new survey');
+INSERT INTO `rbac_operations` VALUES (43, 'create_spl', 'create new question pool (Survey)');
 # --------------------------------------------------------
 
 #
@@ -3488,9 +3530,13 @@ INSERT INTO `rbac_ta` VALUES (15, 18);
 INSERT INTO `rbac_ta` VALUES (15, 20);
 INSERT INTO `rbac_ta` VALUES (15, 21);
 INSERT INTO `rbac_ta` VALUES (15, 22);
+INSERT INTO `rbac_ta` VALUES (15, 23);
+INSERT INTO `rbac_ta` VALUES (15, 24);
 INSERT INTO `rbac_ta` VALUES (15, 25);
 INSERT INTO `rbac_ta` VALUES (15, 26);
 INSERT INTO `rbac_ta` VALUES (15, 29);
+INSERT INTO `rbac_ta` VALUES (15, 31);
+INSERT INTO `rbac_ta` VALUES (15, 32);
 INSERT INTO `rbac_ta` VALUES (16, 1);
 INSERT INTO `rbac_ta` VALUES (16, 2);
 INSERT INTO `rbac_ta` VALUES (16, 3);
@@ -3510,6 +3556,8 @@ INSERT INTO `rbac_ta` VALUES (16, 28);
 INSERT INTO `rbac_ta` VALUES (16, 29);
 INSERT INTO `rbac_ta` VALUES (16, 31);
 INSERT INTO `rbac_ta` VALUES (16, 32);
+INSERT INTO `rbac_ta` VALUES (16, 42);
+INSERT INTO `rbac_ta` VALUES (16, 43);
 INSERT INTO `rbac_ta` VALUES (17, 1);
 INSERT INTO `rbac_ta` VALUES (17, 2);
 INSERT INTO `rbac_ta` VALUES (17, 3);
@@ -3646,6 +3694,16 @@ INSERT INTO `rbac_ta` VALUES (102, 2);
 INSERT INTO `rbac_ta` VALUES (102, 3);
 INSERT INTO `rbac_ta` VALUES (102, 4);
 INSERT INTO `rbac_ta` VALUES (102, 6);
+INSERT INTO `rbac_ta` VALUES (103, 1);
+INSERT INTO `rbac_ta` VALUES (103, 2);
+INSERT INTO `rbac_ta` VALUES (103, 3);
+INSERT INTO `rbac_ta` VALUES (103, 4);
+INSERT INTO `rbac_ta` VALUES (103, 6);
+INSERT INTO `rbac_ta` VALUES (104, 1);
+INSERT INTO `rbac_ta` VALUES (104, 2);
+INSERT INTO `rbac_ta` VALUES (104, 3);
+INSERT INTO `rbac_ta` VALUES (104, 4);
+INSERT INTO `rbac_ta` VALUES (104, 6);
 # --------------------------------------------------------
 
 #
@@ -3898,6 +3956,30 @@ INSERT INTO `rbac_templates` VALUES (80, 'fold', 21, 8);
 INSERT INTO `rbac_templates` VALUES (80, 'fold', 22, 8);
 INSERT INTO `rbac_templates` VALUES (80, 'fold', 25, 8);
 INSERT INTO `rbac_templates` VALUES (80, 'fold', 26, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'dbk', 1, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'dbk', 2, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'dbk', 3, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'dbk', 4, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'dbk', 6, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'exc', 1, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'exc', 2, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'exc', 3, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'exc', 4, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'exc', 6, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'grp', 23, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'grp', 24, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'grp', 31, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'grp', 32, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'htlm', 1, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'htlm', 2, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'htlm', 3, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'htlm', 4, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'htlm', 6, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'mep', 1, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'mep', 2, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'mep', 3, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'mep', 4, 8);
+INSERT INTO `rbac_templates` VALUES (80, 'mep', 6, 8);
 # --------------------------------------------------------
 
 #
@@ -4090,6 +4172,24 @@ CREATE TABLE `sc_resources` (
 # --------------------------------------------------------
 
 #
+# Table structure for table `scorm_lm`
+#
+
+CREATE TABLE `scorm_lm` (
+  `id` int(11) NOT NULL default '0',
+  `online` enum('y','n') default 'n',
+  `api_adapter` varchar(80) default 'API',
+  `api_func_prefix` varchar(20) default 'LMS',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `scorm_lm`
+#
+
+# --------------------------------------------------------
+
+#
 # Table structure for table `scorm_object`
 #
 
@@ -4126,11 +4226,30 @@ CREATE TABLE `scorm_tracking` (
   `launch_data` text NOT NULL,
   `suspend_data` text NOT NULL,
   `mastery_score` decimal(10,0) NOT NULL default '0',
+  `student_name` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`sc_item_id`,`sc_item_id`,`usr_id`)
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `scorm_tracking`
+#
+
+# --------------------------------------------------------
+
+#
+# Table structure for table `scorm_tracking2`
+#
+
+CREATE TABLE `scorm_tracking2` (
+  `user_id` int(11) NOT NULL default '0',
+  `sco_id` int(11) NOT NULL default '0',
+  `lvalue` varchar(64) default NULL,
+  `rvalue` text,
+  PRIMARY KEY  (`user_id`,`sco_id`)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `scorm_tracking2`
 #
 
 # --------------------------------------------------------
@@ -4211,8 +4330,8 @@ CREATE TABLE `settings` (
 #
 
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '163');
-INSERT INTO `settings` VALUES ('ilias_version', '3.0.0RC1 2004/04/18');
+INSERT INTO `settings` VALUES ('db_version', '189');
+INSERT INTO `settings` VALUES ('ilias_version', '3.0.0 2004/05/15');
 INSERT INTO `settings` VALUES ('inst_info', '');
 INSERT INTO `settings` VALUES ('inst_name', '');
 INSERT INTO `settings` VALUES ('java_path', '');
@@ -4436,7 +4555,8 @@ CREATE TABLE `tst_tests` (
   `sequence_settings` tinyint(3) unsigned NOT NULL default '0',
   `score_reporting` tinyint(3) unsigned NOT NULL default '0',
   `nr_of_tries` tinyint(3) unsigned NOT NULL default '0',
-  `processing_time` int(10) unsigned NOT NULL default '0',
+  `processing_time` time default NULL,
+  `enable_processing_time` enum('0','1') NOT NULL default '0',
   `reporting_date` varchar(14) default NULL,
   `starting_time` varchar(14) default NULL,
   `complete` enum('0','1') NOT NULL default '1',
@@ -4478,13 +4598,13 @@ CREATE TABLE `tst_times` (
 
 CREATE TABLE `usr_data` (
   `usr_id` int(10) unsigned NOT NULL default '0',
-  `login` varchar(32) NOT NULL default '',
+  `login` varchar(80) NOT NULL default '',
   `passwd` varchar(32) NOT NULL default '',
   `firstname` varchar(32) NOT NULL default '',
   `lastname` varchar(32) NOT NULL default '',
   `title` varchar(32) NOT NULL default '',
   `gender` enum('m','f') NOT NULL default 'm',
-  `email` varchar(40) NOT NULL default 'here your email',
+  `email` varchar(80) NOT NULL default '',
   `institution` varchar(80) default NULL,
   `street` varchar(40) default NULL,
   `city` varchar(40) default NULL,
