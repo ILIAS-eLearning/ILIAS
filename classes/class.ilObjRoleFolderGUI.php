@@ -104,7 +104,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 											"type"		=> $val["type"],
 											// DEFAULT ACTION IS 'permObject()'
 											"cmd"		=> "perm"
-											);		
+											);
 
 			unset($this->data["data"][$key]["obj_id"]);
 			$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);

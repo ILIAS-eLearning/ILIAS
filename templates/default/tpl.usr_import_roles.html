@@ -1,0 +1,27 @@
+<form action="{FORMACTION}" method="post">
+<table class="std">
+	<tr class="tblheader">
+		<td class="std" colspan="2">{TXT_ROLE_ASSIGNMENT}</td>
+	</tr>
+	<tr class="tblheader">
+		<td class="std">{TXT_ROLES_IMPORT}</td>
+		<td class="std">{TXT_ROLES_GLOBAL}</td>
+	</tr>
+	<!-- BEGIN role -->
+	<tr>
+		<td class="option">
+			{TXT_IMPORT_ROLE}
+		</td>
+		<td class="option_value">
+			{SELECT_ROLE}
+		</td>
+	</tr>
+	<!-- END role -->
+	<tr class="submit">
+		<td class="submit" colspan="2">
+			<input class="submit" type="submit" name="cmd[importCancelled]" value="{BTN_CANCEL}"/>
+			<input class="submit" type="submit" name="cmd[importUsers]" value="{BTN_IMPORT}"/>
+		</td>
+	</tr>
+</table>
+</form>
