@@ -1163,7 +1163,7 @@ class ilGroupGUI extends ilObjectGUI
 		if ($this->object->addMember($this->ilias->account->getId(), $this->grp_object->getDefaultMemberRole()))
 		{
 			$this->ilias->account->addDesktopItem($this->id,"grp");
-			sendInfo($this->lng->txt("assignment_completed"),true);
+			sendInfo($this->lng->txt("grp_registration_completed"),true);
 
 		}
 		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);

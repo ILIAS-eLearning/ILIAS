@@ -333,6 +333,7 @@ common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
 common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
 common#:#grp_new#:#Neue Gruppe
 common#:#grp_register#:#Anmelden
+common#:#grp_registration_completed#:#Anmeldung abgeschlossen
 common#:#guest#:#Gast
 common#:#guests#:#Gäste
 common#:#help#:#Hilfe
