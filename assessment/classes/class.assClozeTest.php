@@ -1376,11 +1376,7 @@ class ASS_ClozeTest extends ASS_Question
 		$close = $this->createCloseTextArray();
 		foreach ($this->gaps[$index] as $key => $value) {
 			$this->gaps[$index][$key]->set_cloze_type($cloze_type);
-			if ($cloze_type == CLOZE_TEXT) {
-				$this->gaps[$index][$key]->setState(1);
-			} else {
-				$this->gaps[$index][$key]->setState(0);
-			}
+			$this->gaps[$index][$key]->setState(1);
 		}
 		if ($cloze_type == CLOZE_TEXT)
 		{
