@@ -309,7 +309,7 @@ class ilObjectGUI
 			// IF CMD WAS 'copy' CALL PRIVATE CLONE METHOD
 			$this->cloneObject($_GET["ref_id"]);
 			return true;
-			exit; // und wech...
+			exit; // und wech... will never be executed
 		}
 
 		// PASTE IF CMD WAS 'cut' (TODO: Could be merged with 'link' routine below in some parts)
@@ -1028,7 +1028,7 @@ class ilObjectGUI
 			$newObj->create();
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
-
+			$newObj->setPermissions($_GET["ref_id"]);
 			unset($newObj);
 		}
 		else
@@ -1289,6 +1289,7 @@ class ilObjectGUI
 						$rolfObj->create();
 						$rolfObj->createReference();
 						$rolfObj->putInTree($_GET["ref_id"]);
+						$rolfObj->setPermissions($_GET["ref_id"]);
 						unset($rolfObj);
 						
 						$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
@@ -1352,6 +1353,7 @@ class ilObjectGUI
 				$rolfObj->create();
 				$rolfObj->createReference();
 				$rolfObj->putInTree($this->object->getRefId());
+				$rolfObj->setPermissions($_GET["ref_id"]);
 
 				$rolf_id = $rolfObj->getRefId();
 
