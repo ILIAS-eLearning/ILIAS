@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.13 2003/05/04 18:50:22 akill Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.14 2003/05/13 10:40:20 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -278,17 +278,16 @@ class ilObjRoleGUI extends ilObjectGUI
 			// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPPED
 			if ($_POST["recursive"])
 			{
-				
-				$parent_obj = $_GET["ref_id"];
 				// IF PARENT NODE IS MAIN ROLE FOLDER START AT ROOT FOLDER
-				if ($parent_obj == ROLE_FOLDER_ID)
+				if ($_GET["ref_id"] == ROLE_FOLDER_ID)
 				{
 					$node_id = ROOT_FOLDER_ID;
 				}
 				else
 				{
-					$node_id = $parent_obj;
+					$node_id = $tree->getParentId($_GET["ref_id"]);
 				}
+
 				// GET ALL SUBNODES
 				$node_data = $tree->getNodeData($node_id);
 				$subtree_nodes = $tree->getSubTree($node_data);
