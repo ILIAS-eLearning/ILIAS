@@ -751,6 +751,7 @@ common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new v
 common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
 common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Create Test###16 Mar 2004 new variable
+common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
 common#:#cat_delete#:#Delete Category###16 Mar 2004 new variable
 common#:#cat_edit#:#Upravit kategorii
 common#:#cat_edit_permission#:#Change permission settings###16 Mar 2004 new variable
@@ -1276,6 +1277,7 @@ common#:#https_not_possible#:#This server is not supporting HTTPS connnections.#
 common#:#id#:#ID### identical translation
 common#:#identifier#:#identifikátor
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
+common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ilias_version#:#Verze ILIASu
 common#:#image#:#Obrázek
 common#:#image_gen_unsucc#:#Generování obrázku skončilo neúspěšně. kontaktujte správce systému a zkontrolujte cestu ke konverznímu programu.###14 Sep 2004 content changed
@@ -1601,6 +1603,7 @@ common#:#msg_no_scan_log#:#Scan log not implemented yet###16 Mar 2004 new variab
 common#:#msg_no_search_result#:#Nebyly nalezeny žádné položky
 common#:#msg_no_search_string#:#Zadejte prosím dotaz
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###16 Mar 2004 new variable
+common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#Vybraná stránka je přístupná pouze registrovaným uživatelům
 common#:#msg_not_in_itself#:#Není možné vložit objekt do sebe samého.
 common#:#msg_nothing_found#:#Nic nebylo nalezeno
@@ -1735,6 +1738,7 @@ common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Test###16 Mar 2004 new variable
 common#:#obj_typ#:#Definice typů objektů###14 Sep 2004 content changed
 common#:#obj_type#:#Typ objektu
+common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#Uživatelská nastavení
 common#:#obj_usr#:#Uživatel
 common#:#obj_usrf#:#Uživatelské účty
@@ -1778,6 +1782,7 @@ common#:#objs_st#:#Chapters###16 Mar 2004 new variable
 common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Tests###16 Mar 2004 new variable
 common#:#objs_type#:#Objecttypes###16 Mar 2004 new variable
+common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Users###16 Mar 2004 new variable
 common#:#of#:#&nbsp;
 common#:#offline_version#:#Offline verze
@@ -2170,7 +2175,19 @@ common#:#update_language#:#Aktualizovat jazyk
 common#:#upload#:#Poslat
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#URL### identical translation
+common#:#url_a#:#a URL###23 Oct 2004 new variable
+common#:#url_add#:#Add URL###23 Oct 2004 new variable
+common#:#url_added#:#URL added###23 Oct 2004 new variable
+common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
 common#:#url_description#:#Popis URL
+common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_new#:#New URL###23 Oct 2004 new variable
+common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
+common#:#url_read#:#Open URL###23 Oct 2004 new variable
+common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
+common#:#url_write#:#Edit URL###23 Oct 2004 new variable
 common#:#user#:#Uživatel
 common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Uživatel přidán
@@ -2540,6 +2557,8 @@ content#:#cont_table#:#Tabulka
 content#:#cont_table_border#:#Orámování tabulky
 content#:#cont_table_cellpadding#:#Šířka prázdného okraje uvnitř buněk tabulky
 content#:#cont_table_cellspacing#:#Vzdálenost buněk tabulky
+content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
 content#:#cont_table_width#:#Šířka tabulky
 content#:#cont_target_within_source#:#Cíl nesmí být obsažen ve zdrojovém objektu.
 content#:#cont_term#:#Pojem

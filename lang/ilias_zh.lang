@@ -769,6 +769,7 @@ common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new v
 common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
 common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#创建测试
+common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
 common#:#cat_delete#:#删除类别
 common#:#cat_edit#:#编辑类别
 common#:#cat_edit_permission#:#更改许可设置
@@ -1294,6 +1295,7 @@ common#:#https_not_possible#:#This server is not supporting HTTPS connnections.#
 common#:#id#:#身份
 common#:#identifier#:# 标识符
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
+common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ilias_version#:#ILIAS版本
 common#:#image#:#图象
 common#:#image_gen_unsucc#:#图象生成失败。联系系统管理员检查转换路径。###14 Sep 2004 content changed
@@ -1619,6 +1621,7 @@ common#:#msg_no_scan_log#:#Scan log not implemented yet###06 Mar 2004 new variab
 common#:#msg_no_search_result#:#未找到条目
 common#:#msg_no_search_string#:#请输入您的问题
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#如果您自己未被指定为系统管理员角色，您不可以指定其他用户为系统管理员角色###14 Sep 2004 content changed
+common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#您选择的页只能为注册的用户访问
 common#:#msg_not_in_itself#:#对象不可以自身粘贴
 common#:#msg_nothing_found#:#无任何发现
@@ -1753,6 +1756,7 @@ common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#测试
 common#:#obj_typ#:#对象类型定义###14 Sep 2004 content changed
 common#:#obj_type#:#对象类型定义
+common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#用户设置
 common#:#obj_usr#:#用户
 common#:#obj_usrf#:#用户账号
@@ -1796,6 +1800,7 @@ common#:#objs_st#:#Chapters###18 Feb 2004 new variable
 common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Tests###18 Feb 2004 new variable
 common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
+common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Users###18 Feb 2004 new variable
 common#:#of#:#的
 common#:#offline_version#:#离线版本
@@ -2188,7 +2193,19 @@ common#:#update_language#:#更新语言
 common#:#upload#:#上载
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#URL
+common#:#url_a#:#a URL###23 Oct 2004 new variable
+common#:#url_add#:#Add URL###23 Oct 2004 new variable
+common#:#url_added#:#URL added###23 Oct 2004 new variable
+common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
 common#:#url_description#:#URL描述
+common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_new#:#New URL###23 Oct 2004 new variable
+common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
+common#:#url_read#:#Open URL###23 Oct 2004 new variable
+common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
+common#:#url_write#:#Edit URL###23 Oct 2004 new variable
 common#:#user#:#用户
 common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#用户已增加
@@ -2558,6 +2575,8 @@ content#:#cont_table#:#表格
 content#:#cont_table_border#:#表格边界
 content#:#cont_table_cellpadding#:#表格单元填料
 content#:#cont_table_cellspacing#:#表格单元间距
+content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
 content#:#cont_table_width#:#表格宽度
 content#:#cont_target_within_source#:#目标不必在源对象中。
 content#:#cont_term#:#术语

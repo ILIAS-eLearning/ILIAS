@@ -751,6 +751,7 @@ common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new v
 common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
 common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Criar Teste
+common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
 common#:#cat_delete#:#Apagar Categoria
 common#:#cat_edit#:#Editar Categoria
 common#:#cat_edit_permission#:#Mudar definições de permissões
@@ -1276,6 +1277,7 @@ common#:#https_not_possible#:#This server is not supporting HTTPS connnections.#
 common#:#id#:#ID
 common#:#identifier#:#identificador
 common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
+common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ilias_version#:#Versão do ILIAS
 common#:#image#:#Imagem
 common#:#image_gen_unsucc#:#Geração de imagem mal sucedida. Contacte a administração do sistema e verifique o caminho para o convert.###14 Sep 2004 content changed
@@ -1601,6 +1603,7 @@ common#:#msg_no_scan_log#:#O log de verificação ainda não está implementado
 common#:#msg_no_search_result#:#Nenhumas entradas encontradas
 common#:#msg_no_search_string#:#Por favor insira a sua consulta
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Você não pode atribuir utilizadores ao papel de Adminitrador de sistema se você não tiver o mesmo papel###14 Sep 2004 content changed
+common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#A página que escolheu apenas é acessível por utilizadores registados
 common#:#msg_not_in_itself#:#Não é possível colar o objecto em si mesmo
 common#:#msg_nothing_found#:#msg_nada_encontrado
@@ -1735,6 +1738,7 @@ common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Teste
 common#:#obj_typ#:#Definição de Tipo de Objecto###14 Sep 2004 content changed
 common#:#obj_type#:#Tipo de Objecto
+common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#Definições de Utilizador
 common#:#obj_usr#:#Utilizador
 common#:#obj_usrf#:#Contas de utilizadores
@@ -1778,6 +1782,7 @@ common#:#objs_st#:#Capítulos
 common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Testes
 common#:#objs_type#:#Tipos de Objectos###14 Sep 2004 content changed
+common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Utilizadores
 common#:#of#:#De
 common#:#offline_version#:#Versão Offline
@@ -2170,7 +2175,19 @@ common#:#update_language#:#Actualizar Linguagem
 common#:#upload#:#Mandar
 common#:#uploaded_and_checked#:#O ficheiro foi enviado e verificado, você pode agora começar a importá-lo.
 common#:#url#:#URL
+common#:#url_a#:#a URL###23 Oct 2004 new variable
+common#:#url_add#:#Add URL###23 Oct 2004 new variable
+common#:#url_added#:#URL added###23 Oct 2004 new variable
+common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
 common#:#url_description#:#Descrição do URL
+common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_new#:#New URL###23 Oct 2004 new variable
+common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
+common#:#url_read#:#Open URL###23 Oct 2004 new variable
+common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
+common#:#url_write#:#Edit URL###23 Oct 2004 new variable
 common#:#user#:#Utilizador
 common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Utilizador adicionado
@@ -2540,6 +2557,8 @@ content#:#cont_table#:#Tabela
 content#:#cont_table_border#:#Limite da Tabela
 content#:#cont_table_cellpadding#:#Padding das Células da Tabela
 content#:#cont_table_cellspacing#:#Espaçamento das Células da Tabela
+content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
 content#:#cont_table_width#:#Largura de Tabela
 content#:#cont_target_within_source#:#O destino não pode estar contido no objecto de origem.
 content#:#cont_term#:#Termo

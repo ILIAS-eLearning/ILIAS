@@ -592,6 +592,7 @@ common#:#cat_create_qpl#:#Kérdésgyűjtemény létrehozása (értékelés)
 common#:#cat_create_spl#:#Kérdésgyűjtemény létrehozása (felmérés)
 common#:#cat_create_svy#:#Felmérés létrehozás
 common#:#cat_create_tst#:#Teszt létrehozása
+common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
 common#:#cat_delete#:#Kategória törlése
 common#:#cat_edit#:#Kategória szerkesztése
 common#:#cat_edit_permission#:#Engedélyezett beállítások cseréje
@@ -1020,6 +1021,7 @@ common#:#http_path#:#http-cím
 common#:#id#:#azonosító (ID)
 common#:#identifier#:#azonosító
 common#:#if_no_title_then_filename#:#Hagyja el a beviteli helyet, hogy megjelenjen a fájl neve
+common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ilias_version#:#ILIAS-verzió
 common#:#image#:#Kép
 common#:#image_gen_unsucc#:#A képgenerálás sikerült. Vegye fel a kapcsolatot a rendszeradminisztrátorral, és ellenőrizze a konvertálási útvonalat.
@@ -1321,6 +1323,7 @@ common#:#msg_no_scan_log#:#A scan-napló még nem implementált
 common#:#msg_no_search_result#:#Nem találhatók bejegyzések
 common#:#msg_no_search_string#:#Gépelje be kérdését
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Valószínűleg nem rendelhet felhasználókat a rendszeradminisztrátor szerephez, ha saját magát nem rendelte hozzá a szerephez
+common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#A kiválasztott lap csak regisztrált felhasználók számára elérhető
 common#:#msg_not_in_itself#:#Nem lehet bemásolni az objektumot saját magába
 common#:#msg_nothing_found#:#Nem található üzenet
@@ -1439,6 +1442,7 @@ common#:#obj_trac_desc#:#Felhasználó hozzáférés nyomkövetési adatai
 common#:#obj_tst#:#Teszt
 common#:#obj_typ#:#Objektumtípus definíció
 common#:#obj_type#:#Objektumtípus
+common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#Felhasználói beállítások
 common#:#obj_usr#:#Felhasználó
 common#:#obj_usrf#:#Felhasználói fiókok
@@ -1478,6 +1482,7 @@ common#:#objs_st#:#Fejezetek
 common#:#objs_svy#:#Felmérések
 common#:#objs_tst#:#Tesztek
 common#:#objs_type#:#Objektumtípusok
+common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Felhasználók
 common#:#of#:#Of
 common#:#offline_version#:#Off-line változat
@@ -1788,7 +1793,19 @@ common#:#update_language#:#Nyelv frissítése
 common#:#upload#:#Feltöltés
 common#:#uploaded_and_checked#:#A fájl feltöltésre és ellenőrzésre került, elkezdheti importálását.
 common#:#url#:#URL
+common#:#url_a#:#a URL###23 Oct 2004 new variable
+common#:#url_add#:#Add URL###23 Oct 2004 new variable
+common#:#url_added#:#URL added###23 Oct 2004 new variable
+common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
 common#:#url_description#:#URL-leírás
+common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_new#:#New URL###23 Oct 2004 new variable
+common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
+common#:#url_read#:#Open URL###23 Oct 2004 new variable
+common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
+common#:#url_write#:#Edit URL###23 Oct 2004 new variable
 common#:#user#:#Felhasználó
 common#:#user_access#:#Hozzáférés felhasználónként
 common#:#user_added#:#Felhasználó hozzáadva
@@ -2112,6 +2129,8 @@ content#:#cont_table#:#Táblázat
 content#:#cont_table_border#:#Táblázatszegély
 content#:#cont_table_cellpadding#:#Táblázatcellák margója
 content#:#cont_table_cellspacing#:#Táblázatcellák cellaköze
+content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
 content#:#cont_table_width#:#Táblázatszélesség
 content#:#cont_target_within_source#:#A célútvonal nem lehet a forrásobjektumon belül.
 content#:#cont_term#:#Fogalom

@@ -701,6 +701,7 @@ common#:#cat_create_qpl#:#Twórz pulę pytań
 common#:#cat_create_spl#:#Twórz Pulę Pytań (ankieta)
 common#:#cat_create_svy#:#Twórz ankietę
 common#:#cat_create_tst#:#Twórz test
+common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
 common#:#cat_delete#:#Usuń Kategorię
 common#:#cat_edit#:#Edytuj kategorię
 common#:#cat_edit_permission#:#Zmień ustawienia uprawnień
@@ -1206,6 +1207,7 @@ common#:#https_not_possible#:#Ten serwer nie obsługuje połączeń HTTPS.
 common#:#id#:#ID
 common#:#identifier#:#identyfikator
 common#:#if_no_title_then_filename#:#Pozostaw puste dla wyświetlenia nazwy pliku
+common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ilias_version#:#Wersja ILIAS
 common#:#image#:#Obrazek
 common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z administratorem systemu i sprawdź ścieżkę konwersji.
@@ -1524,6 +1526,7 @@ common#:#msg_no_scan_log#:#Skanowanie logu nie zostało jeszcze zaimplementowane
 common#:#msg_no_search_result#:#Brak pozycji.
 common#:#msg_no_search_string#:#Podaj swoje zapytanie
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Nie możesz przydzielić użytkowników do roli Administratora Systemu nie mając sam takiej roli.
+common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#Strona którą,wybrałeś jest dostępna tylko dla zarejestrowanych użytkowników.
 common#:#msg_not_in_itself#:#Nie można wkleić obiektu do samego siebie.
 common#:#msg_nothing_found#:#Nic nie znaleziono.
@@ -1653,6 +1656,7 @@ common#:#obj_trac_desc#:#Dostęp użytkownika do danych z śledzenia
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definicja typu obiektu
 common#:#obj_type#:#Typ obiektu
+common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#Ustawienia użytkownika
 common#:#obj_usr#:#Użytkownik
 common#:#obj_usrf#:#Konta użytkowników
@@ -1695,6 +1699,7 @@ common#:#objs_st#:#Rozdziały
 common#:#objs_svy#:#Ankiety
 common#:#objs_tst#:#Testy
 common#:#objs_type#:#Typy obiektów
+common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Użytkownicy
 common#:#of#:#z
 common#:#offline_version#:#Wersja Offline
@@ -2026,7 +2031,19 @@ common#:#update_language#:#Uaktualnij język
 common#:#upload#:#Wyślij
 common#:#uploaded_and_checked#:#Plik został załadowany i sprawdzony, teraz możesz rozpocząć jego import.
 common#:#url#:#URL
+common#:#url_a#:#a URL###23 Oct 2004 new variable
+common#:#url_add#:#Add URL###23 Oct 2004 new variable
+common#:#url_added#:#URL added###23 Oct 2004 new variable
+common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
 common#:#url_description#:#Opis URL
+common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_new#:#New URL###23 Oct 2004 new variable
+common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
+common#:#url_read#:#Open URL###23 Oct 2004 new variable
+common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
+common#:#url_write#:#Edit URL###23 Oct 2004 new variable
 common#:#user#:#Użytkownik
 common#:#user_access#:#Dostęp przez użytkownika
 common#:#user_added#:#Użytkownik dodany
@@ -2387,6 +2404,8 @@ content#:#cont_table#:#Tablica
 content#:#cont_table_border#:#Ramka tablicy
 content#:#cont_table_cellpadding#:#Rozciągnięcie komórek
 content#:#cont_table_cellspacing#:#Odstęp komórkowy
+content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
 content#:#cont_table_width#:#Szerokość tablicy
 content#:#cont_target_within_source#:#Przeznaczenie nie może być wewnątrz obiektu źródłowego.
 content#:#cont_term#:#Termin

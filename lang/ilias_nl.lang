@@ -744,6 +744,7 @@ common#:#cat_create_sahs#:#Creëer SCORM/AICC lesmodule
 common#:#cat_create_spl#:#Creëer Vraagpool(Enquête)
 common#:#cat_create_svy#:#Creëer Enquête
 common#:#cat_create_tst#:#Creëer een test
+common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
 common#:#cat_delete#:#Verwijder kategorie
 common#:#cat_edit#:#Wijzig kategorie
 common#:#cat_edit_permission#:#Wijzige instellingen van de rechten
@@ -1268,6 +1269,7 @@ common#:#https_not_possible#:#Deze server support geen HTTPS connnecties.
 common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Laat leeg om de bestands-naam te tonen
+common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ilias_version#:#ILIAS-versie
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Het opnemen van het plaatje is niet gelukt. Neem contact op met de Systeem-administrateur en controleer het conversiepad.
@@ -1593,6 +1595,7 @@ common#:#msg_no_scan_log#:#Scan-log nog niet geïmplementeerd
 common#:#msg_no_search_result#:#Geen ingangen gevonden
 common#:#msg_no_search_string#:#Voer uw vraag in a.u.b
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Alleen een systeem-administrateur mag gebruikers toewijzen aan de rol systeem-administrateur
+common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#De pagine die uw heeft gekozen is alleen toegankelijk voor geregistreerde gebruikers
 common#:#msg_not_in_itself#:#Het is niet mogelijk het object in zichzelf te plakken
 common#:#msg_nothing_found#:#msg_nothing_found
@@ -1727,6 +1730,7 @@ common#:#obj_trac_desc#:#Gebruiker-toegang tot tracking-gegevens
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objecttype-definition
 common#:#obj_type#:#Object-type
+common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#Gebruikers-instellingen
 common#:#obj_usr#:#Gebruiker
 common#:#obj_usrf#:#Gebruiker
@@ -1770,6 +1774,7 @@ common#:#objs_st#:#Hoofdstukken
 common#:#objs_svy#:#Enquêtes
 common#:#objs_tst#:#Testen
 common#:#objs_type#:#Object-types
+common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Gebruikers
 common#:#of#:#Of
 common#:#offline_version#:#Offline Versie
@@ -2162,7 +2167,19 @@ common#:#update_language#:#Taal bijwerken
 common#:#upload#:#Upload
 common#:#uploaded_and_checked#:#Het bestand werd geupload en gecontroleerd, U kunt nu de import starten.
 common#:#url#:#URL
+common#:#url_a#:#a URL###23 Oct 2004 new variable
+common#:#url_add#:#Add URL###23 Oct 2004 new variable
+common#:#url_added#:#URL added###23 Oct 2004 new variable
+common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
 common#:#url_description#:#URL Beschrijving
+common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_new#:#New URL###23 Oct 2004 new variable
+common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
+common#:#url_read#:#Open URL###23 Oct 2004 new variable
+common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
+common#:#url_write#:#Edit URL###23 Oct 2004 new variable
 common#:#user#:#Gebruiker
 common#:#user_access#:#Toegang per gebruiker
 common#:#user_added#:#Gebruiker toegevoegd
@@ -2532,6 +2549,8 @@ content#:#cont_table#:#structuur
 content#:#cont_table_border#:#Paragrafen
 content#:#cont_table_cellpadding#:#Tabel
 content#:#cont_table_cellspacing#:#Tabel-randen
+content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
 content#:#cont_table_width#:#Tussen-cellen-ruimte in tabel
 content#:#cont_target_within_source#:#Cel-ruimte in tabel
 content#:#cont_term#:#Tabel-breedte

@@ -751,6 +751,7 @@ common#:#cat_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#cat_create_spl#:#Creare una raccolta di domande (per sondaggi)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
+common#:#cat_create_url#:#Create URL###23 Oct 2004 new variable
 common#:#cat_delete#:#Eliminare un categoria
 common#:#cat_edit#:#Modificare un categoria
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1274,6 +1275,7 @@ common#:#https_not_possible#:#Questo server non supporta connessioni HTTPS
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
 common#:#if_no_title_then_filename#:#Lascia vuoto se vuoi mostrare il nome del file
+common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
 common#:#ilias_version#:#Versione ILIAS 3
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
@@ -1599,6 +1601,7 @@ common#:#msg_no_scan_log#:#Scansione del log non ancora implementata.
 common#:#msg_no_search_result#:#Nessun risultato trovato
 common#:#msg_no_search_string#:#Per favore, inserisci il criterio di ricerca
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Non puoi assegnare il ruolo di amministratore di sistema se non sei amministratore di sistema
+common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#La pagina che hai scelto &#232; accessibile solamente agli utenti registrati
 common#:#msg_not_in_itself#:#Non &#232; possibile incollare l&#039;oggetto su se stesso
 common#:#msg_nothing_found#:#Nessun risultato
@@ -1733,6 +1736,7 @@ common#:#obj_trac_desc#:#Dati accessi utente
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
+common#:#obj_url#:#URL###23 Oct 2004 new variable
 common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
@@ -1776,6 +1780,7 @@ common#:#objs_st#:#Capitoli
 common#:#objs_svy#:#Sondaggi
 common#:#objs_tst#:#Test
 common#:#objs_type#:#Tipi di oggetti
+common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Utenti
 common#:#of#:#di
 common#:#offline_version#:#Versione offline
@@ -2168,7 +2173,19 @@ common#:#update_language#:#Lingua aggiornata
 common#:#upload#:#Upload
 common#:#uploaded_and_checked#:#E'stato eseguito l'upload ed il controllo del file, adesso pu&#242; essere importato.
 common#:#url#:#URL
+common#:#url_a#:#a URL###23 Oct 2004 new variable
+common#:#url_add#:#Add URL###23 Oct 2004 new variable
+common#:#url_added#:#URL added###23 Oct 2004 new variable
+common#:#url_create_url#:#Create URL###23 Oct 2004 new variable
+common#:#url_delete#:#Delete URL###23 Oct 2004 new variable
 common#:#url_description#:#Descrizione URL
+common#:#url_edit#:#Edit URL###23 Oct 2004 new variable
+common#:#url_edit_permission#:#Change Permission settings###23 Oct 2004 new variable
+common#:#url_new#:#New URL###23 Oct 2004 new variable
+common#:#url_not_found#:#File Not Found###23 Oct 2004 new variable
+common#:#url_read#:#Open URL###23 Oct 2004 new variable
+common#:#url_visible#:#URL is visible###23 Oct 2004 new variable
+common#:#url_write#:#Edit URL###23 Oct 2004 new variable
 common#:#user#:#Utente
 common#:#user_access#:#Accessi utente
 common#:#user_added#:#Utente aggiunto
@@ -2538,6 +2555,8 @@ content#:#cont_table#:#Tabella
 content#:#cont_table_border#:#Bordo tabella
 content#:#cont_table_cellpadding#:#Cell Padding della tabella
 content#:#cont_table_cellspacing#:#Cell Spacing della tabella
+content#:#cont_table_html_import#:#Import HTML Table###23 Oct 2004 new variable
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!###23 Oct 2004 new variable
 content#:#cont_table_width#:#Larghezza tabella
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.
 content#:#cont_term#:#Termine
