@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.59 2003/12/02 10:43:07 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.60 2003/12/09 14:03:20 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -107,7 +107,7 @@ class ilObjGroupGUI extends ilObjectGUI
 				break;
 			case 2: $checked[2]=1;
 				break;
-//			default:$checked[0]=1;
+			default:$checked[0]=1;
 		}
 
 		//build form
@@ -146,14 +146,17 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_GROUPSTATUS", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
 
-/*
-		$this->tpl->setVariable("CB_REGISTRATION", $cb_registration);
-		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));
-		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
-*/
 	}
 
+
+	/**
+	* canceledObject is called when operation is canceled, method links back
+	* @access	public
+	*/
+	function canceledObject()
+	{
+		header("Location: ".$this->getReturnLocation("view","adm_object.php?".$this->link_params));
+	}
 
 	/**
 	* save group object
@@ -311,8 +314,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
 		//build form
 
-//		$grp_status = $this->object->getGroupStatus();
-//		$grp_status_options = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
 		$grp_status_options = ilUtil::formSelect(0,"group_status",$stati,false,true);
 		$checked = array(0=>0,1=>0,2=>0);
 
@@ -406,8 +407,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		if(isset($status))
 			$_SESSION["saved_post"]["status"] = $status;
 
-		$this->data["buttons"] = array( $confirm  => $this->lng->txt("confirm"),
-						$cancel  => $this->lng->txt("cancel"));
+		$this->data["buttons"] = array( $cancel  => $this->lng->txt("cancel"),
+						$confirm  => $this->lng->txt("confirm"));
 
 		$this->getTemplateFile("confirm");
 		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.obj_confirm.html");
@@ -811,7 +812,7 @@ class ilObjGroupGUI extends ilObjectGUI
 				$member_functions .="<a href=\"$link_leave\">$val_leave</a>";
 
 			}
-
+			//get group members
 			$grp_role_id = $newGrp->getMemberRoles($member->getId());
 			$str_member_roles ="";
 			if(is_array($grp_role_id))
@@ -861,6 +862,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("COLUMN_COUNTS",6);
 		$this->tpl->setVariable("TPLPATH",$this->tplPath);
 
+		//prepare buttons [dismiss|change]
 		foreach ($this->data["buttons"] as $name => $value)
 		{
 			$this->tpl->setCurrentBlock("tbl_action_btn");
@@ -868,6 +870,15 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
 		}
+
+		//create button to add members
+		$subobj[0] = $this->lng->txt("member");
+		$opts = ilUtil::formSelect(12,"new_type", $subobj, false, true);
+		$this->tpl->setCurrentBlock("add_object");
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("BTN_NAME", "newmembers");
+		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+		$this->tpl->parseCurrentBlock();
 
 		//sort data array
 		$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
@@ -896,6 +907,145 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tbl->render();
 	}
 
+	function showNewRegistrationsObject()
+	{
+		global $rbacsystem;
+
+		//get new applicants
+		$applications = $this->object->getNewRegistrations();
+
+		$img_contact = "pencil";
+		$val_contact = ilUtil::getImageTagByType($img_contact, $this->tpl->tplPath);
+
+		foreach($applications as $applicant)
+		{
+			$user =& $this->ilias->obj_factory->getInstanceByObjId($applicant->user_id);
+
+			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$user->getLogin();
+			$link_change = "group.php?cmd=changeMemberObject&ref_id=".$this->ref_id."&mem_id=".$user->getId();
+			$member_functions = "<a href=\"$link_change\">$val_change</a>";
+
+			$this->data["data"][$user->getId()]= array(
+				"check"		=> ilUtil::formCheckBox(0,"user_id[]",$user->getId()),
+				"username"        => $user->getLogin(),
+				"fullname"       => $user->getFullname(),
+				"subject"        => $applicant->subject,
+				"date" 		 => $applicant->application_date,
+				"functions" => "<a href=\"$link_contact\">".$val_contact."</a>"
+				);
+
+				unset($member_functions);
+				unset($user);
+		}
+
+		// load template for table content data
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+
+		$this->data["buttons"] = array( "Cancel"  => $this->lng->txt("cancel"),
+						"AssignApplicants"  => $this->lng->txt("assign"));
+
+		//getTemplate and set Block
+		$this->getTemplateFile("chooseuser","grp");
+		$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
+
+		//prepare buttons [cancel|assign]
+		foreach ($this->data["buttons"] as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$offset = intval($_GET["offset"]);
+		$limit = intval($_GET["limit"]);
+
+		if ($limit == 0) $limit = 10;	// TODO: move to user settings
+		if ($offset == "") $offset = 0;	// TODO: move to user settings
+
+		if (isset($this->data["data"]))
+		{
+			//sort data array
+			$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+			$output = array_slice($this->data["data"],$offset,$limit);
+		}
+
+		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->setVariable("COLUMN_COUNTS",6);
+		$this->tpl->setVariable("TPLPATH",$this->tplPath);
+
+		// create table
+		include_once "./classes/class.ilTableGUI.php";
+		$tbl = new ilTableGUI($output);
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("group_new_registrations"),"icon_usr_b.gif",$this->lng->txt("group_applicants"));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("fullname"),$this->lng->txt("subject"),$this->lng->txt("application_date"),$this->lng->txt("functions")));
+		$tbl->setHeaderVars(array("check","login","fullname","subject","application_date","functions"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
+		$tbl->setColumnWidth(array("5%","20%","20%","40%","15%","5%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($limit);
+		$tbl->setOffset($offset);
+		$tbl->setMaxCount(count($this->data["data"]));
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		$tbl->render();
+	}
+
+	/**
+	* assign applicants object calls the confirmation method with correct parameter
+	* @access	public
+	*/
+	function assignApplicantsObject()
+	{
+		$user_ids = $_POST["user_id"];
+		if(isset($user_ids))
+		{
+			$confirm = "confirmedAssignApplicants";
+			$cancel  = "cancel_assignment";
+			$info	 = "info_assign_sure";
+			$status  = 0;
+			$this->confirmationObject($user_ids, $confirm, $cancel, $info, $status,"n");
+		}
+		else
+		{
+			sendInfo($this->lng->txt("You have to choose at least one user !"),true);
+			header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
+		}
+	}
+
+	/**
+	* adds applicant to group as member
+	* @access	public
+	*/
+	function confirmedAssignApplicantsObject()
+	{
+
+		if($_SESSION["saved_post"])
+		{
+			$newGrp = new ilObjGroup($this->object->getRefId(), true);
+			$mail  = new ilMail($_SESSION["AccountId"]);
+			foreach ($_SESSION["saved_post"]["user_id"] as $new_member)
+			{
+				$user =& $this->ilias->obj_factory->getInstanceByObjId($new_member);
+				if (!$this->object->addMember($new_member, $newGrp->getDefaultMemberRole()))
+				{
+					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
+				}
+				else
+				{
+					$this->object->deleteApplicationListEntry($new_member);
+					$mail->sendMail($user->getLogin(),"","","New Membership in Group: ".$newGrp->getTitle(),"You have been assigned to the group as a member. You can now access all group specific objects like forums, learningmodules,etc..",array(),array('normal'));
+				}
+			}
+			unset($_SESSION["user_id"]);
+		}
+		header("Location: ".$this->getReturnLocation("view","adm_object.php?".$this->link_params));
+	}
+
 	/**
 	* displays form in which the member-status can be changed
 	* @access public
@@ -918,8 +1068,9 @@ class ilObjGroupGUI extends ilObjectGUI
 				}
 			}
 		}
-		//TODO: link back
-		header("Location: adm_object.php?".$this->link_params."&cmd=members");
+
+		header("Location: ".$this->getReturnLocation("view","adm_object.php?".$this->link_params));
+//		header("Location: adm_object.php?".$this->link_params."&cmd=members");
 	}
 } // END class.ilObjGroupGUI
 ?>
