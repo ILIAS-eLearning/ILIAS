@@ -47,7 +47,7 @@ if ($_POST["cmd"] != "")
 			}
 			else
 			{
-				$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
+				sendInfo($lng->txt("mail_select_one"));
 			}
 			break;
 		case 'mark_unread':
@@ -57,7 +57,7 @@ if ($_POST["cmd"] != "")
 			}
 			else
 			{
-				$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
+				sendInfo($lng->txt("mail_select_one"));
 			}
 			break;
 
@@ -69,15 +69,15 @@ if ($_POST["cmd"] != "")
 				{
 					if(!is_array($_POST["mail_id"]))
 					{
-						$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
+						sendInfo($lng->txt("mail_select_one"));
 					}
 					else if($umail->deleteMails($_POST["mail_id"]))
 					{
-						$ilias->error_obj->sendInfo($lng->txt("mail_deleted"));
+						sendInfo($lng->txt("mail_deleted"));
 					}
 					else
 					{
-						$ilias->error_obj->sendInfo($lng->txt("mail_delete_error"));
+						sendInfo($lng->txt("mail_delete_error"));
 					}
 					break;
 				}
@@ -85,12 +85,12 @@ if ($_POST["cmd"] != "")
 				{ 
 					if(!is_array($_POST["mail_id"]))
 					{
-						$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
+						sendInfo($lng->txt("mail_select_one"));
 						$error_delete = true;
 					}
 					else
 					{
-						$ilias->error_obj->sendInfo($lng->txt("mail_sure_delete"));
+						sendInfo($lng->txt("mail_sure_delete"));
 					}
 				}
 				else if(isset($_POST["cancel"]))
@@ -104,30 +104,30 @@ if ($_POST["cmd"] != "")
 				// MOVE MAILS TO TRASH
 				if(!is_array($_POST["mail_id"]))
 				{
-					$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
+					sendInfo($lng->txt("mail_select_one"));
 				}
 				else if($umail->moveMailsToFolder($_POST["mail_id"],$mbox->getTrashFolder()))
 				{
-					$ilias->error_obj->sendInfo($lng->txt("mail_moved_to_trash"));
+					sendInfo($lng->txt("mail_moved_to_trash"));
 				}
 				else
 				{
-					$ilias->error_obj->sendInfo($lng->txt("mail_move_error"));
+					sendInfo($lng->txt("mail_move_error"));
 				}
 			}
 			break;
 		case 'move':
 			if(!is_array($_POST["mail_id"]))
 			{
-				$ilias->error_obj->sendInfo($lng->txt("mail_select_one"));
+				sendInfo($lng->txt("mail_select_one"));
 			}
 			else if($umail->moveMailsToFolder($_POST["mail_id"],$_POST["move_to"]))
 			{
-				$ilias->error_obj->sendInfo($lng->txt("mail_moved"));
+				sendInfo($lng->txt("mail_moved"));
 			}
 			else
 			{
-				$ilias->error_obj->sendInfo($lng->txt("mail_move_error"));
+				sendInfo($lng->txt("mail_move_error"));
 			}
 
 			break;
