@@ -406,7 +406,14 @@ class ASS_QuestionGUI
 		{
 			$_GET["q_id"] = $this->object->getId();
 			$this->editQuestion();
-			sendInfo($this->lng->txt("msg_obj_modified"), true);
+			if (strcmp($_SESSION["info"], "") != 0)
+			{
+				sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
+			}
+			else
+			{
+				sendInfo($this->lng->txt("msg_obj_modified"), false);
+			}
 //			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $this->object->getId());
 //			$this->ctrl->redirectByClass("ilpageobjectgui", "view");
 		}

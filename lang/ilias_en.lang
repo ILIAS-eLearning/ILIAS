@@ -185,6 +185,7 @@ assessment#:#material_download#:#Material to download
 assessment#:#material_file#:#Material file
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!
 assessment#:#meaning#:#Meaning
+assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!
 assessment#:#next_question_rows#:#Questions %d - %d of %d >>
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!
 assessment#:#no_questions_available#:#There are no questions available!

@@ -553,9 +553,22 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					{
 						$state = 1;
 					}
+					$points = $_POST["points_$matches[1]"];
+					if (preg_match("/\d+/", $points))
+					{
+						if ($points < 0)
+						{
+							$points = 0.0;
+							sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+						}
+					}
+					else
+					{
+						$points = 0.0;
+					}
 					$this->object->add_answer(
 						ilUtil::stripSlashes($_POST["$key"]),
-						ilUtil::stripSlashes($_POST["points_$matches[1]"]),
+						ilUtil::stripSlashes($points),
 						$state,
 						ilUtil::stripSlashes($matches[1])
 						);
@@ -603,9 +616,22 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			{
 				if (preg_match("/answer_(\d+)/", $key, $matches))
 				{
+					$points = $_POST["points_$matches[1]"];
+					if (preg_match("/\d+/", $points))
+					{
+						if ($points < 0)
+						{
+							$points = 0.0;
+							sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+						}
+					}
+					else
+					{
+						$points = 0.0;
+					}
 					$this->object->add_answer(
 						ilUtil::stripSlashes($_POST["$key"]),
-						ilUtil::stripSlashes($_POST["points_$matches[1]"]),
+						ilUtil::stripSlashes($points),
 						ilUtil::stripSlashes($_POST["status_$matches[1]"]),
 						ilUtil::stripSlashes($matches[1])
 						);
