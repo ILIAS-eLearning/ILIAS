@@ -77,7 +77,6 @@ class ilLMPresentationGUI
 
 #		$this->lm =& new ilObjLearningModule($_GET["ref_id"], true);
 		//echo $this->lm->getTitle(); exit;
-
 		$this->$cmd();
 	}
 
@@ -147,10 +146,11 @@ class ilLMPresentationGUI
 
 						$_GET["obj_id"] = $row["obj_id"];
 						$o = $this->layout("main.xml",false);
+                        // $o = $this->layout();
 						$output .= $o;
 
-						$output .= "<table cellpadding=0 cellspacing=0 border=0 width=100%><tr><td valign=top align=center>- ".$page." -</td></tr></table>";
-						$output .= "<hr>";
+						$output .= "\n<table cellpadding=0 cellspacing=0 border=0 width=100%><tr><td valign=top align=center>- ".$page." -</td></tr></table>\n";
+						$output .= "<hr>\n";
 
 
 					}
@@ -217,12 +217,12 @@ class ilLMPresentationGUI
 					@chmod($export_dir."/".$fileName."/css", 0755);
 
 				}
-
+ 
 				if($_POST["type"] == "print")
 				{
 					echo $html;
 				}
-				else
+				else if ($_POST["type"]=="html")
 				{
 
 					/**
@@ -270,7 +270,30 @@ class ilLMPresentationGUI
 					
 					readfile( $export_dir."/".$fileName.".zip" );
 					
-				}	
+				} else if ($_POST["type"]=="pdf") 
+				{
+                    ilUtil::html2pdf($html, $export_dir."/".$fileName.".pdf");
+                    
+                    header("Expires: Mon, 1 Jan 1990 00:00:00 GMT");
+					header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+					header("Cache-Control: no-store, no-cache, must-revalidate");
+					header("Cache-Control: post-check=0, pre-check=0", false);
+					header("Pragma: no-cache");
+					header("Content-type: application/octet-stream");
+					if (stristr(" ".$GLOBALS["HTTP_SERVER_VARS"]["HTTP_USER_AGENT"],"MSIE") ) 
+					{
+						header ("Content-Disposition: attachment; filename=" . $fileName.".pdf");
+					}
+					else 
+					{
+						header ("Content-Disposition: inline; filename=".$fileName.".pdf" );
+					}
+					header ("Content-length:".(string)(strlen ($html)) );
+					
+					readfile( $export_dir."/".$fileName.".pdf" );
+                    
+				}
+
 				exit;
 		}
 		
@@ -857,7 +880,6 @@ class ilLMPresentationGUI
 		$this->tpl->parseCurrentBlock();
 
 		return $page_object_gui->presentation();
-
 	}
 
 
