@@ -137,8 +137,11 @@ class ilObjStyleSheet extends ilObject
 			array("tag" => "td", "class" => "Cell3", "parameter" => "background-color" ,"value" => "#CCFFCC"),
 			array("tag" => "td", "class" => "Cell4", "parameter" => "background-color" ,"value" => "#FFFFCC"),
 
-			array("tag" => "p", "class" => "List", "parameter" => "margin-top" ,"value" => "0px"),
-			array("tag" => "p", "class" => "List", "parameter" => "margin-bottom" ,"value" => "0px"),
+			array("tag" => "p", "class" => "Standard", "parameter" => "margin-top" ,"value" => "10px"),
+			array("tag" => "p", "class" => "Standard", "parameter" => "margin-bottom" ,"value" => "10px"),
+
+			array("tag" => "p", "class" => "List", "parameter" => "margin-top" ,"value" => "3px"),
+			array("tag" => "p", "class" => "List", "parameter" => "margin-bottom" ,"value" => "3px"),
 
 			array("tag" => "p", "class" => "Headline", "parameter" => "margin-top" ,"value" => "5px"),
 			array("tag" => "p", "class" => "Headline", "parameter" => "margin-bottom" ,"value" => "10px"),

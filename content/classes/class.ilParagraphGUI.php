@@ -55,7 +55,6 @@ class ilParagraphGUI extends ilPageContentGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", true);
 		//$content = $this->pg_obj->getContent();
 		//$cnt = 1;
-
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
 			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
@@ -142,6 +141,17 @@ class ilParagraphGUI extends ilPageContentGUI
 		{
 			$s_lang = $_POST["par_language"];
 			$s_char = $_POST["par_characteristic"];
+		}
+		else
+		{
+			// set characteristic of new paragraphs in list items to "List"
+			if (is_object($this->content_obj))
+			{
+				if ($this->content_obj->getType() == "li")
+				{
+					$s_char = "List";
+				}
+			}
 		}
 
 		require_once("classes/class.ilMetaData.php");

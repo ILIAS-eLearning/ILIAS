@@ -178,7 +178,6 @@ class ilPageObject extends ilLMObject
 
 	function &getContentObject($a_hier_id)
 	{
-//echo "hier_id:".$a_hier_id;
 		$cont_node =& $this->getContentNode($a_hier_id);
 		switch($cont_node->node_name())
 		{
@@ -218,9 +217,15 @@ class ilPageObject extends ilLMObject
 				break;
 
 			case "TableData":
-
 				require_once("content/classes/class.ilLMTableData.php");
 				$td =& new ilLMTableData($this->dom);
+				$td->setNode($cont_node);
+				$td->setHierId($a_hier_id);
+				return $td;
+
+			case "Item":
+				require_once("content/classes/class.ilLMListItem.php");
+				$td =& new ilLMListItem($this->dom);
 				$td->setNode($cont_node);
 				$td->setHierId($a_hier_id);
 				return $td;
@@ -597,7 +602,8 @@ class ilPageObject extends ilLMObject
 //echo "get node at $a_pos";
 		$curr_node =& $this->getContentNode($a_pos);
 		$curr_name = $curr_node->node_name();
-		if (($curr_name == "TableData") || ($curr_name == "PageObject"))
+		if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
+			($curr_name == "Item"))
 		{
 			$a_mode = IL_INSERT_CHILD;
 		}
