@@ -390,6 +390,7 @@
 	Solution (Right | Wrong) #IMPLIED
 >
 <!ELEMENT Hint (Paragraph | MediaObject)+>
+
 <!-- Glossary -->
 <!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->
 <!ELEMENT Glossary (MetaData, GlossaryItem+)>
@@ -398,7 +399,6 @@
 <!ATTLIST GlossaryItem
 	Language (%langcode;) #REQUIRED
 >
-
 <!-- GlossaryTerms can be included in Paragraphs -->
 <!ELEMENT GlossaryTerm (#PCDATA)>
 <!ELEMENT Definition (MetaData, PageContent*)>

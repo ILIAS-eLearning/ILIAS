@@ -31,6 +31,9 @@ require_once("content/classes/Pages/class.ilPCTable.php");
 require_once("content/classes/Pages/class.ilMediaObject.php");
 require_once("content/classes/Pages/class.ilMediaItem.php");
 require_once("content/classes/class.ilBibItem.php");
+require_once("content/classes/class.ilObjGlossary.php");
+require_once("content/classes/class.ilGlossaryTerm.php");
+require_once("content/classes/class.ilGlossaryDefinition.php");
 
 /**
 * Content Object Parser
@@ -43,10 +46,13 @@ require_once("content/classes/class.ilBibItem.php");
 */
 class ilContObjParser extends ilSaxParser
 {
+	var $lng;
+	var $tree;
 	var $cnt;				// counts open elements
 	var $current_element;	// store current element type
 	var $learning_module;	// current learning module
 	var $page_object;		// current page object
+	var $lm_page_object;
 	var $structure_objects;	// array of current structure objects
 	var $media_object;
 	var $current_object;	// at the time a LearningModule, PageObject or StructureObject
@@ -60,14 +66,15 @@ class ilContObjParser extends ilSaxParser
 	var $in_page_object;	// are we currently within a PageObject? true/false
 	var $in_meta_data;		// are we currently within MetaData? true/false
 	var $in_media_object;
+	var $in_glossary;
 	var $content_object;
+	var $glossary_object;
 	var $keyword_language;
 	var $pages_with_int_links;
 	var $mob_mapping;
 	var $subdir;
 	var $media_item;		// current media item
 	var $loc_type;			// current location type
-
 	var $bib_item;			// current bib item object
 	var $in_bib_item;		// are we currently within BibItem? true/false
 
@@ -81,6 +88,8 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function ilContObjParser(&$a_content_object, $a_xml_file, $a_subdir)
 	{
+		global $lng, $tree;
+
 		parent::ilSaxParser($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
@@ -92,6 +101,8 @@ class ilContObjParser extends ilSaxParser
 		$this->pages_with_int_links = array();
 		$this->mob_mapping = array();
 		$this->subdir = $a_subdir;
+		$this->lng =& $lng;
+		$this->tree =& $tree;
 
 		$this->lm_tree = new ilTree($this->content_object->getId());
 		$this->lm_tree->setTreeTablePK("lm_id");
@@ -293,7 +304,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-// echo "BEGIN_TAG:".$a_name.":<br>";
+//echo "BEGIN_TAG:".$a_name.": ";
 		switch($a_name)
 		{
 			case "ContentObject":
@@ -355,6 +366,36 @@ class ilContObjParser extends ilSaxParser
 				{
 					$this->media_item->setParameter($a_attribs["Name"], $a_attribs["Value"]);
 				}
+				break;
+
+			case "Glossary":
+				$this->in_glossary = true;
+				$this->glossary_object =& new ilObjGlossary();
+				$this->glossary_object->setTitle($this->content_object->getTitle()." - ".
+					$this->lng->txt("glossary"));
+				$this->glossary_object->setDescription("");
+				$this->glossary_object->create();
+				$this->glossary_object->createReference();
+				$parent =& $this->tree->getParentNodeData($this->content_object->getRefId());
+				$this->glossary_object->putInTree($parent["child"]);
+				$this->glossary_object->setPermissions($parent["child"]);
+				$this->glossary_object->notify("new", $parent["child"], $parent["child"]);
+				$this->current_object =& $this->glossary_object;
+				break;
+
+			case "GlossaryItem":
+				$this->glossary_term =& new ilGlossaryTerm();
+				$this->glossary_term->setGlossaryId($this->glossary_object->getId());
+				$this->glossary_term->setLanguage($a_attribs["Language"]);
+				break;
+
+			case "Definition":
+				$this->in_glossary_definition = true;
+				$this->glossary_definition =& new ilGlossaryDefinition();
+				$this->page_object =& new ilPageObject("gdf");
+				$this->glossary_definition->setTermId($this->glossary_term->getId());
+				$this->glossary_definition->assignPageObject($this->page_object);
+				$this->current_object =& $this->glossary_definition;
 				break;
 
 			////////////////////////////////////////////////
@@ -469,9 +510,21 @@ class ilContObjParser extends ilSaxParser
 //echo "Begin Tag: $a_name<br>";
 
 		// append content to page xml content
-		if($this->in_page_object && !$this->in_meta_data && !$this->in_media_object)
+		if(($this->in_page_object || $this->in_glossary_definition)
+			&& !$this->in_meta_data && !$this->in_media_object)
 		{
-			$this->page_object->appendXMLContent($this->buildTag("start", $a_name, $a_attribs));
+			if ($a_name == "Definition")
+			{
+				$app_name = "PageObject";
+				$app_attribs = array();
+			}
+			else
+			{
+				$app_name = $a_name;
+				$app_attribs = $a_attribs;
+			}
+			$this->page_object->appendXMLContent($this->buildTag("start", $app_name, $app_attribs));
+//echo "&nbsp;&nbsp;after append, xml:".$this->page_object->getXMLContent().":<br>";
 		}
 		// append content to meta data xml content
         if ($this->in_meta_data )   // && !$this->in_page_object && !$this->in_media_object
@@ -493,9 +546,13 @@ class ilContObjParser extends ilSaxParser
 	{
 
 		// append content to page xml content
-		if ($this->in_page_object && !$this->in_meta_data && !$this->in_media_object)
+		if (($this->in_page_object || $this->in_glossary_definition)
+			&& !$this->in_meta_data && !$this->in_media_object)
 		{
-			$this->page_object->appendXMLContent($this->buildTag("end", $a_name));
+			$app_name = ($a_name == "Definition")
+				? "PageObject"
+				: $a_name;
+			$this->page_object->appendXMLContent($this->buildTag("end", $app_name));
 		}
 
 		if ($this->in_meta_data)	//  && !$this->in_page_object && !$this->in_media_object
@@ -609,7 +666,7 @@ class ilContObjParser extends ilSaxParser
 				}
 
 				// append media alias to page, if we are in a page
-				if ($this->in_page_object)
+				if ($this->in_page_object || $this->in_glossary_definition)
 				{
 					$this->page_object->appendXMLContent($this->media_object->getXML(IL_MODE_ALIAS));
 //echo "Appending:".htmlentities($this->media_object->getXML(IL_MODE_ALIAS))."<br>";
@@ -629,14 +686,14 @@ class ilContObjParser extends ilSaxParser
                 if(get_class($this->current_object) == "illmpageobject" && !$this->in_media_object)
 				{
 					// Metadaten eines PageObjects sichern in NestedSet
-					if (is_object($this->page_object))
+					if (is_object($this->lm_page_object))
 					{
 						$this->lm_page_object->create();
 						//$this->page_object->createFromXML();
 
 						include_once("./classes/class.ilNestedSetXML.php");
 						$nested = new ilNestedSetXML();
-						$nested->import($this->meta_data->getXMLContent(),$this->page_object->getId(),"pg");
+						$nested->import($this->meta_data->getXMLContent(),$this->lm_page_object->getId(),"pg");
 					}
                 }
 				else if(get_class($this->current_object) == "ilstructureobject")
@@ -669,6 +726,18 @@ class ilContObjParser extends ilSaxParser
                     $nested = new ilNestedSetXML();
                     $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),$this->current_object->getType());
                 }
+				else if(get_class($this->current_object) == "ilglossarydefinition" && !$this->in_media_object)
+				{
+//echo "saving page_object, xml:".$this->page_object->getXMLContent().":<br>";
+					$this->glossary_definition->create();
+					$this->page_object->setId($this->glossary_definition->getId());
+					$this->page_object->updateFromXML();
+//echo "saving page_object, xml:".$this->page_object->getXMLContent().":<br>";
+					// save glossary term definition to nested set
+					include_once("./classes/class.ilNestedSetXML.php");
+					$nested = new ilNestedSetXML();
+					$nested->import($this->meta_data->getXMLContent(),$this->glossary_definition->getId(),"gdf");
+                }
 
 
 				if(get_class($this->current_object) == "ilobjlearningmodule" || get_class($this->current_object) == "ilobjdlbook" )
@@ -691,6 +760,28 @@ class ilContObjParser extends ilSaxParser
 
 			case "Table":
 				unset ($this->container[count($this->container) - 1]);
+				break;
+
+			case "Glossary":
+				$this->in_glossary = false;
+				break;
+
+			case "GlossaryTerm":
+				$this->glossary_term->create();
+				break;
+
+			case "Definition":
+				$this->in_glossary_definition = false;
+				$this->page_object->updateFromXML();
+				$this->page_object->buildDom();
+				$this->glossary_definition->setShortText($this->page_object->getFirstParagraphText());
+				$this->glossary_definition->update();
+				//$this->pg_mapping[$this->lm_page_object->getImportId()]
+				//	= $this->lm_page_object->getId();
+				if ($this->page_object->containsIntLink())
+				{
+					$this->pages_with_int_links[] = $this->page_object->getId();
+				}
 				break;
 
 			//////////////////////////////////
@@ -725,7 +816,8 @@ class ilContObjParser extends ilSaxParser
 		{
 			// append all data to page, if we are within PageObject,
 			// but not within MetaData or MediaObject
-			if ($this->in_page_object && !$this->in_meta_data && !$this->in_media_object)
+			if (($this->in_page_object || $this->in_glossary_definition)
+				&& !$this->in_meta_data && !$this->in_media_object)
 			{
 				$this->page_object->appendXMLContent($a_data);
 			}
@@ -752,6 +844,10 @@ class ilContObjParser extends ilSaxParser
 					{
 						$this->media_item->setCaption($a_data);
 					}
+					break;
+
+				case "GlossaryTerm":
+					$this->glossary_term->setTerm($a_data);
 					break;
 
 				///////////////////////////

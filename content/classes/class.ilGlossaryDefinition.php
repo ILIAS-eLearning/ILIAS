@@ -136,6 +136,11 @@ class ilGlossaryDefinition
 		return $this->nr;
 	}
 
+	function assignPageObject(&$a_page_object)
+	{
+		$this->page_object =& $a_page_object;
+	}
+
 	function &getPageObject()
 	{
 		return $this->page_object;
@@ -165,6 +170,13 @@ class ilGlossaryDefinition
 		$this->ilias->db->query($q);
 
 		$this->setId($this->ilias->db->getLastInsertId());
+
+		// get number
+		$q = "SELECT nr FROM glossary_definition WHERE id = '".$this->id."'";
+		$def_set = $this->ilias->db->query($q);
+		$def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setNr($def_rec["nr"]);
+
 
 		$this->meta_data->setId($this->getId());
 		$this->meta_data->setType($this->getType());
