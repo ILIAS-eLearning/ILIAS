@@ -57,7 +57,6 @@ input, textarea {
 table.std {
 	color:#222222;
 	background-color:#bbbbbb;
-	border-collapse:collapse;
 	border-spacing: 1px;
 	border-style: outset;
 	border-color: #bbbbbb;
@@ -68,7 +67,6 @@ table.fullwidth {
 	color:#222222;
 	background-color:#b9c0d5;
 	width:100%;
-	border-collapse:collapse;
 	border-spacing:1px;
 	border-style:outset;
 	border-color:#bbbbbb;
@@ -80,7 +78,6 @@ table.ilPDSelectedItemBlock {
 	background-color:#b9c0d5;
 	width:100%;
 	border-spacing:0px;
-	border-collapse:collapse;
 	border-style:outset;
 	border-color:#bbbbbb;
 	border-width:1px;
@@ -95,9 +92,6 @@ table.fullwidth_invisible {
 
 td.std {
 	padding:4px;
-	border:solid;
-	border-color:#222222;
-	border-width:1px;
 }
 
 th.il_invisible, td.il_invisible {
@@ -157,9 +151,6 @@ td.option {
 	font-weight : bold;
 	vertical-align:top;
 	text-align:right;
-	border:solid;
-	border-color:#222222;
-	border-width:1px;
 }
 
 td.sub_option {
@@ -180,9 +171,6 @@ td.option_value {
 	font-size:13px;
 	vertical-align:top;
 	text-align:left;
-	border:solid;
-	border-color:#222222;
-	border-width:1px;
 }
 
 td.option_desc {
@@ -768,7 +756,6 @@ table.ilc_FileList
 	color: #222222;
 	background-color: #c0c0c0;
 	width: 100%;
-	border-collapse:collapse;
 	border-spacing: 1px;
 	border-style: outset;
 	border-color: #bbbbbb;
@@ -792,9 +779,6 @@ td.ilc_FileItem
 	border-right-width: 0px;
 	background-color: #FFFFFF;
 	padding: 3px;
-	border:solid;
-	border-color:#222222;
-	border-width:1px;
 }
 
 a.ilc_LMMenu
