@@ -187,6 +187,7 @@ class ilSearchGUI
 			$this->search->performSearch();
 		}
 		// TEMP MESSAGE
+		$this->offset = 0;
 		$this->__show();
 		$ilBench->stop("Search", "search");
 	}
@@ -392,6 +393,7 @@ class ilSearchGUI
 		}
 		$tbl->setOrderColumn($this->sort_by);
 		$tbl->setOrderDirection($this->sort_order);
+		$tbl->disable("sort");
 		$tbl->setLimit(RESULT_LIMIT);
 		$tbl->setOffset($this->offset);
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -521,9 +523,15 @@ class ilSearchGUI
 		include_once "./classes/class.ilObjectFactory.php";
 
 		$counter = 0;
-
 		foreach($a_res as $user)
 		{
+			if($counter < $this->offset or $counter >= $this->offset + RESULT_LIMIT)
+			{
+				++$counter;
+				$f_result[$counter] = array();
+				continue;
+			}
+
 			if(!ilObjectFactory::ObjectIdExists($user["id"]))
 			{
 				++$counter;
@@ -556,6 +564,13 @@ class ilSearchGUI
 		$counter = 0;
 		foreach($a_res as $group)
 		{
+			if($counter < $this->offset or $counter >= $this->offset + RESULT_LIMIT)
+			{
+				++$counter;
+				$f_result[$counter] = array();
+				continue;
+			}
+
 			if(!$this->tree->isInTree($group["id"]))
 			{
 				++$counter;
@@ -587,6 +602,13 @@ class ilSearchGUI
 		$counter = 0;
 		foreach($a_res as $book)
 		{
+			if($counter < $this->offset or $counter >= $this->offset + RESULT_LIMIT)
+			{
+				++$counter;
+				$f_result[$counter] = array();
+				continue;
+			}
+
 			if(!$this->tree->isInTree($book["id"]))
 			{
 				++$counter;
@@ -651,6 +673,13 @@ class ilSearchGUI
 		$counter = 0;
 		foreach($a_res as $book)
 		{
+			if($counter < $this->offset or $counter >= $this->offset + RESULT_LIMIT)
+			{
+				++$counter;
+				$f_result[$counter] = array();
+				continue;
+			}
+
 			if(!$this->tree->isInTree($book["id"]))
 			{
 				++$counter;

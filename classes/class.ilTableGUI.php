@@ -73,7 +73,8 @@ class ilTableGUI
 							"action"		=>	false,
 							"footer"		=>	true,
 							"linkbar"		=>	true,
-							"numinfo"		=>	true
+							"numinfo"		=>	true,
+							"sort"			=>  true
 						);
 						
 	// tpl styles (only one so far)
@@ -390,7 +391,10 @@ class ilTableGUI
 
 	function sortData()
 	{
-		$this->data = ilUtil::sortArray($this->data,$this->order_column,$this->order_direction);
+		if($this->enabled["sort"])
+		{
+			$this->data = ilUtil::sortArray($this->data,$this->order_column,$this->order_direction);
+		}
 		$this->data = array_slice($this->data,$this->offset,$this->limit);
 	}
 
