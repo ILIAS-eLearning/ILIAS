@@ -59,6 +59,7 @@ class ilPageObjectGUI
 	var $bib_id;
 	var $citation;
 	var $sourcecode_download_script;
+	var $change_comments;
 
 	/**
 	* Constructor
@@ -83,6 +84,7 @@ class ilPageObjectGUI
 		// USED FOR TRANSLATIONS
 		$this->template_output_var = "PAGE_CONTENT";
 		$this->citation = false;
+		$this->change_comments = false;
 	}
 
 	/**
@@ -287,6 +289,16 @@ class ilPageObjectGUI
 		$this->int_link_def_id = $a_id;
 	}
 
+	function enableChangeComments($a_enabled)
+	{
+		$this->change_comments = $a_enabled;
+	}
+	
+	function isEnabledChangeComments()
+	{
+		return $this->change_comments;
+	}
+
 	/**
 	* execute command
 	*/
@@ -338,7 +350,15 @@ class ilPageObjectGUI
 			{
 //echo ":".$this->getTemplateTargetVar().":";
 				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "content");
-                
+				
+				// user comment
+				if ($this->isEnabledChangeComments())
+				{
+					$this->tpl->setCurrentBlock("change_comment");
+					$this->tpl->setVariable("TXT_ADD_COMMENT", $this->lng->txt("cont_add_change_comment"));
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("adm_content");
+				}
 				
 				$this->tpl->setVariable("TXT_INSERT_BEFORE", $this->lng->txt("cont_set_before"));
 				$this->tpl->setVariable("TXT_INSERT_AFTER", $this->lng->txt("cont_set_after"));

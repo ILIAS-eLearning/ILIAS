@@ -1271,9 +1271,19 @@ common#:#guests#:#Guests
 common#:#header_title#:#Header Title
 common#:#help#:#Help
 common#:#hide_details#:#hide details
+common#:#user_comment#:#User comment
 common#:#hide_structure#:#Disable Structured-View
-common#:#hist_file_create#:#File created, filename is "%1".
-common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.
+common#:#hist_no_entries#:#No entries in history.
+common#:#hist_file_create#:#File created, file name is "%1".
+common#:#hist_lm:pg_create#:#Page created
+common#:#hist_dbk:pg_create#:#Page created
+common#:#hist_lm:pg_update#:#Page changed
+common#:#hist_dbk:pg_update#:#Page changed
+common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]
+common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]
+common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]
+common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]
+common#:#hist_file_replace#:#File replaced, new file name is "%1", new version is %2.
 common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Learning Module HACP
@@ -1399,6 +1409,7 @@ common#:#lang_pt#:#Portuguese
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_sv#:#Swedish
+common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_ua#:#Ukrainian
 common#:#lang_version#:#1
@@ -2325,6 +2336,7 @@ content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered
 content#:#cont_act_number#:#Chapter Numeration
 content#:#cont_active#:#Enable Menu
+content#:#cont_added_comment#:#Comment has been added to history.
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_definition#:#Add Definition
 content#:#cont_add_fullscreen#:#Add Full Screen
@@ -2333,6 +2345,7 @@ content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Annex
+content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.
@@ -2645,7 +2658,7 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_title#:#title
 content#:#cont_title_footnotes#:#Footnotes
 content#:#cont_toc#:#Table of Contents
-content#:#cont_toc_mode#:#Table of Contents shows:
+content#:#cont_toc_mode#:#Table of Contents shows
 content#:#cont_top#:#Top
 content#:#cont_total_time#:#Total Time
 content#:#cont_tracking_data#:#Tracking Data

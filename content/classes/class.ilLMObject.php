@@ -192,6 +192,11 @@ class ilLMObject
 			"', now())";
 		$this->ilias->db->query($query);
 		$this->setId($this->ilias->db->getLastInsertId());
+		
+		// create history entry
+		include_once("classes/class.ilHistory.php");
+		ilHistory::_createEntry($this->getId(), "create", "",
+			$this->content_object->getType().":pg");
 
 		if (!$a_upload)
 		{

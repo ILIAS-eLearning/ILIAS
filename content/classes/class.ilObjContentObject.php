@@ -700,6 +700,16 @@ class ilObjContentObject extends ilObject
 	{
 		return $this->clean_frames;
 	}
+	
+	function setHistoryUserComments($a_comm)
+	{
+		$this->user_comments = $a_comm;
+	}
+
+	function isActiveHistoryUserComments()
+	{
+		return $this->user_comments;
+	}
 
 	/**
 	* read content object properties
@@ -719,6 +729,7 @@ class ilObjContentObject extends ilObject
 		$this->setActivePrintView(ilUtil::yn2tf($lm_rec["print_view_active"]));
 		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
 		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
+		$this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
 	}
 
 	/**
@@ -736,6 +747,7 @@ class ilObjContentObject extends ilObject
 			" numbering = '".ilUtil::tf2yn($this->isActiveNumbering())."',".
 			" print_view_active = '".ilUtil::tf2yn($this->isActivePrintView())."',".
 			" clean_frames = '".ilUtil::tf2yn($this->cleanFrames())."',".
+			" hist_user_comments = '".ilUtil::tf2yn($this->isActiveHistoryUserComments())."',".
 			" lm_menu_active = '".ilUtil::tf2yn($this->isActiveLMMenu())."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);

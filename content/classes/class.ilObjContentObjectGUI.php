@@ -277,6 +277,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("CHK_CLEAN_FRAMES", "checked");
 		}
+		
+		// history user comments
+		$this->tpl->setVariable("TXT_HIST_USER_COMMENTS", $this->lng->txt("enable_hist_user_comments"));
+		$this->tpl->setVariable("CBOX_HIST_USER_COMMENTS", "cobj_user_comments");
+		$this->tpl->setVariable("VAL_HIST_USER_COMMENTS", "y");
+		if ($this->object->isActiveHistoryUserComments())
+		{
+			$this->tpl->setVariable("CHK_HIST_USER_COMMENTS", "checked");
+		}
 
 		// lm menu
 		$this->tpl->setVariable("TXT_LM_MENU", $this->lng->txt("cont_lm_menu"));
@@ -446,7 +455,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				// cut on move
 				if ($movecopy == "move")
 				{
+					$parent_id = $lmtree->getParentId($source_obj->getId());
 					$lmtree->deleteTree($node_data);
+					
+					// write history entry
+					require_once("classes/class.ilHistory.php");
+					ilHistory::_createEntry($source_obj->getId(), "cut",
+						array(ilLMObject::_lookupTitle($parent_id), $parent_id),
+						$this->object->getType().":pg");
+					ilHistory::_createEntry($parent_id, "cut_page",
+						array(ilLMObject::_lookupTitle($source_obj->getId()), $source_obj->getId()),
+						$this->object->getType().":st");
 				}
 				else
 				{
@@ -485,6 +504,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					// insert page into tree
 					$lmtree->insertNode($source_obj->getId(),
 						$parent, $target_pos);
+					
+					// write hisroty entry
+					if ($movecopy == "move")
+					{
+						// write history comments
+						include_once("classes/class.ilHistory.php");
+						ilHistory::_createEntry($source_obj->getId(), "paste",
+							array(ilLMObject::_lookupTitle($parent), $parent),
+							$this->object->getType().":pg");
+						ilHistory::_createEntry($parent, "paste_page",
+							array(ilLMObject::_lookupTitle($source_obj->getId()), $source_obj->getId()),
+							$this->object->getType().":st");
+					}
+
 				}
 			}
 		}
@@ -613,6 +646,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));
 		$this->object->setActivePrintView(ilUtil::yn2tf($_POST["cobj_act_print"]));
 		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));
+		$this->object->setHistoryUserComments(ilUtil::yn2tf($_POST["cobj_user_comments"]));
 		$this->object->updateProperties();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");

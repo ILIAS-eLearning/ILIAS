@@ -214,7 +214,7 @@ class ilPageEditorGUI
 			// ilinternallinkgui for mob: cont_obj is received
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
 				$cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
-				$cmdClass != "ileditclipboardgui" &&
+				$cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
 				($cmdClass != "ilinternallinkgui" || ($next_class == "ilobjmediaobjectgui")))
 			{
 				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
@@ -457,6 +457,19 @@ class ilPageEditorGUI
 		
 		sendInfo($this->lng->txt("copied_to_clipboard"), true);
 		$ilUser->addObjectToClipboard($_POST["mob_id"], "mob", ilObject::_lookupTitle($_POST["mob_id"]));
+		$this->ctrl->returnToParent($this);
+	}
+	
+	/**
+	* add change comment to history
+	*/
+	function addChangeComment()
+	{
+		include_once("classes/class.ilHistory.php");
+		ilHistory::_createEntry($this->page->getId(), "update",
+			"", $this->page->getParentType().":pg",
+			ilUtil::stripSlashes($_POST["change_comment"]), true);
+		sendInfo($this->lng->txt("cont_added_comment"), true);
 		$this->ctrl->returnToParent($this);
 	}
 
