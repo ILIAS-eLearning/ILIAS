@@ -1677,7 +1677,7 @@ class ilObjUser extends ilObject
 					{
 						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"link" => "group.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
+							"link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjgroupgui", "target" => "bottom");
 					}
 					break;
 
