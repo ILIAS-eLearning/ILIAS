@@ -106,18 +106,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function updateObject() {
 		$this->update = $this->object->update();
 		$this->object->saveToDb();
-		$bool = false;
-		if ($_POST["cmd"]["save"])
-		{
-			$bool = true;
-		}
 		if (strcmp($_SESSION["info"], "") != 0)
 		{
-			sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), $bool);
+			sendInfo($_SESSION["info"] . "<br />" . $this->lng->txt("msg_obj_modified"), false);
 		}
 		else
 		{
-			sendInfo($this->lng->txt("msg_obj_modified"), $bool);
+			sendInfo($this->lng->txt("msg_obj_modified"), false);
 		}
 	}
 

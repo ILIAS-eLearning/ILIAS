@@ -425,7 +425,19 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 								);
 							}
 						}
-						$points = $_POST["points_$matches[1]_$matches[2]"] or 0.0;
+						if (preg_match("/\d+/", $_POST["points_$matches[1]_$matches[2]"]))
+						{
+							$points = $_POST["points_$matches[1]_$matches[2]"];
+							if ($points < 0)
+							{
+								$points = 0.0;
+								sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+							}
+						}
+						else
+						{
+							$points = 0.0;
+ 						}
 						$this->object->set_single_answer_points($matches[1], $matches[2], $points);
 						$state = 0;
 						if ($_POST["status_$matches[1]"] == $matches[2])
@@ -450,8 +462,20 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			// Set text gap points
 			if (preg_match("/^points_(\d+)$/", $key, $matches))
 			{
-				$points = $value or 0.0;
-				$this->object->set_gap_points($matches[1]-1, $value);
+				if (preg_match("/\d+/", $value))
+				{
+					$points = $value;
+					if ($points < 0)
+					{
+						$points = 0.0;
+						sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+					}
+				}
+				else
+				{
+					$points = 0.0;
+				}
+				$this->object->set_gap_points($matches[1]-1, $points);
 			}
 		}
 	}

@@ -368,10 +368,23 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 						}
 					}
 				}
+				$points = $_POST["points_$matches[1]"];
+				if (preg_match("/\d+/", $points))
+				{
+					if ($points < 0)
+					{
+						$points = 0.0;
+						sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+					}
+				}
+				else
+				{
+					$points = 0.0;
+				}
 				$this->object->add_matchingpair(
 					ilUtil::stripSlashes($_POST["$key"]),
 					ilUtil::stripSlashes($matching_text),
-					ilUtil::stripSlashes($_POST["points_$matches[1]"]),
+					ilUtil::stripSlashes($points),
 					ilUtil::stripSlashes($matches[2]),
 					ilUtil::stripSlashes($matchingtext_id)
 				);
