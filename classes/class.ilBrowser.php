@@ -19,7 +19,7 @@
 * @package ilias-core
 * @version $Id$
 */
-	class TBrowser
+	class ilBrowser
 	{
 		var $BROWSER_AGENT;
 		var $BROWSER_VER;
@@ -28,7 +28,7 @@
 		var $p;
 		var $data;
 
-		function TBrowser ()
+		function ilBrowser ()
 		{
 			global $HTTP_USER_AGENT;
 			/*
