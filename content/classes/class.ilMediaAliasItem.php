@@ -46,7 +46,7 @@ class ilMediaAliasItem
 		$this->purpose = $a_purpose;
 
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='$a_purpose']";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='$a_purpose']";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) > 0)
 		{
@@ -57,7 +57,7 @@ class ilMediaAliasItem
 	function setWidth($a_width)
 	{
 		ilDOMUtil::setFirstOptionalElement($this->dom, $this->item_node, "Layout",
-			array("Caption", "Parameter", "MapArea"),
+			array("Caption", "Parameter"),
 			"", array("Width" => $a_width), false);
 	}
 
@@ -65,7 +65,7 @@ class ilMediaAliasItem
 	function getWidth()
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='".$this->purpose."']/Layout";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Layout";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
@@ -77,7 +77,7 @@ class ilMediaAliasItem
 	function setHeight($a_height)
 	{
 		ilDOMUtil::setFirstOptionalElement($this->dom, $this->item_node, "Layout",
-			array("Caption", "Parameter", "MapArea"),
+			array("Caption", "Parameter"),
 			"", array("Height" => $a_height), false);
 	}
 
@@ -85,7 +85,7 @@ class ilMediaAliasItem
 	function getHeight()
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='".$this->purpose."']/Layout";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Layout";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
@@ -98,7 +98,7 @@ class ilMediaAliasItem
 	function setCaption($a_caption)
 	{
 		ilDOMUtil::setFirstOptionalElement($this->dom, $this->item_node, "Caption",
-			array("Parameter", "MapArea"),
+			array("Parameter"),
 			$a_caption, array("Align" => "bottom"));
 	}
 
@@ -106,7 +106,7 @@ class ilMediaAliasItem
 	function getCaption()
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='".$this->purpose."']/Caption";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Caption";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
@@ -119,7 +119,7 @@ class ilMediaAliasItem
 	function setHorizontalAlign($a_halign)
 	{
 		ilDOMUtil::setFirstOptionalElement($this->dom, $this->item_node, "Layout",
-			array("Caption", "Parameter", "MapArea"),
+			array("Caption", "Parameter"),
 			"", array("HorizontalAlign" => $a_halign), false);
 	}
 
@@ -127,7 +127,7 @@ class ilMediaAliasItem
 	function getHorizontalAlign()
 	{
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaItem[@Purpose='".$this->purpose."']/Layout";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/MediaAliasItem[@Purpose='".$this->purpose."']/Layout";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{

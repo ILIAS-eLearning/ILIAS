@@ -128,6 +128,9 @@ class ilMediaObject extends ilObjMediaObject
 		{
 			$media_item =& new ilMediaItem();
 
+			$media_item->setLocation($item_rec["location"]);
+			$media_item->setLocationType($item_rec["location_type"]);
+			$media_item->setFormat($item_rec["format"]);
 			$media_item->setWidth($item_rec["width"]);
 			$media_item->setHeight($item_rec["height"]);
 			$media_item->setHAlign($item_rec["halign"]);
@@ -223,11 +226,13 @@ class ilMediaObject extends ilObjMediaObject
 		for($i=0; $i<count($media_items); $i++)
 		{
 			$item =& $media_items[$i];
-			$query = "INSERT INTO media_item (mob_id, purpose, width, ".
+			$query = "INSERT INTO media_item (mob_id, purpose, location, ".
+				"location_type, format, width, ".
 				"height, halign, caption, nr) VALUES ".
 				"('".$this->getId()."',".
-				"'".$item->getPurpose()."','".$item->getWidth().
-				"','".$item->getHeight()."','".$item->getHAlign().
+				"'".$item->getPurpose()."','".$item->getLocation()."','".
+				$item->getLocationType()."','".$item->getFormat()."','".
+				$item->getWidth()."','".$item->getHeight()."','".$item->getHAlign().
 				"','".$item->getCaption()."','".($i+1)."')";
 			$this->ilias->db->query($query);
 
@@ -274,10 +279,13 @@ class ilMediaObject extends ilObjMediaObject
 	//echo "<b>".$query."</b>";
 
 			// create item
-			$query = "INSERT INTO media_item (mob_id, purpose, width, ".
+			$query = "INSERT INTO media_item (mob_id, purpose, location, ".
+				"location_type, format, width, ".
 				"height, halign, caption, nr) VALUES ".
 				"('".$this->getId()."',".
-				"'".$item->getPurpose()."','".$item->getWidth().
+				"'".$item->getPurpose()."','".$item->getLocation()."','".
+				$item->getLocationType()."','".$item->getFormat()."','".
+				$item->getWidth().
 				"','".$item->getHeight()."','".$item->getHAlign().
 				"','".$item->getCaption()."','".($i+1)."')";
 			$this->ilias->db->query($query);
@@ -314,7 +322,7 @@ class ilMediaObject extends ilObjMediaObject
 				for($i=0; $i<count($media_items); $i++)
 				{
 					$item =& $media_items[$i];
-					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
+					$xml .= "<MediaAliasItem Purpose=\"".$item->getPurpose()."\">";
 
 					// Layout
 					$width = ($item->getWidth() != "")
@@ -341,7 +349,7 @@ class ilMediaObject extends ilObjMediaObject
 					{
 						$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
 					}
-					$xml .= "</MediaItem>";
+					$xml .= "</MediaAliasItem>";
 				}
 				break;
 
@@ -352,18 +360,26 @@ class ilMediaObject extends ilObjMediaObject
 				$meta =& $this->getMetaData();
 				$xml = "<MediaObject Id=\"".$this->getId()."\">\n";
 //echo "count techs2:".count($meta->technicals).":<br>";
+				/*
 				$technical =& $meta->getTechnicalSection(1);
 //echo "<b>wanna technical</b>".$this->getId();
 				if ($technical != false)
 				{
 //echo "<b>got technical</b>".$this->getId();
 					$xml .= $technical->getXML();
-				}
+				}*/
 				$media_items =& $this->getMediaItems();
 				for($i=0; $i<count($media_items); $i++)
 				{
 					$item =& $media_items[$i];
 					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
+
+					// Location
+					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
+						$item->getLocation()."</Location>";
+
+					// Format
+					$xml.= "<Format>".$item->getFormat()."</Format>";
 
 					// Layout
 					$width = ($item->getWidth() != "")
@@ -447,7 +463,7 @@ class ilMediaObject extends ilObjMediaObject
 		$this->mal_node->set_attribute("OriginId", $this->getId());
 
 		// standard view
-		$item_node =& $this->dom->create_element("MediaItem");
+		$item_node =& $this->dom->create_element("MediaAliasItem");
 		$item_node =& $this->mob_node->append_child($item_node);
 		$item_node->set_attribute("Purpose", "Standard");
 		$media_item =& $this->getMediaItem("Standard");
@@ -477,7 +493,7 @@ class ilMediaObject extends ilObjMediaObject
 		$fullscreen_item =& $this->getMediaItem("Fullscreen");
 		if (is_object($fullscreen_item))
 		{
-			$item_node =& $this->dom->create_element("MediaItem");
+			$item_node =& $this->dom->create_element("MediaAliasItem");
 			$item_node =& $this->mob_node->append_child($item_node);
 			$item_node->set_attribute("Purpose", "Fullscreen");
 
