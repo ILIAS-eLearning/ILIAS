@@ -33,7 +33,6 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#Програмне Забезпечення сторонніх виробників
 absolute_path#:#Абсолютний шлях
 access#:#Доступ
 access_status#:#Статус доступа
@@ -47,8 +46,8 @@ change_basic_settings#:#Змінити базові настройки
 change_password#:#Змінити пароль
 change_sort_direction#:#Змінити напрямок сортування
 check_failed_convert#:#Тестування конвертора завершилось невдало
-check_failed_htmldoc#:#Тестування POP завершилось невдало
 check_failed_htmldoc#:#Тестування HTMLdoc завершилось невдало
+check_failed_htmldoc#:#Тестування POP завершилось невдало
 check_failed_java#:#Тестування Java завершилось невдало
 check_failed_unzip#:#Тестування unzip завершилось невдало
 check_failed_zip#:#Тестування zip завершилось невдало
