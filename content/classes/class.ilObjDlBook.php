@@ -432,8 +432,8 @@ class ilObjDlBook extends ilObjContentObject
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					$result[$counter]["id"]		=  $row->ref_id;
-					$result[$counter]["link"]	=  "content/lm_presentation.php?ref_id=".$row->ref_id;
-					$result[$counter]["target"]	=  "_top";
+					#$result[$counter]["link"]	=  "content/lm_presentation.php?ref_id=".$row->ref_id;
+					#$result[$counter]["target"]	=  "_top";
 					
 					++$counter;
 				}
@@ -455,8 +455,8 @@ class ilObjDlBook extends ilObjContentObject
 				{
 					$result[$counter]["id"]		= $row->ref_id;
 					$result[$counter]["page_id"] = $row->page_id;
-					$result[$counter]["link"]	= "content/lm_presentation.php?ref_id=".$row->ref_id;
-					$result[$counter]["target"]	= "_top";
+					#$result[$counter]["link"]	= "content/lm_presentation.php?ref_id=".$row->ref_id;
+					#$result[$counter]["target"]	= "_top";
 					
 					++$counter;
 				}

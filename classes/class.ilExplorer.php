@@ -359,7 +359,6 @@ class ilExplorer
 		{
 			$objects = array();
 		}
-
 		if (count($objects) > 0)
 		{
 			$tab = ++$a_depth - 2;

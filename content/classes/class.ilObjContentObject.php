@@ -660,6 +660,7 @@ class ilObjContentObject extends ilObject
 					"(o.obj_id=xm.ns_book_fk AND xm.ns_type IN ('lm','bib'))) ".
 					"AND xm.ns_tag_fk=xv.tag_fk ".
 					"AND o.type= 'lm'";
+
 /*
 				$query = "SELECT DISTINCT(r.ref_id) AS ref_id FROM object_reference AS r ".
 					"INNER JOIN object_data AS o ON r.obj_id=o.obj_id ".
@@ -675,9 +676,10 @@ class ilObjContentObject extends ilObject
 				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				{
 					$result[$counter]["id"]		=  $row->ref_id;
+					/*
 					$result[$counter]["link"]	=  "content/lm_presentation.php?ref_id=".$row->ref_id;
 					$result[$counter]["target"]	=  "_top";
-
+					*/
 					++$counter;
 				}
 				break;
@@ -698,14 +700,37 @@ class ilObjContentObject extends ilObject
 				{
 					$result[$counter]["id"]		= $row->ref_id;
 					$result[$counter]["page_id"] = $row->page_id;
+					/*
 					$result[$counter]["link"]	= "content/lm_presentation.php?ref_id=".$row->ref_id;
 					$result[$counter]["target"]	= "_top";
-
+					*/
 					++$counter;
 				}
 				break;
 		}
 		return $result ? $result : array();
+	}
+
+	/**
+	 * STATIC METHOD
+	 * create a link to the object
+	 * @param	int ref_id of content object
+	 * @param	string type of search ('content' or 'meta')
+	 * @param	int id of page (optional only used if it has been searched for 'content')
+	 * @return array array('link','target')
+	 * @static
+	 * @access	public
+	 */
+	function _getLinkToObject($a_ref_id,$a_type,$a_obj_id = 0)
+	{
+		switch($a_type)
+		{
+			case "content":
+				return array("content/lm_presentation.php?ref_id=".$a_ref_id."&obj_id=".$a_obj_id,"_top");
+				
+			case "meta":
+				return array("content/lm_presentation.php?ref_id=".$a_ref_id,"_top");
+		}
 	}
 
 	function checkTree()

@@ -1255,12 +1255,28 @@ class ilObjUser extends ilObject
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$result_data[$counter]["id"]				=  $row->usr_id;
-			$result_data[$counter]["link"]				=  "profile.php?user=".$row->usr_id;
-			$result_data[$counter++]["target"]			=  "";
+			
+			// LINKS AND TARGETS AREN'T SAVED ANYMORE, SEARCHGUI HAS TO CALL ilObjUser::_getSearchLink 
+			// TO GET THE LINK OF SPECIFIC OBJECT
+			#$result_data[$counter]["link"]				=  "profile.php?user=".$row->usr_id;
+			#$result_data[$counter++]["target"]			=  "";
 		}
 		return $result_data ? $result_data : array();
 	}
-			
+
+	/**
+	 * STATIC METHOD
+	 * create a link to the object
+	 * This method used by class.ilSearchGUI.php to a link to the results
+	 * @param	int uniq id
+	 * @return array array('link','target')
+	 * @static
+	 * @access	public
+	 */
+	function _getLinkToObject($a_id)
+	{
+		return array("profile.php?user=".$a_id,"");
+	}	
 
 	/*
 	* get the memberships(group_ids) of groups that are subscribed to the current user object

@@ -861,8 +861,40 @@ ALTER TABLE page_object MODIFY content MEDIUMTEXT;
 <#65>
 ALTER TABLE mob_usage MODIFY usage_type VARCHAR(10) NOT NULL;
 
+
 <#66>
 UPDATE settings SET value = '3.0.0_beta1' WHERE keyword = 'ilias_version' LIMIT 1;
 
 <#67>
 ALTER TABLE int_link MODIFY source_type VARCHAR(10) NOT NULL;
+
+<#68>
+#
+# Tabellenstruktur für Tabelle `search_data`
+#
+
+CREATE TABLE search_data (
+  obj_id int(11) NOT NULL auto_increment,
+  user_id int(11) NOT NULL default '0',
+  title varchar(200) NOT NULL default '',
+  target text NOT NULL default '',
+  type varchar(4) NOT NULL default '',
+  PRIMARY KEY  (obj_id,user_id)
+) TYPE=MyISAM;
+
+#
+# Tabellenstruktur für Tabelle `search_tree`
+#
+
+CREATE TABLE search_tree (
+  tree int(11) NOT NULL default '0',
+  child int(11) unsigned NOT NULL default '0',
+  parent int(11) unsigned default NULL,
+  lft int(11) unsigned NOT NULL default '0',
+  rgt int(11) unsigned NOT NULL default '0',
+  depth smallint(5) unsigned NOT NULL default '0',
+  KEY child (child),
+  KEY parent (parent)
+) TYPE=MyISAM;
+
+  DELETE FROM usr_search;
