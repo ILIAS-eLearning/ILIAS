@@ -5688,3 +5688,11 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#405>
+CREATE TABLE IF NOT EXISTS `crs_start` (
+  `crs_start_id` int(11) NOT NULL auto_increment,
+  `crs_id` int(11) NOT NULL default '0',
+  `item_ref_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`crs_start_id`),
+  KEY `crs_id` (`crs_id`)
+) TYPE=MyISAM AUTO_INCREMENT=1;

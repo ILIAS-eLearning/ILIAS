@@ -4673,3 +4673,14 @@ crs#:#crs_grp_courses_already_assigned#:#The selected courses were already assig
 crs#:#crs_grp_deassigned_courses#:#Delete assignment
 crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
+crs#:#crs_crs_structure#:#Course structure
+crs#:#crs_select_starter#:#Select start object
+crs#:#crs_add_starter#:#Add start object
+crs#:#crs_start_objects#:#Start objects
+crs#:#crs_select_one_object#:#Please select one course item.
+crs#:#crs_starters_already_assigned#:#This object was already assigned.
+crs#:#crs_added_starters#:#Assigned start object(s).
+crs#:#crs_starter_deleted#:#Removed assignment.
+crs#:#crs_no_starter_created#:#No start objects assigned to this course.
+crs#:#crs_info_start#:#Please work through all of the above course items.<br />After you have processed all red marked objects new course items will be activated.
+crs#:#crs_table_start_objects#:#Start objects

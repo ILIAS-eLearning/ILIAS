@@ -4663,3 +4663,14 @@ crs#:#crs_grp_courses_already_assigned#:#Die ausgewählten Kurse sind bereits zu
 crs#:#crs_grp_deassigned_courses#:#Die Zuordnung wurde entfernt.
 crs#:#crs_grp_already_assigned#:#Sie sind bereits Mitglied dieser Kursgruppierung.
 crs#:#crs_grp_info_reg#:#Die folgenden Kurse sind verknüpft. Sie können sich nur an einen dieser Kurse anmelden:
+crs#:#crs_crs_structure#:#Kursstruktur
+crs#:#crs_select_starter#:#Startobjekt auswählen
+crs#:#crs_add_starter#:#Startobjekt hinzufügen
+crs#:#crs_start_objects#:#Startobjekte
+crs#:#crs_select_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
+crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
+crs#:#crs_added_starters#:#Die ausgewählten Objekte wurden zugeordnet.
+crs#:#crs_starter_deleted#:#Die Zuordnung wurde entfernt.
+crs#:#crs_no_starter_created#:#Diesem Kurs sind keine Startobjekte zugeordnet.
+crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
+crs#:#crs_table_start_objects#:#Startobjekte
