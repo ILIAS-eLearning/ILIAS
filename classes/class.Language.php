@@ -188,6 +188,29 @@ class Language
 		return $date;
 	}
 
+	/** 
+	 * formatting function for datetime
+	 *
+	 * @see fmtDate()
+	 * @param string datetime given in sql-format YYYY-MM-DD HH:MM:SS
+	 * @param string format type (normal is as given in lang_dateformat)
+	 * @return string formatted date
+	 * @access public
+	 * @author Peter Gabriel <pgabriel@databay.de>
+	 * @version 1.0
+	 */
+    function fmtDateTime($str, $fmt="normal")
+	{
+		//formate date-part
+	    $datetime = $this->fmtDate($str, $fmt);
+
+		//format timeformat
+		$datetime .= " ".substr($str,11,2).":".substr($str,14,2);
+		
+		//return
+		return $datetime;
+	}	
+	
 	/**
 	 * format a float
 	 * 

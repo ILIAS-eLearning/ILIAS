@@ -21,7 +21,7 @@ $lng = new Language($ilias->account->data["language"]);
 //get mails from user
 $myMails = new UserMail($ilias->db, $ilias->account->Id);
 
-$mails = $myMails->getMail();
+$mails = $myMails->getMail($folder);
 
 //mailactions
 //possible actions are:
@@ -44,60 +44,30 @@ if ($_POST["func"] != "")
 		case "del":
 			for ($i=0; $i<count($marker); $i++)
 			{
-				$myMails->delete($marker[$i]);
+				$myMails->setStatus($marker[$i], "rcp", "delete");
 			}
 			header("location: mail.php?folder=".$folder);
 			break;
 		case "mark_read":
-			vd($_POST);
-			header("location: mail_read.php?id=");
+			for ($i=0; $i<count($marker); $i++)
+			{
+				$myMails->setStatus($marker[$i], "rcp", "read");
+			}
+			header("location: mail.php?folder=".$folder);
 			break;
 		case "mark_unread":
-			header("location: mail_read.php?id=");
+			for ($i=0; $i<count($marker); $i++)
+			{
+				$myMails->setStatus($marker[$i], "rcp", "unread");
+			}
+			header("location: mail.php?folder=".$folder);
 			break;
 	}
 }
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","./mail.php?folder=inbox");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("inbox"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "mail_new.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("compose"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "mail_options.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("options"));
-$tplbtn->parseCurrentBlock();
-
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
-
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("old"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("sent"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("saved"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("deleted"));
-$tplbtn->parseCurrentBlock();
-
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
-
-$tpl->setVariable("BUTTONS",$tplbtn->get());
+include("./include/inc.mail_buttons.php");
 
 //set actionsselectbox
 $tpl->setVariable("TXT_ACTIONS", $lng->txt("actions"));
@@ -156,7 +126,7 @@ $tpl->setVariable("TXT_DELETE", $lng->txt("delete"));
 $tpl->setVariable("TXT_READ", $lng->txt("read"));
 $tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
 
-$tpl->setVariable("MAIL_COUNT",count($mails));
+$tpl->setVariable("MAIL_COUNT", $mails["count"]);
 $tpl->setVariable("MAIL_COUNT_UNREAD", $mails["unread"]);
 $tpl->setVariable("TXT_MAIL_S",$lng->txt("mail_s_unread"));
 //columns headlines

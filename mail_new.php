@@ -15,44 +15,7 @@ $lng = new Language($ilias->account->data["language"]);
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("inbox"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK", "mail_new.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("compose"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("options"));
-$tplbtn->parseCurrentBlock();
-
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
-
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("old"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("sent"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("saved"));
-$tplbtn->parseCurrentBlock();
-$tplbtn->setCurrentBlock("btn_cell");
-$tplbtn->setVariable("BTN_LINK","");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("deleted"));
-$tplbtn->parseCurrentBlock();
-
-$tplbtn->setCurrentBlock("btn_row");
-$tplbtn->parseCurrentBlock();
-
-$tpl->setVariable("BUTTONS",$tplbtn->get());
+include("./include/inc.mail_buttons.php");
 
 $tpl->setVariable("TXT_RECIPIENT", $lng->txt("recipient"));
 $tpl->setVariable("TXT_SEARCH_RECIPIENT", $lng->txt("search_recipient"));
