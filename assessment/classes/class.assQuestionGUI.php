@@ -184,9 +184,9 @@ class ASS_QuestionGUI extends PEAR {
     }
   }
 
-  function get_add_parameter() {
-    return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
-  }
+function get_add_parameter() {
+return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
+}
 /**
 * Sets the extra fields i.e. estimated working time and material of a question from a posted create/edit form
 *
@@ -194,46 +194,54 @@ class ASS_QuestionGUI extends PEAR {
 *
 * @access private
 */
-  function out_other_question_data() {
+function out_other_question_data() {
 
-		$question_type = $this->get_question_type();
-			switch ($question_type) {
-			case "qt_multiple_choice_sr":
-			case "qt_multiple_choice_mr":
-			case "qt_ordering":
-			case "qt_imagemap":
-			case "qt_javaapplet":
-				$colspan = " colspan=\"3\"";
-				break;
-			case "qt_matching":
-				$colspan = " colspan=\"4\"";
-				break;
-			case "qt_cloze":
-				$colspan = " colspan=\"4\"";
-				break;
-		}
-    if (!empty($this->question->materials)) {
-			$this->tpl->setCurrentBlock("mainselect_block");
+	$question_type = $this->get_question_type();
+		switch ($question_type) {
+		case "qt_multiple_choice_sr":
+		case "qt_multiple_choice_mr":
+		case "qt_ordering":
+		case "qt_imagemap":
+			$colspan = " colspan=\"3\"";
+			break;
+		case "qt_matching":
+			$colspan = " colspan=\"4\"";
+			break;
+		case "qt_cloze":
+			$colspan = " colspan=\"4\"";
+			break;
+	}
+	if (!empty($this->question->materials)) {
+		$this->tpl->setCurrentBlock("mainselect_block");
 
-			$this->tpl->setCurrentBlock("select_block");
-			foreach ($this->question->materials as $key => $value) {
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("materiallist_block");
-			$i = 1;
-			foreach ($this->question->materials as $key => $value) {
-				$this->tpl->setVariable("MATERIAL_COUNTER", $i);
-				$this->tpl->setVariable("MATERIAL_VALUE", $key);
-				$this->tpl->setVariable("MATERIAL_FILE_VALUE", $value);
-				$this->tpl->parseCurrentBlock();
-				$i++;
-			}
-			$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
-			$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
-	    $this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
-			$this->tpl->parse("mainselect_block");
+		$this->tpl->setCurrentBlock("select_block");
+		foreach ($this->question->materials as $key => $value) {
+			$this->tpl->setVariable("MATERIAL_VALUE", $key);
+			$this->tpl->parseCurrentBlock();
 		}
+		$this->tpl->setCurrentBlock("materiallist_block");
+		$i = 1;
+		foreach ($this->question->materials as $key => $value) {
+			$this->tpl->setVariable("MATERIAL_COUNTER", $i);
+			$this->tpl->setVariable("MATERIAL_VALUE", $key);
+			$this->tpl->setVariable("MATERIAL_FILE_VALUE", $value);
+			$this->tpl->parseCurrentBlock();
+			$i++;
+		}
+		$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
+		$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
+		$this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
+		$this->tpl->parse("mainselect_block");
+	}
+
+/*	$this->tpl->setCurrentBlock("internallinks_select_block");
+	$this->tpl->setVariable("LINKS_VALUE", " ------------- ".$this->lng->txt("internal_links")." ------------- ");
+	$this->tpl->parseCurrentBlock();
+	$this->tpl->setCurrentBlock("internallinks_select_block");
+	foreach ($this->question->materials as $key => $value) {
+		$this->tpl->setVariable("LINKS_VALUE", $key);
+		$this->tpl->parseCurrentBlock();
+	}*/
 
     $this->tpl->setCurrentBlock("other_question_data");
 	$est_working_time = $this->question->get_estimated_working_time();
@@ -245,6 +253,10 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
     $this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
     $this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
+
+  //  $this->tpl->setVariable("INTERNAL_LINKS", $this->lng->txt("internal_links"));
+  //  $this->tpl->setVariable("VALUE_INTERNALLINK_UPDATE", $this->lng->txt("internal_links_update"));
+
     $this->tpl->parseCurrentBlock();
 }
 /**
@@ -822,7 +834,7 @@ class ASS_QuestionGUI extends PEAR {
 		} elseif ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
 			$this->tpl->setVariable("SELECTED_PICTURES", " selected=\"selected\"");
 		}
-    $this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+	$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
     $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
     $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
@@ -856,92 +868,132 @@ class ASS_QuestionGUI extends PEAR {
 		$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
 
 
-		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
-	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
+	$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
+	$this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
-
-      // Create gap between head and answers
-      if ($this->question->get_answer_count() >0) {
-        $this->tpl->setCurrentBlock("gape");
-        $this->tpl->parseCurrentBlock();
-      }
-      for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
-        $this->tpl->setCurrentBlock("answers");
-        $answer = $this->question->get_answer($i);
-        $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->get_order() + 1);
-        $this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
-        $this->tpl->setVariable("VALUE_ANSWER", $answer->get_answertext());
-        $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-        $this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
-        $this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
+	// Create gap between head and answers
+	if ($this->question->get_answer_count() >0) {
+		$this->tpl->setCurrentBlock("gape");
+		$this->tpl->parseCurrentBlock();
+	}
+	for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
+		$this->tpl->setCurrentBlock("answers");
+		$answer = $this->question->get_answer($i);
+		$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->get_order() + 1);
+		$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
+		$this->tpl->setVariable("VALUE_ANSWER", $answer->get_answertext());
+		$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+		$this->tpl->setVariable("VALUE_IMAGEMAP_POINTS", $answer->get_points());
+		$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 				$this->tpl->setVariable("TEXT_REGION", $this->lng->txt("region"));
 				$this->tpl->setVariable("TEXT_NAME", $this->lng->txt("name"));
-        if ($answer->is_true()) {
-          $this->tpl->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
-        }
-        $this->tpl->setVariable("COORDINATES", $answer->get_coords());
-        $this->tpl->setVariable("AREA", $answer->get_area());
-        $this->tpl->parseCurrentBlock();
-      }
+		if ($answer->is_true()) {
+			$this->tpl->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
+		}
+		$this->tpl->setVariable("COORDINATES", $answer->get_coords());
+		$this->tpl->setVariable("AREA", $answer->get_area());
+		$this->tpl->parseCurrentBlock();
+	}
 
-		if ($this->question->get_id() > 0) {
-			// call to other question data i.e. material, estimated working time block
-			$this->out_other_question_data();
-			// image block
-			$this->tpl->setCurrentBlock("post_save");
-			$img = $this->question->get_image_filename();
-			$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
-			if (!empty($img)) {
-				$this->tpl->setVariable("IMAGE_FILENAME", $img);
-				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("change"));
+	if ($this->question->get_id() > 0) {
+		// call to other question data i.e. material, estimated working time block
+		$this->out_other_question_data();
+		// image block
+		$this->tpl->setCurrentBlock("post_save");
+		$img = $this->question->get_image_filename();
+		$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
+		if (!empty($img)) {
+			$this->tpl->setVariable("IMAGE_FILENAME", $img);
+			$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("change"));
+			//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
+
+			$imagepath = $this->question->get_image_path_web() . $img;
+			if (($this->question->get_image_clicked_count()==1)||($this->question->get_image_clicked_count()==2)) {
+				$this->tpl->setCurrentBlock("createimage_block");
+				$this->tpl->setVariable("INPUT_IMAGE_CREATE", $imagepath);
+				$this->tpl->setVariable("IMAGE_CLICKED_COUNT", $this->question->get_image_clicked_count());
+				$this->tpl->setVariable("IMAGE_CLICKED_COORDS", $this->question->get_image_coords());
+				$this->tpl->parse("createimage_block");
+			}
+			else {
 				$this->tpl->setCurrentBlock("imageupload");
-				//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
+				$this->tpl->setVariable("UPLOADED_IMAGE", $imagepath);
 				$this->tpl->parse("imageupload");
-				$imagepath = $this->question->get_image_path_web() . $img;
-				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"$img\" border=\"\" />");
-			} else {
-				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
 			}
 
-			// imagemap block
+		} else {
+			$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
+		}
+
+		// imagemap block
+		if ($this->question->get_imagemap_source() == IMAGEMAP_UPLOAD) {
+			$this->tpl->setCurrentBlock("imagemap_upload_block");
 			$imgmap = $this->question->get_imagemap_filename();
-	    $this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
+			$this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
 			if (!empty($imgmap)) {
 				$this->tpl->setVariable("IMAGEMAP_FILENAME", $imgmap);
 				$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("change"));
 				$this->tpl->setCurrentBlock("imagemapupload");
 				$this->tpl->setVariable("UPLOADED_IMAGEMAP", $imgmap);
 				$this->tpl->parse("imagemapupload");
+
 			} else {
 				$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("upload"));
 			}
-			$this->tpl->parseCurrentBlock();
-
-
-		} else {
-			$this->tpl->setCurrentBlock("pre_save");
-			$this->tpl->setVariable("APPLY_MESSAGE", $this->lng->txt("save_before_upload_imagemap"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parse("imagemap_upload_block");
 		}
-
-    $this->tpl->setCurrentBlock("question_data");
-    $this->tpl->setVariable("IMAGEMAP_ID", $this->question->get_id());
-    $this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", $this->question->get_title());
-    $this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", $this->question->get_comment());
-    $this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", $this->question->get_author());
-    $this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
-    $this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-    $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-    $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
-    $this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-	  $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-    $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
-    $this->tpl->setVariable("APPLY",$this->lng->txt("apply"));
-    $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_imagemap");
+		elseif ($this->question->get_imagemap_source() == IMAGEMAP_CREATE) {
+			// create imagemap
+			$this->tpl->setCurrentBlock("imagemap_create_block");
+			$this->tpl->setVariable("TEXT_ADD_AREA", $this->lng->txt("add_area"));
+			$this->tpl->setVariable("TEXT_RECTANGLE", $this->lng->txt("rectangle"));
+			$this->tpl->setVariable("TEXT_CIRCLE", $this->lng->txt("circle"));
+			$this->tpl->setVariable("TEXT_POLYGON", $this->lng->txt("polygon"));
+			if ($this->question->get_area_type() == RECTANGLE) {
+				$this->tpl->setVariable("SELECTED_RECTANGLE", " selected=\"selected\"");
+			} elseif ($this->question->get_area_type() == CIRCLE) {
+				$this->tpl->setVariable("SELECTED_CIRCLE", " selected=\"selected\"");
+			} elseif ($this->question->get_area_type() == POLYGON) {
+				$this->tpl->setVariable("SELECTED_POLYGON", " selected=\"selected\"");
+			}
+			$this->tpl->parse("imagemap_create_block");
+		}
 		$this->tpl->parseCurrentBlock();
-  }
+
+	} else {
+		$this->tpl->setCurrentBlock("pre_save");
+		$this->tpl->setVariable("APPLY_MESSAGE", $this->lng->txt("save_before_upload_imagemap"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	$this->tpl->setCurrentBlock("question_data");
+	$this->tpl->setVariable("IMAGEMAP_ID", $this->question->get_id());
+	$this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", $this->question->get_title());
+	$this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", $this->question->get_comment());
+	$this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", $this->question->get_author());
+	$this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
+	$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+	$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
+	$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
+	$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
+	$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+	$this->tpl->setVariable("TEXT_IMAGEMAP_SOURCE", $this->lng->txt("imagemap_source"));
+	$this->tpl->setVariable("TEXT_UPLOAD_IMAGEMAP", $this->lng->txt("upload_imagemap"));
+	$this->tpl->setVariable("TEXT_CREATE_IMAGEMAP", $this->lng->txt("create_imagemap"));
+	if ($this->question->get_imagemap_source() == IMAGEMAP_UPLOAD) {
+		$this->tpl->setVariable("SELECTED_UPLOAD_IMAGEMAP", " selected=\"selected\"");
+	} elseif ($this->question->get_imagemap_source() == IMAGEMAP_CREATE) {
+		$this->tpl->setVariable("SELECTED_CREATE_IMAGEMAP", " selected=\"selected\"");
+	}
+
+	$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
+	$this->tpl->setVariable("APPLY",$this->lng->txt("apply"));
+	$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
+	$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_imagemap");
+	$this->tpl->parseCurrentBlock();
+}
+
 
 /**
 * Sets the fields of a java applet create/edit form
@@ -1593,6 +1645,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->question->set_shuffle($_POST["shuffle"]);
+	$this->question->set_imagemap_source($_POST["imagemap_source"]);
 
 		if ($_POST["id"] > 0) {
 			// adding estimated working time and materials uris
@@ -1606,7 +1659,7 @@ class ASS_QuestionGUI extends PEAR {
 			else {
 				$this->question->set_image_filename($_FILES['imageName']['name'], $_FILES['imageName']['tmp_name']);
 			}
-
+			$this->question->set_area_type($_POST["area_type"]);
 			//setting imagemap
 			if (empty($_FILES['imagemapName']['tmp_name'])) {
 				$this->question->set_imagemap_filename(ilUtil::stripSlashes($_POST['uploaded_imagemap']));
@@ -1632,6 +1685,31 @@ class ASS_QuestionGUI extends PEAR {
 			}
 			else {
 				$this->question->set_imagemap_filename($_FILES['imagemapName']['name'], $_FILES['imagemapName']['tmp_name']);
+			}
+
+			if ($this->question->get_imagemap_source()==IMAGEMAP_CREATE) {
+				if (!empty($_POST["input_image_count"])) {
+					$this->question->set_image_clicked_count($_POST["input_image_count"]);
+				}
+				if (!empty($_POST["input_image_coords"])) {
+					$this->question->set_image_coords($_POST["input_image_coords"]);
+				}
+
+				if ($this->question->get_image_clicked_count() == 1) {
+					$this->question->set_image_coords($_POST['input_image_x'].",".$_POST['input_image_y'].",");
+					$this->question->set_image_clicked_count(2);
+				}
+				elseif ($this->question->get_image_clicked_count() == 2) {
+					$this->question->set_image_coords($_POST['input_image_x'].",".$_POST['input_image_y']);
+					$this->question->add_answer_from_image_editor();
+				}
+
+				if ($_POST["cmd"]["addArea"]) {
+					$this->question->set_image_clicked_count(1);
+				}
+				elseif ($this->question->get_image_clicked_count() == 3) {
+					$this->question->set_image_clicked_count(0);
+				}
 			}
 		}
 		return $result;
@@ -1665,7 +1743,7 @@ class ASS_QuestionGUI extends PEAR {
 			if (empty($_FILES['javaappletName']['tmp_name'])) {
 				$this->question->set_javaapplet_filename(ilUtil::stripSlashes($_POST['uploaded_javaapplet']));
 			}
-			else 
+			else
 			{
 				$this->question->set_javaapplet_filename($_FILES['javaappletName']['name'], $_FILES['javaappletName']['tmp_name']);
 			}
@@ -1792,7 +1870,7 @@ class ASS_QuestionGUI extends PEAR {
 
     return $array;
 	}
-	
+
 /**
 * Creates the learners output of a multiple choice question
 *
@@ -2069,7 +2147,7 @@ class ASS_QuestionGUI extends PEAR {
 			$keys = $this->pc_array_shuffle($keys);
 		}
 		foreach ($keys as $key) {
-			$value = $this->question->answers[$key];		
+			$value = $this->question->answers[$key];
       $this->tpl->setVariable("ORDERING_QUESTION_ANSWER_VALUE", $key);
 			foreach ($solutions as $idx => $solution) {
 				if ($solution->value1 == $key) {
