@@ -787,6 +787,7 @@ common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_exc#:#Übung
 common#:#obj_file#:#Datei
 common#:#obj_fold#:#Ordner
+common#:#msg_obj_no_link#:#können nicht verknüpft werden
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
@@ -824,6 +825,29 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
+common#:#objs_cat#:#Kategorien
+common#:#objs_crs#:#Kurse
+common#:#objs_dbk#:#Digilib-Bücher
+common#:#objs_exc#:#Übungen
+common#:#objs_file#:#Dateien
+common#:#objs_fold#:#Ordner
+common#:#objs_frm#:#Foren
+common#:#objs_glo#:#Glossare
+common#:#objs_grp#:#Gruppen
+common#:#objs_lm#:#Lernmodule
+common#:#objs_lng#:#Sprachen
+common#:#objs_lo#:#Lernobjekte
+common#:#objs_mob#:#Multimedia Objekte
+common#:#objs_note#:#Notizen
+common#:#objs_pg#:#Seiten
+common#:#objs_qpl#:#Question Pools
+common#:#objs_role#:#Rollen
+common#:#objs_rolt#:#Rollenvorlagen
+common#:#objs_slm#:#SCORM Lernmodule
+common#:#objs_st#:#Kapitel
+common#:#objs_tst#:#Tests
+common#:#objs_type#:#Objekttypen
+common#:#objs_usr#:#Benutzer
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
 common#:#objf_edit_permission#:#Rechteeinstellungen ändern
