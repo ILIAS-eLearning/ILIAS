@@ -115,12 +115,17 @@ class ilMetaDataGUI
 		$this->tpl->setVariable("SEL_META_LANGUAGE", $tpl->get());
 		$this->tpl->setVariable("TXT_OK", $this->lng->txt("ok"));
 
-		$this->tpl->setVariable("EDIT_ACTION", $a_formaction . "&cmd=save_meta");
+		$this->tpl->setVariable("EDIT_ACTION", $a_formaction . "&cmd=post");
 		$this->tpl->setVariable("VAL_SECTION", $a_section);
 		$this->tpl->setVariable("VAL_LANGUAGE", $a_language);
 		if ($a_section == "general")
 		{
 			$this->tpl->setVariable("GENERAL_TXT_GENERAL", $this->lng->txt("meta_general"));
+			$this->tpl->setVariable("GENERAL_TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
+			$this->tpl->setVariable("GENERAL_TXT_ELEMENT_IDENTIFIER", $this->lng->txt("meta_identifier"));
+			$this->tpl->setVariable("GENERAL_TXT_ELEMENT_LANGUAGE", $this->lng->txt("meta_language"));
+			$this->tpl->setVariable("GENERAL_TXT_ELEMENT_KEYWORD", $this->lng->txt("meta_keyword"));
+			$this->tpl->setVariable("GENERAL_TXT_ADD", $this->lng->txt("meta_add"));
 			$this->tpl->setVariable("GENERAL_TXT_STRUCTURE", $this->lng->txt("meta_structure"));
 			$this->tpl->setVariable("GENERAL_TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
 			$this->tpl->setVariable("GENERAL_TXT_STRUCTURE_ATOMIC", $this->lng->txt("meta_atomic"));
@@ -145,27 +150,11 @@ class ilMetaDataGUI
 					$this->tpl->setVariable("IDENTIFIER_LOOP_VAL_ENTRY", $identifier[$i]["Entry"]);
 					$this->tpl->setVariable("IDENTIFIER_LOOP_ACTION_DELETE", $a_formaction . "&cmd=delete_meta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=General&meta_name=Identifier&meta_index=" . $i);
 					$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-					$this->tpl->setVariable("IDENTIFIER_LOOP_ACTION_ADD", $a_formaction . "&cmd=add_meta&meta_section=" . $a_section . "&meta_language=" . $a_language . "&meta_path=General&meta_name=Identifier");
-					$this->tpl->setVariable("IDENTIFIER_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
 					$this->tpl->parseCurrentBlock();
 				}
 			}
 			$this->tpl->setVariable("GENERAL_TXT_TITLE", $this->lng->txt("meta_title"));
 			$this->tpl->setVariable("GENERAL_VAL_TITLE", $this->curValue("Title"));
-			$this->tpl->setVariable("GENERAL_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-			$tpl = new ilTemplate("tpl.lang_selection.html", true, true);
-//			$this->tpl->addBlockFile("GENERAL_SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
-			$languages = ilMetaData::getLanguages();
-			foreach($languages as $code => $language)
-			{
-				$tpl->setCurrentBlock("lg_option");
-				$tpl->setVariable("VAL_LG", $code);
-				$tpl->setVariable("TXT_LG", $language);
-				$tpl->parseCurrentBlock();
-			}
-			$tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
-			$tpl->setVariable("SEL_NAME", "language");
-			$this->tpl->setVariable("GENERAL_SEL_LANGUAGE", $tpl->get());
 			$this->tpl->setCurrentBlock("general");
 			$this->tpl->parseCurrentBlock();
 		}
