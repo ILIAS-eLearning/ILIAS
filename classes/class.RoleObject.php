@@ -22,7 +22,6 @@ class RoleObject extends Object
 	function createObject()
 	{
 		// Creates a child object
-		global $tree;
 		global $tplContent;
 
 		$rbacsystem = new RbacSystemH($this->ilias->db);
@@ -66,7 +65,6 @@ class RoleObject extends Object
 
 	function deleteObject()
 	{
-		global $tree;
 
 		// Erst muss das Recht zum Löschen im RoleFolder überprüft werden
 		// Auslesen aller RoleFolderId's aus rbac_fa
@@ -74,6 +72,7 @@ class RoleObject extends Object
 		//    deleteRole()
 		// => sonst deleteLocalRole() für alle Kinder und den zu löschenden RoleFolder
 
+		$tree = new Tree($_GET["obj_id"],$_GET["parent"]);
 		$rbacsystem = new RbacSystemH($this->ilias->db);
 		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
@@ -137,9 +136,7 @@ class RoleObject extends Object
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
 			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
-
-			$path = $this->getPath($_GET["parent"]);
-			$tplContent->setVariable("TREEPATH",$path);
+			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"]));
 
 			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
 			$tplContent->setVariable("MESSAGE_TOP","Permission Template of Role: ".$role_data["title"]);
@@ -206,7 +203,7 @@ class RoleObject extends Object
 			
 			// BEGIN ADOPT_PERMISSIONS
 			$tplContent->setCurrentBlock("ADOPT_PERMISSIONS");
-			$parent_role_ids = $this->getParentRoleIds();
+			$parent_role_ids = $this->getParentRoleIds($_GET["parent"]);
 			foreach($parent_role_ids as $key => $par)
 			{
 				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
@@ -224,13 +221,11 @@ class RoleObject extends Object
 	}
 	function permSaveObject()
 	{
-		global $tree;
-
+		$tree = new Tree($_GET["obj_id"],$_GET["parent"]);
 		$rbacadmin = new RbacAdminH($this->ilias->db);
 		$rbacsystem = new RbacSystemH($this->ilias->db);
 
 		$parent_obj_id = $this->getParentObjectId();
-
 		if($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
 		{
 			// Alle Template Eintraege loeschen
@@ -241,14 +236,20 @@ class RoleObject extends Object
 				// Setzen der neuen template permissions
 				$rbacadmin->setRolePermission($_GET["obj_id"],$key,$ops_array,$_GET["parent"]);
 			}
-			// Existierende Objekte anpassen 
+			// Existierende Objekte anpassen
 			if($_POST["recursive"])
 			{
-				$parent_obj = $rbacadmin->getParentObject($_GET["parent"]);
-				// Liegt der RoleFolder im SystemFolder wird der RootFolder genommen
-				$parent_obj = ($parent_obj == $this->SYSTEM_FOLDER_ID ? $this->ROOT_FOLDER_ID : $parent_obj);
-				
-				
+				$parent_obj = $this->getParentObjectId();
+				if($parent_obj == $this->SYSTEM_FOLDER_ID)
+				{
+					$object_id = $this->ROOT_FOLDER_ID;
+					$parent = 0;
+				}
+				else
+				{
+					$object_id = $_GET["parent"];
+					$parent = $parent_obj;
+				}
 				// revoke all permissions where no permissions are set 
 				$types = getTypeList();
 				foreach($types as $type)
@@ -256,7 +257,7 @@ class RoleObject extends Object
 					$typ = $type["type"];
 					if(!is_array($_POST["template_perm"][$typ]))
 					{
-						$objects = $tree->getAllChildsByType($parent_obj,$typ);
+						$objects = $tree->getAllChildsByType($object_id,$parent,$typ);
 						foreach($objects as $object)
 						{
 							$rbacadmin->revokePermission($object["obj_id"],$_GET["obj_id"],$object["parent"]);
@@ -265,7 +266,7 @@ class RoleObject extends Object
 				}
 				foreach($_POST["template_perm"] as $key => $ops_array)
 				{
-					$objects = $tree->getAllChildsByType($parent_obj,$key);
+					$objects = $tree->getAllChildsByType($object_id,$parent,$key);
 					foreach($objects as $object)
 					{
 						$rbacadmin->revokePermission($object["obj_id"],$_GET["obj_id"],$object["parent"]);
@@ -291,7 +292,7 @@ class RoleObject extends Object
 		if($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
-			$parentRoles = $this->getParentRoleIds();
+			$parentRoles = $this->getParentRoleIds($_GET["parent"]);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles["$_POST[adopt]"]["parent"],$_GET["parent"],$_GET["obj_id"]);
 		}
 		else

@@ -147,10 +147,10 @@ if (!empty($ilias->typedefinition[$type]))
 $tplContent->setVariable("OBJ_ID",$obj_id);
 $tplContent->setVariable("TPOS",$parent);
 
-if($_SESSION["Error_Message"])
+if($_GET["message"])
 {
 	$tplContent->setCurrentBlock("sys_message");
-	$tplContent->setVariable("ERROR_MESSAGE",$_SESSION["Error_Message"]);
+	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);
 	$tplContent->parseCurrentBlock();
 }
 

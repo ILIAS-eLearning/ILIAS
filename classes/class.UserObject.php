@@ -112,7 +112,6 @@ class UserObject extends Object
 	}
 	function editObject()
 	{
-		global $tree;
 		global $tplContent;
 
 		$rbacsystem = new RbacSystemH($this->ilias->db);
@@ -130,7 +129,7 @@ class UserObject extends Object
 			$tplContent->setVariable("CMD","update");
 			$tplContent->setVariable("TYPE","user");
 
-			$tplContent->setVariable("TREEPATH",$this->getPath());
+			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"]));
 
 			// gender selection
 			$tplContent->setCurrentBlock("gender");

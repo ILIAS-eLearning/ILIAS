@@ -88,7 +88,7 @@ class Admin
 
 		if(!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_class->WARNING);
+			$this->ilias->raiseError("No checkbox checked. Nothing happened :-)",$this->ilias->error_class->MESSAGE);
 		}
 
 		else
@@ -107,7 +107,7 @@ class Admin
 				}
 				else
 				{
-					$this->ilias->raiseError("No permission to delete object",$this->ilias->error_class->WARNING);
+					$this->ilias->raiseError("No permission to delete object",$this->ilias->error_class->MESSAGE);
 				}
 			}
 		}

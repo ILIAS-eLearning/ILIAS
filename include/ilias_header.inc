@@ -47,16 +47,6 @@ include_once "classes/class.ErrorHandling.php";
 
 session_start();
 
-// set uri for error handling
-//if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
-//{
-//	$_SESSION["referer"] = $_SERVER["HTTP_REFERER"];
-//	if($_POST["cmd"])
-//	{
-//		$_SESSION["referer"] .= "&cmd=".$_POST["cmd"];
-//	}
-//}
-
 // load main class
 $ilias =& new ILIAS;
 //authenticate

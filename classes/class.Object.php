@@ -14,6 +14,7 @@ class Object
  * Constructor
  * @params object ilias
  *
+ * 
  */
 	var $ilias;
 	var $SYSTEM_FOLDER_ID;
@@ -32,7 +33,6 @@ class Object
 	function createObject()
 	{
 		// Creates a child object
-		global $tree;
 		global $tplContent;
 
 		$rbacsystem = new RbacSystemH($this->ilias->db);
@@ -56,10 +56,8 @@ class Object
 	}
 	function saveObject()
 	{
-		global $tree;
-		global $tplContent;
-
 		$rbacsystem = new RbacSystemH($this->ilias->db);
+		$tree = new Tree($_GET["obj_id"],$_GET["parent"]);
 		if($rbacsystem->checkAccess("create",$_GET["obj_id"],$_GET["parent"],$_POST["type"]))
 		{
 			$rbacreview = new RbacReviewH($this->ilias->db);
@@ -87,16 +85,13 @@ class Object
 	}
 	function editObject()
 	{
-		global  $tree;
-		global  $tplContent;
+		global $tplContent;
 
 		$rbacsystem = new RbacSystemH($this->ilias->db);
 		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
 			$tplContent = new Template("object_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
-
-			// Show path
 			$tplContent->setVariable("TREEPATH",$this->getPath());
 			$tplContent->setVariable("CMD","update");
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
@@ -132,7 +127,6 @@ class Object
 	}
 	function permObject()
 	{
-		global $tree;
 		global $tplContent;
 
 		$obj = getObject($_GET["obj_id"]);
@@ -219,9 +213,9 @@ class Object
 	}
 	function permSaveObject()
 	{
-		global $tree;
 		global $tplContent;
 
+		$tree = new Tree($_GET["obj_id"],$_GET["parent"]);
 		$rbacreview = new RbacReviewH($this->ilias->db);
 		$rbacadmin = new RbacAdminH($this->ilias->db);
 		$rbacsystem = new RbacSystemH($this->ilias->db);
@@ -280,7 +274,7 @@ class Object
 				if($rbacsystem->checkAccess('write',$rolf_id,$_GET["obj_id"]))
 				{
 					// Suche die im Baum nächsten Templates der aktuellen Rolle
-					$path = $tree->showPathId($_GET["parent"],1);
+					$path = $tree->getPathId($_GET["parent"],1);
 					$path[0] = $this->SYSTEM_FOLDER_ID;
 					// Es muss unten im Baum gestartet werden
 					array_reverse($path);
@@ -408,25 +402,21 @@ class Object
 	}
 // PRIVATE METHODEN
 	function getPath($a_id = "")
-	{
-		// Erzeugt den Path der in jedem Template angezeigt wird
-		global $tree;
-		
+	{		
 		if(!$a_id)
 		{
 			$a_id = $_GET["obj_id"];
 		}
 		$tree = new Tree($a_id,1,1);
-		$tree->getPathFull();
-		return $tree->showPath($tree->Path,"content.php");
+		return $tree->showPath($tree->getPathFull($a_id,$this->ROOT_FOLDER_ID),"content.php");
 	}
-	function getParentRoleIds()
+	function getParentRoleIds($a_start_node = '')
 	{
-		global $tree;
-
+		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
+		$tree = new Tree($_GET["parent"],$this->ROOT_FOLDER_ID);
 		$rbacadmin = new RbacAdminH($this->ilias->db);
 
-		$pathIds  = $tree->getPathId($_GET["obj_id"],1);
+		$pathIds  = $tree->getPathId($a_start_node,1);
 		$pathIds[0] = $this->SYSTEM_FOLDER_ID;
 		return $rbacadmin->getParentRoles($pathIds);
 	}
@@ -438,8 +428,8 @@ class Object
  */
 	function getParentObjectId()
 	{
-		$tree = new Tree($this->ilias->db);
-		$path_ids = $tree->showPathId($_GET["parent"],$this->ROOT_FOLDER_ID);
+		$tree = new Tree($_GET["parent"],$this->ROOT_FOLDER_ID);
+		$path_ids = $tree->getPathId($_GET["parent"],$this->ROOT_FOLDER_ID);
 		array_pop($path_ids);
 		return array_pop($path_ids);
 	}
