@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.74 2004/01/31 21:03:44 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.75 2004/02/17 17:59:03 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -158,7 +158,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
-		if (!$rbacsystem->checkAccess('write',$this->rolf_ref_id))
+		if (!$rbacsystem->checkAccess('visible,write',$this->rolf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 			exit();
