@@ -611,7 +611,7 @@ class RbacAdmin
 	{
 		global $log;
 
-		if (!isset($a_rol_id) or !isset($a_parent) or !isset($a_parent_obj) or func_num_args() < 3 or func_num_args() > 4)
+		if (!isset($a_rol_id) or !isset($a_parent) or !isset($a_parent_obj) or func_num_args() != 4)
 		{
 			$message = get_class($this)."::assignRoleToFolder(): Missing Parameter!".
 					   " role_id: ".$a_rol_id.

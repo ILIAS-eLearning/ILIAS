@@ -3,7 +3,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.4 2003/04/01 07:31:53 akill Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.5 2003/04/01 12:39:47 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -30,34 +30,37 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	**/
 	function saveObject()
 	{
-		global $rbacadmin, $rbacsystem;
-
+		global $rbacsystem, $rbacadmin, $tree;
 
 		// CHECK ACCESS 'write' to role folder
-		if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
+		// TODO: check for create role permission should be better
+		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]))
 		{
+			$this->ilias->raiseError("You have no permission to create new roles in this role folder",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			// check if rolt title is unique
 			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
 			{
-				$this->ilias->raiseError("A role with the name '".
-										 $_POST["Fobject"]["title"]."' already exists! <br />Please choose another name.",
-										 $this->ilias->error_obj->WARNING);
+				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
+										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->MESSAGE);
 			}
+
+			// create new rolt object
 			require_once("./classes/class.ilObjRoleTemplate.php");
 			$roltObj = new ilObjRoleTemplate();
 			$roltObj->setTitle($_POST["Fobject"]["title"]);
 			$roltObj->setDescription($_POST["Fobject"]["desc"]);
 			$roltObj->create();
-			//$rbacadmin->assignRoleToFolder($new_obj_id, $a_obj_id, $a_parent,'n');
-			$rbacadmin->assignRoleToFolder($roltObj->getId(), $_GET["ref_id"], $_GET["parent"], 'y');
+			$parent_id = $tree->getParentId($_GET["ref_id"]);
+			$rbacadmin->assignRoleToFolder($roltObj->getId(), $_GET["ref_id"],$parent_id,'y');
 		}
-		else
-		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
-		}
-		header("Location: adm_object.php?ref_id=".$this->ref_id);
+		
+		sendInfo($this->lng->txt("rolt_added"),true);
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
-
 
 	/**
 	* display permissions
