@@ -104,10 +104,10 @@ assessment#:#answer#:#Respuesta
 assessment#:#answer_is_right#:#Su solución es correcta
 assessment#:#answer_is_wrong#:#Su solución es errónea
 assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
-assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
-assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#answer_picture#:#Imagen respuesta
+assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
 assessment#:#answer_text#:#Texto respuesta
+assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Atributos del applet
 assessment#:#applet_new_parameter#:#Nuevo parámetro
 assessment#:#applet_parameter#:#Parámetro
@@ -2003,10 +2003,10 @@ common#:#select#:#Seleccionar
 common#:#select_all#:#seleccionar todo
 common#:#select_file#:#Seleccionar fichero
 common#:#select_mode#:#Seleccionar modo
-common#:#select_questionpool#:#Question pool for Test###14 Oct 2004 new variable
-common#:#select_questionpool_option#:#Please select a question pool###14 Oct 2004 new variable
 common#:#select_object_to_copy#:#Por favor seleccione el objeto que quiere copiar
 common#:#select_object_to_link#:#Por favor seleccione el objeto que quiere enlazar
+common#:#select_questionpool#:#Question pool for Test###14 Oct 2004 new variable
+common#:#select_questionpool_option#:#Please select a question pool###14 Oct 2004 new variable
 common#:#selected#:#seleccionado
 common#:#selected_items#:#Items Personales
 common#:#send#:#enviar
@@ -2165,8 +2165,8 @@ common#:#url_description#:#descripción de url
 common#:#user#:#usuario
 common#:#user_access#:#Acceso por usuario
 common#:#user_added#:#Usuario añadido
-common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_assignment#:#Asignación de usuarios
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
 common#:#user_deleted#:#Usuario eliminado
 common#:#user_detail#:#Datos Detallados
 common#:#user_imported#:#Importación de Usuario completada.
