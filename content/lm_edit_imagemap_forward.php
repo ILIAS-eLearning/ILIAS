@@ -33,10 +33,10 @@
 define("ILIAS_MODULE", "content");
 chdir("..");
 require_once "./include/inc.header.php";
-require_once "./content/classes/Pages/class.ilPCMediaObjectGUI.php";
+require_once "./content/classes/Media/class.ilObjMediaObjectGUI.php";
 
 // recover parameter
-ilPCMediaObjectGUI::_recoverParameters();
+ilObjMediaObjectGUI::_recoverParameters();
 
 if ($_SESSION["il_map_edit_coords"] != "")
 {

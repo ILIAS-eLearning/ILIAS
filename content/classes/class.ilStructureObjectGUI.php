@@ -50,11 +50,35 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$this->tree =& $a_tree;
 	}
 
+	/**
+	* set structure object
+	*
+	* @param	object		$a_st_object	structure object
+	*/
 	function setStructureObject(&$a_st_object)
 	{
 		$this->obj =& $a_st_object;
 		$this->actions = $this->objDefinition->getActions("st");
 	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+//echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":";
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+//echo "HH".$this->obj->getId().":";
+				$ret =& $this->$cmd();
+				break;
+		}
+	}
+
 
 	/*
 	* display pages of structure object
@@ -63,12 +87,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		global $tree;
 
+		$this->setTabs();
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", true);
 		$num = 0;
 
 		$this->tpl->setCurrentBlock("form");
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=view&cmd=post");
+		$this->ctrl->setParameter($this, "backcmd", "view");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_pages"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
@@ -89,9 +115,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
 
-			// type
-			$link = "lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
-				$child["obj_id"];
+			// link
+			$this->ctrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $child["obj_id"]);
+			$link = $this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view");
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
 			// title
@@ -148,12 +174,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	{
 		global $tree;
 
+		$this->setTabs();
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", true);
 		$num = 0;
 
 		$this->tpl->setCurrentBlock("form");
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=subchap&cmd=post");
+		$this->ctrl->setParameter($this, "backcmd", "subchap");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_subchapters"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
@@ -175,8 +203,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
 
 			// type
-			$link = "lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
-				$child["obj_id"];
+			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $child["obj_id"]);
+			$link = $this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view");
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
 			// title
@@ -451,5 +479,43 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				$_GET["obj_id"]);
 		}
 	}
+
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		//$this->getTabs($tabs_gui);
+		$tabs_gui->getTargetsByObjectType($this, "st");
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		$this->tpl->setVariable("HEADER",
+			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// back to upper context
+		$tabs_gui->addTarget("edit", $this->ctrl->getLinkTarget($this, "view")
+			, "view", get_class($this));
+
+		$tabs_gui->addTarget("cont_preview", $this->ctrl->getLinkTarget($this, "preview")
+			, "preview", get_class($this));
+
+		$tabs_gui->addTarget("meta_data", $this->ctrl->getLinkTarget($this, "editMeta")
+			, "editMeta", get_class($this));
+
+		$tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
+			, "view", "ilEditClipboardGUI");
+
+	}
+
 }
 ?>

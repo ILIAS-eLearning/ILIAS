@@ -54,6 +54,7 @@ class ilTabsGUI
 		$this->temp_var = "TABS";
 	}
 
+	/*
 	function setTemplateVariable($a_temp_var)
 	{
 		$this->temp_var = $a_temp_var;
@@ -77,10 +78,10 @@ class ilTabsGUI
 	function setTabs($a_tabs)
 	{
 		$this->tabs = $a_tabs;
-	}
+	}*/
 
 
-
+	/*
 	function display()
 	{
 
@@ -142,7 +143,7 @@ class ilTabsGUI
 			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
 			$this->tpl->parseCurrentBlock();
 		}
-	}
+	}*/
 
 	function getTargetsByObjectType(&$a_gui_obj, $a_type)
 	{
@@ -179,7 +180,7 @@ class ilTabsGUI
 		{
 			$i++;
 			if ($target["cmd"] == $cmd &&
-				($target["cmdClass"] == $cmdClass || $cmdClass == ""))
+				($target["cmdClass"] == $cmdClass))
 			{
 				$tabtype = "tabactive";
 			}

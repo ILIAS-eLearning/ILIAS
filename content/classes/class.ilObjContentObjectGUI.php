@@ -36,9 +36,14 @@
 
 require_once "classes/class.ilObjectGUI.php";
 require_once "content/classes/class.ilObjContentObject.php";
+require_once ("classes/class.ilObjStyleSheetGUI.php");
+require_once ("content/classes/class.ilLMPageObjectGUI.php");
+require_once ("content/classes/class.ilStructureObjectGUI.php");
 
 class ilObjContentObjectGUI extends ilObjectGUI
 {
+	var $ctrl;
+
 	/**
 	* Constructor
 	*
@@ -46,8 +51,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function ilObjContentObjectGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 
+		$this->ctrl =& $ilCtrl;
 		$lng->loadLanguageModule("content");
 		parent::ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$this->actions = $this->objDefinition->getActions("lm");
@@ -55,10 +61,70 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	}
 
 	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		// get next class that processes or forwards current command
+		$next_class = $this->ctrl->getNextClass($this);
+
+		// get current command
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			case "ilobjstylesheetgui":
+				$this->ctrl->setReturn($this, "properties");
+				$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
+				$ret =& $style_gui->executeCommand();
+
+				if ($cmd == "save")
+				{
+					$style_id = $ret;
+					$this->object->setStyleSheetId($style_id);
+					$this->object->update();
+					$this->ctrl->redirect($this, "properties");
+				}
+				break;
+
+			case "illmpageobjectgui":
+				$this->ctrl->setReturn($this, "view");
+//echo "!";
+				//$this->lm_obj =& $this->ilias->obj_factory->getInstanceByRefId($this->ref_id);
+
+				$pg_gui =& new ilLMPageObjectGUI($this->object);
+				$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
+				$pg_gui->setLMPageObject($obj);
+				$ret =& $pg_gui->executeCommand();
+				break;
+
+			case "ilstructureobjectgui":
+				$st_gui =& new ilStructureObjectGUI($this->object, $this->object->lm_tree);
+				$obj =& ilLMObjectFactory::getInstance($this->object, $_GET["obj_id"]);
+				$st_gui->setStructureObject($obj);
+				$ret =& $st_gui->executeCommand();
+				break;
+
+			default:
+				$ret =& $this->$cmd();
+				break;
+		}
+
+		return $ret;
+	}
+
+	function _forwards()
+	{
+		return array("ilLMPageObjectGUI", "ilStructureObjectGUI","ilObjStyleSheetGUI");
+	}
+
+	/**
 	* edit properties form
 	*/
 	function properties()
 	{
+		$this->setTabs();
+
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -73,7 +139,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if ($this->object->getStyleSheetId() == 0)
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","lm_edit.php?cmd=createStyle&ref_id=".$this->object->getRefID());
+			$this->tpl->setVariable("BTN_LINK",
+				$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create",
+					array(get_class($this))));
 			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("create_stylesheet"));
 			$this->tpl->parseCurrentBlock();
@@ -81,22 +149,23 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		else // test purpose: edit stylesheet
 		{
 			$this->tpl->setCurrentBlock("btn_cell");
-			$this->tpl->setVariable("BTN_LINK","lm_edit.php?cmd=editStyle&ref_id=".$this->object->getRefID());
+			$this->tpl->setVariable("BTN_LINK",
+				$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit",
+					array(get_class($this))));
 			//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("edit_stylesheet"));
 			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", "lm_edit.php?cmd=exportList&ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportList"));
 		//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("export"));
 		$this->tpl->parseCurrentBlock();
 
 		// lm properties
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_properties.html", true);
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=post");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
 
 		// online
@@ -130,6 +199,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* save properties
+	*/
 	function saveProperties()
 	{
 		$this->object->setLayout($_POST["lm_layout"]);
@@ -137,85 +209,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->updateProperties();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
-		$this->view();
+		$this->ctrl->redirect($this, "properties");
 	}
-	// END PROPERTIES
-	// STYLE METHODS MOVED FROM class.ilLearningModuleGUI.php
-	function createStyle()
-	{
-		require_once ("classes/class.ilObjStyleSheetGUI.php");
-		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getRefId(), true);
-		$style_gui->setFormAction("save", "lm_edit.php?ref_id=".
-								  $this->object->getRefId()."&cmd=saveStyle");
-		$style_gui->createObject();
-
-	}
-
-	function saveStyle()
-	{
-		require_once ("classes/class.ilObjStyleSheetGUI.php");
-		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getRefId(), true);
-		$style_gui->setReturnLocation("save", "return");
-		$style_id = $style_gui->saveObject();
-		$this->object->setStyleSheetId($style_id);
-		$this->object->update();
-
-		ilUtil::redirect("lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=view");
-	}
-
-	function editStyle()
-	{
-		require_once ("classes/class.ilObjStyleSheetGUI.php");
-		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
-		$style_gui->setCmdUpdate("updateStyle");
-		$style_gui->setCmdRefresh("refreshStyle");
-		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=post");
-		$style_gui->editObject();
-	}
-
-	function updateStyle()
-	{
-		require_once ("classes/class.ilObjStyleSheetGUI.php");
-		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
-		$style_gui->setReturnLocation("update", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=view");
-		$style_id = $style_gui->updateObject();
-	}
-
-	function newStyleParameter()
-	{
-		require_once ("classes/class.ilObjStyleSheetGUI.php");
-		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
-		$style_gui->setCmdUpdate("updateStyle");
-		$style_gui->setCmdRefresh("refreshStyle");
-		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=post");
-		$style_id = $style_gui->newStyleParameterObject();
-	}
-
-	function refreshStyle()
-	{
-		require_once ("classes/class.ilObjStyleSheetGUI.php");
-		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
-		$style_gui->setCmdUpdate("updateStyle");
-		$style_gui->setCmdRefresh("refreshStyle");
-		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=post");
-		$style_id = $style_gui->refreshObject();
-	}
-
-	function deleteStyleParameter()
-	{
-		require_once ("classes/class.ilObjStyleSheetGUI.php");
-		$style_gui =& new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false);
-		$style_gui->setCmdUpdate("updateStyle");
-		$style_gui->setCmdRefresh("refreshStyle");
-		$style_gui->setFormAction("update", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=post");
-		$style_id = $style_gui->deleteStyleParameterObject();
-	}
-	// END MOVED METHODS
-
 
 	/**
 	* form for new content object creation
@@ -283,22 +278,35 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	}
 
 	// called by administration
-	function chooseMetaSectionObject($a_target = "adm_object.php")
+	function chooseMetaSectionObject($a_target = "")
 	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
+		}
+
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=" . $this->object->getRefId(), $_REQUEST["meta_section"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			$a_target, $_REQUEST["meta_section"]);
 	}
 
 	// called by editor
 	function chooseMetaSection()
 	{
-		$this->chooseMetaSectionObject("lm_edit.php");
+		$this->setTabs();
+//echo "<br>target:".$this->ctrl->getLinkTarget($this).":";
+		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
 	}
 
-	function addMetaObject($a_target = "adm_object.php")
+	function addMetaObject($a_target = "")
 	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
+		}
+
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
@@ -316,12 +324,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("meta_choose_element"), true);
 		}
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=" . $this->object->getRefId(), $meta_section);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $meta_section);
 	}
 
 	function addMeta()
 	{
-		$this->addMetaObject("lm_edit.php");
+		$this->setTabs();
+		$this->addMetaObject($this->ctrl->getLinkTarget($this));
 	}
 
 	function addBibItemObject($a_target = "adm_object.php")
@@ -353,19 +362,25 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->addBibItemObject("lm_edit.php");
 	}
 
-	function deleteMetaObject($a_target = "adm_object.php")
+	function deleteMetaObject($a_target = "")
 	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
+		}
+
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
 		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target . "?ref_id=" . $this->object->getRefId(), $_GET["meta_section"]);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
 	}
 
 	function deleteMeta()
 	{
-		$this->deleteMetaObject("lm_edit.php");
+		$this->setTabs();
+		$this->deleteMetaObject($this->ctrl->getLinkTarget($this));
 	}
 
 	function deleteBibItemObject($a_target = "adm_object.php")
@@ -387,17 +402,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->deleteBibItemObject("lm_edit.php");
 	}
 
-	function editMetaObject($a_target = "adm_object.php")
+	function editMetaObject($a_target = "")
 	{
+		if ($a_target == "")
+		{
+			$a_target = "adm_object.php?ref_id=".$this->object->getRefId();
+		}
+
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target . "?ref_id=".$this->object->getRefId(), $_GET["meta_section"]);
+//echo "target:$a_target:";
+		$meta_gui->edit("ADM_CONTENT", "adm_content", $a_target, $_GET["meta_section"]);
 	}
 
 	function editMeta()
 	{
-		$this->editMetaObject("lm_edit.php");
+		$this->setTabs();
+		$this->editMetaObject($this->ctrl->getLinkTarget($this));
 	}
 
 	function editBibItemObject($a_target = "adm_object.php")
@@ -611,11 +633,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		global $tree;
 
+		$this->setTabs();
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", true);
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&cmd=post&backcmd=chapters");
+		$this->ctrl->setParameter($this, "backcmd", "chapters");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_chapters"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
@@ -638,10 +662,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
 
-			// type
-			$link = "lm_edit.php?cmd=view&ref_id=".$this->object->getRefId()."&obj_id=".
-				$child["obj_id"];
-			$this->tpl->setVariable("LINK_TARGET", $link);
+			// link
+			$this->ctrl->setParameter($this, "backcmd", "");
+			$this->ctrl->setParameter($this, "obj_id", "");
+			$this->tpl->setVariable("LINK_TARGET",
+				$this->ctrl->getLinkTargetByClass("ilStructureObjectGUI", "view", array(get_class($this))));
 
 			// title
 			$this->tpl->setVariable("TEXT_CONTENT", $child["title"]);
@@ -691,12 +716,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		global $tree;
 
+		$this->setTabs();
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.all_pages.html", true);
 		$num = 0;
 
 		$this->tpl->setCurrentBlock("form");
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&backcmd=pages&cmd=post");
+		$this->ctrl->setParameter($this, "backcmd", "pages");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_pages"));
 		$this->tpl->setVariable("CONTEXT", $this->lng->txt("context"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
@@ -714,10 +741,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
 
-			// type
-			$link = "lm_edit.php?cmd=view&ref_id=".$this->object->getRefId()."&obj_id=".
-				$page["obj_id"];
-			$this->tpl->setVariable("LINK_TARGET", $link);
+			// link
+			$this->ctrl->setParameter($this, "backcmd", "");
+			$this->ctrl->setParameter($this, "obj_id", $page["obj_id"]);
+//echo "<br>:".$this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view").":";
+			$this->tpl->setVariable("LINK_TARGET",
+				$this->ctrl->getLinkTargetByClass("ilLMPageObjectGUI", "view", array(get_class($this))));
 
 			// title
 			$this->tpl->setVariable("TEXT_CONTENT", $page["title"]);
@@ -806,12 +835,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
-		$obj_str = ($a_parent_subobj_id != 0)
-			? "&obj_id=".$a_parent_subobj_id
-			: "";
-
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->object->getRefId().$obj_str."&backcmd=".$_GET["backcmd"]."&cmd=post");
+		$this->ctrl->setParameter($this, "backcmd", $_GET["backcmd"]);
+		if ($a_parent_subobj_id != 0)
+		{
+			$this->ctrl->setParameter($this, "obj_id", $a_parent_subobj_id);
+			$this->tpl->setVariable("FORMACTION",
+				$this->ctrl->getFormActionByClass("ilStructureObjectGUI"));
+		}
+		else
+		{
+			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		}
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
 		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
@@ -855,11 +889,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* cancel delete
+	*/
 	function cancelDelete()
 	{
 		session_unregister("saved_post");
 
-		ilUtil::redirect("lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->object->getRefId());
+		$this->ctrl->redirect($this, $_GET["backcmd"]);
 
 	}
 
@@ -904,11 +941,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 
-		$obj_str = ($a_parent_subobj_id != 0)
-			? "&obj_id=".$a_parent_subobj_id
-			: "";
-		ilUtil::redirect("lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".
-			$this->object->getRefId().$obj_str);
+		if ($a_parent_subobj_id == 0)
+		{
+			$this->ctrl->redirect($this, $_GET["backcmd"]);
+		}
 	}
 
 
@@ -983,8 +1019,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function perm()
 	{
-		$this->setFormAction("addRole", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=addRole");
-		$this->setFormAction("permSave", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=permSave");
+		$this->setFormAction("addRole", $this->ctrl->getLinkTarget($this, "addRole"));
+		$this->setFormAction("permSave", $this->ctrl->getLinkTarget($this, "permSave"));
 		$this->permObject();
 	}
 
@@ -994,7 +1030,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function permSave()
 	{
-		$this->setReturnLocation("permSave", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
+		$this->setReturnLocation("permSave", $this->ctrl->getLinkTarget($this, "perm"));
 		$this->permSaveObject();
 	}
 
@@ -1004,7 +1040,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function addRole()
 	{
-		$this->setReturnLocation("addRole", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
+		$this->setReturnLocation("addRole", $this->ctrl->getLinkTarget($this, "perm"));
 		$this->addRoleObject();
 	}
 
@@ -1054,8 +1090,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if ($a_parent_subobj_id == 0)
 		{
-			//$this->chapters();
-			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
+			$this->ctrl->redirect($this, "chapters");
 		}
 	}
 
@@ -1092,7 +1127,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		if($_POST["id"][0] == $id)
 		{
 			ilEditClipboard::clear();
-			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
+			$this->ctrl->redirect($this, "chapters");
 		}
 
 
@@ -1146,8 +1181,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		if ($a_parent_subobj_id == 0)
 		{
-			//$this->chapters();
-			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
+			$this->ctrl->redirect($this, "chapters");
 		}
 	}
 
@@ -1169,18 +1203,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		ilEditClipboard::storeContentObject("pg", $_POST["id"][0]);
 
 		sendInfo($this->lng->txt("cont_page_select_target_now"), true);
-		ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".$this->object->getRefId());
+		$this->ctrl->redirect($this, "pages");
 	}
 
+	/**
+	* cancel action
+	*/
 	function cancel()
 	{
 		if ($_GET["new_type"] == "pg")
 		{
-			ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".$this->object->getRefId());
+			$this->ctrl->redirect($this, "pages");
 		}
 		else
 		{
-			ilUtil::redirect("lm_edit.php?cmd=chapters&ref_id=".$this->object->getRefId());
+			$this->ctrl->redirect($this, "chapters");
 		}
 	}
 
@@ -1209,9 +1246,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// view button
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".$this->object->getRefID().
-			"&cmd=export");
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_create_export_file"));
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "export"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file"));
 		$this->tpl->parseCurrentBlock();
 
 		$export_dir = $this->object->getExportDirectory();
@@ -1230,8 +1266,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".$_GET["ref_id"].
-			"&cmd=post");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$tbl->setTitle($this->lng->txt("cont_export_files"));
 
@@ -1343,8 +1378,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".$_GET["ref_id"].
-			"&cmd=post");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
@@ -1381,7 +1415,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	function cancelDeleteExportFile()
 	{
 		session_unregister("ilExportFiles");
-		ilUtil::redirect("lm_edit.php?cmd=exportList&ref_id=".$_GET["ref_id"]);
+		$this->ctrl->redirect($this, "exportList");
 	}
 
 
@@ -1404,7 +1438,31 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				ilUtil::delDir($exp_dir);
 			}
 		}
-		ilUtil::redirect("lm_edit.php?cmd=exportList&ref_id=".$_GET["ref_id"]);
+		$this->ctrl->redirect($this, "exportList");
+	}
+
+	/**
+	* output tabs
+	*/
+	function setTabs()
+	{
+		// catch feedback message
+		include_once("classes/class.ilTabsGUI.php");
+		$tabs_gui =& new ilTabsGUI();
+		$this->getTabs($tabs_gui);
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+		$this->tpl->setVariable("HEADER", $this->object->getTitle());
+	}
+
+	/**
+	* adds tabs to tab gui object
+	*
+	* @param	object		$tabs_gui		ilTabsGUI object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// back to upper context
+		$tabs_gui->getTargetsByObjectType($this, $this->object->getType());
 	}
 
 } // END class.ilObjContentObjectGUI

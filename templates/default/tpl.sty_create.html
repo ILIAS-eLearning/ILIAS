@@ -11,7 +11,14 @@
 	<td class="option">{TXT_DESC}</td>
 	<td class="option_value"><textarea name="style_description" rows="2" cols="40">{DESCRIPTION}</textarea></td>
 </tr>
+<tr>
+  <td class="submit" colspan="2">
+  <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+  <div align="right">
+	<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+	<input class="submit" type="submit" name="cmd[save]" value="{TXT_SAVE}" />
+  </div>
+  </td>
+</tr>
 </table>
-<p class="small"><span class="asterisk">*</span> {TXT_REQUIRED_FLD}</p>
-<br /><input class="submit" type="submit" value="{TXT_SAVE}"/>
 </form>

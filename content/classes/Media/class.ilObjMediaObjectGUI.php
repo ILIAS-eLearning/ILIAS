@@ -23,6 +23,7 @@
 
 require_once ("content/classes/Media/class.ilObjMediaObject.php");
 require_once ("content/classes/class.ilInternalLinkGUI.php");
+require_once ("classes/class.ilObjectGUI.php");
 
 /**
 * Class ilObjMediaObjectGUI
@@ -90,7 +91,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
 				$link_gui->setMode("link");
 				$link_gui->setSetLinkTargetScript(
-					$this->ctrl->getLinkTarget($this, "setInternalLink"));
+					$this->ctrl->getLinkTargetByClass("ilObjMediaObjectGUI",
+					"setInternalLink", "", true));
 				$link_gui->filterLinkType("Media");
 				$ret =& $link_gui->executeCommand();
 				break;
@@ -1517,7 +1519,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$this->ctrl->setParameter($this, "linkmode", "map");
 				$this->tpl->setVariable("LINK_ILINK",
 					$this->ctrl->getLinkTargetByClass("ilInternalLinkGUI", "showLinkHelp",
-					array("ilObjMediaObjectGUI")));
+					array("ilObjMediaObjectGUI"), true));
 				$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_get_link")."]");
 
 				$this->tpl->parseCurrentBlock();
