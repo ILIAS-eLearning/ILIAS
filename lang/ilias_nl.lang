@@ -385,6 +385,7 @@ common#:#assign_user_to_role#:#Gebruikersrol toewijzen
 common#:#at_location#:#op locatie
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
+common#:#attend#:#Attend###03 Apr 2004 new variable
 common#:#author#:#Auteur
 common#:#authors#:#Auteurs
 common#:#available_languages#:#Beschikbare talen
@@ -441,7 +442,17 @@ common#:#cat_write#:#Wijzig kategorie
 common#:#categories#:#Kategoriën
 common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
 common#:#cc#:#CC
+common#:#cen#:#Centra Event###03 Apr 2004 new variable
+common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
+common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
+common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
+common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
+common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
+common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
 common#:#censorship#:#Censuur
+common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
+common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Wijzig rechten-instellingen
 common#:#chac_read#:#Leesrechten  op chat-instellingen
 common#:#chac_visible#:#Chat-instellingen zijn zichtbare
@@ -563,6 +574,7 @@ common#:#desc#:#Beschrijving
 common#:#description#:#Beschrijving
 common#:#desired_password#:#Gewenste wachtwoord
 common#:#disabled#:#Uitgeschakeld
+common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#Naar beneden
 common#:#download#:#Download
 common#:#drafts#:#Klad
@@ -1132,6 +1144,7 @@ common#:#obj#:#Object
 common#:#obj_adm#:#Systeem-instellingen###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#Bevat alle functionaliteit voor de administratie van uw  ILIAS-installatie.
 common#:#obj_cat#:#Kategorie
+common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Chat-instellingen
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###09 Mar 2004 new variable
 common#:#obj_chat#:#Chat
@@ -1180,6 +1193,7 @@ common#:#obj_uset#:#Gebruikers-instellingen
 common#:#obj_usr#:#Gebruiker
 common#:#obj_usrf#:#Gebruikers-registraties
 common#:#obj_usrf_desc#:#Beheer gebruiker-accounts hier.
+common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Objecten
 common#:#objf#:#Object-definities
 common#:#objf_edit_permission#:#Wijzig rechten-instellingen

@@ -385,6 +385,7 @@ common#:#assign_user_to_role#:#Atribuir utilizador ao papel
 common#:#at_location#:#na localização
 common#:#attachment#:#Anexo
 common#:#attachments#:#Anexos
+common#:#attend#:#Attend###03 Apr 2004 new variable
 common#:#author#:#Autor
 common#:#authors#:#Autores
 common#:#available_languages#:#Linguagens disponíveis
@@ -441,7 +442,17 @@ common#:#cat_write#:#Editar Categoria
 common#:#categories#:#Categorias
 common#:#categories_imported#:#Category import complete.###08 Mar 2004 new variable
 common#:#cc#:#CC
+common#:#cen#:#Centra Event###03 Apr 2004 new variable
+common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
+common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
+common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
+common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
+common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
+common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
 common#:#censorship#:#Censura
+common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
+common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Mudar definições de permissões
 common#:#chac_read#:#Acesso de Leitura às definições de Chat
 common#:#chac_visible#:#As definições de Chat são visíveis
@@ -563,6 +574,7 @@ common#:#desc#:#Descrição
 common#:#description#:#Descrição
 common#:#desired_password#:#Palavra-passe desejada
 common#:#disabled#:#Desligado
+common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#Baixo
 common#:#download#:#Descarregar
 common#:#drafts#:#Rascunhos
@@ -1132,6 +1144,7 @@ common#:#obj#:#Objecto
 common#:#obj_adm#:#Definições de Sistema
 common#:#obj_adm_desc#:#Principal pasta de definições de sistema contendo todos os painéis para administrar a sua instalação do ILIAS.
 common#:#obj_cat#:#Categoria
+common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Definições de Chat
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###09 Mar 2004 new variable
 common#:#obj_chat#:#Chat
@@ -1180,6 +1193,7 @@ common#:#obj_uset#:#Definições de Utilizador
 common#:#obj_usr#:#Utilizador
 common#:#obj_usrf#:#Contas de utilizadores
 common#:#obj_usrf_desc#:#Gira aqui as contas de utilizadores.
+common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Objectos
 common#:#objf#:#Definições de Objectos
 common#:#objf_edit_permission#:#Mudar definições de permissões

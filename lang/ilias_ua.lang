@@ -385,6 +385,7 @@ common#:#assign_user_to_role#:#Призначити Користувачу Ро�
 common#:#at_location#:#знаходиться
 common#:#attachment#:#Прикріплення
 common#:#attachments#:#Прикріплення
+common#:#attend#:#Attend###03 Apr 2004 new variable
 common#:#author#:#Автор
 common#:#authors#:#Атвори
 common#:#available_languages#:#Доступні Мови
@@ -441,7 +442,17 @@ common#:#cat_write#:#Редагувати Категорію
 common#:#categories#:#Категорії
 common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
 common#:#cc#:#CC
+common#:#cen#:#Centra Event###03 Apr 2004 new variable
+common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
+common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
+common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
+common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
+common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
+common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
 common#:#censorship#:#Цензура
+common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
+common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
 common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
 common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
@@ -563,6 +574,7 @@ common#:#desc#:#Опис
 common#:#description#:#Опис
 common#:#desired_password#:#Потрібний Пароль
 common#:#disabled#:#Відключений
+common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#Вниз
 common#:#download#:#Зпвантажити
 common#:#drafts#:#Чернетки
@@ -1132,6 +1144,7 @@ common#:#obj#:#Об'єкт
 common#:#obj_adm#:#Системні Настройки###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#Папка з головними системними настройками містить усі панелі для адміністрування вашої інсталяції ILIAS.
 common#:#obj_cat#:#Категорія
+common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###09 Mar 2004 new variable
 common#:#obj_chat#:#Chat###18 Feb 2004 new variable
@@ -1180,6 +1193,7 @@ common#:#obj_uset#:#Настройки Користувача
 common#:#obj_usr#:#Користувач
 common#:#obj_usrf#:#Аккаунт користувача
 common#:#obj_usrf_desc#:#Управляйте аккаунтами користувачів тут.
+common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#Об'єкти
 common#:#objf#:#Визначення об'єктів
 common#:#objf_edit_permission#:#CЗмінити настройки прав

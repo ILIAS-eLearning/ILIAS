@@ -385,6 +385,7 @@ common#:#assign_user_to_role#:#Assign User to Role
 common#:#at_location#:#at location
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
+common#:#attend#:#Attend
 common#:#author#:#Author
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
@@ -441,7 +442,17 @@ common#:#cat_write#:#Edit Category
 common#:#categories#:#Categories
 common#:#categories_imported#:#Category import complete.
 common#:#cc#:#CC
+common#:#cen#:#Centra Event
+common#:#cen_add#:#Add Centra Event
+common#:#cen_added#:#Centra Event added
+common#:#cen_delete#:#Delete Centra Event
+common#:#cen_edit#:#Edit Centra Event
+common#:#cen_new#:#New Centra Event
+common#:#cen_save#:#Save Centra Event
 common#:#censorship#:#Censorship
+common#:#centra_account#:#Centra Admin Account
+common#:#centra_rooms#:#Centra Rooms
+common#:#centra_server#:#Centra Server
 common#:#chac_edit_permission#:#Change permission settings
 common#:#chac_read#:#Read access to chat settings
 common#:#chac_visible#:#Chat settings are visible
@@ -563,6 +574,7 @@ common#:#desc#:#Description
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
 common#:#disabled#:#Disabled
+common#:#domain#:#Domain
 common#:#down#:#Down
 common#:#download#:#Download
 common#:#drafts#:#Drafts
@@ -1132,6 +1144,7 @@ common#:#obj#:#Object
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_cat#:#Category
+common#:#obj_cen#:#Centra Event
 common#:#obj_chac#:#Chat settings
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.
 common#:#obj_chat#:#Chat
@@ -1180,6 +1193,7 @@ common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
 common#:#obj_usrf#:#User accounts
 common#:#obj_usrf_desc#:#Manage user accounts here.
+common#:#object_added#:#Object added
 common#:#objects#:#Objects
 common#:#objf#:#Objectdefinitions
 common#:#objf_edit_permission#:#Change permission settings
@@ -2621,20 +2635,6 @@ meta#:#meta_very_easy#:#Very Easy
 meta#:#meta_very_high#:#Very High
 meta#:#meta_very_low#:#Very Low
 meta#:#meta_yes#:#Yes
-common#:#obj_cen#:#Centra Event
-common#:#cen#:#Centra Event
-common#:#domain#:#Domain
-common#:#centra_server#:#Centra Server
-common#:#centra_account#:#Centra Admin Account
-common#:#centra_rooms#:#Centra Rooms
-common#:#cen_new#:#New Centra Event
-common#:#cen_add#:#Add Centra Event
-common#:#cen_added#:#Centra Event added
-common#:#cen_edit#:#Edit Centra Event
-common#:#cen_save#:#Save Centra Event
-common#:#cen_delete#:#Delete Centra Event
-common#:#object_added#:#Object added
-common#:#attend#:#Attend
 search#:#search_all_results#:#All results
 search#:#search_concatenation#:#Concatenation
 search#:#search_content#:#Page Content

@@ -385,6 +385,7 @@ common#:#assign_user_to_role#:#Assign User to Role###29 Mar 2003 new variable
 common#:#at_location#:#at location###06 Aug 2003 new variable
 common#:#attachment#:#Attachment###28 Mar 2003 new variable
 common#:#attachments#:#Attachments###28 Mar 2003 new variable
+common#:#attend#:#Attend###03 Apr 2004 new variable
 common#:#author#:#author
 common#:#authors#:#autores
 common#:#available_languages#:#available languages
@@ -441,7 +442,17 @@ common#:#cat_write#:#Edit Category###13 Jan 2004 new variable
 common#:#categories#:#categories
 common#:#categories_imported#:#Category import complete.###06 Mar 2004 new variable
 common#:#cc#:#cc
+common#:#cen#:#Centra Event###03 Apr 2004 new variable
+common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
+common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
+common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
+common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
+common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
+common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
 common#:#censorship#:#censorship###13 May 2003 new variable
+common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
+common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
+common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
 common#:#chac_edit_permission#:#Change permission settings###18 Feb 2004 new variable
 common#:#chac_read#:#Read access to chat settings###18 Feb 2004 new variable
 common#:#chac_visible#:#Chat settings are visible###18 Feb 2004 new variable
@@ -563,6 +574,7 @@ common#:#desc#:#description
 common#:#description#:#description
 common#:#desired_password#:#desired password
 common#:#disabled#:#disabled
+common#:#domain#:#Domain###03 Apr 2004 new variable
 common#:#down#:#Down###02 Sep 2003 new variable
 common#:#download#:#Download###28 Mar 2003 new variable
 common#:#drafts#:#drafts
@@ -1132,6 +1144,7 @@ common#:#obj#:#obj
 common#:#obj_adm#:#System Settings###15 May 2003 new variable
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.###01 Oct 2003 new variable
 common#:#obj_cat#:#Category###15 May 2003 new variable
+common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
 common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
 common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###09 Mar 2004 new variable
 common#:#obj_chat#:#Chat###18 Feb 2004 new variable
@@ -1180,6 +1193,7 @@ common#:#obj_uset#:#User Settings###15 May 2003 new variable
 common#:#obj_usr#:#User###15 May 2003 new variable
 common#:#obj_usrf#:#User Administration###15 May 2003 new variable
 common#:#obj_usrf_desc#:#Manage user accounts here.###01 Oct 2003 new variable
+common#:#object_added#:#Object added###03 Apr 2004 new variable
 common#:#objects#:#objects
 common#:#objf#:#objf###02 Oct 2003 content changed
 common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new variable
