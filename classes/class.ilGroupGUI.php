@@ -35,7 +35,9 @@ require_once("classes/class.ilObjGroup.php");
 * @author	Sascha Hofmann <shofmann@databay.de>
 *
 
+
 * @version	$Id$
+
 * @package	ilias-core
 */
 class ilGroupGUI extends ilObjectGUI
@@ -2040,21 +2042,56 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		$modifier = 1;
-
 		$path = $this->grp_tree->getPathFull($_GET["ref_id"]);
+		$path2 = $this->tree->getPathFull($path[0]["child"]);
+		//$this->tpl->touchBlock("locator_separator");
 
-		$this->tpl->touchBlock("locator_separator");
 
-		$this->tpl->setCurrentBlock("locator_item");
+		/*$this->tpl->setCurrentBlock("locator_item");
 		$this->tpl->setVariable("ITEM", $this->lng->txt("groups"));
 		$this->tpl->setVariable("LINK_ITEM", "grp_list.php");
 		$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
+
+		foreach ($path2 as $key => $row)
+		{
+			if ($key < count($path2)-1)
+			{
+				$this->tpl->touchBlock("locator_separator");
+			}
+			if (strcmp($row["type"],"grp") == 0)
+			{
+				$this->tpl->setCurrentBlock("locator_item");
+				$this->tpl->setVariable("ITEM", $row["title"]);
+				$this->tpl->setVariable("LINK_ITEM", "group.php?ref_id=".$row["child"]);
+				$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("locator_item");
+				$this->tpl->setVariable("ITEM", $row["title"]);
+				$this->tpl->setVariable("LINK_ITEM", "grp_list.php?ref_id=".$row["child"]);
+				$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
+				$this->tpl->parseCurrentBlock();
+			}
+
+		}
+
+		//$modifier= 0;
+		array_shift ($path);
+
+		if (count ($path) > 0)
+		{
+
+			$this->tpl->touchBlock("locator_separator");
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->parseCurrentBlock();
+		}
 
 		foreach ($path as $key => $row)
 		{
-			if ($key < count($path)-$modifier)
+			if ($key < count($path)-1)
 			{
 				$this->tpl->touchBlock("locator_separator");
 			}
@@ -2065,8 +2102,10 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("LINK_TARGET", "target=\"bottom\"");
 			$this->tpl->parseCurrentBlock();
 		}
-
+		
 		$this->tpl->setCurrentBlock("locator");
+
+
 
 		if (DEBUG)
 		{
