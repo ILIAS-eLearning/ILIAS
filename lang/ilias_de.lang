@@ -993,7 +993,7 @@ common#:#exc_visible#:#Übung ist sichtbar
 common#:#exc_write#:#Übung bearbeiten
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
-common#:#exercise_time_over#:#Sie haben das Enddatum für verfügbarkeit der Übung erreicht. Sie können keine Bearbeitungen mehr abgeben!
+common#:#exercise_time_over#:#Sie haben das Enddatum für die Verfügbarkeit der Übung erreicht. Sie können keine Bearbeitungen mehr abgeben!
 common#:#export#:#Export
 common#:#export_group_members#:#Gruppenmitglieder exportieren (nach Microsoft Excel)
 common#:#export_html#:#Exportieren als HTML-Datei###14 Sep 2004 content changed
