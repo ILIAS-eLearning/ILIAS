@@ -404,7 +404,7 @@ common#:#grp_create_frm#:#Neues Forum anlegen
 common#:#grp_create_lm#:#Neues Lernmodul anlegen
 common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
 common#:#grp_delete#:#Gruppe löschen
-common#:#grp_edit#:#Gruppe übearbeiten
+common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein ausgewiesener Gruppenadministrator benötigt
