@@ -117,15 +117,14 @@ class Tree
 		$this->ilias =& $ilias;
 
 		//init variables
-		if (empty($a_root_id))
-		{
-			$a_root_id = ROOT_FOLDER_ID;
-		}
-
-		//init variables
 		if (empty($a_tree_id))
 		{
 			$a_tree_id = ROOT_FOLDER_ID;
+		}
+		//init variables
+		if (empty($a_root_id))
+		{
+            $a_root_id = ROOT_FOLDER_ID;
 		}
 
 		$this->node_id		  = $a_node_id;
@@ -397,7 +396,14 @@ class Tree
 	function getSubTree($a_node)
 	{
 	    $subtree = array();
-	
+/*	
+		$query = "SELECT * FROM $this->table_tree, $this->table_obj_data ".
+			"WHERE $this->table_obj_data.obj_id = $this->table_tree.child ".
+			"AND $this->table_tree.lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
+			"AND $this->table_tree.tree = '".$this->tree_id."' ".
+			"ORDER BY $this->table_tree.lft";
+		$res = $this->ilias->db->query($query);
+*/
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin(). // TODO: i think this will not work
 			 "WHERE ".$this->table_obj_data.".".$this->obj_pk." = ".$this->table_tree.".child ".
@@ -526,6 +532,8 @@ class Tree
 	function getPathFull ($a_endnode, $a_startnode = 0)
 	{
 		$this->Path = "";
+
+		$a_startnode = $a_startnode ? $a_startnode : $this->root_id;
 
 		$r = $this->fetchPath($a_endnode, $a_startnode);
 				
@@ -774,7 +782,7 @@ class Tree
 	function fetchNodeData($a_row)
 	{
 		$data = array(
-					"ref_id"		=> $a_row->ref_id,
+					"ref_id"		=> $a_row->obj_id,
 					"obj_id"		=> $a_row->obj_id,
 					"type"			=> $a_row->type,
 					"title"			=> $a_row->title,
@@ -825,7 +833,6 @@ class Tree
 		$r = $this->ilias->db->query($q);
 
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-		
 		return $this->fetchNodeData($row);
 	}
 
@@ -883,13 +890,17 @@ class Tree
 	* @param	integer		a_tree_id: obj_id of object where tree belongs to
 	* @access	public
 	*/
-	function getRootID($a_tree_id)
+	function getRootID($a_tree_id = 0)
 	{
+		$a_tree_id = $a_tree_id ? $a_tree_id : $this->tree_id;
+
 		$q = "SELECT * FROM ".$this->table_tree." WHERE tree='".$a_tree_id."' AND parent='0'";
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
-		return $this->fetchNodeData($row);			
+		// It's only asked for the root id
+		// return $this->fetchNodeData($row);
+		return $row->child;
 	}
 
 	/**
