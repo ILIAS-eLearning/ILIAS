@@ -1434,7 +1434,7 @@ class ilPageObject
 	/**
 	* Highligths Text with given ProgLang
 	*/
-	
+
 	function highlightText($a_text, $proglang, $autoindent)
 	{
 
@@ -1469,7 +1469,6 @@ class ilPageObject
 	* attribute the line numbers and html tags for the syntax
 	* highlighting will be inserted using the dom xml functions
 	*/
-
 	function addSourceCodeHighlighting()
 	{
 		$xpc = xpath_new_context($this->dom);
@@ -1494,6 +1493,12 @@ class ilPageObject
 			for($j=0; $j<count($childs); $j++)
 			{
 				$content .= $this->dom->dump_node($childs[$j]);
+			}
+
+			if ($subchar == "html")
+			{
+				$content = str_replace("&lt;", "&amp;amp;lt;", $content);
+				$content = str_replace("&gt;", "&amp;amp;gt;", $content);
 			}
 
 			while ($context_node->has_child_nodes ())
