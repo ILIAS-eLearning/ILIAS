@@ -10,6 +10,7 @@
 require_once "./include/inc.header.php";
 require_once "classes/class.Forum.php";
 
+
 $frm = new Forum();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_view.html");
@@ -41,15 +42,17 @@ $tpl->setVariable("LINK_SORT", "<b>></b><a href=\"forums_threads_view.php?orderb
 // get forum- and thread-data
 $frm->setWhereCondition("top_frm_fk = ".$_GET["obj_id"]);
 if (is_array($topicData = $frm->getOneTopic())) {
-	
+
 	$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
 	$threadData = $frm->getOneThread();
-	
+
+	$tpl->setVariable("HEADER", $threadData["thr_subject"]);
+
 	// Visit-Counter
 	$frm->setDbTable("frm_threads");
 	$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
 	$frm->updateVisits($_GET["thr_pk"]);
-	
+
 	// ********************************************************************************
 	// build location-links
 	$tpl->touchBlock("locator_separator");
@@ -57,12 +60,12 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	$tpl->setVariable("ITEM", $lng->txt("forums_overview"));
 	$tpl->setVariable("LINK_ITEM", "forums.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
 	$tpl->parseCurrentBlock();
-		
+
 	$tpl->touchBlock("locator_separator");
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_topics_overview").": ".$topicData["top_name"]);
 	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
-	$tpl->parseCurrentBlock();	
+	$tpl->parseCurrentBlock();
 		
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_thread_articles").": ".$threadData["thr_subject"]);
