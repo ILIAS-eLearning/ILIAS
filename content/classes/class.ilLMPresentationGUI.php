@@ -90,7 +90,49 @@ class ilLMPresentationGUI
 		switch($this->lm->getType())
 		{
 			case "dbk":
-				$this->lm_gui->offlineexport();
+				//$this->lm_gui->offlineexport();
+				$_GET["frame"] = "maincontent";
+				
+				$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$_GET["ref_id"]."' AND object_reference.obj_id=object_data.obj_id ";
+				$result = $this->ilias->db->query($query);
+				$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				$_GET["obj_id"] = $objRow["obj_id"];
+				// vd($objRow);
+				$query = "SELECT * FROM lm_data WHERE lm_id='".$objRow["obj_id"]."' AND type='pg' ";
+				$result = $this->ilias->db->query($query);
+				
+				$page = 0;
+				while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) 
+				{
+					$page++;
+					
+					if ($_POST["pages"]=="all" || ($_POST["pages"]=="fromto" && $page>=$_POST["pagefrom"] && $page<=$_POST["pageto"] )) {
+					
+						$_GET["obj_id"] = $row["obj_id"];
+						$o = $this->layout("main.xml",false);
+						$output .= $o;
+						$output .= "\n\n\n";
+					}
+				}
+				
+				$printTpl = new ilTemplate("tpl.print.html", true, true, true);
+				
+				//vd(ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+				
+				
+				$printTpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()) );
+				
+				$printTpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());	
+				$printTpl->setVariable("CONTENT",$output);
+				
+				/*
+				echo "<font face=verdana size=1>";
+				echo nl2br(htmlspecialchars($printTpl->get()));
+				echo "</font>";
+				*/
+				
+				$printTpl->show();
+				
 				break;
 		}
 		
@@ -123,7 +165,7 @@ class ilLMPresentationGUI
 	/**
 	* generates frame layout
 	*/
-	function layout($a_xml = "main.xml")
+	function layout($a_xml = "main.xml", $doShow = true)
 	{
 		global $tpl;
 
@@ -227,7 +269,7 @@ class ilLMPresentationGUI
 						if($_GET["obj_id"])
 						{
 							// SHOW PAGE IF PAGE WAS SELECTED
-							$this->ilPage($child);
+							$pageContent = $this->ilPage($child);
 						}
 						else
 						{
@@ -257,7 +299,8 @@ class ilLMPresentationGUI
 				}
 			}
 		}
-		$this->tpl->show();
+		if ($doShow) $this->tpl->show();
+		return($pageContent);
 	}
 
 	function fullscreen()
@@ -512,6 +555,8 @@ class ilLMPresentationGUI
 		$output = str_replace("&amp;", "&", $output);
 //echo "<b>HTML</b>".htmlentities($output);
 		$this->tpl->setVariable("PAGE_CONTENT", $output);
+		
+		return($output);
 	}
 
 	function ilMedia()
