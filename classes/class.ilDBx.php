@@ -334,8 +334,44 @@ class ilDBx extends PEAR
 
 		return true;
 	}
-
+	
+	/**
+	* get mysql version
+	*/
+	function getMySQLVersion()
+	{
+		return mysql_get_server_info();
+	}
+	
+	/**
+	* check wether current MySQL server is version 4.1.x
+	*/
+	function isMysql4_1()
+	{
+		$version = explode(".", $this->getMysqlVersion());
+		if ($version[0] == "4" && $version[1] == "1")
+		{
+			return true;
+		}
 		
+		return false;
+	}
+
+	/**
+	* check wether current MySQL server is version 4.1.x or higher
+	*/
+	function isMysql4_1OrHigher()
+	{
+		$version = explode(".", $this->getMysqlVersion());
+		if ((int)$version[0] >= 5 ||
+			((int)$version[0] == 4 && (int)$version[1] >= 1))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 
 } //end Class
 ?>

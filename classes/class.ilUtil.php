@@ -2503,7 +2503,6 @@ class ilUtil
 			return move_uploaded_file($a_file, $a_target);
 		}
 	}
-
 	
 } // END class.ilUtil
 ?>
