@@ -1088,7 +1088,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("pages");
 				if ($table["startrow"] == $i)
 				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<strong>$counter</strong>");
+					$this->tpl->setVariable("PAGE_NUMBER", "<span class=\"inactivepage\">$counter</span>");
 				}
 				else
 				{

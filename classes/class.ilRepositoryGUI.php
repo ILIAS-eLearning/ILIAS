@@ -3488,6 +3488,11 @@ class ilRepositoryGUI
 		$this->executeAdminCommand();
 	}
 
+	function importFile()
+	{
+		$this->executeAdminCommand();
+	}
+
 	function import()
 	{
 		$this->executeAdminCommand();

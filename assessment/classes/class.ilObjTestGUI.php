@@ -69,6 +69,25 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
+	* form for new content object import
+	*/
+	function importFileObject()
+	{
+		if ($_POST["qpl"] < 1)
+		{
+			sendInfo($this->lng->txt("tst_select_questionpools"));
+			$this->createObject();
+		}
+		if (strcmp($_FILES["tmp_name"], "") == 0)
+		{
+			sendInfo($this->lng->txt("tst_select_file_for_import"));
+			$this->createObject();
+		}
+		$this->uploadObject(false);
+		ilUtil::redirect("repository.php?".$this->link_params);
+	}
+	
+	/**
 	* form for new content object creation
 	*/
 	function createObject()
@@ -77,36 +96,40 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
-		require_once("./assessment/classes/class.ilObjTest.php");
-		$tst = new ilObjTest();
-		$questionpools =& $tst->getAvailableQuestionpools(true);
-		if (count($questionpools) == 0)
-		{
-		}
-		else
-		{
-			foreach ($questionpools as $key => $value)
-			{
-				$this->tpl->setCurrentBlock("option_qpl");
-				$this->tpl->setVariable("OPTION_VALUE", $key);
-				$this->tpl->setVariable("TXT_OPTION", $value);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		else
 		{
+			$this->getTemplateFile("create", $new_type);
+
+			require_once("./assessment/classes/class.ilObjTest.php");
+			$tst = new ilObjTest();
+			$questionpools =& $tst->getAvailableQuestionpools(true);
+			if (count($questionpools) == 0)
+			{
+			}
+			else
+			{
+				foreach ($questionpools as $key => $value)
+				{
+					$this->tpl->setCurrentBlock("option_qpl");
+					$this->tpl->setVariable("OPTION_VALUE", $key);
+					$this->tpl->setVariable("TXT_OPTION", $value);
+					if ($_POST["qpl"] == $key)
+					{
+						$this->tpl->setVariable("OPTION_SELECTED", " selected=\"selected\"");				
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			
 			// fill in saved values in case of error
 			$data = array();
 			$data["fields"] = array();
 			$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
 			$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-
-			$this->getTemplateFile("create", $new_type);
 
 			foreach ($data["fields"] as $key => $val)
 			{
@@ -479,7 +502,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function uploadObject()
+	function uploadObject($redirect = true)
 	{
 		if ($_POST["qpl"] < 1)
 		{
@@ -543,7 +566,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$newObj->update();
 		$newObj->saveToDb();
-		ilUtil::redirect("adm_object.php?".$this->link_params);
+		if ($redirect)
+		{
+			ilUtil::redirect("adm_object.php?".$this->link_params);
+		}
 	}
 
 	function propertiesObject()
@@ -1068,7 +1094,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("pages");
 				if ($table["startrow"] == $i)
 				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<strong>$counter</strong>");
+					$this->tpl->setVariable("PAGE_NUMBER", "<span class=\"inactivepage\">$counter</span>");
 				}
 				else
 				{
