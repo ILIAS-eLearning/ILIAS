@@ -862,7 +862,8 @@ common#:#group_req_password#:#Registration password required
 common#:#group_req_registration#:#Registration required
 common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.
 common#:#group_reset#:#Reset Group Permissions
-common#:#group_status#:#Group Status
+common#:#group_status#:#Group is
+common#:#group_status_desc#:#Determines the initial status of the group by using the permission settings from the role templates 'il_grp_status_closed' or 'il_grp_status_open' <br/>Public: Group is visible; User may subscribe. <br/> Closed: Group is not visible for non-members; User has to be invited by a member to join.
 common#:#group_status_closed#:#Closed
 common#:#group_status_public#:#Public
 common#:#groups#:#Groups
