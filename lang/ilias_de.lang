@@ -4242,3 +4242,6 @@ payment#:#pay_reset_filter#:#Filter zurücksetzen
 common#:#as_of#:#Stand
 payment#:#paya_filter_reseted#:#Der Filter wurde zurückgesetzt.
 payment#:#excel_export#:#Excel Export
+content#:#cont_or#:#oder
+content#:#cont_example#:#Beispiel
+content#:#cont_confirm_delete#:#wirklich löschen ?

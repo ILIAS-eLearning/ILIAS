@@ -432,7 +432,7 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += ".iliasxln {color: 0000FF;text-decoration:underline;}";
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
 	
-	//cfg.statusBar = false;
+	cfg.statusBar = false;
 	
 	cfg.toolbar = [
 		[ 
@@ -496,18 +496,33 @@ function addFussnote(Tb)
 	fnCount++;
 }
 
-function addInternalLink(Link) {
+function addInternalLink(Link,title) {
 	//Link = Link.replace("&quot;","\"",Link);
 	//Link = Link.replace("&quot;","\"",Link);
+	
+	Link = Link.replace("[iln ","<span class=\"iliasiln\" ");
+	Link = Link.replace("\"]","\">");
 	Link = Link.replace(" [/iln]","");
-	editor.surroundHTML(Link,"[/iln]");
+	if(editor.hasSelectedText()) {
+		editor.surroundHTML(Link,"</span>");
+	} else {
+		editor.insertHTML(Link+title+"</span>");
+	}
 }
 
 
 function buttonFootnote() 
 {
-	w = window.open("lm_edit.php?cmd=popup&ptype=footnote","footnote","width=500,height=450,resizable=yes");
-	setTimeout("w.focus()",500);
+	if(editor.hasSelectedText()) 
+	{
+		addFussnote(editor.getSelectedHTML());
+		editor.surroundHTML('<span class=\"footnote\" value=\"','\">['+fnCount+']</span>');
+	} 
+	else 
+	{
+		w = window.open("lm_edit.php?cmd=popup&ptype=footnote","footnote","width=500,height=450,resizable=yes");
+		setTimeout("w.focus()",500);
+	}
 }
 
 function buttonExternalLink() 
@@ -600,7 +615,6 @@ function buttonInternalLink()
 			Te = T2.substr(0,T2.indexOf("[/iln]") );
 			
 			Tc = Td+ Te+"[/iln]";
-			//alert(">"+Tb+"<");
 			T = T.replace(Td,"<span class=\"iliasiln\" "+Tb+">");
 			
 		}
