@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.3 2003/03/28 16:49:20 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.4 2003/03/31 09:38:20 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -117,6 +117,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			$box = ilUtil::formCheckBox($checked,"recursive",1);
 
 			$output["col_anz"] = count($obj_data);
+			$output["txt_save"] = $lng->txt("save");
+			$output["txt_permission"] = $lng->txt("permission");
+			$output["txt_obj_type"] = $lng->txt("obj_type");
+			$output["txt_stop_inheritance"] = $lng->txt("stop_inheritance");
 			$output["check_bottom"] = $box;
 			$output["message_table"] = $lng->txt("change_existing_objects");
 
@@ -155,6 +159,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
 				$output["adopt"][$key]["role_name"] = $par["title"];
 			}
+
 			$output["formaction_adopt"] = "adm_object.php?cmd=adoptPermSave&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId();
 
 			// END ADOPT_PERMISSIONS
@@ -229,6 +234,9 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("COL_ANZ",$this->data["col_anz"]);
+		$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
+		$this->tpl->setVariable("TXT_PERMISSION",$this->data["txt_permission"]);
+		$this->tpl->setVariable("TXT_OBJ_TYPE",$this->data["txt_obj_type"]);
 		$this->tpl->setVariable("CHECK_BOTTOM",$this->data["check_bottom"]);
 		$this->tpl->setVariable("MESSAGE_TABLE",$this->data["message_table"]);
 		$this->tpl->setVariable("FORMACTION",$this->data["formaction"]);
@@ -262,43 +270,41 @@ class ilObjRoleGUI extends ilObjectGUI
 			foreach ($_POST["template_perm"] as $key => $ops_array)
 			{
 				// sets new template permissions
-				$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $_GET["ref_id"]);
+				//$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $_GET["ref_id"]);
 			}
 
 			// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
 			// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPED
 			if ($_POST["recursive"])
 			{
-				$parent_obj = $_GET["parent_parent"];
-				// IF PARENT NODE IS SYTEM FOLDER START AT ROOT FOLDER
+				$parent_obj = $_GET["ref_id"];
+				// IF PARENT NODE IS SYSTEM FOLDER START AT ROOT FOLDER
 				if ($parent_obj == SYSTEM_FOLDER_ID)
 				{
-					$object_id = ROOT_FOLDER_ID;
-					$parent = 0;
+					$node_id = ROOT_FOLDER_ID;
 				}
 				else
 				{
-					$node_data = $tree->getParentNodeData($_GET["ref_id"]);
-					$object_id = $node_data["obj_id"];
-					$parent = $node_data["parent"];
+					$node_id = $parent_obj;
 				}
 				// GET ALL SUBNODES
-				$node_data = $tree->getNodeData($object_id);
+				$node_data = $tree->getNodeData($node_id);
 				$subtree_nodes = $tree->getSubTree($node_data);
 
 				// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
 				$all_rolf_obj = $rbacadmin->getObjectsWithStopedInheritance($this->object->getId());
 
 				// DELETE ACTUAL ROLE FOLDER FROM ARRAY
-				$key = array_keys($all_rolf_obj,$object_id);
+				$key = array_keys($all_rolf_obj,$node_id);
 				unset($all_rolf_obj["$key[0]"]);
 
 				$check = false;
+
 				foreach($subtree_nodes as $node)
 				{
 					if(!$check)
 					{
-						if(in_array($node["obj_id"],$all_rolf_obj))
+						if(in_array($node["child"],$all_rolf_obj))
 						{
 							$lft = $node["lft"];
 							$rgt = $node["rgt"];
@@ -327,31 +333,30 @@ class ilObjRoleGUI extends ilObjectGUI
 					{
 						if($type == $node["type"])
 						{
-							$rbacadmin->revokePermission($node["obj_id"],$this->object->getId());
-							$rbacadmin->grantPermission($this->object->getId(),$a_perm,$node["obj_id"]);
+							$rbacadmin->revokePermission($node["child"],$this->object->getId());
+							$rbacadmin->grantPermission($this->object->getId(),$a_perm,$node["child"]);
 						}
 					}
 				}
 			}// END IF RECURSIVE
 		}// END CHECK ACCESS
 	
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&ref_id=".$_GET["ref_id"]."&cmd=perm");
+		sendinfo($this->lng->txt("saved_successfully"),true);
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		exit();
 	}
 
 
 	function adoptPermSaveObject()
 	{
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		exit();
 	}
 
 
 	function assignSaveObject()
 	{
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=perm");
 		exit();
 	}
 } // END class.RoleObjectOut

@@ -1169,7 +1169,9 @@ class ilObjectGUI
 		}
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION","adm_object.php?".$this->link_params."&cmd=perm");
+		$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
+		$this->tpl->setVariable("FORMACTION","adm_object.php?".$this->link_params."&cmd=permSave");
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1190,7 +1192,7 @@ class ilObjectGUI
 			foreach ($_POST["perm"] as $key => $new_role_perms)
 			{
 				// $key enthaelt die aktuelle Role_Id
-				$rbacadmin->grantPermission($key,$new_role_perms, $_GET["ref_id"]);
+				$rbacadmin->grantPermission($key,$new_role_perms,$_GET["ref_id"]);
 			}
 		}
 		else
@@ -1230,6 +1232,7 @@ class ilObjectGUI
 				}
 				// CHECK ACCESS 'write' of role folder
 				$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
+
 				if ($rbacsystem->checkAccess('write',$rolf_data["child"]))
 				{
 					$parentRoles = $rbacadmin->getParentRoleIds();
@@ -1244,6 +1247,7 @@ class ilObjectGUI
 			}// END FOREACH
 		}// END STOP INHERIT
 	
+		sendinfo($this->lng->txt("saved_successfully"),true);	
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
 		exit();
 	}
