@@ -17,7 +17,11 @@ include_once("./classes/class.Setup.php");
 include_once("./classes/class.Language.php");
 include_once("HTML/IT.php");
 
-$VERSION = "0.9 - $Revision$";
+$VERSION = "0.9";
+
+//CVS - REVISION - DO NOT MODIFY
+$REVISION = "$Revision$";
+$VERSION = $VERSION.".".substr(substr($REVISION,2),0,-2);
 
 //instantiate template - later in the program please use own Templateclass
 $tpl = new IntegratedTemplate("./templates");
