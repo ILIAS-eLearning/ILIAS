@@ -72,6 +72,13 @@ class ilObjChatGUI extends ilObjectGUI
 		return $this->in_module;
 	}
 
+	function saveObject()
+	{
+		$new_obj =& parent::saveObject();
+
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?ref_id=".$new_obj->getRefId()));
+	}
+
 	function cancelObject()
 	{
 		unset($_SESSION["room_id_rename"]);
@@ -270,6 +277,7 @@ class ilObjChatGUI extends ilObjectGUI
 		}
 		unset($_SESSION["room_id_delete"]);
 		sendInfo($this->lng->txt("chat_rooms_deleted"),true);
+
 		header("location: ".$this->getTargetScript("cmd=gateway&ref_id=".$this->ref_id));
 		exit;
 	}
