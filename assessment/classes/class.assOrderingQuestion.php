@@ -24,6 +24,9 @@
 require_once "class.assQuestion.php";
 require_once "class.assAnswerOrdering.php";
 
+define ("OQ_PICTURES", 0);
+define ("OQ_TERMS", 1);
+
 /**
 * Class for ordering questions
 *
@@ -52,6 +55,16 @@ class ASS_OrderingQuestion extends ASS_Question {
 * @var array
 */
   var $answers;
+
+/**
+* Type of ordering question
+*
+* There are two possible types of ordering questions: Ordering terms (=1)
+* and Ordering pictures (=0).
+*
+* @var integer
+*/
+  var $ordering_type;
 
 /**
 * Points for solving the ordering question
@@ -84,13 +97,15 @@ class ASS_OrderingQuestion extends ASS_Question {
     $author = "",
     $owner = -1,
     $question = "",
-    $points = 0.0
+    $points = 0.0,
+    $ordering_type = OQ_TERMS
   )
   {
     $this->ASS_Question($title, $comment, $author, $owner);
     $this->answers = array();
     $this->question = $question;
     $this->points = $points;
+    $this->ordering_type = $ordering_type;
   }
 
 /**
@@ -136,7 +151,7 @@ class ASS_OrderingQuestion extends ASS_Question {
       $now = getdate();
       $question_type = 5;
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, points, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, ordering_type, points, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote($question_type),
         $db->quote($this->ref_id),
@@ -145,8 +160,9 @@ class ASS_OrderingQuestion extends ASS_Question {
         $db->quote($this->author),
         $db->quote($this->owner),
         $db->quote($this->question),
+        $db->quote($this->ordering_type),
         $db->quote($this->points),
-				$db->quote("$complete"),
+	$db->quote("$complete"),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -159,13 +175,14 @@ class ASS_OrderingQuestion extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, points = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, ordering_type = %s, points = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->question),
+        $db->quote($this->ordering_type),
         $db->quote($this->points),
-				$db->quote("$complete"),
+	$db->quote("$complete"),
         $db->quote($this->id)
       );
       $result = $db->query($query);
@@ -224,6 +241,7 @@ class ASS_OrderingQuestion extends ASS_Question {
         $this->author = $data->author;
         $this->owner = $data->owner;
         $this->question = $data->question_text;
+        $this->ordering_type = $data->ordering_type;
         $this->points = $data->points;
       }
       // loads materials uris from database
@@ -253,6 +271,18 @@ class ASS_OrderingQuestion extends ASS_Question {
   function set_question($question = "") {
     $this->question = $question;
   }
+/**
+* Sets the ordering question type
+*
+* Sets the ordering question type
+*
+* @param integer $ordering_type The question ordering type
+* @access public
+* @see $ordering_type
+*/
+  function set_ordering_type($ordering_type = OQ_TERMS) {
+    $this->ordering_type = $ordering_type;
+  }
 
 /**
 * Returns the question text
@@ -266,7 +296,18 @@ class ASS_OrderingQuestion extends ASS_Question {
   function get_question() {
     return $this->question;
   }
-
+/**
+* Returns the ordering question type
+*
+* Returns the ordering question type
+*
+* @return integer The ordering question type
+* @access public
+* @see $ordering_type
+*/
+  function get_ordering_type() {
+    return $this->ordering_type;
+  }
 /**
 * Adds an answer for an ordering question
 *
@@ -513,7 +554,33 @@ class ASS_OrderingQuestion extends ASS_Question {
 		}
     return $points;
   }
+/**
+* Sets the image file
+*
+* Sets the image file and uploads the image to the object's image directory.
+*
+* @param string $image_filename Name of the original image file
+* @param string $image_tempfilename Name of the temporary uploaded image file
+* @access public
+*/
+  function set_image_file($image_filename, $image_tempfilename = "") {
 
+		if (!empty($image_tempfilename)) {
+			$imagepath = $this->get_image_path();
+			if (!file_exists($imagepath)) {
+				ilUtil::makeDirParents($imagepath);
+			}
+			if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename)) {
+				print "image not uploaded!!!! ";
+			} else {
+				// create thumbnail file
+				$size = 100;
+				$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
+				$convert_cmd = ilUtil::getConvertCmd() . " $imagepath$image_filename -resize $sizex$size $thumbpath";
+				system($convert_cmd);
+			}
+		}
+  }
 /**
 * Saves the learners input of the question to the database
 *

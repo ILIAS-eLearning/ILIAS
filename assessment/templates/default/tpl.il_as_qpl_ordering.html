@@ -15,16 +15,37 @@
   <td class="option_value" colspan="4"><textarea name="question" cols="50" rows="5" id="question">{VALUE_QUESTION}</textarea></td>
 </tr>
 {QUESTION_MATERIAL}
+<tr>
+  <td class="option"><label for="ordering_type">{TEXT_TYPE}:</label></td>
+  <td class="option_value" colspan="5"><select name="ordering_type" id="ordering_type"><option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_PICTURES}</option><option value="1"{SELECTED_TERMS}>{TEXT_TYPE_TERMS}</option></select></td>
+</tr>
+
 <tr><td colspan="5" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
 <!-- BEGIN answers -->
 <tr>
 <td colspan="2" class="tblheader">{TEXT_ANSWER} {VALUE_ANSWER_COUNTER}</td>
-<td class="tblheader"> {TEXT_SOLUTION_ORDER}</td>
+<td class="tblheader">{TEXT_SOLUTION_ORDER}</td>
 <td class="tblheader" colspan="2"></td>
 </tr>
 <tr>
+ <!-- BEGIN order_terms -->
   <td class="option">{TEXT_ANSWER_TEXT}:</td>
   <td class="option_value"><input name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="50" value="{VALUE_ANSWER}" /></td>
+ <!-- END order_terms -->
+
+ <!-- BEGIN order_pictures -->
+  <td class="option">{TEXT_ANSWER_PICTURE}:</td>
+  <td class="option_value">
+  <!-- BEGIN imageupload -->
+	{UPLOADED_IMAGE}<br>
+  <!-- END imageupload -->
+  <input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}" />
+  <input type="hidden" name="answer_{ANSWER_ORDER}" value="{IMAGE_FILENAME}" />
+	<input name="answer_{ANSWER_ORDER}" type="file" id="answer_{ANSWER_ORDER}" size="20" value="{VALUE_ANSWER}" />
+	<input type="submit" class="submit" name="cmd[upload_{ANSWER_ORDER}]" value="{UPLOAD}" />
+	</td>
+<!-- END order_pictures -->
+
   <td class="option_value"><input name="order_{ANSWER_ORDER}" type="text" id="order_{ANSWER_ORDER}" size="3" value="{VALUE_ORDER}" /></td>
   <td class="option_value"><label for="points_{ANSWER_ORDER}">{TEXT_POINTS}</label>: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="10" value="{VALUE_ORDERING_POINTS}" /></td>
   <td class="option_value">

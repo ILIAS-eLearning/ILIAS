@@ -213,14 +213,15 @@ class ASS_QuestionGUI extends PEAR {
 
 			$this->tpl->setCurrentBlock("select_block");
 			foreach ($this->question->materials as $key => $value) {
-				$this->tpl->setVariable("MATERIAL_VALUE", $value);
+				$this->tpl->setVariable("MATERIAL_VALUE", $key);
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("materiallist_block");
 			$i = 1;
 			foreach ($this->question->materials as $key => $value) {
 				$this->tpl->setVariable("MATERIAL_COUNTER", $i);
-				$this->tpl->setVariable("MATERIAL_VALUE", $value);
+				$this->tpl->setVariable("MATERIAL_VALUE", $key);
+				$this->tpl->setVariable("MATERIAL_FILE_VALUE", $value);
 				$this->tpl->parseCurrentBlock();
 				$i++;
 			}
@@ -232,6 +233,7 @@ class ASS_QuestionGUI extends PEAR {
 
     $this->tpl->setCurrentBlock("question_material");
     $this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
+    $this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
     $this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
     $this->tpl->setVariable("COLSPAN_MATERIAL", $colspan);
     $this->tpl->parseCurrentBlock();
@@ -483,26 +485,62 @@ class ASS_QuestionGUI extends PEAR {
     for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
       $this->tpl->setCurrentBlock("deletebutton");
       $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-      $this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-      $this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
       $this->tpl->setVariable("ANSWER_ORDER", $i);
       $this->tpl->parseCurrentBlock();
+
+	  $thisanswer = $this->question->get_answer($i);
+		if ($this->question->get_ordering_type() == OQ_PICTURES) {
+			$this->tpl->setCurrentBlock("order_pictures");
+			$this->tpl->setVariable("ANSWER_ORDER", $i);
+			$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
+
+			$filename = $thisanswer->get_answertext();
+			if ($filename) {
+				$imagepath = $this->question->get_image_path_web() . $thisanswer->get_answertext();
+				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $thisanswer->get_answertext() . "\" border=\"\" />");
+				$this->tpl->setVariable("IMAGE_FILENAME", $thisanswer->get_answertext());
+				$this->tpl->setVariable("VALUE_ANSWER", "");
+				//$thisanswer->get_answertext()
+			}
+			$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
+		} elseif ($this->question->get_ordering_type() == OQ_TERMS) {
+			$this->tpl->setCurrentBlock("order_terms");
+			$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+			$this->tpl->setVariable("ANSWER_ORDER", $i);
+			$this->tpl->setVariable("VALUE_ANSWER", $thisanswer->get_answertext());
+		}
+		$this->tpl->parseCurrentBlock();
+
       $this->tpl->setCurrentBlock("answers");
-      $answer = $this->question->get_answer($i);
-      $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->get_order() + 1);
-      $this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
+      $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->get_order() + 1);
+      $this->tpl->setVariable("ANSWER_ORDER", $thisanswer->get_order());
       $this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
-      $this->tpl->setVariable("VALUE_ANSWER", $answer->get_answertext());
-      $this->tpl->setVariable("VALUE_ORDER", $answer->get_solution_order());
+      $this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+      $this->tpl->setVariable("VALUE_ORDER", $thisanswer->get_solution_order());
       $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-      $this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", $answer->get_points()));
+      $this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", $thisanswer->get_points()));
       $this->tpl->parseCurrentBlock();
     }
 
     if (strlen($_POST["cmd"]["add"]) > 0) {
+
+		if ($this->question->get_ordering_type() == OQ_PICTURES) {
+			$this->tpl->setCurrentBlock("order_pictures");
+			$this->tpl->setVariable("ANSWER_ORDER", $this->question->get_answer_count());
+			$this->tpl->setVariable("VALUE_ANSWER", "");
+			$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
+			$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
+		} elseif ($this->question->get_ordering_type() == OQ_TERMS) {
+			$this->tpl->setCurrentBlock("order_terms");
+			$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+			$this->tpl->setVariable("ANSWER_ORDER", $this->question->get_answer_count());
+			$this->tpl->setVariable("VALUE_ASNWER", "");
+		}
+		$this->tpl->parseCurrentBlock();
+
       // Create an empty answer
       $this->tpl->setCurrentBlock("answers");
-      $this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+      //$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
       $this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
       $this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->question->get_answer_count() + 1);
       $this->tpl->setVariable("ANSWER_ORDER", $this->question->get_answer_count());
@@ -527,6 +565,15 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("VALUE_ORDERING_AUTHOR", $this->question->get_author());
     $this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
     $this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
+		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("type"));
+		$this->tpl->setVariable("TEXT_TYPE_PICTURES", $this->lng->txt("order_pictures"));
+		$this->tpl->setVariable("TEXT_TYPE_TERMS", $this->lng->txt("order_terms"));
+		if ($this->question->get_ordering_type() == OQ_TERMS) {
+			$this->tpl->setVariable("SELECTED_TERMS", " selected=\"selected\"");
+		} elseif ($this->question->get_ordering_type() == OQ_PICTURES) {
+			$this->tpl->setVariable("SELECTED_PICTURES", " selected=\"selected\"");
+		}
+
     $this->tpl->setVariable("SAVE", $this->lng->txt("save"));
     $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
@@ -731,6 +778,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
     $this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
 	  $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
     $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
     $this->tpl->setVariable("APPLY",$this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
@@ -1163,14 +1211,36 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
     // adding materials uris
     $saved = $saved | $this->set_question_material_from_material_template();
+    $this->question->set_ordering_type($_POST["ordering_type"]);
+
     // Add answers from the form
     foreach ($_POST as $key => $value) {
       if (preg_match("/answer_(\d+)/", $key, $matches)) {
-        $this->question->add_answer(
-          ilUtil::stripSlashes($_POST["$key"]),
-          ilUtil::stripSlashes($_POST["points_$matches[1]"]),
-          ilUtil::stripSlashes($matches[1]),
-          ilUtil::stripSlashes($_POST["order_$matches[1]"]));
+
+			if ($this->question->get_ordering_type() == OQ_PICTURES) {
+				foreach ($_FILES as $key2 => $value2) {
+					if (preg_match("/answer_(\d+)/", $key2, $matches2)) {
+						if ($value2["tmp_name"]) {
+							// upload the matching picture
+							if ($this->question->get_id() <= 0) {
+								$this->question->save_to_db();
+								$saved = true;
+						       sendInfo($this->lng->txt("question_saved_for_upload"));
+							}
+							print "answer kkkey: ".$key2." value: ".$value2["tmp_name"];
+							$this->question->set_image_file($value2['name'], $value2['tmp_name']);
+							$_POST["$key"] = $value2['name'];
+						}
+					}
+				}
+			}
+			print "answer tey: ".$_POST["$key"];
+			$this->question->add_answer(
+			  ilUtil::stripSlashes($_POST["$key"]),
+			  ilUtil::stripSlashes($_POST["points_$matches[1]"]),
+			  ilUtil::stripSlashes($matches[2]),
+			  ilUtil::stripSlashes($_POST["order_$matches[1]"]));
+
       }
     }
 
@@ -1263,17 +1333,17 @@ class ASS_QuestionGUI extends PEAR {
 		$saved = false;
 		$this->question->flush_materials();
 		foreach ($_POST as $key => $value) {
-			if (preg_match("/material_list(\d+)/", $key, $matches)) {
-				$this->question->add_materials($value);
+			if (preg_match("/material_list_/", $key, $matches)) {
+				$this->question->add_materials($value, str_replace("material_list_", "", $key));
 			}
 		}
-		if (!empty($_FILES['materialName']['tmp_name'])) {
+		if (!empty($_FILES['materialFile']['tmp_name'])) {
 			if ($this->question->get_id() <= 0) {
 				$this->question->save_to_db();
 				$saved = true;
 				sendInfo($this->lng->txt("question_saved_for_upload"));
 			}
-			$this->question->set_materialsfile($_FILES['materialName']['name'], $_FILES['materialName']['tmp_name']);
+			$this->question->set_materialsfile($_FILES['materialFile']['name'], $_FILES['materialFile']['tmp_name'], $_POST[materialName]);
 		}
 
 		// Delete material if the delete button was pressed
@@ -1339,7 +1409,7 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->setCurrentBlock("material_preview");
 			foreach ($this->question->materials as $key => $value) {
 				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
 				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -1402,7 +1472,7 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->setCurrentBlock("material_preview");
 			foreach ($this->question->materials as $key => $value) {
 				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
 				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -1483,7 +1553,7 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->setCurrentBlock("material_preview");
 			foreach ($this->question->materials as $key => $value) {
 				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
 				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -1548,7 +1618,7 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->setCurrentBlock("material_preview");
 			foreach ($this->question->materials as $key => $value) {
 				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
 				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -1599,7 +1669,7 @@ class ASS_QuestionGUI extends PEAR {
 			$this->tpl->setCurrentBlock("material_preview");
 			foreach ($this->question->materials as $key => $value) {
 				$this->tpl->setVariable("COUNTER", $i++);
-				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $value);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
 				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -1683,7 +1753,7 @@ class ASS_QuestionGUI extends PEAR {
   function out_evaluation($test_id) {
 		global $ilUser;
     $question_type = $this->get_question_type($this->question);
-    
+
     $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_evaluation.html", true);
     switch($question_type)
     {
