@@ -4090,3 +4090,5 @@ CREATE TABLE `crs_archives` (
   `archive_size` int(11) default NULL,
   PRIMARY KEY  (`archive_id`)
 ) TYPE=MyISAM;
+<#241>
+ALTER TABLE `crs_archives` ADD `archive_lang` VARCHAR( 16 ) ;
