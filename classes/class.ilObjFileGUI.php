@@ -285,11 +285,11 @@ class ilObjFileGUI extends ilObjectGUI
 	
 	
 	/**
-	* history
+	* file versions/history
 	*
 	* @access	public
 	*/
-	function historyObject()
+	function versionsObject()
 	{
 		global $rbacsystem;
 
@@ -304,8 +304,8 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		// not nice, should be changed, if ilCtrl handling
 		// has been introduced to administration
-		$hist_html = $hist_gui->getHistoryTable(
-			array("ref_id" => $_GET["ref_id"], "cmd" => "history",
+		$hist_html = $hist_gui->getVersionsTable(
+			array("ref_id" => $_GET["ref_id"], "cmd" => "versions",
 			"cmdClass" =>$_GET["cmdClass"], "cmdNode" =>$_GET["cmdNode"]));
 		
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
@@ -327,8 +327,8 @@ class ilObjFileGUI extends ilObjectGUI
 		
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
-			$tabs_gui->addTarget("history",
-				$this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
+			$tabs_gui->addTarget("versions",
+				$this->ctrl->getLinkTarget($this, "versions"), "versions", get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
