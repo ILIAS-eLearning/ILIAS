@@ -46,7 +46,7 @@ class ilUserTracking {
 	var $lanugage;
 	var $browser;
 	var $sessionId;
-	var $accTime;
+	var $acc_time;
 
 	function ilUserTracking()
 	{
@@ -68,9 +68,9 @@ class ilUserTracking {
 		$q = "SELECT * from ut_access "
 		." WHERE "
 		." user_id = ".$ilDB->quote($ilUser->getId())
-// changed following line to " limit 1 "; because acctime doesn't exist in table
+// changed following line to " limit 1 "; because acc_time doesn't exist in table
 // 2004-06-27 17:18 MEST, Helmut Schottmueller, hschottm@tzi.de
-//		." order by acctime desc limit 1 ";
+		." order by acc_time desc limit 1 ";
 		." limit 1 ";
 		$res = $ilDB->query($q);
 		return $res->fetchRow(DB_FETCHMODE_ASSOC);
@@ -111,9 +111,9 @@ class ilUserTracking {
 			$q = "INSERT INTO ut_access ("
 				."user_id, action_type, php_script, client_ip,"
 				."acc_obj_type, acc_obj_id, acc_sub_type, acc_sub_id,"
-// changed following line to " limit 1 "; because acctime doesn't exist in table
+// changed following line to " limit 1 "; because acc_time doesn't exist in table
 // 2004-06-27 17:18 MEST, Helmut Schottmueller, hschottm@tzi.de
-//				."language, browser, session_id, acctime"
+				."language, browser, session_id, acc_time"
 				."language, browser, session_id"
 				.") VALUES ("
 				.$ilDB->quote($user_id).","
@@ -126,9 +126,9 @@ class ilUserTracking {
 				.$ilDB->quote($a_sub_id).","
 				.$ilDB->quote($language).","
 				.$ilDB->quote($_SERVER["HTTP_USER_AGENT"]).","
-// changed following line to " limit 1 "; because acctime doesn't exist in table
+// changed following line to " limit 1 "; because acc_time doesn't exist in table
 // 2004-06-27 17:18 MEST, Helmut Schottmueller, hschottm@tzi.de
-//				.$ilDB->quote($session_id).", now()"
+				.$ilDB->quote($session_id).", now()"
 				.$ilDB->quote($session_id)
 				.")";
 		   $ilDB->query($q);
@@ -260,7 +260,7 @@ class ilUserTracking {
 	}
 	function searchResults($condition)
 	{
-		$q = "SELECT a.login,b.acc_obj_type,b.language,b.client_ip,b.acctime "
+		$q = "SELECT a.login,b.acc_obj_type,b.language,b.client_ip,b.acc_time "
 			." FROM usr_data as a,ut_access as b "
 			." WHERE a.usr_id=b.user_id "
 			." AND ".$condition;
@@ -273,7 +273,7 @@ class ilUserTracking {
 	}
 	function searchTestResults($condition)
 	{
-		$q = "SELECT a.login,b.acc_obj_type,b.client_ip,b.acctime "
+		$q = "SELECT a.login,b.acc_obj_type,b.client_ip,b.acc_time "
 			." FROM usr_data as a,ut_access as b "
 			." WHERE a.usr_id=b.user_id "
 			." AND ".$condition;
@@ -314,8 +314,8 @@ class ilUserTracking {
 	function countNum($from,$from1,$condition)
 	{
 		$q = "SELECT count(*) from ut_access "
-			." WHERE (acctime > '".$from
-			."' AND acctime <='".$from1."')"
+			." WHERE (acc_time > '".$from
+			."' AND acc_time <='".$from1."')"
 			." AND ".$condition;
 			//echo $condition;echo "<br>";
 		$res = $this->ilias->db->query($q);
@@ -324,9 +324,9 @@ class ilUserTracking {
 	}
 	function selectTime($from,$to,$condition)
 	{
-		$q = "SELECT acctime from ut_access "
-			." WHERE (acctime >= '".$from
-			."' AND acctime <='".$to."')"
+		$q = "SELECT acc_time from ut_access "
+			." WHERE (acc_time >= '".$from
+			."' AND acc_time <='".$to."')"
 			." AND ".$condition;
 			echo $q;
 			echo "<br>";

@@ -241,7 +241,7 @@ function searchTest()
 	{
 	 $condition = $condition." or acc_obj_id=".$result_id[$i][0];
 	}
-	$condition = $condition. " ) and acctime >='".$from."' and acctime< '".$to."'";
+	$condition = $condition. " ) and acc_time >='".$from."' and acc_time< '".$to."'";
 
 	if(count($usertracking->countResults($condition))== 0)
 	{
@@ -275,7 +275,7 @@ function searchTest()
 				$condition = $condition.")";
 		}
 		
-		$condition = $condition." and b.acctime>='".$from."' and b.acctime<'".$to."'";
+		$condition = $condition." and b.acc_time>='".$from."' and b.acc_time<'".$to."'";
 		$this->data["data"] = $usertracking->searchTestResults($condition);
 		$this->maxcount = count($this->data["data"]);
 		if(count($this->data["data"])<1)
@@ -574,7 +574,7 @@ function searchForm ()
 	{
 	 $condition = $condition." or acc_obj_id=".$result_id[$i][0];
 	}
-	$condition = $condition. " ) and acctime >='".$from."' and acctime< '".$to."'";
+	$condition = $condition. " ) and acc_time >='".$from."' and acc_time< '".$to."'";
 
 	if(count($usertracking->countResults($condition))== 0)
 	{
@@ -611,7 +611,7 @@ function searchForm ()
 				$condition = $condition.") and b.language = '".$lan."'";
 		}
 		
-		$condition = $condition." and b.acctime>='".$from."' and b.acctime<'".$to."'";
+		$condition = $condition." and b.acc_time>='".$from."' and b.acc_time<'".$to."'";
 		$this->data["data"] = $usertracking->searchResults($condition);
 		$this->maxcount = count($this->data["data"]);
 		if(count($this->data["data"])<1)
