@@ -154,5 +154,48 @@ class ILIAS extends PEAR
 		
 		return true;
     }
+
+	/**
+	 * read string value from settingstable
+	 * @access public
+	 * @param string key
+	 * @return string value
+	 */
+	function readSettingsStr($key)
+	{
+		$sql = "SELECT value_str FROM settings WHERE keyword='".$key."'";
+		$r = $this->db->query($sql);
+		if ($r->num_rows()>0)
+		{
+			$row = $r->fetchRow();
+			return $row[0];
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * read integer value from settingstable
+	 * @access public
+	 * @param string key
+	 * @return int value
+	 */
+	function readSettingsInt($key)
+	{
+		$sql = "SELECT value_int FROM settings WHERE keyword='".$key."'";
+		$r = $this->db->query($sql);
+
+		if ($r->numRows()>0)
+		{
+			$row = $r->fetchRow();
+			return $row[0];
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 ?>
