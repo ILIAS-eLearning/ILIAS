@@ -88,7 +88,7 @@
 <!-- MetaData referring to LOM/SCORM standard, see http://ltsc.ieee.org/doc/wg12/LOM_1484_12_1_v1_Final_Draft.pdf for details -->
 <!-- The base scheme consists of nine categories: -->
 <!-- Relation and Classification can be used more than once in EducationalUnits but is useless in most of LearningObjects -->
-<!ELEMENT MetaData (General, Lifecycle?, Meta-Metadata?, Technical*, Educational?, Rights?, Relation*, Annotation*, Classification*)>
+<!ELEMENT MetaData (General, Lifecycle?, Meta-Metadata?, Technical?, Educational?, Rights?, Relation*, Annotation*, Classification*)>
 <!-- 1 General information about the resource as a whole -->
 <!ELEMENT General (Identifier+, Title, Language+, Description+, Keyword+, Coverage?)>
 <!ATTLIST General
@@ -399,12 +399,7 @@
 <!-- Layout information for formatting content output different from default layout -->
 <!ELEMENT Layout EMPTY>
 <!ATTLIST Layout
-	KeepWithPrevious (Yes | No) #IMPLIED
-	KeepWithNext (Yes | No) #IMPLIED
-	CSS-URL CDATA #IMPLIED
 	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
-	VerticalAlign (Top | Middle | Bottom) #IMPLIED
-	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
 	Width CDATA #IMPLIED
 	Height CDATA #IMPLIED
 	Caption CDATA #IMPLIED
