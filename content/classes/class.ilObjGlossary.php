@@ -245,9 +245,9 @@ class ilObjGlossary extends ilObject
 	/**
 	* get term list
 	*/
-	function getTermList()
+	function getTermList($searchterm="")
 	{
-		$list = ilGlossaryTerm::getTermList($this->getId());
+		$list = ilGlossaryTerm::getTermList($this->getId(),$searchterm);
 		return $list;
 	}
 
