@@ -234,7 +234,7 @@ else
 
 // SHOW EDIT FIELD
 $tpl->setVariable("CSSROW_LOGIN",'tblrow1');
-$tpl->setVariable("HEADER_LOGIN",$lng->txt("login"));
+$tpl->setVariable("HEADER_LOGIN",$lng->txt("username"));
 $tpl->setVariable("VALUE_LOGIN",$data["login"]);
 $tpl->setVariable("CSSROW_FIRSTNAME",'tblrow2');
 $tpl->setVariable("HEADER_FIRSTNAME",$lng->txt("firstname"));
