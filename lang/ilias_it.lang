@@ -56,7 +56,7 @@ administration#:#purge_missing_desc#:#Rimuovi tutti gli oggetti mancanti o scoll
 administration#:#purge_trash#:#Libera gli oggetti cancellati
 administration#:#purge_trash_desc#:#Rimuovi dal sistema tutti gli oggetti nel cestino.
 administration#:#purging#:#Sto liberando ...
-administration#:#purging_missing_objs#:#Purging missing objects...###17 Apr 2004 new variable
+administration#:#purging_missing_objs#:#Sto eliminando gli oggetti mancanti ...
 administration#:#purging_trash#:#Sto svuotando il cestino ...
 administration#:#purging_unbound_objs#:#Sto liberando gli oggetti scollegati ...
 administration#:#removing_invalid_childs#:#Rimuovi le voci non valide dall'albero ...
@@ -79,7 +79,7 @@ administration#:#searching_invalid_childs#:#Sto cercando gli elementi non validi
 administration#:#searching_invalid_refs#:#Sto cercando i riferimenti non validi ...
 administration#:#searching_missing_objs#:#Sto cercando gli oggetti mancanti ...
 administration#:#searching_unbound_objs#:#Sto cercando gli oggetti scollegati ...
-administration#:#skipped#:#skipped###17 Apr 2004 new variable
+administration#:#skipped#:#saltato
 administration#:#start_scan#:#Start!
 administration#:#systemcheck#:#Controllo sistema
 administration#:#view_last_log#:#Vedi l'ultimo log di esame
@@ -119,7 +119,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Per favore, riempi tutti 
 assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere una domanda a corrispondenza!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Per favore, riempi tutti i campi richiesti prima di creare uno spazio vuoto!
 assessment#:#filter#:#Filtro
-assessment#:#gap#:#Gap###18 Apr 2004 new variable
+assessment#:#gap#:#Vuoto
 assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
 assessment#:#imagemap#:#Mappa di immagine
@@ -139,7 +139,7 @@ assessment#:#no_questions_available#:#Non ci sono domande disponibili
 assessment#:#or#:#oppure
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
-assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
+assessment#:#please_select#:#---- per favore seleziona ----
 assessment#:#points#:#Punti
 assessment#:#postpone#:#Postponi la domanda
 assessment#:#postponed#:#postposta
@@ -373,7 +373,7 @@ common#:#active_roles#:#Ruoli attivi
 common#:#add#:#Aggiungi
 common#:#add_author#:#Aggiungi autore
 common#:#add_member#:#Aggiungi membro
-common#:#add_members#:#Add Members###16 Apr 2004 new variable
+common#:#add_members#:#aggiungi membri
 common#:#add_translation#:#Aggiungi traduzione
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi di sistema
 common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
@@ -623,10 +623,10 @@ common#:#err_no_param#:#Manca il parametro!
 common#:#err_over_3_param#:#Ci sono pi&#249; 3 parametri!
 common#:#err_role_not_assignable#:#Non puoi assegnare utenti a questo ruolo in questo caso
 common#:#err_session_expired#:#La sessione &#232; scaduta!
-common#:#err_unknown_error#:#Unknown Error###18 Apr 2004 new variable
+common#:#err_unknown_error#:#Errore sconosciuto
 common#:#err_wrong_header#:#Causa: errata intestazione.
 common#:#err_wrong_login#:#Tentativo di accesso errato
-common#:#err_wrong_password#:#Wrong Password###18 Apr 2004 new variable
+common#:#err_wrong_password#:#Password errata
 common#:#error_parser#:#Errore nell'esecuzione del parser
 common#:#error_recipient#:#Destinatario per gli errori
 common#:#exc#:#Esercizio
@@ -678,18 +678,18 @@ common#:#file#:#File
 common#:#file_a#:#un file
 common#:#file_add#:#Upload del file
 common#:#file_added#:#Upload del file eseguito
-common#:#file_delete#:#Delete File###17 Apr 2004 new variable
-common#:#file_edit#:#Edit File###16 Apr 2004 new variable
-common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
+common#:#file_delete#:#Cancella file
+common#:#file_edit#:#Modifica file
+common#:#file_edit_permission#:#Modifica le impostazioni dei permessi
 common#:#file_new#:#Nuovo file
 common#:#file_not_found#:#File non trovato
 common#:#file_not_valid#:#File non valido!
-common#:#file_read#:#Download File###17 Apr 2004 new variable
+common#:#file_read#:#Scarica il file
 common#:#file_valid#:#File valido!
 common#:#file_version#:#Versione file
-common#:#file_visible#:#File is visible###17 Apr 2004 new variable
-common#:#file_write#:#Edit File###17 Apr 2004 new variable
-common#:#files#:#Files###16 Apr 2004 new variable
+common#:#file_visible#:#Il file non &#232; visibile
+common#:#file_write#:#Scrivi il file
+common#:#files#:#File
 common#:#files_location#:#Posizione dei file
 common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
 common#:#firstname#:#Nome
@@ -698,20 +698,20 @@ common#:#fold#:#Cartella
 common#:#fold_a#:#una cartella
 common#:#fold_add#:#Aggiungi cartella
 common#:#fold_added#:#Cartella aggiunta
-common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
-common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
-common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
-common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
-common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
-common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
-common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
-common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
-common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
-common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
+common#:#fold_create_chat#:#Crea Chat
+common#:#fold_create_file#:#Crea File
+common#:#fold_create_fold#:#Crea Cartella
+common#:#fold_create_frm#:#Crea Forum
+common#:#fold_create_glo#:#Crea Glossario
+common#:#fold_create_lm#:#Crea Modulo
+common#:#fold_create_slm#:#Crea Modulo SCORM
+common#:#fold_delete#:#Cancella cartella
+common#:#fold_edit#:#Modifica cartella
+common#:#fold_edit_permission#:#Modifica le impostazioni dei permessi
 common#:#fold_new#:#Nuova cartella
-common#:#fold_read#:#Read access to Folder###17 Apr 2004 new variable
-common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
-common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
+common#:#fold_read#:#Accedere in lettura alla cartella
+common#:#fold_visible#:#Vedere la cartella
+common#:#fold_write#:#Modificare la cartella
 common#:#folder#:#Cartella
 common#:#folders#:#Cartelle
 common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
@@ -799,14 +799,14 @@ common#:#grp#:#Gruppo
 common#:#grp_a#:#Un gruppo
 common#:#grp_add#:#Aggiungi gruppo
 common#:#grp_added#:#Gruppo aggiunto
-common#:#grp_already_applied#:#You have already applied to this group! Please wait for confirmation###18 Apr 2004 new variable
-common#:#grp_back#:#Back###18 Apr 2004 new variable
+common#:#grp_already_applied#:#E' gi&#224; stato applicato a questo gruppo! Aspetta la conferma
+common#:#grp_back#:#Indietro
 common#:#grp_create#:#Crea un gruppo
 common#:#grp_create_chat#:#Creare Chat
-common#:#grp_create_file#:#Eseguire upload di file###17 Apr 2004 content changed
-common#:#grp_create_fold#:#Creare cartelle###17 Apr 2004 content changed
+common#:#grp_create_file#:#Eseguire upload di file
+common#:#grp_create_fold#:#Creare cartelle
 common#:#grp_create_frm#:#Creare forum
-common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#grp_create_glo#:#Creare glossario
 common#:#grp_create_lm#:#Creare moduli
 common#:#grp_create_slm#:#Creare moduli SCORM
 common#:#grp_delete#:#Cancellare il gruppo
@@ -826,9 +826,9 @@ common#:#grp_leave#:#Annullare l&#039;iscrizione al gruppo
 common#:#grp_mem_change_status#:#Cambia lo stato del membro
 common#:#grp_mem_leave#:#Togli il membro dal gruppo
 common#:#grp_mem_send_mail#:#Invia una mail al membro
-common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)###18 Apr 2004 new variable
-common#:#grp_msg_applicants_removed#:#Applicant(s) removed from list.###18 Apr 2004 new variable
-common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)###18 Apr 2004 new variable
+common#:#grp_msg_applicants_assigned#:#Richiedenti ammessi come membri del gruppo
+common#:#grp_msg_applicants_removed#:#Richiedenti rimossi dalla lista.
+common#:#grp_msg_member_assigned#:#Utenti ammessi come membri del gruppo
 common#:#grp_msg_membership_annulled#:#Iscrizione annullata
 common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegli un altro nome.
 common#:#grp_new#:#Nuovo gruppo
@@ -1381,7 +1381,7 @@ common#:#recipient#:#Destinario
 common#:#refresh#:#Aggiorna
 common#:#refresh_languages#:#Aggiorna le lingue
 common#:#refresh_list#:#Aggiorna la lista
-common#:#refuse#:#Refuse###18 Apr 2004 new variable
+common#:#refuse#:#Rifiutato
 common#:#register#:#Registra
 common#:#register_info#:#Per favore, riempi i campi della registrazione (quelli indicati con l&#039;asterisco sono obbligatori).
 common#:#registered_since#:#Registrato dal
@@ -1686,7 +1686,7 @@ content#:#cont_dependencies#:#Dipendenze
 content#:#cont_derive_from_obj#:#Deriva dagli oggetti
 content#:#cont_details#:#Dettagli
 content#:#cont_dir_file#:#Cartella/File
-content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
+content#:#cont_disable_media#:#Disabilita Multimedia
 content#:#cont_edit_area#:#Modifica area
 content#:#cont_edit_file_list_properties#:#Visualizza le propriet&#224; dell&#039;elenco di file.
 content#:#cont_edit_mob#:#Modifica oggetto multimediale
@@ -1697,13 +1697,13 @@ content#:#cont_edit_par#:#Modifica paragrafo
 content#:#cont_edit_tab_properties#:#Modifica propriet&#224; della tabella
 content#:#cont_edit_term#:#Modifica termine
 content#:#cont_edition#:#Edizione
-content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
+content#:#cont_enable_media#:#Abilita Multimedia
 content#:#cont_export_files#:#Esporta file
 content#:#cont_external#:#esterno
 content#:#cont_file#:#File
 content#:#cont_files#:#File
 content#:#cont_format#:#Formato
-content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
+content#:#cont_free_pages#:#Pagine libere
 content#:#cont_full_is_in_dir#:#La cancellazione non &#232; possibile. Il file a schermo pieno &#232; nella cartella.
 content#:#cont_fullscreen#:#A tutto schermo
 content#:#cont_get_link#:#restituisci il collegamento
@@ -1820,7 +1820,7 @@ content#:#cont_series_editor#:#Editore della serie
 content#:#cont_series_title#:#Titolo della serie
 content#:#cont_series_volume#:#Volume della serie
 content#:#cont_set_class#:#Imposta classe
-content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
+content#:#cont_set_edit_mode#:#Imposta in modifica
 content#:#cont_set_link#:#Imposta il collegamento
 content#:#cont_set_shape#:#Modifica la forma
 content#:#cont_set_start_file#:#Imposta file di partenza

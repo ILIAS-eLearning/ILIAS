@@ -205,7 +205,7 @@ lang_min_one_language#:#Devi installare almeno una lingua!
 lang_nl#:#Olandese
 lang_no#:#Norvegese
 lang_none_installed#:#Nessuna lingua installata
-lang_not_installed_default#:#The language you selected as defualt language is not installed!###16 Apr 2004 new variable
+lang_not_installed_default#:#La lingua che hai selezionato come predefinita non &#232; stata installata !
 lang_pl#:#Polacco
 lang_pt#:#Portoghese
 lang_se#:#Svedese
