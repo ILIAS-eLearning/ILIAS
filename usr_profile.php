@@ -43,7 +43,7 @@ if ($_POST["u_id"]!="")
 	$ilias->account->setLanguage($_POST["usr_language"]);
 
 	//set user skin
-	$ilias->account->writePref("skin", $_POST["usr_skin"]);
+	$ilias->account->setPref("skin", $_POST["usr_skin"]);
 	
 	if ($ilias->account->update() == false)
 	{

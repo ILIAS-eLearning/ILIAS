@@ -19,7 +19,8 @@ $exp->setOutput(0);
 $output = $exp->getOutput();
 
 $tplContent->setVariable("EXPLORER",$output);
-$tplContent->setVariable("EXPAND", "1");
+$tplContent->setVariable("ACTION", "lo_menu.php?expand=1");
 
-$tplContent->show();
+$tplmain->setVariable("PAGECONTENT", $tplContent->get());
+$tplmain->show();
 ?>
