@@ -171,7 +171,6 @@ class ilRbacReview
 		return $this->getParentRoles($pathIds,$a_templates);
 	}
 
-
 	/**
 	* Returns a list of roles in an container
 	* @access	public
@@ -194,14 +193,7 @@ class ilRbacReview
 
 		$role_list = array();
 
-		if ($a_templates)
-		{
-			 $where = "WHERE object_data.type IN ('role','rolt') ";		
-		}
-		else
-		{
-			$where = "WHERE object_data.type = 'role' ";
-		}
+		$where = $this->setTemplateFilter($a_templates);
 	
 		$q = "SELECT * FROM object_data ".
 			 "JOIN rbac_fa ".$where.
@@ -214,9 +206,105 @@ class ilRbacReview
 			$role_list[] = fetchObjectData($row);
 		}
 		
+		$role_list = $this->setRoleType($role_list,$a_ref_id);
+		
 		return $role_list;
 	}
+	
+	/**
+	* Returns a list of all assignable roles
+	* @access	public
+	* @param	boolean	if true fetch template roles too
+	* @return	array	set ids
+	*/
+	function getAssignableRoles($a_templates = false)
+	{
+		$role_list = array();
 
+		$where = $this->setTemplateFilter($a_templates);
+
+		$q = "SELECT DISTINCT * FROM object_data ".
+			 "JOIN rbac_fa ".$where.
+			 "AND object_data.obj_id = rbac_fa.rol_id ".
+			 "AND rbac_fa.assign = 'y'";
+		$r = $this->ilias->db->query($q);
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$role_list[] = fetchObjectData($row);
+		}
+		
+		$role_list = $this->setRoleType($role_list,ROLE_FOLDER_ID);
+		
+		return $role_list;
+	}
+	
+	/**
+	* get roles and templates or only roles; returns string for where clause
+	* @access	private
+	* @param	boolean	true: with templates
+	* @return	string	where clause
+	*/
+	function setTemplateFilter($a_templates)
+	{
+		if ($a_templates === true)
+		{
+			 $where = "WHERE object_data.type IN ('role','rolt') ";		
+		}
+		else
+		{
+			$where = "WHERE object_data.type = 'role' ";
+		}
+		
+		return $where;
+	}
+
+	/**
+	* computes role type in role list array:
+	* global: roles in ROLE_FOLDER_ID
+	* local: assignable roles in other role folders
+	* linked: roles with stoppped inheritance
+	* template: role templates
+	* 
+	* @access	private
+	* @param	array	role list
+	* @param	integer	ref_id (sets internal var to true if ROLE_FOLDER_ID)
+	* @return	array	role list with additional entry for role_type
+	*/
+	function setRoleType($a_role_list,$a_folder_id)
+	{
+		$global = ($a_folder_id == ROLE_FOLDER_ID) ? true : false;
+		
+		foreach ($a_role_list as $key => $val)
+		{
+			// determine role type
+			if ($val["type"] == "rolt")
+			{
+				$a_role_list[$key]["role_type"] = "template";
+			}
+			else
+			{
+				if ($val["assign"] == "y")
+				{
+					if ($global)
+					{
+						$a_role_list[$key]["role_type"] = "global";
+					}
+					else
+					{
+						$a_role_list[$key]["role_type"] = "local";
+					}
+				}
+				else
+				{
+					$a_role_list[$key]["role_type"] = "linked";
+				}
+			}
+		}
+		
+		return $a_role_list;
+	}
+	
 	/**
 	* get all assigned users to a given role
 	* @access	public
@@ -393,7 +481,7 @@ class ilRbacReview
 	}
 	
 	/**
-	* get only 'global' roles (all assignabel roles from main rolefolder with ROLE_FOLDER_ID
+	* get only 'global' roles (all assignalbe roles from main rolefolder with ROLE_FOLDER_ID)
 	* @access	public
 	* @return	array		Array with rol_ids
 	*/

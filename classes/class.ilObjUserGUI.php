@@ -776,12 +776,12 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 
-		$this->data["cols"] = array("", "type", "role", "desc", "context");
+		$this->data["cols"] = array("", "", "role", "type", "context");
 
 		// get all assignable roles
-		$all_roles = getObjectList("role");
+		$list = $rbacreview->getAssignableRoles();
 
-		foreach ($all_roles as $key => $val)
+		foreach ($list as $key => $val)
 		{
 			// fetch context path of role
 			$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
@@ -803,12 +803,12 @@ class ilObjUserGUI extends ilObjectGUI
 
 					$path .= $tmpPath[$i]["title"];
 				}
-//visible data part
+
+				//visible data part
 				$this->data["data"][] = array(
 							"type"			=> $val["type"],
-							"role"			=> $val["title"],
-							"desc"			=> $val["desc"],
-							//"last_change"	=> $val["last_update"],
+							"role"			=> $val["title"]."#separator#".$val["desc"],
+							"role_type"		=> $val["role_type"],
 							"context"		=> $path,
 							"obj_id"		=> $val["obj_id"]
 						);
@@ -949,7 +949,12 @@ class ilObjUserGUI extends ilObjectGUI
 					//build link
 					$link = "adm_object.php?ref_id=8&obj_id=".$ctrl["obj_id"]."&cmd=perm";
 
-					if ($key == "role" || $key == "type")
+					if ($key == "role")
+					{
+						$name_field = explode("#separator#",$val);
+					}
+					
+					if ($key == "type" || $key == "role")
 					{
 						$this->tpl->setCurrentBlock("begin_link");
 						$this->tpl->setVariable("LINK_TARGET", $link);
@@ -964,7 +969,18 @@ class ilObjUserGUI extends ilObjectGUI
 						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);
 					}
 
-					$this->tpl->setVariable("TEXT_CONTENT", $val);
+					if ($key == "role")
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
+						$this->tpl->setCurrentBlock("subtitle");
+						$this->tpl->setVariable("DESC", $name_field[1]);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $val);
+					}
+
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("table_cell");

@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.59 2003/10/31 14:08:49 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.60 2003/11/03 12:08:36 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -773,7 +773,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 
-		$this->data["cols"] = array("", "type", "name", "email", "last_change");
+		$this->data["cols"] = array("", "", "name", "email", "last_change");
 
 		if ($usr_data = getObjectList("usr",$_GET["order"], $_GET["direction"]))
 		{

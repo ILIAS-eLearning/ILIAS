@@ -71,39 +71,14 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		{
 			foreach ($list as $key => $val)
 			{
-				
-				// determine role type
-				if ($val["type"] == "rolt")
-				{
-					$role_type = "template";
-				}
-				else
-				{
-					if ($val["assign"] == "y")
-					{
-						if ($this->object->getRefId() == ROLE_FOLDER_ID)
-						{
-							$role_type = "global";
-						}
-						else
-						{
-							$role_type = "local";
-						}
-					}
-					else
-					{
-						$role_type = "linked";
-					}
-				}
 				//visible data part
 				$this->data["data"][] = array(
 						"type"			=> $val["type"],
 						"name"			=> $val["title"]."#separator#".$val["desc"],
-						"role_type"		=> $role_type,
+						"role_type"		=> $val["role_type"],
 						"last_change"	=> $val["last_update"],
 						"obj_id"		=> $val["obj_id"]
 					);
-
 			}
 		} //if roledata
 
@@ -281,7 +256,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 					$this->tpl->setCurrentBlock("table_cell");
 					$this->tpl->parseCurrentBlock();
-
 				} //foreach
 
 				$this->tpl->setCurrentBlock("tbl_content");
