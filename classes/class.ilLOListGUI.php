@@ -313,7 +313,7 @@ class ilLOListGUI
 				// scorm learning modules
 				if ($lr_data["type"] == "slm")
 				{
-					$obj_link = "content/scorm_presentation.php?ref_id=".$lr_data["ref_id"];
+					$obj_link = "content/sahs_presentation.php?ref_id=".$lr_data["ref_id"];
 					$this->tpl->setVariable("VIEW_LINK", $obj_link);
 					$this->tpl->setVariable("VIEW_TARGET", "bottom");
 				}
