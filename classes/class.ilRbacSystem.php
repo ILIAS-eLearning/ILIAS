@@ -158,7 +158,6 @@ class ilRbacSystem
 			{
 				$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 			}
-
 			if (in_array($ops_id,$ops))
 			{
 				continue;
@@ -224,7 +223,6 @@ class ilRbacSystem
 		{
 			$type = $row->type;
 		}
-
 		switch($type)
 		{
 			case "crs":

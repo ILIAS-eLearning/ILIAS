@@ -3121,8 +3121,34 @@ class ilObjSurvey extends ilObject
 		return 0;
 	}
 
-	function getEvaluationForAllUsers()
+	function &getEvaluationForAllUsers()
 	{
+		$users = array();
+		$query = sprintf("SELECT * FROM survey_finished WHERE survey_fi = %s",
+			$this->ilias->db->quote($this->getSurveyId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows())
+		{
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				array_push($users, $row);
+			}
+		}
+		$evaluation = array();
+		$questions =& $this->getSurveyQuestions();
+		foreach ($users as $row)
+		{
+			if ($row["user_fi"] > 0)
+			{
+				$evaluation[$row["user_fi"]] = $this->getEvaluationByUser($questions, $row["user_fi"], $row["anonymous_id"]);
+			}
+			else
+			{
+				$evaluation[$row["anonymous_id"]] = $this->getEvaluationByUser($questions, $row["user_fi"], $row["anonymous_id"]);
+			}
+		}
+		return $evaluation;
 	}
 	
 /**
@@ -3130,15 +3156,14 @@ class ilObjSurvey extends ilObject
 *
 * Calculates the evaluation data for a given user or anonymous id
 *
+* @param array $questions An array containing all relevant information on the survey's questions
 * @param integer $user_id The database id of the user
 * @param string $anonymous_id The unique anonymous id for an anonymous survey
 * @return array An array containing the evaluation parameters for the user
 * @access public
 */
-	function getEvaluationByUser($user_id, $anonymous_id = "")
+	function &getEvaluationByUser($questions, $user_id, $anonymous_id = "")
 	{
-		$questions =& $this->getSurveyQuestions();
-		
 		$wherecond = "";
 		$wherevalue = "";
 		if (strcmp($anonymous_id, "") != 0)
@@ -3166,12 +3191,28 @@ class ilObjSurvey extends ilObject
 			}
 			array_push($answers[$row["question_fi"]], $row);
 		}
-
-		print_r($answers);
-		print_r($questions);		
+		$username = "";
+		if ($user_id > 0)
+		{
+			$user = new ilObjUser($user_id);
+			$username = $user->getFullname();
+		}
+		$resultset = array(
+			"name" => $username,
+			"answers" => array()
+		);
 		foreach ($questions as $key => $question)
 		{
+			if (array_key_exists($key, $answers))
+			{
+				$resultset["answers"][$key] = $answers[$key];
+			}
+			else
+			{
+				$resultset["answers"][$key] = array();
+			}
 		}
+		return $resultset;
 	}
 	
 /**
