@@ -997,6 +997,51 @@ must be specified in the ILIAS 3 system settings.
     The file chat/chatserver/install.txt explains how the chat server
     installation works.
 
+(e) Setting up cron jobs
+    
+    A cron job is an automated process that operates at predefined time intervals. As 
+    an example, you can set up a cron job that checks your ILIAS installation every day at 2:00 am
+    for limited user accounts and sends a email notification to users which account
+    expires within the next 2 weeks.
+
+    How to enable this cron job?
+    Please choose one of the following configurations. If possible use 'server based configuration'.
+
+    Server based configuration:
+
+    - you need write access to the file /etc/crontab
+    - add the following line in /etc/crontab
+    0 2 * * * APACHEUSER /usr/bin/php ILIAS_ABSOLUTE_PATH/setup/cron.php > /dev/null
+
+    To understand this even more, I'll show you what each of the values mean for the above cron tab.
+
+    0			Minutes after the hour
+    2			Hours of the day
+    *			Days of the month
+    *			Month of the year
+    *			WeekDays of the week
+    APACHEUSER 		The user which runs the cron job. Should be the same as the apache user (wwwrun)
+    ILIAS_ABSOLUTE_PATH The absolute path to your ILIAS installation
+    
+    This example executes the script cron.php every night at 2 a clock.
+
+    Web based configuration:
+
+    - Edit the file ilias.ini.php in the main directory of your ILIAS installation.
+    [cron]
+    web_enabled = "0"
+    web_pass = "my_secret"
+
+    Set the value of web_enabled to "1".
+    Set another password.
+
+    Now you can point your browser to "http://www.your_ilias.de?web_pass=my_secret"
+    
+    Note: 
+    cron.php can be executed only once a day. If you want to execute it again (e.g for testing), you have to remove the file
+    ILIAS_ABSOLUTE_PATH/setup/cron.lock.
+    If logging is enabled in your ilias installation (see main setup) each started cron job writes messages in your log file.
+
 
 2.5  Installing optional third-party software
 
