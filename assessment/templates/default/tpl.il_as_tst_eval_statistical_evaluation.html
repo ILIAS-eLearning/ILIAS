@@ -1,7 +1,7 @@
 <!-- BEGIN legendlink -->
 <p class="small"><a href="#legend">{TXT_LEGEND_LINK}</a></p>
 <!-- END legendlink -->
-<h2>{TXT_STATISTICAL_EVALUATION}</h2>
+<h2>{TXT_STATISTICAL_EVALUATION} <!-- BEGIN print_block -->[<a href="{PRINT_ACTION}" target="_blank"><img src="{PRINT_IMAGE}" width="18" height="18" alt="{PRINT_TEXT}" title="{PRINT_TEXT}" border="0"></a> <a href="{PRINT_ACTION}" target="_blank">{PRINT_TEXT}</a>]<!-- END print_block --></h2>
 <!-- BEGIN userselect -->
 <form name="formuserselect" method="post" action="{FORM_ACTION}">
 <table class="invisible">
@@ -35,14 +35,6 @@
 
 <!-- BEGIN output -->
 <form name="form_output_eval" method="post" action="{FORM_ACTION}">
-<!-- BEGIN print_block -->
-<table width="100%">
-<tr><td align="right">
-<a href="{PRINT_ACTION}" target="_blank"><img src="templates/default/images/print.gif" width="18" height="18" border="0"></a>
-</td></tr>
-</table>
-<!-- END print_block -->
-
 <table class="fullwidth_nowrap">
 <tr class="tblheader">
 <!-- BEGIN titlecol -->
@@ -63,6 +55,28 @@
 </tr>
 <!-- END emptyrow -->
 </table>
+<!-- BEGIN questions_output -->
+<h3>{TXT_QUESTIONS}</h3>
+<table class="fullwidth_nowrap">
+<tr class="tblheader">
+<!-- BEGIN questions_titlecol -->
+<td class="std" valign="top">{TXT_TITLE}</td>
+<!-- END questions_titlecol -->
+</tr>
+<!-- BEGIN questions_row -->
+<tr class="{COLOR_CLASS}">
+<!-- BEGIN questions_datacol -->
+<td class="{COLOR_CLASS}">{TXT_DATA}</td>
+<!-- END questions_datacol -->
+</tr>
+<!-- END questions_row -->
+<!-- BEGIN questions_emptyrow -->
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}" colspan="2">{TXT_NO_ANONYMOUS_AGGREGATION}</td>
+</tr>
+<!-- END questions_emptyrow -->
+</table>
+<!-- END questions_output -->
 </br>
 <!-- BEGIN export_btn -->
 <p>{EXPORT_DATA} <select name="export_type" size="1"><option value="excel">{TEXT_EXCEL}</option><option value="csv">{TEXT_CSV}</option></select> <input type="submit" class="submit" name="cmd[expEvalData]" value="{BTN_EXPORT}" /></p>
