@@ -458,7 +458,7 @@ class ilMail
 	function getUserIds($a_recipients)
 	{
 		require_once "classes/class.User.php";
-		require_once "classes/class.Group.php";
+		require_once "classes/class.ilGroup.php";
 
 		$user = new User();
 
@@ -607,10 +607,10 @@ class ilMail
 	function checkRecipients($a_recipients)
 	{
 		require_once "classes/class.User.php";
-		require_once "classes/class.Group.php";
+		require_once "classes/class.ilGroup.php";
 		
 		$user = new User();
-		$group = new Group();
+		$group = new ilGroup();
 
 		$tmp_rcp = explode(',',$a_recipients);
 

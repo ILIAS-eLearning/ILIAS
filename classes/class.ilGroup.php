@@ -7,7 +7,7 @@
 * 
 * @package ilias-core
 */
-class Group
+class ilGroup
 {
 	/**
 	* ilias object
@@ -28,7 +28,7 @@ class Group
 	* @access	public
 	* @param	integer group_id
 	*/
-	function Group($a_group_id = 0)
+	function ilGroup($a_group_id = 0)
 	{
 		global $ilias;
 		
