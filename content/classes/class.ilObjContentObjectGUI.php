@@ -288,6 +288,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHK_TOC", "checked");
 		}
 
+		// print view
+		$this->tpl->setVariable("TXT_PRINT", $this->lng->txt("cont_print_view"));
+		$this->tpl->setVariable("CBOX_PRINT", "cobj_act_print");
+		$this->tpl->setVariable("VAL_PRINT", "y");
+		if ($this->object->isActivePrintView())
+		{
+			$this->tpl->setVariable("CHK_PRINT", "checked");
+		}
+
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
@@ -368,6 +377,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->setActiveLMMenu(ilUtil::yn2tf($_POST["cobj_act_lm_menu"]));
 		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));
+		$this->object->setActivePrintView(ilUtil::yn2tf($_POST["cobj_act_print"]));
 		$this->object->setCleanFrames(ilUtil::yn2tf($_POST["cobj_clean_frames"]));
 		$this->object->updateProperties();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
