@@ -620,7 +620,6 @@ class ilObjGroup extends ilObject
 
 				//copy permissiondefinitions of openGroup_template
 				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),ROLE_FOLDER_ID,$rolf_data["child"],$globalRole);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
-				//$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$rolf_data["child"],$globalRole);
 				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"false");
 			}//END foreach
 		}

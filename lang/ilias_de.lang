@@ -862,7 +862,8 @@ common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
 common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br />Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
 common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
-common#:#group_status#:#Gruppenstatus
+common#:#group_status#:#Gruppe ist
+common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die eingestellten in den Rollenvorlagen 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen werden.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann sich anmelden. <br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden.
 common#:#group_status_closed#:#Geschlossen
 common#:#group_status_public#:#Öffentlich
 common#:#groups#:#Gruppen
