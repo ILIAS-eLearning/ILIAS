@@ -4,10 +4,60 @@
 # http://phpmyadmin.sourceforge.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Jul 30, 2002 at 03:15 PM
+# Generation Time: Aug 14, 2002 at 03:46 PM
 # Server version: 3.23.44
 # PHP Version: 4.2.2
 # Database : `uni-koeln_ilias3f_smeyer`
+# --------------------------------------------------------
+
+#
+# Table structure for table `bookmarks`
+#
+
+CREATE TABLE bookmarks (
+  usr_fk int(11) NOT NULL default '0',
+  id int(11) NOT NULL default '0',
+  pos int(11) NOT NULL default '0',
+  url varchar(255) NOT NULL default '',
+  name varchar(255) NOT NULL default '',
+  folder varchar(255) NOT NULL default 'top',
+  timest timestamp(14) NOT NULL,
+  KEY usr_fk (usr_fk),
+  KEY id (id),
+  KEY pos (pos)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `bookmarks`
+#
+
+INSERT INTO bookmarks VALUES (6, 1, 0, 'www.ilias.uni-koeln.de', 'ILIAS Uni-Köln', 'top', 20020813174241);
+INSERT INTO bookmarks VALUES (6, 2, 0, 'www.databay.de', 'Databay AG', 'top', 20020813174351);
+# --------------------------------------------------------
+
+#
+# Table structure for table `mail`
+#
+
+CREATE TABLE mail (
+  id int(11) NOT NULL auto_increment,
+  snd int(11) NOT NULL default '0',
+  rcp int(11) NOT NULL default '0',
+  snd_flag tinyint(1) NOT NULL default '0',
+  rcp_flag tinyint(1) NOT NULL default '0',
+  rcp_folder varchar(50) NOT NULL default 'inbox',
+  subject varchar(255) NOT NULL default '',
+  body text NOT NULL,
+  as_email tinyint(1) NOT NULL default '0',
+  date_send datetime NOT NULL default '0000-00-00 00:00:00',
+  timest timestamp(14) NOT NULL,
+  UNIQUE KEY id (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `mail`
+#
+
 # --------------------------------------------------------
 
 #
@@ -106,7 +156,7 @@ INSERT INTO object_types VALUES (26, 'type', 'n', 'Object type', 'Defines an obj
 CREATE TABLE rbac_fa (
   rol_id int(11) NOT NULL default '0',
   parent int(11) NOT NULL default '0',
-  assign enum('y','n'),
+  assign enum('y','n') default NULL,
   PRIMARY KEY  (rol_id,parent)
 ) TYPE=MyISAM;
 
@@ -114,13 +164,13 @@ CREATE TABLE rbac_fa (
 # Dumping data for table `rbac_fa`
 #
 
-INSERT INTO rbac_fa VALUES (2, 8,'y');
-INSERT INTO rbac_fa VALUES (3, 8,'y');
-INSERT INTO rbac_fa VALUES (3, 152,'n');
-INSERT INTO rbac_fa VALUES (4, 8,'y');
-INSERT INTO rbac_fa VALUES (4, 152,'n');
-INSERT INTO rbac_fa VALUES (5, 8,'y');
-INSERT INTO rbac_fa VALUES (5, 152,'n');
+INSERT INTO rbac_fa VALUES (2, 8, 'y');
+INSERT INTO rbac_fa VALUES (3, 8, 'y');
+INSERT INTO rbac_fa VALUES (3, 152, 'n');
+INSERT INTO rbac_fa VALUES (4, 8, 'y');
+INSERT INTO rbac_fa VALUES (4, 152, 'n');
+INSERT INTO rbac_fa VALUES (5, 8, 'y');
+INSERT INTO rbac_fa VALUES (5, 152, 'n');
 # --------------------------------------------------------
 
 #
@@ -439,6 +489,24 @@ INSERT INTO rbac_ua VALUES (6, 3);
 # --------------------------------------------------------
 
 #
+# Table structure for table `settings`
+#
+
+CREATE TABLE settings (
+  keyword varchar(255) NOT NULL default '',
+  value_str varchar(255) NOT NULL default '',
+  value_int bigint(20) NOT NULL default '0',
+  UNIQUE KEY keyword (keyword)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table `settings`
+#
+
+INSERT INTO settings VALUES ('db_version', '', 5);
+# --------------------------------------------------------
+
+#
 # Table structure for table `tree`
 #
 
@@ -447,23 +515,24 @@ CREATE TABLE tree (
   child int(11) NOT NULL default '0',
   parent int(11) default NULL,
   lft int(11) NOT NULL default '0',
-  rgt int(11) NOT NULL default '0'
+  rgt int(11) NOT NULL default '0',
+  depth int(11) NOT NULL default '0'
 ) TYPE=MyISAM;
 
 #
 # Dumping data for table `tree`
 #
 
-INSERT INTO tree VALUES (1, 1, 0, 1, 20);
-INSERT INTO tree VALUES (1, 7, 9, 13, 14);
-INSERT INTO tree VALUES (1, 8, 9, 15, 16);
-INSERT INTO tree VALUES (1, 9, 1, 12, 19);
-INSERT INTO tree VALUES (1, 10, 9, 17, 18);
-INSERT INTO tree VALUES (1, 150, 148, 3, 8);
-INSERT INTO tree VALUES (1, 149, 148, 9, 10);
-INSERT INTO tree VALUES (1, 148, 1, 2, 11);
-INSERT INTO tree VALUES (1, 151, 150, 6, 7);
-INSERT INTO tree VALUES (1, 152, 150, 4, 5);
+INSERT INTO tree VALUES (1, 1, 0, 1, 20, 1);
+INSERT INTO tree VALUES (1, 7, 9, 13, 14, 3);
+INSERT INTO tree VALUES (1, 8, 9, 15, 16, 3);
+INSERT INTO tree VALUES (1, 9, 1, 12, 19, 2);
+INSERT INTO tree VALUES (1, 10, 9, 17, 18, 3);
+INSERT INTO tree VALUES (1, 150, 148, 3, 8, 3);
+INSERT INTO tree VALUES (1, 149, 148, 9, 10, 3);
+INSERT INTO tree VALUES (1, 148, 1, 2, 11, 2);
+INSERT INTO tree VALUES (1, 151, 150, 6, 7, 4);
+INSERT INTO tree VALUES (1, 152, 150, 4, 5, 4);
 # --------------------------------------------------------
 
 #
@@ -511,51 +580,4 @@ CREATE TABLE user_session (
 # Dumping data for table `user_session`
 #
 
-#
-# settings table
-#
-
-CREATE TABLE settings (
-  keyword varchar(255) NOT NULL default '',
-  value_str varchar(255) NOT NULL default '',
-  value_int bigint(20) NOT NULL default '0',
-  UNIQUE KEY keyword (keyword)
-) TYPE=MyISAM;
-
-INSERT INTO settings VALUES ('db_version', '', 5);
-
-CREATE TABLE mail (
-  id int(11) NOT NULL auto_increment,
-  snd int(11) NOT NULL default '0',
-  rcp int(11) NOT NULL default '0',
-  snd_flag tinyint(1) NOT NULL default '0',
-  rcp_flag tinyint(1) NOT NULL default '0',
-  rcp_folder varchar(50) NOT NULL default 'inbox',
-  subject varchar(255) NOT NULL default '',
-  body text NOT NULL,
-  as_email tinyint(1) NOT NULL default '0',
-  date_send datetime NOT NULL default '0000-00-00 00:00:00',
-  timest timestamp(14) NOT NULL,
-  UNIQUE KEY id (id)
-) TYPE=MyISAM;
-
-CREATE TABLE bookmarks (
-  usr_fk int(11) NOT NULL default '0',
-  id int(11) NOT NULL default '0',
-  pos int(11) NOT NULL default '0',
-  url varchar(255) NOT NULL default '',
-  name varchar(255) NOT NULL default '',
-  folder varchar(255) NOT NULL default 'top',
-  timest timestamp(14) NOT NULL,
-  KEY usr_fk (usr_fk),
-  KEY id (id),
-  KEY pos (pos)
-) TYPE=MyISAM;
-
-#
-# Daten für Tabelle `bookmarks`
-#
-
-INSERT INTO bookmarks VALUES (6, 1, 0, 'www.ilias.uni-koeln.de', 'ILIAS Uni-Köln', 'top', 20020813174241);
-INSERT INTO bookmarks VALUES (6, 2, 0, 'www.databay.de', 'Databay AG', 'top', 20020813174351);
 
