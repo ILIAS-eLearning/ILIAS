@@ -206,6 +206,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		else
 		{
 			$this->putInTree();
+
+			// check the tree
+			$this->checkTree();
+
 			header("location: lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}

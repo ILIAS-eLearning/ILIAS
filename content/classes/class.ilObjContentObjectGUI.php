@@ -846,6 +846,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			}
 		}
 
+		// check the tree
+		$this->object->checkTree();
+
 		// feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 
@@ -1044,6 +1047,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		ilEditClipboard::clear();
+
+		// check the tree
+		$this->object->checkTree();
 
 		$this->chapters();
 	}

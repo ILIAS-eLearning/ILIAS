@@ -696,5 +696,16 @@ class ilObjContentObject extends ilObject
 		}
 		return $result ? $result : array();
 	}
+
+	function checkTree()
+	{
+		$tree = new ilTree($this->getId());
+		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTreeTablePK("lm_id");
+		$tree->checkTree();
+		$tree->checkTreeChilds();
+//echo "checked";
+	}
+
 } // END class.ilObjContentObject
 ?>

@@ -263,6 +263,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->putInTree();
 
+		// check the tree
+		$this->checkTree();
+
 		if (!empty($_GET["obj_id"]))
 		{
 			header("location: lm_edit.php?cmd=subchap&ref_id=".$this->content_object->getRefId()."&obj_id=".
@@ -326,8 +329,13 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$tree->setTreeTablePK("lm_id");
 
 		// cut selected object
+		$cutted = 0;
 		foreach ($_POST["id"] as $id)
 		{
+			if ($id == -1)
+			{
+				continue;
+			}
 			$obj =& ilLMObjectFactory::getInstance($this->content_object, $id);
 			$obj->setLMId($this->content_object->getId());
 			$node_data = $tree->getNodeData($id);
@@ -336,8 +344,16 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			{
 				$tree->deleteTree($node_data);
 			}
+			$cutted++;
 		}
-		sendInfo($this->lng->txt("msg_cut_clipboard"));
+
+		// tree check
+		$this->checkTree();
+
+		if($cutted > 0)
+		{
+			sendInfo($this->lng->txt("msg_cut_clipboard"));
+		}
 		$this->view();
 	}
 
@@ -370,6 +386,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			$tree->insertNode($id, $this->obj->getId(), $target);
 			ilEditClipboard::clear();
 		}
+
+		// check the tree
+		$this->checkTree();
 
 		$this->view();
 	}
@@ -463,6 +482,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		}
 
 		ilEditClipboard::clear();
+
+		// check the tree
+		$this->checkTree();
 
 		$this->subchap();
 	}
