@@ -32,4 +32,32 @@
 </tr>
 </table>
 <br />
+<!-- BEGIN user_mode -->
+<table class="std">
+<form method="post" action="{FORMACTION}">
+<input type="hidden" name="from" value="{FROM}">
+<input type="hidden" name="to" value="{TO}">
+<input type="hidden" name="stat" value="u">
+<input type="hidden" name="mode" value="{USER}">
+<input type="hidden" name="object_type" value="{TYPE}">
+<input type="hidden" name="{AUTHOR}" value="{AUTHORS}">
+<input type="hidden" name="{OBJECT}" value="{OBJECTS}">
+<input type="hidden" name="language" value="{LAN}">
+<input type="hidden" name="yearf" value="{YEARF}">
+<input type="hidden" name="monthf" value="{MONTHF}">
+<input type="hidden" name="dayf" value="{DAYF}">
+<input type="hidden" name="yeart" value="{YEART}">
+<input type="hidden" name="montht" value="{MONTHT}">
+<input type="hidden" name="dayt" value="{DAYT}">
+<tr>
+<td class="submit" colspan="3">
+			<div align="left">
+			<input class="submit" type="SUBMIT" name="cmd[outputTrackingData]" value="{TXT_SHOW_USER_DATA}">
+			</div>
+		</td>
+</tr>
+</form>
+</table>
+<br />
+<!-- END user_mode -->
 {TRACK_TABLE}

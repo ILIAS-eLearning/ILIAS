@@ -1,7 +1,38 @@
 {STATUSLINE}
 <br />
-
-<form action="{SEARCH_ACTION}" METHOD="post">
+<!-- BEGIN javascript -->
+<script language="javascript">
+function do_on_change() {
+while (this.search.lm.length > 0) {
+		this.search.lm.options[this.search.lm.length --] = null;
+	}
+	this.search.lm.options[this.search.lm.length] = new Option ("{ALL_LMS}",  "0" );
+	<!-- BEGIN select_value -->
+	if(this.search.author.options[this.search.author.selectedIndex].value =="{VALUE}")
+	{
+		this.search.lm.options[this.search.lm.length] = new Option ("{LMVALUE}",  "{LMVALUE}" );
+	}
+	<!-- END select_value -->
+}
+</script>
+<!-- END javascript -->
+<!-- BEGIN javascript1 -->
+<script language="javascript">
+function do_on_change1() {
+while (this.search.tst.length > 0) {
+		this.search.tst.options[this.search.tst.length --] = null;
+	}
+	this.search.tst.options[this.search.tst.length] = new Option ("{ALL_TSTS}",  "0" );
+	<!-- BEGIN select_value1 -->
+	if(this.search.author1.options[this.search.author1.selectedIndex].value =="{VALUE1}")
+	{
+		this.search.tst.options[this.search.tst.length] = new Option ("{TSTVALUE}",  "{TSTVALUE}" );
+	}
+	<!-- END select_value1 -->
+}
+</script>
+<!-- END javascript1 -->
+<form name="search" action="{SEARCH_ACTION}" METHOD="post">
 	<table class="std">
 		<tr class="tblheader">
 		<td class="std" colspan="3" >{TXT_TRACKING_DATA}</td>
@@ -75,23 +106,34 @@
 
 			<tr><td nowrap="1">
 			<input type="radio" name="object_type" value="lm" {LM_CHK}>{TXT_LM}</input>&nbsp;
-			</td><td>
-			<select name="lm">
-			<!-- BEGIN lm_selection -->
-			<option value="{LM}" {LM_SEL}>{LM_SELECT}
+			</td>
+			<td>
+			<select name="author" onchange="javascript: return do_on_change()">
+			<!-- BEGIN author_selection -->
+			<option value="{AUTHOR}" {AUTHOR_SEL}>{AUTHOR_SELECT}
 			</option>
-			<!-- END lm_selection -->
+			<!-- END author_selection -->
 			</select>
-			</td></tr>
+			</td>
+			<td>
+			<select name="lm">
+			</select>
+			</td>
+			</tr>
 
 			<tr><td nowrap="1">
 			<input type="radio" name="object_type" value="tst" {TST_CHK}>{TXT_TEST}</input>&nbsp;
-			</td><td>
-			<select name="tst">
-			<!-- BEGIN test_selection -->
-			<option value="{TEST}">{TEST_SELECT}
+			</td>
+			<td>
+			<select name="author1" onchange="javascript: return do_on_change1()">
+			<!-- BEGIN author_selection_tst -->
+			<option value="{AUTHOR1}" {AUTHOR1_SEL}>{AUTHOR1_SELECT}
 			</option>
-			<!-- END test_selection -->
+			<!-- END author_selection_tst -->
+			</select>
+			</td>
+			<td>
+			<select name="tst">
 			</select>
 			</tr></td>
 
