@@ -906,3 +906,94 @@ CREATE TABLE search_tree (
 
 <#70>
 UPDATE settings SET value = '3.0.0_beta2' WHERE keyword = 'ilias_version' LIMIT 1;
+
+<#71>
+#
+# Tabellenstruktur für Tabelle `dp_changed_dates`
+#
+
+CREATE TABLE dp_changed_dates (
+  ID int(15) NOT NULL auto_increment,
+  user_ID int(15) NOT NULL default '0',
+  date_ID int(15) NOT NULL default '0',
+  status int(15) NOT NULL default '0',
+  timestamp int(10) NOT NULL default '0',
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM COMMENT='Tabelle für Anzeige von Geänderten Termindaten';
+# --------------------------------------------------------
+
+<#72>
+#
+# Tabellenstruktur für Tabelle `dp_dates`
+#
+
+CREATE TABLE dp_dates (
+  ID int(15) NOT NULL auto_increment,
+  begin int(10) NOT NULL default '0',
+  end int(10) NOT NULL default '0',
+  group_ID int(15) NOT NULL default '0',
+  user_ID int(15) NOT NULL default '0',
+  created int(10) NOT NULL default '0',
+  changed int(10) NOT NULL default '0',
+  rotation int(15) NOT NULL default '0',
+  shorttext varchar(50) NOT NULL default '',
+  text text,
+  end_rotation int(10) NOT NULL default '0',
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM COMMENT='Termin Tabelle';
+# --------------------------------------------------------
+
+<#73>
+#
+# Tabellenstruktur für Tabelle `dp_keyword`
+#
+
+CREATE TABLE dp_keyword (
+  ID int(15) NOT NULL auto_increment,
+  user_ID int(15) NOT NULL default '0',
+  keyword varchar(20) NOT NULL default '',
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM COMMENT='Tabelle für Schlagwörter';
+# --------------------------------------------------------
+
+<#74>
+#
+# Tabellenstruktur für Tabelle `dp_keywords`
+#
+
+CREATE TABLE dp_keywords (
+  ID int(15) NOT NULL auto_increment,
+  date_ID int(15) NOT NULL default '0',
+  keyword_ID int(15) NOT NULL default '0',
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM COMMENT='Tabelle für die Zuordnung der Schlagwörter';
+# --------------------------------------------------------
+
+<#75>
+#
+# Tabellenstruktur für Tabelle `dp_neg_dates`
+#
+
+CREATE TABLE dp_neg_dates (
+  ID int(15) NOT NULL auto_increment,
+  date_ID int(15) NOT NULL default '0',
+  user_ID int(15) NOT NULL default '0',
+  timestamp int(14) default NULL,
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM COMMENT='Tabelle für die negativen Termine';
+# --------------------------------------------------------
+
+<#76>
+#
+# Tabellenstruktur für Tabelle `dp_properties`
+#
+
+CREATE TABLE dp_properties (
+  ID int(15) NOT NULL auto_increment,
+  user_ID int(15) NOT NULL default '0',
+  dv_starttime time NOT NULL default '00:00:00',
+  dv_endtime time NOT NULL default '00:00:00',
+  PRIMARY KEY  (ID)
+) TYPE=MyISAM COMMENT='Tabelle für UserEinstellungen';
+
+
