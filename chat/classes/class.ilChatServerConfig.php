@@ -147,7 +147,7 @@ class ilChatServerConfig
 			}
 			$this->error_message .= $this->lng->txt("chat_add_port");
 		}
-		if(!$this->getModeratorPassword() or strlen($this->getModeratorPassword()) < 6)
+		if(!$this->getModeratorPassword())
 		{
 			if($this->error_message)
 			{
