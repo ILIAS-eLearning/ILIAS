@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.14 2003/07/25 09:30:11 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.15 2003/07/29 14:02:40 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -69,16 +69,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		if ($usr_data = getObjectList("usr",$_GET["order"], $_GET["direction"]))
 		{
+			//var_dump("<pre>",$usr_data,"</pre>");exit;
+			
 			foreach ($usr_data as $key => $val)
 			{
-				//visible data part
-				$this->data["data"][] = array(
-						"type"			=> $val["type"],
-						"name"			=> $val["title"],
-						"email"			=> $val["desc"],
-						"last_change"	=> $val["last_update"],
-						"obj_id"		=> $val["obj_id"]
-					);
+				if ($key != ANONYMOUS_USER_ID)
+				{
+					//visible data part
+					$this->data["data"][] = array(
+								"type"			=> $val["type"],
+								"name"			=> $val["title"],
+								"email"			=> $val["desc"],
+								"last_change"	=> $val["last_update"],
+								"obj_id"		=> $val["obj_id"]
+							);
+				}
 			}
 		} //if userdata
 

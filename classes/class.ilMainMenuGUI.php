@@ -101,6 +101,18 @@ class ilMainMenuGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		// mail button
+		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+		{
+			$this->tpl->setCurrentBlock("mailbutton");
+			$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("navbar/mail.gif", false));
+			$this->tpl->setVariable("IMG_SPACE_MAIL", ilUtil::getImagePath("spacer.gif", false));
+			$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
+			$this->tpl->setVariable("SCRIPT_MAIL", $this->getScriptTarget("mail_frameset.php"));
+			$this->tpl->setVariable("TARGET_MAIL", $this->target);
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
 			$this->tpl->setCurrentBlock("userisanonymous");
@@ -154,7 +166,6 @@ class ilMainMenuGUI
 							"SCRIPT_COURSE" => "lo_list.php",
 							"SCRIPT_SEARCH" => "search.php",
 							"SCRIPT_LITERAT" => "literature.php",
-							"SCRIPT_MAIL" => "mail_frameset.php",
 							"SCRIPT_FORUMS" => "forums.php",
 							"SCRIPT_FEEDB" => "feedback.php",
 							"SCRIPT_LOGOUT" => "logout.php" );
@@ -169,7 +180,6 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
 		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
 		$this->tpl->setVariable("TXT_LITERATURE", $lng->txt("literature"));
-		$this->tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
 		$this->tpl->setVariable("TXT_FORUMS", $lng->txt("forums"));
 		$this->tpl->setVariable("TXT_GROUPS", $lng->txt("groups"));
 		$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));

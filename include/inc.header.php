@@ -107,8 +107,6 @@ if (DEBUG)
 }
 
 //authenticate & start session
-$ilias->auth->setExpire($ilias->ini->readVariable("session","expire"));
-$ilias->auth->setExpire($ilias->ini->readVariable("session","expire"),true);
 $ilias->auth->start();
 
 // start logging
@@ -123,14 +121,6 @@ $ilias->account = new ilObjUser();
 
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
-
-//var_dump("<pre>",$ilias->auth->sessionValidThru(),"</pre>");
-$status = $ilias->auth->getStatus();
-
-if ($ilias->auth->getStatus() == AUTH_EXPIRED and $script != "login.php")
-{
-	header("Location: index.php?reload=true");
-}	
 
 if ($ilias->auth->getAuth())
 {
@@ -159,9 +149,9 @@ if ($ilias->auth->getAuth())
 	}	
 
 }
-elseif ($script != "login.php" and $script != "nologin.php")
+elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php")
 {
-	header("Location: index.php");
+	header("Location: index.php?reload=true");
 }
 
 //init language

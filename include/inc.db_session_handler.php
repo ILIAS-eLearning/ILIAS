@@ -84,7 +84,7 @@ function db_session_write($session_id, $data)
 	global $pear_session_db,$ilias;
 
 	//var_dump("<pre>",session_decode($data),"</pre>");exit;
-	$expires = time() + get_cfg_var("session.gc_maxlifetime");
+	$expires = time() + ini_get("session.gc_maxlifetime");
 	$q = "REPLACE INTO usr_session (session_id, expires, data, ctime,user_id) ".
 		 "VALUES('".addslashes($session_id)."','".$expires."','".addslashes($data).
 		 "','".time()."','".$_SESSION["AccountId"]."')";
@@ -131,8 +131,11 @@ function db_session_gc($gc_maxlifetime)
 */
 function db_set_save_handler()
 {
+	global $ilias;
+	
 	// set session.save_handler to "user"
 	ini_set("session.save_handler", "user");
+	ini_set("session.gc_maxlifetime",$ilias->ini->readVariable("session","expire"));
 
 	// register save handler functions
 	if (ini_get("session.save_handler") == "user")

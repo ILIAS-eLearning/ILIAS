@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.6 2003/05/16 13:39:22 smeyer Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.7 2003/06/11 08:41:44 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -324,8 +324,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// basic data
 		$loc = "adm_object.php?ref_id=".$_GET["ref_id"];
 		$tpl->setVariable("FORMACTION_BASICDATA", $loc);
-		$tpl->setVariable("HTTP_PATH", "http://".$_SERVER["SERVER_NAME"].dirname($_SERVER["REQUEST_URI"]));
-		$tpl->setVariable("ABSOLUTE_PATH", dirname($_SERVER["SCRIPT_FILENAME"]));
+		$tpl->setVariable("HTTP_PATH",ILIAS_HTTP_PATH);
+		$tpl->setVariable("ABSOLUTE_PATH",ILIAS_ABSOLUTE_PATH);
 		$tpl->setVariable("HOSTNAME", $_SERVER["SERVER_NAME"]);
 		$tpl->setVariable("SERVER_PORT", $_SERVER["SERVER_PORT"]);
 		$tpl->setVariable("SERVER_ADMIN", $_SERVER["SERVER_ADMIN"]);	// not used
@@ -397,33 +397,33 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$tpl->setVariable("BABYLON_PATH",$settings["babylon_path"]);
 
 		// modules
-		if ($settings["pub_section"]=="y")
+		if ($settings["pub_section"])
 		{
 			$tpl->setVariable("PUB_SECTION","checked=\"checked\"");
 		}
 
-		if ($settings["news"]=="y")
+		if ($settings["news"])
 		{
 			$tpl->setVariable("NEWS","checked=\"checked\"");
 		}
 
-		if ($settings["payment_system"]=="y")
+		if ($settings["payment_system"])
 		{
 			$tpl->setVariable("PAYMENT_SYSTEM","checked=\"checked\"");
 		}
 
-		if ($settings["group_file_sharing"]=="y")
+		if ($settings["group_file_sharing"])
 		{
 			$tpl->setVariable("GROUP_FILE_SHARING","checked=\"checked\"");
 		}
 
-		if ($settings["crs_enable"]=="y")
+		if ($settings["crs_enable"])
 		{
 			$tpl->setVariable("CRS_MANAGEMENT_SYSTEM","checked=\"checked\"");
 		}
 
 		// ldap
-		if ($settings["ldap_enable"] == "y")
+		if ($settings["ldap_enable"])
 		{
 			$tpl->setVariable("LDAP_ENABLE","checked=\"checked\"");
 		}

@@ -1653,3 +1653,55 @@ while($t_rec = $t_set->fetchRow(DB_FETCHMODE_ASSOC))
 	$this->db->query($q);
 }
 ?>
+
+<#96>
+<?php
+$q = "SELECT usr_id FROM usr_data WHERE login='anonymous' AND passwd='".md5("anonymous")."'";
+$res = $this->db->query($q);
+if ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$user_id = $row->obj_id;
+	
+	$q = "INSERT INTO rbac_ua ".
+		 "(usr_id,rol_id,default_role) ".
+		 "VALUES ".
+		 "(".$user_id.",".$role_id.",'y')";
+	$this->db->query($q);
+
+	$q = "INSERT INTO settings ".
+		 "(keyword,value) ".
+		 "VALUES ".
+		 "('anonymous_user_id','".$user_id."')";
+	$this->db->query($q);	
+}
+else
+{
+	$q = "INSERT INTO object_data ".
+		 "(type,title,description,owner,create_date,last_update) ".
+		 "VALUES ".
+		 "('usr','Anonymous','Anonymous user account. DO NOT DELETE!',-1,now(),now())";
+	$this->db->query($q);
+
+	$res = $this->db->query("SELECT LAST_INSERT_ID()");
+	$row = $res->fetchRow();
+	$user_id = $row[0];
+	
+	$q = "INSERT INTO usr_data ".
+		 "(usr_id,login,passwd,firstname,lastname,gender,email,last_update,create_date) ".
+		 "VALUES ".
+		 "(".$user_id.",'anonymous','".md5("anonymous")."','anonymous','anonymous','m','nomail',now(),now())";
+	$this->db->query($q);
+
+	$q = "INSERT INTO rbac_ua ".
+		 "(usr_id,rol_id,default_role) ".
+		 "VALUES ".
+		 "(".$user_id.",".$role_id.",'y')";
+	$this->db->query($q);
+	
+	$q = "INSERT INTO settings ".
+		 "(keyword,value) ".
+		 "VALUES ".
+		 "('anonymous_user_id',".$user_id.")";
+	$this->db->query($q);	
+}
+?>

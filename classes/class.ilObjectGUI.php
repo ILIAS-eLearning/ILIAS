@@ -1751,7 +1751,7 @@ class ilObjectGUI
 		
 		$header_params = array("ref_id" => $this->ref_id);
 		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		//$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
+		$tbl->setColumnWidth(array("15","15","30%","45%","25%"));
 		
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);

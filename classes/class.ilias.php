@@ -159,8 +159,6 @@ class ILIAS extends PEAR
 		define ("ILIAS_HTTP_PATH",$this->ini->readVariable('server','http_path'));
 		define ("ILIAS_ABSOLUTE_PATH",$this->ini->readVariable('server','absolute_path'));
 
-		define ("ANONYMOUS_USER_ID",$this->ini->readVariable('system','ANONYMOUS_USER_ID'));
-
 		// build dsn of database connection and connect
 		$this->dsn = $this->ini->readVariable("db","type").
 					 "://".$this->ini->readVariable("db", "user").
@@ -171,7 +169,7 @@ class ILIAS extends PEAR
 		$this->db = new ilDBx($this->dsn);
 			
 		// set anonymous user id
-		//define ("ANONYMOUS_USER_ID",$this->getSetting("anonymous_user_id"));
+		define ("ANONYMOUS_USER_ID",$this->getSetting("anonymous_user_id"));
 
 		// build option string for PEAR::Auth
 		$this->auth_params = array(

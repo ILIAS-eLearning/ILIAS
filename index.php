@@ -53,7 +53,7 @@ if ($start == "")
 	$start = "login.php";
 }
 
-if ($ilias->getSetting("pub_section") == "y")
+if ($ilias->getSetting("pub_section"))
 {
 	$start = "nologin.php";
 }
