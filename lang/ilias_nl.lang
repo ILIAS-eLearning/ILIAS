@@ -147,6 +147,7 @@ assessment#:#question_saved_for_upload#:#The question was saved automatically in
 assessment#:#question_type#:#Vraag-type
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
+assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
 assessment#:#reset_filter#:#Terugzetten filter
 assessment#:#result#:#Result###17 Mar 2004 new variable
 assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
@@ -410,6 +411,7 @@ common#:#cat_create_frm#:#Creëer forum
 common#:#cat_create_glo#:#Creëer woordenlijst
 common#:#cat_create_grp#:#Creëer groep
 common#:#cat_create_lm#:#Creëer lesmodule
+common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Creëer vragenpool
 common#:#cat_create_slm#:#Creëer SCORM lesmodule
 common#:#cat_create_tst#:#Creëer een test
@@ -948,6 +950,16 @@ common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
 common#:#member#:#Lid
 common#:#members#:#Leden
 common#:#membership_annulled#:#Uw lidmaatschap is beëindigd
+common#:#mep#:#Media Pool###22 Mar 2004 new variable
+common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
+common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
+common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
+common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
+common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
+common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
+common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
+common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
+common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
 common#:#message#:#Bericht
 common#:#message_content#:#Inhoud-bericht
 common#:#message_to#:#Bericht aan:
@@ -1117,6 +1129,7 @@ common#:#obj_lngf_desc#:#Beheer uw systeem-talen hier.
 common#:#obj_lo#:#Leerobject
 common#:#obj_mail#:#Mail-instellingen
 common#:#obj_mail_desc#:#Configureer de globale Mail-instellingen hier.
+common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
 common#:#obj_mob#:#Multimedia-object
 common#:#obj_not_found#:#Object niet gevonden
 common#:#obj_note#:#Notitie

@@ -147,6 +147,7 @@ assessment#:#question_saved_for_upload#:#The question was saved automatically in
 assessment#:#question_type#:#Tipo de questão
 assessment#:#region#:#Region###08 Mar 2004 new variable
 assessment#:#remove_question#:#Remove###08 Mar 2004 new variable
+assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
 assessment#:#reset_filter#:#Reajustar filtro
 assessment#:#result#:#Result###17 Mar 2004 new variable
 assessment#:#save_finish#:#Save and finish the test###08 Mar 2004 new variable
@@ -410,6 +411,7 @@ common#:#cat_create_frm#:#Criar Fórum
 common#:#cat_create_glo#:#Criar Glossário
 common#:#cat_create_grp#:#Criar Grupo
 common#:#cat_create_lm#:#Criar Módulo de Aprendizagem
+common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Criar Banco de Questões
 common#:#cat_create_slm#:#Criar Módulo de Aprendizagem SCORM
 common#:#cat_create_tst#:#Criar Teste
@@ -948,6 +950,16 @@ common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
 common#:#member#:#Membro
 common#:#members#:#Membros
 common#:#membership_annulled#:#A sua inscrição foi cancelada
+common#:#mep#:#Media Pool###22 Mar 2004 new variable
+common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
+common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
+common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
+common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
+common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
+common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
+common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
+common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
+common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
 common#:#message#:#Mensagem
 common#:#message_content#:#Conteúdo da Mensagem
 common#:#message_to#:#Mensagem para:
@@ -1117,6 +1129,7 @@ common#:#obj_lngf_desc#:#Gira aqui as suas linguagens de sistema.
 common#:#obj_lo#:#Módulo de Aprendizagem
 common#:#obj_mail#:#Definições de Correio
 common#:#obj_mail_desc#:#Configure aqui as definições globais de correio.
+common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
 common#:#obj_mob#:#Objecto Multimédia
 common#:#obj_not_found#:#Objecto Não Encontrado
 common#:#obj_note#:#Nota

@@ -147,6 +147,7 @@ assessment#:#question_saved_for_upload#:#The question was saved automatically in
 assessment#:#question_type#:#Question Type###05 Feb 2004 new variable
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
+assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
 assessment#:#reset_filter#:#Reset filter###05 Feb 2004 new variable
 assessment#:#result#:#Result###17 Mar 2004 new variable
 assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
@@ -410,6 +411,7 @@ common#:#cat_create_frm#:#Neues Forum anlegen
 common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
 common#:#cat_create_lm#:#Neues Lernmodul anlegen
+common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Neuen Fragen-Pool anlegen
 common#:#cat_create_slm#:#Neues SCORM Lernmodul anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
@@ -948,6 +950,16 @@ common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
 common#:#member#:#Mitglied
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
+common#:#mep#:#Media Pool###22 Mar 2004 new variable
+common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
+common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
+common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
+common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
+common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
+common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
+common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
+common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
+common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
@@ -1117,6 +1129,7 @@ common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
 common#:#obj_lo#:#Lernobjekt
 common#:#obj_mail#:#Maileinstellungen
 common#:#obj_mail_desc#:#Globale Mailkonfiguration
+common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
 common#:#obj_mob#:#Multimedia Objekt
 common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz

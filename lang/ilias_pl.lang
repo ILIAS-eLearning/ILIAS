@@ -147,6 +147,7 @@ assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatyczni
 assessment#:#question_type#:#Typ pytania
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Usuń
+assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
 assessment#:#reset_filter#:#Resetuj filtr
 assessment#:#result#:#Wynik
 assessment#:#save_finish#:#Zapisz i zakończ test
@@ -410,6 +411,7 @@ common#:#cat_create_frm#:#Twórz Forum
 common#:#cat_create_glo#:#Twórz Słownik
 common#:#cat_create_grp#:#Twórz Grupę
 common#:#cat_create_lm#:#Twórz Moduł Nauczania
+common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Twórz pulę pytań
 common#:#cat_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#cat_create_tst#:#Twórz test
@@ -948,6 +950,16 @@ common#:#max_number_rec#:#Maksymalna liczba rekordów
 common#:#member#:#Członek
 common#:#members#:#Członkowie
 common#:#membership_annulled#:#Twoje członkostwo zostało anulowane.
+common#:#mep#:#Media Pool###22 Mar 2004 new variable
+common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
+common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
+common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
+common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
+common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
+common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
+common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
+common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
+common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
 common#:#message#:#Wiadomość
 common#:#message_content#:#Zawartość wiadomości
 common#:#message_to#:#Wiadomość do:
@@ -1117,6 +1129,7 @@ common#:#obj_lngf_desc#:#Zarządzanie językami systemowymi.
 common#:#obj_lo#:#Przedmiot Nauczania
 common#:#obj_mail#:#Poczta elektroniczna
 common#:#obj_mail_desc#:#Konfiguracja globalnych ustawień poczty elektronicznej.
+common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
 common#:#obj_mob#:#Obiekt Multimedialny
 common#:#obj_not_found#:#Obiekt nie został odnaleziony.
 common#:#obj_note#:#Notatka
