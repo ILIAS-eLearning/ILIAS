@@ -589,6 +589,7 @@ common#:#retype_password#:#Retype Password
 common#:#right#:#Right
 common#:#rights#:#Rights
 common#:#role#:#Role
+common#:#role_add_local#:#Add local Role
 common#:#role_added#:#Role added
 common#:#role_assignment#:#Role Assignment
 common#:#role_deleted#:#Role deleted

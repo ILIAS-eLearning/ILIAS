@@ -507,12 +507,12 @@ class ilRbacReview
 
 	/**
 	* Fetch allowed subobjects to determine if a role folder can be created
-	* 
+	* ###DEPRECATED###
 	* @access	public
 	* @param	string type of object
 	* @param    integer reference id of object
 	*/
-	function getModules ($a_type,$a_ref_id)
+	/*function getModules ($a_type,$a_ref_id)
 	{
 		global $objDefinition;
 		
@@ -560,7 +560,7 @@ class ilRbacReview
 		}
 
 		return $arr;
-	}
+	}*/
 
 	/**
 	* get all objects in which the inheritance was stopped

@@ -49,17 +49,6 @@ class ilObjObjectFolder extends ilObject
 	}
 
 	/**
-	* ???
-	* 
-	* @access	public
-	* @return	boolean
-	*/
-	function getSubObjects()
-	{
-		return false;
-	} //function
-
-	/**
 	* copy all properties and subobjects of an objectfolder.
 	* DISABLED
 	* @access	public

@@ -286,16 +286,6 @@ class ilObjLanguageFolder extends ilObject
 	}
 
 	/**
-	* DESC MISSING
-	*
-	*
-	*/
-	function getSubObjects()
-	{
-		return false;
-	}
-
-	/**
 	* validate the logical structure of a lang-file
 	*
 	* This function is similar to function checkLanguage() (see below) but checks for all
