@@ -213,6 +213,22 @@ assessment#:#tst_session_settings#:#Instellingen sessies
 assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
 assessment#:#tst_start_test#:#Start the test###02 Mar 2004 new variable
 assessment#:#tst_starting_time#:#Start-tijd
+assessment#:#tst_stat_all_users#:#All users###20 Mar 2004 new variable
+assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)###20 Mar 2004 new variable
+assessment#:#tst_stat_result_atimeofwork#:#Average time of work###20 Mar 2004 new variable
+assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###20 Mar 2004 new variable
+assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###20 Mar 2004 new variable
+assessment#:#tst_stat_result_firstvisit#:#First visit###20 Mar 2004 new variable
+assessment#:#tst_stat_result_lastvisit#:#Last visit###20 Mar 2004 new variable
+assessment#:#tst_stat_result_pworkedthrough#:#Percent of total workload already worked through###20 Mar 2004 new variable
+assessment#:#tst_stat_result_qworkedthrough#:#Questions already worked through###20 Mar 2004 new variable
+assessment#:#tst_stat_result_resultsmarks#:#Test results in marks###20 Mar 2004 new variable
+assessment#:#tst_stat_result_resultspoints#:#Test results in points###20 Mar 2004 new variable
+assessment#:#tst_stat_result_specification#:#Specification of evaluation data###20 Mar 2004 new variable
+assessment#:#tst_stat_result_timeofwork#:#Time of work###20 Mar 2004 new variable
+assessment#:#tst_stat_selected_users#:#Selected users###20 Mar 2004 new variable
+assessment#:#tst_stat_users_intro#:#Show statistical evaluation for###20 Mar 2004 new variable
+assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool###20 Mar 2004 new variable
 assessment#:#tst_status_completed#:#completed###12 Mar 2004 new variable
 assessment#:#tst_status_completed_more_tries_possible#:#(completed)###12 Mar 2004 new variable
 assessment#:#tst_status_not_entered#:#not entered###12 Mar 2004 new variable
@@ -596,6 +612,7 @@ common#:#exc_visible#:#Oefening is zichtbaar
 common#:#exc_write#:#Wijzigen oefening
 common#:#excs#:#Oefeningen
 common#:#execute#:#Uitvoeren
+common#:#export#:#Export###20 Mar 2004 new variable
 common#:#export_html#:#exporteren als html-bestand
 common#:#export_xml#:#exporteren als xml-estand
 common#:#faq_exercise#:#FAQ-oefening
@@ -904,6 +921,7 @@ common#:#mail_e_sent#:#Gezonden
 common#:#mail_edit_permission#:#Wijzig rechten-instellingen
 common#:#mail_folders#:#Post-mappen
 common#:#mail_intern_enable#:#Inschakelen
+common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
 common#:#mail_mails_of#:#Mails
 common#:#mail_maxsize_attach#:#Max. attachment-grootte
 common#:#mail_maxsize_box#:#Max. mailbox-grootte
