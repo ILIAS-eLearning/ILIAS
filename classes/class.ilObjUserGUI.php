@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserGUI.php,v 1.4 2003/03/31 09:04:53 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.5 2003/03/31 09:38:20 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -322,12 +322,12 @@ class ilObjUserGUI extends ilObjectGUI
 		//$userTree->insertNode($notfObj->getRefId(), $settingObj->getRefId());
 
 		// CREATE ENTRIES FOR MAIL BOX
-		require_once ("classes/class.Mailbox.php");
-		$mbox = new MailBox($userObj->getId());
+		require_once ("classes/class.ilMailbox.php");
+		$mbox = new ilMailbox($userObj->getId());
 		$mbox->createDefaultFolder();
 			
-		require_once "classes/class.FormatMail.php";
-		$fmail = new FormatMail($userObj->getId());
+		require_once "classes/class.ilFormatMail.php";
+		$fmail = new ilFormatMail($userObj->getId());
 		$fmail->createMailOptionsEntry();
 		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
@@ -403,9 +403,9 @@ class ilObjUserGUI extends ilObjectGUI
 		// sent email
 		if ($_POST["send_mail"] == "y")
 		{
-			require_once "classes/class.FormatMail.php";
+			require_once "classes/class.ilFormatMail.php";
 
-			$umail = new FormatMail($_SESSION["AccountId"]);
+			$umail = new ilFormatMail($_SESSION["AccountId"]);
 			
 			$attachments = array();
 			
