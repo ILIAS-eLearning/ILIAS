@@ -770,6 +770,8 @@ common#:#group_create_chat#:#Create chat
 common#:#group_desc#:#Group Description
 common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
+common#:#group_import#:#Group import
+common#:#group_import_file#:#Import file
 common#:#group_members#:#Group Members
 common#:#group_memstat#:#Member Status
 common#:#group_memstat_admin#:#Administrator
@@ -1619,14 +1621,10 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
-content#:#cont_validate_file#:#Validate File
-content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
-content#:#cont_api_adapter#:#API Adapter Name
-content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
@@ -1640,6 +1638,8 @@ content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
+content#:#cont_api_adapter#:#API Adapter Name
+content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.
 content#:#cont_assign_full#:#Assign Fullscreen
 content#:#cont_assign_std#:#Assign Standard
@@ -1774,6 +1774,7 @@ content#:#cont_new_file#:#New File
 content#:#cont_new_media_obj#:#New Media Object
 content#:#cont_new_term#:#New Term
 content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
+content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.
 content#:#cont_no_object_found#:#Could not find any object with this title
 content#:#cont_no_page#:#No Page found.
 content#:#cont_none#:#None
@@ -1859,6 +1860,7 @@ content#:#cont_upload_file#:#Upload File
 content#:#cont_url#:#URL
 content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of
 content#:#cont_users_have_mob_in_clip2#:#user(s).
+content#:#cont_validate_file#:#Validate File
 content#:#cont_version#:#version
 content#:#cont_view_last_export_log#:#Last Export Log
 content#:#cont_where_published#:#Where published
@@ -2123,6 +2125,7 @@ forum#:#forums_posts_not_available#:#Articles Not Available
 forum#:#forums_print_thread#:#Print Thread
 forum#:#forums_quote#:#Quote
 forum#:#forums_respond#:#Post Reply
+forum#:#forums_subject#:#Subject
 forum#:#forums_the_post#:#Article
 forum#:#forums_thread#:#Topic
 forum#:#forums_thread_articles#:#Articles to the topic
@@ -2770,6 +2773,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-forum#:#forums_subject#:#Subject
-common#:#group_import#:#Group import
-common#:#group_import_file#:#Import file
