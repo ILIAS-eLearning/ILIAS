@@ -31,7 +31,7 @@ include_once "classes/class.prevnextnavbar.php";
 include_once "classes/class.perm.php";
 include_once "classes/class.tree.php";
 include_once "classes/class.Language.php";
-
+include_once("./classes/class.Log.php");
 
 //include role based access
 include_once "classes/class.rbacAdmin.php";
@@ -60,6 +60,8 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
 $ilias =& new ILIAS;
 //authenticate
 $ilias->auth->start();
+
+$log = new Log("ilias.log");
 
 //check for logged in user
 if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")

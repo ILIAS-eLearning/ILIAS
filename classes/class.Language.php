@@ -1,8 +1,5 @@
 <?php
 
-//include database abstraction layer from PEAR
-include_once("DB.php");
-
 /**
 * language handling
 *
@@ -65,8 +62,11 @@ class Language
 	 */
 	function Language($lng)
 	{
-        $txt = @file($this->LANGUAGESDIR."/".$lng.".lang");
-        $this->text = array();
+		global $log;
+    
+	    $txt = @file($this->LANGUAGESDIR."/".$lng.".lang");
+        $this->log = $log;
+		$this->text = array();
         if (is_array($txt)==true)
         {
 			foreach($txt as $row)
@@ -100,10 +100,14 @@ class Language
 	function txt($topic)
 	{
 	    $translation = $this->text[$this->lng][$topic];
+
 	    if ($translation == "")
-		return "-".$topic."-";
+		{
+			$this->log->write("Language: "."topic -".$topic."- not present");
+			return "-".$topic."-";
+		}
 	    else
-		return $translation;
+			return $translation;
 	}
 
 	/**
