@@ -27,6 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
+<<<<<<< inc.header.php
 * @version $Id$
 *
 * @package ilias-core
@@ -139,9 +140,16 @@ $ilBench->start("Core", "HeaderInclude_Authentication");
 $ilias->auth->start();
 $ilBench->stop("Core", "HeaderInclude_Authentication");
 
+// force login ; workaround for hsu
+if ($_GET["cmd"] == "force_login")
+{
+	$ilias->auth->logout();
+	$_SESSION["AccountId"] = "";
+	$ilias->auth->start();
+}
+
 // start logging
 $log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
-
 
 // load object definitions
 $ilBench->start("Core", "HeaderInclude_getObjectDefinitions");
