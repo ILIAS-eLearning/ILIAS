@@ -770,7 +770,7 @@ class ilObjContentObject extends ilObject
 				}
 				while($row = $res2->fetchRow(DB_FETCHMODE_OBJECT))
 				{
-					if(in_array($row->ref_id))
+					if(in_array($row->ref_id,$ids))
 					{
 						continue;
 					}
