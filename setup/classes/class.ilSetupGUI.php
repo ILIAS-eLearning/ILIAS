@@ -368,7 +368,6 @@ class ilSetupGUI extends ilSetup
 
 		// pathes
 		$this->tpl->setVariable("TXT_SOFTWARE", $this->lng->txt("3rd_party_software"));
-		$this->tpl->setVariable("TXT_LANG_PATH", $this->lng->txt("lang_path"));
 		$this->tpl->setVariable("TXT_CONVERT_PATH", $this->lng->txt("path_to_convert"));
 		$this->tpl->setVariable("TXT_ZIP_PATH", $this->lng->txt("path_to_zip"));
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("path_to_unzip"));
