@@ -1530,6 +1530,7 @@ class ilRepositoryGUI
 
 		$path = $a_tree->getPathFull($a_id);
 
+
 		// this is a stupid workaround for a bug in PEAR:IT
 		$modifier = 1;
 

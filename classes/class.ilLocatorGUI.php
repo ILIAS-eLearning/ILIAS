@@ -67,17 +67,26 @@ class ilLocatorGUI
 	var $locator_level;
 	
 	/**
+	* indicates if the locator
+	* bar is displayed in a
+	* frame environment or
+	* not
+	*/
+	var $display_frame;
+	
+	/**
 	* Constructor
 	* - - - - -
 	* @param	void		--
 	* @return	void 		--
 	*/
-	function ilLocatorGUI()
+	function ilLocatorGUI($a_display_frame = true)
 	{
 		global $tpl, $lng;
 
 		$this->tpl		=& $tpl;
 		$this->lng		=& $lng;	
+		$this->display_frame = $a_display_frame;
 	}
 	
 	/**
@@ -95,9 +104,10 @@ class ilLocatorGUI
 		if ($newLocLevel > -1)
 		{
 			// update local variables
-			$this->locator_data		= $_SESSION["locator_data"];
-			$this->locator_level	= $_SESSION["locator_level"];
-			
+			if ($this->display_frame) {
+				$this->locator_data		= $_SESSION["locator_data"];
+				$this->locator_level	= $_SESSION["locator_level"];
+			}
 			// navigate: check whether links should be deleted or added / updated
 			if ($newLocLevel < $this->locator_level)
 			{
@@ -118,8 +128,10 @@ class ilLocatorGUI
 			$this->locator_level = $newLocLevel;
 			
 			// update session variables
-			$_SESSION["locator_data"] = $this->locator_data;
-			$_SESSION["locator_level"] = $this->locator_level;
+			if ($this->display_frame) {
+				$_SESSION["locator_data"] = $this->locator_data;
+				$_SESSION["locator_level"] = $this->locator_level;
+			}
 		}
 	}
 	
@@ -133,14 +145,20 @@ class ilLocatorGUI
 	function output()
 	{
 		// update local variables
-		$this->locator_data		= $_SESSION["locator_data"];
-		$this->locator_level	= $_SESSION["locator_level"];
-		
+		if ($this->display_frame) {
+			$this->locator_data		= $_SESSION["locator_data"];
+			$this->locator_level	= $_SESSION["locator_level"];
+		}
+				
 		// select the template
-		$this->tpl = new ilTemplate("tpl.locator_frame.html",true,true);
+		if ($this->display_frame) {
+			$this->tpl = new ilTemplate("tpl.locator_frame.html", true, true);
+		} else {
+			$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		}
 
 		// locator title
-		$this->tpl->setVariable("TXT_LOCATOR","Sie sind hier "); 					//  ######## LANG FILE ENTRY ###########		
+		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));		
 
 
 		// walk through array and generate locator
@@ -167,18 +185,29 @@ class ilLocatorGUI
 					}
 					else
 					{
-						$this->tpl->setCurrentBlock("locator_link");
-						$this->tpl->setVariable("ITEM", $this->locator_data[$i][0]);
-						$this->tpl->setVariable("LINK_ITEM", $this->locator_data[$i][1]);
-						$this->tpl->setVariable("LINK_TARGET", $this->locator_data[$i][2]);
-						$this->tpl->parseCurrentBlock("locator_link");
+						if ($this->display_frame) {
+							$this->tpl->setCurrentBlock("locator_link");
+							$this->tpl->setVariable("ITEM", $this->locator_data[$i][0]);
+							$this->tpl->setVariable("LINK_ITEM", $this->locator_data[$i][1]);
+							$this->tpl->setVariable("LINK_TARGET", $this->locator_data[$i][2]);
+							$this->tpl->parseCurrentBlock("locator_link");
+						} else {
+							$this->tpl->touchBlock("locator_separator");
+							$this->tpl->setCurrentBlock("locator_item");
+							$this->tpl->setVariable("ITEM", $this->locator_data[$i][0]);
+							$this->tpl->setVariable("LINK_ITEM", $this->locator_data[$i][1]);
+							$this->tpl->setVariable("LINK_TARGET", $this->locator_data[$i][2]);
+							$this->tpl->parseCurrentBlock("locator_item");
+						}
 					}
 				}
 			}
 		}
 		
 		// output
-		$this->tpl->show();
+		if ($this->display_frame) {
+			$this->tpl->show();
+		}
 	}
 	
 } // END class.LocatorGUI
