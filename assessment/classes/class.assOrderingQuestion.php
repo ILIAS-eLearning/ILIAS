@@ -146,7 +146,7 @@ class ASS_OrderingQuestion extends ASS_Question {
 		}
 
     $estw_time = $this->get_estimated_working_time();
-    $estw_time = sprintf("%02d%02d%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
+    $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
@@ -247,7 +247,7 @@ class ASS_OrderingQuestion extends ASS_Question {
         $this->question = $data->question_text;
         $this->ordering_type = $data->ordering_type;
         $this->points = $data->points;
-        $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 2, 2), substr($data->working_time, 4, 2));
+        $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       // loads materials uris from database
       $this->load_material_from_db($question_id);

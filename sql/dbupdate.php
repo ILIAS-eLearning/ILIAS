@@ -2258,3 +2258,5 @@ $typ_id = $row["obj_id"];
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','32')";
 $this->db->query($query);
 ?>
+<#150>
+ALTER  TABLE  `qpl_questions`  ADD  `working_time` TIME DEFAULT  '00:00:00' NOT  NULL  AFTER  `question_text` ;
