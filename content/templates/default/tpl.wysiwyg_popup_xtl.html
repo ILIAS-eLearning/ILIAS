@@ -161,6 +161,7 @@ function returnXtlLink()
 		S = S.replace(oldLink,N);
 		opener.editor.setHTML(S+"&nbsp;");
 		opener.editor.focusEditor();
+		opener.editor.updateToolbar();
 	}
 	
 	window.close();
@@ -175,6 +176,7 @@ function deleteXln() {
 	S = S.replace(oldLink,N);
 	opener.editor.setHTML(S+"&nbsp;");
 	opener.editor.focusEditor();
+	opener.editor.updateToolbar();
 
 	window.close();
 }
