@@ -238,6 +238,14 @@
 				<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
 			</xsl:if>
 		</xsl:if>
+		<xsl:if test="@Type = 'MediaObject'">
+			<xsl:if test="$mode = 'edit' or $mode = 'preview'">
+				<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=_new&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$mode = 'presentation'">
+				<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=media&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;mob_id=<xsl:value-of select="substring-after(@Target,'_')"/></xsl:attribute>
+			</xsl:if>
+		</xsl:if>
 		<xsl:apply-templates/>
 	</a>
 </xsl:template>
@@ -438,33 +446,33 @@
 
 	<!-- Alignment Part 1 (Left, Center, Right)-->
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
-		and $mode != 'fullscreen'">
+		and $mode != 'fullscreen' and $mode != 'media'">
 		<div align="left" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Center'
-		or $mode = 'fullscreen'">
+		or $mode = 'fullscreen' or $mode = 'media'">
 		<div align="center" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
-		and $mode != 'fullscreen' ">
+		and $mode != 'fullscreen' and $mode != 'media'">
 		<div align="right" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'
-		and $mode != 'fullscreen' ">
+		and $mode != 'fullscreen' and $mode != 'media'">
 		<xsl:call-template name="MOBTable"/>
 	</xsl:if>
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
-		and $mode != 'fullscreen'">
+		and $mode != 'fullscreen' and $mode != 'media'">
 		<xsl:call-template name="MOBTable"/>
 	</xsl:if>
 	<xsl:if test="count(../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign) = 0
-		and $mode != 'fullscreen'">
+		and $mode != 'fullscreen' and $mode != 'media'">
 		<div align="left" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
@@ -478,21 +486,21 @@
 	<table class="ilc_Media" width="1">
 		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
-			and $mode != 'fullscreen'">
+			and $mode != 'fullscreen' and $mode != 'media'">
 			<xsl:attribute name="style">float:left; clear:both; margin-left: 0px;</xsl:attribute>
 		</xsl:if>
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'
-			and $mode != 'fullscreen'">
+			and $mode != 'fullscreen' and $mode != 'media'">
 			<xsl:attribute name="style">float:right; clear:both; margin-right: 0px;</xsl:attribute>
 		</xsl:if>
 
 		<!-- make object fit to left/right border -->
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
-			and $mode != 'fullscreen'">
+			and $mode != 'fullscreen' and $mode != 'media'">
 			<xsl:attribute name="style">margin-left: 0px;</xsl:attribute>
 		</xsl:if>
 		<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
-			and $mode != 'fullscreen'">
+			and $mode != 'fullscreen' and $mode != 'media'">
 			<xsl:attribute name="style">margin-right: 0px;</xsl:attribute>
 		</xsl:if>
 

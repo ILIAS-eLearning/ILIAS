@@ -36,6 +36,9 @@
 						<LinkTarget Type="Media" Frame="topright" />
 					</ilPage>
 				</PageObject>
+				<MediaObject template="tpl.fullscreen.html" template_location="module">
+					<ilMedia/>
+				</MediaObject>
 			</ilFrame>
 			<ilFrame name="botright" template="tpl.blank.html" template_location="module">
 				<GlossaryItem template="tpl.glossary_term_output.html" template_location="module">
