@@ -502,11 +502,9 @@ elseif ($_POST["action"] == "html")
 		
 	} // for ($j = 0; $j < count($_POST["forum_id"]); $j++)
 	
-	header("Content-Type: application/octet-stream");
-	header("Content-Disposition: attachment; filename=\"forum_html_export_".$_GET["ref_id"].".html\"");
-	
-	$tplEx->show();
-	
+	#header("Content-Type: application/octet-stream");
+	#header("Content-Disposition: attachment; filename=\"forum_html_export_".$_GET["ref_id"].".html\"");
+	ilUtil::deliverData($tplEx->get(),"forum_html_export_".$_GET["ref_id"].".html");
 	exit();
 	
 } // elseif ($_POST["action"] == "html")
