@@ -5326,7 +5326,7 @@ CREATE TABLE `ut_access` (
   `language` char(15) default NULL,
   `browser` char(60) NOT NULL default '',
   `session_id` char(40) default NULL,
-  `acc_time` datetime default NULL,
+  `acctime` datetime default NULL,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
