@@ -91,14 +91,15 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			case "ilobjmediaobjectgui":
 
 				//$cmd.="Object";
-				$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", $_GET["obj_id"], false, false);
 				if ($cmd == "create")
 				{
 					$ret_obj = $_GET["obj_id"];
+					$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", 0, false, false);
 				}
 				else
 				{
 					$ret_obj = $tree->getParentId($_GET["obj_id"]);
+					$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", $_GET["obj_id"], false, false);
 				}
 				if ($this->ctrl->getCmdClass() == "ilinternallinkgui")
 				{

@@ -2156,7 +2156,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	function getTabs(&$tabs_gui)
 	{
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
-		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject")
+		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject"
+			&& $this->object->getId() > 0)
 		{
 			// object properties
 			$tabs_gui->addTarget("cont_mob_prop",
