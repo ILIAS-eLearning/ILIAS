@@ -26,7 +26,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjForumGUI.php,v 1.4 2003/05/14 10:40:45 shofmann Exp $
+* $Id$Id: class.ilObjForumGUI.php,v 1.5 2003/05/16 13:39:22 smeyer Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -54,7 +54,11 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview, $rbacadmin, $tree, $objDefinition;
 
-		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		{
+			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
+		}
+		else
 		{
 			// create and insert forum in objecttree
 			require_once("classes/class.ilObjForum.php");
@@ -108,10 +112,6 @@ class ilObjForumGUI extends ilObjectGUI
 			$q .= "VALUES ";
 			$q .= "('".$top_data["top_frm_fk"]."','".$top_data["top_name"]."','".$top_data["top_description"]."','".$top_data["top_num_posts"]."','".$top_data["top_num_threads"]."','".$top_data["top_last_post"]."','".$top_data["top_mods"]."','".$top_data["top_date"]."','".$top_data["top_usr_id"]."')";
 			$this->ilias->db->query($q);
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
 		}
 
 		sendInfo($this->lng->txt("forum_added"),true);		
