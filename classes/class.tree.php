@@ -943,6 +943,23 @@ class Tree
 	}
 
 	/**
+	* read root id from database
+	* @param root_id
+	* @access public
+	* @return int new root id
+	*/
+	function readRootId()
+	{
+		$query = "SELECT child FROM $this->table_tree ".
+			"WHERE parent = '0'".
+			"AND tree = '".$this->tree_id."'";
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+
+		$this->root_id = $row->child;
+		return $this->root_id;
+	}
+
+	/**
 	* get the root id of tree
 	* @access	public
 	* @return	integer	root node id
@@ -952,16 +969,6 @@ class Tree
 		return $this->root_id;
 	}
 
-	/**
-	* set the root id of tree
-	* @access	public
-	* @param	integer	root id
-	*/
-	function setRootId($a_root_id)
-	{
-		$this->root_id = $a_root_id;
-	}
-	
 	/**
 	* get tree id
 	* @access	public
