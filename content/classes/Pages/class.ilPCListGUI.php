@@ -21,11 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/class.ilLMList.php");
-require_once("./content/classes/class.ilPageContentGUI.php");
+require_once("./content/classes/Pages/class.ilPCList.php");
+require_once("./content/classes/Pages/class.ilPageContentGUI.php");
 
 /**
-* Class ilLMListGUI
+* Class ilPCListGUI
 *
 * User Interface for LM List Editing
 *
@@ -34,14 +34,14 @@ require_once("./content/classes/class.ilPageContentGUI.php");
 *
 * @package content
 */
-class ilLMListGUI extends ilPageContentGUI
+class ilPCListGUI extends ilPageContentGUI
 {
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLMListGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCListGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
@@ -99,7 +99,7 @@ class ilLMListGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-		$this->content_obj = new ilLMList($this->dom);
+		$this->content_obj = new ilPCList($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->addItems($_POST["nr_items"]);
 		$this->content_obj->setOrderType($_POST["list_order"]);

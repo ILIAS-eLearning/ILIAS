@@ -23,8 +23,8 @@
 
 require_once("./content/classes/class.ilLMObjectGUI.php");
 require_once("./content/classes/class.ilLMPageObject.php");
-require_once("./content/classes/class.ilPageObjectGUI.php");
-require_once("./content/classes/class.ilPageEditorGUI.php");
+require_once("./content/classes/Pages/class.ilPageObjectGUI.php");
+require_once("./content/classes/Pages/class.ilPageEditorGUI.php");
 
 /**
 * Class ilLMPageObjectGUI
@@ -78,7 +78,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 	function showPageEditor()
 	{
-		require_once ("content/classes/class.ilPageObjectGUI.php");
+		require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 		$page_gui =& new ilPageObjectGUI($this->obj->getPageObject());
 		$page_gui->setTargetScript("lm_edit.php?ref_id=".
 			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&mode=page_edit");

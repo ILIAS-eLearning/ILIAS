@@ -21,11 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/class.ilLMListItem.php");
-require_once("./content/classes/class.ilPageContentGUI.php");
+require_once("./content/classes/Pages/class.ilPCListItem.php");
+require_once("./content/classes/Pages/class.ilPageContentGUI.php");
 
 /**
-* Class ilLMListItemGUI
+* Class ilPCListItemGUI
 *
 * Handles user commands on list items
 *
@@ -34,14 +34,14 @@ require_once("./content/classes/class.ilPageContentGUI.php");
 *
 * @package content
 */
-class ilLMListItemGUI extends ilPageContentGUI
+class ilPCListItemGUI extends ilPageContentGUI
 {
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLMListItemGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCListItemGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}

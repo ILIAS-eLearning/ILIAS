@@ -21,10 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilPageContent.php");
+require_once("content/classes/Pages/class.ilPageContent.php");
 
 /**
-* Class ilLMList
+* Class ilPCList
 *
 * List content object (see ILIAS DTD)
 *
@@ -33,7 +33,7 @@ require_once("content/classes/class.ilPageContent.php");
 *
 * @package content
 */
-class ilLMList extends ilPageContent
+class ilPCList extends ilPageContent
 {
 	var $dom;
 	var $list_node;
@@ -43,7 +43,7 @@ class ilLMList extends ilPageContent
 	* Constructor
 	* @access	public
 	*/
-	function ilLMList(&$a_dom)
+	function ilPCList(&$a_dom)
 	{
 		parent::ilPageContent();
 		$this->setType("list");

@@ -21,10 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilPageContent.php");
+require_once("content/classes/Pages/class.ilPageContent.php");
 
 /**
-* Class ilLMTableData
+* Class ilPCTableData
 *
 * Table Data content object - a table cell (see ILIAS DTD)
 *
@@ -33,7 +33,7 @@ require_once("content/classes/class.ilPageContent.php");
 *
 * @package content
 */
-class ilLMTableData extends ilPageContent
+class ilPCTableData extends ilPageContent
 {
 	var $dom;
 
@@ -41,7 +41,7 @@ class ilLMTableData extends ilPageContent
 	* Constructor
 	* @access	public
 	*/
-	function ilLMTableData(&$a_dom)
+	function ilPCTableData(&$a_dom)
 	{
 		parent::ilPageContent();
 		$this->setType("td");

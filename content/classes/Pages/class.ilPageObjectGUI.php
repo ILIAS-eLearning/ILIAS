@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/class.ilPageObject.php");
+require_once("./content/classes/Pages/class.ilPageObject.php");
 
 /**
 * Class ilPageObjectGUI
@@ -300,7 +300,7 @@ class ilPageObjectGUI
 
 	function showPageEditor()
 	{
-		require_once ("content/classes/class.ilPageEditorGUI.php");
+		require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
 		$page_editor =& new ilPageEditorGUI($this->getPageObject());
 		$page_editor->setTargetScript($this->getTargetScript());
 		$page_editor->setReturnLocation($this->getReturnLocation());

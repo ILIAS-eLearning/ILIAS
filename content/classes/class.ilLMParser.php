@@ -21,14 +21,14 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilPageObject.php");
+require_once("content/classes/Pages/class.ilPageObject.php");
 require_once("content/classes/class.ilStructureObject.php");
 require_once("content/classes/class.ilObjLearningModule.php");
 require_once("classes/class.ilMetaData.php");
-require_once("content/classes/class.ilParagraph.php");
-require_once("content/classes/class.ilLMTable.php");
-require_once("content/classes/class.ilMediaObject.php");
-require_once("content/classes/class.ilMediaItem.php");
+require_once("content/classes/Pages/class.ilParagraph.php");
+require_once("content/classes/Pages/class.ilLMTable.php");
+require_once("content/classes/Pages/class.ilMediaObject.php");
+require_once("content/classes/Pages/class.ilMediaItem.php");
 require_once("content/classes/class.ilBibItem.php");
 
 /**

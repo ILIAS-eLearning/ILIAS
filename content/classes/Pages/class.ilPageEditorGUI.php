@@ -22,7 +22,7 @@
 */
 
 //require_once ("classes/class.ilDOMUtil.php");
-require_once ("content/classes/class.ilPageObjectGUI.php");
+require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
 
 
 /**
@@ -151,8 +151,8 @@ class ilPageEditorGUI
 		{
 			// Paragraph
 			case "par":
-				require_once ("content/classes/class.ilParagraphGUI.php");
-				$par_gui =& new ilParagraphGUI($this->page, $cont_obj, $hier_id);
+				require_once ("content/classes/Pages/class.ilPCParagraphGUI.php");
+				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id);
 				$par_gui->setTargetScript($this->getTargetScript());
 				$par_gui->setReturnLocation($this->getReturnLocation());
 				$par_gui->$cmd();
@@ -160,8 +160,8 @@ class ilPageEditorGUI
 
 			// Table
 			case "tab":
-				require_once ("content/classes/class.ilLMTableGUI.php");
-				$tab_gui =& new ilLMTableGUI($this->page, $cont_obj, $hier_id);
+				require_once ("content/classes/Pages/class.ilPCTableGUI.php");
+				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id);
 				$tab_gui->setTargetScript($this->getTargetScript());
 				$tab_gui->setReturnLocation($this->getReturnLocation());
 				$tab_gui->$cmd();
@@ -169,8 +169,8 @@ class ilPageEditorGUI
 
 			// Table Cell
 			case "td":
-				require_once ("content/classes/class.ilLMTableDataGUI.php");
-				$td_gui =& new ilLMTableDataGUI($this->page, $cont_obj, $hier_id);
+				require_once ("content/classes/Pages/class.ilPCTableDataGUI.php");
+				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id);
 				$td_gui->setTargetScript($this->getTargetScript());
 				$td_gui->setReturnLocation($this->getReturnLocation());
 				$td_gui->$cmd();
@@ -178,7 +178,7 @@ class ilPageEditorGUI
 
 			// Media Object
 			case "mob":
-				require_once ("content/classes/class.ilMediaObjectGUI.php");
+				require_once ("content/classes/Pages/class.ilMediaObjectGUI.php");
 				$mob_gui =& new ilMediaObjectGUI($this->page, $cont_obj, $hier_id);
 				$mob_gui->setTargetScript($this->getTargetScript());
 				$mob_gui->setReturnLocation($this->getReturnLocation());
@@ -187,8 +187,8 @@ class ilPageEditorGUI
 
 			// List
 			case "list":
-				require_once ("content/classes/class.ilLMListGUI.php");
-				$list_gui =& new ilLMListGUI($this->page, $cont_obj, $hier_id);
+				require_once ("content/classes/Pages/class.ilPCListGUI.php");
+				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id);
 				$list_gui->setTargetScript($this->getTargetScript());
 				$list_gui->setReturnLocation($this->getReturnLocation());
 				$list_gui->$cmd();
@@ -196,8 +196,8 @@ class ilPageEditorGUI
 
 			// List Item
 			case "li":
-				require_once ("content/classes/class.ilLMListItemGUI.php");
-				$list_item_gui =& new ilLMListItemGUI($this->page, $cont_obj, $hier_id);
+				require_once ("content/classes/Pages/class.ilPCListItemGUI.php");
+				$list_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id);
 				$list_item_gui->setTargetScript($this->getTargetScript());
 				$list_item_gui->setReturnLocation($this->getReturnLocation());
 				$list_item_gui->$cmd();

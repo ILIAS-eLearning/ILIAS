@@ -21,11 +21,11 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("./content/classes/class.ilLMTable.php");
-require_once("./content/classes/class.ilPageContentGUI.php");
+require_once("./content/classes/Pages/class.ilPCTable.php");
+require_once("./content/classes/Pages/class.ilPageContentGUI.php");
 
 /**
-* Class ilLMTableGUI
+* Class ilPCTableGUI
 *
 * User Interface for Table Editing
 *
@@ -34,14 +34,14 @@ require_once("./content/classes/class.ilPageContentGUI.php");
 *
 * @package content
 */
-class ilLMTableGUI extends ilPageContentGUI
+class ilPCTableGUI extends ilPageContentGUI
 {
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLMTableGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPCTableGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
@@ -249,7 +249,7 @@ class ilLMTableGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-		$this->content_obj = new ilLMTable($this->dom);
+		$this->content_obj = new ilPCTable($this->dom);
 		$this->content_obj->create($this->pg_obj, $this->hier_id);
 		$this->content_obj->addRows($_POST["nr_rows"], $_POST["nr_cols"]);
 		$this->content_obj->setLanguage($_POST["tab_language"]);

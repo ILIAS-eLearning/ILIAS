@@ -21,19 +21,19 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/classes/class.ilPageContent.php");
+require_once("content/classes/Pages/class.ilPageContent.php");
 
 /**
-* Class ilParagraph
+* Class ilPCParagraph
 *
-* Paragraph of ilPageObject of ILIAS Learning Module (see ILIAS DTD)
+* Paragraph of ilPageObject
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
-class ilParagraph extends ilPageContent
+class ilPCParagraph extends ilPageContent
 {
 	var $dom;
 	var $par_node;			// node of Paragraph element
@@ -42,7 +42,7 @@ class ilParagraph extends ilPageContent
 	* Constructor
 	* @access	public
 	*/
-	function ilParagraph(&$a_dom)
+	function ilPCParagraph(&$a_dom)
 	{
 		parent::ilPageContent();
 		$this->setType("par");
