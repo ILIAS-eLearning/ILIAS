@@ -111,8 +111,10 @@ class ilLMEditorGUI
 					$this->main_header($this->lng->txt("lm").": ".$this->lm_obj->getTitle(),"lm");
 					$type = "lm";
 				}
-				if ($cmd == "meta")
+				if (is_int(strpos($cmd, "_meta")))
 				{
+					$cmd = explode("_", $cmd);
+					$cmd = $cmd[0];
 					$type = "meta";
 				}
 				if(($cont_cnt > 0) || ($type == "par"))
@@ -152,8 +154,8 @@ class ilLMEditorGUI
 						case "meta":
 							$meta_gui =& new ilMetaDataGUI($obj->getMetaData());
 							$meta_gui->setLMObject($this->lm_obj);
-							$meta_gui->setMetaDataObject($obj->getMetaData());
-							$meta_gui->edit();
+							$meta_gui->setObject($obj);
+							$meta_gui->$cmd();
 							break;
 
 					}

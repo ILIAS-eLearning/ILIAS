@@ -56,11 +56,11 @@ class ilMetaData
 
 		$this->ilias =& $ilias;
 
-		$import_id = array();
-		$title = "";
-		$language = array();
-		$description = array();
-		$keyword = array();
+		$this->import_id = array();
+		$this->title = "";
+		$this->language = array();
+		$this->description = array();
+		$this->keyword = array();
 		$this->coverage = "";
 		$this->structure = "";
 		$this->type = $a_type;

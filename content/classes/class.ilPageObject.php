@@ -164,7 +164,7 @@ class ilPageObject extends ilLMObject
 
 	function update()
 	{
-		//parent::update();
+		parent::update();
 		$query = "UPDATE lm_page_object ".
 			"SET content = '".$this->getXMLContent()."' ".
 			"WHERE page_id = '".$this->getId()."'";
