@@ -6,7 +6,7 @@
  * @version $Id$
  * @package ilias
  */
-require_once "./include/ilias_header.inc";
+require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_password.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");

@@ -1,6 +1,6 @@
 <?PHP
 
-require_once "./include/ilias_header.inc";
+require_once "./include/inc.header.php";
 
 $lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
 $tpl->addBlockFile("CONTENT", "syslang", "tpl.lng_edit.html");

@@ -7,7 +7,7 @@
 *
 * @package ilias
 */
-require_once "./include/ilias_header.inc";
+require_once "./include/inc.header.php";
 
 $tpl = new Template("tpl.feedback.html", false, false);
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("feedback"));

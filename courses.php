@@ -7,7 +7,7 @@
 *
 * @package ilias-layout
 */
-require_once "./include/ilias_header.inc";
+require_once "./include/inc.header.php";
 
 $tpl = new Template("tpl.courses.html", true, true);
 

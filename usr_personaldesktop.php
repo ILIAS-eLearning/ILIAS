@@ -9,7 +9,7 @@
 *
 * @package ilias
 */
-require_once "./include/ilias_header.inc";
+require_once "./include/inc.header.php";
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");

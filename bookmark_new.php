@@ -7,7 +7,7 @@
 *
 * @package application
 */
-require_once "./include/ilias_header.inc";
+require_once "./include/inc.header.php";
 require_once "./classes/class.Bookmarks.php";
 
 $tpl = new Template("tpl.bookmark_new.html", true, true);
