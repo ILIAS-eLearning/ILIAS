@@ -287,7 +287,35 @@ class ilObjSysUserTracking extends ilObject
 
 		return $acc;
 	}
+	/**
+	* get per user of records older than given month (YYYY-MM)
+	*/
+	function getAccessPerUserDetail($a_condition)
+	{
+		global $ilDB;
 
+		$q ="SELECT user_id,client_ip,acc_obj_id,language ,acc_time ".
+			"FROM ut_access WHERE ".$a_condition;
+		$cnt_set = $ilDB->query($q);
+		$acc = array();
+		while($cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$name = ilObjUser::_lookupName($cnt_rec["user_id"]);
+
+			if ($cnt_rec["user_id"] != 0)
+			{
+				$acc[] = array("user_id" => $cnt_rec["user_id"],
+					"name" => $name["lastname"].", ".$name["firstname"],
+					"client_ip" => $cnt_rec["client_ip"],
+					"acc_obj_id" => ilObject::_lookupTitle($cnt_rec["acc_obj_id"]),
+					"language" => $cnt_rec["language"],
+					"acc_time" => $cnt_rec["acc_time"]
+					);
+			}
+		}
+
+		return $acc;
+	}
 	/**
 	* delete tracking data of month (YYYY-MM) and before
 	*/
@@ -355,5 +383,55 @@ class ilObjSysUserTracking extends ilObject
 		return (boolean) $ilias->getSetting("save_user_related_data");
 	}
 
+	/**
+	* get all author
+	*/
+	function allAuthor($a_type,$type)
+	{
+		global $ilDB;
+
+		$q = "SELECT distinct A.obj_id,A.type,A.title FROM object_data as A,object_data as B WHERE A.type = ".$ilDB->quote($a_type)." AND A.obj_id = B.owner AND B.type=".$ilDB->quote($type);
+		//echo $q;
+		$author = $ilDB->query($q);
+		$all = array();
+		while ($aauthor = $author->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$all[] = array("title" => $aauthor["title"],
+					"obj_id" =>$aauthor["obj_id"]);
+		}
+		return $all;
+	}
+
+	/**
+	* get author's all lm or tst
+	*/
+	function authorLms($id,$type)
+	{
+		global $ilDB;
+
+		$q = "SELECT title,obj_id FROM object_data WHERE owner = ".$ilDB->quote($id)." and type=".$ilDB->quote($type);
+		//echo $q."<br>";
+		$lms = $ilDB->query($q);
+		$all = array();
+		while ($alms = $lms->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$all[] = array("title" => $alms["title"],
+					"obj_id" =>$alms["obj_id"]);
+		}
+		return $all;
+		
+	}
+
+	/**
+	* get obj_id of some object
+	*/
+	function getObjId($title,$type)
+	{
+		global $ilDB;
+		$q ="SELECT obj_id FROM object_data WHERE type = ".$ilDB->quote($type)." and title=".$ilDB->quote($title);
+		$id = $ilDB->query($q);
+		$obj_id = $id->fetchRow(DB_FETCHMODE_ASSOC);
+		return $obj_id["obj_id"];
+	}
 } // END class.ilObjSysUserTracking
 ?>
