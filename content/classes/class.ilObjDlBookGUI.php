@@ -29,12 +29,9 @@
 *
 * @package content
 */
+require_once "content/classes/class.ilObjContentObjectGUI.php";
 
-require_once "classes/class.ilObjectGUI.php";
-require_once "content/classes/class.ilObjLearningModuleGUI.php";
-require_once "content/classes/class.ilObjDlBook.php";
-
-class ilObjDlBookGUI extends ilObjLearningModuleGUI
+class ilObjDlBookGUI extends ilObjContentObjectGUI
 {
 	/**
 	* Constructor
@@ -44,23 +41,41 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 	function ilObjDlBookGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
         $this->type = "dbk";
-		parent::ilObjLearningModuleGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+		parent::ilObjContentObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+
+		# BETTER DO IT HERE THAN IN PARENT CLASS ( PROBLEMS FOR import, create)
+		$this->assignObject();
+		
+		// SAME REASON
 		if($a_id != 0)
 		{
 			$this->lm_tree =& $this->object->getLMTree();
 		}
-
-		
 	}
-	
+
+	function assignObject()
+	{
+		include_once("content/classes/class.ilObjDlBook.php");
+
+		$this->link_params = "ref_id=".$this->ref_id;
+		$this->object =& new ilObjDlBook($this->id, true);
+	}
+
+
+	function showAbstract()
+	{
+		echo "<h2>ABSTRACT</h2>";
+		echo __FUNCTION__;
+		echo __CLASS__;
+	}
 	
 	/**
 	*	exports the digi-lib-object into a xml structure
 	*/
 	function export() 
 	{
-		
-		$this->object =& new ilObjDlBook($this->id, true);
+		// BASE CLASS objectGUI IS INSTATIATING $this->object
+		#$this->object =& new ilObjDlBook($this->id, true);
 		$this->object->export($_GET["ref_id"]);
 		
 		
