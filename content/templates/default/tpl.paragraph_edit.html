@@ -342,12 +342,12 @@ function initEditor(TextAreaName)
 
   var cfg = editor.config; // this is the default configuration
 
-/*
+
 	cfg.registerButton(
 	{
       id        : "ilias-str",
       tooltip   : "Strong",
-      image     : "./htmlarea/images/ed_format_bold.gif",
+      image     : "<span class=ilc_Strong>B</span>",
       textMode  : false,
 	  context   : "",
       action    : function(editor, id) 
@@ -363,7 +363,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-emp",
       tooltip   : "Italic",
-      image     : "./htmlarea/images/ed_format_italic.gif",
+      image     : "<span class=ilc_Emph>I</span>",
       textMode  : false,
       action    : function(editor, id)
 	  			  {
@@ -373,7 +373,7 @@ function initEditor(TextAreaName)
 					}
                   }
     });
-*/
+
     cfg.registerButton(
 	{
       id        : "ilias-com",
@@ -427,7 +427,10 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
-                    buttonFootnote();
+				  	if (checkAllowTagInside("fn"))
+					{
+                    	buttonFootnote();
+					}
                   }
     });
 
@@ -439,7 +442,10 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
-                    buttonExternalLink();
+				  	if (checkAllowTagInside("xln"))
+					{
+	                    buttonExternalLink();
+					}
                   }
     });
 	cfg.registerButton(
@@ -450,9 +456,26 @@ function initEditor(TextAreaName)
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
-                    buttonInternalLink();
+				  	if (checkAllowTagInside("iln"))
+					{
+                    	buttonInternalLink();
+					}
                   }
     });
+	
+	cfg.registerButton(
+	{
+      id        : "ilias-x",
+      tooltip   : "",	//Internal link
+      image     : "<span class=ilc_Quotation>X</span>",
+      textMode  : false,
+      action    : function(editor, id) 
+	  			  {
+                    buttonX();
+                  }
+    });
+
+
 	//alert("{XX}");
 	cfg.pageStyleLink = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{LOCATION_CONTENT_STYLESHEET_HTMLAREA}\" />";
   	cfg.pageStyle = ".footnote { color:0000FF; } ";
@@ -462,12 +485,14 @@ function initEditor(TextAreaName)
 	
 	cfg.statusBar = false;
 	
-//		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator", 
+//		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator",
+// "bold", "italic",
 
 	cfg.toolbar = [
 		[ 
           
-		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator",
+		  "ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator",
+		  
 		   "ilias-xtl", "ilias-itl",
 		  "separator",
 		  "copy", "cut", "paste"
@@ -475,7 +500,8 @@ function initEditor(TextAreaName)
           ],
 
 	];
-//"ilias-fn",
+	// "ilias-fn",	"ilias-x", "separator",
+//"ilias-fn",,"htmlmode"
     
 /*
 "ilias-str", "ilias-emp",
@@ -528,7 +554,111 @@ addNATI("quot",	"code",	"code");
 addNATI("code",	"code",	"code");
 addNATI("xln",	"xln",	"ilc_ExtLink");
 
+
+function buttonX() 
+{
+
+	var ancestors = editor.getAllAncestors();
+	if(ancestors.length==1) return;
+	
+	var el = ancestors[0];
+	var cl = el.className;
+	var tn = el.tagName.toLowerCase();
+	//alert(tn+" "+cl);
+	
+	editor.surroundHTML("!1!1!","!2!2!");
+	S = editor.getHTML();
+	pos1 = S.indexOf("!1!1!");
+	
+	if(pos1>=0)
+	{
+		S1 = S.substr(0,pos1);
+		pos1b = S1.lastIndexOf(">");	// Rückwärts
+		pos1c = S1.lastIndexOf("<");	// Rückwärts
+		tagStart = S1.substring(pos1c,pos1b+1);
+		if(pos1c>=0) 
+		{
+			S1b = S1.substr(0,pos1c);
+			
+			pos2 = S.indexOf("!2!2!");
+			if(pos2>=0) 
+			{
+				pos2 += 5;
+				S2 = S.substring(pos2,S.length);
+				pos2b = S2.indexOf(">");
+				pos2c = S2.indexOf("<");
+				tagEnde = S2.substring(pos2c,pos2b+1);
+				if (pos2b>=0)
+				{
+					 
+					pos2b+=1;
+					S2b = S2.substring(pos2b,S2.length);
+					alert(S2b);
+				}
+			}
+			
+		}
+	
+	}
+	
+}
+
 function checkAllowTagInside(which) 
+{
+	var ancestors = editor.getAllAncestors();
+	if(ancestors.length==1) 
+	{
+		// if not inside another tag.
+		
+		S = editor.getSelectedHTML();
+		if (S.indexOf("<")>=0 && S.indexOf("</")>=0) 
+		{
+			return(false);
+		}
+		
+		return(true);
+	
+	} 
+	else return(false);
+	
+	// {{{
+	/*
+	N1 = "";
+	N2 = "";
+	for (j=0;j<ancestors.length-1;j++) 
+	{
+		var el = ancestors[j];
+		var cl = el.className;
+		var tn = el.tagName.toLowerCase();
+		N1 = "<"+tn+" class=\""+cl+"\">"+N1;
+		N2 += "</"+tn+">";
+
+	}
+	S = editor.getSelectedHTML();
+	S = S.replace("<SPAN class=ilc_Comment>","<span class=\"ilc_Comment\">");
+	S = S.replace("</SPAN>","</span>");
+	
+	editor.insertHTML("#!#*#!#");
+	H = editor.getHTML();
+	H1 = H;
+	
+	H = H.replace("#!#*#!#",N2+S+N1);
+	
+	alert(S+"\n"+N1+"\n"+N2+"\n\n"+H1+"\n\n"+H);
+	
+	for(i=0;i<20;i++) {
+		H = H.replace("<span class=\"ilc_Comment\"></span>","");
+		H = H.replace("<p>","");
+		H = H.replace("</p>","");
+	}
+	
+	editor.setHTML(H);
+	editor.focusEditor();
+	*/
+	// }}}
+}
+// {{{
+function checkAllowTagInside2(which) 
 {
 	var ancestors = editor.getAllAncestors();
 	for (j=0;j<ancestors.length;j++) 
@@ -559,12 +689,21 @@ function checkAllowTagInside(which)
 						N2 += "</"+tn+">";
 					}
 					
+					//alert(N2+"\n"+N1);
+					
 					S = editor.getSelectedHTML();
 					editor.insertHTML("#!#*#!#");
 					//alert(S);
 					H = editor.getHTML();
 					H = H.replace("#!#*#!#",N2+S+N1);
 					//alert(H);
+					
+					for(i=0;i<20;i++) {
+						H = H.replace("<span class=\"ilc_Comment\"></span>","");
+						H = H.replace("<p>","");
+						H = H.replace("</p>","");
+					}
+					
 					editor.setHTML(H);
 					editor.focusEditor();
 					//editor.surroundHTML(N2,N1);
@@ -577,7 +716,7 @@ function checkAllowTagInside(which)
 	}
 	return(true);
 }
-
+// }}}
 
 function replaceAll(heystack, needle, newneedle) 
 {
