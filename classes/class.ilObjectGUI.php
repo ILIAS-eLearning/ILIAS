@@ -1456,7 +1456,7 @@ class ilObjectGUI
 
 		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 			exit();
 		}
 
@@ -1599,7 +1599,7 @@ class ilObjectGUI
 		}
 
 		// ADD LOCAL ROLE
-		if ($this->object->getRefId() != ROLE_FOLDER_ID)
+		if ($this->object->getRefId() != ROLE_FOLDER_ID and $rbacsystem->checkAccess('create_role',$this->object->getRefId()))
 		{
 			$this->tpl->setCurrentBlock("LOCAL_ROLE");
 

@@ -1402,7 +1402,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->show();
 	}
 
-	/*
+	/**
 	* show permissions of current node
 	*
 	* @access	public
@@ -1415,7 +1415,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		if (!$rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_perm"),$this->ilias->error_obj->MESSAGE);
 			exit();
 		}
 
@@ -1497,14 +1497,11 @@ class ilGroupGUI extends ilObjectGUI
 		// START DATA OUTPUT
 		/////////////////////
 
-		//$this->getTemplateFile("perm");
-		//$this->tpl->setCurrentBlock("tableheader");
-		
 		$this->prepareOutput(true, 7);
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("CONTENT","permission", "tpl.obj_perm.html");
 
-
+		$this->tpl->setCurrentBlock("tableheader");
 		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("permission_settings"));
 		$this->tpl->setVariable("COLSPAN", $colspan);
 		$this->tpl->setVariable("TXT_OPERATION", $this->lng->txt("operation"));
@@ -1513,7 +1510,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$num = 0;
 
-		foreach($data["rolenames"] as $name)
+		foreach ($data["rolenames"] as $name)
 		{
 			// BLOCK ROLENAMES
 			$this->tpl->setCurrentBlock("ROLENAMES");
@@ -1562,9 +1559,11 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 			// END TABLE DATA OUTER
 		}
+		
+		$rolf = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
 
 		// ADD LOCAL ROLE
-		if ($this->object->getRefId() != ROLE_FOLDER_ID)
+		if ($rbacsystem->checkAccess('create_role',$rolf["child"]))
 		{
 			$this->tpl->setCurrentBlock("LOCAL_ROLE");
 
@@ -1580,7 +1579,7 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 			}
 
-			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
+			$this->tpl->setVariable("FORMACTION_LR",$this->getFormAction("addRole", "group.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
 			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("you_may_add_local_roles"));
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("role_add_local"));
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("addRole"));
@@ -1596,7 +1595,6 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
-
 
 
 
