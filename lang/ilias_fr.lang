@@ -965,6 +965,7 @@ common#:#edit_stylesheet#:#Modifier style
 common#:#edited_at#:#Modifié le
 common#:#editor#:#Editeur
 common#:#email#:#Email
+common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#L'adresse email que vous avez saisie n'est pas valide
 common#:#enable#:#Activer
 common#:#enable_registration#:#Autoriser les nouveaux enregistrements d'utilisateurs
@@ -2386,6 +2387,7 @@ content#:#cont_ed_new_item_before#:#nouvel objet avant
 content#:#cont_ed_new_row_after#:#nouvelle ligne après
 content#:#cont_ed_new_row_before#:#nouvelle ligne avant
 content#:#cont_ed_paste_clip#:#coller depuis le presse-papier
+content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Largeur
 content#:#cont_edit_area#:#Modifier zone
 content#:#cont_edit_file_list_properties#:#Modifier propriétés de la liste de fichiers

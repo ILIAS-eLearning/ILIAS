@@ -965,6 +965,7 @@ common#:#edit_stylesheet#:#Stijl wijzigen
 common#:#edited_at#:#Gewijzigd op
 common#:#editor#:#Editor###05 Nov 2004 new variable
 common#:#email#:#E-mail###05 Nov 2004 new variable
+common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#Het email-adres dat u invoerde is niet geldig!
 common#:#enable#:#Inschakelen
 common#:#enable_registration#:#Nieuwe gebruikers-registratie inschakelen
@@ -2386,6 +2387,7 @@ content#:#cont_ed_new_item_before#:#nieuwe kolom voor
 content#:#cont_ed_new_row_after#:#nieuw onderdeel na
 content#:#cont_ed_new_row_before#:#nieuw onderdeel voor
 content#:#cont_ed_paste_clip#:#nieuwe rij na
+content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#nieuwe rij voor
 content#:#cont_edit_area#:#plakken van klembord
 content#:#cont_edit_file_list_properties#:#Breedte

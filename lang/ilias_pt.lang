@@ -965,6 +965,7 @@ common#:#edit_stylesheet#:#Editar Estilo
 common#:#edited_at#:#Editado em
 common#:#editor#:#Editor###05 Nov 2004 new variable
 common#:#email#:#E-mail###05 Nov 2004 new variable
+common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#O endereço de email que pôs é inválido!###14 Sep 2004 content changed
 common#:#enable#:#Ligar
 common#:#enable_registration#:#Permitir o registo de novos utilizadores
@@ -2386,6 +2387,7 @@ content#:#cont_ed_new_item_before#:#new item before###16 Aug 2004 new variable
 content#:#cont_ed_new_row_after#:#new row after###16 Aug 2004 new variable
 content#:#cont_ed_new_row_before#:#new row before###16 Aug 2004 new variable
 content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
+content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
 content#:#cont_edit_area#:#Editar Área
 content#:#cont_edit_file_list_properties#:#Editar Propriedades da Lista de Ficheiros

@@ -983,6 +983,7 @@ common#:#edit_stylesheet#:#编辑风格
 common#:#edited_at#:#编辑于
 common#:#editor#:#编辑器
 common#:#email#:#电子邮件
+common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#您输入的电子邮件地址无效！###14 Sep 2004 content changed
 common#:#enable#:#激活
 common#:#enable_registration#:#激活新用户注册
@@ -2404,6 +2405,7 @@ content#:#cont_ed_new_item_before#:#new item before###16 Aug 2004 new variable
 content#:#cont_ed_new_row_after#:#new row after###16 Aug 2004 new variable
 content#:#cont_ed_new_row_before#:#new row before###16 Aug 2004 new variable
 content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
+content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
 content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#编辑文件列表属性

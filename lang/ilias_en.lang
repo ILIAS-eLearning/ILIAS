@@ -2377,7 +2377,6 @@ content#:#cont_ed_insert_filelist#:#insert File List
 content#:#cont_ed_insert_list#:#insert List
 content#:#cont_ed_insert_media#:#insert Media
 content#:#cont_ed_insert_par#:#insert Paragr.
-content#:#cont_ed_split_page#:#split Page
 content#:#cont_ed_insert_table#:#insert Table
 content#:#cont_ed_moveafter#:#move after
 content#:#cont_ed_movebefore#:#move before
@@ -2388,6 +2387,7 @@ content#:#cont_ed_new_item_before#:#new item before
 content#:#cont_ed_new_row_after#:#new row after
 content#:#cont_ed_new_row_before#:#new row before
 content#:#cont_ed_paste_clip#:#paste from clipboard
+content#:#cont_ed_split_page#:#split Page
 content#:#cont_ed_width#:#Width
 content#:#cont_edit_area#:#Edit Area
 content#:#cont_edit_file_list_properties#:#Edit File List Properties
