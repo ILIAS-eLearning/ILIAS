@@ -434,6 +434,7 @@ common#:#search#:#Search
 common#:#search_in#:#Search in
 common#:#search_recipient#:#Search Recipient
 common#:#sections#:#Sections
+common#:#select#:#Select
 common#:#select_all#:#Select All
 common#:#select_file#:#Select file
 common#:#select_mode#:#Select mode
@@ -519,7 +520,10 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#select#:#Select
+content#:#cont_content#:#Content
+content#:#par#:#Paragraph
+content#:#pg#:#Page
+content#:#st#:#Chapter
 forum#:#forums#:#Forums
 forum#:#forums_articles#:#Articles
 forum#:#forums_available#:#Available Forums
@@ -613,7 +617,3 @@ mail#:#mail_to_search#:#To search
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
-content#:#pg#:#Page
-content#:#st#:#Chapter
-content#:#par#:#Paragraph
-content#:#cont_content#:#Content

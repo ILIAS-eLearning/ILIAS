@@ -434,6 +434,7 @@ common#:#search#:#Suchen
 common#:#search_in#:#Suchen in
 common#:#search_recipient#:#Empfänger suchen
 common#:#sections#:#Bereiche
+common#:#select#:#Select###12 May 2003 new variable
 common#:#select_all#:#Alle auswählen
 common#:#select_file#:#Datei wählen
 common#:#select_mode#:#Modus wählen
@@ -519,6 +520,10 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+content#:#cont_content#:#Content###12 May 2003 new variable
+content#:#par#:#Paragraph###12 May 2003 new variable
+content#:#pg#:#Page###12 May 2003 new variable
+content#:#st#:#Chapter###12 May 2003 new variable
 forum#:#forums#:#Forums###08 May 2003 new variable
 forum#:#forums_articles#:#Beiträge
 forum#:#forums_available#:#Verfügbare Foren
