@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjGroupGUI.php,v 1.7 2003/05/19 13:33:40 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.8 2003/06/04 12:05:49 neiken Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -413,7 +413,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	function showDetails()
 	{
 		$this->getTemplateFile("details", "grp");
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.grp_details.html");
+		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.grp_details.html");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		
 		/*$this->tpl->setCurrentBlock("btn_cell");
@@ -436,13 +436,13 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_OWNER", $this->lng->txt("owner"));
 		$this->tpl->setVariable("TXT_ROLE_IN_GROUP", $this->lng->txt("role"));
 		$this->tpl->parseCurrentBlock("grouphesder");
-		//echo ($this->object->getId());
-		//echo($this->object->getRefId());
-		$newGrp = new ilObjGroup($this->object->getId());
-		$member_ids = $newGrp->object->getGroupMemberIds($this->object->getId());
+		//echo ("getID: ".$this->object->getId());
+		//echo("getRefID: ".$this->object->getRefId());
+		//$newGrp = new ilObjGroup($this->object->getId());
+		//$member_ids = $newGrp->object->getGroupMemberIds($this->object->getId());
 		//var_dump (member_ids);
 		//$member_arr = array();
-		foreach ($member_ids as $member_arr)
+		/*foreach ($member_ids as $member_arr)
 		{
 			array_push($member_arr, new ilObjUser($member_id));
 		}
@@ -457,7 +457,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->tpl->parseCurrentBlock();*/
 		
-		foreach($member_arr as $member)
+		/*foreach($member_arr as $member)
 		{	
 			$grp_role_id = $this->object->getGroupRoleId($member->getId());
 			$newObj 	 = new ilObject($grp_role_id,false);
@@ -473,7 +473,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$val_change = ilUtil::getImageTagByType($img_change, $this->tpl->tplPath);
 			$val_leave  = ilUtil::getImageTagByType($img_leave,
 			$this->tpl->tplPath);*/
-	
+	/*
 			// BEGIN TABLE MEMBERS
 			$this->tpl->setCurrentBlock("member_row");
 			$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
@@ -490,9 +490,9 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("CHANGE", $val_change);
 			$this->tpl->setVariable("LINK_LEAVE", $link_leave);
 			$this->tpl->setVariable("LEAVE", $val_leave);						
-			$this->tpl->parseCurrentBlock();*/
+			$this->tpl->parseCurrentBlock();
 			// END TABLE MEMBERS
-		}
+		}*/
 		$lr_arr = array();
 		$objects = $this->tree->getChilds($this->object->getId(),"title");
 		//var_dump ($objects);
