@@ -2076,3 +2076,16 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+common#:#obj_chac#:#Chat settings
+common#:#chac_edit_permission#:#Change permission settings
+common#:#chac_visible#:#Chat settings are visible
+common#:#chac_read#:#Read access to chat settings
+common#:#chac_write#:#Edit chat settings
+common#:#obj_chat#:#Chat
+common#:#chat_visible#:#Chat is visible
+common#:#chat_read#:#Read/Write access to chat
+common#:#chat_write#:#Edit chat
+common#:#chat_delete#:#Delete chat
+common#:#chat_edit_permission#:#Change permission settings
+common#:#cat_create_chat#:#Create chat
+common#:#group_create_chat#:#Create chat
