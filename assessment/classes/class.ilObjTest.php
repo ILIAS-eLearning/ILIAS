@@ -1009,7 +1009,7 @@ class ilObjTest extends ilObject
 			$result = $this->ilias->db->query($query);
 			$counter++;
 		}
-		$this->remove_all_test_editings();
+		$this->remove_all_test_editings($question_id);
 		$this->load_questions();
 	}
 
@@ -1024,16 +1024,34 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function remove_all_test_editings() {
+	function remove_all_test_editings($question_id = "") {
 		// remove test_active entries, because test has changed
+		$this->delete_active_tests();
+		// remove the question from tst_solutions
+		if ($question_id) {
+			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
+				$this->ilias->db->quote($this->get_test_id()),
+				$this->ilias->db->quote($question_id)
+			);
+		} else {
+			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s",
+				$this->ilias->db->quote($this->get_test_id())
+			);
+		}
+		$result = $this->ilias->db->query($query);
+	}
+	
+/**
+* Deletes all active references to this test
+*
+* Deletes all active references to this test. This is necessary, if the test has been changed to
+* guarantee the same conditions for all users.
+*
+* @access public
+*/
+	function delete_active_tests() {
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
 			$this->ilias->db->quote($this->get_test_id())
-		);
-		$result = $this->ilias->db->query($query);
-		// remove the question from tst_solutions
-		$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
-			$this->ilias->db->quote($this->get_test_id()),
-			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
 	}
