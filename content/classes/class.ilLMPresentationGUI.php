@@ -55,10 +55,10 @@ class ilLMPresentationGUI
 		$cmd = $cmd == "edpost" ? "ilCitation" : $cmd;
 
 		// Todo: check lm id
-		$this->lm =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+		$type = $this->ilias->obj_factory->getTypeByRefId($_GET["ref_id"]);
 
 		// TODO: WE NEED AN OBJECT FACTORY FOR GUI CLASSES
-		switch($this->lm->getType())
+		switch($type)
 		{
 			case "dbk":
 				include_once("./content/classes/class.ilObjDlBookGUI.php");
@@ -71,7 +71,8 @@ class ilLMPresentationGUI
 				$this->lm_gui = new ilObjLearningModuleGUI($data,$_GET["ref_id"],true,false);
 				break;
 		}
-		
+		$this->lm =& $this->lm_gui->object;
+
 		// ### AA 03.09.01 added page access logger ###
 		$this->lmAccess($this->ilias->account->getId(),$_GET["ref_id"],$_GET["obj_id"]);
 

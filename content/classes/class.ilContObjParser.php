@@ -411,6 +411,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
+#echo "BEGIN TAG: $a_name <br>";
 		switch($a_name)
 		{
 			case "ContentObject":
@@ -539,7 +540,7 @@ class ilContObjParser extends ilSaxParser
 			////////////////////////////////////////////////
 			case "MetaData":
 				$this->in_meta_data = true;
-//echo "<br>---NEW METADATA---<br>";
+#echo "<br>---NEW METADATA---<br>";
 				$this->meta_data =& new ilMetaData();
 				if(!$this->in_media_object)
 				{
@@ -671,7 +672,7 @@ class ilContObjParser extends ilSaxParser
 
 			case "Bibliography":
 				$this->in_bib_item = true;
-// echo "<br>---NEW BIBLIOGRAPHY---<br>";
+#echo "<br>---NEW BIBLIOGRAPHY---<br>";
 				$this->bib_item =& new ilBibItem();
 				break;
 
@@ -722,7 +723,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
-//echo "END TAG: $a_name <br>";
+#echo "END TAG: $a_name <br>";
 		// append content to page xml content
 		if (($this->in_page_object || $this->in_glossary_definition)
 			&& !$this->in_meta_data && !$this->in_media_object)
@@ -1077,7 +1078,14 @@ class ilContObjParser extends ilSaxParser
 				break;
 
 			case "Language":
-				$this->meta_data->setLanguage($this->chr_data);
+				if (is_object($this->meta_data))
+				{
+					$this->meta_data->setLanguage($this->chr_data);
+				}
+				else if (is_object($this->bib_item))
+				{
+					$this->bib_item->setLanguage($this->chr_data);
+				}
 				break;
 
 			case "Description":
