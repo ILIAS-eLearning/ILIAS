@@ -262,53 +262,53 @@ assessment#:#qpl_edit_rbac_error#:#У вас немає прав редагув�
 assessment#:#qpl_edit_select_multiple#:#Будь ласка виберіть рівно одне питання для редагування
 assessment#:#qpl_edit_select_none#:#Будь ласка виберіть одне питання для редагування
 assessment#:#qpl_export_select_none#:#Будь ласка виберіть принаймні одне питання щоб експортувати його
-assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!###07 Sep 2004 new variable
-assessment#:#qpl_questions_deleted#:#Question(s) deleted.###29 Apr 2004 new variable
-assessment#:#qt_cloze#:#Закрити питання###14 Sep 2004 content changed
-assessment#:#qt_imagemap#:#Image Map Question###25 Feb 2004 new variable
-assessment#:#qt_javaapplet#:#Java Applet Question###19 May 2004 new variable
+assessment#:#qpl_question_is_in_use#:#Питання що ви збираєтесь редагувати існує в %s тесті(ах). Якщо ви зміните це питання, ви НЕ зміните питання в тесті(ах), тому що система створює копію питання коли воно вставляється в тест!
+assessment#:#qpl_questions_deleted#:#Питання виделено(і).
+assessment#:#qt_cloze#:#Закрити питання
+assessment#:#qt_imagemap#:#Питання з картою зображення
+assessment#:#qt_javaapplet#:#Питання з Ява Аплетом
 assessment#:#qt_matching#:#Співпадаючі питання
 assessment#:#qt_multiple_choice_mr#:#Питання з множинним вибором (декілька відповідей)
 assessment#:#qt_multiple_choice_sr#:#Питання з множиннм вибором (єдина відповідь)
 assessment#:#qt_ordering#:#Порядкове Питання
-assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
-assessment#:#question_short#:#Q###23 Mar 2004 new variable
+assessment#:#question_saved_for_upload#:#Питання було збережно автоматично для того щоб зарезервувати місце на сталому диску для збереження завантаженого файлу. Якщо ви зараз відміните цю форму, усвідомте що ви маєте видалити це питання в пулі питань, якщо ви не бажаєте зберігати його!
+assessment#:#question_short#:#П
 assessment#:#question_type#:#Тип Питання
-assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###24 Sep 2004 new variable
-assessment#:#radio_set#:#Set###17 Aug 2004 new variable
-assessment#:#radio_unset#:#Unset###17 Aug 2004 new variable
-assessment#:#random_accept_sample#:#Accept sample###06 Aug 2004 new variable
-assessment#:#random_another_sample#:#Get another sample###06 Aug 2004 new variable
-assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
-assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
-assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable
-assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
-assessment#:#region#:#Region###25 Feb 2004 new variable
-assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
-assessment#:#remove_solution#:#Remove suggested solution###05 Oct 2004 new variable
-assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
-assessment#:#reset_filter#:#Сбросити фільтр
-assessment#:#result#:#Result###17 Mar 2004 new variable
-assessment#:#save_before_upload_imagemap#:#You must apply your changes before you can upload an image map!###19 May 2004 new variable
-assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a java applet!###19 May 2004 new variable
-assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
-assessment#:#save_introduction#:#Save and goto introduction###07 Mar 2004 new variable
-assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
-assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
+assessment#:#questionpool_not_entered#:#Будб ласка введіть ім'я для пула з питаннями!
+assessment#:#radio_set#:#Встановити
+assessment#:#radio_unset#:#Звільнити
+assessment#:#random_accept_sample#:#Прийняти приклад
+assessment#:#random_another_sample#:#Взяти інший приклад
+assessment#:#random_selection#:#Випадковий вибір
+assessment#:#rectangle#:#Прямокутник
+assessment#:#rectangle_click_br_corner#:#Будь ласка клікніть на нижній правий кут бажаної області.
+assessment#:#rectangle_click_tl_corner#:#Будь ласка клікніть на верхній лівий кут бажаної області.
+assessment#:#region#:#Регіон
+assessment#:#remove_question#:#Перемістити
+assessment#:#remove_solution#:#Перемістити запропоноване рішення
+assessment#:#report_date_not_reached#:#Ви не досягли звітної дати. Ви будете мати змогу продивитись результати теста %s
+assessment#:#reset_filter#:#Скинути фільтр
+assessment#:#result#:#Результат
+assessment#:#save_before_upload_imagemap#:#Ви маєте прийняти ваші зміни перед тим як завантажувати карту зображення!
+assessment#:#save_before_upload_javaapplet#:#Ви маєте прийняти ваші зміни перед тим як завантажувати ява аплет!
+assessment#:#save_finish#:#Зберігтри та закінчити тест
+assessment#:#save_introduction#:#Зберігти та перейти до передмови
+assessment#:#save_next#:#Зберігти та перейти до наступного питання
+assessment#:#save_previous#:#Зберігти та перейти до попереднього питання
 assessment#:#select_gap#:#Вибрати проміжок
-assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
-assessment#:#selected_image#:#Selected image###30 Aug 2004 new variable
+assessment#:#select_target_position_for_move_question#:#Будь ласка виберіть цільову позицію для перміщення питань та натисніть одну з кнопок вставки!
+assessment#:#selected_image#:#Помічене зображення
 assessment#:#set_filter#:#Встановити фільтр
-assessment#:#shape#:#Shape###19 Jun 2004 new variable
-assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
-assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
+assessment#:#shape#:#Форма
+assessment#:#shuffle_answers#:#Перерозташувати відповіді
+assessment#:#solution_hint#:#Запропоноване рішення
 assessment#:#solution_order#:#Порядок розв'язку
-assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
-assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
-assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
-assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
+assessment#:#start_tag#:#Початковий тег
+assessment#:#starting_time_not_reached#:#Ви не досягли початкового часу
+assessment#:#symbol#:#Символ
+assessment#:#test_cancelled#:#Тест був відмінений
 assessment#:#text_gap#:#Текстовий проміжок
-assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
+assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
 assessment#:#true#:#Правда
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!###10 Jul 2004 new variable
