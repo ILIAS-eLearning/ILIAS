@@ -441,6 +441,70 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
   {
   }
  
+	/**
+	* set Locator
+	*
+	* @param	object	tree object
+	* @param	integer	reference id
+	* @param	scriptanme that is used for linking; if not set adm_object.php is used
+	* @access	public
+	*/
+	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php")
+	{
+//		global $ilias_locator;
+	  $ilias_locator = new ilLocatorGUI(false);
+		if (!is_object($a_tree))
+		{
+			$a_tree =& $this->tree;
+		}
+		if (!($a_id))
+		{
+			$a_id = $_GET["ref_id"];
+		}
+
+		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+		$path = $a_tree->getPathFull($a_id);
+		//check if object isn't in tree, this is the case if parent_parent is set
+		// TODO: parent_parent no longer exist. need another marker
+		if ($a_parent_parent)
+		{
+			//$subObj = getObject($a_ref_id);
+			$subObj =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+
+			$path[] = array(
+				"id"	 => $a_ref_id,
+				"title"  => $this->lng->txt($subObj->getTitle())
+				);
+		}
+
+		// this is a stupid workaround for a bug in PEAR:IT
+		$modifier = 1;
+
+		if (isset($_GET["obj_id"]))
+		{
+			$modifier = 0;
+		}
+
+		// ### AA 03.11.10 added new locator GUI class ###
+		$i = 1;
+
+		foreach ($path as $key => $row)
+		{
+			if (strcmp($row["title"], "ILIAS") == 0) {
+				$row["title"] = $this->lng->txt("repository");
+			}
+			$ilias_locator->navigate($i++,$row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
+		}
+
+		if (isset($_GET["obj_id"]))
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
+			$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
+		}
+    $ilias_locator->output(true);
+	}
+
 
 } // END class.ilObjQuestionPoolGUI
 ?>

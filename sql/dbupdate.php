@@ -1700,3 +1700,55 @@ PRIMARY KEY ( usr_id , room_id )
 ALTER TABLE frm_posts ADD notify TINYINT( 1 ) NOT NULL ;
 <#105>
 UPDATE settings SET value = '3.0.0_beta4 2004/02/18' WHERE keyword = 'ilias_version' LIMIT 1;
+<#106>
+CREATE TABLE `tst_mark` (
+  `mark_id` int(10) unsigned NOT NULL auto_increment,
+  `test_fi` int(10) unsigned NOT NULL default '0',
+  `short_name` varchar(15) NOT NULL default '',
+  `official_name` varchar(50) NOT NULL default '',
+  `minimum_level` double NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`mark_id`),
+  UNIQUE KEY `mark_id` (`mark_id`),
+  KEY `mark_id_2` (`mark_id`)
+) TYPE=MyISAM COMMENT='Mark steps of mark schemas';
+<#107>
+CREATE TABLE `tst_test_question` (
+  `test_question_id` int(11) NOT NULL auto_increment,
+  `test_fi` int(11) NOT NULL default '0',
+  `question_fi` int(11) NOT NULL default '0',
+  `sequence` int(10) unsigned NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`test_question_id`)
+) TYPE=MyISAM COMMENT='Relation table for questions in tests';
+<#108>
+CREATE TABLE `tst_test_type` (
+  `test_type_id` int(10) unsigned NOT NULL auto_increment,
+  `type_tag` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`test_type_id`),
+  UNIQUE KEY `test_type_id` (`test_type_id`),
+  KEY `test_type_id_2` (`test_type_id`)
+) TYPE=MyISAM COMMENT='ILIAS 3 Assessment Test types';
+
+INSERT INTO `tst_test_type` (`test_type_id`, `type_tag`) VALUES (1, 'tt_assessment');
+INSERT INTO `tst_test_type` (`test_type_id`, `type_tag`) VALUES (2, 'tt_self_assessment');
+INSERT INTO `tst_test_type` (`test_type_id`, `type_tag`) VALUES (3, 'tt_navigation_controlling');
+<#109>
+CREATE TABLE `tst_tests` (
+  `test_id` int(10) unsigned NOT NULL auto_increment,
+  `ref_fi` int(11) NOT NULL default '0',
+  `author` varchar(50) NOT NULL default '',
+  `test_type_fi` int(10) unsigned NOT NULL default '0',
+  `introduction` text,
+  `sequence_settings` tinyint(3) unsigned NOT NULL default '0',
+  `score_reporting` tinyint(3) unsigned NOT NULL default '0',
+  `nr_of_tries` tinyint(3) unsigned NOT NULL default '0',
+  `processing_time` int(10) unsigned NOT NULL default '0',
+  `starting_time` varchar(14) default NULL,
+  `created` varchar(14) default NULL,
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`test_id`),
+  UNIQUE KEY `test_id` (`test_id`),
+  KEY `test_id_2` (`test_id`)
+) TYPE=MyISAM COMMENT='Tests in ILIAS Assessment';
+
