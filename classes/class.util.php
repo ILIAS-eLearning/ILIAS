@@ -85,7 +85,17 @@ class TUtil
 	   
 		return $arr;
 	}
-
+	/**
+	* Builds an html image tag
+	* @param	string	object type
+	* @param	string	tpl path
+	* @param	string  html image tag
+	*/
+	function getImageTagByType($a_type,$a_path)
+	{
+		return "<img src=\"".$a_path."/images/"."icon_".$a_type.".gif\" border=\"0\">";
+	}
+	
 	/**
 	* Builds a select form field with options and shows the selected option first
 	* @param	string	value to be selected
