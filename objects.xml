@@ -112,6 +112,7 @@
 </object>
 <object name="le" class_name="LearningModule" checkbox="1">
 	<subobj name="rolf" max="1">rolf</subobj>
+	<subobj name="frm">frm</subobj>
 	<subobj name="file" max="1">file</subobj>
 	<subobj name="lo">lo</subobj>
 	<property name="view">view_content</property>
