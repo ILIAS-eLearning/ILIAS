@@ -285,3 +285,6 @@ CREATE TABLE lo_access
 	obj_id INT(11) DEFAULT '0' NOT NULL,
 	lm_title VARCHAR(200) DEFAULT '' NOT NULL
 );
+
+<#35>
+ALTER TABLE file_data ADD file_name CHAR(128) NOT NULL AFTER file_id;
