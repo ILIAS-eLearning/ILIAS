@@ -1099,11 +1099,42 @@ class ASS_MatchingQuestion extends ASS_Question
 	}
 
 	/**
+	* Checks the data to be saved for consistency
+	*
+	* Checks the data to be saved for consistency
+	*
+  * @return boolean True, if the check was ok, False otherwise
+	* @access public
+	* @see $answers
+	*/
+	function checkSaveData()
+	{
+		$result = true;
+		$matching_values = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/sel_matching_(\d+)/", $key, $matches))
+			{
+				array_push($matching_values, $value);
+			}
+		}
+		$check_matching = array_flip($matching_values);
+		if (count($check_matching) != count($matching_values))
+		{
+			// duplicate matching values!!!
+			$result = false;
+			sendInfo($this->lng->txt("duplicate_matching_values_selected"));
+		}
+		return $result;
+	}
+
+	/**
 	* Saves the learners input of the question to the database
 	*
 	* Saves the learners input of the question to the database
 	*
 	* @param integer $test_id The database id of the test containing this question
+  * @return boolean Indicates the save status (true if saved successful, false otherwise)
 	* @access public
 	* @see $answers
 	*/
@@ -1112,30 +1143,36 @@ class ASS_MatchingQuestion extends ASS_Question
 		global $ilDB;
 		global $ilUser;
 
-		$db =& $ilDB->db;
-
-		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-			$db->quote($ilUser->id),
-			$db->quote($test_id),
-			$db->quote($this->getId())
-		);
-		$result = $db->query($query);
-
-		foreach ($_POST as $key => $value)
+		$saveWorkingDataResult = $this->checkSaveData();
+		if ($saveWorkingDataResult)
 		{
-			if (preg_match("/sel_matching_(\d+)/", $key, $matches))
-			{
-				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+			$db =& $ilDB->db;
+	
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
-				$db->quote($this->getId()),
-				$db->quote($value),
-				$db->quote($matches[1])
-				);
-				$result = $db->query($query);
+				$db->quote($this->getId())
+			);
+			$result = $db->query($query);
+	
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/sel_matching_(\d+)/", $key, $matches))
+				{
+					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+					$db->quote($ilUser->id),
+					$db->quote($test_id),
+					$db->quote($this->getId()),
+					$db->quote($value),
+					$db->quote($matches[1])
+					);
+					$result = $db->query($query);
+				}
 			}
+			$saveWorkingDataResult = true;
 		}
 		//    parent::saveWorkingData($limit_to);
+		return $saveWorkingDataResult;
 	}
 
 	function get_random_id()

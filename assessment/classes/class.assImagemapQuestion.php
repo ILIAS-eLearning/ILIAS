@@ -933,6 +933,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 * Saves the learners input of the question to the database
 *
 * @param integer $test_id The database id of the test containing this question
+* @return boolean Indicates the save status (true if saved successful, false otherwise)
 * @access public
 * @see $answers
 */
@@ -956,6 +957,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 		);
 		$result = $db->query($query);
 //    parent::saveWorkingData($limit_to);
+		return true;
   }
 }
 
