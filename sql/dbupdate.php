@@ -598,6 +598,48 @@ CREATE TABLE addressbook (
 ) TYPE=MyISAM;
 
 <#23>
-UPDATE settings 
-SET value = 'y' 
+UPDATE settings
+SET value = 'y'
 WHERE keyword = 'mail_allow_smtp';
+
+<#24>
+DROP TABLE IF EXISTS bookmark_tree;
+CREATE TABLE bookmark_tree (
+  tree int(11) NOT NULL default '0',
+  child int(11) unsigned NOT NULL default '0',
+  parent int(11) unsigned default NULL,
+  lft int(11) unsigned NOT NULL default '0',
+  rgt int(11) unsigned NOT NULL default '0',
+  depth smallint(5) unsigned NOT NULL default '0',
+  KEY child (child),
+  KEY parent (parent)
+) TYPE=MyISAM;
+
+DROP TABLE IF EXISTS bookmark_data;
+CREATE TABLE bookmark_data (
+	obj_id int(11) NOT NULL auto_increment,
+	user_id int(11) NOT NULL default '0',
+	title varchar(200) NOT NULL default '',
+	target varchar(200) NOT NULL default '',
+	type char(4) NOT NULL default '',
+	PRIMARY KEY  (obj_id,user_id)
+) TYPE=MyISAM;
+
+<#25>
+<?php
+$query = "SELECT usr_id FROM usr_data";
+$result = $this->db->query($query);
+while($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "INSERT INTO bookmark_tree ".
+		"SET tree = '".$row->usr_id."',".
+		"child = '1',".
+		"parent = '0',".
+		"lft = '1',".
+		"rgt = '2',".
+		"depth = '1'";
+	$res2 = $this->db->query($query);
+}
+?>
+INSERT INTO bookmark_data (obj_id, user_id, title, target, type)
+VALUES (1, 0, 'dummy', '', 'dum');

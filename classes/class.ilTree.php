@@ -792,6 +792,7 @@ class ilTree
 		$q = "INSERT INTO ".$this->table_tree." (tree, child, parent, lft, rgt, depth) ".
 			 "VALUES ".
 			 "('".$a_tree_id."','".$a_node_id."', 0, 1, 2, 1)";
+
 		$this->ilias->db->query($q);
 		
 		return true;
@@ -820,7 +821,7 @@ class ilTree
 			 "WHERE tree = '".$this->tree_id."'".
 			 "AND parent = '0'";
 		$r = $this->ilias->db->query($q);
-	
+
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$left = $row->lft;

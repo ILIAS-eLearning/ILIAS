@@ -110,6 +110,14 @@ td.submit {
 }
 
 
+td.locator {
+	padding:1px;
+	font-size:13px;
+	vertical-align:top;
+	text-align:left;
+}
+
+
 a.tblheader, a.tblheader:visited
 {
 	color:#3444aa;

@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.10 2003/04/01 12:47:13 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.11 2003/04/01 14:49:34 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -265,7 +265,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("passwd_not_match"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// validate password
 		if (!ilUtil::is_password($_POST["Fobject"]["passwd"]))
 		{
@@ -277,14 +277,14 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
 		}
-		
+
 		// TODO: check if login or passwd already exists
 		// TODO: check length of login and passwd
-		
-		// checks passed. save user		
+
+		// checks passed. save user
 		$user = new ilUser();
 		$user->assignData($_POST["Fobject"]);
-		
+
 		//create new ilUserObject
 		require_once("./classes/class.ilObjUser.php");
 		$userObj = new ilObjUser();
@@ -299,7 +299,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		//set role entries
 		$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$user->getId(),true);
-		
+
 		//create new usersetting entry
 		/*
 		$settingObj = new ilObject();
@@ -308,12 +308,12 @@ class ilObjUserGUI extends ilObjectGUI
 		$settingObj->setDescription("User Setting Folder");
 		$settingObj->create();
 		$settingObj->createReference();
-		*/	
+		*/
 		//create usertree from class.user.php
 		// tree_id is the obj_id of user not ref_id!
 		// this could become a problem with same ids
 		//$tree->addTree($user->getId(), $settingObj->getRefId());
-		
+
 		//add notefolder to user tree
 		//$userTree = new ilTree(0,0,$user->getId());
 		/*
@@ -331,18 +331,24 @@ class ilObjUserGUI extends ilObjectGUI
 		require_once ("classes/class.ilMailbox.php");
 		$mbox = new ilMailbox($userObj->getId());
 		$mbox->createDefaultFolder();
-			
+
 		require_once "classes/class.ilFormatMail.php";
 		$fmail = new ilFormatMail($userObj->getId());
 		$fmail->createMailOptionsEntry();
-		
+
+		// create personal bookmark folder tree
+		require_once "classes/class.ilBookmarkFolder.php";
+		$bmf = new ilBookmarkFolder(0, $userObj->getId());
+		$bmf->createNewBookmarkTree();
+
+
 		sendInfo($this->lng->txt("user_added"),true);
 		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}
 
 	/**
-	
+
 	* updates user object
 	*/
 	function updateObject()
