@@ -4389,3 +4389,5 @@ $this->db->query($query);
 $query = "INSERT INTO rbac_ta VALUES('".$typ_id."','4')";
 $this->db->query($query);
 ?>
+<#264>
+ALTER  TABLE `tst_eval_settings`   CHANGE `distancemean`  `distancemedian`  ENUM( '0' , '1'   ) DEFAULT '1'  NOT  NULL;
