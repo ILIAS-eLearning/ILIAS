@@ -297,8 +297,15 @@ class ilObjCourse extends ilObject
 	}
 
 
-	function isActivated()
+	function isActivated($a_check_archive = true)
 	{
+		if($a_check_archive)
+		{
+			if($this->isArchived())
+			{
+				return true;
+			}
+		}
 		if($this->getOfflineStatus())
 		{
 			return false;
@@ -309,6 +316,19 @@ class ilObjCourse extends ilObject
 		}
 		if(time() < $this->getActivationStart() or
 		   time() > $this->getActivationEnd())
+		{
+			return false;
+		}
+		return true;
+	}
+
+	function isArchived()
+	{
+		if($this->getArchiveType() == $this->ARCHIVE_DISABLED)
+		{
+			return false;
+		}
+		if(time() < $this->getArchiveStart() or time() > $this->getArchiveEnd())
 		{
 			return false;
 		}

@@ -80,6 +80,25 @@ class ilCourseArchives
 		return $this->archives[$a_id];
 	}
 
+	function getPublicArchives()
+	{
+		foreach($this->archives as $id => $archive)
+		{
+			if($archive['archive_type'] == $this->ARCHIVE_XML)
+			{
+				continue;
+			}
+			if($this->course_obj->getArchiveType() != $this->course_obj->ARCHIVE_DOWNLOAD and
+				$archive['archive_type'] == $this->ARCHIVE_PDF)
+			{
+				continue;
+			}
+			$public_archives[$id] = $archive;
+		}
+		
+		return $public_archives ? $public_archives : array();
+	}
+
 	function setType($a_type)
 	{
 		$this->archive_type = $a_type;
