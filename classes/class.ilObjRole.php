@@ -294,6 +294,12 @@ class ilObjRole extends ilObject
 				// delete role_data entry
 				$q = "DELETE FROM role_data WHERE role_id = '".$this->getId()."'";
 				$this->ilias->db->query($q);
+
+				include_once './classes/class.ilRoleDesktopItem.php';
+				
+				$role_desk_item_obj =& new ilRoleDesktopItem($this->getId());
+				$role_desk_item_obj->deleteAll();
+
 			}
 		}
 		else

@@ -252,6 +252,7 @@
 	<property name="edit">edit_properties</property>
 	<property name="perm">default_perm_settings</property>
 	<property name="userassignment">user_assignment</property>
+	<property name="listDesktopItems">desktop_items</property>
 	<property name="owner">show_owner</property>
 </object>
 <object name="rolf" class_name="RoleFolder" checkbox="0" inherit="0" translate="sys" rbac="1">
@@ -504,7 +505,7 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="crsg" class_name="CourseGrouping" module="course" checkbox="0" inherit="0" translate="0" rbac="0" devmode="0">
+<object name="crsg" class_name="CourseGrouping" module="course">
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>

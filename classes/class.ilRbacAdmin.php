@@ -209,6 +209,21 @@ class ilRbacAdmin
 			 "VALUES ('".$a_usr_id."','".$a_rol_id."')";
 		$res = $this->ilDB->query($q);
 
+		// Finally assign desktop items assigned to this role
+		include_once './classes/class.ilRoleDesktopItem.php';
+
+		$role_desk_item_obj =& new ilRoleDesktopItem($a_rol_id);
+		
+		if(is_object($tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id,false)))
+		{
+			foreach($role_desk_item_obj->getAll() as $item_data)
+			{
+				if(!$tmp_user->isDesktopItem($item_data['item_id'],$item_data['item_type']))
+				{
+					$tmp_user->addDesktopItem($item_data['item_id'],$item_data['item_type']);
+				}
+			}
+		}
 		return true;
 	}
 
