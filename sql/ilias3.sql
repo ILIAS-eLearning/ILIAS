@@ -3,7 +3,7 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Dec 24, 2002 at 01:14 AM
+# Generation Time: Dec 24, 2002 at 12:49 PM
 # Server version: 4.00.05
 # PHP Version: 4.3.0RC3
 # Database : `ilias3`
@@ -857,30 +857,29 @@ INSERT INTO object_data VALUES (29, 'typ', 'lng', 'Language object', -1, '2002-0
 INSERT INTO object_data VALUES (30, 'typ', 'role', 'Role Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
 INSERT INTO object_data VALUES (31, 'typ', 'lo', 'Learning Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
 INSERT INTO object_data VALUES (32, 'typ', 'uset', 'User Setting Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
-INSERT INTO object_data VALUES (156, 'usr', 'T. Eacher', 'teacher@yourserver.com', 6, '2002-08-30 14:04:26', '2002-08-30 14:04:26');
-INSERT INTO object_data VALUES (158, 'usr', 'N. Iemand', 'gast@yourserver.com', 6, '2002-08-30 14:05:39', '2002-08-30 14:05:39');
-INSERT INTO object_data VALUES (157, 'usr', 'St. Udent', 'student@yourserver.com', 6, '2002-08-30 14:05:05', '2002-08-30 14:05:05');
+INSERT INTO object_data VALUES (156, 'usr', 'Bill Teacher', '', 6, '2002-08-30 14:04:26', '2002-12-24 12:44:34');
+INSERT INTO object_data VALUES (158, 'usr', 'Guest', '', 6, '2002-08-30 14:05:39', '2002-12-24 12:43:34');
+INSERT INTO object_data VALUES (157, 'usr', 'Jim Student', '', 6, '2002-08-30 14:05:05', '2002-12-24 12:44:21');
 INSERT INTO object_data VALUES (33, 'typ', 'root', 'Root Folder Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00');
 INSERT INTO object_data VALUES (34, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2002-12-22 13:24:30');
-INSERT INTO object_data VALUES (160, 'rolt', 'lerner 1', '', 6, '2002-12-24 00:44:30', '2002-12-24 00:44:30');
-INSERT INTO object_data VALUES (162, 'role', 'lerner uni a', '', 6, '2002-12-24 00:47:11', '2002-12-24 00:47:11');
-INSERT INTO object_data VALUES (163, 'role', 'lerner uni b', '', 6, '2002-12-24 00:47:28', '2002-12-24 00:47:28');
-INSERT INTO object_data VALUES (164, 'cat', 'uni a', '', 6, '2002-12-24 00:47:41', '2002-12-24 00:47:41');
-INSERT INTO object_data VALUES (165, 'cat', 'uni b', '', 6, '2002-12-24 00:47:48', '2002-12-24 00:47:48');
-INSERT INTO object_data VALUES (166, 'le', 'lm1 a', '', 6, '2002-12-24 00:48:00', '2002-12-24 00:48:00');
-INSERT INTO object_data VALUES (167, 'le', 'lm2 b', '', 6, '2002-12-24 00:48:11', '2002-12-24 00:48:11');
-INSERT INTO object_data VALUES (168, 'usr', 'lerner a', 'dsfsd', 6, '2002-12-24 00:49:38', '2002-12-24 00:49:38');
+INSERT INTO object_data VALUES (162, 'role', 'learner category A', '', 6, '2002-12-24 00:47:11', '2002-12-24 00:47:11');
+INSERT INTO object_data VALUES (163, 'role', 'learner category B', '', 6, '2002-12-24 00:47:28', '2002-12-24 00:47:28');
+INSERT INTO object_data VALUES (164, 'cat', 'Category A', '', 6, '2002-12-24 00:47:41', '2002-12-24 00:47:41');
+INSERT INTO object_data VALUES (165, 'cat', 'Category B', '', 6, '2002-12-24 00:47:48', '2002-12-24 00:47:48');
+INSERT INTO object_data VALUES (166, 'le', 'Learningmodule1 A', '', 6, '2002-12-24 00:48:00', '2002-12-24 00:48:00');
+INSERT INTO object_data VALUES (167, 'le', 'Learningmodule 4 B', '', 6, '2002-12-24 00:48:11', '2002-12-24 00:48:11');
+INSERT INTO object_data VALUES (168, 'usr', 'Learner A', '', 6, '2002-12-24 00:49:38', '2002-12-24 12:42:46');
 INSERT INTO object_data VALUES (169, 'uset', 'lerner a', 'User Setting Folder', 6, '2002-12-24 00:49:38', '2002-12-24 00:49:38');
-INSERT INTO object_data VALUES (170, 'usr', 'lerner b', 'fdgfg', 6, '2002-12-24 00:49:56', '2002-12-24 00:49:56');
+INSERT INTO object_data VALUES (170, 'usr', 'Learner B', '', 6, '2002-12-24 00:49:56', '2002-12-24 12:43:03');
 INSERT INTO object_data VALUES (171, 'uset', 'lerner b', 'User Setting Folder', 6, '2002-12-24 00:49:56', '2002-12-24 00:49:56');
-INSERT INTO object_data VALUES (172, 'frm', 'frm1 a (lerner can write)', '', 6, '2002-12-24 01:01:08', '2002-12-24 01:01:08');
-INSERT INTO object_data VALUES (173, 'grp', 'grp1 a', '', 6, '2002-12-24 01:01:42', '2002-12-24 01:01:42');
-INSERT INTO object_data VALUES (174, 'frm', 'frm2 a in grp1 (lerner cannot write)', '', 6, '2002-12-24 01:02:17', '2002-12-24 01:02:17');
-INSERT INTO object_data VALUES (175, 'le', 'lm2 a in grp1', '', 6, '2002-12-24 01:02:48', '2002-12-24 01:02:48');
-INSERT INTO object_data VALUES (176, 'crs', 'crs1 a', '', 6, '2002-12-24 01:03:16', '2002-12-24 01:03:16');
-INSERT INTO object_data VALUES (177, 'le', 'lm3 a in crs1', '', 6, '2002-12-24 01:03:30', '2002-12-24 01:03:30');
-INSERT INTO object_data VALUES (178, 'frm', 'frm2 b', '', 6, '2002-12-24 01:05:57', '2002-12-24 01:05:57');
-INSERT INTO object_data VALUES (179, 'grp', 'grp2 b', '', 6, '2002-12-24 01:06:06', '2002-12-24 01:06:06');
+INSERT INTO object_data VALUES (172, 'frm', 'Forum1 A', ' (learner can write)', 6, '2002-12-24 01:01:08', '2002-12-24 01:01:08');
+INSERT INTO object_data VALUES (173, 'grp', 'Group1 A', '', 6, '2002-12-24 01:01:42', '2002-12-24 01:01:42');
+INSERT INTO object_data VALUES (174, 'frm', 'Forum2 A in Group1', '(learner cannot write)', 6, '2002-12-24 01:02:17', '2002-12-24 01:02:17');
+INSERT INTO object_data VALUES (175, 'le', 'Learningmodule2', 'in Group1 A', 6, '2002-12-24 01:02:48', '2002-12-24 01:02:48');
+INSERT INTO object_data VALUES (176, 'crs', 'Course 1 A', '', 6, '2002-12-24 01:03:16', '2002-12-24 01:03:16');
+INSERT INTO object_data VALUES (177, 'le', 'Learningmodule3', 'in course1 A', 6, '2002-12-24 01:03:30', '2002-12-24 01:03:30');
+INSERT INTO object_data VALUES (178, 'frm', 'Forum3 B', '', 6, '2002-12-24 01:05:57', '2002-12-24 01:05:57');
+INSERT INTO object_data VALUES (179, 'grp', 'Group3 B', '', 6, '2002-12-24 01:06:06', '2002-12-24 01:06:06');
 # --------------------------------------------------------
 
 #
@@ -903,7 +902,6 @@ INSERT INTO rbac_fa VALUES (2, 8, 9, 'y');
 INSERT INTO rbac_fa VALUES (3, 8, 9, 'y');
 INSERT INTO rbac_fa VALUES (4, 8, 9, 'y');
 INSERT INTO rbac_fa VALUES (5, 8, 9, 'y');
-INSERT INTO rbac_fa VALUES (160, 8, 9, 'n');
 INSERT INTO rbac_fa VALUES (162, 8, 9, 'y');
 INSERT INTO rbac_fa VALUES (163, 8, 9, 'y');
 # --------------------------------------------------------
@@ -1417,20 +1415,6 @@ INSERT INTO rbac_templates VALUES (5, 'lo', 2, 8);
 INSERT INTO rbac_templates VALUES (5, 'mail', 2, 8);
 INSERT INTO rbac_templates VALUES (5, 'role', 2, 8);
 INSERT INTO rbac_templates VALUES (5, 'usr', 2, 8);
-INSERT INTO rbac_templates VALUES (160, 'cat', 3, 8);
-INSERT INTO rbac_templates VALUES (160, 'cat', 2, 8);
-INSERT INTO rbac_templates VALUES (160, 'crs', 3, 8);
-INSERT INTO rbac_templates VALUES (160, 'crs', 2, 8);
-INSERT INTO rbac_templates VALUES (160, 'frm', 3, 8);
-INSERT INTO rbac_templates VALUES (160, 'frm', 2, 8);
-INSERT INTO rbac_templates VALUES (160, 'grp', 3, 8);
-INSERT INTO rbac_templates VALUES (160, 'grp', 2, 8);
-INSERT INTO rbac_templates VALUES (160, 'le', 3, 8);
-INSERT INTO rbac_templates VALUES (160, 'le', 2, 8);
-INSERT INTO rbac_templates VALUES (160, 'lo', 3, 8);
-INSERT INTO rbac_templates VALUES (160, 'lo', 2, 8);
-INSERT INTO rbac_templates VALUES (160, 'root', 3, 8);
-INSERT INTO rbac_templates VALUES (160, 'root', 2, 8);
 # --------------------------------------------------------
 
 #
@@ -1449,9 +1433,9 @@ CREATE TABLE rbac_ua (
 #
 
 INSERT INTO rbac_ua VALUES (6, 2, 'n');
-INSERT INTO rbac_ua VALUES (156, 3, 'n');
-INSERT INTO rbac_ua VALUES (157, 4, 'n');
-INSERT INTO rbac_ua VALUES (158, 5, 'n');
+INSERT INTO rbac_ua VALUES (156, 3, 'y');
+INSERT INTO rbac_ua VALUES (157, 4, 'y');
+INSERT INTO rbac_ua VALUES (158, 5, 'y');
 INSERT INTO rbac_ua VALUES (168, 162, 'y');
 INSERT INTO rbac_ua VALUES (170, 163, 'y');
 # --------------------------------------------------------
@@ -1576,11 +1560,11 @@ CREATE TABLE usr_data (
 #
 
 INSERT INTO usr_data VALUES (6, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'System', 'Administrator', 'The', 'm', 'ilias@yourserver.com', '2002-05-15 14:56:41', '2002-05-22 13:08:18', '0000-00-00 00:00:00');
-INSERT INTO usr_data VALUES (158, 'gast', 'd4061b1486fe2da19dd578e8d970f7eb', 'N.', 'Iemand', '', 'm', 'gast@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:39', '2002-08-30 14:05:39');
-INSERT INTO usr_data VALUES (157, 'lerner', '3c1c7de8baffc419327b6439bba34217', 'St.', 'Udent', '', 'm', 'student@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:05', '2002-08-30 14:05:05');
-INSERT INTO usr_data VALUES (156, 'autor', '7a25cefdc710b155828e91df70fe7478', 'T.', 'Eacher', '', 'm', 'teacher@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:04:26', '2002-08-30 14:04:26');
-INSERT INTO usr_data VALUES (168, 'lernera', '49379e5812c43fd6b53d80f104e0a1ca', 'lerner', 'a', '', '', 'dsfsd', '0000-00-00 00:00:00', '2002-12-24 00:49:38', '2002-12-24 00:49:38');
-INSERT INTO usr_data VALUES (170, 'lernerb', 'f8e7f52e46ea0efbce0219225b526061', 'lerner', 'b', '', '', 'fdgfg', '0000-00-00 00:00:00', '2002-12-24 00:49:56', '2002-12-24 00:49:56');
+INSERT INTO usr_data VALUES (158, 'gast', 'd4061b1486fe2da19dd578e8d970f7eb', 'Guest', '', '', '', 'gast@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:39', '2002-08-30 14:05:39');
+INSERT INTO usr_data VALUES (157, 'lerner', '3c1c7de8baffc419327b6439bba34217', 'Jim', 'Student', '', '', 'student@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:05:05', '2002-08-30 14:05:05');
+INSERT INTO usr_data VALUES (156, 'autor', '7a25cefdc710b155828e91df70fe7478', 'Bill', 'Teacher', '', '', 'teacher@yourserver.com', '0000-00-00 00:00:00', '2002-08-30 14:04:26', '2002-08-30 14:04:26');
+INSERT INTO usr_data VALUES (168, 'lernera', '49379e5812c43fd6b53d80f104e0a1ca', 'Learner', 'A', '', '', 'a@ilias.net', '0000-00-00 00:00:00', '2002-12-24 00:49:38', '2002-12-24 00:49:38');
+INSERT INTO usr_data VALUES (170, 'lernerb', 'f8e7f52e46ea0efbce0219225b526061', 'Learner', 'B', '', '', 'b@ilias.net', '0000-00-00 00:00:00', '2002-12-24 00:49:56', '2002-12-24 00:49:56');
 # --------------------------------------------------------
 
 #
