@@ -276,15 +276,14 @@ class ilLMPresentationGUI
 	function layout($a_xml = "main.xml", $doShow = true)
 	{
 		global $tpl;
-
 		$layout = $this->lm->getLayout();
-
 		//$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
 
 		// xmldocfile is deprecated! Use domxml_open_file instead.
 		// But since using relative pathes with domxml under windows don't work,
 		// we need another solution:
 		$xmlfile = file_get_contents("./layouts/lm/".$layout."/".$a_xml);
+
 		if (!$doc = domxml_open_mem($xmlfile)) { echo "ilLMPresentation: XML File invalid"; exit; }
 		$this->layout_doc =& $doc;
 
@@ -358,7 +357,7 @@ class ilLMPresentationGUI
 
 			// set style sheets
 			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-			
+
 			$childs = $node->child_nodes();
 			foreach($childs as $child)
 			{
@@ -834,9 +833,8 @@ class ilLMPresentationGUI
 
 		require_once("content/classes/Pages/class.ilMediaObject.php");
 		$media_obj =& new ilMediaObject($_GET["mob_id"]);
-
 		require_once("content/classes/Pages/class.ilPageObject.php");
-		$pg_obj =& new ilPageObject($_GET["pg_id"]);
+		$pg_obj =& new ilPageObject($this->lm->getType(), $_GET["pg_id"]);
 		$pg_obj->buildDom();
 
 		$xml = "<dummy>";
@@ -845,7 +843,6 @@ class ilLMPresentationGUI
 		$xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
 		$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
 		$xml.="</dummy>";
-
 
 		// todo: utf-header should be set globally
 		//header('Content-type: text/html; charset=UTF-8');
