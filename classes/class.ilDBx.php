@@ -51,7 +51,7 @@ class ilDBx extends PEAR
 
 
 		//set up error handling
-		$this->error_class = new ErrorHandling();
+		$this->error_class = new ilErrorHandling();
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
 
 		//check dsn

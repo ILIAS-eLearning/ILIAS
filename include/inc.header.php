@@ -43,7 +43,7 @@ require_once "classes/class.rbacSystemH.php";
 require_once "classes/class.rbacReviewH.php";
 
 // include error_handling
-require_once "classes/class.ErrorHandling.php";
+require_once "classes/class.ilErrorHandling.php";
 
 session_start();
 

@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__FILE__)."/class.ErrorHandling.php");
+require_once(dirname(__FILE__)."/class.ilErrorHandling.php");
 /**
 * logging
 *
@@ -46,7 +46,7 @@ class Log extends PEAR
 			$this->filename = $logfile;
 
 		$this->PEAR();
-		$this->error_class = new ErrorHandling();
+		$this->error_class = new ilErrorHandling();
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
 	
 		//TODO: check logfile accessable, creatable, writable and so on

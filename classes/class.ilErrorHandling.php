@@ -9,7 +9,7 @@
 * @package	application
 * @todo		when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
 */
-class ErrorHandling
+class ilErrorHandling
 {
 	/**
 	* Toggle debugging on/off
@@ -43,7 +43,7 @@ class ErrorHandling
 	* Constructor
 	* @access	public
 	*/
-	function ErrorHandling()
+	function ilErrorHandling()
 	{
 		// init vars
 		$this->DEBUG_ENV = true;
@@ -104,5 +104,5 @@ class ErrorHandling
 			exit;
 		}
 	}
-} // END class.ErrorHandling
+} // END class.ilErrorHandling
 ?>
