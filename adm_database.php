@@ -62,12 +62,14 @@ $i = 0;
 foreach ($dbtables as $row)
 {
 	$tpl->setCurrentBlock("optrow");
-	$tpl->setVariable("TABLE", $row["table"]);
+	$tpl->setVariable("TABLE", $row["name"].":".$row["status"]);
 	$tpl->setVariable("TABLEID", $row["table"]);
 	$tpl->setVariable("ROWCOL", "tblrow".(($i%2)+1));
 	$tpl->parseCurrentBlock();
 	$i++;
 }
+
+$myDB->getTableStatus("rbac_fa");
 
 $tpl->setVariable("TXT_OPTIMIZE", $lng->txt("optimize"));
 

@@ -267,11 +267,24 @@ function getTables()
 	$res = $this->db->query($query);
 	while ($row = $res->fetchRow())
 	{
+		$status = $this->getTableStatus($row[0]);
 		$a[] = array(
-			"table" => $row[0]
+			"name" => $status["Table"],
+			"table" => $row[0],
+			"status" => $status["Msg_text"]
 		);
 	}
 	return $a;
+}
+
+function getTableStatus($table)
+{
+	$a = array();
+
+	$query = "ANALYZE TABLE ".$table;	
+	$res = $this->db->query($query);
+	$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+	return $row;
 }
 
 function optimizeTables($tables)
