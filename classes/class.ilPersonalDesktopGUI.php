@@ -457,5 +457,45 @@ class ilPersonalDesktopGUI
 		$this->tpl->setVariable("TXT_BM_TITLE",$this->lng->txt("title"));
 		$this->tpl->parseCurrentBlock();
 	}
+
+/**
+* Display subscribed tests
+* 
+* Display subscribed tests
+*
+* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @access public
+*/
+	function displayTests()
+	{
+		$tst_items = $this->ilias->account->getDesktopItems("tst");
+		$i = 0;
+
+		foreach ($tst_items as $tst_item)
+		{
+			$i++;
+			$this->tpl->setCurrentBlock("tbl_tst_row");
+			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+			$this->tpl->setVariable("TST_LINK", "assessment/test.php?ref_id=".$tst_item["id"]."&cmd=run");
+			$this->tpl->setVariable("TST_TITLE", $tst_item["title"]);
+			$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=tst&id=".$tst_item["id"]);
+			$this->tpl->setVariable("TXT_DROP",$this->lng->txt("drop"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		if ($i == 0)
+		{
+			$this->tpl->setCurrentBlock("tbl_no_tst");
+			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+			$this->tpl->setVariable("TXT_NO_TST", $this->lng->txt("no_tst_in_personal_list"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("tbl_tst");
+		$this->tpl->setVariable("TXT_TST_HEADER",$this->lng->txt("my_tsts"));
+		$this->tpl->setVariable("TXT_TST_TITLE",$this->lng->txt("title"));
+		$this->tpl->parseCurrentBlock();
+
+	}
 }
 ?>

@@ -1548,6 +1548,7 @@ class ilObjUser extends ilObject
 		{
 			case "lm":
 			case "glo":
+			case "tst":
 			case "dbk":
 			case "slm":
 				$q = "SELECT oref.ref_id, obj.title, parameters FROM desktop_item AS it, object_reference AS oref ".

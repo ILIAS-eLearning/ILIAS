@@ -914,6 +914,7 @@ common#:#my_bms#:#My Bookmarks
 common#:#my_frms#:#My Forums
 common#:#my_grps#:#My Groups
 common#:#my_los#:#My Learning Objects
+common#:#my_tsts#:#My Tests
 common#:#name#:#Name
 common#:#new#:#New
 common#:#new_appointment#:#New Appointment
@@ -935,6 +936,7 @@ common#:#no_lo_in_personal_list#:#No learning objects in personal list.
 common#:#no_objects#:#No objects
 common#:#no_permission_to_join#:#You are not allowed to join this group!
 common#:#no_title#:#No Title
+common#:#no_tst_in_personal_list#:#No tests in personal list.
 common#:#none#:#None
 common#:#normal#:#Normal
 common#:#not_installed#:#Not Installed
