@@ -145,10 +145,32 @@ class ilObjQuestionPool extends ilObject
 		}
 		
 		//put here your module specific stuff
+		$this->deleteQuestionpool();
 		
 		return true;
 	}
 
+	function deleteQuestionpool()
+	{
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE ref_fi = %s",
+			$this->ilias->db->quote($this->getRefId())
+		);
+		$result = $this->ilias->db->query($query);
+		$questions = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($questions, $row["question_id"]);
+		}
+
+		if (count($questions))
+		{
+			foreach ($questions as $question_id)
+			{
+				$this->delete_question($question_id);
+			}
+		}
+	}
+	
 	/**
 	* init default roles settings
 	* 
@@ -255,24 +277,28 @@ class ilObjQuestionPool extends ilObject
       return;
       
     $query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE question_id = %s AND qpl_question_type.question_type_id = qpl_questions.question_type_fi",
-      $this->ilias->db->db->quote($question_id)
+      $this->ilias->db->quote($question_id)
     );
-    $result = $this->ilias->db->db->query($query);
+    $result = $this->ilias->db->query($query);
     if ($result->numRows() == 1) {
       $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
       $query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
-        $this->ilias->db->db->quote($question_id)
+        $this->ilias->db->quote($question_id)
       );
-      $result = $this->ilias->db->db->query($query);
-      $query = sprintf("DELETE FROM qpl_answers WHERE question_id = %s",
-        $this->ilias->db->db->quote($question_id)
+      $result = $this->ilias->db->query($query);
+      $query = sprintf("DELETE FROM qpl_question_material WHERE question_id = %s",
+        $this->ilias->db->quote($question_id)
       );
-      $result = $this->ilias->db->db->query($query);
+      $result = $this->ilias->db->query($query);
+      $query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+        $this->ilias->db->quote($question_id)
+      );
+      $result = $this->ilias->db->query($query);
 			$question = new ASS_Question();
 			$question->set_id($question_id);
 			$question->remove_all_question_references();
 			// delete the question in the tst_test_question table (list of test questions)
-			$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->db->quote($question_id));
+			$querydelete = sprintf("DELETE FROM tst_test_question WHERE question_fi = %s", $this->ilias->db->quote($question_id));
 			$deleteresult = $this->ilias->db->query($querydelete);
     } else {
       return;
@@ -284,7 +310,7 @@ class ilObjQuestionPool extends ilObject
 		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s GROUP BY CONCAT(user_fi,test_fi)",
 			$this->ilias->db->quote($question_id)
 		);
-    $result = $this->ilias->db->db->query($query);
+    $result = $this->ilias->db->query($query);
 		return $result->numRows();	
 	}
 
@@ -293,7 +319,7 @@ class ilObjQuestionPool extends ilObject
 		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s GROUP BY CONCAT(user_fi,test_fi)",
 			$this->ilias->db->quote($question_id)
 		);
-    $result = $this->ilias->db->db->query($query);
+    $result = $this->ilias->db->query($query);
     $question_gui =& new ASS_QuestionGUI();
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
