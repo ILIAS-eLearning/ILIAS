@@ -4779,4 +4779,6 @@ PRIMARY KEY ( `returned_id` ) ,
 INDEX ( `obj_id` ),
 INDEX ( `user_id` )
 );
+<#314>
+ALTER TABLE `usr_data` ADD `matriculation` VARCHAR( 40 ) AFTER `referral_comment` ;
 

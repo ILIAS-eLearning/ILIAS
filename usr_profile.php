@@ -287,7 +287,7 @@ if ($_GET["cmd"] == "save")
 	// if check on Institute
 	$val_array = array("institution", "department", "upload", "street",
 		"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
-		"fax", "email", "hobby");
+		"fax", "email", "hobby", "matriculation");
 
 	foreach($val_array as $key => $value)
 	{
@@ -354,7 +354,8 @@ if ($_GET["cmd"] == "save")
 	$ilias->account->setFax(ilUtil::stripSlashes($_POST["usr_fax"]));
 	$ilias->account->setEmail(ilUtil::stripSlashes($_POST["usr_email"]));
 	$ilias->account->setHobby(ilUtil::stripSlashes($_POST["usr_hobby"]));
-    $ilias->account->setComment(ilUtil::stripSlashes($_POST["usr_referral_comment"]));
+  $ilias->account->setComment(ilUtil::stripSlashes($_POST["usr_referral_comment"]));
+	$ilias->account->setMatriculation(ilUtil::stripSlashes($_POST["usr_matriculation"]));
 
 	// everthing's ok. save form data
 	if ($form_valid)
@@ -543,6 +544,7 @@ $data["fields"]["fax"] = "";
 $data["fields"]["email"] = "";
 $data["fields"]["hobby"] = "";
 $data["fields"]["referral_comment"] = "";
+$data["fields"]["matriculation"] = "";
 $data["fields"]["create_date"] = "";
 $data["fields"]["approve_date"] = "";
 $data["fields"]["active"] = "";
@@ -603,6 +605,8 @@ $tpl->setVariable("TXT_SHOW_USERS_ONLINE",$lng->txt("show_users_online"));
 $tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
 $tpl->setVariable("TXT_SYSTEM_INFO", $lng->txt("system_information"));
 $tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
+$tpl->setVariable("TXT_OTHER", $lng->txt("user_profile_other"));
+$tpl->setVariable("TXT_MATRICULATION", $lng->txt("matriculation"));
 $tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
 
 //values
@@ -640,6 +644,7 @@ $tpl->setVariable("FAX", $ilias->account->getFax());
 $tpl->setVariable("EMAIL", $ilias->account->getEmail());
 $tpl->setVariable("HOBBY", ilUtil::stripSlashes($ilias->account->getHobby()));		// here
 $tpl->setVariable("REFERRAL_COMMENT", ilUtil::stripSlashes($ilias->account->getComment()));
+$tpl->setVariable("MATRICULATION", $ilias->account->getMatriculation());
 
 // get assigned global roles (default roles)
 $global_roles = $rbacreview->getGlobalRoles();
@@ -672,7 +677,7 @@ if ($ilias->account->prefs["public_profile"]=="y")
 
 $val_array = array("institution", "department", "upload", "street",
 	"zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
-	"fax", "email", "hobby");
+	"fax", "email", "hobby", "matriculation");
 
 foreach($val_array as $key => $value)
 {
