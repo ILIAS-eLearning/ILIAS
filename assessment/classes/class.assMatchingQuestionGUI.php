@@ -109,15 +109,14 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			{
 				$this->tpl->setCurrentBlock("pictures");
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("PICTURE_ID", $thispair->get_matchingtext_order());
-				$filename = $thispair->get_matchingtext();
+				$this->tpl->setVariable("PICTURE_ID", $thispair->getPictureId());
+				$filename = $thispair->getPicture();
 				if ($filename)
 				{
-					//$this->tpl->setVariable("UPLOADED_IMAGE", $thispair->get_matchingtext());
-					$imagepath = $this->object->getImagePathWeb() . $thispair->get_matchingtext();
+					$imagepath = $this->object->getImagePathWeb() . $thispair->getPicture();
 					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" />");
-					$this->tpl->setVariable("IMAGE_FILENAME", $thispair->get_matchingtext());
-					$this->tpl->setVariable("VALUE_PICTURE", $thispair->get_matchingtext());
+					$this->tpl->setVariable("IMAGE_FILENAME", $thispair->getPicture());
+					$this->tpl->setVariable("VALUE_PICTURE", $thispair->getPicture());
 				}
 				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 			}
@@ -125,8 +124,8 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			{
 				$this->tpl->setCurrentBlock("definitions");
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("DEFINITION_ID", $thispair->get_matchingtext_order());
-				$this->tpl->setVariable("VALUE_DEFINITION", $thispair->get_matchingtext());
+				$this->tpl->setVariable("DEFINITION_ID", $thispair->getDefinitionId());
+				$this->tpl->setVariable("VALUE_DEFINITION", $thispair->getDefinition());
 			}
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("answers");
@@ -134,10 +133,10 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("TEXT_MATCHING_PAIR", $this->lng->txt("matching_pair"));
 			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
 			$this->tpl->setVariable("ANSWER_ORDER", $i);
-			$this->tpl->setVariable("TERM_ID", $thispair->get_order());
-			$this->tpl->setVariable("VALUE_TERM", $thispair->get_answertext());
+			$this->tpl->setVariable("TERM_ID", $thispair->getTermId());
+			$this->tpl->setVariable("VALUE_TERM", $thispair->getTerm());
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", $thispair->get_points()));
+			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", $thispair->getPoints()));
 			$this->tpl->parseCurrentBlock();
 		}
 		// call to other question data i.e. material, estimated working time block
@@ -163,7 +162,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			{
 				$this->tpl->setCurrentBlock("pictures");
 				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
-				$this->tpl->setVariable("PICTURE_ID", $this->object->get_random_id("matching"));
+				$this->tpl->setVariable("PICTURE_ID", $this->object->get_random_id());
 				$this->tpl->setVariable("VALUE_PICTURE", "");
 				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 			}
@@ -171,7 +170,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			{
 				$this->tpl->setCurrentBlock("definitions");
 				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
-				$this->tpl->setVariable("DEFINITION_ID", $this->object->get_random_id("matching"));
+				$this->tpl->setVariable("DEFINITION_ID", $this->object->get_random_id());
 				$this->tpl->setVariable("VALUE_DEFINITION", "");
 			}
 			$this->tpl->parseCurrentBlock();
@@ -180,7 +179,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_matchingpair_count() + 1);
 			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
 			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
-			$this->tpl->setVariable("TERM_ID", $this->object->get_random_id("answer"));
+			$this->tpl->setVariable("TERM_ID", $this->object->get_random_id());
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", 0));
 			$this->tpl->parseCurrentBlock();
@@ -481,7 +480,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		}
 		foreach ($this->object->matchingpairs as $key => $value)
 		{
-			$array_matching[$value->get_order()] = $value->get_answertext();
+			$array_matching[$value->getTermId()] = $value->getTerm();
 		}
 		asort($array_matching);
 		$keys = array_keys($array_matching);
@@ -517,7 +516,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				$selected = "";
 				foreach ($solutions as $idx => $solution)
 				{
-					if ($solution->value2 == $value->get_matchingtext_order())
+					if ($solution->value2 == $value->getDefinitionId())
 					{
 						if ($solution->value1 == $match_key)
 						{
@@ -529,15 +528,15 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("matching_question");
-			$this->tpl->setVariable("COUNTER", $value->get_matchingtext_order());
+			$this->tpl->setVariable("COUNTER", $value->getDefinitionId());
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 			{
-				$imagepath = $this->object->getImagePathWeb() . $value->get_matchingtext();
+				$imagepath = $this->object->getImagePathWeb() . $value->getPicture();
 				$this->tpl->setVariable("MATCHING_PICTURE", "<a href=\"$imagepath\" target=\"_blank\"><img src=\"$imagepath.thumb.jpg\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" /></a>");
 			}
 			else
 			{
-				$this->tpl->setVariable("MATCHING_TEXT", "<strong>" . $value->get_matchingtext() . "</strong>");
+				$this->tpl->setVariable("MATCHING_TEXT", "<strong>" . $value->getDefinition() . "</strong>");
 			}
 			$this->tpl->setVariable("TEXT_MATCHES", "matches");
 			$this->tpl->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
