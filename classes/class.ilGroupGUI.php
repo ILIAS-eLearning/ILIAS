@@ -479,8 +479,8 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&obj_id=".$this->object->getId()."&tree_id=".$this->grp_tree->getTreeId()."&tree_table=grp_tree");
 		$this->tpl->setVariable("ACTIONTARGET", "bottom");
-		$this->data["buttons"] = array( "updateMemberStatus"  => $this->lng->txt("confirm"),
-						"canceldelete"  => $this->lng->txt("cancel"));
+		$this->data["buttons"] = array( "canceldelete"  => $this->lng->txt("cancel"),
+						"updateMemberStatus"  => $this->lng->txt("confirm"));
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
 		$this->tpl->setVariable("COLUMN_COUNTS",4);
@@ -510,7 +510,7 @@ class ilGroupGUI extends ilObjectGUI
 		// create table
 		$tbl = new ilTableGUI($this->data["data"]);
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("change member status"),"icon_usr_b.gif",$this->lng->txt("change member status"));
+		$tbl->setTitle($this->lng->txt("grp_mem_change_status"),"icon_usr_b.gif",$this->lng->txt("grp_mem_change_status"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("status")));
 		$tbl->setHeaderVars(array("firstname","lastname","role","status"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
@@ -1176,7 +1176,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		//create additional tabs for tab-bar
 		
-		$this->prepareOutput(true);
+		$this->prepareOutput(true,99);
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
 
@@ -1604,7 +1604,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$obj_str = "&obj_id=".$this->obj_id;
 
-		$this->prepareOutput(true);
+		$this->prepareOutput(true,99);
 		//prepare objectlist
 		$this->data = array();
 		$this->data["data"] = array();
