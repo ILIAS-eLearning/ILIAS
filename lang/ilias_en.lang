@@ -265,6 +265,7 @@ assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!
 assessment#:#true#:#True
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
+assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_anon_eval#:#Anonymous aggregated results
 assessment#:#tst_browse_for_questions#:#Browse for questions
