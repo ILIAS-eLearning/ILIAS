@@ -1026,3 +1026,10 @@ while ($page_rec = $page_set->fetchRow(DB_FETCHMODE_ASSOC))
 }
 
 ?>
+
+<#80>
+ALTER TABLE glossary_term ADD COLUMN
+  create_date DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
+
+ALTER TABLE glossary_term ADD COLUMN
+  last_update DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00';
