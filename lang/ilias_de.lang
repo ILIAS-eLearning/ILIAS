@@ -403,3 +403,19 @@ common#:#context#:#Kontext
 common#:#forums_respond#:#Beitrag beantworten
 common#:#forums_your_reply#:#Ihre Antwort
 common#:#of#:#von
+common#:#delete_object#:#Lösche Objekte
+common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
+common#:#cancel#:#verwerfen
+common#:#confirm#:#bestätigen
+common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
+common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden: Nr.
+common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen: Nr.:
+common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu verknüpfen: Typ
+common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren: Nr.
+common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
+common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte einzufügen: Nr.
+common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen: Nr.
+common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: 
+common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen: Nr.
+common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen: Nr.
+common#:#info_deleted#:#Objekt(e) gelöscht
