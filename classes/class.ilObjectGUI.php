@@ -2514,8 +2514,10 @@ class ilObjectGUI
 
 		sendInfo($this->lng->txt("role_added"),true);
 		$this->ctrl->setParameter($this,"obj_id",$roleObj->getId());
+		$this->ctrl->setParameter($this,"ref_id",$rolf_id);
+		
 		ilUtil::redirect($this->getReturnLocation("addRole",$this->ctrl->getLinkTarget($this,"perm")));
-		//ilUtil::redirect($this->getReturnLocation("addRole","adm_object.php?ref_id=".$rolf_id."&obj_id=".$roleObj->getId()."&cmd=perm"));
+		#ilUtil::redirect($this->getReturnLocation("addRole","adm_object.php?ref_id=".$rolf_id."&obj_id=".$roleObj->getId()."&cmd=perm"));
 	}
 
 	/**
@@ -2673,7 +2675,6 @@ class ilObjectGUI
 		{
 			$template = "tpl.obj_".$a_cmd.".html";
 		}
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template,$a_in_module);
 
 	}
