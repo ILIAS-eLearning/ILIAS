@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id$
+* @version $Id$Id: class.ObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -368,6 +368,36 @@ class ObjectOut
 		$this->showPossibleSubObjects();
 	}
 
+	function cutAdmObject()
+	{
+		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		exit();
+	}
+	function copyAdmObject()
+	{
+		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		exit();
+	}
+	function pasteAdmObject()
+	{
+		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		exit();
+	}
+	function deleteAdmObject()
+	{
+		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		exit();
+	}
+	function clearAdmObject()
+	{
+		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		exit();
+	}
 	function showOperations()
 	{
 		$notoperations = array();
