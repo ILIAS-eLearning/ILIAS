@@ -577,15 +577,19 @@ class ilSearchGUI
 					break;
 					
 				case "content":
-					$f_result[$counter][]		= ilUtil::formCheckbox(0,"dbk[content][]",$counter);
-					$f_result[$counter][]		= $tmp_obj->getTitle();
-
 					// GET INSTANCE OF PAGE OBJECT
 					include_once ("content/classes/class.ilLMObjectFactory.php");
 
 					$tmp_page_obj = ilLMObjectFactory::getInstance($tmp_obj, $book["page_id"]);
+					if(!is_object($tmp_page_obj))
+					{
+						++$counter;
+						continue;
+					}
 					$tmp_page_obj->setLMId($book["id"]);
 
+					$f_result[$counter][]		= ilUtil::formCheckbox(0,"dbk[content][]",$counter);
+					$f_result[$counter][]		= $tmp_obj->getTitle();
 					$f_result[$counter][] = $tmp_page_obj->getPresentationTitle();
 					$f_result[$counter][]		= $this->__getContextPath($book["id"]);
 					
@@ -635,15 +639,19 @@ class ilSearchGUI
 					break;
 					
 				case "content":
-					$f_result[$counter][]		= ilUtil::formCheckbox(0,"lm[content][]",$counter);
-					$f_result[$counter][]		= $tmp_obj->getTitle();
-
 					// GET INSTANCE OF PAGE OBJECT
 					include_once ("content/classes/class.ilLMObjectFactory.php");
 
 					$tmp_page_obj = ilLMObjectFactory::getInstance($tmp_obj, $book["page_id"]);
+					if(!is_object($tmp_page_obj))
+					{
+						++$counter;
+						continue;
+					}
 					$tmp_page_obj->setLMId($book["id"]);
 
+					$f_result[$counter][]		= ilUtil::formCheckbox(0,"lm[content][]",$counter);
+					$f_result[$counter][]		= $tmp_obj->getTitle();
 					$f_result[$counter][] = $tmp_page_obj->getPresentationTitle();
 					$f_result[$counter][] = $this->__getContextPath($book["id"]);
 
@@ -788,6 +796,10 @@ class ilSearchGUI
 						include_once ("content/classes/class.ilLMObjectFactory.php");
 
 						$tmp_page_obj = ilLMObjectFactory::getInstance($tmp_obj,$tmp_result[$a_subtype][$result_id]["page_id"]);
+						if(!is_object($tmp_page_obj))
+						{
+							continue;
+						}
 						$tmp_page_obj->setLMId($tmp_result[$a_subtype][$result_id]["id"]);
 						
 						$title .= " -> ".$tmp_page_obj->getPresentationTitle();
