@@ -423,6 +423,8 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
       $this->tpl->setVariable("VALUE_ANSWER", $answer->get_answertext());
       $this->tpl->setVariable("VALUE_ORDER", $answer->get_solution_order());
+      $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+      $this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", $answer->get_points()));
       $this->tpl->parseCurrentBlock();
     }
 
@@ -435,6 +437,8 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("ANSWER_ORDER", $this->question->get_answer_count());
       $this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
       $this->tpl->setVariable("VALUE_ORDER", $this->question->get_max_solution_order() + 1);
+      $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+      $this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", 0));
       $this->tpl->parseCurrentBlock();
     }
 
@@ -444,13 +448,11 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
     $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
     $this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-    $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
     $this->tpl->setVariable("ORDERING_ID", $this->question->get_id());
     $this->tpl->setVariable("VALUE_ORDERING_TITLE", $this->question->get_title());
     $this->tpl->setVariable("VALUE_ORDERING_COMMENT", $this->question->get_comment());
     $this->tpl->setVariable("VALUE_ORDERING_AUTHOR", $this->question->get_author());
     $this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
-    $this->tpl->setVariable("VALUE_ORDERING_POINTS", $this->question->get_points());
     $this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
     $this->tpl->setVariable("SAVE", $this->lng->txt("save"));
     $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
@@ -485,6 +487,8 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("VALUE_RIGHT", $thispair->get_matchingtext());
       $this->tpl->setVariable("TEXT_MATCHING_PAIR", $this->lng->txt("matching_pair"));
       $this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
+      $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+      $this->tpl->setVariable("VALUE_MATCHING_POINTS", sprintf("%d", $thispair->get_points()));
       $this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
       $this->tpl->parseCurrentBlock();
     }
@@ -497,6 +501,8 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("ANSWER_ID", $this->question->get_random_id("answer"));
       $this->tpl->setVariable("ANSWER_ORDER", $this->question->get_matchingpair_count());
       $this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
+      $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+      $this->tpl->setVariable("VALUE_MATCHING_POINTS", sprintf("%d", 0));
       $this->tpl->setVariable("TEXT_MATCHING_PAIR", $this->lng->txt("matching_pair"));
       $this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
       $this->tpl->parseCurrentBlock();
@@ -507,13 +513,11 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
     $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
     $this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-    $this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
     $this->tpl->setVariable("MATCHING_ID", $this->question->get_id());
     $this->tpl->setVariable("VALUE_MATCHING_TITLE", $this->question->get_title());
     $this->tpl->setVariable("VALUE_MATCHING_COMMENT", $this->question->get_comment());
     $this->tpl->setVariable("VALUE_MATCHING_AUTHOR", $this->question->get_author());
     $this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
-    $this->tpl->setVariable("VALUE_MATCHING_POINTS", $this->question->get_points());
     $this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_matching_pair"));
     $this->tpl->setVariable("SAVE", $this->lng->txt("save"));
     $this->tpl->setVariable("APPLY", $this->lng->txt("apply"));
@@ -727,7 +731,7 @@ class ASS_QuestionGUI extends PEAR {
             $matchingtext_id = $matches2[1];
           }
         }
-        $this->question->add_matchingpair($_POST["$key"], $_POST["right_$matches[1]_$matchingtext_id"], $_POST["points"], $matches[2], $matchingtext_id);
+        $this->question->add_matchingpair($_POST["$key"], $_POST["right_$matches[1]_$matchingtext_id"], $_POST["points_$matches[1]"], $matches[2], $matchingtext_id);
       }
     }
 
@@ -757,7 +761,7 @@ class ASS_QuestionGUI extends PEAR {
     // Add answers from the form
     foreach ($_POST as $key => $value) {
       if (preg_match("/answer_(\d+)/", $key, $matches)) {
-        $this->question->add_answer($_POST["$key"], $_POST["points"], $matches[1], $_POST["order_$matches[1]"]);
+        $this->question->add_answer($_POST["$key"], $_POST["points_$matches[1]"], $matches[1], $_POST["order_$matches[1]"]);
       }
     }
 
@@ -852,7 +856,7 @@ class ASS_QuestionGUI extends PEAR {
 * @access public
 */
   function out_working_multiple_choice_question() {
-    $this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html");
+    $this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
     if ($this->question->response == RESPONSE_SINGLE) {
       $this->tpl->setCurrentBlock("single");
       foreach ($this->question->answers as $key => $value) {
@@ -883,7 +887,7 @@ class ASS_QuestionGUI extends PEAR {
 * @access public
 */
   function out_working_cloze_question() {
-    $this->tpl->addBlockFile("CLOZE_TEST", "cloze_test", "tpl.il_as_execute_cloze_test.html");
+    $this->tpl->addBlockFile("CLOZE_TEST", "cloze_test", "tpl.il_as_execute_cloze_test.html", true);
     if ($this->question->cloze_type == CLOZE_TEXT) {
       $this->tpl->setCurrentBlock("cloze");
       $output = $this->question->get_cloze_text();
@@ -928,7 +932,7 @@ class ASS_QuestionGUI extends PEAR {
     asort($array_answer);
     asort($array_matching);
     
-    $this->tpl->addBlockFile("MATCHING_QUESTION", "matching", "tpl.il_as_execute_matching_question.html");
+    $this->tpl->addBlockFile("MATCHING_QUESTION", "matching", "tpl.il_as_execute_matching_question.html", true);
     $this->tpl->setCurrentBlock("matching_question");
     foreach ($this->question->matchingpairs as $key => $value) {
       $this->tpl->setCurrentBlock("answer_combo");
@@ -962,7 +966,7 @@ class ASS_QuestionGUI extends PEAR {
 * @access public
 */
   function out_working_ordering_question() {
-    $this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html");
+    $this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html", true);
     $this->tpl->setCurrentBlock("orderingQuestion");
     foreach ($this->question->answers as $key => $value) {
       $this->tpl->setVariable("ORDERING_QUESTION_ANSWER_VALUE", $key);
@@ -1014,39 +1018,7 @@ class ASS_QuestionGUI extends PEAR {
   function out_preview() {
     $question_type = $this->get_question_type($this->question);
     
-    $this->tpl->addBlockFile("CONTENT", "content", "templates/default/tpl.il_as_preview.html");
-    $this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-    $this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-    
-    // Set Locator
-    $this->tpl->setCurrentBlock("locator");
-    $this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
-    $this->tpl->touchBlock("locator_separator");
-    $this->tpl->setCurrentBlock("locator_item");
-    $this->tpl->setVariable("ITEM", $this->lng->txt("assessment"));
-    $this->tpl->setVariable("LINK_ITEM", "il_as_assessment.php");
-    $this->tpl->parseCurrentBlock();
-    
-    $this->tpl->touchBlock("locator_separator");
-    $this->tpl->setCurrentBlock("locator_item");
-    $this->tpl->setVariable("ITEM", $this->lng->txt("question_manager"));
-    $this->tpl->setVariable("LINK_ITEM", "il_as_question_manager.php");
-    $this->tpl->parseCurrentBlock();
-    
-    $this->tpl->setCurrentBlock("locator_item");
-    $this->tpl->setVariable("ITEM", "Preview");
-    $this->tpl->setVariable("LINK_ITEM", "il_as_preview.php?q=" . $_GET["q"]);
-    $this->tpl->parseCurrentBlock();
-    
-    if ($_GET["q"] > 0) {
-      $query = sprintf("SELECT dum_question_type.type_tag FROM dum_question_type, dum_assessment_questions WHERE dum_assessment_questions.question_id = %s AND dum_assessment_questions.question_type_id = dum_question_type.question_type_id",
-        $this->ilias->db->db->quote($_GET["q"])
-      );
-      $result = $this->ilias->db->query($query);
-      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
-      $typ = $data->type_tag;
-    }
-    
+    $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
     switch($question_type)
     {
       case "qt_cloze":
@@ -1063,11 +1035,9 @@ class ASS_QuestionGUI extends PEAR {
         $this->out_working_matching_question();
         break;
     }
-    
-    $this->tpl->setCurrentBlock("content");
-    $this->tpl->setVariable("TXT_PAGEHEADLINE", "Preview");
-    $this->tpl->setVariable("ACTION_PREVIEW", "il_as_question_manager.php");
-    $this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; Back");
+    $this->tpl->setCurrentBlock("adm_content");
+    $this->tpl->setVariable("ACTION_PREVIEW", $_SERVER["PHP_SELF"] . $this->get_add_parameter());
+    $this->tpl->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
     $this->tpl->parseCurrentBlock();
   }
 }

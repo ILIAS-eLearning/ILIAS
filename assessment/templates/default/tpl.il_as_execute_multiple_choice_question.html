@@ -1,0 +1,23 @@
+<table class="fullwidth">
+<tr class="tblheader">
+<td class="std" colspan="2"><h1>{MULTIPLE_CHOICE_HEADLINE}</h1></td>
+</tr>
+</table>
+<p>
+<table class="std">
+<tr class="tblheader">
+<td class="std" colspan="2">{MULTIPLE_CHOICE_QUESTION}</td>
+</tr>
+<!-- BEGIN single -->
+<tr>
+<td class="tblrow1" width="15"><input type="radio" name="multiple_choice_result" value="{MULTIPLE_CHOICE_ANSWER_VALUE}" id="{MULTIPLE_CHOICE_ANSWER_VALUE}" /></td>
+<td class="tblrow1" align="left"><label for="{MULTIPLE_CHOICE_ANSWER_VALUE}">{MULTIPLE_CHOICE_ANSWER_TEXT}</label>
+<tr>
+<!-- END single -->
+<!-- BEGIN multiple -->
+<tr>
+<td class="tblrow1" width="15"><input type="checkbox" name="multiple_choice_result_{MULTIPLE_CHOICE_ANSWER_VALUE}" value="{MULTIPLE_CHOICE_ANSWER_VALUE}" id="{MULTIPLE_CHOICE_ANSWER_VALUE}" /></td>
+<td class="tblrow1"><label for="{MULTIPLE_CHOICE_ANSWER_VALUE}">{MULTIPLE_CHOICE_ANSWER_TEXT}</label>
+<tr>
+<!-- END multiple -->
+</table></p>

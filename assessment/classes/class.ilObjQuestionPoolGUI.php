@@ -80,6 +80,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
   {
   }
 
+  function out_preview_page($question_id) {
+    $question_gui =& new ASS_QuestionGUI();
+    $question =& $question_gui->create_question("", $question_id);
+    $question_gui->out_preview();
+  }
+
   function set_question_form($type, $edit = "") {
     $question_gui =& new ASS_QuestionGUI();
     $question =& $question_gui->create_question($type, $edit);
@@ -89,6 +95,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
   function questionsObject()
   {
     $type = ($_POST["sel_question_types"]) ? $_POST["sel_question_types"] : $_GET["sel_question_types"];
+    if ($_GET["preview"]) {
+      $this->out_preview_page($_GET["preview"]);
+      return;
+    }
     if ($_GET["edit"]) {
       $this->set_question_form($type, $_GET["edit"]);
       return;
@@ -324,7 +334,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
           } else {
             $this->tpl->setVariable("QUESTION_TITLE", $data->title);
           }
-          $this->tpl->setVariable("PREVIEW", "<a href=\"il_as_preview.php?q=$data->question_id\">Preview</a>");
+          $this->tpl->setVariable("PREVIEW", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>");
           $this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
           $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
           $this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
