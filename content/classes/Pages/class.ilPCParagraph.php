@@ -180,6 +180,29 @@ class ilPCParagraph extends ilPageContent
 	}
 
 	/**
+	* get AutoIndent
+	*/
+	function getAutoIndent()
+	{
+		return $this->par_node->get_attribute("AutoIndent");
+	}
+	
+	function setAutoIndent($a_char)
+	{
+		if (!empty($a_char))
+		{
+			$this->par_node->set_attribute("AutoIndent", $a_char);
+		}
+		else
+		{
+			if ($this->par_node->has_attribute("AutoIndent"))
+			{
+				$this->par_node->remove_attribute("AutoIndent");
+			}
+		}
+	}
+
+	/**
 	* get attribute subcharacteristic
 	*/
 	function getSubCharacteristic()

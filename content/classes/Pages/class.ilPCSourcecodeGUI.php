@@ -329,7 +329,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->content_obj->setDownloadTitle    ($_POST["par_downloadtitle"]);
 		$this->content_obj->setShowLineNumbers  (($_POST["par_showlinenumbers"]=='on')?'y':'n');
 		$this->content_obj->setCharacteristic   ('Code');
-		$this->content_obj->setIndenting   	(($_POST["par_indent"]=='on')?'y':'n');
+		$this->content_obj->setAutoIndent   	(($_POST["par_indent"]=='on')?'y':'n');
 				
 		if ($uploaded) {
 			$this->insert ();
