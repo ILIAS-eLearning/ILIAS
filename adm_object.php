@@ -142,8 +142,6 @@ $class_constr = "ilObj".$class_name."GUI";
 require_once("./classes/class.ilObj".$class_name."GUI.php");
 //echo "$class_constr().$method<br>";
 $obj = new $class_constr($data, $id, $call_by_reference);
-$obj->readObject("ilObj".$class_name);
-$obj->prepareOutput();
 $obj->$method();
 
 // display basicdata formular

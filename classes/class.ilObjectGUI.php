@@ -87,19 +87,16 @@ class ilObjectGUI
 		if ($this->call_by_reference)
 		{
 			$this->link_params = "ref_id=".$this->ref_id;
+			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 
 		}
 		else
 		{
 			$this->link_params = "ref_id=".$this->ref_id;
+			$this->object =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 		}
-	}
 
-	/**
-	* prepare output of administration view
-	*/
-	function prepareOutput()
-	{
+		//prepare output
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$title = $this->object->getTitle();
 		
@@ -113,29 +110,6 @@ class ilObjectGUI
 
 		$this->setAdminTabs();
 		$this->setLocator();
-	}
-
-
-	/**
-	* read corresponding object
-	*
-	* @param	string		$obj_class		object class name - working with getclass
-	*										would be better, but getclass returns lowercase only :-(
-	*/
-	function readObject($obj_class)
-	{
-		require_once("./classes/class.".$obj_class.".php");
-
-		if ($this->call_by_reference)
-		{
-			//$this->object =& new $obj_class($_GET["ref_id"], true);
-			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-		}
-		else
-		{
-			//$this->object =& new $obj_class($_GET["obj_id"], false);
-			$this->object =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-		}
 	}
 
 
@@ -203,11 +177,12 @@ class ilObjectGUI
 		// TODO: parent_parent no longer exist. need another marker
 		if ($a_parent_parent)
 		{
-			$subObj = getObject($a_ref_id);
+			//$subObj = getObject($a_ref_id);
+			$subObj =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
 
 			$path[] = array(
 				"id"	 => $a_ref_id,
-				"title"  => $this->lng->txt($subObj["title"])
+				"title"  => $this->lng->txt($subObj->getTitle())
 				);
 		}
 
@@ -236,10 +211,11 @@ class ilObjectGUI
 		
 		if (isset($_GET["obj_id"]))
 		{
-			$obj_data = getObject($_GET["obj_id"]);
+			//$obj_data = getObject($_GET["obj_id"]);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
 
 			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $obj_data["title"]);
+			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
 			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
 			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			$this->tpl->parseCurrentBlock();		
@@ -340,11 +316,12 @@ class ilObjectGUI
 			}
 
 			// TODO: both function below fetch almost the same data!!!
-			$obj_data = getObjectByReference($id);
+			//$obj_data = getObjectByReference($id);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
 			$data = $tree->getNodeData($id);
 
 			// CHECK ACCESS
-			if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data["type"]))
+			if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data->getType()))
 			{
 				$no_paste[] = $id;
 			}
@@ -366,11 +343,13 @@ class ilObjectGUI
 			}
 
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
-			$object = getObjectByReference($_GET["ref_id"]);
+			//$object = getObjectByReference($_GET["ref_id"]);
+			$object =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 
-			if (!in_array($obj_data["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
+			$obj_type = $obj_data->getType();
+			if (!in_array($obj_type, array_keys($objDefinition->getSubObjects($object->getType()))))
 			{
-				$not_allowed_subobject[] = $obj_data["type"];
+				$not_allowed_subobject[] = $obj_data->getType();
 			}
 		}
 
@@ -496,12 +475,13 @@ class ilObjectGUI
 				$no_cut[] = $ref_id;
 			}
 
-			$object = getObjectByReference($ref_id);
-			$actions = $objDefinition->getActions($object["type"]);
+			//$object = getObjectByReference($ref_id);
+			$object =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
+			$actions = $objDefinition->getActions($object->getType());
 
 			if ($actions["link"]["exec"] == 'false')
 			{
-				$no_link[] = $object["type"];
+				$no_link[] = $object->getType();
 			}
 		}
 
@@ -542,11 +522,13 @@ class ilObjectGUI
 		foreach ($_SESSION["clipboard"] as $id => $object)
 		{
 			// CHECK SOME THNGS
-			$obj_data = getObjectByReference($id);
+			
+			//$obj_data = getObjectByReference($id);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
 			$data = $tree->getNodeData($id);
 
 			// CHECK ACCESS
-			if (!$rbacsystem->checkAccess('create',$a_ref_id,$obj_data["type"]))
+			if (!$rbacsystem->checkAccess('create',$a_ref_id,$obj_data->getType()))
 			{
 				$no_paste[] = $id;
 			}
@@ -558,11 +540,12 @@ class ilObjectGUI
 			}
 
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
-			$object = getObjectByReference($a_ref_id);
+			//$object = getObjectByReference($a_ref_id);
+			$object =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
 
-			if (!in_array($obj_data["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
+			if (!in_array($obj_data->getType(),array_keys($objDefinition->getSubObjects($object->getType()))))
 			{
-				$not_allowed_subobject[] = $obj_data["type"];
+				$not_allowed_subobject[] = $obj_data->getType();
 			}
 		}
 
@@ -627,9 +610,10 @@ class ilObjectGUI
 
 		foreach ($_POST["trash_id"] as $id)
 		{
-			$obj_data = getObject($id);
+			//$obj_data = getObject($id);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
 
-			if (!$rbacsystem->checkAccess('create',$_GET["ref_id"],$obj_data["type"]))
+			if (!$rbacsystem->checkAccess('create',$_GET["ref_id"],$obj_data->getType()))
 			{
 				$no_create[] = $id;
 			}
@@ -669,11 +653,12 @@ class ilObjectGUI
 
 		// SET PERMISSIONS
 		$parentRoles = $rbacadmin->getParentRoleIds($a_dest_id,$a_dest_parent);
-		$obj = getObject($a_source_id);
+		//$obj = getObject($a_source_id);
+		$obj =& $this->ilias->obj_factory->getInstanceByObjId($a_source_id);
 
 		foreach ($parentRoles as $parRol)
 		{
-			$ops = $rbacreview->getOperations($parRol["obj_id"], $obj["type"], $parRol["parent"]);
+			$ops = $rbacreview->getOperations($parRol["obj_id"], $obj->getType(), $parRol["parent"]);
 			$rbacadmin->grantPermission($parRol["obj_id"],$ops,$a_source_id);
 		}
 
@@ -741,8 +726,9 @@ class ilObjectGUI
 			{
 				foreach($_SESSION["saved_post"] as $id)
 				{
-					$obj = getObject($id);
-					$this->callDeleteMethod($id,$_GET["obj_id"],$obj["type"]);
+					//$obj = getObject($id);
+					$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
+					$this->callDeleteMethod($id,$_GET["obj_id"],$obj->getType());
 				}
 			}
 			else
@@ -802,7 +788,8 @@ class ilObjectGUI
 
 		foreach ($_POST["trash_id"] as $id)
 		{
-			$obj_data = getObject($id);
+			//$obj_data = getObject($id);
+			//$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
 
 			if (!$rbacsystem->checkAccess('delete',$_GET["ref_id"]))
 			{
@@ -1043,8 +1030,6 @@ class ilObjectGUI
 		global $lng, $log, $rbacsystem, $rbacreview, $rbacadmin;
 		static $num = 0;
 
-		$obj = getObjectByReference($this->object->getRefId());
-
 		if ($rbacsystem->checkAccess("edit permission", $this->object->getRefId()))
 		{
 			// Es werden nur die Rollen übergeordneter Ordner angezeigt, lokale Rollen anderer Zweige nicht
@@ -1262,7 +1247,6 @@ class ilObjectGUI
 	{
 		global $tree,$rbacadmin,$rbacreview,$rbacsystem;
 
-		$object = getObject($_GET["ref_id"]);
 		$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
 
 		if (!($rolf_id = $rolf_data["child"]))
@@ -1545,12 +1529,13 @@ class ilObjectGUI
 
 		foreach($_POST["id"] as $id)
 		{
-			$obj_data = getObject($id);
+			//$obj_data = getObject($id);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
 			$this->data["data"]["$id"] = array(
-				"type"        => $obj_data["type"],
-				"title"       => $obj_data["title"],
-				"desc"        => $obj_data["desc"],
-				"last_update" => $obj_data["last_update"]);
+				"type"        => $obj_data->getType(),
+				"title"       => $obj_data->getTitle(),
+				"desc"        => $obj_data->getDescription(),
+				"last_update" => $obj_data->getLastUpdateDate());
 		}
 		$this->data["buttons"] = array( "cancel"  => $lng->txt("cancel"),
 								  "confirm"  => $lng->txt("confirm"));

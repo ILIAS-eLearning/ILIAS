@@ -48,9 +48,19 @@ class ilObjectFactory
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
-		// create instance
 		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
+		
+		// check class
+		if ($class_name == "ilObj")
+		{
+			$message = "ilObjectFactory::getInstanceByObjId(): Not able to determine object ".
+				"class for type".$object_rec["type"].".";
+			$log->writeWarning($message);
+			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+		}
+
+		// create instance
 		require_once("./classes/class.".$class_name.".php");
 		$obj =& new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($a_obj_id);
@@ -93,9 +103,19 @@ class ilObjectFactory
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
-		// create instance
 		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
+
+		// check class
+		if ($class_name == "ilObj")
+		{
+			$message = "ilObjectFactory::getInstanceByRefId(): Not able to determine object ".
+				"class for type".$object_rec["type"].".";
+			$log->writeWarning($message);
+			$ilias->raiseError($message,$ilias->error_obj->WARNING);
+		}
+
+		// create instance
 		require_once("./classes/class.".$class_name.".php");
 		$obj =& new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($object_rec["obj_id"]);
