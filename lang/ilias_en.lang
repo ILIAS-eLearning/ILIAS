@@ -2397,6 +2397,10 @@ content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_annex#:#Annex
+content#:#cont_downloads#:#Downloads
+content#:#cont_downloads_desc#:#Enables download of all public export files.
+content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.
+common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.
 content#:#cont_api_adapter#:#API Adapter Name
 content#:#cont_api_func_prefix#:#API Functions Prefix
 content#:#cont_areas_deleted#:#Map areas deleted.
@@ -2425,6 +2429,7 @@ content#:#cont_choose_media_source#:#Choose Media Source
 content#:#cont_citation_err_one#:#You must select exactly one edition
 content#:#cont_citation_selection_not_valid#:#You're selection is not valid
 content#:#cont_citations#:#Citations
+content#:#cont_format#:#Format
 content#:#cont_clean_frames#:#Clean additional frames on navigation
 content#:#cont_click_br_corner#:#Please click on the bottom right corner of the desired area.
 content#:#cont_click_center#:#Please click on center of the desired area.
@@ -2524,7 +2529,6 @@ content#:#cont_file#:#File
 content#:#cont_files#:#Files
 content#:#cont_fix_tree#:#Fix structure
 content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.
-content#:#cont_format#:#Format
 content#:#cont_format_error#:#This operation is not allowed here!
 content#:#cont_free_pages#:#Free Pages
 content#:#cont_full_is_in_dir#:#Deletion not possible. Full screen file is in directory.
