@@ -1150,6 +1150,10 @@ class ilGroupGUI extends ilObjGroupGUI
 				case "file":
 					$URL = "group.php?cmd=get_file&ref_id=".$cont_data["ref_id"];
 					break;
+
+				case "chat":
+					$URL = "chat/chat_rep?cmd=view&ref_id=".$cont_data["ref_id"];
+					break;
 			}
 		}
 		else if ($mode == "edit")
@@ -2157,7 +2161,8 @@ class ilGroupGUI extends ilObjGroupGUI
 					{
 						$link_target = "ilContObj".$cont_data["obj_id"];
 					}
-					elseif ($cont_data["type"] == "frm" or $cont_data["type"] == "glo" or $cont_data["type"] == "slm")
+					elseif ($cont_data["type"] == "frm" or $cont_data["type"] == "glo" 
+							or $cont_data["type"] == "slm" or $cont_data["type"] == "chat")
 					{
 
 						$link_target = "bottom";
