@@ -2202,4 +2202,5 @@ CREATE TABLE mep_tree
 	rgt INT NOT NULL,
 	depth SMALLINT NOT NULL
 );
-
+<#143>
+ ALTER  TABLE  `qpl_questions`  ADD  `ordering_type` enum('0','1') default NULL  AFTER  `matching_type` ;
