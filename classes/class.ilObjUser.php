@@ -144,6 +144,7 @@ class ilObjUser extends ilObject
 			}
 
 			$this->prefs["skin"] = $this->skin;
+			$this->prefs["show_users_online"] = "y";
 
 			//style (css)
 		 	$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");
@@ -546,6 +547,7 @@ class ilObjUser extends ilObject
 				 "(usr_id, keyword, value) ".
 				 "VALUES ".
 				 "('".$this->id."', '".$a_keyword."', '".$a_value."')";
+
 			$this->ilias->db->query($q);
 		}
 	}

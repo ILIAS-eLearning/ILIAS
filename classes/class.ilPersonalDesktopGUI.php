@@ -270,6 +270,13 @@ class ilPersonalDesktopGUI
 	*/
 	function displayUsersOnline()
 	{
+		global $ilUser;
+
+		if ($ilUser->getPref("show_users_online") != "y")
+		{
+			return;
+		}
+
 		$this->tpl->setVariable("TXT_USERS_ONLINE",$this->lng->txt("users_online"));
 
 		$users = ilUtil::getUsersOnline();

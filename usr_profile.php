@@ -313,6 +313,16 @@ if ($_GET["cmd"] == "save")
 			$ilias->account->setPref("hits_per_page",$_POST["usr_hits_per_page"]);
 		}
 
+		// set user hits per page
+		if ($_POST["show_users_online"] == "y")
+		{
+			$ilias->account->setPref("show_users_online", "y");
+		}
+		else
+		{
+			$ilias->account->setPref("show_users_online", "n");
+		}
+
 		// save user data & object_data
 		$ilias->account->setTitle($ilias->account->getFullname());
 		$ilias->account->setDescription($ilias->account->getEmail());
@@ -482,6 +492,7 @@ $tpl->setVariable("TXT_DEFAULT_ROLES",$lng->txt("default_roles"));
 $tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 $tpl->setVariable("TXT_USR_SKIN_STYLE",$lng->txt("usr_skin_style"));
 $tpl->setVariable("TXT_USR_HITS_PER_PAGE",$lng->txt("usr_hits_per_page"));
+$tpl->setVariable("TXT_SHOW_USERS_ONLINE",$lng->txt("show_users_online"));
 $tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
 $tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
 $tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
@@ -555,6 +566,11 @@ foreach ($val_array as $key => $value)
 }
 // End of showing
 // Testing by ratana ty
+
+if ($ilias->account->prefs["show_users_online"] == "y")
+{
+	$tpl->setVariable("CHK_SHOW_USERS_ONLINE", "checked");
+}
 
 $tpl->parseCurrentBlock();
 $tpl->show();

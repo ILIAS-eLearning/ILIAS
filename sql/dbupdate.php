@@ -3537,3 +3537,17 @@ ALTER TABLE scorm_lm ADD COLUMN auto_review ENUM('y','n') NOT NULL DEFAULT 'n';
 
 <#215>
 ALTER TABLE content_object ADD COLUMN clean_frames ENUM('y','n') NOT NULL DEFAULT 'n';
+
+<#216>
+<?php
+// get all users
+$q = "SELECT usr_id FROM usr_data";
+$user_set = $this->db->query($q);
+
+while ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$q = "INSERT INTO usr_pref (usr_id, keyword, value) VALUES ".
+		" ('".$user_rec["usr_id"]."','show_users_online','y')";
+	$this->db->query($q);
+}
+?>
