@@ -51,7 +51,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function ilObjTestGUI($a_data,$a_id,$a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 		$lng->loadLanguageModule("assessment");
 		$this->type = "tst";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
@@ -65,6 +65,42 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		if ($a_prepare_output) {
 			$this->prepareOutput();
+		}
+
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->saveParameter($this, "ref_id");
+	}
+
+	/**
+	* execute command
+	*/
+	function &executeCommand()
+	{
+		$cmd = $this->ctrl->getCmd("properties");
+		$next_class = $this->ctrl->getNextClass($this);
+		$this->ctrl->setReturn($this, "properties");
+
+		//echo "<br>nextclass:$next_class:cmd:$cmd:qtype=$q_type";
+		switch($next_class)
+		{
+			default:
+				if (($cmd != "run") and ($cmd != "eval_a") and ($cmd != "eval_stat"))
+				{
+					$this->setAdminTabs();
+				}
+				if ((strcmp($cmd, "properties") == 0) && ($_GET["browse"]))
+				{
+					$this->questionBrowser();
+					return;
+				}
+				if ((strcmp($cmd, "properties") == 0) && ($_GET["up"] || $_GET["down"]))
+				{
+					$this->questionsObject();
+					return;
+				}
+				$cmd.= "Object";
+				$ret =& $this->$cmd();
+				break;
 		}
 	}
 
@@ -148,15 +184,6 @@ class ilObjTestGUI extends ilObjectGUI
 		exit();
 	}
 
-	function updateObject()
-	{
-		$this->object->updateTitleAndDescription();
-		$this->update = $this->object->update();
-		$this->object->saveToDb();
-		sendInfo($this->lng->txt("msg_obj_modified"),true);
-		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
-	}
-
 	function getAddParameter()
 	{
 		return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
@@ -206,7 +233,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "test.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$tbl->setTitle($this->lng->txt("ass_export_files"));
 
@@ -290,12 +317,12 @@ class ilObjTestGUI extends ilObjectGUI
 			require_once("assessment/classes/class.ilTestExport.php");
 			$test_exp = new ilTestExport($this->object);
 			$test_exp->buildExportFile();
-			$this->exportObject();
 		}
 		else
 		{
 			sendInfo("cannot_export_test");
 		}
+		$this->exportObject();
 	}
 	
 	/**
@@ -338,7 +365,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("info_delete_sure"));
 
-		$this->tpl->setVariable("FORMACTION", "test.php?cmd=gateway&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
@@ -516,141 +543,117 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
-	function propertiesObject()
+	/**
+	* Save the form input of the properties form
+	*
+	* Save the form input of the properties form
+	*
+	* @access	public
+	*/
+	function savePropertiesObject()
 	{
-		global $rbacsystem;
 		$deleteuserdata = false;
-		if ($_POST["cmd"]["save"])
+		// Check the values the user entered in the form
+		$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
+		if ($data["sel_test_types"] != $this->object->getTestType())
 		{
-			// Check the values the user entered in the form
-			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
-			if ($data["sel_test_types"] != $this->object->getTestType())
-			{
-				$deleteuserdata = true;
-			}
-			$data["title"] = ilUtil::stripSlashes($_POST["title"]);
-			$data["description"] = ilUtil::stripSlashes($_POST["description"]);
-			$data["author"] = ilUtil::stripSlashes($_POST["author"]);
-			$data["introduction"] = ilUtil::stripSlashes($_POST["introduction"]);
-			$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
-			if ($this->object->getTestType() == TYPE_ASSESSMENT)
-			{
-				$data["score_reporting"] = REPORT_AFTER_TEST;
-			}
-			else
-			{
-				$data["score_reporting"] = ilUtil::stripSlashes($_POST["score_reporting"]);
-			}
-			$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
-			$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
-			if (!$_POST["chb_starting_time"])
-			{
-				$data["starting_time"] = "";
-			}
-			else
-			{
-				$data["starting_time"] = sprintf("%04d%02d%02d%02d%02d%02d",
-					$_POST["starting_date"]["y"],
-					$_POST["starting_date"]["m"],
-					$_POST["starting_date"]["d"],
-					$_POST["starting_time"]["h"],
-					$_POST["starting_time"]["m"],
-					0
-				);
-			}
-			if (!$_POST["chb_ending_time"])
-			{
-				$data["ending_time"] = "";
-			}
-			else
-			{
-				$data["ending_time"] = sprintf("%04d%02d%02d%02d%02d%02d",
-					$_POST["ending_date"]["y"],
-					$_POST["ending_date"]["m"],
-					$_POST["ending_date"]["d"],
-					$_POST["ending_time"]["h"],
-					$_POST["ending_time"]["m"],
-					0
-				);
-			}
-
-			if ($_POST["chb_processing_time"])
-			{
-				$data["enable_processing_time"] = "1";
-			}
-			else
-			{
-				$data["enable_processing_time"] = "0";
-			}
-			if ($_POST["chb_random"])
-			{
-				$data["random_test"] = "1";
-			}
-			else
-			{
-				$data["random_test"] = "0";
-			}
-
-			if ($data["enable_processing_time"])
-			{
-				$data["processing_time"] = sprintf("%02d:%02d:%02d",
-					$_POST["processing_time"]["h"],
-					$_POST["processing_time"]["m"],
-					$_POST["processing_time"]["s"]
-				);
-			}
-			else
-			{
-				$proc_time = $this->object->getEstimatedWorkingTime();
-				$data["processing_time"] = sprintf("%02d:%02d:%02d",
-					$proc_time["h"],
-					$proc_time["m"],
-					$proc_time["s"]
-				);
-			}
-
-			if (!$_POST["chb_reporting_date"])
-			{
-				$data["reporting_date"] = "";
-			}
-			else
-			{
-				$data["reporting_date"] = sprintf("%04d%02d%02d%02d%02d%02d",
-					$_POST["reporting_date"]["y"],
-					$_POST["reporting_date"]["m"],
-					$_POST["reporting_date"]["d"],
-					$_POST["reporting_time"]["h"],
-					$_POST["reporting_time"]["m"],
-					0
-				);
-			}
-
+			$deleteuserdata = true;
+		}
+		$data["title"] = ilUtil::stripSlashes($_POST["title"]);
+		$data["description"] = ilUtil::stripSlashes($_POST["description"]);
+		$data["author"] = ilUtil::stripSlashes($_POST["author"]);
+		$data["introduction"] = ilUtil::stripSlashes($_POST["introduction"]);
+		$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
+		if ($this->object->getTestType() == TYPE_ASSESSMENT)
+		{
+			$data["score_reporting"] = REPORT_AFTER_TEST;
 		}
 		else
 		{
-			$data["sel_test_types"] = $this->object->getTestType();
-			$data["author"] = $this->object->getAuthor();
-			$data["introduction"] = $this->object->getIntroduction();
-			$data["sequence_settings"] = $this->object->getSequenceSettings();
-			$data["score_reporting"] = $this->object->getScoreReporting();
-			$data["reporting_date"] = $this->object->getReportingDate();
-			$data["nr_of_tries"] = $this->object->getNrOfTries();
-			$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
-			$data["processing_time"] = $this->object->getProcessingTime();
-			$data["random_test"] = $this->object->isRandomTest();
-			if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0)
-			{
-				$proc_time = $this->object->getEstimatedWorkingTime();
-				$data["processing_time"] = sprintf("%02d:%02d:%02d",
-					$proc_time["h"],
-					$proc_time["m"],
-					$proc_time["s"]
-				);
-			}
-			$data["starting_time"] = $this->object->getStartingTime();
-			$data["ending_time"] = $this->object->getEndingTime();
-			$data["title"] = $this->object->getTitle();
-			$data["description"] = $this->object->getDescription();
+			$data["score_reporting"] = ilUtil::stripSlashes($_POST["score_reporting"]);
+		}
+		$data["nr_of_tries"] = ilUtil::stripSlashes($_POST["nr_of_tries"]);
+		$data["processing_time"] = ilUtil::stripSlashes($_POST["processing_time"]);
+		if (!$_POST["chb_starting_time"])
+		{
+			$data["starting_time"] = "";
+		}
+		else
+		{
+			$data["starting_time"] = sprintf("%04d%02d%02d%02d%02d%02d",
+				$_POST["starting_date"]["y"],
+				$_POST["starting_date"]["m"],
+				$_POST["starting_date"]["d"],
+				$_POST["starting_time"]["h"],
+				$_POST["starting_time"]["m"],
+				0
+			);
+		}
+		if (!$_POST["chb_ending_time"])
+		{
+			$data["ending_time"] = "";
+		}
+		else
+		{
+			$data["ending_time"] = sprintf("%04d%02d%02d%02d%02d%02d",
+				$_POST["ending_date"]["y"],
+				$_POST["ending_date"]["m"],
+				$_POST["ending_date"]["d"],
+				$_POST["ending_time"]["h"],
+				$_POST["ending_time"]["m"],
+				0
+			);
+		}
+
+		if ($_POST["chb_processing_time"])
+		{
+			$data["enable_processing_time"] = "1";
+		}
+		else
+		{
+			$data["enable_processing_time"] = "0";
+		}
+		if ($_POST["chb_random"])
+		{
+			$data["random_test"] = "1";
+		}
+		else
+		{
+			$data["random_test"] = "0";
+		}
+
+		if ($data["enable_processing_time"])
+		{
+			$data["processing_time"] = sprintf("%02d:%02d:%02d",
+				$_POST["processing_time"]["h"],
+				$_POST["processing_time"]["m"],
+				$_POST["processing_time"]["s"]
+			);
+		}
+		else
+		{
+			$proc_time = $this->object->getEstimatedWorkingTime();
+			$data["processing_time"] = sprintf("%02d:%02d:%02d",
+				$proc_time["h"],
+				$proc_time["m"],
+				$proc_time["s"]
+			);
+		}
+
+		if (!$_POST["chb_reporting_date"])
+		{
+			$data["reporting_date"] = "";
+		}
+		else
+		{
+			$data["reporting_date"] = sprintf("%04d%02d%02d%02d%02d%02d",
+				$_POST["reporting_date"]["y"],
+				$_POST["reporting_date"]["m"],
+				$_POST["reporting_date"]["d"],
+				$_POST["reporting_time"]["h"],
+				$_POST["reporting_time"]["m"],
+				0
+			);
 		}
 		$this->object->setTestType($data["sel_test_types"]);
 		$this->object->setTitle($data["title"]);
@@ -666,28 +669,70 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setProcessingTime($data["processing_time"]);
 		$this->object->setRandomTest($data["random_test"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
-		$add_parameter = $this->getAddParameter();
-		if ($_POST["cmd"]["save"])
-		{
-			$this->updateObject();
-			if ($deleteuserdata)
-			{
-				$this->object->removeAllTestEditings();
-				sendInfo($this->lng->txt("tst_type_changed"));
-			}
-			else
-			{
-				sendInfo($this->lng->txt("msg_obj_modified"));
-			}
-		}
-		if ($_POST["cmd"]["cancel"])
-		{
-			sendInfo($this->lng->txt("msg_cancel"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
-		}
 
+		$this->object->updateTitleAndDescription();
+		$this->update = $this->object->update();
+		$this->object->saveToDb();
+
+		if ($deleteuserdata)
+		{
+			$this->object->removeAllTestEditings();
+			sendInfo($this->lng->txt("tst_type_changed"));
+		}
+		else
+		{
+			sendInfo($this->lng->txt("msg_obj_modified"));
+		}
+		$this->propertiesObject();
+	}
+	
+	/**
+	* Cancels the properties form
+	*
+	* Cancels the properties form and goes back to the parent object
+	*
+	* @access	public
+	*/
+	function cancelPropertiesObject()
+	{
+		sendInfo($this->lng->txt("msg_cancel"), true);
+		$path = $this->tree->getPathFull($this->object->getRefID());
+		ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+	}
+	
+	/**
+	* Display and fill the properties form of the test
+	*
+	* Display and fill the properties form of the test
+	*
+	* @access	public
+	*/
+	function propertiesObject()
+	{
+		global $rbacsystem;
+		$data["sel_test_types"] = $this->object->getTestType();
+		$data["author"] = $this->object->getAuthor();
+		$data["introduction"] = $this->object->getIntroduction();
+		$data["sequence_settings"] = $this->object->getSequenceSettings();
+		$data["score_reporting"] = $this->object->getScoreReporting();
+		$data["reporting_date"] = $this->object->getReportingDate();
+		$data["nr_of_tries"] = $this->object->getNrOfTries();
+		$data["enable_processing_time"] = $this->object->getEnableProcessingTime();
+		$data["processing_time"] = $this->object->getProcessingTime();
+		$data["random_test"] = $this->object->isRandomTest();
+		if ((int)substr($data["processing_time"], 0, 2) + (int)substr($data["processing_time"], 3, 2) + (int)substr($data["processing_time"], 6, 2) == 0)
+		{
+			$proc_time = $this->object->getEstimatedWorkingTime();
+			$data["processing_time"] = sprintf("%02d:%02d:%02d",
+				$proc_time["h"],
+				$proc_time["m"],
+				$proc_time["s"]
+			);
+		}
+		$data["starting_time"] = $this->object->getStartingTime();
+		$data["ending_time"] = $this->object->getEndingTime();
+		$data["title"] = $this->object->getTitle();
+		$data["description"] = $this->object->getDescription();
 		if ($data["sel_test_types"] == TYPE_ASSESSMENT)
 		{
 			$this->tpl->setCurrentBlock("starting_time");
@@ -762,7 +807,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_PROPERTIES", $this->getCallingScript() . $add_parameter);
+		$this->tpl->setVariable("ACTION_PROPERTIES", $this->ctrl->getFormAction($this));
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
 			$this->tpl->setVariable("SUBMIT_TYPE", $this->lng->txt("change"));
 		}
@@ -860,40 +905,225 @@ class ilObjTestGUI extends ilObjectGUI
 		exit;
 	}
 
-
-	function questionBrowser()
+	
+	function filterObject()
 	{
-		global $rbacsystem;
-
-		$add_parameter = $this->getAddParameter() . "&insert_question=1";
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questionbrowser.html", true);
-		$this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
-		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_tst_filter_questions.html", true);
-
-		$questionpools =& $this->object->get_qpl_titles();
-
 		$filter_type = $_GET["sel_filter_type"];
 		if (!$filter_type)
 		{
 			$filter_type = $_POST["sel_filter_type"];
 		}
-		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
+		$filter_question_type = $_GET["sel_question_type"];
+		if (!$filter_question_type)
 		{
-			$filter_type = "";
+			$filter_question_type = $_POST["sel_question_type"];
 		}
-		$add_parameter .= "&sel_filter_type=$filter_type";
-
+		$filter_questionpool = $_GET["sel_questionpool"];
+		if (!$filter_questionpool)
+		{
+			$filter_questionpool = $_POST["sel_questionpool"];
+		}
 		$filter_text = $_GET["filter_text"];
 		if (!$filter_text)
 		{
 			$filter_text = $_POST["filter_text"];
 		}
-		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
-		{
-			$filter_text = "";
+
+		$this->questionBrowser($filter_type, $filter_question_type, $filter_questionpool);
+	}
+
+	/**
+	* Resets the filter for the question browser 
+	*
+	* Resets the filter for the question browser 
+	*
+	* @access	public
+	*/
+	function resetFilterObject()
+	{
+		$_GET["sel_filter_type"] = "";
+		$_GET["sel_question_type"] = "";
+		$_GET["sel_questionpool"] = "";
+		$_GET["filter_text"] = "";
+		$this->questionBrowser();
+	}
+
+	/**
+	* Called when the insert of questions to the test was confirmed 
+	*
+	* Called when the insert of questions to the test was confirmed 
+	*
+	* @access	public
+	*/
+	function confirmInsertQuestionsObject()
+	{
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/id_(\d+)/", $key, $matches)) {
+				$this->object->insertQuestion($matches[1]);
+			}
 		}
-		$add_parameter .= "&filter_text=$filter_text";
+		$this->object->saveCompleteStatus();
+		sendInfo($this->lng->txt("tst_questions_inserted"), true);
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* Called when the insert of questions to the test was cancelled 
+	*
+	* Called when the insert of questions to the test was cancelled 
+	*
+	* @access	public
+	*/
+	function cancelInsertQuestionsObject()
+	{
+		$this->ctrl->redirect($this, "questions");
+	}
+
+	/**
+	* Called when the back button in the question browser was pressed 
+	*
+	* Called when the back button in the question browser was pressed 
+	*
+	* @access	public
+	*/
+	function backObject()
+	{
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* Confirmation for for inserting questions into the test 
+	*
+	* Confirmation for for inserting questions into the test 
+	*
+	* @access	public
+	*/
+	function confirmInsertQuestionsForm($checked_questions)
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_insert_questions.html", true);
+		$where = "";
+		foreach ($checked_questions as $id)
+		{
+			$where .= sprintf(" OR qpl_questions.question_id = %s", $this->ilias->db->quote($id));
+		}
+		$where = preg_replace("/^ OR /", "", $where);
+		$where = "($where)";
+		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND $where";
+		$query_result = $this->ilias->db->query($query);
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+		if ($query_result->numRows() > 0)
+		{
+			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if (in_array($data->question_id, $checked_questions))
+				{
+					$this->tpl->setCurrentBlock("row");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->setVariable("TXT_TITLE", $data->title);
+					$this->tpl->setVariable("TXT_DESCRIPTION", $data->comment);
+					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+			}
+		}
+		foreach ($checked_questions as $id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
+			$this->tpl->setVariable("HIDDEN_VALUE", "1");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_question_title"));
+		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
+		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Insert questions from the questionbrowser into the test 
+	*
+	* Insert questions from the questionbrowser into the test 
+	*
+	* @access	public
+	*/
+	function insertQuestionsObject()
+	{
+		// insert selected questions into test
+		$selected_array = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/cb_(\d+)/", $key, $matches))
+			{
+				array_push($selected_array, $matches[1]);
+			}
+		}
+		if (!count($selected_array))
+		{
+			sendInfo($this->lng->txt("tst_insert_missing_question"));
+		}
+		else
+		{
+			$total = $this->object->evalTotalPersons();
+			if ($total)
+			{
+				// the test was executed previously
+				sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
+			}
+			else
+			{
+				sendInfo($this->lng->txt("tst_insert_questions"));
+			}
+			$this->confirmInsertQuestionsForm($selected_array);
+		}
+	}
+
+	/**
+	* Creates a form to select questions from questionpools to insert the questions into the test 
+	*
+	* Creates a form to select questions from questionpools to insert the questions into the test 
+	*
+	* @access	public
+	*/
+	function questionBrowser($filter_type = "", $filter_question_type = "", $filter_questionpool = "", $filter_text = "")
+	{
+		global $rbacsystem;
+
+		$this->ctrl->setParameterByClass(get_class($this), "browse", "1");
+
+		if (!$filter_type)
+		{
+			$filter_type = $_GET["sel_filter_type"];
+		}
+		$this->ctrl->setParameterByClass(get_class($this), "sel_filter_type", $filter_type);
+		if (!$filter_question_type)
+		{
+			$filter_question_type = $_GET["sel_question_type"];
+		}
+		$this->ctrl->setParameterByClass(get_class($this), "sel_question_type", $filter_question_type);
+		if (!$filter_questionpool)
+		{
+			$filter_questionpool = $_GET["sel_questionpool"];
+		}
+		$this->ctrl->setParameterByClass(get_class($this), "sel_questionpool", $filter_questionpool);
+		if (!$filter_text)
+		{
+			$filter_text = $_GET["filter_text"];
+		}
+		$this->ctrl->setParameterByClass(get_class($this), "filter_text", $filter_text);
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questionbrowser.html", true);
+		$this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
+		$this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_tst_filter_questions.html", true);
+
+		$questionpools =& $this->object->get_qpl_titles();
 
 		$filter_fields = array(
 			"title" => $this->lng->txt("title"),
@@ -912,17 +1142,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$filter_question_type = $_GET["sel_question_type"];
-		if (!$filter_question_type)
-		{
-			$filter_question_type = $_POST["sel_question_type"];
-		}
-		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
-		{
-			$filter_question_type = "";
-		}
-		$add_parameter .= "&sel_question_type=$filter_question_type";
-
 		$questiontypes =& $this->object->_getQuestiontypes();
 		foreach ($questiontypes as $key => $value)
 		{
@@ -935,20 +1154,6 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		if ($_POST["cmd"]["filter"])
-		{
-			$filter_questionpool = $_POST["sel_questionpool"];
-		}
-		else
-		{
-			$filter_questionpool = $_GET["sel_questionpool"];
-		}
-		if (strcmp($_POST["cmd"]["resetFilter"], "") != 0)
-		{
-			$filter_questionpool = "";
-		}
-		$add_parameter .= "&sel_questionpool=$filter_questionpool";
 		
 		foreach ($questionpools as $key => $value)
 		{
@@ -1057,7 +1262,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->getCallingScript() . $add_parameter . "$sort&nextrow=$i" . "\">$counter</a>");
+					$this->tpl->setVariable("PAGE_NUMBER", "<a href=\"" . $this->ctrl->getFormAction($this) . "$sort&nextrow=$i" . "\">$counter</a>");
 				}
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -1075,8 +1280,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TEXT_ITEM_COUNT", $table["rowcount"]);
 			$this->tpl->setVariable("TEXT_PREVIOUS", $this->lng->txt("previous"));
 			$this->tpl->setVariable("TEXT_NEXT", $this->lng->txt("next"));
-			$this->tpl->setVariable("HREF_PREV_ROWS", $this->getCallingScript() . $add_parameter . "$sort&prevrow=" . $table["prevrow"]);
-			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->getCallingScript() . $add_parameter . "$sort&nextrow=" . $table["nextrow"]);
+			$this->tpl->setVariable("HREF_PREV_ROWS", $this->ctrl->getFormAction($this) . "$sort&prevrow=" . $table["prevrow"]);
+			$this->tpl->setVariable("HREF_NEXT_ROWS", $this->ctrl->getFormAction($this) . "$sort&nextrow=" . $table["nextrow"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1107,108 +1312,17 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->tpl->setCurrentBlock("adm_content");
 		// create table header
-		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
-		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
-		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
-		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
-		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
-		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
-		$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $this->getCallingScript() . "$add_parameter&startrow=" . $table["startrow"] . "&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>" . $table["images"]["qpl"]);
+		$this->ctrl->setCmd("questionBrowser");
+		$this->ctrl->setParameterByClass(get_class($this), "startrow", $table["startrow"]);
+		$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>" . $table["images"]["title"]);
+		$this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>". $table["images"]["comment"]);
+		$this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>" . $table["images"]["type"]);
+		$this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>" . $table["images"]["author"]);
+		$this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>" . $table["images"]["created"]);
+		$this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>" . $table["images"]["updated"]);
+		$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $this->ctrl->getFormAction($this) . "&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>" . $table["images"]["qpl"]);
 		$this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
-		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->getCallingScript() . $add_parameter);
-		$this->tpl->parseCurrentBlock();
-	}
-
-	function removeQuestions($checked_questions)
-	{
-		sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_remove_questions.html", true);
-		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
-			$this->ilias->db->quote($this->object->getTestId())
-		);
-		$query_result = $this->ilias->db->query($query);
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		if ($query_result->numRows() > 0)
-		{
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				if (in_array($data->question_id, $checked_questions))
-				{
-					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("TXT_TITLE", $data->title);
-					$this->tpl->setVariable("TXT_DESCRIPTION", $data->comment);
-					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-			}
-		}
-		foreach ($checked_questions as $id)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
-			$this->tpl->setVariable("HIDDEN_VALUE", "1");
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_question_title"));
-		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
-		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $this->getAddParameter());
-		$this->tpl->parseCurrentBlock();
-	}
-
-	function insertQuestions($checked_questions)
-	{
-		sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_insert_questions.html", true);
-		$where = "";
-		foreach ($checked_questions as $id)
-		{
-			$where .= sprintf(" OR qpl_questions.question_id = %s", $this->ilias->db->quote($id));
-		}
-		$where = preg_replace("/^ OR /", "", $where);
-		$where = "($where)";
-		$query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND $where";
-		$query_result = $this->ilias->db->query($query);
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
-		if ($query_result->numRows() > 0)
-		{
-			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				if (in_array($data->question_id, $checked_questions))
-				{
-					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("TXT_TITLE", $data->title);
-					$this->tpl->setVariable("TXT_DESCRIPTION", $data->comment);
-					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
-				}
-			}
-		}
-		foreach ($checked_questions as $id)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
-			$this->tpl->setVariable("HIDDEN_VALUE", "1");
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_question_title"));
-		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
-		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $this->getAddParameter());
+		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -1235,49 +1349,14 @@ class ilObjTestGUI extends ilObjectGUI
 		return $qpl->getRefId();
 	}
 
-	function questionpoolSelect()
-	{
-		global $ilUser;
-		$add_parameter = $this->getAddParameter();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", true);
-		$questionpools =& $this->object->getAvailableQuestionpools();
-		if (count($questionpools) == 0)
-		{
-			$this->tpl->setCurrentBlock("option");
-			$this->tpl->setVariable("VALUE_QPL", "");
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			foreach ($questionpools as $key => $value)
-			{
-				$this->tpl->setCurrentBlock("option");
-				$this->tpl->setVariable("VALUE_OPTION", $key);
-				$this->tpl->setVariable("TEXT_OPTION", $value);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		$this->tpl->setCurrentBlock("hidden");
-		$this->tpl->setVariable("HIDDEN_NAME", "sel_question_types");
-		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
-
-		if (count($questionpools) == 0)
-		{
-			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_enter_questionpool"));
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
-		}
-		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-	}
-
-	function randomSelect()
+	/**
+	* Creates a form for random selection of questions
+	*
+	* Creates a form for random selection of questions
+	*
+	* @access	public
+	*/
+	function randomselectObject()
 	{
 		global $ilUser;
 		$add_parameter = $this->getAddParameter();
@@ -1299,15 +1378,34 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_random_select_questionpool"));
 		$this->tpl->setVariable("TXT_NR_OF_QUESTIONS", $this->lng->txt("tst_random_nr_of_questions"));
 		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
 	}
-
-	function randomQuestionOffer()
+	
+	/**
+	* Cancels the form for random selection of questions
+	*
+	* Cancels the form for random selection of questions
+	*
+	* @access	public
+	*/
+	function cancelRandomSelectObject()
+	{
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* Offers a random selection for insertion in the test
+	*
+	* Offers a random selection for insertion in the test
+	*
+	* @access	public
+	*/
+	function createRandomSelectionObject()
 	{
 		$question_array = $this->object->randomSelectQuestions($_POST["nr_of_questions"], $_POST["sel_qpl"]);
 		$add_parameter = $this->getAddParameter();
@@ -1343,7 +1441,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$chosen_questions = join($question_array, ",");
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
@@ -1355,6 +1453,37 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_QUESTION_OFFER", $this->lng->txt("tst_question_offer"));
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* Inserts a random selection into the test
+	*
+	* Inserts a random selection into the test
+	*
+	* @access	public
+	*/
+	function insertRandomSelectionObject()
+	{
+		$selected_array = split(",", $_POST["chosen_questions"]);
+		if (!count($selected_array))
+		{
+			sendInfo($this->lng->txt("tst_insert_missing_question"));
+		}
+		else
+		{
+			$total = $this->object->evalTotalPersons();
+			if ($total)
+			{
+				// the test was executed previously
+				sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
+			}
+			else
+			{
+				sendInfo($this->lng->txt("tst_insert_questions"));
+			}
+			$this->confirmInsertQuestionsForm($selected_array);
+			return;
+		}
 	}
 
 	function randomQuestionsObject()
@@ -1505,6 +1634,338 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function browseForQuestionsObject()
+	{
+		$this->questionBrowser();
+	}
+	
+	/**
+	* Called when a new question should be created from a test after confirmation
+	*
+	* Called when a new question should be created from a test after confirmation
+	*
+	* @access	public
+	*/
+	function executeCreateQuestionObject()
+	{
+		$qpl_ref_id = $_POST["sel_qpl"];
+		if ((strcmp($_POST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
+		{
+			sendInfo($this->lng->txt("questionpool_not_entered"));
+			$this->createQuestionObject();
+			return;
+		}
+		else
+		{
+			$_SESSION["test_id"] = $this->object->getRefId();
+			if (strcmp($_POST["txt_qpl"], "") != 0)
+			{
+				// create a new question pool and return the reference id
+				$qpl_ref_id = $this->createQuestionPool($_POST["txt_qpl"]);
+			}
+			ilUtil::redirect("questionpool.php?ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_POST["sel_question_types"]);
+			exit();
+		}
+	}
+
+	/**
+	* Called when the creation of a new question is cancelled
+	*
+	* Called when the creation of a new question is cancelled
+	*
+	* @access	public
+	*/
+	function cancelCreateQuestionObject()
+	{
+		$this->ctrl->redirect($this, "questions");
+	}
+
+	/**
+	* Called when a new question should be created from a test
+	*
+	* Called when a new question should be created from a test
+	*
+	* @access	public
+	*/
+	function createQuestionObject()
+	{
+		global $ilUser;
+		$add_parameter = $this->getAddParameter();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", true);
+		$questionpools =& $this->object->getAvailableQuestionpools();
+		if (count($questionpools) == 0)
+		{
+			$this->tpl->setCurrentBlock("option");
+			$this->tpl->setVariable("VALUE_QPL", "");
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			foreach ($questionpools as $key => $value)
+			{
+				$this->tpl->setCurrentBlock("option");
+				$this->tpl->setVariable("VALUE_OPTION", $key);
+				$this->tpl->setVariable("TEXT_OPTION", $value);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		$this->tpl->setCurrentBlock("hidden");
+		$this->tpl->setVariable("HIDDEN_NAME", "sel_question_types");
+		$this->tpl->setVariable("HIDDEN_VALUE", $_POST["sel_question_types"]);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+
+		if (count($questionpools) == 0)
+		{
+			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_enter_questionpool"));
+		}
+		else
+		{
+			$this->tpl->setVariable("TXT_QPL_SELECT", $this->lng->txt("tst_select_questionpool"));
+		}
+		$this->tpl->setVariable("BTN_SUBMIT", $this->lng->txt("submit"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Remove questions from the test after confirmation
+	*
+	* Remove questions from the test after confirmation
+	*
+	* @access	public
+	*/
+	function confirmRemoveQuestionsObject()
+	{
+		sendInfo($this->lng->txt("tst_questions_removed"));
+		$checked_questions = array();
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/id_(\d+)/", $key, $matches)) {
+				array_push($checked_questions, $matches[1]);
+			}
+		}
+		foreach ($checked_questions as $key => $value) {
+			$this->object->removeQuestion($value);
+		}
+		$this->object->saveCompleteStatus();
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* Cancels the removal of questions from the test
+	*
+	* Cancels the removal of questions from the test
+	*
+	* @access	public
+	*/
+	function cancelRemoveQuestionsObject()
+	{
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* Displays a form to confirm the removal of questions from the test
+	*
+	* Displays a form to confirm the removal of questions from the test
+	*
+	* @access	public
+	*/
+	function removeQuestionsForm($checked_questions)
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_remove_questions.html", true);
+		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
+			$this->ilias->db->quote($this->object->getTestId())
+		);
+		$query_result = $this->ilias->db->query($query);
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+		if ($query_result->numRows() > 0)
+		{
+			while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				if (in_array($data->question_id, $checked_questions))
+				{
+					$this->tpl->setCurrentBlock("row");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->setVariable("TXT_TITLE", $data->title);
+					$this->tpl->setVariable("TXT_DESCRIPTION", $data->comment);
+					$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+			}
+		}
+		foreach ($checked_questions as $id)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
+			$this->tpl->setVariable("HIDDEN_VALUE", "1");
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_question_title"));
+		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
+		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* Called when a selection of questions should be removed from the test
+	*
+	* Called when a selection of questions should be removed from the test
+	*
+	* @access	public
+	*/
+	function removeQuestionsObject()
+	{
+		$checked_questions = array();
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/cb_(\d+)/", $key, $matches)) {
+				array_push($checked_questions, $matches[1]);
+			}
+		}
+		if (count($checked_questions) > 0) {
+			$total = $this->object->evalTotalPersons();
+			if ($total) {
+				// the test was executed previously
+				sendInfo(sprintf($this->lng->txt("tst_remove_questions_and_results"), $total));
+			} else {
+				sendInfo($this->lng->txt("tst_remove_questions"));
+			}
+			$this->removeQuestionsForm($checked_questions);
+			return;
+		} elseif (count($checked_questions) == 0) {
+			sendInfo($this->lng->txt("tst_no_question_selected_for_removal"), true);
+			$this->ctrl->redirect($this, "questions");
+		}
+	}
+	
+	/**
+	* Marks selected questions for moving
+	*
+	* Marks selected questions for moving
+	*
+	* @access	public
+	*/
+	function moveQuestionsObject()
+	{
+		$checked_move = 0;
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/cb_(\d+)/", $key, $matches))
+			{
+				$checked_move++;
+				$this->tpl->setCurrentBlock("move");
+				$this->tpl->setVariable("MOVE_COUNTER", $matches[1]);
+				$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		if ($checked_move)
+		{
+			sendInfo($this->lng->txt("select_target_position_for_move_question"));
+			$this->tpl->setCurrentBlock("move_buttons");
+			$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
+			$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			sendInfo($this->lng->txt("no_question_selected_for_move"));
+		}
+		$this->questionsObject();
+	}
+	
+	/**
+	* Insert checked questions before the actual selection
+	*
+	* Insert checked questions before the actual selection
+	*
+	* @access	public
+	*/
+	function insertQuestionsBeforeObject()
+	{
+		// get all questions to move
+		$move_questions = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/^move_(\d+)$/", $key, $matches))
+			{
+				array_push($move_questions, $value);
+			}
+		}
+		// get insert point
+		$insert_id = -1;
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/^cb_(\d+)$/", $key, $matches))
+			{
+				if ($insert_id < 0)
+				{
+					$insert_id = $matches[1];
+				}
+			}
+		}
+		if ($insert_id <= 0)
+		{
+			sendInfo($this->lng->txt("no_target_selected_for_move"), true);
+		}
+		else
+		{
+			$insert_mode = 0;
+			$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
+	
+	/**
+	* Insert checked questions after the actual selection
+	*
+	* Insert checked questions after the actual selection
+	*
+	* @access	public
+	*/
+	function insertQuestionsAfterObject()
+	{
+		// get all questions to move
+		$move_questions = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/^move_(\d+)$/", $key, $matches))
+			{
+				array_push($move_questions, $value);
+			}
+		}
+		// get insert point
+		$insert_id = -1;
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/^cb_(\d+)$/", $key, $matches))
+			{
+				if ($insert_id < 0)
+				{
+					$insert_id = $matches[1];
+				}
+			}
+		}
+		if ($insert_id <= 0)
+		{
+			sendInfo($this->lng->txt("no_target_selected_for_move"), true);
+		}
+		else
+		{
+			$insert_mode = 1;
+			$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
+	
 	function questionsObject()
 	{
 		if ($this->object->isRandomTest())
@@ -1529,108 +1990,6 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$this->object->questionMoveDown($_GET["down"]);
 		}
-		if ($_POST["cmd"]["create_question"])
-		{
-			$this->questionpoolSelect();
-			return;
-		}
-
-		if ($_POST["cmd"]["randomselect"])
-		{
-			$this->randomSelect();
-			return;
-		}
-
-		if ($_POST["cmd"]["random_select_questions"])
-		{
-			$this->randomQuestionOffer();
-			return;
-		}
-
-		if ($_POST["cmd"]["insert_before"] or $_POST["cmd"]["insert_after"])
-		{
-			// get all questions to move
-			$move_questions = array();
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/^move_(\d+)$/", $key, $matches))
-				{
-					array_push($move_questions, $value);
-				}
-			}
-			// get insert point
-			$insert_id = -1;
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/^cb_(\d+)$/", $key, $matches))
-				{
-					if ($insert_id < 0)
-					{
-						$insert_id = $matches[1];
-					}
-				}
-			}
-			if ($insert_id <= 0)
-			{
-				sendInfo($this->lng->txt("no_target_selected_for_move"));
-			}
-			else
-			{
-				$insert_mode = 1;
-				if ($_POST["cmd"]["insert_before"])
-				{
-					$insert_mode = 0;
-				}
-				$this->object->moveQuestions($move_questions, $insert_id, $insert_mode);
-			}
-		}
-
-
-		if ($_POST["cmd"]["random_select_yes"])
-		{
-			$selected_array = split(",", $_POST["chosen_questions"]);
-			if (!count($selected_array))
-			{
-				sendInfo($this->lng->txt("tst_insert_missing_question"));
-			}
-			else
-			{
-				$total = $this->object->evalTotalPersons();
-				if ($total)
-				{
-					// the test was executed previously
-					sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
-				}
-				else
-				{
-					sendInfo($this->lng->txt("tst_insert_questions"));
-				}
-				$this->insertQuestions($selected_array);
-				return;
-			}
-		}
-
-		if ($_POST["cmd"]["create_question_execute"])
-		{
-			$qpl_ref_id = $_POST["sel_qpl"];
-			if ((strcmp($_POST["txt_qpl"], "") == 0) && (strcmp($qpl_ref_id, "") == 0))
-			{
-				sendInfo($this->lng->txt("questionpool_not_entered"));
-				$this->questionpoolSelect();
-				return;
-			}
-			else
-			{
-				$_SESSION["test_id"] = $this->object->getRefId();
-				if (strcmp($_POST["txt_qpl"], "") != 0)
-				{
-					// create a new question pool and return the reference id
-					$qpl_ref_id = $this->createQuestionPool($_POST["txt_qpl"]);
-				}
-				ilUtil::redirect("questionpool.php?ref_id=" . $qpl_ref_id . "&cmd=createQuestionForTest&test_ref_id=".$_GET["ref_id"]."&sel_question_types=" . $_POST["sel_question_types"]);
-				exit();
-			}
-		}
 
 		if ($_GET["add"])
 		{
@@ -1650,132 +2009,8 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 
-		if (($_POST["cmd"]["insert_question"]) or ($_GET["insert_question"]))
-		{
-			$show_questionbrowser = true;
-			if ($_POST["cmd"]["insert"])
-			{
-				// insert selected questions into test
-				$selected_array = array();
-				foreach ($_POST as $key => $value)
-				{
-					if (preg_match("/cb_(\d+)/", $key, $matches))
-					{
-						array_push($selected_array, $matches[1]);
-					}
-				}
-				if (!count($selected_array))
-				{
-					sendInfo($this->lng->txt("tst_insert_missing_question"));
-				}
-				else
-				{
-					$total = $this->object->evalTotalPersons();
-					if ($total)
-					{
-						// the test was executed previously
-						sendInfo(sprintf($this->lng->txt("tst_insert_questions_and_results"), $total));
-					}
-					else
-					{
-						sendInfo($this->lng->txt("tst_insert_questions"));
-					}
-					$this->insertQuestions($selected_array);
-					return;
-				}
-			}
-			if ($_POST["cmd"]["back"])
-			{
-				$show_questionbrowser = false;
-			}
-			if ($show_questionbrowser)
-			{
-				$this->questionBrowser();
-				return;
-			}
-		}
-
-		if (strlen($_POST["cmd"]["confirm_insert"]) > 0)
-		{
-			// insert questions from test after confirmation
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/id_(\d+)/", $key, $matches)) {
-					$this->object->insertQuestion($matches[1]);
-				}
-			}
-			$this->object->saveCompleteStatus();
-			sendInfo($this->lng->txt("tst_questions_inserted"));
-		}
-
-		if (strlen($_POST["cmd"]["confirm_remove"]) > 0)
-		{
-			// remove questions from test after confirmation
-			sendInfo($this->lng->txt("tst_questions_removed"));
-			$checked_questions = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/id_(\d+)/", $key, $matches)) {
-					array_push($checked_questions, $matches[1]);
-				}
-			}
-			foreach ($checked_questions as $key => $value) {
-				$this->object->removeQuestion($value);
-			}
-			$this->object->saveCompleteStatus();
-		}
-
-		if (strlen($_POST["cmd"]["remove"]) > 0) {
-			$checked_questions = array();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/cb_(\d+)/", $key, $matches)) {
-					array_push($checked_questions, $matches[1]);
-				}
-			}
-			if (count($checked_questions) > 0) {
-				$total = $this->object->evalTotalPersons();
-				if ($total) {
-					// the test was executed previously
-					sendInfo(sprintf($this->lng->txt("tst_remove_questions_and_results"), $total));
-				} else {
-					sendInfo($this->lng->txt("tst_remove_questions"));
-				}
-				$this->removeQuestions($checked_questions);
-				return;
-			} elseif (count($checked_questions) == 0) {
-				sendInfo($this->lng->txt("tst_no_question_selected_for_removal"));
-			}
-		}
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", true);
 		$this->tpl->addBlockFile("A_BUTTONS", "question_buttons", "tpl.il_as_tst_question_buttons.html", true);
-
-		$checked_move = 0;
-		if ($_POST["cmd"]["move"])
-		{
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/cb_(\d+)/", $key, $matches))
-				{
-					$checked_move++;
-					$this->tpl->setCurrentBlock("move");
-					$this->tpl->setVariable("MOVE_COUNTER", $matches[1]);
-					$this->tpl->setVariable("MOVE_VALUE", $matches[1]);
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			if ($checked_move)
-			{
-				sendInfo($this->lng->txt("select_target_position_for_move_question"));
-				$this->tpl->setCurrentBlock("move_buttons");
-				$this->tpl->setVariable("INSERT_BEFORE", $this->lng->txt("insert_before"));
-				$this->tpl->setVariable("INSERT_AFTER", $this->lng->txt("insert_after"));
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				sendInfo($this->lng->txt("no_question_selected_for_move"));
-			}
-		}
-
 
 		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
 			$this->ilias->db->quote($this->object->getTestId())
@@ -1803,11 +2038,11 @@ class ilObjTestGUI extends ilObjectGUI
 				if (($rbacsystem->checkAccess("write", $this->ref_id) and ($total == 0))) {
 					if ($data->question_id != $this->object->questions[1])
 					{
-						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->getCallingScript() . "$add_parameter&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
+						$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getFormAction($this) . "&up=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
 					}
 					if ($data->question_id != $this->object->questions[count($this->object->questions)])
 					{
-						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->getCallingScript() . "$add_parameter&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
+						$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getFormAction($this) . "&down=$data->question_id\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
 					}
 				}
 				$this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
@@ -1846,7 +2081,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->getCallingScript() . $add_parameter);
+		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 		$this->tpl->setVariable("QUESTION_COMMENT", $this->lng->txt("description"));
 		$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("tst_question_type"));
@@ -1866,100 +2101,165 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function takenObject() {
 	}
+	
+	/**
+	* Add a new mark step to the tests marks
+	*
+	* Add a new mark step to the tests marks
+	*
+	* @access	public
+	*/
+	function addMarkStepObject()
+	{
+		$this->saveMarkSchemaFormData();
+		$this->object->mark_schema->add_mark_step();
+		$this->marksObject();
+	}
 
+	/**
+	* Save the mark schema POST data when the form was submitted
+	*
+	* Save the mark schema POST data when the form was submitted
+	*
+	* @access	public
+	*/
+	function saveMarkSchemaFormData()
+	{
+		$this->object->mark_schema->flush();
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/mark_short_(\d+)/", $key, $matches)) {
+				$this->object->mark_schema->add_mark_step($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"], $_POST["passed_$matches[1]"]);
+			}
+		}
+		$this->object->ects_grades["A"] = $_POST["ects_grade_a"];
+		$this->object->ects_grades["B"] = $_POST["ects_grade_b"];
+		$this->object->ects_grades["C"] = $_POST["ects_grade_c"];
+		$this->object->ects_grades["D"] = $_POST["ects_grade_d"];
+		$this->object->ects_grades["E"] = $_POST["ects_grade_e"];
+		if ($_POST["chbUseFX"])
+		{
+			$this->object->ects_fx = $_POST["percentFX"];
+		}
+		else
+		{
+			$this->object->ects_fx = "";
+		}
+		$this->object->ects_output = $_POST["chbECTS"];
+	}
+	
+	/**
+	* Add a simple mark schema to the tests marks
+	*
+	* Add a simple mark schema to the tests marks
+	*
+	* @access	public
+	*/
+	function addSimpleMarkSchemaObject()
+	{
+		$this->object->mark_schema->create_simple_schema($this->lng->txt("failed_short"), $this->lng->txt("failed_official"), 0, 0, $this->lng->txt("passed_short"), $this->lng->txt("passed_official"), 50, 1);
+		$this->marksObject();
+	}
+	
+	/**
+	* Delete selected mark steps
+	*
+	* Delete selected mark steps
+	*
+	* @access	public
+	*/
+	function deleteMarkStepsObject()
+	{
+		$this->saveMarkSchemaFormData();
+		$delete_mark_steps = array();
+		foreach ($_POST as $key => $value) {
+			if (preg_match("/cb_(\d+)/", $key, $matches)) {
+				array_push($delete_mark_steps, $matches[1]);
+			}
+		}
+		if (count($delete_mark_steps)) {
+			$this->object->mark_schema->delete_mark_steps($delete_mark_steps);
+		} else {
+			sendInfo($this->lng->txt("tst_delete_missing_mark"));
+		}
+		$this->marksObject();
+	}
+
+	/**
+	* Cancel the mark schema form and return to the properties form
+	*
+	* Cancel the mark schema form and return to the properties form
+	*
+	* @access	public
+	*/
+	function cancelMarksObject()
+	{
+		sendInfo($this->lng->txt("msg_cancel"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+	
+	/**
+	* Save the mark schema
+	*
+	* Save the mark schema
+	*
+	* @access	public
+	*/
+	function saveMarksObject()
+	{
+		$this->saveMarkSchemaFormData();
+		
+		$mark_check = $this->object->checkMarks();
+		if ($mark_check !== true)
+		{
+			sendInfo($this->lng->txt($mark_check));
+		}
+		elseif ($_POST["chbECTS"] && ((strcmp($_POST["ects_grade_a"], "") == 0) or (strcmp($_POST["ects_grade_b"], "") == 0) or (strcmp($_POST["ects_grade_c"], "") == 0) or (strcmp($_POST["ects_grade_d"], "") == 0) or (strcmp($_POST["ects_grade_e"], "") == 0)))
+		{
+			sendInfo($this->lng->txt("ects_fill_out_all_values"), true);
+		}
+		elseif (($_POST["ects_grade_a"] > 100) or ($_POST["ects_grade_a"] < 0))
+		{
+			sendInfo($this->lng->txt("ects_range_error_a"), true);
+		}
+		elseif (($_POST["ects_grade_b"] > 100) or ($_POST["ects_grade_b"] < 0))
+		{
+			sendInfo($this->lng->txt("ects_range_error_b"), true);
+		}
+		elseif (($_POST["ects_grade_c"] > 100) or ($_POST["ects_grade_c"] < 0))
+		{
+			sendInfo($this->lng->txt("ects_range_error_c"), true);
+		}
+		elseif (($_POST["ects_grade_d"] > 100) or ($_POST["ects_grade_d"] < 0))
+		{
+			sendInfo($this->lng->txt("ects_range_error_d"), true);
+		}
+		elseif (($_POST["ects_grade_e"] > 100) or ($_POST["ects_grade_e"] < 0))
+		{
+			sendInfo($this->lng->txt("ects_range_error_e"), true);
+		}
+		else 
+		{
+			$this->object->mark_schema->saveToDb($this->object->getTestId());
+			$this->object->saveCompleteStatus();
+			if ($this->object->getReportingDate())
+			{
+				$fxpercent = "";
+				if ($_POST["chbUseFX"])
+				{
+					$fxpercent = ilUtil::stripSlashes($_POST["percentFX"]);
+				}
+				$this->object->saveECTSStatus($_POST["chbECTS"], $fxpercent, $this->object->ects_grades["A"], $this->object->ects_grades["B"], $this->object->ects_grades["C"], $this->object->ects_grades["D"], $this->object->ects_grades["E"]);
+			}
+			sendInfo($this->lng->txt("msg_obj_modified"), true);
+		}
+		$this->marksObject();
+	}
+	
 	function marksObject() {
 		global $rbacsystem;
-		$add_parameter = $this->getAddParameter();
-		if ($_POST["cmd"]["new_simple"]) {
-			$this->object->mark_schema->create_simple_schema($this->lng->txt("failed_short"), $this->lng->txt("failed_official"), 0, 0, $this->lng->txt("passed_short"), $this->lng->txt("passed_official"), 50, 1);
-		} elseif (count($_POST)) {
-			$this->object->mark_schema->flush();
-			foreach ($_POST as $key => $value) {
-				if (preg_match("/mark_short_(\d+)/", $key, $matches)) {
-					$this->object->mark_schema->add_mark_step($_POST["mark_short_$matches[1]"], $_POST["mark_official_$matches[1]"], $_POST["mark_percentage_$matches[1]"], $_POST["passed_$matches[1]"]);
-				}
-			}
-			if ($_POST["cmd"]["new"]) {
-				$this->object->mark_schema->add_mark_step();
-			} elseif ($_POST["cmd"]["delete"]) {
-				$delete_mark_steps = array();
-				foreach ($_POST as $key => $value) {
-					if (preg_match("/cb_(\d+)/", $key, $matches)) {
-						array_push($delete_mark_steps, $matches[1]);
-					}
-				}
-				if (count($delete_mark_steps)) {
-					$this->object->mark_schema->delete_mark_steps($delete_mark_steps);
-				} else {
-					sendInfo($this->lng->txt("tst_delete_missing_mark"));
-				}
-			}
-			$this->object->mark_schema->sort();
-		}
+
+		$this->object->mark_schema->sort();
 	
-		if (count($_POST))
-		{
-			$this->object->ects_grades["A"] = $_POST["ects_grade_a"];
-			$this->object->ects_grades["B"] = $_POST["ects_grade_b"];
-			$this->object->ects_grades["C"] = $_POST["ects_grade_c"];
-			$this->object->ects_grades["D"] = $_POST["ects_grade_d"];
-			$this->object->ects_grades["E"] = $_POST["ects_grade_e"];
-		}
-		
-		if ($_POST["cmd"]["save"]) {
-			$mark_check = $this->object->checkMarks();
-			if ($mark_check !== true)
-			{
-				sendInfo($this->lng->txt($mark_check));
-			}
-			elseif ($_POST["chbECTS"] && ((strcmp($_POST["ects_grade_a"], "") == 0) or (strcmp($_POST["ects_grade_b"], "") == 0) or (strcmp($_POST["ects_grade_c"], "") == 0) or (strcmp($_POST["ects_grade_d"], "") == 0) or (strcmp($_POST["ects_grade_e"], "") == 0)))
-			{
-				sendInfo($this->lng->txt("ects_fill_out_all_values"), true);
-			}
-			elseif (($_POST["ects_grade_a"] > 100) or ($_POST["ects_grade_a"] < 0))
-			{
-				sendInfo($this->lng->txt("ects_range_error_a"), true);
-			}
-			elseif (($_POST["ects_grade_b"] > 100) or ($_POST["ects_grade_b"] < 0))
-			{
-				sendInfo($this->lng->txt("ects_range_error_b"), true);
-			}
-			elseif (($_POST["ects_grade_c"] > 100) or ($_POST["ects_grade_c"] < 0))
-			{
-				sendInfo($this->lng->txt("ects_range_error_c"), true);
-			}
-			elseif (($_POST["ects_grade_d"] > 100) or ($_POST["ects_grade_d"] < 0))
-			{
-				sendInfo($this->lng->txt("ects_range_error_d"), true);
-			}
-			elseif (($_POST["ects_grade_e"] > 100) or ($_POST["ects_grade_e"] < 0))
-			{
-				sendInfo($this->lng->txt("ects_range_error_e"), true);
-			}
-			else 
-			{
-				$this->object->mark_schema->saveToDb($this->object->getTestId());
-				$this->object->saveCompleteStatus();
-				if ($this->object->getReportingDate())
-				{
-					$fxpercent = "";
-					if ($_POST["chbUseFX"])
-					{
-						$fxpercent = ilUtil::stripSlashes($_POST["percentFX"]);
-					}
-					$this->object->saveECTSStatus($_POST["chbECTS"], $fxpercent, $this->object->ects_grades["A"], $this->object->ects_grades["B"], $this->object->ects_grades["C"], $this->object->ects_grades["D"], $this->object->ects_grades["E"]);
-				}
-				sendInfo($this->lng->txt("msg_obj_modified"), true);
-			}
-		}
-
-		if ($_POST["cmd"]["cancel"]) {
-			sendInfo($this->lng->txt("msg_cancel"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
-			exit();
-		}
-
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_marks.html", true);
 		$marks = $this->object->mark_schema->mark_steps;
 		$rows = array("tblrow1", "tblrow2");
@@ -2026,7 +2326,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("ACTION_MARKS", $this->getCallingScript() . $add_parameter);
+		$this->tpl->setVariable("ACTION_MARKS", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("HEADER_SHORT", $this->lng->txt("tst_mark_short_form"));
 		$this->tpl->setVariable("HEADER_OFFICIAL", $this->lng->txt("tst_mark_official_form"));
 		$this->tpl->setVariable("HEADER_PERCENTAGE", $this->lng->txt("tst_mark_minimum_level"));
@@ -2725,18 +3025,18 @@ class ilObjTestGUI extends ilObjectGUI
 				break;
 		}
 		$add_parameter = $this->getAddParameter();
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$title = $this->object->getTitle();
+//		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
+//		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+//		$title = $this->object->getTitle();
 
 		// catch feedback message
-		sendInfo();
-		$this->setLocator();
+//		sendInfo();
+//		$this->setLocator();
 
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
+//		if (!empty($title))
+//		{
+//			$this->tpl->setVariable("HEADER", $title);
+//		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_statistical_evaluation.html", true);
 		$color_class = array("tblrow1", "tblrow2");
@@ -3781,22 +4081,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function eval_aObject()
 	{
-		global $ilUser;
-
-		$add_parameter = $this->getAddParameter();
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$title = $this->object->getTitle();
-
-		// catch feedback message
-		sendInfo();
-		$this->setLocator();
-
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
-
+		$this->setAggregatedResultsTabs();
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_anonymous_aggregation.html", true);
@@ -4024,6 +4309,35 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
+	* Deletes all user data for the test object
+	*
+	* Deletes all user data for the test object
+	*
+	* @access	public
+	*/
+	function deleteAllUserDataObject()
+	{
+		$this->object->removeAllTestEditings();
+		sendInfo($this->lng->txt("tst_all_user_data_deleted"), true);
+		$this->ctrl->redirect($this, "maintenance");
+	}
+	
+	/**
+	* Create random solutions for the test object for every registered user
+	*
+	* Create random solutions for the test object for every registered user
+	* NOTE: This method is only for debug and performance test reasons. Don't use it
+	* in your productive system
+	*
+	* @access	public
+	*/
+	function createSolutionsObject()
+	{
+		$this->object->createRandomSolutionsForAllUsers();
+		$this->ctrl->redirect($this, "maintenance");
+	}
+
+	/**
 	* Creates the maintenance form for a test
 	*
 	* Creates the maintenance form for a test
@@ -4035,21 +4349,12 @@ class ilObjTestGUI extends ilObjectGUI
 		global $rbacsystem;
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id)) {
-			if ($_POST["cmd"]["createSolutions"])
-			{
-				$this->object->createRandomSolutionsForAllUsers();
-			}
-			if ($_POST["cmd"]["delete_all_user_data"])
-			{
-				$this->object->removeAllTestEditings();
-				sendInfo($this->lng->txt("tst_all_user_data_deleted"));
-			}
 			$add_parameter = $this->getAddParameter();
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", true);
 			$this->tpl->setCurrentBlock("adm_content");
 			$this->tpl->setVariable("BTN_DELETE_ALL", $this->lng->txt("tst_delete_all_user_data"));
 //			$this->tpl->setVariable("BTN_CREATE_SOLUTIONS", $this->lng->txt("tst_create_solutions"));
-			$this->tpl->setVariable("FORM_ACTION", $this->getCallingScript() . $add_parameter);
+			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -4497,7 +4802,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setDescription(ilUtil::stripSlashes($meta["Description"][0]["Value"]));
 			$this->object->update();
 		}
-		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
+		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=editMeta");
 	}
 
 	// called by administration
@@ -4662,6 +4967,39 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
 		}
 	}
+
+	function prepareOutput()
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$title = $this->object->getTitle();
+		// catch feedback message
+		sendInfo();
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+		if (!defined("ILIAS_MODULE"))
+		{
+			$this->setAdminTabs($_POST["new_type"]);
+		}
+		$this->setLocator();
+
+	}
+	
+	function setAggregatedResultsTabs()
+	{
+		global $rbacsystem;
+
+		include_once "./classes/class.ilTabsGUI.php";
+		$tabs_gui =& new ilTabsGUI();
+		
+		$path = $this->tree->getPathFull($this->object->getRefID());
+		$tabs_gui->addTarget("back", $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]), "",	"");
+		$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
+	}
+	
 } // END class.ilObjTestGUI
 
 ?>

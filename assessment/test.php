@@ -30,7 +30,7 @@
 *
 * @package assessment
 */
-define("ILIAS_MODULE", "assessment");
+/*define("ILIAS_MODULE", "assessment");
 chdir("..");
 require_once "./include/inc.header.php";
 
@@ -160,14 +160,7 @@ else
 	//Arlon added
 	if(DEVMODE)
 	{
-/*		require_once "./tracking/classes/class.ilUserTracking.php";
-		if($_GET["ref_id"]!="")
-		{
-		$ip = getenv ("REMOTE_ADDR"); 
-		$track = new ilUserTracking();
-		$track->insertUserTracking($_SESSION["AccountId"],$_GET["ref_id"],$ip);
-		}
-*/	}
+	}
 	require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 	//echo $class_constr.":".$method;
 	switch ($_GET["cmd"]) 
@@ -184,5 +177,48 @@ else
 	$obj = new $class_constr($data, $id, $call_by_reference, $prepare_output,$chapter_id);
 	$obj->$method();
 }
+$tpl->show();
+?>
+*/
+define("ILIAS_MODULE", "assessment");
+chdir("..");
+require_once "./include/inc.header.php";
+require_once "./assessment/classes/class.ilObjTestGUI.php";
+
+unset($id);
+
+//determine call mode for object classes
+//TODO: don't use same var $id for both
+if ($_GET["obj_id"] > 0)
+{
+	$call_by_reference = false;
+	$id = $_GET["obj_id"];
+}
+else
+{
+	$call_by_reference = true;
+	$id = $_GET["ref_id"];
+}
+
+// exit if no valid ID was given
+if (!isset($_GET["ref_id"]))
+{
+	$ilias->raiseError("No valid ID given! Action aborted", $this->ilias->error_obj->MESSAGE);
+}
+
+switch ($_GET["cmd"]) 
+{
+	case "run":
+		$prepare_output = false;
+		break;
+	default:
+		$prepare_output = true;
+		break;
+}
+$ilCtrl->setTargetScript("test.php");
+$ilCtrl->getCallStructure("ilobjtestgui");
+$tst_gui =& new ilObjTestGUI("", $_GET["ref_id"], true, $prepare_output);
+$ilCtrl->forwardCommand($tst_gui);
+
 $tpl->show();
 ?>

@@ -1,6 +1,6 @@
 <form name="frm_marks" action="{ACTION_MARKS}" method="post">
 <!-- BEGIN mark_actions -->
-<p><input type="submit" class="submit" name="cmd[new]" value="{BUTTON_NEW}" />&nbsp;<input type="submit" class="submit" name="cmd[new_simple]" value="{BUTTON_NEW_SIMPLE}" /></p>
+<p><input type="submit" class="submit" name="cmd[addMarkStep]" value="{BUTTON_NEW}" />&nbsp;<input type="submit" class="submit" name="cmd[addSimpleMarkSchema]" value="{BUTTON_NEW_SIMPLE}" /></p>
 <!-- END mark_actions -->
 <table class="std">
 <tr class="tblheader">
@@ -23,7 +23,7 @@
 <tr><td class="{ROW_CLASS}"><td class="{ROW_CLASS}" colspan="5">{EMPTY_ROW}</td></tr>
 <!-- END Emptyrow -->
 <!-- BEGIN Footer -->
-<tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="4"><input class="submit" type="submit" name="cmd[delete]" value="{BUTTON_DELETE}" /></td></tr>
+<tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="4"><input class="submit" type="submit" name="cmd[deleteMarkSteps]" value="{BUTTON_DELETE}" /></td></tr>
 <!-- END Footer -->
 </table>
 <!-- BEGIN ects -->
@@ -54,7 +54,7 @@
 <!-- END ects -->
 <!-- BEGIN action_buttons -->
 <p>
-<input name="cmd[save]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+<input name="cmd[saveMarks]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancelMarks]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
 </p>
 <!-- END action_buttons -->
 </form>
