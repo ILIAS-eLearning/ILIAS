@@ -1597,3 +1597,21 @@ foreach ($ops as $object)
 	}
 }
 ?>
+
+<#92>
+<?php
+
+$q = "SELECT * FROM object_data WHERE title='lm_Author_rolt'";
+$set = $this->db->query($q);
+$row = $set->fetchRow(DB_FETCHMODE_ASSOC);
+
+$q = "DELETE FROM rbac_fa WHERE rol_id ='".$row["obj_id"]."'";
+$this->db->query($q);
+
+$q = "DELETE FROM rbac_templates WHERE rol_id ='".$row["obj_id"]."'";
+$this->db->query($q);
+
+$q = "DELETE FROM object_data WHERE title='lm_Author_rolt'";
+$this->db->query($q);
+
+?>
