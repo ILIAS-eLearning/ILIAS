@@ -43,6 +43,7 @@ require_once "./assessment/classes/class.assJavaApplet.php";
 require_once "./assessment/classes/class.assMatchingQuestion.php";
 require_once "./assessment/classes/class.assMultipleChoice.php";
 require_once "./assessment/classes/class.assOrderingQuestion.php";
+require_once "./classes/class.ilObjAssessmentFolder.php";
 
 define("TEST_FIXED_SEQUENCE", 0);
 define("TEST_POSTPONE", 1);
@@ -987,12 +988,28 @@ class ilObjTest extends ilObject
 				$random_question_count,
         $db->quote($created)
       );
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txt("log_create_new_test"));
+			}
       $result = $db->query($query);
       if ($result == DB_OK) {
         $this->test_id = $this->ilias->db->getLastInsertId();
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
+			$oldrow = array();
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
+	        $db->quote($this->test_id)
+				);
+				$result = $db->query($query);
+				if ($result->numRows() == 1)
+				{
+					$oldrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				}
+			}
       $query = sprintf("UPDATE tst_tests SET author = %s, test_type_fi = %s, introduction = %s, sequence_settings = %s, score_reporting = %s, nr_of_tries = %s, processing_time = %s, enable_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, ects_e = %s, ects_fx = %s, random_test = %s, complete = %s WHERE test_id = %s",
         $db->quote($this->author . ""), 
         $db->quote($this->test_type . ""), 
@@ -1017,6 +1034,32 @@ class ilObjTest extends ilObject
         $db->quote($this->test_id)
       );
       $result = $db->query($query);
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
+	        $db->quote($this->test_id)
+				);
+				$result = $db->query($query);
+				$newrow = array();
+				if ($result->numRows() == 1)
+				{
+					$newrow = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				}
+				$changed_fields = array();
+				foreach ($oldrow as $key => $value)
+				{
+					if (strcmp($oldrow[$key], $newrow[$key]) != 0)
+					{
+						array_push($changed_fields, "$key: " . $oldrow[$key] . " => " . $newrow[$key]);
+					}
+				}
+				$changes = join($changed_fields, ", ");
+				if (count($changed_fields) == 0)
+				{
+					$changes = $this->lng->txt("log_no_test_fields_changed");
+				}
+				$this->logAction($this->lng->txt("log_modified_test") . " [".$changes."]");
+			}
     }
 		if (!$properties_only)
 		{
@@ -1039,6 +1082,22 @@ class ilObjTest extends ilObject
 * @see $questions
 */
 	function saveQuestionsToDb() {
+		$oldquestions = array();
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
+				$this->ilias->db->quote($this->getTestId())
+			);
+			$result = $this->ilias->db->query($query);
+			if ($result->numRows() > 0)
+			{
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					array_push($oldquestions, $row["question_fi"]);
+				}
+			}
+		}
+		
 		// delete existing category relations
     $query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
@@ -1052,6 +1111,43 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($key . "")
 			);
 			$result = $this->ilias->db->query($query);
+		}
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
+				$this->ilias->db->quote($this->getTestId())
+			);
+			$result = $this->ilias->db->query($query);
+			$newquestions = array();
+			if ($result->numRows() > 0)
+			{
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					array_push($newquestions, $row["question_fi"]);
+				}
+			}
+			foreach ($oldquestions as $index => $question_id)
+			{
+				if (strcmp($newquestions[$index], $question_id) != 0)
+				{
+					$pos = array_search($question_id, $newquestions);
+					if ($pos === FALSE)
+					{
+						$this->logAction($this->lng->txt("log_question_removed"), $question_id);							
+					}
+					else
+					{
+						$this->logAction($this->lng->txt("log_question_position_changed") . ": " . ($index+1) . " => " . ($pos+1), $question_id);
+					}
+				}
+			}
+			foreach ($newquestions as $index => $question_id)
+			{
+				if (array_search($question_id, $oldquestions) === FALSE)
+				{
+					$this->logAction($this->lng->txt("log_question_added") . ": " . ($index+1), $question_id);							
+				}
+			}
 		}
 	}
 
@@ -1233,8 +1329,9 @@ class ilObjTest extends ilObject
 			);
 		}
 		$result = $db->query($query);
+		$index = 1;
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-			$this->questions[$data->sequence] = $data->question_fi;
+			$this->questions[$index++] = $data->question_fi;
 		}
 	}
 
@@ -1685,8 +1782,13 @@ class ilObjTest extends ilObject
 	function removeQuestion($question_id) {
 		$question = new ASS_Question();
 		$question->delete($question_id);
+		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		{
+			$this->logAction($this->lng->txt("log_question_removed"), $question_id);
+		}
 		$this->removeAllTestEditings($question_id);
 		$this->loadQuestions();
+		$this->saveQuestionsToDb();
 	}
 	
 /**
@@ -1839,6 +1941,10 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($data->test_question_id)
 			);
 			$result = $this->ilias->db->query($query);
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txt("log_question_position_changed") . ": " . ($data->sequence) . " => " . ($data->sequence-1), $question_id);
+			}
 		}
 		$this->loadQuestions();
 	}
@@ -1880,6 +1986,10 @@ class ilObjTest extends ilObject
 				$this->ilias->db->quote($data->test_question_id)
 			);
 			$result = $this->ilias->db->query($query);
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txt("log_question_position_changed") . ": " . ($data->sequence) . " => " . ($data->sequence+1), $question_id);
+			}
 		}
 		$this->loadQuestions();
 	}
@@ -1929,6 +2039,13 @@ class ilObjTest extends ilObject
 		if ($result != DB_OK)
 		{
 			// Error
+		}
+		else
+		{
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->logAction($this->lng->txt("log_question_added") . ": " . $sequence, $duplicate_id);
+			}
 		}
 		// remove test_active entries, because test has changed
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
@@ -4707,6 +4824,46 @@ class ilObjTest extends ilObject
 		$this->removeAllTestEditings();
 		$query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+	}
+	
+/**
+* Logs an action into the Test&Assessment log
+* 
+* Logs an action into the Test&Assessment log
+*
+* @param string $logtext The log text
+* @access public
+*/
+	function logAction($logtext = "", $question_id = "")
+	{
+		global $ilUser;
+
+		$original_id = "";
+		if (strcmp($question_id, "") == 0)
+		{
+			$question_id = "NULL";
+		}
+		else
+		{
+			$question_id = $this->ilias->db->quote($question_id . "");
+			$original_id = assQuestion::_getOriginalId($question_id);
+		}
+		if (strcmp($original_id, "") == 0)
+		{
+			$original_id = "NULL";
+		}
+		else
+		{
+			$original_id = $this->ilias->db->quote($original_id . "");
+		}
+		$query = sprintf("INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($ilUser->id . ""),
+			$this->ilias->db->quote($this->getId() . ""),
+			$this->ilias->db->quote($logtext . ""),
+			$question_id,
+			$original_id
 		);
 		$result = $this->ilias->db->query($query);
 	}

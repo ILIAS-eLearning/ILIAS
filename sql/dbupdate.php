@@ -5350,4 +5350,6 @@ CREATE TABLE `ass_log` (
 PRIMARY KEY ( `ass_log_id` ) ,
 INDEX ( `user_fi` , `obj_fi` )
 ) COMMENT = 'Logging of Test&Assessment object changes';
+<#378>
+ALTER TABLE `ass_log` ADD `original_fi` INT AFTER `question_fi` ;
 
