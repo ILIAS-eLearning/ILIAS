@@ -7,14 +7,14 @@
 <!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
 <!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
 <!-- Types of (textual) content -->
-<!ENTITY % text "#PCDATA | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Formula | Annotation | List | ImageMap | ExtLink | IntLink | Anchor | Markup | GlossaryTerm">
-<!ENTITY % commenttext "#PCDATA | Emph | PageTurn | Footnote | Strong | Quotation | Code | Formula | Annotation | List | ImageMap | ExtLink | IntLink | Anchor | Markup | GlossaryTerm">
-<!ENTITY % emphtext "#PCDATA | Comment | PageTurn | Footnote | Strong | Quotation | Code | Formula | List | ExtLink | IntLink | Anchor | GlossaryTerm">
-<!ENTITY % strongtext "#PCDATA | Comment | PageTurn | Footnote | Emph | Quotation | Code | Formula | List | ExtLink | IntLink | Anchor | GlossaryTerm">
-<!ENTITY % linktext "#PCDATA | Comment | Emph | Strong | Quotation | Code | GlossaryTerm">
-<!ENTITY % simpletext "#PCDATA | Emph | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor | GlossaryTerm">
-<!ENTITY % footnotetext "#PCDATA | Emph | Strong | ExtLink | IntLink">
-<!ENTITY % titletext "#PCDATA | Emph | Strong | Quotation | Code | Formula">
+<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Formula | Annotation | List | ImageMap | ExtLink | IntLink | Anchor | Markup | GlossaryTerm">
+<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | Formula | Annotation | List | ImageMap | ExtLink | IntLink | Anchor | Markup | GlossaryTerm">
+<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Code | Formula | List | ExtLink | IntLink | Anchor | GlossaryTerm">
+<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Code | Formula | List | ExtLink | IntLink | Anchor | GlossaryTerm">
+<!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code | GlossaryTerm">
+<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor | GlossaryTerm">
+<!ENTITY % footnotetext "#PCDATA | br | Emph | Strong | ExtLink | IntLink">
+<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula">
 <!-- ContentObject -->
 <!-- Object of highest complexity; ContentObject is a container for all content, meta data and layout information; it is comparable to an entire book-->
 <!-- ContentObjects are comparable to LOM LearningObjects of aggregation level 3 -->
@@ -35,8 +35,8 @@
 <!-- PageObject -->
 <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
-<!ELEMENT PageObject (((MetaData, PageContent+) | PageAlias), Layout?)>
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table), BibItemIdentifier+)>
+<!ELEMENT PageObject (((MetaData, PageContent*) | PageAlias), Layout?)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table), BibItemIdentifier*)>
 <!-- BibItemIdentifier specify from which BibItem(s) the content comes -->
 <!ELEMENT BibItemIdentifier EMPTY>
 <!ATTLIST BibItemIdentifier
@@ -244,6 +244,10 @@
 	Language (%langcode;) #REQUIRED
 	Characteristic (Headline | Example | Citation | Mnemonic | Additional) #IMPLIED
 >
+
+<!-- br -->
+<!ELEMENT br EMPTY>
+
 <!-- Comment -->
 <!ELEMENT Comment (%commenttext;)*>
 <!ATTLIST Comment
@@ -273,13 +277,13 @@
 	Reference IDREF #IMPLIED
 >
 <!-- Code -->
-<!ELEMENT Code (#PCDATA)>
+<!ELEMENT Code (#PCDATA | br)*>
 <!ATTLIST Code
 	Id ID #IMPLIED
 	ProgrammingLanguage CDATA #IMPLIED
 >
 <!-- Formula -->
-<!ELEMENT Formula (#PCDATA)>
+<!ELEMENT Formula (#PCDATA | br)*>
 <!ATTLIST Formula
 	Id ID #IMPLIED
 >
@@ -293,7 +297,7 @@
 <!-- Table -->
 <!-- Table model is some kind of a mixture of mimalized CALS and HTML dtd -->
 <!-- Only a minimum of style elements and attributes defined -->
-<!ELEMENT Table (Title?, HeaderCaption?, FooterCaption?, Summary?, TableRow+)>
+<!ELEMENT Table (Title?, Caption?, Summary?, TableRow+)>
 <!ATTLIST Table
 	Language (%langcode;) #REQUIRED
 	Id ID #IMPLIED
@@ -309,7 +313,7 @@
 >
 <!ELEMENT Summary (%simpletext;)*>
 <!ELEMENT TableRow (TableData+)>
-<!ELEMENT TableData (Paragraph | MediaObject | Table)*>
+<!ELEMENT TableData (PageContent*)>
 <!ATTLIST TableData
 	Width CDATA #IMPLIED
 	Class CDATA #IMPLIED
