@@ -433,7 +433,7 @@ class ilRbacReview
 	{
 		if (!isset($a_ref_id))
 		{
-			$message = get_class($this)."::getRolesifRoleFolder(): No ref_id given!";
+			$message = get_class($this)."::getRolesOfRoleFolder(): No ref_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 		
