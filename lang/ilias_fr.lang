@@ -180,6 +180,10 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Veuillez remplir tous l
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Veuillez remplir tous les champs obligatoires avant de télécharger des images réactives.
 assessment#:#fill_out_all_required_fields_upload_material#:#Veuillez remplir tous les champs obligatoires avant de télécharger des matériaux
 assessment#:#filter#:#Filtre
+assessment#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
+assessment#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
+assessment#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
+assessment#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
 assessment#:#gap#:#Lacune
 assessment#:#gap_definition#:#Définition de lacune
 assessment#:#gap_selection#:#Sélection de lacune
@@ -3668,6 +3672,10 @@ survey#:#export_data_as#:#Exporter données sous :
 survey#:#fill_out_all_category_fields#:#Veuillez remplir tous les champs de catégorie avant d'en ajouter un nouveau
 survey#:#fill_out_all_required_fields_add_category#:#Veuillez remplir tous les champs obligatoires avant d'ajouter des catégories
 survey#:#filter#:#Filtre
+survey#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
+survey#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
+survey#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
+survey#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
 survey#:#finished#:#terminé
 survey#:#found_questions#:#Questions trouvées
 survey#:#geometric_mean#:#Moyenne géométrique

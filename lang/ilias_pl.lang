@@ -180,6 +180,10 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Wypełnij wszystkie wym
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Wypełnij wszystkie wymagane pola przed załadowaniem mapy bitowej!
 assessment#:#fill_out_all_required_fields_upload_material#:#Wypełnij wszystkie wymagane pola przed załadowaniem materiałów!
 assessment#:#filter#:#Filtr
+assessment#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
+assessment#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
+assessment#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
+assessment#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
 assessment#:#gap#:#Luka
 assessment#:#gap_definition#:#Definicja luki
 assessment#:#gap_selection#:#Wybór odstępu
@@ -3519,6 +3523,10 @@ survey#:#export_data_as#:#Eksportuj dane jako
 survey#:#fill_out_all_category_fields#:#Wypełnij wszystkie pola kategorii przed dodaniem nowej!
 survey#:#fill_out_all_required_fields_add_category#:#Wypełnij wszystkie niezbędne pola  przed dodaniem kategorii!
 survey#:#filter#:#Filtr
+survey#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
+survey#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
+survey#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
+survey#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
 survey#:#finished#:#skończone
 survey#:#found_questions#:#Znalezione pytania
 survey#:#geometric_mean#:#Średnia geometryczna

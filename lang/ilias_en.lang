@@ -186,10 +186,10 @@ assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all req
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload image maps!
 assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!
 assessment#:#filter#:#Filter
-assessment#:#filter_show_question_types#:#Show question types
-assessment#:#filter_show_questionpools#:#Show questionpools
 assessment#:#filter_all_question_types#:#All question types
 assessment#:#filter_all_questionpools#:#All questionpools
+assessment#:#filter_show_question_types#:#Show question types
+assessment#:#filter_show_questionpools#:#Show questionpools
 assessment#:#gap#:#Gap
 assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
@@ -3683,10 +3683,10 @@ survey#:#export_data_as#:#Export data as
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
 survey#:#filter#:#Filter
-survey#:#filter_show_question_types#:#Show question types
-survey#:#filter_show_questionpools#:#Show questionpools
 survey#:#filter_all_question_types#:#All question types
 survey#:#filter_all_questionpools#:#All questionpools
+survey#:#filter_show_question_types#:#Show question types
+survey#:#filter_show_questionpools#:#Show questionpools
 survey#:#finished#:#completed
 survey#:#found_questions#:#Found questions
 survey#:#geometric_mean#:#Geometric mean
