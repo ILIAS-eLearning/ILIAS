@@ -2183,7 +2183,7 @@ class ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",
+		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType().".gif",
 					   $this->lng->txt("obj_".$this->object->getType()));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
