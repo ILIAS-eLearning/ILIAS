@@ -42,6 +42,7 @@ back#:#zurück
 change#:#ändern
 change_basic_settings#:#Grundeinstellungen ändern
 no_client_name#:#KEIN NAME
+change_sort_direction#:#Sortierrichtung ndern
 change_password#:#Passwort ändern
 choose_language#:#Bitte wählen Sie Ihre Sprache
 choose_languages#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. 
@@ -72,9 +73,11 @@ check_failed_htmldoc#:#HTMLdoc-Test fehlgeschlagen
 database#:#Datenbank
 database_create#:#Datenbank erzeugen
 database_install#:#Datenbank installieren
+database_installed#:#Datenbank installiert
 database_exists#:#Datenbank existiert bereits
 database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
 database_needs_update#:#Datenbank benötigt ein Update
+database_not_exists_create_first#:#Datenbank existiert nicht. Bitte legen Sie zunächst eine neue Datenbank an.
 database_ready#:#Datenbank ist eingerichtet
 database_update#:#Datenbank aktualisieren
 database_version#:#Ihre Datenbankversion
@@ -85,16 +88,20 @@ date#:#Datum
 db_conn#:#Verbindungsdaten zur Datenbank
 db_host#:#Datenbankserver
 db_name#:#Datenbankname
+db_needs_update#:#Datenbank benötigt Update
 db_pass#:#Datenbankpasswort
 db_type#:#Datenbanktyp
 db_user#:#Datenbankbenutzer
 db_version#:#Datenbankversion
 default#:#Standard
+default_client_changed#:#Mandant als Standard festgelegt
+default_language#:#Standardsprache
 delete#:#löschen
 details#:#Details
 disable#:#ausschalten
 disable_check#:#nicht prüfen
 disable_logging#:#deaktivieren
+display_clientlist#:#Freie Mandantenauswahl
 lang_min_one_language#:#Sie müssen mindestens eine Sprache installieren
 disabled#:#ausgeschaltet
 filled_out#:#korrekt ausgefüllt
@@ -111,12 +118,17 @@ env_warning#:#ILIAS 3 wurde auf Linux und Windows jeweils mit dem Apache-Webserv
 environment#:#Softwareumgebung
 err_create_database_failed#:#Datenbank konnte nicht erstellt werden
 err_wrong_login#:#Login ungültig
+error_recipient#:#Empfnger von Fehlermeldungen
+feedback_recipient#:#Empfnger von Feedbacknachrichten
 file_does_not_exist#:#Datei existiert nicht.
 file_version#:#file version
 fill_both_fields#:#Bitte beide Felder ausfüllen!
+fill_out_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 finish#:#Installation abschliessen
+finish_initial_setup_first#:#Bitte beenden Sie zuerst die Erstinstallation
 finish_setup#:#Abschliessen der Installationen
 firstname#:#Vorname
+hide_clientlist#:#keine Mandantenauswahl
 host#:#Host
 htmldoc_path#:#HTMLdoc-Befehlszeile
 htmldoc_path_comment#:#Wird benötigt, um pdf-Dokumente zu erzeugen (Paymentsystem)
@@ -127,6 +139,14 @@ ilias_nic#:#NIC Registrierung
 ilias_nic_id#:#NIC ID
 ilias_setup#:#ILIAS3 setup
 ilias_version#:#ILIAS Version
+info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
+info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. Setup baut eine Testverbindung mit Ihren Verbindungsangaben auf und prüft, ob die Datenbank bereits vorhanden ist oder nicht. Falls nicht, können Sie über eine Option im nächsten Installationschritt Setup dazu veranlassen, eine Datenbank für Sie anzulegen.
+info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn dann nicht klappt (z.B aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
+info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
+info_text_finish1#:#Gratulation! Die Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
+info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
+info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
+info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
 info_text_first_client#:#Die Grundeinstellungen wurden gespeichert. Wir beginnen nun mit der Installation des ersten Mandanten. Das Setup-Programm führt Sie durch den gesamten Installationprozess. Während der Installation können Sie den momentanen Status in der Tabelle rechts immer ablesen.
 info_text_first_install#:#Sie installieren ILIAS das erste Mal. Daher müssen zunächst einige rundeinstellungen vorgenommen werden.
 info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldet Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.
@@ -181,11 +201,14 @@ setup_finished#:#Installation abgeschlossen
 lang_se#:#Schwedisch
 lang_ua#:#Ukrainisch
 lang_xx#:#benutzerdefiniert
+langs_not_valid_not_installed#:#Folgende Sprachen wurden nicht installiert, aufgrund fehlerhafter Sprachdateien
 language#:#Sprache
 languages#:#Sprachen
 languages_installed#:#Sprache(n) installiert
 lastname#:#Nachname
 list#:#Liste
+list_disabled#:#Mandantenauswahl deaktiviert
+list_enabled#:#Mandantenauswahl aktiviert
 delete_confirm#:#Mandant löschen bestätigen
 delete_info#:#Sind Sie sicher?
 log_path#:#Ort der Logdatei
@@ -227,6 +250,8 @@ no_path_unzip#:#Unzip-Pfad nicht angegeben
 no_path_zip#:#Zip-Pfad nicht angegeben
 no_path_java#:#Java-Pfad nicht angegeben
 no_path_htmldoc#:#HTMLdoc-Pfad nicht angegeben
+no_valid_client_id#:#Keine gültige Mandanten ID
+no_setup_pass_given#:#Geben Sie bitte ein Passwort für den Administatorzugriff an
 not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
 could_not_create_logfile#:#Logdatei konnte nicht angelegt werden
 online#:#Online
@@ -240,6 +265,7 @@ password_info#:#Um das Setup-Programm vor unbefugten Zugriff Dritter zu schütze
 cannot_create_datadir_no_write_access#:#Kein Schreibzugriff. Datenverzeichnis kann nicht angelegt werden
 create_datadir_failed#:#Erzeugung des Datenverzeichnisses fehlgeschlagen
 create_webdir_failed#:#Erzeugung des Webverzeichnisses fehlgeschlagen
+pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein
 password_new_master#:#Administrator-Passwort ändern
 password_not_match#:#Passworteingaben stimmen nicht überein
 password_old_wrong#:#Falsches Passwort
@@ -278,6 +304,7 @@ overall_status#:#Installationsstatus
 lang_not_installed_default#:#Die als Standard ausgewählte Sprache ist nicht installiert! 
 required_field#:#Erforderliche Angaben
 reset#:#Zurücksetzen
+root_access#:#Administrator-Zugang
 safe_mode_enabled#:#Safe mode ist eingeschaltet
 save#:#Speichern
 save_error#:#Fehler beim Abspeichern
@@ -321,6 +348,7 @@ setup_process_step_lang#:#Systemsprachen installieren
 setup_process_step_nic#:#bei ILIAS-NIC registrieren
 setup_ready#:#Setup wurde erfolgreich beendet. Sie können sich nun in ILIAS 3 einloggen.
 setup_welcome#:#Willkommen zum Installationsprogramm für ILIAS 3. Diese Setup-Routine hilft Ihnen bei der
+sort_by_this_column#:#Nach dieser Spalte sortieren
 status#:#Status
 step#:#Schritt
 street#:#Strasse
@@ -328,6 +356,7 @@ client#:#Mandant
 submit#:#Abschicken
 title#:#Titel
 unknown_client_id#:#Unbekannter Mandant
+unknown_command#:#Unbekannter Befehl
 unzip_path#:#Unzip-Befehlszeile
 unzip_path_comment#:#Wird benötigt, um Lernmodule zu importieren
 update_applied#:#Update eingespielt
@@ -341,33 +370,3 @@ wrong_password#:#Falsches Passwort!
 zip_path#:#Zip-Befehlszeile
 zip_path_comment#:#Wird benötigt, um Lernmodule zu exportieren
 zipcode#:#PLZ
-unknown_command#:#Unbekannter Befehl
-db_needs_update#:#Datenbank benötigt Update
-no_valid_client_id#:#Keine gültige Mandanten ID
-default_client_changed#:#Mandant als Standard festgelegt
-fill_out_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
-default_language#:#Standardsprache
-sort_by_this_column#:#Nach dieser Spalte sortieren
-feedback_recipient#:#Empfnger von Feedbacknachrichten
-error_recipient#:#Empfnger von Fehlermeldungen
-change_sort_direction#:#Sortierrichtung ndern
-info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
-info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. Setup baut eine Testverbindung mit Ihren Verbindungsangaben auf und prüft, ob die Datenbank bereits vorhanden ist oder nicht. Falls nicht, können Sie über eine Option im nächsten Installationschritt Setup dazu veranlassen, eine Datenbank für Sie anzulegen.
-info_text_db#:#Die Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank installieren. Sollte eine Datenbank mit dem angegebenen Namen noch nicht existieren, kreuzen Sie bitte die Option 'Datenbank erzeugen' an. Setup versucht dann die Datenbank automatisch zu erzeugen. Wenn dann nicht klappt (z.B aufgrund eingeschränkter Zugangsberechtigung), müssen Sie den verantwortlichen Systemadministrator des Datenbankservers bitten, eine Datenbank mit dem gewünschten Namen einzurichten.
-info_text_finish1#:#Gratulation! Die Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
-info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
-info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
-info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus. Oben rechts können sie die Mandantenauswahl ein- und ausschalten. Ist die Mandantenauswahl aktiviert, werden auf der ILIAS-Startseite (index) alle verfügbaren und freigebene Mandanten angezeigt. Ist die Mandantenauswahl ausgeschaltet, wird die Login-Seite des als <i>Standard</i> deklarierten Mandanten angezeigt. Über den Button unter der Übersichtsliste können Sie einen Mandanten als Standard bestimmen.
-root_access#:#Administrator-Zugang
-finish_initial_setup_first#:#Bitte beenden Sie zuerst die Erstinstallation
-info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
-no_setup_pass_given#:#Geben Sie bitte ein Passwort für den Administatorzugriff an
-pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein
-database_installed#:#Datenbank installiert
-no_changes#:#No changes
-list_disabled#:#Mandantenauswahl deaktiviert
-list_enabled#:#Mandantenauswahl aktiviert
-display_clientlist#:#Freie Mandantenauswahl
-hide_clientlist#:#keine Mandantenauswahl
-langs_not_valid_not_installed#:#Folgende Sprachen wurden nicht installiert, aufgrund fehlerhafter Sprachdateien
-database_not_exists_create_first#:#Datenbank existiert nicht. Bitte legen Sie zunächst eine neue Datenbank an.
