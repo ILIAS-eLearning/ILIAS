@@ -28,7 +28,7 @@ define("IL_FIRST_NODE", -1);
 * Tree class
 * data representation in hierachical trees using the Nested Set Model by Joe Celco
 *
-* @author Sascha Hofmann <shofmann@databay.de>
+* @author Sascha Hofmann <saschahofmann@gmx.de>
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
@@ -974,7 +974,7 @@ class ilTree
 
 		}
 
-		$q = "SELECT s.child,s.lft,s.rgt,title,s.depth,".
+		$q = "SELECT s.child,s.parent,s.lft,s.rgt,title,s.depth,".
 			 "(s.rgt-s.lft-1)/2 AS successor,".
 			 "((min(v.rgt)-s.rgt-(s.lft>1))/2) > 0 AS brother ".
 			 "FROM ".$this->table_tree." v, ".$this->table_tree." s ".

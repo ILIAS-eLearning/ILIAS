@@ -26,7 +26,8 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.41.2.1 2004/10/14 10:24:59 shofmann Exp $
+* @author Sascha Hofmann <saschahofmann@gmx.de>
+* @version $Id$
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -808,6 +809,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	/**
+	* displays system check menu
+	* 
+	* @access	public
+	*/
 	function checkObject()
 	{
 		global $rbacsystem;
@@ -845,6 +851,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_ANALYZE_TITLE", $this->lng->txt("analyze_data"));
 			$this->tpl->setVariable("TXT_ANALYZE", $this->lng->txt("scan_only"));
 			$this->tpl->setVariable("TXT_ANALYZE_DESC", $this->lng->txt("analyze_desc"));
+			$this->tpl->setVariable("TXT_CHECK_TREE", $this->lng->txt("check_tree"));
+			$this->tpl->setVariable("TXT_CHECK_TREE_DESC", $this->lng->txt("check_tree_desc"));
 			$this->tpl->setVariable("TXT_CLEAN", $this->lng->txt("clean"));
 			$this->tpl->setVariable("TXT_CLEAN_DESC", $this->lng->txt("clean_desc"));
 			$this->tpl->setVariable("TXT_RESTORE", $this->lng->txt("restore_missing"));
@@ -1094,7 +1102,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		foreach ($a_mode as $mode => $value)
 		{
 			$validator->setMode($mode,(bool) $value);
+//			var_dump($mode,$value);
 		}
+//		exit;
 		
 		// STEP 1: Analyzing: Get all incomplete entries
 		$scan_log .= $this->lng->txt("analyzing");
@@ -1158,6 +1168,47 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			{
 				$scan_log .= $this->lng->txt("found_none");
 			}
+
+			$scan_log .= "<br />".$this->lng->txt("searching_invalid_rolfs");
+			if ($validator->findInvalidRolefolders())
+			{
+				$scan_log .= count($validator->getInvalidRolefolders())." ".$this->lng->txt("found");
+
+			}
+			else
+			{
+				$scan_log .= $this->lng->txt("found_none");
+			}
+			
+			/*$scan_log .= "<br />".$this->lng->txt("searching_invalid_rbac_entries");
+			if ($validator->findInvalidRBACEntries())
+			{
+				$scan_log .= count($validator->getInvalidRBACEntries())." ".$this->lng->txt("found");
+
+			}
+			else
+			{
+				$scan_log .= $this->lng->txt("found_none");
+			}*/
+		}
+		
+		// STEP 1.b: Analyzing: Check tree consistence
+		$scan_log .= "<br /><br />".$this->lng->txt("analyzing_tree_structure");
+		
+		if (!$validator->isModeEnabled("check_tree"))
+		{
+			$scan_log .= $this->lng->txt("disabled");
+		}
+		else
+		{
+			if ($validator->checkTreeStructure())
+			{
+				$scan_log .= $this->lng->txt("tree_corrupt");
+			}
+			else
+			{
+				$scan_log .= $this->lng->txt("disabled");
+			}
 		}
 		
 		// STEP 2: Cleaning: Remove unbound references & tree entries
@@ -1189,6 +1240,27 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
 			}
 
+			$scan_log .= "<br />".$this->lng->txt("removing_invalid_rolefolders");
+			if ($validator->removeInvalidRolefolders())
+			{
+				$scan_log .= strtolower($this->lng->txt("done"));
+			}
+			else
+			{
+				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
+			}
+
+			/*
+			$scan_log .= "<br />".$this->lng->txt("removing_invalid_rbac_entries");
+			if ($validator->removeInvalidRBACEntries())
+			{
+				$scan_log .= strtolower($this->lng->txt("done"));
+			}
+			else
+			{
+				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
+			}*/
+			
 			// find unbound objects again AFTER cleaning process!
 			// This updates the array 'unboundobjects' required for the further steps
 			// There might be other objects unbounded now due to removal of object_data/reference entries.
