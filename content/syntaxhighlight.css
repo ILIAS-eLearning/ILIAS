@@ -8,6 +8,18 @@ table.ilc_Sourcecode {
 	padding: 5px;
 }
 
+td.ilc_LineNumbers {
+	background: #ffffff;
+	padding-left: 10px;
+	text-align: right;
+}
+
+td.ilc_Sourcecode {
+	background: white;
+	padding-left: 10px;
+}
+
+
 span.ilc_CodeCategory_1 {
 	color: navy;
 	font-weight: bold;
