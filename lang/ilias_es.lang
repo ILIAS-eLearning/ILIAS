@@ -312,11 +312,13 @@ common#:#group_objects#:#Group Objects###09 Sep 2003 new variable
 common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.###01 Nov 2003 new variable
 common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.###01 Nov 2003 new variable
 common#:#group_registration_expiration_date#:#Expiration Date###06 Nov 2003 new variable
+common#:#group_registration_expiration_time#:#Expiration Time###26 Nov 2003 new variable
 common#:#group_registration_expired#:#Period of registraton expired###01 Nov 2003 new variable
 common#:#group_registration_mode#:#Registration Mode###06 Nov 2003 new variable
 common#:#group_req_password#:#Registration password required###01 Nov 2003 new variable
 common#:#group_req_registration#:#Registration required###01 Nov 2003 new variable
 common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.###01 Nov 2003 new variable
+common#:#group_reset#:#Reset Group###26 Nov 2003 new variable
 common#:#group_status#:#Group Status###29 Apr 2003 new variable
 common#:#group_status_closed#:#Closed###29 Apr 2003 new variable
 common#:#group_status_public#:#Public###29 Apr 2003 new variable
@@ -327,6 +329,11 @@ common#:#grp_a#:#a Group###06 Aug 2003 new variable
 common#:#grp_add#:#Add Group###06 Aug 2003 new variable
 common#:#grp_added#:#Group added###16 Jul 2003 new variable
 common#:#grp_edit#:#Edit Group###01 Sep 2003 new variable
+common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###26 Nov 2003 new variable
+common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.###26 Nov 2003 new variable
+common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###26 Nov 2003 new variable
+common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.###26 Nov 2003 new variable
+common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###26 Nov 2003 new variable
 common#:#grp_mem_change_status#:#Change member status###02 Oct 2003 new variable
 common#:#grp_mem_leave#:#Dismiss member from group###02 Oct 2003 new variable
 common#:#grp_mem_send_mail#:#Send member a message###02 Oct 2003 new variable

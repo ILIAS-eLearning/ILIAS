@@ -312,11 +312,13 @@ common#:#group_objects#:#Obiekty grupy
 common#:#group_password_registration_expired_msg#:#Okres rejestracji do tej grupy minął.  Skontakuj się z właścicielem grupy lub administratorem
 common#:#group_password_registration_msg#:#Aby przystąpić do tej grupy musisz podać hasło dostarczone przez administratora tej grupy.<br>Zostaniesz automatycznie przydzielony do grupy, jeśli hasło będzie poprawne.
 common#:#group_registration_expiration_date#:#Rejestracja do
+common#:#group_registration_expiration_time#:#Expiration Time###26 Nov 2003 new variable
 common#:#group_registration_expired#:#Okres rejestracji minął.
 common#:#group_registration_mode#:#Tryb rejestracji
 common#:#group_req_password#:#Wymagane hasło rejestracji
 common#:#group_req_registration#:#Wymagana rejestracja
 common#:#group_req_registration_msg#:#aby przystąpić do tej grupy, musisz się zarejestrować. Administrator grupy przydzieli Cię do grupy. Podaj przedmiot do  przydzielenia.<br>Otrzymasz wiadomość o przydziale do grupy.
+common#:#group_reset#:#Reset Group###26 Nov 2003 new variable
 common#:#group_status#:#Status grupy
 common#:#group_status_closed#:#Zamknięta
 common#:#group_status_public#:#Publiczna
@@ -327,6 +329,11 @@ common#:#grp_a#:#Grupa
 common#:#grp_add#:#Dodaj Grupę
 common#:#grp_added#:#Grupa została dodana
 common#:#grp_edit#:#Edytuj Grupę
+common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !###26 Nov 2003 new variable
+common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.###26 Nov 2003 new variable
+common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.###26 Nov 2003 new variable
+common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.###26 Nov 2003 new variable
+common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !###26 Nov 2003 new variable
 common#:#grp_mem_change_status#:#Zmień status członka
 common#:#grp_mem_leave#:#Wyklucz członka grupy
 common#:#grp_mem_send_mail#:#Wyślij członkowi wiadomość
