@@ -2290,6 +2290,7 @@ common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_edit#:#Edit User
 common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_new#:#New User
+common#:#passed#:#Passed
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
 common#:#usrf#:#User accounts
@@ -2331,9 +2332,11 @@ content#:#cont_Circle#:#Circle
 content#:#cont_Citation#:#Citation
 content#:#cont_Code#:#Code
 content#:#cont_Example#:#Example
+content#:#cont_skip_chapter#:#Skip this chapter
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
 content#:#cont_List#:#List
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
@@ -2395,6 +2398,7 @@ content#:#cont_click_starting_point#:#Please click on the starting point of the 
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
 content#:#cont_confirm_delete#:#really delete ?
 content#:#cont_content#:#Content
+content#:#cont_no_access#:#No Access
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents
 content#:#cont_coords#:#Coordinates

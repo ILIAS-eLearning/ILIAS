@@ -983,6 +983,11 @@ class ilLMPresentationGUI
 	{
 		global $ilBench;
 
+		if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $this->getCurrentPageId()))
+		{
+			return $this->showPreconditionsOfPage($this->getCurrentPageId());
+		}
+
 		$ilBench->start("ContentPresentation", "ilPage");
 
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
@@ -1050,6 +1055,92 @@ class ilLMPresentationGUI
 
 		return $page_object_gui->presentation();
 
+	}
+
+	/**
+	* show preconditions of the page
+	*/
+	function showPreconditionsOfPage()
+	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "showPagePreconditions");
+		$conds = ilObjContentObject::_getMissingPreconditionsOfPage($this->lm->getId(), $this->getCurrentPageId());
+		$topchap = ilObjContentObject::_getMissingPreconditionsTopChapter($this->lm->getId(), $this->getCurrentPageId());
+
+		$page_id = $this->getCurrentPageId();
+
+		// content style
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->addBlockFile("PAGE_CONTENT", "pg_content", "tpl.page_preconditions.html", true);
+		
+		// list all missing preconditions
+		include_once("classes/class.ilRepositoryExplorer.php");
+		foreach($conds as $cond)
+		{
+			$obj_link = "../".ilRepositoryExplorer::buildLinkTarget($cond["trigger_ref_id"],$cond["trigger_type"]);
+			$obj_frame = ilRepositoryExplorer::buildFrameTarget($cond["trigger_type"],$cond["trigger_ref_id"],$cond["trigger_obj_id"]);
+			$this->tpl->setCurrentBlock("condition");
+			$this->tpl->setVariable("ROWCOL", $rc = ($rc != "tblrow2") ? "tblrow2" : "tblrow1");
+			$this->tpl->setVariable("VAL_ITEM", ilObject::_lookupTitle($cond["trigger_obj_id"]));
+			$this->tpl->setVariable("LINK_ITEM", $obj_link);
+			$this->tpl->setVariable("FRAME_ITEM", $obj_frame);
+			if ($cond["operator"] == "passed")
+			{
+				$cond_str = $this->lng->txt("passed");
+			}
+			else
+			{
+				$cond_str = $cond["operator"];
+			}
+			$this->tpl->setVariable("VAL_CONDITION", $cond_str." ".$cond["value"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("pg_content");
+		
+		//include_once("content/classes/class.ilLMObject.php");
+		$this->tpl->setVariable("TXT_MISSING_PRECONDITIONS", 
+			sprintf($this->lng->txt("cont_missing_preconditions"),
+			ilLMObject::_lookupTitle($topchap)));
+		$this->tpl->setVariable("TXT_ITEM", $this->lng->txt("item"));
+		$this->tpl->setVariable("TXT_CONDITION", $this->lng->txt("condition"));
+		
+		// output skip chapter link
+		$lmtree =& $this->lm->getLMTree();
+		$parent = $lmtree->getParentId($topchap);
+		$childs = $lmtree->getChildsByType($parent, "st");
+		$next = "";
+		$j=-2; $i=1; 
+		foreach($childs as $child)
+		{
+			if ($child["child"] == $topchap)
+			{
+				$j = $i;
+			}
+			if ($i++ == ($j+1))
+			{
+				$succ_node = $lmtree->fetchSuccessorNode($child["child"], "pg");
+			}
+		}
+		if($succ_node != "")
+		{
+			$framestr = (!empty($_GET["frame"]))
+				? "frame=".$_GET["frame"]."&"
+				: "";
+			$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+			$link = "<br /><a href=\"lm_presentation.php?".$framestr."cmd=layout&obj_id=".
+				$succ_node["obj_id"]."&ref_id=".$this->lm->getRefId().
+				"\">".$this->lng->txt("cont_skip_chapter")."</a>";
+			$this->tpl->setVariable("LINK_SKIP_CHAPTER", $link);
+		}
+		
+		$this->tpl->parseCurrentBlock();
+		
+		$ilBench->stop("ContentPresentation", "showPagePreconditions");
 	}
 
 	/**
@@ -1324,9 +1415,9 @@ class ilLMPresentationGUI
 			: "";
 
 
-                // Determine whether the view of a learning resource should
-                // be shown in the frameset of ilias, or in a separate window.
-                $showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
+		// Determine whether the view of a learning resource should
+		// be shown in the frameset of ilias, or in a separate window.
+		$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
 
 		if($pre_node != "")
 		{
@@ -1543,7 +1634,7 @@ class ilLMPresentationGUI
 	}
 
 	/**
-	* table of contents
+	* show selection screen for print view
 	*/
 	function showPrintViewSelection()
 	{
@@ -1632,6 +1723,11 @@ class ilLMPresentationGUI
 					$this->tpl->setVariable("IMG_TYPE", ilUtil::getImagePath("icon_st.gif"));
 					break;
 			}
+			
+			if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $node["obj_id"]))
+			{
+				$this->tpl->setVariable("TXT_NO_ACCESS", "(".$this->lng->txt("cont_no_access").")");
+			}
 
 			$this->tpl->setVariable("ITEM_ID", $node["obj_id"]);
 			if ($_POST["item"][$node["obj_id"]] == "y")
@@ -1707,8 +1803,9 @@ class ilLMPresentationGUI
 					$activated = false;
 				}
 			}
-
-			if ($activated)
+			
+			if ($activated &&
+				ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $node["obj_id"]))
 			{
 				// output learning module header
 				if ($node["type"] == "du")
@@ -1904,7 +2001,8 @@ class ilLMPresentationGUI
 			$nodes2 = $nodes;
 			foreach ($nodes2 as $node2)
 			{
-				if ($node2["type"] == "st")
+				if ($node2["type"] == "st"
+					&& ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $node2["obj_id"]))
 				{
 					for ($j=1; $j < $node2["depth"]; $j++)
 					{

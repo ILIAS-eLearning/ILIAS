@@ -322,6 +322,7 @@
 	<property name="view">cont_pages</property>
 	<property name="subchap">cont_subchapters</property>
 	<property name="editMeta">meta_data</property>
+	<property name="preconditions">preconditions</property>
 	<subobj name="st">st</subobj>
 	<subobj name="pg">pg</subobj>
 	<action name="delete">delete</action>

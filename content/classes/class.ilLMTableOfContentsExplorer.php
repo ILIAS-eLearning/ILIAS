@@ -86,24 +86,35 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 	*/
 	function buildTitle($a_title, $a_id, $a_type)
 	{
-			if ($a_type == "st")
+		global $lng;
+		
+		include_once("content/classes/class.ilObjContentObject.php");
+		$access_str = "";
+		if (!ilObjContentObject::_checkPreconditionsOfPage(
+			ilObject::_lookupObjId($_GET["ref_id"]), $a_id))
+		{
+			$access_str = " (".$lng->txt("cont_no_access").")";
+		}
+		
+		if ($a_type == "st")
 		{
 			return ilStructureObject::_getPresentationTitle($a_id,
-				$this->lm_obj->isActiveNumbering());
+				$this->lm_obj->isActiveNumbering()).$access_str;
 		}
 
 		if ($this->lm_obj->getTOCMode() == "chapters" || $a_type != "pg")
 		{
-			return $a_title;
+			return $a_title.$access_str;
 		}
 		else
 		{
 			if ($a_type == "pg")
 			{
 				return ilLMPageObject::_getPresentationTitle($a_id,
-					$this->lm_obj->getPageHeader(), $this->lm_obj->isActiveNumbering());
+					$this->lm_obj->getPageHeader(), $this->lm_obj->isActiveNumbering()).$access_str;
 			}
 		}
+		
 	}
 
 	function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)

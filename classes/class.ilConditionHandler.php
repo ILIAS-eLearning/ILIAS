@@ -91,12 +91,15 @@ class ilConditionHandler
 
 	var $error_message;
 
-	var $target_id;
+	var $target_obj_id;
+	var $target_ref_id;
 	var $target_type;
-	var $trigger_id;
+	var $trigger_obj_id;
+	var $trigger_ref_id;
 	var $trigger_type;
 	var $operator;
 	var $value;
+	var $validation;
 
 	var $conditions;
 
@@ -111,6 +114,7 @@ class ilConditionHandler
 
 		$this->db =& $ilDB;
 		$this->lng =& $lng;
+		$this->validation = true;
 	}
 
 	// SET GET
@@ -123,39 +127,141 @@ class ilConditionHandler
 		return $this->error_message;
 	}
 
+	/**
+	* set target ref id
+	*/
 	function setTargetRefId($a_target_ref_id)
 	{
-		return $this->target_id = $a_target_ref_id;
+		return $this->target_ref_id = $a_target_ref_id;
 	}
+	
+	/**
+	* get target ref id
+	*/
 	function getTargetRefId()
 	{
-		return $this->target_id;
+		return $this->target_ref_id;
 	}
+	
+	/**
+	* set target object id
+	*/
+	function setTargetObjId($a_target_obj_id)
+	{
+		return $this->target_obj_id = $a_target_obj_id;
+	}
+	
+	/**
+	* get target obj id
+	*/
+	function getTargetObjId()
+	{
+		return $this->target_obj_id;
+	}
+
+	/**
+	* set target object type
+	*/
+	function setTargetType($a_target_type)
+	{
+		return $this->target_type = $a_target_type;
+	}
+	
+	/**
+	* get target obj type
+	*/
+	function getTargetType()
+	{
+		return $this->target_type;
+	}
+	
+	/**
+	* set trigger ref id
+	*/
 	function setTriggerRefId($a_trigger_ref_id)
 	{
-		return $this->trigger_id = $a_trigger_ref_id;
+		return $this->trigger_ref_id = $a_trigger_ref_id;
 	}
+	
+	/**
+	* get target ref id
+	*/
 	function getTriggerRefId()
 	{
-		return $this->trigger_id;
+		return $this->trigger_ref_id;
 	}
+
+	/**
+	* set trigger object id
+	*/
+	function setTriggerObjId($a_trigger_obj_id)
+	{
+		return $this->trigger_obj_id = $a_trigger_obj_id;
+	}
+	
+	/**
+	* get trigger obj id
+	*/
+	function getTriggerObjId()
+	{
+		return $this->trigger_obj_id;
+	}
+
+	/**
+	* set trigger object type
+	*/
+	function setTriggerType($a_trigger_type)
+	{
+		return $this->trigger_type = $a_trigger_type;
+	}
+	
+	/**
+	* get trigger obj type
+	*/
+	function getTriggerType()
+	{
+		return $this->trigger_type;
+	}
+	
+	/**
+	* set operator
+	*/
 	function setOperator($a_operator)
 	{
 		return $this->operator = $a_operator;
 	}
+	
+	/**
+	* get operator
+	*/
 	function getOperator()
 	{
 		return $this->operator;
 	}
+	
+	/**
+	* set value
+	*/
 	function setValue($a_value)
 	{
 		return $this->value = $a_value;
 	}
+	
+	/**
+	* get value
+	*/
 	function getValue()
 	{
 		return $this->value;
 	}
-
+	
+	/**
+	* enable automated validation
+	*/
+	function enableAutomaticValidation($a_validate = true)
+	{
+		$this->validation = $a_validate;
+	}
 
 	/**
 	* get all possible trigger types
@@ -164,7 +270,7 @@ class ilConditionHandler
 	*/
 	function getTriggerTypes()
 	{
-		return array('crs','exc');
+		return array('crs','exc','tst');
 	}
 
 	/**
@@ -174,19 +280,10 @@ class ilConditionHandler
 	*/
 	function storeCondition()
 	{
-		if(!$tmp_target =& ilObjectFactory::getInstanceByRefId($this->getTargetRefId(),false))
-		{
-			echo 'ilConditionHandler: Object does not exist';
-		}
-		if(!$tmp_trigger =& ilObjectFactory::getInstanceByRefId($this->getTriggerRefId(),false))
-		{
-			echo 'ilConditionHandler: Object does not exist';
-		}
-
 		// first insert, then validate: it's easier to check for circles if the new condition is in the db table
 		$query = 'INSERT INTO conditions '.
-			"VALUES('0','".$this->getTargetRefId()."','".$tmp_target->getId()."','".$tmp_target->getType()."','".
-			$this->getTriggerRefId()."','".$tmp_trigger->getId()."','".$tmp_trigger->getType()."','".
+			"VALUES('0','".$this->getTargetRefId()."','".$this->getTargetObjId()."','".$this->getTargetType()."','".
+			$this->getTriggerRefId()."','".$this->getTriggerObjId()."','".$this->getTriggerType()."','".
 			$this->getOperator()."','".$this->getValue()."')";
 
 		$res = $this->db->query($query);
@@ -198,7 +295,7 @@ class ilConditionHandler
 			$last_id = $row->last;
 		}
 		
-		if(!$this->validate())
+		if ($this->validation && !$this->validate())
 		{
 			$this->deleteCondition($last_id);
 			return false;
@@ -265,14 +362,26 @@ class ilConditionHandler
 
 	/**
 	* get all conditions of target object
+	*
+	* @param	$a_target_obj_id	target object id
+	* @param	$a_target_type		target object type (must be provided only
+	*								if object is not derived from ilObject
+	*								and therefore stored in object_data; this
+	*								is e.g. the case for chapters (type = "st"))
 	* @static
 	*/
-	function _getConditionsOfTarget($a_target_obj_id)
+	function _getConditionsOfTarget($a_target_obj_id, $a_target_type = "")
 	{
 		global $ilDB;
+		
+		if ($a_target_type == "")
+		{
+			$a_target_type = ilObject::_lookupType($a_target_obj_id);
+		}
 
 		$query = "SELECT * FROM conditions ".
-			"WHERE target_obj_id = '".$a_target_obj_id."'";
+			"WHERE target_obj_id = '".$a_target_obj_id."'".
+			" AND target_type = '".$a_target_type."'";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -333,6 +442,7 @@ class ilConditionHandler
 		switch($condition['trigger_type'])
 		{
 			case "tst":
+				include_once './assessment/classes/class.ilObjTest.php';
 				return ilObjTest::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case "qst":
@@ -340,7 +450,6 @@ class ilConditionHandler
 
 			case "crs":
 				include_once './course/classes/class.ilObjCourse.php';
-
 				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value']);
 
 			case 'exc':
@@ -358,9 +467,9 @@ class ilConditionHandler
 	/**
 	* checks wether all conditions of a target object are fulfilled
 	*/
-	function _checkAllConditionsOfTarget($a_target_id)
+	function _checkAllConditionsOfTarget($a_target_id, $a_target_type = "")
 	{
-		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_id) as $condition)
+		foreach(ilConditionHandler::_getConditionsOfTarget($a_target_id, $a_target_type) as $condition)
 		{
 			if(!ilConditionHandler::_checkCondition($condition['id']))
 			{

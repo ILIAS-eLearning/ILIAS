@@ -23,7 +23,7 @@
 
 
 /**
-* class ilobjcourse
+* class ilConditionHandlerInterface
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
@@ -43,6 +43,10 @@ class ilConditionHandlerInterface
 	var $ch_obj;
 	var $target_obj;
 	var $client_obj;
+	var $target_id;
+	var $target_type;
+	var $target_title;
+	var $target_ref_id;
 
 	function ilConditionHandlerInterface(&$gui_obj,$a_ref_id = null)
 	{
@@ -65,7 +69,83 @@ class ilConditionHandlerInterface
 		{
 			$this->target_obj =& $this->gui_obj->object;
 		}
+
+		// this only works for ilObject derived objects (other objects
+		// should call set() methods manually	
+		if (is_object($this->target_obj))
+		{
+			$this->setTargetId($this->target_obj->getId());
+			$this->setTargetRefId($this->target_obj->getRefId());
+			$this->setTargetType($this->target_obj->getType());
+			$this->setTargetTitle($this->target_obj->getTitle());
+		}
+		
 	}
+	
+	/**
+	* set target id
+	*/
+	function setTargetId($a_target_id)
+	{
+		$this->target_id = $a_target_id;
+	}
+	
+	/**
+	* get target id
+	*/
+	function getTargetId()
+	{
+		return $this->target_id;
+	}
+
+	/**
+	* set target ref id
+	*/
+	function setTargetRefId($a_target_ref_id)
+	{
+		$this->target_ref_id = $a_target_ref_id;
+	}
+	
+	/**
+	* get target ref id
+	*/
+	function getTargetRefId()
+	{
+		return $this->target_ref_id;
+	}
+
+	/**
+	* set target type
+	*/
+	function setTargetType($a_target_type)
+	{
+		$this->target_type = $a_target_type;
+	}
+	
+	/**
+	* get target type
+	*/
+	function getTargetType()
+	{
+		return $this->target_type;
+	}
+
+	/**
+	* set target title
+	*/
+	function setTargetTitle($a_target_title)
+	{
+		$this->target_title = $a_target_title;
+	}
+	
+	/**
+	* get target title
+	*/
+	function getTargetTitle()
+	{
+		return $this->target_title;
+	}
+
 	function chi_init(&$chi_target_obj,$a_ref_id = null)
 	{
 		echo 'deprecated';
@@ -86,6 +166,9 @@ class ilConditionHandlerInterface
 		return true;
 	}
 
+	/**
+	* get conditioni list
+	*/
 	function &chi_list()
 	{
 		global $rbacsystem;
@@ -104,7 +187,7 @@ class ilConditionHandlerInterface
 		$tpl->setVariable("COLUMN_COUNTS",4);
 		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 
-		if(count(ilConditionHandler::_getConditionsOfTarget($this->target_obj->getId())))
+		if(count(ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType())))
 		{
 
 			$tpl->setCurrentBlock("tbl_action_btn");
@@ -132,7 +215,7 @@ class ilConditionHandlerInterface
 		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.condition_handler_row.html");
 
 		$counter = 0;
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->target_obj->getId()) as $condition)
+		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType()) as $condition)
 		{
 			$tmp_obj =& ilObjectFactory::getInstanceByRefId($condition['trigger_ref_id']);
 
@@ -161,13 +244,13 @@ class ilConditionHandlerInterface
 		$tbl =& new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->target_obj->getTitle()." ".$this->lng->txt("preconditions"),"icon_".$this->target_obj->getType().".gif",
+		$tbl->setTitle($this->getTargetTitle()." ".$this->lng->txt("preconditions"),"icon_".$this->getTargetType().".gif",
 					   $this->lng->txt("preconditions"));
 
 		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("condition"),
 								   $this->lng->txt("value")));
 		$tbl->setHeaderVars(array("","title","condition","value"), 
-							array("ref_id" => $this->target_obj->getRefId(),
+							array("ref_id" => $this->getTargetRefId(),
 								  "cmdClass" => "ilobjcoursegui",
 								  "cmdNode" => $_GET["cmdNode"],
 								  "cmd" => "cci_edit"));
@@ -204,12 +287,13 @@ class ilConditionHandlerInterface
 		sendInfo($this->lng->txt('condition_deleted'));
 		return true;
 	}
-	function chi_selector()
+	
+	function chi_selector($a_tpl_block = "content", $a_tpl_var = "OBJECTS")
 	{
 		include_once ("classes/class.ilConditionSelector.php");
 
-		$this->tpl->setCurrentBlock("content");
-		$this->tpl->addBlockFile("OBJECTS", "objects", "tpl.condition_selector.html");
+		$this->tpl->setCurrentBlock($a_tpl_block);
+		$this->tpl->addBlockFile($a_tpl_var, "objects", "tpl.condition_selector.html");
 
 		sendInfo($this->lng->txt("condition_select_object"));
 
@@ -217,7 +301,7 @@ class ilConditionHandlerInterface
 		$exp->setExpand($_GET["condition_selector_expand"] ? $_GET["condition_selector_expand"] : $this->tree->readRootId());
 		$exp->setExpandTarget($this->gui_obj->ctrl->getLinkTarget($this->gui_obj,'chi_selector'));
 		$exp->setTargetGet("ref_id");
-		$exp->setRefId($this->target_obj->getRefId());
+		$exp->setRefId($this->getTargetRefId());
 		$exp->addFilter('crs');
 		$exp->setSelectableTypes($this->ch_obj->getTriggerTypes());
 		$exp->setControlClass($this->gui_obj);
@@ -229,7 +313,10 @@ class ilConditionHandlerInterface
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function chi_assign()
+	/**
+	* assign new trigger condition to target
+	*/
+	function chi_assign($a_automatic_validation = true)
 	{
 		if(!isset($_GET['source_id']))
 		{
@@ -237,12 +324,34 @@ class ilConditionHandlerInterface
 
 			return false;
 		}
+
+		// automatic determination of obj id and type works only for
+		// referenced objects
+		if ($this->getTargetRefId() > 0)
+		{
+			if(!$target_obj =& ilObjectFactory::getInstanceByRefId($this->getTargetRefId(),false))
+			{
+				echo 'ilConditionHandler: Target object does not exist';
+			}
+			$this->setTargetObjId($target_obj->getId());
+			$this->setTargetType($target_obj->getType());
+		}
+		$this->ch_obj->setTargetRefId($this->getTargetRefId());
+		$this->ch_obj->setTargetObjId($this->getTargetId());
+		$this->ch_obj->setTargetType($this->getTargetType());
 		
-		$this->ch_obj->setTargetRefId($this->target_obj->getRefId());
-		$this->ch_obj->setTriggerRefId((int) $_GET['source_id']);
+		// this has to be changed, if non referenced trigger are implemted
+		if(!$trigger_obj =& ilObjectFactory::getInstanceByRefId((int) $_GET['source_id'],false))
+		{
+			echo 'ilConditionHandler: Trigger object does not exist';
+		}
+		$this->ch_obj->setTriggerRefId($trigger_obj->getRefId());
+		$this->ch_obj->setTriggerObjId($trigger_obj->getId());
+		$this->ch_obj->setTriggerType($trigger_obj->getType());
 		$this->ch_obj->setOperator('');
 		$this->ch_obj->setValue('');
 
+		$this->ch_obj->enableAutomaticValidation($a_automatic_validation);
 		if(!$this->ch_obj->storeCondition())
 		{
 			sendInfo($this->ch_obj->getErrorMessage());
@@ -262,7 +371,7 @@ class ilConditionHandlerInterface
 
 		#	return false;
 		#}
-		foreach(ilConditionHandler::_getConditionsOfTarget($this->target_obj->getId()) as $condition)
+		foreach(ilConditionHandler::_getConditionsOfTarget($this->getTargetId(), $this->getTargetType()) as $condition)
 		{
 			$this->ch_obj->setOperator($_POST['operator'][$condition["id"]]);
 			$this->ch_obj->setValue($_POST['value'][$condition["id"]]);

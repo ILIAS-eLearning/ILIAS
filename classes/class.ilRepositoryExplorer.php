@@ -267,6 +267,17 @@ class ilRepositoryExplorer extends ilExplorer
 			case "glo":
 				return "";
 
+			case "tst":
+				if ($showViewInFrameset) 
+				{
+	  				return "bottom";
+				}
+				else
+				{
+					return "ilTest".$a_obj_id;
+				}
+				break;
+
 			default:
 				return "";
 		}

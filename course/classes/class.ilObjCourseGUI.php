@@ -2998,7 +2998,11 @@ class ilObjCourseGUI extends ilObjectGUI
 		{
 			$this->editObject();
 		}
-	}		
+	}
+	
+	/**
+	* delete condition(s)
+	*/
 	function chi_deleteObject()
 	{
 		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
