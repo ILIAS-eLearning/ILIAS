@@ -393,11 +393,11 @@
 <!-- Glossary -->
 <!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->
 <!ELEMENT Glossary (MetaData, GlossaryItem+)>
-<!--A GlossaryItem consists of MetaData, a term and one or more definitions; it can be referred by PageObjects--> 
+<!--A GlossaryItem consists of MetaData, a term and one or more definitions; it can be referred by PageObjects-->
 <!ELEMENT GlossaryItem (MetaData, GlossaryTerm, Definition+)>
 <!--GlossaryTerms can be included in Paragraphs -->
 <!ELEMENT GlossaryTerm (%titletext;)*>
-<!ELEMENT Definition (Paragraph | MediaObject)+>
+<!ELEMENT Definition (PageContent)+>
 
 <!-- Layout -->
 <!-- Layout information for formatting content output different from default layout -->
