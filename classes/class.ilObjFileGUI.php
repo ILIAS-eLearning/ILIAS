@@ -106,27 +106,23 @@ class ilObjFileGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $objDefinition;
 
-		$data = $_POST["Fobject"];
+		$data = $_FILES["Fobject"];
 
 		// delete trailing '/' in filename
-		if (substr($data["file"],-1) == '/')
+		if (substr($data["name"]["file"],-1) == '/')
 		{
-			$data["file"] = substr($data["file"],0,-1);
+			$data["name"]["file"] = substr($data["name"]["file"],0,-1);
 		}
 
-		if (empty($data["file"]))
+		if (empty($data["name"]["file"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
+			exit();
 		}
-
-		if (empty($data["title"]))
+		if (empty($_POST["Fobject"]["title"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_title"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (empty($_FILES["Fobject"]["name"]["file"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_file_invalid"),$this->ilias->error_obj->MESSAGE);
+			exit();
 		}
 
 		// create and insert file in grp_tree
@@ -143,8 +139,7 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->putInTree($_GET["ref_id"]);
 		// upload file to filesystem
 		$fileObj->createDirectory();
-		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
-			$_FILES["Fobject"]["name"]["file"]);
+		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],$_FILES["Fobject"]["name"]["file"]);
 
 		sendInfo($this->lng->txt("file_added"),true);
 		header("Location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
