@@ -1,6 +1,6 @@
 Mapping of ILIAS 2 Lerneinheiten to ILIAS 3 LearningObjects
 -----------------------------------------------------------
-2003-01-06, Matthias Rulinski
+2003-01-09, Matthias Rulinski
 
 
 METADATA (id, typ, parent)
@@ -106,33 +106,57 @@ ELEMENT (id, parent)
 		(copy image files)
 	
 	el_titel
-		text				-->		Paragraph *** (.Characteristic -> Headline)
+		text				-->		Paragraph (.Characteristic -> Headline)
 	
 	el_table
-		 rows
-		 cols
-		 border
-		 cellpadd
-		 cellspace
-		 borderspace
-		 align
-		 caption
-		 capalign
-		 width
+		 id					-->		Table.Id (tb_id)
+		 rows				-->		***
+		 cols				-->		***
+		 border				-->		Table.Border
+		 borderspace		-->		unavailable in ILIAS3
+		 caption			-->		Table..Header-/FooterCaption
+		 capalign			-->		(description position) -> Selection for caption
+		 							0 top
+									1 below
+		 width				-->		Table.Width
+		 cellpadd			-->		unavailable in ILIAS3
+		 cellspace			-->		unavailable in ILIAS3
+		 align				-->		*** (alignment) !!! formatting ???
+		 							0 center
+									1 left, wrapped by element (text, image, imagemap) on the right)
+									2 right, wrapped by element (text, image, imagemap) on the left)
+									3 left
+									4 right
+		 
 		 
 	table_cell
-		 row
-		 col
-		 text
-		 halign
-		 valign
-		 color
-		 textform
+		 row				-->		***
+		 col				-->		***
+		 text				-->		TableRow..TableData
+		 halign				-->		(horizontal alignment) unavailable in ILIAS3
+		 							0 left
+									1 center
+									2 right
+		 valign				-->		(vertical aligment) unavailable in ILIAS3
+		 							0 center
+									1 top
+									2 bottom
+		 color				-->		(background color) formatting / unavailable in ILIAS3
+		 							0 white
+									1 red
+									2 blue/violet
+									3 light green
+									4 yellow
+		 textform			-->		*** (text attributes)
+									0 normal
+									1 bold
+									2 italics
+									3 small
 	
 	table_rowcol
-		 rowcol
-		 nr
-		 width
+		 rowcol				-->		
+		 nr					-->		
+		 width				-->		TableData.Width
 	
 	el_map (copy imagemap files)
 	maparea
@@ -306,3 +330,4 @@ Paragraph -> extended attribute: Characteristic (Headline | Example | Citation |
 Content -> (Paragraph | LearningObject) --> (Paragraph | LearningObject)
 Text -> removed (not needed at all)
 Headline -> removed (not needed at all)
+TableData -> new attribute: Width CDATA #IMPLIED

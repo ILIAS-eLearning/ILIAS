@@ -782,7 +782,7 @@ class ILIAS2export
 		// select tables according to element's type
 		switch($element["typ"]) 
 		{
-			case 1: // text element
+			case 1: // text
 				
 				// table 'el_text'
 				$sql =	"SELECT text, align ".
@@ -815,7 +815,7 @@ class ILIAS2export
 				break;
 			
 			/*
-			// image element (bild)
+			// image (bild)
 			case 2:
 				$sql =	"SELECT * ".
 						"FROM el_bild ".
@@ -825,7 +825,7 @@ class ILIAS2export
 				break;
 			*/
 			
-			// title element
+			// title
 			case 3:
 				$sql =	"SELECT text ".
 						"FROM el_titel ".
@@ -856,26 +856,133 @@ class ILIAS2export
 				
 				break;
 			
-			/*
-			// table element
+			// table
 			case 4:
-				$sql =	"SELECT * ".
+				
+				// table 'el_table'
+				$sql =	"SELECT rows, border, caption, capalign, width ". // *** auf weiter checken
 						"FROM el_table ".
 						"WHERE id = $id;";
 				
-				// table's cell information
-				$sql =	"SELECT DISTINCT * ".
-						"FROM table_cell ".
-						"WHERE id = $id;";
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
+				// get row
+				$table = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// free result set
+				$result->free();
 				
-				// table's "rowcol" information
-				$sql =	"SELECT DISTINCT * ".
-						"FROM table_rowcol ".
-						"WHERE id = $id;";
+				/* *** alternativ zu unten
+				// table 'table_cell' and 'table_rowcol'
+				$sql =	"SELECT tc.row, tc.text, tc.textform, tr.width ". // *** textform not implemented yet
+						"FROM table_cell AS tc, table_rowcol AS tr ".
+						"WHERE tc.id = $id ".
+						"AND tc.id = tr.id ".
+						"AND tr.rowcol = 'c' ".
+						"AND tc.col = tr.nr ".
+						"ORDER BY row, col;";
+				*/
+				
+				// ***
+				for ($i = 1; $i <= $table["rows"]; $i++)
+				{
+					// table 'table_cell' and 'table_rowcol'
+					$sql =	"SELECT tc.text, tc.textform, tr.width ". // *** textform not implemented yet
+							"FROM table_cell AS tc, table_rowcol AS tr ".
+							"WHERE tc.id = $id ".
+							"AND tc.row = $i ".
+							"AND tc.id = tr.id ".
+							"AND tr.rowcol = 'c' ".
+							"AND tc.col = tr.nr ".
+							"ORDER BY col;";
+					
+					$result = $this->db->query($sql);		
+					// check $result for error
+					if (DB::isError($result))
+					{
+						die ($result->getMessage());
+					}
+					// get row(s)
+					while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$data[$i][] = $row;
+					}
+					// free result set
+					$result->free();
+				}
+				
+				//--------------------------
+				// create Paragraph subtree:
+				// *** (convert VRIs, HTML and Layout (alignment))
+				//--------------------------
+				
+				// MetaData *** (Parent LearningObjet already has MetaData) Unterschlagen???
+				
+				// Paragraph ***
+				$attrs = array(	"Language" => "de", // *** aus meta holen
+								"Characteristic" => "Example"); // *** aus bsp holen
+				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+				
+				// Paragraph..Table ***
+				$attrs = array(	"Id" => "tb_".$id,
+								"Width" => $table["width"], // auf empty prüfen, Hight not available
+								"Border" => $table["border"]);
+				$Table = $this->writeNode($Paragraph, "Table", $attrs);
+				
+				// ..Table..Title *** aus Metadata
+				
+				// ..Table..HeaderCaption ***
+				if ($table["capalign"] == 0 and
+					$table["caption"] <> "")
+				{
+					$HeaderCaption = $this->writeNode($Table, "HeaderCaption",Null,$table["caption"]);
+				}
+				
+				// ..Table..FooterCaption ***
+				if ($table["capalign"] == 1 and
+					$table["caption"] <> "")
+				{
+					$FooterCaption = $this->writeNode($Table, "FooterCaption",Null,$table["caption"]);
+				}
+				
+				// ..Table..Summary  --> unavailable in ILIAS2
+				
+				// ..Table..TableRow ***
+				foreach ($data as $value) 
+				{
+					$TableRow = $this->writeNode($Table, "TableRow");
+					
+					foreach ($value as $value2)
+					{
+						// ..TableRow..TableData ***
+						$attrs = array(	"Width" => $value2["width"]); // *** auf empty testen
+						$TableData = $this->writeNode($TableRow, "TableData", $attrs, $value2["text"]);
+					}
+				}
+				/* ***
+				for ($i = 1; $i <= $table["rows"]; $i++)
+				{
+					$TableRow = $this->writeNode($Table, "TableRow");
+					
+					foreach ($data as $value) 
+					{
+						if ($value["row"] == $i)
+						{
+							// ..TableRow..TableData ***
+							$attrs = array(	"Width" => $value["width"]); // *** auf empty testen
+							$TableData = $this->writeNode($TableRow, "TableData", $attrs, $value["text"]);
+						}
+					}
+				}
+				*/
 				
 				break;
 			
-			// imagemap element
+			/*
+			// imagemap
 			case 5:
 				$sql =	"SELECT * ".
 						"FROM el_map ".
@@ -891,7 +998,7 @@ class ILIAS2export
 				break;
 			*/
 			
-			// multiple choice element
+			// multiple choice
 			case 6:
 				
 				// table 'el_mc'
@@ -981,7 +1088,7 @@ class ILIAS2export
 				break;
 			
 			/*
-			// multimedia element
+			// multimedia
 			case 7:
 				$sql =	"SELECT * ".
 						"FROM el_multimedia ".
@@ -990,7 +1097,7 @@ class ILIAS2export
 				// table multimedia is treated separatly
 				break;
 			
-			// filelist element
+			// filelist
 			case 8:
 				$sql =	"SELECT * ".
 						"FROM el_filelist ".
@@ -1004,7 +1111,7 @@ class ILIAS2export
 				// table file is treated separatly
 				break;
 			
-			// sourcecode element
+			// sourcecode
 			case 9:
 				$sql =	"SELECT * ".
 						"FROM el_sourcecode ".
@@ -1012,7 +1119,7 @@ class ILIAS2export
 				
 				break;
 			
-			// survey element
+			// survey ***
 			case 10:
 				// el_survey
 				break;
@@ -1029,7 +1136,7 @@ class ILIAS2export
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $row, $element, $text, $attrs, $mc, $answer);
+		unset($sql, $row, $element, $text, $table, $i, $data, $attrs, $mc, $answer);
 		
 		//---------------------------------------------
 		// return (Paragraph | LearningObject) subtree: ***
