@@ -2,65 +2,41 @@
 include_once "include/ilias_header.inc";
 
 //var_dump($_GET);
+$rbacadmin = new RbacAdminH($ilias->db);
 
+// Template generieren
+$tplContent = new Template("content_operations.html",true,true);
+$tplContent->setVariable($ilias->ini["layout"]);
+// Show path
+$tree = new Tree($_GET["obj_id"],1,1);
+$tree->getPath();
+$path = showPath($tree->Path,"content.php");
+$tplContent->setVariable("TREEPATH",$path);
 
-	// Template generieren
-	$tplContent = new Template("content_operations.html",true,true);
-	$tplContent->setVariable($ilias->ini["layout"]);
+$tplContent->setVariable("OBJ_SELF","content.php?obj_id=$obj_id&parent=$parent");
+$tplContent->setVariable("CMD","save");
+$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
+$tplContent->setVariable("TPOS",$_GET["parent"]);		
 
-	// Show path
-	$tree = new Tree($_GET["obj_id"],1,1);
-	$tree->getPath();
-	$path = showPath($tree->Path,"content.php");
-	$tplContent->setVariable("TREEPATH",$path);
+// BEGIN ROW
+$tplContent->setCurrentBlock("row",true);
 
-	$tplContent->setVariable("OBJ_SELF","content.php?obj_id=$obj_id&parent=$parent");
-	$tplContent->setVariable("CMD","save");
-	$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
-	$tplContent->setVariable("TPOS",$_GET["parent"]);
-		
-	$query = "SELECT rbac_operations.ops_id, rbac_operations.operation, rbac_operations.description ".
-			 "FROM rbac_operations ".
-			 "LEFT JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id ".
-			 "LEFT JOIN object_data ON rbac_ta.typ_id = object_data.obj_id ".
-			 "WHERE object_data.obj_id = '".$_GET["obj_id"]."'";
-		
-	$res = $ilias->db->query($query);
-       
-	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
-	{
-		$ops_arr_valid[] = array(
-							  "ops_id"	  => $data["ops_id"],
-                     		  "operation" => $data["operation"],
-                     		  "desc"	  => $data["description"]
-						  );
-	
-	}
-		
-	// BEGIN ROW
-
-	$tplContent->setCurrentBlock("row",true);
-
-if ($ops_arr = getOperationList())
+$ops_valid = $rbacadmin->getOperationsOnType($_GET["obj_id"]);
+if($ops_arr = getOperationList())
 {
-	//$ops_arr = getOperationList();
-
 	$options = array("e" => "enabled","d" => "disabled");
-
 	foreach ($ops_arr as $key => $ops)
 	{
-		$ops_status = "d";
-		
-		foreach ($ops_arr_valid as $ops_valid)
+		if(in_array($ops["ops_id"],$ops_valid))
 		{
-			if ($ops["ops_id"] == $ops_valid["ops_id"])
-			{
-				$ops_status = "e";
-				break;
-			}
+			$ops_status = 'e';
 		}
-		
-		$ops_options = TUtil::formSelect($ops_status,"id[]",$options);
+		else
+		{
+			$ops_status = 'd';
+		}
+		$obj = $ops["ops_id"];
+		$ops_options = TUtil::formSelect($ops_status,"id[$obj]",$options);
 		
 		// color changing
 		if ($key % 2)
@@ -82,7 +58,6 @@ if ($ops_arr = getOperationList())
 		$tplContent->setVariable("OPS_STATUS",$ops_options);
 		$tplContent->parseCurrentBlock("row");
 	}
-	
 	$tplContent->touchBlock("options");
 }
 else
@@ -91,6 +66,5 @@ else
 	$tplContent->setVariable("MESSAGE","No Permission to read");
 	$tplContent->parseCurrentBlock();
 }
-
 include_once "include/ilias_footer.inc";
 ?>

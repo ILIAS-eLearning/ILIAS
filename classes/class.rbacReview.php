@@ -271,5 +271,23 @@ class RbacReview
         }
         return $ops;
     }
+/**
+ * Assign an existing permission to an object 
+ * @access public
+ * @params int,int (type_id,ops_id)
+ * @return bool true/false
+ */
+	function assignPermissionToObject($a_type_id,$a_ops_id)
+	{
+		$query = "INSERT INTO rbac_ta ".
+			"VALUES('".$a_type_id."','".$a_ops_id."')";
+
+		$res = $this->db->query($query);
+		if(DB::isError($res))
+		{
+			return false;
+		}
+		return true;
+	}
 } // END class.RBac
 ?>
