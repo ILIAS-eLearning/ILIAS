@@ -112,6 +112,7 @@ class ilLMEditorGUI
 				$cmd = $_POST["command".$hier_id];
 			}
 		}
+
 //echo ":hier_id_c:$hier_id:";
 		switch($cmd)
 		{
@@ -257,6 +258,7 @@ class ilLMEditorGUI
 							$lm_gui =& new ilObjDlBookGUI("", $_GET["ref_id"], true, false);
 							$lm_gui->$cmd();
 							break;
+
 						case "lm":
 							$lm_gui =& new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
 							$lm_gui->$cmd();
@@ -299,10 +301,7 @@ class ilLMEditorGUI
 		// get learning module object
 		$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
 
-		$path = (substr($this->tpl->tplPath,0,2) == "./") ?
-			".".$this->tpl->tplPath :
-			$this->tpl->tplPath;
-		$this->tpl->setVariable("LOCATION_STYLESHEET", $path."/".$this->ilias->account->prefs["style"].".css");
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");

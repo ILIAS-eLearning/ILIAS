@@ -60,6 +60,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			ilUtil::appendUrlParameterString($this->getTargetScript(),
 			"hier_id=".$this->hier_id."&cmd=edpost"));
 
+		$this->tpl->setVariable("LINK_ILINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&cmd=showLinkHelp&mode=page_edit&obj_id=".$_GET["obj_id"]);
+		$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
+
 		$this->displayValidationError();
 
 		// language and characteristic selection
@@ -130,6 +133,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("FORMACTION",
 			ilUtil::appendUrlParameterString($this->getTargetScript(),
 			"hier_id=".$this->hier_id."&cmd=edpost"));
+
+		$this->tpl->setVariable("LINK_ILINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&cmd=showLinkHelp&mode=page_edit&obj_id=".$_GET["obj_id"]);
+		$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_internal_link")."]");
 
 		$this->displayValidationError();
 
