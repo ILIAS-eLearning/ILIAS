@@ -54,20 +54,6 @@ else
 
 
 // call lm_edit script
-if ($_SESSION["il_map_edit_mode"] == "edit_shape")
-{
-	ilUtil::redirect(ilUtil::appendUrlParameterString($_SESSION["il_map_edit_target_script"],
-		"cmd=setShape"));
-}
-else if($_SESSION["il_map_edit_mode"] == "edit_link")
-{
-	ilUtil::redirect(ilUtil::appendUrlParameterString($_SESSION["il_map_edit_target_script"],
-		"cmd=setLink"));
-}
-else
-{
-	ilUtil::redirect(ilUtil::appendUrlParameterString($_SESSION["il_map_edit_target_script"],
-		"cmd=addArea"));
-}
+ilUtil::redirect($_SESSION["il_map_edit_target_script"]);
 
 ?>

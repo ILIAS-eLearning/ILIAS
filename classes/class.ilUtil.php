@@ -1604,7 +1604,7 @@ class ilUtil
 	function sort_func ($a, $b)
 	{
 		global $array_sortby,$array_sortorder;
-		
+
 		if ($array_sortorder == "asc")
 		{
 			return strcasecmp($a[$array_sortby], $b[$array_sortby]);	
@@ -1758,7 +1758,6 @@ class ilUtil
 
 		return $a_value;
 	}
-
 
 } // END class.ilUtil
 ?>

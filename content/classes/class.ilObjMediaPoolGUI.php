@@ -49,7 +49,12 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function ilObjMediaPoolGUI($a_data,$a_id = 0,$a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
+
+		$this->ctrl =& $ilCtrl;
+
+		$this->ctrl->forwards($this, "ilObjMediaObjectGUI");
+		$this->ctrl->saveParameter($this, array("ref_id", "obj_id"));
 
 		$this->type = "mep";
 		$lng->loadLanguageModule("content");
@@ -331,52 +336,37 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		$cmd = $_GET["cmd"];
-		if($cmd == "post")
-		{
-			$cmd = key($_POST["cmd"]);
-		}
-		if($cmd == "")
-		{
-			$cmd = "frameset";
-		}
-
-		$this->cmd = $cmd;
-
-		if ($_GET["cmdClass"] == "")
-		{
-			$this->$cmd();
-		}
-		else
-		{
-			$this->forwardCommand();
-		}
-	}
-
-	function forwardCommand()
-	{
-		$cmd = $this->cmd;
 		$tree =& $this->object->getTree();
 
-		switch($_GET["cmdClass"])
+		$next_class = $this->ctrl->getNextClass($this);
+
+//echo "next:".$next_class.":<br>";
+
+		$cmd = $this->ctrl->getCmd();
+		switch($next_class)
 		{
-			case "ilObjMediaObjectGUI":
+			case "ilobjmediaobjectgui":
 				require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
-				$cmd.="Object";
+				//$cmd.="Object";
 				$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("", $_GET["obj_id"], false, false);
-				$ilObjMediaObjectGUI->setTargetScript("mep_edit.php?cmdClass=ilObjMediaObjectGUI&ref_id=".
-					$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-				$ilObjMediaObjectGUI->setReturnLocation("mep_edit.php?cmd=listMedia&ref_id=".
-					$_GET["ref_id"]."&obj_id=".$tree->getParentId($_GET["obj_id"]));
+				if($cmd == "create" || $cmd == "returnToContext")
+				{
+					$ret_obj = $_GET["obj_id"];
+				}
+				else
+				{
+					$ret_obj = $tree->getParentId($_GET["obj_id"]);
+				}
+				$this->ctrl->setReturn($this, "listMedia");
 				$this->getTemplate();
 				$ilObjMediaObjectGUI->setAdminTabs();
 				$this->setLocator();
 //echo ":".$tree->getParentId($_GET["obj_id"]).":";
-				$ret =& $ilObjMediaObjectGUI->$cmd();
+				$ret =& $ilObjMediaObjectGUI->executeCommand();
 
 				switch($cmd)
 				{
-					case "saveObject":
+					case "save":
 						$parent = ($_GET["obj_id"] == "")
 							? $tree->getRootId()
 							: $_GET["obj_id"];
@@ -416,6 +406,10 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				}
 				break;
 
+			default:
+				$cmd = $this->ctrl->getCmd("frameset");
+				$this->$cmd();
+				break;
 		}
 	}
 

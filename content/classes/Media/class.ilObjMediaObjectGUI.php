@@ -35,13 +35,16 @@ require_once ("content/classes/Media/class.ilObjMediaObject.php");
 */
 class ilObjMediaObjectGUI extends ilObjectGUI
 {
+	var $ctrl;
 	var $header;
 	var $target_script;
-	var $return_location;
 
 	function ilObjMediaObjectGUI($a_data, $a_id = 0, $a_call_by_reference = false, $a_prepare_output = false)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
+
+		$this->ctrl =& $ilCtrl;
+		$this->ctrl->forwards($this, "ilInternalLinkGUI");
 
 		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		$this->lng =& $lng;
@@ -58,26 +61,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		return $this->header;
 	}
 
-	function setTargetScript($a_target_script)
-	{
-		$this->target_script = $a_target_script;
-	}
-
-	function getTargetScript()
-	{
-		return $this->target_script;
-	}
-
-	function setReturnLocation($a_return_location)
-	{
-		$this->return_location = $a_return_location;
-	}
-
-	function getReturnLocation()
-	{
-		return $this->return_location;
-	}
-
 	function assignObject()
 	{
 		$this->object =& new ilObjMediaObject($this->id);
@@ -85,9 +68,32 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 	function returnToContextObject()
 	{
-		ilUtil::redirect($this->getReturnLocation());
+		$this->ctrl->returnToParent($this);
 	}
 
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+
+//echo "next:".$next_class.":<br>";
+
+		$cmd = $this->ctrl->getCmd();
+		switch($next_class)
+		{
+			case "ilinternallinkgui":
+				require_once("content/classes/class.ilInternalLinkGUI.php");
+				$link_gui = new ilInternalLinkGUI();
+				$ret =& $ilInternalLinkGUI->executeCommand();
+				break;
+
+			default:
+				$cmd.= "Object";
+				$ret =& $this->$cmd();
+				break;
+		}
+
+		return $ret;
+	}
 
 	/**
 	* create new media object form
@@ -96,9 +102,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_mob"));
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=post"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// select fields for number of columns
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
@@ -331,9 +335,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_FORMAT", $this->lng->txt("cont_format"));
 		$this->tpl->setVariable("VAL_FORMAT", $std_item->getFormat());
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=post"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		// width
 		$this->tpl->setVariable("TXT_MOB_WIDTH", $this->lng->txt("cont_width"));
@@ -457,8 +459,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$std_item->setHeight($size[1]);
 			$this->object->update();
 		}
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=edit&cmdClass=ilObjMediaObjectGUI"));
+		$this->ctrl->redirect($this, "edit");
 	}
 
 
@@ -478,8 +479,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$full_item->setHeight($size[1]);
 			$this->object->update();
 		}
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=edit&cmdClass=ilObjMediaObjectGUI"));
+		$this->ctrl->redirect($this, "edit");
 	}
 
 	/**
@@ -542,7 +542,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		$this->object->update();
 
-		ilUtil::redirect($this->getReturnLocation());
+		$this->ctrl->redirect($this, "edit");
 	}
 
 
@@ -594,8 +594,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		//$this->tpl->setVariable("FORMACTION1", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
 		//	"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
-		$this->tpl->setVariable("FORMACTION1", ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=post&cdir=".urlencode($cur_subdir)));
+
+		$this->ctrl->setParameter($this, "cdir", urlencode($cur_subdir));
+		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
 //echo "--".$this->getTargetScript().
 			//"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post"."--<br>";
 		$this->tpl->setVariable("TXT_NEW_DIRECTORY", $this->lng->txt("cont_new_dir"));
@@ -614,8 +615,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$num = 0;
 
 		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
-		$this->tpl->setVariable("FORMACTION", ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=post&cdir=".urlencode($cur_subdir)));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$tbl->setTitle($this->lng->txt("cont_files")." ".$cur_subdir);
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
@@ -683,10 +683,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				if($entry["type"] == "dir")
 				{
 					$this->tpl->setCurrentBlock("FileLink");
-					$this->tpl->setVariable("LINK_FILENAME",
-						$this->getTargetScript().
-						"&hier_id=".$_GET["hier_id"]."&cmd=editFiles&cdir=".$cur_subdir."&newdir=".
-						rawurlencode($entry["entry"]));
+					$this->ctrl->setParameter($this, "cdir", $cur_subdir);
+					$this->ctrl->setParameter($this, "newdir", rawurlencode($entry["entry"]));
+					$this->tpl->setVariable("LINK_FILENAME", $this->ctrl->getLinkTarget($this, "editFiles"));
 					$this->tpl->setVariable("TXT_FILENAME", $entry["entry"]);
 					$this->tpl->parseCurrentBlock();
 
@@ -758,9 +757,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		{
 			ilUtil::makeDir($cur_dir."/".$new_dir);
 		}
-
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=editFiles&cdir=".$_GET["cdir"]));
+		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->redirect($this, "editFiles");
 	}
 
 	/**
@@ -779,8 +777,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			move_uploaded_file($_FILES["new_file"]["tmp_name"],
 				$cur_dir."/".$_FILES["new_file"]["name"]);
 		}
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=editFiles&cdir=".$_GET["cdir"]));
+		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->redirect($this, "editFiles");
 	}
 
 	/**
@@ -820,8 +818,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$format = ilObjMediaObject::getMimeType($file);
 		$std_item->setFormat($format);
 		$this->object->update();
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=editFiles&cdir=".$_GET["cdir"]));
+		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->redirect($this, "editFiles");
+
+		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->redirect($this, "editFiles");
 	}
 
 
@@ -879,8 +880,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$full_item->setFormat($format);
 		}
 		$this->object->update();
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"&cmd=editFiles&cdir=".$_GET["cdir"]));
+		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->redirect($this, "editFiles");
 	}
 
 
@@ -891,8 +892,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	{
 		$this->object->removeMediaItem("Fullscreen");
 		$this->object->update();
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=edit"));
+
+		$this->ctrl->redirect($this, "edit");
 	}
 
 
@@ -917,8 +918,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 			$this->object->update();
 		}
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=edit"));
+
+		$this->ctrl->redirect($this, "edit");
 	}
 
 
@@ -986,8 +987,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			ilUtil::delDir($file);
 		}
 
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=editFiles&cdir=".$cur_subdir));
+		$this->ctrl->saveParameter($this, "cdir");
+		$this->ctrl->redirect($this, "editFiles");
 	}
 
 
@@ -1106,16 +1107,14 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function editMapAreasObject()
 	{
-		$_SESSION["il_map_edit_target_script"] = $this->getTargetScript();
+		$_SESSION["il_map_edit_target_script"] = $this->ctrl->getLinkTarget($this, "addArea");
 
 		//$this->initMapParameters();
 		$this->handleMapParameters();
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
 
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=post"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$this->tpl->setVariable("TXT_IMAGEMAP", $this->lng->txt("cont_imagemap"));
 
@@ -1390,6 +1389,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	function editMapArea($a_get_next_coordinate = false, $a_output_new_area = false,
 		$a_save_form = false, $a_edit_property = "", $a_area_nr = 0)
 	{
+
 		$area_type = $_SESSION["il_map_edit_area_type"];
 //echo "sessioncoords:".$_SESSION["il_map_edit_coords"].":<br>";
 		$coords = $_SESSION["il_map_edit_coords"];
@@ -1397,9 +1397,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
 
-		$this->tpl->setVariable("FORMACTION",
-			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=post"));
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
 		$this->tpl->setVariable("TXT_IMAGEMAP", $this->lng->txt("cont_imagemap"));
 
@@ -1504,8 +1502,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				}
 
 				// internal link list
+				$this->ctrl->setParameter($this, "linkmode", "map");
 				$this->tpl->setVariable("LINK_ILINK",
-					ilUtil::appendUrlParameterString($this->getTargetScript(), "cmd=showLinkHelp&linkmode=map"));
+					$this->ctrl->getLinkTarget($this, "showLinkHelp"));
 				$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_get_link")."]");
 
 				$this->tpl->parseCurrentBlock();
@@ -1581,7 +1580,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*
 	* @access	private
 	*/
-	function setInternalLink()
+	function setInternalLinkObject()
 	{
 		$_SESSION["il_map_il_type"] = $_GET["linktype"];
 		$_SESSION["il_map_il_ltype"] = "int";
@@ -1597,7 +1596,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 			default:
 //echo "addArea";
-				$this->addArea();
+				$this->addAreaObject();
 				break;
 		}
 	}
@@ -1665,9 +1664,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$area->setTitle(ilUtil::stripSlashes($_POST["name_".$i]));
 			$area->update();
 		}
+
 		sendInfo($this->lng->txt("cont_saved_map_data"), true);
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=editMapAreas"));
+		$this->ctrl->redirect($this, "editMapAreas");
 	}
 
 
@@ -1697,8 +1696,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$this->object->update();
 			sendInfo($this->lng->txt("cont_areas_deleted"), true);
 		}
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=editMapAreas"));
+
+		$this->ctrl->redirect($this, "editMapAreas");
 	}
 
 
@@ -1780,8 +1779,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		$this->initMapParameters();
 		sendInfo($this->lng->txt("cont_saved_map_area"), true);
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=editMapAreas"));
+		$this->ctrl->redirect($this, "editMapAreas");
 	}
 
 	function editLinkObject()
@@ -1829,6 +1827,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$_SESSION["il_map_area_nr"] = $_POST["area"][0];
 			$_SESSION["il_map_il_ltype"] = $area->getLinkType();
 			$_SESSION["il_map_edit_mode"] = "edit_link";
+			$_SESSION["il_map_edit_target_script"] = $this->ctrl->getLinkTarget($this, "setLink");
 			if ($_SESSION["il_map_il_ltype"] == IL_INT_LINK)
 			{
 				$_SESSION["il_map_il_type"] = $area->getType();
@@ -1892,6 +1891,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		{
 			$_SESSION["il_map_area_nr"] = $_POST["area"][0];
 			$_SESSION["il_map_edit_mode"] = "edit_shape";
+			$_SESSION["il_map_edit_target_script"] = $this->ctrl->getLinkTarget($this, "setShape");
 		}
 
 
@@ -1963,7 +1963,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->getTargetScript(), $_GET["meta_section"]);
+			$this->ctrl->getLinkTarget($this), $_GET["meta_section"]);
 	}
 
 	/**
@@ -1975,7 +1975,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->getTargetScript(), $_REQUEST["meta_section"]);
+			$this->ctrl->getLinkTarget($this), $_REQUEST["meta_section"]);
 	}
 
 	/**
@@ -1989,7 +1989,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
 		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->getTargetScript(), $_GET["meta_section"]);
+			$this->ctrl->getLinkTarget($this), $_GET["meta_section"]);
 	}
 
 	/**
@@ -2001,9 +2001,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->save($_POST["meta_section"]);
+
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
-		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"cmd=editMeta"));
+		$this->ctrl->redirect($this, "editMeta");
+
 	}
 
 	/**
@@ -2029,7 +2030,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("meta_choose_element"), true);
 		}
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			$this->getTargetScript(), $meta_section);
+			$this->ctrl->getLinkTarget($this), $meta_section);
 	}
 
 
@@ -2039,11 +2040,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	function showLinkHelpObject()
 	{
 		require_once("content/classes/class.ilInternalLinkGUI.php");
-		$link_gui =& new ilInternalLinkGUI($this->getTargetScript(), "Media_Media", 0);
+		$link_gui =& new ilInternalLinkGUI("Media_Media", 0);
 		$link_gui->setMode("link");
 		$link_gui->setSetLinkTargetScript(
-			ilUtil::appendUrlParameterString($this->getTargetScript,
-			"cmd=setLink&cmdClass=ilObjMediaObjectGUI"));
+			$this->ctrl->getLinkTarget($this, "setInternalLink"));
 		$link_gui->filterLinkType("Media");
 		$link_gui->showLinkHelp();
 	}
@@ -2114,10 +2114,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		include_once("classes/class.ilTabsGUI.php");
 		$tabs_gui =& new ilTabsGUI;
-		$tabs_gui->setTargetScript($this->getTargetScript());
-		/*$tabs_gui->setTargetScript(
-			ilUtil::appendUrlParameterString($tabs_gui->getTargetScript(),
-			"cmdClass=ilObjMediaObjectGUI"));*/
+		$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && $this->object->getType() == "mob")
 		{
 			$title = $this->object->getTitle();

@@ -101,7 +101,10 @@ class ilObjMediaObject extends ilObject
 
 	function getTitle()
 	{
-		return $this->meta_data->getTitle();
+		if (is_object($this->meta_data))
+		{
+			return $this->meta_data->getTitle();
+		}
 	}
 
 	/**
