@@ -261,8 +261,10 @@ class RoleObject extends Object
 	{
 		global $tree, $rbacsystem, $rbacadmin;
 
+		// SET TEMPLATE PERMISSIONS
 		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
+
 			// delete all template entries
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
 
@@ -276,10 +278,13 @@ class RoleObject extends Object
 				// sets new template permissions
 				$rbacadmin->setRolePermission($_GET["obj_id"],$key,$ops_array,$_GET["parent"]);
 			}
-			// Existierende Objekte anpassen
+
+			// CHANGE ALL EXISTING OBJECT UNDER PARENT NODE OF ROLE FOLDER
+			// BUT DON'T CHANGE PERMISSIONS OF SUBTREE OBJECTS IF INHERITANCE WAS STOPED
 			if ($_POST["recursive"])
 			{
 				$parent_obj = $_GET["parent_parent"];
+				// IF PARENT NODE IS SYTEM FOLDER START AT ROOT FOLDER
 				if ($parent_obj == SYSTEM_FOLDER_ID)
 				{
 					$object_id = ROOT_FOLDER_ID;
@@ -287,47 +292,69 @@ class RoleObject extends Object
 				}
 				else
 				{
-					$object_id = $_GET["parent"];
-					$parent = $_GET["parent_parent"];
+					$node_data = $tree->getParentNodeData($_GET["parent"],$_GET["parent_parent"]);
+					$object_id = $node_data["obj_id"];
+					$parent = $node_data["parent"];
 				}
-				// revoke all permissions where no permissions are set 
-				$types = getTypeList();
+				// GET ALL SUBNODES
+				$node_data = $tree->getNodeData($object_id,$parent);
+				$subtree_nodes = $tree->getSubTree($node_data);
 
-				foreach ($types as $type)
+				// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
+				$all_rolf_obj = $rbacadmin->getObjectsWithStopedInheritance($_GET["obj_id"]);
+
+				// DELETE ACTUAL ROLE FOLDER FROM ARRAY
+				$key = array_keys($all_rolf_obj,$object_id);
+				unset($all_rolf_obj["$key[0]"]);
+
+				$check = false;
+				foreach($subtree_nodes as $node)
 				{
-					$typ = $type["title"];
-
-					if (!is_array($_POST["template_perm"][$typ]))
+					if(!$check)
 					{
-						$objects = $tree->getAllChildsByType($object_id,$parent,$typ);
-
-						foreach ($objects as $object)
+						if(in_array($node["obj_id"],$all_rolf_obj))
 						{
-							$rbacadmin->revokePermission($object["obj_id"],$object["parent"],$_GET["obj_id"]);
+							$lft = $node["lft"];
+							$rgt = $node["rgt"];
+							$check = true;
+							continue;
+						}
+						$valid_nodes[] = $node;
+					}
+					else
+					{
+						if(($node["lft"] > $lft) && ($node["rgt"] < $rgt))
+						{
+							continue;
+						}
+						else
+						{
+							$check = false;
+							$valid_nodes[] = $node;
 						}
 					}
 				}
-
-				foreach ($_POST["template_perm"] as $key => $ops_array)
+				// NOW SET ALL PERMISSIONS
+				foreach($_POST["template_perm"] as $type => $a_perm)
 				{
-					$objects = $tree->getAllChildsByType($object_id,$parent,$key);
-
-					foreach ($objects as $object)
+					foreach($valid_nodes as $node)
 					{
-						$rbacadmin->revokePermission($object["obj_id"],$object["parent"],$_GET["obj_id"]);
-						$rbacadmin->grantPermission($_GET["obj_id"],$ops_array,$object["obj_id"],$object["parent"]);
+						if($type == $node["type"])
+						{
+							$rbacadmin->revokePermission($node["obj_id"],$node["parent"],$_GET["obj_id"]);
+							$rbacadmin->grantPermission($_GET["obj_id"],$a_perm,$node["obj_id"],$node["parent"]);
+						}
 					}
 				}
-			}
-		}
+			}// END IF RECURSIVE
+		}// END CHECK ACCESS
 		else
 		{
 			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
-
 		return true;
 	}
-
+	
 	/**
 	* copy permissions from role
 	* @access	public
