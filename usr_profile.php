@@ -78,7 +78,6 @@ function upload_file()
 
 	$webspace_dir = ilUtil::getWebspaceDir();
 	$image_dir = $webspace_dir."/usr_images";
-	$path_info = pathinfo($_FILES["userfile"]["name"]);
 	$target_file = $image_dir."/usr_".$ilias->account->getId()."."."jpg";
 	$store_file = "usr_".$ilias->account->getID()."."."jpg";
 
@@ -86,68 +85,26 @@ function upload_file()
 	$ilias->account->setPref("profile_image", $store_file);
 	$ilias->account->update();
 
-	$tempfile = tempnam ("/tmp", "usr_profile_");
-	$pathinfo = pathinfo($tempfile);
+	//$tempfile = tempnam ("/tmp", "usr_profile_");
+	//$pathinfo = pathinfo($tempfile);
+	
 	//
-	move_uploaded_file($_FILES["userfile"]["tmp_name"], $tempfile);
-	chmod($tempfile, 0770);
-	$show_file = $tempfile . ".jpg";
-	$thumb_file = $tempfile . "_small.jpg";
-	$xthumb_file = $tempfile . "_xsmall.jpg";
-	$xxthumb_file = $tempfile . "_xxsmall.jpg";
+	$uploaded_file = $image_dir."/upload_".$ilias->account->getId();
+	move_uploaded_file($_FILES["userfile"]["tmp_name"],
+		$uploaded_file);
+	chmod($uploaded_file, 0770);
 
 	// take quality 100 to avoid jpeg artefacts when uploading jpeg files
 	// taking only frame [0] to avoid problems with animated gifs
-	system(ilUtil::getConvertCmd()." $tempfile" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file");
-	system(ilUtil::getConvertCmd()." $tempfile" . "[0] -geometry 100x100 -quality 100 JPEG:$thumb_file");
-	system(ilUtil::getConvertCmd()." $tempfile" . "[0] -geometry 75x75 -quality 100 JPEG:$xthumb_file");
-	system(ilUtil::getConvertCmd()." $tempfile" . "[0] -geometry 30x30 -quality 100 JPEG:$xxthumb_file");
+	$show_file  = "$image_dir/usr_".$ilias->account->getId().".jpg"; 
+	$thumb_file = "$image_dir/usr_".$ilias->account->getId()."_small.jpg";
+	$xthumb_file = "$image_dir/usr_".$ilias->account->getId()."_xsmall.jpg"; 
+	$xxthumb_file = "$image_dir/usr_".$ilias->account->getId()."_xxsmall.jpg";
 
-	$error = 0;
-	$files = array(
-		"$show_file"  => "$image_dir/usr_" . $ilias->account->getId() . ".jpg", 
-		"$thumb_file" => "$image_dir/usr_" . $ilias->account->getId() . "_small.jpg",
-		"$xthumb_file" => "$image_dir/usr_" . $ilias->account->getId() . "_xsmall.jpg", 
-		"$xxthumb_file" => "$image_dir/usr_" . $ilias->account->getId() . "_xxsmall.jpg"
-	);
-	foreach ($files as $sourcefile => $destfile)
-	{
-		if (@!is_file($sourcefile))
-		{
-			if (@!is_file($sourcefile . ".0"))
-			{
-				$error += 1;
-			}
-			else
-			{
-				if (!@copy($sourcefile . ".0", $destfile))
-				{
-					$error += 1;
-				}
-				else
-				{
-					chmod($destfile, 0770);
-				}			
-			}
-		}
-		else
-		{
-			if (!@copy($sourcefile, $destfile))
-			{
-				$error += 1;
-			}
-			else
-			{
-				chmod($destfile, 0770);
-			}
-		}
-	}
-	
-	// delete the temporary files
-	foreach(glob($tempfile . "*") as $fn) 
-	{
-		unlink($fn);
-	}
+	system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file");
+	system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 100x100 -quality 100 JPEG:$thumb_file");
+	system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 75x75 -quality 100 JPEG:$xthumb_file");
+	system(ilUtil::getConvertCmd()." $uploaded_file" . "[0] -geometry 30x30 -quality 100 JPEG:$xxthumb_file");
 
 	if ($error)
 	{
@@ -169,6 +126,7 @@ function removePicture()
 	$thumb_file = $image_dir."/usr_".$ilias->account->getID()."_small.jpg";
 	$xthumb_file = $image_dir."/usr_".$ilias->account->getID()."_xsmall.jpg";
 	$xxthumb_file = $image_dir."/usr_".$ilias->account->getID()."_xxsmall.jpg";
+	$upload_file = $image_dir."/upload_".$ilias->account->getID();
 
 	// remove user pref file name
 	$ilias->account->setPref("profile_image", "");
@@ -189,6 +147,10 @@ function removePicture()
 	if (@is_file($xxthumb_file))
 	{
 		unlink($xxthumb_file);
+	}
+	if (@is_file($upload_file))
+	{
+		unlink($upload_file);
 	}
 
 }
