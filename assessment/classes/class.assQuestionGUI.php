@@ -27,6 +27,7 @@ require_once "assessment/classes/class.assClozeTest.php";
 require_once "assessment/classes/class.assMatchingQuestion.php";
 require_once "assessment/classes/class.assOrderingQuestion.php";
 require_once "assessment/classes/class.assImagemapQuestion.php";
+require_once "assessment/classes/class.assJavaApplet.php";
 
 /**
 * GUI Handler class for every assessment question type
@@ -129,6 +130,9 @@ class ASS_QuestionGUI extends PEAR {
       case "qt_imagemap":
         $this->question =& new ASS_ImagemapQuestion();
         break;
+			case "qt_javaapplet":
+				$this->question =& new ASS_JavaApplet();
+				break;
     }
     if ($question_id > 0) {
       $this->question->load_from_db($question_id);
@@ -173,6 +177,9 @@ class ASS_QuestionGUI extends PEAR {
         break;
       case "ass_imagemapquestion":
         return "qt_imagemap";
+				break;
+			case "ass_javaapplet":
+				return "qt_javaapplet";
         break;
     }
   }
@@ -195,6 +202,7 @@ class ASS_QuestionGUI extends PEAR {
 			case "qt_multiple_choice_mr":
 			case "qt_ordering":
 			case "qt_imagemap":
+			case "qt_javaapplet":
 				$colspan = " colspan=\"3\"";
 				break;
 			case "qt_matching":
@@ -845,7 +853,7 @@ class ASS_QuestionGUI extends PEAR {
 
 		} else {
 			$this->tpl->setCurrentBlock("pre_save");
-			$this->tpl->setVariable("APPLY_MESSAGE", "You must apply your changes before you can upload an image map!");
+			$this->tpl->setVariable("APPLY_MESSAGE", $this->lng->txt("save_before_upload_imagemap"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -865,6 +873,76 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("APPLY",$this->lng->txt("apply"));
     $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("ACTION_IMAGEMAP_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_imagemap");
+		$this->tpl->parseCurrentBlock();
+  }
+
+/**
+* Sets the fields of a java applet create/edit form
+*
+* Sets the fields of a java applet create/edit form
+*
+* @access private
+*/
+  function out_javaapplet_question_data() {
+
+    $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_javaapplet_question.html", true);
+	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
+
+
+		if ($this->question->get_id() > 0) {
+			// call to other question data i.e. material, estimated working time block
+			$this->out_other_question_data();
+			// image block
+			$this->tpl->setCurrentBlock("post_save");
+
+			// java applet block
+			$javaapplet = $this->question->get_javaapplet_filename();
+	    $this->tpl->setVariable("TEXT_JAVAAPPLET", $this->lng->txt("javaapplet"));
+			if (!empty($javaapplet)) {
+				$this->tpl->setVariable("JAVAAPPLET_FILENAME", $javaapplet);
+				$this->tpl->setVariable("VALUE_JAVAAPPLET_UPLOAD", $this->lng->txt("change"));
+				$this->tpl->setCurrentBlock("javaappletupload");
+				$this->tpl->setVariable("UPLOADED_JAVAAPPLET", $javaapplet);
+				$this->tpl->parse("javaappletupload");
+			} else {
+				$this->tpl->setVariable("VALUE_JAVAAPPLET_UPLOAD", $this->lng->txt("upload"));
+			}
+			$this->tpl->parseCurrentBlock();
+
+			if ($javaapplet) {
+				$this->tpl->setCurrentBlock("appletcode");
+				$this->tpl->setVariable("APPLET_PARAMETERS", $this->lng->txt("applet_attributes"));
+				$this->tpl->setVariable("TEXT_ARCHIVE", $this->lng->txt("archive"));
+				$this->tpl->setVariable("TEXT_CODE", $this->lng->txt("code"));
+				$this->tpl->setVariable("TEXT_WIDTH", $this->lng->txt("width"));
+				$this->tpl->setVariable("TEXT_HEIGHT", $this->lng->txt("height"));
+				$this->tpl->setVariable("VALUE_CODE", $this->question->get_java_code());
+				$this->tpl->setVariable("VALUE_WIDTH", $this->question->get_java_width());
+				$this->tpl->setVariable("VALUE_HEIGHT", $this->question->get_java_height());
+				$this->tpl->parseCurrentBlock();
+			}
+		} else {
+			$this->tpl->setCurrentBlock("pre_save");
+			$this->tpl->setVariable("APPLY_MESSAGE", $this->lng->txt("save_before_upload_javaapplet"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+    $this->tpl->setCurrentBlock("question_data");
+    $this->tpl->setVariable("JAVAAPPLET_ID", $this->question->get_id());
+    $this->tpl->setVariable("VALUE_JAVAAPPLET_TITLE", $this->question->get_title());
+    $this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", $this->question->get_comment());
+    $this->tpl->setVariable("VALUE_JAVAAPPLET_AUTHOR", $this->question->get_author());
+    $this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
+    $this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+    $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
+    $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
+    $this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
+	  $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+    $this->tpl->setVariable("SAVE",$this->lng->txt("save"));
+    $this->tpl->setVariable("APPLY",$this->lng->txt("apply"));
+    $this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("ACTION_JAVAAPPLET_QUESTION", $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&sel_question_types=qt_javaapplet");
 		$this->tpl->parseCurrentBlock();
   }
 
@@ -894,6 +972,9 @@ class ASS_QuestionGUI extends PEAR {
       case "qt_imagemap":
         $this->out_imagemap_question_data();
         break;
+			case "qt_javaapplet":
+				$this->out_javaapplet_question_data();
+				break;
     }
   }
 
@@ -1437,6 +1518,49 @@ class ASS_QuestionGUI extends PEAR {
 		}
 		return $result;
   }
+
+/**
+* Sets the content of a java applet question from a posted create/edit form
+*
+* Sets the content of a java applet question from a posted create/edit form
+*
+* @access private
+*/
+  function set_question_data_from_javaapplet_question_template() {
+		$saved = false;
+		$result = 0;
+    if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
+      $result = 1;
+
+    $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
+    $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
+    $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
+    $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
+		$this->question->set_shuffle($_POST["shuffle"]);
+
+		if ($_POST["id"] > 0) {
+			// adding estimated working time and materials uris
+			$this->set_question_data_from_other_template();
+
+			// Question is already saved, appledcode can be uploaded
+			//setting java applet
+			if (empty($_FILES['javaappletName']['tmp_name'])) {
+				$this->question->set_javaapplet_filename(ilUtil::stripSlashes($_POST['uploaded_javaapplet']));
+			}
+			else 
+			{
+				$this->question->set_javaapplet_filename($_FILES['javaappletName']['name'], $_FILES['javaappletName']['tmp_name']);
+			}
+			if ($this->question->get_javaapplet_filename()) {
+				$this->question->set_java_code($_POST["java_code"]);
+				$this->question->set_java_width($_POST["java_width"]);
+				$this->question->set_java_height($_POST["java_height"]);
+				if ((!$_POST["java_width"]) or (!$_POST["java_height"]))
+					$result = 1;
+			}
+		}
+		return $result;
+  }
 /**
 * Sets the other data i.e. estimated working time, materials uris of a question from a posted create/edit form
 *
@@ -1507,6 +1631,9 @@ class ASS_QuestionGUI extends PEAR {
       case "qt_imagemap":
         $result = $this->set_question_data_from_imagemap_question_template();
         break;
+			case "qt_javaapplet":
+				$result = $this->set_question_data_from_javaapplet_question_template();
+				break;
     }
     return $result;
   }
@@ -1945,6 +2072,52 @@ class ASS_QuestionGUI extends PEAR {
   }
 
 /**
+* Creates the learners output of a java question
+*
+* Creates the learners output of a java question
+*
+* @access public
+*/
+  function out_working_javaapplet_question($test_id = "", $is_postponed = false) {
+		global $ilUser;
+
+		$solutions = array();
+		$postponed = "";
+		if ($test_id) {
+			$solutions =& $this->question->get_solution_values($test_id);
+		}
+		if ($is_postponed) {
+			$postponed = " (" . $this->lng->txt("postponed") . ")";
+		}
+    $this->tpl->addBlockFile("JAVAAPPLET_QUESTION", "javaappletblock", "tpl.il_as_execute_javaapplet_question.html", true);
+		if (!empty($this->question->materials)) {
+			$i=1;
+			$this->tpl->setCurrentBlock("material_preview");
+			foreach ($this->question->materials as $key => $value) {
+				$this->tpl->setVariable("COUNTER", $i++);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->question->get_materials_path_web().$value);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("material_download");
+			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+    $this->tpl->setCurrentBlock("javaappletblock");
+    $this->tpl->setVariable("JAVAAPPLET_QUESTION_HEADLINE", $this->question->get_title());
+    $this->tpl->setVariable("JAVAAPPLET_QUESTION", $this->question->get_question());
+		$javaappletpath_working = $this->question->get_java_path_web() . $this->question->get_javaapplet_filename();
+    $this->tpl->setVariable("PARAM_ARCHIVE", "archive=$javaappletpath_working ");
+		if ($this->question->get_java_code()) {
+			$this->tpl->setVariable("PARAM_CODE", "code=" . $this->question->get_java_code() . " ");
+		}
+		$this->tpl->setVariable("PARAM_WIDTH", $this->question->get_java_width());
+		$this->tpl->setVariable("PARAM_HEIGHT", $this->question->get_java_height());
+    $this->tpl->parseCurrentBlock();
+  }
+
+/**
 * Creates a preview of a question using the preview template
 *
 * Creates a preview of a question using the preview template
@@ -1974,6 +2147,9 @@ class ASS_QuestionGUI extends PEAR {
 				$formaction = "#";
         $this->out_working_imagemap_question("", false, $formaction);
         break;
+			case "qt_javaapplet":
+				$this->out_working_javaapplet_question();
+				break;
     }
     $this->tpl->setCurrentBlock("adm_content");
     $this->tpl->setVariable("ACTION_PREVIEW", $_SERVER["PHP_SELF"] . $this->get_add_parameter());
@@ -2012,6 +2188,9 @@ class ASS_QuestionGUI extends PEAR {
 				$formaction = "#";
         $this->out_working_imagemap_question($test_id, false, $formaction);
         break;
+			case "qt_javaapplet":
+				$this->out_working_javaapplet_question($test_id, false);
+				break;
     }
     $this->tpl->setCurrentBlock("adm_content");
 		$eval_result = $this->question->get_reached_information($ilUser->id, $test_id);
@@ -2044,6 +2223,12 @@ class ASS_QuestionGUI extends PEAR {
 					$out_eval_results .= "</li>";
 				}
         break;
+			case "qt_javaapplet":
+				foreach ($eval_result as $key => $value) {
+					$out_eval_results .= "<li>";
+					$out_eval_results .= sprintf($this->lng->txt("eval_java_result"), $value["value"], $this->lng->txt($bool[$value["true"]]), $value["points"]);
+					$out_eval_results .= "</li>";
+				}
       case "qt_matching":
 				foreach ($eval_result as $key => $value) {
 					$out_eval_results .= "<li>";
@@ -2105,6 +2290,9 @@ class ASS_QuestionGUI extends PEAR {
       case "qt_imagemap":
         $this->out_working_imagemap_question($test_id, $is_postponed, $formaction);
         break;
+			case "qt_javaapplet":
+				$this->out_working_javaapplet_question($test_id, $is_postponed);
+				break;
     }
     $this->tpl->setCurrentBlock("adm_content");
     $this->tpl->setVariable("FORMACTION", $formaction);

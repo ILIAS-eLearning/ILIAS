@@ -1,0 +1,29 @@
+<table class="fullwidth">
+<tr class="tblheader">
+<td class="std" colspan="2"><h1>{JAVAAPPLET_QUESTION_HEADLINE}</h1></td>
+</tr>
+</table>
+<p>
+<table class="std">
+<tr class="tblheader"><td class="std" colspan="2">{JAVAAPPLET_QUESTION}</td></tr>
+<tr><td class="tblrow1" align="center">
+<applet {PARAM_ARCHIVE}{PARAM_CODE}width="{PARAM_WIDTH}" height="{PARAM_HEIGHT}">
+<!-- BEGIN additional_params -->
+<param name="{PARAM_NAME}" value="{PARAM_VALUE}">
+<!-- END additional_params -->
+Your browser does not support Java, so nothing is displayed.
+</applet>
+</td></tr>
+</table>
+</p>
+<!-- BEGIN material_download -->
+<table class="std">
+<tr class="tblheader"><td class="std" colspan="2" >{TEXT_MATERIAL_DOWNLOAD}</td></tr>
+  <!-- BEGIN material_preview -->
+  <tr> <td class="tblrow1"> {COUNTER} </td>
+  <td align="left" class="tblrow1">
+  <a href="{URL_MATERIAL_DOWNLOAD}" target="_blank">{VALUE_MATERIAL_DOWNLOAD}</a>
+  </td></tr>
+  <!-- END material_preview -->
+</table>
+<!-- END material_download -->

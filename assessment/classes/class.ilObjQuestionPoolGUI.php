@@ -183,7 +183,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				// or collect all GET's and POST's and build new form to submit that data
 			}
 		}
-		
     if (strlen($_POST["cmd"]["save"]) > 0) {
       // Save and back to question pool
       if (!$missing_required_fields) {
