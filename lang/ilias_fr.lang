@@ -484,6 +484,7 @@ common#:#accept_usr_agreement#:#Accepter la charte d'utilisation ?
 common#:#access#:#Accès
 common#:#action_aborted#:#Action annulée
 common#:#actions#:#Actions
+common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activation###16 Mar 2004 new variable
 common#:#active_roles#:#Rôles actifs
 common#:#add#:#Ajouter
@@ -500,12 +501,15 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrateur
 common#:#adopt#:#adopter
 common#:#adopt_perm_from_template#:#Adopter la permission à partir du modèle de rôle
+common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Tous les objets
+common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#Disponible dans le formulaire d'enregistrement pour les nouveaux utilisateurs
 common#:#and#:#et
 common#:#announce#:#Annonce
 common#:#announce_changes#:#Annoncer les changements
 common#:#answers#:#Réponses
+common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Application is complete###11 Dec 2003 new variable
 common#:#application_date#:#Date d'inscription
 common#:#appointment#:#Rendez-vous
@@ -683,6 +687,7 @@ common#:#date#:#Date
 common#:#dateplaner#:#Dateplaner###16 Dec 2003 new variable
 common#:#day#:#Jour
 common#:#days#:#Jours
+common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
 common#:#db_host#:#Hôte de base de données
 common#:#db_name#:#Nom de base de données
 common#:#db_need_update#:#Database needs an update!e###26 Nov 2003 new variable
@@ -981,6 +986,7 @@ common#:#hide_structure#:#Désactiver vue structurée
 common#:#hobby#:#Intérêts/hobbies
 common#:#home#:#Home
 common#:#host#:#Hôte
+common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
 common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
@@ -1400,6 +1406,8 @@ common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
 common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
 common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
+common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
+common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Test###04 Feb 2004 new variable
 common#:#obj_typ#:#Définition de type d'objet
 common#:#obj_type#:#Type d'objet
@@ -1524,6 +1532,7 @@ common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
 common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
 common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
 common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
+common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#Question
 common#:#question_pools#:#Question pools###04 Feb 2004 new variable
 common#:#quit#:#Quitter
@@ -1598,6 +1607,7 @@ common#:#save_message#:#Enregistrer message
 common#:#save_refresh#:#Enregistrement et rafraîchissement
 common#:#save_return#:#Enregistrement et retour
 common#:#save_settings#:#Save Settings###17 Mar 2004 new variable
+common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
 common#:#saved#:#Enregistré
 common#:#saved_successfully#:#Enregistré avec succès
 common#:#search#:#Rechercher
@@ -1662,6 +1672,7 @@ common#:#st_added#:#Chapitre ajouté
 common#:#st_edit#:#Modifier chapitre
 common#:#st_new#:#Nouveau chapitre
 common#:#startpage#:#Page de départ
+common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Etat
 common#:#step#:#Etape
 common#:#stop_inheritance#:#Supprimer l'héritage
@@ -1718,6 +1729,9 @@ common#:#to_desktop#:#S'abonner
 common#:#today#:#Aujourd'hui
 common#:#total#:#Total
 common#:#tpl_path#:#Chemin des modèles
+common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
+common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Traduction
 common#:#trash#:#Corbeille
 common#:#treeview#:#Arborescence
@@ -1750,6 +1764,7 @@ common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can 
 common#:#url#:#URL
 common#:#url_description#:#Description de l'URL
 common#:#user#:#Utilisateur
+common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Utilisateur ajouté
 common#:#user_assignment#:#Assignation d'utilisateur
 common#:#user_deleted#:#Utilisateur détruit

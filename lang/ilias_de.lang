@@ -130,9 +130,9 @@ assessment#:#eval_java_result#:#Die Antwort für den Wert %s lautet %s. Sie erre
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist %s. Sie erreichten %s Punkte.
-assessment#:#exp_eval_data#:#Evaluationsdaten exportieren
-assessment#:#exp_type_excel#:#  Excel  
-assessment#:#exp_type_spss#:#  SPSS  
+assessment#:#exp_eval_data#:#Evaluationsdaten exportieren###02 Jul 2004 content changed
+assessment#:#exp_type_excel#:#  Excel  ###02 Jul 2004 content changed
+assessment#:#exp_type_spss#:#  SPSS  ###02 Jul 2004 content changed
 assessment#:#export#:#Exportieren
 assessment#:#false#:#Falsch
 assessment#:#fill_out_all_answer_fields#:#Bitte füllen Sie alle Antwortfelder aus, bevor Sie ein Neues erzeugen
@@ -484,6 +484,7 @@ common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
+common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Aktivierung
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
@@ -500,12 +501,15 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
+common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Alle Objekte
+common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
 common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
+common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Anmeldung erfolgt
 common#:#application_date#:#Anmeldedatum
 common#:#appointment#:#Termin
@@ -683,6 +687,7 @@ common#:#date#:#Datum
 common#:#dateplaner#:#Terminplaner
 common#:#day#:#Tag
 common#:#days#:#Tage
+common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
 common#:#db_host#:#Datenbank Host
 common#:#db_name#:#Datenbankname
 common#:#db_need_update#:#Datenbank benötigt ein Update!
@@ -981,6 +986,7 @@ common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
 common#:#host#:#Host
+common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
 common#:#htlm#:#HTML-Lernmodul
 common#:#htlm_add#:#HTML-Lernmodul hinzufügen
 common#:#htlm_delete#:#HTML-Lernmodul löschen
@@ -1354,7 +1360,6 @@ common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Install
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_chac#:#Chateinstellungen
-common#:#obj_trac#:#Zugriffsstatistiken
 common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Deaktivieren der Chats
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Kurs
@@ -1401,6 +1406,8 @@ common#:#obj_svy#:#Umfrage
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_taxf_desc#:#Ordner für Taxonomien
+common#:#obj_trac#:#Zugriffsstatistiken
+common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
@@ -1525,6 +1532,7 @@ common#:#qpl_new#:#Neuer Fragenpool
 common#:#qpl_read#:#Lesezugriff auf Fragenpool
 common#:#qpl_visible#:#Fragenpool ist sichtbar
 common#:#qpl_write#:#Fragenpool bearbeiten
+common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#Frage
 common#:#question_pools#:#Fragenpools
 common#:#quit#:#Logout
@@ -1599,6 +1607,7 @@ common#:#save_message#:#Nachricht speichern
 common#:#save_refresh#:#Speichern und aktualisieren
 common#:#save_return#:#Speichern und zurückkehren
 common#:#save_settings#:#Einstellungen speichern
+common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
 common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#search#:#Suchen
@@ -1663,6 +1672,7 @@ common#:#st_added#:#Kapitel angelegt
 common#:#st_edit#:#Kapitel bearbeiten
 common#:#st_new#:#Neues Kapitel
 common#:#startpage#:#Startseite
+common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Status
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
@@ -1719,6 +1729,9 @@ common#:#to_desktop#:#Abo
 common#:#today#:#Heute
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
+common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
+common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
@@ -1751,6 +1764,7 @@ common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, S
 common#:#url#:#URL
 common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
+common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_deleted#:#Benutzer gelöscht

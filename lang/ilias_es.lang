@@ -484,6 +484,7 @@ common#:#accept_usr_agreement#:#¿aceptar acuerdo de usuario?
 common#:#access#:#acceso
 common#:#action_aborted#:#Acción abortada!
 common#:#actions#:#acciones
+common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activación
 common#:#active_roles#:#Roles activos
 common#:#add#:#añadir
@@ -500,12 +501,15 @@ common#:#administration#:#administración
 common#:#administrator#:#administrador
 common#:#adopt#:#adoptar
 common#:#adopt_perm_from_template#:#Adoptar configuración de permisos de la Plantilla de Rol
+common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Todos los Objetos
+common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#Disponible en el formulario de registro para nuevos usuarios
 common#:#and#:#y
 common#:#announce#:#anunciar
 common#:#announce_changes#:#anunciar cambios
 common#:#answers#:#respuestas
+common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Solicitud completada
 common#:#application_date#:#Fecha de Solicitud
 common#:#appointment#:#Cita
@@ -683,6 +687,7 @@ common#:#date#:#fecha
 common#:#dateplaner#:#Calendario
 common#:#day#:#Día
 common#:#days#:#Días
+common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
 common#:#db_host#:#host Base de Datos
 common#:#db_name#:#nombre de la Base de Datos
 common#:#db_need_update#:#La Base de Datos necesita una actualización!
@@ -981,6 +986,7 @@ common#:#hide_structure#:#deshabilitar vista estructural
 common#:#hobby#:#Intereses/Hobies
 common#:#home#:#Home
 common#:#host#:#host
+common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
 common#:#htlm#:#Módulo de aprendizaje HTML
 common#:#htlm_add#:#Añadir Módulo de Aprendizaje HTML
 common#:#htlm_delete#:#Eliminar Módulo de Aprendizaje HTML
@@ -1399,6 +1405,8 @@ common#:#obj_svy#:#Survey###07 June 2004 new variable
 common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
 common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
 common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
+common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
+common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objecttype Definition###15 May 2003 new variable
 common#:#obj_type#:#Tipo de Objeto
@@ -1523,6 +1531,7 @@ common#:#qpl_new#:#New question pool###04 Feb 2004 new variable
 common#:#qpl_read#:#Read access to Question Pool###04 Feb 2004 new variable
 common#:#qpl_visible#:#Question Pool is visible###04 Feb 2004 new variable
 common#:#qpl_write#:#Edit Question Pool###04 Feb 2004 new variable
+common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#question
 common#:#question_pools#:#Question pools###04 Feb 2004 new variable
 common#:#quit#:#quit
@@ -1597,6 +1606,7 @@ common#:#save_message#:#guardar mensaje
 common#:#save_refresh#:#Guardar y Actualizar
 common#:#save_return#:#Guardar y Volver
 common#:#save_settings#:#Guardar Configuración
+common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
 common#:#saved#:#guardado
 common#:#saved_successfully#:#guardado con éxito
 common#:#search#:#buscar
@@ -1661,6 +1671,7 @@ common#:#st_added#:#CApítulo añadido
 common#:#st_edit#:#Editar capítulo
 common#:#st_new#:#Nuevo capítulo
 common#:#startpage#:#página de comienzo
+common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#estado
 common#:#step#:#step
 common#:#stop_inheritance#:#Parar Herencia
@@ -1717,6 +1728,9 @@ common#:#to_desktop#:#Al Escritorio
 common#:#today#:#hoy
 common#:#total#:#total
 common#:#tpl_path#:#ruta de plantilla
+common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
+common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Traducción
 common#:#trash#:#papelera
 common#:#treeview#:#Vista Árbol
@@ -1749,6 +1763,7 @@ common#:#uploaded_and_checked#:#El fichero ha sido cargado y chequeado, puede co
 common#:#url#:#url
 common#:#url_description#:#descripción de url
 common#:#user#:#usuario
+common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Usuario añadido
 common#:#user_assignment#:#User Assignment###04 Aug 2003 new variable
 common#:#user_deleted#:#Usuario eliminado

@@ -484,6 +484,7 @@ common#:#accept_usr_agreement#:#Aceitar acordo de utilização?
 common#:#access#:#Acesso
 common#:#action_aborted#:#Acção abortada
 common#:#actions#:#Acções
+common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activação
 common#:#active_roles#:#Papéis activos
 common#:#add#:#Adicionar
@@ -500,12 +501,15 @@ common#:#administration#:#Administração
 common#:#administrator#:#Administrador
 common#:#adopt#:#adoptar
 common#:#adopt_perm_from_template#:#Adoptar definições de permissões de Modelo de Papel
+common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Todos os Objectos
+common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#Disponível no registo de novos utilizadores
 common#:#and#:#e
 common#:#announce#:#Anunciar
 common#:#announce_changes#:#Anunciar Alterações
 common#:#answers#:#Respostas
+common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Aplicação completa
 common#:#application_date#:#Data da aplicação
 common#:#appointment#:#Marcação
@@ -683,6 +687,7 @@ common#:#date#:#Data
 common#:#dateplaner#:#Planeador de datas
 common#:#day#:#Dia
 common#:#days#:#Dias
+common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
 common#:#db_host#:#Anfitrião da Base de dados
 common#:#db_name#:#Nome da Base de dados
 common#:#db_need_update#:#A Base de dados necessita de uma actualização!
@@ -981,6 +986,7 @@ common#:#hide_structure#:#Desligar Vista-Estruturada
 common#:#hobby#:#Interesses/Passatempos
 common#:#home#:#Casa
 common#:#host#:#Anfitrião
+common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
 common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
@@ -1400,6 +1406,8 @@ common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
 common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
 common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
+common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
+common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Teste
 common#:#obj_typ#:#Definição de Tipo de Objecto
 common#:#obj_type#:#Tipo de Objecto
@@ -1524,6 +1532,7 @@ common#:#qpl_new#:#Novo banco de questões
 common#:#qpl_read#:#Acesso de Leitura ao Banco de Questões
 common#:#qpl_visible#:#O Banco de Questões é visível
 common#:#qpl_write#:#Editar Banco de Questões
+common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#Questão
 common#:#question_pools#:#Bancos de Questões
 common#:#quit#:#Desistir
@@ -1598,6 +1607,7 @@ common#:#save_message#:#Salvar Mensagem
 common#:#save_refresh#:#Salvar e Actualizar
 common#:#save_return#:#Salvar e Voltar
 common#:#save_settings#:#Guardar definições
+common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
 common#:#saved#:#Guardado
 common#:#saved_successfully#:#Guardado com Sucesso
 common#:#search#:#Procurar
@@ -1662,6 +1672,7 @@ common#:#st_added#:#Capítulo adicionado
 common#:#st_edit#:#Editar capítulo
 common#:#st_new#:#Novo capítulo
 common#:#startpage#:#Página inicial
+common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Estado
 common#:#step#:#Passo
 common#:#stop_inheritance#:#Parar herança
@@ -1718,6 +1729,9 @@ common#:#to_desktop#:#Subscrever
 common#:#today#:#Hoje
 common#:#total#:#Total
 common#:#tpl_path#:#Caminho Modelo
+common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
+common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Tradução
 common#:#trash#:#Lixo
 common#:#treeview#:#Vista em Árvore
@@ -1750,6 +1764,7 @@ common#:#uploaded_and_checked#:#O ficheiro foi enviado e verificado, você pode 
 common#:#url#:#URL
 common#:#url_description#:#Descrição do URL
 common#:#user#:#Utilizador
+common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Utilizador adicionado
 common#:#user_assignment#:#Atribuição de Utilizador
 common#:#user_deleted#:#Utilizador apagado

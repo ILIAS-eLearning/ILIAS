@@ -484,6 +484,7 @@ common#:#accept_usr_agreement#:#Прийняти угоду користувач
 common#:#access#:#Доступ
 common#:#action_aborted#:#Дію перервано
 common#:#actions#:#Дії
+common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activation###16 Mar 2004 new variable
 common#:#active_roles#:#Активні Ролі
 common#:#add#:#Додати
@@ -500,12 +501,15 @@ common#:#administration#:#Адміністрування
 common#:#administrator#:#Адміністратор
 common#:#adopt#:#прийняти
 common#:#adopt_perm_from_template#:#Прийняти параметри прав з Шаблону Ролей
+common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Усі Об'єкти
+common#:#all_tsts#:#All tests###02 Jul 2004 new variable
 common#:#allow_register#:#Доступний в реєстраційній формі для нових користувачів
 common#:#and#:#та
 common#:#announce#:#Анонсувати
 common#:#announce_changes#:#Анонсувати Зміни
 common#:#answers#:#Відповіді
+common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Програма завершена
 common#:#application_date#:#Дата програми
 common#:#appointment#:#Призначення
@@ -683,6 +687,7 @@ common#:#date#:#Дата
 common#:#dateplaner#:#Органайзер
 common#:#day#:#День
 common#:#days#:#Дні
+common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
 common#:#db_host#:#Хост з Базою даних
 common#:#db_name#:#Ім'я Бази даних
 common#:#db_need_update#:#База даних потребує оновлення!
@@ -981,6 +986,7 @@ common#:#hide_structure#:#Заборонити Структурований-Ог
 common#:#hobby#:#Інтереси/Хоббі
 common#:#home#:#Дім
 common#:#host#:#Хост
+common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
 common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
 common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
@@ -1400,6 +1406,8 @@ common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
 common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
 common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
+common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
+common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
 common#:#obj_tst#:#Тест
 common#:#obj_typ#:#Визначення Типу Об'єкта
 common#:#obj_type#:#Тип Об'єкта
@@ -1524,6 +1532,7 @@ common#:#qpl_new#:#Нова черга питань
 common#:#qpl_read#:#Доступ на читання до черги питань
 common#:#qpl_visible#:#Черга питань є видимою
 common#:#qpl_write#:#Редагувати Чергу Птань
+common#:#query_data#:#Query data###02 Jul 2004 new variable
 common#:#question#:#Питання
 common#:#question_pools#:#Черги питань
 common#:#quit#:#Вихід
@@ -1598,6 +1607,7 @@ common#:#save_message#:#Зберігти Повідомлення
 common#:#save_refresh#:#Зберігти та Обновити
 common#:#save_return#:#Зберігти та Повернутись
 common#:#save_settings#:#Save Settings###17 Mar 2004 new variable
+common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
 common#:#saved#:#Збережено
 common#:#saved_successfully#:#Збережено Вдало
 common#:#search#:#Пошук
@@ -1662,6 +1672,7 @@ common#:#st_added#:#Глава додана
 common#:#st_edit#:#Редагувати главу
 common#:#st_new#:#Нова глава
 common#:#startpage#:#Початкова сторінка
+common#:#statistic#:#Statistic###02 Jul 2004 new variable
 common#:#status#:#Статус
 common#:#step#:#Крок
 common#:#stop_inheritance#:#Зупинити наслідування
@@ -1718,6 +1729,9 @@ common#:#to_desktop#:#Підписатися
 common#:#today#:#Сьогодні
 common#:#total#:#Загалом
 common#:#tpl_path#:#Шлях до Шаблона
+common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
+common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
+common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
 common#:#translation#:#Переклад
 common#:#trash#:#Смітник
 common#:#treeview#:#Огляд у вигляді дерева
@@ -1750,6 +1764,7 @@ common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can 
 common#:#url#:#URL
 common#:#url_description#:#URL Опис
 common#:#user#:#Користувач
+common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Користувач доданий
 common#:#user_assignment#:#Призначення Користувача
 common#:#user_deleted#:#Користувач Видалений
