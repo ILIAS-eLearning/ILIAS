@@ -40,12 +40,12 @@ choose_languages#:#Per favore, scegli alcune lingue ulteriori e/o remuovi le lin
 choose_password#:#Per favore, scegli una password
 data_path#:#Percorso della cartella data
 database#:#Database
-database_exists#:#Database gi&agrave; esistente
+database_exists#:#Database gi&#224; esistente
 database_is_uptodate#:#Database aggiornato
-database_needs_update#:#Il Database deve essere aggiornato
+database_needs_update#:#Il database deve essere aggiornato
 database_ready#:#Database pronto.
-database_update#:#Aggiorna Database
-database_version#:#Versione attuale del Database
+database_update#:#Aggiorna il database
+database_version#:#Versione attuale del database
 date#:#Data
 db_host#:#Macchina con il database
 db_name#:#Nome database
@@ -55,11 +55,11 @@ db_user#:#Utente database
 db_version#:#Versione database
 default#:#Predefinito
 delete#:#Elimina
-en_by_default#:#(la lingua inglese &egrave; installata come predefinita e non pu&ograve; essere cancellata).
+en_by_default#:#(la lingua inglese &#232; installata come predefinita e non pu&ograve; essere cancellata).
 enter_password#:#Per favore, inserisci la password
 env_ok#:#Ok. Sembra corretto.
-env_using#:#ILIAS 3 girer&agrave; su
-env_warning#:#ILIAS 3 &egrave; stato testato solo utilizzando Apache come web server su piattaforme Linux e Windows!<br />Comunque, ILIAS 3 potrebbe funzionare anche con la tua configurazione.
+env_using#:#ILIAS 3 girer&#224; su
+env_warning#:#ILIAS 3 &#232; stato testato solo utilizzando Apache come web server su piattaforme Linux e Windows!<br />Comunque, ILIAS 3 potrebbe funzionare anche con la tua configurazione.
 environment#:#Ambiente
 err_create_database_failed#:#Creazione database fallita
 err_wrong_login#:#Login errata
@@ -70,25 +70,25 @@ ilias_version#:#Versione di ILIAS
 inifile#:#File .ini
 inifile_can_write#:#Il processo di installazione di ILIAS 3 pu&ograve; scrivere il tuo file .ini.
 inifile_cannot_write#:#Il processo di installazione di ILIAS 3 non pu&ograve; scrivere il tuo file .ini. Per favore, verifica i diritti di accesso.
-inifile_content#:#Questo &egrave; il contenuto del tuo file .ini:
+inifile_content#:#Questo &#232; il contenuto del tuo file .ini:
 inifile_exists#:#Il file .ini esiste. Attenzione: il processo di installazione cancella le impostazioni precedenti.
 inifile_fill_all#:#Per favore, riempi tutti i campi.
-inifile_firsttime#:#Non &egrave; prefente il file .ini! Potrebbe essere la prima esecuzione di ILIAS 3.
+inifile_firsttime#:#Non &#232; prefente il file .ini! Potrebbe essere la prima esecuzione di ILIAS 3.
 inifile_written#:#Il file .ini &egrave, stato salvato con successo sulla macchina.
-inst_name#:#Nome dell&acute;installazione
+inst_name#:#Nome dell&#039;installazione
 install#:#Installa
 installation#:#Installazione
 installed#:#installato
-intro_install#:#Questa &egrave; la pagina principale del processo di installazione di ILIAS 3. Da qui puoi procedere con l&acute;installazione.
+intro_install#:#Questa &#232; la pagina principale del processo di installazione di ILIAS 3. Da qui puoi procedere con l&#039;installazione.
 lang_de#:#Tedesco
 lang_dk#:#Danese
 lang_en#:#Inglese
-lang_error_occurred#:#Si &egrave; verificato un errore. Esecuzione abortita.
+lang_error_occurred#:#Si &#232; verificato un errore. Esecuzione interrotta.
 lang_es#:#Spagnolo
 lang_fr#:#Francese
 lang_id#:#Indonesiano
 lang_it#:#Italiano
-lang_lt#:#Lithuanian###11 Nov 2003 new variable
+lang_lt#:#Lituano###11 Nov 2003 new variable
 lang_no#:#Norvegese
 lang_pl#:#Polacco
 lang_se#:#Svedese
@@ -98,7 +98,7 @@ languages#:#Lingue
 languages_installed#:#Lingue installate.
 logged_out#:#Sei uscito dal sistema.
 login#:#Login
-login_to_ilias#:#Login a ILIAS
+login_to_ilias#:#Entra in ILIAS
 logout#:#Esci
 no_changes#:#Nessun cambiamento.
 no_db_update_file#:#Non trovato il file dbupdate.php!
@@ -107,12 +107,12 @@ out_of_webspace#:#(esaurito lo spazio nella cartella webdata)
 password#:#Password
 password_changed#:#Password modificata.
 password_empty#:#Manca la password!
-password_info#:#Per proteggere i dati della configurazione, dovrai specificare pi&ugrave; tardi una password di accesso all'installazione di ILIAS 3.
+password_info#:#Per proteggere i dati della configurazione, dovrai specificare pi&#249; tardi una password di accesso all'installazione di ILIAS 3.
 password_set#:#Password salvata.
-pre_error#:#SI sono verificati alcuni errori. Per favore, correggi i problemi o non potrai proseguire con l&acute;installazione di ILIAS 3.
+pre_error#:#SI sono verificati alcuni errori. Per favore, correggi i problemi o non potrai proseguire con l&#039;installazione di ILIAS 3.
 pre_folder_create#:#Nuove cartelle create nella cartella di ILIAS 3
 pre_folder_write#:#Cartella di ILIAS 3 scrivibile
-pre_intro#:#Per prima cosa verifichiamo se il sistema rispetta i requisiti per l&acute;installazione e l&acute;esecuzione di ILIAS 3.
+pre_intro#:#Per prima cosa verifichiamo se il sistema rispetta i requisiti per l&#039;installazione e l&#039;esecuzione di ILIAS 3.
 pre_php_version#:#Versione PHP
 preliminaries#:#Preliminari
 reset#:#Reset
@@ -124,18 +124,18 @@ setup_database_desc#:#installare il database
 setup_db_first#:#Per favore, crea prima il database!
 setup_ini_first#:#Per favore, crea prima il file .ini!
 setup_inifile#:#Creazione del file .ini
-setup_inifile_desc#:#creare il file .ini per l&acute;installazione
+setup_inifile_desc#:#creare il file .ini per l&#039;installazione
 setup_languages#:#Installa le lingue
 setup_languages_desc#:#installare le lingue aggiuntive
-setup_mainmenu#:#Menu principale dell&acute;installazione
-setup_menu#:#Menu dell&acute;installazione
+setup_mainmenu#:#Menu principale dell&#039;installazione
+setup_menu#:#Menu dell&#039;installazione
 setup_password#:#Creazione password
-setup_password_desc#:#creare una password per accedere alla successiva procedura di installazione (per l&acute;aggiornamento del database)
+setup_password_desc#:#creare una password per accedere alla successiva procedura di installazione (per l&#039;aggiornamento del database)
 setup_ready#:#Installazione terminata. Puoi accedere adesso ad ILIAS 3 e completare le impostazioni di sistema.
-setup_welcome#:#Benvenuti nell&acute;installazione di ILIAS 3. La procedura di installazione ti aiuter&agrave; a:
+setup_welcome#:#Benvenuti nell&#039;installazione di ILIAS 3. La procedura di installazione ti aiuter&#224; a:
 submit#:#Accetta
 update_applied#:#Modifiche effettuate
-update_error#:#Errore nell&acute;aggiornamento
+update_error#:#Errore nell&#039;aggiornamento
 update_not_found#:#Modifiche non trovate!
 version#:#Versione
 webspace_dir#:#Percorso della cartella webdata###24 Jun 2003 new variable
