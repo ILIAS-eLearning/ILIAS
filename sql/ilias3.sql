@@ -809,24 +809,6 @@ CREATE TABLE mail (
 # --------------------------------------------------------
 
 #
-# Table structure for table `note_data`
-#
-
-CREATE TABLE note_data (
-  note_id int(11) NOT NULL default '0',
-  lo_id int(11) NOT NULL default '0',
-  text text,
-  create_date datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (note_id)
-) TYPE=MyISAM;
-
-#
-# Dumping data for table `note_data`
-#
-
-# --------------------------------------------------------
-
-#
 # Table structure for table `object_data`
 #
 
@@ -876,8 +858,6 @@ INSERT INTO object_data VALUES (30, 'typ', 'role', 'Role Object', -1, '2002-08-3
 INSERT INTO object_data VALUES (31, 'typ', 'lo', 'Learning Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
 INSERT INTO object_data VALUES (32, 'typ', 'uset', 'User Setting Object', -1, '2002-08-30 10:21:37', '2002-08-30 10:21:37');
 INSERT INTO object_data VALUES (33, 'typ', 'root', 'Root Folder Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00');
-INSERT INTO object_data VALUES (35, 'typ', 'notf', 'Note Folder Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00');
-INSERT INTO object_data VALUES (36, 'typ', 'note', 'Note Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00');
 INSERT INTO object_data VALUES (34, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2002-12-22 13:24:30');
 INSERT INTO object_data VALUES (156, 'usr', 'Bill Teacher', '', 6, '2002-08-30 14:04:26', '2002-12-24 12:44:34');
 INSERT INTO object_data VALUES (158, 'usr', 'Guest', '', 6, '2002-08-30 14:05:39', '2002-12-24 12:43:34');
@@ -1176,17 +1156,6 @@ INSERT INTO rbac_ta VALUES (33, 2);
 INSERT INTO rbac_ta VALUES (33, 3);
 INSERT INTO rbac_ta VALUES (33, 4);
 INSERT INTO rbac_ta VALUES (33, 5);
-INSERT INTO rbac_ta VALUES (35, 1);
-INSERT INTO rbac_ta VALUES (35, 2);
-INSERT INTO rbac_ta VALUES (35, 3);
-INSERT INTO rbac_ta VALUES (35, 4);
-INSERT INTO rbac_ta VALUES (35, 5);
-INSERT INTO rbac_ta VALUES (36, 1);
-INSERT INTO rbac_ta VALUES (36, 2);
-INSERT INTO rbac_ta VALUES (36, 3);
-INSERT INTO rbac_ta VALUES (36, 4);
-INSERT INTO rbac_ta VALUES (36, 5);
-INSERT INTO rbac_ta VALUES (36, 6);
 # --------------------------------------------------------
 
 #
