@@ -72,7 +72,9 @@ class RoleObject extends Object
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
 		
-		return true;
+		//return true;
+		
+		return $new_obj_id;
 	}
 
 	/**
