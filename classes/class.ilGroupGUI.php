@@ -1562,7 +1562,7 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORMACTION",
 		$this->getFormAction("permSave","group.php?".$this->link_params."&cmd=permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("COL_ANZ",$colspan);
+		$this->tpl->setVariable("COL_ANZ",$colspan + 5);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 	}
@@ -1890,12 +1890,13 @@ class ilGroupGUI extends ilObjectGUI
 			$notoperations[] = "cut";
 			$notoperations[] = "copy";
 			$notoperations[] = "link";
+			$notoperations[] = "move";
 
 			//temp. disabled
 			$notoperations[] = "paste";
 			$notoperations[] = "clear";
 		}
-
+		
 		$operations = array();
 
 		$d = $this->objDefinition->getActions("grp");
@@ -2162,9 +2163,8 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));// footer
-		$tbl->render();		// render table
-
-
+		$tbl->render(); // render table
+		
 		$this->tpl->show();
 	}
 	
