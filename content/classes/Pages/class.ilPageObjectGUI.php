@@ -755,6 +755,12 @@ class ilPageObjectGUI
 
 	function clipboardDeletion()
 	{
+		// check number of objects
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		foreach($_POST["id"] AS $obj_id)
 		{
 			$this->ilias->account->removeObjectFromClipboard($obj_id, "mob");
