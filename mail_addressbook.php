@@ -130,11 +130,20 @@ if(isset($_POST["cmd"]["cancel"]))
 // ADD NEW ENTRY
 if(isset($_POST["cmd"]["add"]))
 {
-	$abook->addEntry($_POST["login"],
+	// check if user login is empty 
+	if ( !strcmp(trim($_POST["login"]),"") 
+	or   !strcmp(trim($_POST["email"]),"") 
+	   ) {
+		sendInfo($lng->txt("mail_check_your_email_addr"));
+	}
+	else {
+		$abook->addEntry($_POST["login"],
 					 $_POST["firstname"],
 					 $_POST["lastname"],
 					 $_POST["email"]);
 	sendInfo($lng->txt("mail_entry_added"));
+	}
+	
 }
 
 // CONFIRM DELETE
