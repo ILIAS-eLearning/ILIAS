@@ -84,11 +84,6 @@
 				
 				<tr>
 					<td align="right" valign="top">array</td>
-					<td align="left" valign="top" width="100%"><a href="#function_getUnreadMail()"><h4>getUnreadMail()</h4></a>get unread mail</td>
-				</tr>
-				
-				<tr>
-					<td align="right" valign="top">array</td>
 					<td align="left" valign="top" width="100%"><a href="#function_getLastVisitedLessons()"><h4>getLastVisitedLessons()</h4></a>get last read lessons</td>
 				</tr>
 				
@@ -105,6 +100,11 @@
 				<tr>
 					<td align="right" valign="top">array</td>
 					<td align="left" valign="top" width="100%"><a href="#function_getBookmarks()"><h4>getBookmarks()</h4></a>get own bookmarks</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">array</td>
+					<td align="left" valign="top" width="100%"><a href="#function_getBookmarkFolder()"><h4>getBookmarkFolder()</h4></a>get own bookmarks</td>
 				</tr>
 				
 				<tr>
@@ -209,6 +209,11 @@
 				<tr>
 					<td align="right" valign="top">object DB</td>
 					<td align="left" valign="top" width="100%"><a href="#variable_$db"><h4>$db</h4></a>database handler</td>
+				</tr>
+				
+				<tr>
+					<td align="right" valign="top">object error</td>
+					<td align="left" valign="top" width="100%"><a href="#variable_$error_class"><h4>$error_class</h4></a>error handling</td>
 				</tr>
 				
 			</table>
@@ -325,44 +330,6 @@
 				<tr>
 					<td align="left" valign="top">Returns</td>
 					<td>string <p>language </td>
-				</tr>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				<tr>
-					<td colspan="2" align="left" valign="top"><hr></td>
-				</tr>
-				
-				<tr><td colspan="2" align="left" valign="top"><a name="function_getUnreadMail()"><h4>getUnreadMail</h4></a></td></tr>
-				<tr>
-					<td colspan="2" align="left" valign="top">
-						<b>public    array getUnreadMail(  )</b><p>
-					</td>
-				</tr>
-				<tr>
-					<td width="10" align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">
-						get unread mail
-						<br>
-						
-						<p>
-						
-					</td>
-				</tr>
-				
-				
-				<tr>
-					<td align="left" valign="top">Returns</td>
-					<td>array <p>mails </td>
 				</tr>
 				
 				
@@ -498,6 +465,44 @@
 				<tr>
 					<td colspan="2" align="left" valign="top">
 						<b>public    array getBookmarks(  )</b><p>
+					</td>
+				</tr>
+				<tr>
+					<td width="10" align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">
+						get own bookmarks
+						<br>
+						
+						<p>
+						
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td align="left" valign="top">Returns</td>
+					<td>array <p>bookmarks </td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="function_getBookmarkFolder()"><h4>getBookmarkFolder</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>public    array getBookmarkFolder(  )</b><p>
 					</td>
 				</tr>
 				<tr>
@@ -1337,6 +1342,31 @@
 						>><code></code><<
 						<p>
 						database handler
+						<br>
+						
+					</td>
+				</tr>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				<tr>
+					<td colspan="2" align="left" valign="top"><hr></td>
+				</tr>
+				
+				<tr><td colspan="2" align="left" valign="top"><a name="variable_$error_class"><h4>$error_class</h4></a></td></tr>
+				<tr>
+					<td colspan="2" align="left" valign="top">
+						<b>private   object error $error_class</b>
+						<p>
+						>><code></code><<
+						<p>
+						error handling
 						<br>
 						
 					</td>
