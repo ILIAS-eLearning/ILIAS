@@ -126,11 +126,13 @@ class ilMetaData
 
 			if ( $this->nested->initDom() ) {
 				$meta_rec["title"] = $this->nested->getFirstDomContent("//MetaData/General/Title");
+				$meta_rec["description"] = $this->nested->getFirstDomContent("//MetaData/General/Description");
 			}
 
 		} 
 		
 		$this->setTitle($meta_rec["title"]);
+		$this->setDescription($meta_rec["description"]);
 	}
 
 	/**
