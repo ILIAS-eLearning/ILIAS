@@ -75,73 +75,111 @@ class RbacSystem extends PEAR
     }
 
 /**	
+ * checkAccess represents the main method of the RBAC-system in ILIAS3 developers want to use
+ * With this method you check the permissions a use may have due to its roles
+ * on an specific object.
+ * The first parameter are the operation(s) the user must have
+ * The second & third parameter specifies the object where the operation(s) may applie to
+ * The last parameter is only required, if you ask for the 'create' operation. Here you specify
+ * the object type which you want to create.
+ * 
+ * example: $rbacSystem->checkAccess("visible,read",23,5);
+ * Here you ask if the user is allowed to see ('visible') and access the object by reading it ('read').
+ * The object_id is 23 and it is located under object no. 5 under the tree structure.
+ *  
  * @access public
- * @param integer ObjectId
- * @param integer das abzufragende Recht
- * @param integer
- * @param string
- * @return boolean true false
+ * @param string	$a_operations	one or more operations, separated by commas (i.e.: visible,read,join)
+ * @param integer	$a_obj_id		the object_id of the object
+ * @param integer	$a_parent		the object_id of the parent of the object
+ * @param string	$a_type			the type definition abbreviation (i.e.: frm,grp,crs)
+ * @return boolean	returns true if ALL passed operations are given, otherwise false
  */
-    function checkAccess($Aoperation,$a_obj_id,$a_parent,$a_type = "")
+    function checkAccess($a_operations,$a_obj_id,$a_parent,$a_type = "")
     {
 		global $ilias;
 		global $tree;
+		
+		$operations = explode(",",$a_operations);
 		
 		$ops = array();
 
 		$rbacadmin = new RbacAdminH($this->db);
 		$rbacreview = new RbacReviewH($this->db);
 
-		// Abfrage der ops_id der gewünschten Operation
-		$query = "SELECT ops_id FROM rbac_operations ".
-			"WHERE operation ='".$Aoperation."'";
+		foreach ($operations as $operation)
+		{
+			// Abfrage der ops_id der gewünschten Operation
+			$query = "SELECT ops_id FROM rbac_operations ".
+				"WHERE operation ='".$operation."'";		    
+			
+			$res = $this->db->query($query);
 
-		
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			//echo $row->ops_id."<br>";
-			$ops_id = $row->ops_id;
-		}
-		// Case 'create': naturally there is no rbac_pa entry
-		// => looking for the next template and compare operation with template permission
-		if($Aoperation == 'create')
-		{
-			$obj = new Object($ilias);
-			$tree = new Tree($a_obj_id,$obj->ROOT_FOLDER_ID);
-			$path_ids = $tree->getPathId($a_obj_id,$obj->ROOT_FOLDER_ID);
-			array_unshift($path_ids,$obj->SYSTEM_FOLDER_ID);
-			$parent_roles = $rbacadmin->getParentRoles($path_ids);
-			foreach($parent_roles as $par_rol)
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				if(in_array($par_rol["obj_id"],$_SESSION["RoleId"]))
+				//echo $row->ops_id."<br>";
+				$ops_id = $row->ops_id;
+			}
+			// Case 'create': naturally there is no rbac_pa entry
+			// => looking for the next template and compare operation with template permission
+			if($operation == 'create')
+			{
+				if (empty($a_type))
 				{
-					$ops = $rbacreview->getOperations($par_rol["obj_id"],$a_type,$par_rol["parent"]);
-					if(in_array($ops_id,$ops))
+					$this->raiseError("CheckAccess: Expect a type definition for checking 'create' permission",$this->error_class->MESSAGE);
+				}
+				
+				if (!isset($ilias->typedefinition[$a_type]))
+				{
+					$this->raiseError("CheckAccess: Unknown type definition given: '".$a_type."'",$this->error_class->MESSAGE);
+				}
+
+				$obj = new Object($ilias);
+				//$tree = new Tree($a_obj_id,$obj->ROOT_FOLDER_ID);
+				$path_ids = $tree->getPathId($a_obj_id,$obj->ROOT_FOLDER_ID);
+				array_unshift($path_ids,$obj->SYSTEM_FOLDER_ID);
+				$parent_roles = $rbacadmin->getParentRoles($path_ids);
+				foreach($parent_roles as $par_rol)
+				{
+					if(in_array($par_rol["obj_id"],$_SESSION["RoleId"]))
 					{
-						return true;
+						$ops = $rbacreview->getOperations($par_rol["obj_id"],$a_type,$par_rol["parent"]);
+						if(in_array($ops_id,$ops))
+						{
+							continue;
+						}
 					}
 				}
+				
+				return false;
+			} // END CASE 'create'
+	
+			// Um nur eine Abfrage zu haben
+			$in = " IN ('";
+			$in .= implode("','",$_SESSION["RoleId"]);
+			$in .= "')";
+	
+			$query = "SELECT * FROM rbac_pa ".
+				"WHERE rol_id ".$in." ".
+				"AND obj_id = '".$a_obj_id."' ".
+				"AND set_id = '".$a_parent."'";
+			
+			$res = $this->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 			}
-			return false;
-		} // END CASE 'create'
-
-		// Um nur eine Abfrage zu haben
-		$in = " IN ('";
-		$in .= implode("','",$_SESSION["RoleId"]);
-		$in .= "')";
-
-		$query = "SELECT * FROM rbac_pa ".
-			"WHERE rol_id ".$in." ".
-			"AND obj_id = '".$a_obj_id."' ".
-			"AND set_id = '".$a_parent."'";
-		
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
+			
+			if (in_array($ops_id,$ops))
+			{
+				continue;
+			}
+			else
+			{
+				return false;
+			}
 		}
-		return in_array($ops_id,$ops);
+		
+		return true;
     }
 	
 /**
