@@ -1833,6 +1833,7 @@ content#:#cont_full_is_in_dir#:#不能删除，全屏幕文件在目录中。
 content#:#cont_fullscreen#:#全屏幕
 content#:#cont_get_link#:#获取链接
 content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
+content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
 content#:#cont_height#:#高
 content#:#cont_how_published#:#如何发行的
 content#:#cont_href#:#href
