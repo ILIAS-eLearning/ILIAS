@@ -374,3 +374,4 @@ display_clientlist#:#Display client selection
 hide_clientlist#:#Hide client selection
 langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files
 database_not_exists_create_first#:#Database does not exists. Please create database first.
+datadir_webspacedir_match#:#The path to your data directory points to the same directory where your webspace directory is located. Please choose another directory.
