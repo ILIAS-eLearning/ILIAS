@@ -996,6 +996,7 @@
 				<xsl:attribute name="src"><xsl:value-of select="$med_disabled_path"/></xsl:attribute>
 			</img>
 		</xsl:when>
+
 		<!-- all image mime types, except svg -->
 		<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svg')">
 			<xsl:if test="$map_edit_mode != 'get_coords'">
@@ -1034,21 +1035,22 @@
 					<xsl:attribute name = "name">movie</xsl:attribute>
 					<xsl:attribute name = "value"><xsl:value-of select="$data"/></xsl:attribute>
 				</param>
-				<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
-					<param>
-					<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
-					<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
-					</param>
-				</xsl:for-each>
+				<xsl:call-template name="MOBParams">
+					<xsl:with-param name="curPurpose" select="$curPurpose" />
+					<xsl:with-param name="mode">elements</xsl:with-param>
+					<xsl:with-param name="cmobid" select="$cmobid" />
+				</xsl:call-template>
 				<embed>
 					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 					<xsl:attribute name="type">application/x-shockwave-flash</xsl:attribute>
 					<xsl:attribute name="pluginspage">http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash</xsl:attribute>
-					<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
-						<xsl:attribute name="@Name"><xsl:value-of select="@Value"/></xsl:attribute>
-					</xsl:for-each>
+					<xsl:call-template name="MOBParams">
+						<xsl:with-param name="curPurpose" select="$curPurpose" />
+						<xsl:with-param name="mode">attributes</xsl:with-param>
+						<xsl:with-param name="cmobid" select="$cmobid" />
+					</xsl:call-template>
 				</embed>
 			</object>
 		</xsl:when>
@@ -1078,12 +1080,11 @@
 				</xsl:choose>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
-					<param>
-					<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
-					<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
-					</param>
-				</xsl:for-each>
+				<xsl:call-template name="MOBParams">
+					<xsl:with-param name="curPurpose" select="$curPurpose" />
+					<xsl:with-param name="mode">elements</xsl:with-param>
+					<xsl:with-param name="cmobid" select="$cmobid" />
+				</xsl:call-template>
 			</applet>
 		</xsl:when>
 
@@ -1094,20 +1095,21 @@
 				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
-					<param>
-					<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
-					<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
-					</param>
-				</xsl:for-each>
+				<xsl:call-template name="MOBParams">
+					<xsl:with-param name="curPurpose" select="$curPurpose" />
+					<xsl:with-param name="mode">elements</xsl:with-param>
+					<xsl:with-param name="cmobid" select="$cmobid" />
+				</xsl:call-template>
 				<embed>
 					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 					<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-					<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
-						<xsl:attribute name="@Name"><xsl:value-of select="@Value"/></xsl:attribute>
-					</xsl:for-each>
+					<xsl:call-template name="MOBParams">
+						<xsl:with-param name="curPurpose" select="$curPurpose" />
+						<xsl:with-param name="mode">attributes</xsl:with-param>
+						<xsl:with-param name="cmobid" select="$cmobid" />
+					</xsl:call-template>
 				</embed>
 			</object>
 		</xsl:otherwise>
@@ -1115,6 +1117,56 @@
 	</xsl:choose>
 </xsl:template>
 
+<!-- MOB Parameters -->
+<xsl:template name="MOBParams">
+	<xsl:param name="curPurpose"/>
+	<xsl:param name="cmobid"/>
+	<xsl:param name="mode"/>		<!-- 'attributes' | 'elements' -->
+
+	<xsl:choose>
+		<!-- output parameters as attributes -->
+		<xsl:when test="$mode = 'attributes'">
+			<xsl:choose>
+				<!-- take parameters from alias -->
+				<xsl:when test = "../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
+					<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
+						<xsl:attribute name="{@Name}"><xsl:value-of select="@Value"/></xsl:attribute>
+					</xsl:for-each>
+				</xsl:when>
+				<!-- take parameters from object -->
+				<xsl:otherwise>
+					<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter">
+						<xsl:attribute name="{@Name}"><xsl:value-of select="@Value"/></xsl:attribute>
+					</xsl:for-each>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:when>
+		<!-- output parameters as param elements -->
+		<xsl:otherwise>
+			<xsl:choose>
+				<!-- take parameters from alias -->
+				<xsl:when test = "../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
+					<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
+						<param>
+						<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
+						<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
+						</param>
+					</xsl:for-each>
+				</xsl:when>
+				<!-- take parameters from object -->
+				<xsl:otherwise>
+					<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter">
+						<param>
+						<xsl:attribute name="name"><xsl:value-of select="@Name"/></xsl:attribute>
+						<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
+						</param>
+					</xsl:for-each>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:otherwise>
+	</xsl:choose>
+
+</xsl:template>
 
 <!-- Fullscreen Link -->
 <xsl:template name="FullscreenLink">
