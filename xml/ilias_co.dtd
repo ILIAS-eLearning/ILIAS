@@ -7,8 +7,8 @@
 <!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
 <!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
 <!-- Types of (textual) content -->
-<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Formula | Annotation | ImageMap | ExtLink | IntLink | Anchor | Markup | GlossaryTerm">
-<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | Formula | Annotation | ImageMap | ExtLink | IntLink | Anchor | Markup | GlossaryTerm">
+<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Formula | Annotation | ExtLink | IntLink | Anchor | Markup | GlossaryTerm">
+<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | Formula | Annotation | ExtLink | IntLink | Anchor | Markup | GlossaryTerm">
 <!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor | GlossaryTerm">
 <!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Code | Formula | ExtLink | IntLink | Anchor | GlossaryTerm">
 <!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code | GlossaryTerm">
@@ -61,13 +61,29 @@
 <!-- MediaObject -->
 <!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
 <!-- MediaObjects are comparable to LOM LearningObjects of aggregation level 1 -->
-<!ELEMENT MediaObject ((MetaData | MediaAlias), Layout?, Parameter*)>
+<!ELEMENT MediaObject ((MetaData | MediaAlias), MediaItem+)>
 <!-- MediaAlias -->
 <!-- Alias for an already existing MediaObject; this allows an easy reuse of existing MediaObjects; an alias is not a copy but only a reference to the original object-->
 <!ELEMENT MediaAlias EMPTY>
 <!ATTLIST MediaAlias
 	OriginId CDATA #REQUIRED
 >
+<!-- MediaObject is not an alias -->
+<!-- Every MediaItem belongs to a corresponding format/location pair in the technical
+	 Section of Meta Data -->
+<!ELEMENT MediaItem (Layout?, Parameter*, MapArea*)>
+<!ATTLIST MediaItem
+	Purpose (Standard | Fullscreen | Additional) #REQUIRED
+>
+<!-- MapAreas should be only defined for image objects with purpose Standard or Fullscreen -->
+<!ELEMENT MapArea EMPTY>
+<!ATTLIST MapArea
+	Shape (Rect | Circle | Poly) #REQUIRED
+	Coords CDATA #IMPLIED
+	Href CDATA #IMPLIED
+	Alt CDATA #REQUIRED
+>
+
 <!-- Metadata -->
 <!-- MetaData referring to LOM/SCORM standard, see http://ltsc.ieee.org/doc/wg12/LOM_1484_12_1_v1_Final_Draft.pdf for details -->
 <!-- The base scheme consists of nine categories: -->
@@ -140,14 +156,16 @@
 	Language (%langcode;) #IMPLIED
 >
 <!-- 4. Technical requirements and characteristics of the resource -->
-<!ELEMENT Technical (Size?, Location*, (Requirement* | OrComposite*)?, InstallationRemarks?, OtherPlatformRequirements?, Duration?)>
-<!ATTLIST Technical
-	Format (application-x-authorware-bin | application-x-authorware-map | application-x-authorware-seg | application-andrew-inset | application-excel | application-hstu | application-mac-binhex40 | application-mac-compactpro | application-msword | application-octet-stream | application-oda | application-pdf | application-postscript | application-powerpoint | application-rtf | application-smil | application-vnd.mif | application-vnd.ms-powerpoint | application-x-bcpio | application-x-cdlink | application-x-chess-pgn | application-x-compress | application-x-cpio | application-x-csh | application-x-director | application-x-dvi | application-x-futuresplash | application-x-gtar | application-x-gzip | application-x-hdf | application-x-httpd-cgi | application-x-javascript | application-x-koan | application-x-latex | application-x-mif | application-x-netcdf | application-x-sh | application-x-shar | application-x-shockwave-flash | application-x-stuffit | application-x-sv4cpio | application-x-sv4crc | application-x-tar | application-x-tcl | application-x-tex | application-x-texinfo | application-x-troff | application-x-troff-man | application-x-troff-me | application-x-troff-ms | application-x-ustar | application-x-wais-source | application-zip | audio-basic | audio-midi | audio-mpeg | audio-x-aiff | audio-x-pn-realaudio | audio-x-pn-realaudio-plugin | audio-x-realaudio | audio-x-wav | chemical-x-pdb | image-bmp | image-fif | image-gif | image-ief | image-jpeg | image-pict | image-png | image-tiff | image-x-cmu-raster | image-x-freehand | image-x-portable-anymap | image-x-portable-bitmap | image-x-portable-graymap | image-x-portable-pixmap | image-x-rgb | image-x-bmp | image-x-xbitmap | image-x-xpixmap | image-x-xwindowdump | model-iges | model-mesh | model-vrml | text-css | text-html | text-plain | text-richtext | text-sgml | text-tab-separated-values | text-x-setext | text-x-sgml | text-xml | video-mpeg | video-quicktime | video-x-msvideo | video-x-sgi-movie | x-conference-x-cooltalk | x-world-x-vrml | httpd-unix-directory) #REQUIRED
->
+<!ELEMENT Technical (Format*, Size?, Location*, (Requirement* | OrComposite*)?, InstallationRemarks?, OtherPlatformRequirements?, Duration?)>
+<!-- 4.1 Format is Mime Type e.g. (application-x-authorware-bin | application-x-authorware-map | application-x-authorware-seg | application-andrew-inset | application-excel | application-hstu | application-mac-binhex40 | application-mac-compactpro | application-msword | application-octet-stream | application-oda | application-pdf | application-postscript | application-powerpoint | application-rtf | application-smil | application-vnd.mif | application-vnd.ms-powerpoint | application-x-bcpio | application-x-cdlink | application-x-chess-pgn | application-x-compress | application-x-cpio | application-x-csh | application-x-director | application-x-dvi | application-x-futuresplash | application-x-gtar | application-x-gzip | application-x-hdf | application-x-httpd-cgi | application-x-javascript | application-x-koan | application-x-latex | application-x-mif | application-x-netcdf | application-x-sh | application-x-shar | application-x-shockwave-flash | application-x-stuffit | application-x-sv4cpio | application-x-sv4crc | application-x-tar | application-x-tcl | application-x-tex | application-x-texinfo | application-x-troff | application-x-troff-man | application-x-troff-me | application-x-troff-ms | application-x-ustar | application-x-wais-source | application-zip | audio-basic | audio-midi | audio-mpeg | audio-x-aiff | audio-x-pn-realaudio | audio-x-pn-realaudio-plugin | audio-x-realaudio | audio-x-wav | chemical-x-pdb | image-bmp | image-fif | image-gif | image-ief | image-jpeg | image-pict | image-png | image-tiff | image-x-cmu-raster | image-x-freehand | image-x-portable-anymap | image-x-portable-bitmap | image-x-portable-graymap | image-x-portable-pixmap | image-x-rgb | image-x-bmp | image-x-xbitmap | image-x-xpixmap | image-x-xwindowdump | model-iges | model-mesh | model-vrml | text-css | text-html | text-plain | text-richtext | text-sgml | text-tab-separated-values | text-x-setext | text-x-sgml | text-xml | video-mpeg | video-quicktime | video-x-msvideo | video-x-sgi-movie | x-conference-x-cooltalk | x-world-x-vrml | httpd-unix-directory) -->
+<!ELEMENT Format (#PCDATA)>
 <!-- 4.2 The size of the digital resource in bytes. Only the digits '0'..'9' should be used; the unit is bytes, not MBytes,GB,etc.-->
 <!ELEMENT Size (#PCDATA)>
 <!-- 4.3 A string that is used to access this resource, see LOM annotation-->
 <!ELEMENT Location (#PCDATA)>
+<!ATTLIST Location
+	Type (LocalFile | Reference) #REQUIRED
+>
 <!-- 4.4 Grouping of multiple requirements -->
 <!-- 4.4.1 Defining attributes of OrComposite -->
 <!-- This sub-category describes the technical capabilities required in order to use this resource -->
@@ -320,21 +338,7 @@
 	Width CDATA #IMPLIED
 	Class CDATA #IMPLIED
 >
-<!-- ImageMap -->
-<!-- Client-side image map -->
-<!-- Only a minimum of style elements and attributes defined -->
-<!ELEMENT ImageMap (MapArea+)>
-<!ATTLIST ImageMap
-	Id ID #REQUIRED
-	ImageId IDREF #REQUIRED
->
-<!ELEMENT MapArea EMPTY>
-<!ATTLIST MapArea
-	Shape (Rect | Circle | Poly) #REQUIRED
-	Coords CDATA #IMPLIED
-	Href CDATA #IMPLIED
-	Alt CDATA #REQUIRED
->
+
 <!-- ExtLink -->
 <!-- An element to link to _external_ resources outside the ILIAS system, e.g. to a web site-->
 <!-- It is fixed to xlink-type simple, only required attribute value is href -->
@@ -403,6 +407,7 @@
 	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
 	Width CDATA #IMPLIED
 	Height CDATA #IMPLIED
+	Caption CDATA #IMPLIED
 >
 <!-- Parameter -->
 <!-- Special parameters needed for MediaObjects, e.g. a starting class for Java objects; parameters depend on types of MediaObjects -->
