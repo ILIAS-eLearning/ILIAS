@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.89.2.1 2005/02/14 12:21:03 smeyer Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.90 2005/02/14 12:32:59 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -169,7 +169,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}		
 
 		// save
-		include_once("./classes/class.ilObjRole.php");
+		include_once("class.ilObjRole.php");
 		$roleObj = new ilObjRole();
 		//$roleObj->assignData($_POST["Fobject"]);
 		$roleObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));

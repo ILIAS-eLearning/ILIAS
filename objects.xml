@@ -52,6 +52,7 @@
 	<subobj name="mep">mep</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="spl">spl</subobj>
+	<subobj name="icrs">icrs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -96,6 +97,7 @@
 	<subobj name="mep">mep</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="spl">spl</subobj>
+<!--	<subobj name="icrs">icrs</subobj> -->
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -163,6 +165,7 @@
 	<subobj name="mep">mep</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="spl">spl</subobj>
+	<subobj name="icrs">icrs</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -478,5 +481,27 @@
 	<property name="vendors">vendors</property>
 	<property name="payMethods">pay_methods</property>
 	<property name="perm">perm_settings</property>
+</object>
+<object name="icrs" class_name="iLincCourse" module="ilinc" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
+	<subobj name="icla">icla</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+<!--	<property name="edit">edit_properties</property>
+	<property name="editMeta">meta_data</property> -->
+	<property name="members">members</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<property name="trash">trash</property>
+<!--	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action> -->
+	<action name="delete">delete</action>
+<!--	<action name="paste">paste</action>
+	<action name="clear">clear</action> -->
+</object>
+<object name="icla" class_name="iLincClassroom" module="ilinc" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
+<!--	<property name="edit">edit_properties</property> -->
+	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
 </object>
 </objects>
