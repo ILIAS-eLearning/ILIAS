@@ -819,6 +819,67 @@ $query = "UPDATE frm_posts SET pos_cens = 0 WHERE pos_cens != 0";
 $res = $this->db->query($query);
 
 ?>
+<#34>
+<?php
+$query = "SELECT * FROM object_data WHERE type='mail'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$obj_id = $row->obj_id;
+}
+// DELETE OLD MAIL ENTRY IN TREE
+$query = "DELETE FROM tree ".
+         "WHERE tree = '1' ".
+         "AND child = '".$obj_id."'";
+$res = $this->db->query($query);
 
+// ... AND IN object_reference
+$query = "DELETE FROM object_reference ".
+         "WHERE ref_id = '".$obj_id."'";
+$res = $this->db->query($query);
 
+// INSERT MAIL OBJECT IN TREE (UNDER SYSTEMSETTINGS FOLDER)
+$query = "SELECT * FROM tree ".
+         "WHERE child = '9' ".
+         "AND tree = '1'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$left = $row->lft;
+	$lft = $left + 1;
+	$rgt = $left + 2;
+}
 
+// CREATE object_reference ENTRY
+$query = "INSERT INTO object_reference SET obj_id = '".$obj_id."'";
+$res = $this->db->query($query);
+
+// GET LAST INSERT ID
+$query = "SELECT * FROM object_reference WHERE obj_id ='".$obj_id."'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ref_id = $row->ref_id;
+}
+// SPREAD TREE
+$query = "UPDATE tree SET ".
+     "lft = CASE ".
+	 "WHEN lft > ".$left." ".
+	 "THEN lft + 2 ".
+	 "ELSE lft ".
+	 "END, ".
+	 "rgt = CASE ".
+	 "WHEN rgt > ".$left." ".
+	 "THEN rgt + 2 ".
+	 "ELSE rgt ".
+	 "END ".
+	 "WHERE tree = '1'";
+$this->db->query($query);
+
+// INSERT NODE
+$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
+     "VALUES ".
+	 "('1','".$ref_id."','9','".$lft."','".$rgt."','3')";
+$this->db->query($query);
+
+?>
