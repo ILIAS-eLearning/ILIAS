@@ -33,12 +33,6 @@ gender#:#gender
 guest#:#guest
 installed#:#installed
 institution#:#institution
-lang_english#:#english
-lang_german#:#german
-lang_norwegian#:#norwegian
-lang_polish#:#polish
-lang_swedish#:#swedish
-language#:#language
 language#:#language
 languages#:#languages
 last_change#:#last change
@@ -51,6 +45,7 @@ login_to_ilias#:#login to ILIAS
 mail#:#mail
 mail_s_unread#:#unread mail(s)
 mails#:#mails
+migrate#:#migrate
 msg_changes_ok#:#the changes were ok
 nickname#:#nickname
 no#:#no
