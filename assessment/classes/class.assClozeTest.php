@@ -134,12 +134,12 @@ class ASS_ClozeTest extends ASS_Question {
   function saveToDb()
   {
     global $ilias;
-    $db =& $ilias->db->db;
+    $db =& $ilias->db;
 		$complete = 0;
 		if ($this->isComplete()) {
 			$complete = 1;
 		}
-    $estw_time = $this->get_estimated_working_time();
+    $estw_time = $this->getEstimatedWorkingTime();
     $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 		$shuffle = 1;
 		if (!$this->shuffle)
@@ -166,8 +166,8 @@ class ASS_ClozeTest extends ASS_Question {
       if ($result == DB_OK) {
         $this->id = $this->ilias->db->getLastInsertId();
         // Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
-        if ($this->get_test_id() > 0) {
-          $this->insert_into_test($this->get_test_id());
+        if ($this->getTestId() > 0) {
+          $this->insertIntoTest($this->getTestId());
         }
       }
     } else {
@@ -187,7 +187,7 @@ class ASS_ClozeTest extends ASS_Question {
 
     if ($result == DB_OK) {
       // saving material uris in the database
-      $this->save_materials_to_db();
+      $this->saveMaterialsToDb();
 
       // Antworten schreiben
 
@@ -228,7 +228,7 @@ class ASS_ClozeTest extends ASS_Question {
   function loadFromDb($question_id)
   {
     global $ilias;
-    $db =& $ilias->db->db;
+    $db =& $ilias->db;
 
     $query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
       $db->quote($question_id)
@@ -248,7 +248,7 @@ class ASS_ClozeTest extends ASS_Question {
         $this->setEstimatedWorkingTiem(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       // loads materials uris from database
-      $this->load_material_from_db($question_id);
+      $this->loadMaterialFromDb($question_id);
 
       $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
         $db->quote($question_id)
@@ -785,13 +785,13 @@ class ASS_ClozeTest extends ASS_Question {
 * @param integer $test_id The database Id of the test containing the question
 * @access public
 */
-  function get_reached_points($user_id, $test_id) {
+  function getReachedPoints($user_id, $test_id) {
     $found_value1 = array();
     $found_value2 = array();
     $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $this->ilias->db->db->quote($user_id),
-      $this->ilias->db->db->quote($test_id),
-      $this->ilias->db->db->quote($this->get_id())
+      $this->ilias->db->quote($user_id),
+      $this->ilias->db->quote($test_id),
+      $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
     while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
@@ -829,9 +829,9 @@ class ASS_ClozeTest extends ASS_Question {
     $found_value1 = array();
     $found_value2 = array();
     $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-      $this->ilias->db->db->quote($user_id),
-      $this->ilias->db->db->quote($test_id),
-      $this->ilias->db->db->quote($this->get_id())
+      $this->ilias->db->quote($user_id),
+      $this->ilias->db->quote($test_id),
+      $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
     while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
@@ -884,7 +884,7 @@ class ASS_ClozeTest extends ASS_Question {
 * @access public
 * @see $points
 */
-  function get_maximum_points() {
+  function getMaximumPoints() {
     $points = 0;
     foreach ($this->gaps as $key => $value) {
       if ($value[0]->get_cloze_type() == CLOZE_TEXT) {
@@ -909,7 +909,7 @@ class ASS_ClozeTest extends ASS_Question {
 * @access public
 * @see $answers
 */
-  function save_working_data($test_id, $limit_to = LIMIT_NO_LIMIT) {
+  function saveWorkingData($test_id, $limit_to = LIMIT_NO_LIMIT) {
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
@@ -917,7 +917,7 @@ class ASS_ClozeTest extends ASS_Question {
     $query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
       $db->quote($ilUser->id),
       $db->quote($test_id),
-      $db->quote($this->get_id())
+      $db->quote($this->getId())
     );
     $result = $db->query($query);
 
@@ -926,14 +926,14 @@ class ASS_ClozeTest extends ASS_Question {
         $query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($ilUser->id),
 					$db->quote($test_id),
-          $db->quote($this->get_id()),
+          $db->quote($this->getId()),
           $db->quote($matches[1]),
           $db->quote($value)
         );
         $result = $db->query($query);
       }
     }
-    //parent::save_working_data($limit_to);
+    //parent::saveWorkingData($limit_to);
   }
 }
 

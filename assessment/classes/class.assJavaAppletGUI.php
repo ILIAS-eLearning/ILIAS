@@ -82,7 +82,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI {
 	  $this->tpl->addBlockFile("OTHER_QUESTION_DATA", "other_question_data", "tpl.il_as_qpl_other_question_data.html", true);
 
 
-		if ($this->object->get_id() > 0) 
+		if ($this->object->getId() > 0) 
 		{
 			// call to other question data i.e. material, estimated working time block
 			$this->outOtherQuestionData();
@@ -169,10 +169,10 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI {
 		}
 
     $this->tpl->setCurrentBlock("question_data");
-    $this->tpl->setVariable("JAVAAPPLET_ID", $this->object->get_id());
-    $this->tpl->setVariable("VALUE_JAVAAPPLET_TITLE", $this->object->get_title());
-    $this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", $this->object->get_comment());
-    $this->tpl->setVariable("VALUE_JAVAAPPLET_AUTHOR", $this->object->get_author());
+    $this->tpl->setVariable("JAVAAPPLET_ID", $this->object->getId());
+    $this->tpl->setVariable("VALUE_JAVAAPPLET_TITLE", $this->object->getTitle());
+    $this->tpl->setVariable("VALUE_JAVAAPPLET_COMMENT", $this->object->getComment());
+    $this->tpl->setVariable("VALUE_JAVAAPPLET_AUTHOR", $this->object->getAuthor());
     $this->tpl->setVariable("VALUE_QUESTION", $this->object->get_question());
     $this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
     $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
@@ -222,7 +222,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI {
 		}
 		
 		$this->tpl->setCurrentBlock("other_question_data");
-		$est_working_time = $this->object->get_estimated_working_time();
+		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
 		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
 		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
@@ -248,7 +248,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI {
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"])) $result = 1;
 
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-    $this->object->set_author(ilUtil::stripSlashes($_POST["author"]));
+    $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
     $this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->object->setShuffle($_POST["shuffle"]);
@@ -309,7 +309,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI {
 		$postponed = "";
 		if ($test_id) 
 		{
-			$solutions =& $this->object->get_solution_values($test_id);
+			$solutions =& $this->object->getSolutionValues($test_id);
 		}
 		if ($is_postponed) 
 		{
@@ -323,7 +323,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI {
 			{
 				$this->tpl->setVariable("COUNTER", $i++);
 				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->get_materials_path_web().$value);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("material_download");
@@ -345,7 +345,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI {
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("additional_params");
 		$this->tpl->setVariable("PARAM_NAME", "question_id");
-		$this->tpl->setVariable("PARAM_VALUE", $this->object->get_id());
+		$this->tpl->setVariable("PARAM_VALUE", $this->object->getId());
 		$this->tpl->parseCurrentBlock();
 		for ($i = 0; $i < $this->object->get_parameter_count(); $i++) 
 		{
@@ -356,9 +356,9 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI {
 			$this->tpl->parseCurrentBlock();
 		}
     $this->tpl->setCurrentBlock("javaappletblock");
-    $this->tpl->setVariable("JAVAAPPLET_QUESTION_HEADLINE", $this->object->get_title());
+    $this->tpl->setVariable("JAVAAPPLET_QUESTION_HEADLINE", $this->object->getTitle());
     $this->tpl->setVariable("JAVAAPPLET_QUESTION", $this->object->get_question());
-		$javaappletpath_working = $this->object->get_java_path_web() . $this->object->get_javaapplet_filename();
+		$javaappletpath_working = $this->object->getJavaPathWeb() . $this->object->get_javaapplet_filename();
     $this->tpl->setVariable("PARAM_ARCHIVE", "archive=$javaappletpath_working ");
 		if ($this->object->get_java_code()) 
 		{

@@ -362,7 +362,7 @@ class ASS_Question extends PEAR {
   	if(empty($materials_name)) {
     	$materials_name = $materials_file;
     }
-    if ((!empty($materials_name))&&(!$this->key_in_array($materials_name, $this->materials))) {
+    if ((!empty($materials_name))&&(!$this->keyInArray($materials_name, $this->materials))) {
       $this->materials[$materials_name] = $materials_file;
     }
 
@@ -378,7 +378,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $materials
 */
-  function key_in_array($searchkey, $array) {
+  function keyInArray($searchkey, $array) {
 	  if ($searchKey) {
 		   foreach ($array as $key => $value) {
 			   if (strcmp($key, $searchkey)==0) {
@@ -397,9 +397,9 @@ class ASS_Question extends PEAR {
 * @param string $materials_filename, string $materials_tempfilename, string $materials
 * @access public
 * @see $materials
-*/  function set_materialsfile($materials_filename, $materials_tempfilename="", $materials_name="") {
+*/  function setMaterialsFile($materials_filename, $materials_tempfilename="", $materials_name="") {
 		if (!empty($materials_filename)) {
-			$materialspath = $this->get_materials_path();
+			$materialspath = $this->getMaterialsPath();
 			if (!file_exists($materialspath)) {
 				ilUtil::makeDirParents($materialspath);
 			}
@@ -420,11 +420,11 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $materials
 */
-  function delete_material($materials_name = "") {
+  function deleteMaterial($materials_name = "") {
 	foreach ($this->materials as $key => $value) {
 		if (strcmp($key, $materials_name)==0) {
-			if (file_exists($this->get_materials_path().$value)) {
-				unlink($this->get_materials_path().$value);
+			if (file_exists($this->getMaterialsPath().$value)) {
+				unlink($this->getMaterialsPath().$value);
 			}
 			unset($this->materials[$key]);
 		}
@@ -439,7 +439,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $materials
 */
-  function flush_materials() {
+  function flushMaterials() {
     $this->materials = array();
   }
 
@@ -452,7 +452,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $author
 */
-  function set_author($author = "") {
+  function setAuthor($author = "") {
     if (!$author) {
       $author = $this->ilias->account->fullname;
     }
@@ -468,7 +468,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $owner
 */
-  function set_owner($owner = "") {
+  function setOwner($owner = "") {
     $this->owner = $owner;
   }
 
@@ -481,7 +481,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $title
 */
-  function get_title() {
+  function getTitle() {
     return $this->title;
   }
 
@@ -494,7 +494,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $id
 */
-  function get_id() {
+  function getId() {
     return $this->id;
   }
 
@@ -507,7 +507,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $shuffle
 */
-  function get_shuffle() {
+  function getShuffle() {
     return $this->shuffle;
   }
 
@@ -520,7 +520,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $test_id
 */
-  function get_test_id() {
+  function getTestId() {
     return $this->test_id;
   }
 
@@ -533,7 +533,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $comment
 */
-  function get_comment() {
+  function getComment() {
     return $this->comment;
   }
 /**
@@ -545,7 +545,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $est_working_time
 */
-  function get_estimated_working_time() {
+  function getEstimatedWorkingTime() {
   	if (!$this->est_working_time) {
   	    $this->est_working_time = array("h" => 0, "m" => 0, "s" => 0);
   	}
@@ -561,7 +561,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $author
 */
-  function get_author() {
+  function getAuthor() {
     return $this->author;
   }
 
@@ -574,7 +574,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $owner
 */
-  function get_owner() {
+  function getOwner() {
     return $this->owner;
   }
 
@@ -587,7 +587,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $ref_id
 */
-  function get_ref_id() {
+  function getRefId() {
     return $this->ref_id;
   }
 
@@ -600,7 +600,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $ref_id
 */
-  function set_ref_id($ref_id = 0) {
+  function setRefId($ref_id = 0) {
     $this->ref_id = $ref_id;
   }
 
@@ -612,7 +612,7 @@ class ASS_Question extends PEAR {
 * @param integer $test_id The database id of the test
 * @access private
 */
-  function insert_into_test($test_id) {
+  function insertIntoTest($test_id) {
     // get maximum sequence index in test
     $query = sprintf("SELECT MAX(sequence) AS seq FROM dum_test_question WHERE test_fi=%s",
       $this->ilias->db->quote($test_id)
@@ -625,27 +625,12 @@ class ASS_Question extends PEAR {
     }
     $query = sprintf("INSERT INTO dum_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
       $this->ilias->db->quote($test_id),
-      $this->ilias->db->quote($this->get_id()),
+      $this->ilias->db->quote($this->getId()),
       $this->ilias->db->quote($sequence)
     );
     $result = $this->ilias->db->query($query);
     if ($result != DB_OK) {
       // Fehlermeldung
-    }
-  }
-
-/**
-* Cancels actions editing this question
-*
-* Cancels actions editing this question
-*
-* @access private
-*/
-  function cancel_action() {
-    if ($this->get_test_id() > 0) {
-      header("location:il_as_test_composer.php?tab=questions&edit=" . $this->get_test_id());
-    } else {
-      header("location:il_as_question_manager.php");
     }
   }
 
@@ -669,7 +654,7 @@ class ASS_Question extends PEAR {
 * @param integer $test_id The database Id of the test containing the question
 * @access public
 */
-  function get_reached_points($user_id, $test_id) {
+  function getReachedPoints	($user_id, $test_id) {
     return 0;
   }
 
@@ -681,7 +666,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $points
 */
-  function get_maximum_points() {
+  function getMaximumPoints() {
     return 0;
   }
 
@@ -693,7 +678,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $answers
 */
-  function save_working_data($limit_to = LIMIT_NO_LIMIT) {
+  function saveWorkingData($limit_to = LIMIT_NO_LIMIT) {
 /*    global $ilias;
     $db =& $ilias->db;
 
@@ -701,7 +686,7 @@ class ASS_Question extends PEAR {
     $query = sprintf("SELECT * FROM dum_assessment_solution_order WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
       $db->quote($this->ilias->account->id),
       $db->quote($_GET["test"]),
-      $db->quote($this->get_id())
+      $db->quote($this->getId())
     );
     $result = $db->query($query);
     $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
@@ -723,12 +708,12 @@ class ASS_Question extends PEAR {
     $clone = $this;
     $clone->setId(-1);
     $counter = 2;
-    while ($this->questionTitleExists($clone->get_title() . " ($counter)")) {
+    while ($this->questionTitleExists($clone->getTitle() . " ($counter)")) {
       $counter++;
     }
-    $clone->setTitle($clone->get_title() . " ($counter)");
-    $clone->set_owner($this->ilias->account->id);
-    $clone->set_author($this->ilias->account->fullname);
+    $clone->setTitle($clone->getTitle() . " ($counter)");
+    $clone->setOwner($this->ilias->account->id);
+    $clone->setAuthor($this->ilias->account->fullname);
     $clone->saveToDb($this->ilias->db);
   }
 
@@ -740,7 +725,7 @@ class ASS_Question extends PEAR {
 *
 * @access public
 */
-	function get_java_path() {
+	function getJavaPath() {
 		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/java/";
 	}
 /**
@@ -751,7 +736,7 @@ class ASS_Question extends PEAR {
 *
 * @access public
 */
-	function get_image_path() {
+	function getImagePath() {
 		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
 	}
 /**
@@ -762,7 +747,7 @@ class ASS_Question extends PEAR {
 *
 * @access public
 */
-	function get_materials_path() {
+	function getMaterialsPath() {
 		return CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/materials/";
 	}
 
@@ -774,7 +759,7 @@ class ASS_Question extends PEAR {
 *
 * @access public
 */
-	function get_java_path_web() {
+	function getJavaPathWeb() {
 		$webdir = CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/java/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
@@ -787,7 +772,7 @@ class ASS_Question extends PEAR {
 *
 * @access public
 */
-	function get_image_path_web() {
+	function getImagePathWeb() {
 		$webdir = CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/images/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
@@ -800,7 +785,7 @@ class ASS_Question extends PEAR {
 *
 * @access public
 */
-	function get_materials_path_web() {
+	function getMaterialsPathWeb() {
 		$webdir = CLIENT_WEB_DIR . "/assessment/$this->ref_id/$this->id/materials/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
@@ -813,7 +798,7 @@ class ASS_Question extends PEAR {
 * @param object $db A pear DB object
 * @access public
 */
-  function save_materials_to_db()
+  function saveMaterialsToDb()
   {
   	global $ilias;
     $db = & $ilias->db;
@@ -844,7 +829,7 @@ class ASS_Question extends PEAR {
 * @param integer $question_id A unique key which defines the multiple choice test in the database
 * @access public
 */
-  function load_material_from_db($question_id)
+  function loadMaterialFromDb($question_id)
   {
     global $ilias;
     $db = & $ilias->db;
@@ -873,7 +858,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $answers
 */
-	function &get_solution_values($test_id) {
+	function &getSolutionValues($test_id) {
     global $ilDB;
 		global $ilUser;
     $db =& $ilDB->db;
@@ -881,7 +866,7 @@ class ASS_Question extends PEAR {
 		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 			$db->quote($ilUser->id),
 			$db->quote($test_id),
-			$db->quote($this->get_id())
+			$db->quote($this->getId())
 		);
 		$result = $db->query($query);
 		$values = array();
@@ -899,7 +884,7 @@ class ASS_Question extends PEAR {
 * @return boolean The number of datasets which are affected by the use of the query.
 * @access public
 */
-	function is_in_use() {
+	function isInUse() {
 		$query = sprintf("SELECT COUNT(solution_id) AS solution_count FROM tst_solutions WHERE question_fi = %s",
 			$this->ilias->db->quote("$this->id")
 		);
@@ -919,7 +904,7 @@ class ASS_Question extends PEAR {
 *
 * @access public
 */
-	function remove_all_question_references() {
+	function removeAllQuestionReferences() {
 		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$this->id"));
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
@@ -943,7 +928,7 @@ class ASS_Question extends PEAR {
 * @param array $array An array which should be shuffled
 * @access public
 */
-	function pc_array_shuffle($array) {
+	function pcArrayShuffle($array) {
     $i = count($array);
 
     while(--$i) {

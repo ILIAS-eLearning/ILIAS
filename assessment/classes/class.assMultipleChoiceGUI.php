@@ -129,10 +129,10 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 			$this->outOtherQuestionData();
 			
 			$this->tpl->setCurrentBlock("question_data");
-			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->get_id());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", $this->object->get_title());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", $this->object->get_comment());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", $this->object->get_author());
+			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", $this->object->getTitle());
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", $this->object->getComment());
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", $this->object->getAuthor());
 			$this->tpl->setVariable("VALUE_QUESTION", $this->object->get_question());
 			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 			$this->tpl->setVariable("VALUE_ADD_ANSWER_YN", $this->lng->txt("add_answer_yn"));
@@ -144,7 +144,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 			$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 			$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
 			$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
-			if ($this->object->get_shuffle())
+			if ($this->object->getShuffle())
 			{
 				$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
 			}
@@ -211,16 +211,16 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 			$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
 			$this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
 			$this->tpl->setVariable("TEXT_QUESTION", $this->lng->txt("question"));
-			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->get_id());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", $this->object->get_title());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", $this->object->get_comment());
-			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", $this->object->get_author());
+			$this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->object->getId());
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", $this->object->getTitle());
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", $this->object->getComment());
+			$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_AUTHOR", $this->object->getAuthor());
 			$this->tpl->setVariable("VALUE_QUESTION", $this->object->get_question());
 			$this->tpl->setVariable("VALUE_ADD_ANSWER", $this->lng->txt("add_answer"));
 			$this->tpl->setVariable("TEXT_SHUFFLE_ANSWERS", $this->lng->txt("shuffle_answers"));
 			$this->tpl->setVariable("TXT_YES", $this->lng->txt("yes"));
 			$this->tpl->setVariable("TXT_NO", $this->lng->txt("no"));
-			if ($this->object->get_shuffle())
+			if ($this->object->getShuffle())
 			{
 				$this->tpl->setVariable("SELECTED_YES", " selected=\"selected\"");
 			}
@@ -272,7 +272,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 		}
 		
 		$this->tpl->setCurrentBlock("other_question_data");
-		$est_working_time = $this->object->get_estimated_working_time();
+		$est_working_time = $this->object->getEstimatedWorkingTime();
 		$this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
 		$this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
 		$this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
@@ -323,7 +323,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 		}
 
     $this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-    $this->object->set_author(ilUtil::stripSlashes($_POST["author"]));
+    $this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
     $this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
     $this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->object->setShuffle($_POST["shuffle"]);
@@ -450,7 +450,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 		$postponed = "";
 		if ($test_id) 
 		{
-			$solutions =& $this->object->get_solution_values($test_id);
+			$solutions =& $this->object->getSolutionValues($test_id);
 		}
 		if ($is_postponed) 
 		{
@@ -464,7 +464,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 			{
 				$this->tpl->setVariable("COUNTER", $i++);
 				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
-				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->get_materials_path_web().$value);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("material_download");
@@ -478,7 +478,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 			$akeys = array_keys($this->object->answers);
 			if ($this->object->shuffle) 
 			{
-				$akeys = $this->object->pc_array_shuffle($akeys);
+				$akeys = $this->object->pcArrayShuffle($akeys);
 			}
       foreach ($akeys as $key) 
 			{
@@ -499,7 +499,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
 			$akeys = array_keys($this->object->answers);
 			if ($this->object->shuffle) 
 			{
-				$akeys = $this->object->pc_array_shuffle($akeys);
+				$akeys = $this->object->pcArrayShuffle($akeys);
 			}
       foreach ($akeys as $key) 
 			{
@@ -518,7 +518,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI {
     }
 
     $this->tpl->setCurrentBlock("multiple_choice");
-    $this->tpl->setVariable("MULTIPLE_CHOICE_HEADLINE", $this->object->get_title() . $postponed);
+    $this->tpl->setVariable("MULTIPLE_CHOICE_HEADLINE", $this->object->getTitle() . $postponed);
     $this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $this->object->get_question());
     $this->tpl->parseCurrentBlock();
 	}
