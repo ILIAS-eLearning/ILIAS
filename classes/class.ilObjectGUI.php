@@ -613,7 +613,6 @@ class ilObjectGUI
 		{
 			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
-				
 				// get node data
 				$top_node = $this->tree->getNodeData($ref_id);
 
@@ -622,13 +621,12 @@ class ilObjectGUI
 			
 				// delete old tree entries
 				$this->tree->deleteTree($top_node);
-				
-				// inform other objects in hierarchy about cut operation
-				$this->object->notify("cut", $_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["clipboard"]["ref_ids"]);
+
 			}
 
 			// now move all subtrees to new location
-			foreach($subnodes as $key => $subnode)
+			// TODO: this whole put in place again stuff needs revision. Permission settings get lost.
+			foreach ($subnodes as $key => $subnode)
 			{
 				// first paste top_node ...
 				$rbacadmin->revokePermission($key);
@@ -652,7 +650,13 @@ class ilObjectGUI
 				}
 			}
 			// inform other objects in hierarchy about paste operation
-			$this->object->notify("paste", $_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$_SESSION["clipboard"]["ref_ids"]);
+			$this->object->notify("paste",$this->object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$this->object->getRefId(),$subnodes);
+
+			// inform other objects in hierarchy about cut operation
+			// the parent object where cut occured
+			$tmp_object = $this->ilias->obj_factory->getInstanceByRefId($_SESSION["clipboard"]["parent"]);
+			$tmp_object->notify("cut", $tmp_object->getRefId(),$_SESSION["clipboard"]["parent_non_rbac_id"],$tmp_object->getRefId(),$_SESSION["clipboard"]["ref_ids"]);
+			unset($tmp_object);
 		} // END CUT
 
 		// process LINK command
@@ -682,6 +686,23 @@ class ilObjectGUI
 				// ... store mapping of old ref_id => new_ref_id in hash array ...
 				$mapping[$new_ref_id] = $key;
 
+				// save old ref_id & create rolefolder if applicable
+				$old_ref_id = $obj_data->getRefId();
+				$obj_data->setRefId($new_ref_id);
+				$obj_data->initDefaultRoles();
+				$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
+				
+				if (isset($rolf_data["child"]))
+				{
+					// a role folder was created, so map it to old role folder
+					$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
+					
+					// ... use mapping array to find out the correct new parent node where to put in the node...
+					//$new_parent = array_search($node["parent"],$mapping);
+					// ... append node to mapping for further possible subnodes ...
+					$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];						
+				}
+
 				// ... insert subtree of top_node if any subnodes exist ...
 				if (count($subnode) > 0)
 				{
@@ -694,14 +715,30 @@ class ilObjectGUI
 						
 							// ... use mapping array to find out the correct new parent node where to put in the node...
 							$new_parent = array_search($node["parent"],$mapping);
-						
 							// ... append node to mapping for further possible subnodes ...
 							$mapping[$new_ref_id] = (int) $node["child"];
 
 							$obj_data->putInTree($new_parent);
 							$obj_data->setPermissions($new_parent);
+							
+							// save old ref_id & create rolefolder if applicable
+							$old_ref_id = $obj_data->getRefId();
+							$obj_data->setRefId($new_ref_id);
+							$obj_data->initDefaultRoles();
+							$rolf_data = $rbacreview->getRoleFolderOfObject($obj_data->getRefId());
+							
+							if (isset($rolf_data["child"]))
+							{
+								// a role folder was created, so map it to old role folder
+								$rolf_data_old = $rbacreview->getRoleFolderOfObject($old_ref_id);
+								
+								// ... use mapping array to find out the correct new parent node where to put in the node...
+								//$new_parent = array_search($node["parent"],$mapping);
+								// ... append node to mapping for further possible subnodes ...
+								$mapping[$rolf_data["child"]] = (int) $rolf_data_old["child"];						
+							}
 						}
-						else
+						/*else
 						{
 							// ... use mapping array to find out the correct new parent node where to put in the node...
 							$new_parent = array_search($node["parent"],$mapping);
@@ -710,7 +747,7 @@ class ilObjectGUI
 							$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($new_parent);
 							// setup rolefolder and link in default local roles
 							// createRoleFolder
-							$rfoldObj = $obj_data->createRoleFolder("Local Roles","Role Folder of object ref_no.".$new_parent,$new_parent);
+							$rfoldObj = $obj_data->createRoleFolder();
 							
 							// ... append node to mapping
 							$mapping[$rfoldObj->getRefId()] = (int) $node["child"];
@@ -721,7 +758,7 @@ class ilObjectGUI
 							{
 								$rbacadmin->assignRoleToFolder($role_id,$rfoldObj->getRefId(),"y");
 							} 
-						}
+						}*/
 					}
 				}
 			}

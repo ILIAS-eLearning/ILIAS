@@ -100,7 +100,7 @@ class ilObjRoleFolder extends ilObject
 
 		// put here rolefolder specific stuff
 		global $rbacreview;
-
+		
 		$roles = $rbacreview->getRolesOfRoleFolder($this->getRefId());
 		
 		// FIRST DELETE ALL LOCAL/BASE ROLES OF FOLDER
