@@ -520,7 +520,7 @@ class Tree
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$arr[] = $data->child;
+			$arr[] = $row->child;
 		}
 		
 		return $arr;
