@@ -2463,7 +2463,7 @@ common#:#usr_agreement_empty#:#Угода не містить тексту
 common#:#usr_edit#:#Редагувати Користувача
 common#:#usr_hits_per_page#:#Хіти/сторінки в таблицях
 common#:#usr_new#:#Новий Користувач
-common#:#usr_settings_explanation_profile#:#Check the offered checkboxes to disable or hide personal profile settings for all users in the personal profile tab on the personal desktop. All disabled or hidden personal profile settings are only editable using administration tree / user accounts.  ###26 Jan 2005 new variable
+common#:#usr_settings_explanation_profile#:#Відмітьте запропоновані чекбокси щоб заблокувати або скрити настройки особистого профілю для усіх користувачів на вкладці персонального профілю на особистому робочому столі. Усі заблоковані або скриті настройки особистого профілю можна редагувати тільки використовуючи адміністраторське дерево / акаунти користувачів.  
 common#:#usr_settings_header_profile#:#Настройки профілю користувача
 common#:#usr_settings_header_profile_profile#:#Настройки особистого профілю
 common#:#usr_settings_saved#:#Глобальні настройки користувача збережені вдало!
@@ -2482,34 +2482,34 @@ common#:#usrf_write#:#Редагувати акаунти користувача
 common#:#usrimport_action_failed#:#Дія %1$s завершилась невдало.
 common#:#usrimport_action_ignored#:#Проігнорована дія %1$s.
 common#:#usrimport_action_replaced#:#Замінена дія %1$s на %2$s.
-common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.###09 Mar 2005 new variable
-common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.###09 Mar 2005 new variable
-common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.###09 Mar 2005 new variable
-common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###09 Mar 2005 new variable
-common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.###09 Mar 2005 new variable
-common#:#usrimport_login_is_not_unique#:#Login is not unique.###09 Mar 2005 new variable
-common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.###09 Mar 2005 new variable
-common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.###09 Mar 2005 new variable
-common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.###09 Mar 2005 new variable
-common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###09 Mar 2005 new variable
-common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###09 Mar 2005 new variable
-common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###09 Mar 2005 new variable
+common#:#usrimport_cant_delete#:#Неможливо виконати дію "Видалити". Немає такого користувача в базі даних.
+common#:#usrimport_cant_insert#:#Неможливо виконати дію "Вставити". Користувач вже в базі даних.
+common#:#usrimport_cant_update#:#Неможливо виконати дію "Оновити". Немає такого користувача в базі даних.
+common#:#usrimport_conflict_handling_info#:#Коли вибрано "Ігнорувати при конфлікті", ILIAS ігнорує дію, якщо вона не може бути виконана (наприклад дія "Вставити" не буде виконана, якщо вже є користувач з таким логіном в базі даних.)\nКоли вибрано "Оновити при конфлікті", ILIAS оновлює базу даних якщо дія не може бути виконана. (наприклад дія "Вставити" замінюється на дію "Оновити", якщо користувач з таким самим логіном існує в базі даних). 
+common#:#usrimport_global_role_for_action_required#:#Принаймні одна глобальна роль повинна бути визначена для дії "%1$s".
+common#:#usrimport_login_is_not_unique#:#Логін не унікальний.
+common#:#usrimport_xml_attribute_missing#:#Пропущений атрибут "%2$s" в елементі "%1$s".
+common#:#usrimport_xml_attribute_value_illegal#:#Значення "%3$s" атрибуту "%2$s" в елементі "%1$s" є неприпустимим.
+common#:#usrimport_xml_attribute_value_inapplicable#:#Значення "%3$s" атрибуту "%2$s" в елементі "%1$s" є непридатним для дії "%4$s".
+common#:#usrimport_xml_element_content_illegal#:#Вміст "%2$s" елементу "%1$s" є неприпустимим.
+common#:#usrimport_xml_element_for_action_required#:#Елемент "%1$s" має бути визначений для дії "%2$s".
+common#:#usrimport_xml_element_inapplicable#:#Елемент "%1$s" є непридатним для дії "%2$s".
 common#:#validate#:#Перевірити достовірність
 common#:#value#:#Значення
-common#:#vcard#:#Visiting card###30 Oct 2004 new variable
-common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
-common#:#vendors#:#Vendors###31 Aug 2004 new variable
-common#:#verification_failed#:#Verification failed###09 Mar 2005 new variable
-common#:#verification_failure_log#:#Verification failure log###09 Mar 2005 new variable
-common#:#verification_log#:#Verification log###09 Mar 2005 new variable
-common#:#verification_warning_log#:#Verification warning log###09 Mar 2005 new variable
+common#:#vcard#:#Карта відвідувача
+common#:#vcard_download#:#Завантажити карту відвідувача
+common#:#vendors#:#Вендори
+common#:#verification_failed#:#Веріфікація пройшла невдало
+common#:#verification_failure_log#:#Логи невдалої верифікації
+common#:#verification_log#:#Логи верифікації
+common#:#verification_warning_log#:#Логи попереджень верифікації
 common#:#version#:#Версія
-common#:#versions#:#Versions###10 Dec 2004 new variable
+common#:#versions#:#Версії
 common#:#view#:#Огляд
 common#:#view_content#:#Огляд Вмісту
 common#:#visible_layers#:#Видимі Рівні
 common#:#visits#:#Візити
-common#:#webservices#:#Webservices###28 Jan 2005 new variable
+common#:#webservices#:#Вебсервіси
 common#:#week#:#Тиждень
 common#:#welcome#:#Ласкаво Просимо
 common#:#who_is_online#:#Хто щє онлайн?
@@ -2518,21 +2518,21 @@ common#:#write#:#Писати
 common#:#yes#:#Так
 common#:#you_may_add_local_roles#:#Ви Можете Додати Локальні Ролі
 common#:#your_message#:#Ваше Повідомлення
-common#:#zip#:#Поштовий Код###14 Sep 2004 content changed
-common#:#zipcode#:#Поштовий Код###14 Sep 2004 content changed
+common#:#zip#:#Поштовий Код
+common#:#zipcode#:#Поштовий Код
 content#:#HTML export#:#Експорт HTML
 content#:#PDF export#:#Експорт PDF
 content#:#Pages#:#Сторінки
-content#:#add_menu_entry#:#Add menu entry >>###23 Dec 2004 new variable
+content#:#add_menu_entry#:#Додати нове входження >>
 content#:#all#:#Асі
-content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
-content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
-content#:#choose_public_pages#:#Choose public accessible pages###19 Dec 2004 new variable
-content#:#cont_Additional#:#Additional###25 Feb 2004 new variable
+content#:#all_pages#:#цілісний Учбовий модуль 
+content#:#choose_public_mode#:#Незареєстровані користувачі мають доступ
+content#:#choose_public_pages#:#Виберіть публічно доступні сторінки
+content#:#cont_Additional#:#Додатковий
 content#:#cont_Alphabetic#:#Алфавіт A, B, ...
 content#:#cont_Circle#:#Коло
 content#:#cont_Citation#:#Цитата
-content#:#cont_Code#:#Code###08 May 2004 new variable
+content#:#cont_Code#:#Код
 content#:#cont_Example#:#Приклад
 content#:#cont_Headline1#:#Заголовок 1
 content#:#cont_Headline2#:#Заголовок 2
@@ -2546,51 +2546,51 @@ content#:#cont_Rect#:#Прямокутник
 content#:#cont_Reference#:#Посилання
 content#:#cont_Remark#:#Ремарка
 content#:#cont_Roman#:#Римські I, II, ...
-content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
+content#:#cont_TableContent#:#Вміст Таблиці
 content#:#cont_Unordered#:#Невпорядкований
-content#:#cont_act_number#:#Chapter Numeration###05 Sep 2004 new variable
-content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
+content#:#cont_act_number#:#Нумерація Глав
+content#:#cont_active#:#Дозволити Меню
 content#:#cont_add_area#:#Додати Область
-content#:#cont_add_change_comment#:#Add change comment###03 Dec 2004 new variable
+content#:#cont_add_change_comment#:#Додати змінити коментарій
 content#:#cont_add_definition#:#Додати Визначення
-content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
-content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
+content#:#cont_add_fullscreen#:#Додати Повний Екран
+content#:#cont_added_comment#:#Коментарій був доданий в історію.
 content#:#cont_added_term#:#Термін доданий
 content#:#cont_all_definitions#:#Усі Визначення
 content#:#cont_all_pages#:#Усі Сторінки
 content#:#cont_alphabetic#:#Алфавітн a, b, ...
-content#:#cont_annex#:#Annex###06 Sep 2004 new variable
-content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
-content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
+content#:#cont_annex#:#Доповнення
+content#:#cont_api_adapter#:#API Ім'я Адаптору
+content#:#cont_api_func_prefix#:#API Префікс Функцій
 content#:#cont_areas_deleted#:#Карта областей видалена.
-content#:#cont_assign_full#:#Призначити Повний Екран###14 Sep 2004 content changed
+content#:#cont_assign_full#:#Призначити Повний Екран
 content#:#cont_assign_std#:#Призначити Стандарт
 content#:#cont_assign_translation#:#Призначити переклад
 content#:#cont_assignments_deleted#:#Призначення було видалено
-content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
+content#:#cont_autoindent#:#Автоматичний Відступ
 content#:#cont_back#:#Назад
-content#:#cont_booktitle#:#Назва книжки###14 Sep 2004 content changed
+content#:#cont_booktitle#:#Назва книжки
 content#:#cont_bottom#:#Низ
-content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not supported for your browser.###24 Dec 2004 new variable
-content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
-content#:#cont_cant_del_full#:#Видалення повноекранного файлу є неможливим.###14 Sep 2004 content changed
+content#:#cont_browser_not_js_capable#:#JavaScript дозволити редагування не підтримується вашим браузером.
+content#:#cont_cant_copy_folders#:#Папки не можуть бути скопійовані в буфер обміну.
+content#:#cont_cant_del_full#:#Видалення повноекранного файлу є неможливим.
 content#:#cont_cant_del_std#:#Видалення стандартного файлу огляду є неможливим.
 content#:#cont_caption#:#Заголовок
 content#:#cont_change_type#:#Змінити Тип
 content#:#cont_chap_and_pages#:#Глави та Сторінки
 content#:#cont_chap_select_target_now#:#Глави відмічені для переміщення. Виберіть зараз ціль.
 content#:#cont_chapters#:#Глави
-content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
-content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
+content#:#cont_chapters_and_pages#:#Глави та Сторінки
+content#:#cont_chapters_only#:#тільки Глави
 content#:#cont_characteristic#:#Характеристика
 content#:#cont_choose_cont_obj#:#Виберіть Об'єкт Вмісту
 content#:#cont_choose_glossary#:#Виберіть Глосарій
-content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
-content#:#cont_citation_err_one#:#Ви маєте вибрати рівно одне видання###14 Sep 2004 content changed
+content#:#cont_choose_media_source#:#Виберіть Медіа Джерело
+content#:#cont_citation_err_one#:#Ви маєте вибрати рівно одне видання
 content#:#cont_citation_selection_not_valid#:#Ваш вибір є некорректним
 content#:#cont_citations#:#Цитати
-content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
-content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###23 Dec 2004 new variable
+content#:#cont_clean_frames#:#Очищати додаткові фрейми при навігації
+content#:#cont_clean_frames_desc#:#Це очищує додаткові фрейми (наприклад медіа або фрейм глосарію) якщо використовується вивід з додатковими фреймами (наприклад 3 віконний) та користувач переходить з однієї сторінки до іншої.
 content#:#cont_click_br_corner#:#Будь ласка клікніть на нижній правий кут бажаної області.
 content#:#cont_click_center#:#Будь ласка клікніть на центр бажаної області.
 content#:#cont_click_circle#:#Будь ласка клікніть на точку на колі вибраної області.
@@ -2598,140 +2598,140 @@ content#:#cont_click_next_or_save#:#Будь ласка клікніть на н
 content#:#cont_click_next_point#:#Будь ласка клікніть на наступну точку полігона.
 content#:#cont_click_starting_point#:#Будь ласка клікніть на початкову точку полігона.
 content#:#cont_click_tl_corner#:#Будь ласка клікніть на верхній лівий кут бажаної області.
-content#:#cont_confirm_delete#:#really delete ?###29 Nov 2004 new variable
+content#:#cont_confirm_delete#:#дійсно видалити ?
 content#:#cont_content#:#Вміст
 content#:#cont_content_obj#:#Об'єкт Вмісту
-content#:#cont_contents#:#Contents###14 Apr 2004 new variable
+content#:#cont_contents#:#Вміст
 content#:#cont_coords#:#Координати
-content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
-content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
+content#:#cont_copy_object#:#копіювати об'єкт
+content#:#cont_copy_to_clipboard#:#Копіювати в буфер обміну
 content#:#cont_create_dir#:#Створити Директорію
-content#:#cont_create_export_file#:#Create Export File###07 Jan 2005 new variable
-content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
-content#:#cont_create_export_file_scorm#:#Create Export File (SCORM)###01 Mar 2005 new variable
-content#:#cont_create_export_file_xml#:#Create Export File (XML)###22 Dec 2004 new variable
-content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
-content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
-content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
-content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
-content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
-content#:#cont_credit_on#:#Credit###14 Jun 2004 new variable
-content#:#cont_credits#:#Credits###03 May 2004 new variable
+content#:#cont_create_export_file#:#Створити Файл Експорту
+content#:#cont_create_export_file_html#:#Створити Файл Експорту (HTML)
+content#:#cont_create_export_file_scorm#:#Створити Файл Експорту (SCORM)
+content#:#cont_create_export_file_xml#:#Створити Файл Експорту (XML)
+content#:#cont_create_folder#:#Створити Папку
+content#:#cont_create_html_version#:#Створити HTML Пакет
+content#:#cont_create_mob#:#Створити Медіа О'єкт
+content#:#cont_credit_mode#:#Кредитний режим (для режиму уроку 'нормальний')
+content#:#cont_credit_off#:#Немає Кредиту
+content#:#cont_credit_on#:#Кредит
+content#:#cont_credits#:#Кредити
 content#:#cont_cross_reference#:#Перехресне посилання
 content#:#cont_data_from_lms#:#adlcp:дані з lms
 content#:#cont_def_layout#:#Розміщення по Замовчанню
-content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
+content#:#cont_def_lesson_mode#:#Режим уроку по замовчанню
 content#:#cont_def_organization#:#по замовчанню
 content#:#cont_definition#:#Визначення
 content#:#cont_definitions#:#Визначення
 content#:#cont_del_assignment#:#Видалити призначення
 content#:#cont_dependencies#:#Залежності
-content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
+content#:#cont_derive_from_obj#:#Отримати з Об'єкта
 content#:#cont_details#:#Деталі
 content#:#cont_dir_file#:#Директорія/Файл
-content#:#cont_disable_js#:#Disable JavaScript###03 Nov 2004 new variable
-content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
-content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
-content#:#cont_downloads#:#Downloads###23 Dec 2004 new variable
-content#:#cont_downloads_desc#:#Enables download of all public export files.###23 Dec 2004 new variable
-content#:#cont_ed_align_center#:#align: center###16 Aug 2004 new variable
-content#:#cont_ed_align_left#:#align: left###16 Aug 2004 new variable
-content#:#cont_ed_align_left_float#:#align: left float###16 Aug 2004 new variable
-content#:#cont_ed_align_right#:#align: right###16 Aug 2004 new variable
-content#:#cont_ed_align_right_float#:#align: right float###16 Aug 2004 new variable
-content#:#cont_ed_class#:#Style###16 Aug 2004 new variable
-content#:#cont_ed_col_left#:#move column left###16 Nov 2004 new variable
-content#:#cont_ed_col_right#:#move column right###16 Nov 2004 new variable
-content#:#cont_ed_copy_clip#:#copy to clipboard###16 Aug 2004 new variable
-content#:#cont_ed_delete#:#delete###16 Aug 2004 new variable
-content#:#cont_ed_delete_col#:#delete column###16 Aug 2004 new variable
-content#:#cont_ed_delete_item#:#delete item###16 Aug 2004 new variable
-content#:#cont_ed_delete_row#:#delete row###16 Aug 2004 new variable
-content#:#cont_ed_edit#:#edit###16 Aug 2004 new variable
-content#:#cont_ed_edit_prop#:#edit properties###16 Aug 2004 new variable
-content#:#cont_ed_go#:#Go###16 Aug 2004 new variable
-content#:#cont_ed_insert_code#:#insert Code###16 Aug 2004 new variable
-content#:#cont_ed_insert_filelist#:#insert File List###16 Aug 2004 new variable
-content#:#cont_ed_insert_list#:#insert List###16 Aug 2004 new variable
-content#:#cont_ed_insert_media#:#insert Media###16 Aug 2004 new variable
-content#:#cont_ed_insert_par#:#insert Paragr.###16 Aug 2004 new variable
-content#:#cont_ed_insert_table#:#insert Table###16 Aug 2004 new variable
-content#:#cont_ed_item_down#:#move item down###16 Nov 2004 new variable
-content#:#cont_ed_item_up#:#move item up###16 Nov 2004 new variable
-content#:#cont_ed_moveafter#:#move after###16 Aug 2004 new variable
-content#:#cont_ed_movebefore#:#move before###16 Aug 2004 new variable
-content#:#cont_ed_new_col_after#:#new column after###16 Aug 2004 new variable
-content#:#cont_ed_new_col_before#:#new column before###16 Aug 2004 new variable
-content#:#cont_ed_new_item_after#:#new item after###16 Aug 2004 new variable
-content#:#cont_ed_new_item_before#:#new item before###16 Aug 2004 new variable
-content#:#cont_ed_new_row_after#:#new row after###16 Aug 2004 new variable
-content#:#cont_ed_new_row_before#:#new row before###16 Aug 2004 new variable
-content#:#cont_ed_paste_clip#:#paste from clipboard###16 Aug 2004 new variable
-content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
-content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
-content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
-content#:#cont_ed_split_page_next#:#split to next page###29 Nov 2004 new variable
-content#:#cont_ed_width#:#Width###16 Aug 2004 new variable
-content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
+content#:#cont_disable_js#:#Заблокувати JavaScript
+content#:#cont_disable_media#:#Заблокувати Медіа
+content#:#cont_download_title#:#Завантажити Назву
+content#:#cont_downloads#:#Завантаження
+content#:#cont_downloads_desc#:#Дозволяє завантаження усіх публічно експортованих файлів.
+content#:#cont_ed_align_center#:#вирівнювання: по центру
+content#:#cont_ed_align_left#:#вирівнювання: зліва
+content#:#cont_ed_align_left_float#:#вирівнювання: зліва float
+content#:#cont_ed_align_right#:#вирівнювання: справа
+content#:#cont_ed_align_right_float#:#вирівнювання: справа float
+content#:#cont_ed_class#:#Стиль
+content#:#cont_ed_col_left#:#перемістити колонку вліво
+content#:#cont_ed_col_right#:#перемістити колонку вправо
+content#:#cont_ed_copy_clip#:#копіювати в буфер обміну
+content#:#cont_ed_delete#:#видалити
+content#:#cont_ed_delete_col#:#видалити колонку
+content#:#cont_ed_delete_item#:#видалити об'єкт
+content#:#cont_ed_delete_row#:#видалити рядок
+content#:#cont_ed_edit#:#редагувати
+content#:#cont_ed_edit_prop#:#редагувати властивості
+content#:#cont_ed_go#:#Перейти
+content#:#cont_ed_insert_code#:#вставити Код
+content#:#cont_ed_insert_filelist#:#вставити Список Файлів
+content#:#cont_ed_insert_list#:#вставити Список
+content#:#cont_ed_insert_media#:#вставити Медіа
+content#:#cont_ed_insert_par#:#вставити Параграф
+content#:#cont_ed_insert_table#:#вставити Таблицю
+content#:#cont_ed_item_down#:#перемістити об'єкт вниз
+content#:#cont_ed_item_up#:#перемістити об'єкт вверх
+content#:#cont_ed_moveafter#:#перемістити після
+content#:#cont_ed_movebefore#:#перемістити перед
+content#:#cont_ed_new_col_after#:#нова колонка після
+content#:#cont_ed_new_col_before#:#нова колонка перед
+content#:#cont_ed_new_item_after#:#новий об'єкт після
+content#:#cont_ed_new_item_before#:#новий об'єкт перед
+content#:#cont_ed_new_row_after#:#новий рядок після
+content#:#cont_ed_new_row_before#:#новий рядок перед
+content#:#cont_ed_paste_clip#:#вставити з буфера обміну
+content#:#cont_ed_row_down#:#перемістити рядок вниз
+content#:#cont_ed_row_up#:#перемістити рядок вверх
+content#:#cont_ed_split_page#:#розділити Сторінку
+content#:#cont_ed_split_page_next#:#розділити на наступу сторінку
+content#:#cont_ed_width#:#Ширина
+content#:#cont_edit_area#:#Редагувати Область
 content#:#cont_edit_file_list_properties#:#Редагувати Властивлсті Списку Файлів
 content#:#cont_edit_mob#:#Редагувати Медіа Об'єкт
 content#:#cont_edit_mob_alias_prop#:#Редагувати Властивості Екземмпляр Медіа Об'єкта
 content#:#cont_edit_mob_files#:#Файли Об'єкта
 content#:#cont_edit_mob_properties#:#Редагувати Властивості Медіа Об'єкта
 content#:#cont_edit_par#:#Редагувати Параграф
-content#:#cont_edit_src#:#Edit source code###16 Jun 2004 new variable
+content#:#cont_edit_src#:#Редагувати вихідний код
 content#:#cont_edit_tab_properties#:#Властивості Таблиці
 content#:#cont_edit_term#:#Редагувати Термін
 content#:#cont_edition#:#Випуск
-content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
-content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
-content#:#cont_example#:#e.g.###29 Nov 2004 new variable
-content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
+content#:#cont_enable_js#:#Дозволити JavaScript
+content#:#cont_enable_media#:#Дозволити Медіа
+content#:#cont_example#:#наприклад
+content#:#cont_export_files#:#Експортувати Файли
 content#:#cont_external#:#зовнішній
-content#:#cont_external_url#:#external url###29 Nov 2004 new variable
+content#:#cont_external_url#:#зовнішній url
 content#:#cont_file#:#Файл
 content#:#cont_files#:#Файли
-content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
-content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
-content#:#cont_format#:#Format###23 Feb 2004 new variable
-content#:#cont_format_error#:#This operation is not allowed here!###04 Dec 2004 new variable
-content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
-content#:#cont_full_is_in_dir#:#Видалення неможливе. Повноекранний файл є в директорії.###14 Sep 2004 content changed
-content#:#cont_fullscreen#:#Повний екран###14 Sep 2004 content changed
+content#:#cont_fix_tree#:#Налагодити структуру
+content#:#cont_fix_tree_confirm#:#Будь ласка виконуйте цю команду тільки якщо деревоподібна структура цього учбового модуля пошкоджена, наприклад в огляді трапляються порожні об'єкти.
+content#:#cont_format#:#Формат
+content#:#cont_format_error#:#Ця операція не дозволена тут!
+content#:#cont_free_pages#:#Вільні Сторінки
+content#:#cont_full_is_in_dir#:#Видалення неможливе. Повноекранний файл є в директорії.
+content#:#cont_fullscreen#:#Повний Екран
 content#:#cont_get_link#:#отримати посилання
-content#:#cont_get_orig_size#:#Set original size###25 Feb 2004 new variable
-content#:#cont_glo_properties#:#Glossary Properties###13 May 2004 new variable
+content#:#cont_get_orig_size#:#Встановити оригінальний розмір
+content#:#cont_glo_properties#:#Властивості Глосарію
 content#:#cont_height#:#Висота
 content#:#cont_how_published#:#Як опублікувати
-content#:#cont_href#:#href###05 Nov 2004 new variable
-content#:#cont_id_ref#:#identifierref###05 Nov 2004 new variable
+content#:#cont_href#:#href
+content#:#cont_id_ref#:#identifierref
 content#:#cont_imagemap#:#Карта Зображення
 content#:#cont_import_id#:#ідентифікатор
 content#:#cont_insert_file_item#:#Вставити Елемент Файлу
 content#:#cont_insert_file_list#:#Вставити Список Файлів
 content#:#cont_insert_list#:#Вставити Список
 content#:#cont_insert_mob#:#Вставити Медіа Об'єкт
-content#:#cont_insert_new_footnote#:#insert new footnore###29 Nov 2004 new variable
+content#:#cont_insert_new_footnote#:#вставити нову виноску
 content#:#cont_insert_par#:#Вставити Параграф
 content#:#cont_insert_search#:#Будь ласка вставте пошуковий термін
-content#:#cont_insert_src#:#Insert source code###16 Jun 2004 new variable
+content#:#cont_insert_src#:#Вставити вихідний код
 content#:#cont_insert_table#:#Вставити Таблицю
 content#:#cont_internal#:#внутрішній
 content#:#cont_internal_link#:#внутрішнє посилання
 content#:#cont_is_visible#:#є видимим
-content#:#cont_isbn#:#ISBN###05 Nov 2004 new variable
-content#:#cont_issn#:#ISSN###05 Nov 2004 new variable
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Пункт
 content#:#cont_journal#:#Журнал
 content#:#cont_keyword#:#Ключове слово
 content#:#cont_link#:#Посилання
-content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
+content#:#cont_link_area#:#Область Посилання
 content#:#cont_link_ext#:#Посилання (зовнішнє)
 content#:#cont_link_int#:#Посилання (внутрішнє)
 content#:#cont_link_select#:#Внутрішнє Посилання
 content#:#cont_link_type#:#Тип Посилання
-content#:#cont_linked_mobs#:#Linked media objects###09 Oct 2004 new variable
-content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
+content#:#cont_linked_mobs#:#Зв'язані медіа об'єкти
+content#:#cont_list_files#:#Список Файлів
 content#:#cont_list_properties#:#Властивості Списку
 content#:#cont_lk_chapter#:#Глава
 content#:#cont_lk_chapter_new#:#Глава (Новий Фрейм)
@@ -2742,27 +2742,27 @@ content#:#cont_lk_media_new#:#Медіа (Новий Фрейм)
 content#:#cont_lk_page#:#Сторінка
 content#:#cont_lk_page_faq#:#Сторінка (FAQ Фрейм)
 content#:#cont_lk_page_new#:#Сторінка (Новий Фрейм)
-content#:#cont_lk_survey#:#Survey###04 Jun 2004 new variable
+content#:#cont_lk_survey#:#Опитування
 content#:#cont_lk_term#:#Термін Глосарія
 content#:#cont_lk_term_new#:#Термін Глосарія (Новий Фрейм)
-content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
+content#:#cont_lm_menu#:#Меню
 content#:#cont_lm_properties#:#Властивості Учбового Модуля
-content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
+content#:#cont_lvalue#:#Елемент даних
 content#:#cont_manifest#:#Маніфест
 content#:#cont_map_areas#:#Області Посилання
-content#:#cont_mastery_score#:#adlcp:masteryscore###05 Nov 2004 new variable
-content#:#cont_matches#:#matches###16 Aug 2004 new variable
-content#:#cont_matching_question_javascript_hint#:#Please drag a definition/picture on the right side over a term on the left side and drop the definition/picture to match the term with the definition/picture.###17 Sep 2004 new variable
-content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###05 Nov 2004 new variable
-content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
-content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
-content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
+content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_matches#:#співпадання
+content#:#cont_matching_question_javascript_hint#:#Будь ласка перетягніть визначення/картинку на правій стороні на термін з лівой сторони та перетягніть визначення/картинку для співпадання терміну з визначенням/картинкою.
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_media_source#:#Медіа Джерело
+content#:#cont_mep_structure#:#Структура Медіа Банку
+content#:#cont_missing_preconditions#:#Ви маєте виконати наступні попередні умови щоб отримати доступ до глави "%s".
 content#:#cont_mob_files#:#Файли Об'єкта
 content#:#cont_mob_inst_prop#:#Властивості Екземпляру
 content#:#cont_mob_prop#:#Властивості Об'єкта
 content#:#cont_mob_usages#:#Використання
 content#:#cont_month#:#Місяць
-content#:#cont_move_object#:#move object###29 Nov 2004 new variable
+content#:#cont_move_object#:#перемістити об'єкт
 content#:#cont_msg_multiple_editions#:#Є неможливим показати деталі спльного редагування
 content#:#cont_name#:#Ім'я
 content#:#cont_new_area#:#Нова Область-Посилання
@@ -2771,16 +2771,16 @@ content#:#cont_new_dir#:#Нова Директорія
 content#:#cont_new_file#:#Новий Файл
 content#:#cont_new_media_obj#:#Новий Медіа Об'єкт
 content#:#cont_new_term#:#Новий Термін
-content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
+content#:#cont_no_access#:#Немає Доступу
 content#:#cont_no_assign_itself#:#Об'єкт не може бути призначений сам собі
-content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.###20 Apr 2004 new variable
+content#:#cont_no_manifest#:#Файл imsmanifest.xml не знайдений в головній директорії.
 content#:#cont_no_object_found#:#Неможливо знайти жоден об'єкт з цією назвою
 content#:#cont_no_page#:#Сторінка не знайдена.
 content#:#cont_none#:#Нічого
 content#:#cont_nr_cols#:#Кількість Колонок
 content#:#cont_nr_items#:#Кількість Пунктів
 content#:#cont_nr_rows#:#Кількість Рядків
-content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
+content#:#cont_obj_removed#:#Об'єкт видалений.
 content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
 content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
 content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
