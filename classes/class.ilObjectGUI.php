@@ -601,7 +601,7 @@ class ilObjectGUI
 	{
 		global $tree;
 
-		$new_object_id = $this->object->cloneObject($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent);
+		$new_object_id = $this->object->clone($a_dest_id);
 
 		$saved_tree = new Tree($a_tree_id);
 		$childs = $saved_tree->getChilds($a_source_id);

@@ -194,12 +194,12 @@ class ilObjForum extends ilObject
 	* @access	public
 	* @return	integer	new object id
 	*/
-	function cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent)
+	function clone($a_parent_ref)
 	{		
-		$new_obj_id = parent::cloneObject($a_obj_id,$a_parent,$a_dest_id,$a_dest_parent);
+		$new_obj_id = parent::clone($a_parent_ref);
 		
 		// get forum data
-		$this->Forum->setWhereCondition("top_frm_fk = ".$a_obj_id);			
+		$this->Forum->setWhereCondition("top_frm_fk = ".$this->getId());
 		$topData = $this->Forum->getOneTopic();	
 		
 		// insert new forum as a copy 

@@ -368,4 +368,4 @@ class ilFileDataMail extends ilFileData
 	}
 
 }
-?>
+
