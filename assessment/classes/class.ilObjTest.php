@@ -1895,11 +1895,11 @@ class ilObjTest extends ilObject
 			$postponed = $old_active->postponed;
 			if ($postpone) {
 				$sequence_array = split(",", $sequence);
-				$postpone = $sequence_array[$postpone-1];
+				$postpone_sequence = $sequence_array[$postpone-1];
+				$question_id = $this->questions[$postpone_sequence];
 				unset($sequence_array[$postpone-1]);
-				array_push($sequence_array, $postpone);
+				array_push($sequence_array, $postpone_sequence);
 				$sequence = join(",", $sequence_array);
-				$question_id = $this->questions[$postpone];
 				$postponed .= ",$question_id";
 				$postponed = preg_replace("/^,/", "", $postponed);
 			}
