@@ -1380,55 +1380,55 @@ common#:#hlm_write#:#Редагувати HACP Учбовий Модуль
 common#:#hobby#:#Інтереси/Хоббі
 common#:#home#:#Дім
 common#:#host#:#Хост
-common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
-common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_edit#:#Edit HTML Learning Module Properties###07 Apr 2004 new variable
-common#:#htlm_edit_permission#:#Change permission settings###07 Apr 2004 new variable
-common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
-common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
-common#:#http_not_possible#:#This server is not supporting http requests.###24 Sep 2004 new variable
+common#:#hours_of_day#:#Годин на день
+common#:#htlm#:#HTML Учбовий Модуль
+common#:#htlm_add#:#Додати HTML Учбовий Модуль
+common#:#htlm_delete#:#Видалити HTML Учбовий Модуль
+common#:#htlm_edit#:#Редагувати Властивості HTML Учбового Модуля
+common#:#htlm_edit_permission#:#Змінити настройки прав
+common#:#htlm_new#:#Новий HTML Учбовий Модуль
+common#:#htlm_read#:#Читати HTML Учбовий Модуль
+common#:#htlm_visible#:#HTML Учбовий Модуль є видимим
+common#:#htlm_write#:#Редагувати HTML Учбовий Модуль
+common#:#http_not_possible#:#Цей сервер не підтримує http запити.
 common#:#http_path#:#Http Шлях
-common#:#https_not_possible#:#This server is not supporting HTTPS connnections.###22 Sep 2004 new variable
-common#:#id#:#ID###05 Nov 2004 new variable
+common#:#https_not_possible#:#Цей сервер не підтримує HTTPS з'єднання.
+common#:#id#:#ID
 common#:#identifier#:#ідентифікатор
-common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
-common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
+common#:#if_no_title_then_filename#:#Залиште порожнім для відображення імені файла 
+common#:#if_no_title_then_url#:#Залиште порожнім для відображення URL
 common#:#ilias_version#:#ILIAS версія
 common#:#image#:#Зображення
-common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях конвертації.###14 Sep 2004 content changed
+common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях до програми конвертації.
 common#:#import#:#Імпорт
-common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
-common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
-common#:#import_dbk#:#Import Digilib Book###03 Dec 2004 new variable
-common#:#import_file#:#Import File###27 Feb 2004 new variable
-common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
-common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
-common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
-common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
-common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
-common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
-common#:#import_lm#:#Імпортувати Учбовий модуль###14 Sep 2004 content changed
-common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
-common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
-common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
-common#:#import_spl#:#Import Questionpool Survey###08 Nov 2004 new variable
-common#:#import_svy#:#Import Survey###05 Nov 2004 new variable
-common#:#import_tst#:#Import Test###14 Oct 2004 new variable
-common#:#import_users#:#Import Users###27 Feb 2004 new variable
-common#:#imported#:#imported###30 Apr 2004 new variable
+common#:#import_alm#:#Імпортувати AICC Пакет
+common#:#import_categories#:#Імпортувати Категорії
+common#:#import_dbk#:#Імпортувати Digilib Книгу
+common#:#import_file#:#Імпортувати Файл
+common#:#import_file_not_valid#:#Імпортований файл не є коректним.
+common#:#import_finished#:#Кількість імпортованих повідомлень.
+common#:#import_forum_finished#:#Форум був імпортований.
+common#:#import_glossary#:#Імпортувати Глосарій
+common#:#import_grp_finished#:#Імпортована група не має жодної помилки
+common#:#import_hlm#:#Імпортувати HACP Пакет
+common#:#import_lm#:#Імпортувати ILIAS Учбовий модуль
+common#:#import_qpl#:#Імпортувати Пул Питань для Тесту
+common#:#import_root_user#:#Імпортувати Користувача Root
+common#:#import_sahs#:#Імпортувати SCORM/AICC Пакет
+common#:#import_spl#:#Імпортувати Пул Питань для Опитування
+common#:#import_svy#:#Імпортувати Опитування
+common#:#import_tst#:#Імпортувати Тест
+common#:#import_users#:#Імпортувати Користувачів
+common#:#imported#:#імпортований
 common#:#in#:#в
 common#:#in_use#:#Мова Користувача
-common#:#inactive#:#Inactive###14 Sep 2004 new variable
+common#:#inactive#:#Пасивний
 common#:#inbox#:#Вхідні
-common#:#info#:#Information###29 Nov 2004 new variable
+common#:#info#:#Інформація
 common#:#info_assign_sure#:#Ви впевнені що бажаєте призначити наступного користувача(користувачів)?
 common#:#info_delete_sure#:#Ви впевнені що бажаєете видалити наступний об'єкт(об'єкти)?
 common#:#info_deleted#:#Об'єкт(и) Видалений(і)
-common#:#info_trash#:#DВидалені Об'єкти
+common#:#info_trash#:#Видалені Об'єкти
 common#:#inform_user_mail#:#Відіслати email щоб проінформувати користувачів про зміни
 common#:#information_abbr#:#Інформація
 common#:#ingmedia_all_offers#:#Усі LE
