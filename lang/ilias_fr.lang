@@ -621,6 +621,7 @@ common#:#any_language#:#N'importe quel langage
 common#:#application_completed#:#Inscription terminée
 common#:#application_date#:#Date d'inscription
 common#:#applied_users#:#Utilisateurs inscrits
+common#:#apply#:#Apply###02 Oct 2004 new variable
 common#:#apply_filter#:#Appliquer le filtre
 common#:#appointment#:#Rendez-vous
 common#:#appointment_list#:#Liste de rendez-vous
@@ -1738,6 +1739,7 @@ common#:#path_to_java#:#Chemin de Java
 common#:#path_to_unzip#:#Chemin de Unzip
 common#:#path_to_zip#:#Chemin de Zip
 common#:#pathes#:#Chemins
+common#:#pay_methods#:#Pay methods###02 Oct 2004 new variable
 common#:#payment_system#:#Système de paiement
 common#:#pays_edit#:#Modifier paramètres de paiement
 common#:#pays_edit_permission#:#Changer paramètres de permission
@@ -3513,12 +3515,36 @@ meta#:#meta_very_easy#:#Très facile
 meta#:#meta_very_high#:#Très haut
 meta#:#meta_very_low#:#Très bas
 meta#:#meta_yes#:#Oui
+payment#:#pay_header#:#Payment###02 Oct 2004 new variable
+payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
 payment#:#pay_no_vendors_created#:#Pas de vendeurs créés
+payment#:#paya_added_trustee#:#Created new trustee.###02 Oct 2004 new variable
+payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.###02 Oct 2004 new variable
+payment#:#paya_disabled#:#Disabled###02 Oct 2004 new variable
+payment#:#paya_enabled#:#Enabled###02 Oct 2004 new variable
+payment#:#paya_enter_login#:#Please enter an user name.###02 Oct 2004 new variable
+payment#:#paya_header#:#Payment administration###02 Oct 2004 new variable
+payment#:#paya_locator#:#Payment administration###02 Oct 2004 new variable
+payment#:#paya_no_trustees#:#No trustees created.###02 Oct 2004 new variable
+payment#:#paya_no_valid_login#:#This user name is not valid.###02 Oct 2004 new variable
+payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.###02 Oct 2004 new variable
+payment#:#paya_object#:#Objekts###02 Oct 2004 new variable
+payment#:#paya_perm_obj#:#Edit objects###02 Oct 2004 new variable
+payment#:#paya_perm_stat#:#Edit statistics###02 Oct 2004 new variable
+payment#:#paya_shopping_cart#:#Shopping cart###02 Oct 2004 new variable
+payment#:#paya_statistic#:#Statistic###02 Oct 2004 new variable
+payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?###02 Oct 2004 new variable
+payment#:#paya_trustee_table#:#Trustees###02 Oct 2004 new variable
+payment#:#paya_trustees#:#Trustees###02 Oct 2004 new variable
+payment#:#paya_updated_trustees#:#Updated permissions.###02 Oct 2004 new variable
+payment#:#paya_user_already_assigned#:#User already assigned.###02 Oct 2004 new variable
 payment#:#pays_active_bookings#:#Réservations actives
 payment#:#pays_add_vendor#:#Ajouter vendeur
 payment#:#pays_added_vendor#:#Nouveau vendeur ajouté
 payment#:#pays_already_assigned_vendors#:#Le nombre d'utilisateurs suivant a déjà été assigné.
 payment#:#pays_assigned_vendors#:#Le nombre d'utilisateurs suivant a été assigné à la liste des vendeurs.
+payment#:#pays_bill#:#Bill###02 Oct 2004 new variable
+payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
 payment#:#pays_cost_center#:#Centre de coût
 payment#:#pays_delete_vendor#:#Supprimer l'assignation de ll'utilisateur
 payment#:#pays_deleted_number_vendors#:#Le nombre de vendeurs suivant ont été détruits :
@@ -3527,7 +3553,13 @@ payment#:#pays_no_username_given#:#Pas de nom d'utilisateur donné
 payment#:#pays_no_valid_username_given#:#Pas de nom d'utilisateur valide donné
 payment#:#pays_no_vendor_selected#:#Pas de vendeur sélectionné
 payment#:#pays_number_bookings#:#Réservations actives
+payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
+payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
+payment#:#pays_offline#:#Offline###02 Oct 2004 new variable
+payment#:#pays_online#:#Online###02 Oct 2004 new variable
+payment#:#pays_pay_methods#:#Pay methods###02 Oct 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Voulez-vous vraiment détruire le(s) vendeur(s) suivant(s)
+payment#:#pays_updated_pay_method#:#Changed pay method.###02 Oct 2004 new variable
 payment#:#pays_user_already_assigned#:#L'utilisateur est déjà assigné au vendeur
 payment#:#pays_vendor#:#Vendeur
 search#:#search_active#:#Inclure utilisateurs actifs

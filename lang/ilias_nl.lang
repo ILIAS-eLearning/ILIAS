@@ -623,6 +623,7 @@ common#:#any_language#:#Elke taal
 common#:#application_completed#:#De toepassing is compleet
 common#:#application_date#:#Applicatie-datum
 common#:#applied_users#:#Toegevoegde gebruikers
+common#:#apply#:#Apply###02 Oct 2004 new variable
 common#:#apply_filter#:#Toepassen filter
 common#:#appointment#:#Afspraak
 common#:#appointment_list#:#Afsprakenlijst
@@ -1740,6 +1741,7 @@ common#:#path_to_java#:#Pad naar Java
 common#:#path_to_unzip#:#Pad naar Unzip
 common#:#path_to_zip#:#Pad naar Zip
 common#:#pathes#:#Paden
+common#:#pay_methods#:#Pay methods###02 Oct 2004 new variable
 common#:#payment_system#:#Betaal-systeem
 common#:#pays_edit#:#Wijzig betalings-instellingen
 common#:#pays_edit_permission#:#Wijzige instellingen van de rechten
@@ -3516,12 +3518,36 @@ meta#:#meta_very_easy#:#Versie
 meta#:#meta_very_high#:#Heel moeilijk
 meta#:#meta_very_low#:#Heel gemakkelijk
 meta#:#meta_yes#:#Heel hoog
+payment#:#pay_header#:#Payment###02 Oct 2004 new variable
+payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
 payment#:#pay_no_vendors_created#:#Heel laag
+payment#:#paya_added_trustee#:#Created new trustee.###02 Oct 2004 new variable
+payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.###02 Oct 2004 new variable
+payment#:#paya_disabled#:#Disabled###02 Oct 2004 new variable
+payment#:#paya_enabled#:#Enabled###02 Oct 2004 new variable
+payment#:#paya_enter_login#:#Please enter an user name.###02 Oct 2004 new variable
+payment#:#paya_header#:#Payment administration###02 Oct 2004 new variable
+payment#:#paya_locator#:#Payment administration###02 Oct 2004 new variable
+payment#:#paya_no_trustees#:#No trustees created.###02 Oct 2004 new variable
+payment#:#paya_no_valid_login#:#This user name is not valid.###02 Oct 2004 new variable
+payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.###02 Oct 2004 new variable
+payment#:#paya_object#:#Objekts###02 Oct 2004 new variable
+payment#:#paya_perm_obj#:#Edit objects###02 Oct 2004 new variable
+payment#:#paya_perm_stat#:#Edit statistics###02 Oct 2004 new variable
+payment#:#paya_shopping_cart#:#Shopping cart###02 Oct 2004 new variable
+payment#:#paya_statistic#:#Statistic###02 Oct 2004 new variable
+payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?###02 Oct 2004 new variable
+payment#:#paya_trustee_table#:#Trustees###02 Oct 2004 new variable
+payment#:#paya_trustees#:#Trustees###02 Oct 2004 new variable
+payment#:#paya_updated_trustees#:#Updated permissions.###02 Oct 2004 new variable
+payment#:#paya_user_already_assigned#:#User already assigned.###02 Oct 2004 new variable
 payment#:#pays_active_bookings#:#Ja
 payment#:#pays_add_vendor#:#Geen leverancier gecreëerd
 payment#:#pays_added_vendor#:#Boekingen actief
 payment#:#pays_already_assigned_vendors#:#Voeg leverancier toe
 payment#:#pays_assigned_vendors#:#Nieuwe leverancier toegevoegd
+payment#:#pays_bill#:#Bill###02 Oct 2004 new variable
+payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
 payment#:#pays_cost_center#:#Het volgende aantal gebruikers was al toegevoegd:
 payment#:#pays_delete_vendor#:#Het volgende aantal gebruikers is toegevoegd aan de leveranciers-lijst:
 payment#:#pays_deleted_number_vendors#:#Kostenplaats
@@ -3530,7 +3556,13 @@ payment#:#pays_no_username_given#:#Het volgende aantal levenaciers zijn verwijde
 payment#:#pays_no_valid_username_given#:#Leveranciers-selectie
 payment#:#pays_no_vendor_selected#:#Geen gebruikers-naam opgegeven
 payment#:#pays_number_bookings#:#Geen geldige gebruikersnaam gegeven
+payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
+payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.###02 Oct 2004 new variable
+payment#:#pays_offline#:#Offline###02 Oct 2004 new variable
+payment#:#pays_online#:#Online###02 Oct 2004 new variable
+payment#:#pays_pay_methods#:#Pay methods###02 Oct 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Geen leverancier geselecteerd
+payment#:#pays_updated_pay_method#:#Changed pay method.###02 Oct 2004 new variable
 payment#:#pays_user_already_assigned#:#Boekingen actief
 payment#:#pays_vendor#:#Wilt u werkelijk de geselecteerde leverancier(s) verwijderen
 search#:#search_active#:#Deze gebruiker is al aan de leveranciers-lijst toegevoegd

@@ -630,6 +630,7 @@ common#:#any_language#:#Any language
 common#:#application_completed#:#Application is complete
 common#:#application_date#:#Application date
 common#:#applied_users#:#Applied users
+common#:#apply#:#Apply
 common#:#apply_filter#:#Apply filter
 common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
@@ -1748,6 +1749,7 @@ common#:#path_to_java#:#Path to Java
 common#:#path_to_unzip#:#Path to Unzip
 common#:#path_to_zip#:#Path to Zip
 common#:#pathes#:#Paths
+common#:#pay_methods#:#Pay methods
 common#:#payment_system#:#Payment System
 common#:#pays_edit#:#Edit payment settings
 common#:#pays_edit_permission#:#Change permission settings
@@ -3524,12 +3526,36 @@ meta#:#meta_very_easy#:#Very Easy
 meta#:#meta_very_high#:#Very High
 meta#:#meta_very_low#:#Very Low
 meta#:#meta_yes#:#Yes
+payment#:#pay_header#:#Payment
+payment#:#pay_locator#:#Payment
 payment#:#pay_no_vendors_created#:#No vendors created
+payment#:#paya_added_trustee#:#Created new trustee.
+payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.
+payment#:#paya_disabled#:#Disabled
+payment#:#paya_enabled#:#Enabled
+payment#:#paya_enter_login#:#Please enter an user name.
+payment#:#paya_header#:#Payment administration
+payment#:#paya_locator#:#Payment administration
+payment#:#paya_no_trustees#:#No trustees created.
+payment#:#paya_no_valid_login#:#This user name is not valid.
+payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.
+payment#:#paya_object#:#Objekts
+payment#:#paya_perm_obj#:#Edit objects
+payment#:#paya_perm_stat#:#Edit statistics
+payment#:#paya_shopping_cart#:#Shopping cart
+payment#:#paya_statistic#:#Statistic
+payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?
+payment#:#paya_trustee_table#:#Trustees
+payment#:#paya_trustees#:#Trustees
+payment#:#paya_updated_trustees#:#Updated permissions.
+payment#:#paya_user_already_assigned#:#User already assigned.
 payment#:#pays_active_bookings#:#Active bookings
 payment#:#pays_add_vendor#:#Add vendor
 payment#:#pays_added_vendor#:#Added new vendor
 payment#:#pays_already_assigned_vendors#:#The following number of users were already assigned:
 payment#:#pays_assigned_vendors#:#The following number of users have been assigned to the vendor list:
+payment#:#pays_bill#:#Bill
+payment#:#pays_bmf#:#BMF
 payment#:#pays_cost_center#:#Cost center
 payment#:#pays_delete_vendor#:#Deassign user
 payment#:#pays_deleted_number_vendors#:#The following number of vendors have been deleted:
@@ -3538,7 +3564,13 @@ payment#:#pays_no_username_given#:#No username given
 payment#:#pays_no_valid_username_given#:#No valid username given
 payment#:#pays_no_vendor_selected#:#No vendor selected
 payment#:#pays_number_bookings#:#Active bookings
+payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.
+payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.
+payment#:#pays_offline#:#Offline
+payment#:#pays_online#:#Online
+payment#:#pays_pay_methods#:#Pay methods
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)
+payment#:#pays_updated_pay_method#:#Changed pay method.
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list
 payment#:#pays_vendor#:#Vendor
 search#:#search_active#:#Include active users
@@ -3847,35 +3879,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-payment#:#paya_disabled#:#Disabled
-payment#:#paya_enabled#:#Enabled
-payment#:#paya_sure_delete_selected_trustees#:#Are you sure you want to delete the selected trustees?
-payment#:#paya_no_trustees#:#No trustees created.
-payment#:#paya_delete_trustee_msg#:#Deleted selected trustees.
-payment#:#paya_updated_trustees#:#Updated permissions.
-payment#:#paya_not_assign_yourself#:#It is not possible to assign yourself.
-payment#:#paya_added_trustee#:#Created new trustee.
-payment#:#paya_user_already_assigned#:#User already assigned.
-payment#:#paya_enter_login#:#Please enter an user name.
-payment#:#paya_no_valid_login#:#This user name is not valid.
-payment#:#paya_trustee_table#:#Trustees
-common#:#apply#:#Apply
-payment#:#paya_perm_stat#:#Edit statistics
-payment#:#paya_perm_obj#:#Edit objects
-payment#:#paya_trustees#:#Trustees
-payment#:#paya_header#:#Payment administration
-payment#:#pay_header#:#Payment
-payment#:#paya_locator#:#Payment administration
-payment#:#pay_locator#:#Payment
-payment#:#paya_statistic#:#Statistic
-payment#:#paya_object#:#Objekts
-payment#:#paya_shopping_cart#:#Shopping cart
-payment#:#pays_pay_methods#:#Pay methods
-payment#:#pays_offline#:#Offline
-payment#:#pays_bill#:#Bill
-payment#:#pays_online#:#Online
-payment#:#pays_bmf#:#BMF
-payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.
-payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some objects. Therefore it can not be deactivated.
-payment#:#pays_updated_pay_method#:#Changed pay method.
-common#:#pay_methods#:#Pay methods
