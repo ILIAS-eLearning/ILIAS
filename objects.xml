@@ -300,6 +300,7 @@
 	<property name="view">cont_content</property>
 </object>
 <object name="exc" class_name="Exercise" checkbox="1" inherit="1">
+	<property name="view">view</property>
 	<property name="edit">edit_properties</property>
 	<property name="members">show_members</property>
 	<property name="newmembers">add_member</property>
