@@ -207,6 +207,7 @@ common#:#groups#:#gruppi
 common#:#groups_overview#:#Groups Overview###12 Jun 2003 new variable
 common#:#grp#:#grp
 common#:#help#:#aiuto
+common#:#hobby#:#Interests/Hobbies###01 Jul 2003 new variable
 common#:#host#:##host
 common#:#http_path#:#percorso HTTP
 common#:#id#:#ID
@@ -579,10 +580,12 @@ content#:#cont_caption#:#Caption###11 Jun 2003 new variable
 content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
 content#:#cont_characteristic#:#Characteristic###23 Jun 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
+content#:#cont_def_layout#:#Default Layout###01 Jul 2003 new variable
 content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
 content#:#cont_edit_tab_properties#:#Table Properties###09 Jun 2003 new variable
 content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable
 content#:#cont_insert_table#:#Insert Table###09 Jun 2003 new variable
+content#:#cont_lm_properties#:#Learning Module Properties###01 Jul 2003 new variable
 content#:#cont_nr_cols#:#Number of Columns###09 Jun 2003 new variable
 content#:#cont_nr_rows#:#Number of Rows###09 Jun 2003 new variable
 content#:#cont_pages#:#Pages###28 May 2003 new variable
