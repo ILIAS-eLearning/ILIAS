@@ -44,6 +44,12 @@ class ilLMObjectGUI
 	var $content_object;
 	var $actions;
 
+
+	/**
+	* constructor
+	*
+	* @param	object		$a_content_obj		content object
+	*/
 	function ilLMObjectGUI(&$a_content_obj)
 	{
 		global $ilias, $tpl, $lng, $objDefinition;
@@ -55,6 +61,14 @@ class ilLMObjectGUI
 		$this->content_object =& $a_content_obj;
 	}
 
+
+	/**
+	* build action array
+	*
+	* @param	array		$a_actions		action array (key = action key,
+	*										value = action language string)
+	* @access	private
+	*/
 	function setActions($a_actions = "")
 	{
 		if (is_array($a_actions))
@@ -71,6 +85,9 @@ class ilLMObjectGUI
 	}
 
 
+	/**
+	* add meta data
+	*/
 	function addMeta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
@@ -93,6 +110,10 @@ class ilLMObjectGUI
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $meta_section);
 	}
 
+
+	/**
+	* delete meta data
+	*/
 	function deleteMeta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
@@ -103,6 +124,10 @@ class ilLMObjectGUI
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_GET["meta_section"]);
 	}
 
+
+	/**
+	* choose meta data section
+	*/
 	function chooseMetaSection()
 	{
 		$meta_gui =& new ilMetaDataGUI();
@@ -111,6 +136,10 @@ class ilLMObjectGUI
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_POST["meta_section"]);
 	}
 
+
+	/**
+	* edit meta data
+	*/
 	function editMeta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
@@ -119,6 +148,10 @@ class ilLMObjectGUI
 			$this->content_object->getRefId()."&obj_id=".$this->obj->getId());
 	}
 
+
+	/**
+	* save meta data
+	*/
 	function saveMeta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
@@ -128,12 +161,13 @@ class ilLMObjectGUI
 			$this->obj->getId());
 	}
 
+
 	/**
 	* get target frame for command (command is method name without "Object", e.g. "perm")
 	* @param	string		$a_cmd			command
 	* @param	string		$a_target_frame	default target frame (is returned, if no special
 	*										target frame was set)
-	* @access	public 
+	* @access	public
 	*/
 	function getTargetFrame($a_cmd, $a_target_frame = "")
 	{
@@ -151,8 +185,10 @@ class ilLMObjectGUI
 		}
 	}
 
+
 	/**
 	* get form action for command (command is method name without "Object", e.g. "perm")
+	*
 	* @param	string		$a_cmd			command
 	* @param	string		$a_formaction	default formaction (is returned, if no special
 	*										formaction was set)
@@ -170,6 +206,7 @@ class ilLMObjectGUI
 			return $a_formaction;
 		}
 	}
+
 
 	/**
 	* get a template blockfile
@@ -195,49 +232,43 @@ class ilLMObjectGUI
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 	}
-	
+
+
+	/**
+	* structure / page object creation form
+	*/
 	function create()
 	{
 		global $rbacsystem;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
-		/*
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+		// fill in saved values in case of error
+		$data = array();
+		$data["fields"] = array();
+		$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+		$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+
+		$this->getTemplateFile("edit",$new_type);
+
+		foreach ($data["fields"] as $key => $val)
 		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		else
-		{*/
-			// fill in saved values in case of error
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+			$this->tpl->setVariable(strtoupper($key), $val);
 
-			$this->getTemplateFile("edit",$new_type);
-
-			foreach ($data["fields"] as $key => $val)
+			if ($this->prepare_output)
 			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-				$this->tpl->setVariable(strtoupper($key), $val);
-
-				if ($this->prepare_output)
-				{
-					$this->tpl->parseCurrentBlock();
-				}
+				$this->tpl->parseCurrentBlock();
 			}
+		}
 
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","lm_edit.php?cmd=post&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&new_type=".$new_type));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		//}
-
-
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","lm_edit.php?cmd=post&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&new_type=".$new_type));
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+		$this->tpl->setVariable("CMD_SUBMIT", "save");
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 /*		if(count($_POST["id"]) > 1)
 		{
@@ -256,10 +287,14 @@ class ilLMObjectGUI
 			"&target=".$target."&cmd=saveMeta");*/
 	}
 
+
+	/**
+	* put this object into content object tree
+	*/
 	function putInTree()
 	{
 		$tree = new ilTree($this->content_object->getId());
-		$tree->setTableNames('lm_tree','lm_data');
+		$tree->setTableNames('lm_tree', 'lm_data');
 		$tree->setTreeTablePK("lm_id");
 
 		$parent_id = (!empty($_GET["obj_id"]))
@@ -291,109 +326,44 @@ class ilLMObjectGUI
 
 
 	/**
-	* confirm deletion screen
+	* confirm deletion screen (delete page or structure objects)
 	*/
 	function delete()
 	{
-		if(!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-		// SAVE POST VALUES
-		$_SESSION["saved_post"] = $_POST["id"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
-
-		sendInfo($this->lng->txt("info_delete_sure"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&backcmd=".$_GET["backcmd"]."&cmd=post");
-		// BEGIN TABLE HEADER
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
-		$this->tpl->parseCurrentBlock();
-
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-		foreach($_POST["id"] as $id)
-		{
-			$obj =& new ilLMObject($this->content_object, $id);
-			switch($obj->getType())		// ok that's not so nice, could be done better
-			{
-				case "pg":
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
-					break;
-				case "st":
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
-					break;
-			}
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->setVariable("TEXT_CONTENT", $obj->getTitle());
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// cancel/confirm button
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array( "cancelDelete"  => $this->lng->txt("cancel"),
-								  "confirmedDelete"  => $this->lng->txt("confirm"));
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+			true, false);
+		$cont_obj_gui->delete($this->obj->getId());
 	}
 
+
+	/**
+	* cancel deletion of page/structure objects
+	*/
 	function cancelDelete()
 	{
 		session_unregister("saved_post");
-
 		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->content_object->getRefId()."&obj_id=".
 			$this->obj->getId());
 		exit();
-
 	}
 
+
+	/**
+	* page and structure object deletion
+	*/
 	function confirmedDelete()
 	{
-		$tree = new ilTree($this->content_object->getId());
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
-
-		// check number of objects
-		if (!isset($_SESSION["saved_post"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// delete all selected objects
-		foreach ($_SESSION["saved_post"] as $id)
-		{
-			$obj =& ilLMObjectFactory::getInstance($this->content_object, $id);
-			$obj->setLMId($this->content_object->getId());
-			$node_data = $tree->getNodeData($id);
-			$obj->delete();
-			if($tree->isInTree($id))
-			{
-				$tree->deleteTree($node_data);
-			}
-		}
-
-		// check the tree
-		$this->checkTree();
-
-		// feedback
-		sendInfo($this->lng->txt("info_deleted"),true);
-
-		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->content_object->getRefId()."&obj_id=".
-			$this->obj->getId());
-		exit();
+		$cont_obj_gui =& new ilObjContentObjectGUI("",$this->content_object->getRefId(),
+			true, false);
+		$cont_obj_gui->confirmedDelete($this->obj->getId());
 	}
 
 
+	/**
+	* display subobject selection
+	*
+	* @param	string		$a_type		parent object type
+	*/
 	function showPossibleSubObjects($a_type)
 	{
 		$d = $this->objDefinition->getCreatableSubObjects($a_type);
@@ -460,7 +430,7 @@ class ilLMObjectGUI
 			}
 		}*/
 
-		if (count($operations)>0)
+		if (count($operations) > 0)
 		{
 			foreach ($operations as $val)
 			{
@@ -476,6 +446,9 @@ class ilLMObjectGUI
 		}
 	}
 
+	/**
+	* check the content object tree
+	*/
 	function checkTree()
 	{
 		$this->content_object->checkTree();

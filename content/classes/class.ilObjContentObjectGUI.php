@@ -758,9 +758,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	}
 
 	/**
-	* confirm deletion screen
+	* confirm deletion screen for page object and structure object deletion
+	*
+	* @param	int		$a_parent_subobj_id		id of parent object (structure object)
+	*											of the objects, that should be deleted
+	*											(or no parent object id for top level)
 	*/
-	function delete()
+	function delete($a_parent_subobj_id = 0)
 	{
 		if(!isset($_POST["id"]))
 		{
@@ -772,8 +776,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
 
 		sendInfo($this->lng->txt("info_delete_sure"));
+
+		$obj_str = ($a_parent_subobj_id != 0)
+			? "&obj_id=".$a_parent_subobj_id
+			: "";
+
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->object->getRefId()."&backcmd=".$_GET["backcmd"]."&cmd=post");
+			$this->object->getRefId().$obj_str."&backcmd=".$_GET["backcmd"]."&cmd=post");
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
 		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
@@ -823,7 +832,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 	}
 
-	function confirmedDelete()
+	/**
+	* delete page object or structure objects
+	*
+	* @param	int		$a_parent_subobj_id		id of parent object (structure object)
+	*											of the objects, that should be deleted
+	*											(or no parent object id for top level)
+	*/
+	function confirmedDelete($a_parent_subobj_id = 0)
 	{
 		$tree = new ilTree($this->object->getId());
 		$tree->setTableNames('lm_tree','lm_data');
@@ -854,14 +870,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 
-		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->object->getRefId());
+		$obj_str = ($a_parent_subobj_id != 0)
+			? "&obj_id=".$a_parent_subobj_id
+			: "";
+		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".
+			$this->object->getRefId().$obj_str);
 		exit();
 	}
 
 
 
 	/**
+	* get context path in content object tree
 	*
+	* @param	int		$a_endnode_id		id of endnode
+	* @param	int		$a_startnode_id		id of startnode
 	*/
 	function getContextPath($a_endnode_id, $a_startnode_id = 1)
 	{
@@ -922,6 +945,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	* edit meta data
+	*/
 	function editMeta()
 	{
 		include_once("classes/class.ilMetaDataGUI.php");
@@ -931,6 +957,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->object->getRefId()."&cmd=saveMeta");
 	}
 
+
+	/**
+	* edit save data
+	*/
 	function saveMeta()
 	{
 		include_once("classes/class.ilMetaDataGUI.php");
@@ -940,6 +970,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		header("location: lm_edit.php?cmd=view&ref_id=".$this->object->getRefId());
 	}
 
+
+	/**
+	* edit permissions
+	*/
 	function perm()
 	{
 		$this->setFormAction("addRole", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=addRole");
@@ -947,32 +981,49 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->permObject();
 	}
 
+
+	/**
+	* save permissions
+	*/
 	function permSave()
 	{
 		$this->setReturnLocation("permSave", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
 		$this->permSaveObject();
 	}
 
+
+	/**
+	* add local role
+	*/
 	function addRole()
 	{
 		$this->setReturnLocation("addRole", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
 		$this->addRoleObject();
 	}
 
+
+	/**
+	* show owner of content object
+	*/
 	function owner()
 	{
 		$this->ownerObject();
 	}
 
+
+	/**
+	* view content object
+	*/
 	function view()
 	{
 		$this->viewObject();
 	}
 
+
 	/**
-	* move chapter
+	* move a single chapter  (selection)
 	*/
-	function moveChapter()
+	function moveChapter($a_parent_subobj_id = 0)
 	{
 		if(!isset($_POST["id"]))
 		{
@@ -987,19 +1038,23 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		ilEditClipboard::storeContentObject("st", $_POST["id"][0]);
 
 		sendInfo($this->lng->txt("cont_chap_select_target_now"));
-		$this->chapters();
+
+		if ($a_parent_subobj_id == 0)
+		{
+			$this->chapters();
+		}
 	}
+
 
 	/**
 	* paste chapter
 	*/
-	function pasteChapter()
+	function pasteChapter($a_parent_subobj_id = 0)
 	{
 		if (ilEditClipboard::getContentObjectType() != "st")
 		{
 			$this->ilias->raiseError($this->lng->txt("no_chapter_in_clipboard"),$this->ilias->error_obj->MESSAGE);
 		}
-
 
 		$tree = new ilTree($this->object->getId());
 		$tree->setTableNames('lm_tree','lm_data');
@@ -1009,9 +1064,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$id = ilEditClipboard::getContentObjectId();
 
 		$node = $tree->getNodeData($id);
+
 		$subnodes = $tree->getSubtree($node);
 
 		// check, if target is within subtree
+		foreach ($subnodes as $subnode)
+		{
+			if($subnode["obj_id"] == $a_parent_subobj_id)
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_target_within_source"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
 		if($_POST["id"][0] == $id)
 		{
 			ilEditClipboard::clear();
@@ -1023,7 +1086,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		//echo ":".$id.":";
 		// delete old tree entries
 		$tree->deleteTree($node);
-
 		if(!isset($_POST["id"]))
 		{
 			$target = IL_LAST_NODE;
@@ -1033,18 +1095,34 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$target = $_POST["id"][0];
 		}
 
-		if (!$tree->isInTree($id))
+		// determin parent
+		$parent = ($a_parent_subobj_id == 0)
+			? $tree->getRootId()
+			: $a_parent_subobj_id;
+
+		// do not move a chapter in front of a page
+		if($target == IL_FIRST_NODE)
 		{
-			$tree->insertNode($id, $tree->getRootId(), $target);
+			$childs =& $tree->getChildsByType($parent, "pg");
+			if (count($childs) != 0)
+			{
+				$target = $childs[count($childs) - 1]["obj_id"];
+			}
 		}
 
-		foreach ($subnodes as $node)
+
+		if (!$tree->isInTree($id))
 		{
-			//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-			//$obj_data->putInTree($node["parent"]);
-			if($node["obj_id"] != $id)
+			$tree->insertNode($id, $parent, $target);
+
+			foreach ($subnodes as $node)
 			{
-				$tree->insertNode($node["obj_id"], $node["parent"]);
+				//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+				//$obj_data->putInTree($node["parent"]);
+				if($node["obj_id"] != $id)
+				{
+					$tree->insertNode($node["obj_id"], $node["parent"]);
+				}
 			}
 		}
 
@@ -1053,7 +1131,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		// check the tree
 		$this->object->checkTree();
 
-		$this->chapters();
+		if ($a_parent_subobj_id == 0)
+		{
+			$this->chapters();
+		}
 	}
 
 	/**
