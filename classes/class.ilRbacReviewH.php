@@ -1,23 +1,23 @@
 <?php
 /**
-* class RbacreviewH
+* class ilRbacreviewH
 * extensions for hierachical Rbac (maybe later)
 * 
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
-* @extends RbacReview
+* @extends ilRbacReview
 * @package rbac
 */
-class RbacReviewH extends RbacReview
+class ilRbacReviewH extends ilRbacReview
 {
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function RbacReviewH()
+	function ilRbacReviewH()
 	{
-		$this->RbacReview();
+		$this->ilRbacReview();
 	}
 
 	/**
