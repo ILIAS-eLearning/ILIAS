@@ -8,7 +8,6 @@
 * @author Sascha Hofmann <shofmann@databay.de>
 *
 * @package application
-* @see PEAR
 * @todo when an error occured and clicking the back button to return to previous page the referer-var in session is deleted -> server error
 */
 class ErrorHandling

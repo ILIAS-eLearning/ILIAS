@@ -20,31 +20,26 @@ require_once "classes/class.IniFile.php";
 require_once "classes/class.DBx.php";
 require_once "classes/class.template.php";
 require_once "classes/class.ilias.php";
-include_once "function.library.php";
-include_once "classes/class.util.php";
-include_once "classes/class.User.php";
-include_once "classes/class.group.php";
-include_once "classes/class.role.php";
-include_once "classes/class.resource.php";
-include_once "classes/class.groupmember.php";
-include_once "classes/class.format.php";
-include_once "classes/class.prevnextnavbar.php";
-include_once "classes/class.perm.php";
-include_once "classes/class.tree.php";
-include_once "classes/class.Language.php";
-include_once "classes/class.Log.php";
-include_once "classes/class.UserMail.php";
+require_once "classes/class.util.php";
+require_once "classes/class.User.php";
+require_once "classes/class.format.php";
+require_once "classes/class.prevnextnavbar.php";
+require_once "classes/class.perm.php";
+require_once "classes/class.tree.php";
+require_once "classes/class.Language.php";
+require_once "classes/class.Log.php";
+require_once "classes/class.UserMail.php";
 
 //include role based access control system
-include_once "classes/class.rbacAdmin.php";
-include_once "classes/class.rbacSystem.php";
-include_once "classes/class.rbacReview.php";
-include_once "classes/class.rbacAdminH.php";
-include_once "classes/class.rbacSystemH.php";
-include_once "classes/class.rbacReviewH.php";
+require_once "classes/class.rbacAdmin.php";
+require_once "classes/class.rbacSystem.php";
+require_once "classes/class.rbacReview.php";
+require_once "classes/class.rbacAdminH.php";
+require_once "classes/class.rbacSystemH.php";
+require_once "classes/class.rbacReviewH.php";
 
 // include error_handling
-include_once "classes/class.ErrorHandling.php";
+require_once "classes/class.ErrorHandling.php";
 
 session_start();
 

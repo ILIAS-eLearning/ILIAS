@@ -1,13 +1,14 @@
 <?php
 /**
 * user class for ilias
+* 
 * @author Sascha Hofmann <shofmann@databay.de>
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
 * 
 * @extends PEAR
 * @package ilias-core
-* @version $Id$
 */
 class User extends PEAR
 {
@@ -191,9 +192,9 @@ class User extends PEAR
 		$this->writePrefs();
 		
 		$this->getUserData();
+
 		return true;
 	}
-
 	
 	/**
 	* write userpref to user table
@@ -218,8 +219,8 @@ class User extends PEAR
 
 	/**
 	* write all userprefs
-	* @author Peter Gabriel <pgabriel@databay.de>
 	* @access	public
+ 	* @author 	Peter Gabriel <pgabriel@databay.de>
 	*/
 	function writePrefs()
 	{
@@ -227,6 +228,7 @@ class User extends PEAR
 		$sql = "DELETE FROM user_pref 
 			WHERE usr_id='".$this->Id."'";
 		$r = $this->db->query($sql);
+
 		foreach ($this->prefs as $keyword => $value)
 		{
 			//INSERT
@@ -241,8 +243,9 @@ class User extends PEAR
 
 	/**
 	* get all user preferences
-	* @return interger number of preferences
-	* @author Peter Gabriel <pgabriel@databay.de>
+	* @access	public
+	* @author	Peter Gabriel <pgabriel@databay.de>
+	* @return	interger	number of preferences
 	*/
 	function getPrefs()
 	{
@@ -261,9 +264,10 @@ class User extends PEAR
 	
 	/**
 	* deletes a user
-	* @param string
+	* @access	public
+	* @param	integer		user_id
 	*/
-	function delete ($AUsrId = "")
+	function delete ($AUsrId = 0)
 	{
 		if (empty($AUsrId))
 		{
@@ -286,7 +290,8 @@ class User extends PEAR
 	
 	/**
 	* builds a string with Title + Firstname + Surname
-	*
+	* 
+	* @access	public
 	* @param	string	title
 	* @param	string	firstname
 	* @param	string	surname
@@ -335,9 +340,8 @@ class User extends PEAR
 
 	/**
 	* get last read lessons
-	*
-	* @return array lessons
-	* @access public
+	* @access	public
+	* @return	array	lessons
 	*/
 	function getLastVisitedLessons()
 	{
@@ -362,20 +366,14 @@ class User extends PEAR
 
 	/**
 	* get all lessons
-	*
-	* @return array lessons
-	* @access public
+	* @access	public
+	* @return	array	lessons
 	*/
 	function getLessons()
 	{
 		//initialize array
 		$lessons = array();
 
-//$nodes = array();
-//$tree = new Tree(0,1,1);
-//$Tree = $tree->buildTree($nodes);
-//$data = $tree->display($Tree,$id,0,$open);
-//var_dump($Tree); 
 		//query
 		$sql = "SELECT * FROM lessons
 				WHERE user_fk='".$this->id."'
@@ -395,9 +393,8 @@ class User extends PEAR
 
 	/**
 	* get courses the user has access to
-	*
-	* @return array lessons
-	* @access public
+	* @access	public
+	* @return	array	lessons
 	*/
 	function getCourses()
 	{
@@ -421,9 +418,8 @@ class User extends PEAR
 
 	/**
 	* get own bookmarks
-	*
-	* @return array bookmarks
-	* @access public
+	* @access	public
+	* @return	array	bookmarks
 	*/
 	function getBookmarks()
 	{
@@ -437,14 +433,14 @@ class User extends PEAR
 			"url" => "http://www.gutenberg.de",
 			"desc" => "project gutenberg",
 			);
+
 		return $bookmarks;
 	}
 
 	/**
 	* get own bookmarks
-	*
-	* @return array bookmarks
-	* @access public
+	* @access	public
+	* @return	array	bookmarks
 	*/
 	function getBookmarkFolder()
 	{
@@ -457,14 +453,14 @@ class User extends PEAR
 			"id" => 1,
 			"name" => "sonstiges",
 			);
+
 		return $bookmarks;
 	}
 
 	/**
 	* get literature bookmarks
-	*
-	* @return array lessons
-	* @access public
+	* @access	public
+	* @return	array	lessons
 	*/
 	function getLiterature()
 	{
@@ -478,13 +474,14 @@ class User extends PEAR
 			"url" => "http://www.gutenberg.de",
 			"desc" => "project gutenberg",
 			);
+
 		return $literature;
 	}
 
 	/**
 	* set first name
-	* @access public
-	* @param string str
+	* @access	public
+	* @param	string	str
 	*/
 	function setFirstName($str)
 	{
@@ -493,8 +490,8 @@ class User extends PEAR
 
 	/**
 	* set last name
-	* @access public
-	* @param string str
+	* @access	public
+	* @param	string	str
 	*/
 	function setLastName($str)
 	{
@@ -503,8 +500,8 @@ class User extends PEAR
 
 	/**
 	* set gender
-	* @access public
-	* @param string str
+	* @access	public
+	* @param	string	str
 	*/
 	function setGender($str)
 	{
@@ -513,8 +510,8 @@ class User extends PEAR
 
 	/**
 	* set title
-	* @access public
-	* @param string str
+	* @access	public
+	* @param	string	str
 	*/
 	function setTitle($str)
 	{
@@ -523,8 +520,8 @@ class User extends PEAR
 
 	/**
 	* set email
-	* @access public
-	* @param string str
+	* @access	public
+	* @param	string	str
 	*/
 	function setEmail($str)
 	{
@@ -533,8 +530,8 @@ class User extends PEAR
 
 	/**
 	* set language
-	* @access public
-	* @param string str
+	* @access	public
+	* @param	string	str
 	*/
 	function setLanguage($str)
 	{

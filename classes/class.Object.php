@@ -461,17 +461,20 @@ class Object
 	* @param	integer	node_id of parent_node
 	* @return	string
 	*/
-	function getPath($a_id = "", $a_id_parent = '')
+	function getPath($a_id = 0, $a_id_parent = 0)
 	{		
 		global $tree;
-		if(!$a_id)
+
+		if (!$a_id)
 		{
 			$a_id = $_GET["obj_id"];
 		}
-		if(!$a_id_parent)
+
+		if (!$a_id_parent)
 		{
 			$a_id_parent = $_GET["parent"];
 		}
+
 		$path = $tree->getPathFull($a_id,$a_id_parent);
 
 		return $tree->showPath($path,"content.php");

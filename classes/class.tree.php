@@ -5,22 +5,16 @@
 *
 * @author Sascha Hofmann <shofmann@databay.de>
 * @author Stefan Meyer <smeyer@databay.de>
-* @package ilias-core
-* @extends PEAR
 * @version $Id$
+*
+* @extends PEAR 
+* @package ilias-core
 */
 class Tree extends PEAR
 {
 	/**
-	* database handle
-	* @var object
-	* @access private
-	*/
-	var $db;
-
-	/**
 	* ilias object
-	* @var object
+	* @var object ilias
 	* @access private
 	*/
 	var $ilias;
@@ -75,13 +69,6 @@ class Tree extends PEAR
 	var $Leafs;
 
 	/**
-	* max level of tree for display
-	* @var integer
-	* @access private
-	*/
-	var $maxlvl;
-
-	/**
 	* Constructor
 	* @access	public
 	* @param	integer	$a_node_id		node_id
@@ -95,10 +82,7 @@ class Tree extends PEAR
 
 		// set ilias
 		$this->ilias =& $ilias;
-		
-		// set db-handler
-		$this->db =& $ilias->db;
-		
+
 		//init variables
 		if (empty($a_root_id))
 		{
@@ -121,7 +105,7 @@ class Tree extends PEAR
 				 "WHERE lft = (rgt -1) ".
 				 "AND tree = '".$this->tree_id."'";
 		
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 		
 		if ($res->numRows() > 0)
 		{
@@ -161,7 +145,7 @@ class Tree extends PEAR
 		$this->Childs = array();
 		
 		// set order_clause if sort order parameter is given
-		if(!empty($a_order))
+		if (!empty($a_order))
 		{
 			$order_clause = "ORDER BY '".$a_order."'".$a_direction;
 		}
@@ -172,7 +156,7 @@ class Tree extends PEAR
 				 "AND tree = '".$this->tree_id."' ".
 				 $order_clause;
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 
 		$count = $res->numRows();
 		
@@ -229,9 +213,9 @@ class Tree extends PEAR
 				 "WHERE child = '".$a_node_id."' ".
 				 "AND parent = '".$a_parent_id."'";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 	
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$left = $row->lft;
 			$right = $row->rgt;
@@ -242,9 +226,9 @@ class Tree extends PEAR
 				 "AND tree.lft BETWEEN '".$left."' AND '".$right."' ".
 				 "AND tree.rgt BETWEEN '".$left."' AND '".$right."'";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data[] = array(
 				"tree"        => $row->tree,
@@ -286,7 +270,7 @@ class Tree extends PEAR
 				 "WHERE child = '".$a_parent_id."' ".
 				 "AND tree = '".$this->tree_id."'";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 
 		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -308,7 +292,7 @@ class Tree extends PEAR
 				 "END ".
 				 "WHERE tree = '".$this->tree_id."'";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 	
 		$depth = $this->getDepth($_GET["obj_id"], $_GET["parent"])+1;
 		
@@ -317,15 +301,14 @@ class Tree extends PEAR
 				 "VALUES ".
 				 "('".$this->tree_id."','".$a_node_id."','".$a_parent_id."','".$lft."','".$rgt."','".$depth."')";
 				 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 	}
 
 	/**
 	* delete node under parent node
 	* @access	public 
-	* @param	integer	$a_node_id		node_id
-	* @param	integer	$a_parent_id	parent_id (optional)
-	* @return	object	$error	error object on error
+	* @param	integer		node_id
+	* @param	integer		parent_id (optional)
 	*/
 	function deleteNode($a_node_id = 0,$a_parent_id = 0)
 	{
@@ -348,9 +331,9 @@ class Tree extends PEAR
 				 "WHERE child = '".$a_node_id."' ".
 				 "AND tree = '".$this->tree_id."'";
 				 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 	
-		while($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			if ($data["parent"] == $a_parent_id)
 			{
@@ -365,7 +348,7 @@ class Tree extends PEAR
 		// delete the kat
 		if ($res->numRows() == 1)
 		{
-			$res = $this->db->query("DELETE FROM object_data WHERE obj_id='".$a_node_id."'");
+			$res = $this->ilias->db->query("DELETE FROM object_data WHERE obj_id='".$a_node_id."'");
 			
 		}
 
@@ -375,7 +358,7 @@ class Tree extends PEAR
 				 "AND parent = '".$a_parent_id."' ".
 				 "AND tree = '".$this->tree_id."'";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 
 		// close up the gap
 		$query = "UPDATE tree SET ".
@@ -395,7 +378,7 @@ class Tree extends PEAR
 				 "END ".
 				 "WHERE tree = '".$this->tree_id."'";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 		
 		$this->node_id = $new_parent;
 	}
@@ -403,10 +386,9 @@ class Tree extends PEAR
 	/**
 	* move a node into another position within the tree 
 	* @access	public
-	* @param	integer	$a_node_id		node_id
-	* @param	integer	$a_parent_id	parent_id
-	* @param	integer	$a_target_id	node_id of parent node where the node is moved to
-	* @return	void
+	* @param	integer		node_id
+	* @param	integer		parent_id
+	* @param	integer		node_id of parent node where the node is moved to
 	*/
 	function moveNode ($a_node_id,$a_parent_id,$a_target_id)
 	{
@@ -417,17 +399,15 @@ class Tree extends PEAR
 	/**
 	* delete node and the whole subtree under this node
 	* @access	public
-	* @param	integer	$a_node_id		node_id (optional)
-	* @param	integer	$a_parent_id	parent_id (optional)
-	* @return	object	$error	error object on error
+	* @param	integer		node_id (optional)
+	* @param	integer		parent_id (optional)
 	*/
 	function deleteTree($a_node_id = 0, $a_parent_id = 0)
 	{
 		$left = "";			// tree_left
-		$right = "";			// tree_right
+		$right = "";		// tree_right
 		$diff = "";			// difference between lft & rgt
-		$new_parent = "";		// new parent_id
-
+		$new_parent = "";	// new parent_id
 
 		if (empty($a_node_id))
 		{
@@ -445,7 +425,7 @@ class Tree extends PEAR
 				 "AND parent = '".$a_parent_id."' ".
 				 "AND tree = '".$this->tree_id."'";
 		
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 	
 		$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -461,7 +441,7 @@ class Tree extends PEAR
 				 "WHERE lft BETWEEN '".$left."' AND '".$right."' ".
 				 "AND tree = '".$this->tree_id."'";
 		
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 		
 		// delete the the childs from tree
 		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -472,13 +452,13 @@ class Tree extends PEAR
 		// TODO: rbac issues should NOT be handled in tree-class!!
 		foreach ($delete as $val)
 		{
-			$res = $this->db->query("DELETE FROM object_data WHERE obj_id='".$val."'");
+			$res = $this->ilias->db->query("DELETE FROM object_data WHERE obj_id='".$val."'");
 		
-			$res = $this->db->query("DELETE FROM rbac_pa WHERE obj_id='".$val."'");
+			$res = $this->ilias->db->query("DELETE FROM rbac_pa WHERE obj_id='".$val."'");
 		
-			$res = $this->db->query("DELETE FROM rbac_fa WHERE parent='".$val."'");
+			$res = $this->ilias->db->query("DELETE FROM rbac_fa WHERE parent='".$val."'");
 
-			$res = $this->db->query("DELETE FROM rbac_templates WHERE parent='".$val."'");
+			$res = $this->ilias->db->query("DELETE FROM rbac_templates WHERE parent='".$val."'");
 		}
 
 		// delete subtree
@@ -486,7 +466,7 @@ class Tree extends PEAR
 				 "WHERE lft BETWEEN '".$left."' AND '".$right." '".
 				 "AND tree = '".$this->tree_id."'";
 		
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 
 		// close gaps
 		$query = "UPDATE tree SET ".
@@ -502,7 +482,7 @@ class Tree extends PEAR
 				 "END ".
 				 "WHERE tree = '".$this->tree_id."'";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 
 		$this->parent_id = $new_parent;
 	}
@@ -525,11 +505,12 @@ class Tree extends PEAR
 			$a_endnode = $this->node_id;
 		}
 
-		if(!empty($a_startnode) && empty($a_startparent))
+		if (!empty($a_startnode) && empty($a_startparent))
 		{
 			$this->ilias->raiseError("function fetchPath(start,startparent,end,endparent) needs one more Argument",
-									 $this->ilias->error_object->FATAL);
+									 $this->ilias->error_obj->FATAL);
 		}
+
 		if (empty($a_startnode))
 		{
 			$a_startnode = $this->root_id;
@@ -540,6 +521,7 @@ class Tree extends PEAR
 		{
 			$a_endparent = $this->parent_id;
 		}
+
 		$query = "SELECT T2.parent,object_data.title,T2.child,(T2.rgt - T2.lft) AS sort_col ".
 				 "FROM tree AS T1, tree AS T2, tree AS T3 ".
 				 "LEFT JOIN object_data ON T2.child=object_data.obj_id ".
@@ -552,7 +534,7 @@ class Tree extends PEAR
 				 "AND T2.tree = '".$this->tree_id." '".
 				 "ORDER BY sort_col DESC";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 		
 		if ($res->numRows() > 0)
 		{
@@ -579,6 +561,7 @@ class Tree extends PEAR
 	{
 		$a_end = $a_end ? $a_end : $_GET["obj_id"];
 		$a_endparent = $a_endparent ? $a_endparent : $_GET["parent"];
+
 		$res = $this->fetchPath($a_endnode ,$a_endparent, $a_startnode, $a_startparent);
 		
 		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
@@ -589,6 +572,7 @@ class Tree extends PEAR
 							   "parent"	=> $data["parent"]
 							   );
 		}
+
 		return $this->Path;
 	}	
 
@@ -597,9 +581,11 @@ class Tree extends PEAR
 	* if startnode is not given the rootnode is startnode
 	* if endnode is not given the current node is endnode
 	* @access	public
-	* @param	integer	$a_endnode		node_id of endnode (optional)
-	* @param	integer	$a_startnode	node_id of startnode (optional)
-	* @return	array	$id				all path ids from startnode to endnode
+	* @param	integer		node_id of endnode (optional)
+	* @param	integer		node_id of endparentnode (optional)
+	* @param	integer		node_id of startnode (optional)
+	* @param	integer		node_id of startparentnode (optional)
+	* @return	array		all path ids from startnode to endnode
 	*/
 	function getPathId ($a_end = 0, $a_endparent = 0, $a_start = 0, $a_startparent = 0)
 	{
@@ -627,7 +613,7 @@ class Tree extends PEAR
 		$query = "SELECT lft,rgt FROM tree ".
 				 "WHERE tree = '".$this->tree_id."'";
 				 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 
 		while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -645,178 +631,6 @@ class Tree extends PEAR
 		
 		return true;
 	}
-
-	/**
-	* builds an array of a flattened tree for output purposes
-	* @access	public
-	* @param	array	tree information
-	* @param	integer	node_id of current startnode
-	* @param	integer	level of current node
-	* @param	string	information about opened folders; is set automatically (optional)
-	* @param	array	end result of recursion; is set automatically (optional)
-	* @param	array	information about the needed tabstops for each node; is set automatically (optional)
-	* @return	array 	complete tree in a flat structure to display all elements sequently
-	*/
-	function display($nodes,$start,$level,$open="",$out="",$tabarr="") {
-
-		global $PHP_SELF;
-		
-		// intialize some variables for the first run
-		if ($level == 0)
-		{
-			$tab = array();
-			$tabarr = array();
-			$out = array();		
-		}
-
-		if (empty($this->maxlvl))
-		{
-			$this->maxlvl = $level;
-		}
-
-		if ($level > $this->maxlvl)
-		{
-			$this->maxlvl = $level;
-		}	
-		
-		// copy tabarr
-		$tab = $tabarr;
-		
-		// dive into tree
-		$level++;
-
-		// extract nodeIDs from $nodes
-		foreach ($nodes as $node_id => $childs)
-		{
-			$keys = array_keys($nodes);
-
-			// set open category
-			if (!empty($open))
-			{
-				$openlink = "&open=".$open;
-			}
-		
-			if (($node_id == $start) && is_array($childs))
-			{
-				foreach ($childs as $child)
-				{
-					// prevent node_data to be filled with wrong nodes
-					unset($node_data);
-					
-					$node_data["tab"] = $tab;
-					$node_data["id"] = $child["id"];
-					$node_data["type"] = $child["type"];
-					$node_data["title"] = $child["title"];
-					$node_data["last_update"] = $child["last_update"];
-					
-					// node has no children
-					if ($child["lft"] == ($child["rgt"] - 1))
-					{
-						if ($level > 1)
-						{
-							if ($child["last"] == true)
-							{
-								array_push($node_data["tab"],"ecke","quer2");
-							}
-							else
-							{
-								array_push($node_data["tab"],"winkel","quer2");
-							}
-						}
-						else
-						{
-							array_push($node_data["tab"],"blank");
-						}
-					}
-					// node has children and is expanded
-					elseif (in_array($child["id"],$keys))
-					{
-						$drop = array_search($child["id"],$keys);
-						
-						$subkeys = $keys;
-						array_splice($subkeys,$drop,1);
-						
-						$string = implode("|",$subkeys);
-						
-						if ($level > 1)
-						{
-							if ($child["last"] == true)
-							{
-								array_push($node_data["tab"],"ecke");
-							}
-							else
-							{
-								array_push($node_data["tab"],"winkel");
-							}
-						}
-						
-						$node_data["expstr"] = "?id=".$string.$openlink;
-						$node_data["expander"] = "minus.gif";							
-					}
-					// node has children and is collapsed
-					else
-					{
-						if ($level > 1)
-						{
-							if ($child["last"] == true)
-							{
-								array_push($node_data["tab"],"ecke");
-							}
-							else
-							{
-								array_push($node_data["tab"],"winkel");
-							}
-						}
-					
-						$string = implode("|",$keys);
-						$node_data["expstr"] = "?id=".$string."|".$child["id"].$openlink;
-						$node_data["expander"] = "plus.gif";
-					}
-
-					// determine open folder
-					if ($child["id"] == $open)
-					{
-						$node_data["folder"] = "openfolder.gif";
-					}
-					else
-					{
-						$node_data["folder"] = "closedfolder.gif";
-					}
-					
-					$node_data["icon"] = $child["type"];
-		
-					$string = implode("|",$keys);
-
-					if ($level > 1)
-					{
-						if ($child["last"] == true)
-						{
-							$tabarr[$level] = "blank";
-						}
-						else
-						{
-							$tabarr[$level] = "hoch";
-						}
-					}
-					
-					$node_data["open"] = "?obj_id=".$child["id"]."&parent=".$child["parent"];
-					
-					$node_data["level"] = $level;
-					
-					// only display categories
-					//if ($child["type"] == "cat")
-					//{
-						$out[$child["id"]] = $node_data;
-					//}	
-
-					// walk recursive through the whole tree
-					$out = $this->display($nodes,$child["id"],$level,$open,$out,$tabarr);
-				}
-			}
-		}
-
-		return $out;
-	}	
 
 	/**
 	* fetch all expanded nodes & their childs
@@ -876,12 +690,12 @@ class Tree extends PEAR
 		$this->Childs = array();
 		
 		$query = "SELECT * FROM tree ".
-			"LEFT JOIN object_data ON tree.child=object_data.obj_id ".
-			"WHERE depth = '".$a_depth."' ".
-			"AND parent = '".$a_parent."' ".
-			"AND tree = '".$this->tree_id."'";
+				 "LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+				 "WHERE depth = '".$a_depth."' ".
+				 "AND parent = '".$a_parent."' ".
+				 "AND tree = '".$this->tree_id."'";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 
 		$count = $res->numRows();
 		
@@ -923,7 +737,7 @@ class Tree extends PEAR
 	function getMaximumDepth()
 	{
 		$query = "SELECT MAX(depth) FROM tree";
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 		
 		while($row = $res->fetchRow())
 		{
@@ -934,10 +748,10 @@ class Tree extends PEAR
 	/**
 	* Return depth of an object
 	* @access	public
-	* @param	integer	node_id of node in question
-	* @param	integer	node_id of parent node
-	* @return	integer	tree_id (optional)
-	* @return	integer	depth of node
+	* @param	integer		node_id of node in question
+	* @param	integer		node_id of parent node
+	* @param	integer		tree_id (optional)
+	* @return	integer		depth of node
 	*/
 	function getDepth($a_child,$a_parent,$a_tree=1)
 	{
@@ -948,9 +762,8 @@ class Tree extends PEAR
 
 		$res = $this->db->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			
 			return $row->depth;
 		}
 	}
@@ -966,7 +779,7 @@ class Tree extends PEAR
 	* @param	integer		tree_id (optional)
 	* @return	array		array of new tree information (to be specified.... :-)
 	*/
-	function calculateFlatTree($a_tree_id = "")
+	function calculateFlatTree($a_tree_id = 0)
 	{
 		if (empty($a_tree_id))
 		{
@@ -985,9 +798,9 @@ class Tree extends PEAR
 				 "GROUP BY s.child ".
 				 "ORDER BY s.lft";
 
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$arr[] = array(
 							"title"		=> $row->title,
@@ -1002,44 +815,47 @@ class Tree extends PEAR
 		
 		return $arr;
 	}
-/**
- * get data of a specific node from tree and object_data
- * @param int obj_id
- * @param int parent_id
- * @return array
- * @access public
- **/
+
+	/**
+	* get data of a specific node from tree and object_data
+	* @access	public
+	* @param	integer		obj_id
+	* @param	integer		parent_id
+	* @return	array
+	**/
 	function getNodeData($a_obj_id,$a_parent_id)
 	{
 		$query = "SELECT * FROM object_data,tree ".
-			"WHERE object_data.obj_id = tree.child ".
-			"AND tree.child = '".$a_obj_id."' ".
-			"AND tree.parent = '".$a_parent_id."'";
-		$res = $this->db->query($query);
+				 "WHERE object_data.obj_id = tree.child ".
+				 "AND tree.child = '".$a_obj_id."' ".
+				 "AND tree.parent = '".$a_parent_id."'";
+		$res = $this->ilias->db->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data[] = array(
-				"obj_id"        => $row->obj_id,
-				"type"          => $row->type,
-				"title"         => $row->title,
-				"description"   => $row->description,
-				"owner"         => $row->owner,
-				"create_date"   => $row->create_date,
-				"last_updeate"  => $row->last_update,
-				"parent"        => $row->parent,
-				"depth"         => $row->depth
-				);
+						"obj_id"        => $row->obj_id,
+						"type"          => $row->type,
+						"title"         => $row->title,
+						"description"   => $row->description,
+						"owner"         => $row->owner,
+						"create_date"   => $row->create_date,
+						"last_updeate"  => $row->last_update,
+						"parent"        => $row->parent,
+						"depth"         => $row->depth
+						);
 		}
+
 		return $data ? $data : array();
 	}
-/**
- * get data of parent node from tree and object_data
- * @param int object id
- * @param int parent id
- * @return array
- * @access public
- **/
+
+	/**
+	* get data of parent node from tree and object_data
+	* @access	public
+ 	* @param	integer		object id
+	* @param	integer		parent id
+	* @return	array
+	**/
 	function getParentNodeData($a_obj_id,$a_parent_id)
 	{
 		$query = "SELECT * FROM tree s,tree v, object_data ".
@@ -1049,24 +865,24 @@ class Tree extends PEAR
 			"AND s.parent = v.child ".
 			"AND s.lft > v.lft ".
 			"AND s.rgt < v.rgt";
-		$res = $this->db->query($query);
+		$res = $this->ilias->db->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$data = array(
-				"obj_id"        => $row->obj_id,
-				"type"          => $row->type,
-				"title"         => $row->title,
-				"description"   => $row->description,
-				"owner"         => $row->owner,
-				"create_date"   => $row->create_date,
-				"last_updeate"  => $row->last_update,
-				"parent"        => $row->parent,
-				"depth"         => $row->depth
-				);
+						"obj_id"        => $row->obj_id,
+						"type"          => $row->type,
+						"title"         => $row->title,
+						"description"   => $row->description,
+						"owner"         => $row->owner,
+						"create_date"   => $row->create_date,
+						"last_updeate"  => $row->last_update,
+						"parent"        => $row->parent,
+						"depth"         => $row->depth
+						);
 		}
+
 		return $data ? $data : array();
 	}
-
-} // END class.tree.php
+} // END class.tree
 ?>

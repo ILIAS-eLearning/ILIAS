@@ -1,11 +1,12 @@
 <?php
 /**
- * class RbacReview
- * @author Stefan Meyer <smeyer@databay.de> 
- * @version $Id$ 
- * @package rbac
- * 
- */
+* class RbacReview
+* @author Stefan Meyer <smeyer@databay.de> 
+* @version $Id$
+* 
+* @extends PEAR
+* @package rbac
+*/
 class RbacReview extends PEAR
 {
 	/**

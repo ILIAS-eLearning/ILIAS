@@ -2,10 +2,12 @@
 /**
 * class RbacreviewH
 * extensions for hierachical Rbac (maybe later)
+* 
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$ 
-* @package rbac
+* @version $Id$
+* 
 * @extends RbacReview
+* @package rbac
 */
 class RbacReviewH extends RbacReview
 {
@@ -13,39 +15,33 @@ class RbacReviewH extends RbacReview
 	* Constructor
 	* @param object db
 	*/
-    function RbacReviewH(&$dbhandle)
-    {
-        $this->RbacReview($dbhandle);
-    }
+	function RbacReviewH(&$dbhandle)
+	{
+		$this->RbacReview($dbhandle);
+	}
 
-    /**
-    * @access public
-	*/
-    function authorizedUsers()
-    {
-    }
-    /** 
-    * @access public
-	*/
-    function authorizedRoles()
-    {
-    }
-	
 	/**
-    *
-    * @access public
-	*/
-    function rolePermissions()
-    {
-    }
-
-    /**
-	* @param void
 	* @access public
 	*/
-    function userPermissions()
-    {
-    }
+	function authorizedUsers()
+	{
 
-} // end class
+	}
+
+	/**
+	* @access public
+	*/
+	function authorizedRoles()
+	{
+
+	}
+	
+	/**
+	* @access public
+	*/
+	function rolePermissions()
+	{
+
+	}
+} // END class RbacReviewH
 ?>
