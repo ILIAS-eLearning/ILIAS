@@ -171,7 +171,6 @@ class ilObjectGUI
 
 	function assignObject()
 	{
-//echo "-ID-".$this->id."-";
 		// TODO: it seems that we always have to pass only the ref_id
 		if ($this->id != 0)
 		{

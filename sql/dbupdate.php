@@ -1333,7 +1333,7 @@ foreach ($arr_roles as $role)
 		$parent_data = $tree->getParentNodeData($role["rolf_id"]);
 		// get allowed subobject of object
 		$subobj_data = $ilObjDef->getSubObjects($parent_data["type"]);
-		
+
 		// remove not allowed object types from array but keep the type definition of object itself
 		foreach ($rbac_objects_temp as $key => $obj_data)
 		{
@@ -2190,3 +2190,16 @@ $typ_id = $row["obj_id"];
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','31')";
 $this->db->query($query);
 ?>
+
+<#142>
+
+CREATE TABLE mep_tree
+(
+	mep_id INT NOT NULL,
+	child INT NOT NULL,
+	parent INT NOT NULL,
+	lft INT NOT NULL,
+	rgt INT NOT NULL,
+	depth SMALLINT NOT NULL
+);
+
