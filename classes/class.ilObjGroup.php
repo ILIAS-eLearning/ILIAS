@@ -64,8 +64,14 @@ class ilObjGroup extends ilObject
 	{
 		global $rbacadmin;
 		
-		if(isset($a_userId))
+		if(isset($a_userId) && isset($a_memStatus))
 		{
+/*
+			if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
+			{
+			
+			}
+*/
 			//assignUser needs to be renamed into assignObject
 			if(strcmp($a_memStatus,"member") == 0)			//member
 			{
@@ -95,23 +101,81 @@ class ilObjGroup extends ilObject
 	* @param	integer group-Id
 	*/
 	function leaveGroup($a_userId, $a_grpId="")
-	{}
+	{
+		global $rbacadmin, $rbacreview;
+
+		$rolf 	   = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
+		$role_arr  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
+
+		foreach ($role_arr as $role_id) 
+		{	
+			foreach ($rbacreview->assignedUsers($role_id) as $member_id)
+			{
+				if($member_id == $a_userId)
+				{
+//					if(strcmp($this->getGroupRole($member_id),"Member"))
+//					{
+					$rbacadmin->deassignUser($role_id, $member_id);
+//					}
+				}
+			}
+		}
+	}
 	
 	/**
 	* get group Members
 	* @access	public
 	* @param	integer	group id
 	*/
-	function getGroupMembers($a_grpId="")
-	{}
+	function getGroupMemberIds($a_grpId="")
+	{
+		global $rbacadmin, $rbacreview;
+		$usr_arr= array();
+
+		$rolf = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
+		$rol  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
+
+		foreach ($rol as $value) 
+		{	
+			foreach ($rbacreview->assignedUsers($value) as $member_id)
+			{
+				array_push($usr_arr,$member_id);
+			}
+		}
+		$mem_arr = array_unique($usr_arr);
+		return $mem_arr;
+	}
+
+	function getGroupRole($a_user_id, $a_grp_id="")
+	{
+		global $rbacadmin, $rbacreview;
+
+		$rolf 	   = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
+		$role_arr  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
+
+		//TOOODOOOO: schoen machen !!!
+		foreach ($role_arr as $role_id) 
+		{	
+			foreach ($rbacreview->assignedUsers($role_id) as $member_id)
+			{
+				if($member_id == $a_userId)
+				{
+					$newObj = new Object($role_id, false);
+					return $newObj->getTitle();
+				}
+			}
+		}
+		return NULL;		
 	
+	}	
 	/**
 	* delete Group
 	* @access	public
 	* @param	integer	group id
 	*/
 	function deleteGroup($a_grpId="")
-	{}
+	{
+	}
 	
 	/**
 	* set group status
@@ -212,6 +276,34 @@ class ilObjGroup extends ilObject
 
 		}
 	}	
+
+	/**
+	* get 
+	* @access	public
+	* @param	integer	group id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
+	*/
+	function getGroupRoleId($a_userId,$grpId="")
+	{
+		global $rbacadmin, $rbacreview;
+
+		$rolf 	   = $rbacadmin->getRoleFolderOfObject($this->m_grpId);
+		$role_arr  = $rbacadmin->getRolesAssignedToFolder($rolf["ref_id"]);
+
+		//TOOODOOOO: schoen machen !!!
+		foreach ($role_arr as $role_id) 
+		{	
+			foreach ($rbacreview->assignedUsers($role_id) as $member_id)
+			{
+				if($member_id == $a_userId)
+				{
+					return $role_id;
+				}
+			}
+		}
+		return NULL;		
+	}
+
 	/**
 	* get group status
 	* @access	public
