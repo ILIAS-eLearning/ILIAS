@@ -184,6 +184,7 @@ class ilRepositoryGUI
 		if ($this->cur_ref_id == $this->tree->getRootId())
 		{
 			$this->tpl->setVariable("HEADER",  $this->lng->txt("repository"));
+			$this->showPossibleSubObjects("root");
 		}
 		else
 		{
@@ -843,7 +844,13 @@ class ilRepositoryGUI
 				}
 				if ($row["max"] == "" || $count < $row["max"])
 				{
-					$subobj[] = $row["name"];
+					if (in_array($row["name"], array("lm", "grp", "frm", "cat")))
+					{
+						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
+						{
+							$subobj[] = $row["name"];
+						}
+					}
 				}
 			}
 		}
@@ -903,9 +910,13 @@ class ilRepositoryGUI
 		}
 	}
 
-	function create()
+	function executeAdminCommand()
 	{
+		$id = $_GET["ref_id"];
 		$cmd = $this->cmd;
+		$new_type = $_POST["new_type"]
+			? $_POST["new_type"]
+			: $_GET["new_type"];
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.repository.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -925,55 +936,53 @@ class ilRepositoryGUI
 		// set header
 		$this->setHeader();
 
-		if (!$this->rbacsystem->checkAccess("create",$_GET["ref_id"], $_POST["new_type"]))
+		if (!$this->rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
-			sendInfo($lng->txt("msg_no_perm_create_object1")." ".$lng->txt($_POST["new_type"]."_a")." ".$lng->txt("msg_no_perm_create_object2"));
+			sendInfo($lng->txt("msg_no_perm_create_object1")." ".$lng->txt($new_type."_a")." ".$lng->txt("msg_no_perm_create_object2"));
 		}
 		else
 		{
-			//$id = $this->cur_ref_id;
-			//$obj = $ilias->obj_factory->getInstanceByRefId($this->cur_ref_id);
-
-			//$_GET["type"] = $obj->getType();
-			$obj_type = $_POST["new_type"];
-			$class_name = $this->objDefinition->getClassName($obj_type);
-			$module = $this->objDefinition->getModule($obj_type);
+			$class_name = $this->objDefinition->getClassName($new_type);
+			$module = $this->objDefinition->getModule($new_type);
 			$module_dir = ($module == "") ? "" : $module."/";
 			$class_constr = "ilObj".$class_name."GUI";
 			include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
+
 			$obj = new $class_constr($data, $id, true, false);
+
 			$method = $cmd."Object";
+			$obj->setReturnLocation("save", "repository.php?ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("cancel", "repository.php?ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("addTranslation",
+				"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
 
-			// set return Locations
-			switch ($_POST["new_type"])
-			{
-				case "frm":
-					$obj->setReturnLocation("save","forums.php");
-					$obj->setReturnLocation("cancel","forums.php");
-					break;
-
-				case "grp":
-					$obj->setReturnLocation("save","grp_list.php?&ref_id=".$_GET["ref_id"]);
-					$obj->setReturnLocation("cancel","group.php");
-					break;
-
-				case "crs":
-				case "lm":
-					$obj->setReturnLocation("save","repository.php");
-					$obj->setReturnLocation("cancel","repository.php");
-					break;
-			}
-
-			$obj->setFormAction("save","repository.php?cmd=post&ref_id=".$_GET["ref_id"]."&new_type=".$obj_type);
-			$obj->setTargetFrame("save","bottom");
-
+			$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
+			$obj->setTargetFrame("save", "bottom");
+//echo $class_constr.":".$method."<br>";
 			$obj->$method();
 		}
 
 		$this->tpl->show();
-		//header("Location: obj_location_content.php?ref_id=".$this->cur_ref_id.
-//			"&new_type=".$_POST["new_type"]."&cmd=create");
-	//	exit;
+	}
+
+	function save()
+	{
+		$this->executeAdminCommand();
+	}
+
+	function create()
+	{
+		$this->executeAdminCommand();
+	}
+
+	function cancel()
+	{
+		$this->executeAdminCommand();
+	}
+
+	function addTranslation()
+	{
+		$this->executeAdminCommand();
 	}
 
 } // END class ilRepository
