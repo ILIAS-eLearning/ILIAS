@@ -296,7 +296,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		// create and insert object in objecttree
 		$newObj = new ilObjLearningModule();
-		$newObj->setType("lm");
+		$newObj->setType($_GET["new_type"]);
 		$newObj->setTitle("dummy");			// set by meta_gui->save
 		$newObj->setDescription("dummy");	// set by meta_gui->save
 		$newObj->create();
