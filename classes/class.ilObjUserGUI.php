@@ -26,7 +26,8 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$
+* @author Sascha Hofmann <saschahofmann@gmx.de>
+* @version $Id*
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1460,9 +1461,13 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_role_to_user"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-
 		$_SESSION['filtered_roles'] = isset($_POST['filter']) ? $_POST['filter'] : $_SESSION['filtered_roles'];
 
+        if ($_SESSION['filtered_roles'] > 5)
+        {
+            $_SESSION['filtered_roles'] = 0;
+        }
+        
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_role_assignment.html');
 
 		if(true)
