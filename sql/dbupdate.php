@@ -5339,4 +5339,15 @@ $this->db->query($query);
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
 $this->db->query($query);
 ?>
+<#377>
+CREATE TABLE `ass_log` (
+`ass_log_id` INT NOT NULL AUTO_INCREMENT ,
+`user_fi` INT NOT NULL ,
+`obj_fi` INT NOT NULL ,
+`logtext` TEXT NOT NULL ,
+`question_fi` INT,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `ass_log_id` ) ,
+INDEX ( `user_fi` , `obj_fi` )
+) COMMENT = 'Logging of Test&Assessment object changes';
 
