@@ -478,7 +478,30 @@ class ILIAS2export
 		return true;
 	}
 	
-	function copyObjectFiles ($id, $type, $sDir, $tDir, $tName = Null)
+	function getImageNames ($sDir, $imageId, $imageName = "")
+	{
+		// initialize arrays ***
+		$types = array(".gif", "-s.gif", ".jpg", "-s.jpg", "");
+		$names = array();
+		
+		foreach ($types as $type) 
+		{
+			if (file_exists($sDir.$imageId.$type))
+			{
+				if ($type <> "")
+				{
+					$names[$imageId.$type] = $imageId.$type;
+				}
+				else
+				{
+					$names[$imageId.$type] = $imageName;
+				}
+			}
+		}
+		return $names;
+	}
+	
+	function copyObjectFiles ($sDir, $tDir, $id, $type, $tName = Null)
 	{
 		switch ($type) 
 		{
@@ -490,31 +513,13 @@ class ILIAS2export
 				$tDir = $tDir."image".$id."/";
 				$this->makeDir($tDir);
 				
+				// get filenames
+				$names = $this->getImageNames ($sDir, $id, $tName);
+				
 				// copy files
-				// gif image
-				if (file_exists($sDir.$id.".gif"))
+				foreach ($names as $key => $value) 
 				{
-					copy($sDir.$id.".gif", $tDir.$id.".gif");
-				}
-				// gif thumbnail
-				if (file_exists($sDir.$id."-s.gif"))
-				{
-					copy($sDir.$id."-s.gif", $tDir.$id."-s.gif");
-				}
-				// jpg image
-				if (file_exists($sDir.$id.".jpg"))
-				{
-					copy($sDir.$id.".jpg", $tDir.$id.".jpg");
-				}
-				// jpg thumbnail
-				if (file_exists($sDir.$id."-s.jpg"))
-				{
-					copy($sDir.$id."-s.jpg", $tDir.$id."-s.jpg");
-				}
-				// orginal image
-				if (file_exists($sDir.$id))
-				{
-					copy($sDir.$id, $tDir.$tName);
+					copy($sDir.$key, $tDir.$value);
 				}
 				break;
 			
@@ -990,7 +995,7 @@ class ILIAS2export
 		if (file_exists($this->sourceDir."files/file".$id."/".$file["file"]))
 		{
 			$fileSize = filesize($this->sourceDir."files/file".$id."/".$file["file"]);
-			$mimetype = mime_content_type($this->sourceDir."files/file".$id."/".$file["file"]); // *** - wandeln
+			$mimetype = str_replace("/", "-", mime_content_type($this->sourceDir."files/file".$id."/".$file["file"]));
 		}
 		
 		//-----------------------------------------------
@@ -1010,8 +1015,7 @@ class ILIAS2export
 		$refnode = $elements[0];
 		
 		// 4 MetaData..Technical ***
-		// $attrs = array(	"Format" => $mimetype);
-		$attrs = array(	"Format" => "text-plain"); // *** temporär
+		$attrs = array(	"Format" => $mimetype);
 		$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
 		
 		// 4.2 ..Technical..Size
@@ -1041,7 +1045,7 @@ class ILIAS2export
 		// LearningObject..Bibliography --> unavailable for AggregationLevel 1
 		
 		// *** copy file(s)
-		$this->copyObjectFiles ($id, "file", $this->sourceDir."files/", $this->targetDir."objects/");
+		$this->copyObjectFiles ($this->sourceDir."files/", $this->targetDir."objects/", $id, "file");
 		
 		//-------------
 		// free memory: ***
@@ -1115,6 +1119,7 @@ class ILIAS2export
 			
 			// image (bild)
 			case 2:
+				// table 'el_bild'
 				$sql =	"SELECT datei, align ".
 						"FROM el_bild ".
 						"WHERE id = $id;";
@@ -1130,17 +1135,19 @@ class ILIAS2export
 				// free result set
 				$result->free();
 				
-				// check for orginal file name and set it to id if empty
-				if ($image["datei"] == "")
-				{
-					$image["datei"] = $id;
-				}
+				// auf Existenz der Datei checken!!!!!!!!!!!!!
 				
 				// get (image) file size and mimetype ***
 				if (file_exists($this->iliasDir."bilder/".$image["datei"]))
 				{
 					$fileSize = filesize($this->iliasDir."bilder/".$image["datei"]);
-					$mimetype = mime_content_type($this->iliasDir."bilder/".$image["datei"]); // *** - wandeln
+					$mimetype = str_replace("/", "-", mime_content_type($this->iliasDir."bilder/".$image["datei"]));
+				}
+				
+				// check for orginal file name and set it to id if empty
+				if ($image["datei"] == "")
+				{
+					$image["datei"] = $id;
 				}
 				
 				//-----------------------------------------------
@@ -1160,8 +1167,7 @@ class ILIAS2export
 				$refnode = $elements[0];
 				
 				// 4 MetaData..Technical ***
-				// $attrs = array(	"Format" => $mimetype);
-				$attrs = array(	"Format" => "text-plain"); // *** temporär
+				$attrs = array(	"Format" => $mimetype);
 				$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
 				
 				// 4.2 ..Technical..Size
@@ -1191,12 +1197,13 @@ class ILIAS2export
 				// LearningObject..Bibliography --> unavailable for AggregationLevel 1
 				
 				// *** copy file(s)
-				$this->copyObjectFiles ($id, "img", $this->iliasDir."bilder/", $this->targetDir."objects/", $image["datei"]);
+				$this->copyObjectFiles ($this->iliasDir."bilder/", $this->targetDir."objects/", $id, "img", $image["datei"]);
 				
 				break;
 			
 			// title
 			case 3:
+				// table 'el_title'
 				$sql =	"SELECT text ".
 						"FROM el_titel ".
 						"WHERE id = $id;";
@@ -1350,24 +1357,101 @@ class ILIAS2export
 				*/
 				
 				break;
-			
 			/*
 			// imagemap
 			case 5:
+				// table 'el_map'
 				$sql =	"SELECT * ".
 						"FROM el_map ".
 						"WHERE id = $id;";
 				
-				// copy (imagemap) files
-				
-				// imagemap areas
-				$sql =	"SELECT DISTINCT * ".
+				// table 'maparea'
+				$sql =	"SELECT * ".
 						"FROM maparea ".
+						"WHERE id = $id ".
+						"ORDER BY nr;";
+				
+				$sql =	"SELECT datei, align ".
+						"FROM el_bild ".
 						"WHERE id = $id;";
+				
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
+				// get row(s)
+				$image = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// free result set
+				$result->free();
+				
+				// auf Existenz der Datei checken!!!!!!!!!!!!!
+				
+				// get (image) file size and mimetype ***
+				if (file_exists($this->iliasDir."bilder/".$image["datei"]))
+				{
+					$fileSize = filesize($this->iliasDir."bilder/".$image["datei"]);
+					$mimetype = str_replace("/", "-", mime_content_type($this->iliasDir."bilder/".$image["datei"]));
+				}
+				
+				// check for orginal file name and set it to id if empty
+				if ($image["datei"] == "")
+				{
+					$image["datei"] = $id;
+				}
+				
+				//-----------------------------------------------
+				// create LearningObject AggregationLevel 1 tree:
+				//-----------------------------------------------
+				
+				// LearningObject
+				$LearningObject = $this->writeNode($parent, "LearningObject");
+				
+				// LearningObject..MetaData ***
+				$MetaData = $this->exportMetadata($id, "el", $LearningObject);
+				
+				// complete Metadata:
+				
+				// get position within the metadata tree to insert the additional information to
+				$elements = $MetaData->get_elements_by_tagname("Educational");
+				$refnode = $elements[0];
+				
+				// 4 MetaData..Technical ***
+				$attrs = array(	"Format" => $mimetype);
+				$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
+				
+				// 4.2 ..Technical..Size
+				$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
+				
+				// 4.3 ..Technical..Location
+				$Location = $this->writeNode($Technical, "Location", Null, "./objects/image".$id."/".$image["datei"]);
+				
+				// 4.4 ..Technical..(Requirement | OrComposite) ***
+				
+				// 4.5 ..Technical..InstallationRemarks ***
+				
+				// 4.6 ..Technical..OtherPlatformRequirements ***
+				
+				// 4.7 ..Technical..Duration ***
+				
+				// LearningObject..Layout --> unavailable for file
+				
+				// LearningObject..Parameter --> unavailable for file
+				
+				// LearningObject..Content --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Test --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Glossary --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Bibliography --> unavailable for AggregationLevel 1
+				
+				// *** copy file(s)
+				$this->copyObjectFiles ($this->iliasDir."bilder/", $this->targetDir."objects/", $id, "img", $image["datei"]);
 				
 				break;
 			*/
-			
 			// multiple choice
 			case 6:
 				

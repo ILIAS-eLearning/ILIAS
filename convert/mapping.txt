@@ -1,6 +1,6 @@
 Mapping of ILIAS 2 Lerneinheiten to ILIAS 3 LearningObjects
 -----------------------------------------------------------
-2003-01-17, Matthias Rulinski
+2003-01-20, Matthias Rulinski
 
 
 METADATA (id, typ, parent)
@@ -201,8 +201,27 @@ ELEMENT (id, parent)
 		 nr					-->		
 		 width				-->		TableData.Width
 	
-	el_map (copy imagemap files)
+	el_map
+		 align				-->		*** (Alignment)
+		 							0 center
+									1 left
+									2 right
+									3 left, wrapped by text on the right
+									4 right, wrapped by text on the left
+		 borderspace		-->		*** (Surrounding space between imagemap and text.)
+		 type				-->		*** (gif | jpg | png)
+	
 	maparea
+		 nr
+		 shape				-->		*** (Shape of area)
+		 							rect rectangle
+									poly polygone
+									circ circle
+		 coords				-->		*** (Area x/y coordinates)
+		 href				-->		*** (Link href)
+		 alt				-->		*** (OnMouseOver text)
+	
+	-> copy files
 	
 	el_mc
 		text				-->		*** Questiontext
@@ -404,3 +423,33 @@ LearningObject -> new Element:	<!ELEMENT Parameter (ParameterName, ParameterValu
 operatingsystem -> replaced entitiy
 browser -> replaced entitiy
 Layout -> new value for attribute: TargetFrame (... | NEW)
+
+
+Imagemap:
+---------
+
+<img border=0  src="./imagemaps/15948.gif" hspace=5 vspace=5 usemap="#themap15948">
+<map name="themap15948">
+<area shape="poly" coords="79,13,187,46,172,157,55,174,130,97" href="http://4real.de" alt="mahlzeit" title="mahlzeit"  target="_top">
+</map>
+
+<map name="Landkarte">
+<area shape="rect" coords="11,10,59,29" href="http://www.koblenz.de/" alt="Koblenz">
+<area shape="rect" coords="42,36,96,57" href="http://www.wiesbaden.de/" alt="Wiesbaden">
+<area shape="rect" coords="42,59,78,80" href="http://www.mainz.de/" alt="Mainz">
+<area shape="rect" coords="100,26,152,58" href="http://www.frankfurt.de/" alt="Frankfurt">
+<area shape="rect" coords="27,113,93,134" href="http://www.mannheim.de/" alt="Mannheim">
+<area shape="rect" coords="100,138,163,159" href="http://www.heidelberg.de/" alt="Heidelberg">
+<area shape="rect" coords="207,77,266,101" href="http://www.wuerzburg.de/" alt="W&uuml;rzburg">
+<area shape="rect" coords="282,62,344,85" href="http://www.bamberg.de/" alt="Bamberg">
+<area shape="rect" coords="255,132,316,150" href="http://www.nuernberg.de/" alt="N&uuml;rnberg">
+<area shape="rect" coords="78,182,132,200" href="http://www.karlsruhe.de/" alt="Karlsruhe">
+<area shape="rect" coords="142,169,200,193" href="http://www.heilbronn.de/" alt="Heilbronn">
+<area shape="rect" coords="140,209,198,230" href="http://www.stuttgart.de/" alt="Stuttgart">
+<area shape="rect" coords="187,263,222,281" href="http://www.ulm.de/" alt="Ulm">
+<area shape="rect" coords="249,278,304,297" href="http://www.augsburg.de/" alt="Augsburg">
+<area shape="poly" coords="48,311,105,248,96,210,75,205,38,234,8,310"
+      href="http://www.baden-aktuell.de/" alt="Baden">
+</map>
+
+<p><img src="karte.gif" width="345" height="312" border="0" alt="Karte" usemap="#Landkarte"></p>
