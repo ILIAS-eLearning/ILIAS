@@ -24,7 +24,7 @@ class ILIAS2export
 	/**
 	* database handle from pear database class
 	* 
-	* @var string
+	* @var string $db
 	* @access private
 	*/
 	var $db;
@@ -32,10 +32,34 @@ class ILIAS2export
 	/**
 	* domxml document object ***
 	* 
-	* @var object doc
+	* @var object $doc
 	* @access private 
 	*/
 	var $doc;
+	
+	/**
+	* ILIAS2 base directory ***
+	* 
+	* @var string $iliasDir
+	* @access private 
+	*/
+	var $iliasDir;
+	
+	/**
+	* source directory ***
+	* 
+	* @var string $sourceDir
+	* @access private 
+	*/
+	var $sourceDir;
+	
+	/**
+	* target directory ***
+	* 
+	* @var string $targetDir
+	* @access private 
+	*/
+	var $targetDir;
 	
 	//-------
 	//methods
@@ -72,8 +96,8 @@ class ILIAS2export
 		$this->db->disconnect();
 	}
 	
-	// write node using DOMXML
-	function writeNode ($parent, $tag, $attrs = NULL, $text = NULL)
+	// write node using DOMXML (new node will be inserted right before the node $refnode if specified ***) 
+	function writeNode ($parent, $tag, $attrs = NULL, $text = NULL, $refnode = Null)
 	{
 		// create new element node
 		$node = $this->doc->create_element($tag);
@@ -88,14 +112,16 @@ class ILIAS2export
 		}
 		
 		// create and add a text node to the new element node
-		if (is_string($text))
+		if (is_string($text) or
+			is_integer($text))
 		{
 			$nodeText = $this->doc->create_text_node(iconv("ISO-8859-1","UTF-8",$text)); // ***
 			$nodeText = $node->append_child($nodeText);
 		}
 		
 		// add element node at at the end of the children of the parent
-		$node = $parent->append_child($node);
+		$node = $parent->insert_before($node, $refnode);
+		// *** $node = $parent->append_child($node);
 		
 		return $node;
 	}
@@ -143,7 +169,7 @@ class ILIAS2export
 		switch ($type) 
 		{
 			case "le":
-				$str = "4";
+				$str = "3";
 				break;
 			
 			case "gd":
@@ -385,6 +411,188 @@ class ILIAS2export
 		return $str;
 	}
 	
+	/**
+	*  *** creates a directory, if it doesn't exist
+	*
+	* @param string $dir directory name and path
+	*/
+	function makeDir ($dir)
+	{
+		if (!@is_dir($dir))
+		{
+			mkdir($dir, 0770);
+			chmod($dir, 0770);
+		}
+	}
+	
+	/**
+	* *** copies content of a directory $sDir recursively to a directory $tDir
+	*
+	* @param string $sDir source directory
+	* @param string $tDir target directory
+	*/
+	function rCopy ($sDir, $tDir)
+	{
+		// check if arguments are directories
+		if (!@is_dir($sDir) or 
+			!@is_dir($tDir))
+		{
+			return false;
+		}
+		
+		// read sdir, copy files and copy directories recursively
+		$dir = opendir($sDir);
+	
+		while($file = readdir($dir))
+		{
+	    	if ($file != "." and
+				$file != "..")
+			{
+				// directories
+	         	if (@is_dir($sDir."/".$file))
+				{
+					if (!@is_dir($tDir."/".$file))
+					{
+						if (!mkdir($tDir."/".$file, 0770))
+							return false;
+	
+						chmod($tDir."/".$file, 0770);
+					}
+	
+					if (!rCopy($sDir."/".$file,$tDir."/".$file))
+					{
+						return false;
+					}
+				}
+				
+				// files
+				if (@is_file($sDir."/".$file))
+				{
+	            	if (!copy($sDir."/".$file,$tDir."/".$file))
+					{
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	function copyObjectFiles ($id, $type, $sDir, $tDir, $tName = Null)
+	{
+		switch ($type) 
+		{
+			// image files
+			case "img":
+				// build target directories
+				$this->makeDir($tDir);
+				// set and build target subdirectory
+				$tDir = $tDir."image".$id."/";
+				$this->makeDir($tDir);
+				
+				// copy files
+				// gif image
+				if (file_exists($sDir.$id.".gif"))
+				{
+					copy($sDir.$id.".gif", $tDir.$id.".gif");
+				}
+				// gif thumbnail
+				if (file_exists($sDir.$id."-s.gif"))
+				{
+					copy($sDir.$id."-s.gif", $tDir.$id."-s.gif");
+				}
+				// jpg image
+				if (file_exists($sDir.$id.".jpg"))
+				{
+					copy($sDir.$id.".jpg", $tDir.$id.".jpg");
+				}
+				// jpg thumbnail
+				if (file_exists($sDir.$id."-s.jpg"))
+				{
+					copy($sDir.$id."-s.jpg", $tDir.$id."-s.jpg");
+				}
+				// orginal image
+				if (file_exists($sDir.$id))
+				{
+					copy($sDir.$id, $tDir.$tName);
+				}
+				break;
+			
+			/* ***
+			// imagemap files
+			case "imap":
+				
+				// build type directories
+				$sourceImapDir = $sourceDir."imagemaps/";
+				$targetImapDir = $targetDir."imagemaps/";
+				make_dir($targetImapDir); // function make_dir is located in /include/util.inc
+							
+				// copy files
+				
+				// gif image
+				if (file_exists($sourceImapDir.$id.".gif"))
+				{
+					$sourceImapName = $targetImapName = "$id.gif";
+					copy($sourceImapDir.$sourceImapName,$targetImapDir.$targetImapName);				
+				}
+				
+				// gif work-image
+				if (file_exists($sourceImapDir."work-$id.gif"))
+				{
+					$sourceImapWorkName = $targetImapWorkName = "work-$id.gif";
+					copy($sourceImapDir.$sourceImapWorkName,$targetImapDir.$targetImapWorkName);
+				}			
+			break;
+			
+			// files of multimedia objects in elements
+			case "mm":
+				
+				// build directories
+				$sourceObjDir = $sourceDir."objects/";
+				$targetObjDir = $targetDir."objects/";
+				make_dir($targetObjDir); // function make_dir is located in /include/util.inc
+				
+				// copy files				
+				$sql =	"SELECT DISTINCT id ".
+						"FROM multimedia ".
+						"WHERE id = '$id' ".
+						"AND inst = '$inst' ".
+						"AND (verweis = '' OR ISNULL(verweis));";
+											
+				$result = v_query($sql,__FILE__,__LINE__);
+				
+				if (v_numrows($result,__FILE__,__LINE__) > 0)
+				{
+					if ($mmedia = v_fetch_array($result))
+					{
+						// build mm directory
+						make_dir($targetObjDir."mm".$mmedia["id"]); // function make_dir is located in /include/util.inc
+						
+						// Copy recursively
+						rcopy($sourceObjDir."mm".$mmedia["id"],$targetObjDir."mm".$mmedia["id"]); // function rcopy is located in /include/util.inc
+					}
+				}
+				
+			break;
+			*/
+			
+			// files (*** el_filelist)
+			case "file":
+				// build target directory
+				$this->makeDir($tDir);
+											
+				// copy files				
+				if (@is_dir($sDir.$type.$id))
+				{
+					// build file directory
+					$this->makeDir($tDir.$type.$id);
+					// copy recursively
+					$this->rCopy($sDir.$type.$id, $tDir.$type.$id);
+				}
+				break;
+		}
+	}
+	
 	// ILIAS2 Metadata --> ILIAS3 MetaData
 	function exportMetadata ($id, $type, $parent)
 	{
@@ -419,7 +627,7 @@ class ILIAS2export
 		$class[] = array(	"Purpose" => "EducationalLevel",
 							"SourceLanguage" => $meta["lang"],
 							"Source" => "ILIAS2 ".$meta["inst"],
-							"TaxonLanguage" => "en", // default, due to convert function
+							"TaxonLanguage" => "none", // default, due to convert function
 							"Taxon" => $this->convertMaterialLevel($meta["material_level"]));
 		
 		// table 'meta_keyword'
@@ -778,6 +986,13 @@ class ILIAS2export
 		// free result set
 		$result->free();
 		
+		// get file size and mimetype
+		if (file_exists($this->sourceDir."files/file".$id."/".$file["file"]))
+		{
+			$fileSize = filesize($this->sourceDir."files/file".$id."/".$file["file"]);
+			$mimetype = mime_content_type($this->sourceDir."files/file".$id."/".$file["file"]); // *** - wandeln
+		}
+		
 		//-----------------------------------------------
 		// create LearningObject AggregationLevel 1 tree:
 		//-----------------------------------------------
@@ -788,7 +1003,34 @@ class ILIAS2export
 		// LearningObject..MetaData ***
 		$MetaData = $this->exportMetadata($id, "file", $LearningObject);
 		
-		// *** update Metadata!!!!!
+		// complete Metadata:
+		
+		// get position within the metadata tree to insert the additional information to
+		$elements = $MetaData->get_elements_by_tagname("Educational");
+		$refnode = $elements[0];
+		
+		// 4 MetaData..Technical ***
+		// $attrs = array(	"Format" => $mimetype);
+		$attrs = array(	"Format" => "text-plain"); // *** temporär
+		$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
+		
+		// 4.2 ..Technical..Size
+		$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
+		
+		// 4.3 ..Technical..Location
+		$Location = $this->writeNode($Technical, "Location", Null, "/files/file".$id."/".$file["file"]); // ***
+		
+		// 4.4 ..Technical..(Requirement | OrComposite) ***
+		
+		// 4.5 ..Technical..InstallationRemarks ***
+		
+		// 4.6 ..Technical..OtherPlatformRequirements ***
+		
+		// 4.7 ..Technical..Duration ***
+		
+		// LearningObject..Layout --> unavailable for file
+		
+		// LearningObject..Parameter --> unavailable for file
 		
 		// LearningObject..Content --> unavailable for AggregationLevel 1
 		
@@ -798,12 +1040,13 @@ class ILIAS2export
 		
 		// LearningObject..Bibliography --> unavailable for AggregationLevel 1
 		
-		// *** copy file !!!!
+		// *** copy file(s)
+		$this->copyObjectFiles ($id, "file", $this->sourceDir."files/", $this->targetDir."objects/");
 		
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $row, $attrs, $file);
+		unset($sql, $file, $fileSize, $mimetype, $elements, $attrs, $refnode);
 		
 		//-------------------------------
 		// return LearningObject subtree:
@@ -870,16 +1113,87 @@ class ILIAS2export
 				
 				break;
 			
-			/*
 			// image (bild)
 			case 2:
-				$sql =	"SELECT * ".
+				$sql =	"SELECT datei, align ".
 						"FROM el_bild ".
 						"WHERE id = $id;";
 				
-				// copy (image) files
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
+				// get row(s)
+				$image = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// free result set
+				$result->free();
+				
+				// check for orginal file name and set it to id if empty
+				if ($image["datei"] == "")
+				{
+					$image["datei"] = $id;
+				}
+				
+				// get (image) file size and mimetype ***
+				if (file_exists($this->iliasDir."bilder/".$image["datei"]))
+				{
+					$fileSize = filesize($this->iliasDir."bilder/".$image["datei"]);
+					$mimetype = mime_content_type($this->iliasDir."bilder/".$image["datei"]); // *** - wandeln
+				}
+				
+				//-----------------------------------------------
+				// create LearningObject AggregationLevel 1 tree:
+				//-----------------------------------------------
+				
+				// LearningObject
+				$LearningObject = $this->writeNode($parent, "LearningObject");
+				
+				// LearningObject..MetaData ***
+				$MetaData = $this->exportMetadata($id, "el", $LearningObject);
+				
+				// complete Metadata:
+				
+				// get position within the metadata tree to insert the additional information to
+				$elements = $MetaData->get_elements_by_tagname("Educational");
+				$refnode = $elements[0];
+				
+				// 4 MetaData..Technical ***
+				// $attrs = array(	"Format" => $mimetype);
+				$attrs = array(	"Format" => "text-plain"); // *** temporär
+				$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
+				
+				// 4.2 ..Technical..Size
+				$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
+				
+				// 4.3 ..Technical..Location
+				$Location = $this->writeNode($Technical, "Location", Null, "./objects/image".$id."/".$image["datei"]);
+				
+				// 4.4 ..Technical..(Requirement | OrComposite) ***
+				
+				// 4.5 ..Technical..InstallationRemarks ***
+				
+				// 4.6 ..Technical..OtherPlatformRequirements ***
+				
+				// 4.7 ..Technical..Duration ***
+				
+				// LearningObject..Layout --> unavailable for file
+				
+				// LearningObject..Parameter --> unavailable for file
+				
+				// LearningObject..Content --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Test --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Glossary --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Bibliography --> unavailable for AggregationLevel 1
+				
+				// *** copy file(s)
+				$this->copyObjectFiles ($id, "img", $this->iliasDir."bilder/", $this->targetDir."objects/", $image["datei"]);
+				
 				break;
-			*/
 			
 			// title
 			case 3:
@@ -1164,11 +1478,12 @@ class ILIAS2export
 						"WHERE id = $id;";
 				*/
 				
-				// table 'filelist_entry'
-				$sql =	"SELECT file_id, nr ".
-						"FROM filelist_entry ".
-						"WHERE el_id = $id ".
-						"ORDER BY nr;";
+				// table 'filelist_entry' and 'file'
+				$sql =	"SELECT fe.file_id, f.file ".
+						"FROM filelist_entry AS fe, file AS f ".
+						"WHERE fe.el_id = $id ".
+						"AND fe.file_id = f.id ".
+						"ORDER BY fe.nr;";
 				
 				$result = $this->db->query($sql);		
 				// check $result for error
@@ -1202,7 +1517,7 @@ class ILIAS2export
 					{
 						$attrs = array(	"Reference_to" => "file_".$value["file_id"],
 										"Type" => "LearningObject");
-						$Reference = $this->writeNode($Paragraph, "Reference", $attrs, "File ".$value["nr"]); // *** besser Name der Datei
+						$Reference = $this->writeNode($Paragraph, "Reference", $attrs, $value["file"]);
 					}
 				}
 				
@@ -1234,7 +1549,7 @@ class ILIAS2export
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $row, $element, $text, $table, $i, $data, $attrs, $mc, $answer);
+		unset($sql, $row, $element, $text, $image, $fileSize, $mimetype, $table, $i, $data, $attrs, $mc, $answer);
 		
 		//---------------------------------------------
 		// return (Paragraph | LearningObject) subtree: ***
@@ -1289,6 +1604,8 @@ class ILIAS2export
 				$MetaData = $this->exportMetadata($id, "pg", $LearningObject);
 				
 				// LearningObject..Layout ***
+				
+				// LearningObject..Parameter ***
 				
 				// LearningObject..Content ***
 				$sql =	"SELECT id, typ ". // *** typ needed?
@@ -1622,6 +1939,8 @@ class ILIAS2export
 		
 		// LearningObject..Layout --> unavailabel for ILIAS2 chapter
 		
+		// LearningObject..Parameter ***
+		
 		// LearningObject..Content ***
 		// *** nur verlinkte Seiten (vom Typ 'le'), nutzt tabele 'struktur'
 		// *** Problem: 1 Page ggf. mehrmals verlinkt -> muss referenziert werden --> anpassen!!!
@@ -1900,17 +2219,25 @@ if ($_REQUEST["ok"] == "ok")
 	$host = $_REQUEST["host"];
 	$dbname = $_REQUEST["dbname"];
 	
-	// LE id, path
+	// Learnunit id, source directory, target directory, filename
 	$leId = (integer) $_REQUEST["leId"];
-	$path = $_REQUEST["path"];
-	
-
+	$file = $_REQUEST["file"];
+	$iliasDir = $_REQUEST["iliasDir"];
+	$sDir = $_REQUEST["sDir"];
+	$tDir = $_REQUEST["tDir"];
 	
 	// test run ***
-	if (is_integer($leId) and is_string($path))
+	if (is_integer($leId) and
+		is_string($file) and
+		is_string($iliasDir) and
+		is_string($sDir) and
+		is_string($tDir))
 	{
 		$exp = new ilias2export($user, $pass, $host, $dbname);
-		$exp->outputFile($leId, $path);
+		$exp->iliasDir = $iliasDir;
+		$exp->sourceDir = $sDir;
+		$exp->targetDir = $tDir;
+		$exp->outputFile($leId, $exp->targetDir.$file);
 	}
 	else
 	{
@@ -1919,25 +2246,31 @@ if ($_REQUEST["ok"] == "ok")
 }
 else
 {
-	echo "<html>".
-			"<head>".
-				"<title>ILIAS2export (experimental)</title>".
-			"</head>".
-			"<body>".
-				"Export of ILIAS2 'Lerneinheiten' in ILIAS3 LearningObjects (experimental)<br /><br />".
-				"<form action=\"".$_SERVER["PHP_SELF"]."\" method=\"post\" enctype=\"multipart/form-data\">".
-					"ILIAS2 Databaseconnection:<br /><br />".
-					"user:<br /><input type=\"text\" name=\"user\" maxlengh=\"30\" size=\"20\" value=\"mysql\"><br />".
-					"pass:<br /><input type=\"password\" name=\"pass\" maxlengh=\"30\" size=\"20\" value=\"\"><br />".
-					"host:<br /><input type=\"text\" name=\"host\" maxlengh=\"30\" size=\"20\" value=\"localhost\"><br />".
-					"dbname:<br /><input type=\"text\" name=\"dbname\" maxlengh=\"30\" size=\"20\" value=\"ilias\"><br /><br />".
-					"Id of the 'Lerneinheit' to be exported:<br /><br />".
-					"<input type=\"text\" name=\"leId\" maxlengh=\"10\" size=\"10\" value=\"5\"><br /><br />".
-					"Full Path and Filename for the generated XML File:<br /><br />".
-					"<input type=\"text\" name=\"path\" maxlengh=\"50\" size=\"40\" value=\"/Temp/LO.xml\"><br /><br />".
-					"<input type=\"submit\" name=\"ok\" value=\"ok\">".
-				"</form>".
-			"</body>".
-		"</html>";
+	echo "<html>\n".
+			"<head>\n".
+				"<title>ILIAS2export (experimental)</title>\n".
+			"</head>\n".
+			"<body>\n".
+				"Export of ILIAS2 'Lerneinheiten' in ILIAS3 LearningObjects (experimental)<br /><br />\n".
+				"<form action=\"".$_SERVER["PHP_SELF"]."\" method=\"post\" enctype=\"multipart/form-data\">\n".
+					"ILIAS2 Databaseconnection:<br /><br />\n".
+					"user:<br /><input type=\"text\" name=\"user\" maxlengh=\"30\" size=\"20\" value=\"mysql\"><br />\n".
+					"pass:<br /><input type=\"password\" name=\"pass\" maxlengh=\"30\" size=\"20\" value=\"\"><br />\n".
+					"host:<br /><input type=\"text\" name=\"host\" maxlengh=\"30\" size=\"20\" value=\"localhost\"><br />\n".
+					"dbname:<br /><input type=\"text\" name=\"dbname\" maxlengh=\"30\" size=\"20\" value=\"ilias\"><br /><br />\n".
+					"Id of the 'Lerneinheit' to be exported:<br /><br />\n".
+					"<input type=\"text\" name=\"leId\" maxlengh=\"10\" size=\"10\" value=\"5\"><br /><br />\n".
+					"Full path of the ILIAS2 base directory:<br /><br />\n".
+					"<input type=\"text\" name=\"iliasDir\" maxlengh=\"50\" size=\"40\" value=\"\"><br /><br />\n".
+					"Full path of the source directory containing the raw data files:<br /><br />\n".
+					"<input type=\"text\" name=\"sDir\" maxlengh=\"50\" size=\"40\" value=\"\"><br /><br />\n".
+					"Full path of the target directory to copy the XML file and  the raw data files to:<br /><br />\n".
+					"<input type=\"text\" name=\"tDir\" maxlengh=\"50\" size=\"40\" value=\"\"><br /><br />\n".
+					"Filename for the generated XML file:<br /><br />\n".
+					"<input type=\"text\" name=\"file\" maxlengh=\"50\" size=\"40\" value=\"lo.xml\"><br /><br />\n".
+					"<input type=\"submit\" name=\"ok\" value=\"ok\">\n".
+				"</form>\n".
+			"</body>\n".
+		"</html>\n";
 }
 ?>

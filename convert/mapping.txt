@@ -1,6 +1,6 @@
 Mapping of ILIAS 2 Lerneinheiten to ILIAS 3 LearningObjects
 -----------------------------------------------------------
-2003-01-15, Matthias Rulinski
+2003-01-17, Matthias Rulinski
 
 
 METADATA (id, typ, parent)
@@ -90,11 +90,13 @@ FILE
 
 	METADATA ('file')
 	
-	file (*** copy files)
+	file
 		id					-->		used in METADATA
 		file				-->		*** meta (location)
 		deleted
 		version				-->		*** meta
+		
+	-> copy files
 
 
 ELEMENT (id, parent)
@@ -136,11 +138,16 @@ ELEMENT (id, parent)
 									10 list with roman numerals
 	
 	el_bild
-		id
-		titel
-		datei
-		align (formatting 0-4 -> ***)
-		(copy image files)
+		titel				-->		*** redundant
+		datei				-->		*** meta
+		align				-->		*** (Alignment)
+									0 left
+									1 left, wrapped by text on the right
+									2 right
+									3 right, wrapped by text on the left
+									4 center
+	
+	-> copy files
 	
 	el_titel
 		text				-->		Paragraph (.Characteristic -> Headline)
@@ -396,3 +403,4 @@ LearningObject -> new Element:	<!ELEMENT Parameter (ParameterName, ParameterValu
 								<!ELEMENT ParameterValue (#PCDATA)>
 operatingsystem -> replaced entitiy
 browser -> replaced entitiy
+Layout -> new value for attribute: TargetFrame (... | NEW)
