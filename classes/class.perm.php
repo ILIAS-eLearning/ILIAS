@@ -326,6 +326,7 @@ function getObject ($AObjId)
 	$obj = array(
 				"obj_id"		=> $data->obj_id,
 				"title"			=> stripslashes($data->title),
+				"type"          => $data->type,
 				"desc"			=> stripslashes($data->description),
 				"owner"			=> $data->owner,
 				"create_date"	=> $data->create_date,
