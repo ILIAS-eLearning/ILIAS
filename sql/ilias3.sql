@@ -511,4 +511,13 @@ CREATE TABLE user_session (
 # Dumping data for table `user_session`
 #
 
-
+#
+# settings table
+#
+CREATE TABLE settings (
+key VARCHAR(255) NOT NULL, 
+value_str VARCHAR(255) NOT NULL, 
+value_int BIGINT NOT NULL,
+UNIQUE (key)
+); 
+INSERT INTO settings (key, value_str, value_int) VALUES ('db_version', '', '1'); 
