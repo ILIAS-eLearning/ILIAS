@@ -504,7 +504,7 @@ class ilRbacReview
 
 	/**
 	* get all possible operations of a specific role
-	*  The ref_id of the role folder (parent object) is necessary to distinguish local roles
+	* The ref_id of the role folder (parent object) is necessary to distinguish local roles
 	* @access	public
 	* @param	integer	role_id
 	* @param	string	object type
@@ -543,8 +543,8 @@ class ilRbacReview
 	/**
 	* all possible operations of a type
 	* @access	public
-	* @param	integer 
-	* @return	array
+	* @param	integer		object_ID of type
+	* @return	array		valid operation_IDs
 	*/
 	function getOperationsOnType($a_typ_id)
 	{

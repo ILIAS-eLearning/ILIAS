@@ -407,7 +407,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				else
 				{
 					// button: delete article
-					if ($rbacsystem->checkAccess("delete post", $_GET["ref_id"]))
+					if ($rbacsystem->checkAccess("delete_post", $_GET["ref_id"]))
 					{
 						// 2. delete-level
 						if ($_GET["cmd"] == "delete" && $_GET["pos_pk"] == $node["pos_pk"])

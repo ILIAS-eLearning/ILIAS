@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -44,6 +44,10 @@ common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
+common#:#adm_visible#:#Systemeinstellungen sind sichtbar
+common#:#adm_read#:#Lesezugriff auf Systemgrunddaten
+common#:#adm_write#:#Systemgrunddaten bearbeiten
+common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
@@ -96,6 +100,12 @@ common#:#cat_added#:#Kategorie angelegt
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_new#:#Neue Kategorie
 common#:#categories#:#Kategorien
+common#:#cat_edit_permission#:#Rechteeinstellungen ändern
+common#:#cat_visible#:#Kategorie ist sichtbar
+common#:#cat_read#:#Lesezugriff auf Kategorie
+common#:#cat_write#:#Kategorie bearbeiten
+common#:#cat_create#:#Neue Kategorie anlegen
+common#:#cat_delete#:#Kategorie löschen 
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
 common#:#change#:#Ändern
@@ -146,6 +156,14 @@ common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_management_system#:#Kursmanagement-System
 common#:#crs_new#:#Neuer Kurs
+common#:#crs_visible#:#Kurs ist sichtbar
+common#:#crs_read#:#Kurs lesen
+common#:#crs_create#:#Neuen Kurs anlegen
+common#:#crs_write#:#Kurs bearbeiten
+common#:#crs_delete#:#Kurs löschen
+common#:#crs_edit_permission#:#Rechteeinstellungen ändern
+common#:#crs_join#:#Kurs abonnieren
+common#:#crs_leave#:#Kursabonnement aufheben
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
@@ -165,6 +183,12 @@ common#:#db_user#:#Datenbankbenutzer
 common#:#db_version#:#Datenbankversion
 common#:#dbk#:#Digilib-Buch
 common#:#dbk_a#:#ein Digilib-Buch
+common#:#dbk_edit_permission#:#Rechteeinstellungen ändern
+common#:#dbk_visible#:#Digilib-Buch ist sichtbar
+common#:#dbk_read#:#Digilib-Buch lesen
+common#:#dbk_write#:#Digilib-Buch bearbeiten
+common#:#dbk_delete#:#Digilib-Buch löschen
+common#:#dbk_create#:#Neues Digilib-Buch anlegen
 common#:#dbk_add#:#Digilib-Buch anlegen
 common#:#dbk_added#:#Digilib-Buch angelegt
 common#:#dbk_new#:#Neues Digilib-Buch
@@ -243,6 +267,12 @@ common#:#exc_status_saved#:#Die Änderungen wurden gespeichert
 common#:#exc_status_solved#:#Gelöst
 common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
 common#:#exc_users#:#Benutzern
+common#:#exc_edit_permission#:#Rechteeinstellungen ändern
+common#:#exc_visible#:#Übung ist sichtbar
+common#:#exc_read#:#Übung lesen
+common#:#exc_write#:#Übung bearbeiten
+common#:#exc_create#:#Neue Übung anlegen
+common#:#exc_delete#:#Übung löschen
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
 common#:#export_html#:#Exportieren als HTML-Datei
@@ -283,6 +313,14 @@ common#:#frm_add#:#Forum anlegen
 common#:#frm_added#:#Forum angelegt
 common#:#frm_edit#:#Forum bearbeiten
 common#:#frm_new#:#Neues Forum
+common#:#frm_edit_permission#:#Rechteeinstellungen ändern
+common#:#frm_visible#:#Forum ist sichtbar
+common#:#frm_read#:#Forum lesen
+common#:#frm_write#:#Forum bearbeiten
+common#:#frm_delete#:#Forum löschen
+common#:#frm_create#:#Neues Forum anlegen
+common#:#frm_delete_post#:#Forumbeiträge löschen
+common#:#frm_edit_post#:#Forumbeiträge bearbeiten
 common#:#from#:#Von
 common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen
@@ -297,6 +335,14 @@ common#:#glo_a#:#ein Glossar
 common#:#glo_add#:#Glossar hinzufügen
 common#:#glo_added#:#Glossar hinzugefügt
 common#:#glo_new#:#Neues Glossar
+common#:#glo_visible#:#Glossar ist sichtbar
+common#:#glo_read#:#Glossar lesen
+common#:#glo_create#:#Neues Glossar anlegen
+common#:#glo_write#:#Glossar bearbeiten
+common#:#glo_delete#:#Glossar löschen
+common#:#glo_edit_permission#:#Rechteeinstellungen ändern
+common#:#glo_join#:#Glossar abonnieren
+common#:#glo_leave#:#Glossarabonnement aufheben 
 common#:#glossaries#:#Glossare
 common#:#glossary#:#Glossar
 common#:#glossary_added#:#Glossar hinzugefügt
@@ -335,9 +381,17 @@ common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_edit#:#Gruppe übearbeiten
+common#:#grp_visible#:#Gruppe ist sichtbar
+common#:#grp_read#:#Lesezugriff auf Gruppe
+common#:#grp_create#:#Neue Gruppe anlegen
+common#:#grp_write#:#Gruppe bearbeiten
+common#:#grp_delete#:#Gruppe löschen
+common#:#grp_edit_permission#:#Rechteeinstellungen ändern
+common#:#grp_join#:#Benutzer kann Gruppe beitreten
+common#:#grp_leave#:#Benutzer kann Gruppe verlassen
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein ausgewiesener Gruppenadministrator benötigt
-common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgef?hrt
+common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgeführt
 common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie die Gruppe !
 common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte überprfen Sie die Abhängigkeiten dieses Benutzers.
 common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
@@ -450,6 +504,10 @@ common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
+common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
+common#:#ldap_read#:#Lesezugriff auf LDAP-Einstellungen
+common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
+common#:#ldap_edit_permission#:#Rechteeinstellungen ändern
 common#:#learning_objects#:#Lernobjekte
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
@@ -464,8 +522,19 @@ common#:#lm_a#:#ein Lernmodul
 common#:#lm_add#:#Lernmodul anlegen
 common#:#lm_added#:#Lernmodul angelegt
 common#:#lm_new#:#Neues Lernmodul
+common#:#lm_visible#:#Lernmodul ist sichtbar
+common#:#lm_read#:#Lernmodul lesen
+common#:#lm_create#:#Neues Lernmodul anlegen
+common#:#lm_write#:#Lernmodul bearbeiten
+common#:#lm_delete#:#Lernmodul löschen
+common#:#lm_edit_permission#:#Rechteeinstellungen ändern
+common#:#lm_join#:#Lernmodul abonnieren
+common#:#lm_leave#:#Lernmodulabonnement aufheben
 common#:#lng#:#Sprache
-common#:#lngf#:#Sprachordner
+common#:#lngf#:#Sprachen
+common#:#lngf_visible#:#Spracheinstellungen sind sichtbar
+common#:#lngf_read#:#Lesezugriff auf Spracheinstellungen
+common#:#lngf_edit_permission#:#Rechteeinstellungen ändern
 common#:#lo#:#Lerneinheit
 common#:#lo_available#:#Lernmaterialien
 common#:#lo_categories#:#Kategorien
@@ -511,6 +580,12 @@ common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_system#:#Systemnachricht
 common#:#mail_z_local#:#Eigene Ordner
+common#:#mail_visible#:#Maileinstellungen sind sichtbar
+common#:#mail_read#:#Lesezugriff auf Maileinstellungen
+common#:#mail_write#:#Maileinstellungen bearbeiten
+common#:#mail_edit_permission#:#Rechteeinstellungen ändern
+common#:#mail_smtp_mail#:#Benutzer darf Emails (SMTP) senden
+common#:#mail_system_message#:#Benutzer darf Systemnachrichten senden
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
@@ -633,8 +708,10 @@ common#:#obj#:#Objekt
 common#:#obj_adm#:#Systemeinstellungen
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
+common#:#obj_mob#:#Multimedia Objekt
+common#:#obj_exc#:#Übung
 common#:#obj_crs#:#Kurs
-common#:#obj_dbk#:#DigiBook
+common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_file#:#Datei
 common#:#obj_fold#:#Ordner
 common#:#obj_frm#:#Forum
@@ -663,7 +740,7 @@ common#:#obj_rolf_desc#:#Rollenverwaltung
 common#:#obj_rolf_local#:#Lokale Rollen
 common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
-common#:#obj_root#:#root
+common#:#obj_root#:#ILIAS-System
 common#:#obj_slm#:#SCORM Lernmodul
 common#:#obj_st#:#Kapitel
 common#:#obj_typ#:#Objekttyp-Definition
@@ -674,6 +751,10 @@ common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
+common#:#objf_visible#:#Objektdefinitionen sind sichtbar
+common#:#objf_read#:#Lesezugriff auf Objektdefinitionen
+common#:#objf_write#:#Objektdefinitionen bearbeiten
+common#:#objf_edit_permission#:#Rechteeinstellungen ändern
 common#:#objs_confirm#:#Bestätige Aktion###11 Dec 2003 content changed
 common#:#objs_delete#:#Objekte löschen
 common#:#of#:#von
@@ -784,12 +865,23 @@ common#:#role_new#:#Neue Rolle
 common#:#roles#:#Rollen
 common#:#rolf#:#Rollenordner
 common#:#rolf_added#:#Rollenordner angelegt
+common#:#rolf_visible#:#Rollen/Rollenvorlagen sind sichtbar
+common#:#rolf_read#:#Lesezugriff auf Rollen/Rollenvorlagen
+common#:#rolf_write#:#Rollen/Rollenvorlagen bearbeiten
+common#:#rolf_delete#:#Rollen/Rollenvorlagen löschen
+common#:#rolf_edit_permission#:#Rechteeinstellungen ändern
+common#:#rolf_create_role#:#Neue Rolle anlegen
+common#:#rolf_create_rolt#:#Neue Rollenvorlage anlegen
 common#:#rolt#:#Rollenvorlage
 common#:#rolt_a#:#eine Rollenvorlage
 common#:#rolt_add#:#Rollenvorlage anlegen
 common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
+common#:#root_visible#:#ILIAS System ist sichtbar
+common#:#root_read#:#Lesezugriff auf ILIAS System
+common#:#root_write#:#Daten des Systemknotens bearbeiten
+common#:#root_edit_permission#:#Rechteeinstellungen ändern
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -834,6 +926,14 @@ common#:#show_structure#:#Strukturansicht einblenden
 common#:#signature#:#Signatur
 common#:#slm#:#SCORM Lernmodul
 common#:#slm_added#:#SCORM Lernmodul angelegt
+common#:#slm_visible#:#Lernmodul ist sichtbar
+common#:#slm_read#:#SCORM Lernmodul lesen
+common#:#slm_create#:#Neues SCORM Lernmodul anlegen
+common#:#slm_write#:#SCORM Lernmodul bearbeiten
+common#:#slm_delete#:#SCORM Lernmodul löschen
+common#:#slm_edit_permission#:#Rechteeinstellungen ändern
+common#:#slm_join#:#SCORM Lernmodul abonnieren
+common#:#slm_leave#:#SCORM Lernmodulabonnement aufheben
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#st_a#:#ein Kapitel
@@ -911,7 +1011,13 @@ common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_new#:#Neuer Benutzer
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#Stil
-common#:#usrf#:#Benutzerordner
+common#:#usrf#:#Benutzerkonten
+common#:#usrf_visible#:#Benutzerkonten sind sichtbar
+common#:#usrf_read#:#Lesezugriff auf Benutzerkonten
+common#:#usrf_write#:#Benutzerkonten bearbeiten
+common#:#usrf_delete#:#Benutzerkonten löschen
+common#:#usrf_edit_permission#:#Rechteeinstellungen ändern
+common#:#usrf_create_user#:#Neues Benutzerkonto anlegen
 common#:#validate#:#Validieren
 common#:#value#:#Wert
 common#:#version#:#Version

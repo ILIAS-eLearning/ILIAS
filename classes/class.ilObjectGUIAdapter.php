@@ -26,7 +26,7 @@
 * Class ilObjectGUIAdapter
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.2 2003/11/06 13:59:54 smeyer Exp $
+* $Id$Id: class.ilObjectGUIAdapter.php,v 1.1 2003/12/16 15:53:43 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -169,7 +169,7 @@ class ilObjectGUIAdapter
 					  break;
 
 				  case 'perm':
-					  if (!$rbacsystem->checkAccess('edit permission',$this->getId()))
+					  if (!$rbacsystem->checkAccess('edit_permission',$this->getId()))
 					  {
 						  $show = false;
 					  }

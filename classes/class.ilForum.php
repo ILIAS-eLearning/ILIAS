@@ -722,7 +722,7 @@ class ilForum
 		{
 			return true;
 		}
-		elseif ($rbacsystem->checkAccess("edit post", $this->getForumRefId()))
+		elseif ($rbacsystem->checkAccess("edit_post", $this->getForumRefId()))
 		{
 			return true;		
 		}
