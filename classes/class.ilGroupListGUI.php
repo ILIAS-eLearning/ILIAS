@@ -143,6 +143,9 @@ class ilGroupListGUI
 	{
 
 		global  $tree, $rbacsystem;
+		
+		echo"SESSION:";print_r($_SESSION);echo"<br>";
+		echo"GET:";print_r($_GET);echo"<br>";
 
 		require_once "./include/inc.header.php";
 		require_once "./classes/class.ilExplorer.php";
@@ -228,7 +231,7 @@ class ilGroupListGUI
 				$cont_arr = array();
 
 				$objects = $tree->getChilds($_GET["ref_id"],"title");
-
+				
 				if (count($objects) > 0)
 				{
 					foreach ($objects as $key => $object)
@@ -239,7 +242,6 @@ class ilGroupListGUI
 						}
 					}
 				}
-				
 				break;
 		}
 
@@ -268,7 +270,13 @@ class ilGroupListGUI
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
 				//$obj_link = "group.php?cmd=show_content&ref_id=".$cont_data["ref_id"]."&tree_id=".$cont_data["obj_id"]."&obj_id=".$cont_data["obj_id"];
-				$obj_link = "group.php?cmd=view&ref_id=".$cont_data["ref_id"];
+//				$obj_link = "group.php?cmd=view&ref_id=".$cont_data["ref_id"];
+				//setting the group view mode
+				if(isset($_SESSION["grp_viewmode"])) 
+					$grp_view = $_SESSION["grp_viewmode"];
+				else 
+					$grp_view="tree"; //default grp_viewmode is tree-view
+				$obj_link = "group.php?cmd=view&grp_viewmode=$grp_view&ref_id=".$cont_data["ref_id"];
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$this->tpl->setVariable("TITLE", $cont_data["title"]);
 				$this->tpl->setVariable("LINK", $obj_link);
