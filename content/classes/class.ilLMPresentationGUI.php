@@ -974,6 +974,8 @@ class ilLMPresentationGUI
 
 	function ilTranslation(&$a_page_node)
 	{
+		global $ilUser;
+
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		require_once("content/classes/class.ilLMPageObject.php");
 
@@ -988,7 +990,13 @@ class ilLMPresentationGUI
 		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
 		$page_object_gui =& new ilPageObjectGUI($page_object);
 
+		// Update personal desktop items
 		$this->ilias->account->setDesktopItemParameters($_SESSION["tr_id"], $this->lm->getType(),$page_id);
+
+		// Update course items
+		include_once './course/classes/class.ilCourseLMHistory.php';
+
+		ilCourseLMHistory::_updateLastAccess($ilUser->getId(),$this->lm->getRefId(),$page_id);
 
 		// read link targets
 		$targets = $this->getLayoutLinkTargets();
@@ -1061,7 +1069,7 @@ class ilLMPresentationGUI
 	*/
 	function ilPage(&$a_page_node)
 	{
-		global $ilBench;
+		global $ilBench,$ilUser;
 
 		if (!ilObjContentObject::_checkPreconditionsOfPage($this->lm->getId(), $this->getCurrentPageId()))
 		{
@@ -1078,7 +1086,13 @@ class ilLMPresentationGUI
 		$int_links = $page_object->getInternalLinks();
 		$page_object_gui =& new ilPageObjectGUI($page_object);
 
+		// Update personal desktop items
 		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
+
+		// Update course items
+		include_once './course/classes/class.ilCourseLMHistory.php';
+
+		ilCourseLMHistory::_updateLastAccess($ilUser->getId(),$this->lm->getRefId(),$page_id);
 
 		// read link targets
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());

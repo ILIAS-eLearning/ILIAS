@@ -535,6 +535,17 @@ div.il_Description, td.il_Description
 	font-style: italic;
 	text-align:left;
 }
+div.il_Description_no_margin, td.il_Description_no_margin
+{
+	font-size: 13px;
+	font-style: italic;
+	text-align:left;
+}
+div.il_info
+{
+	font-size: 13px;
+	text-align:left;
+}
 
 /* ---------------- headlines ------------------ */
 

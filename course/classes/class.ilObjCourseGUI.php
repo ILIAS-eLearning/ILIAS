@@ -237,11 +237,14 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 		
 		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
-		$this->tpl->parseCurrentBlock();
-
+		
+		if($this->ctrl->getTargetScript() != 'adm_object.php')
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
+			$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
+			$this->tpl->parseCurrentBlock();
+		}
 
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
@@ -1889,12 +1892,26 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
-		if ($rbacsystem->checkAccess('write',$this->ref_id) or
-			$this->object->isActivated(false))
+		if ($this->object->isActivated(false))
 		{
-			$tabs_gui->addTarget("view_content",
-								 $this->ctrl->getLinkTarget($this, ""), "", get_class($this));
+			if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
+			{
+				$tabs_gui->addTarget('learners_view',
+									 $this->ctrl->getLinkTarget($this, "cciObjectives"), "", get_class($this));
+			}
+			else
+			{
+				$tabs_gui->addTarget('view_content',
+									 $this->ctrl->getLinkTarget($this, "cciObjectives"), "", get_class($this));
+			}
 		}
+		if($rbacsystem->checkAccess('write',$this->ref_id) and $this->object->enabledObjectiveView())
+		{
+			$tabs_gui->addTarget('edit_content',
+								 $this->ctrl->getLinkTarget($this, 'cciObjectivesEdit'), "", get_class($this));
+
+		}
+
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$tabs_gui->addTarget("crs_details",
@@ -1951,7 +1968,6 @@ class ilObjCourseGUI extends ilObjectGUI
 			$tabs_gui->addTarget("crs_unsubscribe",
 								 $this->ctrl->getLinkTarget($this, "unsubscribe"), "unsubscribe", get_class($this));
 		}
-			
 	}
 
 	function printMembersObject()
@@ -3009,7 +3025,6 @@ class ilObjCourseGUI extends ilObjectGUI
 
 	function cciObjectivesObject()
 	{
-		$_SESSION['crs_viewmode'] = 'objectives';
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_objectives();
 
@@ -3017,7 +3032,6 @@ class ilObjCourseGUI extends ilObjectGUI
 	}
 	function cciObjectivesEditObject()
 	{
-		$_SESSION['crs_viewmode'] = 'objectives_edit';
 		$this->initCourseContentInterface();
 		$this->cci_obj->cci_view();
 

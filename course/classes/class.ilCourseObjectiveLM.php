@@ -104,10 +104,20 @@ class ilCourseObjectiveLM
 
 	function checkExists()
 	{
-		$query = "SELECT * FROM crs_objective_lm ".
-			"WHERE objective_id = '".$this->getObjectiveId()."' ".
-			"AND ref_id = '".$this->getLMRefId()."' ";
-			#"AND obj_id = '".$this->getLMObjId()."'";
+		if($this->getLMObjId())
+		{
+			$query = "SELECT * FROM crs_objective_lm ".
+				"WHERE objective_id = '".$this->getObjectiveId()."' ".
+				"AND ref_id = '".$this->getLMRefId()."' ".
+				"AND obj_id = '".$this->getLMObjId()."'";
+		}
+		else
+		{
+			$query = "SELECT * FROM crs_objective_lm ".
+				"WHERE objective_id = '".$this->getObjectiveId()."' ".
+				"AND ref_id = '".$this->getLMRefId()."'";
+		}
+
 		$res = $this->db->query($query);
 
 		return $res->numRows() ? true : false;
