@@ -42,189 +42,189 @@ administration#:#clean_desc#:#Видалення невірних посилан
 administration#:#cleaning#:#Очистка...
 administration#:#cleaning_final#:#Фінальна очистка...
 administration#:#closing_gaps#:#Закривання проміжків у дереві...
-administration#:#disabled#:#disabled###09 Mar 2004 new variable
-administration#:#done#:#Done###09 Mar 2004 new variable
-administration#:#found#:#found.###09 Mar 2004 new variable
-administration#:#found_none#:#none found.###09 Mar 2004 new variable
-administration#:#log_scan#:#Log scan results###09 Mar 2004 new variable
-administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.###09 Mar 2004 new variable
-administration#:#nothing_to_purge#:#Nothing to purge...###09 Mar 2004 new variable
-administration#:#nothing_to_remove#:#Nothing to remove...###09 Mar 2004 new variable
-administration#:#nothing_to_restore#:#Nothing to restore...###09 Mar 2004 new variable
-administration#:#options#:#Options###09 Mar 2004 new variable
-administration#:#purge_missing#:#Purge missing objects###09 Mar 2004 new variable
-administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.###09 Mar 2004 new variable
-administration#:#purge_trash#:#Purge deleted objects###09 Mar 2004 new variable
-administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.###09 Mar 2004 new variable
-administration#:#purging#:#Purging...###09 Mar 2004 new variable
-administration#:#purging_missing_objs#:#Purging missing objects...###17 Apr 2004 new variable
-administration#:#purging_trash#:#Purging trash...###09 Mar 2004 new variable
-administration#:#purging_unbound_objs#:#Purging unbound objects...###09 Mar 2004 new variable
-administration#:#removing_invalid_childs#:#Removing invalid tree entries...###09 Mar 2004 new variable
-administration#:#removing_invalid_refs#:#Removing invalid references...###09 Mar 2004 new variable
-administration#:#restore_missing#:#Restore missing objects###09 Mar 2004 new variable
-administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.###09 Mar 2004 new variable
-administration#:#restore_trash#:#Restore deleted objects###09 Mar 2004 new variable
-administration#:#restore_trash_desc#:#Restore all objects in trash bin to RecoveryFolder.###09 Mar 2004 new variable
-administration#:#restoring#:#Restoring...###09 Mar 2004 new variable
-administration#:#restoring_missing_objs#:#Restoring missing objects...###09 Mar 2004 new variable
-administration#:#restoring_trash#:#Restoring trash...###09 Mar 2004 new variable
-administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...###09 Mar 2004 new variable
-administration#:#scan_completed#:#Scan completed###09 Mar 2004 new variable
-administration#:#scan_details#:#Scan details###09 Mar 2004 new variable
-administration#:#scan_modes#:#Scan modes used###09 Mar 2004 new variable
-administration#:#scan_only#:#Scan only###09 Mar 2004 new variable
-administration#:#scanning_system#:#Scanning system...###09 Mar 2004 new variable
-administration#:#searching_deleted_objs#:#Searching for deleted objects...###09 Mar 2004 new variable
-administration#:#searching_invalid_childs#:#Searching for invalid tree entries...###09 Mar 2004 new variable
-administration#:#searching_invalid_refs#:#Searching for invalid references...###09 Mar 2004 new variable
-administration#:#searching_missing_objs#:#Searching for missing objects...###09 Mar 2004 new variable
-administration#:#searching_unbound_objs#:#Searching for unbound objects...###09 Mar 2004 new variable
-administration#:#skipped#:#skipped###17 Apr 2004 new variable
-administration#:#start_scan#:#Start!###09 Mar 2004 new variable
-administration#:#stop_scan#:#Stop!###31 May 2004 new variable
-administration#:#systemcheck#:#Systemcheck###09 Mar 2004 new variable
-administration#:#view_last_log#:#View last Scanlog###09 Mar 2004 new variable
-administration#:#view_log#:#View details###09 Mar 2004 new variable
-assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
+administration#:#disabled#:#відключений
+administration#:#done#:#Готово
+administration#:#found#:#знайдено.
+administration#:#found_none#:#нічого не знайдено.
+administration#:#log_scan#:#Результати сканування логів
+administration#:#log_scan_desc#:#Записати результати сканування до 'scanlog.log' в директорію з даними клієнта.
+administration#:#nothing_to_purge#:#Нічого для очищення...
+administration#:#nothing_to_remove#:#Нічого для переміщення...
+administration#:#nothing_to_restore#:#Нічого для відновлення...
+administration#:#options#:#Опції
+administration#:#purge_missing#:#Знищити відсутні об'єкти
+administration#:#purge_missing_desc#:#Перемістити усі відсутні та вільні об'єкти з системи.
+administration#:#purge_trash#:#Очистка видалених об'єктів
+administration#:#purge_trash_desc#:#Видалити усі об'єкти в смітнику з системи.
+administration#:#purging#:#Очистка...
+administration#:#purging_missing_objs#:#Очистка відсутніх об'єктів...
+administration#:#purging_trash#:#Очистка смітника...
+administration#:#purging_unbound_objs#:#Очистка вільних об'єктів...
+administration#:#removing_invalid_childs#:#Переміщенні невірних входжень дерев...
+administration#:#removing_invalid_refs#:#Переміщення невірних посилань...
+administration#:#restore_missing#:#Відновлення відсутніх об'єктів
+administration#:#restore_missing_desc#:#Відновлення відстуніх та вільних об'єктів в RecoveryFolder.
+administration#:#restore_trash#:#Відновлення видалених об'єктів
+administration#:#restore_trash_desc#:#Відновлення усіх об'єктів зі смітника в RecoveryFolder.
+administration#:#restoring#:#Відновлення...
+administration#:#restoring_missing_objs#:#Відновлення відсутніх об'єктів...
+administration#:#restoring_trash#:#Відновлення смітника...
+administration#:#restoring_unbound_objs#:#Відновлення вільних об'єктів & підоб'єктів...
+administration#:#scan_completed#:#Сканування завершене
+administration#:#scan_details#:#Деталі сканування
+administration#:#scan_modes#:#Scan modes used
+administration#:#scan_only#:#Тільки сканування
+administration#:#scanning_system#:#Сканування системи...
+administration#:#searching_deleted_objs#:#Пошук видалених об'єктів...
+administration#:#searching_invalid_childs#:#Пошук невірних входжень в дерево...
+administration#:#searching_invalid_refs#:#Пошук невірних посилань...
+administration#:#searching_missing_objs#:#Пошук відсутніх об'єктів...
+administration#:#searching_unbound_objs#:#Пошук вільних об'єктів...
+administration#:#skipped#:#пропущений
+administration#:#start_scan#:#Почати!
+administration#:#stop_scan#:#Зупинити!
+administration#:#systemcheck#:#Перевірка системи
+administration#:#view_last_log#:#Подивитись останній Сканлог
+administration#:#view_log#:#Подивитись деталі
+assessment#:#0_unlimited#:#(0 = безлімітний)
 assessment#:#add_answer#:#Додати віповідь
-assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
-assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
-assessment#:#add_applet_parameter#:#Add applet parameter###19 May 2004 new variable
-assessment#:#add_area#:#Add area###15 Jun 2004 new variable
-assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
-assessment#:#add_imagemap#:#Add imagemap###21 Jun 2004 new variable
+assessment#:#add_answer_tf#:#Додати відповіді правда/неправда
+assessment#:#add_answer_yn#:#Додати відповіді так/ні
+assessment#:#add_applet_parameter#:#Додати параметри аплету
+assessment#:#add_area#:#Додати область
+assessment#:#add_gap#:#Додати текст з проміжком
+assessment#:#add_imagemap#:#Додати карту зображення
 assessment#:#add_matching_pair#:#Додати співпадаючу пару
-assessment#:#add_solution#:#Add suggested solution###05 Oct 2004 new variable
-assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
+assessment#:#add_solution#:#Додати запропоноване рішення
+assessment#:#all_available_question_pools#:#Увесь доступний фонд питань
 assessment#:#answer#:#Відповідь
-assessment#:#answer_is_right#:#Your solution is right###30 Aug 2004 new variable
-assessment#:#answer_is_wrong#:#Your solution is wrong###30 Aug 2004 new variable
-assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
-assessment#:#answer_text#:#Текст відповіді
-assessment#:#applet_attributes#:#Applet attributes###19 May 2004 new variable
-assessment#:#applet_new_parameter#:#New parameter###19 May 2004 new variable
-assessment#:#applet_parameter#:#Parameter###19 May 2004 new variable
-assessment#:#applet_parameters#:#Applet parameters###19 May 2004 new variable
+assessment#:#answer_is_right#:#Ваша відповідь вірна
+assessment#:#answer_is_wrong#:#Вага відповідь невірна
+assessment#:#answer_picture#:#Картинка з відповіддю
+assessment#:#answer_text#:#Текст з відповідю
+assessment#:#applet_attributes#:#Атрибути аплету
+assessment#:#applet_new_parameter#:#Новий параметр
+assessment#:#applet_parameter#:#Параметр
+assessment#:#applet_parameters#:#Параметри аплета
 assessment#:#apply#:#Примінити
 assessment#:#ass_questions#:#Питання
-assessment#:#available_points#:#Available points###20 Sep 2004 new variable
+assessment#:#available_points#:#Доступні пункти
 assessment#:#by#:#
-assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
-assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###07 Oct 2004 new variable
-assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
-assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
-assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
-assessment#:#checkbox_checked#:#Checked###17 Aug 2004 new variable
-assessment#:#checkbox_unchecked#:#Unchecked###17 Aug 2004 new variable
-assessment#:#circle#:#Circle###15 Jun 2004 new variable
-assessment#:#circle_click_center#:#Please click on center of the desired area.###15 Jun 2004 new variable
-assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.###21 Jun 2004 new variable
-assessment#:#cloze_text#:#Закрити текст###14 Sep 2004 content changed
-assessment#:#code#:#Code###19 May 2004 new variable
-assessment#:#coordinates#:#Coordinates###19 Jun 2004 new variable
-assessment#:#correct_solution_is#:#The correct solution is###30 Aug 2004 new variable
-assessment#:#counter#:#Counter###06 Oct 2004 new variable
+assessment#:#cancel_test#:#Відмінити тест
+assessment#:#cannot_export_test#:#Ви не володієте достатніми правами для експорту теста!
+assessment#:#cannot_maintain_test#:#Ви не володієте достатніми правами для підтрики тесту!
+assessment#:#cannot_save_metaobject#:#Ви не володієте достатніми правами дла збереження метаданих!
+assessment#:#change_solution#:#Змінити запропоноване рішення
+assessment#:#checkbox_checked#:#Перевірений
+assessment#:#checkbox_unchecked#:#Неперевірений
+assessment#:#circle#:#Коло
+assessment#:#circle_click_center#:#Будь ласка клікнітьо на центр бажаної області.
+assessment#:#circle_click_circle#:#Будь ласка клікніть на точку кола бажаної області.
+assessment#:#cloze_text#:#Закрити текст
+assessment#:#code#:#Код
+assessment#:#coordinates#:#Координати
+assessment#:#correct_solution_is#:#Вірне рішення є
+assessment#:#counter#:#Лічильник
 assessment#:#create_date#:#Створений
 assessment#:#create_gaps#:#Створити проміжок
-assessment#:#create_imagemap#:#Create an Image map###19 Jun 2004 new variable
+assessment#:#create_imagemap#:#Створити карту зображення
 assessment#:#create_new#:#Створити новий
-assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
-assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
-assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!###03 Jul 2004 new variable
-assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
-assessment#:#direct_feedback#:#Verify your solution###19 Aug 2004 new variable
+assessment#:#delete_area#:#Видалити область
+assessment#:#detail_ending_time_reached#:#Ви досялги кінцевого часу теста. Тест не є доступним з %s
+assessment#:#detail_max_processing_time_reached#:#Ви досягли максимально допустимого часу проходження теста!
+assessment#:#detail_starting_time_not_reached#:#Ви не досялги початковго часу теста. Тест буде доступний %s
+assessment#:#direct_feedback#:#Перевірте ваше рішення
 assessment#:#duplicate#:#Дублювати
-assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!###31 Aug 2004 new variable
-assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!###31 Aug 2004 new variable
-assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark###19 Sep 2004 new variable
-assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!###23 Sep 2004 new variable
-assessment#:#ects_grade#:#ECTS grade###23 Sep 2004 new variable
-assessment#:#ects_grade_a#:#outstanding performance with only minor errors###20 Sep 2004 new variable
-assessment#:#ects_grade_a_short#:#EXCELLENT###20 Sep 2004 new variable
-assessment#:#ects_grade_b#:#above the average standard but with some errors###20 Sep 2004 new variable
-assessment#:#ects_grade_b_short#:#VERY GOOD###20 Sep 2004 new variable
-assessment#:#ects_grade_c#:#generally sound work with a number of notable errors###20 Sep 2004 new variable
-assessment#:#ects_grade_c_short#:#GOOD###20 Sep 2004 new variable
-assessment#:#ects_grade_d#:#fair but with significant shortcomings###20 Sep 2004 new variable
-assessment#:#ects_grade_d_short#:#SATISFACTORY###20 Sep 2004 new variable
-assessment#:#ects_grade_e#:#performance meets the minimum criteria###20 Sep 2004 new variable
-assessment#:#ects_grade_e_short#:#SUFFICIENT###20 Sep 2004 new variable
-assessment#:#ects_grade_f#:#considerable further work is required###20 Sep 2004 new variable
-assessment#:#ects_grade_f_short#:#FAIL###20 Sep 2004 new variable
-assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded###20 Sep 2004 new variable
-assessment#:#ects_grade_fx_short#:#FAIL###20 Sep 2004 new variable
-assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades###19 Sep 2004 new variable
-assessment#:#ects_range_error_a#:#Please enter a value between 0 and 100 for ECTS grade A!###23 Sep 2004 new variable
-assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECTS grade B!###23 Sep 2004 new variable
-assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!###23 Sep 2004 new variable
-assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!###23 Sep 2004 new variable
-assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!###23 Sep 2004 new variable
-assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least###19 Sep 2004 new variable
-assessment#:#ects_use_fx_grade_part2#:#percent of the total points.###19 Sep 2004 new variable
-assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
-assessment#:#ending_time_reached#:#You have reached the ending time###26 Jun 2004 new variable
-assessment#:#error_image_upload_copy_file#:#There was an error moving the uploaded image file to its destination folder!###28 Sep 2004 new variable
-assessment#:#error_image_upload_wrong_format#:#Please upload a valid image file! Supported image formats are gif, jpeg and png.###28 Sep 2004 new variable
-assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!###31 Aug 2004 new variable
-assessment#:#error_open_image_file#:#Error opening an image file!###23 Jun 2004 new variable
-assessment#:#error_open_java_file#:#Error opening an java applet!###20 Sep 2004 new variable
-assessment#:#error_save_image_file#:#Error saving an image file!###25 Aug 2004 new variable
-assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_data#:#Evaluation Data###04 Jul 2004 new variable
-assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_java_result#:#The answer for the value %s is %s. You received %s points.###19 May 2004 new variable
-assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###23 Mar 2004 new variable
-assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
-assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
-assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
+assessment#:#duplicate_matching_values_selected#:#Ви вибрали подвійно співпадаючі значення!
+assessment#:#duplicate_order_values_entered#:#Ви ввели подвійний порядок значень!
+assessment#:#ects_allow_ects_grades#:#Показати ECTS рівень додатково до отриманої оцінки
+assessment#:#ects_fill_out_all_values#:#БУдь ласка введіть значення для кожного ECTS рівня!
+assessment#:#ects_grade#:#ECTS рівень
+assessment#:#ects_grade_a#:#чудовий результат тільки з незначними помилками
+assessment#:#ects_grade_a_short#:#ВІДМІННО
+assessment#:#ects_grade_b#:#вище середнього стандарту але з деякими помилками
+assessment#:#ects_grade_b_short#:#ДУЖЕ ДОБРЕ
+assessment#:#ects_grade_c#:#в загальному добра робота з деякою кількістю значних помилок
+assessment#:#ects_grade_c_short#:#ДОБРЕ
+assessment#:#ects_grade_d#:#досить добре зі значними недоліками
+assessment#:#ects_grade_d_short#:#ЗАДОВІЛЬНО
+assessment#:#ects_grade_e#:#робота задовільняє мінімальним критеріям
+assessment#:#ects_grade_e_short#:#ДОСТАТНЬО
+assessment#:#ects_grade_f#:#потрібна значна подальша робота
+assessment#:#ects_grade_f_short#:#ПРОВАЛ
+assessment#:#ects_grade_fx#:#потрібна деяка додаткова робота перед тим як кредит може бути присуджений
+assessment#:#ects_grade_fx_short#:#ПРОВАЛ
+assessment#:#ects_output_of_ects_grades#:#Вивід ECTS рівнів
+assessment#:#ects_range_error_a#:#Будь ласка введіть значення між 0 та 100 для ECTS рівня A!
+assessment#:#ects_range_error_b#:#Будь ласка введіть значення між 0 та 100 для ECTS рівня B!
+assessment#:#ects_range_error_c#:#Будь ласка введіть значення між 0 та 100 для ECTS рівня C!
+assessment#:#ects_range_error_d#:#Будь ласка введіть значення між 0 та 100 для ECTS рівня D!
+assessment#:#ects_range_error_e#:#Будь ласка введіть значення між 0 та 100 для ECTS рівня E!
+assessment#:#ects_use_fx_grade#:#Використовуйте 'FX' рівень, якщо провалений учасник досяг хоча б
+assessment#:#ects_use_fx_grade_part2#:#процентів загальної кількості балів.
+assessment#:#end_tag#:#Кігцевий тег
+assessment#:#ending_time_reached#:#Ви досягли кінцевого часу
+assessment#:#error_image_upload_copy_file#:#Відбулась помилка при переміщенні завантаженого файлу з картинкою до його папки призначення!
+assessment#:#error_image_upload_wrong_format#:#Будь ласка завантажте дійсний файл с зображенням! Графічні формати що підтримуються є gif, jpeg and png.
+assessment#:#error_importing_question#:#Відбулась помилка при імпорті питань з вибраного вами файлу!
+assessment#:#error_open_image_file#:#Помилка відкриття графічного файлу!
+assessment#:#error_open_java_file#:#Помилка відкриття java аплета!
+assessment#:#error_save_image_file#:#Помилка зберігання графічного файла!
+assessment#:#eval_choice_result#:#Вибір зі значенням %s є %s. Ви досягли %s балів.
+assessment#:#eval_cloze_result#:#Проміжок номер %s зі значенням %s є %s. Ви досягли %s балів.
+assessment#:#eval_data#:#Дата Оцінки
+assessment#:#eval_imagemap_result#:#Вибір карти зображення є %s. Ви отримали %s балів.
+assessment#:#eval_java_result#:#Відповідь зі значенням %s є %s. Ви отримали %s балів.
+assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
+assessment#:#eval_matching_result#:#Співпадаюча пара %s - %s є %s. Ви отримали %s балів.
+assessment#:#eval_order_result#:#Команда зі значенням %s є %s. Ви отримали %s балів.
+assessment#:#exp_eval_data#:#Експортувати Оціночну Дату
+assessment#:#exp_type_excel#:#  Excel  
+assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Експорт
-assessment#:#failed_official#:#failed###04 Sep 2004 new variable
-assessment#:#failed_short#:#failed###04 Sep 2004 new variable
+assessment#:#failed_official#:#провалений
+assessment#:#failed_short#:#провалений
 assessment#:#false#:#Невірний
-assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!###13 Mar 2004 new variable
-assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!###13 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###09 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!###15 Jun 2004 new variable
-assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!###15 Jun 2004 new variable
-assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!###15 Jun 2004 new variable
+assessment#:#fill_out_all_answer_fields#:#Будь ласка заповніть усі текстові поля для відповідей перед тим як додавати нову!
+assessment#:#fill_out_all_matching_pairs#:#Будь ласка заповніть усі співпадаючі пари перед додаванням нової!
+assessment#:#fill_out_all_required_fields_add_answer#:#Будь ласка заповніть усі обов'язкові поля перед додаванням відповідей!
+assessment#:#fill_out_all_required_fields_add_matching#:#Будь ласка заповніть усі обов'язкові поля перед додаванням співпадаючої пари!
+assessment#:#fill_out_all_required_fields_create_gaps#:#Будь ласка заповніть усі обов'язкові поля перед створенням проміжків!
+assessment#:#fill_out_all_required_fields_upload_image#:#Будь ласка заповніть усі обов'язкові поля перед завантаженням зображення!
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Будь ласка заповніть усі обов'язкові поля перед завантаженням карти зображень!
+assessment#:#fill_out_all_required_fields_upload_material#:#Будь ласка заповніть усі обов'язкові поля перед завантаженням матеріалів!
 assessment#:#filter#:#Фільтр
-assessment#:#filter_all_question_types#:#All question types###25 Sep 2004 new variable
-assessment#:#filter_all_questionpools#:#All questionpools###25 Sep 2004 new variable
-assessment#:#filter_show_question_types#:#Show question types###25 Sep 2004 new variable
-assessment#:#filter_show_questionpools#:#Show questionpools###25 Sep 2004 new variable
-assessment#:#gap#:#Gap###18 Apr 2004 new variable
-assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
+assessment#:#filter_all_question_types#:#Усі типи питань
+assessment#:#filter_all_questionpools#:#Увесь фонд питань
+assessment#:#filter_show_question_types#:#Показати типи питань
+assessment#:#filter_show_questionpools#:#Показати фонди питань
+assessment#:#gap#:#Проміжок
+assessment#:#gap_definition#:#Визначення проміжка
 assessment#:#gap_selection#:#Вибір проміжку
-assessment#:#height#:#Height###19 May 2004 new variable
-assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
-assessment#:#imagemap_file#:#Image map file###11 Sep 2004 new variable
-assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
-assessment#:#import_question#:#Import question(s)###25 Aug 2004 new variable
-assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
-assessment#:#insert_before#:#Insert before###22 Jun 2004 new variable
-assessment#:#internal_links#:#Internal Links###19 Jun 2004 new variable
-assessment#:#internal_links_update#:#Update###19 Jun 2004 new variable
-assessment#:#javaapplet#:#Java Applet###19 May 2004 new variable
-assessment#:#javaapplet_successful_saved#:#Your results have been saved successful!###22 Sep 2004 new variable
-assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the question results!###22 Sep 2004 new variable
+assessment#:#height#:#Висота
+assessment#:#imagemap#:#Карта зображення
+assessment#:#imagemap_file#:#Файл з картою зображення
+assessment#:#imagemap_source#:#Джерело карти зображення
+assessment#:#import_question#:#Імпортувати питання
+assessment#:#insert_after#:#Вставити після
+assessment#:#insert_before#:#Вставити перед
+assessment#:#internal_links#:#Внутрішні Посилання
+assessment#:#internal_links_update#:#Обновити
+assessment#:#javaapplet#:#Ява Аплет
+assessment#:#javaapplet_successful_saved#:#Ваші результати збережені вдало!
+assessment#:#javaapplet_unsuccessful_saved#:#Виникла помилка збереження результатів питання!
 assessment#:#last_update#:#Останнє оновлення
-assessment#:#legend#:#Legend###23 Mar 2004 new variable
-assessment#:#locked#:#locked###27 Apr 2004 new variable
-assessment#:#maintenance#:#Maintenance###10 Jul 2004 new variable
-assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
-assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
-assessment#:#match_terms_and_pictures#:#Match terms and pictures###23 Feb 2004 new variable
+assessment#:#legend#:#Умовне позначення
+assessment#:#locked#:#заблокований
+assessment#:#maintenance#:#Підтримка
+assessment#:#mark_schema#:#Схема оцінок
+assessment#:#match_terms_and_definitions#:#Співпадаючі терміни та визначення
+assessment#:#match_terms_and_pictures#:#Співпадаючі терміни та зображення
 assessment#:#matches#:#співпадання
 assessment#:#matching_pair#:#Співпадаючі пари
-assessment#:#material#:#Material###11 Mar 2004 new variable
-assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
-assessment#:#material_file#:#Material file###23 Mar 2004 new variable
+assessment#:#material#:#Матеріал
+assessment#:#material_download#:#Матеріал для завантаження
+assessment#:#material_file#:#Файл матеріалу
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
 assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
 assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!###13 Sep 2004 new variable
