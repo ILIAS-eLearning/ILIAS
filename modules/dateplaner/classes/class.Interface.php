@@ -185,6 +185,8 @@ class Interface
 
 	function Interface($ilias,  $nb="")
 	{
+		
+		global $tpl;
 		//include manual edited variables
 		include ('.'.DATEPLANER_ROOT_DIR.'/config/conf.dateplaner.php');
     
@@ -225,8 +227,57 @@ class Interface
 
 		$this->upText				= "";	//menue string not developed in ilias3
 
+		//$this->tpl		=& $tpl;
+		//$this->__showLocator();
+
+
 	}//end Constructor
 	
+	/**
+	* showLocator($tpl, $lng, $app)
+	* genarate the locater for ilias3
+	* @access	public
+	* @param	
+	* @return	integer	
+	*/
+
+	function showLocator($tpl, $lng, $app)
+	{
+
+		$tpl = new ilTemplate("tpl.locator.html", true, true);
+		$tpl->addBlockFile("LOCATOR","locator","tpl.locator.html");
+		$tpl->setCurrentBlock("locator_item");
+		$tpl->setVariable("LINK_ITEM","./dateplaner.php");
+		$tpl->setVariable("LINK_TARGET","bottom");
+		$tpl->setVariable("ITEM",$lng->txt("dateplaner"));
+		$tpl->parseCurrentBlock();
+
+		$tpl->touchBlock("locator_separator_prefix");
+		$tpl->setCurrentBlock("locator_item");
+		$tpl->setVariable("LINK_ITEM","./dateplaner.php?app=".$app);
+		$tpl->setVariable("LINK_TARGET","bottom");
+		$tpl->setVariable("ITEM",$lng->txt("app_".$app));
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("locator");
+		$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+		$tpl->parseCurrentBlock();
+		$locator = '
+		<div class="il_Locator" style="position:absolute; top:0px; left: 0px; width=100%; hight = 10px;" >
+		<table border="0" cellpadding="0" cellspacing="0" width="100%" >
+			<tr><td>'.$tpl->get().'</td>
+				<td align="right">
+				</td>
+			</tr>
+		</table>
+		</div>';
+		
+		Return $locator;
+
+
+	}
+
+
 	/**
 	* read UserID
 	* @access	public
