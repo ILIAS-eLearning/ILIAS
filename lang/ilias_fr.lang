@@ -1563,6 +1563,7 @@ common#:#no_grp_in_personal_list#:#Pas de groupes dans la liste personnelle
 common#:#no_import_available#:#Importation non disponible pour le type
 common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#Pas de cours dans la liste personnelle
+common#:#no_local_users#:#There are no local user###21 Sep 2004 new variable
 common#:#no_objects#:#Pas d'objet
 common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
 common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###14 Sep 2004 new variable
