@@ -635,9 +635,9 @@ class ilMetaData
 					if ($this->getType() == "st" ||
 							$this->getType() == "pg")
 					{
-						$query = "UPDATE lm_data SET title = '".ilUtil::prepareDBString($this->meta["Title"]["Value"])."' WHERE ".
-								"obj_id = '" . $this->getID() . "'";
-						$this->ilias->db->query($query);
+						//$query = "UPDATE lm_data SET title = '".ilUtil::prepareDBString($this->meta["Title"]["Value"])."' WHERE ".
+						//		"obj_id = '" . $this->getID() . "'";
+						//$this->ilias->db->query($query);
 					}
 				}
 			}

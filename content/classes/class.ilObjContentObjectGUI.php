@@ -522,6 +522,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
+//echo "title_value:".htmlentities($_POST["meta"]["Title"]["Value"]); exit;
 		$meta_gui->save($_POST["meta_section"]);
 		ilUtil::redirect($a_target . "?cmd=editMeta&ref_id=" . $this->object->getRefId() . "&meta_section=" . $_POST["meta_section"]);
 	}

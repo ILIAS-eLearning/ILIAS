@@ -1655,7 +1655,7 @@ class ilObjUser extends ilObject
 					break;
 
 				case "frm":
-					$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
 						", object_data AS obj WHERE ".
 						"it.item_id = oref.ref_id AND ".
 						"oref.obj_id = obj.obj_id AND ".
@@ -1667,12 +1667,13 @@ class ilObjUser extends ilObject
 					{
 						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"description" => $item_rec["description"],
 							"link" => "forums_threads_liste.php?ref_id=".$item_rec["ref_id"]."&backurl=forums", "target" => "bottom");
 					}
 					break;
 
 				case "grp":
-					$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
 						", object_data AS obj WHERE ".
 						"it.item_id = oref.ref_id AND ".
 						"oref.obj_id = obj.obj_id AND ".
@@ -1684,12 +1685,13 @@ class ilObjUser extends ilObject
 					{
 						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"description" => $item_rec["description"],
 							"link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjgroupgui", "target" => "bottom");
 					}
 					break;
 
 				case "chat":
-					$q = "SELECT oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
 						", object_data AS obj WHERE ".
 						"it.item_id = oref.ref_id AND ".
 						"oref.obj_id = obj.obj_id AND ".
@@ -1701,6 +1703,7 @@ class ilObjUser extends ilObject
 					{
 						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"description" => $item_rec["description"],
 							"link" => "chat/chat_rep.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
 					}
 					break;
