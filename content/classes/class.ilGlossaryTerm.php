@@ -279,6 +279,19 @@ class ilGlossaryTerm
 		return $obj_rec["glo_id"];
 	}
 
+	/**
+	* get glossary term
+	*/
+	function _lookGlossaryTerm($term_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM glossary_term WHERE id = '".$term_id."'";
+		$obj_set = $ilDB->query($query);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $obj_rec["term"];
+	}
 
 	/**
 	* static
@@ -321,7 +334,7 @@ class ilGlossaryTerm
 
 		$a_xml_writer->xmlEndTag("GlossaryItem");
 	}
-	
+
 	/**
 	* redirect script
 	*

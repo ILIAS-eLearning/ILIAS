@@ -94,6 +94,34 @@ class ilInternalLink
 	}
 
 	/**
+	* get all targets of a source object (e.g., a page)
+	*
+	* @param	string		$a_source_type		source type (e.g. "lm:pg" | "dbk:pg")
+	* @param	int			$a_source_id		source id
+	*
+	* @return	array		targets (array of array("type", "id", "inst"))
+	*/
+	function _getTargetsOfSource($a_source_type, $a_source_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM int_link WHERE ".
+			"source_type = ".$ilDB->quote($a_source_type)." AND ".
+			"source_id = ".$ilDB->quote($a_source_id);
+
+		$target_set = $ilDB->query($q);
+		$targets = array();
+		while ($target_rec = $target_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$targets[$target_rec["target_type"].":".$target_rec["target_id"].":".$target_rec["target_inst"]] =
+				array("type" => $target_rec["target_type"], "id" => $target_rec["target_id"],
+				"inst" => $target_rec["target_inst"]);
+		}
+
+		return $targets;
+	}
+
+	/**
 	* get current id for an import id
 	*
 	* @param	string		$a_type			target type ("PageObject" | "StructureObject" |

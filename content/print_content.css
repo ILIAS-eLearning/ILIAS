@@ -43,6 +43,12 @@ div.ilc_PrintPageTitle
 	padding-bottom: 3px;
 }
 
+div.ilc_PrintDefinitionTitle
+{
+	font-size: 14px;
+	font-style: italic;
+}
+
 td.ilc_Page
 {
 	padding:20px;
