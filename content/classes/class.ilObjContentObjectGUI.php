@@ -317,6 +317,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	*/
 	function explorer()
 	{
+		global $ilUser;
+		
 		switch ($this->object->getType())
 		{
 			case "lm":
@@ -328,6 +330,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				break;
 		}
 
+		
 
 		$this->tpl = new ilTemplate("tpl.main.html", true, true);
 		// get learning module object
@@ -345,6 +348,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$exp->setTargetGet("obj_id");
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, "explorer"));
 
+		if ($_GET["lmmovecopy"] == "1")
+		{
+			$mtree = new ilTree($this->object->getId());
+			$mtree->setTableNames('lm_tree','lm_data');
+			$mtree->setTreeTablePK("lm_id");
+			$mtree->proceedDragDrop();
+		}
+	
+		
 		if ($_GET["lmexpand"] == "")
 		{
 			$mtree = new ilTree($this->object->getId());
@@ -363,6 +375,22 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 
+		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable") 
+		{
+			//$this->tpl->touchBlock("includejavascript");
+			
+			$IDS = "";
+			for ($i=0;$i<count($exp->iconList);$i++) {
+				if ($i>0) $IDS .= ",";
+				$IDS .= "'".$exp->iconList[$i]."'";
+			}
+			$this->tpl->setVariable("ICONIDS",$IDS);
+			//$this->ctrl->setParameter($this, "lmovecopy", 1);
+			$this->tpl->setVariable("TESTPFAD",$this->ctrl->getLinkTarget($this, "explorer")."&lmmovecopy=1");
+			$this->tpl->setVariable("POPUPLINK",$this->ctrl->getLinkTarget($this, "popup")."&ptype=movecopytreenode");
+		}
+		
+		
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
 		$this->tpl->setVariable("EXPLORER",$output);

@@ -412,6 +412,12 @@ class ilTree
 		return $childs;
 	}
 
+	
+	function proceedDragDrop() {
+		echo "X";
+	}
+	
+	
 	/**
 	* insert new node with node_id under parent node with parent_id
 	* @access	public

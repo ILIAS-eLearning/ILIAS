@@ -160,8 +160,19 @@ class ilInternalLinkGUI
 		$this->ctrl->returnToParent($this);
 	}
 
+	
+	function prepareJavascriptOutput($str) {
+		global $ilUser;
+		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable") {
+			$str = htmlspecialchars($str);
+		}
+		return($str);
+	}
+	
 	function showLinkHelp()
 	{
+		global $ilUser;
+		
 		$target_str = ($this->link_target == "")
 			? ""
 			: " target=\"".$this->link_target."\"";
@@ -236,9 +247,23 @@ class ilInternalLinkGUI
 		$tpl->setVariable("SELECT_TYPE", $select_ltype);
 		$tpl->setVariable("CMD_CHANGETYPE", "changeLinkType");
 		$tpl->setVariable("BTN_CHANGETYPE", $this->lng->txt("cont_change_type"));
-		$tpl->setVariable("CMD_CLOSE", "closeLinkHelp");
-		$tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
+		
+		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable")
+		{
+			$tpl->setVariable("BTN_CLOSE_JS", $this->lng->txt("close"));
+		}
+		else 
+		{
+			$tpl->setVariable("CMD_CLOSE", "closeLinkHelp");
+			$tpl->setVariable("BTN_CLOSE", $this->lng->txt("close"));
+		}
 
+		$chapterRowBlock = "chapter_row";
+		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable")
+		{
+			$chapterRowBlock .= "_js";
+		}
+		
 		switch($this->link_type)
 		{
 			// page link
@@ -288,11 +313,11 @@ class ilInternalLinkGUI
 								break;
 
 							default:
-								$tpl->setCurrentBlock("chapter_row");
+								$tpl->setCurrentBlock($chapterRowBlock);
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
 								$tpl->setVariable("ROWCLASS", "tblrow2");
 								$tpl->setVariable("LINK_CHAPTER",
-									"[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
+									$this->prepareJavascriptOutput("[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]"));
 								$tpl->parseCurrentBlock();
 								break;
 						}
@@ -313,7 +338,7 @@ class ilInternalLinkGUI
 				}
 				if(count($free_pages) > 0)
 				{
-					$tpl->setCurrentBlock("chapter_row");
+					$tpl->setCurrentBlock($chapterRowBlock);
 					$tpl->setVariable("TXT_CHAPTER", $this->lng->txt("cont_free_pages"));
 					$tpl->setVariable("ROWCLASS", "tblrow1");
 					$tpl->parseCurrentBlock();
@@ -338,11 +363,11 @@ class ilInternalLinkGUI
 								break;
 
 							default:
-								$tpl->setCurrentBlock("chapter_row");
+								$tpl->setCurrentBlock($chapterRowBlock);
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
 								$tpl->setVariable("ROWCLASS", "tblrow2");
 								$tpl->setVariable("LINK_CHAPTER",
-									"[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
+									$this->prepareJavascriptOutput("[iln page=\"".$node["obj_id"]."\"".$target_str."] [/iln]"));
 								$tpl->parseCurrentBlock();
 								break;
 						}
@@ -396,11 +421,11 @@ class ilInternalLinkGUI
 								break;
 
 							default:
-								$tpl->setCurrentBlock("chapter_row");
+								$tpl->setCurrentBlock($chapterRowBlock);
 								$tpl->setVariable("ROWCLASS", $css_row);
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
 								$tpl->setVariable("LINK_CHAPTER",
-									"[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]");
+									$this->prepareJavascriptOutput("[iln chap=\"".$node["obj_id"]."\"".$target_str."] [/iln]"));
 								$tpl->parseCurrentBlock();
 								break;
 						}
@@ -451,11 +476,11 @@ class ilInternalLinkGUI
 							break;
 
 						default:
-							$tpl->setCurrentBlock("chapter_row");
+							$tpl->setCurrentBlock($chapterRowBlock);
 							$tpl->setVariable("ROWCLASS", $css_row);
 							$tpl->setVariable("TXT_CHAPTER", $term["term"]);
 							$tpl->setVariable("LINK_CHAPTER",
-								"[iln term=\"".$term["id"]."\"".$target_str."]".$term["term"]."[/iln]");
+								$this->prepareJavascriptOutput("[iln term=\"".$term["id"]."\"".$target_str."]".$term["term"]."[/iln]"));
 							$tpl->parseCurrentBlock();
 							$tpl->setCurrentBlock("row");
 							$tpl->parseCurrentBlock();
@@ -502,18 +527,18 @@ class ilInternalLinkGUI
 								break;
 
 							default:
-								$tpl->setCurrentBlock("chapter_row");
+								$tpl->setCurrentBlock($chapterRowBlock);
 								$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
 								$tpl->setVariable("ROWCLASS", "tblrow1");
 								if (!empty($target_str))
 								{
 									$tpl->setVariable("LINK_CHAPTER",
-										"[iln media=\"".$obj["id"]."\"".$target_str."] [/iln]");
+										$this->prepareJavascriptOutput("[iln media=\"".$obj["id"]."\"".$target_str."] [/iln]"));
 								}
 								else
 								{
 									$tpl->setVariable("LINK_CHAPTER",
-										"[iln media=\"".$obj["id"]."\"/]");
+										$this->prepareJavascriptOutput("[iln media=\"".$obj["id"]."\"/]"));
 								}
 								$tpl->parseCurrentBlock();
 								$tpl->setCurrentBlock("row");
@@ -598,18 +623,18 @@ class ilInternalLinkGUI
 									break;
 
 								default:
-									$tpl->setCurrentBlock("chapter_row");
+									$tpl->setCurrentBlock($chapterRowBlock);
 									$tpl->setVariable("ROWCLASS", $css_row);
 									$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
 									if ($target_str != "")
 									{
 										$tpl->setVariable("LINK_CHAPTER",
-											"[iln media=\"".$obj["obj_id"]."\"".$target_str."] [/iln]");
+											$this->prepareJavascriptOutput("[iln media=\"".$obj["obj_id"]."\"".$target_str."] [/iln]"));
 									}
 									else
 									{
 										$tpl->setVariable("LINK_CHAPTER",
-											"[iln media=\"".$obj["obj_id"]."\"/]");
+											$this->prepareJavascriptOutput("[iln media=\"".$obj["obj_id"]."\"/]"));
 									}
 									$tpl->parseCurrentBlock();
 									break;
