@@ -116,6 +116,91 @@ assessment#:#tst_types#:#Test types
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test
+chat#:#chat_active#:#Aktive
+chat#:#chat_active_users#:#User (aktive)
+chat#:#chat_add_ip#:#Please add the server ip.
+chat#:#chat_add_moderator_password#:#Please add a moderator password.
+chat#:#chat_add_port#:#Please add the server port.
+chat#:#chat_aqua#:#aqua
+chat#:#chat_arial#:#Arial
+chat#:#chat_black#:#black
+chat#:#chat_blue#:#blue
+chat#:#chat_bold#:#Bold
+chat#:#chat_chatroom_body#:#Chatroom:
+chat#:#chat_chatroom_rename#:#Edit chatroom
+chat#:#chat_chatrooms#:#Chatrooms
+chat#:#chat_color#:#Font color
+chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom
+chat#:#chat_edit#:#Edit chat 
+chat#:#chat_face#:#Font type
+chat#:#chat_fuchsia#:#fuchsia
+chat#:#chat_gray#:#gray
+chat#:#chat_green#:#green
+chat#:#chat_hide_details#:#Hide details
+chat#:#chat_html_export#:#HTML export
+chat#:#chat_ilias#:#Ilias Chat module
+chat#:#chat_inactive#:#Inaktive
+chat#:#chat_input#:#Input
+chat#:#chat_insert_message#:#PLease insert a message
+chat#:#chat_invitation_body#:#Invitation to chat from:
+chat#:#chat_invitation_subject#:#Chat invitation
+chat#:#chat_invite_user#:#Invite user
+chat#:#chat_italic#:#Italic
+chat#:#chat_level_all#:#All
+chat#:#chat_level_debug#:#Debug
+chat#:#chat_level_error#:#Error
+chat#:#chat_level_fatal#:#Fatal
+chat#:#chat_level_info#:#Info
+chat#:#chat_lime#:#lime
+chat#:#chat_maroon#:#maroon
+chat#:#chat_messages_deleted#:#Messages have been deleted.
+chat#:#chat_moderator_password#:#Moderator password
+chat#:#chat_navy#:#navy
+chat#:#chat_no_active_users#:#No users present.
+chat#:#chat_no_connection#:#Cannot contact chatserver.
+chat#:#chat_no_delete_public#:#The public chatroom cannot be deleted
+chat#:#chat_no_refresh_public#:#the public chatroom cannot be refreshed.
+chat#:#chat_no_rename_public#:#The public room cannot be renamed
+chat#:#chat_no_write_perm#:#No permission to write
+chat#:#chat_olive#:#olive
+chat#:#chat_online_users#:#User (online)
+chat#:#chat_private_message#:#Private Message
+chat#:#chat_public_room#:#Public chatroom
+chat#:#chat_purple#:#purple
+chat#:#chat_red#:#red
+chat#:#chat_refresh#:#Refresh
+chat#:#chat_room_added#:#Added new chatroom
+chat#:#chat_room_name#:#Name of chatroom
+chat#:#chat_room_renamed#:#Chatroom renamed.
+chat#:#chat_room_select#:#Private chatroom
+chat#:#chat_rooms#:#Chatrooms
+chat#:#chat_rooms_deleted#:#Chatroom(s) deleted.
+chat#:#chat_select_one_room#:#Please select one chatroom
+chat#:#chat_server_allowed#:#Allowed hosts
+chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)
+chat#:#chat_server_ip#:#Server Ip
+chat#:#chat_server_logfile#:#Logfile path
+chat#:#chat_server_loglevel#:#Loglevel
+chat#:#chat_server_not_active#:#The chatserver is not active
+chat#:#chat_server_port#:#Server Port
+chat#:#chat_server_settings#:#Chatserver settings
+chat#:#chat_settings_saved#:#Settings saved
+chat#:#chat_show_details#:#Show details
+chat#:#chat_silver#:#silver
+chat#:#chat_status#:#Status
+chat#:#chat_status_saved#:#The status has been changed
+chat#:#chat_tahoma#:#Tahoma
+chat#:#chat_teal#:#teal
+chat#:#chat_times#:#Times
+chat#:#chat_title_missing#:#Please insert a name.
+chat#:#chat_to_chat_body#:#To the chat
+chat#:#chat_type#:#Font face
+chat#:#chat_underlined#:#Underlined
+chat#:#chat_user_dropped#:#User kicked
+chat#:#chat_user_invited#:#Invited user to chat.
+chat#:#chat_yellow#:#yellow
+chat#:#chats#:#Chats
+chat#:#my_chats#:#My Chats
 common#:#3rd_party_software#:#3rd party software 
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
@@ -2134,88 +2219,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-chat#:#chat_ilias#:#Ilias Chat module
-chat#:#chat_status#:#Status
-chat#:#chat_active#:#Aktive
-chat#:#chat_inactive#:#Inaktive
-chat#:#chat_status_saved#:#The status has been changed
-chat#:#chat_level_fatal#:#Fatal
-chat#:#chat_level_error#:#Error
-chat#:#chat_level_info#:#Info
-chat#:#chat_level_debug#:#Debug
-chat#:#chat_level_all#:#All
-chat#:#chat_settings_saved#:#Settings saved
-chat#:#chat_server_settings#:#Chatserver settings
-chat#:#chat_server_ip#:#Server Ip
-chat#:#chat_server_port#:#Server Port
-chat#:#chat_moderator_password#:#Moderator password
-chat#:#chat_server_logfile#:#Logfile path
-chat#:#chat_server_loglevel#:#Loglevel
-chat#:#chat_server_allowed#:#Allowed hosts
-chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)
-chat#:#chat_no_write_perm#:#No permission to write
-chat#:#chat_add_ip#:#Please add the server ip.
-chat#:#chat_add_port#:#Please add the server port.
-chat#:#chat_add_moderator_password#:#Please add a moderator password.
-chat#:#chat_server_not_active#:#The chatserver is not active
-chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom
-chat#:#chat_chatrooms#:#Chatrooms
-chat#:#chat_public_room#:#Public chatroom
-chat#:#chat_select_one_room#:#Please select one chatroom
-chat#:#chat_room_name#:#Name of chatroom
-chat#:#chat_no_rename_public#:#The public room cannot be renamed
-chat#:#chat_chatroom_rename#:#Edit chatroom
-chat#:#chat_no_delete_public#:#The public chatroom cannot be deleted
-chat#:#chat_no_refresh_public#:#the public chatroom cannot be refreshed.
-chat#:#chat_messages_deleted#:#Messages have been deleted.
-chat#:#chat_rooms_deleted#:#Chatroom(s) deleted.
-chat#:#chat_room_added#:#Added new chatroom
-chat#:#chat_room_renamed#:#Chatroom renamed.
-chat#:#chat_private_message#:#Private Message
-chat#:#chat_no_connection#:#Cannot contact chatserver.
-chat#:#chat_user_invited#:#Invited user to chat.
-chat#:#chat_user_dropped#:#User kicked
-chat#:#chat_no_active_users#:#No users present.
-chat#:#chat_invite_user#:#Invite user
-chat#:#chat_online_users#:#User (online)
-chat#:#chat_active_users#:#User (aktive)
-chat#:#chat_show_details#:#Show details
-chat#:#chat_hide_details#:#Hide details
-chat#:#chat_room_select#:#Private chatroom
-chat#:#chat_refresh#:#Refresh
-chat#:#chat_html_export#:#HTML export
-chat#:#chat_rooms#:#Chatrooms
-chat#:#chat_bold#:#Bold
-chat#:#chat_italic#:#Italic
-chat#:#chat_underlined#:#Underlined
-chat#:#chat_times#:#Times
-chat#:#chat_tahoma#:#Tahoma
-chat#:#chat_arial#:#Arial
-chat#:#chat_color#:#Font color
-chat#:#chat_type#:#Font face
-chat#:#chat_face#:#Font type
-chat#:#chat_input#:#Input
-chat#:#chat_black#:#black
-chat#:#chat_red#:#red
-chat#:#chat_green#:#green
-chat#:#chat_maroon#:#maroon
-chat#:#chat_olive#:#olive
-chat#:#chat_navy#:#navy
-chat#:#chat_purple#:#purple
-chat#:#chat_teal#:#teal
-chat#:#chat_silver#:#silver
-chat#:#chat_gray#:#gray
-chat#:#chat_lime#:#lime
-chat#:#chat_yellow#:#yellow
-chat#:#chat_fuchsia#:#fuchsia
-chat#:#chat_aqua#:#aqua
-chat#:#chat_blue#:#blue
-chat#:#chat_edit#:#Edit chat 
-chat#:#chat_insert_message#:#PLease insert a message
-chat#:#chats#:#Chats
-chat#:#my_chats#:#My Chats
-chat#:#chat_invitation_subject#:#Chat invitation
-chat#:#chat_invitation_body#:#Invitation to chat from:
-chat#:#chat_chatroom_body#:#Chatroom:
-chat#:#chat_to_chat_body#:#To the chat
-chat#:#chat_title_missing#:#Please insert a name.
