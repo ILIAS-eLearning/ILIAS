@@ -1565,7 +1565,7 @@ class ilObjTest extends ilObject
 		if (!$test_result["test"]["total_reached_points"]) {
 			$percentage = 0.0;
 		} else {
-			$percentage = ($test_result["test"]["total_max_points"] / $test_result["test"]["total_reached_points"]) * 100.0;
+			$percentage = ($test_result["test"]["total_reached_points"] / $test_result["test"]["total_max_points"]) * 100.0;
 		}
 		$mark_obj = $test_result["test"]["test"]->mark_schema->get_matching_mark($percentage);
 		$first_date = getdate($first_visit);
@@ -1584,6 +1584,13 @@ class ilObjTest extends ilObject
 			"distancemean" => "0",
 			"distancequintile" => "0"
 		);
+		foreach ($test_result as $key => $value)
+		{
+			if (preg_match("/\d+/", $key))
+			{
+				$result_array[$key] = $value;
+			}
+		}
 		return $result_array;
 	}
 

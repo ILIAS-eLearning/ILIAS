@@ -99,6 +99,7 @@ assessment#:#duplicate#:#Duplicate
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.
 assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.
+assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.
 assessment#:#export#:#Export
@@ -109,7 +110,11 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all requi
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#filter#:#Filter
+assessment#:#legend#:#Legend
+assessment#:#symbol#:#Symbol
+assessment#:#meaning#:#Meaning
 assessment#:#gap_selection#:#Gap selection
+assessment#:#question_short#:#Q
 assessment#:#imagemap#:#Image map
 assessment#:#last_update#:#Last update
 assessment#:#mark_schema#:#Mark schema

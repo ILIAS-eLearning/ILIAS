@@ -1098,54 +1098,111 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("titlecol");
 			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("name"));
 			$this->tpl->parseCurrentBlock();
+			$char = "A";
 			if ($_POST["chb_result_qworkedthrough"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_qworkedthrough"));
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_qworkedthrough") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_qworkedthrough"));
+				$this->tpl->parseCurrentBlock();
+				$char++;
 			}
 			if ($_POST["chb_result_pworkedthrough"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_pworkedthrough"));
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_pworkedthrough") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_pworkedthrough"));
+				$this->tpl->parseCurrentBlock();
+				$char++;
 			}
 			if ($_POST["chb_result_timeofwork"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_timeofwork"));
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_timeofwork") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_timeofwork"));
+				$this->tpl->parseCurrentBlock();
+				$char++;
 			}
 			if ($_POST["chb_result_atimeofwork"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_atimeofwork"));
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_atimeofwork") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_atimeofwork"));
+				$this->tpl->parseCurrentBlock();
+				$char++;
 			}
 			if ($_POST["chb_result_firstvisit"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_firstvisit"));
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_firstvisit") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_firstvisit"));
+				$this->tpl->parseCurrentBlock();
+				$char++;
 			}
 			if ($_POST["chb_result_lastvisit"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_lastvisit"));
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_lastvisit") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_lastvisit"));
+				$this->tpl->parseCurrentBlock();
+				$char++;
 			}
 			if ($_POST["chb_result_resultspoints"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_resultspoints"));
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_resultspoints") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_resultspoints"));
+				$this->tpl->parseCurrentBlock();
+				$char++;
 			}
 			if ($_POST["chb_result_resultsmarks"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_resultsmarks"));
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_resultsmarks") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_resultsmarks"));
+				$this->tpl->parseCurrentBlock();
+				$char++;
 			}
 			if ($_POST["chb_result_distancemean"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_distancemean"));
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_distancemean") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_distancemean"));
+				$this->tpl->parseCurrentBlock();
+				$char++;
 			}
 			if ($_POST["chb_result_distancequintile"]) {
 				$this->tpl->setCurrentBlock("titlecol");
-				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_stat_result_distancequintile"));
+				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_distancequintile") . "\">$char</div>");
+				$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("legendrow");
+				$this->tpl->setVariable("TXT_SYMBOL", $char);
+				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_distancequintile"));
+				$this->tpl->parseCurrentBlock();
+				$char++;
+			}
+			for ($i = 1; $i <= count($this->object->questions); $i++)
+			{
+				$this->tpl->setCurrentBlock("titlecol");
+				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("question_short") . " " . $i);
 				$this->tpl->parseCurrentBlock();
 			}
 			if ($_POST["cmd"]["stat_all_users"]) {
@@ -1160,8 +1217,25 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 			}
+			$question_legend = false;
 			foreach ($selected_users as $key => $value) {
 				$stat_eval =& $this->object->evalStatistical($key);
+				if (!$question_legend) 
+				{
+					$i = 1;
+					foreach ($stat_eval as $key1 => $value1)
+					{
+						if (preg_match("/\d+/", $key1))
+						{
+							$this->tpl->setCurrentBlock("legendrow");
+							$this->tpl->setVariable("TXT_SYMBOL", $this->lng->txt("question_short") . " " . $i);
+							$this->tpl->setVariable("TXT_MEANING", $this->object->get_question_title($value1["nr"]));
+							$this->tpl->parseCurrentBlock();
+							$i++;
+						}
+					}
+					$question_legend = true;
+				}
 				$this->tpl->setCurrentBlock("datacol");
 				$this->tpl->setVariable("TXT_DATA", $value);
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
@@ -1239,11 +1313,24 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setVariable("TXT_DATA", $stat_eval["distancequintile"]);
 					$this->tpl->parseCurrentBlock();
 				}
+				for ($i = 1; $i <= count($this->object->questions); $i++)
+				{
+					$this->tpl->setCurrentBlock("datacol");
+					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
+					$this->tpl->setVariable("TXT_DATA", $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"]);
+					$this->tpl->parseCurrentBlock();
+				}
 				$this->tpl->setCurrentBlock("row");
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
+			$this->tpl->setCurrentBlock("legend");
+			$this->tpl->setVariable("TXT_LEGEND", $this->lng->txt("legend"));
+			$this->tpl->setVariable("TXT_LEGEND_LINK", $this->lng->txt("eval_legend_link"));
+			$this->tpl->setVariable("TXT_SYMBOL", $this->lng->txt("symbol"));
+			$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("meaning"));
+			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("output");
 		} 
 			else 
