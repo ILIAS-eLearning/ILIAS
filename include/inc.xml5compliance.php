@@ -75,6 +75,7 @@ class php4DOMCDATASection extends php4DOMNode
 
 	function php4DOMCDATASection($aDOMCDATASection)
 	{
+		parent::php4DOMNode($aDOMCDATASection);						// #added
 		$this->myDOMCDATASection=$aDOMCDATASection;
 	}
 }
@@ -292,11 +293,17 @@ class php4DOMNode
 	function append_child($newnode)
 	{
 //echo "BH";
-		$doc =& $this->myDOMNode->ownerDocument;
-//echo "BH1";
-		$newnode->myDOMNode =& $doc->importNode($newnode->myDOMNode, true);
-//echo "BH2";
-		return new php4DOMElement($this->myDOMNode->appendChild($newnode->myDOMNode));
+		//if (strtolower(get_class($newnode)) != "php4domcdatasection")
+		//{
+			$doc =& $this->myDOMNode->ownerDocument;
+	//echo "<br>BH1:".get_class($newnode).":";
+			$newnode->myDOMNode =& $doc->importNode($newnode->myDOMNode, true);
+	//echo "BH2";
+			return new php4DOMElement($this->myDOMNode->appendChild($newnode->myDOMNode));
+		//}
+		//else
+		//{
+		//}
 	}
 
 	function append_sibling($newnode)

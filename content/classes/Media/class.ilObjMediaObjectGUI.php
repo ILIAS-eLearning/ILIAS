@@ -183,7 +183,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if ($_POST["standard_type"] == "File")
 		{
 			$file = $mob_dir."/".$_FILES['standard_file']['name'];
-			move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
+			//move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
+			ilUtil::moveUploadedFile($_FILES['standard_file']['tmp_name'],
+				$_FILES['standard_file']['name'], $file);
 
 			// set real meta and object data
 			$format = ilObjMediaObject::getMimeType($file);
@@ -250,7 +252,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				if ($_FILES['full_file']['name'] != "")
 				{
 					$file = $mob_dir."/".$_FILES['full_file']['name'];
-					move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
+					//move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
+					ilUtil::moveUploadedFile($_FILES['full_file']['tmp_name'],
+						$_FILES['full_file']['name'], $file);
 
 					// set real meta and object data
 					$format = ilObjMediaObject::getMimeType($file);
@@ -520,7 +524,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			{
 				$mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());
 				$file = $mob_dir."/".$_FILES['standard_file']['name'];
-				move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
+				//move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
+				ilUtil::moveUploadedFile($_FILES['standard_file']['tmp_name'],
+					$_FILES['standard_file']['name'], $file);
+
 				$format = ilObjMediaObject::getMimeType($file);
 				$std_item->setFormat($format);
 				$std_item->setLocation($_FILES['standard_file']['name']);
@@ -547,7 +554,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				{
 					$mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());
 					$file = $mob_dir."/".$_FILES['full_file']['name'];
-					move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
+					//move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
+					ilUtil::moveUploadedFile($_FILES['full_file']['tmp_name'],
+						$_FILES['full_file']['name'], $file);
+
 					$format = ilObjMediaObject::getMimeType($file);
 					$full_item->setFormat($format);
 					$full_item->setLocation($_FILES['full_file']['name']);
@@ -795,8 +805,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			: $mob_dir;
 		if (is_file($_FILES["new_file"]["tmp_name"]))
 		{
-			move_uploaded_file($_FILES["new_file"]["tmp_name"],
-				$cur_dir."/".$_FILES["new_file"]["name"]);
+			//move_uploaded_file($_FILES["new_file"]["tmp_name"],
+				//$cur_dir."/".$_FILES["new_file"]["name"]);
+			ilUtil::moveUploadedFile($_FILES['new_file']['tmp_name'],
+				$_FILES['new_file']['name'], $file);
+
 		}
 		ilUtil::renameExecutables($mob_dir);
 		$this->ctrl->saveParameter($this, "cdir");

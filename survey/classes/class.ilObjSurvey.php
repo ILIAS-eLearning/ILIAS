@@ -4086,7 +4086,8 @@ class ilObjSurvey extends ilObject
 			// import file as a survey
 			$import_dir = $this->getImportDirectory();
 			$importfile = tempnam($import_dir, "survey_import");
-			move_uploaded_file($source, $importfile);
+			//move_uploaded_file($source, $importfile);
+			ilUtil::moveUploadedFile($source, "survey_import", $importfile);
 			$fh = fopen($importfile, "r");
 			if (!$fh)
 			{
