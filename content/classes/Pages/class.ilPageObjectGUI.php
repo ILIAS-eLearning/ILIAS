@@ -176,14 +176,14 @@ class ilPageObjectGUI
 		return $this->link_frame;
 	}
 
-	function setLinkTargets($l_targets = "")
+	function setLinkXML($link_xml)
 	{
-		$this->link_targets = $l_targets;
+		$this->link_xml = $link_xml;
 	}
 
-	function getLinkTargets()
+	function getLinkXML()
 	{
-		return $this->link_targets;
+		return $this->link_xml;
 	}
 
 	function setTemplateTargetVar($a_variable)
@@ -274,7 +274,7 @@ class ilPageObjectGUI
 		{
 			$this->obj->addHierIDs();
 		}
-		$content = $this->obj->getXMLFromDom(false, true, true, $this->link_targets);
+		$content = $this->obj->getXMLFromDom(false, true, true, $this->getLinkXML());
 
 		// check validation errors
 		if($builded !== true)

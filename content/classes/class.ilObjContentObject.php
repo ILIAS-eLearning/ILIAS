@@ -993,6 +993,5 @@ class ilObjContentObject extends ilObject
 		return $file;
 	}
 
-
 }
 ?>

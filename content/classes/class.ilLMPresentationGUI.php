@@ -353,6 +353,7 @@ class ilLMPresentationGUI
 
 
 		$layout = $this->lm->getLayout();
+
 		//$doc = xmldocfile("./layouts/lm/".$layout."/".$a_xml);
 
 		// xmldocfile is deprecated! Use domxml_open_file instead.
@@ -361,6 +362,7 @@ class ilLMPresentationGUI
 		$xmlfile = file_get_contents("./layouts/lm/".$layout."/".$a_xml);
 		if (!$doc = domxml_open_mem($xmlfile)) { echo "ilLMPresentation: XML File invalid"; exit; }
 		$this->layout_doc =& $doc;
+//echo ":".htmlentities($xmlfile).":$layout:$a_xml:";
 
 		// get current frame node
 		$ilBench->start("ContentPresentation", "layout_getFrameNode");
@@ -822,12 +824,12 @@ class ilLMPresentationGUI
 		$this->ilias->account->setDesktopItemParameters($_SESSION["tr_id"], $this->lm->getType(),$page_id);
 
 		// read link targets
-		$targets = $this->getLinkTargetsAsXML();
+		$targets = $this->getLayoutLinkTargets();
 
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($_SESSION["tr_id"]);
 		//$pg_obj->setParentId($this->lm->getId());
-		$page_object_gui->setLinkTargets($targets);
+		$page_object_gui->setLayoutLinkTargets($targets);
 
 		// USED FOR DBK PAGE TURNS
 		$page_object_gui->setBibId($_SESSION["bib_id"]);
@@ -869,19 +871,19 @@ class ilLMPresentationGUI
 	}
 
 
-	function getLinkTargetsAsXML()
+	function getLayoutLinkTargets()
 	{
 		$xpc = xpath_new_context($this->layout_doc);
 
 		$path = "/ilLayout/ilLinkTargets/LinkTarget";
-		$result = xpath_eval($xpc, $path);
-		$found = $result->nodeset;
-		for ($i = 0; $i < count($found); $i++)
+		$res = xpath_eval($xpc, $path);
+		$targets = array();
+		for ($i = 0; $i < count($res->nodeset); $i++)
 		{
-			$targets.= $this->layout_doc->dump_node($found[$i]);
+			$type = $res->nodeset[$i]->get_attribute("Type");
+			$frame = $res->nodeset[$i]->get_attribute("Frame");
+			$targets[$type] = array("Type" => $type, "Frame" => $frame);
 		}
-		$targets = "<LinkTargets>$targets</LinkTargets>";
-
 		return $targets;
 	}
 
@@ -895,17 +897,19 @@ class ilLMPresentationGUI
 		require_once("content/classes/class.ilLMPageObject.php");
 		$page_id = $this->getCurrentPageId();
 		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
+		$page_object->buildDom();
+		$int_links = $page_object->getInternalLinks();
 		$page_object_gui =& new ilPageObjectGUI($page_object);
 
 		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
 
 		// read link targets
-		$targets = $this->getLinkTargetsAsXML();
+		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
 
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
 		//$pg_obj->setParentId($this->lm->getId());
-		$page_object_gui->setLinkTargets($targets);
+		$page_object_gui->setLinkXML($link_xml);
 
 		// USED FOR DBK PAGE TURNS
 		$page_object_gui->setBibId($_SESSION["bib_id"]);
@@ -940,6 +944,74 @@ class ilLMPresentationGUI
 
 		return $page_object_gui->presentation();
 	}
+
+	function getLinkXML($a_int_links, $a_layoutframes)
+	{
+		if ($a_layoutframes == "")
+		{
+			$a_layoutframes = array();
+		}
+		$link_info = "<IntLinkInfos>";
+		foreach ($a_int_links as $int_link)
+		{
+			$target = $int_link["Target"];
+			if (substr($target, 0, 4) == "il__")
+			{
+				$target_arr = explode("_", $target);
+				$target_id = $target_arr[count($target_arr) - 1];
+				$type = $int_link["Type"];
+				$targetframe = ($int_link["TargetFrame"] != "")
+					? $int_link["TargetFrame"]
+					: "None";
+
+				switch($type)
+				{
+					case "PageObject":
+					case "StructureObject":
+						$lm_id = ilLMObject::_lookupContObjID($target_id);
+						if ($lm_id == $this->lm->getId())
+						{
+							$ltarget = $a_layoutframes[$targetframe]["Frame"];
+							$nframe = ($ltarget == "")
+								? $_GET["frame"]
+								: $ltarget;
+							$href = "lm_presentation.php?cmd=layout&amp;ref_id=".$_GET["ref_id"].
+								"&amp;obj_id=".$target_id."&amp;frame=$nframe";
+						}
+						else
+						{
+							$href = "../goto.php?target=pg_".$target_id;
+							$ltarget = "ilContObj".$lm_id;
+						}
+						break;
+
+					case "GlossaryItem":
+						$ltarget = $a_layoutframes[$targetframe]["Frame"];
+						$nframe = ($ltarget == "")
+							? $_GET["frame"]
+							: $ltarget;
+						$href = "lm_presentation.php?obj_type=$type&amp;cmd=glossary&amp;ref_id=".$_GET["ref_id"].
+							"&amp;obj_id=".$target_id."&amp;frame=$nframe";
+						break;
+
+					case "MediaObject":
+						$ltarget = $a_layoutframes[$targetframe]["Frame"];
+						$nframe = ($ltarget == "")
+							? $_GET["frame"]
+							: $ltarget;
+						$href = "lm_presentation.php?obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
+							"&amp;mob_id=".$target_id."&amp;frame=$nframe";
+						break;
+				}
+				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
+					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
+			}
+		}
+		$link_info.= "</IntLinkInfos>";
+
+		return $link_info;
+	}
+
 
 
 	function ilGlossary()

@@ -581,8 +581,10 @@ class ilObject
 	*/
 	function _getAllReferences($a_id)
 	{
+		global $ilDB;
+
 		$q = "SELECT * FROM object_reference WHERE obj_id = '".$a_id."'";
-		$obj_set = $this->ilias->db->query($q);
+		$obj_set = $ilDB->query($q);
 		$ref = array();
 		while ($obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{

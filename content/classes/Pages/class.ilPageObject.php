@@ -57,6 +57,7 @@ class ilPageObject
 	var $parent_id;
 	var $update_listeners;
 	var $update_listener_cnt;
+	var $dom_builded;
 
 	/**
 	* Constructor
@@ -73,6 +74,7 @@ class ilPageObject
 		$this->contains_int_link = false;
 		$this->update_listeners = array();
 		$this->update_listener_cnt = 0;
+		$this->dom_builded = false;
 
 		if($a_id != 0)
 		{
@@ -102,9 +104,18 @@ class ilPageObject
 
 	function buildDom()
 	{
+		global $ilBench;
+
+		if ($this->dom_builded)
+		{
+			return;
+		}
 
 //echo "<br><br>".$this->getId().":xml:".htmlentities($this->getXMLContent(true)).":<br>";
+
+		$ilBench->start("ContentPresentation", "ilPageObject_buildDom");
 		$this->dom = @domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
+		$ilBench->stop("ContentPresentation", "ilPageObject_buildDom");
 
 		$xpc = xpath_new_context($this->dom);
 		$path = "//PageObject";
@@ -116,6 +127,7 @@ class ilPageObject
 
 		if (empty($error))
 		{
+			$this->dom_builded = true;
 			return true;
 		}
 		else
@@ -371,7 +383,7 @@ class ilPageObject
 		else
 		{
 			// append multimedia object elements
-			if ($a_append_mobs || $a_append_bib)
+			if ($a_append_mobs || $a_append_bib || $a_append_link_info)
 			{
 				$mobs = "";
 				$bibs = "";
@@ -518,12 +530,36 @@ class ilPageObject
 		return $mob_ids;
 	}
 
+
+	/**
+	* get all file items that are used within the page
+	*/
+	function getInternalLinks()
+	{
+		// get all internal links of the page
+		$xpc = xpath_new_context($this->dom);
+		$path = "//IntLink";
+		$res =& xpath_eval($xpc, $path);
+
+		$links = array();
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$target = $res->nodeset[$i]->get_attribute("Target");
+			$type = $res->nodeset[$i]->get_attribute("Type");
+			$targetframe = $res->nodeset[$i]->get_attribute("TargetFrame");
+			$links[$target.":".$type.":".$targetframe] =
+				array("Target" => $target, "Type" => $type,
+					"TargetFrame" => $targetframe);
+		}
+
+		return $links;
+	}
+
 	/**
 	* get all file items that are used within the page
 	*/
 	function collectFileItems()
 	{
-
 		// determine all media aliases of the page
 		$xpc = xpath_new_context($this->dom);
 		$path = "//FileItem/Identifier";
