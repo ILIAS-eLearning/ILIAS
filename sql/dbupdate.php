@@ -2038,3 +2038,10 @@ ALTER  TABLE  `tst_active`  ADD  `postponed` text AFTER  `sequence` ;
 
 <#128>
 UPDATE settings SET value = '3.0.0_beta5 2004/03/09' WHERE keyword = 'ilias_version' LIMIT 1;
+<#129>
+CREATE TABLE `qpl_question_material` (
+  `material_id` int(11) NOT NULL auto_increment,
+  `question_id` int(11) NOT NULL default '0',
+  `materials` text,
+  UNIQUE KEY `material_id` (`material_id`)
+) TYPE=MyISAM;
