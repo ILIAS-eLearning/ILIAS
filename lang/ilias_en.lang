@@ -219,6 +219,11 @@ common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
 common#:#fold_new#:#New Folder
+common#:#dbk#:#Digilib Book
+common#:#dbk_a#:#a Digilib Book
+common#:#dbk_add#:#Add Digilib Book
+common#:#dbk_added#:#Digilib Book added
+common#:#dbk_new#:#New Digilib Book
 common#:#folders#:#Folders
 common#:#forename#:#Forename
 common#:#form_empty_fields#:#Please complete these fields:
@@ -245,7 +250,7 @@ common#:#glo_added#:#Added glossary
 common#:#glo_new#:#New Glossary
 common#:#glossary#:#Glossary
 common#:#glossary_added#:#Glossary added
-common#:#group_any_objects#:#No Subobjects avilable
+common#:#group_any_objects#:#No Subobjects available
 common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
 common#:#group_members#:#Group Members
@@ -253,7 +258,7 @@ common#:#group_memstat#:#Member Status
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Member
 common#:#group_name#:#Groupname
-common#:#group_not_available#:#any group available
+common#:#group_not_available#:#No group available
 common#:#group_objects#:#Group Objects
 common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
@@ -527,6 +532,7 @@ common#:#obj_cat#:#Category
 common#:#obj_crs#:#Course
 common#:#obj_file#:#File
 common#:#obj_frm#:#Forum
+common#:#obj_dbk#:#Digilib Book
 common#:#obj_glo#:#Glossary
 common#:#obj_grp#:#Group
 common#:#obj_le#:#Learning Module
