@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilFrame name="maincontent" template="tpl.page.html" template_location="module">
+	<ilPage />
+	<ilLMNavigation />
+</ilFrame>
+
