@@ -101,7 +101,9 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$params = array ('mode' => 'edit', 'ref_id' => $this->lm_obj->getRefId());
+		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
+		$params = array ('mode' => 'edit', 'ref_id' => $this->lm_obj->getRefId(),
+			'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
@@ -145,7 +147,9 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$xh = xslt_create();
 //echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$params = array ('mode' => 'preview', 'ref_id' => $this->lm_obj->getRefId());
+		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
+		$params = array ('mode' => 'preview', 'ref_id' => $this->lm_obj->getRefId(),
+			'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);

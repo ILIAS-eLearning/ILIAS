@@ -183,6 +183,12 @@ class ilLMEditorGUI
 							$td_gui->$cmd();
 							break;
 
+						case "mob":
+							require_once ("content/classes/class.ilMediaObjectGUI.php");
+							$mob_gui =& new ilMediaObjectGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
+							$mob_gui->$cmd();
+							break;
+
 					}
 				}
 				else

@@ -305,13 +305,18 @@
 	<xsl:if test="../Layout[1]/@HorizontalAlign = 'LeftFloat'">
 		<xsl:call-template name="MOBTable"/>
 	</xsl:if>
+	<xsl:if test="count(../Layout[1]/@HorizontalAlign) = 0">
+		<div align="left" style="clear:both;">
+		<xsl:call-template name="MOBTable"/>
+		</div>
+	</xsl:if>
 </xsl:template>
 
 <!-- MOBTable: display multimedia objects within a layout table> -->
 <xsl:template name="MOBTable">
 	<xsl:variable name="cmobid" select="@OriginId"/>
 
-	<table class="ilc_MobTable" border="0" cellpadding="0" cellspacing="0">
+	<table class="ilc_MobTable">
 		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
 		<xsl:if test="../Layout[1]/@HorizontalAlign = 'LeftFloat'">
 			<xsl:attribute name="style">float:left; clear:both; margin-left: 0px;</xsl:attribute>
@@ -329,14 +334,12 @@
 		</xsl:if>
 
 
-		<tr><td>
-		<object>
+		<tr><td class="ilc_Mob"><object>
 			<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
 			<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/@Format"/></xsl:attribute>
 			<xsl:attribute name="width"><xsl:value-of select="../Layout[1]/@Width"/></xsl:attribute>
 			<xsl:attribute name="height"><xsl:value-of select="../Layout[1]/@Height"/></xsl:attribute>
-		</object>
-		</td></tr>
+		</object></td></tr>
 
 		<xsl:if test="count(../Parameter[@Name='caption']) = 1">
 			<tr><td class="ilc_MobCaption">

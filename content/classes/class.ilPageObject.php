@@ -201,6 +201,14 @@ class ilPageObject extends ilLMObject
 						$tab->setNode($cont_node);
 						$tab->setHierId($a_hier_id);
 						return $tab;
+
+					case "MediaObject":
+						require_once("content/classes/class.ilMediaObject.php");
+						$mob =& new ilMediaObject($child_node->get_attribute("Id"));
+						$mob->setDom($this->dom);
+						$mob->setNode($cont_node);
+						$mob->setHierId($a_hier_id);
+						return $mob;
 				}
 				break;
 

@@ -216,7 +216,9 @@ class ilLMPresentationGUI
 		require_once("content/classes/class.ilPageObject.php");
 		$pg_obj =& new ilPageObject($page_id);
 		$pg_obj->setLMId($this->lm->getId());
-		$content = $pg_obj->getXMLContent();
+		$builded = $pg_obj->buildDom();
+		$content = $pg_obj->getXMLFromDom(false, true);
+
 		$pg_title = $pg_obj->getPresentationTitle();
 
 		// convert bb code to xml
@@ -233,9 +235,9 @@ class ilLMPresentationGUI
 
 		// determine target frames for internal links
 		$pg_frame = $_GET["frame"];
-
+		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => 'presentation', 'pg_title' => $pg_title,
-			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame);
+			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);
 		xslt_free($xh);
