@@ -55,6 +55,7 @@ administration#:#nothing_to_purge#:#Niets te elimineren...
 administration#:#nothing_to_remove#:#Niets te verwijderen...
 administration#:#nothing_to_restore#:#Niets te herstellen...
 administration#:#options#:#Opties
+administration#:#passwd_auto_generate#:#Password Forwarding/Generation###29 Nov 2004 new variable
 administration#:#purge_missing#:#Verwijder missende objecten
 administration#:#purge_missing_desc#:#Verwijder alle missende en ongebonden objecten van het systeem.
 administration#:#purge_trash#:#Elimineer verwijderde objecten
@@ -539,7 +540,7 @@ chat#:#chat_chatrooms#:#Chatruimtes
 chat#:#chat_color#:#Font-kleur
 chat#:#chat_delete_sure#:#Weet u zeker, dat u deze chatruimte wilt verwijderen
 chat#:#chat_drop_user#:#Gebruiker verwijderd
-chat#:#chat_edit#:#Wijzig Chat 
+chat#:#chat_edit#:#Wijzig Chat ###29 Nov 2004 content changed
 chat#:#chat_face#:#Font-type
 chat#:#chat_fuchsia#:#fuchsia###05 Nov 2004 new variable
 chat#:#chat_gray#:#grijs
@@ -617,6 +618,7 @@ common#:#accept_usr_agreement#:#Gebruikers-overeenkomst accepteren?
 common#:#access#:#Toegang
 common#:#account_expires_body#:#Uw toegang is gelimiteerd. Het loopt af op:
 common#:#account_expires_subject#:#[ILIAS 3] Uw abonnement verloopt
+common#:#action#:#Action###29 Nov 2004 new variable
 common#:#action_aborted#:#Activiteit afgebroken
 common#:#actions#:#Activiteiten
 common#:#activate_https#:#Activeer HTTPS (Betalingen, Inloggen)###18 Oct 2004 content changed
@@ -680,6 +682,7 @@ common#:#approve_date#:#Goedgekeurd op
 common#:#approve_recipient#:#login-ID van keurder
 common#:#archive#:#Archief
 common#:#are_you_sure#:#Weet u het zeker?
+common#:#as_of#:#as of###29 Nov 2004 new variable
 common#:#assign#:#Toewijzen
 common#:#assign_global_role#:#Toewijzen aan een globale rol
 common#:#assign_lo_forum#:#Leerobject-forum toewijzen
@@ -977,6 +980,8 @@ common#:#email#:#E-mail###05 Nov 2004 new variable
 common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#Het email-adres dat u invoerde is niet geldig!
 common#:#enable#:#Inschakelen
+common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
+common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
 common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 new variable
 common#:#enable_registration#:#Nieuwe gebruikers-registratie inschakelen
 common#:#enabled#:#Ingeschakeld
@@ -1002,6 +1007,7 @@ common#:#err_unknown_error#:#Onbekend fout
 common#:#err_wrong_header#:#Reden: Verkeerde header.
 common#:#err_wrong_login#:#Foutief ingelogd
 common#:#err_wrong_password#:#Verkeerd wachtwoord
+common#:#error#:#Error###29 Nov 2004 new variable
 common#:#error_parser#:#Fout bij het starten van de parser.
 common#:#error_recipient#:#Ontvanger van foutmeldingen
 common#:#exc#:#Oefening
@@ -1140,6 +1146,7 @@ common#:#gdf_new#:#Nieuwe definitie
 common#:#gender#:#Geslacht
 common#:#gender_f#:#Vrouwelijk
 common#:#gender_m#:#Mannelijk
+common#:#general_settings#:#General settings###29 Nov 2004 new variable
 common#:#generate#:#Genereer
 common#:#glo#:#Woordenlijst
 common#:#glo_a#:#een woordenlijst
@@ -1264,6 +1271,9 @@ common#:#header_title#:#Hoofdtitel
 common#:#help#:#Hulp
 common#:#hide_details#:#details verbergen
 common#:#hide_structure#:#Structuurscherm verbergen
+common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
+common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
+common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Treffers/Bladzijde
 common#:#hlm#:#HACP Lesmodule
 common#:#hlm_added#:#Toevoegen HACP lesmodule 
@@ -1321,6 +1331,7 @@ common#:#in#:#in###05 Nov 2004 new variable
 common#:#in_use#:#Gebruikers-taal
 common#:#inactive#:#Inactieve
 common#:#inbox#:#Inbox###05 Nov 2004 new variable
+common#:#info#:#Information###29 Nov 2004 new variable
 common#:#info_assign_sure#:#Weet u zeker dat u de volgende gebruiker(s) wil toewijzen)?
 common#:#info_delete_sure#:#Weet u zeker dat u het/de volgende object(en) wilt verwijderen)?
 common#:#info_deleted#:#Object(en) verwijderd
@@ -1401,6 +1412,7 @@ common#:#languages_already_installed#:#taal( geïnstalleerd
 common#:#languages_already_uninstalled#:#Selecteer al geïnstalleerde taal/talen
 common#:#languages_updated#:#Alle geïnstalleerde talen zijn bijgewerkt
 common#:#last_change#:#Laatste wijziging
+common#:#last_update#:#Last Update###29 Nov 2004 new variable
 common#:#last_visit#:#Laatste bezoek
 common#:#lastname#:#Achternaam
 common#:#launch#:#Start
@@ -1623,6 +1635,7 @@ common#:#msg_no_scan_log#:#Scan-log nog niet geïmplementeerd
 common#:#msg_no_search_result#:#Geen ingangen gevonden
 common#:#msg_no_search_string#:#Voer uw vraag in a.u.b
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Alleen een systeem-administrateur mag gebruikers toewijzen aan de rol systeem-administrateur
+common#:#msg_no_title#:#Please enter a title.###29 Nov 2004 new variable
 common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
 common#:#msg_not_available_for_anon#:#De pagine die uw heeft gekozen is alleen toegankelijk voor geregistreerde gebruikers
 common#:#msg_not_in_itself#:#Het is niet mogelijk het object in zichzelf te plakken
@@ -1631,6 +1644,7 @@ common#:#msg_obj_created#:#Object gecreëerd.
 common#:#msg_obj_exists#:#Dit object bestaat al in deze map
 common#:#msg_obj_modified#:#Wijzigingen opgeslagen.
 common#:#msg_obj_no_link#:#zijn niet toegestaan te worden gelinkt
+common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.###29 Nov 2004 new variable
 common#:#msg_perm_adopted_from1#:#Instellingen van rechten overgenomen van
 common#:#msg_perm_adopted_from2#:#(Instellingen zijn opgeslagen!)
 common#:#msg_perm_adopted_from_itself#:#U kunt de instellingen van rechten niet overnemen van de huidige rol-sjabloon/sjablonen zelf.
@@ -1660,6 +1674,7 @@ common#:#new_appointment#:#Nieuwe afspraak
 common#:#new_folder#:#Nieuwe map
 common#:#new_group#:#Nieuwe groep
 common#:#new_language#:#Nieuwe taal
+common#:#new_list_password#:#New suggestions###29 Nov 2004 new variable
 common#:#new_mail#:#Nieuwe mail!
 common#:#news#:#Nieuws
 common#:#next#:#volgende
@@ -1913,6 +1928,12 @@ common#:#refresh#:#Verversen
 common#:#refresh_languages#:#Ververs talen
 common#:#refresh_list#:#Ververs lijst
 common#:#refuse#:#Weiger
+common#:#reg_mail_body_salutation#:#Hello###29 Nov 2004 new variable
+common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!###29 Nov 2004 new variable
+common#:#reg_mail_body_text2#:#To acces ILIAs use the following data:###29 Nov 2004 new variable
+common#:#reg_mail_body_text3#:#Further personal information:###29 Nov 2004 new variable
+common#:#reg_mail_subject#:#ILIAS eLearning - Your access data###29 Nov 2004 new variable
+common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.###29 Nov 2004 new variable
 common#:#register#:#Registreer
 common#:#register_info#:#A.u.b. vul het registratie-formulier in (Velden met een asteriks zijn verplicht).
 common#:#registered_since#:#Registreerd sinds
@@ -1926,6 +1947,7 @@ common#:#remove_personal_picture#:#Verwijder
 common#:#remove_translation#:#Verwijder vertaling
 common#:#rename#:#Geef een nieuwe naam
 common#:#rename_file#:#Geef bestand een nieuwe naam
+common#:#replace_file#:#Replace File###29 Nov 2004 new variable
 common#:#reply#:#Beantwoorden
 common#:#repository#:#Depot
 common#:#require_city#:#Stad vereist
@@ -2044,6 +2066,7 @@ common#:#select_file#:#Selecteer bestand
 common#:#select_mode#:#Selecteer modus
 common#:#select_object_to_copy#:#Selecteer a.u.b het object dat u wilt copiëren
 common#:#select_object_to_link#:#Selecteer a.u.b het object dat u wilt linken
+common#:#select_password#:#Select a new password###29 Nov 2004 new variable
 common#:#select_questionpool#:#Question pool for Test###14 Oct 2004 new variable
 common#:#select_questionpool_option#:#Please select a question pool###14 Oct 2004 new variable
 common#:#selected#:#Geselecteerd
@@ -2054,7 +2077,7 @@ common#:#sent#:#Gezonden
 common#:#sequence#:#Volgorde
 common#:#sequences#:#Volgorden
 common#:#server#:#Server###05 Nov 2004 new variable
-common#:#server_data#:#Server-gegevens 
+common#:#server_data#:#Server-gegevens ###29 Nov 2004 content changed
 common#:#server_software#:#Server-software
 common#:#set#:#Instellen
 common#:#setSystemLanguage#:#Stel systeemtaal in
@@ -2070,6 +2093,7 @@ common#:#show_owner#:#Laat eigenaar zien
 common#:#show_structure#:#Schakelen structured-View in
 common#:#show_users_online#:#Laat online-gebruikers zien
 common#:#signature#:#Handtekening
+common#:#size#:#Size###29 Nov 2004 new variable
 common#:#smtp#:#SMTP###05 Nov 2004 new variable
 common#:#sort_by_this_column#:#Sorteer op deze kolom
 common#:#spl#:#Vraagpool (Survey)
@@ -2344,10 +2368,12 @@ content#:#cont_click_next_or_save#:#Klik op het centrum van het gewenste gebied
 content#:#cont_click_next_point#:#Klik op een cirkelpunt van het gewenste gebied
 content#:#cont_click_starting_point#:#Klik op de volgende punt van de polygoon of sla het gebied op. (Het is niet noodzakelijk om weer op het startpunt van de polygoon te klikken!)
 content#:#cont_click_tl_corner#:#Klik op de volgende punt van de polygoon
+content#:#cont_confirm_delete#:#really delete ?###29 Nov 2004 new variable
 content#:#cont_content#:#Klik op het startpunt van de polygoon
 content#:#cont_content_obj#:#Klik op de hoek linksboven van het gewenste gebied.
 content#:#cont_contents#:#Inhoud
 content#:#cont_coords#:#Inhouds-object
+content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
 content#:#cont_copy_to_clipboard#:#Inhoud
 content#:#cont_create_dir#:#Coördinaten
 content#:#cont_create_export_file#:#Copiëernaar het klembord
@@ -2370,7 +2396,7 @@ content#:#cont_derive_from_obj#:#Verwijderen toewijzing
 content#:#cont_details#:#Afhankelijkheden
 content#:#cont_dir_file#:#Leid af van object
 content#:#cont_disable_js#:#Disable JavaScript###03 Nov 2004 new variable
-content#:#cont_disable_media#:#Details
+content#:#cont_disable_media#:#Details###29 Nov 2004 content changed
 content#:#cont_download_title#:#Directory/Bestand
 content#:#cont_ed_align_center#:#Media onmogelijk maken
 content#:#cont_ed_align_left#:#Download-titel
@@ -2408,6 +2434,7 @@ content#:#cont_ed_paste_clip#:#nieuwe rij na
 content#:#cont_ed_row_down#:#move row down###16 Nov 2004 new variable
 content#:#cont_ed_row_up#:#move row up###16 Nov 2004 new variable
 content#:#cont_ed_split_page#:#split Page###09 Nov 2004 new variable
+content#:#cont_ed_split_page_next#:#split to next page###29 Nov 2004 new variable
 content#:#cont_ed_width#:#nieuwe rij voor
 content#:#cont_edit_area#:#plakken van klembord
 content#:#cont_edit_file_list_properties#:#Breedte
@@ -2421,9 +2448,11 @@ content#:#cont_edit_tab_properties#:#Wijzigen paragrafen
 content#:#cont_edit_term#:#Wijzig broncode
 content#:#cont_edition#:#Tabel-eigenschappen
 content#:#cont_enable_js#:#Enable JavaScript###03 Nov 2004 new variable
-content#:#cont_enable_media#:#Wijzigen begrip
+content#:#cont_enable_media#:#Wijzigen begrip###29 Nov 2004 content changed
+content#:#cont_example#:#e.g.###29 Nov 2004 new variable
 content#:#cont_export_files#:#Editie
 content#:#cont_external#:#Inschakelen Media
+content#:#cont_external_url#:#external url###29 Nov 2004 new variable
 content#:#cont_file#:#Export-bestanden
 content#:#cont_files#:#extern
 content#:#cont_fix_tree#:#Bestand
@@ -2445,6 +2474,7 @@ content#:#cont_insert_file_item#:#Grafische map
 content#:#cont_insert_file_list#:#identifier
 content#:#cont_insert_list#:#Invoegen bestand
 content#:#cont_insert_mob#:#Invoegen bestandslijst
+content#:#cont_insert_new_footnote#:#insert new footnore###29 Nov 2004 new variable
 content#:#cont_insert_par#:#Invoegen lijst
 content#:#cont_insert_search#:#Invoegen media-object
 content#:#cont_insert_src#:#Invoegen paragraaf
@@ -2494,6 +2524,7 @@ content#:#cont_mob_inst_prop#:#Media-pool-structuur
 content#:#cont_mob_prop#:#Object-bestanden
 content#:#cont_mob_usages#:#Instantie-eigenschappen
 content#:#cont_month#:#Object-eigenschappen
+content#:#cont_move_object#:#move object###29 Nov 2004 new variable
 content#:#cont_msg_multiple_editions#:#Gebruik
 content#:#cont_name#:#Maand
 content#:#cont_new_area#:#Het is niet mogelijk om details van meerdere edities te laten zien
@@ -2513,6 +2544,7 @@ content#:#cont_nr_rows#:#Aantal kolommen
 content#:#cont_obj_removed#:#Aantal eenheden
 content#:#cont_offline#:#Aantal rijen
 content#:#cont_online#:#Objecten verwijderd.
+content#:#cont_or#:#or###29 Nov 2004 new variable
 content#:#cont_order#:#Offline Versies
 content#:#cont_organization#:#Online
 content#:#cont_organizations#:#Type volgorde
@@ -2570,8 +2602,12 @@ content#:#cont_series#:#Selecteer een begrip
 content#:#cont_series_editor#:#selecter de toewijzing van bovenstaande lijst
 content#:#cont_series_title#:#Series
 content#:#cont_series_volume#:#Auteur van de serie
+content#:#cont_set_after#:#insert after###29 Nov 2004 new variable
+content#:#cont_set_before#:#insert before###29 Nov 2004 new variable
+content#:#cont_set_cancel#:#cancel###29 Nov 2004 new variable
 content#:#cont_set_class#:#Titel van de serie
 content#:#cont_set_edit_mode#:#Band van de serie
+content#:#cont_set_into#:#insert into###29 Nov 2004 new variable
 content#:#cont_set_link#:#Instellen class
 content#:#cont_set_shape#:#Instellen wijzigings-modus
 content#:#cont_set_start_file#:#Wijzig Link
@@ -2585,6 +2621,7 @@ content#:#cont_size#:#laat zien
 content#:#cont_source#:#laat zien Print
 content#:#cont_src#:#Grootte (Bytes)
 content#:#cont_src_other#:#Bron
+content#:#cont_st_on_pg#:#this function is not allowed.###29 Nov 2004 new variable
 content#:#cont_st_title#:#Bron-code
 content#:#cont_startfile#:#andere
 content#:#cont_status#:#Hoofdstuk titel
@@ -2604,6 +2641,8 @@ content#:#cont_term#:#Tabel-breedte
 content#:#cont_terms#:#Doel mag niet binnen het bron-Object.
 content#:#cont_time#:#Begrip
 content#:#cont_time_limit_action#:#Begrippen
+content#:#cont_title#:#title###29 Nov 2004 new variable
+content#:#cont_title_footnotes#:#Footnotes###29 Nov 2004 new variable
 content#:#cont_toc#:#Tijd
 content#:#cont_toc_mode#:#adlcp:timelimitaction
 content#:#cont_top#:#Inhoudsopgave
@@ -3661,10 +3700,93 @@ meta#:#meta_yes#:#Heel hoog
 payment#:#currency_cent#:#Cent###04 Oct 2004 new variable
 payment#:#currency_euro#:#Euro###04 Oct 2004 new variable
 payment#:#duration#:#Duration###04 Oct 2004 new variable
+payment#:#excel_export#:#Excel export###29 Nov 2004 new variable
+payment#:#info#:#Informations about the pay method###29 Nov 2004 new variable
+payment#:#pay_add_to_shopping_cart#:#Add to shopping cart###29 Nov 2004 new variable
+payment#:#pay_added_to_shopping_cart#:#Added item to shopping cart.###29 Nov 2004 new variable
+payment#:#pay_all#:#All###29 Nov 2004 new variable
+payment#:#pay_article#:#Article###29 Nov 2004 new variable
+payment#:#pay_bank_data#:#Bank data###29 Nov 2004 new variable
+payment#:#pay_bill_no#:#Incoice no.###29 Nov 2004 new variable
+payment#:#pay_bmf_account_holder#:#Account holder###29 Nov 2004 new variable
+payment#:#pay_bmf_account_number#:#Account number###29 Nov 2004 new variable
+payment#:#pay_bmf_back#:#back###29 Nov 2004 new variable
+payment#:#pay_bmf_bank_code#:#Bank code###29 Nov 2004 new variable
+payment#:#pay_bmf_card_holder#:#Card holder###29 Nov 2004 new variable
+payment#:#pay_bmf_card_number#:#Card number###29 Nov 2004 new variable
+payment#:#pay_bmf_check_number#:#Check number###29 Nov 2004 new variable
+payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.###29 Nov 2004 new variable
+payment#:#pay_bmf_credit_card#:#Credit card###29 Nov 2004 new variable
+payment#:#pay_bmf_credit_card_data#:#Credit card###29 Nov 2004 new variable
+payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
+payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)###29 Nov 2004 new variable
+payment#:#pay_bmf_debit_entry_data#:#Debit entry###29 Nov 2004 new variable
+payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
+payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
+payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.###29 Nov 2004 new variable
+payment#:#pay_bmf_description_payment_type#:#Please select how to pay.###29 Nov 2004 new variable
+payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.###29 Nov 2004 new variable
+payment#:#pay_bmf_house_number#:#House number###29 Nov 2004 new variable
+payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.###29 Nov 2004 new variable
+payment#:#pay_bmf_optional#:#optional###29 Nov 2004 new variable
+payment#:#pay_bmf_or#:#or###29 Nov 2004 new variable
+payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.###29 Nov 2004 new variable
+payment#:#pay_bmf_payment_type#:#Kind of paying###29 Nov 2004 new variable
+payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.###29 Nov 2004 new variable
+payment#:#pay_bmf_personal_data#:#Your personal data###29 Nov 2004 new variable
+payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
+payment#:#pay_bmf_please_select#:#Please select###29 Nov 2004 new variable
+payment#:#pay_bmf_po_box#:#PO Box###29 Nov 2004 new variable
+payment#:#pay_bmf_server_error_code#:#Payment server returns error code###29 Nov 2004 new variable
+payment#:#pay_bmf_server_error_communication#:#Error while communictaion with payment server.###29 Nov 2004 new variable
+payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator for further information.###29 Nov 2004 new variable
+payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.###29 Nov 2004 new variable
+payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.###29 Nov 2004 new variable
+payment#:#pay_bmf_terms_conditions#:#General terms and conditions###29 Nov 2004 new variable
+payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it.###29 Nov 2004 new variable
+payment#:#pay_bmf_terms_conditions_show#:#show###29 Nov 2004 new variable
+payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.###29 Nov 2004 new variable
+payment#:#pay_bmf_total_amount#:#Total amount###29 Nov 2004 new variable
+payment#:#pay_bmf_validity#:#valid until###29 Nov 2004 new variable
+payment#:#pay_bmf_vat_included#:#VAT included###29 Nov 2004 new variable
+payment#:#pay_bmf_your_order#:#Your order###29 Nov 2004 new variable
+payment#:#pay_click_to_buy#:#Buy now###29 Nov 2004 new variable
+payment#:#pay_confirm_order#:#Please confirm your order by entering your password.###29 Nov 2004 new variable
+payment#:#pay_customer_no#:#Customer no.###29 Nov 2004 new variable
 payment#:#pay_deleted_booking#:#The entry has been deleted.###04 Oct 2004 new variable
+payment#:#pay_deleted_items#:#The selected items have been deleted.###29 Nov 2004 new variable
+payment#:#pay_ending#:#ends with###29 Nov 2004 new variable
+payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for###29 Nov 2004 new variable
+payment#:#pay_expires_info#:#This object is disposable. The payment has been expired, you can not buy it.###29 Nov 2004 new variable
+payment#:#pay_filter#:#Filter###29 Nov 2004 new variable
+payment#:#pay_goto_buyed_objects#:#Goto your buyed objects###29 Nov 2004 new variable
+payment#:#pay_goto_shopping_cart#:#Goto the shopping cart###29 Nov 2004 new variable
 payment#:#pay_header#:#Payment###02 Oct 2004 new variable
+payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.###29 Nov 2004 new variable
+payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.###29 Nov 2004 new variable
 payment#:#pay_locator#:#Payment###02 Oct 2004 new variable
+payment#:#pay_message_attachment#:#As a confirmation for your order we send you a bill (PDF format) as attachment.###29 Nov 2004 new variable
+payment#:#pay_message_hello#:#Dear###29 Nov 2004 new variable
+payment#:#pay_message_regards#:#Yours sincerely###29 Nov 2004 new variable
+payment#:#pay_message_subject#:#Your ILIAS order###29 Nov 2004 new variable
+payment#:#pay_message_thanks#:#Thank you for your ILIAS 3 order.###29 Nov 2004 new variable
 payment#:#pay_no_vendors_created#:#Heel laag
+payment#:#pay_not_buyed_any_object#:#You have not bought any object.###29 Nov 2004 new variable
+payment#:#pay_order_date_from#:#Order date from###29 Nov 2004 new variable
+payment#:#pay_order_date_til#:#Order date til###29 Nov 2004 new variable
+payment#:#pay_payed_credit_card#:#The order was paid by credit card.###29 Nov 2004 new variable
+payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.###29 Nov 2004 new variable
+payment#:#pay_reset_filter#:#Reset filter###29 Nov 2004 new variable
+payment#:#pay_select_one_item#:#Please select one item.###29 Nov 2004 new variable
+payment#:#pay_select_price#:#Please select a new price.###29 Nov 2004 new variable
+payment#:#pay_send_order#:#Send order###29 Nov 2004 new variable
+payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.###29 Nov 2004 new variable
+payment#:#pay_starting#:#starts with###29 Nov 2004 new variable
+payment#:#pay_step1#:#Your order - Schritt 1/3: Enter your personal data###29 Nov 2004 new variable
+payment#:#pay_step2#:#Your order - Schritt 2/3: Choose kind of payment###29 Nov 2004 new variable
+payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit card data and send your order###29 Nov 2004 new variable
+payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order###29 Nov 2004 new variable
+payment#:#pay_update_view#:#Update view###29 Nov 2004 new variable
 payment#:#paya_access#:#Access###04 Oct 2004 new variable
 payment#:#paya_add_price#:#Add new price###04 Oct 2004 new variable
 payment#:#paya_add_price_title#:#New price###04 Oct 2004 new variable
@@ -3673,6 +3795,7 @@ payment#:#paya_added_new_price#:#Created new price###04 Oct 2004 new variable
 payment#:#paya_added_trustee#:#Created new trustee.###02 Oct 2004 new variable
 payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.###04 Oct 2004 new variable
 payment#:#paya_buyable#:#Buyable###04 Oct 2004 new variable
+payment#:#paya_buyed_objects#:#Buyed objects###29 Nov 2004 new variable
 payment#:#paya_count_purchaser#:#Number of purchasers###04 Oct 2004 new variable
 payment#:#paya_customer#:#Customer###04 Oct 2004 new variable
 payment#:#paya_delete_price#:#Delete price###04 Oct 2004 new variable
@@ -3690,6 +3813,7 @@ payment#:#paya_enter_login#:#Please enter an user name.###02 Oct 2004 new variab
 payment#:#paya_err_adding_object#:#Error adding object###04 Oct 2004 new variable
 payment#:#paya_error_update_booking#:#Error saving statistic data.###04 Oct 2004 new variable
 payment#:#paya_expires#:#Expire payment###04 Oct 2004 new variable
+payment#:#paya_filter_reseted#:#Filter reseted.###29 Nov 2004 new variable
 payment#:#paya_header#:#Payment administration###02 Oct 2004 new variable
 payment#:#paya_insert_only_numbers#:#Please insert only integers.###04 Oct 2004 new variable
 payment#:#paya_locator#:#Payment administration###02 Oct 2004 new variable
@@ -3735,15 +3859,24 @@ payment#:#paya_updated_trustees#:#Updated permissions.###02 Oct 2004 new variabl
 payment#:#paya_user_already_assigned#:#User already assigned.###02 Oct 2004 new variable
 payment#:#paya_vendor#:#Vendor###04 Oct 2004 new variable
 payment#:#pays_active_bookings#:#Ja###04 Oct 2004 content changed
+payment#:#pays_add_info#:#Additional information for bill (optional)###29 Nov 2004 new variable
 payment#:#pays_add_vendor#:#Geen leverancier gecreëerd
 payment#:#pays_added_vendor#:#Boekingen actief
+payment#:#pays_address#:#Address for bill###29 Nov 2004 new variable
 payment#:#pays_already_assigned_vendors#:#Voeg leverancier toe
 payment#:#pays_assigned_vendors#:#Nieuwe leverancier toegevoegd
+payment#:#pays_bank_data#:#Bank data for bill###29 Nov 2004 new variable
 payment#:#pays_bill#:#Bill###02 Oct 2004 new variable
 payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
 payment#:#pays_cost_center#:#Het volgende aantal gebruikers was al toegevoegd:
+payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.###29 Nov 2004 new variable
+payment#:#pays_currency_subunit#:#Currency (1/100) (e.g. Cent)###29 Nov 2004 new variable
+payment#:#pays_currency_unit#:#Currency (e.g. EUR)###29 Nov 2004 new variable
 payment#:#pays_delete_vendor#:#Het volgende aantal gebruikers is toegevoegd aan de leveranciers-lijst:
 payment#:#pays_deleted_number_vendors#:#Kostenplaats
+payment#:#pays_edit_vendor#:#Edit user###29 Nov 2004 new variable
+payment#:#pays_general_settings#:#General settings###29 Nov 2004 new variable
+payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.###29 Nov 2004 new variable
 payment#:#pays_header_select_vendor#:#gebruiker afmelden
 payment#:#pays_no_username_given#:#Het volgende aantal levenaciers zijn verwijderd:
 payment#:#pays_no_valid_username_given#:#Leveranciers-selectie
@@ -3754,11 +3887,16 @@ payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some object
 payment#:#pays_offline#:#Offline###02 Oct 2004 new variable
 payment#:#pays_online#:#Online###02 Oct 2004 new variable
 payment#:#pays_pay_methods#:#Pay methods###02 Oct 2004 new variable
+payment#:#pays_pdf_path#:#Path for generating bill as PDF file###29 Nov 2004 new variable
 payment#:#pays_sure_delete_selected_vendors#:#Geen leverancier geselecteerd
+payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.###29 Nov 2004 new variable
+payment#:#pays_updated_general_settings#:#Your general settings were updated.###29 Nov 2004 new variable
 payment#:#pays_updated_pay_method#:#Changed pay method.###02 Oct 2004 new variable
 payment#:#pays_user_already_assigned#:#Boekingen actief
+payment#:#pays_vat_rate#:#VAT rate in % (optional)###29 Nov 2004 new variable
 payment#:#pays_vendor#:#Wilt u werkelijk de geselecteerde leverancier(s) verwijderen
 payment#:#price_a#:#Price###04 Oct 2004 new variable
+payment#:#prices#:#Prices###29 Nov 2004 new variable
 payment#:#update#:#Update###04 Oct 2004 new variable
 pwassist#:#password_assistance#:#Password Assistance###12 Nov 2004 new variable
 pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.###12 Nov 2004 new variable
@@ -3843,6 +3981,7 @@ survey#:#category#:#U bent niet in het bezit van voldoende rechten om te partici
 survey#:#category_delete_confirm#:#De status kan niet gewijzigd worden in &quot;online&quot; omdat er geen vragen in de test zijn!
 survey#:#category_delete_select_none#:#Kategorie
 survey#:#category_nr_selected#:#Weet u zeker dat u de volgende kategoriën wilt verwijderen?
+survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
 survey#:#concatenation#:#Kies tenminste één kategorie om te verwijderen!
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable
 survey#:#constraints#:#Aantal gebruikers dat deze kategorie selecteerde
@@ -3931,6 +4070,9 @@ survey#:#exit#:#Toegang tot evaluatie
 survey#:#export_data_as#:#Microsoft Excel
 survey#:#fill_out_all_category_fields#:#Uitgang
 survey#:#fill_out_all_required_fields_add_category#:#Exporteer gegevens als
+survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!###29 Nov 2004 new variable
+survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!###29 Nov 2004 new variable
+survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!###29 Nov 2004 new variable
 survey#:#filter#:#Vul alle categorie-velden in voordat u een nieuwe toevoegd!
 survey#:#filter_all_question_types#:#All question types###05 Nov 2004 new variable
 survey#:#filter_all_questionpools#:#All questionpools###05 Nov 2004 new variable
@@ -3964,6 +4106,8 @@ survey#:#material_file#:#Onderhoud
 survey#:#maximum#:#Beheer gezegden
 survey#:#median#:#Materiaal-bestand
 survey#:#median_between#:#Maximum waarde
+survey#:#menuback#:#Back###29 Nov 2004 new variable
+survey#:#menubacktosurvey#:#Back to the survey###29 Nov 2004 new variable
 survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.###04 Oct 2004 new variable
 survey#:#metric_question_out_of_bounds#:#Median
 survey#:#minimum#:#tussen
@@ -4000,6 +4144,7 @@ survey#:#ordinal_question_not_checked#:#online
 survey#:#orientation#:#Orientation###18 Nov 2004 new variable
 survey#:#percentage_of_entered_values#:#of
 survey#:#percentage_of_selections#:#Kies één van de aangeboden antwoorden!
+survey#:#phrase_saved#:#The phrase was saved successfully!###29 Nov 2004 new variable
 survey#:#predefined_users#:#Percentage van de gebruikers die deze waarde invoerde
 survey#:#preview#:#Percentage gebruikers dat deze kategorie selecteerd e
 survey#:#previous_question_rows#:#Voorgedefiniërde gebruikersgroep
@@ -4053,6 +4198,7 @@ survey#:#search_term#:#Zoek naar gebruikers of groep om uit te nodigen
 survey#:#search_type_all#:#Zoek in vragen
 survey#:#search_users#:#Zoek-begrip
 survey#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
+survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Zoek in alle typen vragen
 survey#:#select_questionpool#:#Gebruikers
 survey#:#select_questionpool_short#:#Question pool for Survey###05 Nov 2004 new variable

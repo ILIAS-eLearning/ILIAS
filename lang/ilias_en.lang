@@ -55,6 +55,7 @@ administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
 administration#:#options#:#Options
+administration#:#passwd_auto_generate#:#Password Forwarding/Generation
 administration#:#purge_missing#:#Purge missing objects
 administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.
 administration#:#purge_trash#:#Purge deleted objects
@@ -617,6 +618,7 @@ common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires
+common#:#action#:#Action
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
@@ -680,6 +682,7 @@ common#:#approve_date#:#Approved On
 common#:#approve_recipient#:#Login ID of approver
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
+common#:#as_of#:#as of
 common#:#assign#:#Assign
 common#:#assign_global_role#:#Assign to global role
 common#:#assign_lo_forum#:#Assign LO Forum
@@ -717,7 +720,6 @@ common#:#available_languages#:#Available Languages
 common#:#average_time#:#Average time
 common#:#back#:#Back
 common#:#basedn#:#BaseDN
-common#:#size#:#Size
 common#:#basic_data#:#Basic Data
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Settings
@@ -806,7 +808,6 @@ common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#chat#:#Chat
-common#:#last_update#:#Last Update
 common#:#chat_add#:#Add Chat
 common#:#chat_delete#:#Delete chat
 common#:#chat_edit_permission#:#Change permission settings
@@ -979,9 +980,9 @@ common#:#email#:#E-mail
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#The email address you entered is not valid!
 common#:#enable#:#Enable
-common#:#enable_password_assistance#:#Enable password assistance
 common#:#enable_js_edit#:#Enable JavaScript Editing
 common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) 
+common#:#enable_password_assistance#:#Enable password assistance
 common#:#enable_registration#:#Enable new user registration
 common#:#enabled#:#Enabled
 common#:#enter_filename_deliver#:#Enter exercise to deliver
@@ -1006,6 +1007,7 @@ common#:#err_unknown_error#:#Unknown Error
 common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login
 common#:#err_wrong_password#:#Wrong Password
+common#:#error#:#Error
 common#:#error_parser#:#Error starting the parser.
 common#:#error_recipient#:#Error Recipient
 common#:#exc#:#Exercise
@@ -1269,6 +1271,9 @@ common#:#header_title#:#Header Title
 common#:#help#:#Help
 common#:#hide_details#:#hide details
 common#:#hide_structure#:#Disable Structured-View
+common#:#hist_file_create#:#File created, filename is "%1".
+common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.
+common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Learning Module HACP
 common#:#hlm_added#:#HACP Learning Module added
@@ -1326,6 +1331,7 @@ common#:#in#:#in
 common#:#in_use#:#User Language
 common#:#inactive#:#Inactive
 common#:#inbox#:#Inbox
+common#:#info#:#Information
 common#:#info_assign_sure#:#Are you sure you want to assign the following user(s)?
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)?
 common#:#info_deleted#:#Object(s) Deleted
@@ -1406,6 +1412,7 @@ common#:#languages_already_installed#:#Selected language(s) are already installe
 common#:#languages_already_uninstalled#:#Selected language(s) are already uninstalled
 common#:#languages_updated#:#All installed languages have been updated
 common#:#last_change#:#Last Change
+common#:#last_update#:#Last Update
 common#:#last_visit#:#Last Visit
 common#:#lastname#:#Last name
 common#:#launch#:#Launch
@@ -1625,10 +1632,10 @@ common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_rolf_allowed1#:#The object
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
 common#:#msg_no_scan_log#:#Scan log not implemented yet
-common#:#msg_no_title#:#Please enter a title.
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Only a System Administrator may assign users to the System Administrator Role
+common#:#msg_no_title#:#Please enter a title.
 common#:#msg_no_url#:#You didn't enter a URL
 common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
@@ -1637,6 +1644,7 @@ common#:#msg_obj_created#:#Object created.
 common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_obj_modified#:#Modifications saved.
 common#:#msg_obj_no_link#:#are not allowed to be linked
+common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
 common#:#msg_perm_adopted_from2#:#(Settings have been saved!)
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.
@@ -1666,6 +1674,7 @@ common#:#new_appointment#:#New Appointment
 common#:#new_folder#:#New Folder
 common#:#new_group#:#New Group
 common#:#new_language#:#New Language
+common#:#new_list_password#:#New suggestions
 common#:#new_mail#:#New mail!
 common#:#news#:#News
 common#:#next#:#next
@@ -1919,6 +1928,12 @@ common#:#refresh#:#Refresh
 common#:#refresh_languages#:#Refresh Languages
 common#:#refresh_list#:#Refresh List
 common#:#refuse#:#Refuse
+common#:#reg_mail_body_salutation#:#Hello
+common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
+common#:#reg_mail_body_text2#:#To acces ILIAs use the following data:
+common#:#reg_mail_body_text3#:#Further personal information:
+common#:#reg_mail_subject#:#ILIAS eLearning - Your access data
+common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.
 common#:#register#:#Register
 common#:#register_info#:#Please fill out the form to register (Fields marked with an asterisk are required information).
 common#:#registered_since#:#Registered since
@@ -1932,6 +1947,7 @@ common#:#remove_personal_picture#:#Remove
 common#:#remove_translation#:#Remove translation
 common#:#rename#:#Rename
 common#:#rename_file#:#Rename File
+common#:#replace_file#:#Replace File
 common#:#reply#:#Reply
 common#:#repository#:#Repository
 common#:#require_city#:#Require city
@@ -2050,6 +2066,7 @@ common#:#select_file#:#Select file
 common#:#select_mode#:#Select mode
 common#:#select_object_to_copy#:#Please select the object you want to copy
 common#:#select_object_to_link#:#Please select the object which you want to link
+common#:#select_password#:#Select a new password
 common#:#select_questionpool#:#Question pool for Test
 common#:#select_questionpool_option#:#--- Please select a question pool ---
 common#:#selected#:#Selected
@@ -2076,6 +2093,7 @@ common#:#show_owner#:#Show Owner
 common#:#show_structure#:#Enable Structured-View
 common#:#show_users_online#:#Show users online
 common#:#signature#:#Signature
+common#:#size#:#Size
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
 common#:#spl#:#Question Pool Survey
@@ -2218,17 +2236,11 @@ common#:#url_description#:#URL Description
 common#:#url_edit#:#Edit URL
 common#:#url_edit_permission#:#Change Permission settings
 common#:#url_new#:#New URL
-common#:#replace_file#:#Replace File
 common#:#url_not_found#:#File Not Found
 common#:#url_read#:#Open URL
 common#:#url_visible#:#URL is visible
 common#:#url_write#:#Edit URL
-common#:#history#:#History
-common#:#hist_file_create#:#File created, filename is "%1".
-common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.
 common#:#user#:#User
-common#:#action#:#Action
-common#:#info#:#Information
 common#:#user_access#:#Access per user
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment
@@ -2356,10 +2368,12 @@ content#:#cont_click_next_or_save#:#Please click on the next point of the polygo
 content#:#cont_click_next_point#:#Please click on the next point of the polygon.
 content#:#cont_click_starting_point#:#Please click on the starting point of the polygon.
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
+content#:#cont_confirm_delete#:#really delete ?
 content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents
 content#:#cont_coords#:#Coordinates
+content#:#cont_copy_object#:#copy object
 content#:#cont_copy_to_clipboard#:#Copy to clipboard
 content#:#cont_create_dir#:#Create Directory
 content#:#cont_create_export_file#:#Create Export File
@@ -2435,8 +2449,10 @@ content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
 content#:#cont_enable_js#:#JavaScript active
 content#:#cont_enable_media#:#Media active
+content#:#cont_example#:#e.g.
 content#:#cont_export_files#:#Export Files
 content#:#cont_external#:#external
+content#:#cont_external_url#:#external url
 content#:#cont_file#:#File
 content#:#cont_files#:#Files
 content#:#cont_fix_tree#:#Fix structure
@@ -2458,6 +2474,7 @@ content#:#cont_insert_file_item#:#Insert File Item
 content#:#cont_insert_file_list#:#Insert File List
 content#:#cont_insert_list#:#Insert List
 content#:#cont_insert_mob#:#Insert Media Object
+content#:#cont_insert_new_footnote#:#insert new footnore
 content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_insert_search#:#Please insert a search term
 content#:#cont_insert_src#:#Insert source code
@@ -2507,6 +2524,7 @@ content#:#cont_mob_inst_prop#:#Instance Properties
 content#:#cont_mob_prop#:#Object Properties
 content#:#cont_mob_usages#:#Usage
 content#:#cont_month#:#Month
+content#:#cont_move_object#:#move object
 content#:#cont_msg_multiple_editions#:#It's not possible to show details of multiple editions
 content#:#cont_name#:#Name
 content#:#cont_new_area#:#New Link Area
@@ -2526,6 +2544,7 @@ content#:#cont_nr_rows#:#Number of Rows
 content#:#cont_obj_removed#:#Objects removed.
 content#:#cont_offline#:#Offline Versions
 content#:#cont_online#:#Online
+content#:#cont_or#:#or
 content#:#cont_order#:#Order Type
 content#:#cont_organization#:#Organization
 content#:#cont_organizations#:#Organizations
@@ -2583,8 +2602,12 @@ content#:#cont_series#:#Series
 content#:#cont_series_editor#:#Series editor
 content#:#cont_series_title#:#Series title
 content#:#cont_series_volume#:#Series volume
+content#:#cont_set_after#:#insert after
+content#:#cont_set_before#:#insert before
+content#:#cont_set_cancel#:#cancel
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_edit_mode#:#Set Edit Mode
+content#:#cont_set_into#:#insert into
 content#:#cont_set_link#:#Edit Link
 content#:#cont_set_shape#:#Edit Shape
 content#:#cont_set_start_file#:#Set Start File
@@ -2598,6 +2621,7 @@ content#:#cont_size#:#Size (Bytes)
 content#:#cont_source#:#Source
 content#:#cont_src#:#Source code
 content#:#cont_src_other#:#other
+content#:#cont_st_on_pg#:#this function is not allowed.
 content#:#cont_st_title#:#Chapter Title
 content#:#cont_startfile#:#Start File
 content#:#cont_status#:#Status
@@ -2617,6 +2641,8 @@ content#:#cont_term#:#Term
 content#:#cont_terms#:#Terms
 content#:#cont_time#:#Time
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_title#:#title
+content#:#cont_title_footnotes#:#Footnotes
 content#:#cont_toc#:#Table of Contents
 content#:#cont_toc_mode#:#Table of Contents shows:
 content#:#cont_top#:#Top
@@ -3674,10 +3700,93 @@ meta#:#meta_yes#:#Yes
 payment#:#currency_cent#:#Cent
 payment#:#currency_euro#:#Euro
 payment#:#duration#:#Duration
+payment#:#excel_export#:#Excel export
+payment#:#info#:#Informations about the pay method
+payment#:#pay_add_to_shopping_cart#:#Add to shopping cart
+payment#:#pay_added_to_shopping_cart#:#Added item to shopping cart.
+payment#:#pay_all#:#All
+payment#:#pay_article#:#Article
+payment#:#pay_bank_data#:#Bank data
+payment#:#pay_bill_no#:#Incoice no.
+payment#:#pay_bmf_account_holder#:#Account holder
+payment#:#pay_bmf_account_number#:#Account number
+payment#:#pay_bmf_back#:#back
+payment#:#pay_bmf_bank_code#:#Bank code
+payment#:#pay_bmf_card_holder#:#Card holder
+payment#:#pay_bmf_card_number#:#Card number
+payment#:#pay_bmf_check_number#:#Check number
+payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.
+payment#:#pay_bmf_credit_card#:#Credit card
+payment#:#pay_bmf_credit_card_data#:#Credit card
+payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly.
+payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)
+payment#:#pay_bmf_debit_entry_data#:#Debit entry
+payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.
+payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
+payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
+payment#:#pay_bmf_description_payment_type#:#Please select how to pay.
+payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.
+payment#:#pay_bmf_house_number#:#House number
+payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
+payment#:#pay_bmf_optional#:#optional
+payment#:#pay_bmf_or#:#or
+payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.
+payment#:#pay_bmf_payment_type#:#Kind of paying
+payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.
+payment#:#pay_bmf_personal_data#:#Your personal data
+payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly.
+payment#:#pay_bmf_please_select#:#Please select
+payment#:#pay_bmf_po_box#:#PO Box
+payment#:#pay_bmf_server_error_code#:#Payment server returns error code
+payment#:#pay_bmf_server_error_communication#:#Error while communictaion with payment server.
+payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator for further information.
+payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.
+payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.
+payment#:#pay_bmf_terms_conditions#:#General terms and conditions
+payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it.
+payment#:#pay_bmf_terms_conditions_show#:#show
+payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.
+payment#:#pay_bmf_total_amount#:#Total amount
+payment#:#pay_bmf_validity#:#valid until
+payment#:#pay_bmf_vat_included#:#VAT included
+payment#:#pay_bmf_your_order#:#Your order
+payment#:#pay_click_to_buy#:#Buy now
+payment#:#pay_confirm_order#:#Please confirm your order by entering your password.
+payment#:#pay_customer_no#:#Customer no.
 payment#:#pay_deleted_booking#:#The entry has been deleted.
+payment#:#pay_deleted_items#:#The selected items have been deleted.
+payment#:#pay_ending#:#ends with
+payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for
+payment#:#pay_expires_info#:#This object is disposable. The payment has been expired, you can not buy it.
+payment#:#pay_filter#:#Filter
+payment#:#pay_goto_buyed_objects#:#Goto your buyed objects
+payment#:#pay_goto_shopping_cart#:#Goto the shopping cart
 payment#:#pay_header#:#Payment
+payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.
+payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
 payment#:#pay_locator#:#Payment
+payment#:#pay_message_attachment#:#As a confirmation for your order we send you a bill (PDF format) as attachment.
+payment#:#pay_message_hello#:#Dear
+payment#:#pay_message_regards#:#Yours sincerely
+payment#:#pay_message_subject#:#Your ILIAS order
+payment#:#pay_message_thanks#:#Thank you for your ILIAS 3 order.
 payment#:#pay_no_vendors_created#:#No vendors created
+payment#:#pay_not_buyed_any_object#:#You have not bought any object.
+payment#:#pay_order_date_from#:#Order date from
+payment#:#pay_order_date_til#:#Order date til
+payment#:#pay_payed_credit_card#:#The order was paid by credit card.
+payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.
+payment#:#pay_reset_filter#:#Reset filter
+payment#:#pay_select_one_item#:#Please select one item.
+payment#:#pay_select_price#:#Please select a new price.
+payment#:#pay_send_order#:#Send order
+payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.
+payment#:#pay_starting#:#starts with
+payment#:#pay_step1#:#Your order - Schritt 1/3: Enter your personal data
+payment#:#pay_step2#:#Your order - Schritt 2/3: Choose kind of payment
+payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit card data and send your order
+payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order
+payment#:#pay_update_view#:#Update view
 payment#:#paya_access#:#Access
 payment#:#paya_add_price#:#Add new price
 payment#:#paya_add_price_title#:#New price
@@ -3686,6 +3795,7 @@ payment#:#paya_added_new_price#:#Created new price
 payment#:#paya_added_trustee#:#Created new trustee.
 payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.
 payment#:#paya_buyable#:#Buyable
+payment#:#paya_buyed_objects#:#Buyed objects
 payment#:#paya_count_purchaser#:#Number of purchasers
 payment#:#paya_customer#:#Customer
 payment#:#paya_delete_price#:#Delete price
@@ -3703,6 +3813,7 @@ payment#:#paya_enter_login#:#Please enter an user name.
 payment#:#paya_err_adding_object#:#Error adding object
 payment#:#paya_error_update_booking#:#Error saving statistic data.
 payment#:#paya_expires#:#Expire payment
+payment#:#paya_filter_reseted#:#Filter reseted.
 payment#:#paya_header#:#Payment administration
 payment#:#paya_insert_only_numbers#:#Please insert only integers.
 payment#:#paya_locator#:#Payment administration
@@ -3748,15 +3859,24 @@ payment#:#paya_updated_trustees#:#Updated permissions.
 payment#:#paya_user_already_assigned#:#User already assigned.
 payment#:#paya_vendor#:#Vendor
 payment#:#pays_active_bookings#:#There active bookings for the selected vendor(s). Please delete them first.
+payment#:#pays_add_info#:#Additional information for bill (optional)
 payment#:#pays_add_vendor#:#Add vendor
 payment#:#pays_added_vendor#:#Added new vendor
+payment#:#pays_address#:#Address for bill
 payment#:#pays_already_assigned_vendors#:#The following number of users were already assigned:
 payment#:#pays_assigned_vendors#:#The following number of users have been assigned to the vendor list:
+payment#:#pays_bank_data#:#Bank data for bill
 payment#:#pays_bill#:#Bill
 payment#:#pays_bmf#:#BMF
 payment#:#pays_cost_center#:#Cost center
+payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.
+payment#:#pays_currency_subunit#:#Currency (1/100) (e.g. Cent)
+payment#:#pays_currency_unit#:#Currency (e.g. EUR)
 payment#:#pays_delete_vendor#:#Deassign user
 payment#:#pays_deleted_number_vendors#:#The following number of vendors have been deleted:
+payment#:#pays_edit_vendor#:#Edit user
+payment#:#pays_general_settings#:#General settings
+payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.
 payment#:#pays_header_select_vendor#:#Vendor selection
 payment#:#pays_no_username_given#:#No username given
 payment#:#pays_no_valid_username_given#:#No valid username given
@@ -3767,11 +3887,16 @@ payment#:#pays_objects_bmf_exist#:#Pay method 'BMF' is activated for some object
 payment#:#pays_offline#:#Offline
 payment#:#pays_online#:#Online
 payment#:#pays_pay_methods#:#Pay methods
+payment#:#pays_pdf_path#:#Path for generating bill as PDF file
 payment#:#pays_sure_delete_selected_vendors#:#Do you really want to delete the selected vendor(s)
+payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.
+payment#:#pays_updated_general_settings#:#Your general settings were updated.
 payment#:#pays_updated_pay_method#:#Changed pay method.
 payment#:#pays_user_already_assigned#:#This user is already assigned to the vendor list
+payment#:#pays_vat_rate#:#VAT rate in % (optional)
 payment#:#pays_vendor#:#Vendor
 payment#:#price_a#:#Price
+payment#:#prices#:#Prices
 payment#:#update#:#Update
 pwassist#:#password_assistance#:#Password Assistance
 pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case your unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
@@ -3843,8 +3968,6 @@ survey#:#arithmetic_mean#:#Arithmetic mean
 survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following question block(s) to the survey?
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
-survey#:#menuback#:#Back
-survey#:#menubacktosurvey#:#Back to the survey
 survey#:#before#:#before
 survey#:#browse_for_questions#:#Browse for questions
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!
@@ -3858,6 +3981,7 @@ survey#:#category#:#Category
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categories?
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!
 survey#:#category_nr_selected#:#Number of users that selected this category
+survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!
 survey#:#concatenation#:#Concatenation
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
 survey#:#constraints#:#Constraints
@@ -3946,13 +4070,10 @@ survey#:#exit#:#Exit
 survey#:#export_data_as#:#Export data as
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
-survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!
 survey#:#fill_out_all_required_fields_delete_category#:#Please fill out all required fields before you delete categories!
+survey#:#fill_out_all_required_fields_move_category#:#Please fill out all required fields before you move categories!
 survey#:#fill_out_all_required_fields_save_phrase#:#Please fill out all required fields before you save a phrase!
-survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!
-survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!
 survey#:#filter#:#Filter
-survey#:#phrase_saved#:#The phrase was saved successfully!
 survey#:#filter_all_question_types#:#All question types
 survey#:#filter_all_questionpools#:#All questionpools
 survey#:#filter_show_question_types#:#Show question types
@@ -3985,6 +4106,8 @@ survey#:#material_file#:#Material file
 survey#:#maximum#:#Maximum value
 survey#:#median#:#Median
 survey#:#median_between#:#between
+survey#:#menuback#:#Back
+survey#:#menubacktosurvey#:#Back to the survey
 survey#:#message_mail_survey_id#:#You have started the anonymized survey &quot;%s&quot;. To resume this survey you need the following 32 digit survey code:<br><br><strong>%s</strong><br><br>Resuming a survey is only possible, if you interrupt the survey before finishing it.
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!
 survey#:#minimum#:#Minimum value
@@ -4021,6 +4144,7 @@ survey#:#ordinal_question_not_checked#:#Please check one of the offered answers!
 survey#:#orientation#:#Orientation
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
 survey#:#percentage_of_selections#:#Percentage of users that selected this category
+survey#:#phrase_saved#:#The phrase was saved successfully!
 survey#:#predefined_users#:#Predefined user set
 survey#:#preview#:#Preview
 survey#:#previous_question_rows#:#<< Questions %d - %d of %d
@@ -4074,6 +4198,7 @@ survey#:#search_term#:#Search term
 survey#:#search_type_all#:#Search in all question types
 survey#:#search_users#:#Users
 survey#:#select_max_one_item#:#Please select one item only
+survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!
 survey#:#select_prior_question#:#Select a prior question
 survey#:#select_questionpool#:#Please select a question pool to store the created question
 survey#:#select_questionpool_short#:#Question pool for Survey
@@ -4141,128 +4266,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-content#:#cont_set_after#:#insert after
-content#:#cont_set_before#:#insert before
-content#:#cont_set_into#:#insert into
-content#:#cont_move_object#:#move object
-content#:#cont_copy_object#:#copy object
-content#:#cont_external_url#:#external url
-content#:#cont_title#:#title
-content#:#cont_title_footnotes#:#Footnotes
-content#:#cont_insert_new_footnote#:#insert new footnore
-content#:#cont_set_cancel#:#cancel
-content#:#cont_st_on_pg#:#this function is not allowed.
-payment#:#info#:#Informations about the pay method
-payment#:#pay_bmf_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
-common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.
-payment#:#pay_add_to_shopping_cart#:#Add to shopping cart
-payment#:#prices#:#Prices
-payment#:#pay_select_price#:#Please select a new price.
-payment#:#pay_added_to_shopping_cart#:#Added item to shopping cart.
-payment#:#pay_shopping_cart_empty#:#Your shopping cart is empty.
-payment#:#pay_click_to_buy#:#Buy now
-payment#:#pay_select_one_item#:#Please select one item.
-payment#:#pay_deleted_items#:#The selected items have been deleted.
-payment#:#pay_bmf_your_order#:#Your order
-payment#:#pay_bmf_personal_data#:#Your personal data
-payment#:#pay_bmf_description_personal_data#:#Please fill out the following form completely.
-payment#:#pay_bmf_house_number#:#House number
-payment#:#pay_bmf_or#:#or
-payment#:#pay_bmf_po_box#:#PO Box
-payment#:#pay_bmf_personal_data_not_valid#:#Your personal data isn't valid. Please check out whether all fields are filled out correctly.
-payment#:#pay_bmf_payment_type#:#Kind of paying
-payment#:#pay_bmf_description_payment_type#:#Please select how to pay.
-payment#:#pay_bmf_debit_entry#:#Debit entry (german bank accounts only)
-payment#:#pay_bmf_credit_card#:#Credit card
-payment#:#pay_bmf_payment_type_not_valid#:#The kind of paying you've choosen isn't valid. Please select another option.
-payment#:#pay_bmf_debit_entry_data#:#Debit entry
-payment#:#pay_bmf_description_debit_entry#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your data for the debit entry and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
-payment#:#pay_bmf_account_holder#:#Account holder
-payment#:#pay_bmf_account_number#:#Account number
-payment#:#pay_bmf_bank_code#:#Bank code
-payment#:#pay_bmf_optional#:#optional
-payment#:#pay_bmf_debit_entry_not_valid#:#The debit entry data you've entered isn't valid. Please check out whether all fields are filled out correctly.
-payment#:#pay_bmf_credit_card_data#:#Credit card
-payment#:#pay_bmf_description_credit_card#:#Please check out whether all articles you would like to order are in the shopping cart. By filling in your credit card data and clicking the "Save"-button you confirm your wish to order, that starts immediately. The data check may take some seconds.
-payment#:#pay_bmf_card_holder#:#Card holder
-payment#:#pay_bmf_check_number#:#Check number
-payment#:#pay_bmf_card_number#:#Card number
-payment#:#pay_bmf_validity#:#valid until
-payment#:#pay_bmf_credit_card_not_valid#:#The credit card data you've entered isn't valid. Please check out whether all fields are filled out correctly.
-payment#:#pay_bmf_shopping_cart_empty#:#Your shopping card is empty.
-payment#:#pay_bmf_server_error_code#:#Payment server returns error code
-payment#:#pay_bmf_server_error_communication#:#Error while communictaion with payment server.
-payment#:#pay_bmf_server_error_sysadmin#:#Please contact system administrator for further information.
-payment#:#pay_bmf_thanks#:#Thank you. Your order was submitted.
-payment#:#pay_bmf_back#:#back
-payment#:#pay_bmf_please_select#:#Please select
-payment#:#pay_expires_info#:#This object is disposable. The payment has been expired, you can not buy it.
-payment#:#pay_bmf_total_amount#:#Total amount
-payment#:#pay_bmf_vat_included#:#VAT included
-payment#:#paya_buyed_objects#:#Buyed objects
-payment#:#pay_not_buyed_any_object#:#You have not bought any object.
-payment#:#pay_bmf_terms_conditions#:#General terms and conditions
-payment#:#pay_bmf_terms_conditions_read#:#I've read the general terms and conditions and accept it.
-payment#:#pay_bmf_terms_conditions_show#:#show
-payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.
-payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
-payment#:#pays_general_settings#:#General settings
-payment#:#pays_address#:#Address for bill
-payment#:#pays_bank_data#:#Bank data for bill
-payment#:#pays_add_info#:#Additional information for bill (optional)
-payment#:#pays_vat_rate#:#VAT rate in % (optional)
-payment#:#pays_general_settings_not_valid#:#Your general settings aren't valid. Please check out whether all fields are filled out correctly.
-payment#:#pays_updated_general_settings#:#Your general settings were updated.
-payment#:#pays_currency_unit#:#Currency (e.g. EUR)
-payment#:#pays_currency_subunit#:#Currency (1/100) (e.g. Cent)
-payment#:#pay_customer_no#:#Customer no.
-payment#:#pay_bill_no#:#Incoice no.
-payment#:#pay_payed_credit_card#:#The order was paid by credit card.
-payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.
-payment#:#pay_bank_data#:#Bank data
-payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for
-payment#:#pay_article#:#Article
-payment#:#pay_message_subject#:#Your ILIAS order
-payment#:#pay_message_hello#:#Dear
-payment#:#pay_message_thanks#:#Thank you for your ILIAS 3 order.
-payment#:#pay_message_attachment#:#As a confirmation for your order we send you a bill (PDF format) as attachment.
-payment#:#pay_message_regards#:#Yours sincerely
-payment#:#pay_confirm_order#:#Please confirm your order by entering your password.
-payment#:#pays_pdf_path#:#Path for generating bill as PDF file
-payment#:#pay_goto_shopping_cart#:#Goto the shopping cart
-payment#:#pay_goto_buyed_objects#:#Goto your buyed objects
-payment#:#pay_send_order#:#Send order
-payment#:#pay_step1#:#Your order - Schritt 1/3: Enter your personal data
-payment#:#pay_step2#:#Your order - Schritt 2/3: Choose kind of payment
-payment#:#pay_step3_credit_card#:#Your order - Schritt 3/3: Enter your credit card data and send your order
-payment#:#pay_step3_debit_entry#:#Your order - Schritt 3/3: Enter your bank data and send your order
-payment#:#pay_bmf_street_or_pobox#:#Please enter street and house number or po box.
-payment#:#pay_bmf_check_terms_conditions#:#Please confirm that you've read the terms and conditions and accept it.
-payment#:#pay_bmf_password_not_valid#:#Your password wasn't valid.
-common#:#error#:#Error
-payment#:#pay_starting#:#starts with
-payment#:#pay_ending#:#ends with
-payment#:#pay_order_date_from#:#Order date from
-payment#:#pay_order_date_til#:#Order date til
-payment#:#pay_update_view#:#Update view
-payment#:#pay_filter#:#Filter
-payment#:#pay_all#:#All
-payment#:#pays_edit_vendor#:#Edit user
-payment#:#pays_too_many_vendors_selected#:#Please select only one customer to perform this action.
-payment#:#pays_cost_center_not_valid#:#Please enter a valid cost center.
-payment#:#pay_reset_filter#:#Reset filter
-administration#:#passwd_auto_generate#:#Password Forwarding/Generation
-common#:#reg_mail_subject#:#ILIAS eLearning - Your access data
-common#:#reg_mail_body_salutation#:#Hello
-common#:#reg_mail_body_text1#:#Welcome to ILIAS eLearning!
-common#:#reg_mail_body_text2#:#To acces ILIAs use the following data:
-common#:#reg_mail_body_text3#:#Further personal information:
-common#:#reg_passwd_via_mail#:#Your password will be sent to your email address given below.
-common#:#select_password#:#Select a new password
-common#:#new_list_password#:#New suggestions
-common#:#as_of#:#as of
-payment#:#paya_filter_reseted#:#Filter reseted.
-payment#:#excel_export#:#Excel export
-content#:#cont_or#:#or
-content#:#cont_example#:#e.g.
-content#:#cont_confirm_delete#:#really delete ?
