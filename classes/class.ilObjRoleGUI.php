@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.19 2003/05/14 15:52:24 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.20 2003/05/15 08:26:04 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -425,7 +425,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			if ($rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 			{
-				$assigned_users = $rbacreview->assignedUsers($_GET["ref_id"]);
+				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
 				$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
 
 				foreach (array_diff($assigned_users,$_POST["user"]) as $user)
