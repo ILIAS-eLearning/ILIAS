@@ -19,41 +19,14 @@ function getObject ($a_obj_id)
 {
 }*/
 
+
 /**
-* get an object by reference id
-* @access	public
-* @param	integer	reference id
-* @return	array	object data
-*/
+* deprecated: Use new ilObj..($ref_id, true) or 
+* $ilias->obj_factory->getInstanceByRefId($ref_id) instead
+*//*
 function getObjectByReference ($a_ref_id)
 {
-	global $ilias, $log;
-
-	if (!isset($a_ref_id))
-	{
-		$message = "perm::getObjectByReference(): No ref_id given!";
-		$log->writeWarning($message);
-		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
-	}
-
-	$q = "SELECT * FROM object_data ".
-		 "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id ".
-		 "WHERE object_reference.ref_id='".$a_ref_id."'";
-	$r = $ilias->db->query($q);
-	
-	if ($r->numRows() == 0)
-	{
-		$message = "perm::getObjectByReference(): Object with ref_id ".$a_ref_id." not found!";
-		$log->writeWarning($message);
-		$ilias->raiseError($message,$ilias->error_obj->WARNING);
-	}
-
-	$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
-	$arr = fetchObjectData($row);
-
-	return $arr;
-}
+}*/
 
 
 /**
