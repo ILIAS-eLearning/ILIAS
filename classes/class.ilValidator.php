@@ -29,7 +29,7 @@
 *
 * @package	ilias-tools
 */
-class ilValidator
+class ilValidator extends PEAR
 {
 	/**
 	* name of RecoveryFolder
@@ -72,6 +72,10 @@ class ilValidator
 	function ilValidator()
 	{
 		global $objDefinition, $ilDB;
+		
+		$this->PEAR();
+		
+        $this->setErrorHandling(PEAR_ERROR_CALLBACK,array(&$this, 'handleErr'));
 
 		$this->rbac_object_types = "'".implode("','",$objDefinition->getAllRBACObjects())."'";
 		$this->db =& $ilDB;
@@ -91,7 +95,7 @@ class ilValidator
 	{
 		if ((!in_array($a_mode,array_keys($this->mode)) and $a_mode != "all") or !is_bool($a_value))
 		{
-			$this->setError(INVALID_PARAM,"setMode");
+			$this->throwError(INVALID_PARAM, FATAL, DEBUG);
 			return false;
 		}
 		
@@ -261,7 +265,7 @@ class ilValidator
 	{
 		if (!is_array($a_unbound_refs) or count($a_unbound_refs) == 0)
 		{
-			$this->setError(INVALID_PARAM,"removeUnboundedReferences");
+			$this->throwError(INVALID_PARAM, FATAL, DEBUG);
 			return false;
 		}
 
@@ -291,7 +295,7 @@ class ilValidator
 	{
 		if (!is_array($a_unbound_childs) or count($a_unbound_childs) == 0)
 		{
-			$this->setError(INVALID_PARAM,"removeUnboundedChilds");
+			$this->throwError(INVALID_PARAM, FATAL, DEBUG);
 			return false;
 		}
 
@@ -324,7 +328,7 @@ class ilValidator
 
 		if (!is_object($a_objRecover) or !is_array($a_objs_no_ref) or count($a_objs_no_ref) == 0)
 		{
-			$this->setError(INVALID_PARAM,"reestorMissingObjects");
+			$this->throwError(INVALID_PARAM, FATAL, DEBUG);
 			return false;
 		}
 
@@ -394,7 +398,7 @@ class ilValidator
 
 		if (!is_object($a_objRecover) or !is_array($a_childs_no_parent) or count($a_childs_no_parent) == 0)
 		{
-			$this->setError(INVALID_PARAM,"restoreUnboundChilds");
+			$this->throwError(INVALID_PARAM,"restoreUnboundChilds");
 			return false;
 		}
 
@@ -545,71 +549,78 @@ class ilValidator
 		$tree->renumber(ROOT_FOLDER_ID);
 		return true;
 	}
-
-	/**
-	* DEPRECATED?
-	*/
-	function checkMainStructure()
-	{
-		//$tree = new ilTreeChecker(ROOT_FOLDER_ID);
-	}
-
 	
 	/**
-	* DEPRECATED?
-	*/
-	function getMissingTreeEntries()
-	{
-		$q = "SELECT object_reference.* FROM object_reference ".
-			 "LEFT JOIN tree ON object_reference.ref_id = tree.child ".
-			 "WHERE tree.child IS NULL";
-		$r = $this->db->query($q);
-		
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$arr_objs[] = array(
-								"ref_id"	=> $row->ref_id,
-								"obj_id"	=> $row->obj_id
-								);
-		}
-
-		return $arr_objs ? $arr_objs : array();
-	}
-	
-	/**
-	* stores information about an error if an error occurred 
+	* Callback function
+	* handles error of PEAR_error
+	* TODO: implement that in global errorhandler of ILIAS (via templates)
+	* 
 	* @access	private
-	* @param	integer	error code
-	* @param	string	name of method that raised the error
-	* @param	integer	error level
+	* @param	object	PEAR_error
 	*/
-	function setError($a_err_code,$a_method_name,$a_err_level = FATAL)
+	function handleErr($error)
 	{
-		$this->error["code"]	= $a_error_code;
-		$this->error["class"]	= get_class($this);
-		$this->error["method"]	= $a_method_name;
-		$this->error["level"]	= $a_err_level;
-		$this->err_flag			= true;
-	}
-	
-	/**
-	* Outputs error (formatted and translated)
-	* Resets error flag to false
-	* TODO: Move this method to GUI class
-	* @access	public
-	* @return	string/boolean	HTML output or false if no error is stored
-	*/
-	function getErrorMessage()
-	{
-		if ($this->err_flag !== true)
+		$call_loc = $error->backtrace[count($error->backtrace)-1];
+		$num_args = count($call_loc["args"]);
+
+		if ($num_args > 0)
 		{
-			return false;
+			foreach ($call_loc["args"] as $arg)
+			{
+				$type = gettype($arg);
+				
+				switch ($type)
+				{
+					case "string":
+						$value = strlen($arg);
+						break;
+
+					case "array":
+						$value = count($arg);
+						break;
+
+					case "object":
+						$value = get_class($arg);
+						break;
+
+					case "boolean":
+						$value = ($arg) ? "true" : "false";
+						break;
+						
+					default:
+						$value = $arg;
+						break;
+				}
+				
+				$arg_list[] = array(
+									"type"	=> $type,
+									"value"	=> "(".$value.")"
+									);
+			}
+			
+			foreach ($arg_list as $arg)
+			{
+				$arg_str .= implode("",$arg)." ";
+			}
+		}
+
+		$err_msg = "<br/><b>".$error->getCode()." error:</b> ".$error->getMessage()." in ".$call_loc["class"].$call_loc["type"].$call_loc["function"].
+				   "<br/>Called from: ".basename($call_loc["file"])." , line ".$call_loc["line"].
+				   "<br/>Passed parameters: [".$num_args."] ".$arg_str;
+		printf($err_msg);
+		
+		if ($error->getUserInfo())
+		{
+			printf("<br/><br/>Parameter details:");
+			echo "<pre>";
+			var_dump($call_loc["args"]);
+			echo "</pre>";
 		}
 		
-		echo "<br/>".$this->error["level"].": ".$this->error["code"]." in ".$this->error["class"]."::".$this->level["method"]."() !";
-		$this->err_flag = false;
-		
-		return true;
+		if ($error->getCode() == FATAL)
+		{
+			exit();
+		}
 	}
 } // END class.ilValidator
 ?>
