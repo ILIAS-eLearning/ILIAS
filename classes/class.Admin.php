@@ -10,44 +10,105 @@ class Admin
 {
 	var $ilias;
 
-
-// PUBLIC METHODEN
+	// constructor
 	function Admin(&$a_ilias)
 	{
 		$this->ilias = $a_ilias;
 	}
+
+
+// PUBLIC METHODEN
+	
+	// cut an object out from tree an copy information to clipboard
 	function cutObject()
 	{
-		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+		global $clipboard;
+		
+		if (!isset($_POST["id"]))
+		{
+			$_SESSION["Error_Message"] = "No permission to delete Object";
+		}
+		
+		$clipboard = array( "node"		=> $_GET["obj_id"],
+							"parent"	=> $_GET["parent"],
+							"obj_list"	=> $_POST["id"],
+							"cmd"		=> $_POST["cmd"]
+						   );
+								   
+		$_SESSION["clipboard"] = $clipboard;
+			
 	}
+		
+	// create an new reference of an object in tree
 	function copyObject()
 	{
-		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+		global $clipboard;
+
+		if (!isset($_POST["id"]))
+		{
+			$_SESSION["Error_Message"] = "No permission to delete Object";
+		}
+		
+		$clipboard = array( "node"		=> $_GET["obj_id"],
+							"parent"	=> $_GET["parent"],
+							"obj_list"	=> $_POST["id"],
+							"cmd"		=> $_POST["cmd"]
+						   );
+								   
+		$_SESSION["clipboard"] = $clipboard;
 	}
+	
+	// paste an object to new location in tree
 	function pasteObject()
 	{
-		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
+		global $clipboard, $tree;
+		
+		if ($clipboard["cmd"] == "copy")
+		{
+			//$tree->copyNode();
+		}		
+	
+		if ($clipboard["cmd"] == "cut")
+		{
+			echo $clipboard["obj_list"][0];
+			$tree->moveNode($clipboard["obj_list"][0],$clipboard["parent"],$_GET["parent"]);
+			$_SESSION["clipboard"] = "";
+			session_unregister("clipboard");
+		}
 	}
+	
+	// delete an object from tree
 	function deleteObject()
 	{
 		global $tree;
-		
-		$rbacadmin = new RbacAdminH($this->ilias->db);
-		$rbacsystem = new RbacSystemH($this->ilias->db);
-		foreach($_POST["id"] as $id)
+
+		if (!isset($_POST["id"]))
 		{
-			// CHECK ACCESS
-			if($rbacsystem->checkAccess('delete',$id,$_GET["obj_id"]))
+			$_SESSION["Error_Message"] = "No checkbox checked. Nothing happened. :-)";
+		}
+		else
+		{		
+			$rbacadmin = new RbacAdminH($this->ilias->db);
+			$rbacsystem = new RbacSystemH($this->ilias->db);
+
+			foreach($_POST["id"] as $id)
 			{
 				$tree->deleteTree($id);
 				$rbacadmin->revokePermission($id);
-			}
-			else
-			{
-				$_SESSION["Error_Message"] = "No permission to delete Object";
+
+				// CHECK ACCESS	
+				if($rbacsystem->checkAccess('delete',$id,$_GET["obj_id"]))
+				{
+					$tree->deleteTree($id);
+					$rbacadmin->revokePermission($id);
+				}
+				else
+				{
+					$_SESSION["Error_Message"] = "No permission to delete Object";
+				}
 			}
 		}
-		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
-}
+	
+} // end class.Admin.php
 ?>
