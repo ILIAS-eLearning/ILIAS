@@ -23,6 +23,7 @@
 
 require_once "./assessment/classes/class.assQuestion.php";
 require_once "./assessment/classes/class.assAnswerCloze.php";
+require_once "./assessment/classes/class.ilQTIUtils.php";
 
 define("CLOZE_TEXT", "0");
 define("CLOZE_SELECT", "1");
@@ -349,6 +350,132 @@ class ASS_ClozeTest extends ASS_Question
 		$clone->duplicateMaterials($original_id);
 		return $clone->id;
 	}
+	
+	/**
+	* Imports a question from XML
+	*
+	* Sets the attributes of the question from the XML text passed
+	* as argument
+	*
+	* @access public
+	*/
+	function from_xml($xml_text)
+	{
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
+		$this->domxml = domxml_open_mem($xml_text);
+		$root = $this->domxml->document_element();
+		$item = $root->first_child();
+		$this->setTitle($item->get_attribute("title"));
+		$this->gaps = array();
+		$comment = $item->first_child();
+		if (strcmp($comment->node_name(), "qticomment") == 0)
+		{
+			$this->setComment($comment->get_content());
+		}
+		$itemnodes = $item->child_nodes();
+		$materials = array();
+		$gapcounter = 0;
+		foreach ($itemnodes as $index => $node)
+		{
+			switch ($node->node_name())
+			{
+				case "presentation":
+					$flow = $node->first_child();
+					$flownodes = $flow->child_nodes();
+					foreach ($flownodes as $idx => $flownode)
+					{
+						if (strcmp($flownode->node_name(), "material") == 0)
+						{
+							$mattext = $flownode->first_child();
+							array_push($materials, $mattext->get_content());
+						}
+						elseif (strcmp($flownode->node_name(), "response_str") == 0)
+						{
+							$ident = $flownode->get_attribute("ident");
+							$this->gaps["$ident"] = array();
+							$shuffle = "";
+							$render_type = $flownode->first_child();
+							if (strcmp($render_type->node_name(), "render_choice") == 0)
+							{
+								// select gap
+								$shuffle = $render_type->get_attribute("shuffle");
+								$labels = $render_type->child_nodes();
+								foreach ($labels as $lidx => $response_label)
+								{
+									$material = $response_label->first_child();
+									$mattext = $material->first_child();
+									$shuf = 0;
+									if (strcmp(strtolower($shuffle), "yes") == 0)
+									{
+										$shuf = 1;
+									}
+									array_push($this->gaps["$ident"], new ASS_AnswerCloze($mattext->get_content(), 0, count($this->gaps["$ident"]), 0, CLOZE_SELECT, $ident, $shuf));
+								}
+							}
+							elseif (strcmp($render_type->node_name(), "render_fib") == 0)
+							{
+								// text gap
+							}
+						}
+					}
+					break;
+				case "resprocessing":
+					$resproc_nodes = $node->child_nodes();
+					foreach ($resproc_nodes as $index => $respcondition)
+					{
+						if (strcmp($respcondition->node_name(), "respcondition") == 0)
+						{
+							$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
+							$found_answer = 0;
+							foreach ($this->gaps[$respcondition_array["conditionvar"]["respident"]] as $key => $value)
+							{
+								if (strcmp($value->get_answertext(), $respcondition_array["conditionvar"]["value"]) == 0)
+								{
+									$found_answer = 1;
+									$this->gaps[$respcondition_array["conditionvar"]["respident"]][$key]->set_points($respcondition_array["setvar"]["points"]);
+									if ($respcondition_array["conditionvar"]["selected"])
+									{
+										$this->gaps[$respcondition_array["conditionvar"]["respident"]][$key]->setChecked();
+									}
+								}
+							}
+							if (!$found_answer)
+							{
+								// text gap
+								array_push($this->gaps[$respcondition_array["conditionvar"]["respident"]], new ASS_AnswerCloze($respcondition_array["conditionvar"]["value"], $respcondition_array["setvar"]["points"], count($this->gaps[$respcondition_array["conditionvar"]["respident"]]), 1, CLOZE_TEXT, $respcondition_array["conditionvar"]["respident"], 0));
+							}
+						}
+					}
+					break;
+			}
+		}
+		$this->gaps = array_values($this->gaps);
+		$i = 0;
+		foreach ($materials as $key => $value)
+		{
+			$this->cloze_text .= $value;
+			$gaptext = $this->get_gap_text_list($i);
+			if ($gaptext)
+			{
+				$type = " type=\"select\"";
+				if ($this->gaps[$i][0]->get_cloze_type() == CLOZE_TEXT)
+				{
+					$type = " type=\"text\"";
+				}
+				$shuffle = " shuffle=\"yes\"";
+				if (!$this->gaps[$i][0]->get_shuffle())
+				{
+					$shuffle = " shuffle=\"no\"";
+				}
+				$this->cloze_text .= "<gap$type$shuffle>$gaptext</gap>";
+			}
+			$i++;
+		}
+	}
 
 	/**
 	* Returns a QTI xml representation of the question
@@ -441,7 +568,7 @@ class ASS_ClozeTest extends ASS_Question
 						$qtiMaterial = $this->domxml->create_element("material");
 						$qtiMatText = $this->domxml->create_element("mattext");
 						$tmpvalue = $value->get_answertext();
-						$qtiMatTextText = $this->domxml->create_text_node("TEST".$tmpvalue."TEST");
+						$qtiMatTextText = $this->domxml->create_text_node($tmpvalue);
 						$qtiMatText->append_child($qtiMatTextText);
 						$qtiMaterial->append_child($qtiMatText);
 						$qtiResponseLabel->append_child($qtiMaterial);
@@ -488,11 +615,25 @@ class ASS_ClozeTest extends ASS_Question
 					$qtiRespcondition->set_attribute("continue", "Yes");
 					// qti conditionvar
 					$qtiConditionvar = $this->domxml->create_element("conditionvar");
+
+					if (!$answer->isStateSet())
+					{
+						$qtinot = $this->domxml->create_element("not");
+					}
+					
 					$qtiVarequal = $this->domxml->create_element("varequal");
 					$qtiVarequal->set_attribute("respident", "gap_$i");
 					$qtiVarequalText = $this->domxml->create_text_node($answer->get_answertext());
 					$qtiVarequal->append_child($qtiVarequalText);
-					$qtiConditionvar->append_child($qtiVarequal);
+					if (!$answer->isStateSet())
+					{
+						$qtiConditionvar->append_child($qtinot);
+						$qtinot->append_child($qtiVarequal);
+					}
+					else
+					{
+						$qtiConditionvar->append_child($qtiVarequal);
+					}
 					// qti setvar
 					$qtiSetvar = $this->domxml->create_element("setvar");
 					$qtiSetvar->set_attribute("action", "Add");
