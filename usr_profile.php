@@ -274,18 +274,25 @@ if ($_GET["cmd"] == "save")
 		// init reload var. page should only be reloaded if skin or style were changed
 		$reload = false;
 
-		//set user skin
-		if ($_POST["usr_skin"] != "" and $_POST["usr_skin"] != $ilias->account->getPref("skin"))
+		//set user skin and style
+		if ($_POST["usr_skin_style"] != "")
 		{
-			$ilias->account->setPref("skin", $_POST["usr_skin"]);
-			$reload = true;
+			$sknst = explode(":", $_POST["usr_skin_style"]);
+			if ($ilias->account->getPref("style") != $sknst[1] ||
+				$ilias->account->getPref("skin") != $sknst[0])
+			{
+				$ilias->account->setPref("skin", $sknst[0]);
+				$ilias->account->setPref("style", $sknst[1]);
+				$reload = true;
+			}
 		}
+		/*
 		// set user style only if skin wasn't changed
 		elseif ($_POST["usr_style"] != "" and $_POST["usr_style"] != $ilias->account->getPref("style"))
 		{
 				$ilias->account->setPref("style", $_POST["usr_style"]);
 				$reload = true;
-		}
+		}*/
 		// set user language
 		elseif ($_POST["usr_language"] != "" and $_POST["usr_language"] != $ilias->account->getLanguage())
 		{
@@ -359,6 +366,7 @@ foreach ($languages as $lang_key)
 	$tpl->parseCurrentBlock();
 }
 
+/*
 //what gui's are available for ilias?
 $ilias->getSkins();
 
@@ -391,6 +399,29 @@ foreach ($ilias->styles as $row)
 	$tpl->setVariable("STYLEVALUE", $row["name"]);
 	$tpl->setVariable("STYLEOPTION", $row["name"]);
 	$tpl->parseCurrentBlock();
+}*/
+
+// get all skins
+$ilias->getSkins();
+foreach ($ilias->skins as $skin)
+{
+	// get styles for skin
+	$ilias->getStyles($skin["name"]);
+	reset($ilias->styles);
+	foreach($ilias->styles as $style)
+	{
+		$tpl->setCurrentBlock("selectskin");
+
+		if ($ilias->account->skin == $skin["name"] &&
+			$ilias->account->prefs["style"] == $style["name"])
+		{
+			$tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
+		}
+
+		$tpl->setVariable("SKINVALUE", $skin["name"].":".$style["name"]);
+		$tpl->setVariable("SKINOPTION", $skin["name"]." / ".$style["name"]);
+		$tpl->parseCurrentBlock();
+	}
 }
 
 $tpl->setCurrentBlock("content");
@@ -454,8 +485,7 @@ $tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
 $tpl->setVariable("TXT_HOBBY",$lng->txt("hobby"));					// here
 $tpl->setVariable("TXT_DEFAULT_ROLES",$lng->txt("default_roles"));
 $tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
-$tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
-$tpl->setVariable("TXT_USR_STYLE",$lng->txt("usr_style"));
+$tpl->setVariable("TXT_USR_SKIN_STYLE",$lng->txt("usr_skin_style"));
 $tpl->setVariable("TXT_PERSONAL_DATA", $lng->txt("personal_data"));
 $tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
 $tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
