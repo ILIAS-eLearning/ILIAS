@@ -27,12 +27,14 @@
 * @version $Id$
 *
 * @ilCtrl_Calls ilPaymentAdminGUI: ilPaymentTrusteeGUI, ilPaymentStatisticGUI, ilPaymentObjectGUI
+* @ilCtrl_Calls ilPaymentAdminGUI: ilPaymentBillAdminGUI
 *
 * @package core
 */
 include_once "./payment/classes/class.ilPaymentVendors.php";
 include_once "./payment/classes/class.ilPaymentBaseGUI.php";
 include_once "./payment/classes/class.ilPaymentTrustees.php";
+include_once "./payment/classes/class.ilPaymentBillAdminGUI.php";
 
 
 class ilPaymentAdminGUI extends ilPaymentBaseGUI
@@ -96,6 +98,18 @@ class ilPaymentAdminGUI extends ilPaymentBaseGUI
 				
 				$this->ctrl->forwardCommand($ps);
 				break;
+
+			case 'ilpaymentbilladmingui':
+				$this->setSection($this->SECTION_OBJECT);
+				$this->buildHeader();
+
+				include_once './payment/classes/class.ilPaymentBillAdminGUI.php';
+
+				$po =& new ilPaymentBillAdminGUI($this->user_obj,$_GET['pobject_id']);
+				
+				$this->ctrl->forwardCommand($po);
+				break;
+				
 
 			default:
 				$this->__forwardToDefault();

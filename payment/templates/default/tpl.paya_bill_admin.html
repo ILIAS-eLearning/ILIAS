@@ -1,0 +1,91 @@
+  <form action="{BILL_FORMACTION}" method="post">
+	<table class="std">
+	  <tr class="tbltitle">
+		<td colspan="3">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}&nbsp;({DESCRIPTION})</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="option" rowspan="13">{TXT_CONTACT}</td>
+		<td class="sub_option">{TXT_GENDER}<span class="asterisk">*</span></td>
+		<td class="option_value">{GENDER_CHECK_M}&nbsp;{TXT_GENDER_M}&nbsp;{GENDER_CHECK_F}&nbsp;{TXT_GENDER_F}&nbsp;</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_FIRSTNAME}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="firstname" value="{FIRSTNAME}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_LASTNAME}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="lastname" value="{LASTNAME}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_TITLE}</td>
+		<td class="option_value"><input type="text" name="title" value="{TITLE}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_INSTITUTION}</td>
+		<td class="option_value"><input type="text" name="institution" value="{INSTITUTION}"</td>
+	  </tr>
+	  <tr> 
+		<td class="sub_option">{TXT_DEPARTMENT}</td>
+		<td class="option_value"><input type="text" name="department" value="{DEPARTMENT}"</td>
+	  </tr>
+	  <tr> 
+		<td class="sub_option">{TXT_STREET}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="street" value="{STREET}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_ZIPCODE}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="zipcode" value="{ZIPCODE}"</td>
+	  </tr>
+	  <tr> 
+		<td class="sub_option">{TXT_CITY}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="city" value="{CITY}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_COUNTRY}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="country" value="{COUNTRY}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_PHONE}</td>
+		<td class="option_value"><input type="text" name="phone" value="{PHONE}"</td>
+	  </tr>
+	  <tr> 
+		<td class="sub_option">{TXT_FAX}</td>
+		<td class="option_value"><input type="text" name="fax" value="{FAX}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_EMAIL}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="email" value="{EMAIL}"</td>
+	  </tr>
+	  <tr>
+		<td class="option" rowspan="5">{TXT_ACCOUNT_DATA}</td>
+		<td class="sub_option">{TXT_ACCOUNT_NUMBER}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="account_number" value="{ACCOUNT_NUMBER}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_BANKCODE}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="bankcode" value="{BANKCODE}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_IBAN}</td>
+		<td class="option_value"><input type="text" name="iban" value="{IBAN}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_BIC}</td>
+		<td class="option_value"><input type="text" name="bic" value="{BIC}"</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_BANKNAME}<span class="asterisk">*</span></td>
+		<td class="option_value"><input type="text" name="bankname" value="{BANKNAME}"</td>
+	  </tr>
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="3" ><input class="submit" type="submit" name="cmd[update]" value="{INPUT_VALUE}" /></td>
+	  </tr>
+	</table>
+</form>
