@@ -69,7 +69,6 @@ class Object
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
 			$tree->insertNode($new_obj_id,$_GET["obj_id"]);
 
-			// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
 			$parentRoles = $rbacadmin->getParentRoleIds();
 			
 			foreach($parentRoles as $parRol)

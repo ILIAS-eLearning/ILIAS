@@ -978,6 +978,72 @@ class Tree extends PEAR
 		}
 		
 		return $arr;
-	}	
+	}
+/**
+ * get data of a specific node from tree and object_data
+ * @param int obj_id
+ * @param int parent_id
+ * @return array
+ * @access public
+ **/
+	function getNodeData($a_obj_id,$a_parent_id)
+	{
+		$query = "SELECT * FROM object_data,tree ".
+			"WHERE object_data.obj_id = tree.child ".
+			"AND tree.child = '".$a_obj_id."' ".
+			"AND tree.parent = '".$a_parent_id."'";
+		$res = $this->db->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data[] = array(
+				"obj_id"        => $row->obj_id,
+				"type"          => $row->type,
+				"title"         => $row->title,
+				"description"   => $row->description,
+				"owner"         => $row->owner,
+				"create_date"   => $row->create_date,
+				"last_updeate"  => $row->last_update,
+				"parent"        => $row->parent,
+				"depth"         => $row->depth
+				);
+		}
+		return $data ? $data : array();
+	}
+/**
+ * get data of parent node from tree and object_data
+ * @param int object id
+ * @param int parent id
+ * @return array
+ * @access public
+ **/
+	function getParentNodeData($a_obj_id,$a_parent_id)
+	{
+		$query = "SELECT * FROM tree s,tree v, object_data ".
+			"WHERE object_data.obj_id = v.child ".
+			"AND s.child = '".$a_obj_id."' ".
+			"AND s.parent = '".$a_parent_id."' ".
+			"AND s.parent = v.child ".
+			"AND s.lft > v.lft ".
+			"AND s.rgt < v.rgt";
+		$res = $this->db->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$data = array(
+				"obj_id"        => $row->obj_id,
+				"type"          => $row->type,
+				"title"         => $row->title,
+				"description"   => $row->description,
+				"owner"         => $row->owner,
+				"create_date"   => $row->create_date,
+				"last_updeate"  => $row->last_update,
+				"parent"        => $row->parent,
+				"depth"         => $row->depth
+				);
+		}
+		return $data ? $data : array();
+	}
+
 } // END class.tree.php
 ?>
