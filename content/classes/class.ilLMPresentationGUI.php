@@ -120,6 +120,10 @@ class ilLMPresentationGUI
 					case "ilTOC":
 						$this->ilTOC($child_attr["target_frame"]);
 						break;
+
+					case "ilPage":
+						$this->ilPage();
+						break;
 				}
 			}
 		}
@@ -170,6 +174,24 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "lm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
 			"&lm_id=".$this->lm->getId()."&mexpand=".$_GET["mexpand"]);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function ilPage()
+	{
+		$lmtree = new ilTree($this->lm->getId());
+		$lmtree->setTableNames('lm_tree','lm_data');
+		$lmtree->setTreeTablePK("lm_id");
+		$this->tpl->setCurrentBlock("ilPage");
+		$succ_node = $lmtree->fetchSuccessorNode($_GET["obj_id"], "pg");
+		$succ_str = ($succ_node !== false)
+			? " -> ".$succ_node["obj_id"]."_".$succ_node["type"]
+			: "";
+		$pre_node = $lmtree->fetchPredecessorNode($_GET["obj_id"], "pg");
+		$pre_str = ($pre_node !== false)
+			? $pre_node["obj_id"]."_".$pre_node["type"]." -> "
+			: "";
+		$this->tpl->setVariable("PAGE_CONTENT", $pre_str.$_GET["obj_id"].$succ_str);
 		$this->tpl->parseCurrentBlock();
 	}
 

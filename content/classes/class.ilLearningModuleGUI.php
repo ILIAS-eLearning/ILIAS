@@ -90,7 +90,7 @@ class ilLearningModuleGUI extends ilLMObjectGUI
 		}
 
 		$cnt = 0;
-		$childs = $this->tree->getChilds($this->tree->getRootId(), "title");
+		$childs = $this->tree->getChilds($this->tree->getRootId());
 		foreach ($childs as $child)
 		{
 			// color changing

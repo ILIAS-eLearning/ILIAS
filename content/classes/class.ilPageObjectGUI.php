@@ -151,7 +151,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$num = 0;
 
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId()."&cmd=post");
+			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId()."&cmd=edpost");
 
 		$content = $this->pg_obj->getXMLContent();
 		$xsl = file_get_contents("./content/page.xsl");
@@ -161,7 +161,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		echo xslt_error($xh);
 		xslt_free($xh);
 
-		$this->tpl->setVariable("PAGE_CONTENT", htmlentities($output));
+		$this->tpl->setVariable("PAGE_CONTENT", $output);
 	}
 
 	function edit()
