@@ -81,8 +81,8 @@ administration#:#searching_invalid_refs#:#Sucht nach ungültigen Referenzen...
 administration#:#searching_missing_objs#:#Sucht nach verlorenen Objekten...
 administration#:#searching_unbound_objs#:#Sucht nach nichtzugeordneten Objekten...
 administration#:#skipped#:#ausgelassen
-administration#:#start_scan#:#Start!
-administration#:#stop_scan#:#Stop!
+administration#:#start_scan#:#Start!###03 Nov 2004 new variable
+administration#:#stop_scan#:#Stop!###03 Nov 2004 new variable
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Scan Log
 administration#:#view_log#:#Zeige Details
@@ -105,7 +105,7 @@ assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
 assessment#:#applet_attributes#:#Applet-Attribute
 assessment#:#applet_new_parameter#:#Neuer Parameter
-assessment#:#applet_parameter#:#Parameter
+assessment#:#applet_parameter#:#Parameter###03 Nov 2004 new variable
 assessment#:#applet_parameters#:#Applet-Parameter
 assessment#:#apply#:#Übernehmen
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
@@ -127,7 +127,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#cloze_text#:#Lückentext-Frage
-assessment#:#code#:#Code
+assessment#:#code#:#Code###03 Nov 2004 new variable
 assessment#:#coordinates#:#Koordinaten
 assessment#:#correct_solution_is#:#Die korrekte Lösung lautet
 assessment#:#counter#:#Zähler
@@ -143,6 +143,7 @@ assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#duplicate#:#Duplizieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelte Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
+assessment#:#duplicate_tst#:#Test duplizieren
 assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
 assessment#:#ects_fill_out_all_values#:#Bitte geben Sie einen Wert für jede ECTS-Note an!
 assessment#:#ects_grade#:#ECTS-Note
@@ -185,7 +186,7 @@ assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften bet
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren als
-assessment#:#exp_type_excel#:#Microsoft Excel
+assessment#:#exp_type_excel#:#Microsoft Excel###03 Nov 2004 new variable
 assessment#:#exp_type_spss#:#Durch Komma getrennte Werte (CSV)
 assessment#:#export#:#Exportieren
 assessment#:#failed_official#:#nicht bestanden
@@ -199,7 +200,7 @@ assessment#:#fill_out_all_required_fields_create_gaps#:#Sie müssen zuerst alle 
 assessment#:#fill_out_all_required_fields_upload_image#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Bilder hochladen!
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen!
 assessment#:#fill_out_all_required_fields_upload_material#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Materialien hochladen!
-assessment#:#filter#:#Filter
+assessment#:#filter#:#Filter###03 Nov 2004 new variable
 assessment#:#filter_all_question_types#:#Alle Fragentypen
 assessment#:#filter_all_questionpools#:#Alle Fragenpools
 assessment#:#filter_show_question_types#:#Zeige folgende Fragentypen
@@ -217,7 +218,7 @@ assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
-assessment#:#javaapplet#:#Java Applet
+assessment#:#javaapplet#:#Java Applet###03 Nov 2004 new variable
 assessment#:#javaapplet_successful_saved#:#Ihre Ergebnisse wurden erfolgreich gespeichert!
 assessment#:#javaapplet_unsuccessful_saved#:#Beim Speichern Ihrer Ergebnisse ist ein Fehler aufgetreten!
 assessment#:#last_update#:#Letzte Aktualisierung
@@ -229,7 +230,7 @@ assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
 assessment#:#matches#:#passt zu
 assessment#:#matching_pair#:#Zuordnungspaar
-assessment#:#material#:#Material
+assessment#:#material#:#Material###03 Nov 2004 new variable
 assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
@@ -292,7 +293,7 @@ assessment#:#random_selection#:#Zufällige Auswahl
 assessment#:#rectangle#:#Rechteck
 assessment#:#rectangle_click_br_corner#:#Bitte klicken Sie auf die untere rechte Ecke der gewünschten Region.
 assessment#:#rectangle_click_tl_corner#:#Bitte klicken Sie auf die obere linke Ecke der gewünschten Region.
-assessment#:#region#:#Region
+assessment#:#region#:#Region###03 Nov 2004 new variable
 assessment#:#remove_question#:#Entfernen
 assessment#:#remove_solution#:#Musterlösung entfernen
 assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
@@ -309,6 +310,7 @@ assessment#:#see_details_for_further_information#:#Musterlösungen: Siehe Fragen
 assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
+assessment#:#select_tst_option#:#--- Bitte wählen Sie einen Test aus ---
 assessment#:#selected_image#:#Ausgewählte Grafik
 assessment#:#set_filter#:#Filter setzen
 assessment#:#shape#:#Form
@@ -321,7 +323,7 @@ assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erf
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#text_gap#:#Text-Lücke
-assessment#:#time_format#:#HH MM SS
+assessment#:#time_format#:#HH MM SS###03 Nov 2004 new variable
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
 assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
@@ -389,8 +391,10 @@ assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
 assessment#:#tst_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
+assessment#:#tst_select_file_for_import#:#You must select a file for import!###03 Nov 2004 new variable
 assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren.
 assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren.
+assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Duplizieren aus
 assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen ist fest
 assessment#:#tst_sequence_postpone#:#Die Lernenden können einzelne Fragen zurückstellen
@@ -402,9 +406,9 @@ assessment#:#tst_starting_time#:#Startzeit
 assessment#:#tst_stat_all_users#:#Alle Nutzerinnen
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr Nutzerinnen aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungszeit
-assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean
+assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###03 Nov 2004 new variable
 assessment#:#tst_stat_result_distancemedian#:#Abstand zum Median
-assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile
+assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###03 Nov 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#Erster Aufruf
 assessment#:#tst_stat_result_lastvisit#:#Letzter Aufruf
 assessment#:#tst_stat_result_mark_median#:#Dem Median zugeordnete Note
@@ -453,7 +457,7 @@ assessment#:#working_time#:#Bearbeitungszeit
 assessment#:#you_received_a_of_b_points#:#Sie haben %d von %d möglichen Punkten erreicht
 bibitem#:#bibitem_add#:#Hinzufügen
 bibitem#:#bibitem_author#:#Autor
-bibitem#:#bibitem_av#:#AV
+bibitem#:#bibitem_av#:#AV###03 Nov 2004 new variable
 bibitem#:#bibitem_bibitem#:#Bibliographische Information
 bibitem#:#bibitem_book#:#Buch
 bibitem#:#bibitem_booktitle#:#Buchtitel
@@ -471,11 +475,11 @@ bibitem#:#bibitem_how_published#:#Wie veröffentlicht
 bibitem#:#bibitem_identifier#:#Bezeichner
 bibitem#:#bibitem_inbook#:#Bucheinlage
 bibitem#:#bibitem_inproceedings#:#In Veröffentlichungen
-bibitem#:#bibitem_institution#:#Institution
-bibitem#:#bibitem_internet#:#Internet
-bibitem#:#bibitem_isbn#:#ISBN
-bibitem#:#bibitem_issn#:#ISSN
-bibitem#:#bibitem_journal#:#Journal
+bibitem#:#bibitem_institution#:#Institution###03 Nov 2004 new variable
+bibitem#:#bibitem_internet#:#Internet###03 Nov 2004 new variable
+bibitem#:#bibitem_isbn#:#ISBN###03 Nov 2004 new variable
+bibitem#:#bibitem_issn#:#ISSN###03 Nov 2004 new variable
+bibitem#:#bibitem_journal#:#Journal###03 Nov 2004 new variable
 bibitem#:#bibitem_journal_article#:#Journal Artikel
 bibitem#:#bibitem_keyword#:#Schlagwort
 bibitem#:#bibitem_label#:#Kennzeichen
@@ -506,7 +510,7 @@ bibitem#:#bibitem_series_volume#:#Band
 bibitem#:#bibitem_technical_report#:#Forschungsbericht
 bibitem#:#bibitem_type#:#Typ
 bibitem#:#bibitem_unpublished#:#Unveröffentlicht
-bibitem#:#bibitem_url#:#URL
+bibitem#:#bibitem_url#:#URL###03 Nov 2004 new variable
 bibitem#:#bibitem_where_published#:#Wo herausgegeben
 bibitem#:#bibitem_year#:#Jahr
 chat#:#chat_active#:#Aktiv
@@ -515,8 +519,8 @@ chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein,
 chat#:#chat_add_ip#:#Bitte geben Sie die Server-IP ein.
 chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
 chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
-chat#:#chat_aqua#:#aqua
-chat#:#chat_arial#:#Arial
+chat#:#chat_aqua#:#aqua###03 Nov 2004 new variable
+chat#:#chat_arial#:#Arial###03 Nov 2004 new variable
 chat#:#chat_black#:#schwarz
 chat#:#chat_blue#:#blau
 chat#:#chat_bold#:#fett
@@ -528,7 +532,7 @@ chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden
 chat#:#chat_drop_user#:#Benutzer entfernt
 chat#:#chat_edit#:#Chat bearbeiten
 chat#:#chat_face#:#Schrifttyp
-chat#:#chat_fuchsia#:#fuchsia
+chat#:#chat_fuchsia#:#fuchsia###03 Nov 2004 new variable
 chat#:#chat_gray#:#grau
 chat#:#chat_green#:#grün
 chat#:#chat_hide_details#:#Details verbergen
@@ -545,12 +549,12 @@ chat#:#chat_level_all#:#Alles
 chat#:#chat_level_debug#:#Korrektur
 chat#:#chat_level_error#:#Fehler
 chat#:#chat_level_fatal#:#Schwerwiegend
-chat#:#chat_level_info#:#Info
-chat#:#chat_lime#:#lime
-chat#:#chat_maroon#:#maroon
+chat#:#chat_level_info#:#Info###03 Nov 2004 new variable
+chat#:#chat_lime#:#lime###03 Nov 2004 new variable
+chat#:#chat_maroon#:#maroon###03 Nov 2004 new variable
 chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
 chat#:#chat_moderator_password#:#Moderator Passwort
-chat#:#chat_navy#:#navy
+chat#:#chat_navy#:#navy###03 Nov 2004 new variable
 chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
 chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
 chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
@@ -573,28 +577,28 @@ chat#:#chat_rooms_deleted#:#Der/die Chaträum(e) wurden gelöscht.
 chat#:#chat_select_one_room#:#Bitte wählen Sie einen Chatraum aus
 chat#:#chat_server_allowed#:#Zugelassene Rechner
 chat#:#chat_server_allowed_b#:#(z.B 192.168.1.1 oder 192.168.1.2)
-chat#:#chat_server_ip#:#Server IP
+chat#:#chat_server_ip#:#Server IP###03 Nov 2004 new variable
 chat#:#chat_server_logfile#:#Pfad zur Logdatei
 chat#:#chat_server_loglevel#:#Loglevel
 chat#:#chat_server_not_active#:#Der Chatserver ist zur Zeit nicht aktiv
-chat#:#chat_server_port#:#Server Port
+chat#:#chat_server_port#:#Server Port###03 Nov 2004 new variable
 chat#:#chat_server_settings#:#Chatserver Einstellungen
 chat#:#chat_settings_saved#:#Die Einstellungen wurden gespeichert
 chat#:#chat_show_details#:#Details anzeigen
 chat#:#chat_silver#:#silber
-chat#:#chat_status#:#Status
+chat#:#chat_status#:#Status###03 Nov 2004 new variable
 chat#:#chat_status_saved#:#Der Status wurde geändert
-chat#:#chat_tahoma#:#Tahoma
-chat#:#chat_teal#:#teal
-chat#:#chat_times#:#Times
+chat#:#chat_tahoma#:#Tahoma###03 Nov 2004 new variable
+chat#:#chat_teal#:#teal###03 Nov 2004 new variable
+chat#:#chat_times#:#Times###03 Nov 2004 new variable
 chat#:#chat_title_missing#:#Bitte geben Sie einen Namen an.
 chat#:#chat_to_chat_body#:#Zum Chat
 chat#:#chat_type#:#Schriftart
 chat#:#chat_underlined#:#Unterstrichen
-chat#:#chat_user_dropped#:#User kicked
+chat#:#chat_user_dropped#:#User kicked###03 Nov 2004 new variable
 chat#:#chat_user_invited#:#Der Benutzer wurde zum Chat eingeladen.
 chat#:#chat_yellow#:#gelb
-chat#:#chats#:#Chats
+chat#:#chats#:#Chats###03 Nov 2004 new variable
 chat#:#my_chats#:#Meine Chats
 common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#DD.MM.YYYY#:#TT.MM.JJJJ
@@ -626,8 +630,8 @@ common#:#adm_visible#:#Systemeinstellungen sind sichtbar
 common#:#adm_write#:#Systemgrunddaten bearbeiten
 common#:#administrate#:#Administrieren
 common#:#administrate_users#:#Lokale Benutzerverwaltung
-common#:#administration#:#Administration
-common#:#administrator#:#Administrator
+common#:#administration#:#Administration###03 Nov 2004 new variable
+common#:#administrator#:#Administrator###03 Nov 2004 new variable
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#all_authors#:#Alle Autoren
@@ -641,6 +645,7 @@ common#:#all_users#:#Alle Benutzer
 common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
 common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
 common#:#alm#:#Lernmodul AICC
+common#:#alm_added#:#AICC Learning Module added###03 Nov 2004 new variable
 common#:#alm_create#:#Neues AICC Lernmodul anlegen
 common#:#alm_delete#:#AICC Lernmodul löschen
 common#:#alm_edit_permission#:#Rechteeinstellungen ändern
@@ -674,12 +679,12 @@ common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#assigned_roles#:#Zugewiesene Rollen
 common#:#assigned_users#:#Zugewiesene Benutzer
 common#:#at_location#:#an Position
-common#:#attachment#:#Attachment
-common#:#attachments#:#Attachments
+common#:#attachment#:#Attachment###03 Nov 2004 new variable
+common#:#attachments#:#Attachments###03 Nov 2004 new variable
 common#:#attend#:#Teilnehmen
 common#:#auth_configure#:#konfigurieren...
 common#:#auth_edit_permission#:#Rechteeinstellungen ndern
-common#:#auth_ldap#:#LDAP
+common#:#auth_ldap#:#LDAP###03 Nov 2004 new variable
 common#:#auth_ldap_desc#:#Authentifizierung über einen LDAP-Server
 common#:#auth_ldap_not_configured#:#LDAP ist noch nicht eingerichtet
 common#:#auth_local#:#ILIAS Datenbank
@@ -687,7 +692,7 @@ common#:#auth_local_desc#:#Benutze die ILIAS Datenbank (Standard)
 common#:#auth_mode#:#Authentifizierungsmodus
 common#:#auth_mode_changed_to#:#Authentifizierungsmodus gewechselt nach
 common#:#auth_mode_not_changed#:#(Keine änderung)
-common#:#auth_radius#:#RADIUS
+common#:#auth_radius#:#RADIUS###03 Nov 2004 new variable
 common#:#auth_radius_desc#:#Authentifizierung über einen RADIUS Server
 common#:#auth_read#:#Lesezugrif auf Authentifizierung
 common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden ausser Standard sind Benutzerlogin und -passwort nicht mehr änderbar und die Option zur Neuanmeldung ist deaktiviert.
@@ -702,20 +707,20 @@ common#:#auto_registration#:#Neuanmeldungen automatisch freigeben
 common#:#available_languages#:#Verfügbare Sprachen
 common#:#average_time#:#Durchschnittszeit
 common#:#back#:#Zurück
-common#:#basedn#:#BaseDN
+common#:#basedn#:#BaseDN###03 Nov 2004 new variable
 common#:#basic_data#:#Grunddaten
-common#:#benchmark#:#Benchmark
+common#:#benchmark#:#Benchmark###03 Nov 2004 new variable
 common#:#benchmark_settings#:#Benchmark Einstellungen
-common#:#benchmarks#:#Benchmarks
+common#:#benchmarks#:#Benchmarks###03 Nov 2004 new variable
 common#:#bib_data#:#Bibliographische Daten
-common#:#bm#:#Bookmark
+common#:#bm#:#Bookmark###03 Nov 2004 new variable
 common#:#bmf#:#Bookmark Ordner
 common#:#bookmark_edit#:#Bookmark bearbeiten
 common#:#bookmark_folder_edit#:#Bookmark Ordner bearbeiten
 common#:#bookmark_folder_new#:#Neuer Bookmark Ordner
 common#:#bookmark_new#:#Bookmark hinzufügen
 common#:#bookmark_target#:#Ziel
-common#:#bookmarks#:#Bookmarks
+common#:#bookmarks#:#Bookmarks###03 Nov 2004 new variable
 common#:#bookmarks_of#:#Bookmarks von
 common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
@@ -762,7 +767,7 @@ common#:#cat_visible#:#Kategorie ist sichtbar
 common#:#cat_write#:#Kategorie bearbeiten
 common#:#categories#:#Kategorien
 common#:#categories_imported#:#Kategorienimport abgeschlossen.
-common#:#cc#:#CC
+common#:#cc#:#CC###03 Nov 2004 new variable
 common#:#cen#:#Centra-Ereignis
 common#:#cen_add#:#Füge Centra-Ereignis
 common#:#cen_added#:#Centra-Ereignis hinzugefügt
@@ -771,9 +776,9 @@ common#:#cen_edit#:#Centra-Ereignis bearbeiten
 common#:#cen_new#:#Neues Centra-Ereignis
 common#:#cen_save#:#Centra-Ereignis abspeichern
 common#:#censorship#:#Zensur
-common#:#centra_account#:#Centra Admin Account
+common#:#centra_account#:#Centra Admin Account###03 Nov 2004 new variable
 common#:#centra_rooms#:#Centra-Räume
-common#:#centra_server#:#Centra Server
+common#:#centra_server#:#Centra Server###03 Nov 2004 new variable
 common#:#chac_edit_permission#:#Rechteeinstellungen ändern
 common#:#chac_read#:#Lesezugriff auf Chateinstellungen
 common#:#chac_visible#:#Chateinstellungen sind sichtbar
@@ -790,7 +795,7 @@ common#:#changed_to#:#gewechselt zu
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
-common#:#chat#:#Chat
+common#:#chat#:#Chat###03 Nov 2004 new variable
 common#:#chat_add#:#Chat hinzufügen
 common#:#chat_delete#:#Chat löschen
 common#:#chat_edit_permission#:#Rechteeinstellungen ändern
@@ -811,10 +816,10 @@ common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Ort
 common#:#clear#:#Abbrechen
-common#:#client ip#:#Client IP
+common#:#client ip#:#Client IP###03 Nov 2004 new variable
 common#:#client_id#:#Mandanten ID
-common#:#client_ip#:#Client IP
-common#:#clipboard#:#Clipboard
+common#:#client_ip#:#Client IP###03 Nov 2004 new variable
+common#:#clipboard#:#Clipboard###03 Nov 2004 new variable
 common#:#close#:#Schließen
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
@@ -833,7 +838,7 @@ common#:#confirm#:#Bestätigen
 common#:#confirmation#:#Aktion bestätigen
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
-common#:#container#:#Container
+common#:#container#:#Container###03 Nov 2004 new variable
 common#:#context#:#Kontext
 common#:#continue_work#:#Fortsetzen
 common#:#copied_object#:#Das ausgewählte Objekt wurde kopiert.
@@ -958,7 +963,7 @@ common#:#edit_properties#:#Eigenschaften
 common#:#edit_roleassignment#:#Rollenzuweisung bearbeiten
 common#:#edit_stylesheet#:#Style bearbeiten
 common#:#edited_at#:#Bearbeitet am
-common#:#editor#:#Editor
+common#:#editor#:#Editor###03 Nov 2004 new variable
 common#:#email#:#E-Mail
 common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
@@ -1034,8 +1039,8 @@ common#:#export_group_members#:#Gruppenmitglieder exportieren (nach Microsoft Ex
 common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
 common#:#faq_exercise#:#FAQ/übungskapitel
-common#:#fax#:#Fax
-common#:#feedback#:#Feedback
+common#:#fax#:#Fax###03 Nov 2004 new variable
+common#:#feedback#:#Feedback###03 Nov 2004 new variable
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
 common#:#file_a#:#eine Datei
@@ -1057,7 +1062,7 @@ common#:#filename#:#Dateiname
 common#:#files#:#Dateien
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
-common#:#filter#:#Filter:
+common#:#filter#:#Filter:###03 Nov 2004 new variable
 common#:#firstname#:#Vorname
 common#:#flatview#:#Flache Ansicht
 common#:#fold#:#Ordner
@@ -1094,7 +1099,7 @@ common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzep
 common#:#forename#:#Vorname
 common#:#forgot_password#:#Passwort vergessen?
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
-common#:#forum#:#Forum
+common#:#forum#:#Forum###03 Nov 2004 new variable
 common#:#forum_import#:#Forum Import
 common#:#forum_import_file#:#Importdatei
 common#:#forum_notification#:#Benachrichtigung
@@ -1102,7 +1107,7 @@ common#:#forum_notify_me#:#Benachrichtigung, wenn eine Antwort gesendet wurde
 common#:#forum_post_replied#:#Ihr Forumsbeitrag wurde beantwortet.
 common#:#forums#:#Foren
 common#:#forums_overview#:#Übersicht Foren
-common#:#frm#:#Forum
+common#:#frm#:#Forum###03 Nov 2004 new variable
 common#:#frm_a#:#ein Forum
 common#:#frm_add#:#Forum anlegen
 common#:#frm_added#:#Forum angelegt
@@ -1139,7 +1144,7 @@ common#:#glo_read#:#Glossar lesen
 common#:#glo_upload_file#:#Datei
 common#:#glo_visible#:#Glossar ist sichtbar
 common#:#glo_write#:#Glossar bearbeiten
-common#:#global#:#Global
+common#:#global#:#Global###03 Nov 2004 new variable
 common#:#global_user#:#Globale Benutzer
 common#:#glossaries#:#Glossare
 common#:#glossary#:#Glossar
@@ -1154,7 +1159,7 @@ common#:#group_import#:#Gruppenimport
 common#:#group_import_file#:#Importdatei
 common#:#group_members#:#Mitglieder
 common#:#group_memstat#:#Mitgliederstatus
-common#:#group_memstat_admin#:#Administrator
+common#:#group_memstat_admin#:#Administrator###03 Nov 2004 new variable
 common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
 common#:#group_new_registrations#:#Neuanmeldungen
@@ -1250,6 +1255,7 @@ common#:#hide_details#:#Details ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hits_per_page#:#Treffer/Seite
 common#:#hlm#:#Lernmodul HACP
+common#:#hlm_added#:#HACP Learning Module added###03 Nov 2004 new variable
 common#:#hlm_create#:#Neues HACP Lernmodul anlegen
 common#:#hlm_delete#:#HACP Lernmodul löschen
 common#:#hlm_edit_permission#:#Rechteeinstellungen ändern
@@ -1260,7 +1266,7 @@ common#:#hlm_visible#:#HACP Lernmodul ist sichtbar
 common#:#hlm_write#:#HACP Lernmodul bearbeiten
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
-common#:#host#:#Host
+common#:#host#:#Host###03 Nov 2004 new variable
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
 common#:#htlm_add#:#HTML Lernmodul hinzufügen
@@ -1274,7 +1280,7 @@ common#:#htlm_write#:#HTML Lernmodul bearbeiten
 common#:#http_not_possible#:#Dieser Server unterstützt keine Http-Anfragen.
 common#:#http_path#:#HTTP Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine Https Verbindungen.
-common#:#id#:#ID
+common#:#id#:#ID###03 Nov 2004 new variable
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
 common#:#if_no_title_then_url#:#Leave blank to display the URL###23 Oct 2004 new variable
@@ -1282,6 +1288,7 @@ common#:#ilias_version#:#ILIAS Version
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#importieren
+common#:#import_alm#:#Import AICC Package###03 Nov 2004 new variable
 common#:#import_categories#:#Kategorien importieren
 common#:#import_file#:#Importdatei
 common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
@@ -1289,14 +1296,16 @@ common#:#import_finished#:#Anzahl der importierten Nachrichten:
 common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
 common#:#import_glossary#:#Glossar importieren
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
+common#:#import_hlm#:#Import HACP Package###03 Nov 2004 new variable
 common#:#import_lm#:#Import Lernmodul
 common#:#import_qpl#:#Import Questionpool Test###03 Nov 2004 new variable
 common#:#import_root_user#:#Root User importieren
 common#:#import_sahs#:#Import SCORM/AICC Lernmodul
+common#:#import_tst#:#Import Test###03 Nov 2004 new variable
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
 common#:#imported#:#importiert
-common#:#in#:#in
+common#:#in#:#in###03 Nov 2004 new variable
 common#:#in_use#:#Benutzersprache
 common#:#inactive#:#Inaktiv
 common#:#inbox#:#Posteingang
@@ -1335,13 +1344,13 @@ common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
 common#:#install#:#Installieren
 common#:#installed#:#Installiert
-common#:#institution#:#Institution
+common#:#institution#:#Institution###03 Nov 2004 new variable
 common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)
 common#:#internal_system#:#Internes System
 common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
-common#:#kb#:#KByte
+common#:#kb#:#KByte###03 Nov 2004 new variable
 common#:#keywords#:#Schlüsselwörter
 common#:#lang_cs#:#Tschechisch
 common#:#lang_da#:#Dänisch
@@ -1366,9 +1375,9 @@ common#:#lang_pt#:#Portugisisch
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_sv#:#Schwedisch
-common#:#lang_timeformat#:#H:i:s
+common#:#lang_timeformat#:#H:i:s###03 Nov 2004 new variable
 common#:#lang_ua#:#Ukrainisch
-common#:#lang_version#:#1
+common#:#lang_version#:#1###03 Nov 2004 new variable
 common#:#lang_vi#:#Vietnamesisch
 common#:#lang_xx#:#benutzerdefiniert
 common#:#lang_zh#:#Chinesisch
@@ -1383,20 +1392,20 @@ common#:#last_change#:#Letzte Änderung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
-common#:#ldap#:#LDAP
-common#:#ldap_basedn#:#LDAP BaseDN
+common#:#ldap#:#LDAP###03 Nov 2004 new variable
+common#:#ldap_basedn#:#LDAP BaseDN###03 Nov 2004 new variable
 common#:#ldap_configure#:#LDAP Authentifizierung konfigurieren
 common#:#ldap_edit_permission#:#Rechteeinstellungen ändern
 common#:#ldap_login_key#:#Attribut für den Loginnamen
 common#:#ldap_objectclass#:#ObjectClass der Benutzerkonten
 common#:#ldap_passwd#:#Ihr aktuelles Passwort
-common#:#ldap_port#:#LDAP Port
+common#:#ldap_port#:#LDAP Port###03 Nov 2004 new variable
 common#:#ldap_read#:#Lesezugriff auf LDAP-Einstellungen
-common#:#ldap_search_base#:#LDAP Search base
-common#:#ldap_server#:#LDAP Server URL
+common#:#ldap_search_base#:#LDAP Search base###03 Nov 2004 new variable
+common#:#ldap_server#:#LDAP Server URL###03 Nov 2004 new variable
 common#:#ldap_tls#:#Benutze LDAP TLS
-common#:#ldap_v2#:#LDAPv2
-common#:#ldap_v3#:#LDAPv3
+common#:#ldap_v2#:#LDAPv2###03 Nov 2004 new variable
+common#:#ldap_v3#:#LDAPv3###03 Nov 2004 new variable
 common#:#ldap_version#:#LDAP Protokollversion
 common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
 common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
@@ -1422,9 +1431,9 @@ common#:#lm_join#:#ILIAS Lernmodul abonnieren
 common#:#lm_leave#:#ILIAS Lernmodulabonnement aufheben
 common#:#lm_new#:#Neues ILIAS Lernmodul
 common#:#lm_read#:#ILIAS Lernmodul lesen
-common#:#lm_type_aicc#:#AICC
-common#:#lm_type_hacp#:#HACP
-common#:#lm_type_scorm#:#SCORM
+common#:#lm_type_aicc#:#AICC###03 Nov 2004 new variable
+common#:#lm_type_hacp#:#HACP###03 Nov 2004 new variable
+common#:#lm_type_scorm#:#SCORM###03 Nov 2004 new variable
 common#:#lm_visible#:#ILIAS Lernmodul ist sichtbar
 common#:#lm_write#:#ILIAS Lernmodul bearbeiten
 common#:#lng#:#Sprache
@@ -1444,18 +1453,18 @@ common#:#local#:#Lokal
 common#:#locator#:#Position:
 common#:#logic_and#:#und
 common#:#logic_or#:#oder
-common#:#login#:#Login
+common#:#login#:#Login###03 Nov 2004 new variable
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
 common#:#login_invalid#:#Der gewählte Loginname ist nicht erlaubt! Ihr Loginname muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
-common#:#logout#:#Logout
+common#:#logout#:#Logout###03 Nov 2004 new variable
 common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#los#:#Lernmodule
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
-common#:#mail#:#Mail
+common#:#mail#:#Mail###03 Nov 2004 new variable
 common#:#mail_a_root#:#Nachrichten
 common#:#mail_addressbook#:#Adressbuch
 common#:#mail_allow_smtp#:#SMTP zulassen
@@ -1467,7 +1476,7 @@ common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_e_sent#:#Gesendete
 common#:#mail_edit_permission#:#Rechteeinstellungen ändern
 common#:#mail_folders#:#Mail-Ordner
-common#:#mail_import#:#Import
+common#:#mail_import#:#Import###03 Nov 2004 new variable
 common#:#mail_import_file#:#Exportdatei
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mail_visible#:#Benutzer darf Mailsystem benutzen
@@ -1522,27 +1531,27 @@ common#:#module#:#Modul
 common#:#modules#:#Module
 common#:#month#:#Monat
 common#:#month_01_long#:#Januar
-common#:#month_01_short#:#Jan
+common#:#month_01_short#:#Jan###03 Nov 2004 new variable
 common#:#month_02_long#:#Februar
-common#:#month_02_short#:#Feb
+common#:#month_02_short#:#Feb###03 Nov 2004 new variable
 common#:#month_03_long#:#März
 common#:#month_03_short#:#Mär
-common#:#month_04_long#:#April
-common#:#month_04_short#:#Apr
+common#:#month_04_long#:#April###03 Nov 2004 new variable
+common#:#month_04_short#:#Apr###03 Nov 2004 new variable
 common#:#month_05_long#:#Mai
 common#:#month_05_short#:#Mai
 common#:#month_06_long#:#Juni
-common#:#month_06_short#:#Jun
+common#:#month_06_short#:#Jun###03 Nov 2004 new variable
 common#:#month_07_long#:#Juli
-common#:#month_07_short#:#Jul
-common#:#month_08_long#:#August
-common#:#month_08_short#:#Aug
-common#:#month_09_long#:#September
-common#:#month_09_short#:#Sep
+common#:#month_07_short#:#Jul###03 Nov 2004 new variable
+common#:#month_08_long#:#August###03 Nov 2004 new variable
+common#:#month_08_short#:#Aug###03 Nov 2004 new variable
+common#:#month_09_long#:#September###03 Nov 2004 new variable
+common#:#month_09_short#:#Sep###03 Nov 2004 new variable
 common#:#month_10_long#:#Oktober
 common#:#month_10_short#:#Okt
-common#:#month_11_long#:#November
-common#:#month_11_short#:#Nov
+common#:#month_11_long#:#November###03 Nov 2004 new variable
+common#:#month_11_short#:#Nov###03 Nov 2004 new variable
 common#:#month_12_long#:#Dezember
 common#:#month_12_short#:#Dez
 common#:#move#:#Verschieben
@@ -1627,20 +1636,20 @@ common#:#msg_undeleted#:#Objekt(e) wiederhergestellt!
 common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:
 common#:#msg_user_last_role2#:#Bitte löschen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
 common#:#msg_userassignment_changed#:#Benutzerzuweisung geändert
-common#:#multimedia#:#Multimedia
+common#:#multimedia#:#Multimedia###03 Nov 2004 new variable
 common#:#my_bms#:#Meine Bookmarks
 common#:#my_frms#:#Meine Foren
 common#:#my_grps#:#Meine Gruppen
 common#:#my_los#:#Meine Lernobjekte
 common#:#my_tsts#:#Meine Tests
-common#:#name#:#Name
+common#:#name#:#Name###03 Nov 2004 new variable
 common#:#new#:#Neu
 common#:#new_appointment#:#Neuer Termin
 common#:#new_folder#:#Neuer Ordner
 common#:#new_group#:#Neue Gruppe
 common#:#new_language#:#Neue Sprache
 common#:#new_mail#:#Neue Mail!
-common#:#news#:#News
+common#:#news#:#News###03 Nov 2004 new variable
 common#:#next#:#weiter
 common#:#nickname#:#Login
 common#:#no#:#Nein
@@ -1668,14 +1677,14 @@ common#:#no_xml_file_found_in_zip#:#In der ZIP-Datei wurde keine XML-Datei gefun
 common#:#no_zip_file#:#Es wurde keine ZIP-Datei gefunden
 common#:#non_internal_local_roles_only#:#Lokale Rollen (nur selbsterstellte)
 common#:#none#:#Keine
-common#:#normal#:#Normal
+common#:#normal#:#Normal###03 Nov 2004 new variable
 common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
 common#:#number_of_accesses#:#Anzahl Zugriffe
 common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
-common#:#obj_adm#:#Administration
+common#:#obj_adm#:#Administration###03 Nov 2004 new variable
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_auth#:#Authentifizierung
@@ -1684,13 +1693,13 @@ common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_chac#:#Chateinstellungen
 common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Deaktivieren der Chats
-common#:#obj_chat#:#Chat
+common#:#obj_chat#:#Chat###03 Nov 2004 new variable
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Digilib-Buch
 common#:#obj_exc#:#Übung
 common#:#obj_file#:#Datei
 common#:#obj_fold#:#Ordner
-common#:#obj_frm#:#Forum
+common#:#obj_frm#:#Forum###03 Nov 2004 new variable
 common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
 common#:#obj_hlm#:#Lernmodul HACP
@@ -1734,7 +1743,7 @@ common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_taxf_desc#:#Ordner für Taxonomien
 common#:#obj_trac#:#Zugriffsstatistiken
 common#:#obj_trac_desc#:#Benutzerzugriff Tracking-Daten
-common#:#obj_tst#:#Test
+common#:#obj_tst#:#Test###03 Nov 2004 new variable
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
 common#:#obj_url#:#URL###23 Oct 2004 new variable
@@ -1752,7 +1761,7 @@ common#:#objf_visible#:#Objektdefinitionen sind sichtbar
 common#:#objf_write#:#Objektdefinitionen bearbeiten
 common#:#objs_alm#:#AICC Lernmodule
 common#:#objs_cat#:#Kategorien
-common#:#objs_chat#:#Chats
+common#:#objs_chat#:#Chats###03 Nov 2004 new variable
 common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_crs#:#Kurse
 common#:#objs_dbk#:#Digilib-Bücher
@@ -1779,18 +1788,18 @@ common#:#objs_sahs#:#SCORM/AICC Lernmodule
 common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
 common#:#objs_svy#:#Umfragen
-common#:#objs_tst#:#Tests
+common#:#objs_tst#:#Tests###03 Nov 2004 new variable
 common#:#objs_type#:#Objekttypen
 common#:#objs_url#:#URLs###23 Oct 2004 new variable
 common#:#objs_usr#:#Benutzer
 common#:#of#:#von
-common#:#offline_version#:#Offline Version
-common#:#ok#:#OK
+common#:#offline_version#:#Offline Version###03 Nov 2004 new variable
+common#:#ok#:#OK###03 Nov 2004 new variable
 common#:#old#:#Alt
 common#:#online_chapter#:#Online Kapitel
-common#:#online_version#:#Online Version
+common#:#online_version#:#Online Version###03 Nov 2004 new variable
 common#:#open_views_inside_frameset#:#Ansichten innerhalb Frameset öffnen
-common#:#operation#:#Operation
+common#:#operation#:#Operation###03 Nov 2004 new variable
 common#:#optimize#:#Optimieren
 common#:#options#:#Einstellungen
 common#:#options_for_subobjects#:#Einstellungen für Unterobjekte
@@ -1800,8 +1809,8 @@ common#:#overview#:#übersicht
 common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
-common#:#pages#:#Pages
-common#:#parameter#:#Parameter
+common#:#pages#:#Pages###03 Nov 2004 new variable
+common#:#parameter#:#Parameter###03 Nov 2004 new variable
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
@@ -1847,7 +1856,7 @@ common#:#phone#:#Telefon
 common#:#phone_home#:#Telefon Privat
 common#:#phone_mobile#:#Telefon Mobil
 common#:#phone_office#:#Telefon Arbeit
-common#:#phrase#:#Phrase
+common#:#phrase#:#Phrase###03 Nov 2004 new variable
 common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
 common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
 common#:#please_select_a_delivered_file_to_delete#:#Sie müssen mindestens eine abgegebene Bearbeitung auswählen, um sie zu löschen!
@@ -1859,7 +1868,7 @@ common#:#presentation_options#:#Präsentationsoptionen
 common#:#previous#:#zurück
 common#:#print#:#Drucken
 common#:#profile_changed#:#Ihr Profil wurde geändert
-common#:#profile_of#:#Profile of
+common#:#profile_of#:#Profile of###03 Nov 2004 new variable
 common#:#properties#:#Eigenschaften
 common#:#pub_section#:#öffentlicher Bereich
 common#:#public_profile#:#Öffentliches Profil
@@ -2020,7 +2029,7 @@ common#:#select_mode#:#Modus wählen
 common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
 common#:#select_object_to_link#:#Bitte wählen Sie das zu Verknüpfende Objekt aus. 
 common#:#select_questionpool#:#Fragenpool für Test
-common#:#select_questionpool_option#:#Bitte wählen Sie einen Fragenpool aus!
+common#:#select_questionpool_option#:#--- Bitte wählen Sie einen Fragenpool aus ---
 common#:#selected#:#Ausgewählte
 common#:#selected_items#:#Ausgewählte Angebote
 common#:#send#:#Abschicken
@@ -2028,9 +2037,9 @@ common#:#sender#:#Absender
 common#:#sent#:#Gesendet
 common#:#sequence#:#Sequenz
 common#:#sequences#:#Sequenzen
-common#:#server#:#Server
+common#:#server#:#Server###03 Nov 2004 new variable
 common#:#server_data#:#Serverdaten 
-common#:#server_software#:#Server Software
+common#:#server_software#:#Server Software###03 Nov 2004 new variable
 common#:#set#:#Setzen
 common#:#setSystemLanguage#:#Systemsprache ändern
 common#:#setUserLanguage#:#Benutzersprache ändern
@@ -2045,7 +2054,7 @@ common#:#show_owner#:#Besitzerinfo
 common#:#show_structure#:#Strukturansicht einblenden
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#signature#:#Signatur
-common#:#smtp#:#SMTP
+common#:#smtp#:#SMTP###03 Nov 2004 new variable
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#spl#:#Fragenpool für Umfrage
 common#:#spl_add#:#Fragenpool anfügen
@@ -2062,7 +2071,7 @@ common#:#st_edit#:#Kapitel bearbeiten
 common#:#st_new#:#Neues Kapitel
 common#:#startpage#:#Startseite
 common#:#statistic#:#Statistik
-common#:#status#:#Status
+common#:#status#:#Status###03 Nov 2004 new variable
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
 common#:#street#:#Straße
@@ -2086,12 +2095,12 @@ common#:#svy_participate#:#An einer Umfrage teilnehmen
 common#:#svy_read#:#Lesezugriff auf Umfrage
 common#:#svy_visible#:#Umfrage ist sichtbar
 common#:#svy_write#:#Umfrage kann bearbeitet werden
-common#:#system#:#System
+common#:#system#:#System###03 Nov 2004 new variable
 common#:#system_check#:#Systemcheck
 common#:#system_choose_language#:#Systemsprache wählen
 common#:#system_groups#:#Systemgruppen
 common#:#system_grp#:#Systemgruppe
-common#:#system_information#:#System Information
+common#:#system_information#:#System Information###03 Nov 2004 new variable
 common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachricht
 common#:#table_mail_import#:#Import von Nachrichten
@@ -2109,10 +2118,10 @@ common#:#taxf_read#:#Lesezugriff auf Taxonomienordner
 common#:#taxf_visible#:#Taxonomienordner ist sichtbar
 common#:#taxf_write#:#Schreibzugriff auf Taxonomienordner
 common#:#term#:#Begriff
-common#:#test#:#Test
+common#:#test#:#Test###03 Nov 2004 new variable
 common#:#test_intern#:#Interner Test
 common#:#test_module#:#Test
-common#:#tests#:#Tests
+common#:#tests#:#Tests###03 Nov 2004 new variable
 common#:#time#:#Zeit
 common#:#time_d#:#Tag
 common#:#time_h#:#Stunde
@@ -2145,13 +2154,14 @@ common#:#tracking_settings#:#Einstellungen
 common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
-common#:#tst#:#Test
+common#:#tst#:#Test###03 Nov 2004 new variable
 common#:#tst_add#:#Test anfügen
 common#:#tst_delete#:#Test löschen
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
 common#:#tst_read#:#Lesezugriff auf Test
 common#:#tst_upload_file#:#Datei hochladen
+common#:#tst_upload_file#:#Upload file###03 Nov 2004 new variable
 common#:#tst_visible#:#Test ist sichtbar
 common#:#tst_write#:#Test bearbeiten
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
@@ -2161,7 +2171,7 @@ common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr B
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#type_your_message_here#:#Schreiben Sie Ihre Nachricht hier
-common#:#uid#:#UID
+common#:#uid#:#UID###03 Nov 2004 new variable
 common#:#uncheck_all#:#Alle Auswahlen entfernen
 common#:#uninstall#:#Deinstallieren
 common#:#uninstalled#:#deinstalliert.
@@ -2216,7 +2226,7 @@ common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_new#:#Neuer Benutzer
-common#:#usr_skin_style#:#Skin / Style
+common#:#usr_skin_style#:#Skin / Style###03 Nov 2004 new variable
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerkonten
 common#:#usrf_create_user#:#Neues Benutzerkonto anlegen
@@ -2232,7 +2242,7 @@ common#:#value#:#Wert
 common#:#vcard#:#Visitenkarte
 common#:#vcard_download#:#Visitenkarte herunterladen
 common#:#vendors#:#Verkäufer
-common#:#version#:#Version
+common#:#version#:#Version###03 Nov 2004 new variable
 common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
@@ -2247,15 +2257,15 @@ common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zip#:#PLZ
 common#:#zipcode#:#Postleitzahl
-content#:#HTML export#:#HTML Export
-content#:#PDF export#:#PDF Export
+content#:#HTML export#:#HTML Export###03 Nov 2004 new variable
+content#:#PDF export#:#PDF Export###03 Nov 2004 new variable
 content#:#Pages#:#Seiten
 content#:#all#:#Alle
-content#:#cont_Additional#:#Additional
+content#:#cont_Additional#:#Additional###03 Nov 2004 new variable
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Circle#:#Kreis
 content#:#cont_Citation#:#Zitat
-content#:#cont_Code#:#Code
+content#:#cont_Code#:#Code###03 Nov 2004 new variable
 content#:#cont_Example#:#Beispiel
 content#:#cont_Headline1#:#Überschrift 1
 content#:#cont_Headline2#:#Überschrift 2
@@ -2264,7 +2274,7 @@ content#:#cont_List#:#Liste
 content#:#cont_LocalFile#:#Lokale Datei
 content#:#cont_Mnemonic#:#Merksatz
 content#:#cont_Number#:#Nummer
-content#:#cont_Poly#:#Polygon
+content#:#cont_Poly#:#Polygon###03 Nov 2004 new variable
 content#:#cont_Rect#:#Rechteck
 content#:#cont_Reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
@@ -2281,7 +2291,7 @@ content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
 content#:#cont_annex#:#Anhang
-content#:#cont_api_adapter#:#API Adapter Name
+content#:#cont_api_adapter#:#API Adapter Name###03 Nov 2004 new variable
 content#:#cont_api_func_prefix#:#API Funktions-Präfix
 content#:#cont_areas_deleted#:#Bereiche gelöscht
 content#:#cont_assign_full#:#Als Vollansicht
@@ -2318,7 +2328,7 @@ content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Po
 content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygons.
 content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
 content#:#cont_content#:#Inhalt
-content#:#cont_content_obj#:#Content Object
+content#:#cont_content_obj#:#Content Object###03 Nov 2004 new variable
 content#:#cont_contents#:#Inhalt
 content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_to_clipboard#:#Ins Clipboard kopieren
@@ -2328,19 +2338,19 @@ content#:#cont_create_folder#:#Ordner anlegen
 content#:#cont_create_mob#:#Medienobjekt anlegen
 content#:#cont_credit_mode#:#Credit-Modus (bei Lesson-Modus 'normal')
 content#:#cont_credit_off#:#Kein Credit
-content#:#cont_credit_on#:#Credit
+content#:#cont_credit_on#:#Credit###03 Nov 2004 new variable
 content#:#cont_credits#:#Punkte
 content#:#cont_cross_reference#:#Verweis
-content#:#cont_data_from_lms#:#adlcp:datafromlms
+content#:#cont_data_from_lms#:#adlcp:datafromlms###03 Nov 2004 new variable
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_lesson_mode#:#Standard Lesson-Modus
 content#:#cont_def_organization#:#Standard
-content#:#cont_definition#:#Definition
+content#:#cont_definition#:#Definition###03 Nov 2004 new variable
 content#:#cont_definitions#:#Definitionen
 content#:#cont_del_assignment#:#Zuordnung löschen
 content#:#cont_dependencies#:#Abhängigkeiten
 content#:#cont_derive_from_obj#:#Vom Objekt ableiten
-content#:#cont_details#:#Details
+content#:#cont_details#:#Details###03 Nov 2004 new variable
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_disable_js#:#Disable JavaScript###03 Nov 2004 new variable
 content#:#cont_disable_media#:#Medienobjekte inaktiv
@@ -2350,7 +2360,7 @@ content#:#cont_ed_align_left#:#Links ausrichten
 content#:#cont_ed_align_left_float#:#Links ausr., Text umfl.
 content#:#cont_ed_align_right#:#Rechts ausrichten
 content#:#cont_ed_align_right_float#:#Rechts ausr., Text umfl.
-content#:#cont_ed_class#:#Style
+content#:#cont_ed_class#:#Style###03 Nov 2004 new variable
 content#:#cont_ed_copy_clip#:#In Ablage kopieren
 content#:#cont_ed_delete#:#Löschen
 content#:#cont_ed_delete_col#:#Spalte löschen
@@ -2394,7 +2404,7 @@ content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
 content#:#cont_fix_tree#:#Struktur reparieren
 content#:#cont_fix_tree_confirm#:#Bitte führen sie diese Funktion nur aus, wenn die Struktur des Lernmoduls beschädigt ist, z.B. leere Einträge in der Kapitelstruktur auftauchen.
-content#:#cont_format#:#Format
+content#:#cont_format#:#Format###03 Nov 2004 new variable
 content#:#cont_free_pages#:#Freie Seiten
 content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
@@ -2403,10 +2413,10 @@ content#:#cont_get_orig_size#:#Originalgröße setzen
 content#:#cont_glo_properties#:#Glossar Eigenschaften
 content#:#cont_height#:#Höhe
 content#:#cont_how_published#:#Veröffentlichungsart
-content#:#cont_href#:#href
-content#:#cont_id_ref#:#identifierref
-content#:#cont_imagemap#:#Image Map
-content#:#cont_import_id#:#identifier
+content#:#cont_href#:#href###03 Nov 2004 new variable
+content#:#cont_id_ref#:#identifierref###03 Nov 2004 new variable
+content#:#cont_imagemap#:#Image Map###03 Nov 2004 new variable
+content#:#cont_import_id#:#identifier###03 Nov 2004 new variable
 content#:#cont_insert_file_item#:#Datei einfügen
 content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Liste einfügen
@@ -2417,13 +2427,13 @@ content#:#cont_insert_src#:#Sourcecode einfügen
 content#:#cont_insert_table#:#Tabelle einfügen
 content#:#cont_internal#:#intern
 content#:#cont_internal_link#:#interner Link
-content#:#cont_is_visible#:#isvisible
-content#:#cont_isbn#:#ISBN
-content#:#cont_issn#:#ISSN
-content#:#cont_item#:#Item
-content#:#cont_journal#:#Journal
+content#:#cont_is_visible#:#isvisible###03 Nov 2004 new variable
+content#:#cont_isbn#:#ISBN###03 Nov 2004 new variable
+content#:#cont_issn#:#ISSN###03 Nov 2004 new variable
+content#:#cont_item#:#Item###03 Nov 2004 new variable
+content#:#cont_journal#:#Journal###03 Nov 2004 new variable
 content#:#cont_keyword#:#Schlagwort
-content#:#cont_link#:#Link
+content#:#cont_link#:#Link###03 Nov 2004 new variable
 content#:#cont_link_area#:#Link-Bereich
 content#:#cont_link_ext#:#Link (extern)
 content#:#cont_link_int#:#Link (intern)
@@ -2447,12 +2457,12 @@ content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_lvalue#:#Datenelement
-content#:#cont_manifest#:#Manifest
-content#:#cont_map_areas#:#Link Areas
-content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_manifest#:#Manifest###03 Nov 2004 new variable
+content#:#cont_map_areas#:#Link Areas###03 Nov 2004 new variable
+content#:#cont_mastery_score#:#adlcp:masteryscore###03 Nov 2004 new variable
 content#:#cont_matches#:#passt zu
 content#:#cont_matching_question_javascript_hint#:#Hinweis: Ziehen Sie eine Definition/ein Bild auf der rechten Seite über den passenden Term auf der Linken Seite und legen Sie die Definition/das Bild dort ab.
-content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###03 Nov 2004 new variable
 content#:#cont_media_source#:#Medienquelle
 content#:#cont_mep_structure#:#Struktur Media-Pool
 content#:#cont_mob_files#:#Objektdateien
@@ -2461,7 +2471,7 @@ content#:#cont_mob_prop#:#Eigenschaften des Objektes
 content#:#cont_mob_usages#:#Nutzung
 content#:#cont_month#:#Monat
 content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
-content#:#cont_name#:#Name
+content#:#cont_name#:#Name###03 Nov 2004 new variable
 content#:#cont_new_area#:#Neuer Link-Bereich
 content#:#cont_new_assignment#:#Neue Zuordnung
 content#:#cont_new_dir#:#Neues Verzeichnis
@@ -2478,7 +2488,7 @@ content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_obj_removed#:#Objekte entfernt
 content#:#cont_offline#:#Offline Versionen
-content#:#cont_online#:#Online
+content#:#cont_online#:#Online###03 Nov 2004 new variable
 content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
@@ -2486,14 +2496,14 @@ content#:#cont_orig_size#:#Originalgröße
 content#:#cont_page_header#:#Als Seitenüberschrift angezeigt wird:
 content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll. 
 content#:#cont_pages#:#Seiten
-content#:#cont_parameter#:#Parameter
+content#:#cont_parameter#:#Parameter###03 Nov 2004 new variable
 content#:#cont_parameters#:#Parameter
 content#:#cont_personal_clipboard#:#Persönliches Clipboard
 content#:#cont_pg_content#:#Seiteninhalt
 content#:#cont_pg_title#:#Titel der Seite
 content#:#cont_please_select#:#Bitte auswählen
-content#:#cont_prereq_type#:#adlcp:prerequisites.type
-content#:#cont_prerequisites#:#adlcp:prerequisites
+content#:#cont_prereq_type#:#adlcp:prerequisites.type###03 Nov 2004 new variable
+content#:#cont_prerequisites#:#adlcp:prerequisites###03 Nov 2004 new variable
 content#:#cont_preview#:#Vorschau
 content#:#cont_print_view#:#Druckansicht
 content#:#cont_publisher#:#Herausgeber
@@ -2512,7 +2522,7 @@ content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_sc_auto_review#:#Nach Abschluß Lesson-Modus auf 'review' setzen.
 content#:#cont_sc_less_mode_browse#:#Anzeigen (Browse)
-content#:#cont_sc_less_mode_normal#:#Normal
+content#:#cont_sc_less_mode_normal#:#Normal###03 Nov 2004 new variable
 content#:#cont_sc_stat_browsed#:#Besucht
 content#:#cont_sc_stat_completed#:#Abgeschlossen
 content#:#cont_sc_stat_failed#:#Nicht bestanden
@@ -2523,7 +2533,7 @@ content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
 content#:#cont_score#:#Punkte
-content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_scorm_type#:#adlcp:scormtype###03 Nov 2004 new variable
 content#:#cont_select_item#:#Wählen Sie mindestens ein Objekt aus.
 content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Zeitraum aus.
@@ -2553,7 +2563,7 @@ content#:#cont_src#:#Programmiersprache
 content#:#cont_src_other#:#Andere
 content#:#cont_st_title#:#Titel des Kapitels
 content#:#cont_startfile#:#Startdatei
-content#:#cont_status#:#Status
+content#:#cont_status#:#Status###03 Nov 2004 new variable
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
 content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
@@ -2569,7 +2579,7 @@ content#:#cont_target_within_source#:#Das Ziel darf nicht innerhalb des Objektes
 content#:#cont_term#:#Begriff
 content#:#cont_terms#:#Begriffe
 content#:#cont_time#:#Zeit
-content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_time_limit_action#:#adlcp:timelimitaction###03 Nov 2004 new variable
 content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:
 content#:#cont_top#:#Oben
@@ -2579,19 +2589,19 @@ content#:#cont_tracking_items#:#Protokollierte Inhalte
 content#:#cont_translations#:#Übersetzung(en)
 content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
 content#:#cont_tree_fixed#:#Die Lernmodulstruktur wurde repariert.
-content#:#cont_update#:#Update
+content#:#cont_update#:#Update###03 Nov 2004 new variable
 content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_upload_file#:#Datei hochladen
-content#:#cont_url#:#URL
+content#:#cont_url#:#URL###03 Nov 2004 new variable
 content#:#cont_users_have_mob_in_clip1#:#Dieses Medienobjekt befindet sich im Clipboard von
 content#:#cont_users_have_mob_in_clip2#:#Benutzer(n).
 content#:#cont_validate_file#:#Datei validieren
-content#:#cont_version#:#version
+content#:#cont_version#:#version###03 Nov 2004 new variable
 content#:#cont_view_last_export_log#:#Letzter Exporteintrag
 content#:#cont_where_published#:#Veröffentlichungsort
 content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt WYSIWYG
-content#:#cont_xml_base#:#xml:base
+content#:#cont_xml_base#:#xml:base###03 Nov 2004 new variable
 content#:#cont_year#:#Jahr
 content#:#copied_to_clipboard#:#Objekt(e) ins Clipboard kopiert.
 content#:#pages from#:#Seiten von
@@ -2614,7 +2624,7 @@ crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
 crs#:#crs_added_member#:#Kursmitgliedschaft
 crs#:#crs_added_member_body#:#Sie wurden in den Kurs aufgenommen.
 crs#:#crs_added_new_archive#:#Ein neues Archiv wurde angelegt.
-crs#:#crs_admin#:#Administrator
+crs#:#crs_admin#:#Administrator###03 Nov 2004 new variable
 crs#:#crs_admin_no_notify#:#Administrator (keine Benachrichtigung)
 crs#:#crs_admin_notify#:#Administrator (Benachrichtigung)
 crs#:#crs_archive#:#Archivierung
@@ -2635,7 +2645,7 @@ crs#:#crs_cancel_subscription_body#:#Ein Benutzer hat sich vom Kurs abgemeldet.
 crs#:#crs_contact#:#Kontakt
 crs#:#crs_contact_consultation#:#Sprechstunde
 crs#:#crs_contact_email#:#E-Mail
-crs#:#crs_contact_name#:#Name
+crs#:#crs_contact_name#:#Name###03 Nov 2004 new variable
 crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Zuständigkeit
 crs#:#crs_content#:#Kursinhalt
@@ -2659,7 +2669,7 @@ crs#:#crs_header_archives#:#Kursarchive
 crs#:#crs_header_delete_members#:#Mitglieder löschen
 crs#:#crs_header_edit_members#:#Mitglieder bearbeiten
 crs#:#crs_header_members#:#Kursmitglieder
-crs#:#crs_html#:#HTML
+crs#:#crs_html#:#HTML###03 Nov 2004 new variable
 crs#:#crs_info_reg#:#Erläuterungen zur Anmeldung
 crs#:#crs_info_reg_confirmation#:#Die Aufnahme in diesen Kurs erfordert eine Bestätigung eine Kursadministrators. Sie werden benachrichtigt, sobald diese erfolgt ist.
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Anmeldung möglich.
@@ -2700,11 +2710,11 @@ crs#:#crs_no_valid_member_id_given#:#Keine gültige Mitgliedernummer
 crs#:#crs_not_available#:#-Nicht angegeben-
 crs#:#crs_notify#:#Benachrichtigung bei Neuanmeldungen
 crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
-crs#:#crs_offline#:#Offline
+crs#:#crs_offline#:#Offline###03 Nov 2004 new variable
 crs#:#crs_options#:#Optionen
 crs#:#crs_passed#:#Bestanden
 crs#:#crs_password_not_valid#:#Das Passwort ist nicht korrekt
-crs#:#crs_pdf#:#PDF
+crs#:#crs_pdf#:#PDF###03 Nov 2004 new variable
 crs#:#crs_print_list#:#Liste ausdrucken
 crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert
 crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen
@@ -2732,8 +2742,8 @@ crs#:#crs_sort_activation#:#Nach Aktivierung
 crs#:#crs_sort_manual#:#Manuelle Sortierung
 crs#:#crs_sort_title#:#Nach Titel
 crs#:#crs_sortorder#:#Sortierung
-crs#:#crs_start#:#Start
-crs#:#crs_status#:#Status
+crs#:#crs_start#:#Start###03 Nov 2004 new variable
+crs#:#crs_status#:#Status###03 Nov 2004 new variable
 crs#:#crs_status_changed#:#Kursstatus
 crs#:#crs_status_changed_body#:#Ihr Kursstatus wurde geändert
 crs#:#crs_structure#:#Kursstruktur
@@ -2752,7 +2762,7 @@ crs#:#crs_sure_delete_selected_archives#:#Sind Sie sicher, daß die ausgewählte
 crs#:#crs_syllabus#:#Lernziel
 crs#:#crs_time#:#Datum der Anmeldung
 crs#:#crs_to#:#Bis:
-crs#:#crs_tutor#:#Tutor
+crs#:#crs_tutor#:#Tutor###03 Nov 2004 new variable
 crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
 crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
 crs#:#crs_unblocked#:#Freigeschaltet
@@ -2764,7 +2774,7 @@ crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, daß Sie sich von diesem Kurs abme
 crs#:#crs_unsubscribed_from_crs#:#Ihre Abmeldung war erfolgreich.
 crs#:#crs_users_added#:#Der/die Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
-crs#:#crs_xml#:#XML
+crs#:#crs_xml#:#XML###03 Nov 2004 new variable
 crs_#:#crs_archives#:#Archive
 dateplaner#:#DateText#:#Nachricht
 dateplaner#:#Day_long#:#Tagesansicht
@@ -2784,17 +2794,17 @@ dateplaner#:#ERROR_STARTDATE#:#Falsche Eingaben bei Termin Startdatum. Format: d
 dateplaner#:#ERROR_STARTTIME#:#Falsche Eingaben bei Termin Startuhrzeit. Format: hh:mm
 dateplaner#:#ERROR_TS#:#Falsches Datumsformat
 dateplaner#:#Fr_long#:#Freitag
-dateplaner#:#Fr_short#:#Fr
+dateplaner#:#Fr_short#:#Fr###03 Nov 2004 new variable
 dateplaner#:#Language_file#:#Deutsch
 dateplaner#:#Listbox_long#:#Terminliste
 dateplaner#:#Mo_long#:#Montag
-dateplaner#:#Mo_short#:#Mo
+dateplaner#:#Mo_short#:#Mo###03 Nov 2004 new variable
 dateplaner#:#Month_long#:#Monatsansicht
 dateplaner#:#Sa_long#:#Samstag
-dateplaner#:#Sa_short#:#Sa
+dateplaner#:#Sa_short#:#Sa###03 Nov 2004 new variable
 dateplaner#:#Su_long#:#Sonntag
 dateplaner#:#Su_short#:#So
-dateplaner#:#Text#:#Text
+dateplaner#:#Text#:#Text###03 Nov 2004 new variable
 dateplaner#:#Th_long#:#Donnerstag
 dateplaner#:#Th_short#:#Do
 dateplaner#:#Tu_long#:#Dienstag
@@ -2854,7 +2864,7 @@ dateplaner#:#dv_rotation_date#:#Turnus Termine:
 dateplaner#:#dv_rotation_end#:#Turnus Ende:
 dateplaner#:#dv_shorttext#:#Kurztext:
 dateplaner#:#dv_startdate#:#Startdatum:
-dateplaner#:#dv_text#:#Text:
+dateplaner#:#dv_text#:#Text:###03 Nov 2004 new variable
 dateplaner#:#dv_whole_day#:#Ganztägig:
 dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin löschen? (bitte Checkbox anklicken)
 dateplaner#:#end_date#:#Termin Ende
@@ -2907,7 +2917,7 @@ dateplaner#:#help_startdate#:#Startdatum - Syntax[dd/mm/yyyy]
 dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
 dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
-dateplaner#:#help_text#:#Text
+dateplaner#:#help_text#:#Text###03 Nov 2004 new variable
 dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben soll.
 dateplaner#:#help_week#:#Terminplaner Wochenansicht
 dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.
@@ -2923,14 +2933,14 @@ dateplaner#:#last_change#:#letzte Änderung am
 dateplaner#:#long_01#:#Januar
 dateplaner#:#long_02#:#Februar
 dateplaner#:#long_03#:#März
-dateplaner#:#long_04#:#April
+dateplaner#:#long_04#:#April###03 Nov 2004 new variable
 dateplaner#:#long_05#:#Mai
 dateplaner#:#long_06#:#Juni
 dateplaner#:#long_07#:#Juli
-dateplaner#:#long_08#:#August
-dateplaner#:#long_09#:#September
+dateplaner#:#long_08#:#August###03 Nov 2004 new variable
+dateplaner#:#long_09#:#September###03 Nov 2004 new variable
 dateplaner#:#long_10#:#Oktober
-dateplaner#:#long_11#:#November
+dateplaner#:#long_11#:#November###03 Nov 2004 new variable
 dateplaner#:#long_12#:#Dezember
 dateplaner#:#main_dates#:#Normale Termine
 dateplaner#:#menue#:#Menü
@@ -2962,18 +2972,18 @@ dateplaner#:#r_year#:#jedes Jahr
 dateplaner#:#readimportfile#:#Einlesen
 dateplaner#:#rotation#:#Turnus
 dateplaner#:#rotation_dates#:#Turnus Termine
-dateplaner#:#semester_name#:#Semester Name
-dateplaner#:#short_01#:#Jan
-dateplaner#:#short_02#:#Feb
+dateplaner#:#semester_name#:#Semester Name###03 Nov 2004 new variable
+dateplaner#:#short_01#:#Jan###03 Nov 2004 new variable
+dateplaner#:#short_02#:#Feb###03 Nov 2004 new variable
 dateplaner#:#short_03#:#Mär
-dateplaner#:#short_04#:#Apr
+dateplaner#:#short_04#:#Apr###03 Nov 2004 new variable
 dateplaner#:#short_05#:#Mai
-dateplaner#:#short_06#:#Jun
-dateplaner#:#short_07#:#Jul
-dateplaner#:#short_08#:#Aug
-dateplaner#:#short_09#:#Sep
+dateplaner#:#short_06#:#Jun###03 Nov 2004 new variable
+dateplaner#:#short_07#:#Jul###03 Nov 2004 new variable
+dateplaner#:#short_08#:#Aug###03 Nov 2004 new variable
+dateplaner#:#short_09#:#Sep###03 Nov 2004 new variable
 dateplaner#:#short_10#:#Okt
-dateplaner#:#short_11#:#Nov
+dateplaner#:#short_11#:#Nov###03 Nov 2004 new variable
 dateplaner#:#short_12#:#Dez
 dateplaner#:#shorttext#:#Kurztext
 dateplaner#:#singleDate#:#Einzeltermin
@@ -3037,10 +3047,10 @@ mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
 mail#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
 mail#:#mail_add_type#:#Bitte geben Sie den Typ der Nachricht an
 mail#:#mail_addr_entries#:#Einträge
-mail#:#mail_attachments#:#Attachments
+mail#:#mail_attachments#:#Attachments###03 Nov 2004 new variable
 mail#:#mail_bc_not_valid#:#Der BC-Empfänger ist nicht gültig
 mail#:#mail_bc_search#:#BC-Empfänger suchen
-mail#:#mail_byte#:#Byte
+mail#:#mail_byte#:#Byte###03 Nov 2004 new variable
 mail#:#mail_cc_not_valid#:#Der CC-Empfänger ist nicht gültig
 mail#:#mail_cc_search#:#CC-Empfänger suchen
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
@@ -3105,42 +3115,42 @@ meta#:#meta_add#:#Hinzufügen
 meta#:#meta_annotation#:#Anmerkung
 meta#:#meta_atomic#:#Atomar
 meta#:#meta_author#:#Autor
-meta#:#meta_browser#:#Browser
-meta#:#meta_c_AD#:#Andorra
+meta#:#meta_browser#:#Browser###03 Nov 2004 new variable
+meta#:#meta_c_AD#:#Andorra###03 Nov 2004 new variable
 meta#:#meta_c_AE#:#Vereinigte Arabische Emirate
-meta#:#meta_c_AF#:#Afghanistan
+meta#:#meta_c_AF#:#Afghanistan###03 Nov 2004 new variable
 meta#:#meta_c_AG#:#Antigua und Barbuda
-meta#:#meta_c_AI#:#Anguilla
+meta#:#meta_c_AI#:#Anguilla###03 Nov 2004 new variable
 meta#:#meta_c_AL#:#Albanien
 meta#:#meta_c_AM#:#Armenien
 meta#:#meta_c_AN#:#Niederländische Antillen
-meta#:#meta_c_AO#:#Angola
+meta#:#meta_c_AO#:#Angola###03 Nov 2004 new variable
 meta#:#meta_c_AQ#:#Antarktis
 meta#:#meta_c_AR#:#Argentinien
 meta#:#meta_c_AS#:#Amerikanisch Samoa
 meta#:#meta_c_AT#:#Österreich
 meta#:#meta_c_AU#:#Australien
-meta#:#meta_c_AW#:#Aruba
+meta#:#meta_c_AW#:#Aruba###03 Nov 2004 new variable
 meta#:#meta_c_AZ#:#Azerbaidschan
 meta#:#meta_c_BA#:#Bosnien-Herzegowina
-meta#:#meta_c_BB#:#Barbados
-meta#:#meta_c_BD#:#Bangladesh
+meta#:#meta_c_BB#:#Barbados###03 Nov 2004 new variable
+meta#:#meta_c_BD#:#Bangladesh###03 Nov 2004 new variable
 meta#:#meta_c_BE#:#Belgien
-meta#:#meta_c_BF#:#Burkina Faso
+meta#:#meta_c_BF#:#Burkina Faso###03 Nov 2004 new variable
 meta#:#meta_c_BG#:#Bulgarien
-meta#:#meta_c_BH#:#Bahrain
-meta#:#meta_c_BI#:#Burundi
-meta#:#meta_c_BJ#:#Benin
+meta#:#meta_c_BH#:#Bahrain###03 Nov 2004 new variable
+meta#:#meta_c_BI#:#Burundi###03 Nov 2004 new variable
+meta#:#meta_c_BJ#:#Benin###03 Nov 2004 new variable
 meta#:#meta_c_BM#:#Bermudas
 meta#:#meta_c_BN#:#Brunei
 meta#:#meta_c_BO#:#Bolivien
 meta#:#meta_c_BR#:#Brasilien
-meta#:#meta_c_BS#:#Bahamas
-meta#:#meta_c_BT#:#Bhutan
-meta#:#meta_c_BV#:#Bouvet Island
-meta#:#meta_c_BW#:#Botswana
+meta#:#meta_c_BS#:#Bahamas###03 Nov 2004 new variable
+meta#:#meta_c_BT#:#Bhutan###03 Nov 2004 new variable
+meta#:#meta_c_BV#:#Bouvet Island###03 Nov 2004 new variable
+meta#:#meta_c_BW#:#Botswana###03 Nov 2004 new variable
 meta#:#meta_c_BY#:#Weißrußland
-meta#:#meta_c_BZ#:#Belize
+meta#:#meta_c_BZ#:#Belize###03 Nov 2004 new variable
 meta#:#meta_c_CA#:#Kanada
 meta#:#meta_c_CC#:#Kokos (Keeling) Inseln
 meta#:#meta_c_CF#:#Zentralafrikanische Republik
@@ -3148,200 +3158,200 @@ meta#:#meta_c_CG#:#Kongo
 meta#:#meta_c_CH#:#Schweiz
 meta#:#meta_c_CI#:#Elfenbeinküste
 meta#:#meta_c_CK#:#Cook Inseln
-meta#:#meta_c_CL#:#Chile
+meta#:#meta_c_CL#:#Chile###03 Nov 2004 new variable
 meta#:#meta_c_CM#:#Kamerun
-meta#:#meta_c_CN#:#China
+meta#:#meta_c_CN#:#China###03 Nov 2004 new variable
 meta#:#meta_c_CO#:#Kolumbien
-meta#:#meta_c_CR#:#Costa Rica
-meta#:#meta_c_CU#:#Cuba
+meta#:#meta_c_CR#:#Costa Rica###03 Nov 2004 new variable
+meta#:#meta_c_CU#:#Cuba###03 Nov 2004 new variable
 meta#:#meta_c_CV#:#Kapverdische Inseln
 meta#:#meta_c_CX#:#Weihnachtsinseln
 meta#:#meta_c_CY#:#Zypern
 meta#:#meta_c_CZ#:#Tschechische Republik
 meta#:#meta_c_DE#:#Deutschland
-meta#:#meta_c_DJ#:#Djibouti
+meta#:#meta_c_DJ#:#Djibouti###03 Nov 2004 new variable
 meta#:#meta_c_DK#:#Dänemark
-meta#:#meta_c_DM#:#Dominica
+meta#:#meta_c_DM#:#Dominica###03 Nov 2004 new variable
 meta#:#meta_c_DO#:#Dominikanische Republik
 meta#:#meta_c_DZ#:#Algerien
 meta#:#meta_c_EC#:#Ekuador
 meta#:#meta_c_EE#:#Estland
 meta#:#meta_c_EG#:#Ägypten
 meta#:#meta_c_EH#:#West-Sahara
-meta#:#meta_c_ER#:#Eritrea
+meta#:#meta_c_ER#:#Eritrea###03 Nov 2004 new variable
 meta#:#meta_c_ES#:#Spanien
 meta#:#meta_c_ET#:#Äthiopien
 meta#:#meta_c_FI#:#Finnland
-meta#:#meta_c_FJ#:#Fiji
+meta#:#meta_c_FJ#:#Fiji###03 Nov 2004 new variable
 meta#:#meta_c_FK#:#Falkland Inseln
 meta#:#meta_c_FM#:#Mikronesien
 meta#:#meta_c_FO#:#Faroer
 meta#:#meta_c_FR#:#Frankreich
 meta#:#meta_c_FX#:#Frankreich
-meta#:#meta_c_GA#:#Gabon
+meta#:#meta_c_GA#:#Gabon###03 Nov 2004 new variable
 meta#:#meta_c_GB#:#Vereinigtes Königreich
-meta#:#meta_c_GD#:#Grenada
+meta#:#meta_c_GD#:#Grenada###03 Nov 2004 new variable
 meta#:#meta_c_GE#:#Georgien
 meta#:#meta_c_GF#:#Französich Guyana
-meta#:#meta_c_GH#:#Ghana
-meta#:#meta_c_GI#:#Gibraltar
+meta#:#meta_c_GH#:#Ghana###03 Nov 2004 new variable
+meta#:#meta_c_GI#:#Gibraltar###03 Nov 2004 new variable
 meta#:#meta_c_GL#:#Grönland
-meta#:#meta_c_GM#:#Gambia
-meta#:#meta_c_GN#:#Guinea
-meta#:#meta_c_GP#:#Guadeloupe
+meta#:#meta_c_GM#:#Gambia###03 Nov 2004 new variable
+meta#:#meta_c_GN#:#Guinea###03 Nov 2004 new variable
+meta#:#meta_c_GP#:#Guadeloupe###03 Nov 2004 new variable
 meta#:#meta_c_GQ#:#Äquatorial-Guinea
 meta#:#meta_c_GR#:#Griechenland
-meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
-meta#:#meta_c_GT#:#Guatemala
-meta#:#meta_c_GU#:#Guam
-meta#:#meta_c_GW#:#Guinea-Bissau
-meta#:#meta_c_GY#:#Guyana
-meta#:#meta_c_HM#:#Heard And Nc Donald Islands
-meta#:#meta_c_HN#:#Honduras
+meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands###03 Nov 2004 new variable
+meta#:#meta_c_GT#:#Guatemala###03 Nov 2004 new variable
+meta#:#meta_c_GU#:#Guam###03 Nov 2004 new variable
+meta#:#meta_c_GW#:#Guinea-Bissau###03 Nov 2004 new variable
+meta#:#meta_c_GY#:#Guyana###03 Nov 2004 new variable
+meta#:#meta_c_HM#:#Heard And Nc Donald Islands###03 Nov 2004 new variable
+meta#:#meta_c_HN#:#Honduras###03 Nov 2004 new variable
 meta#:#meta_c_HR#:#Kroatien
-meta#:#meta_c_HT#:#Haiti
+meta#:#meta_c_HT#:#Haiti###03 Nov 2004 new variable
 meta#:#meta_c_HU#:#Ungarn
 meta#:#meta_c_ID#:#Indonesien
 meta#:#meta_c_IE#:#Irland
-meta#:#meta_c_IL#:#Israel
+meta#:#meta_c_IL#:#Israel###03 Nov 2004 new variable
 meta#:#meta_c_IN#:#Indien
-meta#:#meta_c_IO#:#British Indian Ocean Territory
+meta#:#meta_c_IO#:#British Indian Ocean Territory###03 Nov 2004 new variable
 meta#:#meta_c_IQ#:#Irak
-meta#:#meta_c_IR#:#Iran
-meta#:#meta_c_IS#:#Iceland
+meta#:#meta_c_IR#:#Iran###03 Nov 2004 new variable
+meta#:#meta_c_IS#:#Iceland###03 Nov 2004 new variable
 meta#:#meta_c_IT#:#Italien
 meta#:#meta_c_JM#:#Jamaika
 meta#:#meta_c_JO#:#Jordanien
-meta#:#meta_c_JP#:#Japan
+meta#:#meta_c_JP#:#Japan###03 Nov 2004 new variable
 meta#:#meta_c_KE#:#Kenia
 meta#:#meta_c_KG#:#Kirgisien
 meta#:#meta_c_KH#:#Kambodscha
-meta#:#meta_c_KI#:#Kiribati
+meta#:#meta_c_KI#:#Kiribati###03 Nov 2004 new variable
 meta#:#meta_c_KM#:#Komoren
-meta#:#meta_c_KN#:#Saint Kitts And Nevis
+meta#:#meta_c_KN#:#Saint Kitts And Nevis###03 Nov 2004 new variable
 meta#:#meta_c_KP#:#Nord-Korea (Volksrepublik Korea)
 meta#:#meta_c_KR#:#Süd-Korea (Republik)
-meta#:#meta_c_KW#:#Kuwait
+meta#:#meta_c_KW#:#Kuwait###03 Nov 2004 new variable
 meta#:#meta_c_KY#:#Kaiman Inseln
 meta#:#meta_c_KZ#:#Kasachstan
 meta#:#meta_c_LA#:#Laos
 meta#:#meta_c_LB#:#Libanon
-meta#:#meta_c_LC#:#Saint Lucia
-meta#:#meta_c_LI#:#Liechtenstein
-meta#:#meta_c_LK#:#Sri Lanka
-meta#:#meta_c_LR#:#Liberia
-meta#:#meta_c_LS#:#Lesotho
+meta#:#meta_c_LC#:#Saint Lucia###03 Nov 2004 new variable
+meta#:#meta_c_LI#:#Liechtenstein###03 Nov 2004 new variable
+meta#:#meta_c_LK#:#Sri Lanka###03 Nov 2004 new variable
+meta#:#meta_c_LR#:#Liberia###03 Nov 2004 new variable
+meta#:#meta_c_LS#:#Lesotho###03 Nov 2004 new variable
 meta#:#meta_c_LT#:#Litauen
 meta#:#meta_c_LU#:#Luxemburg
 meta#:#meta_c_LV#:#Lettland
 meta#:#meta_c_LY#:#Libyen
 meta#:#meta_c_MA#:#Morokko
-meta#:#meta_c_MC#:#Monaco
+meta#:#meta_c_MC#:#Monaco###03 Nov 2004 new variable
 meta#:#meta_c_MD#:#Moldawien
 meta#:#meta_c_MG#:#Madagaskar
 meta#:#meta_c_MH#:#Marshall Inseln
 meta#:#meta_c_MK#:#Mazedonien
-meta#:#meta_c_ML#:#Mali
-meta#:#meta_c_MM#:#Myanmar
+meta#:#meta_c_ML#:#Mali###03 Nov 2004 new variable
+meta#:#meta_c_MM#:#Myanmar###03 Nov 2004 new variable
 meta#:#meta_c_MN#:#Mongolei
-meta#:#meta_c_MO#:#Macau
-meta#:#meta_c_MP#:#Northern Mariana Islands
-meta#:#meta_c_MQ#:#Martinique
+meta#:#meta_c_MO#:#Macau###03 Nov 2004 new variable
+meta#:#meta_c_MP#:#Northern Mariana Islands###03 Nov 2004 new variable
+meta#:#meta_c_MQ#:#Martinique###03 Nov 2004 new variable
 meta#:#meta_c_MR#:#Mauretanien
-meta#:#meta_c_MS#:#Montserrat
-meta#:#meta_c_MT#:#Malta
-meta#:#meta_c_MU#:#Mauritius
+meta#:#meta_c_MS#:#Montserrat###03 Nov 2004 new variable
+meta#:#meta_c_MT#:#Malta###03 Nov 2004 new variable
+meta#:#meta_c_MU#:#Mauritius###03 Nov 2004 new variable
 meta#:#meta_c_MV#:#Malediven
-meta#:#meta_c_MW#:#Malawi
+meta#:#meta_c_MW#:#Malawi###03 Nov 2004 new variable
 meta#:#meta_c_MX#:#Mexiko
-meta#:#meta_c_MY#:#Malaysia
+meta#:#meta_c_MY#:#Malaysia###03 Nov 2004 new variable
 meta#:#meta_c_MZ#:#Mozambik
-meta#:#meta_c_NA#:#Namibia
+meta#:#meta_c_NA#:#Namibia###03 Nov 2004 new variable
 meta#:#meta_c_NC#:#Neu Kaledonien
-meta#:#meta_c_NE#:#Niger
-meta#:#meta_c_NF#:#Norfolk Island
-meta#:#meta_c_NG#:#Nigeria
-meta#:#meta_c_NI#:#Nicaragua
+meta#:#meta_c_NE#:#Niger###03 Nov 2004 new variable
+meta#:#meta_c_NF#:#Norfolk Island###03 Nov 2004 new variable
+meta#:#meta_c_NG#:#Nigeria###03 Nov 2004 new variable
+meta#:#meta_c_NI#:#Nicaragua###03 Nov 2004 new variable
 meta#:#meta_c_NL#:#Niederlande
 meta#:#meta_c_NO#:#Norwegen
-meta#:#meta_c_NP#:#Nepal
-meta#:#meta_c_NR#:#Nauru
-meta#:#meta_c_NU#:#Niue
+meta#:#meta_c_NP#:#Nepal###03 Nov 2004 new variable
+meta#:#meta_c_NR#:#Nauru###03 Nov 2004 new variable
+meta#:#meta_c_NU#:#Niue###03 Nov 2004 new variable
 meta#:#meta_c_NZ#:#Neuseeland
-meta#:#meta_c_OM#:#Oman
-meta#:#meta_c_PA#:#Panama
-meta#:#meta_c_PE#:#Peru
+meta#:#meta_c_OM#:#Oman###03 Nov 2004 new variable
+meta#:#meta_c_PA#:#Panama###03 Nov 2004 new variable
+meta#:#meta_c_PE#:#Peru###03 Nov 2004 new variable
 meta#:#meta_c_PF#:#Französich Polynesien
 meta#:#meta_c_PG#:#Papua-Neuguinea
 meta#:#meta_c_PH#:#Philippinen
-meta#:#meta_c_PK#:#Pakistan
+meta#:#meta_c_PK#:#Pakistan###03 Nov 2004 new variable
 meta#:#meta_c_PL#:#Polen
-meta#:#meta_c_PM#:#St. Pierre And Miquelon
-meta#:#meta_c_PN#:#Pitcairn
-meta#:#meta_c_PR#:#Puerto Rico
-meta#:#meta_c_PT#:#Portugal
-meta#:#meta_c_PW#:#Palau
-meta#:#meta_c_PY#:#Paraguay
+meta#:#meta_c_PM#:#St. Pierre And Miquelon###03 Nov 2004 new variable
+meta#:#meta_c_PN#:#Pitcairn###03 Nov 2004 new variable
+meta#:#meta_c_PR#:#Puerto Rico###03 Nov 2004 new variable
+meta#:#meta_c_PT#:#Portugal###03 Nov 2004 new variable
+meta#:#meta_c_PW#:#Palau###03 Nov 2004 new variable
+meta#:#meta_c_PY#:#Paraguay###03 Nov 2004 new variable
 meta#:#meta_c_QA#:#Katar
-meta#:#meta_c_RE#:#Reunion
+meta#:#meta_c_RE#:#Reunion###03 Nov 2004 new variable
 meta#:#meta_c_RO#:#Rumänien
-meta#:#meta_c_RU#:#Ran Federation
+meta#:#meta_c_RU#:#Ran Federation###03 Nov 2004 new variable
 meta#:#meta_c_RW#:#Ruanda
 meta#:#meta_c_SA#:#Saudi-Arabien
 meta#:#meta_c_SB#:#Solomon Inseln
 meta#:#meta_c_SC#:#Seychellen
-meta#:#meta_c_SD#:#Sudan
+meta#:#meta_c_SD#:#Sudan###03 Nov 2004 new variable
 meta#:#meta_c_SE#:#Schweden
 meta#:#meta_c_SG#:#Singapur
-meta#:#meta_c_SH#:#St. Helena
+meta#:#meta_c_SH#:#St. Helena###03 Nov 2004 new variable
 meta#:#meta_c_SI#:#Slowenien
 meta#:#meta_c_SJ#:#Svalbard und Jan Mayen Inseln
 meta#:#meta_c_SK#:#Slowakei
 meta#:#meta_c_SL#:#Siera Leone
-meta#:#meta_c_SM#:#San Marino
-meta#:#meta_c_SN#:#Senegal
-meta#:#meta_c_SO#:#Somalia
+meta#:#meta_c_SM#:#San Marino###03 Nov 2004 new variable
+meta#:#meta_c_SN#:#Senegal###03 Nov 2004 new variable
+meta#:#meta_c_SO#:#Somalia###03 Nov 2004 new variable
 meta#:#meta_c_SR#:#Surinam
 meta#:#meta_c_ST#:#Sao Tome und Principe
-meta#:#meta_c_SV#:#El Salvador
+meta#:#meta_c_SV#:#El Salvador###03 Nov 2004 new variable
 meta#:#meta_c_SY#:#Syrien
-meta#:#meta_c_SZ#:#Swaziland
+meta#:#meta_c_SZ#:#Swaziland###03 Nov 2004 new variable
 meta#:#meta_c_TC#:#Turks und Caicos Inseln
 meta#:#meta_c_TD#:#Tschad
 meta#:#meta_c_TF#:#Französiche Südliche Territorien
-meta#:#meta_c_TG#:#Togo
-meta#:#meta_c_TH#:#Thailand
+meta#:#meta_c_TG#:#Togo###03 Nov 2004 new variable
+meta#:#meta_c_TH#:#Thailand###03 Nov 2004 new variable
 meta#:#meta_c_TJ#:#Tadschikistan
-meta#:#meta_c_TK#:#Tokelau
-meta#:#meta_c_TM#:#Turkmenistan
+meta#:#meta_c_TK#:#Tokelau###03 Nov 2004 new variable
+meta#:#meta_c_TM#:#Turkmenistan###03 Nov 2004 new variable
 meta#:#meta_c_TN#:#Tunesien
-meta#:#meta_c_TO#:#Tonga
+meta#:#meta_c_TO#:#Tonga###03 Nov 2004 new variable
 meta#:#meta_c_TP#:#Ost-Timor
 meta#:#meta_c_TR#:#Turkei
 meta#:#meta_c_TT#:#Trinidad und Tobago
-meta#:#meta_c_TV#:#Tuvalu
-meta#:#meta_c_TW#:#Taiwan
+meta#:#meta_c_TV#:#Tuvalu###03 Nov 2004 new variable
+meta#:#meta_c_TW#:#Taiwan###03 Nov 2004 new variable
 meta#:#meta_c_TZ#:#Tansania
-meta#:#meta_c_UA#:#Ukraine
-meta#:#meta_c_UG#:#Uganda
-meta#:#meta_c_UM#:#U.S. Minor Outlying Islands
+meta#:#meta_c_UA#:#Ukraine###03 Nov 2004 new variable
+meta#:#meta_c_UG#:#Uganda###03 Nov 2004 new variable
+meta#:#meta_c_UM#:#U.S. Minor Outlying Islands###03 Nov 2004 new variable
 meta#:#meta_c_US#:#Vereinigte Staaten
-meta#:#meta_c_UY#:#Uruguay
+meta#:#meta_c_UY#:#Uruguay###03 Nov 2004 new variable
 meta#:#meta_c_UZ#:#Usbekistan
 meta#:#meta_c_VA#:#Vatikan
 meta#:#meta_c_VC#:#Saint Vincent und Grenadines
-meta#:#meta_c_VE#:#Venezuela
+meta#:#meta_c_VE#:#Venezuela###03 Nov 2004 new variable
 meta#:#meta_c_VG#:#Virgin Islands (Britisch)
-meta#:#meta_c_VI#:#Virgin Islands (US)
+meta#:#meta_c_VI#:#Virgin Islands (US)###03 Nov 2004 new variable
 meta#:#meta_c_VN#:#Vietnam
-meta#:#meta_c_VU#:#Vanuatu
+meta#:#meta_c_VU#:#Vanuatu###03 Nov 2004 new variable
 meta#:#meta_c_WF#:#Wallis und Futuna
-meta#:#meta_c_WS#:#Samoa
+meta#:#meta_c_WS#:#Samoa###03 Nov 2004 new variable
 meta#:#meta_c_YE#:#Jemen
-meta#:#meta_c_YT#:#Mayotte
+meta#:#meta_c_YT#:#Mayotte###03 Nov 2004 new variable
 meta#:#meta_c_ZA#:#Südafrika
 meta#:#meta_c_ZM#:#Sambia
-meta#:#meta_c_ZR#:#Zaire
+meta#:#meta_c_ZR#:#Zaire###03 Nov 2004 new variable
 meta#:#meta_c_ZW#:#Simbabwe
 meta#:#meta_c_ZZ#:#Andere Länder
 meta#:#meta_catalog#:#Katalog
@@ -3372,23 +3382,23 @@ meta#:#meta_entity#:#Instanz
 meta#:#meta_entry#:#Eintrag
 meta#:#meta_exam#:#Prüfung
 meta#:#meta_exercise#:#Übung
-meta#:#meta_experiment#:#Experiment
+meta#:#meta_experiment#:#Experiment###03 Nov 2004 new variable
 meta#:#meta_expositive#:#Erklärend
 meta#:#meta_figure#:#Abbildung
 meta#:#meta_final#:#Endfassung
-meta#:#meta_format#:#Format
+meta#:#meta_format#:#Format###03 Nov 2004 new variable
 meta#:#meta_general#:#Allgemein
-meta#:#meta_graph#:#Graph
+meta#:#meta_graph#:#Graph###03 Nov 2004 new variable
 meta#:#meta_has_format#:#...hat Format...
 meta#:#meta_has_part#:#..hat Teil von...
 meta#:#meta_has_version#:#..hat Version...
 meta#:#meta_hierarchical#:#Hierarchisch
 meta#:#meta_high#:#Hoch
 meta#:#meta_higher_education#:#Hochschulbildung
-meta#:#meta_id#:#Id
+meta#:#meta_id#:#Id###03 Nov 2004 new variable
 meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
-meta#:#meta_index#:#Index
+meta#:#meta_index#:#Index###03 Nov 2004 new variable
 meta#:#meta_installation_remarks#:#Installationsanmerkungen
 meta#:#meta_intended_end_user_role#:#Beabsichtige Endbenutzer Rolle
 meta#:#meta_interactivity_level#:#Stufe der Interaktivität
@@ -3404,11 +3414,11 @@ meta#:#meta_keyword#:#Schlagwort
 meta#:#meta_kind#:#Art
 meta#:#meta_l_aa#:#afar
 meta#:#meta_l_ab#:#Abchasisch
-meta#:#meta_l_af#:#Afrikaans
+meta#:#meta_l_af#:#Afrikaans###03 Nov 2004 new variable
 meta#:#meta_l_am#:#Amharisch
 meta#:#meta_l_ar#:#Arabisch
 meta#:#meta_l_as#:#Assamesisch
-meta#:#meta_l_ay#:#Aymara
+meta#:#meta_l_ay#:#Aymara###03 Nov 2004 new variable
 meta#:#meta_l_az#:#Aserbaidschanisch
 meta#:#meta_l_ba#:#Baschkirisch
 meta#:#meta_l_be#:#Weißrussisch
@@ -3424,44 +3434,44 @@ meta#:#meta_l_cs#:#Tschechisch
 meta#:#meta_l_cy#:#Walisisch
 meta#:#meta_l_da#:#Dänisch
 meta#:#meta_l_de#:#Deutsch
-meta#:#meta_l_dz#:#Bhutani
+meta#:#meta_l_dz#:#Bhutani###03 Nov 2004 new variable
 meta#:#meta_l_el#:#Griechisch
 meta#:#meta_l_en#:#Englisch
-meta#:#meta_l_eo#:#Esperanto
+meta#:#meta_l_eo#:#Esperanto###03 Nov 2004 new variable
 meta#:#meta_l_es#:#Spanisch
 meta#:#meta_l_et#:#Estisch
 meta#:#meta_l_eu#:#Baskisch
 meta#:#meta_l_fa#:#Persisch
 meta#:#meta_l_fi#:#Finnisch
-meta#:#meta_l_fj#:#Fiji
+meta#:#meta_l_fj#:#Fiji###03 Nov 2004 new variable
 meta#:#meta_l_fo#:#Faröisch
 meta#:#meta_l_fr#:#Französisch
 meta#:#meta_l_fy#:#Friesisch
 meta#:#meta_l_ga#:#Irisch
 meta#:#meta_l_gd#:#Schottisches Gälisch
 meta#:#meta_l_gl#:#Galizisch
-meta#:#meta_l_gn#:#Guarani
+meta#:#meta_l_gn#:#Guarani###03 Nov 2004 new variable
 meta#:#meta_l_gu#:#Gujaratisch
 meta#:#meta_l_ha#:#Haussa
 meta#:#meta_l_he#:#Hebräisch
-meta#:#meta_l_hi#:#Hindi
+meta#:#meta_l_hi#:#Hindi###03 Nov 2004 new variable
 meta#:#meta_l_hr#:#Kroatisch
 meta#:#meta_l_hu#:#Ungarisch
 meta#:#meta_l_hy#:#Armenisch
-meta#:#meta_l_ia#:#Interlingua
+meta#:#meta_l_ia#:#Interlingua###03 Nov 2004 new variable
 meta#:#meta_l_id#:#Indonesisch
-meta#:#meta_l_ie#:#Interlingue
-meta#:#meta_l_ik#:#Inupiak
+meta#:#meta_l_ie#:#Interlingue###03 Nov 2004 new variable
+meta#:#meta_l_ik#:#Inupiak###03 Nov 2004 new variable
 meta#:#meta_l_is#:#Isländisch
 meta#:#meta_l_it#:#Italienisch
-meta#:#meta_l_iu#:#Inuktitut
+meta#:#meta_l_iu#:#Inuktitut###03 Nov 2004 new variable
 meta#:#meta_l_ja#:#Japanisch
 meta#:#meta_l_jv#:#Javanesisch
 meta#:#meta_l_ka#:#Georgisch
 meta#:#meta_l_kk#:#Kasachisch
 meta#:#meta_l_kl#:#Grönländisch
 meta#:#meta_l_km#:#Kambodschanisch
-meta#:#meta_l_kn#:#Kannada
+meta#:#meta_l_kn#:#Kannada###03 Nov 2004 new variable
 meta#:#meta_l_ko#:#Koreanisch
 meta#:#meta_l_ks#:#Kashmirisch
 meta#:#meta_l_ku#:#Kurdisch
@@ -3477,7 +3487,7 @@ meta#:#meta_l_mk#:#Mazedonisch
 meta#:#meta_l_ml#:#Malajalam
 meta#:#meta_l_mn#:#Mongolisch
 meta#:#meta_l_mo#:#Moldavisch
-meta#:#meta_l_mr#:#Marathi
+meta#:#meta_l_mr#:#Marathi###03 Nov 2004 new variable
 meta#:#meta_l_ms#:#Malayisch
 meta#:#meta_l_mt#:#Maltesisch
 meta#:#meta_l_my#:#Burmesisch
@@ -3487,18 +3497,18 @@ meta#:#meta_l_nl#:#Holländisch
 meta#:#meta_l_no#:#Norwegisch
 meta#:#meta_l_oc#:#Okzitanisch
 meta#:#meta_l_om#:#Oromo
-meta#:#meta_l_or#:#Oriya
+meta#:#meta_l_or#:#Oriya###03 Nov 2004 new variable
 meta#:#meta_l_pa#:#Punjabisch
 meta#:#meta_l_pl#:#Polnisch
 meta#:#meta_l_ps#:#Paschtu
 meta#:#meta_l_pt#:#Portugisisch
-meta#:#meta_l_qu#:#Quechua
+meta#:#meta_l_qu#:#Quechua###03 Nov 2004 new variable
 meta#:#meta_l_rm#:#Rätoromanisch
 meta#:#meta_l_rn#:#Kurundisch
 meta#:#meta_l_ro#:#Rumänisch
 meta#:#meta_l_ru#:#Russisch
-meta#:#meta_l_rw#:#Kinyarwanda
-meta#:#meta_l_sa#:#Sanskrit
+meta#:#meta_l_rw#:#Kinyarwanda###03 Nov 2004 new variable
+meta#:#meta_l_sa#:#Sanskrit###03 Nov 2004 new variable
 meta#:#meta_l_sd#:#Zinti
 meta#:#meta_l_sg#:#Sango
 meta#:#meta_l_sh#:#Serbokroatisch
@@ -3506,7 +3516,7 @@ meta#:#meta_l_si#:#Singhalesisch
 meta#:#meta_l_sk#:#Slowakisch
 meta#:#meta_l_sl#:#Slowenisch
 meta#:#meta_l_sm#:#Samoanisch
-meta#:#meta_l_sn#:#Shona
+meta#:#meta_l_sn#:#Shona###03 Nov 2004 new variable
 meta#:#meta_l_so#:#Somalisch
 meta#:#meta_l_sq#:#Albanisch
 meta#:#meta_l_sr#:#Serbisch
@@ -3516,51 +3526,51 @@ meta#:#meta_l_su#:#Sundanesisch
 meta#:#meta_l_sv#:#Schwedisch
 meta#:#meta_l_sw#:#Suaheli
 meta#:#meta_l_ta#:#Tamilisch
-meta#:#meta_l_te#:#Telugu
+meta#:#meta_l_te#:#Telugu###03 Nov 2004 new variable
 meta#:#meta_l_tg#:#Tadschikisch
-meta#:#meta_l_th#:#Thai
+meta#:#meta_l_th#:#Thai###03 Nov 2004 new variable
 meta#:#meta_l_ti#:#Tigrinja
 meta#:#meta_l_tk#:#Turkmenisch
-meta#:#meta_l_tl#:#Tagalog
+meta#:#meta_l_tl#:#Tagalog###03 Nov 2004 new variable
 meta#:#meta_l_tn#:#Sezuan
 meta#:#meta_l_to#:#Tongaisch
 meta#:#meta_l_tr#:#Türkisch
 meta#:#meta_l_ts#:#Tsongaisch
 meta#:#meta_l_tt#:#Tatarisch
-meta#:#meta_l_tw#:#Twi
-meta#:#meta_l_ug#:#Uigur
+meta#:#meta_l_tw#:#Twi###03 Nov 2004 new variable
+meta#:#meta_l_ug#:#Uigur###03 Nov 2004 new variable
 meta#:#meta_l_uk#:#Ukrainisch
-meta#:#meta_l_ur#:#Urdu
+meta#:#meta_l_ur#:#Urdu###03 Nov 2004 new variable
 meta#:#meta_l_uz#:#Usbekisch
 meta#:#meta_l_vi#:#Vietnamesisch
 meta#:#meta_l_vo#:#Volapük
-meta#:#meta_l_wo#:#Wolof
-meta#:#meta_l_xh#:#Xhosa
+meta#:#meta_l_wo#:#Wolof###03 Nov 2004 new variable
+meta#:#meta_l_xh#:#Xhosa###03 Nov 2004 new variable
 meta#:#meta_l_yi#:#Jiddish
 meta#:#meta_l_yo#:#Joruba
-meta#:#meta_l_za#:#Zhuang
+meta#:#meta_l_za#:#Zhuang###03 Nov 2004 new variable
 meta#:#meta_l_zh#:#Chinesisch
-meta#:#meta_l_zu#:#Zulu
+meta#:#meta_l_zu#:#Zulu###03 Nov 2004 new variable
 meta#:#meta_language#:#Sprache
 meta#:#meta_learner#:#Lernender
 meta#:#meta_learning_resource_type#:#Art des Lernmittels
 meta#:#meta_lecture#:#Lektüre
 meta#:#meta_lifecycle#:#Lebenszyklus
-meta#:#meta_linear#:#Linear
+meta#:#meta_linear#:#Linear###03 Nov 2004 new variable
 meta#:#meta_local_file#:#Lokale Datei
 meta#:#meta_location#:#Standort
 meta#:#meta_low#:#niedrig
-meta#:#meta_mac_os#:#MacOS
-meta#:#meta_manager#:#Manager
+meta#:#meta_mac_os#:#MacOS###03 Nov 2004 new variable
+meta#:#meta_manager#:#Manager###03 Nov 2004 new variable
 meta#:#meta_maximum_version#:#Maximum-Version
 meta#:#meta_medium#:#Mittel
 meta#:#meta_meta_metadata#:#Meta-Metadaten
 meta#:#meta_metadatascheme#:#Metadaten-Schema
 meta#:#meta_minimum_version#:#Minimal-Version
 meta#:#meta_mixed#:#Gemischt
-meta#:#meta_ms_windows#:#MS-Windows
-meta#:#meta_multi_os#:#Multi-OS
-meta#:#meta_name#:#Name
+meta#:#meta_ms_windows#:#MS-Windows###03 Nov 2004 new variable
+meta#:#meta_multi_os#:#Multi-OS###03 Nov 2004 new variable
+meta#:#meta_name#:#Name###03 Nov 2004 new variable
 meta#:#meta_narrative_text#:#Erzählender Text
 meta#:#meta_networked#:#Vernetzt
 meta#:#meta_new_element#:#Neues Element
@@ -3578,7 +3588,7 @@ meta#:#meta_operating_system#:#Betriebssystem
 meta#:#meta_or_composite#:#...oder zusammengefasst...
 meta#:#meta_other#:#Andere
 meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
-meta#:#meta_pc_dos#:#PC-DOS
+meta#:#meta_pc_dos#:#PC-DOS###03 Nov 2004 new variable
 meta#:#meta_please_select#:#Bitte wählen Sie
 meta#:#meta_prerequisite#:#Voraussetzung
 meta#:#meta_problem_statement#:#Problemstellung
@@ -3598,12 +3608,12 @@ meta#:#meta_school#:#Schule
 meta#:#meta_security_level#:#Sicherheitsstufe
 meta#:#meta_self_assessment#:#Selbsttest
 meta#:#meta_semantic_density#:#Semantische Dichte
-meta#:#meta_simulation#:#Simulation
+meta#:#meta_simulation#:#Simulation###03 Nov 2004 new variable
 meta#:#meta_size#:#Größe
 meta#:#meta_skill_level#:#Stufe der Fertigkeit
 meta#:#meta_slide#:#Folie
 meta#:#meta_source#:#Quelle
-meta#:#meta_status#:#Status
+meta#:#meta_status#:#Status###03 Nov 2004 new variable
 meta#:#meta_structure#:#Struktur
 meta#:#meta_table#:#Tabelle
 meta#:#meta_taxon#:#Taxonomie
@@ -3611,25 +3621,25 @@ meta#:#meta_taxon_path#:#Taxonomie-Pfad
 meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
 meta#:#meta_title#:#Titel
-meta#:#meta_training#:#Training
+meta#:#meta_training#:#Training###03 Nov 2004 new variable
 meta#:#meta_type#:#Typ
 meta#:#meta_typical_age_range#:#Typische Altersspanne
 meta#:#meta_typical_learning_time#:#Typische Lerndauer
 meta#:#meta_unavailable#:#Nicht verfügbar
-meta#:#meta_unix#:#Unix
+meta#:#meta_unix#:#Unix###03 Nov 2004 new variable
 meta#:#meta_value#:#Eintrag
-meta#:#meta_version#:#Version
+meta#:#meta_version#:#Version###03 Nov 2004 new variable
 meta#:#meta_very_difficult#:#Sehr schwierig
 meta#:#meta_very_easy#:#Sehr leicht
 meta#:#meta_very_high#:#Sehr hoch
 meta#:#meta_very_low#:#Sehr niedrig
 meta#:#meta_yes#:#Ja
-payment#:#currency_cent#:#Cent
-payment#:#currency_euro#:#Euro
+payment#:#currency_cent#:#Cent###03 Nov 2004 new variable
+payment#:#currency_euro#:#Euro###03 Nov 2004 new variable
 payment#:#duration#:#Dauer
 payment#:#pay_deleted_booking#:#Der Datensatz wurde gelöscht.
-payment#:#pay_header#:#Payment
-payment#:#pay_locator#:#Payment
+payment#:#pay_header#:#Payment###03 Nov 2004 new variable
+payment#:#pay_locator#:#Payment###03 Nov 2004 new variable
 payment#:#pay_no_vendors_created#:#Sie haben noch keine Verkäufer angelegt.
 payment#:#paya_access#:#Zugriff
 payment#:#paya_add_price#:#Neuen Preis anlegen
@@ -3661,7 +3671,7 @@ payment#:#paya_insert_only_numbers#:#Bitte geben Sie nur ganze Zahlen ein.
 payment#:#paya_locator#:#Paymentverwaltung
 payment#:#paya_months#:#Monat(e)
 payment#:#paya_no_booking_id_given#:#Fehler: kein Datensatz angegeben
-payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
+payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###03 Nov 2004 new variable
 payment#:#paya_no_object_selected#:#Sie haben kein Objekt ausgewählt.
 payment#:#paya_no_objects_assigned#:#Sie haben noch keine Objekte verkauft.
 payment#:#paya_no_price_available#:#Es sind keine Preise festgelegt.
@@ -3706,7 +3716,7 @@ payment#:#pays_added_vendor#:#Ein neuer Verkäufer wurde angelegt.
 payment#:#pays_already_assigned_vendors#:#Die folgende Anzahl an Benutzern war bereits vorhanden:
 payment#:#pays_assigned_vendors#:#Die folgende Anzahl an Verkäufern wurde angelegt:
 payment#:#pays_bill#:#Rechnung
-payment#:#pays_bmf#:#BMF
+payment#:#pays_bmf#:#BMF###03 Nov 2004 new variable
 payment#:#pays_cost_center#:#Kostenstelle
 payment#:#pays_delete_vendor#:#Benutzer austragen
 payment#:#pays_deleted_number_vendors#:#Die folgende Anzahl an Verkäufern wurde gelöscht:
@@ -3717,8 +3727,8 @@ payment#:#pays_no_vendor_selected#:#Sie haben keinen Verkäufer ausgewählt.
 payment#:#pays_number_bookings#:#Verkaufsvorgänge
 payment#:#pays_objects_bill_exist#:#Für einige Objekte ist die Bezahlart 'Rechnung' aktiviert. Diese kann deswegen nicht deaktiviert werden.
 payment#:#pays_objects_bmf_exist#:#Für einige Objekte ist die Bezahlart 'BMF' aktiviert. Diese kann deswegen nicht deaktiviert werden.
-payment#:#pays_offline#:#Offline
-payment#:#pays_online#:#Online
+payment#:#pays_offline#:#Offline###03 Nov 2004 new variable
+payment#:#pays_online#:#Online###03 Nov 2004 new variable
 payment#:#pays_pay_methods#:#Bezahlarten
 payment#:#pays_sure_delete_selected_vendors#:#Sind sie sicher, dass die ausgewählten Verkäufer gelöscht werden sollen?
 payment#:#pays_updated_pay_method#:#Die Bezahlart wurde geändert.
@@ -3817,7 +3827,7 @@ survey#:#dc_mostcertainly#:#absolut sicher
 survey#:#dc_mostcertainlynot#:#absolut unsicher
 survey#:#dc_must#:#muss
 survey#:#dc_mustnot#:#darf nicht
-survey#:#dc_neutral#:#neutral
+survey#:#dc_neutral#:#neutral###03 Nov 2004 new variable
 survey#:#dc_never#:#nie
 survey#:#dc_no#:#nein
 survey#:#dc_notacceptable#:#inakzeptabel
@@ -3870,14 +3880,14 @@ survey#:#enter_phrase_title#:#Bitte geben Sie einen Titel für die Phrase an
 survey#:#enter_value#:#Geben Sie einen Wert an
 survey#:#error_importing_question#:#Beim Importieren der Frage(n) der von Ihnen ausgewählten Datei ist ein Fehler aufgetreten!
 survey#:#error_retrieving_anonymous_survey#:#Das System konnte Ihre Umfragedaten unter dem Umfragecode %s nicht finden. Bitte überprüfen Sie den Umfragecode!
-survey#:#evaluation#:#Evaluation
+survey#:#evaluation#:#Evaluation###03 Nov 2004 new variable
 survey#:#evaluation_access#:#Evaluationszugriff
-survey#:#excel#:#Microsoft Excel
+survey#:#excel#:#Microsoft Excel###03 Nov 2004 new variable
 survey#:#exit#:#Beenden
 survey#:#export_data_as#:#Exportieren als
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
-survey#:#filter#:#Filter
+survey#:#filter#:#Filter###03 Nov 2004 new variable
 survey#:#filter_all_question_types#:#Alle Fragentypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
 survey#:#filter_show_question_types#:#Zeige folgende Fragentypen
@@ -3906,7 +3916,7 @@ survey#:#maintenance#:#Wartung
 survey#:#manage_phrases#:#Phrasen verwalten
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
-survey#:#median#:#Median
+survey#:#median#:#Median###03 Nov 2004 new variable
 survey#:#median_between#:#zwischen
 survey#:#message_mail_survey_id#:#Sie haben die anonymisierte Umfrage &quot;%s&quot; gestartet. Um diese Umfrage fortsetzen zu können, wenn Sie sie vor dem Absenden unterbrochen haben, benötigen Sie den folgenden - aus 32 Zeichen bestehenden - Umfragecode:<br><br><strong>%s</strong><br><br>Das Fortsetzen einer Umfrage ist nur möglich, wenn Sie die Umfrage noch nicht abgeschlossen haben.
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minmalwert und dem Maximalwert!

@@ -1382,6 +1382,40 @@ class ASS_Question
 		}
 		return $href;
 	}
+	
+/**
+* Returns the original id of a question
+*
+* Returns the original id of a question
+*
+* @param integer $question_id The database id of the question
+* @return integer The database id of the original question
+* @access public
+*/
+	function _getOriginalId($question_id)
+	{
+		global $ilDB;
+		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
+			$ilDB->quote($question_id . "")
+		);
+		$result = $ilDB->query($query);
+		if ($result->numRows() > 0)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+			if ($row["original_id"] > 0)
+			{
+				return $row["original_id"];
+			}
+			else
+			{
+				return $row["question_id"];
+			}
+		}
+		else
+		{
+			return "";
+		}
+	}
 }
 
 ?>

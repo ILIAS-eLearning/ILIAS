@@ -69,7 +69,7 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 
 	/**
-	* form for new content object import
+	* form for new test object import
 	*/
 	function importFileObject()
 	{
@@ -86,6 +86,22 @@ class ilObjTestGUI extends ilObjectGUI
 			return;
 		}
 		$this->uploadObject(false);
+		ilUtil::redirect($_SERVER["PHP_SELF"] . "?".$this->link_params);
+	}
+	
+	/**
+	* form for new test object duplication
+	*/
+	function cloneObject()
+	{
+		if ($_POST["tst"] < 1)
+		{
+			sendInfo($this->lng->txt("tst_select_tests"));
+			$this->createObject();
+			return;
+		}
+		require_once "./assessment/classes/class.ilObjTest.php";
+		ilObjTest::_clone($_POST["tst"]);
 		ilUtil::redirect($_SERVER["PHP_SELF"] . "?".$this->link_params);
 	}
 	
@@ -4047,6 +4063,20 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
 	}
 
+	function saveMetaObject()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->save($_POST["meta_section"]);
+		if (!strcmp($_POST["meta_section"], "General")) {
+			$meta = $_POST["meta"];
+			$this->object->setTitle(ilUtil::stripSlashes($meta["Title"]["Value"]));
+			$this->object->setDescription(ilUtil::stripSlashes($meta["Description"][0]["Value"]));
+			$this->object->update();
+		}
+		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
+	}
+
 	// called by administration
 	function chooseMetaSectionObject($a_script = "",
 		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
@@ -4136,6 +4166,23 @@ class ilObjTestGUI extends ilObjectGUI
 
 			require_once("./assessment/classes/class.ilObjTest.php");
 			$tst = new ilObjTest();
+			
+			$tests =& ilObjTest::_getAvailableTests(true);
+			if (count($tests) > 0)
+			{
+				foreach ($tests as $key => $value)
+				{
+					$this->tpl->setCurrentBlock("option_tst");
+					$this->tpl->setVariable("OPTION_VALUE_TST", $key);
+					$this->tpl->setVariable("TXT_OPTION_TST", $value);
+					if ($_POST["tst"] == $key)
+					{
+						$this->tpl->setVariable("OPTION_SELECTED_TST", " selected=\"selected\"");				
+					}
+					$this->tpl->parseCurrentBlock();
+				}
+			}
+			
 			$questionpools =& $tst->getAvailableQuestionpools(true);
 			if (count($questionpools) == 0)
 			{
@@ -4185,6 +4232,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_IMPORT_TST", $this->lng->txt("import_tst"));
 			$this->tpl->setVariable("TXT_TST_FILE", $this->lng->txt("tst_upload_file"));
 			$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
+
+			$this->tpl->setVariable("TXT_DUPLICATE_TST", $this->lng->txt("duplicate_tst"));
+			$this->tpl->setVariable("TXT_SELECT_TST", $this->lng->txt("obj_tst"));
+			$this->tpl->setVariable("OPTION_SELECT_TST", $this->lng->txt("select_tst_option"));
+			$this->tpl->setVariable("TXT_DUPLICATE", $this->lng->txt("duplicate"));
 		}
 	}
 } // END class.ilObjTestGUI
