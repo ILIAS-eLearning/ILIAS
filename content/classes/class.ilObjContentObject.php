@@ -131,7 +131,8 @@ class ilObjContentObject extends ilObject
 	*/
 	function getTitle()
 	{
-		return $this->meta_data->getTitle();
+		return parent::getTitle();
+		//return $this->meta_data->getTitle();
 	}
 
 	/**

@@ -722,6 +722,8 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
 content#:#cont_Additional#:#Additional
+content#:#cont_choose_cont_obj#:#Choose Content Object
+content#:#cont_content_obj#:#Content Object
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
