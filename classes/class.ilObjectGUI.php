@@ -502,11 +502,6 @@ class ilObjectGUI
 		{
 			// CALL PRIVATE CLONE METHOD
 			$this->cloneObject($_GET["ref_id"]);
-			
-			// inform other objects in hierarchy about cut operation
-			// TODO: pass a mapping array with old ref_ids and new ref_ids
-			$this->object->notify("copy", $_GET["ref_id"]);			
-			return true;
 		}
 
 		// process CUT command
@@ -514,6 +509,11 @@ class ilObjectGUI
 		{
 			foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 			{
+				$parent_id = $this->tree->getParentId($ref_id);
+				$tmpObj =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
+				$tmpObj->notify("cut", $tmpObj->getRefId());
+				unset($tmpObj);
+
 				// get node data
 				$top_node = $this->tree->getNodeData($ref_id);
 
@@ -548,8 +548,8 @@ class ilObjectGUI
 					}
 				}
 			}
-			// inform other objects in hierarchy about cut operation
-			$this->object->notify("cut", $_GET["ref_id"]);
+			// inform other objects in hierarchy about paste operation
+			$this->object->notify("paste", $_GET["ref_id"]);
 		} // END CUT
 
 		// process LINK command
@@ -593,7 +593,7 @@ class ilObjectGUI
 							$new_parent = array_search($node["parent"],$mapping);
 						
 							// ... append node to mapping for further possible subnodes ...
-							$mapping[$new_ref_id] = $node["child"];
+							$mapping[$new_ref_id] = (int) $node["child"];
 
 							$obj_data->putInTree($new_parent);
 							$obj_data->setPermissions($new_parent);
@@ -609,6 +609,9 @@ class ilObjectGUI
 							// createRoleFolder
 							$rfoldObj = $obj_data->createRoleFolder("Local Roles","Role Folder of object ref_no.".$new_parent,$new_parent);
 							
+							// ... append node to mapping
+							$mapping[$rfoldObj->getRefId()] = (int) $node["child"];
+
 							$localroles = $rbacreview->getRolesOfRoleFolder($node["child"],false);
 
 							foreach ($localroles as $role_id)
@@ -620,8 +623,7 @@ class ilObjectGUI
 				}
 			}
 			// inform other objects in hierarchy about link operation
-			// TODO: pass mapping array
-			$this->object->notify("link", $_GET["ref_id"]);
+			$this->object->notify("link",$_GET["ref_id"],$mapping);
 		} // END LINK
 
 		// save cmd for correct message output after clearing the clipboard
@@ -792,8 +794,11 @@ class ilObjectGUI
 		// THEREFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
 		foreach ($_SESSION["clipboard"]["ref_ids"] as $id)
 		{
-			$this->cloneNodes($id,$this->ref_id);
+			$mapping = $this->cloneNodes($id,$this->ref_id);
 		}
+
+		// inform other objects in hierarchy about cut operation
+		$this->object->notify("copy",$_GET["ref_id"],$mapping);			
 
 		$this->clearObject();
 
@@ -807,10 +812,10 @@ class ilObjectGUI
 	* clone all nodes
 	* recursive function
 	*
-	* @access	public
+	* @access	private
 	* @param	integer ref_id of source object
 	* @param	integer ref_id of destination object
-	* @param    boolean 
+	* @param    array	mapping new_ref_id => new_ref_id
 	*/
 	function cloneNodes($a_source_id,$a_dest_id)
 	{
@@ -818,6 +823,8 @@ class ilObjectGUI
 		$source_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_source_id);
 		$new_ref_id = $source_obj->clone($a_dest_id);
 		unset($source_obj);
+		
+		$mapping[$new_ref_id] = $a_source_id;
 
 		// GET ALL CHILDS OF SOURCE OBJECT AND CALL THIS METHOD FOR OF THEM
 		foreach ($this->tree->getChilds($a_source_id) as $child)
@@ -825,11 +832,17 @@ class ilObjectGUI
 			// STOP IF CHILD OBJECT IS ROLE FOLDER SINCE IT DOESN'T MAKE SENSE TO CLONE LOCAL ROLES
 			if ($child["type"] != 'rolf')
 			{
-				$this->cloneNodes($child["ref_id"],$new_ref_id);
+				$mapping = $this->cloneNodes($child["ref_id"],$new_ref_id);
+			}
+			else
+			{
+				$rolf = $this->tree->getChildsByType($new_ref_id,"rolf");
+				
+				$mapping[$rolf[0]["ref_id"]] = $child["ref_id"];
 			}
 		}
 
-		return true;
+		return $mapping;
 	}
 
 	/**

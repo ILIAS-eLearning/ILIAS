@@ -253,13 +253,14 @@ class ilObjForum extends ilObject
 	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
+	* @param	array	passes optional parameters if required
 	* @return	boolean
 	*/
-	function notify($a_event,$a_ref_id)
+	function notify($a_event,$a_ref_id,$a_params = 0)
 	{
 		// object specific event handling
 			
-		parent::notify($a_event,$a_ref_id);
+		parent::notify($a_event,$a_ref_id,$a_params);
 	}
 } // END class.ilObjForum
 ?>

@@ -872,30 +872,41 @@ class ilObjGroup extends ilObject
 	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
+	* @param	array	passes optional parameters if required
 	* @return	boolean
 	*/
-	function notify($a_event,$a_ref_id)
+	function notify($a_event,$a_ref_id,$a_params = 0)
 	{
 		// object specific event handling
 		switch ($a_event)
 		{
 			case "link":
-				echo "Gruppe hat link event mitbekommen von objekt mit ref_id: ".$a_ref_id;
+				var_dump("<pre>",$a_params,"</pre>");
+				echo "Group ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
+				//exit;
 				break;
 			
 			case "cut":
-				echo "Gruppe hat cut event mitbekommen von objekt mit ref_id: ".$a_ref_id;
+				echo "Group ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
+				//exit;
 				break;
 				
 			case "copy":
-				echo "Gruppe hat copy event mitbekommen von objekt mit ref_id: ".$a_ref_id;
+				var_dump("<pre>",$a_params,"</pre>");
+				echo "Group ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
+
+			case "paste":
+				echo "Group ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
+				//exit;
 				break;
 		}
 		
 		// stop walking up the tree
 		return true;
 		
-		parent::notify($a_event,$a_ref_id);
+		parent::notify($a_event,$a_ref_id,$a_params);
 	}
 } //END class.ilObjGroup
 ?>

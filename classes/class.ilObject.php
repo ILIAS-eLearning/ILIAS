@@ -726,22 +726,25 @@ class ilObject
 
 	/**
 	* notifys an object about an event occured
-	* Bese on the event passed, each object may decide how it reacts.
+	* Based on the event passed, each object may decide how it reacts.
 	* TODO: add optional array to pass parameters
 	* 
 	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
+	* @param	array	passes optional parameters if required
 	* @return	boolean
 	*/
-	function notify(&$a_event,&$a_ref_id)
+	function notify($a_event,$a_ref_id,$a_params = 0)
 	{
 		global $tree;
 
-		if ($parent_id = $tree->getParentId($a_ref_id))
+		$parent_id = (int) $tree->getParentId($a_ref_id);
+
+		if ($parent_id != 0)
 		{
 			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
-			$obj_data->notify($a_event,$a_ref_id);
+			$obj_data->notify($a_event,$a_ref_id,$a_params);
 		}
 				
 		return true;
