@@ -14,13 +14,14 @@ require_once "class.ilObject.php";
 class ilObjLanguage extends ilObject
 {
 	/**
-	* separator of module, identifier & values
+	* separator of module, comment separator, identifier & values
 	* in language files
 	*
 	* @var		string
 	* @access	private
 	*/
 	var $separator;
+	var $comment_separator;
 	var $lang_default;
 	var $lang_user;
 	var $lang_path;
@@ -49,6 +50,7 @@ class ilObjLanguage extends ilObject
 		$this->lang_user = $lng->lang_user;
 		$this->lang_path = $lng->lang_path;
 		$this->separator = $lng->separator;
+		$this->comment_separator = $lng->comment_separator;
 	}
 
 	/**
@@ -176,6 +178,17 @@ class ilObjLanguage extends ilObject
 				foreach ($content as $key => $val)
 				{
 					$separated = explode ($this->separator,trim($val));
+					
+					//get position of the comment_separator
+					$pos = strpos($separated[2], $this->comment_separator);
+				
+                	if ($pos !== false)
+					{ 
+                   		//cut comment of
+				   		$separated[2] = substr($separated[2] , 0 , $pos);
+					}
+					
+					
 					$num = count($separated);
 
 					$query = "INSERT INTO lng_data ".
