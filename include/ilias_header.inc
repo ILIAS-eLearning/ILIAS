@@ -115,5 +115,11 @@ if ($script != "login.php" && $script != "index.php")
 	// instantiate main template
 	$tplmain = new Template("tpl.main.html", false, false);
 	$tplmain->setVariable("LOCATION_STYLESHEET", $tplmain->tplPath."/style.css");
+
+	if ($tplmain->includeNavigation() == true)
+	{
+		$tplnav = new Template("tpl.main_buttons.html", false, false);
+		$tplmain->setVariable("NAVIGATION", $tplnav->get());
+	}
 }
 ?>

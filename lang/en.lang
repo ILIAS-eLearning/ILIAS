@@ -289,3 +289,5 @@ usr_skin#:#user skin
 default#:#default
 tpl_path#:#template path
 lang_path#:#language path
+fill_out_all_required_fields#:#please fill out all required fields
+saved_successfully#:#saved successfully
