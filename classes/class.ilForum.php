@@ -72,8 +72,8 @@ class ilForum
 	var $replQuote2 = "<hr size=\"1\" color=\"#000000\"/></blockquote>"; 
 	
 	// max. datasets per page
-	var $pageHits = 20;
-	
+	var $pageHits = 30;
+
 	// object id
 	var $id;
 
