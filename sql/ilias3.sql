@@ -134,10 +134,10 @@ CREATE TABLE rbac_fa (
 # Dumping data for table `rbac_fa`
 #
 
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (2, 8, 9, 'y');
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (3, 8, 9, 'y');
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (4, 8, 9, 'y');
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (5, 8, 9, 'y');
+INSERT INTO rbac_fa (rol_id, parent, parent_obj, assign) VALUES (2, 8, 9, 'y');
+INSERT INTO rbac_fa (rol_id, parent, parent_obj, assign) VALUES (3, 8, 9, 'y');
+INSERT INTO rbac_fa (rol_id, parent, parent_obj, assign) VALUES (4, 8, 9, 'y');
+INSERT INTO rbac_fa (rol_id, parent, parent_obj, assign) VALUES (5, 8, 9, 'y');
 # --------------------------------------------------------
 
 #
