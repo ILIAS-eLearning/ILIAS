@@ -10,6 +10,12 @@
 * @package ilias-core
 */
 
+//include class.util first to start StopWatch
+require_once "classes/class.util.php";
+
+// start the StopWatch
+$t_pagestart = TUtil::StopWatch();
+
 //include files from PEAR
 require_once "PEAR.php";
 require_once "DB.php";
@@ -23,7 +29,6 @@ require_once "classes/class.DBx.php";
 require_once "classes/class.template.php";
 require_once "classes/class.ilias.php";
 require_once "classes/class.AdmTabs.php";
-require_once "classes/class.util.php";
 require_once "classes/class.User.php";
 require_once "classes/class.format.php";
 require_once "classes/class.ObjectDefinition.php";
