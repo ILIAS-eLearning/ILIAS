@@ -84,9 +84,8 @@ switch ($_GET["cmd"])
 	case "save":
 		break;
 
-	// update object
+	// no more update() here! all calls moved to "out" class
 	case "update":
-		//$data = $obj->updateObject($_POST["Fobject"]);
 		break;
 
 	// edit object

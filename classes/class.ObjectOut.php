@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.35 2003/03/13 11:03:54 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.36 2003/03/13 17:48:30 akill Exp $
 *
 * @package ilias-core
 */
@@ -402,7 +402,7 @@ class ObjectOut
 			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
 		}
 
-		header("Location: adm_object.php?".$this->id_name."=".$this->id."&cmd=view");
+		header("Location: adm_object.php?ref_id=".$this->ref_id."&cmd=view");
 		exit();
 	}
 

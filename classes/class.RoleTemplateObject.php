@@ -100,27 +100,6 @@ class RoleTemplateObject extends Object
 		}			
 	}
 
-	/**
-	* update a role template object
-	* @access	public
-	**/
-	function updateObject($a_data)
-	{
-		global $rbacsystem;
-		
-		// TODD: get rid of $_GET vars
-
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
-		{
-			updateObject($this->id,$a_data["title"],$a_data["desc"]);
-
-			return true;
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
-		}
-	}
 
 	/**
 	* show permission templates of role

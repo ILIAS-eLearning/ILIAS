@@ -3,7 +3,7 @@
 * Class RoleTemplateObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleTemplateObjectOut.php,v 1.2 2003/03/10 10:55:41 shofmann Exp $
+* $Id$Id: class.RoleTemplateObjectOut.php,v 1.3 2003/03/12 16:52:25 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -19,13 +19,6 @@ class RoleTemplateObjectOut extends ObjectOut
 	{
 		$this->type = "rolt";
 		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
-	}
-
-	function updateObject()
-	{
-		header("Location: adm_object.php?obj_id=".$_GET["parent"]."&parent=".
-			   $_GET["parent_parent"]."&cmd=view");
-		exit();
 	}
 
 
