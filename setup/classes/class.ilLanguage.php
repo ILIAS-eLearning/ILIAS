@@ -167,7 +167,7 @@ class ilLanguage
 		$tmpPath = getcwd();
 		chdir ($this->lang_path);
 
-		// get available lang-files
+		// get available setup-files
 		while ($entry = $d->read())
 		{
 			if (is_file($entry) && (ereg ("(^setup_.{2}\.lang)", $entry)))
@@ -199,6 +199,16 @@ class ilLanguage
 			{
 				// ...re-insert data from lang-file
 				$this->insertLanguage($lang_key);
+				
+				// register language first time install
+				if (!array_key_exists($lang_key,$db_langs))
+				{
+					$q = "INSERT INTO object_data ".
+						 "(type,title,description,owner,create_date,last_update) ".
+						 "VALUES ".
+						 "('lng','".$lang_key."','installed','-1',now(),now())";
+					$this->db->query($q);
+				}
 			}
 		}
 		
@@ -395,6 +405,31 @@ class ilLanguage
 		}
 
 		chdir($tmpPath);
+	}
+	
+	function getInstallableLanguages()
+	{
+		$setup_langs = $this->getLanguages();
+
+		$d = dir($this->lang_path);
+		$tmpPath = getcwd();
+		chdir ($this->lang_path);
+
+		// get available lang-files
+		while ($entry = $d->read())
+		{
+			if (is_file($entry) && (ereg ("(^ilias_.{2}\.lang)", $entry)))
+			{
+				$lang_key = substr($entry,6,2);
+				$languages1[] = $lang_key;
+			}
+		}
+		
+		$languages = array_intersect($languages1,$setup_langs);	
+
+		chdir($tmpPath);
+
+		return $languages;
 	}
 	
 	function setDbHandler ($a_db_handler)
