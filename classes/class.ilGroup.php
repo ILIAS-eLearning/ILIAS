@@ -63,18 +63,39 @@ class ilGroup
 	}
 	
 	/**
-	* check if group name exists
+	* checks if group name already exists. Groupnames must be unique for mailing purposes
 	* @access	public
-	* @param	string group name
+	* @param	string	groupname
+	* @param	integer	obj_id of group to exclude from the check. 
+	* @return	boolean	true if exists
 	*/
-	function groupNameExists($a_group_name)
+	function groupNameExists($a_group_name,$a_id = 0)
 	{
-		$query = "SELECT obj_id FROM object_data ".
-			"WHERE title = '".$a_group_name ."' ".
-			"AND type = 'grp'";
+		global $log;
+		
+		if (empty($a_group_name))
+		{
+			$message = get_class($this)."::groupNameExists(): No groupname given!";
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
 
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
-		return $row->obj_id ? $row->obj_id : 0;
+		$clause = ($a_id) ? " AND obj_id != '".$a_id."'" : "";
+
+		$q = "SELECT obj_id FROM object_data ".
+			 "WHERE title = '".$a_group_name ."' ".
+			 "AND type = 'grp'".
+			 $clause;
+		$r = $this->ilias->db->query($q);
+
+		if ($r->numRows() == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	/*
 	* get the user_ids which correspond a search string 

@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.39 2003/10/09 10:13:38 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.40 2003/10/09 12:38:40 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -83,7 +83,6 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
 		
-		
 		//build form
 		$opts = ilUtil::formSelect(0,"group_status",$stati,false,true);
 		
@@ -97,7 +96,6 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
-		
 	}
 
 
@@ -107,8 +105,15 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacadmin;
+		include_once "./classes/class.ilGroup.php";
+		$grp = new ilGroup();
 
+		// check groupname
+		if ($grp->groupNameExists($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("grp_name_exists"),$this->ilias->error_obj->MESSAGE);
+		}
+	
 		$groupObj = parent::saveObject();
 
 		$rfoldObj = $groupObj->initRoleFolder();
@@ -123,8 +128,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		//save new group in grp_tree table
 		$groupObj->createNewGroupTree($groupObj->getRefId());
 		
-		
-		
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
 		header("Location: ".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
@@ -137,15 +140,24 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
+		include_once "./classes/class.ilGroup.php";
+		$grp = new ilGroup();
+
+		// check groupname
+		if ($grp->groupNameExists($_POST["Fobject"]["title"],$this->object->getId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("grp_name_exists"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$this->object->setTitle($_POST["Fobject"]["title"]);
 		$this->object->setDescription($_POST["Fobject"]["desc"]);
 		$this->object->setGroupStatus($_POST["group_status"]);
 
+		// update object data
 		$this->update = $this->object->update();
 
 		sendInfo($this->lng->txt("grp_updated"),true);
-		
-		header("Location: adm_object.php?ref_id=".$this->ref_id);
+		header("Location: ".$this->getReturnLocation("update","adm_object.php?ref_id=".$this->object->getRefId()));
 		exit();
 	}
 
@@ -211,7 +223,9 @@ class ilObjGroupGUI extends ilObjectGUI
 	function confirmationObject($user_id="", $confirm, $cancel, $info="", $status="")
 	{
 		$this->data["cols"] = array("type", "title", "description", "last_change");
+
 		if(is_array($user_id))
+		{
 			foreach($user_id as $id)
 			{
 				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
@@ -223,8 +237,8 @@ class ilObjGroupGUI extends ilObjectGUI
 					"last_update" => $obj_data->getLastUpdateDate(),
 
 					);
-
 			}
+		}
 		else
 		{
 			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($user_id);
@@ -262,7 +276,6 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("table_header");
 			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
 			$this->tpl->parseCurrentBlock();
-
 		}
 		// END TABLE HEADER
 
@@ -303,7 +316,6 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_VALUE",$value);
 			$this->tpl->parseCurrentBlock();
 		}
-
 	}
 
 	/**
@@ -312,8 +324,6 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function leaveGrpObject()
 	{
-		global $rbacsystem, $ilias;
-
 		$member = array($_GET["mem_id"]);
 		//set methods that are called after confirmation
 		$confirm = "confirmedDeleteMember";
@@ -330,6 +340,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	function assignMemberObject()
 	{
 		$user_ids = $_POST["user_id"];
+
 		if(isset($user_ids))
 		{
 			$confirm = "confirmedAssignMember";
@@ -357,11 +368,13 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			//let new members join the group
 			$newGrp = new ilObjGroup($this->object->getRefId(), true);
+
 			foreach($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
 				if(!$newGrp->join($new_member, $_SESSION["saved_post"]["status"]) )
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
 			}
+
 			unset($_SESSION["saved_post"]);
 		}
 
@@ -742,7 +755,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tbl->render();
 	}
 
-
 	/**
 	* displays form in which the member-status can be changed
 	* @access public
@@ -767,8 +779,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 		//TODO: link back
 		header("Location: adm_object.php?".$this->link_params."&cmd=members");
-
-
 	}
 } // END class.ilObjGroupGUI
 ?>
