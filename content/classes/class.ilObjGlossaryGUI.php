@@ -349,6 +349,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 			$this->tpl->setVariable("LINK_EDIT",
 				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
+			$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+			$this->tpl->setVariable("LINK_DELETE",
+				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=confirmDefinitionDeletion&def=".$def["id"]);
 			$this->tpl->parseCurrentBlock();
 		}
 		//$this->tpl->setCurrentBlock("def_list");
