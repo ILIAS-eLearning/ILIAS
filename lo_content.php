@@ -49,7 +49,7 @@ $tpl->touchBlock("buttons");
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("lo_available"));
-$tpl->parseCurrentBlock();
+//$tpl->parseCurrentBlock();			// this line produces an empty <h1></h1>, alex 16.2.03
 
 if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
 {
