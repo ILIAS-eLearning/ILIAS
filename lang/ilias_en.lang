@@ -131,14 +131,8 @@ assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
-assessment#:#ects_grade#:#ECTS grade
-assessment#:#percentile#:#Percentile
 assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!
-assessment#:#ects_range_error_a#:#Please enter a value between 0 and 100 for ECTS grade A!
-assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECTS grade B!
-assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!
-assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!
-assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
+assessment#:#ects_grade#:#ECTS grade
 assessment#:#ects_grade_a#:#outstanding performance with only minor errors
 assessment#:#ects_grade_a_short#:#EXCELLENT
 assessment#:#ects_grade_b#:#above the average standard but with some errors
@@ -154,6 +148,11 @@ assessment#:#ects_grade_f_short#:#FAIL
 assessment#:#ects_grade_fx#:#some more work required before the credit can be awarded
 assessment#:#ects_grade_fx_short#:#FAIL
 assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
+assessment#:#ects_range_error_a#:#Please enter a value between 0 and 100 for ECTS grade A!
+assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECTS grade B!
+assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!
+assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!
+assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#end_tag#:#End tag
@@ -226,6 +225,7 @@ assessment#:#order_terms#:#Order terms
 assessment#:#passed_official#:#passed
 assessment#:#passed_short#:#passed
 assessment#:#percentage_solved#:#You have solved %.2f percent of this question!
+assessment#:#percentile#:#Percentile
 assessment#:#please_select#:#-- please select --
 assessment#:#points#:#Points
 assessment#:#polygon#:#Polygon

@@ -131,6 +131,8 @@ assessment#:#duplicate#:#Duplizieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelte Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
 assessment#:#ects_allow_ects_grades#:#ECTS-Note zusätzlich zur erreichten Note anzeigen
+assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!###23 Sep 2004 new variable
+assessment#:#ects_grade#:#ECTS grade###23 Sep 2004 new variable
 assessment#:#ects_grade_a#:#ausgezeichnete Leistungen und nur wenige unbedeutende Fehler
 assessment#:#ects_grade_a_short#:#HERVORRAGEND
 assessment#:#ects_grade_b#:#überdurchschnittliche Leistungen, aber einige Fehler
@@ -146,6 +148,11 @@ assessment#:#ects_grade_f_short#:#NICHT BESTANDEN
 assessment#:#ects_grade_fx#:#es sind Verbesserungen erforderlich, bevor die Leistungen anerkannt werden
 assessment#:#ects_grade_fx_short#:#NICHT BESTANDEN
 assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
+assessment#:#ects_range_error_a#:#Please enter a value between 0 and 100 for ECTS grade A!###23 Sep 2004 new variable
+assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECTS grade B!###23 Sep 2004 new variable
+assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!###23 Sep 2004 new variable
+assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!###23 Sep 2004 new variable
+assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!###23 Sep 2004 new variable
 assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmerinnen mindestens
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
 assessment#:#end_tag#:#Endmarkierung
@@ -218,6 +225,7 @@ assessment#:#order_terms#:#Terme ordnen
 assessment#:#passed_official#:#bestanden
 assessment#:#passed_short#:#bestanden
 assessment#:#percentage_solved#:#Sie haben diese Frage zu %.2f Prozent gelöst!
+assessment#:#percentile#:#Percentile###23 Sep 2004 new variable
 assessment#:#please_select#:#---- bitte auswählen ----
 assessment#:#points#:#Punkte
 assessment#:#polygon#:#Polygonzug
