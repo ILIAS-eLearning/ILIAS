@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -34,14 +34,14 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-administration#:#analyze_data#:#Analysiere DatenintegritÃ¤t
-administration#:#analyze_desc#:#Durchsuche System nach korrupten/ungÃ¼ltigen/verlorenen/nicht zugeordneten Objekten
+administration#:#analyze_data#:#Analysiere Datenintegrität
+administration#:#analyze_desc#:#Durchsuche System nach korrupten/ungültigen/verlorenen/nicht zugeordneten Objekten
 administration#:#analyzing#:#Analysiert...
-administration#:#clean#:#RÃ¤ume auf
-administration#:#clean_desc#:#Entferne ungÃ¼ltige Referenzen und BaumeintrÃ¤ge. Schliesse LÃ¼cken in der Baumstruktur
+administration#:#clean#:#Räume auf
+administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Schliesse Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen...
-administration#:#cleaning_final#:#EndgÃ¼ltig bereinigen...
-administration#:#closing_gaps#:#Schliesst LÃ¼cken in der Baumstruktur...
+administration#:#cleaning_final#:#Endgültig bereinigen...
+administration#:#closing_gaps#:#Schliesst Lücken in der Baumstruktur...
 administration#:#disabled#:#Deaktiviert
 administration#:#done#:#Erledigt
 administration#:#found#:#Gefunden
@@ -54,30 +54,30 @@ administration#:#nothing_to_restore#:#Nichts wiederherzustellen...
 administration#:#options#:#Optionen
 administration#:#purge_missing#:#Entferne fehlende Objekte
 administration#:#purge_missing_desc#:#Entferne alle fehlenden und nichtzugeordneten Objekte aus dem System
-administration#:#purge_trash#:#Eliminiere gelÃ¶schte Objekte
+administration#:#purge_trash#:#Eliminiere gelöschte Objekte
 administration#:#purge_trash_desc#:#Entferne alle Objekte im Papierkorb aus dem System
 administration#:#purging#:#Eliminiert...
 administration#:#purging_missing_objs#:#Eliminiert fehlende Objekte...
 administration#:#purging_trash#:#Leert Papierkorb...
 administration#:#purging_unbound_objs#:#Eliminiert nichtzugeordnete Objekte
-administration#:#removing_invalid_childs#:#Entfernt ungÃ¼ltige EintrÃ¤ge in der Baumstruktur...
-administration#:#removing_invalid_refs#:#Entfernt ungÃ¼ltige Referenzen...
+administration#:#removing_invalid_childs#:#Entfernt ungültige Einträge in der Baumstruktur...
+administration#:#removing_invalid_refs#:#Entfernt ungültige Referenzen...
 administration#:#restore_missing#:#Stelle verlorene Objekte wieder her...
 administration#:#restore_missing_desc#:#Stelle verlorene und nichtzugeordnete Objekte wieder her und lege sie in den Rettungsordner.
-administration#:#restore_trash#:#Stelle gelÃ¶schte Objekte wieder her
+administration#:#restore_trash#:#Stelle gelöschte Objekte wieder her
 administration#:#restore_trash_desc#:#Stelle alle Objekte im Papierkorb wieder her und verschiebe sie in den Rettungsordner.
 administration#:#restoring#:#Wiederhergestellt...
 administration#:#restoring_missing_objs#:#Stelle verlorene Objekte wieder her
-administration#:#restoring_trash#:#Stellt gelÃ¶schte Objekte wieder her...
+administration#:#restoring_trash#:#Stellt gelöschte Objekte wieder her...
 administration#:#restoring_unbound_objs#:#Stellt nichtzugeordnete Objekte und Teilobjekte wieder her...
 administration#:#scan_completed#:#Untersuchung beendet
 administration#:#scan_details#:#Details der Untersuchung
 administration#:#scan_modes#:#Benutze Untersuchungsmodi
 administration#:#scan_only#:#Untersuche nur
 administration#:#scanning_system#:#Untersuche System...
-administration#:#searching_deleted_objs#:#Sucht nach gelÃ¶schten Objekten...
-administration#:#searching_invalid_childs#:#Sucht nach ungÃ¼ltigen EintrÃ¤gen in Baumstruktur...
-administration#:#searching_invalid_refs#:#Sucht nach ungÃ¼ltigen Referenzen...
+administration#:#searching_deleted_objs#:#Sucht nach gelöschten Objekten...
+administration#:#searching_invalid_childs#:#Sucht nach ungültigen Einträgen in Baumstruktur...
+administration#:#searching_invalid_refs#:#Sucht nach ungültigen Referenzen...
 administration#:#searching_missing_objs#:#Sucht nach verlorenen Objekten...
 administration#:#searching_unbound_objs#:#Sucht nach nichtzugeordneten Objekten...
 administration#:#skipped#:#ausgelassen
@@ -87,10 +87,10 @@ administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
 administration#:#view_log#:#Zeige Details
 assessment#:#0_unlimited#:#(0 = unbegrenzt)###31 May 2004 content changed
-assessment#:#add_answer#:#Antwort anfÃ¼gen
-assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfÃ¼gen
-assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfÃ¼gen
-assessment#:#add_applet_parameter#:#Applet-Parameter anfÃ¼gen
+assessment#:#add_answer#:#Antwort anfügen
+assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
+assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
+assessment#:#add_applet_parameter#:#Applet-Parameter anfügen
 assessment#:#add_area#:#Add area###15 Jun 2004 new variable
 assessment#:#add_gap#:#Lückentext anfügen
 assessment#:#add_imagemap#:#Add imagemap###21 Jun 2004 new variable
@@ -103,7 +103,7 @@ assessment#:#applet_attributes#:#Applet-Attribute
 assessment#:#applet_new_parameter#:#Neuer Parameter
 assessment#:#applet_parameter#:#Parameter
 assessment#:#applet_parameters#:#Applet-Parameter
-assessment#:#apply#:#Ãœbernehmen
+assessment#:#apply#:#Übernehmen
 assessment#:#ass_questions#:#Fragen
 assessment#:#by#:#von
 assessment#:#circle#:#Circle###15 Jun 2004 new variable
@@ -120,30 +120,30 @@ assessment#:#delete_area#:#Delete area###19 Jun 2004 new variable
 assessment#:#duplicate#:#Duplizieren
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
-assessment#:#eval_cloze_result#:#Die LÃ¼cke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
+assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.
-assessment#:#eval_java_result#:#Die Antwort fÃ¼r den Wert %s lautet %s. Sie erreichten %s Punkte.
-assessment#:#eval_legend_link#:#FÃ¼r die Bedeutung der SpaltenÃ¼berschriften betrachten Sie bitte die Legende
+assessment#:#eval_java_result#:#Die Antwort für den Wert %s lautet %s. Sie erreichten %s Punkte.
+assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
 assessment#:#eval_matching_result#:#Das Zuordnungspaar %s - %s ist %s. Sie erreichten %s Punkte.
-assessment#:#eval_order_result#:#Die angegebene Reihenfolge fÃ¼r den Wert %s ist %s. Sie erreichten %s Punkte.
+assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Exportieren
 assessment#:#false#:#Falsch
-assessment#:#fill_out_all_answer_fields#:#Bitte fÃ¼llen Sie alle Antwortfelder aus, bevor Sie ein Neues erzeugen
-assessment#:#fill_out_all_matching_pairs#:#Bitte fÃ¼llen Sie alle Zuordnungspaare aus, bevor Sie ein Neues erzeugen
-assessment#:#fill_out_all_required_fields_add_answer#:#Sie mÃ¼ssen zuerst alle Pflichtfelder ausfÃ¼llen, bevor Sie Antworten hinzufÃ¼gen!
-assessment#:#fill_out_all_required_fields_add_matching#:#Sie mÃ¼ssen zuerst alle Pflichtfelder ausfÃ¼llen, bevor Sie Zuordnungspaare hinzufÃ¼gen!
-assessment#:#fill_out_all_required_fields_create_gaps#:#Sie mÃ¼ssen zuerst alle Pflichtfelder ausfÃ¼llen, bevor Sie LÃ¼cken hinzufÃ¼gen!
+assessment#:#fill_out_all_answer_fields#:#Bitte füllen Sie alle Antwortfelder aus, bevor Sie ein Neues erzeugen
+assessment#:#fill_out_all_matching_pairs#:#Bitte füllen Sie alle Zuordnungspaare aus, bevor Sie ein Neues erzeugen
+assessment#:#fill_out_all_required_fields_add_answer#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Antworten hinzufügen!
+assessment#:#fill_out_all_required_fields_add_matching#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Zuordnungspaare hinzufügen!
+assessment#:#fill_out_all_required_fields_create_gaps#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Lücken hinzufügen!
 assessment#:#fill_out_all_required_fields_upload_image#:#Please fill out all required fields before you upload images!###15 Jun 2004 new variable
 assessment#:#fill_out_all_required_fields_upload_imagemap#:#Please fill out all required fields before you upload imagemaps!###15 Jun 2004 new variable
 assessment#:#fill_out_all_required_fields_upload_material#:#Please fill out all required fields before you upload materials!###15 Jun 2004 new variable
 assessment#:#filter#:#Filter
-assessment#:#gap#:#LÃ¼cke
-assessment#:#gap_definition#:#LÃ¼ckendefinition
-assessment#:#gap_selection#:#LÃ¼ckenauswahl
-assessment#:#height#:#HÃ¶he
+assessment#:#gap#:#Lücke
+assessment#:#gap_definition#:#Lückendefinition
+assessment#:#gap_selection#:#Lückenauswahl
+assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
 assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
 assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
@@ -162,7 +162,7 @@ assessment#:#matching_pair#:#Zuordnungspaar
 assessment#:#material#:#Material
 assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
-assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen fÃ¼r diesen Test ausgeschÃ¶pft. Der Test kann nicht noch einmal gestartet werden.
+assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#meaning#:#Bedeutung
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
@@ -170,82 +170,82 @@ assessment#:#no_target_selected_for_move#:#You must select a target position!###
 assessment#:#or#:#oder
 assessment#:#order_pictures#:#Bilder ordnen
 assessment#:#order_terms#:#Terme ordnen
-assessment#:#please_select#:#---- bitte auswÃ¤hlen ----###27 May 2004 content changed
+assessment#:#please_select#:#---- bitte auswählen ----###27 May 2004 content changed
 assessment#:#points#:#Punkte
 assessment#:#polygon#:#Polygon###15 Jun 2004 new variable
 assessment#:#polygon_click_next_or_save#:#Please click on the next point of the polygon or save the area. (It is not necessary to click again on the starting point of this polygon !)###21 Jun 2004 new variable
 assessment#:#polygon_click_next_point#:#Please click on the next point of the polygon.###21 Jun 2004 new variable
 assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.###15 Jun 2004 new variable
-assessment#:#postpone#:#Frage zurÃ¼ckstellen
-assessment#:#postponed#:#zurÃ¼ckgestellt
+assessment#:#postpone#:#Frage zurückstellen
+assessment#:#postponed#:#zurückgestellt
 assessment#:#preview#:#Vorschau
-assessment#:#qpl_assessment_no_assessment_of_questions#:#FÃ¼r die ausgewÃ¤hlte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
+assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
 assessment#:#qpl_assessment_of_questions#:#Statistische Auswertung der Frage
 assessment#:#qpl_assessment_total_of_answers#:#Gesamtzahl der Antworten
 assessment#:#qpl_assessment_total_of_right_answers#:#Gesamtprozentsatz der richtigen Antworten
-assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) lÃ¶schen wollen? Wenn Sie gesperrte Fragen lÃ¶schen, werden die Resultate aller Tests, die solche Fragen beinhalten, gelÃ¶scht!
-assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu lÃ¶schen!
-assessment#:#qpl_delete_select_none#:#Bitte wÃ¤hlen Sie mindestens eine Frage aus, um den LÃ¶schvorgang auszufÃ¼hren!
+assessment#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen? Wenn Sie gesperrte Fragen löschen, werden die Resultate aller Tests, die solche Fragen beinhalten, gelöscht!
+assessment#:#qpl_delete_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu löschen!
+assessment#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang auszuführen!
 assessment#:#qpl_display_fullsize_image#:#Klicken Sie hier, um die Originalgrafik anzuzeigen!
-assessment#:#qpl_duplicate_select_none#:#Bitte wÃ¤hlen Sie mindestens eine Frage zum Duplizieren aus!
+assessment#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage zum Duplizieren aus!
 assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu bearbeiten!
-assessment#:#qpl_edit_select_multiple#:#Bitte wÃ¤hlen Sie nur genau eine Frage fÃ¼r die Bearbeitung aus!
-assessment#:#qpl_edit_select_none#:#Bitte wÃ¤hlen Sie eine Frage fÃ¼r die Bearbeitung aus!
-assessment#:#qpl_export_select_none#:#Bitte wÃ¤hlen Sie mindestens eine Frage fÃ¼r die Exportfunktion aus!
-assessment#:#qpl_questions_deleted#:#Frage(n) gelÃ¶scht
-assessment#:#qt_cloze#:#LÃ¼ckentext
+assessment#:#qpl_edit_select_multiple#:#Bitte wählen Sie nur genau eine Frage für die Bearbeitung aus!
+assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbeitung aus!
+assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
+assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
+assessment#:#qt_cloze#:#Lückentext
 assessment#:#qt_imagemap#:#ImageMap-Frage
 assessment#:#qt_javaapplet#:#Java-Applet-Frage
 assessment#:#qt_matching#:#Zuordnungsfrage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#qt_ordering#:#Objekte anordnen
-assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermÃ¶glichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool lÃ¶schen mÃ¼ssen, wenn Sie sie nicht behalten wollen.
+assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
-assessment#:#random_selection#:#ZufÃ¤llige Auswahl
+assessment#:#random_selection#:#Zufällige Auswahl
 assessment#:#rectangle#:#Rectangle###15 Jun 2004 new variable
 assessment#:#rectangle_click_br_corner#:#Please click on the bottom right corner of the desired area.###21 Jun 2004 new variable
 assessment#:#rectangle_click_tl_corner#:#Please click on the top left corner of the desired area.###15 Jun 2004 new variable
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Entfernen
-assessment#:#report_date_not_reached#:#Das Datum fÃ¼r die Anzeige der Testergebnisse ist noch nicht erreicht. Sie kÃ¶nnen die Testergebnisse ab dem %s einsehen.
-assessment#:#reset_filter#:#Filter zurÃ¼cksetzen
+assessment#:#report_date_not_reached#:#Das Datum für die Anzeige der Testergebnisse ist noch nicht erreicht. Sie können die Testergebnisse ab dem %s einsehen.
+assessment#:#reset_filter#:#Filter zurücksetzen
 assessment#:#result#:#Ergebnis
-assessment#:#save_before_upload_imagemap#:#Sie mÃ¼ssen Ihre Ã„nderungen speichern, bevor Sie eine Imagemap hochladen kÃ¶nnen!
-assessment#:#save_before_upload_javaapplet#:#Sie mÃ¼ssen Ihre Ã„nderungen speichern, bevor Sie ein Java-Applet hochladen kÃ¶nnen!
+assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speichern, bevor Sie eine Imagemap hochladen können!
+assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
 assessment#:#save_finish#:#Speichern und Test fertigstellen
-assessment#:#save_introduction#:#Speichern und zur EinfÃ¼hrung
-assessment#:#save_next#:#Speichern und zur nÃ¤chsten Frage
+assessment#:#save_introduction#:#Speichern und zur Einführung
+assessment#:#save_next#:#Speichern und zur nächsten Frage
 assessment#:#save_previous#:#Speichern und zur vorigen Frage
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###22 Jun 2004 new variable
 assessment#:#set_filter#:#Filter setzen
 assessment#:#shape#:#Shape###19 Jun 2004 new variable
 assessment#:#shuffle_answers#:#Antworten mischen
-assessment#:#solution_order#:#LÃ¶sungsreihenfolge
+assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
 assessment#:#symbol#:#Symbol
-assessment#:#text_gap#:#Text-LÃ¼cke
+assessment#:#text_gap#:#Text-Lücke
 assessment#:#time_format#:#HH MM SS
-assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfÃ¼gen!
+assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
-assessment#:#tst_already_taken#:#Bereits durchgefÃ¼hrte Tests
+assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
-assessment#:#tst_delete_missing_mark#:#Bitte wÃ¤hlen Sie mindestens eine Notenstufe zum LÃ¶schen aus!
-assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgefÃ¼hrt. Es existieren keine anonym aggregierten Ergebnisse.
-assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgefÃ¼hrten Tests###12 Jun 2004 content changed
-assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgefÃ¼hrten Tests###12 Jun 2004 content changed
+assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenstufe zum Löschen aus!
+assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
+assessment#:#tst_eval_total_finished#:#Gesamtzahl der durchgeführten Tests###12 Jun 2004 content changed
+assessment#:#tst_eval_total_finished_average_time#:#Mittlere Bearbeitszeit der durchgeführten Tests###12 Jun 2004 content changed
 assessment#:#tst_eval_total_passed#:#Gesamtzahl der bestandenen Tests
 assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl der bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test bearbeitet haben
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
 assessment#:#tst_generate_xls#:#Excel erzeugen
-assessment#:#tst_insert_missing_question#:#Bitte wÃ¤hlen Sie mindestens eine Frage aus, die Sie in dem Test anfÃ¼gen wollen!
-assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test anfÃ¼gen wollen?
-assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgefÃ¼hrt. Das AnfÃ¼gen von Fragen wird dazu fÃ¼hren, dass alle bestehenden Testergebnisse dieses Tests gelÃ¶scht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) anfÃ¼gen wollen?
-assessment#:#tst_introduction#:#EinfÃ¼hrung
+assessment#:#tst_insert_missing_question#:#Bitte wählen Sie mindestens eine Frage aus, die Sie in dem Test anfügen wollen!
+assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) dem Test anfügen wollen?
+assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) durchgeführt. Das Anfügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) anfügen wollen?
+assessment#:#tst_introduction#:#Einführung
 assessment#:#tst_mark#:#Note
 assessment#:#tst_mark_create_new_mark_step#:#Neue Notenstufe erzeugen
 assessment#:#tst_mark_create_simple_mark_schema#:#Einfaches Notenschema erzeugen
@@ -255,67 +255,67 @@ assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
-assessment#:#tst_no_question_selected_for_removal#:#Bitte wÃ¤hlen Sie wenigstens eine Frage zum lÃ¶schen aus!
-assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfÃ¼gbar! Sie mÃ¼ssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
+assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
+assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
 assessment#:#tst_no_taken_tests#:#Es gibt keine bearbeiteten Tests!
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Versuchen
-assessment#:#tst_percent_solved#:#Prozent gelÃ¶st
+assessment#:#tst_percent_solved#:#Prozent gelöst
 assessment#:#tst_processing_time#:#Maximale Bearbeitszeit
 assessment#:#tst_question_no#:#Reihenfolge
 assessment#:#tst_question_offer#:#Wollen Sie diese Zusammenstellung verwenden, oder soll eine neue Zusammenstellung generiert werden?
 assessment#:#tst_question_title#:#Titel
 assessment#:#tst_question_type#:#Fragentyp
-assessment#:#tst_questions_inserted#:#Frage(n) angefÃ¼gt!
+assessment#:#tst_questions_inserted#:#Frage(n) angefügt!
 assessment#:#tst_questions_removed#:#Frage(n) entfernt!
 assessment#:#tst_random_nr_of_questions#:#Wie viele Fragen?
-assessment#:#tst_random_select_questionpool#:#WÃ¤hlen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
+assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_remove_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) aus Ihrem Test entfernen wollen?
-assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test lÃ¶schen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
+assessment#:#tst_remove_questions_and_results#:#Dieser Test wurde bereits von %s Nutzer(n) bearbeitet. Das Entfernen von Fragen wird alle bestehenden Ergebnisse zu diesem Test löschen. Sind Sie sicher, dass Sie die folgende(n) Frage(n) entfernen wollen?
 assessment#:#tst_report_after_question#:#Ergebnis nach jeder beantworteten Frage anzeigen
 assessment#:#tst_report_after_test#:#Ergebnis am Ende des Tests anzeigen
-assessment#:#tst_result_congratulations#:#GlÃ¼ckwunsch! Sie haben den Test bestanden.
+assessment#:#tst_result_congratulations#:#Glückwunsch! Sie haben den Test bestanden.
 assessment#:#tst_result_sorry#:#Sie haben den Test leider nicht bestanden.
 assessment#:#tst_results#:#Testergebnisse
 assessment#:#tst_resume_test#:#Test fortsetzen
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
 assessment#:#tst_score_reporting_date#:#Datum der Ergebnisausgabe
 assessment#:#tst_score_type#:#Art der Ergebnisausgabe
-assessment#:#tst_select_questionpool#:#Bitte wÃ¤hlen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren.
+assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstelle Frage platzieren.
 assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen ist fest
-assessment#:#tst_sequence_postpone#:#Die Lernenden kÃ¶nnen einzelne Fragen zurÃ¼ckstellen
+assessment#:#tst_sequence_postpone#:#Die Lernenden können einzelne Fragen zurückstellen
 assessment#:#tst_sequence_properties#:#Reihenfolge-Einstellungen
 assessment#:#tst_session_settings#:#Arbeitssitzungs-Einstellungen
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_start_test#:#Test starten
 assessment#:#tst_starting_time#:#Startzeit
 assessment#:#tst_stat_all_users#:#Alle NutzerInnen
-assessment#:#tst_stat_choose_users#:#(wÃ¤hlen Sie eine oder mehr NutzerInnen aus der Liste aus)
+assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr NutzerInnen aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungszeit
 assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###20 Mar 2004 new variable
 assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###20 Mar 2004 new variable
 assessment#:#tst_stat_result_firstvisit#:#Erster Aufruf
 assessment#:#tst_stat_result_lastvisit#:#Letzter Aufruf
-assessment#:#tst_stat_result_pworkedthrough#:#Prozentsatz (vollstÃ¤ndig bearbeitet)
+assessment#:#tst_stat_result_pworkedthrough#:#Prozentsatz (vollständig bearbeitet)
 assessment#:#tst_stat_result_qworkedthrough#:#Bereits bearbeitete Fragen
 assessment#:#tst_stat_result_resultsmarks#:#Testergebnis als Note
 assessment#:#tst_stat_result_resultspoints#:#Testergebnis in Punkten
 assessment#:#tst_stat_result_specification#:#Auswahl der Evaluationsdaten
 assessment#:#tst_stat_result_timeofwork#:#Bearbeitungszeit
-assessment#:#tst_stat_selected_users#:#AusgewÃ¤hlte NutzerInnen
-assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung fÃ¼r
+assessment#:#tst_stat_selected_users#:#Ausgewählte NutzerInnen
+assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
 assessment#:#tst_statistical_evaluation#:#Statistische Auswertung
-assessment#:#tst_status_completed#:#vollstÃ¤ndig
-assessment#:#tst_status_completed_more_tries_possible#:#(vollstÃ¤ndig)
+assessment#:#tst_status_completed#:#vollständig
+assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
 assessment#:#tst_status_not_entered#:#unbearbeitet
 assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
-assessment#:#tt_assessment#:#Test unter PrÃ¼fungsbedingungen
+assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
 assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmodulen
-assessment#:#tt_self_assessment#:#SelbsteinschÃ¤tzung
+assessment#:#tt_self_assessment#:#Selbsteinschätzung
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
@@ -323,26 +323,26 @@ assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
 assessment#:#uploaded_material#:#Hochgeladene Materialien
 assessment#:#width#:#Breite
 assessment#:#working_time#:#Bearbeitungszeit
-bibitem#:#bibitem_add#:#HinzufÃ¼gen
+bibitem#:#bibitem_add#:#Hinzufügen
 bibitem#:#bibitem_author#:#Autor
 bibitem#:#bibitem_av#:#AV
 bibitem#:#bibitem_bibitem#:#Bibliographische Information
 bibitem#:#bibitem_book#:#Buch
 bibitem#:#bibitem_booktitle#:#Buchtitel
 bibitem#:#bibitem_catalog#:#Katalog
-bibitem#:#bibitem_choose_index#:#Bitte wÃ¤hlen Sie eine bibliographische Information:
+bibitem#:#bibitem_choose_index#:#Bitte wählen Sie eine bibliographische Information:
 bibitem#:#bibitem_cross_reference#:#Querverweis
-bibitem#:#bibitem_delete#:#LÃ¶schen
+bibitem#:#bibitem_delete#:#Löschen
 bibitem#:#bibitem_dissertation#:#Doktorarbeit
 bibitem#:#bibitem_edition#:#Ausgabe
 bibitem#:#bibitem_editor#:#Verfasser
 bibitem#:#bibitem_entry#:#Eintrag
 bibitem#:#bibitem_first_name#:#Vorname
 bibitem#:#bibitem_grey_literature#:#Graue Literatur
-bibitem#:#bibitem_how_published#:#Wie verÃ¶ffentlicht
+bibitem#:#bibitem_how_published#:#Wie veröffentlicht
 bibitem#:#bibitem_identifier#:#Bezeichner
 bibitem#:#bibitem_inbook#:#Bucheinlage
-bibitem#:#bibitem_inproceedings#:#In VerÃ¶ffentlichungen
+bibitem#:#bibitem_inproceedings#:#In Veröffentlichungen
 bibitem#:#bibitem_institution#:#Institution
 bibitem#:#bibitem_internet#:#Internet
 bibitem#:#bibitem_isbn#:#ISBN
@@ -365,7 +365,7 @@ bibitem#:#bibitem_number#:#Nummer
 bibitem#:#bibitem_organization#:#Organisation
 bibitem#:#bibitem_pages#:#Seiten
 bibitem#:#bibitem_phd_thesis#:#Promotion
-bibitem#:#bibitem_please_select#:#Bitte wÃ¤hlen Sie
+bibitem#:#bibitem_please_select#:#Bitte wählen Sie
 bibitem#:#bibitem_print#:#Druck
 bibitem#:#bibitem_proceedings#:#Bericht
 bibitem#:#bibitem_publisher#:#Herausgeber
@@ -377,13 +377,13 @@ bibitem#:#bibitem_series_title#:#Titel der Reihe
 bibitem#:#bibitem_series_volume#:#Band
 bibitem#:#bibitem_technical_report#:#Forschungsbericht
 bibitem#:#bibitem_type#:#Typ
-bibitem#:#bibitem_unpublished#:#UnverÃ¶ffentlicht
+bibitem#:#bibitem_unpublished#:#Unveröffentlicht
 bibitem#:#bibitem_url#:#URL
 bibitem#:#bibitem_where_published#:#Wo herausgegeben
 bibitem#:#bibitem_year#:#Jahr
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Benutzer (aktiv)
-chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dÃ¼rfen
+chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
 chat#:#chat_add_ip#:#Bitte geben Sie die Server-IP ein.
 chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
 chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
@@ -394,15 +394,15 @@ chat#:#chat_blue#:#blau
 chat#:#chat_bold#:#fett
 chat#:#chat_chatroom_body#:#Chatraum:
 chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
-chat#:#chat_chatrooms#:#ChatrÃ¤ume
+chat#:#chat_chatrooms#:#Chaträume
 chat#:#chat_color#:#Schriftfarbe
-chat#:#chat_delete_sure#:#Sind Sie sicher, daÃŸ dieser Chatraum gelÃ¶scht werden soll?
+chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
 chat#:#chat_drop_user#:#Benutzer entfernt
 chat#:#chat_edit#:#Chat bearbeiten
 chat#:#chat_face#:#Schrifttyp
 chat#:#chat_fuchsia#:#fuchsia
 chat#:#chat_gray#:#grau
-chat#:#chat_green#:#grÃ¼n
+chat#:#chat_green#:#grün
 chat#:#chat_hide_details#:#Details verbergen
 chat#:#chat_html_export#:#Export als HTML
 chat#:#chat_ilias#:#Ilias Chat Modul
@@ -420,29 +420,29 @@ chat#:#chat_level_fatal#:#Schwerwiegend
 chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
-chat#:#chat_messages_deleted#:#Der Chatraum wurde zurÃ¼ckgesetzt.
+chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
 chat#:#chat_moderator_password#:#Moderator Passwort
 chat#:#chat_navy#:#navy
 chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
 chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
-chat#:#chat_no_delete_public#:#Der Ã–ffentliche Chatraum kann nicht gelÃ¶scht werden.
-chat#:#chat_no_refresh_public#:#Der Ã–ffentliche Chatraum kann nicht zurÃ¼ckgesetzt werden.
-chat#:#chat_no_rename_public#:#Der Ã–ffentliche Chatraum kann nicht umbenannt werden.
+chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
+chat#:#chat_no_refresh_public#:#Der Öffentliche Chatraum kann nicht zurückgesetzt werden.
+chat#:#chat_no_rename_public#:#Der Öffentliche Chatraum kann nicht umbenannt werden.
 chat#:#chat_no_write_perm#:#Keine Schreibrechte
 chat#:#chat_olive#:#oliv
 chat#:#chat_online_users#:#Benutzer (online)
 chat#:#chat_private_message#:#Private Nachricht
-chat#:#chat_public_room#:#Ã–ffentlicher Chatraum
+chat#:#chat_public_room#:#Öffentlicher Chatraum
 chat#:#chat_purple#:#purpur
 chat#:#chat_red#:#rot
-chat#:#chat_refresh#:#ZurÃ¼cksetzen
+chat#:#chat_refresh#:#Zurücksetzen
 chat#:#chat_room_added#:#Ein neuer privater Chatraum wurde angelegt.
 chat#:#chat_room_name#:#Name des Chatraumes
 chat#:#chat_room_renamed#:#Der Chatraum wurde umbenannt.
 chat#:#chat_room_select#:#Privaten Chatraum
-chat#:#chat_rooms#:#ChatrÃ¤ume
-chat#:#chat_rooms_deleted#:#Der/die ChatrÃ¤um(e) wurden gelÃ¶scht.
-chat#:#chat_select_one_room#:#Bitte wÃ¤hlen Sie einen Chatraum aus
+chat#:#chat_rooms#:#Chaträume
+chat#:#chat_rooms_deleted#:#Der/die Chaträum(e) wurden gelöscht.
+chat#:#chat_select_one_room#:#Bitte wählen Sie einen Chatraum aus
 chat#:#chat_server_allowed#:#Zugelassene Rechner
 chat#:#chat_server_allowed_b#:#(z.B 192.168.1.1 oder 192.168.1.2)
 chat#:#chat_server_ip#:#Server IP
@@ -455,7 +455,7 @@ chat#:#chat_settings_saved#:#Die Einstellungen wurden gespeichert
 chat#:#chat_show_details#:#Details anzeigen
 chat#:#chat_silver#:#silber
 chat#:#chat_status#:#Status
-chat#:#chat_status_saved#:#Der Status wurde geÃ¤ndert
+chat#:#chat_status_saved#:#Der Status wurde geändert
 chat#:#chat_tahoma#:#Tahoma
 chat#:#chat_teal#:#teal
 chat#:#chat_times#:#Times
@@ -478,25 +478,25 @@ common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#activation#:#Aktivierung
 common#:#active_roles#:#Aktive Rollen
-common#:#add#:#hinzufÃ¼gen
-common#:#add_author#:#Autor hinzufÃ¼gen
-common#:#add_member#:#Mitglied hinzufÃ¼gen
-common#:#add_members#:#Mitglieder hinzufÃ¼gen
-common#:#add_translation#:#Ãœbersetzung hinzufÃ¼gen
-common#:#adm_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#add#:#hinzufügen
+common#:#add_author#:#Autor hinzufügen
+common#:#add_member#:#Mitglied hinzufügen
+common#:#add_members#:#Mitglieder hinzufügen
+common#:#add_translation#:#Übersetzung hinzufügen
+common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar
 common#:#adm_write#:#Systemgrunddaten bearbeiten
 common#:#administrate#:#Administrieren
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
-common#:#adopt#:#Ãœbernehmen
-common#:#adopt_perm_from_template#:#Ãœbernehme Rechteeinstellungen von Rollenvorlage
+common#:#adopt#:#Übernehmen
+common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#all_objects#:#Alle Objekte
-common#:#allow_register#:#VerfÃ¼gbar im Anmeldeformular fÃ¼r neue Benutzer
+common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
 common#:#and#:#und
-common#:#announce#:#AnkÃ¼ndigen
-common#:#announce_changes#:#Ã„nderungen bekanntgeben
+common#:#announce#:#Ankündigen
+common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
 common#:#application_completed#:#Anmeldung erfolgt
 common#:#application_date#:#Anmeldedatum
@@ -515,9 +515,9 @@ common#:#attachments#:#Attachments
 common#:#attend#:#Teilnehmen
 common#:#author#:#Autor
 common#:#authors#:#Autoren
-common#:#available_languages#:#VerfÃ¼gbare Sprachen
+common#:#available_languages#:#Verfügbare Sprachen
 common#:#average_time#:#Durchschnittszeit
-common#:#back#:#ZurÃ¼ck
+common#:#back#:#Zurück
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Grunddaten
 common#:#benchmark#:#Benchmark
@@ -529,7 +529,7 @@ common#:#bmf#:#Bookmark Ordner
 common#:#bookmark_edit#:#Bookmark bearbeiten
 common#:#bookmark_folder_edit#:#Bookmark Ordner bearbeiten
 common#:#bookmark_folder_new#:#Neuer Bookmark Ordner
-common#:#bookmark_new#:#Bookmark hinzufÃ¼gen
+common#:#bookmark_new#:#Bookmark hinzufügen
 common#:#bookmark_target#:#Ziel
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks von
@@ -539,8 +539,8 @@ common#:#by#:#durch
 common#:#calendar#:#Kalender
 common#:#cancel#:#Abbrechen
 common#:#cannot_find_xml#:#Kann keine XML-Datei finden.
-common#:#cannot_uninstall_language_in_use#:#Sie kÃ¶nnen keine aktuell benutzte Sprache deinstallieren!
-common#:#cannot_uninstall_systemlanguage#:#Sie kÃ¶nnen die Systemsprache nicht deinstallieren.
+common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
+common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
 common#:#cannot_unzip_file#:#Kann die heraufgeladene Datei nicht entpacken.
 common#:#cat#:#Kategorie
 common#:#cat_a#:#eine Kategorie
@@ -551,7 +551,7 @@ common#:#cat_create_cat#:#Neue Kategorie anlegen
 common#:#cat_create_chat#:#Neuen Chat anlegen
 common#:#cat_create_crs#:#Neuen Kurs anlegen
 common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen
-common#:#cat_create_exc#:#Neue Ãœbung anlegen
+common#:#cat_create_exc#:#Neue Übung anlegen
 common#:#cat_create_frm#:#Neues Forum anlegen
 common#:#cat_create_glo#:#Neues Glossar anlegen
 common#:#cat_create_grp#:#Neue Gruppe anlegen
@@ -560,12 +560,12 @@ common#:#cat_create_lm#:#Neues Lernmodul anlegen
 common#:#cat_create_mep#:#Lege Media-Pool an
 common#:#cat_create_qpl#:#Neuen Fragenpool anlegen
 common#:#cat_create_slm#:#Neues SCORM Lernmodul anlegen
-common#:#cat_create_spl#:#Neuen Fragenpool fÃ¼r Umfrage anlegen
+common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
-common#:#cat_delete#:#Kategorie lÃ¶schen
+common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
-common#:#cat_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie
 common#:#cat_read#:#Lesezugriff auf Kategorie
 common#:#cat_visible#:#Kategorie ist sichtbar
@@ -574,59 +574,59 @@ common#:#categories#:#Kategorien
 common#:#categories_imported#:#Kategorienimport abgeschlossen.
 common#:#cc#:#CC
 common#:#cen#:#Centra-Ereignis
-common#:#cen_add#:#FÃ¼ge Centra-Ereignis
-common#:#cen_added#:#Centra-Ereignis hinzugefÃ¼gt
-common#:#cen_delete#:#Centra-Ereignis lÃ¶schen
+common#:#cen_add#:#Füge Centra-Ereignis
+common#:#cen_added#:#Centra-Ereignis hinzugefügt
+common#:#cen_delete#:#Centra-Ereignis löschen
 common#:#cen_edit#:#Centra-Ereignis bearbeiten
 common#:#cen_new#:#Neues Centra-Ereignis
 common#:#cen_save#:#Centra-Ereignis abspeichern
 common#:#censorship#:#Zensur
 common#:#centra_account#:#Centra Admin Account
-common#:#centra_rooms#:#Centra-RÃ¤ume
+common#:#centra_rooms#:#Centra-Räume
 common#:#centra_server#:#Centra Server
-common#:#chac_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#chac_edit_permission#:#Rechteeinstellungen ändern
 common#:#chac_read#:#Lesezugriff auf Chateinstellungen
 common#:#chac_visible#:#Chateinstellungen sind sichtbar
 common#:#chac_write#:#Chateinstellungen bearbeiten
-common#:#change#:#Ã„ndern
-common#:#change_active_assignment#:#Aktive Zuweisung Ã¤ndern
-common#:#change_assignment#:#Zuweisung Ã¤ndern
-common#:#change_existing_objects#:#Vorhandene Objekte Ã¤ndern
-common#:#change_header_title#:#InstallationsÃ¼berschrift bearbeiten
-common#:#change_lo_info#:#Lerneinheiten-Infos Ã¤ndern
-common#:#change_metadata#:#Metadaten Ã¤ndern
-common#:#change_sort_direction#:#Sortierrichtung Ã¤ndern
+common#:#change#:#Ändern
+common#:#change_active_assignment#:#Aktive Zuweisung ändern
+common#:#change_assignment#:#Zuweisung ändern
+common#:#change_existing_objects#:#Vorhandene Objekte ändern
+common#:#change_header_title#:#Installationsüberschrift bearbeiten
+common#:#change_lo_info#:#Lerneinheiten-Infos ändern
+common#:#change_metadata#:#Metadaten ändern
+common#:#change_sort_direction#:#Sortierrichtung ändern
 common#:#changed_to#:#gewechselt zu
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#chat#:#Chat
-common#:#chat_add#:#Chat hinzufÃ¼gen
-common#:#chat_delete#:#Chat lÃ¶schen
-common#:#chat_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#chat_add#:#Chat hinzufügen
+common#:#chat_delete#:#Chat löschen
+common#:#chat_edit_permission#:#Rechteeinstellungen ändern
 common#:#chat_new#:#Neuer Chat
 common#:#chat_read#:#Lese/Schreibzugriff auf Chat
 common#:#chat_visible#:#Chat ist sichtbar
 common#:#chat_write#:#Chat bearbeiten
-common#:#check#:#PrÃ¼fen
-common#:#check_langfile#:#Bitte Ã¼berprÃ¼fen Sie die Sprachdatei!
+common#:#check#:#Prüfen
+common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Sprachen checken
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#checked_files#:#Importierbare Dateien
-common#:#chg_language#:#Sprache Ã¤ndern
-common#:#chg_password#:#Passwort Ã¤ndern
-common#:#choose_language#:#Bitte wÃ¤hlen Sie Ihre Sprache!
-common#:#choose_location#:#Position wÃ¤hlen
-common#:#choose_only_one_language#:#Bitte nur eine Sprache auswÃ¤hlen!
+common#:#chg_language#:#Sprache ändern
+common#:#chg_password#:#Passwort ändern
+common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
+common#:#choose_location#:#Position wählen
+common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Ort
 common#:#clear#:#Abbrechen
 common#:#client_id#:#Mandanten ID
 common#:#clipboard#:#Clipboard
-common#:#close#:#SchlieÃŸen
+common#:#close#:#Schließen
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
-common#:#confirm#:#BestÃ¤tigen
+common#:#confirm#:#Bestätigen
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
@@ -645,15 +645,15 @@ common#:#crs#:#Kurs
 common#:#crs_a#:#einen Kurs
 common#:#crs_add#:#Kurs anlegen
 common#:#crs_added#:#Kurs angelegt
-common#:#crs_available#:#VerfÃ¼gbare Kurse
+common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_create#:#Neuen Kurs anlegen
 common#:#crs_create_frm#:#Neues Forum anlegen
 common#:#crs_create_glo#:#Neues Glossar anlegen
 common#:#crs_create_lm#:#Neues Lernmodul anlegen
 common#:#crs_create_slm#:#Neues SCORM Lernmodul anlegen
-common#:#crs_delete#:#Kurs lÃ¶schen
+common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
-common#:#crs_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#crs_edit_permission#:#Rechteeinstellungen ändern
 common#:#crs_join#:#Kurs abonnieren
 common#:#crs_leave#:#Kursabonnement aufheben
 common#:#crs_management_system#:#Kursmanagement-System
@@ -662,7 +662,7 @@ common#:#crs_read#:#Kurs lesen
 common#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_write#:#Kurs bearbeiten
 common#:#cumulative_time#:#Kumulative Zeit
-common#:#cur_number_rec#:#Aktuelle Zahl der EintrÃ¤ge
+common#:#cur_number_rec#:#Aktuelle Zahl der Einträge
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
@@ -675,7 +675,7 @@ common#:#day#:#Tag
 common#:#days#:#Tage
 common#:#db_host#:#Datenbank Host
 common#:#db_name#:#Datenbankname
-common#:#db_need_update#:#Datenbank benÃ¶tigt ein Update!
+common#:#db_need_update#:#Datenbank benötigt ein Update!
 common#:#db_pass#:#Datenbank-Password
 common#:#db_type#:#Datenbank Typ
 common#:#db_user#:#Datenbankbenutzer
@@ -685,8 +685,8 @@ common#:#dbk_a#:#ein Digilib-Buch
 common#:#dbk_add#:#Digilib-Buch anlegen
 common#:#dbk_added#:#Digilib-Buch angelegt
 common#:#dbk_create#:#Neues Digilib-Buch anlegen
-common#:#dbk_delete#:#Digilib-Buch lÃ¶schen
-common#:#dbk_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#dbk_delete#:#Digilib-Buch löschen
+common#:#dbk_edit_permission#:#Rechteeinstellungen ändern
 common#:#dbk_new#:#Neues Digilib-Buch
 common#:#dbk_read#:#Digilib-Buch lesen
 common#:#dbk_visible#:#Digilib-Buch ist sichtbar
@@ -696,24 +696,24 @@ common#:#default_language#:#Standard-Sprache
 common#:#default_perm_settings#:#Rechtevorgaben
 common#:#default_role#:#Standardrolle
 common#:#default_roles#:#Standardrollen
-common#:#default_skin#:#Standard-BenutzeroberflÃ¤che
+common#:#default_skin#:#Standard-Benutzeroberfläche
 common#:#default_skin_style#:#Standard Skin / Style
 common#:#default_style#:#Standard-Stylesheet
-common#:#delete#:#LÃ¶schen
-common#:#delete_all#:#Alle lÃ¶schen
-common#:#delete_all_rec#:#LÃ¶sche alle EintrÃ¤ge
-common#:#delete_object#:#LÃ¶sche Objekte
-common#:#delete_selected#:#Auswahl lÃ¶schen
-common#:#deleted#:#GelÃ¶scht
+common#:#delete#:#Löschen
+common#:#delete_all#:#Alle löschen
+common#:#delete_all_rec#:#Lösche alle Einträge
+common#:#delete_object#:#Lösche Objekte
+common#:#delete_selected#:#Auswahl löschen
+common#:#deleted#:#Gelöscht
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#disabled#:#Ausgeschaltet
-common#:#domain#:#DomÃ¤ne
+common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Herunterladen
-common#:#drafts#:#EntwÃ¼rfe
+common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
 common#:#edit#:#Bearbeiten
 common#:#edit_data#:#Daten bearbeiten
@@ -724,7 +724,7 @@ common#:#edit_stylesheet#:#Style bearbeiten
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
 common#:#email#:#E-Mail
-common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gÃ¼ltig!
+common#:#email_not_valid#:#Die eingegebene E-Mail-Adresse ist nicht gültig!
 common#:#enable#:#Aktivieren
 common#:#enable_registration#:#Neuanmeldung zulassen
 common#:#enabled#:#Eingeschaltet
@@ -736,78 +736,78 @@ common#:#err_in_line#:#Fehler in Zeile
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
 common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
-common#:#err_role_not_assignable#:#Der Rolle kÃ¶nnen an dieser Position keine Benutzer zugeordnet werden
+common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Benutzer zugeordnet werden
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_unknown_error#:#Unbekannter Fehler
 common#:#err_wrong_header#:#Grund: Falscher Header
-common#:#err_wrong_login#:#Login ungÃ¼ltig
+common#:#err_wrong_login#:#Login ungültig
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error_parser#:#Fehler beim Starten des Parsers.
-common#:#error_recipient#:#EmpfÃ¤nger von Fehlermeldungen
-common#:#exc#:#Ãœbung
-common#:#exc_add#:#Ãœbung anlegen
-common#:#exc_added#:#Eine neue Ãœbung wurde angelegt
-common#:#exc_ask_delete#:#Datei lÃ¶schen?
-common#:#exc_assign_usr#:#Benutzer hinzufÃ¼gen
-common#:#exc_create#:#Neue Ãœbung anlegen
-common#:#exc_date_not_valid#:#Das Datum ist nicht gÃ¼ltig
-common#:#exc_deassign_members#:#Mitglied(er) lÃ¶schen
-common#:#exc_delete#:#Ãœbung lÃ¶schen
-common#:#exc_edit#:#Eine neue Ãœbung wurde angelegt
-common#:#exc_edit_exercise#:#Ãœbung bearbeiten
-common#:#exc_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#error_recipient#:#Empfänger von Fehlermeldungen
+common#:#exc#:#Übung
+common#:#exc_add#:#Übung anlegen
+common#:#exc_added#:#Eine neue Übung wurde angelegt
+common#:#exc_ask_delete#:#Datei löschen?
+common#:#exc_assign_usr#:#Benutzer hinzufügen
+common#:#exc_create#:#Neue Übung anlegen
+common#:#exc_date_not_valid#:#Das Datum ist nicht gültig
+common#:#exc_deassign_members#:#Mitglied(er) löschen
+common#:#exc_delete#:#Übung löschen
+common#:#exc_edit#:#Eine neue Übung wurde angelegt
+common#:#exc_edit_exercise#:#Übung bearbeiten
+common#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis
 common#:#exc_files#:#Dateien
 common#:#exc_groups#:#Gruppen
-common#:#exc_header_members#:#Ãœbung(Mitglieder)
+common#:#exc_header_members#:#Übung(Mitglieder)
 common#:#exc_instruction#:#Arbeitsanweisung
-common#:#exc_members_already_assigned#:#Die ausgewÃ¤hlten Benutzer sind bereits Mitglied dieser Ãœbung
-common#:#exc_members_assigned#:#Die Benutzer wurden der Ãœbung zugeordnet 
-common#:#exc_new#:#Neue Ãœbung
-common#:#exc_no_members_assigned#:#Dieser Ãœbung sind keine Mitglieder zugeordnet
+common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglied dieser Übung
+common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet 
+common#:#exc_new#:#Neue Übung
+common#:#exc_no_members_assigned#:#Dieser Übung sind keine Mitglieder zugeordnet
 common#:#exc_notices#:#Bemerkungen
-common#:#exc_obj#:#Ãœbung
-common#:#exc_read#:#Ãœbung lesen
-common#:#exc_save_changes#:#Ã„nderungen speichern
+common#:#exc_obj#:#Übung
+common#:#exc_read#:#Übung lesen
+common#:#exc_save_changes#:#Änderungen speichern
 common#:#exc_search_for#:#Suchen nach
-common#:#exc_select_one_file#:#Bitte wÃ¤hlen Sie genau eine Datei aus.
-common#:#exc_send_exercise#:#Ãœbung verschicken
-common#:#exc_sent#:#Die Ãœbung wurde an die ausgewÃ¤hlten Mitglieder verschickt
+common#:#exc_select_one_file#:#Bitte wählen Sie genau eine Datei aus.
+common#:#exc_send_exercise#:#Übung verschicken
+common#:#exc_sent#:#Die Übung wurde an die ausgewählten Mitglieder verschickt
 common#:#exc_status_returned#:#Beantwortet
-common#:#exc_status_saved#:#Die Ã„nderungen wurden gespeichert
-common#:#exc_status_solved#:#GelÃ¶st
+common#:#exc_status_saved#:#Die Änderungen wurden gespeichert
+common#:#exc_status_solved#:#Gelöst
 common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
 common#:#exc_users#:#Benutzern
-common#:#exc_visible#:#Ãœbung ist sichtbar
-common#:#exc_write#:#Ãœbung bearbeiten
-common#:#excs#:#Ãœbungen
-common#:#execute#:#AusfÃ¼hren
+common#:#exc_visible#:#Übung ist sichtbar
+common#:#exc_write#:#Übung bearbeiten
+common#:#excs#:#Übungen
+common#:#execute#:#Ausführen
 common#:#export#:#Export
 common#:#export_html#:#Exportieren als HTML-Datei
 common#:#export_xml#:#Exportieren als XML-Datei
-common#:#faq_exercise#:#FAQ/Ã¼bungskapitel
+common#:#faq_exercise#:#FAQ/übungskapitel
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
-common#:#feedback_recipient#:#EmpfÃ¤nger von Feedbackmeldungen
+common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
 common#:#file_a#:#eine Datei
 common#:#file_add#:#Datei hochladen
 common#:#file_added#:#Datei hochgeladen
-common#:#file_delete#:#Datei lÃ¶schen
+common#:#file_delete#:#Datei löschen
 common#:#file_edit#:#Datei bearbeiten
-common#:#file_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#file_edit_permission#:#Rechteeinstellungen ändern
 common#:#file_new#:#Neue Datei
 common#:#file_not_found#:#Datei nicht gefunden
-common#:#file_not_valid#:#Datei ist ungÃ¼ltig!
+common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Bitte beachten sie bei Ihrem Dateiupload die Uploadgrenze von 
 common#:#file_read#:#Datei runterladen
-common#:#file_valid#:#Datei ist gÃ¼ltig!
-common#:#file_version#:#VerfÃ¼gbare Version
+common#:#file_valid#:#Datei ist gültig!
+common#:#file_version#:#Verfügbare Version
 common#:#file_visible#:#Datei ist sichtbar
 common#:#file_write#:#Datei bearbeiten
 common#:#files#:#Dateien
 common#:#files_location#:#Dateiort
-common#:#fill_out_all_required_fields#:#Bitte fÃ¼llen Sie alle benÃ¶tigten Felder aus
+common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#firstname#:#Vorname
 common#:#flatview#:#Flache Ansicht
 common#:#fold#:#Ordner
@@ -821,16 +821,16 @@ common#:#fold_create_frm#:#Neues Forum anlegen
 common#:#fold_create_glo#:#Neues Glossar anlegen
 common#:#fold_create_lm#:#Neues Lernmodul anlegen
 common#:#fold_create_slm#:#Neues SCORM Lernmodul anlegen
-common#:#fold_delete#:#Ordner lÃ¶schen
+common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
-common#:#fold_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#fold_edit_permission#:#Rechteeinstellungen ändern
 common#:#fold_new#:#Neuer Ordner
 common#:#fold_read#:#Lesezugriff auf Ordner
 common#:#fold_visible#:#Ordner ist sichtbar
 common#:#fold_write#:#Ordner bearbeiten
 common#:#folder#:#Ordner
 common#:#folders#:#Ordner
-common#:#force_accept_usr_agreement#:#Sie mÃ¼ssen die Nutzungsvereinbarung akzeptieren!
+common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forename#:#Vorname
 common#:#forgot_password#:#Passwort vergessen?
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
@@ -841,17 +841,17 @@ common#:#forum_notification#:#Benachrichtigung
 common#:#forum_notify_me#:#Benachrichtigung, wenn eine Antwort gesendet wurde
 common#:#forum_post_replied#:#Ihr Forumsbeitrag wurde beantwortet.
 common#:#forums#:#Foren
-common#:#forums_overview#:#Ãœbersicht Foren
+common#:#forums_overview#:#Übersicht Foren
 common#:#frm#:#Forum
 common#:#frm_a#:#ein Forum
 common#:#frm_add#:#Forum anlegen
 common#:#frm_added#:#Forum angelegt
 common#:#frm_create#:#Neues Forum anlegen
-common#:#frm_delete#:#Forum lÃ¶schen
-common#:#frm_delete_post#:#ForumbeitrÃ¤ge lÃ¶schen, Zensur
+common#:#frm_delete#:#Forum löschen
+common#:#frm_delete_post#:#Forumbeiträge löschen, Zensur
 common#:#frm_edit#:#Forum bearbeiten
-common#:#frm_edit_permission#:#Rechteeinstellungen Ã¤ndern
-common#:#frm_edit_post#:#ForumbeitrÃ¤ge anlegen
+common#:#frm_edit_permission#:#Rechteeinstellungen ändern
+common#:#frm_edit_post#:#Forumbeiträge anlegen
 common#:#frm_new#:#Neues Forum
 common#:#frm_read#:#Forum lesen
 common#:#frm_visible#:#Forum ist sichtbar
@@ -859,19 +859,19 @@ common#:#frm_write#:#Forum bearbeiten
 common#:#from#:#Von
 common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen
-common#:#gdf_add#:#Definition hinzufÃ¼gen
+common#:#gdf_add#:#Definition hinzufügen
 common#:#gdf_new#:#Neue Definition
 common#:#gender#:#Geschlecht
 common#:#gender_f#:#Weiblich
-common#:#gender_m#:#MÃ¤nnlich
+common#:#gender_m#:#Männlich
 common#:#generate#:#generieren
 common#:#glo#:#Glossar
 common#:#glo_a#:#ein Glossar
-common#:#glo_add#:#Glossar hinzufÃ¼gen
-common#:#glo_added#:#Glossar hinzugefÃ¼gt
+common#:#glo_add#:#Glossar hinzufügen
+common#:#glo_added#:#Glossar hinzugefügt
 common#:#glo_create#:#Neues Glossar anlegen
-common#:#glo_delete#:#Glossar lÃ¶schen
-common#:#glo_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#glo_delete#:#Glossar löschen
+common#:#glo_edit_permission#:#Rechteeinstellungen ändern
 common#:#glo_join#:#Glossar abonnieren
 common#:#glo_leave#:#Glossarabonnement aufheben 
 common#:#glo_new#:#Neues Glossar
@@ -881,7 +881,7 @@ common#:#glo_visible#:#Glossar ist sichtbar
 common#:#glo_write#:#Glossar bearbeiten
 common#:#glossaries#:#Glossare
 common#:#glossary#:#Glossar
-common#:#glossary_added#:#Glossar hinzugefÃ¼gt
+common#:#glossary_added#:#Glossar hinzugefügt
 common#:#group_access_denied#:#Zugriff verweigert
 common#:#group_any_objects#:#Keine Unterobjekte vorhanden
 common#:#group_create_chat#:#Neuen Chat anlegen
@@ -897,35 +897,35 @@ common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
 common#:#group_new_registrations#:#Neuanmeldungen
 common#:#group_no_registration#:#keine Registrierung erforderlich
-common#:#group_no_registration_msg#:#Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewÃ¼nschten Gruppe beitreten. <br />Als Gruppenmitglied haben Sie folgende Vorteile:<br />- Sie werden Ã¼ber Aktualisierungen informiert<br />- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.<br /><br />Sie kÃ¶nnen Ihre Mitgliedschaft jederzeit wieder aufheben.
-common#:#group_not_available#:#keine Gruppe verfÃ¼gbar
+common#:#group_no_registration_msg#:#Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewünschten Gruppe beitreten. <br />Als Gruppenmitglied haben Sie folgende Vorteile:<br />- Sie werden über Aktualisierungen informiert<br />- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.<br /><br />Sie können Ihre Mitgliedschaft jederzeit wieder aufheben.
+common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
-common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewÃ¤hlten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr mÃ¶glich.<br />Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
-common#:#group_password_registration_msg#:#Um der von Ihnen gewÃ¤hlten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br />Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
+common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.<br />Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
+common#:#group_password_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br />Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
 common#:#group_registration_expiration_date#:#Ablaufdatum
 common#:#group_registration_expiration_time#:#Ablaufzeit
 common#:#group_registration_expired#:#Anmeldezeitraum abgelaufen
 common#:#group_registration_mode#:#Registrierungsmodus
 common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
-common#:#group_req_registration_msg#:#Um der von Ihnen gewÃ¤hlten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestÃ¤tigt werden kann.<br />Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
-common#:#group_reset#:#Gruppen-Rechteeinstellungen zurÃ¼cksetzen
+common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br />Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
+common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
 common#:#group_status#:#Gruppe ist
 common#:#group_status_closed#:#Geschlossen
-common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die eingestellten in den Rollenvorlagen 'il_grp_status_closed' bzw. 'il_grp_status_open' Ã¼bernommen werden.<br/>Ã–ffentlich: Gruppe ist sichtbar; Benutzer kann sich anmelden. <br/> Geschlossen: Gruppe ist fÃ¼r Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden.
-common#:#group_status_public#:#Ã–ffentlich
+common#:#group_status_desc#:#Legt fest, mit welchen Rechten die Gruppe initialisiert wird, indem die eingestellten in den Rollenvorlagen 'il_grp_status_closed' bzw. 'il_grp_status_open' übernommen werden.<br/>Öffentlich: Gruppe ist sichtbar; Benutzer kann sich anmelden. <br/> Geschlossen: Gruppe ist für Nichtmitglieder nicht sichtbar; Benutzer kann nur eingeladen werden.
+common#:#group_status_public#:#Öffentlich
 common#:#groups#:#Gruppen
-common#:#groups_overview#:#GruppenÃ¼bersicht
+common#:#groups_overview#:#Gruppenübersicht
 common#:#grp#:#Gruppe
 common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
-common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten Sie auf BestÃ¤tigung
-common#:#grp_back#:#ZurÃ¼ck
+common#:#grp_already_applied#:#Sie haben sich bereits angemeldet! Bitte warten Sie auf Bestätigung
+common#:#grp_back#:#Zurück
 common#:#grp_create#:#Neue Gruppe anlegen
 common#:#grp_create_chat#:#Neuen Chat anlegen
 common#:#grp_create_dbk#:#Neues Digilib-Buch anlegen
-common#:#grp_create_exc#:#Neue Ãœbung anlegen
+common#:#grp_create_exc#:#Neue Übung anlegen
 common#:#grp_create_file#:#Neue Datei hochladen
 common#:#grp_create_fold#:#Neuen Ordner anlegen
 common#:#grp_create_frm#:#Neues Forum anlegen
@@ -934,28 +934,28 @@ common#:#grp_create_htlm#:#Neues HTML Lernmodul anlegen
 common#:#grp_create_lm#:#Neues Lernmodul anlegen
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
-common#:#grp_delete#:#Gruppe lÃ¶schen
+common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen.
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen.###19 Jun 2004 content changed
 common#:#grp_edit#:#Gruppe bearbeiten
-common#:#grp_edit_permission#:#Rechteeinstellungen Ã¤ndern
-common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benÃ¶tigt.
-common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein ausgewiesener Gruppenadministrator benÃ¶tigt
-common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgefÃ¼hrt
-common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht mÃ¶glich, bitte lÃ¶schen Sie die Gruppe !
-common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte Ã¼berprfen Sie die AbhÃ¤ngigkeiten dieses Benutzers.
-common#:#grp_err_no_permission#:#Sie verfÃ¼gen nicht Ã¼ber ausreichende Rechte diese Operation durchzufÃ¼hren.
-common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit fr die GÃ¼ltigkeit des Registrierungszeitraums an !
+common#:#grp_edit_permission#:#Rechteeinstellungen ändern
+common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein ausgewiesener Gruppenadministrator benötigt
+common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgeführt
+common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie die Gruppe !
+common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte überprfen Sie die Abhängigkeiten dieses Benutzers.
+common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
+common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit fr die Gültigkeit des Registrierungszeitraums an !
 common#:#grp_join#:#Benutzer kann Gruppe beitreten
 common#:#grp_leave#:#Benutzer kann Gruppe verlassen
-common#:#grp_mem_change_status#:#Mitgliedsstatus Ã¤ndern
+common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
 common#:#grp_msg_applicants_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_applicants_removed#:#Anmeldung(en) abgelehnt und aus der Liste entfernt
 common#:#grp_msg_member_assigned#:#Benutzer als Mitglied aufgenommen
 common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
-common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wÃ¤hlen Sie einen anderen Gruppennamen.
+common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
 common#:#grp_new#:#Neue Gruppe
 common#:#grp_read#:#Lesezugriff auf Gruppe
 common#:#grp_register#:#Anmelden
@@ -963,8 +963,8 @@ common#:#grp_registration_completed#:#Anmeldung abgeschlossen
 common#:#grp_visible#:#Gruppe ist sichtbar
 common#:#grp_write#:#Gruppe bearbeiten
 common#:#guest#:#Gast
-common#:#guests#:#GÃ¤ste
-common#:#header_title#:#InstallationsÃ¼berschrift
+common#:#guests#:#Gäste
+common#:#header_title#:#Installationsüberschrift
 common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
@@ -972,10 +972,10 @@ common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
 common#:#host#:#Host
 common#:#htlm#:#HTML-Lernmodul
-common#:#htlm_add#:#HTML-Lernmodul hinzufÃ¼gen
-common#:#htlm_delete#:#HTML-Lernmodul lÃ¶schen
+common#:#htlm_add#:#HTML-Lernmodul hinzufügen
+common#:#htlm_delete#:#HTML-Lernmodul löschen
 common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
-common#:#htlm_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#htlm_edit_permission#:#Rechteeinstellungen ändern
 common#:#htlm_new#:#Neues HTML-Lernmodul
 common#:#htlm_read#:#HTML-Lernmodul ansehen
 common#:#htlm_visible#:#HTML-Lernmodul ist sichtbar
@@ -986,11 +986,11 @@ common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt ###14 May 2004 content changed
 common#:#ilias_version#:#ILIAS Version
 common#:#image#:#Bild
-common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und Ã¼berprÃ¼fen Sie den Convert-Pfad.
+common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
 common#:#import#:#importieren
 common#:#import_categories#:#Kategorien importieren
 common#:#import_file#:#Importdatei
-common#:#import_file_not_valid#:#Die Importdatei ist nicht gÃ¼ltig.
+common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Nachrichten:
 common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
 common#:#import_glossary#:#Glossar importieren
@@ -1003,36 +1003,36 @@ common#:#imported#:#importiert
 common#:#in#:#in
 common#:#in_use#:#Benutzersprache
 common#:#inbox#:#Posteingang
-common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User aufnehmen mÃ¶chten?
-common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelÃ¶scht werden sollen:
-common#:#info_deleted#:#Objekt(e) gelÃ¶scht
-common#:#info_trash#:#GelÃ¶schte Objekte
-common#:#inform_user_mail#:#Benutzer per E-Mail Ã¼ber Ã„nderungen informieren
+common#:#info_assign_sure#:# Sind Sie sicher, dass Sie den/die folgenden User aufnehmen möchten?
+common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
+common#:#info_deleted#:#Objekt(e) gelöscht
+common#:#info_trash#:#Gelöschte Objekte
+common#:#inform_user_mail#:#Benutzer per E-Mail über Änderungen informieren
 common#:#information_abbr#:#Infos
 common#:#ingmedia_all_offers#:#Alle LE
-common#:#ingmedia_back_to_le#:#ZurÃ¼ck zur Lerneinheit
+common#:#ingmedia_back_to_le#:#Zurück zur Lerneinheit
 common#:#ingmedia_good_afternoon#:#Guten Nachmittag
 common#:#ingmedia_good_evening#:#Guten Abend
 common#:#ingmedia_good_morning#:#Guten Morgen
 common#:#ingmedia_good_night#:#Gute Nacht
 common#:#ingmedia_hello#:#Guten Tag
 common#:#ingmedia_info_about_work1#:#Sie haben hier am
-common#:#ingmedia_info_about_work2#:#zum letzten Mal gearbeitet. Sie kÃ¶nnen jetzt dort weitermachen, wo Sie damals aufgehÃ¶rt haben:
+common#:#ingmedia_info_about_work2#:#zum letzten Mal gearbeitet. Sie können jetzt dort weitermachen, wo Sie damals aufgehört haben:
 common#:#ingmedia_level_zero#:#Eine Ebene nach oben
-common#:#ingmedia_pers_dates#:#PersÃ¶nliche Daten
+common#:#ingmedia_pers_dates#:#Persönliche Daten
 common#:#ingmedia_reg_fo#:#Registrierte Foren
 common#:#ingmedia_reg_le#:#Registrierte LE
-common#:#ingmedia_use_info1#:#Hier kÃ¶nnen Sie Ihre persÃ¶nliche Daten Ã¤ndern. Sie sind NICHT verpflichtet, auÃŸer dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder dÃ¼rfen Sie mit sonstigen Zeichen fÃ¼llen.
-common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu dÃ¼rfen, mÃ¼ssen Sie mit den Benutzervereinbarungen einverstanden sein.
-common#:#ingmedia_use_info3#:#Bitte wÃ¤hlen Sie einen, von denen auf der linken Seite eingeblendeten Links, aus.
-common#:#ingmedia_use_title#:#Benutzerdaten Ã¤ndern
+common#:#ingmedia_use_info1#:#Hier können Sie Ihre persönliche Daten ändern. Sie sind NICHT verpflichtet, außer dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder dürfen Sie mit sonstigen Zeichen füllen.
+common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu dürfen, müssen Sie mit den Benutzervereinbarungen einverstanden sein.
+common#:#ingmedia_use_info3#:#Bitte wählen Sie einen, von denen auf der linken Seite eingeblendeten Links, aus.
+common#:#ingmedia_use_title#:#Benutzerdaten ändern
 common#:#ingmedia_user_agree#:#Benutzervereinbarung
 common#:#ingmedia_vis_le#:#Besuchte LE
 common#:#ingmedia_visited_le#:#Alle besuchten Lerneinheiten
-common#:#ingmedia_welcome#:#, willkommen an Ihrem persÃ¶nlichen Schreibtisch!
+common#:#ingmedia_welcome#:#, willkommen an Ihrem persönlichen Schreibtisch!
 common#:#inifile#:#INI-Datei
 common#:#input_error#:#Eingabefehler
-common#:#insert#:#EinfÃ¼gen
+common#:#insert#:#Einfügen
 common#:#inst_id#:#Installations ID
 common#:#inst_info#:#Installations-Info
 common#:#inst_name#:#Installationsname
@@ -1044,21 +1044,21 @@ common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
 common#:#kb#:#KByte
-common#:#keywords#:#SchlÃ¼sselwÃ¶rter
+common#:#keywords#:#Schlüsselwörter
 common#:#lang_cs#:#Tschechisch
-common#:#lang_da#:#DÃ¤nisch
+common#:#lang_da#:#Dänisch
 common#:#lang_dateformat#:#d.m.Y
 common#:#lang_de#:#Deutsch
 common#:#lang_el#:#Neugriechisch
 common#:#lang_en#:#Englisch
 common#:#lang_es#:#Spanisch
 common#:#lang_fi#:#Finnisch
-common#:#lang_fr#:#FranzÃ¶sisch
+common#:#lang_fr#:#Französisch
 common#:#lang_id#:#Indonesisch
 common#:#lang_it#:#Italienisch
 common#:#lang_ja#:#Japanisch
 common#:#lang_lt#:#Litauisch
-common#:#lang_nl#:#NiederlÃ¤ndisch
+common#:#lang_nl#:#Niederländisch
 common#:#lang_no#:#Norwegisch
 common#:#lang_path#:#Sprachdateien-Pfad
 common#:#lang_pl#:#Polnisch
@@ -1076,23 +1076,23 @@ common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
 common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
 common#:#languages#:#Sprachen
-common#:#languages_already_installed#:#GewÃ¤hlte Sprache/n ist/sind bereits installiert
-common#:#languages_already_uninstalled#:#AngewÃ¤hlte Sprache/n ist/sind bereits deinstalliert
+common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert
+common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
-common#:#last_change#:#Letzte Ã„nderung
+common#:#last_change#:#Letzte Änderung
 common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
-common#:#ldap_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#ldap_edit_permission#:#Rechteeinstellungen ändern
 common#:#ldap_read#:#Lesezugriff auf LDAP-Einstellungen
 common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
 common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
 common#:#learning_objects#:#Lernobjekte
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
-common#:#link#:#verknÃ¼pfen
-common#:#linked_pages#:#VerknÃ¼pft mit den Seiten
+common#:#link#:#verknüpfen
+common#:#linked_pages#:#Verknüpft mit den Seiten
 common#:#list_of_pages#:#Seitenliste
 common#:#list_of_questions#:#Fragenliste
 common#:#literature#:#Literatur
@@ -1102,8 +1102,8 @@ common#:#lm_a#:#ein Lernmodul
 common#:#lm_add#:#Lernmodul anlegen
 common#:#lm_added#:#Lernmodul angelegt
 common#:#lm_create#:#Neues Lernmodul anlegen
-common#:#lm_delete#:#Lernmodul lÃ¶schen
-common#:#lm_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#lm_delete#:#Lernmodul löschen
+common#:#lm_edit_permission#:#Rechteeinstellungen ändern
 common#:#lm_join#:#Lernmodul abonnieren
 common#:#lm_leave#:#Lernmodulabonnement aufheben
 common#:#lm_new#:#Neues Lernmodul
@@ -1112,7 +1112,7 @@ common#:#lm_visible#:#Lernmodul ist sichtbar
 common#:#lm_write#:#Lernmodul bearbeiten
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachen
-common#:#lngf_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#lngf_edit_permission#:#Rechteeinstellungen ändern
 common#:#lngf_read#:#Lesezugriff auf Spracheinstellungen
 common#:#lngf_visible#:#Spracheinstellungen sind sichtbar
 common#:#lo#:#Lerneinheit
@@ -1122,13 +1122,13 @@ common#:#lo_edit#:#Lernmodule editieren
 common#:#lo_new#:#neues Lernmodul
 common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
-common#:#lo_overview#:#Ãœbersicht Lernmaterialien
+common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Position:
 common#:#login#:#Login
 common#:#login_as#:#Angemeldet als
 common#:#login_data#:#Logindaten
-common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wÃ¤hlen Sie einen anderen Benutzernamen
-common#:#login_invalid#:#Der gewÃ¤hlte Loginname ist nicht erlaubt! Ihr Loginname muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
+common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
+common#:#login_invalid#:#Der gewählte Loginname ist nicht erlaubt! Ihr Loginname muss mindestens vier Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Online-Zeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
@@ -1141,27 +1141,27 @@ common#:#mail_addressbook#:#Adressbuch
 common#:#mail_allow_smtp#:#SMTP zulassen
 common#:#mail_b_inbox#:#Posteingang
 common#:#mail_c_trash#:#Papierkorb
-common#:#mail_d_drafts#:#EntwÃ¼rfe
-common#:#mail_delete_error#:#Fehler beim LÃ¶schen
-common#:#mail_delete_error_file#:#Fehler beim LÃ¶schen der Datei
+common#:#mail_d_drafts#:#Entwürfe
+common#:#mail_delete_error#:#Fehler beim Löschen
+common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_e_sent#:#Gesendete
-common#:#mail_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#mail_edit_permission#:#Rechteeinstellungen ändern
 common#:#mail_folders#:#Mail-Ordner
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#Exportdatei
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mail_visible#:#Benutzer darf Mailsystem benutzen
 common#:#mail_mails_of#:#Nachrichten
-common#:#mail_maxsize_attach#:#Max. Attachment-GrÃ¶sse
-common#:#mail_maxsize_box#:#Max. Mailbox-GrÃ¶sse
-common#:#mail_maxsize_mail#:#Max. Mail-GrÃ¶sse
-common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit fÃ¼r Attachments
-common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit fÃ¼r Mails
+common#:#mail_maxsize_attach#:#Max. Attachment-Grösse
+common#:#mail_maxsize_box#:#Max. Mailbox-Grösse
+common#:#mail_maxsize_mail#:#Max. Mail-Grösse
+common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
+common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
 common#:#mail_read#:#Lesezugriff auf Maileinstellungen
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#mail_search_word#:#Suche
-common#:#mail_select_one#:#Sie mÃ¼ssen mindestens eine Nachricht auswÃ¤hlen
+common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_smtp_mail#:#Benutzer darf Emails (SMTP) senden
@@ -1173,17 +1173,17 @@ common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
-common#:#max_number_rec#:#Maximale Zahl der EintrÃ¤ge
+common#:#max_number_rec#:#Maximale Zahl der Einträge
 common#:#max_time#:#Maximale Zeit
 common#:#member#:#Mitglied
 common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft wurde beendet.
 common#:#mep#:#Media-Pool
-common#:#mep_add#:#Media-Pool hinzufÃ¼gen
-common#:#mep_added#:#Media-Pool hinzugefÃ¼gt
-common#:#mep_delete#:#Media-Pool gelÃ¶scht
+common#:#mep_add#:#Media-Pool hinzufügen
+common#:#mep_added#:#Media-Pool hinzugefügt
+common#:#mep_delete#:#Media-Pool gelöscht
 common#:#mep_edit#:#Eigenschaften des Media-Pools bearbeiten
-common#:#mep_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#mep_edit_permission#:#Rechteeinstellungen ändern
 common#:#mep_new#:#Neuer Media-Pool
 common#:#mep_read#:#Inhalt des Media-Pools lesen
 common#:#mep_visible#:#Media-Pool ist sichtbar
@@ -1202,8 +1202,8 @@ common#:#month_01_long#:#Januar
 common#:#month_01_short#:#Jan
 common#:#month_02_long#:#Februar
 common#:#month_02_short#:#Feb
-common#:#month_03_long#:#MÃ¤rz
-common#:#month_03_short#:#MÃ¤r
+common#:#month_03_long#:#März
+common#:#month_03_short#:#Mär
 common#:#month_04_long#:#April
 common#:#month_04_short#:#Apr
 common#:#month_05_long#:#Mai
@@ -1227,79 +1227,79 @@ common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
 common#:#move_to#:#Ablegen in
 common#:#msg_cancel#:#Aktion abgebrochen
-common#:#msg_changes_ok#:#Die Ã„nderungen wurden Ã¼bernommen
-common#:#msg_clear_clipboard#:#Zwischenablage gelÃ¶scht
+common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
+common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
 common#:#msg_cloned#:#Objekt(e) kopiert.
-common#:#msg_copy_clipboard#:#AusgewÃ¤hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren)
-common#:#msg_cut_clipboard#:#AusgewÃ¤hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben)
+common#:#msg_copy_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren)
+common#:#msg_cut_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben)
 common#:#msg_cut_copied#:#Objekt(e) verschoben.
-common#:#msg_deleted_role#:#Rolle gelÃ¶scht
-common#:#msg_deleted_roles#:#Rollen gelÃ¶scht
-common#:#msg_deleted_roles_rolts#:#Rollen & Rollenvorlagen gelÃ¶scht
-common#:#msg_deleted_rolt#:#Rollenvorlage gelÃ¶scht
-common#:#msg_deleted_rolts#:#Rollenvorlagen gelÃ¶scht
+common#:#msg_deleted_role#:#Rolle gelöscht
+common#:#msg_deleted_roles#:#Rollen gelöscht
+common#:#msg_deleted_roles_rolts#:#Rollen & Rollenvorlagen gelöscht
+common#:#msg_deleted_rolt#:#Rollenvorlage gelöscht
+common#:#msg_deleted_rolts#:#Rollenvorlagen gelöscht
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
 common#:#msg_is_last_role#:#Sie haben den folgenden Benutzern ihre letzte Zuweisung zu einer globalen Rolle genommen
-common#:#msg_link_clipboard#:#AusgewÃ¤hlte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknÃ¼pfen)
-common#:#msg_linked#:#Objekt(e) verknÃ¼pft
+common#:#msg_link_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verknüpfen)
+common#:#msg_linked#:#Objekt(e) verknüpft
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten:
 common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven globalen Rollen zugewiesen sein!
 common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer globalen Rolle zugewiesen sein!
-common#:#msg_multi_language_selected#:#Es ist nicht mÃ¶glich, fÃ¼r mehrere Ãœbersetzungen die gleiche Sprache auszuwÃ¤hlen
-common#:#msg_no_default_language#:#Keine StandardÃ¼bersetzung bestimmt! Sie mÃ¼ssen eine Sprache als StandardÃ¼bersetzung definieren.
-common#:#msg_no_delete_yourself#:#Sie kÃ¶nnen nicht Ihr eigenes Benutzerkonto lÃ¶schen.
-common#:#msg_no_file#:#Sie haben keine Datei ausgewÃ¤hlt
-common#:#msg_no_language_selected#:#Angabe einer Ãœbersetzungsprache fehlt! Sie mÃ¼ssen fÃ¼r alle Ãœbersetzungen eine Sprache bestimmen
-common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu Ã¤ndern
+common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
+common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
+common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Benutzerkonto löschen.
+common#:#msg_no_file#:#Sie haben keine Datei ausgewählt
+common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
+common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
 common#:#msg_no_perm_create_object1#:#Sie besitzen keine Berechtigung, um
 common#:#msg_no_perm_create_object2#:#an dieser Position anzulegen!
 common#:#msg_no_perm_create_role#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollen anzulegen!
-common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung, um einen Rollenordner anzulegen. Deshalb kÃ¶nnen Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
+common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung, um einen Rollenordner anzulegen. Deshalb können Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
 common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollenvorlagen anzulegen!
 common#:#msg_no_perm_create_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzer anzulegen!
 common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:
-common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu lÃ¶schen:
-common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine VerknÃ¼pfung fÃ¼r die folgenden Objekte zu erstellen:
-common#:#msg_no_perm_modify_role#:#Sie besitzen keine ausreichende Berechtigung, um Rollen zu Ã¤ndern!
-common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung, um Rollenvorlagen zu Ã¤ndern!
-common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu Ã¤ndern!
-common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufÃ¼gen:
+common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen:
+common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen:
+common#:#msg_no_perm_modify_role#:#Sie besitzen keine ausreichende Berechtigung, um Rollen zu ändern!
+common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung, um Rollenvorlagen zu ändern!
+common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu ändern!
+common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
 common#:#msg_no_perm_undelete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte wiederherzustellen:
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_rolf_allowed1#:#Das Objekt
 common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten
 common#:#msg_no_scan_log#:#Scan log ist noch nicht implementiert
-common#:#msg_no_search_result#:#Keine EintrÃ¤ge gefunden
+common#:#msg_no_search_result#:#Keine Einträge gefunden
 common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie kÃ¶nnen die Benutzerzuweisung der Rolle 'Systemadministrator' nicht Ã¤ndern, wenn Sie dieser Rolle nicht selbst zugewiesen sind 
-common#:#msg_not_available_for_anon#:#Die von Ihnen gewÃ¤hlte Seite steht nur angemeldeten Benutzern zur VerfÃ¼gung
-common#:#msg_not_in_itself#:#Es ist nicht mÃ¶glich die folgenden Objekte in sich selbst einzufÃ¼gen:
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Sie können die Benutzerzuweisung der Rolle 'Systemadministrator' nicht ändern, wenn Sie dieser Rolle nicht selbst zugewiesen sind 
+common#:#msg_not_available_for_anon#:#Die von Ihnen gewählte Seite steht nur angemeldeten Benutzern zur Verfügung
+common#:#msg_not_in_itself#:#Es ist nicht möglich die folgenden Objekte in sich selbst einzufügen:
 common#:#msg_nothing_found#:#Nichts gefunden!
 common#:#msg_obj_created#:#Objekt angelegt!
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner!
-common#:#msg_obj_modified#:#Ã„nderungen gespeichert!
-common#:#msg_obj_no_link#:#kÃ¶nnen nicht verknÃ¼pft werden
-common#:#msg_perm_adopted_from1#:#Rechteeinstellungen Ã¼bernommen von
+common#:#msg_obj_modified#:#Änderungen gespeichert!
+common#:#msg_obj_no_link#:#können nicht verknüpft werden
+common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
 common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
-common#:#msg_perm_adopted_from_itself#:#Es ist nicht mÃ¶glich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu Ã¼bernehmen.
+common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu übernehmen.
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
-common#:#msg_role_exists2#:#existiert bereits! Bitte wÃ¤hlen Sie einen anderen Namen
-common#:#msg_role_reserved_prefix#:#Das PrÃ¤fix 'il_' ist reserviert fÃ¼r automatisch generierte Rollen. Bitte wÃ¤hlen Sie einen anderen Namen
-common#:#msg_roleassignment_active_changed#:#Aktive Rollenzuweisung geÃ¤ndert
-common#:#msg_roleassignment_active_changed_comment#:#Diese Einstellung wird nicht im Benutzerprofil gespeichert! Wenn der Benutzer sich ab- und wieder anmeldet, wird die Rollenzuweisung wieder auf die gespeicherten Einstellungen zurÃ¼ckgesetzt. 
-common#:#msg_roleassignment_changed#:#Rollenzuweisung geÃ¤ndert
-common#:#msg_sysrole_not_deletable#:#Die Systemrolle kann nicht gelÃ¶scht werden
-common#:#msg_sysrole_not_editable#:#Die Rechteeinstellungen der Systemrolle kÃ¶nnen nicht geÃ¤ndert werden. Die Systemrolle erlaubt den zugeordneten Benutzern uneingeschrÃ¤nkten Zugriff auf alle Objekte und Funktionen.
-common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelÃ¶schten Objekte!
+common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen
+common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen
+common#:#msg_roleassignment_active_changed#:#Aktive Rollenzuweisung geändert
+common#:#msg_roleassignment_active_changed_comment#:#Diese Einstellung wird nicht im Benutzerprofil gespeichert! Wenn der Benutzer sich ab- und wieder anmeldet, wird die Rollenzuweisung wieder auf die gespeicherten Einstellungen zurückgesetzt. 
+common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
+common#:#msg_sysrole_not_deletable#:#Die Systemrolle kann nicht gelöscht werden
+common#:#msg_sysrole_not_editable#:#Die Rechteeinstellungen der Systemrolle können nicht geändert werden. Die Systemrolle erlaubt den zugeordneten Benutzern uneingeschränkten Zugriff auf alle Objekte und Funktionen.
+common#:#msg_trash_empty#:#In diesem Ordner existieren keine gelöschten Objekte!
 common#:#msg_undeleted#:#Objekt(e) wiederhergestellt!
 common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:
-common#:#msg_user_last_role2#:#Bitte lÃ¶schen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
-common#:#msg_userassignment_changed#:#Benutzerzuweisung geÃ¤ndert
+common#:#msg_user_last_role2#:#Bitte löschen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
+common#:#msg_userassignment_changed#:#Benutzerzuweisung geändert
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#Meine Bookmarks
 common#:#my_frms#:#Meine Foren
@@ -1324,22 +1324,22 @@ common#:#no_date#:#Kein Datum
 common#:#no_description#:#Keine Beschreibung
 common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
 common#:#no_grp_in_personal_list#:#Es sind keine Gruppen abonniert.
-common#:#no_import_available#:#Import nicht verfÃ¼gbar fÃ¼r Typ
+common#:#no_import_available#:#Import nicht verfügbar für Typ
 common#:#no_limit#:#Kein Limit
 common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_objects#:#Keine Objekte
 common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutreten!
 common#:#no_title#:#Kein Titel
-common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persÃ¶nlichen Liste.
+common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Liste.
 common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
-common#:#number_of_records#:#Zahl der EintrÃ¤ge
+common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
-common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools fÃ¼r Ihre ILIAS-Installation.
+common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
 common#:#obj_cen#:#Centra-Ereignis
 common#:#obj_chac#:#Chateinstellungen
@@ -1347,7 +1347,7 @@ common#:#obj_chac_desc#:#Konfigurieren Sie hier Ihren Chatserver. Aktivieren/Dea
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Kurs
 common#:#obj_dbk#:#Digilib-Buch
-common#:#obj_exc#:#Ãœbung
+common#:#obj_exc#:#Übung
 common#:#obj_file#:#Datei
 common#:#obj_fold#:#Ordner
 common#:#obj_frm#:#Forum
@@ -1359,7 +1359,7 @@ common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
 common#:#obj_lm#:#Lernmodul
 common#:#obj_lng#:#Sprache
 common#:#obj_lngf#:#Sprachen
-common#:#obj_lngf_desc#:#Systemsprachen kÃ¶nnen hier verwaltet werden.
+common#:#obj_lngf_desc#:#Systemsprachen können hier verwaltet werden.
 common#:#obj_lo#:#Lernobjekt
 common#:#obj_mail#:#Maileinstellungen
 common#:#obj_mail_desc#:#Globale Mailkonfiguration
@@ -1369,21 +1369,21 @@ common#:#obj_not_found#:#Kein Objekt gefunden
 common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizen
 common#:#obj_objf#:#Objektdefinitionen
-common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur fÃ¼r Experten!)
+common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pg#:#Seite
 common#:#obj_qpl#:#Fragenpool
 common#:#obj_recf#:#Wiederhergestellte Objekte
-common#:#obj_recf_desc#:#EnthÃ¤lt wiederhergestellte Objekte aus Systemcheck
+common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck
 common#:#obj_role#:#Rolle
 common#:#obj_rolf#:#Rollen
 common#:#obj_rolf_desc#:#Rollenverwaltung
 common#:#obj_rolf_local#:#Lokale Rollen
-common#:#obj_rolf_local_desc#:#EnthÃ¤lt lokale Rollen fÃ¼r Objekt Nr.
+common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#ILIAS-System
 common#:#obj_slm#:#SCORM Lernmodul
-common#:#obj_spl#:#Fragenpool fÃ¼r Umfrage
+common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
 common#:#obj_svy#:#Umfrage
 common#:#obj_tax#:#Taxonomie
@@ -1396,20 +1396,20 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
-common#:#object_added#:#Objekt hinzugefÃ¼gt
+common#:#object_added#:#Objekt hinzugefügt
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
-common#:#objf_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#objf_edit_permission#:#Rechteeinstellungen ändern
 common#:#objf_read#:#Lesezugriff auf Objektdefinitionen
 common#:#objf_visible#:#Objektdefinitionen sind sichtbar
 common#:#objf_write#:#Objektdefinitionen bearbeiten
 common#:#objs_cat#:#Kategorien
 common#:#objs_chat#:#Chats
-common#:#objs_confirm#:#BestÃ¤tige Aktion
+common#:#objs_confirm#:#Bestätige Aktion
 common#:#objs_crs#:#Kurse
-common#:#objs_dbk#:#Digilib-BÃ¼cher
-common#:#objs_delete#:#Objekte lÃ¶schen
-common#:#objs_exc#:#Ãœbungen
+common#:#objs_dbk#:#Digilib-Bücher
+common#:#objs_delete#:#Objekte löschen
+common#:#objs_exc#:#Übungen
 common#:#objs_file#:#Dateien
 common#:#objs_fold#:#Ordner
 common#:#objs_frm#:#Foren
@@ -1427,7 +1427,7 @@ common#:#objs_qpl#:#Fragenpools
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
 common#:#objs_slm#:#SCORM Lernmodule
-common#:#objs_spl#:#Fragenpools fÃ¼r Umfragen
+common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
 common#:#objs_svy#:#Umfragen
 common#:#objs_tst#:#Tests
@@ -1444,7 +1444,7 @@ common#:#optimize#:#Optimieren
 common#:#options#:#Einstellungen
 common#:#order_by#:#Sortieren nach
 common#:#other#:#Andere
-common#:#overview#:#Ã¼bersicht
+common#:#overview#:#übersicht
 common#:#owner#:#Besitzer
 common#:#page#:#Seite
 common#:#page_edit#:#Seite bearbeiten
@@ -1453,12 +1453,12 @@ common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
 common#:#passwd#:#Passwort
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+*@!$%~
-common#:#passwd_not_match#:#Ihre Eingaben fÃ¼r das neue Passwort stimmen nicht Ã¼berein! Bitte das neue Passwort erneut eingeben.
+common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht überein! Bitte das neue Passwort erneut eingeben.
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
-common#:#paste#:#EinfÃ¼gen
-common#:#pasteChapter#:#EinfÃ¼gen
-common#:#pastePage#:#EinfÃ¼gen
+common#:#paste#:#Einfügen
+common#:#pasteChapter#:#Einfügen
+common#:#pastePage#:#Einfügen
 common#:#path#:#Pfad
 common#:#path_not_set#:#Pfad nicht gesetzt
 common#:#path_to_babylon#:#BABYLON Befehlszeile
@@ -1475,9 +1475,9 @@ common#:#permission_denied#:#Kein Zugriffsrecht
 common#:#permission_settings#:#Rechteeinstellungen
 common#:#person_title#:#Titel
 common#:#personal_data#:#Daten zur Person
-common#:#personal_desktop#:#PersÃ¶nlicher Schreibtisch
-common#:#personal_picture#:#PersÃ¶nliches Bild
-common#:#personal_profile#:#PersÃ¶nliches Profil
+common#:#personal_desktop#:#Persönlicher Schreibtisch
+common#:#personal_picture#:#Persönliches Bild
+common#:#personal_profile#:#Persönliches Profil
 common#:#persons#:#Personen
 common#:#pg_a#:#eine Seite
 common#:#pg_add#:#Seite anlegen
@@ -1493,22 +1493,22 @@ common#:#please_enter_target#:#Bitte geben Sie ein Ziel ein.
 common#:#please_enter_title#:#Bitte geben Sie einen Titel ein.
 common#:#port#:#Port
 common#:#position#:#Position
-common#:#presentation_options#:#PrÃ¤sentationsoptionen
-common#:#previous#:#zurÃ¼ck
+common#:#presentation_options#:#Präsentationsoptionen
+common#:#previous#:#zurück
 common#:#print#:#Drucken
-common#:#profile_changed#:#Ihr Profil wurde geÃ¤ndert
+common#:#profile_changed#:#Ihr Profil wurde geändert
 common#:#profile_of#:#Profile of
 common#:#properties#:#Eigenschaften
-common#:#pub_section#:#Ã¶ffentlicher Bereich
-common#:#public_profile#:#Ã–ffentliches Profil
-common#:#publication#:#VerÃ¶ffentlichung
-common#:#publication_date#:#VerÃ¶ffentlichungsdatum
-common#:#published#:#VerÃ¶ffentlicht
-common#:#publishing_organisation#:#VerÃ¶ffentlichende Organisation
+common#:#pub_section#:#öffentlicher Bereich
+common#:#public_profile#:#Öffentliches Profil
+common#:#publication#:#Veröffentlichung
+common#:#publication_date#:#Veröffentlichungsdatum
+common#:#published#:#Veröffentlicht
+common#:#publishing_organisation#:#Veröffentlichende Organisation
 common#:#qpl#:#Fragenpool
-common#:#qpl_add#:#Fragenpool anfÃ¼gen
-common#:#qpl_delete#:#Fragenpool lÃ¶schen
-common#:#qpl_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#qpl_add#:#Fragenpool anfügen
+common#:#qpl_delete#:#Fragenpool löschen
+common#:#qpl_edit_permission#:#Rechteeinstellungen ändern
 common#:#qpl_new#:#Neuer Fragenpool
 common#:#qpl_read#:#Lesezugriff auf Fragenpool
 common#:#qpl_visible#:#Fragenpool ist sichtbar
@@ -1519,26 +1519,26 @@ common#:#quit#:#Logout
 common#:#quote#:#Zitat
 common#:#read#:#Lesen
 common#:#recf_edit#:#Rettungsordner bearbeiten
-common#:#recipient#:#EmpfÃ¤nger
+common#:#recipient#:#Empfänger
 common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Sprachen aktualisieren
 common#:#refresh_list#:#Liste aktualisieren
 common#:#refuse#:#Ablehnen
 common#:#register#:#Anmelden
-common#:#register_info#:#Bitte fÃ¼llen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
+common#:#register_info#:#Bitte füllen Sie das Formular aus, um sich anzumelden (Die mit Stern gekennzeichnenten Felder sind Pflichtangaben).
 common#:#registered_since#:#Eingetragen seit
 common#:#registered_user#:#registrierter Benutzer
 common#:#registered_users#:#registrierte Benutzer
 common#:#registration#:#Neuanmeldung
 common#:#registration_expired#:#Der Anmeldezeitraum ist abgelaufen...
 common#:#remove#:#Entfernen
-common#:#remove_translation#:#Ãœbersetzung entfernen
+common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#rename_file#:#Datei umbenennen
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
 common#:#required_field#:#Erforderliche Angabe
-common#:#reset#:#ZurÃ¼cksetzen
+common#:#reset#:#Zurücksetzen
 common#:#resources#:#Ressourcen
 common#:#retype_password#:#Passwort wiederholen
 common#:#right#:#Recht
@@ -1546,10 +1546,10 @@ common#:#rights#:#Rechte
 common#:#role#:#Rolle
 common#:#role_a#:#eine Rolle
 common#:#role_add#:#Rolle anlegen
-common#:#role_add_local#:#Lokale Rolle hinzufÃ¼gen
+common#:#role_add_local#:#Lokale Rolle hinzufügen
 common#:#role_added#:#Rolle angelegt
 common#:#role_assignment#:#Rollenzuweisung
-common#:#role_deleted#:#Rolle gelÃ¶scht
+common#:#role_deleted#:#Rolle gelöscht
 common#:#role_edit#:#Rolle bearbeiten
 common#:#role_new#:#Neue Rolle
 common#:#roles#:#Rollen
@@ -1559,9 +1559,9 @@ common#:#rolf#:#Rollenordner
 common#:#rolf_added#:#Rollenordner angelegt
 common#:#rolf_create_role#:#Neue Rolle anlegen
 common#:#rolf_create_rolt#:#Neue Rollenvorlage anlegen
-common#:#rolf_delete#:#Rollen/Rollenvorlagen lÃ¶schen
-common#:#rolf_edit_permission#:#Zugriff auf Rechteeinstellungen fÃ¼r Rollen/Rollenvorlagen
-common#:#rolf_edit_userassignment#:#Benutzerzuweisung von Rollen Ã¤ndern
+common#:#rolf_delete#:#Rollen/Rollenvorlagen löschen
+common#:#rolf_edit_permission#:#Zugriff auf Rechteeinstellungen für Rollen/Rollenvorlagen
+common#:#rolf_edit_userassignment#:#Benutzerzuweisung von Rollen ändern
 common#:#rolf_read#:#Lesezugriff auf Rollen/Rollenvorlagen
 common#:#rolf_visible#:#Rollen/Rollenvorlagen sind sichtbar
 common#:#rolf_write#:#Rechtevorlagen von Rollen/Rollenvorlagen bearbeiten
@@ -1573,7 +1573,7 @@ common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
 common#:#root_create_cat#:#Benutzer kann Kategorien anlegen
 common#:#root_edit#:#Systemknoten bearbeiten
-common#:#root_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#root_edit_permission#:#Rechteeinstellungen ändern
 common#:#root_read#:#Lesezugriff auf ILIAS System
 common#:#root_visible#:#ILIAS System ist sichtbar
 common#:#root_write#:#Daten des Systemknotens bearbeiten
@@ -1581,26 +1581,26 @@ common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
 common#:#save#:#Speichern
-common#:#save_and_back#:#Speichern und zurÃ¼ck
+common#:#save_and_back#:#Speichern und zurück
 common#:#save_message#:#Nachricht speichern
 common#:#save_refresh#:#Speichern und aktualisieren
-common#:#save_return#:#Speichern und zurÃ¼ckkehren
+common#:#save_return#:#Speichern und zurückkehren
 common#:#save_settings#:#Einstellungen speichern
 common#:#saved#:#Gespeichert
-common#:#saved_successfully#:#Ihre Ã„nderungen wurden gespeichert
+common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#search#:#Suchen
 common#:#search_in#:#Suchen in
 common#:#search_new#:#Neue Suche
-common#:#search_recipient#:#EmpfÃ¤nger suchen
+common#:#search_recipient#:#Empfänger suchen
 common#:#search_result#:#Suchergebnis
 common#:#search_user#:#Benutzer suchen
 common#:#sections#:#Bereiche
-common#:#select#:#AuswÃ¤hlen
-common#:#select_all#:#Alle auswÃ¤hlen
-common#:#select_file#:#Datei wÃ¤hlen
-common#:#select_mode#:#Modus wÃ¤hlen
-common#:#selected#:#AusgewÃ¤hlte
-common#:#selected_items#:#AusgewÃ¤hlte Angebote
+common#:#select#:#Auswählen
+common#:#select_all#:#Alle auswählen
+common#:#select_file#:#Datei wählen
+common#:#select_mode#:#Modus wählen
+common#:#selected#:#Ausgewählte
+common#:#selected_items#:#Ausgewählte Angebote
 common#:#send#:#Abschicken
 common#:#sender#:#Absender
 common#:#sent#:#Gesendet
@@ -1610,8 +1610,8 @@ common#:#server#:#Server
 common#:#server_data#:#Serverdaten 
 common#:#server_software#:#Server Software
 common#:#set#:#Setzen
-common#:#setSystemLanguage#:#Systemsprache Ã¤ndern
-common#:#setUserLanguage#:#Benutzersprache Ã¤ndern
+common#:#setSystemLanguage#:#Systemsprache ändern
+common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#settings#:#Einstellungen
@@ -1626,8 +1626,8 @@ common#:#signature#:#Signatur
 common#:#slm#:#SCORM Lernmodul
 common#:#slm_added#:#SCORM Lernmodul angelegt
 common#:#slm_create#:#Neues SCORM Lernmodul anlegen
-common#:#slm_delete#:#SCORM Lernmodul lÃ¶schen
-common#:#slm_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#slm_delete#:#SCORM Lernmodul löschen
+common#:#slm_edit_permission#:#Rechteeinstellungen ändern
 common#:#slm_join#:#SCORM Lernmodul abonnieren
 common#:#slm_leave#:#SCORM Lernmodulabonnement aufheben
 common#:#slm_read#:#SCORM Lernmodul lesen
@@ -1635,10 +1635,10 @@ common#:#slm_visible#:#Lernmodul ist sichtbar
 common#:#slm_write#:#SCORM Lernmodul bearbeiten
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
-common#:#spl#:#Fragenpool fÃ¼r Umfrage
-common#:#spl_add#:#Fragenpool anfÃ¼gen
-common#:#spl_delete#:#Fragenpool lÃ¶schen
-common#:#spl_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#spl#:#Fragenpool für Umfrage
+common#:#spl_add#:#Fragenpool anfügen
+common#:#spl_delete#:#Fragenpool löschen
+common#:#spl_edit_permission#:#Rechteeinstellungen ändern
 common#:#spl_new#:#Neuer Fragenpool
 common#:#spl_read#:#Lesezugriff auf Fragenpool
 common#:#spl_visible#:#Fragenpool ist sichtbar
@@ -1652,7 +1652,7 @@ common#:#startpage#:#Startseite
 common#:#status#:#Status
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
-common#:#street#:#StraÃŸe
+common#:#street#:#Straße
 common#:#structure#:#Gliederung
 common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
@@ -1662,9 +1662,9 @@ common#:#subobjects#:#Unter-Objekte
 common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
 common#:#svy#:#Umfrage
-common#:#svy_add#:#Umfrage anfÃ¼gen
-common#:#svy_delete#:#Umfrage lÃ¶schen
-common#:#svy_edit_permission#:#Rechteeinstellungen Ã¤ndern
+common#:#svy_add#:#Umfrage anfügen
+common#:#svy_delete#:#Umfrage löschen
+common#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_invite#:#Invite users to a survey###26 May 2004 new variable
 common#:#svy_new#:#Neue Umfrage
 common#:#svy_participate#:#Participate in a survey###26 May 2004 new variable
@@ -1673,7 +1673,7 @@ common#:#svy_visible#:#Umfrage ist sichtbar
 common#:#svy_write#:#Umfrage kann bearbeitet werden
 common#:#system#:#System
 common#:#system_check#:#Systemcheck
-common#:#system_choose_language#:#Systemsprache wÃ¤hlen
+common#:#system_choose_language#:#Systemsprache wählen
 common#:#system_groups#:#Systemgruppen
 common#:#system_grp#:#Systemgruppe
 common#:#system_language#:#Systemsprache
@@ -1699,19 +1699,19 @@ common#:#to_desktop#:#Abo
 common#:#today#:#Heute
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
-common#:#translation#:#Ãœbersetzung
+common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
 common#:#tst#:#Test
-common#:#tst_add#:#Test anfÃ¼gen
-common#:#tst_delete#:#Test lÃ¶schen
+common#:#tst_add#:#Test anfügen
+common#:#tst_delete#:#Test löschen
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
 common#:#tst_read#:#Lesezugriff zu Test
 common#:#tst_visible#:#Test ist sichtbar
 common#:#tst_write#:#Test bearbeiten
-common#:#txt_add_object_instruction1#:#WÃ¤hlen Sie links die Position, an der Sie
-common#:#txt_add_object_instruction2#:#einfÃ¼gen mÃ¶chten.
+common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
+common#:#txt_add_object_instruction2#:#einfügen möchten.
 common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte unten auf 'Login', um sich mit Ihrem Benutzerkonto anzumelden.
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
@@ -1727,27 +1727,27 @@ common#:#up#:#Hoch
 common#:#update_applied#:#Datenbankupdate erfolgreich
 common#:#update_language#:#Sprache updaten
 common#:#upload#:#Hochladen
-common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und Ã¼berprÃ¼ft, Sie kÃ¶nnen sie nun importieren.
+common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, Sie können sie nun importieren.
 common#:#url#:#URL
 common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
-common#:#user_deleted#:#Benutzer gelÃ¶scht
+common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_language#:#Benutzersprache
-common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewÃ¤hlt!
+common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
-common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten kÃ¶nnen deshalb nicht importiert werden
+common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
 common#:#users_online#:#Aktive Benutzer
 common#:#usr#:#Benutzer
 common#:#usr_a#:#ein Benutzer
 common#:#usr_add#:#Neuer Benutzer
 common#:#usr_added#:#Benutzer angelegt
 common#:#usr_agreement#:#Nutzervereinbarung
-common#:#usr_agreement_empty#:#Die Vereinbarung enthÃ¤lt keinen Text
+common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 common#:#usr_new#:#Neuer Benutzer
@@ -1755,9 +1755,9 @@ common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerkonten
 common#:#usrf_create_user#:#Neues Benutzerkonto anlegen
-common#:#usrf_delete#:#Benutzerkonten lÃ¶schen
-common#:#usrf_edit_permission#:#Zugriff auf Benutzerkonten Ã¤ndern
-common#:#usrf_edit_roleassignment#:#Rollenzuweisung von Benutzerkonten Ã¤ndern
+common#:#usrf_delete#:#Benutzerkonten löschen
+common#:#usrf_edit_permission#:#Zugriff auf Benutzerkonten ändern
+common#:#usrf_edit_roleassignment#:#Rollenzuweisung von Benutzerkonten ändern
 common#:#usrf_read#:#Lesezugriff auf Benutzerkonten
 common#:#usrf_visible#:#Benutzerkonten sind sichtbar
 common#:#usrf_write#:#Benutzerkonten bearbeiten
@@ -1774,7 +1774,7 @@ common#:#who_is_online#:#Wer ist Online?
 common#:#with#:#mit
 common#:#write#:#Schreiben
 common#:#yes#:#Ja
-common#:#you_may_add_local_roles#:#Sie kÃ¶nnen lokale Rollen hinzufÃ¼gen
+common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zip#:#PLZ
 common#:#zipcode#:#Postleitzahl
@@ -1788,9 +1788,9 @@ content#:#cont_Circle#:#Kreis
 content#:#cont_Citation#:#Zitat
 content#:#cont_Code#:#Code
 content#:#cont_Example#:#Beispiel
-content#:#cont_Headline1#:#Ãœberschrift 1
-content#:#cont_Headline2#:#Ãœberschrift 2
-content#:#cont_Headline3#:#Ãœberschrift 3
+content#:#cont_Headline1#:#Überschrift 1
+content#:#cont_Headline2#:#Überschrift 2
+content#:#cont_Headline3#:#Überschrift 3
 content#:#cont_List#:#Liste
 content#:#cont_LocalFile#:#Lokale Datei
 content#:#cont_Mnemonic#:#Merksatz
@@ -1802,40 +1802,40 @@ content#:#cont_Remark#:#Bemerkung
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_TableContent#:#Tabelleninhalt
 content#:#cont_Unordered#:#Ungeordnet
-content#:#cont_active#:#Aktiviere Lerneinheiten-MenÃ¼
-content#:#cont_add_area#:#Bereich zufÃ¼gen
-content#:#cont_add_definition#:#Definition hinzufÃ¼gen
-content#:#cont_add_fullscreen#:#Vollansicht hinzufÃ¼gen
-content#:#cont_added_term#:#Begriff hinzugefÃ¼gt
+content#:#cont_active#:#Aktiviere Lerneinheiten-Menü
+content#:#cont_add_area#:#Bereich zufügen
+content#:#cont_add_definition#:#Definition hinzufügen
+content#:#cont_add_fullscreen#:#Vollansicht hinzufügen
+content#:#cont_added_term#:#Begriff hinzugefügt
 content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
 content#:#cont_api_adapter#:#API Adapter Name
-content#:#cont_api_func_prefix#:#API Funktions-PrÃ¤fix
-content#:#cont_areas_deleted#:#Bereiche gelÃ¶scht
+content#:#cont_api_func_prefix#:#API Funktions-Präfix
+content#:#cont_areas_deleted#:#Bereiche gelöscht
 content#:#cont_assign_full#:#Als Vollansicht
 content#:#cont_assign_std#:#Als Standardansicht
-content#:#cont_assign_translation#:#Ãœbersetzung zuordnen
+content#:#cont_assign_translation#:#Übersetzung zuordnen
 content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
-content#:#cont_back#:#ZurÃ¼ck
+content#:#cont_back#:#Zurück
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
-content#:#cont_cant_copy_folders#:#Ordner kÃ¶nnen nicht ins Clipboard kopiert werden
-content#:#cont_cant_del_full#:#LÃ¶schen der Datei fÃ¼r die Vollansicht nicht mÃ¶glich.
-content#:#cont_cant_del_std#:#LÃ¶schen der Datei fÃ¼r die Standardsicht nicht mÃ¶glich.
+content#:#cont_cant_copy_folders#:#Ordner können nicht ins Clipboard kopiert werden
+content#:#cont_cant_del_full#:#Löschen der Datei für die Vollansicht nicht möglich.
+content#:#cont_cant_del_std#:#Löschen der Datei für die Standardsicht nicht möglich.
 content#:#cont_caption#:#Bildunterschrift
-content#:#cont_change_type#:#Typ Ã¤ndern
+content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
-content#:#cont_chap_select_target_now#:#WÃ¤hlen Sie jetzt das Ziel, wohin das Kapitel verschoben werden soll. 
+content#:#cont_chap_select_target_now#:#Wählen Sie jetzt das Ziel, wohin das Kapitel verschoben werden soll. 
 content#:#cont_chapters#:#Kapitel
 content#:#cont_chapters_and_pages#:#Kapitel und Seiten
 content#:#cont_chapters_only#:#Nur Kapitel
 content#:#cont_characteristic#:#Art
-content#:#cont_choose_cont_obj#:#WÃ¤hlen Sie das 'Content Object'
-content#:#cont_choose_glossary#:#WÃ¤hlen Sie das Glossar
-content#:#cont_choose_media_source#:#WÃ¤hlen Sie die Medienquelle
-content#:#cont_citation_err_one#:#FÃ¼r die Zitatfunktion muÃŸ genau eine Auflage ausgewÃ¤hlt werden.
-content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gÃ¼ltig, bitte Ã¼berprÃ¼fen Sie Ihre Eingaben.
+content#:#cont_choose_cont_obj#:#Wählen Sie das 'Content Object'
+content#:#cont_choose_glossary#:#Wählen Sie das Glossar
+content#:#cont_choose_media_source#:#Wählen Sie die Medienquelle
+content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
+content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
 content#:#cont_clean_frames#:#Zusätzliche Frames beim Navigieren leeren
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
@@ -1844,7 +1844,7 @@ content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewüns
 content#:#cont_click_next_or_save#:#Bitte klicken Sie auf die nächste Ecke des Polygons oder speichern Sie den gewünschten Bereich. (Sie brauchen nicht mehr auf den Ausgangspunkt des Polygons zu klicken!)
 content#:#cont_click_next_point#:#Bitte klicken Sie auf die nächste Ecke des Polygons.
 content#:#cont_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygons.
-content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewÃ¼nschten Bereichs
+content#:#cont_click_tl_corner#:#Bitte klicken Sie in die obere linke Ecke des gewünschten Bereichs
 content#:#cont_content#:#Inhalt
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Inhalt
@@ -1865,14 +1865,14 @@ content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
 content#:#cont_def_organization#:#Standard
 content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitionen
-content#:#cont_del_assignment#:#Zuordnung lÃ¶schen
-content#:#cont_dependencies#:#AbhÃ¤ngigkeiten
+content#:#cont_del_assignment#:#Zuordnung löschen
+content#:#cont_dependencies#:#Abhängigkeiten
 content#:#cont_derive_from_obj#:#Vom Objekt ableiten
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_disable_media#:#Medienobjekte inaktiv
 content#:#cont_download_title#:#Link-Bezeichner 
-content#:#cont_edit_area#:#Bereich Ã¤ndern
+content#:#cont_edit_area#:#Bereich ändern
 content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_mob#:#Media Objekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Medienobjekt-Instanz bearbeiten
@@ -1890,20 +1890,20 @@ content#:#cont_file#:#Datei
 content#:#cont_files#:#Dateien
 content#:#cont_format#:#Format
 content#:#cont_free_pages#:#Freie Seiten
-content#:#cont_full_is_in_dir#:#LÃ¶schen nicht mÃ¶glich. Datei fÃ¼r Vollansicht liegt im Verzeichnis.
+content#:#cont_full_is_in_dir#:#Löschen nicht möglich. Datei für Vollansicht liegt im Verzeichnis.
 content#:#cont_fullscreen#:#Vollbild
-content#:#cont_get_link#:#Link auswÃ¤hlen
-content#:#cont_get_orig_size#:#OriginalgrÃ¶ÃŸe setzen
+content#:#cont_get_link#:#Link auswählen
+content#:#cont_get_orig_size#:#Originalgröße setzen
 content#:#cont_glo_properties#:#Glossar Eigenschaften
-content#:#cont_height#:#HÃ¶he
-content#:#cont_how_published#:#VerÃ¶ffentlichungsart
+content#:#cont_height#:#Höhe
+content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_imagemap#:#Image Map
 content#:#cont_import_id#:#identifier
-content#:#cont_insert_file_item#:#Datei einfÃ¼gen
-content#:#cont_insert_file_list#:#Dateiliste einfÃ¼gen
-content#:#cont_insert_list#:#Liste einfÃ¼gen
+content#:#cont_insert_file_item#:#Datei einfügen
+content#:#cont_insert_file_list#:#Dateiliste einfügen
+content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_par#:#Absatz einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
@@ -1937,7 +1937,7 @@ content#:#cont_lk_page_new#:#Seite (Neuer Frame)
 content#:#cont_lk_survey#:#Survey###04 Jun 2004 new variable
 content#:#cont_lk_term#:#Glossarbegriff
 content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
-content#:#cont_lm_menu#:#MenÃ¼
+content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_lvalue#:#Datenelement
 content#:#cont_manifest#:#Manifest
@@ -1951,7 +1951,7 @@ content#:#cont_mob_inst_prop#:#Eigenschaften der Instanz
 content#:#cont_mob_prop#:#Eigenschaften des Objektes
 content#:#cont_mob_usages#:#Nutzung
 content#:#cont_month#:#Monat
-content#:#cont_msg_multiple_editions#:#Es ist nicht mÃ¶glich, Details mehrerer Ausgaben anzuzeigen
+content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
 content#:#cont_name#:#Name
 content#:#cont_new_area#:#Neuer Link-Bereich
 content#:#cont_new_assignment#:#Neue Zuordnung
@@ -1965,21 +1965,21 @@ content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden
 content#:#cont_no_page#:#Keine Seite gefunden
 content#:#cont_none#:#Keine
 content#:#cont_nr_cols#:#Zahl der Spalten
-content#:#cont_nr_items#:#Anzahl der EintrÃ¤ge
+content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_obj_removed#:#Objekte entfernt
 content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
 content#:#cont_online#:#Online
-content#:#cont_order#:#AufzÃ¤hlungstyp
+content#:#cont_order#:#Aufzählungstyp
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
-content#:#cont_orig_size#:#OriginalgrÃ¶ÃŸe
-content#:#cont_page_header#:#Als SeitenÃ¼berschrift angezeigt wird:
-content#:#cont_page_select_target_now#:#WÃ¤hlen Sie jetzt das Ziel, wohin die Seite verschoben werden soll. 
+content#:#cont_orig_size#:#Originalgröße
+content#:#cont_page_header#:#Als Seitenüberschrift angezeigt wird:
+content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll. 
 content#:#cont_pages#:#Seiten
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
-content#:#cont_personal_clipboard#:#PersÃ¶nliches Clipboard
+content#:#cont_personal_clipboard#:#Persönliches Clipboard
 content#:#cont_pg_content#:#Seiteninhalt
 content#:#cont_pg_title#:#Titel der Seite
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
@@ -2003,43 +2003,43 @@ content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
 content#:#cont_sc_stat_browsed#:#Besucht
 content#:#cont_sc_stat_completed#:#Abgeschlossen
 content#:#cont_sc_stat_failed#:#Nicht bestanden
-content#:#cont_sc_stat_incomplete#:#Nicht vollstÃ¤ndig
+content#:#cont_sc_stat_incomplete#:#Nicht vollständig
 content#:#cont_sc_stat_not_attempted#:#Nicht begonnen
 content#:#cont_sc_stat_passed#:#Bestanden
 content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
 content#:#cont_scorm_type#:#adlcp:scormtype
-content#:#cont_select_item#:#WÃ¤hlen Sie mindestens ein Objekt aus.
-content#:#cont_select_max_one_item#:#Bitte wÃ¤hlen Sie nur ein Objekt aus.
-content#:#cont_select_max_one_term#:#Bitte wÃ¤hlen Sie nur einen Zeitraum aus.
-content#:#cont_select_one_edition#:#Bitte wÃ¤hlen Sie mindestens eine Auflage aus.
-content#:#cont_select_one_translation#:#Bitte wÃ¤hlen Sie mindestens eine Ãœbersetzung aus
-content#:#cont_select_one_translation_warning#:#Es kann nur maximal eine Ãœbersetzung angezeigt werden.
-content#:#cont_select_term#:#Bitte wÃ¤hlen sie einen Begriff aus.
-content#:#cont_select_translation#:#Bitte wÃ¤hlen Sie die zuzuordnende Ãœbersetzung aus untenstehender Liste aus.
+content#:#cont_select_item#:#Wählen Sie mindestens ein Objekt aus.
+content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
+content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Zeitraum aus.
+content#:#cont_select_one_edition#:#Bitte wählen Sie mindestens eine Auflage aus.
+content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
+content#:#cont_select_one_translation_warning#:#Es kann nur maximal eine Übersetzung angezeigt werden.
+content#:#cont_select_term#:#Bitte wählen sie einen Begriff aus.
+content#:#cont_select_translation#:#Bitte wählen Sie die zuzuordnende Übersetzung aus untenstehender Liste aus.
 content#:#cont_series#:#Serie
 content#:#cont_series_editor#:#Autor der Serie
 content#:#cont_series_title#:#Serientitel
 content#:#cont_series_volume#:#Band
 content#:#cont_set_class#:#Klasse festlegen
 content#:#cont_set_edit_mode#:#Bearbeitungsmodus setzen
-content#:#cont_set_link#:#Verweis Ã¤ndern
-content#:#cont_set_shape#:#Form Ã¤ndern
+content#:#cont_set_link#:#Verweis ändern
+content#:#cont_set_shape#:#Form ändern
 content#:#cont_set_start_file#:#Startdatei festlegen
 content#:#cont_set_width#:#Breite festlegen
 content#:#cont_shape#:#Form
 content#:#cont_show#:#Anzeigen
 content#:#cont_show_citation#:#Anzeigen mit Zitatfunktion
 content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
-content#:#cont_size#:#GrÃ¶ÃŸe
+content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle
 content#:#cont_src#:#Programmiersprache
 content#:#cont_src_other#:#Andere
 content#:#cont_st_title#:#Titel des Kapitels
 content#:#cont_startfile#:#Startdatei
 content#:#cont_status#:#Status
-content#:#cont_std_is_in_dir#:#LÃ¶schen nicht mÃ¶glich. Datei fÃ¼r Standardsicht liegt im Verzeichnis.
+content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
 content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
 content#:#cont_subchapters#:#Unterkapitel
@@ -2058,8 +2058,8 @@ content#:#cont_top#:#Oben
 content#:#cont_total_time#:#Gesamtzeit
 content#:#cont_tracking_data#:#Protokolldaten
 content#:#cont_tracking_items#:#Protokollierte Inhalte
-content#:#cont_translations#:#Ãœbersetzung(en)
-content#:#cont_translations_assigned#:#Die Ãœbersetzung(en) wurde(n) zugeordnet
+content#:#cont_translations#:#Übersetzung(en)
+content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
 content#:#cont_update#:#Update
 content#:#cont_update_names#:#Namen aktualisieren
 content#:#cont_upload_file#:#Datei hochladen
@@ -2069,7 +2069,7 @@ content#:#cont_users_have_mob_in_clip2#:#Benutzer(n).
 content#:#cont_validate_file#:#Datei validieren
 content#:#cont_version#:#version
 content#:#cont_view_last_export_log#:#Letzter Exporteintrag
-content#:#cont_where_published#:#VerÃ¶ffentlichungsort
+content#:#cont_where_published#:#Veröffentlichungsort
 content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt Wysiwyg
 content#:#cont_xml_base#:#xml:base
@@ -2079,7 +2079,7 @@ content#:#pages from#:#Seiten von
 content#:#par#:#Absatz
 content#:#pg#:#Seite
 content#:#read offline#:#Offline lesen
-content#:#select_a_file#:#WÃ¤hlen Sie bitte eine Datei aus.
+content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
 content#:#st#:#Kapitel
 content#:#start export#:#Export starten
 dateplaner#:#DateText#:#Nachricht
@@ -2087,12 +2087,12 @@ dateplaner#:#Day_long#:#Tagesansicht
 dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.
 dateplaner#:#ERROR_DB#:#Schreibfehler in Datenbank
 dateplaner#:#ERROR_DB_CONNECT#:#Verbindung zur Datenbank ist unterbrochen..
-dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. MÃ¶chten Sie einen oder alle Termine lÃ¶schen
+dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. Möchten Sie einen oder alle Termine löschen
 dateplaner#:#ERROR_ENDDATE#:#Falsche Eingaben bei Termin Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ENDTIME#:#Falsche Eingaben bei Termin Enduhrzeit. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Falsche Eingaben beim Enddatum. Enddatum liegt vom dem Startdatum.
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Bitte eine gÃ¼ltige CSV-Datei angeben.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstÃ¼tzt kein Java Script. <br /> Bitte schlieÃŸen Sie dieses Fenster nach dem Eintragen manuell. <br /> Danke</CENTER></B>
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Bitte eine gültige CSV-Datei angeben.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein Java Script. <br /> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <br /> Danke</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Falsche Eingaben bei Turnus Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ROT_END_START#:#Falsche Eingaben bei Turnus Enddatum. Turnus Enddatum vom dem Startdatum.
 dateplaner#:#ERROR_SHORTTEXT#:#Falsche Eingaben beim Kurztext. Es ist ein Kurztext erforderlich.
@@ -2119,38 +2119,38 @@ dateplaner#:#View#:#Ansicht:
 dateplaner#:#We_long#:#Mittwoch
 dateplaner#:#We_short#:#Mi
 dateplaner#:#Week_long#:#Wochenansicht
-dateplaner#:#add_data#:#zusÃ¤tzliche Informationen
+dateplaner#:#add_data#:#zusätzliche Informationen
 dateplaner#:#app_#:#Gruppen Termine Eingang
 dateplaner#:#app_date#:#Termin eintragen
 dateplaner#:#app_day#:#Tagesansicht
-dateplaner#:#app_freetime#:#Freie Zeit der Gruppenmitglieder (Zeitfenster wÃ¤hlen)
+dateplaner#:#app_freetime#:#Freie Zeit der Gruppenmitglieder (Zeitfenster wählen)
 dateplaner#:#app_inbox#:#Gruppen Termine Eingang
 dateplaner#:#app_list#:#Terminliste
 dateplaner#:#app_month#:#Monatsansicht
 dateplaner#:#app_properties#:#Einstellungen
 dateplaner#:#app_week#:#Wochenansicht
 dateplaner#:#application#:#Terminplaner
-dateplaner#:#apply#:#Ã¼bernehmen
-dateplaner#:#back#:#zurÃ¼ck
+dateplaner#:#apply#:#übernehmen
+dateplaner#:#back#:#zurück
 dateplaner#:#begin_date#:#Termin Anfang
 dateplaner#:#busytime#:#belegte Zeit innerhalb der Gruppe
 dateplaner#:#c_date#:#erstelle Termin
-dateplaner#:#changeTo#:#Ã„ndern zu:
-dateplaner#:#changedDates#:#GeÃ¤nderte Gruppen Termine
+dateplaner#:#changeTo#:#Ändern zu:
+dateplaner#:#changedDates#:#Geänderte Gruppen Termine
 dateplaner#:#checkforfreetime#:#Finde freien Zeitblock
 dateplaner#:#created#:#erstellt am
 dateplaner#:#date#:#Termin
 dateplaner#:#date_format#:#T.M.J H:i 
 dateplaner#:#date_format_middle#:#T/M/J
-dateplaner#:#del_all#:#alle Termine lÃ¶schen
-dateplaner#:#del_one#:#einmalig lÃ¶schen
-dateplaner#:#delete#:#lÃ¶schen
-dateplaner#:#deletedDates#:#GelÃ¶schte Gruppen Termine
+dateplaner#:#del_all#:#alle Termine löschen
+dateplaner#:#del_one#:#einmalig löschen
+dateplaner#:#delete#:#löschen
+dateplaner#:#deletedDates#:#Gelöschte Gruppen Termine
 dateplaner#:#discard#:#abweisen
 dateplaner#:#dv_Grouptime#:#unverplante Zeit anzeigen
 dateplaner#:#dv_button_cancel#:#Abbrechen
-dateplaner#:#dv_button_delete#:#LÃ¶schen
-dateplaner#:#dv_button_insert#:#EinfÃ¼gen
+dateplaner#:#dv_button_delete#:#Löschen
+dateplaner#:#dv_button_insert#:#Einfügen
 dateplaner#:#dv_button_update#:#Aktualisieren
 dateplaner#:#dv_date_begin#:#Termin Beginn:
 dateplaner#:#dv_date_end#:#Termin Ende:
@@ -2171,73 +2171,73 @@ dateplaner#:#dv_rotation_end#:#Turnus Ende:
 dateplaner#:#dv_shorttext#:#Kurztext:
 dateplaner#:#dv_startdate#:#Startdatum:
 dateplaner#:#dv_text#:#Text:
-dateplaner#:#dv_whole_day#:#GanztÃ¤gig:
-dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin lÃ¶schen? (bitte Checkbox anklicken)
+dateplaner#:#dv_whole_day#:#Ganztägig:
+dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin löschen? (bitte Checkbox anklicken)
 dateplaner#:#end_date#:#Termin Ende
-dateplaner#:#endtime_for_view#:#Endzeit fÃ¼r Ansichten:
+dateplaner#:#endtime_for_view#:#Endzeit für Ansichten:
 dateplaner#:#error_minical_img#:#Kann keinen 'GD-picture-stream' erzeugen
-dateplaner#:#execute#:#Aktionen ausfÃ¼hren
+dateplaner#:#execute#:#Aktionen ausführen
 dateplaner#:#extra_dates#:#Ganztages Termine
 dateplaner#:#free#:#frei
 dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe
 dateplaner#:#group#:#Gruppe
 dateplaner#:#help_day#:#Terminplaner Tagesansicht
-dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewÃ¤hlten Tages angezeigt.
+dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.
 dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#EnthÃ¤lt das Enddatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol Ã¶ffnet die Eintragshilfe in Form eines kleinen Kalenders
+dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd/mm/yyyy]
-dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br />Das nebenstehende Symbol Ã¶ffnet die Eintragshilfe in Form eines kleinen Kalenders 
+dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
 dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
-dateplaner#:#help_endtime_l#:#EnthÃ¤lt die Endzeit im 24 h Format des zu erstellenden Termins.
-dateplaner#:#help_fullday#:#GanztÃ¤giger Termin - Syntax[an/aus]
-dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wÃ¤hlen.<br /> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
+dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
+dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax[an/aus]
+dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br /> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
 dateplaner#:#help_further#:#<br /> <b>weitere Informationen durch klicken.</b>
 dateplaner#:#help_group#:#Gruppentermine Auswahl
-dateplaner#:#help_group_l#:#Beinhaltet die Gruppen fÃ¼r die der angemeldete User Administratorenrechte hat und fÃ¼r die ein Termin erstellt werden kann. <br /> Nach der Auswahl ist es mÃ¶glich die unverplante Zeit der Gruppe zu erkennen.
+dateplaner#:#help_group_l#:#Beinhaltet die Gruppen für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br /> Nach der Auswahl ist es möglich die unverplante Zeit der Gruppe zu erkennen.
 dateplaner#:#help_inbox#:#Terminplaner Inbox
-dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geÃ¤nderten und gelÃ¶schten Gruppentermine angezeigt.
-dateplaner#:#help_keyword#:#SchlÃ¼sselwort / Keyword Auswahl
-dateplaner#:#help_keywordUse#:#Keywords/SchlÃ¼sselwÃ¶rter/SchlagwÃ¶rter Auswahl
-dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere SchlÃ¼sselwÃ¶rter wÃ¤hlen. <br />TIP: die STRG Taste gedrÃ¼ckt halten um mehrere auszuwÃ¤hlen.
-dateplaner#:#help_keyword_l#:#Beinhaltet die SchlÃ¼sselwÃ¶rter die der User ein Termin zuordnen kann.
+dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.
+dateplaner#:#help_keyword#:#Schlüsselwort / Keyword Auswahl
+dateplaner#:#help_keywordUse#:#Keywords/Schlüsselwörter/Schlagwörter Auswahl
+dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlüsselwörter wählen. <br />TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
+dateplaner#:#help_keyword_l#:#Beinhaltet die Schlüsselwörter die der User ein Termin zuordnen kann.
 dateplaner#:#help_list#:#Terminplaner Terminliste
-dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewÃ¤hlten Zeitraumes angezeigt.
+dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewählten Zeitraumes angezeigt.
 dateplaner#:#help_month#:#Terminplaner Monatsansicht
-dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewÃ¤hlten Monates angezeigt.
-dateplaner#:#help_properties_alt#:#VerÃ¤ndert das SchlÃ¼sselwort
-dateplaner#:#help_properties_alt_l#:#Im Bereich SchlagwÃ¶rter im Auswahlfeld ein SchlÃ¼sselwort wÃ¤hlen.<br />Im Bereich SchlagwÃ¶rter im Feld Ã„ndern zu das SchlÃ¼sselwort Ã¤ndern. Wichtig: max. 20 Zeichen.
-dateplaner#:#help_properties_del#:#LÃ¶scht das SchlÃ¼sselwort
-dateplaner#:#help_properties_del_l#:#Im Bereich SchlagwÃ¶rter im Auswahlfeld ein SchlÃ¼sselwort wÃ¤hlen. Auf nebenstehenden lÃ¶schen Button klicken
+dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewählten Monates angezeigt.
+dateplaner#:#help_properties_alt#:#Verändert das Schlüsselwort
+dateplaner#:#help_properties_alt_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen.<br />Im Bereich Schlagwörter im Feld Ändern zu das Schlüsselwort ändern. Wichtig: max. 20 Zeichen.
+dateplaner#:#help_properties_del#:#Löscht das Schlüsselwort
+dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen. Auf nebenstehenden löschen Button klicken
 dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
-dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewÃ¤hlt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.
-dateplaner#:#help_properties_new#:#SchlÃ¼ÃŸelwort hinzufÃ¼gen max. 20 Zeichen
-dateplaner#:#help_properties_new_l#:#Im Bereich SchlagwÃ¶rter im Feld neu ein SchlÃ¼sselwort einfÃ¼gen. Wichtig: max. 20 Zeichen.
-dateplaner#:#help_properties_time#:#Zeiteinstellung fÃ¼r Tages/Wochenansicht
-dateplaner#:#help_properties_time_l#:#Den Zeitraum (Uhrzeit) der Anzeige die in der Tages-/Wochenansicht fÃ¼r Termine bestimmt ist, kann in den Einstellungen verÃ¤ndert werden. Termine auÃŸerhalb dieses Zeitraumes werden natÃ¼rlich trotzdem angezeigt. Standard ist 8-18 Uhr.
+dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.
+dateplaner#:#help_properties_new#:#Schlüßelwort hinzufügen max. 20 Zeichen
+dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlüsselwort einfügen. Wichtig: max. 20 Zeichen.
+dateplaner#:#help_properties_time#:#Zeiteinstellung für Tages/Wochenansicht
+dateplaner#:#help_properties_time_l#:#Den Zeitraum (Uhrzeit) der Anzeige die in der Tages-/Wochenansicht für Termine bestimmt ist, kann in den Einstellungen verändert werden. Termine außerhalb dieses Zeitraumes werden natürlich trotzdem angezeigt. Standard ist 8-18 Uhr.
 dateplaner#:#help_rotation#:#Rotation
 dateplaner#:#help_rotation_l#:#Beinhaltet die Art der Rotation / Wiederkehrung.
 dateplaner#:#help_shorttext#:#Kurztext max 50 Zeichen
 dateplaner#:#help_shorttext_l#:#Hier wird der Kurztext eingetragen den ein Termin haben soll.
 dateplaner#:#help_startdate#:#Startdatum - Syntax[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#EnthÃ¤lt das Startdatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol Ã¶ffnet die Eintragshilfe in Form eines kleinen Kalenders
+dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br /> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br />Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
-dateplaner#:#help_starttime_l#:#EnthÃ¤lt die Startzeit im 24 h Format des zu erstellenden Termins.
+dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
 dateplaner#:#help_text#:#Text
 dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben soll.
 dateplaner#:#help_week#:#Terminplaner Wochenansicht
-dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewÃ¤hlten Woche angezeigt.
+dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.
 dateplaner#:#hour#:#Stunde
 dateplaner#:#importDates#:#Importieren von Outlook Kalender Daten
 dateplaner#:#inbox#:#Eingang
 dateplaner#:#insertImportDates#:#Folgende Termine wurden eingetragen:
 dateplaner#:#k_alldates#:#alle Termine
-dateplaner#:#keep#:#unverÃ¤ndert
+dateplaner#:#keep#:#unverändert
 dateplaner#:#keyword#:#Schlagwort
-dateplaner#:#keywords#:#SchlagwÃ¶rter
-dateplaner#:#last_change#:#letzte Ã„nderung am
+dateplaner#:#keywords#:#Schlagwörter
+dateplaner#:#last_change#:#letzte Änderung am
 dateplaner#:#long_01#:#Januar
 dateplaner#:#long_02#:#Februar
-dateplaner#:#long_03#:#MÃ¤rz
+dateplaner#:#long_03#:#März
 dateplaner#:#long_04#:#April
 dateplaner#:#long_05#:#Mai
 dateplaner#:#long_06#:#Juni
@@ -2248,7 +2248,7 @@ dateplaner#:#long_10#:#Oktober
 dateplaner#:#long_11#:#November
 dateplaner#:#long_12#:#Dezember
 dateplaner#:#main_dates#:#Normale Termine
-dateplaner#:#menue#:#MenÃ¼
+dateplaner#:#menue#:#Menü
 dateplaner#:#mmonth#:#letzter Monat
 dateplaner#:#month#:#Monat
 dateplaner#:#more#:#weitere
@@ -2261,11 +2261,11 @@ dateplaner#:#no_entry#:#keine Termine vorhanden
 dateplaner#:#o_day_date#:#24h Termin
 dateplaner#:#of#:#von
 dateplaner#:#open_day#:#Tagesansicht
-dateplaner#:#pmonth#:#nÃ¤chsten Monat
+dateplaner#:#pmonth#:#nächsten Monat
 dateplaner#:#printlist#:#Termin Liste ausdrucken
 dateplaner#:#properties#:#Einstellungen
-dateplaner#:#pweek#:#nÃ¤chste Woche
-dateplaner#:#pyear#:#nÃ¤chstes Jahr
+dateplaner#:#pweek#:#nächste Woche
+dateplaner#:#pyear#:#nächstes Jahr
 dateplaner#:#r_14#:#alle 14 Tage
 dateplaner#:#r_4_weeks#:#alle 4 Wochen
 dateplaner#:#r_day#:#jeden Tag
@@ -2280,7 +2280,7 @@ dateplaner#:#rotation_dates#:#Turnus Termine
 dateplaner#:#semester_name#:#Semester Name
 dateplaner#:#short_01#:#Jan
 dateplaner#:#short_02#:#Feb
-dateplaner#:#short_03#:#MÃ¤r
+dateplaner#:#short_03#:#Mär
 dateplaner#:#short_04#:#Apr
 dateplaner#:#short_05#:#Mai
 dateplaner#:#short_06#:#Jun
@@ -2292,7 +2292,7 @@ dateplaner#:#short_11#:#Nov
 dateplaner#:#short_12#:#Dez
 dateplaner#:#shorttext#:#Kurztext
 dateplaner#:#singleDate#:#Einzeltermin
-dateplaner#:#starttime_for_view#:#Startzeit fÃ¼r Ansichten:
+dateplaner#:#starttime_for_view#:#Startzeit für Ansichten:
 dateplaner#:#timedate#:#Zeit / Datum
 dateplaner#:#timeslice#:#Zeitraum:
 dateplaner#:#title#:#Ilias Terminplaner
@@ -2302,80 +2302,80 @@ dateplaner#:#viewlist#:#Ansicht aktualisieren
 dateplaner#:#week#:#Woche
 dateplaner#:#year#:#Jahr
 forum#:#forums#:#Foren
-forum#:#forums_articles#:#BeitrÃ¤ge
-forum#:#forums_attachments#:#DateianhÃ¤nge
-forum#:#forums_attachments_add#:#Dateianhang hinzufÃ¼gen
+forum#:#forums_articles#:#Beiträge
+forum#:#forums_attachments#:#Dateianhänge
+forum#:#forums_attachments_add#:#Dateianhang hinzufügen
 forum#:#forums_attachments_edit#:#Dateianhang bearbeiten
-forum#:#forums_available#:#VerfÃ¼gbare Foren
+forum#:#forums_available#:#Verfügbare Foren
 forum#:#forums_censor_comment#:#Bemerkung des Zensors
 forum#:#forums_count#:#Anzahl Foren
-forum#:#forums_count_art#:#Anzahl BeitrÃ¤ge
+forum#:#forums_count_art#:#Anzahl Beiträge
 forum#:#forums_count_thr#:#Anzahl Themen
-forum#:#forums_delete_file#:#Dateianhang lÃ¶schen
+forum#:#forums_delete_file#:#Dateianhang löschen
 forum#:#forums_download_attachment#:#Datei herunterladen
 forum#:#forums_edit_post#:#Beitrag bearbeiten
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass dieser Beitrag auch weiterhin nicht angezeigt werden soll?
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
-forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelÃ¶scht werden soll?
+forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
 forum#:#forums_last_post#:#Letzter Beitrag
 forum#:#forums_moderators#:#Moderatoren
-forum#:#forums_new_entries#:#Neue Foren-EintrÃ¤ge
+forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
-forum#:#forums_not_available#:#Keine Foren verfÃ¼gbar
-forum#:#forums_overview#:#Ãœbersicht Foren
-forum#:#forums_post_deleted#:#Beitrag wurde gelÃ¶scht
+forum#:#forums_not_available#:#Keine Foren verfügbar
+forum#:#forums_overview#:#Übersicht Foren
+forum#:#forums_post_deleted#:#Beitrag wurde gelöscht
 forum#:#forums_post_modified#:#Beitrag wurde bearbeitet
 forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
-forum#:#forums_posts#:#Alle BeitrÃ¤ge
-forum#:#forums_posts_not_available#:#Keine Artikel verfÃ¼gbar
+forum#:#forums_posts#:#Alle Beiträge
+forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
 forum#:#forums_print_thread#:#Thread ausdrucken
 forum#:#forums_quote#:#Zitieren
 forum#:#forums_respond#:#Antworten
 forum#:#forums_subject#:#Titel
 forum#:#forums_the_post#:#Beitrag
 forum#:#forums_thread#:#Thema
-forum#:#forums_thread_articles#:#BeitrÃ¤ge zum Thema
+forum#:#forums_thread_articles#:#Beiträge zum Thema
 forum#:#forums_thread_create_date#:#Erstellt am
 forum#:#forums_thread_create_from#:#Erstellt von
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 forum#:#forums_threads#:#Themen
-forum#:#forums_threads_not_available#:#Keine Themen verfÃ¼gbar
-forum#:#forums_topics_overview#:#ThemenÃ¼bersicht
+forum#:#forums_threads_not_available#:#Keine Themen verfügbar
+forum#:#forums_topics_overview#:#Themenübersicht
 forum#:#forums_your_reply#:#Ihre Antwort
 mail#:#also_as_email#:#Auch als E-Mail
 mail#:#bc#:#BC
 mail#:#forward#:#Weiterleiten
 mail#:#linebreak#:#Zeilenumbruch
-mail#:#mail_add_recipient#:#Bitte geben Sie einen EmpfÃ¤nger ein
-mail#:#mail_add_subfolder#:#Unterordner hinzufÃ¼gen
+mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
+mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
-mail#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufÃ¼gen
+mail#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
 mail#:#mail_add_type#:#Bitte geben Sie den Typ der Nachricht an
-mail#:#mail_addr_entries#:#EintrÃ¤ge
+mail#:#mail_addr_entries#:#Einträge
 mail#:#mail_attachments#:#Attachments
-mail#:#mail_bc_not_valid#:#Der BC-EmpfÃ¤nger ist nicht gÃ¼ltig
-mail#:#mail_bc_search#:#BC-EmpfÃ¤nger suchen
+mail#:#mail_bc_not_valid#:#Der BC-Empfänger ist nicht gültig
+mail#:#mail_bc_search#:#BC-Empfänger suchen
 mail#:#mail_byte#:#Byte
-mail#:#mail_cc_not_valid#:#Der CC-EmpfÃ¤nger ist nicht gÃ¼ltig
-mail#:#mail_cc_search#:#CC-EmpfÃ¤nger suchen
+mail#:#mail_cc_not_valid#:#Der CC-Empfänger ist nicht gültig
+mail#:#mail_cc_search#:#CC-Empfänger suchen
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
-mail#:#mail_check_your_email_addr#:#Bitte Ã¼berprÃ¼fen Sie Ihre E-Mail Adresse
+mail#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre E-Mail Adresse
 mail#:#mail_compose#:#Nachricht erstellen
-mail#:#mail_deleted#:#Die Nachricht(en) wurden gelÃ¶scht
-mail#:#mail_deleted_entry#:#Die EintrÃ¤ge wurden gelÃ¶scht
+mail#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
+mail#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
 mail#:#mail_email_forbidden#:#Sie sind nicht berechtigt E-Mails zu verschicken
-mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefÃ¼gt
-mail#:#mail_entry_changed#:#Der Eintrag wurde geÃ¤ndert
+mail#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
+mail#:#mail_entry_changed#:#Der Eintrag wurde geändert
 mail#:#mail_file_name#:#Dateiname
-mail#:#mail_file_size#:#DateigrÃ¶sse
-mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelÃ¶scht
+mail#:#mail_file_size#:#Dateigrösse
+mail#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
 mail#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
-mail#:#mail_folder_deleted#:#Der Ordner wurde gelÃ¶scht
+mail#:#mail_folder_deleted#:#Der Ordner wurde gelöscht
 mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 mail#:#mail_folder_name#:#Ordnername
 mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
 mail#:#mail_folder_options#:#Ordner Einstellungen
-mail#:#mail_following_rcp_not_valid#:#Die folgenden EmpfÃ¤nger sind nicht gÃ¼ltig:
+mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gültig:
 mail#:#mail_global_options#:#Allgemeine Einstellungen
 mail#:#mail_incoming#:#Nachrichten Empfang
 mail#:#mail_incoming_both#:#Lokal und Weiterleitung
@@ -2386,37 +2386,37 @@ mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
 mail#:#mail_intern#:#Intern
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
-mail#:#mail_maxsize_attachment_error#:#Die maximale DateigrÃ¶ÃŸe betrÃ¤gt:
+mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
 mail#:#mail_message_send#:#Ihre Nachricht wurde versandt
 mail#:#mail_move_error#:#Fehler beim Senden der Nachricht
 mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
 mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
-mail#:#mail_new_file#:#Neue Datei hinzufÃ¼gen:
-mail#:#mail_no_attach_allowed#:#Systemnachrichten kÃ¶nnen keine Attachments beinhalten
+mail#:#mail_new_file#:#Neue Datei hinzufügen:
+mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
 mail#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.###15 May 2004 content changed
 mail#:#mail_options_of#:#Einstellungen
 mail#:#mail_options_saved#:#Die Einstellungen wurden gespeichert
-mail#:#mail_recipient_not_valid#:#Der EmpfÃ¤nger ist nicht gÃ¼ltig
+mail#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
 mail#:#mail_s#:#Nachrichten
 mail#:#mail_s_unread#:#Ungelesene Nachrichten
 mail#:#mail_saved#:#Ihre Nachricht wurde gespeichert
 mail#:#mail_search_addressbook#:#im Addressbuch suchen
 mail#:#mail_search_system#:#im System suchen
-mail#:#mail_select_one_entry#:#Sie mÃ¼ssen mindestens einen Eintrag auswÃ¤hlen
-mail#:#mail_select_one_file#:#Sie mÃ¼ssen mindestens eine Datei auswÃ¤hlen
-mail#:#mail_sure_delete#:#Sind Sie sicher, daÃŸ die markierten Nachrichten gelÃ¶scht werden sollen?
-mail#:#mail_sure_delete_entry#:#Sind Sie sicher, daÃŸ die markierten EintrÃ¤ge gelÃ¶scht werden sollen?
-mail#:#mail_sure_delete_file#:#Sind Sie sicher, daÃŸ die markierten Dateien gelÃ¶scht werden sollen?
-mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelÃ¶scht!
-mail#:#mail_to_search#:#EmpfÃ¤nger suchen
-mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gÃ¼ltige E-Mail Adresse
-mail#:#search_bc_recipient#:#BC-EmpfÃ¤nger suchen
-mail#:#search_cc_recipient#:#CC-EmpfÃ¤nger suchen
-meta#:#meta_accessibility_restrictions#:#ZugangsbeschrÃ¤nkungen
+mail#:#mail_select_one_entry#:#Sie müssen mindestens einen Eintrag auswählen
+mail#:#mail_select_one_file#:#Sie müssen mindestens eine Datei auswählen
+mail#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen?
+mail#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen?
+mail#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen?
+mail#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiderruflich gelöscht!
+mail#:#mail_to_search#:#Empfänger suchen
+mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige E-Mail Adresse
+mail#:#search_bc_recipient#:#BC-Empfänger suchen
+mail#:#search_cc_recipient#:#CC-Empfänger suchen
+meta#:#meta_accessibility_restrictions#:#Zugangsbeschränkungen
 meta#:#meta_active#:#Aktiv
-meta#:#meta_add#:#HinzufÃ¼gen
+meta#:#meta_add#:#Hinzufügen
 meta#:#meta_annotation#:#Anmerkung
 meta#:#meta_atomic#:#Atomar
 meta#:#meta_author#:#Autor
@@ -2428,12 +2428,12 @@ meta#:#meta_c_AG#:#Antigua und Barbuda
 meta#:#meta_c_AI#:#Anguilla
 meta#:#meta_c_AL#:#Albanien
 meta#:#meta_c_AM#:#Armenien
-meta#:#meta_c_AN#:#NiederlÃ¤ndische Antillen
+meta#:#meta_c_AN#:#Niederländische Antillen
 meta#:#meta_c_AO#:#Angola
 meta#:#meta_c_AQ#:#Antarktis
 meta#:#meta_c_AR#:#Argentinien
 meta#:#meta_c_AS#:#Amerikanisch Samoa
-meta#:#meta_c_AT#:#Ã–sterreich
+meta#:#meta_c_AT#:#Österreich
 meta#:#meta_c_AU#:#Australien
 meta#:#meta_c_AW#:#Aruba
 meta#:#meta_c_AZ#:#Azerbaidschan
@@ -2454,14 +2454,14 @@ meta#:#meta_c_BS#:#Bahamas
 meta#:#meta_c_BT#:#Bhutan
 meta#:#meta_c_BV#:#Bouvet Island
 meta#:#meta_c_BW#:#Botswana
-meta#:#meta_c_BY#:#WeiÃŸruÃŸland
+meta#:#meta_c_BY#:#Weißrußland
 meta#:#meta_c_BZ#:#Belize
 meta#:#meta_c_CA#:#Kanada
 meta#:#meta_c_CC#:#Kokos (Keeling) Inseln
 meta#:#meta_c_CF#:#Zentralafrikanische Republik
 meta#:#meta_c_CG#:#Kongo
 meta#:#meta_c_CH#:#Schweiz
-meta#:#meta_c_CI#:#ElfenbeinkÃ¼ste
+meta#:#meta_c_CI#:#Elfenbeinküste
 meta#:#meta_c_CK#:#Cook Inseln
 meta#:#meta_c_CL#:#Chile
 meta#:#meta_c_CM#:#Kamerun
@@ -2475,17 +2475,17 @@ meta#:#meta_c_CY#:#Zypern
 meta#:#meta_c_CZ#:#Tschechische Republik
 meta#:#meta_c_DE#:#Deutschland
 meta#:#meta_c_DJ#:#Djibouti
-meta#:#meta_c_DK#:#DÃ¤nemark
+meta#:#meta_c_DK#:#Dänemark
 meta#:#meta_c_DM#:#Dominica
 meta#:#meta_c_DO#:#Dominikanische Republik
 meta#:#meta_c_DZ#:#Algerien
 meta#:#meta_c_EC#:#Ekuador
 meta#:#meta_c_EE#:#Estland
-meta#:#meta_c_EG#:#Ã„gypten
+meta#:#meta_c_EG#:#Ägypten
 meta#:#meta_c_EH#:#West-Sahara
 meta#:#meta_c_ER#:#Eritrea
 meta#:#meta_c_ES#:#Spanien
-meta#:#meta_c_ET#:#Ã„thiopien
+meta#:#meta_c_ET#:#Äthiopien
 meta#:#meta_c_FI#:#Finnland
 meta#:#meta_c_FJ#:#Fiji
 meta#:#meta_c_FK#:#Falkland Inseln
@@ -2494,17 +2494,17 @@ meta#:#meta_c_FO#:#Faroer
 meta#:#meta_c_FR#:#Frankreich
 meta#:#meta_c_FX#:#Frankreich
 meta#:#meta_c_GA#:#Gabon
-meta#:#meta_c_GB#:#Vereinigtes KÃ¶nigreich
+meta#:#meta_c_GB#:#Vereinigtes Königreich
 meta#:#meta_c_GD#:#Grenada
 meta#:#meta_c_GE#:#Georgien
-meta#:#meta_c_GF#:#FranzÃ¶sich Guyana
+meta#:#meta_c_GF#:#Französich Guyana
 meta#:#meta_c_GH#:#Ghana
 meta#:#meta_c_GI#:#Gibraltar
-meta#:#meta_c_GL#:#GrÃ¶nland
+meta#:#meta_c_GL#:#Grönland
 meta#:#meta_c_GM#:#Gambia
 meta#:#meta_c_GN#:#Guinea
 meta#:#meta_c_GP#:#Guadeloupe
-meta#:#meta_c_GQ#:#Ã„quatorial-Guinea
+meta#:#meta_c_GQ#:#Äquatorial-Guinea
 meta#:#meta_c_GR#:#Griechenland
 meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
 meta#:#meta_c_GT#:#Guatemala
@@ -2535,7 +2535,7 @@ meta#:#meta_c_KI#:#Kiribati
 meta#:#meta_c_KM#:#Komoren
 meta#:#meta_c_KN#:#Saint Kitts And Nevis
 meta#:#meta_c_KP#:#Nord-Korea (Volksrepublik Korea)
-meta#:#meta_c_KR#:#SÃ¼d-Korea (Republik)
+meta#:#meta_c_KR#:#Süd-Korea (Republik)
 meta#:#meta_c_KW#:#Kuwait
 meta#:#meta_c_KY#:#Kaiman Inseln
 meta#:#meta_c_KZ#:#Kasachstan
@@ -2586,7 +2586,7 @@ meta#:#meta_c_NZ#:#Neuseeland
 meta#:#meta_c_OM#:#Oman
 meta#:#meta_c_PA#:#Panama
 meta#:#meta_c_PE#:#Peru
-meta#:#meta_c_PF#:#FranzÃ¶sich Polynesien
+meta#:#meta_c_PF#:#Französich Polynesien
 meta#:#meta_c_PG#:#Papua-Neuguinea
 meta#:#meta_c_PH#:#Philippinen
 meta#:#meta_c_PK#:#Pakistan
@@ -2599,7 +2599,7 @@ meta#:#meta_c_PW#:#Palau
 meta#:#meta_c_PY#:#Paraguay
 meta#:#meta_c_QA#:#Katar
 meta#:#meta_c_RE#:#Reunion
-meta#:#meta_c_RO#:#RumÃ¤nien
+meta#:#meta_c_RO#:#Rumänien
 meta#:#meta_c_RU#:#Ran Federation
 meta#:#meta_c_RW#:#Ruanda
 meta#:#meta_c_SA#:#Saudi-Arabien
@@ -2623,7 +2623,7 @@ meta#:#meta_c_SY#:#Syrien
 meta#:#meta_c_SZ#:#Swaziland
 meta#:#meta_c_TC#:#Turks und Caicos Inseln
 meta#:#meta_c_TD#:#Tschad
-meta#:#meta_c_TF#:#FranzÃ¶siche SÃ¼dliche Territorien
+meta#:#meta_c_TF#:#Französiche Südliche Territorien
 meta#:#meta_c_TG#:#Togo
 meta#:#meta_c_TH#:#Thailand
 meta#:#meta_c_TJ#:#Tadschikistan
@@ -2654,25 +2654,25 @@ meta#:#meta_c_WF#:#Wallis und Futuna
 meta#:#meta_c_WS#:#Samoa
 meta#:#meta_c_YE#:#Jemen
 meta#:#meta_c_YT#:#Mayotte
-meta#:#meta_c_ZA#:#SÃ¼dafrika
+meta#:#meta_c_ZA#:#Südafrika
 meta#:#meta_c_ZM#:#Sambia
 meta#:#meta_c_ZR#:#Zaire
 meta#:#meta_c_ZW#:#Simbabwe
-meta#:#meta_c_ZZ#:#Andere LÃ¤nder
+meta#:#meta_c_ZZ#:#Andere Länder
 meta#:#meta_catalog#:#Katalog
-meta#:#meta_choose_element#:#Bitte wÃ¤hlen Sie das Element, das Sie hinzufÃ¼gen mÃ¶chten!
-meta#:#meta_choose_language#:#Bitte wÃ¤hlen Sie eine Sprache
-meta#:#meta_choose_section#:#Bitte wÃ¤hlen Sie einen Bereich
+meta#:#meta_choose_element#:#Bitte wählen Sie das Element, das Sie hinzufügen möchten!
+meta#:#meta_choose_language#:#Bitte wählen Sie eine Sprache
+meta#:#meta_choose_section#:#Bitte wählen Sie einen Bereich
 meta#:#meta_classification#:#Klassifizierung
 meta#:#meta_collection#:#Sammlung
 meta#:#meta_competency#:#Kompetenz
 meta#:#meta_context#:#Kontext
 meta#:#meta_contribute#:#Beitrag
-meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere EinschrÃ¤nkungen
+meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
 meta#:#meta_cost#:#Kosten
 meta#:#meta_coverage#:#Anwendungsbereich
 meta#:#meta_date#:#Datum
-meta#:#meta_delete#:#LÃ¶schen
+meta#:#meta_delete#:#Löschen
 meta#:#meta_description#:#Beschreibung
 meta#:#meta_diagramm#:#Diagramm
 meta#:#meta_difficulty#:#Schwierigkeit
@@ -2685,10 +2685,10 @@ meta#:#meta_educational_level#:#Ausbildungsstufe
 meta#:#meta_educational_objective#:#Ausbildungsziel
 meta#:#meta_entity#:#Instanz
 meta#:#meta_entry#:#Eintrag
-meta#:#meta_exam#:#PrÃ¼fung
-meta#:#meta_exercise#:#Ãœbung
+meta#:#meta_exam#:#Prüfung
+meta#:#meta_exercise#:#Übung
 meta#:#meta_experiment#:#Experiment
-meta#:#meta_expositive#:#ErklÃ¤rend
+meta#:#meta_expositive#:#Erklärend
 meta#:#meta_figure#:#Abbildung
 meta#:#meta_final#:#Endfassung
 meta#:#meta_format#:#Format
@@ -2706,14 +2706,14 @@ meta#:#meta_identifier#:#Kennung
 meta#:#meta_index#:#Index
 meta#:#meta_installation_remarks#:#Installationsanmerkungen
 meta#:#meta_intended_end_user_role#:#Beabsichtige Endbenutzer Rolle
-meta#:#meta_interactivity_level#:#Stufe der InteraktivitÃ¤t
-meta#:#meta_interactivity_type#:#Art der InteraktivitÃ¤t
+meta#:#meta_interactivity_level#:#Stufe der Interaktivität
+meta#:#meta_interactivity_type#:#Art der Interaktivität
 meta#:#meta_is_based_on#:#Basiert auf
-meta#:#meta_is_basis_for#:#...ist Voraussetzung fÃ¼r...
+meta#:#meta_is_basis_for#:#...ist Voraussetzung für...
 meta#:#meta_is_format_of#:#...ist Format von...
 meta#:#meta_is_part_of#:#...ist Teil von...
 meta#:#meta_is_referenced_by#:#...ist referenziert von...
-meta#:#meta_is_required_by#:#...wird benÃ¶tigt von...
+meta#:#meta_is_required_by#:#...wird benötigt von...
 meta#:#meta_is_version_of#:#...ist Version von...
 meta#:#meta_keyword#:#Schlagwort
 meta#:#meta_kind#:#Art
@@ -2726,7 +2726,7 @@ meta#:#meta_l_as#:#Assamesisch
 meta#:#meta_l_ay#:#Aymara
 meta#:#meta_l_az#:#Aserbaidschanisch
 meta#:#meta_l_ba#:#Baschkirisch
-meta#:#meta_l_be#:#WeiÃŸrussisch
+meta#:#meta_l_be#:#Weißrussisch
 meta#:#meta_l_bg#:#Bulgarisch
 meta#:#meta_l_bh#:#Biharisch
 meta#:#meta_l_bi#:#Bislamisch
@@ -2737,7 +2737,7 @@ meta#:#meta_l_ca#:#Katalanisch
 meta#:#meta_l_co#:#Korsisch
 meta#:#meta_l_cs#:#Tschechisch
 meta#:#meta_l_cy#:#Walisisch
-meta#:#meta_l_da#:#DÃ¤nisch
+meta#:#meta_l_da#:#Dänisch
 meta#:#meta_l_de#:#Deutsch
 meta#:#meta_l_dz#:#Bhutani
 meta#:#meta_l_el#:#Griechisch
@@ -2749,16 +2749,16 @@ meta#:#meta_l_eu#:#Baskisch
 meta#:#meta_l_fa#:#Persisch
 meta#:#meta_l_fi#:#Finnisch
 meta#:#meta_l_fj#:#Fiji
-meta#:#meta_l_fo#:#FarÃ¶isch
-meta#:#meta_l_fr#:#FranzÃ¶sisch
+meta#:#meta_l_fo#:#Faröisch
+meta#:#meta_l_fr#:#Französisch
 meta#:#meta_l_fy#:#Friesisch
 meta#:#meta_l_ga#:#Irisch
-meta#:#meta_l_gd#:#Schottisches GÃ¤lisch
+meta#:#meta_l_gd#:#Schottisches Gälisch
 meta#:#meta_l_gl#:#Galizisch
 meta#:#meta_l_gn#:#Guarani
 meta#:#meta_l_gu#:#Gujaratisch
 meta#:#meta_l_ha#:#Haussa
-meta#:#meta_l_he#:#HebrÃ¤isch
+meta#:#meta_l_he#:#Hebräisch
 meta#:#meta_l_hi#:#Hindi
 meta#:#meta_l_hr#:#Kroatisch
 meta#:#meta_l_hu#:#Ungarisch
@@ -2767,14 +2767,14 @@ meta#:#meta_l_ia#:#Interlingua
 meta#:#meta_l_id#:#Indonesisch
 meta#:#meta_l_ie#:#Interlingue
 meta#:#meta_l_ik#:#Inupiak
-meta#:#meta_l_is#:#IslÃ¤ndisch
+meta#:#meta_l_is#:#Isländisch
 meta#:#meta_l_it#:#Italienisch
 meta#:#meta_l_iu#:#Inuktitut
 meta#:#meta_l_ja#:#Japanisch
 meta#:#meta_l_jv#:#Javanesisch
 meta#:#meta_l_ka#:#Georgisch
 meta#:#meta_l_kk#:#Kasachisch
-meta#:#meta_l_kl#:#GrÃ¶nlÃ¤ndisch
+meta#:#meta_l_kl#:#Grönländisch
 meta#:#meta_l_km#:#Kambodschanisch
 meta#:#meta_l_kn#:#Kannada
 meta#:#meta_l_ko#:#Koreanisch
@@ -2798,7 +2798,7 @@ meta#:#meta_l_mt#:#Maltesisch
 meta#:#meta_l_my#:#Burmesisch
 meta#:#meta_l_na#:#Nauruisch
 meta#:#meta_l_ne#:#Nepalesisch
-meta#:#meta_l_nl#:#HollÃ¤ndisch
+meta#:#meta_l_nl#:#Holländisch
 meta#:#meta_l_no#:#Norwegisch
 meta#:#meta_l_oc#:#Okzitanisch
 meta#:#meta_l_om#:#Oromo
@@ -2808,9 +2808,9 @@ meta#:#meta_l_pl#:#Polnisch
 meta#:#meta_l_ps#:#Paschtu
 meta#:#meta_l_pt#:#Portugisisch
 meta#:#meta_l_qu#:#Quechua
-meta#:#meta_l_rm#:#RÃ¤toromanisch
+meta#:#meta_l_rm#:#Rätoromanisch
 meta#:#meta_l_rn#:#Kurundisch
-meta#:#meta_l_ro#:#RumÃ¤nisch
+meta#:#meta_l_ro#:#Rumänisch
 meta#:#meta_l_ru#:#Russisch
 meta#:#meta_l_rw#:#Kinyarwanda
 meta#:#meta_l_sa#:#Sanskrit
@@ -2825,7 +2825,7 @@ meta#:#meta_l_sn#:#Shona
 meta#:#meta_l_so#:#Somalisch
 meta#:#meta_l_sq#:#Albanisch
 meta#:#meta_l_sr#:#Serbisch
-meta#:#meta_l_ss#:#SwasilÃ¤ndisch
+meta#:#meta_l_ss#:#Swasiländisch
 meta#:#meta_l_st#:#Sesothisch
 meta#:#meta_l_su#:#Sundanesisch
 meta#:#meta_l_sv#:#Schwedisch
@@ -2839,7 +2839,7 @@ meta#:#meta_l_tk#:#Turkmenisch
 meta#:#meta_l_tl#:#Tagalog
 meta#:#meta_l_tn#:#Sezuan
 meta#:#meta_l_to#:#Tongaisch
-meta#:#meta_l_tr#:#TÃ¼rkisch
+meta#:#meta_l_tr#:#Türkisch
 meta#:#meta_l_ts#:#Tsongaisch
 meta#:#meta_l_tt#:#Tatarisch
 meta#:#meta_l_tw#:#Twi
@@ -2848,7 +2848,7 @@ meta#:#meta_l_uk#:#Ukrainisch
 meta#:#meta_l_ur#:#Urdu
 meta#:#meta_l_uz#:#Usbekisch
 meta#:#meta_l_vi#:#Vietnamesisch
-meta#:#meta_l_vo#:#VolapÃ¼k
+meta#:#meta_l_vo#:#Volapük
 meta#:#meta_l_wo#:#Wolof
 meta#:#meta_l_xh#:#Xhosa
 meta#:#meta_l_yi#:#Jiddish
@@ -2859,7 +2859,7 @@ meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Sprache
 meta#:#meta_learner#:#Lernender
 meta#:#meta_learning_resource_type#:#Art des Lernmittels
-meta#:#meta_lecture#:#LektÃ¼re
+meta#:#meta_lecture#:#Lektüre
 meta#:#meta_lifecycle#:#Lebenszyklus
 meta#:#meta_linear#:#Linear
 meta#:#meta_local_file#:#Lokale Datei
@@ -2876,25 +2876,25 @@ meta#:#meta_mixed#:#Gemischt
 meta#:#meta_ms_windows#:#MS-Windows
 meta#:#meta_multi_os#:#Multi-OS
 meta#:#meta_name#:#Name
-meta#:#meta_narrative_text#:#ErzÃ¤hlender Text
+meta#:#meta_narrative_text#:#Erzählender Text
 meta#:#meta_networked#:#Vernetzt
 meta#:#meta_new_element#:#Neues Element
 meta#:#meta_no#:#Nein
-meta#:#meta_no_annotation#:#Keine Metadaten fÃ¼r den Bereich 'Anmerkung' vorhanden.
-meta#:#meta_no_classification#:#Keine Metadaten fÃ¼r den Bereich 'Klassifizierung' vorhanden.
-meta#:#meta_no_educational#:#Keine Metadaten fÃ¼r den Bereich 'Ausbildung' vorhanden.
-meta#:#meta_no_lifecycle#:#Keine Metadaten fÃ¼r den Bereich 'Lebenszyklus' vorhanden.
-meta#:#meta_no_meta_metadata#:#Keine Metadaten fÃ¼r den Bereich 'Meta-Metadaten' vorhanden.
-meta#:#meta_no_relation#:#Keine Metadate fÃ¼r den Bereich 'Beziehungen' vorhanden.
-meta#:#meta_no_rights#:#Keine Metadaten fÃ¼r den Bereich 'Rechte und Lizenzen' vorhanden.
-meta#:#meta_no_technical#:#Keine Metadaten fÃ¼r den Bereich 'Technische Angaben' vorhanden.
+meta#:#meta_no_annotation#:#Keine Metadaten für den Bereich 'Anmerkung' vorhanden.
+meta#:#meta_no_classification#:#Keine Metadaten für den Bereich 'Klassifizierung' vorhanden.
+meta#:#meta_no_educational#:#Keine Metadaten für den Bereich 'Ausbildung' vorhanden.
+meta#:#meta_no_lifecycle#:#Keine Metadaten für den Bereich 'Lebenszyklus' vorhanden.
+meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Bereich 'Meta-Metadaten' vorhanden.
+meta#:#meta_no_relation#:#Keine Metadate für den Bereich 'Beziehungen' vorhanden.
+meta#:#meta_no_rights#:#Keine Metadaten für den Bereich 'Rechte und Lizenzen' vorhanden.
+meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben' vorhanden.
 meta#:#meta_none#:#Keins
 meta#:#meta_operating_system#:#Betriebssystem
 meta#:#meta_or_composite#:#...oder zusammengefasst...
 meta#:#meta_other#:#Andere
 meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
 meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_please_select#:#Bitte wÃ¤hlen Sie
+meta#:#meta_please_select#:#Bitte wählen Sie
 meta#:#meta_prerequisite#:#Voraussetzung
 meta#:#meta_problem_statement#:#Problemstellung
 meta#:#meta_publisher#:#Herausgeber
@@ -2904,9 +2904,9 @@ meta#:#meta_reference#:#Referenz
 meta#:#meta_references#:#Referenzen
 meta#:#meta_relation#:#Beziehung
 meta#:#meta_requirement#:#Anforderung
-meta#:#meta_requires#:#BenÃ¶tigt
+meta#:#meta_requires#:#Benötigt
 meta#:#meta_resource#:#Ressource
-meta#:#meta_revised#:#Ãœberarbeitete Fassung
+meta#:#meta_revised#:#Überarbeitete Fassung
 meta#:#meta_rights#:#Rechte und Lizenzen
 meta#:#meta_role#:#Rolle
 meta#:#meta_school#:#Schule
@@ -2914,7 +2914,7 @@ meta#:#meta_security_level#:#Sicherheitsstufe
 meta#:#meta_self_assessment#:#Selbsttest
 meta#:#meta_semantic_density#:#Semantische Dichte
 meta#:#meta_simulation#:#Simulation
-meta#:#meta_size#:#GrÃ¶ÃŸe
+meta#:#meta_size#:#Größe
 meta#:#meta_skill_level#:#Stufe der Fertigkeit
 meta#:#meta_slide#:#Folie
 meta#:#meta_source#:#Quelle
@@ -2930,7 +2930,7 @@ meta#:#meta_training#:#Training
 meta#:#meta_type#:#Typ
 meta#:#meta_typical_age_range#:#Typische Altersspanne
 meta#:#meta_typical_learning_time#:#Typische Lerndauer
-meta#:#meta_unavailable#:#Nicht verfÃ¼gbar
+meta#:#meta_unavailable#:#Nicht verfügbar
 meta#:#meta_unix#:#Unix
 meta#:#meta_value#:#Eintrag
 meta#:#meta_version#:#Version
@@ -2940,30 +2940,30 @@ meta#:#meta_very_high#:#Sehr hoch
 meta#:#meta_very_low#:#Sehr niedrig
 meta#:#meta_yes#:#Ja
 search#:#search_all_results#:#Alle Resultate
-search#:#search_concatenation#:#VerknÃ¼pfung
+search#:#search_concatenation#:#Verknüpfung
 search#:#search_content#:#Seiteninhalt
 search#:#search_dbk_content#:#Digitale Bibliothek (Inhalt)
 search#:#search_dbk_meta#:#Digitale Bibliothek (Metadaten)
-search#:#search_delete_sure#:#Sind Sie, dass dieses Objekt mit seinem Inhalt gelÃ¶scht werden soll?
+search#:#search_delete_sure#:#Sind Sie, dass dieses Objekt mit seinem Inhalt gelöscht werden soll?
 search#:#search_group#:#Gruppen
 search#:#search_in_result#:#In den Resultaten suchen
 search#:#search_lm_content#:#Lernmaterialien (Inhalt)
 search#:#search_lm_meta#:#Lernmaterialien (Metadaten)
 search#:#search_meta#:#Metadaten
-search#:#search_minimum_three#:#Die Suchbegriffe mÃ¼ssen mindestens 3 Zeichen lang sein
-search#:#search_move_folder_not_allowed#:#Ordner kÃ¶nnen nicht verschoben werden.
+search#:#search_minimum_three#:#Die Suchbegriffe müssen mindestens 3 Zeichen lang sein
+search#:#search_move_folder_not_allowed#:#Ordner können nicht verschoben werden.
 search#:#search_move_to#:#Verschieben nach:
 search#:#search_my_search_results#:#Meine Suchergebnisse
 search#:#search_new_folder#:#Neuer Ordner
-search#:#search_no_category#:#Sie haben keine Suchkategorie ausgewÃ¤hlt
+search#:#search_no_category#:#Sie haben keine Suchkategorie ausgewählt
 search#:#search_no_match#:#Ihre Suche ergab keine Treffer
 search#:#search_no_results_saved#:#Es sind keine Ergebnisse gespeichert.
-search#:#search_no_search_term#:#Sie haben keinen Suchbegriff gewÃ¤hlt
+search#:#search_no_search_term#:#Sie haben keinen Suchbegriff gewählt
 search#:#search_no_selection#:#Sie haben keine Auswahl getroffen.
 search#:#search_object_renamed#:#Das Objekt wurde umbenannt.
-search#:#search_objects_deleted#:#Das Objekt wurde gelÃ¶scht.
+search#:#search_objects_deleted#:#Das Objekt wurde gelöscht.
 search#:#search_objects_moved#:#Die Objekte wurden verschoben.
-search#:#search_one_action#:#Bitte wÃ¤hlen Sie eine Aktion.
+search#:#search_one_action#:#Bitte wählen Sie eine Aktion.
 search#:#search_rename_title#:#Titel umbenennen
 search#:#search_results_saved#:#Die Suchergebnisse wurden gespeichert
 search#:#search_save_as_select#:#Speichern unter:
@@ -2971,29 +2971,29 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_no_results_saved#:#Sie haben noch keine Suchergebnisse gespeichert
 search#:#search_search_results#:#Suchergebnisse
 search#:#search_search_term#:#Suchbegriff
-search#:#search_select_exactly_one_object#:#Sie mÃ¼ssen genau ein Objekt auswÃ¤hlen.
-search#:#search_select_one#:#Bitte wÃ¤hlen Sie einen Ordner aus
-search#:#search_select_one_action#:#--Bitte wÃ¤hlen Sie eine Aktion--
-search#:#search_select_one_folder_select#:#--Bitte wÃ¤hlen Sie einen Ordner--
-search#:#search_select_one_result#:#Bitte wÃ¤hlen Sie mindestens ein Suchergebnis aus
-search#:#search_select_one_select#:#--Bitte wÃ¤hlen Sie einen Ordner--
+search#:#search_select_exactly_one_object#:#Sie müssen genau ein Objekt auswählen.
+search#:#search_select_one#:#Bitte wählen Sie einen Ordner aus
+search#:#search_select_one_action#:#--Bitte wählen Sie eine Aktion--
+search#:#search_select_one_folder_select#:#--Bitte wählen Sie einen Ordner--
+search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebnis aus
+search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-survey#:#add_category#:#Kategorie anfÃ¼gen
+survey#:#add_category#:#Kategorie anfügen
 survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit for the standard numbers you want to add as categories.###07 Jun 2004 new variable
-survey#:#add_phrase#:#Phrase anfÃ¼gen
-survey#:#add_phrase_introduction#:#Bitte wÃ¤hlen Sie eine Phrase aus:
+survey#:#add_phrase#:#Phrase anfügen
+survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###31 May 2004 new variable
 survey#:#answer#:#Answer###27 May 2004 new variable
-survey#:#apply#:#Ãœbernehmen
+survey#:#apply#:#Übernehmen
 survey#:#arithmetic_mean#:#Arithmetic mean###02 Jun 2004 new variable
 survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the following questionblock(s) to the survey?###10 Jun 2004 new variable
-survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fragee(n) der Umfrage anfÃ¼gen wollen?
+survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fragee(n) der Umfrage anfügen wollen?
 survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#category#:#Kategorie
-survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) lÃ¶schen wollen?
-survey#:#category_delete_select_none#:#Bitte wÃ¤hlen Sie mindestens eine Kategorie aus, um den LÃ¶schvorgang durchzufÃ¼hren!
+survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
+survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
 survey#:#category_nr_selected#:#Number of users that selected this category###04 Jun 2004 new variable
 survey#:#concatenation#:#Concatenation###27 May 2004 new variable
 survey#:#constraints#:#Constraints###26 May 2004 new variable
@@ -3006,12 +3006,12 @@ survey#:#dc_agree#:#einverstanden
 survey#:#dc_always#:#immer
 survey#:#dc_definitelyfalse#:#eindeutig falsch
 survey#:#dc_definitelytrue#:#eindeutig wahr
-survey#:#dc_desired#:#erwÃ¼nscht
+survey#:#dc_desired#:#erwünscht
 survey#:#dc_disagree#:#nicht einverstanden
 survey#:#dc_fair#:#angemessen
 survey#:#dc_false#:#falsch
 survey#:#dc_good#:#gut
-survey#:#dc_manytimes#:#hÃ¤ufig
+survey#:#dc_manytimes#:#häufig
 survey#:#dc_morenegative#:#eher negativ
 survey#:#dc_morepositive#:#eher positiv
 survey#:#dc_mostcertainly#:#absolut sicher
@@ -3022,18 +3022,18 @@ survey#:#dc_neutral#:#neutral
 survey#:#dc_never#:#nie
 survey#:#dc_no#:#nein
 survey#:#dc_notacceptable#:#inakzeptabel
-survey#:#dc_poor#:#dÃ¼rftig
+survey#:#dc_poor#:#dürftig
 survey#:#dc_rarely#:#selten
 survey#:#dc_should#:#sollte
 survey#:#dc_shouldnot#:#sollte nicht
 survey#:#dc_sometimes#:#manchmal
 survey#:#dc_stronglyagree#:#absolut einverstanden
-survey#:#dc_stronglydesired#:#abolut erwÃ¼nscht
+survey#:#dc_stronglydesired#:#abolut erwünscht
 survey#:#dc_stronglydisagree#:#absolut nicht einverstanden
-survey#:#dc_stronglyundesired#:#absolut nicht erwÃ¼nscht
+survey#:#dc_stronglyundesired#:#absolut nicht erwünscht
 survey#:#dc_true#:#wahr
 survey#:#dc_undecided#:#unentschlossen
-survey#:#dc_undesired#:#unerwÃ¼nscht
+survey#:#dc_undesired#:#unerwünscht
 survey#:#dc_varying#:#unterschiedlich
 survey#:#dc_verygood#:#sehr gut
 survey#:#dc_yes#:#ja
@@ -3043,10 +3043,10 @@ survey#:#display_all_available#:#Display all available###10 Jun 2004 new variabl
 survey#:#dp_standard_attitude_agree5#:#Standard-Haltung (absolut einverstanden-einverstanden-unentschlossen-nicht einverstanden-absolut nicht einverstanden)
 survey#:#dp_standard_attitude_agree_disagree#:#Standard-Haltung (einverstanden-nicht einverstanden)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard-Haltung (einverstanden-unentschlossen-nicht einverstanden)
-survey#:#dp_standard_attitude_desired5#:#Standard-Haltung (absolut erwÃ¼nscht-erwÃ¼nscht-neutral-unerwÃ¼nscht-absolut unerwÃ¼nscht)
-survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard-Haltung (erwÃ¼nscht-neutral-unerwÃ¼nscht)
-survey#:#dp_standard_attitude_desired_undesired#:#Standard-Haltung (erwÃ¼nscht-unerwÃ¼nscht)
-survey#:#dp_standard_attitude_good5#:#Standard-Haltung (sehr gut-gut-angemessen-dÃ¼rftig-inakzeptabel)
+survey#:#dp_standard_attitude_desired5#:#Standard-Haltung (absolut erwünscht-erwünscht-neutral-unerwünscht-absolut unerwünscht)
+survey#:#dp_standard_attitude_desired_neutral_undesired#:#Standard-Haltung (erwünscht-neutral-unerwünscht)
+survey#:#dp_standard_attitude_desired_undesired#:#Standard-Haltung (erwünscht-unerwünscht)
+survey#:#dp_standard_attitude_good5#:#Standard-Haltung (sehr gut-gut-angemessen-dürftig-inakzeptabel)
 survey#:#dp_standard_attitude_good_fair_notacceptable#:#Standard-Haltung (gut-angemessen-inakzeptabel)
 survey#:#dp_standard_attitude_good_notacceptable#:#Standard-Haltung (gut-inakzeptabel)
 survey#:#dp_standard_attitude_must5#:#Standard-Haltung (muss-sollte-unentschlossen-sollte nicht-darf nicht)
@@ -3055,7 +3055,7 @@ survey#:#dp_standard_attitude_should_undecided_shouldnot#:#Standard-Haltung (sol
 survey#:#dp_standard_behaviour_certainly5#:#Standard-Verhaltensweisea (absolut sicher-eher positiv-unentschlossen-eher negativ-abolut unsicher)
 survey#:#dp_standard_behaviour_yes_no#:#Standard-Verhaltensweise (ja-nein)
 survey#:#dp_standard_behaviour_yes_undecided_no#:#Standard-Verhaltensweise (ja-unentschlossen-nein)
-survey#:#dp_standard_beliefs_always5#:#Standard-Vorstellungen (immer-hÃ¤ufig-unterschiedlich-selten-nie)
+survey#:#dp_standard_beliefs_always5#:#Standard-Vorstellungen (immer-häufig-unterschiedlich-selten-nie)
 survey#:#dp_standard_beliefs_always_never#:#Standard-Vorstellungen (immer-nie)
 survey#:#dp_standard_beliefs_always_sometimes_never#:#Standard-Vorstellungen (immer-manchmal-nie)
 survey#:#dp_standard_beliefs_true5#:#Standard-Vorstellungen (eindeutig wahr-wahr-unentschlossen-falsch-eindeutig falsch)
@@ -3073,16 +3073,16 @@ survey#:#evaluation_access#:#Evaluationszugriff
 survey#:#excel#:#Microsoft Excel###12 Jun 2004 new variable
 survey#:#exit#:#Exit###01 Jun 2004 new variable
 survey#:#export_data_as#:#Export data as###12 Jun 2004 new variable
-survey#:#fill_out_all_category_fields#:#Bitte fÃ¼llen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
-survey#:#fill_out_all_required_fields_add_category#:#Sie mÃ¼ssen zuerst alle Pflichtfelder ausfÃ¼llen, bevor Sie Kategorien anfÃ¼gen kÃ¶nnen!
+survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
+survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
 survey#:#filter#:#Filter
 survey#:#finished#:#finished###07 Jun 2004 new variable
 survey#:#found_questions#:#Found questions###10 Jun 2004 new variable
 survey#:#geometric_mean#:#Geometric mean###02 Jun 2004 new variable
 survey#:#given_answers#:#Given answers###04 Jun 2004 new variable
 survey#:#harmonic_mean#:#Harmonic mean###02 Jun 2004 new variable
-survey#:#insert_after#:#EinfÃ¼gen hinter
-survey#:#insert_before#:#EinfÃ¼gen vor
+survey#:#insert_after#:#Einfügen hinter
+survey#:#insert_before#:#Einfügen vor
 survey#:#insert_missing_question#:#Please select at least one question to insert it into the survey!###10 Jun 2004 new variable
 survey#:#insert_missing_questionblock#:#Please select at least one questionblock to insert it into the survey!###10 Jun 2004 new variable
 survey#:#introduction#:#Einleitung
@@ -3105,15 +3105,15 @@ survey#:#mode_text#:#Most selected value (Text)###12 Jun 2004 new variable
 survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachauswahl)
 survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
 survey#:#no_available_constraints#:#There are no constraints defined!###26 May 2004 new variable
-survey#:#no_category_selected_for_deleting#:#Bitte wÃ¤hlen Sie mindestens eine Kategorie aus, um den LÃ¶schvorgang durchzufÃ¼hren!
-survey#:#no_category_selected_for_move#:#Bitte wÃ¤hlen Sie mindestens eine Kategorie zum Verschieben aus!
+survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
+survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Kategorie zum Verschieben aus!
 survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!###26 May 2004 new variable
-survey#:#no_question_selected_for_move#:#Bitte wÃ¤hlen Sie mindestens eine Frage zum Verschieben aus!
-survey#:#no_question_selected_for_removal#:#Bitte wÃ¤hlen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
+survey#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus!
+survey#:#no_question_selected_for_removal#:#Bitte wählen Sie mindestens eine Frage und/oder einen Fragenblock zum Entfernen aus!
 survey#:#no_questionblocks_available#:#There are no questionblocks available###10 Jun 2004 new variable
-survey#:#no_questions_available#:#Es sind keine Fragen verfÃ¼gbar!
+survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_search_results#:#There are no search results!###10 Jun 2004 new variable
-survey#:#no_target_selected_for_move#:#Sie mÃ¼ssen eine Zielposition auswÃ¤hlen!
+survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 survey#:#no_user_or_group_selected#:#Please check an option what are you searching for (users and/or groups)!###27 May 2004 new variable
 survey#:#nominal_question_not_checked#:#Please check one of the offered answers!###01 Jun 2004 new variable
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
@@ -3130,38 +3130,38 @@ survey#:#percentage_of_entered_values#:#Percentage of users that entered this va
 survey#:#percentage_of_selections#:#Percentage of users that selected this category###04 Jun 2004 new variable
 survey#:#predefined_users#:#Predefined user set###27 May 2004 new variable
 survey#:#preview#:#Vorschau
-survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) lÃ¶schen wollen?
+survey#:#qpl_confirm_delete_questions#:#Sind Sie sicher, dass Sie die folgende(n) Frage(n) löschen wollen?
 survey#:#qpl_copy_select_none#:#Please check at least one question to copy it!###07 Jun 2004 new variable
-survey#:#qpl_define_questionblock_select_missing#:#Bitte wÃ¤hlen Sie mindestens zwei Fragen aus, um einen Fragenblock zu definieren!
-survey#:#qpl_delete_rbac_error#:#Sie verfÃ¼gen nicht Ã¼ber die erforderlichen Rechte, um die Frage(n) zu lÃ¶schen!
-survey#:#qpl_delete_select_none#:#Bitte wÃ¤hlen Sie mindestens eine Frage aus, um den LÃ¶schvorgang durchzufÃ¼hren!
+survey#:#qpl_define_questionblock_select_missing#:#Bitte wählen Sie mindestens zwei Fragen aus, um einen Fragenblock zu definieren!
+survey#:#qpl_delete_rbac_error#:#Sie verfügen nicht über die erforderlichen Rechte, um die Frage(n) zu löschen!
+survey#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang durchzuführen!
 survey#:#qpl_duplicate_select_none#:#Please check at least one question to duplicate it!###07 Jun 2004 new variable
 survey#:#qpl_past_questions_confirmation#:#Are you sure you want to paste the following question(s) in the question pool?###07 Jun 2004 new variable
-survey#:#qpl_questions_deleted#:#Frage(n) gelÃ¶scht
+survey#:#qpl_questions_deleted#:#Frage(n) gelöscht
 survey#:#qpl_questions_pasted#:#Question(s) pasted.###07 Jun 2004 new variable
 survey#:#qpl_savephrase_empty#:#Please enter a phrase title!###07 Jun 2004 new variable
 survey#:#qpl_savephrase_exists#:#The phrase title already exists! Please enter another phrase title.###07 Jun 2004 new variable
-survey#:#qpl_unfold_select_none#:#Bitte wÃ¤hlen Sie mindestens einen Fragenblock aus, um einen Fragenblock aufzulÃ¶sen!
+survey#:#qpl_unfold_select_none#:#Bitte wählen Sie mindestens einen Fragenblock aus, um einen Fragenblock aufzulösen!
 survey#:#qt_metric#:#Metrische Frage
 survey#:#qt_nominal#:#Nominale Frage
 survey#:#qt_ordinal#:#Ordinale Frage
 survey#:#qt_text#:#Textfrage
 survey#:#question_has_constraints#:#Constraints###02 Jun 2004 new variable
 survey#:#question_obligatory#:#The question is obligatory!###02 Jun 2004 new variable
-survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermÃ¶glichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool lÃ¶schen mÃ¼ssen, wenn Sie sie nicht behalten wollen.
+survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 survey#:#question_type#:#Fragentyp
 survey#:#questionblock#:#Fragenblock
 survey#:#questionblock_has_constraints#:#Constraints###02 Jun 2004 new variable
 survey#:#questionblocks#:#Questionblocks###10 Jun 2004 new variable
 survey#:#questions#:#Questions###10 Jun 2004 new variable
-survey#:#questions_inserted#:#Frage(n) angefÃ¼gt
+survey#:#questions_inserted#:#Frage(n) angefügt
 survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragentyp
 survey#:#ratio_absolute#:#Ratio-Absolute###22 May 2004 new variable
 survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#remove_question#:#Entfernen
-survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder FragenblÃ¶cke aus dem Test enfernen wollen?
-survey#:#reset_filter#:#Filter zurÃ¼cksetzen
+survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus dem Test enfernen wollen?
+survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#resume_survey#:#Resume the survey###31 May 2004 new variable
 survey#:#save_phrase#:#Save as phrase###07 Jun 2004 new variable
 survey#:#save_phrase_categories_not_checked#:#Please check at least two categories to save categories in a new phrase!###07 Jun 2004 new variable
@@ -3177,8 +3177,8 @@ survey#:#search_users#:#Users###27 May 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
 survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
 survey#:#select_relation#:#Select a relation###26 May 2004 new variable
-survey#:#select_target_position_for_move#:#Bitte wÃ¤hlen Sie eine Zielposition aus, um Kategorien zu verschieben und drÃ¼cken Sie dann eine der beiden EinfÃ¼ge-SchaltflÃ¤chen!
-survey#:#select_target_position_for_move_question#:#Bitte wÃ¤hlen Sie eine Zielposition aus, um Fragen zu verschieben und drÃ¼cken Sie dann eine der beiden EinfÃ¼ge-SchaltflÃ¤chen!
+survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Kategorien zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
+survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_value#:#Select a value###26 May 2004 new variable
 survey#:#set_filter#:#Filter setzen
 survey#:#start_date#:#Startdatum
@@ -3197,7 +3197,7 @@ survey#:#survey_skip_previous#:#<<< skip and previous page###01 Jun 2004 new var
 survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new variable
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
-survey#:#unfold#:#Fragenblock auflÃ¶sen
+survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
 survey#:#uploaded_material#:#Hochgeladene Materialien
 survey#:#upper_limit#:#Upper limit###07 Jun 2004 new variable
