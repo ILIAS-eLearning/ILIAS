@@ -93,8 +93,6 @@ administration#:#systemcheck#:#System check
 administration#:#tree_corrupt#:#Tree is corrupted! See scan log for details.
 administration#:#view_last_log#:#View last Scan log
 administration#:#view_log#:#View details
-assessment#:#maxchars#:#Maximum number of characters
-assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action
 assessment#:#add_answer#:#Add answer
@@ -138,8 +136,8 @@ assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle#:#Circle
 assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
-assessment#:#cloze_text#:#Close text
 assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.
+assessment#:#cloze_text#:#Close text
 assessment#:#code#:#Code
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?
 assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active test. Do you want to change the original of the question too?
@@ -151,6 +149,7 @@ assessment#:#create_gaps#:#Create gaps
 assessment#:#create_imagemap#:#Create an Image map
 assessment#:#create_new#:#Create new
 assessment#:#delete_area#:#Delete area
+assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
@@ -248,15 +247,15 @@ assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the quest
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
-assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed
-assessment#:#log_modified_test#:#The test was modified
 assessment#:#log_create_new_test#:#Created new test
-assessment#:#log_question_removed#:#Question removed
-assessment#:#log_question_position_changed#:#Question position changed
-assessment#:#log_question_added#:#Question added at position
+assessment#:#log_mark_added#:#Mark added
 assessment#:#log_mark_changed#:#Mark changed
 assessment#:#log_mark_removed#:#Mark removed
-assessment#:#log_mark_added#:#Mark added
+assessment#:#log_modified_test#:#The test was modified
+assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed
+assessment#:#log_question_added#:#Question added at position
+assessment#:#log_question_position_changed#:#Question position changed
+assessment#:#log_question_removed#:#Question removed
 assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Mark schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions
@@ -266,6 +265,7 @@ assessment#:#matching_pair#:#Matching pair
 assessment#:#material#:#Material
 assessment#:#material_download#:#Material to download
 assessment#:#material_file#:#Material file
+assessment#:#maxchars#:#Maximum number of characters
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!
 assessment#:#meaning#:#Meaning
 assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.
@@ -660,15 +660,9 @@ common#:#access#:#Access
 common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires
 common#:#action#:#Action
-common#:#upload_error_file_not_found#:#Upload error: File not found.
-common#:#file_is_infected#:#The file is infected by a virus.
-common#:#cleaned_file#:#File has been cleaned.
-common#:#repeat_scan#:#Repeating virus scan...
-common#:#repeat_scan_failed#:#Repeat scan failed.
-common#:#repeat_scan_succeded#:#Repeat scan succeded.
-common#:#cleaning_failed#:#Cleaning failed.
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
+common#:#activate_assessment_logging#:#Activate Test&Assessment logging
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
 common#:#activate_tracking#:#Activate Tracking
 common#:#activation#:#Activation
@@ -733,11 +727,10 @@ common#:#are_you_sure#:#Are you sure?
 common#:#articels_unread#:#Unread articels:
 common#:#as_of#:#as of
 common#:#assessment_settings#:#Test&Assessment administration settings
-common#:#activate_assessment_logging#:#Activate Test&Assessment logging
-common#:#assf_write#:#Edit Test&Assessment administration
 common#:#assf_edit_permission#:#Change permission settings
 common#:#assf_read#:#Access Test&Assessment administration
 common#:#assf_visible#:#Test&Assessment administration is visible
+common#:#assf_write#:#Edit Test&Assessment administration
 common#:#assign#:#Assign
 common#:#assign_global_role#:#Assign to global role
 common#:#assign_lo_forum#:#Assign LO Forum
@@ -887,6 +880,8 @@ common#:#choose_language#:#Choose Your Language
 common#:#choose_location#:#Choose Location
 common#:#choose_only_one_language#:#Please choose only one language
 common#:#city#:#City, State
+common#:#cleaned_file#:#File has been cleaned.
+common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Clear
 common#:#clear_clipboard#:#Empty Clipboard
 common#:#client ip#:#Client IP
@@ -1132,6 +1127,7 @@ common#:#file_added#:#File uploaded
 common#:#file_delete#:#Delete File
 common#:#file_edit#:#Edit File
 common#:#file_edit_permission#:#Change Permission settings
+common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_new#:#New File
 common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
@@ -2038,6 +2034,9 @@ common#:#remove_personal_picture#:#Remove
 common#:#remove_translation#:#Remove translation
 common#:#rename#:#Rename
 common#:#rename_file#:#Rename File
+common#:#repeat_scan#:#Repeating virus scan...
+common#:#repeat_scan_failed#:#Repeat scan failed.
+common#:#repeat_scan_succeded#:#Repeat scan succeded.
 common#:#replace_file#:#Replace File
 common#:#reply#:#Reply
 common#:#repository#:#Repository
@@ -2316,6 +2315,7 @@ common#:#up#:#Up
 common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
 common#:#upload#:#Upload
+common#:#upload_error_file_not_found#:#Upload error: File not found.
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
 common#:#url#:#URL
 common#:#url_a#:#a URL
@@ -2421,7 +2421,6 @@ content#:#cont_TableContent#:#Table Content
 content#:#cont_Unordered#:#Unordered
 content#:#cont_act_number#:#Chapter Numeration
 content#:#cont_active#:#Enable Menu
-content#:#cont_create_export_file#:#Create Export File
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition
@@ -2478,6 +2477,7 @@ content#:#cont_coords#:#Coordinates
 content#:#cont_copy_object#:#copy object
 content#:#cont_copy_to_clipboard#:#Copy to clipboard
 content#:#cont_create_dir#:#Create Directory
+content#:#cont_create_export_file#:#Create Export File
 content#:#cont_create_export_file_html#:#Create Export File (HTML)
 content#:#cont_create_export_file_xml#:#Create Export File (XML)
 content#:#cont_create_folder#:#Create Folder
@@ -2680,6 +2680,7 @@ content#:#cont_purpose#:#Purpose
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Reference
 content#:#cont_remove_fullscreen#:#Remove Full Screen
+content#:#cont_removeiln#:#really remove internal link ?
 content#:#cont_reset_definitions#:#Reset definition positions
 content#:#cont_reset_pictures#:#Reset picture positions
 content#:#cont_resource#:#Resource
@@ -3232,32 +3233,14 @@ forum#:#forums_your_reply#:#Your Reply
 forum#:#frm_default_view#:#Default view
 forum#:#frm_title_required#:#Please insert a title.
 forum#:#is_read#:#mark read
-jscalendar#:#s_su#:#Su
-jscalendar#:#s_mo#:#Mo
-jscalendar#:#s_tu#:#Tu
-jscalendar#:#s_we#:#We
-jscalendar#:#s_th#:#Th
-jscalendar#:#s_fr#:#Fr
-jscalendar#:#s_sa#:#Sa
-jscalendar#:#l_su#:#Sunday
-jscalendar#:#l_mo#:#Monday
-jscalendar#:#l_tu#:#Tuesday
-jscalendar#:#l_we#:#Wednesday
-jscalendar#:#l_th#:#Thursday
-jscalendar#:#l_fr#:#Friday
-jscalendar#:#l_sa#:#Saturday
-jscalendar#:#s_01#:#Jan
-jscalendar#:#s_02#:#Feb
-jscalendar#:#s_03#:#Mar
-jscalendar#:#s_04#:#Apr
-jscalendar#:#s_05#:#May
-jscalendar#:#s_06#:#Jun
-jscalendar#:#s_07#:#Jul
-jscalendar#:#s_08#:#Aug
-jscalendar#:#s_09#:#Sep
-jscalendar#:#s_10#:#Oct
-jscalendar#:#s_11#:#Nov
-jscalendar#:#s_12#:#Dec
+jscalendar#:#about_calendar#:#About the calendar
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
+jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.
+jscalendar#:#close#:#Close
+jscalendar#:#day_first#:#Display %s first
+jscalendar#:#def_date_format#:#%Y-%m-%d
+jscalendar#:#drag_to_move#:#Drag to move
+jscalendar#:#go_today#:#Go Today
 jscalendar#:#l_01#:#January
 jscalendar#:#l_02#:#Feburary
 jscalendar#:#l_03#:#March
@@ -3270,26 +3253,44 @@ jscalendar#:#l_09#:#September
 jscalendar#:#l_10#:#October
 jscalendar#:#l_11#:#November
 jscalendar#:#l_12#:#December
-jscalendar#:#about_calendar#:#About the calendar
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.
-jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.
-jscalendar#:#prev_year#:#Prev. year (hold for menu)
-jscalendar#:#prev_month#:#Prev. month (hold for menu)
-jscalendar#:#go_today#:#Go Today
+jscalendar#:#l_fr#:#Friday
+jscalendar#:#l_mo#:#Monday
+jscalendar#:#l_sa#:#Saturday
+jscalendar#:#l_su#:#Sunday
+jscalendar#:#l_th#:#Thursday
+jscalendar#:#l_tu#:#Tuesday
+jscalendar#:#l_we#:#Wednesday
 jscalendar#:#next_month#:#Next month (hold for menu)
 jscalendar#:#next_year#:#Next year (hold for menu)
 jscalendar#:#open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)
-jscalendar#:#select_date#:#Select date
-jscalendar#:#drag_to_move#:#Drag to move
 jscalendar#:#part_today#:# (today)
-jscalendar#:#day_first#:#Display %s first
-jscalendar#:#close#:#Close
-jscalendar#:#today#:#Today
+jscalendar#:#prev_month#:#Prev. month (hold for menu)
+jscalendar#:#prev_year#:#Prev. year (hold for menu)
+jscalendar#:#s_01#:#Jan
+jscalendar#:#s_02#:#Feb
+jscalendar#:#s_03#:#Mar
+jscalendar#:#s_04#:#Apr
+jscalendar#:#s_05#:#May
+jscalendar#:#s_06#:#Jun
+jscalendar#:#s_07#:#Jul
+jscalendar#:#s_08#:#Aug
+jscalendar#:#s_09#:#Sep
+jscalendar#:#s_10#:#Oct
+jscalendar#:#s_11#:#Nov
+jscalendar#:#s_12#:#Dec
+jscalendar#:#s_fr#:#Fr
+jscalendar#:#s_mo#:#Mo
+jscalendar#:#s_sa#:#Sa
+jscalendar#:#s_su#:#Su
+jscalendar#:#s_th#:#Th
+jscalendar#:#s_tu#:#Tu
+jscalendar#:#s_we#:#We
+jscalendar#:#select_date#:#Select date
+jscalendar#:#time#:#Time
 jscalendar#:#time_part#:#(Shift-)Click or drag to change value
-jscalendar#:#def_date_format#:#%Y-%m-%d
+jscalendar#:#today#:#Today
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
-jscalendar#:#time#:#Time
 mail#:#also_as_email#:#Also as Email
 mail#:#bc#:#BCC
 mail#:#forward#:#Forward
@@ -4492,4 +4493,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-content#:#cont_removeiln#:#really remove internal link ?

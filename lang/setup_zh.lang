@@ -72,6 +72,7 @@ choose_language#:#选择语言
 choose_languages#:#请选择其它语言及删除已选择的语言。
 choose_password#:#请选择口令
 city#:#城市###14 Sep 2004 content changed
+clean_command#:#Clean Command###07 Jan 2005 new variable
 client#:#客户
 client_access_mode_changed#:#客户访问方式已更改 
 client_data#:#客户信息 

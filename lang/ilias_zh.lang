@@ -154,6 +154,7 @@ assessment#:#checkbox_unchecked#:#未选上
 assessment#:#circle#:#圆周
 assessment#:#circle_click_center#:#请点击要选取的中心区域
 assessment#:#circle_click_circle#:#请点击要选取区域的周围
+assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable
 assessment#:#cloze_text#:#填充测验文本###14 Sep 2004 content changed
 assessment#:#code#:#代码###19 May 2004 new variable
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
@@ -166,6 +167,7 @@ assessment#:#create_gaps#:#创建间隔
 assessment#:#create_imagemap#:#创建一图片
 assessment#:#create_new#:#新创建
 assessment#:#delete_area#:#删除区域
+assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###07 Jan 2005 new variable
 assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s###26 Jun 2004 new variable
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!###03 Jul 2004 new variable
 assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s###23 Jun 2004 new variable
@@ -263,6 +265,15 @@ assessment#:#javaapplet_unsuccessful_saved#:#There was an error saving the quest
 assessment#:#last_update#:#上次更新
 assessment#:#legend#:#Legend###23 Mar 2004 new variable
 assessment#:#locked#:#locked###27 Apr 2004 new variable
+assessment#:#log_create_new_test#:#Created new test###07 Jan 2005 new variable
+assessment#:#log_mark_added#:#Mark added###07 Jan 2005 new variable
+assessment#:#log_mark_changed#:#Mark changed###07 Jan 2005 new variable
+assessment#:#log_mark_removed#:#Mark removed###07 Jan 2005 new variable
+assessment#:#log_modified_test#:#The test was modified###07 Jan 2005 new variable
+assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed###07 Jan 2005 new variable
+assessment#:#log_question_added#:#Question added at position###07 Jan 2005 new variable
+assessment#:#log_question_position_changed#:#Question position changed###07 Jan 2005 new variable
+assessment#:#log_question_removed#:#Question removed###07 Jan 2005 new variable
 assessment#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#match_terms_and_definitions#:#Match terms and definitions###23 Feb 2004 new variable
@@ -272,6 +283,7 @@ assessment#:#matching_pair#:# 匹配对
 assessment#:#material#:#Material###11 Mar 2004 new variable
 assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
 assessment#:#material_file#:#Material file###23 Mar 2004 new variable
+assessment#:#maxchars#:#Maximum number of characters###07 Jan 2005 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
 assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
 assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.###22 Oct 2004 new variable
@@ -322,6 +334,7 @@ assessment#:#qt_matching#:#匹配问题
 assessment#:#qt_multiple_choice_mr#:#多项选择问题（复选）
 assessment#:#qt_multiple_choice_sr#:#多项选择问题（单选）
 assessment#:#qt_ordering#:#排序问题
+assessment#:#qt_text#:#Short Answer (Text) Question###07 Jan 2005 new variable
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_title#:#Question title###17 Dec 2004 new variable
@@ -370,6 +383,7 @@ assessment#:#suggested_solution_added_successfully#:#You successfully set a sugg
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
 assessment#:#text_gap#:#文本间隔
+assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
 assessment#:#true#:#是
@@ -666,6 +680,7 @@ common#:#account_expires_subject#:#[ILIAS 3] Your account expires###25 Aug 2004 
 common#:#action#:#Action###29 Nov 2004 new variable
 common#:#action_aborted#:#执行已中止
 common#:#actions#:#执行
+common#:#activate_assessment_logging#:#Activate Test&Assessment logging###07 Jan 2005 new variable
 common#:#activate_https#:#Activate HTTPS (Payment, Login)###22 Sep 2004 new variable
 common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
 common#:#activation#:#Activation###16 Mar 2004 new variable
@@ -729,6 +744,11 @@ common#:#archive#:#存档
 common#:#are_you_sure#:#您肯定吗？
 common#:#articels_unread#:#Unread articels:###02 Dec 2004 new variable
 common#:#as_of#:#as of###29 Nov 2004 new variable
+common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
+common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
+common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
+common#:#assf_visible#:#Test&Assessment administration is visible###07 Jan 2005 new variable
+common#:#assf_write#:#Edit Test&Assessment administration###07 Jan 2005 new variable
 common#:#assign#:#指定
 common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
 common#:#assign_lo_forum#:#指定学习对象论坛
@@ -878,6 +898,8 @@ common#:#choose_language#:#选择语言
 common#:#choose_location#:#选择地点
 common#:#choose_only_one_language#:#请只选择一种语言
 common#:#city#:#城市###14 Sep 2004 content changed
+common#:#cleaned_file#:#File has been cleaned.###07 Jan 2005 new variable
+common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
 common#:#clear#:#清除
 common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#用户地址###14 Sep 2004 content changed
@@ -1123,6 +1145,7 @@ common#:#file_added#:#文件已上载
 common#:#file_delete#:#Delete File###17 Apr 2004 new variable
 common#:#file_edit#:#Edit File###16 Apr 2004 new variable
 common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
+common#:#file_is_infected#:#The file is infected by a virus.###07 Jan 2005 new variable
 common#:#file_new#:#新文件
 common#:#file_not_found#:#未找到文件！
 common#:#file_not_valid#:#文件无效！
@@ -1561,6 +1584,7 @@ common#:#login_time#:#在线时间
 common#:#login_to_ilias#:#登录到ILIAS
 common#:#logout#:#登出
 common#:#logout_text#:#您已登出ILIAS系统。您的对话已关闭。
+common#:#logs#:#Log data###07 Jan 2005 new variable
 common#:#los#:#学习对象
 common#:#los_last_visited#:#上次访问的学习对象
 common#:#mail#:#邮件
@@ -1792,6 +1816,7 @@ common#:#obj#:#对象
 common#:#obj_adm#:#系统设置###05 Mar 2004 content changed
 common#:#obj_adm_desc#:#主系统设置文件夹包含管理安装ILIAS的全部控制面板。
 common#:#obj_alm#:#AICC Learning Module###15 Jul 2004 new variable
+common#:#obj_assf#:#Test&Assessment###07 Jan 2005 new variable
 common#:#obj_auth#:#Authentication###24 Jul 2004 new variable
 common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)###24 Jul 2004 new variable
 common#:#obj_cat#:#类别
@@ -2027,6 +2052,9 @@ common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
 common#:#remove_translation#:#删除翻译
 common#:#rename#:#重新命名
 common#:#rename_file#:#Rename File###03 May 2004 new variable
+common#:#repeat_scan#:#Repeating virus scan...###07 Jan 2005 new variable
+common#:#repeat_scan_failed#:#Repeat scan failed.###07 Jan 2005 new variable
+common#:#repeat_scan_succeded#:#Repeat scan succeded.###07 Jan 2005 new variable
 common#:#replace_file#:#Replace File###29 Nov 2004 new variable
 common#:#reply#:#答复
 common#:#repository#:#库
@@ -2305,6 +2333,7 @@ common#:#up#:#向上
 common#:#update_applied#:#更新已生效
 common#:#update_language#:#更新语言
 common#:#upload#:#上载
+common#:#upload_error_file_not_found#:#Upload error: File not found.###07 Jan 2005 new variable
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
 common#:#url#:#URL###05 Nov 2004 new variable
 common#:#url_a#:#a URL###23 Oct 2004 new variable
@@ -2466,6 +2495,7 @@ content#:#cont_coords#:#坐标
 content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#创建目录
+content#:#cont_create_export_file#:#Create Export File###07 Jan 2005 new variable
 content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
 content#:#cont_create_export_file_xml#:#Create Export File (XML)###22 Dec 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
@@ -2668,6 +2698,7 @@ content#:#cont_purpose#:#用途
 content#:#cont_ref_helptext#:#例如， http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#参考
 content#:#cont_remove_fullscreen#:#Remove Fullscreen###23 Feb 2004 new variable
+content#:#cont_removeiln#:#really remove internal link ?###07 Jan 2005 new variable
 content#:#cont_reset_definitions#:#Reset definition positions###17 Sep 2004 new variable
 content#:#cont_reset_pictures#:#Reset picture positions###17 Sep 2004 new variable
 content#:#cont_resource#:#资源
@@ -3220,6 +3251,64 @@ forum#:#forums_your_reply#:#您的答复
 forum#:#frm_default_view#:#Default view###02 Dec 2004 new variable
 forum#:#frm_title_required#:#Please insert a title.###02 Dec 2004 new variable
 forum#:#is_read#:#mark read###02 Dec 2004 new variable
+jscalendar#:#about_calendar#:#About the calendar###07 Jan 2005 new variable
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.###07 Jan 2005 new variable
+jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.###07 Jan 2005 new variable
+jscalendar#:#close#:#Close###07 Jan 2005 new variable
+jscalendar#:#day_first#:#Display %s first###07 Jan 2005 new variable
+jscalendar#:#def_date_format#:#%Y-%m-%d###07 Jan 2005 new variable
+jscalendar#:#drag_to_move#:#Drag to move###07 Jan 2005 new variable
+jscalendar#:#go_today#:#Go Today###07 Jan 2005 new variable
+jscalendar#:#l_01#:#January###07 Jan 2005 new variable
+jscalendar#:#l_02#:#Feburary###07 Jan 2005 new variable
+jscalendar#:#l_03#:#March###07 Jan 2005 new variable
+jscalendar#:#l_04#:#April###07 Jan 2005 new variable
+jscalendar#:#l_05#:#May###07 Jan 2005 new variable
+jscalendar#:#l_06#:#June###07 Jan 2005 new variable
+jscalendar#:#l_07#:#July###07 Jan 2005 new variable
+jscalendar#:#l_08#:#August###07 Jan 2005 new variable
+jscalendar#:#l_09#:#September###07 Jan 2005 new variable
+jscalendar#:#l_10#:#October###07 Jan 2005 new variable
+jscalendar#:#l_11#:#November###07 Jan 2005 new variable
+jscalendar#:#l_12#:#December###07 Jan 2005 new variable
+jscalendar#:#l_fr#:#Friday###07 Jan 2005 new variable
+jscalendar#:#l_mo#:#Monday###07 Jan 2005 new variable
+jscalendar#:#l_sa#:#Saturday###07 Jan 2005 new variable
+jscalendar#:#l_su#:#Sunday###07 Jan 2005 new variable
+jscalendar#:#l_th#:#Thursday###07 Jan 2005 new variable
+jscalendar#:#l_tu#:#Tuesday###07 Jan 2005 new variable
+jscalendar#:#l_we#:#Wednesday###07 Jan 2005 new variable
+jscalendar#:#next_month#:#Next month (hold for menu)###07 Jan 2005 new variable
+jscalendar#:#next_year#:#Next year (hold for menu)###07 Jan 2005 new variable
+jscalendar#:#open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###07 Jan 2005 new variable
+jscalendar#:#part_today#:# (today)###07 Jan 2005 new variable
+jscalendar#:#prev_month#:#Prev. month (hold for menu)###07 Jan 2005 new variable
+jscalendar#:#prev_year#:#Prev. year (hold for menu)###07 Jan 2005 new variable
+jscalendar#:#s_01#:#Jan###07 Jan 2005 new variable
+jscalendar#:#s_02#:#Feb###07 Jan 2005 new variable
+jscalendar#:#s_03#:#Mar###07 Jan 2005 new variable
+jscalendar#:#s_04#:#Apr###07 Jan 2005 new variable
+jscalendar#:#s_05#:#May###07 Jan 2005 new variable
+jscalendar#:#s_06#:#Jun###07 Jan 2005 new variable
+jscalendar#:#s_07#:#Jul###07 Jan 2005 new variable
+jscalendar#:#s_08#:#Aug###07 Jan 2005 new variable
+jscalendar#:#s_09#:#Sep###07 Jan 2005 new variable
+jscalendar#:#s_10#:#Oct###07 Jan 2005 new variable
+jscalendar#:#s_11#:#Nov###07 Jan 2005 new variable
+jscalendar#:#s_12#:#Dec###07 Jan 2005 new variable
+jscalendar#:#s_fr#:#Fr###07 Jan 2005 new variable
+jscalendar#:#s_mo#:#Mo###07 Jan 2005 new variable
+jscalendar#:#s_sa#:#Sa###07 Jan 2005 new variable
+jscalendar#:#s_su#:#Su###07 Jan 2005 new variable
+jscalendar#:#s_th#:#Th###07 Jan 2005 new variable
+jscalendar#:#s_tu#:#Tu###07 Jan 2005 new variable
+jscalendar#:#s_we#:#We###07 Jan 2005 new variable
+jscalendar#:#select_date#:#Select date###07 Jan 2005 new variable
+jscalendar#:#time#:#Time###07 Jan 2005 new variable
+jscalendar#:#time_part#:#(Shift-)Click or drag to change value###07 Jan 2005 new variable
+jscalendar#:#today#:#Today###07 Jan 2005 new variable
+jscalendar#:#tt_date_format#:#%a, %b %e###07 Jan 2005 new variable
+jscalendar#:#wk#:#wk###07 Jan 2005 new variable
 mail#:#also_as_email#:#亦为电子邮件
 mail#:#bc#:#秘密抄送###14 Sep 2004 content changed
 mail#:#forward#:#转寄

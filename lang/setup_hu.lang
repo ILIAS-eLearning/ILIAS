@@ -57,6 +57,7 @@ choose_language#:#válasszon nyelvet
 choose_languages#:#Válasszon ki további nyelveket és / vagy távolítsa el a kiválasztottakat. 
 choose_password#:#Válasszon jelszót
 city#:#Város
+clean_command#:#Clean Command###07 Jan 2005 new variable
 client#:#Kliens
 client_access_mode_changed#:#Kliens elérési módja cserélve
 client_data#:#Kliens-információk

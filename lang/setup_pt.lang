@@ -56,6 +56,7 @@ choose_language#:#escolha a sua linguagem
 choose_languages#:#Por favor escolha linguagens adicionais e/ou remova as linguagens seleccionadas.
 choose_password#:#Por favor escolha uma palavra-passe
 city#:#Cidade###14 Sep 2004 content changed
+clean_command#:#Clean Command###07 Jan 2005 new variable
 client#:#Cliente
 client_access_mode_changed#:#O modo de acesso do cliente mudou
 client_data#:#Informação do Cliente

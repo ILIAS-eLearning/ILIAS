@@ -136,6 +136,7 @@ assessment#:#checkbox_unchecked#:#Nie wybrany
 assessment#:#circle#:#Koło
 assessment#:#circle_click_center#:#Kliknij w środek wskazanego pola.
 assessment#:#circle_click_circle#:#Kliknij na punkt okręgu wybranego obszaru.
+assessment#:#close_text_hint#:#You can define a gap by entering <gap></gap> at the text position of your choice. Press the 'Create gaps' button to add an editable form for every gap.###07 Jan 2005 new variable
 assessment#:#cloze_text#:#Uzupełnij tekst
 assessment#:#code#:#Kod
 assessment#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the test?###21 Dec 2004 new variable
@@ -148,6 +149,7 @@ assessment#:#create_gaps#:#Twórz odstęp
 assessment#:#create_imagemap#:#Twórz mapę bitową
 assessment#:#create_new#:#Twórz nowe
 assessment#:#delete_area#:#Usuń obszar
+assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###07 Jan 2005 new variable
 assessment#:#detail_ending_time_reached#:#Wyczerpałeś czas wykonania testu. Test nie jest dostępny do %s
 assessment#:#detail_max_processing_time_reached#:#Osiągnałeś maksymalny czas przeznaczony na rozwiązanie testu!
 assessment#:#detail_starting_time_not_reached#:#Test jeszcze nie został uaktywniony. Test będzie dostępny o %s
@@ -245,6 +247,15 @@ assessment#:#javaapplet_unsuccessful_saved#:#Błąd zapisu odpowiedzi!
 assessment#:#last_update#:#Ostatnia aktualizacja
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#zablokowany
+assessment#:#log_create_new_test#:#Created new test###07 Jan 2005 new variable
+assessment#:#log_mark_added#:#Mark added###07 Jan 2005 new variable
+assessment#:#log_mark_changed#:#Mark changed###07 Jan 2005 new variable
+assessment#:#log_mark_removed#:#Mark removed###07 Jan 2005 new variable
+assessment#:#log_modified_test#:#The test was modified###07 Jan 2005 new variable
+assessment#:#log_no_test_fields_changed#:#Saved, but nothing changed###07 Jan 2005 new variable
+assessment#:#log_question_added#:#Question added at position###07 Jan 2005 new variable
+assessment#:#log_question_position_changed#:#Question position changed###07 Jan 2005 new variable
+assessment#:#log_question_removed#:#Question removed###07 Jan 2005 new variable
 assessment#:#maintenance#:#Konserwacja
 assessment#:#mark_schema#:#Zaznaczenie schematu
 assessment#:#match_terms_and_definitions#:#Dobierz terminy i definicje
@@ -254,6 +265,7 @@ assessment#:#matching_pair#:#Pasujące pary
 assessment#:#material#:#Materiał
 assessment#:#material_download#:#Materiał do pobrania
 assessment#:#material_file#:#Plik z materiałem
+assessment#:#maxchars#:#Maximum number of characters###07 Jan 2005 new variable
 assessment#:#maximum_nr_of_tries_reached#:#Przekroczyłeś maksymalną ilość prób w tym teście. Test nie może być wprowadzony!
 assessment#:#meaning#:#Znaczenie
 assessment#:#min_percentage_ne_0#:#Musisz określić minimum na 0 procent! Shemat zaznaczeń nie został zapisany.
@@ -304,6 +316,7 @@ assessment#:#qt_matching#:#Pytanie na dopasowanie
 assessment#:#qt_multiple_choice_mr#:#Pytanie wielokrotnego wyboru (wiele odpowiedzi)
 assessment#:#qt_multiple_choice_sr#:#Pytanie wielokrotnego wyboru (jedna odpowiedź)
 assessment#:#qt_ordering#:#Pytanie na porządkowanie
+assessment#:#qt_text#:#Short Answer (Text) Question###07 Jan 2005 new variable
 assessment#:#question_saved_for_upload#:#Pytanie zostało zachowane automatycznie dla rezerwacji miejsca na dysku dla zapisu załadowanego pliku. Jeśli teraz anulujesz ten formularz, to musisz usunąć pytanie z listy pytań!
 assessment#:#question_short#:#P
 assessment#:#question_title#:#Question title###17 Dec 2004 new variable
@@ -352,6 +365,7 @@ assessment#:#suggested_solution_added_successfully#:#Udało się ustawić sugero
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Test został anulowany
 assessment#:#text_gap#:#Tekst odstępu
+assessment#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###07 Jan 2005 new variable
 assessment#:#time_format#:#GG MM SS
 assessment#:#too_many_empty_parameters#:#Wypełnij puste parametry apletu przed dodaniem nowego parametru!
 assessment#:#true#:#Prawda
@@ -648,6 +662,7 @@ common#:#account_expires_subject#:#[ILIAS 3] Twoje konto straciło ważność
 common#:#action#:#Akcja
 common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
+common#:#activate_assessment_logging#:#Activate Test&Assessment logging###07 Jan 2005 new variable
 common#:#activate_https#:#Aktywacja HTTPS (Płatność, Logowanie)
 common#:#activate_tracking#:#Uruchom śledzenie
 common#:#activation#:#Aktywacja
@@ -711,6 +726,11 @@ common#:#archive#:#Archiwuj
 common#:#are_you_sure#:#Jesteś pewien?
 common#:#articels_unread#:#Nieprzeczytane artykuły:
 common#:#as_of#:#jako
+common#:#assessment_settings#:#Test&Assessment administration settings###07 Jan 2005 new variable
+common#:#assf_edit_permission#:#Change permission settings###07 Jan 2005 new variable
+common#:#assf_read#:#Access Test&Assessment administration###07 Jan 2005 new variable
+common#:#assf_visible#:#Test&Assessment administration is visible###07 Jan 2005 new variable
+common#:#assf_write#:#Edit Test&Assessment administration###07 Jan 2005 new variable
 common#:#assign#:#Przydziel
 common#:#assign_global_role#:#Przydziel do globalnej roli
 common#:#assign_lo_forum#:#Przydziel forum (PN)
@@ -860,6 +880,8 @@ common#:#choose_language#:#Wybierz swój język
 common#:#choose_location#:#Wybierz miejsce
 common#:#choose_only_one_language#:#Wybierz tylko jeden język
 common#:#city#:#Miasto
+common#:#cleaned_file#:#File has been cleaned.###07 Jan 2005 new variable
+common#:#cleaning_failed#:#Cleaning failed.###07 Jan 2005 new variable
 common#:#clear#:#Wyczyść
 common#:#clear_clipboard#:#Empty Clipboard###24 Dec 2004 new variable
 common#:#client ip#:#IP klienta
@@ -1105,6 +1127,7 @@ common#:#file_added#:#Plik załadowany
 common#:#file_delete#:#Usuń plik
 common#:#file_edit#:#Edytuj plik
 common#:#file_edit_permission#:#Zmiana ustawienia uprawnień
+common#:#file_is_infected#:#The file is infected by a virus.###07 Jan 2005 new variable
 common#:#file_new#:#Nowy plik
 common#:#file_not_found#:#Plik nie odnaleziony
 common#:#file_not_valid#:#Plik nieważny!
@@ -1543,6 +1566,7 @@ common#:#login_time#:#Bieżący czas pracy
 common#:#login_to_ilias#:#Logowanie do ILIAS-a
 common#:#logout#:#Wyloguj się
 common#:#logout_text#:#Opuściłeś system ILIAS. Twoja sesja została zamknięta.
+common#:#logs#:#Log data###07 Jan 2005 new variable
 common#:#los#:#Przedmioty Nauczania (PN)
 common#:#los_last_visited#:#Ostatnio odwiedzane przedmioty nauczania
 common#:#mail#:#Poczta elektroniczna
@@ -1774,6 +1798,7 @@ common#:#obj#:#Obiekt
 common#:#obj_adm#:#Ustawienia systemowe
 common#:#obj_adm_desc#:#Główny folder ustawień systemowych zawierający wszystkie panele służące do admministracji instalacją ILIAS-a.
 common#:#obj_alm#:#Moduł Nauczania AICC
+common#:#obj_assf#:#Test&Assessment###07 Jan 2005 new variable
 common#:#obj_auth#:#Identyfikacja
 common#:#obj_auth_desc#:#Konfiguruj tryb identyfikacji (lokalnie, LDAP, ...)
 common#:#obj_cat#:#Kategoria
@@ -2009,6 +2034,9 @@ common#:#remove_personal_picture#:#Usuń
 common#:#remove_translation#:#Usuń tłumaczenie
 common#:#rename#:#Zmień nazwę
 common#:#rename_file#:#Zmień nazwę pliku
+common#:#repeat_scan#:#Repeating virus scan...###07 Jan 2005 new variable
+common#:#repeat_scan_failed#:#Repeat scan failed.###07 Jan 2005 new variable
+common#:#repeat_scan_succeded#:#Repeat scan succeded.###07 Jan 2005 new variable
 common#:#replace_file#:#Zamień plik
 common#:#reply#:#Odpowiedz
 common#:#repository#:#Dostępne zasoby
@@ -2287,6 +2315,7 @@ common#:#up#:#W górę
 common#:#update_applied#:#Uaktualnienie wykonane
 common#:#update_language#:#Uaktualnij język
 common#:#upload#:#Wyślij
+common#:#upload_error_file_not_found#:#Upload error: File not found.###07 Jan 2005 new variable
 common#:#uploaded_and_checked#:#Plik został załadowany i sprawdzony, teraz możesz rozpocząć jego import.
 common#:#url#:#URL
 common#:#url_a#:#URL
@@ -2448,6 +2477,7 @@ content#:#cont_coords#:#Koordynaty
 content#:#cont_copy_object#:#Kopiuj obiekt
 content#:#cont_copy_to_clipboard#:#Kopiuj do schowka
 content#:#cont_create_dir#:#Utwórz katalog
+content#:#cont_create_export_file#:#Create Export File###07 Jan 2005 new variable
 content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
 content#:#cont_create_export_file_xml#:#Create Export File (XML)###22 Dec 2004 new variable
 content#:#cont_create_folder#:#Twórz Folder
@@ -2551,7 +2581,7 @@ content#:#cont_insert_file_item#:#Wstaw plik
 content#:#cont_insert_file_list#:#Wstaw listę plików
 content#:#cont_insert_list#:#Wstaw listę
 content#:#cont_insert_mob#:#Wstaw obiekt multimedialny
-content#:#cont_insert_new_footnote#:#Wstaw nową stopkę
+content#:#cont_insert_new_footnote#:#Wstaw nową stopkę###07 Jan 2005 content changed
 content#:#cont_insert_par#:#Wstaw paragraf
 content#:#cont_insert_search#:#Wstaw szukany termin
 content#:#cont_insert_src#:#Wstaw kod źródłowy
@@ -2650,6 +2680,7 @@ content#:#cont_purpose#:#Cel
 content#:#cont_ref_helptext#:#(np. http://www.serwer.org/mojobraz.jpg)
 content#:#cont_reference#:#Referencja
 content#:#cont_remove_fullscreen#:#Usuń pełny widok
+content#:#cont_removeiln#:#really remove internal link ?###07 Jan 2005 new variable
 content#:#cont_reset_definitions#:#Przywróć definicję pozycji
 content#:#cont_reset_pictures#:#Przywróć pozycję obrazu
 content#:#cont_resource#:#Zasób
@@ -3202,6 +3233,64 @@ forum#:#forums_your_reply#:#Twoja odpowiedź
 forum#:#frm_default_view#:#Domyślny widok
 forum#:#frm_title_required#:#Wstaw tytuł.
 forum#:#is_read#:#Zaznacz jako przeczytane
+jscalendar#:#about_calendar#:#About the calendar###07 Jan 2005 new variable
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\n- Use the «, » buttons to select year\n- Use the <, > buttons to select month\n- Hold mouse button on any of the above buttons for faster selection.###07 Jan 2005 new variable
+jscalendar#:#about_time#:#\n\nTime selection:\n- Click on any of the time parts to increase it\n- or Shift-click to decrease it\n- or click and drag for faster selection.###07 Jan 2005 new variable
+jscalendar#:#close#:#Close###07 Jan 2005 new variable
+jscalendar#:#day_first#:#Display %s first###07 Jan 2005 new variable
+jscalendar#:#def_date_format#:#%Y-%m-%d###07 Jan 2005 new variable
+jscalendar#:#drag_to_move#:#Drag to move###07 Jan 2005 new variable
+jscalendar#:#go_today#:#Go Today###07 Jan 2005 new variable
+jscalendar#:#l_01#:#January###07 Jan 2005 new variable
+jscalendar#:#l_02#:#Feburary###07 Jan 2005 new variable
+jscalendar#:#l_03#:#March###07 Jan 2005 new variable
+jscalendar#:#l_04#:#April###07 Jan 2005 new variable
+jscalendar#:#l_05#:#May###07 Jan 2005 new variable
+jscalendar#:#l_06#:#June###07 Jan 2005 new variable
+jscalendar#:#l_07#:#July###07 Jan 2005 new variable
+jscalendar#:#l_08#:#August###07 Jan 2005 new variable
+jscalendar#:#l_09#:#September###07 Jan 2005 new variable
+jscalendar#:#l_10#:#October###07 Jan 2005 new variable
+jscalendar#:#l_11#:#November###07 Jan 2005 new variable
+jscalendar#:#l_12#:#December###07 Jan 2005 new variable
+jscalendar#:#l_fr#:#Friday###07 Jan 2005 new variable
+jscalendar#:#l_mo#:#Monday###07 Jan 2005 new variable
+jscalendar#:#l_sa#:#Saturday###07 Jan 2005 new variable
+jscalendar#:#l_su#:#Sunday###07 Jan 2005 new variable
+jscalendar#:#l_th#:#Thursday###07 Jan 2005 new variable
+jscalendar#:#l_tu#:#Tuesday###07 Jan 2005 new variable
+jscalendar#:#l_we#:#Wednesday###07 Jan 2005 new variable
+jscalendar#:#next_month#:#Next month (hold for menu)###07 Jan 2005 new variable
+jscalendar#:#next_year#:#Next year (hold for menu)###07 Jan 2005 new variable
+jscalendar#:#open_calendar#:#Click here to open a calendar for date selection (JavaScript required!)###07 Jan 2005 new variable
+jscalendar#:#part_today#:# (today)###07 Jan 2005 new variable
+jscalendar#:#prev_month#:#Prev. month (hold for menu)###07 Jan 2005 new variable
+jscalendar#:#prev_year#:#Prev. year (hold for menu)###07 Jan 2005 new variable
+jscalendar#:#s_01#:#Jan###07 Jan 2005 new variable
+jscalendar#:#s_02#:#Feb###07 Jan 2005 new variable
+jscalendar#:#s_03#:#Mar###07 Jan 2005 new variable
+jscalendar#:#s_04#:#Apr###07 Jan 2005 new variable
+jscalendar#:#s_05#:#May###07 Jan 2005 new variable
+jscalendar#:#s_06#:#Jun###07 Jan 2005 new variable
+jscalendar#:#s_07#:#Jul###07 Jan 2005 new variable
+jscalendar#:#s_08#:#Aug###07 Jan 2005 new variable
+jscalendar#:#s_09#:#Sep###07 Jan 2005 new variable
+jscalendar#:#s_10#:#Oct###07 Jan 2005 new variable
+jscalendar#:#s_11#:#Nov###07 Jan 2005 new variable
+jscalendar#:#s_12#:#Dec###07 Jan 2005 new variable
+jscalendar#:#s_fr#:#Fr###07 Jan 2005 new variable
+jscalendar#:#s_mo#:#Mo###07 Jan 2005 new variable
+jscalendar#:#s_sa#:#Sa###07 Jan 2005 new variable
+jscalendar#:#s_su#:#Su###07 Jan 2005 new variable
+jscalendar#:#s_th#:#Th###07 Jan 2005 new variable
+jscalendar#:#s_tu#:#Tu###07 Jan 2005 new variable
+jscalendar#:#s_we#:#We###07 Jan 2005 new variable
+jscalendar#:#select_date#:#Select date###07 Jan 2005 new variable
+jscalendar#:#time#:#Time###07 Jan 2005 new variable
+jscalendar#:#time_part#:#(Shift-)Click or drag to change value###07 Jan 2005 new variable
+jscalendar#:#today#:#Today###07 Jan 2005 new variable
+jscalendar#:#tt_date_format#:#%a, %b %e###07 Jan 2005 new variable
+jscalendar#:#wk#:#wk###07 Jan 2005 new variable
 mail#:#also_as_email#:#rownież pocztą
 mail#:#bc#:#BC
 mail#:#forward#:#Prześlij dalej
