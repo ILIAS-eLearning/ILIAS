@@ -163,6 +163,7 @@ assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Вибір проміжку
 assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
+assessment#:#imagemap_file#:#Image map file###11 Sep 2004 new variable
 assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
 assessment#:#import_question#:#Import question(s)###25 Aug 2004 new variable
 assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
@@ -532,12 +533,14 @@ common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#Додати Члена
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Додати переклад
+common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_edit_permission#:#Змінити настройки прав
 common#:#adm_read#:#Доступ на читання до Базових настроювань системи
 common#:#adm_visible#:#Системні настройки є видимі
 common#:#adm_write#:#Редагувати Базові системні настройки
 common#:#administrate#:#Адмініструвати
+common#:#administrate_users#:#Local user administration###11 Sep 2004 new variable
 common#:#administration#:#Адміністрування
 common#:#administrator#:#Адміністратор
 common#:#adopt#:#прийняти
@@ -546,6 +549,7 @@ common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Усі Об'єкти
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
+common#:#all_users#:#All users###11 Sep 2004 new variable
 common#:#allow_register#:#Доступний в реєстраційній формі для нових користувачів
 common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
@@ -565,6 +569,7 @@ common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Програма завершена
 common#:#application_date#:#Дата програми
 common#:#applied_users#:#Applied users###14 Aug 2004 new variable
+common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#Призначення
 common#:#appointment_list#:#Список Призначення
 common#:#archive#:#Архів
@@ -629,6 +634,7 @@ common#:#cat#:#Категорія
 common#:#cat_a#:#Категорія
 common#:#cat_add#:#Додати Категорію
 common#:#cat_added#:#Категорію додано
+common#:#cat_cat_administrate_users#:#Administrate local user accounts###11 Sep 2004 new variable
 common#:#cat_create#:#Створити Категорію
 common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Створити Категорію
@@ -645,7 +651,7 @@ common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variabl
 common#:#cat_create_lm#:#Створити Учбовий Модуль
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Створити Чергу Питань###07 May 2004 content changed
-common#:#cat_create_slm#:#Стоврити SCORM Учбовий Модуль
+common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
 common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Створити Тест
@@ -654,6 +660,7 @@ common#:#cat_edit#:#Редагувати Категорію
 common#:#cat_edit_permission#:#Змінити настройки прав
 common#:#cat_new#:#Нова категорія
 common#:#cat_read#:#Доступ на читання до Категорії
+common#:#cat_read_users#:#Read access to local user accounts###11 Sep 2004 new variable
 common#:#cat_visible#:#Категорія є видима
 common#:#cat_write#:#Редагувати Категорію
 common#:#categories#:#Категорії
@@ -757,7 +764,7 @@ common#:#crs_create_frm#:#Створити Форум
 common#:#crs_create_glo#:#Створити Глосарій
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_lm#:#Створити Учбовий Модуль
-common#:#crs_create_slm#:#Створити SCORM Учбовий Модуль
+common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#Видалити Курс
 common#:#crs_edit#:#Редагувати Курс
 common#:#crs_edit_permission#:#Змінити настройки прав
@@ -820,6 +827,7 @@ common#:#delete_object#:#Видалити Об'єкт(и)
 common#:#delete_selected#:#Видалити Відмічене
 common#:#delete_tr_data#:#Delete tracking data###09 Jul 2004 new variable
 common#:#deleted#:#Видалено
+common#:#deleted_user#:#The user has been deleted###11 Sep 2004 new variable
 common#:#department#:#Відділ
 common#:#desc#:#Опис
 common#:#description#:#Опис
@@ -930,6 +938,7 @@ common#:#file_write#:#Edit File###17 Apr 2004 new variable
 common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Місцезнаходження Файлів
 common#:#fill_out_all_required_fields#:#Будь ласка заповніть усі потрібні поля
+common#:#filter#:#Filter:###11 Sep 2004 new variable
 common#:#firstname#:#Ім'я
 common#:#flatview#:#Плоский Огляд
 common#:#fold#:#Папка
@@ -944,7 +953,7 @@ common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
-common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
+common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
@@ -1003,6 +1012,8 @@ common#:#glo_read#:#Доступ на читання до Глосарію
 common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Глосарій є видимим
 common#:#glo_write#:#Редагувати Глосарій
+common#:#global#:#Global###11 Sep 2004 new variable
+common#:#global_user#:#Global users###11 Sep 2004 new variable
 common#:#glossaries#:#Глосарії
 common#:#glossary#:#Глосарій
 common#:#glossary_added#:#Глосарій доданий
@@ -1061,7 +1072,7 @@ common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Створити Учбовий Модуль
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
-common#:#grp_create_slm#:#Стоврити SCORM Учбовий Модуль
+common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#Видалити Групу
 common#:#grp_dismiss_member#:#Ви впевнені що бажаєте видалити наступного(их) члена(ів з групи.###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити себе з групи.###19 Jun 2004 content changed
@@ -1147,7 +1158,7 @@ common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 ne
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#Імпортувати Учбовий модуль
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
-common#:#import_slm#:#Імпортувати SCORM Пакет
+common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#в
@@ -1272,6 +1283,8 @@ common#:#lm_join#:#Підписатись на Учбовий Модуль
 common#:#lm_leave#:#Відписатись від Учбового Модуля
 common#:#lm_new#:#Новий Учбовий Модуль
 common#:#lm_read#:#Доступ на читання до Учбового Модуля
+common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
+common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#Учбовий Модуль є видимим
 common#:#lm_write#:#Редагувати Учбовий Модуль
@@ -1288,6 +1301,7 @@ common#:#lo_new#:#Новий Учбовий Об'єкт
 common#:#lo_no_content#:#Жоден Учбовий Об'єкт не є Доступним
 common#:#lo_other_langs#:#LO's в інших Мовах
 common#:#lo_overview#:#LO Огляд
+common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#Місцезнаходження:
 common#:#logic_and#:#and###26 Aug 2004 new variable
 common#:#logic_or#:#or###26 Aug 2004 new variable
@@ -1495,6 +1509,7 @@ common#:#no_checkbox#:#Жодного чекбоксу не вибрано!
 common#:#no_date#:#Немає дати
 common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Немає форумів в особистому списку.
+common#:#no_global_role_left#:#Every user has to be assigned to one role.###11 Sep 2004 new variable
 common#:#no_grp_in_personal_list#:#Немає груп в особистому списку.
 common#:#no_import_available#:#Імпорт не доступний для цього типу
 common#:#no_limit#:#No limit###24 Mar 2004 new variable
@@ -1504,6 +1519,7 @@ common#:#no_permission_to_join#:#Вам не дозволено приєднув
 common#:#no_title#:#Немає Назви
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
+common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
 common#:#none#:#Ніщо
 common#:#normal#:#Нормальний
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
@@ -1562,7 +1578,7 @@ common#:#obj_rolf_local#:#Локальні Ролі
 common#:#obj_rolf_local_desc#:#Містить локальні ролі об'єкта №
 common#:#obj_rolt#:#Шаблон Ролі
 common#:#obj_root#:#root
-common#:#obj_slm#:#SCORM LM
+common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Глава
 common#:#obj_svy#:#Survey###07 May 2004 new variable
@@ -1611,7 +1627,7 @@ common#:#objs_pg#:#Pages###18 Feb 2004 new variable
 common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
 common#:#objs_role#:#Roles###18 Feb 2004 new variable
 common#:#objs_rolt#:#Role Templates###18 Feb 2004 new variable
-common#:#objs_slm#:#SCORM Learning Modules###18 Feb 2004 new variable
+common#:#objs_sahs#:#SCORM/AICC Learning Modules###11 Sep 2004 new variable
 common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Chapters###18 Feb 2004 new variable
 common#:#objs_svy#:#Surveys###07 May 2004 new variable
@@ -1745,6 +1761,7 @@ common#:#role_add#:#Додати Роль
 common#:#role_add_local#:#Додати локальну Роль
 common#:#role_added#:#Роль додана
 common#:#role_assignment#:#Призначення Ролі
+common#:#role_assignment_updated#:#Role assignment has been updated.###11 Sep 2004 new variable
 common#:#role_deleted#:#Роль видалена
 common#:#role_edit#:#Редагувати Роль
 common#:#role_new#:#Нова Роль
@@ -1773,6 +1790,16 @@ common#:#root_edit_permission#:#Змінити настройки прав
 common#:#root_read#:#Доступ на читання до системи ILIAS
 common#:#root_visible#:#Система ILIAS є видима
 common#:#root_write#:#Редагувати ILIAS root node data
+common#:#sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_added#:#SCORM/AICC Learning Module added###11 Sep 2004 new variable
+common#:#sahs_create#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_delete#:#Delete SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_edit_permission#:#Change permission settings###11 Sep 2004 new variable
+common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_read#:#Read access to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_visible#:#SCORM/AICC Learning Module is visible###11 Sep 2004 new variable
+common#:#sahs_write#:#Edit SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#salutation#:#Привітання
 common#:#salutation_f#:#Місс/Місіс
 common#:#salutation_m#:#Містер
@@ -1823,16 +1850,6 @@ common#:#show_owner#:#Показати Власника
 common#:#show_structure#:#Дозволити Структурований Огляд
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Сігнатура
-common#:#slm#:#SCORM Учбовий Модуль
-common#:#slm_added#:#SCORM Учбовий модуль доданий
-common#:#slm_create#:#Створити SCORM Учбовий Модуль
-common#:#slm_delete#:#Видалити SCORM Учбовий Модуль
-common#:#slm_edit_permission#:#Змынити настройки прав
-common#:#slm_join#:#Підписатись на SCORM Учбовий Модуль
-common#:#slm_leave#:#Відписатись від SCORM Учбового Модуля
-common#:#slm_read#:#Доступ на читання до SCORM Учбового Модуля
-common#:#slm_visible#:#SCORM Учбовий Модуль є видимим
-common#:#slm_write#:#Редагувати SCORM Учбовий Модуль
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Сортувати по цій колонці
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
@@ -1863,6 +1880,7 @@ common#:#submit#:#Підтвердити
 common#:#subobjects#:#Підоб'єкти
 common#:#subscription#:#Підписка
 common#:#summary#:#Ітого
+common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)###11 Sep 2004 new variable
 common#:#svy#:#Survey###07 May 2004 new variable
 common#:#svy_add#:#Add survey###07 May 2004 new variable
 common#:#svy_delete#:#Delete survey###07 May 2004 new variable
@@ -1994,6 +2012,7 @@ common#:#usrf_delete#:#Видалити аккаунти користувача
 common#:#usrf_edit_permission#:#Змінити настройки прав
 common#:#usrf_edit_roleassignment#:#Змінимти призначенні ролі акаунтів користувача
 common#:#usrf_read#:#Доступ на читання до акаунтів користувача
+common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
 common#:#usrf_visible#:#Акаунти користувача є видимі
 common#:#usrf_write#:#Редагувати акаунти користувача
 common#:#validate#:#Перевірити достовірність
@@ -3454,6 +3473,7 @@ survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
 survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
 survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
+survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!###11 Sep 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
@@ -3662,6 +3682,7 @@ survey#:#start_survey#:#Start survey###25 May 2004 new variable
 survey#:#subtype#:#Subtype###04 Jun 2004 new variable
 survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
+survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###11 Sep 2004 new variable
 survey#:#survey_next#:#save and next page >>>###01 Jun 2004 new variable
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###04 Jun 2004 new variable
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable

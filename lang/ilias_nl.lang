@@ -163,6 +163,7 @@ assessment#:#gap_definition#:#Definitie opening
 assessment#:#gap_selection#:#Selectie van een gat
 assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image Map
+assessment#:#imagemap_file#:#Image map file###11 Sep 2004 new variable
 assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
 assessment#:#import_question#:#Import question(s)###25 Aug 2004 new variable
 assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
@@ -532,12 +533,14 @@ common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#Lid toevoegen
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Vertaling toevoegen
+common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_edit_permission#:#Wijzig rechten-instellingen
 common#:#adm_read#:#Lees-rechten Systeem-instellingen
 common#:#adm_visible#:#Systeem-instellingen zijn zichtbaar
 common#:#adm_write#:#Wijzigen standaard systeem-instellingen
 common#:#administrate#:#Administreren
+common#:#administrate_users#:#Local user administration###11 Sep 2004 new variable
 common#:#administration#:#Administratie
 common#:#administrator#:#Administrateur
 common#:#adopt#:#overnemen
@@ -546,6 +549,7 @@ common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Alle objecten
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
+common#:#all_users#:#All users###11 Sep 2004 new variable
 common#:#allow_register#:#Beschikbaar in registratieformulier voor nieuwe gebruikers
 common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
@@ -565,6 +569,7 @@ common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#De toepassing is compleet
 common#:#application_date#:#Applicatie-datum
 common#:#applied_users#:#Applied users###14 Aug 2004 new variable
+common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#Afspraak
 common#:#appointment_list#:#Afsprakenlijst
 common#:#archive#:#Archief
@@ -629,6 +634,7 @@ common#:#cat#:#Kategorie
 common#:#cat_a#:#een kategorie
 common#:#cat_add#:#Kategorie toevoegen
 common#:#cat_added#:#Kategorie toegevoegd
+common#:#cat_cat_administrate_users#:#Administrate local user accounts###11 Sep 2004 new variable
 common#:#cat_create#:#Creëer kategorie
 common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Creëer kategorie
@@ -645,7 +651,7 @@ common#:#cat_create_htlm#:#Creëer een HTML-lesmodule
 common#:#cat_create_lm#:#Creëer lesmodule
 common#:#cat_create_mep#:#Creëer een Media-pool
 common#:#cat_create_qpl#:#Creëer vragenpool###07 May 2004 content changed
-common#:#cat_create_slm#:#Creëer SCORM lesmodule
+common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
 common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Creëer een test
@@ -654,6 +660,7 @@ common#:#cat_edit#:#Wijzig kategorie
 common#:#cat_edit_permission#:#Wijzig rechten-instellingen
 common#:#cat_new#:#Nieuwe kategorie
 common#:#cat_read#:#Lees-recht op kategorie
+common#:#cat_read_users#:#Read access to local user accounts###11 Sep 2004 new variable
 common#:#cat_visible#:#Kategorie is zichtbaar
 common#:#cat_write#:#Wijzig kategorie
 common#:#categories#:#Kategoriën
@@ -757,7 +764,7 @@ common#:#crs_create_frm#:#Creëer forum
 common#:#crs_create_glo#:#Creëer woordenlijst
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_lm#:#Creëer lesmodule
-common#:#crs_create_slm#:#Creëer SCORM lesmodule
+common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#Verwijderen cursus
 common#:#crs_edit#:#Cursus wijzigen
 common#:#crs_edit_permission#:#Wijzig rechten-instellingen
@@ -820,6 +827,7 @@ common#:#delete_object#:#Verwijder object(en)
 common#:#delete_selected#:#Verwijder het geselecteerde
 common#:#delete_tr_data#:#Delete tracking data###09 Jul 2004 new variable
 common#:#deleted#:#Verwijderd
+common#:#deleted_user#:#The user has been deleted###11 Sep 2004 new variable
 common#:#department#:#Afdeling
 common#:#desc#:#Beschrijving
 common#:#description#:#Beschrijving
@@ -930,6 +938,7 @@ common#:#file_write#:#Edit File###17 Apr 2004 new variable
 common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Locatie van bestand
 common#:#fill_out_all_required_fields#:#AUB alle benodigde velden invullen
+common#:#filter#:#Filter:###11 Sep 2004 new variable
 common#:#firstname#:#Voornaam
 common#:#flatview#:#Lijst-overzicht
 common#:#fold#:#Map
@@ -944,7 +953,7 @@ common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
-common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
+common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
@@ -1003,6 +1012,8 @@ common#:#glo_read#:#Lees-recht op woordenlijst
 common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Woordenlijst is zichtbaar
 common#:#glo_write#:#Wijzigen woordenlijst
+common#:#global#:#Global###11 Sep 2004 new variable
+common#:#global_user#:#Global users###11 Sep 2004 new variable
 common#:#glossaries#:#Glossaries
 common#:#glossary#:#Verklarende woordenlijst
 common#:#glossary_added#:#Woordenlijst toegevoegd
@@ -1061,7 +1072,7 @@ common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Creëer lesmodule
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
-common#:#grp_create_slm#:#Creëer SCORM lesmodule
+common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#Verwijder groep
 common#:#grp_dismiss_member#:#Weet u het zeker, dat u de volgende leden van de groep wil verwijderen.###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#Weet u het zeker, dat u uzelf van de groep wil verwijderen.###19 Jun 2004 content changed
@@ -1147,7 +1158,7 @@ common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 ne
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#Importeren van een lesmodule
 common#:#import_root_user#:#Importeer Root-gebruiker
-common#:#import_slm#:#SCORM-package importeren
+common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Importeer Gebruikers
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#in
@@ -1272,6 +1283,8 @@ common#:#lm_join#:#Abonneer op  lesmodule
 common#:#lm_leave#:#Abonnement op lesmodule beëindigen
 common#:#lm_new#:#Nieuwe lesmodule
 common#:#lm_read#:#Lees-recht op lesmodule
+common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
+common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#Lesmodule is zichtbaar
 common#:#lm_write#:#Wijzig lesmodule
@@ -1288,6 +1301,7 @@ common#:#lo_new#:#Nieuw lesobject
 common#:#lo_no_content#:#Geen leermiddelen beschikbaar
 common#:#lo_other_langs#:#Lesobjecten in andere talen
 common#:#lo_overview#:#Lesobjecten-overzicht
+common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#Locatie:
 common#:#logic_and#:#and###26 Aug 2004 new variable
 common#:#logic_or#:#or###26 Aug 2004 new variable
@@ -1495,6 +1509,7 @@ common#:#no_checkbox#:#Geen keuze gemaakt!
 common#:#no_date#:#Geen datum
 common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Geen forums in de persoonlijke lijst.
+common#:#no_global_role_left#:#Every user has to be assigned to one role.###11 Sep 2004 new variable
 common#:#no_grp_in_personal_list#:#Geen groepen in de persoonlijke lijst.
 common#:#no_import_available#:#Importeren niet mogelijk voor type
 common#:#no_limit#:#Geen limiet
@@ -1504,6 +1519,7 @@ common#:#no_permission_to_join#:#Het is niet toegestaan bij deze groep tegaan!
 common#:#no_title#:#Geen titel
 common#:#no_tst_in_personal_list#:#Geen testen in persoonlijke lijst.
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
+common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
 common#:#none#:#Geen enkele
 common#:#normal#:#Normaal
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
@@ -1562,7 +1578,7 @@ common#:#obj_rolf_local#:#Lokale rollen
 common#:#obj_rolf_local_desc#:#Bevat lokale rollen van objectnr. 
 common#:#obj_rolt#:#Rol-sjabloon
 common#:#obj_root#:#ILIAS root node
-common#:#obj_slm#:#SCORM lesmodule
+common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Hoofdstuk
 common#:#obj_svy#:#Survey###07 May 2004 new variable
@@ -1611,7 +1627,7 @@ common#:#objs_pg#:#Pagina's
 common#:#objs_qpl#:#Vraagbakken###07 May 2004 content changed
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rol-sjablonen
-common#:#objs_slm#:#SCORM lesmodules
+common#:#objs_sahs#:#SCORM/AICC Learning Modules###11 Sep 2004 new variable
 common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Hoofdstukken
 common#:#objs_svy#:#Surveys###07 May 2004 new variable
@@ -1745,6 +1761,7 @@ common#:#role_add#:#Toevoegen Rol
 common#:#role_add_local#:#Toevoegen lokale rol
 common#:#role_added#:#Rol toegevoegd
 common#:#role_assignment#:#Rol-toewijzing
+common#:#role_assignment_updated#:#Role assignment has been updated.###11 Sep 2004 new variable
 common#:#role_deleted#:#Rol gewist
 common#:#role_edit#:#Wijzigen rol
 common#:#role_new#:#Nieuwe rol
@@ -1773,6 +1790,16 @@ common#:#root_edit_permission#:#Wijzig rechten-instellingen
 common#:#root_read#:#Lees-rechten op het ILIAS-systeem
 common#:#root_visible#:#Het ILIAS-systeem is zichtbaar
 common#:#root_write#:#Wijzigen de meta-gegevens van de system root node
+common#:#sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_added#:#SCORM/AICC Learning Module added###11 Sep 2004 new variable
+common#:#sahs_create#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_delete#:#Delete SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_edit_permission#:#Change permission settings###11 Sep 2004 new variable
+common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_read#:#Read access to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_visible#:#SCORM/AICC Learning Module is visible###11 Sep 2004 new variable
+common#:#sahs_write#:#Edit SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#salutation#:#Aanhef
 common#:#salutation_f#:#Hr./Mevr.
 common#:#salutation_m#:#Mr.
@@ -1823,16 +1850,6 @@ common#:#show_owner#:#Laat eigenaar zien
 common#:#show_structure#:#Schakelen structured-View in
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Handtekening
-common#:#slm#:#SCORM lesmodule
-common#:#slm_added#:#SCORM lesmodule toegevoegd
-common#:#slm_create#:#Creëer SCORM lesmodule
-common#:#slm_delete#:#Verwijder SCORM lesmodule
-common#:#slm_edit_permission#:#Wijzig rechten-instellingen
-common#:#slm_join#:#Abonneren op SCORM lesmodule
-common#:#slm_leave#:#Abonnement beëindigen op SCORM lesmodule
-common#:#slm_read#:#Leesrechten op SCORM lesmodule
-common#:#slm_visible#:#SCORM lesmodule is zichtbaar
-common#:#slm_write#:#Wijzig SCORM lesmodule
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sorteer op deze kolom
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
@@ -1863,6 +1880,7 @@ common#:#submit#:#Verzend
 common#:#subobjects#:#Subobjecten
 common#:#subscription#:#Abonnement
 common#:#summary#:#Samenvatting
+common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)###11 Sep 2004 new variable
 common#:#svy#:#Survey###07 May 2004 new variable
 common#:#svy_add#:#Add survey###07 May 2004 new variable
 common#:#svy_delete#:#Delete survey###07 May 2004 new variable
@@ -1994,6 +2012,7 @@ common#:#usrf_delete#:#Verwijder een gebruiker
 common#:#usrf_edit_permission#:#Wijzig de toegang tot gebruikers
 common#:#usrf_edit_roleassignment#:#Wijzig de rol-toewijzing aan gebruikers
 common#:#usrf_read#:#Leesrechten op gebruikers
+common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
 common#:#usrf_visible#:#Gebruikers zijn zichtbaar
 common#:#usrf_write#:#Wijzig gebruikers
 common#:#validate#:#Valideer
@@ -3454,6 +3473,7 @@ survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
 survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
 survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
+survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!###11 Sep 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
@@ -3662,6 +3682,7 @@ survey#:#start_survey#:#Start survey###25 May 2004 new variable
 survey#:#subtype#:#Subtype###04 Jun 2004 new variable
 survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
+survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###11 Sep 2004 new variable
 survey#:#survey_next#:#save and next page >>>###01 Jun 2004 new variable
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###04 Jun 2004 new variable
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable

@@ -180,6 +180,7 @@ assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#间隔选择
 assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
+assessment#:#imagemap_file#:#Image map file###11 Sep 2004 new variable
 assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
 assessment#:#import_question#:#Import question(s)###25 Aug 2004 new variable
 assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
@@ -549,12 +550,14 @@ common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#增加成员
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#增加翻译
+common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_edit_permission#:#更改许可设置
 common#:#adm_read#:#基本系统设置为读访问
 common#:#adm_visible#:#系统设置可视
 common#:#adm_write#:#编辑基本系统设置
 common#:#administrate#:#管理
+common#:#administrate_users#:#Local user administration###11 Sep 2004 new variable
 common#:#administration#:#管理
 common#:#administrator#:#管理员
 common#:#adopt#:#采用
@@ -563,6 +566,7 @@ common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#所有对象
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
+common#:#all_users#:#All users###11 Sep 2004 new variable
 common#:#allow_register#:#可从新用户注册表中得到
 common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
@@ -582,6 +586,7 @@ common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#申请已完成
 common#:#application_date#:#申请日期
 common#:#applied_users#:#Applied users###14 Aug 2004 new variable
+common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#约会
 common#:#appointment_list#:#约会列表
 common#:#archive#:#存档
@@ -646,6 +651,7 @@ common#:#cat#:#类别
 common#:#cat_a#:#一个类别
 common#:#cat_add#:#增加类别
 common#:#cat_added#:#类别已增加
+common#:#cat_cat_administrate_users#:#Administrate local user accounts###11 Sep 2004 new variable
 common#:#cat_create#:#创建类别
 common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#创建类别
@@ -662,7 +668,7 @@ common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variabl
 common#:#cat_create_lm#:#创建学习模块
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#创建问题集###07 May 2004 content changed
-common#:#cat_create_slm#:#创建SCORM学习模块
+common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
 common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#创建测试
@@ -671,6 +677,7 @@ common#:#cat_edit#:#编辑类别
 common#:#cat_edit_permission#:#更改许可设置
 common#:#cat_new#:#新类别
 common#:#cat_read#:#类别设为读访问
+common#:#cat_read_users#:#Read access to local user accounts###11 Sep 2004 new variable
 common#:#cat_visible#:#类别可视
 common#:#cat_write#:#编辑类别
 common#:#categories#:#类别
@@ -773,7 +780,7 @@ common#:#crs_create_frm#:#创建论坛
 common#:#crs_create_glo#:#创建术语表
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_lm#:#创建学习模块
-common#:#crs_create_slm#:#创建SCORM学习模块
+common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#删除课程
 common#:#crs_edit#:#编辑课程
 common#:#crs_edit_permission#:#更改许可设置
@@ -836,6 +843,7 @@ common#:#delete_object#:#删除对象
 common#:#delete_selected#:#删除已选对象
 common#:#delete_tr_data#:#Delete tracking data###09 Jul 2004 new variable
 common#:#deleted#:#已删除
+common#:#deleted_user#:#The user has been deleted###11 Sep 2004 new variable
 common#:#department#:#系
 common#:#desc#:#描述
 common#:#description#:#描述
@@ -946,6 +954,7 @@ common#:#file_write#:#Edit File###17 Apr 2004 new variable
 common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#文件地点
 common#:#fill_out_all_required_fields#:#请填充全部要求的域
+common#:#filter#:#Filter:###11 Sep 2004 new variable
 common#:#firstname#:#名
 common#:#flatview#:#平视图
 common#:#fold#:#文件夹
@@ -960,7 +969,7 @@ common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
-common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
+common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
@@ -1019,6 +1028,8 @@ common#:#glo_read#:#术语表设为读访问
 common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#术语表可视
 common#:#glo_write#:#编辑术语表
+common#:#global#:#Global###11 Sep 2004 new variable
+common#:#global_user#:#Global users###11 Sep 2004 new variable
 common#:#glossaries#:#术语表
 common#:#glossary#:#词汇表
 common#:#glossary_added#:#词汇表已增加
@@ -1077,7 +1088,7 @@ common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#创建学习模块
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
-common#:#grp_create_slm#:#创建SCORM学习模块
+common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#删除组
 common#:#grp_dismiss_member#:#您肯定要从组中撤消下述成员吗？###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#您肯定要从组中撤消您自己吗？###19 Jun 2004 content changed
@@ -1163,7 +1174,7 @@ common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 ne
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#导入学习模块
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
-common#:#import_slm#:#导入SCORM包
+common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#于
@@ -1288,6 +1299,8 @@ common#:#lm_join#:#注册到学习模块
 common#:#lm_leave#:#从学习模块中注销
 common#:#lm_new#:#新学习模块
 common#:#lm_read#:#学习模块设为读访问
+common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
+common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#学习模块可视
 common#:#lm_write#:#编辑学习模块
@@ -1304,6 +1317,7 @@ common#:#lo_new#:#新学习对象
 common#:#lo_no_content#:#无可用学习资源
 common#:#lo_other_langs#:#其它语言中学习对象的
 common#:#lo_overview#:#学习对象概观
+common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#地点
 common#:#logic_and#:#and###26 Aug 2004 new variable
 common#:#logic_or#:#or###26 Aug 2004 new variable
@@ -1511,6 +1525,7 @@ common#:#no_checkbox#:#未选中选项栏
 common#:#no_date#:#无日期
 common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#个人列表中无论坛。
+common#:#no_global_role_left#:#Every user has to be assigned to one role.###11 Sep 2004 new variable
 common#:#no_grp_in_personal_list#:#个人列表中无组。
 common#:#no_import_available#:#类型无导入
 common#:#no_limit#:#No limit###24 Mar 2004 new variable
@@ -1520,6 +1535,7 @@ common#:#no_permission_to_join#:#您不允许加入此组！
 common#:#no_title#:#无标题
 common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
+common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
 common#:#none#:#无
 common#:#normal#:#正常
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
@@ -1578,7 +1594,7 @@ common#:#obj_rolf_local#:#局部角色
 common#:#obj_rolf_local_desc#:#所包含的局部角色的对象为
 common#:#obj_rolt#:#角色模板
 common#:#obj_root#:#根目录
-common#:#obj_slm#:#SCORM学习模块
+common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#章
 common#:#obj_svy#:#Survey###07 May 2004 new variable
@@ -1627,7 +1643,7 @@ common#:#objs_pg#:#Pages###18 Feb 2004 new variable
 common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
 common#:#objs_role#:#Roles###18 Feb 2004 new variable
 common#:#objs_rolt#:#Role Templates###18 Feb 2004 new variable
-common#:#objs_slm#:#SCORM Learning Modules###18 Feb 2004 new variable
+common#:#objs_sahs#:#SCORM/AICC Learning Modules###11 Sep 2004 new variable
 common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Chapters###18 Feb 2004 new variable
 common#:#objs_svy#:#Surveys###07 May 2004 new variable
@@ -1761,6 +1777,7 @@ common#:#role_add#:#增加角色
 common#:#role_add_local#:#增加局部角色
 common#:#role_added#:#已增加角色
 common#:#role_assignment#:#角色指派
+common#:#role_assignment_updated#:#Role assignment has been updated.###11 Sep 2004 new variable
 common#:#role_deleted#:#已删除角色
 common#:#role_edit#:#编辑角色
 common#:#role_new#:#新角色
@@ -1789,6 +1806,16 @@ common#:#root_edit_permission#:#更改许可设置
 common#:#root_read#:#ILIAS系统设为读访问
 common#:#root_visible#:#ILIAS系统可视
 common#:#root_write#:#编辑ILIAS根节点数据
+common#:#sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_added#:#SCORM/AICC Learning Module added###11 Sep 2004 new variable
+common#:#sahs_create#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_delete#:#Delete SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_edit_permission#:#Change permission settings###11 Sep 2004 new variable
+common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_read#:#Read access to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_visible#:#SCORM/AICC Learning Module is visible###11 Sep 2004 new variable
+common#:#sahs_write#:#Edit SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#salutation#:#问候
 common#:#salutation_f#:#先生/女士
 common#:#salutation_m#:#先生
@@ -1839,16 +1866,6 @@ common#:#show_owner#:#显示拥有者
 common#:#show_structure#:#激活结构化视图
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#签名
-common#:#slm#:#SCORM学习模块
-common#:#slm_added#:#已增加SCORM学习模块
-common#:#slm_create#:#创建SCORM学习模块
-common#:#slm_delete#:#删除SCORM学习模块
-common#:#slm_edit_permission#:#更改许可设置
-common#:#slm_join#:#注册到SCORM学习模块
-common#:#slm_leave#:#从SCORM学习模块中注销
-common#:#slm_read#:#SCORM学习模块设为读访问
-common#:#slm_visible#:#SCORM学习模块可视
-common#:#slm_write#:#编辑SCORM学习模块
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#根据此列分类
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
@@ -1879,6 +1896,7 @@ common#:#submit#:#提交
 common#:#subobjects#:#子对象
 common#:#subscription#:#订阅
 common#:#summary#:#摘要
+common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)###11 Sep 2004 new variable
 common#:#svy#:#Survey###07 May 2004 new variable
 common#:#svy_add#:#Add survey###07 May 2004 new variable
 common#:#svy_delete#:#Delete survey###07 May 2004 new variable
@@ -2010,6 +2028,7 @@ common#:#usrf_delete#:#删除用户账号
 common#:#usrf_edit_permission#:#更改许可设置
 common#:#usrf_edit_roleassignment#:#更改用户账号角色分配
 common#:#usrf_read#:#用户账号设为读访问
+common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
 common#:#usrf_visible#:#用户账号可视
 common#:#usrf_write#:#编辑用户账号
 common#:#validate#:#验证
@@ -3470,6 +3489,7 @@ survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
 survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
 survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
+survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!###11 Sep 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
@@ -3678,6 +3698,7 @@ survey#:#start_survey#:#Start survey###25 May 2004 new variable
 survey#:#subtype#:#Subtype###04 Jun 2004 new variable
 survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
+survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###11 Sep 2004 new variable
 survey#:#survey_next#:#save and next page >>>###01 Jun 2004 new variable
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###04 Jun 2004 new variable
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable

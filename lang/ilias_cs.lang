@@ -163,6 +163,7 @@ assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Gap selection###16 Mar 2004 new variable
 assessment#:#height#:#Height###19 May 2004 new variable
 assessment#:#imagemap#:#Image map###16 Mar 2004 new variable
+assessment#:#imagemap_file#:#Image map file###11 Sep 2004 new variable
 assessment#:#imagemap_source#:#Image map source###19 Jun 2004 new variable
 assessment#:#import_question#:#Import question(s)###25 Aug 2004 new variable
 assessment#:#insert_after#:#Insert after###22 Jun 2004 new variable
@@ -532,12 +533,14 @@ common#:#add_condition#:#Create new association###14 Aug 2004 new variable
 common#:#add_member#:#Přidat člena
 common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Přidat překlad
+common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Created new condition.###25 Aug 2004 new variable
 common#:#adm_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#adm_read#:#Read access to System settings###16 Mar 2004 new variable
 common#:#adm_visible#:#Systemsettings are visible###16 Mar 2004 new variable
 common#:#adm_write#:#Edit Basic system settings###16 Mar 2004 new variable
 common#:#administrate#:#Spravovat
+common#:#administrate_users#:#Local user administration###11 Sep 2004 new variable
 common#:#administration#:#Administrace
 common#:#administrator#:#Administrátor
 common#:#adopt#:#převzít
@@ -546,6 +549,7 @@ common#:#all_authors#:#All authors###21 Jul 2004 new variable
 common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
 common#:#all_objects#:#Všechny objekty
 common#:#all_tsts#:#All tests###02 Jul 2004 new variable
+common#:#all_users#:#All users###11 Sep 2004 new variable
 common#:#allow_register#:#K dispozici v registračním formuláři pro nové uživatele
 common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
 common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
@@ -565,6 +569,7 @@ common#:#any_language#:#Any language###02 Jul 2004 new variable
 common#:#application_completed#:#Žádost dokončena
 common#:#application_date#:#Datum žádosti
 common#:#applied_users#:#Applied users###14 Aug 2004 new variable
+common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#Schůzka
 common#:#appointment_list#:#Seznam schůzek
 common#:#archive#:#Archiv
@@ -629,6 +634,7 @@ common#:#cat#:#Kategorie
 common#:#cat_a#:#kategorie
 common#:#cat_add#:#Přidat kategorii
 common#:#cat_added#:#Kategorie přidána
+common#:#cat_cat_administrate_users#:#Administrate local user accounts###11 Sep 2004 new variable
 common#:#cat_create#:#Create Category###16 Mar 2004 new variable
 common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#cat_create_cat#:#Create Category###16 Mar 2004 new variable
@@ -645,7 +651,7 @@ common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variabl
 common#:#cat_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Create Question Pool###16 Mar 2004 new variable
-common#:#cat_create_slm#:#Create SCORM Learning Module###16 Mar 2004 new variable
+common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
 common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Create Test###16 Mar 2004 new variable
@@ -654,6 +660,7 @@ common#:#cat_edit#:#Upravit kategorii
 common#:#cat_edit_permission#:#Change permission settings###16 Mar 2004 new variable
 common#:#cat_new#:#Nová kategorie
 common#:#cat_read#:#Read access to Category###16 Mar 2004 new variable
+common#:#cat_read_users#:#Read access to local user accounts###11 Sep 2004 new variable
 common#:#cat_visible#:#Category is visible###16 Mar 2004 new variable
 common#:#cat_write#:#Edit Category###16 Mar 2004 new variable
 common#:#categories#:#kategorie
@@ -757,7 +764,7 @@ common#:#crs_create_frm#:#Create Forum###16 Mar 2004 new variable
 common#:#crs_create_glo#:#Create Glossary###16 Mar 2004 new variable
 common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#crs_create_lm#:#Create Learning Module###16 Mar 2004 new variable
-common#:#crs_create_slm#:#Create SCORM Learning Module###16 Mar 2004 new variable
+common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#Delete Course###16 Mar 2004 new variable
 common#:#crs_edit#:#Upravit kurz
 common#:#crs_edit_permission#:#Change permission settings###16 Mar 2004 new variable
@@ -820,6 +827,7 @@ common#:#delete_object#:#Odstranit objekty
 common#:#delete_selected#:#Odstranit vybrané
 common#:#delete_tr_data#:#Delete tracking data###09 Jul 2004 new variable
 common#:#deleted#:#Odstraněno
+common#:#deleted_user#:#The user has been deleted###11 Sep 2004 new variable
 common#:#department#:#Oddělení
 common#:#desc#:#Popis
 common#:#description#:#Popis
@@ -930,6 +938,7 @@ common#:#file_write#:#Edit File###17 Apr 2004 new variable
 common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Umístění souborů
 common#:#fill_out_all_required_fields#:#Vyplňte prosím všechny povinné položky
+common#:#filter#:#Filter:###11 Sep 2004 new variable
 common#:#firstname#:#Křestní jméno
 common#:#flatview#:#Řádkové zobrazení
 common#:#fold#:#Složka
@@ -944,7 +953,7 @@ common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
 common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
-common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
+common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
@@ -1003,6 +1012,8 @@ common#:#glo_read#:#Read access to Glossary###16 Mar 2004 new variable
 common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Glossary is visible###16 Mar 2004 new variable
 common#:#glo_write#:#Edit Glossary###16 Mar 2004 new variable
+common#:#global#:#Global###11 Sep 2004 new variable
+common#:#global_user#:#Global users###11 Sep 2004 new variable
 common#:#glossaries#:#Glosáře
 common#:#glossary#:#Glosář
 common#:#glossary_added#:#Glosář přidán
@@ -1061,7 +1072,7 @@ common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
 common#:#grp_create_htlm#:#Create HTML Learning Module###15 May 2004 new variable
 common#:#grp_create_lm#:#Create Learning Module###16 Mar 2004 new variable
 common#:#grp_create_mep#:#Create Media Pool###15 May 2004 new variable
-common#:#grp_create_slm#:#Create SCORM Learning Module###16 Mar 2004 new variable
+common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#Delete Group###16 Mar 2004 new variable
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group.###16 Mar 2004 new variable
 common#:#grp_dismiss_myself#:#Are you sure you want to yourself from the group.###16 Mar 2004 new variable
@@ -1147,7 +1158,7 @@ common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 ne
 common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
 common#:#import_lm#:#Importovat Learning module
 common#:#import_root_user#:#Import Root User###16 Mar 2004 new variable
-common#:#import_slm#:#Importovat balík SCORM
+common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Import Users###16 Mar 2004 new variable
 common#:#imported#:#imported###30 Apr 2004 new variable
 common#:#in#:#v
@@ -1272,6 +1283,8 @@ common#:#lm_join#:#Subscribe to Learning Module###16 Mar 2004 new variable
 common#:#lm_leave#:#Unsubscribe from Learning Module###16 Mar 2004 new variable
 common#:#lm_new#:#Nový výukový modul
 common#:#lm_read#:#Read access to Learning Module###16 Mar 2004 new variable
+common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
+common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#Learning Module is visible###16 Mar 2004 new variable
 common#:#lm_write#:#Edit Learning Module###16 Mar 2004 new variable
@@ -1288,6 +1301,7 @@ common#:#lo_new#:#Nový výukový objekt
 common#:#lo_no_content#:#Žádné učební materiály nejsou k dispozici
 common#:#lo_other_langs#:#Výukové objekty v jiných jazycích
 common#:#lo_overview#:#Přehled výukových objektů
+common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#Umístění:
 common#:#logic_and#:#and###26 Aug 2004 new variable
 common#:#logic_or#:#or###26 Aug 2004 new variable
@@ -1495,6 +1509,7 @@ common#:#no_checkbox#:#Žádné zaškrtávací políčko nebylo označeno!
 common#:#no_date#:#Žádné datum
 common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Žádné diskusní skupiny v osobním seznamu.
+common#:#no_global_role_left#:#Every user has to be assigned to one role.###11 Sep 2004 new variable
 common#:#no_grp_in_personal_list#:#Žádné skupiny v osobním seznamu.
 common#:#no_import_available#:#Import není možný pro daný typ
 common#:#no_limit#:#No limit###24 Mar 2004 new variable
@@ -1504,6 +1519,7 @@ common#:#no_permission_to_join#:#Nemáte oprávnění pro vstup do skupiny!
 common#:#no_title#:#Žádný název
 common#:#no_tst_in_personal_list#:#No tests in personal list.###16 Mar 2004 new variable
 common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
+common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
 common#:#none#:#Neurčeno
 common#:#normal#:#Normální
 common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
@@ -1562,7 +1578,7 @@ common#:#obj_rolf_local#:#Lokální role
 common#:#obj_rolf_local_desc#:#Obsahuje lokální role objektu č.
 common#:#obj_rolt#:#Šablona role
 common#:#obj_root#:#kořen
-common#:#obj_slm#:#Modul SCORM
+common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Kapitola
 common#:#obj_svy#:#Survey###07 May 2004 new variable
@@ -1611,7 +1627,7 @@ common#:#objs_pg#:#Pages###16 Mar 2004 new variable
 common#:#objs_qpl#:#Question Pools###16 Mar 2004 new variable
 common#:#objs_role#:#Roles###16 Mar 2004 new variable
 common#:#objs_rolt#:#Role Templates###16 Mar 2004 new variable
-common#:#objs_slm#:#SCORM Learning Modules###16 Mar 2004 new variable
+common#:#objs_sahs#:#SCORM/AICC Learning Modules###11 Sep 2004 new variable
 common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Chapters###16 Mar 2004 new variable
 common#:#objs_svy#:#Surveys###07 May 2004 new variable
@@ -1745,6 +1761,7 @@ common#:#role_add#:#Přidat roli
 common#:#role_add_local#:#Přidat lokální roli
 common#:#role_added#:#Role přidána
 common#:#role_assignment#:#Přiřazení rolí
+common#:#role_assignment_updated#:#Role assignment has been updated.###11 Sep 2004 new variable
 common#:#role_deleted#:#Role odstraněna
 common#:#role_edit#:#Upravit roli
 common#:#role_new#:#Nová role
@@ -1773,6 +1790,16 @@ common#:#root_edit_permission#:#Change permission settings###16 Mar 2004 new var
 common#:#root_read#:#Read access to ILIAS system###16 Mar 2004 new variable
 common#:#root_visible#:#ILIAS system is visible###16 Mar 2004 new variable
 common#:#root_write#:#Edit metadata of system root node###16 Mar 2004 new variable
+common#:#sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_added#:#SCORM/AICC Learning Module added###11 Sep 2004 new variable
+common#:#sahs_create#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_delete#:#Delete SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_edit_permission#:#Change permission settings###11 Sep 2004 new variable
+common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_read#:#Read access to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_visible#:#SCORM/AICC Learning Module is visible###11 Sep 2004 new variable
+common#:#sahs_write#:#Edit SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#salutation#:#Oslovení
 common#:#salutation_f#:#paní/slečna
 common#:#salutation_m#:#pan
@@ -1823,16 +1850,6 @@ common#:#show_owner#:#Zobrazit vlastníka
 common#:#show_structure#:#Povolit strukturovaný pohled
 common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
 common#:#signature#:#Signatura
-common#:#slm#:#Výukový modul SCORM
-common#:#slm_added#:#Výukový modul SCORM přidán
-common#:#slm_create#:#Create SCORM Learning Module###16 Mar 2004 new variable
-common#:#slm_delete#:#Delete SCORM Learning Module###16 Mar 2004 new variable
-common#:#slm_edit_permission#:#Change permission settings###16 Mar 2004 new variable
-common#:#slm_join#:#Subscribe to SCORM Learning Module###16 Mar 2004 new variable
-common#:#slm_leave#:#Unsubscribe from SCORM Learning Module###16 Mar 2004 new variable
-common#:#slm_read#:#Read access to SCORM Learning Module###16 Mar 2004 new variable
-common#:#slm_visible#:#SCORM Learning Module is visible###16 Mar 2004 new variable
-common#:#slm_write#:#Edit SCORM Learning Module###16 Mar 2004 new variable
 common#:#smtp#:#SMTP### identical translation
 common#:#sort_by_this_column#:#Setřídit podle tohoto sloupce
 common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
@@ -1863,6 +1880,7 @@ common#:#submit#:#Odeslat
 common#:#subobjects#:#Podřízené objekty
 common#:#subscription#:#Přihlášení
 common#:#summary#:#Přehled
+common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)###11 Sep 2004 new variable
 common#:#svy#:#Survey###07 May 2004 new variable
 common#:#svy_add#:#Add survey###07 May 2004 new variable
 common#:#svy_delete#:#Delete survey###07 May 2004 new variable
@@ -1994,6 +2012,7 @@ common#:#usrf_delete#:#Delete user accounts###16 Mar 2004 new variable
 common#:#usrf_edit_permission#:#Change access to user accounts###16 Mar 2004 new variable
 common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts###16 Mar 2004 new variable
 common#:#usrf_read#:#Read access to user accounts###16 Mar 2004 new variable
+common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
 common#:#usrf_visible#:#User accounts are visible###16 Mar 2004 new variable
 common#:#usrf_write#:#Edit user accounts###16 Mar 2004 new variable
 common#:#validate#:#Validovat
@@ -3454,6 +3473,7 @@ survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
 survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
 survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
 survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
+survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!###11 Sep 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
@@ -3662,6 +3682,7 @@ survey#:#start_survey#:#Start survey###25 May 2004 new variable
 survey#:#subtype#:#Subtype###04 Jun 2004 new variable
 survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!###01 Jun 2004 new variable
+survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###11 Sep 2004 new variable
 survey#:#survey_next#:#save and next page >>>###01 Jun 2004 new variable
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!###04 Jun 2004 new variable
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!###04 Jun 2004 new variable

@@ -533,12 +533,14 @@ common#:#add_condition#:#Create new association
 common#:#add_member#:#Add Member
 common#:#add_members#:#Add Members
 common#:#add_translation#:#Add translation
+common#:#add_user#:#Add local user
 common#:#added_new_condition#:#Created new condition.
 common#:#adm_edit_permission#:#Change permission settings
 common#:#adm_read#:#Read access to System settings
 common#:#adm_visible#:#Systemsettings are visible
 common#:#adm_write#:#Edit Basic system settings
 common#:#administrate#:#Administrate
+common#:#administrate_users#:#Local user administration
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
@@ -547,6 +549,7 @@ common#:#all_authors#:#All authors
 common#:#all_lms#:#All learning modules
 common#:#all_objects#:#All Objects
 common#:#all_tsts#:#All tests
+common#:#all_users#:#All users
 common#:#allow_register#:#Available in registration form for new users
 common#:#alm#:#AICC Learning Module
 common#:#alm_added#:#AICC Learning Module added
@@ -566,6 +569,7 @@ common#:#any_language#:#Any language
 common#:#application_completed#:#Application is complete
 common#:#application_date#:#Application date
 common#:#applied_users#:#Applied users
+common#:#apply_filter#:#Apply filter
 common#:#appointment#:#Appointment
 common#:#appointment_list#:#Appointment List
 common#:#archive#:#Archive
@@ -630,6 +634,7 @@ common#:#cat#:#Category
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
+common#:#cat_cat_administrate_users#:#Administrate local user accounts
 common#:#cat_create#:#Create Category
 common#:#cat_create_alm#:#Create AICC Learning Module
 common#:#cat_create_cat#:#Create Category
@@ -655,6 +660,7 @@ common#:#cat_edit#:#Edit Category
 common#:#cat_edit_permission#:#Change permission settings
 common#:#cat_new#:#New Category
 common#:#cat_read#:#Read access to Category
+common#:#cat_read_users#:#Read access to local user accounts
 common#:#cat_visible#:#Category is visible
 common#:#cat_write#:#Edit Category
 common#:#categories#:#Categories
@@ -821,6 +827,7 @@ common#:#delete_object#:#Delete Object(s)
 common#:#delete_selected#:#Delete Selected
 common#:#delete_tr_data#:#Delete tracking data
 common#:#deleted#:#Deleted
+common#:#deleted_user#:#The user has been deleted
 common#:#department#:#Department
 common#:#desc#:#Description
 common#:#description#:#Description
@@ -931,6 +938,7 @@ common#:#file_write#:#Edit File
 common#:#files#:#Files
 common#:#files_location#:#Files Location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
+common#:#filter#:#Filter:
 common#:#firstname#:#First name
 common#:#flatview#:#Flat View
 common#:#fold#:#Folder
@@ -1004,6 +1012,8 @@ common#:#glo_read#:#Read access to Glossary
 common#:#glo_upload_file#:#File
 common#:#glo_visible#:#Glossary is visible
 common#:#glo_write#:#Edit Glossary
+common#:#global#:#Global
+common#:#global_user#:#Global users
 common#:#glossaries#:#Glossaries
 common#:#glossary#:#Glossary
 common#:#glossary_added#:#Glossary added
@@ -1273,9 +1283,9 @@ common#:#lm_join#:#Subscribe to Learning Module
 common#:#lm_leave#:#Unsubscribe from Learning Module
 common#:#lm_new#:#New Learning Module
 common#:#lm_read#:#Read access to Learning Module
-common#:#lm_type_scorm#:#SCORM
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
+common#:#lm_type_scorm#:#SCORM
 common#:#lm_visible#:#Learning Module is visible
 common#:#lm_write#:#Edit Learning Module
 common#:#lng#:#Language
@@ -1291,6 +1301,7 @@ common#:#lo_new#:#New Learning Object
 common#:#lo_no_content#:#No Learning Resources Available
 common#:#lo_other_langs#:#LO's in Other Langauges
 common#:#lo_overview#:#LO Overview
+common#:#local#:#Local
 common#:#locator#:#Location:
 common#:#logic_and#:#and
 common#:#logic_or#:#or
@@ -1498,6 +1509,7 @@ common#:#no_checkbox#:#No checkbox checked!
 common#:#no_date#:#No date
 common#:#no_description#:#No description
 common#:#no_frm_in_personal_list#:#No forums in personal list.
+common#:#no_global_role_left#:#Every user has to be assigned to one role.
 common#:#no_grp_in_personal_list#:#No groups in personal list.
 common#:#no_import_available#:#Import not available for type
 common#:#no_limit#:#No limit
@@ -1507,6 +1519,7 @@ common#:#no_permission_to_join#:#You are not allowed to join this group!
 common#:#no_title#:#No Title
 common#:#no_tst_in_personal_list#:#No tests in personal list.
 common#:#no_users_applied#:#Please select an user.
+common#:#no_users_selected#:#Please select one user.
 common#:#none#:#None
 common#:#normal#:#Normal
 common#:#not_implemented_yet#:#Not implemented yet
@@ -1748,6 +1761,7 @@ common#:#role_add#:#Add Role
 common#:#role_add_local#:#Add local Role
 common#:#role_added#:#Role added
 common#:#role_assignment#:#Role Assignment
+common#:#role_assignment_updated#:#Role assignment has been updated.
 common#:#role_deleted#:#Role deleted
 common#:#role_edit#:#Edit Role
 common#:#role_new#:#New Role
@@ -1776,6 +1790,16 @@ common#:#root_edit_permission#:#Change permission settings
 common#:#root_read#:#Read access to ILIAS system
 common#:#root_visible#:#ILIAS system is visible
 common#:#root_write#:#Edit metadata of system root node
+common#:#sahs#:#SCORM/AICC Learning Module
+common#:#sahs_added#:#SCORM/AICC Learning Module added
+common#:#sahs_create#:#Create SCORM/AICC Learning Module
+common#:#sahs_delete#:#Delete SCORM/AICC Learning Module
+common#:#sahs_edit_permission#:#Change permission settings
+common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
+common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
+common#:#sahs_read#:#Read access to SCORM/AICC Learning Module
+common#:#sahs_visible#:#SCORM/AICC Learning Module is visible
+common#:#sahs_write#:#Edit SCORM/AICC Learning Module
 common#:#salutation#:#Salutation
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -1826,16 +1850,6 @@ common#:#show_owner#:#Show Owner
 common#:#show_structure#:#Enable Structured-View
 common#:#show_users_online#:#Show users online
 common#:#signature#:#Signature
-common#:#sahs#:#SCORM/AICC Learning Module
-common#:#sahs_added#:#SCORM/AICC Learning Module added
-common#:#sahs_create#:#Create SCORM/AICC Learning Module
-common#:#sahs_delete#:#Delete SCORM/AICC Learning Module
-common#:#sahs_edit_permission#:#Change permission settings
-common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
-common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
-common#:#sahs_read#:#Read access to SCORM/AICC Learning Module
-common#:#sahs_visible#:#SCORM/AICC Learning Module is visible
-common#:#sahs_write#:#Edit SCORM/AICC Learning Module
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sort by this column
 common#:#spl#:#Question pool (Survey)
@@ -1866,6 +1880,7 @@ common#:#submit#:#Submit
 common#:#subobjects#:#Subobjects
 common#:#subscription#:#Subscription
 common#:#summary#:#Summary
+common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)
 common#:#svy#:#Survey
 common#:#svy_add#:#Add survey
 common#:#svy_delete#:#Delete survey
@@ -1997,6 +2012,7 @@ common#:#usrf_delete#:#Delete user accounts
 common#:#usrf_edit_permission#:#Change access to user accounts
 common#:#usrf_edit_roleassignment#:#Change roleassignment of user accounts
 common#:#usrf_read#:#Read access to user accounts
+common#:#usrf_read_users#:#Role assignment for local administrators
 common#:#usrf_visible#:#User accounts are visible
 common#:#usrf_write#:#Edit user accounts
 common#:#validate#:#Validate
@@ -3664,9 +3680,9 @@ survey#:#start_date#:#Start date
 survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!
 survey#:#start_survey#:#Start survey
 survey#:#subtype#:#Subtype
-survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
 survey#:#survey_finish#:#save and finish survey
 survey#:#survey_finished#:#You have completed the survey. Thank you for your participation!
+survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
 survey#:#survey_next#:#save >>>
 survey#:#survey_offline_message#:#Can't invite users. The survey is offline!
 survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
@@ -3692,19 +3708,3 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-common#:#administrate_users#:#Local user administration
-common#:#add_user#:#Add local user
-common#:#all_users#:#All users
-common#:#global_user#:#Global users
-common#:#filter#:#Filter:
-common#:#apply_filter#:#Apply filter
-common#:#no_users_selected#:#Please select one user.
-common#:#local#:#Local
-common#:#global#:#Global
-common#:#no_global_role_left#:#Every user has to be assigned to one role.
-common#:#role_assignment_updated#:#Role assignment has been updated.
-common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)
-common#:#deleted_user#:#The user has been deleted
-common#:#cat_cat_administrate_users#:#Administrate local user accounts
-common#:#cat_read_users#:#Read access to local user accounts
-common#:#usrf_read_users#:#Role assignment for local administrators
