@@ -2082,7 +2082,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$mainworksheet->write(0, 8, $this->lng->txt("median"), $format_bold);
 				$mainworksheet->write(0, 9, $this->lng->txt("arithmetic_mean"), $format_bold);
 				$mainworksheet->write(0, 10, $this->lng->txt("geometric_mean"), $format_bold);
-				$mainworksheet->write(0, 11, $this->lng->txt("harmonic_mean"), $format_bold);
 				break;
 			case (TYPE_SPSS || TYPE_PRINT):
 				$csvfile = array();
@@ -2101,7 +2100,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				array_push($csvrow, $this->lng->txt("median"));
 				array_push($csvrow, $this->lng->txt("arithmetic_mean"));
 				array_push($csvrow, $this->lng->txt("geometric_mean"));
-				array_push($csvrow, $this->lng->txt("harmonic_mean"));
 				array_push($csvfile, $csvrow);
 				break;
 		}
@@ -2151,7 +2149,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("MEDIAN", $eval["MEDIAN"]);
 			$this->tpl->setVariable("ARITHMETIC_MEAN", $eval["ARITHMETIC_MEAN"]);
 			$this->tpl->setVariable("GEOMETRIC_MEAN", $eval["GEOMETRIC_MEAN"]);
-			$this->tpl->setVariable("HARMONIC_MEAN", $eval["HARMONIC_MEAN"]);
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
 			switch ($_POST["export_format"])
 			{
@@ -2177,7 +2174,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$mainworksheet->write($counter+1, 8, $eval["MEDIAN"]);
 					$mainworksheet->write($counter+1, 9, $eval["ARITHMETIC_MEAN"]);
 					$mainworksheet->write($counter+1, 10, $eval["GEOMETRIC_MEAN"]);
-					$mainworksheet->write($counter+1, 11, $eval["HARMONIC_MEAN"]);
 					break;
 				case (TYPE_SPSS || TYPE_PRINT):
 					$csvrow = array();
@@ -2191,7 +2187,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					array_push($csvrow, $eval["MEDIAN"]);
 					array_push($csvrow, $eval["ARITHMETIC_MEAN"]);
 					array_push($csvrow, $eval["GEOMETRIC_MEAN"]);
-					array_push($csvrow, $eval["HARMONIC_MEAN"]);
 					array_push($csvfile, $csvrow);
 					break;
 			}
@@ -2397,11 +2392,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 									$worksheet->write($rowcounter, 0, $this->lng->txt("geometric_mean"), $format_bold);
 									$worksheet->write($rowcounter++, 1, $eval["GEOMETRIC_MEAN"]);
 								}
-								if ($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE)
-								{
-									$worksheet->write($rowcounter, 0, $this->lng->txt("harmonic_mean"), $format_bold);
-									$worksheet->write($rowcounter++, 1, $eval["HARMONIC_MEAN"]);
-								}
 								$worksheet->write($rowcounter, 0, $this->lng->txt("values"), $format_bold);
 								$worksheet->write($rowcounter, 1, $this->lng->txt("value"), $format_title);
 								$worksheet->write($rowcounter, 2, $this->lng->txt("category_nr_selected"), $format_title);
@@ -2438,11 +2428,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$this->tpl->setVariable("TEXT_GEOMETRIC_MEAN", $this->lng->txt("geometric_mean"));
 							$this->tpl->setVariable("GEOMETRIC_MEAN", $eval["GEOMETRIC_MEAN"]);
 						}
-						if ($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE)
-						{
-							$this->tpl->setVariable("TEXT_HARMONIC_MEAN", $this->lng->txt("harmonic_mean"));
-							$this->tpl->setVariable("HARMONIC_MEAN", $eval["HARMONIC_MEAN"]);
-						}
 						$this->tpl->setVariable("TEXT_VALUES", $this->lng->txt("values"));
 						$values = "";
 						foreach ($eval["values"] as $key => $value)
@@ -2474,11 +2459,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 								{
 									array_push($printDetail, $this->lng->txt("geometric_mean"));
 									array_push($printDetail, $eval["GEOMETRIC_MEAN"]);
-								}
-								if ($data["subtype"] == SUBTYPE_RATIO_ABSOLUTE)
-								{
-									array_push($printDetail, $this->lng->txt("harmonic_mean"));
-									array_push($printDetail, $eval["HARMONIC_MEAN"]);
 								}
 								array_push($printDetail, $this->lng->txt("values"));
 								array_push($printDetail, $values);
@@ -2569,7 +2549,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("MEDIAN", $this->lng->txt("median"));
 		$this->tpl->setVariable("ARITHMETIC_MEAN", $this->lng->txt("arithmetic_mean"));
 		$this->tpl->setVariable("GEOMETRIC_MEAN", $this->lng->txt("geometric_mean"));
-		$this->tpl->setVariable("HARMONIC_MEAN", $this->lng->txt("harmonic_mean"));
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
 		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("excel"));
 		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("csv"));

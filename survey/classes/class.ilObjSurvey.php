@@ -2574,7 +2574,6 @@ class ilObjSurvey extends ilObject
 				$result_array["MEDIAN"] = "";
 				$result_array["ARITHMETIC_MEAN"] = "";
 				$result_array["GEOMETRIC_MEAN"] = "";
-				$result_array["HARMONIC_MEAN"] = "";
 				$prefix = "";
 				if (strcmp(key($cumulated), "") != 0)
 				{
@@ -2631,7 +2630,6 @@ class ilObjSurvey extends ilObject
 				}
 				$result_array["ARITHMETIC_MEAN"] = "";
 				$result_array["GEOMETRIC_MEAN"] = "";
-				$result_array["HARMONIC_MEAN"] = "";
 				$result_array["MEDIAN"] = $median_value;
 				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
 				break;
@@ -2701,28 +2699,12 @@ class ilObjSurvey extends ilObject
 				{
 					$result_array["GEOMETRIC_MEAN"] = "";
 				}
-				if ($questions[$question_id]["subtype"] == SUBTYPE_RATIO_ABSOLUTE)
-				{
-					if ($sum_part_zero)
-					{
-						$result_array["HARMONIC_MEAN"] = "";
-					}
-					else
-					{
-						$result_array["HARMONIC_MEAN"] = sprintf("%.2f", (double)$total/$x_i_inv);
-					}
-				}
-				else
-				{
-					$result_array["HARMONIC_MEAN"] = "";
-				}
 				$result_array["MEDIAN"] = $median_value;
 				$result_array["QUESTION_TYPE"] = $questions[$question_id]["type_tag"];
 				break;
 			case "qt_text":
 				$result_array["ARITHMETIC_MEAN"] = "";
 				$result_array["GEOMETRIC_MEAN"] = "";
-				$result_array["HARMONIC_MEAN"] = "";
 				$result_array["MEDIAN"] = "";
 				$result_array["MODE"] = "";
 				$result_array["MODE_NR_OF_SELECTIONS"] = "";
