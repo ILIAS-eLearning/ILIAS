@@ -557,6 +557,13 @@ components:
     also consider using a dedicated MySQL account for running ILIAS instead of
     the MySQL root account.
 
+    For MySQL 4.0 and higher you need to grant the permission LOCK TABLES to
+    the ILIAS db-user. E.g. if the ILIAS db-user 'root' accesses from host
+    'localhost':
+
+        /opt/ilias/bin/mysql -u root password <password>
+        mysql> grant LOCK TABLES on *.* to root@localhost;
+
 
 (b) Apache (preparation)
 
@@ -626,6 +633,10 @@ components:
 
     ILIAS 3 will also work with register_globals=Off.
 
+    The parameter 'memory_limit' defines the maximum amount of memory a php
+    script may consume. The default value of 8M maybe to low for some ILIAS
+    scripts. We recommend to set this parameter to 20M.
+
     There are a few more settings in php.ini that might require modification:
 
     - session.gc_maxlifetime
@@ -657,6 +668,7 @@ components:
       make sure that the pear library is within your include path of php.
       if you followed the installation instruction above, just add
       '.:/opt/ilias/lib/pear'.
+
 
 (d) Apache
 
