@@ -22,12 +22,13 @@ class ForumObject extends Object
 	
 	/**
 	* Constructor
-	*
-	* @param	integer	$a_id object id
 	* @access	public
+	* @param	integer	reference_id or object_id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
 	function ForumObject($a_id = 0,$a_call_by_reference = true)
 	{
+		$this->type = "frm";
 		$this->Object($a_id,$a_call_by_reference);
 		
 		// TODO: needs to rewrite scripts that are using Forum outside this class

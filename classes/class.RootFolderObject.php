@@ -3,7 +3,7 @@
 * Class RootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.RootFolderObject.php,v 1.5 2003/03/10 10:55:41 shofmann Exp $
+* @version $Id$Id: class.RootFolderObject.php,v 1.6 2003/03/17 17:44:43 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -12,10 +12,13 @@ class RootFolderObject extends Object
 {
 	/**
 	* Constructor
-	* @access public
+	* @access	public
+	* @param	integer	reference_id or object_id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
 	function RootFolderObject($a_id,$a_call_by_reference = true)
 	{
+		$this->type = "root";
 		$this->Object($a_id,$a_call_by_reference);
 	}
 

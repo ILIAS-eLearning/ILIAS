@@ -1070,8 +1070,7 @@ class ObjectOut
 
 			$this->tpl->setCurrentBlock("add_obj");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".
-							  $_GET["ref_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
+			$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->parseCurrentBlock();
 		}
