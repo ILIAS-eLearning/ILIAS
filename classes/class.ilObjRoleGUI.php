@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.43 2003/08/14 15:23:15 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.44 2003/08/15 11:04:47 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -142,6 +142,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			// get all object type definitions
 			$obj_data = getObjectList("typ","title","ASC");
 
+			// remove object types that are 'deactivated' (have no operation enabled)
 			foreach ($obj_data as $key => $type)
 			{
 				$ops_arr = $rbacreview->getOperationsOnType($type["obj_id"]);
