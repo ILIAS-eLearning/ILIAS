@@ -88,10 +88,90 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $question_gui->out_preview();
   }
 
+/**
+* Cancels actions editing this question
+*
+* Cancels actions editing this question
+*
+* @access private
+*/
+  function cancel_action() {
+    header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
+  }
+
+/**
+* Creates the create/edit template form of a question
+*
+* Creates the create/edit template form of a question and fills it with
+* that data of the question.
+*
+* @access public
+*/
   function set_question_form($type, $edit = "") {
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+
+		// catch feedback message
+		sendInfo();
     $question_gui =& new ASS_QuestionGUI();
     $question =& $question_gui->create_question($type, $edit);
-    $question_gui->set_edit_template();
+    if ($_POST["id"] > 0) {
+      // First of all: Load question data from database
+      $question->load_from_db($_POST["id"]);
+			$edit = $_POST["id"];
+    }
+
+		$this->setLocator("", "", "", $question->title);
+    $missing_required_fields = 0;
+
+    if (strlen($_POST["cmd"]["cancel"]) > 0) {
+      // Cancel
+      $this->cancel_action();
+      exit();
+    }
+
+    $question->set_ref_id($_GET["ref_id"]);
+    $question_type = $question_gui->get_question_type($question);
+
+    if ($question->id > 0) {
+      $title = $this->lng->txt("edit") . " " . $this->lng->txt($question_type);
+    } else {
+      $title = $this->lng->txt("create_new") . " " . $this->lng->txt($question_type);
+    }
+
+		if (!empty($title))
+		{
+			$this->tpl->setVariable("HEADER", $title);
+		}
+		
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
+
+    if (!$_GET["edit"]) {
+      $missing_required_fields = $question_gui->set_question_data_from_template($question_type);
+    }
+    if (strlen($_POST["cmd"]["save"]) > 0) {
+      // Save and back to question pool
+      if (!$missing_required_fields) {
+        $question->save_to_db();
+        $this->cancel_action();
+        exit();
+      } else {
+        sendInfo($this->lng->txt("fill_out_all_required_fields"));
+      }
+    }
+    if (strlen($_POST["cmd"]["apply"]) > 0) {
+      // Save and continue editing
+      if (!$missing_required_fields) {
+        $question->save_to_db();
+      } else {
+        sendInfo($this->lng->txt("fill_out_all_required_fields"));
+      }
+    }
+
+    $question_gui->set_template_from_question_data($question_type);
+
+    $this->tpl->setCurrentBlock("adm_content");
+    $this->tpl->parseCurrentBlock();
   }
   
   function get_add_parameter() 
@@ -99,6 +179,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
   }
   
+	function questionObject() 
+	{
+    $type = $_GET["sel_question_types"];
+    $this->set_question_form($type, $_GET["edit"]);
+	}
 
   function questionsObject()
   {
@@ -108,10 +193,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       $this->out_preview_page($_GET["preview"]);
       return;
     }
-    if (($_GET["edit"]) or ($type)) {
-      $this->set_question_form($type, $_GET["edit"]);
-      return;
-    }
+
     if ($_POST["cmd"]["create"]) {
       $this->set_question_form($_POST["sel_question_types"]);
       return;
@@ -139,7 +221,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         sendInfo($this->lng->txt("qpl_edit_select_none"));
       } else {
         if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
-          header("location:" . $_SERVER["PHP_SELF"] . $add_parameter . "&edit=" . $checked_questions[0]);
+          header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question" . "&edit=" . $checked_questions[0]);
           exit();
         } else {
           sendInfo($this->lng->txt("qpl_edit_rbac_error"));
@@ -308,7 +390,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         if (($data->private != 1) or ($data->owner == $this->ilias->account->id)) {
           $this->tpl->setVariable("QUESTION_ID", $data->question_id);
           if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
-            $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&edit=$data->question_id\">$data->title</a>");
+            $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=$data->question_id\">$data->title</a>");
           } else {
             $this->tpl->setVariable("QUESTION_TITLE", $data->title);
           }
@@ -478,7 +560,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	* @param	scriptanme that is used for linking; if not set adm_object.php is used
 	* @access	public
 	*/
-	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php")
+	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php", $question_title = "")
 	{
 //		global $ilias_locator;
 	  $ilias_locator = new ilLocatorGUI(false);
@@ -524,12 +606,19 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$row["title"] = $this->lng->txt("repository");
 			}
 			if ($this->ref_id == $row["child"]) {
-				if ($_GET["cmd"]) {
-					$param = "&cmd=" . $_GET["cmd"];
-				} else {
-					$param = "";
-				}
+				$param = "&cmd=questions";
 				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . $param,"bottom");
+				switch ($_GET["cmd"]) {
+					case "question":
+						$id = $_GET["edit"];
+						if (!$id) {
+							$id = $_POST["id"];
+						}
+						if ($question_title) {
+							$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=question&edit=$id","bottom");
+						}
+						break;
+				}
 			} else {
 				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
 			}
