@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -112,7 +112,7 @@ assessment#:#eval_order_result#:#Die angegebene Reihenfolge für den Wert %s ist
 assessment#:#exp_eval_data#:#Evaluationsdaten exportieren
 assessment#:#exp_type_excel#:#  Excel  
 assessment#:#exp_type_spss#:#  SPSS  
-assessment#:#export#:Exportieren
+assessment#:#export#:#Exportieren
 assessment#:#false#:#Falsch
 assessment#:#fill_out_all_answer_fields#:#Bitte füllen Sie alle Antwortfelder aus, bevor Sie ein Neues erzeugen
 assessment#:#fill_out_all_matching_pairs#:#Bitte füllen Sie alle Zuordnungspaare aus, bevor Sie ein Neues erzeugen

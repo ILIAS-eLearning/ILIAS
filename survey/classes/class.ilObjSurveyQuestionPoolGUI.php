@@ -79,5 +79,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		header("Location:".$this->getReturnLocation("save","surveypool.php?".$this->link_params));
 		exit();
 	}
+	
+	/**
+	* Displays the question browser
+	* @access	public
+	*/
+	function questionsObject() {
+	}
+	
 } // END class.ilObjSurveyQuestionPoolGUI
 ?>

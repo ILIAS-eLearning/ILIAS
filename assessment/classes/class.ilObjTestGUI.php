@@ -858,7 +858,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questions.html", true);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", " tpl.il_as_tst_questions.html", true);
     $this->tpl->addBlockFile("A_BUTTONS", "question_buttons", "tpl.il_as_tst_question_buttons.html", true);
 
 		$query = sprintf("SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY sequence",
