@@ -2122,4 +2122,3 @@ class ilGroupGUI extends ilObjectGUI
 	}
 }
 ?>
-
