@@ -666,7 +666,7 @@ class ilObjContentObject extends ilObject
 					$result[$counter]["id"]		=  $row->ref_id;
 					$result[$counter]["link"]	=  "content/lm_presentation.php?ref_id=".$row->ref_id;
 					$result[$counter]["target"]	=  "_top";
-					
+
 					++$counter;
 				}
 				break;
@@ -689,7 +689,7 @@ class ilObjContentObject extends ilObject
 					$result[$counter]["page_id"] = $row->page_id;
 					$result[$counter]["link"]	= "content/lm_presentation.php?ref_id=".$row->ref_id;
 					$result[$counter]["target"]	= "_top";
-					
+
 					++$counter;
 				}
 				break;

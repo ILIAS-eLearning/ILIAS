@@ -97,7 +97,7 @@ class ilRepositoryGUI
 
 				// learning resources
 				case "lm":
-				case "slm":
+				//case "slm":
 				case "dbk":
 					$this->learning_resources[$key] = $object;
 
@@ -334,15 +334,28 @@ class ilRepositoryGUI
 
 				$obj_icon = "icon_".$lr_data["type"]."_b.gif";
 
-				$tpl->setVariable("TITLE", $lr_data["title"]);
+				//$tpl->setVariable("TITLE", $lr_data["title"]);
 
 				// learning modules
 				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk")
 				{
 					$obj_link = "content/lm_presentation.php?ref_id=".$lr_data["ref_id"];
 					$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$lr_data["ref_id"]));
-					$tpl->setVariable("VIEW_LINK", $obj_link);
-					$tpl->setVariable("VIEW_TARGET", "_top");
+					if($this->rbacsystem->checkAccess('read',$lr_data["ref_id"]))
+					{
+						$tpl->setCurrentBlock("read");
+						$tpl->setVariable("VIEW_LINK", $obj_link);
+						$tpl->setVariable("VIEW_TARGET", "_top");
+						$tpl->setVariable("R_TITLE", $lr_data["title"]);
+						$tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$tpl->setCurrentBlock("visible");
+						$tpl->setVariable("V_TITLE", $lr_data["title"]);
+						$tpl->parseCurrentBlock();
+					}
+					$tpl->setCurrentBlock("tbl_content");
 					if($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]))
 					{
 						$tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);
@@ -351,21 +364,25 @@ class ilRepositoryGUI
 					}
 					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], "lm"))
 					{
-						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
-							"&item_ref_id=".$lr_data["ref_id"].
-							"&type=lm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
-							"&sort_by=".$_GET["sort_by"]);
-						$tpl->setVariable("TXT_TO_DESK", "(".$this->lng->txt("to_desktop").")");
+						if ($this->rbacsystem->checkAccess('read', $lr_data["ref_id"]))
+						{
+							$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
+								"&item_ref_id=".$lr_data["ref_id"].
+								"&type=lm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+								"&sort_by=".$_GET["sort_by"]);
+							$tpl->setVariable("TXT_TO_DESK", "(".$this->lng->txt("to_desktop").")");
+						}
 					}
 				}
 
 				// scorm learning modules
+				/*
 				if ($lr_data["type"] == "slm")
 				{
 					$obj_link = "content/scorm_presentation.php?ref_id=".$lr_data["ref_id"];
 					$tpl->setVariable("VIEW_LINK", $obj_link);
 					$tpl->setVariable("VIEW_TARGET", "bottom");
-				}
+				}*/
 
 				$tpl->setVariable("IMG", $obj_icon);
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$lr_data["type"]));
