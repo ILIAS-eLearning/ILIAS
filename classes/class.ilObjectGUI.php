@@ -848,7 +848,6 @@ class ilObjectGUI
 	* gateway for all button actions
 	* @access	public
 	*/
-	/*
 	function gatewayObject()
 	{
 		switch(key($_POST["cmd"]))
@@ -902,7 +901,7 @@ class ilObjectGUI
 			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 			exit();
 		}
-	}*/
+	}
 
 	/**
 	* create new object form
