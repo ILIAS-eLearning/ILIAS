@@ -56,10 +56,56 @@ class ilRepositoryExplorer extends ilExplorer
 		parent::ilExplorer($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
-		$this->order_column = "";
+		$this->order_column = "title";
 		$this->setSessionExpandVariable("repexpand");
+
+		$this->addFilter("root");
+		$this->addFilter("cat");
+		$this->addFilter("grp");
+		$this->addFilter("lm");
+		$this->addFilter("frm");
+		$this->addFilter("dbk");
+		$this->setFiltered(true);
+
 	}
 
+	function buildLinkTarget($a_node_id, $a_type)
+	{
+		switch($a_type)
+		{
+			case "cat":
+				return "repository.php?rep_id=".$a_node_id."&set_mode=flat";
+
+			case "lm":
+			case "dbk":
+				return "content/lm_presentation.php?ref_id=".$a_node_id;
+
+			case "grp":
+				return "group.php?ref_id=".$a_node_id."&cmd=view";
+
+			case "frm":
+				return "forums_threads_liste.php?ref_id=".$a_node_id."&backurl=repository";
+		}
+	}
+
+	function buildFrameTarget($a_type)
+	{
+		switch($a_type)
+		{
+			case "cat":
+				return "";
+
+			case "lm":
+			case "dbk":
+				return "_top";
+
+			case "grp":
+				return "";
+
+			case "frm":
+				return "";
+		}
+	}
 
 	/**
 	* overwritten method from base class
@@ -75,9 +121,8 @@ class ilRepositoryExplorer extends ilExplorer
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$tpl->setCurrentBlock("link");
-		$tpl->setVariable("TITLE", "ILIAS");
-		$tpl->setVariable("LINK_TARGET", $this->target);
-		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
+		$tpl->setVariable("TITLE", $lng->txt("repository"));
+		$tpl->setVariable("LINK_TARGET", "repository.php?set_mode=flat");
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("row");
