@@ -1,20 +1,26 @@
-<h1>{TXT_PAGEHEADLINE}</h1>
+<style>
+body { margin:0px; }
+</style>
+{LOCATOR}
+<div class="invisible_border">
+<div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1></div>
+{INFOPANEL}
+{BUTTONS}
 {MESSAGE}
 <form name="form" method="post" action="{ACTION}">
-<table CELLPADDING=4 CELLSPACING=0 BORDER=0>
+<table class="std">
 <tr class="tblheader">
-  <td align="left">{TXT_MSG_TO} {FEEDBACK_RECIPIENT}</td>
+  <td class="std" align="left">{TXT_MSG_TO} {FEEDBACK_RECIPIENT}</td>
 </tr>
-
 <tr class="tblrow2">
-  <td>
-  	<b>{TXT_YOUR_MSG}:</b><br>
-	<textarea name="msg_content" ROWS=10 COLS=60>{TXT_MSG_DEFAULT}</textarea>
+  <td class="std">
+  	<b>{TXT_YOUR_MSG}:</b><br/>
+	<textarea name="msg_content" rows="10" cols="60">{TXT_MSG_DEFAULT}</textarea>
   </td>
 </tr>
 <tr class="tblrow1">
-  <td align="right"><input type="submit" name="msg_send" value="{TXT_SEND}"></td>
+  <td class="std" align="right"><input class="submit" type="submit" name="msg_send" value="{TXT_SEND}" /></td>
 </tr>
-
 </table>
 </form>
+</div>
