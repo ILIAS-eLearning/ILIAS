@@ -1839,6 +1839,8 @@ class ilGroupGUI extends ilObjectGUI
 
 	function get_file()
 	{
+		global $rbacsystem;
+
 		$fileObj =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		$file_name = $fileObj->getFilePath()."/".$fileObj->getFileName();
 
