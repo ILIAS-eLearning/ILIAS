@@ -329,6 +329,7 @@ class ilMediaObject extends ilObjMediaObject
 			// for output we need technical sections of meta data
 			case IL_MODE_OUTPUT:
 				// get first technical section
+//echo "ilMediaObject::getXML:getMetaData:id:".$this->getId().":<br>";
 				$meta =& $this->getMetaData();
 				$xml = "<MediaObject Id=\"".$this->getId()."\">\n";
 //echo "count techs2:".count($meta->technicals).":<br>";
