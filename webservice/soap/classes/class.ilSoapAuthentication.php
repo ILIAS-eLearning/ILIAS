@@ -303,6 +303,7 @@ class ilSoapAuthentication
 	function __setSessionSaveHandler()
 	{
 		include_once './include/inc.db_session_handler.php';
+		include_once './classes/class.ilUtil.php';
 		include_once './classes/class.ilErrorHandling.php';
 		include_once './classes/class.ilDBx.php';
 
