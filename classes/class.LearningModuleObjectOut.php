@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.2 2002/12/10 17:00:09 shofmann Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.3 2002/12/12 14:25:10 shofmann Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -34,7 +34,7 @@ class LearningModuleObjectOut extends ObjectOut
 		$this->getTemplateFile("import");
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=upload&type=".$_GET["type"].
 						  "&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("import"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("upload"));
 	}
 	
 	/**
@@ -45,6 +45,9 @@ class LearningModuleObjectOut extends ObjectOut
 	*/
 	function uploadObject()
 	{
+		header("Location: adm_object.php?cmd=view&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&message=".urlencode($this->data["msg"]));
+		exit();
+		
 		//nada para mirar ahora :-)
 	}
 } // END class.LeraningObject
