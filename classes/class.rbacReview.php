@@ -357,5 +357,21 @@ class RbacReview
 
 		return true;
 	}
+	/**
+	* Deassign an existing permission from an object 
+	* @access	public
+	* @param	integer
+	* @param	integer
+	* @return	boolean
+	*/
+	function deassignPermissionFromObject($a_type_id,$a_ops_id)
+	{
+		$query = "DELETE FROM rbac_ta ".
+			"WHERE typ_id = '".$a_type_id."' ".
+			"AND ops_id = '".$a_ops_id."'";
+		$res = $this->ilias->db->query($query);
+		return true;
+	}
+
 } // END class.RbacReview
 ?>
