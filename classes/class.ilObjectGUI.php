@@ -1239,9 +1239,74 @@ class ilObjectGUI
 	}
 
 
+	/**
+	* add local role
+	*/
 	function addRoleObject()
 	{
+		global $tree,$rbacadmin,$rbacreview,$rbacsystem;
+
+		$object = getObject($_GET["ref_id"]);
+		$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
+
+		if (!($rolf_id = $rolf_data["child"]))
+		{
+			$mods = $rbacadmin->getModules($this->object->getType(),$_GET["ref_id"]);
+			//if (!in_array('rolf',$rbacadmin->getModules($this->object->getType(),$_GET["ref_id"])))
+			if (!isset($mods["rolf"]))
+			{
+				$this->ilias->raiseError("'".$this->object->getTitle()."' are not allowed to contain Role Folder",$this->ilias->error_obj->WARNING);
+			}
+
+			// CHECK ACCESS 'create' rolefolder
+			if ($rbacsystem->checkAccess('create',$_GET["ref_id"],'rolf'))
+			{
+				require_once ("classes/class.ilObjRoleFolder.php");
+				$rolfObj = new ilObjRoleFolder();
+				$rolfObj->setTitle("Role Folder");
+				$rolfObj->setDescription("Automaticly generated Role Folder ".$this->object->getRefId());
+				$rolfObj->create();
+				$rolfObj->createReference();
+				$rolfObj->putInTree($this->object->getRefId());
+
+				$rolf_id = $rolfObj->getRefId();
+
+				// Suche aller Parent Rollen im Baum
+				$parentRoles = $rbacadmin->getParentRoleIds($this->object->getRefId());
+				foreach ($parentRoles as $parRol)
+				{
+					// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
+					$ops = $rbacreview->getOperations($parRol["obj_id"],'rolf',$parRol["parent"]);
+					// TODO: make this work:
+					//$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id);
+				}
+			}
+			else
+			{
+				$this->ilias->raiseError("No permission to create role folder",$this->ilias->error_obj->WARNING);
+			}
+		}
+
+		// CHECK ACCESS 'write' of role folder
+		if ($rbacsystem->checkAccess('write',$rolf_id))
+		{
+			require_once ("classes/class.ilObjRole.php");
+			$roleObj = new ilObjRole();
+			$roleObj->setTitle($_POST["Flocal_role"]);
+			$roleObj->setDescription("No description");
+			$roleObj->create();
+			$new_obj_id = $roleObj->getId();
+			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,$_GET["ref_id"],'y');
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
+		}
+		
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
+		exit();
 	}
+
 
 	function ownerObject()
 	{

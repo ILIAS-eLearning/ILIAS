@@ -126,6 +126,10 @@ switch ($_GET["cmd"])
 	case "gateway":
 		break;
 
+	// no more addRole() here! all calls moved to "out" class
+	case "addRole":
+		break;
+
 	default:
 		$data = $obj->$method();
 		break;
