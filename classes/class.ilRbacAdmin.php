@@ -24,7 +24,11 @@
 
 /**
 * Class ilRbacAdmin 
-* core functions for role based access control
+*  Core functions for role based access control.
+*  Creation and maintenance of Relations.
+*  The main relations of Rbac are user <-> role (UR) assignment relation and the permission <-> role (PR) assignment relation.
+*  This class contains methods to 'create' and 'delete' instances of the (UR) relation e.g.: assignUser(), deassignUser()
+*  Required methods for the PR relation are grantPermission(), revokePermission()
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
@@ -53,6 +57,7 @@ class ilRbacAdmin
 
 	/**
 	* deletes a user from rbac_ua
+	*  all user <-> role relations are deleted
 	* @access	public
 	* @param	integer	user_id
 	* @return	boolean	true on success
@@ -79,7 +84,7 @@ class ilRbacAdmin
 	* @access	public
 	* @param	integer		obj_id of role (role_id)
 	* @param	integer		ref_id of role folder (ref_id)
-	* @return	boolean
+	* @return	boolean     true on success
 	*/
 	function deleteRole($a_rol_id,$a_ref_id)
 	{
@@ -110,7 +115,6 @@ class ilRbacAdmin
 
 	/**
 	* Deletes a template from role folder and deletes all entries in rbac_templates, rbac_fa
-	* TODO: function could be merged with rbacAdmin::deleteLocalRole
  	* @access	public
 	* @param	integer		object_id of role template
 	* @return	boolean
@@ -164,7 +168,7 @@ class ilRbacAdmin
 
 
 	/**
-	* Assigns an user to a role
+	* Assigns an user to a role. Update of table rbac_ua
 	* @access	public
 	* @param	integer	object_id of role
 	* @param	integer	object_id of user
@@ -196,7 +200,7 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Deassigns a user from a role
+	* Deassigns a user from a role. Update of table rbac_ua
 	* @access	public
 	* @param	integer	object id of role
 	* @param	integer	object id of user
@@ -219,7 +223,7 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Update of the default role from a user
+	* Update of the default role of a user
 	* @access	public
 	* @param	integer	object id of role
 	* @param	integer	user id
@@ -273,7 +277,7 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Grants permissions to an object and a specific role
+	* Grants a permission to an object and a specific role. Update of table rbac_pa
 	* @access	public
 	* @param	integer	object id of role
 	* @param	array	array of operation ids
@@ -306,9 +310,9 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Revokes permissions of object
-	* Revokes all permission for all roles for that object (with this reference).
-	* When a role_id is given this applies only to that role
+	* Revokes permissions of object. Update of table rbac_pa.
+	*  Revokes all permission for all roles for that object (with this reference).
+	*  When a role_id is given this applies only to that role
 	* @access	public
 	* @param	integer	reference id of object where permissions should be revoked
 	* @param	integer	role_id (optional: if you want to revoke permissions of object only for a specific role)
@@ -342,8 +346,8 @@ class ilRbacAdmin
 
 
 	/**
-	* TODO: we can't get rid off the parents if roles are referenced in this way!
-	* Copies template permissions
+	* Copies template permissions of one role to another.
+	*  It's also possible to copy template permissions from/to RoleTemplateObject
 	* @access	public
 	* @param	integer		role_id source
 	* @param	integer		parent_id source
@@ -381,7 +385,7 @@ class ilRbacAdmin
 	}
 	
 	/**
-	* Deletes a template
+	* Deletes a template. Update of table rbac_templates.
 	* @access	public
 	* @param	integer		object id of role
 	* @param	integer		ref_id of role folder
@@ -404,7 +408,8 @@ class ilRbacAdmin
 	}
 	
 	/**
-	* Inserts template permissions in rbac_templates
+	* Inserts template permissions in rbac_templates. 
+	*  Update of table rbac_templates
 	* @access	public
 	* @param	integer		role_id
 	* @param	string		object type
@@ -450,6 +455,11 @@ class ilRbacAdmin
 
 	/**
 	* Assigns a role to an role folder
+	*  A role folder is an object to store roles.
+	*  Every role is assigned to minimum one role folder
+	*  If the inheritance of a role is stopped, a new role template will created, and the role is assigned to
+	* minimum two role folders. All roles with stopped inheritance need the flag '$a_assign = false'
+	*
 	* @access	public
 	* @param	integer		object id of role
 	* @param	integer		ref_id of role folder
@@ -480,7 +490,8 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Assign an existing operation to an object 
+	* Assign an existing operation to an object
+	*  Update of rbac_ta.
 	* @access	public
 	* @param	integer	object type
 	* @param	integer	operation_id
@@ -508,6 +519,7 @@ class ilRbacAdmin
 
 	/**
 	* Deassign an existing operation from an object 
+	*  Update of rbac_ta
 	* @access	public
 	* @param	integer	object type
 	* @param	integer	operation_id
