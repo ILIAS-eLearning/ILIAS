@@ -845,7 +845,11 @@ common#:#check#:#Verificar
 common#:#check_all#:#Check all###26 Aug 2004 new variable
 common#:#check_langfile#:#Por favor verifique o ficheiro de linguagem
 common#:#check_languages#:#Verificar Linguagens
+common#:#check_link#:#Link check###18 Dec 2004 new variable
+common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.###18 Dec 2004 new variable
 common#:#check_max_allowed_packet_size#:#O tamanho do conteúdo da página é grande demais.
+common#:#check_user_accounts#:#Check user accounts###18 Dec 2004 new variable
+common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.###18 Dec 2004 new variable
 common#:#checked_files#:#Ficheiros importáveis
 common#:#chg_language#:#Mudar linguagem
 common#:#chg_password#:#Mudar Palavra-passe
@@ -892,6 +896,8 @@ common#:#create#:#Criar
 common#:#create_date#:#Created On###14 Sep 2004 new variable
 common#:#create_in#:#Criar em
 common#:#create_stylesheet#:#Criar Estilo
+common#:#cron_jobs#:#Cron jobs###18 Dec 2004 new variable
+common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.###18 Dec 2004 new variable
 common#:#crs#:#Curso
 common#:#crs_a#:#um Curso
 common#:#crs_add#:#Adicionar Curso
@@ -1475,6 +1481,13 @@ common#:#learning_objects#:#Objectos de Aprendizagem
 common#:#learning_resources#:#Recursos de Aprendizagem
 common#:#level#:#Nível
 common#:#link#:#Ligação
+common#:#link_check#:#Link check###18 Dec 2004 new variable
+common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:###18 Dec 2004 new variable
+common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.###18 Dec 2004 new variable
+common#:#link_check_message_disabled#:#Messages diabled###18 Dec 2004 new variable
+common#:#link_check_message_enabled#:#Messages enabled###18 Dec 2004 new variable
+common#:#link_check_subject#:#[ILIAS 3] Link check###18 Dec 2004 new variable
+common#:#link_checker_refreshed#:#Refreshed view###18 Dec 2004 new variable
 common#:#linked_object#:#The object has been linked###01 Sep 2004 new variable
 common#:#linked_pages#:#Páginas Ligadas
 common#:#list_of_pages#:#Lista de Páginas
@@ -1728,6 +1741,7 @@ common#:#no_frm_in_personal_list#:#Não existem fóruns na sua lista pessoal.
 common#:#no_global_role_left#:#Every user has to be assigned to one role.###11 Sep 2004 new variable
 common#:#no_grp_in_personal_list#:#Não existem grupos na sua lista pessoal.
 common#:#no_import_available#:#Importação não disponível para o tipo
+common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
 common#:#no_limit#:#Nenhum limite
 common#:#no_lo_in_personal_list#:#Não existem objectos de aprendizagem na sua lista pessoal.
 common#:#no_local_users#:#There are no local user###21 Sep 2004 new variable
@@ -4017,6 +4031,7 @@ survey#:#add_limits_for_standard_numbers#:#Please enter a lower and upper limit 
 survey#:#add_phrase#:#Add phrase###23 May 2004 new variable
 survey#:#add_phrase_introduction#:#Please select a phrase:###23 May 2004 new variable
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###31 May 2004 new variable
+survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.###09 Dec 2004 new variable
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
 survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
