@@ -785,8 +785,8 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
-    $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
     $this->question->set_cloze_type(ilUtil::stripSlashes($_POST["clozetype"]));
+    $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
     
     
     if (strlen($_POST["creategaps"]) == 0) {
