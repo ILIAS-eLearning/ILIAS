@@ -128,16 +128,16 @@ class Explorer
 				//ask for FILTER
 				if ($this->filtered == false || $this->checkFilter($object["type"])==true)
 				{
-					if ($rbacsystem->checkAccess('visible',$object["ref_id"]))
+					if ($rbacsystem->checkAccess('visible',$object["child"]))
 					{
-						if ($object["ref_id"] != 1)
+						if ($object["child"] != 1)
 						{
-							$data = $this->tree->getParentNodeData($object["ref_id"]);
+							$data = $this->tree->getParentNodeData($object["child"]);
 							$parent_index = $this->getIndex($data);
 						}
 
 						$this->format_options["$counter"]["parent"]		= $object["parent"];
-						$this->format_options["$counter"]["child"]		= $object["ref_id"];
+						$this->format_options["$counter"]["child"]		= $object["child"];
 						$this->format_options["$counter"]["title"]		= $object["title"];
 						$this->format_options["$counter"]["type"]		= $object["type"];
 						$this->format_options["$counter"]["depth"]		= $tab;
@@ -151,14 +151,14 @@ class Explorer
 						}
 
 						// only if parent is expanded and visible, object is visible
-						if ($object["ref_id"] != 1 and (!in_array($object["parent"],$this->expanded)
+						if ($object["child"] != 1 and (!in_array($object["parent"],$this->expanded)
 						   or !$this->format_options["$parent_index"]["visible"]))
 						{
 							$this->format_options["$counter"]["visible"] = false;
 						}
 
 						// if object exists parent is container
-						if ($object["ref_id"] != 1)
+						if ($object["child"] != 1)
 						{
 							$this->format_options["$parent_index"]["container"] = true;
 
@@ -175,7 +175,7 @@ class Explorer
 						++$counter;
 
 						// Recursive
-						$this->setOutput($object["ref_id"],$a_depth);
+						$this->setOutput($object["child"],$a_depth);
 					} //if
 				} //if FILTER
 			} //foreach
