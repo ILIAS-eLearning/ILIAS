@@ -9,6 +9,8 @@
 * @package ilias-core
 */
 
+require_once "class.ilObject.php";
+
 class ilObjLearningModule extends ilObject
 {
 	/**

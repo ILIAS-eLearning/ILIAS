@@ -3,11 +3,13 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.19 2003/03/24 10:23:01 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
 */
+
+require_once "class.ilObjectGUI.php";
 
 class ilObjUserGUI extends ilObjectGUI
 {

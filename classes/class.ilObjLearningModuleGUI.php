@@ -4,11 +4,13 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.18 2003/03/19 21:12:02 shofmann Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
 */
+
+require_once "class.ilObjectGUI.php";
 
 class ilObjLearningModuleGUI extends ilObjectGUI
 {

@@ -8,6 +8,9 @@
 * @extends ilObject
 * @package ilias-core
 */
+
+require_once "class.ilObject.php";
+
 class ilObjSystemFolder extends ilObject
 {
 	/**

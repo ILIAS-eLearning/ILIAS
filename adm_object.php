@@ -11,8 +11,6 @@
 * @package ilias-core
 */
 require_once "include/inc.header.php";
-require_once "classes/class.ilObject.php";	// base class for all Object Types
-require_once "classes/class.ilObjectGUI.php";
 
 /*
 echo "<pre>";
