@@ -1131,3 +1131,19 @@ CREATE TABLE map_area (
 	PRIMARY KEY (item_id, nr)
 ) TYPE=MyISAM;
 
+<#85>
+DROP TABLE IF EXISTS lo_attribute_idx;
+DROP TABLE IF EXISTS lo_attribute_name;
+DROP TABLE IF EXISTS lo_attribute_namespace;
+DROP TABLE IF EXISTS lo_attribute_value;
+DROP TABLE IF EXISTS lo_attribute_cdata;
+DROP TABLE IF EXISTS lo_attribute_comment;
+DROP TABLE IF EXISTS lo_element_idx;
+DROP TABLE IF EXISTS lo_element_namespace;
+DROP TABLE IF EXISTS lo_element_name;
+DROP TABLE IF EXISTS lo_entity_reference;
+DROP TABLE IF EXISTS lo_node_type;
+DROP TABLE IF EXISTS lo_pi_data;
+DROP TABLE IF EXISTS lo_pi_target;
+DROP TABLE IF EXISTS lo_text;
+DROP TABLE IF EXISTS lo_tree;
