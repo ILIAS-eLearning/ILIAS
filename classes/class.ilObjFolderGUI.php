@@ -27,7 +27,7 @@
 * Class ilObjForumGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjFolderGUI.php,v 1.1 2003/07/07 08:48:34 mrus Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.2 2003/07/07 10:55:00 mrus Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -61,25 +61,69 @@ class ilObjFolderGUI extends ilObjectGUI
 		if($_GET["tree_id"])
 		{
 			$this->tree_id = $_GET["tree_id"];
-			$this->tree_table = $_GET["tree_table"];
+			
 		}
 		else
 		{
 		 	$this->tree_id = $_GET["ref_id"];
-			$this->tree_table = $_GET["type"]."_table";
+			
 		}
+		
+		//temporary substituted
+		//$this->tree_table = $_GET["tree_table"];
+		$this->tree_table = "grp_tree";
 		
 		
 		
 		$this->local_tree = new ilTree($this->tree_id);
+		//echo $this->tree_table;
 		$this->local_tree->setTableNames($this->tree_table,"object_data","object_reference");
+		
 		
 		//$_GET[ref_id];
 		//$this->grp_tree = new ilTree($this->object->getRefId());
 		//$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 	}
 	
-	
+	/**
+	* create new object form
+	*
+	* @access	public
+	*/
+	function createObject()
+	{
+		// creates a child object
+		global $rbacsystem;
+
+		// TODO: get rid of $_GET variable
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_POST["new_type"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
+		else
+		{
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+			$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+
+			$this->getTemplateFile("edit");
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+				$this->tpl->parseCurrentBlock();
+			}
+
+		
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=save&ref_id=".$_GET["ref_id"]."&tree_table=".$_GET["tree_table"]."&new_type=".$_POST["new_type"]));
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		}
+	}
+
 	
 	/**
 	* save object
@@ -143,7 +187,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		
 		$childs = $this->local_tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
 		//should be generalised also for other tables
-		 
+		
 
 		foreach ($childs as $key => $val)
 	    {
@@ -198,7 +242,7 @@ class ilObjFolderGUI extends ilObjectGUI
 	function pasteObject()
 	{
 		global $rbacsystem,$rbacadmin,$tree,$objDefinition;
-
+/*
 		// CHECK SOME THINGS
 		if ($_SESSION["clipboard"]["cmd"] == "copy")
 		{
@@ -317,7 +361,7 @@ class ilObjFolderGUI extends ilObjectGUI
 				}
 			}
 		} // END IF 'cut & paste'
-		
+	*/	
 		// PASTE IF CMD WAS 'linkt' (TODO: Could be merged with 'cut' routine above)
 		if ($_SESSION["clipboard"]["cmd"] == "link")
 		{
@@ -330,13 +374,14 @@ class ilObjFolderGUI extends ilObjectGUI
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
 
 				// CHECK ACCESS
-				if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data->getType()))
+				//TODO Martin Rus
+				/*if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data->getType()))
 				{
 					$no_paste[] = $ref_id;
-				}
+				}*/
 
 				// CHECK IF REFERENCE ALREADY EXISTS
-				if ($_GET["ref_id"] == $obj_data->getRefId())
+			if ($_GET["ref_id"] == $obj_data->getRefId())
 				{
 					$exists[] = $ref_id;
 					break;
@@ -405,11 +450,8 @@ class ilObjFolderGUI extends ilObjectGUI
 				//first paste top_node....
 				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($key);
 				$obj_data->createReference();
-				
-				echo $obj_data->getRefId();
-				
-				$obj_data->putInTree($_GET["ref_id"]);
-				$obj_data->setPermissions($_GET["ref_id"]);
+				$obj_data->putInTree($this->tree_id);
+				$obj_data->setPermissions($this->tree_id);
 				
 				//paste the node also into the "local_tree" table
 				$this->local_tree->insertNode($obj_data->getRefId(), $_GET["ref_id"]);
@@ -426,8 +468,8 @@ class ilObjFolderGUI extends ilObjectGUI
 						$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
 						$obj_data->createReference();
 						// TODO: $node["parent"] is wrong in case of new reference!!!!
-						$obj_data->putInTree($node["parent"]);
-						$obj_data->setPermissions($node["parent"]);
+						//$obj_data->putInTree($node["parent"]);
+						//$obj_data->setPermissions($node["parent"]);
 						
 						//is obsolet !!!
 						//$this->local_tree->insertNode($obj_data->getRefId(), $node["parent"]);
@@ -652,5 +694,7 @@ class ilObjFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	
 }
 ?>

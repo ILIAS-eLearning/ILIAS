@@ -125,7 +125,7 @@ class ilGroupExplorer extends ilExplorer
 		
 		if (!strcmp($a_type,"grp"))
 		{
-			$tpl->setVariable("LINK_TARGET", "group.php?cmd=show_content&grp_id=".$a_node_id);
+			$tpl->setVariable("LINK_TARGET", "group.php?cmd=show_content&ref_id=".$a_node_id);
 		}
 		else
 		{
