@@ -744,6 +744,7 @@ common#:#auth_write#:#Edit authentication settings###05 Nov 2004 new variable
 common#:#author#:#Szerző
 common#:#authors#:#Szerzők
 common#:#auto_registration#:#Automatically approve registration###05 Nov 2004 new variable
+common#:#available#:#Available###23 Dec 2004 new variable
 common#:#available_languages#:#Alkalmazható nyelvek
 common#:#average_time#:#Átlagidő
 common#:#back#:#Vissza
@@ -905,6 +906,7 @@ common#:#crs_a#:#egy kurzus
 common#:#crs_add#:#Kurzus hozzáadása
 common#:#crs_added#:#Hozzáadott kurzus
 common#:#crs_archives#:#Archives###05 Nov 2004 new variable
+common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###23 Dec 2004 new variable
 common#:#crs_available#:#Elérhető kurzusok
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects###05 Nov 2004 new variable
 common#:#crs_create#:#Kurzus létrehozása
@@ -1015,6 +1017,7 @@ common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#A megadott e-mail cím nem megfelelő!
 common#:#enable#:#Engedélyezés
 common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
+common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
 common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
 common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 new variable
@@ -1602,6 +1605,7 @@ common#:#message_to#:#Üzenet (kinek):
 common#:#meta_data#:#Metaadat
 common#:#migrate#:#Migráció
 common#:#min_time#:#Minimumidő
+common#:#missing#:#Missing###23 Dec 2004 new variable
 common#:#mob#:#Médiaobjektum
 common#:#module#:#modul
 common#:#modules#:#Modulok
@@ -1956,6 +1960,7 @@ common#:#profile_changed#:#Adatai változtatásra kerültek
 common#:#profile_of#:#Adatai:
 common#:#properties#:#Jellemzők
 common#:#pub_section#:#Nyilvános rész
+common#:#public#:#public###23 Dec 2004 new variable
 common#:#public_profile#:#Nyilvános adat
 common#:#publication#:#Publikáció
 common#:#publication_date#:#Publikáció dátuma
@@ -2358,6 +2363,7 @@ common#:#zipcode#:#Irányítószám
 content#:#HTML export#:#HTML-export
 content#:#PDF export#:#PDF-export
 content#:#Pages#:#Lapok
+content#:#add_menu_entry#:#Add menu entry >>###23 Dec 2004 new variable
 content#:#all#:#Mind
 content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
 content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
@@ -2423,6 +2429,7 @@ content#:#cont_citation_err_one#:#Pontosan egy kiadót kell kijelölnie
 content#:#cont_citation_selection_not_valid#:#A választása nem érvényes
 content#:#cont_citations#:#Idézetek
 content#:#cont_clean_frames#:#Az összes keret frissítése lapozáskor
+content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###23 Dec 2004 new variable
 content#:#cont_click_br_corner#:#Kattintson a kívánt terület jobb alsó sarkára.
 content#:#cont_click_center#:#Kattintson a kívánt terület középppontjára.
 content#:#cont_click_circle#:#Kattintson a kívánt területet határoló körvonal egy pontjára.
@@ -2462,6 +2469,8 @@ content#:#cont_dir_file#:#Könyvtár / fájl
 content#:#cont_disable_js#:#Disable JavaScript###03 Nov 2004 new variable
 content#:#cont_disable_media#:#Letiltott média###29 Nov 2004 content changed
 content#:#cont_download_title#:#Cím letöltése
+content#:#cont_downloads#:#Downloads###23 Dec 2004 new variable
+content#:#cont_downloads_desc#:#Enables download of all public export files.###23 Dec 2004 new variable
 content#:#cont_ed_align_center#:#align: center###05 Nov 2004 new variable
 content#:#cont_ed_align_left#:#align: left###05 Nov 2004 new variable
 content#:#cont_ed_align_left_float#:#align: left float###05 Nov 2004 new variable
@@ -2739,6 +2748,15 @@ content#:#cont_wysiwyg#:#Tartalom előnézete
 content#:#cont_xml_base#:#xml:base###05 Nov 2004 new variable
 content#:#cont_year#:#Év
 content#:#copied_to_clipboard#:#Másolt objektum(ok) vágólapra tétele.
+content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
+content#:#lm_menu_entry_target#:#Target###23 Dec 2004 new variable
+content#:#lm_menu_entry_title#:#Title###23 Dec 2004 new variable
+content#:#lm_menu_new_entry#:#Create a new menu entry###23 Dec 2004 new variable
+content#:#lm_menu_select_internal_object#:#Select internal object >>###23 Dec 2004 new variable
+content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu###23 Dec 2004 new variable
+content#:#msg_entry_added#:#Menu entry added###23 Dec 2004 new variable
+content#:#msg_entry_removed#:#Menu entry removed###23 Dec 2004 new variable
+content#:#msg_entry_updated#:#Menu entry updated###23 Dec 2004 new variable
 content#:#pages from#:#Első
 content#:#par#:#Bekezdés
 content#:#pg#:#Lap
@@ -4179,6 +4197,7 @@ survey#:#finished#:#befejezve
 survey#:#found_questions#:#Talált kérdések
 survey#:#geometric_mean#:#Geometriai jelentés
 survey#:#given_answers#:#Adott válaszok
+survey#:#glossary_term#:#Glossary term###23 Dec 2004 new variable
 survey#:#harmonic_mean#:#Harmonic mean###05 Nov 2004 new variable
 survey#:#heading#:#Heading###10 Nov 2004 new variable
 survey#:#horizontal#:#horizontal###18 Nov 2004 new variable
@@ -4200,6 +4219,8 @@ survey#:#legend#:#Legend###10 Dec 2004 new variable
 survey#:#lower_limit#:#Alsó határ
 survey#:#maintenance#:#Karbantartás
 survey#:#manage_phrases#:#Mondatok menedzselése
+survey#:#material#:#Material###23 Dec 2004 new variable
+survey#:#material_added_successfully#:#You successfully set a material link!###23 Dec 2004 new variable
 survey#:#material_file#:#Fájl
 survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
 survey#:#maximum#:#Maximális érték

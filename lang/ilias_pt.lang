@@ -744,6 +744,7 @@ common#:#auth_write#:#Edit authentication settings###24 Jul 2004 new variable
 common#:#author#:#Autor
 common#:#authors#:#Autores
 common#:#auto_registration#:#Automatically approve registration###14 Sep 2004 new variable
+common#:#available#:#Available###23 Dec 2004 new variable
 common#:#available_languages#:#Linguagens disponíveis
 common#:#average_time#:#Tempo médio
 common#:#back#:#Anterior
@@ -905,6 +906,7 @@ common#:#crs_a#:#um Curso
 common#:#crs_add#:#Adicionar Curso
 common#:#crs_added#:#Curso adicionado
 common#:#crs_archives#:#Archives###07 Aug 2004 new variable
+common#:#crs_at_least_one_admin#:#There has to be at least one course administrator.###23 Dec 2004 new variable
 common#:#crs_available#:#Cursos disponíveis
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects###01 Sep 2004 new variable
 common#:#crs_create#:#Criar Curso
@@ -1015,6 +1017,7 @@ common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#O endereço de email que pôs é inválido!###14 Sep 2004 content changed
 common#:#enable#:#Ligar
 common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
+common#:#enable_hist_user_comments_desc#:#Gives authors the opportunity to add comments to the history log of pages.###23 Dec 2004 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
 common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
 common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 new variable
@@ -1602,6 +1605,7 @@ common#:#message_to#:#Mensagem para:
 common#:#meta_data#:#Meta Dados###14 Sep 2004 content changed
 common#:#migrate#:#Migrar
 common#:#min_time#:#Minimum time###09 Apr 2004 new variable
+common#:#missing#:#Missing###23 Dec 2004 new variable
 common#:#mob#:#Objecto de Média
 common#:#module#:#módulo
 common#:#modules#:#Módulos
@@ -1956,6 +1960,7 @@ common#:#profile_changed#:#O seu perfil mudou
 common#:#profile_of#:#Perfil de
 common#:#properties#:#Propriedades
 common#:#pub_section#:#Secção Pública
+common#:#public#:#public###23 Dec 2004 new variable
 common#:#public_profile#:#Perfil Público
 common#:#publication#:#Publicação
 common#:#publication_date#:#Data da Publicação
@@ -2358,6 +2363,7 @@ common#:#zipcode#:#Código Postal###14 Sep 2004 content changed
 content#:#HTML export#:#Exportar HTML
 content#:#PDF export#:#Exportar PDF
 content#:#Pages#:#Páginas
+content#:#add_menu_entry#:#Add menu entry >>###23 Dec 2004 new variable
 content#:#all#:#Todos
 content#:#all_pages#:#the entire Learning module ###19 Dec 2004 new variable
 content#:#choose_public_mode#:#Unregistered users may access###19 Dec 2004 new variable
@@ -2423,6 +2429,7 @@ content#:#cont_citation_err_one#:#Você tem de seleccionar exactamente uma ediç
 content#:#cont_citation_selection_not_valid#:#A sua selecção não é válida
 content#:#cont_citations#:#Citações
 content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
+content#:#cont_clean_frames_desc#:#This clears additional frames (e.g. media or glossary frame) if layouts with multiple frames (e.g. 3window) are used and the user navigates from one page to another.###23 Dec 2004 new variable
 content#:#cont_click_br_corner#:#Por favor carregue no canto inferior direito da área desejada.
 content#:#cont_click_center#:#Por favor carregue no centro da área desejada.
 content#:#cont_click_circle#:#Por favor carregue num ponto de círculo da área desejada.
@@ -2462,6 +2469,8 @@ content#:#cont_dir_file#:#Directoria/Ficheiro
 content#:#cont_disable_js#:#Disable JavaScript###03 Nov 2004 new variable
 content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
 content#:#cont_download_title#:#Download Title###16 Jun 2004 new variable
+content#:#cont_downloads#:#Downloads###23 Dec 2004 new variable
+content#:#cont_downloads_desc#:#Enables download of all public export files.###23 Dec 2004 new variable
 content#:#cont_ed_align_center#:#align: center###16 Aug 2004 new variable
 content#:#cont_ed_align_left#:#align: left###16 Aug 2004 new variable
 content#:#cont_ed_align_left_float#:#align: left float###16 Aug 2004 new variable
@@ -2739,6 +2748,15 @@ content#:#cont_wysiwyg#:#Conteúdo Wysiwyg###14 Sep 2004 content changed
 content#:#cont_xml_base#:#xml:base###05 Nov 2004 new variable
 content#:#cont_year#:#Ano
 content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
+content#:#lm_menu_edit_entry#:#Edit menu entry###23 Dec 2004 new variable
+content#:#lm_menu_entry_target#:#Target###23 Dec 2004 new variable
+content#:#lm_menu_entry_title#:#Title###23 Dec 2004 new variable
+content#:#lm_menu_new_entry#:#Create a new menu entry###23 Dec 2004 new variable
+content#:#lm_menu_select_internal_object#:#Select internal object >>###23 Dec 2004 new variable
+content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu###23 Dec 2004 new variable
+content#:#msg_entry_added#:#Menu entry added###23 Dec 2004 new variable
+content#:#msg_entry_removed#:#Menu entry removed###23 Dec 2004 new variable
+content#:#msg_entry_updated#:#Menu entry updated###23 Dec 2004 new variable
 content#:#pages from#:#Páginas De
 content#:#par#:#Parágrafo
 content#:#pg#:#Página
@@ -4179,6 +4197,7 @@ survey#:#finished#:#finished###07 Jun 2004 new variable
 survey#:#found_questions#:#Found questions###10 Jun 2004 new variable
 survey#:#geometric_mean#:#Geometric mean###02 Jun 2004 new variable
 survey#:#given_answers#:#Given answers###04 Jun 2004 new variable
+survey#:#glossary_term#:#Glossary term###23 Dec 2004 new variable
 survey#:#harmonic_mean#:#Harmonic mean###02 Jun 2004 new variable
 survey#:#heading#:#Heading###10 Nov 2004 new variable
 survey#:#horizontal#:#horizontal###18 Nov 2004 new variable
@@ -4200,6 +4219,8 @@ survey#:#legend#:#Legend###10 Dec 2004 new variable
 survey#:#lower_limit#:#Lower limit###07 Jun 2004 new variable
 survey#:#maintenance#:#Maintenance###10 Jul 2004 new variable
 survey#:#manage_phrases#:#Manage phrases###28 Jun 2004 new variable
+survey#:#material#:#Material###23 Dec 2004 new variable
+survey#:#material_added_successfully#:#You successfully set a material link!###23 Dec 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
