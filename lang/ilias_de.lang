@@ -3097,7 +3097,7 @@ crs#:#crs_info_reg_confirmation#:#Die Aufnahme in diesen Kurs erfordert eine Bes
 crs#:#crs_info_reg_deactivated#:#Zur Zeit ist keine Anmeldung möglich.
 crs#:#crs_info_reg_direct#:#Sie können sich direkt für den Kurs anmelden.
 crs#:#crs_info_reg_password#:#Die Mitgliedschaft zu diesem Kurs verlangt die Eingabe eines Passwortes. Wenn Ihnen dieses nicht mitgeteilt wurde, können Sie sich nicht anmelden.
-crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
+crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.###18 Mar 2005 content changed
 crs#:#crs_learning_materials#:#Lernmaterialien
 crs#:#crs_list_users#:#Benutzer auflisten
 crs#:#crs_lm_assignment#:#Lernmaterialien-Zuordnung
