@@ -700,9 +700,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["description"] = $this->object->getDescription();
 		}
 		$this->object->setTestType($data["sel_test_types"]);
-		$this->object->setTitle(ilUtil::prepareFormOutput($data["title"]));
-		$this->object->setDescription(ilUtil::prepareFormOutput($data["description"]));
-		$this->object->setAuthor(ilUtil::prepareFormOutput($data["author"]));
+		$this->object->setTitle($data["title"]);
+		$this->object->setDescription($data["description"]);
+		$this->object->setAuthor($data["author"]);
 		$this->object->setIntroduction($data["introduction"]);
 		$this->object->setSequenceSettings($data["sequence_settings"]);
 		$this->object->setScoreReporting($data["score_reporting"]);
@@ -816,11 +816,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("TEXT_TEST_TYPES", $this->lng->txt("tst_types"));
 		$this->tpl->setVariable("TEST_TYPE_COMMENT", $this->lng->txt("tst_type_comment"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("VALUE_TITLE", $data["title"]);
+		$this->tpl->setVariable("VALUE_TITLE", ilUtil::prepareFormOutput($data["title"]));
 		$this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
-		$this->tpl->setVariable("VALUE_AUTHOR", $data["author"]);
+		$this->tpl->setVariable("VALUE_AUTHOR", ilUtil::prepareFormOutput($data["author"]));
 		$this->tpl->setVariable("TEXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("VALUE_DESCRIPTION", $data["description"]);
+		$this->tpl->setVariable("VALUE_DESCRIPTION", ilUtil::prepareFormOutput($data["description"]));
 		$this->tpl->setVariable("TEXT_INTRODUCTION", $this->lng->txt("tst_introduction"));
 		$this->tpl->setVariable("VALUE_INTRODUCTION", $data["introduction"]);
 		$this->tpl->setVariable("HEADING_SEQUENCE", $this->lng->txt("tst_sequence_properties"));
@@ -4112,20 +4112,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
-	}
-
-		function saveMetaObject()
-	{
-		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setObject($this->object);
-		$meta_gui->save($_POST["meta_section"]);
-		if (!strcmp($_POST["meta_section"], "General")) {
-			$meta = $_POST["meta"];
-			$this->object->setTitle(ilUtil::stripSlashes($meta["Title"]["Value"]));
-			$this->object->setDescription(ilUtil::stripSlashes($meta["Description"][0]["Value"]));
-			$this->object->update();
-		}
-		ilUtil::redirect($this->getTabTargetScript()."?ref_id=".$_GET["ref_id"]);
 	}
 
 	// called by administration
