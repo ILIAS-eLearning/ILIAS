@@ -329,11 +329,11 @@ common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_edit#:#Gruppe bearbeiten
-common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
-common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie die Gruppe !
-common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nich entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
-common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
-common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die GÃ¼ltigkeit des Registrierungszeitraums an !
+common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe bentigt.
+common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht mglich, bitte lschen Sie die Gruppe !
+common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nich entfernt werden. Bitte berprfen Sie die Abhï¿½gigkeiten dieses Benutzers.
+common#:#grp_err_no_permission#:#Sie verfgen nicht ber ausreichende Rechte diese Operation durchzufhren.
+common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit fr die GÃ¼ltigkeit des Registrierungszeitraums an !
 common#:#grp_mem_change_status#:#Mitgliedsstatus Ã¤ndern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
@@ -605,6 +605,7 @@ common#:#no_grp_in_personal_list#:#Es sind keine Gruppen abonniert.
 common#:#no_import_available#:#Import nicht verfÃ¼gbar fÃ¼r Typ
 common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_objects#:#Keine Objekte
+common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutreten!
 common#:#no_title#:#Kein Titel
 common#:#none#:#Keine
 common#:#normal#:#Normal
