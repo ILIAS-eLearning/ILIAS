@@ -499,7 +499,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
 		}
 		$this->tpl->parseCurrentBlock();
-		if ($page[0]["obligatory"] == 0)
+		$obligatory = 0;
+		foreach ($page as $index => $question)
+		{
+			if ($question["obligatory"])
+			{
+				$obligatory = 1;
+			}
+		}
+		if ($obligatory == 0)
 		{
 			// The question is not obligatory. Display skip buttons
 			$this->tpl->setCurrentBlock($navigationblock . "_skipprev");
