@@ -55,7 +55,7 @@
       Add Active Roles
 	</strong>
 <br><br>
-	<form action="object.php?obj_id={ACTIVE_ROLE_OBJ_ID}&parent={ACTIVE_ROLE_TPOS}&parent_parent={ACTIVE_ROLE_PAR}&cmd=activeRoleSave" name="objectItems" method="post">
+	<form action="{ACTIVE_ROLE_FORMACTION}" name="objectItems" method="post">
 	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="tblheader">
 			<td width="20%" align="left">
@@ -67,7 +67,7 @@
 			</td>
 		  </tr>
 			<!-- BEGIN TABLE_ROLES -->
-			<tr class="{CSS_ROW_ROLE}">
+			<tr class="{ACTIVE_ROLE_CSS_ROW}">
 			  <td>
 				{CHECK_ROLE}
 			  </td>
