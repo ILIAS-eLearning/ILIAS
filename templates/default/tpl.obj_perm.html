@@ -5,38 +5,38 @@
   <td class="std" width="30%" align="left">
   </td>
   <td class="std" width="70%" align="left" colspan="100">
-{TXT_PERMISSION}
+{TXT_ROLES}
 
   </td>
 </tr>
 <!-- END tableheader -->
 <tr class="tblheader">
 
-  <td class="std" width="30%" align="left">{TXT_ROLES}</td>
-    	<!-- BEGIN PERM -->
-  <td class="std">{PERMISSION}
+  <td class="std" width="30%" align="left">{TXT_PERMISSION}</td>
+    	<!-- BEGIN ROLENAMES -->
+  <td class="std">{ROLE_NAME}
   </td>
-	<!-- END PERM -->
+	<!-- END ROLENAMES -->
 
-	<!-- BEGIN STOP_INHERIT -->
-	<td class="std" ><font color="red">{TXT_STOP_INHERITANCE}</font></td>
-	<!-- END STOP_INHERIT -->
+
 </tr>
 	<!-- BEGIN TABLE_DATA_OUTER -->
 <tr class="{CSS_ROW}">
-<!-- BEGIN ROLE -->
-  <td class="std" width="30%" align="left">{ROLE_NAME}</td>
-<!-- END ROLE-->
-
+<td class="std">{PERMISSION}</td>
     <!-- BEGIN CHECK_PERM -->
   <td class="std">{CHECK_PERMISSION}</td>
 <!-- END CHECK_PERM -->
-<!-- BEGIN CHECK_INHERIT -->
-	<td class="std">{CHECK_INHERITANCE}</td>
-<!-- END CHECK_INHERIT -->
+
 </tr>
 <!-- END TABLE_DATA_OUTER -->
-
+<!-- BEGIN STOP_INHERIT -->
+<tr class="std">
+	<td class="std" ><font color="red">{TXT_STOP_INHERITANCE}</font></td>
+	<!-- BEGIN CHECK_INHERIT -->
+	<td class="std">{CHECK_INHERITANCE}</td>
+	<!-- END CHECK_INHERIT -->
+</tr>
+	<!-- END STOP_INHERIT -->
 
 <tr class="std">
   <td class="std" align="right" colspan="{COL_ANZ}">
