@@ -92,6 +92,8 @@ if (isset($_POST["cmd"]) or isset($_GET["new_type"]) )
 
 $obj = $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 
+$current_ref_id = $_GET["ref_id"];
+
 switch ($obj->getType())
 {
 	case "crs":
@@ -121,7 +123,7 @@ switch ($obj->getType())
 			$obj = new $class_constr($data, $id, $call_by_reference,false);
 			$method= $cmd."Object";
 			$obj->setReturnLocation("cancel","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-			$obj->setReturnLocation("save","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("save","group.php?cmd=show_content&ref_id=".$current_ref_id);
 			$obj->setReturnLocation("cut","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 			$obj->setReturnLocation("clear","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 			$obj->setReturnLocation("copy","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
