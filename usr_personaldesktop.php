@@ -50,6 +50,7 @@ $tpl->parseCurrentBlock();
 //add template for buttons
 $tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
+// display buttons
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_profile.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));

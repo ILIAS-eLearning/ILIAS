@@ -32,25 +32,40 @@
 require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_password.html");
-$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+
 // display infopanel if something happened
 infoPanel();
 
-//display buttons
+//add template for buttons
+$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+// display buttons
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_profile.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));
 $tpl->parseCurrentBlock();
+
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_password.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
 $tpl->parseCurrentBlock();
+
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_agreement.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
 $tpl->parseCurrentBlock();
-$tpl->setCurrentBlock("btn_row");
+
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_bookmarks.php?cmd=frameset");
+$tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
 $tpl->parseCurrentBlock();
+
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_personaldesktop.php?cmd=whois");
+$tpl->setVariable("BTN_TXT",$lng->txt("who_is_online"));
+$tpl->parseCurrentBlock();
+
+$tpl->touchBlock("btn_row");
 
 if ($_POST["save_passwd"])
 {
