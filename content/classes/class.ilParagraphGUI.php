@@ -210,15 +210,15 @@ class ilParagraphGUI extends ilPageContentGUI
 			$this->edit();
 			return;
 		}
-echo "1";
+//echo "1";
 		$this->updated = $this->pg_obj->update();
-echo "2";
+//echo "2";
 		if ($this->updated === true)
 		{
-echo "3";
-echo "Location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+//echo "3";
+//echo "Location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$this->pg_obj->getId();
-echo "4"; exit;
+//echo "4"; exit;
 			header("Location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 				$this->pg_obj->getId());
 			exit;
