@@ -94,6 +94,7 @@ td.option {
 
 td.option_value {
 	background-color:#f7f7f7;
+	background-image: none;
 	color:#222222;
 	padding:4px;
 	font-size:13px;
