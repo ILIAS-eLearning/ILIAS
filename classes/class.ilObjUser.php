@@ -1595,7 +1595,7 @@ class ilObjUser extends ilObject
 				case "slm":
 				case "htlm":
 				case "mep":
-					$q = "SELECT oref.ref_id, obj.title, parameters, oref.obj_id FROM desktop_item AS it, object_reference AS oref ".
+					$q = "SELECT obj.description, oref.ref_id, obj.title, parameters, oref.obj_id FROM desktop_item AS it, object_reference AS oref ".
 						", object_data AS obj WHERE ".
 						"it.item_id = oref.ref_id AND ".
 						"oref.obj_id = obj.obj_id AND ".
@@ -1649,7 +1649,7 @@ class ilObjUser extends ilObject
 						}
 						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
 							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
-							"parameters" => $item_rec["parameters"],
+							"parameters" => $item_rec["parameters"], "description" => $item_rec["description"],
 							"link" => $link, "target" => $target, "edit_link" => $edit_link);
 					}
 					break;

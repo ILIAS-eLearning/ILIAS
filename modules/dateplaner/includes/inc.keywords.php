@@ -77,32 +77,32 @@ function showKeywords($S_Keywords, $DB)
 
 	$keywords_float = $keywords_float.'
 		<form name="Keywords" action="" method="post">
-		<select multiple size="6" name="S_Keywords[]">';
+		<select multiple size="6" style="width:150px;" name="S_Keywords[]">';
 
-	if ($DP_Keywords[0] ==  "*" or !isset($DP_Keywords)) 
+	if ($DP_Keywords[0] ==  "*" or !isset($DP_Keywords))
 	{
 		$DP_Keywords = array ("*");
 		$keywords_float = $keywords_float.'<option value="*" selected >'.$DP_language[k_alldates].'</option>';
 	}
-	else 
+	else
 	{
 		$keywords_float = $keywords_float.'<option value="*">'.$DP_language[k_alldates].'</option>';
 	}
 
-	for ($i=0;$i<count($Keywords);$i++) 
+	for ($i=0;$i<count($Keywords);$i++)
 	{
 		$j = $i+1;
-		if (@in_array ( $Keywords[$i][0] , $DP_Keywords)) 
+		if (@in_array ( $Keywords[$i][0] , $DP_Keywords))
 		{
 			$keywords_float = $keywords_float.'<option value="'.$Keywords[$i][0].'" selected>'.$Keywords[$i][1].'</option>';
 		}
-		else 
+		else
 		{
 			$keywords_float = $keywords_float.'<option value="'.$Keywords[$i][0].'">'.$Keywords[$i][1].'</option>';
 		}
 	}
-	$keywords_float = $keywords_float.'</select>';
-	$keywords_float = $keywords_float.'<input type="submit" value="OK">';
+	$keywords_float = $keywords_float.'</select><br><br>';
+	$keywords_float = $keywords_float.'<input class="submit" type="submit" value="OK">';
 	$keywords_float = $keywords_float.'</form>';
 	
 	return $keywords_float;

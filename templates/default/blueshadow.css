@@ -194,6 +194,18 @@ td.submit {
 	vertical-align:top;
 }
 
+/* Personal Desktop Header*/
+div.il_PDTitle
+{
+	font-family: "Times New Roman", Times, Palatino, "Palatino Linotype", serif;
+	font-size: 22px;
+	line-height: 36px;
+	color: #606060;
+	letter-spacing: 0.1em;
+	word-spacing: -0.1em;
+}
+
+
 /* Repository Header */
 table.ilc_RepHeader {
 	border-width: 0px;
@@ -537,13 +549,12 @@ a.mailunread
 /* ------------------ buttons -------------- */
 
 td.btn {
-	background-color:#006699;
+	background-color:#D3DAE8;
 	color:#BBBBBB;
 	border-width:1px;
-	border-color:#BBBBBB;
-	border-style:outset;
-	padding:3px;
-	background-image: url(blueshadow/images/cellpic2.jpg);
+	border-color:#909090;
+	border-style:solid;
+	padding:2px;
 }
 
 a.btn:link, a.btn:visited {
@@ -571,13 +582,12 @@ input {
 
 
 input.submit, a.submit {
-	background-color:#ffffff;
+	background-color:#D3DAE8;
 	color:#2255a0;
 	border-width:1px;
-	border-color:#bbbbbb;
-	border-style:outset;
-	padding:3px;
-	background-image: url(blueshadow/images/cellpic2.jpg);
+	border-color:#909090;
+	border-style:solid;
+	padding:2px;
 	text-decoration:none;
 	font-size:13px;
 	font-weight:bold;
@@ -683,6 +693,21 @@ img.spacer {
 }
 
 /* --- calendar styles -- */
+div.dp_Menu
+{
+	padding-top:1px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:1px;
+	margin-top:2px;
+	margin-bottom:2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #909090;
+	background-color: #EBEBEB;
+	width: 152px;
+}
+
 td.even
 {
 	color:#222222;
