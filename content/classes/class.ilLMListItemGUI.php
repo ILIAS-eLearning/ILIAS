@@ -41,9 +41,9 @@ class ilLMListItemGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilLMListItemGUI(&$a_lm_obj, &$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilLMListItemGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
-		parent::ilPageContentGUI($a_lm_obj, $a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
 
@@ -54,8 +54,7 @@ class ilLMListItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newItemAfter();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 	/**
@@ -65,8 +64,7 @@ class ilLMListItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newItemBefore();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 	/**
@@ -76,8 +74,7 @@ class ilLMListItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->deleteItem();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 }

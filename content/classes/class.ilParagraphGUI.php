@@ -41,9 +41,9 @@ class ilParagraphGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilParagraphGUI(&$a_lm_obj, &$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilParagraphGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
-		parent::ilPageContentGUI($a_lm_obj, $a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
 
@@ -56,9 +56,9 @@ class ilParagraphGUI extends ilPageContentGUI
 		//$content = $this->pg_obj->getContent();
 		//$cnt = 1;
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_par"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
-			"&hier_id=".$this->hier_id."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
 
 		$this->displayValidationError();
 
@@ -124,9 +124,9 @@ class ilParagraphGUI extends ilPageContentGUI
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.paragraph_edit.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_par"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
-			"&hier_id=".$this->hier_id."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
 
 		$this->displayValidationError();
 
@@ -171,7 +171,7 @@ class ilParagraphGUI extends ilPageContentGUI
 		$this->tpl->setVariable("SELECT_CHARACTERISTIC", $select_char);
 
 		// content is in utf-8, todo: set globally
-		header('Content-type: text/html; charset=UTF-8');
+		// header('Content-type: text/html; charset=UTF-8');
 
 		// input text area
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
@@ -205,24 +205,18 @@ class ilParagraphGUI extends ilPageContentGUI
 
 //echo "PARupdate:".$this->content_obj->input2xml($_POST["par_content"]).":<br>"; exit;
 		$this->updated = $this->content_obj->setText($this->content_obj->input2xml(stripslashes($_POST["par_content"])));
-	
+
 		if ($this->updated !== true)
 		{
 //echo "Did not update!";
 			$this->edit();
 			return;
 		}
-//echo "1";
+
 		$this->updated = $this->pg_obj->update();
-//echo "2";
 		if ($this->updated === true)
 		{
-//echo "3";
-//echo "Location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-				$this->pg_obj->getId();
-//echo "4"; exit;
-			header("Location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-				$this->pg_obj->getId());
+			header("Location: ".$this->getReturnLocation());
 			exit;
 		}
 		else
@@ -249,8 +243,7 @@ class ilParagraphGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-				$this->pg_obj->getId());
+			header("Location: ".$this->getReturnLocation());
 			exit;
 		}
 		else

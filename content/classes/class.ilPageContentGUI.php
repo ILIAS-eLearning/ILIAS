@@ -37,28 +37,48 @@ class ilPageContentGUI
 	var $ilias;
 	var $tpl;
 	var $lng;
-	var $lm_obj;
 	var $pg_obj;
 	var $hier_id;
 	var $dom;
 	var $updated;
+	var $target_script;
+	var $return_location;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilPageContentGUI(&$a_lm_obj, &$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilPageContentGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
 		global $ilias, $tpl, $lng;
 
 		$this->ilias =& $ilias;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
-		$this->lm_obj =& $a_lm_obj;
 		$this->pg_obj =& $a_pg_obj;
 		$this->content_obj =& $a_content_obj;
 		$this->hier_id = $a_hier_id;
 		$this->dom =& $a_pg_obj->getDom();
+	}
+
+	function setTargetScript($a_target_script)
+	{
+		$this->target_script = $a_target_script;
+	}
+
+	function getTargetScript()
+	{
+		return $this->target_script;
+	}
+
+	function setReturnLocation($a_location)
+	{
+		$this->return_location = $a_location;
+	}
+
+	function getReturnLocation()
+	{
+		return $this->return_location;
 	}
 
 	/**
@@ -80,8 +100,7 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 	function moveAfter()
@@ -114,8 +133,7 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 	function moveBefore()
@@ -148,8 +166,7 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-			$this->pg_obj->getId());
+		header("Location: ".$this->getReturnLocation());
 	}
 
 

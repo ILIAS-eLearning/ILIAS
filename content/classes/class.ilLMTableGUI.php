@@ -41,9 +41,9 @@ class ilLMTableGUI extends ilPageContentGUI
 	* Constructor
 	* @access	public
 	*/
-	function ilLMTableGUI(&$a_lm_obj, &$a_pg_obj, &$a_content_obj, $a_hier_id)
+	function ilLMTableGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id)
 	{
-		parent::ilPageContentGUI($a_lm_obj, $a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
 	}
 
 	/**
@@ -54,9 +54,9 @@ class ilLMTableGUI extends ilPageContentGUI
 		// add paragraph edit template
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_properties.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_tab_properties"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
-			"&hier_id=".$this->hier_id."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
 
 		$this->displayValidationError();
 
@@ -188,8 +188,7 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-				$this->pg_obj->getId());
+			header("Location: ".$this->getReturnLocation());
 			exit;
 		}
 		else
@@ -208,9 +207,9 @@ class ilLMTableGUI extends ilPageContentGUI
 		// new table form (input of rows and columns)
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_table"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->pg_obj->getId().
-			"&hier_id=".$this->hier_id."&cmd=edpost");
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
 
 		$this->displayValidationError();
 
@@ -257,8 +256,7 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
-				$this->pg_obj->getId());
+			header("Location: ".$this->getReturnLocation());
 			exit;
 		}
 		else

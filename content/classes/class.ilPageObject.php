@@ -22,7 +22,6 @@
 */
 
 require_once("content/classes/class.ilLMObject.php");
-require_once("content/classes/class.ilPageParser.php");
 require_once("content/classes/class.ilPageContent.php");
 
 define("IL_INSERT_BEFORE", 0);
@@ -43,11 +42,8 @@ define ("IL_NO_HEADER", "none");
 *
 * @package content
 */
-class ilPageObject extends ilLMObject
+class ilPageObject
 {
-	var $is_alias;
-	var $origin_id;
-	var $content;		// array of objects (ilParagraph or ilMediaObject)
 	var $id;
 	var $ilias;
 	var $dom;
@@ -56,23 +52,21 @@ class ilPageObject extends ilLMObject
 	var $node;
 	var $cur_dtd = "ilias_pg_0_1.dtd";
 	var $contains_int_link;
-	//var $cur_dtd = "ilias_co.dtd";
+	var $parent_type;
+	var $parent_id;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObject($a_id = 0)
+	function ilPageObject($a_parent_type, $a_id = 0)
 	{
 		global $ilias;
 
-		parent::ilLMObject();
-		$this->setType("pg");
+		$this->parent_type = $a_parent_type;
 		$this->id = $a_id;
 		$this->ilias =& $ilias;
 
-		$this->is_alias = false;
-		$this->content = array();
 		$this->contains_int_link = false;
 
 		if($a_id != 0)
@@ -86,9 +80,8 @@ class ilPageObject extends ilLMObject
 	*/
 	function read()
 	{
-		parent::read();
-
-		$query = "SELECT * FROM lm_page_object WHERE page_id = '".$this->id."'";
+		$query = "SELECT * FROM page_object WHERE page_id = '".$this->id."' ".
+			"AND parent_type='".$this->getParentType()."'";
 		$pg_set = $this->ilias->db->query($query);
 		if (!($this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC)))
 		{
@@ -97,13 +90,6 @@ class ilPageObject extends ilLMObject
 
 		// todo: make utf8 global (db content should be already utf8)
 		$this->xml = $this->page_record["content"];
-
-		// todo: this is for testing only
-//echo htmlentities($this->xml);
-		//$this->dom =& domxml_open_mem(utf8_encode($this->xml));
-
-		//$page_parser = new ilPageParser($this, $this->xml_content);
-		//$page_parser->startParsing();
 
 	}
 
@@ -148,40 +134,25 @@ class ilPageObject extends ilLMObject
 		return $this->id;
 	}
 
-	/**
-	* set wether page object is an alias
-	*/
-	function setAlias($a_is_alias)
+	function setParentId($a_id)
 	{
-		$this->is_alias = $a_is_alias;
+		$this->parent_id = $a_id;
 	}
 
-	function isAlias()
+	function getParentId()
 	{
-		return $this->is_alias;
+		return $this->parent_id;
 	}
 
-	function setOriginID($a_id)
+	function setParentType($a_type)
 	{
-		return $this->origin_id = $a_id;
+		$this->parent_type = $a_type;
 	}
 
-	function getOriginID()
+	function getParentType()
 	{
-		return $this->origin_id;
+		return $this->parent_type;
 	}
-
-	function getimportId()
-	{
-		return $this->meta_data->getImportIdentifierEntryID();
-	}
-
-
-	/*
-	function appendContent(&$a_content_obj)
-	{
-		$this->content[] =& $a_content_obj;
-	}*/
 
 	function &getContentObject($a_hier_id)
 	{
@@ -386,6 +357,8 @@ class ilPageObject extends ilLMObject
 	* lm parser set this flag to true, if the page contains intern links
 	* (this method should only be called by the import parser)
 	*
+	* todo: move to ilLMPageObject !?
+	*
 	* @param	boolean		$a_contains_link		true, if page contains intern link tag(s)
 	*/
 	function setContainsIntLink($a_contains_link)
@@ -406,9 +379,14 @@ class ilPageObject extends ilLMObject
 	* get a xml string that contains all Bibliography elements, that
 	* are referenced by any bibitem alias in the page
 	*/
-    function getBibliographyXML() {
+    function getBibliographyXML()
+	{
         global $ilias;
-        
+
+		// todo: access to $_GET and $_POST variables is not
+		// allowed in non GUI classes!
+		//
+		// access to db table object_reference is not allowed here!
         $r = $ilias->db->query("SELECT * FROM object_reference WHERE ref_id='".$_GET["ref_id"]."' ");
         $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -601,9 +579,9 @@ class ilPageObject extends ilLMObject
 	function createFromXML()
 	{
 		// create object
-		parent::create();
-		$query = "INSERT INTO lm_page_object (page_id, parent_id, content, parent_type) VALUES ".
-			"('".$this->getId()."', '".$this->getLMId()."','".addslashes($this->getXMLContent())."', 'lm')";
+		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type) VALUES ".
+			"('".$this->getId()."', '".$this->getParentId()."','".addslashes($this->getXMLContent()).
+			"', '".$this->getParentType()."')";
 		$this->ilias->db->query($query);
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 	}
@@ -613,9 +591,9 @@ class ilPageObject extends ilLMObject
 	*/
 	function updateFromXML()
 	{
-		$query = "UPDATE lm_page_object ".
+		$query = "UPDATE page_object ".
 			"SET content = '".addslashes($this->getXMLContent())."' ".
-			"WHERE page_id = '".$this->getId()."'";
+			"WHERE page_id = '".$this->getId()."' AND parent_type='".$this->getParentType()."'";
 		$this->ilias->db->query($query);
 	}
 
@@ -632,10 +610,10 @@ class ilPageObject extends ilLMObject
 		}
 		if(empty($errors))
 		{
-			parent::update();
-			$query = "UPDATE lm_page_object ".
+			$query = "UPDATE page_object ".
 				"SET content = '".addslashes($this->getXMLFromDom())."' ".
-				"WHERE page_id = '".$this->getId()."'";
+				"WHERE page_id = '".$this->getId().
+				"' AND parent_type='".$this->getParentType()."'";
 			$this->ilias->db->query($query);
 //echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
 			return true;
@@ -648,10 +626,10 @@ class ilPageObject extends ilLMObject
 
 	function create()
 	{
-		parent::create();
 		$this->setXMLContent("<PageObject></PageObject>");
-		$query = "INSERT INTO lm_page_object (page_id, parent_id, content, parent_type) VALUES ".
-			"('".$this->getId()."', '".$this->getLMId()."','".$this->getXMLContent()."', 'lm')";
+		$query = "INSERT INTO page_object (page_id, parent_id, content, parent_type) VALUES ".
+			"('".$this->getId()."', '".$this->getParentId()."','".$this->getXMLContent().
+			"', '".$this->getParentType()."')";
 		$this->ilias->db->query($query);
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 
@@ -761,14 +739,6 @@ class ilPageObject extends ilLMObject
 
 	}
 
-	/**
-	* static
-	*/
-	function getPageList($lm_id)
-	{
-		return ilLMObject::getObjectList($lm_id, "pg");
-	}
-
 
 	/**
 	* move content object from position $a_source before position $a_target
@@ -845,6 +815,8 @@ class ilPageObject extends ilLMObject
 	*
 	* @param	string	$a_mode		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
 	*/
+	// this method is moved to class ilLMPageObject
+	/*
 	function getPresentationTitle($a_mode = IL_CHAPTER_TITLE)
 	{
 		if($a_mode == IL_NO_HEADER)
@@ -863,17 +835,13 @@ class ilPageObject extends ilLMObject
 		if ($tree->isInTree($this->getId()))
 		{
 			$pred_node = $tree->fetchPredecessorNode($this->getId(), "st");
-			/*
-			require_once("content/classes/class.ilStructureObject.php");
-			$struct_obj =& new ilStructureObject($pred_node["obj_id"]);
-			return $struct_obj->getTitle();*/
 			return $pred_node["title"];
 		}
 		else
 		{
 			return $this->getTitle();
 		}
-	}
+	}*/
 
 }
 ?>

@@ -209,12 +209,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		$tbl->setHeaderNames(array("", $this->lng->txt("cont_term"),
-			 $this->lng->txt("language"), $this->lng->txt("last_change")));
+			 $this->lng->txt("language"), $this->lng->txt("cont_definitions")));
 
-		$cols = array("", "term", "language", "last_change", "id");
+		$cols = array("", "term", "language", "definitions", "id");
 		$header_params = array("ref_id" => $this->ref_id, "cmd" => "listTerms");
 		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("15","45%","30%","25%"));
+		$tbl->setColumnWidth(array("1%","24%","15%","60%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -249,12 +249,17 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			foreach($term_list as $key => $term)
 			{
 				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
+				$defs = ilGlossaryDefinition::getDefinitions($term["id"]);
+				for($j=0; $j<=count($defs); $j++)
+				{
+					$def = $defs[$j];
+				}
+
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
 				$this->tpl->setVariable("TARGET_TERM", "glossary_edit.php?ref_id=".
 					$_GET["ref_id"]."&cmd=editTerm&term_id=".$term["id"]);
 				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
-				$this->tpl->setVariable("TEXT_LASTCHANGE", $term["last_change"]);
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();
 			}
