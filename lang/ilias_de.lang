@@ -82,7 +82,7 @@ administration#:#searching_missing_objs#:#Sucht nach verlorenen Objekten...
 administration#:#searching_unbound_objs#:#Sucht nach nichtzugeordneten Objekten...
 administration#:#skipped#:#ausgelassen
 administration#:#start_scan#:#Start!
-administration#:#stop_scan#:#Stop!###31 May 2004 new variable
+administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
 administration#:#view_log#:#Zeige Details
@@ -497,7 +497,7 @@ common#:#are_you_sure#:#Sind Sie sicher?
 common#:#assign#:#Annehmen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
-common#:#assign_local_role#:#Assign to local role###25 May 2004 new variable
+common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#at_location#:#an Position
 common#:#attachment#:#Attachment
@@ -621,7 +621,7 @@ common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
 common#:#context#:#Kontext
-common#:#continue_work#:#Continue###16 Jun 2004 new variable
+common#:#continue_work#:#Fortsetzen
 common#:#copy#:#Kopieren
 common#:#copyPage#:#Kopiere
 common#:#copy_of#:#Kopie von
@@ -821,7 +821,7 @@ common#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forename#:#Vorname
-common#:#forgot_password#:#Forgot password?###31 May 2004 new variable
+common#:#forgot_password#:#Passwort vergessen?
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#forum#:#Forum
 common#:#forum_import#:#Forum Import
@@ -1542,8 +1542,8 @@ common#:#role_deleted#:#Rolle gelöscht
 common#:#role_edit#:#Rolle bearbeiten
 common#:#role_new#:#Neue Rolle
 common#:#roles#:#Rollen
-common#:#roles_of_import_global#:#Global roles of import file###25 May 2004 new variable
-common#:#roles_of_import_local#:#Local roles of import file###25 May 2004 new variable
+common#:#roles_of_import_global#:#Globale Rollen in Importdatei
+common#:#roles_of_import_local#:#Lokale Rollen in Importdatei
 common#:#rolf#:#Rollenordner
 common#:#rolf_added#:#Rollenordner angelegt
 common#:#rolf_create_role#:#Neue Rolle anlegen
@@ -1610,7 +1610,7 @@ common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#show_structure#:#Strukturansicht einblenden
-common#:#show_users_online#:#Show users online###17 Jun 2004 new variable
+common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#signature#:#Signatur
 common#:#slm#:#SCORM Lernmodul
 common#:#slm_added#:#SCORM Lernmodul angelegt
@@ -1789,7 +1789,7 @@ content#:#cont_Rect#:#Rechteck
 content#:#cont_Reference#:#Referenz
 content#:#cont_Remark#:#Bemerkung
 content#:#cont_Roman#:#Römisch I, II, ...
-content#:#cont_TableContent#:#Table Content###17 Jun 2004 new variable
+content#:#cont_TableContent#:#Tabelleninhalt
 content#:#cont_Unordered#:#Ungeordnet
 content#:#cont_active#:#Aktiviere Lerneinheiten-Menü
 content#:#cont_add_area#:#Bereich zufügen
@@ -1826,7 +1826,7 @@ content#:#cont_choose_media_source#:#Wählen Sie die Medienquelle
 content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
-content#:#cont_clean_frames#:#Clean additional frames on navigation###15 Jun 2004 new variable
+content#:#cont_clean_frames#:#Zusätzliche Frames beim Navigieren leeren
 content#:#cont_click_br_corner#:#Bitte klicken Sie in die rechte untere Ecke des gewünschten Bereichs.
 content#:#cont_click_center#:#Bitte klicken Sie in die Mitte des gewünschten Bereichs.
 content#:#cont_click_circle#:#Bitte klicken Sie auf einen Kreispunkt des gewünschten Bereichs.
@@ -1928,7 +1928,7 @@ content#:#cont_lk_term#:#Glossarbegriff
 content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_menu#:#Menü
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
-content#:#cont_lvalue#:#Data element###14 Jun 2004 new variable
+content#:#cont_lvalue#:#Datenelement
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_areas#:#Link Areas
 content#:#cont_mastery_score#:#adlcp:masteryscore
@@ -1983,7 +1983,7 @@ content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
 content#:#cont_roman#:#Römisch i, ii, ...
-content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
+content#:#cont_rvalue#:#Wert
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
 content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
@@ -1995,7 +1995,7 @@ content#:#cont_sc_stat_failed#:#Nicht bestanden
 content#:#cont_sc_stat_incomplete#:#Nicht vollständig
 content#:#cont_sc_stat_not_attempted#:#Nicht begonnen
 content#:#cont_sc_stat_passed#:#Bestanden
-content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
+content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
 content#:#cont_scorm_type#:#adlcp:scormtype
@@ -2024,7 +2024,7 @@ content#:#cont_show_line_numbers#:#Zeilennummern anzeigen
 content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle
 content#:#cont_src#:#Programmiersprache
-content#:#cont_src_other#:#other###18 Jun 2004 new variable
+content#:#cont_src_other#:#Andere
 content#:#cont_st_title#:#Titel des Kapitels
 content#:#cont_startfile#:#Startdatei
 content#:#cont_status#:#Status
