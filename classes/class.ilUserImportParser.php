@@ -197,7 +197,7 @@ class ilUserImportParser extends ilSaxParser
 						$this->userObj->create();
 
 						//insert user data in table user_data
-						$this->userObj->saveAsNew();
+						$this->userObj->saveAsNew(false);
 
 						// set user preferences
 						$this->userObj->setPref("skin",
