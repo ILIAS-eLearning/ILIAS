@@ -356,6 +356,20 @@ div.il_Header
 	background-repeat:repeat-x;
 }
 
+table.ilHeader
+{
+	margin-top:2px;
+	margin-bottom:5px;
+	color:#222222;
+	background-color: #DBE6F4;
+	border-width:1px;
+	border-color:#E0E0F0;
+	border-style:outset;
+	padding:7px;
+	background-image: url(blueshadow/images/cellpic5.gif);
+	background-repeat:repeat-x;
+}
+
 div.il_Footer
 {
 	margin-top:30px;
