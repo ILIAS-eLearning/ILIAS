@@ -95,7 +95,7 @@ class ilObjCategory extends ilObject
 	*/
 	function getTranslations()
 	{
-		$q = "SELECT * FROM object_translation WHERE obj_id = ".$this->getId();
+		$q = "SELECT * FROM object_translation WHERE obj_id = ".$this->getId()." ORDER BY lang_default DESC";
 		$r = $this->ilias->db->query($q);
 		
 		$num = 0;
@@ -106,14 +106,12 @@ class ilObjCategory extends ilObject
 										  "desc"	=> $row->description,
 										  "lang"	=> $row->lang_code
 										  );
-			if ($row->lang_default == 1)
-			{
-				$data["default_language"] = $num;			
-			}
-			
-			$num++;
+		$num++;
 		}
-				
+
+		// first entry is always the default language
+		$data["default_language"] = 0;
+
 		return $data ? $data : array();	
 	}
 	

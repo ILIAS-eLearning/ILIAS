@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.11 2003/11/20 17:04:19 shofmann Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.12 2003/11/30 16:09:48 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -143,7 +143,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 					$this->tpl->setVariable("VAL_LG", $code);
 					$this->tpl->setVariable("TXT_LG", $language);
 
-					if ($count == 1 AND $code == $this->ilias->account->getPref("language"))
+					if ($count == 1 AND $code == $this->ilias->account->getPref("language") AND !isset($_SESSION["translation_post"]))
 					{
 						$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
 					}
@@ -348,11 +348,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 				$this->tpl->setVariable("VAL_LG", $code);
 				$this->tpl->setVariable("TXT_LG", $language);
 
-				if ($count == 1 AND $code == $this->ilias->account->getPref("language"))
-				{
-					$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
-				}
-				elseif ($code == $val["lang"])
+				if ($code == $val["lang"])
 				{
 					$this->tpl->setVariable("SELECTED", "selected=\"selected\"");
 				}
