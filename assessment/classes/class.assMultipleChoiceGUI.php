@@ -116,7 +116,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
 				$this->tpl->setVariable("VALUE_ANSWER", $answer->get_answertext());
 				$this->tpl->setVariable("TEXT_WHEN", $this->lng->txt("when"));
-				$this->tpl->setVariable("TEXT_UNSET", $this->lng->txt("radio_unset"));
 				$this->tpl->setVariable("TEXT_SET", $this->lng->txt("radio_set"));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
@@ -124,7 +123,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
 				if ($answer->isStateSet())
 				{
-					$this->tpl->setVariable("SET_SELECTED", " selected=\"selected\"");
+					$this->tpl->setVariable("STATUS_CHECKED", " checked=\"checked\"");
 				}
 				$this->tpl->parseCurrentBlock();
 			}
@@ -601,10 +600,15 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			{
 				if (preg_match("/answer_(\d+)/", $key, $matches))
 				{
+					$state = 0;
+					if ($_POST["status"] == $matches[1])
+					{
+						$state = 1;
+					}
 					$this->object->add_answer(
 						ilUtil::stripSlashes($_POST["$key"]),
 						ilUtil::stripSlashes($_POST["points_$matches[1]"]),
-						ilUtil::stripSlashes($_POST["status_$matches[1]"]),
+						$state,
 						ilUtil::stripSlashes($matches[1])
 						);
 				}

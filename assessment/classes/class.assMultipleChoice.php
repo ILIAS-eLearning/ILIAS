@@ -434,9 +434,9 @@ class ASS_MultipleChoice extends ASS_Question
 				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, correctness, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($this->id),
 				$db->quote($answer_obj->get_answertext()),
-				$db->quote($answer_obj->get_points()),
-				$db->quote($answer_obj->get_order()),
-				$db->quote($answer_obj->getState())
+				$db->quote($answer_obj->get_points() . ""),
+				$db->quote($answer_obj->get_order() . ""),
+				$db->quote($answer_obj->getState() . "")
 				);
 				$answer_result = $db->query($query);
 			}
@@ -766,9 +766,52 @@ class ASS_MultipleChoice extends ASS_Question
 		$points = 0;
 		foreach ($this->answers as $key => $value)
 		{
-			if ($value->isStateChecked())
+			$points += $value->get_points();
+		}
+		return $points;
+	}
+
+	/**
+	* Returns the points, a learner has reached answering the question
+	*
+	* Returns the points, a learner has reached answering the question
+	*
+	* @param integer $user_id The database ID of the learner
+	* @param integer $test_id The database Id of the test containing the question
+	* @access public
+	*/
+	function getReachedPoints($user_id, $test_id)
+	{
+		global $ilDB;
+
+		$found_values = array();
+		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$ilDB->quote($user_id),
+			$ilDB->quote($test_id),
+			$ilDB->quote($this->getId())
+		);
+		$result = $ilDB->query($query);
+		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($found_values, $data->value1);
+		}
+
+		$points = 0;
+		foreach ($this->answers as $key => $answer)
+		{
+			if ($answer->isStateChecked())
 			{
-				$points += $value->get_points();
+				if (in_array($key, $found_values))
+				{
+					$points += $answer->get_points();
+				}
+			}
+			else
+			{
+				if (!in_array($key, $found_values))
+				{
+					$points += $answer->get_points();
+				}
 			}
 		}
 		return $points;
@@ -787,28 +830,7 @@ class ASS_MultipleChoice extends ASS_Question
 	*/
 	function _getReachedPoints($user_id, $test_id)
 	{
-		global $ilDB;
-
-		$found_values = array();
-		$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
-			$ilDB->quote($user_id),
-			$ilDB->quote($test_id),
-			$ilDB->quote($this->getId())
-		);
-		$result = $ilDB->query($query);
-		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			array_push($found_values, $data->value1);
-		}
-		$points = 0;
-		foreach ($found_values as $key => $value)
-		{
-			if (strlen($value) > 0)
-			{
-				$points += $this->answers[$value]->get_points();
-			}
-		}
-		return $points;
+		return 0;
 	}
 
 	/**

@@ -139,11 +139,12 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$this->tpl->setVariable("TEXT_TRUE", $this->lng->txt("true"));
 					if ($value->isStateSet())
 					{
-						$this->tpl->setVariable("SET_SELECTED", " selected=\"selected\"");
+						$this->tpl->setVariable("STATUS_CHECKED", " checked=\"checked\"");
 					}
 					$this->tpl->setVariable("TEXT_WHEN", $this->lng->txt("when"));
-					$this->tpl->setVariable("TEXT_UNSET", $this->lng->txt("radio_unset"));
 					$this->tpl->setVariable("TEXT_SET", $this->lng->txt("radio_set"));
+					$this->tpl->setVariable("VALUE_STATUS_COUNTER", $key);
+					$this->tpl->setVariable("VALUE_GAP", $i);
 					$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 					$this->tpl->setVariable("VALUE_SELECT_GAP_POINTS", sprintf("%d", $value->get_points()));
 					$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
@@ -467,7 +468,12 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 						}
 						$points = $_POST["points_$matches[1]_$matches[2]"] or 0.0;
 						$this->object->set_single_answer_points($matches[1], $matches[2], $points);
-						$this->object->set_single_answer_state($matches[1], $matches[2], $_POST["status_$matches[1]_$matches[2]"]);
+						$state = 0;
+						if ($_POST["status_$matches[1]"] == $matches[2])
+						{
+							$state = 1;
+						}
+						$this->object->set_single_answer_state($matches[1], $matches[2], $state);
 					}
 				}
 				else

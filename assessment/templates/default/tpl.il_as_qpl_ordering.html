@@ -28,18 +28,13 @@
 <tr><td colspan="5" class="option"><input name="cmd[addItem]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
 <!-- BEGIN answers -->
 <tr>
-<td colspan="2" class="tblheader"><a name="answer_{VALUE_ANSWER_COUNTER}"></a>{TEXT_ANSWER} {VALUE_ANSWER_COUNTER}</td>
-<td class="tblheader">{TEXT_SOLUTION_ORDER}</td>
-<td class="tblheader" colspan="2"></td>
-</tr>
-<tr>
  <!-- BEGIN order_terms -->
-  <td class="option">{TEXT_ANSWER_TEXT}:</td>
+  <td class="option"><a name="answer_{VALUE_ANSWER_COUNTER}"></a>{TEXT_ANSWER_TEXT} {VALUE_ANSWER_COUNTER}:</td>
   <td class="option_value"><input name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="50" value="{VALUE_ANSWER}" /></td>
  <!-- END order_terms -->
 
  <!-- BEGIN order_pictures -->
-  <td class="option">{TEXT_ANSWER_PICTURE}:</td>
+  <td class="option"><a name="answer_{VALUE_ANSWER_COUNTER}"></a>{TEXT_ANSWER_PICTURE} {VALUE_ANSWER_COUNTER}:</td>
   <td class="option_value">
   <!-- BEGIN imageupload -->
 	{UPLOADED_IMAGE}<br>
@@ -51,7 +46,7 @@
 	</td>
 <!-- END order_pictures -->
 
-  <td class="option_value"><input name="order_{ANSWER_ORDER}" type="text" id="order_{ANSWER_ORDER}" size="3" value="{VALUE_ORDER}" /></td>
+  <td class="option_value">{TEXT_SOLUTION_ORDER}: <input name="order_{ANSWER_ORDER}" type="text" id="order_{ANSWER_ORDER}" size="3" value="{VALUE_ORDER}" /></td>
   <td class="option_value"><label for="points_{ANSWER_ORDER}">{TEXT_POINTS}</label>: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="10" value="{VALUE_ORDERING_POINTS}" /></td>
   <td class="option_value">
 <!-- BEGIN deletebutton -->

@@ -30,7 +30,7 @@ require_once "./assessment/classes/class.assOrderingQuestion.php";
 * The ASS_OrderingQuestionGUI class encapsulates the GUI representation
 * for ordering questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assOrderingQuestionGUI.php
 * @modulegroup   Assessment
@@ -112,6 +112,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			{
 				$this->tpl->setCurrentBlock("order_pictures");
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->get_order() + 1);
 				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
 
 				$filename = $thisanswer->get_answertext();
@@ -128,6 +129,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			elseif ($this->object->get_ordering_type() == OQ_TERMS)
 			{
 				$this->tpl->setCurrentBlock("order_terms");
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->get_order() + 1);
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
 				$this->tpl->setVariable("VALUE_ANSWER", $thisanswer->get_answertext());
@@ -135,10 +137,9 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("answers");
-			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $thisanswer->get_order() + 1);
 			$anchor = "#answer_" . ($thisanswer->get_order() + 1);
-			$this->tpl->setVariable("ANSWER_ORDER", $thisanswer->get_order());
 			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
+			$this->tpl->setVariable("ANSWER_ORDER", $thisanswer->get_order());
 			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 			$this->tpl->setVariable("VALUE_ORDER", $thisanswer->get_solution_order());
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
@@ -152,6 +153,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			{
 				$this->tpl->setCurrentBlock("order_pictures");
 				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_answer_count());
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_answer_count() + 1);
 				$this->tpl->setVariable("VALUE_ANSWER", "");
 				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 				$this->tpl->setVariable("TEXT_ANSWER_PICTURE", $this->lng->txt("answer_picture"));
@@ -160,6 +162,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			{
 				$this->tpl->setCurrentBlock("order_terms");
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
+				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_answer_count() + 1);
 				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_answer_count());
 				$this->tpl->setVariable("VALUE_ASNWER", "");
 			}
@@ -169,10 +172,9 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 			$this->tpl->setCurrentBlock("answers");
 			//$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_answer_count() + 1);
 			$anchor = "#answer_" . ($this->object->get_answer_count() + 1);
-			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_answer_count());
 			$this->tpl->setVariable("TEXT_SOLUTION_ORDER", $this->lng->txt("solution_order"));
+			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_answer_count());
 			$this->tpl->setVariable("VALUE_ORDER", $this->object->get_max_solution_order() + 1);
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 			$this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", 0));

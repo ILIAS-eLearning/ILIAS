@@ -32,7 +32,7 @@ define ("MT_TERMS_DEFINITIONS", 1);
 *
 * ASS_MatchingQuestion is a class for matching questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.assMatchingQuestion.php
 * @modulegroup   Assessment
@@ -409,7 +409,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				// create page object of question
 				$this->createPageObject();
 
-				// Falls die Frage in einen Test eingefügt werden soll, auch diese Verbindung erstellen
+				// Falls die Frage in einen Test eingefï¿½gt werden soll, auch diese Verbindung erstellen
 				if ($this->getTestId() > 0)
 				{
 					$this->insertIntoTest($this->getTestId());
@@ -439,7 +439,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			$this->saveMaterialsToDb();
 
 			// Antworten schreiben
-			// alte Antworten löschen
+			// alte Antworten lï¿½schen
 			$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 				$db->quote($this->id)
 			);
@@ -451,11 +451,11 @@ class ASS_MatchingQuestion extends ASS_Question
 				$matching_obj = $this->matchingpairs[$key];
 				$query = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, answertext, points, aorder, matchingtext, matching_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
 					$db->quote($this->id),
-					$db->quote($matching_obj->get_answertext()),
-					$db->quote($matching_obj->get_points()),
-					$db->quote($matching_obj->get_order()),
-					$db->quote($matching_obj->get_matchingtext()),
-					$db->quote($matching_obj->get_matchingtext_order())
+					$db->quote($matching_obj->get_answertext() . ""),
+					$db->quote($matching_obj->get_points() . ""),
+					$db->quote($matching_obj->get_order() . ""),
+					$db->quote($matching_obj->get_matchingtext() . ""),
+					$db->quote($matching_obj->get_matchingtext_order() . "")
 				);
 				$matching_result = $db->query($query);
 			}
@@ -869,11 +869,11 @@ class ASS_MatchingQuestion extends ASS_Question
 			array_push($found_value2, $data->value2);
 		}
 		$points = 0;
-		foreach ($found_value1 as $key => $value)
+		foreach ($found_value2 as $key => $value)
 		{
 			foreach ($this->matchingpairs as $answer_key => $answer_value)
 			{
-				if (($answer_value->get_order() == $value) and ($answer_value->get_matchingtext_order() == $found_value2[$key]))
+				if (($answer_value->get_order() == $value) and ($answer_value->get_matchingtext_order() == $found_value1[$key]))
 				{
 					$points += $answer_value->get_points();
 				}
