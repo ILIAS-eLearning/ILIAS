@@ -445,6 +445,31 @@ class ilObjSurvey extends ilObject
     }
 		$this->loadQuestionsFromDb();
 	}
+
+
+	
+/**
+* Inserts a questionblock in the survey and saves the relation to the database
+*
+* Inserts a questionblock in the survey and saves the relation to the database
+*
+* @access public
+*/
+	function insertQuestionblock($questionblock_id) {
+		$query = sprintf("SELECT survey_questionblock.*, survey_survey.ref_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.ref_fi = object_reference.ref_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id =%s ORDER BY survey_survey_question.sequence",
+			$this->ilias->db->quote($questionblock_id)
+		);
+		$result = $this->ilias->db->query($query);
+		$questions = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($questions, $row["question_id"]);
+			$title = $row["title"];
+			$obligatory = $row["obligatory"];
+			$this->insertQuestion($row["question_id"]);
+		}
+		$this->createQuestionblock($title, $obligatory, $questions);
+	}
 	
 /**
 * Saves a survey object to a database
@@ -2378,6 +2403,162 @@ class ilObjSurvey extends ilObject
 		}
 		return $result_array;
 	}
-			
+
+/**
+* Retrieves all available questions or question blocks available for browse questions in a survey
+*
+* Retrieves all available questions or question blocks available for browse questions in a survey
+*
+* @param integer $browse_for 1 = browse for questions, 0 = browse for question blocks
+* @param string $filter A filter value to filter the available questions or question blocks
+* @param string $sortorder A sortorder abbreviation to sort the data output
+* @return array An array containing the available questions or questionblocks
+* @access public
+*/
+	function &getQuestionbrowserData($browse_for, $filter_type, $filter_text, $sortorder)
+	{
+		$where = "";
+		$order = "";
+		if ($filter_text)
+		{
+			switch($filter_type) {
+				case "title":
+					$where = " AND survey_question.title LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					break;
+				case "description":
+					$where = " AND survey_question.description LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					break;
+				case "author":
+					$where = " AND survey_question.author LIKE " . $this->ilias->db->quote("%" . $filter_text . "%");
+					break;
+			}
+		}
+		
+		if (is_array($sortorder))
+		{
+			switch(key($sortorder)) {
+				case "title":
+					if ($browse_for)
+					{
+						$order = " ORDER BY title " . $sortorder[key($sortorder)];
+					}
+					else
+					{
+						$order = " ORDER BY survey_questionblock.title " . $sortorder[key($sortorder)];
+					}
+					break;
+				case "description":
+					$order = " ORDER BY description " . $sortorder[key($sortorder)];
+					break;
+				case "type":
+					$order = " ORDER BY question_type_id " . $sortorder[key($sortorder)];
+					break;
+				case "author":
+					$order = " ORDER BY author " . $sortorder[key($sortorder)];
+					break;
+				case "created":
+					$order = " ORDER BY created " . $sortorder[key($sortorder)];
+					break;
+				case "updated":
+					$order = " ORDER BY TIMESTAMP " . $sortorder[key($sortorder)];
+					break;
+				case "qpl":
+					$order = " ORDER BY ref_fi " . $sortorder[key($sortorder)];
+					break;
+				case "svy":
+					$order = " ORDER BY ref_fi " . $sortorder[key($sortorder)];
+					break;
+			}
+		}
+
+		if ($browse_for)
+		{
+		  $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id" . " $where$order";
+		}
+		else
+		{
+			if ($order)
+			{
+				$order .=  ",survey_survey_question.sequence ASC";
+			}
+			else
+			{
+				$order = " ORDER BY survey_survey_question.sequence ASC";
+			}
+			$query = "SELECT survey_questionblock.*, survey_survey.ref_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.ref_fi = object_reference.ref_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id$where$order";
+		}
+    $result = $this->ilias->db->query($query);
+		$result_array = array();
+		while ($row = $result->fetchrow(DB_FETCHMODE_OBJECT))
+		{
+			if ($browse_for)
+			{
+				$result_array[$row->question_id] = array(
+					"subtype" => $row->subtype, 
+					"question_id" => $row->question_id, 
+					"questiontype_fi" => $row->questiontype_fi, 
+					"ref_fi" => $row->ref_fi,
+					"owner_fi" => $row->owner_fi,
+					"title" => $row->title,
+					"description" => $row->description,
+					"author" => $row->author,
+					"questiontext" => $row->questiontext,
+					"obligatory" => $row->obligatory,
+					"complete" => $row->complete,
+					"created" => $row->created,
+					"TIMESTAMP" => $row->TIMESTAMP,
+					"type_tag" => $row->type_tag
+				);
+			}
+			else
+			{
+				if ($qbid != $row->questionblock_id)
+				{
+					$sequence = 1;
+				}	
+				$result_array[$row->questionblock_id][$row->question_id] = array(
+					"questionblock_id" => $row->questionblock_id,
+					"title" => $row->title, 
+					"questiontitle" => $row->questiontitle, 
+					"surveytitle" => $row->surveytitle, 
+					"sequence" => $sequence++,
+					"owner" => $row->owner_fi
+				);
+				$qbid = $row->questionblock_id;
+			}
+		}
+		return $result_array;
+	}
+	
+	function &getQuestions($question_ids)
+	{
+		$result_array = array();
+		$query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN (" . join($question_ids, ",") . ")";
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			array_push($result_array, $row);
+		}
+		return $result_array;
+	}
+	
+	function &getQuestionblocks($questionblock_ids)
+	{
+		$result_array = array();
+    $query = "SELECT survey_questionblock.*, survey_survey.ref_fi, survey_question.title AS questiontitle, survey_survey_question.sequence, object_data.title as surveytitle, survey_question.question_id FROM object_reference, object_data, survey_questionblock, survey_questionblock_question, survey_survey, survey_question, survey_survey_question WHERE survey_questionblock.questionblock_id = survey_questionblock_question.questionblock_fi AND survey_survey.survey_id = survey_questionblock_question.survey_fi AND survey_questionblock_question.question_fi = survey_question.question_id AND survey_survey.ref_fi = object_reference.ref_id AND object_reference.obj_id = object_data.obj_id AND survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = survey_question.question_id AND survey_questionblock.questionblock_id IN (" . join($questionblock_ids, ",") . ") ORDER BY survey_survey.survey_id, survey_survey_question.sequence";
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($row["questionblock_id"] != $qbid)
+			{
+				$sequence = 1;
+			}
+			$row["sequence"] = $sequence++;
+			$result_array[$row["questionblock_id"]][$row["question_id"]] = $row;
+			$qbid = $row["questionblock_id"];
+		}
+		return $result_array;
+	}
+	
 } // END class.ilObjSurvey
 ?>
