@@ -52,6 +52,6 @@ $tpl->setVariable("EXPLORER",$output);
 $tpl->setVariable("ACTION", "mail_menu.php?mexpand=".$_GET["mexpand"]);
 $tpl->parseCurrentBlock();
 
-$tpl->show();
+$tpl->show(false);
 
 ?>
