@@ -3,8 +3,28 @@
 <head>
 <title>Unbenanntes Dokument</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+</head>
+
+<body>
+
+<a href ="" onclick="LMSCommit('d');">test</a>
+
+<applet code="IliasApiAdapterApplet" codebase="./apiadapter"
+	archive="gnu.jar,IliasApiAdapterApplet.class,PfPLMS-API-adapter-core.jar"
+	ID="APIAdapter" NAME="APIAdapter" width="10" height="10">
+<param name = "mayscript" value="true" >
+<param name = "scriptable" value="true" >
+<param name = "ref_id" value="{REF_ID}" >
+<param name = "student_id" value="{USER_ID}">
+<param name = "student_name" value="lastname, firstname">
+<param name = "session_id" value="{SESSION_ID}">
+<param name = "language" value="de_DE">
+</applet>
+
 <script language="JavaScript">
-	//window.document.writeln('<applet CODE="Ilias.class" ID="APIAdapter" NAME="APIAdapter" width="100" height="100"></applet>');
+	var API = APIAdapter;
+
 	var code_base="{CODE_BASE}";
 	var user_id="{USER_ID}";
 	var item_id="{ITEM_ID}";
@@ -70,28 +90,7 @@ function LMSTerminate(inString)
 {
  return document.APIAdapter.LMSFinish(inString);
 }
-</script>
 
-</head>
-
-<body>
-
-<a onclick="LMSCommit('d');">test</a>
-
-<applet code="IliasApiAdapterApplet" codebase="./apiadapter"
-	archive="gnu.jar,IliasApiAdapterApplet.class,PfPLMS-API-adapter-core.jar"
-	ID="APIAdapter" NAME="APIAdapter" width="10" height="10">
-<param name = "mayscript" value="true" >
-<param name = "scriptable" value="true" >
-<param name = "ref_id" value="{REF_ID}" >
-<param name = "student_id" value="{USER_ID}">
-<param name = "student_name" value="lastname, firstname">
-<param name = "session_id" value="{SESSION_ID}">
-<param name = "language" value="de_DE">
-</applet>
-
-<script language="JavaScript">
-	var API = APIAdapter;
 </script>
 
 </body>
