@@ -144,29 +144,23 @@ class UserObject extends Object
 			$user = new User($_GET["obj_id"]);
 
 			// gender selection
-			//$tpl->setCurrentBlock("gender");
-			//$opts = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
-			//$tpl->setVariable("GENDER",$opts);
-			//$tpl->parseCurrentBlock();	
-
+			$gender = TUtil::formSelect($Fuserdata["Gender"],"Fuserdata[Gender]",$this->gender);
 			// role selection
-			//$tpl->setCurrentBlock("role");
-			//$role = TUtil::getRoles();
-			//$opts = TUtil::formSelect($Fuserdata["Role"],"Fuserdata[Role]",$role);
-			//$tpl->setVariable("ROLE", $opts);
-			//$tpl->parseCurrentBlock();
+			$rol = TUtil::getRoles();
+			$role = TUtil::formSelect($Fuserdata["Role"],"Fuserdata[Role]",$rol);
+
 			$data = array();
+
 			$data["fields"] = array();
 			$data["fields"]["login"] = $user->data["login"];
-			$data["fields"]["passwd"] = $user->data["********"];
-			$data["fields"]["gender"] = $user->data["Gender"];
+			$data["fields"]["passwd"] = "********";
+			$data["fields"]["gender"] = $gender;
 			$data["fields"]["firstname"] = $user->data["FirstName"];
 			$data["fields"]["lastname"] = $user->data["SurName"];
 			$data["fields"]["email"] = $user->data["Email"];
-			$data["title"] = $obj["title"];
-			$data["desc"] = $obj["desc"];
+			$data["fields"]["default_role"] = $role;
+			$data["title"] = $user->data["Title"];
 			
-			return $data;
 
 			if ($_GET["obj_id"] == $_SESSION["AccountId"])
 			{
@@ -191,6 +185,7 @@ class UserObject extends Object
 				$tpl->setVariable("ACTIVE_ROLE_PAR",$_GET["parent_parent"]);
 				$tpl->parseCurrentBlock();
 			}
+			return $data;
 		}
 		else
 		{

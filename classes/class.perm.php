@@ -69,7 +69,7 @@
 	 $a_order = 'title';
 
 	$query = "SELECT * FROM object_data
-		WHERE type = 'user'
+		WHERE type = 'usr'
 		ORDER BY ".$a_order." ".$a_direction;
 	$res = $db->query($query);
 
