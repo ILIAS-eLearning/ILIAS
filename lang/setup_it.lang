@@ -47,7 +47,7 @@ change_basic_settings#:#Cambia le impostazioni base
 change_password#:#Cambia la password
 change_sort_direction#:#Cambia la direzione dell&#039;ordinamento
 check_failed_convert#:#Test di conversione fallito
-check_failed_htmldoc#:#Test HTMLdoc fallito
+check_failed_htmldoc#:#Test HTMLdoc fallito###26 May 2004 content changed
 check_failed_java#:#Test per java fallito
 check_failed_unzip#:#Test di decompressione fallito
 check_failed_zip#:#Test di compressione fallito
@@ -135,6 +135,8 @@ finish#:#Termina
 finish_initial_setup_first#:#Per favore, termina l&#installazione; prima
 finish_setup#:#Installazione terminata
 firstname#:#Nome
+fop_path#:#Path to FOP###26 May 2004 new variable
+fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
 hide_clientlist#:#Nascondi la lista dei client
 host#:#Host
 htmldoc_path#:#Percorso della cartella con i doc HTML
@@ -255,6 +257,7 @@ no_db_update_file#:#Non ho trovato il file dbupdate.php!
 no_password#:#No password given
 no_path_convert#:#No convert path given
 no_path_datadir#:#No data directory given
+no_path_fop#:#No FOP path given###26 May 2004 new variable
 no_path_given#:#No path given
 no_path_htmldoc#:#No HTMLdoc path given
 no_path_java#:#No java path given
@@ -284,6 +287,7 @@ password_same#:#Vecchia e nuova password sono la stessa!
 password_set#:#Password salvata.
 path_not_set#:#Cartella non specificata
 path_to_convert#:#Percorso al programma di conversione delle immagini
+path_to_fop#:#Path to FOP###26 May 2004 new variable
 path_to_htmldoc#:#Percorso della cartella con i doc HTML
 path_to_java#:#Percorso a Java
 path_to_unzip#:#Percorso del programma di unzip

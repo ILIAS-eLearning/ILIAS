@@ -135,6 +135,8 @@ finish#:#Finish setup###21 Nov 2003 new variable
 finish_initial_setup_first#:#Please finish intial setup first###05 Jan 2003 new variable
 finish_setup#:#Finishing setup###21 Nov 2003 new variable
 firstname#:#Firstname###21 Nov 2003 new variable
+fop_path#:#Path to FOP###26 May 2004 new variable
+fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
 hide_clientlist#:#Hide client selection###05 Jan 2003 new variable
 host#:#Host###21 Nov 2003 new variable
 htmldoc_path#:#Path to HTMLdoc###21 Nov 2003 new variable
@@ -255,6 +257,7 @@ no_db_update_file#:#dbupdate.php byla nerasta!
 no_password#:#No password given###05 Jan 2003 new variable
 no_path_convert#:#No convert path given###05 Jan 2003 new variable
 no_path_datadir#:#No data directory given###05 Jan 2003 new variable
+no_path_fop#:#No FOP path given###26 May 2004 new variable
 no_path_given#:#No path given###05 Jan 2003 new variable
 no_path_htmldoc#:#No HTMLdoc path given###05 Jan 2003 new variable
 no_path_java#:#No java path given###05 Jan 2003 new variable
@@ -284,6 +287,7 @@ password_same#:#Old and new password are the same!###28 Nov 2003 new variable
 password_set#:#Slaptažodis išsaugotas.
 path_not_set#:#Path not set###28 Nov 2003 new variable
 path_to_convert#:#Path to Convert###21 Nov 2003 new variable
+path_to_fop#:#Path to FOP###26 May 2004 new variable
 path_to_htmldoc#:#Path to HTMLdoc###21 Nov 2003 new variable
 path_to_java#:#Path to Java###21 Nov 2003 new variable
 path_to_unzip#:#Path to Unzip###21 Nov 2003 new variable

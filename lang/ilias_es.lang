@@ -1527,6 +1527,8 @@ common#:#submit#:#enviar
 common#:#subobjects#:#Subobjetos
 common#:#subscription#:#subscripción
 common#:#summary#:#-resumen-
+common#:#svy_invite#:#Invite users to a survey###26 May 2004 new variable
+common#:#svy_participate#:#Participate in a survey###26 May 2004 new variable
 common#:#system#:#sistema
 common#:#system_check#:#Chequear Sistema
 common#:#system_choose_language#:#-elegir idioma de sistema-
@@ -1797,6 +1799,7 @@ content#:#cont_nr_cols#:#Número de Columnas
 content#:#cont_nr_items#:#Número de Items
 content#:#cont_nr_rows#:#Número de Filas
 content#:#cont_obj_removed#:#Objetos eliminados.
+content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_order#:#Tipo de Orden
 content#:#cont_organization#:#Organización
@@ -2791,10 +2794,13 @@ survey#:#add_phrase#:#Add phrase###23 May 2004 new variable
 survey#:#add_phrase_introduction#:#Please select a phrase:###23 May 2004 new variable
 survey#:#apply#:#Apply###21 May 2004 new variable
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?###24 May 2004 new variable
+survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#browse_for_questions#:#Browse for questions###24 May 2004 new variable
 survey#:#category#:#Category###21 May 2004 new variable
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?###22 May 2004 new variable
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!###22 May 2004 new variable
+survey#:#constraints#:#Constraints###26 May 2004 new variable
+survey#:#continue#:#Continue >>###26 May 2004 new variable
 survey#:#create_date#:#Created###21 May 2004 new variable
 survey#:#create_new#:#Create new###21 May 2004 new variable
 survey#:#dc_agree#:#agree###23 May 2004 new variable
@@ -2855,7 +2861,9 @@ survey#:#dp_standard_beliefs_true5#:#Standard beliefs (definitely true-true-unde
 survey#:#dp_standard_beliefs_true_false#:#Standard beliefs (true-false)###23 May 2004 new variable
 survey#:#dp_standard_beliefs_true_undecided_false#:#Standard beliefs (true-undecided-false)###23 May 2004 new variable
 survey#:#duplicate#:#Duplicate###21 May 2004 new variable
+survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints###26 May 2004 new variable
 survey#:#end_date#:#End date###23 May 2004 new variable
+survey#:#enter_value#:#Enter a value###26 May 2004 new variable
 survey#:#evaluation_access#:#Evaluation access###23 May 2004 new variable
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!###21 May 2004 new variable
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!###21 May 2004 new variable
@@ -2863,14 +2871,17 @@ survey#:#filter#:#Filter###21 May 2004 new variable
 survey#:#insert_after#:#Insert after###22 May 2004 new variable
 survey#:#insert_before#:#Insert before###22 May 2004 new variable
 survey#:#introduction#:#Introduction###23 May 2004 new variable
+survey#:#invite_participants#:#Invite participants###26 May 2004 new variable
 survey#:#last_update#:#Last update###21 May 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
 survey#:#minimum#:#Minimum value###22 May 2004 new variable
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)###21 May 2004 new variable
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)###21 May 2004 new variable
+survey#:#no_available_constraints#:#There are no constraints defined!###26 May 2004 new variable
 survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!###22 May 2004 new variable
 survey#:#no_category_selected_for_move#:#Please check at least one category to move it!###22 May 2004 new variable
+survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!###26 May 2004 new variable
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!###24 May 2004 new variable
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!###25 May 2004 new variable
 survey#:#no_questions_available#:#There are no questions available!###21 May 2004 new variable
@@ -2904,8 +2915,12 @@ survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#remove_question#:#Remove###24 May 2004 new variable
 survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?###25 May 2004 new variable
 survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
+survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
+survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
+survey#:#select_relation#:#Select a relation###26 May 2004 new variable
 survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
+survey#:#select_value#:#Select a value###26 May 2004 new variable
 survey#:#set_filter#:#Set filter###21 May 2004 new variable
 survey#:#start_date#:#Start date###23 May 2004 new variable
 survey#:#start_survey#:#Start survey###25 May 2004 new variable

@@ -47,7 +47,7 @@ change_basic_settings#:#Змінити базові настройки
 change_password#:#Змінити пароль
 change_sort_direction#:#Змінити напрямок сортування
 check_failed_convert#:#Тестування конвертора завершилось невдало
-check_failed_htmldoc#:#Тестування HTMLdoc завершилось невдало
+check_failed_htmldoc#:#Тестування HTMLdoc завершилось невдало###26 May 2004 content changed
 check_failed_java#:#Тестування java завершилось невдало
 check_failed_unzip#:#Тестування unzip завершилось невдало
 check_failed_zip#:#Тестування zip завершилось невдало
@@ -135,6 +135,8 @@ finish#:#Закінчити установку
 finish_initial_setup_first#:#Будь ласка спочатку закінчіть intial установку
 finish_setup#:#Завершення настройки
 firstname#:#Ім'я
+fop_path#:#Path to FOP###26 May 2004 new variable
+fop_path_comment#:#required to generate PDF documents###26 May 2004 new variable
 hide_clientlist#:#Приховати вибір клієнта
 host#:#Хост
 htmldoc_path#:#Шлях до HTMLdoc
@@ -255,6 +257,7 @@ no_db_update_file#:#dbupdate.php не знайдений!
 no_password#:#Не вказаний пароль
 no_path_convert#:#Не вказаний шлях до конвертора
 no_path_datadir#:#Не вказана диреторія з даними
+no_path_fop#:#No FOP path given###26 May 2004 new variable
 no_path_given#:#Не вказаний шлях
 no_path_htmldoc#:#Не вказаний шлях до HTMLdoc
 no_path_java#:#Не вказаний шлях до java
@@ -284,6 +287,7 @@ password_same#:#Старий та новий паролі співпадають
 password_set#:#Пароль збережений
 path_not_set#:#Шлях не вказаний
 path_to_convert#:#Шлях до конвертора
+path_to_fop#:#Path to FOP###26 May 2004 new variable
 path_to_htmldoc#:#Шлях до HTMLdoc
 path_to_java#:#Шлях до Java
 path_to_unzip#:#Шлях до Unzip
