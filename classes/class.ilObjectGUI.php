@@ -2191,7 +2191,7 @@ class ilObjectGUI
 		$_SESSION["saved_post"] = $_POST["id"];
 
 		unset($this->data);
-		$this->data["cols"] = array("type", "title", "description", "last_change");
+		$this->data["cols"] = array("type", "title", "last_change");
 
 		foreach($_POST["id"] as $id)
 		{
@@ -2207,10 +2207,10 @@ class ilObjectGUI
 			//}
 
 			$this->data["data"]["$id"] = array(
-				"type"        => $obj_data->getType(),
-				"title"       => $obj_data->getTitle(),
-				"desc"        => $obj_data->getDescription()." ",	// workaround for empty desc
-				"last_update" => $obj_data->getLastUpdateDate());
+												"type"        => $obj_data->getType(),
+												"title"       => $obj_data->getTitle()."#separator#".$obj_data->getDescription()." ",	// workaround for empty desc
+												"last_update" => $obj_data->getLastUpdateDate()
+											);
 		}
 
 		$this->data["buttons"] = array( "confirmedDelete"  => $this->lng->txt("confirm"),
@@ -2247,10 +2247,22 @@ class ilObjectGUI
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
 				}
+				elseif ($key == "title")
+				{
+					$name_field = explode("#separator#",$cell_data);
+
+					$this->tpl->setVariable("TEXT_CONTENT", "<b>".$name_field[0]."</b>");
+						
+					$this->tpl->setCurrentBlock("subtitle");
+					$this->tpl->setVariable("DESC", $name_field[1]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("table_cell");
+				}
 				else
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
 				}
+
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -2288,16 +2300,16 @@ class ilObjectGUI
 		else
 		{
 			$this->data["empty"] = false;
-			$this->data["cols"] = array("","type", "title", "description", "last_change");
+			$this->data["cols"] = array("","type", "title", "last_change");
 
 			foreach ($objects as $obj_data)
 			{
 				$this->data["data"]["$obj_data[child]"] = array(
-					"checkbox"    => "",
-					"type"        => $obj_data["type"],
-					"title"       => $obj_data["title"],
-					"desc"        => $obj_data["desc"],
-					"last_update" => $obj_data["last_update"]);
+															"checkbox"		=> "",
+															"type"			=> $obj_data["type"],
+															"title"			=> $obj_data["title"]."#separator#".$obj_data["desc"],
+															"last_update"	=> $obj_data["last_update"]
+									);
 			}
 
 			$this->data["buttons"] = array( "undelete"  => $this->lng->txt("btn_undelete"),
@@ -2311,7 +2323,7 @@ class ilObjectGUI
 			return;
 		}
 		
-		/* TODO: fix message display in conjunction with sendIfno & raiseError functionality
+		/* TODO: fix message display in conjunction with sendInfo & raiseError functionality
 		$this->tpl->addBlockfile("MESSAGE", "adm_trash", "tpl.message.html");
 		$this->tpl->setCurrentBlock("adm_trash");
 		$this->tpl->setVariable("MSG",$this->lng->txt("info_trash"));
@@ -2320,6 +2332,7 @@ class ilObjectGUI
 		//sendInfo($this->lng->txt("info_trash"));
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
@@ -2344,11 +2357,21 @@ class ilObjectGUI
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::formCheckBox(0,"trash_id[]",$key1));
 				}
-
 				// CREATE TEXT STRING
 				elseif ($key2 == "type")
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+				}
+				elseif ($key2 == "title")
+				{
+					$name_field = explode("#separator#",$cell_data);
+
+					$this->tpl->setVariable("TEXT_CONTENT", "<b>".$name_field[0]."</b>");
+						
+					$this->tpl->setCurrentBlock("subtitle");
+					$this->tpl->setVariable("DESC", $name_field[1]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("table_cell");
 				}
 				else
 				{
