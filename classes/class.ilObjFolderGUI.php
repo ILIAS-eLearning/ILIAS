@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.17 2004/03/23 09:54:45 akill Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.18 2004/04/12 13:46:52 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -45,23 +45,10 @@ class ilObjFolderGUI extends ilObjectGUI
 	*/
 	function ilObjFolderGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $lng;
 		$this->type = "fold";
 		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
-		$this->lng =& $lng;
-
-		/*$this->setReturnLocation("cut","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("clear","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("copy","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("link","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("paste","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("cancelDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("cancel","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("confirmedDelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("removeFromSystem","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		$this->setReturnLocation("undelete","group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
-		* */
+		//$this->lng =& $lng;
 	}
 
 	/**
@@ -105,16 +92,13 @@ class ilObjFolderGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","group.php?cmd=save&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&tree_id=".$_GET["tree_id"]."&tree_table=".$_GET["tree_table"]."&new_type=".$this->type."&parent_non_rbac_id=".$_GET["obj_id"]));
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
-		//$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($this->type."_add"));
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
-
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		//$this->tpl->show();
 	}
 
 	/**
@@ -124,7 +108,7 @@ class ilObjFolderGUI extends ilObjectGUI
 	*/
 	function saveObject($a_parent = 0)
 	{
-		if($a_parent == 0)
+		if ($a_parent == 0)
 		{
 			$a_parent = $_GET["ref_id"];
 		}
@@ -158,7 +142,6 @@ class ilObjFolderGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("fold_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		//ilUtil::redirect($this->getReturnLocation("save", "group.php?cmd=show_content&ref_id=".$_GET["ref_id"]));
 	}
 } // END class.ilObjFolderGUI
 ?>

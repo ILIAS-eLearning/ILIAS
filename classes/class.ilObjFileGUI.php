@@ -107,12 +107,11 @@ class ilObjFileGUI extends ilObjectGUI
 		if (empty($data["name"]["file"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_file"),$this->ilias->error_obj->MESSAGE);
-			exit();
 		}
+
 		if (empty($_POST["Fobject"]["title"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_title"),$this->ilias->error_obj->MESSAGE);
-			exit();
 		}
 
 		// create and insert file in grp_tree
@@ -132,6 +131,38 @@ class ilObjFileGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("file_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
+	}
+
+	/**
+	* cancel action and go back to previous page
+	* @access	public
+	*
+	*/
+	function cancelObject()
+	{
+		$this->link_params = "ref_id=".$this->tree->getParentId($this->ref_id);
+
+		session_unregister("saved_post");
+
+		sendInfo($this->lng->txt("msg_cancel"),true);
+
+		ilUtil::redirect($this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
+	}
+
+	/**
+	* updates object entry in object_data
+	*
+	* @access	public
+	*/
+	function updateObject()
+	{
+		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
+		$this->update = $this->object->update();
+
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		$this->link_params = "ref_id=".$this->tree->getParentId($this->ref_id);
+		ilUtil::redirect($this->getReturnLocation("update","adm_object.php?".$this->link_params));
 	}
 } // END class.ilObjFileGUI
 ?>

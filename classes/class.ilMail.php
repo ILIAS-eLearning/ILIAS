@@ -139,6 +139,7 @@ class ilMail
 		require_once "classes/class.ilMailOptions.php";
 
 		global $ilias, $lng;
+
 		$lng->loadLanguageModule("mail");
 
 		// Initiate variables
@@ -244,7 +245,7 @@ class ilMail
 					"AND object_reference.obj_id = object_data.obj_id";
 			$res = $this->ilias->db->query($query);
 
-			while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+			while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				$this->mail_obj_ref_id = $row["ref_id"];
 			}
@@ -283,17 +284,20 @@ class ilMail
 		
 		$res = $this->ilias->db->query($query);
 
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$tmp = $this->fetchMailData($row);
-			if($tmp["m_status"] == 'read')
+
+			if ($tmp["m_status"] == 'read')
 			{
 				++$this->mail_counter["read"];
 			}
-			if($tmp["m_status"] == 'unread')
+
+			if ($tmp["m_status"] == 'unread')
 			{
 				++$this->mail_counter["unread"];
 			}
+
 			$output[] = $tmp;
 		}
 
@@ -406,7 +410,7 @@ class ilMail
 	function deleteMails($a_mail_ids)
 	{
 
-		foreach($a_mail_ids as $id)
+		foreach ($a_mail_ids as $id)
 		{
 			$query = "DELETE FROM $this->table_mail ".
 				"WHERE user_id = '".$this->user_id."' ".
@@ -414,6 +418,7 @@ class ilMail
 			$res = $this->ilias->db->query($query);
 			$this->mfile->deassignAttachmentFromDirectory($id);
 		}
+
 		return true;
 	}
 
@@ -562,12 +567,13 @@ class ilMail
 			$tmp_mail_options =& new ilMailOptions($id);
 
 			// CONTINUE IF USER WNATS HIS MAIL SEND TO EMAIL
-			if($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
+			if ($tmp_mail_options->getIncomingType() == $this->mail_options->EMAIL)
 			{
 				$as_email[] = $id;
 				continue;
 			}
-			if($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
+
+			if ($tmp_mail_options->getIncomingType() == $this->mail_options->BOTH)
 			{
 				$as_email[] = $id;
 			}
@@ -592,7 +598,7 @@ class ilMail
 		}
 
 		// SEND EMAIL TO ALL USERS WHO DECIDED 'email' or 'both'
-		foreach($as_email as $id)
+		foreach ($as_email as $id)
 		{
 			$tmp_user =& new ilObjUser($id);
 			$this->sendMimeMail('','',$tmp_user->getEmail(),$a_subject,$a_message,$a_attachments);
@@ -609,19 +615,16 @@ class ilMail
 	*/
 	function getUserIds($a_recipients)
 	{
-		include_once "classes/class.ilGroup.php";
-
 		$tmp_names = $this->explodeRecipients($a_recipients);
 		
 		for ($i = 0;$i < count($tmp_names); $i++)
 		{
 			if (substr($tmp_names[$i],0,1) == '#')
 			{
-				include_once("./classes/class.ilGroup.php");
 				include_once("./classes/class.ilObjectFactory.php");
 
 				// GET GROUP MEMBER IDS
-				$grp_data = ilGroup::searchGroups(substr($tmp_names[$i],1));
+				$grp_data = ilUtil::searchGroups(substr($tmp_names[$i],1));
 
 				// INSTATIATE GROUP OBJECT
 				foreach ($grp_data as $grp)
@@ -664,13 +667,13 @@ class ilMail
 	{
 		$error_message = '';
 
-		if(empty($a_m_subject))
+		if (empty($a_m_subject))
 		{
 			$error_message .= $error_message ? "<br>" : '';
 			$error_message .= $this->lng->txt("mail_add_subject");
 		}
 
-		if(empty($a_rcp_to))
+		if (empty($a_rcp_to))
 		{
 			$error_message .= $error_message ? "<br>" : '';
 			$error_message .= $this->lng->txt("mail_add_recipient");
@@ -688,10 +691,6 @@ class ilMail
 	function getEmailsOfRecipients($a_rcp)
 	{
 		$addresses = array();
-
-		include_once "classes/class.ilGroup.php";
-
-		$group = new ilGroup();
 
 		$tmp_rcp = $this->explodeRecipients($a_rcp);
 
@@ -719,7 +718,7 @@ class ilMail
 				include_once("./classes/class.ilObjectFactory.php");
 
 				// GET GROUP MEMBER IDS
-				$grp_data = ilGroup::searchGroups(substr($rcp,1));
+				$grp_data = ilUtil::searchGroups(substr($rcp,1));
 
 				// INSTATIATE GROUP OBJECT
 				foreach ($grp_data as $grp)
@@ -749,10 +748,6 @@ class ilMail
 	{
 		$wrong_rcps = '';
 
-		include_once "classes/class.ilGroup.php";
-		
-		$group = new ilGroup();
-
 		$tmp_rcp = $this->explodeRecipients($a_recipients);
 
 		foreach ($tmp_rcp as $rcp)
@@ -774,7 +769,7 @@ class ilMail
 			}
 			else
 			{
-				if (!ilGroup::_groupNameExists(addslashes(substr($rcp,1))))
+				if (!ilUtil::groupNameExists(addslashes(substr($rcp,1))))
 				{
 					$wrong_rcps .= "<BR/>".$rcp;
 					continue;
@@ -865,10 +860,11 @@ class ilMail
 		$error_message = '';
 		$message = '';
 
-		if(in_array("system",$a_type))
+		if (in_array("system",$a_type))
 		{
 			$this->__checkSystemRecipients($a_rcp_to);
 		}
+
 		if ($a_attachment)
 		{
 			if (!$this->mfile->checkFilesExist($a_attachment))
@@ -920,9 +916,9 @@ class ilMail
 		$c_emails = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,true);
 		$c_rcp = $this->__getCountRecipients($a_rcp_to,$a_rcp_cc,$a_rcp_bc,false);
 
-		if(count($c_emails))
+		if (count($c_emails))
 		{
-			if(!$this->getEmailOfSender())
+			if (!$this->getEmailOfSender())
 			{
 				return $lng->txt("mail_check_your_email_addr");
 			}
@@ -933,11 +929,11 @@ class ilMail
 		// save mail in sent box
 		$sent_id = $this->saveInSentbox($a_attachment,$a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_type,
 										$a_m_subject,$a_m_message);
-		if($a_attachment)
+		if ($a_attachment)
 		{
 			$this->mfile->assignAttachmentsToDirectory($sent_id,$sent_id);
 			// ARE THERE INTERNAL MAILS
-			if($c_emails < $c_rcp)
+			if ($c_emails < $c_rcp)
 			{
 				if ($error = $this->mfile->saveFiles($sent_id,$a_attachment))
 				{
@@ -948,15 +944,15 @@ class ilMail
 
 		// FILTER EMAILS
 		// IF EMAIL RECIPIENT
-		if($c_emails)
+		if ($c_emails)
 		{
-			if(!$rbacsystem->checkAccess("smtp_mail",$this->getMailObjectReferenceId()))
+			if (!$rbacsystem->checkAccess("smtp_mail",$this->getMailObjectReferenceId()))
 			{
 				return $lng->txt("mail_no_permissions_write_smtp");
 			}
 			
 			//IF ONLY EMAIL
-			if( $c_rcp == $c_emails)
+			if ( $c_rcp == $c_emails)
 			{
 				// SEND IT
 				$this->sendMimeMail($a_rcp_to,
@@ -978,7 +974,8 @@ class ilMail
 									$a_attachment);
 			}
 		}
-		if(in_array('system',$a_type))
+
+		if (in_array('system',$a_type))
 		{
 			if (!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'system'))
 			{
@@ -996,7 +993,7 @@ class ilMail
 		}
 
 		// Temporary bugfix
-		if(!$this->getSaveInSentbox())
+		if (!$this->getSaveInSentbox())
 		{
 			$this->deleteMails(array($sent_id));
 		}
@@ -1106,6 +1103,7 @@ class ilMail
 			"WHERE user_id = '".$this->user_id."'";
 
 		$res = $this->ilias->db->query($query);
+
 		return true;
 	}
 
@@ -1134,13 +1132,14 @@ class ilMail
 		$a_recipients = preg_replace("/;/",",",$a_recipients);
 		$rcps = explode(',',$a_recipients);
 
-		if(count($rcps))
+		if (count($rcps))
 		{
-			for($i = 0; $i < count($rcps); ++ $i)
+			for ($i = 0; $i < count($rcps); ++ $i)
 			{
 				$rcps[$i] = trim($rcps[$i]);
 			}
 		}
+	
 		return is_array($rcps) ? $rcps : array();
 		
 	}
@@ -1148,11 +1147,12 @@ class ilMail
 	function __getCountRecipient($rcp,$a_only_email = true)
 	{
 		$counter = 0;
-		foreach($this->explodeRecipients($rcp) as $to)
+
+		foreach ($this->explodeRecipients($rcp) as $to)
 		{
-			if($a_only_email)
+			if ($a_only_email)
 			{
-				if(strpos($to,'@'))
+				if (strpos($to,'@'))
 				{
 					++$counter;
 				}
@@ -1162,6 +1162,7 @@ class ilMail
 				++$counter;
 			}
 		}
+
 		return $counter;
 	}
 			
@@ -1175,13 +1176,14 @@ class ilMail
 
 	function __getEmailRecipients($a_rcp)
 	{
-		foreach($this->explodeRecipients($a_rcp) as $to)
+		foreach ($this->explodeRecipients($a_rcp) as $to)
 		{
-			if(strpos($to,'@'))
+			if (strpos($to,'@'))
 			{
 				$rcp[] = $to;
 			}
 		}
+
 		return $rcp ? $rcp : array();
 	}
 
@@ -1190,10 +1192,12 @@ class ilMail
 		$inst_name = $this->ilias->getSetting("inst_name") ? $this->ilias->getSetting("inst_name") : "ILIAS 3";
 
 		$message = $inst_name." To:".$rcp_to."\n";
-		if($rcp_cc)
+
+		if ($rcp_cc)
 		{
 			$message .= "Cc: ".$rcp_cc;
 		}
+
 		$message .= "\n\n";
 		$message .= $a_m_message;
 
@@ -1202,12 +1206,13 @@ class ilMail
 
 	function __checkSystemRecipients(&$a_rcp_to)
 	{
-		if(preg_match("/@all/",$a_rcp_to))
+		if (preg_match("/@all/",$a_rcp_to))
 		{
 			// GET ALL LOGINS
 			$all = ilObjUser::_getAllUserLogins($this->ilias);
 			$a_rcp_to = preg_replace("/@all/",implode(',',$all),$a_rcp_to);
 		}
+
 		return;
 	}
 

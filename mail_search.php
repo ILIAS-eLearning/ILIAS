@@ -33,10 +33,8 @@
 require_once "./include/inc.header.php";
 require_once "./include/inc.mail.php";
 require_once "classes/class.ilObjUser.php";
-require_once "classes/class.ilGroup.php";
 require_once "classes/class.ilAddressbook.php";
 require_once "classes/class.ilFormatMail.php";
-
 
 $umail = new ilFormatMail($_SESSION["AccountId"]);
 
@@ -61,18 +59,19 @@ include "./include/inc.mail_buttons.php";
 
 $tpl->setVariable("ACTION","mail_new.php?mobj_id=$_GET[mobj_id]&type=search_res");
 
-
 // BEGIN ADDRESSBOOK
-if($_GET["addressbook"])
+if ($_GET["addressbook"])
 {
 	$tpl->setCurrentBlock("addr");
 	$abook = new ilAddressbook($_SESSION["AccountId"]);
 	$entries = $abook->searchUsers(addslashes(urldecode($_GET["search"])));
-	if($entries)
+
+	if ($entries)
 	{
 		$counter = 0;
 		$tpl->setCurrentBlock("addr_search");
-		foreach($entries as $entry)
+
+		foreach ($entries as $entry)
 		{
 			$tpl->setVariable("ADDR_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
 			$tpl->setVariable("ADDR_LOGIN_A",$entry["login"]);
@@ -103,16 +102,18 @@ if($_GET["addressbook"])
 	$tpl->parseCurrentBlock();
 }
 
-if($_GET["system"])
+if ($_GET["system"])
 {
 	$user = new ilObjUser();
 	$users = $user->searchUsers(addslashes(urldecode($_GET["search"])));
-	if($users)
+
+	if ($users)
 	{
 		$counter = 0;
-		foreach($users as $user_data)
+
+		foreach ($users as $user_data)
 		{
-			if($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
+			if ($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
 			{
 				$tpl->setCurrentBlock("smtp_row");
 				$tpl->setVariable("PERSON_EMAIL",$user_data["email"]);
@@ -134,13 +135,15 @@ if($_GET["system"])
 		$tpl->setVariable("TXT_PERSON_NO",$lng->txt("mail_search_no"));
 		$tpl->parseCurrentBlock();
 	}
-	$group = new ilGroup();
-	$groups = $group->searchGroups(addslashes(urldecode($_GET["search"])));
-	if($groups)
+
+	$groups = ilUtil::searchGroups(addslashes(urldecode($_GET["search"])));
+
+	if ($groups)
 	{
 		$counter = 0;
 		$tpl->setCurrentBlock("group_search");
-		foreach($groups as $group_data)
+
+		foreach ($groups as $group_data)
 		{
 			$tpl->setVariable("GROUP_CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
 			$tpl->setVariable("GROUP_NAME","#".$group_data["title"]);
@@ -156,14 +159,13 @@ if($_GET["system"])
 		$tpl->parseCurrentBlock();
 	}
 
-	if($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
+	if ($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
 	{
 		$tpl->setCurrentBlock("smtp");
 		$tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
 		$tpl->parseCurrentBlock();
 	}
 		
-
 	$tpl->setCurrentBlock("system");
 	$tpl->setVariable("TXT_PERSONS",$lng->txt("persons"));
 	$tpl->setVariable("TXT_LOGIN",$lng->txt("login"));
@@ -176,7 +178,6 @@ if($_GET["system"])
 	$tpl->setVariable("BUTTON_CANCEL",$lng->txt("cancel"));
 	$tpl->parseCurrentBlock();
 } 		
-
 
 $tpl->show();
 ?>

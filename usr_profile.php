@@ -392,7 +392,7 @@ foreach ($templates as $template)
 }
 
 // hits per page
-$hits_options = array(10,15,20,30,40,50,100,9999);
+$hits_options = array(2,10,15,20,30,40,50,100,9999);
 
 foreach ($hits_options as $hits_option)
 {

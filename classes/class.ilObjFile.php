@@ -33,8 +33,6 @@
 */
 
 require_once "class.ilObject.php";
-require_once "class.ilGroupTree.php";
-require_once "class.ilObjGroup.php";
 
 class ilObjFile extends ilObject
 {
@@ -63,6 +61,7 @@ class ilObjFile extends ilObject
 	function create()
 	{
 		parent::create();
+
 		$q = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$this->getId()."','".ilUtil::addSlashes($this->getFileName())."','".$this->getFileType()."')";
 		$this->ilias->db->query($q);
 	}
@@ -99,10 +98,13 @@ class ilObjFile extends ilObject
 	function update()
 	{
 		parent::update();
+
 		$q = "UPDATE file_data SET file_name = '".$this->getFileName().
 			"', file_type = '".$this->getFiletype()."' ".
 			"WHERE file_id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
+		
+		return true;
 	}
 
 	function setFileName($a_name)
@@ -139,7 +141,7 @@ class ilObjFile extends ilObject
 	{
 		$file = $this->getDirectory()."/".$this->getFileName();
 
-		if(@is_file($file))
+		if (@is_file($file))
 		{
 			// send file
 			$file_type = ($this->getFileType() != "")
@@ -149,21 +151,26 @@ class ilObjFile extends ilObject
 			header("Content-disposition: attachment; filename=\"".$this->getFileName()."\"");
 			//readfile($file);
 			$fp = @fopen($file, 'r');
+
 			do
 			{
 				echo fread($fp, 10000);
-			} while(!feof($fp));
+			} while (!feof($fp));
+
 			@fclose($fp);
+
 			return true;
 		}
+
 		return false;
 	}
 
 	function clone()
 	{
-		$fileObj = new ilObjFile($this->getRefId());
-		$fileObj->create();
-		$new_ref_id = $fileObj->createReference();
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+
+		$fileObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
 		$fileObj->createDirectory();
 		
 		copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$fileObj->getFileName());
@@ -200,7 +207,6 @@ class ilObjFile extends ilObject
 		return true;
 	}
 
-
 	/**
 	* export files of object to target directory
 	* note: target directory must be the export target directory,
@@ -223,7 +229,7 @@ class ilObjFile extends ilObject
 	*/
 	function __getGroupId($a_file_ref_id)
 	{
-		global $ilias, $tree;
+		global $tree;
 		
 		$path = $tree->getPathFull($a_file_ref_id);
 		
@@ -237,8 +243,5 @@ class ilObjFile extends ilObject
 		
 		return false;
 	}
-
-
-
 } // END class.ilObjFile
 ?>

@@ -2264,6 +2264,7 @@ ALTER  TABLE  `qpl_questions`  ADD  `working_time` TIME DEFAULT  '00:00:00' NOT 
 ALTER  TABLE  `qpl_questions`  ADD  `shuffle` ENUM(  '0',  '1'  ) DEFAULT  '1' NOT  NULL  AFTER  `working_time` ;
 <#152>
 ALTER TABLE `frm_posts` ADD `pos_subject` TEXT NOT NULL AFTER `pos_message` ;
+ALTER TABLE `frm_posts` ADD `pos_subject` TEXT NOT NULL AFTER `pos_message` ;
 <#153>
 ALTER TABLE content_object ADD COLUMN toc_active ENUM('y','n') DEFAULT 'y';
 ALTER TABLE content_object ADD COLUMN lm_menu_active ENUM('y','n') DEFAULT 'y';
@@ -2306,4 +2307,30 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	);
 	$update_res = $this->db->query($update_query);
 }
+?>
+<#158>
+<?php
+// insert files into tree
+$query = "SELECT * FROM object_data AS obj ".
+		 "LEFT JOIN object_reference AS ref ON obj.obj_id = ref.obj_id ".
+		 "LEFT JOIN grp_tree AS grp ON grp.child = ref.ref_id ".
+		 "WHERE obj.type = 'file'";
+$res = $this->db->query($query);
+
+$tree = new ilTree(ROOT_FOLDER_ID);
+
+while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$query = "SELECT * FROM tree WHERE child='".$row->child."' AND tree='1'";
+	$res2 = $this->db->query($query);
+	
+	if ($res2->numRows() > 0)
+	{
+		$tree->insertNode($row->child,$row->tree);
+	}
+}
+
+// remove table grp_tree
+$query = "DROP TABLE IF EXISTS grp_tree";
+$this->db->query($query);
 ?>

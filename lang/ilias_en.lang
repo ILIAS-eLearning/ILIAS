@@ -280,6 +280,7 @@ chat#:#chat_add_port#:#Please add the server port.
 chat#:#chat_aqua#:#aqua
 chat#:#chat_arial#:#Arial
 chat#:#chat_black#:#black
+common#:#add_members#:#Add Members
 chat#:#chat_blue#:#blue
 chat#:#chat_bold#:#Bold
 chat#:#chat_chatroom_body#:#Chatroom:
@@ -670,8 +671,10 @@ common#:#fax#:#Fax
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Feedback Recipient
 common#:#file#:#File
+common#:#files#:#Files
 common#:#file_a#:#a File
 common#:#file_add#:#Upload File
+common#:#file_edit#:#Edit File
 common#:#file_added#:#File uploaded
 common#:#file_new#:#New File
 common#:#file_not_found#:#File Not Found
@@ -685,6 +688,7 @@ common#:#flatview#:#Flat View
 common#:#fold#:#Folder
 common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
+common#:#fold_edit#:#Edit Folder
 common#:#fold_added#:#Folder added
 common#:#fold_new#:#New Folder
 common#:#folder#:#Folder

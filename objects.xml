@@ -93,6 +93,7 @@
 	<subobj name="fold">fold</subobj>
 	<subobj name="file">file</subobj>
 	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>

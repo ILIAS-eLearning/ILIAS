@@ -1337,7 +1337,7 @@ class ilObjUser extends ilObject
 
 		// NO CLASS VARIABLES IN STATIC METHODS
 
-		// TODO CHECK IF ITEMS ARE PUBLIC VISIBLE
+		// TODO: CHECK IF ITEMS ARE PUBLIC VISIBLE
 
 		$where_condition = $a_search_obj->getWhereCondition("like",array("login","firstname","lastname","title",
 																		 "email","institution","street","city",
@@ -1357,7 +1357,8 @@ class ilObjUser extends ilObject
 		$ilBench->stop("Search", "ilObjUser_search");
 
 		$counter = 0;
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$result_data[$counter++]["id"]				=  $row->usr_id;
 
@@ -1366,6 +1367,7 @@ class ilObjUser extends ilObject
 			#$result_data[$counter]["link"]				=  "profile.php?user=".$row->usr_id;
 			#$result_data[$counter++]["target"]			=  "";
 		}
+
 		return $result_data ? $result_data : array();
 	}
 
@@ -1388,11 +1390,11 @@ class ilObjUser extends ilObject
 	* @param	integer optional user_id
 	* @access	public
 	*/
-	function getGroupMemberships($a_user_id="")
+	function getGroupMemberships($a_user_id = "")
 	{
-		global $rbacreview, $rbacadmin, $ilias, $tree;
+		global $rbacreview, $tree;
 
-		if(strlen($a_user_id) > 0)
+		if (strlen($a_user_id) > 0)
 		{
 			$user_id = $a_user_id;
 		}
@@ -1406,25 +1408,28 @@ class ilObjUser extends ilObject
 		// get all roles which the user is assigned to
 		$roles = $rbacreview->assignedRoles($user_id);
 
-		foreach($roles as $role)
+		foreach ($roles as $role)
 		{
 			$ass_rolefolders = $rbacreview->getFoldersAssignedToRole($role);	//rolef_refids
 
-			foreach($ass_rolefolders as $role_folder)
+			foreach ($ass_rolefolders as $role_folder)
 			{
 				$node = $tree->getParentNodeData($role_folder);
 
-				if($node["type"] =="grp")
+				if ($node["type"] == "grp")
 				{
 					$group =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
-					if($group->isMember($user_id)==true && !in_array($group->getId(), $grp_memberships) )
+
+					if ($group->isMember($user_id) == true && !in_array($group->getId(), $grp_memberships) )
 					{
 						array_push($grp_memberships, $group->getId());
 					}
 				}
+
 				unset($group);
 			}
 		}
+
 		return $grp_memberships;
 	}
 
