@@ -271,7 +271,7 @@ class ilNestedSetXML
         xml_set_character_data_handler($this->xml_parser, "characterData");
 
         if (!xml_parse($this->xml_parser, $xmldata)) {
-            die(sprintf("XML error: %s at line %d",	xml_error_string(xml_get_error_code($xml_parser)),xml_get_current_line_number($xml_parser)));
+            die(sprintf("XML error: %s at line %d",	xml_error_string(xml_get_error_code($this->xml_parser)),xml_get_current_line_number($this->xml_parser)));
         }
         xml_parser_free($this->xml_parser);
 
