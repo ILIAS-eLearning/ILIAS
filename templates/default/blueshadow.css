@@ -392,7 +392,7 @@ div.ilMainHeader
 	background-color: #F0F0F0;
 }
 
-span.ilMainHeader
+a.ilMainHeader
 {
 	padding-top:0px;
 	padding-left:5px;
@@ -404,6 +404,8 @@ span.ilMainHeader
 	border-style: solid;
 	border-color: #909090;
 	background-color: #EBEBEB;
+	border-top-width: 2px;
+	border-bottom-width: 3px;
 }
 
 div.ilLogin
