@@ -52,6 +52,44 @@ class ilLMEditorExplorer extends ilLMExplorer
 	}
 
 	/**
+	* overwritten method from base class
+	* @access	public
+	* @param	integer obj_id
+	* @param	integer array options
+	* @return	string
+	*/
+	function formatHeader($a_obj_id,$a_option)
+	{
+		global $lng, $ilias;
+
+		$tpl = new ilTemplate("tpl.tree.html", true, true);
+
+		$tpl->setCurrentBlock("link");
+		$tpl->setVariable("TITLE", ilUtil::shortenText($this->lm_obj->getTitle(), $this->textwidth, true));
+
+		if ($this->lm_obj->getType() == "lm")
+		{
+			$link = $this->ctrl->getLinkTargetByClass("ilObjLearningModuleGUI",
+				"properties");
+		}
+		else
+		{
+			$link = $this->ctrl->getLinkTargetByClass("ilObjDlBookGUI",
+				"properties");
+		}
+		$tpl->setVariable("LINK_TARGET", $link);
+
+		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
+		$tpl->parseCurrentBlock();
+
+		$tpl->setCurrentBlock("row");
+		$tpl->parseCurrentBlock();
+
+		$this->output[] = $tpl->get();
+	}
+
+
+	/**
 	* build link target
 	*/
 	function buildLinkTarget($a_node_id, $a_type)

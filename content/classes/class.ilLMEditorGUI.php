@@ -117,6 +117,18 @@ class ilLMEditorGUI
 			}
 			$next_class = $this->ctrl->getNextClass($this);
 		}
+
+		// this is messed up by ilCtrl sometimes
+		if (($this->lm_obj->getType() == "dbk") && ($next_class == "ilobjlearningmodulegui"))
+		{
+			$next_class = "ilobjdlbookgui";
+		}
+		if (($this->lm_obj->getType() == "lm") && ($next_class == "ilobjdlbookgui"))
+		{
+			$next_class = "ilobjlearningmodulegui";
+		}
+
+
 // if ($this->lm_obj->getType()
 		switch($next_class)
 		{
