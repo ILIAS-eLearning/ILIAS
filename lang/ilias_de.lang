@@ -609,3 +609,6 @@ mail#:#mail_to_search#:#Empfänger suchen
 mail#:#mail_user_addr_n_valid#:#Die folgenden Adressaten haben keine gültige eMail Adresse
 mail#:#search_bc_recipient#:#BC Empfänger suchen
 mail#:#search_cc_recipient#:#CC Empfänger suchen
+common#:#export_html#:#Exportieren als HTML-Datei
+common#:#export_xml#:#Exportieren als XML-Datei
+common#:#ok#:#OK

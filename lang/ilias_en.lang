@@ -609,3 +609,6 @@ mail#:#mail_to_search#:#To search
 mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
+common#:#export_html#:#export as html file
+common#:#export_xml#:#export as xml file
+common#:#ok#:#OK
