@@ -436,6 +436,7 @@ class ilObject
 	**/
 	function addRoleObject()
 	{
+echo "JI"; exit;
 		global $tree,$rbacadmin,$rbacreview,$rbacsystem;
 
 		$object = getObject($_GET["ref_id"]);
