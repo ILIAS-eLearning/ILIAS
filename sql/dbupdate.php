@@ -141,3 +141,8 @@ CREATE TABLE dummy_groups (
   PRIMARY KEY  (groupId)
 ) TYPE=MyISAM;
 
+<#21>
+DELETE FROM glossary_definition;
+DELETE FROM meta_data WHERE obj_type='gdf';
+DELETE FROM page_object WHERE parent_type='gdf';
+ALTER TABLE glossary_definition ADD COLUMN nr INT NOT NULL;

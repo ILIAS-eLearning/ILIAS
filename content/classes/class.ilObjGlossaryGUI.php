@@ -256,7 +256,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		// sorting array
 		include_once "./include/inc.sort.php";
-		$term_list = sortArray($term_list, $_GET["sort_by"], $_GET["sort_order"]);
+		//$term_list = sortArray($term_list, $_GET["sort_by"], $_GET["sort_order"]);
 		$term_list = array_slice($term_list, $_GET["offset"], $_GET["limit"]);
 
 		// render table
@@ -323,6 +323,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->lng->txt("cont_term").": ".$term->getTerm());
 
 		$defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
+
+		$this->tpl->setVariable("TXT_TERM", $term->getTerm());
+
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
@@ -333,17 +336,23 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$page_gui->setTemplateOutput(false);
 			$output = $page_gui->preview();
 
-			$this->tpl->setCurrentBlock("definition");
-			$this->tpl->setVariable("TXT_DEFINITION",
+			if (count($defs) > 1)
+			{
+				$this->tpl->setCurrentBlock("definition_header");
+						$this->tpl->setVariable("TXT_DEFINITION",
 				$this->lng->txt("cont_definition")." ".($j+1));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("definition");
 			$this->tpl->setVariable("PAGE_CONTENT", $output);
 			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
 			$this->tpl->setVariable("LINK_EDIT",
 				"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
 			$this->tpl->parseCurrentBlock();
 		}
-		$this->tpl->setCurrentBlock("def_list");
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->setCurrentBlock("def_list");
+		//$this->tpl->parseCurrentBlock();
 
 	}
 
@@ -528,7 +537,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("msg_obj_modified"),true);
 
-		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
+		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".
+			$_GET["term_id"]."&cmd=listDefinitions");
 		exit();
 
 	}
