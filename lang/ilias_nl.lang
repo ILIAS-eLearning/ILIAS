@@ -56,6 +56,7 @@ administration#:#purge_missing_desc#:#Verwijder alle vermiste en ongebonden obje
 administration#:#purge_trash#:#Opschonen verwijderde objecten
 administration#:#purge_trash_desc#:#Verwijder alle objecten in prullenbak van het systeem.
 administration#:#purging#:#Opschonen...
+administration#:#purging_missing_objs#:#Purging missing objects...###17 Apr 2004 new variable
 administration#:#purging_trash#:#Opschonen prullenbak...
 administration#:#purging_unbound_objs#:#Opschonen ongebonden objecten...
 administration#:#removing_invalid_childs#:#Verwijder foutieve boom-ingangen...
@@ -78,7 +79,7 @@ administration#:#searching_invalid_childs#:#Zoek naar foutieve boom-ingangen...
 administration#:#searching_invalid_refs#:#Zoek naar foutieve referenties...
 administration#:#searching_missing_objs#:#Zoek naar vermiste objecten...
 administration#:#searching_unbound_objs#:#Zoek naar ongebonden objecten...
-administration#:#skippede#:#Overgeslagen
+administration#:#skipped#:#skipped###17 Apr 2004 new variable
 administration#:#start_scan#:#Start!
 administration#:#systemcheck#:#Systeemcontrole
 administration#:#view_last_log#:#Bekijk laatste scan-log
@@ -674,12 +675,17 @@ common#:#file#:#Bestand
 common#:#file_a#:#een bestand
 common#:#file_add#:#Upload-bestand
 common#:#file_added#:#Bestand uploaded
+common#:#file_delete#:#Delete File###17 Apr 2004 new variable
 common#:#file_edit#:#Edit File###16 Apr 2004 new variable
+common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
 common#:#file_new#:#Nieuw bestand
 common#:#file_not_found#:#Bestand niet gevonden
 common#:#file_not_valid#:#Bestand niet geldig!
+common#:#file_read#:#Download File###17 Apr 2004 new variable
 common#:#file_valid#:#Bestand is geldig!
 common#:#file_version#:#Versie is in bestand
+common#:#file_visible#:#File is visible###17 Apr 2004 new variable
+common#:#file_write#:#Edit File###17 Apr 2004 new variable
 common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Locatie van bestand
 common#:#fill_out_all_required_fields#:#AUB alle benodigde velden invullen
@@ -689,8 +695,20 @@ common#:#fold#:#Map
 common#:#fold_a#:#een map
 common#:#fold_add#:#map toevoegen
 common#:#fold_added#:#Map toegevoegd
+common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
+common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
+common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
+common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
+common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
+common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
+common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
+common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
 common#:#fold_new#:#Nieuwe map
+common#:#fold_read#:#Read access to Folder###17 Apr 2004 new variable
+common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
+common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
 common#:#folder#:#Map
 common#:#folders#:#Mappen
 common#:#force_accept_usr_agreement#:#U moet de gebruikers-overeenkomst accepteren!
@@ -780,9 +798,10 @@ common#:#grp_add#:#Toevoegen van een groep
 common#:#grp_added#:#Groep toegevoegd
 common#:#grp_create#:#Creëer groep
 common#:#grp_create_chat#:#Creëer Chat
-common#:#grp_create_file#:#Gebruiker mag bestanden uploaden
-common#:#grp_create_fold#:#De gebruiker mag mappen creëren
+common#:#grp_create_file#:#Gebruiker mag bestanden uploaden###17 Apr 2004 content changed
+common#:#grp_create_fold#:#De gebruiker mag mappen creëren###17 Apr 2004 content changed
 common#:#grp_create_frm#:#Creëer forum
+common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#grp_create_lm#:#Creëer lesmodule
 common#:#grp_create_slm#:#Creëer SCORM lesmodule
 common#:#grp_delete#:#Verwijder groep
@@ -1673,6 +1692,7 @@ content#:#cont_external#:#extern
 content#:#cont_file#:#Bestand
 content#:#cont_files#:#Bestanden
 content#:#cont_format#:#Formaat
+content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
 content#:#cont_full_is_in_dir#:#Verwijderen niet mogelijk. Fullscreen-bestand is in de directory.
 content#:#cont_fullscreen#:#Fullscreen
 content#:#cont_get_link#:#Krijg link

@@ -73,6 +73,7 @@ administration#:#purge_missing_desc#:#Remove all missing and unbound objects fou
 administration#:#purge_trash#:#Purge deleted objects###09 Mar 2004 new variable
 administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.###09 Mar 2004 new variable
 administration#:#purging#:#Purging...###09 Mar 2004 new variable
+administration#:#purging_missing_objs#:#Purging missing objects...###17 Apr 2004 new variable
 administration#:#purging_trash#:#Purging trash...###09 Mar 2004 new variable
 administration#:#purging_unbound_objs#:#Purging unbound objects...###09 Mar 2004 new variable
 administration#:#removing_invalid_childs#:#Removing invalid tree entries...###09 Mar 2004 new variable
@@ -95,7 +96,7 @@ administration#:#searching_invalid_childs#:#Searching for invalid tree entries..
 administration#:#searching_invalid_refs#:#Searching for invalid references...###09 Mar 2004 new variable
 administration#:#searching_missing_objs#:#Searching for missing objects...###09 Mar 2004 new variable
 administration#:#searching_unbound_objs#:#Searching for unbound objects...###09 Mar 2004 new variable
-administration#:#skippede#:#skipped###09 Mar 2004 new variable
+administration#:#skipped#:#skipped###17 Apr 2004 new variable
 administration#:#start_scan#:#Start!###09 Mar 2004 new variable
 administration#:#systemcheck#:#Systemcheck###09 Mar 2004 new variable
 administration#:#view_last_log#:#View last Scanlog###09 Mar 2004 new variable
@@ -691,12 +692,17 @@ common#:#file#:#文件
 common#:#file_a#:#一个文件
 common#:#file_add#:#上载文件
 common#:#file_added#:#文件已上载
+common#:#file_delete#:#Delete File###17 Apr 2004 new variable
 common#:#file_edit#:#Edit File###16 Apr 2004 new variable
+common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
 common#:#file_new#:#新文件
 common#:#file_not_found#:#未找到文件！
 common#:#file_not_valid#:#文件无效！
+common#:#file_read#:#Download File###17 Apr 2004 new variable
 common#:#file_valid#:#文件有效！
 common#:#file_version#:#文件中提供的版本
+common#:#file_visible#:#File is visible###17 Apr 2004 new variable
+common#:#file_write#:#Edit File###17 Apr 2004 new variable
 common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#文件地点
 common#:#fill_out_all_required_fields#:#请填充全部要求的域
@@ -706,8 +712,20 @@ common#:#fold#:#文件夹
 common#:#fold_a#:#一个文件夹
 common#:#fold_add#:#增加文件夹
 common#:#fold_added#:#文件夹已增加
+common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
+common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
+common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
+common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
+common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
+common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
+common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
+common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
 common#:#fold_new#:#新文件夹
+common#:#fold_read#:#Read access to Folder###17 Apr 2004 new variable
+common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
+common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
 common#:#folder#:#文件夹
 common#:#folders#:#文件夹
 common#:#force_accept_usr_agreement#:#您必须接受用户协议！
@@ -797,9 +815,10 @@ common#:#grp_add#:#增加组
 common#:#grp_added#:#已增加组
 common#:#grp_create#:#创建组
 common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
-common#:#grp_create_file#:#用户可以上载文件
-common#:#grp_create_fold#:#用户可以创建文件夹
+common#:#grp_create_file#:#用户可以上载文件###17 Apr 2004 content changed
+common#:#grp_create_fold#:#用户可以创建文件夹###17 Apr 2004 content changed
 common#:#grp_create_frm#:#创建论坛
+common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#grp_create_lm#:#创建学习模块
 common#:#grp_create_slm#:#创建SCORM学习模块
 common#:#grp_delete#:#删除组
@@ -1690,6 +1709,7 @@ content#:#cont_external#:#外部的
 content#:#cont_file#:#文件
 content#:#cont_files#:#文件
 content#:#cont_format#:#Format###23 Feb 2004 new variable
+content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
 content#:#cont_full_is_in_dir#:#不能删除，全屏幕文件在目录中。
 content#:#cont_fullscreen#:#全屏幕
 content#:#cont_get_link#:#获取链接

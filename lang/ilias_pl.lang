@@ -56,6 +56,7 @@ administration#:#purge_missing_desc#:#Usunięcie wszystkich zaginionych i niepod
 administration#:#purge_trash#:#Czyszczenie usuniętych obiektów
 administration#:#purge_trash_desc#:#Usunięcie wszystkich obiektów z kosza systemu.
 administration#:#purging#:#Czyszczenie...
+administration#:#purging_missing_objs#:#Purging missing objects...###17 Apr 2004 new variable
 administration#:#purging_trash#:#Opróżnianie kosza...
 administration#:#purging_unbound_objs#:#Czyszczenie niepodłączonych obiektów...
 administration#:#removing_invalid_childs#:#Usuwanie niewłaściwych pozycji drzewa...
@@ -78,7 +79,7 @@ administration#:#searching_invalid_childs#:#Poszukiwanie niewłaściwych pozycji
 administration#:#searching_invalid_refs#:#Poszukiwanie niewłaściwych odwołań...
 administration#:#searching_missing_objs#:#Poszukiwanie zaginionych obiektów...
 administration#:#searching_unbound_objs#:#Poszukiwanie niepodłączonych obiektów...
-administration#:#skippede#:#pominięte
+administration#:#skipped#:#skipped###17 Apr 2004 new variable
 administration#:#start_scan#:#Start!
 administration#:#systemcheck#:#Sprawdzenie Systemu
 administration#:#view_last_log#:#Podgląd ostatniego logu skanowania
@@ -674,12 +675,17 @@ common#:#file#:#Plik
 common#:#file_a#:#Plik
 common#:#file_add#:#Wyślij plik
 common#:#file_added#:#Plik załadowany
+common#:#file_delete#:#Delete File###17 Apr 2004 new variable
 common#:#file_edit#:#Edit File###16 Apr 2004 new variable
+common#:#file_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
 common#:#file_new#:#Nowy plik
 common#:#file_not_found#:#Plik nie odnaleziony
 common#:#file_not_valid#:#Plik nieważny!
+common#:#file_read#:#Download File###17 Apr 2004 new variable
 common#:#file_valid#:#Plik ważny!
 common#:#file_version#:#Wersja podana w pliku
+common#:#file_visible#:#File is visible###17 Apr 2004 new variable
+common#:#file_write#:#Edit File###17 Apr 2004 new variable
 common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Miejsce plików
 common#:#fill_out_all_required_fields#:#Wypęłnij wszystkie konieczne pola
@@ -689,8 +695,20 @@ common#:#fold#:#Folder
 common#:#fold_a#:#Folder
 common#:#fold_add#:#Dodaj Folder
 common#:#fold_added#:#Folder dodany
+common#:#fold_create_chat#:#Create Chat###17 Apr 2004 new variable
+common#:#fold_create_file#:#Upload File###17 Apr 2004 new variable
+common#:#fold_create_fold#:#Create Folder###17 Apr 2004 new variable
+common#:#fold_create_frm#:#Create Forum###17 Apr 2004 new variable
+common#:#fold_create_glo#:#Create Glossary###17 Apr 2004 new variable
+common#:#fold_create_lm#:#Create Learning Module###17 Apr 2004 new variable
+common#:#fold_create_slm#:#Create SCORM Learning Module###17 Apr 2004 new variable
+common#:#fold_delete#:#Delete Folder###17 Apr 2004 new variable
 common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
+common#:#fold_edit_permission#:#Change Permission settings###17 Apr 2004 new variable
 common#:#fold_new#:#Nowy Folder
+common#:#fold_read#:#Read access to Folder###17 Apr 2004 new variable
+common#:#fold_visible#:#Folder is visible###17 Apr 2004 new variable
+common#:#fold_write#:#Edit Folder###17 Apr 2004 new variable
 common#:#folder#:#Folder
 common#:#folders#:#Foldery
 common#:#force_accept_usr_agreement#:#Musisz zaakceptować zasady użytkowania.
@@ -780,9 +798,10 @@ common#:#grp_add#:#Dodaj Grupę
 common#:#grp_added#:#Grupa została dodana
 common#:#grp_create#:#Twórz Grupę
 common#:#grp_create_chat#:#Twórz czat
-common#:#grp_create_file#:#Użytkownik może przysyłać pliki
-common#:#grp_create_fold#:#Użytkownik może tworzyć foldery
+common#:#grp_create_file#:#Użytkownik może przysyłać pliki###17 Apr 2004 content changed
+common#:#grp_create_fold#:#Użytkownik może tworzyć foldery###17 Apr 2004 content changed
 common#:#grp_create_frm#:#Twórz Forum
+common#:#grp_create_glo#:#Create Glossary###17 Apr 2004 new variable
 common#:#grp_create_lm#:#Twórz Moduł Nauczania
 common#:#grp_create_slm#:#Twórz Moduł Nauczania SCORM
 common#:#grp_delete#:#Usuń Grupę
@@ -1673,6 +1692,7 @@ content#:#cont_external#:#zewnętrzny
 content#:#cont_file#:#Plik
 content#:#cont_files#:#Pliki
 content#:#cont_format#:#Format
+content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
 content#:#cont_full_is_in_dir#:#Usunięcie nie jest możliwe. Plik pełnoekranowy jest w katalogu.
 content#:#cont_fullscreen#:#Pełen ekran
 content#:#cont_get_link#:#podaj łącznik
