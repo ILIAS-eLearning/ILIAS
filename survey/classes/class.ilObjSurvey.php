@@ -1138,6 +1138,7 @@ class ilObjSurvey extends ilObject
 			if (in_array($question_id, $remove_questions) or in_array($data["questionblock_id"], $remove_questionblocks))
 			{
 				unset($this->questions[array_search($question_id, $this->questions)]);
+				$this->deleteConstraints($question_id);
 			}
 		}
 		foreach ($remove_questionblocks as $questionblock_id)
@@ -1231,8 +1232,61 @@ class ilObjSurvey extends ilObject
 					$this->ilias->db->quote($index)
 				);
 				$result = $this->ilias->db->query($query);
+				$this->deleteConstraints($index);
 			}
 		}
+	}
+	
+/**
+* Deletes the constraints for a question
+* 
+* Deletes the constraints for a question
+*
+* @param integer $question_id The database id of the question
+* @access public
+*/
+	function deleteConstraints($question_id)
+	{
+		$query = sprintf("SELECT * FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
+			$this->ilias->db->quote($question_id),
+			$this->ilias->db->quote($this->getId())
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
+				$this->ilias->db->quote($row->constraint_fi)
+			);
+			$delresult = $this->ilias->db->query($query);
+		}
+		$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s AND survey_fi = %s",
+			$this->ilias->db->quote($question_id),
+			$this->ilias->db->quote($this->getId())
+		);
+		$delresult = $this->ilias->db->query($query);
+	}
+
+/**
+* Deletes a constraint of a question
+* 
+* Deletes a constraint of a question
+*
+* @param integer $constraint_id The database id of the constraint
+* @param integer $question_id The database id of the question
+* @access public
+*/
+	function deleteConstraint($constraint_id, $question_id)
+	{
+		$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
+			$this->ilias->db->quote($constraint_id)
+		);
+		$delresult = $this->ilias->db->query($query);
+		$query = sprintf("DELETE FROM survey_question_constraint WHERE constraint_fi = %s AND question_fi = %s AND survey_fi = %s",
+			$this->ilias->db->quote($constraint_id),
+			$this->ilias->db->quote($question_id),
+			$this->ilias->db->quote($this->getId())
+		);
+		$delresult = $this->ilias->db->query($query);
 	}
 
 /**
@@ -1415,6 +1469,97 @@ class ilObjSurvey extends ilObject
 			{
 				$result_array[$row->ref_id] = $row->title;
 			}
+		}
+		return $result_array;
+	}
+	
+/**
+* Returns the constraints to a given question or questionblock
+* 
+* Returns the constraints to a given question or questionblock
+*
+* @access public
+*/
+	function getConstraints($question_id)
+ 	{
+		$result_array = array();
+		$query = sprintf("SELECT survey_constraint.*, survey_relation.* FROM survey_question_constraint, survey_constraint, survey_relation WHERE survey_constraint.relation_fi = survey_relation.relation_id AND survey_question_constraint.constraint_fi = survey_constraint.constraint_id AND survey_question_constraint.question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{		
+			array_push($result_array, array("id" => $row->constraint_id, "question" => $row->question_fi, "short" => $row->short, "long" => $row->long, "value" => $row->value));
+		}
+		return $result_array;
+	}
+
+/**
+* Returns all variables of a question
+* 
+* Returns all variables of a question
+*
+* @access public
+*/
+	function &getVariables($question_id)
+	{
+		$result_array = array();
+		$query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.category_fi = survey_category.category_id AND survey_variable.question_fi = %s ORDER BY survey_variable.sequence",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$result_array[$row->sequence] = $row->title;
+		}
+		return $result_array;
+	}
+	
+/**
+* Adds a constraint to a question
+* 
+* Adds a constraint to a question
+*
+* @param integer $to_question_id The question id of the question where to add the constraint
+* @param integer $if_question_id The question id of the question which defines a precondition
+* @param integer $relation The database id of the relation
+* @param mixed $value The value compared with the relation
+* @access public
+*/
+	function addConstraint($to_question_id, $if_question_id, $relation, $value)
+	{
+		$query = sprintf("INSERT INTO survey_constraint (constraint_id, question_fi, relation_fi, value) VALUES (NULL, %s, %s, %s)",
+			$this->ilias->db->quote($if_question_id),
+			$this->ilias->db->quote($relation),
+			$this->ilias->db->quote($value)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result == DB_OK) {
+			$constraint_id = $this->ilias->db->getLastInsertId();
+			$query = sprintf("INSERT INTO survey_question_constraint (question_constraint_id, survey_fi, question_fi, constraint_fi) VALUES (NULL, %s, %s, %s)",
+				$this->ilias->db->quote($this->getId()),
+				$this->ilias->db->quote($to_question_id),
+				$this->ilias->db->quote($constraint_id)
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+	
+/**
+* Returns all available relations
+* 
+* Returns all available relations
+*
+* @access public
+*/
+	function getAllRelations()
+ 	{
+		$result_array = array();
+		$query = "SELECT * FROM survey_relation";
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$result_array[$row->relation_id] = array("short" => $row->short, "long" => $row->long);
 		}
 		return $result_array;
 	}
