@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.21 2003/07/16 13:48:32 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.22 2003/07/18 13:16:35 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -106,11 +106,8 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-
-		//TODO: check the acces rights; compare class.ilObjectGUI.php
 		global $rbacadmin,$ilias;
 
-		// always call parent method first to create an object_data entry & a reference
 		$groupObj = parent::saveObject();
 
 		$rfoldObj = $groupObj->initRoleFolder();
@@ -128,7 +125,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
 
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
+		header("Location: adm_object.php?".$this->link_params);
 		exit();
 	}
 
@@ -706,14 +703,18 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_MEMBER_STATUS", "Member");
 		$this->tpl->setVariable("TXT_ADMIN_STATUS", "Admin");
 		$this->tpl->setVariable("TXT_SEARCH", "Search");
-		$this->tpl->setVariable("SEARCH_STRING", $_POST["search_user"]);
+		if(isset($_POST["search_user"]) )
+			$this->tpl->setVariable("SEARCH_STRING", $_POST["search_user"]);
+		else if(isset($_GET["search_user"]) )
+			$this->tpl->setVariable("SEARCH_STRING", $_GET["search_user"]);
+
 		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", "adm_object.php?type=grp&cmd=newMembers&ref_id=".$_GET["ref_id"]);//"&search_user=".$_POST["search_user"]
 		$this->tpl->parseCurrentBlock();
 
 		//query already started ?
-		if( isset($_POST["search_user"]) && isset($_POST["status"]) )//&& isset($_GET["ref_id"]) )
+		if( (isset($_POST["search_user"]) && isset($_POST["status"]) ) || ( isset($_GET["search_user"]) && isset($_GET["status"]) ) )//&& isset($_GET["ref_id"]) )
 		{
-			$member_ids = ilObjUser::searchUsers($_POST["search_user"]);
+			$member_ids = ilObjUser::searchUsers($_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"]);
 
 			//INTERIMS SOLUTION
 			$_SESSION["status"] = $_POST["status"];
@@ -729,7 +730,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 			}
 
-			//display searcg results
+			//display search results
 			infoPanel();
 
 			$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
@@ -752,22 +753,27 @@ class ilObjGroupGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
+			//sort data array
+			include_once "./include/inc.sort.php";
+			$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+			$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+
 			// create table
 			include_once "./classes/class.ilTableGUI.php";
-			$tbl = new ilTableGUI($this->data["data"]);
+			$tbl = new ilTableGUI($output);
 			// title & header columns
 			$tbl->setTitle($this->lng->txt("member list"),"icon_usr_b.gif",$this->lng->txt("member list"));
 			$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 			$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname")));
-			$tbl->setHeaderVars(array("check","login","firstname","lastname"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
+			$tbl->setHeaderVars(array("check","login","firstname","lastname"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"],"search_user"=>$_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"],"status"=>$_POST["status"] ? $_POST["status"] : $_GET["status"]));
 
 			$tbl->setColumnWidth(array("5%","25%","35%","35%"));
 
 			// control
 			$tbl->setOrderColumn($_GET["sort_by"]);
 			$tbl->setOrderDirection($_GET["sort_order"]);
-			$tbl->setLimit(10);
-			$tbl->setOffset(0);
+			$tbl->setLimit($_GET["limit"]);
+			$tbl->setOffset($_GET["offset"]);
 			$tbl->setMaxCount(count($this->data["data"]));
 
 			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -801,7 +807,6 @@ class ilObjGroupGUI extends ilObjectGUI
 			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
 
 			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
-//			$link_change = "adm_object.php?cmd=editMember&ref_id=".$this->ref_id."&mem_id=".$member->getId();
 			$link_change = "adm_object.php?cmd=changeMember&ref_id=".$this->ref_id."&mem_id=".$member->getId();
 			$link_leave = "adm_object.php?type=grp&cmd=deassignMember&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
 
@@ -845,8 +850,14 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+		//sort data array
+		include_once "./include/inc.sort.php";
+		$this->data["data"] = sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
+
+		$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
+
 		// create table
-		$tbl = new ilTableGUI($this->data["data"]);
+		$tbl = new ilTableGUI($output);
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("member list"),"icon_usr_b.gif",$this->lng->txt("member list"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
@@ -858,22 +869,21 @@ class ilObjGroupGUI extends ilObjectGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit(10);
-		$tbl->setOffset(0);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount(count($this->data["data"]));
 
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
 		// render table
 		$tbl->render();
-
 	}
-
 
 	/**
 	* displays form in which the member-status can be changed
 	* @access public
 	*/
+/*
+
 	function editMemberObject()
 	{
 		global $rbacsystem, $ilias;
@@ -909,7 +919,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("update"));
 
 	}
-
+*/
 	/**
 	* displays form in which the member-status can be changed
 	* @access public
@@ -927,76 +937,6 @@ class ilObjGroupGUI extends ilObjectGUI
 			}
 		//TODO: link back
 		header("Location: adm_object.php?".$this->link_params."&cmd=members");
-
-	}
-
-	
-	/**
-	* displays groups
-	* @access public
-	*/
-	function listGroups()
-	{
-
-		$this->getTemplateFile("overview", "grp");
-
-		//$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		$this->tpl->setCurrentBlock("content");
-
-		$this->tpl->setVariable("TXT_GROUPS",  $this->lng->txt("groups"));
-		$this->tpl->setCurrentBlock("tblheader");
-		$this->tpl->setVariable("TXT_NAME",  $this->lng->txt("name"));
-		$this->tpl->setVariable("TXT_DESC",  $this->lng->txt("description"));
-		$this->tpl->setVariable("TXT_ROLE_IN_GROUP",  $this->lng->txt("role"));
-		$this->tpl->setVariable("TXT_OWNER",  $this->lng->txt("owner"));
-		$this->tpl->setVariable("TXT_CONTEXT",  $this->lng->txt("context"));
-
-		$lr_arr = ilUtil::getObjectsByOperations('grp','visible');
-
-		usort($lr_arr,"sortObjectsByTitle");
-
-		$lr_num = count($lr_arr);
-
-		if ($lr_num > 0)
-		{
-			// counter for rowcolor change
-
-			$num = 0;
-			//var_dump ($lr_arr);
-			foreach ($lr_arr as $grp_data)
-			{
-				$this->tpl->setCurrentBlock("tblcontent");
-
-				// change row color
-				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-				$newuser = new ilObjUser($grp_data["owner"]);
-				$obj_link = "grp_details.php?ref_id=".$grp_data["ref_id"];
-				$obj_icon = "icon_".$grp_data["type"]."_b.gif";
-
-				$this->tpl->setVariable("GRP_NAME", $grp_data["title"]);
-				$this->tpl->setVariable("GRP_LINK", $obj_link);
-				/*if($lgrp_data["type"] == "grp")		// Test
-				{
-					//$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
-					$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
-					$this->tpl->setVariable("VIEW_LINK","content/lm_presentation.php?lm_id=".$grp_data["obj_id"]);
-					$this->tpl->setVariable("TXT_VIEW", "(".$this->lng->txt("view").")");
-				}*/
-				//$this->tpl->setVariable("IMG", $obj_icon);
-				//$this->tpl->setVariable("ALT_IMG", $lng->txt("obj_".$lr_data["type"]));
-				$this->tpl->setVariable("GRP_DESC", $grp_data["desc"]);
-				$this->tpl->setVariable("GRP_OWNER", $newuser->getFullname() );
-				//$this->tpl->setVariable("STATUS", "N/A");
-				//$this->tpl->setVariable("LAST_VISIT", "N/A");
-				//$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
-				$this->tpl->setVariable("GRP_CONTEXT", ilObjGroup::getContextPath2($grp_data["ref_id"]));
-
-				$this->tpl->parseCurrentBlock("tblcontent");
-			}
-
-		}
 
 	}
 
@@ -1037,7 +977,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 		//var_dump ($lr_arr);
 		$maxcount = count($lr_arr);
-		//echo ($maxcount);		// for numinfo in table footer
 		include_once "./include/inc.sort.php";
 		$lr_arr = sortArray($lr_arr,$_GET["sort_by"],$_GET["sort_order"]);
 		//$lr_arr = array_slice($lr_arr,$offset,$limit);
