@@ -19,6 +19,17 @@
 </tr>
 {OTHER_QUESTION_DATA}
 <tr>
+	<td class="option">{TEXT_SOLUTION_HINT}:</td>
+	<td class="option_value" colspan="4">
+		<input type="hidden" name="solution_hint" value="{VALUE_SOLUTION_HINT}" />
+		{TEXT_VALUE_SOLUTION_HINT}
+		<input type="submit" class="submit" name="cmd[addSuggestedSolution]" value="{BUTTON_ADD_SOLUTION}" />
+		<!-- BEGIN remove_solution -->
+		<input type="submit" class="submit" name="cmd[removeSuggestedSolution]" value="{BUTTON_REMOVE_SOLUTION}" />
+		<!-- END remove_solution -->
+	</td>
+</tr>
+<tr>
 	<td colspan="5" class="option"><input name="cmd[createGaps]" type="submit" class="submit" id="creategaps" value="{TEXT_CREATE_GAPS}" /></td>
 </tr>
 <!-- BEGIN answer_row -->

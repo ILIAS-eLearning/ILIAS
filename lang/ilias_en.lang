@@ -118,6 +118,10 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#cloze_text#:#Close text
 assessment#:#code#:#Code
+assessment#:#add_solution#:#Add suggested solution
+assessment#:#change_solution#:#Change suggested solution
+assessment#:#remove_solution#:#Remove suggested solution
+assessment#:#solution_hint#:#Suggested solution
 assessment#:#coordinates#:#Coordinates
 assessment#:#correct_solution_is#:#The correct solution is
 assessment#:#create_date#:#Created

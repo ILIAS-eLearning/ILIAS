@@ -1790,7 +1790,8 @@ class ilObjTest extends ilObject
 				"title" => "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&evaluation=" . $question->getId() . "\">" . $question->getTitle() . "</a>",
 				"max" => sprintf("%d", $max_points),
 				"reached" => sprintf("%d", $reached_points),
-				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%"
+				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
+				"solution" => sprintf("%d", $question->getSolutionHint())
 			);
 			array_push($result_array, $row);
 			$key++;

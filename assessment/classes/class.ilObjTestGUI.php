@@ -3094,6 +3094,14 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("VALUE_QUESTION_TITLE", $value["title"]);
 				$this->tpl->setVariable("VALUE_MAX_POINTS", $value["max"]);
 				$this->tpl->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
+				if ($value["solution"])
+				{
+					$this->tpl->setVariable("SOLUTION_HINT", "<a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $value["solution"] . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a>");
+				}
+				else
+				{
+					$this->tpl->setVariable("SOLUTION_HINT", "");
+				}
 				$this->tpl->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
@@ -3104,6 +3112,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("COLOR_CLASS", "std");
 		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
 		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
+		$this->tpl->setVariable("SOLUTION_HINT", "");
 		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $total_max) . "</strong>");
 		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $total_reached) . "</strong>");
 		$this->tpl->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
@@ -3112,6 +3121,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("results");
 		$this->tpl->setVariable("QUESTION_COUNTER", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&sortres=nr&order=$sortnr\">" . $this->lng->txt("tst_question_no") . "</a>$img_title_nr");
 		$this->tpl->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
+		$this->tpl->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
 		$this->tpl->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
 		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 		$this->tpl->setVariable("PERCENT_SOLVED", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&sortres=percent&order=$sortpercent\">" . $this->lng->txt("tst_percent_solved") . "</a>$img_title_percent");
