@@ -134,7 +134,7 @@ class RbacSystem extends PEAR
 				}
 
 				$obj = new Object($ilias);
-				//$tree = new Tree($a_obj_id,$obj->ROOT_FOLDER_ID);
+				$tree = new Tree($a_obj_id,$obj->ROOT_FOLDER_ID);
 				$path_ids = $tree->getPathId($a_obj_id,$obj->ROOT_FOLDER_ID);
 				array_unshift($path_ids,$obj->SYSTEM_FOLDER_ID);
 				$parent_roles = $rbacadmin->getParentRoles($path_ids);

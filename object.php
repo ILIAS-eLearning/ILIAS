@@ -52,7 +52,19 @@ switch ($type)
 		$obj = new RoleObject($ilias);
 		$obj->$methode();
 		break;
-    
+
+    case "rolt": 
+		include_once "classes/class.RoleTemplateObject.php";
+		$obj = new RoleTemplateObject($ilias);
+		$obj->$methode();
+		break;
+
+	case "rolf":
+		include_once "classes/class.RoleFolderObject.php";
+		$obj = new RoleFolderObject($ilias);
+		$obj->$methode();
+		break;
+
     case "user":
 		include_once "classes/class.UserObject.php";
 		$obj = new UserObject($ilias);
@@ -65,12 +77,6 @@ switch ($type)
 		$obj->$methode();
 		break;
 		
-	case "rolf":
-		include_once "classes/class.RoleFolderObject.php";
-		$obj = new RoleFolderObject($ilias);
-		$obj->$methode();
-		break;
-
 	case "admin":
 		include_once ("classes/class.Admin.php");
 		$obj = new Admin($ilias);

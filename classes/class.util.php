@@ -55,7 +55,7 @@ class TUtil
 		$arr = array();
 
         if (empty($ATypeList))
-        {
+        {var_dump("<pre>","hallo","</pre");
             $query = "SELECT * FROM object_data
                       WHERE type = 'type'
                       ORDER BY type";

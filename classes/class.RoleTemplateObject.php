@@ -2,21 +2,21 @@
 include_once("classes/class.Object.php");
 
 /**
- * Class RoleObject
+ * Class RoleTemplateObject
  * @extends class.Object.php
  * @author Stefan Meyer <smeyer@databay.de> 
  * @version $Id$ 
  * @package ilias-core
  * 
 */
-class RoleObject extends Object
+class RoleTemplateObject extends Object
 {
 /**
  * Constructor
  * @param object ilias
  * @access public
  */
-	function RoleObject(&$a_ilias)
+	function RoleTemplateObject(&$a_ilias)
 	{
 		$this->Object($a_ilias);
 	}
@@ -24,8 +24,9 @@ class RoleObject extends Object
 	// Überschriebene Methoden:
 	//
 	// PUBLIC METHODEN
+
 /**
- * create a role object 
+ * create a role template object 
  * @access public
  */
 	function createObject()
@@ -39,7 +40,7 @@ class RoleObject extends Object
 			$tplContent = new Template("object_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
 
-			// Zur Ausgabe des 'Path' wird die Private-Methode getPath() aufgerufen 
+			// Zur Ausgabe des 'Path' wird die Private-Methode createPath() aufgerufen 
 			$tplContent->setVariable("TREEPATH",$this->getPath());
 			$tplContent->setVariable("CMD","save");
 			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
@@ -68,7 +69,7 @@ class RoleObject extends Object
 				$this->ilias->raiseError("Role Exists",$this->ilias->error_class->WARNING);
 			}
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
-			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],'y');
+			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],'n');
 		}
 		else
 		{
@@ -77,55 +78,23 @@ class RoleObject extends Object
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
 /**
- * delete role 
+ * delete template 
  * @access public
  **/
 	function deleteObject()
 	{
-
-		// Erst muss das Recht zum Löschen im RoleFolder überprüft werden
-		// Auslesen aller RoleFolderId's aus rbac_fa
-		// => alle Id's sind Kinder oder es gibt keine anderen RoleFolder
-		//    deleteRole()
-		// => sonst deleteLocalRole() für alle Kinder und den zu löschenden RoleFolder
-		$tree = new Tree($_GET["obj_id"],$_GET["parent"]);
 		$rbacsystem = new RbacSystemH($this->ilias->db);
+
+		// check access write in role folder
 		if($rbacsystem->checkAccess('write',$_GET["obj_id"],$_GET["parent"]))
 		{
+			// is there any id to delete
 			if($_POST["id"])
 			{
 				$rbacadmin = new RbacAdminH($this->ilias->db);
-				$parent = $_GET["parent"] == $this->SYSTEM_FOLDER_ID ? $this->ROOT_FOLDER_ID : $_GET["parent"];
 				foreach($_POST["id"] as $id)
 				{
-					$folders = $rbacadmin->getFoldersAssignedToRole($id);
-					if(count($folders) == 1)
-					{
-						$rbacadmin->deleteRole($id);
-					}
-					else
-					{
-						foreach($folders as $folder)
-						{
-							$path_cmp = $tree->getPathId($folder,1);
-							if(in_array($parent,$path_cmp))
-							{
-								$to_delete[] = $folder;
-							}
-						}
-						// Sind alle Kinder?
-						if(count($to_delete) == count($folders))
-						{
-							$rbacadmin->deleteRole($id);
-						}
-						else
-						{
-							foreach($to_delete as $delete)
-							{
-								$rbacadmin->deleteLocalRole($id,$_GET["obj_id"]);
-							}
-						}
-					}
+					$rbacadmin->deleteTemplate($id);
 				}
 			}
 			else
@@ -214,8 +183,8 @@ class RoleObject extends Object
 			$tplContent->setVariable($this->ilias->ini["layout"]);
 			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"]));
 
-			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
-			$tplContent->setVariable("MESSAGE_TOP","Permission Template of Role: ".$role_data["title"]);
+			$role_data = getObject($_GET["obj_id"]);
+			$tplContent->setVariable("MESSAGE_TOP","Permissions of template: ".$role_data["title"]);
 
 			$obj_data = getTypeList();
 			// BEGIN OBJECT_TYPES
@@ -255,40 +224,14 @@ class RoleObject extends Object
 				$tplContent->setVariable("PERMISSION",$operations["operation"]);
 				$tplContent->parseCurrentBlock();
 			}
-			$box = TUtil::formCheckBox($checked,"recursive",1);
 			$tplContent->setVariable("COL_ANZ",count($obj_data));
-			$tplContent->setVariable("CHECK_BOTTOM",$box);
-			$tplContent->setVariable("MESSAGE_TABLE","Change existing objects");		
-
-		
-			// USER ASSIGNMENT
-			if($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
-			{
-				$tplContent->setCurrentBlock("ASSIGN");
-				$users = getUserList();
-				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
-
-				$tplContent->setVariable("MESSAGE_BOTTOM","Assign User To Role");
-				$tplContent->setCurrentBLock("TABLE_USER");
-				foreach($users as $key => $user)
-				{
-					$tplContent->setVariable("CSS_ROW_USER",$key % 2 ? "row_low" : "row_high");
-					$checked = in_array($user["obj_id"],$assigned_users);
-					$box = TUtil::formCheckBox($checked,"user[]",$user["obj_id"]);
-					$tplContent->setVariable("CHECK_USER",$box);
-					$tplContent->setVariable("USERNAME",$user["title"]);
-					$tplContent->parseCurrentBlock();
-				}
-				$tplContent->setVariable("ASSIGN_OBJ_ID",$_GET["obj_id"]);
-				$tplContent->setVariable("ASSIGN_TPOS",$_GET["parent"]);
-				$tplContent->parseCurrentBlock();
-			}
+			$tplContent->setVariable("MESSAGE_TABLE","Change permissions");		
 			// ADOPT PERMISSIONS
 			$tplContent->setVariable("MESSAGE_MIDDLE","Adopt Permissions from Role Template");
 			
 			// BEGIN ADOPT_PERMISSIONS
 			$tplContent->setCurrentBlock("ADOPT_PERMISSIONS");
-			$parent_role_ids = $this->getParentRoleTemplateIds($_GET["parent"],true);
+			$parent_role_ids = $this->getParentRoleTemplateIds($_GET["parent"]);
 			foreach($parent_role_ids as $key => $par)
 			{
 				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
@@ -329,44 +272,6 @@ class RoleObject extends Object
 				// Setzen der neuen template permissions
 				$rbacadmin->setRolePermission($_GET["obj_id"],$key,$ops_array,$_GET["parent"]);
 			}
-			// Existierende Objekte anpassen
-			if($_POST["recursive"])
-			{
-				$parent_obj = $this->getParentObjectId();
-				if($parent_obj == $this->SYSTEM_FOLDER_ID)
-				{
-					$object_id = $this->ROOT_FOLDER_ID;
-					$parent = 0;
-				}
-				else
-				{
-					$object_id = $_GET["parent"];
-					$parent = $parent_obj;
-				}
-				// revoke all permissions where no permissions are set 
-				$types = getTypeList();
-				foreach($types as $type)
-				{
-					$typ = $type["title"];
-					if(!is_array($_POST["template_perm"][$typ]))
-					{
-						$objects = $tree->getAllChildsByType($object_id,$parent,$typ);
-						foreach($objects as $object)
-						{
-							$rbacadmin->revokePermission($object["obj_id"],$_GET["obj_id"],$object["parent"]);
-						}
-					}
-				}
-				foreach($_POST["template_perm"] as $key => $ops_array)
-				{
-					$objects = $tree->getAllChildsByType($object_id,$parent,$key);
-					foreach($objects as $object)
-					{
-						$rbacadmin->revokePermission($object["obj_id"],$_GET["obj_id"],$object["parent"]);
-						$rbacadmin->grantPermission($_GET["obj_id"],$ops_array,$object["obj_id"],$object["parent"]);
-					}
-				}
-			}
 		}
 		else
 		{
@@ -376,7 +281,7 @@ class RoleObject extends Object
 
 	}
 /**
- * copy permissions from role
+ * copy permissions from role or template
  * @access public
  **/
 	function adoptPermSaveObject()
@@ -399,47 +304,8 @@ class RoleObject extends Object
 		header("Location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=perm");
 		exit();
 	}
-/**
- * assign user to role
- * @access public
- **/
-	function assignSaveObject()
-	{
-		global $tree;
-		 
-		$rbacreview = new RbacReviewH($this->ilias->db);
-		$rbacadmin = new RbacAdminH($this->ilias->db);
-		$rbacsystem = new RbacSystemH($this->ilias->db);
 
-		if($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
-		{
-			$parent_obj_id = $this->getParentObjectId();
 
-			if($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
-			{
-		 
-				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
-				$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
-				foreach( array_diff($assigned_users,$_POST["user"]) as $user)
-				{
-					$rbacadmin->deassignUser($_GET["obj_id"],$user);
-				}
-				foreach( array_diff($_POST["user"],$assigned_users) as $user)
-				{
-					$rbacadmin->assignUser($_GET["obj_id"],$user);
-				}
-			}
-			else
-			{
-				$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_class->WARNING);
-			}
-			header("location:object.php?cmd=perm&obj_id=$_GET[obj_id]&parent=$_GET[parent]");
-		}
-		else
-		{
-			$this->ilias->raiseError("It's worth a try. ;-)",$this->ilias->error_class->WARNING);
-		}
-	}
-	// PRIVATE
+
 }
 ?>

@@ -83,7 +83,7 @@ class ILIAS extends PEAR
 								"file" => "'rolf'",
 								"adm"  => "'usrf','rolf','objf'",
 								"usrf" => "'user'",
-								"rolf" => "'role'",
+								"rolf" => "'role','rolt'",
 								"objf" => "'type'"
 							);
 /**
