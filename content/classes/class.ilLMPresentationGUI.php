@@ -54,7 +54,8 @@ class ilLMPresentationGUI
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "layout";
 
 		// Todo: check lm id
-		$this->lm =& new ilObjLearningModule($_GET["ref_id"], true);
+		$this->lm =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+#		$this->lm =& new ilObjLearningModule($_GET["ref_id"], true);
 		//echo $this->lm->getTitle(); exit;
 
 		$this->$cmd();
@@ -162,7 +163,7 @@ class ilLMPresentationGUI
 
 			// set style sheets
 			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
+			
 			$childs = $node->child_nodes();
 			foreach($childs as $child)
 			{
@@ -178,11 +179,23 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilPage":
-						$this->ilPage($child);
+						if($_GET["obj_id"])
+						{
+							// SHOW PAGE IF PAGE WAS SELECTED
+							$this->ilPage($child);
+						}
+						else
+						{
+							// IF NO PAGE ID IS GIVEN SHOW BOOK/LE ABSTRACT
+						}
 						break;
 
 					case "ilLMNavigation":
-						$this->ilLMNavigation();
+						// NOT FOR ABSTRACT
+						if($_GET["obj_id"])
+						{
+							$this->ilLMNavigation();
+						}
 						break;
 
 					case "ilMedia":
