@@ -136,6 +136,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all requi
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
 assessment#:#filter#:#过滤程序
+assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#间隔选择
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
@@ -155,8 +156,8 @@ assessment#:#no_questions_available#:#无可用问题！
 assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
+assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#分数
-assessment#:#possible_gap_text#:#可能的间隔文本
 assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
 assessment#:#postponed#:#postponed###07 Mar 2004 new variable
 assessment#:#preview#:#预览
@@ -1702,6 +1703,7 @@ content#:#cont_dependencies#:#依属
 content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
 content#:#cont_details#:#详细情况
 content#:#cont_dir_file#:#目录/文件
+content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#编辑文件列表属性
 content#:#cont_edit_mob#:#编辑媒体对象
@@ -1712,6 +1714,7 @@ content#:#cont_edit_par#:#编辑段落
 content#:#cont_edit_tab_properties#:#表格属性
 content#:#cont_edit_term#:#编辑术语
 content#:#cont_edition#:#版本
+content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
 content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#外部的
 content#:#cont_file#:#文件
@@ -1834,6 +1837,7 @@ content#:#cont_series_editor#:#系列编辑器
 content#:#cont_series_title#:#系列标题
 content#:#cont_series_volume#:#系列卷
 content#:#cont_set_class#:#设置班级
+content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
 content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
 content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable

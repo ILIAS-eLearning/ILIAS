@@ -119,6 +119,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Wypełnij wszystkie niezb
 assessment#:#fill_out_all_required_fields_add_matching#:#Wypełnij wszystkie niezbędne pola przed dodaniem pasującej pary!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Wypełnij wszystkie niezbędne pola przed utworzeniem odstępu!
 assessment#:#filter#:#Filtr
+assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Wybór odstępu
 assessment#:#imagemap#:#Mapa bitowa
@@ -138,8 +139,8 @@ assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Uporządkuj obrazy
 assessment#:#order_terms#:#Uporzadkuj terminy
+assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Punkty
-assessment#:#possible_gap_text#:#Możliwy tekst odstępu
 assessment#:#postpone#:#Odłożone pytanie
 assessment#:#postponed#:#odłożone
 assessment#:#preview#:#Podgląd
@@ -1685,6 +1686,7 @@ content#:#cont_dependencies#:#Zależności
 content#:#cont_derive_from_obj#:#Pochodzi od Obiektu
 content#:#cont_details#:#Szczegóły
 content#:#cont_dir_file#:#Katalog/Plik
+content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
 content#:#cont_edit_area#:#Edytuj obszar
 content#:#cont_edit_file_list_properties#:#Edytuj listę właściwości pliku
 content#:#cont_edit_mob#:#Edytuj obiekt multimedialny
@@ -1695,6 +1697,7 @@ content#:#cont_edit_par#:#Edytuj Paragraf
 content#:#cont_edit_tab_properties#:#Właściwości tablicy
 content#:#cont_edit_term#:#Edytuj termin
 content#:#cont_edition#:#Edycja
+content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
 content#:#cont_export_files#:#Eksport plików
 content#:#cont_external#:#zewnętrzny
 content#:#cont_file#:#Plik
@@ -1817,6 +1820,7 @@ content#:#cont_series_editor#:#Edytor serii
 content#:#cont_series_title#:#Tyuł serii
 content#:#cont_series_volume#:#Wolumen serii
 content#:#cont_set_class#:#Ustaw klasę
+content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
 content#:#cont_set_link#:#Ustaw Łącznik
 content#:#cont_set_shape#:#Edytuj kształt
 content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable

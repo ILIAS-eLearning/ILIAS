@@ -119,6 +119,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Vul a.u.b. alle benodigde
 assessment#:#fill_out_all_required_fields_add_matching#:#Vul a.u.b. alle benodigde velden voordat u overeenkomende paren toevoegt!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Vul a.u.b. alle benodigde velden voordat u openingen creëert!
 assessment#:#filter#:#Filter
+assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Definitie opening 
 assessment#:#gap_selection#:#Selectie van een gat
 assessment#:#imagemap#:#Image Map
@@ -138,8 +139,8 @@ assessment#:#no_questions_available#:#Er zijn geen vragen beschikbaar!
 assessment#:#or#:#of
 assessment#:#order_pictures#:#Volgorde figuren
 assessment#:#order_terms#:#Volgorde begrippen
+assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Punten
-assessment#:#possible_gap_text#:#Mogelijke gat-tekst
 assessment#:#postpone#:#Stel vraag uit
 assessment#:#postponed#:#Uitgesteld
 assessment#:#preview#:#Laten zien
@@ -1685,6 +1686,7 @@ content#:#cont_dependencies#:#Afhankelijkheden
 content#:#cont_derive_from_obj#:#Leid van Object af
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Directory/Bestand
+content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
 content#:#cont_edit_area#:#Wijzig gebied
 content#:#cont_edit_file_list_properties#:#Wijzigen bestandslijst-eigenschappen
 content#:#cont_edit_mob#:#Wijzigen media-object
@@ -1695,6 +1697,7 @@ content#:#cont_edit_par#:#Wijzigen paragrafen
 content#:#cont_edit_tab_properties#:#Tabel-eigenschappen
 content#:#cont_edit_term#:#Wijzigen begrip
 content#:#cont_edition#:#Editie
+content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
 content#:#cont_export_files#:#Export- Bestanden
 content#:#cont_external#:#extern
 content#:#cont_file#:#Bestand
@@ -1817,6 +1820,7 @@ content#:#cont_series_editor#:#Auteur van de serie
 content#:#cont_series_title#:#Titel van de serie
 content#:#cont_series_volume#:#Band van de serie
 content#:#cont_set_class#:#Instellen class
+content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
 content#:#cont_set_link#:#Wijzig Link
 content#:#cont_set_shape#:#Wijzig Vorm
 content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable

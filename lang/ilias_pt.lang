@@ -119,6 +119,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Por favor preencha todos 
 assessment#:#fill_out_all_required_fields_add_matching#:#Por favor preencha todos os campos requeridos antes de adicionar um par correspondente!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Por favor preencha todos os campos requeridos antes de criar espaços!
 assessment#:#filter#:#Filtro
+assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Selecção de espaço
 assessment#:#imagemap#:#Mapa de imagem
@@ -138,8 +139,8 @@ assessment#:#no_questions_available#:#Não existem nenhumas perguntas disponíve
 assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Ordenar imagens
 assessment#:#order_terms#:#Ordenar termos
+assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Pontos
-assessment#:#possible_gap_text#:#Texto possível do espaço
 assessment#:#postpone#:#Adiar questão
 assessment#:#postponed#:#adiada
 assessment#:#preview#:#Previsão
@@ -1685,6 +1686,7 @@ content#:#cont_dependencies#:#Dependências
 content#:#cont_derive_from_obj#:#Derivar do Objecto
 content#:#cont_details#:#Detalhes
 content#:#cont_dir_file#:#Directoria/Ficheiro
+content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
 content#:#cont_edit_area#:#Editar Área
 content#:#cont_edit_file_list_properties#:#Editar Propriedades da Lista de Ficheiros
 content#:#cont_edit_mob#:#Editar Objecto de Média
@@ -1695,6 +1697,7 @@ content#:#cont_edit_par#:#Editar Parágrafo
 content#:#cont_edit_tab_properties#:#Propriedades da Tabela
 content#:#cont_edit_term#:#Editar Termo
 content#:#cont_edition#:#Edição
+content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
 content#:#cont_export_files#:#Exportar Ficheiros
 content#:#cont_external#:#externo
 content#:#cont_file#:#Ficheiro
@@ -1817,6 +1820,7 @@ content#:#cont_series_editor#:#Editor de séries
 content#:#cont_series_title#:#Título da Série
 content#:#cont_series_volume#:#Volume da Série
 content#:#cont_set_class#:#Definir Classe
+content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
 content#:#cont_set_link#:#Editar Ligação
 content#:#cont_set_shape#:#Editar Forma
 content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable

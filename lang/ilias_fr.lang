@@ -119,6 +119,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all requi
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
 assessment#:#filter#:#Filter###05 Feb 2004 new variable
+assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
@@ -138,8 +139,8 @@ assessment#:#no_questions_available#:#There are no questions available!###05 Feb
 assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
+assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Points###05 Feb 2004 new variable
-assessment#:#possible_gap_text#:#Possible gap text###05 Feb 2004 new variable
 assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
 assessment#:#postponed#:#postponed###07 Mar 2004 new variable
 assessment#:#preview#:#Preview###07 Feb 2004 new variable
@@ -1685,6 +1686,7 @@ content#:#cont_dependencies#:#Dépendances
 content#:#cont_derive_from_obj#:#Derive from Object###25 Feb 2004 new variable
 content#:#cont_details#:#Détails
 content#:#cont_dir_file#:#Répertoire/fichier
+content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
 content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#Modifier propriétés de la liste de fichiers
 content#:#cont_edit_mob#:#Modifier objet média
@@ -1695,6 +1697,7 @@ content#:#cont_edit_par#:#Modifier paragraphe
 content#:#cont_edit_tab_properties#:#Propriétés du tableau
 content#:#cont_edit_term#:#Modifier terme
 content#:#cont_edition#:#Edition
+content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
 content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#external###14 Feb 2004 new variable
 content#:#cont_file#:#Fichier
@@ -1817,6 +1820,7 @@ content#:#cont_series_editor#:#Responsable de collection
 content#:#cont_series_title#:#Titre de collection
 content#:#cont_series_volume#:#Volume de collection
 content#:#cont_set_class#:#Fixer la classe
+content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
 content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_shape#:#Edit Shape###23 Feb 2004 new variable
 content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable

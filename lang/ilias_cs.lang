@@ -119,6 +119,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all requi
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###16 Mar 2004 new variable
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###16 Mar 2004 new variable
 assessment#:#filter#:#Filter###16 Mar 2004 new variable
+assessment#:#gap#:#Gap###18 Apr 2004 new variable
 assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Gap selection###16 Mar 2004 new variable
 assessment#:#imagemap#:#Image map###16 Mar 2004 new variable
@@ -138,8 +139,8 @@ assessment#:#no_questions_available#:#There are no questions available!###16 Mar
 assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
+assessment#:#please_select#:#---- please select ----###18 Apr 2004 new variable
 assessment#:#points#:#Points###16 Mar 2004 new variable
-assessment#:#possible_gap_text#:#Possible gap text###16 Mar 2004 new variable
 assessment#:#postpone#:#Postpone question###16 Mar 2004 new variable
 assessment#:#postponed#:#postponed###16 Mar 2004 new variable
 assessment#:#preview#:#Preview###16 Mar 2004 new variable
@@ -1685,6 +1686,7 @@ content#:#cont_dependencies#:#Závislosti
 content#:#cont_derive_from_obj#:#Derive from Object###16 Mar 2004 new variable
 content#:#cont_details#:#Podrobnosti
 content#:#cont_dir_file#:#Adresář/soubor
+content#:#cont_disable_media#:#Disable Media###18 Apr 2004 new variable
 content#:#cont_edit_area#:#Edit Area###16 Mar 2004 new variable
 content#:#cont_edit_file_list_properties#:#Upravit vlastnosti seznamu souborů
 content#:#cont_edit_mob#:#Upravit mediální objekt
@@ -1695,6 +1697,7 @@ content#:#cont_edit_par#:#Editovat ostavec
 content#:#cont_edit_tab_properties#:#Vlastnosti tabulky
 content#:#cont_edit_term#:#Upravit pojem
 content#:#cont_edition#:#Vydání
+content#:#cont_enable_media#:#Enable Media###18 Apr 2004 new variable
 content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#external###16 Mar 2004 new variable
 content#:#cont_file#:#Soubor
@@ -1817,6 +1820,7 @@ content#:#cont_series_editor#:#Editor sérií
 content#:#cont_series_title#:#Název série
 content#:#cont_series_volume#:#Díl série
 content#:#cont_set_class#:#Nastav třídu
+content#:#cont_set_edit_mode#:#Set Edit Mode###18 Apr 2004 new variable
 content#:#cont_set_link#:#Edit Link###16 Mar 2004 new variable
 content#:#cont_set_shape#:#Edit Shape###16 Mar 2004 new variable
 content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
