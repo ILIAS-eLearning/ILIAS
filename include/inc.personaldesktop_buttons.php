@@ -70,17 +70,18 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 
 }
 
-/*
+
 include_once "./payment/classes/class.ilPaymentVendors.php";
 include_once "./payment/classes/class.ilPaymentTrustees.php";
 
+global $ilias;
 
 if(ilPaymentVendors::_isVendor($ilias->account->getId()) or
    ilPaymentTrustees::_hasAccess($ilias->account->getId()))
 {
 	$inhalt1[] = array('tabinactive',"./payment/payment_admin.php",$lng->txt('payment_admin'),'bottom');
 }
-*/
+
 
 
 include_once "./tracking/classes/class.ilUserTracking.php";
