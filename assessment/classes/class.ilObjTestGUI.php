@@ -2568,7 +2568,6 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			require_once "./classes/class.ilStatistics.php";
-			
 			// calculate the median
 			$median_array =& $this->object->getTotalPointsArray();
 			$statistics = new ilStatistics();
@@ -3266,6 +3265,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$mark = $this->lng->txt("tst_result_sorry");
 		}
 		$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
+		if ($this->object->ects_output)
+		{
+			$ects_mark = $this->object->getECTSGrade($total_reached, $total_max);
+			$mark .= "<br />" . $this->lng->txt("tst_your_ects_mark_is") . ": &quot;" . $ects_mark . "&quot; (" . $this->lng->txt("ects_grade_". strtolower($ects_mark) . "_short") . ": " . $this->lng->txt("ects_grade_". strtolower($ects_mark)) . ")";
+		}
 		$this->tpl->setVariable("USER_FEEDBACK", $mark);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");

@@ -422,6 +422,7 @@ assessment#:#tst_type_comment#:#Warning: Changing the test type of a running tes
 assessment#:#tst_types#:#Test types
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_your_mark_is#:#Your mark is
+assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test
