@@ -30,7 +30,7 @@ require_once "./survey/classes/class.SurveyTextQuestion.php";
 * for text survey question types.
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>
-* @version	$$
+* @version	$Id$
 * @module   class.SurveyTextQuestionGUI.php
 * @modulegroup   Survey
 */

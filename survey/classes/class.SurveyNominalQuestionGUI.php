@@ -303,7 +303,7 @@ class SurveyNominalQuestionGUI {
 			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 			{
 				$category = $this->object->getCategory($i);
-				$this->tpl->setCurrentBlock("radio_col");
+				$this->tpl->setCurrentBlock("radio_col_nominal");
 				$this->tpl->setVariable("VALUE_NOMINAL", $i);
 				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 				if (is_array($working_data))
@@ -321,7 +321,7 @@ class SurveyNominalQuestionGUI {
 			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 			{
 				$category = $this->object->getCategory($i);
-				$this->tpl->setCurrentBlock("text_col");
+				$this->tpl->setCurrentBlock("text_col_nominal");
 				$this->tpl->setVariable("VALUE_NOMINAL", $i);
 				$this->tpl->setVariable("TEXT_NOMINAL", $category);
 				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());

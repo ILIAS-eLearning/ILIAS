@@ -383,7 +383,7 @@ class SurveyOrdinalQuestionGUI {
 			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 			{
 				$category = $this->object->getCategory($i);
-				$this->tpl->setCurrentBlock("radio_col");
+				$this->tpl->setCurrentBlock("radio_col_ordinal");
 				$this->tpl->setVariable("VALUE_ORDINAL", $i);
 				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 				if (is_array($working_data))
@@ -401,7 +401,7 @@ class SurveyOrdinalQuestionGUI {
 			for ($i = 0; $i < $this->object->getCategoryCount(); $i++) 
 			{
 				$category = $this->object->getCategory($i);
-				$this->tpl->setCurrentBlock("text_col");
+				$this->tpl->setCurrentBlock("text_col_ordinal");
 				$this->tpl->setVariable("VALUE_ORDINAL", $i);
 				$this->tpl->setVariable("TEXT_ORDINAL", $category);
 				$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
