@@ -4659,3 +4659,6 @@ CREATE TABLE `payment_currencies` (
 INSERT INTO `payment_currencies` VALUES (1, 'euro', 'cent');
 <#293>
 UPDATE `usr_data` SET `active`='1';
+<#294>
+ALTER  TABLE  `tst_tests`  ADD  `ects_output` ENUM(  '0',  '1'  ) DEFAULT  '0' NOT  NULL  AFTER  `ending_time` ;
+ALTER  TABLE  `tst_tests`  ADD  `ects_fx` VARCHAR(2) DEFAULT  NULL AFTER  `ects_output` ;
