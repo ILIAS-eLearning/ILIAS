@@ -116,6 +116,91 @@ assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
 assessment#:#tt_assessment#:#Assessment test###20 Feb 2004 new variable
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###20 Feb 2004 new variable
 assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
+chat#:#chat_active#:#Aktiv
+chat#:#chat_active_users#:#Benutzer (aktiv)
+chat#:#chat_add_ip#:#Bitte geben Sie die Server-Ip ein.
+chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
+chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
+chat#:#chat_aqua#:#aqua###05 Mar 2004 new variable
+chat#:#chat_arial#:#Arial###05 Mar 2004 new variable
+chat#:#chat_black#:#schwarz
+chat#:#chat_blue#:#blau
+chat#:#chat_bold#:#Fett
+chat#:#chat_chatroom_body#:#Chatraum:
+chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
+chat#:#chat_chatrooms#:#Chaträume
+chat#:#chat_color#:#Schriftfarbe
+chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
+chat#:#chat_edit#:#Chat bearbeiten
+chat#:#chat_face#:#Schrifttyp
+chat#:#chat_fuchsia#:#fuchsia###05 Mar 2004 new variable
+chat#:#chat_gray#:#grau
+chat#:#chat_green#:#grün
+chat#:#chat_hide_details#:#Details verbergen
+chat#:#chat_html_export#:#HTML export###05 Mar 2004 new variable
+chat#:#chat_ilias#:#Ilias Chat Modul
+chat#:#chat_inactive#:#Inaktiv
+chat#:#chat_input#:#Eingabe
+chat#:#chat_insert_message#:#Bitte geben Sie eine Nachricht ein.
+chat#:#chat_invitation_body#:#Einladung zum Chat von:
+chat#:#chat_invitation_subject#:#Einladung zum Chat
+chat#:#chat_invite_user#:#Benutzer einladen
+chat#:#chat_italic#:#Kursiv
+chat#:#chat_level_all#:#Alles
+chat#:#chat_level_debug#:#Debug###05 Mar 2004 new variable
+chat#:#chat_level_error#:#Fehler
+chat#:#chat_level_fatal#:#Fatal###05 Mar 2004 new variable
+chat#:#chat_level_info#:#Info###05 Mar 2004 new variable
+chat#:#chat_lime#:#lime###05 Mar 2004 new variable
+chat#:#chat_maroon#:#maroon###05 Mar 2004 new variable
+chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
+chat#:#chat_moderator_password#:#Moderator Passwort
+chat#:#chat_navy#:#navy###05 Mar 2004 new variable
+chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
+chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
+chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
+chat#:#chat_no_refresh_public#:#Der Öffentliche Chatraum kann nicht zurückgesetzt werden.
+chat#:#chat_no_rename_public#:#Der Öffentliche Chatraum kann nicht umbenannt werden.
+chat#:#chat_no_write_perm#:#Keine Schreibrechte
+chat#:#chat_olive#:#oliv
+chat#:#chat_online_users#:#Benutzer (online)
+chat#:#chat_private_message#:#Private Nachricht
+chat#:#chat_public_room#:#Öffentlicher Chatraum
+chat#:#chat_purple#:#purple###05 Mar 2004 new variable
+chat#:#chat_red#:#rot
+chat#:#chat_refresh#:#Zurücksetzen
+chat#:#chat_room_added#:#Ein neuer privater Chatraum wurde angelegt.
+chat#:#chat_room_name#:#Name des Chatraumes
+chat#:#chat_room_renamed#:#Der Chatraum wurde umbenannt.
+chat#:#chat_room_select#:#Privaten Chatraum
+chat#:#chat_rooms#:#Chaträume
+chat#:#chat_rooms_deleted#:#Der/die Chaträum(e) wurden gelöscht.
+chat#:#chat_select_one_room#:#Bitte wählen Sie einen Chatraum aus
+chat#:#chat_server_allowed#:#Zugelassene Rechner
+chat#:#chat_server_allowed_b#:#(z.B 192.168.1.1,192.168.1.2)
+chat#:#chat_server_ip#:#Server Ip###05 Mar 2004 new variable
+chat#:#chat_server_logfile#:#Pfad zur Logdatei
+chat#:#chat_server_loglevel#:#Loglevel###05 Mar 2004 new variable
+chat#:#chat_server_not_active#:#Der Chatserver ist zur Zeit nicht aktiv
+chat#:#chat_server_port#:#Server Port###05 Mar 2004 new variable
+chat#:#chat_server_settings#:#Chatserver Einstellungen
+chat#:#chat_settings_saved#:#Die Einstellungen wurden gespeichert
+chat#:#chat_show_details#:#Details anzeigen
+chat#:#chat_silver#:#silber
+chat#:#chat_status#:#Status###05 Mar 2004 new variable
+chat#:#chat_status_saved#:#Der Status wurde geändert
+chat#:#chat_tahoma#:#Tahoma###05 Mar 2004 new variable
+chat#:#chat_teal#:#teal###05 Mar 2004 new variable
+chat#:#chat_times#:#Times###05 Mar 2004 new variable
+chat#:#chat_title_missing#:#Bitte geben Sie einen Namen an.
+chat#:#chat_to_chat_body#:#Zum Chat
+chat#:#chat_type#:#Schriftart
+chat#:#chat_underlined#:#Unterstrichen
+chat#:#chat_user_dropped#:#User kicked###05 Mar 2004 new variable
+chat#:#chat_user_invited#:#Der Benutzer wurde zum Chat eingeladen.
+chat#:#chat_yellow#:#gelb
+chat#:#chats#:#Chats###05 Mar 2004 new variable
+chat#:#my_chats#:#Meine Chats
 common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#DD.MM.YYYY#:#TT.MM.JJJJ
 common#:#HH:MM#:#SS:MM
@@ -2134,88 +2219,3 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
-chat#:#chat_ilias#:#Ilias Chat Modul
-chat#:#chat_status#:#Status
-chat#:#chat_active#:#Aktiv
-chat#:#chat_inactive#:#Inaktiv
-chat#:#chat_status_saved#:#Der Status wurde geändert
-chat#:#chat_level_fatal#:#Fatal
-chat#:#chat_level_error#:#Fehler
-chat#:#chat_level_info#:#Info
-chat#:#chat_level_debug#:#Debug
-chat#:#chat_level_all#:#Alles
-chat#:#chat_settings_saved#:#Die Einstellungen wurden gespeichert
-chat#:#chat_server_settings#:#Chatserver Einstellungen
-chat#:#chat_server_ip#:#Server Ip
-chat#:#chat_server_port#:#Server Port
-chat#:#chat_moderator_password#:#Moderator Passwort
-chat#:#chat_server_logfile#:#Pfad zur Logdatei
-chat#:#chat_server_loglevel#:#Loglevel
-chat#:#chat_server_allowed#:#Zugelassene Rechner
-chat#:#chat_server_allowed_b#:#(z.B 192.168.1.1,192.168.1.2)
-chat#:#chat_no_write_perm#:#Keine Schreibrechte
-chat#:#chat_add_ip#:#Bitte geben Sie die Server-Ip ein.
-chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
-chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
-chat#:#chat_server_not_active#:#Der Chatserver ist zur Zeit nicht aktiv
-chat#:#chat_delete_sure#:#Sind Sie sicher, daß dieser Chatraum gelöscht werden soll?
-chat#:#chat_chatrooms#:#Chaträume
-chat#:#chat_public_room#:#Öffentlicher Chatraum
-chat#:#chat_select_one_room#:#Bitte wählen Sie einen Chatraum aus
-chat#:#chat_room_name#:#Name des Chatraumes
-chat#:#chat_no_rename_public#:#Der Öffentliche Chatraum kann nicht umbenannt werden.
-chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
-chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
-chat#:#chat_no_refresh_public#:#Der Öffentliche Chatraum kann nicht zurückgesetzt werden.
-chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
-chat#:#chat_rooms_deleted#:#Der/die Chaträum(e) wurden gelöscht.
-chat#:#chat_room_added#:#Ein neuer privater Chatraum wurde angelegt.
-chat#:#chat_room_renamed#:#Der Chatraum wurde umbenannt.
-chat#:#chat_private_message#:#Private Nachricht
-chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chatserver hergestellt werden.
-chat#:#chat_user_invited#:#Der Benutzer wurde zum Chat eingeladen.
-chat#:#chat_user_dropped#:#User kicked
-chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
-chat#:#chat_invite_user#:#Benutzer einladen
-chat#:#chat_online_users#:#Benutzer (online)
-chat#:#chat_active_users#:#Benutzer (aktiv)
-chat#:#chat_show_details#:#Details anzeigen
-chat#:#chat_hide_details#:#Details verbergen
-chat#:#chat_room_select#:#Privaten Chatraum
-chat#:#chat_refresh#:#Zurücksetzen
-chat#:#chat_html_export#:#HTML export
-chat#:#chat_rooms#:#Chaträume
-chat#:#chat_bold#:#Fett
-chat#:#chat_italic#:#Kursiv
-chat#:#chat_underlined#:#Unterstrichen
-chat#:#chat_times#:#Times
-chat#:#chat_tahoma#:#Tahoma
-chat#:#chat_arial#:#Arial
-chat#:#chat_color#:#Schriftfarbe
-chat#:#chat_type#:#Schriftart
-chat#:#chat_face#:#Schrifttyp
-chat#:#chat_input#:#Eingabe
-chat#:#chat_black#:#schwarz
-chat#:#chat_red#:#rot
-chat#:#chat_green#:#grün
-chat#:#chat_maroon#:#maroon
-chat#:#chat_olive#:#oliv
-chat#:#chat_navy#:#navy
-chat#:#chat_purple#:#purple
-chat#:#chat_teal#:#teal
-chat#:#chat_silver#:#silber
-chat#:#chat_gray#:#grau
-chat#:#chat_lime#:#lime
-chat#:#chat_yellow#:#gelb
-chat#:#chat_fuchsia#:#fuchsia
-chat#:#chat_aqua#:#aqua
-chat#:#chat_blue#:#blau
-chat#:#chat_edit#:#Chat bearbeiten
-chat#:#chat_insert_message#:#Bitte geben Sie eine Nachricht ein.
-chat#:#chats#:#Chats
-chat#:#my_chats#:#Meine Chats
-chat#:#chat_invitation_subject#:#Einladung zum Chat
-chat#:#chat_invitation_body#:#Einladung zum Chat von:
-chat#:#chat_chatroom_body#:#Chatraum:
-chat#:#chat_to_chat_body#:#Zum Chat
-chat#:#chat_title_missing#:#Bitte geben Sie einen Namen an.
