@@ -43,7 +43,7 @@ if ($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$css_row = TUtil::switchColor($key,"row_high","row_low");
 
 			$node = "[<a href=\"".$SCRIPT_NAME."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
-			$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$val["obj_id"]."&parent=$obj_id&cmd=edit");
+			$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$val["obj_id"]."&parent=$obj_id&parent_parent=$_GET[parent]&cmd=edit");
 			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
 			$tplContent->setVariable("IMG_TYPE","icon_user_b.gif");
