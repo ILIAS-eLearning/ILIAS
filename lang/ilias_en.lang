@@ -620,6 +620,8 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
 content#:#cont_page_header#:#Page Header
+content#:#cont_order#:#Order Type
+content#:#cont_list_properties#:#List Properties
 content#:#cont_st_title#:#Chapter Title
 content#:#cont_pg_title#:#Page Title
 content#:#cont_none#:#None

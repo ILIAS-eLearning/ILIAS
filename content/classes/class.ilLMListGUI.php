@@ -70,7 +70,7 @@ class ilLMListGUI extends ilPageContentGUI
 		}
 
 		// select fields for number of columns
-		$this->tpl->setVariable("TXT_ORDER", $this->lng->txt("language"));
+		$this->tpl->setVariable("TXT_ORDER", $this->lng->txt("cont_order"));
 		$order = array("Unordered" => $this->lng->txt("cont_Unordered"),
 			"Number" => $this->lng->txt("cont_Number"),
 			"Roman" => $this->lng->txt("cont_Roman"),
@@ -116,7 +116,7 @@ class ilLMListGUI extends ilPageContentGUI
 		}
 	}
 
-		/**
+	/**
 	* edit properties form
 	*/
 	function edit()
@@ -134,9 +134,9 @@ class ilLMListGUI extends ilPageContentGUI
 		header('Content-type: text/html; charset=UTF-8');
 
 		// list
-		$this->tpl->setVariable("TXT_LIST", $this->lng->txt("cont_list"));
+		$this->tpl->setVariable("TXT_LIST", $this->lng->txt("cont_list_properties"));
 
-		$this->tpl->setVariable("TXT_ORDER", $this->lng->txt("language"));
+		$this->tpl->setVariable("TXT_ORDER", $this->lng->txt("cont_order"));
 		$order = array("Unordered" => $this->lng->txt("cont_Unordered"),
 			"Number" => $this->lng->txt("cont_Number"),
 			"Roman" => $this->lng->txt("cont_Roman"),
@@ -145,76 +145,6 @@ class ilLMListGUI extends ilPageContentGUI
 			"alphabetic" => $this->lng->txt("cont_alphabetic"));
 		$select_order = ilUtil::formSelect ("","list_order",$order,false,true);
 		$this->tpl->setVariable("SELECT_ORDER", $select_order);
-
-
-
-
-		$this->tpl->setVariable("INPUT_TD_WIDTH", "td_width");
-		$this->tpl->setVariable("BTN_WIDTH", "setWidth");
-		$this->tpl->setVariable("BTN_TXT_WIDTH", $this->lng->txt("cont_set_width"));
-		// todo: we need a css concept here!
-		$select_class = ilUtil::formSelect ("","td_class",
-			array("" => $this->lng->txt("none"), "ilc_Cell1" => "ilc_Cell1", "ilc_Cell2" => "ilc_Cell2",
-			"ilc_Cell3" => "ilc_Cell3", "ilc_Cell4" => "ilc_Cell4"),false,true);
-		$this->tpl->setVariable("SELECT_CLASS", $select_class);
-		$this->tpl->setVariable("BTN_CLASS", "setClass");
-		$this->tpl->setVariable("BTN_TXT_CLASS", $this->lng->txt("cont_set_class"));
-		$tab_node = $this->content_obj->getNode();
-		$content = $this->dom->dump_node($tab_node);
-		//$dom2 =& domxml_open_mem($this->xml);
-
-		$xsl = file_get_contents("./content/page.xsl");
-		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
-		$xh = xslt_create();
-//echo "<b>XML</b>:".htmlentities($content).":<br>";
-//echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-		$params = array ('mode' => 'table_edit');
-		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
-		echo xslt_error($xh);
-		xslt_free($xh);
-
-		// unmask user html
-		$output = str_replace("&lt;","<",$output);
-		$output = str_replace("&gt;",">",$output);
-//echo "<b>HTML</b>".htmlentities($output);
-		$this->tpl->setVariable("CONT_TABLE", $output);
-
-
-		// language
-		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		$lang = ilMetaData::getLanguages();
-		$select_lang = ilUtil::formSelect ($this->content_obj->getLanguage(),"tab_language",$lang,false,true);
-		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
-
-		// width
-		$this->tpl->setVariable("TXT_TABLE_WIDTH", $this->lng->txt("cont_table_width"));
-		$this->tpl->setVariable("INPUT_TABLE_WIDTH", "tab_width");
-		$this->tpl->setVariable("VAL_TABLE_WIDTH", $this->content_obj->getWidth());
-
-		// border
-		$this->tpl->setVariable("TXT_TABLE_BORDER", $this->lng->txt("cont_table_border"));
-		$this->tpl->setVariable("INPUT_TABLE_BORDER", "tab_border");
-		$this->tpl->setVariable("VAL_TABLE_BORDER", $this->content_obj->getBorder());
-
-		// padding
-		$this->tpl->setVariable("TXT_TABLE_PADDING", $this->lng->txt("cont_table_cellpadding"));
-		$this->tpl->setVariable("INPUT_TABLE_PADDING", "tab_padding");
-		$this->tpl->setVariable("VAL_TABLE_PADDING", $this->content_obj->getCellPadding());
-
-		// spacing
-		$this->tpl->setVariable("TXT_TABLE_SPACING", $this->lng->txt("cont_table_cellspacing"));
-		$this->tpl->setVariable("INPUT_TABLE_SPACING", "tab_spacing");
-		$this->tpl->setVariable("VAL_TABLE_SPACING", $this->content_obj->getCellSpacing());
-
-		// caption
-		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
-		$this->tpl->setVariable("INPUT_CAPTION", "tab_caption");
-		$this->tpl->setVariable("VAL_CAPTION", $this->content_obj->getCaption());
-		$select_align = ilUtil::formSelect ($this->content_obj->getCaptionAlign(),"tab_cap_align",
-			array("top" => $this->lng->txt("cont_top"), "bottom" => $this->lng->txt("cont_bottom")),false,true);
-		$this->tpl->setVariable("SELECT_CAPTION", $select_align);
-
-		$this->tpl->parseCurrentBlock();
 
 		// operations
 		$this->tpl->setCurrentBlock("commands");
@@ -225,5 +155,24 @@ class ilLMListGUI extends ilPageContentGUI
 	}
 
 
+	/**
+	* save table properties in db and return to page edit screen
+	*/
+	function saveProperties()
+	{
+		$this->content_obj->setOrderType($_POST["list_order"]);
+		$this->updated = $this->pg_obj->update();
+		if ($this->updated === true)
+		{
+			header("location: lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
+				$this->pg_obj->getId());
+			exit;
+		}
+		else
+		{
+			$this->pg_obj->addHierIDs();
+			$this->edit();
+		}
+	}
 }
 ?>
