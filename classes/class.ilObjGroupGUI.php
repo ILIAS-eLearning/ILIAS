@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.85 2004/06/18 12:57:59 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.86 2004/07/05 16:22:59 akill Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -1291,7 +1291,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$tabs_gui->addTarget("group_members",
 				$this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
 		}
-		
+
 		$applications = $this->object->getNewRegistrations();
 
 		if (is_array($applications) and $this->object->isAdmin($this->ilias->account->getId()))
