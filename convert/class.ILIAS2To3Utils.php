@@ -462,7 +462,8 @@ class ILIAS2To3Utils
 	/**
 	* Gets mimetype of a (local) file
 	* 
-	* ! needs special entry in php.ini !
+	* ! needs special php installation !
+	* see http://www.php.net/manual/en/ref.mime-magic.php
 	* 
 	* @param	string	full path to a local file
 	* @return	string	mimetype (formatted to fit in the DTD)
@@ -470,10 +471,20 @@ class ILIAS2To3Utils
 	*/
 	function getMimeType ($file)
 	{
-		// get mimetype
-		$mime = str_replace("/", "-", @mime_content_type($file));
+		// check if mimetype detection enabled in php.ini
+		$set = ini_get("mime_magic.magicfile");
 		
-		// set default if mimetype detection failed (e.g. remote file)
+		// get mimetype
+		if ($set <> "")
+		{
+			$mime = str_replace("/", "-", @mime_content_type($file));
+		}
+		else
+		{
+			$mime = NULL;
+		}
+		
+		// set default if mimetype detection failed or not possible (e.g. remote file)
 		if (empty($mime))
 		{
 			$mime = "application-octet-stream";
