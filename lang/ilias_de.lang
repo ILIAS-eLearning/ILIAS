@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -319,7 +319,7 @@ common#:#group_registration_mode#:#Registrierungsmodus
 common#:#group_req_password#:#Registrierungspasswort erforderlich
 common#:#group_req_registration#:#Registrierung erforderlich
 common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br>Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
-common#:#group_reset#:#Gruppe zurücksetzen
+common#:#group_reset#:#Gruppen-Rechteeinstellungen zurücksetzen
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
 common#:#group_status_public#:#Öffentlich
@@ -329,15 +329,18 @@ common#:#grp#:#Gruppe
 common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
-common#:#grp_edit#:#Gruppe bearbeiten
-common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe bentigt.
-common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht mglich, bitte lschen Sie die Gruppe !
-common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nich entfernt werden. Bitte berprfen Sie die Abh�gigkeiten dieses Benutzers.
-common#:#grp_err_no_permission#:#Sie verfgen nicht ber ausreichende Rechte diese Operation durchzufhren.
+common#:#grp_edit#:#Gruppe übearbeiten
+common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein ausgewiesener Gruppenadministrator benötigt
+common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgef�hrt
+common#:#grp_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie die Gruppe !
+common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entfernt werden. Bitte überprfen Sie die Abhängigkeiten dieses Benutzers.
+common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
 common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit fr die Gültigkeit des Registrierungszeitraums an !
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
+common#:#grp_msg_membership_annulled#:#Die Mitgliedschaft wurde aufgehoben
 common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
 common#:#grp_new#:#Neue Gruppe
 common#:#grp_register#:#Anmelden
@@ -743,6 +746,7 @@ common#:#registered_since#:#Eingetragen seit
 common#:#registered_user#:#registrierter Benutzer
 common#:#registered_users#:#registrierte Benutzer
 common#:#registration#:#Neuanmeldung
+common#:#registration_expired#:#Der Anmeldezeitraum ist abgelaufen...
 common#:#remove#:#Entfernen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
