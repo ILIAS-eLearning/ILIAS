@@ -2781,13 +2781,13 @@ content#:#cont_nr_cols#:#Кількість Колонок
 content#:#cont_nr_items#:#Кількість Пунктів
 content#:#cont_nr_rows#:#Кількість Рядків
 content#:#cont_obj_removed#:#Об'єкт видалений.
-content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
-content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
-content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
+content#:#cont_offline#:#Оффлайн Версії
+content#:#cont_offline_files#:#Оффлайн версії
+content#:#cont_offline_versions#:#Оффлайн Версії
 content#:#cont_online#:#Онлайн
-content#:#cont_or#:#or###29 Nov 2004 new variable
+content#:#cont_or#:#або
 content#:#cont_order#:#Тип Сортування
-content#:#cont_ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###11 Dec 2004 new variable
+content#:#cont_ordering_question_javascript_hint#:#Будь ласка перетягніть визначення/картинку на визначення/картинку куди ви бажаєте його помістити та відпустіть. Підлегле визначеня/картинка та усі наступні визначення/картинки будуть переміщені нижче.
 content#:#cont_organization#:#Організація
 content#:#cont_organizations#:#Організації
 content#:#cont_orig_size#:#Оригінальний Розмір
@@ -2799,23 +2799,23 @@ content#:#cont_parameters#:#параметри
 content#:#cont_personal_clipboard#:#Особистий Буфер Обміну
 content#:#cont_pg_content#:#Вміст Сторінки
 content#:#cont_pg_title#:#Назва Сторінки
-content#:#cont_please_select#:#please select###16 Aug 2004 new variable
-content#:#cont_prereq_type#:#adlcp:prerequisites.type###05 Nov 2004 new variable
-content#:#cont_prerequisites#:#adlcp:prerequisites###05 Nov 2004 new variable
+content#:#cont_please_select#:#будь ласка виберіть
+content#:#cont_prereq_type#:#adlcp:попередні умови.тип
+content#:#cont_prerequisites#:#adlcp:попередні умови
 content#:#cont_preview#:#Попередній Огляд
-content#:#cont_print_view#:#Print View###03 Sep 2004 new variable
-content#:#cont_public_access#:#Public access###22 Dec 2004 new variable
+content#:#cont_print_view#:#Огляд перед друком
+content#:#cont_public_access#:#Публічний доступ
 content#:#cont_publisher#:#Видавник
 content#:#cont_purpose#:#Призначення
 content#:#cont_ref_helptext#:#(наприклад http://www.server.org/myimage.jpg)
-content#:#cont_ref_images#:#Referenced Images###01 Mar 2005 new variable
+content#:#cont_ref_images#:#Зображення з посиланням
 content#:#cont_reference#:#Посилання
-content#:#cont_remove_fullscreen#:#Remove Fullscreen###23 Feb 2004 new variable
-content#:#cont_removeiln#:#really remove internal link ?###07 Jan 2005 new variable
-content#:#cont_repository_item#:#Repository Item###01 Mar 2005 new variable
-content#:#cont_repository_item_links#:#Repository Item Links###01 Mar 2005 new variable
-content#:#cont_reset_definitions#:#Reset definition positions###17 Sep 2004 new variable
-content#:#cont_reset_pictures#:#Reset picture positions###17 Sep 2004 new variable
+content#:#cont_remove_fullscreen#:#Видалити Повний Екран
+content#:#cont_removeiln#:#дійсно видалити внутрішнє посилання ?
+content#:#cont_repository_item#:#Об'єкт Репозиторію
+content#:#cont_repository_item_links#:#Посилання на Об'єкти Репозиторію
+content#:#cont_reset_definitions#:#Скинути визначення позицій
+content#:#cont_reset_pictures#:#Скинути позиції зображення
 content#:#cont_resource#:#Ресурс
 content#:#cont_resource_type#:#тип
 content#:#cont_resources#:#Ресурси
@@ -2823,16 +2823,16 @@ content#:#cont_roman#:#Римські i, ii, ...
 content#:#cont_rvalue#:#Value###14 Jun 2004 new variable
 content#:#cont_saved_map_area#:#Збережена карта області
 content#:#cont_saved_map_data#:#Зберегти дані карти
-content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
-content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
-content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
-content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
-content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
-content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
-content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
-content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
-content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
-content#:#cont_sc_stat_running#:#Running###17 Jun 2004 new variable
+content#:#cont_sc_auto_review#:#Встановити режим уроку 'огляд' якщо студент закінчив SCO
+content#:#cont_sc_less_mode_browse#:#Огляд
+content#:#cont_sc_less_mode_normal#:#Нормальний
+content#:#cont_sc_stat_browsed#:#Оглянутий
+content#:#cont_sc_stat_completed#:#Закінчений
+content#:#cont_sc_stat_failed#:#Провалений
+content#:#cont_sc_stat_incomplete#:#Незакінчений
+content#:#cont_sc_stat_not_attempted#:#Невдалий
+content#:#cont_sc_stat_passed#:#Пройдений
+content#:#cont_sc_stat_running#:#Запущений
 content#:#cont_sc_title#:#назва
 content#:#cont_school#:#Школа
 content#:#cont_score#:#Score###10 Jul 2004 new variable
