@@ -492,3 +492,6 @@ $query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
 	 "('1','".$ref_id."','9','".$lft."','".$rgt."','2')";
 $this->db->query($query);
 ?>
+
+<#51>
+ALTER TABLE rbac_ua DROP COLUMN default_role;

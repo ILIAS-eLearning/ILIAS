@@ -192,6 +192,7 @@ class ilRbacAdmin
 
 	/**
 	* Assigns an user to a role. Update of table rbac_ua
+	* TODO: remove deprecated 3rd parameter sometime
 	* @access	public
 	* @param	integer	object_id of role
 	* @param	integer	object_id of user
@@ -206,17 +207,8 @@ class ilRbacAdmin
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 		
-		if ($a_default)
-		{
-			$a_default = "y";
-		}
-		else
-		{
-			$a_default = "n";
-		}
-
 		$q = "REPLACE INTO rbac_ua ".
-			 "VALUES ('".$a_usr_id."','".$a_rol_id."','".$a_default."')";
+			 "VALUES ('".$a_usr_id."','".$a_rol_id."')";
 		$res = $this->ilias->db->query($q);
 
 		return true;
@@ -243,60 +235,6 @@ class ilRbacAdmin
 		$this->ilias->db->query($q);
 		
 		return true;
-	}
-
-	/**
-	* Update of the default role of a user
-	* @access	public
-	* @param	integer	object id of role
-	* @param	integer	user id
-	* @return	boolean true if role was changed
-	*/
-	function updateDefaultRole($a_rol_id,$a_usr_id)
-	{
-		global $log;
-
-		if (!isset($a_rol_id) or !isset($a_usr_id))
-		{
-			$message = get_class($this)."::updateDefaultRole(): Missing parameter! role_id: ".$a_rol_id." usr_id: ".$a_usr_id;
-			$log->writeWarning($message);
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
-		}
-
-		$current_default_role = $this->getDefaultRole($a_usr_id);
-		
-		if ($current_default_role != $a_rol_id)
-		{
-			$this->deassignUser($current_default_role,$a_usr_id);	
-			return $this->assignUser($a_rol_id,$a_usr_id,true);
-		}
-		
-		return false;
-	}
-
-	/**
-	* get Default role
-	* @access	public
-	* @param	integer		user id
-	* @return	boolean
-	*/
-	function getDefaultRole($a_usr_id)
-	{
-		global $log;
-
-		if (!isset($a_usr_id))
-		{
-			$message = get_class($this)."::getDefaultRole(): No usr_id given!";
-			$log->writeWarning($message);
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
-		}
-
-		$q = "SELECT * FROM rbac_ua ".
-			 "WHERE usr_id = '".$a_usr_id."' ".
-			 "AND default_role = 'y'";
-		$row = $this->ilias->db->getRow($q);
-
-		return $row->rol_id;
 	}
 
 	/**
@@ -334,8 +272,6 @@ class ilRbacAdmin
 			 "VALUES ".
 			 "('".$a_rol_id."','".$ops_ids."','".$a_ref_id."')";
 		$this->ilias->db->query($q);
-
-//var_dump("<pre>",$a_rol_id,$a_ops,$ops_ids,$a_ref_id,"</pre>");exit;
 
 		return true;
 	}
@@ -540,7 +476,6 @@ class ilRbacAdmin
 
 		return true;
 	}
-
 
 	/**
 	* Assigns a role to an role folder
