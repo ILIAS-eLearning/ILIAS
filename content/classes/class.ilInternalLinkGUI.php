@@ -257,7 +257,7 @@ class ilInternalLinkGUI
 		$tpl->setVariable("CMD_CHANGETYPE", "changeLinkType");
 		$tpl->setVariable("BTN_CHANGETYPE", $this->lng->txt("cont_change_type"));
 		
-		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable")
+		if ($this->isEnabledJavaScript())
 		{
 			$tpl->setVariable("BTN_CLOSE_JS", $this->lng->txt("close"));
 		}
@@ -268,7 +268,7 @@ class ilInternalLinkGUI
 		}
 
 		$chapterRowBlock = "chapter_row";
-		if ($ilUser->getPref("ilPageEditor_JavaScript") == "enable")
+		if ($this->isEnabledJavaScript())
 		{
 			$chapterRowBlock .= "_js";
 		}
@@ -905,6 +905,26 @@ class ilInternalLinkGUI
 		return $tpl->get();
 		//$tpl->show();
 		//exit;
+	}
+
+
+
+	/**
+	* determine, wether js is used
+	*/
+	function isEnabledJavaScript()
+	{
+		global $ilias;
+		
+		include_once("content/classes/Pages/class.ilPageEditorGUI.php");
+		if($ilias->getSetting("enable_js_edit"))
+		{
+			if (ilPageEditorGUI::_doJSEditing())
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 
