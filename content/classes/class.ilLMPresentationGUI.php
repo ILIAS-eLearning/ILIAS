@@ -880,7 +880,7 @@ class ilLMPresentationGUI
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($_SESSION["tr_id"]);
 		//$pg_obj->setParentId($this->lm->getId());
-		$page_object_gui->setLayoutLinkTargets($targets);
+		#$page_object_gui->setLayoutLinkTargets($targets);
 
 		// USED FOR DBK PAGE TURNS
 		$page_object_gui->setBibId($_SESSION["bib_id"]);
