@@ -13,7 +13,7 @@ $explorer->setOutput(0);
 $output = $explorer->getOutput();
 
 $tplContent->setVariable("EXPLORER",$output);
-$tplContent->setVariable("ACTION", "lo_menu.php?expand=1");
+$tplContent->setVariable("ACTION", "adm_menu.php?expand=".$_GET["expand"]);
 
 $tplmain->setVariable("PAGECONTENT", $tplContent->get());
 $tplmain->show();
