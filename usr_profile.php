@@ -228,6 +228,16 @@ if ($_GET["cmd"] == "save")
 	{
 		$ilias->account->setPref("public_email","n");
 	}
+
+		// if check on Email address
+	if (($_POST["chk_hobbie"])=="on")
+	{
+		$ilias->account->setPref("public_hobbie","y");
+	}
+	else
+	{
+		$ilias->account->setPref("public_hobbie","n");
+	}
 	// end of testing by ratana ty
 
 	// check required fields
@@ -259,6 +269,8 @@ if ($_GET["cmd"] == "save")
 	$ilias->account->setCountry($_POST["usr_country"]);
 	$ilias->account->setPhone($_POST["usr_phone"]);
 	$ilias->account->setEmail($_POST["usr_email"]);
+	$ilias->account->setHobbie($_POST["usr_hobbie"]);
+
 	$ilias->account->setLanguage($_POST["usr_language"]);
 
 	// everthing's ok. save form data
@@ -396,6 +408,7 @@ $tpl->setVariable("TXT_CITY",$lng->txt("city"));
 $tpl->setVariable("TXT_COUNTRY",$lng->txt("country"));
 $tpl->setVariable("TXT_PHONE",$lng->txt("phone"));
 $tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
+$tpl->setVariable("TXT_HOBBIE",$lng->txt("Hobbie"));
 $tpl->setVariable("TXT_DEFAULT_ROLE",$lng->txt("default_role"));
 $tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 $tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
@@ -418,6 +431,7 @@ $tpl->setVariable("CITY", $ilias->account->getCity());
 $tpl->setVariable("COUNTRY", $ilias->account->getCountry());
 $tpl->setVariable("PHONE", $ilias->account->getPhone());
 $tpl->setVariable("EMAIL", $ilias->account->getEmail());
+$tpl->setVariable("HOBBIE", $ilias->account->getHobbie());
 
 require_once "./classes/class.ilObjRole.php";
 $roleObj = new ilObjRole($rbacadmin->getDefaultRole($_SESSION["AccountId"]));
@@ -467,6 +481,10 @@ if($ilias->account->prefs["public_phone"]=="y")
 if($ilias->account->prefs["public_email"]=="y")
 {
 	$tpl->setVariable("CHK_EMAIL","checked");
+}
+if($ilias->account->prefs["public_hobbie"]=="y")
+{
+	$tpl->setVariable("CHK_HOBBIE","checked");
 }
 // End of shwing
 // Testing by ratana ty
