@@ -903,10 +903,10 @@ class ilObject
 			$q = "DELETE FROM object_data ".
 				"WHERE obj_id = '".$this->getId()."'";
 			$this->ilias->db->query($q);
-			
+
 			$remove = true;
 		}
-		
+
 		// delete object_reference entry
 		if ($this->referenced)
 		{
@@ -923,9 +923,12 @@ class ilObject
 		}
 
 		// remove conditions
-		$ch =& new ilConditionHandler();
-		$ch->delete($this->getRefId());
-		unset($ch);
+		if ($this->referenced)
+		{
+			$ch =& new ilConditionHandler();
+			$ch->delete($this->getRefId());
+			unset($ch);
+		}
 
 		return $remove;
 	}
