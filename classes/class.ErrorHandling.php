@@ -60,6 +60,11 @@ class ErrorHandling
 	*/
 	function errorHandler($a_error_obj)
 	{
+		if($_GET["message"])
+		{
+			return;
+		}
+
 		if ($a_error_obj->getCode() == $this->FATAL)
 		{
 			die (stripslashes($a_error_obj->getMessage()));
@@ -90,8 +95,7 @@ class ErrorHandling
 			{
 				$glue = "&";
 			}
-			
-			header("location: ".$_SESSION["referer"].$glue."message=".stripslashes($a_error_obj->getMessage()));
+			header("location: ".$_SESSION["referer"].$glue."message=".urlencode($a_error_obj->getMessage()));
 			exit;
 		}
 	}

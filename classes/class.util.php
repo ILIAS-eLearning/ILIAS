@@ -320,6 +320,32 @@ class TUtil
 
 		return $tpltab->get();
 	}
-	
+	/**
+	* Get all objejects of a specific type and check access
+    * recursive method
+	* @param string type
+	* @param string permissions to check e.g. 'visible','read'
+	*/
+	function getObjectsByOperations($a_type,$a_operation,$a_node = 0)
+	{
+		global $tree, $rbacsystem;
+		static $objects = array();
+
+		if($childs = $tree->getChilds($a_node))
+		{
+			foreach($childs as $child)
+			{
+				if($rbacsystem->checkAccess($a_operation,$child["obj_id"],$child["parent"],$a_type))
+				{
+					if($child["type"] == $a_type)
+					{
+						$objects[] = $child;
+					}
+					TUtil::getObjectsByOperations($a_type,$a_operation,$child["obj_id"]);
+				}
+			}
+		}
+		return $objects;
+	}
 } // END class.util
 ?>
