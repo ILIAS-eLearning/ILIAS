@@ -54,7 +54,7 @@ class ilPCListItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newItemAfter();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	/**
@@ -64,7 +64,7 @@ class ilPCListItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newItemBefore();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	/**
@@ -74,7 +74,7 @@ class ilPCListItemGUI extends ilPageContentGUI
 	{
 		$this->content_obj->deleteItem();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 }

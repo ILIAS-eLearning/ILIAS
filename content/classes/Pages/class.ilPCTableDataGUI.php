@@ -54,7 +54,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newRowAfter();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	/**
@@ -64,7 +64,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newRowBefore();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	/**
@@ -74,7 +74,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->deleteRow();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 
@@ -85,7 +85,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newColAfter();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	/**
@@ -95,7 +95,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->newColBefore();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	/**
@@ -105,7 +105,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
 	{
 		$this->content_obj->deleteCol();
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 

@@ -110,8 +110,7 @@ class ilPageEditorGUI
 
 	function returnToContext()
 	{
-		header("Location: ".$this->getReturnLocation());
-		exit;
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	function executeCommand()

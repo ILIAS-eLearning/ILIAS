@@ -245,8 +245,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{
-				header("Location: ".$this->getReturnLocation());
-				exit;
+				ilUtil::redirect($this->getReturnLocation());
 			}
 			else
 			{
@@ -518,8 +517,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
-			exit;
+			ilUtil::redirect($this->getReturnLocation());
 		}
 		else
 		{
@@ -713,7 +711,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$std_item->setHeight($size[1]);
 			$this->content_obj->update();
 		}
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
@@ -734,7 +732,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$full_item->setHeight($size[1]);
 			$this->content_obj->update();
 		}
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
@@ -798,8 +796,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		$this->content_obj->update();
 
-		header("Location: ".$this->getReturnLocation());
-		exit;
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 
@@ -1020,7 +1017,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			ilUtil::makeDir($cur_dir."/".$new_dir);
 		}
 
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
@@ -1040,7 +1037,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			move_uploaded_file($_FILES["new_file"]["tmp_name"],
 				$cur_dir."/".$_FILES["new_file"]["name"]);
 		}
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
@@ -1081,7 +1078,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$format = ilMediaObject::getMimeType($file);
 		$std_item->setFormat($format);
 		$this->content_obj->update();
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
@@ -1140,7 +1137,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$full_item->setFormat($format);
 		}
 		$this->content_obj->update();
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
@@ -1152,7 +1149,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	{
 		$this->content_obj->removeMediaItem("Fullscreen");
 		$this->content_obj->update();
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
@@ -1178,7 +1175,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 			$this->content_obj->update();
 		}
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
@@ -1247,7 +1244,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			ilUtil::delDir($file);
 		}
 
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
 	}
 
@@ -1905,7 +1902,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$area->update();
 		}
 		sendInfo($this->lng->txt("cont_saved_map_data"), true);
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
 	}
 
@@ -1936,7 +1933,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->content_obj->update();
 			sendInfo($this->lng->txt("cont_areas_deleted"), true);
 		}
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
 	}
 
@@ -2017,7 +2014,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		}
 
 		sendInfo($this->lng->txt("cont_saved_map_area"), true);
-		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
 			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
 	}
 
@@ -2170,7 +2167,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$this->ilias->account->addObjectToClipboard($this->content_obj->getId(), $this->content_obj->getType()
 			, $this->content_obj->getTitle());
 		sendInfo($this->lng->txt("copied_to_clipboard"), true);
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	/**
@@ -2181,7 +2178,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("Center");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	function leftAlign()
@@ -2189,7 +2186,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("Left");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	function rightAlign()
@@ -2197,7 +2194,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("Right");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	function leftFloatAlign()
@@ -2205,7 +2202,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("LeftFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	function rightFloatAlign()
@@ -2213,7 +2210,7 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
 		$std_alias_item->setHorizontalAlign("RightFloat");
 		$_SESSION["il_pg_error"] = $this->pg_obj->update();
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 }

@@ -245,8 +245,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
-			exit;
+			ilUtil::redirect($this->getReturnLocation());
 		}
 		else
 		{
@@ -275,8 +274,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
-			exit;
+			ilUtil::redirect($this->getReturnLocation());
 		}
 		else
 		{

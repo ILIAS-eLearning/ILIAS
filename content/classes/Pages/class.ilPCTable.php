@@ -270,8 +270,9 @@ class ilPCTable extends ilPageContent
 		if(!empty($hier_id))
 		{
 			$xpc = xpath_new_context($this->dom);
-			$path = "//Table[@HierId = '".$hier_id."']/Caption";
+			$path = "//PageContent[@HierId = '".$hier_id."']/Table/Caption";
 			$res =& xpath_eval($xpc, $path);
+
 			if (count($res->nodeset) == 1)
 			{
 				return $res->nodeset[0]->get_content();
@@ -288,7 +289,7 @@ class ilPCTable extends ilPageContent
 		if(!empty($hier_id))
 		{
 			$xpc = xpath_new_context($this->dom);
-			$path = "//Table[@HierId = '".$hier_id."']/Caption";
+			$path = "//PageContent[@HierId = '".$hier_id."']/Table/Caption";
 			$res =& xpath_eval($xpc, $path);
 			if (count($res->nodeset) == 1)
 			{

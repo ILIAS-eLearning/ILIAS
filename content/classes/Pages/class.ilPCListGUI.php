@@ -107,7 +107,7 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
+			ilUtil::redirect($this->getReturnLocation());
 			exit;
 		}
 		else
@@ -164,7 +164,7 @@ class ilPCListGUI extends ilPageContentGUI
 		$this->updated = $this->pg_obj->update();
 		if ($this->updated === true)
 		{
-			header("Location: ".$this->getReturnLocation());
+			ilUtil::redirect($this->getReturnLocation());
 			exit;
 		}
 		else

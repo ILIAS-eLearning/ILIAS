@@ -307,7 +307,7 @@ class ilUtil
 	{
 		if (!($a_num % 2))
 		{
-			return $a_css1;	
+			return $a_css1;
 		}
 		else
 		{
@@ -452,7 +452,7 @@ class ilUtil
 	*
 	* die komplette LinkBar wird zurückgegeben
 	* der Variablenname für den offset ist "offset"
-	* 
+	*
 	* @author Sascha Hofmann <shofmann@databay.de>
 	*
 	* @access	public
@@ -1568,7 +1568,7 @@ function makeDirParents($a_dir) {
 		}
 		else
 		{
-			$array_sortorder = "asc";	
+			$array_sortorder = "asc";
 		}
 	
 		usort($array, array("ilUtil", "sort_func"));
@@ -1661,6 +1661,18 @@ function makeDirParents($a_dir) {
 		{
 			return false;
 		}
+	}
+
+
+	/**
+	* http redirect to other script
+	*
+	* @param	string		$a_script		target script
+	*/
+	function redirect($a_script)
+	{
+		header("Location: ".$a_script);
+		exit;
 	}
 
 

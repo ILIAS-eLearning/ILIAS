@@ -105,7 +105,7 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	function moveAfter()
@@ -138,7 +138,7 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 	function moveBefore()
@@ -171,7 +171,7 @@ class ilPageContentGUI
 		{
 			unset($_SESSION["il_pg_error"]);
 		}
-		header("Location: ".$this->getReturnLocation());
+		ilUtil::redirect($this->getReturnLocation());
 	}
 
 
