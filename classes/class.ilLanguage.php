@@ -21,7 +21,7 @@
 *  Die Formatfunktionen gehören nicht in class.Language. Die sind auch woanders einsetzbar!!!
 *  Daher->besser in class.Format
 */
-class Language
+class ilLanguage
 {
 	/**
 	* ilias object
@@ -100,7 +100,7 @@ class Language
 	* @param	string		languagecode (two characters), e.g. "de", "en", "in"
 	* @return	boolean 	false if reading failed
 	*/
-	function Language($a_lang_key)
+	function ilLanguage($a_lang_key)
 	{
 		global $ilias;
 		

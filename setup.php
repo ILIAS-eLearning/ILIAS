@@ -14,7 +14,7 @@
 //include classes - later in the program it will be done by ilias.header.inc
 require_once "include/inc.check_pear.php";
 require_once "classes/class.Setup.php";
-require_once "classes/class.Language.php";
+require_once "classes/class.ilLanguage.php";
 require_once "classes/class.Log.php";
 require_once "HTML/IT.php";
 
@@ -52,7 +52,7 @@ if ($_GET["lang"] == "")
 }
 
 //instantiate language class
-$lng = new Language($_GET["lang"]);
+$lng = new ilLanguage($_GET["lang"]);
 
 $languages = $mySetup->getLanguages($lng->lang_path);
 
@@ -563,7 +563,7 @@ switch ($_GET["step"])
 			{
 			 $msg = $lng->txt("lang_error_occurred!");
 			}
-			
+
 			showMessage($msg,$lng->txt("setup_languages"));
 
 		}
