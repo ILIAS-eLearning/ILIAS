@@ -2295,8 +2295,11 @@ class ilObjTest extends ilObject
 */
 	function getQuestionIdFromActiveUserSequence($sequence) 
 	{
+		global $ilUser;
+
 		$active = $this->getActiveTestUser();
 		$sequence_array = split(",", $active->sequence);
+
 		return $this->questions[$sequence_array[$sequence-1]];
 	}
 	
@@ -2329,6 +2332,95 @@ class ilObjTest extends ilObject
 		}
 		return $result_array;
 	}
+
+	
+
+/**
+* increments sequence to the next wrong answered question
+* 
+* @param int sequence
+* @return int sequence
+* @access public
+*/
+	function incrementSequenceByResult($a_sequence)
+	{
+		global $ilUser;
+
+		for($i = $a_sequence+1; $i <= $this->getQuestionCount(); $i++)
+		{
+			$qid = $this->getQuestionIdFromActiveUserSequence($i);
+
+			foreach($this->getTestResult($ilUser->getId()) as $result)
+			{
+				if($qid == $result['qid'])
+				{
+					if($result['max'] != $result['reached'])
+					{
+						$_SESSION['crs_last_seq'] = $i;
+						return $i;
+					}
+				}
+			}
+		}
+		$_SESSION['crs_last_seq'] = $this->getQuestionCount() + 1;
+		return ($this->getQuestionCount()+1);
+	}
+
+
+/**
+* decrements sequence to the next wrong answered question
+* 
+* @param int sequence
+* @return int sequence
+* @access public
+*/
+	function decrementSequenceByResult($a_sequence)
+	{
+		global $ilUser;
+
+
+		for($i = $a_sequence; $i > 0; $i--)
+		{
+			$qid = $this->getQuestionIdFromActiveUserSequence($i);
+
+			foreach($this->getTestResult($ilUser->getId()) as $result)
+			{
+				if($qid == $result['qid'])
+				{
+					if($result['max'] != $result['reached'])
+					{
+						return $i;
+					}
+				}
+			}
+		}
+		return 1;
+	}
+
+	function getFirstSequence()
+	{
+		global $ilUser;
+
+		$results = $this->getTestResult($ilUser->getId());
+
+		for($i = 1; $i <= $this->getQuestionCount(); $i++)
+		{
+			$qid = $this->getQuestionIdFromActiveUserSequence($i);
+
+			foreach($results as $result)
+			{
+				if($qid == $result['qid'])
+				{
+					if(!$result['max'] or $result['max'] != $result['reached'])
+					{
+						return $i;
+					}
+				}
+			}
+		}
+		return 0;
+	}
+
 	
 /**
 * Gets the id's of all questions a user already worked through
@@ -4998,6 +5090,7 @@ class ilObjTest extends ilObject
 	function getQuestionCount()
 	{
 		$num = 0;
+		
 		if ($this->isRandomTest())
 		{
 			if ($this->getRandomQuestionCount())

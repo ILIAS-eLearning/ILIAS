@@ -4684,3 +4684,4 @@ crs#:#crs_starter_deleted#:#Removed assignment.
 crs#:#crs_no_starter_created#:#No start objects assigned to this course.
 crs#:#crs_info_start#:#Please work through all of the above course items.<br />After you have processed all red marked objects new course items will be activated.
 crs#:#crs_table_start_objects#:#Start objects
+common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question. 
