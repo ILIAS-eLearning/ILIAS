@@ -95,21 +95,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setRefId($_GET["ref_id"]);
-				if ($cmd != "preview" && $cmd != "assessment")
-				{
-					$this->getQuestionTemplate($q_gui, $q_type);
-				}
+				//if ($cmd != "preview" && $cmd != "assessment")
+				//{
+				//	$this->getQuestionTemplate($q_gui, $q_type);
+				//}
 				$ret =& $this->ctrl->forwardCommand($q_gui);
-				if ($cmd != "preview" && $cmd != "assessment")
-				{
-					$this->tpl->setCurrentBlock("adm_content");
-					$this->tpl->parseCurrentBlock();
-				}
+				//if ($cmd != "preview" && $cmd != "assessment")
+				//{
+				//	$this->tpl->setCurrentBlock("adm_content");
+				//	$this->tpl->parseCurrentBlock();
+				//}
 				break;
 
 			case "ass_clozetestgui":
 				$this->ctrl->setReturn($this, "questions");
-				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_cloze");
+				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui->object->setRefId($_GET["ref_id"]);
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
@@ -231,6 +232,7 @@ echo "<br>ilObjQuestionPoolGUI->outPreviewForm()";
 	*
 	* @access private
 	*/
+	/*
 	function cancel_action($question_id = "")
 	{
 echo "<br>ilObjQuestionPoolGUI->cancel_action()";
@@ -246,32 +248,15 @@ echo "<br>ilObjQuestionPoolGUI->cancel_action()";
 		{
 			header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
 		}
-	}
+	}*/
 
+	/**
+	* cancel action
+	*/
 	function cancelObject()
 	{
 		unset($_SESSION["ass_q_id"]);
 		$this->ctrl->redirect($this, "questions");
-	}
-
-	/**
-	* get question template
-	*/
-	function getQuestionTemplate(&$question_gui, $q_type)
-	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		// set screen title (Edit/Create Question)
-		if ($question_gui->object->id > 0)
-		{
-			$title = $this->lng->txt("edit") . " " . $this->lng->txt($q_type);
-		}
-		else
-		{
-			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($q_type);
-		}
-		$this->tpl->setVariable("HEADER", $title);
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
 	}
 
 	/**
@@ -284,7 +269,7 @@ echo "<br>ilObjQuestionPoolGUI->cancel_action()";
 	*/
 	function editQuestionForm($type)
 	{
-echo "<br>ilObjQuestionPoolGUI->editQuestionForm()";
+echo "<br>ilObjQuestionPoolGUI->editQuestionForm()"; exit;
 		if ($_POST["cmd"]["unlock_no"])
 		{
 	    	header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
@@ -356,6 +341,7 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()";
 		}
 
 
+		/* nothing seems to happen here
 		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"])
 		{
 			$in_use = $question->object->isInUse();
@@ -365,9 +351,10 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()";
 				// either use a session variable and store $question
 				// or collect all GET's and POST's and build new form to submit that data
 			}
-		}
+		}*/
 
 		// save
+		/* moved to save
 		if (strlen($_POST["cmd"]["save"]) > 0)
 		{
 			// Save and back to question pool
@@ -383,9 +370,10 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()";
 			{
 				sendInfo($this->lng->txt("fill_out_all_required_fields"));
 			}
-		}
+		}*/
 
 		// apply
+		/*
 		if (strlen($_POST["cmd"]["apply"]) > 0)
 		{
 			// Save and continue editing
@@ -400,7 +388,7 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()";
 			{
 				sendInfo($this->lng->txt("fill_out_all_required_fields"));
 			}
-		}
+		}*/
 
 		$question->showEditForm();
 
@@ -409,9 +397,11 @@ echo "<br>ilObjQuestionPoolGUI->editQuestionForm()";
 	}
 
 
+	/**
+	* show assessment data of object
+	*/
 	function assessmentObject()
 	{
-echo "<br>ilObjQuestionPoolGUI->assessmentObject()";
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
@@ -468,7 +458,7 @@ echo "<br>ilObjQuestionPoolGUI->assessmentObject()";
 //echo "<br>ilObjQuestionPoolGUI->questionObject()";
 		$type = $_GET["sel_question_types"];
 		$this->editQuestionForm($type);
-		//    $this->set_question_form($type, $_GET["edit"]);
+		//$this->set_question_form($type, $_GET["edit"]);
 	}
 
 	/**
@@ -477,6 +467,13 @@ echo "<br>ilObjQuestionPoolGUI->assessmentObject()";
 	function deleteQuestionsObject()
 	{
 //echo "<br>ilObjQuestionPoolGUI->deleteQuestions()";
+		// duplicate button was pressed
+		if (count($_POST["q_id"]) < 1)
+		{
+			sendInfo($this->lng->txt("qpl_delete_select_none"), true);
+			$this->ctrl->redirect($this, "questions");
+		}
+
 		$checked_questions = $_POST["q_id"];
 		$_SESSION["ass_q_id"] = $_POST["q_id"];
 		sendInfo();
@@ -559,7 +556,7 @@ echo "<br>ilObjQuestionPoolGUI->assessmentObject()";
 		}
 		else
 		{
-			sendInfo($this->lng->txt("qpl_duplicate_select_none"));
+			sendInfo($this->lng->txt("qpl_duplicate_select_none"), true);
 		}
 		$this->ctrl->redirect($this, "questions");
 	}

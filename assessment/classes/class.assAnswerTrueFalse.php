@@ -43,10 +43,10 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 * @var boolean
 */
   var $correctness;
-  
+
 /**
 * ASS_AnswerTrueFalse constructor
-* 
+*
 * The constructor takes possible arguments an creates an instance of the ASS_AnswerTrueFalse object.
 *
 * @param string $answertext A string defining the answer text
@@ -63,13 +63,16 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
   )
   {
     $this->ASS_AnswerSimple($answertext, $points, $order);
-    $this->correctness = $correctness;
+	// force $this->correctness to be a string
+	// ilDB->quote makes 1 from true and saving it to ENUM('1','0') makes that '0'!!!
+	// (maybe that only happens for certain mysql versions)
+    $this->correctness = $correctness."";
   }
-  
-  
+
+
 /**
 * Gets the correctness
-* 
+*
 * Returns the correctness of the answer
 
 * @return boolean correctness
@@ -79,10 +82,10 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
   function get_correctness() {
     return $this->correctness;
   }
-  
+
 /**
 * Gets the correctness
-* 
+*
 * Returns TRUE if the answer is correct
 
 * @return boolean correctness
@@ -95,7 +98,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 
 /**
 * Gets the correctness
-* 
+*
 * Returns TRUE if the answer is correct
 
 * @return boolean correctness
@@ -108,7 +111,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 
 /**
 * Gets the correctness
-* 
+*
 * Returns TRUE if the answer is incorrect
 
 * @return boolean correctness
@@ -121,7 +124,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
 
 /**
 * Gets the correctness
-* 
+*
 * Returns TRUE if the answer is incorrect
 
 * @return boolean correctness
@@ -131,43 +134,47 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple {
   function is_false() {
     return !$this->correctness;
   }
-  
-  
+
+
 /**
 * Sets the correctness
-* 
+*
 * Sets the correctness of the answer using TRUE or FALSE values to indicate that the answer is correct or incorrect.
 *
 * @param boolean $correctness A boolean value indicating the correctness of the answer
 * @access public
 * @see $correctness
 */
-  function set_correctness($correctness = FALSE) {
-    $this->correctness = $correctness;
+  function set_correctness($correctness = FALSE)
+  {
+  	// force $this->correctness to be a string
+	// ilDB->quote makes 1 from true and saving it to ENUM('1','0') makes that '0'!!!
+	// (maybe that only happens for certain mysql versions)
+    $this->correctness = $correctness."";
   }
-  
+
 /**
 * Sets the answer as a correct answer
-* 
+*
 * Sets the correctness value of the answer to TRUE
 *
 * @access public
 * @see $correctness
 */
   function set_true() {
-    $this->correctness = TRUE;
+    $this->correctness = "1";
   }
 
 /**
 * Sets the answer as a incorrect answer
-* 
+*
 * Sets the correctness value of the answer to FALSE
 *
 * @access public
 * @see $correctness
 */
   function set_false() {
-    $this->correctness = FALSE;
+    $this->correctness = "0";
   }
 }
 

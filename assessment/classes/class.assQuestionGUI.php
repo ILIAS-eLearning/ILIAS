@@ -77,7 +77,7 @@ class ASS_QuestionGUI
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->getCommand($cmd);
-
+//echo ":".$cmd.":";
 		switch($next_class)
 		{
 			default:
@@ -187,7 +187,6 @@ class ASS_QuestionGUI
 	*/
 	function assessment()
 	{
-echo "<br>ASS_QuestionGUI->assessmentObject()";
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
@@ -407,6 +406,26 @@ echo "<br>ASS_QuestionGUI->assessmentObject()";
 	function &createQuestionGUI($question_type, $question_id = -1)
 	{
 		$this->question =& ASS_QuestionGUI::_getQuestionGUI($question_type, $question_id);
+	}
+
+	/**
+	* get question template
+	*/
+	function getQuestionTemplate($q_type)
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_qpl_content.html", true);
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		// set screen title (Edit/Create Question)
+		if ($this->object->id > 0)
+		{
+			$title = $this->lng->txt("edit") . " " . $this->lng->txt($q_type);
+		}
+		else
+		{
+			$title = $this->lng->txt("create_new") . " " . $this->lng->txt($q_type);
+		}
+		$this->tpl->setVariable("HEADER", $title);
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
 	}
 
 }
