@@ -674,16 +674,14 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			}
 		}
 		
-		$points = 0;
 		foreach ($this->object->answers as $idx => $answer)
 		{
-			$points += $answer->get_points();
 			if ($answer->isStateChecked())
 			{
 				$repl_str = "dummy=\"solution_mc$idx\"";
 				$solutionoutput = str_replace($repl_str, $repl_str." checked=\"checked\"", $solutionoutput);
 			}
-			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $points . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_mc$idx.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
 		}
 
 		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
