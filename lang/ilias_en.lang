@@ -68,8 +68,6 @@ common#:#bookmark_folder_edit#:#Edit Bookmark Folder
 common#:#bookmark_folder_new#:#New Bookmark Folder
 common#:#bookmark_new#:#New Bookmark
 common#:#bookmark_target#:#Target
-common#:#please_enter_title#:#Please enter a title.
-common#:#please_enter_target#:#Please enter a target.
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks of
 common#:#btn_remove_system#:#Remove from System
@@ -230,6 +228,7 @@ common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#ilias_version#:#ILIAS version
 common#:#import#:#Import
+common#:#import_lm#:#Import Learningmodule
 common#:#in_use#:#User Language
 common#:#inbox#:#Inbox
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)?
@@ -467,6 +466,8 @@ common#:#personal_profile#:#Personal Profile
 common#:#persons#:#Personen
 common#:#phone#:#Phone
 common#:#phrase#:#Phrase
+common#:#please_enter_target#:#Please enter a target.
+common#:#please_enter_title#:#Please enter a title.
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#presentation_options#:#Presentation Options
@@ -587,7 +588,6 @@ common#:#usr_skin#:#User Skin
 common#:#usr_style#:#User Style
 common#:#usrf#:#User Folder
 common#:#validate#:#Validate
-common#:#import_lm#:#Import Learningmodule
 common#:#value#:#value
 common#:#version#:#Version
 common#:#view#:#View
