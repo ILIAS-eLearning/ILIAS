@@ -1520,7 +1520,7 @@ class ilObjTest extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess('read', $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
+			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				$qpl_titles["$row->obj_id"] = $row->title;
 			}
@@ -2289,7 +2289,7 @@ class ilObjTest extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if (!$rbacsystem->checkAccess('read', $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)))
+			if (!$rbacsystem->checkAccess("write", $row->ref_id) || (!$this->_hasUntrashedReference($row->obj_id)))
 			{
 				array_push($forbidden_pools, $row->obj_id);
 			}
@@ -2313,7 +2313,7 @@ class ilObjTest extends ilObject
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{		
-			if ($rbacsystem->checkAccess('read', $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
+			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
 				$result_array[$row->ref_id] = $row->title;
 			}
