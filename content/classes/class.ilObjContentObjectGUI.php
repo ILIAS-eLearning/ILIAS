@@ -239,6 +239,25 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$pg_header, false, true);
 		$this->tpl->setVariable("SELECT_PAGE_HEADER", $select_pg_head);
 
+		// lm menu
+		$this->tpl->setVariable("TXT_LM_MENU", $this->lng->txt("cont_lm_menu"));
+		$this->tpl->setVariable("TXT_ACT_MENU", $this->lng->txt("cont_active"));
+		$this->tpl->setVariable("CBOX_LM_MENU", "cobj_act_lm_menu");
+		$this->tpl->setVariable("VAL_LM_MENU", "y");
+		if ($this->object->isActiveLMMenu())
+		{
+			$this->tpl->setVariable("CHK_LM_MENU", "checked");
+		}
+
+		// toc
+		$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
+		$this->tpl->setVariable("CBOX_TOC", "cobj_act_toc");
+		$this->tpl->setVariable("VAL_TOC", "y");
+		if ($this->object->isActiveTOC())
+		{
+			$this->tpl->setVariable("CHK_TOC", "checked");
+		}
+
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
@@ -253,6 +272,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->object->setLayout($_POST["lm_layout"]);
 		$this->object->setPageHeader($_POST["lm_pg_header"]);
 		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+		$this->object->setActiveLMMenu(ilUtil::yn2tf($_POST["cobj_act_lm_menu"]));
+		$this->object->setActiveTOC(ilUtil::yn2tf($_POST["cobj_act_toc"]));
 		$this->object->updateProperties();
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");

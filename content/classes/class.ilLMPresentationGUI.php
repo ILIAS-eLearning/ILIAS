@@ -293,41 +293,41 @@ class ilLMPresentationGUI
 	
     
 	function exportbibinfo()
-    {
-        $query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$_GET["ref_id"]."' AND object_reference.obj_id=object_data.obj_id ";
-        $result = $this->ilias->db->query($query);
+	{
+		$query = "SELECT * FROM object_reference,object_data WHERE object_reference.ref_id='".$_GET["ref_id"]."' AND object_reference.obj_id=object_data.obj_id ";
+		$result = $this->ilias->db->query($query);
 
 		$objRow = $result->fetchRow(DB_FETCHMODE_ASSOC);
 
-        $filename = preg_replace('/[^a-z0-9_]/i', '_', $objRow["title"]);
-        
-        $C = $this->lm_gui->showAbstract(array(1));
-        
-        if ($_GET["print"]==1) 
-        {
-            $printTpl = new ilTemplate("tpl.print.html", true, true, true);
-            $printTpl->touchBlock("printreq");
-            $css1 = ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId());
-            $css2 = ilUtil::getStyleSheetLocation();
-            $printTpl->setVariable("LOCATION_CONTENT_STYLESHEET", $css1 );
+		$filename = preg_replace('/[^a-z0-9_]/i', '_', $objRow["title"]);
 
-            $printTpl->setVariable("LOCATION_STYLESHEET", $css2);
-            $printTpl->setVariable("CONTENT",$C);                    
-            
-            echo $printTpl->get();
-            exit;
-        } 
-        else 
-        {
-            ilUtil::deliverData($C, $filename.".html");
-            exit;
-        }
-            
-    }
+		$C = $this->lm_gui->showAbstract(array(1));
 
-	
-    
-    
+		if ($_GET["print"]==1)
+		{
+			$printTpl = new ilTemplate("tpl.print.html", true, true, true);
+			$printTpl->touchBlock("printreq");
+			$css1 = ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId());
+			$css2 = ilUtil::getStyleSheetLocation();
+			$printTpl->setVariable("LOCATION_CONTENT_STYLESHEET", $css1 );
+
+			$printTpl->setVariable("LOCATION_STYLESHEET", $css2);
+			$printTpl->setVariable("CONTENT",$C);
+
+			echo $printTpl->get();
+			exit;
+		}
+		else
+		{
+			ilUtil::deliverData($C, $filename.".html");
+			exit;
+		}
+
+	}
+
+
+
+
 	function attrib2arr(&$a_attributes)
 	{
 		$attr = array();
@@ -520,6 +520,7 @@ class ilLMPresentationGUI
 						break;
 
 					case "ilLMMenu":
+//echo "<br>LMPresentationGUI calls ilLMMenu";
 						$this->ilLMMenu();
 						break;
 				}
@@ -1275,6 +1276,57 @@ class ilLMPresentationGUI
 
 		return $tag;
 	}
+
+
+	/**
+	* table of contents
+	*/
+	function showTableOfContents()
+	{
+		global $ilBench;
+
+		$ilBench->start("ContentPresentation", "TableOfContents");
+
+		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
+		$this->tpl->setCurrentBlock("ContentStyle");
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
+
+		// set title header
+		$this->tpl->setVariable("HEADER", $this->lm->getTitle());
+
+		include_once ("content/classes/class.ilLMTableOfContentsExplorer.php");
+		$exp = new ilTableOfContentsExplorer("lm_presentation.php?ref_id=".$_GET["ref_id"]
+			, $this->lm);
+		$exp->setTargetGet("obj_id");
+
+		$tree =& $this->lm->getTree();
+		if ($_GET["lmtocexpand"] == "")
+		{
+			$expanded = $tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["lmtocexpand"];
+		}
+
+		$exp->setExpand($expanded);
+
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		$this->tpl->setVariable("EXPLORER", $output);
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+
+		$ilBench->stop("ContentPresentation", "TableOfContents");
+	}
+
 
 	// PRIVATE METHODS
 	function setSessionVars()

@@ -1594,6 +1594,8 @@ content#:#cont_Poly#:#Polygon
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
+content#:#cont_lm_menu#:#Menu
+content#:#cont_active#:#Enable Menu
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
 content#:#cont_add_area#:#Add Area
@@ -1602,6 +1604,7 @@ content#:#cont_add_fullscreen#:#Add Fullscreen
 content#:#cont_added_term#:#Term added
 content#:#cont_all_definitions#:#All Definitions
 content#:#cont_all_pages#:#All Pages
+content#:#cont_contents#:#Contents
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
 content#:#cont_areas_deleted#:#Map areas deleted.
 content#:#cont_assign_full#:#Assign Fullscreen

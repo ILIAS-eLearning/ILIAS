@@ -93,14 +93,14 @@ class ilObjContentObject extends ilObject
 
 	/**
 	* init default roles settings
-	* OBSOLETE. DON'T USE, READ TEXT BELOW 
+	* OBSOLETE. DON'T USE, READ TEXT BELOW
 	* @access	public
 	* @return	array	object IDs of created local roles.
 	*/
 	function initDefaultRoles()
 	{
 		return array();
-		
+
 		global $rbacadmin, $rbacreview;
 
 		// create a local role folder
@@ -517,6 +517,26 @@ class ilObjContentObject extends ilObject
 		return $this->online;
 	}
 
+	function setActiveLMMenu($a_act_lm_menu)
+	{
+		$this->lm_menu_active = $a_act_lm_menu;
+	}
+
+	function isActiveLMMenu()
+	{
+		return $this->lm_menu_active;
+	}
+
+	function setActiveTOC($a_toc)
+	{
+		$this->toc_active = $a_toc;
+	}
+
+	function isActiveTOC()
+	{
+		return $this->toc_active;
+	}
+
 	/**
 	* read content object properties
 	*/
@@ -529,6 +549,8 @@ class ilObjContentObject extends ilObject
 		$this->setStyleSheetId($lm_rec["stylesheet"]);
 		$this->setPageHeader($lm_rec["page_header"]);
 		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
+		$this->setActiveTOC(ilUtil::yn2tf($lm_rec["toc_active"]));
+		$this->setActiveLMMenu(ilUtil::yn2tf($lm_rec["lm_menu_active"]));
 	}
 
 	/**
@@ -540,7 +562,9 @@ class ilObjContentObject extends ilObject
 			" default_layout = '".$this->getLayout()."', ".
 			" stylesheet = '".$this->getStyleSheetId()."',".
 			" page_header = '".$this->getPageHeader()."',".
-			" online = '".ilUtil::tf2yn($this->getOnline())."'".
+			" online = '".ilUtil::tf2yn($this->getOnline())."',".
+			" toc_active = '".ilUtil::tf2yn($this->isActiveTOC())."',".
+			" lm_menu_active = '".ilUtil::tf2yn($this->isActiveLMMenu())."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}
