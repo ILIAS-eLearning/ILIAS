@@ -71,10 +71,17 @@ class ilLMEditorGUI
 		$this->lm_id = $_GET["lm_id"];
 		$this->obj_id = $_GET["obj_id"];
 
+		$cont_cnt = $_GET["cont_cnt"];		// Position of content object (starting with 1)
 		$cmd = (empty($_GET["cmd"])) ? "frameset" : $_GET["cmd"];
 		if ($cmd == "post")
 		{
 			$cmd = key($_POST["cmd"]);
+		}
+		if ($cmd == "edpost")
+		{
+			$cmd = explode("_", key($_POST["cmd"]));
+			$cont_cnt = $cmd[1];
+			$cmd = $_POST["command".$cont_cnt];
 		}
 
 		switch($cmd)
@@ -104,14 +111,14 @@ class ilLMEditorGUI
 				{
 					$type = "meta";
 				}
-				if(($_GET["cont_cnt"] > 0) || ($type == "par"))
+				if(($cont_cnt > 0) || ($type == "par"))
 				{
 			 		$content =& $obj->getContent();
-					$cont_obj =& $content[$_GET["cont_cnt"] - 1];
+					$cont_obj =& $content[$cont_cnt - 1];
 					switch(get_class($cont_obj))
 					{
 						case "ilparagraph":
-							$par_gui =& new ilParagraphGUI($this->lm_obj, $obj, $cont_obj);
+							$par_gui =& new ilParagraphGUI($this->lm_obj, $obj, $cont_obj, $cont_cnt);
 							$par_gui->$cmd();
 							break;
 					}

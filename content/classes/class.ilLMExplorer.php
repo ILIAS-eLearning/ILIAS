@@ -58,6 +58,7 @@ class ilLMExplorer extends ilExplorer
 		$this->tree->setTreeTablePK("lm_id");
 		$this->root_id = $this->tree->readRootId();
 		$this->lm_obj =& $a_lm_obj;
+		$this->order_column = "";
 	}
 
 	/**
@@ -106,7 +107,7 @@ class ilLMExplorer extends ilExplorer
 		global $lng;
 		static $counter = 0;
 
-		if ($objects =  $this->tree->getChilds($a_parent,"title,type"))
+		if ($objects =  $this->tree->getChilds($a_parent, $this->order_column))
 		{
 			$tab = ++$a_depth - 2;
 

@@ -169,7 +169,55 @@ class ilPageObject extends ilLMObject
 			"SET content = '".$this->getXMLContent()."' ".
 			"WHERE page_id = '".$this->getId()."'";
 		$this->ilias->db->query($query);
-echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
+//echo "<br>PageObject::update:".htmlentities($this->getXMLContent()).":";
+	}
+
+	/**
+	* delete content object at position $a_pos
+	*/
+	function deleteContent($a_pos)
+	{
+		$cnt = 0;
+		foreach($this->content as $content)
+		{
+			$cnt ++;
+			if ($cnt > $a_pos)
+			{
+				$this->content[$cnt - 2] =& $this->content[$cnt - 1];
+			}
+		}
+		unset($this->content[count($this->content) - 1]);
+		$this->update();
+	}
+
+
+	function insertContent(&$a_cont_obj, $a_pos)
+	{
+		for($cnt = count($this->content); $cnt >= 0; $cnt--)
+		{
+			if($cnt >= $a_pos)
+			{
+				$this->content[$cnt] =& $this->content[$cnt - 1];
+			}
+		}
+		$this->content[$a_pos - 1] =& $a_cont_obj;
+		$this->update();
+	}
+
+
+	/**
+	* move content object from position $a_pos to position $a_target
+	*/
+	function moveContent($a_pos, $a_target)
+	{
+		if($a_pos < $a_target)
+		{
+			$a_target--;
+		}
+		$content =& $this->content[$a_pos - 1];
+		$this->deleteContent($a_pos);
+		$this->insertContent($content, $a_target);
+		$this->update();
 	}
 
 }

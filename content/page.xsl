@@ -10,22 +10,38 @@
   <xsl:copy-of select="."/>
 </xsl:template>
 
-<!-- creating a template for the root-node
-		 so that everything below it will be transformed
-		 different treatments for different aggregation levels
-		 highest aggregation level at the moment is 2 -->
-
 <!-- we dump the MetaData and Bibliography -->
 <xsl:template match="MetaData"/>
 
 <!-- start of explicit template declaration -->
+<xsl:template match="PageObject">
+	<xsl:apply-templates/>
+</xsl:template>
 
 <xsl:template match="Paragraph">
-	<p id="lo_view">
+	<p class="ilParagraph">
+		<input type="checkbox" name="target[]">
+			<xsl:attribute name="value"><xsl:value-of select="position()"/>
+			</xsl:attribute>
+		</input>
 		<xsl:apply-templates/>
+		<select size="1" class="ilEditSelect">
+			<xsl:attribute name="name">command<xsl:value-of select="position()"/>
+			</xsl:attribute>
+		<option value="edit">edit</option>
+		<option value="insert">insert</option>
+		<option value="delete">delete</option>
+		<option value="moveAfter">move after</option>
+		<option value="moveBefore">move before</option>
+		</select>
+		<input class="ilEditSubmit" type="submit" value="Go">
+			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="position()"/>]
+			</xsl:attribute>
+		</input>
 	</p>
 </xsl:template>
 
+<!--
 <xsl:template match="Item/Paragraph">
 	<xsl:apply-templates/>
 </xsl:template>
@@ -36,6 +52,6 @@
 
 <xsl:template match="Text">
 	<xsl:apply-templates/>
-</xsl:template>
+</xsl:template>-->
 
 </xsl:stylesheet>

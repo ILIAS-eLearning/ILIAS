@@ -49,7 +49,7 @@ class ilPageParser extends ilSaxParser
 		global $ilias, $lng;
 
 //echo "Parsing:".htmlentities($a_xml_data).":<br>";
-		$a_xml_data = "<dummy>".$a_xml_data."</dummy>";
+		//$a_xml_data = $a_xml_data;
 		$this->page_object =& $a_page_object;
 		$this->xml_data = $a_xml_data;
 		$this->ilias = &$ilias;

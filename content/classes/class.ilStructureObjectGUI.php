@@ -94,7 +94,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		}
 
 		$cnt = 0;
-		$childs = $this->tree->getChilds($this->st_obj->getId(), "title");
+		$childs = $this->tree->getChilds($this->st_obj->getId());
 		foreach ($childs as $child)
 		{
 			// color changing
