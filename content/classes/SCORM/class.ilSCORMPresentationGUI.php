@@ -135,5 +135,17 @@ class ilSCORMPresentationGUI
 		$this->tpl->show();
 	}
 
+	function api()
+	{
+		// should be an item
+		$sc_gui_object =& ilSCORMObjectGUI::getInstance($_GET["obj_id"]);
+
+		if(is_object($sc_gui_object))
+		{
+			$sc_gui_object->api();
+		}
+
+	}
+
 }
 ?>

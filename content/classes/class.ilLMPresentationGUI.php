@@ -237,6 +237,8 @@ class ilLMPresentationGUI
 		$lmtree = new ilTree($this->lm->getId());
 		$lmtree->setTableNames('lm_tree','lm_data');
 		$lmtree->setTreeTablePK("lm_id");
+
+		// determine object id
 		if(empty($_GET["obj_id"]))
 		{
 			$obj_id = $lmtree->getRootId();
@@ -245,12 +247,19 @@ class ilLMPresentationGUI
 		{
 			$obj_id = $_GET["obj_id"];
 		}
+
+		// obj_id not in tree -> it is a unassigned page -> return page id
+		if (!$lmtree->isInTree($obj_id))
+		{
+			return $obj_id;
+		}
+
 		$curr_node = $lmtree->getNodeData($obj_id);
-		if($curr_node["type"] == "pg")
+		if($curr_node["type"] == "pg")		// page in tree -> return page id
 		{
 			$page_id = $curr_node["obj_id"];
 		}
-		else
+		else				// no page -> search for next page and return its id
 		{
 			$succ_node = $lmtree->fetchSuccessorNode($obj_id, "pg");
 			$page_id = $succ_node["obj_id"];
@@ -381,6 +390,12 @@ class ilLMPresentationGUI
 		$lmtree = new ilTree($this->lm->getId());
 		$lmtree->setTableNames('lm_tree','lm_data');
 		$lmtree->setTreeTablePK("lm_id");
+
+		if(!$lmtree->isInTree($page_id))
+		{
+			return;
+		}
+
 		$succ_node = $lmtree->fetchSuccessorNode($page_id, "pg");
 		$succ_str = ($succ_node !== false)
 			? " -> ".$succ_node["obj_id"]."_".$succ_node["type"]

@@ -45,6 +45,8 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 
 	function view()
 	{
+		global $ilias;
+
 		// get ressource identifier
 		$id_ref = $this->sc_object->getIdentifierRef();
 		if ($id_ref != "")
@@ -59,10 +61,9 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 				//header("Location: ../".$slm_obj->getDataDirectory()."/".$resource->getHref());
 				$this->tpl =& new ilTemplate("tpl.scorm_content_frameset.html", true, true, true);
 				$this->tpl->setVariable("ITEM_LOCATION", "../".$slm_obj->getDataDirectory()."/".$resource->getHref());
-//by romeo start
-				$this->tpl->setVariable("ITEM_ID",$_GET["obj_id"]);
-				$this->tpl->setVariable("USER_ID",$ilias->account->getId());
-//by romeo stop
+				$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
+				$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
+				//$this->tpl->setVariable("USER_ID",$ilias->account->getId());
 				$this->tpl->show();
 				exit;
 			}
@@ -99,6 +100,18 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 			$this->sc_object->getMasteryScore());
 		$this->tpl->parseCurrentBlock();
 
+	}
+
+	function api()
+	{
+		global $ilias;
+
+		$this->tpl =& new ilTemplate("tpl.scorm_api.html", true, true, true);
+		$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
+		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
+		$this->tpl->setVariable("SESSION_ID",session_id());
+		$this->tpl->show();
+		exit;
 	}
 }
 ?>

@@ -90,7 +90,10 @@ class ilPageObject extends ilLMObject
 
 		$query = "SELECT * FROM lm_page_object WHERE page_id = '".$this->id."'";
 		$pg_set = $this->ilias->db->query($query);
-		$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+		if (!($this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC)))
+		{
+			echo "Error: Page ".$this->id." is not in database."; exit;
+		}
 
 		// todo: make utf8 global (db content should be already utf8)
 		$this->xml = $this->page_record["content"];
@@ -599,8 +602,8 @@ class ilPageObject extends ilLMObject
 	{
 		// create object
 		parent::create();
-		$query = "INSERT INTO lm_page_object (page_id, lm_id, content) VALUES ".
-			"('".$this->getId()."', '".$this->getLMId()."','".addslashes($this->getXMLContent())."')";
+		$query = "INSERT INTO lm_page_object (page_id, parent_id, content, parent_type) VALUES ".
+			"('".$this->getId()."', '".$this->getLMId()."','".addslashes($this->getXMLContent())."', 'lm')";
 		$this->ilias->db->query($query);
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 	}
@@ -647,8 +650,8 @@ class ilPageObject extends ilLMObject
 	{
 		parent::create();
 		$this->setXMLContent("<PageObject></PageObject>");
-		$query = "INSERT INTO lm_page_object (page_id, lm_id, content) VALUES ".
-			"('".$this->getId()."', '".$this->getLMId()."','".$this->getXMLContent()."')";
+		$query = "INSERT INTO lm_page_object (page_id, parent_id, content, parent_type) VALUES ".
+			"('".$this->getId()."', '".$this->getLMId()."','".$this->getXMLContent()."', 'lm')";
 		$this->ilias->db->query($query);
 //echo "created page:".htmlentities($this->getXMLContent())."<br>";
 
