@@ -63,8 +63,7 @@ class ilRbacSystem
 		}
 
 		// temp. disabled
-		return true;
-		
+#		return true;
 		$create = false;
 		$operations = explode(",",$a_operations);
 		$ops_arr = array();
@@ -133,14 +132,13 @@ class ilRbacSystem
 	
 			$q = "SELECT * FROM rbac_pa ".
 				 "WHERE rol_id ".$in." ".
-				 "AND obj_id = '".$a_child_id."' ";
+				 "AND obj_id = '".$a_ref_id."' ";
 			$r = $this->ilias->db->query($q);
 
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$ops_arr = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 			}
-			
 			if (in_array($ops_id,$ops_arr))
 			{
 				continue;
