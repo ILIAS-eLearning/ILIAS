@@ -1466,6 +1466,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["save"])
 		{
 			$this->object->saveRandomQuestionCount($_POST["total_questions"]);
+			$this->object->saveRandomQuestionpools($found_qpls);
 		}
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_SELECT_RANDOM_QUESTIONS", $this->lng->txt("tst_select_random_questions"));

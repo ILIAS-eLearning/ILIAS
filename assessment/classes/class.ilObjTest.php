@@ -1006,7 +1006,7 @@ class ilObjTest extends ilObject
 	* @param integer $total_questions The amount of random questions
 	* @access public
 	*/
-	function saveRandomQuestionCount($total_questions = "NULL");
+	function saveRandomQuestionCount($total_questions = "NULL")
 	{
 		if (strcmp($total_questions, "NULL") != 0)
 		{
@@ -1017,6 +1017,31 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote($this->getTestId() . "")
 		);
 		$result = $this->ilias->db->query($query);
+	}
+
+/**
+* Saves the question pools used for a random test
+*
+* Saves the question pools used for a random test
+*
+* @access public
+* @see $questions
+*/
+	function saveRandomQuestionpools($qpl_array) {
+		// delete existing random questionpools
+    $query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+		// create new random questionpools
+		foreach ($qpl_array as $key => $value) {
+			$query = sprintf("INSERT INTO tst_test_random (test_random_id, test_fi, questionpool_fi, num_of_q, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getTestId() . ""),
+				$this->ilias->db->quote($value["qpl"] . ""),
+				$this->ilias->db->quote(sprintf("%d", $value["count"]) . "")
+			);
+			$result = $this->ilias->db->query($query);
+		}
 	}
 
 	/**

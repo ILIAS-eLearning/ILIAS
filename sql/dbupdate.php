@@ -5139,7 +5139,7 @@ ALTER TABLE `tst_tests` ADD `random_question_count` int(11) AFTER  `random_test`
 CREATE TABLE `tst_test_random` (
   `test_random_id` int(11) NOT NULL auto_increment,
   `test_fi` int(11) NOT NULL default '0',
-  `qestionpool_fi` int(11) NOT NULL default '0',
+  `questionpool_fi` int(11) NOT NULL default '0',
   `num_of_q` int(10) unsigned NOT NULL default '0',
   `TIMESTAMP` timestamp(14) NOT NULL,
   PRIMARY KEY  (`test_random_id`)
