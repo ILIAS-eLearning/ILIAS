@@ -713,18 +713,56 @@ class ilTree
 				$this->ilias->raiseError(get_class($this)."::checkTreeChilds(): Tree contains child with ID 0!",$this->ilias->error_obj->WARNING);
 			}
 
-			$q = "SELECT * FROM ".$this->table_obj_data." WHERE ".$this->obj_pk."='".$row["child"]."'";
-			$r2 = $this->ilias->db->query($q);
+			if ($this->table_obj_reference)
+			{
+				// get object reference data
+				$q = "SELECT * FROM ".$this->table_obj_reference." WHERE ".$this->ref_pk."='".$row["child"]."'";
+				$r2 = $this->ilias->db->query($q);
 //echo "num_childs:".$r2->numRows().":<br>";
-			if ($r2->numRows() == 0)
-			{
-				$this->ilias->raiseError(get_class($this)."::checkTree(): No child found for ID ".
-					$row["child"]."!",$this->ilias->error_obj->WARNING);
+				if ($r2->numRows() == 0)
+				{
+					$this->ilias->raiseError(get_class($this)."::checkTree(): No Object-to-Reference entry found for ID ".
+						$row["child"]."!",$this->ilias->error_obj->WARNING);
+				}
+				if ($r2->numRows() > 1)
+				{
+					$this->ilias->raiseError(get_class($this)."::checkTree(): More Object-to-Reference entries found for ID ".
+						$row["child"]."!",$this->ilias->error_obj->WARNING);
+				}
+
+				// get object data
+				$obj_ref = $r2->fetchRow(DB_FETCHMODE_ASSOC);
+
+				$q = "SELECT * FROM ".$this->table_obj_data." WHERE ".$this->obj_pk."='".$obj_ref[$this->obj_pk]."'";
+				$r3 = $this->ilias->db->query($q);
+				if ($r3->numRows() == 0)
+				{
+					$this->ilias->raiseError(get_class($this)."::checkTree(): No child found for ID ".
+						$obj_ref[$this->obj_pk]."!",$this->ilias->error_obj->WARNING);
+				}
+				if ($r3->numRows() > 1)
+				{
+					$this->ilias->raiseError(get_class($this)."::checkTree(): More childs found for ID ".
+						$obj_ref[$this->obj_pk]."!",$this->ilias->error_obj->WARNING);
+				}
+
 			}
-			if ($r2->numRows() > 1)
+			else
 			{
-				$this->ilias->raiseError(get_class($this)."::checkTree(): More childs found for ID ".
-					$row["child"]."!",$this->ilias->error_obj->WARNING);
+				// get only object data
+				$q = "SELECT * FROM ".$this->table_obj_data." WHERE ".$this->obj_pk."='".$row["child"]."'";
+				$r2 = $this->ilias->db->query($q);
+//echo "num_childs:".$r2->numRows().":<br>";
+				if ($r2->numRows() == 0)
+				{
+					$this->ilias->raiseError(get_class($this)."::checkTree(): No child found for ID ".
+						$row["child"]."!",$this->ilias->error_obj->WARNING);
+				}
+				if ($r2->numRows() > 1)
+				{
+					$this->ilias->raiseError(get_class($this)."::checkTree(): More childs found for ID ".
+						$row["child"]."!",$this->ilias->error_obj->WARNING);
+				}
 			}
 		}
 
