@@ -229,7 +229,7 @@ class ilSearch
 
 					$this->act_type = 'grp';
 					$result["grp"] = ilObjGroup::_search($this);
-					$result["grp"] = $this->__checkAccess($result["grp"]);
+					$result["grp"] = $this->__checkAccess($result["grp"],'grp');
 					break;
 
 				case "lm":
@@ -237,7 +237,7 @@ class ilSearch
 					$this->act_type = 'lm';
 					$result["lm"][$this->getSearchInByType("lm")] = ilObjContentObject::_search($this,$this->getSearchInByType("lm"));
 					$result["lm"][$this->getSearchInByType("lm")]
-						= $this->__checkAccess($result["lm"][$this->getSearchInByType("lm")]);
+						= $this->__checkAccess($result["lm"][$this->getSearchInByType("lm")],'lm');
 					break;
 
 				case "dbk":
@@ -245,7 +245,7 @@ class ilSearch
 					$this->act_type = 'dbk';
 					$result["dbk"][$this->getSearchInByType("dbk")] = ilObjDlBook::_search($this,$this->getSearchInByType("dbk"));
 					$result["dbk"][$this->getSearchInByType("dbk")]
-						= $this->__checkAccess($result["dbk"][$this->getSearchInByType("dbk")]);
+						= $this->__checkAccess($result["dbk"][$this->getSearchInByType("dbk")],'dbk');
 					break;
 
 				case "role":
@@ -253,7 +253,7 @@ class ilSearch
 
 					$this->act_type = 'role';
 					$result["role"] = ilObjRole::_search($this);
-					$result["role"] = $this->__checkAccess($result["role"]);
+					#$result["role"] = $this->__checkAccess($result["role"],'role');
 					break;
 			}
 		}
@@ -528,13 +528,18 @@ class ilSearch
 		return $ids ? $ids : array();
 	}
 
-	function __checkAccess($a_results)
+	function __checkAccess($a_results,$a_type)
 	{
+		include_once './classes/class.ilRepositoryExplorer.php';
+
 		if (is_array($a_results))
 		{
 			foreach ($a_results as $result)
 			{
-				if ($this->rbacsystem->checkAccess("read",$result["id"]))
+				$obj_id = ilObject::_lookupObjId($result['id']);
+
+				if(ilRepositoryExplorer::isClickable($a_type,$result['id'],$obj_id) and 
+				   ilRepositoryExplorer::isVisible($result['id'],$a_type))
 				{
 					$checked_result[] = $result;
 				}
