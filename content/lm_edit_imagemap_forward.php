@@ -54,8 +54,17 @@ else
 
 
 // call lm_edit script
-header("Location: lm_edit.php?ref_id=".$_GET["ref_id"].
-	"&obj_id=".$_GET["obj_id"]."&mode=page_edit&hier_id=".$_GET["hier_id"].
-	"&cmd=addArea&coords=".$_GET["coords"]);
+if ($_SESSION["il_map_edit_mode"] != "edit_shape")
+{
+	header("Location: lm_edit.php?ref_id=".$_GET["ref_id"].
+		"&obj_id=".$_GET["obj_id"]."&mode=page_edit&hier_id=".$_GET["hier_id"].
+		"&cmd=addArea&coords=".$_GET["coords"]);
+}
+else
+{
+	header("Location: lm_edit.php?ref_id=".$_GET["ref_id"].
+		"&obj_id=".$_GET["obj_id"]."&mode=page_edit&hier_id=".$_GET["hier_id"].
+		"&cmd=setShape&coords=".$_GET["coords"]);
+}
 
 ?>

@@ -553,12 +553,14 @@ class ilMediaItem
 		return ilMediaObject::_getDirectory($this->getMobId());
 	}
 
+
 	/**
-	* make map work directory
+	* make map work copy of image
 	*
-	* @param	int		$a_area_nr		only
+	* @param	int			$a_area_nr		draw area $a_area_nr only
+	* @param	boolean		$a_exclude		true: draw all areas but area $a_area_nr
 	*/
-	function makeMapWorkCopy($a_area_nr = 0)
+	function makeMapWorkCopy($a_area_nr = 0, $a_exclude = false)
 	{
 		$this->createWorkDirectory();
 		ilUtil::convertImage($this->getDirectory()."/".$this->getLocation(),
@@ -570,7 +572,10 @@ class ilMediaItem
 		// draw map areas
 		for ($i=0; $i < count($this->mapareas); $i++)
 		{
-			if ((($i+1) == $a_area_nr) || ($a_area_nr == 0))
+			if (	((($i+1) == $a_area_nr) && !$a_exclude) ||
+					((($i+1) != $a_area_nr) && $a_exclude) ||
+					($a_area_nr == 0)
+				)
 			{
 				$area =& $this->mapareas[$i];
 				$area->draw($this->getMapWorkImage(), $this->color1, $this->color2);
@@ -700,8 +705,15 @@ class ilMediaItem
 			$xml .= "<MapArea Shape=\"".$area->getShape()."\" Coords=\"".$area->getCoords()."\">";
 			if ($area->getLinkType() == IL_INT_LINK)
 			{
+				$target_frame = $area->getTargetFrame();
+
+				if ($area->getType() == "GlossaryItem" && $target_frame == "")
+				{
+					$target_frame = "Glossary";
+				}
+
 				$xml .= "<IntLink Target=\"".$area->getTarget()."\" Type=\"".
-					$area->getType()."\" TargetFrame=\"".$area->getTargetFrame()."\">";
+					$area->getType()."\" TargetFrame=\"".$target_frame."\">";
 				$xml .= $area->getTitle();
 				$xml .="</IntLink>";
 			}

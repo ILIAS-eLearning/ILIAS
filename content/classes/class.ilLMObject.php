@@ -98,6 +98,18 @@ class ilLMObject
 		return $this->title ? $this->title : $this->meta_data->getTitle();
 	}
 
+
+	function _lookupTitle($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM lm_data WHERE obj_id = '".$a_obj_id."'";
+		$obj_set = $ilDB->query($query);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+
+		return $obj_rec["title"];
+	}
+
 	function setDescription($a_description)
 	{
 		$this->meta_data->setDescription($a_description);

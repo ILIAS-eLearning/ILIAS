@@ -138,7 +138,23 @@
 						<xsl:if test="$mode = 'media'">	<!-- for map editing, may be not correct for presentation? -->
 							<xsl:attribute name="target">_new</xsl:attribute>
 						</xsl:if>
-						<xsl:call-template name="IntLinkHref"/>
+
+						<!-- frame parameter for link -->
+						<xsl:variable name="frame">
+							<xsl:choose>
+								<xsl:when test="$targetframe = ''">
+									<xsl:value-of select="$pg_frame"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$targetframe"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:variable>
+
+						<xsl:call-template name="IntLinkHref">
+							<xsl:with-param name="frame" select="$frame" />
+						</xsl:call-template>
+
 						<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
 						<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
 					</xsl:for-each>
