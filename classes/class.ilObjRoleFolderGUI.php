@@ -521,8 +521,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	{
 		sendinfo($this->lng->txt("saved_successfully"),true);
 		
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
-		exit();
+		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
 	}
 	
 	/**
@@ -607,8 +606,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("rolf_added"),true);
 		
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 } // END class.ilObjRoleFolderGUI
 ?>

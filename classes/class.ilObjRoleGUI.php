@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.77 2004/04/16 03:35:35 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.78 2004/05/13 14:59:27 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -145,8 +145,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		sendInfo($this->lng->txt("role_added"),true);
 
-		header("Location: adm_object.php?ref_id=".$this->rolf_ref_id);
-		exit();
+		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
 	}
 
 	/**
@@ -602,8 +601,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("saved_successfully"),true);
 
-		header("Location: adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
-		exit();
+		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
 	}
 
 
@@ -639,8 +637,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("msg_perm_adopted_from1")." '".$obj_data->getTitle()."'.<br/>".$this->lng->txt("msg_perm_adopted_from2"),true);
 		}
 
-		header("Location: adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
-		exit();
+		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=perm");
 	}
 
 
@@ -766,8 +763,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_userassignment_changed"),true);
 		
-		header("Location: adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=userassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
-		exit();
+		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$this->object->getId()."&cmd=userassignment&sort_by=".$_GET["sort_by"]."&sort_order=".$_GET["sort_order"]."&offset=".$_GET["offset"]);
 	}
 	
 	/**
@@ -785,29 +781,38 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_role"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// check required fields
-		if (empty($_POST["Fobject"]["title"]))
+		if (substr($this->object->getTitle(),0,3) != "il_")
 		{
-			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+			// check required fields
+			if (empty($_POST["Fobject"]["title"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+			}
+	
+			// check if role title has il_ prefix
+			if (substr($_POST["Fobject"]["title"],0,3) == "il_")
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_role_reserved_prefix"),$this->ilias->error_obj->MESSAGE);
+			}
+	
+			// check if role title is unique
+			if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
+			{
+				$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
+										 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
+			}
+
+			// update
+			$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		}
 
-		// check if role title is unique
-		if ($rbacreview->roleExists($_POST["Fobject"]["title"],$this->object->getId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_role_exists1")." '".ilUtil::stripSlashes($_POST["Fobject"]["title"])."' ".
-									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// update
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 		$this->object->setAllowRegister($_POST["Fobject"]["allow_register"]);
 		$this->object->update();
 		
 		sendInfo($this->lng->txt("saved_successfully"),true);
 
-		header("Location: adm_object.php?ref_id=".$this->rolf_ref_id);
-		exit();
+		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id);
 	}
 	
 	/**
@@ -829,13 +834,21 @@ class ilObjRoleGUI extends ilObjectGUI
 		if ($_SESSION["error_post_vars"])
 		{
 			// fill in saved values in case of error
-			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]),true);
+			if (substr($this->object->getTitle(),0,3) != "il_")
+			{
+				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]),true);
+			}
+		
 			$this->tpl->setVariable("DESC",ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]));
 			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
 		}
 		else
 		{
-			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($this->object->getTitle()));
+			if (substr($this->object->getTitle(),0,3) != "il_")
+			{
+				$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($this->object->getTitle()));
+			}
+
 			$this->tpl->setVariable("DESC",ilUtil::stripSlashes($this->object->getDescription()));
 			$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
 		}
@@ -855,6 +868,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_SUBMIT", "update");
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		
+		if (substr($this->object->getTitle(),0,3) == "il_")
+		{
+			$this->tpl->setVariable("SHOW_TITLE",$this->object->getTitle());
+		}
 
 		if ($this->object->getId() != ANONYMOUS_ROLE_ID and $this->object->getId() != SYSTEM_ROLE_ID and in_array($this->object->getId(),$global_roles))
 		{
@@ -1111,8 +1129,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		sendInfo($this->lng->txt("action_aborted"),true);
 
-		header("Location: adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$_GET["obj_id"]."&cmd=userassignment");
-		exit();
+		ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id."&obj_id=".$_GET["obj_id"]."&cmd=userassignment");
 	}
 
 	function searchUserObject ()
@@ -1127,16 +1144,14 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("msg_no_search_string"),true);
 
-			header("Location: adm_object.php?ref_id=".$this->rolf_ref_id.$obj_str."&cmd=searchUserForm");
-			exit();
+			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id.$obj_str."&cmd=searchUserForm");
 		}
 
 		if (count($search_result = ilObjUser::searchUsers($_POST["search_string"])) == 0)
 		{
 			sendInfo($this->lng->txt("msg_no_search_result")." ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'",true);
 
-			header("Location: adm_object.php?ref_id=".$this->rolf_ref_id.$obj_str."&cmd=searchUserForm");
-			exit();		
+			ilUtil::redirect("adm_object.php?ref_id=".$this->rolf_ref_id.$obj_str."&cmd=searchUserForm");
 		}
 
 		//add template for buttons

@@ -11,7 +11,12 @@
 </tr>
 <tr>
   <td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
-  <td class="option_value"><input name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/></td>
+  <td class="option_value">
+<!-- BEGIN edit_title -->
+  <input name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/>
+<!-- END edit_title -->
+  {SHOW_TITLE}
+  </td>
 </tr>
 <tr>
   <td class="option">{TXT_DESC}</td>
