@@ -135,13 +135,14 @@ class ilFormatMail extends ilMail
 		{
 			return false;
 		}
-		$bodylines = explode("\n", $this->mail_data["m_message"]);
+#		debug($this->mail_data["m_message"]);
+		$bodylines = explode(chr(13).chr(10), $this->mail_data["m_message"]);
+#		var_dump("<pre>",$bodylines,"</pre");
 		for ($i = 0; $i < count($bodylines); $i++)
 		{
 			$bodylines[$i] = "> ".$bodylines[$i];
 		}
-#		var_dump("<pre>",implode("\n",$bodylines),"</pre");
-		return $this->mail_data["m_message"] = implode("\n", $bodylines);
+		return $this->mail_data["m_message"] = implode(chr(13).chr(10), $bodylines);
 	}
 
 	/**
@@ -242,22 +243,25 @@ class ilFormatMail extends ilMail
 	*/
 	function formatLinebreakMessage($a_message)
 	{
-		$formatted = '';
+		$formatted = array();
 
+#		debug($a_message);
 		$linebreak = $this->getLinebreak();
 		// SPLIT INTO LINES returns always an array
-		$lines = explode("\n",$a_message);
+		$lines = explode(chr(13).chr(10),$a_message);
 		for($i=0;$i<count($lines);$i++)
 		{
 			if(substr($lines[$i],0,1) != '>')
 			{
-				$formatted .= wordwrap($lines[$i],$linebreak);
+				$formatted[] = wordwrap($lines[$i],$linebreak,chr(13).chr(10));
 			}
 			else
 			{
-				$formatted .= $lines[$i]."\n";
+				$formatted[] = $lines[$i];
 			}
 		}
+		$formatted = implode(chr(13).chr(10),$formatted);
+#		debug($formatted);
 		return $formatted;
 	}
 					
@@ -270,7 +274,7 @@ class ilFormatMail extends ilMail
 	*/
 	function appendSignature()
 	{
-		return $this->mail_data["m_message"] .= "\n\n\n".$this->getSignature();
+		return $this->mail_data["m_message"] .= $this->getSignature();
 	}
 } // END class.ilFormatMail
 ?>
