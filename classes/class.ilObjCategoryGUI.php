@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.15 2004/03/05 22:55:51 akill Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.16 2004/04/12 13:46:52 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -261,9 +261,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 
 		// always send a message
 		sendInfo($this->lng->txt("cat_added"),true);
-
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 	}
 
 	/**
@@ -473,9 +471,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 
 		sendInfo($this->lng->txt("msg_obj_modified"),true);
-
-		header("Location:".$this->getReturnLocation("update","adm_object.php?".$this->link_params));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("update","adm_object.php?".$this->link_params));
 	}
 
 	/**
@@ -492,9 +488,8 @@ class ilObjCategoryGUI extends ilObjectGUI
 		}
 
 		$_SESSION["translation_post"] = $_POST;
-		header("Location:".$this->getReturnLocation("addTranslation",
+		ilUtil::redirect($this->getReturnLocation("addTranslation",
 			"adm_object.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]));
-		exit();
 	}
 
 	/**
@@ -510,8 +505,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
-		header("location: adm_object.php?cmd=".$_GET["mode"]."&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
-		exit();
+		ilUtil::redirect("adm_object.php?cmd=".$_GET["mode"]."&entry=".$_GET["entry"]."&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
 	}
 
 	/**
