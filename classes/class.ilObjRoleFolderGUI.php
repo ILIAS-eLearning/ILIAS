@@ -100,6 +100,87 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("info_deleted"),true);	
 		}
 	}
+	
+	/**
+	* display deletion confirmation screen
+	*/
+	function deleteObject()
+	{
+		if(!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		// SAVE POST VALUES
+		$_SESSION["saved_post"] = $_POST["id"];
+
+		unset($this->data);
+		$this->data["cols"] = array("type", "title", "description", "last_change");
+
+		foreach($_POST["id"] as $id)
+		{
+				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+
+			$this->data["data"]["$id"] = array(
+				"type"        => $obj_data->getType(),
+				"title"       => $obj_data->getTitle(),
+				"desc"        => $obj_data->getDescription(),
+				"last_update" => $obj_data->getLastUpdateDate());
+		}
+
+		$this->data["buttons"] = array( "cancel"  => $this->lng->txt("cancel"),
+								  "confirm"  => $this->lng->txt("confirm"));
+
+		$this->getTemplateFile("confirm");
+
+		sendInfo($this->lng->txt("info_delete_sure"));
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		// BEGIN TABLE HEADER
+		foreach ($this->data["cols"] as $key)
+		{
+			$this->tpl->setCurrentBlock("table_header");
+			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
+			$this->tpl->parseCurrentBlock();
+		}
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+
+		foreach($this->data["data"] as $key => $value)
+		{
+			// BEGIN TABLE CELL
+			foreach($value as $key => $cell_data)
+			{
+				$this->tpl->setCurrentBlock("table_cell");
+
+				// CREATE TEXT STRING
+				if($key == "type")
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+				}
+				else
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->parseCurrentBlock();
+			// END TABLE CELL
+		}
+		// END TABLE DATA
+
+		// BEGIN OPERATION_BTN
+		foreach($this->data["buttons"] as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
 
 	function adoptPermSaveObject()
 	{
