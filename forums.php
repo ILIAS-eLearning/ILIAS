@@ -14,8 +14,6 @@ $_SESSION["backurl"] = "forums";
 
 $frm = new Forum();
 
-$lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
-
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 

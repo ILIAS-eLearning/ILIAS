@@ -12,8 +12,6 @@ require_once "classes/class.Forum.php";
 
 $frm = new Forum();
 
-$lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
-
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_new.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
