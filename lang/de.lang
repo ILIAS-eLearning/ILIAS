@@ -1,13 +1,90 @@
-deutsch
-
-usr_agreement#:#Useragreement
-
-chg_language#:#Change Language
-
-chg_password#:#Change Password
-
-personal_profile#:#Personal Profile
-
-personal_desktop#:#Personal Desktop
-
-are_you_sure#:#Are You Sure?
+english
+accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
+administrate#:#administrieren
+administration#:#Administration
+administrator#:#Administrator
+are_you_sure#:#Sind Sie Sicher?
+available_languages#:#verfügbare Sprachen
+basic_data#:#Grunddaten
+change#:#wechseln
+chapter#:#Kapitel
+check#:#prüfen
+chg_language#:#Sprache wechseln
+chg_password#:#Password ändern
+choose_language_s#:#Wählen Sie eine Sprache
+city#:#Stadt
+country#:#Land
+courses#:#Kurse
+create#:#erstellen
+current_password#:#derzeitiges Passwort
+database#:#Datenbank
+date#:#Datum
+delete#:#löschen
+description#:#Beschreibung
+desired_password#:#neues Password
+edit#:#bearbeiten
+email#:#eMail
+employee#:#Arbeiter
+files_location#:#Dateiort
+forename#:#Vorname
+gender#:#Geschlecht
+guest#:#Gast
+installed#:#installiert
+institution#:#institution
+lang_english#:#english
+lang_german#:#german
+lang_norwegian#:#norwegian
+lang_polish#:#polish
+lang_swedish#:#swedish
+language#:#language
+language#:#language
+languages#:#languages
+last_change#:#last change
+last_visited_lessons#:#last visited lessons
+lastname#:#lastname
+lesson#:#lesson
+lessons#:#lessons
+login#:#login
+login_to_ilias#:#bei ILIAS anmelden
+mail#:#Mail
+mail_s_unread#:#ungelesene Mail(s)
+mails#:#Mails
+msg_changes_ok#:#die Änderungen wurden übernommen
+nickname#:#Login
+no#:#Nein
+not_installed#:#nicht installiert
+page#:#Seite
+password#:#Passwort
+personal_desktop#:#personal desktop
+personal_profile#:#personal profile
+phone#:#phone
+profile#:#profile
+quit#:#quit
+read#:#read
+refresh#:#refresh
+refresh_list#:#refresh list
+retype_password#:#retype password
+right#:#right
+rights#:#rights
+salutation#:#salutation
+salutation_f#:#Ms./Mrs.
+salutation_m#:#Mr.
+save#:#save
+sender#:#sender
+status#:#status
+street#:#street
+student#:#student
+subject#:#subject
+submit#:#abschicken
+system#:#system
+system_grp#:#system group
+time#:#time
+title#:#title
+user#:#user
+userdata#:#userdata
+username#:#Benutzer
+users#:#users
+usr_agreement#:#user agreement
+write#:#write
+yes#:#yes
+zip_code#:#zip code
