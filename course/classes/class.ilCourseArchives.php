@@ -325,7 +325,86 @@ class ilCourseArchives
 
 		$tmp_tpl->setVariable('TITLE','Course export');
 		$tmp_tpl->setVariable("CRS_STRUCTURE",$this->lng->txt('crs_structure'));
+
+
+		$tmp_tpl->setVariable("DETAILS_TITLE",$this->lng->txt("crs_details"));
+		#$tmp_tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_crs_b.gif'));
+		#$tmp_tpl->setVariable("ALT_IMG",$this->lng->txt("crs_details"));
 		
+		// SET TXT VARIABLES
+		$tmp_tpl->setVariable("TXT_SYLLABUS",$this->lng->txt("syllabus"));
+		$tmp_tpl->setVariable("TXT_CONTACT",$this->lng->txt("contact"));
+		$tmp_tpl->setVariable("TXT_CONTACT_NAME",$this->lng->txt("contact_name"));
+		$tmp_tpl->setVariable("TXT_CONTACT_RESPONSIBILITY",$this->lng->txt("contact_responsibility"));
+		$tmp_tpl->setVariable("TXT_CONTACT_EMAIL",$this->lng->txt("contact_email"));
+		$tmp_tpl->setVariable("TXT_CONTACT_PHONE",$this->lng->txt("contact_phone"));
+		$tmp_tpl->setVariable("TXT_CONTACT_CONSULTATION",$this->lng->txt("contact_consultation"));
+		$tmp_tpl->setVariable("TXT_DATES",$this->lng->txt("dates"));
+		$tmp_tpl->setVariable("TXT_ACTIVATION",$this->lng->txt("activation"));
+		$tmp_tpl->setVariable("TXT_SUBSCRIPTION",$this->lng->txt("subscription"));
+		$tmp_tpl->setVariable("TXT_ARCHIVE",$this->lng->txt("archive"));
+
+		// FILL 
+		$tmp_tpl->setVariable("SYLLABUS",nl2br($this->course_obj->getSyllabus() ? 
+												 $this->course_obj->getSyllabus() : 
+												 $this->lng->txt("not_available")));
+
+		$tmp_tpl->setVariable("CONTACT_NAME",$this->course_obj->getContactName() ? 
+								$this->course_obj->getContactName() : 
+								$this->lng->txt("not_available"));
+		$tmp_tpl->setVariable("CONTACT_RESPONSIBILITY",$this->course_obj->getContactResponsibility() ? 
+								$this->course_obj->getContactResponsibility() : 
+								$this->lng->txt("not_available"));
+		$tmp_tpl->setVariable("CONTACT_PHONE",$this->course_obj->getContactPhone() ? 
+								$this->course_obj->getContactPhone() : 
+								$this->lng->txt("not_available"));
+		$tmp_tpl->setVariable("CONTACT_CONSULTATION",nl2br($this->course_obj->getContactConsultation() ? 
+								$this->course_obj->getContactConsultation() : 
+								$this->lng->txt("not_available")));
+		if($this->course_obj->getContactEmail())
+		{
+			$tmp_tpl->setCurrentBlock("email_link");
+			#$tmp_tpl->setVariable("EMAIL_LINK","mail_new.php?type=new&mail_data[rcp_to]=".$this->course_obj->getContactEmail());
+			$tmp_tpl->setVariable("CONTACT_EMAIL",$this->course_obj->getContactEmail());
+			$tmp_tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$tmp_tpl->setCurrentBlock("no_mail");
+			$tmp_tpl->setVariable("NO_CONTACT_EMAIL",$this->course_obj->getContactEmail());
+			$tmp_tpl->parseCurrentBlock();
+		}
+		if($this->course_obj->getActivationUnlimitedStatus())
+		{
+			$tmp_tpl->setVariable("ACTIVATION",$this->lng->txt('unlimited'));
+		}
+		else
+		{
+			$str = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->course_obj->getActivationStart())." ".
+				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->course_obj->getActivationEnd());
+			$tmp_tpl->setVariable("ACTIVATION",$str);
+		}
+		if($this->course_obj->getSubscriptionUnlimitedStatus())
+		{
+			$tmp_tpl->setVariable("SUBSCRIPTION",$this->lng->txt('unlimited'));
+		}
+		else
+		{
+			$str = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->course_obj->getSubscriptionStart())." ".
+				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->course_obj->getSubscriptionEnd());
+			$tmp_tpl->setVariable("SUBSCRIPTION",$str);
+		}
+		if($this->course_obj->getArchiveType() == $this->course_obj->ARCHIVE_DISABLED)
+		{
+			$tmp_tpl->setVariable("ARCHIVE",$this->lng->txt('archive_disabled'));
+		}
+		else
+		{
+			$str = $this->lng->txt("crs_from")." ".strftime("%Y-%m-%d %R",$this->course_obj->getArchiveStart())." ".
+				$this->lng->txt("crs_to")." ".strftime("%Y-%m-%d %R",$this->course_obj->getArchiveEnd());
+			$tmp_tpl->setVariable("ARCHIVE",$str);
+		}
+
 		$this->structure = '';
 		$this->__buildStructure($tmp_tpl,$this->course_obj->getRefId());
 		$tmp_tpl->setVariable("STRUCTURE",$this->structure);
