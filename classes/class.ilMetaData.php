@@ -100,6 +100,7 @@ class ilMetaData
 			$this->getType() == "st" ||
 			$this->getType() == "lm" ||
 			$this->getType() == "glo" ||
+			$this->getType() == "mob" ||
 			$this->getType() == "tst" ||
 			$this->getType() == "qpl" ||
 			$this->getType() == "gdf" ||

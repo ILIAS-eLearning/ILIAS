@@ -109,6 +109,7 @@ class ilMetaDataGUI
 
 	function fillGeneral($a_formaction, $a_section = "General", $a_language = "")
 	{
+
 		$tpl = new ilTemplate("tpl.meta_data_editor_general.html", true, true);
 		$tpl->setVariable("TXT_GENERAL", $this->lng->txt("meta_general"));
 		$tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
@@ -153,7 +154,7 @@ class ilMetaDataGUI
 				$tpl->setVariable("IDENTIFIER_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
 				$tpl->parseCurrentBlock();
 			}
-			
+
 		}
 
 		/* Language */
@@ -263,7 +264,7 @@ class ilMetaDataGUI
 		$this->tpl->setVariable("GENERAL", $tpl->get());
 		$this->tpl->parseCurrentBlock();
 		unset($tpl);
-		
+
 		return true;
 	}
 
