@@ -87,11 +87,10 @@ administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Scan Log
 administration#:#view_log#:#Zeige Details
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
-assessment#:#action#:#Action###20 Oct 2004 new variable
+assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Antwort anfügen
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
 assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
-assessment#:#add_answerblock#:#Add answerblock###20 Oct 2004 new variable
 assessment#:#add_applet_parameter#:#Applet-Parameter anfügen
 assessment#:#add_area#:#Region anfügen
 assessment#:#add_gap#:#Lückentext anfügen
@@ -104,7 +103,6 @@ assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
 assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
-assessment#:#answerblock#:#Answerblock###20 Oct 2004 new variable
 assessment#:#applet_attributes#:#Applet-Attribute
 assessment#:#applet_new_parameter#:#Neuer Parameter
 assessment#:#applet_parameter#:#Parameter
@@ -171,7 +169,6 @@ assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgef
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
 assessment#:#end_tag#:#Endmarkierung
 assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des Tests überschritten.
-assessment#:#enhanced#:#Enhanced mode###19 Oct 2004 new variable
 assessment#:#error_image_upload_copy_file#:#Beim Verschieben einer hochgeladenen Grafik in ihren Zielordner ist ein Fehler aufgetreten!
 assessment#:#error_image_upload_wrong_format#:#Bitte laden Sie eine gültige Bilddatei hoch. Unterstützte Formate sind GIF, JPEG und PNG.
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
@@ -209,7 +206,7 @@ assessment#:#filter_show_questionpools#:#Zeige folgende Fragenpools
 assessment#:#gap#:#Lücke
 assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
-assessment#:#glossary_term#:#Glossary term###30 Oct 2004 new variable
+assessment#:#glossary_term#:#Glossarbegriff
 assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
 assessment#:#imagemap_file#:#Imagemap Datei
@@ -236,10 +233,10 @@ assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#meaning#:#Bedeutung
-assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.###22 Oct 2004 new variable
+assessment#:#min_percentage_ne_0#:#Sie müssen einen minimalen Prozentsatz von 0 Prozent festlegen, damit alle erreichten Punktezahlen berücksichtigt werden können. Das Notenschema wurde nicht gespeichert!
 assessment#:#negative_points_not_allowed#:#Sie dürfen keine negativen Punkte vergeben!
 assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
-assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn't saved.###22 Oct 2004 new variable
+assessment#:#no_passed_mark#:#Sie müssen wenigstens einen Notenschritt als BESTANDEN markieren! Das Notenschema wurde nicht gespeichert!
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
@@ -282,7 +279,6 @@ assessment#:#qt_matching#:#Zuordnungsfrage
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Frage (Mehrfachauswahl)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#qt_ordering#:#Objekte anordnen
-assessment#:#question_no_answerblocks#:#There are no answerblocks defined###20 Oct 2004 new variable
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_type#:#Fragentyp
@@ -308,8 +304,8 @@ assessment#:#save_finish#:#Speichern und Test fertigstellen
 assessment#:#save_introduction#:#Speichern und zur Einführung
 assessment#:#save_next#:#Speichern und zur nächsten Frage
 assessment#:#save_previous#:#Speichern und zur vorigen Frage
-assessment#:#see_details_for_further_information#:#See details for suggested solutions###26 Oct 2004 new variable
-assessment#:#select_an_answer#:#--- Please select an answer ---###20 Oct 2004 new variable
+assessment#:#see_details_for_further_information#:#Musterlösungen: Siehe Fragendetails
+assessment#:#select_an_answer#:#--- Bitte wählen Sie eine Antwort aus ---
 assessment#:#select_gap#:#Auswahl-Lücke
 assessment#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition zum Verschieben der Frage(n) aus und klicken Sie auf eine der Einfügeschaltflächen!
 assessment#:#selected_image#:#Ausgewählte Grafik
@@ -320,7 +316,7 @@ assessment#:#solution_hint#:#Musterlösung
 assessment#:#solution_order#:#Lösungsreihenfolge
 assessment#:#start_tag#:#Start-Marke
 assessment#:#starting_time_not_reached#:#Sie haben die Startzeit noch nicht erreicht!
-assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!###26 Oct 2004 new variable
+assessment#:#suggested_solution_added_successfully#:#Die Musterlösung wurde erfolgreich hinzugefügt!
 assessment#:#symbol#:#Symbol
 assessment#:#test_cancelled#:#Der Test wurde unterbrochen!
 assessment#:#text_gap#:#Text-Lücke
@@ -949,7 +945,7 @@ common#:#disabled#:#Ausgeschaltet
 common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Herunterladen
-common#:#download_all_returned_files#:#Download all returned files###28 Oct 2004 new variable
+common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
 common#:#edit#:#Bearbeiten
@@ -1294,7 +1290,7 @@ common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
 common#:#import_lm#:#Import Lernmodul
 common#:#import_root_user#:#Root User importieren
 common#:#import_sahs#:#Import SCORM/AICC Lernmodul
-common#:#import_tst#:#Import Test###14 Oct 2004 new variable
+common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
 common#:#imported#:#importiert
 common#:#in#:#in
@@ -1353,8 +1349,8 @@ common#:#lang_en#:#Englisch
 common#:#lang_es#:#Spanisch
 common#:#lang_fi#:#Finnisch
 common#:#lang_fr#:#Französisch
-common#:#lang_ge#:#Georgian###12 Oct 2004 new variable
-common#:#lang_hu#:#Hungarian###12 Oct 2004 new variable
+common#:#lang_ge#:#Georgisch
+common#:#lang_hu#:#Ungarisch
 common#:#lang_id#:#Indonesisch
 common#:#lang_it#:#Italienisch
 common#:#lang_ja#:#Japanisch
@@ -1665,8 +1661,8 @@ common#:#no_title#:#Kein Titel
 common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Liste.
 common#:#no_users_applied#:#Sie haben keine Benutzer angelegt.
 common#:#no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
-common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
-common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
+common#:#no_xml_file_found_in_zip#:#In der ZIP-Datei wurde keine XML-Datei gefunden:
+common#:#no_zip_file#:#Es wurde keine ZIP-Datei gefunden
 common#:#non_internal_local_roles_only#:#Lokale Rollen (nur selbsterstellte)
 common#:#none#:#Keine
 common#:#normal#:#Normal
@@ -1917,7 +1913,7 @@ common#:#require_institution#:#Pflichteingabe Institution
 common#:#require_lastname#:#Pflichteingabe Nachname
 common#:#require_login#:#Pflichteingabe Login
 common#:#require_mandatory#:#erforderlich
-common#:#require_matriculation#:#Require matriculation number###28 Oct 2004 new variable
+common#:#require_matriculation#:#Pflichteingabe Matrikelnummer
 common#:#require_passwd#:#Pflichteingabe Passwort
 common#:#require_passwd2#:#Pflichteingabe Passwort wiederholen
 common#:#require_phone_home#:#Pflichteingabe Telefon privat
@@ -2020,8 +2016,8 @@ common#:#select_file#:#Datei wählen
 common#:#select_mode#:#Modus wählen
 common#:#select_object_to_copy#:#Bitte wählen Sie das zu kopierende Objekt
 common#:#select_object_to_link#:#Bitte wählen Sie das zu Verknüpfende Objekt aus. 
-common#:#select_questionpool#:#Question pool for Test###14 Oct 2004 new variable
-common#:#select_questionpool_option#:#Please select a question pool###14 Oct 2004 new variable
+common#:#select_questionpool#:#Fragenpool für Test
+common#:#select_questionpool_option#:#Bitte wählen Sie einen Fragenpool aus!
 common#:#selected#:#Ausgewählte
 common#:#selected_items#:#Ausgewählte Angebote
 common#:#send#:#Abschicken
@@ -2152,7 +2148,7 @@ common#:#tst_delete#:#Test löschen
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_new#:#Neuer Test
 common#:#tst_read#:#Lesezugriff auf Test
-common#:#tst_upload_file#:#Upload file###25 Oct 2004 new variable
+common#:#tst_upload_file#:#Datei hochladen
 common#:#tst_visible#:#Test ist sichtbar
 common#:#tst_write#:#Test bearbeiten
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
@@ -2230,8 +2226,8 @@ common#:#usrf_visible#:#Benutzerkonten sind sichtbar
 common#:#usrf_write#:#Benutzerkonten bearbeiten
 common#:#validate#:#Validieren
 common#:#value#:#Wert
-common#:#vcard#:#Visiting card###30 Oct 2004 new variable
-common#:#vcard_download#:#Download visiting card###30 Oct 2004 new variable
+common#:#vcard#:#Visitenkarte
+common#:#vcard_download#:#Visitenkarte herunterladen
 common#:#vendors#:#Verkäufer
 common#:#version#:#Version
 common#:#view#:#Zeigen
@@ -3982,7 +3978,7 @@ survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Frage(n) und/oder Fragenblöcke aus dem Test enfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#resume_survey#:#Umfrage fortsetzen
-survey#:#save_obligatory_state#:#Save obligatory states###28 Oct 2004 new variable
+survey#:#save_obligatory_state#:#Pflichteingaben speichern
 survey#:#save_phrase#:#Als Phrase speichern
 survey#:#save_phrase_categories_not_checked#:#Bitte wählen Sie mindestens zwei Kategorien aus, um diese in einer neuen Phrase speichern zu können!
 survey#:#save_phrase_introduction#:#Wenn Sie die unten aufgeführten Kategorien für sich als Standard-Phrase speichern wollen, geben Sie bitte noch einen Titel für die Phrase ein. Sie können auf diese Phrase jederzeit zugreifen, wenn Sie Phrasen zu einer ordinalen Frage hinzufügen.
@@ -4026,7 +4022,7 @@ survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaft
 survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
 survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 survey#:#svy_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem die importierten Fragen abgelegt werden sollen
-survey#:#svy_show_questiontitles#:#Show question titles in survey###27 Oct 2004 new variable
+survey#:#svy_show_questiontitles#:#Fragentitel in der Umfrage anzeigen
 survey#:#svy_statistical_evaluation#:#Statistische Auswertung
 survey#:#svy_status_missing#:#In dieser Umfrage fehlen benötigte Elemente!
 survey#:#svy_status_missing_elements#:#Die folgenden Elemente fehlen:
