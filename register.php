@@ -39,7 +39,6 @@ if (!$ilias->getSetting("enable_registration"))
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
 }
 
-
 switch ($_GET["cmd"])
 {
 	case "save":
@@ -93,7 +92,8 @@ function saveForm()
 	// check required fields
 	if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
 		or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
-		or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"]))
+		or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"])
+		or empty($_POST["Fobject"]["gender"]))
 	{
 		$ilias->raiseError($lng->txt("fill_out_all_required_fields"),$ilias->error_obj->MESSAGE);
 	}
@@ -273,16 +273,12 @@ function displayForm ()
 	$tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
 
 	// gender selection
-	if ($_SESSION["error_post_vars"]["Fobject"]["gender"] == "f")
+	$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
+		
+	if (!empty($gender))
 	{
-		$gender_sel = "BTN_GENDER_F";
+		$tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 	}
-	else
-	{
-		$gender_sel = "BTN_GENDER_M";
-	}
-
-	$tpl->setVariable($gender_sel,"checked=\"checked\"");
 
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 	$tpl->setVariable("TXT_REGISTER_INFO", $lng->txt("register_info"));
