@@ -84,7 +84,7 @@ administration#:#skipped#:#ausgelassen
 administration#:#start_scan#:#Start!
 administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#Systemcheck
-administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis###14 Sep 2004 content changed
+administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
 administration#:#view_log#:#Zeige Details
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#add_answer#:#Antwort anfügen
@@ -291,7 +291,7 @@ assessment#:#reset_filter#:#Filter zurücksetzen
 assessment#:#result#:#Ergebnis
 assessment#:#save_before_upload_imagemap#:#Sie müssen Ihre Änderungen speichern, bevor Sie eine Imagemap hochladen können!
 assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speichern, bevor Sie ein Java-Applet hochladen können!
-assessment#:#save_edit#:#Save and edit content###19 Oct 2004 new variable
+assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
 assessment#:#save_finish#:#Speichern und Test fertigstellen
 assessment#:#save_introduction#:#Speichern und zur Einführung
 assessment#:#save_next#:#Speichern und zur nächsten Frage
@@ -312,7 +312,7 @@ assessment#:#text_gap#:#Text-Lücke
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet-Parameter ein, bevor Sie neue Parameter anfügen!
 assessment#:#true#:#Wahr
-assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!###19 Oct 2004 content changed
+assessment#:#tst_all_user_data_deleted#:#Alle Nutzerdaten zu diesem Test wurden gelöscht!
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anon_eval#:#Anonym aggregierte Ergebnisse
 assessment#:#tst_browse_for_questions#:#Nach Fragen durchsuchen
@@ -420,8 +420,8 @@ assessment#:#tst_type#:#Test-Typ
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
 assessment#:#tst_types#:#Test-Typen
-assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden###19 Oct 2004 content changed
-assessment#:#tst_your_ects_mark_is#:#Your ECTS grade is###19 Oct 2004 new variable
+assessment#:#tst_use_javascript#:#Javascript für das Ziehen und Ablegen von Antworten verwenden
+assessment#:#tst_your_ects_mark_is#:#Ihre ECTS-Note lautet
 assessment#:#tst_your_mark_is#:#Ihre Note lautet
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
 assessment#:#tt_navigation_controlling#:#Test zur Navigationskontrolle in Lernmodulen
