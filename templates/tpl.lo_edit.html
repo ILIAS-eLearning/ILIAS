@@ -1,0 +1,31 @@
+<h1>{TXT_PAGEHEADLINE}</h1>
+{BUTTONS}
+    <form action="/projekte/uni-koeln/ilias/ed_gliederung.php?cmd=save_switches&amp;le=5" method="post">
+    <p><input type=checkbox checked name=seq_edit value=1>{TXT_SEQUENCES}
+      <input type=checkbox checked name=online value=1>{TXT_ONLINE_CHAPTER}&nbsp;-&nbsp;{TXT_VISIBLE_LAYERS}<select name="glevel"></select>
+      <input type=submit name="refresh" value="{REFRESH}">&nbsp;<input type=submit name="special" value="{FAQ_EXERCISE}">
+    </p>
+
+<br><br>
+    <TABLE CELLPADDING=0 CELLSPACING=0 BORDER=0>
+    <TR>
+      <TD ALIGN=center colspan=4>{TXT_CHAPTER_NUMBER}<input type=checkbox checked name=kap_nr value=1></TD>
+      <TD ALIGN=center>{TXT_CHAPTER_TITLE}<input type=checkbox checked name=kap_titel value=1></TD>
+      <TD ALIGN=center colspan=2>{TXT_SEQUENCE}<input type=checkbox checked name=seq value=1></TD>
+      <TD ALIGN=center>{TXT_FORUM}<input type=checkbox checked name=forum value=1></TD>
+    </TR>
+    <TR>
+      <TD ALIGN=center><A HREF="/projekte/uni-koeln/ilias/ed_gliederung.php?cmd=off_on&amp;id=6&amp;inst=1&amp;le=5" onMouseOver="window.status='Freischalten';return true;"><IMG VSPACE=0 BORDER=0 SRC="./images/editor/off.gif" WIDTH=16 HEIGHT=16 ALT="Freischalten" TITLE="Freischalten"></A></TD>
+      <TD><IMG VSPACE=0 BORDER=0 SRC="./images/ueberblick/pfeil_d.gif" WIDTH=13 HEIGHT=13>{TXT_STARTPAGE}</TD>
+      <TD ALIGN=center><A HREF="/projekte/uni-koeln/ilias/ed_gliederung.php?le=5&amp;id=6&amp;inst=1&amp;cmd=nu" onMouseOver="window.status='Neues Unterkapitel';return true;"><IMG VSPACE=0 BORDER=0 SRC="./images/editor/new.gif" WIDTH=16 HEIGHT=16 ALT="Neues Unterkapitel" TITLE="Neues Unterkapitel"></A></TD>
+      <TD ALIGN=center><A HREF="/projekte/uni-koeln/ilias/ed_gliederung.php?le=5&amp;id=6&amp;inst=1&amp;cmd=visi" onMouseOver="window.status='Kapitelnummer unsichtbar';return true;"><IMG VSPACE=0 BORDER=0 SRC="./images/editor/num_on.gif" WIDTH=16 HEIGHT=16 ALT="Kapitelnummer unsichtbar" TITLE="Kapitelnummer unsichtbar" ></A></TD>
+      <td>{TXT_NO_TITLE}</a><A HREF="/projekte/uni-koeln/ilias/ed_gliederung.php?le=5&cmd=e&id=6&amp;inst=1" onMouseOver="window.status='Titel bearbeiten';return true;"><IMG VSPACE=0 BORDER=0 SRC="./images/editor/stift.gif" WIDTH=16 HEIGHT=16 ALT="Titel bearbeiten" TITLE="Titel bearbeiten" ></A></td>
+      <TD ALIGN=center>&nbsp;<A HREF="ed_page.php?cmd=na&amp;le=5&gd=6&amp;gd_inst=1&st_id=0&st_inst=" onMouseOver="window.status='neue Seite erstellen';return true;"><IMG VSPACE=0 BORDER=0 SRC="./images/editor/new.gif" WIDTH=16 HEIGHT=16 ALT="neue Seite erstellen" TITLE="neue Seite erstellen" ></A></TD>
+      <TD  ALIGN=center><A HREF="/projekte/uni-koeln/ilias/ed_gliederung.php?cmd=v&amp;id=6&amp;inst=1&amp;le=5" onMouseOver="window.status='verkn&uuml;pfen';return true;"><IMG VSPACE=0 BORDER=0 SRC="./images/editor/kette.gif" WIDTH=24 HEIGHT=16 ALT="verkn&uuml;pfen" TITLE="verkn&uuml;pfen" ></A></TD>
+      <TD  ALIGN=center><A HREF="./diskussion.php?act=create_forum&zid=6&for_ident=3&go=%2Fprojekte%2Funi-koeln%2Filias%2Fed_gliederung.php%3Fle%3D5&back=%2Fprojekte%2Funi-koeln%2Filias%2Fed_gliederung.php%3Fle%3D5" onMouseOver="window.status='Neues Forum';return true;"><IMG VSPACE=0 BORDER=0 SRC="./images/editor/new.gif" WIDTH=16 HEIGHT=16 ALT="Neues Forum" TITLE="Neues Forum" ></A></TD>
+    </TR>
+    </TABLE>
+        </form>
+
+    </BODY>
+    </HTML>
