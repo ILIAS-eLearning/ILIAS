@@ -1,0 +1,23 @@
+/* code variables */
+.var {
+	color:#8000ff;
+}
+
+/* SQL statements */
+pre.sql {
+	color:#008080;
+}
+
+/* RBAC operations */
+.ops {
+	color:#000000;
+	font-weight:bold;
+	font-style:italic;
+}
+
+/* object type abbreviations */
+.typ {
+	color:#000000;
+	font-style:italic;
+}
+
