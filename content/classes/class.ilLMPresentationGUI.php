@@ -293,11 +293,11 @@ class ilLMPresentationGUI
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
 
-echo "<b>XML:</b>".htmlentities($xml);
+//echo "<b>XML:</b>".htmlentities($xml);
 		// determine target frames for internal links
 		//$pg_frame = $_GET["frame"];
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-		$params = array ('mode' => 'presentation',
+		$params = array ('mode' => 'fullscreen',
 			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);

@@ -390,28 +390,34 @@
 <xsl:template match="MediaAlias">
 
 	<!-- Alignment Part 1 (Left, Center, Right)-->
-	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'">
+	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
+		and $mode != 'fullscreen'">
 		<div align="left" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
-	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Center'">
+	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Center'
+		or $mode = 'fullscreen'">
 		<div align="center" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
-	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'">
+	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
+		and $mode != 'fullscreen' ">
 		<div align="right" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
 	</xsl:if>
-	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'">
+	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'
+		and $mode != 'fullscreen' ">
 		<xsl:call-template name="MOBTable"/>
 	</xsl:if>
-	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'">
+	<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
+		and $mode != 'fullscreen'">
 		<xsl:call-template name="MOBTable"/>
 	</xsl:if>
-	<xsl:if test="count(../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign) = 0">
+	<xsl:if test="count(../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign) = 0
+		and $mode != 'fullscreen'">
 		<div align="left" style="clear:both;">
 		<xsl:call-template name="MOBTable"/>
 		</div>
@@ -422,78 +428,106 @@
 <xsl:template name="MOBTable">
 	<xsl:variable name="cmobid" select="@OriginId"/>
 
-	<table class="ilc_MobTable" width="1">
+	<table class="ilc_Media" width="1">
 		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
-		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'">
+		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
+			and $mode != 'fullscreen'">
 			<xsl:attribute name="style">float:left; clear:both; margin-left: 0px;</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'">
+		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'
+			and $mode != 'fullscreen'">
 			<xsl:attribute name="style">float:right; clear:both; margin-right: 0px;</xsl:attribute>
 		</xsl:if>
 
 		<!-- make object fit to left/right border -->
-		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'">
+		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Left'
+			and $mode != 'fullscreen'">
 			<xsl:attribute name="style">margin-left: 0px;</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'">
+		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'Right'
+			and $mode != 'fullscreen'">
 			<xsl:attribute name="style">margin-right: 0px;</xsl:attribute>
 		</xsl:if>
 
+		<!-- determine purpose -->
+		<xsl:variable name="curPurpose"><xsl:choose>
+			<xsl:when test="$mode = 'fullscreen'">Fullscreen</xsl:when>
+			<xsl:otherwise>Standard</xsl:otherwise>
+		</xsl:choose></xsl:variable>
+
 		<!-- build object tag -->
 		<tr><td class="ilc_Mob"><object>
-			<!-- standard -->
-			<xsl:for-each select="../MediaItem[@Purpose='Standard']">
+			<!-- get standard item nr-->
+			<xsl:variable name="standardItemNr">
+			<xsl:for-each select="../MediaItem[@Purpose = 'Standard']">
+				<xsl:number count="MediaItem" from="MediaAlias"/>
+			</xsl:for-each>
+			</xsl:variable>
+			<xsl:for-each select="../MediaItem[@Purpose = $curPurpose]">
 
 				<!-- data / Location -->
 				<xsl:variable name="curItemNr"><xsl:number count="MediaItem" from="MediaAlias"/></xsl:variable>
-				<xsl:variable name="curType" select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$curItemNr]/@Type"/>
-				<xsl:if test="$curType = 'LocalFile'">
-					<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$curItemNr]"/></xsl:attribute>
-				</xsl:if>
-				<xsl:if test="$curType = 'Reference'">
-					<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$curItemNr]"/></xsl:attribute>
-				</xsl:if>
-
-				<!-- type / Format -->
-				<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Format[position()=$curItemNr]"/></xsl:attribute>
+				<xsl:choose>
+					<xsl:when test="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$curItemNr] != ''">
+						<xsl:variable name="curType" select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$curItemNr]/@Type"/>
+						<xsl:if test="$curType = 'LocalFile'">
+							<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$curItemNr]"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$curType = 'Reference'">
+							<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$curItemNr]"/></xsl:attribute>
+						</xsl:if>
+						<!-- type / Format -->
+						<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Format[position()=$curItemNr]"/></xsl:attribute>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:variable name="curType" select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$standardItemNr]/@Type"/>
+						<xsl:if test="$curType = 'LocalFile'">
+							<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$standardItemNr]"/></xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$curType = 'Reference'">
+							<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$standardItemNr]"/></xsl:attribute>
+						</xsl:if>
+						<!-- type / Format -->
+						<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Format[position()=$standardItemNr]"/></xsl:attribute>
+					</xsl:otherwise>
+				</xsl:choose>
 
 				<!-- width and height -->
 				<xsl:choose>
-					<xsl:when test="../MediaItem[@Purpose='Standard']/Layout[1]/@Width != '' or ../MediaItem[@Purpose='Standard']/Layout[1]/@Height != ''">
-						<xsl:attribute name="width"><xsl:value-of select="../MediaItem[@Purpose='Standard']/Layout[1]/@Width"/></xsl:attribute>
-						<xsl:attribute name="height"><xsl:value-of select="../MediaItem[@Purpose='Standard']/Layout[1]/@Height"/></xsl:attribute>
+					<xsl:when test="../MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width != '' or ../MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height != ''">
+						<xsl:attribute name="width"><xsl:value-of select="../MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width"/></xsl:attribute>
+						<xsl:attribute name="height"><xsl:value-of select="../MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:attribute>
 					</xsl:when>
-					<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Layout[1]/@Width != '' or
-						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Layout[1]/@Height != ''">
-						<xsl:attribute name="width"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Layout[1]/@Width"/></xsl:attribute>
-						<xsl:attribute name="height"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Layout[1]/@Height"/></xsl:attribute>
+					<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width != '' or
+						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height != ''">
+						<xsl:attribute name="width"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Width"/></xsl:attribute>
+						<xsl:attribute name="height"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Layout[1]/@Height"/></xsl:attribute>
 					</xsl:when>
 				</xsl:choose>
-
 			</xsl:for-each>
 		</object></td></tr>
 
-		<!-- mob caption / standard -->
+		<!-- mob caption -->
 		<xsl:choose>			<!-- derive -->
-			<xsl:when test="count(../MediaItem[@Purpose='Standard']/Caption[1]) != 0">
-				<tr><td class="ilc_MobCaption">
+			<xsl:when test="count(../MediaItem[@Purpose=$curPurpose]/Caption[1]) != 0">
+				<tr><td class="ilc_MediaCaption">
 				<xsl:call-template name="FullscreenLink">
 					<xsl:with-param name="cmobid" select="$cmobid"/>
 				</xsl:call-template>
-				<xsl:value-of select="../MediaItem[@Purpose='Standard']/Caption[1]"/>
+				<xsl:value-of select="../MediaItem[@Purpose=$curPurpose]/Caption[1]"/>
 				</td></tr>
 			</xsl:when>
-			<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Caption[1]) != 0">
-				<tr><td class="ilc_MobCaption">
+			<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]) != 0">
+				<tr><td class="ilc_MediaCaption">
 				<xsl:call-template name="FullscreenLink">
 					<xsl:with-param name="cmobid" select="$cmobid"/>
 				</xsl:call-template>
-				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Caption[1]"/>
+				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Caption[1]"/>
 				</td></tr>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="count(../MediaItem[@Purpose='Fullscreen']) = 1">
-					<tr><td class="ilc_MobCaption">
+					<tr><td class="ilc_MediaCaption">
 					<xsl:call-template name="FullscreenLink">
 						<xsl:with-param name="cmobid" select="$cmobid"/>
 					</xsl:call-template>
@@ -502,9 +536,9 @@
 			</xsl:otherwise>
 		</xsl:choose>
 
-		<tr><td>
-			<!-- command selectbox -->
-			<xsl:if test="$mode = 'edit'">
+		<!-- command selectbox -->
+		<xsl:if test="$mode = 'edit'">
+			<tr><td>
 				<!-- <xsl:value-of select="../../@HierId"/> -->
 				<input type="checkbox" name="target[]">
 					<xsl:attribute name="value"><xsl:value-of select="../../@HierId"/>
@@ -530,15 +564,16 @@
 				<input class="ilEditSubmit" type="submit" value="Go">
 					<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../../@HierId"/>]</xsl:attribute>
 				</input>
-			</xsl:if>
-		</td></tr>
+			</td></tr>
+		</xsl:if>
+
 	</table>
 </xsl:template>
 
 <!-- Fullscreen Link -->
 <xsl:template name="FullscreenLink">
 	<xsl:param name="cmobid"/>
-	<xsl:if test="count(../MediaItem[@Purpose='Fullscreen']) = 1">
+	<xsl:if test="count(../MediaItem[@Purpose='Fullscreen']) = 1 and $mode != 'fullscreen'">
 		<a target="_new">
 		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="$cmobid"/>&amp;ref_id=<xsl:value-of select="$ref_id"/></xsl:attribute>
 		<img border="0" align="right">

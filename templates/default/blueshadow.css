@@ -256,7 +256,7 @@ div.il_Header
 	margin-bottom:5px;
 	color:#222222;
 	background-color: #DBE6F4;
-	border-width:2px;
+	border-width:1px;
 	border-color:#E0E0F0;
 	border-style:outset;
 	padding:7px;
@@ -367,7 +367,7 @@ a.mailunread
 td.btn {
 	background-color:#006699;
 	color:#BBBBBB;
-	border-width:2px;
+	border-width:1px;
 	border-color:#BBBBBB;
 	border-style:outset;
 	padding:3px;
@@ -388,7 +388,7 @@ a.btn:hover {
 input {
 	background-color:#ffffff;
 	color:#000000;
-	border-width:2px;
+	border-width:1px;
 	border-color:#bbbbbb;
 	border-style:inset;
 	font-size:13px;
@@ -398,7 +398,7 @@ input {
 input.submit {
 	background-color:#ffffff;
 	color:#2255a0;
-	border-width:2px;
+	border-width:1px;
 	border-color:#bbbbbb;
 	border-style:outset;
 	padding:3px;
@@ -443,7 +443,7 @@ input.tblrow1, input.tblrow2
 textarea {
 	background-color:#ffffff;
 	color:#000000;
-	border-width:2px;
+	border-width:1px;
 	border-color:#bbbbbb;
 	border-style:inset;
 	padding:3px;
@@ -497,13 +497,35 @@ img.spacer {
 }
 
 /* --- content styles (will move to content.css) --- */
-div.ilc_Fullscreen
+table.ilc_Media
 {
-	background-color:#EEEEEE;
-	padding:20px;
-	border-spacing: 1px;
-	border-style: outset;
-	border-color: #EEEEEE;
+	background-color: #F5F5F5;
+	border-color: #D0D0D0;
 	border-width: 1px;
+	border-style: solid;
+	border-spacing: 0px;
+	padding: 0px;
+	margin: 10px;
 }
 
+td.ilc_MediaCaption
+{
+	padding:5px;
+}
+
+table.ilc_Fullscreen
+{
+	background-color:#EEEEEE;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+html.ilc_Fullscreen, body.ilc_Fullscreen
+{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}

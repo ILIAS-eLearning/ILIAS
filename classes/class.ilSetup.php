@@ -495,7 +495,7 @@ class ilSetup
 	function checkPassword ($a_password)
 	{
 		$a_password = md5($a_password);
-		
+
 		$query = "SELECT value FROM settings ".
 				 "WHERE keyword = 'setup_passwd' ".
 				 "AND value = '".$a_password."'";
