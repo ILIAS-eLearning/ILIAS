@@ -433,7 +433,7 @@ class ilGlossaryDefinition
 	{
 		if ($a_tag == "Identifier" && $a_param == "Entry")
 		{
-			$a_value = "il_".IL_INST_ID."_pg_".$this->getId();
+			$a_value = "il_".IL_INST_ID."_gdf_".$this->getId();
 		}
 
 		return $a_value;
