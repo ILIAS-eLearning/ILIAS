@@ -702,66 +702,41 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$editable = $rbacsystem->checkAccess('write', $this->ref_id);
 		foreach ($table["rows"] as $data)
 		{
-			if (($data["private"] != 1) or ($data["owner"] == $this->ilias->account->id))
+			if ($data["complete"] == 0)
 			{
-				if ($data["complete"] == 0)
-				{
-					$this->tpl->setCurrentBlock("qpl_warning");
-					$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
-					$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
-					$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("QTab");
-				}
-				$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
-				if ($editable)
-				{
-					$class = strtolower(ASS_QuestionGUI::_getGUIClassNameForId($data["question_id"]));
-
-					$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $data["question_id"]);
-					$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
-					if ($this->object->isInUse($data["question_id"]))
-					{
-						//$this->ctrl->setParameterByClass($class, "locked", "1");
-						//$link = $this->ctrl->getLinkTarget("
-						$this->tpl->setVariable("TXT_EDIT", $img_locked);
-						$this->tpl->setVariable("LINK_EDIT",
-							$this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
-						//$this->tpl->setVariable("EDIT", "<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=" . $data["question_id"] . "&locked=1\">" . $img_locked . "</a>");
-					}
-					else
-					{
-						//$this->ctrl->setParameterByClass($class, "locked", "");
-						$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-						$this->tpl->setVariable("LINK_EDIT",
-							$this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
-						//$this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=question&edit=" . $data["question_id"] . "\">" . $this->lng->txt("edit") . "</a>]");
-					}
-				}
-				$this->tpl->setVariable("QUESTION_TITLE", "<strong>" .$data["title"] . "</strong>");
-
-				//$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=" . $data["question_id"] . "\">" . $this->lng->txt("preview") . "</a>]");
-
-				$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
-				$this->tpl->setVariable("LINK_PREVIEW",
-					$this->ctrl->getLinkTargetByClass("ilpageobjectgui", "preview"));
-
-				$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
-				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
-				//$this->tpl->setVariable("QUESTION_ASSESSMENT", "<a href=\"".
-				//	$_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=assessment&edit=" . $data["question_id"].""."\"><img src=\"".ilUtil::getImagePath("assessment.gif", true) . "\" alt=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" title=\"" . $this->lng->txt("qpl_assessment_of_questions") . "\" border=\"0\" /></a>");
-				$this->tpl->setVariable("LINK_ASSESSMENT",
-					$this->ctrl->getLinkTargetByClass($class, "assessment"));
-				$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("qpl_assessment_of_questions"));
-				$this->tpl->setVariable("IMG_ASSESSMENT",
-					ilUtil::getImagePath("assessment.gif", true));
-				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-				$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
-				$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$this->tpl->setCurrentBlock("qpl_warning");
+				$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
+				$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
+				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->parseCurrentBlock();
-				$counter++;
+				$this->tpl->setCurrentBlock("QTab");
 			}
+			$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+			$class = strtolower(ASS_QuestionGUI::_getGUIClassNameForId($data["question_id"]));
+			$this->ctrl->setParameterByClass("ilpageobjectgui", "q_id", $data["question_id"]);
+			$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
+			if ($editable)
+			{
+				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "view"));
+			}
+			$this->tpl->setVariable("QUESTION_TITLE", "<strong>" .$data["title"] . "</strong>");
+
+			$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
+			$this->tpl->setVariable("LINK_PREVIEW", $this->ctrl->getLinkTargetByClass("ilpageobjectgui", "preview"));
+
+			$this->tpl->setVariable("QUESTION_COMMENT", $data["comment"]);
+			$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data["type_tag"]));
+			$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
+			$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("qpl_assessment_of_questions"));
+			$this->tpl->setVariable("IMG_ASSESSMENT",
+				ilUtil::getImagePath("assessment.gif", true));
+			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+			$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["created"]), "date"));
+			$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data["TIMESTAMP"]), "date"));
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->parseCurrentBlock();
+			$counter++;
 		}
 
 		if ($table["rowcount"] > count($table["rows"]))
@@ -1299,11 +1274,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function getPageEditorTabs(&$tabs_gui)
 	{
-		// edit page
-		$tabs_gui->addTarget("edit",
-			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"), "view",
-			"ilPageObjectGUI");
-
+		global $rbacsystem;
+		
+		if ($rbacsystem->checkAccess('write', $this->ref_id))
+		{
+			// edit page
+			$tabs_gui->addTarget("edit",
+				$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "view"), "view",
+				"ilPageObjectGUI");
+		}
 		// preview page
 		$tabs_gui->addTarget("cont_preview",
 			$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "preview"), "preview",
