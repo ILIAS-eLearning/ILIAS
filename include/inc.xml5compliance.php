@@ -102,6 +102,11 @@ class php4DOMDocument
 	{
 	}
 
+	function free()
+	{
+		unset($this->myDOMDocument);
+	}
+
 	// ##added
 	function xpath_new_context()
 	{
