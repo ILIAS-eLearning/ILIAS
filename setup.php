@@ -60,7 +60,22 @@ foreach ($languages as $lang_key)
 {
 	$tpl->setCurrentBlock("languages");
 	$tpl->setVariable("LINK_LANG", "./setup.php?step=".$_GET["step"]."&amp;lang=".$lang_key);
-	$tpl->setVariable("LANG_DESC", strtoupper($lang_key));
+	$tpl->setVariable("LANG_NAME", $lng->txt("lang_".$lang_key));
+	$tpl->setVariable("LANG", $lang_key);
+	
+	if ($lang_key == $_GET["lang"])
+	{
+		$vspace = 0;
+		$border = 2;
+	}
+	else
+	{
+		$vspace = 2;
+		$border = 0;
+	}
+
+	$tpl->setVariable("BORDER", $border);
+	$tpl->setVariable("VSPACE", $vspace);
 	$tpl->parseCurrentBlock();
 }
 
@@ -546,6 +561,7 @@ switch ($_GET["step"])
 			showMessage($lng->txt("password_info"),$lng->txt("setup_password"));
 			
 			$tpl->setCurrentBlock("step6");
+			$tpl->setVariable("LANG", $_GET["lang"]);
 			$tpl->setVariable("TXT_CHOOSE_PASSWD", $lng->txt("choose_password"));
 			$tpl->parseCurrentBlock();
 		}

@@ -101,12 +101,35 @@ input
   background-color: #99BBFF;
 }
 
+.flag
+{
+  font-size: 8pt;
+  background-color: #99BBFF;
+  vertical-align: text-bottom;
+  text-align: right;
+  width: 20px;
+}
+
+.spacer
+{
+background-color: #DDDDFF;
+text-align: right;
+width: 1px;
+}
+
+.spacer2
+{
+background-color: #99BBFF;
+text-align: right;
+width: 2px;
+}
+
 .infotext
 {
   font-size: 10px;
 }
 
-:hover { color: #0099FF }
+.hover { color: #0099FF }
 
 
 .row_low
@@ -133,9 +156,14 @@ CODE {
 	font-size: 8pt;
 }
 /* ------------------ tabs -------------- */
+
 .tab {
 	font-size: x-small;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	color: #000000;
 	font-weight: bold;
+}
+
+img {
+        display: block;
 }
