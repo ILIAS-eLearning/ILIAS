@@ -1862,6 +1862,7 @@ common#:#page_edit#:#Edytuj stronę
 common#:#pages#:#Strony
 common#:#parameter#:#Parametr
 common#:#parse#:#Wykonaj
+common#:#passed#:#Passed###07 Dec 2004 new variable
 common#:#passwd#:#Hasło
 common#:#passwd_invalid#:#Nowe hasło jest niewłaściwe! Wybierz inne hasło.
 common#:#passwd_not_match#:#Wpisy dla nowego hasła się nie zgadzają! Podaj ponownie nowe hasło.
@@ -2545,6 +2546,7 @@ content#:#cont_matching_question_javascript_hint#:#Please drag a definition/pict
 content#:#cont_max_time_allowed#:#Maks. dostępny czas
 content#:#cont_media_source#:#Źródło mediów
 content#:#cont_mep_structure#:#Struktura Puli Mediów
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
 content#:#cont_mob_files#:#Pliki obiektowe
 content#:#cont_mob_inst_prop#:#Właściwości instancji
 content#:#cont_mob_prop#:#Właściwości obiektu
@@ -2559,6 +2561,7 @@ content#:#cont_new_dir#:#Nowy katalog<u></u>
 content#:#cont_new_file#:#Nowy plik
 content#:#cont_new_media_obj#:#Nowy obiekt multimedialny
 content#:#cont_new_term#:#Nowy termin
+content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
 content#:#cont_no_assign_itself#:#Obiekt nie może być przydzielony do samego siebie.
 content#:#cont_no_manifest#:#Brak pliku imsmanifest.xml w głównym katalogu.
 content#:#cont_no_object_found#:#Nie można znaleźć żadnego obiektu o takim tytule
@@ -2644,6 +2647,7 @@ content#:#cont_show_citation#:#Pokaż z cytatem
 content#:#cont_show_line_numbers#:#Pokaż numery wierszy
 content#:#cont_show_print_view#:#Show Print View###05 Nov 2004 new variable
 content#:#cont_size#:#Rozmiar (Bajtów)
+content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
 content#:#cont_source#:#Źródło
 content#:#cont_src#:#Kod źródłowy
 content#:#cont_src_other#:#inny

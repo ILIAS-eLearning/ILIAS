@@ -1862,6 +1862,7 @@ common#:#page_edit#:#Lap szerkesztése
 common#:#pages#:#Lapok
 common#:#parameter#:#Paraméter
 common#:#parse#:#Szövegszerkezet elemzés
+common#:#passed#:#Passed###07 Dec 2004 new variable
 common#:#passwd#:#Jelszó
 common#:#passwd_invalid#:#Az új jelszó nem megfelelő! Csak a következő karakterek használhatók (min. 6 karakter): A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#A begépelt nem illeszkedik az új jelszóra. Adja meg ismét az új jelszót.
@@ -2545,6 +2546,7 @@ content#:#cont_matching_question_javascript_hint#:#Please drag a definition/pict
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###05 Nov 2004 new variable
 content#:#cont_media_source#:#Médiaforrás
 content#:#cont_mep_structure#:#Médiagyűjtemény-struktúra
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
 content#:#cont_mob_files#:#Objektumfájlok
 content#:#cont_mob_inst_prop#:#Példányjellemzők
 content#:#cont_mob_prop#:#Objektumjellemzők
@@ -2559,6 +2561,7 @@ content#:#cont_new_dir#:#Új könyvtár
 content#:#cont_new_file#:#Új fájl
 content#:#cont_new_media_obj#:#Új médiaobjektum
 content#:#cont_new_term#:#Új fogalom
+content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
 content#:#cont_no_assign_itself#:#Az objektum nem rendelhető sajátmagához
 content#:#cont_no_manifest#:#Nem található umsmanifest.xml fájl a főkönyvtárban.
 content#:#cont_no_object_found#:#Ezen a címen nem található objektum
@@ -2644,6 +2647,7 @@ content#:#cont_show_citation#:#Idézettel megjelenítés
 content#:#cont_show_line_numbers#:#Sorok számának mutatása
 content#:#cont_show_print_view#:#Show Print View###05 Nov 2004 new variable
 content#:#cont_size#:#Méret (Byte)
+content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
 content#:#cont_source#:#Forrás
 content#:#cont_src#:#Forráskód
 content#:#cont_src_other#:#másik

@@ -1863,6 +1863,7 @@ common#:#page_edit#:#editar página
 common#:#pages#:#Páginas
 common#:#parameter#:#Parámetro
 common#:#parse#:#Analizar
+common#:#passed#:#Passed###07 Dec 2004 new variable
 common#:#passwd#:#contraseña
 common#:#passwd_invalid#:#La nueva contraseña no es válida! Por favor escoja otra contraseña
 common#:#passwd_not_match#:#La introducción de nueva contraseña es distinta! Por favor introdúzca de nuevo las dos repeticiones
@@ -2546,6 +2547,7 @@ content#:#cont_matching_question_javascript_hint#:#Arrastre una definición/imag
 content#:#cont_max_time_allowed#:#adlcp:max_tiempo_permitido
 content#:#cont_media_source#:#Fuente Multimedia
 content#:#cont_mep_structure#:#Estructura Repositorio Multimedia
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
 content#:#cont_mob_files#:#Ficheros de Objeto
 content#:#cont_mob_inst_prop#:#Propiedades de Instancia
 content#:#cont_mob_prop#:#Propiedades de Objeto
@@ -2560,6 +2562,7 @@ content#:#cont_new_dir#:#Nuevo Directorio
 content#:#cont_new_file#:#Nuevo Fichero
 content#:#cont_new_media_obj#:#Nuevo Objeto Media
 content#:#cont_new_term#:#Nuevo Término
+content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
 content#:#cont_no_assign_itself#:#El objeto no puede ser asignado a sí mismo
 content#:#cont_no_manifest#:#No se encontró el fichero imsmanifest.xml en el directorio principal.
 content#:#cont_no_object_found#:#No puedo encontrar algun objeto con este título
@@ -2645,6 +2648,7 @@ content#:#cont_show_citation#:#Mostrar con cita
 content#:#cont_show_line_numbers#:#Mostrar números de línea
 content#:#cont_show_print_view#:#Mostrar vista de impresión
 content#:#cont_size#:#Tamaño
+content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
 content#:#cont_source#:#Quelle###13 Sep 2003 new variable
 content#:#cont_src#:#Código fuente
 content#:#cont_src_other#:#otro

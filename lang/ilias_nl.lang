@@ -1862,6 +1862,7 @@ common#:#page_edit#:#Wijzigen Pagina
 common#:#pages#:#Pagina's
 common#:#parameter#:#Parameter###05 Nov 2004 new variable
 common#:#parse#:#Parsen
+common#:#passed#:#Passed###07 Dec 2004 new variable
 common#:#passwd#:#Wachtwoord
 common#:#passwd_invalid#:#Het nieuwe wachtwoord is ongeldig. Alleen de volgende karakters zijn toegestaan(minimaal 6 karakters): A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#Uw ingaven voor het nieuwe wachtwoord komen niet overeen! Geef uw nieuwe wachtwoord opnieuw.
@@ -2545,6 +2546,7 @@ content#:#cont_matching_question_javascript_hint#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#overeenkomsten
 content#:#cont_media_source#:#Sleep een definitie/ plaatsje aan de rechter kant over een begrip en laat de definitie/het plaatje erop vallen om het begrip en de definitie/het plaatje met elkaar te verbinden.
 content#:#cont_mep_structure#:#adlcp:maxtimeallowed
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
 content#:#cont_mob_files#:#Media bron
 content#:#cont_mob_inst_prop#:#Media-pool-structuur
 content#:#cont_mob_prop#:#Object-bestanden
@@ -2559,6 +2561,7 @@ content#:#cont_new_dir#:#Nieuwe Link gebieden
 content#:#cont_new_file#:#Nieuwe toewijzing
 content#:#cont_new_media_obj#:#Nieuwe directory
 content#:#cont_new_term#:#Nieuw bestand
+content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
 content#:#cont_no_assign_itself#:#Nieuw media-object
 content#:#cont_no_manifest#:#Nieuw begrip
 content#:#cont_no_object_found#:#Het object kan niet aan zichzelf toegewezen worden
@@ -2644,6 +2647,7 @@ content#:#cont_show_citation#:#Vorm
 content#:#cont_show_line_numbers#:#laat zien
 content#:#cont_show_print_view#:#Laat zien met citaat
 content#:#cont_size#:#laat zien
+content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
 content#:#cont_source#:#laat zien Print
 content#:#cont_src#:#Grootte (Bytes)
 content#:#cont_src_other#:#Bron

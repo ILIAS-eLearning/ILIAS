@@ -1862,6 +1862,7 @@ common#:#page_edit#:#Edit Page
 common#:#pages#:#Pages
 common#:#parameter#:#Parameter
 common#:#parse#:#Parse
+common#:#passed#:#Passed
 common#:#passwd#:#Password
 common#:#passwd_invalid#:#The new password is invalid! Only the following characters are allowed (minimum 6 characters): A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
@@ -2290,7 +2291,6 @@ common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_edit#:#Edit User
 common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_new#:#New User
-common#:#passed#:#Passed
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
 common#:#usrf#:#User accounts
@@ -2332,11 +2332,9 @@ content#:#cont_Circle#:#Circle
 content#:#cont_Citation#:#Citation
 content#:#cont_Code#:#Code
 content#:#cont_Example#:#Example
-content#:#cont_skip_chapter#:#Skip this chapter
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
-content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
 content#:#cont_List#:#List
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
@@ -2398,7 +2396,6 @@ content#:#cont_click_starting_point#:#Please click on the starting point of the 
 content#:#cont_click_tl_corner#:#Please click on the top left corner of the desired area.
 content#:#cont_confirm_delete#:#really delete ?
 content#:#cont_content#:#Content
-content#:#cont_no_access#:#No Access
 content#:#cont_content_obj#:#Content Object
 content#:#cont_contents#:#Contents
 content#:#cont_coords#:#Coordinates
@@ -2549,6 +2546,7 @@ content#:#cont_matching_question_javascript_hint#:#Please drag a definition/pict
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_media_source#:#Media Source
 content#:#cont_mep_structure#:#Media Pool Structure
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".
 content#:#cont_mob_files#:#Object Files
 content#:#cont_mob_inst_prop#:#Instance Properties
 content#:#cont_mob_prop#:#Object Properties
@@ -2563,6 +2561,7 @@ content#:#cont_new_dir#:#New Directory
 content#:#cont_new_file#:#New File
 content#:#cont_new_media_obj#:#New Media Object
 content#:#cont_new_term#:#New Term
+content#:#cont_no_access#:#No Access
 content#:#cont_no_assign_itself#:#The object cannot be assigned to itself
 content#:#cont_no_manifest#:#No imsmanifest.xml file found in main directory.
 content#:#cont_no_object_found#:#Could not find any object with this title
@@ -2648,6 +2647,7 @@ content#:#cont_show_citation#:#Show with citation
 content#:#cont_show_line_numbers#:#Show line numbers
 content#:#cont_show_print_view#:#Show Print View
 content#:#cont_size#:#Size (Bytes)
+content#:#cont_skip_chapter#:#Skip this chapter
 content#:#cont_source#:#Source
 content#:#cont_src#:#Source code
 content#:#cont_src_other#:#other

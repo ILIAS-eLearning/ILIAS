@@ -1862,6 +1862,7 @@ common#:#page_edit#:#Modifica pagina
 common#:#pages#:#Pagine
 common#:#parameter#:#Parametro
 common#:#parse#:#Analizza
+common#:#passed#:#Passed###07 Dec 2004 new variable
 common#:#passwd#:#Password
 common#:#passwd_invalid#:#La nuova password non &#232; valida! Per favore, scegli un'altra password.
 common#:#passwd_not_match#:#I valori della nuova password non sono uguali! Per favore, riscrivi la nuova password.
@@ -2544,6 +2545,7 @@ content#:#cont_matching_question_javascript_hint#:#Per favore trascina le defini
 content#:#cont_max_time_allowed#:#tempo massimo consentito
 content#:#cont_media_source#:#Sorgenti multimediale
 content#:#cont_mep_structure#:#Struttura libreria multimediale
+content#:#cont_missing_preconditions#:#You need to fulfill the following preconditions to access the chapter "%s".###07 Dec 2004 new variable
 content#:#cont_mob_files#:#File oggetto
 content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza
 content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto
@@ -2558,6 +2560,7 @@ content#:#cont_new_dir#:#Nuova cartella
 content#:#cont_new_file#:#Nuovo file
 content#:#cont_new_media_obj#:#Nuovo oggetto multimediale
 content#:#cont_new_term#:#Nuovo termine
+content#:#cont_no_access#:#No Access###07 Dec 2004 new variable
 content#:#cont_no_assign_itself#:#L&#039;oggetto non pu&#242; essere assegnato a s&eacute; stesso
 content#:#cont_no_manifest#:#Non &#232; stato trovato il file manifest nella cartella principale.
 content#:#cont_no_object_found#:#Non &#232; stato trovato nessun oggetto con questo titolo
@@ -2643,6 +2646,7 @@ content#:#cont_show_citation#:#Mostra la citazione
 content#:#cont_show_line_numbers#:#Mostra i numeri di linea
 content#:#cont_show_print_view#:#Mostra la vista per la stampa
 content#:#cont_size#:#Dimensioni
+content#:#cont_skip_chapter#:#Skip this chapter###07 Dec 2004 new variable
 content#:#cont_source#:#Sorgente
 content#:#cont_src#:#Codice sorgente
 content#:#cont_src_other#:#altro
