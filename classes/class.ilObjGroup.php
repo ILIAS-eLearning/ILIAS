@@ -530,24 +530,14 @@ class ilObjGroup extends ilObject
 		
 		// get object instance of cloned group
 		$groupObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);
-
-		// create role folder and set up default local roles (like in saveObject)
-		// TODO: MUST BE REPLACED BY initDefaultRoles()!!!! title and description are set wrong!!
-		include_once ("classes/class.ilObjRoleFolder.php");
-		$rfoldObj = new ilObjRoleFolder();
-		$rfoldObj->setTitle("Local roles");
-		$rfoldObj->setDescription("Role Folder of group ref_no.".$groupObj->getRefId());
-		$rfoldObj->create();
-		$rfoldObj->createReference();
-		$rfoldObj->putInTree($groupObj->getRefId());
-		$rfoldObj->setPermissions($groupObj->getRefId());
-
-		//the order is very important, please do not change: first create roles and join group, then setGroupStatus !!!
-		$groupObj->createGroupRoles($rfoldObj->getRefId());
-
-		//creator becomes admin of group
-		$groupObj->join($groupObj->getOwner(),"admin");
 		
+		// setup rolefolder & default local roles (admin & member)
+		$roles = $groupObj->initDefaultRoles();
+
+		// ...finally assign groupadmin role to creator of group object
+		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
+		ilObjUser::updateActiveRoles($groupObj->getOwner());
+
 		// TODO: function getGroupStatus returns integer but setGroupStatus expects a string.
 		// I disabled this function. Please investigate
 		// shofmann@databay.de	4.7.03
