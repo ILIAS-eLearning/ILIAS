@@ -781,6 +781,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->object->insert_question($matches[1]);
 				}
 			}
+			$this->object->save_complete_status();
 			sendInfo($this->lng->txt("tst_questions_inserted"));
 		}
 
@@ -797,6 +798,7 @@ class ilObjTestGUI extends ilObjectGUI
 			foreach ($checked_questions as $key => $value) {
 				$this->object->remove_question($value);
 			}
+			$this->object->save_complete_status();
 		}
 
 		if (strlen($_POST["cmd"]["remove"]) > 0) {
@@ -1015,6 +1017,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($_POST["cmd"]["save"]) {
 			$this->object->mark_schema->save_to_db($this->object->get_test_id());
+			$this->object->save_complete_status();
       sendInfo($this->lng->txt("msg_obj_modified"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
       header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
@@ -1024,6 +1027,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["apply"]) {
       sendInfo($this->lng->txt("msg_obj_modified"));
 			$this->object->mark_schema->save_to_db($this->object->get_test_id());
+			$this->object->save_complete_status();
 		}
 
 		if ($_POST["cmd"]["cancel"]) {
