@@ -164,17 +164,18 @@ class ILIAS extends PEAR
 		}
 
 	/**
-	* read string value from settingstable
+	* read one value from settingstable
 	* @access	public
 	* @param	string	keyword
 	* @return	string	value
 	*/
-	function getSettingsStr($a_keyword)
+	function getSetting($a_keyword)
 	{
-		$query = "SELECT value_str FROM settings WHERE keyword='".$a_keyword."'";
+		$query = "SELECT value FROM settings WHERE keyword='".$a_keyword."'";
 		$res = $this->db->query($query);
 
 		if ($res->numRows() > 0)
+
 		{
 			$row = $res->fetchRow();
 			return $row[0];
@@ -186,44 +187,42 @@ class ILIAS extends PEAR
 	}
 
 	/**
-	* read integer value from settingstable
+	* read all values from settingstable
 	* @access	public
-	* @param	string		keyword
-	* @return	integer		value
+	* @param	void	keyword
+	* @return	array	value
 	*/
-	function getSettingsInt($a_keyword)
+	function getAllSettings()
 	{
-		$query = "SELECT value_int FROM settings WHERE keyword='".$a_keyword."'";
+		$query = "SELECT * FROM settings";
 		$res = $this->db->query($query);
 
-		if ($res->numRows() > 0)
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$row = $res->fetchRow();
-			return $row[0];
+			$rueckgabe[$row[keyword]] = $row[value];
 		}
-		else
-		{
-			return false;
-		}
+		
+		return $rueckgabe;
 	}
 
+
 	/**
-	* write integer value to settingstable
+	* write one value to settingstable
 	* @access	public
 	* @param	string		keyword
-	* @param	integer		value
+	* @param	string		value
 	* @return	integer		value
 	*/
-	function setSettingsInt($a_keyword, $a_value)
+	function setSetting($key, $value)
 	{
-		$query = "DELETE FROM settings WHERE keyword='".$a_keyword."'";
-		$res = $this->db->query($query);
+		$sql = "DELETE FROM settings WHERE keyword='".$key."'";
+		$r = $this->db->query($sql);
 
-		$query = "INSERT INTO settings (keyword, value_int) VALUES ('".$a_keyword."','".$a_value."')";
-		$res = $this->db->query($query);
+		$sql = "INSERT INTO settings (keyword, value) VALUES ('".$key."','".$value."')";
+		$r = $this->db->query($sql);
 		return true;
 	}
-	
+
 	/**
 	* skin system: get all available skins from template directory
 	* @access public

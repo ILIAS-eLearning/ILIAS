@@ -74,6 +74,14 @@ $tpl->parseCurrentBlock();
 //main table
 $tpl->touchBlock("adminrow");
 
+if ($_GET["message"])
+{
+	$tpl->addBlockFile("MESSAGEFILE","sys_message","tpl.message.html");
+	$tpl->setCurrentBlock("sys_message");
+	$tpl->setVariable("MESSAGE",urldecode($_GET["message"]));
+	$tpl->parseCurrentBlock();
+}
+
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
 ?>

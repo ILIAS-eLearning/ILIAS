@@ -8,10 +8,93 @@
 * @package ilias
 */
 require_once "./include/ilias_header.inc";
-include("./include/inc.main.php");
 
-$tpl = new Template("tpl.adm_basicdata.html", false, false);
+$tpl = new Template("tpl.adm_basicdata.html", true, true);
 
+if ($_POST["cmd"] == "setting_save")  //Formular wurde abgeschickt
+{
+	if ($admin_firstname && $admin_lastname && $street && $zip_code && $city && $country && $phone && $email) //Benötigte Felder ausgefüllt
+	{
+		$ilias->setSetting("inst_name",$inst_name);
+		$ilias->setSetting("inst_info",$inst_info);
+		$ilias->setSetting("institution",$institution);
+		$ilias->setSetting("convert_path",$convert_path);
+		$ilias->setSetting("zip_path",$zip_path);
+		$ilias->setSetting("unzip_path",$unzip_path);
+		$ilias->setSetting("java_path",$java_path);
+		$ilias->setSetting("babylon_path",$babylon_path);
+		$ilias->setSetting("feedback",$feedback);
+		$ilias->setSetting("errors",$errors);
+		$ilias->setSetting("pub_section",$pub_section);
+		$ilias->setSetting("news",$news);
+		$ilias->setSetting("payment_system",$payment_system);
+		$ilias->setSetting("group_file_sharing",$group_file_sharing);
+		$ilias->setSetting("crs_enable",$crs_enable);
+		$ilias->setSetting("ldap_enable",$ldap_enable);
+		$ilias->setSetting("ldap_server",$ldap_server);
+		$ilias->setSetting("ldap_port",$ldap_port);
+		$ilias->setSetting("ldap_basedn",$ldap_basedn);
+		$ilias->setSetting("admin_firstname",$admin_firstname);		
+		$ilias->setSetting("admin_lastname",$admin_lastname);		
+		$ilias->setSetting("admin_title",$admin_title);
+		$ilias->setSetting("admin_position",$admin_position);
+		$ilias->setSetting("institution",$institution);
+		$ilias->setSetting("street",$street);
+		$ilias->setSetting("zipcode",$zip_code);
+		$ilias->setSetting("city",$city);
+		$ilias->setSetting("country",$country);
+		$ilias->setSetting("phone",$phone);
+		$ilias->setSetting("email",$email);
+		
+		$ilias->ini->setVariable("server","tpl_path",$tpl_path);
+		$ilias->ini->setVariable("server","lang_path",$lang_path);
+		
+		header ("Location: admin.php?message=".urlencode("Your settings have been saved sucessfully."));
+		exit;
+	}
+	else //benötigte Felder nicht ausgefüllt -> Felder werden mit Eingaben belegt
+	{
+		$tpl->addBlockFile("MESSAGEFILE","sys_message","tpl.message.html");
+		$tpl->setVariable("MESSAGE","Please fill out all required fields!");
+		$settings[inst_name]=$inst_name;
+		$settings[inst_info] = $inst_info;
+		$settings[institution] = $institution;
+		$settings[convert_path] = $convert_path;
+		$settings[zip_path] = $zip_path;
+		$settings[unzip_path] = $unzip_path;
+		$settings[java_path] = $java_path;
+		$settings[babylon_path] = $babylon_path;
+		$settings[feedback] = $feedback;
+		$settings[errors] = $errors;
+		$settings[pub_section] = $pub_section;
+		$settings[news] = $news;
+		$settings[payment_system] = $payment_system;
+		$settings[group_file_sharing] = $group_file_sharing;
+		$settings[crs_enable] = $crs_enable;
+		$settings[ldap_enable] = $ldap_enable;
+		$settings[ldap_server] = $ldap_server;
+		$settings[ldap_port] = $ldap_port;
+		$settings[ldap_basedn] = $ldap_basedn;
+		$settings[admin_firstname] = $admin_firstname;		
+		$settings[admin_lastname] = $admin_lastname;		
+		$settings[admin_title] = $admin_title;
+		$settings[admin_position] = $admin_position;
+		$settings[institution] = $institution;
+		$settings[street] = $street;
+		$settings[zipcode] = $zip_code;
+		$settings[city] = $city;
+		$settings[country] = $country;
+		$settings[phone] = $phone;
+		$settings[email] = $email;
+		$settings[tpl_path] = $tpl_path;
+		$settings[lang_path] = $lang_path;
+	}
+}
+else //wurde nicht abgeschickt -> Daten werden geladen
+{
+	$settings = $ilias->getAllSettings();
+}
+	
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("basic_data"));
 
 //language things
@@ -24,6 +107,9 @@ $tpl->setVariable("TXT_SERVER_PORT", $lng->txt("server_port"));
 $tpl->setVariable("TXT_SERVER_SOFTWARE", $lng->txt("server_software"));
 $tpl->setVariable("TXT_HTTP_PATH", $lng->txt("http_path"));
 $tpl->setVariable("TXT_ABSOLUTE_PATH", $lng->txt("absolute_path"));
+$tpl->setVariable("TXT_TPL_PATH", $lng->txt("tpl_path"));
+$tpl->setVariable("TXT_LANG_PATH", $lng->txt("lang_path"));
+
 $tpl->setVariable("TXT_INST_NAME", $lng->txt("inst_name"));
 $tpl->setVariable("TXT_INST_INFO", $lng->txt("inst_info"));
 $tpl->setVariable("TXT_INSTITUTION", $lng->txt("institution"));
@@ -65,8 +151,9 @@ $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
 
 //values
-$tpl->setVariable("ILIAS_RELEASE", $ilias->getSettingsStr("ilias_version"));
-$tpl->setVariable("DB_VERSION", $ilias->getSettingsInt("db_version"));
+
+$tpl->setVariable("FORMACTION", $PHP_SELF);
+
 $tpl->setVariable("HTTP_PATH", "http://".$_SERVER["SERVER_NAME"].dirname($_SERVER["REQUEST_URI"]));
 $tpl->setVariable("ABSOLUTE_PATH", dirname($_SERVER["SCRIPT_FILENAME"]));
 $tpl->setVariable("HOSTNAME", $_SERVER["SERVER_NAME"]);
@@ -74,19 +161,49 @@ $tpl->setVariable("SERVER_PORT", $_SERVER["SERVER_PORT"]);
 $tpl->setVariable("SERVER_ADMIN", $_SERVER["SERVER_ADMIN"]);
 $tpl->setVariable("SERVER_SOFTWARE", $_SERVER["SERVER_SOFTWARE"]);
 $tpl->setVariable("IP_ADDRESS", $_SERVER["SERVER_ADDR"]);
-/*
-$tpl->setVariable("", );
-$tpl->setVariable("", );
-$tpl->setVariable("", );
-$tpl->setVariable("", );
-$tpl->setVariable("", );
-$tpl->setVariable("", );
-$tpl->setVariable("", );
-$tpl->setVariable("", );
-*/
-//$tpl->setVariable("", );
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+//Daten aus INI holen
+$tpl->setVariable("TPL_PATH",$ilias->ini->readVariable("server","tpl_path"));
+$tpl->setVariable("LANG_PATH",$ilias->ini->readVariable("server","lang_path"));
 
+//Daten aus Settings holen
+$tpl->setVariable("DB_VERSION",$settings["db_version"]);
+$tpl->setVariable("ILIAS_RELEASE",$settings["ilias_version"]);
+$tpl->setVariable("INST_NAME",$settings["inst_name"]);
+$tpl->setVariable("INST_INFO",$settings["inst_info"]);
+$tpl->setVariable("CONVERT_PATH",$settings["convert_path"]);
+$tpl->setVariable("ZIP_PATH",$settings["zip_path"]);
+$tpl->setVariable("UNZIP_PATH",$settings["unzip_path"]);
+$tpl->setVariable("JAVA_PATH",$settings["java_path"]);
+$tpl->setVariable("BABYLON_PATH",$settings["babylon_path"]);
+$tpl->setVariable("FEEDBACK",$settings["feedback"]);
+$tpl->setVariable("ERRORS",$settings["errors"]);
+if ($settings[pub_section]=="y") $tpl->setVariable("PUB_SECTION","checked");
+if ($settings[news]=="y") $tpl->setVariable("NEWS","checked");
+if ($settings[payment_system]=="y") $tpl->setVariable("PAYMENT_SYSTEM","checked");
+if ($settings[group_file_sharing]=="y") $tpl->setVariable("GROUP_FILE_SHARING","checked");
+if ($settings[crs_enable]=="y") $tpl->setVariable("CRS_MANAGEMENT_SYSTEM","checked");
+
+if ($settings[ldap_enable]=="y") $tpl->setVariable("LDAP_ENABLE","checked");
+$tpl->setVariable("LDAP_SERVER",$settings["ldap_server"]);
+$tpl->setVariable("LDAP_PORT",$settings["ldap_port"]);
+$tpl->setVariable("LDAP_BASEDN",$settings["ldap_basedn"]);
+
+$tpl->setVariable("ADMIN_FIRSTNAME",$settings["admin_firstname"]);
+$tpl->setVariable("ADMIN_LASTNAME",$settings["admin_lastname"]);
+$tpl->setVariable("ADMIN_TITLE",$settings["admin_title"]);
+$tpl->setVariable("ADMIN_POSITION",$settings["admin_position"]);
+$tpl->setVariable("INSTITUTION",$settings["institution"]);
+$tpl->setVariable("STREET",$settings["street"]);
+$tpl->setVariable("ZIPCODE",$settings["zipcode"]);
+$tpl->setVariable("CITY",$settings["city"]);
+$tpl->setVariable("COUNTRY",$settings["country"]);
+$tpl->setVariable("PHONE",$settings["phone"]);
+$tpl->setVariable("EMAIL",$settings["email"]);
+
+$tpl->setCurrentBlock("sys_message");
+$tpl->parseCurrentBlock();
+
+//$tplmain->setVariable("PAGECONTENT",$tpl->get());
+$tpl->show();
 ?>
