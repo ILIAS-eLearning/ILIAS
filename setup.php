@@ -58,7 +58,7 @@ $tpl->loadTemplatefile("tpl.setup.html", true, true);
 // prepare file access to work with safe mode
 umask(0117);
 
-$log = new ilLog("ilias.log");
+$log = new ilLog("", "ilias.log");
 
 //instantiate setup-class
 $mySetup = new ilSetup();
