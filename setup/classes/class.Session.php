@@ -64,7 +64,6 @@ class Session {
         //  Prüfen, ob eine Session-ID übergeben wurde
         //  (über Cookie, POST oder GET)
         $IDpassed = false;
-echo $_COOKIE[session_name()]; exit;
         if  (   isset($_COOKIE[session_name()]) &&
                 @strlen($_COOKIE[session_name()]) == 32
             )   $IDpassed = true;
