@@ -219,7 +219,7 @@ class ASS_JavaApplet extends ASS_Question {
 * @param object $db A pear DB object
 * @access public
 */
-  function save_to_db()
+  function saveToDb()
   {
     global $ilias;
 
@@ -291,7 +291,7 @@ class ASS_JavaApplet extends ASS_Question {
 * @param integer $question_id A unique key which defines the multiple choice test in the database
 * @access public
 */
-  function load_from_db($question_id)
+  function loadFromDb($question_id)
   {
     global $ilias;
 
@@ -312,8 +312,8 @@ class ASS_JavaApplet extends ASS_Question {
 				$this->javaapplet_filename = $data->image_file;
         $this->question = $data->question_text;
 				$this->split_params($data->params);
-				$this->set_shuffle($data->shuffle);
-        $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+				$this->setShuffle($data->shuffle);
+        $this->setEstimatedWorkingTiem(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       // loads materials uris from database
       $this->load_material_from_db($question_id);

@@ -131,7 +131,7 @@ class ASS_ClozeTest extends ASS_Question {
 * @param object $db A pear DB object
 * @access public
 */
-  function save_to_db()
+  function saveToDb()
   {
     global $ilias;
     $db =& $ilias->db->db;
@@ -225,7 +225,7 @@ class ASS_ClozeTest extends ASS_Question {
 * @param integer $question_id A unique key which defines the cloze test in the database
 * @access public
 */
-  function load_from_db($question_id)
+  function loadFromDb($question_id)
   {
     global $ilias;
     $db =& $ilias->db->db;
@@ -245,7 +245,7 @@ class ASS_ClozeTest extends ASS_Question {
         $this->owner = $data->owner;
         $this->cloze_text = $data->question_text;
 				$this->shuffle = $data->shuffle;
-        $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+        $this->setEstimatedWorkingTiem(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       // loads materials uris from database
       $this->load_material_from_db($question_id);

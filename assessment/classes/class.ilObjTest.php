@@ -310,7 +310,7 @@ class ilObjTest extends ilObject
 	function read($a_force_db = false)
 	{
 		parent::read($a_force_db);
-		$this->load_from_db();
+		$this->loadFromDb();
 		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
 	
@@ -686,7 +686,7 @@ class ilObjTest extends ilObject
 * @param integer $test_id A unique key which defines the test in the database
 * @access public
 */
-  function load_from_db()
+  function loadFromDb()
   {
     $db = $this->ilias->db->db;
     
@@ -709,7 +709,7 @@ class ilObjTest extends ilObject
 				$this->reporting_date = $data->reporting_date;
         $this->starting_time = $data->starting_time;
 
-				$this->mark_schema->load_from_db($this->test_id);
+				$this->mark_schema->loadFromDb($this->test_id);
 				$this->load_questions();
       }
     }
@@ -1529,7 +1529,7 @@ class ilObjTest extends ilObject
           $question = new ASS_MultipleChoice();
           break;
       }
-      $question->load_from_db($value);
+      $question->loadFromDb($value);
       $max_points = $question->get_maximum_points();
       $total_max_points += $max_points;
       $reached_points = $question->get_reached_points($user_id, $this->get_test_id());
@@ -2024,7 +2024,7 @@ class ilObjTest extends ilObject
           $question = new ASS_MultipleChoice();
           break;
       }
-      $question->load_from_db($question_id);
+      $question->loadFromDb($question_id);
 			$est_time = $question->get_estimated_working_time();
 			$time_in_seconds += $est_time["h"] * 3600 + $est_time["m"] * 60 + $est_time["s"];
 		}

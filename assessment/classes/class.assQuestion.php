@@ -248,9 +248,9 @@ class ASS_Question extends PEAR {
 * @return boolean The result of the title check
 * @access public
 */
-  function question_title_exists($title) {
+  function questionTitleExists($title) {
     $query = sprintf("SELECT * FROM qpl_questions WHERE title = %s",
-      $this->ilias->db->db->quote($title)
+      $this->ilias->db->quote($title)
     );
     $result = $this->ilias->db->query($query);
     if (strcmp(get_class($result), db_result) == 0) {
@@ -270,7 +270,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $title
 */
-  function set_title($title = "") {
+  function setTitle($title = "") {
     $this->title = $title;
   }
 
@@ -283,7 +283,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $id
 */
-  function set_id($id = -1) {
+  function setId($id = -1) {
     $this->id = $id;
   }
 
@@ -296,7 +296,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $test_id
 */
-  function set_test_id($id = -1) {
+  function setTestId($id = -1) {
     $this->test_id = $id;
   }
 
@@ -309,7 +309,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $comment
 */
-  function set_comment($comment = "") {
+  function setComment($comment = "") {
     $this->comment = $comment;
   }
 
@@ -323,7 +323,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $shuffle
 */
-  function set_shuffle($shuffle = true) {
+  function setShuffle($shuffle = true) {
 		if ($shuffle)
 		{
 			$this->shuffle = 1;
@@ -345,7 +345,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $comment
 */
-  function set_estimated_working_time($hour=0, $min=0, $sec=0) {
+  function setEstimatedWorkingTime($hour=0, $min=0, $sec=0) {
     $this->est_working_time = array("h" => (int)$hour, "m" => (int)$min, "s" => (int)$sec);
   }
 /**
@@ -358,7 +358,7 @@ class ASS_Question extends PEAR {
 * @access public
 * @see $materials
 */
-  function add_materials($materials_file, $materials_name="") {
+  function addMaterials($materials_file, $materials_name="") {
   	if(empty($materials_name)) {
     	$materials_name = $materials_file;
     }
@@ -406,7 +406,7 @@ class ASS_Question extends PEAR {
 			if (!move_uploaded_file($materials_tempfilename, $materialspath . $materials_filename)) {
 				print "image not uploaded!!!! ";
 			} else {
-				$this->add_materials($materials_filename, $materials_name);
+				$this->addMaterials($materials_filename, $materials_name);
 			}
 		}
 	}
@@ -615,20 +615,20 @@ class ASS_Question extends PEAR {
   function insert_into_test($test_id) {
     // get maximum sequence index in test
     $query = sprintf("SELECT MAX(sequence) AS seq FROM dum_test_question WHERE test_fi=%s",
-      $this->ilias->db->db->quote($test_id)
+      $this->ilias->db->quote($test_id)
     );
-    $result = $this->ilias->db->db->query($query);
+    $result = $this->ilias->db->query($query);
     $sequence = 1;
     if ($result->numRows() == 1) {
       $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
       $sequence = $data->seq + 1;
     }
     $query = sprintf("INSERT INTO dum_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-      $this->ilias->db->db->quote($test_id),
-      $this->ilias->db->db->quote($this->get_id()),
-      $this->ilias->db->db->quote($sequence)
+      $this->ilias->db->quote($test_id),
+      $this->ilias->db->quote($this->get_id()),
+      $this->ilias->db->quote($sequence)
     );
-    $result = $this->ilias->db->db->query($query);
+    $result = $this->ilias->db->query($query);
     if ($result != DB_OK) {
       // Fehlermeldung
     }
@@ -656,7 +656,7 @@ class ASS_Question extends PEAR {
 *
 * @access public
 */
-  function save_to_db() {
+  function saveToDb() {
     // Method body
   }
 
@@ -695,7 +695,7 @@ class ASS_Question extends PEAR {
 */
   function save_working_data($limit_to = LIMIT_NO_LIMIT) {
 /*    global $ilias;
-    $db =& $ilias->db->db;
+    $db =& $ilias->db;
 
     // Increase the number of tries for that question
     $query = sprintf("SELECT * FROM dum_assessment_solution_order WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
@@ -721,15 +721,15 @@ class ASS_Question extends PEAR {
 */
   function duplicate() {
     $clone = $this;
-    $clone->set_id(-1);
+    $clone->setId(-1);
     $counter = 2;
-    while ($this->question_title_exists($clone->get_title() . " ($counter)")) {
+    while ($this->questionTitleExists($clone->get_title() . " ($counter)")) {
       $counter++;
     }
-    $clone->set_title($clone->get_title() . " ($counter)");
+    $clone->setTitle($clone->get_title() . " ($counter)");
     $clone->set_owner($this->ilias->account->id);
     $clone->set_author($this->ilias->account->fullname);
-    $clone->save_to_db($this->ilias->db->db);
+    $clone->saveToDb($this->ilias->db);
   }
 
 /**
@@ -816,7 +816,7 @@ class ASS_Question extends PEAR {
   function save_materials_to_db()
   {
   	global $ilias;
-    $db = & $ilias->db->db;
+    $db = & $ilias->db;
 
   	if ($this->id > 0) {
       	$query = sprintf("DELETE FROM qpl_question_material WHERE question_id = %s",
@@ -847,7 +847,7 @@ class ASS_Question extends PEAR {
   function load_material_from_db($question_id)
   {
     global $ilias;
-    $db = & $ilias->db->db;
+    $db = & $ilias->db;
 
     $query = sprintf("SELECT * FROM qpl_question_material WHERE question_id = %s",
       $db->quote($question_id)
@@ -856,7 +856,7 @@ class ASS_Question extends PEAR {
     if (strcmp(get_class($result), db_result) == 0) {
     	$this->materials = array();
     	while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-        	$this->add_materials($data->materials_file, $data->materials);
+        	$this->addMaterials($data->materials_file, $data->materials);
 
         }
     }
@@ -934,6 +934,32 @@ class ASS_Question extends PEAR {
 		$querydelete = sprintf("DELETE FROM tst_solutions WHERE question_fi = %s", $this->ilias->db->quote("$this->id"));
 		$deleteresult = $this->ilias->db->query($querydelete);
 	}
+
+/**
+* Shuffles the values of a given array
+*
+* Shuffles the values of a given array
+*
+* @param array $array An array which should be shuffled
+* @access public
+*/
+	function pc_array_shuffle($array) {
+    $i = count($array);
+
+    while(--$i) {
+        $j = mt_rand(0, $i);
+
+        if ($i != $j) {
+            // swap elements
+            $tmp = $array[$j];
+            $array[$j] = $array[$i];
+            $array[$i] = $tmp;
+        }
+    }
+
+    return $array;
+	}
+	
 }
 
 ?>
