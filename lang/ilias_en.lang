@@ -547,6 +547,7 @@ mail#:#bc#:#BC
 mail#:#forward#:#Forward
 mail#:#linebreak#:#Linebreak
 mail#:#mail_add_recipient#:#Please enter a recipient
+mail#:#mail_add_subfolder#:#Add Subfolder
 mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_add_to_addressbook#:#Add to addressbook
 mail#:#mail_addr_entries#:#Entries
@@ -599,4 +600,3 @@ mail#:#search_addressbook#:#Addressbook search
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
 mail#:#search_system#:#System search
-mail#:#mail_add_subfolder#:#Add Subfolder
