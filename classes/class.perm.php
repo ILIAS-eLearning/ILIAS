@@ -74,8 +74,8 @@ function updateObject ($a_obj_id,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TIT
 	}
 
 	// cut length of text
-	$a_title = addslashes(shortenText($a_title,$a_len_title,$a_dots));
-	$_desc = addslashes(shortenText($a_desc,$a_len_desc,$a_dots));
+	$a_title = addslashes(ilUtil::shortenText($a_title,$a_len_title,$a_dots));
+	$_desc = addslashes(ilUtil::shortenText($a_desc,$a_len_desc,$a_dots));
 
 	$q = "UPDATE object_data ".
 		 "SET ".
@@ -359,12 +359,12 @@ function trimDeluxe ($a_text)
 }
 
 /**
-* TODO: replace this function in other classes by util method
+* deprecated: moved to class ilUtil
 */
+/*
 function shortenText ($a_str, $a_len, $a_dots = "false")
 {
-	return ilUtil::shortenText ($a_str, $a_len, $a_dots);
-}
+}*/
 
 /**
 * check if a login name already exists
@@ -477,7 +477,7 @@ function hasNewMail()
 		"AND mo.type = 'inbox' ".
 		"AND m.user_id = '".$_SESSION["AccountId"]."' ".
 		"AND m.m_status = 'unread'";
-	
+
 	$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 	return $row ? $row->mail_id : 0;
 }
