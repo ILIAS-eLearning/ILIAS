@@ -47,7 +47,8 @@ class ASS_QuestionGUI
 
 	var $tpl;
 	var $lng;
-
+	var $error;
+	
 	/**
 	* ASS_QuestionGUI constructor
 	*

@@ -224,6 +224,11 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		$this->tpl->parseCurrentBlock();
 
+		if ($this->error)
+		{
+			sendInfo($this->error);
+		}
+		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->parseCurrentBlock();
 	}
@@ -235,7 +240,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
 		{
 			// You cannot add answers before you enter the required data
-			sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+			$this->error .= $this->lng->txt("fill_out_all_required_fields_add_answer") . "<br />";
 			$ok = false;
 		}
 		else
@@ -247,10 +252,13 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 					if (!$value)
 					{
 						$ok = false;
-						sendInfo($this->lng->txt("fill_out_all_answer_fields"));
 					}
 			 	}
 			}
+		}
+		if (!$ok)
+		{
+			$this->error .= $this->lng->txt("fill_out_all_answer_fields") . "<br />";
 		}
 
 		$this->writePostData();
@@ -341,10 +349,21 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 						{
 							$this->object->saveToDb();
 							$saved = true;
-							sendInfo($this->lng->txt("question_saved_for_upload"));
+							$this->error .= $this->lng->txt("question_saved_for_upload") . "<br />";
 						}
-						$this->object->set_image_file($_FILES[$key]['name'], $_FILES[$key]['tmp_name']);
-						$_POST[$key] = $_FILES[$key]['name'];
+						$upload_result = $this->object->set_image_file($_FILES[$key]['name'], $_FILES[$key]['tmp_name']);
+						switch ($upload_result)
+						{
+							case 0:
+								$_POST[$key] = $_FILES[$key]['name'];
+								break;
+							case 1:
+								$this->error .= $this->lng->txt("error_image_upload_wrong_format") . "<br />";
+								break;
+							case 2:
+								$this->error .= $this->lng->txt("error_image_upload_copy_file") . "<br />";
+								break;
+						}
 					}
 				}
 				$points = $_POST["points_$matches[1]"];
@@ -353,7 +372,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 					if ($points < 0)
 					{
 						$points = 0.0;
-						sendInfo($this->lng->txt("negative_points_not_allowed"), true);
+						$this->error .= $this->lng->txt("negative_points_not_allowed") . "<br />";
 					}
 				}
 				else
