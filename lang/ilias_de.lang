@@ -386,7 +386,8 @@ common#:#set#:#setzen
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#set_system_language#:#Systemsprache ändern
-common#:#show_list#:#Auflistung anzeigencommon#:#show_owner#:#Besitzerinfo
+common#:#show_list#:#Auflistung anzeigen
+common#:#show_owner#:#Besitzerinfo
 common#:#signature#:#Signatur
 common#:#startpage#:#Startseite
 common#:#status#:#Status
