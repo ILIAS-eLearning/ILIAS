@@ -278,7 +278,7 @@ class ilMediaObject extends ilObjMediaObject
 		{
 			case IL_MODE_ALIAS:
 				$xml = "<MediaObject>\n";
-				$xml .= "<MediaAlias OriginId=\"".$this->getId()."\"/>\n";
+				$xml .= "<MediaAlias OriginId=\"il__mob_".$this->getId()."\"/>\n";
 				$media_items =& $this->getMediaItems();
 //echo "MediaItems:".count($media_items).":<br>";
 				for($i=0; $i<count($media_items); $i++)
@@ -320,7 +320,7 @@ class ilMediaObject extends ilObjMediaObject
 				// get first technical section
 //echo "ilMediaObject::getXML:getMetaData:id:".$this->getId().":<br>";
 				$meta =& $this->getMetaData();
-				$xml = "<MediaObject Id=\"".$this->getId()."\">\n";
+				$xml = "<MediaObject Id=\"il__mob_".$this->getId()."\">\n";
 //echo "count techs2:".count($meta->technicals).":<br>";
 				/*
 				$technical =& $meta->getTechnicalSection(1);
@@ -422,7 +422,7 @@ class ilMediaObject extends ilObjMediaObject
 		$this->mob_node =& $this->node->append_child($this->mob_node);
 		$this->mal_node =& $this->dom->create_element("MediaAlias");
 		$this->mal_node =& $this->mob_node->append_child($this->mal_node);
-		$this->mal_node->set_attribute("OriginId", $this->getId());
+		$this->mal_node->set_attribute("OriginId", "il__mob_".$this->getId());
 
 		// standard view
 		$item_node =& $this->dom->create_element("MediaAliasItem");
