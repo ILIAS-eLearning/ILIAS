@@ -562,6 +562,17 @@ class SurveyQuestionGUI {
 	}
 
 /**
+* Cancels the form adding a phrase
+*
+* Cancels the form adding a phrase
+*
+* @access public
+*/
+	function cancelDeleteCategory() {
+		$this->ctrl->redirect($this, "editQuestion");
+	}
+
+/**
 * Adds a selected phrase
 *
 * Adds a selected phrase

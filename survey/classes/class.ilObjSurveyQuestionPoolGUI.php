@@ -312,14 +312,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "questions");
 	}
 	
-	/**
-	* cancel an action
-	*/
-	function cancelObject()
-	{
-		$this->ctrl->redirect($this, "questions");
-	}
-	
 /**
 * Creates a confirmation form to paste copied questions in the question pool
 *
@@ -1623,7 +1615,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
-			sendInfo($this->lng->txt("error_upload"));
+			sendInfo($this->lng->txt("spl_select_file_for_import"));
 			$this->importObject();
 			return;
 		}
@@ -1736,7 +1728,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			return;
 		}
 		$this->uploadSplObject(false);
-		$this->ctrl->redirect($this, "questions");
+		ilUtil::redirect($this->getReturnLocation("importFile",$this->ctrl->getTargetScript()."?".$this->link_params));
+//		$this->ctrl->redirect($this, "questions");
 	}
 
 	/**

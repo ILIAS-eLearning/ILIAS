@@ -495,17 +495,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		exit();
 	}
 
-
-	/**
-	* cancel action
-	*/
-	function cancelObject()
-	{
-		unset($_SESSION["ass_q_id"]);
-		$this->ctrl->redirect($this, "questions");
-	}
-
-	
 	/**
 	* show assessment data of object
 	*/
