@@ -1555,3 +1555,13 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$this->db->query($query);
 }
 ?>
+<#90>
+DELETE FROM settings WHERE keyword='institution';
+DELETE FROM settings WHERE keyword='city';
+DELETE FROM settings WHERE keyword='country';
+DELETE FROM settings WHERE keyword='email';
+DELETE FROM settings WHERE keyword='errors';
+DELETE FROM settings WHERE keyword='feedback';
+DELETE FROM settings WHERE keyword='phone';
+DELETE FROM settings WHERE keyword='street';
+DELETE FROM settings WHERE keyword='zipcode';
