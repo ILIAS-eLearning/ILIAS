@@ -1,0 +1,33 @@
+  <form action="{FORMACTION}" method="post">
+	<table class="std" width="40%">
+	  <tr class="tbltitle">
+		<td colspan="3">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_OFFLINE}</td>
+		<td class="sub_option" >{TXT_BILL}</td>
+		<td class="option_value">{BILL_CHECK}&nbsp;{TXT_ENABLED}</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_ONLINE}</td>
+		<td class="sub_option" >{TXT_BMF}</td>
+		<td class="option_value">{ONLINE_CHECK}&nbsp;{TXT_ENABLED}</td>
+	  </tr>
+	  <tr class="tblfooter">
+		<td colspan="{COLUMN_COUNT}">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tblfooter">
+			  <td><input class="submit" type="submit" name="cmd[{PBTN_NAME}]" value="{PBTN_VALUE}" /></td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	</table>
+  </form>

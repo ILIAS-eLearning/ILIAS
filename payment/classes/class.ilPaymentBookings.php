@@ -72,6 +72,37 @@ class ilPaymentBookings
 		}
 		return 0;
 	}
+	
+	function _getCountBookingsByPayMethod($a_pm)	
+	{
+		switch($a_pm)
+		{
+			case 'pm_bill':
+				$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
+					"WHERE pay_method = '1'";
+
+				$res = $ilDB->query($query);
+				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					return $row->bid;
+				}
+				return 0;
+
+			case 'pm_bmf':
+				$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
+					"WHERE pay_method = '2'";
+
+				$res = $ilDB->query($query);
+				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					return $row->bid;
+				}
+				return 0;
+
+			default:
+				return 0;
+		}
+	}
 
 
 	// PRIVATE

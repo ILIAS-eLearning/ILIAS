@@ -3866,3 +3866,12 @@ payment#:#pay_locator#:#Payment
 payment#:#paya_statistic#:#Statistik
 payment#:#paya_object#:#Objekte
 payment#:#paya_shopping_cart#:#Warenkorb
+common#:#pay_methods#:#Bezahlarten
+payment#:#pays_pay_methods#:#Bezahlarten
+payment#:#pays_offline#:#Offline
+payment#:#pays_bill#:#Rechnung
+payment#:#pays_online#:#Online
+payment#:#pays_bmf#:#BMF
+payment#:#pays_objects_bill_exist#:#Für einige Objekte ist die Bezahlart 'Rechnung' aktiviert. Diese kann deswegen nicht deaktiviert werden.
+payment#:#pays_objects_bmf_exist#:#Für einige Objekte ist die Bezahlart 'BMF' aktiviert. Diese kann deswegen nicht deaktiviert werden.
+payment#:#pays_updated_pay_method#:#Die Bezahlart wurde geändert.
