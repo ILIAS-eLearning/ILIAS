@@ -10,18 +10,6 @@ function vd($mixed)
 	echo "</pre>";
 } //end function
 
-//output
-include_once("HTML/IT.php");
-$TPLPATH = "./templates";
-
-$tplmain = new IntegratedTemplate($TPLPATH);
-if (file_exists($TPLPATH."/"."tpl.main.html"))
-{
-   $tplmain->loadTemplateFile("tpl.main.html", false, false);
-}
-else
-{
-   die ("Maintemplate doesn't exist");
-}
+$tplmain = new Template("tpl.main.html", false, false);
 
 ?>

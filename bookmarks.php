@@ -9,8 +9,7 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$tplbtn = new IntegratedTemplate($TPLPATH);
-$tplbtn->loadTemplateFile("tpl.buttons.html", true, true);
+$tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","bookmark_newfolder.php");
 $tplbtn->setVariable("BTN_TXT","_New Folder");
@@ -22,8 +21,7 @@ $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
 
-$tpl = new IntegratedTemplate($TPLPATH);
-$tpl->loadTemplateFile("tpl.bookmarks.html", true, true);
+$tpl = new Template("tpl.bookmarks.html", true, true);
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
 $tplmain->setVariable("PAGETITLE","_ILIAS - Bookmarks");

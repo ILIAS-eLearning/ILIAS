@@ -12,8 +12,7 @@ include_once("./include/inc.main.php");
 
 $lng = new Language($ilias->account->data["language"]);
 
-$tpl = new IntegratedTemplate($TPLPATH);
-$tpl->loadTemplateFile("tpl.main_buttons.html", false, false);
+$tpl = new Template("tpl.main_buttons.html", false, false);
 $tpl->show();
 //$tplmain->setVariable("PAGECONTENT",$tpl->get());
 //$tplmain->show();

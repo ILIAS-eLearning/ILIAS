@@ -15,8 +15,7 @@ $grp_sys[] = array("name" => "Administrator",
 				"owner" => "System Administrator [root]"
 			);
 
-$tplbtn = new IntegratedTemplate($TPLPATH);
-$tplbtn->loadTemplateFile("tpl.buttons.html", true, true);
+$tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","");
 $tplbtn->setVariable("BTN_TXT","new group");
@@ -24,8 +23,7 @@ $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
 
-$tpl = new IntegratedTemplate($TPLPATH);
-$tpl->loadTemplateFile("tpl.groups.html", false, true);
+$tpl = new Template("tpl.groups.html", false, true);
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
 $tpl->setVariable("TXT_PAGEHEADLINE","Groups");

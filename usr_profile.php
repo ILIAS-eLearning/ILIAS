@@ -13,8 +13,7 @@ $lng = new Language($ilias->account->data["language"]);
 $tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("profile"));
 
 
-$tplbtn = new IntegratedTemplate($TPLPATH);
-$tplbtn->loadTemplateFile("tpl.buttons.html", true, true);
+$tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","usr_profile.php");
 $tplbtn->setVariable("BTN_TXT",$lng->txt("personal_profile"));
@@ -30,8 +29,7 @@ $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
 
-$tpl = new IntegratedTemplate($TPLPATH);
-$tpl->loadTemplateFile("tpl.usr_profile.html", true, true);
+$tpl = new Template("tpl.usr_profile.html", true, true);
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 if ($_POST["u_id"]!="")
 {
@@ -65,6 +63,10 @@ foreach ($langs as $row)
 	$tpl->setCurrentBlock("sel_lang");
 	$tpl->setVariable("LANG", $row["name"]);
 	$tpl->setVariable("LANGSHORT", $row["id"]);
+	if ($ilias->account->data["language"] == $row["id"])
+	{
+		$tpl->setVariable("SELECTED_LANG", "selected");
+	}
 	$tpl->parseCurrentBlock();
 }
 
