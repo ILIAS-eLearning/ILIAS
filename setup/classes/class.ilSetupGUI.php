@@ -940,6 +940,9 @@ class ilSetupGUI extends ilSetup
 		$data["data"] = ilUtil::sortArray($data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 
 		$this->tpl->addBlockFile("CONTENT","content","tpl.clientlist.html");
+		
+		sendInfo();
+
 		// load template for table
 		$this->tpl->addBlockfile("CLIENT_LIST", "client_list", "tpl.table.html");
 		// load template for table content data
@@ -1677,10 +1680,8 @@ class ilSetupGUI extends ilSetup
 				or empty($_POST["form"]["inst_name"]))
 			{
 				$form_valid = false;
-				// feedback
 				$message = $this->lng->txt("fill_out_all_required_fields");
-				//$this->raiseError($message,$this->error_obj->MESSAGE);
-				sendInfo($message);
+				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 			
 			// admin email
@@ -1688,8 +1689,7 @@ class ilSetupGUI extends ilSetup
 			{
 				$form_valid = false;
 				$message = $this->lng->txt("input_error").": '".$this->lng->txt("email")."'<br/>".$this->lng->txt("email_not_valid");
-				//$this->raiseError($message,$this->error_obj->MESSAGE);
-				sendInfo($message);
+				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 
 			if (!$form_valid)	//required fields not satisfied. Set formular to already fill in values
@@ -1834,9 +1834,6 @@ class ilSetupGUI extends ilSetup
 					$this->client->setSetting("inst_id",$this->client->nic_status[2]);
 					$this->client->setSetting("nic_enabled","1");
 					$message = "nic-registration enabled";
-					sendInfo($message);
-					header("Location: setup.php?cmd=nic");
-					exit();
 				}
 			}
 			elseif ($_POST["form"]["register"] == 2)
@@ -1852,9 +1849,6 @@ class ilSetupGUI extends ilSetup
 					$this->client->setSetting("inst_id",$nic_by_email);
 					$this->client->setSetting("nic_enabled","1");
 					$message = "nic-registration enabled";
-					sendInfo($message);
-					header("Location: setup.php?cmd=nic");
-					exit();
 				}
 			}
 			else
@@ -1864,7 +1858,7 @@ class ilSetupGUI extends ilSetup
 				$message = "nic-registration disabled";
 			}
 
-				sendInfo($message);
+			sendInfo($message);
 		}
 		
 		// reload settings
@@ -2024,10 +2018,11 @@ class ilSetupGUI extends ilSetup
 		// formular sent
 		if ($_POST["form"]["delete"])
 		{
-			$ini = false;
+			$ini = true;
 			$db = false;
 			$files = false;
-			
+		
+			/* disabled
 			switch ($_POST["form"]["delete"])
 			{
 				case 1:
@@ -2045,10 +2040,11 @@ class ilSetupGUI extends ilSetup
 					$files = true;
 					break;		
 			}
+			*/
 			
 			$msg = $this->client->delete($ini,$db,$files);
 
-			sendInfo(var_dump($msg),true);
+			sendInfo($this->lng->txt("client_deleted"),true);
 			header("Location: setup.php");
 			exit();
 		}
@@ -2056,9 +2052,11 @@ class ilSetupGUI extends ilSetup
 		// output
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_delete_client.html");
 
-		// pass form
+		// delete panel
 		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
 		$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+		$this->tpl->setVariable("TXT_DELETE_CONFIRM", $this->lng->txt("delete_confirm"));
+		$this->tpl->setVariable("TXT_DELETE_INFO", $this->lng->txt("delete_info"));
 	}
 	
 	function changeAccessMode($a_back)
@@ -2106,7 +2104,7 @@ class ilSetupGUI extends ilSetup
 			}
 		}
 		
-		sendInfo($message);
+		sendInfo($message,true);
 		
 		header("Location: setup.php");
 		exit();
