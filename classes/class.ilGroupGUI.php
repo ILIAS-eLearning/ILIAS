@@ -808,12 +808,26 @@ class ilGroupGUI extends ilObjectGUI
 		switch ($cont_data["type"])
 		{
 	  		case "frm":
-				$URL = "forums_threads_liste.php?ref_id=".$cont_data["ref_id"];
+				
+				require_once "classes/class.ilForum.php";
+				
+				$frm = new ilForum();
+				$frm->setWhereCondition("top_frm_fk = ".$cont_data["obj_id"]);
+				$topicData = $frm->getOneTopic();		
+			
+				if ($topicData["top_num_threads"] > 0)
+				{
+					$thr_page = "liste";
+				}
+				else
+				{
+					$thr_page = "new";
+				}
+				
+				$URL = "forums_threads_".$thr_page.".php?ref_id=".$cont_data["ref_id"];
 				break;
 
-			case "crs":
-				$URL = "lo_list.php?cmd=displayList&ref_id=".$cont_data["ref_id"];
-				break;
+			
 
 			case "lm":
 				$URL = "content/lm_presentation.php?ref_id=".$cont_data["ref_id"];
