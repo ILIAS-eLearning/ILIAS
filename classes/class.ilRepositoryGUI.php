@@ -803,7 +803,7 @@ class ilRepositoryGUI
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
-				$obj_link = "group.php?cmd=view&grp_viewmode=$grp_view&ref_id=".$cont_data["ref_id"];
+				$obj_link = "group.php?cmd=view&ref_id=".$cont_data["ref_id"];
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 				$tpl->setVariable("TITLE", $cont_data["title"]);
 				$tpl->setVariable("LINK", $obj_link);
