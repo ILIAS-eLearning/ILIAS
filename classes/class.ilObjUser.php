@@ -21,7 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
+define ("IL_PASSWD_PLAIN", "plain");
+define ("IL_PASSWD_MD5", "md5");			// ILIAS 3 Password
+define ("IL_PASSWD_CRYPT", "crypt");		// ILIAS 2 Password
 
 require_once "classes/class.ilObject.php";
 
@@ -44,6 +46,7 @@ class ilObjUser extends ilObject
 
 	var $login;		// username in system
 	var $passwd;	// md5 hash of password
+	var $passwd_type;
 	var $gender;	// 'm' or 'f'
 	var $utitle;	// user title (keep in mind, that we derive $title from object also!)
 	var $firstname;
@@ -109,6 +112,7 @@ class ilObjUser extends ilObject
 
 		$this->type = "usr";
 		$this->ilObject($a_user_id, $a_call_by_reference);
+		$this->passwd_type = IL_PASSWD_PLAIN;
 
 		// for gender selection. don't change this
 		/*$this->gender = array(
@@ -248,12 +252,30 @@ class ilObjUser extends ilObject
 	*/
 	function saveAsNew ()
 	{
+		switch ($this->passwd_type)
+		{
+			case IL_PASSWD_PLAIN:
+				$pw_field = "passwd";
+				$pw_value = md5($this->passwd);
+				break;
+
+			case IL_PASSWD_MD5:
+				$pw_field = "passwd";
+				$pw_value = $this->passwd;
+				break;
+
+			case IL_PASSWD_CRYPT:
+				$pw_field = "i2passwd";
+				$pw_value = $this->passwd;
+				break;
+		}
+
 		$q = "INSERT INTO usr_data ".
-			 "(usr_id,login,passwd,firstname,lastname,title,gender,".
+			 "(usr_id,login,".$pw_field.",firstname,lastname,title,gender,".
 			 "email,hobby,institution,department,street,city,zipcode,country,".
 			 "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date) ".
 			 "VALUES ".
-			 "('".$this->id."','".$this->login."','".md5($this->passwd)."', ".
+			 "('".$this->id."','".$this->login."','".$pw_value."', ".
 			 "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', ".
 			 "'".ilUtil::addSlashes($this->utitle)."','".$this->gender."', ".
 			 "'".$this->email."','".ilUtil::addSlashes($this->hobby)."', ".
@@ -415,6 +437,15 @@ class ilObjUser extends ilObject
 
 		return true;
 	}
+
+	/**
+	* get encrypted Ilias 2 password (needed for imported ilias 2 users)
+	*/
+	function _makeIlias2Password($a_passwd)
+	{
+		return (crypt($a_passwd,substr($a_passwd,0,2)));
+	}
+
 
 	/**
 	* update login name
@@ -771,9 +802,10 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @param	string	passwd
 	*/
-	function setPasswd($a_str)
+	function setPasswd($a_str, $a_type = IL_PASSWD_PLAIN)
 	{
 		$this->passwd = $a_str;
+		$this->passwd_type = $a_type;
 	}
 
 	/**
