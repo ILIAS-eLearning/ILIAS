@@ -69,7 +69,7 @@ class ilObjFile extends ilObject
 
 	function getDirectory()
 	{
-		return ilUtil::getWebspaceDir()."/files/file_".$this->getId();
+		return ilUtil::getDataDir()."/files/file_".$this->getId();
 	}
 
 	function createDirectory()
