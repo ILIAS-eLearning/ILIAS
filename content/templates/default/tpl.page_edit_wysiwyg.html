@@ -33,6 +33,28 @@
 
 <div id="dragdropsymbol" style="position:absolute;left:-1000;top:-1000;visibility;hidden;"><img src="../images/ilias_logo.png"></div>
 
+
+<div xmlns:xhtml="http://www.w3.org/1999/xhtml" style="position:absolute;left:-1000;top:-1000;visibility:hidden;" id="movebeforeaftermenu">  
+<table border="1" cellspacing="0" cellpadding="0" bgcolor="white">    
+<tr>      
+<td>        
+	<table cellspacing="0" cellpadding="2" border="0">          
+	<tr>            
+		<td onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="callBeforeAfterAction('moveBefore');">{TXT_INSERT_BEFORE}</td>
+	</tr>
+	<tr>
+		<td onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="callBeforeAfterAction('moveAfter');">{TXT_INSERT_AFTER}</td>          
+	</tr>
+	<tr>
+		<td onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doCloseContextMenuCounter=2;">{TXT_INSERT_CANCEL}</td>          
+	</tr>
+	</table>
+</td>
+</tr>
+</table>
+</div>
+
+
 <script>
 var actionUrl = "{FORMACTION}";
 
@@ -41,7 +63,7 @@ var actionUrl = "{FORMACTION}";
 
 <script language="JavaScript" type="text/javascript">
 
-    SET_DHTML("actionForm","dragdropsymbol");
+    SET_DHTML("actionForm","dragdropsymbol","movebeforeaftermenu");
 
 	<!-- BEGIN add_dhtml -->
 		ADD_DHTML("{CONTEXTMENU}");
