@@ -1,0 +1,45 @@
+	<form action="{F_ACTION}" name="post" method="post" >
+    <!-- BEGIN TR_SEARCH -->
+	  <h4>{SEARCH_TXT}</h4>
+	  <table class="std">
+		  <tr class="tblheader">
+			<td class="std" colspan="2">{SEARCH_ASSIGN_TR}</td>
+		  </tr>
+		  <tr class="std">
+			<td class="option">{SEARCH_SEARCH_TERM}</td>
+			<td class="option_value"><input type="text" name="search_str" size="30" /></td>
+		  </tr>
+		  <tr>
+			<td class="submit" colspan="2">
+			  <input class="submit" type="submit" name="search" value="{BTN1_VALUE}" />&nbsp;
+			  <input class="submit" type="submit" name="cancel" value="{BTN2_VALUE}" />&nbsp;
+			</td>
+		  </tr>
+	  </table>
+	<!-- END TR_SEARCH -->
+	<!-- BEGIN TR_SELECT -->
+	  <h4>{SELECT_TXT}</h4>
+	  <table class="std">
+		  <tr class="tblheader">
+			<td class="std">&nbsp;</td>
+			<td class="std">{SELECT_TITLE}</td>
+			<td class="std">{SELECT_DESCRIPTION}</td>
+			<td class="std">{SELECT_KONTEXT}</td>
+		  </tr>
+		  <!-- BEGIN TR_SELECT_ROW -->
+		  <tr class="std">
+			<td class="option_value"><input type="checkbox" name="id[]" value="{ROW_ID}" /></td>
+			<td class="option_value">{ROW_TITLE}</td>
+			<td class="option_value">{ROW_DESCRIPTION}</td>
+			<td class="option_value">{ROW_KONTEXT}</td>
+		  </tr>
+		  <!-- END TR_SELECT_ROW -->
+		  <tr class="tblfooter">
+			<td colspan="4">
+			  <input class="submit" type="submit" name="select" value="{BTN1_VALUE}" />&nbsp;
+			  <input class="submit" type="submit" name="cancel" value="{BTN2_VALUE}" />
+			</td>
+		  </tr>
+	  </table>
+	  <!-- END TR_SELECT -->
+	</form>

@@ -28,4 +28,31 @@
 	</td>
 </tr>
 <!-- END commands -->
-</form>
+</table>
+<!-- BEGIN TRANSLATION -->
+	  <br />
+	  <table class="std">
+		  <tr class="tblheader">
+			<td class="std" colspan="2">
+			  {TRANSLATION_HEADER}
+			</td>
+		  </tr>
+		  <!-- BEGIN TRANSLATION_ROW -->
+		  <tr class="std">
+			<td class="option_value"><input type="checkbox" name="id[]" value="{ROW_ID} /></td>
+			<td class="option_value">{ROW_TITLE}</td>
+		  </tr>
+		  <!-- END TRANSLATION_ROW -->
+		  <tr>
+			<td class="submit" colspan="2">
+			  <input class="submit" type="submit" name="cmd[{BTN1_NAME}]" value="{BTN1_TEXT}" />&nbsp;
+			  <!-- BEGIN TRANSLATION_DELETE -->
+			  <input class="submit" type="submit" name="cmd[{BTN2_NAME}]" value="{BTN2_TEXT}" />
+			  <!-- END TRANSLATION_DELETE -->
+			</td>
+		  </tr>
+	  </table>
+<!-- END TRANSLATION -->
+	</form>
+		  
+		
