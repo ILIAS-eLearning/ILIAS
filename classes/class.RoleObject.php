@@ -127,7 +127,8 @@ class RoleObject extends Object
 		{
 			if ($rbacadmin->roleExists($_POST["Fobject"]["title"]))
 			{
-				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"]."' already exists! <br />Please choose another name.",$this->ilias->error_obj->WARNING);
+				$this->ilias->raiseError("A role with the name '".$_POST["Fobject"]["title"].
+										 "' already exists! <br />Please choose another name.",$this->ilias->error_obj->WARNING);
 			}
 
 			$new_obj_id = createNewObject($_GET["type"],$_POST["Fobject"]);
@@ -339,7 +340,8 @@ class RoleObject extends Object
 				
 				$tpl->setCurrentBlock("ASSIGN");
 				$tpl->setVariable("MESSAGE_BOTTOM","Assign User To Role");
-				$tpl->setVariable("FORMACTION_ASSIGN", "adm_object.php?cmd=assignSave&obj_id=".$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent);
+				$tpl->setVariable("FORMACTION_ASSIGN", "adm_object.php?cmd=assignSave&obj_id=".
+								  $this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent);
 				$tpl->parseCurrentBlock();
 			}
 			// ADOPT PERMISSIONS
@@ -361,11 +363,13 @@ class RoleObject extends Object
 				$tpl->setVariable("ROLE_NAME",$par["title"]);
 				$tpl->parseCurrentBlock();
 			}
-			$tpl->setVariable("FORMACTION_ADOPT", "adm_object.php?cmd=adoptPermSave&obj_id=".$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent);
+			$tpl->setVariable("FORMACTION_ADOPT", "adm_object.php?cmd=adoptPermSave&obj_id="
+							  .$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent);
 			// END ADOPT_PERMISSIONS
 			$tpl->setCurrentBlock("adm_content");
 			
-			$tpl->setVariable("FORMACTION", "adm_object.php?cmd=permSave&obj_id=".$this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent);
+			$tpl->setVariable("FORMACTION", "adm_object.php?cmd=permSave&obj_id=".
+							  $this->id."&parent_parent=".$this->parent_parent."&parent=".$this->parent);
 
 			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
 			$tpl->setVariable("MESSAGE_TOP","Permission Template of Role: ".$role_data["title"]);
@@ -465,7 +469,8 @@ class RoleObject extends Object
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
 			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"],$_GET["parent_parent"],true);
-			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles["$_POST[adopt]"]["parent"],$_GET["parent"],$_GET["obj_id"]);
+			$rbacadmin->copyRolePermission($_POST["adopt"],$_GET["parent"]/*$parentRoles["$_POST[adopt]"]["parent"]*/,
+										   $_GET["parent"],$_GET["obj_id"]);
 		}
 		else
 		{

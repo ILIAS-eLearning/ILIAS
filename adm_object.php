@@ -3,17 +3,31 @@ require_once "include/ilias_header.inc";
 require_once "classes/class.Object.php";	// base class for all Object Types
 
 
+function getTemplateFile($a_cmd)
+{
+	global $tpl;
+
+	$template = "tpl.".$_GET["type"]."_".$a_cmd.".html";
+
+	if ($tpl->fileExists($template) == false)
+	{
+		$template = "tpl.obj_".$a_cmd.".html";
+	}
+	$tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
+}
+
+
 if ($_POST["type"])
 {
 	$_GET["type"] = $_POST["type"];
 }
 
+// TODO function getObject needs parent_id!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 if (!isset($_GET["type"]))
 {
     $obj = getObject($_GET["obj_id"]);
     $_GET["type"] = $obj["type"];
 }
-
 
 //prepare output of administration view
 $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -62,7 +76,6 @@ if ($_GET["cmd"] == "")
 }
 
 $methode = $_GET["cmd"]."Object";
-
 switch ($_GET["type"])
 {
     case "le":
@@ -169,6 +182,7 @@ if ($_GET["message"])
 }
 
 //*************************admin tabs***********************+
+
 $tabs = array();
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 $d = $objDefinition->getProperties($_GET["type"]);
@@ -193,7 +207,8 @@ foreach ($tabs as $row)
 	$tpl->setCurrentBlock("tab");
 	$tpl->setVariable("TAB_TYPE", $tabtype);
 	$tpl->setVariable("TAB_TYPE2", $tab);
-	$tpl->setVariable("TAB_LINK", "adm_object.php?obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent."&cmd=".$row[1]);
+	$tpl->setVariable("TAB_LINK", "adm_object.php?obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".
+					  $obj->parent_parent."&cmd=".$row[1]);
 	$tpl->setVariable("TAB_TEXT", $lng->txt($row[0]));
 	$tpl->parseCurrentBlock();
 }	
@@ -233,31 +248,32 @@ $tpl->parseCurrentBlock();
 
 //****************content of object **********************************
 
-if ($_GET["cmd"] != "create")
-    $tplpart = $_GET["cmd"];
-else
-	$tplpart = "edit";
-	
-$template = "tpl.".$_GET["type"]."_".$tplpart.".html";
-
-if ($tpl->fileExists($template) == false)
-{
-	$template = "tpl.obj_".$tplpart.".html";
-}
-
-$tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 switch($_GET["cmd"])
 {
 	case "save":
-	case "addPermission":
-	case "permSave":
-	case "update":
 		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 		exit();
 		break;
+
+	case "addPermission":
+	case "permSave":
+		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
+		exit();
+		break;
+	case "update":
+		if($_GET["parent_parent"])
+			header("Location: adm_object.php?obj_id=".$_GET["parent"]."&parent=".
+			   $_GET["parent_parent"]."&cmd=view");
+		else
+			header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+				   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		exit();
+		break;
 		
 	case "create":
+		getTemplateFile("edit");
 		foreach ($data["fields"] as $key => $val)
 		{
 			$tpl->setVariable("TXT_".strtoupper($key), $lng->txt($key));
@@ -271,6 +287,7 @@ switch($_GET["cmd"])
 		break;
 		
 	case "edit":
+		getTemplateFile("edit");
 		foreach ($data["fields"] as $key => $val)
 		{
 			$tpl->setVariable("TXT_".strtoupper($key), $lng->txt($key));
@@ -284,6 +301,7 @@ switch($_GET["cmd"])
 		break;
 
 	case "owner":
+		getTemplateFile("owner");
 		$tpl->setVariable("OWNER_NAME", $data);
 		$tpl->setVariable("TXT_OBJ_OWNER", $lng->txt("obj_owner"));
 		$tpl->setVariable("CMD","update");
@@ -291,37 +309,46 @@ switch($_GET["cmd"])
 		break;
 
 	case "perm":
+		getTemplateFile("perm");
 		$tpl->setCurrentBlock("tableheader");
 		$tpl->setVariable("TXT_PERMISSION", $lng->txt("permission"));
 		$tpl->setVariable("TXT_ROLES", $lng->txt("roles"));
 		$tpl->parseCurrentBlock();
 		
-		for ($i = 0; $i<count($data["rolenames"]); $i++)
+		$num = 0;
+		foreach($data["rolenames"] as $name)
 		{
-			$num++;
+			// BLOCK ROLENAMES
 			$tpl->setCurrentBlock("ROLENAMES");
-			$tpl->setVariable("ROLE_NAME",$data["rolenames"][$i]);
+			$tpl->setVariable("ROLE_NAME",$name);
 			$tpl->parseCurrentBlock();
 
+			// BLOCK CHECK INHERIT
 			$tpl->setCurrentBLock("CHECK_INHERIT");
-			$tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$i]);
+			$tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num++]);
 			$tpl->parseCurrentBlock();
-			
-			if (is_array($data["permission"][$i]["values"]))
+		}
+		$num = 0;
+		foreach($data["permission"] as $ar_perm)
+		{
+
+			foreach ($ar_perm["values"] as $box)
 			{
-				foreach ($data["permission"][$i]["values"] as $row)
-				{
-					$tpl->setCurrentBlock("CHECK_PERM");
-					$tpl->setVariable("CHECK_PERMISSION",$row);
-					$tpl->parseCurrentBlock();			
-				}
+				// BEGIN TABLE CHECK PERM
+				$tpl->setCurrentBlock("CHECK_PERM");
+				$tpl->setVariable("CHECK_PERMISSION",$box);
+				$tpl->parseCurrentBlock();
+				// END CHECK PERM
 			}
 
+			// BEGIN TABLE DATA OUTER
 			$tpl->setCurrentBlock("TABLE_DATA_OUTER");
-			$css_row = TUtil::switchColor($num, "tblrow1", "tblrow2");
+			$css_row = TUtil::switchColor($num++, "tblrow1", "tblrow2");
 			$tpl->setVariable("CSS_ROW",$css_row);
-			$tpl->setVariable("PERMISSION", $data["permission"][$i]["name"]);
-			$tpl->parseCurrentBlock();			
+			$tpl->setVariable("PERMISSION", $ar_perm["name"]);
+			$tpl->parseCurrentBlock();
+			// END TABLE DATA OUTER
+
 
 		}
 		if ($data["local_role"] != "")
@@ -336,8 +363,21 @@ switch($_GET["cmd"])
 		}
 		break;
 
+	case "adoptPermSave":
+		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
+		exit();
+		break;
+
+	case "assignSave":
+		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=perm");
+		exit();
+		break;
+
 	case "view": 
 	default:
+		getTemplateFile("view");
 		$num = 0;
 		//table header
 		foreach ($obj->objectList["cols"] as $key)
@@ -419,7 +459,6 @@ switch($_GET["cmd"])
 			$tpl->setCurrentBlock("notfound");
 			$tpl->setVariable("TXT_OBJECT_NOT_FOUND", $lng->txt("obj_not_found"));
 		}
-		
 		//****************allowed operations on objects in current object*********************
 		//forbidden operations
 		$notoperations = array();
@@ -495,7 +534,6 @@ if ($_GET["cmd"] == "view" && $obj->type == "adm")
 	require_once("./include/inc.basicdata.php");
 	$tpl->parseCurrentBlock();
 }
-
 $tpl->show();
 
 ?>

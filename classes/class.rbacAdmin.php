@@ -410,21 +410,21 @@ class RbacAdmin
 	* @param	integer		parent_id destination
 	* @return	boolean 
 	*/
-	function copyRolePermission($a_rol_id,$a_from,$a_to,$a_dest_rol_id = 0)
+	function copyRolePermission($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id)
 	{
-		$a_dest_rol_id = $a_dest_rol_id ? $a_dest_rol_id : $a_rol_id;
+		$a_dest_id = $a_dest_id ? $a_dest_id : $a_source_id;
 
 		$query = "SELECT * FROM rbac_templates ".
-				 "WHERE rol_id = '".$a_rol_id."' ".
-				 "AND parent = '".$a_from."'";
+				 "WHERE rol_id = '".$a_source_id."' ".
+				 "AND parent = '".$a_source_parent."'";
 		$res = $this->ilias->db->query($query);
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$query = "INSERT INTO rbac_templates ".
 					 "VALUES ".
-					 "('".$a_dest_rol_id."','".$row->type."','".$row->ops_id."','".$a_to."')";
-			$res = $this->ilias->db->query($query);
+					 "('".$a_dest_id."','".$row->type."','".$row->ops_id."','".$a_dest_parent."')";
+			$this->ilias->db->query($query);
 		}
 
 		return true;

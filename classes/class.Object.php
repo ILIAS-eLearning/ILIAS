@@ -217,7 +217,6 @@ class Object
 			}
 			
 			$ope_list = getOperationList($obj["type"]);
-
 			// BEGIN TABLE_DATA_OUTER
 			foreach ($ope_list as $key => $operation)
 			{
@@ -333,7 +332,6 @@ class Object
 						if (in_array(array("parent" => $rolf_data["child"]),$folders) &&
 							in_array(array("parent" => $rolf_data["parent"]),$folders))
 						{
-							fd("hallo");
 							// FOUND
 							$rbacadmin->copyRolePermission($stop_inherit,$rolf_data["child"],$rolf_id);
 							break;
@@ -345,8 +343,8 @@ class Object
 				{
 					$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 				}
-			}
-		}
+			}// END FOREACH
+		}// END STOP INHERIT
 		return true;
 	}
 	
