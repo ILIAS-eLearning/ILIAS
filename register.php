@@ -34,7 +34,7 @@
 require_once "include/inc.header.php";
 
 // catch hack attempts
-if (!$ilias->getSetting("enable_registration") or AUTH_CURRENT == AUTH_LOCAL)
+if (!$ilias->getSetting("enable_registration") or AUTH_CURRENT != AUTH_LOCAL)
 {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
 }
