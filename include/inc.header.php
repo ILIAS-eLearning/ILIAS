@@ -94,6 +94,7 @@ if ($script != "login.php" && $script != "index.php")
 	{
 		// init user
 		$ilias->account->setId($_SESSION["AccountId"]);
+		$ilias->account->refreshLogin();
 	}
 	$ilias->account->getUserdata();
 	
