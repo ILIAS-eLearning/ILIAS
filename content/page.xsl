@@ -1053,7 +1053,7 @@
 			</applet>
 		</xsl:when>
 
-		<!-- all other mime types: output standard object tag -->
+		<!-- all other mime types: output standard object/embed tag -->
 		<xsl:otherwise>
 			<object>
 				<xsl:attribute name="data"><xsl:value-of select="$data"/></xsl:attribute>
@@ -1066,6 +1066,15 @@
 					<xsl:attribute name="value"><xsl:value-of select="@Value"/></xsl:attribute>
 					</param>
 				</xsl:for-each>
+				<embed>
+					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+					<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]/Parameter">
+						<xsl:attribute name="@Name"><xsl:value-of select="@Value"/></xsl:attribute>
+					</xsl:for-each>
+				</embed>
 			</object>
 		</xsl:otherwise>
 
