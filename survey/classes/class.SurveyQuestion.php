@@ -150,6 +150,15 @@ class SurveyQuestion {
 */
   var $lng;
 
+	/**
+	* The domxml representation of the question in qti
+	*
+	* The domxml representation of the question in qti
+	*
+	* @var object
+	*/
+	var $domxml;
+
 /**
 * SurveyQuestion constructor
 *
@@ -192,7 +201,17 @@ class SurveyQuestion {
     $this->id = -1;
     $this->survey_id = -1;
 		$this->obligatory = 1;
+		register_shutdown_function(array(&$this, '_SurveyQuestion'));
 	}
+
+	function _SurveyQuestion()
+	{
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+	}
+
 	
 /**
 * Returns true, if a question is complete for use
@@ -985,6 +1004,33 @@ class SurveyQuestion {
 			exec("rm -rf $directory");
 		}
 	}
+
+/**
+* Returns the question type of a question with a given id
+* 
+* Returns the question type of a question with a given id
+*
+* @param integer $question_id The database id of the question
+* @result string The question type string
+* @access private
+*/
+  function _getQuestionType($question_id) {
+		global $ilDB;
+
+    if ($question_id < 1)
+      return "";
+
+    $query = sprintf("SELECT type_tag FROM survey_question, survey_questiontype WHERE survey_question.question_id = %s AND survey_question.questiontype_fi = survey_questiontype.questiontype_id",
+      $ilDB->quote($question_id)
+    );
+    $result = $ilDB->query($query);
+    if ($result->numRows() == 1) {
+      $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+      return $data->type_tag;
+    } else {
+      return "";
+    }
+  }
 
 }
 ?>

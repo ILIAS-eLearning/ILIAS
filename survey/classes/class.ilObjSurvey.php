@@ -2226,7 +2226,7 @@ class ilObjSurvey extends ilObject
 * @return array The available question pools
 * @access public
 */
-	function &getAvailableQuestionpools()
+	function &getAvailableQuestionpools($use_obj_id = false)
 	{
 		global $rbacsystem;
 		
@@ -2237,7 +2237,14 @@ class ilObjSurvey extends ilObject
 		{		
 			if ($rbacsystem->checkAccess("write", $row->ref_id) && ($this->_hasUntrashedReference($row->obj_id)))
 			{
-				$result_array[$row->ref_id] = $row->title;
+				if ($use_obj_id)
+				{
+					$result_array[$row->obj_id] = $row->title;
+				}
+				else
+				{
+					$result_array[$row->ref_id] = $row->title;
+				}
 			}
 		}
 		return $result_array;
@@ -2323,14 +2330,21 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function getAllRelations()
+	function getAllRelations($short_as_key = false)
  	{
 		$result_array = array();
 		$query = "SELECT * FROM survey_relation";
 		$result = $this->ilias->db->query($query);
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$result_array[$row->relation_id] = array("short" => $row->shortname, "long" => $row->longname);
+			if ($short_as_key)
+			{
+				$result_array[$row->short] = array("short" => $row->shortname, "long" => $row->longname, "id" => $row->relation_id);
+			}
+			else
+			{
+				$result_array[$row->relation_id] = array("short" => $row->short, "long" => $row->long);
+			}
 		}
 		return $result_array;
 	}
@@ -3327,5 +3341,463 @@ class ilObjSurvey extends ilObject
 		return $questiontypes;
 	}
 		
+	/**
+	* Returns a QTI xml representation of the survey
+	*
+	* Returns a QTI xml representation of the survey
+	*
+	* @return string The QTI xml representation of the survey
+	* @access public
+	*/
+	function to_xml()
+	{
+		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<questestinterop></questestinterop>\n";
+		$domxml = domxml_open_mem($xml_header);
+		$root = $domxml->document_element();
+		// qti assessment
+		$qtiSurvey = $domxml->create_element("survey");
+		$qtiSurvey->set_attribute("ident", $this->getSurveyId());
+		$qtiSurvey->set_attribute("title", $this->getTitle());
+		
+		// add qti comment
+		$qtiComment = $domxml->create_element("qticomment");
+		$qtiCommentText = $domxml->create_text_node($this->getDescription());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiSurvey->append_child($qtiComment);
+		$qtiComment = $domxml->create_element("qticomment");
+		$qtiCommentText = $domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$qtiComment->append_child($qtiCommentText);
+		$qtiSurvey->append_child($qtiComment);
+		// add qti objectives
+		$qtiObjectives = $domxml->create_element("objectives");
+		$qtiMaterial = $domxml->create_element("material");
+		$qtiMaterial->set_attribute("label", "introduction");
+		$qtiMatText = $domxml->create_element("mattext");
+		$qtiMatTextText = $domxml->create_text_node($this->getIntroduction());
+		$qtiMatText->append_child($qtiMatTextText);
+		$qtiMaterial->append_child($qtiMatText);
+		$qtiObjectives->append_child($qtiMaterial);
+		$qtiSurvey->append_child($qtiObjectives);
+		// add the rest of the preferences in qtimetadata tags, because there is no correspondent definition in QTI
+		$qtiMetadata = $domxml->create_element("qtimetadata");
+		// author
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("author");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getAuthor());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// description
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("description");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getDescription());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// evaluation access
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("evaluation_access");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getEvaluationAccess());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// anonymization
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("anonymize");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getAnonymize());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// status
+		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $domxml->create_text_node("status");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $domxml->create_text_node($this->getStatus());
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		// start date
+		if ($this->getStartDateEnabled())
+		{
+			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+			$qtiFieldLabel = $domxml->create_element("fieldlabel");
+			$qtiFieldLabelText = $domxml->create_text_node("startdate");
+			$qtiFieldLabel->append_child($qtiFieldLabelText);
+			$qtiFieldEntry = $domxml->create_element("fieldentry");
+			$qtiFieldEntryText = $domxml->create_text_node(sprintf("P%dY%dM%dDT0H0M0S", $this->getStartYear(), $this->getStartMonth(), $this->getStartDay()));
+			$qtiFieldEntry->append_child($qtiFieldEntryText);
+			$qtiMetadatafield->append_child($qtiFieldLabel);
+			$qtiMetadatafield->append_child($qtiFieldEntry);
+			$qtiMetadata->append_child($qtiMetadatafield);
+		}
+		// end date
+		if ($this->getEndDateEnabled())
+		{
+			$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+			$qtiFieldLabel = $domxml->create_element("fieldlabel");
+			$qtiFieldLabelText = $domxml->create_text_node("enddate");
+			$qtiFieldLabel->append_child($qtiFieldLabelText);
+			$qtiFieldEntry = $domxml->create_element("fieldentry");
+			$qtiFieldEntryText = $domxml->create_text_node(sprintf("P%dY%dM%dDT0H0M0S", $this->getEndYear(), $this->getEndMonth(), $this->getEndDay()));
+			$qtiFieldEntry->append_child($qtiFieldEntryText);
+			$qtiMetadatafield->append_child($qtiFieldLabel);
+			$qtiMetadatafield->append_child($qtiFieldEntry);
+			$qtiMetadata->append_child($qtiMetadatafield);
+		}
+		// add questionblock descriptions
+		$pages =& $this->getSurveyPages();
+		foreach ($pages as $question_array)
+		{
+			if (count($question_array) > 1)
+			{
+				$question_ids = array();
+				// found a questionblock
+				foreach ($question_array as $question)
+				{
+					array_push($question_ids, $question["question_id"]);
+				}
+				$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+				$qtiFieldLabel = $domxml->create_element("fieldlabel");
+				$qtiFieldLabelText = $domxml->create_text_node("questionblock_" . $question_array[0]["questionblock_id"]);
+				$qtiFieldLabel->append_child($qtiFieldLabelText);
+				$qtiFieldEntry = $domxml->create_element("fieldentry");
+				$qtiFieldEntryText = $domxml->create_text_node("<title>" . $question["questionblock_title"]. "</title><obligatory>" . $question_array[0]["obligatory"] . "</obligatory><questions>" . join($question_ids, ",") . "</questions>");
+				$qtiFieldEntry->append_child($qtiFieldEntryText);
+				$qtiMetadatafield->append_child($qtiFieldLabel);
+				$qtiMetadatafield->append_child($qtiFieldEntry);
+				$qtiMetadata->append_child($qtiMetadatafield);				
+			}
+		}
+		// add constraints
+		foreach ($pages as $question_array)
+		{
+			foreach ($question_array as $question)
+			{
+				if (count($question["constraints"]))
+				{
+					// found constraints
+					foreach ($question["constraints"] as $constraint)
+					{
+						$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
+						$qtiFieldLabel = $domxml->create_element("fieldlabel");
+						$qtiFieldLabelText = $domxml->create_text_node("constraint_" . $question["question_id"]);
+						$qtiFieldLabel->append_child($qtiFieldLabelText);
+						$qtiFieldEntry = $domxml->create_element("fieldentry");
+						$qtiFieldEntryText = $domxml->create_text_node($constraint["question"] . "," . $constraint["short"] . "," . $constraint["value"]);
+						$qtiFieldEntry->append_child($qtiFieldEntryText);
+						$qtiMetadatafield->append_child($qtiFieldLabel);
+						$qtiMetadatafield->append_child($qtiFieldEntry);
+						$qtiMetadata->append_child($qtiMetadatafield);				
+					}
+				}
+			}
+		}
+		$qtiSurvey->append_child($qtiMetadata);
+		$root->append_child($qtiSurvey);
+		$xml = $domxml->dump_mem(true);
+		$domxml->free();
+		foreach ($this->questions as $question_id) {
+			$question =& $this->_instanciateQuestion($question_id);
+			$qti_question = $question->to_xml(false);
+			$qti_question = preg_replace("/<questestinterop>/", "", $qti_question);
+			$qti_question = preg_replace("/<\/questestinterop>/", "", $qti_question);
+			$xml = str_replace("</questestinterop>", "$qti_question</questestinterop>", $xml);
+		}
+		return $xml;
+			}
+	
+/**
+* Creates an instance of a question with a given question id
+*
+* Creates an instance of a question with a given question id
+*
+* @param integer $question_id The question id
+* @return object The question instance
+* @access public
+*/
+  function &_instanciateQuestion($question_id) {
+      $question_type = SurveyQuestion::_getQuestionType($question_id);
+      switch ($question_type) {
+				case "qt_nominal":
+					$question = new SurveyNominalQuestion();
+					break;
+				case "qt_ordinal":
+					$question = new SurveyOrdinalQuestion();
+					break;
+				case "qt_metric":
+					$question = new SurveyMetricQuestion();
+					break;
+				case "qt_text":
+					$question = new SurveyTextQuestion();
+					break;
+			}
+      $question->loadFromDb($question_id);
+			return $question;
+  }
+
+	/**
+	* Imports a survey from XML into the ILIAS database
+	*
+	* Imports a survey from XML into the ILIAS database
+	*
+	* @return boolean True, if the import succeeds, false otherwise
+	* @access public
+	*/
+	function importObject($file_info, $survey_questionpool_id)
+	{
+		// check if file was uploaded
+		$source = $file_info["tmp_name"];
+		$error = 0;
+		if (($source == 'none') || (!$source) || $file_info["error"] > UPLOAD_ERR_OK)
+		{
+//			$this->ilias->raiseError("No file selected!",$this->ilias->error_obj->MESSAGE);
+			$error = 1;
+		}
+		// check correct file type
+		if (strcmp($file_info["type"], "text/xml") != 0)
+		{
+//			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
+			$error = 1;
+		}
+		if (!$error)
+		{
+			// import file as a test
+			$fh = fopen($source, "r");
+			if (!$fh)
+			{
+//			$this->ilias->raiseError("Error opening the file!",$this->ilias->error_obj->MESSAGE);
+				$error = 1;
+				return $error;
+			}
+			$xml = fread($fh, filesize($source));
+			$result = fclose($fh);
+			if (!$result)
+			{
+//			$this->ilias->raiseError("Error closing the file!",$this->ilias->error_obj->MESSAGE);
+				$error = 1;
+				return $error;
+			}
+			if (preg_match("/(<survey[^>]*>.*?<\/survey>)/si", $xml, $matches))
+			{
+				// read test properties
+				$import_results = $this->from_xml($matches[1]);
+				if ($import_results === false)
+				{
+//			$this->ilias->raiseError("The test properties do not contain proper values!",$this->ilias->error_obj->MESSAGE);
+					$error = 1;
+					return $error;
+				}
+			}
+			else
+			{
+//			$this->ilias->raiseError("No test properties found. Cannot import test!",$this->ilias->error_obj->MESSAGE);
+				$error = 1;
+				return $error;
+			}
+			$question_counter = 0;
+			$new_question_ids = array();
+			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
+			{
+				foreach ($matches[1] as $index => $item)
+				{
+					$question = "";
+					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
+					{
+						switch ($questiontype[1])
+						{
+							case NOMINAL_QUESTION_IDENTIFIER:
+								$question = new SurveyNominalQuestion();
+								break;
+							case ORDINAL_QUESTION_IDENTIFIER:
+								$question = new SurveyOrdinalQuestion();
+								break;
+							case METRIC_QUESTION_IDENTIFIER:
+								$question = new SurveyMetricQuestion();
+								break;
+							case TEXT_QUESTION_IDENTIFIER:
+								$question = new SurveyTextQuestion();
+								break;
+						}
+						if ($question)
+						{
+							$question->from_xml("<questestinterop>$item</questestinterop>");
+							if ($import_results !== false)
+							{
+								$question->setObjId($survey_questionpool_id);
+								$question->saveToDb();
+								$question_id = $question->duplicate(true);
+								$this->questions[$question_counter++] = $question_id;
+								if (preg_match("/<item\s+ident\=\"(\d+)\"/", $item, $matches))
+								{
+									$original_question_id = $matches[1];
+									$new_question_ids[$original_question_id] = $question_id;
+								}
+							}
+							else
+							{
+								$this->ilias->raiseError($this->lng->txt("error_importing_question"), $this->ilias->error_obj->MESSAGE);
+							}
+						}
+					}
+				}
+			}
+			// add question blocks
+			foreach ($import_results["questionblocks"] as $questionblock)
+			{
+				foreach ($questionblock["questions"] as $key => $value)
+				{
+					$questionblock["questions"][$key] = $new_question_ids[$value];
+				}
+				$this->createQuestionblock($questionblock["title"], $questionblock["obligatory"], $questionblock["questions"]);
+			}
+			// add constraints
+			$relations = $this->getAllRelations(true);
+			foreach ($import_results["constraints"] as $constraint)
+			{
+				$this->addConstraint($new_question_ids[$constraint["for"]], $new_question_ids[$constraint["question"]], $relations[$constraint["relation"]]["id"], $constraint["value"]);
+			}
+		}
+		return $error;
+	}
+
+	/**
+	* Imports the survey properties from XML into the survey object
+	*
+	* Imports the survey properties from XML into the survey object
+	*
+	* @return mixed An array containing the constraints and questionblocks, false otherwise
+	* @access public
+	*/
+	function from_xml($xml_text)
+	{
+		$result = false;
+		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
+		$domxml = domxml_open_mem($xml_text);
+		$constraints = array();
+		$questionblocks = array();
+		if (!empty($domxml))
+		{
+			$root = $domxml->document_element();
+			$this->setTitle($root->get_attribute("title"));
+			$item = $root;
+			$itemnodes = $item->child_nodes();
+			foreach ($itemnodes as $index => $node)
+			{
+				switch ($node->node_name())
+				{
+					case "qticomment":
+						$comment = $node->get_content();
+						if (strpos($comment, "ILIAS Version") === false)
+						{
+							$this->setDescription($comment);
+						}
+						break;
+					case "objectives":
+						$material = $node->first_child();
+						if (strcmp($material->get_attribute("label"), "introduction") == 0)
+						{
+							$mattext = $material->first_child();
+							$this->setIntroduction($mattext->get_content());
+						}
+						break;
+					case "qtimetadata":
+						$metadata_fields = $node->child_nodes();
+						foreach ($metadata_fields as $index => $metadata_field)
+						{
+							$fieldlabel = $metadata_field->first_child();
+							$fieldentry = $fieldlabel->next_sibling();
+							switch ($fieldlabel->get_content())
+							{
+								case "evaluation_access":
+									$this->setEvaluationAccess($fieldentry->get_content());
+									break;
+								case "author":
+									$this->setAuthor($fieldentry->get_content());
+									break;
+								case "description":
+									$this->setDescription($fieldentry->get_content());
+									break;
+								case "anonymize":
+									$this->setAnonymize($fieldentry->get_content());
+									break;
+								case "startdate":
+									$iso8601period = $fieldentry->get_content();
+									if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+									{
+										$this->setStartDateEnabled(true);
+										$this->setStartDate(sprintf("%04d-%02d-%02d", $matches[1], $matches[2], $matches[3]));
+									}
+									break;
+								case "enddate":
+									$iso8601period = $fieldentry->get_content();
+									if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
+									{
+										$this->setEndDateEnabled(true);
+										$this->setEndDate(sprintf("%04d-%02d-%02d", $matches[1], $matches[2], $matches[3]));
+									}
+									break;
+								case "status":
+									$this->setStatus($fieldentry->get_content());
+									break;
+							}
+							if (preg_match("/questionblock_\d+/", $fieldlabel->get_content()))
+							{
+								$qb = $fieldentry->get_content();
+								preg_match("/<title>(.*?)<\/title>/", $qb, $matches);
+								$qb_title = $matches[1];
+								preg_match("/<obligatory>(.*?)<\/obligatory>/", $qb, $matches);
+								$qb_obligatory = $matches[1];
+								preg_match("/<questions>(.*?)<\/questions>/", $qb, $matches);
+								$qb_questions = $matches[1];
+								$qb_questions_array = explode(",", $qb_questions);
+								array_push($questionblocks, array(
+									"title" => $qb_title,
+									"obligatory" => $qb_obligatory,
+									"questions" => $qb_questions_array
+								));
+							}
+							if (preg_match("/constraint_(\d+)/", $fieldlabel->get_content(), $matches))
+							{
+								$constraint = $fieldentry->get_content();
+								$constraint_array = explode(",", $constraint);
+								if (count($constraint_array) == 3)
+								{
+									array_push($constraints, array(
+										"for"      => $matches[1], 
+										"question" => $constraint_array[0],
+										"relation" => $constraint_array[1],
+										"value"    => $constraint_array[2]
+									));
+								}
+							}
+						}
+						break;
+				}
+			}
+			$result["questionblocks"] = $questionblocks;
+			$result["constraints"] = $constraints;
+		}
+		return $result;
+	}
+	
 } // END class.ilObjSurvey
 ?>

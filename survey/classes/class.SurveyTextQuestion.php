@@ -23,6 +23,8 @@
 
 require_once "./survey/classes/class.SurveyQuestion.php";
 
+define("TEXT_QUESTION_IDENTIFIER", "Text Question");
+
 /**
 * Text survey question
 *
@@ -170,5 +172,159 @@ class SurveyTextQuestion extends SurveyQuestion {
     }
   }
 
+	/**
+	* Imports a question from XML
+	*
+	* Sets the attributes of the question from the XML text passed
+	* as argument
+	*
+	* @return boolean True, if the import succeeds, false otherwise
+	* @access public
+	*/
+	function from_xml($xml_text)
+	{
+		$result = false;
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
+		$this->domxml = domxml_open_mem($xml_text);
+		if (!empty($this->domxml))
+		{
+			$root = $this->domxml->document_element();
+			$item = $root->first_child();
+			$this->setTitle($item->get_attribute("title"));
+			$this->gaps = array();
+			$comment = $item->first_child();
+			if (strcmp($comment->node_name(), "qticomment") == 0)
+			{
+				$this->setDescription($comment->get_content());
+			}
+			$itemnodes = $item->child_nodes();
+			foreach ($itemnodes as $index => $node)
+			{
+				switch ($node->node_name())
+				{
+					case "itemmetadata":
+						$qtimetadata = $node->first_child();
+						$metadata_fields = $qtimetadata->child_nodes();
+						foreach ($metadata_fields as $index => $metadata_field)
+						{
+							$fieldlabel = $metadata_field->first_child();
+							$fieldentry = $fieldlabel->next_sibling();
+							switch ($fieldlabel->get_content())
+							{
+								case "obligatory":
+									$this->setObligatory($fieldentry->get_content());
+									break;
+							}
+						}
+						break;
+					case "presentation":
+						$flow = $node->first_child();
+						$flownodes = $flow->child_nodes();
+						foreach ($flownodes as $idx => $flownode)
+						{
+							if (strcmp($flownode->node_name(), "material") == 0)
+							{
+								$mattext = $flownode->first_child();
+								$this->setQuestiontext($mattext->get_content());
+							}
+							elseif (strcmp($flownode->node_name(), "response_str") == 0)
+							{
+								$ident = $flownode->get_attribute("ident");
+							}
+						}
+						break;
+				}
+			}
+			$result = true;
+		}
+		return $result;
+	}
+
+	/**
+	* Returns a QTI xml representation of the question
+	*
+	* Returns a QTI xml representation of the question and sets the internal
+	* domxml variable with the DOM XML representation of the QTI xml representation
+	*
+	* @return string The QTI xml representation of the question
+	* @access public
+	*/
+	function to_xml($a_include_header = true)
+	{
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+		$xml_header .= "<questestinterop></questestinterop>\n";
+		$this->domxml = domxml_open_mem($xml_header);
+		$root = $this->domxml->document_element();
+		// qti ident
+		$qtiIdent = $this->domxml->create_element("item");
+		$qtiIdent->set_attribute("ident", $this->getId());
+		$qtiIdent->set_attribute("title", $this->getTitle());
+		$root->append_child($qtiIdent);
+		// add qti comment
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node($this->getDescription());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".TEXT_QUESTION_IDENTIFIER);
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+
+		$qtiItemMetadata = $this->domxml->create_element("itemmetadata");
+		$qtiMetadata = $this->domxml->create_element("qtimetadata");
+		// obligatory state
+		$qtiMetadatafield = $this->domxml->create_element("qtimetadatafield");
+		$qtiFieldLabel = $this->domxml->create_element("fieldlabel");
+		$qtiFieldLabelText = $this->domxml->create_text_node("obligatory");
+		$qtiFieldLabel->append_child($qtiFieldLabelText);
+		$qtiFieldEntry = $this->domxml->create_element("fieldentry");
+		$qtiFieldEntryText = $this->domxml->create_text_node(sprintf("%d", $this->getObligatory()));
+		$qtiFieldEntry->append_child($qtiFieldEntryText);
+		$qtiMetadatafield->append_child($qtiFieldLabel);
+		$qtiMetadatafield->append_child($qtiFieldEntry);
+		$qtiMetadata->append_child($qtiMetadatafield);
+		$qtiItemMetadata->append_child($qtiMetadata);
+		$qtiIdent->append_child($qtiItemMetadata);
+
+		// PART I: qti presentation
+		$qtiPresentation = $this->domxml->create_element("presentation");
+		$qtiPresentation->set_attribute("label", $this->getTitle());
+		// add flow to presentation
+		$qtiFlow = $this->domxml->create_element("flow");
+		// add material with question text to presentation
+		$qtiMaterial = $this->domxml->create_element("material");
+		$qtiMatText = $this->domxml->create_element("mattext");
+		$qtiMatTextText = $this->domxml->create_text_node($this->getQuestiontext());
+		$qtiMatText->append_child($qtiMatTextText);
+		$qtiMaterial->append_child($qtiMatText);
+		$qtiFlow->append_child($qtiMaterial);
+		// add answers to presentation
+		$qtiResponseStr = $this->domxml->create_element("response_str");
+		$qtiResponseStr->set_attribute("ident", "TEXT");
+		$qtiResponseStr->set_attribute("rcardinality", "Single");
+		$qtiFlow->append_child($qtiResponseStr);
+		$qtiPresentation->append_child($qtiFlow);
+		$qtiIdent->append_child($qtiPresentation);
+		$xml = $this->domxml->dump_mem(true);
+		if (!$a_include_header)
+		{
+			$pos = strpos($xml, "?>");
+			$xml = substr($xml, $pos + 2);
+		}
+//echo htmlentities($xml);
+		return $xml;
+	}
 }
 ?>

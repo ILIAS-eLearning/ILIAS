@@ -378,6 +378,7 @@
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">survey_questions</property>
 	<property name="invite" module="1">invite_participants</property>
+	<property name="export">export</property>
 	<property name="maintenance" module="1">maintenance</property>
 	<property name="status" module="1">status</property>
 	<property name="editMeta">meta_data</property>
