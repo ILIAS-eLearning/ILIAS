@@ -10,6 +10,7 @@
 */
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilForum.php";
+require_once "./classes/class.ilObjForum.php";
 
 $lng->loadLanguageModule("forum");
 
@@ -17,7 +18,11 @@ $lng->loadLanguageModule("forum");
 // delete post and its sub-posts
 if ($_GET["cmd"] == "ready_delete" && $_POST["confirm"] != "")
 {
+	$forumObj = new ilObjForum($_GET["ref_id"]);
 	$frm = new ilForum();
+
+	$frm->setForumId($forumObj->getId());
+
 	$dead_thr = $frm->deletePost($_GET["pos_pk"]);		
 		
 	// if complete thread was deleted ...
