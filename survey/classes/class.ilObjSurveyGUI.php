@@ -276,6 +276,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			
 			$page = $this->object->getNextPage($activepage, $direction);
+			$constraint_true = 0;
+			// check for constraints
+			if (count($page[0]["constraints"]))
+			{
+				while (is_array($page) and ($constraint_true == 0) and (count($page[0]["constraints"])))
+				{
+					$constraint_true = 1;
+					foreach ($page[0]["constraints"] as $constraint)
+					{
+						$working_data = $this->object->loadWorkingData($constraint["question"], $ilUser->id);
+						$constraint_true = $constraint_true & $this->object->checkConstraint($constraint, $working_data);
+					}
+					if ($constraint_true == 0)
+					{
+						$page = $this->object->getNextPage($page[0]["question_id"], $direction);
+					}
+				}
+			}
+			
 			$qid = "";
 			if ($page === 0)
 			{
@@ -1043,7 +1062,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 						{
 							$this->tpl->setCurrentBlock("option_v");
 							$this->tpl->setVariable("OPTION_VALUE", $sequence);
-							$this->tpl->setVariable("OPTION_TEXT", ($sequence+1) . " - " . $row["title"]);
+							$this->tpl->setVariable("OPTION_TEXT", ($sequence+1) . " - " . $row->title);
 							$this->tpl->parseCurrentBlock();
 						}
 						break;
@@ -1134,7 +1153,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 									break;
 								case "qt_nominal":
 								case "qt_ordinal":
-									$value = sprintf("%d", $constraint["value"]+1) . " - " . $variables[sprintf("%d", $constraint["value"])]["title"];
+									$value = sprintf("%d", $constraint["value"]+1) . " - " . $variables[$constraint["value"]]->title;
 									break;
 							}
 							$this->tpl->setCurrentBlock("constraint");
@@ -1461,6 +1480,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				if (($data["questionblock_id"] > 0) and ($data["questionblock_id"] != $last_questionblock_id))
 				{
+					if (($data["questionblock_id"] != $last_questionblock_id) and (strcmp($last_questionblock_id, "") != 0))
+					{
+						$counter++;
+					}
 					$this->tpl->setCurrentBlock("block");
 					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $this->lng->txt("questionblock") . ": " . $data["questionblock_title"]);
 					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
@@ -1476,7 +1499,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("checkable");
 					$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
 					$this->tpl->parseCurrentBlock();
-					$counter++;
 				}
 				$this->tpl->setCurrentBlock("QTab");
 				$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
@@ -1485,6 +1507,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 				$this->tpl->setVariable("QUESTION_POOL", $questionpools[$data["ref_fi"]]);
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				if (!$data["questionblock_id"])
+				{
+					$counter++;
+				}
 				$this->tpl->parseCurrentBlock();
 				$last_questionblock_id = $data["questionblock_id"];
 			}
