@@ -1930,7 +1930,7 @@ class ilRepositoryGUI
 			{
           $obj_link = "survey/survey.php?cmd=run&ref_id=".$svy_data["ref_id"];
 
-				if (($this->rbacsystem->checkAccess('read',$svy_data["ref_id"])) and ($svy_data["complete"]))
+				if (($this->rbacsystem->checkAccess('read',$svy_data["ref_id"])) and ($svy_data["complete"]) and ($svy_data["status"] == 1))
 				{
 					$tpl->setCurrentBlock("svy_read");
 					$tpl->setVariable("VIEW_LINK", $obj_link);
