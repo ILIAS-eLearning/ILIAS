@@ -129,6 +129,10 @@ assessment#:#direct_feedback#:#Verify your solution
 assessment#:#duplicate#:#Duplicate
 assessment#:#duplicate_matching_values_selected#:#You have selected duplicate matching values!
 assessment#:#duplicate_order_values_entered#:#You have entered duplicate order values!
+assessment#:#ects_output_of_ects_grades#:#Output of ECTS grades
+assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
+assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
+assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#end_tag#:#End tag
 assessment#:#ending_time_reached#:#You have reached the ending time
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
