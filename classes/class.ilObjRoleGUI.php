@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.58 2003/10/31 12:33:22 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.59 2003/10/31 14:08:49 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -557,6 +557,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			{
 				$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
 				
+				// prevent unassignment of system user from system role
+				if ($this->object->getId() == SYSTEM_ROLE_ID and in_array(SYSTEM_USER_ID, $_SESSION["user_list"]))
+				{
+					array_push($_POST["id"],SYSTEM_USER_ID);
+				}
+				
 				$global_roles = $rbacreview->getGlobalRoles();
 				$online_users_all = ilUtil::getUsersOnline();
 				$assigned_users_all = $rbacreview->assignedUsers($this->object->getId());
@@ -896,10 +902,19 @@ class ilObjRoleGUI extends ilObjectGUI
 				
 				$this->tpl->setCurrentBlock("checkbox");
 				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
-				$this->tpl->setVariable("CHECKED", $checked);
+				
+				// disable checkbox for system user id for the system role id
+				if ($this->object->getId() == SYSTEM_ROLE_ID and $ctrl["obj_id"] == SYSTEM_USER_ID)
+				{
+					$this->tpl->setVariable("CHECKED", $checked." disabled=\"disabled\"");
+				}
+				else
+				{
+					$this->tpl->setVariable("CHECKED", $checked);
+				}
+
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
-	
 
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
@@ -909,14 +924,14 @@ class ilObjRoleGUI extends ilObjectGUI
 				{
 					//build link
 					$link = "adm_object.php?ref_id=7&obj_id=".$ctrl["obj_id"];
-
+	
 					if ($key == "name" || $key == "type")
 					{
 						$this->tpl->setCurrentBlock("begin_link");
 						$this->tpl->setVariable("LINK_TARGET", $link);
 						$this->tpl->parseCurrentBlock();
 						$this->tpl->touchBlock("end_link");
-					}
+						}
 
 					$this->tpl->setCurrentBlock("text");
 

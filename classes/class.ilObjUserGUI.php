@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.57 2003/10/29 19:29:32 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.58 2003/10/31 14:08:50 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -688,6 +688,12 @@ class ilObjUserGUI extends ilObjectGUI
 		else
 		{
 			$_POST["id"] = $_POST["id"] ? $_POST["id"] : array();
+			
+			// prevent unassignment of system role from system user
+			if ($this->object->getId() == SYSTEM_USER_ID and in_array(SYSTEM_ROLE_ID, $_SESSION["role_list"]))
+			{
+				array_push($_POST["id"],SYSTEM_ROLE_ID);
+			}
 
 			$global_roles_all = $rbacreview->getGlobalRoles();
 			$assigned_roles_all = $rbacreview->assignedRoles($this->object->getId());
@@ -909,7 +915,17 @@ class ilObjUserGUI extends ilObjectGUI
 
 				$this->tpl->setCurrentBlock("checkbox");
 				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
-				$this->tpl->setVariable("CHECKED", $checked);
+
+				// disable checkbox for system role for the system user
+				if ($this->object->getId() == SYSTEM_USER_ID and $ctrl["obj_id"] == SYSTEM_ROLE_ID)
+				{
+					$this->tpl->setVariable("CHECKED", $checked." disabled=\"disabled\"");
+				}
+				else
+				{
+					$this->tpl->setVariable("CHECKED", $checked);
+				}
+
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 

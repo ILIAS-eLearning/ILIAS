@@ -554,3 +554,6 @@ CREATE TABLE mob_usage
 	usage_id INT NOT NULL,
 	PRIMARY KEY (id, usage_type, usage_id)
 );
+
+<#55>
+INSERT INTO settings (keyword,value) VALUES ('system_user_id','6');
