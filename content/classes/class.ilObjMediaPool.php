@@ -148,7 +148,32 @@ class ilObjMediaPool extends ilObject
 			return false;
 		}
 
-		//put here your module specific stuff
+		// get childs
+		$childs = $this->tree->getSubTree($this->tree->getNodeData($this->tree->readRootId()));
+
+		// delete tree
+		$this->tree->removeTree($this->tree->getTreeId());
+
+		// delete childs
+		foreach ($childs as $child)
+		{
+			switch ($child["type"])
+			{
+				case "mob":
+					include_once("content/classes/Media/class.ilObjMediaObject.php");
+					$mob = new ilObjMediaObject($child["obj_id"]);
+					$mob->delete();
+					break;
+
+				case "fold":
+					include_once("classes/class.ilObjFolder.php");
+					$fold = new ilObjFolder($child["obj_id"], false);
+					$fold->delete();
+					break;
+			}
+		}
+
+
 
 		return true;
 	}
@@ -306,7 +331,7 @@ class ilObjMediaPool extends ilObject
 
 			if ($node["type"] == "fold")
 			{
-				$obj =& new ilObjFolder($node["child"]);
+				$obj =& new ilObjFolder($node["child"], false);
 				$obj->delete();
 			}
 		}
