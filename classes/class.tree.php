@@ -824,5 +824,19 @@ class Tree
 		$res = $this->ilias->db->query($query);
 		return $res->numRows();
 	}
+
+	/**
+	* builds a new user's tree in table tree,
+	* to do: ???
+ 	* @param	integer		treeID is userID
+	* @param	integer		nodeID of root node ->usersetting object
+	*/
+	function addTree($treeID,$nodeID)
+	{
+		$sqlQuery = "INSERT INTO tree (tree, child, parent, lft, rgt,depth) ".
+					"VALUES ($treeID, $nodeID, 0,0, 0, 1)";
+		$res = $this->ilias->db->query($sqlQuery);			
+	}
+
 } // END class.tree
 ?>
