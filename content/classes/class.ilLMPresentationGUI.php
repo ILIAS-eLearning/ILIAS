@@ -1331,7 +1331,8 @@ class ilLMPresentationGUI
 					case "PageObject":
 					case "StructureObject":
 						$lm_id = ilLMObject::_lookupContObjID($target_id);
-						if ($lm_id == $this->lm->getId() || $targetframe != "None")
+						if ($lm_id == $this->lm->getId() ||
+							($targetframe != "None" && $targetframe != "New"))
 						{
 							$ltarget = $a_layoutframes[$targetframe]["Frame"];
 							//$nframe = ($ltarget == "")
