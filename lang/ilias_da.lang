@@ -768,6 +768,7 @@ common#:#cat_create_sahs#:#Opret SCORM/AICC L&aelig;rer Modul
 common#:#cat_create_spl#:#Opret afstemning til unders&oslash;gelse
 common#:#cat_create_svy#:#Opret unders&oslash;gelse
 common#:#cat_create_tst#:#Opret test
+common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#cat_delete#:#Slet Kategori
 common#:#cat_edit#:#Rediger Kategori
 common#:#cat_edit_permission#:#&aelig;ndre rettigheds indstillinger
@@ -819,6 +820,8 @@ common#:#check_all#:#Check alle
 common#:#check_langfile#:#Check venligst din sprog fil
 common#:#check_languages#:#Check sprog
 common#:#check_max_allowed_packet_size#:#Side filens indhold er for stort.
+common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
+common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
 common#:#checked_files#:#Importerbare filer
 common#:#chg_language#:#Skift Sprog
 common#:#chg_password#:#Skift Password
@@ -866,6 +869,7 @@ common#:#create#:#Opret
 common#:#create_date#:#Oprettet p&aring;
 common#:#create_in#:#Oprettet i
 common#:#create_stylesheet#:#Opret Layout
+common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#crs#:#Kursus
 common#:#crs_a#:#Et Kursus
 common#:#crs_add#:#Tilf&oslash;j Kursus
@@ -892,6 +896,7 @@ common#:#crs_create_sahs#:#Opret SCORM/AICC L&aelig;rer Modul
 common#:#crs_create_spl#:#Opret afstemning til unders&oslash;gelse
 common#:#crs_create_svy#:#Opret unders&oslash;gelse
 common#:#crs_create_tst#:#Opret test
+common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Slet kursus
 common#:#crs_edit#:#Rediger Kursus
 common#:#crs_edit_permission#:#&aelig;ndrer rettigheds indstillinger
@@ -913,6 +918,7 @@ common#:#cur_number_rec#:#Nuv&aelig;rende antal registrerede
 common#:#current_password#:#Nuv&aelig;rende Password
 common#:#cut#:#Klip
 common#:#cutPage#:#Klip
+common#:#daily#:#daily###11 Mar 2005 new variable
 common#:#database#:#Database
 common#:#database_version#:#Nuv&aelig;rende Database Version
 common#:#dataset#:#Ting
@@ -959,6 +965,8 @@ common#:#department#:#Afdeling
 common#:#desc#:#Beskrivelse
 common#:#description#:#Beskrivelse
 common#:#desired_password#:#&oslash;nsket Password
+common#:#details#:#Details###11 Mar 2005 new variable
+common#:#disable_check#:#Disable check###11 Mar 2005 new variable
 common#:#disabled#:#Ikke Tilsluttet
 common#:#domain#:#Dom&aelig;ne
 common#:#down#:#Nede
@@ -966,6 +974,7 @@ common#:#download#:#Download
 common#:#drafts#:#Kladder
 common#:#drop#:#Slip
 common#:#edit#:#Rediger
+common#:#edit_content#:#Edit content###11 Mar 2005 new variable
 common#:#edit_data#:#Rediger data
 common#:#edit_operations#:#Rediger Operationer
 common#:#edit_perm_ruleset#:#Rediger standard regler for rettigheder
@@ -1216,6 +1225,7 @@ common#:#grp_create_sahs#:#Opret SCORM/AICC L&aelig;rer Modul
 common#:#grp_create_spl#:#Create Question Pool for Survey
 common#:#grp_create_svy#:#Opret Unders&oslash;gelse
 common#:#grp_create_tst#:#Opret test
+common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#grp_delete#:#Slet gruppe
 common#:#grp_dismiss_member#:#er du sikker du gerne afmelde den f&oslash;lgende bruger fra gruppen
 common#:#grp_dismiss_myself#:#er du sikker du gerne vil afmelde dig selv fra gruppen
@@ -1259,6 +1269,9 @@ common#:#header_title#:#Overskrift
 common#:#help#:#Hj&aelig;lp
 common#:#hide_details#:#skjul detaljer
 common#:#hide_structure#:#Deaktver Struktering visning
+common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
 common#:#hits_per_page#:#Hits/sider
 common#:#hlm#:#L&aelig;rer Modul HACP
 common#:#hlm_added#:#HACP L&aelig;rer Modul er tilf&oslash;jet
@@ -1524,6 +1537,7 @@ common#:#mep_delete#:#Slet Medie afstemning
 common#:#mep_edit#:#Rediger Medie afstemnings indstillinger
 common#:#mep_edit_permission#:#&aelig;ndrer rettighedsindstillinger
 common#:#mep_new#:#Ny medie afstemning
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
 common#:#mep_read#:#L&aelig;s Medie indhold af afstemning
 common#:#mep_visible#:#Media afstemning er synlig
 common#:#mep_write#:#Rediger indhold af medie afstemning
@@ -1562,6 +1576,7 @@ common#:#month_11_long#:#November
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#December
 common#:#month_12_short#:#Dec
+common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#Flyt
 common#:#moveChapter#:#Flyt
 common#:#movePage#:#Flyt
@@ -1651,6 +1666,7 @@ common#:#my_grps#:#Mine Grupper
 common#:#my_los#:#Mine L&aelig;rer Objekter
 common#:#my_tsts#:#Mine Tests
 common#:#name#:#Navn
+common#:#never#:#never###11 Mar 2005 new variable
 common#:#new#:#Ny
 common#:#new_appointment#:#Ny aftale
 common#:#new_folder#:#Ny mappe
@@ -1674,6 +1690,7 @@ common#:#no_frm_in_personal_list#:#Ingen forummer i din personlige liste.
 common#:#no_global_role_left#:#Alle brugere skal v&aelig;re tildelt mindst en rolle.
 common#:#no_grp_in_personal_list#:#Ingen grupper i din personlige liste.
 common#:#no_import_available#:#Importering ikke tilg&aelig;ngelig for denne type
+common#:#no_import_file_found#:#No import file found###11 Mar 2005 new variable
 common#:#no_limit#:#Ingen GR&aelig;nse
 common#:#no_lo_in_personal_list#:#Ingen l&aelig;rer objekter i din personlige liste.
 common#:#no_local_users#:#Der er ingen lokal bruger
@@ -1761,6 +1778,7 @@ common#:#obj_uset#:#Bruger indstillinger
 common#:#obj_usr#:#bruger
 common#:#obj_usrf#:#Bruger konti
 common#:#obj_usrf_desc#:#administrer dine bruger konti her.
+common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt er tilf&oslash;jet
 common#:#objects#:#Objekter
@@ -1801,6 +1819,7 @@ common#:#objs_svy#:#Unders&oslash;gelser
 common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekt Typer
 common#:#objs_usr#:#Brugere
+common#:#objs_webr#:#Web resources###11 Mar 2005 new variable
 common#:#of#:#Af
 common#:#offline#:#offline
 common#:#offline_version#:#Offline Version
@@ -1893,6 +1912,7 @@ common#:#qpl_read#:#Read access to Question Pool for Test
 common#:#qpl_upload_file#:#Upload fil
 common#:#qpl_visible#:#Question Pool for Test is visible
 common#:#qpl_write#:#Edit Question Pool for Test
+common#:#quarterly#:#quarterly###11 Mar 2005 new variable
 common#:#query_data#:#Foresp&oslash;rg data
 common#:#question#:#Sp&oslash;rgsm&aring;l
 common#:#question_pools#:#Question pools
@@ -2115,6 +2135,7 @@ common#:#system_information#:#System Information
 common#:#system_language#:#System sprog
 common#:#system_message#:#System besked
 common#:#table_mail_import#:#Mail importering
+common#:#target#:#Target###11 Mar 2005 new variable
 common#:#tax#:#Taxonomy
 common#:#tax_add#:#tilf&oslash;j skatteafgift 
 common#:#tax_delete#:#slet skatteafgift
@@ -2253,6 +2274,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute 
 common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###09 Mar 2005 new variable
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###09 Mar 2005 new variable
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###09 Mar 2005 new variable
+common#:#valid#:#Valid###11 Mar 2005 new variable
 common#:#validate#:#Valider
 common#:#value#:#V&aelig;rdi
 common#:#vendors#:#Leverand&oslash;rer
@@ -2265,7 +2287,31 @@ common#:#view#:#Se
 common#:#view_content#:#Se Indhold
 common#:#visible_layers#:#Synlige lag
 common#:#visits#:#Bes&oslash;g
+common#:#web_resources#:#Web resources###11 Mar 2005 new variable
+common#:#webr#:#Web resource###11 Mar 2005 new variable
+common#:#webr_active#:#Active###11 Mar 2005 new variable
+common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
+common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
+common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_permission#:#Change permission settings###11 Mar 2005 new variable
+common#:#webr_fillout_all#:#Please fill out all required fields.###11 Mar 2005 new variable
+common#:#webr_item_updated#:#Saved modifications###11 Mar 2005 new variable
+common#:#webr_join#:#Subscribe web resource###11 Mar 2005 new variable
+common#:#webr_last_check#:#Last check###11 Mar 2005 new variable
+common#:#webr_last_check_table#:#Last check:###11 Mar 2005 new variable
+common#:#webr_leave#:#Unsubscribe web resource###11 Mar 2005 new variable
+common#:#webr_modified_items#:#Saved modifications.###11 Mar 2005 new variable
+common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
+common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
+common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
+common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
+common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
+common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#week#:#Uge
+common#:#weekly#:#weekly###11 Mar 2005 new variable
 common#:#welcome#:#Velkommen
 common#:#who_is_online#:#Hvem er online?
 common#:#with#:#Med
@@ -2347,6 +2393,7 @@ content#:#cont_content_obj#:#Indholdsobjekt
 content#:#cont_contents#:#Indeholde
 content#:#cont_coords#:#Koordinater
 content#:#cont_copy_to_clipboard#:#Kopier til udklipsholder
+content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
 content#:#cont_create_dir#:#Opret Bibliotek
 content#:#cont_create_export_file#:#Opret Exportfil
 content#:#cont_create_folder#:#Opret mappe
@@ -2476,6 +2523,7 @@ content#:#cont_page_select_target_now#:#Side er markeret til flytning. V&aelig;l
 content#:#cont_pages#:#Sider
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#parametrer
+content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
 content#:#cont_personal_clipboard#:#Personlig udklipsholder
 content#:#cont_pg_content#:#Side Indhold
 content#:#cont_pg_title#:#Side Titel
@@ -2488,6 +2536,9 @@ content#:#cont_purpose#:#Form&aring;ler
 content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
 content#:#cont_reference#:#Referencer
 content#:#cont_remove_fullscreen#:#fjern fulssk&aelig;rm
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#Resourcer
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resourcer

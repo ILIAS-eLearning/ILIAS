@@ -842,6 +842,7 @@ common#:#cat_create_spl#:#Create Depósito de Preguntas (para encuestas)
 common#:#cat_create_svy#:#Crear Encuesta
 common#:#cat_create_tst#:#Crear Test
 common#:#cat_create_url#:#Crear URL
+common#:#cat_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
 common#:#cat_edit_permission#:#Modificar configuración de permisos
@@ -897,6 +898,8 @@ common#:#check_link_desc#:#Si se habilita, todos los enlaces externos en los mó
 common#:#check_max_allowed_packet_size#:#El contenido de esta página es demasiado grande
 common#:#check_user_accounts#:#Comprobar cuentas de usuario
 common#:#check_user_accounts_desc#:#Si se activa 'trabajos planificados y esta opción está habilitada, todos los usuarios cuya cuenta expira, será informada por correo electrónico.
+common#:#check_web_resources#:#Check web resources###11 Mar 2005 new variable
+common#:#check_web_resources_desc#:#If enabled all web resources will be checked if they are active.###11 Mar 2005 new variable
 common#:#checked_files#:#Ficheros importables
 common#:#chg_language#:#modificar idioma
 common#:#chg_password#:#cambiar contraseña
@@ -946,6 +949,7 @@ common#:#create#:#create
 common#:#create_date#:#Creado el
 common#:#create_in#:#Creado en
 common#:#create_stylesheet#:#Crear Estilo
+common#:#created#:#Create date###11 Mar 2005 new variable
 common#:#cron_jobs#:#Trabajos Planificados
 common#:#cron_jobs_desc#:#Un trabajo planificado es un proceso automatizado que opera en intervalos de tiempo predefinidos. Encontrará información extra sobre la configuración en el fichero INSTALL de la documentación.
 common#:#crs#:#crs
@@ -975,6 +979,7 @@ common#:#crs_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
 common#:#crs_create_spl#:#Crear Repositorio de Preguntas para Encuesta
 common#:#crs_create_svy#:#Crear Encuesta
 common#:#crs_create_tst#:#Crear Test
+common#:#crs_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#crs_delete#:#Eliminar Curso
 common#:#crs_edit#:#Editar Curso
 common#:#crs_edit_permission#:#Modificar configuración de Permisos
@@ -996,6 +1001,7 @@ common#:#cur_number_rec#:#Número actual de registros
 common#:#current_password#:#contraseña actual
 common#:#cut#:#cortar
 common#:#cutPage#:#Cortar
+common#:#daily#:#daily###11 Mar 2005 new variable
 common#:#database#:#Base de Datos
 common#:#database_version#:#versión actual de la base de datos
 common#:#dataset#:#Conjunto de Datos
@@ -1043,7 +1049,9 @@ common#:#department#:#Departamento
 common#:#desc#:#descripción
 common#:#description#:#descripción
 common#:#desired_password#:#contraseña deseada
+common#:#details#:#Details###11 Mar 2005 new variable
 common#:#disable#:#deshabilitar
+common#:#disable_check#:#Disable check###11 Mar 2005 new variable
 common#:#disabled#:#deshabilitado
 common#:#domain#:#Dominio
 common#:#down#:#-Abajo-
@@ -1052,6 +1060,7 @@ common#:#download_all_returned_files#:#Descargar todos los ficheros -devueltos-.
 common#:#drafts#:#borradores
 common#:#drop#:#descartar
 common#:#edit#:#editar
+common#:#edit_content#:#Edit content###11 Mar 2005 new variable
 common#:#edit_data#:#editar datos
 common#:#edit_operations#:#editar operaciones
 common#:#edit_perm_ruleset#:#Editar reglas de permisos por defecto
@@ -1316,6 +1325,7 @@ common#:#grp_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
 common#:#grp_create_spl#:#Crear Repositorio de Preguntas para Encuesta
 common#:#grp_create_svy#:#Crear Encuesta
 common#:#grp_create_tst#:#Crear Test
+common#:#grp_create_webr#:#Create new web resource###11 Mar 2005 new variable
 common#:#grp_delete#:#Eliminar Grupo
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
 common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?
@@ -1371,6 +1381,9 @@ common#:#hist_lm:pg_cut#:#Página cortada del capítulo "%1" [%2]
 common#:#hist_lm:pg_paste#:#Página pegada en el capítulo "%1" [%2]
 common#:#hist_lm:pg_update#:#Página modificada
 common#:#hist_no_entries#:#No hay entradas en la historia.
+common#:#hist_webr_add#:#Added new web resource with title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_delete#:#Deleted web resource. Title: "%1"###11 Mar 2005 new variable
+common#:#hist_webr_update#:#Update web resource. Title: "%1"###11 Mar 2005 new variable
 common#:#history#:#Historia
 common#:#hits_per_page#:#Hits/Página
 common#:#hlm#:#Módulo de aprendizaje HACP
@@ -1648,6 +1661,7 @@ common#:#mep_delete#:#Eliminar Depósito Multimedia
 common#:#mep_edit#:#Editar propiedades de Depósito Multimedia
 common#:#mep_edit_permission#:#Modificar configuración de permisos
 common#:#mep_new#:#Nuevo Depósito Multimedia
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
 common#:#mep_read#:#Leer contenido del Depósito Multimedia
 common#:#mep_visible#:#Nuevo Depósito Multimedia visible
 common#:#mep_write#:#Editar contenido del Depósito Multimedia
@@ -1687,6 +1701,7 @@ common#:#month_11_long#:#Noviembre
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Diciembre
 common#:#month_12_short#:#Dic
+common#:#monthly#:#monthly###11 Mar 2005 new variable
 common#:#move#:#Mover
 common#:#moveChapter#:#Mover
 common#:#movePage#:#Mover
@@ -1778,6 +1793,7 @@ common#:#my_grps#:#Mis Grupos
 common#:#my_los#:#Mis Objetos de Aprendizaje
 common#:#my_tsts#:#Mis Tests
 common#:#name#:#nombre
+common#:#never#:#never###11 Mar 2005 new variable
 common#:#new#:#nuevo
 common#:#new_appointment#:#Nueva Cita
 common#:#new_folder#:#nueva carpeta
@@ -1800,6 +1816,7 @@ common#:#no_frm_in_personal_list#:#No hay foros en la lista personal.
 common#:#no_global_role_left#:#Cada usuario debe ser asignado a un rol.
 common#:#no_grp_in_personal_list#:#No hay grupos en la lista personal.
 common#:#no_import_available#:#Importación no disponible para el tipo
+common#:#no_import_file_found#:#No import file found###11 Mar 2005 new variable
 common#:#no_invalid_links#:#No se encontraron enlaces inválidos.
 common#:#no_limit#:#Sin límite
 common#:#no_lo_in_personal_list#:#No hay objetos de aprendizaje en la lista personal
@@ -1890,6 +1907,7 @@ common#:#obj_uset#:#Configuración de Usuario
 common#:#obj_usr#:#Usuario
 common#:#obj_usrf#:#Administración de Usuario
 common#:#obj_usrf_desc#:#Gestione sus cuentas de usuario aquí.
+common#:#obj_webr#:#Web resource###11 Mar 2005 new variable
 common#:#object#:#Objeto
 common#:#object_added#:#Objeto añadido
 common#:#objects#:#objetos
@@ -1931,6 +1949,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#tipo de Objeto
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Usuarios
+common#:#objs_webr#:#Web resources###11 Mar 2005 new variable
 common#:#of#:#de
 common#:#offline#:#offline
 common#:#offline_version#:#versión offline
@@ -2029,6 +2048,7 @@ common#:#qpl_read#:#Acceso de Lectura a Repositorio de Preguntas
 common#:#qpl_upload_file#:#Cargar fichero
 common#:#qpl_visible#:#Repositorio de Preguntas visible
 common#:#qpl_write#:#Editar Repositorio de Preguntas
+common#:#quarterly#:#quarterly###11 Mar 2005 new variable
 common#:#query_data#:#Consultar datos
 common#:#question#:#question
 common#:#question_pools#:#Repositorio de preguntas
@@ -2266,6 +2286,7 @@ common#:#system_information#:#Información de Sistema
 common#:#system_language#:#idioma de sistema
 common#:#system_message#:#mensaje de sistema
 common#:#table_mail_import#:#Importar Correos de ILIAS 2
+common#:#target#:#Target###11 Mar 2005 new variable
 common#:#tax#:#Taxonomía
 common#:#tax_add#:#Añadir Taxonomía
 common#:#tax_delete#:#Eliminar taxonomías
@@ -2404,6 +2425,7 @@ common#:#usrf_read#:#Acceso de Lectura a las cuentas de usuario
 common#:#usrf_read_users#:#Asignación de rol para administradores locales
 common#:#usrf_visible#:#Cuentas de usuario visibles
 common#:#usrf_write#:#Editar cuentas de usuario
+common#:#valid#:#Valid###11 Mar 2005 new variable
 common#:#validate#:#Validar
 common#:#value#:#valor
 common#:#vcard#:#Tarjeta de visita
@@ -2415,8 +2437,32 @@ common#:#view#:#-Ver-
 common#:#view_content#:#ver contenido
 common#:#visible_layers#:#capas visibles
 common#:#visits#:#visitas
+common#:#web_resources#:#Web resources###11 Mar 2005 new variable
+common#:#webr#:#Web resource###11 Mar 2005 new variable
+common#:#webr_active#:#Active###11 Mar 2005 new variable
+common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
+common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
+common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
+common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
+common#:#webr_edit_permission#:#Change permission settings###11 Mar 2005 new variable
+common#:#webr_fillout_all#:#Please fill out all required fields.###11 Mar 2005 new variable
+common#:#webr_item_updated#:#Saved modifications###11 Mar 2005 new variable
+common#:#webr_join#:#Subscribe web resource###11 Mar 2005 new variable
+common#:#webr_last_check#:#Last check###11 Mar 2005 new variable
+common#:#webr_last_check_table#:#Last check:###11 Mar 2005 new variable
+common#:#webr_leave#:#Unsubscribe web resource###11 Mar 2005 new variable
+common#:#webr_modified_items#:#Saved modifications.###11 Mar 2005 new variable
+common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
+common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
+common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
+common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
+common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
+common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#webservices#:#Servicios Web (SOAP)
 common#:#week#:#Semana
+common#:#weekly#:#weekly###11 Mar 2005 new variable
 common#:#welcome#:#Bienvenido
 common#:#who_is_online#:#Who's online?
 common#:#with#:#con
@@ -2511,6 +2557,7 @@ content#:#cont_contents#:#Contenidos
 content#:#cont_coords#:#Coordenadas
 content#:#cont_copy_object#:#copiar objeto
 content#:#cont_copy_to_clipboard#:#Copiar al portapapeles
+content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
 content#:#cont_create_dir#:#Crear Directorio
 content#:#cont_create_export_file#:#Crear Fichero de Exportación
 content#:#cont_create_export_file_html#:#Crear Fichero de Exportación (HTML)
@@ -2701,6 +2748,7 @@ content#:#cont_page_select_target_now#:#Página marcada para mover. A continuaci
 content#:#cont_pages#:#Páginas
 content#:#cont_parameter#:#Parámetro
 content#:#cont_parameters#:#Parámetros
+content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
 content#:#cont_personal_clipboard#:#Portapapeles personal
 content#:#cont_pg_content#:#Contenido de Página
 content#:#cont_pg_title#:#Título de Página
@@ -2718,6 +2766,9 @@ content#:#cont_remove_fullscreen#:#Eliminar Pantalla Completa
 content#:#cont_removeiln#:#¿Realmente quiere eliminar el enlace interno?
 content#:#cont_reset_definitions#:#Resetear posiciones de definición
 content#:#cont_reset_pictures#:#Resetear posiciones de imagen
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#Recurso
 content#:#cont_resource_type#:#tipo
 content#:#cont_resources#:#Recursos
@@ -4448,7 +4499,6 @@ survey#:#search_questions#:#Search questions###10 Jun 2004 new variable
 survey#:#search_term#:#Search term###27 May 2004 new variable
 survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
 survey#:#search_users#:#Users###27 May 2004 new variable
-survey#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
 survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable

@@ -844,6 +844,7 @@ common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_create_url#:#Neue URL anlegen
+common#:#cat_create_webr#:#Neue Web-Resource anlegen
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
@@ -899,6 +900,8 @@ common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten n
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
 common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer deren Zugang zeitlich begrenzt ist 2 Wochen vor Ablauf darüber informiert.
+common#:#check_web_resources#:#Web-Resourcen überprüfen
+common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Web-Resourcen nach ungültigen externen Links überprüft.
 common#:#checked_files#:#Importierbare Dateien
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
@@ -953,6 +956,7 @@ common#:#create#:#Erstellen
 common#:#create_date#:#Erstellt am
 common#:#create_in#:#Erstellen in
 common#:#create_stylesheet#:#Style erstellen
+common#:#created#:#Erzeugt am
 common#:#cron_jobs#:#Cron-jobs
 common#:#cron_jobs_desc#:#Ein Cron-job ist automatisierter Prozeß, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-jobs in der Installationsanleitung.
 common#:#crs#:#Kurs
@@ -983,6 +987,7 @@ common#:#crs_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#crs_create_svy#:#Neue Umfrage anlegen
 common#:#crs_create_tst#:#Neuen Test anlegen
+common#:#crs_create_webr#:#Neue Web-Resource anlegen
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
@@ -1004,6 +1009,7 @@ common#:#cur_number_rec#:#Aktuelle Zahl der Einträge
 common#:#current_password#:#Derzeitiges Passwort
 common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
+common#:#daily#:#täglich
 common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#dataset#:#Eintrag
@@ -1053,7 +1059,9 @@ common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#desktop_items#:#Ausgewählte Angebote
+common#:#details#:#Details###11 Mar 2005 new variable
 common#:#disable#:#ausschalten
+common#:#disable_check#:#Keine Überprüfung
 common#:#disabled#:#Ausgeschaltet
 common#:#domain#:#Domäne
 common#:#down#:#Runter
@@ -1062,6 +1070,7 @@ common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
 common#:#edit#:#Bearbeiten
+common#:#edit_content#:#Inhalt bearbeiten
 common#:#edit_data#:#Daten bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
 common#:#edit_perm_ruleset#:#Rechtevorgaben bearbeiten
@@ -1328,6 +1337,7 @@ common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#grp_create_svy#:#Neue Umfrage anlegen
 common#:#grp_create_tst#:#Neuen Test anlegen
+common#:#grp_create_webr#:#Neue Web-Resource anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?
@@ -1383,6 +1393,9 @@ common#:#hist_lm:pg_cut#:#Seite ausgeschnitten aus Kapitel "%1" [%2]
 common#:#hist_lm:pg_paste#:#Seite eingefügt in Kapitel "%1" [%2]
 common#:#hist_lm:pg_update#:#Seite verändert
 common#:#hist_no_entries#:#Keine Einträge im Verlauf
+common#:#hist_webr_add#:#Neue Web-Resource angelegt mit Titel: "%1"
+common#:#hist_webr_delete#:#Web-Resource wurde gelöscht. Titel: "%1"
+common#:#hist_webr_update#:#Web-Resource wurde aktualisiert. Titel: "%1"
 common#:#history#:#Verlauf
 common#:#hits_per_page#:#Treffer/Seite
 common#:#hlm#:#Lernmodul HACP
@@ -1682,6 +1695,7 @@ common#:#mep_delete#:#Media-Pool gelöscht
 common#:#mep_edit#:#Eigenschaften des Media-Pools bearbeiten
 common#:#mep_edit_permission#:#Rechteeinstellungen ändern
 common#:#mep_new#:#Neuer Media-Pool
+common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:###11 Mar 2005 new variable
 common#:#mep_read#:#Inhalt des Media-Pools lesen
 common#:#mep_visible#:#Media-Pool ist sichtbar
 common#:#mep_write#:#Inhalt des Media-Pools bearbeiten
@@ -1721,6 +1735,7 @@ common#:#month_11_long#:#November
 common#:#month_11_short#:#Nov
 common#:#month_12_long#:#Dezember
 common#:#month_12_short#:#Dez
+common#:#monthly#:#monatlich
 common#:#move#:#Verschieben
 common#:#moveChapter#:#Verschieben
 common#:#movePage#:#Verschieben
@@ -1814,6 +1829,7 @@ common#:#my_grps#:#Meine Gruppen
 common#:#my_los#:#Meine Lernobjekte
 common#:#my_tsts#:#Meine Tests
 common#:#name#:#Name
+common#:#never#:#nie
 common#:#new#:#Neu
 common#:#new_appointment#:#Neuer Termin
 common#:#new_folder#:#Neuer Ordner
@@ -1935,6 +1951,7 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
+common#:#obj_webr#:#Web-Resource
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
 common#:#objects#:#Objekte
@@ -1978,6 +1995,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekttypen
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Benutzer
+common#:#objs_webr#:#Web-Resourcen
 common#:#of#:#von
 common#:#offline#:#Offline
 common#:#offline_version#:#Offline Version
@@ -2077,6 +2095,7 @@ common#:#qpl_read#:#Lesezugriff auf Fragenpool
 common#:#qpl_upload_file#:#Datei hochladen
 common#:#qpl_visible#:#Fragenpool ist sichtbar
 common#:#qpl_write#:#Fragenpool bearbeiten
+common#:#quarterly#:#vierteljährlich
 common#:#query_data#:#Daten anzeigen
 common#:#question#:#Frage
 common#:#question_pools#:#Fragenpools
@@ -2332,6 +2351,7 @@ common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachricht
 common#:#system_style_settings#:#Einstellungen für System-Styles
 common#:#table_mail_import#:#Import von Nachrichten
+common#:#target#:#Ziel
 common#:#tax#:#Taxonomie
 common#:#tax_add#:#Taxonomie hinzufügen
 common#:#tax_delete#:#Löschen von Taxonomien
@@ -2494,6 +2514,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Wert "%3$s" des Attributs 
 common#:#usrimport_xml_element_content_illegal#:#Inhalt "%2$s" des Elements "%1$s" ist ungültig.
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" muss für "%2$s" Aktion angegeben werden.
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" ist für "%2$s" Aktion nicht anwendbar.
+common#:#valid#:#Gültig
 common#:#validate#:#Validieren
 common#:#value#:#Wert
 common#:#vcard#:#Visitenkarte
@@ -2509,8 +2530,32 @@ common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
+common#:#web_resources#:#Web-Resourcen
+common#:#webr#:#Web-Resource
+common#:#webr_active#:#Aktiv
+common#:#webr_add#:#Web-Resource hinzufügen
+common#:#webr_add_item#:#Web-Resource hinzufügen
+common#:#webr_delete#:#Web-Resource löschen
+common#:#webr_disable_check#:#Überprüfung deaktivieren
+common#:#webr_edit#:#Web-Resource bearbeiten
+common#:#webr_edit_item#:#Web-Resource bearbeiten
+common#:#webr_edit_permission#:#Rechteeinstellungen ändern
+common#:#webr_fillout_all#:#Bitte füllen Sie alle Felder aus.
+common#:#webr_item_updated#:#Die Änderungen wurden übernommen
+common#:#webr_join#:#Web-Resource abonnieren
+common#:#webr_last_check#:#Letzte Überprüfung
+common#:#webr_last_check_table#:#Letzte Überprüfung:
+common#:#webr_leave#:#Web-Resourceabonnement aufheben
+common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
+common#:#webr_never_checked#:#Noch nicht überprüft
+common#:#webr_new#:#Neue Web-Resource anlegen
+common#:#webr_no_items_created#:#Es sind keine Web-Resourcen angelegt
+common#:#webr_read#:#Lesezugriff auf Web-Resource
+common#:#webr_visible#:#Web-Resource ist sichtbar
+common#:#webr_write#:#Web-Resource bearbeiten
 common#:#webservices#:#Web-Services
 common#:#week#:#Woche
+common#:#weekly#:#wöchentlich
 common#:#welcome#:#Willkommen
 common#:#who_is_online#:#Wer ist Online?
 common#:#with#:#mit
@@ -2605,6 +2650,7 @@ content#:#cont_contents#:#Inhalt
 content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_object#:#Objekt kopieren
 content#:#cont_copy_to_clipboard#:#In die Zwischenablage kopieren
+content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Exportdatei erstellen
 content#:#cont_create_export_file_html#:#Erzeuge HTML-Exportdatei
@@ -2796,6 +2842,7 @@ content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Se
 content#:#cont_pages#:#Seiten
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
+content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
 content#:#cont_personal_clipboard#:#Persönliche Zwischenablage
 content#:#cont_pg_content#:#Seiteninhalt
 content#:#cont_pg_title#:#Titel der Seite
@@ -2816,6 +2863,9 @@ content#:#cont_repository_item#:#Objekt in Magazin
 content#:#cont_repository_item_links#:#Links auf Objekte in Magazin
 content#:#cont_reset_definitions#:#Positionen der Definitionen auf die Ursprungsposition zurücksetzen
 content#:#cont_reset_pictures#:#Positionen der Bilder auf die Ursprungsposition zurücksetzen
+content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
+content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
@@ -4754,47 +4804,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-common#:#hist_webr_add#:#Neue Web-Resource angelegt mit Titel: "%1"
-common#:#hist_webr_update#:#Web-Resource wurde aktualisiert. Titel: "%1"
-common#:#hist_webr_delete#:#Web-Resource wurde gelöscht. Titel: "%1"
-common#:#webr_delete#:#Web-Resource löschen
-common#:#webr_edit_permission#:#Rechteeinstellungen ändern
-common#:#webr_join#:#Web-Resource abonnieren
-common#:#webr_leave#:#Web-Resourceabonnement aufheben
-common#:#webr_read#:#Lesezugriff auf Web-Resource
-common#:#webr_visible#:#Web-Resource ist sichtbar
-common#:#webr_write#:#Web-Resource bearbeiten
-common#:#crs_create_webr#:#Neue Web-Resource anlegen
-common#:#cat_create_webr#:#Neue Web-Resource anlegen
-common#:#grp_create_webr#:#Neue Web-Resource anlegen
-common#:#objs_webr#:#Web-Resourcen
-common#:#webr#:#Web-Resource
-common#:#webr_new#:#Neue Web-Resource anlegen
-common#:#webr_add#:#Web-Resource hinzufügen
-common#:#webr_no_items_created#:#Es sind keine Web-Resourcen angelegt
-common#:#edit_content#:#Inhalt bearbeiten
-common#:#webr_edit#:#Web-Resource bearbeiten
-common#:#webr_add_item#:#Web-Resource hinzufügen
-common#:#target#:#Ziel
-common#:#webr_disable_check#:#Überprüfung deaktivieren
-common#:#webr_fillout_all#:#Bitte füllen Sie alle Felder aus.
-common#:#web_resources#:#Web-Resourcen
-common#:#valid#:#Gültig
-common#:#disable_check#:#Keine Überprüfung
-common#:#details#:#Details
-common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
-common#:#webr_edit_item#:#Web-Resource bearbeiten
-common#:#created#:#Erzeugt am
-common#:#webr_active#:#Aktiv
-common#:#webr_last_check#:#Letzte Überprüfung
-common#:#webr_item_updated#:#Die Änderungen wurden übernommen
-common#:#webr_never_checked#:#Noch nicht überprüft
-common#:#webr_last_check_table#:#Letzte Überprüfung:
-common#:#never#:#nie
-common#:#daily#:#täglich
-common#:#weekly#:#wöchentlich
-common#:#monthly#:#monatlich
-common#:#quarterly#:#vierteljährlich
-common#:#check_web_resources#:#Web-Resourcen überprüfen
-common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Web-Resourcen nach ungültigen externen Links überprüft.
-common#:#obj_webr#:#Web-Resource
