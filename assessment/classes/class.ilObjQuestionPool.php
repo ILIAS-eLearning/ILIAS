@@ -997,6 +997,22 @@ class ilObjQuestionPool extends ilObject
 	}
 	
 	/**
+	* get array of (two) new created questions for
+	* import id
+	*/
+	function getImportMapping()
+	{
+		if (!is_array($this->import_mapping))
+		{
+			return array();
+		}
+		else
+		{
+			return $this->import_mapping;
+		}
+	}
+	
+	/**
 	* Returns a QTI xml representation of a list of questions
 	*
 	* Returns a QTI xml representation of a list of questions
@@ -1022,6 +1038,71 @@ class ilObjQuestionPool extends ilObject
 			}
 		}
 		return $xml;
+	}
+	
+	function importObject($source)
+	{
+		$this->import_mapping = array();
+		if (is_file($source))
+		{
+			// import file into questionpool
+			$fh = fopen($source, "r") or die("");
+			$xml = fread($fh, filesize($source));
+			fclose($fh) or die("");
+			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
+			{
+				foreach ($matches[1] as $index => $item)
+				{
+					// get identifier
+					if (preg_match("/(<item[^>]*>)/is", $item, $start_tag))
+					{
+						if (preg_match("/(ident=\"([^\"]*)\")/is", $start_tag[1], $ident))
+						{
+							$ident = $ident[2];
+						}
+					}
+					$question = "";
+					if (preg_match("/<qticomment>Questiontype\=(.*?)<\/qticomment>/is", $item, $questiontype))
+					{
+						switch ($questiontype[1])
+						{
+							case CLOZE_TEST_IDENTIFIER:
+								$question = new ASS_ClozeTest();
+								break;
+							case IMAGEMAP_QUESTION_IDENTIFIER:
+								$question = new ASS_ImagemapQuestion();
+								break;
+							case MATCHING_QUESTION_IDENTIFIER:
+								$question = new ASS_MatchingQuestion();
+								break;
+							case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
+								$question = new ASS_MultipleChoice();
+								break;
+							case ORDERING_QUESTION_IDENTIFIER:
+								$question = new ASS_OrderingQuestion();
+								break;
+							case JAVAAPPLET_QUESTION_IDENTIFIER:
+								$question = new ASS_JavaApplet();
+								break;
+						}
+						if ($question)
+						{
+							$question->setObjId($this->getId());
+							if ($question->from_xml("<questestinterop>$item</questestinterop>"))
+							{
+								$question->saveToDb();
+								$this->import_mapping[$ident] = array(
+									"pool" => $question->getId(), "test" => 0);
+							}
+							else
+							{
+								$this->ilias->raiseError($this->lng->txt("error_importing_question"), $this->ilias->error_obj->MESSAGE);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 } // END class.ilObjQuestionPool
 ?>
