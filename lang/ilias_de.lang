@@ -52,6 +52,7 @@ common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#all_objects#:#Alle Objekte
 common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
+common#:#enable_registration#:#Neuanmeldung zulassen
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten

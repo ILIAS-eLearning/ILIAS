@@ -90,7 +90,7 @@ class ilMainMenuGUI
 		global $rbacsystem, $lng, $ilias;
 
 		// administration button
-		if ($rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID))
+		if ($rbacsystem->checkAccess("visible,read", SYSTEM_FOLDER_ID))
 		{
 			$this->tpl->setCurrentBlock("userisadmin");
 			$this->tpl->setVariable("IMG_ADMIN2", ilUtil::getImagePath("navbar/admin.gif", false));
@@ -119,11 +119,17 @@ class ilMainMenuGUI
 
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
+			if ($this->ilias->getSetting("enable_registration"))
+			{
+				$this->tpl->setCurrentBlock("registration_link");
+				$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));
+				$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php");
+				$this->tpl->parseCurrentBlock();
+			}
+
 			$this->tpl->setCurrentBlock("userisanonymous");
 			$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
 			$this->tpl->setVariable("TXT_LOGIN",$lng->txt("login"));
-			$this->tpl->setVariable("TXT_REGISTER",$lng->txt("register"));
-			$this->tpl->setVariable("LINK_REGISTER", $link_dir."register.php");
 			$this->tpl->setVariable("LINK_LOGIN", $link_dir."index.php?cmd=login");
 			$this->tpl->parseCurrentBlock();
 		}
