@@ -137,6 +137,9 @@
 		<xsl:when test="MetaData/General/@AggregationLevel=2">
 			<xsl:apply-templates/>
 		</xsl:when>
+		<xsl:when test="MetaData/General/@AggregationLevel=3">
+			<xsl:apply-templates/>
+		</xsl:when>
 	</xsl:choose>	
 </xsl:template>
 
@@ -148,6 +151,14 @@
 <xsl:template match="Bibliography"/>
 
 <!-- start of explicit template declaration -->
+
+<xsl:template match="LO">
+	<a>
+		<xsl:attribute name="href">lo_view.php?id=<xsl:value-of select="@id"/></xsl:attribute>	
+		<xsl:value-of select="@title"/>
+	</a>
+	<br/>
+</xsl:template>
 
 <xsl:template match="Headline">
 	<h2 class="Headline" id="lo_view"><xsl:apply-templates/></h2>
@@ -428,6 +439,9 @@
 
 <xsl:template match="Content">
 	<div class="lo" id="lo_view">
+		<span class="Title" id="lo_view">
+			<xsl:value-of select="../MetaData/General/Title"/>
+		</span>
 		<xsl:apply-templates/>
 	</div>
 </xsl:template>
