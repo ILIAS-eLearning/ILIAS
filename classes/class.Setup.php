@@ -56,15 +56,17 @@ class Setup
     function getDefaults()
     {
 	//initialize default values in case of error
+	//NOTE: please don't use any brackets
 	
+	// ******************** DEPRECATED BEGIN *************************
 	$this->default["server"]["tpl_path"] = "./templates";
 	$this->default["server"]["lang_path"] = "./lang";
 		
 	$this->default["db"]["type"] = "mysql";
-	$this->default["db"]["host"] = "your host";
+	$this->default["db"]["host"] = "localhost";
 	$this->default["db"]["user"] = "your db username";
 	$this->default["db"]["pass"] = "";
-	$this->default["db"]["name"] = "your db name (i.e. ilias3)";
+	$this->default["db"]["name"] = "your db name";
 
 	$this->default["session"]["save_db"] = "true";
 
@@ -81,6 +83,8 @@ class Setup
 	$this->default["layout"]["TABLE_BORDER"] = "1";
 	$this->default["layout"]["TABLE_CELLSPACING"] = "0";
 	$this->default["layout"]["TABLE_CELLPADDING"] = "5";
+	//******************** DEPRECATED END ****************************
+	$this->default = parse_ini_file("./ilias.master.ini", true);
 	
 	//build list of databasetypes
 		$this->dbTypes = array();
@@ -94,14 +98,19 @@ class Setup
 		$this->dbTypes["sybase"] = "SyBase";
 		$this->dbTypes["ifx"] = "Informix";
 		$this->dbTypes["fbsql"] = "FrontBase";
-
     }
 
-    function Setup()
+    /**
+	* constructor
+	*/
+	function Setup()
     {
 		$this->ini = new IniFile($this->INI_FILE);
     }
 
+	/**
+	* try to read the ini file
+	*/
     function readIniFile()
     {
 		// get settings from ini file
@@ -114,7 +123,7 @@ class Setup
 			return false;
 		}
 		
-		
+		//here only dbsetting are interesting
 		$this->setDbType($this->ini->readVariable("db","type"));
 		$this->setDbHost($this->ini->readVariable("db","host"));
 		$this->setDbName($this->ini->readVariable("db","name"));
@@ -138,13 +147,16 @@ class Setup
 			 ":".$this->dbpass.
 			 "@".$this->dbhost.
 			 "/".$this->dbname;
-		 
+		 echo $this->dsn;
 		 $this->db = DB::connect($this->dsn,true);
 
 		 if (DB::isError($this->db)) {
 			 $this->error_msg = $this->db->getMessage();
 			 $this->error = "not_connected_to_db";
+			 return false;
 		 }
+		 echo "hallo";
+		 return true;
 	 }
 
     /**
@@ -237,7 +249,6 @@ class Setup
 	/**
 	 * set the database data
 	*/
-
     function installDatabase()
 	{
 		//check parameters
@@ -305,18 +316,26 @@ class Setup
 			$this->error_msg = "dump_error";
 			return false;
 		}
-		
-		
 	    return true;
-	    }
-	    
-	    function writeIniFile()
-	    {		
+    }
+
+	/**
+	* write the ini file
+	*/
+    function writeIniFile()
+    {		
 		//write inifile
+		//overwrite with defaults
+		$this->getDefaults();
+		$this->ini->GROUPS = $this->default;
+		
+		//no overwrite the defaults with submitted values
 		$this->ini->setVariable("db", "host", $this->dbHost);
 		$this->ini->setVariable("db", "name", $this->dbName);
 		$this->ini->setVariable("db", "user", $this->dbUser);
 		$this->ini->setVariable("db", "pass", $this->dbPass);
+		
+		//try to write the file
 		if ($this->ini->write()==false)
 		{
 			$this->error_msg = "cannot_write";
@@ -328,16 +347,21 @@ class Setup
 		
 	} //function
 
-
+	/**
+	* check if inifile exists
+	*/
     function checkIniFileExists()
     {
-	return false;
+		return false;
     }
     
+	/**
+	* check if main directory is writable for webserver
+	*/
     function checkIniFileWritable()
     {
-	clearstatcache();
-	return is_writable(".");
+		clearstatcache();
+		return is_writable(".");
     }
 	
 } //class Setup

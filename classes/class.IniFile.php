@@ -96,8 +96,10 @@ class IniFile
 	 */
     function parse()
 	{
+		//use php4 function parse_ini_file
 		$this->GROUPS = parse_ini_file($this->INI_FILE_NAME, true);
-
+		
+		//check if groups are filled
 		if ($this->GROUPS == false)
 		{
 			$this->error("file_not_accessible");
@@ -135,7 +137,7 @@ class IniFile
 	}
     
     /**
-	 * save ini-file-data
+	 * save ini-file-data to filesystem
 	 * @access private
 	 */
     function write()
@@ -159,20 +161,55 @@ class IniFile
 				$res = sprintf("[%s]\n",$group_name);
 			else
 				$res = sprintf("\n[%s]\n",$group_name);
-    		fwrite($fp, $res);
-    		$group = $this->readGroup($group_name);
+    		$result = fwrite($fp, $res);
+			$group = $this->readGroup($group_name);
     		for(reset($group); $key=key($group);next($group))
     		{
     			$res = sprintf("%s = %s\n",$key,$group[$key]);
-    			fwrite($fp,$res);
+    			$result = fwrite($fp,$res);
     		}
     	}
     	
     	fclose($fp);
 
-	return true;
+		return true;
     }
     
+	
+	/**
+	* returns the content of IniFile
+	* @access public
+	* @param void
+	* @return string content
+	*/
+	function show()
+	{
+    	$groups = $this->readGroups();
+    	$group_cnt = count($groups);
+    	
+		//clear content
+		$content = "";
+		
+		// go through all groups
+    	for($i=0; $i<$group_cnt; $i++)
+    	{
+    		$group_name = $groups[$i];
+			//prevent empty line at beginning of ini-file
+			if ($i==0)
+				$content = sprintf("[%s]\n",$group_name);
+			else
+				$content .= sprintf("\n[%s]\n",$group_name);
+
+			$group = $this->readGroup($group_name);
+    		
+			//go through group an display all variables
+			for(reset($group); $key=key($group);next($group))
+    		{
+    			$content .= sprintf("%s = %s\n",$key,$group[$key]);
+			}
+    	}
+		return $content;
+	}
     /**
 	 * returns number of groups	
 	 */
@@ -198,8 +235,14 @@ class IniFile
     function groupExists($group_name)
     {
     	$group = $this->GROUPS[$group_name];
-    	if (empty($group)) return false;
-    	else return true;
+    	if (!is_array($group))
+		{
+			 return false;
+		}
+    	else
+		{
+			return true;
+		}
     }
     
     /**
