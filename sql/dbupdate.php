@@ -1181,3 +1181,12 @@ CREATE TABLE learning_module(
 	id					int				NOT NULL	PRIMARY KEY,
 	default_layout		varchar(100)	NOT NULL	DEFAULT 'toc2win'
 );
+
+<#53>
+ALTER TABLE media_object DROP COLUMN mime;
+ALTER TABLE media_object DROP COLUMN file;
+ALTER TABLE media_object DROP COLUMN caption;
+ALTER TABLE media_object ADD COLUMN halign ENUM('Left', 'Center', 'Right') NOT NULL DEFAULT 'Right';
+
+<#54>
+ALTER TABLE meta_technical ADD COLUMN format VARCHAR(200) NOT NULL DEFAULT '';

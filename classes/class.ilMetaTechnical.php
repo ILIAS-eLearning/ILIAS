@@ -35,8 +35,7 @@ class ilMetaTechnical
 {
 	var $ilias;
 
-	var $obj_id;
-	var $obj_type;
+	var $meta_data;
 	var $tech_id;
 
 	var $format;
@@ -55,21 +54,23 @@ class ilMetaTechnical
 	*
 	* @access	public
 	*/
-	function ilMetaTechnical()
+	function ilMetaTechnical(&$a_meta_data)
 	{
 		global $ilias;
 
 		$this->ilias =& $ilias;
+		$this->meta_data =& $a_meta_data;
 	}
 
-	function setId($a_id)
+
+	function getId()
 	{
-		$this->obj_id = $a_id;
+		return $this->meta_data->getId();
 	}
 
-	function setType($a_type)
+	function getType()
 	{
-		$this->obj_type = $a_type;
+		return $this->meta_data->getType();
 	}
 
 	/**
@@ -86,7 +87,7 @@ class ilMetaTechnical
 		$tech_set = $this->ilias->db->query($q);
 		while ($tech_rec = $tech_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$q = "DELETE FROM meta_tech_loc WHERE tech_id = '".$tech_rec["tech_id"]."'";
+			$q = "DELETE FROM meta_techn_loc WHERE tech_id = '".$tech_rec["tech_id"]."'";
 			$this->ilias->db->query($q);
 		}
 
@@ -101,6 +102,7 @@ class ilMetaTechnical
 	*/
 	function create()
 	{
+//echo "MetaTechnical::create<br>";
 		$q = "INSERT INTO meta_technical ".
 			"(obj_id, obj_type, format, size, install_remarks, install_remarks_lang,".
 			"other_requirements, other_requirements_lang, duration) ".
@@ -112,7 +114,8 @@ class ilMetaTechnical
 			"'".$this->getOtherRequirements()."',".
 			"'".$this->getOtherRequirementsLanguage()."',".
 			"'".$this->getDuration()."')";
-		$this->ilias-db->query($q);
+
+		$this->ilias->db->query($q);
 
 		$q = "SELECT LAST_INSERT_ID() AS tech_id FROM meta_technical";
 		$row = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
@@ -137,7 +140,7 @@ class ilMetaTechnical
 		$this->format = $a_format;
 	}
 
-	function getFormat($a_format)
+	function getFormat()
 	{
 		return $this->format;
 	}

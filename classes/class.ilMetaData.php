@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once ("classes/class.ilMetaTechnical.php");
 require_once ("classes/class.ilMetaTechnicalRequirement.php");
 require_once ("classes/class.ilMetaTechnicalRequirementSet.php");
 
@@ -65,6 +66,7 @@ class ilMetaData
 		$this->language = array();
 		$this->description = array();
 		$this->keyword = array();
+		$this->technicals = array();	// technical sections
 		$this->coverage = "";
 		$this->structure = "";
 		$this->type = $a_type;
@@ -201,21 +203,26 @@ class ilMetaData
 	*/
 	function addTechnicalSection(&$a_tech)
 	{
+//echo "ilMetaData::addingTechnicalSection<br>";
+//echo "type:".$this->getType().":id:".$this->getId().":<br>";
 		$this->technicals[] =& $a_tech;
-		$a_tech->setType($this->getType());
-		$a_tech->setId($this->getId());
+//echo "count TechnicalSections:".count($this->technicals).":<br>";
 	}
 
-	function getTechnicalSections()
+	function &getTechnicalSections()
 	{
 		return $this->technicals;
 	}
 
 	function updateTechnicalSections()
 	{
+//echo "ilMetaData::updatetechnicals<br>";
+//echo "count TechnicalSections:".count($this->technicals).":<br>";
+//echo "type:".$this->getType().":id:".$this->getId().":<br>";
 		ilMetaTechnical::delete($this->getId(), $this->getType());
 		foreach($this->technicals as $technical)
 		{
+//echo "technicalcreate<br>";
 			$technical->create();
 		}
 	}
@@ -227,7 +234,7 @@ class ilMetaData
 	function create()
 	{
 		$query = "INSERT INTO meta_data (obj_id, obj_type, title,".
-			"language, description, tech_) VALUES ".
+			"language, description) VALUES ".
 			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."',".
 			"'".$this->getLanguage()."','".$this->getDescription."')";
 		$this->ilias->db->query($query);
@@ -247,6 +254,7 @@ class ilMetaData
 			"'".$this->getLanguage()."','".$this->getDescription."')";
 		$this->ilias->db->query($query);
 		$this->updateKeywords();
+		$this->updateTechnicalSections();
 	}
 
 
