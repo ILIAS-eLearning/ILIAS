@@ -94,8 +94,8 @@ if ($_GET["cmd"] == "newthread")
 
 		if (is_array($thrData = $frm->getOneThread()))
 		{
-			sendInfo($lng->txt("forums_thread_new_entry"),true);
-			header("location: forums_threads_view.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$forumObj->getRefId());
+#			sendInfo($lng->txt("forums_thread_new_entry"),true);
+			header("location: forums_threads_liste.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$forumObj->getRefId());
 			exit();
 		} 
 	}
