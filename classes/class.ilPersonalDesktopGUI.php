@@ -48,30 +48,30 @@ class ilPersonalDesktopGUI
 	function displaySelectedItems()
 	{
 		$types = array(
-			array("title" => $this->lng->txt("learning_objects"),
-			"types" => array("lm", "dbk", "slm", "alm", "hlm", "htlm")),
-			array("title" => $this->lng->txt("objs_glo"),
-			"types" => "glo"),
-			array("title" => $this->lng->txt("objs_tst"),
-			"types" => "tst"),
-			array("title" => $this->lng->txt("objs_frm"),
-			"types" => "frm"),
-			array("title" => $this->lng->txt("objs_chat"),
-			"types" => "chat"),
-			array("title" => $this->lng->txt("objs_mep"),
-			"types" => "mep"),
 			array("title" => $this->lng->txt("objs_cat"),
 			"types" => "cat"),
-			array("title" => $this->lng->txt("objs_grp"),
-			"types" => "grp"),
 			array("title" => $this->lng->txt("objs_fold"),
 			"types" => "fold"),
-			array("title" => $this->lng->txt("objs_svy"),
-			"types" => "svy"),
 			array("title" => $this->lng->txt("objs_crs"),
 			"types" => "crs"),
+			array("title" => $this->lng->txt("objs_grp"),
+			"types" => "grp"),
+			array("title" => $this->lng->txt("learning_objects"),
+			"types" => array("lm", "alm", "hlm", "htlm", "slm", "dbk")),
+			array("title" => $this->lng->txt("objs_glo"),
+			"types" => "glo"),
+			array("title" => $this->lng->txt("objs_chat"),
+			"types" => "chat"),
+			array("title" => $this->lng->txt("objs_frm"),
+			"types" => "frm"),
 			array("title" => $this->lng->txt("objs_exc"),
-				  "types" => "exc")
+			"types" => "exc"),
+			array("title" => $this->lng->txt("objs_mep"),
+			"types" => "mep"),
+			array("title" => $this->lng->txt("objs_tst"),
+			"types" => "tst"),
+			array("title" => $this->lng->txt("objs_svy"),
+			"types" => "svy")
 			);
 		$html = "";
 		foreach($types as $type)
@@ -175,7 +175,8 @@ class ilPersonalDesktopGUI
 				{
 					$tpl->setCurrentBlock("continue_link");
 					$tpl->setVariable("LINK_CONTINUE", $item["continue_link"]);
-					$tpl->setVariable("TARGET_CONTINUE", $item["target"]);
+					//$tpl->setVariable("TARGET_CONTINUE", $item["target"]);
+					$tpl->setVariable("TARGET_CONTINUE", "bottom");
 					$tpl->setVariable("TXT_CONTINUE", $this->lng->txt("continue_work"));
 					$tpl->setVariable("IMG_CONTINUE", ilUtil::getImagePath("nav_arr_R.gif"));
 					$tpl->parseCurrentBlock();
@@ -270,7 +271,8 @@ class ilPersonalDesktopGUI
 					$tpl->setCurrentBlock("show_link");
 					$tpl->setVariable("TXT_ITEM_TITLE", $item["title"]);
 					$tpl->setVariable("LINK_SHOW", $item["link"]);
-					$tpl->setVariable("TARGET_SHOW", $item["target"]);
+					//$tpl->setVariable("TARGET_SHOW", $item["target"]);
+					$tpl->setVariable("TARGET_SHOW", "bottom");
 					$tpl->parseCurrentBlock();
 				}
 				else
