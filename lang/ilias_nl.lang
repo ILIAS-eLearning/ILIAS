@@ -478,6 +478,7 @@ common#:#are_you_sure#:#Weet u het zeker?
 common#:#assign#:#Toewijzen
 common#:#assign_global_role#:#Toewijzen aan globale rol
 common#:#assign_lo_forum#:#Leerobject-forum toewijzen
+common#:#assign_local_role#:#Assign to local role###25 May 2004 new variable
 common#:#assign_user_to_role#:#Gebruikersrol toewijzen
 common#:#at_location#:#op locatie
 common#:#attachment#:#Attachment
@@ -1517,7 +1518,8 @@ common#:#role_deleted#:#Rol gewist
 common#:#role_edit#:#Wijzigen rol
 common#:#role_new#:#Nieuwe rol
 common#:#roles#:#Rollen
-common#:#roles_of_import#:#Rollen van Import-Bestand
+common#:#roles_of_import_global#:#Global roles of import file###25 May 2004 new variable
+common#:#roles_of_import_local#:#Local roles of import file###25 May 2004 new variable
 common#:#rolf#:#Rollen
 common#:#rolf_added#:#Rolmap toegevoegd
 common#:#rolf_create_role#:#Creëer nieuwe rol-definitie
@@ -2996,6 +2998,7 @@ survey#:#multiple_choice_single_response#:#Multiple choice (single response)###2
 survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!###22 May 2004 new variable
 survey#:#no_category_selected_for_move#:#Please check at least one category to move it!###22 May 2004 new variable
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!###24 May 2004 new variable
+survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!###25 May 2004 new variable
 survey#:#no_questions_available#:#There are no questions available!###21 May 2004 new variable
 survey#:#no_target_selected_for_move#:#You must select a target position!###24 May 2004 new variable
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
@@ -3018,16 +3021,20 @@ survey#:#qt_ordinal#:#Ordinal question###21 May 2004 new variable
 survey#:#qt_text#:#Text question###21 May 2004 new variable
 survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###22 May 2004 new variable
 survey#:#question_type#:#Question type###21 May 2004 new variable
+survey#:#questionblock#:#Question block###25 May 2004 new variable
 survey#:#questions_inserted#:#Question(s) inserted!###24 May 2004 new variable
+survey#:#questions_removed#:#Question(s) and/or question block(s) removed!###25 May 2004 new variable
 survey#:#questiontype#:#Question type###21 May 2004 new variable
 survey#:#ratio_absolute#:#Ratio-Absolute###22 May 2004 new variable
 survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#remove_question#:#Remove###24 May 2004 new variable
+survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?###25 May 2004 new variable
 survey#:#reset_filter#:#Reset filter###21 May 2004 new variable
 survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
 survey#:#set_filter#:#Set filter###21 May 2004 new variable
 survey#:#start_date#:#Start date###23 May 2004 new variable
+survey#:#start_survey#:#Start survey###25 May 2004 new variable
 survey#:#survey_questions#:#Questions###21 May 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
