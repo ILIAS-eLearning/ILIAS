@@ -116,6 +116,7 @@ assessment#:#ass_size#:#Розмір
 assessment#:#available_points#:#Доступні пункти
 assessment#:#by#:#
 assessment#:#cancel_test#:#Відмінити тест
+assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!###02 Nov 2004 new variable
 assessment#:#cannot_export_test#:#Ви не володієте достатніми правами для експорту теста!
 assessment#:#cannot_maintain_test#:#Ви не володієте достатніми правами для підтрики тесту!
 assessment#:#cannot_save_metaobject#:#Ви не володієте достатніми правами дла збереження метаданих!
@@ -387,6 +388,7 @@ assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
 assessment#:#tst_score_reporting_date#:#Score reporting date###18 Feb 2004 new variable
 assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
+assessment#:#tst_select_file_for_import#:#You must select a file for import!###02 Nov 2004 new variable
 assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
 assessment#:#tst_select_questionpools#:#Please select a question pool to store the imported questions###14 Oct 2004 new variable
 assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
