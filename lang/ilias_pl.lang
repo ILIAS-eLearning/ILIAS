@@ -479,6 +479,7 @@ common#:#basic_data#:#Dane podstawowe
 common#:#benchmark#:#Test wydajności
 common#:#benchmark_settings#:#Ustawienia testu wydajności
 common#:#benchmarks#:#Testy wydajności
+common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
 common#:#bm#:#Zakładka
 common#:#bmf#:#Folder zakładek
 common#:#bookmark_edit#:#Edytuj zakładkę
@@ -513,8 +514,10 @@ common#:#cat_create_grp#:#Twórz Grupę
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Twórz Moduł Nauczania
 common#:#cat_create_mep#:#Twórz pulę mediów
-common#:#cat_create_qpl#:#Twórz pulę pytań
+common#:#cat_create_qpl#:#Twórz pulę pytań###07 May 2004 content changed
 common#:#cat_create_slm#:#Twórz Moduł Nauczania SCORM
+common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
+common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Twórz test
 common#:#cat_delete#:#Usuń Kategorię
 common#:#cat_edit#:#Edytuj kategorię
@@ -825,6 +828,7 @@ common#:#glo_join#:#Subskrybuj Słownik
 common#:#glo_leave#:#Rezygnuję z subskrybcji Słownika
 common#:#glo_new#:#Nowy Słownik
 common#:#glo_read#:#Prawo czytania Słownika
+common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Słownik jest widoczny
 common#:#glo_write#:#Edycja Słownika
 common#:#glossaries#:#Słowniki
@@ -926,6 +930,7 @@ common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Ścieżka http
 common#:#id#:#ID
 common#:#identifier#:#identyfikator
+common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#Wersja ILIAS
 common#:#image#:#Obrazek
 common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z administratorem systemu i sprawdź ścieżkę konwersji.
@@ -935,6 +940,7 @@ common#:#import_file#:#Plik Importowy
 common#:#import_file_not_valid#:#Plik importowy nie jest prawidłowy.
 common#:#import_finished#:#Ilość zaimportowanych wiadomości.
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Importuj moduł nauczania
 common#:#import_root_user#:#Import użytkownika root
@@ -1311,7 +1317,7 @@ common#:#obj_objf#:#Definicja obiektu
 common#:#obj_objf_desc#:#Zarządzanie typami obiektów ILIAS i uprawnieniami do nich. (tylko dla ekspertów!)
 common#:#obj_owner#:#Ten obiekt jest własnością
 common#:#obj_pg#:#Strona
-common#:#obj_qpl#:#Pula pytań
+common#:#obj_qpl#:#Pula pytań###07 May 2004 content changed
 common#:#obj_recf#:#Odtworzone Obiekty
 common#:#obj_recf_desc#:#Zawiera odtworzone obiekty powstałe przy sprawdzeniu systemu.
 common#:#obj_role#:#Rola
@@ -1322,7 +1328,9 @@ common#:#obj_rolf_local_desc#:#Nie zawiera lokalnych ról.
 common#:#obj_rolt#:#Szablon roli
 common#:#obj_root#:#korzeń
 common#:#obj_slm#:#SCORM (MN)
+common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Rozdział
+common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definicja typu obiektu
 common#:#obj_type#:#Typ obiektu
@@ -1357,11 +1365,13 @@ common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
 common#:#objs_mob#:#Obiekty multimedialne
 common#:#objs_note#:#Notatki
 common#:#objs_pg#:#Strony
-common#:#objs_qpl#:#Pule pytań
+common#:#objs_qpl#:#Pule pytań###07 May 2004 content changed
 common#:#objs_role#:#Role
 common#:#objs_rolt#:#Szablony Ról
 common#:#objs_slm#:#Moduły nauczania SCORM
+common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Rozdziały
+common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Testy
 common#:#objs_type#:#Typy obiektów
 common#:#objs_usr#:#Użytkownicy
@@ -1436,7 +1446,7 @@ common#:#publication#:#Publikowanie
 common#:#publication_date#:#Data opublikowania
 common#:#published#:#Opublikowane
 common#:#publishing_organisation#:#Organizacja publikująca
-common#:#qpl#:#Pula pytań
+common#:#qpl#:#Pula pytań###07 May 2004 content changed
 common#:#qpl_add#:#Dodaj pulę pytań
 common#:#qpl_delete#:#Usuń pulę pytań
 common#:#qpl_edit_permission#:#Zmień ustawienia uprawnień
@@ -1563,6 +1573,14 @@ common#:#slm_visible#:#Moduł Nauczania SCORM jest widoczny
 common#:#slm_write#:#Edycja Modułu Nauczania SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sortuj wg tej kolumny
+common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
+common#:#spl_add#:#Add question pool###07 May 2004 new variable
+common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
+common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#spl_new#:#New question pool###07 May 2004 new variable
+common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
+common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
+common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
 common#:#st_a#:#rozdział
 common#:#st_add#:#Dodaj rozdział
 common#:#st_added#:#Rozdział dodany
@@ -1581,6 +1599,14 @@ common#:#submit#:#Wykonaj
 common#:#subobjects#:#Podobiekty
 common#:#subscription#:#Subskrypcja
 common#:#summary#:#Podsumowanie
+common#:#svy#:#Survey###07 May 2004 new variable
+common#:#svy_add#:#Add survey###07 May 2004 new variable
+common#:#svy_delete#:#Delete survey###07 May 2004 new variable
+common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#svy_new#:#New survey###07 May 2004 new variable
+common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
+common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#System
 common#:#system_check#:#Sprawdzenie Systemu
 common#:#system_choose_language#:#Wybór języka systemowego

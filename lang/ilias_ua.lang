@@ -479,6 +479,7 @@ common#:#basic_data#:#Базові Дані
 common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
 common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
 common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
+common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
 common#:#bm#:#Закладинка
 common#:#bmf#:#Папка Закладинок
 common#:#bookmark_edit#:#Редагувати Закладинку
@@ -513,8 +514,10 @@ common#:#cat_create_grp#:#Створити Групу
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Створити Учбовий Модуль
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
-common#:#cat_create_qpl#:#Створити Чергу Питань
+common#:#cat_create_qpl#:#Створити Чергу Питань###07 May 2004 content changed
 common#:#cat_create_slm#:#Стоврити SCORM Учбовий Модуль
+common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
+common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Створити Тест
 common#:#cat_delete#:#Видалити Категорію
 common#:#cat_edit#:#Редагувати Категорію
@@ -825,6 +828,7 @@ common#:#glo_join#:#Підписатить на Глосарій
 common#:#glo_leave#:#Відписатись від Глосарію
 common#:#glo_new#:#Новий Глосарій
 common#:#glo_read#:#Доступ на читання до Глосарію
+common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Глосарій є видимим
 common#:#glo_write#:#Редагувати Глосарій
 common#:#glossaries#:#Глосарії
@@ -926,6 +930,7 @@ common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Http Шлях
 common#:#id#:#ID
 common#:#identifier#:#ідентифікатор
+common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#ILIAS версія
 common#:#image#:#Зображення
 common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях конвертації.
@@ -935,6 +940,7 @@ common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Імпортувати Учбовий модуль
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
@@ -1311,7 +1317,7 @@ common#:#obj_objf#:#Визначення об'єкта
 common#:#obj_objf_desc#:#Упоавління типами об'єктів та правами об'єктів в ILIAS. (тільки для експертів!)
 common#:#obj_owner#:#Цей Об'єкт належить
 common#:#obj_pg#:#Сторінка
-common#:#obj_qpl#:#Черга Питань
+common#:#obj_qpl#:#Черга Питань###07 May 2004 content changed
 common#:#obj_recf#:#Restored Objects###09 Mar 2004 new variable
 common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.###09 Mar 2004 new variable
 common#:#obj_role#:#Роль
@@ -1322,7 +1328,9 @@ common#:#obj_rolf_local_desc#:#Містить локальні ролі об'є�
 common#:#obj_rolt#:#Шаблон Ролі
 common#:#obj_root#:#root
 common#:#obj_slm#:#SCORM LM
+common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Глава
+common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tst#:#Тест
 common#:#obj_typ#:#Визначення Типу Об'єкта
 common#:#obj_type#:#Тип Об'єкта
@@ -1361,7 +1369,9 @@ common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
 common#:#objs_role#:#Roles###18 Feb 2004 new variable
 common#:#objs_rolt#:#Role Templates###18 Feb 2004 new variable
 common#:#objs_slm#:#SCORM Learning Modules###18 Feb 2004 new variable
+common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Chapters###18 Feb 2004 new variable
+common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Tests###18 Feb 2004 new variable
 common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
 common#:#objs_usr#:#Users###18 Feb 2004 new variable
@@ -1436,7 +1446,7 @@ common#:#publication#:#Публікація
 common#:#publication_date#:#Дата Публікації
 common#:#published#:#Опублікований
 common#:#publishing_organisation#:#Організація що Публікує
-common#:#qpl#:#Черга питань
+common#:#qpl#:#Черга питань###07 May 2004 content changed
 common#:#qpl_add#:#Додати чергу питань
 common#:#qpl_delete#:#Видалити Чергу Питань
 common#:#qpl_edit_permission#:#Змінити настройки прав
@@ -1563,6 +1573,14 @@ common#:#slm_visible#:#SCORM Учбовий Модуль є видимим
 common#:#slm_write#:#Редагувати SCORM Учбовий Модуль
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Сортувати по цій колонці
+common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
+common#:#spl_add#:#Add question pool###07 May 2004 new variable
+common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
+common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#spl_new#:#New question pool###07 May 2004 new variable
+common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
+common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
+common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
 common#:#st_a#:#глава
 common#:#st_add#:#Додати главу
 common#:#st_added#:#Глава додана
@@ -1581,6 +1599,14 @@ common#:#submit#:#Підтвердити
 common#:#subobjects#:#Підоб'єкти
 common#:#subscription#:#Підписка
 common#:#summary#:#Ітого
+common#:#svy#:#Survey###07 May 2004 new variable
+common#:#svy_add#:#Add survey###07 May 2004 new variable
+common#:#svy_delete#:#Delete survey###07 May 2004 new variable
+common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#svy_new#:#New survey###07 May 2004 new variable
+common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
+common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#Ситсема
 common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#Вибір системної Мови

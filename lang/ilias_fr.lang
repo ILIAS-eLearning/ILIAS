@@ -479,6 +479,7 @@ common#:#basic_data#:#Données de base
 common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
 common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
 common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
+common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
 common#:#bm#:#Signet
 common#:#bmf#:#Répertoire de signets
 common#:#bookmark_edit#:#Modifier signet
@@ -515,6 +516,8 @@ common#:#cat_create_lm#:#Create Learning Module###13 Jan 2004 new variable
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Create Question Pool###05 Feb 2004 new variable
 common#:#cat_create_slm#:#Create SCORM Learning Module###13 Jan 2004 new variable
+common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
+common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Create Test###05 Feb 2004 new variable
 common#:#cat_delete#:#Delete Category###13 Jan 2004 new variable
 common#:#cat_edit#:#Modifier catégorie
@@ -825,6 +828,7 @@ common#:#glo_join#:#Subscribe to Glossary###13 Jan 2004 new variable
 common#:#glo_leave#:#Unsubscribe from Glossary###13 Jan 2004 new variable
 common#:#glo_new#:#Nouveau glossaire
 common#:#glo_read#:#Read access to Glossary###13 Jan 2004 new variable
+common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Glossary is visible###13 Jan 2004 new variable
 common#:#glo_write#:#Edit Glossary###13 Jan 2004 new variable
 common#:#glossaries#:#Glossariese###26 Nov 2003 new variable
@@ -926,6 +930,7 @@ common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Chemin HTTP
 common#:#id#:#ID
 common#:#identifier#:#identifiant
+common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#Version ILIAS
 common#:#image#:#Image###26 Nov 2003 new variable
 common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###26 Nov 2003 new variable
@@ -935,6 +940,7 @@ common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Importation de cours
 common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
@@ -1322,7 +1328,9 @@ common#:#obj_rolf_local_desc#:#Contient les rôles locaux de l'objet n°
 common#:#obj_rolt#:#Modèle de rôle
 common#:#obj_root#:#root###13 Jan 2004 content changed
 common#:#obj_slm#:#SCORM LM###31 Jan 2004 content changed
+common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Chapitre
+common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tst#:#Test###04 Feb 2004 new variable
 common#:#obj_typ#:#Définition de type d'objet
 common#:#obj_type#:#Type d'objet
@@ -1361,7 +1369,9 @@ common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
 common#:#objs_role#:#Roles###18 Feb 2004 new variable
 common#:#objs_rolt#:#Role Templates###18 Feb 2004 new variable
 common#:#objs_slm#:#SCORM Learning Modules###18 Feb 2004 new variable
+common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Chapters###18 Feb 2004 new variable
+common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Tests###18 Feb 2004 new variable
 common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
 common#:#objs_usr#:#Users###18 Feb 2004 new variable
@@ -1563,6 +1573,14 @@ common#:#slm_visible#:#SCORM Learning Module is visible###13 Jan 2004 new variab
 common#:#slm_write#:#Edit SCORM Learning Module###13 Jan 2004 new variable
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Trié selon cette colonne
+common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
+common#:#spl_add#:#Add question pool###07 May 2004 new variable
+common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
+common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#spl_new#:#New question pool###07 May 2004 new variable
+common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
+common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
+common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
 common#:#st_a#:#un chapitre
 common#:#st_add#:#Ajouter chapitre
 common#:#st_added#:#Chapitre ajouté
@@ -1581,6 +1599,14 @@ common#:#submit#:#Envoyer
 common#:#subobjects#:#SOus-objets
 common#:#subscription#:#Abonnement
 common#:#summary#:#Résumé
+common#:#svy#:#Survey###07 May 2004 new variable
+common#:#svy_add#:#Add survey###07 May 2004 new variable
+common#:#svy_delete#:#Delete survey###07 May 2004 new variable
+common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#svy_new#:#New survey###07 May 2004 new variable
+common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
+common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#Système
 common#:#system_check#:#System Check###05 Mar 2004 new variable
 common#:#system_choose_language#:#Choix de la langue système

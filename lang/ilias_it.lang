@@ -479,6 +479,7 @@ common#:#basic_data#:#Dati di base
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Impostazioni Benchmark
 common#:#benchmarks#:#Benchmarks
+common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
 common#:#bm#:#Preferiti
 common#:#bmf#:#Cartella dei preferiti
 common#:#bookmark_edit#:#Modifica il preferito
@@ -513,8 +514,10 @@ common#:#cat_create_grp#:#Creare un gruppo
 common#:#cat_create_htlm#:#Creare un modulo HTML
 common#:#cat_create_lm#:#Creare un modulo
 common#:#cat_create_mep#:#Creare una libreria multimediale
-common#:#cat_create_qpl#:#Creare una raccolta di domande
+common#:#cat_create_qpl#:#Creare una raccolta di domande###07 May 2004 content changed
 common#:#cat_create_slm#:#Creare un modulo SCORM
+common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
+common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_delete#:#Cancellare un categoria
 common#:#cat_edit#:#Modificare un categoria
@@ -825,6 +828,7 @@ common#:#glo_join#:#Iscriversi al glossario
 common#:#glo_leave#:#Annullare l&#039;iscrizione al glossario
 common#:#glo_new#:#Nuovo glossario
 common#:#glo_read#:#Accedere in lettura al glossario
+common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Vedere il glossario
 common#:#glo_write#:#Modificare il glossario
 common#:#glossaries#:#Glossari
@@ -926,6 +930,7 @@ common#:#htlm_write#:#MOdificare un modulo HTML
 common#:#http_path#:#Percorso HTTP
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
+common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#Versione ILIAS3
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
@@ -935,6 +940,7 @@ common#:#import_file#:#Importa file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
 common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_forum_finished#:#Il forum &#232; stato importato.
+common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Importa modulo
 common#:#import_root_user#:#Importa utente root
@@ -1311,7 +1317,7 @@ common#:#obj_objf#:#Gestione oggetti
 common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS3. (solo per utenti esperti!)
 common#:#obj_owner#:#Questo oggetto &#232; posseduto da
 common#:#obj_pg#:#Pagina
-common#:#obj_qpl#:#Raccolta di domande
+common#:#obj_qpl#:#Raccolta di domande###07 May 2004 content changed
 common#:#obj_recf#:#Oggetti ripristinati
 common#:#obj_recf_desc#:#Contiene oggetti ripristinati dal sistema di controllo.
 common#:#obj_role#:#Ruolo
@@ -1322,7 +1328,9 @@ common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
 common#:#obj_root#:#Root
 common#:#obj_slm#:#SCORM LM
+common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Capitolo
+common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
@@ -1357,11 +1365,13 @@ common#:#objs_mep#:#Librerie multimediali
 common#:#objs_mob#:#Oggetti multimediali
 common#:#objs_note#:#Note
 common#:#objs_pg#:#Pagine
-common#:#objs_qpl#:#Raccolte di domande
+common#:#objs_qpl#:#Raccolte di domande###07 May 2004 content changed
 common#:#objs_role#:#Ruoli
 common#:#objs_rolt#:#Template di ruolo
 common#:#objs_slm#:#Moduli SCORM
+common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Capitoli
+common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Test
 common#:#objs_type#:#Tupi di oggetti
 common#:#objs_usr#:#Utenti
@@ -1436,7 +1446,7 @@ common#:#publication#:#Pubblicazione
 common#:#publication_date#:#Data di pubblicazione
 common#:#published#:#Pubblicato
 common#:#publishing_organisation#:#Organizzazione di pubblicazione
-common#:#qpl#:#Raccolta di domande
+common#:#qpl#:#Raccolta di domande###07 May 2004 content changed
 common#:#qpl_add#:#Aggiungere una raccolta di domande
 common#:#qpl_delete#:#Cancellare una raccolta di domande
 common#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1563,6 +1573,14 @@ common#:#slm_visible#:#Il modulo SCORM &#232; visibile
 common#:#slm_write#:#Modifica il modulo SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
+common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
+common#:#spl_add#:#Add question pool###07 May 2004 new variable
+common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
+common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#spl_new#:#New question pool###07 May 2004 new variable
+common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
+common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
+common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
 common#:#st_a#:#un capitolo
 common#:#st_add#:#Aggiungi capitolo
 common#:#st_added#:#Captolo aggiunto
@@ -1581,6 +1599,14 @@ common#:#submit#:#Invia
 common#:#subobjects#:#sotto oggetti
 common#:#subscription#:#Abbonamento
 common#:#summary#:#Riassunto
+common#:#svy#:#Survey###07 May 2004 new variable
+common#:#svy_add#:#Add survey###07 May 2004 new variable
+common#:#svy_delete#:#Delete survey###07 May 2004 new variable
+common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#svy_new#:#New survey###07 May 2004 new variable
+common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
+common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#Sistema
 common#:#system_check#:#Controllo sistema
 common#:#system_choose_language#:#Lingua di sistema scelta

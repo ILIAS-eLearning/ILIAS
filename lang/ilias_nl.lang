@@ -479,6 +479,7 @@ common#:#basic_data#:#Basis-gegevens
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Instellingen Benchmark
 common#:#benchmarks#:#Benchmarks
+common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark-map
 common#:#bookmark_edit#:#Bookmark wijzigen
@@ -513,8 +514,10 @@ common#:#cat_create_grp#:#Creëer groep
 common#:#cat_create_htlm#:#Creëer een HTML-lesmodule
 common#:#cat_create_lm#:#Creëer lesmodule
 common#:#cat_create_mep#:#Creëer een Media-pool
-common#:#cat_create_qpl#:#Creëer vragenpool
+common#:#cat_create_qpl#:#Creëer vragenpool###07 May 2004 content changed
 common#:#cat_create_slm#:#Creëer SCORM lesmodule
+common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
+common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Creëer een test
 common#:#cat_delete#:#Verwijder kategorie
 common#:#cat_edit#:#Wijzig kategorie
@@ -825,6 +828,7 @@ common#:#glo_join#:#Abonneer op een woordenlijst
 common#:#glo_leave#:#Abonnement op woordenlijst beëindigen 
 common#:#glo_new#:#Nieuwe Woordenlijst
 common#:#glo_read#:#Lees-recht op woordenlijst
+common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Woordenlijst is zichtbaar
 common#:#glo_write#:#Wijzigen woordenlijst
 common#:#glossaries#:#Glossaries
@@ -926,6 +930,7 @@ common#:#htlm_write#:#Wijzig HTML-lesmodule
 common#:#http_path#:#HTTP-pad
 common#:#id#:#ID
 common#:#identifier#:#identifier
+common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#ILIAS-versie
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image-generatie niet succesvol. Neem contact op met uw systeem-administrateur en controleer het conversie-pad.
@@ -935,6 +940,7 @@ common#:#import_file#:#Importeren Bestand
 common#:#import_file_not_valid#:#Het import-bestand is niet goed.
 common#:#import_finished#:#Aantal geïmporteerde berichten.
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Importeren van een lesmodule
 common#:#import_root_user#:#Importeer Root-gebruiker
@@ -1311,7 +1317,7 @@ common#:#obj_objf#:#Object-definities
 common#:#obj_objf_desc#:#Beheer van ILIAS object-typen en object-rechten. (alleen voor experts!)
 common#:#obj_owner#:#Dit object is eigendom van
 common#:#obj_pg#:#Bladzijde
-common#:#obj_qpl#:#Vraagbak
+common#:#obj_qpl#:#Vraagbak###07 May 2004 content changed
 common#:#obj_recf#:#Herstel Objecten
 common#:#obj_recf_desc#:#Bevat herstelde Objecten van een systeem-controle.
 common#:#obj_role#:#Rol
@@ -1322,7 +1328,9 @@ common#:#obj_rolf_local_desc#:#Bevat lokale rollen van objectnr.
 common#:#obj_rolt#:#Rol-sjabloon
 common#:#obj_root#:#ILIAS root node
 common#:#obj_slm#:#SCORM lesmodule
+common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Hoofdstuk
+common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Object-type definitie
 common#:#obj_type#:#Object-type
@@ -1357,11 +1365,13 @@ common#:#objs_mep#:#Media Pools
 common#:#objs_mob#:#Media Objecten
 common#:#objs_note#:#Opmerkingen
 common#:#objs_pg#:#Pagina's
-common#:#objs_qpl#:#Vraagbakken
+common#:#objs_qpl#:#Vraagbakken###07 May 2004 content changed
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rol-sjablonen
 common#:#objs_slm#:#SCORM lesmodules
+common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Hoofdstukken
+common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Testen
 common#:#objs_type#:#Object-types
 common#:#objs_usr#:#Gebruikers
@@ -1436,7 +1446,7 @@ common#:#publication#:#Publikatie
 common#:#publication_date#:#Publikatie-datum
 common#:#published#:#gepubliceerd
 common#:#publishing_organisation#:#Uitgevers-organisatie
-common#:#qpl#:#Vraagbak
+common#:#qpl#:#Vraagbak###07 May 2004 content changed
 common#:#qpl_add#:#Toevoegen aan vraagbak
 common#:#qpl_delete#:#Verwijder vraagbak
 common#:#qpl_edit_permission#:#Wijzig rechten-instellingen
@@ -1563,6 +1573,14 @@ common#:#slm_visible#:#SCORM lesmodule is zichtbaar
 common#:#slm_write#:#Wijzig SCORM lesmodule
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Sorteer op deze kolom
+common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
+common#:#spl_add#:#Add question pool###07 May 2004 new variable
+common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
+common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#spl_new#:#New question pool###07 May 2004 new variable
+common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
+common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
+common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
 common#:#st_a#:#een hoofdstuk
 common#:#st_add#:#Voeg hoofdstuk toe
 common#:#st_added#:#Hoofdstuk toegevoegd
@@ -1581,6 +1599,14 @@ common#:#submit#:#Verzend
 common#:#subobjects#:#Subobjecten
 common#:#subscription#:#Abonnement
 common#:#summary#:#Samenvatting
+common#:#svy#:#Survey###07 May 2004 new variable
+common#:#svy_add#:#Add survey###07 May 2004 new variable
+common#:#svy_delete#:#Delete survey###07 May 2004 new variable
+common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#svy_new#:#New survey###07 May 2004 new variable
+common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
+common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#Systeem
 common#:#system_check#:#Systeem-Controle
 common#:#system_choose_language#:#Systeemtaal kiezen

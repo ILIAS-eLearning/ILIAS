@@ -479,6 +479,7 @@ common#:#basic_data#:#Dados Básicos
 common#:#benchmark#:#Cotação
 common#:#benchmark_settings#:#Definições de cotação
 common#:#benchmarks#:#Cotações
+common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
 common#:#bm#:#Marcador
 common#:#bmf#:#Pasta de Marcadores
 common#:#bookmark_edit#:#Editar Marcador
@@ -513,8 +514,10 @@ common#:#cat_create_grp#:#Criar Grupo
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Criar Módulo de Aprendizagem
 common#:#cat_create_mep#:#Criar Banco de Média
-common#:#cat_create_qpl#:#Criar Banco de Questões
+common#:#cat_create_qpl#:#Criar Banco de Questões###07 May 2004 content changed
 common#:#cat_create_slm#:#Criar Módulo de Aprendizagem SCORM
+common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
+common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Criar Teste
 common#:#cat_delete#:#Apagar Categoria
 common#:#cat_edit#:#Editar Categoria
@@ -825,6 +828,7 @@ common#:#glo_join#:#Subscrever Glossário
 common#:#glo_leave#:#Desistir do Glossário
 common#:#glo_new#:#Novo Glossário
 common#:#glo_read#:#Acesso de Leitura ao Glossário
+common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#O Glossário é visível
 common#:#glo_write#:#Editar Glossário
 common#:#glossaries#:#Glossários
@@ -926,6 +930,7 @@ common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Caminho Http
 common#:#id#:#ID
 common#:#identifier#:#identificador
+common#:#if_no_title_then_filename#:#Leave blank to display the file name ###07 May 2004 new variable
 common#:#ilias_version#:#Versão do ILIAS
 common#:#image#:#Imagem
 common#:#image_gen_unsucc#:#Geração de imagem mal sucedida. Contacte a administração do sistema e verifique o caminho para o convert.
@@ -935,6 +940,7 @@ common#:#import_file#:#Importar Ficheiro
 common#:#import_file_not_valid#:#O ficheiro a importar não é válido.
 common#:#import_finished#:#Número de mensagens importadas.
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Imported group without any error###30 Apr 2004 new variable
 common#:#import_lm#:#Importar Módulo de Aprendizagem
 common#:#import_root_user#:#Importar Utilizador Raiz
@@ -1311,7 +1317,7 @@ common#:#obj_objf#:#Definições de objecto
 common#:#obj_objf_desc#:#Gira tipos e permissões de objectos ILIAS. (apenas para especialistas!)
 common#:#obj_owner#:#Este Objecto é possuído por
 common#:#obj_pg#:#Página
-common#:#obj_qpl#:#Banco de Questões
+common#:#obj_qpl#:#Banco de Questões###07 May 2004 content changed
 common#:#obj_recf#:#Objectos Restaurados
 common#:#obj_recf_desc#:#Contém Objectos restaurados da Verificação do sistema.
 common#:#obj_role#:#Papel
@@ -1322,7 +1328,9 @@ common#:#obj_rolf_local_desc#:#Contém papéis locais do objecto.
 common#:#obj_rolt#:#Modelo de Papel
 common#:#obj_root#:#Nó raiz do ILIAS
 common#:#obj_slm#:#Módulo de Aprendizagem SCORM
+common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Capítulo
+common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tst#:#Teste
 common#:#obj_typ#:#Definição de Tipo de Objecto
 common#:#obj_type#:#Tipo de Objecto
@@ -1357,11 +1365,13 @@ common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
 common#:#objs_mob#:#Objectos Multimédia
 common#:#objs_note#:#Notas
 common#:#objs_pg#:#Páginas
-common#:#objs_qpl#:#Bancos de Questões
+common#:#objs_qpl#:#Bancos de Questões###07 May 2004 content changed
 common#:#objs_role#:#Papéis
 common#:#objs_rolt#:#Modelos de Papéis
 common#:#objs_slm#:#Módulos de Aprendizagem SCORM
+common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Capítulos
+common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Testes
 common#:#objs_type#:#Tipos de Objectos
 common#:#objs_usr#:#Utilizadores
@@ -1436,7 +1446,7 @@ common#:#publication#:#Publicação
 common#:#publication_date#:#Data da Publicação
 common#:#published#:#Publicado
 common#:#publishing_organisation#:#Organização Públicadora
-common#:#qpl#:#Banco de Questões
+common#:#qpl#:#Banco de Questões###07 May 2004 content changed
 common#:#qpl_add#:#Adicionar banco de questões
 common#:#qpl_delete#:#Apagar Banco de Questões
 common#:#qpl_edit_permission#:#Mudar definições de permissões
@@ -1563,6 +1573,14 @@ common#:#slm_visible#:#O Módulo de Aprendizagem SCORM é visível
 common#:#slm_write#:#Editar Módulo de Aprendizagem SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordenar por esta coluna
+common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
+common#:#spl_add#:#Add question pool###07 May 2004 new variable
+common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
+common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#spl_new#:#New question pool###07 May 2004 new variable
+common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
+common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
+common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
 common#:#st_a#:#um capítulo
 common#:#st_add#:#Adicionar capítulo
 common#:#st_added#:#Capítulo adicionado
@@ -1581,6 +1599,14 @@ common#:#submit#:#Submeter
 common#:#subobjects#:#Assuntos
 common#:#subscription#:#Subscrição
 common#:#summary#:#Sumário
+common#:#svy#:#Survey###07 May 2004 new variable
+common#:#svy_add#:#Add survey###07 May 2004 new variable
+common#:#svy_delete#:#Delete survey###07 May 2004 new variable
+common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#svy_new#:#New survey###07 May 2004 new variable
+common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
+common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#Sistema
 common#:#system_check#:#Verificação de Sistema
 common#:#system_choose_language#:#Sistema Escolha Linguagem

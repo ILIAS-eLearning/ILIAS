@@ -37,7 +37,6 @@
 administration#:#analyze_data#:#Analysiere Datenintegrität
 administration#:#analyze_desc#:#Durchsuche System nach korrupten/ungültigen/verlorenen/nichtzugeordneten Objekten
 administration#:#analyzing#:#Analysiert...
-common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt 
 administration#:#clean#:#Räume auf
 administration#:#clean_desc#:#Entferne ungültige Referenzen und Baumeinträge. Schliesse Lücken in der Baumstruktur
 administration#:#cleaning#:#Bereinigen
@@ -480,6 +479,7 @@ common#:#basic_data#:#Grunddaten
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Einstellungen
 common#:#benchmarks#:#Benchmarks
+common#:#bib_data#:#Bibliographical Data###07 May 2004 new variable
 common#:#bm#:#Bookmark
 common#:#bmf#:#Bookmark Ordner
 common#:#bookmark_edit#:#Bookmark bearbeiten
@@ -514,8 +514,10 @@ common#:#cat_create_grp#:#Neue Gruppe anlegen
 common#:#cat_create_htlm#:#Lege HTML-Lernmodul an
 common#:#cat_create_lm#:#Neues Lernmodul anlegen
 common#:#cat_create_mep#:#Lege Media-Pool an
-common#:#cat_create_qpl#:#Neuen Fragen-Pool anlegen
+common#:#cat_create_qpl#:#Neuen Fragen-Pool anlegen###07 May 2004 content changed
 common#:#cat_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#cat_create_spl#:#Create Question Pool (Survey)###07 May 2004 new variable
+common#:#cat_create_svy#:#Create Survey###07 May 2004 new variable
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
@@ -826,6 +828,7 @@ common#:#glo_join#:#Glossar abonnieren
 common#:#glo_leave#:#Glossarabonnement aufheben 
 common#:#glo_new#:#Neues Glossar
 common#:#glo_read#:#Glossar lesen
+common#:#glo_upload_file#:#File###07 May 2004 new variable
 common#:#glo_visible#:#Glossar ist sichtbar
 common#:#glo_write#:#Glossar bearbeiten
 common#:#glossaries#:#Glossare
@@ -927,6 +930,7 @@ common#:#htlm_write#:#HTML-Lernmodul bearbeiten
 common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
 common#:#identifier#:#Identifier
+common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt 
 common#:#ilias_version#:#ILIAS Version
 common#:#image#:#Bild
 common#:#image_gen_unsucc#:#Die Einbindung des Bildes ist nicht gelungen. Kontaktieren Sie den Systemadministrator und überprüfen Sie den Convert-Pfad.
@@ -936,6 +940,7 @@ common#:#import_file#:#Importdatei
 common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Nachrichten:
 common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
+common#:#import_glossary#:#Import Glossary###07 May 2004 new variable
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
 common#:#import_lm#:#Import Lernmodul
 common#:#import_root_user#:#Root User importieren
@@ -1312,7 +1317,7 @@ common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS Objektetypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_pg#:#Seite
-common#:#obj_qpl#:#Fragen-Pool
+common#:#obj_qpl#:#Fragen-Pool###07 May 2004 content changed
 common#:#obj_recf#:#Wiederhergestellte Objekte
 common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck
 common#:#obj_role#:#Rolle
@@ -1323,7 +1328,9 @@ common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#ILIAS-System
 common#:#obj_slm#:#SCORM Lernmodul
+common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
 common#:#obj_st#:#Kapitel
+common#:#obj_svy#:#Survey###07 May 2004 new variable
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
@@ -1358,11 +1365,13 @@ common#:#objs_mep#:#Media-Pools
 common#:#objs_mob#:#Medienobjekte
 common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
-common#:#objs_qpl#:#Fragenpools
+common#:#objs_qpl#:#Fragenpools###07 May 2004 content changed
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
 common#:#objs_slm#:#SCORM Lernmodule
+common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
 common#:#objs_st#:#Kapitel
+common#:#objs_svy#:#Surveys###07 May 2004 new variable
 common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekttypen
 common#:#objs_usr#:#Benutzer
@@ -1437,7 +1446,7 @@ common#:#publication#:#Veröffentlichung
 common#:#publication_date#:#Veröffentlichungsdatum
 common#:#published#:#Veröffentlicht
 common#:#publishing_organisation#:#Veröffentlichende Organisation
-common#:#qpl#:#Fragen-Pool
+common#:#qpl#:#Fragen-Pool###07 May 2004 content changed
 common#:#qpl_add#:#Fragen-Pool anfügen
 common#:#qpl_delete#:#Fragen-Pool löschen
 common#:#qpl_edit_permission#:#Rechteeinstellungen ändern
@@ -1564,6 +1573,14 @@ common#:#slm_visible#:#Lernmodul ist sichtbar
 common#:#slm_write#:#SCORM Lernmodul bearbeiten
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
+common#:#spl#:#Question pool (Survey)###07 May 2004 new variable
+common#:#spl_add#:#Add question pool###07 May 2004 new variable
+common#:#spl_delete#:#Delete Question Pool###07 May 2004 new variable
+common#:#spl_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#spl_new#:#New question pool###07 May 2004 new variable
+common#:#spl_read#:#Read access to Question Pool###07 May 2004 new variable
+common#:#spl_visible#:#Question Pool is visible###07 May 2004 new variable
+common#:#spl_write#:#Edit Question Pool###07 May 2004 new variable
 common#:#st_a#:#ein Kapitel
 common#:#st_add#:#Kapitel anlegen
 common#:#st_added#:#Kapitel angelegt
@@ -1582,6 +1599,14 @@ common#:#submit#:#Abschicken
 common#:#subobjects#:#Unter-Objekte
 common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
+common#:#svy#:#Survey###07 May 2004 new variable
+common#:#svy_add#:#Add survey###07 May 2004 new variable
+common#:#svy_delete#:#Delete survey###07 May 2004 new variable
+common#:#svy_edit_permission#:#Change permission settings###07 May 2004 new variable
+common#:#svy_new#:#New survey###07 May 2004 new variable
+common#:#svy_read#:#Read access to survey###07 May 2004 new variable
+common#:#svy_visible#:#Survey is visible###07 May 2004 new variable
+common#:#svy_write#:#Edit survey###07 May 2004 new variable
 common#:#system#:#System
 common#:#system_check#:#Systemcheck
 common#:#system_choose_language#:#Systemsprache wählen
