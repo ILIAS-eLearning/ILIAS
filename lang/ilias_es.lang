@@ -79,7 +79,6 @@ administration#:#searching_invalid_childs#:#Buscando nodos del arbol no válidos
 administration#:#searching_invalid_refs#:#Buscando referencias no válidas...
 administration#:#searching_missing_objs#:#Buscando objetos desaparecidos...
 administration#:#searching_unbound_objs#:#Buscando objetos sobredimensionados...
-administration#:#skippede#:#ignorado
 administration#:#start_scan#:#Comenzar!
 administration#:#systemcheck#:#Chequeo del Sistema
 administration#:#view_last_log#:#Ver el último log de Exploración
@@ -918,12 +917,10 @@ common#:#keywords#:#palabras clave
 common#:#lang_cs#:#Checo
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#Aleman
-common#:#lang_dk#:#Dinamarqués
 common#:#lang_en#:#Inglés
 common#:#lang_es#:#Español
 common#:#lang_fi#:#Finlandés
 common#:#lang_fr#:#Francés
-common#:#lang_gr#:#Griego
 common#:#lang_id#:#Indonesio
 common#:#lang_it#:#Italiano
 common#:#lang_ja#:#Japonés
@@ -933,7 +930,6 @@ common#:#lang_no#:#Noruego
 common#:#lang_path#:#ruta del idioma
 common#:#lang_pl#:#Polaco
 common#:#lang_pt#:#Portugués
-common#:#lang_se#:#Sueco
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_timeformat#:#H:i:s
