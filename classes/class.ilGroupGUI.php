@@ -1031,6 +1031,7 @@ class ilGroupGUI extends ilObjectGUI
 	function prepareOutput($tabs=true, $addtab="")
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		//$title = $this->object->getTitle();
 		infoPanel();
 		sendInfo();
@@ -1200,6 +1201,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_applicants"));
 		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&gateway=true");

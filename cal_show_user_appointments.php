@@ -56,6 +56,7 @@ if ($startPeriodTS > 0 && $endPeriodTS > 0) {
 	
 	//add template for content
 	$tpl->addBlockFile("CONTENT", "content", "tpl.cal_show_user_appointments.html");
+	$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 	
 	//add template for buttons
 	$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");

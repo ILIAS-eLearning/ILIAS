@@ -51,6 +51,7 @@ switch($_GET["cmd"])
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 //$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 

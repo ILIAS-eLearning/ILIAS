@@ -41,6 +41,7 @@ if (!$rbacsystem->checkAccess("write", ROOT_FOLDER_ID))
 sendInfo("Not available in this release.");
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.editor.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
 /*

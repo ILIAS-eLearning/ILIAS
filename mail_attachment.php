@@ -47,6 +47,7 @@ $mail_data = $umail->getSavedData();
 $_POST["filename"] = $_POST["filename"] ? $_POST["filename"] : array();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_attachment.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->setVariable("TXT_ATTACHMENT",$lng->txt("attachment"));
 infoPanel();
 

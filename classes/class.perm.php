@@ -464,11 +464,12 @@ function infoPanel($a_keep = true)
 		
 		if (!empty($_SESSION["infopanel"]["text"]))
 		{
-			$link = "<td><a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"bottom\">";
+			$link = "<a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"bottom\">";
 			$link .= $lng->txt($_SESSION["infopanel"]["text"]);
-			$link .= "</a></td>";
+			$link .= "</a>";
 		}
 
+		// deactivated
 		if (!empty($_SESSION["infopanel"]["img"]))
 		{
 			$link .= "<td><a href=\"".$_SESSION["infopanel"]["link"]."\" target=\"bottom\">";

@@ -54,6 +54,7 @@ if (($cmd = $_GET["cmd"]) == "gateway")
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.new_obj_content.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 // set locator 

@@ -39,6 +39,7 @@ require_once "classes/class.ilAddressbook.php";
 $lng->loadLanguageModule("mail");
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_addressbook.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->setVariable("TXT_ADDRESSBOOK",$lng->txt("mail_addressbook"));
 infoPanel();
 

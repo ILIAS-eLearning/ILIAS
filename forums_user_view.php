@@ -38,6 +38,7 @@ $lng->loadLanguageModule("forum");
 $frm = new ilForum();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_user_view.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 

@@ -139,6 +139,7 @@ function change_password()
 // End of function chnage_password
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 //$tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 

@@ -33,6 +33,7 @@
 require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.feedback.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 // set locator 

@@ -45,6 +45,7 @@ $umail->markRead(array($_GET["mail_id"]));
 $mail_data = $umail->getMail($_GET["mail_id"]);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_read.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->setVariable("TXT_MAILS_OF",$lng->txt("mail_mails_of"));
 setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
