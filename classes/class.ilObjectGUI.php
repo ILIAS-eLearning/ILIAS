@@ -1274,14 +1274,14 @@ class ilObjectGUI
 	/**
 	* cancel action and go back to previous page
 	* @access	public
-	* 
+	*
 	*/
 	function cancelObject()
 	{
 		session_unregister("saved_post");
-		
+
 		sendInfo($this->lng->txt("msg_cancel"),true);
-		
+
 		header("Location:".$this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
 		exit();
 	}

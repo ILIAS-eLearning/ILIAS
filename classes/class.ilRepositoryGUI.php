@@ -38,7 +38,7 @@ class ilRepositoryGUI
 	var $tpl;
 	var $tree;
 	var $rbacsystem;
-	var $cur_rep_id;
+	var $cur_ref_id;
 	var $cmd;
 	var $mode;
 
@@ -48,7 +48,7 @@ class ilRepositoryGUI
 	*/
 	function ilRepositoryGUI()
 	{
-		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition;
+		global $lng, $ilias, $tpl, $tree, $rbacsystem, $objDefinition, $_GET;
 
 		$this->lng =& $lng;
 		$this->ilias =& $ilias;
@@ -57,19 +57,19 @@ class ilRepositoryGUI
 		$this->rbacsystem =& $rbacsystem;
 		$this->objDefinition =& $objDefinition;
 
-		if (!empty($_GET["rep_id"]))
+		if (!empty($_GET["ref_id"]))
 		{
-			$this->cur_rep_id = $_GET["rep_id"];
+			$this->cur_ref_id = $_GET["ref_id"];
 		}
 		else
 		{
 			if (!empty($_SESSION["il_rep_ref_id"]))
 			{
-				$this->cur_rep_id = $_SESSION["il_rep_ref_id"];
+				$this->cur_ref_id = $_SESSION["il_rep_ref_id"];
 			}
 			else
 			{
-				$this->cur_rep_id = $this->tree->getRootId();
+				$this->cur_ref_id = $this->tree->getRootId();
 			}
 		}
 
@@ -82,13 +82,12 @@ class ilRepositoryGUI
 			? $_SESSION["il_rep_mode"]
 			: "flat";
 
-		if (($this->mode == "tree") || !$tree->isInTree($this->cur_rep_id))
+		if (($this->mode == "tree") || !$tree->isInTree($this->cur_ref_id))
 		{
-			$this->cur_rep_id = $this->tree->getRootId();
+			$this->cur_ref_id = $this->tree->getRootId();
 		}
 
-		$_SESSION["il_rep_ref_id"] = $this->cur_rep_id;
-
+		$_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
 
 		$this->categories = array();
 		$this->learning_resources = array();
@@ -155,7 +154,7 @@ class ilRepositoryGUI
 
 		require_once ("classes/class.ilRepositoryExplorer.php");
 		$exp = new ilRepositoryExplorer("repository.php?cmd=goto");
-		$exp->setTargetGet("rep_id");
+		$exp->setTargetGet("ref_id");
 
 		if ($_GET["repexpand"] == "")
 		{
@@ -183,7 +182,7 @@ class ilRepositoryGUI
 	function showFlatList()
 	{
 		// get all objects of current node
-		$objects = $this->tree->getChilds($this->cur_rep_id, "title");
+		$objects = $this->tree->getChilds($this->cur_ref_id, "title");
 		foreach($objects as $key => $object)
 		{
 			switch ($object["type"])
@@ -279,7 +278,7 @@ class ilRepositoryGUI
 
 	function setHeader()
 	{
-		if ($this->cur_rep_id == $this->tree->getRootId())
+		if ($this->cur_ref_id == $this->tree->getRootId())
 		{
 			$this->tpl->setVariable("HEADER",  $this->lng->txt("repository"));
 			if($this->mode != "tree")
@@ -290,7 +289,7 @@ class ilRepositoryGUI
 		else
 		{
 			require_once("classes/class.ilObjCategory.php");
-			$cat =& new ilObjCategory($this->cur_rep_id, true);
+			$cat =& new ilObjCategory($this->cur_ref_id, true);
 			$this->tpl->setVariable("HEADER",  $cat->getTitle());
 			$this->tpl->setVariable("H_DESCRIPTION",  $cat->getDescription());
 			if($this->mode != "tree")
@@ -298,22 +297,22 @@ class ilRepositoryGUI
 				$this->showPossibleSubObjects("cat");
 			}
 		}
-		$this->tpl->setVariable("H_FORMACTION",  "repository.php?rep_id=".$_GET["rep_id"].
+		$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$_GET["ref_id"].
 			"&cmd=post");
 
-		if ($this->cur_rep_id != $this->tree->getRootId())
+		if ($this->cur_ref_id != $this->tree->getRootId())
 		{
-			$par_id = $this->tree->getParentId($this->cur_rep_id);
+			$par_id = $this->tree->getParentId($this->cur_ref_id);
 			$this->tpl->setCurrentBlock("top");
-			$this->tpl->setVariable("LINK_TOP", "repository.php?rep_id=".$par_id);
+			$this->tpl->setVariable("LINK_TOP", "repository.php?ref_id=".$par_id);
 			$this->tpl->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.gif"));
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("LINK_FLAT", "repository.php?set_mode=flat&rep_id=".$this->cur_rep_id);
+		$this->tpl->setVariable("LINK_FLAT", "repository.php?set_mode=flat&ref_id=".$this->cur_ref_id);
 		$this->tpl->setVariable("IMG_FLAT",ilUtil::getImagePath("ic_flatview.gif"));
 
-		$this->tpl->setVariable("LINK_TREE", "repository.php?set_mode=tree&rep_id=".$this->cur_rep_id);
+		$this->tpl->setVariable("LINK_TREE", "repository.php?set_mode=tree&ref_id=".$this->cur_ref_id);
 		$this->tpl->setVariable("IMG_TREE",ilUtil::getImagePath("ic_treeview.gif"));
 	}
 
@@ -356,7 +355,7 @@ class ilRepositoryGUI
 				$tpl->setVariable("CAT_IMG", ilUtil::getImagePath("icon_cat.gif"));
 				$tpl->setVariable("TITLE", $cat["title"]);
 
-				$obj_link = "repository.php?rep_id=".$cat["ref_id"];
+				$obj_link = "repository.php?ref_id=".$cat["ref_id"];
 				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cat["ref_id"]));
 				$tpl->setVariable("CAT_LINK", $obj_link);
 
@@ -386,7 +385,7 @@ class ilRepositoryGUI
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("", $this->lng->txt("type"), $this->lng->txt("title")));
 		$tbl->setHeaderVars(array("", "type", "title"),
-			array("rep_id" => $_GET["rep_id"]));
+			array("ref_id" => $_GET["ref_id"]));
 		$tbl->setColumnWidth(array("1%", "1%", "98%"));
 
 		//$tbl->setOrderColumn($_GET["sort_by"]);
@@ -484,7 +483,7 @@ class ilRepositoryGUI
 					{
 						if ($this->rbacsystem->checkAccess('read', $lr_data["ref_id"]))
 						{
-							$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&rep_id=".$_GET["rep_id"].
+							$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
 								"&item_ref_id=".$lr_data["ref_id"].
 								"&type=lm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 								"&sort_by=".$_GET["sort_by"]);
@@ -532,7 +531,7 @@ class ilRepositoryGUI
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("", $this->lng->txt("type"), $this->lng->txt("title")));
 		$tbl->setHeaderVars(array("", "type", "title"),
-			array("rep_id" => $_GET["rep_id"]));
+			array("ref_id" => $_GET["ref_id"]));
 		$tbl->setColumnWidth(array("1%", "1%", "98%"));
 
 		// control
@@ -626,7 +625,7 @@ class ilRepositoryGUI
 				// add to desktop link
 				if (!$ilias->account->isDesktopItem($data["ref_id"], "frm"))
 				{
-					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&rep_id=".$_GET["rep_id"].
+					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
 						"&item_ref_id=".$data["ref_id"].
 						"&type=frm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 						"&sort_by=".$_GET["sort_by"]);
@@ -649,14 +648,14 @@ class ilRepositoryGUI
 					$tpl->setVariable("LAST_UPDATE_TXT1", $lng->txt("last_change"));
 					$tpl->setVariable("LAST_UPDATE_TXT2", strtolower($lng->txt("by")));
 					$tpl->setVariable("LAST_UPDATE", $frm->convertDate($topicData["top_update"]));
-					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?ref_id=".$this->cur_rep_id."&user=".$topicData["update_user"]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>");
+					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$topicData["update_user"]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>");
 				}
 
 				// show content of last-post
 				if (is_array($lastPost))
 				{
 					$lpCont = "<a href=\"forums_frameset.php?target=true&pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$data["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br/>".strtolower($lng->txt("from"))."&nbsp;";
-					$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_rep_id."&user=".$lastPost["pos_usr_id"]."&backurl=repository&offset=".$Start."\">".$lastPost["login"]."</a><br/>";
+					$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$lastPost["pos_usr_id"]."&backurl=repository&offset=".$Start."\">".$lastPost["login"]."</a><br/>";
 					$lpCont .= $lastPost["pos_date"];
 				}
 
@@ -677,7 +676,7 @@ class ilRepositoryGUI
 							$moderators .= ", ";
 						}
 
-						$moderators .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_rep_id."&user=".$MODS[$i]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>";
+						$moderators .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".$MODS[$i]."&backurl=repository&offset=".$Start."\">".$moderator->getLogin()."</a>";
 					}
 				}
 				$tpl->setVariable("MODS",$moderators);
@@ -833,7 +832,7 @@ class ilRepositoryGUI
 		$tbl->setTitle($this->lng->txt("groups"),"icon_grp_b.gif",$this->lng->txt("groups"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("owner")));
-		$tbl->setHeaderVars(array("","title","owner"), array("rep_id"=>$_GET["rep_id"]));
+		$tbl->setHeaderVars(array("","title","owner"), array("ref_id"=>$_GET["ref_id"]));
 		$tbl->setColumnWidth(array("1%","89%","10%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
@@ -896,7 +895,7 @@ class ilRepositoryGUI
 	function setLocator()
 	{
 		$a_tree =& $this->tree;
-		$a_id = $this->cur_rep_id;
+		$a_id = $this->cur_ref_id;
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
@@ -926,7 +925,7 @@ class ilRepositoryGUI
 			{
 				$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
 			}
-			$this->tpl->setVariable("LINK_ITEM", "repository.php?rep_id=".$row["child"]);
+			$this->tpl->setVariable("LINK_ITEM", "repository.php?ref_id=".$row["child"]);
 			//$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
 
 			$this->tpl->parseCurrentBlock();
@@ -981,7 +980,7 @@ class ilRepositoryGUI
 				{
 					if (in_array($row["name"], array("lm", "grp", "frm", "cat")))
 					{
-						if ($this->rbacsystem->checkAccess("create", $this->cur_rep_id, $row["name"]))
+						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{
 							$subobj[] = $row["name"];
 						}
@@ -1047,8 +1046,8 @@ class ilRepositoryGUI
 
 	function executeAdminCommand()
 	{
-		$_GET["ref_id"] = $_GET["rep_id"];
-		$id = $_GET["rep_id"];
+		$_GET["ref_id"] = $_GET["ref_id"];
+		$id = $_GET["ref_id"];
 		$cmd = $this->cmd;
 		$new_type = $_POST["new_type"]
 			? $_POST["new_type"]
@@ -1072,7 +1071,7 @@ class ilRepositoryGUI
 		// set header
 		$this->setHeader();
 
-		if (!$this->rbacsystem->checkAccess("create", $_GET["rep_id"], $new_type))
+		if (!$this->rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
 			sendInfo($lng->txt("msg_no_perm_create_object1")." ".$lng->txt($new_type."_a")." ".$lng->txt("msg_no_perm_create_object2"));
 		}
@@ -1087,12 +1086,12 @@ class ilRepositoryGUI
 			$obj = new $class_constr($data, $id, true, false);
 
 			$method = $cmd."Object";
-			$obj->setReturnLocation("save", "repository.php?rep_id=".$_GET["rep_id"]);
-			$obj->setReturnLocation("cancel", "repository.php?rep_id=".$_GET["rep_id"]);
+			$obj->setReturnLocation("save", "repository.php?ref_id=".$_GET["ref_id"]);
+			$obj->setReturnLocation("cancel", "repository.php?ref_id=".$_GET["ref_id"]);
 			$obj->setReturnLocation("addTranslation",
-				"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&rep_id=".$_GET["rep_id"]."&new_type=".$_GET["new_type"]);
+				"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
 
-			$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&rep_id=".$_GET["rep_id"]."&new_type=".$new_type);
+			$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
 			$obj->setTargetFrame("save", "bottom");
 //echo $class_constr.":".$method."<br>";
 			$obj->$method();

@@ -226,7 +226,7 @@ class ilPCParagraph extends ilPageContent
 				{
 					$tframestr = "";
 				}
-				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"pg_".$attribs[page]."\" Type=\"PageObject\"".$tframestr.">", $a_text);
+				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"il__pg_".$attribs[page]."\" Type=\"PageObject\"".$tframestr.">", $a_text);
 			}
 			// chapters
 			else if (isset($attribs["chap"]))
@@ -239,7 +239,7 @@ class ilPCParagraph extends ilPageContent
 				{
 					$tframestr = "";
 				}
-				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"st_".$attribs[chap]."\" Type=\"StructureObject\"".$tframestr.">", $a_text);
+				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"il__st_".$attribs[chap]."\" Type=\"StructureObject\"".$tframestr.">", $a_text);
 			}
 			// glossary terms
 			else if (isset($attribs["term"]))
@@ -254,7 +254,7 @@ class ilPCParagraph extends ilPageContent
 						$tframestr = " TargetFrame=\"Glossary\" ";
 						break;
 				}
-				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"pg_".$attribs[term]."\" Type=\"GlossaryItem\" $tframestr>", $a_text);
+				$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"il__pg_".$attribs[term]."\" Type=\"GlossaryItem\" $tframestr>", $a_text);
 			}
 			// media object
 			else if (isset($attribs["media"]))
@@ -262,11 +262,11 @@ class ilPCParagraph extends ilPageContent
 				if (!empty($found[7]))
 				{
 					$tframestr = " TargetFrame=\"".$found[7]."\" ";
-					$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"mm_".$attribs[media]."\" Type=\"MediaObject\"".$tframestr.">", $a_text);
+					$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"il__mob_".$attribs[media]."\" Type=\"MediaObject\"".$tframestr.">", $a_text);
 				}
 				else
 				{
-					$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"mm_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
+					$a_text = eregi_replace("\[".$found[1]."\]", "<IntLink Target=\"il__mob_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
 				}
 			}
 			else
@@ -277,7 +277,7 @@ class ilPCParagraph extends ilPageContent
 		while (eregi("\[(iln$ws(media$ws=$ws([\"0-9])*)$ws)/\]", $a_text, $found))
 		{
 			$attribs = ilUtil::attribsToArray($found[2]);
-			$a_text = eregi_replace("\[".$found[1]."/\]", "<IntLink Target=\"mm_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
+			$a_text = eregi_replace("\[".$found[1]."/\]", "<IntLink Target=\"il__mob_".$attribs[media]."\" Type=\"MediaObject\"/>", $a_text);
 		}
 		$a_text = eregi_replace("\[\/iln\]","</IntLink>",$a_text);
 
@@ -336,41 +336,39 @@ class ilPCParagraph extends ilPageContent
 		{
 			$found[0];
 			$attribs = ilUtil::attribsToArray($found[1]);
+			$target = explode("_", $attribs["Target"]);
+			$target_id = $target[count($target) - 1];
 			switch($attribs["Type"])
 			{
 				case "PageObject":
-					$target = explode("_", $attribs["Target"]);
 					$tframestr = (!empty($attribs["TargetFrame"]))
 						? " target=\"".$attribs["TargetFrame"]."\" "
 						: "";
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln page=\"".$target[1]."\"$tframestr]",$a_text);
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln page=\"".$target_id."\"$tframestr]",$a_text);
 					break;
 
 				case "StructureObject":
-					$target = explode("_", $attribs["Target"]);
 					$tframestr = (!empty($attribs["TargetFrame"]))
 						? " target=\"".$attribs["TargetFrame"]."\" "
 						: "";
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln chap=\"".$target[1]."\"$tframestr]",$a_text);
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln chap=\"".$target_id."\"$tframestr]",$a_text);
 					break;
 
 				case "GlossaryItem":
-					$target = explode("_", $attribs["Target"]);
 					$tframestr = (empty($attribs["TargetFrame"]) || $attribs["TargetFrame"] == "Glossary")
 						? ""
 						: " target=\"".$attribs["TargetFrame"]."\" ";
-					$a_text = eregi_replace("<IntLink".$found[1].">","[iln term=\"".$target[1]."\"".$tframestr."]",$a_text);
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln term=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
 				case "MediaObject":
-					$target = explode("_", $attribs["Target"]);
 					if (empty($attribs["TargetFrame"]))
 					{
-						$a_text = eregi_replace("<IntLink".$found[1].">","[iln media=\"".$target[1]."\"/]",$a_text);
+						$a_text = eregi_replace("<IntLink".$found[1].">","[iln media=\"".$target_id."\"/]",$a_text);
 					}
 					else
 					{
-						$a_text = eregi_replace("<IntLink".$found[1].">","[iln media=\"".$target[1]."\"".
+						$a_text = eregi_replace("<IntLink".$found[1].">","[iln media=\"".$target_id."\"".
 							" target=\"".$attribs["TargetFrame"]."\"]",$a_text);
 					}
 					break;

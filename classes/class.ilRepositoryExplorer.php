@@ -74,7 +74,7 @@ class ilRepositoryExplorer extends ilExplorer
 		switch($a_type)
 		{
 			case "cat":
-				return "repository.php?rep_id=".$a_node_id."&set_mode=flat";
+				return "repository.php?ref_id=".$a_node_id."&set_mode=flat";
 
 			case "lm":
 			case "dbk":

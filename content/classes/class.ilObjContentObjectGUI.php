@@ -267,10 +267,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			// assign author role to creator of forum object
 			//$rbacadmin->assignUser($roles[0], $newObj->getOwner(), "n");
 			//ilObjUser::updateActiveRoles($newObj->getOwner());
-
 			// create content object tree
 			$newObj->createLMTree();
-
 			unset($newObj);
 
 			// always send a message
