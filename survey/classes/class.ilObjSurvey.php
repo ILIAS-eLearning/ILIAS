@@ -2362,11 +2362,7 @@ class ilObjSurvey extends ilObject
 			$result = $this->ilias->db->query($query);
 			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$questionblocks[$row->question_fi] = $row;
-				if (array_key_exists($row->question_fi, $obligatory_states))
-				{
-					$questionblocks[$row->question_fi]->obligatory = $obligatory_states["$row->question_fi"];
-				}
+				$questionblocks["$row->question_fi"] = $row;
 			}			
 		}
 		
@@ -2375,6 +2371,10 @@ class ilObjSurvey extends ilObject
 		$currentblock = "";
 		foreach ($all_questions as $question_id => $row)
 		{
+			if (array_key_exists($question_id, $obligatory_states))
+			{
+				$all_questions["$question_id"]["obligatory"] = $obligatory_states["$question_id"];
+			}
 			$constraints = array();
 			if (isset($questionblocks[$question_id]))
 			{
