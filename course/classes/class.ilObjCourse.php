@@ -721,6 +721,7 @@ class ilObjCourse extends ilObject
 		// GET role_objects of predefined roles
 		
 		$rolf = $rbacreview->getRoleFolderOfObject($this->getRefId());
+
 		return $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
 	}
 
@@ -733,6 +734,22 @@ class ilObjCourse extends ilObject
 			if($tmp_role =& ilObjectFactory::getInstanceByObjId($role_id,false))
 			{
 				if(!strcmp($tmp_role->getTitle(),"il_crs_member_".$this->getRefId()))
+				{
+					return $role_id;
+				}
+			}
+		}
+		return false;
+	}
+	function getDefaultTutorRole()
+	{
+		$local_roles = $this->__getLocalRoles();
+
+		foreach($local_roles as $role_id)
+		{
+			if($tmp_role =& ilObjectFactory::getInstanceByObjId($role_id,false))
+			{
+				if(!strcmp($tmp_role->getTitle(),"il_crs_tutor_".$this->getRefId()))
 				{
 					return $role_id;
 				}

@@ -53,6 +53,7 @@ class ilCourseMembers
 
 		$this->ROLE_ADMIN = 1;
 		$this->ROLE_MEMBER = 2;
+		$this->ROLE_TUTOR = 3;
 
 		$this->ilErr =& $ilErr;
 		$this->ilDB =& $ilDB;
@@ -101,6 +102,23 @@ class ilCourseMembers
 				}
 				$role = $this->course_obj->getDefaultAdminRole();
 				break;
+
+			case $this->ROLE_TUTOR:
+				if($a_status and ($a_status == $this->STATUS_NOTIFY or $a_status == $this->STATUS_NO_NOTIFY))
+				{
+					$status = $a_status;
+				}
+				else if($a_status)
+				{
+					$this->ilErr->raiseError($this->lng->txt("crs_status_not_allowed",$this->ilErr->MESSAGE));
+				}
+				else
+				{
+					$status = $this->__getDefaultTutorStatus();
+				}
+				$role = $this->course_obj->getDefaultTutorRole();
+				break;
+				
 		}
 		$this->__createMemberEntry($user_obj->getId(),$a_role,$status);
 
@@ -109,11 +127,20 @@ class ilCourseMembers
 
 	function update($a_usr_id,$a_role,$a_status)
 	{
+		global $rbacadmin;
+
 		$this->__read($a_usr_id);
 
 		switch($a_role)
 		{
 			case $this->ROLE_ADMIN:
+				if($a_status != $this->STATUS_NOTIFY or $a_status != $this->STATUS_NO_NOTIFY)
+				{
+					$this->ilErr->raiseError($this->lng->txt("crs_status_not_allowed",$this->ilErr->MESSAGE));
+				}
+				break;
+
+			case $this->ROLE_TUTOR:
 				if($a_status != $this->STATUS_NOTIFY or $a_status != $this->STATUS_NO_NOTIFY)
 				{
 					$this->ilErr->raiseError($this->lng->txt("crs_status_not_allowed",$this->ilErr->MESSAGE));
@@ -132,27 +159,40 @@ class ilCourseMembers
 		}
 
 		// UPDATE RBAC ROLES
-		if($this->member_data["role"] == $this->ROLE_ADMIN and $a_role == $this->ROLE_MEMBER)
-		{
-			global $rbacadmin;
 
-			$rbacadmin->deassignUser($this->course_obj->getDefaultAdminRole(),$a_usr_id);
-			$rbacadmin->assignUser($this->course_obj->getDefaultMemberRole(),$a_usr_id);
+		// deassign old roles
+		switch($this->member_data["role"])
+		{
+			case $this->ROLE_ADMIN:
+				$rbacadmin->deassignUser($this->course_obj->getDefaultAdminRole(),$a_usr_id);
+				break;
+
+			case $this->ROLE_TUTOR:
+				$rbacadmin->deassignUser($this->course_obj->getDefaultTutorRole(),$a_usr_id);
+				break;
+
+			case $this->ROLE_MEMBER:
+				$rbacadmin->deassignUser($this->course_obj->getDefaultMemberRole(),$a_usr_id);
+				break;
 		}
-		
-		if($this->member_data["role"] == $this->ROLE_MEMBER and $a_role == $this->ROLE_ADMIN)
+		// assign new role
+		switch($a_role)
 		{
-			global $rbacadmin;
+			case $this->ROLE_ADMIN:
+				$rbacadmin->assignUser($this->course_obj->getDefaultAdminRole(),$a_usr_id);
+				break;
 
-			$rbacadmin->deassignUser($this->course_obj->getDefaultMemberRole(),$a_usr_id);
-			$rbacadmin->assignUser($this->course_obj->getDefaultAdminRole(),$a_usr_id);
+			case $this->ROLE_TUTOR:
+				$rbacadmin->assignUser($this->course_obj->getDefaultTutorRole(),$a_usr_id);
+				break;
+				
+			case $this->ROLE_MEMBER:
+				if($a_status != $this->STATUS_BLOCKED)
+				{
+					$rbacadmin->assignUser($this->course_obj->getDefaultMemberRole(),$a_usr_id);
+				}
+				break;
 		}
-		if($a_status == $this->STATUS_BLOCKED)
-		{
-			global $rbacadmin;
-
-			$rbacadmin->deassignUser($this->course_obj->getDefaultMemberRole(),$a_usr_id);
-		}			
 
 		$query = "UPDATE crs_members ".
 			"SET role = '".$a_role."', ".
@@ -197,6 +237,11 @@ class ilCourseMembers
 				$role = $this->course_obj->getDefaultAdminRole();
 				break;
 
+
+			case $this->ROLE_TUTOR:
+				$role = $this->course_obj->getDefaultTutorRole();
+				break;
+				
 			case $this->ROLE_MEMBER:
 				$role = $this->course_obj->getDefaultMemberRole();
 				break;
@@ -215,7 +260,7 @@ class ilCourseMembers
 	function getAssignedUsers()
 	{
 		// ALL MEMBERS AND ADMINS
-		return array_merge($this->getMembers(),$this->getAdmins());
+		return array_merge($this->getMembers(),$this->getAdmins(),$this->getTutors());
 	}
 	function getUserData($a_usr_id)
 	{
@@ -260,6 +305,20 @@ class ilCourseMembers
 		}
 		return $usr_ids ? $usr_ids : array();
 	}
+	function getTutors()
+	{
+		$query = "SELECT usr_id FROM crs_members ".
+			"WHERE obj_id = '".$this->course_obj->getId()."' ".
+			"AND role = '".$this->ROLE_TUTOR."'";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$usr_ids[] = $row->usr_id;
+		}
+		return $usr_ids ? $usr_ids : array();
+	}
+
 	function isAdmin($a_usr_id)
 	{
 		$this->__read($a_usr_id);
@@ -272,9 +331,15 @@ class ilCourseMembers
 
 		return $this->member_data["role"] == $this->ROLE_MEMBER ? true : false;
 	}
+	function isTutor($a_usr_id)
+	{
+		$this->__read($a_usr_id);
+
+		return $this->member_data["role"] == $this->ROLE_TUTOR ? true : false;
+	}
 	function isAssigned($a_usr_id)
 	{
-		return $this->isAdmin($a_usr_id) || $this->isMember($a_usr_id);
+		return $this->isAdmin($a_usr_id) || $this->isMember($a_usr_id) || $this->isTutor($a_usr_id);
 	}
 	function isBlocked($a_usr_id)
 	{
@@ -437,6 +502,10 @@ class ilCourseMembers
 	function __getDefaultMemberStatus()
 	{
 		return $this->STATUS_UNBLOCKED;
+	}
+	function __getDefaultTutorStatus()
+	{
+		return $this->STATUS_NO_NOTIFY;
 	}
 
 	function __createMemberEntry($a_usr_id,$a_role,$a_status)
