@@ -140,6 +140,9 @@ class ilObjMediaObject extends ilObject
 		{
 			// remove directory
 			ilUtil::delDir(ilObjMediaObject::_getDirectory($this->getId()));
+			
+			// remove thumbnail directory
+			ilUtil::delDir(ilObjMediaObject::_getThumbnailDirectory($this->getId()));
 
 			// delete meta data of mob
 			$nested = new ilNestedSetXML();
@@ -458,6 +461,15 @@ class ilObjMediaObject extends ilObject
 		return ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
 	}
 
+	/**
+	* get directory for files of media object (static)
+	*
+	* @param	int		$a_mob_id		media object id
+	*/
+	function _getThumbnailDirectory($a_mob_id, $a_mode = "filesystem")
+	{
+		return ilUtil::getWebspaceDir($a_mode)."/thumbs/mm_".$a_mob_id;
+	}
 
 	/**
 	* create file directory of media object
@@ -465,6 +477,15 @@ class ilObjMediaObject extends ilObject
 	function createDirectory()
 	{
 		ilUtil::createDirectory(ilObjMediaObject::_getDirectory($this->getId()));
+	}
+	
+	/**
+	* create thumbnail directory
+	*/
+	function _createThumbnailDirectory($a_obj_id)
+	{
+		ilUtil::createDirectory(ilUtil::getWebspaceDir()."/thumbs");
+		ilUtil::createDirectory(ilUtil::getWebspaceDir()."/thumbs/mm_".$a_obj_id);
 	}
 
 	/**
