@@ -26,6 +26,7 @@
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="objf" max="1">objf</subobj>
 	<subobj name="lngf" max="1">lngf</subobj>
+	<subobj name="lngf" max="1">mail</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
@@ -146,8 +147,10 @@
 	<action name="setuserlang">change_language</action>
 	<action name="checklang">check_language</action>
 </object>
-<object name="mail" class_name="" checkbox="1">
-	<action name="refresh">refresh</action>
+<object name="mail" class_name="" checkbox="0">
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
 </object>
 <object name="objf" class_name="ObjectFolder" checkbox="0">
 	<subobj name="typ">typ</subobj>

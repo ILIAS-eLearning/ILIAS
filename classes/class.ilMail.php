@@ -412,7 +412,7 @@ class ilMail
 			foreach($rcp_ids_to as $id)
 			{
 				$tmp_user = new ilUser($id);
-				if(!TUtil::is_email($tmp_user->getEmail()))
+				if(!ilUtil::is_email($tmp_user->getEmail()))
 				{
 					$login_names[] = $tmp_user->getLogin();
 				}
@@ -426,7 +426,7 @@ class ilMail
 			foreach($rcp_ids_cc as $id)
 			{
 				$tmp_user = new ilUser($id);
-				if(!TUtil::is_email($tmp_user->getEmail()))
+				if(!ilUtil::is_email($tmp_user->getEmail()))
 				{
 					$login_names[] = $tmp_user->getLogin();
 				}
@@ -440,7 +440,7 @@ class ilMail
 			foreach($rcp_ids_bcc as $id)
 			{
 				$tmp_user = new ilUser($id);
-				if(!TUtil::is_email($tmp_user->getEmail()))
+				if(!ilUtil::is_email($tmp_user->getEmail()))
 				{
 					$login_names[] = $tmp_user->getLogin();
 				}
@@ -551,7 +551,7 @@ class ilMail
 		$valid = true;
 		foreach($arr_rcp as $rcp)
 		{
-			if(!TUtil::is_email($rcp))
+			if(!ilUtil::is_email($rcp))
 			{
 				$valid = false;
 			}
@@ -567,7 +567,7 @@ class ilMail
 			$valid = true;
 			foreach($arr_rcp as $rcp)
 			{
-				if(!TUtil::is_email($rcp))
+				if(!ilUtil::is_email($rcp))
 				{
 					$valid = false;
 				}
@@ -584,7 +584,7 @@ class ilMail
 			$valid = true;
 			foreach($arr_rcp as $rcp)
 			{
-				if(!TUtil::is_email($rcp))
+				if(!ilUtil::is_email($rcp))
 				{
 					$valid = false;
 				}
@@ -883,7 +883,7 @@ class ilMail
 
 		$umail = new ilUser($this->user_id);
 		$sender = $umail->getEmail();
-		if(TUtil::is_email($sender))
+		if(ilUtil::is_email($sender))
 		{
 			return $sender;
 		}
