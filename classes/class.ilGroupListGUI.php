@@ -139,7 +139,7 @@ class ilGroupListGUI
 
 		$this->tpl->show();
 	}
-	
+
 	/**
 	* displays list of groups that are located under the node given by ref_id
 	*/
@@ -190,27 +190,27 @@ class ilGroupListGUI
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
-
+		
 		//check if user got permission to create new groups
-
 		//TODO
-		//if($rbacsystem->checkAccess("write",$this->object->getRefId() ))
-		//{
-			//show "new group" button only if category or dlib objects were chosen(current object)
-			//if(strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
-			//{
-				//var_dump($_GET); echo "----";var_dump($_POST);
-				$this->tpl->setCurrentBlock("btn_cell");
-				//right solution
-				$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=grp_list.php");
-				$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
-				$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
-				//temp.solution
-				//$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp&ref_id=".$_GET["ref_id"]);
-				//$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
-				$this->tpl->parseCurrentBlock();
-			//}
-		//}
+//		if(strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
+//			if($rbacsystem->checkAccess("create",$_GET["ref_id"]) )
+			{
+				//show "new group" button only if category or dlib objects were chosen(current object)
+//				if(strcmp($obj_data->getType(), "cat") == 0 || strcmp($obj_data->getType(), "dlib") == 0)
+				{
+					//var_dump($_GET); echo "----";var_dump($_POST);
+					$this->tpl->setCurrentBlock("btn_cell");
+					//right solution
+					$this->tpl->setVariable("BTN_LINK","obj_location_new.php?new_type=grp&from=grp_list.php");
+					$this->tpl->setVariable("BTN_TARGET","target=\"bottom\"");
+					$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
+					//temp.solution
+					//$this->tpl->setVariable("BTN_LINK","group.php?cmd=create&parent_ref_id=".$_GET["ref_id"]."&type=grp&ref_id=".$_GET["ref_id"]);
+					//$this->tpl->setVariable("BTN_TXT", $this->lng->txt("grp_new"));
+					$this->tpl->parseCurrentBlock();
+				}
+			}
 
 
 /*		if ($this->tree->getSavedNodeData($this->ref_id))
