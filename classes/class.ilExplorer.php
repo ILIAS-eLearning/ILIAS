@@ -31,6 +31,9 @@
 *
 * @package ilias-core
 */
+
+require_once "./include/inc.sort.php";
+
 class ilExplorer
 {
 	/**
@@ -95,6 +98,13 @@ class ilExplorer
 	* @access private
 	*/
 	var $order_column;
+
+	/**
+	* order direction
+	* @var string
+	* @access private
+	*/
+	var $order_direction = "asc";
 
 	/**
 	* target script for expand icon links
@@ -169,6 +179,23 @@ class ilExplorer
 	function setOrderColumn($a_column)
 	{
 		$this->order_column = $a_column;
+	}
+	
+	/**
+	* set the order direction
+	* @access	public
+	* @param	string		name of order column
+	*/
+	function setOrderDirection($a_direction)
+	{
+		if ($a_direction == "desc")
+		{
+			$this->order_direction = $a_direction;
+		}
+		else
+		{
+			$this->order_direction = "asc";
+		}
 	}
 
 	/**
@@ -305,11 +332,15 @@ class ilExplorer
 		{
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
+
 		$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
+
 		if (count($objects) > 0)
 		{
 			$tab = ++$a_depth - 2;
 			// Maybe call a lexical sort function for the child objects
+			$this->sortNodes($objects);
+
 			foreach ($objects as $key => $object)
 			{
 				//ask for FILTER
@@ -750,6 +781,33 @@ class ilExplorer
 		{
 			return false;
 		}
+	}
+	
+	/**
+	* sort nodes and put adm object to the end of sorted array
+	* @access	private
+	* @param	array	node list as returned by iltree::getChilds();
+	* @return	array	sorted nodes
+	*/
+	function sortNodes($a_nodes)
+	{
+		foreach ($a_nodes as $key => $node)
+		{
+			if ($node["type"] == "adm")
+			{
+				$match = $key;
+				$adm_node = $node;
+				break;
+			}
+		}
+		
+		// cut off adm node
+		isset($match) ? array_splice($a_nodes,$match,1) : "";
+		
+		$a_nodes = sortArray($a_nodes,$this->order_column,$this->order_direction);
+		
+		// append adm node to end of list
+		isset ($match) ? array_push($a_nodes,$adm_node) : "";
 	}
 } // END class.ilExplorer
 ?>
