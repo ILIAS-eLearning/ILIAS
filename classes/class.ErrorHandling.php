@@ -11,28 +11,31 @@ class ErrorHandling
 	var $FATAL = 1;
 	var $WARNING = 2;
 	var $MESSAGE = 3;
-/**
- * Constructor
- * @access public
- * 
- */
+
+	/**
+	* Constructor
+	* @access public
+	* 
+	*/
 	function ErrorHandling()
 	{
 		$this->DEBUG_ENV = 1;
 	}
+	
 	/**
 	* defines what has to happen in case of error
 	* @param object Error
 	*/
 	function errorHandler($a_error_obj)
 	{
-		if($a_error_obj->getCode() == $this->FATAL)
+		if ($a_error_obj->getCode() == $this->FATAL)
 		{
 			die ($a_error_obj->getMessage());
 		}
-		if($a_error_obj->getCode() == $this->WARNING)
+		
+		if ($a_error_obj->getCode() == $this->WARNING)
 		{
-			if($this->DEBUG_ENV == 1)
+			if ($this->DEBUG_ENV == 1)
 			{
 				$message = $a_error_obj->getMessage();
 			}
@@ -40,13 +43,14 @@ class ErrorHandling
 			{
 				$message = "Under Construction";
 			}
-			header("location: error.php?message=$message");
-			exit();
+			
+			header("location: error.php?message=".$message);
+			exit;
 		}
-		if($a_error_obj->getCode() == $this->MESSAGE)
+		if ($a_error_obj->getCode() == $this->MESSAGE)
 		{
-			header("location: $_SESSION[referer]"."&message=".$a_error_obj->getMessage());
-			exit();
+			header("location: ".$_SESSION["referer"]."&message=".$a_error_obj->getMessage());
+			exit;
 		}
 	}
 }
