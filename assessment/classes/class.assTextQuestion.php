@@ -805,7 +805,7 @@ class ASS_TextQuestion extends ASS_Question
 		);
 		$result = $db->query($query);
 
-		$text = $_POST["TEXT"];
+		$text = ilUtil::stripSlashes($_POST["TEXT"]);
 		if ($this->getMaxNumOfChars())
 		{
 			$text = substr($text, 0, $this->getMaxNumOfChars()); 
