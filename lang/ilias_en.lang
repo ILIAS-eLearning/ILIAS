@@ -2441,9 +2441,9 @@ common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
 common#:#user_comment#:#User comment
 common#:#user_deleted#:#User deleted
 common#:#user_detail#:#Detail Data
+common#:#user_import_failed#:#User import failed.
 common#:#user_imported#:#User import complete.
 common#:#user_imported_with_warnings#:#User import complete with warnings.
-common#:#user_import_failed#:#User import failed.
 common#:#user_language#:#User Language
 common#:#user_not_chosen#:#You did not choose a group-member!
 common#:#user_profile_other#:#Other Information
@@ -2480,20 +2480,20 @@ common#:#usrf_read_users#:#Role assignment for local administrators
 common#:#usrf_visible#:#User accounts are visible
 common#:#usrf_write#:#Edit user accounts
 common#:#usrimport_action_failed#:#Action %1$s failed.
-common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
+common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
+common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.
 common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.
 common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.
-common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.
 common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). 
+common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
+common#:#usrimport_login_is_not_unique#:#Login is not unique.
 common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.
 common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.
+common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.
-common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.
-common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
-common#:#usrimport_login_is_not_unique#:#Login is not unique.
 common#:#validate#:#Validate
 common#:#value#:#Value
 common#:#vcard#:#Visiting card
@@ -2501,8 +2501,8 @@ common#:#vcard_download#:#Download visiting card
 common#:#vendors#:#Vendors
 common#:#verification_failed#:#Verification failed
 common#:#verification_failure_log#:#Verification failure log
-common#:#verification_warning_log#:#Verification warning log
 common#:#verification_log#:#Verification log
+common#:#verification_warning_log#:#Verification warning log
 common#:#version#:#Version
 common#:#versions#:#Versions
 common#:#view#:#View
@@ -4425,8 +4425,6 @@ survey#:#ask_insert_questions#:#Are you sure you want to insert the following qu
 survey#:#back#:#<< Back
 survey#:#before#:#before
 survey#:#browse_for_questions#:#Browse for questions
-survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!
-survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!
 survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!
@@ -4434,6 +4432,8 @@ survey#:#cannot_export_survey#:#You do not possess sufficient permissions to exp
 survey#:#cannot_maintain_survey#:#You do not possess sufficient permissions to maintain the survey!
 survey#:#cannot_manage_phrases#:#You do not possess sufficient permissions to manage the phrases!
 survey#:#cannot_participate_survey#:#You do not possess sufficient permissions to participate in the survey!
+survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!
+survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!
 survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
 survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!
 survey#:#category#:#Category

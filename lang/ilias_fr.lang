@@ -126,8 +126,10 @@ assessment#:#backtocallingtest#:#Back to the calling test###14 Feb 2005 new vari
 assessment#:#by#:#par
 assessment#:#cancel_test#:#Annuler le test
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!###19 Dec 2004 new variable
+assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!###09 Mar 2005 new variable
 assessment#:#cannot_export_test#:#Vous n'avez pas les permissions nécessaires pour exporter le test.
 assessment#:#cannot_maintain_test#:#Vous n'avez pas les permissions nécessaires pour assurer la maintenance du test
+assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
 assessment#:#cannot_save_metaobject#:#Vous n'avez pas les permissions nécessaires pour enregistrer les métadonnées
 assessment#:#change_solution#:#Modifier proposition de solution
 assessment#:#checkbox_checked#:#Coché
@@ -918,6 +920,7 @@ common#:#condition_update#:#Enregistrer
 common#:#conditions_updated#:#Conditions enregistrées
 common#:#confirm#:#Confirmer
 common#:#confirmation#:#Confirmation
+common#:#conflict_handling#:#Conflict handling###09 Mar 2005 new variable
 common#:#cont_object#:#Objet
 common#:#contact_data#:#Informations de contact
 common#:#container#:#Conteneur
@@ -1410,6 +1413,7 @@ common#:#id#:#ID
 common#:#identifier#:#identifiant
 common#:#if_no_title_then_filename#:#Laisser vide pour conserver le nom du fichier
 common#:#if_no_title_then_url#:#Laisser vide pour afficher l'URL
+common#:#ignore_on_conflict#:#Ignore on conflict###09 Mar 2005 new variable
 common#:#ilias_version#:#Version ILIAS
 common#:#ilinc_classrooms#:#iLinc Classrooms###01 Mar 2005 new variable
 common#:#ilinc_courses#:#iLinc Courses###01 Mar 2005 new variable
@@ -1419,6 +1423,7 @@ common#:#import#:#Importation
 common#:#import_alm#:#Importer paquet AICC
 common#:#import_categories#:#Importer catégories
 common#:#import_dbk#:#Import Digilib Book###03 Dec 2004 new variable
+common#:#import_failure_log#:#Import failure log###09 Mar 2005 new variable
 common#:#import_file#:#Importer fichier
 common#:#import_file_not_valid#:#Le fichier d'importation n'est pas valide
 common#:#import_finished#:#Nombre de messages importés
@@ -1434,6 +1439,7 @@ common#:#import_spl#:#Importer sondage-jeu de questions
 common#:#import_svy#:#Importer sondage
 common#:#import_tst#:#Importer test
 common#:#import_users#:#Importer utilisateurs
+common#:#import_warning_log#:#Import warning log###09 Mar 2005 new variable
 common#:#imported#:#importé
 common#:#in#:#dans
 common#:#in_use#:#Langue utilisateur
@@ -2287,6 +2293,7 @@ common#:#svy_delete#:#Détruire sondage
 common#:#svy_edit_permission#:#Changer paramètres de permission
 common#:#svy_invite#:#Inviter les utilisateurs à un sondage
 common#:#svy_new#:#Nouveau sondage
+common#:#svy_no_content#:#No surveys available###09 Mar 2005 new variable
 common#:#svy_participate#:#Participer à un sondage
 common#:#svy_read#:#Accès en lecture au sondage
 common#:#svy_upload_file#:#Téléverser fichier
@@ -2359,6 +2366,7 @@ common#:#tst_add#:#Ajouter test
 common#:#tst_delete#:#Détruire test
 common#:#tst_edit_permission#:#Changer paramètres de permission
 common#:#tst_new#:#Nouveau test
+common#:#tst_no_content#:#No tests available###09 Mar 2005 new variable
 common#:#tst_read#:#Accès en lecture au test
 common#:#tst_upload_file#:#Téléverser fichier
 common#:#tst_visible#:#Le test est visible
@@ -2384,6 +2392,7 @@ common#:#up#:#En haut
 common#:#update#:#Edit###01 Mar 2005 new variable
 common#:#update_applied#:#Mise à jour appliquée
 common#:#update_language#:#Mettre à jour langues
+common#:#update_on_conflict#:#Update on conflict###09 Mar 2005 new variable
 common#:#upload#:#Téléverser
 common#:#upload_error_file_not_found#:#Upload error: File not found.###07 Jan 2005 new variable
 common#:#uploaded_and_checked#:#Le fichier a été téléversé et vérifié, vous pouvez commencer à l'importer
@@ -2408,7 +2417,9 @@ common#:#user_assignment#:#Assignation d'utilisateur
 common#:#user_comment#:#User comment###03 Dec 2004 new variable
 common#:#user_deleted#:#Utilisateur détruit
 common#:#user_detail#:#Détail
+common#:#user_import_failed#:#User import failed.###09 Mar 2005 new variable
 common#:#user_imported#:#Importation des utilisateurs terminée
+common#:#user_imported_with_warnings#:#User import complete with warnings.###09 Mar 2005 new variable
 common#:#user_language#:#Langue utilisateur
 common#:#user_not_chosen#:#Vous n'avez pas choisi un membre du groupe.
 common#:#user_statistics#:#Données statistiques
@@ -2443,11 +2454,30 @@ common#:#usrf_read#:#Accès en lecture aux comptes utilisateurs
 common#:#usrf_read_users#:#Assignation de rôle pour les administrateurs locaux
 common#:#usrf_visible#:#Les comptes utilisateurs sont visibles
 common#:#usrf_write#:#Modifier comptes utilisateurs
+common#:#usrimport_action_failed#:#Action %1$s failed.###09 Mar 2005 new variable
+common#:#usrimport_action_ignored#:#Ignored action %1$s.###09 Mar 2005 new variable
+common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###09 Mar 2005 new variable
+common#:#usrimport_cant_delete#:#Can't perform "Delete" action. No such user in database.###09 Mar 2005 new variable
+common#:#usrimport_cant_insert#:#Can't perform "Insert" action. User is already in database.###09 Mar 2005 new variable
+common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in database.###09 Mar 2005 new variable
+common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###09 Mar 2005 new variable
+common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.###09 Mar 2005 new variable
+common#:#usrimport_login_is_not_unique#:#Login is not unique.###09 Mar 2005 new variable
+common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.###09 Mar 2005 new variable
+common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.###09 Mar 2005 new variable
+common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.###09 Mar 2005 new variable
+common#:#usrimport_xml_element_content_illegal#:#Content "%2$s" of element "%1$s" is illegal.###09 Mar 2005 new variable
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" must be specified for "%2$s" action.###09 Mar 2005 new variable
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" is inapplicable for "%2$s" action.###09 Mar 2005 new variable
 common#:#validate#:#Valider
 common#:#value#:#Valeur
 common#:#vcard#:#Carte de visite
 common#:#vcard_download#:#Télécharger carte de visite
 common#:#vendors#:#Vendeurs
+common#:#verification_failed#:#Verification failed###09 Mar 2005 new variable
+common#:#verification_failure_log#:#Verification failure log###09 Mar 2005 new variable
+common#:#verification_log#:#Verification log###09 Mar 2005 new variable
+common#:#verification_warning_log#:#Verification warning log###09 Mar 2005 new variable
 common#:#version#:#Version
 common#:#versions#:#Versions###10 Dec 2004 new variable
 common#:#view#:#Voir
@@ -4371,6 +4401,8 @@ survey#:#cannot_export_survey#:#Vous n'avez pas les permissions nécessaires pou
 survey#:#cannot_maintain_survey#:#Vous n'avez pas de droit d'écriture pour maintenir le sondage.
 survey#:#cannot_manage_phrases#:#Vous n'avez pas de droit d'écriture pour gérer les expressions.
 survey#:#cannot_participate_survey#:#Vous n'avez pas le droit de participer au sondage!
+survey#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the questionpool data!###09 Mar 2005 new variable
+survey#:#cannot_read_survey#:#You do not possess sufficient permissions to read the survey data!###09 Mar 2005 new variable
 survey#:#cannot_save_metaobject#:#Vous n'avez pas les permissions nécessaires pour enregistrer les métadonnées
 survey#:#cannot_switch_to_online_no_questions#:#Le statut ne peut pas être changé en &quot;en ligne&quot; car il n'y a pas de question dans le test.
 survey#:#category#:#Catégorie
