@@ -67,6 +67,7 @@ require_once "classes/class.ilias.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilFormat.php";
 require_once "classes/class.ilObjectDefinition.php";
+require_once "classes/class.ilStyleDefinition.php";
 require_once "classes/class.perm.php";
 require_once "classes/class.ilTree.php";
 require_once "classes/class.ilLanguage.php";
@@ -131,7 +132,7 @@ if ($ilias->auth->getAuth())
 	if (empty($_SESSION["AccountId"]))
 	{
 		$_SESSION["AccountId"] = $ilias->account->checkUserId();
-  
+
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new ilRbacReviewH();
 		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
@@ -149,7 +150,7 @@ if ($ilias->auth->getAuth())
 	if ($script == "login.php")
 	{
 		$ilias->account->refreshLogin();
-	}	
+	}
 }
 elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php" and $script != "view_usr_agreement.php" and $script!= "register.php")
 {
@@ -182,6 +183,10 @@ if ( !isset($_SESSION["locator_level"]) )
 }
 // initialise global ilias_locator object
 $ilias_locator = new ilLocatorGUI();
+
+// load style definitions
+//$styleDefinition = new ilStyleDefinition();
+//$styleDefinition->startParsing();
 
 //navigation things
 /*
