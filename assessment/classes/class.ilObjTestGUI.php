@@ -128,6 +128,7 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::makeDirParents($this->object->getImagePath());
 		}
 		setcookie("imagepathweb", $this->object->getImagePathWeb());
+		setcookie("convertpath", preg_replace("/convert/", "", PATH_TO_CONVERT));
 		// Creating prerequisites for JavaScript Editor		
 		$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.il_as_htmlarea.html", true);
 		$this->tpl->setCurrentBlock("htmlarea");

@@ -56,7 +56,7 @@ define('IMAGE_CLASS', 'IM');
  your server and PHP must be able to execute them (i.e. safe mode is OFF).
  GD does not require the following definition.
 */
-define('IMAGE_TRANSFORM_LIB_PATH', '/usr/local/bin/');
+define('IMAGE_TRANSFORM_LIB_PATH', $_COOKIE["convertpath"]);
 
 
 /* ==============  OPTIONAL SETTINGS ============== */
