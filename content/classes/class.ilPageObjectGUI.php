@@ -106,7 +106,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-		$params = array ('mode' => 'edit', 'pg_title' => $pg_title,
+		$params = array ('mode' => 'edit', 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
 			'ref_id' => $this->lm_obj->getRefId(), 'webspace_path' => $wb_path,
 			'enlarge_path' => $enlarge_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
@@ -146,7 +146,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		//$this->obj->bbCode2XML($content);
 
 		// todo: utf-header should be set globally
-		header('Content-type: text/html; charset=UTF-8');
+		//header('Content-type: text/html; charset=UTF-8');
 
 		$pg_title = $this->obj->getPresentationTitle($this->lm_obj->getPageHeader());
 
@@ -157,7 +157,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
-		$params = array ('mode' => 'preview', 'pg_title' => $pg_title,
+		$params = array ('mode' => 'preview', 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
 			'ref_id' => $this->lm_obj->getRefId(), 'webspace_path' => $wb_path,
 			'enlarge_path' => $enlarge_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);

@@ -24,6 +24,7 @@
 <!-- PageObject -->
 <xsl:param name="mode"/>
 <xsl:param name="pg_title"/>
+<xsl:param name="pg_id"/>
 <xsl:param name="ref_id"/>
 <xsl:param name="pg_frame"/>
 <xsl:param name="webspace_path"/>
@@ -62,7 +63,7 @@
 			</div>
 		</xsl:for-each>
 	</xsl:if>
-    
+
 	<!-- Pageturn List -->
 	<xsl:if test="count(//PageTurn) > 0">
 		<hr />
@@ -457,12 +458,6 @@
 
 		<!-- build object tag -->
 		<tr><td class="ilc_Mob"><object>
-			<!-- get standard item nr-->
-			<xsl:variable name="standardItemNr">
-			<xsl:for-each select="../MediaAliasItem[@Purpose = 'Standard']">
-				<xsl:number count="MediaItem" from="MediaAlias"/>
-			</xsl:for-each>
-			</xsl:variable>
 			<xsl:for-each select="../MediaAliasItem[@Purpose = $curPurpose]">
 
 				<!-- data / Location -->
@@ -575,7 +570,7 @@
 	<xsl:param name="cmobid"/>
 	<xsl:if test="count(../MediaAliasItem[@Purpose='Fullscreen']) = 1 and $mode != 'fullscreen'">
 		<a target="_new">
-		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="$cmobid"/>&amp;ref_id=<xsl:value-of select="$ref_id"/></xsl:attribute>
+		<xsl:attribute name="href">lm_presentation.php?cmd=fullscreen&amp;mob_id=<xsl:value-of select="$cmobid"/>&amp;ref_id=<xsl:value-of select="$ref_id"/>&amp;pg_id=<xsl:value-of select="$pg_id"/></xsl:attribute>
 		<img border="0" align="right">
 		<xsl:attribute name="src"><xsl:value-of select="$enlarge_path"/></xsl:attribute>
 		</img>
