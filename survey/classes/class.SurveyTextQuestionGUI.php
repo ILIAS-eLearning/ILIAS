@@ -43,7 +43,7 @@ class SurveyTextQuestionGUI {
 * @var object
 */
   var $object;
-	
+
 	var $tpl;
 	var $lng;
 
@@ -62,17 +62,17 @@ class SurveyTextQuestionGUI {
   {
 		global $lng;
 		global $tpl;
-		
+
     $this->lng =& $lng;
     $this->tpl =& $tpl;
-		
+
 		$this->object = new SurveyTextQuestion();
 		if ($id >= 0)
 		{
 			$this->object->loadFromDb($id);
 		}
 	}
-	
+
 /**
 * Returns the question type string
 *
@@ -151,7 +151,7 @@ class SurveyTextQuestionGUI {
 			$this->tpl->setVariable("COLSPAN_MATERIAL", " colspan=\"3\"");
 			$this->tpl->parse("mainselect_block");
 		}
-		
+
 		$this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
 		$this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
 		$this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
@@ -161,7 +161,7 @@ class SurveyTextQuestionGUI {
 
 /**
 * Creates the question output form for the learner
-* 
+*
 * Creates the question output form for the learner
 *
 * @access public
@@ -170,6 +170,7 @@ class SurveyTextQuestionGUI {
 	{
 		$this->tpl->setCurrentBlock("question_data_text");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
+		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -240,7 +241,7 @@ class SurveyTextQuestionGUI {
 			}
 			$this->object->setMaterialsFile($_FILES['materialFile']['name'], $_FILES['materialFile']['tmp_name'], $_POST[materialName]);
 		}
-	
+
 		// Delete material if the delete button was pressed
 		if ((strlen($_POST["cmd"]["deletematerial"]) > 0)&&(!empty($_POST[materialselect]))) {
 			foreach ($_POST[materialselect] as $value) {
