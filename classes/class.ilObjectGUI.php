@@ -529,7 +529,7 @@ class ilObjectGUI
 			
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 			$obj_type = $obj_data->getType();
-			
+
 			if (!in_array($obj_type, array_keys($this->objDefinition->getSubObjects($this->object->getType()))))
 			{
 				$not_allowed_subobject[] = $obj_data->getType();
@@ -867,7 +867,7 @@ class ilObjectGUI
 		}
 		
 		// inform other objects in hierarchy about copy operation
-		$this->object->notify("copy",$_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$mapping);			
+		$this->object->notify("copy",$_SESSION["clipboard"]["parent"],$_SESSION["clipboard"]["parent_non_rbac_id"],$_GET["ref_id"],$mapping);
  
 		$this->clearObject();
 		
@@ -971,7 +971,7 @@ class ilObjectGUI
 			$saved_tree = new ilTree(-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 		}
-		
+
 		$this->object->notify("undelete", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
 		
 		sendInfo($this->lng->txt("msg_undeleted"),true);
@@ -1100,7 +1100,7 @@ class ilObjectGUI
 					// TODO: inform users by mail that object $id was deleted
 					//$mail->sendMail($id,$msg,$affected_users);
 				}
-				
+
 				$this->tree->saveSubTree($id);
 				$this->tree->deleteTree($this->tree->getNodeData($id));
 				
@@ -1152,7 +1152,7 @@ class ilObjectGUI
 		}
 
 		$this->object->notify("removeFromSystem", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$_POST["trash_id"]);
-		
+
 		// DELETE THEM
 		foreach ($_POST["trash_id"] as $id)
 		{
@@ -1178,7 +1178,7 @@ class ilObjectGUI
 		}
 		
 		sendInfo($this->lng->txt("msg_removed"),true);
-		
+
 		header("Location:".$this->getReturnLocation("removeFromSystem","adm_object.php?ref_id=".$_GET["ref_id"]));
 		exit();
 	}
@@ -1204,7 +1204,7 @@ class ilObjectGUI
 			{
 				$deleted_tree = new ilTree($row->tree);
 				$a_checked[] = $row->tree;
-			
+
 				$row->tree = $row->tree * (-1);
 				$del_node_data = $deleted_tree->getNodeData($row->tree);
 				$del_subtree_nodes = $deleted_tree->getSubTree($del_node_data);
@@ -1731,12 +1731,15 @@ class ilObjectGUI
 		// first save the new permission settings for all roles
 		$rbacadmin->revokePermission($this->ref_id);
 
-		foreach ($_POST["perm"] as $key => $new_role_perms)
+		if(is_array($_POST["perm"]))
 		{
-			// $key enthaelt die aktuelle Role_Id
-			$rbacadmin->grantPermission($key,$new_role_perms,$this->ref_id);
+			foreach ($_POST["perm"] as $key => $new_role_perms)
+			{
+				// $key enthaelt die aktuelle Role_Id
+				$rbacadmin->grantPermission($key,$new_role_perms,$this->ref_id);
+			}
 		}
-		
+
 		// update object data entry (to update last modification date)
 		$this->object->update();
 

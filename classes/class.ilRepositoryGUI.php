@@ -185,6 +185,10 @@ class ilRepositoryGUI
 		$objects = $this->tree->getChilds($this->cur_ref_id, "title");
 		foreach($objects as $key => $object)
 		{
+			if (!$this->rbacsystem->checkAccess('visible',$object["child"]))
+			{
+				continue;
+			}
 			switch ($object["type"])
 			{
 				// categories
@@ -353,11 +357,23 @@ class ilRepositoryGUI
 				$num++;
 
 				$tpl->setVariable("CAT_IMG", ilUtil::getImagePath("icon_cat.gif"));
-				$tpl->setVariable("TITLE", $cat["title"]);
 
 				$obj_link = "repository.php?ref_id=".$cat["ref_id"];
 				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cat["ref_id"]));
-				$tpl->setVariable("CAT_LINK", $obj_link);
+				if ($this->rbacsystem->checkAccess('read',$cat["ref_id"]))
+				{
+					$tpl->setCurrentBlock("cat_link");
+					$tpl->setVariable("CAT_LINK", $obj_link);
+					$tpl->setVariable("TITLE", $cat["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("cat_show");
+					$tpl->setVariable("STITLE", $cat["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->setCurrentBlock("tbl_content");
 
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_cat"));
 				$tpl->setVariable("DESCRIPTION", $cat_obj->getDescription());
@@ -680,6 +696,7 @@ class ilRepositoryGUI
 					}
 				}
 				$tpl->setVariable("MODS",$moderators);
+				$tpl->setVariable("TXT_MODERATORS", $lng->txt("forums_moderators"));
 
 				$tpl->setVariable("FORUM_ID", $topicData["top_pk"]);
 
@@ -714,6 +731,7 @@ class ilRepositoryGUI
 					}
 				}
 				$tpl->setVariable("MODS",$moderators);
+				$tpl->setVariable("TXT_MODERATORS", $lng->txt("forums_moderators"));
 			} // else
 
 			// get context of forum

@@ -107,6 +107,51 @@ class ilRepositoryExplorer extends ilExplorer
 		}
 	}
 
+	function isClickable($a_type, $a_ref_id)
+	{
+		global $rbacsystem;
+
+		switch ($a_type)
+		{
+			// visible groups can allways be clicked; group processing decides
+			// what happens next
+			case "grp":
+				return true;
+				break;
+
+			default:
+				if ($rbacsystem->checkAccess("read", $a_ref_id))
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				break;
+		}
+	}
+
+	function showChilds($a_ref_id)
+	{
+		global $rbacsystem;
+
+		if ($a_ref_id == 0)
+		{
+			return true;
+		}
+
+		if ($rbacsystem->checkAccess("read", $a_ref_id))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
 	/**
 	* overwritten method from base class
 	* @access	public
