@@ -374,6 +374,20 @@ class ilObjTest extends ilObject
 		return $result;
 	}
 
+	/**
+	* Returns the calling script of the class
+	*
+	* @access	public
+	*/
+	function getCallingScript()
+	{
+		$module = $this->getModule("tst");
+		$module_dir = ($module == "")
+			? ""
+			: $module."/";
+		return $module . "test.php";
+	}
+	
 /**
 	* read object data from db into object
 	* @param	boolean
@@ -2228,7 +2242,7 @@ class ilObjTest extends ilObject
 			}
 			$row = array(
 				"nr" => "$key",
-				"title" => "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&evaluation=" . $question->getId() . "\">" . $question->getTitle() . "</a>",
+				"title" => "<a href=\"" . $this->getCallingScript() . "$add_parameter&evaluation=" . $question->getId() . "\">" . $question->getTitle() . "</a>",
 				"max" => sprintf("%d", $max_points),
 				"reached" => sprintf("%d", $reached_points),
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
