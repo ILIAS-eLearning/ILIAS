@@ -148,6 +148,21 @@ class ilPaymentBookings
 			
 
 	// STATIC
+	function _getCountBookingsByVendor($a_vendor_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT COUNT(booking_id) AS bid FROM payment_statistic ".
+			"WHERE b_vendor_id = '".$a_vendor_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->bid;
+		}
+		return 0;
+	}
+
 	function _getCountBookingsByObject($a_pobject_id)
 	{
 		global $ilDB;
