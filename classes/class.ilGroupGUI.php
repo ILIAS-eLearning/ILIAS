@@ -490,13 +490,14 @@ class ilGroupGUI extends ilObjectGUI
 		$objects = $this->grp_tree->getChilds($this->object->getId(),"title"); //provides variable with objects located under given node
 
 		if (count($objects) > 0)
-		{
+		{			
 			foreach ($objects as $key => $object)
 			{
-				//if ($rbacsystem->checkAccess('visible',$object["child"]))
-				//{
+				if ($rbacsystem->checkAccess('visible',$object["ref_id"]))
+				{
 					$cont_arr[$key] = $object;
-				//}
+
+				}
 			}
 		}
 		$maxcount = count($cont_arr);
@@ -2350,7 +2351,7 @@ class ilGroupGUI extends ilObjectGUI
 		if ($a_parent_parent)
 		{
 			//$subObj = getObject($a_ref_id);
-			$subObj =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+			$subObj = & $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
 
 			$path[] = array(
 				"id"	 => $a_ref_id,
@@ -2363,7 +2364,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		if (isset($_GET["obj_id"]))
 		{
-			$modifier = 0;
+			$modifier = 1;
 		}
 
 		foreach ($path as $key => $row)
