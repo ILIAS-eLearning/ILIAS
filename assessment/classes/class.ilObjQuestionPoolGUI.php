@@ -300,8 +300,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$newObj->setType($_GET["new_type"]);
 		// set title of questionpool object to "dummy"
 		$newObj->setTitle("dummy");
-		// set description of questionpool object to "dummy"
-		$newObj->setDescription("dummy");
 		// create the questionpool class in the ILIAS database (object_data table)
 		$newObj->create(true);
 		// create a reference for the questionpool object in the ILIAS database (object_reference table)
@@ -319,7 +317,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// copy uploaded file to import directory
 		$file = pathinfo($_FILES["xmldoc"]["name"]);
 		$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-		move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+		ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+		//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
 
 		// unzip file
 		ilUtil::unzip($full_path);
@@ -341,10 +340,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if (is_object($newObj->meta_data))
 		{
 			// read the object metadata from the nested set tables
-			$meta_data =& new ilMetaData($newObj->getType(), $newObj->getId());
-			$newObj->meta_data = $meta_data;
-			$newObj->setTitle($newObj->meta_data->getTitle());
-			$newObj->setDescription($newObj->meta_data->getDescription());
+			//$meta_data =& new ilMetaData($newObj->getType(), $newObj->getId());
+			//$newObj->meta_data = $meta_data;
+			//$newObj->setTitle($newObj->meta_data->getTitle());
+			//$newObj->setDescription($newObj->meta_data->getDescription());
 			ilObject::_writeTitle($newObj->getID(), $newObj->getTitle());
 			ilObject::_writeDescription($newObj->getID(), $newObj->getDescription());
 		}
@@ -383,7 +382,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// copy uploaded file to import directory
 			$file = pathinfo($_FILES["xmldoc"]["name"]);
 			$full_path = $this->object->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-			move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+			ilUtil::moveUploadedFile($_FILES["xmldoc"]["tmp_name"], $_FILES["xmldoc"]["name"], $full_path);
+			//move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
 	
 			// unzip file
 			ilUtil::unzip($full_path);

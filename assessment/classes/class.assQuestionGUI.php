@@ -74,10 +74,11 @@ class ASS_QuestionGUI
 	*/
 	function &executeCommand()
 	{
-		$cmd = $this->ctrl->getCmd();
+		$cmd = $this->ctrl->getCmd("editQuestion");
 		$next_class = $this->ctrl->getNextClass($this);
 
 		$cmd = $this->getCommand($cmd);
+
 		switch($next_class)
 		{
 			default:
