@@ -45,6 +45,7 @@ database_needs_update#:#Your database needs an update
 database_ready#:#database is ready.
 database_update#:#update database
 database_version#:#current database version
+data_path#:#data path
 date#:#date
 db_host#:#database host
 db_name#:#database name
@@ -101,6 +102,7 @@ logout#:#logout
 no_changes#:#No changes.
 no_db_update_file#:#dbupdate.php not found!
 not_connected_to_db#:#You are not connected to database.
+out_of_webspace#:#(out of webspace)
 password#:#password
 password_changed#:#Password changed.
 password_empty#:#No password given!

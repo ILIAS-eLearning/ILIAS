@@ -480,6 +480,16 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+common#:#mail_a_root#:#Mailbox
+common#:#mail_b_inbox#:#Inbox
+common#:#mail_c_trash#:#Trash
+common#:#mail_d_drafts#:#Drafts
+common#:#mail_e_sent#:#Sent
+common#:#mail_z_local#:#User Folders
+common#:#mail_mark_unread#:#Mark mails unread
+common#:#mail_mark_read#:#Mark mails read
+common#:#mail_move_to#:#Move mails to
+common#:#no_date#:#No date
 common#:#internal_system#:#Internal system
 common#:#mail_intern_enable#:#Enable
 common#:#mail_allow_smtp#:#Allow SMTP
