@@ -667,7 +667,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 	}
-		
+    
 	/**
 	* set Locator
 	*

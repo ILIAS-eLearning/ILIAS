@@ -2003,3 +2003,16 @@ $tree->insertNode($row->id,SYSTEM_FOLDER_ID);
 $query = "INSERT INTO settings (keyword,value) VALUES('recovery_folder_id','".$row->id."')";
 $res = $this->db->query($query);
 ?>
+<#123>
+CREATE TABLE `tst_solutions` (
+  `solution_id` int(10) unsigned NOT NULL auto_increment,
+  `user_fi` int(10) unsigned NOT NULL default '0',
+  `test_fi` int(10) unsigned NOT NULL default '0',
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `value1` varchar(50) default NULL,
+  `value2` varchar(50) default NULL,
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`solution_id`),
+  UNIQUE KEY `solution_id` (`solution_id`),
+  KEY `solution_id_2` (`solution_id`)
+) TYPE=MyISAM COMMENT='Test and Assessment solutions';
