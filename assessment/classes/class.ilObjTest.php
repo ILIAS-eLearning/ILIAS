@@ -2649,7 +2649,7 @@ class ilObjTest extends ilObject
 *
 * @access public
 */
-	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0)
+	function getQuestionsTable($sortoptions, $filter_text, $sel_filter_type, $startrow = 0, $completeonly = 0)
 	{
 		global $ilUser;
 		$where = "";
@@ -2706,6 +2706,10 @@ class ilObjTest extends ilObject
 		if (count($forbidden_pools))
 		{
 			$forbidden = " AND qpl_questions.obj_fi NOT IN (" . join($forbidden_pools, ",") . ")";
+		}
+		if ($completeonly)
+		{
+			$forbidden .= " AND qpl_questions.complete = " . $this->ilias->db->quote("1");
 		}
 
 		// get all questions in the test
