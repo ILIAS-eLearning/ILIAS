@@ -624,25 +624,4 @@
             }
         }
     }
-
-function showPath($APath,$AScriptName)
-{
-    foreach ($APath as $key => $val)
-    {
-        if ($key < (count($APath) - 1))
-        {
-            $path .= "[<a href=\"".$AScriptName."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
-        }
-        else
-        {
-            $path .= "[<b><a href=\"".$AScriptName."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a></b>]";;
-        }
-        if ($key < (count($APath) - 1))
-        {
-            $path .= " :: ";
-        }
-    }
-    
-    return $path;
-}
 ?>
