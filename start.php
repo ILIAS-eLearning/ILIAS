@@ -16,7 +16,7 @@
 <title>ILIAS 3</title>
 </head>
 
-<frameset rows="55, *" frameborder=0 framespacing=0 border=0>
+<frameset rows="43,*" frameborder=0 framespacing=0 border=0>
 <frame src="buttons.php" name="top" marginheight="0" scrolling="no"/>
 <frame src="usr_personaldesktop.php" name="bottom" marginwidth="0" marginheight="0" scrolling="auto"/>
 <noframes>
