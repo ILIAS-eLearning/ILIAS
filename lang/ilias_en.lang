@@ -3509,3 +3509,9 @@ crs#:#crs_reg_subscription_deactivated#:#Registration is disabled
 crs#:#crs_reg_subscription_start_later#:#The registration time starts later
 crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
 crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.
+common#:#crs_archives#:#Archives
+common#:#select_object_to_copy#:#Please select the object you want to copy
+common#:#copy_to#:#to
+common#:#options_for_subobjects#:#Options for subobjects
+common#:#no_access_link_object#:#You are not allowed to link this object
+common#:#copied_object#:#Copied object
