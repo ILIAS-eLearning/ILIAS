@@ -57,14 +57,6 @@ if ($_POST["cmd"] != "")
 	header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 }
 
-if ($_GET["message"])
-{
-    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
-	$tpl->setCurrentBlock("message2");
-	$tpl->setVariable("MSG", $_GET["message"]);
-	$tpl->parseCurrentBlock();
-}
-
 $objData = $ilias->getObjDefinition($_GET["type"]);
 
 //if no cmd is given default to first property
@@ -168,6 +160,14 @@ switch ($_GET["type"])
     default:
 		$ilias->raiseError("Object type '".$type."' is not implemented yet.",$ilias->error_obj->MESSAGE);
 		break;
+}
+
+if ($_GET["message"])
+{
+    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
+	$tpl->setCurrentBlock("message2");
+	$tpl->setVariable("MSG", $_GET["message"]);
+	$tpl->parseCurrentBlock();
 }
 
 //*************************admin tabs***********************+
