@@ -467,7 +467,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		
 		$tab[1] = array ();
-		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];	//link for tab
+		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$this->grp_id;	//link for tab
 		$tab[1]["ftabtype"] = 'tabinactive';					//tab is marked
 		$tab[1]["target"] = "bottom";						//target-frame of tab_cmd
 		$tab[1]["tab_text"] = 'group_members';					//tab -text
