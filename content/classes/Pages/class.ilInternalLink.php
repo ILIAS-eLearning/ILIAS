@@ -131,7 +131,7 @@ class ilInternalLink
 				break;
 
 			case "MediaObject":
-				$id = ilMediaObject::_getIdForImportId($a_target);
+				$id = ilObjMediaObject::_getIdForImportId($a_target);
 				if($id > 0)
 				{
 					return "il__mob_".$id;
