@@ -434,7 +434,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	function cancelObject()
 	{
 		unset($_SESSION["ass_q_id"]);
-		$this->ctrl->redirect($this, "questions");
+		$location = $this->getReturnLocation("cancel");
+		if (strcmp($location, "") == 0)
+		{
+			$this->ctrl->redirect($this, "questions");
+		}
+		else
+		{
+			header("Location:$location");
+		}
 	}
 
 	
