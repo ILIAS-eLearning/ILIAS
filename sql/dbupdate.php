@@ -4968,3 +4968,6 @@ if ($res->numRows())
 ALTER TABLE `survey_questionblock` DROP COLUMN `obligatory`;
 <#332>
 ALTER  TABLE  `usr_data`  ADD  `agree_date` DATETIME DEFAULT  '0000-00-00 00:00' NOT NULL;
+<#333>
+UPDATE settings SET value = '3.2.1 2004-11-03' WHERE keyword = 'ilias_version' LIMIT 1;
+
