@@ -1247,7 +1247,7 @@ class ilObjectGUI
 		
 		sendInfo($this->lng->txt("msg_cancel"),true);
 		
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		header("Location:".$this->getReturnLocation("cancel","adm_object.php?".$this->link_params));
 		exit();
 	}
 	/**
