@@ -1221,10 +1221,15 @@ class ilObjectGUI
 				// CHECK ACCESS 'write' of role folder
 				if ($rbacsystem->checkAccess('write',$rolf_data["child"]))
 				{
-					$parentRoles = $rbacadmin->getParentRoleIds($rolf_data["child"]);
-					$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
-												   $rolf_data["child"],$stop_inherit);
-					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],$_GET["ref_id"],'n');
+					$role_folder = $rbacadmin->getRoleFolderOfObject($_GET["ref_id"]);
+					$roles_of_folder = $rbacadmin->getRolesAssignedToFolder($role_folder["ref_id"]);
+					if(!in_array($stop_inherit,$roles_of_folder))
+					{
+						$parentRoles = $rbacadmin->getParentRoleIds($rolf_data["child"]);
+						$rbacadmin->copyRolePermission($stop_inherit,$parentRoles[$stop_inherit]["parent"],
+													   $rolf_data["child"],$stop_inherit);
+						$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_data["child"],$_GET["ref_id"],'n');
+					}
 				}
 				else
 				{
