@@ -111,7 +111,7 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 		$tpl_menu->parseCurrentBlock();
 
 
-		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexport&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=offlineexportform&ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		$tpl_menu->setVariable("BTN_TXT","read offline");
 		// $tpl_menu->setVariable("BTN_TARGET","...");
 		$tpl_menu->parseCurrentBlock();
