@@ -15,3 +15,5 @@ ALTER TABLE object_data CHANGE type type CHAR(4) DEFAULT 'none' NOT NULL;
 <#4>
 # remove obsolete table object_types
 DROP TABLE object_types;
+<#5>
+INSERT INTO settings (keyword, value_str) VALUES ('ilias_version', '3.0a');
