@@ -1210,14 +1210,17 @@ class ASS_OrderingQuestion extends ASS_Question
 			{
 				if (preg_match("/^order_(\d+)/", $key, $matches))
 				{
-					$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-						$db->quote($ilUser->id),
-						$db->quote($test_id),
-						$db->quote($this->getId()),
-						$db->quote($matches[1]),
-						$db->quote($value)
-					);
-					$result = $db->query($query);
+					if (!(preg_match("/initial_value_\d+/", $value)))
+					{
+						$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+							$db->quote($ilUser->id),
+							$db->quote($test_id),
+							$db->quote($this->getId()),
+							$db->quote($matches[1]),
+							$db->quote($value)
+						);
+						$result = $db->query($query);
+					}
 				}
 			}
 		//    parent::saveWorkingData($limit_to);
@@ -1256,7 +1259,7 @@ class ASS_OrderingQuestion extends ASS_Question
 
 			if ($result == DB_OK)
 			{
-				// write answers
+				// write ansers
 				// delete old answers
 				$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
 					$db->quote($this->original_id)

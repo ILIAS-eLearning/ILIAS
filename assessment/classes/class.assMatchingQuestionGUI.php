@@ -484,7 +484,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
-			$solution_script .= "resetValues();\n";
+			$solution_script .= "";//"resetValues();\n";
 			foreach ($solutions as $idx => $solution_value)
 			{
 				if ($this->object->getOutputType() == OUTPUT_HTML)

@@ -1069,19 +1069,12 @@ class ASS_ImagemapQuestion extends ASS_Question {
   function getMaximumPoints() {
 		$points = array("set" => 0, "unset" => 0);
 		foreach ($this->answers as $key => $value) {
-			if ($value->isStateChecked())
+			if ($value->get_points() > $points["set"])
 			{
-				if ($value->get_points() > $points["set"])
-				{
-					$points["set"] = $value->get_points();
-				}
-			}
-			else
-			{
-				$points["unset"] += $value->get_points();
+				$points["set"] = $value->get_points();
 			}
 		}
-		return $points["set"] + $points["unset"];
+		return $points["set"];
   }
 
 /**
@@ -1116,13 +1109,6 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				if ($answer->isStateChecked())
 				{
 					if (in_array($key, $found_values))
-					{
-						$points += $answer->get_points();
-					}
-				}
-				else
-				{
-					if (!in_array($key, $found_values))
 					{
 						$points += $answer->get_points();
 					}

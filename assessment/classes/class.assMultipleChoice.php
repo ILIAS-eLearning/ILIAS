@@ -953,20 +953,14 @@ class ASS_MultipleChoice extends ASS_Question
 		$points = array("set" => 0, "unset" => 0);
 		if ($this->get_response() == RESPONSE_SINGLE)
 		{
-			foreach ($this->answers as $key => $value) {
-				if ($value->isStateChecked())
+			foreach ($this->answers as $key => $value) 
+			{
+				if ($value->get_points() > $points["set"])
 				{
-					if ($value->get_points() > $points["set"])
-					{
-						$points["set"] = $value->get_points();
-					}
-				}
-				else
-				{
-					$points["unset"] += $value->get_points();
+					$points["set"] = $value->get_points();
 				}
 			}
-			return $points["set"] + $points["unset"];
+			return $points["set"];
 		}
 		else
 		{

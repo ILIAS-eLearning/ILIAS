@@ -458,7 +458,7 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
-			$solution_script .= "resetValues();\n";
+			$solution_script .= "";//"resetValues();\n";
 			$jssolutions = array();
 			foreach ($solutions as $idx => $solution_value)
 			{

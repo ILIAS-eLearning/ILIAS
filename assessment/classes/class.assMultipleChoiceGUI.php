@@ -116,32 +116,12 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $answer->get_order() + 1);
 				$this->tpl->setVariable("ANSWER_ORDER", $answer->get_order());
 				$this->tpl->setVariable("VALUE_ANSWER", htmlspecialchars($answer->get_answertext()));
-				$this->tpl->setVariable("TEXT_WHEN", $this->lng->txt("when"));
-				$this->tpl->setVariable("TEXT_SET", $this->lng->txt("radio_set"));
 				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
 				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
 				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", sprintf("%d", $answer->get_points()));
 				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
-				$this->tpl->setVariable("TEXT_UNCHECKED", $this->lng->txt("radio_unset"));
-				$this->tpl->setVariable("TEXT_CHECKED", $this->lng->txt("radio_set"));
-				if ($answer->isStateChecked())
-				{
-					$this->tpl->setVariable("CHECKED_SELECTED", " selected=\"selected\"");
-				}
 				$this->tpl->parseCurrentBlock();
 			}
-			/*
-			if (strlen($_POST["cmd"]["add"]) > 0)
-			{
-				// Create template for a new answer
-				$this->tpl->setCurrentBlock("answers");
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_answer_count() + 1);
-				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_answer_count());
-				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
-				$this->tpl->parseCurrentBlock();
-			}*/
 			// call to other question data i.e. estimated working time block
 			$this->outOtherQuestionData();
 
@@ -239,20 +219,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 				}
 				$this->tpl->parseCurrentBlock();
 			}
-
-			/*
-			if (strlen($_POST["cmd"]["add"]) > 0)
-			{
-				// Create template for a new answer
-				$this->tpl->setCurrentBlock("answers");
-				$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-				$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_answer_count() + 1);
-				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_answer_count());
-				$this->tpl->setVariable("TEXT_ANSWER_TEXT", $this->lng->txt("answer_text"));
-				$this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_POINTS", "0");
-				$this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
-				$this->tpl->parseCurrentBlock();
-			}*/
 
 			// call to other question data i.e. estimated working time block
 			$this->outOtherQuestionData();
@@ -479,77 +445,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* set object data
-	*/
-	/*
-	function setObjectData()
-	{
-		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
-		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
-		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		$this->object->set_question(ilUtil::stripSlashes($_POST["question"]));
-		$this->object->setShuffle($_POST["shuffle"]);
-
-		// adding materials uris
-		//$saved = $this->writeOtherPostData($result);
-		$saved = $this->writeOtherPostData($result);
-
-		// Delete all existing answers and create new answers from the form data
-		$this->object->flush_answers();
-
-		// Add all answers from the form into the object
-		if ($this->object->get_response() == RESPONSE_SINGLE)
-		{
-			// ...for multiple choice with single response
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/answer_(\d+)/", $key, $matches))
-				{
-					if ($_POST["radio"] == $matches[1])
-					{
-						$is_true = TRUE;
-					}
-					else
-					{
-						$is_true = FALSE;
-					}
-					$this->object->add_answer(
-						ilUtil::stripSlashes($_POST["$key"]),
-						ilUtil::stripSlashes($_POST["points_$matches[1]"]),
-						ilUtil::stripSlashes($is_true),
-						ilUtil::stripSlashes($matches[1])
-						);
-				}
-			}
-		}
-		else
-		{
-			// ...for multiple choice with multiple response
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/answer_(\d+)/", $key, $matches))
-				{
-					if ($_POST["checkbox_$matches[1]"] == $matches[1])
-					{
-						$is_true = TRUE;
-					}
-					else
-					{
-						$is_true = FALSE;
-					}
-					$this->object->add_answer(
-						ilUtil::stripSlashes($_POST["$key"]),
-						ilUtil::stripSlashes($_POST["points_$matches[1]"]),
-						ilUtil::stripSlashes($is_true),
-						ilUtil::stripSlashes($matches[1])
-						);
-				}
-			}
-		}
-	}
-	*/
-
-	/**
 	* Evaluates a posted edit form and writes the form data in the question object
 	*
 	* Evaluates a posted edit form and writes the form data in the question object
@@ -616,11 +511,6 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			{
 				if (preg_match("/answer_(\d+)/", $key, $matches))
 				{
-					$state = 0;
-					if ($_POST["status"] == $matches[1])
-					{
-						$state = 1;
-					}
 					$points = $_POST["points_$matches[1]"];
 					if (preg_match("/\d+/", $points))
 					{
@@ -637,45 +527,11 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 					$this->object->add_answer(
 						ilUtil::stripSlashes($_POST["$key"]),
 						ilUtil::stripSlashes($points),
-						ilUtil::stripSlashes($_POST["status_$matches[1]"]),
+						ilUtil::stripSlashes(1),
 						ilUtil::stripSlashes($matches[1])
 						);
 				}
 			}
-			/*
-			if ($_POST["cmd"]["add_tf"])
-			{
-				// add a true/false answer template
-				$this->object->add_answer(
-					$this->lng->txt("true"),
-					0,
-					false,
-					count($this->object->answers)
-				);
-				$this->object->add_answer(
-					$this->lng->txt("false"),
-					0,
-					false,
-					count($this->object->answers)
-				);
-			}*/
-			/*
-			if ($_POST["cmd"]["add_yn"])
-			{
-				// add a true/false answer template
-				$this->object->add_answer(
-					$this->lng->txt("yes"),
-					0,
-					false,
-					count($this->object->answers)
-				);
-				$this->object->add_answer(
-					$this->lng->txt("no"),
-					0,
-					false,
-					count($this->object->answers)
-				);
-			}*/
 		}
 		else
 		{

@@ -1423,19 +1423,9 @@ class ASS_ClozeTest extends ASS_Question
 				{
 					foreach ($this->gaps[$gap_id] as $answerkey => $answer)
 					{
-						if ($answer->isStateChecked())
+						if ($value["value"] == $answerkey)
 						{
-							if ($value["value"] == $answerkey)
-							{
-								$points += $answer->get_points();
-							}
-						}
-						else
-						{
-							if ($value["value"] != $answerkey)
-							{
-								$points += $answer->get_points();
-							}
+							$points += $answer->get_points();
 						}
 					}
 				}
@@ -1523,19 +1513,12 @@ class ASS_ClozeTest extends ASS_Question
       } else {
 				$points_arr = array("set" => 0, "unset" => 0);
         foreach ($value as $key2 => $value2) {
-					if ($value2->isStateChecked())
+					if ($value2->get_points() > $points_arr["set"])
 					{
-						if ($value2->get_points() > $points_arr["set"])
-						{
-							$points_arr["set"] = $value2->get_points();
-						}
-					}
-					else
-					{
-						$points_arr["unset"] += $value2->get_points();
+						$points_arr["set"] = $value2->get_points();
 					}
 				}
-				$points += $points_arr["set"] + $points_arr["unset"];
+				$points += $points_arr["set"];
       }
     }
     return $points;
