@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.42 2003/10/20 15:17:49 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.43 2003/10/21 10:59:52 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -67,6 +67,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
 		$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
 		$data["group_status"] = $_SESSION["error_post_vars"]["group_status"];
+		$data["registration_flag"] = $_SESSION["error_post_vars"]["registration_flag"];
 		
 		$this->getTemplateFile("edit",$new_type);
 
@@ -81,10 +82,11 @@ class ilObjGroupGUI extends ilObjectGUI
 			}
 		}
 
-		$stati = array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
+		$stati 	= array(0=>$this->lng->txt("group_status_public"),1=>$this->lng->txt("group_status_closed"));
 		
 		//build form
-		$opts = ilUtil::formSelect(0,"group_status",$stati,false,true);
+		$opts 	= ilUtil::formSelect(0,"group_status",$stati,false,true);
+		$cb_registration = ilUtil::formCheckbox(0, "enable_registration", 1, false);
 		
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
@@ -93,7 +95,9 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT", "save");
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
+		
+		$this->tpl->setVariable("CB_REGISTRATION", $cb_registration);				
+		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));		
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
 	}
@@ -123,7 +127,9 @@ class ilObjGroupGUI extends ilObjectGUI
 		$roles = $groupObj->initDefaultRoles();
 
 		// ...finally assign groupadmin role to creator of group object
-		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
+//		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
+		$groupObj->join($this->ilias->account->getId(),1); //join as admin=1
+		
 		ilObjUser::updateActiveRoles($groupObj->getOwner());
 	
 /************ old
@@ -135,9 +141,11 @@ class ilObjGroupGUI extends ilObjectGUI
 		$groupObj->createDefaultGroupRoles($rfoldObj->getRefId());
 		$groupObj->join($this->ilias->account->getId(),1); //join as admin=1
 */
-
+		//0=no registration, 1=registration enabled
+		$groupObj->setRegistrationFlag($_POST["enable_registration"]);
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status"]);
+	
 		//save new group in grp_tree table
 		$groupObj->createNewGroupTree($groupObj->getRefId());
 		
@@ -165,6 +173,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->object->setTitle($_POST["Fobject"]["title"]);
 		$this->object->setDescription($_POST["Fobject"]["desc"]);
 		$this->object->setGroupStatus($_POST["group_status"]);
+		$this->object->setRegistrationFlag($_POST["enable_registration"]);
 
 		// update object data
 		$this->update = $this->object->update();
@@ -194,11 +203,13 @@ class ilObjGroupGUI extends ilObjectGUI
 			// fill in saved values in case of error
 			$data["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
 			$data["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];			
+			$data["registration"] = $_SESSION["error_post_vars"]["registration"];			
 		}
 		else
 		{
 			$data["title"] = $this->object->getTitle();
 			$data["desc"] = $this->object->getDescription();			
+			$data["registration"] = $this->object->getRegistrationFlag();
 		}
 
 		$this->getTemplateFile("edit");
@@ -215,6 +226,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		//build form
 		$grp_status = $this->object->getGroupStatus();
 		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
+		$cb_registration = ilUtil::formCheckbox($this->object->getRegistrationFlag(), "enable_registration", 1, false);
 	
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
@@ -224,7 +236,9 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT", "update");
 		$this->tpl->setVariable("CMD_CANCEL", "cancel");		
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
+		
+		$this->tpl->setVariable("CB_REGISTRATION", $cb_registration);				
+		$this->tpl->setVariable("TXT_REGISTRATION", $this->lng->txt("group_registration"));		
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
 	}
@@ -427,7 +441,6 @@ class ilObjGroupGUI extends ilObjectGUI
 	function confirmedRemoveMemberObject()
 	{
 		global $rbacsystem,$ilias;
-//		print_r($_SESSION["saved_post"]);
 
 		if(isset($_SESSION["saved_post"]["user_id"]) )
 		{
