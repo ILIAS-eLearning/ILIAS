@@ -151,7 +151,7 @@ class ASS_OrderingQuestion extends ASS_Question {
       $now = getdate();
       $question_type = 5;
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, ordering_type, points, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, ordering_type, points, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote($question_type),
         $db->quote($this->ref_id),
@@ -162,7 +162,7 @@ class ASS_OrderingQuestion extends ASS_Question {
         $db->quote($this->question),
         $db->quote($this->ordering_type),
         $db->quote($this->points),
-	$db->quote("$complete"),
+				$db->quote("$complete"),
         $db->quote($created)
       );
       $result = $db->query($query);
@@ -175,19 +175,18 @@ class ASS_OrderingQuestion extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, ordering_type = %s, points = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, ordering_type = %s, points = %s, complete = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->question),
         $db->quote($this->ordering_type),
         $db->quote($this->points),
-	$db->quote("$complete"),
+				$db->quote("$complete"),
         $db->quote($this->id)
       );
       $result = $db->query($query);
     }
-
     if ($result == DB_OK) {
       // saving material uris in the database
       $this->save_materials_to_db();
