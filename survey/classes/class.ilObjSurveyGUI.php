@@ -660,6 +660,15 @@ class ilObjSurveyGUI extends ilObjectGUI
   {
 		global $rbacsystem;
 
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_survey"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
+
     $add_parameter = $this->getAddParameter();
 		if ($_POST["cmd"]["save"])
 		{
@@ -1999,6 +2008,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function questionsObject() {
 		global $rbacsystem;
 
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_survey"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
 		if ($_GET["new_id"] > 0)
 		{
 			// add a question to the survey previous created in a questionpool
@@ -2009,6 +2026,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			ilUtil::redirect("questionpool.php?ref_id=" . $_GET["eqpl"] . "&cmd=editQuestionForSurvey&calling_survey=".$_GET["ref_id"]."&q_id=" . $_GET["eqid"]);
 		}
+
 
 		$_SESSION["calling_survey"] = $this->object->getRefId();
 		unset($_SESSION["survey_id"]);
@@ -3687,6 +3705,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function inviteObject()
 	{
 		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_survey"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_invite.html", true);
 
 		if ($this->object->getStatus() == STATUS_OFFLINE)
@@ -3807,6 +3834,15 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function maintenanceObject()
 	{
 		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_survey"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
 		
 		if ($_POST["cmd"]["delete_all_user_data"])
 		{
@@ -4349,6 +4385,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function exportObject()
 	{
 		global $tree;
+		global $rbacsystem;
+
+		if ((!$rbacsystem->checkAccess("read", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		{
+			// allow only read and write access
+			sendInfo($this->lng->txt("cannot_edit_survey"), true);
+			$path = $this->tree->getPathFull($this->object->getRefID());
+			ilUtil::redirect($this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			return;
+		}
 
 		//$this->setTabs();
 
