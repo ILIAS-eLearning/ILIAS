@@ -69,6 +69,11 @@ if ($ilias->auth->getAuth())
 		ilChatServerCommunicator::_login();
 	}
 	
+	// UPDATE LAST FORUM VISIT
+	include_once './classes/class.ilObjForum.php';
+
+	ilObjForum::_updateOldAccess($ilUser->getId());
+	
 	$return_to = "start.php";
 	
 	if (!empty($_GET["return_to"]))

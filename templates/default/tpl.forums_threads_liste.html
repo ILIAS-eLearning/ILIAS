@@ -6,6 +6,7 @@
   <td class="std" width="60%">{TXT_TOPIC}</td>
   <td class="std" align="center" width="20%">{TXT_AUTHOR}</td>
   <td class="std" align="center" nowrap="nowrap">{TXT_NUM_POSTS}</td>
+  <td class="std" align="center" nowrap="nowrap">{TXT_NEW_POSTS}</td>
   <td class="std" align="center" nowrap="nowrap">{TXT_NUM_VISITS}</td>
   <td class="std" align="center" width="20%">{TXT_LAST_POST}</td>
 </tr>
@@ -15,23 +16,24 @@
 	<td width="60%" class="tblrow2" valign="top">{TITLE}</td>
 	<td width="20%" align="center" class="tblrow1" valign="top">{AUTHOR}</td>
 	<td align="center" class="tblrow2" valign="top">{NUM_POSTS}</td>
+	<td align="center" class="tblrow2" valign="top">{NEW_POSTS}</td>
 	<td align="center" class="tblrow1" valign="top">{NUM_VISITS}</td>
 	<td width="20%" class="tblrow2" valign="top">{LAST_POST}</td>
 </tr>
 <!-- END threads_row -->
 <!-- BEGIN threads_no -->
 <tr class="std">
- <td class="std" colspan="6">{TXT_MSG_NO_THREADS_AVAILABLE}</td>
+ <td class="std" colspan="7">{TXT_MSG_NO_THREADS_AVAILABLE}</td>
 </tr>
 <!-- END threads_no -->
 <tr>
-	<td class="submit" nowrap="nowrap" colspan="6">
+	<td class="submit" nowrap="nowrap" colspan="7">
 	<input type="checkbox" name="all" value="check_all" onClick="CheckAllBoxes(document.cmd);">&nbsp;
 	<strong>{TXT_SELECT_ALL}</strong>
 	</td>
 </tr>
 <tr>
-	<td class="submit"  width="1%" nowrap="nowrap" colspan="6"><img src="{IMGPATH}/images/arrow_downright.gif" />
+	<td class="submit"  width="1%" nowrap="nowrap" colspan="7"><img src="{IMGPATH}/images/arrow_downright.gif" />
 	<select name="action">
 		<option value="html">{TXT_EXPORT_HTML}</option>
 		<!-- <option value="xml">{TXT_EXPORT_XML}</option> -->

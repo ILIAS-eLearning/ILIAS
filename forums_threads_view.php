@@ -39,17 +39,14 @@ $lng->loadLanguageModule("forum");
 $forumObj = new ilObjForum($_GET["ref_id"]);
 $frm =& $forumObj->Forum;
 
+// SAVE LAST ACCESS
+$forumObj->updateLastAccess($ilUser->getId(),(int) $_GET['thr_pk']);
+
 // mark post read if explorer link was clicked
 if($_GET['thr_pk'] and $_GET['pos_pk'])
 {
 	$forumObj->markPostRead($ilUser->getId(),(int) $_GET['thr_pk'],(int) $_GET['pos_pk']);
 }
-if($_GET['mark_read'])
-{
-	$forumObj->markThreadRead($ilUser->getId(),(int) $_GET['thr_pk']);
-	sendInfo($lng->txt('forums_thread_marked'),true);
-}
-
 $file_obj =& new ilFileDataForum($forumObj->getId(),$_GET["pos_pk"]);
 
 $frm->setForumId($forumObj->getId());
@@ -187,7 +184,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 	if($forumObj->getCountUnread($ilUser->getId(),(int) $_GET['thr_pk']))
 	{
 		$menutpl->setCurrentBlock("btn_cell");
-		$menutpl->setVariable("BTN_LINK","forums_threads_view.php?mark_read=1&ref_id=".$_GET["ref_id"]."&thr_pk=".$_GET['thr_pk']);
+		$menutpl->setVariable("BTN_LINK","forums_frameset.php?mark_read=1&ref_id=".$_GET["ref_id"]."&thr_pk=".$_GET['thr_pk']);
+		$menutpl->setVariable("BTN_TARGET",'target="bottom"');
 		$menutpl->setVariable("BTN_TXT", $lng->txt("forums_mark_read"));
 		$menutpl->parseCurrentBlock();
 	}
@@ -725,7 +723,14 @@ if (is_array($topicData = $frm->getOneTopic()))
 			}
 			else
 			{
-				$tpl->setVariable("SUBJECT","<b>".$node["subject"]."</b>");
+				if($forumObj->isNew($ilUser->getId(),$_GET['thr_pk'],$node['pos_pk']))
+				{
+					$tpl->setVariable("SUBJECT","<i><b>".$node["subject"]."</b></i>");
+				}
+				else
+				{
+					$tpl->setVariable("SUBJECT","<b>".$node["subject"]."</b>");
+				}
 			}
 
 			$tpl->setVariable("POST_DATE",$frm->convertDate($node["create_date"]));

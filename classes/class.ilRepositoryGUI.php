@@ -1586,6 +1586,7 @@ class ilRepositoryGUI
 			$frm_obj =& ilObjectFactory::getInstanceByRefId($data['ref_id']);
 			$num_posts = $topicData['top_num_posts'].' ('.$frm_obj->getCountUnread($ilUser->getId()).')';
 			$tpl->setVariable("NUM_POSTS",$num_posts);
+			$tpl->setVariable("NEW_POSTS",$frm_obj->getCountNew($ilUser->getId()));
 
 			$tpl->setVariable("NUM_VISITS",$topicData["visits"]);
 
@@ -1612,6 +1613,7 @@ class ilRepositoryGUI
 		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 		$tpl->setVariable("TXT_NUM_THREADS", $lng->txt("forums_threads"));
 		$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_articles").' ('.$lng->txt('unread').')');
+		$tpl->setVariable("TXT_NEW_POSTS", $lng->txt("forums_new_articles"));
 		$tpl->setVariable("TXT_NUM_VISITS", $lng->txt("visits"));
 		$tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));
 		$tpl->setVariable("TXT_MODS", $lng->txt("forums_moderators"));

@@ -5095,3 +5095,13 @@ while($row1 = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	}
 }
 ?>
+<#352>
+DROP TABLE IF EXISTS `frm_thread_access`;
+CREATE TABLE `frm_thread_access` (
+  `usr_id` int(11) NOT NULL default '0',
+  `obj_id` int(11) NOT NULL default '0',
+  `thread_id` int(11) NOT NULL default '0',
+  `access_old` int(11) NOT NULL default '0',
+  `access_last` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`usr_id`,`obj_id`,`thread_id`)
+) TYPE=MyISAM;

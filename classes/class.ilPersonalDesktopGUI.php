@@ -288,12 +288,18 @@ class ilPersonalDesktopGUI
 					global $ilUser;
 
 					$frm_obj = ilObjectFactory::getInstanceByRefId($item['id']);
+					$this->lng->loadLanguageModule('forum');
 
 					$num_unread = $frm_obj->getCountUnread($ilUser->getId());
-
-					$tpl->setCurrentBlock("frm_info");
-					$tpl->setVariable("TXT_FRM_INFO",$this->lng->txt('articels_unread').' '.$num_unread);
-					$tpl->parseCurrentBlock();
+					$num_new = $frm_obj->getCountNew($ilUser->getId());
+					
+					if($num_unread)
+					{
+						$tpl->setCurrentBlock("frm_info");
+						$tpl->setVariable("TXT_FRM_INFO",$this->lng->txt('articels_unread').' '.$num_unread.' '.
+										  $this->lng->txt('forums_new_articles').': '.$num_new);
+						$tpl->parseCurrentBlock();
+					}
 				}
 
 				// show link
