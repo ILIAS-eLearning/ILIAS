@@ -451,14 +451,14 @@ class ilGroupGUI extends ilObjectGUI
 		if(isset($_POST["user_id"]))
 			$member_ids = $_POST["user_id"];
 		else
-		{	
+		{
 			if(isset($_GET["mem_id"]))
 			{
 			$member_ids[0] = $_GET["mem_id"];
 			}
 			else
 			{
-				$this->ilias->raiseError($this->lng->txt("usr_not_chosen"),$this->ilias->error_obj->MESSAGE);
+				$this->ilias->raiseError($this->lng->txt("user_not_chosen"),$this->ilias->error_obj->MESSAGE);
 			}
 		}
 
@@ -755,6 +755,7 @@ class ilGroupGUI extends ilObjectGUI
 		if (isset($_SESSION["saved_post"]["user_id"]) && in_array($this->ilias->account->getId(),$this->object->getGroupAdminIds()) || $rbacsystem->checkAccess('delete',$this->ref_id,'usr') )
 		{
 			//User needs to have administrative rights to remove members...
+
 			foreach($_SESSION["saved_post"]["user_id"] as $member_id)
 			{
 				$err_msg = $this->object->removeMember($member_id);
@@ -1698,9 +1699,22 @@ class ilGroupGUI extends ilObjectGUI
 		$user_ids = array();
 
 		if(isset($_POST["user_id"]))
+		{
 			$user_ids = $_POST["user_id"];
-		else if(isset($_GET["mem_id"]))
-			$user_ids = $_GET["mem_id"];
+		}
+		else
+		{
+			if(isset($_GET["mem_id"]))
+			{
+				$user_ids = $_GET["mem_id"];
+			}
+			else
+			{
+				sendInfo($this->lng->txt("user_not_chosen"),true);
+				header("location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
+				exit;
+			}
+		}
 		if(isset($user_ids))
 		{
 			$confirm = "confirmedRemoveMember";
@@ -1712,7 +1726,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		else
 		{
-			sendInfo($this->lng->txt("You have to choose at least one user !"),true);
+			sendInfo($this->lng->txt("user_not_chosen"),true);
 			header("location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 		}
 	}
