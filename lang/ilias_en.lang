@@ -291,10 +291,10 @@ assessment#:#tst_mark_official_form#:#Official form
 assessment#:#tst_mark_passed#:#Passed
 assessment#:#tst_mark_short_form#:#Short form
 assessment#:#tst_maximum_points#:#Maximum points
-assessment#:#tst_missing_title#:#You don't have entered a test title! Please go to the meta data section and enter a title.
 assessment#:#tst_missing_author#:#You don't have entered the authors name in the test properties! Please add an authors name.
-assessment#:#tst_missing_questions#:#You don't have any questions in the test! Please add at least one question into the test.
 assessment#:#tst_missing_marks#:#You don't have a mark schema in the test! Please add at least a simple mark schema into the test.
+assessment#:#tst_missing_questions#:#You don't have any questions in the test! Please add at least one question into the test.
+assessment#:#tst_missing_title#:#You don't have entered a test title! Please go to the meta data section and enter a title.
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.
@@ -355,11 +355,11 @@ assessment#:#tst_stat_users_intro#:#Show statistical evaluation for
 assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool
 assessment#:#tst_status_completed#:#completed
 assessment#:#tst_status_completed_more_tries_possible#:#Completed
-assessment#:#tst_status_not_entered#:#Not started
-assessment#:#tst_status_progress#:#In progress
-assessment#:#tst_status_ok#:#The status of the test is OK. There are no missing elements.
 assessment#:#tst_status_missing#:#There are required elements missing in this test!
 assessment#:#tst_status_missing_elements#:#The following elements are missing:
+assessment#:#tst_status_not_entered#:#Not started
+assessment#:#tst_status_ok#:#The status of the test is OK. There are no missing elements.
+assessment#:#tst_status_progress#:#In progress
 assessment#:#tst_time_already_spent#:#Time already spent working
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
@@ -3705,10 +3705,13 @@ survey#:#survey_skip_start#:#skip and go to start page
 survey#:#survey_start#:#save and go to start page
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
 survey#:#svy_delete_all_user_data#:#Delete all user data
-survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.
 survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.
 survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.
+survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.
 survey#:#svy_statistical_evaluation#:#Statistical evaluation
+survey#:#svy_status_missing#:#There are required elements missing in this survey!
+survey#:#svy_status_missing_elements#:#The following elements are missing:
+survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
@@ -3717,12 +3720,9 @@ survey#:#upper_limit#:#Upper limit
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
 survey#:#users_answered#:#Users answered
 survey#:#users_skipped#:#Users skipped
-survey#:#warning_question_not_complete#:#The question is not complete!
-survey#:#warning_survey_not_complete#:#The survey is not complete!
 survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
-survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.
-survey#:#svy_status_missing#:#There are required elements missing in this survey!
-survey#:#svy_status_missing_elements#:#The following elements are missing:
+survey#:#warning_question_not_complete#:#The question is not complete!
+survey#:#warning_survey_not_complete#:#The survey is not complete!

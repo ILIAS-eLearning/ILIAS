@@ -185,6 +185,7 @@ assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
 assessment#:#material_file#:#Material file###23 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
 assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
+assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!###13 Sep 2004 new variable
 assessment#:#next_question_rows#:#Questions %d - %d of %d >>###27 Jun 2004 new variable
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
@@ -290,6 +291,10 @@ assessment#:#tst_mark_official_form#:#Official form###20 Feb 2004 new variable
 assessment#:#tst_mark_passed#:#Passed###20 Feb 2004 new variable
 assessment#:#tst_mark_short_form#:#Short form###20 Feb 2004 new variable
 assessment#:#tst_maximum_points#:#Maximum points###11 Mar 2004 new variable
+assessment#:#tst_missing_author#:#You don't have entered the authors name in the test properties! Please add an authors name.###13 Sep 2004 new variable
+assessment#:#tst_missing_marks#:#You don't have a mark schema in the test! Please add at least a simple mark schema into the test.###13 Sep 2004 new variable
+assessment#:#tst_missing_questions#:#You don't have any questions in the test! Please add at least one question into the test.###13 Sep 2004 new variable
+assessment#:#tst_missing_title#:#You don't have entered a test title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
 assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
 assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###23 Feb 2004 new variable
 assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###23 Feb 2004 new variable
@@ -350,7 +355,10 @@ assessment#:#tst_stat_users_intro#:#Show statistical evaluation for###20 Mar 200
 assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool###20 Mar 2004 new variable
 assessment#:#tst_status_completed#:#completed###12 Mar 2004 new variable
 assessment#:#tst_status_completed_more_tries_possible#:#(completed)###12 Mar 2004 new variable
+assessment#:#tst_status_missing#:#There are required elements missing in this test!###13 Sep 2004 new variable
+assessment#:#tst_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
 assessment#:#tst_status_not_entered#:#not entered###12 Mar 2004 new variable
+assessment#:#tst_status_ok#:#The status of the test is OK. There are no missing elements.###13 Sep 2004 new variable
 assessment#:#tst_status_progress#:#in progress###12 Mar 2004 new variable
 assessment#:#tst_time_already_spent#:#Time already spent working###29 Aug 2004 new variable
 assessment#:#tst_type#:#Test type###06 Mar 2004 new variable
@@ -364,6 +372,8 @@ assessment#:#unlock#:#Unlock###27 Apr 2004 new variable
 assessment#:#unlock_question#:#This question is in use of at least one test and there are %s submitted results. If you choose to unlock the question the complete test results of the affected users will be deleted after saving this question. If you want to use a changed version of this question but you don't want to delete the users test results, you can duplicate the question in the question pool and change that version.###27 Apr 2004 new variable
 assessment#:#upload_imagemap#:#Upload an Image map###19 Jun 2004 new variable
 assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
+assessment#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable
+assessment#:#warning_test_not_complete#:#The test is not complete!###13 Sep 2004 new variable
 assessment#:#when#:#when###17 Aug 2004 new variable
 assessment#:#width#:#Width###19 May 2004 new variable
 assessment#:#with_order#:#with order###30 Aug 2004 new variable
@@ -3695,7 +3705,13 @@ survey#:#survey_skip_start#:#<<< skip and go to start page###01 Jun 2004 new var
 survey#:#survey_start#:#<<< save and go to start page###01 Jun 2004 new variable
 survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
 survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.###13 Sep 2004 new variable
+survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.###13 Sep 2004 new variable
+survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
 survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new variable
+survey#:#svy_status_missing#:#There are required elements missing in this survey!###13 Sep 2004 new variable
+survey#:#svy_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
+survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.###13 Sep 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
@@ -3708,3 +3724,5 @@ survey#:#value_nr_entered#:#Number of users that entered that value###04 Jun 200
 survey#:#values#:#Values###04 Jun 2004 new variable
 survey#:#view_phrase#:#View phrase###31 May 2004 new variable
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.###04 Jun 2004 new variable
+survey#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable
+survey#:#warning_survey_not_complete#:#The survey is not complete!###13 Sep 2004 new variable
