@@ -34,7 +34,6 @@ require_once "classes/class.perm.php";
 require_once "classes/class.tree.php";
 require_once "classes/class.Language.php";
 require_once "classes/class.Log.php";
-require_once "classes/class.UserMail.php";
 
 //include role based access control system
 require_once "classes/class.rbacAdmin.php";
@@ -91,7 +90,7 @@ if ($script != "login.php" && $script != "index.php")
 	//get user id
 	if (empty($_SESSION["AccountId"]))
 	{
-		$_SESSION["AccountId"] = $ilias->account->getUserId($_SESSION["AccountId"]);
+		$_SESSION["AccountId"] = $ilias->account->checkUserId($_SESSION["AccountId"]);
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new RbacReviewH();
 		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);			
