@@ -481,10 +481,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
 					}
 				}
 				
-				// move pages
+				// move chapter
 				if ($source_obj->getType() == "st")
 				{
-					/*
+					// check wether target is a chapter
+					if ($target_obj->getType() != "st")
+					{
+						return;
+					}
 					$source_node = $lmtree->getNodeData($source_id);
 					$subnodes = $lmtree->getSubtree($source_node);					
 
@@ -496,9 +500,79 @@ class ilObjContentObjectGUI extends ilObjectGUI
 							return;
 						}
 					}
+
+					$target_pos = $target_id;
 					
-					// delete 
-					$lmtree->delete($node);*/
+					// insert before
+					if ($position == "before")
+					{
+						$target_pos = IL_FIRST_NODE;
+						
+						// look for predecessor chapter on same level
+						$childs = $lmtree->getChildsByType($target_parent, "st");
+						$found = false;
+						foreach ($childs as $child)
+						{
+							if ($child["obj_id"] == $target_id)
+							{
+								$found = true;
+							}
+							if (!$found)
+							{
+								$target_pos = $child["obj_id"];
+							}
+						}
+						
+						// if target_pos is still first node we must skip all pages
+						if ($target_pos == IL_FIRST_NODE)
+						{
+							$pg_childs =& $lmtree->getChildsByType($target_parent, "pg");
+							if (count($pg_childs) != 0)
+							{
+								$target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
+							}
+						}
+					}
+					
+					// insert into
+					if ($position == "into")
+					{
+						$target_parent = $target_id;
+						$target_pos = IL_FIRST_NODE;
+												
+						// if target_pos is still first node we must skip all pages
+						if ($target_pos == IL_FIRST_NODE)
+						{
+							$pg_childs =& $lmtree->getChildsByType($target_parent, "pg");
+							if (count($pg_childs) != 0)
+							{
+								$target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
+							}
+						}
+					}
+
+					
+					// delete source tree
+					$lmtree->deleteTree($source_node);
+					
+					if (!$lmtree->isInTree($source_id))
+					{
+						$lmtree->insertNode($source_id, $target_parent, $target_pos);
+			
+						foreach ($subnodes as $node)
+						{
+							//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($node["child"]);
+							//$obj_data->putInTree($node["parent"]);
+							if($node["obj_id"] != $source_id)
+							{
+								$lmtree->insertNode($node["obj_id"], $node["parent"]);
+							}
+						}
+					}
+			
+					// check the tree
+					$this->object->checkTree();
+
 				}
 
 				break;
