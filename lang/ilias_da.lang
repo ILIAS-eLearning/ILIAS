@@ -2294,6 +2294,8 @@ common#:#webr_active#:#Active###11 Mar 2005 new variable
 common#:#webr_add#:#Add web resource###11 Mar 2005 new variable
 common#:#webr_add_item#:#Add web resource###11 Mar 2005 new variable
 common#:#webr_delete#:#Delete web resource###11 Mar 2005 new variable
+common#:#webr_delete_items#:#Delete Web Resource(s)###16 Mar 2005 new variable
+common#:#webr_deleted_items#:#Deleted Web Resource(s).###16 Mar 2005 new variable
 common#:#webr_disable_check#:#Disable check ###11 Mar 2005 new variable
 common#:#webr_edit#:#Edit web resource###11 Mar 2005 new variable
 common#:#webr_edit_item#:#Edit web resource###11 Mar 2005 new variable
@@ -2309,6 +2311,7 @@ common#:#webr_never_checked#:#Never checked###11 Mar 2005 new variable
 common#:#webr_new#:#Add new web resource###11 Mar 2005 new variable
 common#:#webr_no_items_created#:#No web resources created###11 Mar 2005 new variable
 common#:#webr_read#:#Read access to web resource###11 Mar 2005 new variable
+common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?###16 Mar 2005 new variable
 common#:#webr_visible#:#web resource is visible###11 Mar 2005 new variable
 common#:#webr_write#:#Edit web resource###11 Mar 2005 new variable
 common#:#week#:#Uge

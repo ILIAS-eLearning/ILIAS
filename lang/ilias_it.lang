@@ -846,7 +846,7 @@ common#:#cat_create_spl#:#Creare una raccolta di domande (per sondaggi)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_create_url#:#Creare URL
-common#:#cat_create_webr#:#Creare una risorsa web
+common#:#cat_create_webr#:#Creare una risorsa web###16 Mar 2005 content changed
 common#:#cat_delete#:#Eliminare un contesto
 common#:#cat_edit#:#Propriet&#224; del contesto
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
@@ -902,8 +902,8 @@ common#:#check_link_desc#:#Se abilitato, tutti i link esterni presenti in ILIAS 
 common#:#check_max_allowed_packet_size#:#Le dimensioni del contenuto della pagina sono troppo grandi.
 common#:#check_user_accounts#:#Verifica gli utenti
 common#:#check_user_accounts_desc#:#Se i job nel cron sono attivi e questa opzione &#232; stata scelta, tutti gli utenti la cui registrazione &#232; scaduta saranno informati tramite una e-Mail.
-common#:#check_web_resources#:#Controlla le risorse web
-common#:#check_web_resources_desc#:#Se selezionato verranno controllate tutte le risorse web attive.
+common#:#check_web_resources#:#Controlla le risorse web###16 Mar 2005 content changed
+common#:#check_web_resources_desc#:#Se selezionato verranno controllate tutte le risorse web attive.###16 Mar 2005 content changed
 common#:#checked_files#:#File importabili
 common#:#chg_language#:#Cambia lingua
 common#:#chg_password#:#Cambia password
@@ -989,7 +989,7 @@ common#:#crs_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#crs_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#crs_create_svy#:#Creare un sondaggio
 common#:#crs_create_tst#:#Creare un test
-common#:#crs_create_webr#:#Creare una risorsa web
+common#:#crs_create_webr#:#Creare una risorsa web###16 Mar 2005 content changed
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1339,7 +1339,7 @@ common#:#grp_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#grp_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#grp_create_svy#:#Creare un sondaggio
 common#:#grp_create_tst#:#Creare un test
-common#:#grp_create_webr#:#Creare una nuova risorsa web
+common#:#grp_create_webr#:#Creare una nuova risorsa web###16 Mar 2005 content changed
 common#:#grp_delete#:#Eliminare un gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
@@ -1395,9 +1395,9 @@ common#:#hist_lm:pg_cut#:#Pagina prelevata dal capitolo "%1" [%2]
 common#:#hist_lm:pg_paste#:#Pagina incollata nel capitolo "%1" [%2]
 common#:#hist_lm:pg_update#:#Pagina modificata
 common#:#hist_no_entries#:#Nessuna voce nella storia
-common#:#hist_webr_add#:#Aggiunta nuov risorsa web con titolo: "%1"
-common#:#hist_webr_delete#:#Eliminata risorsa web. Titolo: "%1"
-common#:#hist_webr_update#:#Modificata risorsa web. Titolo: "%1"
+common#:#hist_webr_add#:#Aggiunta nuov risorsa web con titolo: "%1"###16 Mar 2005 content changed
+common#:#hist_webr_delete#:#Eliminata risorsa web. Titolo: "%1"###16 Mar 2005 content changed
+common#:#hist_webr_update#:#Modificata risorsa web. Titolo: "%1"###16 Mar 2005 content changed
 common#:#history#:#Mostra la storia
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Modulo HACP
@@ -1951,7 +1951,7 @@ common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
 common#:#obj_usrf_desc#:#Per amministrare gli utenti.
-common#:#obj_webr#:#Risorsa web
+common#:#obj_webr#:#Risorsa web###16 Mar 2005 content changed
 common#:#object#:#Oggetto
 common#:#object_added#:#Oggetto aggiunto
 common#:#objects#:#Oggetti
@@ -1995,7 +1995,7 @@ common#:#objs_tst#:#Test
 common#:#objs_type#:#Tipi di oggetti
 common#:#objs_url#:#URL
 common#:#objs_usr#:#Utenti
-common#:#objs_webr#:#Risorse web
+common#:#objs_webr#:#Risorse web###16 Mar 2005 content changed
 common#:#of#:#di
 common#:#offline#:#offline
 common#:#offline_version#:#Versione offline
@@ -2530,29 +2530,32 @@ common#:#view#:#Anteprima
 common#:#view_content#:#Vedi il contenuto
 common#:#visible_layers#:#Livelli visibili
 common#:#visits#:#Visite
-common#:#web_resources#:#Risorse web
-common#:#webr#:#Risorsa web
+common#:#web_resources#:#Risorse web###16 Mar 2005 content changed
+common#:#webr#:#Risorsa web###16 Mar 2005 content changed
 common#:#webr_active#:#Attivo
-common#:#webr_add#:#Crea risorsa web
-common#:#webr_add_item#:#Aggiungi risorsa web
-common#:#webr_delete#:#Eliminare una risorse web
+common#:#webr_add#:#Crea risorsa web###16 Mar 2005 content changed
+common#:#webr_add_item#:#Aggiungi risorsa web###16 Mar 2005 content changed
+common#:#webr_delete#:#Eliminare una risorse web###16 Mar 2005 content changed
+common#:#webr_delete_items#:#Delete Web Resource(s)###16 Mar 2005 new variable
+common#:#webr_deleted_items#:#Deleted Web Resource(s).###16 Mar 2005 new variable
 common#:#webr_disable_check#:#Disabilita controllo
-common#:#webr_edit#:#Modifica risorsa web
-common#:#webr_edit_item#:#Modifica risorsa web
+common#:#webr_edit#:#Modifica risorsa web###16 Mar 2005 content changed
+common#:#webr_edit_item#:#Modifica risorsa web###16 Mar 2005 content changed
 common#:#webr_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#webr_fillout_all#:#Per favore completa tutti i campi richiesti.
 common#:#webr_item_updated#:#Modifiche salvate
-common#:#webr_join#:#Sottoscrivere una risorsa web
+common#:#webr_join#:#Sottoscrivere una risorsa web###16 Mar 2005 content changed
 common#:#webr_last_check#:#Ultimo controllo
 common#:#webr_last_check_table#:#Ultimo controllo:
-common#:#webr_leave#:#Annullare la sottoscrizione alla risorsa web
+common#:#webr_leave#:#Annullare la sottoscrizione alla risorsa web###16 Mar 2005 content changed
 common#:#webr_modified_items#:#Modifiche salvate
 common#:#webr_never_checked#:#Controllo mai effettuato
-common#:#webr_new#:#Nuova risorsa web
-common#:#webr_no_items_created#:#Nessuna risorsa web presente
-common#:#webr_read#:#Accedere in lettura alle risorse web
-common#:#webr_visible#:#Vedere le risorse web
-common#:#webr_write#:#Modificare le risorse web
+common#:#webr_new#:#Nuova risorsa web###16 Mar 2005 content changed
+common#:#webr_no_items_created#:#Nessuna risorsa web presente###16 Mar 2005 content changed
+common#:#webr_read#:#Accedere in lettura alle risorse web###16 Mar 2005 content changed
+common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?###16 Mar 2005 new variable
+common#:#webr_visible#:#Vedere le risorse web###16 Mar 2005 content changed
+common#:#webr_write#:#Modificare le risorse web###16 Mar 2005 content changed
 common#:#webservices#:#Webservices
 common#:#week#:#Settimana
 common#:#weekly#:#weekly###11 Mar 2005 new variable

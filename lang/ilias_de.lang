@@ -845,7 +845,7 @@ common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_create_url#:#Neue URL anlegen
-common#:#cat_create_webr#:#Neue Web-Resource anlegen
+common#:#cat_create_webr#:#Neue Web-Resource anlegen###16 Mar 2005 content changed
 common#:#cat_delete#:#Kategorie löschen
 common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
@@ -901,8 +901,8 @@ common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten n
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
 common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer deren Zugang zeitlich begrenzt ist 2 Wochen vor Ablauf darüber informiert.
-common#:#check_web_resources#:#Web-Resourcen überprüfen
-common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Web-Resourcen nach ungültigen externen Links überprüft.
+common#:#check_web_resources#:#Web-Resourcen überprüfen###16 Mar 2005 content changed
+common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Web-Resourcen nach ungültigen externen Links überprüft.###16 Mar 2005 content changed
 common#:#checked_files#:#Importierbare Dateien
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
@@ -988,7 +988,7 @@ common#:#crs_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#crs_create_svy#:#Neue Umfrage anlegen
 common#:#crs_create_tst#:#Neuen Test anlegen
-common#:#crs_create_webr#:#Neue Web-Resource anlegen
+common#:#crs_create_webr#:#Neue Web-Resource anlegen###16 Mar 2005 content changed
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
@@ -1338,7 +1338,7 @@ common#:#grp_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
 common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#grp_create_svy#:#Neue Umfrage anlegen
 common#:#grp_create_tst#:#Neuen Test anlegen
-common#:#grp_create_webr#:#Neue Web-Resource anlegen
+common#:#grp_create_webr#:#Neue Web-Resource anlegen###16 Mar 2005 content changed
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?
@@ -1394,9 +1394,9 @@ common#:#hist_lm:pg_cut#:#Seite ausgeschnitten aus Kapitel "%1" [%2]
 common#:#hist_lm:pg_paste#:#Seite eingefügt in Kapitel "%1" [%2]
 common#:#hist_lm:pg_update#:#Seite verändert
 common#:#hist_no_entries#:#Keine Einträge im Verlauf
-common#:#hist_webr_add#:#Neue Web-Resource angelegt mit Titel: "%1"
-common#:#hist_webr_delete#:#Web-Resource wurde gelöscht. Titel: "%1"
-common#:#hist_webr_update#:#Web-Resource wurde aktualisiert. Titel: "%1"
+common#:#hist_webr_add#:#Neue Web-Resource angelegt mit Titel: "%1"###16 Mar 2005 content changed
+common#:#hist_webr_delete#:#Web-Resource wurde gelöscht. Titel: "%1"###16 Mar 2005 content changed
+common#:#hist_webr_update#:#Web-Resource wurde aktualisiert. Titel: "%1"###16 Mar 2005 content changed
 common#:#history#:#Verlauf
 common#:#hits_per_page#:#Treffer/Seite
 common#:#hlm#:#Lernmodul HACP
@@ -1952,7 +1952,7 @@ common#:#obj_uset#:#Benutzereinstellungen
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
-common#:#obj_webr#:#Web-Resource
+common#:#obj_webr#:#Web-Resource###16 Mar 2005 content changed
 common#:#object#:#Objekt
 common#:#object_added#:#Objekt hinzugefügt
 common#:#objects#:#Objekte
@@ -1996,7 +1996,7 @@ common#:#objs_tst#:#Tests
 common#:#objs_type#:#Objekttypen
 common#:#objs_url#:#URLs
 common#:#objs_usr#:#Benutzer
-common#:#objs_webr#:#Web-Resourcen
+common#:#objs_webr#:#Web-Resourcen###16 Mar 2005 content changed
 common#:#of#:#von
 common#:#offline#:#Offline
 common#:#offline_version#:#Offline Version
@@ -2531,29 +2531,32 @@ common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
-common#:#web_resources#:#Web-Resourcen
-common#:#webr#:#Web-Resource
+common#:#web_resources#:#Web-Resourcen###16 Mar 2005 content changed
+common#:#webr#:#Web-Resource###16 Mar 2005 content changed
 common#:#webr_active#:#Aktiv
-common#:#webr_add#:#Web-Resource hinzufügen
-common#:#webr_add_item#:#Web-Resource hinzufügen
-common#:#webr_delete#:#Web-Resource löschen
+common#:#webr_add#:#Web-Resource hinzufügen###16 Mar 2005 content changed
+common#:#webr_add_item#:#Web-Resource hinzufügen###16 Mar 2005 content changed
+common#:#webr_delete#:#Web-Resource löschen###16 Mar 2005 content changed
+common#:#webr_delete_items#:#Webresourcen löschen.
+common#:#webr_deleted_items#:#Die Webresource(n) wurde(n) gelöscht.
 common#:#webr_disable_check#:#Überprüfung deaktivieren
-common#:#webr_edit#:#Web-Resource bearbeiten
-common#:#webr_edit_item#:#Web-Resource bearbeiten
+common#:#webr_edit#:#Web-Resource bearbeiten###16 Mar 2005 content changed
+common#:#webr_edit_item#:#Web-Resource bearbeiten###16 Mar 2005 content changed
 common#:#webr_edit_permission#:#Rechteeinstellungen ändern
 common#:#webr_fillout_all#:#Bitte füllen Sie alle Felder aus.
 common#:#webr_item_updated#:#Die Änderungen wurden übernommen
-common#:#webr_join#:#Web-Resource abonnieren
+common#:#webr_join#:#Web-Resource abonnieren###16 Mar 2005 content changed
 common#:#webr_last_check#:#Letzte Überprüfung
 common#:#webr_last_check_table#:#Letzte Überprüfung:
-common#:#webr_leave#:#Web-Resourceabonnement aufheben
+common#:#webr_leave#:#Web-Resourceabonnement aufheben###16 Mar 2005 content changed
 common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
 common#:#webr_never_checked#:#Noch nicht überprüft
-common#:#webr_new#:#Neue Web-Resource anlegen
-common#:#webr_no_items_created#:#Es sind keine Web-Resourcen angelegt
-common#:#webr_read#:#Lesezugriff auf Web-Resource
-common#:#webr_visible#:#Web-Resource ist sichtbar
-common#:#webr_write#:#Web-Resource bearbeiten
+common#:#webr_new#:#Neue Web-Resource anlegen###16 Mar 2005 content changed
+common#:#webr_no_items_created#:#Es sind keine Web-Resourcen angelegt###16 Mar 2005 content changed
+common#:#webr_read#:#Lesezugriff auf Web-Resource###16 Mar 2005 content changed
+common#:#webr_sure_delete_items#:#Sind Sie sicher, daß Sie die folgenden Webresoucen löschen möchten?
+common#:#webr_visible#:#Web-Resource ist sichtbar###16 Mar 2005 content changed
+common#:#webr_write#:#Web-Resource bearbeiten###16 Mar 2005 content changed
 common#:#webservices#:#Web-Services
 common#:#week#:#Woche
 common#:#weekly#:#wöchentlich
@@ -4808,6 +4811,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-common#:#webr_delete_items#:#Webresourcen löschen.
-common#:#webr_sure_delete_items#:#Sind Sie sicher, daß Sie die folgenden Webresoucen löschen möchten?
-common#:#webr_deleted_items#:#Die Webresource(n) wurde(n) gelöscht.
