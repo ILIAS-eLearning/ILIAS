@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.97 2004/09/03 16:24:53 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.98 2004/09/15 05:52:54 shofmann Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -1240,6 +1240,10 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+//  Export tab to export group members to an excel file. Only available for group admins
+//  commented out for following reason: clearance needed with developer list
+//			$tabs_gui->addTarget("export",
+//				$this->ctrl->getLinkTarget($this, "export"), "export", get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
@@ -1905,5 +1909,175 @@ class ilObjGroupGUI extends ilObjectGUI
 			$this->editObject();
 		}
 	}
+	
+/**
+* Creates the output form for group member export
+*
+* Creates the output form for group member export
+*
+*/
+	function exportObject()
+	{
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.grp_members_export.html");
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("export",$this->ctrl->getFormAction($this)));
+		$this->tpl->setVariable("BUTTON_EXPORT", $this->lng->txt("export_group_members"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
+* Exports group members to Microsoft Excel file
+*
+* Exports group members to Microsoft Excel file
+*
+*/
+	function exportMembersObject()
+	{
+		require_once './classes/Spreadsheet/Excel/Writer.php';
+		// Creating a workbook
+		$workbook = new Spreadsheet_Excel_Writer();
+
+		// sending HTTP headers
+		$title = preg_replace("/\s/", "_", $this->object->getTitle());
+		$workbook->send("export_" . $title . ".xls");
+
+		// Creating a worksheet
+		$format_bold =& $workbook->addFormat();
+		$format_bold->setBold();
+		$format_percent =& $workbook->addFormat();
+		$format_percent->setNumFormat("0.00%");
+		$format_datetime =& $workbook->addFormat();
+		$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
+		$format_title =& $workbook->addFormat();
+		$format_title->setBold();
+		$format_title->setColor('black');
+		$format_title->setPattern(1);
+		$format_title->setFgColor('silver');
+		$worksheet =& $workbook->addWorksheet();
+		$column = 0;
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("email")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("gender")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("firstname")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("lastname")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("person_title")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("institution")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("department")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("street")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("zipcode")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("city")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("country")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("phone_office")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("phone_home")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("phone_mobile")), $format_title);
+		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("fax")), $format_title);
+		$member_ids = $this->object->getGroupMemberIds($this->object->getRefId());
+		$row = 1;
+		foreach ($member_ids as $member_id)
+		{
+			$column = 0;
+			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
+			$worksheet->writeString($row, $column++, $this->cleanString($member->getEmail()));
+			$worksheet->writeString($row, $column++, $this->cleanString($this->lng->txt("gender_" . $member->getGender())));
+			$worksheet->writeString($row, $column++, $this->cleanString($member->getFirstname()));
+			$worksheet->writeString($row, $column++, $this->cleanString($member->getLastname()));
+			$worksheet->writeString($row, $column++, $this->cleanString($member->getUTitle()));
+			if ($member->getPref("public_institution")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getInstitution()));
+			}
+			else
+			{
+				$column++;
+			}
+			if ($member->getPref("public_department")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getDepartment()));
+			}
+			else
+			{
+				$column++;
+			}
+			if ($member->getPref("public_street")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getStreet()));
+			}
+			else
+			{
+				$column++;
+			}
+			if ($member->getPref("public_zip")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getZipcode()));
+			}
+			else
+			{
+				$column++;
+			}
+			if ($member->getPref("public_city")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getCity()));
+			}
+			else
+			{
+				$column++;
+			}
+			if ($member->getPref("public_country")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getCountry()));
+			}
+			else
+			{
+				$column++;
+			}
+			if ($member->getPref("public_phone_office")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getPhoneOffice()));
+			}
+			else
+			{
+				$column++;
+			}
+			if ($member->getPref("public_phone_home")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getPhoneHome()));
+			}
+			else
+			{
+				$column++;
+			}
+			if ($member->getPref("public_phone_mobile")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getPhoneMobile()));
+			}
+			else
+			{
+				$column++;
+			}
+			if ($member->getPref("public_fax")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getFax()));
+			}
+			else
+			{
+				$column++;
+			}
+			$row++;
+		}
+		$workbook->close();
+	}
+	
+/**
+* Clean output string from german umlauts
+*
+* Clean output string from german umlauts. Replaces ä -> ae etc.
+*
+* @param string $str String to clean
+* @return string Cleaned string
+*/
+	function cleanString($str)
+	{
+		return str_replace(array("ä","ö","ü","ß","Ä","Ö","Ü"), array("ae","oe","ue","ss","Ae","Oe","Ue"), $str);
+	}
+	
 } // END class.ilObjGroupGUI
 ?>

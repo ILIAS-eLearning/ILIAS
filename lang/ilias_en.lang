@@ -1176,6 +1176,7 @@ common#:#grp_no_roles_selected#:#Please select a role
 common#:#grp_options#:#Options
 common#:#grp_read#:#Read access to Group
 common#:#grp_register#:#Register
+common#:#export_group_members#:#Export group members (to Microsoft Excel)
 common#:#grp_registration_completed#:#Registration completed
 common#:#grp_search_enter_search_string#:#Please enter a search string
 common#:#grp_search_members#:#User search

@@ -166,6 +166,7 @@
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="members">group_members</property>
+	<property name="export">export</property>
 	<property name="shownewRegistrations">group_new_registrations</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
