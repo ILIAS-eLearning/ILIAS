@@ -130,7 +130,7 @@ class ILIAS extends PEAR
 					 "@".$this->ini->readVariable("db", "host").
 					 "/".$this->ini->readVariable("db", "name");
 		
-		$this->db = new DBx($this->dsn);
+		$this->db = new ilDBx($this->dsn);
 			
 		// build option string for PEAR::Auth
 		$this->auth_params = array(
