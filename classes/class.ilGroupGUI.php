@@ -1701,6 +1701,21 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		$fileObj =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
 		$file_name = $fileObj->getFilePath()."/".$fileObj->getFileName();
+		
+		// security check: does requested file exists? (is in a group)
+		$grp_ref_id = ilUtil::getGroupId($fileObj->getrefId()); 
+
+		if ($grp_ref_id === false)
+		{
+			// does not exists; abort
+			return false;
+		}
+
+		// security check: is current user allowed to download the file?
+		if (!$rbacsystem->checkAccess("read",$grp_ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		}
 
 	    // Create download file name to be displayed to user
 	    $save_as_name = basename($file_name);
