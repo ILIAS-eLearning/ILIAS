@@ -867,8 +867,15 @@ class ilContObjParser extends ilSaxParser
 //echo "origin:".$this->media_object->getImportId().":ID:".$this->mob_mapping[$this->media_object->getImportId()]."<br>";
 
 						// update media object
+						
+						$this->meta_data->setId($this->media_object->getId());
+						$this->meta_data->setType("mob");
+						$this->media_object->assignMetaData($this->meta_data);
+						$this->media_object->setTitle($this->meta_data->getTitle());
+						$this->media_object->setDescription($this->meta_data->getDescription());
+
 						$this->media_object->update();
-//echo "update media object :".$this->media_object->getId().":<br>";
+#echo "update media object :".$this->media_object->getId().":<br>";
 
 						// collect mobs with internal links
 						if ($this->media_object->containsIntLink())
@@ -902,6 +909,7 @@ class ilContObjParser extends ilSaxParser
 
 
 			case "MetaData":
+
 				$this->in_meta_data = false;
                 if(get_class($this->current_object) == "illmpageobject" && !$this->in_media_object)
 				{
@@ -1020,6 +1028,7 @@ class ilContObjParser extends ilSaxParser
 					}
 					$this->current_object->update();
 				}
+
 #				echo "Type: " . $this->current_object->getType() . "<br>\n";
 #				echo "Obj.-ID: " . $this->current_object->getId() . "<br>\n";
 				break;
