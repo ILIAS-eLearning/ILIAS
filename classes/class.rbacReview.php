@@ -65,7 +65,7 @@ class RbacReview
 						"usr_id"		=>	$row->usr_id,
 						"login"			=>	$row->login,
 						"firstname"		=>	$row->firstname,
-						"surname"		=>	$row->surname,
+						"lastname"		=>	$row->lastname,
 						"title"			=>	$row->title,
 						"gender"		=>	$row->gender,	
 						"email"			=>	$row->email,
