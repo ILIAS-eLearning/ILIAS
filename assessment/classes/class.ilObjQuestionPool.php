@@ -518,6 +518,25 @@ class ilObjQuestionPool extends ilObject
 		}
 		return $question;
   }
+
+/**
+* Duplicates a question for a questionpool
+*
+* Duplicates a question for a questionpool
+*
+* @param integer $question_id The database id of the question
+* @access public
+*/
+  function duplicateQuestion($question_id) {
+		global $ilUser;
+		
+		$question =& $this->createQuestion("", $question_id);
+    $counter = 2;
+    while ($question->object->questionTitleExists($question->object->getTitle() . " ($counter)")) {
+      $counter++;
+    }
+		$question->object->duplicate(false, $question->object->getTitle() . " ($counter)", $ilUser->fullname, $ilUser->id);
+  }
 	
 } // END class.ilObjQuestionPool
 ?>

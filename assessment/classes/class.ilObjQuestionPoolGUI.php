@@ -417,8 +417,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       // duplicate button was pressed
       if (count($checked_questions) > 0) {
         foreach ($checked_questions as $key => $value) {
-          $question =& $this->object->createQuestion("", $value);
-          $question->object->duplicate();
+					$this->object->duplicateQuestion($value);
         }
       } elseif (count($checked_questions) == 0) {
         sendInfo($this->lng->txt("qpl_duplicate_select_none"));

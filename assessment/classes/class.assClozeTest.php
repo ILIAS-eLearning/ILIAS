@@ -131,7 +131,7 @@ class ASS_ClozeTest extends ASS_Question {
 * @param object $db A pear DB object
 * @access public
 */
-  function saveToDb()
+  function saveToDb($original_id = "")
   {
     global $ilias;
     $db =& $ilias->db;
@@ -145,11 +145,20 @@ class ASS_ClozeTest extends ASS_Question {
 		if (!$this->shuffle)
 			$shuffle = 0;
 
+		if ($original_id)
+		{
+			$original_id = $db->quote($original_id);
+		}
+		else
+		{
+			$original_id = "NULL";
+		}
+
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+        $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote(3),
         $db->quote($this->ref_id),
         $db->quote($this->title),
@@ -160,7 +169,8 @@ class ASS_ClozeTest extends ASS_Question {
         $db->quote($estw_time),
         $db->quote("$this->shuffle"),
 				$db->quote("$complete"),
-        $db->quote($created)
+        $db->quote($created),
+				$original_id
       );
       $result = $db->query($query);
       if ($result == DB_OK) {
@@ -267,6 +277,53 @@ class ASS_ClozeTest extends ASS_Question {
       }
     }
   }
+
+/**
+* Duplicates an ASS_ClozeTest
+*
+* Duplicates an ASS_ClozeTest
+*
+* @access public
+*/
+	function duplicate($for_test = true, $title = "", $author = "", $owner = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+		// duplicate the question in database
+		$clone = $this;
+		$original_id = $this->id;
+		if ($original_id <= 0)
+		{
+			$original_id = "";
+		}
+		$clone->id = -1;
+		if ($title)
+		{
+			$clone->setTitle($title);
+		}
+		if ($author)
+		{
+			$clone->setAuthor($author);
+		}
+		if ($owner)
+		{
+			$clone->setOwner($owner);
+		}
+		if ($for_test)
+		{
+			$clone->saveToDb($original_id);
+		}
+		else
+		{
+			$clone->saveToDb();
+		}
+		// duplicate the materials
+		$clone->duplicateMaterials($original_id);
+		return $clone->id;
+	}
 
 /**
 * Returns a QTI xml representation of the question

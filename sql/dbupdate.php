@@ -3664,3 +3664,5 @@ while ($result_row = $search_result->fetchRow(DB_FETCHMODE_OBJECT))
 <#221>
 UPDATE settings SET value = '3.0.1 2004/06/21' WHERE keyword = 'ilias_version' LIMIT 1;
 
+<#222>
+ALTER  TABLE  `tst_tests`  ADD  `ending_time` varchar(14) default NULL AFTER  `starting_time` ;

@@ -322,7 +322,7 @@ class ASS_MatchingQuestion extends ASS_Question {
 * @param object $db A pear DB object
 * @access public
 */
-  function saveToDb()
+  function saveToDb($original_id = "")
   {
     global $ilias;
     $db =& $ilias->db;
@@ -333,12 +333,21 @@ class ASS_MatchingQuestion extends ASS_Question {
     $estw_time = $this->getEstimatedWorkingTime();
     $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
 
+		if ($original_id)
+		{
+			$original_id = $db->quote($original_id);
+		}
+		else
+		{
+			$original_id = "NULL";
+		}
+
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $now = getdate();
       $question_type = 4;
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, matching_type, points, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, matching_type, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($question_type),
         $db->quote($this->ref_id),
         $db->quote($this->title),
@@ -350,7 +359,8 @@ class ASS_MatchingQuestion extends ASS_Question {
 				$db->quote($this->matching_type),
         $db->quote($this->points),
 				$db->quote("$complete"),
-        $db->quote($created)
+        $db->quote($created),
+				$original_id
       );
       $result = $db->query($query);
       if ($result == DB_OK) {
@@ -448,6 +458,77 @@ class ASS_MatchingQuestion extends ASS_Question {
       }
     }
   }
+
+/**
+* Duplicates an ASS_MatchingQuestion
+*
+* Duplicates an ASS_MatchingQuestion
+*
+* @access public
+*/
+	function duplicate($for_test = true, $title = "", $author = "", $owner = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+		// duplicate the question in database
+		$clone = $this;
+		$original_id = $this->id;
+		if ($original_id <= 0)
+		{
+			$original_id = "";
+		}
+		$clone->id = -1;
+		if ($title)
+		{
+			$clone->setTitle($title);
+		}
+		if ($author)
+		{
+			$clone->setAuthor($author);
+		}
+		if ($owner)
+		{
+			$clone->setOwner($owner);
+		}
+		if ($for_test)
+		{
+			$clone->saveToDb($original_id);
+		}
+		else
+		{
+			$clone->saveToDb();
+		}
+		// duplicate the materials
+		$clone->duplicateMaterials($original_id);
+		// duplicate the image
+		$clone->duplicateImages($original_id);
+		return $clone->id;
+	}
+	
+	function duplicateImages($question_id)
+	{
+		if ($this->get_matching_type() == MT_TERMS_PICTURES)
+		{
+			$imagepath = $this->getImagePath();
+			$imagepath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $imagepath);
+			if (!file_exists($imagepath)) {
+				ilUtil::makeDirParents($imagepath);
+			}
+			foreach ($this->matchingpairs as $answer)
+			{
+				$filename = $answer->get_matchingtext();
+				if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
+					print "image could not be duplicated!!!! ";
+				}
+				if (!copy($imagepath_original . $filename . ".thumb.jpg", $imagepath . $filename . ".thumb.jpg")) {
+					print "image thumbnail could not be duplicated!!!! ";
+				}
+			}
+		}
+	}
 
 /**
 * Sets the matching question text

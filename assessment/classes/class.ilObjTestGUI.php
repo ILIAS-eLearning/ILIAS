@@ -139,6 +139,18 @@ class ilObjTestGUI extends ilObjectGUI
 					0
 				);
 			}
+			if (!$_POST["chb_ending_time"]) {
+				$data["ending_time"] = "";
+			} else {
+				$data["ending_time"] = sprintf("%04d%02d%02d%02d%02d%02d",
+					$_POST["ending_date"]["y"],
+					$_POST["ending_date"]["m"],
+					$_POST["ending_date"]["d"],
+					$_POST["ending_time"]["h"],
+					$_POST["ending_time"]["m"],
+					0
+				);
+			}
 			if ($_POST["chb_processing_time"]) {
 				$data["enable_processing_time"] = "1";
 			} else {
@@ -189,6 +201,7 @@ class ilObjTestGUI extends ilObjectGUI
 				);
 			}
 			$data["starting_time"] = $this->object->getStartingTime();
+			$data["ending_time"] = $this->object->getEndingTime();
 		}
 		$data["title"] = $this->object->getTitle();
 		$data["description"] = $this->object->getDescription();
@@ -202,6 +215,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->setReportingDate($data["reporting_date"]);
 		$this->object->setNrOfTries($data["nr_of_tries"]);
 		$this->object->setStartingTime($data["starting_time"]);
+		$this->object->setEndingTime($data["ending_time"]);
 		$this->object->setProcessingTime($data["processing_time"]);
 		$this->object->setEnableProcessingTime($data["enable_processing_time"]);
 		$add_parameter = $this->getAddParameter();
@@ -239,6 +253,23 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHECKED_STARTING_TIME", " checked=\"checked\"");
 			}
 			$this->tpl->setVariable("INPUT_STARTING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("ending_time");
+			$this->tpl->setVariable("TEXT_ENDING_TIME", $this->lng->txt("tst_ending_time"));
+			if (!$data["ending_time"]) {
+				$date_input = ilUtil::makeDateSelect("ending_date");
+				$time_input = ilUtil::makeTimeSelect("ending_time");
+			} else {
+				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $data["ending_time"], $matches);
+				$date_input = ilUtil::makeDateSelect("ending_date", $matches[1], sprintf("%d", $matches[2]), sprintf("%d", $matches[3]));
+				$time_input = ilUtil::makeTimeSelect("ending_time", true, sprintf("%d", $matches[4]), sprintf("%d", $matches[5]), sprintf("%d", $matches[6]));
+			}
+			$this->tpl->setVariable("TXT_ENABLED", $this->lng->txt("enabled"));
+			if ($data["ending_time"]) {
+				$this->tpl->setVariable("CHECKED_ENDING_TIME", " checked=\"checked\"");
+			}
+			$this->tpl->setVariable("INPUT_ENDING_TIME", $this->lng->txt("date") . ": " . $date_input . $this->lng->txt("time") . ": " . $time_input);
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("reporting_date");
@@ -1308,7 +1339,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 				}
 			} else {
-				if ($this->object->startingTimeReached())
+				if (($this->object->startingTimeReached() and (!$this->object->endingTimeReached())) or (!$this->object->getTestType == TYPE_ASSESSMENT))
 				{
 					$this->tpl->setCurrentBlock("start");
 					$this->tpl->setVariable("BTN_START", $this->lng->txt("tst_start_test"));
@@ -1318,8 +1349,16 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					$this->tpl->setCurrentBlock("startingtime");
 					$this->tpl->setVariable("IMAGE_STARTING_TIME", ilUtil::getImagePath("time.gif", true));
-					$this->tpl->setVariable("ALT_STARTING_TIME_NOT_REACHED", $this->lng->txt("starting_time_not_reached"));
-					$this->tpl->setVariable("TEXT_STARTING_TIME_NOT_REACHED", sprintf($this->lng->txt("detail_starting_time_not_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getStartingTime())));
+					if (!$this->object->startingTimeReached())
+					{
+						$this->tpl->setVariable("ALT_STARTING_TIME_NOT_REACHED", $this->lng->txt("starting_time_not_reached"));
+						$this->tpl->setVariable("TEXT_STARTING_TIME_NOT_REACHED", sprintf($this->lng->txt("detail_starting_time_not_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getStartingTime())));
+					}
+					else
+					{
+						$this->tpl->setVariable("ALT_STARTING_TIME_NOT_REACHED", $this->lng->txt("ending_time_reached"));
+						$this->tpl->setVariable("TEXT_STARTING_TIME_NOT_REACHED", sprintf($this->lng->txt("detail_ending_time_reached"), ilFormat::ftimestamp2datetimeDB($this->object->getEndingTime())));
+					}
 					$this->tpl->parseCurrentBlock();
 				}
 			}
@@ -1333,6 +1372,13 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter$add_sequence");
 			$this->tpl->parseCurrentBlock();
 		} else {
+			if ($this->object->endingTimeReached() and ($this->object->getTestType == TYPE_ASSESSMENT))
+			{
+				sendInfo($this->lng->txt("detail_ending_time_reached"));
+				$this->object->setActiveTestUser(1, "", true);
+				$this->outTestResults();
+				return;
+			}
 			$user_question_order =& $this->object->getAllQuestionsForActiveUser();
 			if ($this->sequence <= $this->object->getQuestionCount()) {
 				// show next/previous question
