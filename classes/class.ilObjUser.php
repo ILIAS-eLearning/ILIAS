@@ -254,11 +254,11 @@ class ilObjUser extends ilObject
 			 "phone_office,phone_home,phone_mobile,fax,last_login,last_update,create_date) ".
 			 "VALUES ".
 			 "('".$this->id."','".$this->login."','".md5($this->passwd)."', ".
-			 "'".$this->firstname."','".$this->lastname."', ".
-			 "'".$this->utitle."','".$this->gender."', ".
-			 "'".$this->email."','".$this->hobby."', ".
-			 "'".$this->institution."','".$this->department."','".$this->street."', ".
-			 "'".$this->city."','".$this->zipcode."','".$this->country."', ".
+			 "'".ilUtil::addSlashes($this->firstname)."','".ilUtil::addSlashes($this->lastname)."', ".
+			 "'".ilUtil::addSlashes($this->utitle)."','".$this->gender."', ".
+			 "'".$this->email."','".ilUtil::addSlashes($this->hobby)."', ".
+			 "'".ilUtil::addSlashes($this->institution)."','".ilUtil::addSlashes($this->department)."','".ilUtil::addSlashes($this->street)."', ".
+			 "'".ilUtil::addSlashes($this->city)."','".$this->zipcode."','".ilUtil::addSlashes($this->country)."', ".
 			 "'".$this->phone_office."','".$this->phone_home."',".
 			 "'".$this->phone_mobile."','".$this->fax."', 0, now(), now())";
 
@@ -275,17 +275,17 @@ class ilObjUser extends ilObject
 
 		$q = "UPDATE usr_data SET ".
 			 "gender='".$this->gender."', ".
-			 "title='".$this->utitle."', ".
-			 "firstname='".$this->firstname."', ".
-			 "lastname='".$this->lastname."', ".
+			 "title='".ilUtil::addSlashes($this->utitle)."', ".
+			 "firstname='".ilUtil::addSlashes($this->firstname)."', ".
+			 "lastname='".ilUtil::addSlashes($this->lastname)."', ".
 			 "email='".$this->email."', ".
-			 "hobby='".$this->hobby."', ".
-			 "institution='".$this->institution."', ".
-			 "department='".$this->department."', ".
-			 "street='".$this->street."', ".
-			 "city='".$this->city."', ".
+			 "hobby='".ilUtil::addSlashes($this->hobby)."', ".
+			 "institution='".ilUtil::addSlashes($this->institution)."', ".
+			 "department='".ilUtil::addSlashes($this->department)."', ".
+			 "street='".ilUtil::addSlashes($this->street)."', ".
+			 "city='".ilUtil::addSlashes($this->city)."', ".
 			 "zipcode='".$this->zipcode."', ".
-			 "country='".$this->country."', ".
+			 "country='".ilUtil::addSlashes($this->country)."', ".
 			 "phone_office='".$this->phone_office."', ".
 			 "phone_home='".$this->phone_home."', ".
 			 "phone_mobile='".$this->phone_mobile."', ".

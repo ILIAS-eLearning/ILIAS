@@ -479,7 +479,7 @@ class ilObject
 		$q = "INSERT INTO object_data ".
 			 "(type,title,description,owner,create_date,last_update,import_id) ".
 			 "VALUES ".
-			 "('".$this->type."','".addslashes($this->getTitle())."','".addslashes($this->getDescription())."',".
+			 "('".$this->type."','".ilUtil::addSlashes($this->getTitle())."','".ilUtil::addSlashes($this->getDescription())."',".
 			 "'".$this->ilias->account->getId()."',now(),now(),'".$this->getImportId()."')";
 		$this->ilias->db->query($q);
 
@@ -509,8 +509,8 @@ class ilObject
 	*/
 	function update()
 	{
-//			"title = '".addslashes($this->getTitle())."',".
-//			"description = '".addslashes($this->getDescription())."', ".
+//			"title = '".ilUtil::addSlashes($this->getTitle())."',".
+//			"description = '".ilUtil::addSlashes($this->getDescription())."', ".
 
 
 		$q = "UPDATE object_data ".

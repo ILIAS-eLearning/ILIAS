@@ -102,8 +102,8 @@ function updateObject ($a_obj_id,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TIT
 
 	$q = "UPDATE object_data ".
 		 "SET ".
-		 "title='".addslashes($a_title)."',".
-		 "description='".addslashes($a_desc)."', ".
+		 "title='".ilUtil::addSlashes($a_title)."',".
+		 "description='".ilUtil::addSlashes($a_desc)."', ".
 		 "last_update=now() ".
 		 "WHERE obj_id='".$a_obj_id."'";
 	$ilias->db->query($q);
@@ -136,7 +136,7 @@ function updateObjectValue($a_obj_id,$a_column,$a_value)
 	}
 
 	$q = "UPDATE object_data ".
-		 "SET ".$a_column."='".addslashes($a_value)."',".
+		 "SET ".$a_column."='".ilUtil::addSlashes($a_value)."',".
 		 "last_update=now() ".
 		 "WHERE obj_id='".$a_id."'";
 	$ilias->db->query($q);
@@ -296,7 +296,7 @@ function createNewOperation ($a_operation,$a_description)
 	$q = "INSERT INTO operations ".
 		 "(operation,description) ".
 		 "VALUES ".
-		 "('".addslashes($a_operation)."','".addslashes($a_description)."')";
+		 "('".ilUtil::addSlashes($a_operation)."','".ilUtil::addSlashes($a_description)."')";
 	$ilias->db->query($q);
 	
 	return getLastInsertId();

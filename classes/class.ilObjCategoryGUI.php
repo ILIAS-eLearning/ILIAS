@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de> 
 * @author Sascha Hofmann <shofmann@databay.de> 
-* $Id$Id: class.ilObjCategoryGUI.php,v 1.6 2003/08/28 13:09:21 shofmann Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.7 2003/10/29 13:56:48 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -469,7 +469,7 @@ class ilObjCategoryGUI extends ilObjectGUI
 				$q = "INSERT INTO object_translation ".
 					 "(obj_id,title,description,lang_code,lang_default) ".
 					 "VALUES ".
-					 "(".$this->object->getId().",'".addslashes($this->object->getTitle())."','".addslashes($this->object->getDescription())."','".$val["lang"]."',".$default.")";
+					 "(".$this->object->getId().",'".ilUtil::addSlashes($this->object->getTitle())."','".ilUtil::addSlashes($this->object->getDescription())."','".$val["lang"]."',".$default.")";
 				$this->ilias->db->query($q);
 			}
 
