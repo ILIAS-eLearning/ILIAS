@@ -39,6 +39,14 @@ class ilMailbox
 	var $user_id;
 
 	/**
+	* actions
+	*
+	* @var array contains all possible actions
+	* @access private
+	*/	
+	var $actions;
+
+	/**
 	* default folders which are created for every new user
 	* @var		array
 	* @access	private
@@ -81,6 +89,13 @@ class ilMailbox
 			$this->mtree = new ilTree($this->user_id);
 			$this->mtree->setTableNames($this->table_tree,$this->table_mail_obj_data);
 		}
+
+		$this->actions = array(
+			"move"        => $this->lng->txt("mail_move_to"),
+			"mark_read"   => $this->lng->txt("mail_mark_read"),
+			"mark_unread" => $this->lng->txt("mail_mark_unread"),
+			"delete"      => $this->lng->txt("delete"));
+
 		
 		// array contains basic folders and there lng translation for every new user
 		$this->default_folder = array(
@@ -151,6 +166,26 @@ class ilMailbox
 	function getRootFolderId()
 	{
 		return $this->mtree->getRootID($this->user_id);
+	}
+
+	/**
+	* get all possible actions if no mobj_id is given
+	* or folder specific actions if mobj_id is given
+	* @param int mobj_id
+	* @access	public
+	* @return	array possible actions
+	*/
+	function getActions($a_mobj_id)
+	{
+		if($a_mobj_id)
+		{
+			$folder_data = $this->getFolderData($a_mobj_id);
+			if($folder_data["type"] == "user_folder" or $folder_data["type"] == "local")
+			{
+				return array_merge($this->actions,array("add" => $this->lng->txt("mail_add_subfolder")));
+			}
+		}
+		return $this->actions;
 	}
 
 	/**

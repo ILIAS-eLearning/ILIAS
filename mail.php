@@ -29,18 +29,19 @@ if(!$_GET["mobj_id"])
 {
 	$_GET["mobj_id"] = $mbox->getInboxFolder();
 }
+
 // IF REQUESTED FROM mail_read.php
 if(isset($_GET["mail_id"]))
 {
-	$_POST["cmd"] = 'delete';
+	$_POST["cmd"]["submit"] = true;
+	$_POST["action"] = 'delete';
 	$_POST["mail_id"] = array($_GET["mail_id"]);
 }	
-
 setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
-if ($_POST["cmd"] != "")
+if (isset($_POST["cmd"]["submit"]))
 {
-	switch ($_POST["cmd"])
+	switch ($_POST["action"])
 	{
 		case 'mark_read':
 			if(is_array($_POST["mail_id"]))
@@ -67,38 +68,14 @@ if ($_POST["cmd"] != "")
 			// IF MAILBOX IS TRASH ASK TO CONFIRM
 			if($mbox->getTrashFolder() == $_GET["mobj_id"])
 			{
-				if(isset($_POST["confirm"]))
+				if(!is_array($_POST["mail_id"]))
 				{
-					if(!is_array($_POST["mail_id"]))
-					{
-						sendInfo($lng->txt("mail_select_one"));
-					}
-					else if($umail->deleteMails($_POST["mail_id"]))
-					{
-						sendInfo($lng->txt("mail_deleted"));
-					}
-					else
-					{
-						sendInfo($lng->txt("mail_delete_error"));
-					}
-					break;
+					sendInfo($lng->txt("mail_select_one"));
+					$error_delete = true;
 				}
-				else if(!isset($_POST["cancel"]))
-				{ 
-					if(!is_array($_POST["mail_id"]))
-					{
-						sendInfo($lng->txt("mail_select_one"));
-						$error_delete = true;
-					}
-					else
-					{
-						sendInfo($lng->txt("mail_sure_delete"));
-					}
-				}
-				else if(isset($_POST["cancel"]))
+				else
 				{
-					header("location: mail.php?mobj_id=$_GET[mobj_id]");
-					exit;
+					sendInfo($lng->txt("mail_sure_delete"));
 				}
 			} // END IF MAILBOX IS TRASH FOLDER
 			else
@@ -131,8 +108,34 @@ if ($_POST["cmd"] != "")
 			{
 				sendInfo($lng->txt("mail_move_error"));
 			}
-
 			break;
+		case 'add':
+			header("location: mail_options.php?mobj_id=$_GET[mobj_id]&cmd=add");
+			exit;
+	}
+}
+// ONLY IF FOLDER IS TRASH, IT WAS ASKED FOR CONFIRMATION
+if($mbox->getTrashFolder() == $_GET["mobj_id"])
+{
+	if(isset($_POST["cmd"]["confirm"]))
+	{
+		if(!is_array($_POST["mail_id"]))
+		{
+			sendInfo($lng->txt("mail_select_one"));
+		}
+		else if($umail->deleteMails($_POST["mail_id"]))
+		{
+			sendInfo($lng->txt("mail_deleted"));
+		}
+		else
+		{
+			sendInfo($lng->txt("mail_delete_error"));
+		}
+	}
+	if(isset($_POST["cmd"]["cancel"]))
+	{
+		header("location: mail.php?mobj_id=$_GET[mobj_id]");
+		exit;
 	}
 }
 
@@ -141,7 +144,7 @@ include("./include/inc.mail_buttons.php");
 $tpl->setVariable("ACTION", "mail.php?mobj_id=$_GET[mobj_id]");
 
 // BEGIN CONFIRM_DELETE
-if($_POST["cmd"] == "delete" and !$error_delete and !isset($_POST["confirm"]) and $mbox->getTrashFolder() == $_GET["mobj_id"])
+if($_POST["action"] == "delete" and !$error_delete and !isset($_POST["cmd"]["confirm"]) and $mbox->getTrashFolder() == $_GET["mobj_id"])
 {
 	$tpl->setCurrentBlock("CONFIRM_DELETE");
 	$tpl->setVariable("BUTTON_CONFIRM",$lng->txt("confirm"));
@@ -150,14 +153,14 @@ if($_POST["cmd"] == "delete" and !$error_delete and !isset($_POST["confirm"]) an
 }
 
 // BEGIN MAIL ACTIONS
-$actions = $umail->getActions();
+$actions = $mbox->getActions($_GET["mobj_id"]);
 
 $tpl->setCurrentBlock("mailactions");
 foreach($actions as $key => $action)
 {
 	$tpl->setVariable("MAILACTION_NAME", $key);
 	$tpl->setVariable("MAILACTION_VALUE", $action);
-	$tpl->setVariable("MAILACTION_SELECTED",$_POST["cmd"] == 'delete' ? 'selected' : '');
+	$tpl->setVariable("MAILACTION_SELECTED",$_POST["action"] == 'delete' ? 'selected' : '');
 	$tpl->parseCurrentBlock();
 }
 // END MAIL ACTIONS
