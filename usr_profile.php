@@ -86,36 +86,70 @@ function upload_file()
 	$ilias->account->setPref("profile_image", $store_file);
 	$ilias->account->update();
 
+	$tempfile = tempnam ("/tmp", "usr_profile_");
+	$pathinfo = pathinfo($tempfile);
 	//
-	move_uploaded_file($_FILES["userfile"]["tmp_name"],$target_file);
-	chmod($target_file, 0770);
+	move_uploaded_file($_FILES["userfile"]["tmp_name"], $tempfile);
+	chmod($tempfile, 0770);
+	$show_file = $tempfile . ".jpg";
+	$thumb_file = $tempfile . "_small.jpg";
+	$xthumb_file = $tempfile . "_xsmall.jpg";
+	$xxthumb_file = $tempfile . "_xxsmall.jpg";
 
-	// got file name (ex-usr_6.jpg) change then convert it to
-	// the appropriate size and only jpg format
-	$rename_file = "usr_".$ilias->account->getId().
-		".".$path_info["extension"];
-	$part = explode(".",$rename_file);
-	$show_file = $image_dir."/".$part[0].".jpg";
-	$thumb_file = $image_dir."/".$part[0]."_small.jpg";
-	$xthumb_file = $image_dir."/".$part[0]."_xsmall.jpg";
-	$xxthumb_file = $image_dir."/".$part[0]."_xxsmall.jpg";
+	// take quality 100 to avoid jpeg artefacts when uploading jpeg files
+	// taking only frame [0] to avoid problems with animated gifs
+	system(ilUtil::getConvertCmd()." $tempfile" . "[0] -geometry 200x200 -quality 100 JPEG:$show_file");
+	system(ilUtil::getConvertCmd()." $tempfile" . "[0] -geometry 100x100 -quality 100 JPEG:$thumb_file");
+	system(ilUtil::getConvertCmd()." $tempfile" . "[0] -geometry 75x75 -quality 100 JPEG:$xthumb_file");
+	system(ilUtil::getConvertCmd()." $tempfile" . "[0] -geometry 30x30 -quality 100 JPEG:$xxthumb_file");
 
-	if (@is_file($thumb_file))
+	$error = 0;
+	$files = array(
+		"$show_file"  => "$image_dir/usr_" . $ilias->account->getId() . ".jpg", 
+		"$thumb_file" => "$image_dir/usr_" . $ilias->account->getId() . "_small.jpg",
+		"$xthumb_file" => "$image_dir/usr_" . $ilias->account->getId() . "_xsmall.jpg", 
+		"$xxthumb_file" => "$image_dir/usr_" . $ilias->account->getId() . "_xxsmall.jpg"
+	);
+	foreach ($files as $sourcefile => $destfile)
 	{
-		unlink($thumb_file);
-	}
-
-	if (@is_file($thumb_file))
-	{
-		unlink($show_file);
+		if (@!is_file($sourcefile))
+		{
+			if (@!is_file($sourcefile . ".0"))
+			{
+				$error += 1;
+			}
+			else
+			{
+				if (!@copy($sourcefile . ".0", $destfile))
+				{
+					$error += 1;
+				}
+				else
+				{
+					chmod($destfile, 0770);
+				}			
+			}
+		}
+		else
+		{
+			if (!@copy($sourcefile, $destfile))
+			{
+				$error += 1;
+			}
+			else
+			{
+				chmod($destfile, 0770);
+			}
+		}
 	}
 	
-	system(ilUtil::getConvertCmd()." $target_file -geometry 200x200 JPEG:$show_file");
-	system(ilUtil::getConvertCmd()." $target_file -geometry 100x100 JPEG:$thumb_file");
-	system(ilUtil::getConvertCmd()." $target_file -geometry 75x75 JPEG:$xthumb_file");
-	system(ilUtil::getConvertCmd()." $target_file -geometry 30x30 JPEG:$xxthumb_file");
+	// delete the temporary files
+	foreach(glob($tempfile . "*") as $fn) 
+	{
+		unlink($fn);
+	}
 
-	if (!@is_file($thumb_file))
+	if ($error)
 	{
 		//$ilias->raiseError($lng->txt("image_gen_unsucc"), $ilias->error_obj->MESSAGE);
 		sendInfo($lng->txt("image_gen_unsucc"), true);
