@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.27 2003/07/07 17:46:57 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.28 2003/07/08 11:59:57 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -87,7 +87,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	}
 
 	/**
-	* display permission template
+	* display permission settings template
 	*
 	* @access	public
 	*/
@@ -101,8 +101,18 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		else
 		{
+			// BEGIN OBJECT_TYPES
 			// get all object type definitions
 			$obj_data = getObjectList("typ","title","ASC");
+
+			foreach ($obj_data as $key => $type)
+			{
+				$ops_arr = $rbacreview->getOperationsOnType($type["obj_id"]);
+				if (empty($ops_arr))
+				{
+					unset($obj_data[$key]);				
+				}
+			}
 			
 			// for local roles display only the permissions settings for allowed subobjects 
 			if ($_GET["ref_id"] != ROLE_FOLDER_ID)
@@ -120,15 +130,15 @@ class ilObjRoleGUI extends ilObjectGUI
 						unset($obj_data[$key]);
 					}
 				}
-			}
+			} // end if local roles
 
-			// BEGIN OBJECT_TYPES
+			// normal processing
 			foreach ($obj_data as $data)
 			{
 				$output["obj_types"][] = $data["title"];
 			}
-
 			// END OBJECT TYPES
+
 			$all_ops = getOperationList();
 
 			// BEGIN TABLE_DATA_OUTER
