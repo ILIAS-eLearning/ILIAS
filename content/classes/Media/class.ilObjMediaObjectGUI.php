@@ -98,7 +98,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				break;
 
 			default:
-				if (isset($_POST["editImagemapForward"]))
+				if (isset($_POST["editImagemapForward"]) ||
+					isset($_POST["editImagemapForward_x"]) ||
+					isset($_POST["editImagemapForward_y"]))
 				{
 					$cmd = "editImagemapForward";
 				}
