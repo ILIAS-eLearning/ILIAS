@@ -11,18 +11,21 @@ class ilUtil
 {
 	/**
 	* Builds an html image tag
+	* @access	public
 	* @param	string	object type
 	* @param	string	tpl path
-	* @param	string  html image tag
 	*/
 	function getImageTagByType($a_type,$a_path)
 	{
-		return "<img src=\"".$a_path."/images/"."icon_".$a_type."_b.gif\" border=\"0\"/>";
+		global $lng;
+
+		return "<img src=\"".$a_path."/images/"."icon_".$a_type."_b.gif\" alt=\"".$lng->txt($a_type)."\" title=\"".$lng->txt($a_type)."\" border=\"0\" vspace=\"0\"/>";
 	}
 
 	/**
 	* get image path (for images located in a template directory)
 	*
+	* @access	public
 	* @param	string		full image filename (e.g. myimage.gif)
 	* @param	boolean		should be set to true, if the image is within a module
 	*						template directory (e.g. content/templates/default/images/test.gif)
@@ -61,6 +64,8 @@ class ilUtil
 
 	/**
 	* get full style sheet file name (path inclusive) of current user
+	*
+	* @access	public
 	*/
 	function getStyleSheetLocation()
 	{
@@ -79,6 +84,8 @@ class ilUtil
 
 	/**
 	* Builds a select form field with options and shows the selected option first
+	*
+	* @access	public
 	* @param	string	value to be selected
 	* @param	string	variable name in formular
 	* @param	array	array with $options (key = lang_key, value = long name)
@@ -153,6 +160,8 @@ class ilUtil
 
 	/**
 	* ???
+	*
+	* @access	public
 	* @param string
 	* @param string	 
 	*/
