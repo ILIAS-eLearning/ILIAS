@@ -304,9 +304,9 @@ class ilObjCourse extends ilObject
 		{
 			return false;
 		}
-		if(!$this->getActivationUnlimitedStatus())
+		if($this->getActivationUnlimitedStatus())
 		{
-			return false;
+			return true;
 		}
 		if(time() < $this->getActivationStart() or
 		   time() > $this->getActivationEnd())
@@ -353,7 +353,7 @@ class ilObjCourse extends ilObject
 		{
 			$this->appendMessage($this->lng->txt("subscription_times_not_valid"));
 		}
-		if((!$this->getActivationUnlimitedStatus() or
+		if((!$this->getActivationUnlimitedStatus() and
 			!$this->getSubscriptionUnlimitedStatus()) and
 			($this->getSubscriptionStart() > $this->getActivationEnd() or
 			 $this->getSubscriptionStart() < $this->getActivationStart() or

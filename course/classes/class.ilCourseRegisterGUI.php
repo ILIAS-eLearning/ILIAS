@@ -45,7 +45,7 @@ class ilCourseRegisterGUI
 	var $course_id;
 	var $user_id;
 	
-	function ilCourseRegisterGUI($a_course_id = 0)
+	function ilCourseRegisterGUI($a_course_id)
 	{
 		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree;
 
@@ -59,7 +59,7 @@ class ilCourseRegisterGUI
 
 		$this->user_id = $ilias->account->getId();
 
-		$this->course_id = $_GET["ref_id"];
+		$this->course_id = $a_course_id;
 		$this->__initCourseObject();
 	}
 
@@ -163,8 +163,7 @@ class ilCourseRegisterGUI
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_subscription.html",true);
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormActionByClass("ilObjCourseGUI"));
 		
 		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath("icon_crs.gif"));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_crs"));
@@ -234,6 +233,7 @@ class ilCourseRegisterGUI
 		if(!$this->course_obj =& ilObjectFactory::getInstanceByRefId($this->course_id,false))
 		{
 			$this->ilErr->raiseError("ilCourseRegisterGUI: cannot create course object",$this->ilErr->MESSAGE);
+			exit;
 		}
 		$this->course_obj->initCourseMemberObject();
 
