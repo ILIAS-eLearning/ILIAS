@@ -22,7 +22,7 @@
 */
 
 // Datei:       class.Session.inc
-// Benötigt:    mind. 4.0.1pl2
+// Benoetigt:    mind. 4.0.1pl2
 
 /**
 *   "Manueller" Session-Fallback mit PHP4
@@ -39,12 +39,10 @@ class Session {
 //---------------------------------------------------------
 
 /**
-*   Konstruktor - nimmt, wenn gewünscht einen neuen
+*   Konstruktor - nimmt, wenn gewuenscht einen neuen
 *   Session-Namen entgegen
 */    
     function Session($sessionName="SESSID") {
-        global $PHP_SELF;
-
         $this->sendNoCacheHeader();
 
         //  Session-Namen setzen, Session initialisieren   
@@ -54,7 +52,7 @@ class Session {
 
         @session_start();
         
-        //  Prüfen ob die Session-ID die Standardlänge
+        //  PrÃ¼en ob die Session-ID die StandardlÃ¤nge
         //  von 32 Zeichen hat,
         //  ansonsten Session-ID neu setzen 
         if (strlen(session_id()) != 32)
@@ -63,8 +61,8 @@ class Session {
                 session_id(md5(uniqid(mt_rand())));
             }
         
-        //  Prüfen, ob eine Session-ID übergeben wurde
-        //  (über Cookie, POST oder GET)
+        //  PrÃ¼fen, ob eine Session-ID Ã¼bergeben wurde
+        //  (Ã¼ber Cookie, POST oder GET)
         $IDpassed = false;
 
         if  (   isset($_COOKIE[session_name()]) &&
@@ -81,21 +79,21 @@ class Session {
         
         if  (!$IDpassed)  
             {   
-                // Es wurde keine (gültige) Session-ID übergeben.
-                // Script-Parameter der URL zufügen
+                // Es wurde keine (gÃ¼ltige) Session-ID Ã¼bergeben.
+                // Script-Parameter der URL zufÃ¼gen
                 
                 $query = @$_SERVER["QUERY_STRING"] != "" ? "?".$_SERVER["QUERY_STRING"] : "";
              
                 header("Status: 302 Found");
                 
                 // Script terminiert
-                $this->redirectTo($PHP_SELF.$query);
+                $this->redirectTo($_SERVER["PHP_SELF"].$query);
             }
             
-        // Wenn die Session-ID übergeben wurde, muß sie
-        // nicht unbedingt gültig sein!
+        // Wenn die Session-ID Ã¼bergeben wurde, muss sie
+				// nicht unbedingt gÃ¼ltig sein!
         
-        // Für weiteren Gebrauch merken    
+        // FÃ¼r weiteren Gebrauch merken    
         $this->usesCookies =
                        (isset($_COOKIE[session_name()]) &&
                         @strlen($_COOKIE[session_name()])
@@ -106,7 +104,7 @@ class Session {
 /**
 *   Cacheing unterbinden
 *
-*   Ergänze/Override "session.cache_limiter = nocache"
+*   ErgÃ¤nze/Override "session.cache_limiter = nocache"
 *
 *   @param  void
 *   @return void
@@ -121,14 +119,14 @@ class Session {
 
 ### -------------------------------------------------------
 /**
-*   HTTP-Redirect ausführen (header("Location: ...")
+*   HTTP-Redirect ausfÃ¼hren (header("Location: ...")
 *
-*   Diese Methode berücksichtigt auch nicht-standard Ports
+*   Diese Methode berÃ¼cksichtigt auch nicht-standard Ports
 *   und SSL. Ein GET-Parameter beim  wird bei Bedarf
-*   (Session-ID-Fallback) an die URI drangehängt. Nach
+*   (Session-ID-Fallback) an die URI drangehÃ¤ngt. Nach
 *   dem Aufruf dieser Methode wird das aktive Script
 *   beendet und die Kontrolle wird an das Ziel-Script
-*   übergeben.
+*   Ã¼bergeben.
 *
 *   @param  string  Ziel-Datei (z.B. "index.php")
 *   @return void
@@ -144,7 +142,7 @@ class Session {
                             .$pathInfo;
             }
 
-        // Läuft dieses Script auf einem non-standard Port? 
+        // LÃ¤uft dieses Script auf einem non-standard Port? 
         $port    = !preg_match( "/^(80|443)$/",
                                 getenv("SERVER_PORT"),
                                 $portMatch)
@@ -160,10 +158,10 @@ class Session {
 
 ### -------------------------------------------------------
 /**
-*   Entfernt mögliche abschließende "&" und "?"
+*   Entfernt mÃ¶gliche abschlieÃŸende "&" und "?"
 *
 *   @param  string  String
-*   @return string  String ohne abschließende "&" und "?"
+*   @return string  String ohne abschlieÃŸende "&" und "?"
 */
     function removeTrail($pathInfo) {
         $dummy = preg_match("/(.*)(?<!&|\?)/",$pathInfo,$match);
@@ -175,7 +173,7 @@ class Session {
 *   Fallback via GET - wenn Cookies ausgeschaltet sind
 *
 *   @param  string  Ziel-Datei
-*   @return string  Ziel-Datei mit - bei Bedarf - angehängter Session-ID
+*   @return string  Ziel-Datei mit - bei Bedarf - angehÃ¤ngter Session-ID
 */
     function url($pathInfo)  {        
         if ($this->usesCookies || $this->transSID) return $pathInfo;
@@ -192,18 +190,18 @@ class Session {
         // evtl. Query-Delimiter korrigieren
         if (preg_match("/&/",$pathInfo) && !preg_match("/\?/",$pathInfo))
             {
-                // 4ter Parameter für "preg_replace()" erst ab 4.0.1pl2
+                // 4ter Parameter fÃ¼r "preg_replace()" erst ab 4.0.1pl2
                 $pathInfo = preg_replace("/&/","?",$pathInfo,1); 
             }
         
-        // Restmüll entsorgen
+        // RestmÃ¼ll entsorgen
         $pathInfo = $this->removeTrail($pathInfo);
         
-        // Session-Name und Session-ID frisch hinzufügen  
+        // Session-Name und Session-ID frisch hinzufÃ¼gen  
         $pathInfo .= preg_match("/\?/",$pathInfo) ? "&" : "?";
         $pathInfo .= session_name()."=".session_id();
         
-        // Anchor-Fragment wieder anfügen
+        // Anchor-Fragment wieder anfÃ¼gen
         $pathInfo .= isset($dummyArray[1]) ? "#".$dummyArray[1] : "";
         
         return $pathInfo;                       
@@ -214,7 +212,7 @@ class Session {
 *   Fallback via HIDDEN FIELD - wenn Cookies ausgeschaltet sind
 *
 *   Ohne Cookies erfolgt Fallback via HTML-Hidden-Field
-*   (für Formulare)
+*   (fÃ¼r Formulare)
 *   
 *   @param  void
 *   @return string  HTML-Hidden-Input-Tag mit der Session-ID
