@@ -659,7 +659,7 @@ class ilObjGroup extends ilObject
 		unset($roleObj);
 		
 		// session setzen
-		$_SESSION["copied_group_refs"][] = $new_ref_id;
+		$_SESSION["copied_group_refs"][$this->getRefId()] = $new_ref_id;
 
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
@@ -1237,6 +1237,41 @@ class ilObjGroup extends ilObject
 		{
 			//var_dump($a_cloned_objects);
 			$this->updateRbacObjectsInGroupTree($a_cloned_objects);
+		}
+	}
+	
+	// correcting structure of rbac objects in group
+	function fixTreeStructure($a_old_tree)
+	{
+		$q = "SELECT lft,rgt FROM grp_tree WHERE tree='".$this->getRefId()."' AND perm = 1 AND parent != 0 ";
+		$r = $this->ilias->db->query($q);
+		
+		$new_tree_nodes = array();
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$new_tree_nodes[] = array(
+										"lft"		=> $row->lft,
+										"rgt"		=> $row->rgt
+										);
+		}
+		
+		foreach ($new_tree_nodes as $node)
+		{
+			$q = "SELECT  t3.child ".
+				 "FROM grp_tree AS t1, grp_tree AS t2, grp_tree AS t3 ".
+				 "WHERE t1.lft = '".$node["lft"]."' AND t1.rgt = '".$node["rgt"]."' ".
+				 "AND t1.parent = t2.child ".
+				 "AND t2.lft = t3.lft AND t2.rgt = t3.rgt ".
+				 "AND t1.tree = '".$a_old_tree."' ".
+				 "AND t2.tree = '".$a_old_tree."' ".
+				 "AND t3.tree = '".$this->getRefId()."'";
+			$r = $this->ilias->db->query($q);
+			
+			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+			echo $row->child;
+			$q = "UPDATE grp_tree SET parent='".$row->child."' WHERE lft = '".$node["lft"]."' AND rgt = '".$node["rgt"]."' AND tree = '".$this->getRefId()."'";
+			$this->ilias->db->query($q);
 		}
 	}
 } //END class.ilObjGroup
