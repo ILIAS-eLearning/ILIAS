@@ -181,8 +181,8 @@ inifile_fill_all#:#Wypełnij wszystkie pola.
 inifile_firsttime#:#Plik-ini nie istnieje! To jest pierwsze uruchomienie ILIAS 3.
 inifile_written#:#Plik-ini  został zachowany na twoim serwerze.
 input_error#:#Błąd wejścia
-inst_name#:#nazwa instalacji
 inst_identification#:#Installation Identification###15 Jan 2003 new variable
+inst_name#:#nazwa instalacji
 install#:#instaluj
 installation#:#Instaluj
 installed#:#zainstalowany
@@ -334,7 +334,7 @@ setup_first_client#:#Zainstaluj pierwszego klienta
 setup_ini_first#:#Najpierw utwórz plik konfiguracyjny!
 setup_inifile#:#utwórz plik konfiguracyjny (ini)
 setup_inifile_desc#:#utworzenie pliku konfiguracyjnego (ini) dla swojej istalacji
-setup_languages#:#zainstaluj języki
+setup_languages#:#zainstaluj języki###21 Jan 2004 content changed
 setup_languages_desc#:#zainstalowanie dodatkowych języków
 setup_login#:#Zaloguj do instalatora
 setup_mainmenu#:#Instalator - Głowne menu
