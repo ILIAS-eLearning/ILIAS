@@ -30,10 +30,10 @@ include_once "classes/class.prevnextnavbar.php";
 include_once "classes/class.perm.php";
 include_once "classes/class.tree.php";
 include_once "classes/class.Language.php";
-include_once("./classes/class.Log.php");
-include("./classes/class.UserMail.php");
+include_once "classes/class.Log.php";
+include_once "classes/class.UserMail.php";
 
-//include role based access
+//include role based access control system
 include_once "classes/class.rbacAdmin.php";
 include_once "classes/class.rbacSystem.php";
 include_once "classes/class.rbacReview.php";
@@ -47,10 +47,16 @@ include_once "classes/class.ErrorHandling.php";
 session_start();
 
 // load main class
-$ilias =& new ILIAS;
+$ilias = new ILIAS;
+
+// set constants
+define (ROOT_FOLDER_ID,$ilias->ini->readVariable('system','ROOT_FOLDER_ID'); 
+define (SYSTEM_FOLDER_ID,$ilias->ini->readVariable('system','SYSTEM_FOLDER_ID');
+
 //authenticate
 $ilias->auth->start();
 
+// start logging
 $log = new Log("ilias.log");
 
 //check for logged in user
@@ -63,7 +69,7 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 		exit();
 	}
 
-//get user id
+	//get user id
 	if (empty($AccountId))
 	{
 		$res = $ilias->db->query("SELECT usr_id FROM user_data WHERE login='".$ilias->auth->getUsername()."'");
@@ -81,16 +87,32 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 			$AccountId = $data[0];
 			$_SESSION["AccountId"] = $AccountId;
 		}
+
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new RbacReviewH($ilias->db);
 		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
-
 	}
+
+	// init rbac
 	$rbacsystem = new RbacSystemH($ilias->db);
-
-// instantiate and init user
+	$rbacadmin = new RbacAdminH($ilias->db);
+	// TODO: rbacAdmin should only started when using admin-functions.
+	// At the moment the method in the 3 main classes are not separated properly
+	// to do this. All rbac-classes need to be cleaned up
+		
+	// instantiate and init user
 	$ilias->account =& new User($ilias->db,$AccountId);
+	
+	// init language
 	$lng = new Language($ilias->account->data["language"]);
-
+	
+	// init obj_id & parent; on first start obj_id is set to 1
+	$obj_id = $obj_id ? $obj_id : ROOT_FOLDER_ID; // for downward compatibility
+	$_GET["obj_id"] = $_GET["obj_id"] ? $_GET["obj_id"] : ROOT_FOLDER_ID;
+	$parent = $parent ? $parent : 0; // for downward compatibility
+	$_GET["parent"] = $_GET["parent"] ? $_GET["parent"] : 0;
+		
+	// init tree
+	$tree = new Tree($_GET["obj_id"],$_GET["parent"],ROOT_FOLDER_ID,1);
 }
 ?>
