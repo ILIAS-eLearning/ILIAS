@@ -2187,17 +2187,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					array_push($csvrow, $eval["USERS_ANSWERED"]);
 					array_push($csvrow, $eval["USERS_SKIPPED"]);
 					array_push($csvrow, $eval["MODE"], $matches);
-					switch ($eval["QUESTION_TYPE"])
-					{
-						case "qt_metric":
-							array_push($csvrow, $eval["MODE"]);
-							array_push($csvrow, $eval["MODE"]);
-							break;
-						default:
-							array_push($csvrow, $matches[1]);
-							array_push($csvrow, $matches[2]);
-							break;
-					}
 					array_push($csvrow, $eval["MODE_NR_OF_SELECTIONS"]);
 					array_push($csvrow, $eval["MEDIAN"]);
 					array_push($csvrow, $eval["ARITHMETIC_MEAN"]);
