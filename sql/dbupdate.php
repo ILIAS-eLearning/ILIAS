@@ -1195,6 +1195,7 @@ ALTER TABLE meta_technical ADD COLUMN format VARCHAR(200) NOT NULL DEFAULT '';
 ALTER TABLE learning_module ADD COLUMN stylesheet INT NOT NULL DEFAULT '0';
 
 <#56>
+DROP TABLE IF EXISTS style;
 CREATE TABLE style (
 	style_id	INT NOT NULL,
 	tag			VARCHAR(100),
@@ -1202,6 +1203,7 @@ CREATE TABLE style (
 	parameter	VARCHAR(100),
 	value		VARCHAR(100)
 );
+
 <#57>
 #adding permission settings for role templates
 <?php
@@ -1235,3 +1237,15 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$this->db->query($query);
 }
 ?>
+
+<#58>
+DROP TABLE IF EXISTS style;
+DROP TABLE IF EXISTS style_parameter;
+CREATE TABLE style_parameter (
+	id			INT AUTO_INCREMENT NOT NULL DEFAULT '0' PRIMARY KEY,
+	style_id	INT NOT NULL,
+	tag			VARCHAR(100),
+	class		VARCHAR(100),
+	parameter	VARCHAR(100),
+	value		VARCHAR(100));
+

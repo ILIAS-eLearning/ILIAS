@@ -49,49 +49,139 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	*
 	*/
-	function editObject()
+	function createObject()
 	{
 		global $rbacsystem, $lng;
 
-		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		$this->getTemplateFile("create", "sty");
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("create_stylesheet"));
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save",
+			"adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=save"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+	}
+
+	/**
+	*
+	*/
+	function editObject()
+	{
+		global $rbacsystem, $lng;
+		$this->getTemplateFile("edit", "sty");
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("edit_stylesheet"));
+
+		// output style parameters
+		$avail_pars = $this->object->getAvailableParameters();
+		$style = $this->object->getStyle();
+		foreach($style as $tag)
 		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
-		}
-		else
-		{
-			$this->getTemplateFile("edit");
-			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-			$this->tpl->setVariable(strtoupper("TITLE"), $this->object->getTitle());
-			$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
-			$this->tpl->setVariable(strtoupper("DESCRIPTION"), $this->object->getDescription());
+			foreach($tag as $par)
+			{
+				$this->tpl->setCurrentBlock("StyleParameter");
+				$this->tpl->setVariable("TXT_PAR", $par["parameter"]);
+				if (count($avail_pars[$par["parameter"]]) == 0)
+				{
+					$input = "<input type=\"text\" size=\"30\" maxlength=\"100\" ".
+						"name=\"\" value=\"".$par["value"]."\"";
+				}
+				else
+				{
+					$sel_avail_vals = array();
+					foreach($avail_pars[$par["parameter"]] as $key => $val)
+					{
+						$sel_avail_vals[$val] = $val;
+					}
+					$input = ilUtil::formSelect($par["value"], "", $sel_avail_vals, false, true);
+				}
+				$this->tpl->setVariable("INPUT_VAL", $input);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("StyleTag");
+			$this->tpl->setVariable("TXT_TAG", $tag[0]["tag"].".".$tag[0]["class"]);
+			$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("parameter"));
+			$this->tpl->setVariable("TXT_VALUE", $this->lng->txt("value"));
 			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=update");
-			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
+
+		// title and description
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable(strtoupper("TITLE"), $this->object->getTitle());
+		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
+		$this->tpl->setVariable(strtoupper("DESCRIPTION"), $this->object->getDescription());
+		$this->tpl->parseCurrentBlock();
+
+		// new parameter
+		$temptags = $this->object->getAvailableTags();
+		$tags = array();
+		foreach($temptags as $key => $val)
+		{
+			$tags[$val] = $val;
+		}
+		$tag_select = ilUtil::formSelect("", "tag", $tags, false, true);
+		foreach($avail_pars as $key => $val)
+		{
+			$sel_avail_pars[$key] = $key;
+		}
+		$this->tpl->setVariable("SELECT_TAG", $tag_select);
+		$par_select = ilUtil::formSelect("", "parameter", $sel_avail_pars, false, true);
+		$this->tpl->setVariable("SELECT_PAR", $par_select);
+		$this->tpl->setVariable("TXT_NEW_PAR", $this->lng->txt("add"));
+
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update",
+			"adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=post"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_SAVE", "update");
+		$this->tpl->setVariable("BTN_NEW_PAR", "newStyleParameter");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+	}
+
+	function newStyleParameterObject()
+	{
+		$this->object->addParameter($_POST["tag"], $_POST["parameter"]);
+		$this->editObject();
 	}
 
 	function saveObject()
 	{
-		global $rbacsystem;
-		// TODO: create permission check!?
-		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+
+		$class_name = "ilObjStyleSheet";
+		require_once("classes/class.ilObjStyleSheet.php");
+		$newObj = new ilObjStyleSheet();
+		$newObj->setTitle($_POST["style_title"]);
+		$newObj->setDescription($_POST["style_description"]);
+		$newObj->create();
+
+		$location = $this->getReturnLocation("save","adm_object.php?".$this->link_params);
+
+		// "return" path is needed in content/classes/class.ilLearningModuleGUI
+		// i don't know if this is a good solution, but it works
+		if ($location == "return")
 		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
+			return $newObj->getId();
 		}
 		else
 		{
-			$class_name = "ilObjStyleSheet";
-			require_once("classes/class.ilObjStyleSheet.php");
-			$newObj = new ilObjStyleSheet();
-			$newObj->setTitle($_POST["style_title"]);
-			$newObj->setDescription($_POST["style_description"]);
-			$newObj->create();
+			header("Location:".$location);
+			exit();
 		}
-		header("Location:".$this->getReturnLocation("save",
-			"adm_object.php?".$this->link_params));
-		exit();
+	}
 
+	function updateObject()
+	{
+		//$class_name = "ilObjStyleSheet";
+		//require_once("classes/class.ilObjStyleSheet.php");
+		$this->object->setTitle($_POST["style_title"]);
+		$this->object->setDescription($_POST["style_description"]);
+		$this->object->update();
+
+		$location = $this->getReturnLocation("update","adm_object.php?".$this->link_params);
+
+		header("Location:".$location);
+		exit();
 	}
 
 } // END class.ObjStyleSheetGUI

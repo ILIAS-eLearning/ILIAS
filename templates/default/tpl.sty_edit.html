@@ -1,5 +1,8 @@
 <form action="{FORMACTION}" method="post">
 <table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">{TXT_ACTION}</td>
+</tr>
 <tr>
   <td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
   <td class="option_value"><input name="style_title" value="{TITLE}" size="40" maxlength="70"/></td>
@@ -8,7 +11,22 @@
   <td class="option">{TXT_DESC}</td>
   <td class="option_value"><textarea name="style_description" rows="2" cols="40">{DESCRIPTION}</textarea></td>
 </tr>
+<!-- BEGIN StyleTag -->
+<tr class="tblheader">
+	<td class="std" colspan="2">{TXT_TAG}</td>
+</tr>
+<!-- BEGIN StyleParameter -->
+<tr>
+	<td class="option">{TXT_PAR}</td>
+	<td class="option_value">{INPUT_VAL}</td>
+</tr>
+<!-- END StyleParameter -->
+<!-- END StyleTag -->
+<tr>
+	<td class="submit" colspan="2">{SELECT_TAG}&nbsp;{SELECT_PAR}&nbsp;
+		<input class="submit" type="submit" name="cmd[{BTN_NEW_PAR}]" value="{TXT_NEW_PAR}"/></td>
+</tr>
 </table>
 <p class="small"><span class="asterisk">*</span> {TXT_REQUIRED_FLD}</p>
-<br /><input class="submit" type="submit" value="{TXT_SAVE}"/>
+<br /><input class="submit" type="submit" name="cmd[{BTN_SAVE}]" value="{TXT_SAVE}"/>
 </form>
