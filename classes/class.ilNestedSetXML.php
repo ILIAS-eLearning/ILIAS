@@ -216,7 +216,8 @@ class ilNestedSetXML
             die(sprintf("XML error: %s at line %d",	xml_error_string(xml_get_error_code($xml_parser)),xml_get_current_line_number($xml_parser)));
         }
         xml_parser_free($this->xml_parser);
-
+		$this->db->query("DELETE FROM xmlnestedset WHERE ns_book_fk=".
+			$this->db->quote($obj_id)." AND ns_type=".$this->db->quote($obj_type));
         $this->db->query("INSERT INTO xmlnestedset SELECT * FROM NestedSetTemp");
         $this->db->query("DROP TABLE IF EXISTS NestedSetTemp");
         // }}}
