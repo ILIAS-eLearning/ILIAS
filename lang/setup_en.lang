@@ -35,6 +35,8 @@
 absolute_path#:#Absolute path
 access#:#Access
 access_status#:#Access status
+admin_login#:#Login as Administrator
+available_clients#:#Available Clients
 available_languages#:#available languages
 back#:#back
 change#:#change
@@ -48,10 +50,13 @@ client_data#:#Client Information
 client_id#:#Client ID
 client_info#:#Description
 client_institution#:#Institution
+client_login#:#Login with your Client ID
 client_name#:#Name
 contact_data#:#Contact Information
 convert_path#:#Path to Convert
+convert_path_comment#:#required for displaying thumbnails of images
 country#:#Country
+create#:#create
 create_new_client#:#Create new client
 data_path#:#data path
 database#:#database
@@ -63,7 +68,10 @@ database_ready#:#database is ready.
 database_update#:#update database
 database_version#:#current database version
 datadir_path#:#Path to Data Directory
+datadir_path_comment1#:#Mandatory
+datadir_path_comment2#:#cannot be changed in this setup version
 date#:#date
+db_conn#:#Database connection
 db_host#:#database host
 db_name#:#database name
 db_pass#:#database password
@@ -73,9 +81,15 @@ db_version#:#database version
 default#:#default
 delete#:#delete
 details#:#Details
+disable#:#disable
+disable_check#:#disable check
+disable_logging#:#disable logging
+disabled#:#disabled
 email#:#Email
 email_not_valid#:#Email is not valid
 en_by_default#:#(English is installed by default and cannot be deleted).
+enable#:#enable
+enabled#:#enabled
 enter_password#:#Please enter password
 env_ok#:#Ok. Sounds good.
 env_using#:#ILIAS 3 will be running on
@@ -86,17 +100,38 @@ err_wrong_login#:#Wrong login
 file_does_not_exist#:#File does not exist.
 file_version#:#file version
 fill_both_fields#:#Please fill out both fields!
+fill_out_required_fields#:#Please fill out all fields remarked as required.
 finish#:#Finish setup
 finish_setup#:#Finishing setup
 firstname#:#Firstname
 host#:#Host
 htmldoc_path#:#Path to HTMLdoc
+htmldoc_path_comment#:#required to generate PDF billings (Paymentsystem)
 http_path#:#HTTP path
 id#:#ID
+ilias_homepage#:#ILIAS homepage
 ilias_nic#:#NIC Registration
 ilias_nic_id#:#NIC ID
 ilias_setup#:#ILIAS3 setup
 ilias_version#:#ILIAS version
+info_text_first_client#:#Your basic settings have been saved. Now we will setup your first client. Setup will guide you through the installation process. On the panel to the right you can always see the current status of the installation process.
+info_text_first_install#:#It seems that you install ILIAS3 for the very first time, because no ilias.ini was found. In ilias.ini we store a master password to protect ILIAS setup from unauthorized access.
+info_text_lang#:#Please choose additional languages and/or remove selected languages.
+info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations.<br/> We recommend to use the online registration. If you have problems to get connected (e.g. you are behind a firewall) you may alternatively obtain a nic-id via email: Please click this
+info_text_nic2#:#to send an email with your installation infos to ilias-info@uni-koeln.de.
+info_text_nic3#:#You registered already your installation. Your nic-id is
+info_text_password#:#fsdjjhfsdfkjsdh fsd fkjsdhf askhdas dsdfsdf bla asdasdasdas asdasdas
+info_text_pathes#:#ILIAS3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the pathes to 3rd party programs. These settings are valid for all clients you create later on.
+ini_client_id_exists#:#A client with that ID already exists! Please choose another client ID.
+ini_client_id_invalid#:#The client ID you entered contains invalid characers
+ini_client_id_no_change#:#Client Id cannot be changed in this version after client directories has been created successfully.
+ini_client_id_too_long#:#Client Id too long.
+ini_client_id_too_short#:#Client ID too short.
+ini_db_name_exists#:#already exists! Please choose another db name.
+ini_no_client_id#:#No client ID given.
+ini_no_db_host#:#No hostname
+ini_no_db_name#:#no database name
+ini_no_db_user#:#No database username
 inifile#:#ini-file
 inifile_can_write#:#ILIAS 3 setup can write your ini-file.
 inifile_cannot_write#:#ILIAS 3 setup cannot write your ini-file. Please check write permissions first.
@@ -106,6 +141,7 @@ inifile_fill_all#:#Please fill out all fields.
 inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 3.
 inifile_written#:#The ini-file has been successfully saved on your host.
 input_error#:#Input error
+inst_identification#:#Installation Identification
 inst_name#:#installation name
 install#:#install
 installation#:#Installation
@@ -114,6 +150,7 @@ institution#:#Institution
 intro_install#:#This is the main page of ILIAS 3 setup. From here you can step through the installation.
 ip_address#:#IP address
 java_path#:#Path to Java
+java_path_comment#:#required for SCORM Learning modules
 lang_de#:#German
 lang_dk#:#Danish
 lang_en#:#English
@@ -123,7 +160,10 @@ lang_fr#:#French
 lang_id#:#Indonesian
 lang_it#:#Italian
 lang_lt#:#Lithuanian
+lang_min_one_language#:#You must install at least one language!
 lang_no#:#Norwegisch
+lang_none_installed#:#No language installed
+lang_not_installed_default#:#The language you selected as defualt language is not installed!
 lang_pl#:#Polish
 lang_se#:#Swedish
 lang_xx#:#Custom
@@ -131,44 +171,81 @@ language#:#language
 languages#:#languages
 languages_installed#:#Language(s) installed
 lastname#:#Lastname
+list#:#list
 log_path#:#Path to Logfile
+log_path_comment#:#enter with filename. File will be created.
 logged_out#:#You logged out.
 logging#:#Logging
 login#:#login
+login_invalid#:#Login invalid
 login_to_ilias#:#login to ILIAS
 logout#:#logout
+main_datadir_outside_webspace#:#Main data directory outside webspace
 name#:#Name
+new#:#new
 next#:#Next
+nic_reg_disable#:#disable NIC registration
+nic_reg_disable_comment#:#(register later)
+nic_reg_disabled#:#NIC registration disabled
+nic_reg_email#:#register via Email
+nic_reg_enabled#:#NIC registration enabled!
+nic_reg_enter_correct_id#:#Please enter correct nic_id
+nic_reg_enter_id#:#please enter id sent by email
+nic_reg_failed#:#NIC registration failed
+nic_reg_online#:#register online
+nic_registration#:#NIC Registration
 nic_registration#:#NIC Registration
 no_changes#:#No changes.
+no_client_id#:#No Client ID given
+no_clients_available#:#No Clients available
+no_database#:#No database
+no_db_connect_consult_admin#:#Could not connect to database. Please consult the system administrator
 no_db_update_file#:#dbupdate.php not found!
+no_password#:#No password given
+no_path_given#:#No path given
+no_username#:#No username given
 not_connected_to_db#:#You are not connected to database.
+online#:#online
+or#:#or
 out_of_webspace#:#(out of webspace)
 overview#:#Overview
 password#:#password
 password_changed#:#Password changed.
 password_empty#:#No password given!
+password_enter_old#:#You must enter your old password first!
 password_info#:#To protect your configuration data from unauthorized access please enter a password to change these settings later again.
+password_new_master#:#Set new master password
+password_not_match#.#New Passwords entered does not match!
+password_old_wrong#.#Old password entered is wrong!
+password_retype#:#Retype new password
+password_same#:#Old and new password are the same!
 password_set#:#Password saved.
+path_not_set#:#Path not set
 path_to_convert#:#Path to Convert
 path_to_htmldoc#:#Path to HTMLdoc
 path_to_java#:#Path to Java
 path_to_unzip#:#Path to Unzip
 path_to_zip#:#Path to Zip
+pathes#:#Pathes
 phone#:#Phone
 port#:#port
 position#:#Position
+pre_cookies_enabled#:#Cookies enabled
 pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.
 pre_folder_create#:#New folders creatable in ILIAS 3 folder
 pre_folder_write#:#Writable ILIAS 3 folder
 pre_intro#:#Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system.
+pre_javascript_enabled#:#Javascript enabled
 pre_php_version#:#PHP version
 preliminaries#:#Preliminaries
 prev#:#Previous
 required_field#:#required fields
 reset#:#Reset
+safe_mode_enabled#:#Safe mode is enabled!
 save#:#Save
+save_error#:#Save Error!
 saved_successfully#:#Saved successfully
+select_client#:#Select a Client
 server_info#:#Server Information
 server_software#:#Server software
 set_default_client#:#Set Default Client
@@ -182,123 +259,46 @@ setup_contact_data#:#Setup Contact Information
 setup_database#:#setup database
 setup_database_desc#:#setup the database
 setup_db_first#:#Please setup your database first!
+setup_first_client#:#Setup your first Client
 setup_ini_first#:#Please create your ini-file first!
 setup_inifile#:#create ini-file
 setup_inifile_desc#:#create the ini-file for your installation
 setup_languages#:#install languages
 setup_languages_desc#:#install additional languages
+setup_login#:#Login to Setup
 setup_mainmenu#:#Setup mainmenu
 setup_menu#:#setup menu
+setup_not_finished#:#Setup not finished
 setup_pass#:#Setup password
 setup_pass2#:#Retype setup Password
 setup_password#:#create password
 setup_password_desc#:#create a password to access the setup-routine later on (i.e. to update your database)
+setup_process_status#:#Setup Process Status
+setup_process_step_contact#:#enter contact information
+setup_process_step_db#:#create & update database
+setup_process_step_finish#:#Finish installation
+setup_process_step_ini#:#setup basic data
+setup_process_step_lang#:#install system languages
+setup_process_step_nic#:#register at ILIAS-NIC
 setup_ready#:#Setup is ready. you may now proceed with the login and check further system settings.
 setup_welcome#:#Welcome to ILIAS 3 setup. This setup-routine helps you to
 status#:#Status
 step#:#Step
 street#:#Street
 submit#:#Submit
+target#:#target
 title#:#Title
+unknown_client_id#:#Unknown Client
 unzip_path#:#Path to Unzip
+unzip_path_comment#:#required for importing learning modules
 update_applied#:#Update applied
 update_error#:#Error while updating
 update_not_found#:#Update not found!
+username#:#username
 version#:#Version
 webspace_dir#:#webspace data path
 with#:#with
 wrong_password#:#Wrong password!
 zip_path#:#Path to Zip
-zipcode#:#Zipcode
-info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations.<br/> We recommend to use the online registration. If you have problems to get connected (e.g. you are behind a firewall) you may alternatively obtain a nic-id via email: Please click this
-info_text_nic2#:#to send an email with your installation infos to ilias-info@uni-koeln.de.
-info_text_nic3#:#You registered already your installation. Your nic-id is
-info_text_lang#:#Please choose additional languages and/or remove selected languages.
-nic_registration#:#NIC Registration
-nic_reg_online#:#register online
-nic_reg_email#:#register via Email
-nic_reg_disable#:#disable NIC registration
-nic_reg_disable_comment#:#(register later)
-password_enter_old#:#You must enter your old password first!
-password_old_wrong#.#Old password entered is wrong!
-password_not_match#.#New Passwords entered does not match!
-password_same#:#Old and new password are the same!
-save_error#:#Save Error!
-password_retype#:#Retype new password
-password_new_master#:#Set new master password
-info_text_password#:#fsdjjhfsdfkjsdh fsd fkjsdhf askhdas dsdfsdf bla asdasdasdas asdasdas
-ini_no_client_id#:#No client ID given.
-ini_client_id_invalid#:#The client ID you entered contains invalid characers
-ini_client_id_too_short#:#Client ID too short.
-ini_client_id_too_long#:#Client Id too long.
-ini_client_id_exists#:#A client with that ID already exists! Please choose another client ID.
-ini_no_db_host#:#No hostname
-ini_no_db_user#:#No database username
-ini_no_db_name#:#no database name
-ini_db_name_exists#:#already exists! Please choose another db name.
-ini_client_id_no_change#:#Client Id cannot be changed in this version after client directories has been created successfully.
-inst_identification#:#Installation Identification
-db_conn#:#Database connection
-no_path_given#:#No path given
-setup_process_status#:#Setup Process Status
-setup_process_step_ini#:#setup basic data
-setup_process_step_db#:#create & update database
-setup_process_step_lang#:#install system languages
-setup_process_step_contact#:#enter contact information
-setup_process_step_nic#:#register at ILIAS-NIC
-setup_process_step_finish#:#Finish installation
-lang_min_one_language#:#You must install at least one language!
-lang_not_installed_default#:#The language you selected as defualt language is not installed!
-lang_none_installed#:#No language installed
-fill_out_required_fields#:#Please fill out all fields remarked as required.
-nic_reg_disabled#:#NIC registration disabled
-nic_reg_failed#:#NIC registration failed
-nic_reg_enabled#:#NIC registration enabled!
-nic_reg_enter_correct_id#:#Please enter correct nic_id
-nic_reg_enter_id#:#please enter id sent by email
-path_not_set#:#Path not set
-no_database#:#No database
-disabled#:#disabled
-enabled#:#enabled
-enable#:#enable
-disable#:#disable
-online#:#online
-setup_not_finished#:#Setup not finished
-available_clients#:#Available Clients
-no_clients_available#:#No Clients available
-select_client#:#Select a Client
-ilias_homepage#:#ILIAS homepage
-username#:#username
-or#:#or
-admin_login#:#Login as Administrator
-client_login#:#Login with your Client ID
-setup_login#:#Login to Setup
-no_client_id#:#No Client ID given
-no_username#:#No username given
-no_password#:#No password given
-unknown_client_id#:#Unknown Client
-login_invalid#:#Login invalid
-no_db_connect_consult_admin#:#Could not connect to database. Please consult the system administrator
-new#:#new
-list#:#list
-pathes#:#Pathes
-htmldoc_path_comment#:#required to generate PDF billings (Paymentsystem)
-disable_check#:#disable check
-convert_path_comment#:#required for displaying thumbnails of images
 zip_path_comment#:#required for exporting learning modules
-unzip_path_comment#:#required for importing learning modules
-java_path_comment#:#required for SCORM Learning modules
-datadir_path_comment1#:#Mandatory
-datadir_path_comment2#:#cannot be changed in this setup version
-log_path_comment#:#enter with filename. File will be created.
-disable_logging#:#disable logging
-safe_mode_enabled#:#Safe mode is enabled!
-main_datadir_outside_webspace#:#Main data directory outside webspace
-pre_cookies_enabled#:#Cookies enabled
-pre_javascript_enabled#:#Javascript enabled
-info_text_pathes#:#ILIAS3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the pathes to 3rd party programs. These settings are valid for all clients you create later on.
-info_text_first_install#:#It seems that you install ILIAS3 for the very first time, because no ilias.ini was found. In ilias.ini we store a master password to protect ILIAS setup from unauthorized access.
-create#:#create
-target#:#target
-setup_first_client#:#Setup your first Client
-info_text_first_client#:#Your basic settings have been saved. Now we will setup your first client. Setup will guide you through the installation process. On the panel to the right you can always see the current status of the installation process.
+zipcode#:#Zipcode
