@@ -74,6 +74,7 @@ class XML2SQL
 	{
 		$this->xmltree = $a_xmltree;
 		$this->db = $a_dbconnection;
+		$this->version = $a_version;
 		$this->encoding = $a_encoding;
 		$this->charset = $a_charset;
 	}
@@ -81,7 +82,11 @@ class XML2SQL
 	function insertDocument ()
 	{ 
 		$this->obj_id = $this->insertXMLObject();
-	
+		if (!$this->obj_id) 
+		{
+			print "There was an error writing the xml file to the database!";
+			exit();
+		}
 		// insert basic structure of document
 		foreach ($this->xmltree as $id => $node) {
 			$node_id = $this->insertNode($node);
@@ -262,17 +267,17 @@ class XML2SQL
 					$attribute_id = $this->getLastInsertId();
 				}
 
-				$value_id = $this->getEntryId("xml_attribute_value","value","value_id",$value);
+				//$value_id = $this->getEntryId("xml_attribute_value","value","value_id",$value);
 
 				// insert attribute value first if it doesn't exists
-				if ($value_id == false)
-				{
+				//if ($value_id == false)
+				//{
 					$q = "INSERT INTO xml_attribute_value (value) ".
 						 "VALUES ('".$value."')";
 					$this->db->query($q);
 			
 					$value_id = $this->getLastInsertId();
-				}
+				//}
 
 				// create reference entry
 				$q = "INSERT INTO xml_attribute_idx (node_id,attribute_id,value_id) ".

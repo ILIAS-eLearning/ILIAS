@@ -89,26 +89,7 @@ class XMLNestedSet
 		}
 	}
 	
-	function delete_from_db($db, $xml_object_id) {
-		$q = sprintf("DELETE FROM xml_object WHERE ID=%s",
-			$db->quote($xml_object_id)
-		);
-		$result = $db->query($q);
-		$q = sprintf("SELECT node_id FROM xml_tree WHERE xml_id = %s",
-			$db->quote($xml_object_id)
-		);
-		$result = $db->query($q);
-		$node_ids = array();
-		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-			$node_ids[$row->node_id] = 1;
-		}
-		$q = sprintf("DELETE FROM xml_tree WHERE xml_id = %s",
-			$db->quote($xml_object_id)
-		);
-		$result = $db->query($q);
-//		$delete_tables = array("xml_cdata", "xml_comment", "
-	}
-	
+
 	/**
 	* Loads a XML document from a file and builds a DOM representation
 	* in $this->doc.
@@ -573,6 +554,62 @@ class XMLNestedSet
 		unset($sql2xml);
 	}
 	
+	function delete_from_db($db, $xml_object_id) {
+		$tables = array(
+			"xml_element_namespace",
+			"xml_pi_target",
+			"xml_pi_data",
+			"xml_cdata",
+			"xml_entity_reference",
+			"xml_attribute_namespace",
+			"xml_text",
+			"xml_comment",
+			"xml_attribute_idx",
+			"xml_element_idx"
+		);
+		foreach ($tables as $table)
+		{
+			$q = sprintf ("SELECT $table.* FROM $table, xml_tree WHERE $table.node_id = xml_tree.node_id AND xml_tree.xml_id = %s",
+				$db->quote("$xml_object_id")
+			);
+			$result = $db->query($q);
+			if ($result->numRows()) {
+				while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					$q_delete = sprintf ("DELETE FROM $table WHERE node_id = %s",
+						$db->quote($row->node_id)
+					);
+					$result_delete = $db->query($q_delete);
+					if (strcmp($table, "xml_attribute_idx") == 0)
+					{
+						$q_delete = sprintf ("DELETE FROM xml_attribute_value WHERE value_id = %s",
+							$db->quote($row->value_id)
+						);
+						$result_delete = $db->query($q_delete);
+						$q_delete = sprintf ("DELETE FROM xml_attribute_name WHERE attribute_id = %s",
+							$db->quote($row->attribute_id)
+						);
+						$result_delete = $db->query($q_delete);
+					}
+					if (strcmp($table, "xml_element_idx") == 0)
+					{
+						$q_delete = sprintf ("DELETE FROM xml_element_name WHERE element_id = %s",
+							$db->quote($row->element_id)
+						);
+						$result_delete = $db->query($q_delete);
+					}
+				}
+			}
+		}
+		$q = sprintf("DELETE FROM xml_object WHERE ID=%s",
+			$db->quote($xml_object_id)
+		);
+		$result = $db->query($q);
+		$q = sprintf("DELETE FROM xml_tree WHERE xml_id = %s",
+			$db->quote($xml_object_id)
+		);
+		$result = $db->query($q);
+	}
 } // END class.XMLNestedSet
 
 ?>
