@@ -19,9 +19,17 @@
 		| along with this program; if not, write to the Free Software                 |
 		| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 		+-----------------------------------------------------------------------------+
-		@author Romeo Kienzler contact@kienzler.biz
-		@company 21 LearnLine AG info@21ll.com
 	*/
+
+
+/**
+* Validation of SCORM-XML Files
+*
+* @author Romeo Kienzler contact@kienzler.biz
+* @company 21 LearnLine AG info@21ll.com
+*
+*/
+
 class ilObjSCORMValidator {
 		var $dir,$flag,$summary;
 
