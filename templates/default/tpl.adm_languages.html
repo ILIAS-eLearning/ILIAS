@@ -1,4 +1,4 @@
-<h1>{TXT_PAGEHEADLINE}</h1>
+<h1>{TXT_LANGUAGES}</h1>
 
 {BUTTONS}
 
@@ -21,7 +21,7 @@
 <!-- BEGIN language_row -->
 <tr class="{ROWCOL}">
   <td><input type="checkbox" name="marker[]" value="{ID}"></td>
-  <td>&nbsp;{TITLE}&nbsp;</td>
+  <td>&nbsp;{LNG}&nbsp;</td>
   <td><a href="{LINK}">&nbsp;{STATUS}&nbsp;</a></td>
   <td><font size=-1>&nbsp;{LASTCHANGE}</font></td>
 </tr>
@@ -31,8 +31,8 @@
   <td colspan=3>{TXT_SELECTED}&nbsp;<select name="action" onChange="document.formmsg.cmd.value=document.formmsg.action[document.formmsg.action.selectedIndex].value; document.formmsg.submit();">
   <option>-----------</option>
 <!-- BEGIN selaction -->
-	<option value="{VALUE}">{OPTION}</option>
-<!-- END selaction -->  
+        <option value="{VALUE}">{OPTION}</option>
+<!-- END selaction -->
   </select>
   </td>
 </tr>

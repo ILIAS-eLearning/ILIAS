@@ -13,7 +13,7 @@ require_once "./include/ilias_header.inc";
 $tpl = new Template("tpl.adm_mail.html", false, false);
 
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
+$tpl->setVariable("TXT_MAIL", $lng->txt("mail"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
