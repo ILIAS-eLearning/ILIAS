@@ -405,6 +405,7 @@ common#:#author#:#Author
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
 common#:#average_time#:#Average time
+common#:#cumulative_time#:#Cumulative time
 common#:#back#:#Back
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Basic Data
@@ -1571,6 +1572,7 @@ content#:#all#:#All
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Circle#:#Circle
+content#:#cont_view_last_export_log#:#Last Export Log
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1

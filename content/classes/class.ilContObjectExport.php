@@ -143,6 +143,7 @@ class ilContObjectExport
 	*/
 	function export()
 	{
+		/*
 		include_once("./classes/class.ilNestedSetXML.php");
 
         $this->mob_ids = array();
@@ -329,7 +330,7 @@ class ilContObjectExport
 		header ("Content-length:".(string)( filesize($export_dir."/".$fileName.".zip")) );
 
 		readfile( $export_dir."/".$fileName.".zip" );
-
+		*/
 	}
 
 
@@ -338,6 +339,10 @@ class ilContObjectExport
 	*/
 	function buildExportFile()
 	{
+		global $ilBench;
+
+		$ilBench->start("ContentObjectExport", "buildExportFile");
+
 		require_once("classes/class.ilXmlWriter.php");
 
 		$this->xml = new ilXmlWriter;
@@ -357,10 +362,19 @@ class ilContObjectExport
 		ilUtil::makeDir($this->export_dir."/".$this->subdir);
 		ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
 
+		// get Log File
+		$expDir = $this->cont_obj->getExportDirectory();
+		$expLog = new ilLog($expDir, "export.log");
+		$expLog->delete();
+		$expLog->setLogFormat("");
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");
+
 		// get xml content
 //echo "ContObjExport:".$this->inst_id.":<br>";
+		$ilBench->start("ContentObjectExport", "buildExportFile_getXML");
 		$this->cont_obj->exportXML($this->xml, $this->inst_id,
-			$this->export_dir."/".$this->subdir);
+			$this->export_dir."/".$this->subdir, $expLog);
+		$ilBench->stop("ContentObjectExport", "buildExportFile_getXML");
 
 		// dump xml document to screen (only for debugging reasons)
 		/*
@@ -371,19 +385,22 @@ class ilContObjectExport
 
 
 		// dump xml document to file
+		$ilBench->start("ContentObjectExport", "buildExportFile_dumpToFile");
 		$this->xml->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->filename
 			, false);
+		$ilBench->stop("ContentObjectExport", "buildExportFile_dumpToFile");
 
 		// zip the file
+		$ilBench->start("ContentObjectExport", "buildExportFile_zipFile");
 		ilUtil::zip($this->export_dir."/".$this->subdir,
 			$this->export_dir."/".$this->subdir.".zip");
+		$ilBench->stop("ContentObjectExport", "buildExportFile_zipFile");
 
 		// destroy writer object
 		$this->xml->_XmlWriter;
 
-		// send file to user
-		//ilUtil::deliverFile($this->export_dir."/".$this->subdir.".zip",
-		//	$this->subdir.".zip");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
+		$ilBench->stop("ContentObjectExport", "buildExportFile");
 	}
 
 }

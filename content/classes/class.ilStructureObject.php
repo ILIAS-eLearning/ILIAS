@@ -91,19 +91,26 @@ class ilStructureObject extends ilLMObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXML(&$a_xml_writer, $a_inst = 0)
+	function exportXML(&$a_xml_writer, $a_inst, &$expLog)
 	{
+		global $ilBench;
+
+		$expLog->write(date("[y-m-d H:i:s] ")."Structure Object ".$this->getId());
 		$attrs = array();
 		$a_xml_writer->xmlStartTag("StructureObject", $attrs);
 
 		// MetaData
+		$ilBench->start("ContentObjectExport", "exportStructureObject_exportMeta");
 		$this->exportXMLMetaData($a_xml_writer);
+		$ilBench->stop("ContentObjectExport", "exportStructureObject_exportMeta");
 
 		// StructureObjects
+		$ilBench->start("ContentObjectExport", "exportStructureObject_exportPageObjects");
 		$this->exportXMLPageObjects($a_xml_writer, $a_inst);
+		$ilBench->stop("ContentObjectExport", "exportStructureObject_exportPageObjects");
 
 		// PageObjects
-		$this->exportXMLStructureObjects($a_xml_writer, $a_inst);
+		$this->exportXMLStructureObjects($a_xml_writer, $a_inst, $expLog);
 
 		// Layout
 		// not implemented
@@ -146,6 +153,8 @@ class ilStructureObject extends ilLMObject
 	*/
 	function exportXMLPageObjects(&$a_xml_writer, $a_inst = 0)
 	{
+		global $ilBench;
+
 		$this->tree = new ilTree($this->getLmId());
 		$this->tree->setTableNames('lm_tree', 'lm_data');
 		$this->tree->setTreeTablePK("lm_id");
@@ -159,9 +168,14 @@ class ilStructureObject extends ilLMObject
 			}
 
 			// export xml to writer object
-			$page_obj = new ilLMPageObject($this->getContentObject(), $child["obj_id"]);
-			$page_obj->exportXML($a_xml_writer, "alias", $a_inst);
-			unset($page_obj);
+			$ilBench->start("ContentObjectExport", "exportStructureObject_exportPageObjectAlias");
+			//$ilBench->start("ContentObjectExport", "exportStructureObject_getLMPageObject");
+			//$page_obj = new ilLMPageObject($this->getContentObject(), $child["obj_id"]);
+			//$ilBench->stop("ContentObjectExport", "exportStructureObject_getLMPageObject");
+			ilLMPageObject::_exportXMLAlias($a_xml_writer, $child["obj_id"], $a_inst);
+			//$page_obj->exportXML($a_xml_writer, "alias", $a_inst);
+			//unset($page_obj);
+			$ilBench->stop("ContentObjectExport", "exportStructureObject_exportPageObjectAlias");
 		}
 	}
 
@@ -172,7 +186,7 @@ class ilStructureObject extends ilLMObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLStructureObjects(&$a_xml_writer, $a_inst = 0)
+	function exportXMLStructureObjects(&$a_xml_writer, $a_inst, &$expLog)
 	{
 		$this->tree = new ilTree($this->getLmId());
 		$this->tree->setTableNames('lm_tree', 'lm_data');
@@ -189,7 +203,7 @@ class ilStructureObject extends ilLMObject
 			// export xml to writer object
 			$structure_obj = new ilStructureObject($this->getContentObject(),
 				$child["obj_id"]);
-			$structure_obj->exportXML($a_xml_writer, $a_inst);
+			$structure_obj->exportXML($a_xml_writer, $a_inst, $expLog);
 			unset($structure_obj);
 		}
 	}

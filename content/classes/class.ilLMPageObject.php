@@ -58,7 +58,7 @@ class ilLMPageObject extends ilLMObject
 	* Constructor
 	* @access	public
 	*/
-	function ilLMPageObject(&$a_content_obj, $a_id = 0)
+	function ilLMPageObject(&$a_content_obj, $a_id = 0, $a_halt = true)
 	{
 		global $ilias;
 
@@ -71,6 +71,7 @@ class ilLMPageObject extends ilLMObject
 		$this->contains_int_link = false;
 		$this->mobs_contained  = array();
 		$this->files_contained  = array();
+		$this->halt_on_error = $a_halt;
 
 		if($a_id != 0)
 		{
@@ -93,7 +94,8 @@ class ilLMPageObject extends ilLMObject
 	{
 		parent::read();
 
-		$this->page_object =& new ilPageObject($this->content_object->getType(), $this->id);
+		$this->page_object =& new ilPageObject($this->content_object->getType(),
+			$this->id, $this->halt_on_error);
 	}
 
 	function create($a_upload = false)
@@ -246,6 +248,22 @@ class ilLMPageObject extends ilLMObject
 
 		// Layout
 		// not implemented
+
+		$a_xml_writer->xmlEndTag("PageObject");
+	}
+
+	/**
+	* export page alias to xml
+	*/
+	function _exportXMLAlias(&$a_xml_writer, $a_id, $a_inst = 0)
+	{
+		$attrs = array();
+		$a_xml_writer->xmlStartTag("PageObject", $attrs);
+
+		$attrs = array();
+		$attrs["OriginId"] = "il_".$a_inst.
+			"_pg_".$a_id;
+		$a_xml_writer->xmlElement("PageAlias", $attrs);
 
 		$a_xml_writer->xmlEndTag("PageObject");
 	}

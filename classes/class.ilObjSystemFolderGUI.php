@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.28 2004/03/16 00:11:52 akill Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.29 2004/03/16 16:16:03 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -922,7 +922,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		}
 
 		$modules = $ilBench->getMeasuredModules();
-		
+
 		if (count($modules) > 0)
 		{
 			$this->tpl->setCurrentBlock("eval_table");
@@ -944,6 +944,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("VAL_BENCH", $bench["benchmark"]);
 				$this->tpl->setVariable("VAL_NUMBER_RECORDS", $bench["cnt"]);
 				$this->tpl->setVariable("VAL_AVG_TIME", $bench["duration"]);
+				$this->tpl->setVariable("VAL_CUM_TIME", $bench["duration"] * $bench["cnt"]);
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -954,6 +955,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_BENCH", $this->lng->txt("benchmark"));
 			$this->tpl->setVariable("TXT_NUMBER_RECORDS", $this->lng->txt("number_of_records"));
 			$this->tpl->setVariable("TXT_AVG_TIME", $this->lng->txt("average_time"));
+			$this->tpl->setVariable("TXT_CUM_TIME", $this->lng->txt("cumulative_time"));
 
 			$this->tpl->parseCurrentBlock();
 		}

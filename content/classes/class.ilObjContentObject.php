@@ -355,6 +355,16 @@ class ilObjContentObject extends ilObject
 		}
 	}
 
+	/*
+	function getExportLogFileName()
+	{
+		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
+		$lm_dir = $lm_data_dir."/lm_".$this->getId();
+		$export_log = $lm_dir."/export/export.log";
+
+		return $export_log;
+	}*/
+
 	/**
 	* creates data directory for export files
 	* (data_dir/lm_data/lm_<id>/export, depending on data
@@ -797,8 +807,10 @@ class ilObjContentObject extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXML(&$a_xml_writer, $a_inst = 0, $a_target_dir = "")
+	function exportXML(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
+		global $ilBench;
+
 		$attrs = array();
 		switch($this->getType())
 		{
@@ -817,16 +829,32 @@ class ilObjContentObject extends ilObject
 
 		// StructureObjects
 //echo "ContObj:".$a_inst.":<br>";
-		$this->exportXMLStructureObjects($a_xml_writer, $a_inst);
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Structure Objects");
+		$ilBench->start("ContentObjectExport", "exportStructureObjects");
+		$this->exportXMLStructureObjects($a_xml_writer, $a_inst, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportStructureObjects");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Structure Objects");
 
 		// PageObjects
-		$this->exportXMLPageObjects($a_xml_writer, $a_inst);
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Page Objects");
+		$ilBench->start("ContentObjectExport", "exportPageObjects");
+		$this->exportXMLPageObjects($a_xml_writer, $a_inst, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportPageObjects");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Page Objects");
 
 		// MediaObjects
-		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir);
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export Media Objects");
+		$ilBench->start("ContentObjectExport", "exportMediaObjects");
+		$this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportMediaObjects");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export Media Objects");
 
 		// FileItems
-		$this->exportFileItems($a_target_dir);
+		$expLog->write(date("[y-m-d H:i:s] ")."Start Export File Items");
+		$ilBench->start("ContentObjectExport", "exportFileItems");
+		$this->exportFileItems($a_target_dir, $expLog);
+		$ilBench->stop("ContentObjectExport", "exportFileItems");
+		$expLog->write(date("[y-m-d H:i:s] ")."Finished Export File Items");
 
 		// Glossary
 		// not implemented
@@ -870,7 +898,7 @@ class ilObjContentObject extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLStructureObjects(&$a_xml_writer, $a_inst = 0)
+	function exportXMLStructureObjects(&$a_xml_writer, $a_inst, &$expLog)
 	{
 		$childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
 		foreach ($childs as $child)
@@ -881,7 +909,7 @@ class ilObjContentObject extends ilObject
 			}
 
 			$structure_obj = new ilStructureObject($this, $child["obj_id"]);
-			$structure_obj->exportXML($a_xml_writer, $a_inst);
+			$structure_obj->exportXML($a_xml_writer, $a_inst, $expLog);
 			unset($structure_obj);
 		}
 	}
@@ -893,30 +921,43 @@ class ilObjContentObject extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLPageObjects(&$a_xml_writer, $a_inst = 0)
+	function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog)
 	{
+		global $ilBench;
+
 		$pages = ilLMPageObject::getPageList($this->getId());
 		foreach ($pages as $page)
 		{
+			$ilBench->start("ContentObjectExport", "exportPageObject");
+			$expLog->write(date("[y-m-d H:i:s] ")."Page Object ".$page["obj_id"]);
+
 			// export xml to writer object
+			$ilBench->start("ContentObjectExport", "exportPageObject_XML");
 			$page_obj = new ilLMPageObject($this, $page["obj_id"]);
 			$page_obj->exportXML($a_xml_writer, "normal", $a_inst);
+			$ilBench->stop("ContentObjectExport", "exportPageObject_XML");
 
 			// collect media objects
+			$ilBench->start("ContentObjectExport", "exportPageObject_CollectMedia");
 			$mob_ids = $page_obj->getMediaObjectIDs();
 			foreach($mob_ids as $mob_id)
 			{
 				$this->mob_ids[$mob_id] = $mob_id;
 			}
+			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectMedia");
 
 			// collect all file items
+			$ilBench->start("ContentObjectExport", "exportPageObject_CollectFileItems");
 			$file_ids = $page_obj->getFileItemIds();
 			foreach($file_ids as $file_id)
 			{
 				$this->file_ids[$file_id] = $file_id;
 			}
+			$ilBench->stop("ContentObjectExport", "exportPageObject_CollectFileItems");
 
 			unset($page_obj);
+
+			$ilBench->stop("ContentObjectExport", "exportPageObject");
 		}
 	}
 
@@ -926,12 +967,13 @@ class ilObjContentObject extends ilObject
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
 	*										xml data
 	*/
-	function exportXMLMediaObjects(&$a_xml_writer, $a_inst = 0, $a_target_dir = "")
+	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
 		include_once("content/classes/Media/class.ilObjMediaObject.php");
 
 		foreach ($this->mob_ids as $mob_id)
 		{
+			$expLog->write(date("[y-m-d H:i:s] ")."Media Object ".$mob_id);
 			$media_obj = new ilObjMediaObject($mob_id);
 			$media_obj->exportXML($a_xml_writer, $a_inst);
 			$media_obj->exportFiles($a_target_dir);
@@ -943,12 +985,13 @@ class ilObjContentObject extends ilObject
 	* export files of file itmes
 	*
 	*/
-	function exportFileItems($a_target_dir)
+	function exportFileItems($a_target_dir, &$expLog)
 	{
 		include_once("classes/class.ilObjFile.php");
 
 		foreach ($this->file_ids as $file_id)
 		{
+			$expLog->write(date("[y-m-d H:i:s] ")."File Item ".$file_id);
 			$file_obj = new ilObjFile($file_id, false);
 			$file_obj->export($a_target_dir);
 			unset($file_obj);
