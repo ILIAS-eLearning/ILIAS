@@ -204,7 +204,7 @@ class Admin
 			}
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 			$object = getObject($_GET["obj_id"]);
-			if(!in_array($object["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
+			if(!in_array($obj_data["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
 			{
 				$not_allowed_subobject[] = $obj_data["type"];
 			}
@@ -264,7 +264,7 @@ class Admin
 
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
 			$object = getObject($_GET["obj_id"]);
-			if(!in_array($object["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
+			if(!in_array($obj_data["type"],array_keys($objDefinition->getSubObjects($object["type"]))))
 			{
 				$not_allowed_subobject[] = $obj_data["type"];
 			}
@@ -290,7 +290,7 @@ class Admin
 		{
 			$this->cloneSavedNodes($id,$object["parent"],$_GET["obj_id"],$_GET["parent"],-(int) $id);
 		}
-		$this->clearObject();
+//		$this->clearObject();
 	}
 	
 	/**
@@ -331,6 +331,7 @@ class Admin
 		global $tree,$rbacadmin,$rbacreview;
 		
 		$tree->insertNode($a_source_id,$a_dest_id,$a_dest_parent);
+
 		// SET PERMISSIONS
 		$parentRoles = $rbacadmin->getParentRoleIds($a_dest_id,$a_dest_parent);
 		$obj = getObject($a_dest_id);

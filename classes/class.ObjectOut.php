@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.13 2002/12/20 13:13:25 smeyer Exp $
+* @version $Id$Id$
 *
 * @package ilias-core
 */
@@ -424,10 +424,18 @@ class ObjectOut
 	function showActions()
 	{
 		$notoperations = array();
+		// NO PASTE AND CLEAR IF CLIPBOARD IS EMPTY
 		if (empty($_SESSION["clipboard"]))
 		{
 			$notoperations[] = "paste";
 			$notoperations[] = "clear";
+		}
+		// CUT COPY PASTE LINK DELETE IS NOT POSSIBLE IF CLIPBOARD IS FILLED
+		if ($_SESSION["clipboard"])
+		{
+			$notoperations[] = "cut";
+			$notoperations[] = "copy";
+			$notoperations[] = "link";
 		}
 
 		$operations = array();
