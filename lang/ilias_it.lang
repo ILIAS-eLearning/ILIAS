@@ -577,6 +577,7 @@ mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:###
 mail#:#mail_global_options#:#Global options###16 Apr 2003 new variable
 mail#:#mail_insert_folder_name#:#Please insert a folder name###16 Apr 2003 new variable
 mail#:#mail_insert_query#:#Please insert a query###16 Apr 2003 new variable
+mail#:#mail_intern#:#Internal###26 Apr 2003 new variable
 mail#:#mail_mark_read#:#Mark mails read###16 Apr 2003 new variable
 mail#:#mail_mark_unread#:#Mark mails unread###16 Apr 2003 new variable
 mail#:#mail_message_send#:#The message is send###16 Apr 2003 new variable

@@ -577,6 +577,7 @@ mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gültig:
 mail#:#mail_global_options#:#Allgemeine Einstellungen
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
+mail#:#mail_intern#:#Intern
 mail#:#mail_mark_read#:#Als gelesen markieren
 mail#:#mail_mark_unread#:#Als ungelesen markieren
 mail#:#mail_message_send#:#Ihre Nachricht wurde versandt
@@ -604,4 +605,3 @@ mail#:#search_addressbook#:#Adressbuchsuche
 mail#:#search_bc_recipient#:#BC Empfänger suchen
 mail#:#search_cc_recipient#:#CC Empfänger suchen
 mail#:#search_system#:#Systemsuche
-mail#:#mail_intern#:#Intern

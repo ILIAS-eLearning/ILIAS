@@ -577,6 +577,7 @@ mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
 mail#:#mail_global_options#:#Global options
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
+mail#:#mail_intern#:#Internal
 mail#:#mail_mark_read#:#Mark mails read
 mail#:#mail_mark_unread#:#Mark mails unread
 mail#:#mail_message_send#:#The message is send
@@ -604,4 +605,3 @@ mail#:#search_addressbook#:#Addressbook search
 mail#:#search_bc_recipient#:#Search BC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
 mail#:#search_system#:#System search
-mail#:#mail_intern#:#Internal
