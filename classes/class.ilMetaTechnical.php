@@ -38,7 +38,7 @@ class ilMetaTechnical
 	var $meta_data;
 	var $tech_id;
 
-	var $format;
+	var $formats;
 	var $size;
 	var $locations;
 	var $requirement_sets;
@@ -105,10 +105,9 @@ class ilMetaTechnical
 	function create()
 	{
 		$q = "INSERT INTO meta_technical ".
-			"(obj_id, obj_type, format, size, install_remarks, install_remarks_lang,".
+			"(obj_id, obj_type, size, install_remarks, install_remarks_lang,".
 			"other_requirements, other_requirements_lang, duration) ".
 			" VALUES ('".$this->getId()."','".$this->getType()."',".
-			"'".$this->getFormat()."',".
 			"'".$this->getSize()."',".
 			"'".$this->getInstallationRemarks()."',".
 			"'".$this->getInstallationRemarksLanguage()."',".
@@ -155,6 +154,14 @@ class ilMetaTechnical
 			$tech_obj->setOtherRequirementsLanguage($tech_rec["other_requirements_lang"]);
 			$tech_obj->setDuration($tech_rec["duration"]);
 
+			// get formats
+			$query = "SELECT * FROM meta_techn_format WHERE tech_id='".$tech_rec["tech_id"]."'";
+			$format_set = $this->ilias->db->query($query);
+			while ($format_rec = $format_set->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				$tech_obj->addFormat($format_rec["format"]);
+			}
+
 			// get locations
 			$query = "SELECT * FROM meta_techn_loc WHERE tech_id='".$tech_rec["tech_id"]."'";
 			$loc_set = $this->ilias->db->query($query);
@@ -162,6 +169,7 @@ class ilMetaTechnical
 			{
 				$tech_obj->addLocation($loc_rec["location"]);
 			}
+
 			$a_meta_obj->addTechnicalSection($tech_obj);
 		}
 //echo "count techs:".count($a_meta_obj->technicals).":<br>";
@@ -172,14 +180,14 @@ class ilMetaTechnical
 	*
 	* @param	string		$a_format		mime type
 	*/
-	function setFormat($a_format)
+	function addFormat($a_format)
 	{
-		$this->format = $a_format;
+		$this->formats[] = $a_format;
 	}
 
-	function getFormat()
+	function getFormats()
 	{
-		return $this->format;
+		return $this->formats;
 	}
 
 	/**

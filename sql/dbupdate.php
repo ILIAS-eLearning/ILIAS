@@ -1302,3 +1302,16 @@ PRIMARY KEY (session_id),
 INDEX (expires),
 INDEX (user_id)
 );
+
+<#65>
+ALTER TABLE meta_technical DROP COLUMN format;
+ALTER TABLE meta_techn_loc ADD COLUMN nr int;
+
+<#66>
+DROP TABLE IF EXISTS meta_techn_format;
+CREATE TABLE meta_techn_format (
+	tech_id int NOT NULL,
+	format varchar(150),
+	nr int,
+	INDEX (tech_id)
+);
