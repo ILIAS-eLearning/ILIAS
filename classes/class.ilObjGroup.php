@@ -488,10 +488,14 @@ class ilObjGroup extends ilObject
 		$ts_datetime = ilFormat::dateDE2timestamp($datetime[0]);
 		$ts_today = ilFormat::dateDE2timestamp($today);
 
-		if($ts_today < $ts_datetime)
+		if( ($ts_today <= $ts_datetime) && ( strcmp($datetime[1],date("H:i:s")) >= 0) )
+		{
 			return true;
+		}
 		else
+		{
 			return false;
+		}
 
 	}
 
@@ -858,7 +862,7 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
-	* delete group and all related data	
+	* delete group and all related data
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
@@ -911,7 +915,7 @@ class ilObjGroup extends ilObject
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_admin'";
 		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);		
 		$rbacadmin->copyRolePermission($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
-		
+
 		// MEMBER ROLE ($roles[1])
 		// create role and assign role to rolefolder...
 		$roleObj = $rfoldObj->createRole("il_grp_member_".$this->getRefId(),"Groupmember of group obj_no.".$this->getId());
@@ -1223,7 +1227,7 @@ class ilObjGroup extends ilObject
 		foreach ($_POST["trash_id"] as $id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			
+
 			$tmp_obj=& $this->ilias->obj_factory->getInstanceByRefId($id);
 			$saved_tree = new ilGroupTree(-(int)$tmp_obj->getRefId());
 			$node_data = $saved_tree->getNodeData($tmp_obj->getRefId());
