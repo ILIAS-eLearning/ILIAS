@@ -246,7 +246,7 @@ id	ID	ID	ID	ID
 item	item	Begriff	item	item
 question	question	Frage	domanda	question
 linked_pages	linked pages	verknüpft mit den Seiten	linked pages	linked pages
-sections	sections	Abschnitte	sezioni	sections
+sections	sections	Bereiche	sezioni	sections
 set	set	setzen	set	set
 total	total	gesamt	totale	total
 new	new	neu	nuovo	new
@@ -256,3 +256,36 @@ subscription	subscription	Abo	subscriptioni	subscription
 install	install	installieren	install	install
 lo_other_langs	lo's in other langauges	Lerneinheiten in anderen Sprachen	Lo's in other Languages	los lessonos anderos sprachos
 unknown	UNKNOWN	UNBEKANNT	UNKNOWN	UNKNOWN
+ilias_version	ILIAS version	ILIAS Version	versione ILIAS	ILIAS version
+db_version	database version	Datenbankversion	versione banca dati	database version
+installation_id	installation ID	Installations ID	ID dell´istallazione	installation ID
+host	host	Host	host	host
+ip_adress	IP adress	IP Adresse	indirizzo IP	IP adress
+server_port	server port	Server Port	server port	server port
+server_software	server software	Server Software	server software	server software
+http_path	http path	HTTP Pfad	http path	http path
+absolute_path	absolute path	absoluter Pfad	path assoluto	absolute path
+inst_info	installation info	Installations-Info	informazioni per l´istallazione	installation info
+path_to_convert	path to convert	CONVERT Befehlszeile	path to convert	path to convert
+path_to_zip	path to zip	ZIP Befehszeile	path to zip	path to zip
+path_to_unzip	path to unzip	UNZIP Befehlszeile	path to unzip	path to unzip
+path_to_java	path to java	JAVA Befehlszeile	path to java	path to java
+path_to_babylon	path to babylon	BABYLON Befehlszeile	path to babylon	path to babylon
+feedback_recipient	feedback recipient	Feedback-Empfänger	recipiente feedback	feedback recipient
+error_recipient	error recipient	Empfänger von Fehlermeldungen	recipiente di errori	error recipient
+pub_section	public section	öffentlicher Bereich	sezione pubblica	public section
+news	news	News	novità	news
+payment_system	payment system	Bezahlungssystem	sistema di pagamento	payment system
+group_filesharing	group file sharing	group sharing	group sharing	group sharing
+crs_management_system	crs management system	CRS Management System	sistema management CRS	crs management system
+enable	enable	aktivieren	attivare	enable
+server	server	Server	server	server
+port	port	Port	port	port
+basedn	BaseDN	BaseDN	BaseDN	BaseDN
+ldap	LDAP	LDAP	LDAP	LDAP
+contact_information	contact information	Kontakt	contatto	contact information
+must_fill_in	must fill in	Felder müssen ausgefüllt werden	obbligatori	must fill in
+position	position	Position	posizione	position
+inst_name	installation name	Installationsname	nome per l´istallazione	installation name
+usr_skin	user skin	Benutzeroberfläche	user skin	user skin
+default	default	default	default	default
