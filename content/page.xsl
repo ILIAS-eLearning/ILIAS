@@ -999,13 +999,11 @@
 				</img>
 			</xsl:if>
 			<xsl:if test = "$map_edit_mode = 'get_coords'">
-				<a href = "./lm_edit_imagemap_forward.php">
-					<img border = "0" ismap = "1">
-						<xsl:attribute name="src">lm_edit.php?cmd=showImageMap&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
-						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-					</img>
-				</a>
+				<input type="image" name="editImagemapForward" value="editImagemapForward">
+					<xsl:attribute name="src">lm_edit.php?cmd=showImageMap&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</input>
 			</xsl:if>
 		</xsl:when>
 
