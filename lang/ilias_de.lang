@@ -38,6 +38,11 @@ common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
+common#:#guest#:#Gast
+common#:#guests#:#Gäste
+common#:#and#:#und
+common#:#show_details#:#Details anzeigen
+common#:#hide_details#:#Details ausblenden
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#administrate#:#Administrieren
