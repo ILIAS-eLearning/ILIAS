@@ -126,7 +126,7 @@ assessment#:#available_points#:#Punti disponibili
 assessment#:#average_reached_points#:#Punteggio medio raggiunto
 assessment#:#backtocallingtest#:#Torna al test
 assessment#:#by#:#da
-assessment#:#cancel_test#:#Cancella il test###30 Mar 2005 content changed
+assessment#:#cancel_test#:#Cancella il test
 assessment#:#cannot_edit_test#:#Non hai i diritti per modificare il test!
 assessment#:#cannot_execute_test#:#Non hai i diritti per eseguire il test!
 assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!
@@ -846,7 +846,7 @@ common#:#cat_create_spl#:#Creare una raccolta di domande (per sondaggi)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_create_url#:#Creare URL
-common#:#cat_create_webr#:#Creare una risorsa web###16 Mar 2005 content changed
+common#:#cat_create_webr#:#Creare una risorsa web
 common#:#cat_delete#:#Eliminare un contesto
 common#:#cat_edit#:#Propriet&#224; del contesto
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
@@ -902,8 +902,8 @@ common#:#check_link_desc#:#Se abilitato, tutti i link esterni presenti in ILIAS 
 common#:#check_max_allowed_packet_size#:#Le dimensioni del contenuto della pagina sono troppo grandi.
 common#:#check_user_accounts#:#Verifica gli utenti
 common#:#check_user_accounts_desc#:#Se i job nel cron sono attivi e questa opzione &#232; stata scelta, tutti gli utenti la cui registrazione &#232; scaduta saranno informati tramite una e-Mail.
-common#:#check_web_resources#:#Controlla le risorse web###16 Mar 2005 content changed
-common#:#check_web_resources_desc#:#Se selezionato verranno controllate tutte le risorse web attive.###16 Mar 2005 content changed
+common#:#check_web_resources#:#Controlla le risorse web
+common#:#check_web_resources_desc#:#Se selezionato verranno controllate tutte le risorse web attive.
 common#:#checked_files#:#File importabili
 common#:#chg_language#:#Cambia lingua
 common#:#chg_password#:#Cambia password
@@ -972,9 +972,9 @@ common#:#crs_available#:#Corsi disponibili
 common#:#crs_container_link_not_allowed#:#Non &#232; possibile collegare contenitori di oggetti
 common#:#crs_create#:#Creare un corso
 common#:#crs_create_alm#:#Creare un modulo AICC
-common#:#crs_create_chat#:#Creare chat
-common#:#crs_create_dbk#:#Creare libro digitale
-common#:#crs_create_exc#:#Creare esercizio
+common#:#crs_create_chat#:#Creare una chat
+common#:#crs_create_dbk#:#Creare un libro digitale
+common#:#crs_create_exc#:#Creare un esercizio
 common#:#crs_create_file#:#Eseguire upload di un file
 common#:#crs_create_fold#:#Creare una cartella
 common#:#crs_create_frm#:#Creare un forum
@@ -989,7 +989,7 @@ common#:#crs_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#crs_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#crs_create_svy#:#Creare un sondaggio
 common#:#crs_create_tst#:#Creare un test
-common#:#crs_create_webr#:#Creare una risorsa web###16 Mar 2005 content changed
+common#:#crs_create_webr#:#Creare una risorsa web
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1339,7 +1339,7 @@ common#:#grp_create_sahs#:#Creare un modulo SCORM/AICC
 common#:#grp_create_spl#:#Creare una raccolta di domande per sondaggi
 common#:#grp_create_svy#:#Creare un sondaggio
 common#:#grp_create_tst#:#Creare un test
-common#:#grp_create_webr#:#Creare una nuova risorsa web###16 Mar 2005 content changed
+common#:#grp_create_webr#:#Creare una nuova risorsa web
 common#:#grp_delete#:#Eliminare un gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?
@@ -1395,9 +1395,9 @@ common#:#hist_lm:pg_cut#:#Pagina prelevata dal capitolo "%1" [%2]
 common#:#hist_lm:pg_paste#:#Pagina incollata nel capitolo "%1" [%2]
 common#:#hist_lm:pg_update#:#Pagina modificata
 common#:#hist_no_entries#:#Nessuna voce nella storia
-common#:#hist_webr_add#:#Aggiunta nuov risorsa web con titolo: "%1"###16 Mar 2005 content changed
-common#:#hist_webr_delete#:#Eliminata risorsa web. Titolo: "%1"###16 Mar 2005 content changed
-common#:#hist_webr_update#:#Modificata risorsa web. Titolo: "%1"###16 Mar 2005 content changed
+common#:#hist_webr_add#:#Aggiunta nuov risorsa web con titolo: "%1"
+common#:#hist_webr_delete#:#Eliminata risorsa web. Titolo: "%1"
+common#:#hist_webr_update#:#Modificata risorsa web. Titolo: "%1"
 common#:#history#:#Mostra la storia
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Modulo HACP
@@ -1951,7 +1951,7 @@ common#:#obj_uset#:#Impostazioni utente
 common#:#obj_usr#:#Utente
 common#:#obj_usrf#:#Gestione utenti
 common#:#obj_usrf_desc#:#Per amministrare gli utenti.
-common#:#obj_webr#:#Risorsa web###16 Mar 2005 content changed
+common#:#obj_webr#:#Risorsa web
 common#:#object#:#Oggetto
 common#:#object_added#:#Oggetto aggiunto
 common#:#objects#:#Oggetti
@@ -1995,7 +1995,7 @@ common#:#objs_tst#:#Test
 common#:#objs_type#:#Tipi di oggetti
 common#:#objs_url#:#URL
 common#:#objs_usr#:#Utenti
-common#:#objs_webr#:#Risorse web###16 Mar 2005 content changed
+common#:#objs_webr#:#Risorse web
 common#:#of#:#di
 common#:#offline#:#offline
 common#:#offline_version#:#Versione offline
@@ -2476,14 +2476,14 @@ common#:#users_online#:#Utenti online
 common#:#usertracking#:#Tracciamento utenti
 common#:#usr#:#Utente
 common#:#usr_a#:#un utente
-common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
+common#:#usr_active_only#:#Utenti attivi
 common#:#usr_add#:#Aggiungi utente
 common#:#usr_added#:#Utente aggiunto
 common#:#usr_agreement#:#Dichiarazione di accettazione
 common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene testo.
 common#:#usr_edit#:#Modifica utente
 common#:#usr_hits_per_page#:#Contatti/pagina nella tabella
-common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
+common#:#usr_inactive_only#:#Utenti non attivi
 common#:#usr_new#:#Nuovo utente
 common#:#usr_settings_explanation_profile#:#Seleziona le opzioni corrispondenti per disabilitare o nascondere le impostazioni del profilo personale per tutti gli utenti indicati nella pagina "Profilo personale" del desktop. Tutte le impostazioni personali disabilitate o nascoste sono modificabili solamente usando l'albero di amministrazione utenti.
 common#:#usr_settings_header_profile#:#Impostazioni profilo utenti
@@ -2509,9 +2509,9 @@ common#:#usrimport_cant_insert#:#Non pu&#242; essere eseguita l'operazione di "I
 common#:#usrimport_cant_update#:#Non pu&#242; essere eseguita l'operazione di "Modifica". L'utente non &#232; presente nel Database.
 common#:#usrimport_conflict_handling_info#:#Se &#232; selezionato "Ignora i conflitti", ILIAS ignora le operazioni che non possono essere eseguite (come le modifiche di utenti non esistenti o l'inserimento di utenti gi&#224; presenti).\nSe &#232; selezionato "Modifica i conflitti", ILIAS aggiorna comunque il database anche se l'operazione richiesta non pu&#242; essere eseguita (per esempio l'operazione di inserimento di un utente gi&#224; presente viene sostituita con l'operazione di modifica).
 common#:#usrimport_global_role_for_action_required#:#Per l'operazione "%1$s" deve essere specificato almeno un ruolo globale.
-common#:#usrimport_ignore_role#:#Ignore role###06 Apr 2005 new variable
+common#:#usrimport_ignore_role#:#Ignora il ruolo
 common#:#usrimport_login_is_not_unique#:#Login non unico.
-common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.###19 Mar 2005 new variable
+common#:#usrimport_with_specified_role_not_permitted#:#Non &#232; consentita l'importazione con il ruolo specificato.
 common#:#usrimport_xml_attribute_missing#:#L'attributo "%2$s" nell'elemento "%1$s" &#232; mancante.
 common#:#usrimport_xml_attribute_value_illegal#:#Il valore "%3$s" dell'attributo "%2$s" nell'elemento "%1$s" non &#232; consentito.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Il valore "%3$s" dell'attributo "%2$s" nell'elemento "%1$s" non &#232; consentito per l'azione "%4$s".
@@ -2534,35 +2534,35 @@ common#:#view#:#Anteprima
 common#:#view_content#:#Vedi il contenuto
 common#:#visible_layers#:#Livelli visibili
 common#:#visits#:#Visite
-common#:#web_resources#:#Risorse web###16 Mar 2005 content changed
-common#:#webr#:#Risorsa web###16 Mar 2005 content changed
+common#:#web_resources#:#Risorse web
+common#:#webr#:#Risorsa web
 common#:#webr_active#:#Attivo
-common#:#webr_add#:#Crea risorsa web###16 Mar 2005 content changed
-common#:#webr_add_item#:#Aggiungi risorsa web###16 Mar 2005 content changed
-common#:#webr_delete#:#Eliminare una risorse web###16 Mar 2005 content changed
-common#:#webr_delete_items#:#Delete Web Resource(s)###16 Mar 2005 new variable
-common#:#webr_deleted_items#:#Deleted Web Resource(s).###16 Mar 2005 new variable
+common#:#webr_add#:#Crea risorsa web
+common#:#webr_add_item#:#Aggiungi risorsa web
+common#:#webr_delete#:#Eliminare una risorse web
+common#:#webr_delete_items#:#Elimina risorse web
+common#:#webr_deleted_items#:#Risorse web eliminate.
 common#:#webr_disable_check#:#Disabilita controllo
-common#:#webr_edit#:#Modifica risorsa web###16 Mar 2005 content changed
-common#:#webr_edit_item#:#Modifica risorsa web###16 Mar 2005 content changed
+common#:#webr_edit#:#Modifica risorsa web
+common#:#webr_edit_item#:#Modifica risorsa web
 common#:#webr_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#webr_fillout_all#:#Per favore completa tutti i campi richiesti.
 common#:#webr_item_updated#:#Modifiche salvate
-common#:#webr_join#:#Sottoscrivere una risorsa web###16 Mar 2005 content changed
+common#:#webr_join#:#Sottoscrivere una risorsa web
 common#:#webr_last_check#:#Ultimo controllo
 common#:#webr_last_check_table#:#Ultimo controllo:
-common#:#webr_leave#:#Annullare la sottoscrizione alla risorsa web###16 Mar 2005 content changed
+common#:#webr_leave#:#Annullare la sottoscrizione alla risorsa web
 common#:#webr_modified_items#:#Modifiche salvate
 common#:#webr_never_checked#:#Controllo mai effettuato
-common#:#webr_new#:#Nuova risorsa web###16 Mar 2005 content changed
-common#:#webr_no_items_created#:#Nessuna risorsa web presente###16 Mar 2005 content changed
-common#:#webr_read#:#Accedere in lettura alle risorse web###16 Mar 2005 content changed
-common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?###16 Mar 2005 new variable
-common#:#webr_visible#:#Vedere le risorse web###16 Mar 2005 content changed
-common#:#webr_write#:#Modificare le risorse web###16 Mar 2005 content changed
+common#:#webr_new#:#Nuova risorsa web
+common#:#webr_no_items_created#:#Nessuna risorsa web presente
+common#:#webr_read#:#Accedere in lettura alle risorse web
+common#:#webr_sure_delete_items#:#Vuoi veramente eliminare le seguenti risorse web?
+common#:#webr_visible#:#Vedere le risorse web
+common#:#webr_write#:#Modificare le risorse web
 common#:#webservices#:#Webservices
 common#:#week#:#Settimana
-common#:#weekly#:#weekly###11 Mar 2005 new variable
+common#:#weekly#:#settimanale
 common#:#welcome#:#Benvenuto
 common#:#who_is_online#:#Chi &#232; connesso?
 common#:#with#:#con
@@ -2657,7 +2657,7 @@ content#:#cont_contents#:#Contenuti
 content#:#cont_coords#:#Coordinate
 content#:#cont_copy_object#:#copia oggetto
 content#:#cont_copy_to_clipboard#:#Copia negli appunti
-content#:#cont_copy_to_media_pool#:#Copy to media pool###11 Mar 2005 new variable
+content#:#cont_copy_to_media_pool#:#Copia nella raccolta multimediale
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_export_file_html#:#Crea file di export (HTML)
@@ -2844,12 +2844,12 @@ content#:#cont_organization#:#Organizzazione
 content#:#cont_organizations#:#Organizzazioni
 content#:#cont_orig_size#:#Dimensioni originali
 content#:#cont_page_header#:#Intestazione pagina
-content#:#cont_page_link#:#Page Link###11 Mar 2005 new variable
+content#:#cont_page_link#:#Pagina con collegamenti
 content#:#cont_page_select_target_now#:#Pagina selezionata per lo spostamento. Scegli adesso la destinazione.
 content#:#cont_pages#:#Pagine
 content#:#cont_parameter#:#Parametro
 content#:#cont_parameters#:#Parametri
-content#:#cont_paste_from_clipboard#:#Paste from clipboard###11 Mar 2005 new variable
+content#:#cont_paste_from_clipboard#:#Incolla dagli appunti
 content#:#cont_personal_clipboard#:#Appunti personali
 content#:#cont_pg_content#:#Contenuto pagina
 content#:#cont_pg_title#:#Titolo pagina
@@ -2870,9 +2870,9 @@ content#:#cont_repository_item#:#Risorsa
 content#:#cont_repository_item_links#:#Collegamento a risorsa
 content#:#cont_reset_definitions#:#Annulla le posizioni definite
 content#:#cont_reset_pictures#:#Annulla le posizioni delle immagini
-content#:#cont_resize_explanation#:#If this option is activated uploaded image files are automatically resized to the specified width and height.###11 Mar 2005 new variable
-content#:#cont_resize_explanation2#:#This function resizes local image files to the specified width and height.###11 Mar 2005 new variable
-content#:#cont_resize_image#:#Resize images###11 Mar 2005 new variable
+content#:#cont_resize_explanation#:#Se questa opzione viene selezionata le immagini salvate verranno automaticamente ridimensionate alla larghezza ed altezza indicate.
+content#:#cont_resize_explanation2#:#Questa funzione ridimensiona le immagini alla larghezza e altezza indicate.
+content#:#cont_resize_image#:#Ridimesiona le immagini
 content#:#cont_resource#:#Risorsa
 content#:#cont_resource_type#:#Tipo
 content#:#cont_resources#:#Risorse
@@ -2941,8 +2941,8 @@ content#:#cont_table_cellpadding#:#Cell Padding della tabella
 content#:#cont_table_cellspacing#:#Cell Spacing della tabella
 content#:#cont_table_html_import#:#Importare una tabella HTML
 content#:#cont_table_html_import_info#:#Importare solo lavori con tabelle conformi allo standard XHTML. "Table" deve essere il tag radice!
-content#:#cont_table_spreadsheet_import#:#Spreadsheet Import###12 Mar 2005 new variable
-content#:#cont_table_spreadsheet_import_info#:#Paste table from spreadsheet application via clipboard into the textarea.###12 Mar 2005 new variable
+content#:#cont_table_spreadsheet_import#:#Importa foglio di calcolo
+content#:#cont_table_spreadsheet_import_info#:#Incolla la tabella del foglio di calcolo utilizzando gli appunti nella textarea.
 content#:#cont_table_width#:#Larghezza tabella
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.
 content#:#cont_term#:#Voce
@@ -3099,7 +3099,7 @@ crs#:#crs_info_reg_confirmation#:#L'iscrizione a questo corso &#232; vincolata a
 crs#:#crs_info_reg_deactivated#:#Non &#232; possibile iscriversi
 crs#:#crs_info_reg_direct#:#E' necessaria l'iscrizione a questo corso
 crs#:#crs_info_reg_password#:#Per l'iscrizione occorre una password valida.
-crs#:#crs_info_start#:#Per favore lavora con tutti gli elementi del corso iniziato evidenziati qui sopra.<br />Una volta che avrai terminato tutti gli oggetti marcati di rosso, gli elementi del nuovo corso saranno resi disponibili.###18 Mar 2005 content changed
+crs#:#crs_info_start#:#Per favore lavora con tutti gli elementi del corso iniziato evidenziati qui sopra.<br />Una volta che avrai terminato tutti gli oggetti marcati di rosso, gli elementi del nuovo corso saranno resi disponibili.
 crs#:#crs_learning_materials#:#Materiale formativo
 crs#:#crs_list_users#:#Elenco degli utenti
 crs#:#crs_lm_assignment#:#Modifica materiale formativo
@@ -3195,7 +3195,7 @@ crs#:#crs_objectives_reset_sure#:#Hai deciso di eliminare tutti i risultati di q
 crs#:#crs_objectives_reseted#:#Risultati eliminati.
 crs#:#crs_offline#:#Offline
 crs#:#crs_options#:#Opzioni
-crs#:#crs_other_groupings#:#Groupings of other courses###08 Mar 2005 new variable
+crs#:#crs_other_groupings#:#Piano formativo di altri corsi
 crs#:#crs_other_resources#:#Altre risorse
 crs#:#crs_passed#:#Superato
 crs#:#crs_password_not_valid#:#La tua password non &#232; valida
@@ -3506,7 +3506,7 @@ dateplaner#:#viewlist#:#Vista
 dateplaner#:#week#:#Settimana
 dateplaner#:#year#:#Anno
 forum#:#forums#:#Forum
-forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
+forum#:#forums_all_threads_marked_read#:#Tutti gli argomenti sono stati indicati come letti
 forum#:#forums_articles#:#Articoli
 forum#:#forums_attachments#:#Allegati
 forum#:#forums_attachments_add#:#Aggiungi allegato
@@ -3516,7 +3516,7 @@ forum#:#forums_censor_comment#:#Commento del moderatore
 forum#:#forums_count#:#Numero di forum
 forum#:#forums_count_art#:#Numero di articoli
 forum#:#forums_count_thr#:#Numero di temi
-forum#:#forums_created_by#:#Created by###06 Apr 2005 new variable
+forum#:#forums_created_by#:#Creato da
 forum#:#forums_delete_file#:#Cancella l&#039;allegato
 forum#:#forums_download_attachment#:#Download dell'allegato
 forum#:#forums_edit_post#:#Modifica messaggio
@@ -3537,7 +3537,7 @@ forum#:#forums_post_new_entry#:#Il messaggio &#232; stato inserito
 forum#:#forums_posts#:#Tutti i messaggi
 forum#:#forums_posts_not_available#:#Messaggi non disponibili
 forum#:#forums_print_thread#:#Stampa questo argomento
-forum#:#forums_print_view#:#Print view###06 Apr 2005 new variable
+forum#:#forums_print_view#:#Stampa la vista
 forum#:#forums_quote#:#Citazione
 forum#:#forums_respond#:#Rispondi ad un articolo
 forum#:#forums_subject#:#Oggetto
@@ -3548,7 +3548,7 @@ forum#:#forums_thread_create_date#:#Creato il
 forum#:#forums_thread_create_from#:#Creato da
 forum#:#forums_thread_marked#:#Questo argomento &#232; stato segnato come letto.
 forum#:#forums_thread_new_entry#:#Un nuovo argomento &#232; stato creato
-forum#:#forums_threads#:#Argomenti###06 Apr 2005 content changed
+forum#:#forums_threads#:#Argomenti
 forum#:#forums_threads_not_available#:#Argomenti non disponibili
 forum#:#forums_topics_overview#:#Visione generale temi
 forum#:#forums_your_reply#:#tua risposta
