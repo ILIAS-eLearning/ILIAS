@@ -93,21 +93,31 @@ usr_agreement	user agreement	Vereinbarung	user agreement	usr_agreement
 write	write	schreiben	scrivi	write
 yes	yes	Ja	si	yes
 zip_code	zip code	Postleitzahl	codice postale	zip_code
-step	step	Schritt	step	step
+step	step	Schritt	passo	step
 inifile	INI-file	Ini-Datei	inifile	inifile
-db_name	database name	Datenbankname	database name	database name
-db_user	database user	Datenbankbenutzer	database user	database user
+db_name	database name	Datenbankname	database nome	database name
+db_user	database user	Datenbankbenutzer	database utente	database user
 db_pass	database password	Datenbankpassword	database password	database password
 reset	reset	Zurücksetzen	reset	reset
 err_create_database_failed	creation of database failed	Datenbank konnte nicht erstellt werden	creation of database failed	creation of database failed
 setup_ready	setup is ready	Setup wurde erfolgreich beendet	setup is ready	setup is ready
-database_exists	database exists	Datenbank existiert bereits	database exists	database exists
+database_exists	database exists	Datenbank existiert bereits	database esiste	database exists
 languages_generate_from_file	generate languages from file	Sprachdateien generieren aus Datei	generate languages from file	generate languages from file
 languages_generate_from_upload	generate languages from uploaded file	Sprachdateien generieren aus hochgeladener Datei	generate languages from uploaded file	generate languages from uploaded file
 update_applied	update applied	Datenbankupdate erfolgreich	update applied	update applied
 database_version	current database version	Ihre Datenbankversion	current database version	current database version
 file_version	version provided in file	verfügbare Version	provided version	provided version
 database_is_uptodate	the database is up-to-date	Ihre Datenbank ist auf dem neuesten Stand	database uptodate	database uptodate
-version	version	Version	version	version
+version	version	Version	versione	version
 database_needs_update	database needs an update	Datenbank benötigt Update	database needs update	database needs update
 database_update	update database	Datenbank updated	update database	update database
+groups	groups	Gruppen	gruppi	groups
+search	search	suchen	cercare	search
+search_in	search_in	suchen in	cercare in	search_in
+keywords	keywords	Schlüsselwörter	parole chiave	keywords
+phrase	phrase	Phrase	frase	phrase
+				
+msg_nothing_found	msg_nothing_found	nichts gefunden	niente trovato	msg_nothing_found
+				
+				
+				
