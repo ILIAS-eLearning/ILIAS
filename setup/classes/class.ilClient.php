@@ -38,9 +38,10 @@ class ilClient
 	var $db_exists = false;		// db exists?
 	var $db_installed = false;	// db installed?
 
-	var $client_defaults;	// default settings
-	var $status;			// contains status infos about setup process (todo: move function to this class)
-	var $setup_ok = false;	// if client setup was finished at least once, this is set to true
+	var $client_defaults;		// default settings
+	var $status;				// contains status infos about setup process (todo: move function to this class)
+	var $setup_ok = false;		// if client setup was finished at least once, this is set to true
+	var $nic_status;			// contains received data of ILIAS-NIC server when registering
 
 	// Constructor
 	function ilClient($a_client_id = 0)
@@ -63,7 +64,6 @@ class ilClient
 		if (!@file_exists($this->ini_file_path))
 		{
 			$this->ini->GROUPS = parse_ini_file($this->client_defaults,true);
-			//$this->ini->setVariable("server","data_dir",ILIAS_DATA_DIR."/".$this->getId());
 			return false;
 		}
 
@@ -343,12 +343,6 @@ class ilClient
 		$q = "REPLACE INTO settings SET keyword = '".$a_key."', value = '".$a_val."'";
 		$this->db->query($q);
 		
-		//$q = "DELETE FROM settings WHERE keyword='".$a_key."'";
-		//$r = $this->db->query($q);
-
-		//$q = "INSERT INTO settings (keyword, value) VALUES ('".$a_key."','".$a_val."')";
-		//$r = $this->db->query($q);
-
 		return true;
 	}
 	
@@ -357,6 +351,8 @@ class ilClient
 		$settings = $this->getAllSettings();
 
 		$inst_id = (empty($settings["inst_id"])) ? "0" : $settings["inst_id"];
+		var_dump($inst_id);
+		return;
 
 		// send host information to ilias-nic
 		$url = 	$a_nic_url.

@@ -276,6 +276,7 @@ pre_php_version_4.1#:#PEAR classes won't work properly with this version! Please
 pre_php_version_4.2#:#DOMXML and XSLT support won't work properly with this version!
 pre_php_version_3#:#Your PHP version is much too old for using ILIAS 3! Please upgrade PHP.
 pre_php_version_unknown#:#ILIAS setup don't know this version. Use with own risk!
+pre_javascript_comment#:#You may run ILIAS without Javascript but you will miss some interface features.
 preliminaries#:#Preliminaries
 prev#:#Previous
 required_field#:#required fields
