@@ -142,18 +142,25 @@ class ilFileDataExercise extends ilFileData
 	* @access	public
 	* @return bool
 	*/
-	function storeUploadedFile($a_http_post_file)
+	function storeUploadedFile($a_http_post_file, $secure_filename = false)
 	{
 		// TODO: 
 		// CHECK UPLOAD LIMIT
 		// 
-
+		$filename = $a_http_post_file['name'];
+		if ($secure_filename)
+		{
+			// replace whitespaces with underscores
+			$filename = preg_replace("/\s/", "_", $filename);
+			// remove all special characters
+			$filename = preg_replace("/[^_a-zA-Z0-9\.]/", "", $filename);
+		}
 		if(isset($a_http_post_file) && $a_http_post_file['size'])
 		{
 			// CHECK IF FILE WITH SAME NAME EXISTS
-			$this->__rotateFiles($this->getExercisePath().'/'.$this->obj_id.'_'.$a_http_post_file['name']);
+			$this->__rotateFiles($this->getExercisePath().'/'.$this->obj_id.'_'.$filename);
 			move_uploaded_file($a_http_post_file['tmp_name'],$this->getExercisePath().'/'.$this->obj_id.'_'.
-							   $a_http_post_file['name']);
+							   $filename);
 		}
 		return true;
 	}
@@ -173,6 +180,12 @@ class ilFileDataExercise extends ilFileData
 		$result = false;
 		if(isset($a_http_post_file) && $a_http_post_file['size'])
 		{
+			$filename = $a_http_post_file['name'];
+			// replace whitespaces with underscores
+			$filename = preg_replace("/\s/", "_", $filename);
+			// remove all special characters
+			$filename = preg_replace("/[^_a-zA-Z0-9\.]/", "", $filename);
+
 			$savepath = $this->getExercisePath() . "/" . $this->obj_id . "/" . $user_id . "/";
 			// CHECK IF FILE PATH EXISTS
 			if (!is_dir($savepath))
@@ -182,15 +195,47 @@ class ilFileDataExercise extends ilFileData
 			}
 			$now = getdate();
 			$prefix = sprintf("%04d%02d%02d%02d%02d%02d", $now["year"], $now["mon"], $now["mday"], $now["hours"], $now["minutes"], $now["seconds"]);
-			move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $a_http_post_file["name"]);
+			move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
 			require_once "./content/classes/Media/class.ilObjMediaObject.php";
 			$result = array(
-				"filename" => $prefix . "_" . $a_http_post_file["name"],
-				"fullname" => $savepath . $prefix . "_" . $a_http_post_file["name"],
-        "mimetype" =>	ilObjMediaObject::getMimeType($savepath . $prefix . "_" . $a_http_post_file["name"])
+				"filename" => $prefix . "_" . $filename,
+				"fullname" => $savepath . $prefix . "_" . $filename,
+        "mimetype" =>	ilObjMediaObject::getMimeType($savepath . $prefix . "_" . $filename)
 			);
 		}
 		return $result;
+	}
+	
+	function downloadAllDeliveredFiles($members)
+	{
+		require_once "./classes/class.ilUtil.php";
+		global $lng;
+		
+		ksort($members);
+		$tmpfile = tempnam("/tmp", "mem");
+		$fh = fopen($tmpfile, "w");
+		if ($fh)
+		{
+			foreach ($members as $id => $member)
+			{
+				fwrite($fh, "$id\t$member\n");
+			}
+			fclose($fh);
+		}
+		$savepath = $this->getExercisePath() . "/" . $this->obj_id . "/";
+		copy($tmpfile, $savepath . "users.txt"); 
+		$cdir = getcwd();
+		chdir($savepath);
+		$zip = PATH_TO_ZIP;
+		$tmpfile = tempnam("/tmp", "foo");
+		$tmpzipfile = $tmpfile . ".zip";
+		$zipcmd = $zip." -r ".ilUtil::escapeShellArg($tmpzipfile)." *";
+		exec($zipcmd);
+		ilUtil::deliverFile($tmpzipfile, strtolower($lng->txt("excs")) . ".zip");
+		chdir($cdir);
+		unlink($savepath . "users.txt");
+		unlink($tmpfile);
+		unlink($tmpzipfile);
 	}
 	
 	/**

@@ -941,6 +941,7 @@ common#:#delete_tr_data#:#Delete tracking data
 common#:#deleted#:#Deleted
 common#:#deleted_user#:#The user has been deleted
 common#:#deliver#:#Deliver exercise
+common#:#download_all_returned_files#:#Download all returned files
 common#:#department#:#Department
 common#:#desc#:#Description
 common#:#description#:#Description
