@@ -555,6 +555,8 @@ common#:#yes#:#si
 common#:#you_may_add_local_roles#:#you_may_add_local_roles
 common#:#your_message#:#Tuo messagio
 common#:#zipcode#:#codice postale
+content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
+content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
 content#:#cont_edit_tab_properties#:#Table Properties###09 Jun 2003 new variable
