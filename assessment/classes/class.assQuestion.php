@@ -867,6 +867,22 @@ class ASS_Question extends PEAR {
 		return $values;
 	}
 
+/**
+* Checks whether the question is in use or not
+*
+* Checks whether the question is in use or not
+*
+* @return boolean The number of datasets which are affected by the use of the query.
+* @access public
+*/
+	function is_in_use() {
+		$query = sprintf("SELECT COUNT(solution_id) AS solution_count WHERE question_fi = %s",
+			$this->ilias->db->quote("$this->id")
+		);
+		$result = $this->ilias->db->query($query);
+		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		return $row->solution_count;
+	}
 }
 
 ?>
