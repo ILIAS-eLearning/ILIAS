@@ -26,7 +26,7 @@
 * Class ilObjRootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolder.php,v 1.7 2003/07/11 13:23:05 shofmann Exp $
+* @version $Id$Id: class.ilObjRootFolder.php,v 1.8 2003/07/18 13:16:35 shofmann Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -107,7 +107,7 @@ class ilObjRootFolder extends ilObject
 	* @param	array	passes optional parameters if required
 	* @return	boolean
 	*/
-	function notify($a_event,$a_ref_id,$a_params = 0)
+	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
 	{
 		return true;
 	}

@@ -256,11 +256,11 @@ class ilObjForum extends ilObject
 	* @param	array	passes optional parameters if required
 	* @return	boolean
 	*/
-	function notify($a_event,$a_ref_id,$a_params = 0)
+	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
 	{
 		// object specific event handling
 			
-		parent::notify($a_event,$a_ref_id,$a_params);
+		parent::notify($a_event,$a_ref_id,$a_node_id,$a_params);
 	}
 } // END class.ilObjForum
 ?>

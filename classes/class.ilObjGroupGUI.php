@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 
-* $Id$Id: class.ilObjGroupGUI.php,v 1.29 2003/08/12 13:07:32 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.30 2003/08/14 09:42:52 mmaschke Exp $
 
 *
 * @extends ilObjectGUI
@@ -133,7 +133,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
-		$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
+		//$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
 		$groupObj->insertGroupNode($rfoldObj->getId(),$groupObj->getId(),$groupObj->getId(),$rfoldObj->getRefId());
 
 		// always send a message

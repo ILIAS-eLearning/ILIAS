@@ -644,7 +644,7 @@ class ilObjGroup extends ilObject
 	function createNewGroupTree($objGrpId,$objGrpRefId)
 	{
 		
-		
+		//echo "grp_obj_id".$objGrpId."-grp_ref_id".$objGrpRefId;
 		$grp_tree = new ilTree($objGrpId);
 		$grp_tree->setTableNames("grp_tree","object_data","object_reference");
 		$grp_tree->addTree($objGrpId);
@@ -895,7 +895,73 @@ class ilObjGroup extends ilObject
 			}
 		}
 	}
+	function newGrpTree($a_ref_id)
+	{
+		//echo "jaaaaa";
+		$grp_tree = new ilTree($this->getId());
+		$grp_tree->setTableNames("grp_tree","object_data");
+		
+		//if  grp object not in grp_table first put it in
+		
+		
+		if(!$grp_tree->isInTree($this->getId()))
+		{
+			$this->createNewGroupTree($this->getId(),$this->getRefId());
+		}
+		//else condition will be executed only if the Object already exists in the grp_tree table
+		else
+		{
+			
+		
+			$childrenNodes = $this->tree->getChilds($a_ref_id); 
+			foreach ( $childrenNodes as $child)
+			{
+				$object =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+				//echo "ref_id:".$a_ref_id;
+				if( !$object->getId()==$grp_tree->getParentId($child["obj_id"]) )
+				{	
+					$this->insertGroupNode($child["obj_id"],$object->getId(),$this->getId(),$child["ref_id"]);
+					//echo $child["obj_id"]."-".$object->getId()."-".$this->getId()."-".$child["ref_id"];
+						
+				
+			
+				}
+			
+			
+			}
+		}
+	}
 	
+	function copyGrpTree($a_ref_id,$params)
+	{	//echo "ref".$a_ref_id;
+		$grp_tree = new ilTree($this->getId());
+		$grp_tree->setTableNames("grp_tree","object_data");
+		
+		//get (direct) children of the node where the event occured
+		$childrenNodes = $this->tree->getChilds($a_ref_id); 
+		
+		//filter only the nodes which were linked
+		foreach ( $childrenNodes as $child)
+		{
+			foreach ( $params as $parameter => $value)
+			{
+				if ( $child["ref_id"] == $parameter )
+				{
+					$new_node =& $this->ilias->obj_factory->getInstanceByRefId($parameter);
+					
+					//insert the new node into the 'grp_tree' table	
+					$object =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+					$this->insertGroupNode($new_node->getId(),$object->getId(),$this->getId(),$new_node->getRefId());
+						
+					//$params = array_diff($params,array($value));
+						
+					//repeat the procedure one level deeper			
+					$this->copyGrpTree($child["ref_id"],$params);  
+				}
+					
+			}
+		}
+	}
 	/**
 	* notifys an object about an event occured
 	* Based on the event happend, each object may decide how it reacts.
@@ -906,14 +972,14 @@ class ilObjGroup extends ilObject
 	* @param	array	passes optional parameters if required
 	* @return	boolean
 	*/
-	function notify($a_event,$a_ref_id,$a_params = 0)
-	{
+	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
+	{  //echo " notify ref".$a_ref_id."node".$a_node_id;
 		// object specific event handling
 		switch ($a_event)
 		{
 			case "link":
 				$this->linkGrpTree($a_ref_id,$a_params);
-				
+			
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "Group ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
 				//exit;
@@ -929,6 +995,9 @@ class ilObjGroup extends ilObject
 				break;
 				
 			case "copy":
+			
+				$this->copyGrpTree($a_ref_id,$a_params);
+				
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "Group ".$this->getRefId()." triggered by copy event. Objects are copied into target object ref_id: ".$a_ref_id;
 				//exit;
@@ -941,12 +1010,24 @@ class ilObjGroup extends ilObject
 				//echo "Group ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
+			
+			case "new":
+				
+				$this->newGrpTree($a_ref_id);
+				
+				//echo "Group ".$this->getRefId()." triggered by paste (cut) event. Objects are pasted into target object ref_id: ".$a_ref_id;
+				//exit;
+				break;
 		}
 		
 		// stop walking up the tree
-		return true;
-		
-		parent::notify($a_event,$a_ref_id,$a_params);
+		//return true;
+		//echo "pass";
+		if ($a_node_id==$a_ref_id)
+		{	
+			$a_node_id = (int) $this->tree->getParentId($a_node_id);
+		}
+		parent::notify($a_event,$a_ref_id,$a_node_id,$a_params);
 	}
 
 } //END class.ilObjGroup
