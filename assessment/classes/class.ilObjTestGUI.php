@@ -590,6 +590,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// catch feedback message
 		sendInfo();
+		
+		if ($_POST["cmd"]["next"] or $_POST["cmd"]["previous"]) {
+			// save question solution
+		}
 
 		$this->sequence = $_GET["sequence"];
 		if ($_POST["cmd"]["next"]) {
