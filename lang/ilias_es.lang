@@ -75,6 +75,22 @@ assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
 assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
 assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
 assessment#:#true#:#True###05 Feb 2004 new variable
+assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
+assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
+assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
+assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
+assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
+assessment#:#tst_report_after_test#:#Report the score after completing the whole test###18 Feb 2004 new variable
+assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
+assessment#:#tst_score_reporting_date#:#Score reporting date###18 Feb 2004 new variable
+assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
+assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
+assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 2004 new variable
+assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
+assessment#:#tst_sequence_properties#:#Sequence properties###18 Feb 2004 new variable
+assessment#:#tst_session_settings#:#Session settings###18 Feb 2004 new variable
+assessment#:#tst_starting_time#:#Starting time###18 Feb 2004 new variable
+assessment#:#tst_types#:#Test types###18 Feb 2004 new variable
 common#:#3rd_party_software#:#3rd party software###19 Nov 2003 new variable
 common#:#DD.MM.YYYY#:#DD.MM.YYYY###20 Jan 2004 new variable
 common#:#HH:MM#:#HH:MM###20 Jan 2004 new variable
@@ -726,11 +742,11 @@ common#:#msg_no_search_string#:#Please enter your query###04 Aug 2003 new variab
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
 common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users###18 Nov 2003 new variable
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself###04 Aug 2003 new variable
-common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type###04 Aug 2003 new variable
 common#:#msg_nothing_found#:#msg_nothing_found###04 Aug 2003 new variable
 common#:#msg_obj_created#:#Object created.###10 Jul 2003 new variable
 common#:#msg_obj_exists#:#This object already exists in this folder###04 Aug 2003 new variable
 common#:#msg_obj_modified#:#Modifications saved.###10 Jul 2003 new variable
+common#:#msg_obj_no_link#:#are not allowed to be linked###18 Feb 2004 new variable
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from###08 Jul 2003 new variable
 common#:#msg_perm_adopted_from2#:#(The setting have been saved!)###08 Jul 2003 new variable
 common#:#msg_perm_adopted_from_itself#:#You cannot adopt permission settings from the current role/role template itself.###09 Jul 2003 new variable
@@ -830,8 +846,31 @@ common#:#objf_edit_permission#:#Change permission settings###13 Jan 2004 new var
 common#:#objf_read#:#Read access to Objectdefinitions###13 Jan 2004 new variable
 common#:#objf_visible#:#Objectdefinitions are visible###13 Jan 2004 new variable
 common#:#objf_write#:#Edit Objectdefinitions###13 Jan 2004 new variable
+common#:#objs_cat#:#Categories###18 Feb 2004 new variable
 common#:#objs_confirm#:#Confirm Deletion###25 Nov 2003 new variable
+common#:#objs_crs#:#Courses###18 Feb 2004 new variable
+common#:#objs_dbk#:#Digilib Books###18 Feb 2004 new variable
 common#:#objs_delete#:#Delete objects###02 Oct 2003 new variable
+common#:#objs_exc#:#Exersices###18 Feb 2004 new variable
+common#:#objs_file#:#Files###18 Feb 2004 new variable
+common#:#objs_fold#:#Folders###18 Feb 2004 new variable
+common#:#objs_frm#:#Forums###18 Feb 2004 new variable
+common#:#objs_glo#:#Glossaries###18 Feb 2004 new variable
+common#:#objs_grp#:#Groups###18 Feb 2004 new variable
+common#:#objs_lm#:#Learning Modules###18 Feb 2004 new variable
+common#:#objs_lng#:#Languages###18 Feb 2004 new variable
+common#:#objs_lo#:#Learning Objects###18 Feb 2004 new variable
+common#:#objs_mob#:#Multimedia Objects###18 Feb 2004 new variable
+common#:#objs_note#:#Notes###18 Feb 2004 new variable
+common#:#objs_pg#:#Pages###18 Feb 2004 new variable
+common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
+common#:#objs_role#:#Roles###18 Feb 2004 new variable
+common#:#objs_rolt#:#Role Templates###18 Feb 2004 new variable
+common#:#objs_slm#:#SCORM Learning Modules###18 Feb 2004 new variable
+common#:#objs_st#:#Chapters###18 Feb 2004 new variable
+common#:#objs_tst#:#Tests###18 Feb 2004 new variable
+common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
+common#:#objs_usr#:#Users###18 Feb 2004 new variable
 common#:#of#:#de
 common#:#offline_version#:#offline version
 common#:#ok#:#OK###09 May 2003 new variable
