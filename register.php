@@ -79,9 +79,9 @@ function saveForm()
 	global $tpl, $ilias, $lng, $rbacadmin;
 
 	$tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
-	
-	InfoPanel();
 	sendInfo();
+	InfoPanel();
+
 	//check, whether user-agreement has been accepted
 	if (! ($_POST["status"]=="accepted") )
 	{
@@ -165,13 +165,15 @@ function saveForm()
 
 function displayForm ()
 {
-	global $tpl,$ilias,$lng;
+
+	global $tpl,$ilias,$lng, $ObjDefinition;
 
 	// load login template
 	$tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
+	$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
-	sendInfo();
-
+	//sendInfo();
+	//infoPanel();
 	// role selection (only those roles marked with allow_register)
 	$q = "SELECT * FROM role_data ".
 		 "LEFT JOIN object_data ON object_data.obj_id = role_data.role_id ".
@@ -248,7 +250,7 @@ function displayForm ()
 
 	// preselect previous chosen language otherwise default language
 	$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? $_SESSION["error_post_vars"]["Fobject"]["language"] : $ilias->getSetting("language");
-	
+
 	foreach ($languages as $lang_key)
 	{
 		$tpl->setCurrentBlock("language_selection");
@@ -282,7 +284,7 @@ function displayForm ()
 			$tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 		}
 	}
-
+	
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 	$tpl->setVariable("TXT_REGISTER_INFO", $lng->txt("register_info"));
 	$tpl->setVariable("AGREEMENT", getUserAgreement());
@@ -290,6 +292,7 @@ function displayForm ()
 	$tpl->setVariable("ACCEPT_AGREEMENT",$lng->txt("accept_usr_agreement") );
 
 	$tpl->show();
+
 }
 
 function getUserAgreement()
@@ -297,6 +300,7 @@ function getUserAgreement()
 	global $lng, $ilias;
 
 	$tmpPath = getcwd();
+	$tmpsave = getcwd();
 	$agrPath = $tmpPath."/agreement";
 	chdir($agrPath);
 
@@ -310,6 +314,7 @@ function getUserAgreement()
 			{
 				$text .= trim(nl2br($val));
 			}
+			chdir($tmpsave);
 			return $text;
 		}
 		else
@@ -321,5 +326,7 @@ function getUserAgreement()
 	{
 		$ilias->raiseError($lng->txt("file_not_found"),$ilias->error_obj->MESSAGE);
 	}
+	chdir($tmpsave);
 }
 ?>
+
