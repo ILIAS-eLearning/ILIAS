@@ -300,7 +300,7 @@ class ilObjContentObject extends ilObject
 		// always call parent clone function first!!
 		$new_ref_id = parent::clone($a_parent_ref);
 
-		// put here lm specific stuff
+		// todo: put here lm specific stuff
 
 		// ... and finally always return new reference ID!!
 		return $new_ref_id;
@@ -314,7 +314,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function delete()
 	{
-		// put here learning module specific stuff
+		// todo: put here learning module specific stuff
 
 		// always call parent delete function at the end!!
 		return (parent::delete()) ? true : false;

@@ -22,6 +22,7 @@
 */
 
 require_once("classes/class.ilObject.php");
+require_once("classes/class.ilMetaData.php");
 
 /**
 * Class ilObjGlossary
@@ -42,7 +43,144 @@ class ilObjGlossary extends ilObject
 	{
 		$this->type = "glo";
 		parent::ilObject($a_id, $a_call_by_reference);
+		if ($a_id == 0)
+		{
+			$new_meta =& new ilMetaData();
+			$this->assignMetaData($new_meta);
+		}
+
 	}
+
+	/**
+	* create glossary object
+	*/
+	function create()
+	{
+		parent::create();
+		$this->meta_data->setId($this->getId());
+		$this->meta_data->setType($this->getType());
+		$this->meta_data->create();
+	}
+
+	/**
+	* read data of content object
+	*/
+	function read()
+	{
+		parent::read();
+		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+
+	}
+
+	/**
+	* get title of glossary object
+	*
+	* @return	string		title
+	*/
+	function getTitle()
+	{
+		return $this->meta_data->getTitle();
+	}
+
+	/**
+	* set title of glossary object
+	*/
+	function setTitle($a_title)
+	{
+		$this->meta_data->setTitle($a_title);
+	}
+
+	/**
+	* assign a meta data object to glossary object
+	*
+	* @param	object		$a_meta_data	meta data object
+	*/
+	function assignMetaData(&$a_meta_data)
+	{
+		$this->meta_data =& $a_meta_data;
+	}
+
+	/**
+	* get meta data object of glossary object
+	*
+	* @return	object		meta data object
+	*/
+	function &getMetaData()
+	{
+		return $this->meta_data;
+	}
+
+	/**
+	* update meta data only
+	*/
+	function updateMetaData()
+	{
+		$this->setTitle($this->meta_data->getTitle());
+		$this->setDescription($this->meta_data->getDescription());
+		$this->meta_data->update();
+		parent::update();
+	}
+
+	/**
+	* update complete object
+	*/
+	function update()
+	{
+		$this->updateMetaData();
+
+		// todo: glossary attributes/properties
+	}
+
+	/**
+	* copy all properties and subobjects of a glossary
+	*
+	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{
+		global $rbacadmin;
+
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+
+		// todo: put here glossary specific stuff
+
+		// ... and finally always return new reference ID!!
+		return $new_ref_id;
+	}
+
+	/**
+	* delete learning module and all related data
+	*
+	* @access	public
+	* @return	boolean	true if all object data were removed; false if only a references were removed
+	*/
+	function delete()
+	{
+		// todo: put glossary specific stuff here
+
+		// always call parent delete function at the end!!
+		return (parent::delete()) ? true : false;
+	}
+
+	/**
+	* notifys an object about an event occured
+	* Based on the event happend, each object may decide how it reacts.
+	*
+	* @access	public
+	* @param	string	event
+	* @param	integer	reference id of object where the event occured
+	* @param	array	passes optional paramters if required
+	* @return	boolean
+	*/
+	function notify($a_event,$a_ref_id,$a_params = 0)
+	{
+		// object specific event handling
+
+		parent::notify($a_event,$a_ref_id,$a_params);
+	}
+
 
 } // END class.ilObjGlossary
 
