@@ -155,20 +155,20 @@ function generateDay($timestamp){
 	$table_sorted  = getDayList($CSCW_UId,$startshow , $endshow, $CSCW_Keywords); // get streamed dates
 	if($table_sorted){ // check for existance of dates
 		for($stream=0; $stream<count($table_sorted); $stream++){
-			turnToMinutes	(&$table_sorted[$stream], $startshow); // convert timestamps to minutes and format date
+			turnToMinutes	($table_sorted[$stream], $startshow); // convert timestamps to minutes and format date
 			
 		}
 		for($stream=0; $stream<count($table_sorted); $stream++){
-			initDisplayTime	(&$startDisplayTimeInMinutes, &$endDisplayTimeInMinutes, $table_sorted[$stream], $intervall); //check if user set display time is sufficient
+			initDisplayTime	($startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $table_sorted[$stream], $intervall); //check if user set display time is sufficient
 			
 		}
 		for($stream=0; $stream<count($table_sorted); $stream++){
 			//$counter = 0;
-			padFront($table_sorted[$stream], $stream, &$arrayPadded, $intervall, $startDisplayTimeInMinutes); // generate fields in $arrayPadded, that resemble the free time before the first date.
+			padFront($table_sorted[$stream], $stream, $arrayPadded, $intervall, $startDisplayTimeInMinutes); // generate fields in $arrayPadded, that resemble the free time before the first date.
 			for($counter=1; $counter<count($table_sorted[$stream]); $counter++){
-				padMiddle($table_sorted[$stream], $counter, $stream, &$arrayPadded, $intervall); // generate fields in $arrayPadded, that resemble the free time during dates.
+				padMiddle($table_sorted[$stream], $counter, $stream, $arrayPadded, $intervall); // generate fields in $arrayPadded, that resemble the free time during dates.
 			}
-			padBack ($stream, &$arrayPadded, $intervall, $endDisplayTimeInMinutes);// generate fields in $arrayPadded, that resemble the free time after the last date.
+			padBack ($stream, $arrayPadded, $intervall, $endDisplayTimeInMinutes);// generate fields in $arrayPadded, that resemble the free time after the last date.
 		}
 		$dayString = generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow);
 		
@@ -179,7 +179,7 @@ function generateDay($timestamp){
 		$arrayPadded[0][0][2]=$startDisplayTimeInMinutes+$intervall;
 		$arrayPadded[0][0][5]=$intervall;
 		$arrayPadded[0][0][6]=1;
-		padBack(0, &$arrayPadded, $intervall, $endDisplayTimeInMinutes);
+		padBack(0, $arrayPadded, $intervall, $endDisplayTimeInMinutes);
 		$dayString = generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow);
 		
 	}

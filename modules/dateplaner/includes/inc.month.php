@@ -449,7 +449,7 @@ function setMonthView($week_ts, $week_s, $first_change)
 			}
 			else 
 			{
-				$month_float = $month_float.setDaysInMonth($dayinmonth_ts, $DATE, &$style);
+				$month_float = $month_float.setDaysInMonth($dayinmonth_ts, $DATE, $style);
 				$dayinmonth_ts = strtotime ("+1 day", $dayinmonth_ts );
 			}
 			$ttd->ttd($dayinmonth_ts);

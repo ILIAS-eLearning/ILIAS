@@ -372,7 +372,7 @@ function setWeekView($week_ts)
 		}
 		else 
 		{
-			$week_float = $week_float.setDayDatesInWeek($monatstag_ts, $WholeDates, $row_height, &$style);
+			$week_float = $week_float.setDayDatesInWeek($monatstag_ts, $WholeDates, $row_height, $style);
 			$monatstag_ts = strtotime ("+1 day", $monatstag_ts );
 		}
 			$ttd->ttd($monatstag_ts);
@@ -423,7 +423,7 @@ function setWeekView($week_ts)
 			}
 			else 
 			{
-				$week_float	= $week_float.setDatesInWeek($monatstag_ts, $Dates, $day_ts, $row_height, &$style);
+				$week_float	= $week_float.setDatesInWeek($monatstag_ts, $Dates, $day_ts, $row_height, $style);
 				$monatstag_ts = strtotime ("+1 day", $monatstag_ts );
 
 			}
