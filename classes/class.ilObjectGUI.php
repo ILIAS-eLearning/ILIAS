@@ -1093,6 +1093,11 @@ class ilObjectGUI
 				foreach ($subnodes as $subnode)
 				{
 					$rbacadmin->revokePermission($subnode["child"]);
+					// remove item from all user desktops
+					$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
+				
+					// TODO: inform users by mail that object $id was deleted
+					//$mail->sendMail($id,$msg,$affected_users);
 				}
 				
 				$this->tree->saveSubTree($id);
