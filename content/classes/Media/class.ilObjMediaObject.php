@@ -25,11 +25,10 @@ define ("IL_MODE_ALIAS", 1);
 define ("IL_MODE_OUTPUT", 2);
 define ("IL_MODE_FULL", 3);
 
-require_once("classes/class.ilObjMediaObject.php");
 require_once("content/classes/Pages/class.ilMediaItem.php");
 
 /**
-* Class ilMediaObject
+* Class ilObjMediaObject
 *
 * Todo: this class must be integrated with group/folder handling
 *
@@ -40,7 +39,7 @@ require_once("content/classes/Pages/class.ilMediaItem.php");
 *
 * @package content
 */
-class ilMediaObject extends ilObjMediaObject
+class ilObjMediaObject extends ilObject
 {
 	var $is_alias;
 	var $origin_id;
@@ -57,18 +56,73 @@ class ilMediaObject extends ilObjMediaObject
 	* Constructor
 	* @access	public
 	*/
-	function ilMediaObject($a_id = 0)
+	function ilObjMediaObject($a_id = 0)
 	{
-		parent::ilObjMediaObject($a_id);
-
 		$this->is_alias = false;
 		$this->media_items = array();
 		$this->contains_int_link = false;
+		$this->type = "mob";
 
+		parent::ilObject($a_id, false);
+
+		/*
 		if($a_id != 0)
 		{
 			$this->read();
-		}
+		}*/
+
+
+	}
+
+	function setRefId()
+	{
+		$this->ilias->raiseError("Operation ilObjMedia::setRefId() not allowed.",$this->ilias->error_obj->FATAL);
+	}
+
+	function getRefId()
+	{
+		$this->ilias->raiseError("Operation ilObjMedia::getRefId() not allowed.",$this->ilias->error_obj->FATAL);
+	}
+
+	function putInTree()
+	{
+		$this->ilias->raiseError("Operation ilObjMedia::putInTree() not allowed.",$this->ilias->error_obj->FATAL);
+	}
+
+	function createReference()
+	{
+		$this->ilias->raiseError("Operation ilObjMedia::createReference() not allowed.",$this->ilias->error_obj->FATAL);
+	}
+
+	function setTitle($a_title)
+	{
+		$this->meta_data->setTitle($a_title);
+	}
+
+	function getTitle()
+	{
+		$title = ($this->meta_data->getTitle() == "NO TITLE")
+			? $this->title
+			: $this->meta_data->getTitle();
+
+		return $title;
+	}
+
+	/**
+	* assign meta data object
+	*/
+	function assignMetaData(&$a_meta_data)
+	{
+		$this->meta_data =& $a_meta_data;
+		$a_meta_data->setObject($this);
+	}
+
+	/**
+	* get meta data object
+	*/
+	function &getMetaData()
+	{
+		return $this->meta_data;
 	}
 
 
@@ -236,8 +290,12 @@ class ilMediaObject extends ilObjMediaObject
 	*/
 	function create()
 	{
-		// create mob
 		parent::create();
+
+		// create meta data
+		$this->meta_data->setId($this->getId());
+		$this->meta_data->setType($this->getType());
+		$this->meta_data->create();
 
 		$media_items =& $this->getMediaItems();
 		for($i=0; $i<count($media_items); $i++)
@@ -255,8 +313,12 @@ class ilMediaObject extends ilObjMediaObject
 	*/
 	function update()
 	{
-		// update mob
 		parent::update();
+
+		// create meta data
+		$this->meta_data->setId($this->getId());
+		$this->meta_data->setType($this->getType());
+		$this->meta_data->update();
 
 		ilMediaItem::deleteAllItemsOfMob($this->getId());
 
@@ -292,7 +354,7 @@ class ilMediaObject extends ilObjMediaObject
 	*/
 	function createDirectory()
 	{
-		ilUtil::createDirectory(ilMediaObject::_getDirectory($this->getId()));
+		ilUtil::createDirectory(ilObjMediaObject::_getDirectory($this->getId()));
 	}
 
 	/**
@@ -347,7 +409,7 @@ class ilMediaObject extends ilObjMediaObject
 			// for output we need technical sections of meta data
 			case IL_MODE_OUTPUT:
 				// get first technical section
-//echo "ilMediaObject::getXML:getMetaData:id:".$this->getId().":<br>";
+//echo "ilObjMediaObject::getXML:getMetaData:id:".$this->getId().":<br>";
 				$meta =& $this->getMetaData();
 				$xml = "<MediaObject Id=\"il__mob_".$this->getId()."\">";
 //echo "count techs2:".count($meta->technicals).":<br>";
@@ -703,7 +765,7 @@ class ilMediaObject extends ilObjMediaObject
 			/**
 			* map of mimetypes.py from python.org (there was no author mentioned in the file)
 			*/
-			$types_map = ilMediaObject::getExt2MimeMap();
+			$types_map = ilObjMediaObject::getExt2MimeMap();
 			$mime = $types_map[$ext];
 		}
 
