@@ -745,6 +745,7 @@ common#:#msg_min_one_role#:#每个用户必须具有至少一个全局角色！
 common#:#msg_multi_language_selected#:#您为不同的翻译选择了相同的语言！
 common#:#msg_no_default_language#:#未指定缺省语言！您必须定义一个语言为缺省语言。
 common#:#msg_no_delete_yourself#:#您不能删除您自己的用户账号。
+common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
 common#:#msg_no_language_selected#:#未指定翻译语言！您必须为每一翻译定义一种语言
 common#:#msg_no_perm_assign_role_to_user#:#您没有更改用户角色分配的许可
 common#:#msg_no_perm_copy#:#您无权限拷贝下列对象

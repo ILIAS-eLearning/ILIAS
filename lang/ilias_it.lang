@@ -728,6 +728,7 @@ common#:#msg_min_one_role#:#Ogni utente deve avere almeno un ruolo!
 common#:#msg_multi_language_selected#:#Hai selezionato la stessa lingua per traduzioni differenti!
 common#:#msg_no_default_language#:#Non &#232; stata specificata la lingua predefinita! Devi indicare una traduzione come predefinita.
 common#:#msg_no_delete_yourself#:#Non puoi cancellare il tuo stesso utente.
+common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
 common#:#msg_no_language_selected#:#Nessuna lingua specificata! Devi definire una lingua per ogni traduzione.
 common#:#msg_no_perm_assign_role_to_user#:#Non hai sufficienti diritti per modificare il ruolo dell&#039;utente
 common#:#msg_no_perm_copy#:#Non hai i diritti per creare una copia dei seguenti oggetti: 

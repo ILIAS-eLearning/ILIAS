@@ -130,7 +130,6 @@ common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#at_location#:#an Position
 common#:#attachment#:#Attachment
-common#:#msg_no_file#:#Sie haben keine Datei ausgewählt
 common#:#attachments#:#Attachments
 common#:#author#:#Autor
 common#:#authors#:#Autoren
@@ -729,6 +728,7 @@ common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer globalen Rolle 
 common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
 common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Benutzerkonto löschen.
+common#:#msg_no_file#:#Sie haben keine Datei ausgewählt
 common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
 common#:#msg_no_perm_assign_role_to_user#:#Sie haben keine Berechtigung die Rollenzuweisung des Benutzers zu ändern
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:

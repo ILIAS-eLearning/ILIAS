@@ -728,6 +728,7 @@ common#:#msg_min_one_role#:#Elke gebruiker moet op zijn minst één globale rol 
 common#:#msg_multi_language_selected#:#U hebt dezelfde taal voor verschillende vertalingen gekozen!
 common#:#msg_no_default_language#:#Geen standaard-taal gespecificeerd! U moet één  default-taal definiëren.
 common#:#msg_no_delete_yourself#:#U kunt uw eigen gebruikers-account niet verwijderen.
+common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
 common#:#msg_no_language_selected#:#Geen vertaal-taal gespecificeerd! U moet een taal  definiëren voor elke vertaling
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#U heeft geen toestemming voor het creëren van een kopie van het/de volgende object(en):
