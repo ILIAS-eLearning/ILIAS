@@ -312,11 +312,13 @@ common#:#group_objects#:#Group Objects
 common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.
 common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.
 common#:#group_registration_expiration_date#:#Expiration Date
+common#:#group_registration_expiration_time#:#Expiration Time
 common#:#group_registration_expired#:#Period of registraton expired
 common#:#group_registration_mode#:#Registration Mode
 common#:#group_req_password#:#Registration password required
 common#:#group_req_registration#:#Registration required
 common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.
+common#:#group_reset#:#Reset Group
 common#:#group_status#:#Group Status
 common#:#group_status_closed#:#Closed
 common#:#group_status_public#:#Public
@@ -327,6 +329,11 @@ common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_edit#:#Edit Group
+common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
+common#:#grp_err_last_member#:#Last member could not be removed, please delete group instead.
+common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Please verify all dependencies of this user.
+common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.
+common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid registration period !
 common#:#grp_mem_change_status#:#Change member status
 common#:#grp_mem_leave#:#Dismiss member from group
 common#:#grp_mem_send_mail#:#Send member a message
