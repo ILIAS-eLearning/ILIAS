@@ -104,7 +104,13 @@ class LearningModuleObject extends Object
 					$obj_data = $lo->getInfo();
 
 					// get unique obj_id of LO
-					$lo_id = createNewObject("lo",$obj_data["title"],$obj_data["desc"]);
+					require_once "classes/class.LearningObjectObject.php";
+					$loObj = new LearningObjectObject();
+					$loObj->setTitle($obj_data["title"]);
+					$loObj->setDescription($obj_data["desc"]);
+					$loObj->create();
+					$lo_id = $loObj->getId();
+					unset($loObj);
 
 					// prepare LO for database insertion
 					$lotree = $lo->buildTree();
@@ -138,7 +144,15 @@ class LearningModuleObject extends Object
 		// insert the remaining root-LO into DB
 		$lo = new domxml($domxml->doc);
 		$obj_data = $lo->getInfo();
-		$lo_id = createNewObject("lo",$obj_data["title"],$obj_data["desc"]);
+
+		require_once "classes/class.LearningObjectObject.php";
+		$loObj = new LearningObjectObject();
+		$loObj->setTitle($obj_data["title"]);
+		$loObj->setDescription($obj_data["desc"]);
+		$loObj->create();
+		$lo_id = $loObj->getId();
+		unset($loObj);
+
 		$lotree = $lo->buildTree();
 		$xml2sql = new xml2sql($lotree,$lo_id);
 		$xml2sql->insertDocument();

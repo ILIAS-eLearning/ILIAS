@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.10 2003/03/14 22:21:51 akill Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.11 2003/03/14 23:17:55 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -242,8 +242,6 @@ class UserObjectOut extends ObjectOut
 			$settingObj->setDescription("User Setting Folder");
 			$settingObj->create();
 			$settingObj->createReference();
-			//$uset_id = createNewObject("uset",$user->getFullname(),"User Setting Folder");
-			//$uset_ref = createNewReference($uset_id);
 			
 			//create usertree from class.user.php
 			// tree_id is the obj_id of user not ref_id!
