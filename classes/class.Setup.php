@@ -82,7 +82,7 @@ class Setup
 		$this->dbTypes["pgsql"] = "PostgreSQL";
 		$this->dbTypes["ibase"] = "InterBase";
 		$this->dbTypes["msql"] = "Mini SQL";
-		$this->dbTypes["mssql"] = " Microsoft SQL Server";
+		$this->dbTypes["mssql"] = "Microsoft SQL Server";
 		$this->dbTypes["oci8"] = "Oracle 7/8/8i";
 		$this->dbTypes["odbc"] = "ODBC (Open Database Connectivity)";
 		$this->dbTypes["sybase"] = "SyBase";
