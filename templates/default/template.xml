@@ -1,12 +1,12 @@
 <?php xml version = "1.0" encoding = "UTF-8"?>
 <template xmlns = "http://www.w3.org" version = "$Id$" name = "ILIAS">
 	<style 	name = "Blue Shadow"
-			css_file = "blueshadow.css"
+			id = "blueshadow"
 			image_directory = "blueshadow" />
 	<style	name = "Blue Shadow (IE)"
-			css_file = "blueshadow_ie.css"
+			id = "blueshadow_ie"
 			image_directory = "blueshadow" />
 	<style 	name = "Grey"
-			css_file = "defaul.css"
-			image_direcotry = "default"/>
+			id = "default"
+			image_directory = "default"/>
 </template>

@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.66 2003/11/17 12:44:38 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.67 2003/12/05 16:44:03 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -66,7 +66,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function createObject()
 	{
-		global $rbacsystem,$rbacreview;
+		global $rbacsystem, $rbacreview, $styleDefinition;
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
@@ -191,41 +191,45 @@ class ilObjUserGUI extends ilObjectGUI
 
 			$this->tpl->parseCurrentBlock();
 		} // END language selection
-		
+
 		// skin & style selection
-		$this->ilias->getSkins();
-		
+		$templates = $styleDefinition->getAllTemplates();
+		//$this->ilias->getSkins();
+
 		// preselect previous chosen skin/style otherwise default skin/style
 		if (isset($_SESSION["error_post_vars"]["Fobject"]["skin_style"]))
 		{
 			$sknst = explode(":", $_SESSION["error_post_vars"]["Fobject"]["skin_style"]);
-			
+
 			$selected_style = $sknst[1];
-			$selected_skin = $sknst[0];	
+			$selected_skin = $sknst[0];
 		}
 		else
 		{
 			$selected_style = $this->object->prefs["style"];
-			$selected_skin = $this->object->skin;	
+			$selected_skin = $this->object->skin;
 		}
-			
-		foreach ($this->ilias->skins as $skin)
+
+		foreach ($templates as $template)
 		{
 			// get styles for skin
-			$this->ilias->getStyles($skin["name"]);
+			//$this->ilias->getStyles($template["id"]);
+			$styleDef =& new ilStyleDefinition($template["id"]);
+			$styleDef->startParsing();
+			$styles = $styleDef->getStyles();
 
-			foreach($this->ilias->styles as $style)
+			foreach($styles as $style)
 			{
 				$this->tpl->setCurrentBlock("selectskin");
-		
-				if ($selected_skin == $skin["name"] &&
-					$selected_style == $style["name"])
+
+				if ($selected_skin == $template["id"] &&
+					$selected_style == $style["id"])
 				{
 					$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
 				}
-		
-				$this->tpl->setVariable("SKINVALUE", $skin["name"].":".$style["name"]);
-				$this->tpl->setVariable("SKINOPTION", $skin["name"]." / ".$style["name"]);
+
+				$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
+				$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
 				$this->tpl->parseCurrentBlock();
 			}
 		} // END skin & style selection
@@ -238,7 +242,7 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $rbacreview, $rbacadmin;
+		global $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition;
 
 		// deactivated:
 		// or ($this->id != $_SESSION["AccountId"])
@@ -412,7 +416,8 @@ class ilObjUserGUI extends ilObjectGUI
 		} // END language selection
 		
 		// skin & style selection
-		$this->ilias->getSkins();
+		//$this->ilias->getSkins();
+		$templates = $styleDefinition->getAllTemplates();
 		
 		// preselect previous chosen skin/style otherwise default skin/style
 		if (isset($_SESSION["error_post_vars"]["Fobject"]["skin_style"]))
@@ -428,23 +433,26 @@ class ilObjUserGUI extends ilObjectGUI
 			$selected_skin = $this->object->skin;	
 		}
 			
-		foreach ($this->ilias->skins as $skin)
+		foreach ($templates as $template)
 		{
 			// get styles for skin
-			$this->ilias->getStyles($skin["name"]);
+			//$this->ilias->getStyles($skin["name"]);
+			$styleDef =& new ilStyleDefinition($template["id"]);
+			$styleDef->startParsing();
+			$styles = $styleDef->getStyles();
 
-			foreach($this->ilias->styles as $style)
+			foreach ($styles as $style)
 			{
 				$this->tpl->setCurrentBlock("selectskin");
-		
-				if ($selected_skin == $skin["name"] &&
-					$selected_style == $style["name"])
+
+				if ($selected_skin == $template["id"] &&
+					$selected_style == $style["id"])
 				{
 					$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
 				}
-		
-				$this->tpl->setVariable("SKINVALUE", $skin["name"].":".$style["name"]);
-				$this->tpl->setVariable("SKINOPTION", $skin["name"]." / ".$style["name"]);
+
+				$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
+				$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
 				$this->tpl->parseCurrentBlock();
 			}
 		} // END skin & style selection

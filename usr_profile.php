@@ -279,7 +279,7 @@ if ($_GET["cmd"] == "save")
 		if ($_POST["usr_skin_style"] != "")
 		{
 			$sknst = explode(":", $_POST["usr_skin_style"]);
-			
+
 			if ($ilias->account->getPref("style") != $sknst[1] ||
 				$ilias->account->getPref("skin") != $sknst[0])
 			{
@@ -348,26 +348,28 @@ foreach ($languages as $lang_key)
 	$tpl->parseCurrentBlock();
 }
 
-// get all skins
-$ilias->getSkins();
+// get all templates
+$templates = $styleDefinition->getAllTemplates();
 
-foreach ($ilias->skins as $skin)
+foreach ($templates as $template)
 {
-	// get styles for skin
-	$ilias->getStyles($skin["name"]);
-	reset($ilias->styles);
-	foreach($ilias->styles as $style)
+	// get styles information of template
+	$styleDef =& new ilStyleDefinition($template["id"]);
+	$styleDef->startParsing();
+	$styles = $styleDef->getStyles();
+
+	foreach($styles as $style)
 	{
 		$tpl->setCurrentBlock("selectskin");
 
-		if ($ilias->account->skin == $skin["name"] &&
-			$ilias->account->prefs["style"] == $style["name"])
+		if ($ilias->account->skin == $template["id"] &&
+			$ilias->account->prefs["style"] == $style["id"])
 		{
 			$tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
 		}
 
-		$tpl->setVariable("SKINVALUE", $skin["name"].":".$style["name"]);
-		$tpl->setVariable("SKINOPTION", $skin["name"]." / ".$style["name"]);
+		$tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
+		$tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
 		$tpl->parseCurrentBlock();
 	}
 }
