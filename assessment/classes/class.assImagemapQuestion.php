@@ -261,6 +261,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 				$answer_result = $db->query($query);
 				}
 		}
+		parent::saveToDb($original_id);
 	}
 
 /**
@@ -370,6 +371,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
         }
       }
     }
+		parent::loadFromDb($question_id);
   }
 
 	/**

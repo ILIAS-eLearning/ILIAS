@@ -668,11 +668,14 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 			foreach ($value as $answer_id => $answer_obj)
 			{
 				$this->tpl->setCurrentBlock("option_value");
-				$this->tpl->setVariable("ANSWER_ID", $answer_obj->getId());
+				$this->tpl->setVariable("ANSWER_ID", $key . "_" . $answer_obj->get_order());
 				$this->tpl->setVariable("ANSWER_TEXT", $answer_obj->get_name() . "." . $answer_obj->get_answertext());
-				if ($answer_obj->getId() == $select_id)
+				if (preg_match("/(\d+)_(\d+)/", $select_id, $matches))
 				{
-					$this->tpl->setVariable("ANSWER_SELECTED", " selected=\"selected\"");
+					if (($matches[1] == $key) and ($matches[2] == $answer_obj->get_order()))
+					{
+						$this->tpl->setVariable("ANSWER_SELECTED", " selected=\"selected\"");
+					}
 				}
 				$this->tpl->parseCurrentBlock();
 			}

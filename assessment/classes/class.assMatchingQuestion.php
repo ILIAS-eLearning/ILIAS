@@ -633,6 +633,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				$matching_result = $db->query($query);
 			}
 		}
+		parent::saveToDb($original_id);
 	}
 
 	/**
@@ -683,6 +684,7 @@ class ASS_MatchingQuestion extends ASS_Question
 				}
 			}
 		}
+		parent::loadFromDb($question_id);
 	}
 
 	/**
