@@ -365,6 +365,9 @@ class ilPageObjectGUI
 		$output = str_replace("{", "&#125;", $output);
 //echo "<b>HTML</b>:".htmlentities($output).":<br>";
 
+		// remove all newlines (important for code / pre output)
+		$output = str_replace("\n", "", $output);
+
 		// output
 		if($this->outputToTemplate())
 		{
