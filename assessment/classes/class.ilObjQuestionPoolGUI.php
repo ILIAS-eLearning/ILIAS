@@ -77,6 +77,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
+//echo "<br>qpGUI_executeComm";
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
@@ -126,7 +127,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
-			case "ass_javaquestiongui":
+			case "ass_javaappletgui":
 				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setRefId($_GET["ref_id"]);
@@ -164,6 +165,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function &createQuestionObject()
 	{
+echo "<br>create--".$_POST["sel_question_types"];
 		$q_gui =& ASS_QuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
 
 		$this->ctrl->setCmdClass(get_class($q_gui));

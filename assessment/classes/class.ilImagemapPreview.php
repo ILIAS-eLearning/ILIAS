@@ -42,7 +42,7 @@ class ilImagemapPreview
 	var $linewidth_outer;
 	var $linewidth_inner;
 
-/**
+	/**
 	* ilImagemapPreview constructor
 	*
 	* Creates an instance of the ilImagemapPreview class
@@ -160,7 +160,11 @@ class ilImagemapPreview
 	{
 		return $this->preview_filename;
 	}
-	
+
+	/**
+	* get imagemap html code
+	* note: html code should be placed in template files
+	*/
 	function getImagemap($title)
 	{
 		$map = "<map name=\"$title\"> ";

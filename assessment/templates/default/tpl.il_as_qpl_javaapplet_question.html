@@ -2,16 +2,16 @@
 <input type="hidden" name="id" value="{JAVAAPPLET_ID}">
 <table class="std">
 <tr>
-  <td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_JAVAAPPLET_TITLE}" size="50" /></td>
+	<td class="option">{TEXT_TITLE}<span class="asterisk">*</span>:</td>
+	<td class="option_value" colspan="4"><input name="title" type="text" value="{VALUE_JAVAAPPLET_TITLE}" size="50" /></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
-  <td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_JAVAAPPLET_AUTHOR}" size="50" /></td>
+	<td class="option">{TEXT_AUTHOR}<span class="asterisk">*</span>:</td>
+	<td class="option_value" colspan="4"><input name="author" type="text" value="{VALUE_JAVAAPPLET_AUTHOR}" size="50" /></td>
 </tr>
 <tr>
-  <td class="option">{TEXT_COMMENT}:</td>
-  <td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_JAVAAPPLET_COMMENT}" id="comment" size="50" /></td>
+	<td class="option">{TEXT_COMMENT}:</td>
+	<td class="option_value" colspan="4"><input name="comment" type="text" value="{VALUE_JAVAAPPLET_COMMENT}" id="comment" size="50" /></td>
 </tr>
 <tr>
 	<td class="option">{TEXT_QUESTION}:</td>
@@ -22,12 +22,12 @@
 <tr>
 	<td class="option">{TEXT_JAVAAPPLET}:</td>
 	<td class="option_value">
-  <!-- BEGIN javaappletupload -->
+	<!-- BEGIN javaappletupload -->
 	{UPLOADED_JAVAAPPLET} <br>
-  <!-- END javaappletupload -->
-  <input type="hidden" name="uploaded_javaapplet" value="{JAVAAPPLET_FILENAME}">
-  <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-  <input name="javaappletName" type="file" id="javaapplet" size="30" />
+	<!-- END javaappletupload -->
+	<input type="hidden" name="uploaded_javaapplet" value="{JAVAAPPLET_FILENAME}">
+	<input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+	<input name="javaappletName" type="file" id="javaapplet" size="30" />
 	</td>
 	<td class="option_value" colspan="3" > <input name="cmd[uploadingJavaapplet]" type="submit" class="submit" id="upload_javaapplet" value={VALUE_JAVAAPPLET_UPLOAD} /></td>
 </tr>
@@ -50,7 +50,7 @@
 	<td class="option_value" colspan="4"><input type="text" name="java_height" value="{VALUE_HEIGHT}" size="5" /></td>
 </tr>
 <tr><td colspan="5" class="std">{APPLET_PARAMETERS}</td></tr>
-<tr><td colspan="5" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_parameter" value="{VALUE_ADD_PARAMETER}" /></td>
+<tr><td colspan="5" class="option"><input name="cmd[addParameter]" type="submit" class="submit" id="add_parameter" value="{VALUE_ADD_PARAMETER}" /></td>
 <!-- BEGIN applet_parameter -->
 <tr>
 	<td class="option">{PARAM_PARAM}</td>
@@ -59,7 +59,7 @@
 		<label for="param_value_{PARAM_COUNTER}">{PARAM_VALUE}:</label> <input type="text" name="param_value_{PARAM_COUNTER}" value="{PARAM_VALUE_VALUE}" size="20" id="param_value_{PARAM_COUNTER}" />
 	</td>
 <!-- BEGIN delete_parameter -->
-	<td class="option_value"><input type="submit" class="submit" name="delete_{DELETE_PARAMETER_COUNT}" value="{VALUE_DELETE_PARAMETER}" /></td>
+	<td class="option_value"><input type="submit" class="submit" name="cmd[delete_{DELETE_PARAMETER_COUNT}]" value="{VALUE_DELETE_PARAMETER}" /></td>
 <!-- END delete_parameter -->
 </tr>
 <!-- END applet_parameter -->

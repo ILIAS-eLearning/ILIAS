@@ -324,8 +324,8 @@ class ASS_QuestionGUI
 				$question =& new ASS_ImagemapQuestionGUI();
 				break;
 
-			case "qt_java":
-				$question =& new ASS_JavaQuestionGUI();
+			case "qt_javaapplet":
+				$question =& new ASS_JavaAppletGUI();
 				break;
 		}
 		if ($question_id > 0)
@@ -371,8 +371,8 @@ class ASS_QuestionGUI
 				return "ASS_ImagemapQuestionGUI";
 				break;
 
-			case "qt_java":
-				return "ASS_JavaQuestionGUI";
+			case "qt_javaapplet":
+				return "ASS_JavaAppletGUI";
 				break;
 		}
 
