@@ -86,7 +86,7 @@ if (isset($_POST["cmd"]))
 }
 
 //echo "-------------";
-//var_dump($_GET);
+//var_dump($_GET);var_dump($_POST);
 if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 {
 	//echo " post";
@@ -118,24 +118,23 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 
 			{
 				$obj_type = $_GET["new_type"];
+				
 			}
 			//echo "typ".$obj_type;
 			//echo "cmd".$cmd;
 			$class_name = $objDefinition->getClassName($obj_type);
-			if ( $obj_type == "crs" or $obj_type="frm" or $obj_type="lm" or $obj_type="slm" or $obj_type="glo")
+			$module = $objDefinition->getModule($obj_type);
+			//echo ("modul:  ".$module);
+			//echo ("objtype: ".$obj_type);
+			if ( $obj_type == "crs" or $obj_type=="frm" or $obj_type=="lm" or $obj_type=="slm" or $obj_type=="glo")
 			{
-				//echo ("objtype: ".$obj_type);
-				$module = $objDefinition->getModule($obj_type);
-				//echo ("modul:  ".$module);
 				$module_dir = ($module == "")
 					? ""
 					: $module."/";
 				$class_constr = "ilObj".$class_name."GUI";
+				//echo "class kons ".$class_constr." module_dir ".$module_dir;
 				require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 				$obj = new $class_constr($data, $id, $call_by_reference);
-
-
-
 				$method= $cmd."Object";
 				//echo ("hit ".$class_constr.$method);
 				$obj->setReturnLocation("save","group.php?cmd=DisplayList&ref_id=".$_GET["ref_id"]);
@@ -143,10 +142,8 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 				
 				
 			}
-			else
-			{
-
-				$module = $objDefinition->getModule($obj_type);
+			elseif($obj_type == "fold")
+			{ 
 				$module_dir = ($module == "")
 				? ""
 				: $module."/";
@@ -163,7 +160,7 @@ if (isset($_POST["cmd"])or isset($_GET["new_type"]) )
 else
 {
 
-$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
+	$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
 
 	exit();
 }
