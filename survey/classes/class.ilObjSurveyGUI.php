@@ -147,19 +147,47 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
+		$direction = 0;
+		$error = 0;
 		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"])
 		{
 			$activepage = "";
 			$direction = 0;
+			if ($_POST["cmd"]["previous"] or $_POST["cmd"]["next"])
+			{
+				// check users input when it is a metric question
+				$page = $this->object->getNextPage($_GET["qid"], 0);
+				foreach ($page as $data)
+				{
+					if (strcmp($data["type_tag"], "qt_metric") == 0)
+					{
+						// there is a metric question -> check input
+						$variables =& $this->object->getVariables($data["question_id"]);
+						if (($_POST["metric_question"] < $variables[0]["value1"]) or (($_POST["metric_question"] > $variables[0]["value2"]) and ($variables[0]["value2"] != -1)))
+						{
+							// there is an error: value is not in bounds
+							sendInfo("metric_question_out_of_bounds");
+							$error = 1;
+						}
+					}
+				}
+			}
+			
 			if ($_POST["cmd"]["previous"])
 			{
 				$activepage = $_GET["qid"];
-				$direction = -1;
+				if (!$error)
+				{
+					$direction = -1;
+				}
 			}
 			else if ($_POST["cmd"]["next"])
 			{
 				$activepage = $_GET["qid"];
-				$direction = 1;
+				if (!$error)
+				{
+					$direction = 1;
+				}
 			}
 			
 			$page = $this->object->getNextPage($activepage, $direction);
@@ -864,11 +892,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					case "qt_nominal":
 					case "qt_ordinal":
-						foreach ($variables as $sequence => $vartitle)
+						foreach ($variables as $sequence => $row)
 						{
 							$this->tpl->setCurrentBlock("option_v");
 							$this->tpl->setVariable("OPTION_VALUE", $sequence);
-							$this->tpl->setVariable("OPTION_TEXT", ($sequence+1) . " - $vartitle");
+							$this->tpl->setVariable("OPTION_TEXT", ($sequence+1) . " - " . $row["title"]);
 							$this->tpl->parseCurrentBlock();
 						}
 						break;
@@ -959,7 +987,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 									break;
 								case "qt_nominal":
 								case "qt_ordinal":
-									$value = sprintf("%d", $constraint["value"]+1) . " - " . $variables[sprintf("%d", $constraint["value"])];
+									$value = sprintf("%d", $constraint["value"]+1) . " - " . $variables[sprintf("%d", $constraint["value"])]["title"];
 									break;
 							}
 							$this->tpl->setCurrentBlock("constraint");
