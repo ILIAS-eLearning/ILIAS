@@ -24,6 +24,9 @@
 require_once "class.assQuestion.php";
 require_once "class.assAnswerMatching.php";
 
+define ("MT_TERMS_PICTURES", 0);
+define ("MT_TERMS_DEFINITIONS", 1);
+
 /**
 * Class for matching questions
 *
@@ -52,6 +55,16 @@ class ASS_MatchingQuestion extends ASS_Question {
 * @var array
 */
   var $matchingpairs;
+
+/**
+* Type of matching question
+*
+* There are two possible types of matching questions: Matching terms and definitions (=1)
+* and Matching terms and pictures (=0).
+*
+* @var integer
+*/
+  var $matching_type;
 
 /**
 * Points for solving the matching question
@@ -85,13 +98,15 @@ class ASS_MatchingQuestion extends ASS_Question {
     $owner = -1,
     $materials = "",
     $question = "",
-    $points = 0.0
+    $points = 0.0,
+		$matching_type = MT_TERMS_DEFINITIONS
   )
   {
     $this->ASS_Question($title, $comment, $author, $owner, $materials);
     $this->matchingpairs = array();
     $this->question = $question;
     $this->points = $points;
+		$this->matching_type = $matching_type;
   }
 
 /**
@@ -113,7 +128,7 @@ class ASS_MatchingQuestion extends ASS_Question {
       $now = getdate();
       $question_type = 4;
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, points, materials, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, matching_type, points, materials, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote($question_type),
         $db->quote($this->ref_id),
@@ -122,6 +137,7 @@ class ASS_MatchingQuestion extends ASS_Question {
         $db->quote($this->author),
         $db->quote($this->owner),
         $db->quote($this->question),
+				$db->quote($this->matching_type),
         $db->quote($this->points),
         $db->quote($this->materials),
         $db->quote($created)
@@ -136,11 +152,12 @@ class ASS_MatchingQuestion extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, points = %s, materials = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, matching_type = %s, points = %s, materials = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->question),
+				$db->quote($this->matching_type),
         $db->quote($this->points),
         $db->quote($this->materials),
         $db->quote($this->id)
@@ -198,6 +215,7 @@ class ASS_MatchingQuestion extends ASS_Question {
         $this->author = $data->author;
         $this->ref_id = $data->ref_fi;
         $this->owner = $data->owner;
+				$this->matching_type = $data->matching_type;
         $this->question = $data->question_text;
         $this->points = $data->points;
         $this->materials = $data->materials;
@@ -228,6 +246,19 @@ class ASS_MatchingQuestion extends ASS_Question {
   }
 
 /**
+* Sets the matching question type
+*
+* Sets the matching question type
+*
+* @param integer $matching_type The question matching type
+* @access public
+* @see $matching_type
+*/
+  function set_matching_type($matching_type = MT_TERMS_DEFINITIONS) {
+    $this->matching_type = $matching_type;
+  }
+
+/**
 * Returns the question text
 *
 * Returns the question text
@@ -238,6 +269,19 @@ class ASS_MatchingQuestion extends ASS_Question {
 */
   function get_question() {
     return $this->question;
+  }
+
+/**
+* Returns the matching question type
+*
+* Returns the matching question type
+*
+* @return integer The matching question type
+* @access public
+* @see $matching_type
+*/
+  function get_matching_type() {
+    return $this->matching_type;
   }
 
 /**

@@ -1,4 +1,4 @@
-﻿<form name="frm_matching" action="{ACTION_MATCHING_QUESTION}" method="post">
+<form name="frm_matching" action="{ACTION_MATCHING_QUESTION}" method="post">
 <input type="hidden" name="id" value="{MATCHING_ID}">
 <table class="std">
 <tr>
@@ -13,6 +13,10 @@
 <tr>
   <td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
   <td class="option_value" colspan="5"><textarea name="question" cols="50" rows="5" id="question">{VALUE_QUESTION}</textarea></td>
+</tr>
+<tr>
+  <td class="option"><label for="sel_type">{TEXT_TYPE}:</label></td>
+  <td class="option_value" colspan="5"><select name="sel_type" id="sel_type"><option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_TERMS_PICTURES}</option><option value="1"{SELECTED_DEFINITIONS}>{TEXT_TYPE_TERMS_DEFINITIONS}</option></select></td>
 </tr>
 <tr><td colspan="6" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
 <!-- BEGIN answers -->
