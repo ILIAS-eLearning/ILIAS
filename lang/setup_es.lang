@@ -1,0 +1,41 @@
+espanol
+available_languages#:#available languages
+choose_language#:#choose your language
+database#:#database
+database_exists#:#database exists
+database_is_uptodate#:#the database is up-to-date
+database_needs_update#:#database needs an update
+database_update#:#update database
+database_version#:#current database version
+date#:#date
+db_host#:#database host
+db_name#:#database name
+db_pass#:#database password
+db_type#:#database type
+db_user#:#database user
+db_version#:#database version
+default#:#default
+delete#:#delete
+err_create_database_failed#:#creation of database failed
+err_wrong_login#:#wrong login
+ilias_version#:#ILIAS version
+inifile#:#INI-file
+inst_name#:#installation name
+install#:#install
+installed#:#installed
+language#:#language
+languages#:#languages
+login#:#login
+login_to_ilias#:#login to ILIAS
+password#:#password
+lang_de#:#Aleman
+lang_dk#:#Dinamarqu&eacute;s
+lang_en#:#Ingles
+lang_es#:#Espa&ntilde;ol
+lang_fr#:#Franc&eacute;s
+lang_id#:#Indonesian
+lang_it#:#Italiano
+lang_no#:#Noruego
+lang_pl#:#Polaco
+lang_se#:#Sueco
+lang_xx#:#Custom

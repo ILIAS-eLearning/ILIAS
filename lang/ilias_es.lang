@@ -370,17 +370,23 @@ common#:#default_role#:#def_role
 common#:#enabled#:#enabled
 common#:#disabled#:#disabled
 common#:#import#:#import
-common#:#lang_de#:#Deutsch
-common#:#lang_en#:#Englisch
-common#:#lang_dk#:#D&auml;nisch
-common#:#lang_pl#:#Polnisch
-common#:#lang_se#:#Schwedisch
-common#:#lang_no#:#Norwegisch
-common#:#lang_es#:#Spanisch
-common#:#lang_fr#:#Franz&ouml;sisch
-common#:#lang_it#:#Italienisch
-common#:#lang_id#:#Indonesisch
-common#:#lang_xx#:#benutzerdefiniert
+common#:#in_use#:#user language
+common#:#system_language#:#system language
+common#:#change_language#:#set user language
+common#:#update_language#:#update language
+common#:#check_language#:#check language
+common#:#set_system_language#:#set system language
+common#:#lang_de#:#Aleman
+common#:#lang_dk#:#Dinamarqu&eacute;s
+common#:#lang_en#:#Ingles
+common#:#lang_es#:#Espa&ntilde;ol
+common#:#lang_fr#:#Franc&eacute;s
+common#:#lang_id#:#Indonesian
+common#:#lang_it#:#Italiano
+common#:#lang_no#:#Noruego
+common#:#lang_pl#:#Polaco
+common#:#lang_se#:#Sueco
+common#:#lang_xx#:#Custom
 common#:#forums_not_available#:#forums not available
 common#:#forums_last_post#:#last article
 common#:#forums_moderators#:#moderators

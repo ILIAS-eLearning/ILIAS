@@ -1,0 +1,44 @@
+deutsch
+available_languages#:#verfügbare Sprachen
+choose_language#:#Bitte wählen Sie Ihre Sprache
+database#:#Datenbank
+database_exists#:#Datenbank existiert bereits
+database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
+database_needs_update#:#Datenbank benötigt Update
+database_update#:#Datenbank aktualisieren
+database_version#:#Ihre Datenbankversion
+date#:#Datum
+db_host#:#Datenbank Host
+db_name#:#Datenbankname
+db_pass#:#Datenbankpassword
+db_type#:#Datenbank Typ
+db_user#:#Datenbankbenutzer
+db_version#:#Datenbankversion
+default#:#default
+delete#:#löschen
+err_create_database_failed#:#Datenbank konnte nicht erstellt werden
+err_wrong_login#:#Login ungültig
+ilias_version#:#ILIAS Version
+inifile#:#Ini-Datei
+inst_name#:#Installationsname
+install#:#installieren
+installed#:#installiert
+language#:#Sprache
+languages#:#Sprachen
+login#:#Login
+login_to_ilias#:#bei ILIAS anmelden
+password#:#Passwort
+setup#:#setup
+setup_ready#:#Setup wurde erfolgreich beendet
+setup_welcome#:#Willkommen
+lang_de#:#Deutsch
+lang_en#:#Englisch
+lang_dk#:#D&auml;nisch
+lang_pl#:#Polnisch
+lang_se#:#Schwedisch
+lang_no#:#Norwegisch
+lang_es#:#Spanisch
+lang_fr#:#Franz&ouml;sisch
+lang_it#:#Italienisch
+lang_id#:#Indonesisch
+lang_xx#:#benutzerdefiniert

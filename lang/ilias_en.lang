@@ -378,16 +378,16 @@ common#:#disabled#:#disabled
 common#:#import#:#import
 common#:#in_use#:#user language
 common#:#lang_de#:#German
+common#:#lang_dk#:#Danish
 common#:#lang_en#:#English
-common#:#lang_dk#:#D&auml;nish
-common#:#lang_pl#:#Polnish
-common#:#lang_se#:#Schwedish
-common#:#lang_no#:#Norwegish
 common#:#lang_es#:#Spanish
-common#:#lang_fr#:#Franz&ouml;sish
-common#:#lang_it#:#Italienish
-common#:#lang_id#:#Indonesish
-common#:#lang_xx#:#benutzerdefiniert
+common#:#lang_fr#:#French
+common#:#lang_id#:#Indonesian
+common#:#lang_it#:#Italian
+common#:#lang_no#:#Norwegisch
+common#:#lang_pl#:#Polish
+common#:#lang_se#:#Swedish
+common#:#lang_xx#:#Custom
 common#:#forums_not_available#:#forums not available
 common#:#forums_last_post#:#last article
 common#:#forums_moderators#:#moderators
