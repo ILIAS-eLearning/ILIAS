@@ -160,7 +160,6 @@ class Language
 		{
 			return "";
 		}
-
 		$translation = $this->text[$a_topic];
 
 		if ($translation == "")
