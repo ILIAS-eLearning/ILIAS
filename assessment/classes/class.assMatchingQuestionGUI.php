@@ -537,7 +537,14 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 					$imagepath = $this->object->getImagePathWeb() . $answer->getPicture();
 					$solutionoutput .= "<tr><td><div class=\"textbox\">" . $answer->getTerm() . "</div></td><td width=\"10\"></td><td><div class=\"imagebox\"><img src=\"" . $imagepath . ".thumb.jpg\" /></div></td></tr>\n";
 					$size = GetImageSize ($this->object->getImagePath() . $answer->getPicture() . ".thumb.jpg");
-					$output = str_replace("<img border=\"0\" id=\"definition_" . $answer->getDefinitionId() . "\"", "<img border=\"0\" id=\"definition_" . $answer->getDefinitionId() . "\" " . $size[3], $output);
+					$sizeorig = GetImageSize ($this->object->getImagePath() . $answer->getPicture());
+					if ($size[0] >= $sizeorig[0])
+					{
+						// thumbnail is larger than original -> remove enlarge image
+						$output = preg_replace("/<a[^>]*?>\s*<img[^>]*?enlarge[^>]*?>\s*<\/a>/", "", $output);
+					}
+					// add the image size to the thumbnails
+					$output = preg_replace("/(<img[^>]*?".$answer->getPicture()."\.thumb\.jpg[^>]*?)(\/{0,1}\s*)?>/", "\\1 " . $size[3] . "\\2", $output);
 				}
 				else
 				{
