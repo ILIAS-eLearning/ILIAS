@@ -39,6 +39,7 @@ class ilObjFile extends ilObject
 	var $filename;
 	var $filetype;
 	var $filemaxsize = "20000000";	// not used yet
+	var $raise_upload_error;
 
 	/**
 	* Constructor
@@ -50,6 +51,7 @@ class ilObjFile extends ilObject
 	{
 		$this->version = 0;
 		$this->type = "file";
+		$this->raise_upload_error = true;
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
@@ -81,6 +83,11 @@ class ilObjFile extends ilObject
 	{
 		ilUtil::makeDir($this->getDirectory());
 	}
+	
+	function raiseUploadError($a_raise = true)
+	{
+		$this->raise_upload_error = $a_raise;
+	}
 
 	function getUploadFile($a_upload_file, $a_filename)
 	{
@@ -92,7 +99,8 @@ class ilObjFile extends ilObject
 		}
 
 		$file = $this->getDirectory($this->getVersion())."/".$a_filename;
-		move_uploaded_file($a_upload_file, $file);
+		//move_uploaded_file($a_upload_file, $file);
+		ilUtil::moveUploadedFile($a_upload_file, $a_filename, $file, $this->raise_upload_error);
 	}
 
 	/**

@@ -90,8 +90,14 @@ function upload_file()
 	
 	//
 	$uploaded_file = $image_dir."/upload_".$ilias->account->getId();
-	move_uploaded_file($_FILES["userfile"]["tmp_name"],
-		$uploaded_file);
+//echo ":".$uploaded_file.":";
+	if (!ilUtil::moveUploadedFile($_FILES["userfile"]["tmp_name"], $_FILES["userfile"]["name"],
+		$uploaded_file, false))
+	{
+		ilUtil::redirect("usr_profile.php");
+	}
+	//move_uploaded_file($_FILES["userfile"]["tmp_name"],
+	//	$uploaded_file);
 	chmod($uploaded_file, 0770);
 
 	// take quality 100 to avoid jpeg artefacts when uploading jpeg files

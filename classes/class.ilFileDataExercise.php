@@ -159,8 +159,11 @@ class ilFileDataExercise extends ilFileData
 		{
 			// CHECK IF FILE WITH SAME NAME EXISTS
 			$this->__rotateFiles($this->getExercisePath().'/'.$this->obj_id.'_'.$filename);
-			move_uploaded_file($a_http_post_file['tmp_name'],$this->getExercisePath().'/'.$this->obj_id.'_'.
-							   $filename);
+			//move_uploaded_file($a_http_post_file['tmp_name'],$this->getExercisePath().'/'.$this->obj_id.'_'.
+			//				   $filename);
+			ilUtil::moveUploadedFile($a_http_post_file['tmp_name'], $a_http_post_file['name'],
+				$this->getExercisePath().'/'.$this->obj_id.'_'.$filename);
+
 		}
 		return true;
 	}
@@ -206,7 +209,9 @@ class ilFileDataExercise extends ilFileData
 			$now = getdate();
 			$prefix = sprintf("%04d%02d%02d%02d%02d%02d", $now["year"], $now["mon"], $now["mday"], $now["hours"], 
 							  $now["minutes"], $now["seconds"]);
-			move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
+			//move_uploaded_file($a_http_post_file["tmp_name"], $savepath . $prefix . "_" . $filename);
+			ilUtil::moveUploadedFile($a_http_post_file["tmp_name"], $a_http_post_file["name"],
+				$savepath . $prefix . "_" . $filename);
 			require_once "./content/classes/Media/class.ilObjMediaObject.php";
 			$result = array(
 				"filename" => $prefix . "_" . $filename,

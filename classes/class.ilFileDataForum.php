@@ -187,8 +187,11 @@ class ilFileDataForum extends ilFileData
 		{
 			// CHECK IF FILE WITH SAME NAME EXISTS
 			$this->__rotateFiles($this->getForumPath().'/'.$this->obj_id.'_'.$this->pos_id."_".$a_http_post_file['name']);
-			move_uploaded_file($a_http_post_file['tmp_name'],$this->getForumPath().'/'.$this->obj_id.'_'.$this->pos_id."_".
-							   $a_http_post_file['name']);
+			ilUtil::moveUploadedFile($a_http_post_file['tmp_name'], $a_http_post_file['name'],
+				$this->getForumPath().'/'.$this->obj_id.'_'.$this->pos_id."_".
+				$a_http_post_file['name']);
+			//move_uploaded_file($a_http_post_file['tmp_name'],$this->getForumPath().'/'.$this->obj_id.'_'.$this->pos_id."_".
+			//   $a_http_post_file['name']);
 		}
 		return true;
 	}
