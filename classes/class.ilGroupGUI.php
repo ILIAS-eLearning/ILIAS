@@ -393,22 +393,31 @@ class ilGroupGUI extends ilObjectGUI
 	*/
 	function view()
 	{
-		global $rbacsystem;
+		global $rbacsystem,$ilias;
 
-		if (isset($_GET["grp_viewmode"]))
+		if (isset($_GET["viewmode"]))
 		{
-			$_SESSION["grp_viewmode"] = $_GET["grp_viewmode"];
+			$_SESSION["viewmode"] = $_GET["viewmode"];
 		}
-		else if(!isset($_SESSION["grp_viewmode"]))
-			$_SESSION["grp_viewmode"] = "flat";	//default viewmode
-
-		if (!$rbacsystem->checkAccess('read',$_GET["ref_id"]) || !$this->object->isMember())
+		else if(!isset($_SESSION["viewmode"]))
+			$_SESSION["viewmode"] = "flat";	//default viewmode
+		
+		//exception
+		if($this->object->getType()=="fold")
+		{
+			$tmp_object =& $ilias->obj_factory->getInstanceByRefId(ilUtil::getGroupId($_GET["ref_id"]));
+		}
+		else
+		{
+			$tmp_object = $this->object;
+		}
+		if (!$rbacsystem->checkAccess('read',$_GET["ref_id"]) || !$tmp_object->isMember())
 		{
 			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);
 		}
 
 		// tree frame
-		if ($_SESSION["grp_viewmode"] == "tree")
+		if ($_SESSION["viewmode"] == "tree")
 		{
 			$this->tpl = new ilTemplate("tpl.group.html", false, false);
 			$this->tpl->setVariable ("EXP", "group.php?cmd=explorer&ref_id=".$_GET["ref_id"]."&expand=".$_GET["expand"]);
@@ -562,48 +571,63 @@ class ilGroupGUI extends ilObjectGUI
 
 		$tab = array();
 
-		if (!isset($_SESSION["grp_viewmode"]) OR $_SESSION["grp_viewmode"] == "flat")
+		if (!isset($_SESSION["viewmode"]) OR $_SESSION["viewmode"] == "flat")
 		{
 			$tab[0] = array ();
-			$tab[0]["tab_cmd"] = "cmd=view&grp_viewmode=tree&ref_id=".$_GET["ref_id"]; 	//link for tab
+			$tab[0]["tab_cmd"] = "cmd=view&viewmode=tree&ref_id=".$_GET["ref_id"]; 	//link for tab
 			$tab[0]["ftabtype"] = "tabinactive"; 					//tab is marked
 			$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
 			$tab[0]["tab_text"] = 'treeview';
+		
+			$tab[1] = array ();
+			$tab[1]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
+			$tab[1]["ftabtype"] = "tabactive";  					//tab is marked
+			$tab[1]["target"] = "bottom";  						//target-frame of tab_cmd
+			$tab[1]["tab_text"] ='flatview';
+		
+		
+		
 		}
 		else
 		{
 			$tab[0] = array ();
-			$tab[0]["tab_cmd"] = "cmd=view&grp_viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
-			$tab[0]["ftabtype"] = "tabinactive";  					//tab is marked
+			$tab[0]["tab_cmd"] = "cmd=view&viewmode=tree&ref_id=".$_GET["ref_id"]; 	//link for tab
+			$tab[0]["ftabtype"] = "tabactive"; 					//tab is marked
 			$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
-			$tab[0]["tab_text"] ='flatview';
+			$tab[0]["tab_text"] = 'treeview';
+			
+			$tab[1] = array ();
+			$tab[1]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
+			$tab[1]["ftabtype"] = "tabinactive";  					//tab is marked
+			$tab[1]["target"] = "bottom";  						//target-frame of tab_cmd
+			$tab[1]["tab_text"] ='flatview';
 		}
 
-		$tab[1] = array ();
-		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
-		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
-		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
-		$tab[1]["tab_text"] = 'group_members';						//tab -text
+		$tab[2] = array ();
+		$tab[2]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
+		$tab[2]["ftabtype"] = 'tabinactive';						//tab is marked
+		$tab[2]["target"]   = "_self";							//target-frame of tab_cmd
+		$tab[2]["tab_text"] = 'group_members';						//tab -text
 
 		//check if trash is filled
 		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 
 		if (count($objects) > 0)
 		{
-			$tab[2] = array ();
-			$tab[2]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"];		//link for tab
-			$tab[2]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[2]["target"]   = "bottom";						//target-frame of tab_cmd
-			$tab[2]["tab_text"] = 'trash';						//tab -text
+			$tab[3] = array ();
+			$tab[3]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"];		//link for tab
+			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[3]["target"]   = "bottom";						//target-frame of tab_cmd
+			$tab[3]["tab_text"] = 'trash';						//tab -text
 		}
 
 		if( $rbacsystem->checkAccess('delete',$_GET["ref_id"]) && $this->object->getType() == 'grp')
 		{
-			$tab[3] = array ();
-			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
-			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[3]["target"]   = "_self";						//target-frame of tab_cmd
-			$tab[3]["tab_text"] = "grp_edit";				//tab -text
+			$tab[4] = array ();
+			$tab[4]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
+			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[4]["target"]   = "_self";						//target-frame of tab_cmd
+			$tab[4]["tab_text"] = "grp_edit";				//tab -text
 		}
 
 		$this->prepareOutput(false, $tab);

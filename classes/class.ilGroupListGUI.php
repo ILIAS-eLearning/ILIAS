@@ -589,6 +589,13 @@ class ilGroupListGUI
 		{
 
 			$this->tpl->setCurrentBlock("tab");
+			$this->tpl->setVariable("TAB_TYPE", 'tabactive');
+			$this->tpl->setVariable("TAB_TARGET", "bottom");
+			$this->tpl->setVariable("TAB_LINK", "grp_list.php?viewmode=tree");
+			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("treeview"));
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable("TAB_TYPE", 'tabinactive');
 			$this->tpl->setVariable("TAB_TARGET", "bottom");
 			$this->tpl->setVariable("TAB_LINK", "grp_list.php?viewmode=flat");
@@ -597,12 +604,18 @@ class ilGroupListGUI
 		}
 		elseif($settabs and $_SESSION["viewmode"]=="flat")
 		{
-		
 			$this->tpl->setCurrentBlock("tab");
 			$this->tpl->setVariable("TAB_TYPE", 'tabinactive');
 			$this->tpl->setVariable("TAB_TARGET", "bottom");
 			$this->tpl->setVariable("TAB_LINK", "grp_list.php?viewmode=tree");
 			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("treeview"));
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("tab");
+			$this->tpl->setVariable("TAB_TYPE", 'tabactive');
+			$this->tpl->setVariable("TAB_TARGET", "bottom");
+			$this->tpl->setVariable("TAB_LINK", "grp_list.php?viewmode=flat");
+			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("flatview"));
 			$this->tpl->parseCurrentBlock();
 		}
 
