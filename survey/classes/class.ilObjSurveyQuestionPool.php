@@ -24,7 +24,7 @@
 /**
 * Class ilObjSurveyQuestionPool
 * 
-* @author Helmut Schottmüller <hschottm@tzi.de> 
+* @author Helmut Schottmï¿½ller <hschottm@tzi.de> 
 * @version $Id$
 *
 * @extends ilObject
@@ -158,8 +158,8 @@ class ilObjSurveyQuestionPool extends ilObject
 
 	function deleteAllData()
 	{
-		$query = sprintf("SELECT question_id FROM survey_question WHERE ref_fi = %s",
-			$this->ilias->db->quote($this->getRefId())
+		$query = sprintf("SELECT question_id FROM survey_question WHERE obj_fi = %s",
+			$this->ilias->db->quote($this->getId())
 		);
 		$result = $this->ilias->db->query($query);
 		$found_questions = array();
@@ -584,7 +584,7 @@ class ilObjSurveyQuestionPool extends ilObject
       }
     }
 		$maxentries = $ilUser->prefs["hits_per_page"];
-    $query = "SELECT survey_question.question_id FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.ref_fi = " . $this->getRefId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
+    $query = "SELECT survey_question.question_id FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
 		if ($startrow > $max -1)
@@ -596,7 +596,7 @@ class ilObjSurveyQuestionPool extends ilObject
 			$startrow = 0;
 		}
 		$limit = " LIMIT $startrow, $maxentries";
-    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.ref_fi = " . $this->getRefId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
+    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = " . $this->getId() . " AND ISNULL(survey_question.original_id) $where$order$limit";
     $query_result = $this->ilias->db->query($query);
 		$rows = array();
 		if ($query_result->numRows())

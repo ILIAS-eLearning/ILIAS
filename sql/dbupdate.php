@@ -4430,3 +4430,36 @@ $query = "DELETE FROM object_data WHERE type='typ' and title='hlm'";
 $this->db->query($query);
 
 ?>
+
+<#268>
+ALTER  TABLE  `survey_survey`  CHANGE  `ref_fi`  `obj_fi` INT( 11  ) DEFAULT  '0' NOT  NULL;
+ALTER  TABLE  `survey_question`  CHANGE  `ref_fi`  `obj_fi` INT( 11  ) UNSIGNED DEFAULT  '0' NOT  NULL;
+<#269>
+<?php
+
+// convert tst_tests reference id's to object id's
+$query = "SELECT object_reference.obj_id, survey_survey.obj_fi, survey_survey.survey_id FROM object_reference, survey_survey WHERE survey_survey.obj_fi = object_reference.ref_id";
+$result = $this->db->query($query);
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$query = sprintf("UPDATE `survey_survey` SET `obj_fi` = %s WHERE `survey_id` = %s",
+		$this->db->quote($row["obj_id"]),
+		$this->db->quote($row["survey_id"])
+	);
+	$insert_result = $this->db->query($query);
+}
+
+// convert qpl_questions reference id's to object id's
+$query = "SELECT object_reference.obj_id, survey_question.obj_fi, survey_question.question_id FROM object_reference, survey_question WHERE survey_question.obj_fi = object_reference.ref_id";
+$result = $this->db->query($query);
+while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$query = sprintf("UPDATE `survey_question` SET `obj_fi` = %s WHERE `question_id` = %s",
+		$this->db->quote($row["obj_id"]),
+		$this->db->quote($row["question_id"])
+	);
+	$insert_result = $this->db->query($query);
+}
+
+?>
+

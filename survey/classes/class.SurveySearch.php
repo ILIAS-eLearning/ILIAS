@@ -30,7 +30,7 @@ define ("CONCAT_OR", 1);
 * The SurveySearch class defines and encapsulates basic methods and attributes
 * to search the ILIAS survey tool for questions.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveySearch.php
 * @modulegroup   Survey
@@ -187,14 +187,14 @@ class SurveySearch {
 		{
 			$str_where .= " AND (" . $where . ")";
 		}
-		$query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.ref_fi > 0$str_where";
+		$query = "SELECT survey_question.*, survey_questiontype.type_tag, object_reference.ref_id FROM survey_question, survey_questiontype, object_reference WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.obj_fi = object_reference.obj_id AND survey_question.obj_fi > 0$str_where";
 		$result = $this->ilDB->query($query);
 		$result_array = array();
 		global $rbacsystem;
     if (strcmp(get_class($result), db_result) == 0) {
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				if (($row["complete"] == 1) and ($rbacsystem->checkAccess('write', $row["ref_fi"])))
+				if (($row["complete"] == 1) and ($rbacsystem->checkAccess('write', $row["ref_id"])))
 				{
 					array_push($result_array, $row);
 				}

@@ -2190,8 +2190,8 @@ class ilRepositoryGUI
 			global $ilDB;
 			global $ilUser;
 			foreach ($surveys as $key => $svy_data) {
-				$q = sprintf("SELECT * FROM survey_survey WHERE ref_fi=%s",
-					$ilDB->quote($svy_data["ref_id"])
+				$q = sprintf("SELECT * FROM survey_survey WHERE obj_fi=%s",
+					$ilDB->quote($svy_data["obj_id"])
 				);
 				$result = $ilDB->query($q);
 				if ($result->numRows() == 1) {

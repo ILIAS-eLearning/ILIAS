@@ -31,7 +31,7 @@ require_once "./classes/class.ilMetaDataGUI.php";
 /**
 * Class ilObjSurveyQuestionPoolGUI
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author Helmut Schottmï¿½ller <hschottm@tzi.de>
 * $Id$
 *
 * @extends ilObjectGUI
@@ -319,7 +319,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				}
 			}
 		}
-		$question->object->setRefId($_GET["ref_id"]);
+		$question->object->setObjId($this->object->getId());
 
 		if ($_POST["cmd"]["delete"])
 		{

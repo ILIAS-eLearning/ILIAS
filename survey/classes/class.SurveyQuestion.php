@@ -27,7 +27,7 @@
 * The SurveyQuestion class defines and encapsulates basic methods and attributes
 * for survey question types to be used for all parent classes.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyQuestion.php
 * @modulegroup   Survey
@@ -97,13 +97,13 @@ class SurveyQuestion {
   var $survey_id;
 
 /**
-* Reference id of the container object
+* Object id of the container object
 *
-* Reference id of the container object
+* Object id of the container object
 *
 * @var double
 */
-  var $ref_id;
+  var $obj_id;
 
 /**
 * Contains the questiontext
@@ -217,12 +217,12 @@ class SurveyQuestion {
 * @return boolean The result of the title check
 * @access public
 */
-  function questionTitleExists($title, $questionpool_reference = "") {
+  function questionTitleExists($title, $questionpool_object = "") {
 		$refwhere = "";
 		if (strcmp($questionpool_reference, "") != 0)
 		{
-			$refwhere = sprintf(" AND ref_fi = %s",
-				$this->ilias->db->quote($questionpool_reference)
+			$refwhere = sprintf(" AND obj_fi = %s",
+				$this->ilias->db->quote($questionpool_object)
 			);
 		}
     $query = sprintf("SELECT question_id FROM survey_question WHERE title = %s$refwhere",
@@ -558,10 +558,10 @@ class SurveyQuestion {
 *
 * @return integer The reference id of the container object
 * @access public
-* @see $ref_id
+* @see $obj_id
 */
-  function getRefId() {
-    return $this->ref_id;
+  function getObjId() {
+    return $this->obj_id;
   }
 
 /**
@@ -569,12 +569,12 @@ class SurveyQuestion {
 *
 * Set the reference id of the container object
 *
-* @param integer $ref_id The reference id of the container object
+* @param integer $obj_id The reference id of the container object
 * @access public
-* @see $ref_id
+* @see $obj_id
 */
-  function setRefId($ref_id = 0) {
-    $this->ref_id = $ref_id;
+  function setObjId($obj_id = 0) {
+    $this->obj_id = $obj_id;
   }
 
 /**
@@ -718,7 +718,7 @@ class SurveyQuestion {
 * @access public
 */
 	function getImagePath() {
-		return CLIENT_WEB_DIR . "/survey/$this->ref_id/$this->id/images/";
+		return CLIENT_WEB_DIR . "/survey/$this->obj_id/$this->id/images/";
 	}
 
 /**
@@ -730,7 +730,7 @@ class SurveyQuestion {
 * @access public
 */
 	function getMaterialsPath() {
-		return CLIENT_WEB_DIR . "/survey/$this->ref_id/$this->id/materials/";
+		return CLIENT_WEB_DIR . "/survey/$this->obj_id/$this->id/materials/";
 	}
 
 /**
@@ -742,7 +742,7 @@ class SurveyQuestion {
 * @access public
 */
 	function getImagePathWeb() {
-		$webdir = CLIENT_WEB_DIR . "/survey/$this->ref_id/$this->id/images/";
+		$webdir = CLIENT_WEB_DIR . "/survey/$this->obj_id/$this->id/images/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
 
@@ -755,7 +755,7 @@ class SurveyQuestion {
 * @access public
 */
 	function getMaterialsPathWeb() {
-		$webdir = CLIENT_WEB_DIR . "/survey/$this->ref_id/$this->id/materials/";
+		$webdir = CLIENT_WEB_DIR . "/survey/$this->obj_id/$this->id/materials/";
 		return str_replace(ILIAS_ABSOLUTE_PATH, ILIAS_HTTP_PATH, $webdir);
 	}
 
@@ -901,14 +901,14 @@ class SurveyQuestion {
     if ($question_id < 1)
       return;
       
-		$query = sprintf("SELECT ref_fi FROM survey_question WHERE question_id = %s",
+		$query = sprintf("SELECT obj_fi FROM survey_question WHERE question_id = %s",
 			$this->ilias->db->quote($question_id)
 		);
     $result = $this->ilias->db->query($query);
 		if ($result->numRows() == 1)
 		{
 			$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-			$ref_id = $row["ref_fi"];
+			$obj_id = $row["obj_fi"];
 		}
 		else
 		{
@@ -978,7 +978,7 @@ class SurveyQuestion {
 		);
 		$result = $this->ilias->db->query($query);
 
-		$directory = CLIENT_WEB_DIR . "/survey/" . $ref_id . "/$question_id";
+		$directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
 		if (is_dir($directory))
 		{
 			$directory = escapeshellarg($directory);

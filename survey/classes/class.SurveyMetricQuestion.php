@@ -33,7 +33,7 @@ define("SUBTYPE_RATIO_ABSOLUTE", 5);
 * The SurveyMetricQuestion class defines and encapsulates basic methods and attributes
 * for metric survey question types.
 *
-* @author		Helmut Schottmüller <hschottm@tzi.de>
+* @author		Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version	$Id$
 * @module   class.SurveyMetricQuestion.php
 * @modulegroup   Survey
@@ -196,7 +196,7 @@ class SurveyMetricQuestion extends SurveyQuestion {
         $this->id = $data->question_id;
         $this->title = $data->title;
         $this->description = $data->description;
-        $this->ref_id = $data->ref_fi;
+        $this->obj_id = $data->obj_fi;
 				$this->obligatory = $data->obligatory;
         $this->author = $data->author;
 				$this->subtype = $data->subtype;
@@ -272,10 +272,10 @@ class SurveyMetricQuestion extends SurveyQuestion {
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, ref_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO survey_question (question_id, subtype, questiontype_fi, obj_fi, owner_fi, title, description, author, questiontext, obligatory, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$this->ilias->db->quote("$this->subtype"),
         $this->ilias->db->quote("3"),
-        $this->ilias->db->quote($this->ref_id),
+        $this->ilias->db->quote($this->obj_id),
         $this->ilias->db->quote($this->owner),
         $this->ilias->db->quote($this->title),
         $this->ilias->db->quote($this->description),

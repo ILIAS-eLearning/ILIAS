@@ -25,7 +25,7 @@
 /**
 * survey script used to call the survey objects
 *
-* @author Helmut Schottmüller <hschottm@tzi.de>
+* @author Helmut Schottmï¿½ller <hschottm@tzi.de>
 * @version $Id$
 *
 * @package survey
