@@ -900,6 +900,7 @@ common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Opti
 common#:#checked_files#:#Importierbare Dateien
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
+common#:#conflict_handling#:#Konfliktbehandlung
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
@@ -1428,6 +1429,7 @@ common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
 common#:#if_no_title_then_url#:#Geben Sie keinen Titel ein, wird stattdessen die URL angezeigt
+common#:#ignore_on_conflict#:#Ignoriere bei Konflikt
 common#:#ilias_version#:#ILIAS Version
 common#:#ilinc_classrooms#:#iLinc Seminarräume
 common#:#ilinc_courses#:#iLinc Seminare
@@ -1437,6 +1439,7 @@ common#:#import#:#importieren
 common#:#import_alm#:#Import AICC Modul
 common#:#import_categories#:#Kategorien importieren
 common#:#import_dbk#:#Digilib-Buch importieren
+common#:#import_failure_log#:#Import Fehler Log
 common#:#import_file#:#Importdatei
 common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
 common#:#import_finished#:#Anzahl der importierten Nachrichten:
@@ -1452,6 +1455,7 @@ common#:#import_spl#:#Fragenpool für Umfrage importieren
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
+common#:#import_warning_log#:#Import Warnungen Log
 common#:#imported#:#importiert
 common#:#in#:#in
 common#:#in_use#:#Benutzersprache
@@ -2406,6 +2410,7 @@ common#:#up#:#Hoch
 common#:#update#:#Übernehmen
 common#:#update_applied#:#Datenbankupdate erfolgreich
 common#:#update_language#:#Sprache updaten
+common#:#update_on_conflict#:#Aktualisiere bei Konflikt
 common#:#upload#:#Hochladen
 common#:#upload_error_file_not_found#:#Fehler beim Hochladen: Datei nicht gefunden
 common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, Sie können sie nun importieren.
@@ -2432,6 +2437,8 @@ common#:#user_comment#:#User-Kommentar
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_detail#:#Details
 common#:#user_imported#:#Benutzerimport abgeschlossen.
+common#:#user_imported_with_warnings#:#Benutzerimport mit Warnungen abgeschlossen.
+common#:#user_import_failed#:#Benutzerimport fehlgeschlagen.
 common#:#user_language#:#Benutzersprache
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
 common#:#user_profile_other#:#Weitere Informationen
@@ -2467,11 +2474,30 @@ common#:#usrf_read#:#Lesezugriff auf Benutzerkonten
 common#:#usrf_read_users#:#Rollenzuweisung für lokale Administratoren
 common#:#usrf_visible#:#Benutzerkonten sind sichtbar
 common#:#usrf_write#:#Benutzerkonten bearbeiten
+common#:#usrimport_action_failed#:#Aktion %1$s fehlgeschlagen.
+common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
+common#:#usrimport_action_ignored#:#Aktion %1$s ignoriert.
+common#:#usrimport_cant_insert#:#Kann "Insert" Aktion nicht ausführen. Benutzerkonto bereits in Datenbank vorhanden.
+common#:#usrimport_cant_update#:#Kann "Update" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
+common#:#usrimport_cant_delete#:#Kann "Delete" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
+common#:#usrimport_conflict_handling_info#:#Wenn "Ignoriere bei Konflikt" gewählt ist, ignoriert ILIAS eine Aktion, wenn sie nicht ausgeführt werden kann (z. B. eine "Insert" Aktion wird nicht ausgeführt, wenn bereits ein Benutzerkonto mit dem selben Login in der Datenbank vorhanden ist.)\nWenn "Aktualisieren bei Konflikt" ausgewählt ist, aktualisiert ILIAS das Benutzerkonto auf der Datenbank, wenn die angegebene Aktion nicht ausgeführt werden kann. (z.b. eine "Insert" Aktion wird durch eine "Update" Aktion ersetzt, wenn bereits ein Benutzerkonto mit dem selben Login in der Datenbank vorhanden ist).
+common#:#usrimport_xml_attribute_missing#:#Attribut "%2$s" fehlt in Element "%1$s".
+common#:#usrimport_xml_attribute_value_illegal#:#Wert "%3$s" des Attributs "%2$s" in Element "%1$s" ist ungültig.
+common#:#usrimport_xml_attribute_value_inapplicable#:#Wert "%3$s" des Attributs "%2$s" in Element "%1$s" ist nicht anwendbar bei Aktion "%4$s".
+common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" muss für "%2$s" Aktion angegeben werden.
+common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" ist für "%2$s" Aktion nicht anwendbar.
+common#:#usrimport_xml_element_content_illegal#:#Inhalt "%2$s" des Elements "%1$s" ist ungültig.
+common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
+common#:#usrimport_login_is_not_unique#:#Login ist nicht eindeutig.
 common#:#validate#:#Validieren
 common#:#value#:#Wert
 common#:#vcard#:#Visitenkarte
 common#:#vcard_download#:#Visitenkarte herunterladen
 common#:#vendors#:#Verkäufer
+common#:#verification_failed#:#Überprüfung fehlgeschlagen
+common#:#verification_failure_log#:#Überprüfung Fehler Log
+common#:#verification_warning_log#:#Überprüfung Warnungen Log
+common#:#verification_log#:#Überprüfungslog
 common#:#version#:#Version
 common#:#versions#:#Versionen
 common#:#view#:#Zeigen

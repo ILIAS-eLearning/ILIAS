@@ -810,19 +810,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function importUserRoleAssignmentObject ()
 	{
 		include_once './classes/class.ilObjRole.php';
-
-		global $rbacreview, $rbacsystem, $tree;
+		include_once './classes/class.ilUserImportParser.php';
+		
+		global $rbacreview, $rbacsystem, $tree, $lng;
 		
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html");
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		#$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."&cmd=gateway");
-		$this->tpl->setVariable("TXT_ROLES_IMPORT", $this->lng->txt("roles_of_import_global"));
-		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("assign_global_role"));
-		$this->tpl->setVariable("TXT_ROLE_ASSIGNMENT", $this->lng->txt("role_assignment"));
-		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
 
 		$import_dir = $this->getImportDir();
 
@@ -882,18 +875,38 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				." ".$subdir."/".$subdir.".xml", $this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->setVariable("XML_FILE_NAME", $xml_file);
-
 		require_once("classes/class.ilUserImportParser.php");
 
 		// Verify the data
+		// ---------------
 		$importParser = new ilUserImportParser($xml_file, IL_VERIFY);
 		$importParser->startParsing();
-		if (! $importParser->isSuccess())
+
+		switch ($importParser->getErrorLevel())
 		{
-			$this->ilias->raiseError($this->lng->txt("verification_failed")
-				.$importParser->getProtocolAsHTML(), $this->ilias->error_obj->MESSAGE);
+			case IL_IMPORT_SUCCESS :
+				break;
+			case IL_IMPORT_WARNING :
+				$this->tpl->setVariable("IMPORT_LOG", $importParser->getProtocolAsHTML($lng->txt("verification_warning_log")));
+				break;
+			case IL_IMPORT_FAILURE :
+				$this->ilias->raiseError(
+					$lng->txt("verification_failed").$importParser->getProtocolAsHTML($lng->txt("verification_failure_log")),
+					$this->ilias->error_obj->MESSAGE
+				);
+				return;
 		}
+
+		// Create the role selection form
+		// ------------------------------
+		$this->tpl->setCurrentBlock("role_selection_form");
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_ROLES_IMPORT", $this->lng->txt("roles_of_import_global"));
+		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("assign_global_role"));
+		$this->tpl->setVariable("TXT_ROLE_ASSIGNMENT", $this->lng->txt("role_assignment"));
+		$this->tpl->setVariable("BTN_IMPORT", $this->lng->txt("import"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("XML_FILE_NAME", $xml_file);
 
 		// Extract the roles
 		$importParser = new ilUserImportParser($xml_file, IL_EXTRACT_ROLES);
@@ -957,16 +970,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 							break;
 					}
 				}
-				$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $gl_roles, false, true);
 				$this->tpl->setCurrentBlock("role");
+				$role_select = ilUtil::formSelect($pre_select, "role_assign[".$role_id."]", $gl_roles, false, true);
 				$this->tpl->setVariable("TXT_IMPORT_ROLE", $role["name"]." [".$role_id."]");
 				$this->tpl->setVariable("SELECT_ROLE", $role_select);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		$this->tpl->setCurrentBlock("role_section");
-		$this->tpl->parseCurrentBlock();
-
 
 		// get local roles
 		$loc_roles = $rbacreview->getAssignableRoles();
@@ -989,17 +999,23 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					$path = "";
 					if ($this->tree->isInTree($rolf[0]))
 					{
+						// Create path. Paths which have more than 4 segments
+						// are truncated in the mittle.
 						$tmpPath = $this->tree->getPathFull($rolf[0]);
-						// count -1, to exclude the role folder itself
-						for ($i = 1; $i < (count($tmpPath)-1); $i++)
+						for ($i = 1, $n = count($tmpPath) - 1; $i < $n; $i++)
 						{
-							if ($path != "")
+							if ($i > 1)
 							{
-								$path .= " > ";
+								$path = $path.' > ';
 							}
-
-							// workaround: gets to long, take only last one
-							$path = $tmpPath[$i]["title"];
+							if ($i < 3 || $i > $n - 3)
+							{
+								$path = $path.$tmpPath[$i]["title"];
+							} 
+							else if ($i == 3 || $i == $n - 3)
+							{
+								$path = $path.'...';
+							}
 						}
 					}
 					else
@@ -1007,13 +1023,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
 					}
 					
-					// workaround
-					if (strlen($path) > 50)
-					{
-						//$path = substr($path,0,14).'...'.substr($path,strlen($path)-14);
-						$path = substr($path,0,45)."...";
-					}
-
 					if ($loc_role["role_type"] != "Global")
 					{
 						$l_roles[$loc_role["obj_id"]] = $loc_role["title"]." ($path)";
@@ -1048,6 +1057,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("assign_local_role"));
 			$this->tpl->parseCurrentBlock();
 		}
+
+		// 
+ 
+		$this->tpl->setVariable("TXT_CONFLICT_HANDLING", $lng->txt("conflict_handling"));
+		$handlers = array(
+			IL_IGNORE_ON_CONFLICT => "ignore_on_conflict",
+			IL_UPDATE_ON_CONFLICT => "update_on_conflict"
+		);
+		$this->tpl->setVariable("TXT_CONFLICT_HANDLING_INFO", str_replace('\n','<br>',$this->lng->txt("usrimport_conflict_handling_info")));
+		$this->tpl->setVariable("TXT_CONFLICT_CHOICE", $lng->txt("conflict_handling"));
+		$this->tpl->setVariable("SELECT_CONFLICT", ilUtil::formSelect(IL_IGNORE_ON_CONFLICT, "conflict_handling_choice", $handlers, false, false));
 	}
 
 	/**
@@ -1055,10 +1075,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function importUsersObject()
 	{
-		global $rbacreview, $rbacsystem, $tree;
+		include_once './classes/class.ilUserImportParser.php';
 
-		require_once("classes/class.ilUserImportParser.php");
-		$importParser = new ilUserImportParser($_POST["xml_file"]);
+		global $rbacreview, $rbacsystem, $tree, $lng;
+
+		switch ($_POST["conflict_handling_rule"])
+		{
+			case "update_on_conflict" :
+				$rule = IL_UPDATE_ON_CONFLICT;
+				break;
+			case "ignore_on_conflict" :
+			default :
+				$rule = IL_IGNORE_ON_CONFLICT;
+				break;
+		}
+		$importParser = new ilUserImportParser($_POST["xml_file"],  IL_USER_IMPORT, $rule);
 		$importParser->setFolderId($this->object->getRefId());
 
 		// Catch hack attempts
@@ -1082,15 +1113,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$importParser->setRoleAssignment($_POST["role_assign"]);
 		$importParser->startParsing();
 
-		if ($importParser->isSuccess())
+		switch ($importParser->getErrorLevel())
 		{
-			sendInfo($this->lng->txt("user_imported"), true);
-		}
-		else
-		{
-			$this->ilias->raiseError($this->lng->txt("import_failed")
-				.$importParser->getProtocolAsHTML(), $this->ilias->error_obj->MESSAGE);
-			return;
+			case IL_IMPORT_SUCCESS :
+				sendInfo($this->lng->txt("user_imported"), true);
+				break;
+			case IL_IMPORT_WARNING :
+				sendInfo($this->lng->txt("user_imported_with_warnings").$importParser->getProtocolAsHTML($lng->txt("import_warning_log")), true);
+				break;
+			case IL_IMPORT_FAILURE :
+				$this->ilias->raiseError(
+					$this->lng->txt("user_import_failed")
+					.$importParser->getProtocolAsHTML($lng->txt("import_failure_log")),
+					$this->ilias->error_obj->MESSAGE
+				);
+				break;
 		}
 
 		if($this->ctrl->getTargetScript() == 'adm_object.php')

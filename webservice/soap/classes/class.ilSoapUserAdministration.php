@@ -558,6 +558,7 @@ class ilSoapUserAdministration
 		$usr_data['usr_id'] = $usr_obj->getId();
 		$usr_data['login'] = $usr_obj->getLogin();
 		$usr_data['passwd'] = $usr_obj->getPasswd();
+		$usr_data['passwd_type'] = $usr_obj->getPasswdType();
 		$usr_data['firstname'] = $usr_obj->getFirstname();
 		$usr_data['lastname'] = $usr_obj->getLastname();
 		$usr_data['title'] = $usr_obj->getUTitle();
