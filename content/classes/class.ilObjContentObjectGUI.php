@@ -1500,7 +1500,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	}
 
 	/*
-	* list all export files
+	* view last export log
 	*/
 	function viewExportLog()
 	{
@@ -1627,6 +1627,124 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 		$this->ctrl->redirect($this, "exportList");
 	}
+
+	/*
+	* list all offline files
+	*/
+	function offlineList()
+	{
+		global $tree;
+
+		$this->setTabs();
+
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// create pdf file button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "createPDF"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_pdf_file"));
+		$this->tpl->parseCurrentBlock();
+
+		// view last export log button
+		/*
+		if (is_file($this->object->getExportDirectory()."/export.log"))
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "viewExportLog"));
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_view_last_export_log"));
+			$this->tpl->parseCurrentBlock();
+		}*/
+
+		$offline_dir = $this->object->getOfflineDirectory();
+
+		$offline_files = $this->object->getOfflineFiles($offline_dir);
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// load files templates
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.offline_file_row.html", true);
+
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		$tbl->setTitle($this->lng->txt("cont_offline_files"));
+
+		$tbl->setHeaderNames(array("", $this->lng->txt("cont_file"),
+			$this->lng->txt("cont_size"), $this->lng->txt("date") ));
+
+		$cols = array("", "file", "size", "date");
+		$header_params = array("ref_id" => $_GET["ref_id"],
+			"cmd" => "offlineList", "cmdClass" => get_class($this));
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%", "49%", "25%", "25%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 4);
+
+		// delete button
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "confirmDeleteOfflineFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "downloadPDFFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("download"));
+		$this->tpl->parseCurrentBlock();
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		$tbl->setMaxCount(count($export_files));
+		$offline_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($offline_files) > 0)
+		{
+			$i=0;
+			foreach($offline_files as $off_file)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("TXT_FILENAME", $off_file);
+
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", filesize($offline_dir."/".$off_file));
+				$this->tpl->setVariable("CHECKBOX_ID", $off_file);
+
+				$file_arr = explode("__", $off_file);
+				$this->tpl->setVariable("TXT_DATE", date("Y-m-d H:i:s",$file_arr[0]));
+
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 3);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
 
 	/**
 	* output tabs

@@ -1161,8 +1161,8 @@ class ilSetupGUI extends ilSetup
 			if (!$this->updateMasterSettings($_POST["form"]))
 			{
 				$this->raiseError($this->lng->txt($this->getError()),$this->error_obj->MESSAGE);
-			}			
-			
+			}
+
 			sendInfo($this->lng->txt("settings_saved"),true);
 			ilUtil::redirect("setup.php");
 		}
@@ -1172,7 +1172,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html");
 
 		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
-		
+
 		// for checkboxes & radio buttons
 		$checked = "checked=\"checked\"";
 
@@ -1217,7 +1217,7 @@ class ilSetupGUI extends ilSetup
 			$chk_log_status = ($this->ini->readVariable("log","enabled")) ? "" : $checked;
 
 		}
-		
+
 		$this->tpl->setVariable("CHK_LOG_STATUS",$chk_log_status);
 		$this->tpl->parseCurrentBlock();
 
@@ -1230,12 +1230,14 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("unzip_path"));
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("java_path"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("htmldoc_path"));
+		$this->tpl->setVariable("TXT_FOP_PATH", $this->lng->txt("fop_path"));
 
 		$this->tpl->setVariable("TXT_CONVERT_COMMENT", $this->lng->txt("convert_path_comment"));
 		$this->tpl->setVariable("TXT_ZIP_COMMENT", $this->lng->txt("zip_path_comment"));
 		$this->tpl->setVariable("TXT_UNZIP_COMMENT", $this->lng->txt("unzip_path_comment"));
 		$this->tpl->setVariable("TXT_JAVA_COMMENT", $this->lng->txt("java_path_comment"));
 		$this->tpl->setVariable("TXT_HTMLDOC_COMMENT", $this->lng->txt("htmldoc_path_comment"));
+		$this->tpl->setVariable("TXT_FOP_COMMENT", $this->lng->txt("fop_path_comment"));
 		// values
 		if ($_SESSION["error_post_vars"])
 		{
@@ -1244,6 +1246,7 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("UNZIP_PATH", $_SESSION["error_post_vars"]["form"]["unzip_path"]);
 			$this->tpl->setVariable("JAVA_PATH", $_SESSION["error_post_vars"]["form"]["java_path"]);
 			$this->tpl->setVariable("HTMLDOC_PATH", $_SESSION["error_post_vars"]["form"]["htmldoc_path"]);
+			$this->tpl->setVariable("FOP_PATH", $_SESSION["error_post_vars"]["form"]["fop_path"]);
 		}
 		else
 		{
@@ -1252,6 +1255,7 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("UNZIP_PATH",$this->ini->readVariable("tools","unzip"));
 			$this->tpl->setVariable("JAVA_PATH",$this->ini->readVariable("tools","java"));
 			$this->tpl->setVariable("HTMLDOC_PATH",$this->ini->readVariable("tools","htmldoc"));
+			$this->tpl->setVariable("FOP_PATH",$this->ini->readVariable("tools","fop"));
 		}
 
 		$chk_convert_path = ($_SESSION["error_post_vars"]["form"]["chk_convert_path"]) ? $checked : "";
@@ -1259,6 +1263,7 @@ class ilSetupGUI extends ilSetup
 		$chk_unzip_path = ($_SESSION["error_post_vars"]["form"]["chk_unzip_path"]) ? $checked : "";
 		$chk_java_path = ($_SESSION["error_post_vars"]["form"]["chk_java_path"]) ? $checked : "";
 		$chk_htmldoc_path = ($_SESSION["error_post_vars"]["form"]["chk_htmldoc_path"]) ? $checked : "";
+		$chk_fop_path = ($_SESSION["error_post_vars"]["form"]["chk_fop_path"]) ? $checked : "";
 
 		$this->tpl->setVariable("CHK_LOG_STATUS", $chk_log_stauts);
 		$this->tpl->setVariable("CHK_CONVERT_PATH", $chk_convert_path);
@@ -1266,6 +1271,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("CHK_UNZIP_PATH", $chk_unzip_path);
 		$this->tpl->setVariable("CHK_JAVA_PATH", $chk_java_path);
 		$this->tpl->setVariable("CHK_HTMLDOC_PATH", $chk_htmldoc_path);
+		$this->tpl->setVariable("CHK_FOP_PATH", $chk_fop_path);
 		$this->tpl->parseCurrentBlock();
 	}
 

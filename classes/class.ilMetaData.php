@@ -24,6 +24,7 @@
 require_once ("classes/class.ilMetaTechnical.php");
 require_once ("classes/class.ilMetaTechnicalRequirement.php");
 require_once ("classes/class.ilMetaTechnicalRequirementSet.php");
+require_once ("classes/class.ilNestedSetXML.php");
 
 /**
 * Class ilMetaData

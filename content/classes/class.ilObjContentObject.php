@@ -36,6 +36,7 @@
 
 require_once "classes/class.ilObject.php";
 require_once "classes/class.ilMetaData.php";
+require_once("classes/class.ilNestedSetXML.php");
 //require_once("content/classes/class.ilPageObject.php");
 
 class ilObjContentObject extends ilObject
@@ -417,6 +418,46 @@ class ilObjContentObject extends ilObject
 		$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export";
 
 		return $export_dir;
+	}
+
+
+	/**
+	* creates data directory for offline files
+	* (data_dir/lm_data/lm_<id>/offline, depending on data
+	* directory that is set in ILIAS setup/ini)
+	*/
+	function createOfflineDirectory()
+	{
+		$lm_data_dir = ilUtil::getDataDir()."/lm_data";
+		if(!is_writable($lm_data_dir))
+		{
+			$this->ilias->raiseError("Content object Data Directory (".$lm_data_dir
+				.") not writeable.",$this->ilias->error_obj->FATAL);
+		}
+		// create learning module directory (data_dir/lm_data/lm_<id>)
+		$lm_dir = $lm_data_dir."/lm_".$this->getId();
+		ilUtil::makeDir($lm_dir);
+		if(!@is_dir($lm_dir))
+		{
+			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+		// create Offlne subdirectory (data_dir/lm_data/lm_<id>/offline)
+		$offline_dir = $lm_dir."/offline";
+		ilUtil::makeDir($offline_dir);
+		if(!@is_dir($offline_dir))
+		{
+			$this->ilias->raiseError("Creation of Offline Directory failed.",$this->ilias->error_obj->FATAL);
+		}
+	}
+
+	/**
+	* get offline directory of lm
+	*/
+	function getOfflineDirectory()
+	{
+		$offline_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/offline";
+
+		return $offline_dir;
 	}
 
 
@@ -1126,6 +1167,46 @@ class ilObjContentObject extends ilObject
 				$entry != ".." and
 				substr($entry, -4) == ".zip" and
 				ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.zip\$", $entry))
+			{
+				$file[] = $entry;
+			}
+		}
+
+		// close import directory
+		$dir->close();
+
+		// sort files
+		sort ($file);
+		reset ($file);
+
+		return $file;
+	}
+
+	/**
+	* get offline files
+	*/
+	function getOfflineFiles($dir)
+	{
+		// quit if offline dir not available
+		if (!@is_dir($dir) or
+			!is_writeable($dir))
+		{
+			return array();
+		}
+
+		// open directory
+		$dir = dir($dir);
+
+		// initialize array
+		$file = array();
+
+		// get files and save the in the array
+		while ($entry = $dir->read())
+		{
+			if ($entry != "." and
+				$entry != ".." and
+				substr($entry, -4) == ".zip" and
+				ereg("^[0-9]{10}_{2}[0-9]+_{2}(lm_)*[0-9]+\.pdf\$", $entry))
 			{
 				$file[] = $entry;
 			}

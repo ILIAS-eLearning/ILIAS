@@ -152,6 +152,7 @@ class ILIAS
 		define ("PATH_TO_UNZIP",$this->ini_ilias->readVariable("tools","unzip"));
 		define ("PATH_TO_JAVA",$this->ini_ilias->readVariable("tools","java"));
 		define ("PATH_TO_HTMLDOC",$this->ini_ilias->readVariable("tools","htmldoc"));
+		define ("PATH_TO_FOP",$this->ini_ilias->readVariable("tools","fop"));
 
 		// set to default client if empty
 		if (!$a_client_id)

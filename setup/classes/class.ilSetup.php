@@ -959,12 +959,14 @@ class ilSetup extends PEAR
 		$unzip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"]));
 		$java_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
 		$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
+		$fop_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["fop_path"]));
 
 		$this->ini->setVariable("tools", "convert", $convert_path);
 		$this->ini->setVariable("tools", "zip", $zip_path);
 		$this->ini->setVariable("tools", "unzip", $unzip_path);
 		$this->ini->setVariable("tools", "java", $java_path);
 		$this->ini->setVariable("tools", "htmldoc", $htmldoc_path);
+		$this->ini->setVariable("tools", "fop", $fop_path);
 
 		$form_log_path = preg_replace("/\\\\/","/",ilFile::deleteTrailingSlash(ilUtil::stripSlashes($a_formdata["log_path"])));
 		$log_path = substr($form_log_path,0,strrpos($form_log_path,"/"));
