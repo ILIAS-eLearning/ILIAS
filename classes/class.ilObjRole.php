@@ -56,17 +56,47 @@ class ilObjRole extends ilObject
 	{
 		global $tree, $rbacadmin, $rbacreview;
 		
+		// check if role is a linked local role or not
 		if ($rbacreview->isAssignable($this->getId(),$_GET["ref_id"]))
 		{
-			// IT'S THE BASE ROLE
-			$rbacadmin->deleteRole($this->getId(),$_GET["ref_id"]);
+			// do not delete role if this role is the last role a user is assigned to
 			
-			// delete object_data entry
-			parent::delete();
+			// first fetch all users assigned to role
+			$user_ids = $rbacreview->assignedUsers($this->getId());
+			
+			$last_role_user_ids = array();
+
+			foreach ($user_ids as $user_id)
+			{
+				// get all roles each user has
+				$role_ids = $rbacreview->assignedRoles($user_id);
+				
+				// is last role?
+				if (count($role_ids) == 1)
+				{
+					$last_role_user_ids[] = $user_id;
+				}			
+			}
+			
+			// users with last role found?
+			if (count($last_role_user_ids) > 0)
+			{
+				//$_SESSION["message"] = "There are users assigned to the role and its their last role!";
+				//header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
+				$this->ilias->raiseError("There are users assigned to the role and its their last role!",$this->ilias->error_obj->MESSAGE);
+			}
+			else
+			{
+				// IT'S A BASE ROLE
+				$rbacadmin->deleteRole($this->getId(),$_GET["ref_id"]);
+
+				// delete object_data entry
+				parent::delete();
+			}
 		}
 		else
 		{
-			// INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
+			// linked local role: INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
 			$rbacadmin->deleteLocalRole($this->getId(),$_GET["ref_id"]);
 		}
 
