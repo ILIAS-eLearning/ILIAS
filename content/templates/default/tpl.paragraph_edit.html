@@ -483,7 +483,7 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
 	cfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
 	
-	cfg.statusBar = true;
+	cfg.statusBar = false;
 	
 //		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator",
 // "bold", "italic",
@@ -496,12 +496,12 @@ function initEditor(TextAreaName)
 		   "ilias-xtl", "ilias-itl",
 		  "separator", "ilias-x", "separator",
 		  "copy", "cut", "paste",
-		  "separator","htmlmode"
+		  
           ],
 
 	];
 	// "ilias-fn",	"ilias-x", "separator",
-//"ilias-fn",,"htmlmode"
+//"ilias-fn",,"htmlmode" "separator","htmlmode"
     
 /*
 "ilias-str", "ilias-emp",
@@ -640,7 +640,7 @@ function checkAllowTagInside(which)
 		S = editor.getSelectedHTML();
 		if (S.indexOf("<")>=0 && S.indexOf("</")>=0) 
 		{
-			alert("Error");
+			alert("{TXT_FORMATERROR}");
 			return(false);
 		}
 		
@@ -648,7 +648,7 @@ function checkAllowTagInside(which)
 	
 	} 
 	else {
-		alert("Error");
+		alert("{TXT_FORMATERROR}");
 		return(false);
 	}
 	
