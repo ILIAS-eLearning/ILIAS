@@ -120,7 +120,7 @@ class ilForumExplorer extends ilExplorer
 				if ($object["child"] != $this->root_id  and (!in_array($object["parent"],$this->expanded) 
 														  or !$this->format_options["$parent_index"]["visible"]))
 				{
-					$this->format_options["$counter"]["visible"] = false;
+					$this->format_options["$counter"]["visible"] = true;
 				}
 				// if object exists parent is container
 				if ($object["child"] != $this->root_id)
@@ -133,7 +133,7 @@ class ilForumExplorer extends ilExplorer
 					}
 					else
 					{
-						$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
+						$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
 					}
 				}
 

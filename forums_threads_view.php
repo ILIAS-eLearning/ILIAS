@@ -216,7 +216,8 @@ if (is_array($topicData = $frm->getOneTopic()))
 				{
 					// reply: new post
 					$newPost = $frm->generatePost($topicData["top_pk"], $_GET["thr_pk"],
-												  $_SESSION["AccountId"], $formData["message"], $_GET["pos_pk"],$_POST["notify"]);
+												  $_SESSION["AccountId"], $formData["message"], 
+												  $_GET["pos_pk"],$_POST["notify"],$threadData["thr_subject"]);
 					sendInfo($lng->txt("forums_post_new_entry"));
 					if(isset($_FILES["userfile"]))
 					{
@@ -565,11 +566,28 @@ if (is_array($topicData = $frm->getOneTopic()))
 			}
 
 			// get author data
+
 			unset($author);
 			$author = $frm->getUser($node["author"]);
+			/*
 			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
 							  $node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".
 							  $_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author->getLogin()."</a>");
+			*/
+			// GET USER DATA, USED FOR IMPORTED USERS
+			$usr_data = $frm->getUserData($node["author"]);
+
+			if($node["author"])
+			{
+				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
+								  $usr_data["usr_id"]."&backurl=forums_threads_liste&offset=".
+								  $Start."\">".$usr_data["login"]."</a>");
+			}
+			else
+			{
+				$tpl->setVariable("AUTHOR",$usr_data["login"]);
+			}
+
 
 			// get create- and update-dates
 			if ($node["update_user"] > 0)
@@ -600,12 +618,15 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 			} // if ($node["update_user"] > 0)
 
-			$tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-			$tpl->setVariable("REGISTERED_SINCE",$frm->convertDate($author->getCreateDate()));
+			if($node["author"])
+			{
+				$tpl->setVariable("TXT_REGISTERED", $lng->txt("registered_since").":");
+				$tpl->setVariable("REGISTERED_SINCE",$frm->convertDate($author->getCreateDate()));
+				$numPosts = $frm->countUserArticles($author->id);
+				$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts").":");
+				$tpl->setVariable("NUM_POSTS",$numPosts);
+			}
 
-			$numPosts = $frm->countUserArticles($author->id);
-			$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
-			$tpl->setVariable("NUM_POSTS",$numPosts);
 
 			// prepare post
 			$node["message"] = $frm->prepareText($node["message"]);

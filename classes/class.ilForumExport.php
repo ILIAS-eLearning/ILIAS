@@ -430,10 +430,15 @@ class ilForumExport
 	* @access	public
 	*/
 	function getOnePost($post)
-	{				
+	{
+		global $lng;
+				
 		$q = "SELECT frm_posts.*, usr_data.lastname FROM frm_posts, usr_data WHERE ";		
 		$q .= "pos_pk = '".$post."' AND ";
 		$q .= "pos_usr_id = usr_id";		
+
+		$q = "SELECT frm_posts.*  FROM frm_posts WHERE ";		
+		$q .= "pos_pk = '".$post."' ";
 
 		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
 		
@@ -462,6 +467,9 @@ class ilForumExport
 		$q .= "thr_top_fk ='".$topic."' AND ";
 		$q .= "thr_usr_id = usr_id";
 
+		$q = "SELECT frm_threads.* FROM frm_threads WHERE ";
+		$q .= "thr_top_fk ='".$topic."' ";
+
 		if ($this->orderField != "")
 		{
 			$q .= " ORDER BY ".$this->orderField;
@@ -472,11 +480,27 @@ class ilForumExport
 		return $res;
 	}
 	
-	
-	
-	
-	
-	
+	function getUserData($id)
+	{
+		global $lng;
 
-	
+		if($id)
+		{
+			$query = "SELECT * FROM usr_data WHERE usr_id = '".$id."'";
+			$res = $this->ilias->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$tmp_array["usr_id"] = $row->usr_id;
+				$tmp_array["login"]  = $row->login;
+				$tmp_array["create_date"] = $row->create_date;
+				$tmp_array["id"] = $row->usr_id;
+
+			}
+			return $tmp_array ? $tmp_array : array();
+		}
+		else
+		{
+			return array("usr_id" => 0,"login" => $lng->txt("unknown"));
+		}
+	}
 } // END class.ForumExport

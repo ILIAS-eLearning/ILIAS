@@ -51,7 +51,6 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 		// get forum- and thread-data
 		if (is_array($topicData = $frmEx->getOneTopic()))
 		{
-		
 			$frmEx->setWhereCondition("thr_pk = ".$_GET["print_thread"]);
 			$threadData = $frmEx->getOneThread();			
 			
@@ -64,47 +63,56 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 			$posNum = count($subtree_nodes);
 			
 			// headline
-			$tplEx->setVariable("HEADLINE", $lng->txt("forum").": ".$topicData["top_name"]." > ".$lng->txt("forums_thread").": ".$threadData["thr_subject"]." > ".$lng->txt("forums_count_art").": ".$posNum);
+			$tplEx->setVariable("HEADLINE", $lng->txt("forum").": ".$topicData["top_name"]." > ".
+								$lng->txt("forums_thread").": ".$threadData["thr_subject"]." > ".
+								$lng->txt("forums_count_art").": ".$posNum);
 			
 			// generate post-dates
 			foreach($subtree_nodes as $node)
 			{			
+				$tplEx->setCurrentBlock("posts_row");
+				$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
+				$tplEx->setVariable("ROWCOL", $rowCol);
 					
-					$tplEx->setCurrentBlock("posts_row");
-					$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
-					$tplEx->setVariable("ROWCOL", $rowCol);
+				// get author data
+				unset($author);
+				$author = $frmEx->getUserData($node["author"]);
+
+
+				#$author = $frmEx->getUser($node["author"]);	
+				#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
+				$tplEx->setVariable("AUTHOR",$author["login"]); 
 					
-					// get author data
-					unset($author);
-					$author = $frmEx->getUser($node["author"]);	
-					$tplEx->setVariable("AUTHOR",$author->getLogin()); 
-					
+				if($node["author"])
+				{
 					// get create- and update-dates
 					if ($node["update_user"] > 0)
 					{
 						$node["update"] = $frmEx->convertDate($node["update"]);
 						unset($lastuser);
 						$lastuser = $frmEx->getUser($node["update_user"]);					
-						$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
+						$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".
+											$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
 					}
-		
-					$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-					$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author->getCreateDate()));
-		
+					
+					$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since").":");
+					$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author["create_date"]));
+					
 					$numPosts = $frmEx->countUserArticles($author->id);
-					$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
+					$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts").":");
 					$tplEx->setVariable("NUM_POSTS",$numPosts);
+				}
 					
-					// prepare post
-					$node["message"] = $frmEx->prepareText($node["message"]);
+				// prepare post
+				$node["message"] = $frmEx->prepareText($node["message"]);
 							
-					$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
-					$tplEx->setVariable("POST_DATE",$frmEx->convertDate($node["create_date"]));
-					$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
-					$tplEx->setVariable("POST",nl2br($node["message"]));	
-					$tplEx->parseCurrentBlock("posts_row");	
+				$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
+				$tplEx->setVariable("POST_DATE",$frmEx->convertDate($node["create_date"]));
+				$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
+				$tplEx->setVariable("POST",nl2br($node["message"]));	
+				$tplEx->parseCurrentBlock("posts_row");	
 					
-					$z ++;
+				$z ++;
 					
 			} // foreach($subtree_nodes as $node)
 			
@@ -130,7 +138,8 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 			$threadData = $frmEx->getOneThread();
 			
 			// headline
-			$tplEx->setVariable("HEADLINE", $lng->txt("forum").": ".$topicData["top_name"]." > ".$lng->txt("forums_thread").": ".$threadData["thr_subject"]);
+			$tplEx->setVariable("HEADLINE", $lng->txt("forum").": ".$topicData["top_name"]." > ".
+								$lng->txt("forums_thread").": ".$threadData["thr_subject"]);
 			
 			$node = $frmEx->getOnePost($_GET["print_post"]);
 			
@@ -139,24 +148,31 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 			
 			// get author data
 			unset($author);
-			$author = $frmEx->getUser($node["author"]);	
-			$tplEx->setVariable("AUTHOR",$author->getLogin()); 
+			$author = $frmEx->getUserData($node["author"]);
+			#$author = $frmEx->getUser($node["author"]);	
+			#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
+			$tplEx->setVariable("AUTHOR",$author["login"]); 
 			
-			// get create- and update-dates
-			if ($node["update_user"] > 0)
+
+			if($node["author"])
 			{
-				$node["update"] = $frmEx->convertDate($node["update"]);
-				unset($lastuser);
-				$lastuser = $frmEx->getUser($node["update_user"]);					
-				$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
+				// get create- and update-dates
+				if ($node["update_user"] > 0)
+				{
+					$node["update"] = $frmEx->convertDate($node["update"]);
+					unset($lastuser);
+					$lastuser = $frmEx->getUser($node["update_user"]);					
+					$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".
+										$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
+				}
+				
+				$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
+				$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author["create_date"]));
+				
+				$numPosts = $frmEx->countUserArticles($author->id);
+				$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
+				$tplEx->setVariable("NUM_POSTS",$numPosts);
 			}
-
-			$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-			$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author->getCreateDate()));
-
-			$numPosts = $frmEx->countUserArticles($author->id);
-			$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
-			$tplEx->setVariable("NUM_POSTS",$numPosts);
 			
 			// prepare post
 			$node["message"] = $frmEx->prepareText($node["message"]);
@@ -228,24 +244,34 @@ elseif ($_POST["action"] == "html")
 								
 								// get author data
 								unset($author);
-								$author = $frmEx->getUser($node["author"]);	
-								$tplEx->setVariable("AUTHOR",$author->getLogin()); 
+								$author = $frmEx->getUserData($node["author"]);
+								#$author = $frmEx->getUser($node["author"]);	
+									#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
+								$tplEx->setVariable("AUTHOR",$author["login"]); 
+
+								#$author = $frmEx->getUser($node["author"]);	
+								#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
 								
-								// get create- and update-dates
-								if ($node["update_user"] > 0)
+								if($node["author"])
 								{
-									$node["update"] = $frmEx->convertDate($node["update"]);
-									unset($lastuser);
-									$lastuser = $frmEx->getUser($node["update_user"]);					
-									$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
+									// get create- and update-dates
+									if ($node["update_user"] > 0)
+									{
+										$node["update"] = $frmEx->convertDate($node["update"]);
+										unset($lastuser);
+										$lastuser = $frmEx->getUser($node["update_user"]);					
+										$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".
+															$node["update"]." - ".strtolower($lng->txt("from"))." ".
+															$lastuser->getLogin()."]");
+									}
+									
+									$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
+									$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author["create_date"]));
+									
+									$numPosts = $frmEx->countUserArticles($author->id);
+									$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
+									$tplEx->setVariable("NUM_POSTS",$numPosts);
 								}
-					
-								$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-								$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author->getCreateDate()));
-					
-								$numPosts = $frmEx->countUserArticles($author->id);
-								$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
-								$tplEx->setVariable("NUM_POSTS",$numPosts);
 								
 								// prepare post
 								$node["message"] = $frmEx->prepareText($node["message"]);
@@ -273,9 +299,10 @@ elseif ($_POST["action"] == "html")
 						$tplEx->setVariable("T_FORUM",$topicData["top_name"]);
 											
 						unset($t_author);
-						$t_author = $frmEx->getUser($threadData["thr_usr_id"]);	
-						$tplEx->setVariable("T_AUTHOR",$t_author->getLogin()); 
-						
+						$t_author = $frmEx->getUserData($node["author"]);
+						#$t_author = $frmEx->getUser($threadData["thr_usr_id"]);	
+						#$tplEx->setVariable("T_AUTHOR",$t_author->getLogin()); 
+						$tplEx->setVariable("T_AUTHOR",$t_author["login"]);
 						$tplEx->setVariable("T_TXT_FORUM", $lng->txt("forum").": ");					
 						$tplEx->setVariable("T_TXT_TOPIC", $lng->txt("forums_thread").": ");
 						$tplEx->setVariable("T_TXT_AUTHOR", $lng->txt("forums_thread_create_from").": ");
@@ -391,24 +418,31 @@ elseif ($_POST["action"] == "html")
 								
 								// get author data
 								unset($author);
-								$author = $frmEx->getUser($node["author"]);	
-								$tplEx->setVariable("AUTHOR",$author->getLogin()); 
-								
-								// get create- and update-dates
-								if ($node["update_user"] > 0)
+								#$author = $frmEx->getUser($node["author"]);
+								$author = $frmEx->getUserData($node["author"]);
+								#$tplEx->setVariable("AUTHOR",$author->getLogin()); 
+								$tplEx->setVariable("AUTHOR",$author["login"]); 
+
+								if($node["author"])
 								{
-									$node["update"] = $frmEx->convertDate($node["update"]);
-									unset($lastuser);
-									$lastuser = $frmEx->getUser($node["update_user"]);					
-									$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".$node["update"]." - ".strtolower($lng->txt("from"))." ".$lastuser->getLogin()."]");
+									// get create- and update-dates
+									if ($node["update_user"] > 0)
+									{
+										$node["update"] = $frmEx->convertDate($node["update"]);
+										unset($lastuser);
+										$lastuser = $frmEx->getUser($node["update_user"]);					
+										$tplEx->setVariable("POST_UPDATE","<br/>[".$lng->txt("edited_at").": ".
+															$node["update"]." - ".strtolower($lng->txt("from"))." ".
+															$lastuser->getLogin()."]");
+									}
+									
+									$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
+									$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author["create_date"]));
+					
+									$numPosts = $frmEx->countUserArticles($author->id);
+									$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
+									$tplEx->setVariable("NUM_POSTS",$numPosts);
 								}
-					
-								$tplEx->setVariable("TXT_REGISTERED", $lng->txt("registered_since"));
-								$tplEx->setVariable("REGISTERED_SINCE",$frmEx->convertDate($author->getCreateDate()));
-					
-								$numPosts = $frmEx->countUserArticles($author->id);
-								$tplEx->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
-								$tplEx->setVariable("NUM_POSTS",$numPosts);
 								
 								// prepare post
 								$node["message"] = $frmEx->prepareText($node["message"]);

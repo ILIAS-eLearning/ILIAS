@@ -146,35 +146,59 @@ if (is_array($topicData = $frm->getOneTopic()))
 		
 			if (($thrNum > $pageHits && $z >= $Start) || $thrNum <= $pageHits)
 			{
+				// GET USER DATA, USED FOR IMPORTED USERS
+				$usr_data = $frm->getUserData($thrData["thr_usr_id"]);
+
+
 				$tpl->setCurrentBlock("threads_row");
 				$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
 				$tpl->setVariable("ROWCOL", $rowCol);
 				
 				$thrData["thr_date"] = $frm->convertDate($thrData["thr_date"]);
 				$tpl->setVariable("DATE",$thrData["thr_date"]);
-				$tpl->setVariable("TITLE","<a href=\"forums_frameset.php?thr_pk=".$thrData["thr_pk"]."&ref_id=".$_GET["ref_id"]."\">".$thrData["thr_subject"]."</a>");
+				$tpl->setVariable("TITLE","<a href=\"forums_frameset.php?thr_pk=".
+								  $thrData["thr_pk"]."&ref_id=".$_GET["ref_id"]."\">".
+								  $thrData["thr_subject"]."</a>");
 				
 				$tpl->setVariable("NUM_POSTS",$thrData["thr_num_posts"]);	
 				
 				$tpl->setVariable("NUM_VISITS",$thrData["visits"]);	
 				
 				// get author data
+				/*
 				unset($author);
 				$author = $frm->getUser($thrData["thr_usr_id"]);	
-				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".$thrData["thr_usr_id"]."&backurl=forums_threads_liste&offset=".$Start."\">".$author->getLogin()."</a>"); 
-								
+				$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
+								  $thrData["thr_usr_id"]."&backurl=forums_threads_liste&offset=".
+								  $Start."\">".$author->getLogin()."</a>"); 
+				*/
+				if($thrData["thr_usr_id"])
+				{
+					$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
+									  $usr_data["usr_id"]."&backurl=forums_threads_liste&offset=".
+									  $Start."\">".$usr_data["login"]."</a>");
+				}
+				else
+				{
+					$tpl->setVariable("AUTHOR",$usr_data["login"]);
+				}
+					
+				
 				// get last-post data
 				$lpCont = "";				
 				if ($thrData["thr_last_post"] != "")
 				{
 					$lastPost = $frm->getLastPost($thrData["thr_last_post"]);
 				}
-
+				// TODOOOOOOOOOOOOOOOOOOO
+				$last_usr_data = $frm->getUserData($lastPost["pos_usr_id"]);
 				if (is_array($lastPost))
 				{				
 					$lastPost["pos_message"] = $frm->prepareText($lastPost["pos_message"]);
 					$lpCont = $lastPost["pos_date"]."<br/>".strtolower($lng->txt("from"))."&nbsp;";			
-					$lpCont .= "<a href=\"forums_frameset.php?pos_pk=".$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["login"]."</a>";
+					$lpCont .= "<a href=\"forums_frameset.php?pos_pk=".
+						$lastPost["pos_pk"]."&thr_pk=".$lastPost["pos_thr_fk"]."&ref_id=".
+						$_GET["ref_id"]."#".$lastPost["pos_pk"]."\">".$last_usr_data["login"]."</a>";
 				}
 
 				$tpl->setVariable("LAST_POST", $lpCont);	

@@ -2706,3 +2706,6 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
+common#:#forum_import#:#Forum Import
+common#:#forum_import_file#:#Importdatei
