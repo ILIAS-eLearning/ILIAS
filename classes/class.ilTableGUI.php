@@ -450,7 +450,7 @@ class ilTableGUI
 		{
 			$this->setMaxCount(count($this->data));
 			
-			$this->data = sortArray($this->data,$this->order_column,$this->sort_direction);
+			$this->data = sortArray($this->data,$this->order_column,$this->order_direction);
 			$this->data = array_slice($this->data,$this->offset,$this->limit);
 
 			$count = 0;
