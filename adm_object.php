@@ -33,28 +33,36 @@ if ($_POST["cmd"] != "")
 		case $lng->txt("cut"):
 			$_GET["cmd"] = "cut";
 			$methode = $_POST["cmd"]."Object"; 
-			$obj2->cutObject();
+			$result = $obj2->cutObject();
 			break;
 		case $lng->txt("copy"):
 			$_GET["cmd"] = "copy";
 			$methode = $_POST["cmd"]."Object"; 
-			$obj2->copyObject();
+			$result = $obj2->copyObject();
 			break;
 		case $lng->txt("paste"):
 			$_GET["cmd"] = "paste";
 			$methode = $_POST["cmd"]."Object"; 
-			$obj2->pasteObject();			
+			$result = $obj2->pasteObject();			
 			break;
 		case $lng->txt("delete"):
 			$_GET["cmd"] = "delete";
-			$obj2->deleteObject();
+			$result = $obj2->deleteObject();
 			break;
 		case $lng->txt("clear"):
 			$_GET["cmd"] = "clear";
-			$obj2->clearObject();
+			$result = $obj2->clearObject();
 			break;
 	}
 	header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+}
+
+if ($_GET["message"])
+{
+    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
+	$tpl->setCurrentBlock("message2");
+	$tpl->setVariable("MSG", $_GET["message"]);
+	$tpl->parseCurrentBlock();
 }
 
 $objData = $ilias->getObjDefinition($_GET["type"]);
