@@ -450,7 +450,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 	
 	function readProgLangs () {
 		$prog_langs_ini = file ("syntax_highlight/php/admin/prog_langs.ini");
-		$prog_langs = array ();
+		$prog_langs = array ("" => $this->lng->txt("cont_src_other"));
 		foreach ($prog_langs_ini as $prog_lang) {
 			$prog_lang_prop = split (":", $prog_lang);
 			if ($prog_lang_prop[2] == 1) {

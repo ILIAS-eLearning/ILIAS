@@ -118,7 +118,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			"Additional" => $this->lng->txt("cont_Additional"),
 			"List" => $this->lng->txt("cont_List"),
 			"Remark" => $this->lng->txt("cont_Remark"),
-			"Code" => $this->lng->txt("cont_Code"),
+			// "Code" => $this->lng->txt("cont_Code"),
 			"TableContent" => $this->lng->txt("cont_TableContent")
 			);
 		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
@@ -204,6 +204,13 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				{
 					$s_char = "List";
 				}
+								
+				if ($cont_obj->getType() == "td" ||
+					($cont_obj->getType() == "par" && $cont_obj->getCharacteristic() == "TableContent"))
+				{
+					$s_char = "TableContent";
+				}
+
 			}
 		}
 
@@ -221,8 +228,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			"Additional" => $this->lng->txt("cont_Additional"),
 			"List" => $this->lng->txt("cont_List"),
 			"Remark" => $this->lng->txt("cont_Remark"),
-			"Code" => $this->lng->txt("cont_Code"),
-			"ZeroBorder" => $this->lng->txt("cont_ZeroBorder")
+			//"Code" => $this->lng->txt("cont_Code"),
+			"TableContent" => $this->lng->txt("cont_TableContent")
 			);
 		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
 		$select_char = ilUtil::formSelect ($s_char,
