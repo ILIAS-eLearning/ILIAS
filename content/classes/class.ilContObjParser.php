@@ -379,7 +379,7 @@ class ilContObjParser extends ilSaxParser
 				$parent =& $this->tree->getParentNodeData($this->content_object->getRefId());
 				$this->glossary_object->putInTree($parent["child"]);
 				$this->glossary_object->setPermissions($parent["child"]);
-				$this->glossary_object->notify("new", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"]);
+				$this->glossary_object->notify("new", $_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$this->glossary_object->getRefId());
 				$this->current_object =& $this->glossary_object;
 				break;
 
