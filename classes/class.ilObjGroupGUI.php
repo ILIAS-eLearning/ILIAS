@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.19 2003/07/16 11:49:22 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.20 2003/07/16 12:37:55 mmaschke Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -116,13 +116,14 @@ class ilObjGroupGUI extends ilObjectGUI
 		$rfoldObj = $groupObj->initRoleFolder();
 
 		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
+
 		$groupObj->createDefaultGroupRoles($rfoldObj->getRefId());
 		$groupObj->joinGroup($this->ilias->account->getId(),1); //join as admin=1
-
+		
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
-		$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
-		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId());
+		$grp_tree = $groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
+		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId(),$grp_tree);
 
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
@@ -1287,9 +1288,18 @@ class ilObjGroupGUI extends ilObjectGUI
 				$obj_data->createReference();
 				$obj_data->putInTree($_GET["ref_id"]);
 				$obj_data->setPermissions($_GET["ref_id"]);
+				var_dump($_POST);var_dump($_GET);
+				
 				
 				//paste the node also into the "grp_tree" table
-				$this->grp_tree->insertNode($obj_data->getRefId(), $_GET["ref_id"]);
+				//todo
+				//baue group_obj
+				//include_once("classes/class.ilObjGroup.php");
+				//$groupObj = new ilObjGroup($_GET["ref_id"]);
+				//$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+				//$groupObj->insertGroupNode($obj_data->getId(),$obj_data->getRefId(), $parent_obj_id,$thisgrp_tree );
+				
+				//$this->grp_tree->insertNode($obj_data->getRefId(), $_GET["ref_id"]);
 				
 				
 				// ... remove top_node from list....
