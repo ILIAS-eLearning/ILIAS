@@ -228,6 +228,7 @@ switch($_GET["type"])
 		break;
 
 	case 'new':
+		$mail_data["rcp_to"] = $_GET['rcp_to'];
 		$mail_data["m_message"] = $umail->appendSignature();
 		break;
 
