@@ -24,10 +24,10 @@ class LearningObject extends Object
 	* Constructor
 	* @access public
 	*/
-	function LearningObject($a_version = "1.0")
+	function LearningObject($a_domdocument = "")
 	{
 		$this->Object();
-		$this->domxml = new domxml($a_version);
+		$this->domxml = new domxml($a_domdocument);
 	}
 	
 	/**

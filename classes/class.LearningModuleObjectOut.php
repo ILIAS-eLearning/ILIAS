@@ -2,8 +2,9 @@
 /**
 * Class LearningModuleObjectOut
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.1 2002/12/03 16:50:15 smeyer Exp $
+* @author Stefan Meyer <smeyer@databay.de>
+* @author Sascha Hofmann <shofmann@databay.de> 
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.2 2002/12/10 17:00:09 shofmann Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -15,6 +16,7 @@ class LearningModuleObjectOut extends ObjectOut
 {
 	/**
 	* Constructor
+	* 
 	* @access public
 	*/
 	function LearningModuleObjectOut($a_data)
@@ -22,6 +24,11 @@ class LearningModuleObjectOut extends ObjectOut
 		$this->ObjectOut($a_data);
 	}
 	
+	/**
+	* display dialogue for importing XML-LeaningObjects
+	*
+	*  @access	public
+	*/
 	function importObject()
 	{
 		$this->getTemplateFile("import");
@@ -30,10 +37,15 @@ class LearningModuleObjectOut extends ObjectOut
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("import"));
 	}
 	
+	/**
+	* display status information or report errors messages
+	* in case of error
+	* 
+	* @access	public
+	*/
 	function uploadObject()
 	{
-		//nada para mirar
+		//nada para mirar ahora :-)
 	}
-
 } // END class.LeraningObject
 ?>
