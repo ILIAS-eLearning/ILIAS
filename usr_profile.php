@@ -64,18 +64,26 @@ function upload_file()
 	}
 
 	$path_info = pathinfo($_FILES["userfile"]["name"]);
-	$target_file = $image_dir."/usr_".$ilias->account->getId().
-		".".$path_info["extension"];
-	$store_file = "usr_".$ilias->account->getID().
-		".".$path_info["extension"];
-
+	$target_file = $image_dir."/usr_".$ilias->account->getId()."."."jpg";
+	$store_file = "usr_".$ilias->account->getID()."."."jpg";
 	$ilias->account->setPref("profile_image", $store_file);
 	$ilias->account->update();
 	move_uploaded_file($_FILES["userfile"]["tmp_name"],$target_file);
-//echo "from:".$_FILES["userfile"]["tmp_name"]."to:".$target_file."<br>";
+	//echo "from:".$_FILES["userfile"]["tmp_name"]."to:".$target_file."<br>";
 	// by default after copy it will loss
 	// some permission so set it to readable
 	chmod($target_file, 0770);
+
+	// got file name (ex-usr_6.jpg) change then convert it to
+	// the appropriate size and only jpg format
+	$rename_file = "usr_".$ilias->account->getId().
+		".".$path_info["extension"];
+	$part = explode(".",$rename_file);
+	$show_file = $image_dir."/".$part[0].".jpg";
+
+	//convert -size 1000x1000 usr_6.jpg usr_66.jpg
+	system("convert -size 100x100 $target_file $show_file");
+
 	return $target_file;
 }
 // End of function upload file
