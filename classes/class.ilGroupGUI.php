@@ -2948,9 +2948,6 @@ class ilGroupGUI extends ilObjectGUI
 		header("Location:".$this->getReturnLocation("confirmedDelete","adm_object.php?ref_id=".$_GET["ref_id"]));
 		exit();
 	}
-<<<<<<< class.ilGroupGUI.php
-=======
-	
 	
 	/**
 	* remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
@@ -3193,7 +3190,5 @@ class ilGroupGUI extends ilObjectGUI
 			$this->insertSavedNodes($child["child"],$a_source_id,$a_tree_id,$a_db_table);
 		}
 	}
-	
->>>>>>> 1.131
 }
 ?>
