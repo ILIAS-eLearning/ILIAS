@@ -1129,8 +1129,9 @@ class ilObjectGUI
 	{
 		global $rbacsystem;
 
-		// TODO: get rid of $_GET variable
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_POST["new_type"]))
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}

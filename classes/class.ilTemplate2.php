@@ -158,8 +158,31 @@ class ilTemplate extends HTML_Template_ITX
 		if (((substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "error.php")
 			&& (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "adm_menu.php")))
 		{
-			$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
 			$_SESSION["post_vars"] = $_POST;
+			
+			// referer is modified if query string contains cmd=gateway and $_POST is not empty.
+			// this is a workaround to display formular again in case of error and if the referer points to another page
+			$url_parts = parse_url($_SERVER["REQUEST_URI"]);
+			
+			if (preg_match("/cmd=gateway/",$url_parts["query"]) && (!empty($_POST)))
+			{
+				foreach ($_POST as $key => $val)
+				{
+					if (is_array($val))
+					{
+						$val = key($val);
+					}
+				
+					$str .= "&".$key."=".$val;
+				}
+				
+				$_SESSION["referer"] = preg_replace("/cmd=gateway/",substr($str,1),$_SERVER["REQUEST_URI"]);				
+			}
+			else
+			{
+				$_SESSION["referer"] = $_SERVER["REQUEST_URI"];
+			}
+
 			unset($_SESSION["error_post_vars"]);
 		}
 	}
