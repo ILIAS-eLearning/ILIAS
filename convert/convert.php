@@ -3,8 +3,8 @@
 /**
 * ILIAS 2 to ILIAS 3 content converter
 *
-* @author Matthias Rulinski <matthias.rulinski@mi.uni-koeln.de>
-* @version $Id$
+* @author	Matthias Rulinski <matthias.rulinski@mi.uni-koeln.de>
+* @version	$Id$
 */
 
 /**
