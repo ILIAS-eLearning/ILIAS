@@ -64,7 +64,7 @@ class ilForumExplorer extends ilExplorer
 	* @access	public
 	* @param	string	scriptname
 	*/
-	function ilForumExplorer($a_target,$a_thread_id)
+	function ilForumExplorer($a_target,$a_thread_id,$a_ref_id)
 	{
 		global $lng;
 
@@ -73,6 +73,7 @@ class ilForumExplorer extends ilExplorer
 		parent::ilExplorer($a_target);
 		$this->thread_id = $a_thread_id;
 		$this->forum = new ilForum();
+		$this->forum_obj =& ilObjectFactory::getInstanceByRefId($a_ref_id);
 		$tmp_array = $this->forum->getFirstPostNode($this->thread_id);
 		$this->root_id = $tmp_array["child"];
 
@@ -92,7 +93,7 @@ class ilForumExplorer extends ilExplorer
 	*/
 	function setOutput($a_parent, $a_depth = 1)
 	{
-		global $lng;
+		global $lng,$ilUser;
 		static $counter = 0;
 
 		if ($objects =  $this->forum->getPostChilds($a_parent,$this->thread_id))
@@ -107,9 +108,14 @@ class ilForumExplorer extends ilExplorer
 				}
 				$this->format_options["$counter"]["parent"] = $object["parent"];
 				$this->format_options["$counter"]["child"] = $object["child"];
-				#$this->format_options["$counter"]["title"] = $object["subject"] ? $object["subject"] : $this->thread_subject;
-				$this->format_options["$counter"]["title"] = $object["title"]." <small class=\"small\">".$object["date"]."</small>".
-					"<small><br />".$object["subject"]."</small>";
+
+				#$this->format_options["$counter"]["title"] = $object["title"]." <small class=\"small\">".$object["date"]."</small>".
+				#"<small><br />".$object["subject"]."</small>";
+
+				$title = $object["subject"]." <small class=\"small\">".$object["title"]." ".$object["date"]."</small>";
+
+				$this->format_options[$counter]['title'] = $title;
+
 				$this->format_options["$counter"]["type"] = $object["type"];
 				$this->format_options["$counter"]["desc"] = "forums_the_".$object["type"];
 				$this->format_options["$counter"]["depth"] = $tab;
@@ -190,7 +196,7 @@ class ilForumExplorer extends ilExplorer
 	*/
 	function formatObject($a_node_id,$a_option)
 	{
-		global $lng;
+		global $lng,$ilUser;
 
 		if (!isset($a_node_id) or !is_array($a_option))
 		{
@@ -199,17 +205,14 @@ class ilForumExplorer extends ilExplorer
 		}
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
-
 		foreach ($a_option["tab"] as $picture)
 		{
-			
-
 			if ($picture == 'plus')
 			{
 				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
+				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/blank.gif"));
 				$tpl->parseCurrentBlock();
 			}
 
@@ -218,13 +221,14 @@ class ilForumExplorer extends ilExplorer
 				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
+				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/blank.gif"));
 				$tpl->parseCurrentBlock();
 			}
 			
 			if ($picture == 'blank' or $picture == 'winkel'
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
+				$picture = 'blank';
 				$target = $_SERVER["REQUEST_URI"];
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -234,14 +238,8 @@ class ilForumExplorer extends ilExplorer
 			}
 			
 		}
-
-		$tpl->setCurrentBlock("icon");
-		//$tpl->setVariable("TYPE", $a_option["type"]);
-		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
-		$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
-		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id."#".$a_node_id);
@@ -249,6 +247,16 @@ class ilForumExplorer extends ilExplorer
 		#	? $a_option["title"]
 		#	: substr($a_option["title"],0,FULLNAME_MAXLENGTH)."...";
 		$tpl->setVariable("TITLE", $a_option["title"]);
+
+		if($this->forum_obj->isRead($ilUser->getId(),$a_node_id))
+		{
+			$tpl->setVariable("A_CLASS",'class="postread"');
+		}
+		else
+		{
+			$tpl->setVariable("A_CLASS",'class="postunread"');
+			$tpl->setVariable("ONCLICK",'onClick="this.className=\'postread\';"');
+		}
 
 		if ($this->frame_target != "")
 		{

@@ -1382,7 +1382,7 @@ class ilRepositoryGUI
 	*/
 	function showForums()
 	{
-		global $lng, $rbacsystem, $ilias, $rbacreview;
+		global $lng, $rbacsystem, $ilias, $rbacreview,$ilUser;
 
 		include_once "classes/class.ilForum.php";
 		include_once './classes/class.ilRepositoryExplorer.php';
@@ -1582,7 +1582,11 @@ class ilRepositoryGUI
 
 			$tpl->setVariable("DESCRIPTION",$topicData["top_description"]);
 			$tpl->setVariable("NUM_THREADS",$topicData["top_num_threads"]);
-			$tpl->setVariable("NUM_POSTS",$topicData["top_num_posts"]);
+
+			$frm_obj =& ilObjectFactory::getInstanceByRefId($data['ref_id']);
+			$num_posts = $topicData['top_num_posts'].' ('.$frm_obj->getCountUnread($ilUser->getId()).')';
+			$tpl->setVariable("NUM_POSTS",$num_posts);
+
 			$tpl->setVariable("NUM_VISITS",$topicData["visits"]);
 
 			$tpl->parseCurrentBlock();
@@ -1607,7 +1611,7 @@ class ilRepositoryGUI
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 		$tpl->setVariable("TXT_NUM_THREADS", $lng->txt("forums_threads"));
-		$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_articles"));
+		$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_articles").' ('.$lng->txt('unread').')');
 		$tpl->setVariable("TXT_NUM_VISITS", $lng->txt("visits"));
 		$tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));
 		$tpl->setVariable("TXT_MODS", $lng->txt("forums_moderators"));
@@ -2663,9 +2667,9 @@ class ilRepositoryGUI
 				{
 					$tpl->setCurrentBlock("file_desklink");
 					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
-							"&item_ref_id=".$cont_data["ref_id"].
-							"&type=file"
-					);
+									  "&item_ref_id=".$cont_data["ref_id"].
+									  "&type=file"
+						);
 					$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
 					$tpl->parseCurrentBlock();
 				}

@@ -89,6 +89,151 @@ class ilObjForum extends ilObject
 		return $this->default_view = (int) $a_default_view;
 	}
 
+	// METHODS FOR UN-READ STATUS
+	function getCountUnread($a_usr_id,$a_thread_id = 0)
+	{
+		if(!$a_thread_id)
+		{
+			// Get topic_id
+			$query = "SELECT top_pk FROM frm_data ".
+				"WHERE top_frm_fk = '".$this->getId()."'";
+
+			$res = $this->ilias->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$topic_id = $row->top_pk;
+			}
+
+			// Get number of posts
+			$query = "SELECT COUNT(pos_pk) as num_posts FROM frm_posts ".
+				"WHERE pos_top_fk = '".$topic_id."'";
+
+			$res = $this->ilias->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$num_posts = $row->num_posts;
+			}
+
+			$query = "SELECT COUNT(post_id) count_read FROM frm_user_read ".
+				"WHERE obj_id = '".$this->getId()."' ".
+				"AND usr_id = '".$a_usr_id."'";
+
+			$res = $this->ilias->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$count_read = $row->count_read;
+			}
+			$unread = $num_posts - $count_read;
+
+			return $unread > 0 ? $unread : 0;
+		}
+		else
+		{
+			$query = "SELECT COUNT(pos_pk) as num_posts FROM frm_posts ".
+				"WHERE pos_thr_fk = '".$a_thread_id."'";
+
+			$res = $this->ilias->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$num_posts = $row->num_posts;
+			}
+
+
+			$query = "SELECT COUNT(post_id) as count_read FROM frm_user_read ".
+				"WHERE obj_id = '".$this->getId()."' ".
+				"AND usr_id = '".$a_usr_id."' ".
+				"AND thread_id = '".$a_thread_id."'";
+
+			$res = $this->ilias->db->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$count_read = $row->count_read;
+			}
+			$unread = $num_posts - $count_read;
+
+			return $unread > 0 ? $unread : 0;
+		}
+		return false;
+	}
+	function markThreadRead($a_usr_id,$a_thread_id)
+	{
+		// Get all post ids
+		$query = "SELECT * FROM frm_posts ".
+			"WHERE pos_thr_fk = '".$a_thread_id."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->markPostRead($a_usr_id,$a_thread_id,$row->pos_pk);
+		}
+		return true;
+	}
+		
+
+	function markPostRead($a_usr_id,$a_thread_id,$a_post_id)
+	{
+		// CHECK IF ENTRY EXISTS
+		$query = "SELECT * FROM frm_user_read ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND obj_id = '".$this->getId()."' ".
+			"AND thread_id = '".$a_thread_id."' ".
+			"AND post_id = '".$a_post_id."'";
+
+		$res = $this->ilias->db->query($query);
+		if($res->numRows())
+		{
+			return true;
+		}
+		
+
+		$query = "INSERT INTO frm_user_read ".
+			"SET usr_id = '".$a_usr_id."', ".
+			"obj_id = '".$this->getId()."', ".
+			"thread_id = '".$a_thread_id."', ".
+			"post_id = '".$a_post_id."'";
+
+		$this->ilias->db->query($query);
+
+		return true;
+	}
+
+	function isRead($a_usr_id,$a_post_id)
+	{
+		$query = "SELECT * FROM frm_user_read ".
+			"WHERE usr_id = '".$a_usr_id."' ".
+			"AND post_id = '".$a_post_id."'";
+
+		$res = $this->ilias->db->query($query);
+
+		return $res->numRows() ? true : false;
+	}
+
+	// STATIC
+	function _deleteUser($a_usr_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM frm_user_read ".
+			"WHERE usr_id = '".$a_usr_id."'";
+
+		$ilDB->query($query);
+
+		return true;
+	}
+
+
+	function _deleteReadEntries($a_post_id)
+	{
+		global $ilDB;
+
+		$query = "DELETE FROM frm_user_read ".
+			"WHERE post_id = '".$a_post_id."'";
+
+		$ilDB->query($query);
+
+		return true;
+	}
+	
 	/**
 	* update forum data
 	*
@@ -289,6 +434,10 @@ class ilObjForum extends ilObject
 
 		// delete settings
 		$query = "DELETE FROM frm_settings WHERE obj_id = '".$this->getId()."'";
+		$this->ilias->db->query($query);
+
+		// delete read infos
+		$query = "DELETE FROM frm_user_read WHERE obj_id = '".$this->getId()."'";
 		$this->ilias->db->query($query);
 
 		return true;
