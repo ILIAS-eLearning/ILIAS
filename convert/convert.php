@@ -43,10 +43,12 @@ if ($_REQUEST["ok"] == "ok")
 		// status message
 		echo "Export of ILIAS 2 Learning Unit ".$luId." from installation ".$luInst." to an ILIAS 3 Learning Module";
 		echo "<br>--------------------------------------------------<br>&nbsp;Export process started (do not interrupt, please)<br>&nbsp;";
+		flush();
 		// convert
-		$exp->dumpLearningModuleFile($luId, $luInst);
+		$exp->dumpLearningModuleFile($luId, $luInst, TRUE);
 		// status message
 		echo "Export process finished<br>--------------------------------------------------";
+		flush();
 		// destroy object
 		$exp->_ILIAS2To3Converter();
 	}

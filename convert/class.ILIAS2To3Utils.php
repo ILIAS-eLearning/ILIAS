@@ -383,53 +383,6 @@ class ILIAS2To3Utils
 	}
 	
 	/**
-	* Selects alignment values ***
-	*//*
-	function selectAlignment ($align)
-	{
-		switch ($align)
-		{
-			/*
-			case 0: // left, wrapped by text
-			case 1: // left
-			case 2: // right, wrapped by text
-			case 3: // right
-			case 4: // center
-				$str = "";
-				break;
-						
-			case 5: // citation
-				$str = "Citation";
-				break;
-			
-			case 6: // mnemonic
-				$str = "Mnemonic";
-				break;
-			
-			case 7: // pointed list
-				$str = "";
-				break;
-			
-			case 8: // numerical list
-				$str = "";
-				break;
-			
-			case 9: // alphabetic list
-				$str = "";
-				break;
-			
-			case 10: // list with roman numerals
-				$str = "";
-				break;
-			
-			default: // all exceptions
-				$str = "";
-		}
-		return $str;
-	}
-	*/
-	
-	/**
 	* Selects value for attribute Shape in element MapArea
 	* according to ILIAS 2 shape type
 	* @param	string	material level type [rect|circle|poly]
@@ -455,120 +408,6 @@ class ILIAS2To3Utils
 				$str = "Rect";
 		}
 		return $str;
-	}
-	
-	/**
-	* Fetches all vri tags in a string
-	*
-	* Example: If the string contains "some text <vri=!100!st!20!> a link </vri> some text"
-	* vri_fetch($string,"st") returns an array $arr with $arr["inst"]->100, $arr["type"]->"st"
-	* and $arr["id"]->20.
-	*
-	* @param	string	string, that should be searched through
-	* @param	string	vri types, that should be searched, separated by "|", e.g. "mm|st"
-	* @param	boolean	true, if vri in input string doesn´t contain tag limiter "<" and ">"
-	* @param	boolean	true, if vri in input string doesn´t contain vri string "vri="
-	* @return	array	array with fields "inst", "type", "id" and "target"; FALSE, if no vri was found
-	* @access	public
-	*/
-	function fetchVri ($data, $types, $limiter = TRUE, $vri = TRUE)
-	{
-		// set limiter strings
-		if($limiter)
-		{
-			$lt = "<";
-			$gt = ">";
-		}
-		else
-		{
-			$lt = $gt = "";
-		}
-		
-		// set vri string
-		if ($vri)
-		{
-			$vri = "vri[\s]*=[\s]*";
-		}
-		else
-		{
-			$vri = "";
-		}
-		
-		// set content and end tag string
-		if($limiter and $vri)
-		{
-			$end = "(.*?)<\/vri>";
-		}
-		else
-		{
-			$end = "";
-		}
-		
-		// set regular expressiion for vri tag
-		$vriTag = "/".$lt.$vri."!([^>]*?)!(".$types.")!([\d]+)![\s]*(type[\s]*=[\s]*(media|glossary|faq|new))?[\s]*(\/)?".$gt."(?(6)|".$end.")/is";
-		
-		// get all vri tags
-		preg_match_all($vriTag, $data, $matches, PREG_SET_ORDER);
-		
-		if (is_array($matches))
-		{
-			// fill vri array	
-			foreach ($matches as $key => $value)
-			{
-				$vriSet[$key] = array(	"inst" => $value[1],
-										"type" => $value[2],
-										"id" => $value[3],
-										"target" => $value[5],
-										"content" => $value[7]);
-			}
-			return $vriSet;	
-		}
-		else
-		{
-			return FALSE;	
-		}
-	}
-	
-	/**
-	* Fetches all text parts between vri tags in a string
-	*
-	* Example: If the string contains "some text  some text <vri=!100!st!20!> a link </vri> some text"
-	* fetchText($string) returns an array $arr with $arr[0]->"some text" , $arr[1]->"some text"
-	* vri tags must contain limiter and vri string
-	*
-	* @param	string	string, that should be searched through
-	* @return	array	array with text parts; FALSE, otherwise
-	* @access	public
-	*/
-	function fetchText ($data)
-	{
-		// set types
-		$types = "st|ab|pg|mm";
-		
-		// set limiter strings
-		$lt = "<";
-		$gt = ">";
-		
-		// set vri string
-		$vri = "vri[\s]*=[\s]*";
-		
-		// set content and end tag string
-		$end = "(.*?)<\/vri>";
-		
-		// set regular expressiion for vri tag
-		$vriTag = "/".$lt.$vri."!([^>]*?)!(".$types.")!([\d]+)![\s]*(type[\s]*=[\s]*(media|glossary|faq|new))?[\s]*(\/)?".$gt."(?(6)|".$end.")/is";
-		
-		// get all text parts splitted by vri tags
-		$matches = preg_split($vriTag, $data);
-		
-		if (is_array($matches))
-		{
-			return $matches;	
-		}
-		else
-		{
-			return FALSE;	
-		}
 	}
 	
 	/**
@@ -658,7 +497,7 @@ class ILIAS2To3Utils
 		$path = $tDir.$tFile;
 		$relPath = "./".$tFile;
 		
-		// *** proceed only if a file was found
+		// Todo: proceed only if a file was found
 		// if (file_exists($path))
 		// {
 				// set technical information

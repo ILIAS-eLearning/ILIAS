@@ -855,7 +855,7 @@ class ILIAS2To3Converter
 			$image["datei"] = $id;
 		}
 		
-		// Todo: resolve 'align' (image-alignment)
+		// Todo: resolve 'align' (image-alignment -> layout)
 		
 		//--------------
 		// copy file(s):
@@ -871,7 +871,7 @@ class ILIAS2To3Converter
 		// MediaObject..MetaData
 		$this->exportMetadata($id, "img");
 		
-		// MediaObject..Layout ***
+		// MediaObject..Layout
 		
 		// MediaObject..Parameter --> unavailable for images in ILIAS 2
 		
@@ -902,7 +902,7 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// Todo: resolve 'align' (imagemap-alignment)
+		// Todo: resolve 'align' (imagemap-alignment -> layout)
 		
 		//--------------
 		// copy file(s):
@@ -918,7 +918,7 @@ class ILIAS2To3Converter
 		// MediaObject..MetaData
 		$this->exportMetadata($id, "imap");
 		
-		// MediaObject..Layout ***
+		// MediaObject..Layout
 		
 		// MediaObject..Parameter --> unavailable for imagemaps in ILIAS 2
 		
@@ -1055,106 +1055,134 @@ class ILIAS2To3Converter
 	}
 	
 	/**
-	* Exports ILIAS 2 Text to ILIAS 3 Paragraph
-	* @param	string	text data
-	* @param	string	value for attribute Characteristic of element Paragraph
+	* Exports ILIAS 2 Text to ILIAS 3 (textual) content
+	*
+	* @param	string	textual input data
+	* @param	boolean	true, if vri links in input string don´t contain tag limiter "<" and ">"
+	* @param	boolean	true, if vri links in input string don´t contain vri string "vri="
 	* @param	boolean	markup the data as Code (TRUE) or not (FALSE)
-	* @access	private
+	* @param	string	value for attribute Type of element List ("" -> no list)
+	* @access	public
 	*/
-	function exportText ($data, $character = "", $code = FALSE)
+	function exportText ($data, $limiter = TRUE, $vri = TRUE, $code = FALSE, $list = "")
 	{
-		// fetch vri (array)
-		if ($vri = $this->utils->fetchVri($data,"st|ab|pg|mm"))
+		// process vri links:
+		// set vri types
+		$types = "st|ab|pg|mm";
+		
+		// set limiter strings
+		if($limiter)
 		{
-		    // fetch text (array)
-			$text = $this->utils->fetchText($data);
-			
-			// ***
-			for ($i = 0; $i < count($text); $i++)
-			{
-				// *** test if empty
-				if (!empty($text[$i]))
-				{
-					// ***
-					if ($code)
-					{
-						// Paragraph (starttag)
-						$attrs = array();
-						$attrs["Language"] = $this->curLang;
-						if ($character <> "")
-						{
-							$attrs["Characteristic"] = $character;
-						}
-						$this->xml->xmlStartTag("Paragraph", $attrs);
-						
-						// Paragraph..Code
-						$this->xml->xmlElement("Code", NULL, $text[$i]);
-						
-						// Paragraph (endtag)
-						$this->xml->xmlEndTag("Paragraph");
-					}
-					else
-					{
-						// Paragraph
-						$attrs = array();
-						$attrs["Language"] = $this->curLang;
-						if ($character <> "")
-						{
-							$attrs["Characteristic"] = $character;
-						}
-						$this->xml->xmlElement("Paragraph", $attrs, $text[$i]);
-					}
-				}
-				
-				// ***
-				if (isset($vri[$i]))
-				{
-					// ***
-					$this->exportVri($vri[$i], $parent);
-				}
-			}		
+			$lt = "<";
+			$gt = ">";
 		}
 		else
 		{
-			// ***
-			if ($code)
-			{
-				// Paragraph (starttag)
-				$attrs = array();
-				$attrs["Language"] = $this->curLang;
-				if ($character <> "")
-				{
-					$attrs["Characteristic"] = $character;
-				}
-				$this->xml->xmlStartTag("Paragraph", $attrs);
-				
-				// Paragraph..Code
-				$this->xml->xmlElement("Code", NULL, $data);
-
-				// Paragraph (endtag)
-				$this->xml->xmlEndTag("Paragraph");
-			}
-			else
-			{
-				// Paragraph
-				$attrs = array();
-				$attrs["Language"] = $this->curLang;
-				if ($character <> "")
-				{
-					$attrs["Characteristic"] = $character;
-				}
-				$this->xml->xmlElement("Paragraph", $attrs, $data);
-			}
+			$lt = $gt = "";
 		}
+		
+		// set vri string
+		if ($vri)
+		{
+			$vri = "vri[\s]*=[\s]*";
+		}
+		else
+		{
+			$vri = "";
+		}
+		
+		// set content and end tag string
+		if($limiter and $vri)
+		{
+			$end = "(.*?)".$lt."\/vri".$gt;
+		}
+		else
+		{
+			$end = "";
+		}
+		
+		// set regular expression pattern for vri tag
+		$vriTag = "/".$lt.$vri."!([^>]*?)!(".$types.")!([\d]+)![\s]*(type[\s]*=[\s]*(media|glossary|faq|new))?[\s]*(\/)?".$gt."(?(6)|".$end.")/is";
+		
+		// replace all vri tags in the input string
+		$data = preg_replace_callback($vriTag, array($this, "exportVri"), $data);
+		
+		// process lists:
+		//------------------
+		// create List tree:
+		//------------------
+		// List
+		if ($list <> "" and
+			$data <> "")
+		{
+			// (starttag)
+			$ret  = "*lt*List";
+			$ret .= " Type=*dquot*".$list."*dquot*";
+			$ret .= "*gt*";
+			
+			// List.Title --> unavailable for lists in ILIAS 2
+			
+			// get all text parts splitted by <CR><LF>, <CR>, <LF>
+			$matches = preg_split("/(".chr(13).chr(10)."|".chr(13)."|".chr(10).")/", $data);
+			
+			// List.Item(s)
+			if (is_array($matches))
+			{
+				foreach ($matches as $value)
+				{
+					if ($value <> "")
+					{
+						$ret .= "*lt*Item*gt*".$value."*lt*/Item*gt*";
+					}
+				}
+			}
+					
+			// (endtag)
+			$ret .= "*lt*/List*gt*";
+			
+			$data = $ret;
+		}
+		
+		// process code:
+		//------------------
+		// create Code tree:
+		//------------------
+		// Code
+		if ($code and
+			$data <> "")
+		{
+			$data = "*lt*Code*gt*".$data."*lt*/Code*gt*";
+		}
+		
+		// escape reserved characters
+		$data = $this->xml->xmlEscapeData($data);
+		
+		// transform escaped characters
+		$trans["*lt*"]		= "<";
+		$trans["*gt*"]		= ">";
+		$trans["*dquot*"]	= "\"";
+		$data = strtr($data, $trans);
+		
+		return $data;
 	}
-
+	
 	/**
 	* Exports ILIAS 2 vri Link to ILIAS 3 IntLink
-	* @param	array	vri link array with fields "inst", "type", "id" and "target"
+	* Callback function for exportText; do not invoke directly
+	* 
+	* @param	array	result of reg. expr. search including a vri link
+	* @return	string	ILIAS 3 IntLink or info message if vri link could not be resolved
 	* @access	private
 	*/
-	function exportVri ($vri)
+	function exportVri ($array)
 	{
+		// set vri array	
+		$vri = array(	"inst" => $array[1],
+						"type" => $array[2],
+						"id" => $array[3],
+						"target" => $array[5],
+						"content" => $array[7]);
+		
 		// initialize switch
 		$resolve = TRUE;
 
@@ -1241,41 +1269,44 @@ class ILIAS2To3Converter
 				break;
 		}
 		
+		//---------------------
+		// create IntLink tree:
+		//---------------------
+		// IntLink
 		if ($resolve)
 		{
-			// Paragraph (starttag)
-			$attrs = array();
-			$attrs["Language"] = $this->curLang;
-			$this->xml->xmlStartTag("Paragraph", $attrs);
-			
-			// Paragraph..IntLink
-			$attrs = array();
-			$attrs["Target"]	= $type."_".$vri["id"];
-			$attrs["Type"]		= $this->utils->selectTargetType($vri["type"]);
+			// (whole tag)
+			$ret  = "*lt*IntLink";
+			$ret .= " Target=*dquot*".$type."_".$vri["id"]."*dquot*";
+			$ret .= " Type=*dquot*".$this->utils->selectTargetType($vri["type"])."*dquot*";
 			if ($vri["target"] <> "")
 			{
-				$attrs["TargetFrame"] = $vri["target"];
+				$ret .= " TargetFrame=*dquot*".$vri["target"]."*dquot*";
 			}
-			$this->xml->xmlElement("IntLink", $attrs, $vri["content"]);
-			
-			// Paragraph (endtag)
-			$this->xml->xmlEndTag("Paragraph");
+			if ($vri["content"] <> "")
+			{
+				$ret .= "*gt*".$vri["content"]."\"*lt*/IntLink*gt*";
+			}
+			else
+			{
+				$ret .= "/*gt*";
+			}
 		}
 		else
 		{
-			// Paragraph
-			$attrs = array();
-			$attrs["Language"] = $this->curLang;
-			$text = "Link could not be resolved - Target object is not a part of current Learning Unit. ";
-			$text .= "[".$vri["content"]." ";
-			$text .= "Target=".$vri["id"]." ";
-			$text .= "Type=".$vri["type"];
+			// resolving failed -> info message
+			$ret  = "[--- Link could not be resolved - Target object is not a part of current Learning Unit.";
+			$ret .= " ".$vri["content"]."";
+			$ret .= " (Target=".$vri["id"]."";
+			$ret .= " Type=".$vri["type"];
 			if ($vri["target"] <> "")
 			{
-				$text .= " TargetFrame=".$vri["target"]."]";
+				$ret .= " TargetFrame=".$vri["target"];
 			}
-			$this->xml->xmlElement("Paragraph", $attrs, $text);
+			$ret .= ") ---]";
 		}
+		
+		return $ret;
 	}
 	
 	/**
@@ -1318,34 +1349,74 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 
-				// Todo: resolve 'align' (text-alignment and List(s))
+				// resolve 'align'
+				// -> element List | attribute Characteristic | Todo: Layout (text-alignment)
+				switch ($text["align"])
+				{
+					case 0: // left, wrapped by text
+					case 1: // left
+					case 2: // right, wrapped by text
+					case 3: // right
+					case 4: // center
+						$char = "";
+						$list = "";
+						break;
+								
+					case 5: // citation
+						$char = "Citation";
+						$list = "";
+						break;
+					
+					case 6: // mnemonic
+						$char = "Mnemonic";
+						$list = "";
+						break;
+					
+					case 7: // pointed list
+						$char = "";
+						$list = "Unordered";
+						break;
+					
+					case 8: // numerical list
+						$char = "";
+						$list = "Ordered";
+						break;
+					
+					case 9: // alphabetic list
+						$char = "";
+						$list = "Ordered";
+						break;
+					
+					case 10: // list with roman numerals
+						$char = "";
+						$list = "Ordered";
+						break;
+				}
 				
-				// get value for attribute Characteristic
-				if ($text["align"] == 5)
+				// set value for attribute Characteristic if not set before
+				if ($char == "" and $expl)
 				{
-				    $char = "Citation";
-				}
-				elseif ($text["align"] == 6)
-				{
-				    $char = "Mnemonic";
-				}
-				else
-				{
-					if ($expl)
-					{
-				    	$char = "Example";
-				    }
-					else
-					{
-				    	$char = "";
-				    }
+					$char = "Example";
 				}
 				
 				//-----------------------
 				// create Paragraph tree:
 				//-----------------------
-				// Paragraph(s)
-				$this->exportText($text["text"], $parent, $char, $code);
+				// Paragraph (starttag)
+				$attrs = array();
+				$attrs["Language"] = $this->curLang;
+				if ($char <> "")
+				{
+					$attrs["Characteristic"] = $char;
+				}
+				$this->xml->xmlStartTag("Paragraph", $attrs);
+				
+				// Paragraph..(content)
+				// (do not escape the data, because it includes tags)
+				$this->xml->xmlData($this->exportText($text["text"], TRUE, TRUE, $code, $list), TRUE, FALSE);
+				
+				// Paragraph (endtag)
+				$this->xml->xmlEndTag("Paragraph");
 				break;
 			
 			// image (bild)
@@ -1387,10 +1458,20 @@ class ILIAS2To3Converter
 				//-----------------------
 				// create Paragraph tree:
 				//-----------------------
-				// Paragraph
-				$this->exportText($text["text"], $parent, "Headline", $code);
-				break;
+				// Paragraph (starttag)
+				$attrs = array();
+				$attrs["Language"] = $this->curLang;
+				$attrs["Characteristic"] = "Headline";
+				$this->xml->xmlStartTag("Paragraph", $attrs);
 				
+				// Paragraph..(content)
+				// (do not escape the data, because it includes tags)
+				$this->xml->xmlData($this->exportText($text["text"], TRUE, TRUE, $code), TRUE, FALSE);
+				
+				// Paragraph (endtag)
+				$this->xml->xmlEndTag("Paragraph");
+				break;
+			
 			// table
 			case 4:
 				// table 'el_table' and 'meta'
@@ -1427,7 +1508,6 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				// Todo: resolve vri-links in 'text' (IntLink)
 				// Todo: resolve 'textform' (text markup)
 				
 				//-----------------------
@@ -1485,7 +1565,7 @@ class ILIAS2To3Converter
 						{
 							if ($value["row"] == $i)
 							{
-								// Paragraph..Table..TableRow..TableData
+								// Paragraph..Table..TableRow..TableData (starttag)
 								if ($value["width"] <> "")
 								{
 									$attrs = array();
@@ -1495,7 +1575,14 @@ class ILIAS2To3Converter
 								{
 									$attrs = Null;
 								}
-								$this->xml->xmlElement("TableData", $attrs, $value["text"]);
+								$this->xml->xmlStartTag("TableData", $attrs);
+								
+								// Paragraph..Table..TableRow..TableData (content)
+								// (do not escape the data, because it includes tags)
+								$this->xml->xmlData($this->exportText($value["text"], TRUE, TRUE, $code), TRUE, FALSE);
+								
+								// Paragraph..Table..TableRow..TableData (endtag)
+								$this->xml->xmlEndTag("TableData");
 								break;
 							}
 						}
@@ -1531,8 +1618,6 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				// Todo: resolve vri-links in 'href' (IntLink)
-
 				//-----------------------
 				// create Paragraph tree:
 				//-----------------------		
@@ -1559,7 +1644,7 @@ class ILIAS2To3Converter
 						$attrs = array();
 						$attrs["Shape"]		= $this->utils->selectShape($value["shape"]);
 						$attrs["Coords"]	= $value["coords"];
-						$attrs["Href"]		= $value["href"];
+						$attrs["Href"]		= $this->exportText($value["href"], FALSE);
 						$attrs["Alt"]		= $value["alt"];
 						$this->xml->xmlElement("MapArea", $attrs);
 					}
@@ -1594,8 +1679,6 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				// Todo: resolve vri-links in 'text' and 'vristr' (IntLink)
-				
 				// answer possibilities for flexible questiontype
 				if ($mc["type"] == "mul")
 				{
@@ -1615,24 +1698,34 @@ class ILIAS2To3Converter
 					$result->free();
 				}
 				
-				//--------------------------------------
-				// create Question, Answer, [Hint] tree:
-				//--------------------------------------
+				//----------------------
+				// create Question tree:
+				//----------------------
 				// TestItem..Question (starttag)
 				$this->xml->xmlStartTag("Question");
 				
-				// TestItem..Question..Paragraph
+				// TestItem..Question..Paragraph (starttag)
 				$attrs = array();
 				$attrs["Language"] = $this->curLang;
 				if ($expl)
 				{
 					$attrs["Characteristic"] = "Example";
 				}
-				$this->xml->xmlElement("Paragraph", $attrs, $mc["text"]);
+				$this->xml->xmlStartTag("Paragraph", $attrs);
+				
+				// TestItem..Question..Paragraph..(content)
+				// (do not escape the data, because it includes tags)
+				$this->xml->xmlData($this->exportText($mc["text"], TRUE, TRUE, $code), TRUE, FALSE);
+				
+				// TestItem..Question..Paragraph (endtag)
+				$this->xml->xmlEndTag("Paragraph");
 				
 				// TestItem..Question (endtag)
 				$this->xml->xmlEndTag("Question");
 				
+				//--------------------
+				// create Answer tree:
+				//--------------------
 				// TestItem..Answer
 				if ($mc["type"] == "mul" and
 					is_array($answer))
@@ -1675,10 +1768,33 @@ class ILIAS2To3Converter
 					$this->xml->xmlEndTag("Answer");
 				}
 				
-				// TestItem..Hint ***
+				//------------------
+				// create Hint tree:
+				//------------------
+				// TestItem..Hint
 				if ($mc["vristr"] <> "")
 				{
-					// Todo: resolve possible vri links
+					// (starttag)
+					$this->xml->xmlStartTag("Hint");
+					
+					// TestItem..Hint..Paragraph (starttag)
+					$attrs = array();
+					$attrs["Language"] = $this->curLang;
+					if ($expl)
+					{
+						$attrs["Characteristic"] = "Example";
+					}
+					$this->xml->xmlStartTag("Paragraph", $attrs);
+					
+					// TestItem..Hint..Paragraph..(content)
+					// (do not escape the data, because it includes tags)
+					$this->xml->xmlData($this->exportText($mc["vristr"], FALSE, FALSE, $code), TRUE, FALSE);
+					
+					// TestItem..Hint..Paragraph (endtag)
+					$this->xml->xmlEndTag("Paragraph");
+					
+					// (endtag)
+					$this->xml->xmlEndTag("Hint");
 				}
 				break;
 			
@@ -1813,7 +1929,7 @@ class ILIAS2To3Converter
 				{
 					$attrs["Characteristic"] = "Example";
 				}
-				$this->xml->xmlElement("Paragraph", $attrs, "Object not supported yet.");
+				$this->xml->xmlElement("Paragraph", $attrs, "[--- Object not supported yet. ---]");
 		}
 	}
 	
@@ -1900,7 +2016,7 @@ class ILIAS2To3Converter
 		// TestItem..MetaData
 		$this->exportMetadata($id, "mc");
 		
-		// TestItem..(Question, Answer, [Hint]) 
+		// TestItem..(Question, Answer, Hint) 
 		// = element of type 6 (el_mc) ***
 		$sql =	"SELECT id ".
 				"FROM element ".
@@ -2484,14 +2600,13 @@ class ILIAS2To3Converter
 
 		// create ILIAS 3 Learning Module out of ILIAS 2 Learning Unit
 		$this->exportLearningUnit($this->luId, $this->luInst);
-
-
-		// dump xml document to screen ***
-		//echo "<PRE>";
-		//echo nl2br(htmlentities(str_replace(">",">\n",$this->xml->xmlDumpMem($format))));
-		//echo "</PRE>";
-
-
+		
+		// dump xml document to screen (only for debugging)***
+		// echo "<PRE>";
+		// echo nl2br(htmlentities(str_replace(">",">\n",$this->xml->xmlDumpMem($format))));
+		// echo htmlentities($this->xml->xmlDumpMem($format));
+		// echo "</PRE>";
+		
 		// dump xml document to file
 		$this->xml->xmlDumpFile($this->file, $format);
 
