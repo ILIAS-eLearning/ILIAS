@@ -109,7 +109,7 @@ $tpl->show();
 function getUserAgreement()
 {
 
-	global $lng, $ilias;
+	global $lng, $ilias, $ilLog;
 
 	$tmpPath = getcwd();
 	$tmpsave = getcwd();
@@ -118,10 +118,19 @@ function getUserAgreement()
 
 	$agreement = "agreement_".$lng->lang_key.".html";
 
-	// fallback to default language if selected translated user agreement of selected language was not found
+	// fall back to default language if selected translated user agreement of selected language was not found
 	if (!file_exists($agreement))
 	{
+		$ilLog->write("view_usr_agreement.php: Agreement file ".$agreement." has not been found (user language).");
 		$agreement = "agreement_".$lng->lang_default.".html";
+	}
+
+	// fall back to english if user agreement of selected language and
+	// user agreement of system language were not found
+	if (!file_exists($agreement))
+	{
+		$ilLog->write("view_usr_agreement.php: Agreement file ".$agreement." has not been found (system language).");
+		$agreement = "agreement_en.html";
 	}
 	
 	if (file_exists($agreement))
@@ -142,7 +151,8 @@ function getUserAgreement()
 	}
 	else
 	{
-		$ilias->raiseError($lng->txt("file_not_found"),$ilias->error_obj->MESSAGE);
+		$ilias->raiseError($lng->txt("file_not_found").": ".$agreement,
+			$ilias->error_obj->MESSAGE);
 	}
 
 	chdir($tmpsave);

@@ -78,7 +78,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 		$this->data = array();
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
-		$this->data["cols"] = array("","type","language","status","last_change");
+		$this->data["cols"] = array("","type","language","status","last_change", "usr_agreement");
 
 		$languages = $this->object->getLanguages();
 		
@@ -104,7 +104,23 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 				default:
 					$remark = "";
 					break;
-			}	
+			}
+			
+			if (file_exists("./agreement/agreement_".$lang_key.".html"))
+			{
+				$agreement_exists_str = $this->lng->txt("available");
+			}
+			else
+			{
+				if ($lang_data["status"] == "system_language")
+				{
+					$agreement_exists_str = "<b>".$this->lng->txt("missing")."</b>";
+				}
+				else
+				{
+					$agreement_exists_str = $this->lng->txt("missing");
+				}
+			}
 
 			// visible data part
 			$this->data["data"][] = array(
@@ -112,7 +128,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 									"language"		=> $lang_data["name"].$status,
 									"status"		=> $this->lng->txt($lang_data["desc"])."<br/>".$remark,
 									"last_change"	=> $lang_data["last_update"],
-									"obj_id"		=> $lang_data["obj_id"]
+									"obj_id"		=> $lang_data["obj_id"],
+									"agreement"		=> $agreement_exists_str
 										);
 
 		}

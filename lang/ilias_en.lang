@@ -996,6 +996,8 @@ common#:#description#:#Description
 common#:#desired_password#:#Desired Password
 common#:#disabled#:#Disabled
 common#:#domain#:#Domain
+common#:#available#:#Available
+common#:#missing#:#Missing
 common#:#down#:#Down
 common#:#download#:#Download
 common#:#download_all_returned_files#:#Download all returned files
