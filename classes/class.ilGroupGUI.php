@@ -1307,7 +1307,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	function newMembers()
 	{
 		//create additional tabs for tab-bar
-		
+
 		$this->prepareOutput(true,99);
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
@@ -1359,6 +1359,7 @@ class ilGroupGUI extends ilObjGroupGUI
 
 			$member_ids = ilObjUser::searchUsers($_POST["search_user"]);
 
+			$maxcount = count ($member_ids);
 
 			if(count($member_ids) == 0)
 			{
@@ -1404,8 +1405,9 @@ class ilGroupGUI extends ilObjGroupGUI
 					$this->tpl->setVariable("BTN_VALUE",$value);
 					$this->tpl->parseCurrentBlock();
 				}
-
+				
 				//sort data array
+
 				$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 
 				$offset = intval($_GET["offset"]);
@@ -1421,11 +1423,11 @@ class ilGroupGUI extends ilObjGroupGUI
 					$offset = 0;	// TODO: move to user settings
 				}
 
-				$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
-
 				// create table
 				include_once "./classes/class.ilTableGUI.php";
-				$tbl = new ilTableGUI($output);
+
+				$tbl = new ilTableGUI($this->data["data"]);
+
 				// title & header columns
 				$tbl->setTitle($this->lng->txt("search_result"),"icon_usr_b.gif",$this->lng->txt("member list"));
 				$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
@@ -1434,12 +1436,14 @@ class ilGroupGUI extends ilObjGroupGUI
 
 				$tbl->setColumnWidth(array("5%","25%","35%","35%"));
 
+				$this->tpl->setCurrentBlock("tbl_action_row");
+				$this->tpl->parseCurrentBlock();
 				// control
 				$tbl->setOrderColumn($_GET["sort_by"]);
 				$tbl->setOrderDirection($_GET["sort_order"]);
 				$tbl->setLimit($_GET["limit"]);
 				$tbl->setOffset($_GET["offset"]);
-				$tbl->setMaxCount(count($this->data["data"]));
+				$tbl->setMaxCount($maxcount);
 
 				$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 
