@@ -1386,6 +1386,14 @@ class ilLMPresentationGUI
 						$href =
 							$this->getLink($_GET["ref_id"], $a_cmd = "media", $target_id, $nframe, $type);
 						break;
+						
+					case "RepositoryItem":
+						$obj_type = ilObject::_lookupType($target_id, true);
+						$obj_id = ilObject::_lookupObjId($target_id);
+						$href = "../goto.php?target=".$obj_type."_".$target_id;
+						$ltarget = "ilContObj".$obj_id;
+						break;
+
 				}
 				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
 					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";

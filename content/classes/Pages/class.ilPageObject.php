@@ -1271,6 +1271,10 @@ class ilPageObject
 				case "MediaObject":
 					$t_type = "mob";
 					break;
+
+				case "RepositoryItem":
+					$t_type = "obj";
+					break;
 			}
 
 			$target = $res->nodeset[$i]->get_attribute("Target");

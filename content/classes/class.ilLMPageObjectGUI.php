@@ -235,7 +235,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$targetframe = ($int_link["TargetFrame"] != "")
 					? $int_link["TargetFrame"]
 					: "None";
-
+					
 				switch($type)
 				{
 					case "PageObject":
@@ -281,6 +281,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						$ltarget = $nframe = "_new";
 						$href = "lm_presentation.php?obj_type=$type&amp;cmd=media&amp;ref_id=".$_GET["ref_id"].
 							"&amp;mob_id=".$target_id."&amp;frame=$nframe";
+						break;
+						
+					case "RepositoryItem":
+						$obj_type = ilObject::_lookupType($target_id, true);
+						$obj_id = ilObject::_lookupObjId($target_id);
+						$href = "../goto.php?target=".$obj_type."_".$target_id;
+						$ltarget = "ilContObj".$obj_id;
 						break;
 				}
 				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
