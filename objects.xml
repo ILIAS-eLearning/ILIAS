@@ -272,8 +272,10 @@
 	<subobj name="par">par</subobj>
 </object>
 <object name="lm">
-	<property name="view">cont_content</property>
+	<property name="view">cont_chapters</property>
+	<property name="pages">cont_all_pages</property>
 	<property name="edit_meta">cont_meta_data</property>
-	<subobj name="st">par</subobj>
+	<subobj name="st">st</subobj>
+	<action name="confirmDeletion">delete</action>
 </object>
 </objects>

@@ -561,6 +561,8 @@ content#:#cont_meta_data#:#Meta Data
 content#:#cont_pages#:#Pages
 content#:#cont_pg_content#:#Page Content
 content#:#cont_subchapters#:#Subchapters
+content#:#cont_chapters#:#Chapters
+content#:#cont_all_pages#:#All Pages
 content#:#cont_wysiwyg#:#Content Wysiwyg
 content#:#par#:#Paragraph
 content#:#pg#:#Page

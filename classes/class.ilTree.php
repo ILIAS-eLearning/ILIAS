@@ -834,6 +834,37 @@ class ilTree
 		return $data ? $data : array();
 	}
 
+
+	/**
+	* get all information of a node.
+	* get data of a specific node from tree and object_data
+	* @access	public
+	* @param	integer		node id
+	* @return	boolean		true, if node id is in tree
+	*/
+	function isInTree($a_node_id)
+	{
+		if (!isset($a_node_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilias->error_obj->WARNING);
+		}
+
+		$q = "SELECT * FROM ".$this->table_tree." ".
+			 "WHERE ".$this->table_tree.".child = '".$a_node_id."' ".
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."'";
+		$r = $this->ilias->db->query($q);
+
+		if ($r->numRows() > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
 	/**
 	* get data of parent node from tree and object_data
 	* @access	public
