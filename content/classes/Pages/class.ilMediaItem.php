@@ -466,6 +466,7 @@ class ilMediaItem
 		return $xml;
 	}
 
+
 	/**
 	* resolve internal links of all media items of a media object
 	*

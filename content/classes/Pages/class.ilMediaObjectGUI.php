@@ -66,7 +66,6 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		// content is in utf-8, todo: set globally
 		//header('Content-type: text/html; charset=UTF-8');
 
-
 		// select fields for number of columns
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_file"));
@@ -1041,109 +1040,63 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	*/
 	function editMapAreas()
 	{
-		if($_GET["limit"] == 0 )
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
+		$this->tpl->setVariable("TXT_IMAGEMAP", $this->lng->txt("cont_imagemap"));
+
+		// output image map
+		$xml = "<dummy>";
+		$xml.= $this->content_obj->getXML(IL_MODE_ALIAS);
+		$xml.= $this->content_obj->getXML(IL_MODE_OUTPUT);
+		$xml.="</dummy>";
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+		$wb_path = ilUtil::getWebspaceDir("output");
+		$mode = "media";
+		$params = array ('mode' => $mode,
+			'ref_id' => $_GET["ref_id"], 'pg_frame' => "", 'webspace_path' => $wb_path);
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		echo xslt_error($xh);
+		xslt_free($xh);
+		$this->tpl->setVariable("IMAGE_MAP", $output);
+
+		// output area table header
+		$this->tpl->setVariable("TXT_NAME", $this->lng->txt("cont_name"));
+		$this->tpl->setVariable("TXT_SHAPE", $this->lng->txt("cont_shape"));
+		$this->tpl->setVariable("TXT_COORDS", $this->lng->txt("cont_coords"));
+		$this->tpl->setVariable("TXT_LINK", $this->lng->txt("cont_link"));
+
+		// output area data
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$max = ilMapArea::_getMaxNr($st_item->getId());
+		for ($i=1; $i<=$max; $i++)
 		{
-			$_GET["limit"] = 500;
-		}
+			$this->tpl->setCurrentBlock("area_row");
 
-		// create table
-		require_once("classes/class.ilTableGUI.php");
-		$tbl = new ilTableGUI();
+			$css_row = ilUtil::switchColor($i, "tblrow1", "tblrow2");
+			$this->tpl->setVariable("CSS_ROW", $css_row);
 
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_usage_row.html", true);
-
-		$num = 0;
-
-		$tbl->setTitle($this->lng->txt("cont_mob_usages"));
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-
-		$tbl->setHeaderNames(array($this->lng->txt("cont_object"),
-			$this->lng->txt("context")));
-
-		$cols = array("object", "context");
-		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
-			"cmd" => "showUsages", "hier_id" => $_GET["hier_id"]);
-		$tbl->setHeaderVars($cols, $header_params);
-		//$tbl->setColumnWidth(array("1%", "1%", "33%", "33%", "32%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);		// ???
-		//$tbl->setMaxCount(30);		// ???
-
-		//$this->tpl->setVariable("COLUMN_COUNTS", 2);
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("footer");
-
-		//require_once("./content/classes/class.ilObjMediaObject.php");
-		//$cont_obj =& new ilObjContentObject($content_obj, true);
-
-		//$entries = ilUtil::getDir($cur_dir);
-		$usages = $this->content_obj->getUsages();
-
-		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
-		$tbl->setMaxCount(count($usages));
-		$usages = array_slice($usages, $_GET["offset"], $_GET["limit"]);
-
-		$tbl->render();
-		if(count($usages) > 0)
-		{
-			$i=0;
-			foreach($usages as $usage)
+			$area =& new ilMapArea($st_item->getId(), $i);
+			$this->tpl->setVariable("VAL_NAME", $area->getTitle());
+			$this->tpl->setVariable("VAL_SHAPE", $area->getShape());
+			$this->tpl->setVariable("VAL_COORDS", $area->getCoords());
+			switch ($area->getLinkType())
 			{
+				case "ext":
+					$this->tpl->setVariable("VAL_LINK", $area->getHRef());
+					break;
 
-				$this->tpl->setCurrentBlock("tbl_content");
-
-				// set color
-				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-
-				if(is_int(strpos($usage["type"], ":")))
-				{
-					$us_arr = explode(":", $usage["type"]);
-					$usage["type"] = $us_arr[1];
-					$cont_type = $us_arr[0];
-				}
-
-				switch($usage["type"])
-				{
-					case "pg":
-
-						require_once("content/classes/Pages/class.ilPageObject.php");
-						$page_obj = new ilPageObject($cont_type, $usage["id"]);
-
-						//$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
-						switch ($cont_type)
-						{
-							case "lm":
-							case "dbk":
-								require_once("content/classes/class.ilObjContentObject.php");
-								$lm_obj =& new ilObjContentObject($page_obj->getParentId(), false);
-								$this->tpl->setVariable("TXT_OBJECT", $lm_obj->getTitle());
-								break;
-						}
-						break;
-				}
-				// set usage link / text
-				//$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
-				$this->tpl->setVariable("TXT_CONTEXT", "-");
-
-				$this->tpl->parseCurrentBlock();
+				case "int":
+					$target = $area->getTarget();
+					$tar_arr = explode("_", $target);
+					$tar_id = $tar_arr[count($tar_arr) - 1];
+					$frame_str = (($frame = $area->getTargetFrame()) == "")
+						? ""
+						: " ($frame)";
+					$this->tpl->setVariable("VAL_LINK", $area->getType()." ".$tar_id.
+						$frame_str);
+					break;
 			}
-		} //if is_array
-		else
-		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", 4);
 			$this->tpl->parseCurrentBlock();
 		}
 
