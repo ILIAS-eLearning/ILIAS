@@ -1300,7 +1300,7 @@ class ilMetaDataGUI
 		return true;
 	}
 
-	function edit($a_temp_var, $a_temp_block, $a_formaction, $a_section = "General", $a_language = "")
+	function edit($a_temp_var, $a_temp_block, $a_formaction, $a_section = "", $a_language = "")
 	{
 		if ($a_language == "")
 		{
@@ -1311,6 +1311,10 @@ class ilMetaDataGUI
 		//$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 		//	$this->lm_obj->getId()."&obj_id=".$this->meta_obj->getId()."&cmd=save_meta");
 
+		if ($a_section == "")
+		{
+			$a_section = "General";
+		}
 		$sections = array("General", "Lifecycle", "Meta-Metadata", "Technical", "Educational", "Rights", "Relation", "Annotation", "Classification");
 		if (in_array($a_section, $sections))
 		{
