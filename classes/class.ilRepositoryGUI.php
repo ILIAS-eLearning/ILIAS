@@ -334,7 +334,7 @@ class ilRepositoryGUI
 				$this->showPossibleSubObjects("cat");
 			}
 		}
-		$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$_GET["ref_id"].
+		$this->tpl->setVariable("H_FORMACTION",  "repository.php?ref_id=".$this->cur_ref_id.
 			"&cmd=post");
 
 		if ($this->cur_ref_id != $this->tree->getRootId())
@@ -452,7 +452,7 @@ class ilRepositoryGUI
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("type"), $this->lng->txt("title")));
 		$tbl->setHeaderVars(array("type", "title"),
-			array("ref_id" => $_GET["ref_id"]));
+			array("ref_id" => $this->cur_ref_id));
 		$tbl->setColumnWidth(array("1%", "99%"));
 
 		//$tbl->setOrderColumn($_GET["sort_by"]);
@@ -555,7 +555,7 @@ class ilRepositoryGUI
 					{
 						if ($this->rbacsystem->checkAccess('read', $lr_data["ref_id"]))
 						{
-							$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
+							$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
 								"&item_ref_id=".$lr_data["ref_id"].
 								"&type=lm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 								"&sort_by=".$_GET["sort_by"]);
@@ -603,7 +603,7 @@ class ilRepositoryGUI
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("type"), $this->lng->txt("title")));
 		$tbl->setHeaderVars(array("type", "title"),
-			array("ref_id" => $_GET["ref_id"]));
+			array("ref_id" => $this->cur_ref_id));
 		$tbl->setColumnWidth(array("1%", "99%"));
 
 		// control
@@ -698,7 +698,7 @@ class ilRepositoryGUI
 				{
 					if ($this->rbacsystem->checkAccess('read', $gl_data["ref_id"]))
 					{
-						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
+						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
 							"&item_ref_id=".$gl_data["ref_id"].
 							"&type=glo&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 							"&sort_by=".$_GET["sort_by"]);
@@ -734,7 +734,7 @@ class ilRepositoryGUI
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("", $this->lng->txt("title")));
 		$tbl->setHeaderVars(array("", "title"),
-			array("ref_id" => $_GET["ref_id"]));
+			array("ref_id" => $this->cur_ref_id));
 		$tbl->setColumnWidth(array("1%", "99%"));
 
 		// control
@@ -828,7 +828,7 @@ class ilRepositoryGUI
 				// add to desktop link
 				if (!$ilias->account->isDesktopItem($data["ref_id"], "frm"))
 				{
-					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].
+					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
 						"&item_ref_id=".$data["ref_id"].
 						"&type=frm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 						"&sort_by=".$_GET["sort_by"]);
@@ -1035,7 +1035,7 @@ class ilRepositoryGUI
 		$tbl->setTitle($this->lng->txt("groups"),"icon_grp_b.gif",$this->lng->txt("groups"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("owner")));
-		$tbl->setHeaderVars(array("","title","owner"), array("ref_id"=>$_GET["ref_id"]));
+		$tbl->setHeaderVars(array("","title","owner"), array("ref_id" => $this->cur_ref_id));
 		$tbl->setColumnWidth(array("1%","89%","10%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
@@ -1273,7 +1273,7 @@ class ilRepositoryGUI
 	{
 		global $objDefinition;
 
-		$id = $_GET["ref_id"];
+		$id = $this->cur_ref_id;
 		$cmd = $this->cmd;
 		$new_type = $_POST["new_type"]
 			? $_POST["new_type"]
@@ -1299,7 +1299,7 @@ class ilRepositoryGUI
 
 		if (!empty($new_type))	// creation
 		{
-			if (!$this->rbacsystem->checkAccess("create", $_GET["ref_id"], $new_type))
+			if (!$this->rbacsystem->checkAccess("create", $this->cur_ref_id, $new_type))
 			{
 				sendInfo($lng->txt("msg_no_perm_create_object1")." ".$lng->txt($new_type."_a")." ".$lng->txt("msg_no_perm_create_object2"));
 			}
@@ -1314,12 +1314,12 @@ class ilRepositoryGUI
 				$obj =& new $class_constr($data, $id, true, false);
 
 				$method = $cmd."Object";
-				$obj->setReturnLocation("save", "repository.php?ref_id=".$_GET["ref_id"]);
-				$obj->setReturnLocation("cancel", "repository.php?ref_id=".$_GET["ref_id"]);
+				$obj->setReturnLocation("save", "repository.php?ref_id=".$this->cur_ref_id);
+				$obj->setReturnLocation("cancel", "repository.php?ref_id=".$this->cur_ref_id);
 				$obj->setReturnLocation("addTranslation",
-					"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]."&new_type=".$_GET["new_type"]);
+					"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$this->cur_ref_id."&new_type=".$_GET["new_type"]);
 
-				$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$_GET["ref_id"]."&new_type=".$new_type);
+				$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id."&new_type=".$new_type);
 				$obj->setTargetFrame("save", "bottom");
 //echo $class_constr.":".$method."<br>";
 				$obj->$method();
@@ -1328,7 +1328,7 @@ class ilRepositoryGUI
 		else	// all other commands
 		{
 
-			$obj =& ilObjectFactory::getInstanceByRefId($_GET["ref_id"]);
+			$obj =& ilObjectFactory::getInstanceByRefId($this->cur_ref_id);
 			$class_name = $objDefinition->getClassName($obj->getType());
 			$module = $objDefinition->getModule($obj->getType());
 			$module_dir = ($module == "")
@@ -1338,53 +1338,53 @@ class ilRepositoryGUI
 			$class_constr = "ilObj".$class_name."GUI";
 			require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 //echo $class_constr.":".$cmd."<br>";
-			$obj_gui =& new $class_constr("", $_GET["ref_id"], true, false);
+			$obj_gui =& new $class_constr("", $this->cur_ref_id, true, false);
 
 			switch($cmd)
 			{
 				case "delete":
-					$_POST["id"] = array($_GET["ref_id"]);
-					$obj_gui->setFormAction("delete", "repository.php?cmd=post&ref_id=".$_GET["ref_id"]);
+					$_POST["id"] = array($this->cur_ref_id);
+					$obj_gui->setFormAction("delete", "repository.php?cmd=post&ref_id=".$this->cur_ref_id);
 					//$obj_gui->setReturnLocation("delete", "repository.php?ref_id=".$_GET["ref_id"]);
 					$obj_gui->deleteObject();
 					break;
 
 				case "cancelDelete":
-					$node = $this->tree->getNodeData($_GET["ref_id"]);
+					$node = $this->tree->getNodeData($this->cur_ref_id);
 					$obj_gui->setReturnLocation("cancelDelete", "repository.php?ref_id=".$node["parent"]);
 					$obj_gui->cancelDeleteObject();
 					break;
 
 				case "confirmedDelete":
-					$node = $this->tree->getNodeData($_GET["ref_id"]);
+					$node = $this->tree->getNodeData($this->cur_ref_id);
 					$obj_gui->setReturnLocation("confirmedDelete", "repository.php?ref_id=".$node["parent"]);
 					$obj_gui->confirmedDeleteObject();
 					break;
 
 				case "edit":
-					$node = $this->tree->getNodeData($_GET["ref_id"]);
-					$_POST["id"] = array($_GET["ref_id"]);
+					$node = $this->tree->getNodeData($this->cur_ref_id);
+					$_POST["id"] = array($this->cur_ref_id);
 					$_GET["type"] = $this->object->getType();
-					$obj_gui->setFormAction("update", "repository.php?cmd=post&mode=$cmd&ref_id=".$_GET["ref_id"]);
+					$obj_gui->setFormAction("update", "repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id);
 					//$obj_gui->setTargetFrame("save", "bottom");
 					$obj_gui->editObject();
 					break;
 
 				case "cancel":
-					$node = $this->tree->getNodeData($_GET["ref_id"]);
+					$node = $this->tree->getNodeData($this->cur_ref_id);
 					$obj_gui->setReturnLocation("cancel", "repository.php?ref_id=".$node["parent"]);
 					$obj_gui->cancelObject();
 					break;
 
 				case "update":
-					$node = $this->tree->getNodeData($_GET["ref_id"]);
+					$node = $this->tree->getNodeData($this->cur_ref_id);
 					$obj_gui->setReturnLocation("update", "repository.php?ref_id=".$node["parent"]);
 					$obj_gui->updateObject();
 					break;
 
 				case "addTranslation":
 					$obj_gui->setReturnLocation("addTranslation",
-						"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$_GET["ref_id"]);
+						"repository.php?cmd=".$_GET["mode"]."&entry=0&mode=session&ref_id=".$this->cur_ref_id);
 					$obj_gui->addTranslationObject();
 					break;
 
