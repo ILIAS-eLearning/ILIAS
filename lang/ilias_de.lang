@@ -36,6 +36,7 @@
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
+common#:#db_need_update#:#Datenbank benötigt ein update!
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
 common#:#active_roles#:#Aktive Rollen
