@@ -874,10 +874,11 @@ class ilObjectGUI
 		$this->clearObject();
 		
 		// copy folders and files in each copied group
-		foreach ($_SESSION["copied_group_refs"] as $grp_id)
+		foreach ($_SESSION["copied_group_refs"] as $old_tree => $new_tree)
 		{
-			$groupObj = $this->ilias->obj_factory->getInstanceByRefId($grp_id);
+			$groupObj = $this->ilias->obj_factory->getInstanceByRefId($new_tree);
 			$groupObj->cloneNoneRbacObjects();
+			$groupObj->fixTreeStructure($old_tree);
 		}
 		
 		unset($_SESSION["copied_group_refs"]);
