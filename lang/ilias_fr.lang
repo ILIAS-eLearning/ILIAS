@@ -89,6 +89,7 @@ assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
 assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
 assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
+assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Answer###05 Feb 2004 new variable
@@ -486,6 +487,7 @@ common#:#change#:#Changer
 common#:#change_active_assignment#:#Changer attribution active
 common#:#change_assignment#:#Changer attribution 
 common#:#change_existing_objects#:#Changer objets existants
+common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
 common#:#change_lo_info#:#Changer informations sur le cours
 common#:#change_metadata#:#Changer méta-données
 common#:#change_sort_direction#:#Changer ordre de tri
@@ -847,6 +849,7 @@ common#:#grp_visible#:#Group is visible###13 Jan 2004 new variable
 common#:#grp_write#:#Edit Group###13 Jan 2004 new variable
 common#:#guest#:#Invité
 common#:#guests#:#Invités
+common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Aide
 common#:#hide_details#:#cacher détails
 common#:#hide_structure#:#Désactiver vue structurée
@@ -1403,6 +1406,7 @@ common#:#registration_expired#:#Registration period expired...###11 Dec 2003 new
 common#:#remove#:#Annuler###25 Mar 2004 content changed
 common#:#remove_translation#:#Supprimer la traduction
 common#:#rename#:#Renommer
+common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#Répondre
 common#:#repository#:#Dépôt
 common#:#required_field#:#Champ obligatoire
@@ -1690,6 +1694,7 @@ content#:#cont_create_dir#:#Créer répertoire
 content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
 content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
+content#:#cont_credits#:#Credits###03 May 2004 new variable
 content#:#cont_cross_reference#:#Référence croisée
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Présentation standard
@@ -1820,6 +1825,12 @@ content#:#cont_resources#:#Ressources
 content#:#cont_roman#:#Romain i, ii, ...
 content#:#cont_saved_map_area#:#Saved map area###07 Feb 2004 new variable
 content#:#cont_saved_map_data#:#Saved map data###15 Jan 2004 new variable
+content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
+content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
+content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
+content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
+content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
+content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
 content#:#cont_sc_title#:#titre
 content#:#cont_school#:#Ecole
 content#:#cont_scorm_type#:#adlcp:scormtype
@@ -1848,6 +1859,7 @@ content#:#cont_size#:#Taille (octets)
 content#:#cont_source#:#Source###01 Apr 2004 content changed
 content#:#cont_st_title#:#Titre de chapitre
 content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
+content#:#cont_status#:#Status###03 May 2004 new variable
 content#:#cont_std_is_in_dir#:#Suppression impossible.  Le fichier de vue standard est dans le répertoire.
 content#:#cont_std_view#:#Vue standard
 content#:#cont_structure#:#structure
@@ -1864,6 +1876,9 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Table des matières
 content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#En haut
+content#:#cont_total_time#:#Total Time###03 May 2004 new variable
+content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
+content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
 content#:#cont_translations#:#Traduction(s)
 content#:#cont_translations_assigned#:#Les traductions ont été assignées
 content#:#cont_update#:#Update###15 Jan 2004 new variable

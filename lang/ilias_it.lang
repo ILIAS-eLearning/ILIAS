@@ -89,6 +89,7 @@ assessment#:#0_unlimited#:#(0 = senza limite)
 assessment#:#add_answer#:#Aggiungi risposta
 assessment#:#add_answer_tf#:#Aggiungi risposta di tipo Vero/Falso
 assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
+assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
 assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Rispondi
@@ -486,6 +487,7 @@ common#:#change#:#Cambia
 common#:#change_active_assignment#:#Cambia l&#039;assegnazione attiva
 common#:#change_assignment#:#Cambia l&#039;assegnazione
 common#:#change_existing_objects#:#Cambia gli oggetti esistenti
+common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
 common#:#change_lo_info#:#Cambia le informazioni della Risorsa
 common#:#change_metadata#:#Cambia i metadati
 common#:#change_sort_direction#:#Cambia la direzione dell&#039;ordinamento
@@ -847,6 +849,7 @@ common#:#grp_visible#:#Vedere il gruppo
 common#:#grp_write#:#Modificare il gruppo
 common#:#guest#:#Ospite
 common#:#guests#:#Ospiti
+common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Aiuto
 common#:#hide_details#:#Nascondi dettagli
 common#:#hide_structure#:#Nascondi la vista della struttura
@@ -1403,6 +1406,7 @@ common#:#registration_expired#:#Periodo di prova della registrazione terminato..
 common#:#remove#:#Elimina
 common#:#remove_translation#:#Elimina la traduzione
 common#:#rename#:#Renomina
+common#:#rename_file#:#Rename File###03 May 2004 new variable
 common#:#reply#:#Rispondi
 common#:#repository#:#Repository
 common#:#required_field#:#Obbligatorio
@@ -1690,6 +1694,7 @@ content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_folder#:#Crea cartella
 content#:#cont_create_mob#:#Crea un oggetto multimediale
+content#:#cont_credits#:#Credits###03 May 2004 new variable
 content#:#cont_cross_reference#:#Riferimento incrociato
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Layout predefinito
@@ -1820,6 +1825,12 @@ content#:#cont_resources#:#Risorse
 content#:#cont_roman#:#Romani i, ii, ...
 content#:#cont_saved_map_area#:#Area salvata
 content#:#cont_saved_map_data#:#Dati salvati
+content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
+content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
+content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
+content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
+content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
+content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
 content#:#cont_sc_title#:#Titolo
 content#:#cont_school#:#Scuola
 content#:#cont_scorm_type#:#tipo di SCORM
@@ -1848,6 +1859,7 @@ content#:#cont_size#:#Dimensioni
 content#:#cont_source#:#Sorgente
 content#:#cont_st_title#:#Titolo capitolo
 content#:#cont_startfile#:#File di partenza
+content#:#cont_status#:#Status###03 May 2004 new variable
 content#:#cont_std_is_in_dir#:#La cancellazione non &#232; possibile. Il file a vista standard &#232; nella cartella.
 content#:#cont_std_view#:#Vista standard
 content#:#cont_structure#:#Struttura
@@ -1864,6 +1876,9 @@ content#:#cont_time_limit_action#:#esecuzione a tempo
 content#:#cont_toc#:#Tabella dei contenuti
 content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
 content#:#cont_top#:#Alto
+content#:#cont_total_time#:#Total Time###03 May 2004 new variable
+content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
+content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
 content#:#cont_translations#:#Traduzione(i)
 content#:#cont_translations_assigned#:#La traduzione deve essere assegnata
 content#:#cont_update#:#Aggiorna
