@@ -240,7 +240,7 @@ class ilUtil
 			$str .= " disabled=\"disabled\"";
 		}		
 
-		$str .= " value=\"".$value."\" />\n";
+		$str .= " value=\"".$value."\" id=\"".$varname."\" />\n";
 		
 		return $str;
 	}
