@@ -901,6 +901,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			$this->prepareOutput(false, 99);
 			$this->tpl->setVariable("HEADER", $this->lng->txt($new_type."_new"));
+
 			if (!$rbacsystem->checkAccess("create_".$new_type, $this->grp_id))
 			{
 				$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -1490,16 +1491,22 @@ class ilGroupGUI extends ilObjGroupGUI
 			$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
 		}
 
-		foreach ($parentRoles as $r)
+		foreach ($parentRoles as $key => $r)
 		{
-			$data["rolenames"][] = $r["title"];
+			if ($r["obj_id"] == SYSTEM_ROLE_ID)
+			{
+				unset($parentRoles[$key]);
+				continue;
+			}
 
-			if (!in_array($r["obj_id"],$local_roles) and $r["obj_id"] != SYSTEM_ROLE_ID)
+			if (!in_array($r["obj_id"],$local_roles))
 			{
 				$data["check_inherit"][] = ilUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
 			}
 			else
 			{
+				$r["link"] = true;
+
 				// don't display a checkbox for local roles AND system role
 				if ($rbacreview->isAssignable($r["obj_id"],$role_folder["ref_id"]))
 				{
@@ -1511,6 +1518,8 @@ class ilGroupGUI extends ilObjGroupGUI
 					$data["check_inherit"][] = ilUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
 				}
 			}
+			
+			$data["roles"][] = $r;
 		}
 
 		$ope_list = getOperationList($this->object->getType());
@@ -1520,33 +1529,21 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			$opdata = array();
 
-			// skip 'create' permission because an object permission 'create' makes no sense
-			if ($operation["operation"] != "create")
+			$opdata["name"] = $operation["operation"];
+
+			$colspan = count($parentRoles) + 1;
+
+			foreach ($parentRoles as $role)
 			{
-				$opdata["name"] = $operation["operation"];
+				$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
+				$disabled = false;
 
-				$colspan = count($parentRoles) + 1;
-
-				foreach ($parentRoles as $role)
-				{
-					if ($role["obj_id"] == SYSTEM_ROLE_ID)
-					{
-						$checked = true;
-						$disabled = true;
-					}
-					else
-					{
-						$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
-						$disabled = false;
-					}
-
-					// Es wird eine 2-dim Post Variable uebergeben: perm[rol_id][ops_id]
-					$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
-					$opdata["values"][] = $box;
-				}
-
-				$data["permission"][] = $opdata;
+				// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
+				$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
+				$opdata["values"][] = $box;
 			}
+
+			$data["permission"][] = $opdata;
 		}
 
 		/////////////////////
@@ -1566,11 +1563,22 @@ class ilGroupGUI extends ilObjGroupGUI
 
 		$num = 0;
 
-		foreach ($data["rolenames"] as $name)
+		foreach ($data["roles"] as $role)
 		{
 			// BLOCK ROLENAMES
+			/* temp. disabled
+			if ($role["link"])
+			{
+				$this->tpl->setCurrentBlock("ROLELINK_OPEN");
+				$this->tpl->setVariable("LINK_ROLE_RULESET","group.php?ref_id=".$this->object->getRefId()."&role_id=".$role["obj_id"]."&cmd=editRole");
+				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
+				$this->tpl->parseCurrentBlock();
+				
+				$this->tpl->touchBlock("ROLELINK_CLOSE");
+			}*/
+			
 			$this->tpl->setCurrentBlock("ROLENAMES");
-			$this->tpl->setVariable("ROLE_NAME",$name);
+			$this->tpl->setVariable("ROLE_NAME",$role["title"]);
 			$this->tpl->parseCurrentBlock();
 
 			// BLOCK CHECK INHERIT
@@ -1649,9 +1657,9 @@ class ilGroupGUI extends ilObjGroupGUI
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("COL_ANZ",$colspan);
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->show();
-	}
 
+ 		$this->tpl->show();
+ 	}
 
 
 	/**
@@ -3292,6 +3300,15 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			$this->insertSavedNodes($child["child"],$a_source_id,$a_tree_id,$a_db_table);
 		}
+	}
+	
+	function editRole()
+	{
+		include_once ("./classes/class.ilObjRoleGUI.php");
+		$roleObj = new ilObjRoleGUI($data, $_GET["role_id"], false);
+		$roleObj->tab_target_script = "group.php";
+		$roleObj->permObject();
+		$this->tpl->show();
 	}
 }
 ?>

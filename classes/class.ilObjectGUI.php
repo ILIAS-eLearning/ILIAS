@@ -1545,16 +1545,22 @@ class ilObjectGUI
 			$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
 		}
 
-		foreach ($parentRoles as $r)
+		foreach ($parentRoles as $key => $r)
 		{
-			$data["rolenames"][] = $r["title"];
+			if ($r["obj_id"] == SYSTEM_ROLE_ID)
+			{
+				unset($parentRoles[$key]);
+				continue;
+			}
 
-			if (!in_array($r["obj_id"],$local_roles) and $r["obj_id"] != SYSTEM_ROLE_ID)
+			if (!in_array($r["obj_id"],$local_roles))
 			{
 				$data["check_inherit"][] = ilUtil::formCheckBox(0,"stop_inherit[]",$r["obj_id"]);
 			}
 			else
 			{
+				$r["link"] = true;
+
 				// don't display a checkbox for local roles AND system role
 				if ($rbacreview->isAssignable($r["obj_id"],$role_folder["ref_id"]))
 				{
@@ -1566,6 +1572,8 @@ class ilObjectGUI
 					$data["check_inherit"][] = ilUtil::formCheckBox(1,"stop_inherit[]",$r["obj_id"]);
 				}
 			}
+			
+			$data["roles"][] = $r;
 		}
 
 		$ope_list = getOperationList($this->object->getType());
@@ -1575,33 +1583,21 @@ class ilObjectGUI
 		{
 			$opdata = array();
 
-			// skip 'create' permission because an object permission 'create' makes no sense
-			if ($operation["operation"] != "create")
+			$opdata["name"] = $operation["operation"];
+			
+			$colspan = count($parentRoles) + 1;
+
+			foreach ($parentRoles as $role)
 			{
-				$opdata["name"] = $operation["operation"];
-				
-				$colspan = count($parentRoles) + 1;
+				$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
+				$disabled = false;
 
-				foreach ($parentRoles as $role)
-				{
-					if ($role["obj_id"] == SYSTEM_ROLE_ID)
-					{
-						$checked = true;
-						$disabled = true;
-					}
-					else
-					{
-						$checked = $rbacsystem->checkPermission($this->object->getRefId(), $role["obj_id"],$operation["operation"],$_GET["parent"]);
-						$disabled = false;
-					}
-
-					// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
-					$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
-					$opdata["values"][] = $box;
-				}
-
-				$data["permission"][] = $opdata;
+				// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
+				$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
+				$opdata["values"][] = $box;
 			}
+
+			$data["permission"][] = $opdata;
 		}
 
 		/////////////////////
@@ -1618,11 +1614,22 @@ class ilObjectGUI
 
 		$num = 0;
 
-		foreach($data["rolenames"] as $name)
+		foreach($data["roles"] as $role)
 		{
 			// BLOCK ROLENAMES
+			/* temp. disabled
+			if ($role["link"])
+			{
+				$this->tpl->setCurrentBlock("ROLELINK_OPEN");
+				$this->tpl->setVariable("LINK_ROLE_RULESET","adm_object.php?ref_id=".$role_folder["ref_id"]."&obj_id=".$role["obj_id"]."&cmd=perm");
+				$this->tpl->setVariable("TXT_ROLE_RULESET",$this->lng->txt("edit_perm_ruleset"));
+				$this->tpl->parseCurrentBlock();
+				
+				$this->tpl->touchBlock("ROLELINK_CLOSE");
+			}*/
+			
 			$this->tpl->setCurrentBlock("ROLENAMES");
-			$this->tpl->setVariable("ROLE_NAME",$name);
+			$this->tpl->setVariable("ROLE_NAME",$role["title"]);
 			$this->tpl->parseCurrentBlock();
 
 			// BLOCK CHECK INHERIT
@@ -2609,6 +2616,7 @@ class ilObjectGUI
 		{
 			$template = "tpl.obj_".$a_cmd.".html";
 		}
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 	}
 
