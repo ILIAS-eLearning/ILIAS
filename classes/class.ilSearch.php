@@ -48,7 +48,7 @@ class ilSearch
 	var $search_in;				// STRING SEARCH IN 'content' OR 'meta'
 	var $search_type;			// STRING 'new' or 'result'
 	var $result;				// RESULT SET array['object_type']['counter']
-
+	var $perform_update;		// UPDATE USER SEARCH HISTORY default is true SEE function setPerformUpdate()
 	/**
 	* Constructor
 	* @access	public
@@ -64,6 +64,7 @@ class ilSearch
 		$this->rbacsystem =& $rbacsystem;
 		$this->user_id = $a_user_id;
 
+		$this->setPerformUpdate(true);
 		// READ OLD SEARCH RESULTS FROM DATABASE
 		$this->__readDBResult();
 	}
@@ -94,7 +95,11 @@ class ilSearch
 	{
 		$this->search_type = $a_type;
 	}
-
+	function setPerformUpdate($a_value)
+	{
+		$this->perform_update = $a_value;
+	}
+	
 	// GET MEHODS
 	function getUserId()
 	{
@@ -139,6 +144,11 @@ class ilSearch
 	{
 		return $this->search_type;
 	}
+	function getPerformUpdate()
+	{
+		return $this->perform_update;
+	}
+
 
 	// PUBLIC
 	function getNumberOfResults()
@@ -215,8 +225,10 @@ class ilSearch
 			}
 		}
 		$this->setResult($result);
-		$this->__updateDBResult();
-
+		if($this->getPerformUpdate())
+		{
+			$this->__updateDBResult();
+		}
 		return true;
 	}
 
