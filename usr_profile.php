@@ -88,8 +88,8 @@ if ($_GET["cmd"] == "save")
 		$ilias->account->update();
 		
 		// update object_data
-		require_once "classes/class.UserObject.php";
-		$userObj = new UserObject($ilias->account->getId());
+		require_once "classes/class.ilObjUser.php";
+		$userObj = new ilObjUser($ilias->account->getId());
 		$userObj->setTitle($ilias->account->getFullname());
 		$userObj->setDescription($ilias->account->getEmail());
 		$userObj->update();
@@ -217,4 +217,4 @@ $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 $tpl->parseCurrentBlock();
 
 $tpl->show();
-?>
+

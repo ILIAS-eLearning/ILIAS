@@ -8,12 +8,12 @@
 * @package application
 */
 require_once "./include/inc.header.php";
-require_once "./classes/class.NoteObject.php";
-require_once "./classes/class.NoteFolderObject.php";
+require_once "./classes/class.ilObjNote.php";
+require_once "./classes/class.ilObjNoteFolder.php";
 
-$myNote = new NoteObject();
-$myNoteFolder = new NoteFolderObject($ilias->account->getId());
-$testNoteFolder = new NoteFolderObject(320);
+$myNote = new ilObjNote();
+$myNoteFolder = new ilObjNoteFolder($ilias->account->getId());
+$testNoteFolder = new ilObjNoteFolder(320);
 
 //zeige gruppenmitglieder an
 $users = $rbacreview->assignedUsers(247);

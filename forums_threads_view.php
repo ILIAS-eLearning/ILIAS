@@ -9,10 +9,10 @@
 */
 require_once "./include/inc.header.php";
 require_once "classes/class.Forum.php";
-require_once "classes/class.Object.php";
-require_once "classes/class.ForumObject.php";
+require_once "classes/class.ilObject.php";
+require_once "classes/class.ilObjForum.php";
 
-$forumObj = new ForumObject($_GET["ref_id"]);
+$forumObj = new ilObjForum($_GET["ref_id"]);
 $frm = new Forum();
 $frm->setForumId($forumObj->getId());
 

@@ -8,11 +8,11 @@
 * @package application
 */
 require_once "./include/inc.header.php";
-require_once "./classes/class.NoteObject.php";
-require_once "./classes/class.NoteFolderObject.php";
+require_once "./classes/class.ilObjNote.php";
+require_once "./classes/class.ilObjNoteFolder.php";
 
-$myNote = new NoteObject();
-$myNoteFolder = new NoteFolderObject($ilias->account->getId());
+$myNote = new ilObjNote();
+$myNoteFolder = new ilObjNoteFolder($ilias->account->getId());
 
 if ($_GET["cmd"] == "edit")
 {
