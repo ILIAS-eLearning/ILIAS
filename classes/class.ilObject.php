@@ -566,9 +566,9 @@ class ilObject
 
 
 	/**
-	* This method is called automatically from out class
-	* It removes all object entries for a specific object
-	* This method should be overwritten by all object types
+	* delete object or referenced object
+	* (in the case of a referenced object, object data is only deleted
+	* if last reference is deleted)
 	* @access public
 	**/
 	function delete()
@@ -577,18 +577,29 @@ class ilObject
 
 		// ALL OBJECT ENTRIES IN TREE HAVE BEEN DELETED FROM CLASS ADMIN.PHP
 
-		// IF THERE IS NO OTHER REFERENCE, DELETE ENTRY IN OBJECT_DATA
-		// TODO: What happens with ref_id entries? They are not deleted
-		if ($this->countReferences() == 1)
+		// delete object_data entry
+		if ((!$this->referenced) || ($this->countReferences() == 1))
 		{
-			deleteObject($this->getId());
+			// delete entry in object_data
+			$q = "DELETE FROM object_data ".
+				"WHERE obj_id = '".$this->getId()."'";
+			$this->ilias->db->query($q);
 		}
+		
+		// delete object_reference entry
+		if($this->referenced)
+		{
+			// delete entry in object_reference
+			$q = "DELETE FROM object_reference ".
+				"WHERE ref_id = '".$this->getRefId()."'";
+			$this->ilias->db->query($q);
 
-		// DELETE PERMISSION ENTRIES IN RBAC_PA
-		// DONE: method overwritten in ilObjRole & ilObjUser.
-		//this call only applies for objects in rbac (not usr,role,rolt)
-		// TODO: Do this for role templates too
-		$rbacadmin->revokePermission($this->getRefId());
+			// DELETE PERMISSION ENTRIES IN RBAC_PA
+			// DONE: method overwritten in ilObjRole & ilObjUser.
+			//this call only applies for objects in rbac (not usr,role,rolt)
+			// TODO: Do this for role templates too
+			$rbacadmin->revokePermission($this->getRefId());
+		}
 
 		return true;
 	}

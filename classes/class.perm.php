@@ -30,7 +30,7 @@ function getObjectByReference ($a_ref_id)
 
 
 /**
-* deprecated: use ilObject->clone()
+* deprecated: use ilObject->clone() instead
 */
 /*
 function copyObject ($a_obj_id)
@@ -39,21 +39,11 @@ function copyObject ($a_obj_id)
 
 
 /**
-* delete an object from tbl.object_data
-* @access	public
-* @param	integer		object id
-* @return	boolean		returns true if successful otherwise false
-*/
+* deprecated: use ilObject->delete() instead
+*//*
 function deleteObject ($a_obj_id)
 {
-	global $ilias;
-
-	$q = "DELETE FROM object_data ".
-		 "WHERE obj_id = '".$a_obj_id."'";
-	$ilias->db->query($q);
-
-	return true;
-}
+}*/
 
 
 /**
