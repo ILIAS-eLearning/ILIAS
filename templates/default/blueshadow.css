@@ -433,7 +433,7 @@ input.submit, a.submit {
 	cursor:pointer;
 }
 
-input.ilEditSubmit {
+a.ilEditSubmit, input.ilEditSubmit {
 	background-color:#ffffff;
 	color:#2255a0;
 	border-width:1px;

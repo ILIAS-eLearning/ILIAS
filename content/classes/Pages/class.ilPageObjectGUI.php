@@ -302,5 +302,30 @@ class ilPageObjectGUI
 		$page_editor->executeCommand();
 	}
 
+	function showLinkHelp()
+	{
+		$tpl =& new ilTemplate("tpl.link_help.html", true, true, true);
+		$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=edpost");
+		$tpl->setVariable("TXT_HELP_HEADER", $this->lng->txt("cont_link_select"));
+		$tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_link_type"));
+		$ltype = array("chapter" => $this->lng->txt("cont_lk_chapter"),
+			"chapter_new" => $this->lng->txt("cont_lk_chapter_new"),
+			"page" => $this->lng->txt("cont_lk_page"),
+			"page_faq" => $this->lng->txt("cont_lk_page_faq"),
+			"page_new" => $this->lng->txt("cont_lk_page_new"),
+			"term" => $this->lng->txt("cont_lk_term"),
+			"term_new" => $this->lng->txt("cont_lk_term_new"),
+			"media_inline" => $this->lng->txt("cont_lk_media_inline"),
+			"media_media" => $this->lng->txt("cont_lk_media_media"),
+			"media_faq" => $this->lng->txt("cont_lk_media_faq"),
+			"media_new" => $this->lng->txt("cont_lk_media_new"));
+		$select_ltype = ilUtil::formSelect ($_POST["ltype"],
+			"ltype",$ltype,false,true);
+		$tpl->setVariable("SELECT_TYPE", $select_ltype);
+
+		$tpl->show();
+		exit;
+	}
 }
 ?>
