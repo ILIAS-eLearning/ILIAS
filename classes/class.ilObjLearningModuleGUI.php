@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.14 2003/06/16 07:01:48 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.15 2003/06/17 13:48:02 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -272,8 +272,15 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		// --- start: test of alternate parsing / lm storing
 		if ($_POST["parse_mode"] == 2)
 		{
+			// create import directory
+			$newObj->createImportDirectory();
+
+			// copy uploaded file to import directory
+			$file_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+			move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $file_path);
+
 			require_once ("content/classes/class.ilLMParser.php");
-			$lmParser = new ilLMParser($newObj, $HTTP_POST_FILES["xmldoc"]["tmp_name"]);
+			$lmParser = new ilLMParser($newObj, $file_path);
 			$lmParser->startParsing();
 		} // --- end: test of alternate parsing / lm storing
 		else
