@@ -1,28 +1,25 @@
 <?PHP
 /**
- * admin languages
- * utils for updating the database and optimize it etc.
- *
- * @author Peter Gabriel <pgabriel@databay.de>
- * @package ilias
- * @version $Id$
- */
-include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+* admin languages
+* utils for updating the database and optimize it etc.
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @version $Id$
+* 
+* @package ilias
+*/
+include_once "./include/ilias_header.inc";
+include_once "./include/inc.main.php";
 
 $lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
 $lng->setUserLanguage($lng->lng);
-
 
 $tpl = new Template("tpl.adm_languages.html", true, true);
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("languages"));
 
 if ($_POST["cmd"]=="generateall")
 {
-	if ($lng->generateLanguageFiles()==false)
-	{
-		$msg = $lng->error;
-	}
+	$lng->generateLanguageFiles();
 }
 
 if ($_POST["action"] == "del")
@@ -148,5 +145,5 @@ $tpl->parseCurrentBlock();
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
+session_unregister("Error_Message");
 ?>
