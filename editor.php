@@ -61,12 +61,7 @@ for ($i = 0; $i < 5; $i++)
 	
 	$tpl->parseCurrentBlock();
 }
-$tpl->setCurrentBlock("tbl_lo");
-$tpl->setVariable("LO_HEADER", $lng->txt("lo_last_visited"));
-$tpl->setVariable("LO_HDR_TIME", $lng->txt("time"));
-$tpl->setVariable("LO_HDR_TITLE", $lng->txt("lo"));
-$tpl->setVariable("LO_HDR_PAGE", $lng->txt("page"));
-$tpl->parseCurrentBlock();
+
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();

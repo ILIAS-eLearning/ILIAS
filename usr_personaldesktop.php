@@ -105,9 +105,9 @@ if (count($lessonsLastVisited)>0)
                 $tpl->parseCurrentBlock();
         }
         $tpl->setCurrentBlock("tbl_lo");
-        $tpl->setVariable("TXT_LO_HEADER",$lng->txt("lo_last_visited"));
+        $tpl->setVariable("TXT_LO_HEADER",$lng->txt("los_last_visited"));
         $tpl->setVariable("TXT_LO_TIME",$lng->txt("time"));
-        $tpl->setVariable("TXT_LO_TITLE",$lng->txt("lesson"));
+        $tpl->setVariable("TXT_LO_TITLE",$lng->txt("lo"));
         $tpl->setVariable("TXT_LO_PAGE",$lng->txt("page"));
         $tpl->parseCurrentBlock();
 }

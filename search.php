@@ -44,7 +44,7 @@ if ($_POST["search"] != "")
 //fill out select box with search options
 $tpl->setCurrentBlock("searcharea");
 $tpl->setVariable("SELVALUE", "le");
-$tpl->setVariable("SELOPTION", $lng->txt("lessons"));
+$tpl->setVariable("SELOPTION", $lng->txt("los"));
 $tpl->parseCurrentBlock();
 $tpl->setCurrentBlock("searcharea");
 $tpl->setVariable("SELVALUE", "usr");

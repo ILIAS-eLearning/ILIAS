@@ -85,15 +85,14 @@ languages_generate_from_file#:#generate languages from file
 languages_generate_from_upload#:#generate languages from uploaded file
 last_change#:#last change
 lastname#:#lastname
-lesson#:#lesson
-lessons#:#lessons
 level#:#level
 literature_bookmarks#:#literature bookmarks
-lo#:#lesson
-lo_available#:#available lessons
-lo_edit#:#edit lessons
-lo_last_visited#:#last visited lessons
-lo_new#:#new lesson
+lo#:#learning object
+los#:#learning objects
+lo_available#:#available learning objects
+lo_edit#:#edit learning object
+los_last_visited#:#last visited learning objects
+lo_new#:#new learning object
 login#:#login
 login_to_ilias#:#login to ILIAS
 mail#:#mail

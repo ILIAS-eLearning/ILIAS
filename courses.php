@@ -15,7 +15,7 @@ $tpl = new Template("tpl.courses.html", true, true);
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","lessons.php");
-$tplbtn->setVariable("BTN_TXT", $lng->txt("lessons"));
+$tplbtn->setVariable("BTN_TXT", $lng->txt("los"));
 $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
