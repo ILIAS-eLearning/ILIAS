@@ -67,7 +67,7 @@ class RoleObject extends Object
 			}
 
 			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
-			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],'y');
+			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"],$_GET["parent"],'y');
 		}
 		else
 		{
@@ -95,7 +95,9 @@ class RoleObject extends Object
 		{
 			if ($_POST["id"])
 			{
-				$parent = $_GET["parent"] == SYSTEM_FOLDER_ID ? ROOT_FOLDER_ID : $_GET["parent"];
+				// if object is system role folder these vars are used by method isGrandChild()
+				$parent = $_GET["parent"] == SYSTEM_FOLDER_ID ? 0 : $_GET["parent"];
+				$object_id = $_GET["parent"] == SYSTEM_FOLDER_ID ? ROOT_FOLDER_ID : $_GET["obj_id"];
 				
 				foreach ($_POST["id"] as $id)
 				{
@@ -109,14 +111,13 @@ class RoleObject extends Object
 					{
 						foreach ($folders as $folder)
 						{
-							$path_cmp = $tree->getPathId($folder,ROOT_FOLDER_ID);
-							
-							if (in_array($parent,$path_cmp))
+							if($tree->isGrandChild($object_id,$parent,$folder["parent" ],$folder["parent_obj"]))
 							{
-								$to_delete[] = $folder;
+								$to_delete[] = array(
+									"parent"     => $folder["parent"],
+									"parent_obj" => $folder["parent_obj"]);
 							}
 						}
-
 						// are all childs?
 						if (count($to_delete) == count($folders))
 						{
@@ -126,7 +127,7 @@ class RoleObject extends Object
 						{
 							foreach ($to_delete as $delete)
 							{
-								$rbacadmin->deleteLocalRole($id,$_GET["obj_id"]);
+								$rbacadmin->deleteLocalRole($id,$delete["parent"],$delete["parent_obj"]);
 							}
 						}
 					}

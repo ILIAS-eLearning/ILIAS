@@ -884,5 +884,27 @@ class Tree
 
 		return $data ? $data : array();
 	}
+	/**
+	* checks if a node is in the path of an other node
+	* @access	public
+ 	* @param	integer		object id of start node
+	* @param	integer		parent id of start node
+	* @param    integer     object id of query node
+	* @param    integer     parent id of query node
+	* @return	boolean
+	**/
+	function isGrandChild($a_startnode,$a_startparent,$a_query_node,$a_query_parent)
+	{
+		$query = "SELECT * FROM tree s,tree v ".
+			"WHERE s.child = '".$a_startnode."' ".
+			"AND s.parent = '".$a_startparent."' ".
+			"AND v.child = '".$a_query_node."' ".
+			"AND v.parent = '".$a_query_parent."' ".
+			"AND v.lft BETWEEN s.lft AND s.rgt ".
+			"AND v.rgt BETWEEN s.lft AND s.rgt";
+ 
+		$res = $this->ilias->db->query($query);
+		return $res->numRows();
+	}
 } // END class.tree
 ?>

@@ -214,7 +214,7 @@ class RbacAdmin
 	* @param	integer		object_id of parent object
 	* @return	boolean
 	*/
-	function deleteLocalRole($a_rol_id,$a_parent)
+	function deleteLocalRole($a_rol_id,$a_parent,$a_parent_obj)
 	{
 		$query = "DELETE FROM rbac_fa ".
 			"WHERE rol_id = '".$a_rol_id."' ".
@@ -584,14 +584,15 @@ class RbacAdmin
 	* Assigns a role to an role folder
 	* @access	public
 	* @param	integer		object id of role
-	* @param	integer		parent object id
+	* @param	integer		role folder id
+	* @param    integer     parent object id
 	* @param	string		asignable('y','n'); default: 'y'
 	* @return	boolean
 	*/
-	function assignRoleToFolder($a_rol_id, $a_parent, $a_assign = "y")
+	function assignRoleToFolder($a_rol_id, $a_parent,$a_parent_obj, $a_assign = "y")
 	{
-		$query = "INSERT INTO rbac_fa (rol_id,parent,assign) ".
-				 "VALUES ('".$a_rol_id."','".$a_parent."','".$a_assign."')";
+		$query = "INSERT INTO rbac_fa (rol_id,parent,assign,parent_obj) ".
+				 "VALUES ('".$a_rol_id."','".$a_parent."','".$a_assign."','".$a_parent_obj."')";
 		$res = $this->ilias->db->query($query);
 
 		return true;
@@ -655,18 +656,18 @@ class RbacAdmin
 	*/
 	function getFoldersAssignedToRole($a_rol_id)
 	{
-		$parent = array();
-		
-		$query = "SELECT DISTINCT parent FROM rbac_fa ".
+		$query = "SELECT DISTINCT parent,parent_obj FROM rbac_fa ".
 				 "WHERE rol_id = '".$a_rol_id."'";
 		$res = $this->ilias->db->query($query);
 
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$parent[] = $row->parent;
+			$folders[] = array(
+				"parent"     => $row->parent,
+				"parent_obj" => $row->parent_obj);
 		}
 
-		return $parent;
+		return $folders ? $folders : array();
 	}
 
 	/**

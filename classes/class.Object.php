@@ -306,7 +306,7 @@ class Object
 				if ($rbacsystem->checkAccess('write',$rolf_id,$_GET["obj_id"]))
 				{
 					// Suche die im Baum nächsten Templates der aktuellen Rolle
-					$path = $tree->getPathId($_GET["parent"],1);
+					$path = $tree->getPathId($_GET["obj_id"],$_GET["parent"]);
 					$path[0] = SYSTEM_FOLDER_ID;
 					// Es muss unten im Baum gestartet werden
 					array_reverse($path);
@@ -315,14 +315,16 @@ class Object
 					{
 						// IDs der zugehörigen RoleFolder
 						$rolf_data = $rbacadmin->getRoleFolderOfObject($obj_id);
-						if (in_array($rolf_data["child"],$folders))
+						if (in_array(array("parent" => $rolf_data["child"]),$folders) &&
+							in_array(array("parent" => $rolf_data["parent"]),$folders))
 						{
+							fd("hallo");
 							// FOUND
 							$rbacadmin->copyRolePermission($stop_inherit,$rolf_data["child"],$rolf_id);
 							break;
 						}
 					}
-					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id,'n');
+					$rbacadmin->assignRoleToFolder($stop_inherit,$rolf_id,$_GET["obj_id"],'n');
 				}
 				else
 				{
@@ -382,7 +384,7 @@ class Object
 			$role_data["title"] = $_POST["Flocal_role"];
 			$role_data["desc"] = "";
 			$new_obj_id = createNewObject('role',$role_data);
-			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,'y');
+			$rbacadmin->assignRoleToFolder($new_obj_id,$rolf_id,$_GET["obj_id"],'y');
 		}
 		else
 		{
