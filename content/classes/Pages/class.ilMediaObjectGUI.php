@@ -1063,7 +1063,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$xh = xslt_create();
 		$wb_path = ilUtil::getWebspaceDir("output");
 		$mode = "media";
-		$params = array ('mode' => $mode, 'link_params' => "ref_id=".$_GET["ref_id"],
+		$params = array ('map_item' => $st_item->getId(),'mode' => $mode,
+			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
 			'ref_id' => $_GET["ref_id"], 'pg_frame' => "", 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 //echo "<br>html:".htmlentities($output).":<br>";

@@ -420,5 +420,138 @@ class ilMapArea
 		return $this->il_target_frame;
 	}
 
+	/**
+	* draw image to
+	*/
+	function draw(&$a_image, $a_col1, $a_col2)
+	{
+		switch ($this->getShape())
+		{
+			case "Rect" :
+				$this->drawRect($a_image, $this->getCoords(), $a_col1, $a_col2);
+				break;
+
+			case "Circle" :
+				$this->drawCircle($a_image, $this->getCoords(), $a_col1, $a_col2);
+				break;
+
+			case "Poly" :
+				$this->drawPoly($a_image, $this->getCoords(), $a_col1, $a_col2, true);
+				break;
+		}
+	}
+
+	/**
+	* draws an outlined two color line in an image
+	*
+	* @param 	int		$im		image identifier as returned by ImageCreateFromGIF() etc.
+	* @param	int		$x1		x-coordinate of starting point
+	* @param	int		$y1		y-coordinate of starting point
+	* @param	int		$x2		x-coordinate of ending point
+	* @param	int		$y2		y-coordinate of ending point
+	* @param	int		$c1		color identifier 1
+	* @param	int		$c2		color identifier 2
+	*/
+	function drawLine(&$im, $x1, $y1, $x2, $y2, $c1, $c2)
+	{
+		imageline($im, $x1+1, $y1, $x2+1, $y2, $c1);
+		imageline($im, $x1-1, $y1, $x2-1, $y2, $c1);
+		imageline($im, $x1, $y1+1, $x2, $y2+1, $c1);
+		imageline($im, $x1, $y1-1, $x2, $y2-1, $c1);
+		imageline($im, $x1, $y1, $x2, $y2, $c2);
+	}
+
+	/**
+	* draws an outlined two color rectangle
+	*
+	* @param	int			$im			image identifier as returned by ImageCreateFromGIF() etc.
+	* @param	string		$coords     coordinate string, format : "x1,y1,x2,y2" with (x1,y1) is top left
+	*									and (x2,y2) is bottom right point of the rectangle
+	* @param	int			$c1			color identifier 1
+	* @param	int			$c2			color identifier 2
+	*/
+	function drawRect(&$im,$coords,$c1,$c2)
+	{
+		$coord=explode(",", $coords);
+		$this->drawLine($im, $coord[0], $coord[1], $coord[0], $coord[3], $c1, $c2);
+		$this->drawLine($im, $coord[0], $coord[3], $coord[2], $coord[3], $c1, $c2);
+		$this->drawLine($im, $coord[2], $coord[3], $coord[2], $coord[1], $c1, $c2);
+		$this->drawLine($im, $coord[2], $coord[1], $coord[0], $coord[1], $c1, $c2);
+	}
+
+
+	/**
+	* draws an outlined two color polygon
+	*
+	* @param	int			$im			image identifier as returned by ImageCreateFromGIF() etc.
+	* @param	string		$coords     coordinate string, format : "x1,y1,x2,y2,..." with every (x,y) pair is
+	*									an ending point of a line of the polygon
+	* @param	int			$c1			color identifier 1
+	* @param	int			$c3			color identifier 2
+	* @param	boolean		$closed		true: the first and the last point will be connected with a line
+	*/
+	function drawPoly(&$im, $coords, $c1, $c2, $closed)
+	{
+		if ($closed)
+		{
+			$p = 0;
+		}
+		else
+		{
+			$p = 1;
+		}
+
+		$anz = $this->countCoords($coords);
+
+		if ($anz < (3 - $p))
+		{
+			return;
+		}
+
+		$c = explode(",", $coords);
+
+		for($i=0; $i<$anz-$p; $i++)
+		{
+			$this->drawLine($im, $c[$i*2], $c[$i*2+1], $c[($i*2+2)%(2*$anz)],
+				$c[($i*2+3)%(2*$anz)], $c1, $c2);
+		}
+	}
+
+
+	/**
+	* draws an outlined two colored circle
+	*
+	* @param	int			$im			image identifier as returned by ImageCreateFromGIF()
+	* @param	string		$coords     coordinate string, format : "x,y,r" with (x,y) as center point
+	*									and r as radius
+	* @param	int			$c1			color identifier 1
+	* @param	int			$c3			color identifier 2
+	*/
+	function draw_circ(&$im, $coords, $c1, $c2)
+	{
+		$c = explode(",", $coords);
+		imagearc($im, $c[0], $c[1], ($c[2]+1)*2, ($c[2]+1)*2, 1, 360, $c1);
+		imagearc($im, $c[0], $c[1], ($c[2]-1)*2, ($c[2]-1)*2, 1, 360, $c1);
+		imagearc($im, $c[0], $c[1], $c[2]*2, $c[2]*2, 1, 360, $c2);
+	}
+
+	/**
+	* count the number of coordinates (x,y) in a coordinate string (format: "x1,y1,x2,y2,x3,y3,...")
+	*
+	* @param	string		$c		coordinate string
+	*/
+	function countCoords($c)
+	{
+		if ($c == "")
+		{
+			return 0;
+		}
+		else
+		{
+			$coord_array = explode(",", $c);
+			return (count($coord_array) / 2);
+		}
+	}
+
 }
 ?>

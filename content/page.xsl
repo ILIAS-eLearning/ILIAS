@@ -34,6 +34,7 @@
 <xsl:param name="enlarge_path"/>
 <xsl:param name="bib_id" />
 <xsl:param name="citation" />
+<xsl:param name="map_item" />
 <xsl:template match="PageObject">
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$pg_title != ''">
@@ -953,7 +954,12 @@
 		<!-- all image mime types -->
 		<xsl:when test="substring($type, 1, 5) = 'image'">
 			<img border="0">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:if test = "$map_item = ''">
+					<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test = "$map_item != ''">
+					<xsl:attribute name="src">lm_edit.php?cmd=showImageMap&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
+				</xsl:if>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				<xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[1]">

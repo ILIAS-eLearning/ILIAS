@@ -1033,12 +1033,31 @@ class ilUtil
 		chdir($cdir);
 	}
 
+	/**
+	* get convert command
+	*/
 	function getConvertCmd()
 	{
 		return PATH_TO_CONVERT;
 		//global $ilias;
-		
+
 		//return $ilias->getSetting("convert_path");
+	}
+
+	/**
+	*
+	*
+	* @param	string		$a_from				source file
+	* @param	string		$a_to				target file
+	* @param	string		$a_target_format	target image file format
+	*/
+	function convertImage($a_from, $a_to, $a_target_format = "")
+	{
+		$format_str = ($a_target_format != "")
+			? strtoupper($a_target_format).":"
+			: "";
+		$convert_cmd = ilUtil::getConvertCmd()." $a_from ".$format_str."$a_to";
+		system($convert_cmd);
 	}
 
 	/**
@@ -1049,9 +1068,9 @@ class ilUtil
 	function html2pdf($html, $pdf_file)
     {
         //global $ilias;
-        
+
         $html_file = str_replace(".pdf",".html",$pdf_file);
-        
+
         $fp = fopen( $html_file ,"wb");
         fwrite($fp, $html);
         fclose($fp);
