@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.46 2003/10/28 11:26:49 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.47 2003/10/29 15:01:09 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -60,7 +60,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-
+		
 		$data = array();
 		if ($_SESSION["error_post_vars"])
 		{
@@ -164,6 +164,18 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		include_once "./classes/class.ilGroup.php";
 		$grp = new ilGroup();
+
+		// check required fields
+		if (empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		// check registration & password
+		if ($_POST["enable_registration"] == 2 and empty($_POST["password"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_password"),$this->ilias->error_obj->MESSAGE);
+		}
 
 		// check groupname
 		if ($grp->groupNameExists($_POST["Fobject"]["title"]))
