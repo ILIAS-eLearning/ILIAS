@@ -51,7 +51,7 @@ class Language
 	{
     	$trans = $this->text[$this->lng][$topic];
 	if ($trans=="")
-    	    return "---".$topic."---";
+    	    return "-".$topic."-";
 	else
 	    return $trans;
 	}
