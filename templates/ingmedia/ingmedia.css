@@ -278,7 +278,8 @@ div.il_ExplorerHeader
 	border-width: 1px;
 	border-style: outset;
 	border-color: #E0E0E0;
-	margin:0px;
+	margin_top: 15px;
+	margin_bottom: 0px;
 	font-weight: bold;
 	top: 0px;
 	left: 0px;
@@ -342,6 +343,7 @@ div.invisible_border {
 	margin-bottom:15px;
 	margin-right:15px;
 	margin-left:15px;
+	width: 100%;
 }
 
 /* ------- Helptext --------- */
