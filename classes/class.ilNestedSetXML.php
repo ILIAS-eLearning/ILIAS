@@ -403,7 +403,8 @@ class ilNestedSetXML
     function init($obj_id,$obj_type)
 	{
         // {{{
-		$query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$obj_id."' AND ns_type='".$obj_type."' AND ns_tag_fk=tag_pk ORDER BY ns_l LIMIT 1";
+		$query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$obj_id."' AND ns_type='".
+			$obj_type."' AND ns_tag_fk=tag_pk ORDER BY ns_l LIMIT 1";
         $result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 
@@ -1361,19 +1362,83 @@ class ilNestedSetXML
 	*/
 	function deleteAllDbData()
 	{
+		global $ilBench;
 
+		#$ilBench->start('NestedSet','deleteAllDBData');
 		$res = $this->db->query("SELECT * FROM xmlnestedset WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' ");
 		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-
 			$this->db->query("DELETE FROM xmlparam WHERE tag_fk='".$row["ns_tag_fk"]."' ");
 			$this->db->query("DELETE FROM xmlvalue WHERE tag_fk='".$row["ns_tag_fk"]."' ");
 			$this->db->query("DELETE FROM xmltags WHERE tag_pk='".$row["ns_tag_fk"]."' ");
-
 		}
 		$this->db->query("DELETE FROM xmlnestedset WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' ");
+		#$ilBench->stop('NestedSet','deleteAllDBData');
 
 	}
+
+	/**
+	*	Delete meta data of a content object (pages, chapters)
+	*   @access    public
+	*	@param array of child ids
+	*	@see _getAllChildIds()
+	*	@return boolean
+	*/
+	function _deleteAllChildMetaData($a_ids)
+	{
+		global $ilBench,$ilDB;
+
+		#$ilBench->start('NestedSet','deleteAllChildMetaData');
+
+		// STEP TWO: DELETE ENTRIES IN xmlnestedset GET ALL tag_fks
+		$in = " IN ('";
+		$in .= implode("','", $a_ids);
+		$in .= "')";
+
+		$query = "SELECT ns_tag_fk FROM xmlnestedset ".
+			"WHERE ns_book_fk ".$in;
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$tag_fks[$row->ns_tag_fk] = $row->ns_tag_fk;
+		}
+		$ilDB->query("DELETE FROM xmlnestedset WHERE ns_book_fk ".$in);
+
+
+		// FINALLY DELETE
+		$in = " IN ('";
+		$in .= implode("','", $tag_fks);
+		$in .= "')";
+		
+		$ilDB->query("DELETE FROM xmlparam WHERE tag_fk ".$in);
+		$ilDB->query("DELETE FROM xmlvalue WHERE tag_fk ".$in);
+		$ilDB->query("DELETE FROM xmltags  WHERE tag_pk ".$in);
+
+		#$ilBench->stop('NestedSet','deleteAllChildMetaData');
+		return true;
+	} 
+
+	/**
+	*	Get all child ids of a content object
+	*   @access    public
+	*	@param int obj_id
+	*	@return boolean
+	*/
+	function _getAllChildIds($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT obj_id FROM lm_data WHERE lm_id = '".$a_obj_id."'";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ids[$row->obj_id] = $row->obj_id;
+		}
+		$ids[$a_obj_id] = $a_obj_id;
+
+		return $ids ? $ids : array();
+	}
+		
 
     // }}}
     

@@ -335,6 +335,10 @@ class ilLMObject
 	*/
 	function _deleteAllObjectData(&$a_cobj)
 	{
+		include_once './classes/class.ilNestedSetXML.php';
+
+		$page_ids = ilNestedSetXML::_getAllChildIds($a_cobj->getId());
+
 		$query = "SELECT * FROM lm_data ".
 			"WHERE lm_id= '".$a_cobj->getId()."'";
 		$obj_set = $this->ilias->db->query($query);
@@ -348,6 +352,9 @@ class ilLMObject
 				$lm_obj->delete(false);
 			}
 		}
+		ilNestedSetXML::_deleteAllChildMetaData($page_ids);
+
+		return true;
 	}
 
 	/**
