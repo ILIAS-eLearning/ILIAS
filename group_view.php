@@ -69,6 +69,7 @@ return $URL;
 
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.group_detail.html");
+
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 infoPanel();
 
@@ -91,7 +92,7 @@ if (empty($_GET["sort_by"]))
 }
 
 $tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","group_members.php");
+$tpl->setVariable("BTN_LINK","group_members.php?grp_id=".$_GET["grp_id"]);
 $tpl->setVariable("BTN_TXT", $lng->txt("group_members"));
 $tpl->parseCurrentBlock();
 
@@ -111,7 +112,6 @@ $objects = $tree->getChilds($_GET["grp_id"],"title");
 		}
 		
 $maxcount = count($cont_arr);
-
 
 // load template for table
 $tpl->addBlockfile("GROUP_DETAILS_TABLE", "group_table", "tpl.table.html");
@@ -136,7 +136,8 @@ if ($cont_num > 0)
 		$obj_link = getURLbyType($cont_data);
 		
 		$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-		$tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"",""));
+		$tpl->setVariable("CHECKBOX",
+		ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
 		$tpl->setVariable("TITLE", $cont_data["title"]);
 		$tpl->setVariable("LO_LINK", $obj_link);
 		
@@ -176,6 +177,32 @@ $tbl->setLimit($limit);
 $tbl->setOffset($offset);
 $tbl->setMaxCount($maxcount);
 
+$tpl->setCurrentBlock("tbl_action_btn");
+
+$tpl->setVariable("BTN_NAME", "mail");
+$tpl->setVariable("BTN_VALUE", "Write new mail");
+$tpl->parseCurrentBlock();
+$tpl->setVariable("BTN_NAME", "change");
+$tpl->setVariable("BTN_VALUE", "Change Object");
+$tpl->parseCurrentBlock();
+$tpl->setVariable("BTN_NAME", "leave");
+$tpl->setVariable("BTN_VALUE", "Discharge User");
+$tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("tbl_action_row");
+$tpl->SetVariable("COLUMN_COUNTS", "7");
+			
+
+$subobj = array ("frm", "file", "lm", "crs", "fold", "rfold");
+				
+
+//build form
+$opts = ilUtil::formSelect(12,"new_type",$subobj);
+$tpl->setCurrentBlock("add_object");
+$tpl->setVariable("SELECT_OBJTYPE", $opts);
+$tpl->setVariable("BTN_NAME", "create");
+$tpl->setVariable("TXT_ADD", "add");
+$tpl->parseCurrentBlock();
+		
 // footer
 $tbl->setFooter("tblfooter",$lng->txt("previous"),$lng->txt("next"));
 //$tbl->disable("content");
