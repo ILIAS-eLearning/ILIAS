@@ -143,7 +143,7 @@ class ilRbacAdmin
 	* @access	public
 	* @param	integer	object_id of role
 	* @param	integer	ref_id of role folder
-	* @return	boolean ture on success
+	* @return	boolean true on success
 	*/
 	function deleteLocalRole($a_rol_id,$a_ref_id)
 	{
@@ -152,7 +152,7 @@ class ilRbacAdmin
 			$message = get_class($this)."::deleteLocalRole(): Missing parameter! role_id: ".$a_rol_id." ref_id of role folder: ".$a_ref_id;
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
-
+		
 		$q = "DELETE FROM rbac_fa ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
 			 "AND parent = '".$a_ref_id."'";
@@ -478,6 +478,12 @@ class ilRbacAdmin
 					   " assign: ".$a_assign;
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+		
+		// if a wrong value is passed, always set assign to "n"
+		if ($a_assign != "y")
+		{
+			$a_assign = "n";
 		}
 
 		$q = "INSERT INTO rbac_fa (rol_id,parent,assign) ".
