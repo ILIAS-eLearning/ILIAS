@@ -1,8 +1,8 @@
 <?php
 /**
-* bookmark view
+* note_new
 *
-* @author Peter Gabriel <pgabriel@databay.de>
+* @author Matthias Maschke <m.maschke@uni-koeln.de>
 * @version $Id$
 *
 * @package application
@@ -14,22 +14,17 @@ require_once "./classes/class.NoteFolderObject.php";
 $myNote = new NoteObject();
 $myNoteFolder = new NoteFolderObject($ilias->account->Id);
 
-print_r($_POST);
-//form has been submitted
-if ($_POST["submit"] != "")
+if ($_GET["cmd"] == "edit")
 {
-	if ($_POST["note_text"] != "" && $_POST["lo_id"] != "" && $_POST["lo_title"] != "")
-	{
-		echo "Speichere Notiz !";
-		
-		//create new note
-		$obj_id = $myNote->createObject($_POST["lo_title"], $_POST["note_text"]);
-		//save to database
-		$myNote->saveNote($obj_id, $_POST["lo_id"], $_POST ["note_text"]);
-		//save in table tree
-		$myNoteFolder->addNote($obj_id);
-	}
+	$myNotes = $myNoteFolder->getNotes($_GET["id"]);
+
+	$tpl->setVariable("LOTITLE", $myNotes->lo_title);
+	$tpl->setVariable("NOTETEXT", $myNotes->text);
+	$tpl->setVariable("LOID", $myNotes->lo_id);
+	$tpl->setVariable("FORMACTION", "notes.php?cmd=update&amp;id=".$_GET["id"]);
 }
+else
+	$tpl->setVariable("FORMACTION", "notes.php?cmd=save");
 
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.note_new.html");
@@ -41,6 +36,7 @@ $tpl->setVariable("TXT_LOID", "Learning Object ID");
 $tpl->setVariable("TXT_LOTITLE", "Learning Object Title");
 $tpl->setVariable("TXT_NOTETEXT", "Notiztext");
 $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
+
 $tpl->parseCurrentBlock();
 
 $tpl->show();
