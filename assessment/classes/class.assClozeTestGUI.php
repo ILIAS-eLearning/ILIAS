@@ -622,8 +622,11 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <em>(" . $points . " " . $this->lng->txt("points") . ")</em> " , $solutionoutput);
 				if ($this->object->suggested_solutions[$idx])
 				{
-					$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
-					$output = preg_replace("/(<select name\=\"gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
+					if ($showsolution)
+					{
+						$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
+						$output = preg_replace("/(<select name\=\"gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
+					}
 				}
 			}
 			else
@@ -639,8 +642,11 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$solutionoutput = preg_replace("/(<input[^<]*?dummy\=\"solution_tgap_$idx" . "[^>]*?>)/is", "\\1" . " <em>(" . $gap[0]->get_points() . " " . $this->lng->txt("points") . ")</em> ", $solutionoutput);
 				if ($this->object->suggested_solutions[$idx])
 				{
-					$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
-					$output = preg_replace("/(<input[^<]*?dummy\=\"tgap_$idx" . "[^>]*?>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
+					if ($showsolution)
+					{
+						$href = $this->object->_getInternalLinkHref($this->object->suggested_solutions[$idx]["internal_link"]);
+						$output = preg_replace("/(<input[^<]*?dummy\=\"tgap_$idx" . "[^>]*?>)/is", "\\1" . " [<a href=\"$href\" target=\"_blank\">".$this->lng->txt("solution_hint")."</a>] " , $output);
+					}
 				}
 			}
 		}

@@ -864,7 +864,6 @@ class ilObjMediaObject extends ilObject
 	{
 		// check if mimetype detection enabled in php.ini
 		$set = ini_get("mime_magic.magicfile");
-
 		// get mimetype
 		if ($set <> "")
 		{
