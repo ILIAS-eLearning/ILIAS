@@ -303,10 +303,36 @@ class ASS_ClozeTest extends ASS_Question {
     } else {
       $default_correctness = FALSE;
     }
-    preg_match_all("/" . preg_quote($this->start_tag, "/") . "(.*?)" . preg_quote($this->end_tag, "/") . "/", $cloze_text, $matches, PREG_PATTERN_ORDER);
-    foreach ($matches[1] as $key => $value) {
+    preg_match_all("/" . "<gap(.*?)>" . "(.*?)" . preg_quote($this->end_tag, "/") . "/", $cloze_text, $matches, PREG_PATTERN_ORDER);
+    foreach ($matches[2] as $key => $value) {
       $cloze_words = split(",", $value);
       $answer_array = array();
+			$name = "";
+			if (preg_match("/name\=\"(.*)\"/", $matches[1][$key], $param))
+			{
+				// name param
+				$name = $param[1];
+			}
+			$type = "text";
+			if (preg_match("/type\=\"(.*)\"/", $matches[1][$key], $param))
+			{
+				// name param
+				$type = $param[1];
+			}
+			$shuffle = "yes";
+			if (preg_match("/shuffle\=\"(.*)\"/", $matches[1][$key], $param))
+			{
+				// name param
+				$shuffle = $param[1];
+			}
+			if (strcmp(strtolower($type), "select") == 0) 
+			{
+				$type = CLOZE_SELECT;
+			}
+				else
+			{ 
+				$type = CLOZE_TEXT;
+			}
       foreach ($cloze_words as $index => $text) {
         array_push($answer_array, new ASS_AnswerCloze($text, 0, $index, $default_correctness, CLOZE_TEXT, ""));
       }
