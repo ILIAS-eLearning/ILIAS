@@ -1442,6 +1442,7 @@ class ilObjectGUI
 			$node_data = $saved_tree->getNodeData($id);
 			$subtree_nodes = $saved_tree->getSubTree($node_data);
 
+
 			// remember already checked deleted node_ids
 			$checked[] = -(int) $id;
 

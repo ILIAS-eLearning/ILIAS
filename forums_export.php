@@ -108,8 +108,16 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 				$tplEx->setVariable("SUBJECT",$node["subject"]);
 				$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 				$tplEx->setVariable("POST_DATE",$frmEx->convertDate($node["create_date"]));
-				$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
-				$tplEx->setVariable("POST",nl2br($node["message"]));	
+				$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");
+
+				if ($node["pos_cens"] > 0)
+				{
+					$tplEx->setVariable("POST",nl2br(stripslashes($node["pos_cens_com"])));
+				}
+				else
+				{
+					$tplEx->setVariable("POST",nl2br($node["message"]));	
+				}
 				$tplEx->parseCurrentBlock("posts_row");	
 					
 				$z ++;
@@ -180,8 +188,17 @@ if ($_GET["print_thread"] > 0 || $_GET["print_post"] > 0)
 			$tplEx->setVariable("SUBJECT",$node["pos_subject"]);
 			$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 			$tplEx->setVariable("POST_DATE",$frmEx->convertDate($node["create_date"]));
-			$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
-			$tplEx->setVariable("POST",nl2br($node["message"]));	
+			$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");
+
+			if ($node["pos_cens"] > 0)
+			{
+				$tplEx->setVariable("POST",nl2br(stripslashes($node["pos_cens_com"])));
+			}
+			else
+			{
+				$tplEx->setVariable("POST",nl2br($node["message"]));	
+			}
+
 			$tplEx->parseCurrentBlock("posts_row");	
 			
 			$tplEx->setCurrentBlock("posttable");			
@@ -281,7 +298,15 @@ elseif ($_POST["action"] == "html")
 								$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 								$tplEx->setVariable("POST_DATE",$frmEx->convertDate($node["create_date"]));
 								$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
-								$tplEx->setVariable("POST",nl2br($node["message"]));	
+								
+								if ($node["pos_cens"] > 0)
+								{
+									$tplEx->setVariable("POST",nl2br(stripslashes($node["pos_cens_com"])));
+								}
+								else
+								{
+									$tplEx->setVariable("POST",nl2br($node["message"]));	
+								}
 								$tplEx->parseCurrentBlock("posts_row");	
 								
 								$z ++;
@@ -452,8 +477,17 @@ elseif ($_POST["action"] == "html")
 								$tplEx->setVariable("SUBJECT",$node["subject"]);
 								$tplEx->setVariable("TXT_CREATE_DATE",$lng->txt("forums_thread_create_date"));
 								$tplEx->setVariable("POST_DATE",$frmEx->convertDate($node["create_date"]));
-								$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");			
-								$tplEx->setVariable("POST",nl2br($node["message"]));	
+								$tplEx->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>");
+
+								if ($node["pos_cens"] > 0)
+								{
+									$tplEx->setVariable("POST",nl2br(stripslashes($node["pos_cens_com"])));
+								}
+								else
+								{
+									$tplEx->setVariable("POST",nl2br($node["message"]));	
+								}
+
 								$tplEx->parseCurrentBlock("posts_row");	
 								
 								$z ++;

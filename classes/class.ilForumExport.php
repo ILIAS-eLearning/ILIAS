@@ -275,6 +275,8 @@ class ilForumExport
 					"author"		=> $a_row->pos_usr_id,
 					"message"		=> $a_row->pos_message,
 					"subject"		=> $a_row->pos_subject,
+					"pos_cens_com"	=> $a_row->pos_cens_com,
+					"pos_cens"		=> $a_row->pos_cens,
 					"date"			=> $a_row->date,
 					"create_date"	=> $a_row->pos_date,
 					"update"		=> $a_row->pos_update,					

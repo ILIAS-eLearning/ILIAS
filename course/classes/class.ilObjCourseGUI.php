@@ -1917,6 +1917,7 @@ class ilObjCourseGUI extends ilObjectGUI
 									 $this->ctrl->getLinkTarget($this, "trash"), "trash", get_class($this));
 			}
 		}
+
 		if($rbacsystem->checkAccess('leave',$this->ref_id) and 
 		   $this->object->members_obj->isMember($this->ilias->account->getId()))
 		{

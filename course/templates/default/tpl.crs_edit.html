@@ -1,6 +1,6 @@
-  <form action="{FORMACTION}" {TARGET} method="post">
-	<table class="std">
-	  <tr class="tblheader">
+	<form action="{FORMACTION}" {TARGET} method="post">
+	  <table class="std">
+		<tr class="tblheader">
 		<td class="std" colspan="3">
 		  <table class="invisible_border" width="100%">
 			<tr>
@@ -13,7 +13,7 @@
 		<td class="option">{TXT_SYLLABUS}</td>
 		<td class="sub_option" >&nbsp;</td>
 		<td class="option_value">
-		  <textarea id="syllabus" name="crs[syllabus]" rows="20" cols="80" style="width:100%;">{SYLLABUS}</textarea>
+		  <textarea id="syllabus" name="crs[syllabus]" rows="20" cols="50">{SYLLABUS}</textarea>
 		</td>
 	  </tr>
 	  <tr>
@@ -35,7 +35,7 @@
 	  </tr>
 	  <tr>
 		<td class="sub_option">{TXT_CONTACT_CONSULTATION}</td>
-		<td class="option_value"><textarea id="consultation" name="crs[contact_consultation]" rows="10" cols="80" style="width:100%;">{CONTACT_CONSULTATION}</textarea></td>
+		<td class="option_value"><textarea id="consultation" name="crs[contact_consultation]" rows="10" cols="50">{CONTACT_CONSULTATION}</textarea></td>
 	  </tr>
 	  <tr>
 		<td class="option" align="top" rowspan="4">{TXT_ACTIVATION}</td>
@@ -129,5 +129,5 @@
 	  </tr>
 	</table>
   </form>
-	
+
 {PRECONDITION_TABLE}
