@@ -234,11 +234,18 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// view button
+		// create folder form button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK","mep_edit.php?ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]."&cmd=createFolderForm");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_create_folder"));
+		$this->tpl->parseCurrentBlock();
+
+		// create mob form button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","mep_edit.php?ref_id=".$_GET["ref_id"].
+			"&obj_id=".$_GET["obj_id"]."&cmd=create&cmdClass=ilMediaObjectGUI");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_create_mob"));
 		$this->tpl->parseCurrentBlock();
 
 		$obj_id = ($_GET["obj_id"] == "")
@@ -262,9 +269,9 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("cont_content"));
 
-		$tbl->setHeaderNames(array("", "", $this->lng->txt("title")));
+		$tbl->setHeaderNames(array("", $this->lng->txt("type"), $this->lng->txt("title")));
 
-		$cols = array("", "", "title");
+		$cols = array("", "type", "title");
 		$header_params = array("ref_id" => $_GET["ref_id"],
 			"obj_id" => $_GET["obj_id"]);
 		$tbl->setHeaderVars($cols, $header_params);
@@ -309,8 +316,12 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				switch($obj["type"])
 				{
 					case "fold":
-						$this->tpl->setCurrentBlock("tbl_content");
+						$this->tpl->setCurrentBlock("folder_row");
+						$this->tpl->setVariable("IMG_FOLDER", ilUtil::getImagePath("icon_fold_b.gif"));
 						$this->tpl->setVariable("TXT_FOLDER", $obj["title"]);
+						$this->tpl->setVariable("LINK_FOLDER",
+							"mep_edit.php?cmd=ListMedia&ref_id=".$_GET["ref_id"].
+							"&obj_id=".$obj["obj_id"]);
 
 						$this->tpl->setVariable("CSS_ROW", $css_row);
 
@@ -318,7 +329,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 						break;
 
 					case "mob":
-						$this->tpl->setCurrentBlock("tbl_content");
+						$this->tpl->setCurrentBlock("mob_row");
 						$this->tpl->setVariable("TXT_MOB", $obj["title"]);
 
 						$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -360,7 +371,27 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			$cmd = "frameset";
 		}
 
-		$this->$cmd();
+		if ($_GET["cmdClass"] == "")
+		{
+			$this->$cmd();
+		}
+		else
+		{
+			$this->forwardCommand();
+		}
+	}
+
+	function forwardCommand()
+	{
+		switch($_GET["cmdClass"])
+		{
+			case "ilMediaObjectGUI":
+				require_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+				$cmd.="Object";
+				$ilObjMediaObjectGUI =& new ilObjMediaObjectGUI("");
+				$ilObjMediaObjectGUI->$cmd();
+				break;
+		}
 	}
 
 

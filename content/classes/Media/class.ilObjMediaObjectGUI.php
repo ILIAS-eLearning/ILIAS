@@ -21,12 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once ("content/classes/Pages/class.ilPageContentGUI.php");
-require_once ("content/classes/Pages/class.ilMediaObject.php");
-require_once ("content/classes/Pages/class.ilMediaAliasItem.php");
+require_once ("content/classes/Media/class.ilObjMediaObject.php");
 
 /**
-* Class ilMediaObjectGUI
+* Class ilObjMediaObjectGUI
 *
 * Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
 *
@@ -35,16 +33,13 @@ require_once ("content/classes/Pages/class.ilMediaAliasItem.php");
 *
 * @package content
 */
-// Todo: extend ilObjMediaObjectGUI !?
-class ilMediaObjectGUI extends ilPageContentGUI
+class ilObjMediaObjectGUI extends ilObjectGUI
 {
 	var $header;
 
-
-	function ilMediaObjectGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0)
+	function ilMediaObjectGUI($a_data, $a_id = 0, $a_call_by_reference = false, $a_prepare_output = false)
 	{
-//echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
-		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 	}
 
 	function setHeader($a_title = "")
@@ -58,26 +53,16 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	}
 
 
-	////
-	// The following methods are for editing MediaAliases in PageObjects
-	// not the object itself
-	////
-
 	/**
-	* insert new media object form
+	* create new media object form
 	*/
-	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
+	function createObject()
 	{
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html", true);
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_mob"));
 		$this->tpl->setVariable("FORMACTION",
 			ilUtil::appendUrlParameterString($this->getTargetScript(),
-			"hier_id=".$this->hier_id."&cmd=$a_post_cmd"));
-
-		$this->displayValidationError();
-
-		// content is in utf-8, todo: set globally
-		//header('Content-type: text/html; charset=UTF-8');
+			""));
 
 		// select fields for number of columns
 		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
@@ -103,10 +88,10 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	/**
 	* create new media object in dom and update page in db
 	*/
-	function &create($a_create_alias = true)
+	function save()
 	{
 		// create dummy object in db (we need an id)
-		$this->content_obj = new ilMediaObject();
+		$this->content_obj = new ilObjMediaObject();
 		$dummy_meta =& new ilMetaData();
 		$dummy_meta->setObject($this->content_obj);
 		$this->content_obj->assignMetaData($dummy_meta);
@@ -251,24 +236,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		$this->content_obj->update();
 
-		if ($a_create_alias)
-		{
-			$this->content_obj->setDom($this->dom);
-			$this->content_obj->createAlias($this->pg_obj, $this->hier_id);
-			$this->updated = $this->pg_obj->update();
-			if ($this->updated === true)
-			{
-				ilUtil::redirect($this->getReturnLocation());
-			}
-			else
-			{
-				$this->insert();
-			}
-		}
-		else
-		{
-			return $this->content_obj;
-		}
+		return $this->content_obj;
+
 	}
 
 

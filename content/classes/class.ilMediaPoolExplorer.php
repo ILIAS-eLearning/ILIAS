@@ -50,9 +50,10 @@ class ilMediaPoolExplorer extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilMediaPoolExplorer($a_target,&$a_media_pool)
+	function ilMediaPoolExplorer($a_target, &$a_media_pool)
 	{
 		parent::ilExplorer($a_target);
+
 		$this->tree =& $a_media_pool->getTree();
 		$this->root_id = $this->tree->readRootId();
 		$this->media_pool =& $a_media_pool;

@@ -1,0 +1,2276 @@
+<?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+require_once ("content/classes/Pages/class.ilPageContentGUI.php");
+require_once ("content/classes/Pages/class.ilMediaObject.php");
+require_once ("content/classes/Pages/class.ilMediaAliasItem.php");
+
+/**
+* Class ilPCMediaObjectGUI
+*
+* Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
+*
+* @author Alex Killing <alex.killing@gmx.de>
+* @version $Id$
+*
+* @package content
+*/
+// Todo: extend ilObjMediaObjectGUI !?
+class ilPCMediaObjectGUI extends ilPageContentGUI
+{
+	var $header;
+
+
+	function ilPCMediaObjectGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0)
+	{
+//echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
+		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id);
+	}
+
+	function setHeader($a_title = "")
+	{
+		$this->header = $a_title;
+	}
+
+	function getHeader()
+	{
+		return $this->header;
+	}
+
+
+	////
+	// The following methods are for editing MediaAliases in PageObjects
+	// not the object itself
+	////
+
+	/**
+	* insert new media object form
+	*/
+	function insert($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_new.html", true);
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_mob"));
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=$a_post_cmd"));
+
+		$this->displayValidationError();
+
+		// content is in utf-8, todo: set globally
+		//header('Content-type: text/html; charset=UTF-8');
+
+		// select fields for number of columns
+		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
+		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_file"));
+		$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_reference"));
+		$this->tpl->setVariable("TXT_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
+		$this->tpl->setVariable("TXT_WIDTH", $this->lng->txt("cont_width"));
+		$this->tpl->setVariable("TXT_HEIGHT", $this->lng->txt("cont_height"));
+		$this->tpl->setVariable("TXT_ORIGINAL_SIZE", $this->lng->txt("cont_orig_size"));
+		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
+		$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
+		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
+		$this->tpl->parseCurrentBlock();
+
+		// operations
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", $a_submit_cmd);
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+
+	}
+
+	/**
+	* create new media object in dom and update page in db
+	*/
+	function &create($a_create_alias = true)
+	{
+		// create dummy object in db (we need an id)
+		$this->content_obj = new ilMediaObject();
+		$dummy_meta =& new ilMetaData();
+		$dummy_meta->setObject($this->content_obj);
+		$this->content_obj->assignMetaData($dummy_meta);
+		$this->content_obj->setTitle("dummy");
+		$this->content_obj->setDescription("dummy");
+		$this->content_obj->create();
+
+		// determine and create mob directory, move uploaded file to directory
+		//$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$this->content_obj->createDirectory();
+		$mob_dir = ilMediaObject::_getDirectory($this->content_obj->getId());
+
+		$media_item =& new ilMediaItem();
+		$this->content_obj->addMediaItem($media_item);
+		$media_item->setPurpose("Standard");
+		$meta =& $this->content_obj->getMetaData();
+		$meta_technical =& new ilMetaTechnical($meta);
+
+		if ($_POST["standard_type"] == "File")
+		{
+			$file = $mob_dir."/".$_FILES['standard_file']['name'];
+			move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
+
+			// set real meta and object data
+			$format = ilMediaObject::getMimeType($file);
+			$media_item->setFormat($format);
+			$media_item->setLocation($_FILES['standard_file']['name']);
+			$media_item->setLocationType("LocalFile");
+			$meta_technical->addFormat($format);
+			$meta_technical->setSize($_FILES['standard_file']['size']);
+			$meta_technical->addLocation("LocalFile", $_FILES['standard_file']['name']);
+			$this->content_obj->setTitle($_FILES['standard_file']['name']);
+		}
+		else	// standard type: reference
+		{
+			$format = ilMediaObject::getMimeType($_POST["standard_reference"]);
+			$media_item->setFormat($format);
+			$media_item->setLocation($_POST["standard_reference"]);
+			$media_item->setLocationType("Reference");
+			$meta_technical->addFormat($format);
+			$meta_technical->setSize(0);
+			$meta_technical->addLocation("Reference", $_POST["standard_reference"]);
+			$this->content_obj->setTitle($_POST["standard_reference"]);
+		}
+		$meta->addTechnicalSection($meta_technical);
+		$this->content_obj->setDescription($format);
+
+		// determine width and height of known image types
+		if ($_POST["standard_size"] == "original")
+		{
+			if (ilUtil::deducibleSize($format))
+			{
+				$size = getimagesize($file);
+				$media_item->setWidth($size[0]);
+				$media_item->setHeight($size[1]);
+			}
+		}
+		else
+		{
+			$media_item->setWidth($_POST["standard_width"]);
+			$media_item->setHeight($_POST["standard_height"]);
+		}
+
+		if ($_POST["standard_caption"] != "")
+		{
+			$media_item->setCaption($_POST["standard_caption"]);
+		}
+
+		if ($_POST["standard_param"] != "")
+		{
+			$media_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["standard_param"])));
+		}
+
+		$media_item->setHAlign("Left");
+
+		// fullscreen view
+		if ($_POST["fullscreen"] == "y")
+		{
+			$media_item =& new ilMediaItem();
+			$this->content_obj->addMediaItem($media_item);
+			$media_item->setPurpose("Fullscreen");
+
+			// file
+			if ($_POST["full_type"] == "File")
+			{
+				if ($_FILES['full_file']['name'] != "")
+				{
+					$file = $mob_dir."/".$_FILES['full_file']['name'];
+					move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
+
+					// set real meta and object data
+					$format = ilMediaObject::getMimeType($file);
+					$media_item->setFormat($format);
+					$media_item->setLocation($_FILES['full_file']['name']);
+					$media_item->setLocationType("LocalFile");
+					$meta_technical->addFormat($format);
+					$meta_technical->setSize($meta_technical->getSize()
+					 + $_FILES['full_file']['size']);
+					$meta_technical->addLocation("LocalFile", $_FILES['full_file']['name']);
+				}
+			}
+			else	// reference
+			{
+				if ($_POST["full_reference"] != "")
+				{
+					$format = ilMediaObject::getMimeType($_POST["full_reference"]);
+					$media_item->setFormat($format);
+					$media_item->setLocation($_POST["full_reference"]);
+					$media_item->setLocationType("Reference");
+					$meta_technical->addFormat($format);
+					$meta_technical->addLocation("Reference", $_POST["full_reference"]);
+				}
+			}
+
+			// determine width and height of known image types
+			if ($_POST["full_size"] == "original")
+			{
+				if (ilUtil::deducibleSize($format))
+				{
+					$size = getimagesize($file);
+					$media_item->setWidth($size[0]);
+					$media_item->setHeight($size[1]);
+				}
+			}
+			else
+			{
+				$media_item->setWidth($_POST["full_width"]);
+				$media_item->setHeight($_POST["full_height"]);
+			}
+
+			if ($_POST["full_caption"] != "")
+			{
+				$media_item->setCaption($_POST["full_caption"]);
+			}
+
+			if ($_POST["full_param"] != "")
+			{
+				$media_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["full_param"])));
+			}
+
+		}
+
+		$this->content_obj->update();
+
+		if ($a_create_alias)
+		{
+			$this->content_obj->setDom($this->dom);
+			$this->content_obj->createAlias($this->pg_obj, $this->hier_id);
+			$this->updated = $this->pg_obj->update();
+			if ($this->updated === true)
+			{
+				ilUtil::redirect($this->getReturnLocation());
+			}
+			else
+			{
+				$this->insert();
+			}
+		}
+		else
+		{
+			return $this->content_obj;
+		}
+	}
+
+
+
+	/**
+	* edit properties form
+	*/
+	function editAlias()
+	{
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		//$item_nr = $this->content_obj->getMediaItemNr("Standard");
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+//echo htmlentities($this->dom->dump_node($std_alias_item->item_node));
+		// edit media alias template
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_alias_properties.html", true);
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_alias_prop"));
+		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
+		$this->tpl->setVariable("TXT_DERIVE", $this->lng->txt("cont_derive_from_obj"));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("cont_".$std_item->getLocationType()));
+		$this->tpl->setVariable("TXT_LOCATION", $std_item->getLocation());
+		$this->tpl->setVariable("TXT_FORMAT", $this->lng->txt("cont_format"));
+		$this->tpl->setVariable("VAL_FORMAT", $std_item->getFormat());
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
+
+		$this->displayValidationError();
+
+		// width
+		$this->tpl->setVariable("TXT_MOB_WIDTH", $this->lng->txt("cont_width"));
+		$this->tpl->setVariable("INPUT_MOB_WIDTH", "mob_width");
+		$this->tpl->setVariable("VAL_MOB_WIDTH", $std_alias_item->getWidth());
+
+		// height
+		$this->tpl->setVariable("TXT_MOB_HEIGHT", $this->lng->txt("cont_height"));
+		$this->tpl->setVariable("INPUT_MOB_HEIGHT", "mob_height");
+		$this->tpl->setVariable("VAL_MOB_HEIGHT", $std_alias_item->getHeight());
+
+		// caption
+		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
+		$this->tpl->setVariable("INPUT_CAPTION", "mob_caption");
+		$this->tpl->setVariable("VAL_CAPTION", $std_alias_item->getCaption());
+		$this->tpl->parseCurrentBlock();
+
+		// parameters
+		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
+		$this->tpl->setVariable("INPUT_PARAMETERS", "mob_parameters");
+		$this->tpl->setVariable("VAL_PARAMETERS", $std_alias_item->getParameterString());
+		$this->tpl->parseCurrentBlock();
+
+		// object default values
+		$this->tpl->setVariable("VAL_OBJ_ST_SIZE", $std_item->getWidth()." / ".$std_item->getHeight());
+		$this->tpl->setVariable("VAL_OBJ_ST_CAPTION", $std_item->getCaption());
+		$this->tpl->setVariable("VAL_OBJ_ST_PARAMETERS", $std_item->getParameterString());
+		if ($std_alias_item->definesSize())
+		{
+			$this->tpl->setVariable("DERIVE_ST_SIZE_N", "checked=\"1\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("DERIVE_ST_SIZE_Y", "checked=\"1\"");
+		}
+		if ($std_alias_item->definesCaption())
+		{
+			$this->tpl->setVariable("DERIVE_ST_CAPTION_N", "checked=\"1\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("DERIVE_ST_CAPTION_Y", "checked=\"1\"");
+		}
+		if ($std_alias_item->definesParameters())
+		{
+			$this->tpl->setVariable("DERIVE_ST_PARAMETER_N", "checked=\"1\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("DERIVE_ST_PARAMETER_Y", "checked=\"1\"");
+		}
+
+		// fullscreen view
+		if($this->content_obj->hasFullScreenItem())
+		{
+			$this->tpl->setCurrentBlock("fullscreen");
+			$full_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen");
+			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+
+			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
+			$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".$full_item->getLocationType()));
+			$this->tpl->setVariable("TXT_FULL_LOCATION", $full_item->getLocation());
+
+			$this->tpl->setVariable("TXT_FULL_FORMAT", $this->lng->txt("cont_format"));
+			$this->tpl->setVariable("VAL_FULL_FORMAT", $full_item->getFormat());
+
+			// width text
+			$this->tpl->setVariable("TXT_FULL_WIDTH", $this->lng->txt("cont_width"));
+			$this->tpl->setVariable("INPUT_FULL_WIDTH", "full_width");
+
+			// height text
+			$this->tpl->setVariable("TXT_FULL_HEIGHT", $this->lng->txt("cont_height"));
+			$this->tpl->setVariable("INPUT_FULL_HEIGHT", "full_height");
+
+			// caption text
+			$this->tpl->setVariable("TXT_FULL_CAPTION", $this->lng->txt("cont_caption"));
+			$this->tpl->setVariable("INPUT_FULL_CAPTION", "full_caption");
+
+			// parameters text
+			$this->tpl->setVariable("TXT_FULL_PARAMETER", $this->lng->txt("cont_parameter"));
+			$this->tpl->setVariable("INPUT_FULL_PARAMETERS", "full_parameters");
+
+			// object default values
+			$this->tpl->setVariable("VAL_OBJ_FULL_SIZE", $full_item->getWidth()." / ".$full_item->getHeight());
+			$this->tpl->setVariable("VAL_OBJ_FULL_CAPTION", $full_item->getCaption());
+			$this->tpl->setVariable("VAL_OBJ_FULL_PARAMETERS", $full_item->getParameterString());
+			if ($full_alias_item->definesSize())
+			{
+				$this->tpl->setVariable("DERIVE_FULL_SIZE_N", "checked=\"1\"");
+			}
+			else
+			{
+				$this->tpl->setVariable("DERIVE_FULL_SIZE_Y", "checked=\"1\"");
+			}
+			if ($full_alias_item->definesCaption())
+			{
+				$this->tpl->setVariable("DERIVE_FULL_CAPTION_N", "checked=\"1\"");
+			}
+			else
+			{
+				$this->tpl->setVariable("DERIVE_FULL_CAPTION_Y", "checked=\"1\"");
+			}
+			if ($full_alias_item->definesParameters())
+			{
+				$this->tpl->setVariable("DERIVE_FULL_PARAMETER_N", "checked=\"1\"");
+			}
+			else
+			{
+				$this->tpl->setVariable("DERIVE_FULL_PARAMETER_Y", "checked=\"1\"");
+			}
+
+			if ($full_alias_item->exists())
+			{
+				$this->tpl->setVariable("FULLSCREEN_CHECKED", "checked=\"1\"");
+
+				// width
+				$this->tpl->setVariable("VAL_FULL_WIDTH", $full_alias_item->getWidth());
+
+				// height
+				$this->tpl->setVariable("VAL_FULL_HEIGHT", $full_alias_item->getHeight());
+
+				// caption
+				$this->tpl->setVariable("VAL_FULL_CAPTION", $full_alias_item->getCaption());
+
+				// parameters
+				$this->tpl->setVariable("VAL_FULL_PARAMETERS", $full_alias_item->getParameterString());
+			}
+
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// operations
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveAliasProperties");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+
+	}
+
+
+	/**
+	* save table properties in db and return to page edit screen
+	*/
+	function saveAliasProperties()
+	{
+		$std_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$full_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Fullscreen");
+
+		// standard size
+		if($_POST["derive_st_size"] == "y")
+		{
+			$std_item->deriveSize();
+		}
+		else
+		{
+			$std_item->setWidth($_POST["mob_width"]);
+			$std_item->setHeight($_POST["mob_height"]);
+		}
+
+		// standard caption
+		if($_POST["derive_st_caption"] == "y")
+		{
+			$std_item->deriveCaption();
+		}
+		else
+		{
+			$std_item->setCaption($_POST["mob_caption"]);
+		}
+
+		// standard parameters
+		if($_POST["derive_st_parameter"] == "y")
+		{
+			$std_item->deriveParameters();
+		}
+		else
+		{
+			$std_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["mob_parameters"]))));
+		}
+
+		if($this->content_obj->hasFullscreenItem())
+		{
+			if ($_POST["fullscreen"] ==  "y")
+			{
+				if (!$full_item->exists())
+				{
+					$full_item->insert();
+				}
+
+				// fullscreen size
+				if($_POST["derive_full_size"] == "y")
+				{
+					$full_item->deriveSize();
+				}
+				else
+				{
+					$full_item->setWidth($_POST["full_width"]);
+					$full_item->setHeight($_POST["full_height"]);
+				}
+
+				// fullscreen caption
+				if($_POST["derive_full_caption"] == "y")
+				{
+					$full_item->deriveCaption();
+				}
+				else
+				{
+					$full_item->setCaption($_POST["full_caption"]);
+				}
+
+				// fullscreen parameters
+				if($_POST["derive_full_parameter"] == "y")
+				{
+					$full_item->deriveParameters();
+				}
+				else
+				{
+					$full_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["full_parameters"]))));
+				}
+			}
+			else
+			{
+				if ($full_item->exists())
+				{
+					$full_item->delete();
+				}
+			}
+		}
+
+		$this->updated = $this->pg_obj->update();
+		if ($this->updated === true)
+		{
+			ilUtil::redirect($this->getReturnLocation());
+		}
+		else
+		{
+			$this->pg_obj->addHierIDs();
+			$this->edit();
+		}
+	}
+
+
+	/**
+	* edit media object properties
+	*/
+	function edit()
+	{
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// edit object button
+		/*
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","lm_edit.php?ref_id=".
+			$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&hier_id=".$this->hier_id.
+			"&cmd=editFiles");
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_edit_mob_files"));
+		$this->tpl->parseCurrentBlock();*/
+
+		// standard item
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+
+		// edit media alias template
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mob_properties.html", true);
+
+		// deduce size button
+		if ($std_item->getLocationType() == "LocalFile" &&
+			ilUtil::deducibleSize($std_item->getFormat()))
+		{
+			$this->tpl->setCurrentBlock("get_size");
+			$this->tpl->setVariable("CMD_SIZE", "getStandardSize");
+			$this->tpl->setVariable("TXT_GET_SIZE", $this->lng->txt("cont_get_orig_size"));
+			$this->tpl->parseCurrentBlock();
+			//$this->tpl->setCurrentBlock("adm_content");
+		}
+
+		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_mob_properties"));
+		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
+
+		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_LocalFile"));
+		$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_Reference"));
+		$this->tpl->setVariable("TXT_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
+		if ($std_item->getLocationType() == "LocalFile")
+		{
+			$this->tpl->setVariable("FILE_CHECKED", "checked=\"1\"");
+			$this->tpl->setVariable("VAL_FILE", $std_item->getLocation());
+		}
+		else
+		{
+			$this->tpl->setVariable("REF_CHECKED", "checked=\"1\"");
+			$this->tpl->setVariable("VAL_REFERENCE", $std_item->getLocation());
+		}
+
+		$this->tpl->setVariable("TXT_FORMAT", $this->lng->txt("cont_format"));
+		$this->tpl->setVariable("VAL_FORMAT", $std_item->getFormat());
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
+
+		$this->displayValidationError();
+
+		// content is in utf-8, todo: set globally
+		//header('Content-type: text/html; charset=UTF-8');
+
+		// width
+		$this->tpl->setVariable("TXT_MOB_WIDTH", $this->lng->txt("cont_width"));
+		$this->tpl->setVariable("INPUT_MOB_WIDTH", "mob_width");
+		$this->tpl->setVariable("VAL_MOB_WIDTH", $std_item->getWidth());
+
+		// height
+		$this->tpl->setVariable("TXT_MOB_HEIGHT", $this->lng->txt("cont_height"));
+		$this->tpl->setVariable("INPUT_MOB_HEIGHT", "mob_height");
+		$this->tpl->setVariable("VAL_MOB_HEIGHT", $std_item->getHeight());
+
+		// caption
+		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
+		$this->tpl->setVariable("INPUT_CAPTION", "mob_caption");
+		$this->tpl->setVariable("VAL_CAPTION", $std_item->getCaption());
+		$this->tpl->parseCurrentBlock();
+
+		// parameters
+		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
+		$this->tpl->setVariable("INPUT_PARAMETERS", "mob_parameters");
+		$this->tpl->setVariable("VAL_PARAMETERS", $std_item->getParameterString());
+		$this->tpl->parseCurrentBlock();
+
+		// fullscreen view
+		if($this->content_obj->hasFullScreenItem())
+		{
+			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+
+			if ($full_item->getLocationType() == "LocalFile" &&
+				ilUtil::deducibleSize($full_item->getFormat()))
+			{
+				$this->tpl->setCurrentBlock("get_full_size");
+				$this->tpl->setVariable("CMD_FULL_SIZE", "getFullscreenSize");
+				$this->tpl->setVariable("TXT_GET_FULL_SIZE", $this->lng->txt("cont_get_orig_size"));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("fullscreen");
+
+			// edit media alias template
+			$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
+
+			$this->tpl->setVariable("TXT_FULL_FILE", $this->lng->txt("cont_LocalFile"));
+			$this->tpl->setVariable("TXT_FULL_REFERENCE", $this->lng->txt("cont_Reference"));
+			$this->tpl->setVariable("TXT_FULL_REF_HELPTEXT", $this->lng->txt("cont_ref_helptext"));
+			if ($full_item->getLocationType() == "LocalFile")
+			{
+				$this->tpl->setVariable("FULL_FILE_CHECKED", "checked=\"1\"");
+				$this->tpl->setVariable("VAL_FULL_FILE", $full_item->getLocation());
+			}
+			else
+			{
+				$this->tpl->setVariable("FULL_REF_CHECKED", "checked=\"1\"");
+				$this->tpl->setVariable("VAL_FULL_REFERENCE", $full_item->getLocation());
+			}
+
+			//$this->tpl->setVariable("TXT_FULL_TYPE", $this->lng->txt("cont_".$full_item->getLocationType()));
+			//$this->tpl->setVariable("TXT_FULL_LOCATION", $full_item->getLocation());
+			$this->tpl->setVariable("TXT_FULL_FORMAT", $this->lng->txt("cont_format"));
+			$this->tpl->setVariable("VAL_FULL_FORMAT", $full_item->getFormat());
+
+			// width
+			$this->tpl->setVariable("TXT_FULL_WIDTH", $this->lng->txt("cont_width"));
+			$this->tpl->setVariable("INPUT_FULL_WIDTH", "full_width");
+			$this->tpl->setVariable("VAL_FULL_WIDTH", $full_item->getWidth());
+
+			// height
+			$this->tpl->setVariable("TXT_FULL_HEIGHT", $this->lng->txt("cont_height"));
+			$this->tpl->setVariable("INPUT_FULL_HEIGHT", "full_height");
+			$this->tpl->setVariable("VAL_FULL_HEIGHT", $full_item->getHeight());
+
+			// caption
+			$this->tpl->setVariable("TXT_FULL_CAPTION", $this->lng->txt("cont_caption"));
+			$this->tpl->setVariable("INPUT_FULL_CAPTION", "full_caption");
+			$this->tpl->setVariable("VAL_FULL_CAPTION", $full_item->getCaption());
+
+			// parameters
+			$this->tpl->setVariable("TXT_FULL_PARAMETER", $this->lng->txt("cont_parameter"));
+			$this->tpl->setVariable("INPUT_FULL_PARAMETERS", "full_parameters");
+			$this->tpl->setVariable("VAL_FULL_PARAMETERS", $full_item->getParameterString());
+
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// operations
+		if($this->content_obj->hasFullScreenItem())
+		{
+			$this->tpl->setCurrentBlock("remove_full");
+			$this->tpl->setVariable("CMD_REMOVE_FULL", "removeFullscreen");
+			$this->tpl->setVariable("TXT_REMOVE_FULL", $this->lng->txt("cont_remove_fullscreen"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("add_full");
+			$this->tpl->setVariable("CMD_ADD_FULL", "addFullscreen");
+			$this->tpl->setVariable("TXT_ADD_FULL", $this->lng->txt("cont_add_fullscreen"));
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+	}
+
+
+	/**
+	* set original size of standard file
+	*/
+	function getStandardSize()
+	{
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+		$mob_dir = ilMediaObject::_getDirectory($this->content_obj->getId());
+
+		if ($std_item->getLocationType() == "LocalFile")
+		{
+			$file = $mob_dir."/".$std_item->getLocation();
+			$size = getimagesize($file);
+			$std_item->setWidth($size[0]);
+			$std_item->setHeight($size[1]);
+			$this->content_obj->update();
+		}
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+
+	/**
+	* set original size of fullscreen file
+	*/
+	function getFullscreenSize()
+	{
+		$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+		$mob_dir = ilMediaObject::_getDirectory($this->content_obj->getId());
+
+		if ($full_item->getLocationType() == "LocalFile")
+		{
+			$file = $mob_dir."/".$full_item->getLocation();
+			$size = getimagesize($file);
+			$full_item->setWidth($size[0]);
+			$full_item->setHeight($size[1]);
+			$this->content_obj->update();
+		}
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+	/**
+	* save table properties in db and return to page edit screen
+	*/
+	function saveProperties()
+	{
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+		if ($_POST["standard_type"] == "Reference")
+		{
+			$std_item->setLocationType("Reference");
+			$std_item->setFormat(ilMediaObject::getMimeType($_POST["standard_reference"]));
+			$std_item->setLocation($_POST["standard_reference"]);
+		}
+		if ($_POST["standard_type"] == "LocalFile")
+		{
+			if ($_FILES['standard_file']['name'] != "")
+			{
+				$mob_dir = ilMediaObject::_getDirectory($this->content_obj->getId());
+				$file = $mob_dir."/".$_FILES['standard_file']['name'];
+				move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
+				$format = ilMediaObject::getMimeType($file);
+				$std_item->setFormat($format);
+				$std_item->setLocation($_FILES['standard_file']['name']);
+			}
+			$std_item->setLocationType("LocalFile");
+		}
+		$std_item->setWidth($_POST["mob_width"]);
+		$std_item->setHeight($_POST["mob_height"]);
+		$std_item->setCaption($_POST["mob_caption"]);
+		$std_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["mob_parameters"])));
+
+		if($this->content_obj->hasFullscreenItem())
+		{
+			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+			if ($_POST["full_type"] == "Reference")
+			{
+				$full_item->setLocationType("Reference");
+				$full_item->setFormat(ilMediaObject::getMimeType($_POST["full_reference"]));
+				$full_item->setLocation($_POST["full_reference"]);
+			}
+			if ($_POST["full_type"] == "LocalFile")
+			{
+				if ($_FILES['full_file']['name'] != "")
+				{
+					$mob_dir = ilMediaObject::_getDirectory($this->content_obj->getId());
+					$file = $mob_dir."/".$_FILES['full_file']['name'];
+					move_uploaded_file($_FILES['full_file']['tmp_name'], $file);
+					$format = ilMediaObject::getMimeType($file);
+					$full_item->setFormat($format);
+					$full_item->setLocation($_FILES['full_file']['name']);
+				}
+				$full_item->setLocationType("LocalFile");
+			}
+			$full_item->setWidth($_POST["full_width"]);
+			$full_item->setHeight($_POST["full_height"]);
+			$full_item->setCaption($_POST["full_caption"]);
+			$full_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["full_parameters"])));
+		}
+
+		$this->content_obj->update();
+
+		ilUtil::redirect($this->getReturnLocation());
+	}
+
+
+	/**
+	* administrate files of media object
+	*/
+	function editFiles()
+	{
+		// standard item
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+		if($this->content_obj->hasFullscreenItem())
+		{
+			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+		}
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// determine directory
+		$cur_subdir = $_GET["cdir"];
+		if($_GET["newdir"] == "..")
+		{
+			$cur_subdir = substr($cur_subdir, 0, strrpos($cur_subdir, "/"));
+		}
+		else
+		{
+			if (!empty($_GET["newdir"]))
+			{
+				if (!empty($cur_subdir))
+				{
+					$cur_subdir = $cur_subdir."/".$_GET["newdir"];
+				}
+				else
+				{
+					$cur_subdir = $_GET["newdir"];
+				}
+			}
+		}
+
+		$cur_subdir = str_replace(".", "", $cur_subdir);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+
+		// load files templates
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.mob_files.html", true);
+
+		//$this->tpl->setVariable("FORMACTION1", "lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"].
+		//	"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
+		$this->tpl->setVariable("FORMACTION1", $this->getTargetScript().
+			"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
+//echo "--".$this->getTargetScript().
+			//"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post"."--<br>";
+		$this->tpl->setVariable("TXT_NEW_DIRECTORY", $this->lng->txt("cont_new_dir"));
+		$this->tpl->setVariable("TXT_NEW_FILE", $this->lng->txt("cont_new_file"));
+		$this->tpl->setVariable("CMD_NEW_DIR", "createDirectory");
+		$this->tpl->setVariable("CMD_NEW_FILE", "uploadFile");
+		$this->tpl->setVariable("BTN_NEW_DIR", $this->lng->txt("create"));
+		$this->tpl->setVariable("BTN_NEW_FILE", $this->lng->txt("upload"));
+
+		//
+		$this->tpl->addBlockfile("FILE_TABLE", "files", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_file_row.html", true);
+
+		$num = 0;
+
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION", $this->getTargetScript().
+			"&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir."&cmd=post");
+
+		$tbl->setTitle($this->lng->txt("cont_files")." ".$cur_subdir);
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+
+		$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_dir_file"),
+			$this->lng->txt("cont_size"), $this->lng->txt("cont_purpose")));
+
+		$cols = array("", "", "dir_file", "size", "purpose");
+		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
+			"cmd" => "editFiles", "hier_id" => $_GET["hier_id"]);
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%", "1%", "33%", "33%", "32%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+		//$tbl->setMaxCount(30);		// ???
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 5);
+
+		// delete button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "deleteFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "assignStandard");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_assign_std"));
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "assignFullscreen");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_assign_full"));
+		$this->tpl->parseCurrentBlock();
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		//require_once("./content/classes/class.ilObjMediaObject.php");
+		//$cont_obj =& new ilObjContentObject($content_obj, true);
+
+		$entries = ilUtil::getDir($cur_dir);
+
+		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		$tbl->setMaxCount(count($entries));
+		$entries = array_slice($entries, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($entries) > 0)
+		{
+			$i=0;
+			foreach($entries as $entry)
+			{
+				if(($entry["entry"] == ".") || ($entry["entry"] == ".." && empty($cur_subdir)))
+				{
+					continue;
+				}
+
+				//$this->tpl->setVariable("ICON", $obj["title"]);
+				if($entry["type"] == "dir")
+				{
+					$this->tpl->setCurrentBlock("FileLink");
+					$this->tpl->setVariable("LINK_FILENAME",
+						$this->getTargetScript().
+						"&hier_id=".$_GET["hier_id"]."&cmd=editFiles&cdir=".$cur_subdir."&newdir=".
+						rawurlencode($entry["entry"]));
+					$this->tpl->setVariable("TXT_FILENAME", $entry["entry"]);
+					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setVariable("ICON", "<img src=\"".
+						ilUtil::getImagePath("icon_cat.gif")."\">");
+				}
+				else
+				{
+					$this->tpl->setCurrentBlock("File");
+					$this->tpl->setVariable("TXT_FILENAME2", $entry["entry"]);
+					$this->tpl->parseCurrentBlock();
+				}
+
+				$this->tpl->setCurrentBlock("tbl_content");
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				$this->tpl->setVariable("TXT_SIZE", $entry["size"]);
+				$this->tpl->setVariable("CHECKBOX_ID", $entry["entry"]);
+				$compare = (!empty($cur_subdir))
+					? $cur_subdir."/".$entry["entry"]
+					: $entry["entry"];
+				$purpose = array();
+				if ($std_item->getLocation() == $compare)
+				{
+					$purpose[] = $this->lng->txt("cont_std_view");
+				}
+				if($this->content_obj->hasFullscreenItem())
+				{
+					if ($full_item->getLocation() == $compare)
+					{
+						$purpose[] = $this->lng->txt("cont_fullscreen");
+					}
+				}
+				$this->tpl->setVariable("TXT_PURPOSE", implode($purpose, ", "));
+
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 4);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+
+	/**
+	* create directory
+	*/
+	function createDirectory()
+	{
+		// determine directory
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+
+		$new_dir = str_replace(".", "", $_POST["new_dir"]);
+		$new_dir = str_replace("/", "", $new_dir);
+
+		if (!empty($new_dir))
+		{
+			ilUtil::makeDir($cur_dir."/".$new_dir);
+		}
+
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+	/**
+	* upload file
+	*/
+	function uploadFile()
+	{
+		// determine directory
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+		if (is_file($_FILES["new_file"]["tmp_name"]))
+		{
+			move_uploaded_file($_FILES["new_file"]["tmp_name"],
+				$cur_dir."/".$_FILES["new_file"]["name"]);
+		}
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+	/**
+	* assign file to standard view
+	*/
+	function assignStandard()
+	{
+		if (!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// determine directory
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+		$file = $cur_dir."/".$_POST["file"][0];
+		$location = (!empty($cur_subdir))
+			? $cur_subdir."/".$_POST["file"][0]
+			: $_POST["file"][0];
+
+		if(!is_file($file))
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_file"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+		$std_item->setLocationType("LocalFile");
+		$std_item->setLocation($location);
+		$format = ilMediaObject::getMimeType($file);
+		$std_item->setFormat($format);
+		$this->content_obj->update();
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+
+	/**
+	* assign file to fullscreen view
+	*/
+	function assignFullscreen()
+	{
+		if (!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// determine directory
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+		$file = $cur_dir."/".$_POST["file"][0];
+		$location = (!empty($cur_subdir))
+			? $cur_subdir."/".$_POST["file"][0]
+			: $_POST["file"][0];
+
+		if(!is_file($file))
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_file"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if(!$this->content_obj->hasFullScreenItem())
+		{	// create new fullscreen item
+			$std_item =& $this->content_obj->getMediaItem("Standard");
+			$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+			$file = $mob_dir."/".$location;
+			$full_item =& new ilMediaItem();
+			$full_item->setMobId($std_item->getMobId());
+			$full_item->setLocation($location);
+			$full_item->setLocationType("LocalFile");
+			$full_item->setFormat(ilMediaObject::getMimeType($file));
+			$full_item->setPurpose("Fullscreen");
+			$this->content_obj->addMediaItem($full_item);
+		}
+		else	// alter existing fullscreen item
+		{
+			$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+
+			$full_item->setLocationType("LocalFile");
+			$full_item->setLocation($location);
+			$format = ilMediaObject::getMimeType($file);
+			$full_item->setFormat($format);
+		}
+		$this->content_obj->update();
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+
+	/**
+	* remove fullscreen view
+	*/
+	function removeFullscreen()
+	{
+		$this->content_obj->removeMediaItem("Fullscreen");
+		$this->content_obj->update();
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+
+	/**
+	* add fullscreen view
+	*/
+	function addFullscreen()
+	{
+		if (!$this->content_obj->hasFullScreenItem())
+		{
+			$std_item =& $this->content_obj->getMediaItem("Standard");
+			$full_item =& new ilMediaItem();
+			$full_item->setMobId($std_item->getMobId());
+			$full_item->setLocation($std_item->getLocation());
+			$full_item->setLocationType($std_item->getLocationType());
+			$full_item->setFormat($std_item->getFormat());
+			$full_item->setWidth($std_item->getWidth());
+			$full_item->setHeight($std_item->getHeight());
+			$full_item->setCaption($std_item->getCaption());
+			$full_item->setPurpose("Fullscreen");
+			$this->content_obj->addMediaItem($full_item);
+
+			$this->content_obj->update();
+		}
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=edit&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+
+	/**
+	* delete object file
+	*/
+	function deleteFile()
+	{
+		if (!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["file"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$cur_subdir = str_replace(".", "", $_GET["cdir"]);
+		$mob_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$this->content_obj->getId();
+		$cur_dir = (!empty($cur_subdir))
+			? $mob_dir."/".$cur_subdir
+			: $mob_dir;
+		$file = $cur_dir."/".$_POST["file"][0];
+		$location = (!empty($cur_subdir))
+			? $cur_subdir."/".$_POST["file"][0]
+			: $_POST["file"][0];
+
+		$full_item =& $this->content_obj->getMediaItem("Fullscreen");
+		$std_item =& $this->content_obj->getMediaItem("Standard");
+
+		if ($location == $std_item->getLocation())
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_cant_del_std"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if($this->content_obj->hasFullScreenItem())
+		{
+			if ($location == $full_item->getLocation())
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_cant_del_full"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
+		if (@is_dir($file))
+		{
+			if (substr($std_item->getLocation(), 0 ,strlen($location)) == $location)
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_std_is_in_dir"),$this->ilias->error_obj->MESSAGE);
+			}
+
+			if (substr($full_item->getLocation(), 0 ,strlen($location)) == $location)
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_full_is_in_dir"),$this->ilias->error_obj->MESSAGE);
+			}
+		}
+
+		if (@is_file($file))
+		{
+			unlink($file);
+		}
+
+		if (@is_dir($file))
+		{
+			ilUtil::delDir($file);
+		}
+
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editFiles&hier_id=".$_GET["hier_id"]."&cdir=".$cur_subdir));
+	}
+
+
+	/**
+	* show all usages of mob
+	*/
+	function showUsages()
+	{
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mob_usage_row.html", true);
+
+		$num = 0;
+
+		$tbl->setTitle($this->lng->txt("cont_mob_usages"));
+		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+
+		$tbl->setHeaderNames(array($this->lng->txt("cont_object"),
+			$this->lng->txt("context")));
+
+		$cols = array("object", "context");
+		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
+			"cmd" => "showUsages", "hier_id" => $_GET["hier_id"]);
+		$tbl->setHeaderVars($cols, $header_params);
+		//$tbl->setColumnWidth(array("1%", "1%", "33%", "33%", "32%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+		//$tbl->setMaxCount(30);		// ???
+
+		//$this->tpl->setVariable("COLUMN_COUNTS", 2);
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		//require_once("./content/classes/class.ilObjMediaObject.php");
+		//$cont_obj =& new ilObjContentObject($content_obj, true);
+
+		//$entries = ilUtil::getDir($cur_dir);
+		$usages = $this->content_obj->getUsages();
+
+		//$objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+		$tbl->setMaxCount(count($usages));
+		$usages = array_slice($usages, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($usages) > 0)
+		{
+			$i=0;
+			foreach($usages as $usage)
+			{
+
+				$this->tpl->setCurrentBlock("tbl_content");
+
+				// set color
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+
+				if(is_int(strpos($usage["type"], ":")))
+				{
+					$us_arr = explode(":", $usage["type"]);
+					$usage["type"] = $us_arr[1];
+					$cont_type = $us_arr[0];
+				}
+
+				switch($usage["type"])
+				{
+					case "pg":
+
+						require_once("content/classes/Pages/class.ilPageObject.php");
+						$page_obj = new ilPageObject($cont_type, $usage["id"]);
+
+						//$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
+						switch ($cont_type)
+						{
+							case "lm":
+							case "dbk":
+								require_once("content/classes/class.ilObjContentObject.php");
+								$lm_obj =& new ilObjContentObject($page_obj->getParentId(), false);
+								$this->tpl->setVariable("TXT_OBJECT", $lm_obj->getTitle());
+								break;
+						}
+						break;
+				}
+				// set usage link / text
+				//$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
+				$this->tpl->setVariable("TXT_CONTEXT", "-");
+
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 4);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+
+	/**
+	* edit map areas
+	*/
+	function editMapAreas()
+	{
+		//$this->initMapParameters();
+		$this->handleMapParameters();
+
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
+
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
+
+		$this->tpl->setVariable("TXT_IMAGEMAP", $this->lng->txt("cont_imagemap"));
+
+		// create/update imagemap work copy
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$st_item->makeMapWorkCopy();
+
+		// output image map
+		$xml = "<dummy>";
+		$xml.= $this->content_obj->getXML(IL_MODE_ALIAS);
+		$xml.= $this->content_obj->getXML(IL_MODE_OUTPUT);
+		$xml.="</dummy>";
+//echo "xml:".htmlentities($xml).":<br>";
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+		$wb_path = ilUtil::getWebspaceDir("output");
+		$mode = "media";
+		$params = array ('map_item' => $st_item->getId(),'mode' => $mode,
+			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
+			'ref_id' => $_GET["ref_id"], 'pg_frame' => "", 'webspace_path' => $wb_path);
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+//echo "<br>html:".htmlentities($output).":<br>";
+		echo xslt_error($xh);
+		xslt_free($xh);
+		$this->tpl->setVariable("IMAGE_MAP", $output);
+
+		$this->tpl->setCurrentBlock("area_table");
+
+		// output area table header
+		$this->tpl->setVariable("TXT_NAME", $this->lng->txt("cont_name"));
+		$this->tpl->setVariable("TXT_SHAPE", $this->lng->txt("cont_shape"));
+		$this->tpl->setVariable("TXT_COORDS", $this->lng->txt("cont_coords"));
+		$this->tpl->setVariable("TXT_LINK", $this->lng->txt("cont_link"));
+
+		// output command line
+		$this->tpl->setCurrentBlock("commands");
+		$sel_arr = array("Rect" => $this->lng->txt("cont_Rect"),
+			"Circle" => $this->lng->txt("cont_Circle"),
+			"Poly" => $this->lng->txt("cont_Poly"));
+		$sel_str = ilUtil::formSelect("", "areatype", $sel_arr, false, true);
+		$sel_str2 = ilUtil::formSelect("", "areatype2", $sel_arr, false, true);
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("BTN_DELETE", "deleteAreas");
+		$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+		$this->tpl->setVariable("SELECT_TYPE", $sel_str);
+		$this->tpl->setVariable("SELECT_TYPE2", $sel_str2);
+		$this->tpl->setVariable("BTN_UPDATE", "updateAreas");
+		$this->tpl->setVariable("TXT_UPDATE", $this->lng->txt("cont_update_names"));
+		$this->tpl->setVariable("BTN_ADD_AREA", "newArea");
+		$this->tpl->setVariable("TXT_ADD_AREA", $this->lng->txt("cont_add_area"));
+		$this->tpl->setVariable("BTN_SET_LINK", "editLink");
+		$this->tpl->setVariable("TXT_SET_LINK", $this->lng->txt("cont_set_link"));
+		$this->tpl->setVariable("BTN_SET_SHAPE", "editShape");
+		$this->tpl->setVariable("TXT_SET_SHAPE", $this->lng->txt("cont_set_shape"));
+		$this->tpl->parseCurrentBlock();
+
+		// output area data
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$max = ilMapArea::_getMaxNr($st_item->getId());
+		for ($i=1; $i<=$max; $i++)
+		{
+			$this->tpl->setCurrentBlock("area_row");
+
+			$css_row = ilUtil::switchColor($i, "tblrow1", "tblrow2");
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+
+			$area =& new ilMapArea($st_item->getId(), $i);
+			$this->tpl->setVariable("CHECKBOX",
+				ilUtil::formCheckBox("", "area[]", $i));
+			$this->tpl->setVariable("VAR_NAME", "name_".$i);
+			$this->tpl->setVariable("VAL_NAME", $area->getTitle());
+			$this->tpl->setVariable("VAL_SHAPE", $area->getShape());
+			$this->tpl->setVariable("VAL_COORDS",
+				implode(explode(",", $area->getCoords()), ", "));
+			switch ($area->getLinkType())
+			{
+				case "ext":
+					$this->tpl->setVariable("VAL_LINK", $area->getHRef());
+					break;
+
+				case "int":
+					$link_str = $this->getMapAreaLinkString($area->getTarget(),
+						$area->getType(), $area->getTargetFrame());
+					$this->tpl->setVariable("VAL_LINK", $link_str);
+					break;
+			}
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+
+	/**
+	* handle parameter during map area editing (storing to session)
+	*/
+	function handleMapParameters()
+	{
+		/*if($_POST["areatype"] != "")
+		{
+			$_SESSION["il_map_edit_area_type"] = $_POST["areatype"];
+		}*/
+//echo "AT:".$_SESSION["il_map_edit_area_type"].":";
+		/*if($_GET["areatype"] != "")
+		{
+			$_SESSION["il_map_edit_area_type"] = $_GET["areatype"];
+		}*/
+
+		if($_GET["ref_id"] != "")
+		{
+			$_SESSION["il_map_edit_ref_id"] = $_GET["ref_id"];
+		}
+
+		if($_GET["obj_id"] != "")
+		{
+			$_SESSION["il_map_edit_obj_id"] = $_GET["obj_id"];
+		}
+
+		if($_GET["hier_id"] != "")
+		{
+			$_SESSION["il_map_edit_hier_id"] = $_GET["hier_id"];
+		}
+
+		/*
+		if($_GET["coords"] != "")
+		{
+//echo "setcoords:".$_GET["coords"].":";
+			$_SESSION["il_map_edit_coords"] = $_GET["coords"];
+		}*/
+	}
+
+
+	/**
+	* recover paramters from session variables (static)
+	*/
+	function _recoverParameters()
+	{
+		$_GET["ref_id"] = $_SESSION["il_map_edit_ref_id"];
+		$_GET["obj_id"] = $_SESSION["il_map_edit_obj_id"];
+		$_GET["hier_id"] = $_SESSION["il_map_edit_hier_id"];
+		//$_GET["areatype"] = $_SESSION["il_map_edit_area_type"];
+		//$_GET["coords"] = $_SESSION["il_map_edit_coords"];
+	}
+
+	function clearParameters()
+	{
+		$_SESSION["il_map_el_href"] = "";
+	}
+
+
+	/**
+	* init map parameters
+	*/
+	function initMapParameters()
+	{
+		/*
+		//unset($_SESSION["il_map_edit_ref_id"]);
+		//unset($_SESSION["il_map_edit_obj_id"]);
+		//unset($_SESSION["il_map_edit_hier_id"]);
+		unset($_SESSION["il_map_edit_area_type"]);
+		unset($_SESSION["il_map_edit_coords"]);
+		unset($_SESSION["il_map_el_href"]);
+		unset($_SESSION["il_map_il_type"]);
+		unset($_SESSION["il_map_il_ltype"]);
+		unset($_SESSION["il_map_il_target"]);
+		unset($_SESSION["il_map_il_targetframe"]);
+		unset($_SESSION["il_map_edit_mode"]);
+		unset($_SESSION["il_map_area_nr"]);*/
+	}
+
+	function newArea()
+	{
+		$_SESSION["il_map_edit_coords"] = "";
+		$_SESSION["il_map_edit_mode"] = "";
+		$_SESSION["il_map_el_href"] = "";
+		$_SESSION["il_map_il_type"] = "";
+		$_SESSION["il_map_il_ltype"] = "";
+		$_SESSION["il_map_il_target"] = "";
+		$_SESSION["il_map_il_targetframe"] = "";
+		$_SESSION["il_map_edit_area_type"] = $_POST["areatype"];
+		$this->addArea(false);
+	}
+
+	/**
+	* add new area
+	*/
+	function addArea($a_handle = true)
+	{
+		// init all SESSION variables if "ADD AREA" button is pressed
+		/*
+		if ($_POST["areatype"] != "")
+		{
+			$this->initMapParameters();
+		}*/
+
+		// handle map parameters
+		if($a_handle)
+		{
+			$this->handleMapParameters();
+		}
+
+		$area_type = $_SESSION["il_map_edit_area_type"];
+		$coords = $_SESSION["il_map_edit_coords"];
+		$cnt_coords = ilMapArea::countCoords($coords);
+//echo "areatype:".$_SESSION["il_map_edit_area_type"].":<br>";
+		// decide what to do next
+		switch ($area_type)
+		{
+			// Rectangle
+			case "Rect" :
+				if ($cnt_coords < 2)
+				{
+					$this->editMapArea(true, false, false);
+				}
+				else if ($cnt_coords == 2)
+				{
+//echo "setting2:".$_SESSION["il_map_il_target"].":<br>";
+					$this->editMapArea(false, true, true);
+				}
+				break;
+
+			// Circle
+			case "Circle":
+//echo $coords."BHB".$cnt_coords;
+				if ($cnt_coords <= 1)
+				{
+					$this->editMapArea(true, false, false);
+				}
+				else
+				{
+					if ($cnt_coords == 2)
+					{
+						$c = explode(",",$coords);
+						$coords = $c[0].",".$c[1].",";	// determine radius
+						$coords .= round(sqrt(pow(abs($c[3]-$c[1]),2)+pow(abs($c[2]-$c[0]),2)));
+					}
+					$_SESSION["il_map_edit_coords"] = $coords;
+
+					$this->editMapArea(false, true, true);
+				}
+				break;
+
+			// Polygon
+			case "Poly":
+				if ($cnt_coords < 1)
+				{
+					$this->editMapArea(true, false, false);
+				}
+				else if ($cnt_coords < 3)
+				{
+					$this->editMapArea(true, true, false);
+				}
+				else
+				{
+					$this->editMapArea(true, true, true);
+				}
+				break;
+		}
+//echo "setting3:".$_SESSION["il_map_il_target"].":<br>";
+	}
+
+
+	/**
+	* get a single map area
+	*
+	* @param	boolean		$a_get_next_coordinate		enable next coordinate input
+	* @param	boolean		$a_output_new_area			output the new area
+	* @param	boolean		$a_save_from				output save form
+	* @param	string		$a_edit_property			"" | "link" | "shape"
+	*/
+	function editMapArea($a_get_next_coordinate = false, $a_output_new_area = false,
+		$a_save_form = false, $a_edit_property = "", $a_area_nr = 0)
+	{
+		$area_type = $_SESSION["il_map_edit_area_type"];
+//echo "sessioncoords:".$_SESSION["il_map_edit_coords"].":<br>";
+		$coords = $_SESSION["il_map_edit_coords"];
+		$cnt_coords = ilMapArea::countCoords($coords);
+
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
+
+		$this->tpl->setVariable("FORMACTION",
+			ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"hier_id=".$this->hier_id."&cmd=edpost"));
+
+		$this->tpl->setVariable("TXT_IMAGEMAP", $this->lng->txt("cont_imagemap"));
+
+		// output instruction text
+
+		$this->tpl->setCurrentBlock("instruction");
+//echo "at:$area_type:<br>";
+//echo "cntcoords:".$cnt_coords.":<br>";
+//echo "coords:".$coords.":<br>";
+		if ($a_edit_property != "link")
+		{
+			switch ($area_type)
+			{
+				// rectangle
+				case "Rect" :
+					if ($cnt_coords == 0)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_tl_corner"));
+					}
+					if ($cnt_coords == 1)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_br_corner"));
+					}
+					break;
+
+				// circle
+				case "Circle" :
+					if ($cnt_coords == 0)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_center"));
+					}
+					if ($cnt_coords == 1)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_circle"));
+					}
+					break;
+
+				// polygon
+				case "Poly" :
+					if ($cnt_coords == 0)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_starting_point"));
+					}
+					else if ($cnt_coords < 3)
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_next_point"));
+					}
+					else
+					{
+						$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_next_or_save"));
+					}
+					break;
+			}
+		}
+		$this->tpl->parseCurrentBlock();
+
+		$this->tpl->setCurrentBlock("adm_content");
+
+
+		// map properties input fields (name and link)
+		if ($a_save_form)
+		{
+			if ($a_edit_property != "link" && $a_edit_property != "shape")
+			{
+				$this->tpl->setCurrentBlock("edit_name");
+				$this->tpl->setVariable("VAR_NAME2", "area_name");
+				$this->tpl->setVariable("TXT_NAME2", $this->lng->txt("cont_name"));
+				$this->tpl->parseCurrentBlock();
+			}
+
+			if ($a_edit_property != "shape")
+			{
+				$this->tpl->setCurrentBlock("edit_link");
+				$this->tpl->setVariable("TXT_LINK_EXT", $this->lng->txt("cont_link_ext"));
+				$this->tpl->setVariable("TXT_LINK_INT", $this->lng->txt("cont_link_int"));
+				if ($_SESSION["il_map_el_href"] != "")
+				{
+					$this->tpl->setVariable("VAL_LINK_EXT", $_SESSION["il_map_el_href"]);
+				}
+				else
+				{
+					$this->tpl->setVariable("VAL_LINK_EXT", "http://");
+				}
+				$this->tpl->setVariable("VAR_LINK_EXT", "area_link_ext");
+				$this->tpl->setVariable("VAR_LINK_TYPE", "area_link_type");
+				if ($_SESSION["il_map_il_ltype"] != "int")
+				{
+					$this->tpl->setVariable("EXT_CHECKED", "checked=\"1\"");
+				}
+				else
+				{
+					$this->tpl->setVariable("INT_CHECKED", "checked=\"1\"");
+				}
+
+				// internal link
+				$link_str = "";
+				if($_SESSION["il_map_il_target"] != "")
+				{
+					$link_str = $this->getMapAreaLinkString($_SESSION["il_map_il_target"],
+						$_SESSION["il_map_il_type"], $_SESSION["il_map_il_targetframe"]);
+					$this->tpl->setVariable("VAL_LINK_INT", $link_str);
+				}
+
+				// internal link list
+				$this->tpl->setVariable("LINK_ILINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&cmd=showLinkHelp&linkmode=map&mode=page_edit&obj_id=".$_GET["obj_id"]);
+				$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_get_link")."]");
+
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("new_area");
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("BTN_SAVE", "saveArea");
+			if ($a_edit_property == "")
+			{
+				$this->tpl->setVariable("TXT_NEW_AREA", $this->lng->txt("cont_new_area"));
+			}
+			else
+			{
+				$this->tpl->setVariable("TXT_NEW_AREA", $this->lng->txt("cont_edit_area"));
+			}
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("adm_content");
+		}
+
+		// create/update imagemap work copy
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+
+		if ($a_edit_property == "shape")
+		{
+			$st_item->makeMapWorkCopy($a_area_nr, true);	// exclude area currently being edited
+		}
+		else
+		{
+			$st_item->makeMapWorkCopy($a_area_nr, false);
+		}
+
+		if ($a_output_new_area)
+		{
+			$st_item->addAreaToMapWorkCopy($area_type, $coords);
+		}
+
+		// output image map
+		$xml = "<dummy>";
+		$xml.= $this->content_obj->getXML(IL_MODE_ALIAS);
+		$xml.= $this->content_obj->getXML(IL_MODE_OUTPUT);
+		$xml.="</dummy>";
+//echo "xml:".htmlentities($xml).":<br>";
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+		$wb_path = ilUtil::getWebspaceDir("output");
+		$mode = "media";
+		if ($a_get_next_coordinate)
+		{
+			$map_edit_mode = "get_coords";
+		}
+		else
+		{
+			$map_edit_mode = "";
+		}
+		$params = array ('map_edit_mode' => $map_edit_mode,
+			'map_item' => $st_item->getId(), 'mode' => $mode,
+			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
+			'ref_id' => $_GET["ref_id"], 'pg_frame' => "", 'webspace_path' => $wb_path);
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+//echo "<br>html:".htmlentities($output).":<br>";
+		echo xslt_error($xh);
+		xslt_free($xh);
+		$this->tpl->setVariable("IMAGE_MAP", $output);
+
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	*
+	*
+	* @access	private
+	*/
+	function setInternalLink()
+	{
+		$_SESSION["il_map_il_type"] = $_GET["linktype"];
+		$_SESSION["il_map_il_ltype"] = "int";
+
+		$_SESSION["il_map_il_target"] = $_GET["linktarget"];
+//echo "setting1:".$_SESSION["il_map_il_target"].":<br>";
+		$_SESSION["il_map_il_targetframe"] = $_GET["linktargetframe"];
+		switch ($_SESSION["il_map_edit_mode"])
+		{
+			case "edit_link":
+				$this->setLink();
+				break;
+
+			default:
+//echo "addArea";
+				$this->addArea();
+				break;
+		}
+	}
+
+	/**
+	* get text name of internal link
+	*
+	* @param	string		$a_target		target object link id
+	* @param	string		$a_type			type
+	* @param	string		$a_frame		target frame
+	*
+	* @access	private
+	*/
+	function getMapAreaLinkString($a_target, $a_type, $a_frame)
+	{
+		$t_arr = explode("_", $a_target);
+		if ($a_frame != "")
+		{
+			$frame_str = " (".$a_frame." Frame)";
+		}
+		switch($a_type)
+		{
+			case "StructureObject":
+				require_once("content/classes/class.ilLMObject.php");
+				$title = ilLMObject::_lookupTitle($t_arr[count($t_arr) - 1]);
+				$link_str = $this->lng->txt("chapter").
+					": ".$title." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
+				break;
+
+			case "PageObject":
+				require_once("content/classes/class.ilLMObject.php");
+				$title = ilLMObject::_lookupTitle($t_arr[count($t_arr) - 1]);
+				$link_str = $this->lng->txt("page").
+					": ".$title." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
+				break;
+
+			case "GlossaryItem":
+				require_once("content/classes/class.ilGlossaryTerm.php");
+				$term =& new ilGlossaryTerm($t_arr[count($t_arr) - 1]);
+				$link_str = $this->lng->txt("term").
+					": ".$term->getTerm()." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
+				break;
+
+			case "MediaObject":
+				require_once("content/classes/Pages/class.ilMediaObject.php");
+				$mob =& new ilMediaObject($t_arr[count($t_arr) - 1]);
+				$link_str = $this->lng->txt("mob").
+					": ".$mob->getTitle()." [".$t_arr[count($t_arr) - 1]."]".$frame_str;
+				break;
+		}
+
+		return $link_str;
+	}
+
+	/**
+	* update map areas
+	*/
+	function updateAreas()
+	{
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$max = ilMapArea::_getMaxNr($st_item->getId());
+		for ($i=1; $i<=$max; $i++)
+		{
+			$area =& new ilMapArea($st_item->getId(), $i);
+			$area->setTitle(ilUtil::stripSlashes($_POST["name_".$i]));
+			$area->update();
+		}
+		sendInfo($this->lng->txt("cont_saved_map_data"), true);
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
+	}
+
+
+	/**
+	* delete map areas
+	*/
+	function deleteAreas()
+	{
+		if (!isset($_POST["area"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$max = ilMapArea::_getMaxNr($st_item->getId());
+
+		if (count($_POST["area"]) > 0)
+		{
+			$i = 0;
+
+			foreach ($_POST["area"] as $area_nr)
+			{
+				$st_item->deleteMapArea($area_nr - $i);
+				$i++;
+			}
+
+			$this->content_obj->update();
+			sendInfo($this->lng->txt("cont_areas_deleted"), true);
+		}
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
+	}
+
+
+	/**
+	* save new or updated map area
+	*/
+	function saveArea()
+	{
+		switch ($_SESSION["il_map_edit_mode"])
+		{
+			// save edited link
+			case "edit_link":
+				$st_item =& $this->content_obj->getMediaItem("Standard");
+				$max = ilMapArea::_getMaxNr($st_item->getId());
+				$area =& new ilMapArea($st_item->getId(), $_SESSION["il_map_area_nr"]);
+
+				if ($_POST["area_link_type"] == IL_INT_LINK)
+				{
+					$area->setLinkType(IL_INT_LINK);
+					$area->setType($_SESSION["il_map_il_type"]);
+					$area->setTarget($_SESSION["il_map_il_target"]);
+					$area->setTargetFrame($_SESSION["il_map_il_targetframe"]);
+				}
+				else
+				{
+					$area->setLinkType(IL_EXT_LINK);
+					$area->setHref($_POST["area_link_ext"]);
+				}
+				$area->update();
+				break;
+
+			// save edited shape
+			case "edit_shape":
+				$st_item =& $this->content_obj->getMediaItem("Standard");
+				$max = ilMapArea::_getMaxNr($st_item->getId());
+				$area =& new ilMapArea($st_item->getId(), $_SESSION["il_map_area_nr"]);
+
+				$area->setShape($_SESSION["il_map_edit_area_type"]);
+				$area->setCoords($_SESSION["il_map_edit_coords"]);
+				$area->update();
+				break;
+
+			// save new area
+			default:
+				$area_type = $_SESSION["il_map_edit_area_type"];
+				$coords = $_SESSION["il_map_edit_coords"];
+
+				$st_item =& $this->content_obj->getMediaItem("Standard");
+				$max = ilMapArea::_getMaxNr($st_item->getId());
+
+				// make new area object
+				$area = new ilMapArea();
+				$area->setItemId($st_item->getId());
+				$area->setShape($area_type);
+				$area->setCoords($coords);
+				$area->setNr($max + 1);
+				$area->setTitle($_POST["area_name"]);
+				switch($_POST["area_link_type"])
+				{
+					case "ext":
+						$area->setLinkType(IL_EXT_LINK);
+						$area->setHref($_POST["area_link_ext"]);
+						break;
+
+					case "int":
+						$area->setLinkType(IL_INT_LINK);
+						$area->setType($_SESSION["il_map_il_type"]);
+//echo "savingTarget:".$_SESSION["il_map_il_target"].":";
+						$area->setTarget($_SESSION["il_map_il_target"]);
+						$area->setTargetFrame($_SESSION["il_map_il_targetframe"]);
+						break;
+				}
+
+				// put area into item and update media object
+				$st_item->addMapArea($area);
+				$this->content_obj->update();
+				break;
+		}
+
+		$this->initMapParameters();
+		sendInfo($this->lng->txt("cont_saved_map_area"), true);
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
+	}
+
+	function editLink()
+	{
+		$_SESSION["il_map_edit_coords"] = "";
+		$_SESSION["il_map_edit_mode"] = "";
+		$_SESSION["il_map_el_href"] = "";
+		$_SESSION["il_map_il_type"] = "";
+		$_SESSION["il_map_il_ltype"] = "";
+		$_SESSION["il_map_il_target"] = "";
+		$_SESSION["il_map_il_targetframe"] = "";
+		$_SESSION["il_map_area_nr"] = "";
+		$this->setLink(false);
+	}
+
+	/**
+	* set link
+	*/
+	function setLink($a_handle = true)
+	{
+		if($a_handle)
+		{
+			$this->handleMapParameters();
+		}
+		if ($_SESSION["il_map_area_nr"] != "")
+		{
+			$_POST["area"][0] = $_SESSION["il_map_area_nr"];
+		}
+		if (!isset($_POST["area"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["area"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$area =& $st_item->getMapArea($_POST["area"][0]);
+		//$max = ilMapArea::_getMaxNr($st_item->getId());
+
+		if ($_SESSION["il_map_edit_mode"] != "edit_link")
+		{
+			$_SESSION["il_map_area_nr"] = $_POST["area"][0];
+			$_SESSION["il_map_il_ltype"] = $area->getLinkType();
+			$_SESSION["il_map_edit_mode"] = "edit_link";
+			if ($_SESSION["il_map_il_ltype"] == IL_INT_LINK)
+			{
+				$_SESSION["il_map_il_type"] = $area->getType();
+				$_SESSION["il_map_il_target"] = $area->getTarget();
+				$_SESSION["il_map_il_targetframe"] = $area->getTargetFrame();
+			}
+			else
+			{
+				$_SESSION["il_map_el_href"] = $area->getHref();
+			}
+		}
+
+		$this->editMapArea(false, false, true, "link", $_POST["area"][0]);
+	}
+
+	function editShape()
+	{
+		$_SESSION["il_map_area_nr"] = "";
+		$_SESSION["il_map_edit_coords"] = "";
+		$_SESSION["il_map_edit_mode"] = "";
+		$_SESSION["il_map_el_href"] = "";
+		$_SESSION["il_map_il_type"] = "";
+		$_SESSION["il_map_il_ltype"] = "";
+		$_SESSION["il_map_il_target"] = "";
+		$_SESSION["il_map_il_targetframe"] = "";
+		$this->setShape(false);
+	}
+
+	/**
+	* edit shape of existing map area
+	*/
+	function setShape($a_handle = true)
+	{
+		if($a_handle)
+		{
+			$this->handleMapParameters();
+		}
+		if($_POST["areatype2"] != "")
+		{
+			$_SESSION["il_map_edit_area_type"] = $_POST["areatype2"];
+		}
+		if ($_SESSION["il_map_area_nr"] != "")
+		{
+			$_POST["area"][0] = $_SESSION["il_map_area_nr"];
+		}
+		if (!isset($_POST["area"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["area"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$area =& $st_item->getMapArea($_POST["area"][0]);
+		//$max = ilMapArea::_getMaxNr($st_item->getId());
+
+		if ($_SESSION["il_map_edit_mode"] != "edit_shape")
+		{
+			$_SESSION["il_map_area_nr"] = $_POST["area"][0];
+			$_SESSION["il_map_edit_mode"] = "edit_shape";
+		}
+
+
+		$area_type = $_SESSION["il_map_edit_area_type"];
+		$coords = $_SESSION["il_map_edit_coords"];
+		$cnt_coords = ilMapArea::countCoords($coords);
+
+		// decide what to do next
+		switch ($area_type)
+		{
+			// Rectangle
+			case "Rect" :
+				if ($cnt_coords < 2)
+				{
+					$this->editMapArea(true, false, false, "shape", $_POST["area"][0]);
+				}
+				else if ($cnt_coords == 2)
+				{
+					$this->saveArea();
+				}
+				break;
+
+			// Circle
+			case "Circle":
+//echo $coords."BHB".$cnt_coords;
+				if ($cnt_coords <= 1)
+				{
+					$this->editMapArea(true, false, false, "shape", $_POST["area"][0]);
+				}
+				else
+				{
+					if ($cnt_coords == 2)
+					{
+						$c = explode(",",$coords);
+						$coords = $c[0].",".$c[1].",";	// determine radius
+						$coords .= round(sqrt(pow(abs($c[3]-$c[1]),2)+pow(abs($c[2]-$c[0]),2)));
+					}
+					$_SESSION["il_map_edit_coords"] = $coords;
+
+					$this->saveArea();
+				}
+				break;
+
+			// Polygon
+			case "Poly":
+				if ($cnt_coords < 1)
+				{
+					$this->editMapArea(true, false, false, "shape", $_POST["area"][0]);
+				}
+				else if ($cnt_coords < 3)
+				{
+					$this->editMapArea(true, true, false, "shape", $_POST["area"][0]);
+				}
+				else
+				{
+					$this->editMapArea(true, true, true, "shape", $_POST["area"][0]);
+				}
+				break;
+		}
+
+	}
+
+
+	/**
+	*
+	*/
+	function copyToClipboard()
+	{
+		$this->ilias->account->addObjectToClipboard($this->content_obj->getId(), $this->content_obj->getType()
+			, $this->content_obj->getTitle());
+		sendInfo($this->lng->txt("copied_to_clipboard"), true);
+		ilUtil::redirect($this->getReturnLocation());
+	}
+
+	/**
+	*
+	*/
+	function centerAlign()
+	{
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item->setHorizontalAlign("Center");
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		ilUtil::redirect($this->getReturnLocation());
+	}
+
+	function leftAlign()
+	{
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item->setHorizontalAlign("Left");
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		ilUtil::redirect($this->getReturnLocation());
+	}
+
+	function rightAlign()
+	{
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item->setHorizontalAlign("Right");
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		ilUtil::redirect($this->getReturnLocation());
+	}
+
+	function leftFloatAlign()
+	{
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item->setHorizontalAlign("LeftFloat");
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		ilUtil::redirect($this->getReturnLocation());
+	}
+
+	function rightFloatAlign()
+	{
+		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
+		$std_alias_item->setHorizontalAlign("RightFloat");
+		$_SESSION["il_pg_error"] = $this->pg_obj->update();
+		ilUtil::redirect($this->getReturnLocation());
+	}
+
+}
+?>

@@ -553,8 +553,8 @@ class ilPageObjectGUI
 						switch ($_GET["linkmode"])
 						{
 							case "map":
-								require_once("content/classes/Pages/class.ilMediaObjectGUI.php");
-								ilMediaObjectGUI::_recoverParameters();
+								require_once("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+								ilPCMediaObjectGUI::_recoverParameters();
 								$tpl->setCurrentBlock("link_row");
 								$tpl->setVariable("ROWCLASS", "tblrow2");
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
@@ -611,8 +611,8 @@ class ilPageObjectGUI
 						switch ($_GET["linkmode"])
 						{
 							case "map":
-								require_once("content/classes/Pages/class.ilMediaObjectGUI.php");
-								ilMediaObjectGUI::_recoverParameters();
+								require_once("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+								ilPCMediaObjectGUI::_recoverParameters();
 								$tpl->setCurrentBlock("link_row");
 								$tpl->setVariable("ROWCLASS", $css_row);
 								$tpl->setVariable("TXT_CHAPTER", $node["title"]);
@@ -666,8 +666,8 @@ class ilPageObjectGUI
 					switch ($_GET["linkmode"])
 					{
 						case "map":
-							require_once("content/classes/Pages/class.ilMediaObjectGUI.php");
-							ilMediaObjectGUI::_recoverParameters();
+							require_once("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+							ilPCMediaObjectGUI::_recoverParameters();
 							$tpl->setCurrentBlock("link_row");
 							$tpl->setVariable("ROWCLASS", "tblrow2");
 							$tpl->setVariable("TXT_CHAPTER", $term["term"]);
@@ -721,8 +721,8 @@ class ilPageObjectGUI
 					switch ($_GET["linkmode"])
 					{
 						case "map":
-							require_once("content/classes/Pages/class.ilMediaObjectGUI.php");
-							ilMediaObjectGUI::_recoverParameters();
+							require_once("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+							ilPCMediaObjectGUI::_recoverParameters();
 							$tpl->setCurrentBlock("link_row");
 							$tpl->setVariable("ROWCLASS", "tblrow2");
 							$tpl->setVariable("TXT_CHAPTER", $obj["title"]);
@@ -980,16 +980,16 @@ class ilPageObjectGUI
 
 	function createMediaInClipboard()
 	{
-		require_once ("content/classes/Pages/class.ilMediaObjectGUI.php");
-		$mob_gui =& new ilMediaObjectGUI($this->obj, $this->lm_obj);
+		require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+		$mob_gui =& new ilPCMediaObjectGUI($this->obj, $this->lm_obj);
 		$mob_gui->setTargetScript("lm_edit.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		$mob_gui->insert("post", "saveMediaInClipboard");
 	}
 
 	function saveMediaInClipboard()
 	{
-		require_once ("content/classes/Pages/class.ilMediaObjectGUI.php");
-		$mob_gui =& new ilMediaObjectGUI($this->obj, $this->lm_obj);
+		require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+		$mob_gui =& new ilPCMediaObjectGUI($this->obj, $this->lm_obj);
 		$mob =& $mob_gui->create(false);
 		$this->ilias->account->addObjectToClipboard($mob->getId(), "mob", $mob->getTitle());
 		$this->clipboard();
