@@ -399,7 +399,7 @@ class ilUtil
 		$objects = array();
 		
 		// return if root node ist not accessible
-		if ($a_checkpath === true and !$rbacsystem->checkAccess($a_operation, ROOT_FOLDER_ID, $a_type))
+		if ($a_checkpath === true and !$rbacsystem->checkAccess('read', ROOT_FOLDER_ID, $a_type))
 		{
 			return $objects;
 		}
