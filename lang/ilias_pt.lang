@@ -812,6 +812,7 @@ common#:#bookmarks_of#:#Marcadores de
 common#:#btn_remove_system#:#Remover do Sistema
 common#:#btn_undelete#:#Repor
 common#:#by#:#Por
+common#:#bytes#:#Bytes###13 Mar 2005 new variable
 common#:#calendar#:#Calendário
 common#:#cancel#:#Cancelar
 common#:#cannot_find_xml#:#Não pode encontrar nenhum ficheiro XML.

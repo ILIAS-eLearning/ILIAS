@@ -810,6 +810,7 @@ common#:#bookmarks_of#:#Marcadores de
 common#:#btn_remove_system#:#eliminar del sistema
 common#:#btn_undelete#:#recuperaar
 common#:#by#:#por
+common#:#bytes#:#Bytes###13 Mar 2005 new variable
 common#:#calendar#:#Calendario
 common#:#cancel#:#cancelar
 common#:#cannot_find_xml#:#No se puede encontrar ningun fichero XML

@@ -830,6 +830,7 @@ common#:#bookmarks_of#:#的书签
 common#:#btn_remove_system#:#从系统中删除
 common#:#btn_undelete#:#恢复删除
 common#:#by#:#由
+common#:#bytes#:#Bytes###13 Mar 2005 new variable
 common#:#calendar#:#日历
 common#:#cancel#:#撤销
 common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable

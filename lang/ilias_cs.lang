@@ -812,6 +812,7 @@ common#:#bookmarks_of#:#Záložky pro uživatele
 common#:#btn_remove_system#:#Odstranit ze systému
 common#:#btn_undelete#:#Obnovit odstraněné
 common#:#by#:#-###untranslatable in this context!
+common#:#bytes#:#Bytes###13 Mar 2005 new variable
 common#:#calendar#:#Kalendář
 common#:#cancel#:#Storno
 common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable

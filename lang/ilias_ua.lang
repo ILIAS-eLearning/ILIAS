@@ -812,6 +812,7 @@ common#:#bookmarks_of#:#Закладинки
 common#:#btn_remove_system#:#Видалити з Системи
 common#:#btn_undelete#:#Відмінити видалення
 common#:#by#:#
+common#:#bytes#:#Bytes###13 Mar 2005 new variable
 common#:#calendar#:#Календар
 common#:#cancel#:#Відмінити
 common#:#cannot_find_xml#:#Неможливо знайти жнодного XML-файлу.

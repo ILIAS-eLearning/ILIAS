@@ -812,6 +812,7 @@ common#:#bookmarks_of#:#Webcímei:
 common#:#btn_remove_system#:#Eltávolítás a rendszerből
 common#:#btn_undelete#:#Törlés visszavonása
 common#:#by#:#Létrehozta
+common#:#bytes#:#Bytes###13 Mar 2005 new variable
 common#:#calendar#:#Határidőnapló
 common#:#cancel#:#Mégsem
 common#:#cannot_find_xml#:#Nem található XML fájl.

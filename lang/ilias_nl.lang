@@ -812,6 +812,7 @@ common#:#bookmarks_of#:#Bookmarken van
 common#:#btn_remove_system#:#Uit het systeem verwijderen
 common#:#btn_undelete#:#Herstellen
 common#:#by#:#Door
+common#:#bytes#:#Bytes###13 Mar 2005 new variable
 common#:#calendar#:#Kalender
 common#:#cancel#:#Annuleren
 common#:#cannot_find_xml#:#Kan XML-bestand niet vinden.
