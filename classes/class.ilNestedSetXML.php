@@ -178,7 +178,9 @@ class ilNestedSetXML
         */
         static $value_pk;
         
-        if(trim($data)!="") {
+		// we don't need this trim since expression like ' ABC < > ' will be parsed to ' ABC <>'
+        if(1 or trim($data)!="") {
+
 
             if ($this->lastTag == "TAGVALUE")
 			{
@@ -264,6 +266,7 @@ class ilNestedSetXML
         /**
         *   initialize XML-Parser
         */
+
         $this->xml_parser = xml_parser_create("UTF-8");
         xml_parser_set_option($this->xml_parser, XML_OPTION_CASE_FOLDING, false);
         xml_set_object($this->xml_parser,$this);
@@ -897,9 +900,13 @@ class ilNestedSetXML
 				$xml = '<General Structure="' . ilUtil::stripSlashes($meta["Structure"]) . '">';
 				for ($i = 0; $i < count($meta["Identifier"]); $i++)
 				{
-					$xml .= '<Identifier Catalog="' . ilUtil::stripSlashes($meta["Identifier"][$i]["Catalog"]) . '" Entry="' .  str_replace("\"", "", ilUtil::stripSlashes($meta["Identifier"][$i]["Entry"])) . '"/>';
+					$xml .= '<Identifier Catalog="' . ilUtil::stripSlashes($meta["Identifier"][$i]["Catalog"]) . '" Entry="' .  
+						str_replace("\"", "", ilUtil::stripSlashes($meta["Identifier"][$i]["Entry"])) . '"/>';
 				}
-				$xml .= '<Title Language="' . ilUtil::stripSlashes($meta["Title"]["Language"]) . '">' . ilUtil::stripSlashes($meta["Title"]["Value"]) . '</Title>';
+
+				$xml .= '<Title Language="' . 
+					ilUtil::stripSlashes($meta["Title"]["Language"]) . '">' . 
+					ilUtil::stripSlashes($meta["Title"]["Value"]) . '</Title>';
 				for ($i = 0; $i < count($meta["Language"]); $i++)
 				{
 					$xml .= '<Language Language="' . ilUtil::stripSlashes($meta["Language"][$i]["Language"]) . '"/>';
