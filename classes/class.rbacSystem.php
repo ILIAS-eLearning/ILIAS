@@ -51,7 +51,7 @@ class RbacSystem
 	function checkAccess($a_operations,$a_obj_id,$a_parent,$a_type = "")
 	{
 		global $tree, $rbacadmin, $rbacreview, $objDefinition;
-		
+
 		$create = false;
 		$operations = explode(",",$a_operations);
 		$ops = array();
@@ -108,7 +108,6 @@ class RbacSystem
 						}
 					}
 				}
-				
 				if ($create)
 				{
 					continue;
