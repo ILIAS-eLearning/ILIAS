@@ -285,13 +285,31 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function delete()
 	{
+		global $ilDB;
+
 		// always call parent delete function first!!
 		if (!parent::delete())
 		{
 			return false;
 		}
 
-		//put here your module specific stuff
+		// delete meta data of content object
+		$nested = new ilNestedSetXML();
+		$nested->init($this->getId(), $this->getType());
+		$nested->deleteAllDBData();
+
+		// delete bibliographical items of object
+		$nested = new ilNestedSetXML();
+		$nested->init($this->getId(), "bib");
+		$nested->deleteAllDBData();
+
+		// delete file_based_lm record
+		$q = "DELETE FROM file_based_lm WHERE id = ".
+			$ilDB->quote($this->getID());
+		$ilDB->query($q);
+
+		// delete data directory
+		ilUtil::delDir($this->getDataDirectory());
 
 		return true;
 	}
