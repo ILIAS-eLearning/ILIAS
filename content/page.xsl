@@ -404,15 +404,20 @@
 
 
 		<tr><td class="ilc_Mob"><object>
-				<xsl:if test="//MediaObject[@Id=$cmobid]/Parameter[@Name='il_StandardType'][1]/@Value = 'File'">
-					<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
+			<xsl:for-each select="../MediaItem[@Purpose='Fullscreen']">
+
+				<xsl:variable name="citemnr"><xsl:number count="MediaItem" from="MediaAlias"/></xsl:variable>
+
+				<xsl:if test="//MediaObject[@Id=$cmobid]/Technical/Location[$citemnr]/@Type = 'File'">
+					<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[$citemnr]"/></xsl:attribute>
 				</xsl:if>
-				<xsl:if test="//MediaObject[@Id=$cmobid]/Parameter[@Name='il_StandardType'][1]/@Value = 'Reference'">
-					<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/Location[1]"/></xsl:attribute>
+				<xsl:if test="//MediaObject[@Id=$cmobid]/Technical/Location[$citemnr]/@Type = 'Reference'">
+					<xsl:attribute name="data"><xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[$citemnr]"/></xsl:attribute>
 				</xsl:if>
 				<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/@Format"/></xsl:attribute>
 				<xsl:attribute name="width"><xsl:value-of select="../Layout[1]/@Width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="../Layout[1]/@Height"/></xsl:attribute>
+			</xsl:for-each>
 		</object></td></tr>
 
 		<!-- mob caption -->

@@ -562,6 +562,7 @@ class ilLMParser extends ilSaxParser
 
 			case "MediaItem":
 				$this->media_object->addMediaItem($this->media_item);
+//echo "adding media item";
 				break;
 
 			case "MetaData":

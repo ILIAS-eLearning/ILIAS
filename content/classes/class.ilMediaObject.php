@@ -275,15 +275,23 @@ class ilMediaObject extends ilObjMediaObject
 				$xml = "<MediaObject>\n";
 				$xml .= "<MediaAlias OriginId=\"".$this->getId()."\"/>\n";
 				$media_items =& $this->getMediaItems();
+//echo "MediaItems:".count($media_items).":<br>";
 				for($i=0; $i<count($media_items); $i++)
 				{
 					$item =& $media_items[$i];
 					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
 
 					// Layout
-					$xml .= "<Layout Width=\"".$item->getWidth().
-						"\" Height=\"".$item->getHeight()."\" ".
-						"HorizontalAlign=\"".$item->getHAlign()."\"/>\n";
+					$width = ($item->getWidth() != "")
+						? "Width=\"".$item->getWidth()."\""
+						: "";
+					$height = ($item->getHeight() != "")
+						? "Height=\"".$item->getHeight()."\""
+						: "";
+					$halign = ($item->getHAlign() != "")
+						? "HorizontalAlign=\"".$item->getHAlign()."\""
+						: "";
+					$xml .= "<Layout $width $height $halign />\n";
 
 					// Caption
 					if ($item->getCaption() != "")
@@ -323,9 +331,16 @@ class ilMediaObject extends ilObjMediaObject
 					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
 
 					// Layout
-					$xml .= "<Layout Width=\"".$item->getWidth().
-						"\" Height=\"".$item->getHeight()."\" ".
-						"HorizontalAlign=\"".$item->getHAlign()."\"/>\n";
+					$width = ($item->getWidth() != "")
+						? "Width=\"".$item->getWidth()."\""
+						: "";
+					$height = ($item->getHeight() != "")
+						? "Height=\"".$item->getHeight()."\""
+						: "";
+					$halign = ($item->getHAlign() != "")
+						? "HorizontalAlign=\"".$item->getHAlign()."\""
+						: "";
+					$xml .= "<Layout $width $height $halign />\n";
 
 					// Caption
 					if ($item->getCaption() != "")
@@ -345,7 +360,7 @@ class ilMediaObject extends ilObjMediaObject
 				break;
 		}
 		$xml .= "</MediaObject>";
-
+//echo "MEDIAALIAS:<br>".htmlentities($xml)."<br><br>";
 		return $xml;
 	}
 
