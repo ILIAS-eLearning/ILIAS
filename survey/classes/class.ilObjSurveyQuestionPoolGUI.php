@@ -113,7 +113,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if ($_SESSION["survey_id"])
 		{
 			if ($question_id) {
-				$add_question = "&add=$question_id";
+				$add_question = "&browsetype=1&add=$question_id";
 			}
 	    header("location:" . "survey.php" . "?ref_id=" . $_SESSION["survey_id"] . "&cmd=questions$add_question");
 		} 
@@ -377,6 +377,11 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       // Save and continue editing
       if (!$missing_required_fields) {
         $question->object->saveToDb();
+				if ($_SESSION["survey_id"])
+				{
+					$this->cancelAction($question->object->getId());
+					exit;
+				}
 				sendInfo($this->lng->txt("msg_obj_modified"));
       } else {
         sendInfo($this->lng->txt("fill_out_all_required_fields"));
@@ -539,7 +544,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_phrases.html", true);
 		if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
 			if ($_POST["cmd"]["delete_phrase"])
@@ -576,6 +580,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->object->deletePhrases($phrases);
 				sendInfo($this->lng->txt("qpl_phrases_deleted"));
 			}
+			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_phrases.html", true);
 			$ordinal = new SurveyOrdinalQuestion();
 			$phrases =& $ordinal->getAvailablePhrases(1);
 			if (count($phrases))
