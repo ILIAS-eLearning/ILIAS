@@ -106,31 +106,11 @@ class ilObjFile extends ilObject
 	*/
 	function putInTree($a_parent_ref)
 	{
-		$grp_id = $this->getGroupId($a_parent_ref);
+		$grp_id = ilUtil::getGroupId($a_parent_ref);
 		
 		$gtree = new ilGroupTree($grp_id);
 		
 		$gtree->insertNode($this->getRefId(), $a_parent_ref);
-	}
-	
-	/**
-	* get the tree_id of group where folder belongs to
-	* TODO: function is also in ilGroupGUI and ilObjFile. merge them!!
-	* @param	string	ref_id of parent under which folder is inserted
-	* @access	private
-	*/
-	function getGroupId($a_parent_ref = 0)
-	{
-		if ($a_parent_ref == 0)
-		{
-			$a_parent_ref = $this->getRefId();
-		}
-		
-		$q = "SELECT DISTINCT tree FROM grp_tree WHERE child='".$a_parent_ref."'";
-		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow();
-		
-		return $row[0];
 	}
 } // END class.ilObjFile
 ?>

@@ -104,11 +104,11 @@ switch ($obj->getType())
 
 	case "fold":
 		if ($obj_type != "fold")
-		$_GET["ref_id"] = $obj->getGroupId();
+		$_GET["ref_id"] = ilUtil::getGroupId($obj->getRefId());
 		break;
 	case "file":
 		if ($obj_type != "file")
-		$_GET["ref_id"] = $obj->getGroupId();
+		$_GET["ref_id"] = ilUtil::getGroupId($obj->getRefId());
 		break;
 }
 
