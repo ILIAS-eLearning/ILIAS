@@ -38,12 +38,12 @@ dateplaner#:#Day_long#:#Tagesansicht
 dateplaner#:#ERROR_DATE_EXISTS#:#Dieser Termin existiert bereits.
 dateplaner#:#ERROR_DB#:#Database write error!###16 Mar 2004 new variable
 dateplaner#:#ERROR_DB_CONNECT#:#Verbindung zur Datenbank ist unterbrochen..
-dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. Möchten Sie einen oder alle Termine löschen
+dateplaner#:#ERROR_DEL_MSG#:#Dies ist ein Turnustermin. MÃ¶chten Sie einen oder alle Termine lÃ¶schen
 dateplaner#:#ERROR_ENDDATE#:#Falsche Eingaben bei Termin Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ENDTIME#:#Falsche Eingaben bei Termin Enduhrzeit. Format: hh:mm
 dateplaner#:#ERROR_END_START#:#Falsche Eingaben beim Enddatum. Enddatum liegt vom dem Startdatum.
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Bitte eine gültige CSV-Datei angeben.
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstützt kein Java Script. <BR> Bitte schließen Sie dieses Fenster nach dem Eintragen manuell. <BR> Danke</CENTER></B>
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Bitte eine gÃ¼ltige CSV-Datei angeben.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>Ihr Browser unterstÃ¼tzt kein Java Script. <BR> Bitte schlieÃŸen Sie dieses Fenster nach dem Eintragen manuell. <BR> Danke</CENTER></B>
 dateplaner#:#ERROR_ROTATIONEND#:#Falsche Eingaben bei Turnus Enddatum. Format: dd/mm/jjjj
 dateplaner#:#ERROR_ROT_END_START#:#Falsche Eingaben bei Turnus Enddatum. Turnus Enddatum vom dem Startdatum.
 dateplaner#:#ERROR_SHORTTEXT#:#Falsche Eingaben beim Kurztext. Es ist ein Kurztext erforderlich.
@@ -70,38 +70,38 @@ dateplaner#:#View#:#Ansicht:
 dateplaner#:#We_long#:#Mittwoch
 dateplaner#:#We_short#:#Mi
 dateplaner#:#Week_long#:#Wochenansicht
-dateplaner#:#add_data#:#zusätzliche Informationen
+dateplaner#:#add_data#:#zusÃ¤tzliche Informationen
 dateplaner#:#app_#:#Gruppen Termine Eingang
 dateplaner#:#app_date#:#Termin eintragen
 dateplaner#:#app_day#:#Tagesansicht
-dateplaner#:#app_freetime#:#Freie Zeit der Gruppenmitglieder (Zeitfenster wählen)
+dateplaner#:#app_freetime#:#Freie Zeit der Gruppenmitglieder (Zeitfenster wÃ¤hlen)
 dateplaner#:#app_inbox#:#Gruppen Termine Eingang
 dateplaner#:#app_list#:#Terminliste
 dateplaner#:#app_month#:#Monatsansicht
 dateplaner#:#app_properties#:#Einstellungen
 dateplaner#:#app_week#:#Wochenansicht
 dateplaner#:#application#:#Terminplaner
-dateplaner#:#apply#:#übernehmen
-dateplaner#:#back#:#zurück
+dateplaner#:#apply#:#Ã¼bernehmen
+dateplaner#:#back#:#zurÃ¼ck
 dateplaner#:#begin_date#:#Termin Anfang
 dateplaner#:#busytime#:#belegte Zeit innerhalb der Gruppe
 dateplaner#:#c_date#:#erstelle Termin
-dateplaner#:#changeTo#:#Ändern zu:
-dateplaner#:#changedDates#:#Geänderte Gruppen Termine
+dateplaner#:#changeTo#:#Ã„ndern zu:
+dateplaner#:#changedDates#:#GeÃ¤nderte Gruppen Termine
 dateplaner#:#checkforfreetime#:#Finde freien Zeitblock
 dateplaner#:#created#:#erstellt am
 dateplaner#:#date#:#Termin
 dateplaner#:#date_format#:#d.m.Y H:i 
 dateplaner#:#date_format_middle#:#d/m/y
-dateplaner#:#del_all#:#alle Termine löschen
-dateplaner#:#del_one#:#einmalig löschen
-dateplaner#:#delete#:#löschen
-dateplaner#:#deletedDates#:#Gelöschte Gruppen Termine
+dateplaner#:#del_all#:#alle Termine lÃ¶schen
+dateplaner#:#del_one#:#einmalig lÃ¶schen
+dateplaner#:#delete#:#lÃ¶schen
+dateplaner#:#deletedDates#:#GelÃ¶schte Gruppen Termine
 dateplaner#:#discard#:#abweisen
 dateplaner#:#dv_Grouptime#:#unverplante Zeit anzeigen
 dateplaner#:#dv_button_cancel#:#Abbrechen
-dateplaner#:#dv_button_delete#:#Löschen
-dateplaner#:#dv_button_insert#:#Einfügen
+dateplaner#:#dv_button_delete#:#LÃ¶schen
+dateplaner#:#dv_button_insert#:#EinfÃ¼gen
 dateplaner#:#dv_button_update#:#Update###16 Mar 2004 new variable
 dateplaner#:#dv_date_begin#:#Termin Beginn:
 dateplaner#:#dv_date_end#:#Termin Ende:
@@ -122,72 +122,72 @@ dateplaner#:#dv_rotation_end#:#Turnus Ende:
 dateplaner#:#dv_shorttext#:#Kurztext:
 dateplaner#:#dv_startdate#:#Startdatum:
 dateplaner#:#dv_text#:#Text:###16 Mar 2004 new variable
-dateplaner#:#dv_whole_day#:#Ganztägig:
-dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin löschen? (bitte Checkbox anklicken)
+dateplaner#:#dv_whole_day#:#GanztÃ¤gig:
+dateplaner#:#dv_whole_rotation#:#Wollen Sie den gesamten Rotationstermin lÃ¶schen? (bitte Checkbox anklicken)
 dateplaner#:#end_date#:#Termin Ende
-dateplaner#:#endtime_for_view#:#Endzeit für Ansichten:
+dateplaner#:#endtime_for_view#:#Endzeit fÃ¼r Ansichten:
 dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###TEST
 dateplaner#:#extra_dates#:#Ganztages Termine
 dateplaner#:#free#:#frei
 dateplaner#:#freetime#:#freie Zeit innerhalb der Gruppe
 dateplaner#:#group#:#Gruppe
 dateplaner#:#help_day#:#Terminplaner Tagesansicht
-dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewählten Tages angezeigt.
+dateplaner#:#help_day_l#:#In der Tagesansicht werden alle Termine innerhalb eines gewÃ¤hlten Tages angezeigt.
 dateplaner#:#help_enddate#:#Enddatum - Syntax[dd/mm/yyyy]
-dateplaner#:#help_enddate_l#:#Enthält das Enddatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
+dateplaner#:#help_enddate_l#:#EnthÃ¤lt das Enddatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol Ã¶ffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_endrotation#:#Endzeitpunkt Syntax[dd/mm/yyyy]
-dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders 
+dateplaner#:#help_endrotation_l#:#An diesem Tag endet der Rotationstermin.<br>Das nebenstehende Symbol Ã¶ffnet die Eintragshilfe in Form eines kleinen Kalenders 
 dateplaner#:#help_endtime#:#Endezeit - Syntax[hh/mm] 24h Format
-dateplaner#:#help_endtime_l#:#Enthält die Endzeit im 24 h Format des zu erstellenden Termins.
-dateplaner#:#help_fullday#:#Ganztägiger Termin - Syntax[an/aus]
-dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wählen.<br> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
+dateplaner#:#help_endtime_l#:#EnthÃ¤lt die Endzeit im 24 h Format des zu erstellenden Termins.
+dateplaner#:#help_fullday#:#GanztÃ¤giger Termin - Syntax[an/aus]
+dateplaner#:#help_fullday_l#:#Ist der zu erstellende Termin ein Termin der einen ganzen Tag betrifft so ist diese Option zu wÃ¤hlen.<br> Dabei werden dann das Startzeit,  Enddatum und Endzeit ausgeblendet.
 dateplaner#:#help_further#:#<br> <b>weitere Informationen durch klicken.</b>
 dateplaner#:#help_group#:#Gruppentermine Auswahl
-dateplaner#:#help_group_l#:#Beinhaltet die Gruppen für die der angemeldete User Administratorenrechte hat und für die ein Termin erstellt werden kann. <br> Nach der Auswahl ist es möglich die unverplante Zeit der Gruppe zu erkennen.
+dateplaner#:#help_group_l#:#Beinhaltet die Gruppen fÃ¼r die der angemeldete User Administratorenrechte hat und fÃ¼r die ein Termin erstellt werden kann. <br> Nach der Auswahl ist es mÃ¶glich die unverplante Zeit der Gruppe zu erkennen.
 dateplaner#:#help_inbox#:#Terminplaner Inbox
-dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geänderten und gelöschten Gruppentermine angezeigt.
-dateplaner#:#help_keyword#:#Schlüsselwort / Keyword Auswahl
-dateplaner#:#help_keywordUse#:#Keywords/Schlüsselwörter/Schlagwörter Auswahl
-dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere Schlüsselwörter wählen. <br>TIP: die STRG Taste gedrückt halten um mehrere auszuwählen.
-dateplaner#:#help_keyword_l#:#Beinhaltet die Schlüsselwörter die der User ein Termin zuordnen kann.
+dateplaner#:#help_inbox_l#:#Hier werden alle neuen, geÃ¤nderten und gelÃ¶schten Gruppentermine angezeigt.
+dateplaner#:#help_keyword#:#SchlÃ¼sselwort / Keyword Auswahl
+dateplaner#:#help_keywordUse#:#Keywords/SchlÃ¼sselwÃ¶rter/SchlagwÃ¶rter Auswahl
+dateplaner#:#help_keywordUse_l#:#Im Auswahlfeld ein oder mehrere SchlÃ¼sselwÃ¶rter wÃ¤hlen. <br>TIP: die STRG Taste gedrÃ¼ckt halten um mehrere auszuwÃ¤hlen.
+dateplaner#:#help_keyword_l#:#Beinhaltet die SchlÃ¼sselwÃ¶rter die der User ein Termin zuordnen kann.
 dateplaner#:#help_list#:#Terminplaner Terminliste
-dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewählten Zeitraumes angezeigt.
+dateplaner#:#help_list_l#:#In der Terminliste werden alle Termine eines gewÃ¤hlten Zeitraumes angezeigt.
 dateplaner#:#help_month#:#Terminplaner Monatsansicht
-dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewählten Monates angezeigt.
-dateplaner#:#help_properties_alt#:#Verändert das Schlüsselwort
-dateplaner#:#help_properties_alt_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen.<br>Im Bereich Schlagwörter im Feld Ändern zu das Schlüsselwort ändern. Wichtig: max. 20 Zeichen.
-dateplaner#:#help_properties_del#:#Löscht das Schlüsselwort
-dateplaner#:#help_properties_del_l#:#Im Bereich Schlagwörter im Auswahlfeld ein Schlüsselwort wählen. Auf nebenstehenden löschen Button klicken
+dateplaner#:#help_month_l#:#In der Monatsansicht werden alle Termine innerhalb eines gewÃ¤hlten Monates angezeigt.
+dateplaner#:#help_properties_alt#:#VerÃ¤ndert das SchlÃ¼sselwort
+dateplaner#:#help_properties_alt_l#:#Im Bereich SchlagwÃ¶rter im Auswahlfeld ein SchlÃ¼sselwort wÃ¤hlen.<br>Im Bereich SchlagwÃ¶rter im Feld Ã„ndern zu das SchlÃ¼sselwort Ã¤ndern. Wichtig: max. 20 Zeichen.
+dateplaner#:#help_properties_del#:#LÃ¶scht das SchlÃ¼sselwort
+dateplaner#:#help_properties_del_l#:#Im Bereich SchlagwÃ¶rter im Auswahlfeld ein SchlÃ¼sselwort wÃ¤hlen. Auf nebenstehenden lÃ¶schen Button klicken
 dateplaner#:#help_properties_import#:#Importieren von Outlook-CSV-Dateien
-dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewählt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.
-dateplaner#:#help_properties_new#:#Schlüßelwort hinzufügen max. 20 Zeichen
-dateplaner#:#help_properties_new_l#:#Im Bereich Schlagwörter im Feld neu ein Schlüsselwort einfügen. Wichtig: max. 20 Zeichen.
-dateplaner#:#help_properties_time#:#Zeiteinstellung für Tages/Wochenansicht
-dateplaner#:#help_properties_time_l#:#Den Zeitraum (Uhrzeit) der Anzeige die in der Tages-/Wochenansicht für Termine bestimmt ist, kann in den Einstellungen verändert werden. Termine außerhalb dieses Zeitraumes werden natürlich trotzdem angezeigt. Standard ist 8-18 Uhr.
+dateplaner#:#help_properties_import_l#:#Hier kann eine CSV Datei ausgewÃ¤hlt werden die durch den Terminplaner von Outlook erstellt wurde, um diese zu importieren.
+dateplaner#:#help_properties_new#:#SchlÃ¼ÃŸelwort hinzufÃ¼gen max. 20 Zeichen
+dateplaner#:#help_properties_new_l#:#Im Bereich SchlagwÃ¶rter im Feld neu ein SchlÃ¼sselwort einfÃ¼gen. Wichtig: max. 20 Zeichen.
+dateplaner#:#help_properties_time#:#Zeiteinstellung fÃ¼r Tages/Wochenansicht
+dateplaner#:#help_properties_time_l#:#Den Zeitraum (Uhrzeit) der Anzeige die in der Tages-/Wochenansicht fÃ¼r Termine bestimmt ist, kann in den Einstellungen verÃ¤ndert werden. Termine auÃŸerhalb dieses Zeitraumes werden natÃ¼rlich trotzdem angezeigt. Standard ist 8-18 Uhr.
 dateplaner#:#help_rotation#:#Rotation###16 Mar 2004 new variable
 dateplaner#:#help_rotation_l#:#Beinhaltet die Art der Rotation / Wiederkehrung.
 dateplaner#:#help_shorttext#:#Kurztext max 50 Zeichen
 dateplaner#:#help_shorttext_l#:#Hier wird der Kurztext eingetragen den ein Termin haben soll.
 dateplaner#:#help_startdate#:#Startdatum - Syntax[dd/mm/yyyy]
-dateplaner#:#help_startdate_l#:#Enthält das Startdatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol öffnet die Eintragshilfe in Form eines kleinen Kalenders
+dateplaner#:#help_startdate_l#:#EnthÃ¤lt das Startdatum des zu erstellenden Termins. <br> Dies kann z.B. das Datum sein an dem der Termin stattfindet.<br>Das nebenstehende Symbol Ã¶ffnet die Eintragshilfe in Form eines kleinen Kalenders
 dateplaner#:#help_starttime#:#Startzeit - Syntax[hh/mm] 24h Format
-dateplaner#:#help_starttime_l#:#Enthält die Startzeit im 24 h Format des zu erstellenden Termins.
+dateplaner#:#help_starttime_l#:#EnthÃ¤lt die Startzeit im 24 h Format des zu erstellenden Termins.
 dateplaner#:#help_text#:#Text###16 Mar 2004 new variable
 dateplaner#:#help_text_l#:#Hier wird der Text eingetragen den ein Termin haben soll.
 dateplaner#:#help_week#:#Terminplaner Wochenansicht
-dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewählten Woche angezeigt.
+dateplaner#:#help_week_l#:#In der Wochenansicht werden alle Termine innerhalb einer gewÃ¤hlten Woche angezeigt.
 dateplaner#:#hour#:#Stunde
 dateplaner#:#importDates#:#Importieren von Outlook Kalender Daten
 dateplaner#:#inbox#:#Eingang###16 Mar 2004 new variable
 dateplaner#:#insertImportDates#:#Folgende Termine wurden eingetragen:
 dateplaner#:#k_alldates#:#alle Termine
-dateplaner#:#keep#:#unverändert
+dateplaner#:#keep#:#unverÃ¤ndert
 dateplaner#:#keyword#:#Schlagwort
-dateplaner#:#keywords#:#Schlagwörter
-dateplaner#:#last_change#:#letzte Änderung am
+dateplaner#:#keywords#:#SchlagwÃ¶rter
+dateplaner#:#last_change#:#letzte Ã„nderung am
 dateplaner#:#long_01#:#Januar
 dateplaner#:#long_02#:#Februar
-dateplaner#:#long_03#:#März
+dateplaner#:#long_03#:#MÃ¤rz
 dateplaner#:#long_04#:#April###16 Mar 2004 new variable
 dateplaner#:#long_05#:#Mai
 dateplaner#:#long_06#:#Juni
@@ -198,25 +198,25 @@ dateplaner#:#long_10#:#Oktober
 dateplaner#:#long_11#:#November###16 Mar 2004 new variable
 dateplaner#:#long_12#:#Dezember
 dateplaner#:#main_dates#:#Normale Termine
-dateplaner#:#menue#:#Menü
+dateplaner#:#menue#:#MenÃ¼
 dateplaner#:#mmonth#:#letzter Monat
 dateplaner#:#month#:#Monat
 dateplaner#:#more#:#weitere
 dateplaner#:#mweek#:#letzte Woche
 dateplaner#:#myeahr#:#letztes Jahr
 dateplaner#:#newDates#:#Neue Gruppen Termine
-dateplaner#:#execute#:#Aktionen ausführen
+dateplaner#:#execute#:#Aktionen ausfÃ¼hren
 dateplaner#:#newKeyword#:#Neu:
 dateplaner#:#new_doc#:#neuer Termin
 dateplaner#:#no_entry#:#keine Termine vorhanden
 dateplaner#:#o_day_date#:#24h Termin
 dateplaner#:#of#:#von
 dateplaner#:#open_day#:#Tagesansicht
-dateplaner#:#pmonth#:#nächsten Monat
+dateplaner#:#pmonth#:#nÃ¤chsten Monat
 dateplaner#:#printlist#:#Termin Liste ausdrucken
 dateplaner#:#properties#:#Einstellungen
-dateplaner#:#pweek#:#nächste Woche
-dateplaner#:#pyear#:#nächstes Jahr
+dateplaner#:#pweek#:#nÃ¤chste Woche
+dateplaner#:#pyear#:#nÃ¤chstes Jahr
 dateplaner#:#r_14#:#alle 14 Tage
 dateplaner#:#r_4_weeks#:#alle 4 Wochen
 dateplaner#:#r_day#:#jeden Tag
@@ -231,7 +231,7 @@ dateplaner#:#rotation_dates#:#Turnus Termine
 dateplaner#:#semester_name#:#Semester Name###16 Mar 2004 new variable
 dateplaner#:#short_01#:#Jan###16 Mar 2004 new variable
 dateplaner#:#short_02#:#Feb###16 Mar 2004 new variable
-dateplaner#:#short_03#:#Mär
+dateplaner#:#short_03#:#MÃ¤r
 dateplaner#:#short_04#:#Apr###16 Mar 2004 new variable
 dateplaner#:#short_05#:#Mai
 dateplaner#:#short_06#:#Jun###16 Mar 2004 new variable
@@ -243,7 +243,7 @@ dateplaner#:#short_11#:#Nov###16 Mar 2004 new variable
 dateplaner#:#short_12#:#Dec###16 Mar 2004 new variable
 dateplaner#:#shorttext#:#Kurztext
 dateplaner#:#singleDate#:#Einzeltermin
-dateplaner#:#starttime_for_view#:#Startzeit für Ansichten:
+dateplaner#:#starttime_for_view#:#Startzeit fÃ¼r Ansichten:
 dateplaner#:#timedate#:#Zeit / Datum
 dateplaner#:#timeslice#:#Zeitraum:
 dateplaner#:#title#:#Ilias Terminplaner
@@ -251,4 +251,5 @@ dateplaner#:#to#:#bis
 dateplaner#:#today#:#Heute
 dateplaner#:#viewlist#:#Ansicht aktualisieren
 dateplaner#:#week#:#Woche
+dateplaner#:#wk_short#:#KW
 dateplaner#:#year#:#Jahr
