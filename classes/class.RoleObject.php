@@ -14,7 +14,7 @@ class RoleObject extends Object
 	* Constructor
 	* @access	public
 	*/
-	function RoleObject($a_id = 0,$a_call_by_reference = "")
+	function RoleObject($a_id = 0,$a_call_by_reference = false)
 	{
 		$this->Object($a_id,$a_call_by_reference);
 		$this->type = "role";

@@ -3,7 +3,7 @@
 * Class RootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.RootFolderObject.php,v 1.4 2003/02/11 14:41:11 akill Exp $
+* @version $Id$Id: class.RootFolderObject.php,v 1.5 2003/03/10 10:55:41 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -14,7 +14,7 @@ class RootFolderObject extends Object
 	* Constructor
 	* @access public
 	*/
-	function RootFolderObject($a_id,$a_call_by_reference = "")
+	function RootFolderObject($a_id,$a_call_by_reference = true)
 	{
 		$this->Object($a_id,$a_call_by_reference);
 	}

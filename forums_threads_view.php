@@ -9,15 +9,18 @@
 */
 require_once "./include/inc.header.php";
 require_once "classes/class.Forum.php";
+require_once "classes/class.Object.php";
+require_once "classes/class.ForumObject.php";
 
-
+$forumObj = new ForumObject($_GET["ref_id"]);
 $frm = new Forum();
+$frm->setForumId($forumObj->getId());
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-if (!$rbacsystem->checkAccess("read", $_GET["obj_id"]))
+if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }
@@ -25,25 +28,38 @@ if (!$rbacsystem->checkAccess("read", $_GET["obj_id"]))
 $tpl->setVariable("TXT_FORUM_ARTICLES", $lng->txt("forums_posts"));
 
 if ($_GET["feedback"] != "")
+{
 	$tpl->setVariable("TXT_FORM_FEEDBACK", $_GET["feedback"]);
+}
 
 // sorting val for posts
-if ($_GET["orderby"] == "") $old_order = "answers";
-else $old_order = $_GET["orderby"];
-if ($old_order == "date") {
+if ($_GET["orderby"] == "")
+{
+	$old_order = "answers";
+}
+else
+{
+	$old_order = $_GET["orderby"];
+}
+
+if ($old_order == "date")
+{
 	$new_order = "answers";
 	$orderField = "frm_posts_tree.date";
 }
-else {
+else
+{
 	$new_order = "date";
 	$orderField = "frm_posts_tree.rgt";
 }
-$tpl->setVariable("LINK_SORT", "<b>></b><a href=\"forums_threads_view.php?orderby=".$new_order."&thr_pk=".$_GET["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."\">".$lng->txt("order_by")." ".$lng->txt($new_order)."</a>");
+
+$tpl->setVariable("LINK_SORT", "<b>></b><a href=\"forums_threads_view.php?orderby=".$new_order."&thr_pk=".$_GET["thr_pk"]."&ref_id=".$_GET["ref_id"]."\">".$lng->txt("order_by")." ".$lng->txt($new_order)."</a>");
 
 // get forum- and thread-data
-$frm->setWhereCondition("top_frm_fk = ".$_GET["obj_id"]);
-if (is_array($topicData = $frm->getOneTopic())) {
+$frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 
+if (is_array($topicData = $frm->getOneTopic()))
+{
 	$frm->setWhereCondition("thr_pk = ".$_GET["thr_pk"]);
 	$threadData = $frm->getOneThread();
 
@@ -59,29 +75,31 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	$tpl->touchBlock("locator_separator");
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_overview"));
-	$tpl->setVariable("LINK_ITEM", "forums.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+	$tpl->setVariable("LINK_ITEM", "forums.php?ref_id=".$_GET["ref_id"]);
 	$tpl->parseCurrentBlock();
 
 	$tpl->touchBlock("locator_separator");
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_topics_overview").": ".$topicData["top_name"]);
-	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+	$tpl->setVariable("LINK_ITEM", "forums_threads_liste.php?ref_id=".$_GET["ref_id"]);
 	$tpl->parseCurrentBlock();
 		
 	$tpl->setCurrentBlock("locator_item");
 	$tpl->setVariable("ITEM", $lng->txt("forums_thread_articles").": ".$threadData["thr_subject"]);
-	$tpl->setVariable("LINK_ITEM", "forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+	$tpl->setVariable("LINK_ITEM", "forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&ref_id=".$_GET["ref_id"]);
 	$tpl->parseCurrentBlock();
 		
-	if ($rbacsystem->checkAccess("write", $_GET["obj_id"]))
+	if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	{
 		$tpl->setCurrentBlock("btn_cell");
-		$tpl->setVariable("BTN_LINK","forums_threads_new.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]);
+		$tpl->setVariable("BTN_LINK","forums_threads_new.php?ref_id=".$_GET["ref_id"]);
 		$tpl->setVariable("BTN_TXT", $lng->txt("forums_new_thread"));
 		$tpl->parseCurrentBlock();
 	}
-	else $tpl->setVariable("NO_BTN", "<br><br>"); 
-	
+	else
+	{
+		$tpl->setVariable("NO_BTN", "<br/><br/>"); 
+	}
 	// ********************************************************************************
 	
 	// form processing (edit & reply)
@@ -95,9 +113,10 @@ if (is_array($topicData = $frm->getOneTopic())) {
 		);
 		
 		$errors = TUtil::checkFormEmpty($checkEmptyFields);
+
 		if ($errors != "")
 		{
-			$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("form_empty_fields")."<br>".$errors);
+			$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("form_empty_fields")."<br/>".$errors);
 		}
 		else
 		{			
@@ -111,7 +130,9 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			{				
 				// edit: update post
 				if ($frm->updatePost($formData["message"], $_GET["pos_pk"]))
+				{
 					$tpl->setVariable("TXT_FORM_FEEDBACK", $lng->txt("forums_post_modified"));
+				}
 			}
 		}
 	}
@@ -124,7 +145,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 		// if complete thread was deleted ...
 		if ($dead_thr == $_GET["thr_pk"])
 		{
-			header("location: forums.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&feedback=".urlencode($lng->txt("forums_post_deleted")));
+			header("location: forums.php?ref_id=".$_GET["ref_id"]."&feedback=".urlencode($lng->txt("forums_post_deleted")));
 			exit();
 		}
 		
@@ -147,19 +168,26 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	if ($posNum > $pageHits)
 	{
 		$params = array(
-			"obj_id"		=> $_GET["obj_id"],	
-			"parent"		=> $_GET["parent"],
+			"ref_id"		=> $_GET["ref_id"],	
 			"thr_pk"		=> $_GET["thr_pk"],		
 			"orderby"		=> $_GET["orderby"]
 		);
 		
-		if (!$_GET["offset"]) $Start = 0;
-		else $Start = $_GET["offset"];
+		if (!$_GET["offset"])
+		{
+			$Start = 0;
+		}
+		else
+		{
+			$Start = $_GET["offset"];
+		}
 		
 		$linkbar = TUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$posNum,$pageHits,$Start,$params);
 		
 		if ($linkbar != "")
+		{
 			$tpl->setVariable("LINKBAR", $linkbar);
+		}
 	}
 	
 	// assistance val for anchor-links
@@ -169,23 +197,27 @@ if (is_array($topicData = $frm->getOneTopic())) {
 	foreach($subtree_nodes as $node)
 	{
 		if ($_GET["pos_pk"] && $_GET["pos_pk"] == $node["pos_pk"])
+		{
 			$jump ++;
+		}
 		
 		if ($posNum > $pageHits && $z >= ($Start+$pageHits))
 		{
 			// if anchor-link was not found ...
 			if ($_GET["pos_pk"] && $jump < 1)
 			{
-				header("location: forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&pos_pk=".$_GET["pos_pk"]."&offset=".($Start+$pageHits)."&orderby=".$_GET["orderby"]);
+				header("location: forums_threads_view.php?thr_pk=".$_GET["thr_pk"]."&ref_id=".$_GET["ref_id"]."&pos_pk=".$_GET["pos_pk"]."&offset=".($Start+$pageHits)."&orderby=".$_GET["orderby"]);
 				exit();
 			}
-			else break;
+			else
+			{
+				break;
+			}
 		}
 		
 		if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
 		{
-					
-			if ($rbacsystem->checkAccess("write", $_GET["obj_id"])) 
+			if ($rbacsystem->checkAccess("write", $_GET["ref_id"])) 
 			{
 				// reply/edit
 				if (($_GET["cmd"] == "showreply" || $_GET["cmd"] == "showedit") && $_GET["pos_pk"] == $node["pos_pk"])
@@ -194,26 +226,34 @@ if (is_array($topicData = $frm->getOneTopic())) {
 					$tpl->setVariable("REPLY_ANKER", $_GET["pos_pk"]);
 					
 					if ($_GET["cmd"] == "showreply")
+					{
 						$tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_your_reply"));
+					}
 					else
+					{
 						$tpl->setVariable("TXT_FORM_HEADER", $lng->txt("forums_edit_post"));
-						
+					}
+	
 					$tpl->setVariable("TXT_FORM_MESSAGE", $lng->txt("forums_the_post"));
 					
 					if ($_GET["cmd"] == "showreply")
+					{
 						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],1));
+					}
 					else
+					{
 						$tpl->setVariable("FORM_MESSAGE", $frm->prepareText($node["message"],2));
-						
+					}
+
 					$tpl->setVariable("SUBMIT", $lng->txt("submit"));
 					$tpl->setVariable("RESET", $lng->txt("reset"));
-					$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_".$_GET["cmd"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);
+					$tpl->setVariable("FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_".$_GET["cmd"]."&ref_id=".$_GET["ref_id"]."&pos_pk=".$_GET["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);
 					$tpl->parseCurrentBlock("reply_post");
 				}
 				else
 				{						
 					// button: delete article
-					if ($rbacsystem->checkAccess("delete post", $_GET["obj_id"]))
+					if ($rbacsystem->checkAccess("delete post", $_GET["ref_id"]))
 					{
 						// 2. delete-level
 						if ($_GET["cmd"] == "delete" && $_GET["pos_pk"] == $node["pos_pk"])
@@ -222,7 +262,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 							$tpl->setVariable("KILL_ANKER", $_GET["pos_pk"]);
 							$tpl->setVariable("KILL_SPACER","<hr noshade width=100% size=1 align='center'>"); 
 							$tpl->setVariable("TXT_KILL", $lng->txt("forums_info_delete_post"));								
-							$tpl->setVariable("DEL_FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_delete&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);							
+							$tpl->setVariable("DEL_FORMACTION", basename($_SERVER["PHP_SELF"])."?cmd=ready_delete&ref_id=".$_GET["ref_id"]."&pos_pk=".$node["pos_pk"]."&thr_pk=".$_GET["thr_pk"]."&offset=".$Start."&orderby=".$_GET["orderby"]);							
 							$tpl->setVariable("CANCEL_BUTTON", $lng->txt("cancel")); 
 							$tpl->setVariable("CONFIRM_BUTTON", $lng->txt("confirm")); 
 							$tpl->parseCurrentBlock("kill_cell");
@@ -231,7 +271,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 						{
 							// 1. delete-level
 							$tpl->setCurrentBlock("del_cell");
-							$tpl->setVariable("DEL_BUTTON","<a href=\"forums_threads_view.php?cmd=delete&pos_pk=".$node["pos_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("delete")."</a>"); 
+							$tpl->setVariable("DEL_BUTTON","<a href=\"forums_threads_view.php?cmd=delete&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("delete")."</a>"); 
 							$tpl->parseCurrentBlock("del_cell");
 						}
 					}
@@ -242,14 +282,14 @@ if (is_array($topicData = $frm->getOneTopic())) {
 						if ($frm->checkEditRight($node["pos_pk"]))
 						{
 							$tpl->setCurrentBlock("edit_cell");
-							$tpl->setVariable("EDIT_BUTTON","<a href=\"forums_threads_view.php?cmd=showedit&pos_pk=".$node["pos_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("edit")."</a>"); 
+							$tpl->setVariable("EDIT_BUTTON","<a href=\"forums_threads_view.php?cmd=showedit&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("edit")."</a>"); 
 							$tpl->parseCurrentBlock("edit_cell");
 						}
 						
 						// button: reply
 						$tpl->setCurrentBlock("reply_cell");
 						$tpl->setVariable("SPACER","<hr noshade width=100% size=1 align='center'>"); 
-						$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".$node["pos_pk"]."&obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("reply")."</a>"); 
+						$tpl->setVariable("REPLY_BUTTON","<a href=\"forums_threads_view.php?cmd=showreply&pos_pk=".$node["pos_pk"]."&ref_id=".$_GET["ref_id"]."&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."#".$node["pos_pk"]."\">".$lng->txt("reply")."</a>"); 
 						$tpl->parseCurrentBlock("reply_cell");
 						
 						$tpl->setVariable("POST_ANKER", $node["pos_pk"]);		
@@ -268,7 +308,7 @@ if (is_array($topicData = $frm->getOneTopic())) {
 			// get author data
 			unset($author);
 			$author = $frm->getUser($node["author"]);	
-			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author->getLastName()."</a>"); 
+			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".$node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".$_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author->getLastName()."</a>"); 
 			
 			// get create- and update-dates
 			if ($node["update_user"] > 0)

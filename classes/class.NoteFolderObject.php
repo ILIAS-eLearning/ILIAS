@@ -21,7 +21,7 @@ class NoteFolderObject extends Object
 	* @param	integer 	user_id 
 	* @access	public
 	*/
-	function NoteFolderObject($user_id = 0,$a_call_by_reference = "")
+	function NoteFolderObject($user_id = 0,$a_call_by_reference = true)
 	{
 		$this->Object($user_id,$a_call_by_reference);
 		

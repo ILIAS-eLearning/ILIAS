@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ObjectOut.php,v 1.40 2003/03/14 23:17:55 akill Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.41 2003/03/17 11:56:22 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -79,16 +79,22 @@ class ObjectOut
 		$this->data = $a_data;
 		$this->id = $a_id;
 		$this->call_by_reference = $a_call_by_reference;
+
+		$this->ref_id = $_GET["ref_id"];
+		$this->obj_id = $_GET["obj_id"];
+
+		// TODO: id_name is wrong & useless. In case of a given obj_id BOTH ids are needed!!
 		if ($this->call_by_reference)
 		{
 			$this->id_name = "ref_id";
+			$this->link_params = "ref_id=".$this->ref_id."&obj_id=".$this->obj_id;
+			
 		}
 		else
 		{
 			$this->id_name = "obj_id";
+			$this->link_params = "ref_id=".$this->ref_id;
 		}
-		$this->ref_id = $_GET["ref_id"];
-		$this->obj_id = $_GET["obj_id"];
 	}
 
 	/**
@@ -98,10 +104,12 @@ class ObjectOut
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$title = $this->object->getTitle();
+
 		if(!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
+
 		$this->setAdminTabs();
 		$this->setLocator();
 	}
@@ -342,6 +350,7 @@ class ObjectOut
 			$data["fields"]["desc"] = "";
 
 			$this->getTemplateFile("edit");
+
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
@@ -372,9 +381,6 @@ class ObjectOut
 			$newObj->setTitle($_POST["Fobject"]["title"]);
 			$newObj->setDescription($_POST["Fobject"]["desc"]);
 			$newObj->create();
-
-			//$this->id = createNewObject($_GET["new_type"], $_POST["Fobject"]["title"], $_POST["Fobject"]["desc"]);
-			//$ref_id = createNewReference($newObj->GetId());
 			$newObj->createReference();
 			$newObj->putInTree($_GET["ref_id"]);
 
@@ -384,6 +390,7 @@ class ObjectOut
 		{
 			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
 		}
+
 		header("Location: adm_object.php?".$this->id_name."=".$this->id."&cmd=view");
 		exit();
 	}

@@ -60,7 +60,7 @@ class LanguageFolderObject extends Object
 	* @access	public
 	* @param	integer	object id
 	*/
-	function LanguageFolderObject($a_id,$a_call_by_reference = "")
+	function LanguageFolderObject($a_id,$a_call_by_reference = true)
 	{
 		$this->Object($a_id,$a_call_by_reference);
 

@@ -26,9 +26,11 @@ class ForumObject extends Object
 	* @param	integer	$a_id object id
 	* @access	public
 	*/
-	function ForumObject($a_id = 0,$a_call_by_reference = "")
+	function ForumObject($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->Object($a_id,$a_call_by_reference);
+		
+		// TODO: needs to rewrite scripts that are using Forum outside this class
 		$this->Forum = new Forum();
 	}
 
@@ -49,7 +51,6 @@ class ForumObject extends Object
 		$newFrm_ID = parent::create();
 	}
 
-
 	/**
 	* put forum into tree
 	*/
@@ -60,8 +61,8 @@ class ForumObject extends Object
 		// put forum in tree
 		parent::putInTree($a_parent);
 
-		// create new forum tree
-		$tree->addTree($this->id);
+		// create new forum tree -- DEPRECATED. no extra tree for forum objects!!
+		//$tree->addTree($this->id);
 
 		// create a local role-folder
 		require_once "class.RoleFolderObject.php";
@@ -81,12 +82,10 @@ class ForumObject extends Object
 		$roleObj = new RoleObject();
 		$roleObj->setTitle("moderator_".$this->ref_id);
 		$roleObj->setDescription("moderator of forum ref_no.".$this->ref_id);
-
-		//$role_data["title"] = "moderator_".$newFrm_ID;
-		//$role_data["desc"] = "moderator of forum no.".$newFrm_ID;
 		$roleObj->create();
-		$roleObj->createReference();
-		$roleObj->putInTree($rfoldObj->getRefId());
+		
+		//$roleObj->createReference();
+		//$roleObj->putInTree($rfoldObj->getRefId());
 
 		//$roleID = $roleObj->saveObject($rolF_ID, $newFrm_ID , $role_data);
 
