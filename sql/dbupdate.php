@@ -5000,3 +5000,7 @@ UPDATE settings SET value = '3.2.3 2004-11-22' WHERE keyword = 'ilias_version' L
 $tree = new ilTree(ROOT_FOLDER_ID);
 $tree->renumber();
 ?>
+
+<#341>
+REPLACE INTO settings (keyword, value) VALUES ('enable_js_edit', 1);
+
