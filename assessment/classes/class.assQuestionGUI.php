@@ -496,8 +496,8 @@ class ASS_QuestionGUI extends PEAR {
 				$filename = $thispair->get_matchingtext();
 				if ($filename) {
 					//$this->tpl->setVariable("UPLOADED_IMAGE", $thispair->get_matchingtext());
-					$imagepath = $this->question->get_image_path() . $thispair->get_matchingtext();
-					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"displaythumb.php?gfx=$imagepath&size=100\" alt=\"\" border=\"\" />");
+					$imagepath = $this->question->get_image_path_web() . $thispair->get_matchingtext();
+					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $thispair->get_matchingtext() . "\" border=\"\" />");
 					$this->tpl->setVariable("IMAGE_FILENAME", $thispair->get_matchingtext());
 					$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
 				}
@@ -625,8 +625,8 @@ class ASS_QuestionGUI extends PEAR {
 				$this->tpl->setCurrentBlock("imageupload");
 				//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
 				$this->tpl->parse("imageupload");
-				$imagepath = $this->question->get_image_path() . $img;
-				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"displaythumb.php?gfx=$imagepath&size=100\" alt=\"\" border=\"\" />");
+				$imagepath = $this->question->get_image_path_web() . $img;
+				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"$img\" border=\"\" />");
 			} else {
 				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
 			}
@@ -1219,8 +1219,8 @@ class ASS_QuestionGUI extends PEAR {
       }
       $this->tpl->setVariable("COUNTER", $value->get_matchingtext_order());
 			if ($this->question->get_matching_type() == MT_TERMS_PICTURES) {
-				$imagepath = $this->question->get_image_path() . $value->get_matchingtext();
-				$this->tpl->setVariable("MATCHING_TEXT", "<img src=\"displaythumb.php?gfx=$imagepath&size=100\" alt=\"\" border=\"\" />");
+				$imagepath = $this->question->get_image_path_web() . $value->get_matchingtext();
+				$this->tpl->setVariable("MATCHING_TEXT", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $value->get_matchingtext() . "\" border=\"\" />");
 			} else {
 	      $this->tpl->setVariable("MATCHING_TEXT", "<strong>" . $value->get_matchingtext() . "</strong>");
   		}
@@ -1269,7 +1269,8 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("IMAGEMAP_QUESTION_HEADLINE", $this->question->get_title());
     $this->tpl->setVariable("IMAGEMAP_QUESTION", $this->question->get_question());
     $this->tpl->setVariable("IMAGEMAP", $this->question->get_imagemap_contents());
-    $this->tpl->setVariable("IMAGE", "../".$this->question->get_image_filename());
+		$imagepath = $this->question->get_image_path_web() . $this->question->get_image_filename();
+    $this->tpl->setVariable("IMAGE", $imagepath);
     $this->tpl->setVariable("IMAGEMAP_NAME", $this->question->get_title());
 
     $this->tpl->parseCurrentBlock();

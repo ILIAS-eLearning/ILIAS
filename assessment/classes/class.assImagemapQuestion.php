@@ -359,6 +359,12 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			}
 			if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename)) {
 				print "image not uploaded!!!! ";
+			} else {
+				// create thumbnail file
+				$size = 100;
+				$thumbpath = $imagepath . $image_filename . "." . "thumb.jpg";
+				$convert_cmd = ilUtil::getConvertCmd() . " $imagepath$image_filename -resize $sizex$size $thumbpath";
+				system($convert_cmd);
 			}
 		}
   }
