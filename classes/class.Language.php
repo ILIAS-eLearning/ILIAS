@@ -128,6 +128,13 @@ class Language
 		else
 		{
 			$this->lang_path = getcwd().substr($this->ilias->ini->readVariable("language","path"),1);
+			
+			// if no directory was found fall back to default lang dir
+			if (!is_dir($this->lang_path))
+			{
+				$this->lang_path = getcwd()."/lang";
+			}
+			
 			$this->lang_default = $this->ilias->ini->readVariable("language","default");
 			$this->lang_user = $this->ilias->account->prefs["language"];
 			
