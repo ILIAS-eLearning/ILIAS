@@ -52,12 +52,12 @@ class ilSCORMExplorer extends ilExplorer
 	function ilSCORMExplorer($a_target, &$a_slm_obj)
 	{
 		parent::ilExplorer($a_target);
-		$this->slm_obj =& $a_slm_obj;
+		$this->slm_obj =& $a_slm_obj;		
 		$this->tree = new ilSCORMTree($a_slm_obj->getId());
-		$this->root_id = $this->tree->readRootId();
-		$this->checkPermissions(false);
-		$this->setOrderColumn("");
+		$this->root_id = $this->tree->readRootId();						
+		$this->checkPermissions(false);		
 		$this->outputIcons(false);
+		$this->setOrderColumn("");
 	}
 
 
@@ -102,6 +102,223 @@ class ilSCORMExplorer extends ilExplorer
 			: -(int) $a_child;
 
 		return $_SERVER["PATH_INFO"]."?cmd=explorer&ref_id=".$this->slm_obj->getRefId()."&mexpand=".$a_child;
+	}
+	
+	function setOutput($a_parent_id, $a_depth = 0)
+	{		
+		global $rbacadmin, $rbacsystem;
+		static $counter = 0;
+
+		if (!isset($a_parent_id))
+		{
+			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
+		}
+
+		if ($this->showChilds($a_parent_id))
+		{			
+			$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
+		}
+		else
+		{
+			$objects = array();
+		}				
+
+		if (count($objects) > 0)
+		{
+			$tab = ++$a_depth - 2;
+			// Maybe call a lexical sort function for the child objects
+			
+			//666if ($this->post_sort)
+			//{
+				//$objects = $this->sortNodes($objects);
+			//}
+
+			foreach ($objects as $key => $object)
+			{				
+				//ask for FILTER																
+				if ($this->filtered == false or $this->checkFilter($object["type"]) == false)
+				{
+					if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
+					{
+						if ($object["child"] != $this->tree->getRootId())
+						{
+							$parent_index = $this->getIndex($object);
+						}
+						$this->format_options["$counter"]["parent"]		= $object["parent"];
+						$this->format_options["$counter"]["child"]		= $object["child"];
+						$this->format_options["$counter"]["title"]		= $object["title"];
+						$this->format_options["$counter"]["type"]		= $object["type"];
+						$this->format_options["$counter"]["obj_id"]		= $object["obj_id"];
+						$this->format_options["$counter"]["desc"] 		= "obj_".$object["type"];
+						$this->format_options["$counter"]["depth"]		= $tab;
+						$this->format_options["$counter"]["container"]	= false;
+						$this->format_options["$counter"]["visible"]	= true;
+						
+						// Create prefix array
+						for ($i = 0; $i < $tab; ++$i)
+						{							
+							 $this->format_options["$counter"]["tab"][] = 'blank';
+						}												
+														
+						if ($object["type"]=="sos")
+							$this->setExpand($object["obj_id"]);
+						
+						if ($object["child"] != $this->tree->getRootId() and (!in_array($object["parent"],$this->expanded)
+						   or !$this->format_options["$parent_index"]["visible"]))
+						{
+							$this->format_options["$counter"]["visible"] = false;
+						}
+
+						// if object exists parent is container
+						if ($object["child"] != $this->tree->getRootId())
+						{
+							$this->format_options["$parent_index"]["container"] = true;
+
+							if (in_array($object["parent"],$this->expanded))
+							{
+								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+							}
+							else
+							{
+								$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
+							}
+						}
+
+						++$counter;
+
+						// stop recursion if 2. level beyond expanded nodes is reached
+						if (in_array($object["parent"],$this->expanded) or ($object["parent"] == 0))
+						{
+							// recursive
+							$this->setOutput($object["child"],$a_depth);
+						}
+					} //if
+				} //if FILTER
+			} //foreach
+		} //if
+	} //function
+
+
+/**
+	* Creates output
+	* recursive method
+	* @access	public
+	* @return	string
+	*/
+	function getOutput()
+	{
+		$this->format_options[0]["tab"] = array();
+
+		$depth = $this->tree->getMaximumDepth();
+
+		for ($i=0;$i<$depth;++$i)
+		{
+			$this->createLines($i);
+		}
+
+		foreach ($this->format_options as $key => $options)
+		{
+			if ($options["visible"] and $key != 0)
+			{				
+				$this->formatObject($options["child"],$options);
+			}		
+		}
+
+		return implode('',$this->output);
+	}
+
+
+/**
+	* Creates output
+	* recursive method
+	* @access	private
+	* @param	integer
+	* @param	array
+	* @return	string
+	*/
+	function formatObject($a_node_id,$a_option)
+	{
+		global $lng;
+		//return "777";
+
+		if (!isset($a_node_id) or !is_array($a_option))
+		{
+			$this->ilias->raiseError(get_class($this)."::formatObject(): Missing parameter or wrong datatype! ".
+									"node_id: ".$a_node_id." options:".var_dump($a_option),$this->ilias->error_obj->WARNING);
+		}
+
+		$tpl = new ilTemplate("tpl.tree.html", true, true);
+
+	 	if ($a_option["type"]=="sos")
+			return "666";
+		
+		if ($a_option["type"]=="srs")
+			return "666";
+		
+		foreach ($a_option["tab"] as $picture)
+		{
+			if ($picture == 'plus')
+			{
+				$target = $this->createTarget('+',$a_node_id);
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
+				$tpl->parseCurrentBlock();
+			}
+
+			if ($picture == 'minus')
+			{
+				$target = $this->createTarget('-',$a_node_id);
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
+				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
+				$tpl->parseCurrentBlock();
+			}
+
+			if ($picture == 'blank' or $picture == 'winkel'
+			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
+			{
+				$tpl->setCurrentBlock("lines");
+				$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".gif"));
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		if ($this->output_icons)
+		{
+			$tpl->setCurrentBlock("icon");
+			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+			$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+			$tpl->parseCurrentBlock();
+		}
+
+		if ($this->isClickable($a_option["type"], $a_node_id))	// output link
+		{
+			$tpl->setCurrentBlock("link");
+			//$target = (strpos($this->target, "?") === false) ?
+			//	$this->target."?" : $this->target."&";
+			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
+			$tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($a_node_id, $a_option["type"]));
+			$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
+
+			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
+			if ($frame_target != "")
+			{
+				$tpl->setVariable("TARGET", " target=\"".$frame_target."\"");
+			}
+			$tpl->parseCurrentBlock();
+		}
+		else			// output text only
+		{
+			$tpl->setCurrentBlock("text");
+			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setCurrentBlock("row");
+		$tpl->parseCurrentBlock();
+
+		$this->output[] = $tpl->get();
 	}
 }
 ?>
