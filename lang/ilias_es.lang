@@ -113,10 +113,12 @@ common#:#choose_location#:#Choose Location###06 Aug 2003 new variable
 common#:#choose_only_one_language#:#Please choose only one language.###20 Mar 2003 new variable
 common#:#city#:#ciudad
 common#:#clear#:#clear
+common#:#clipboard#:#Clipboard###15 Sep 2003 new variable
 common#:#comma_separated#:#comma separated
 common#:#comment#:#comment###13 May 2003 new variable
 common#:#compose#:#compose
 common#:#confirm#:#confirm
+common#:#cont_object#:#Object###15 Sep 2003 new variable
 common#:#contact_data#:#Contact Information###25 Mar 2003 new variable
 common#:#context#:#context
 common#:#copy#:#copy
