@@ -33,7 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-common#:#3rd_party_software#:#software di terze parti###19 Nov 2003 new variable
+common#:#3rd_party_software#:#Software di terze parti###19 Nov 2003 new variable
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#access#:#Accesso
@@ -55,7 +55,7 @@ common#:#and#:#e###20 Aug 2003 new variable
 common#:#announce#:#Annuncia
 common#:#announce_changes#:#Annuncia cambiamenti
 common#:#answers#:#Rispondi
-common#:#application_completed#:#Application is complete###11 Dec 2003 new variable
+common#:#application_completed#:#Richiesta completata
 common#:#application_date#:#Data della richiesta###06 Nov 2003 new variable
 common#:#appointment#:#Appuntamento###01 Sep 2003 new variable
 common#:#appointment_list#:#Lista appuntamenti###01 Sep 2003 new variable
@@ -64,7 +64,7 @@ common#:#are_you_sure#:#Sei sicuro?
 common#:#assign#:#Assegna###26 Sep 2003 new variable
 common#:#assign_lo_forum#:#Assegna il forum
 common#:#assign_user_to_role#:#Assegna l&#039;utente al ruolo###29 Mar 2003 new variable
-common#:#at_location#:#at location###06 Aug 2003 new variable
+common#:#at_location#:#alla locazione###06 Aug 2003 new variable
 common#:#attachment#:#Attachment###28 Mar 2003 new variable
 common#:#attachments#:#Attachment###28 Mar 2003 new variable
 common#:#author#:#Autore
@@ -79,11 +79,11 @@ common#:#bookmark_edit#:#Modifica il preferito###09 Apr 2003 new variable
 common#:#bookmark_folder_edit#:#Modifica la cartella dei preferiti###09 Apr 2003 new variable
 common#:#bookmark_folder_new#:#Nuova cartella dei preferiti###09 Apr 2003 new variable
 common#:#bookmark_new#:#Nuovo preferito
-common#:#bookmark_target#:#Target###09 Apr 2003 new variable
+common#:#bookmark_target#:#Obiettivo###09 Apr 2003 new variable
 common#:#bookmarks#:#Preferiti
 common#:#bookmarks_of#:#Preferiti di###09 Apr 2003 new variable
 common#:#btn_remove_system#:#Rimuovi dal sistema
-common#:#btn_undelete#:#undelete
+common#:#btn_undelete#:#annulla la cancellazione
 common#:#by#:#da
 common#:#calendar#:#Calendario###01 Sep 2003 new variable
 common#:#cancel#:#Cancella
@@ -97,7 +97,7 @@ common#:#cat_edit#:#Modifica categoria###01 Sep 2003 new variable
 common#:#cat_new#:#Nuova categoria###06 Aug 2003 new variable
 common#:#categories#:#Categorie
 common#:#cc#:#cc
-common#:#censorship#:#censorship###13 May 2003 new variable
+common#:#censorship#:#moderatore###13 May 2003 new variable
 common#:#change#:#Cambia
 common#:#change_active_assignment#:#Cambia assegnazione attiva###07 Aug 2003 new variable
 common#:#change_assignment#:#Cambia assegnazione###04 Aug 2003 new variable
@@ -152,15 +152,15 @@ common#:#database#:#Database
 common#:#database_version#:#Versione attuale del database
 common#:#dataset#:#Dataset###04 Jun 2003 new variable
 common#:#date#:#Data
-common#:#dateplaner#:#Dateplaner###16 Dec 2003 new variable
+common#:#dateplaner#:#Agenda###16 Dec 2003 new variable
 common#:#day#:#Giorno###01 Sep 2003 new variable
 common#:#days#:#Giorni###25 Mar 2003 new variable
-common#:#db_host#:#Host database
-common#:#db_name#:#Nome database
+common#:#db_host#:#Macchina con il database
+common#:#db_name#:#Nome del database
 common#:#db_need_update#:#Occorre aggiornare il database!###19 Nov 2003 new variable
-common#:#db_pass#:#Password database
-common#:#db_type#:#Tipo database
-common#:#db_user#:#Utente database
+common#:#db_pass#:#Password del database
+common#:#db_type#:#Tipo del database
+common#:#db_user#:#Utente del database
 common#:#db_version#:#Versione database
 common#:#dbk#:#Libro digitale###02 Oct 2003 new variable
 common#:#dbk_a#:#un libro digitale###02 Oct 2003 new variable
@@ -205,9 +205,9 @@ common#:#err_1_param#:#Solo 1 parametro!###26 Mar 2003 new variable
 common#:#err_2_param#:#Solo 2 parametri!###26 Mar 2003 new variable
 common#:#err_count_param#:#Causa: errato numero dei parametri.###26 Mar 2003 new variable
 common#:#err_in_line#:#Errore nella linea###26 Mar 2003 new variable
-common#:#err_no_langfile_found#:#Non trovato il file della lingua!###26 Mar 2003 new variable
+common#:#err_no_langfile_found#:#Non ho trovato il file della lingua!###26 Mar 2003 new variable
 common#:#err_no_param#:#Manca il parametro!###26 Mar 2003 new variable
-common#:#err_over_3_param#:#Ci sono pi&ugrave; 3 parametri!###26 Mar 2003 new variable
+common#:#err_over_3_param#:#Ci sono pi&#249; 3 parametri!###26 Mar 2003 new variable
 common#:#err_session_expired#:#La sessione &#232; scaduta!###04 Aug 2003 new variable
 common#:#err_wrong_header#:#Causa: errata intestazione.###26 Mar 2003 new variable
 common#:#err_wrong_login#:#Tentativo di accesso errato
@@ -241,7 +241,7 @@ common#:#exc_status_saved#:#Esercizio aggiornato###06 Nov 2003 new variable
 common#:#exc_status_solved#:#Risolto###06 Nov 2003 new variable
 common#:#exc_upload_error#:#Errore nell&#039; upload del file###06 Nov 2003 new variable
 common#:#exc_users#:#Utenti###07 Nov 2003 new variable
-common#:#excs#:#Exercises###17 Dec 2003 new variable
+common#:#excs#:#Esercizi###17 Dec 2003 new variable
 common#:#execute#:#Esegui
 common#:#export_html#:#Esporta come file html###09 May 2003 new variable
 common#:#export_xml#:#Esporta come file xml###09 May 2003 new variable
@@ -267,14 +267,14 @@ common#:#fold_a#:#una cartella###01 Oct 2003 new variable
 common#:#fold_add#:#Aggiungi una cartella###01 Oct 2003 new variable
 common#:#fold_added#:#Cartella aggiunta###01 Oct 2003 new variable
 common#:#fold_new#:#Nuova cartella###01 Oct 2003 new variable
-common#:#folder#:#folder###11 Dec 2003 new variable
+common#:#folder#:#Cartella###11 Dec 2003 new variable
 common#:#folders#:#Cartelle
 common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!###29 Oct 2003 new variable
 common#:#forename#:#Nome
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
 common#:#forums#:#Forum###15 May 2003 new variable
-common#:#forums_overview#:#Forums Overview###09 Aug 2003 new variable
+common#:#forums_overview#:#Descrizione Forum###09 Aug 2003 new variable
 common#:#frm#:#Forum
 common#:#frm_a#:#Un forum###06 Aug 2003 new variable
 common#:#frm_add#:#Aggiungi forum###06 Aug 2003 new variable
@@ -322,7 +322,7 @@ common#:#group_registration_mode#:#Tipo di registrazione###06 Nov 2003 new varia
 common#:#group_req_password#:#E&#039; richiesta la password di registrazione###01 Nov 2003 new variable
 common#:#group_req_registration#:#E&#039; richiesta la registrazione###01 Nov 2003 new variable
 common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi essere registrato. Sar&#224; l&#039;amministratore del gruppo che ti assegner&#224; la password. Per favore, specifica i motivi della tua richiesta.<br>Quando verrai assegnato al gruppo riceverai una mail.###01 Nov 2003 new variable
-common#:#group_reset#:#Reset del gruppo###26 Nov 2003 new variable
+common#:#group_reset#:#Azzeramento del gruppo###26 Nov 2003 new variable
 common#:#group_status#:#Stato del gruppo###29 Apr 2003 new variable
 common#:#group_status_closed#:#Chiuso###29 Apr 2003 new variable
 common#:#group_status_public#:#Pubblico###29 Apr 2003 new variable
@@ -334,8 +334,8 @@ common#:#grp_add#:#Aggiungi gruppo###06 Aug 2003 new variable
 common#:#grp_added#:#Aggiunto gruppo###16 Jul 2003 new variable
 common#:#grp_edit#:#Modifica gruppo###01 Sep 2003 new variable
 common#:#grp_err_administrator_required#:#Questo membro non pu&#242; essere rimosso, &#232; richiesto almeno un amministratore per gruppo!###26 Nov 2003 new variable
-common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator###11 Dec 2003 new variable
-common#:#grp_err_error#:#An error occured###11 Dec 2003 new variable
+common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Per ogni gruppo &#232; obbligatorio almeno un amministratore
+common#:#grp_err_error#:#Si &#232; verificato un errore
 common#:#grp_err_last_member#:#L&#039;ultimo membro non pu&#242; essere eliminato, puoi invece  eliminare il gruppo.###26 Nov 2003 new variable
 common#:#grp_err_member_could_not_be_removed#:#Questo membro non pu&#242; essere rimosso. Verifica tutte le sue dipendenze.###26 Nov 2003 new variable
 common#:#grp_err_no_permission#:#Non hai i diritti per eseguire questa operazione.###26 Nov 2003 new variable
@@ -343,7 +343,7 @@ common#:#grp_err_registration_data#:#Per favore, inserisci la password, la data 
 common#:#grp_mem_change_status#:#Cambia stato del membro###02 Oct 2003 new variable
 common#:#grp_mem_leave#:#Togli il membro dal gruppo###02 Oct 2003 new variable
 common#:#grp_mem_send_mail#:#Invia una mail al membro###02 Oct 2003 new variable
-common#:#grp_msg_membership_annulled#:#Membership annulled###11 Dec 2003 new variable
+common#:#grp_msg_membership_annulled#:#Membership annulled
 common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegli un altro nome.###17 Oct 2003 new variable
 common#:#grp_new#:#Nuovo gruppo###06 Aug 2003 new variable
 common#:#grp_register#:#Registra###21 Nov 2003 new variable
@@ -374,8 +374,8 @@ common#:#info_deleted#:#Oggetti cancellati
 common#:#info_trash#:#Oggetti cancellati
 common#:#inform_user_mail#:#Invia una email per informare gli utenti dei cambiamenti###25 Mar 2003 new variable
 common#:#information_abbr#:#Informazioni
-common#:#ingmedia_all_offers#:#All LE###01 Oct 2003 new variable
-common#:#ingmedia_back_to_le#:#Back to LE###01 Oct 2003 new variable
+common#:#ingmedia_all_offers#:#Tutti i LE###01 Oct 2003 new variable
+common#:#ingmedia_back_to_le#:#Torna ai LE###01 Oct 2003 new variable
 common#:#ingmedia_good_afternoon#:#Buon pomeriggio###01 Oct 2003 new variable
 common#:#ingmedia_good_evening#:#Buona sera###01 Oct 2003 new variable
 common#:#ingmedia_good_morning#:#Buon giorno###01 Oct 2003 new variable
@@ -404,38 +404,38 @@ common#:#inst_name#:#Nome dell&#039;installazione
 common#:#install#:#Installa
 common#:#installed#:#Installato
 common#:#institution#:#Istituzione
-common#:#internal_system#:#Internal system###25 Mar 2003 new variable
+common#:#internal_system#:#Sistema interno###25 Mar 2003 new variable
 common#:#ip_address#:#Indirizzo IP
 common#:#is_already_your#:#&#232; gi&#224;###20 Mar 2003 new variable
 common#:#item#:#item
 common#:#kb#:#KByte###25 Mar 2003 new variable
 common#:#keywords#:#Parole chiave
-common#:#lang_cz#:#Czech###11 Dec 2003 new variable
+common#:#lang_cz#:#Ceco
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#Tedesco
 common#:#lang_dk#:#Danese
 common#:#lang_en#:#Inglese
 common#:#lang_es#:#Spagnolo
-common#:#lang_fi#:#Finnish###11 Dec 2003 new variable
+common#:#lang_fi#:#Finnico
 common#:#lang_fr#:#Francese
-common#:#lang_gr#:#Greek###11 Dec 2003 new variable
+common#:#lang_gr#:#Greco
 common#:#lang_id#:#Indonesiano
 common#:#lang_it#:#Italiano
-common#:#lang_ja#:#Japanese###11 Dec 2003 new variable
-common#:#lang_lt#:#Lithuanian###11 Dec 2003 new variable
-common#:#lang_nl#:#Dutch###11 Dec 2003 new variable
-common#:#lang_no#:#Norvegese###11 Dec 2003 content changed
+common#:#lang_ja#:#Giapponese
+common#:#lang_lt#:#Lituano
+common#:#lang_nl#:#Olandese
+common#:#lang_no#:#Norvegese
 common#:#lang_path#:#Percorso lingue
 common#:#lang_pl#:#Polacco
-common#:#lang_pt#:#Portuguese###11 Dec 2003 new variable
+common#:#lang_pt#:#Portoghese
 common#:#lang_se#:#Svedese
 common#:#lang_sep_decimal#:#,
 common#:#lang_sep_thousand#:#.
 common#:#lang_timeformat#:#H:i:s
-common#:#lang_ua#:#Ukrainian###11 Dec 2003 new variable
+common#:#lang_ua#:#Ucraino
 common#:#lang_version#:#1
 common#:#lang_xx#:#Custom
-common#:#lang_zh#:#Simplified Chinese###11 Dec 2003 new variable
+common#:#lang_zh#:#Cinese semplificato
 common#:#langfile_found#:#Trovato file###26 Mar 2003 new variable
 common#:#language#:#Lingua
 common#:#language_not_installed#:#Non &#232; installato. Per favore, prima installa la lingua.###20 Mar 2003 new variable
@@ -457,18 +457,18 @@ common#:#list_of_pages#:#Lista di pagine
 common#:#list_of_questions#:#Lista di domande
 common#:#literature#:#Letteratura
 common#:#literature_bookmarks#:#Preferiti letteratura
-common#:#lm#:#Learning Module###14 May 2003 new variable
+common#:#lm#:#Learning module###14 May 2003 new variable
 common#:#lm_a#:#un Learning module###06 Aug 2003 new variable
-common#:#lm_add#:#Aggiungi Learning Module###06 Aug 2003 new variable
-common#:#lm_added#:#Aggiunto Learning Module###16 Jul 2003 new variable
+common#:#lm_add#:#Aggiungi un Learning Module###06 Aug 2003 new variable
+common#:#lm_added#:#Aggiunto un Learning Module###16 Jul 2003 new variable
 common#:#lm_new#:#Nuovo Learning Module###06 Aug 2003 new variable
 common#:#lng#:#Lingua
-common#:#lngf#:#lngf
+common#:#lngf#:#Lingua
 common#:#lo#:#Learning Object
 common#:#lo_available#:#Learning Object disponibili
 common#:#lo_categories#:#Categorie Learning Object
 common#:#lo_edit#:#Modifica Learning Object
-common#:#lo_new#:#Nuova Learning Object
+common#:#lo_new#:#Nuovo Learning Object
 common#:#lo_no_content#:#Non ci sono risorse disponibili###07 Feb 2003 new variable
 common#:#lo_other_langs#:#Learning Object in altre lingue
 common#:#lo_overview#:#Descrizione Learning Object
@@ -487,7 +487,7 @@ common#:#mail#:#Posta
 common#:#mail_a_root#:#Posta###25 Mar 2003 new variable
 common#:#mail_addressbook#:#Rubrica###28 Mar 2003 new variable
 common#:#mail_allow_smtp#:#Consenti SMTP###25 Mar 2003 new variable
-common#:#mail_b_inbox#:#Arrivate###25 Mar 2003 new variable
+common#:#mail_b_inbox#:#Ricevute###25 Mar 2003 new variable
 common#:#mail_c_trash#:#Eliminate###25 Mar 2003 new variable
 common#:#mail_d_drafts#:#Bozze###25 Mar 2003 new variable
 common#:#mail_delete_error#:#Errore nella cancellazione della(e) mail###25 Mar 2003 new variable
@@ -608,7 +608,7 @@ common#:#new_appointment#:#Nuovo appuntamento###01 Sep 2003 new variable
 common#:#new_folder#:#Nuova cartella
 common#:#new_group#:#Nuovo gruppo
 common#:#new_language#:#Nuova lingua
-common#:#new_mail#:#Nuova mail!###28 Mar 2003 new variable
+common#:#new_mail#:#Nuova email!###28 Mar 2003 new variable
 common#:#news#:#Novit&#224;
 common#:#next#:#Successivo###30 May 2003 new variable
 common#:#nickname#:#Soprannome
@@ -621,13 +621,13 @@ common#:#no_grp_in_personal_list#:#Nessun gruppo nella lista personale.###29 Oct
 common#:#no_import_available#:#Importazione non disponibile per il tipo###18 Jun 2003 new variable
 common#:#no_lo_in_personal_list#:#Nessuna lezione nella lista personale.###19 Aug 2003 new variable
 common#:#no_objects#:#Nessun oggetto
-common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
+common#:#no_permission_to_join#:#Non puoi far parte di questo gruppo!
 common#:#no_title#:#Nessun titolo
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
 common#:#not_installed#:#Non installato
-common#:#not_logged_in#:#Your are not logged in###12 Aug 2003 new variable
-common#:#obj#:#obj
+common#:#not_logged_in#:#Non sei entrato in ILIAS###12 Aug 2003 new variable
+common#:#obj#:#Oggetto
 common#:#obj_adm#:#Impostazioni di sistema###15 May 2003 new variable
 common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS.###01 Oct 2003 new variable
 common#:#obj_cat#:#Categoria###15 May 2003 new variable
@@ -698,16 +698,16 @@ common#:#passwd_not_match#:#I valori della nuova password non sono uguali! Per f
 common#:#passwd_wrong#:#La password inserita &#232; sbagliata!###25 Mar 2003 new variable
 common#:#password#:#Password
 common#:#paste#:#Incolla
-common#:#pasteChapter#:#Incolla###19 Sep 2003 new variable
-common#:#pastePage#:#Incolla###19 Sep 2003 new variable
-common#:#path#:#path
+common#:#pasteChapter#:#Incolla capitolo###19 Sep 2003 new variable
+common#:#pastePage#:#Incolla pagina###19 Sep 2003 new variable
+common#:#path#:#percorso
 common#:#path_not_set#:#Persorso non specificato###19 Nov 2003 new variable
-common#:#path_to_babylon#:#Percorso a BABYLON
+common#:#path_to_babylon#:#Percorso di BABYLON
 common#:#path_to_convert#:#Percorso a CONVERT
 common#:#path_to_htmldoc#:#Percorso ad HTMLdoc###19 Nov 2003 new variable
-common#:#path_to_java#:#Percorso a JAVA
-common#:#path_to_unzip#:#Percorso a UNZIP
-common#:#path_to_zip#:#Percorso a ZIP
+common#:#path_to_java#:#Percorso di JAVA
+common#:#path_to_unzip#:#Percorso di UNZIP
+common#:#path_to_zip#:#Percorso di ZIP
 common#:#pathes#:#Percorsi###20 Mar 2003 new variable
 common#:#payment_system#:#Sistema a pagamento
 common#:#perm_settings#:#Modifica i permessi
@@ -758,7 +758,7 @@ common#:#registered_since#:#Registrato dal###25 Mar 2003 content changed
 common#:#registered_user#:#Utente registrato###29 Oct 2003 new variable
 common#:#registered_users#:#Utenti registrati###29 Oct 2003 new variable
 common#:#registration#:#Nuova registrazione###19 Aug 2003 new variable
-common#:#registration_expired#:#Registration period expired...###11 Dec 2003 new variable
+common#:#registration_expired#:#Periodo di prova della registrazione terminato...
 common#:#remove#:#Elimina###02 Oct 2003 new variable
 common#:#remove_translation#:#Elimina la traduzione###01 Sep 2003 new variable
 common#:#rename#:#Renomina###28 Mar 2003 new variable
@@ -831,7 +831,7 @@ common#:#show_owner#:#Mostra il proprietario
 common#:#show_structure#:#Abilita la vista della struttura###29 Oct 2003 new variable
 common#:#signature#:#Firma
 common#:#slm#:#SCORM LM###18 Jun 2003 new variable
-common#:#slm_added#:#Aggiunto LearningModule SCORM###16 Jul 2003 new variable
+common#:#slm_added#:#Aggiunto un LearningModule SCORM###16 Jul 2003 new variable
 common#:#smtp#:#SMTP###20 Mar 2003 new variable
 common#:#sort_by_this_column#:#Ordina secondo questa colonna###30 May 2003 new variable
 common#:#st_a#:#un capitolo###18 Sep 2003 new variable
@@ -849,7 +849,7 @@ common#:#subcat_name#:#Nome sottocategoria
 common#:#subchapter_new#:#Nuovo paragrafo
 common#:#subject#:#Oggetto
 common#:#submit#:#Invia
-common#:#subobjects#:#Subobjects###04 Aug 2003 new variable
+common#:#subobjects#:#sotto oggetti###04 Aug 2003 new variable
 common#:#subscription#:#Abbonamento
 common#:#summary#:#Riassunto
 common#:#system#:#Sistema
@@ -863,7 +863,7 @@ common#:#test_intern#:#Test interno
 common#:#time#:#Ora
 common#:#title#:#Titolo
 common#:#to#:#A:###04 Apr 2003 content changed
-common#:#to_client_list#:#To Client selection###11 Dec 2003 new variable
+common#:#to_client_list#:#Alla lista di Client###11 Dec 2003 new variable
 common#:#to_desktop#:#Al desktop###19 Aug 2003 new variable
 common#:#today#:#Oggi
 common#:#total#:#Totale
@@ -882,7 +882,7 @@ common#:#uninstall#:#Rimuovi
 common#:#uninstalled#:#Rimosso.###20 Mar 2003 new variable
 common#:#unknown#:#Sconosciuto
 common#:#unread#:#Non letto
-common#:#unsubscribe#:#unsubscribe###29 Oct 2003 new variable
+common#:#unsubscribe#:#Annulla iscrizione###29 Oct 2003 new variable
 common#:#up#:#Su###02 Sep 2003 new variable
 common#:#update_applied#:#Aggiornamento effettuato
 common#:#update_language#:#Lingua aggiornata
@@ -893,8 +893,8 @@ common#:#user#:#Utente
 common#:#user_added#:#Utente aggiunto###02 Apr 2003 new variable
 common#:#user_assignment#:#Utente assegnato###04 Aug 2003 new variable
 common#:#user_deleted#:#Utente cancellato###10 Jul 2003 new variable
-common#:#user_language#:#Lingua utente###20 Mar 2003 new variable
-common#:#user_not_chosen#:#You did not choose a group-member!###16 Dec 2003 new variable
+common#:#user_language#:#la tua lingua utente###20 Mar 2003 new variable
+common#:#user_not_chosen#:#Non hai scelto un membro del gruppo!
 common#:#userdata#:#Dati utente###29 Oct 2003 content changed
 common#:#username#:#Nome utente###29 Oct 2003 content changed
 common#:#users#:#Utenti
@@ -998,7 +998,7 @@ content#:#cont_fullscreen#:#A tutto schermo###04 Aug 2003 new variable
 content#:#cont_height#:#Altezza###08 Jul 2003 new variable
 content#:#cont_how_published#:#Come pubblicato###19 Sep 2003 new variable
 content#:#cont_href#:#href###04 Aug 2003 new variable
-content#:#cont_id_ref#:#identifierref###04 Aug 2003 new variable
+content#:#cont_id_ref#:#identificatore riferito###04 Aug 2003 new variable
 content#:#cont_import_id#:#Identificatore###04 Aug 2003 new variable
 content#:#cont_insert_file_item#:#Inserisci il file.###14 Oct 2003 new variable
 content#:#cont_insert_file_list#:#Inserisci l'elenco di file.###14 Oct 2003 new variable
@@ -1030,8 +1030,8 @@ content#:#cont_lk_term#:#Glossario###06 Sep 2003 new variable
 content#:#cont_lk_term_new#:#Glossario (New Frame)###06 Sep 2003 new variable
 content#:#cont_lm_properties#:#Propriet&#224; del Learning Module###01 Jul 2003 new variable
 content#:#cont_manifest#:#Manifesto###04 Aug 2003 new variable
-content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
-content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variable
+content#:#cont_mastery_score#:#punteggio minimo###04 Aug 2003 new variable
+content#:#cont_max_time_allowed#:#tempo massimo consentito###04 Aug 2003 new variable
 content#:#cont_mob_files#:#File oggetto###27 Oct 2003 new variable
 content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza###27 Oct 2003 new variable
 content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto###27 Oct 2003 new variable
@@ -1063,8 +1063,8 @@ content#:#cont_parameters#:#Parametri###04 Aug 2003 new variable
 content#:#cont_personal_clipboard#:#Appunti personali###13 Sep 2003 new variable
 content#:#cont_pg_content#:#Contenuto pagina###24 May 2003 new variable
 content#:#cont_pg_title#:#Titolo pagina###16 Jul 2003 new variable
-content#:#cont_prereq_type#:#adlcp:prerequisites.type###04 Aug 2003 new variable
-content#:#cont_prerequisites#:#adlcp:prerequisites###04 Aug 2003 new variable
+content#:#cont_prereq_type#:#tipo di prerequisiti###04 Aug 2003 new variable
+content#:#cont_prerequisites#:#prerequisiti###04 Aug 2003 new variable
 content#:#cont_preview#:#Anteprima###07 Jun 2003 new variable
 content#:#cont_publisher#:#Editore###19 Sep 2003 new variable
 content#:#cont_purpose#:#Scopo###22 Oct 2003 new variable
@@ -1076,12 +1076,12 @@ content#:#cont_resources#:#Risorse###04 Aug 2003 new variable
 content#:#cont_roman#:#Romani i, ii, ...###12 Jul 2003 new variable
 content#:#cont_sc_title#:#Titolo###04 Aug 2003 new variable
 content#:#cont_school#:#Scuola###19 Sep 2003 new variable
-content#:#cont_scorm_type#:#adlcp:scormtype###04 Aug 2003 new variable
+content#:#cont_scorm_type#:#tipo di SCORM###04 Aug 2003 new variable
 content#:#cont_select_max_one_item#:#Per favore, scegli solo un elemento###19 Sep 2003 new variable
 content#:#cont_select_max_one_term#:#Seleziona solo un elemento###01 Sep 2003 new variable
-content#:#cont_select_one_edition#:#Please select at least one edition.###11 Dec 2003 new variable
+content#:#cont_select_one_edition#:#Per favore, scegli almeno una edizione.###11 Dec 2003 new variable
 content#:#cont_select_one_translation#:#Per favore, scegli una traduzione###26 Sep 2003 new variable
-content#:#cont_select_one_translation_warning#:#It is not possible to show more than one translation.###11 Dec 2003 new variable
+content#:#cont_select_one_translation_warning#:#Non &#232; possibile mostrare pi&#249; di una traduzione.###11 Dec 2003 new variable
 content#:#cont_select_term#:#Scegli un termine###01 Sep 2003 new variable
 content#:#cont_select_translation#:#Per favore, scegli l&#039;assegnazione dalla lista sopra###26 Sep 2003 new variable
 content#:#cont_series#:#Serie###19 Sep 2003 new variable
@@ -1107,7 +1107,7 @@ content#:#cont_table_width#:#Larghezza tabella###09 Jun 2003 new variable
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.###19 Sep 2003 new variable
 content#:#cont_term#:#Termine###15 Aug 2003 new variable
 content#:#cont_terms#:#Termini###15 Aug 2003 new variable
-content#:#cont_time_limit_action#:#adlcp:timelimitaction###04 Aug 2003 new variable
+content#:#cont_time_limit_action#:#esecuzione a tempo###04 Aug 2003 new variable
 content#:#cont_toc#:#Tabella dei contenuti###20 Aug 2003 new variable
 content#:#cont_top#:#Alto###11 Jun 2003 new variable
 content#:#cont_translations#:#Traduzione(i)###26 Sep 2003 new variable
@@ -1118,7 +1118,7 @@ content#:#cont_version#:#Versione###04 Aug 2003 new variable
 content#:#cont_where_published#:#Dove pubblicata###19 Sep 2003 new variable
 content#:#cont_width#:#Larghezza###08 Jul 2003 new variable
 content#:#cont_wysiwyg#:#Contenuto WYSIWYG###24 May 2003 new variable
-content#:#cont_xml_base#:#xml:base###04 Aug 2003 new variable
+content#:#cont_xml_base#:#basato su xml###04 Aug 2003 new variable
 content#:#cont_year#:#Anno###19 Sep 2003 new variable
 content#:#pages from#:#Pagine da###22 Sep 2003 new variable
 content#:#par#:#Paragrafo###12 May 2003 new variable
@@ -1153,7 +1153,7 @@ forum#:#forums_post_modified#:#L&#039;articolo &#232; stato modificato
 forum#:#forums_post_new_entry#:#un nuovo articolo &#232; stato inserito
 forum#:#forums_posts#:#Tutti gli articoli
 forum#:#forums_posts_not_available#:#Articoli non disponibili
-forum#:#forums_print_thread#:#Print Thread###10 Nov 2003 new variable
+forum#:#forums_print_thread#:#Stampa questo tema###10 Nov 2003 new variable
 forum#:#forums_quote#:#Citazione###01 Sep 2003 new variable
 forum#:#forums_respond#:#Rispondi ad un articolo###01 Sep 2003 content changed
 forum#:#forums_the_post#:#Articolo
@@ -1261,7 +1261,7 @@ meta#:#meta_c_BB#:#Barbados###14 May 2003 new variable
 meta#:#meta_c_BD#:#Bangladesh###14 May 2003 new variable
 meta#:#meta_c_BE#:#Belgio###14 May 2003 new variable
 meta#:#meta_c_BF#:#Burkina Faso###14 May 2003 new variable
-meta#:#meta_c_BG#:#Bulgaria###14 May 2003 new variable
+meta#:#meta_c_BG#:#Bulgheria###14 May 2003 new variable
 meta#:#meta_c_BH#:#Bahrain###14 May 2003 new variable
 meta#:#meta_c_BI#:#Burundi###14 May 2003 new variable
 meta#:#meta_c_BJ#:#Benin###14 May 2003 new variable
@@ -1271,13 +1271,13 @@ meta#:#meta_c_BO#:#Bolivia###14 May 2003 new variable
 meta#:#meta_c_BR#:#Brasile###14 May 2003 new variable
 meta#:#meta_c_BS#:#Bahamas###14 May 2003 new variable
 meta#:#meta_c_BT#:#Bhutan###14 May 2003 new variable
-meta#:#meta_c_BV#:#Bouvet Island###14 May 2003 new variable
+meta#:#meta_c_BV#:#Isole Bouvet###14 May 2003 new variable
 meta#:#meta_c_BW#:#Botswana###14 May 2003 new variable
-meta#:#meta_c_BY#:#Belarus###14 May 2003 new variable
+meta#:#meta_c_BY#:#Bielorussia###14 May 2003 new variable
 meta#:#meta_c_BZ#:#Belize###14 May 2003 new variable
 meta#:#meta_c_CA#:#Canada###14 May 2003 new variable
 meta#:#meta_c_CC#:#Cocos (Keeling) Islands###14 May 2003 new variable
-meta#:#meta_c_CF#:#Cepubblica Centro Africana###14 May 2003 new variable
+meta#:#meta_c_CF#:#Repubblica Centro Africana###14 May 2003 new variable
 meta#:#meta_c_CG#:#Congo###14 May 2003 new variable
 meta#:#meta_c_CH#:#Svizzera###14 May 2003 new variable
 meta#:#meta_c_CI#:#Costa D&#039;avorio###14 May 2003 new variable
@@ -1314,7 +1314,7 @@ meta#:#meta_c_FR#:#Francia###14 May 2003 new variable
 meta#:#meta_c_FX#:#Francia, Metropolitana###14 May 2003 new variable
 meta#:#meta_c_GA#:#Gabon###14 May 2003 new variable
 meta#:#meta_c_GB#:#Regno Unito###14 May 2003 new variable
-meta#:#meta_c_GD#:#Grenada###14 May 2003 new variable
+meta#:#meta_c_GD#:#Granada###14 May 2003 new variable
 meta#:#meta_c_GE#:#Giorgia###14 May 2003 new variable
 meta#:#meta_c_GF#:#Guiana Francese###14 May 2003 new variable
 meta#:#meta_c_GH#:#Ghana###14 May 2003 new variable
@@ -1370,7 +1370,7 @@ meta#:#meta_c_LU#:#Lussemburgo###14 May 2003 new variable
 meta#:#meta_c_LV#:#Latvia###14 May 2003 new variable
 meta#:#meta_c_LY#:#Libyan Arab Jamahiriya###14 May 2003 new variable
 meta#:#meta_c_MA#:#Morocco###14 May 2003 new variable
-meta#:#meta_c_MC#:#Monaco###14 May 2003 new variable
+meta#:#meta_c_MC#:#Principato di Monaco###14 May 2003 new variable
 meta#:#meta_c_MD#:#Moldovia###14 May 2003 new variable
 meta#:#meta_c_MG#:#Madagascar###14 May 2003 new variable
 meta#:#meta_c_MH#:#Marshall Islands###14 May 2003 new variable
@@ -1438,7 +1438,7 @@ meta#:#meta_c_SO#:#Somalia###14 May 2003 new variable
 meta#:#meta_c_SR#:#Suriname###14 May 2003 new variable
 meta#:#meta_c_ST#:#Sao Tome And Principe###14 May 2003 new variable
 meta#:#meta_c_SV#:#El Salvador###14 May 2003 new variable
-meta#:#meta_c_SY#:#Syrian Arab Republic###14 May 2003 new variable
+meta#:#meta_c_SY#:#Siria###14 May 2003 new variable
 meta#:#meta_c_SZ#:#Swaziland###14 May 2003 new variable
 meta#:#meta_c_TC#:#Turks And Caicos Islands###14 May 2003 new variable
 meta#:#meta_c_TD#:#Chad###14 May 2003 new variable
@@ -1450,7 +1450,7 @@ meta#:#meta_c_TK#:#Tokelau###14 May 2003 new variable
 meta#:#meta_c_TM#:#Turkmenistan###14 May 2003 new variable
 meta#:#meta_c_TN#:#Tunisia###14 May 2003 new variable
 meta#:#meta_c_TO#:#Tonga###14 May 2003 new variable
-meta#:#meta_c_TP#:#East Timor###14 May 2003 new variable
+meta#:#meta_c_TP#:#Timor Est###14 May 2003 new variable
 meta#:#meta_c_TR#:#Turchia###14 May 2003 new variable
 meta#:#meta_c_TT#:#Trinidad e Tobago###14 May 2003 new variable
 meta#:#meta_c_TV#:#Tuvalu###14 May 2003 new variable
@@ -1538,134 +1538,134 @@ meta#:#meta_keyword#:#Chiave###18 Sep 2003 new variable
 meta#:#meta_kind#:#Tipo###01 Oct 2003 new variable
 meta#:#meta_l_aa#:#afar###28 May 2003 new variable
 meta#:#meta_l_ab#:#abkhazian###28 May 2003 new variable
-meta#:#meta_l_af#:#afrikaans###28 May 2003 new variable
+meta#:#meta_l_af#:#africano###28 May 2003 new variable
 meta#:#meta_l_am#:#amharic###28 May 2003 new variable
-meta#:#meta_l_ar#:#arabic###28 May 2003 new variable
+meta#:#meta_l_ar#:#arabo###28 May 2003 new variable
 meta#:#meta_l_as#:#assamese###28 May 2003 new variable
 meta#:#meta_l_ay#:#aymara###28 May 2003 new variable
 meta#:#meta_l_az#:#azerbaijani###28 May 2003 new variable
 meta#:#meta_l_ba#:#bashkir###28 May 2003 new variable
-meta#:#meta_l_be#:#byelorussian###28 May 2003 new variable
-meta#:#meta_l_bg#:#bulgarian###28 May 2003 new variable
+meta#:#meta_l_be#:#byelorusso###28 May 2003 new variable
+meta#:#meta_l_bg#:#bulgaro###28 May 2003 new variable
 meta#:#meta_l_bh#:#bihari###28 May 2003 new variable
 meta#:#meta_l_bi#:#bislama###28 May 2003 new variable
 meta#:#meta_l_bn#:#bengali;bangla###28 May 2003 new variable
-meta#:#meta_l_bo#:#tibetan###28 May 2003 new variable
-meta#:#meta_l_br#:#breton###28 May 2003 new variable
-meta#:#meta_l_ca#:#catalan###28 May 2003 new variable
-meta#:#meta_l_co#:#corsican###28 May 2003 new variable
-meta#:#meta_l_cs#:#czech###28 May 2003 new variable
+meta#:#meta_l_bo#:#tibetano###28 May 2003 new variable
+meta#:#meta_l_br#:#bretone###28 May 2003 new variable
+meta#:#meta_l_ca#:#catalano###28 May 2003 new variable
+meta#:#meta_l_co#:#corso###28 May 2003 new variable
+meta#:#meta_l_cs#:#ceco###28 May 2003 new variable
 meta#:#meta_l_cy#:#welsh###28 May 2003 new variable
-meta#:#meta_l_da#:#danish###28 May 2003 new variable
+meta#:#meta_l_da#:#danese###28 May 2003 new variable
 meta#:#meta_l_de#:#tedesco###28 May 2003 new variable
 meta#:#meta_l_dz#:#bhutani###28 May 2003 new variable
-meta#:#meta_l_el#:#greek###28 May 2003 new variable
-meta#:#meta_l_en#:#english###28 May 2003 new variable
+meta#:#meta_l_el#:#greco###28 May 2003 new variable
+meta#:#meta_l_en#:#inglese###28 May 2003 new variable
 meta#:#meta_l_eo#:#esperanto###28 May 2003 new variable
-meta#:#meta_l_es#:#spanish###28 May 2003 new variable
-meta#:#meta_l_et#:#estonian###28 May 2003 new variable
-meta#:#meta_l_eu#:#basque###28 May 2003 new variable
-meta#:#meta_l_fa#:#persian (farsi)###28 May 2003 new variable
-meta#:#meta_l_fi#:#finnish###28 May 2003 new variable
+meta#:#meta_l_es#:#spagnolo###28 May 2003 new variable
+meta#:#meta_l_et#:#estone###28 May 2003 new variable
+meta#:#meta_l_eu#:#basco###28 May 2003 new variable
+meta#:#meta_l_fa#:#persiano (farsi)###28 May 2003 new variable
+meta#:#meta_l_fi#:#finnico###28 May 2003 new variable
 meta#:#meta_l_fj#:#fiji###28 May 2003 new variable
 meta#:#meta_l_fo#:#faroese###28 May 2003 new variable
-meta#:#meta_l_fr#:#french###28 May 2003 new variable
+meta#:#meta_l_fr#:#francese###28 May 2003 new variable
 meta#:#meta_l_fy#:#frisian###28 May 2003 new variable
-meta#:#meta_l_ga#:#irish###28 May 2003 new variable
-meta#:#meta_l_gd#:#scots gaelic###28 May 2003 new variable
-meta#:#meta_l_gl#:#galician###28 May 2003 new variable
+meta#:#meta_l_ga#:#irlandese###28 May 2003 new variable
+meta#:#meta_l_gd#:#scozzese gaelico###28 May 2003 new variable
+meta#:#meta_l_gl#:#galiziano###28 May 2003 new variable
 meta#:#meta_l_gn#:#guarani###28 May 2003 new variable
 meta#:#meta_l_gu#:#gujarati###28 May 2003 new variable
 meta#:#meta_l_ha#:#hausa###28 May 2003 new variable
-meta#:#meta_l_he#:#hebrew###28 May 2003 new variable
+meta#:#meta_l_he#:#ebraico###28 May 2003 new variable
 meta#:#meta_l_hi#:#hindi###28 May 2003 new variable
-meta#:#meta_l_hr#:#croatian###28 May 2003 new variable
-meta#:#meta_l_hu#:#hungarian###28 May 2003 new variable
-meta#:#meta_l_hy#:#armenian###28 May 2003 new variable
+meta#:#meta_l_hr#:#croato###28 May 2003 new variable
+meta#:#meta_l_hu#:#ungherese###28 May 2003 new variable
+meta#:#meta_l_hy#:#armeno###28 May 2003 new variable
 meta#:#meta_l_ia#:#interlingua###28 May 2003 new variable
-meta#:#meta_l_id#:#indonesian###28 May 2003 new variable
-meta#:#meta_l_ie#:#interlingue###28 May 2003 new variable
+meta#:#meta_l_id#:#indonesiano###28 May 2003 new variable
+meta#:#meta_l_ie#:#interlingua###28 May 2003 new variable
 meta#:#meta_l_ik#:#inupiak###28 May 2003 new variable
-meta#:#meta_l_is#:#icelandic###28 May 2003 new variable
+meta#:#meta_l_is#:#islandese###28 May 2003 new variable
 meta#:#meta_l_it#:#italiano###28 May 2003 new variable
 meta#:#meta_l_iu#:#inuktitut###28 May 2003 new variable
-meta#:#meta_l_ja#:#japanese###28 May 2003 new variable
+meta#:#meta_l_ja#:#giapponese###28 May 2003 new variable
 meta#:#meta_l_jv#:#javanese###28 May 2003 new variable
-meta#:#meta_l_ka#:#georgian###28 May 2003 new variable
-meta#:#meta_l_kk#:#kazakh###28 May 2003 new variable
+meta#:#meta_l_ka#:#georgiano###28 May 2003 new variable
+meta#:#meta_l_kk#:#kazako###28 May 2003 new variable
 meta#:#meta_l_kl#:#greenlandic###28 May 2003 new variable
-meta#:#meta_l_km#:#cambodian###28 May 2003 new variable
+meta#:#meta_l_km#:#cambogiano###28 May 2003 new variable
 meta#:#meta_l_kn#:#kannada###28 May 2003 new variable
-meta#:#meta_l_ko#:#korean###28 May 2003 new variable
-meta#:#meta_l_ks#:#kashmiri###28 May 2003 new variable
-meta#:#meta_l_ku#:#kurdish###28 May 2003 new variable
+meta#:#meta_l_ko#:#koreano###28 May 2003 new variable
+meta#:#meta_l_ks#:#kashmiro###28 May 2003 new variable
+meta#:#meta_l_ku#:#kurdistano###28 May 2003 new variable
 meta#:#meta_l_ky#:#kirghiz###28 May 2003 new variable
-meta#:#meta_l_la#:#latin###28 May 2003 new variable
+meta#:#meta_l_la#:#latino###28 May 2003 new variable
 meta#:#meta_l_ln#:#lingala###28 May 2003 new variable
 meta#:#meta_l_lo#:#laothian###28 May 2003 new variable
-meta#:#meta_l_lt#:#lithuanian###28 May 2003 new variable
+meta#:#meta_l_lt#:#lituano###28 May 2003 new variable
 meta#:#meta_l_lv#:#latvian;lettish###28 May 2003 new variable
 meta#:#meta_l_mg#:#malagasy###28 May 2003 new variable
 meta#:#meta_l_mi#:#maori###28 May 2003 new variable
 meta#:#meta_l_mk#:#macedonian###28 May 2003 new variable
 meta#:#meta_l_ml#:#malayalam###28 May 2003 new variable
-meta#:#meta_l_mn#:#mongolian###28 May 2003 new variable
-meta#:#meta_l_mo#:#moldavian###28 May 2003 new variable
+meta#:#meta_l_mn#:#mongolo###28 May 2003 new variable
+meta#:#meta_l_mo#:#moldavo###28 May 2003 new variable
 meta#:#meta_l_mr#:#marathi###28 May 2003 new variable
 meta#:#meta_l_ms#:#malay###28 May 2003 new variable
 meta#:#meta_l_mt#:#maltese###28 May 2003 new variable
 meta#:#meta_l_my#:#burmese###28 May 2003 new variable
 meta#:#meta_l_na#:#nauru###28 May 2003 new variable
-meta#:#meta_l_ne#:#nepali###28 May 2003 new variable
-meta#:#meta_l_nl#:#dutch###28 May 2003 new variable
-meta#:#meta_l_no#:#norwegian###28 May 2003 new variable
+meta#:#meta_l_ne#:#nepalese###28 May 2003 new variable
+meta#:#meta_l_nl#:#olandese###28 May 2003 new variable
+meta#:#meta_l_no#:#norvegese###28 May 2003 new variable
 meta#:#meta_l_oc#:#occitan###28 May 2003 new variable
 meta#:#meta_l_om#:#afan (oromo)###28 May 2003 new variable
 meta#:#meta_l_or#:#oriya###28 May 2003 new variable
 meta#:#meta_l_pa#:#punjabi###28 May 2003 new variable
-meta#:#meta_l_pl#:#polish###28 May 2003 new variable
+meta#:#meta_l_pl#:#polacco###28 May 2003 new variable
 meta#:#meta_l_ps#:#pashto;pushto###28 May 2003 new variable
-meta#:#meta_l_pt#:#portuguese###28 May 2003 new variable
+meta#:#meta_l_pt#:#portoghese###28 May 2003 new variable
 meta#:#meta_l_qu#:#quechua###28 May 2003 new variable
 meta#:#meta_l_rm#:#rhaeto-romance###28 May 2003 new variable
 meta#:#meta_l_rn#:#kurundi###28 May 2003 new variable
-meta#:#meta_l_ro#:#romanian###28 May 2003 new variable
-meta#:#meta_l_ru#:#russian###28 May 2003 new variable
+meta#:#meta_l_ro#:#rumeno###28 May 2003 new variable
+meta#:#meta_l_ru#:#russo###28 May 2003 new variable
 meta#:#meta_l_rw#:#kinyarwanda###28 May 2003 new variable
 meta#:#meta_l_sa#:#sanskrit###28 May 2003 new variable
 meta#:#meta_l_sd#:#sindhi###28 May 2003 new variable
 meta#:#meta_l_sg#:#sangho###28 May 2003 new variable
-meta#:#meta_l_sh#:#serbo-croatian###28 May 2003 new variable
+meta#:#meta_l_sh#:#serbo-croato###28 May 2003 new variable
 meta#:#meta_l_si#:#singhalese###28 May 2003 new variable
-meta#:#meta_l_sk#:#slovak###28 May 2003 new variable
+meta#:#meta_l_sk#:#slovacco###28 May 2003 new variable
 meta#:#meta_l_sl#:#slovenian###28 May 2003 new variable
 meta#:#meta_l_sm#:#samoan###28 May 2003 new variable
 meta#:#meta_l_sn#:#shona###28 May 2003 new variable
-meta#:#meta_l_so#:#somali###28 May 2003 new variable
-meta#:#meta_l_sq#:#albanian###28 May 2003 new variable
-meta#:#meta_l_sr#:#serbian###28 May 2003 new variable
+meta#:#meta_l_so#:#somalo###28 May 2003 new variable
+meta#:#meta_l_sq#:#albanese###28 May 2003 new variable
+meta#:#meta_l_sr#:#serbo###28 May 2003 new variable
 meta#:#meta_l_ss#:#siswati###28 May 2003 new variable
 meta#:#meta_l_st#:#sesotho###28 May 2003 new variable
 meta#:#meta_l_su#:#sundanese###28 May 2003 new variable
-meta#:#meta_l_sv#:#swedish###28 May 2003 new variable
+meta#:#meta_l_sv#:#svedese###28 May 2003 new variable
 meta#:#meta_l_sw#:#swahili###28 May 2003 new variable
 meta#:#meta_l_ta#:#tamil###28 May 2003 new variable
 meta#:#meta_l_te#:#telugu###28 May 2003 new variable
 meta#:#meta_l_tg#:#tajik###28 May 2003 new variable
 meta#:#meta_l_th#:#thai###28 May 2003 new variable
 meta#:#meta_l_ti#:#tigrinya###28 May 2003 new variable
-meta#:#meta_l_tk#:#turkmen###28 May 2003 new variable
+meta#:#meta_l_tk#:#turkmeno###28 May 2003 new variable
 meta#:#meta_l_tl#:#tagalog###28 May 2003 new variable
 meta#:#meta_l_tn#:#setswana###28 May 2003 new variable
 meta#:#meta_l_to#:#tonga###28 May 2003 new variable
-meta#:#meta_l_tr#:#turkish###28 May 2003 new variable
+meta#:#meta_l_tr#:#turco###28 May 2003 new variable
 meta#:#meta_l_ts#:#tsonga###28 May 2003 new variable
 meta#:#meta_l_tt#:#tatar###28 May 2003 new variable
 meta#:#meta_l_tw#:#twi###28 May 2003 new variable
 meta#:#meta_l_ug#:#uigur###28 May 2003 new variable
-meta#:#meta_l_uk#:#ukrainian###28 May 2003 new variable
+meta#:#meta_l_uk#:#ukraino###28 May 2003 new variable
 meta#:#meta_l_ur#:#urdu###28 May 2003 new variable
-meta#:#meta_l_uz#:#uzbek###28 May 2003 new variable
+meta#:#meta_l_uz#:#uzbeko###28 May 2003 new variable
 meta#:#meta_l_vi#:#vietnamese###28 May 2003 new variable
 meta#:#meta_l_vo#:#volapuk###28 May 2003 new variable
 meta#:#meta_l_wo#:#wolof###28 May 2003 new variable
@@ -1673,7 +1673,7 @@ meta#:#meta_l_xh#:#xhosa###28 May 2003 new variable
 meta#:#meta_l_yi#:#yiddish###28 May 2003 new variable
 meta#:#meta_l_yo#:#yoruba###28 May 2003 new variable
 meta#:#meta_l_za#:#zhuang###28 May 2003 new variable
-meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
+meta#:#meta_l_zh#:#cinese###28 May 2003 new variable
 meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
 meta#:#meta_language#:#Lingua###14 May 2003 new variable
 meta#:#meta_learner#:#Studente###01 Oct 2003 new variable
@@ -1764,37 +1764,37 @@ search#:#search_content#:#Contenuto della pagina###10 Sep 2003 new variable
 search#:#search_dbk_content#:#Libraria digitale (contenuto)###10 Sep 2003 new variable
 search#:#search_dbk_meta#:#Libraria digitale (metadata)###10 Sep 2003 new variable
 search#:#search_delete_sure#:#The object and its content will be deleted permanantly###11 Dec 2003 new variable
-search#:#search_group#:#Groups###11 Dec 2003 new variable
+search#:#search_group#:#Gruppo di ricerca###11 Dec 2003 new variable
 search#:#search_in_result#:#Ricerca all&#039;interno dei risultati###10 Sep 2003 new variable
 search#:#search_lm_content#:#Materiale di elearning (contenuto)###10 Sep 2003 new variable
 search#:#search_lm_meta#:#Materiale di elearning  (metadati)###10 Sep 2003 new variable
 search#:#search_meta#:#Metadati###10 Sep 2003 new variable
 search#:#search_minimum_three#:#Devi specificare almeno tre caratteri###10 Sep 2003 new variable
-search#:#search_move_folder_not_allowed#:#Folder cannot be moved.###11 Dec 2003 new variable
-search#:#search_move_to#:#Move to:###11 Dec 2003 new variable
-search#:#search_my_search_results#:#My search results###11 Dec 2003 new variable
-search#:#search_new_folder#:#New folder###11 Dec 2003 new variable
+search#:#search_move_folder_not_allowed#:#La cartella non pu&#242; essere spostata.###11 Dec 2003 new variable
+search#:#search_move_to#:#Sposta in:###11 Dec 2003 new variable
+search#:#search_my_search_results#:#I miei risultati della ricerca###11 Dec 2003 new variable
+search#:#search_new_folder#:#Nuova cartella###11 Dec 2003 new variable
 search#:#search_no_category#:#Non hai selezionato il criterio di ricerca###10 Sep 2003 new variable
 search#:#search_no_match#:#La ricerca non ha prodotto risultati###10 Sep 2003 new variable
-search#:#search_no_results_saved#:#No results saved.###11 Dec 2003 new variable
+search#:#search_no_results_saved#:#Nessun risultato salvato.###11 Dec 2003 new variable
 search#:#search_no_search_term#:#Non hai scelto nessun termine di ricerca###10 Sep 2003 new variable
-search#:#search_no_selection#:#You did no selection.###11 Dec 2003 new variable
-search#:#search_object_renamed#:#Object renamed.###11 Dec 2003 new variable
-search#:#search_objects_deleted#:#Object(s) deleted.###11 Dec 2003 new variable
-search#:#search_objects_moved#:#Objects moved.###11 Dec 2003 new variable
-search#:#search_one_action#:#Select one action.###11 Dec 2003 new variable
-search#:#search_rename_title#:#Rename title###11 Dec 2003 new variable
-search#:#search_results_saved#:#Search results saved###11 Dec 2003 new variable
-search#:#search_save_as_select#:#Save as:###11 Dec 2003 new variable
+search#:#search_no_selection#:#Non hai selezionato niente.###11 Dec 2003 new variable
+search#:#search_object_renamed#:#Oggetto rinominato.###11 Dec 2003 new variable
+search#:#search_objects_deleted#:#Oggetto(i) cancellato.###11 Dec 2003 new variable
+search#:#search_objects_moved#:#Oggetto spostato.###11 Dec 2003 new variable
+search#:#search_one_action#:#Seleziona una azione.###11 Dec 2003 new variable
+search#:#search_rename_title#:#Rinomina il titolo###11 Dec 2003 new variable
+search#:#search_results_saved#:#Ricerca i risultati salvati###11 Dec 2003 new variable
+search#:#search_save_as_select#:#Salva come:###11 Dec 2003 new variable
 search#:#search_search_for#:#Cerca per###10 Sep 2003 new variable
-search#:#search_search_no_results_saved#:#There are no search results saved###11 Dec 2003 new variable
-search#:#search_search_results#:#Search results###11 Dec 2003 new variable
+search#:#search_search_no_results_saved#:#Non ci sono risultati salvati###11 Dec 2003 new variable
+search#:#search_search_results#:#Cerca resultati###11 Dec 2003 new variable
 search#:#search_search_term#:#Cerca termine###10 Sep 2003 new variable
-search#:#search_select_exactly_one_object#:#You have to select exactly one object.###11 Dec 2003 new variable
-search#:#search_select_one#:#Select one folder###11 Dec 2003 new variable
-search#:#search_select_one_action#:#--Select one action--###11 Dec 2003 new variable
-search#:#search_select_one_folder_select#:#--Select one folder--###11 Dec 2003 new variable
-search#:#search_select_one_result#:#Select at least one search result###11 Dec 2003 new variable
-search#:#search_select_one_select#:#--Select one folder--###11 Dec 2003 new variable
+search#:#search_select_exactly_one_object#:#Devi selezionare un solo oggetto.###11 Dec 2003 new variable
+search#:#search_select_one#:#Seleziona una cartella###11 Dec 2003 new variable
+search#:#search_select_one_action#:#--Scegli una azione--###11 Dec 2003 new variable
+search#:#search_select_one_folder_select#:#--Scegli una cartella--###11 Dec 2003 new variable
+search#:#search_select_one_result#:#Seleziona almeno un risultato della ricerca###11 Dec 2003 new variable
+search#:#search_select_one_select#:#--Scegli una cartella--###11 Dec 2003 new variable
 search#:#search_show_result#:#Mostra###10 Sep 2003 new variable
 search#:#search_user#:#Utenti###10 Sep 2003 new variable
