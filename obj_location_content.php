@@ -35,7 +35,6 @@ require_once "./include/inc.header.php";
 if (isset($_GET["from"]))
 {
 	$_SESSION["obj_location_back"] = $_GET["from"];
-	//echo "bla";
 }
 
 //add template for content
@@ -124,10 +123,10 @@ if (isset($_GET["ref_id"]) && ($_GET["ref_id"] != 1))
 		$module_dir = ($module == "") ? "" : $module."/";
 		$class_constr = "ilObj".$class_name."GUI";
 		include_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
-		$obj = new $class_constr($data, $id, $call_by_reference,false);
+		$obj = new $class_constr($data, $id, true, false);
+
 		$method = $cmd."Object";
 
-		
 		// this switch is a quick workaround, because of weird behaviour of data saved to session
 		switch ($_GET["new_type"])
 		{
