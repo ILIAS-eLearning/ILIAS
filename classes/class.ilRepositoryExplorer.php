@@ -366,6 +366,10 @@ class ilRepositoryExplorer extends ilExplorer
 	{
 		global $rbacsystem,$tree;
 
+		if(!$rbacsystem->checkAccess('visible',$a_ref_id))
+		{
+			return false;
+		}
 		if($crs_id = $tree->checkForParentType($a_ref_id,'crs'))
 		{
 			if(!$rbacsystem->checkAccess('write',$crs_id))
