@@ -102,19 +102,49 @@ class ilGlossaryPresentationGUI
 		$this->setLocator();
 	}
 
+	function searchTerms () {
+		if (isset ($_POST["clear"])) 
+		{
+			$searchterm ="";
+			$_GET["offset"] = $_GET["oldoffset"];
+		} else 
+		{
+			$searchterm = $_REQUEST ["term"];
+		}			
+		$term_list = $this->glossary->getTermList($searchterm);
+		$this->listTermByGiven($term_list, $searchterm);
 
+	}
+
+
+	function listTerms()
+	{
+		$term_list = $this->glossary->getTermList();		
+		$this->listTermByGiven($term_list);
+	}
 
 	/**
 	* list glossary terms
 	*/
-	function listTerms()
+	function listTermByGiven($term_list, $filter ="")
 	{
 		$this->lng->loadLanguageModule("meta");
 		include_once "./classes/class.ilTableGUI.php";
 
 		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+//		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		
+		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_search_term.html", true);
+		$this->tpl->setVariable("FORMACTION1", "glossary_presentation.php?ref_id=".$_GET["ref_id"]."&cmd=searchTerms&offset=0&oldoffset=$oldoffset");
+		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
+		$this->tpl->setVariable("TXT_SEARCH", $this->lng->txt("search"));
+		$this->tpl->setVariable("TXT_CLEAR", $this->lng->txt("clear"));
+		$this->tpl->setVariable("TERM", $filter);
+
+		// load template for table
+		$this->tpl->addBlockfile("TERM_TABLE", "term_table", "tpl.table.html");
 		// load template for table content data
 		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.term_tbl_row.html", true);
 
@@ -127,14 +157,22 @@ class ilGlossaryPresentationGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("cont_terms"));
+		$tbl->setTitle($this->lng->txt("cont_terms").(($filter=="")?"":"*"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
 		$tbl->setHeaderNames(array($this->lng->txt("cont_term"),
 			 $this->lng->txt("language"), $this->lng->txt("cont_definitions")));
 
 		$cols = array("term", "language", "definitions", "id");
+		
 		$header_params = array("ref_id" => $_GET["ref_id"], "cmd" => "listTerms");
+		
+		if (!empty ($filter)) {
+			$header_params ["cmd"] = "searchTerms";
+			$header_params ["term"] = $filter;
+			$header_params ["oldoffset"] = $_GET["oldoffset"];
+		}
+		
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("25%","15%","60%"));
 
@@ -192,8 +230,11 @@ class ilGlossaryPresentationGUI
 
 				$this->tpl->setCurrentBlock("view_term");
 				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
+				if (!empty ($filter)) {
+					$append = "&term=$filter&oldoffset=".$_GET["oldoffset"];
+				}
 				$this->tpl->setVariable("LINK_VIEW_TERM", "glossary_presentation.php?ref_id=".
-					$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]."&offset=".$_GET["offset"]);
+					$_GET["ref_id"]."&cmd=listDefinitions&term_id=".$term["id"]."&offset=".$_GET["offset"].$append);
 				$this->tpl->parseCurrentBlock();
 
 				$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -483,8 +524,12 @@ class ilGlossaryPresentationGUI
 	function getTabs(&$tabs_gui)
 	{
 		// back to upper context
+		if (!empty ($_REQUEST["term"])) {
+			$append = "&cmd=searchTerms&term=".$_REQUEST["term"]."&oldoffset=".$_GET["oldoffset"];
+		}		
+				
 		$tabs_gui->addTarget("cont_back",
-			"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&offset=".$_GET["offset"], "",
+			"glossary_presentation.php?ref_id=".$_GET["ref_id"]."&offset=".$_GET["offset"].$append, "",
 			"");
 
 	}
