@@ -114,14 +114,11 @@ $lastLogin = $ilias->account->getLastLogin();
 
 $deskgui =& new ilPersonalDesktopGUI();
 
-$deskgui->displayLearningResources();
-$deskgui->displayForums();
+$deskgui->displaySelectedItems();
 $deskgui->displaySystemMessages();
 $deskgui->displayUsersOnline();
-$deskgui->displayGroups();
 $deskgui->displayBookmarks();
-$deskgui->displayChats();
-$deskgui->displayTests();
+//$deskgui->displayTests();				// see display selected items
 
 // output
 $tpl->show();

@@ -41,97 +41,100 @@ class ilPersonalDesktopGUI
 		$this->ilias =& $ilias;
 	}
 
+
 	/**
-	* show learning resources
+	* display selected items
 	*/
-	function displayLearningResources()
+	function displaySelectedItems()
 	{
-		global $rbacsystem;
-
-		$i = 0;
-		$types = array("lm", "dbk", "glo", "slm", "htlm");
-
-		foreach ($types as $type)
+		$types = array(
+			array("title" => $this->lng->txt("learning_objects"),
+			"types" => array("lm", "dbk", "slm", "htlm")),
+			array("title" => $this->lng->txt("objs_glo"),
+			"types" => "glo"),
+			array("title" => $this->lng->txt("objs_tst"),
+			"types" => "tst"),
+			array("title" => $this->lng->txt("objs_frm"),
+			"types" => "frm"),
+			array("title" => $this->lng->txt("objs_chat"),
+			"types" => "chat"),
+			array("title" => $this->lng->txt("objs_mep"),
+			"types" => "mep"),
+			array("title" => $this->lng->txt("objs_grp"),
+			"types" => "grp"),
+			);
+		$html = "";
+		foreach($types as $type)
 		{
-			$lo_items = $this->ilias->account->getDesktopItems($type);
-
-			foreach ($lo_items as $lo_item)
-			{
-				$i++;
-
-				if ($rbacsystem->checkAccess('write', $lo_item["id"]) and $type != "slm")
-				{
-					$this->tpl->setCurrentBlock("tbl_lo_edit");
-					$this->tpl->setVariable("EDIT_LINK", $lo_item["edit_link"]);
-					$this->tpl->setVariable("TXT_EDIT",$this->lng->txt("edit"));
-
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("tbl_lo_row");
-				$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-				$this->tpl->setVariable("LO_LINK", $lo_item["link"]);
-				$this->tpl->setVariable("LO_TARGET", $lo_item["target"]);
-				$img = "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
-					ilUtil::getImagePath("icon_".$lo_item["type"].".gif")."\">&nbsp;";
-				$this->tpl->setVariable("LO_TITLE", $img.$lo_item["title"]);
-				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=".$type."&id=".$lo_item["id"]);
-				$this->tpl->setVariable("TXT_DROP",$this->lng->txt("drop"));
-
-				$this->tpl->parseCurrentBlock();
-			}
+			$html.= $this->getSelectedItemBlockHTML($type["title"], $type["types"]);
 		}
-
-		if ($i == 0)
+		if ($html != "")
 		{
-			$this->tpl->setCurrentBlock("tbl_no_lo");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("TXT_NO_LO", $this->lng->txt("no_lo_in_personal_list"));
+			$this->tpl->setCurrentBlock("selected_items");
+			$this->tpl->setVariable("TXT_SELECTED_ITEMS", $this->lng->txt("selected_items"));
+			$this->tpl->setVariable("SELECTED_ITEMS", $html);
 			$this->tpl->parseCurrentBlock();
 		}
-
-		$this->tpl->setCurrentBlock("tbl_lo");
-		$this->tpl->setVariable("TXT_LO_HEADER",$this->lng->txt("my_los"));
-		$this->tpl->setVariable("TXT_LO_TITLE",$this->lng->txt("title"));
-		$this->tpl->parseCurrentBlock();
 	}
 
-
 	/**
-	* display forums
+	* get selected item block
 	*/
-	function displayForums()
+	function getSelectedItemBlockHTML($a_title, $a_type)
 	{
-		//********************************************
-		// forums
-		$frm_items = $this->ilias->account->getDesktopItems("frm");
-		$i = 0;
-
-		foreach ($frm_items as $frm_item)
+		$items = $this->ilias->account->getDesktopItems($a_type);
+		if (count($items) > 0)
 		{
-			$i++;
-			$this->tpl->setCurrentBlock("tbl_frm_row");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("FRM_LINK", "forums_threads_liste.php?ref_id=".$frm_item["id"]."&backurl=forums");
-			$this->tpl->setVariable("FRM_TITLE", $frm_item["title"]);
-			$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=frm&id=".$frm_item["id"]);
-			$this->tpl->setVariable("TXT_DROP",$this->lng->txt("drop"));
-			$this->tpl->parseCurrentBlock();
+			$tpl = new ilTemplate("tpl.usr_pd_selected_item_block.html", true, true);
+			$tpl->setVariable("TXT_BLOCK_HEADER", $a_title);
+			$img_type  = (is_array($a_type))
+				? $a_type[0]
+				: $a_type;
+
+			$tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_".$img_type.".gif"));
+			foreach($items as $item)
+			{
+				// edit link
+				if ($item["edit_link"] != "")
+				{
+					$tpl->setCurrentBlock("edit_link");
+					$tpl->setVariable("LINK_EDIT", $item["edit_link"]);
+					$tpl->setVariable("TARGET_EDIT", "bottom");
+					$tpl->setVariable("TXT_EDIT", "[".$this->lng->txt("edit")."]");
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setVariable("EDIT", "&nbsp;");
+				}
+
+				// drop link
+				$tpl->setCurrentBlock("drop_link");
+				$tpl->setVariable("TYPE", $item["type"]);
+				$tpl->setVariable("ID", $item["id"]);
+				$tpl->setVariable("TXT_DROP", "[".$this->lng->txt("drop")."]");
+				$tpl->parseCurrentBlock();
+
+				// description
+				if ($item["description"] != "")
+				{
+					$tpl->setCurrentBlock("description");
+					$tpl->setVariable("TXT_ITEM_DESCRIPTION", $item["description"]);
+					$tpl->parseCurrentBlock();
+				}
+
+				// show link
+				$tpl->setCurrentBlock("block_row");
+				$tpl->setVariable("LINK_SHOW", $item["link"]);
+				$tpl->setVariable("TARGET_SHOW", $item["target"]);
+				$tpl->setVariable("TXT_ITEM_TITLE", $item["title"]);
+				$tpl->setVariable("ROWCOL","tblrow".(($i++ % 2)+1));
+				$tpl->parseCurrentBlock();
+			}
+			return $tpl->get();
 		}
 
-		if ($i == 0)
-		{
-			$this->tpl->setCurrentBlock("tbl_no_frm");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("TXT_NO_FRM", $this->lng->txt("no_frm_in_personal_list"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("tbl_frm");
-		$this->tpl->setVariable("TXT_FRM_HEADER",$this->lng->txt("my_frms"));
-		$this->tpl->setVariable("TXT_FRM_TITLE",$this->lng->txt("title"));
-		$this->tpl->parseCurrentBlock();
-
+		return "";
 	}
 
 	function displaySystemMessages()
@@ -182,7 +185,7 @@ class ilPersonalDesktopGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-		
+
 
 	/**
 	* display users online
@@ -320,83 +323,6 @@ class ilPersonalDesktopGUI
 		}
 	}
 
-	/**
-	* display groups
-	*/
-	function displayGroups()
-	{
-		global $rbacsystem;
-		$grp_items = $this->ilias->account->getDesktopItems("grp");
-		$i = 0;
-
-		foreach ($grp_items as $grp_item)
-		{
-			$i++;
-			$this->tpl->setCurrentBlock("tbl_grp_row");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("GRP_LINK", "group.php?ref_id=".$grp_item["id"]);
-			$this->tpl->setVariable("GRP_TITLE", $grp_item["title"]);
-			if ($rbacsystem->checkaccess('leave',$grp_item["id"],'usr'))
-			{
-				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=grp&id=".$grp_item["id"]);
-				$this->tpl->setVariable("TXT_DROP", "[".$this->lng->txt("drop")."]");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if ($i == 0)
-		{
-			$this->tpl->setCurrentBlock("tbl_no_grp");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("TXT_NO_GRP", $this->lng->txt("no_grp_in_personal_list"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("tbl_grp");
-		$this->tpl->setVariable("TXT_GRP_HEADER",$this->lng->txt("my_grps"));
-		$this->tpl->setVariable("TXT_GRP_TITLE",$this->lng->txt("title"));
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
-	* display groups
-	*/
-	function displayChats()
-	{
-		global $rbacsystem;
-
-		$this->lng->loadLanguageModule("chat");
-		$chat_items = $this->ilias->account->getDesktopItems("chat");
-
-		$i = 0;
-		foreach ($chat_items as $chat_item)
-		{
-			$i++;
-			$this->tpl->setCurrentBlock("tbl_chat_row");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("CHAT_LINK", "chat/chat_rep.php?ref_id=".$chat_item["id"]);
-			$this->tpl->setVariable("CHAT_TITLE", $chat_item["title"]);
-			if ($rbacsystem->checkaccess('leave',$chat_item["id"],'usr'))
-			{
-				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=chat&id=".$chat_item["id"]);
-				$this->tpl->setVariable("TXT_DROP", "[".$this->lng->txt("drop")."]");
-			}
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if ($i == 0)
-		{
-			$this->tpl->setCurrentBlock("tbl_no_chat");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("TXT_NO_CHAT", $this->lng->txt("no_chat_in_personal_list"));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("tbl_chat");
-		$this->tpl->setVariable("TXT_CHAT_HEADER",$this->lng->txt("my_chats"));
-		$this->tpl->setVariable("TXT_CHAT_TITLE",$this->lng->txt("title"));
-		$this->tpl->parseCurrentBlock();
-	}
 
 	/**
 	* display bookmarks
@@ -465,7 +391,7 @@ class ilPersonalDesktopGUI
 
 /**
 * Display subscribed tests
-* 
+*
 * Display subscribed tests
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>
