@@ -1542,6 +1542,7 @@ content#:#cont_content#:#Inhoud
 content#:#cont_content_obj#:#Content-object
 content#:#cont_coords#:#Coördinaten
 content#:#cont_create_dir#:#Creëer directory
+content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_cross_reference#:#Verwijzing
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default layout
@@ -1563,6 +1564,7 @@ content#:#cont_edit_par#:#Wijzigen paragrafen
 content#:#cont_edit_tab_properties#:#Tabel-eigenschappen
 content#:#cont_edit_term#:#Wijzigen begrip
 content#:#cont_edition#:#Editie
+content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#extern
 content#:#cont_file#:#Bestand
 content#:#cont_files#:#Bestanden

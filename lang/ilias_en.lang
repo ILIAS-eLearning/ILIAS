@@ -1490,8 +1490,6 @@ content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Circle#:#Circle
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
-content#:#cont_create_export_file#:#Create Export File
-content#:#cont_export_files#:#Export Files
 content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
@@ -1544,6 +1542,7 @@ content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
 content#:#cont_coords#:#Coordinates
 content#:#cont_create_dir#:#Create Directory
+content#:#cont_create_export_file#:#Create Export File
 content#:#cont_cross_reference#:#Cross reference
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
@@ -1565,6 +1564,7 @@ content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_edit_term#:#Edit Term
 content#:#cont_edition#:#Edition
+content#:#cont_export_files#:#Export Files
 content#:#cont_external#:#external
 content#:#cont_file#:#File
 content#:#cont_files#:#Files

@@ -1542,6 +1542,7 @@ content#:#cont_content#:#Conteúdo
 content#:#cont_content_obj#:#Objecto de Conteúdo
 content#:#cont_coords#:#Coordenadas
 content#:#cont_create_dir#:#Criar Directoria
+content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
 content#:#cont_cross_reference#:#Referência cruzada
 content#:#cont_data_from_lms#:#adlcp:datadelms
 content#:#cont_def_layout#:#Disposição por Defeito
@@ -1563,6 +1564,7 @@ content#:#cont_edit_par#:#Editar Parágrafo
 content#:#cont_edit_tab_properties#:#Propriedades da Tabela
 content#:#cont_edit_term#:#Editar Termo
 content#:#cont_edition#:#Edição
+content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
 content#:#cont_external#:#externo
 content#:#cont_file#:#Ficheiro
 content#:#cont_files#:#Ficheiros
