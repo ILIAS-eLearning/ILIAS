@@ -521,7 +521,7 @@ class ilSetupGUI extends ilSetup
 		
 		$this->tpl->addBlockFile("NAVBUTTONS","navbuttons","tpl.navbuttons.html");
 
-		$this->tpl->setVariable("FORMACTION_BUTTONS","setup.php?lang=".$this->lang."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION_BUTTONS","setup.php?cmd=gateway");
 
 		if ($this->btn_prev_on)
 		{
@@ -716,7 +716,7 @@ class ilSetupGUI extends ilSetup
 
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html");
 
-		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		
 		// for checkboxes & radio buttons
 		$checked = "checked=\"checked\"";
@@ -855,7 +855,7 @@ class ilSetupGUI extends ilSetup
 
 		// output
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_login.html");
-		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("setup_login"));
 
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_login"));
@@ -970,7 +970,7 @@ class ilSetupGUI extends ilSetup
 
 		// common
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("available_clients"));
-		$this->tpl->setVariable("FORMACTION","setup.php?cmd=gateway&lang=".$this->lang);
+		$this->tpl->setVariable("FORMACTION","setup.php?cmd=gateway);
 
 		// build table
 		include_once "../classes/class.ilTableGUI.php";
@@ -1092,7 +1092,7 @@ class ilSetupGUI extends ilSetup
 
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.form_mastersetup.html");
 
-		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		
 		// for checkboxes & radio buttons
 		$checked = "checked=\"checked\"";
@@ -1317,7 +1317,7 @@ class ilSetupGUI extends ilSetup
 		// output
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_ini.html");
 		
-		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_ini"));
@@ -1565,7 +1565,7 @@ class ilSetupGUI extends ilSetup
 
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html");
 		
-		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("DB_HOST", $this->client->getDbHost());
 		$this->tpl->setVariable("DB_NAME", $this->client->getDbName());		
 		$this->tpl->setVariable("DB_USER", $this->client->getDbUser());		
@@ -1849,7 +1849,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_EMAIL", $this->lng->txt("email"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		
-		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_SETUP_TITLE","contact information & client data");
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_contact"));
 		
@@ -2040,7 +2040,7 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("password_new_master"));
 
 		// pass form
-		$this->tpl->setVariable("FORMACTION", "setup.php?lang=".$this->lang."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "setup.php?cmd=gateway");
 		$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
 		$this->tpl->setVariable("TXT_PASS_TITLE",$this->lng->txt("change_password"));
 		$this->tpl->setVariable("TXT_PASS_OLD",$this->lng->txt("set_oldpasswd"));
