@@ -71,7 +71,7 @@ else
 if ($_GET["message"])
 {
 	$tplContent->setCurrentBlock("sys_message");
-	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);
+	$tplContent->setVariable("ERROR_MESSAGE",stripslashes($_GET["message"]));
 	$tplContent->parseCurrentBlock();
 }
 
