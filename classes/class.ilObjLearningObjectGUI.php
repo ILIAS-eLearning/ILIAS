@@ -41,7 +41,7 @@ class ilLearningObjectGUI extends ilObjectGUI
 		}
 		
 		// TODO get rid of these $_GET variables
-		$lotree = new Tree($_GET["lm_id"],$_GET["lm_id"]);
+		$lotree = new ilTree($_GET["lm_id"],$_GET["lm_id"]);
 		//prepare objectlist
 		$this->data = array();
 		$this->data["data"] = array();
@@ -94,7 +94,7 @@ class ilLearningObjectGUI extends ilObjectGUI
 		
 		parent::viewObject();
 		
-		//$lotree = new Tree($_GET["lo_id"],$_GET["lo_parent"],$_GET["lm_id"],$_GET["lm_id"]);
+		//$lotree = new ilTree($_GET["lo_id"],$_GET["lo_parent"],$_GET["lm_id"],$_GET["lm_id"]);
 		//$this->tree->tree_id = $this->id; //_GET["lm_id"];
 		if (empty($_GET["lo_parent"]))
 		{

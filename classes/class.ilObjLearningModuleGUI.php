@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -30,7 +30,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $tree, $tpl;
 
-		$lotree = new Tree($_GET["ref_id"],ROOT_FOLDER_ID);
+		$lotree = new ilTree($_GET["ref_id"],ROOT_FOLDER_ID);
 
 		//prepare objectlist
 		$this->data = array();

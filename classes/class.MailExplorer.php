@@ -35,7 +35,7 @@ class MailExplorer extends ilExplorer
 	function MailExplorer($a_target,$a_user_id)
 	{
 		parent::ilExplorer($a_target);
-		$this->tree = new Tree($a_user_id);
+		$this->tree = new ilTree($a_user_id);
 		$this->tree->setTableNames('mail_tree','mail_obj_data');
 		$this->root_id = $this->tree->readRootId();
 		$this->user_id = $a_user_id;

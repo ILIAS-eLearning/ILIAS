@@ -30,7 +30,7 @@ require_once "classes/class.User.php";
 require_once "classes/class.ilFormat.php";
 require_once "classes/class.ilObjectDefinition.php";
 require_once "classes/class.perm.php";
-require_once "classes/class.tree.php";
+require_once "classes/class.ilTree.php";
 require_once "classes/class.ilLanguage.php";
 require_once "classes/class.ilLog.php";
 
@@ -126,7 +126,7 @@ if ($script != "login.php" && $script != "index.php")
 	//$_GET["parent"] = $_GET["parent"] ? $_GET["parent"] : 0;
 	
 	// init tree
-	$tree = new Tree(ROOT_FOLDER_ID);
+	$tree = new ilTree(ROOT_FOLDER_ID);
 }	
 
 // instantiate main template

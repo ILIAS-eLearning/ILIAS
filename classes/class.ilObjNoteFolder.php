@@ -44,7 +44,7 @@ class ilObjNoteFolder extends ilObject
 	{
 		parent::create();
 
-		//$this->m_tree = new tree(0,0,$this->m_usr_id);
+		//$this->m_tree = new ilTree(0,0,$this->m_usr_id);
 		
 		// TODO: method needs revision
 		//$this->m_notefId = $this->m_tree->getNodeDataByType("notf");
@@ -68,7 +68,7 @@ class ilObjNoteFolder extends ilObject
 		{
 			foreach($grp_members as $member)
 			{	
-				$myTree = new tree(0, 0, $member); 
+				$myTree = new ilTree(0, 0, $member); 
 
 				//get parent_id of usersettingfolder...	
 				$rootid =  $myTree->getRootId();
@@ -80,7 +80,7 @@ class ilObjNoteFolder extends ilObject
 			}
 		}
 		//insert the note in ones own notefolder
-		$myTree = new tree(0, 0, $this->m_usr_id); 
+		$myTree = new ilTree(0, 0, $this->m_usr_id); 
 	
 		//get parent_id of usersettingfolder...	
 		$rootid =  $myTree->getRootId();
@@ -99,7 +99,7 @@ class ilObjNoteFolder extends ilObject
 	function deleteNotes($notes)
 	{
 		global $rbacsystem;
-		$myTree = new tree($this->m_notefId[0]["obj_id"], 0, 0, $this->m_usr_id); 	
+		$myTree = new ilTree($this->m_notefId[0]["obj_id"], 0, 0, $this->m_usr_id); 	
 
 		foreach ($notes as $note)
 		{
@@ -131,7 +131,7 @@ class ilObjNoteFolder extends ilObject
 	function getNotes($note_id = "")
 	{
 		$notes = array();
-		$myTree = new tree($this->m_notefId[0]["obj_id"], 0, 0, $this->m_usr_id); 	
+		$myTree = new ilTree($this->m_notefId[0]["obj_id"], 0, 0, $this->m_usr_id); 	
 	
 		$nodes = $myTree->getNodeDataByType("note");
 				
@@ -155,7 +155,7 @@ class ilObjNoteFolder extends ilObject
 	function viewNote($note_id)
 	{
 		$note = array();
-		$myTree = new tree($this->m_notefId[0]["obj_id"], 0, $this->m_usr_id); 	
+		$myTree = new ilTree($this->m_notefId[0]["obj_id"], 0, $this->m_usr_id); 	
 	
 		$nodes = $myTree->getNodeDataByType("note");
 		$node_data["child"] = $note_id;
