@@ -34,6 +34,7 @@
 
 require_once "class.ilObject.php";
 require_once "class.ilGroupTree.php";
+require_once "class.ilObjGroup.php";
 
 class ilObjFile extends ilObject
 {
