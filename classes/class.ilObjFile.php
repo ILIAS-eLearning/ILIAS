@@ -157,7 +157,7 @@ class ilObjFile extends ilObject
 	{
 		parent::update();
 		
-		$q = "UPDATE file_data SET file_name = '".$this->getFileName().
+		$q = "UPDATE file_data SET file_name = '".ilUtil::prepareDBString($this->getFileName()).
 			"', file_type = '".$this->getFiletype()."' ".
 			", version = '".$this->getVersion()."' ".
 			"WHERE file_id = '".$this->getId()."'";
