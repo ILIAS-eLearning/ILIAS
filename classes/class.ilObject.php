@@ -501,7 +501,7 @@ class ilObject
 	*/
 	function create()
 	{
-		global $ilDB, $log;
+		global $ilDB, $log,$ilUser;
 
 		if (!isset($this->type))
 		{
@@ -519,7 +519,8 @@ class ilObject
 			 "(type,title,description,owner,create_date,last_update,import_id) ".
 			 "VALUES ".
 			 "('".$this->type."',".$ilDB->quote($this->getTitle()).",'".ilUtil::prepareDBString($this->getDescription())."',".
-			 "'".$this->ilias->account->getId()."',now(),now(),'".$this->getImportId()."')";
+			 "'".$ilUser->getId()."',now(),now(),'".
+			$this->getImportId()."')";
 
 		$ilDB->query($q);
 
@@ -536,7 +537,7 @@ class ilObject
 		$this->create_date = $obj_rec["create_date"];
 
 		// set owner for new objects
-		$this->setOwner($this->ilias->account->getId());
+		$this->setOwner($ilUser->getId());
 
 		// write log entry
 		$log->write("ilObject::create(), finished, obj_id: ".$this->id.", type: ".

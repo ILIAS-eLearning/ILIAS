@@ -71,13 +71,14 @@ class ilObjectFactory
 		// check object id
 		if (!isset($a_obj_id))
 		{
+			$message = "ilObjectFactory::getInstanceByObjId(): No obj_id given!";
 			if ($stop_on_error === true)
 			{
-				$message = "ilObjectFactory::getInstanceByObjId(): No obj_id given!";
 				$ilias->raiseError($message,$ilias->error_obj->WARNING);
 				exit();
 			}
-			
+			#var_dump("<pre>",$message,"<pre>");
+
 			return false;
 		}
 
@@ -89,30 +90,29 @@ class ilObjectFactory
 		// check number of records
 		if ($object_set->numRows() == 0)
 		{
+			$message = "ilObjectFactory::getInstanceByObjId(): Object with obj_id: ".$a_obj_id." not found!";
 			if ($stop_on_error === true)
 			{
-				$message = "ilObjectFactory::getInstanceByObjId(): Object with obj_id: ".$a_obj_id." not found!";
 				$ilias->raiseError($message,$ilias->error_obj->WARNING);
 				exit();
 			}
-			
+			#var_dump("<pre>",$message,"<pre>");
 			return false;
 		}
 
 		$object_rec = $object_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$class_name = "ilObj".$objDefinition->getClassName($object_rec["type"]);
-
+		
 		// check class
 		if ($class_name == "ilObj")
 		{
+			$message = "ilObjectFactory::getInstanceByObjId(): Not able to determine object ".
+				"class for type".$object_rec["type"].".";
 			if ($stop_on_error === true)
 			{
-				$message = "ilObjectFactory::getInstanceByObjId(): Not able to determine object ".
-							"class for type".$object_rec["type"].".";
 				$ilias->raiseError($message,$ilias->error_obj->WARNING);
 				exit();
 			}
-			
 			return false;
 		}
 

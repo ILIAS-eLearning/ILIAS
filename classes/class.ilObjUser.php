@@ -929,7 +929,7 @@ class ilObjUser extends ilObject
 
 		return $literature;
 	}
-	
+
 	/**
 	* check wether user has accepted user agreement
 	*/
@@ -1356,6 +1356,10 @@ class ilObjUser extends ilObject
 	function setLastUpdate($a_str)
 	{
 		$this->last_update = $a_str;
+	}
+	function getLastUpdate()
+	{
+		return $this->last_update;
 	}
 
     /**

@@ -131,7 +131,6 @@ class ILIAS
 	{
 		global $ilErr;
 
-
 		// load setup.ini
 		$this->ini_ilias = new ilIniFile("./ilias.ini.php");
 		$this->ini_ilias->read();
@@ -261,7 +260,11 @@ class ILIAS
 		define ("AUTH_CURRENT",$auth_mode);
 		
 		// set session.save_handler to "user" & set expiry time
-		ini_set("session.save_handler", "user");
+
+		if(ini_get('session.save_handler') != 'user')
+		{
+			ini_set("session.save_handler", "user");
+		}
 		
 		switch (AUTH_CURRENT)
 		{
