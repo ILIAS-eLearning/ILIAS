@@ -4798,4 +4798,18 @@ INSERT INTO `survey_relation` VALUES (3, 'equal', '=', 20040518195816);
 INSERT INTO `survey_relation` VALUES (4, 'not_equal', '<>', 20040518195839);
 INSERT INTO `survey_relation` VALUES (5, 'more_or_equal', '>=', 20040518195852);
 INSERT INTO `survey_relation` VALUES (6, 'more', '>', 20040518195903);
+<#316>
+DROP TABLE IF EXISTS `exc_returned`;
+CREATE TABLE `exc_returned` (
+`returned_id` INT NOT NULL AUTO_INCREMENT ,
+`obj_id` INT NOT NULL ,
+`user_id` INT NOT NULL ,
+`filename` MEDIUMTEXT NOT NULL ,
+`filetitle` MEDIUMTEXT NOT NULL ,
+`mimetype` VARCHAR( 40 ) NOT NULL ,
+`TIMESTAMP` TIMESTAMP NOT NULL ,
+PRIMARY KEY ( `returned_id` ) ,
+INDEX ( `obj_id` ),
+INDEX ( `user_id` )
+);
 
