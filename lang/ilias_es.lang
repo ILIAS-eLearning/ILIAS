@@ -388,6 +388,7 @@ common#:#module#:#module###26 Mar 2003 new variable
 common#:#modules#:#Modules###20 Mar 2003 new variable
 common#:#month#:#Month###01 Sep 2003 new variable
 common#:#moveChapter#:#Move###19 Sep 2003 new variable
+common#:#movePage#:#Move###20 Sep 2003 new variable
 common#:#move_to#:#move to
 common#:#msg_cancel#:#Action cancelled###01 Sep 2003 new variable
 common#:#msg_changes_ok#:#the changes were ok
@@ -830,6 +831,7 @@ content#:#cont_organization#:#Organization###04 Aug 2003 new variable
 content#:#cont_organizations#:#Organizations###04 Aug 2003 new variable
 content#:#cont_orig_size#:#Original Size###04 Aug 2003 new variable
 content#:#cont_page_header#:#Page Header###16 Jul 2003 new variable
+content#:#cont_page_select_target_now#:#Page marked for moving. Select target now.###20 Sep 2003 new variable
 content#:#cont_pages#:#Pages###28 May 2003 new variable
 content#:#cont_parameter#:#Parameter###04 Aug 2003 new variable
 content#:#cont_parameters#:#parameters###04 Aug 2003 new variable
