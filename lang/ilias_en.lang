@@ -507,13 +507,17 @@ common#:#cat_create_cat#:#Create Category
 common#:#cat_create_chat#:#Create Chat
 common#:#cat_create_crs#:#Create Course
 common#:#cat_create_dbk#:#Create Digibook
+common#:#grp_create_dbk#:#Create Digibook
 common#:#cat_create_exc#:#Create Exercise
+common#:#grp_create_exc#:#Create Exercise
 common#:#cat_create_frm#:#Create Forum
 common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
 common#:#cat_create_htlm#:#Create HTML Learning Module
+common#:#grp_create_htlm#:#Create HTML Learning Module
 common#:#cat_create_lm#:#Create Learning Module
 common#:#cat_create_mep#:#Create Media Pool
+common#:#grp_create_mep#:#Create Media Pool
 common#:#cat_create_qpl#:#Create Question Pool (Assessment)
 common#:#cat_create_slm#:#Create SCORM Learning Module
 common#:#cat_create_spl#:#Create Question Pool (Survey)

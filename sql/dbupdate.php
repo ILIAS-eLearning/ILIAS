@@ -2838,3 +2838,106 @@ CREATE TABLE scorm_tracking2
 	rvalue TEXT,
 	PRIMARY KEY(user_id, sco_id)
 );
+
+<#185>
+<?php
+
+// add create media pool, exercise, htlm and digilib operation to groups
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='grp'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$typ_id = $row["obj_id"];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','32')";
+$this->db->query($query);
+?>
+
+<#186>
+<?php
+
+// add create media pool, exercise, htlm and digilib operation to groups
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='grp'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$typ_id = $row["obj_id"];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','23')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','24')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','31')";
+$this->db->query($query);
+?>
+
+<#187>
+<?php
+
+//GET ID OF THE IL_GRP_ADMIN TEMPLATE
+$query1 = "SELECT obj_id FROM object_data WHERE title = 'il_grp_admin' ";
+$res = $this->db->query($query1);
+$tpl = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+//GET PROPER PARENT_ID
+$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
+$res = $this->db->query($query2);
+$rol_fold = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+$perms = array(		array("type" => "dbk", "ops_id" => 1),
+					array("type" => "dbk", "ops_id" => 2),
+					array("type" => "dbk", "ops_id" => 3),
+					array("type" => "dbk", "ops_id" => 4),
+					array("type" => "dbk", "ops_id" => 6));
+
+foreach($perms as $perm)
+{
+	$q = "REPLACE INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','".$perm["type"]."','".$perm["ops_id"]."','".$rol_fold["parent"]."')";
+	$this->db->query($q);
+}
+
+?>
+
+<#188>
+<?php
+
+//GET ID OF THE IL_GRP_ADMIN TEMPLATE
+$query1 = "SELECT obj_id FROM object_data WHERE title = 'il_grp_admin' ";
+$res = $this->db->query($query1);
+$tpl = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+//GET PROPER PARENT_ID
+$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
+$res = $this->db->query($query2);
+$rol_fold = $res->fetchRow(DB_FETCHMODE_ASSOC);
+
+$perms = array(		array("type" => "exc", "ops_id" => 1),
+					array("type" => "exc", "ops_id" => 2),
+					array("type" => "exc", "ops_id" => 3),
+					array("type" => "exc", "ops_id" => 4),
+					array("type" => "exc", "ops_id" => 6),
+
+					array("type" => "grp", "ops_id" => 23),
+					array("type" => "grp", "ops_id" => 24),
+					array("type" => "grp", "ops_id" => 31),
+					array("type" => "grp", "ops_id" => 32),
+
+					array("type" => "htlm", "ops_id" => 1),
+					array("type" => "htlm", "ops_id" => 2),
+					array("type" => "htlm", "ops_id" => 3),
+					array("type" => "htlm", "ops_id" => 4),
+					array("type" => "htlm", "ops_id" => 6),
+
+					array("type" => "mep", "ops_id" => 1),
+					array("type" => "mep", "ops_id" => 2),
+					array("type" => "mep", "ops_id" => 3),
+					array("type" => "mep", "ops_id" => 4),
+					array("type" => "mep", "ops_id" => 6),
+
+					);
+
+foreach($perms as $perm)
+{
+	$q = "REPLACE INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','".$perm["type"]."','".$perm["ops_id"]."','".$rol_fold["parent"]."')";
+	$this->db->query($q);
+}
+
+?>
