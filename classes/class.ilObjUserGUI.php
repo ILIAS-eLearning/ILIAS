@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.73 2004/01/21 16:56:38 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.74 2004/01/31 13:11:21 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -251,6 +251,125 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		} // END skin & style selection
 	}
+	
+	/**
+	* set admin tabs
+	* @access	public
+	*
+	function setAdminTabs()
+	{
+		global $rbacsystem;
+
+		$tabs = array();
+		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+		
+		if (isset($_POST["new_type"]) and $_POST["new_type"] == "usr")
+		{
+			$type = "usrf";
+		}
+		else
+		{
+			$type = $this->type;
+		}
+		$d = $this->objDefinition->getProperties($type);
+
+		foreach ($d as $key => $row)
+		{
+			$tabs[] = array($row["lng"], $row["name"]);
+		}
+
+		// check for call_by_reference too to avoid hacking
+		if (isset($_GET["obj_id"]) and $this->call_by_reference === false)
+		{
+			$object_link = "&obj_id=".$_GET["obj_id"];
+		}
+
+		foreach ($tabs as $row)
+		{
+			$i++;
+
+			if ($row[1] == $_GET["cmd"])
+			{
+				$tabtype = "tabactive";
+				$tab = $tabtype;
+			}
+			else
+			{
+				$tabtype = "tabinactive";
+				$tab = "tab";
+			}
+
+			$show = true;
+
+			// only check permissions for tabs if object is a permission object
+			// TODO: automize checks by using objects.xml definitions!!
+			if (true)
+			//if ($this->call_by_reference)
+			{
+				// only show tab when the corresponding permission is granted
+				switch ($row[1])
+				{
+					case 'view':
+						if (!$rbacsystem->checkAccess('visible',$this->ref_id))
+						{
+							$show = false;
+						}
+						break;
+
+					case 'edit':
+						if (!$rbacsystem->checkAccess('write',$this->ref_id))
+						{
+							$show = false;
+						}
+						break;
+
+					case 'perm':
+						if (!$rbacsystem->checkAccess('edit_permission',$this->ref_id))
+						{
+							$show = false;
+						}
+						break;
+
+					case 'trash':
+						if (!$this->tree->getSavedNodeData($this->ref_id))
+						{
+							$show = false;
+						}
+						break;
+
+					// user object only
+					case 'roleassignment':
+						if (!$rbacsystem->checkAccess('edit_roleassignment',$this->ref_id))
+						{
+							$show = false;
+						}
+						break;
+
+					// role object only
+					case 'userassignment':
+						if (!$rbacsystem->checkAccess('edit_userassignment',$this->ref_id))
+						{
+							$show = false;
+						}
+						break;
+				} //switch
+			}
+
+			if (!$show)
+			{
+				continue;
+			}
+
+			$this->tpl->setCurrentBlock("tab");
+			$this->tpl->setVariable("TAB_TYPE", $tabtype);
+			$this->tpl->setVariable("TAB_TYPE2", $tab);
+			$this->tpl->setVariable("IMG_LEFT", ilUtil::getImagePath("eck_l.gif"));
+			$this->tpl->setVariable("IMG_RIGHT", ilUtil::getImagePath("eck_r.gif"));
+			$this->tpl->setVariable("TAB_LINK", $this->tab_target_script."?ref_id=".$_GET["ref_id"].$object_link."&cmd=".$row[1]);
+			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
+			$this->tpl->parseCurrentBlock();
+		}
+	}*/
 
 	/**
 	* display user edit form
@@ -1050,7 +1169,8 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
 
 				// disable checkbox for system role for the system user
-				if ($this->object->getId() == SYSTEM_USER_ID and $ctrl["obj_id"] == SYSTEM_ROLE_ID)
+				if (($this->object->getId() == SYSTEM_USER_ID and $ctrl["obj_id"] == SYSTEM_ROLE_ID)
+					or (!in_array(SYSTEM_ROLE_ID,$_SESSION["RoleId"]) and $ctrl["obj_id"] == SYSTEM_ROLE_ID))
 				{
 					$this->tpl->setVariable("CHECKED", $checked." disabled=\"disabled\"");
 				}

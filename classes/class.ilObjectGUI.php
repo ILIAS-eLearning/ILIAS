@@ -122,7 +122,7 @@ class ilObjectGUI
 
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
-
+		
 		// get the object
 		$this->assignObject();
 
@@ -202,7 +202,7 @@ class ilObjectGUI
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
-		$this->setAdminTabs();
+		$this->setAdminTabs($_POST["new_type"]);
 		$this->setLocator();
 	}
 
@@ -210,13 +210,22 @@ class ilObjectGUI
 	* set admin tabs
 	* @access	public
 	*/
-	function setAdminTabs()
+	function setAdminTabs($a_new_type = 0)
 	{
 		global $rbacsystem;
 
 		$tabs = array();
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-		$d = $this->objDefinition->getProperties($this->type);
+		
+		// for new objects display properties of parent object
+		if ($a_new_type)
+		{
+			$d = $this->objDefinition->getProperties($this->object->getType());
+		}
+		else
+		{
+			$d = $this->objDefinition->getProperties($this->type);
+		}
 
 		foreach ($d as $key => $row)
 		{

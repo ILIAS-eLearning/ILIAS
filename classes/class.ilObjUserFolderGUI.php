@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.19 2003/10/29 21:56:13 shofmann Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.20 2003/11/07 11:11:17 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -115,8 +115,313 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_user"));
 		$this->tpl->parseCurrentBlock();
 
-		parent::displayList();
+		$this->displayList();
 	} //function
+	
+	
+	/**
+	* display object list
+	*
+	* @access	public
+ 	*/
+	function displayList()
+	{
+		include_once "./classes/class.ilTableGUI.php";
+
+		// load template for table
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+
+		$num = 0;
+
+		$obj_str = ($this->call_by_reference) ? "" : "&obj_id=".$this->obj_id;
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id."$obj_str&cmd=gateway");
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",
+					   $this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+
+		foreach ($this->data["cols"] as $val)
+		{
+			$header_names[] = $this->lng->txt($val);
+		}
+
+		$tbl->setHeaderNames($header_names);
+
+		$header_params = array("ref_id" => $this->ref_id);
+		$tbl->setHeaderVars($this->data["cols"],$header_params);
+		$tbl->setColumnWidth(array("15","15","75%","25%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);
+
+		//$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+		$this->showActions(true);
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		#$tbl->disable("footer");
+
+		// render table
+		$tbl->render();
+
+		if (is_array($this->data["data"][0]))
+		{
+			//table cell
+			for ($i=0; $i < count($this->data["data"]); $i++)
+			{
+				$data = $this->data["data"][$i];
+				$ctrl = $this->data["ctrl"][$i];
+
+				// color changing
+				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
+
+				// surpress checkbox for particular object types AND the system role
+				if (!$this->objDefinition->hasCheckbox($ctrl["type"]) or $ctrl["obj_id"] == SYSTEM_ROLE_ID or $ctrl["obj_id"] == SYSTEM_USER_ID or $ctrl["obj_id"] == ANONYMOUS_ROLE_ID)
+				{
+					$this->tpl->touchBlock("empty_cell");
+				}
+				else
+				{
+					// TODO: this object type depending 'if' could become really a problem!!
+					if ($ctrl["type"] == "usr" or $ctrl["type"] == "role" or $ctrl["type"] == "rolt")
+					{
+						$link_id = $ctrl["obj_id"];
+					}
+					else
+					{
+						$link_id = $ctrl["ref_id"];
+					}
+	
+					$this->tpl->setCurrentBlock("checkbox");
+					$this->tpl->setVariable("CHECKBOX_ID", $link_id);
+					$this->tpl->setVariable("CSS_ROW", $css_row);
+					$this->tpl->parseCurrentBlock();
+				}
+
+				$this->tpl->setCurrentBlock("table_cell");
+				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
+				$this->tpl->parseCurrentBlock();
+
+				foreach ($data as $key => $val)
+				{
+					//build link
+					$link = "adm_object.php?";
+
+					$n = 0;
+
+					foreach ($ctrl as $key2 => $val2)
+					{
+						$link .= $key2."=".$val2;
+
+						if ($n < count($ctrl)-1)
+						{
+					    	$link .= "&";
+							$n++;
+						}
+					}
+
+					if ($key == "name" || $key == "title")
+					{
+						$name_field = explode("#separator#",$val);
+					}
+
+					if ($key == "title" || $key == "name" || $key == "type")
+					{
+						$this->tpl->setCurrentBlock("begin_link");
+						$this->tpl->setVariable("LINK_TARGET", $link);
+
+						$this->tpl->parseCurrentBlock();
+						$this->tpl->touchBlock("end_link");
+					}
+
+					// process clipboard information"
+					if (isset($_SESSION["clipboard"]))
+					{
+						$cmd = $_SESSION["clipboard"]["cmd"];
+						$parent = $_SESSION["clipboard"]["parent"];
+
+						foreach ($_SESSION["clipboard"]["ref_ids"] as $clip_id)
+						{
+							if ($ctrl["ref_id"] == $clip_id)
+							{
+								if ($cmd == "cut" and $key == "title")
+								{
+									$val = "<del>".$val."</del>";
+								}
+
+								if ($cmd == "copy" and $key == "title")
+								{
+									$val = "<font color=\"green\">+</font>  ".$val;
+								}
+
+								if ($cmd == "link" and $key == "title")
+								{
+									$val = "<font color=\"black\"><</font> ".$val;
+								}
+							}
+						}
+					}
+
+					$this->tpl->setCurrentBlock("text");
+
+					if ($key == "type")
+					{
+						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);
+					}
+
+					if ($key == "name" || $key == "title")
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $name_field[0]);
+						
+						$this->tpl->setCurrentBlock("subtitle");
+						$this->tpl->setVariable("DESC", $name_field[1]);
+						$this->tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$this->tpl->setVariable("TEXT_CONTENT", $val);
+					}
+					
+					$this->tpl->parseCurrentBlock();
+
+					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->parseCurrentBlock();
+
+				} //foreach
+
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+			} //for
+
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", $num);
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
+	* show possible action (form buttons)
+	*
+	* @param	boolean
+	* @access	public
+ 	*/
+	function showActions($with_subobjects = false)
+	{
+		global $rbacsystem;
+
+		$operations = array();
+
+		if ($this->actions == "")
+		{
+			$d = $this->objDefinition->getActions($_GET["type"]);
+		}
+		else
+		{
+			$d = $this->actions;
+		}
+
+		foreach ($d as $row)
+		{
+			if ($rbacsystem->checkAccess($row["name"],$this->object->getRefId()))
+			{
+				$operations[] = $row;
+			}
+		}
+
+		if (count($operations) > 0)
+		{
+			foreach ($operations as $val)
+			{
+				$this->tpl->setCurrentBlock("tbl_action_btn");
+				$this->tpl->setVariable("BTN_NAME", $val["name"]);
+				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		if ($with_subobjects === true)
+		{
+			$subobjs = $this->showPossibleSubObjects();
+		}
+
+		if ((count($operations) > 0) or $subobjs === true)
+		{
+			$this->tpl->setCurrentBlock("tbl_action_row");
+			$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+
+	/**
+	* show possible subobjects (pulldown menu)
+	* overwritten to prevent displaying of role templates in local role folders
+	*
+	* @access	public
+ 	*/
+	function showPossibleSubObjects()
+	{
+		global $rbacsystem;
+
+		$d = $this->objDefinition->getCreatableSubObjects($this->object->getType());
+		
+		if (!$rbacsystem->checkAccess('create_user',$this->object->getRefId()))
+		{
+			unset($d["usr"]);			
+		}
+
+		if (count($d) > 0)
+		{
+			foreach ($d as $row)
+			{
+			    $count = 0;
+				if ($row["max"] > 0)
+				{
+					//how many elements are present?
+					for ($i=0; $i<count($this->data["ctrl"]); $i++)
+					{
+						if ($this->data["ctrl"][$i]["type"] == $row["name"])
+						{
+						    $count++;
+						}
+					}
+				}
+				if ($row["max"] == "" || $count < $row["max"])
+				{
+					$subobj[] = $row["name"];
+				}
+			}
+		}
+
+		if (is_array($subobj))
+		{
+			//build form
+			$opts = ilUtil::formSelect(12,"new_type",$subobj);
+			$this->tpl->setCurrentBlock("add_object");
+			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+			$this->tpl->setVariable("BTN_NAME", "create");
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+			$this->tpl->parseCurrentBlock();
+			
+			return true;
+		}
+		
+		return false;
+	}
 	
 	/**
 	* confirmObject
