@@ -69,7 +69,7 @@ class ilLMTable extends ilPageContent
 
 	function newRow()
 	{
-		$this-row++;
+		$this->row++;
 		$this->col = 0;
 		if ($this->row > $this->rowcnt)
 		{
@@ -88,7 +88,7 @@ class ilLMTable extends ilPageContent
 		$this->row = $a_row;
 	}
 
-	function appendContentToCell(&$a_content_obj)
+	function appendContent(&$a_content_obj)
 	{
 		$this->cell[$this->row][$this->col][] =& $a_content_obj;
 	}
@@ -119,7 +119,7 @@ class ilLMTable extends ilPageContent
 				$xml.= "<TableData>";					// todo: attributes
 
 				reset($this->cell[$this->row][$this->col]);
-				foreach($this->cell[$this->row][$this->col as $co_object)
+				foreach($this->cell[$this->row][$this->col] as $co_object)
 				{
 					if (get_class($co_object) == "ilparagraph")
 					{
