@@ -1,8 +1,29 @@
 <?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul														  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
 /**
-*Name of File: inc.day.php
-*Author: Jan Hübbers (jan@huebbers.de)
-*Version: 0.7
+* Functions for day.php
 *
 * Description:
 *	These Functions are concerned with the Day view of Dates. They
@@ -11,6 +32,8 @@
 *	configure the display size.
 *
 * Version History:
+*	1.0	- release
+*
 *	0.8	- removed most global variables
 *
 *	0.7	- fixed a problem with dates with the same start and end time (moments).
@@ -36,22 +59,24 @@
 *	
 *	0.1	- Creation of first code with padding and a basic table, debug 
 *		  code for evaluation
-*		  	
-*		
 *
+* @author		Jan Hübbers <jan@huebbers.de> 
+* @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
+* @version		$Id$ 
+* @module       inc.day.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-functions
 */
-
-/*-----------------------------------------------------------------------------*/
 
 
 /**
 *	void function navigation($timestamp)
+*
+*	This function generates the timestamps for the day navigation and passes them to the template day_navigation 
 *	
-*	@param $timestamp, a required timestamp of sometime during the current day.
-*	@global $day_navigation, the output variable of the Gui,
-*	@global $DP_language, used by the Gui to determine the language of "today" as set in the language file.
-*	
-*	@description This function generates the timestamps for the day navigation and passes them to the template day_navigation 
+*	@param $timestamp , a required timestamp of sometime during the current day.
+*	@global $DP_language , used by the Gui to determine the language of "today" as set in the language file.
+*	@return $day_navigation , the output variable of the Gui,
 */
 function navigation($timestamp){
 			global $DP_language;
@@ -71,11 +96,11 @@ function navigation($timestamp){
 
 /**
 *	void function getDateForDay($timestamp)
+*   This function generates the day string for the day view and passes it to the GUI
 *	
-*	@param $timestamp, a required timestamp of sometime during the current day.
-*	@global $showdate, the output variable of the Gui,
-*	
-@description This function generates the day string for the day view and passes it to the GUI
+*	@param $timestamp , a required timestamp of sometime during the current day.
+*	@global $DP_language , used by the Gui to determine the language of "today" as set in the language file.
+*	@return $showdate , the output variable of the Gui,
 */
 function getDateForDay($timestamp){
 	global $DP_language;
@@ -92,16 +117,17 @@ function getDateForDay($timestamp){
 
 /**
 *	void function getWholeDay($timestamp)
+*
+*   This function queries for whole day dates and generates html code which is passed to the Gui
 *	
-*	@param $timestamp, a required timestamp of sometime during the current day.
-*	@param $DB, a DB class object.
-*	@global $wholeDayDayDates, contains dates from 00:00:00 to 23:59:59 
+*	@param $timestamp , a required timestamp of sometime during the current day.
+*	@param $DB , a DB class object.
+*	@global	$DP_UId reads the User ID from the session
+*	@global	array[] $DP_Keywords array containing selected Keywords
+*	@global	$_SESSION ( bol $DP_JSscript is 1 if JavaScript disabled)
+*	@return $wholeDayDayDates , contains dates from 00:00:00 to 23:59:59 
 *			  for the selected day as html, evaluated by the Gui.
-	@global	$DP_UId reads the User ID from the session
-	@global	array[] $DP_Keywords array containing selected Keywords
-	@global	$_SESSION ( bol $DP_JSscript is 1 if JavaScript disabled)
 *	
-@description 	This function queries for whole day dates and generates html code which is passed to the Gui
 */
 function getWholeDay($timestamp, $DB){
 	global $DP_UId, $_SESSION;
@@ -133,13 +159,15 @@ function getWholeDay($timestamp, $DB){
 
 /**
 *	void function generateDay($timestamp)
+*
+*	this funktion calls the other relevant funktions to fetch dates, reformat them and to generate
 *	
-*	@param $timestamp, a required timestamp of sometime during the current day.
+*	@param $timestamp ,  a required timestamp of sometime during the current day.
 *	@param $DB, a DB class object.
-*	@global $DP_UId, Session Variable of the User ID
+*	@global $DP_UId , Session Variable of the User ID
 *	@global $_SESSION  ( $DP_Keywords, array containing selected Keywords, time $DP_Endtime, user set display end time and  time $DP_Starttime, user set display start time)
-	@description this funktion calls the other relevant funktions to fetch dates, reformat them and to generate
-*			output in HTML format.
+*	@return $dayString output in HTML format 
+*			.
 */
 
 
@@ -191,14 +219,14 @@ function generateDay($timestamp, $DB){
 
 /**
 *	void function initTS($timestamp, &$startshow, &$endshow)
-*	
-*	@param $timestamp, a required timestamp of sometime during the current day.
-*	@param &$startshow, a required timestamp of the starttime of the day, will be generated an written to the variable.
-*	@param &$endshow, a required timestamp of the end of the day, will be generated an written to the variable.
-*	
-*	
-*	@description This function generates the timestamps for the start and endtime of the day. using references (i.e &$var)
+*
+*	This function generates the timestamps for the start and endtime of the day. using references (i.e &$var)
 *			the result is directly stored in the passed variables.
+*	
+*	@param $timestamp , a required timestamp of sometime during the current day.
+*	@param &$startshow , a required timestamp of the starttime of the day, will be generated an written to the variable.
+*	@param &$endshow , a required timestamp of the end of the day, will be generated an written to the variable.
+*	
 */
 
 function initTS($timestamp, &$startshow, &$endshow){
@@ -210,14 +238,14 @@ function initTS($timestamp, &$startshow, &$endshow){
 
 /**
 *	void function initDisplayTime(&$startDisplayTimeInMinutes, &$endDisplayTimeInMinutes, $dates)
-*	
-*	@param &$startDisplayTimeInMinutes, a required timestamp of sometime during the current day.
-*	@param &$endDisplayTimeInMinutes, a required timestamp of sometime during the current day.
-*	@param $dates, a 2-dimensional array of dates.
-*	
-*	
-*	@description this funktion goes through an 2dim array of dates and checks, if the passed
+*
+*	this funktion goes through an 2dim array of dates and checks, if the passed
 			start and end display time suffice, if not, they are ajusted 
+*	
+*	@param &$startDisplayTimeInMinutes , a required timestamp of sometime during the current day.
+*	@param &$endDisplayTimeInMinutes , a required timestamp of sometime during the current day.
+*	@param $dates , a 2-dimensional array of dates.
+*	
 */
 
 function initDisplayTime(&$startDisplayTimeInMinutes, &$endDisplayTimeInMinutes, $dates, $intervall){
@@ -240,13 +268,15 @@ function initDisplayTime(&$startDisplayTimeInMinutes, &$endDisplayTimeInMinutes,
 
 /**
 *	void function turnToMinutes($dateList, $startshow)
-*	param	array[][] $dateList, a 2-dimensional array of dates
-*	param	int $startshow , timestamp of the start of the day
 *
-*	global	array[] $DP_language, an array containung language dependant information
-*	
-*	@description This function reformats the timestamps of start and end to minutes of the day.
+*	This function reformats the timestamps of start and end to minutes of the day.
 *			Additionally, the timestamps are formated as a date string, as to prepare data for output
+*
+*	@param	array[][] $dateList , a 2-dimensional array of dates
+*	@param	int $startshow , timestamp of the start of the day
+*
+*	@global	array[] $DP_language , an array containung language dependant information
+*	
 */
 function turnToMinutes(&$dateList, $startshow){
 	global $DP_language;
@@ -266,11 +296,11 @@ function turnToMinutes(&$dateList, $startshow){
 /**
 *	void function testoutput($dim3)
 *	
-*	@param array[][][] $dim3, a 3 dimensional array with data
-*	
-*	
-*	@description echos a 3 dimensional array to the screen, used for debug purposes,
+*	echos a 3 dimensional array to the screen, used for debug purposes,
 *			might distort normal table output if existent
+*	
+*	@param array[][][] $dim3 , a 3 dimensional array with data
+*	
 */
 function testOutput($dim3){
 	foreach($dim3 as $key => $dim2){
@@ -290,11 +320,11 @@ function testOutput($dim3){
 /**
 *	void function testOutput2($dim2)
 *	
-*	@param array[][] $dim2, a 2 dimensional array with data
-*	
-*	
-*	@description echos a 2 dimensional array to the screen, used for debug purposes,
+*	echos a 2 dimensional array to the screen, used for debug purposes,
 *			might distort normal table output if existent
+*	
+*	@param array[][] $dim2 , a 2 dimensional array with data
+*	
 */
 function testOutput2($dim2){
 		foreach($dim2 as $dim1){
@@ -311,16 +341,16 @@ function testOutput2($dim2){
 /**
 *	void function padFront($dateList, $stream, $arrayPadded, $intervall, $startDisplayTimeInMinutes)
 *	
-*	@param array[][] $dateList, a two dimensional array with ascending dates.
-*	@param int $stream, used to determine, in which part of the first dimension of $arrayPadded dates are inserted.
-*	@param array[][][] $arrayPadded, it is the result array, which contains all data used for displaying and formating,
+*	This funktion inserts what will be displayed as blank "<TD></TD>" into $arrayPadded,
+*			until the first date is reached.
+*	
+*	@param array[][] $dateList , a two dimensional array with ascending dates.
+*	@param int $stream , used to determine, in which part of the first dimension of $arrayPadded dates are inserted.
+*	@param array[][][] $arrayPadded , it is the result array, which contains all data used for displaying and formating,
 *				to be passed as a reference
 *	
-*	@param string $intervall, this value holds the size of the subdivisions (i.e. 15) 
-*	@param $startDisplayTimeInMinutes, the display starting time in minutes
-*	
-*	@description This funktion inserts what will be displayed as blank "<TD></TD>" into $arrayPadded,
-			until the first date is reached.
+*	@param string $intervall , this value holds the size of the subdivisions (i.e. 15) 
+*	@param $startDisplayTimeInMinutes , the display starting time in minutes
 			
 */	
 function padFront($dateList, $stream, &$arrayPadded, $intervall, $startDisplayTimeInMinutes){
@@ -367,18 +397,17 @@ function padFront($dateList, $stream, &$arrayPadded, $intervall, $startDisplayTi
 /**
 *	void function padMiddle($dateList, $counter, $stream, $arrayPadded, $intervall)
 *	
-*	@param array[][] $dateList, a two dimensional array with ascending dates.
-*	@param int $counter, points at the current to be padded date in $dateList.
-*	@param int $stream, used to determine, in which part of the first dimension of $arrayPadded dates are inserted.
-*	@param array[][][] $arrayPadded, it is the result array, which contains all data used for displaying and formating,
-*				to be passed as a reference
-*	@param int $intervall, this value holds the size of the subdivisions (i.e. 15) 
-*	
-*	@description This funktion inserts what will be displayed as blank "<TD></TD>" into $arrayPadded, by
+*	This funktion inserts what will be displayed as blank "<TD></TD>" into $arrayPadded, by
 *			trying to fill up untill the next intervall and consecutive intervalls untill 
 *			and/or the next date.
 *			
-			
+*	@param array[][] $dateList , a two dimensional array with ascending dates.
+*	@param int $counter , points at the current to be padded date in $dateList.
+*	@param int $stream , used to determine, in which part of the first dimension of $arrayPadded dates are inserted.
+*	@param array[][][] $arrayPadded , it is the result array, which contains all data used for displaying and formating,
+*				to be passed as a reference
+*	@param int $intervall , this value holds the size of the subdivisions (i.e. 15) 
+*	
 */
 function padMiddle($dateList, $counter, $stream, &$arrayPadded, $intervall){
 	$lastElement=count($arrayPadded[$stream])-1;
@@ -426,16 +455,15 @@ function padMiddle($dateList, $counter, $stream, &$arrayPadded, $intervall){
 /**
 *	void function padBack($stream, $arrayPadded, $intervall, $endDisplayTimeInMinutes)
 *	
-*	@param int $stream, used to determine, in which part of the first dimension of $arrayPadded dates are inserted.
-*	@param array[][][] $arrayPadded, it is the result array, which contains all data used for displaying and formating,
-*				to be passed as a reference
-*	@param int $endDisplayTimeInMinutes, time when the padding has to stop
-*	@param int $intervall, this value holds the size of the subdivisions (i.e. 15) 
-*	
-*	@description This funktion inserts what will be displayed as blank "<TD></TD>" into $arrayPadded, starting from the last date	
+*	This funktion inserts what will be displayed as blank "<TD></TD>" into $arrayPadded, starting from the last date	
 *			untill $endDisplayTimeInMinutes is reached
 *			
-			
+*	@param int $stream , used to determine, in which part of the first dimension of $arrayPadded dates are inserted.
+*	@param array[][][] $arrayPadded , it is the result array, which contains all data used for displaying and formating,
+*				to be passed as a reference
+*	@param int $endDisplayTimeInMinutes , time when the padding has to stop
+*	@param int $intervall , this value holds the size of the subdivisions (i.e. 15) 
+*	
 */
 function padBack($stream, &$arrayPadded, $intervall, $endDisplayTimeInMinutes){
 	$lastElement=count($arrayPadded[$stream])-1;
@@ -459,30 +487,30 @@ function padBack($stream, &$arrayPadded, $intervall, $endDisplayTimeInMinutes){
 /**
 *	void function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow)
 *	
-*	@param array[][][] $arrayPadded, a 3-dimensional array holding the dates formated for output.	
-*				The first dimension is used for distinguishing colliding dates.
-*				The second dimension holds a single date.
-*				The third dimesion holds the attributes of the date, which are ordered as followed:
-*				0=> ID or NULL; 1=> startTimeInMinutes; 2=> endTimeInMinutes; 3=> shortText; 4=> longText; 5=> rowspan; 6=> colspan(not used); 7=> formated date&time of start for output; 8=> formated date&time of end for output;
-*	@param int $startDisplayTimeInMinutes, start of display time
-*	@param int $endDisplayTimeInMinutes, end of display time
-*	@param int $intervall, the displayed subdivisions (i.e. 15)
-*	@param int $startshow, a timestamp of the start of the day (00:00 hours)
-*
-*	@global string $templatefolder, holds the variable to the folder containing template files
-*	@global string $actualtemplate, defines the used template
-*	@global array[] $DP_CSS, an array containing CSS information
-*	@global	$_SESSION  ( bol $DP_JSscript is 1 if JavaScript disabled)
-*
-*	@return $dayString, the output variable of the Gui
-*	
-@description This function generates a HTML string. Basically it counts up the minutes from 
+*		This function generates a HTML string. Basically it counts up the minutes from 
 *		$startDisplayTime to $endDisplayTime. For each minute a new <tr> is created.
 *		The starting times of dates and blanks in $arrayPadded are compared to the current
 *		time and if they match, a new <TD> with a blank or a date is insterted.
 *		With dates, the date information is displayed and a link to date.php is provided as
 *		a javascript pop up.
 *		 
+*	@param array[][][] $arrayPadded , a 3-dimensional array holding the dates formated for output.	
+*				The first dimension is used for distinguishing colliding dates.
+*				The second dimension holds a single date.
+*				The third dimesion holds the attributes of the date, which are ordered as followed:
+*				0=> ID or NULL; 1=> startTimeInMinutes; 2=> endTimeInMinutes; 3=> shortText; 4=> longText; 5=> rowspan; 6=> colspan(not used); 7=> formated date&time of start for output; 8=> formated date&time of end for output;
+*	@param int $startDisplayTimeInMinutes , start of display time
+*	@param int $endDisplayTimeInMinutes , end of display time
+*	@param int $intervall , the displayed subdivisions (i.e. 15)
+*	@param int $startshow , a timestamp of the start of the day (00:00 hours)
+*
+*	@global string $templatefolder , holds the variable to the folder containing template files
+*	@global string $actualtemplate , defines the used template
+*	@global array[] $DP_CSS, an array containing CSS information
+*	@global	$_SESSION  ( bol $DP_JSscript is 1 if JavaScript disabled)
+*
+*	@return $dayString , the output variable of the Gui
+*	
 */
 function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow){
 	global $DP_CSS, $templatefolder, $actualtemplate, $_SESSION;
@@ -543,10 +571,10 @@ function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $e
 /**
 * 	void function parseData (Array DateValues)
 * 	
-* 	@description: Formate the user Date Date for the html Output.
+* 	Formate the user Date Date for the html Output.
 *
-* 	@param		: $DateValues
-*	@return		: $Valid
+* 	@param		array $DateValues
+*	@return		string $Valid
 */
 function  parseDataForOutput ($DateValues) {
 	

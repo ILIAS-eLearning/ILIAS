@@ -1,24 +1,48 @@
 <?php	
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul														  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
 /**
+* Functions for week.php
+*
 * Include file Week
 *
 * this file should manage the week functions
-* 
-* @author Frank Grümmert 
-* 
-* @version $Id: inc.week.php,v 0.9 2003/06/11 
-* @package application
-* @access public
 *
+* @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
+* @version		$Id$ 
+* @module       inc.week.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-functions
 */
 
 /**
 * 	void function setNavigation($timestamp,$rowSpan)
-* 	@description : stet variables in the setNavigation of week 
-* 	@param int timestamp
-* 	@param string rowSpan   ( to format the Span of rows, control variable )
-*	@global Array DP_language ( include Languageproperties )
-* 	@return string week_navigation   ( contains the output ) 
+* 	set variables in the setNavigation of week 
+* 	@param int $timestamp
+* 	@param string $rowSpan				( to format the Span of rows, control variable )
+*	@global Array $DP_language			( include languageproperties )
+* 	@return string $week_navigation		( contains the output ) 
 */
 function setNavigation($timestamp,$rowSpan)
 {
@@ -40,9 +64,9 @@ function setNavigation($timestamp,$rowSpan)
 
 /**
 * 	void function setDateInTblHead($timestamp)
-* 	@description : set the Stings for the date format in the week view at the table top 
-* 	@param int timestamp
-* 	@return string S_Datum 
+* 	set the Stings for the date format in the week view at the table top 
+* 	@param int $timestamp
+* 	@return string $S_Datum 
 */
 function setDateInTblHead($timestamp)
 {
@@ -84,15 +108,15 @@ function setDateInTblHead($timestamp)
 
 /**
 * 	function getContent($begin_ts, $end_ts)
-* 	@description : get Content for the Week View from the sortdates functions 
-* 	@param int begin_ts
-* 	@param int end_ts
+* 	get Content for the Week View from the sortdates functions 
+* 	@param int $begin_ts
+* 	@param int $end_ts
 * 	@param int $DB (object of th db class ) 
-* 	@global string DP_UId     ( actual User ID )
-* 	@global Array DP_Keywords ( actuel Keywords)
-* 	@return Array [][][] 
-* 			[0]	Dates			( normel Dates )
-* 			[1] WholeDates		( one day Dates )
+* 	@global string $DP_UId     ( current User ID )
+* 	@global Array $DP_Keywords ( current Keywords)
+* 	@return Array [][][] $DATE
+* 			[0]	$Dates			( normal Dates )
+* 			[1] $WholeDates		( one day Dates )
 */
 function getContent($begin_ts, $end_ts, $DB)
 {
@@ -109,15 +133,15 @@ function getContent($begin_ts, $end_ts, $DB)
 
 /**
 *	void function setDatesInWeek($date_ts, $Dates, $row_height, &$style)
-*	@description : set the Output for normal Dates into the Week view 
-*	@param int date_ts
-*	@param int day_ts			( Day Timestamp )
-*	@param Array Dates			( Date Data )
-*	@param string style			( to format rows, control variable )
-*	@param string row_height	( to format the height of rows, control variable )
-*	@global Array DP_language ( include Languageproperties )
-*	@global	$_SESSION			( DP_JSscript is 0 if JavaScript disabled )
-*	@return string week_float   ( contains the output )
+*	set the Output for normal Dates into the Week view 
+*	@param int $date_ts
+*	@param int $day_ts			( Day Timestamp )
+*	@param Array $Dates			( Date Data )
+*	@param string $style		( to format rows, control variable )
+*	@param string $row_height	( to format the height of rows, control variable )
+*	@global Array $DP_language  ( include Languageproperties )
+*	@global	Array $_SESSION		( DP_JSscript is 0 if JavaScript disabled )
+*	@return string $week_float  ( contains the output )
 */
 function setDatesInWeek($date_ts, $Dates, $day_ts, $row_height, &$style)
 {
@@ -196,15 +220,15 @@ function setDatesInWeek($date_ts, $Dates, $day_ts, $row_height, &$style)
 
 /**
 * 	void function setDayDatesInWeek($date_ts, $Dates, $row_height, &$style)
-* 	@description : set the Output for one Day Dates into the Week view 
-* 	@param int date_ts
-* 	@param Array Dates			( Date Data )
-* 	@param string style		( to format rows, control variable )
-* 	@param string row_height   ( to format the height of rows, control variable )
-* 	@global Array DP_language ( include Languageproperties )
-* 	@global array DP_CSS		( contains CSS Strings from the conf.gui file )
-*	@global	 $_SESSION ( $DP_JSscriptis 0 if JavaScript disabled )
-* 	@return string week_float   ( contains the output )
+* 	set the Output for one Day Dates into the Week view 
+* 	@param int $date_ts
+* 	@param Array $Dates			( Date Data )
+* 	@param string $style		( to format rows, control variable )
+* 	@param string $row_height	( to format the height of rows, control variable )
+* 	@global Array $DP_language  ( include Languageproperties )
+* 	@global array $DP_CSS		( contains CSS Strings from the conf.gui file )
+*	@global	Array $_SESSION		( $DP_JSscriptis 0 if JavaScript disabled )
+* 	@return string $week_float  ( contains the output )
 */
 function setDayDatesInWeek($date_ts, $Dates, $row_height, &$style)
 {
@@ -278,17 +302,17 @@ function setDayDatesInWeek($date_ts, $Dates, $row_height, &$style)
 } // end func
 
 /**
-* 	void function setWeekView($week_ts)
-* 	@description : the Main function of the week view
-* 	@description : called from the executed file
-* 	@param int week_ts				( one timestamp in the week, which should be shown ) 
+* 	void function setWeekView($week_ts, $DB)
+* 	the Main function of the week view
+* 	called from the executed file
+* 	@param int $week_ts				( one timestamp in the week, which should be shown ) 
 * 	@param int $DB					(object of th db class ) 
-* 	@global array S_Datum			( contains Date from Table Top )
-* 	@global array DP_language		( include Languageproperties )
-* 	@global array DP_CSS			( contains CSS Strings from the conf.gui file )
-* 	@global string  $_SESSION 		( DP_Starttime include Start Time of during on day in week view and 
+* 	@global array $S_Datum			( contains Date from Table Top )
+* 	@global array $DP_language		( include Languageproperties )
+* 	@global array $DP_CSS			( contains CSS Strings from the conf.gui file )
+* 	@global array $_SESSION 		( DP_Starttime include Start Time of during on day in week view and 
 *                                     DP_Endtimeinclude End Time of during on day in week view)
-*   @return Array Return
+*   @return Array $Return
 *						[0] string week_navigation	( contains the navigation output )
 *						[1] string week_float		( contains the output )
 *						[2] array S_Datum			( contains Date from Table Top )
@@ -356,8 +380,8 @@ function setWeekView($week_ts, $DB)
 	// count rows height , best compatibility
 	$row_height = 100/$rows;
 
-	$week_navigation = setNavigation($week_ts,$rows);
-	$S_Datum = setDateInTblHead($week_ts) ;
+	$week_navigation	= setNavigation($week_ts,$rows);
+	$S_Datum			= setDateInTblHead($week_ts) ;
 
 	$monatstag_ts	= $week_ts;
     $style			= $DP_CSS[tblrow2];

@@ -1,12 +1,51 @@
 <?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul														  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+/**
+* Functions for date.php
+*
+* this file should manages date actions
+*
+* @author		Bartosz Tyrakowski <tyra@freenet.de> 
+* @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
+* @version		$Id$ 
+* @module       inc.date.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-functions
+*/
+
 /**
 * 	void function setDateView ($DateValues, $flag )
 * 	
-* 	@description: This function is generating the main-view of a date in three diferent views, for new, update and update with read only.
+* 	This function is generating the main-view of a date in three diferent views, for new, update and update with read only.
 *
-* 	@param		: $DateValues, $flag
-* 	@global		: $DP_language, $templatefolder, $actualtemplate,  $DP_CSS 
-*	@return		: $dateContent
+* 	@param		array $DateValues , $flag
+* 	@global		array $DP_language , $templatefolder, $actualtemplate,  $DP_CSS 
+* 	@global		array $DP_CSS			( contains CSS Strings from the conf.gui file )
+*	@global		sting $actualtemplate		( current template )
+*	@global		string $templatefolder		( current used template folder )
+*	@return		string $dateContent
 */
 function setDateView ($DateValues, $flag, $DB)
 {
@@ -124,12 +163,12 @@ function setDateView ($DateValues, $flag, $DB)
 }// end func
 
 /**
-* 	void function parseData (Array DateValues)
+* 	void function parseDataForOutput (Array DateValues)
 * 	
-* 	@description: Formate the user Date Date for the html Output.
+* 	Formate the user Date Date for the html Output.
 *
-* 	@param		: $DateValues
-*	@return		: $Valid
+* 	@param		array $DateValues
+*	@return		array $DateValues
 */
 function  parseDataForOutput ($DateValues) {
 	
@@ -171,15 +210,13 @@ function  parseDataForOutput ($DateValues) {
 
 }// end func
 
-
 /**
 * 	void function setJs ()
 * 	
-* 	@description: This function generates the small pop-up calendars in the dateview or newdateview for date selection.
+* 	This function generates the small pop-up calendars in the dateview or newdateview for date selection.
 *
-* 	@param		: ---
-* 	@global		: $DP_language
-*	@return		: $Array
+* 	@global		array $DP_language
+*	@return		array $Array
 */
 function setJs() {
 	global $DP_language;
@@ -219,11 +256,11 @@ function setJs() {
 /**
 * 	void function setKeywords ()
 * 	
-* 	@description: Generates the selection of the keyword. 
+* 	Generates the selection of the keyword. 
 *
-* 	@param		: $keyword_id
-* 	@global		: ---
-*	@return		: $Keywordform
+* 	@param		array $keyword_id
+* 	@param		$DB (object of th db class ) 
+*	@return		string $Keywordform
 */
 function setKeywords($keyword_id,$DB) {
 	$Keywords = getKeywordContent($DB);
@@ -243,11 +280,11 @@ function setKeywords($keyword_id,$DB) {
 /**
 * 	void function setGroups ()
 * 	
-* 	@description: Generates the selection of a group.
+* 	Generates the selection of a group.
 *
-* 	@param		: $groupID
-* 	@global		: --- 
-*	@return		: $Groupform
+* 	@param		string $groupID
+* 	@param		$DB (object of th db class ) 
+*	@return		string $Groupform
 */
 function setGroups($groupID,$DB) {
 	$Groups = getGroupContent($DB);
@@ -267,11 +304,11 @@ function setGroups($groupID,$DB) {
 /**
 * 	void function getGroupContent ()
 * 	
-* 	@description: Calls the DB-function getUserGroups, and returns the result (all groups of a user).
+* 	Calls the DB-function getUserGroups, and returns the result (all groups of a user).
 *
-* 	@param		: ---
-* 	@global		: $DP_UId
-*	@return		: $Groups
+* 	@param		$DB (object of th db class ) 
+* 	@global		string $DP_UId     ( actual User ID )
+*	@return		array $Groups
 */
 function getGroupContent($DB) {
 	global $DP_UId  ;
@@ -284,11 +321,11 @@ function getGroupContent($DB) {
 /**
 * 	void function getKeywordContent ()
 * 	
-* 	@description: Calls the DB-function getKeywords, and returns the result  (all keywords of a user).
+* 	Calls the DB-function getKeywords, and returns the result  (all keywords of a user).
 *
-* 	@param		: ---
-* 	@global		: $DP_UId
-*	@return		: $Keywords
+* 	@param		$DB (object of th db class ) 
+* 	@global		string $DP_UId     ( actual User ID )
+*	@return		array $Keywords
 */
 function getKeywordContent($DB) {
 	global $DP_UId ;
@@ -298,15 +335,17 @@ function getKeywordContent($DB) {
 
 }// end func
 
-
 /**
 * 	void function parseData ()
 * 	
-* 	@description: Validates the user input from the dayview-form.
+* 	Validates the user input from the dayview-form.
 *
-* 	@param		: $DateValues, $Start_date, $End_date, $End_rotation
-* 	@global		: $DP_language 
-*	@return		: $Valid
+* 	@param		array $DateValues
+* 	@param		string $Start_date
+* 	@param		string $End_date
+* 	@param		string $End_rotation
+* 	@global		array $DP_language 
+*	@return		array $Valid
 */
 function  parseData ($DateValues, $Start_date, $End_date, $End_rotation) {
 	global $DP_language;
@@ -350,18 +389,19 @@ function  parseData ($DateValues, $Start_date, $End_date, $End_rotation) {
 	Return $Valid;
 
 }// end func
+
 /**
 * 	void function  setInsertDate()
 * 	
-* 	@description: The paramerter are adapted to the output-form.
+* 	The paramerter are adapted to the output-form.
 *
-* 	@param		: $timestamp, $DateValues
-* 	@global		: $dateaction 		
-*	@return		: $dateContent
+* 	@param		string $timestamp
+* 	@param		string $DateValues
+* 	@param		$DB (object of th db class ) 
+*	@return		string $dateContent
 */
 function setInsertDate($timestamp, $DateValues, $DB) 
 {
-	global $dateaction ;
 
 	$ttd					= new TimestampToDate;
 
@@ -382,11 +422,16 @@ function setInsertDate($timestamp, $DateValues, $DB)
 /**
 * 	void function setInsertAction( $startdate,$enddate, $endroation, $DateValues)
 * 	
-* 	@description: This function is adding the date information into the DB and adepting them, e.g. date to timestamp.
+* 	This function is adding the date information into the DB and adepting them, e.g. date to timestamp.
 *
-* 	@param		: $startdate,$enddate, $endrotation, $DateValues
-* 	@global		: $DP_UId, $DP_language 
-*	@return		: $msg
+* 	@param		string $startdate
+* 	@param		string $enddate
+* 	@param		string $endrotation
+* 	@param		array $DateValues
+* 	@param		$DB (object of th db class ) 
+* 	@global		int $DP_UId
+* 	@global		array $DP_language 
+*	@return		string $msg
 */
 function setInsertAction( $startdate,$enddate, $endrotation, $DateValues,$DB ) {
 	global $DP_UId, $DP_language;
@@ -455,15 +500,21 @@ function setInsertAction( $startdate,$enddate, $endrotation, $DateValues,$DB ) {
 /**
 * 	void function  setUpdateDeleteDate()
 * 	
-* 	@description: Adaption of the given perameters to the output form. Eg. timestamp to real time.
+* 	Adaption of the given perameters to the output form. Eg. timestamp to real time.
 *
-* 	@param		: $timestamp, $date_id, $DateArray, $DateValues
-* 	@global		: $dateaction, $DateValues, $js ,$DP_UId, $DP_language 
-*	@return		: $dateContent
+* 	@param		string $timestamp
+* 	@param		string $date_id
+* 	@param		array $DateArray
+* 	@param		array $DateValues
+* 	@param		$DB (object of th db class ) 
+* 	@global		string $js
+* 	@global		int $DP_UId
+* 	@global		array $DP_language 
+*	@return		string $dateContent
 */
 function setUpdateDeleteDate($timestamp, $date_id, $DateArray, $DateValues, $DB) 
 {
-	global $dateaction, $DateValues, $js ,$DP_UId, $DP_language ;
+	global $js ,$DP_UId, $DP_language ;
 
 	if(!$DateValues[referer]) {
 	$ttd						= new TimestampToDate;
@@ -533,11 +584,16 @@ function setUpdateDeleteDate($timestamp, $date_id, $DateArray, $DateValues, $DB)
 /**
 * 	void function setUpdateAction( $startdate,$enddate, $endroation, $DateValues)
 * 	
-* 	@description: This function is updating the information of a date in the database.
+* 	This function is updating the information of a date in the database.
 *
-* 	@param		: $startdate,$enddate, $endrotation, $DateValues
-* 	@global		: $DP_UId, $DP_language
-*	@return		: $msg
+* 	@param		string $startdate
+* 	@param		string $enddate
+* 	@param		string $endrotation
+* 	@param		array $DateValues
+* 	@param		$DB (object of th db class ) 
+* 	@global		int $DP_UId
+* 	@global		array $DP_language 
+*	@return		string $msg
 */
 function setUpdateAction( $startdate,$enddate, $endrotation, $DateValues, $DB) {
 	global $DP_UId, $DP_language;
@@ -614,11 +670,13 @@ function setUpdateAction( $startdate,$enddate, $endrotation, $DateValues, $DB) {
 /**
 * 	void function setDeleteAction($DateValues)
 * 	
-* 	@description: This function is selecting the way in which a date is going to be deleted. 
+* 	This function is selecting the way in which a date is going to be deleted. 
 *
-* 	@param		: $DateValues
-* 	@global		: $DP_UId, $DP_language 
-*	@return		: $msg or $DB->delDate ()
+* 	@param		array $DateValues
+* 	@param		$DB (object of th db class ) 
+* 	@global		int $DP_UId
+* 	@global		array $DP_language 
+*	@return		string $msg or $DB->delDate ()
 */
 function setDeleteAction($DateValues, $DB) {
 	global $DP_UId, $DP_language;
@@ -631,19 +689,16 @@ function setDeleteAction($DateValues, $DB) {
 	}
 	switch($DateValues[rotation_ack]) {
 		case 'one':
-//			echo('del one :'.$DateValues[date_id]."/".$DP_UId."/".$DateValues[date_timestamp]);
 			$return = $DB->delDate (	$DateValues[date_id],
 										$DP_UId, 
 										$DateValues[date_timestamp]);
 			break; 
 		case 'all':
-//			echo('del all :'.$DateValues[date_id]."/".$DP_UId."/"."0");
 			$return = $DB->delDate (	$DateValues[date_id],
 										$DP_UId, 
 										"0");
 			break; 
 		default :
-//			echo('default');
 			$return = $DB->delDate (	$DateValues[date_id],
 										$DP_UId, 
 										"0");
@@ -658,5 +713,4 @@ function setDeleteAction($DateValues, $DB) {
 
 	return $msg;
 }// end func
-
 ?>

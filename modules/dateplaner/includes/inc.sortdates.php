@@ -1,9 +1,29 @@
 <?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul														  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
 /**
-*Name of File: inc.sortdates.php
-*Author: Jan Hübbers (jan@huebbers.de)
-*Author: Frank Grümmert (jan@huebbers.de)
-*Version: 0.5
+* Include file Keyword
 *
 * Description:
 *	These functions mediate between the display and the database.
@@ -12,6 +32,8 @@
 *	The other part is the resolution of colliding dates for the dayview.
 *
 * Version History:
+*
+*	1.0	- release
 *
 *	0.5	- adjusted getDayList() for dates without length.
 *
@@ -23,15 +45,20 @@
 *	
 *	0.1	- creation of first code, getDayList() and getDateList()
 *		  	
-*		
 *
+* @author		Jan Hübbers		<jan@huebbers.de>
+* @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
+* @version      $Id$                                    
+* @module       inc.sortdates.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-functions
 */
-
-/*-----------------------------------------------------------------------------*/
 
 
 /**
 *	boolean function checkIfNotNegDate($neg_startTime, $neg_ID, $neg_dates)
+*	This function evaluates, if a calculated rotation date is to be passed as a date to be displayed or
+*			to be discarded
 *	
 *	@param $neg_startTime, the calculated start timestamp of the rotation date to be checked
 *	@param $neg_ID, the ID of the date to be checked
@@ -39,8 +66,6 @@
 *
 *	@return bolean $return, true, if the date is not in $neg_dates. False, if the user has deleted the date.
 *	
-*	@description This function evaluates, if a calculated rotation date is to be passed as a date to be displayed or
-*			to be discarded
 */
 
 function checkIfNotNegDate($neg_startTime, $neg_ID, $neg_dates){
@@ -61,6 +86,8 @@ function checkIfNotNegDate($neg_startTime, $neg_ID, $neg_dates){
 
 /**
 *	string function cmp($a, $b)
+*
+*	this function is needed by usort(), usort() is a PHP function. It compares the starting times of dates.
 *	
 *	@param string $a first to be compared value
 *	@param $b, second to be compared value
@@ -69,7 +96,6 @@ function checkIfNotNegDate($neg_startTime, $neg_ID, $neg_dates){
 *			0: $a==$b
 *			1: $a>$b
 *			-1:$a<$b
-*	@description this function is needed by usort(), usort() is a PHP function. It compares the starting times of dates.
 */
 
 
@@ -85,17 +111,17 @@ function cmp ($a, $b) {
 /**
 *	array[][] function getDateList($id, $start, $end, $Keywords)
 *	
+*	This function fetches date arrays from the database for a 
+*			given time frame, calls for the calculation of rotation dates and sorts these
+*			dates into the result array. It returns an array of the following format for the second dimension:
+*			0=>date_id; 1=>begin; 2=>end; 3=>group_id or blank ; 4=>user_id or blank; 5=>shorttext; 6=>text; 7=>rotationtype or blank; 8=> rotationend or blank
+*	
 *	@param $id, the users ID.
 *	@param $start, a required timestamp of sometime during the current day.
 *	@param $end, a required timestamp of sometime during the current day.
 *	@param $DB, a DB class object.
 *	@param array[] $Keywords, the selected keywords which the dates have to match to
 *			be displayed. This array is just passed to the database
-*	
-*	@description This function fetches date arrays from the database for a 
-*			given time frame, calls for the calculation of rotation dates and sorts these
-*			dates into the result array. It returns an array of the following format for the second dimension:
-*			0=>date_id; 1=>begin; 2=>end; 3=>group_id or blank ; 4=>user_id or blank; 5=>shorttext; 6=>text; 7=>rotationtype or blank; 8=> rotationend or blank
 */
 
 function getDateList($id, $start, $end, $Keywords, $DB){
@@ -128,17 +154,17 @@ function getDateList($id, $start, $end, $Keywords, $DB){
 /**
 *	array[][] function getWholeDayDateList($id, $start, $end, $Keywords)
 *	
+*	This function fetches date arrays for whole day dates from the database for a 
+*			given time frame, calls for the calculation of rotation dates and sorts these
+*			dates into the result array. It returns an array of the following format for the second dimension:
+*			0=>date_id; 1=>begin; 2=>end; 3=>group_id or blank ; 4=>user_id or blank; 5=>shorttext; 6=>text; 7=>rotationtype or blank; 8=> rotationend or blank
+*	
 *	@param $id, the users ID.
 *	@param $start, a required timestamp of sometime during the current day.
 *	@param $end, a required timestamp of sometime during the current day.
 *	@param $DB, a DB class object.
 *	@param array[] $Keywords, the selected keywords which the dates have to match to
 *			be displayed. This array is just passed to the database
-*	
-*	@description This function fetches date arrays for whole day dates from the database for a 
-*			given time frame, calls for the calculation of rotation dates and sorts these
-*			dates into the result array. It returns an array of the following format for the second dimension:
-*			0=>date_id; 1=>begin; 2=>end; 3=>group_id or blank ; 4=>user_id or blank; 5=>shorttext; 6=>text; 7=>rotationtype or blank; 8=> rotationend or blank
 *			
 */
 function getWholeDayDateList($id, $start, $end, $Keywords, $DB){
@@ -171,16 +197,16 @@ function getWholeDayDateList($id, $start, $end, $Keywords, $DB){
 /**
 *	array[][][] function getDayList($id, $start, $end, $Keywords)
 *	
+*	This function uses the dates provided by getDateList(). It compares start and end times of dates
+*			and determines, if dates are colliding. to avoid collisions in one array a 3-dimensional array
+*			is created, the first dimension holds 2-dimensional arrays of not colliding dates. 
+*	
 *	@param $id, the users ID.
 *	@param $start, a required timestamp of sometime during the current day.
 *	@param $end, a required timestamp of sometime during the current day.
 *	@param $DB, a DB class object.
 *	@param array[] $Keywords, the selected keywords which the dates have to match to
 *			be displayed. This array is just passed to the database
-*	
-*	@description This function uses the dates provided by getDateList(). It compares start and end times of dates
-*			and determines, if dates are colliding. to avoid collisions in one array a 3-dimensional array
-*			is created, the first dimension holds 2-dimensional arrays of not colliding dates. 
 */
 
 function getDayList($id, $start, $end, $Keywords, $DB){
@@ -228,14 +254,13 @@ function getDayList($id, $start, $end, $Keywords, $DB){
 /**
 *	void function calculateDatesFromRotatation($startResultSlot, $endResultSlot, $resultRotation, $neg_dates)
 *	
+*	This function calculates rotation dates and compares them to a negative list (i.e. neg_dates).
+*			It is then determined, if the calculated date is to be passed on or to be discarded.
+*	
 *	@param $startResultSlot, timestamp of the start of the time frame
 *	@param $endResultSlot, timestamp of the start of the time frame
 *	@param $resultRotation, an array of rotation dates
 *	@param $neg_dates[][], an array of negative dates.
-*	
-*	@description This function calculates rotation dates and compares them to a negative list (i.e. neg_dates).
-*			It is then determined, if the calculated date is to be passed on or to be discarded.
-*
 */
 
 
@@ -287,15 +312,15 @@ return $resultRotationCalculation;
 /**
 *	void function getGroupDatesForDisplay($groupID, $start, $end)
 *	
+*	This function fetches date arrays from the database for a 
+*			given time frame, calls for the calculation of rotation dates and sorts these
+*			dates into the result array. It returns an array of the following format for the second dimension:
+*			0=>date_id; 1=>begin; 2=>end; 3=>group_id or blank ; 4=>user_id or blank; 5=>shorttext; 6=>text; 7=>rotationtype or blank; 8=> rotationend or blank
+*	
 *	@param $groupID, the Group ID.
 *	@param $start, a required timestamp of sometime during the current day.
 *	@param $end, a required timestamp of sometime during the current day.
 *	@param $DB, a DB class object.
-*	
-*	@description This function fetches date arrays from the database for a 
-*			given time frame, calls for the calculation of rotation dates and sorts these
-*			dates into the result array. It returns an array of the following format for the second dimension:
-*			0=>date_id; 1=>begin; 2=>end; 3=>group_id or blank ; 4=>user_id or blank; 5=>shorttext; 6=>text; 7=>rotationtype or blank; 8=> rotationend or blank
 *
 */
 function getGroupDatesForDisplay($groupID, $start, $end, $DB) {

@@ -2,7 +2,7 @@
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source															  |
-	|	Dateplaner Modul - properties											  |													
+	|	Dateplaner Modul - month												  |
 	+-----------------------------------------------------------------------------+
 	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
 	|                                                                             |
@@ -21,19 +21,37 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+/**
+* @author		Stefan Stahlkopf <mail@stefan-stahlkopf.de> 
+* @author		Frank Gruemmert <gruemmert@feuerwelt.de>
+* @version		$Id$
+* @module       properties.php                            
+* @modulegroup  dateplaner                   
+* @package		dateplaner-frontend
+*/ 
+
 // include som properties functions
 include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.parse.php');
 
 
-$tableBorder = 0;
-// Generiere Frames
-// -----------------------------------------  FEST ---------------------------------//
+/* ------------------------------------  generate frames --------------------------- */
+// -----------------------------------------  fixed ---------------------------------//
 $minical_show = setMinicalendar($_REQUEST[month],$_REQUEST[year], $DP_Lang, $_REQUEST[app]);
-//$keywords_show = showKeywords();
 eval ("\$lefttxt = \"".$Gui->getTemplate("menue")."\";");
 eval ("\$left = \"".$Gui->getTemplate("left")."\";");
-// --------------------------------------  ende Fest -------------------------------//
+
+// right frame is curently not used
+$right	= '';
+
+// the up frame is detect by the interface 
+
+// down frame is curently not used
+$downtext = '';
+// --------------------------------------  end fixed  -------------------------------//
+
 //*******************************************************************************************************
+
+$tableBorder = 0;
 	
 if ($_REQUEST[btn_accept] == "OK" )
 {
@@ -88,20 +106,17 @@ $optionBox = $x;
 
 //*******************************************************************************************************
 if($_FILES) {
-
-$parsedata = parse($DB,$_FILES);
-
+	$parsedata = parse($DB,$_FILES);
 }
 
 eval ("\$centertxt = \"".$Gui->getTemplate("properties_main")."\";");
 
 
-// -----------------------------------------  FEST ---------------------------------//
-// Frameset
+// -----------------------------------------  fixed ---------------------------------//
+// frameset template
 eval ("\$main = \"".$Gui->getTemplate("frames_set")."\";");
-// HauptTemplate
+// main template
 eval("doOutput(\"".$Gui->getTemplate("main")."\");"); 
-// --------------------------------------  ende Fest -------------------------------//
+// --------------------------------------  end fixed --------------------------------//
 exit;
-
 ?>

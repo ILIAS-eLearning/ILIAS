@@ -1,17 +1,39 @@
 <?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul														  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
 /**
 * Database Class
 *
-* this class manages the access to the cscw database
-* 
-* @author Timo Richter <mail@timo-richter.de>
-
-* @documentation: ./docs/class.Database.htm 
-* @version $Id: class.Database.php,v 1.0 2003/07/05 14:15:00
-* @package application
-* @access public
+* this class manages the access to the dateplaner an ilias database
+*
+* @author		Timo Richter <mail@timo-richter.de>
+* @author       Frank Gruemmert <gruemmert@feuerwelt.de>    
+* @version      $Id$                                    
+* @module       class.Database.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-db
 */
-
 
 class Database
 {
@@ -30,13 +52,6 @@ class Database
 	*/
 	function database($DP_dlI)
 	{
-		/*
-		if(isset($DP_dlI)) {
-			echo ("yea");
-			
-		}else {
-			echo ("bu");
-		}*/
 		$this->dlI 			= $DP_dlI;	//Connect to database
 		$this->alluser_id	= ALLUSERID;
 	}

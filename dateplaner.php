@@ -21,11 +21,43 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-require_once	('./include/inc.header.php');
 
-//
-// main
-//
+/**
+* dateplaner
+* includes personal an group specific date management  
+* developt for ilias3 and adapted also to ilias2
+*
+* @author		Frank Gruemmert <gruemmert@feuerwelt.de>
+* @organisation University of Applied Sciences Bremen
+* @version		$Id$
+* @module       dateplaner.php                            
+* @modulegroup  dateplaner                    
+* @package		dateplaner-frontend
+*/ 
+
+/** ------------------------------------------------------------------------------+
+* Modul porperties/settings for the dateplaner
+*
+*	please take care that changes to be needed. 
+*	
+*/
+
+	/**
+	* ilias module directory (up to the ilias root dir)
+	* @ var string
+	* @ access private
+	*/
+
+	$modulDir = "/modules/dateplaner";
+
+/** 
+* End modulsettings
+* u can find mor setting into the dateppaner modul dir and subdir "/conf"
+* ------------------------------------------------------------------------------+
+*/
+
+// get ilias conectivity 
+require_once	('./include/inc.header.php');
 
 // catch hack attempts
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
@@ -33,30 +65,33 @@ if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 	$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
 }
 
-/*static variables */
-define("DATEPLANER_ROOT_DIR", "/modules/dateplaner"); /* relative path to the dateplaner directory */
+//
+// main
+//
 
-/*dynamic variables */
-require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.interface.php');
+/*static variables */
+define("DATEPLANER_ROOT_DIR", $modulDir ); /* relative path to the dateplaner directory */
+
+
+/*dynamic variables and interface connection to ilias*/
+require_once	('.'.DATEPLANER_ROOT_DIR.'/classes/class.Interface.php');
 	$Interface		= new Interface($ilias);
 
-/* if the gui used without frames */
-if(!$uptext) {
-	$uptext			= $Interface->getFrameDec();
-}
+	/* if the gui used without frames */
+	if(!$uptext) {
+		$uptext			= $Interface->getFrameDec();
+	}
+	
+	/* other dynamic variables used in the dateplaner */
+	$DP_UId			= $Interface->getUId();				// UserID
+	$DP_Lang		= $Interface->getLang();			// language, selected by the user
+	$DP_Skin		= $Interface->getSkin();			// style(-sheet)-name, selected by the user 
+	$DP_Style		= $Interface->getStyle();			// skin-name, selected by the user 
+	$DP_StyleFname	= $Interface->getStyleFname();		// style(-sheet)-name including path, selected by the user 
+	$DP_GroupIds	= $Interface->getGroupIds();		// GroupIDs of the current UserID (stub)
+	$DP_dlI			= $Interface->getDpDBHandler ();	// dateplaner database handler
+	$app			= $_REQUEST["app"];					// dateplaner application
 
-/* other dynamic variables used in the dateplaner */
-
-	$DP_UId			= $Interface->getUId();
-	$DP_Lang		= $Interface->getLang();
-	$DP_Skin		= $Interface->getSkin();
-	$DP_Style		= $Interface->getStyle();
-	$DP_StyleFname	= $Interface->getStyleFname();
-	$DP_GroupIds	= $Interface->getGroupIds();
-	$DP_dlI			= $Interface->getDpDBHandler ();
-//echo "<BR><B>AUSGABE (dateplaner.php:57):</B> <BR>";
-//print_r($DP_GroupIds);
-//echo "<BR><hr>";
 // include DP Header 
 require	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.dp.header.php');
 // include DP Output functions 
@@ -68,27 +103,26 @@ include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.session.php');
 //db_session_write(session_id(),session_encode());
 /* --------------  end session initialisation ---------------------*/
 
-$app		= $_REQUEST["app"];
 
 /*dateplaner functions*/
 switch($_REQUEST["app"]) {
 	case False :
 	case 'inbox':
-		$PAGETITLE	= $DP_language[app_.$_REQUEST["app"]];
-		include	('.'.DATEPLANER_ROOT_DIR.'/inbox.php');
+		$PAGETITLE	= $DP_language[app_.$_REQUEST["app"]];											// set page titel
+		include	('.'.DATEPLANER_ROOT_DIR.'/inbox.php');												// include specific datplaner function
 		break;
 	case 'date':
 		if ($_REQUEST["date_id"]){
 			$DateArray		= $DB->getDate ($_REQUEST["date_id"], $DP_UId);
-			$PAGETITLE		= $DP_language[app_.$_REQUEST["app"]]." : ".$DateArray[8];			// Page Titel setzten
+			$PAGETITLE		= $DP_language[app_.$_REQUEST["app"]]." : ".$DateArray[8];				// set page titel
 		} else {
-			$PAGETITLE		= $DP_language[app_.$_REQUEST["app"]]." : ".@$DateValues[shorttext];	// Page Titel setzten
+			$PAGETITLE		= $DP_language[app_.$_REQUEST["app"]]." : ".@$DateValues[shorttext];	// set page titel
 		}
-		include	('.'.DATEPLANER_ROOT_DIR.'/date.php');
+		include	('.'.DATEPLANER_ROOT_DIR.'/date.php');												// include specific datplaner function
 		
 		break;
 	default :
-		$PAGETITLE	= $DP_language[app_.$_REQUEST["app"]];
-		include	('.'.DATEPLANER_ROOT_DIR.'/'.$_REQUEST["app"].'.php');
+		$PAGETITLE	= $DP_language[app_.$_REQUEST["app"]];											// set page titel
+		include	('.'.DATEPLANER_ROOT_DIR.'/'.$_REQUEST["app"].'.php');								// include specific datplaner function
 }
 ?>
