@@ -419,6 +419,10 @@ class ilObjContentObject extends ilObject
 	/**
 	* delete learning module and all related data
 	*
+	* this method has been tested on may 9th 2004
+	* meta data, content object data, data directory, bib items
+	* learning module tree and pages have been deleted correctly as desired
+	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
