@@ -34,6 +34,7 @@
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
+common#:#action_aborted#:#Action aborted!
 common#:#actions#:#Actions
 common#:#add#:#Add 
 common#:#add_author#:#Add Author
@@ -61,6 +62,8 @@ common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
 common#:#by#:#By
 common#:#cancel#:#Cancel
+common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
+common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cat#:#Category
 common#:#categories#:#Categories
 common#:#cc#:#CC
@@ -68,6 +71,7 @@ common#:#change#:#Change
 common#:#change_language#:#Set User Language
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
+common#:#changed_to#:#changed to
 common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
@@ -76,6 +80,7 @@ common#:#check_language#:#Check Language
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
+common#:#choose_only_one_language#:#Please choose only one language.
 common#:#city#:#City
 common#:#clear#:#Clear
 common#:#comma_separated#:#Comma Separated
@@ -104,7 +109,10 @@ common#:#db_type#:#Database Type
 common#:#db_user#:#Database User
 common#:#db_version#:#Database Version
 common#:#default#:#Default
+common#:#default_language#:#Default Language
 common#:#default_role#:#Default Role
+common#:#default_skin#:#Default Skin
+common#:#default_style#:#Default Style
 common#:#delete#:#Delete
 common#:#delete_all#:#Delete All
 common#:#delete_object#:#Delete Object(s)
@@ -122,6 +130,7 @@ common#:#edit_properties#:#Edit Properties
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
 common#:#email#:#Email
+common#:#email_not_valid#:#The email addess you entered is not valid!
 common#:#employee#:#Employee
 common#:#enable#:#Enable
 common#:#enabled#:#Enabled
@@ -200,6 +209,7 @@ common#:#info_deleted#:#Object(s) Deleted
 common#:#info_trash#:#Deleted Objects
 common#:#information_abbr#:#Info
 common#:#inifile#:#Ini-File
+common#:#input_error#:#Input error
 common#:#inst_id#:#Installation ID
 common#:#inst_info#:#Installation Info
 common#:#inst_name#:#Installation Name
@@ -207,6 +217,7 @@ common#:#install#:#Install
 common#:#installed#:#Installed
 common#:#institution#:#Institution
 common#:#ip_address#:#IP Address
+common#:#is_already_your#:#is already your
 common#:#item#:#Item
 common#:#keywords#:#Keywords
 common#:#lang_dateformat#:#Y-m-d
@@ -227,7 +238,11 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_version#:#1
 common#:#lang_xx#:#Custom
 common#:#language#:#Language
+common#:#language_not_installed#:#is not installed. Please install that language first.
 common#:#languages#:#Languages
+common#:#languages_already_installed#:#Funny. Chosen language(s) are already installed.
+common#:#languages_already_uninstalled#:#Funny. Chosen language(s) are already uninstalled.
+common#:#languages_updated#:#All installed languages have been updated.
 common#:#last_change#:#Last Change
 common#:#last_visit#:#Last Visit
 common#:#lastname#:#Lastname
@@ -258,8 +273,10 @@ common#:#logout#:#Logout
 common#:#los#:#Learning Objects
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#mail#:#Mail
+common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_s#:#Mail(s)
 common#:#mail_s_unread#:#Unread Mail(s)
+common#:#mail_sent#:#Mail successfully sent!
 common#:#mails#:#Mails
 common#:#mandatory_fields#:#Mandatory Fields
 common#:#mark_all_read#:#Mark All as Read
@@ -269,6 +286,7 @@ common#:#message#:#Message
 common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
 common#:#migrate#:#Migrate
+common#:#modules#:#Modules
 common#:#move_to#:#Move to
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_failed#:#Sorry, action failed
@@ -301,6 +319,7 @@ common#:#no_title#:#No Title
 common#:#none#:#None
 common#:#normal#:#Normal
 common#:#not_installed#:#Not Installed
+common#:#nothing_checked#:#Funny, no checkbox checked.
 common#:#obj#:#Object
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_owner#:#This Object Is Owned by
@@ -330,6 +349,7 @@ common#:#path_to_convert#:#Path to Convert
 common#:#path_to_java#:#Path to Java
 common#:#path_to_unzip#:#Path to Unzip
 common#:#path_to_zip#:#Path to Zip
+common#:#pathes#:#Pathes
 common#:#payment_system#:#Payment System
 common#:#perm_settings#:#Permissions
 common#:#permission#:#Permission
@@ -398,6 +418,7 @@ common#:#show_list#:#Show List
 common#:#show_members#:#Display Members
 common#:#show_owner#:#Show Owner
 common#:#signature#:#Signature
+common#:#smtp#:#SMTP
 common#:#startpage#:#Startpage
 common#:#status#:#Status
 common#:#step#:#Step
@@ -425,10 +446,11 @@ common#:#total#:#Total
 common#:#tpl_path#:#Template Path
 common#:#trash#:#Trash
 common#:#treeview#:#Tree View
-common#:#type#:#Type
+common#:#typ#:#Object Type Definitioncommon#:#type#:#Type
 common#:#type_your_message_here#:#Type Your Message Here
 common#:#uid#:#UID
 common#:#uninstall#:#Uninstall
+common#:#uninstalled#:#uninstalled.
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#Unread
 common#:#update_applied#:#Update Applied
@@ -437,6 +459,7 @@ common#:#upload#:#Upload
 common#:#url#:#URL
 common#:#url_description#:#URL Description
 common#:#user#:#User
+common#:#user_language#:#User Language
 common#:#userdata#:#Userdata
 common#:#username#:#Username
 common#:#users#:#Users
@@ -456,27 +479,3 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#default_skin#:#Default Skin
-common#:#email_not_valid#:#The email addess you entered is not valid!
-common#:#default_style#:#Default Style
-common#:#default_language#:#Default Language
-common#:#pathes#:#Pathes
-common#:#modules#:#Modules
-common#:#input_error#:#Input error
-common#:#language_not_installed#:#is not installed. Please install that language first.
-common#:#changed_to#:#changed to
-common#:#nothing_checked#:#Funny, no checkbox checked.
-common#:#user_language#:#User Language
-common#:#choose_only_one_language#:#Please choose only one language.
-common#:#action_aborted#:#Action aborted!
-common#:#is_already_your#:#is already your
-common#:#languages_updated#:#All installed languages have been updated.
-common#:#languages_already_uninstalled#:#Funny. Chosen language(s) are already uninstalled.
-common#:#languages_already_installed#:#Funny. Chosen language(s) are already installed.
-common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
-common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
-common#:#uninstalled#:#uninstalled.
-common#:#mail_sent#:#Mail successfully sent!
-common#:#mail_not_sent#:#Mail not sent!
-common#:#smtp#:#SMTP
-common#:#typ#:#Object Type Definition

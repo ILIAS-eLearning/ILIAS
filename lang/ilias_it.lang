@@ -34,6 +34,7 @@
 common#:#absolute_path#:#percorso assoluto
 common#:#accept_usr_agreement#:#Accetti accordo utente?
 common#:#access#:#accesso
+common#:#action_aborted#:#Action aborted!###20 Mar 2003 new variable
 common#:#actions#:#azioni
 common#:#add#:#aggiungi
 common#:#add_author#:#aggiungi autore
@@ -61,6 +62,8 @@ common#:#btn_remove_system#:#remove from system
 common#:#btn_undelete#:#undelete
 common#:#by#:#by
 common#:#cancel#:#cancel
+common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!###20 Mar 2003 new variable
+common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!###20 Mar 2003 new variable
 common#:#cat#:#cat
 common#:#categories#:#categorie
 common#:#cc#:#cc
@@ -68,6 +71,7 @@ common#:#change#:#cambiare
 common#:#change_language#:#set user language
 common#:#change_lo_info#:#cambia LO Informazioni
 common#:#change_metadata#:#cambia metadati
+common#:#changed_to#:#changed to###20 Mar 2003 new variable
 common#:#chapter#:#capitolo
 common#:#chapter_number#:#numero del capitolo
 common#:#chapter_title#:#titolo del capitolo
@@ -76,6 +80,7 @@ common#:#check_language#:#check language
 common#:#chg_language#:#cambia lingua
 common#:#chg_password#:#cambia password
 common#:#choose_language#:#scegli la Tua lingua
+common#:#choose_only_one_language#:#Please choose only one language.###20 Mar 2003 new variable
 common#:#city#:#città
 common#:#clear#:#clear
 common#:#comma_separated#:#separati di un comma
@@ -104,7 +109,10 @@ common#:#db_type#:#tipo banca-dati
 common#:#db_user#:#utente banca-dati
 common#:#db_version#:#versione banca dati
 common#:#default#:##default
+common#:#default_language#:#Default Language###20 Mar 2003 new variable
 common#:#default_role#:#def_role
+common#:#default_skin#:#Default Skin###20 Mar 2003 new variable
+common#:#default_style#:#Default Style###20 Mar 2003 new variable
 common#:#delete#:#eliminare
 common#:#delete_all#:#elimina tutto
 common#:#delete_object#:#delete object(s)
@@ -122,6 +130,7 @@ common#:#edit_properties#:#proprietà
 common#:#edited_at#:#edited at
 common#:#editor#:#editore
 common#:#email#:#email
+common#:#email_not_valid#:#The email addess you entered is not valid!###20 Mar 2003 new variable
 common#:#employee#:#impiegato
 common#:#enable#:#attivare
 common#:#enabled#:#enabled
@@ -200,6 +209,7 @@ common#:#info_deleted#:#Object(s) deleted
 common#:#info_trash#:#Deleted Objects
 common#:#information_abbr#:#informazioni
 common#:#inifile#:#ini-file
+common#:#input_error#:#Input error###20 Mar 2003 new variable
 common#:#inst_id#:#ID dell´istallazione
 common#:#inst_info#:#informazioni per l´istallazione
 common#:#inst_name#:#nome per l´istallazione
@@ -207,6 +217,7 @@ common#:#install#:#istallare
 common#:#installed#:#istallato
 common#:#institution#:#istituzione
 common#:#ip_address#:#indirizzo IP
+common#:#is_already_your#:#is already your###20 Mar 2003 new variable
 common#:#item#:##item
 common#:#keywords#:#parole chiave
 common#:#lang_dateformat#:#Y-m-d
@@ -227,7 +238,11 @@ common#:#lang_timeformat#:#H:i:s
 common#:#lang_version#:#1
 common#:#lang_xx#:#Custom
 common#:#language#:#lingua
+common#:#language_not_installed#:#is not installed. Please install that language first.###20 Mar 2003 new variable
 common#:#languages#:#lingue
+common#:#languages_already_installed#:#Funny. Chosen language(s) are already installed.###20 Mar 2003 new variable
+common#:#languages_already_uninstalled#:#Funny. Chosen language(s) are already uninstalled.###20 Mar 2003 new variable
+common#:#languages_updated#:#All installed languages have been updated.###20 Mar 2003 new variable
 common#:#last_change#:#ultimo cambio
 common#:#last_visit#:#Last visit###07 Feb 2003 new variable
 common#:#lastname#:#cognome
@@ -258,8 +273,10 @@ common#:#logout#:#logout
 common#:#los#:#lezioni
 common#:#los_last_visited#:#ultima lezione visitata
 common#:#mail#:#Posta
+common#:#mail_not_sent#:#Mail not sent!###20 Mar 2003 new variable
 common#:#mail_s#:#mail
 common#:#mail_s_unread#:#messaggi non letti
+common#:#mail_sent#:#Mail successfully sent!###20 Mar 2003 new variable
 common#:#mails#:#messaggi
 common#:#mandatory_fields#:#mandatory fields
 common#:#mark_all_read#:#contrassegna tutto come letto
@@ -269,6 +286,7 @@ common#:#message#:#messaggio
 common#:#message_content#:#contenuto del messaggio
 common#:#message_to#:#messaggio a:
 common#:#migrate#:#migrare
+common#:#modules#:#Modules###20 Mar 2003 new variable
 common#:#move_to#:#inserisci in cartella
 common#:#msg_changes_ok#:#cambio salvato
 common#:#msg_failed#:#fallito
@@ -300,6 +318,7 @@ common#:#no_title#:#nessun titolo
 common#:#none#:#nessuno
 common#:#normal#:#normale
 common#:#not_installed#:#non istallato
+common#:#nothing_checked#:#Funny, no checkbox checked.###20 Mar 2003 new variable
 common#:#obj#:#obj
 common#:#obj_not_found#:#object_not_found
 common#:#obj_owner#:#This Object is owned by
@@ -329,6 +348,7 @@ common#:#path_to_convert#:#percorso CONVERT
 common#:#path_to_java#:#percorso JAVA
 common#:#path_to_unzip#:#percorso UNZIP
 common#:#path_to_zip#:#percorso ZIP
+common#:#pathes#:#Pathes###20 Mar 2003 new variable
 common#:#payment_system#:#sistema di pagamento
 common#:#perm_settings#:#diritti
 common#:#permission#:#permission
@@ -397,6 +417,7 @@ common#:#show_list#:#show list###17 Jan 2003 new variable
 common#:#show_members#:#display members###07 Feb 2003 new variable
 common#:#show_owner#:#proprietario
 common#:#signature#:##signature
+common#:#smtp#:#SMTP###20 Mar 2003 new variable
 common#:#startpage#:##startpage
 common#:#status#:#stato
 common#:#step#:#passo
@@ -424,10 +445,12 @@ common#:#total#:#totale
 common#:#tpl_path#:#percorso template
 common#:#trash#:#cestino
 common#:#treeview#:#Tree view###07 Feb 2003 new variable
+common#:#typ#:#Object Type Definition###20 Mar 2003 new variable
 common#:#type#:#tipo
 common#:#type_your_message_here#:#scrivi il Tuo messaggio qua
 common#:#uid#:#uid
 common#:#uninstall#:#uninstall
+common#:#uninstalled#:#uninstalled.###20 Mar 2003 new variable
 common#:#unknown#:#IGNOTO
 common#:#unread#:#non letto
 common#:#update_applied#:#update riuscito
@@ -436,6 +459,7 @@ common#:#upload#:#Upload###04 Mar 2003 new variable
 common#:#url#:#URL
 common#:#url_description#:#URL descrizione
 common#:#user#:#utente
+common#:#user_language#:#User Language###20 Mar 2003 new variable
 common#:#userdata#:#dati utente
 common#:#username#:#nome utente
 common#:#users#:#utenti
