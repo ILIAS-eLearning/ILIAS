@@ -1181,22 +1181,26 @@ class ilObjTest extends ilObject
 		}
 	}
 
-	function loadQuestions() {
+	function loadQuestions($user_id = "") {
 		global $ilUser;
 		
     $db = $this->ilias->db;
 		$this->questions = array();
+		if (strcmp($user_id, "") == 0)
+		{
+			$user_id = $ilUser->id;
+		}
 		if ($this->isRandomTest())
 		{
 			$query = sprintf("SELECT tst_test_random_question.* FROM tst_test_random_question, qpl_questions WHERE tst_test_random_question.test_fi = %s AND tst_test_random_question.user_fi = %s AND qpl_questions.question_id = tst_test_random_question.question_fi ORDER BY sequence",
-				$db->quote($this->test_id),
-				$db->quote($ilUser->id)
+				$db->quote($this->test_id . ""),
+				$db->quote($user_id . "")
 			);
 		}
 		else
 		{
 			$query = sprintf("SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
-				$db->quote($this->test_id)
+				$db->quote($this->test_id . "")
 			);
 		}
 		$result = $db->query($query);
@@ -2173,7 +2177,10 @@ class ilObjTest extends ilObject
 */
 	function &getTestResult($user_id) {
 //		global $ilBench;
-		
+		if ($this->isRandomTest())
+		{
+			$this->loadQuestions($user_id);
+		}
 		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
 		$total_max_points = 0;
 		$total_reached_points = 0;
