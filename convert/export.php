@@ -33,7 +33,7 @@ if (DB::isError($db))
 
 // test ***
 $exp = new export;
-$exp->output();
+$exp->outputFile();
 
 // quit connection
 $db->disconnect();
@@ -294,7 +294,7 @@ class export
 	}
 	
 	// ILIAS2 Metadata --> ILIAS3 MetaData
-	function metadata ($id, $type)
+	function exportMetadata ($id, $type, $parent)
 	{
 		// ***
 		global $db;
@@ -534,8 +534,8 @@ class export
 		// *** Reihenfolge und Validität beachten: defaultvalues, falls records leer, aber requiered
 		//-------------------------
 		
-		// MetaData *** ggf. ein vereinfachtes Konstrukt
-		$MetaData = $this->doc->create_element("MetaData");
+		// MetaData ***
+		$MetaData = $this->writeNode($parent, "MetaData");
 		
 		// 1 MetaData..General
 		$attrs = array(	"Structure" => $this->selectStructure($meta["typ"]),
@@ -650,157 +650,174 @@ class export
 			}
 		}
 		
-		//-----------------
-		// free db records:
-		//-----------------
+		//-------------
+		// free memory:
+		//-------------
 		unset($sql, $sql2, $row, $row2, $meta, $keyword, $contrib, $mtype, $attrs);
 		
-		//----------------------------------------
+		//-------------------------
 		// return MetaData subtree:
-		// (must be appended to become persistent)
-		//----------------------------------------
+		//-------------------------
 		return $MetaData;
 	}
 	
-	// ILIAS2 Element --> ILIAS3 LearningObject Level 1 or 2 (depends on type)
-	function element ($id, $del = "")
+	// ILIAS2 Element (only undeleted) --> ILIAS3 LearningObject AggregationLevel 1 or 2 or Text (depends on type)
+	function exportElement ($id, $parent)
 	{
 		// ***
 		global $db;
 		
-		// element's metadata *** erst am Ende ???
+		//-------------------------
+		// get data from db tables:
+		//-------------------------
 		
-		// set deleted value for the sql query
-		if ($del)
-		{	
-			$sqlDel = "";
-		}
-		else 
-		{
-			$sqlDel = "AND deleted = '0000-00-00 00:00:00'";
-		}
-		
-		// get data from table 'element'
-		$sql =	"SELECT * ".
+		// table 'element'
+		$sql =	"SELECT typ, page, nr, src, bsp ".
 				"FROM element ".
-				"WHERE id = $id $sqlDel;";
+				"WHERE id = $id ".
+				"AND deleted = '0000-00-00 00:00:00'";
 		
-		// select the element's type ***
-		switch($el["typ"]) 
+		$result = $db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
 		{
-			// text element
-			case 1:
-				$sql =	"SELECT DISTINCT * ".
+			die ($result->getMessage());
+		}
+		// get row
+		$element = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		// free result set
+		$result->free();
+		
+		// select tables according to element's type
+		switch($element["typ"]) 
+		{
+			case 1: // text element
+				
+				// table 'el_text'
+				$sql =	"SELECT text, align ".
 						"FROM el_text ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
+				
+				$result = $db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
+				// get row
+				$text = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// free result set
+				$result->free();
+				
+				//--------------------------
+				// create Text subtree:
+				// *** (convert VRIs, HTML and Layout (alignment))
+				//--------------------------
+				
+				// MetaData *** (Parent LearningObjet already has MetaData)
+				
+				// Text ***
+				$Text = $this->writeNode($parent, "Text");
+				
+				// Text..Paragraph ***
+				$attrs = array(	"Language" => "test", // *** aus meta holen
+								"Characteristic" => "test"); // *** aus bsp holen
+				$Paragraph = $this->writeNode($Text, "Paragraph", $attrs, htmlentities($text["text"])); // *** Whitespaces
 				
 				break;
 			
+			/*
 			// image element (bild)
 			case 2:
-				$sql =	"SELECT DISTINCT * ".
+				$sql =	"SELECT * ".
 						"FROM el_bild ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				// copy (image) files
 				break;
 			
 			// title element
 			case 3:
-				$sql =	"SELECT DISTINCT * ".
+				$sql =	"SELECT * ".
 						"FROM el_titel ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				break;
 			
 			// table element
 			case 4:
-				$sql =	"SELECT DISTINCT * ".
+				$sql =	"SELECT * ".
 						"FROM el_table ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				// table's cell information
 				$sql =	"SELECT DISTINCT * ".
 						"FROM table_cell ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				// table's "rowcol" information
 				$sql =	"SELECT DISTINCT * ".
 						"FROM table_rowcol ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				break;
 			
 			// imagemap element
 			case 5:
-				$sql =	"SELECT DISTINCT * ".
+				$sql =	"SELECT * ".
 						"FROM el_map ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				// copy (imagemap) files
 				
 				// imagemap areas
 				$sql =	"SELECT DISTINCT * ".
 						"FROM maparea ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				break;
 			
 			// multiple choice element
 			case 6:
-				$sql =	"SELECT DISTINCT * ".
+				$sql =	"SELECT * ".
 						"FROM el_mc ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				// answer possibilities for flexible questiontype
 				$sql =	"SELECT DISTINCT * ".
 						"FROM mc_answer ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				break;
 			
 			// multimedia element
 			case 7:
-				$sql =	"SELECT DISTINCT * ".
+				$sql =	"SELECT * ".
 						"FROM el_multimedia ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				// table multimedia is treated separatly
 				break;
 			
 			// filelist
 			case 8:
-				$sql =	"SELECT DISTINCT * ".
+				$sql =	"SELECT * ".
 						"FROM el_filelist ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				// filelist_entry (filelist entries)
 				$sql =	"SELECT DISTINCT * ".
 						"FROM filelist_entry ".
-						"WHERE el_id = '$id' ".
-						"AND el_inst = '$inst';";
+						"WHERE el_id = $id;";
 				
 				// table file is treated separatly
 				break;
 			
 			// sourcecode
 			case 9:
-				$sql =	"SELECT DISTINCT * ".
+				$sql =	"SELECT * ".
 						"FROM el_sourcecode ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst';";
+						"WHERE id = $id;";
 				
 				break;
 			
@@ -808,33 +825,201 @@ class export
 			case 10:
 				// el_survey
 				break;
+			*/
+		}
+		
+		//-------------
+		// free memory: ***
+		//-------------
+		unset($sql, $row, $element, $text, $attrs);
+		
+		//----------------------------------------
+		// return (Text | LearningObject) subtree: ***
+		//----------------------------------------
+		if (is_null($LearningObject))
+		{
+			return $Text;
+		}
+		else
+		{
+			return $LearningObject;
 		}
 	}
 	
-	// ILIAS2 Lerneinheit --> ILIAS3 LearningObject Level 4
-	function lerneinheit ($id, $del = "")
+	// ILIAS2 Page (only undeleted) --> ILIAS3 LearningObject AggregationLevel 2 or 3 or Test or Glossary
+	function exportPage ($id, $parent)
 	{
 		// ***
 		global $db;
 		
-		// set deleted value for the sql query
-		if ($del)
-		{	
-			$sqlDel = "";
-		}
-		else 
+		//-------------------------
+		// get data from db tables:
+		//-------------------------
+		
+		// table 'page'
+		$sql =	"SELECT pg_typ, aktiv, lerneinheit ".
+				"FROM page ".
+				"WHERE id = $id ".
+				"AND deleted = '0000-00-00 00:00:00'";
+		
+		$result = $db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
 		{
-			$sqlDel = "AND deleted = '0000-00-00 00:00:00'";
+			die ($result->getMessage());
+		}
+		// get row
+		$page = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		// free result set
+		$result->free();
+		
+		// select tables according to page's type
+		switch($page["pg_typ"]) 
+		{
+			//-------------------------------------------------------
+			// create LearningObject AggregationLevel 2 or 3 subtree:
+			//-------------------------------------------------------
+			
+			case "le": // Lerneinheit
+				
+				// LearningObject
+				$LearningObject = $this->writeNode($parent, "LearningObject");
+				
+				// LearningObject..MetaData ***
+				$MetaData = $this->exportMetadata($id, "pg", $LearningObject);
+				
+				// LearningObject..Layout ***
+				
+				// LearningObject..Content ***
+				$Content = $this->writeNode($LearningObject, "Content");
+				
+				// ..Content.. ***
+				$sql =	"SELECT id ".
+						"FROM element ".
+						"WHERE page = $id ".
+						"AND deleted = '0000-00-00 00:00:00' ".
+						"ORDER BY nr;";
+				
+				$result = $db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage());
+				}
+				// get row(s)
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$Element = $this->exportElement($row["id"], $Content); // ***
+				}
+				// free result set
+				$result->free();
+				
+				// LearningObject..Test ***
+				
+				// LearningObject..Glossary ***
+				
+				// LearningObject..Bibliography ***
+				
+				break;
+			
+			/*
+			// Glossary ***
+			case "gl":
+				break;
+			
+			// Multiple Choice ***
+			case "mc":
+				break;
+			*/
 		}
 		
-		// get data from table 'lerneinheit'
+		//-------------
+		// free memory: ***
+		//-------------
+		unset($sql, $row, $page, $attrs);
+		
+		//-------------------------------
+		// return LearningObject subtree:
+		//-------------------------------
+		return $LearningObject;
+	}
+	
+	// ILIAS2 Lerneinheit --> ILIAS3 LearningObject AggregationLevel 4
+	function exportLerneinheit ($id)
+	{
+		// ***
+		global $db;
+		
+		//-------------------------
+		// get data from db tables:
+		//-------------------------
+		
+		// table 'lerneinheit'
+		/*
 		$sql =	"SELECT * ".
 				"FROM lerneinheit ".
-				"WHERE id = $id $sqlDel;";
+				"WHERE id = $id ".
+				"AND deleted = '0000-00-00 00:00:00'";
+		*/
+		
+		//-----------------------------------------------
+		// create LearningObject AggregationLevel 4 tree:
+		//-----------------------------------------------
+		
+		// LearningObject
+		$LearningObject = $this->writeNode($this->doc, "LearningObject");
+		
+		// LearningObject..MetaData ***
+		$MetaData = $this->exportMetadata($id, "le", $LearningObject);
+		
+		// LearningObject..Layout ***
+		
+		// LearningObject..Content ***
+		$Content = $this->writeNode($LearningObject, "Content");
+		
+		// Es fehlt die Schicht der Gliederungspunkte (LO 3) ***
+		// Stattdessen werden Pages eingefügt LO 2/3.
+		// Muss später angepasst werden.
+		
+		// ..Content.. ***
+		$sql =	"SELECT id ".
+				"FROM page ".
+				"WHERE lerneinheit = $id ".
+				"AND deleted = '0000-00-00 00:00:00';";
+		
+		$result = $db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$Page = $this->exportPage($row["id"], $Content); // ***
+		}
+		// free result set
+		$result->free();
+		
+		// LearningObject..Test ***
+		
+		// LearningObject..Glossary ***
+		
+		// LearningObject..Bibliography ***
+		
+		//-------------
+		// free memory: ***
+		//-------------
+		unset($sql, $row, $attrs);
+		
+		//-------------------------------
+		// return LearningObject subtree:
+		//-------------------------------
+		return $LearningObject;
 	}
 	
 	// create xml output
-	function output ()
+	function outputFile ()
 	{
 		//-------------------------
 		// create new xml document:
@@ -852,13 +1037,8 @@ class export
 		$root = $this->doc->document_element();
 		$root->unlink_node();
 		
-		// create Learning Object AggregationLevel 4 (root element) *** nur Test
-		$LearningObject = $this->doc->create_element("LearningObject");
-		$LearningObject = $this->doc->append_child($LearningObject);
-		
-		// create MetaData ***
-		$MetaData = $this->metadata(200, "le");
-		$MetaData = $LearningObject->append_child($MetaData);
+		// create ILIAS3 LearningObject out of ILIAS2 Lerneinheit ***
+		$LearningObject = $this->exportLerneinheit(5);
 		
 		// dump xml document on the screen ***
 		echo "<PRE>";
@@ -866,5 +1046,3 @@ class export
 		echo "</PRE>";
 	}
 }
-
-?>
