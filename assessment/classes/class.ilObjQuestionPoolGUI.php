@@ -39,8 +39,6 @@ require_once "assessment/classes/class.ilObjQuestionPool.php";
 
 class ilObjQuestionPoolGUI extends ilObjectGUI
 {
-  var $question_pool;
-  
 	/**
 	* Constructor
 	* @access public
@@ -51,7 +49,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->type = "qpl";
     $lng->loadLanguageModule("assessment");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
-    $this->question_pool =& new ilObjQuestionPool($a_id, $a_call_by_reference);
 	}
 	
 	/**
@@ -82,6 +79,32 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
   function propertiesObject()
   {
+    $add_parameter = $this->get_add_parameter();
+		$data = array();
+		$data["fields"] = array();
+		$data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
+		$data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
+		$this->getTemplateFile("edit");
+
+		foreach ($data["fields"] as $key => $val)
+    {
+			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+			$this->tpl->setVariable(strtoupper($key), $val);
+      if ($this->prepare_output)
+			{
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		$this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $add_parameter);
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("obj_qpl") . ": " . $this->object->getTitle());
+		$this->tpl->setVariable("TITLE", $this->object->getTitle());
+		$this->tpl->setVariable("DESC", $this->object->getDescription());
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("CMD_SUBMIT", "save");
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+    $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
   }
 
   function out_preview_page($question_id) {
@@ -95,9 +118,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $question =& $question_gui->create_question($type, $edit);
     $question_gui->set_edit_template();
   }
+  
+  function get_add_parameter() 
+  {
+    return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
+  }
+  
 
   function questionsObject()
   {
+    global $rbacsystem;
     $type = ($_POST["sel_question_types"]) ? $_POST["sel_question_types"] : $_GET["sel_question_types"];
     if ($_GET["preview"]) {
       $this->out_preview_page($_GET["preview"]);
@@ -116,7 +146,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
     $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
 
-    $add_parameter = "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
+    $add_parameter = $this->get_add_parameter();
 
     // create an array of all checked checkboxes
     $checked_questions = array();
@@ -133,16 +163,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       } elseif (count($checked_questions) == 0) {
         sendInfo($this->lng->txt("qpl_edit_select_none"));
       } else {
-        header("location:" . $_SERVER["PHP_SELF"] . $add_parameter . "&edit=" . $checked_questions[0]);
-        exit();
+        if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
+          header("location:" . $_SERVER["PHP_SELF"] . $add_parameter . "&edit=" . $checked_questions[0]);
+          exit();
+        } else {
+          sendInfo($this->lng->txt("qpl_edit_rbac_error"));
+        }
       }
     }
     
     if (strlen($_POST["cmd"]["delete"]) > 0) {
       // delete button was pressed
       if (count($checked_questions) > 0) {
-        foreach ($checked_questions as $key => $value) {
-           $this->question_pool->delete_question($value);
+        if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
+          foreach ($checked_questions as $key => $value) {
+            $this->object->delete_question($value);
+          }
+        } else {
+          sendInfo($this->lng->txt("qpl_delete_rbac_error"));
         }
       } elseif (count($checked_questions) == 0) {
         sendInfo($this->lng->txt("qpl_delete_select_none"));
@@ -294,7 +332,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
       {
         if (($data->private != 1) or ($data->owner == $this->ilias->account->id)) {
           $this->tpl->setVariable("QUESTION_ID", $data->question_id);
-          if ($data->owner == $this->ilias->account->id) {
+          if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
             $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&edit=$data->question_id\">$data->title</a>");
           } else {
             $this->tpl->setVariable("QUESTION_TITLE", $data->title);
