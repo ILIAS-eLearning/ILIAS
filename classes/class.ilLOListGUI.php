@@ -579,6 +579,8 @@ class ilLOListGUI
 	*/
 	function setLocator()
 	{
+		global $ilias_locator;
+		
 		$a_tree =& $this->tree;
 		$a_id = $_GET["ref_id"];
 
