@@ -2307,12 +2307,12 @@ $a_allow = "<strong><em><code><cite><gap>";
 
 	/**
 	* scan file for viruses and clean files if possible
-	* 
+	*
 	*/
 	function virusHandling($a_file, $a_orig_name = "", $a_clean = true)
 	{
 		global $lng;
-		
+
 		if (IL_VIRUS_SCANNER != "None")
 		{
 			require_once("classes/class.ilVirusScannerFactory.php");
@@ -2329,41 +2329,41 @@ $a_allow = "<strong><em><code><cite><gap>";
 						$vs_txt.= "<br />".$lng->txt("repeat_scan");
 						if (($vs2_txt = $vs->scanFile($a_file, $a_orig_name)) != "")
 						{
-							return array(false, $vs_txt."<br />".$lng->txt("repeat_scan_failed").
-								"<br />".$vs2_txt);
+							return array(false, nl2br($vs_txt)."<br />".$lng->txt("repeat_scan_failed").
+								"<br />".nl2br($vs2_txt));
 						}
 						else
 						{
-							return array(true, $vs_txt."<br />".$lng->txt("repeat_scan_succeded"));
+							return array(true, nl2br($vs_txt)."<br />".$lng->txt("repeat_scan_succeded"));
 						}
 					}
 					else
 					{
-						return array(false, $vs_txt."<br />".$lng->txt("cleaning_failed"));
+						return array(false, nl2br($vs_txt)."<br />".$lng->txt("cleaning_failed"));
 					}
 				}
 				else
 				{
-					return array(false, $vs_txt);
+					return array(false, nl2br($vs_txt));
 				}
 			}
 		}
 		return array(true,"");
 	}
-	
-	
+
+
 	/**
 	* move uploaded file
 	*/
 	function moveUploadedFile($a_file, $a_name, $a_target, $a_raise_errors = true)
 	{
 		global $lng, $ilias;
-//echo "<br>ilUtli::moveuploadedFile($a_name)";		
+//echo "<br>ilUtli::moveuploadedFile($a_name)";
 		if (!is_file($a_file))
 		{
 			$lng->txt("upload_error_file_not_found");
 		}
-		
+
 		// virus handling
 		$vir = ilUtil::virusHandling($a_file, $a_name);
 		if (!$vir[0])
