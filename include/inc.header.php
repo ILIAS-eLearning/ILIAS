@@ -37,10 +37,12 @@
 require_once "classes/class.ilUtil.php";
 require_once "classes/class.ilBenchmark.php";
 $ilBench = new ilBenchmark();
-$ilBench->start("Core", "Header Include");
+$ilBench->start("Core", "HeaderInclude");
 
 // start the StopWatch
 $t_pagestart = ilUtil::StopWatch();
+
+$ilBench->start("Core", "HeaderInclude_IncludeFiles");
 
 //include files from PEAR
 require_once "PEAR.php";
@@ -91,11 +93,19 @@ require_once "classes/class.ilLocatorGUI.php";
 // include error_handling
 require_once "classes/class.ilErrorHandling.php";
 
+$ilBench->stop("Core", "HeaderInclude_IncludeFiles");
+
+
+
+$ilBench->start("Core", "HeaderInclude_GetErrorHandler");
 $ilErr = new ilErrorHandling();
 $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
+$ilBench->stop("Core", "HeaderInclude_GetErrorHandler");
 
 // load main class
+$ilBench->start("Core", "HeaderInclude_GetILIASObject");
 $ilias = new ILIAS($_COOKIE["ilClientId"]);
+$ilBench->stop("Core", "HeaderInclude_GetILIASObject");
 
 if (!db_set_save_handler())
 {
@@ -116,24 +126,33 @@ if ($_SESSION["message"])
 //}
 
 //authenticate & start session
+$ilBench->start("Core", "HeaderInclude_Authentication");
 $ilias->auth->start();
+$ilBench->stop("Core", "HeaderInclude_Authentication");
 
 // start logging
 $log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED);
 
+
 // load object definitions
+$ilBench->start("Core", "HeaderInclude_getObjectDefinitions");
 $objDefinition = new ilObjectDefinition();
 $objDefinition->startParsing();
+$ilBench->stop("Core", "HeaderInclude_getObjectDefinitions");
+
 
 // current user account
+$ilBench->start("Core", "HeaderInclude_getCurrentUser");
 $ilias->account = new ilObjUser();
+$ilBench->stop("Core", "HeaderInclude_getCurrentUser");
+
+
 // create references for subobjects in ilias object
 $ilDB =& $ilias->db;
 $ilUser =& $ilias->account;
 
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
-
 
 // check ilias 2 password, if authentication failed
 if (!$ilias->auth->getAuth() && $script == "login.php" && $_POST["username"] != "")
@@ -148,9 +167,10 @@ if (!$ilias->auth->getAuth() && $script == "login.php" && $_POST["username"] != 
 	}
 }
 
-
 if ($ilias->auth->getAuth())
 {
+	$ilBench->start("Core", "HeaderInclude_getCurrentUserAccountData");
+
 	//get user id
 	if (empty($_SESSION["AccountId"]))
 	{
@@ -174,6 +194,8 @@ if ($ilias->auth->getAuth())
 	{
 		$ilias->account->refreshLogin();
 	}
+
+	$ilBench->stop("Core", "HeaderInclude_getCurrentUserAccountData");
 }
 elseif ($script != "login.php" and $script != "nologin.php" and $script != "index.php"
 		and $script != "view_usr_agreement.php" and $script!= "register.php" and $script != "chat.php")
@@ -184,13 +206,19 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 }
 
 //init language
+$ilBench->start("Core", "HeaderInclude_initLanguage");
 $lang_key = ($_GET["lang"]) ? $_GET["lang"] : $ilias->account->prefs["language"];
 $lng = new ilLanguage($lang_key);
+$ilBench->stop("Core", "HeaderInclude_initLanguage");
+
 
 // init rbac
+$ilBench->start("Core", "HeaderInclude_initRBAC");
 $rbacsystem = new ilRbacSystem();
 $rbacadmin = new ilRbacAdmin();
 $rbacreview = new ilRbacReview();
+$ilBench->stop("Core", "HeaderInclude_initRBAC");
+
 
 // init ref_id on first start ref_id is set to ROOT_FOLDER_ID
 $_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
@@ -212,8 +240,10 @@ if ( !isset($_SESSION["locator_level"]) )
 $ilias_locator = new ilLocatorGUI();
 
 // load style definitions
+$ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
 $styleDefinition = new ilStyleDefinition();
 $styleDefinition->startParsing();
+$ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
 
 //navigation things
 /*
@@ -253,6 +283,6 @@ if ($mail_id = ilMailbox::hasNewMail($_SESSION["AccountId"]))
 									);
 }
 
-$ilBench->stop("Core", "Header Include");
+$ilBench->stop("Core", "HeaderInclude");
 $ilBench->save();
 ?>
