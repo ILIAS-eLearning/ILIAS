@@ -338,10 +338,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			else
 			{
-				$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
-				$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
-				$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
-				$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", true);
 				$prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
 				$this->tpl->setCurrentBlock("prev");
 				if ($prevpage === 0)
@@ -388,6 +384,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 					}
 					$this->tpl->parseCurrentBlock();
 				}
+				$this->tpl->addBlockFile("NOMINAL_QUESTION", "nominal_question", "tpl.il_svy_out_nominal.html", true);
+				$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
+				$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
+				$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", true);
 				$this->tpl->setCurrentBlock("percentage");
 				$this->tpl->setVariable("PERCENTAGE", (int)(($page[0]["position"])*200));
 				$this->tpl->setVariable("PERCENTAGE_VALUE", (int)(($page[0]["position"])*100));
@@ -402,10 +402,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 				foreach ($page as $data)
 				{
+					$this->tpl->setCurrentBlock("survey_content");					
 					$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
 					$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
 					$question_gui->outWorkingForm($working_data);
 					$qid = "&qid=" . $data["question_id"];
+					$this->tpl->parse("survey_content");
 				}
 			}
 			$this->tpl->setCurrentBlock("content");
