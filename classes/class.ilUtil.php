@@ -998,7 +998,6 @@ class ilUtil
 		$name = basename($a_dir);
 		
 		$zipcmd = $zip." -r $a_file $name";
-		
 		exec($zipcmd);
 		
 		chdir($cdir);

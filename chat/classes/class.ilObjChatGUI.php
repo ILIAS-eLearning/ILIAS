@@ -88,7 +88,7 @@ class ilObjChatGUI extends ilObjectGUI
 		if (!$rbacsystem->checkAccess("read", $this->ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
-		}
+ 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.chat_view.html",true);
 
 		// CHAT SERVER NOT ACTIVE
@@ -438,6 +438,10 @@ class ilObjChatGUI extends ilObjectGUI
 
 	function input()
 	{
+		if(!$_POST["message"])
+		{
+			sendInfo($this->lng->txt("msg_no_perm_read"),true);
+		}
 		if($_POST["message"] and $this->object->chat_room->checkWriteAccess())
 		{
 			// FORMAT MESSAGE
@@ -567,8 +571,31 @@ class ilObjChatGUI extends ilObjectGUI
 	}
 	function __showActiveUsers()
 	{
-		$this->tpl->setVariable("ACTIVE_USERS",$this->lng->txt("!!chat_active_users"));
+		if(isset($_GET["a_users"]))
+		{
+			if($_GET["a_users"])
+			{
+				$_SESSION["a_users"] = true;
+			}
+			else
+			{
+				$_SESSION["a_users"] = 0;
+				unset($_SESSION["a_users"]);
+			}
+		}
 
+		$hide = $_SESSION["a_users"] ? true : false;
+
+		$this->tpl->setVariable("ACTIVE_USERS",$this->lng->txt("!!chat_active_users"));
+		$this->tpl->setVariable("DETAILS_B_TXT",$hide ? $this->lng->txt("!!Show details") : $this->lng->txt("!!Hide details"));
+		$this->tpl->setVariable("DETAILS_B","chat.php?ref_id=".$this->object->getRefId().
+								"&room_id=".$this->object->chat_room->getRoomId().
+								"&a_users=".($hide ? 0 : 1)."&cmd=showUserFrame");
+
+		if($hide)
+		{
+			return true;
+		}
 		$users = $this->object->chat_room->getActiveUsers();
 		if(count($users) <= 1)
 		{

@@ -71,6 +71,36 @@ class ilObjChat extends ilObject
 		$this->chat_user =& new ilChatUser();
 		$this->chat_room =& new ilChatRoom($this->getRefId());
 	}
+
+	function delete()
+	{
+		if(!parent::delete())
+		{
+			return false;
+		}
+		$rooms = $this->chat_room->getAllRoomsOfObject();
+		foreach($rooms as $id)
+		{
+			$this->chat_room->delete($id);
+		}
+
+		// FINALLY DELETE MESSAGES IN PUBLIC ROOM
+		$query = "DELETE FROM chat_room_messages ".
+			"WHERE chat_id = '".$this->getRefId()."'";
+
+		$res = $this->ilias->db->query($query);
+
+		// AND ALL USERS
+		$query = "DELETE FROM chat_user ".
+			"WHERE chat_id = '".$this->getRefId()."'";
+
+		$res = $this->ilias->db->query($query);
+
+		return true;
+	}
+		
+
+		
 	// SET/GET
 } // END class.ilObjTest
 ?>

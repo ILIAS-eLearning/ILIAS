@@ -120,6 +120,7 @@ $deskgui->displaySystemMessages();
 $deskgui->displayUsersOnline();
 $deskgui->displayGroups();
 $deskgui->displayBookmarks();
+$deskgui->displayChats();
 
 
 // output

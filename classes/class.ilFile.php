@@ -31,7 +31,6 @@
 * 
 * @package	ilias-mail
 */
-
 class ilFile
 {
 	/**
