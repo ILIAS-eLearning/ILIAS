@@ -36,7 +36,7 @@ common#:#accept_usr_agreement#:#Accetti accordo utente?
 common#:#access#:#accesso
 common#:#action_aborted#:#Action aborted!###20 Mar 2003 new variable
 common#:#actions#:#azioni
-common#:#add#:#aggiungi
+common#:#add#:#aggiungi###16 Apr 2003 content changed
 common#:#add_author#:#aggiungi autore
 common#:#add_member#:#aggiungi membro
 common#:#administrate#:#amministrare
@@ -44,7 +44,6 @@ common#:#administration#:#amministrazione
 common#:#administrator#:#amministratore
 common#:#adopt#:#adopt###28 Mar 2003 new variable
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template###29 Mar 2003 new variable
-common#:#also_as_email#:#anche come email
 common#:#announce#:#annunciare
 common#:#announce_changes#:#annunciare cambio
 common#:#answers#:#answers
@@ -60,7 +59,6 @@ common#:#available_languages#:#lingue disponibili
 common#:#back#:#indietro
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#dati di base
-common#:#bc#:#bc
 common#:#bm#:#Bookmark###09 Apr 2003 new variable
 common#:#bmf#:#Bookmark Folder###09 Apr 2003 new variable
 common#:#bookmark_edit#:#Edit Bookmark###09 Apr 2003 new variable
@@ -209,7 +207,6 @@ common#:#forums_threads#:#threads
 common#:#forums_threads_not_available#:#topics not available
 common#:#forums_topics_overview#:#topics overview
 common#:#forums_your_reply#:#your reply
-common#:#forward#:#inoltra messaggio
 common#:#frm#:#forum
 common#:#from#:#di:###25 Mar 2003 content changed
 common#:#functions#:#funzioni
@@ -281,7 +278,6 @@ common#:#launch#:#launch
 common#:#ldap#:#LDAP
 common#:#le#:#le
 common#:#level#:#livello
-common#:#linebreak#:##linebreak
 common#:#link#:#link
 common#:#linked_pages#:##linked pages
 common#:#list_of_pages#:#lista di pagine
@@ -307,77 +303,28 @@ common#:#los#:#lezioni
 common#:#los_last_visited#:#ultima lezione visitata
 common#:#mail#:#Posta
 common#:#mail_a_root#:#Mailbox###25 Mar 2003 new variable
-common#:#mail_add_recipient#:#Please enter a recipient###29 Mar 2003 new variable
-common#:#mail_add_subject#:#Please enter a subject###29 Mar 2003 new variable
-common#:#mail_add_to_addressbook#:#Add to addressbook###28 Mar 2003 new variable
-common#:#mail_addr_entries#:#Entries###28 Mar 2003 new variable
 common#:#mail_addressbook#:#Addressbook###28 Mar 2003 new variable
 common#:#mail_allow_smtp#:#Allow SMTP###25 Mar 2003 new variable
-common#:#mail_attachments#:#Attachments###25 Mar 2003 new variable
 common#:#mail_b_inbox#:#Inbox###25 Mar 2003 new variable
-common#:#mail_bc_not_valid#:#The Bc recipient is not valid###29 Mar 2003 new variable
-common#:#mail_bc_search#:#BC search###25 Mar 2003 new variable
 common#:#mail_c_trash#:#Trash###25 Mar 2003 new variable
-common#:#mail_cc_not_valid#:#The Cc recipient is not valid###29 Mar 2003 new variable
-common#:#mail_cc_search#:#CC search###25 Mar 2003 new variable
-common#:#mail_check_your_email_addr#:#Your email address is not valid###29 Mar 2003 new variable
-common#:#mail_compose#:#Compose Message###28 Mar 2003 new variable
 common#:#mail_d_drafts#:#Drafts###25 Mar 2003 new variable
 common#:#mail_delete_error#:#Error deleting mail(s)###25 Mar 2003 new variable
 common#:#mail_delete_error_file#:#Error deleting file###04 Apr 2003 new variable
-common#:#mail_deleted#:#The mail(s) have been deleted###25 Mar 2003 new variable
-common#:#mail_deleted_entry#:#The entries are deleted###28 Mar 2003 new variable
 common#:#mail_e_sent#:#Sent###25 Mar 2003 new variable
-common#:#mail_email_forbidden#:#You are not allowed to send email###04 Apr 2003 new variable
-common#:#mail_entry_added#:#Added new Entry###28 Mar 2003 new variable
-common#:#mail_entry_changed#:#The entry is changed###28 Mar 2003 new variable
-common#:#mail_file_name#:#Filename###03 Apr 2003 new variable
-common#:#mail_file_size#:#Filesize###03 Apr 2003 new variable
-common#:#mail_files_deleted#:#The file(s) are deleted###04 Apr 2003 new variable
-common#:#mail_folder_created#:#A new folder is created###28 Mar 2003 new variable
-common#:#mail_folder_exists#:#A folder already exists with this name###28 Mar 2003 new variable
-common#:#mail_folder_name#:#Folder name###28 Mar 2003 new variable
-common#:#mail_folder_name_changed#:#The folder is renamed###28 Mar 2003 new variable
-common#:#mail_folder_options#:#Folder Options###28 Mar 2003 new variable
-common#:#mail_global_options#:#Global options###28 Mar 2003 new variable
-common#:#mail_insert_folder_name#:#Please insert a folder name###28 Mar 2003 new variable
-common#:#mail_insert_query#:#Please insert a query###28 Mar 2003 new variable
 common#:#mail_intern_enable#:#Enable###25 Mar 2003 new variable
 common#:#mail_mails_of#:#Mails of###25 Mar 2003 new variable
-common#:#mail_mark_read#:#Mark mails read###25 Mar 2003 new variable
-common#:#mail_mark_unread#:#Mark mails unread###25 Mar 2003 new variable
 common#:#mail_maxsize_attach#:#Max. attachment size###25 Mar 2003 new variable
 common#:#mail_maxsize_box#:#Max. mailbox size###25 Mar 2003 new variable
 common#:#mail_maxsize_mail#:#Max. mail size###25 Mar 2003 new variable
 common#:#mail_maxtime_attach#:#Max. days to keep attachments###25 Mar 2003 new variable
 common#:#mail_maxtime_mail#:#Max. days to keep mails ###25 Mar 2003 new variable
-common#:#mail_message_send#:#The message is send###25 Mar 2003 new variable
-common#:#mail_move_error#:#Error moving mail(s)###25 Mar 2003 new variable
-common#:#mail_move_to#:#Move mails to###25 Mar 2003 new variable
-common#:#mail_moved#:#The mail(s) have been moved###25 Mar 2003 new variable
-common#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash###28 Mar 2003 new variable
-common#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments###29 Mar 2003 new variable
-common#:#mail_no_attachments_found#:#No attachments found###04 Apr 2003 new variable
 common#:#mail_not_sent#:#Mail not sent!###20 Mar 2003 new variable
-common#:#mail_options_of#:#Options:###28 Mar 2003 new variable
-common#:#mail_recipient_not_valid#:#The recipient is not valid###29 Mar 2003 new variable
-common#:#mail_s#:#mail
-common#:#mail_s_unread#:#messaggi non letti
-common#:#mail_saved#:#The message is saved###25 Mar 2003 new variable
 common#:#mail_search_no#:#No entries found###28 Mar 2003 new variable
 common#:#mail_search_word#:#Search word###25 Mar 2003 new variable
 common#:#mail_select_one#:#You have to select one mail.###25 Mar 2003 new variable
-common#:#mail_select_one_entry#:#You have to select one entry###28 Mar 2003 new variable
-common#:#mail_select_one_file#:#You have to select one file###28 Mar 2003 new variable
 common#:#mail_send_error#:#Error sending mail###25 Mar 2003 new variable
 common#:#mail_sent#:#Mail successfully sent!###20 Mar 2003 new variable
-common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)###25 Mar 2003 new variable
-common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries###28 Mar 2003 new variable
-common#:#mail_sure_delete_file#:#The file will be removed permanently###04 Apr 2003 new variable
-common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently###28 Mar 2003 new variable
 common#:#mail_system#:#System Message###03 Apr 2003 new variable
-common#:#mail_to_search#:#To search###25 Mar 2003 new variable
-common#:#mail_user_addr_n_valid#:#Follwing users have no valid email address###29 Mar 2003 new variable
 common#:#mail_z_local#:#User Folders###25 Mar 2003 new variable
 common#:#mails#:#messaggi
 common#:#mark_all_read#:#contrassegna tutto come letto
@@ -508,12 +455,8 @@ common#:#save_message#:#salva messaggio
 common#:#saved#:#salvato
 common#:#saved_successfully#:#cambiamenti salvati con successo
 common#:#search#:#cercare
-common#:#search_addressbook#:#Addressbook search###28 Mar 2003 new variable
-common#:#search_bc_recipient#:#cercare bc destinario
-common#:#search_cc_recipient#:#cercare cc destinario
 common#:#search_in#:#cerca in
 common#:#search_recipient#:#cercare destinario
-common#:#search_system#:#System search###28 Mar 2003 new variable
 common#:#sections#:#sezioni
 common#:#select_all#:#selezionare tutto
 common#:#select_file#:#Select file###04 Mar 2003 new variable
@@ -599,3 +542,60 @@ common#:#yes#:#si
 common#:#you_may_add_local_roles#:#you_may_add_local_roles
 common#:#your_message#:#Tuo messagio
 common#:#zipcode#:#codice postale
+mail#:#also_as_email#:#Also as Email###16 Apr 2003 new variable
+mail#:#bc#:#BC###16 Apr 2003 new variable
+mail#:#forward#:#Forward###16 Apr 2003 new variable
+mail#:#linebreak#:#Linebreak###16 Apr 2003 new variable
+mail#:#mail_add_recipient#:#Please enter a recipient###16 Apr 2003 new variable
+mail#:#mail_add_subject#:#Please enter a subject###16 Apr 2003 new variable
+mail#:#mail_add_to_addressbook#:#Add to addressbook###16 Apr 2003 new variable
+mail#:#mail_addr_entries#:#Entries###16 Apr 2003 new variable
+mail#:#mail_attachments#:#Attachments###16 Apr 2003 new variable
+mail#:#mail_bc_not_valid#:#The Bc recipient is not valid###16 Apr 2003 new variable
+mail#:#mail_bc_search#:#BC search###16 Apr 2003 new variable
+mail#:#mail_cc_not_valid#:#The Cc recipient is not valid###16 Apr 2003 new variable
+mail#:#mail_cc_search#:#CC search###16 Apr 2003 new variable
+mail#:#mail_check_your_email_addr#:#Your email address is not valid###16 Apr 2003 new variable
+mail#:#mail_compose#:#Compose Message###16 Apr 2003 new variable
+mail#:#mail_deleted#:#The mail(s) have been deleted###16 Apr 2003 new variable
+mail#:#mail_deleted_entry#:#The entries are deleted###16 Apr 2003 new variable
+mail#:#mail_email_forbidden#:#You are not allowed to send email###16 Apr 2003 new variable
+mail#:#mail_entry_added#:#Added new Entry###16 Apr 2003 new variable
+mail#:#mail_entry_changed#:#The entry is changed###16 Apr 2003 new variable
+mail#:#mail_file_name#:#Filename###16 Apr 2003 new variable
+mail#:#mail_file_size#:#Filesize###16 Apr 2003 new variable
+mail#:#mail_files_deleted#:#The file(s) are deleted###16 Apr 2003 new variable
+mail#:#mail_folder_created#:#A new folder is created###16 Apr 2003 new variable
+mail#:#mail_folder_exists#:#A folder already exists with this name###16 Apr 2003 new variable
+mail#:#mail_folder_name#:#Folder name###16 Apr 2003 new variable
+mail#:#mail_folder_name_changed#:#The folder is renamed###16 Apr 2003 new variable
+mail#:#mail_folder_options#:#Folder Options###16 Apr 2003 new variable
+mail#:#mail_global_options#:#Global options###16 Apr 2003 new variable
+mail#:#mail_insert_folder_name#:#Please insert a folder name###16 Apr 2003 new variable
+mail#:#mail_insert_query#:#Please insert a query###16 Apr 2003 new variable
+mail#:#mail_mark_read#:#Mark mails read###16 Apr 2003 new variable
+mail#:#mail_mark_unread#:#Mark mails unread###16 Apr 2003 new variable
+mail#:#mail_message_send#:#The message is send###16 Apr 2003 new variable
+mail#:#mail_move_error#:#Error moving mail(s)###16 Apr 2003 new variable
+mail#:#mail_move_to#:#Move mails to###16 Apr 2003 new variable
+mail#:#mail_moved#:#The mail(s) have been moved###16 Apr 2003 new variable
+mail#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash###16 Apr 2003 new variable
+mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments###16 Apr 2003 new variable
+mail#:#mail_no_attachments_found#:#No attachments found###16 Apr 2003 new variable
+mail#:#mail_options_of#:#Options:###16 Apr 2003 new variable
+mail#:#mail_recipient_not_valid#:#The recipient is not valid###16 Apr 2003 new variable
+mail#:#mail_s#:#Mail(s)###16 Apr 2003 new variable
+mail#:#mail_s_unread#:#Unread Mail(s)###16 Apr 2003 new variable
+mail#:#mail_saved#:#The message is saved###16 Apr 2003 new variable
+mail#:#mail_select_one_entry#:#You have to select one entry###16 Apr 2003 new variable
+mail#:#mail_select_one_file#:#You have to select one file###16 Apr 2003 new variable
+mail#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)###16 Apr 2003 new variable
+mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries###16 Apr 2003 new variable
+mail#:#mail_sure_delete_file#:#The file will be removed permanently###16 Apr 2003 new variable
+mail#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently###16 Apr 2003 new variable
+mail#:#mail_to_search#:#To search###16 Apr 2003 new variable
+mail#:#mail_user_addr_n_valid#:#Follwing users have no valid email address###16 Apr 2003 new variable
+mail#:#search_addressbook#:#Addressbook search###16 Apr 2003 new variable
+mail#:#search_bc_recipient#:#Search BC Recipient###16 Apr 2003 new variable
+mail#:#search_cc_recipient#:#Search CC Recipient###16 Apr 2003 new variable
+mail#:#search_system#:#System search###16 Apr 2003 new variable
