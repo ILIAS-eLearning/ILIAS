@@ -511,7 +511,7 @@ class ilMediaObject extends ilObjMediaObject
 
 	function _saveUsage($a_mob_id, $a_type, $a_id)
 	{
-		$q = "INSERT INTO mob_usage (id, usage_type, usage_id) VALUES".
+		$q = "REPLACE INTO mob_usage (id, usage_type, usage_id) VALUES".
 			" ('$a_mob_id', '$a_type', '$a_id')";
 		$this->ilias->db->query($q);
 	}
