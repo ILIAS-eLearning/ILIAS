@@ -354,7 +354,9 @@ assessment#:#tst_resume_test#:#Resume the test
 assessment#:#tst_score_reporting#:#Score reporting
 assessment#:#tst_score_reporting_date#:#Score reporting date
 assessment#:#tst_score_type#:#Score reporting type
+assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!
 assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question
+assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test
