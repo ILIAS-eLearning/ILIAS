@@ -996,10 +996,10 @@ class ilObjCourseGUI extends ilObjectGUI
 						$this->lng->txt('crs_member_not_passed');
 
 					$link_mail = "<a target=\"_blank\" href=\"mail_new.php?type=new&mail_data[rcp_to]=".
-						$tmp_obj->getLogin()."\"".$img_mail."</a>";
+						$tmp_obj->getLogin()."\">".$img_mail."</a>";
 
 					$this->ctrl->setParameter($this,"member_id",$tmp_obj->getId());
-					$link_change = "<a href=\"".$this->ctrl->getLinkTarget($this,"editMember")."\" ".
+					$link_change = "<a href=\"".$this->ctrl->getLinkTarget($this,"editMember")."\">".
 						$img_change."</a>";
 					$f_result[$counter][]	= $link_mail." ".$link_change;
 					unset($tmp_obj);
