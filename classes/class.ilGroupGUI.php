@@ -239,8 +239,6 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->prepareOutput();
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("groups_overview"));
-		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]);
-		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
@@ -266,7 +264,7 @@ class ilGroupGUI extends ilObjectGUI
 			$_SESSION["viewmode"] = "flat";
 		}
 
-	//show "new group" button only if category or dlib objects were chosen(current object)
+		//show "new group" button only if category or dlib objects were chosen(current object)
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
@@ -343,14 +341,8 @@ class ilGroupGUI extends ilObjectGUI
 				// change row color
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
-
-
 				$obj_link = "group.php?gateway=true&cmd=show_content&ref_id=".$cont_data["ref_id"]."&tree_id=".$cont_data["obj_id"]."&obj_id=".$cont_data["obj_id"];
-
-
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-				//$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
-
 				$this->tpl->setVariable("TITLE", $cont_data["title"]);
 				$this->tpl->setVariable("LINK", $obj_link);
 				$this->tpl->setVariable("LINK_TARGET", "bottom");
@@ -358,12 +350,9 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$this->tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
-				//$this->tpl->setVariable("LAST_VISIT", "N/A");
-				//$this->tpl->setVariable("ROLE_IN_GROUP", "keine Rolle zugewiesen");
-				$this->tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);//ilFormat::formatDate($cont_data["last_update"])
+				$this->tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
 				$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$this->tpl->parseCurrentBlock();
-
 			}
 		}
 		else
@@ -382,19 +371,16 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change"),$this->lng->txt("context")));
 		$tbl->setHeaderVars(array("title","description","owner","last_change","context"), array("cmd"=>"DisplayList", "ref_id"=>$_GET["ref_id"]));
-		//$tbl->setColumnWidth(array("3%", "7%","7%","15%","31%","6%","17%"));
 		$tbl->setColumnWidth(array("7%","10%","15%","15%","22%"));
-
-
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($limit);
 		$tbl->setOffset($offset);
 		$tbl->setMaxCount($maxcount);
 
-
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
 		// render table
 		$tbl->render();
 		$this->tpl->show();
@@ -440,7 +426,12 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->show();
 
 	}
-
+	/*
+	*function displays content of a group given by its ref_id
+	*via formaction contained objects of given group can be handled
+	*
+	*access public
+	*/
 	function show_content()
 	{
 
@@ -449,21 +440,18 @@ class ilGroupGUI extends ilObjectGUI
 		$tab = array();
 
 		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"];
-		$tab[0]["ftabtype"] = 'tabactive';
-		$tab[0]["target"] = "bottom";
-		$tab[0]["tab_text"] = 'group_objects';
+		$tab[0]["tab_cmd"] = 'cmd=show_content&ref_id='.$_GET["ref_id"]; 	//link for tab
+		$tab[0]["ftabtype"] = 'tabactive'; 					//tab is marked
+		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
+		$tab[0]["tab_text"] = 'group_objects'; 					//tab -text
 
 		$tab[1] = array ();
-		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
-		$tab[1]["ftabtype"] = 'tabinactive';
-		$tab[1]["target"] = "bottom";
-		$tab[1]["tab_text"] = 'group_members';
-
-
+		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];	//link for tab
+		$tab[1]["ftabtype"] = 'tabinactive';					//tab is marked
+		$tab[1]["target"] = "bottom";						//target-frame of tab_cmd
+		$tab[1]["tab_text"] = 'group_members';					//tab -text
 
 		$this->prepareOutput(false, $tab);
-
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("group_details"));
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -476,11 +464,10 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
-
-
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
 		$limit = intval($_GET["limit"]);
+
 
 		if ($limit == 0)
 		{
@@ -490,19 +477,15 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$offset = 0;	// TODO: move to user settings
 		}
+
 		// set default sort column
 		if (empty($_GET["sort_by"]))
 		{
 			$_GET["sort_by"] = "title";
 		}
 
-		
-
-
 		$cont_arr = array();
-
-		//$objects = $tree->getChilds($_GET["ref_id"],"title");
-		$objects = $this->grp_tree->getChilds($this->object->getId(),"title");
+		$objects = $this->grp_tree->getChilds($this->object->getId(),"title"); //provides variable with objects located under given node
 
 		if (count($objects) > 0)
 		{
@@ -515,7 +498,8 @@ class ilGroupGUI extends ilObjectGUI
 			}
 		}
 
-		$maxcount = count($cont_arr);
+		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
+		$cont_arr = array_slice($cont_arr,$offset,$limit);
 
 		// load template for table
 		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");
@@ -559,13 +543,13 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("ALT_IMG", $lng->txt("obj_".$cont_data["type"]));
 				$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$this->tpl->setVariable("OWNER", $newuser->getFullName());
-				//$this->tpl->setVariable("LAST_VISIT", "N/A");
 				$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
 				//TODO
 				if($cont_data["ref_id"] != -1)
 				{
 					$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
-				}$this->tpl->parseCurrentBlock();
+				}	
+				$this->tpl->parseCurrentBlock();
 				}
 			}
 		}
@@ -583,28 +567,22 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setTitle($lng->txt("group_details")." - ".$this->object->getTitle(),"icon_grp_b.gif", $lng->txt("group_details"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
 		$tbl->setHeaderNames(array("",$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_change"),$lng->txt("context")));
-		$tbl->setHeaderVars(array("checkbox","title","description","status","last_change","context"),array("cmd"=>"DisplayList", "ref_id"=>$_GET["ref_id"]));
+		$tbl->setHeaderVars(array("checkbox","title","description","status","last_change","context"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
 		$tbl->setColumnWidth(array("3%","7%","10%","15%","15%","22%"));
-
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($limit);
 		$tbl->setOffset($offset);
-		$tbl->setMaxCount($maxcount);
-
-
-
-
-		//$this->tpl->setCurrentBlock("tbl_action_btn");
+		$tbl->setMaxCount($cont_num);
+		// buttons in bottom-bar
+		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->SetVariable("COLUMN_COUNTS", "6");
 		$this->showActions(true);
-
 		// footer
 		$tbl->setFooter("tblfooter",$lng->txt("previous"),$lng->txt("next"));
 		// render table
 		$tbl->render();
-
 		$this->tpl->show();
 	}
 
