@@ -981,6 +981,7 @@ class ilRepositoryGUI
 
 				if (strcmp($lr_data["type"], "lm") == 0)
 				{
+					require_once("./content/classes/class.ilObjContentObject.php");
 					$contentObj = new ilObjContentObject($lr_data["ref_id"]);
 					$contentObj->readProperties();
 				}
@@ -1073,7 +1074,6 @@ class ilRepositoryGUI
 					$tpl->setCurrentBlock("tbl_content");
 				}
 
-				require_once("./content/classes/class.ilObjContentObject.php");
 				if (strcmp($lr_data["type"], "lm") == 0)
 				{
 					if ($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]) && !$contentObj->getOnline())

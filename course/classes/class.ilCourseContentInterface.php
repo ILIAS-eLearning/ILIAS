@@ -135,12 +135,26 @@ class ilCourseContentInterface
 				#	($conditions_ok or $rbacsystem->checkAccess('write',$cont_data['ref_id'])))
 				$obj_link = ilRepositoryExplorer::buildLinkTarget($cont_data["child"],$cont_data["type"]);
 				$obj_frame = ilRepositoryExplorer::buildFrameTarget($cont_data["type"],$cont_data["child"],$cont_data["obj_id"]);
+				$contentObj = false;
+				if (strcmp($cont_data["type"], "lm") == 0)
+				{
+					require_once("./content/classes/class.ilObjContentObject.php");
+					$contentObj = new ilObjContentObject($cont_data["ref_id"]);
+					$contentObj->readProperties();
+				}
 				if(ilRepositoryExplorer::isClickable($cont_data['type'],$cont_data['ref_id'],$cont_data['obj_id'])
 					&& $obj_link != "")	
 				{
 					$tpl->setCurrentBlock("crs_read");
 					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
 					$tpl->setVariable("READ_LINK", $obj_link);
+					if (strcmp($cont_data["type"], "lm") == 0)
+					{
+						if ($rbacsystem->checkAccess('write',$cont_data["ref_id"]) && !$contentObj->getOnline())
+						{
+							$tpl->setVariable("R_CLASS", " class=\"offline\"");
+						}
+					}
 					if ($obj_frame == "")
 					{
 						$tpl->setVariable("READ_TARGET", "bottom");
@@ -162,6 +176,7 @@ class ilCourseContentInterface
 					$this->cci_client_obj->ctrl->setParameterByClass('ilObjFileGUI','cmd','sendFile');
 					$this->cci_client_obj->ctrl->setParameterByClass('ilObjFileGUI','ref_id',$cont_data['ref_id']);
 				}
+
 				if(!$conditions_ok)
 				{
 					foreach(ilConditionHandler::_getConditionsOfTarget($cont_data['obj_id']) as $condition)
@@ -330,8 +345,24 @@ class ilCourseContentInterface
 
 				// change row color
 				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
-				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
+				if($cont_data["type"] == "lm")
+				{
+					if ($rbacsystem->checkAccess('write',$cont_data["ref_id"]) && !$contentObj->getOnline())
+					{
+						$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"]."_offline".".gif"));
+						$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]) . " (" . $this->lng->txt("offline") . ")");
+					}
+					else
+					{
+						$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
+						$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
+					}
+				}
+				else
+				{
+					$tpl->setVariable("TYPE_IMG", ilUtil::getImagePath("icon_".$cont_data["type"].".gif"));
+					$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
+				}
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 
 				// ACTIVATION
