@@ -429,7 +429,7 @@ class ilObjContentObject extends ilObject
 		{
 			return false;
 		}
-		
+
 		// delete lm object data
 		include_once("content/classes/class.ilLMObject.php");
 		ilLMObject::_deleteAllObjectData($this);
@@ -441,6 +441,12 @@ class ilObjContentObject extends ilObject
 
 		// delete learning module tree
 		$this->lm_tree->removeTree($this->lm_tree->getTreeId());
+
+		// delete import directory
+		ilUtil::delDir($this->getImportDirectory());
+
+		// delete export directory
+		ilUtil::delDir($this->getExportDirectory());
 
 		return true;
 	}
