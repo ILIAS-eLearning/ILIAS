@@ -1,6 +1,7 @@
 <?php
 /**
 * class RbacReview
+* 
 * @author Stefan Meyer <smeyer@databay.de> 
 * @version $Id$
 * 
@@ -24,8 +25,7 @@ class RbacReview extends PEAR
 	var $error_class;
 
 	/**
-	* constructor
-	* 
+	* Cnstructor
 	* @access public
 	* @param object db
 	*/
@@ -39,25 +39,30 @@ class RbacReview extends PEAR
     }
 
 	/**
-	* @access public
-	* @params int
-	* @return type int array Role-Uid
+	* DESCRIPTION MISSING
+	* @access	public
+	* @param	integer
+	* @return	array		Role-Uid
 	*/
     function assignedUsers($Arol_id)
     {
         $usr = array();
 
         $res = $this->db->query("SELECT usr_id FROM rbac_ua WHERE rol_id = $Arol_id");
+
         while($row = $res->fetchRow())
         {
 		    array_push($usr,$row[0]);
         }
+
         return $usr;
     }
 	
 	/**
-	* get uer data
-	* @param integer
+	* get user data
+	* @access	public
+	* @param	integer
+	* @return	array		user data
 	*/
     function getUserData($Ausr_id)
     {
@@ -75,14 +80,17 @@ class RbacReview extends PEAR
 				"last_login"	=>	$row->last_login,
 				"last_update"	=>	$row->last_update,
 				"create_date"	=>	$row->create_date);
-		}		
+		}
+		
 		return $arr;
     }
-/**
- * @access public
- * @params int (usr_id)
- * @return type int array (RoleID des Users)
- */
+
+	/**
+	* DESCRIPTION MISSING
+	* @access	public
+	* @param	integer		usr_id
+	* @return	integer		RoleID des Users
+	*/
     function assignedRoles($Ausr_id)
     {
         $rol = array();
@@ -91,17 +99,20 @@ class RbacReview extends PEAR
         {
 		    $rol[] = $row->rol_id;
         }
+
 		if(!count($rol))
 		{
-			return $this->raiseError("No such user",$this->error_class->WARNING);
+			$this->raiseError("No such user",$this->error_class->WARNING);
 		}
         return $rol;
     }
-/**
- * @access public
- * @params int (usr_id)
- * @return type string array (Role Title des Users)
- */
+
+	/**
+	* DESCRIPTION MISSING
+	* @access	public
+	* @param	integer		usr_id
+	* @return	string		Role Title des Users
+	*/
     function assignedRoleTitles($Ausr_id)
     {
         $res = $this->db->query("SELECT title FROM object_data JOIN rbac_ua WHERE object_data.obj_id = rbac_ua.rol_id AND rbac_ua.usr_id = '".$Ausr_id . "'");
@@ -259,5 +270,50 @@ class RbacReview extends PEAR
 		$res = $this->db->query($query);
 		return true;
 	}
-} // END class.RBac
+} // END class.RbacReview
+
+/**
+* class RbacreviewH
+* extensions for hierachical Rbac (maybe later)
+* 
+* @author Stefan Meyer <smeyer@databay.de> 
+* 
+* @extends RbacReview
+* @package rbac
+*/
+class RbacReviewH extends RbacReview
+{
+	/**
+	* Constructor
+	* @param object db
+	*/
+	function RbacReviewH(&$dbhandle)
+	{
+		$this->RbacReview($dbhandle);
+	}
+
+	/**
+	* @access public
+	*/
+	function authorizedUsers()
+	{
+
+	}
+
+	/**
+	* @access public
+	*/
+	function authorizedRoles()
+	{
+
+	}
+	
+	/**
+	* @access public
+	*/
+	function rolePermissions()
+	{
+
+	}
+} // END class RbacReviewH
 ?>
