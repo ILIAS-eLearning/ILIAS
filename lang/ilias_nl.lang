@@ -109,6 +109,7 @@ assessment#:#apply#:#Toepassen
 assessment#:#ass_questions#:#Vragen
 assessment#:#available_points#:#Beschikbare punten
 assessment#:#by#:#door
+assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 assessment#:#checkbox_checked#:#Geselecteerd
 assessment#:#checkbox_unchecked#:#Niet geselecteerd
 assessment#:#circle#:#Cirkel
@@ -400,7 +401,7 @@ assessment#:#tst_status_progress#:#In voortgang
 assessment#:#tst_time_already_spent#:#Reeds benodige werktijd
 assessment#:#tst_type#:#Test-type
 assessment#:#tst_types#:#Test-typen
-assessment#:#tst_use_javascript#:#Gebruik Javascript voor activiteiten als slepen en erop laten vallen
+assessment#:#tst_use_javascript#:#Gebruik Javascript voor activiteiten als slepen en erop laten vallen###03 Oct 2004 content changed
 assessment#:#tst_your_mark_is#:#Uw cijfer is
 assessment#:#tt_assessment#:#Proefwerk-test
 assessment#:#tt_navigation_controlling#:#Test voor navigatiecontrole in lesmodulen
@@ -2670,7 +2671,7 @@ dateplaner#:#ERROR_ENDDATE#:#De verbinding met de gegevensbank is verbroken.
 dateplaner#:#ERROR_ENDTIME#:#Dit is een herhalings-afspraak. Wilt u één afspraak van de serie verwijderen
 dateplaner#:#ERROR_END_START#:#Foutieve invoer einddatum. Formaat: dd/mm/yyyy
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Foutieve invoer eindtijd. Formaat: hh:mm
-dateplaner#:#ERROR_JAVASCRIPT#:#Foutieve invoer einddatum. Einddatum ligt voor de startdatum.
+dateplaner#:#ERROR_JAVASCRIPT#:#Foutieve invoer einddatum. Einddatum ligt voor de startdatum.###03 Oct 2004 content changed
 dateplaner#:#ERROR_ROTATIONEND#:#Geef een geldige CSV-bestand aan.
 dateplaner#:#ERROR_ROT_END_START#:#<B><CENTER>Uw browser excepteert geen JavaScript.<br />Sluit dit venster nadat u het met de hand ingevoegd hebt.<br />Dank u</CENTER></B>
 dateplaner#:#ERROR_SHORTTEXT#:#Foutieve invoer repeterende einddatum. Formaat: dd/mm/yyyy
@@ -3614,6 +3615,8 @@ survey#:#add_limits_for_standard_numbers#:#Gebruikers
 survey#:#add_phrase#:#Kategorie toevoegen
 survey#:#add_phrase_introduction#:#Voer een onder- en een boven-grens in voor de standaard aantallen die u wilt toevoegen als toevoegen als kategoriën.
 survey#:#already_completed_survey#:#Voeg gezegde toe
+survey#:#anonymize_survey#:#Anonymize survey data###03 Oct 2004 new variable
+survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.###03 Oct 2004 new variable
 survey#:#answer#:#Selecteer a.u.b. een gezegde:
 survey#:#apply#:#U heeft deze enquête al gedaan! U kunt de enquête niet opnieuw doen.
 survey#:#arithmetic_mean#:#Antwoord
@@ -3624,6 +3627,7 @@ survey#:#browse_for_questions#:#Weet u zeker, dat u de volgende vraag(vragen) aa
 survey#:#cannot_maintain_survey#:#<< Terug
 survey#:#cannot_manage_phrases#:#Doorzoek op vragen
 survey#:#cannot_participate_survey#:#U bent niet in het bezit van voldoende rechten om de enquête te onderhouden!
+survey#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 survey#:#cannot_switch_to_online_no_questions#:#U bent niet in het bezit van voldoende rechten om de gezegden te beheren!
 survey#:#category#:#U bent niet in het bezit van voldoende rechten om te participeren in de enquête!
 survey#:#category_delete_confirm#:#De status kan niet gewijzigd worden in &quot;online&quot; omdat er geen vragen in de test zijn!
