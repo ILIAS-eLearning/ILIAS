@@ -44,7 +44,7 @@ $frm->setForumRefId($forumObj->getRefId());
 $frm->setWhereCondition("top_frm_fk = ".$frm->getForumId());
 $topicData = $frm->getOneTopic();
 
-$tpl->setVariable("TXT_PAGEHEADLINE", $forumObj->getTitle());
+$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("frm")." \"".$forumObj->getTitle()."\"");
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_new.html");
 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
@@ -58,6 +58,7 @@ if (!$rbacsystem->checkAccess("write",$forumObj->getRefId()))
 
 // ********************************************************************************
 // build location-links
+/*
 $tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 $tpl->touchBlock("locator_separator");
 $tpl->setCurrentBlock("locator_item");
@@ -87,20 +88,28 @@ else
 }
 
 $tpl->parseCurrentBlock();
+*/
+require_once("classes/class.ilForumLocatorGUI.php");
+$frm_loc =& new ilForumLocatorGUI();
+$frm_loc->setRefId($_GET["ref_id"]);
+$frm_loc->setForum($frm);
+$frm_loc->display();
+
+
 
 // ********************************************************************************
 
 // form processing
 if ($_GET["cmd"] == "newthread")
-{		
+{
 	$formData = $_POST["formData"];
-	
+
 	// check form-dates
 	$checkEmptyFields = array(
 		$lng->txt("subject")   => $formData["subject"],
-		$lng->txt("message")   => $formData["message"]	
+		$lng->txt("message")   => $formData["message"]
 	);
-	
+
 	$errors = ilUtil::checkFormEmpty($checkEmptyFields);
 	
 	if ($errors != "")
