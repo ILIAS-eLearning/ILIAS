@@ -9,20 +9,32 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-include("./classes/class.Explorer.php");
-
-$exp = new Explorer("lo_content.php");
-
-$exp->setExpand(1);
-//filter object types
-$exp->addFilter("cat");
-$exp->addFilter("grp");
-$exp->setFiltered(true);
-
 $grp_sys[] = array("name" => "Administrator",
 				"desc" => "System Administrators",
 				"owner" => "System Administrator [root]"
 			);
+
+			
+$groups = array();
+//go through valid objects and filter out the lessons only
+if ($objects = $tree->getChilds(1,"title"))
+{
+	foreach ($objects as $key => $object)
+	{
+		if (($object["type"] == "cat" || $object["type"] == "grp") && $rbacsystem->checkAccess('visible',$object["id"],$object["parent"]))
+		{
+			$groups[$key] = $object;
+		}
+	}
+}
+
+//TODO: maybe move the code above to this method
+//$groups = $ilias->account->getGroups();
+
+//foreach ($groups as $row)			
+//{
+//	vd($row);
+//}			
 
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
