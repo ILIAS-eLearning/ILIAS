@@ -54,7 +54,7 @@ $explorer->addFilter("lngf");
 $explorer->addFilter("usrf");
 $explorer->addFilter("objf");
 */
-$explorer->setFiltered(false);
+//$explorer->setFiltered(false);
 $explorer->setOutput(0);
 
 $output = $explorer->getOutput();

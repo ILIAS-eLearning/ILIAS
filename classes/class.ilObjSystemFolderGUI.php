@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.20 2003/12/05 17:14:25 akill Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.21 2004/01/23 11:46:23 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -79,6 +79,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	    {
 			// visible
 			if (!$rbacsystem->checkAccess("visible",$val["ref_id"]))
+			{
+				continue;
+			}
+			
+			// hide object types in devmode
+			if ($this->objDefinition->getDevMode($val["type"]))
 			{
 				continue;
 			}

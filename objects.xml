@@ -182,7 +182,7 @@
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="objf" class_name="ObjectFolder" checkbox="0" inherit="0" translate="sys">
+<object name="objf" class_name="ObjectFolder" checkbox="0" inherit="0" translate="sys" devmode="1">
 	<subobj name="typ">typ</subobj>
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>

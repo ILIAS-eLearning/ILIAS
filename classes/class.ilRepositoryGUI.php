@@ -205,14 +205,24 @@ class ilRepositoryGUI
 	*/
 	function showFlatList()
 	{
+		global $objDefinition;
+
 		// get all objects of current node
 		$objects = $this->tree->getChilds($this->cur_ref_id, "title");
+
 		foreach($objects as $key => $object)
 		{
 			if (!$this->rbacsystem->checkAccess('visible',$object["child"]))
 			{
 				continue;
 			}
+
+			// hide object types in devmode
+			if ($objDefinition->getDevMode($object["type"]))
+			{
+				continue;
+			}
+			
 			switch ($object["type"])
 			{
 				// categories
@@ -220,14 +230,15 @@ class ilRepositoryGUI
 					$this->categories[$key] = $object;
 					break;
 
-        // test&assessment
-        case "tst":
-          $this->tests[$key] = $object;
-          break;
-        case "qpl":
-          $this->questionpools[$key] = $object;
-          break;
-          
+				// test&assessment
+				case "tst":
+					$this->tests[$key] = $object;
+					break;
+
+				case "qpl":
+					$this->questionpools[$key] = $object;
+					break;
+
 				// learning resources
 				case "lm":
 				case "slm":

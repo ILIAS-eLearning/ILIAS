@@ -2123,7 +2123,7 @@ class ilGroupGUI extends ilObjGroupGUI
 	*/
 	function show_content()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $objDefinition;
 
 		$this->prepareOutput(false,1);
 		$my_grp = new ilObjGroup($this->grp_id);	//a bit circumstancial, but thats the way it is
@@ -2137,7 +2137,9 @@ class ilGroupGUI extends ilObjGroupGUI
 		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
 		/* count objects for statements in footer of table */
 		$maxcount = count($objects);
-		/* sort array and slice it to handle groups containing more than 10 objects */
+		/* sort array and slice it to handle groups containing more than 10 objects
+		TODO: Sorting and slicing must be done AFTER filtering!!! (shofmann 12.02.2004)
+		*/
 		$objects = ilUtil::sortArray($objects, $_GET["sort_by"], $_GET["sort_order"]);
 		$objects = array_slice($objects,$_GET["offset"],$_GET["limit"]);
 
@@ -2147,8 +2149,12 @@ class ilGroupGUI extends ilObjGroupGUI
 			{
 				if ($rbacsystem->checkAccess('visible',$object["ref_id"]) or $object["type"] == "fold" or $object["type"] == "file")
 				{
-					$cont_arr[$key] = $object;
-					//var_dump($cont_arr[$key]);
+					
+					// hide object types in devmode
+					if (!$objDefinition->getDevMode($object["type"]))
+					{
+						$cont_arr[$key] = $object;
+					}
 				}
 			}
 		}

@@ -73,7 +73,8 @@ class ilGroupExplorer extends ilExplorer
 			foreach ($objects as $key => $object)
 			{
 				//ask for FILTER
-				if ($this->filtered == false || $this->checkFilter($object["type"])==true)
+				if ($this->filtered == false or $this->checkFilter($object["type"]) == false)
+//				if ($this->filtered == false || $this->checkFilter($object["type"])==true)
 				{
 					if ($rbacsystem->checkAccess("visible",$object["child"]) || (!$this->rbac_check))
 					{//echo "child".$object["child"]."--root".$this->tree->getRootId();
@@ -132,7 +133,7 @@ class ilGroupExplorer extends ilExplorer
 			} //foreach
 		} //if
 	} //function
-	
+
 	
 	
 	/**
