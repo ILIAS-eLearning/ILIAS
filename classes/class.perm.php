@@ -322,7 +322,7 @@ function getObject ($AObjId)
 				"obj_id"		=> $data->obj_id,
 				"type"			=> $data->type,
 				"title"			=> $data->title,
-				"desc"			=> $data->description,
+				"description"	=> $data->description,
 				"owner"			=> $data->owner,
 				"create_date"	=> $data->create_date,
 				"last_update"	=> $data->last_update

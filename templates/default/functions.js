@@ -23,3 +23,30 @@ function CheckAll(){
  	  	if(e.name != 'all') e.checked = c;
    	}
 }
+
+function isEmpty(form, a_values, a_checks) 
+{	
+	feed_back = "";
+	
+	if (a_values != "")
+	{
+		if (a_values == "all")
+		{
+			for(var i=0;i<form.length;i++)
+			{				
+				if (form.elements[i].type == "text" || form.elements[i].type == "textarea")
+				{
+					if (form.elements[i].value == "")
+						feed_back += "-> " + form.elements[i].id + "\n";
+				}
+			}
+		}
+	}
+	
+	if (feed_back != "") {
+		alert("Please insert these data:\n\n" + feed_back);
+		return false;
+	}
+	
+	return true;
+}

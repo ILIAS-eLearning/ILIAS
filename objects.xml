@@ -88,6 +88,7 @@
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
+	<action name="quote">quote</action>
 </object>
 
 <object name="grp" class_name="Group" chkbox="1">

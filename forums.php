@@ -2,37 +2,145 @@
 /**
 * forums
 *
-* @author Peter Gabriel <pgabriel@databay.de>
+* @author Wolfgang Merkens <wmerkens@databay.de>
 * @version $Id$
 *
 * @package ilias
 */
 require_once "./include/ilias_header.inc";
+require_once "classes/class.Forum.php";
+
+$_SESSION["backurl"] = "forums";
+
+$frm = new Forum();
+
+$lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
+$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
+$frm_obj = TUtil::getObjectsByOperations('frm','visible');
 
-for ($i = 0; $i < 3; $i++)
+if (count($frm_obj) > 0)
 {
-        $tpl->setCurrentBlock("forum_row");
-        if ($i % 2 == 0)
-        {
-                $tpl->setVariable("ROWCOL", "tblrow2");
-        }
-        else
-        {
-                $tpl->setVariable("ROWCOL","tblrow1");
-        }
-        $tpl->setVAriable("TITLE","Title $i");
-        $tpl->parseCurrentBlock();
+	$z = 0;
+	foreach($frm_obj as $data)
+	{		
+		$frm->setWhereCondition("top_frm_fk = ".$data["obj_id"]);		
+		
+		unset($topicData);
+		
+		$topicData = $frm->getOneTopic();		
+		
+		if ($topicData["top_num_threads"] > 0) $thr_page = "liste";
+		else $thr_page = "new";
+				
+		$tpl->setCurrentBlock("forum_row");
+		$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
+		$tpl->setVariable("ROWCOL", $rowCol);		
+		
+		$moderators = "";		
+		$lpCont = "";
+		$lastPost = "";
+				
+		if ($topicData["top_last_post"] != "") $lastPost = $frm->getLastPost($topicData["top_last_post"]);
+				
+		if ($rbacsystem->checkAccess("read", $data["obj_id"], $data["parent"])) 
+		{			
+			$tpl->setVariable("TITLE","<a href=\"forums_threads_".$thr_page.".php?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&backurl=forums\">".$data["title"]."</a>");
+			
+			if (is_array($lastPost)) {				
+				$lpCont = "<a href=\"forums_posts_reply.php?pos_pk=".$lastPost["pos_pk"]."&obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&backurl=forums\">".$lastPost["pos_message"]."</a><br>".$lng->txt("from")."&nbsp;";			
+				$lpCont .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$lastPost["pos_usr_id"]."&backurl=forums\">".$lastPost["surname"]."</a><br>";
+				$lpCont .= $lastPost["pos_date"];				
+			}
+			$tpl->setVariable("LAST_POST", $lpCont);
+			
+			if ($topicData["top_mods"] != "")
+			{			
+				$MODS = explode("#", $topicData["top_mods"]);
+				for ($i = 0; $i < count($MODS); $i++)
+				{
+					unset($modData);
+					$modData = $frm->getModerator($MODS[$i]);	
+					if ($moderators != "") $moderators .= ", ";
+					$moderators .= "<a href=\"forums_user_view?obj_id=".$data["obj_id"]."&parent=".$data["parent"]."&user=".$MODS[$i]."&backurl=forums\">".$modData["surname"]."</a>";
+				}
+			}
+						
+			$tpl->setVariable("MODS",$moderators); 
+			
+		}
+		else 
+		{
+			$tpl->setVariable("TITLE","<b>".$data["title"]."</b>");
+			
+			if (is_array($lastPost)) {
+				$lpCont = $lastPost["pos_message"]."<br>".$lng->txt("from")." ".$lastPost["surname"]."<br>".$lastPost["pos_date"];				
+			}
+			$tpl->setVariable("LAST_POST", $lpCont);
+			
+			if ($topicData["top_mods"] != "")
+			{			
+				$MODS = explode("#", $topicData["top_mods"]);
+				for ($i = 0; $i < count($MODS); $i++)
+				{
+					unset($modData);
+					$modData = $frm->getModerator($MODS[$i]);	
+					if ($moderators != "") $moderators .= ", ";
+					$moderators .= $modData["surname"];
+				}
+			}
+			$tpl->setVariable("MODS",$moderators); 
+		}		
+		
+		if ($data["obj_id"] != $objID && $data["parent"] != $parentID)
+		{		
+			$PATH = $frm->getForumPath($data["obj_id"], $data["parent"]);
+		}
+		$tpl->setVariable("FORUMPATH",$PATH);
+		
+		$tpl->setVariable("DESCRIPTION",$topicData["top_description"]);
+		$tpl->setVariable("NUM_THREADS",$topicData["top_num_threads"]);
+		$tpl->setVariable("NUM_POSTS",$topicData["top_num_posts"]);		
+		
+        $tpl->parseCurrentBlock("forum_row");
+		
+		$objID = $data["obj_id"];
+		$parentID = $data["parent"];
+		
+		$z ++;		
+	}	
 }
+else
+{
+	$tpl->setCurrentBlock("forum_no");
+	$tpl->setVAriable("TXT_MSG_NO_FORUMS_AVAILABLE",$lng->txt("forums_not_available"));
+	$tpl->parseCurrentBlock("forum_no");
+}
+
+
 
 $tpl->setCurrentBlock("forum");
 $tpl->setVariable("TXT_FORUM_GROUP", $lng->txt("forums_of_your_groups"));
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-$tpl->setVariable("TXT_OWNER", $lng->txt("owner"));
-$tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
-$tpl->parseCurrentBlock();
+$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
+$tpl->setVariable("TXT_NUM_THREADS", $lng->txt("forums_threads"));
+$tpl->setVariable("TXT_NUM_POSTS", $lng->txt("forums_posts"));
+$tpl->setVariable("TXT_LAST_POST", $lng->txt("forums_last_post"));
+$tpl->setVariable("TXT_MODS", $lng->txt("forums_moderators"));
+$tpl->setVariable("TXT_FORUMPATH", $lng->txt("context"));
+$tpl->parseCurrentBlock("forum");
+
+
+if ($_GET["message"])
+{
+    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
+	$tpl->setCurrentBlock("message2");
+	$tpl->setVariable("MSG", urldecode( $_GET["message"]));
+	$tpl->parseCurrentBlock();
+}
+
 
 $tpl->show();
 

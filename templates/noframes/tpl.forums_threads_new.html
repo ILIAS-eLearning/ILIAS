@@ -1,0 +1,31 @@
+
+<h2>{TXT_FORUM_NEW_THREAD}</h2>
+
+{BUTTONS}
+
+<!-- BEGIN form_feedback -->
+<p><b>{TXT_FORM_FEEDBACK}</b></p>
+<!-- END form_feedback -->
+
+<!-- BEGIN new_thread -->
+<form name="formular1" action="{FORMACTION}" method="post" onSubmit="return isEmpty(this, 'all', '')">
+
+<table cellspacing=1 cellpadding=4 border=0>
+<tr>
+    <td align=right><b>{TXT_SUBJECT}:</b><sup>*</sup></td>
+    <td><input id="{TXT_SUBJECT}" type="text" name="formData[subject]" value="{SUBJECT}" size="30" maxlength="255"></td>
+</tr>
+<tr>
+    <td valign=top align=right><b>{TXT_MESSAGE}:</b><sup>*</sup></td>
+    <td valign=top>
+	<textarea id="{TXT_MESSAGE}" name="formData[message]" cols="30" rows="10" wrap=virtual>{MESSAGE}</textarea></td>
+</tr>
+<tr>
+    <td>&nbsp;</td>
+    <td nowrap><input type="submit" name="SUB" value="{SUBMIT}">&nbsp;&nbsp;<input type="Reset" value ="{RESET}"></td>
+</tr>
+</table>
+</form>
+
+<!-- END new_thread -->
+

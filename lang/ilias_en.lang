@@ -388,5 +388,25 @@ common#:#lang_fr#:#Franz&ouml;sish
 common#:#lang_it#:#Italienish
 common#:#lang_id#:#Indonesish
 common#:#lang_xx#:#benutzerdefiniert
+common#:#forums_not_available#:#forums not available
+common#:#forums_last_post#:#last article
+common#:#forums_moderators#:#moderators
+common#:#forums_new_thread#:#new topic
+common#:#permission_denied#:#permission denied
+common#:#forums_thread_new_entry#:#new topic has been inscribed
+common#:#forums_post_new_entry#:#new article has been inscribed
+common#:#form_empty_fields#:#please complete these fields:
+common#:#today#:#today
+common#:#forums_threads#:#topics
+common#:#forums_posts#:#articles
+common#:#forums_the_post#:#article
+common#:#forums_thread_create#:#created from
 common#:#operation#:#Operation
 common#:#edit_operations#:#edit operations
+common#:#forums_threads_not_available#:#topics not available
+common#:#forums_posts_not_available#:#articles not available
+common#:#author#:#author
+common#:#registered_since#:#registered since
+common#:#context#:#context
+common#:#forums_respond#:#respond to an article
+common#:#forums_your_reply#:#your reply

@@ -1,0 +1,34 @@
+
+<h2>{TXT_FORUM_THREADS}</h2>
+
+{BUTTONS}
+
+{MESSAGE}
+
+<!-- BEGIN threadtable -->
+<b>{TXT_THREAD_PATH}</b><br><br>
+<table WIDTH="100%" CELLPADDING=3 CELLSPACING=1 BORDER=0>
+
+<tr class="tblheader" VALIGN="top">
+  <td><b>{TXT_TITLE}</b></td>
+  <td><b>{TXT_AUTHOR}</b></td>
+  <td><b>{TXT_NUM_POSTS}</b></td>
+  <td><b>{TXT_LAST_POST}</b></td>  
+</tr>
+
+<!-- BEGIN threads_row -->
+<tr class="{ROWCOL}">
+ <td valign=top>{TITLE}</td>
+ <td valign=top>{AUTHOR}</td>
+ <td valign=top>{NUM_POSTS}</td>
+ <td valign=top>{LAST_POST}</td> 
+</tr>
+<!-- END threads_row -->
+
+<!-- BEGIN threads_no -->
+<tr>
+ <td COLSPAN=4>{TXT_MSG_NO_THREADS_AVAILABLE}</td>
+</tr>
+<!-- END threads_no -->
+</table>
+<!-- END threadtable -->
