@@ -45,6 +45,12 @@ define("STATUS_ONLINE", 1);
 define("EVALUATION_ACCESS_OFF", 0);
 define("EVALUATION_ACCESS_ON", 1);
 
+define("INVITATION_OFF", 0);
+define("INVITATION_ON", 1);
+
+define("MODE_UNLIMITED", 0);
+define("MODE_PREDEFINED_USERS", 1);
+
 class ilObjSurvey extends ilObject
 {
 /**
@@ -139,6 +145,24 @@ class ilObjSurvey extends ilObject
 */
 	var $questions;
 
+/**
+* Defines if the surveyw will be places on users personal desktops
+*
+* Defines if the surveyw will be places on users personal desktops
+*
+* @var integer
+*/
+	var $invitation;
+
+/**
+* Defines the type of user invitation
+*
+* Defines the type of user invitation
+*
+* @var integer
+*/
+	var $invitation_mode;
+
 	/**
 	* Constructor
 	* @access	public
@@ -163,6 +187,8 @@ class ilObjSurvey extends ilObject
 		$this->startdate_enabled = 0;
 		$this->enddate_enabled = 0;
 		$this->questions = array();
+		$this->invitation = INVITATION_ON;
+		$this->invitation_mode = MODE_PREDEFINED_USERS;
 	}
 
 	/**
@@ -455,7 +481,7 @@ class ilObjSurvey extends ilObject
       // Write new dataset
       $now = getdate();
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO survey_survey (survey_id, ref_fi, author, introduction, status, startdate, enddate, evaluation_access, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO survey_survey (survey_id, ref_fi, author, introduction, status, startdate, enddate, evaluation_access, invitation, invitation_mode, complete, created, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $this->ilias->db->quote($this->ref_id),
         $this->ilias->db->quote($this->author),
         $this->ilias->db->quote($this->introduction),
@@ -463,6 +489,8 @@ class ilObjSurvey extends ilObject
         $startdate,
 				$enddate,
         $this->ilias->db->quote($this->evaluation_access),
+				$this->ilias->db->quote("$this->invitation"),
+				$this->ilias->db->quote("$this->invitation_mode"),
 				$this->ilias->db->quote("$complete"),
         $this->ilias->db->quote($created)
       );
@@ -472,13 +500,15 @@ class ilObjSurvey extends ilObject
       }
     } else {
       // update existing dataset
-      $query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, complete = %s WHERE survey_id = %s",
+      $query = sprintf("UPDATE survey_survey SET author = %s, introduction = %s, status = %s, startdate = %s, enddate = %s, evaluation_access = %s, invitation = %s, invitation_mode = %s complete = %s WHERE survey_id = %s",
         $this->ilias->db->quote($this->author),
         $this->ilias->db->quote($this->introduction),
         $this->ilias->db->quote($this->status),
         $startdate,
 				$enddate,
         $this->ilias->db->quote($this->evaluation_access),
+				$this->ilias->db->quote("$this->invitation"),
+				$this->ilias->db->quote("$this->invitation_mode"),
 				$this->ilias->db->quote("$complete"),
         $this->ilias->db->quote($this->survey_id)
       );
@@ -628,6 +658,8 @@ class ilObjSurvey extends ilObject
         $this->author = $data->author;
         $this->introduction = $data->introduction;
         $this->status = $data->status;
+				$this->invitation = $data->invitation;
+				$this->invitation_mode = $data->invitation_mode;
         $this->start_date = $data->startdate;
 				if (!$data->startdate)
 				{
@@ -778,6 +810,32 @@ class ilObjSurvey extends ilObject
   }
 
 /**
+* Sets the invitation status
+*
+* Sets the invitation status
+*
+* @param integer $invitation The invitation status
+* @access public
+* @see $invitation
+*/
+  function setInvitation($invitation = 0) {
+    $this->invitation = $invitation;
+  }
+
+/**
+* Sets the invitation mode
+*
+* Sets the invitation mode
+*
+* @param integer $invitation_mode The invitation mode
+* @access public
+* @see $invitation_mode
+*/
+  function setInvitationMode($invitation_mode = 0) {
+    $this->invitation_mode = $invitation_mode;
+  }
+
+/**
 * Sets the introduction text
 *
 * Sets the introduction text
@@ -801,6 +859,32 @@ class ilObjSurvey extends ilObject
 */
   function getAuthor() {
     return $this->author;
+  }
+
+/**
+* Gets the invitation status
+*
+* Gets the invitation status
+*
+* @return integer The invitation status
+* @access public
+* @see $invitation
+*/
+  function getInvitation() {
+    return $this->invitation;
+  }
+
+/**
+* Gets the invitation mode
+*
+* Gets the invitation mode
+*
+* @return integer The invitation mode
+* @access public
+* @see $invitation
+*/
+  function getInvitationMode() {
+    return $this->invitation_mode;
   }
 
 /**
