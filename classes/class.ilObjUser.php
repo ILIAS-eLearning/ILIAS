@@ -290,12 +290,12 @@ class ilObjUser extends ilObject
 		{
 			case IL_PASSWD_PLAIN:
 				$pw_field = "passwd";
-				$pw_value = $this->passwd;
+				$pw_value = md5($this->passwd);
 				break;
 
 			case IL_PASSWD_MD5:
 				$pw_field = "passwd";
-				$pw_value = md5($this->passwd);
+				$pw_value = $this->passwd;
 				break;
 
 			case IL_PASSWD_CRYPT:
@@ -380,11 +380,11 @@ class ilObjUser extends ilObject
 		switch ($this->passwd_type)
 		{
 			case IL_PASSWD_PLAIN:
-				$pw_update = "i2passwd='', passwd='".$this->passwd."'";
+				$pw_update = "i2passwd='', passwd='".md5($this->passwd)."'";
 				break;
 
 			case IL_PASSWD_MD5:
-				$pw_update = "i2passwd='', passwd='".md5($this->passwd)."'";
+				$pw_update = "i2passwd='', passwd='".$this->passwd."'";
 				break;
 
 			case IL_PASSWD_CRYPT:
