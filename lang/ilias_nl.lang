@@ -218,6 +218,7 @@ assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Rapportage score
 assessment#:#tst_score_reporting_date#:#Rapportage-datum score
 assessment#:#tst_score_type#:#Type rapportage score
+assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
 assessment#:#tst_sequence#:#Volgorde
 assessment#:#tst_sequence_fixed#:#De volgorde van de vragen is vast
 assessment#:#tst_sequence_postpone#:#De leerling mag een vraag tot het einde van de test uitstellen
@@ -1296,7 +1297,7 @@ common#:#registered_user#:#geregistreerde gebruiker
 common#:#registered_users#:#geregistreerde gebruikers
 common#:#registration#:#Registratie van een nieuw account
 common#:#registration_expired#:#De registratie-peride is verlopen...
-common#:#remove#:#Verwijder
+common#:#remove#:#Verwijder###25 Mar 2004 content changed
 common#:#remove_translation#:#Verwijder vertaling
 common#:#rename#:#Geef een nieuwe naam
 common#:#reply#:#Beantwoord

@@ -218,6 +218,7 @@ assessment#:#tst_resume_test#:#Resume the test###08 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Mostragem de pontuação
 assessment#:#tst_score_reporting_date#:#Data de mostragem de pontuação
 assessment#:#tst_score_type#:#Tipo de mostragem de pontuação
+assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
 assessment#:#tst_sequence#:#Sequência
 assessment#:#tst_sequence_fixed#:#A sequência das questões é fixa
 assessment#:#tst_sequence_postpone#:#O aluno pode adiar a questão para o fim do teste
@@ -1296,7 +1297,7 @@ common#:#registered_user#:#Utilizador registado
 common#:#registered_users#:#Utilizadores registados
 common#:#registration#:#Registo de nova conta
 common#:#registration_expired#:#O período de registo expirou...
-common#:#remove#:#Dispensar
+common#:#remove#:#Dispensar###25 Mar 2004 content changed
 common#:#remove_translation#:#Remover tradução
 common#:#rename#:#Renomear
 common#:#reply#:#Responder

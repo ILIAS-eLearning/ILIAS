@@ -218,6 +218,7 @@ assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Score reporting###18 Feb 2004 new variable
 assessment#:#tst_score_reporting_date#:#Score reporting date###18 Feb 2004 new variable
 assessment#:#tst_score_type#:#Score reporting type###18 Feb 2004 new variable
+assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
 assessment#:#tst_sequence#:#Sequence###18 Feb 2004 new variable
 assessment#:#tst_sequence_fixed#:#The sequence of questions is fixed###18 Feb 2004 new variable
 assessment#:#tst_sequence_postpone#:#The learner may postpone a question to the end of the test###18 Feb 2004 new variable
@@ -1296,7 +1297,7 @@ common#:#registered_user#:#зареєстрований Користувач
 common#:#registered_users#:#зареєстровані Користувачі
 common#:#registration#:#Новий акаунт реєстрації
 common#:#registration_expired#:#Період реєстрації скінчився...
-common#:#remove#:#Вилучити
+common#:#remove#:#Вилучити###25 Mar 2004 content changed
 common#:#remove_translation#:#Видалити переклад
 common#:#rename#:#Переіменувати
 common#:#reply#:#Відповісти
