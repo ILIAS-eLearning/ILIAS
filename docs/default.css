@@ -21,3 +21,8 @@ pre.sql {
 	font-style:italic;
 }
 
+.warning {
+	color:red;
+	font-style:italic;
+}
+
