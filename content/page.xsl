@@ -71,7 +71,13 @@
 
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
-	<p class="ilParagraph">
+	<p>
+		<xsl:if test="@Characteristic = ''">
+		<xsl:attribute name="class">ilc_Standard</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="@Characteristic != ''">
+		<xsl:attribute name="class">ilc_<xsl:value-of select="@Characteristic"/></xsl:attribute>
+		</xsl:if>
 		<!-- <xsl:value-of select="@HierId"/> -->
 		<!-- checkbox -->
 		<!--
@@ -244,6 +250,33 @@
 		</input>
 		<br/>
 	</xsl:if>
+</xsl:template>
+
+
+<!-- Lists -->
+<xsl:template match="List">
+	<!-- <xsl:value-of select="..@HierId"/> -->
+	<xsl:if test="@Type = 'Ordered'">
+		<ol>
+		<xsl:choose>
+			<xsl:when test="@NumberingType = 'Roman'"><xsl:attribute name="type">I</xsl:attribute></xsl:when>
+			<xsl:when test="@NumberingType = 'roman'"><xsl:attribute name="type">i</xsl:attribute></xsl:when>
+			<xsl:when test="@NumberingType = 'Alphabetic'"><xsl:attribute name="type">A</xsl:attribute></xsl:when>
+			<xsl:when test="@NumberingType = 'alphabetic'"><xsl:attribute name="type">a</xsl:attribute></xsl:when>
+		</xsl:choose>
+		<xsl:apply-templates/>
+		</ol>
+	</xsl:if>
+	<xsl:if test="@Type = 'Unordered'">
+		<ul>
+		<xsl:apply-templates/>
+		</ul>
+	</xsl:if>
+</xsl:template>
+<xsl:template match="Item">
+	<li>
+	<xsl:apply-templates/>
+	</li>
 </xsl:template>
 
 

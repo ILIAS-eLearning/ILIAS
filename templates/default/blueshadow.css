@@ -407,7 +407,7 @@ div.ilc_PageTitle
 	font-weight: bold;
 	padding-bottom: 3px;
 	border-bottom-width: 1px;
-  	border-bottom-style: solid;
+	border-bottom-style: solid;
 	border-color: #000000;
 }
 
@@ -502,6 +502,57 @@ div.ilPage
 .ilc_yellow
 {
 	background-color:#FFFFCC;
+}
+
+p.ilc_Standard
+{
+}
+
+p.ilc_List
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+p.ilc_Headline
+{
+	margin-top: 5px;
+	margin-bottom: 10px;
+	font-size:20px;
+	font-weight: bold;
+}
+
+p.ilc_Example
+{
+	padding-left: 20px;
+	border-left: 3px;
+	border-left-style: solid;
+	border-left-color: blue;
+}
+
+p.ilc_Citation
+{
+	color: brown;
+	font-style: italic;
+}
+
+p.ilc_Mnemonic
+{
+	margin-left: 20px;
+	margin-right: 20px;
+	color: red;
+	padding: 10px;
+	border: 1px;
+	border-style: solid;
+	border-color: red;
+}
+
+p.ilc_Additional
+{
+	padding: 10px;
+	border: 1px;
+	border-style: solid;
+	border-color: blue;
 }
 
 

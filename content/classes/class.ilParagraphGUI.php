@@ -84,7 +84,8 @@ class ilParagraphGUI extends ilPageContentGUI
 			"Example" => $this->lng->txt("cont_Example"),
 			"Citation" => $this->lng->txt("cont_Citation"),
 			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
-			"Additional" => $this->lng->txt("cont_Additional"));
+			"Additional" => $this->lng->txt("cont_Additional"),
+			"List" => $this->lng->txt("cont_List"));
 		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
 		$select_char = ilUtil::formSelect ($s_char,
 			"par_characteristic",$char,false,true);
@@ -152,7 +153,8 @@ class ilParagraphGUI extends ilPageContentGUI
 			"Example" => $this->lng->txt("cont_Example"),
 			"Citation" => $this->lng->txt("cont_Citation"),
 			"Mnemonic" => $this->lng->txt("cont_Mnemonic"),
-			"Additional" => $this->lng->txt("cont_Additional"));
+			"Additional" => $this->lng->txt("cont_Additional"),
+			"List" => $this->lng->txt("cont_List"));
 		$this->tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
 		$select_char = ilUtil::formSelect ($s_char,
 			"par_characteristic",$char,false,true);
