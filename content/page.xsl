@@ -798,12 +798,14 @@
 		</ul>
 	</xsl:if>
 	<!-- command selectbox -->
-	<xsl:if test="$mode = 'edit' and $javascript='disable'">
+	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test = "$javascript='disable'">
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
 		</input>
+		</xsl:if>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
 			<xsl:with-param name="edit">p</xsl:with-param>
@@ -859,12 +861,14 @@
 		<xsl:apply-templates/>
 	</table>
 	<!-- command selectbox -->
-	<xsl:if test="$mode = 'edit' and $javascript='disable'">
+	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test = "$javascript='disable'">
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
 		</input>
+		</xsl:if>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
 			<xsl:with-param name="edit">p</xsl:with-param>
@@ -1485,13 +1489,15 @@
 	<!-- <xsl:apply-templates/> -->
 
 	<!-- command selectbox -->
-	<xsl:if test="$mode = 'edit' and $javascript='disable'">
+	<xsl:if test="$mode = 'edit'">
 		<br />
 		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test = "$javascript='disable'">
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
 			</xsl:attribute>
 		</input>
+		</xsl:if>
 		<xsl:call-template name="EditMenu">
 			<xsl:with-param name="hier_id" select="../@HierId" />
 			<xsl:with-param name="edit">y</xsl:with-param>
