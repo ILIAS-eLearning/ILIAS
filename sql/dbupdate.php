@@ -4308,4 +4308,23 @@ if ($res->numRows() > 1)
 <#259>
 ALTER TABLE usr_data ADD COLUMN `time_limit_message` int(2) default '0';
 
+<#260>
+//<-257
+DELETE FROM rbac_ta WHERE (typ_id=38 or typ_id=39);
+
+<?php
+$query = "SELECT ops_id FROM rbac_ta WHERE typ_id = '20'";
+$res = $this->db->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$ops_id = $row->ops_id;
+
+	$query = "insert into rbac_ta VALUES('38', '".$ops_id."')";
+	$this->db->query($query);
+
+	$query = "insert into rbac_ta VALUES('39', '".$ops_id."')";
+	$this->db->query($query);
+	
+}
+?>
 
