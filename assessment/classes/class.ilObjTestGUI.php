@@ -245,7 +245,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->updateObject();
 			sendInfo($this->lng->txt("msg_obj_modified"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			header("location: ". $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 		if ($_POST["cmd"]["apply"])
@@ -257,7 +257,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			sendInfo($this->lng->txt("msg_cancel"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			header("location: ". $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 
@@ -1223,7 +1223,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->saveCompleteStatus();
 			sendInfo($this->lng->txt("msg_obj_modified"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			header("location: ". $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 
@@ -1236,7 +1236,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["cancel"]) {
 			sendInfo($this->lng->txt("msg_cancel"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=" . $path[count($path) - 2]["child"]));
+			header("location: ". $this->getReturnLocation("cancel","../repository.php?ref_id=" . $path[count($path) - 2]["child"]));
 			exit();
 		}
 
