@@ -60,6 +60,8 @@ assessment#:#matching_pair#:#Overeenkomend paar
 assessment#:#no_questions_available#:#Er zijn geen vragen beschikbaar!
 assessment#:#points#:#Punten
 assessment#:#possible_gap_text#:#Mogelijke gat-tekst
+assessment#:#postpone#:#Postpone question###07 Mar 2004 new variable
+assessment#:#postponed#:#postponed###07 Mar 2004 new variable
 assessment#:#preview#:#Laten zien
 assessment#:#qpl_delete_rbac_error#:#U heeft het recht deze vraag te verwijderen!
 assessment#:#qpl_delete_select_none#:#Controleer a.u.b. minstens één vraag voor verwijderen
@@ -78,6 +80,8 @@ assessment#:#question_type#:#Vraag-type
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#reset_filter#:#Terugzetten filter
+assessment#:#save_finish#:#Save and finish the test###07 Mar 2004 new variable
+assessment#:#save_introduction#:#Save and goto introduction###07 Mar 2004 new variable
 assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
 assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
 assessment#:#select_gap#:#Selecteren gat
@@ -105,6 +109,7 @@ assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
 assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
 assessment#:#tst_report_after_question#:#Rapporteer de score nadat elke vraag beantwoord is
 assessment#:#tst_report_after_test#:#Rapporteer de score nadat de gehele test klaar is
+assessment#:#tst_resume_test#:#Resume the test###07 Mar 2004 new variable
 assessment#:#tst_score_reporting#:#Rapportage score
 assessment#:#tst_score_reporting_date#:#Rapportage-datum score
 assessment#:#tst_score_type#:#Type rapportage score
