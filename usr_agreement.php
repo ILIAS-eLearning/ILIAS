@@ -35,6 +35,21 @@ require_once "./include/inc.header.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_agreement.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+// set locator 
+$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
+$tpl->touchBlock("locator_separator");
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("personal_desktop"));
+$tpl->setVariable("LINK_ITEM", "usr_personaldesktop.php");
+$tpl->parseCurrentBlock();
+
+$tpl->setCurrentBlock("locator_item");
+$tpl->setVariable("ITEM", $lng->txt("usr_agreement"));
+$tpl->setVariable("LINK_ITEM", "usr_agreement.php");
+$tpl->parseCurrentBlock();
+
 // display infopanel if something happened
 infoPanel();
 
@@ -51,8 +66,16 @@ $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_agreement.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
 $tpl->parseCurrentBlock();
-$tpl->setCurrentBlock("btn_row");
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_bookmarks.php?cmd=frameset");
+$tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
 $tpl->parseCurrentBlock();
+$tpl->setCurrentBlock("btn_cell");
+$tpl->setVariable("BTN_LINK","usr_personaldesktop.php?cmd=whois");
+$tpl->setVariable("BTN_TXT",$lng->txt("who_is_online"));
+$tpl->parseCurrentBlock();
+
+$tpl->touchBlock("btn_row");
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_AGREEMENT", $lng->txt("usr_agreement"));
@@ -69,23 +92,24 @@ function getUserAgreement()
 	global $lng, $ilias;
 	
 	$tmpPath = getcwd();
-	chdir($tmpPath."/agreement");
+	$agrPath = $tmpPath."/agreement";
+	chdir($agrPath);
 
 	$agreement = "agreement_".$lng->lang_user.".html";
-	
+
 	if ($agreement)
 	{
-		if (file($agreement))
+		if ($content = file($agreement))
 		{
-			foreach ($agreement as $key => $val)
+			foreach ($content as $key => $val)
 			{
-				$text .= trim($val);
+				$text .= trim(nl2br($val));
 			}
 			return $text;
 		}
 		else
 		{
-			$ilias->raiseError($lng->txt("file_not_found"),$ilias->error_obj->MESSAGE);
+			$ilias->raiseError($lng->txt("usr_agreement_empty"),$ilias->error_obj->MESSAGE);
 		}
 	}
 	else
