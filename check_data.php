@@ -26,24 +26,22 @@
 * check data
 * Validates, cleans up object registry and may recover lost objects
 * THIS SCRIPT IS EXPERIMENTAL!! YOU MAY USE THIS TOOL FOR ANALYZING YOUR DATA
-* BUT DO NOT ACTIVATE THE RECOVERY MODE UNTIL THIS MODE IS FINISHED!!
+* ACTIVATING THE RECOVERY MODE ON YOUR OWN RISK!!!
+
 * @author	Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
+* @version	$Id$
 *
-* @package tools
+* @package	ilias-tools
 */
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilValidator.php";
 
-$validator = new ilValidator(false);
+// error codes
+define("INVALID_PARAM",INVALID_PARAM);
 
-// check logical tree constistenx
-//$tree->checkTree();
+$validator = new ilValidator();
 
-// check if every entry (child) has a corresponding entry in object_data or reference_data
-// if referenced, checks too if at least one corresponding object_data entry exists_
-//$tree->checkTreeChilds();
-
+$validator->setMode("all",true);
 
 // general clean up first
 
@@ -105,7 +103,12 @@ if ($validator->closeGapsInTree())
 // ...
 
 // el fin
-$mode = ($validator->recover) ? "Recovered Objects!" : "Analyze only!";
+foreach ($validator->mode as $mode => $value)
+{
+	$arr[] = $mode."[".(int)$value."]";
+}
+
+$mode = implode(", ",$arr);
 
 $tpl->setVariable("CONTENT", "<p>Tree ok. (Mode: ".$mode.")</p>");
 $tpl->show()
