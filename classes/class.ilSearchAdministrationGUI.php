@@ -120,6 +120,7 @@ class ilSearchAdministrationGUI
 		}
 		if(isset($_POST["cmd"]["cancel"]))
 		{
+			session_unregister("search_rename");
 			unset($_POST["del_id"]);
 			$this->__show();
 		}
@@ -142,11 +143,40 @@ class ilSearchAdministrationGUI
 			$this->deleteFolders();
 			$this->__show();
 		}
+		if(isset($_POST["cmd"]["rename"]))
+		{
+			$this->__renameItem($_SESSION["search_rename"]);
+			$this->__show();
+		}
 
+		if(isset($_POST["cmd"]["do_it"]))
+		{
+			switch($_POST["action"])
+			{
+				case "0":
+					$this->message = $this->lng->txt("search_select_one_action");
+					$this->__show();
+					break;
 
+				case "rename":
+					if(!$this->__showRename())
+					{
+						$this->__show();
+					}
+					break;
+					
+				case "delete":
+					$this->__show();
+					$this->__showConfirmDeleteFolder();
+					break;
+
+				default:
+					$this->__moveItem();
+					$this->__show();
+					break;
+			}
+		}
 	}
-
-
 	// SET/GET
 	function setUserId($a_user_id)
 	{
@@ -202,6 +232,7 @@ class ilSearchAdministrationGUI
 		{
 			$this->folder_obj->delete($folder_id);
 		}
+		$this->message = $this->lng->txt("search_objects_deleted");
 	}
 
 	// PRIVATE METHODS
@@ -268,6 +299,111 @@ class ilSearchAdministrationGUI
 
 	}
 
+	function __showRename()
+	{
+		// NO ITEM SELECTED
+		if(!count($_POST["del_id"]))
+		{
+			$this->message = $this->lng->txt("search_select_exactly_one_object");
+			return false;
+		}
+		// TOO MANY ITEMS SELECTED
+		if(count($_POST["del_id"]) > 1)
+		{
+			$this->message = $this->lng->txt("search_select_exactly_one_object");
+			return false;
+		}
+
+		// SHOW SEARCH ADMINISTRATION PAGE
+		$this->tpl->addBlockFile("CONTENT","content","tpl.search_administration.html");
+		$this->tpl->addBlockFile("STATUSLINE","statusline","tpl.statusline.html");
+		infoPanel();
+		$this->tpl->setVariable("SEARCH_ADMINISTRATION_ACTION","./search_administration.php?folder_id=".$this->getFolderId());
+		
+		$this->__showHeader();
+		$this->__showLocator();
+		$this->__showTabs();
+
+		// GET OLD TITLE
+		include_once "./classes/class.ilSearchItemFactory.php";
+
+		$tmp_obj = ilSearchItemFactory::getInstance($_POST["del_id"][0]);
+		$this->__showRenameForm($tmp_obj->getTitle());
+		unset($tmp_obj);
+
+		// SET SESSION VARIABLE TO REMEMBER obj_id
+		$_SESSION["search_rename"] = $_POST["del_id"][0];
+
+		if($this->message)
+		{
+			sendInfo($this->message);
+		}
+		return true;
+	}
+	function __renameItem($a_id)
+	{
+		include_once "./classes/class.ilSearchItemFactory.php";
+
+		$tmp_obj = ilSearchItemFactory::getInstance($a_id);
+
+		$tmp_obj->updateTitle(ilUtil::stripslashes($_POST["title"]));
+
+		$this->message = $this->lng->txt("search_object_renamed");
+		
+		return true;
+	}
+		
+
+
+	function __moveItem()
+	{
+		if(!count($_POST["del_id"]))
+		{
+			$this->message = $this->lng->txt("");
+			return false;
+		}
+		
+		include_once "./classes/class.ilSearchItemFactory.php";
+
+		// CHECK IF MOVE ACTION IS POSSIBLE
+		foreach($_POST["del_id"] as $id)
+		{
+			$tmp_obj = ilSearchItemFactory::getInstance($id);
+
+			if($tmp_obj->getType() == "seaf")
+			{
+				$this->message = $this->lng->txt("search_move_folders_not_allowed");
+				return false;
+			}
+			$objects[] =& $tmp_obj;
+			unset($tmp_obj);
+		}
+		include_once "./classes/class.ilSearchFolder.php";
+		include_once "./classes/class.ilSearchResult.php";
+
+		$tmp_folder =& new ilSearchFolder($this->getUserId(),$_POST["action"]);
+		
+		// MOVE ITEMS
+		foreach($objects as $obj)
+		{
+			// COPY DATA
+			$search_res_obj =& new ilSearchResult($this->getUserId());
+			$search_res_obj->setTitle($obj->getTitle());
+			$search_res_obj->setTarget(addslashes(serialize($obj->getTarget())));
+			
+			$tmp_folder->assignResult($search_res_obj);
+
+			// AND FINALLY:
+			$this->folder_obj->delete($obj->getObjId());
+			unset($search_res_obj);
+		}
+		unset($objects);
+		$this->message = $this->lng->txt("search_objects_moved");
+
+		return true;
+	}
+		
+
 	function __showCreateFolder()
 	{
 		// SHOW SEARCH ADMINISTRATION PAGE
@@ -292,7 +428,7 @@ class ilSearchAdministrationGUI
 	{
 		if(!count($_POST["del_id"]))
 		{
-			sendInfo($this->lng->txt("search_select_one"));
+			sendInfo($this->lng->txt("search_no_selection"));
 			return false;
 		}
 		sendInfo($this->lng->txt("search_delete_sure"));
@@ -311,11 +447,25 @@ class ilSearchAdministrationGUI
 		$this->tpl->setVariable("FOLDER_CREATE_FORM_TXT",$this->lng->txt("search_new_folder"));
 		$this->tpl->setVariable("FOLDER_CREATE_FORM_TITLE_TXT",$this->lng->txt("title"));
 		$this->tpl->setVariable("FOLDER_CREATE_FORM_VALUE","");
+		$this->tpl->setVariable("FOLDER_CREATE_FORM_CMD","create_folder");
 		$this->tpl->setVariable("FOLDER_CREATE_FORM_SUBMIT_1",$this->lng->txt("cancel"));
 		$this->tpl->setVariable("FOLDER_CREATE_FORM_SUBMIT_2",$this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	function __showRenameForm($a_old_title)
+	{
+		$this->tpl->setVariable("SEARCH_ADMINISTRATION_ACTION","./search_administration.php?folder_id=".$this->getFolderId());
+
+		$this->tpl->setCurrentBlock("FOLDER_CREATE_FORM");
+		$this->tpl->setVariable("FOLDER_CREATE_FORM_TXT",$this->lng->txt("search_rename_title"));
+		$this->tpl->setVariable("FOLDER_CREATE_FORM_TITLE_TXT",$this->lng->txt("title"));
+		$this->tpl->setVariable("FOLDER_CREATE_FORM_VALUE",$a_old_title);
+		$this->tpl->setVariable("FOLDER_CREATE_FORM_CMD","rename");
+		$this->tpl->setVariable("FOLDER_CREATE_FORM_SUBMIT_1",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("FOLDER_CREATE_FORM_SUBMIT_2",$this->lng->txt("rename"));
+		$this->tpl->parseCurrentBlock();
+	}
 
 	function __showHeader()
 	{
@@ -373,7 +523,6 @@ class ilSearchAdministrationGUI
 		$this->tpl->setVariable("ITEM",$this->lng->txt("search_search_results"));
 		$this->tpl->parseCurrentBlock();
 
-
 		for($i = 1; $i < count($path_info); ++$i)
 		{
 			$this->tpl->touchBlock("locator_separator_prefix");
@@ -412,6 +561,45 @@ class ilSearchAdministrationGUI
 		return true;
 	}
 
+	function __getActions()
+	{
+		$options[0] = $this->lng->txt("search_select_one_action");
+
+		if($this->folder_obj->hasResults() and $this->folder_obj->countFolders())
+		{
+			// SHOW MOVE TO
+			$tree_data = $this->folder_obj->getTree();
+
+			foreach($tree_data as $node)
+			{
+				$prefix = $this->lng->txt("search_move_to") ;
+				for($i = 0; $i < $node["depth"];++$i)
+				{
+					$prefix .= "&nbsp;&nbsp;";
+				}
+				if($node["obj_id"] == ROOT_ID)
+				{
+					$options[$node["obj_id"]] = $prefix.$this->lng->txt("search_search_results");
+				}
+				else
+				{
+					$options[$node["obj_id"]] = $prefix.$node["title"];
+				}
+
+			}			
+
+		}
+		// SHOW RENAME
+		$options["rename"] = $this->lng->txt("rename");
+
+		// SHOW DELETE
+		$options["delete"] = $this->lng->txt("delete");
+
+		return ilUtil::formSelect($_POST["action"],"action",$options,false,true);
+	}
+
+		
+
 	function __showFolders()
 	{
 		$items = $this->getChildFolders();
@@ -439,7 +627,8 @@ class ilSearchAdministrationGUI
 			{
 				$this->tpl->setCurrentBlock("TBL_FOOTER");
 				$this->tpl->setVariable("TBL_FOOTER_IMG_SRC",ilUtil::getImagePath("arrow_downright.gif"));
-				$this->tpl->setVariable("TBL_FOOTER_SUBMIT",$this->lng->txt("delete"));
+				$this->tpl->setVariable("TBL_FOOTER_SELECT",$this->__getActions());
+				$this->tpl->setVariable("TBL_FOOTER_SUBMIT",$this->lng->txt("ok"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -518,7 +707,7 @@ class ilSearchAdministrationGUI
 			case "sea":
 				include_once "./classes/class.ilSearchResult.php";
 
-				$tmp_obj =& new ilSearchResult($a_item["obj_id"]);
+				$tmp_obj =& new ilSearchResult($this->getUserId(),$a_item["obj_id"]);
 
 				$link = $tmp_obj->createLink();
 				unset($tmp_obj);

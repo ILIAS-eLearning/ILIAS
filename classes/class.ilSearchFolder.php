@@ -66,6 +66,11 @@ class ilSearchFolder
 	}
 
 	// SET/GET
+	function getType()
+	{
+		return "seaf";
+	}
+
 	function setFolderId($a_folder_id)
 	{
 		$this->folder_id = $a_folder_id;
@@ -96,6 +101,34 @@ class ilSearchFolder
 	{
 		return $this->s_tree->getChilds($this->getFolderId(),"type","DESC");
 	}
+	function hasSubfolders()
+	{
+		$childs = $this->getChilds();
+
+		return $childs[0]["type"] == "seaf" ? true : false;
+	}
+	function hasResults()
+	{
+		$childs = $this->getChilds();
+
+		return $childs[count($childs)-1]["type"] == "sea" ? true : false;
+	}
+	function countFolders()
+	{
+		$childs = $this->s_tree->getChilds(ROOT_FOLDER_ID,"type","DESC");
+
+		$counter = 0;
+		while(true)
+		{
+			if($childs[$counter]["type"] != "seaf")
+			{
+				break;
+			}
+			++$counter;
+		}
+		return $counter;
+	}
+
 	function getPath()
 	{
 		return $this->s_tree->getPathFull($this->getFolderId(),ROOT_FOLDER_ID);
@@ -150,6 +183,18 @@ class ilSearchFolder
 		return true;
 	}
 
+	function updateTitle($a_title)
+	{
+		$query = "UPDATE ".TABLE_SEARCH_DATA." ".
+			"SET title = '".addslashes($a_title)."' ".
+			"WHERE obj_id = '".$this->getFolderId()."' ".
+			"AND user_id = '".$this->getUserId()."'";
+
+		$res = $this->ilias->db->query($query);
+
+		return true;
+	}
+
 	function &create($a_title)
 	{
 		// CHECK USER TREE IF HAS BEEN CREATED
@@ -172,6 +217,17 @@ class ilSearchFolder
 		$new_obj->setTitle($a_title);
 
 		return $new_obj;
+	}
+	function getTree()
+	{
+		$tmp_folder_id = $this->getFolderId();
+
+		$this->setFolderId(ROOT_FOLDER_ID);
+		
+		$tree_data = $this->getSubtree();
+		$this->setFolderId($tmp_folder_id);
+
+		return $tree_data;
 	}
 
 	function getSubtree()

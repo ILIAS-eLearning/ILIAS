@@ -199,8 +199,8 @@ class ilSearchGUI
 	{
 		$subtree = $this->folder_obj->getSubtree();
 
-		$options[0] = $this->lng->txt("search_select_one_select");
-		$options[1] = $this->lng->txt("search_my_search_results");
+		$options[0] = $this->lng->txt("search_select_one_folder_select");
+		$options[1] = $this->lng->txt("search_save_as_select")." ".$this->lng->txt("search_search_results");
 		
 		foreach($subtree as $node)
 		{
@@ -209,7 +209,7 @@ class ilSearchGUI
 				continue;
 			}
 			// CREATE PREFIX
-			$prefix = "";
+			$prefix = $this->lng->txt("search_save_as_select");
 			for($i = 1; $i < $node["depth"];++$i)
 			{
 				$prefix .= "&nbsp;&nbsp;";
@@ -263,7 +263,7 @@ class ilSearchGUI
 		$this->tpl->setCurrentBlock("tbl_action_select");
 		$this->tpl->setVariable("SELECT_ACTION",$this->__getFolderSelect($a_type,$a_search_in_type));
 		$this->tpl->setVariable("BTN_NAME",$a_type."_".$a_search_in_type);
-		$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("save"));
+		$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("ok"));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
@@ -493,6 +493,7 @@ class ilSearchGUI
 		include_once "./classes/class.ilObjectFactory.php";
 
 		$counter = 0;
+
 		foreach($a_res as $user)
 		{
 			if(!ilObjectFactory::ObjectIdExists($user["id"]))
@@ -793,7 +794,7 @@ class ilSearchGUI
 															 "id" => $tmp_result[$a_subtype][$result_id]["id"],
 															 "page_id" => $tmp_result[$a_subtype][$result_id]["page_id"])));
 					}
-					$search_res_obj =& new ilSearchResult();
+					$search_res_obj =& new ilSearchResult($this->getUserId());
 					$search_res_obj->setTitle($title);
 					$search_res_obj->setTarget($target);
 
@@ -815,7 +816,7 @@ class ilSearchGUI
 					}
 					$target = addslashes(serialize(array("type" => $a_type,
 														 "id" => $tmp_result[$result_id]["id"])));
-					$search_res_obj =& new ilSearchResult();
+					$search_res_obj =& new ilSearchResult($this->getUserId());
 					$search_res_obj->setTitle($title);
 					$search_res_obj->setTarget($target);
 
@@ -837,7 +838,7 @@ class ilSearchGUI
 					$target = addslashes(serialize(array("type" => $a_type,
 														 "id" => $tmp_result[$result_id]["id"])));
 
-					$search_res_obj =& new ilSearchResult();
+					$search_res_obj =& new ilSearchResult($this->getUserId());
 					$search_res_obj->setTitle($title);
 					$search_res_obj->setTarget($target);
 
