@@ -51,7 +51,7 @@ $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 // display infopanel if something happened
 infoPanel();
 
-if (!$rbacsystem->checkAccess("write",$forumObj->getRefId()))
+if (!$rbacsystem->checkAccess("edit_post",$forumObj->getRefId()))
 {
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 }

@@ -169,7 +169,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 	// menu template (contains linkbar, new topic and print thread button)
 	$menutpl =& new ilTemplate("tpl.forums_threads_menu.html", true, true);
 
-	if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
+	if ($rbacsystem->checkAccess("edit_post", $_GET["ref_id"]))
 	{
 		$menutpl->setCurrentBlock("btn_cell");
 		$menutpl->setVariable("BTN_LINK","forums_threads_new.php?ref_id=".$_GET["ref_id"]);
@@ -343,7 +343,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 
 		if (($posNum > $pageHits && $z >= $Start) || $posNum <= $pageHits)
 		{
-			if ($rbacsystem->checkAccess("write", $_GET["ref_id"]))
+			if ($rbacsystem->checkAccess("edit_post", $_GET["ref_id"]))
 			{
 				// reply/edit
 				if (($_GET["cmd"] == "showreply" || $_GET["cmd"] == "showedit") && $_GET["pos_pk"] == $node["pos_pk"])
