@@ -9,7 +9,14 @@
     <tr>
       <td class="option_value" colspan="2">
 	  	<input type="radio" name="form[register]" value="2" {EMAIL}/>{TXT_NIC_EMAIL}
-		<br/>&nbsp;&nbsp&nbsp;&nbsp&nbsp;<span class="subtitle">{TXT_NIC_ENTER_ID}: </span><input type="text" name="form[nic_id]" size="5" maxsize="5" value="{NIC_ID}"/>
+		<table><tr>
+		<td align="right" class="subtitle">{TXT_NIC_ENTER_ID}:</td>
+		<td><input type="text" name="form[nic_id]" size="5" maxsize="5" value="{NIC_ID}"/></td>
+		</tr><tr>
+		<td align="right" class="subtitle">{TXT_NIC_ENTER_CHECKSUM}:</td>
+		<td><input type="text" name="form[nic_checksum]" size="32" maxsize="32" value="{NIC_CHECKSUM}"/></td>
+		</tr>
+		</table>
 	  </td>
     </tr>
     <tr>

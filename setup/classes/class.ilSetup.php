@@ -86,6 +86,8 @@ class ilSetup extends PEAR
 
 		$this->PEAR();
 		
+		define("ILIAS_MODULE","setup");
+		
 		$this->auth = ($a_auth) ? true : false;
 		$this->access_mode = $a_auth_type;
 
