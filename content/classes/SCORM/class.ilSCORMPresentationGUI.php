@@ -252,6 +252,7 @@ class ilSCORMPresentationGUI
 			$this->tpl->setVariable("CREDIT_MODE", "normal");
 			$this->tpl->parseCurrentBlock();
 		}
+
 		$query = "SELECT * FROM scorm_tracking2 WHERE".
 			" user_id = ".$ilDB->quote($ilUser->getId()).
 			" AND sco_id = ".$ilDB->quote($sco_id);
@@ -259,7 +260,6 @@ class ilSCORMPresentationGUI
 		$re_value = array();
 		while($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-//echo "1".$val_rec["lvalue"]."-";
 			$re_value[$val_rec["lvalue"]] = $val_rec["rvalue"];
 		}
 
@@ -334,6 +334,20 @@ class ilSCORMPresentationGUI
 					$this->setArray("cmi.interactions", $value, "latency", $re_value);
 					break;
 			}
+		}
+
+		// init cmi.core.total_time, cmi.core.lesson_status and cmi.core.entry
+		if (!isset($re_value["cmi.core.total_time"]))
+		{
+			$item->insertTrackData("cmi.core.total_time", "0000:00:00.00", $_GET["ref_id"]);
+		}
+		if (!isset($re_value["cmi.core.lesson_status"]))
+		{
+			$item->insertTrackData("cmi.core.lesson_status", "not_attempted", $_GET["ref_id"]);
+		}
+		if (!isset($re_value["cmi.core.entry"]))
+		{
+			$item->insertTrackData("cmi.core.entry", "", $_GET["ref_id"]);
 		}
 
 		$this->tpl->show();

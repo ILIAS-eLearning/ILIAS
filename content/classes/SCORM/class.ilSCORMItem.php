@@ -292,5 +292,11 @@ class ilSCORMItem extends ilSCORMObject
 
 	}
 
+	function insertTrackData($a_lval, $a_rval, $a_ref_id)
+	{
+		require_once("content/classes/SCORM/class.ilObjSCORMTracking2.php");
+		ilObjSCORMTracking2::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
+	}
+
 }
 ?>

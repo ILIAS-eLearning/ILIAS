@@ -148,5 +148,17 @@ class ilObjSCORMTracking2
 		fclose($f);
 	}
 
+	function _insertTrackData($a_sco_id, $a_lval, $a_rval, $a_ref_id)
+	{
+		global $ilDB, $ilUser;
+
+		$q = "INSERT INTO scorm_tracking2 (user_id, sco_id, lvalue, rvalue, ref_id) ".
+			" VALUES (".$ilDB->quote($ilUser->getId()).",".$ilDB->quote($a_sco_id).
+			",".$ilDB->quote($a_lval).",".$ilDB->quote($a_rval).
+			",".$ilDB->quote($a_ref_id).")";
+		$ilDB->query($q);
+
+	}
+
 } // END class.ilObjSCORMTracking
 ?>
