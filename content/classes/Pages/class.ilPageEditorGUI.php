@@ -90,18 +90,6 @@ class ilPageEditorGUI
 		$this->ctrl->saveParameter($this, "hier_id");
 	}
 
-	/**
-	* get all gui classes that are called from this one (see class ilCtrl)
-	*
-	* @param	array		array of gui classes that are called
-	*/
-	function _forwards()
-	{
-		return array("ilPCParagraphGUI", "ilPCTableGUI",
-		"ilPCTableDataGUI", "ilPCMediaObjectGUI", "ilPCListGUI",
-		"ilPCListItemGUI", "ilPCFileListGUI", "ilPCFileItemGUI",
-		"ilObjMediaObjectGUI","ilPCSourcecodeGUI");
-	}
 
 	/**
 	* set header title
@@ -194,15 +182,37 @@ class ilPageEditorGUI
 		}
 		else
 		{
+			// setting cmd and cmdclass for editing of linked media
+			if ($cmd == "editLinkedMedia")
+			{
+				$this->ctrl->setCmd("edit");
+				$cmd = "edit";
+				$_GET["pgEdMediaMode"] = "editLinkedMedia";
+				$_GET["mob_id"] = $_POST["mob_id"];
+			}
+			if ($_GET["pgEdMediaMode"] == "editLinkedMedia")
+			{
+				$this->ctrl->setParameter($this, "pgEdMediaMode", "editLinkedMedia");
+				$this->ctrl->setParameter($this, "mob_id", $_GET["mob_id"]);
+				if ($cmdClass != "ilinternallinkgui")
+				{
+					$this->ctrl->setCmdClass("ilobjmediaobjectgui");
+					$cmdClass = "ilobjmediaobjectgui";
+				}
+			}
+			
 			// note: ilinternallinkgui for page: no cont_obj is received
 			// ilinternallinkgui for mob: cont_obj is received
 			if ($cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
-				$cmd != "setMediaMode" &&
+				$cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
 				$cmdClass != "ileditclipboardgui" &&
-				($cmdClass != "ilinternallinkgui" || $next_class == "ilobjmediaobjectgui"))
+				($cmdClass != "ilinternallinkgui" || ($next_class == "ilobjmediaobjectgui")))
 			{
-				$cont_obj =& $this->page->getContentObject($hier_id);
-				$ctype = $cont_obj->getType();
+				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
+				{
+					$cont_obj =& $this->page->getContentObject($hier_id);
+					$ctype = $cont_obj->getType();
+				}
 			}
 		}
 
@@ -317,20 +327,30 @@ class ilPageEditorGUI
 			// PC Media Object
 			case "ilpcmediaobjectgui":
 			case "ilobjmediaobjectgui":
-				$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
 				$tabs_gui =& new ilTabsGUI();
-				if (is_object ($cont_obj))
+				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{
-					$pcmob_gui->getTabs($tabs_gui);
-					$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
-						$cont_obj->getTitle());
-					$this->displayLocator("mob");
-					$mob_gui =& new ilObjMediaObjectGUI("", $cont_obj->getId(),false, false);
-					$mob_gui->getTabs($tabs_gui);
+					$pcmob_gui =& new ilPCMediaObjectGUI($this->page, $cont_obj, $hier_id);
+					if (is_object ($cont_obj))
+					{
+						$pcmob_gui->getTabs($tabs_gui);
+						$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
+							$cont_obj->getTitle());
+						$this->displayLocator("mob");
+						$mob_gui =& new ilObjMediaObjectGUI("", $cont_obj->getId(),false, false);
+						$mob_gui->getTabs($tabs_gui);
+					}
+					else
+					{
+						$pcmob_gui->getTabs($tabs_gui, true);
+					}
 				}
 				else
 				{
-					$pcmob_gui->getTabs($tabs_gui, true);
+					$mob_gui =& new ilObjMediaObjectGUI("", $_GET["mob_id"],false, false);
+					$mob_gui->getTabs($tabs_gui);
+					$this->tpl->setVariable("HEADER", $this->lng->txt("mob").": ".
+						ilObject::_lookupTitle($_GET["mob_id"]));
 				}
 
 				$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
@@ -408,6 +428,18 @@ class ilPageEditorGUI
 		global $ilUser;
 
 		$ilUser->writePref("ilPageEditor_MediaMode", $_POST["media_mode"]);
+		$this->ctrl->returnToParent($this);
+	}
+	
+	/**
+	* copy linked media object to clipboard
+	*/
+	function copyLinkedMediaToClipboard()
+	{
+		global $ilUser;
+		
+		sendInfo($this->lng->txt("copied_to_clipboard"), true);
+		$ilUser->addObjectToClipboard($_POST["mob_id"], "mob", ilObject::_lookupTitle($_POST["mob_id"]));
 		$this->ctrl->returnToParent($this);
 	}
 
