@@ -120,6 +120,7 @@ assessment#:#cloze_text#:#Uzupełnij tekst
 assessment#:#code#:#Kod
 assessment#:#coordinates#:#Koordynaty
 assessment#:#correct_solution_is#:#Prawidłowa odpowiedź to
+assessment#:#counter#:#Counter###06 Oct 2004 new variable
 assessment#:#create_date#:#Utworzony
 assessment#:#create_gaps#:#Twórz odstęp
 assessment#:#create_imagemap#:#Twórz mapę bitową
@@ -381,6 +382,8 @@ assessment#:#tst_status_not_entered#:#nie wprowadzony
 assessment#:#tst_status_progress#:#wykonywany
 assessment#:#tst_time_already_spent#:#Czas spędzony na pracy
 assessment#:#tst_type#:#Typ Testu
+assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!###06 Oct 2004 new variable
+assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
 assessment#:#tst_types#:#Typy testów
 assessment#:#tst_your_mark_is#:#Twój wynik to
 assessment#:#tt_assessment#:#Ocena testu

@@ -121,6 +121,7 @@ assessment#:#cloze_text#:#Gatentekst
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Coördinaten
 assessment#:#correct_solution_is#:#De correcte oplossing is
+assessment#:#counter#:#Counter###06 Oct 2004 new variable
 assessment#:#create_date#:#Gecreëerd
 assessment#:#create_gaps#:#Creëer gaten
 assessment#:#create_imagemap#:#Creëer een grafische map
@@ -404,6 +405,8 @@ assessment#:#tst_status_ok#:#De status van de enquête is in orde. Er zijn geen 
 assessment#:#tst_status_progress#:#In voortgang
 assessment#:#tst_time_already_spent#:#Reeds benodige werktijd
 assessment#:#tst_type#:#Test-type
+assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!###06 Oct 2004 new variable
+assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
 assessment#:#tst_types#:#Test-typen
 assessment#:#tst_use_javascript#:#Gebruik Javascript voor activiteiten als slepen en erop laten vallen###03 Oct 2004 content changed
 assessment#:#tst_your_mark_is#:#Uw cijfer is

@@ -122,6 +122,7 @@ assessment#:#cloze_text#:#Texte de closure
 assessment#:#code#:#Code
 assessment#:#coordinates#:#Coordonnées
 assessment#:#correct_solution_is#:#La solution correcte est
+assessment#:#counter#:#Counter###06 Oct 2004 new variable
 assessment#:#create_date#:#Créé
 assessment#:#create_gaps#:#Créer lacune
 assessment#:#create_imagemap#:#Créer  une image réactive
@@ -402,6 +403,8 @@ assessment#:#tst_status_ok#:#L'état du test est valide. Il n'y a pas d'élémen
 assessment#:#tst_status_progress#:#en cours
 assessment#:#tst_time_already_spent#:#Temps déjà passé
 assessment#:#tst_type#:#Type de test
+assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!###06 Oct 2004 new variable
+assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!###06 Oct 2004 new variable
 assessment#:#tst_types#:#Types de test
 assessment#:#tst_use_javascript#:#Utiliser Javascript pour glisser/déposer des actions###03 Oct 2004 content changed
 assessment#:#tst_your_mark_is#:#Votre note est
