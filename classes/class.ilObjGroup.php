@@ -32,15 +32,9 @@
 * @package ilias-core
 */
 
-
-
 //TODO: function getRoleId($groupRole) returns the object-id of grouprole
 
 require_once "class.ilObject.php";
-require_once "class.perm.php";
-
-require_once "class.ilObjectGUI.php";
-require_once "class.ilTree.php";
 
 class ilObjGroup extends ilObject
 {
@@ -50,16 +44,12 @@ class ilObjGroup extends ilObject
 
 	var $m_grpStatus;
 
-	var $ilias;
-
-	var $tree;
-
 	var $m_roleMemberId;
 
 	var $m_roleAdminId;
 
 	var $grp_tree;
-
+	
 	/**
 	* Constructor
 	* @access	public
@@ -68,29 +58,8 @@ class ilObjGroup extends ilObject
 	*/
 	function ilObjGroup($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilias,$lng,$tree;
-
-		$this->ilias =& $ilias;
-		$this->lng =& $lng;
-
 		$this->type = "grp";
 		$this->ilObject($a_id,$a_call_by_reference);
-
-		/*if($a_call_by_reference)
-		{
-			$this->object =& $this->ilias->obj_factory->getInstanceByRefId($a_id);
-
-			$this->ref_grpId = $a_id;
-
-
-		}
-		else
-		{
-			$this->obj_grpId = $a_id;
-		}*/
-		
-		$this->tree = $tree;
-
 	}
 
 	/**
@@ -98,7 +67,6 @@ class ilObjGroup extends ilObject
 	* @access	public
 	* @param	integer	user id of new member
 	* @param	integer	member status [0=member|1=admin]
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
 	function joinGroup($a_user_id, $a_memStatus)
 	{
@@ -227,16 +195,6 @@ class ilObjGroup extends ilObject
 		}
 
 		return $usr_arr;
-	}
-
-	/**
-	* delete Group
-	* @access	public
-	* @param	integer	group id
-	*/
-	function deleteGroup($a_grpId="")
-	{
-		//TO DO!
 	}
 
 	/**
@@ -973,7 +931,6 @@ class ilObjGroup extends ilObject
 		{ 
 			if($a_parent_non_rbac_id > 0)
 			{	 
-			
 				$childrenNodes = $this->tree->getChilds($this->getRefId()); 
 				foreach ( $childrenNodes as $child)
 				{
