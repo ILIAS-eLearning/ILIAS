@@ -4039,10 +4039,11 @@ survey#:#add_phrase#:#Dodaj frazę
 survey#:#add_phrase_introduction#:#Wybierz frazę:
 survey#:#already_completed_survey#:#Już wypełniłeś tę ankietę! Nie możesz jej powtórzyć.
 survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 32-character which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.###18 Dec 2004 new variable
-survey#:#anonymize_key_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, system utworzył 32-znakowy kod. Gdy rozpoczniesz ankietę ten kod zostanie przesłany do twojej skrzynki pocztowej ILIAS. Twój kod dostępu do ankiety to <br /><span class="bold">%s</span>.<br />Podaj go w poniższym polu tekstowym.
+survey#:#anonymize_key_introduction#:#Dane użytkownika dla tej ankiety są anonimowe. Aby udostępnić Ci dostęp do ankiety, system utworzył 32-znakowy kod. Gdy rozpoczniesz ankietę ten kod zostanie przesłany do twojej skrzynki pocztowej ILIAS. Twój kod dostępu do ankiety to <br /><span class="bold">%s</span>.<br />Podaj go w poniższym polu tekstowym.###20 Dec 2004 content changed
 survey#:#anonymize_resume_introduction#:#Podaj swój kod dostępu do ankiety aby wrócić do ankiety. Został on przesłany do twojej skrzynki pocztowej ILIAS, gdy rozpocząłeś ankietę.
 survey#:#anonymize_survey#:#Zachowaj anonimowość danych ankiety
 survey#:#anonymize_survey_explanation#:#Kiedy jest aktywne, wszystkie dane użytkownika są anonimowe i nie mogą być śledzone.
+survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!###20 Dec 2004 new variable
 survey#:#answer#:#Odpowiedź
 survey#:#apply#:#Zastosuj
 survey#:#arithmetic_mean#:#Średnia arytmetyczna
@@ -4051,6 +4052,7 @@ survey#:#ask_insert_questions#:#Czy chcesz wstawić wybrane pytania do ankiety?
 survey#:#back#:#<< Powrót
 survey#:#before#:#przed
 survey#:#browse_for_questions#:#Szukanie pytań
+survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!###20 Dec 2004 new variable
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#Nie posiadasz wystarczających uprawnień dla eksportu puli pytań ankiety!
 survey#:#cannot_export_survey#:#Nie posiadasz wystarczających uprawnień dla eksportu  ankiety!
@@ -4065,6 +4067,7 @@ survey#:#category_delete_select_none#:#Zaznacz conajmniej jedną kategorię do u
 survey#:#category_nr_selected#:#Ilość użytkowników, którzy wybrali tę kategorię
 survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#Musisz wybrać conajmniej jedną kategorię dla zapisania frazy!
+survey#:#codes#:#Access codes###20 Dec 2004 new variable
 survey#:#concatenation#:#Połączenie
 survey#:#confirm_sync_questions#:#Pytanie, które zmieniłeś jest kopią wykonaną dla aktywnej ankiety. Czy chcesz również zmienić oryginalne pytanie?
 survey#:#constraints#:#Ograniczenia wyboru
@@ -4143,6 +4146,7 @@ survey#:#end_date#:#Data końca
 survey#:#end_date_reached#:#Nie możesz rozpocząć przeglądu. Data zakończenia została osiągnięta!
 survey#:#enter_anonymous_id#:#Kod dostępu do Ankiety
 survey#:#enter_phrase_title#:#Podaj frazę tytułową
+survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
 survey#:#enter_value#:#Podaj wartość
 survey#:#error_add_heading#:#Dodaj nagłówek!
 survey#:#error_importing_question#:#Wystąpił błąd podczas importu pytań z pliku przez ciebie wybranego!
@@ -4205,6 +4209,7 @@ survey#:#mode_nr_of_selections#:#Nr wyboru
 survey#:#mode_text#:#Najczęściej wybierana wartość (Tekst)
 survey#:#multiple_choice_multiple_response#:#Wielokrotny wybór (wiele odpowiedzi)
 survey#:#multiple_choice_single_response#:#Wielokrotny wybór (jedna odpowiedź)
+survey#:#new_survey_codes#:#new survey access code(s)###20 Dec 2004 new variable
 survey#:#next_question_rows#:#Pytania %d - %d z %d >>
 survey#:#no_available_constraints#:#Brak zdefiniowanych ograniczeń!
 survey#:#no_category_selected_for_deleting#:#Wybierz conajmniej jedną kategorię do usunięcia!
@@ -4222,6 +4227,7 @@ survey#:#nominal_question_not_checked#:#Wybierz jedną z oferowanych odpowiedzi!
 survey#:#non_ratio#:#Brak-Współczynnika
 survey#:#not_finished#:#nie skończona
 survey#:#not_started#:#nie rozpoczęta
+survey#:#not_used#:#not used###20 Dec 2004 new variable
 survey#:#obligatory#:#obowiązkowa
 survey#:#off#:#wył
 survey#:#offline#:#offline
@@ -4303,7 +4309,10 @@ survey#:#start_date_not_reached#:#Nie możesz wystartować przeglądu dopóki ni
 survey#:#start_survey#:#Rozpocznij ankietę
 survey#:#subject_mail_survey_id#:#Twój kod ankiety dla "%s"
 survey#:#subtype#:#Podtyp
+survey#:#survey_code#:#Survey access code###20 Dec 2004 new variable
 survey#:#survey_code_message_sent#:#Kod ankiety umożliwiający powrót do niej został przesłany do twojej skrzynki odbiorczej!
+survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.###20 Dec 2004 new variable
+survey#:#survey_code_used#:#Code was used###20 Dec 2004 new variable
 survey#:#survey_finish#:#zapisz i zakończ ankietę >>>
 survey#:#survey_finished#:#ankieta jest zakończona. Dziękujemy za uczestnictwo!
 survey#:#survey_is_offline#:#Nie możesz rozpocząć ankiety! Ankieta nie jest aktywna.
@@ -4348,6 +4357,7 @@ survey#:#unlimited_users#:#Nielimitowany
 survey#:#uploaded_material#:#Materiał załadowany
 survey#:#upper_limit#:#Górny limit
 survey#:#upper_limit_must_be_greater#:#Górny limit musi być większy niż dolny limit!
+survey#:#used#:#used###20 Dec 2004 new variable
 survey#:#users_answered#:#Użytkownicy, którzy udzielili odpowiedzi
 survey#:#users_skipped#:#Użytkownicy, którzy pominęli odpowiedź
 survey#:#value_nr_entered#:#Ilość uzytkowników, która opodała tę wartość

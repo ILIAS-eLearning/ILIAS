@@ -4012,6 +4012,7 @@ survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To g
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
 survey#:#anonymize_survey#:#Anonymiser les données du sondage
 survey#:#anonymize_survey_explanation#:#Quand cette option est activées, toutes les données utilisateurs sont anonymisées et ne peuvent pas être suivies.
+survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!###20 Dec 2004 new variable
 survey#:#answer#:#Réponse
 survey#:#apply#:#Appliquer
 survey#:#arithmetic_mean#:#Moyenne arithmétique
@@ -4020,6 +4021,7 @@ survey#:#ask_insert_questions#:#Etes-vous sûr(e) de vouloir insérer les questi
 survey#:#back#:#<< Retour
 survey#:#before#:#before###19 Nov 2004 new variable
 survey#:#browse_for_questions#:#Rechercher des questions
+survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!###20 Dec 2004 new variable
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!###19 Dec 2004 new variable
 survey#:#cannot_export_questionpool#:#Vous n'avez pas les permissions nécessaires pour exporter le jeu de questions du sondage.
 survey#:#cannot_export_survey#:#Vous n'avez pas les permissions nécessaires pour exporter le sondage.
@@ -4034,6 +4036,7 @@ survey#:#category_delete_select_none#:#Veuillez cocher au moins une catégorie p
 survey#:#category_nr_selected#:#Nombre d'utilisateurs qui ont sélectionné cette catégorie
 survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
+survey#:#codes#:#Access codes###20 Dec 2004 new variable
 survey#:#concatenation#:#Concaténation
 survey#:#confirm_sync_questions#:#La question que vous avez modifiée est une copie qui a été créée pour l'utilisation dans le sondage en cours. Voulez-vous également modifier l'original de cette question ?
 survey#:#constraints#:#Contraintes
@@ -4112,6 +4115,7 @@ survey#:#end_date#:#Date de fin
 survey#:#end_date_reached#:#Vous ne pouvez pas commencer le sondage. La date de fin est dépassée.
 survey#:#enter_anonymous_id#:#Survey access code###09 Dec 2004 new variable
 survey#:#enter_phrase_title#:#Veuillez saisir un titre d'expression XXX
+survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!###20 Dec 2004 new variable
 survey#:#enter_value#:#Saisissez une valeur
 survey#:#error_add_heading#:#Veuillez ajouter un titre.
 survey#:#error_importing_question#:#Une erreur s'est produite pendant l'importation des questions depuis le fichier que vous avez sélectionné.
@@ -4172,6 +4176,7 @@ survey#:#mode_nr_of_selections#:#Nombre de sélections
 survey#:#mode_text#:#Valeur sélectionnée le plus souvent (Texte)
 survey#:#multiple_choice_multiple_response#:#Choix multiple (réponse multiple)
 survey#:#multiple_choice_single_response#:#Choix multiple (réponse unique)
+survey#:#new_survey_codes#:#new survey access code(s)###20 Dec 2004 new variable
 survey#:#next_question_rows#:#Questions %d - %d sur %d >>
 survey#:#no_available_constraints#:#Pas de contraintes définies
 survey#:#no_category_selected_for_deleting#:#Veuillez sélectionner au moins une catégorie si vous voulez détruire des catégories.
@@ -4189,6 +4194,7 @@ survey#:#nominal_question_not_checked#:#Veuillez cocher une des réponses propos
 survey#:#non_ratio#:#Non-Ratio XXX
 survey#:#not_finished#:#non terminé
 survey#:#not_started#:#non commencé
+survey#:#not_used#:#not used###20 Dec 2004 new variable
 survey#:#obligatory#:#obligatoire
 survey#:#off#:#off XXX
 survey#:#offline#:#hors-ligne
@@ -4269,7 +4275,10 @@ survey#:#start_date_not_reached#:#Vous ne pouvez pas commencer le sondage tant q
 survey#:#start_survey#:#Commencer sondage
 survey#:#subject_mail_survey_id#:#Votre code de sondage pour "%s"
 survey#:#subtype#:#Sous-type
+survey#:#survey_code#:#Survey access code###20 Dec 2004 new variable
 survey#:#survey_code_message_sent#:#Un code de sondage qui vous permettra de reprendre le sondage a été envoyé dans votre boîte aux lettres.
+survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.###20 Dec 2004 new variable
+survey#:#survey_code_used#:#Code was used###20 Dec 2004 new variable
 survey#:#survey_finish#:#enregistrer et terminer sondage >>>###26 Nov 2004 content changed
 survey#:#survey_finished#:#Le sondage est terminé. Merci pour votre participation.
 survey#:#survey_is_offline#:# Vous ne pouvez pas commencer le sondage. Le sondage est hors-ligne.
@@ -4314,6 +4323,7 @@ survey#:#unlimited_users#:#Illimité
 survey#:#uploaded_material#:#Matériau téléversé
 survey#:#upper_limit#:#Limite supérieure
 survey#:#upper_limit_must_be_greater#:#La limite supérieure doit être plus grande que la limite inférieure.
+survey#:#used#:#used###20 Dec 2004 new variable
 survey#:#users_answered#:#Les utilisateurs ont répondu
 survey#:#users_skipped#:#Les utilisateurs ont passé
 survey#:#value_nr_entered#:#Nombre d'utilisateurs qui ont saisi cette valeur

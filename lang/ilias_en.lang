@@ -4043,6 +4043,7 @@ survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To g
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
 survey#:#anonymize_survey#:#Anonymize survey data
 survey#:#anonymize_survey_explanation#:#When activated, all user data will be anonymized and cannot be tracked.
+survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
 survey#:#answer#:#Answer
 survey#:#apply#:#Apply
 survey#:#arithmetic_mean#:#Arithmetic mean
@@ -4051,6 +4052,7 @@ survey#:#ask_insert_questions#:#Are you sure you want to insert the following qu
 survey#:#back#:#<< Back
 survey#:#before#:#before
 survey#:#browse_for_questions#:#Browse for questions
+survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!
 survey#:#cannot_edit_survey#:#You do not possess sufficient permissions to edit the survey!
 survey#:#cannot_export_questionpool#:#You do not possess sufficient permissions to export the survey questionpool!
 survey#:#cannot_export_survey#:#You do not possess sufficient permissions to export the survey!
@@ -4065,6 +4067,7 @@ survey#:#category_delete_select_none#:#Please check at least one category to del
 survey#:#category_nr_selected#:#Number of users that selected this category
 survey#:#chart#:#Chart
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!
+survey#:#codes#:#Access codes
 survey#:#concatenation#:#Concatenation
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
 survey#:#constraints#:#Constraints
@@ -4143,6 +4146,7 @@ survey#:#end_date#:#End date
 survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!
 survey#:#enter_anonymous_id#:#Survey access code
 survey#:#enter_phrase_title#:#Please enter a phrase title
+survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
 survey#:#enter_value#:#Enter a value
 survey#:#error_add_heading#:#Please add a heading!
 survey#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
@@ -4205,6 +4209,7 @@ survey#:#mode_nr_of_selections#:#Nr of selections
 survey#:#mode_text#:#Most selected value (Text)
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)
+survey#:#new_survey_codes#:#new survey access code(s)
 survey#:#next_question_rows#:#Questions %d - %d of %d >>
 survey#:#no_available_constraints#:#There are no constraints defined!
 survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!
@@ -4222,6 +4227,7 @@ survey#:#nominal_question_not_checked#:#Please check one of the offered answers!
 survey#:#non_ratio#:#Non-Ratio
 survey#:#not_finished#:#not completed
 survey#:#not_started#:#not started
+survey#:#not_used#:#not used
 survey#:#obligatory#:#obligatory
 survey#:#off#:#off
 survey#:#offline#:#offline
@@ -4303,7 +4309,10 @@ survey#:#start_date_not_reached#:#You cannot start the survey until the start da
 survey#:#start_survey#:#Start survey
 survey#:#subject_mail_survey_id#:#Your survey code for "%s"
 survey#:#subtype#:#Subtype
+survey#:#survey_code#:#Survey access code
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!
+survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.
+survey#:#survey_code_used#:#Code was used
 survey#:#survey_finish#:#finish survey
 survey#:#survey_finished#:#You have completed the survey. Thank you for your participation!
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.
@@ -4348,6 +4357,7 @@ survey#:#unlimited_users#:#Unlimited
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#upper_limit#:#Upper limit
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
+survey#:#used#:#used
 survey#:#users_answered#:#Users answered
 survey#:#users_skipped#:#Users skipped
 survey#:#value_nr_entered#:#Number of users that entered that value
@@ -4358,13 +4368,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-survey#:#codes#:#Access codes
-survey#:#cannot_create_survey_codes#:#You do not possess sufficient permissions to create survey access codes!
-survey#:#survey_code#:#Survey access code
-survey#:#survey_code_used#:#Code was used
-survey#:#survey_code_no_codes#:#You have not created any survey access codes yet.
-survey#:#new_survey_codes#:#new survey access code(s)
-survey#:#enter_valid_number_of_codes#:#Please enter a valid number to generate survey access codes!
-survey#:#used#:#used
-survey#:#not_used#:#not used
-survey#:#anonymous_with_personalized_survey#:#You must be a registered user to run a personalized survey!
