@@ -59,9 +59,10 @@ if (!isset($_GET["type"]))
 
 if (isset($_POST["cmd"]) or isset($_GET["new_type"]) )
 {
-		if ($_GET["gateway"] == "true")
+		if (($_GET["gateway"] == "true") || ($_GET["cmd"] == "gateway"))
 		{
 			$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
+
 			exit();
 		}
 		else
@@ -138,6 +139,8 @@ switch ($obj->getType())
 else
 {
 	$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
+	
+
 	exit();
 }
 ?>
