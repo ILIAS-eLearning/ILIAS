@@ -1080,6 +1080,10 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 		// output command line
 		$this->tpl->setCurrentBlock("commands");
+		$sel_arr = array("Rect" => "cont_Rect", "Circle" => "cont_Circle",
+			"Poly" => "cont_Poly");
+		$sel_str = ilUtil::formSelect("", "areatype", $sel_arr, false, false);
+		$this->tpl->setVariable("SELECT_TYPE", $sel_str);
 		$this->tpl->setVariable("BTN_UPDATE", "updateAreas");
 		$this->tpl->setVariable("TXT_UPDATE", $this->lng->txt("cont_update"));
 		$this->tpl->setVariable("BTN_ADD_AREA", "addArea");
