@@ -348,10 +348,13 @@ class ilObjectGUI
 	*
 	* @param	object	tree object
 	* @param	integer	reference id
+	* @param	scriptanme that is used for linking; if not set adm_object.php is used
 	* @access	public
 	*/
-	function setLocator($a_tree = "", $a_id = "")
+	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php")
 	{
+
+
 		if (!is_object($a_tree))
 		{
 			$a_tree =& $this->tree;
@@ -396,8 +399,8 @@ class ilObjectGUI
 
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $row["title"]);
-			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["child"]);
+
+			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$row["child"]);
 			$this->tpl->parseCurrentBlock();
 
 		}
@@ -408,8 +411,8 @@ class ilObjectGUI
 
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
-			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			
+			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -1467,7 +1470,7 @@ class ilObjectGUI
 							$disabled = false;
 						}
 
-						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
+						// Es wird eine 2-dim Post Variable bergeben: perm[rol_id][ops_id]
 						$box = ilUtil::formCheckBox($checked,"perm[".$role["obj_id"]."][]",$operation["ops_id"],$disabled);
 						$opdata["values"][] = $box;
 					}
@@ -1703,7 +1706,7 @@ class ilObjectGUI
 		// - existiert kein RoleFolder, wird er angelegt und die Rechte aus den Permission Templates ausgelesen
 		// - existiert die Rolle im aktuellen RoleFolder werden die Permission Templates dieser Rolle angezeigt
 		// - existiert die Rolle nicht im aktuellen RoleFolder wird sie dort angelegt
-		//   und das Permission Template an den Wert des nächst höher gelegenen Permission Templates angepasst
+		//   und das Permission Template an den Wert des nï¿½hst hher gelegenen Permission Templates angepasst
 
 		// get rolefolder data if a rolefolder already exists
 		$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
@@ -2312,7 +2315,7 @@ class ilObjectGUI
 
 					foreach ($parentRoles as $parRol)
 					{
-						// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
+						// Es werden die im Baum am 'nï¿½hsten liegenden' Templates ausgelesen
 						$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"],'rolf',$parRol["parent"]);
 						// TODO: make this work:
 						//$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id);
