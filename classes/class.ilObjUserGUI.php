@@ -124,11 +124,14 @@ class ilObjUserGUI extends ilObjectGUI
 	}
 
 	/**
-	* display user create form
-	*/
+     * display user create form
+     */
 	function createObject()
 	{
-		global $rbacsystem, $rbacreview, $styleDefinition;
+        global $ilias, $rbacsystem, $rbacreview, $styleDefinition;
+
+        //load ILIAS settings
+        $settings = $ilias->getAllSettings();
 
 		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
 			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
@@ -212,6 +215,10 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["fax"] = "";
 		$data["fields"]["email"] = "";
 		$data["fields"]["hobby"] = "";
+        $data["fields"]["referral_comment"] = "";
+        $data["fields"]["create_date"] = "";
+        $data["fields"]["approve_date"] = "";
+        $data["fields"]["active"] = "";
 		$data["fields"]["default_role"] = $roles;
 
 		$this->getTemplateFile("edit","usr");
@@ -224,6 +231,12 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$str = $this->lng->txt("person_title");
 			}
+
+            // check to see if dynamically required
+            if (isset($settings["require_" . $key]) && $settings["require_" . $key])
+            {
+                $str = $str . '<span class="asterisk">*</span>';
+            }
 
 			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 
@@ -253,6 +266,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 		$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
+        $this->tpl->setVariable("TXT_SYSTEM_INFO", $this->lng->txt("system_information"));
 		$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
 		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
 		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
@@ -265,6 +279,11 @@ class ilObjUserGUI extends ilObjectGUI
 		// FILL SAVED VALUES IN CASE OF ERROR
 		if (isset($_SESSION["error_post_vars"]["Fobject"]))
 		{
+            if (!isset($_SESSION["error_post_vars"]["Fobject"]["active"]))
+            {
+                $_SESSION["error_post_vars"]["Fobject"]["active"] = 0;
+            }
+
 			foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
 			{
 				if ($key != "default_role" and $key != "language" and $key != "skin_style")
@@ -280,6 +299,12 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 			}
+
+            $active = $_SESSION["error_post_vars"]["Fobject"]["active"];
+            if ($active)
+            {
+                $this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
+            }
 		}
 
 		// language selection
@@ -521,9 +546,12 @@ class ilObjUserGUI extends ilObjectGUI
 	*
 	* @access	public
 	*/
-	function editObject()
-	{
-		global $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition;
+    function editObject()
+    {
+        global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition;
+
+        //load ILIAS settings
+        $settings = $ilias->getAllSettings();
 
 		// deactivated:
 		// or ($this->id != $_SESSION["AccountId"])
@@ -554,6 +582,10 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["fields"]["fax"] = $this->object->getFax();
 		$data["fields"]["email"] = $this->object->getEmail();
 		$data["fields"]["hobby"] = $this->object->getHobby();
+        $data["fields"]["referral_comment"] = $this->object->getComment();
+        $data["fields"]["create_date"] = $this->object->getCreateDate();
+        $data["fields"]["approve_date"] = $this->object->getApproveDate();
+        $data["fields"]["active"] = $this->object->getActive();
 
 		if (!count($user_online = ilUtil::getUsersOnline($this->object->getId())) == 1)
 		{
@@ -628,6 +660,11 @@ class ilObjUserGUI extends ilObjectGUI
 		// FILL SAVED VALUES IN CASE OF ERROR
 		if (isset($_SESSION["error_post_vars"]["Fobject"]))
 		{
+            if (!isset($_SESSION["error_post_vars"]["Fobject"]["active"]))
+            {
+                $_SESSION["error_post_vars"]["Fobject"]["active"] = 0;
+            }
+
 			foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
 			{
 				$str = $this->lng->txt($key);
@@ -635,6 +672,12 @@ class ilObjUserGUI extends ilObjectGUI
 				{
 					$str = $this->lng->txt("person_title");
 				}
+
+                // check to see if dynamically required
+                if (isset($settings["require_" . $key]) && $settings["require_" . $key])
+                {
+                    $str = $str . '<span class="asterisk">*</span>';
+                }
 
 				$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 
@@ -651,9 +694,20 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 			}
+
+            $active = $_SESSION["error_post_vars"]["Fobject"]["active"];
+            if ($active)
+            {
+                $this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
+            }
 		}
 		else
 		{
+            if (!isset($data["fields"]["active"]))
+            {
+                $data["fields"]["active"] = 0;
+            }
+
 			foreach ($data["fields"] as $key => $val)
 			{
 				$str = $this->lng->txt($key);
@@ -661,6 +715,13 @@ class ilObjUserGUI extends ilObjectGUI
 				{
 					$str = $this->lng->txt("person_title");
 				}
+
+                // check to see if dynamically required
+                if (isset($settings["require_" . $key]) && $settings["require_" . $key])
+                {
+                    $str = $str . '<span class="asterisk">*</span>';
+                }
+
 				$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 
 				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
@@ -674,6 +735,12 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 			}
+
+            $active = $data["fields"]["active"];
+            if ($active)
+            {
+                $this->tpl->setVariable("ACTIVE", "checked=\"checked\"");
+            }
 		}
 		
 		if (AUTH_CURRENT != AUTH_LOCAL)
@@ -692,6 +759,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 		$this->tpl->setVariable("TXT_LOGIN_DATA", $this->lng->txt("login_data"));
+        $this->tpl->setVariable("TXT_SYSTEM_INFO", $this->lng->txt("system_information"));
 		$this->tpl->setVariable("TXT_PERSONAL_DATA", $this->lng->txt("personal_data"));
 		$this->tpl->setVariable("TXT_CONTACT_DATA", $this->lng->txt("contact_data"));
 		$this->tpl->setVariable("TXT_SETTINGS", $this->lng->txt("settings"));
@@ -857,7 +925,10 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
-		global $rbacsystem, $rbacadmin;
+        global $ilias, $rbacsystem, $rbacadmin;
+
+        //load ILIAS settings
+        $settings = $ilias->getAllSettings();
 
 		if (!$rbacsystem->checkAccess('create_user', $this->usrf_ref_id) and
 			!$rbacsystem->checkAccess('cat_administrate_users',$this->usrf_ref_id))
@@ -865,14 +936,25 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// check required fields
-		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
-			or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
-			or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"])
-			or empty($_POST["Fobject"]["gender"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
-		}
+        // check dynamically required fields
+        foreach ($settings as $key => $val)
+        {
+            if (substr($key,0,8) == "require_")
+            {
+                $require_keys[] = substr($key,8);
+            }
+        }
+
+        foreach ($require_keys as $key => $val)
+        {
+            if (isset($settings["require_" . $val]) && $settings["require_" . $val])
+            {
+                if (empty($_POST["Fobject"][$val]))
+                {
+                    $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . $lng->txt($val),$this->ilias->error_obj->MESSAGE);
+                }
+            }
+        }
 
 		// validate login
 		if (!ilUtil::isLogin($_POST["Fobject"]["login"]))
@@ -985,7 +1067,10 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function updateObject()
 	{
-		global $rbacsystem, $rbacadmin;
+        global $ilias, $rbacsystem, $rbacadmin;
+
+        //load ILIAS settings
+        $settings = $ilias->getAllSettings();
 
 		// check write access
 		if (!$rbacsystem->checkAccess('write', $this->usrf_ref_id) and
@@ -999,24 +1084,61 @@ class ilObjUserGUI extends ilObjectGUI
 			$_POST["Fobject"][$key] = ilUtil::stripSlashes($val);
 		}
 
+        // XXX not sure what the purpose of this conditional is
+        // XXX for now, both conditions have the same effect
 		if (AUTH_CURRENT == AUTH_LOCAL)
 		{
-			// check required fields
-			if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
-				or empty($_POST["Fobject"]["login"]) or empty($_POST["Fobject"]["email"])
-				or empty($_POST["Fobject"]["passwd"]) or empty($_POST["Fobject"]["passwd2"])
-				or empty($_POST["Fobject"]["gender"]))
-			{
-				$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
-			}
+            // check dynamically required fields
+            foreach ($settings as $key => $val)
+            {
+                if (substr($key,0,8) == "require_")
+                {
+                    $require_keys[] = substr($key,8);
+                }
+            }
+
+            foreach ($require_keys as $key => $val)
+            {
+                // exclude required system and registration-only fields
+                $system_fields = array("default_role");
+                if (!in_array($val, $system_fields))
+                {
+                    if (isset($settings["require_" . $val]) && $settings["require_" . $val])
+                    {
+                        if (empty($_POST["Fobject"][$val]))
+                        {
+                            $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
+                        }
+                    }
+                }
+            }
 		}
 		else
 		{
-			if ((empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
-				or empty($_POST["Fobject"]["email"]) or empty($_POST["Fobject"]["gender"])))
-				{
-					$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
-				}
+            // check dynamically required fields
+            foreach ($settings as $key => $val)
+            {
+                if (substr($key,0,8) == "require_")
+                {
+                    $require_keys[] = substr($key,8);
+                }
+            }
+
+            foreach ($require_keys as $key => $val)
+            {
+                // exclude required system and registration-only fields
+                $system_fields = array("default_role");
+                if (!in_array($val, $system_fields))
+                {
+                    if (isset($settings["require_" . $val]) && $settings["require_" . $val])
+                    {
+                        if (empty($_POST["Fobject"][$val]))
+                        {
+                            $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields") . ": " . $this->lng->txt($val),$this->ilias->error_obj->MESSAGE);
+                        }
+                    }
+                }
+            }
 		}
 
 		if (AUTH_CURRENT == AUTH_LOCAL)
@@ -1134,36 +1256,38 @@ class ilObjUserGUI extends ilObjectGUI
 
 			// mail body
 			$body = $this->lng->txt("login").": ".$this->object->getLogin()."\n\r".
-				$this->lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r".
-				$this->lng->txt("title").": ".$this->object->getTitle()."\n\r".
-				$this->lng->txt("gender").": ".$this->object->getGender()."\n\r".
-				$this->lng->txt("firstname").": ".$this->object->getFirstname()."\n\r".
-				$this->lng->txt("lastname").": ".$this->object->getLastname()."\n\r".
-				$this->lng->txt("institution").": ".$this->object->getInstitution()."\n\r".
-				$this->lng->txt("department").": ".$this->object->getDepartment()."\n\r".
-				$this->lng->txt("street").": ".$this->object->getStreet()."\n\r".
-				$this->lng->txt("city").": ".$this->object->getCity()."\n\r".
-				$this->lng->txt("zipcode").": ".$this->object->getZipcode()."\n\r".
-				$this->lng->txt("country").": ".$this->object->getCountry()."\n\r".
-				$this->lng->txt("phone_office").": ".$this->object->getPhoneOffice()."\n\r".
-				$this->lng->txt("phone_home").": ".$this->object->getPhoneHome()."\n\r".
-				$this->lng->txt("phone_mobile").": ".$this->object->getPhoneMobile()."\n\r".
-				$this->lng->txt("fax").": ".$this->object->getFax()."\n\r".
-				$this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
-				$this->lng->txt("hobby").": ".$this->object->getHobby()."\n\r".
-				$this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
+                    $this->lng->txt("passwd").": ".$_POST["Fobject"]["passwd"]."\n\r".
+                    $this->lng->txt("title").": ".$this->object->getTitle()."\n\r".
+                    $this->lng->txt("gender").": ".$this->object->getGender()."\n\r".
+                    $this->lng->txt("firstname").": ".$this->object->getFirstname()."\n\r".
+                    $this->lng->txt("lastname").": ".$this->object->getLastname()."\n\r".
+                    $this->lng->txt("institution").": ".$this->object->getInstitution()."\n\r".
+                    $this->lng->txt("department").": ".$this->object->getDepartment()."\n\r".
+                    $this->lng->txt("street").": ".$this->object->getStreet()."\n\r".
+                    $this->lng->txt("city").": ".$this->object->getCity()."\n\r".
+                    $this->lng->txt("zipcode").": ".$this->object->getZipcode()."\n\r".
+                    $this->lng->txt("country").": ".$this->object->getCountry()."\n\r".
+                    $this->lng->txt("phone_office").": ".$this->object->getPhoneOffice()."\n\r".
+                    $this->lng->txt("phone_home").": ".$this->object->getPhoneHome()."\n\r".
+                    $this->lng->txt("phone_mobile").": ".$this->object->getPhoneMobile()."\n\r".
+                    $this->lng->txt("fax").": ".$this->object->getFax()."\n\r".
+                    $this->lng->txt("email").": ".$this->object->getEmail()."\n\r".
+                    $this->lng->txt("hobby").": ".$this->object->getHobby()."\n\r".
+                    $this->lng->txt("referral_comment").": ".$this->object->getComment()."\n\r".
+                    $this->lng->txt("create_date").": ".$this->object->getCreateDate()."\n\r".
+                    $this->lng->txt("default_role").": ".$_POST["Fobject"]["default_role"]."\n\r";
 
-				if($this->object->getTimeLimitUnlimited())
-				{
-					$body .= $this->lng->txt('time_limit').": ".$this->lng->txt('crs_unlimited')."\n\r";
-				}
-				else
-				{
-					$body .= $this->lng->txt('time_limit').": ".$this->lng->txt('crs_from')." ".
-						strftime('%Y-%m-%d %R',$this->object->getTimeLimitFrom())." ".
-						$this->lng->txt('crs_to')." ".
-						strftime('%Y-%m-%d %R',$this->object->getTimeLimitUntil())."\n\r";
-				}
+            if($this->object->getTimeLimitUnlimited())
+            {
+                $body .= $this->lng->txt('time_limit').": ".$this->lng->txt('crs_unlimited')."\n\r";
+            }
+            else
+            {
+                $body .= $this->lng->txt('time_limit').": ".$this->lng->txt('crs_from')." ".
+                    strftime('%Y-%m-%d %R',$this->object->getTimeLimitFrom())." ".
+                    $this->lng->txt('crs_to')." ".
+                    strftime('%Y-%m-%d %R',$this->object->getTimeLimitUntil())."\n\r";
+            }
 
 
 			if ($error_message = $umail->sendMail($this->object->getLogin(),"","",

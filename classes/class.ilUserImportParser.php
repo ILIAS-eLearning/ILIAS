@@ -203,7 +203,6 @@ class ilUserImportParser extends ilSaxParser
 						$this->userObj->setTimeLimitFrom(time());
 						$this->userObj->setTimeLimitUntil(time());
 
-
 						$this->userObj->create();
 
 						//insert user data in table user_data
@@ -222,7 +221,6 @@ class ilUserImportParser extends ilSaxParser
 							$rbacadmin->assignUser($this->role_assign[$role_id],
 								$this->userObj->getId(), true);
 						}
-
 					}
 
 					// init role array for next user
@@ -306,6 +304,10 @@ class ilUserImportParser extends ilSaxParser
 				case "Hobby":
 					$this->userObj->setHobby($this->cdata);
 					break;
+
+                case "Referral_Comment":
+                    $this->userObj->setComment($this->cdata);
+                    break;
 
 				case "Department":
 					$this->userObj->setDepartment($this->cdata);

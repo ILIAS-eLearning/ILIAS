@@ -870,7 +870,7 @@ ALTER TABLE int_link MODIFY source_type VARCHAR(10) NOT NULL;
 
 <#68>
 #
-# Tabellenstruktur f�r Tabelle `search_data`
+# Tabellenstruktur für Tabelle `search_data`
 #
 
 CREATE TABLE search_data (
@@ -883,7 +883,7 @@ CREATE TABLE search_data (
 ) TYPE=MyISAM;
 
 #
-# Tabellenstruktur f�r Tabelle `search_tree`
+# Tabellenstruktur für Tabelle `search_tree`
 #
 
 CREATE TABLE search_tree (
@@ -909,7 +909,7 @@ UPDATE settings SET value = '3.0.0_beta2' WHERE keyword = 'ilias_version' LIMIT 
 
 <#71>
 #
-# Tabellenstruktur f�r Tabelle `dp_changed_dates`
+# Tabellenstruktur für Tabelle `dp_changed_dates`
 #
 
 CREATE TABLE dp_changed_dates (
@@ -919,12 +919,12 @@ CREATE TABLE dp_changed_dates (
   status int(15) NOT NULL default '0',
   timestamp int(10) NOT NULL default '0',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle f�r Anzeige von Ge�nderten Termindaten';
+) TYPE=MyISAM COMMENT='Tabelle für Anzeige von Geänderten Termindaten';
 # --------------------------------------------------------
 
 <#72>
 #
-# Tabellenstruktur f�r Tabelle `dp_dates`
+# Tabellenstruktur für Tabelle `dp_dates`
 #
 
 CREATE TABLE dp_dates (
@@ -945,7 +945,7 @@ CREATE TABLE dp_dates (
 
 <#73>
 #
-# Tabellenstruktur f�r Tabelle `dp_keyword`
+# Tabellenstruktur für Tabelle `dp_keyword`
 #
 
 CREATE TABLE dp_keyword (
@@ -953,12 +953,12 @@ CREATE TABLE dp_keyword (
   user_ID int(15) NOT NULL default '0',
   keyword varchar(20) NOT NULL default '',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle f�r Schlagw�rter';
+) TYPE=MyISAM COMMENT='Tabelle für Schlagwörter';
 # --------------------------------------------------------
 
 <#74>
 #
-# Tabellenstruktur f�r Tabelle `dp_keywords`
+# Tabellenstruktur für Tabelle `dp_keywords`
 #
 
 CREATE TABLE dp_keywords (
@@ -966,12 +966,12 @@ CREATE TABLE dp_keywords (
   date_ID int(15) NOT NULL default '0',
   keyword_ID int(15) NOT NULL default '0',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle f�r die Zuordnung der Schlagw�rter';
+) TYPE=MyISAM COMMENT='Tabelle für die Zuordnung der Schlagwörter';
 # --------------------------------------------------------
 
 <#75>
 #
-# Tabellenstruktur f�r Tabelle `dp_neg_dates`
+# Tabellenstruktur für Tabelle `dp_neg_dates`
 #
 
 CREATE TABLE dp_neg_dates (
@@ -980,12 +980,12 @@ CREATE TABLE dp_neg_dates (
   user_ID int(15) NOT NULL default '0',
   timestamp int(14) default NULL,
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle f�r die negativen Termine';
+) TYPE=MyISAM COMMENT='Tabelle für die negativen Termine';
 # --------------------------------------------------------
 
 <#76>
 #
-# Tabellenstruktur f�r Tabelle `dp_properties`
+# Tabellenstruktur für Tabelle `dp_properties`
 #
 
 CREATE TABLE dp_properties (
@@ -994,7 +994,7 @@ CREATE TABLE dp_properties (
   dv_starttime time NOT NULL default '00:00:00',
   dv_endtime time NOT NULL default '00:00:00',
   PRIMARY KEY  (ID)
-) TYPE=MyISAM COMMENT='Tabelle f�r UserEinstellungen';
+) TYPE=MyISAM COMMENT='Tabelle für UserEinstellungen';
 
 <#77>
 ALTER TABLE xmlvalue ADD FULLTEXT ( tag_value );
@@ -1699,7 +1699,7 @@ PRIMARY KEY ( usr_id , room_id )
 <#104>
 ALTER TABLE frm_posts ADD notify TINYINT( 1 ) NOT NULL ;
 <#105>
-UPDATE settings SET value = '3.0.0_beta4 2004/02/18' WHERE keyword = 'ilias_version' LIMIT 1;
+UPDATE settings SET value = '3.0.0_beta4 2004-02-18' WHERE keyword = 'ilias_version' LIMIT 1;
 <#106>
 CREATE TABLE `tst_mark` (
   `mark_id` int(10) unsigned NOT NULL auto_increment,
@@ -2044,7 +2044,7 @@ ALTER  TABLE  `tst_solutions`  DROP  `postponed` ;
 ALTER  TABLE  `tst_active`  ADD  `postponed` text AFTER  `sequence` ;
 
 <#128>
-UPDATE settings SET value = '3.0.0_beta5 2004/03/09' WHERE keyword = 'ilias_version' LIMIT 1;
+UPDATE settings SET value = '3.0.0_beta5 2004-03-09' WHERE keyword = 'ilias_version' LIMIT 1;
 
 <#129>
 CREATE TABLE `qpl_question_material` (
@@ -2646,7 +2646,7 @@ ALTER  TABLE  `qpl_answers`  ADD  `name` VARCHAR( 50  )  NOT  NULL  AFTER  `ques
 ALTER  TABLE  `qpl_answers`  ADD  `shuffle` ENUM('0','1')  NOT  NULL DEFAULT '1' AFTER  `name` ;
 
 <#163>
-UPDATE settings SET value = '3.0.0RC1 2004/04/18' WHERE keyword = 'ilias_version' LIMIT 1;
+UPDATE settings SET value = '3.0.0RC1 2004-04-18' WHERE keyword = 'ilias_version' LIMIT 1;
 
 <#164>
 ALTER TABLE `scorm_tracking` ADD `student_name` VARCHAR( 255 ) NOT NULL ;
@@ -2943,7 +2943,7 @@ foreach($perms as $perm)
 ?>
 
 <#189>
-UPDATE settings SET value = '3.0.0 2004/05/15' WHERE keyword = 'ilias_version' LIMIT 1;
+UPDATE settings SET value = '3.0.0 2004-05-15' WHERE keyword = 'ilias_version' LIMIT 1;
 <#190>
 INSERT  INTO  `qpl_question_type` (  `question_type_id` ,  `type_tag`  ) VALUES ('7',  'qt_javaapplet');
 <#191>
@@ -3662,7 +3662,7 @@ while ($result_row = $search_result->fetchRow(DB_FETCHMODE_OBJECT))
 ?>
 
 <#221>
-UPDATE settings SET value = '3.0.1 2004/06/21' WHERE keyword = 'ilias_version' LIMIT 1;
+UPDATE settings SET value = '3.0.1 2004-06-21' WHERE keyword = 'ilias_version' LIMIT 1;
 
 <#222>
 ALTER  TABLE  `tst_tests`  ADD  `ending_time` varchar(14) default NULL AFTER  `starting_time` ;
@@ -3909,7 +3909,7 @@ $this->db->query($query);
 ?>
 
 <#234>
-UPDATE settings SET value = '3.1.0_beta1 2004/07/11' WHERE keyword = 'ilias_version' LIMIT 1;
+UPDATE settings SET value = '3.1.0_beta1 2004-07-11' WHERE keyword = 'ilias_version' LIMIT 1;
 
 <#235>
 <?php
@@ -4470,7 +4470,7 @@ ALTER  TABLE `qpl_answers`   CHANGE `matchingtext`  `matchingtext`  TEXT NULL;
 <#271>
 DELETE FROM settings WHERE keyword='ldap_enable';
 <#272>
-UPDATE settings SET value = '3.2.0_beta1 2004/09/02' WHERE keyword = 'ilias_version' LIMIT 1;
+UPDATE settings SET value = '3.2.0_beta1 2004-09-02' WHERE keyword = 'ilias_version' LIMIT 1;
 <#273>
 ALTER TABLE content_object ADD COLUMN print_view_active ENUM('y','n') DEFAULT 'y';
 <#274>
@@ -4606,3 +4606,65 @@ $ilCtrlStructureReader->getStructure();
 $query = "UPDATE usr_data SET time_limit_owner = '7'";
 $this->db->query($query);
 ?>
+
+<#288>
+ALTER TABLE `usr_data` ADD COLUMN `referral_comment` varchar(250) DEFAULT '';
+ALTER TABLE `usr_data` ADD COLUMN `active` int(4) unsigned NOT NULL DEFAULT '0';
+ALTER TABLE `usr_data` ADD COLUMN `approve_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
+
+REPLACE INTO settings (keyword, value) VALUES ('auto_registration', '1');
+REPLACE INTO settings (keyword, value) VALUES ('approve_recipient', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_login', '1');
+REPLACE INTO settings (keyword, value) VALUES ('require_passwd', '1');
+REPLACE INTO settings (keyword, value) VALUES ('require_passwd2', '1');
+REPLACE INTO settings (keyword, value) VALUES ('require_firstname', '1');
+REPLACE INTO settings (keyword, value) VALUES ('require_gender', '1');
+REPLACE INTO settings (keyword, value) VALUES ('require_lastname', '1');
+REPLACE INTO settings (keyword, value) VALUES ('require_institution', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_department', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_street', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_city', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_zipcode', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_country', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_phone_office', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_phone_home', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_phone_mobile', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_fax', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_email', '1');
+REPLACE INTO settings (keyword, value) VALUES ('require_hobby', '');
+REPLACE INTO settings (keyword, value) VALUES ('require_default_role', '1');
+REPLACE INTO settings (keyword, value) VALUES ('require_referral_comment', '');
+REPLACE INTO lng_data (keyword, value) VALUES ('active', 'Active');
+REPLACE INTO lng_data (keyword, value) VALUES ('approve_date', 'Approved On');
+REPLACE INTO lng_data (keyword, value) VALUES ('approve_recipient', 'Login ID of approver');
+REPLACE INTO lng_data (keyword, value) VALUES ('auto_registration', 'Automatically approve registration');
+REPLACE INTO lng_data (keyword, value) VALUES ('create_date', 'Created On');
+REPLACE INTO lng_data (keyword, value) VALUES ('err_inactive', 'This account has not been activated. Please contact the system administrator for access.');
+REPLACE INTO lng_data (keyword, value) VALUES ('inactive', 'Inactive');
+REPLACE INTO lng_data (keyword, value) VALUES ('referral_comment', 'How did you hear about ILIAS?');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_city', 'Require city');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_country', 'Require country');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_default_role', 'Require role');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_department', 'Require department');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_email', 'Require email');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_faxRequire fax', 'Require fax');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_firstname', 'Require first name');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_gender', 'Require gender');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_hobby', 'Require hobby');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_institution', 'Require institution');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_lastname', 'Require last name');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_login', 'Require login');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_mandatory', 'mandatory');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_passwd', 'Require password');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_passwd2', 'Require retype password');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_phone_home', 'Require home phone');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_phone_mobile', 'Require mobile phone');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_phone_office', 'Require office phone');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_referral_comment', 'Require_referral_comment');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_street', 'Require street');
+REPLACE INTO lng_data (keyword, value) VALUES ('require_zipcode', 'Require zip code');
+REPLACE INTO lng_data (keyword, value) VALUES ('search_active', 'Include active users');
+REPLACE INTO lng_data (keyword, value) VALUES ('search_inactive', 'Include inactive users');
+REPLACE INTO lng_data (keyword, value) VALUES ('search_note', 'If &quot;search in&quot; is left blank, all users will be searched. This allows you to find all active or all inactive users.');
+REPLACE INTO lng_data (keyword, value) VALUES ('system_information', 'System Information');
+REPLACE INTO lng_data (keyword, value) VALUES ('txt_submitted', 'You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.');

@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.36 2004/08/05 08:33:02 smeyer Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.37 2004/08/09 18:22:33 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -298,7 +298,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			//init checking var
 			$form_valid = true;
 
-			// check required fields
+            // check required user information
 			if (empty($_POST["admin_firstname"]) or empty($_POST["admin_lastname"])
 				or empty($_POST["admin_street"]) or empty($_POST["admin_zipcode"])
 				or empty($_POST["admin_country"]) or empty($_POST["admin_city"])
@@ -403,6 +403,40 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->ilias->setSetting("admin_phone",$_POST["admin_phone"]);
 				$this->ilias->setSetting("admin_email",$_POST["admin_email"]);
 
+                // mandatory user information, overrides next section
+                $_POST["require_default_role"]  = 1;
+                $_POST["require_email"]         = 1;
+                $_POST["require_firstname"]     = 1;
+                $_POST["require_gender"]        = 1;
+                $_POST["require_lastname"]      = 1;
+                $_POST["require_login"]         = 1;
+                $_POST["require_passwd"]        = 1;
+                $_POST["require_passwd2"]       = 1;
+
+                // required user information
+                $this->ilias->setSetting("auto_registration",$_POST["auto_registration"]);
+                $this->ilias->setSetting("approve_recipient",$_POST["approve_recipient"]);
+                $this->ilias->setSetting("require_city",$_POST["require_city"]);
+                $this->ilias->setSetting("require_country",$_POST["require_country"]);
+                $this->ilias->setSetting("require_default_role",$_POST["require_default_role"]);
+                $this->ilias->setSetting("require_department",$_POST["require_department"]);
+                $this->ilias->setSetting("require_email",$_POST["require_email"]);
+                $this->ilias->setSetting("require_fax",$_POST["require_fax"]);
+                $this->ilias->setSetting("require_firstname",$_POST["require_firstname"]);
+                $this->ilias->setSetting("require_gender",$_POST["require_gender"]);
+                $this->ilias->setSetting("require_hobby",$_POST["require_hobby"]);
+                $this->ilias->setSetting("require_institution",$_POST["require_institution"]);
+                $this->ilias->setSetting("require_lastname",$_POST["require_lastname"]);
+                $this->ilias->setSetting("require_login",$_POST["require_login"]);
+                $this->ilias->setSetting("require_passwd",$_POST["require_passwd"]);
+                $this->ilias->setSetting("require_passwd2",$_POST["require_passwd2"]);
+                $this->ilias->setSetting("require_phone_home",$_POST["require_phone_home"]);
+                $this->ilias->setSetting("require_phone_mobile",$_POST["require_phone_mobile"]);
+                $this->ilias->setSetting("require_phone_office",$_POST["require_phone_office"]);
+                $this->ilias->setSetting("require_street",$_POST["require_street"]);
+                $this->ilias->setSetting("require_zipcode",$_POST["require_zipcode"]);
+                $this->ilias->setSetting("require_referral_comment",$_POST["require_referral_comment"]);
+
 				// write ini settings
 				$this->ilias->ini->write();
 
@@ -462,7 +496,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("DISABLE_REGISTRATION", "\"disabled=disabled\"");
 		}
 
-		// pathes
+		// paths
 		$this->tpl->setVariable("TXT_SOFTWARE", $this->lng->txt("3rd_party_software"));
 		$this->tpl->setVariable("TXT_CONVERT_PATH", $this->lng->txt("path_to_convert"));
 		$this->tpl->setVariable("TXT_ZIP_PATH", $this->lng->txt("path_to_zip"));
@@ -486,6 +520,31 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_PHONE", $this->lng->txt("phone"));
 		$this->tpl->setVariable("TXT_EMAIL", $this->lng->txt("email"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+
+        // required user information
+        $this->tpl->setVariable("TXT_AUTO_REGISTRATION", $this->lng->txt("auto_registration"));
+        $this->tpl->setVariable("TXT_APPROVE_RECIPIENT", $this->lng->txt("approve_recipient"));
+        $this->tpl->setVariable("TXT_REQUIRE_MANDATORY", "&nbsp;(<span class=\"warning\">" . $this->lng->txt("require_mandatory") . "</span>)");
+        $this->tpl->setVariable("TXT_REQUIRE_LOGIN", $this->lng->txt("require_login"));
+        $this->tpl->setVariable("TXT_REQUIRE_PASSWD", $this->lng->txt("require_passwd"));
+        $this->tpl->setVariable("TXT_REQUIRE_PASSWD2", $this->lng->txt("require_passwd2"));
+        $this->tpl->setVariable("TXT_REQUIRE_FIRSTNAME", $this->lng->txt("require_firstname"));
+        $this->tpl->setVariable("TXT_REQUIRE_GENDER", $this->lng->txt("require_gender"));
+        $this->tpl->setVariable("TXT_REQUIRE_LASTNAME", $this->lng->txt("require_lastname"));
+        $this->tpl->setVariable("TXT_REQUIRE_INSTITUTION", $this->lng->txt("require_institution"));
+        $this->tpl->setVariable("TXT_REQUIRE_DEPARTMENT", $this->lng->txt("require_department"));
+        $this->tpl->setVariable("TXT_REQUIRE_STREET", $this->lng->txt("require_street"));
+        $this->tpl->setVariable("TXT_REQUIRE_CITY", $this->lng->txt("require_city"));
+        $this->tpl->setVariable("TXT_REQUIRE_ZIPCODE", $this->lng->txt("require_zipcode"));
+        $this->tpl->setVariable("TXT_REQUIRE_COUNTRY", $this->lng->txt("require_country"));
+        $this->tpl->setVariable("TXT_REQUIRE_PHONE_OFFICE", $this->lng->txt("require_phone_office"));
+        $this->tpl->setVariable("TXT_REQUIRE_PHONE_HOME", $this->lng->txt("require_phone_home"));
+        $this->tpl->setVariable("TXT_REQUIRE_PHONE_MOBILE", $this->lng->txt("require_phone_mobile"));
+        $this->tpl->setVariable("TXT_REQUIRE_FAX", $this->lng->txt("require_fax"));
+        $this->tpl->setVariable("TXT_REQUIRE_EMAIL", $this->lng->txt("require_email"));
+        $this->tpl->setVariable("TXT_REQUIRE_HOBBY", $this->lng->txt("require_hobby"));
+        $this->tpl->setVariable("TXT_REQUIRE_DEFAULT_ROLE", $this->lng->txt("require_default_role"));
+        $this->tpl->setVariable("TXT_REQUIRE_REFERRAL_COMMENT", $this->lng->txt("require_referral_comment"));
 
 		///////////////////////////////////////////////////////////
 		// display formula data
@@ -562,7 +621,97 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable("ENABLE_REGISTRATION","checked=\"checked\"");
 		}
 
-		// pathes to tools
+        // required user information
+        if ($settings["auto_registration"])
+        {
+            $this->tpl->setVariable("AUTO_REGISTRATION","checked=\"checked\"");
+        }
+        if ($settings["approve_recipient"])
+        {
+            $this->tpl->setVariable("APPROVE_RECIPIENT",$settings["approve_recipient"]);
+        }
+        if ($settings["require_login"])
+        {
+            $this->tpl->setVariable("REQUIRE_LOGIN","checked=\"checked\"");
+        }
+        if ($settings["require_passwd"])
+        {
+            $this->tpl->setVariable("REQUIRE_PASSWD","checked=\"checked\"");
+        }
+        if ($settings["require_passwd2"])
+        {
+            $this->tpl->setVariable("REQUIRE_PASSWD2","checked=\"checked\"");
+        }
+        if ($settings["require_firstname"])
+        {
+            $this->tpl->setVariable("REQUIRE_FIRSTNAME","checked=\"checked\"");
+        }
+        if ($settings["require_gender"])
+        {
+            $this->tpl->setVariable("REQUIRE_GENDER","checked=\"checked\"");
+        }
+        if ($settings["require_lastname"])
+        {
+            $this->tpl->setVariable("REQUIRE_LASTNAME","checked=\"checked\"");
+        }
+        if ($settings["require_institution"])
+        {
+            $this->tpl->setVariable("REQUIRE_INSTITUTION","checked=\"checked\"");
+        }
+        if ($settings["require_department"])
+        {
+            $this->tpl->setVariable("REQUIRE_DEPARTMENT","checked=\"checked\"");
+        }
+        if ($settings["require_street"])
+        {
+            $this->tpl->setVariable("REQUIRE_STREET","checked=\"checked\"");
+        }
+        if ($settings["require_city"])
+        {
+            $this->tpl->setVariable("REQUIRE_CITY","checked=\"checked\"");
+        }
+        if ($settings["require_zipcode"])
+        {
+            $this->tpl->setVariable("REQUIRE_ZIPCODE","checked=\"checked\"");
+        }
+        if ($settings["require_country"])
+        {
+            $this->tpl->setVariable("REQUIRE_COUNTRY","checked=\"checked\"");
+        }
+        if ($settings["require_phone_office"])
+        {
+            $this->tpl->setVariable("REQUIRE_PHONE_OFFICE","checked=\"checked\"");
+        }
+        if ($settings["require_phone_home"])
+        {
+            $this->tpl->setVariable("REQUIRE_PHONE_HOME","checked=\"checked\"");
+        }
+        if ($settings["require_phone_mobile"])
+        {
+            $this->tpl->setVariable("REQUIRE_PHONE_MOBILE","checked=\"checked\"");
+        }
+        if ($settings["require_fax"])
+        {
+            $this->tpl->setVariable("REQUIRE_FAX","checked=\"checked\"");
+        }
+        if ($settings["require_email"])
+        {
+            $this->tpl->setVariable("REQUIRE_EMAIL","checked=\"checked\"");
+        }
+        if ($settings["require_hobby"])
+        {
+            $this->tpl->setVariable("REQUIRE_HOBBY","checked=\"checked\"");
+        }
+        if ($settings["require_default_role"])
+        {
+            $this->tpl->setVariable("REQUIRE_DEFAULT_ROLE","checked=\"checked\"");
+        }
+        if ($settings["require_referral_comment"])
+        {
+            $this->tpl->setVariable("REQUIRE_REFERRAL_COMMENT","checked=\"checked\"");
+        }
+
+		// paths to tools
 		$not_set = $this->lng->txt("path_not_set");
 
 		$this->tpl->setVariable("CONVERT_PATH",(PATH_TO_CONVERT) ? PATH_TO_CONVERT : $not_set);
@@ -1142,7 +1291,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function benchmarkObject()
 	{
-		global $ilBench,$rbacsystem;
+		global $ilBench, $rbacsystem;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
