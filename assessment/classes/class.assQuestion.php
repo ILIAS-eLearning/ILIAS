@@ -1146,10 +1146,12 @@ class ASS_Question
 	*/
 	function saveToDb($original_id = "")
 	{
+		require_once "./content/classes/Pages/class.ilInternalLink.php";
 		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
 			$this->ilias->db->quote($this->getId() . "")
 		);
 		$result = $this->ilias->db->query($query);
+		ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
 		foreach ($this->suggested_solutions as $index => $solution)
 		{
 			$query = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
@@ -1159,6 +1161,10 @@ class ASS_Question
 				$this->ilias->db->quote($index . "")
 			);
 			$this->ilias->db->query($query);
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches))
+			{
+				ilInternalLink::_saveLink("qst", $this->getId(), $matches[2], $matches[3], $matches[1]);
+			}
 		}
 	}
 	
@@ -1222,6 +1228,10 @@ class ASS_Question
 						case "mob":
 							$solution_id = ilInternalLink::_getIdForImportId("MediaObject", $import_id);
 							break;
+					}
+					if (strcmp($solution_id, "") == 0)
+					{
+						$solution_id = $import_id;
 					}
 				}
 			}
