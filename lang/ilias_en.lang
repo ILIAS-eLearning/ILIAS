@@ -3082,16 +3082,16 @@ survey#:#select_value#:#Select a value
 survey#:#set_filter#:#Set filter
 survey#:#start_date#:#Start date
 survey#:#start_survey#:#Start survey
-survey#:#survey_finish#:#save and finish survey >>>
+survey#:#survey_finish#:#save and finish survey
 survey#:#survey_finished#:#The survey is finished. Thank you for your participation!
-survey#:#survey_next#:#save and next page >>>
-survey#:#survey_previous#:#<<< save and previous page
+survey#:#survey_next#:#save >>>
+survey#:#survey_previous#:#<<< save
 survey#:#survey_questions#:#Questions
-survey#:#survey_skip_finish#:#skip and finish survey >>>
-survey#:#survey_skip_next#:#skip and next page >>>
-survey#:#survey_skip_previous#:#<<< skip and previous page
-survey#:#survey_skip_start#:#<<< skip and go to start page
-survey#:#survey_start#:#<<< save and go to start page
+survey#:#survey_skip_finish#:#skip and finish survey
+survey#:#survey_skip_next#:#skip >>>
+survey#:#survey_skip_previous#:#<<< skip
+survey#:#survey_skip_start#:#skip and go to start page
+survey#:#survey_start#:#save and go to start page
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
 survey#:#unlimited_users#:#Unlimited
@@ -3106,3 +3106,4 @@ survey#:#category_nr_selected#:#Number of users that selected this category
 survey#:#percentage_of_selections#:#Percentage of users that selected this category
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
 survey#:#given_answers#:#Given answers
+survey#:#subtype#:#Subtype

@@ -134,6 +134,7 @@
 	<subobj name="htlm">htlm</subobj>
 	<subobj name="mep">mep</subobj>
 	<subobj name="dbk">dbk</subobj>
+	<subobj name="svy">svy</subobj>
 	<subobj name="glo">glo</subobj>
 	<subobj name="fold" module="1">fold</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
