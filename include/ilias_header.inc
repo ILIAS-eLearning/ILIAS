@@ -25,7 +25,6 @@ include_once "classes/class.group.php";
 include_once "classes/class.role.php";
 include_once "classes/class.resource.php";
 include_once "classes/class.groupmember.php";
-include_once "classes/class.auth.php";
 include_once "classes/class.format.php";
 include_once "classes/class.prevnextnavbar.php";
 include_once "classes/class.perm.php";

@@ -232,3 +232,5 @@ forum_new	new forum	Neues Forum	new forum	new forum
 link	link	verknüpfen	link	link
 folder	folder	Ordner	folder	folder
 create_in	create in	erstellen in	create in	create in
+folders	folders	Ordner	folders	folders
+back	back	zurück	back	back
