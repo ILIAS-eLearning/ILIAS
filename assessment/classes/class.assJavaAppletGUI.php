@@ -144,7 +144,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 				}
 				if ($this->ctrl->getCmd() == "addParameter")
 				{
-					if (!$emptyname)
+					if ($emptyname == 0)
 					{
 						// create template for new applet parameter
 						$this->tpl->setCurrentBlock("applet_parameter");
@@ -221,7 +221,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	function addParameter()
 	{
 		$this->writePostData();
-		$this->object->saveToDb();
 		$this->editQuestion();
 	}
 
@@ -231,7 +230,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 	function delete()
 	{
 		$this->writePostData();
-		$this->object->saveToDb();
 		$this->editQuestion();
 	}
 
@@ -304,12 +302,9 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 						$this->object->addParameterAtIndex($matches[1], $value, $_POST["param_value_$matches[1]"]);
 					}
 				}
-				foreach ($_POST["cmd"] as $key => $value)
+				if (preg_match("/delete_(\d+)/", $this->ctrl->getCmd(), $matches))
 				{
-					if (preg_match("/delete_(\d+)/", $key, $matches))
-					{
-						$this->object->removeParameter($_POST["param_name_$matches[1]"]);
-					}
+					$this->object->removeParameter($_POST["param_name_$matches[1]"]);
 				}
 			}
 		}

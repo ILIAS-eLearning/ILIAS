@@ -215,18 +215,27 @@ class ASS_JavaApplet extends ASS_Question
 		$qtiBase64Data = $this->domxml->create_text_node($base64);
 		$qtiMatApplet->append_child($qtiBase64Data);
 		$qtiMaterial->append_child($qtiMatApplet);
-		$qtiFlow->append_child($qtiMaterial);
-
 		if ($this->buildParamsOnly())
 		{
-			$qtiMaterial = $this->domxml->create_element("material");
-			$qtiMatApplet = $this->domxml->create_element("matapplet");
-			$qtiMatApplet->set_attribute("label", "applet params");
-			$qtiAppletParams = $this->domxml->create_text_node($this->buildParamsOnly());
-			$qtiMatApplet->append_child($qtiAppletParams);
-			$qtiMaterial->append_child($qtiMatApplet);
-			$qtiFlow->append_child($qtiMaterial);
+			if ($this->java_code)
+			{
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$qtiMatText->set_attribute("label", "java_code");
+				$qtiAppletParams = $this->domxml->create_text_node($this->java_code);
+				$qtiMatText->append_child($qtiAppletParams);
+				$qtiMaterial->append_child($qtiMatText);
+			}
+			foreach ($this->parameters as $key => $value)
+			{
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$qtiMatText->set_attribute("label", $value["name"]);
+				$qtiAppletParams = $this->domxml->create_text_node($value["value"]);
+				$qtiMatText->append_child($qtiAppletParams);
+				$qtiMaterial->append_child($qtiMatText);
+			}
 		}
+
+		$qtiFlow->append_child($qtiMaterial);
 
 		// add available points as material
 		$qtiMaterial = $this->domxml->create_element("material");
@@ -302,31 +311,37 @@ class ASS_JavaApplet extends ASS_Question
 						{
 							if (strcmp($flownode->node_name(), "material") == 0)
 							{
-								$childnode = $flownode->first_child();
-								if (strcmp($childnode->node_name(), "mattext") == 0)
+								$childnodes = $flownode->child_nodes();
+								foreach ($childnodes as $childnodeindex => $childnode)
 								{
-									if (!$childnode->has_attribute("label"))
+									if (strcmp($childnode->node_name(), "mattext") == 0)
 									{
-										$this->setQuestion($childnode->get_content());
+										if (!$childnode->has_attribute("label"))
+										{
+											$this->setQuestion($childnode->get_content());
+										}
+										elseif (strcmp($childnode->get_attribute("label"), "points") == 0)
+										{
+											$this->setPoints($childnode->get_content());
+										}
+										elseif (strcmp($childnode->get_attribute("label"), "java_code") == 0)
+										{
+											$this->java_code = $childnode->get_content();
+										}
+										elseif (strcmp($childnode->get_attribute("label"), "") != 0)
+										{
+											$this->addParameter($childnode->get_attribute("label"), $childnode->get_content());
+										}
 									}
-									elseif (strcmp($childnode->get_attribute("label"), "points") == 0)
+									elseif (strcmp($childnode->node_name(), "matapplet") == 0)
 									{
-										$this->setPoints($childnode->get_content());
-									}
-								}
-								elseif (strcmp($childnode->node_name(), "matapplet") == 0)
-								{
-									if (strcmp($childnode->get_attribute("label"), "applet data") == 0)
-									{
-										$this->javaapplet_filename = $childnode->get_attribute("uri");
-										$this->java_height = $childnode->get_attribute("height");
-										$this->java_width = $childnode->get_attribute("width");
-										$java = base64_decode($childnode->get_content());
-									}
-									elseif (strcmp($childnode->get_attribute("label"), "applet params") == 0)
-									{
-										$params = $childnode->get_content();
-										$this->splitParams($params);
+										if (strcmp($childnode->get_attribute("label"), "applet data") == 0)
+										{
+											$this->javaapplet_filename = $childnode->get_attribute("uri");
+											$this->java_height = $childnode->get_attribute("height");
+											$this->java_width = $childnode->get_attribute("width");
+											$java = base64_decode($childnode->get_content());
+										}
 									}
 								}
 							}
@@ -893,7 +908,7 @@ class ASS_JavaApplet extends ASS_Question
 	*/
 	function addParameter($name = "", $value = "")
 	{
-		$index = getParameterIndex($name);
+		$index = $this->getParameterIndex($name);
 		if ($index > -1)
 		{
 			$this->parameters[$index] = array("name" => $name, "value" => $value);
