@@ -2950,7 +2950,7 @@ crs#:#crs_from#:#From:
 crs#:#crs_grouping#:#Course grouping
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
 crs#:#crs_grouping_select_one#:#Please select a course grouping.
-crs#:#crs_groupings#:#Kurs groupings
+crs#:#crs_groupings#:#Course groupings
 crs#:#crs_groupings_ask_delete#:#Delete course grouping
 crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
 crs#:#crs_grp_assign_crs#:#Assign course
@@ -4690,3 +4690,4 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
+crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.

@@ -309,12 +309,22 @@ class ilCourseRegisterGUI
 		}
 		if(!$trigger_id)
 		{
-			return true;
+			return false;
 		}
 		foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
 		{
 			if($condition['operator'] == 'not_member')
 			{
+				switch($condition['value'])
+				{
+					case 'matriculation':
+						if(!strlen($ilUser->getMatriculation()))
+						{
+							$this->course_obj->appendMessage($this->lng->txt('crs_grp_matriculation_required'));
+
+							return false;
+						}
+				}
 				if(ilCourseMembers::_isMember($ilUser->getId(),$condition['target_obj_id'],$condition['value']))
 				{
 					$this->course_obj->appendMessage($this->lng->txt('crs_grp_already_assigned'));
@@ -338,14 +348,14 @@ class ilCourseRegisterGUI
 		}
 		if(!$trigger_id)
 		{
-			return true;
+			return false;
 		}
 		foreach(ilConditionHandler::_getConditionsOfTrigger('crsg',$trigger_id) as $condition)
 		{
 			if($condition['operator'] == 'not_member')
 			{
 				$tmp_obj =& ilObjectFactory::getInstanceByRefId($condition['target_ref_id']);
-				$courses .= (' '.$tmp_obj->getTitle());
+				$courses .= (' <b>'.$tmp_obj->getTitle().'</b>');
 			}
 		}
 		return $courses;
