@@ -70,6 +70,7 @@ class ilPaymentObjectSelector extends ilExplorer
 		$this->addFilter("adm");
 		$this->addFilter("rolf");
 		$this->addFilter("chat");
+		$this->addFilter('fold');
 
 		$this->setFilterMode(IL_FM_NEGATIVE);
 		$this->setFiltered(true);
@@ -91,6 +92,17 @@ class ilPaymentObjectSelector extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id)
 	{
+		switch($a_type)
+		{
+			case 'lm':
+			case 'crs':
+				;
+				break;
+			default:
+				return false;
+		}
+
+
 		if(ilPaymentObject::_isPurchasable($a_ref_id))
 		{
 			return true;
