@@ -190,7 +190,7 @@ class ilGlossaryTermGUI
 		sendinfo($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this, "listDefinitions");
 	}
-/*
+
 	function output()
 	{
 
@@ -247,7 +247,7 @@ class ilGlossaryTermGUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-*/
+
 
 	/**
 	* list definitions
