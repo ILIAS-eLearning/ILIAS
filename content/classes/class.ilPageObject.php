@@ -100,7 +100,7 @@ class ilPageObject extends ilLMObject
 
 	function buildDom()
 	{
-echo ":xml:".htmlentities($this->getXMLContent(true)).":";
+//echo ":xml:".htmlentities($this->getXMLContent(true)).":";
 		$this->dom = domxml_open_mem($this->getXMLContent(true), DOMXML_LOAD_VALIDATING, $error);
 
 		$xpc = xpath_new_context($this->dom);
