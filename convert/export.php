@@ -537,39 +537,8 @@ class ILIAS2export
 				copy($sDir.$tName, $tDir.$tName);
 				break;
 			
-			/* ***
-			// files of multimedia objects in elements
+			// files of multimedia objects
 			case "mm":
-				
-				// build directories
-				$sourceObjDir = $sourceDir."objects/";
-				$targetObjDir = $targetDir."objects/";
-				make_dir($targetObjDir); // function make_dir is located in /include/util.inc
-				
-				// copy files				
-				$sql =	"SELECT DISTINCT id ".
-						"FROM multimedia ".
-						"WHERE id = '$id' ".
-						"AND inst = '$inst' ".
-						"AND (verweis = '' OR ISNULL(verweis));";
-											
-				$result = v_query($sql,__FILE__,__LINE__);
-				
-				if (v_numrows($result,__FILE__,__LINE__) > 0)
-				{
-					if ($mmedia = v_fetch_array($result))
-					{
-						// build mm directory
-						make_dir($targetObjDir."mm".$mmedia["id"]); // function make_dir is located in /include/util.inc
-						
-						// Copy recursively
-						rcopy($sourceObjDir."mm".$mmedia["id"],$targetObjDir."mm".$mmedia["id"]); // function rcopy is located in /include/util.inc
-					}
-				}
-				
-			break;
-			*/
-			
 			// files (*** el_filelist)
 			case "file":
 				// build target directory
@@ -957,6 +926,161 @@ class ILIAS2export
 		return $MetaData;
 	}
 	
+	// ILIAS2 Multimedia (only undeleted) --> ILIAS3 LearningObject AggregationLevel 1
+	function exportMultimedia ($id, $parent)
+	{
+		//-------------------------
+		// get data from db tables:
+		//-------------------------
+		
+		// table 'multimedia'
+		$sql =	"SELECT st_type, file, verweis, typ, defparam, width, height ". // *** some are unsed yet
+				"FROM multimedia ".
+				"WHERE id = $id;";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// get row(s)
+		$mm = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		// free result set
+		$result->free();
+		
+		// check if local object or reference
+		if ($mm["st_type"] == "file")
+		{
+			// set full path of the main multimedia file ***
+			$mmName = $this->iliasDir."objects/mm".$id."/".$mm["file"];
+			
+			// proceed only if at least one file was found, else no tree will be created ***
+			if (file_exists($mmName))
+			{
+				// get multimedia file size and mimetype ***
+				$size = filesize($mmName);
+				$mimetype = str_replace("/", "-", mime_content_type($mmName));
+				
+				//-----------------------------------------------
+				// create LearningObject AggregationLevel 1 tree:
+				//-----------------------------------------------
+				
+				// LearningObject
+				$LearningObject = $this->writeNode($parent, "LearningObject");
+				
+				// LearningObject..MetaData ***
+				$MetaData = $this->exportMetadata($id, "mm", $LearningObject);
+				
+				// complete Metadata:
+				
+				// get position within the metadata tree to insert the additional information to
+				$elements = $MetaData->get_elements_by_tagname("Educational");
+				$refnode = $elements[0];
+				
+				// 4 MetaData..Technical ***
+				$attrs = array(	"Format" => $mimetype);
+				$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
+				
+				// 4.2 ..Technical..Size
+				$Size = $this->writeNode($Technical, "Size", Null, $size);
+				
+				// 4.3 ..Technical..Location
+				$Location = $this->writeNode($Technical, "Location", Null, "/objects/mm".$id."/".$mm["file"]); // ***
+				
+				// 4.4 ..Technical..(Requirement | OrComposite) ***
+				
+				// 4.5 ..Technical..InstallationRemarks ***
+				
+				// 4.6 ..Technical..OtherPlatformRequirements ***
+				
+				// 4.7 ..Technical..Duration ***
+				
+				// LearningObject..Layout --> unavailable for file
+				
+				// LearningObject..Parameter --> unavailable for file
+				
+				// LearningObject..Content --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Test --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Glossary --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Bibliography --> unavailable for AggregationLevel 1
+				
+				// *** copy file(s)
+				$this->copyObjectFiles ($this->iliasDir."objects/", $this->targetDir."objects/", $id, "mm");
+			}
+		}
+		elseif ($mm["st_type"] == "reference")
+		{
+			// set full path of the main file ***
+			$mmName = $mm["verweis"];
+			
+			// proceed only if reference not empty, else no tree will be created ***
+			if (!empty($mmName))
+			{
+				// get multimedia mimetype ***
+				$mimetype = str_replace("/", "-", mime_content_type($mmName));
+				
+				//-----------------------------------------------
+				// create LearningObject AggregationLevel 1 tree:
+				//-----------------------------------------------
+				
+				// LearningObject
+				$LearningObject = $this->writeNode($parent, "LearningObject");
+				
+				// LearningObject..MetaData ***
+				$MetaData = $this->exportMetadata($id, "mm", $LearningObject);
+				
+				// complete Metadata:
+				
+				// get position within the metadata tree to insert the additional information to
+				$elements = $MetaData->get_elements_by_tagname("Educational");
+				$refnode = $elements[0];
+				
+				// 4 MetaData..Technical ***
+				$attrs = array(	"Format" => $mimetype);
+				$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
+				
+				// 4.2 ..Technical..Size --> unavailable for remote files
+				
+				// 4.3 ..Technical..Location
+				$Location = $this->writeNode($Technical, "Location", Null, $mmName); // ***
+				
+				// 4.4 ..Technical..(Requirement | OrComposite) ***
+				
+				// 4.5 ..Technical..InstallationRemarks ***
+				
+				// 4.6 ..Technical..OtherPlatformRequirements ***
+				
+				// 4.7 ..Technical..Duration ***
+				
+				// LearningObject..Layout --> unavailable for file
+				
+				// LearningObject..Parameter --> unavailable for file
+				
+				// LearningObject..Content --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Test --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Glossary --> unavailable for AggregationLevel 1
+				
+				// LearningObject..Bibliography --> unavailable for AggregationLevel 1
+			}
+		}
+		
+		//-------------
+		// free memory: ***
+		//-------------
+		unset($sql, $mm, $mmName, $size, $mimetype, $elements, $attrs, $refnode);
+		
+		//-------------------------------
+		// return LearningObject subtree:
+		//-------------------------------
+		return $LearningObject;
+	}
+	
 	// ILIAS2 File (only undeleted) --> ILIAS3 LearningObject AggregationLevel 1
 	function exportFile ($id, $parent)
 	{
@@ -987,7 +1111,7 @@ class ILIAS2export
 		if (file_exists($fileName))
 		{
 			// get (image) file size and mimetype ***
-			$fileSize = filesize($fileName);
+			$size = filesize($fileName);
 			$mimetype = str_replace("/", "-", mime_content_type($fileName));
 			
 			//-----------------------------------------------
@@ -1011,10 +1135,10 @@ class ILIAS2export
 			$Technical = $this->writeNode($MetaData, "Technical", $attrs, Null, $refnode);
 			
 			// 4.2 ..Technical..Size
-			$Size = $this->writeNode($Technical, "Size", Null, $fileSize);
+			$Size = $this->writeNode($Technical, "Size", Null, $size);
 			
 			// 4.3 ..Technical..Location
-			$Location = $this->writeNode($Technical, "Location", Null, "/files/file".$id."/".$file["file"]); // ***
+			$Location = $this->writeNode($Technical, "Location", Null, "/objects/file".$id."/".$file["file"]); // ***
 			
 			// 4.4 ..Technical..(Requirement | OrComposite) ***
 			
@@ -1043,7 +1167,7 @@ class ILIAS2export
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $file, $fileSize, $mimetype, $elements, $attrs, $refnode);
+		unset($sql, $file, $fileName, $size, $mimetype, $elements, $attrs, $refnode);
 		
 		//-------------------------------
 		// return LearningObject subtree:
@@ -2073,7 +2197,7 @@ class ILIAS2export
 	}
 	
 	// ILIAS2 Lerneinheit --> ILIAS3 LearningObject AggregationLevel 4
-	function exportLearnunit ($id)
+	function exportLearningunit ($id)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -2100,6 +2224,7 @@ class ILIAS2export
 		// LearningObject..Layout ***
 		
 		// LearningObject..Content ***
+		/* ***
 		// (Chapters)
 		$sql =	"SELECT id ".
 				"FROM gliederung ".
@@ -2152,6 +2277,76 @@ class ILIAS2export
 		{
 			// ..Content.. ***
 			$Page = $this->exportPage($row["id"], $Content);
+		}
+		// free result set
+		$result->free();
+		*/
+		// (multimedia objects of multimedia elements)
+		$sql =	"SELECT DISTINCT mm.id AS id ".
+				"FROM lerneinheit AS le, page AS pg, element AS el, el_multimedia AS el_mm, multimedia AS mm ".
+				"WHERE le.id = $id ".
+				"AND pg.lerneinheit = le.id ".
+				"AND el.page = pg.id ".
+				"AND el_mm.id = el.id ".
+				"AND mm.id = el_mm.mm_id ".
+				"AND mm.deleted = '0000-00-00 00:00:00';";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// check row number
+		if ($result->numRows() > 0 and
+			!is_object($Content))
+		{
+			$Content = $this->writeNode($LearningObject, "Content");
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			// ..Content.. ***
+			$Multimedia = $this->exportMultimedia($row["id"], $Content);
+			
+			// fill the test array used to avoid possible double entries
+			$test[] = $row["id"];
+		}
+		// free result set
+		$result->free();
+		
+		// (multimedia objects of vri_links)
+		$sql =	"SELECT DISTINCT mm.id AS id ".
+				"FROM lerneinheit AS le, page AS pg, element AS el, vri_link AS vl, multimedia AS mm ".
+				"WHERE le.id = $id ".
+				"AND pg.lerneinheit = le.id ".
+				"AND el.page = pg.id ".
+				"AND vl.el_id = el.id ".
+				"AND vl.vri_type = 'mm' ".
+				"AND mm.id = vl.vri_id ".
+				"AND mm.deleted = '0000-00-00 00:00:00';";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage());
+		}
+		// check row number
+		if ($result->numRows() > 0 and
+			!is_object($Content))
+		{
+			$Content = $this->writeNode($LearningObject, "Content");
+		}
+		// get row(s)
+		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			// avoiding possible double entries
+			if (!in_array($row["id"],$test,strict))
+			{
+				// ..Content.. ***
+				$Multimedia = $this->exportMultimedia($row["id"], $Content);
+			}
 		}
 		// free result set
 		$result->free();
@@ -2246,7 +2441,7 @@ class ILIAS2export
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $row, $attrs);
+		unset($sql, $row, $attrs, $test);
 		
 		//-------------------------------
 		// return LearningObject subtree:
@@ -2274,7 +2469,7 @@ class ILIAS2export
 		$root->unlink_node();
 		
 		// create ILIAS3 LearningObject out of ILIAS2 Lerneinheit ***
-		$LearningObject = $this->exportLearnunit($leId);
+		$LearningObject = $this->exportLearningunit($leId);
 		
 		// dump xml document on the screen ***
 		echo "<PRE>";
