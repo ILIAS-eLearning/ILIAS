@@ -1941,6 +1941,8 @@ class ilObjTest extends ilObject
 * @access public
 */
 	function &getTestResult($user_id) {
+//		global $ilBench;
+		
 		$add_parameter = "?ref_id=$this->ref_id&cmd=run";
 		$total_max_points = 0;
 		$total_reached_points = 0;
@@ -1955,7 +1957,9 @@ class ilObjTest extends ilObject
 		$result_array = array();
     foreach ($sequence_array as $idx => $seq) {
 			$value = $this->questions[$seq];
+//			$ilBench->start("getTestResult","instanciate question"); 
 			$question =& ilObjTest::_instanciateQuestion($value);
+//			$ilBench->stop("getTestResult","instanciate question"); 
       $max_points = $question->getMaximumPoints();
       $total_max_points += $max_points;
       $reached_points = $question->getReachedPoints($user_id, $this->getTestId());
@@ -2243,8 +2247,9 @@ class ilObjTest extends ilObject
 */
 	function &evalStatistical($user_id)
 	{
+//		global $ilBench;
+		
 		$test_result =& $this->getTestResult($user_id);
-
 		$q = sprintf("SELECT tst_times.* FROM tst_active, tst_times WHERE tst_active.test_fi = %s AND tst_active.active_id = tst_times.active_fi AND tst_active.user_fi = %s",
 			$this->ilias->db->quote($this->getTestId()),
 			$this->ilias->db->quote($user_id)
@@ -2299,9 +2304,18 @@ class ilObjTest extends ilObject
 			$atimeofwork = $max_time / $worked_through_result->numRows();
 		}
 		$result_mark = "";
+		$passed = "";
 		if ($mark_obj)
 		{
 			$result_mark = $mark_obj->get_short_name();
+			if ($mark_obj->get_passed())
+			{
+				$passed = 1;
+			}
+			else
+			{
+				$passed = 0;
+			}
 		}
 		$result_array = array(
 			"qworkedthrough" => $worked_through_result->numRows(),
@@ -2314,6 +2328,7 @@ class ilObjTest extends ilObject
 			"resultspoints" => $test_result["test"]["total_reached_points"],
 			"maxpoints" => $test_result["test"]["total_max_points"],
 			"resultsmarks" => $result_mark,
+			"passed" => $passed,
 			"distancemedian" => "0"
 		);
 		foreach ($test_result as $key => $value)
@@ -3909,6 +3924,53 @@ class ilObjTest extends ilObject
 			return $row["ref_id"];
 		}
 		return 0;
+	}
+	
+	function createRandomSolutionsForAllUsers()
+	{
+		global $ilDB;
+		global $ilUser;
+		
+		$db =& $ilDB->db;
+		$sequence_arr = array_flip($this->questions);
+		$sequence = join($sequence_arr, ",");
+		require_once("./classes/class.ilObjUser.php");
+		$logins = ilObjUser::_getAllUserData(array("login"));
+
+		foreach ($logins as $login)
+		{
+			$user_id = $login["usr_id"];
+			$old_active = $this->getActiveTestUser($user_id);
+			if ($old_active) {
+				$query = sprintf("UPDATE tst_active SET lastindex = %s, sequence = %s, postponed = %s, tries = %s WHERE user_fi = %s AND test_fi = %s",
+					$db->quote("0"),
+					$db->quote($sequence),
+					$db->quote(""),
+					$db->quote("1"),
+					$db->quote($user_id),
+					$db->quote($this->getTestId())
+				);
+			} else {
+				$sequence_arr = array_flip($this->questions);
+				$sequence = join($sequence_arr, ",");
+				$query = sprintf("INSERT INTO tst_active (active_id, user_fi, test_fi, sequence, postponed, lastindex, tries, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, NULL)",
+					$db->quote($user_id),
+					$db->quote($this->getTestId()),
+					$db->quote($sequence),
+					$db->quote(""),
+					$db->quote("0"),
+					$db->quote("1")
+				);
+			}
+			$db->query($query);
+		}
+		foreach ($this->questions as $question_id) {
+			$question =& ilObjTest::_instanciateQuestion($question_id);
+			foreach ($logins as $login)
+			{
+				$question->createRandomSolution($this->getTestId(), $login["usr_id"]);
+			}
+		}
 	}
 } // END class.ilObjTest
 ?>

@@ -1193,6 +1193,69 @@ class ASS_MultipleChoice extends ASS_Question
 			parent::syncWithOriginal();
 		}
 	}
+
+	function createRandomSolution($test_id, $user_id)
+	{
+		$answer = mt_rand(0, count($this->answers)-1);
+
+		global $ilDB;
+		global $ilUser;
+
+		$db =& $ilDB->db;
+
+		if ($this->response == RESPONSE_SINGLE)
+		{
+			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+				$db->quote($user_id),
+				$db->quote($test_id),
+				$db->quote($this->getId())
+			);
+			$result = $db->query($query);
+			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$update = $row->solution_id;
+			if ($update)
+			{
+				$query = sprintf("UPDATE tst_solutions SET value1 = %s WHERE solution_id = %s",
+					$db->quote($answer),
+					$db->quote($update));
+			}
+			else
+			{
+				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+					$db->quote($user_id),
+					$db->quote($test_id),
+					$db->quote($this->getId()),
+					$db->quote($answer)
+				);
+			}
+			$result = $db->query($query);
+		}
+		else
+		{
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+				$db->quote($user_id),
+				$db->quote($test_id),
+				$db->quote($this->getId())
+			);
+			$result = $db->query($query);
+			$answerarray = array();
+			for ($i = 0; $i < $answer; $i++)
+			{
+				$manswer = mt_rand(0, count($this->answers)-1);
+				$answerarray[$manswer]++;
+			}
+			foreach ($answerarray as $key => $value)
+			{
+				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
+					$db->quote($user_id),
+					$db->quote($test_id),
+					$db->quote($this->getId()),
+					$db->quote($key)
+				);
+				$result = $db->query($query);
+			}
+		}
+	}
 }
 
 ?>

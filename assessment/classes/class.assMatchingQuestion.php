@@ -1327,6 +1327,57 @@ class ASS_MatchingQuestion extends ASS_Question
 			parent::syncWithOriginal();
 		}
 	}
+
+	function pc_array_shuffle($array) {
+		$i = count($array);
+		while(--$i) 
+		{
+			$j = mt_rand(0, $i);
+			if ($i != $j) 
+			{
+				// swap elements
+				$tmp = $array[$j];
+				$array[$j] = $array[$i];
+				$array[$i] = $tmp;
+			}
+		}
+		return $array;
+	}
+	
+	function createRandomSolution($test_id, $user_id)
+	{
+		global $ilDB;
+		global $ilUser;
+		$db =& $ilDB->db;
+
+		$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
+			$db->quote($user_id),
+			$db->quote($test_id),
+			$db->quote($this->getId())
+		);
+		$result = $db->query($query);
+
+		$terms = array();
+		$definitions = array();
+		
+		foreach ($this->matchingpairs as $key => $pair)
+		{
+			array_push($terms, $pair->getTermId());
+			array_push($definitions, $pair->getDefinitionId());
+		}
+		$definitions = $this->pc_array_shuffle($definitions);
+		foreach ($terms as $key => $value)
+		{
+			$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+				$db->quote($user_id),
+				$db->quote($test_id),
+				$db->quote($this->getId()),
+				$db->quote($value),
+				$db->quote($definitions[$key])
+			);
+			$result = $db->query($query);
+		}
+	}
 }
 
 ?>

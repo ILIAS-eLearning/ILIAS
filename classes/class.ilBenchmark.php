@@ -110,7 +110,7 @@ class ilBenchmark
 				foreach($bench as $time)
 				{
 					$q = "INSERT INTO benchmark (cdate, duration, module, benchmark) VALUES ".
-						"(now(), '".$time."', '".$bench_module."', '".$benchmark."')";
+						"(now(), ".$ilDB->quote($time).", ".$ilDB->quote($bench_module).", ".$ilDB->quote($benchmark).")";
 					$ilDB->query($q);
 				}
 			}
@@ -134,7 +134,7 @@ class ilBenchmark
 		$q = "SELECT COUNT(*) AS cnt, AVG(duration) AS avg_dur, benchmark,".
 			" MIN(duration) AS min_dur, MAX(duration) AS max_dur".
 			" FROM benchmark".
-			" WHERE module = '".$a_module."' ".
+			" WHERE module = ".$ilDB->quote($a_module)." ".
 			" GROUP BY benchmark".
 			" ORDER BY benchmark";
 		$bench_set = $ilDB->query($q);
