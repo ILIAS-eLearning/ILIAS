@@ -2690,7 +2690,7 @@ crs#:#crs_no_archive_selected#:#No archives selected
 crs#:#crs_no_archives_available#:#There are no archives available
 crs#:#crs_no_archives_selected#:#Please select an archive
 crs#:#crs_no_groups_selected#:#Please select a group
-crs#:#crs_no_items_found#:#There are no course items
+crs#:#crs_no_items_found#:#No items
 crs#:#crs_no_language#:#No language
 crs#:#crs_no_member_selected#:#Please select one member
 crs#:#crs_no_members_assigned#:#There are no members assigned to this course

@@ -2686,7 +2686,7 @@ crs#:#crs_no_archive_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
 crs#:#crs_no_archives_selected#:#Sie haben kein Archiv ausgewählt
 crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
-crs#:#crs_no_items_found#:#Es sind keine Kursobjekte vorhanden
+crs#:#crs_no_items_found#:#Es sind keine Objekte vorhanden 
 crs#:#crs_no_language#:#Keine Sprache angegeben
 crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
 crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet
