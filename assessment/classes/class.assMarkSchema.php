@@ -245,14 +245,58 @@ class ASS_MarkSchema {
     $this->mark_steps = array_values($this->mark_steps);
   }
 
+/**
+* Returns the matching mark for a given percentage
+* 
+* Returns the matching mark for a given percentage
+*
+* @param double $percentage A percentage value between 0 and 100
+* @return mixed The mark object, if a matching mark was found, false otherwise
+* @access public
+* @see $mark_steps
+*/
   function get_matching_mark($percentage) {
     for ($i = count($this->mark_steps) - 1; $i >= 0; $i--) {
       if ($percentage >= $this->mark_steps[$i]->get_minimum_level()) {
         return $this->mark_steps[$i];
       }
     }
+		return false;
   }
   
+/**
+* Check the marks for consistency
+* 
+* Check the marks for consistency
+*
+* @return mixed true if the check succeeds, als a text string containing a language string for an error message
+* @access public
+* @see $mark_steps
+*/
+	function checkMarks()
+	{
+		$minimum_percentage = 100;
+		$passed = 0;
+    for ($i = 0; $i < count($this->mark_steps); $i++) {
+			if ($this->mark_steps[$i]->get_minimum_level() < $minimum_percentage)
+			{
+				$minimum_percentage = $this->mark_steps[$i]->get_minimum_level();
+			}
+			if ($this->mark_steps[$i]->get_passed())
+			{
+				$passed++;
+			}
+    }
+		if ($minimum_percentage != 0)
+		{
+			return "min_percentage_ne_0";
+		}
+		if ($passed == 0)
+		{
+			return "no_passed_mark";
+		}
+		return true;
+	}
 }
 
 ?>

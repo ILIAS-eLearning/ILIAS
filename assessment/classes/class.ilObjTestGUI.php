@@ -26,7 +26,7 @@
 * Class ilObjTestGUI
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>
-* $Id$
+* @version	$Id$
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1733,7 +1733,12 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		if ($_POST["cmd"]["save"]) {
-			if ($_POST["chbECTS"] && ((strcmp($_POST["ects_grade_a"], "") == 0) or (strcmp($_POST["ects_grade_b"], "") == 0) or (strcmp($_POST["ects_grade_c"], "") == 0) or (strcmp($_POST["ects_grade_d"], "") == 0) or (strcmp($_POST["ects_grade_e"], "") == 0)))
+			$mark_check = $this->object->checkMarks();
+			if ($mark_check !== true)
+			{
+				sendInfo($this->lng->txt($mark_check));
+			}
+			elseif ($_POST["chbECTS"] && ((strcmp($_POST["ects_grade_a"], "") == 0) or (strcmp($_POST["ects_grade_b"], "") == 0) or (strcmp($_POST["ects_grade_c"], "") == 0) or (strcmp($_POST["ects_grade_d"], "") == 0) or (strcmp($_POST["ects_grade_e"], "") == 0)))
 			{
 				sendInfo($this->lng->txt("ects_fill_out_all_values"), true);
 			}
@@ -3161,7 +3166,12 @@ class ilObjTestGUI extends ilObjectGUI
 						$pct = ($median / $stat_eval["maxpoints"]) * 100.0;
 					}
 					$mark = $this->object->mark_schema->get_matching_mark($pct);
-					$this->tpl->setVariable("TXT_DATA", $mark->get_short_name());
+					$mark_short_name = "";
+					if ($mark)
+					{
+						$mark_short_name = $mark->get_short_name();
+					}
+					$this->tpl->setVariable("TXT_DATA", $mark_short_name);
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
@@ -3185,7 +3195,7 @@ class ilObjTestGUI extends ilObjectGUI
 					switch ($_POST["export_type"])
 					{
 						case TYPE_XLS:
-							$worksheet->write($row, $column++, $mark->get_short_name());
+							$worksheet->write($row, $column++, $mark_short_name);
 							$worksheet->write($row, $column++, $rank_participant);
 							$worksheet->write($row, $column++, $rank_median);
 							$worksheet->write($row, $column++, $total_participants);
@@ -3193,7 +3203,7 @@ class ilObjTestGUI extends ilObjectGUI
 							break;
 						case TYPE_SPSS:
 						case TYPE_PRINT:
-							array_push($csvrow, $mark->get_short_name());
+							array_push($csvrow, $mark_short_name);
 							array_push($csvrow, $rank_participant);
 							array_push($csvrow, $rank_median);
 							array_push($csvrow, $total_participants);
@@ -3571,12 +3581,15 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 		$this->tpl->setVariable("PERCENT_SOLVED", "<a href=\"" . $_SERVER['PHP_SELF'] . "$add_parameter&sortres=percent&order=$sortpercent\">" . $this->lng->txt("tst_percent_solved") . "</a>$img_title_percent");
 		$mark_obj = $this->object->mark_schema->get_matching_mark($percentage);
-		if ($mark_obj->get_passed()) {
-			$mark = $this->lng->txt("tst_result_congratulations");
-		} else {
-			$mark = $this->lng->txt("tst_result_sorry");
+		if ($mark_obj)
+		{
+			if ($mark_obj->get_passed()) {
+				$mark = $this->lng->txt("tst_result_congratulations");
+			} else {
+				$mark = $this->lng->txt("tst_result_sorry");
+			}
+			$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
 		}
-		$mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
 		if ($this->object->ects_output)
 		{
 			$ects_mark = $this->object->getECTSGrade($total_reached, $total_max);
