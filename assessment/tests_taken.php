@@ -63,12 +63,10 @@ while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
 	$test = new ilObjTestGUI("", $row->ref_fi, true, false);
 	$test->object->load_from_db();
 	$array_result =& $test->object->get_test_result($ilUser->id);
-	$mark = $test->object->mark_schema->get_matching_mark(100*($array_result[0]["total_reached_points"]/$array_result[0]["total_max_points"]));
-	foreach ($array_result as $key => $value) {
-		$array_result[$key]["nr_of_tries"] = $row->nr_of_tries;
-		$array_result[$key]["used_tries"] = $row->tries;
-		$array_result[$key]["mark"] = $mark->get_official_name();
-	}
+	$mark = $test->object->mark_schema->get_matching_mark(100*($array_result["test"]["total_reached_points"]/$array_result["test"]["total_max_points"]));
+//	$array_result["test"]["nr_of_tries"] = $row->nr_of_tries;
+	$array_result["test"]["used_tries"] = $row->tries;
+	$array_result["test"]["mark"] = $mark->get_official_name();
 	array_push($taken_array, $array_result);
 }
 
@@ -83,21 +81,28 @@ $test_types = array(
 foreach ($taken_array as $key => $value) {
 	$tpl->setCurrentBlock("row");
 	$tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
-	$tpl->setVariable("TEST_TITLE", $value[0]["test_title"]);
-	$tpl->setVariable("TEST_TYPE", $lng->txt($test_types[$value[0]["test_type"]]));
+	$tpl->setVariable("TEST_TYPE", $lng->txt($test_types[$value["test"]["test"]->get_test_type()]));
 	$status_image = "";
-	if ($value[0]["used_tries"] == 0) {
+	$resume = "";
+	if ($value["test"]["used_tries"] == 0) {
 		// test is not completed
 		$status_image = $lng->txt("tst_status_progress");
-	} elseif (($value[0]["nr_of_tries"] > 0) and ($value[0]["used_tries"] == $value[0]["nr_of_tries"])) {
+		$resume = " [<a href=\"" . ILIAS_HTTP_PATH . "/assessment/test.php?ref_id=" . $value["test"]["test"]->ref_id . "&cmd=run\">" . $lng->txt("tst_resume_test") . "]";
+	} elseif (($value["test"]["test"]->get_nr_of_tries() > 0) and ($value["test"]["used_tries"] == $value["test"]["test"]->get_nr_of_tries())) {
 		// test is completed
 		$status_image = $lng->txt("tst_status_completed");
 	} else {
 		// test is completed but can be completed again
 		$status_image = $lng->txt("tst_status_completed_more_tries_possible");
+		$resume = " [<a href=\"" . ILIAS_HTTP_PATH . "/assessment/test.php?ref_id=" . $value["test"]["test"]->ref_id . "&cmd=run\">" . $lng->txt("tst_resume_test") . "]";
 	}
 	$tpl->setVariable("TEST_STATUS", $status_image);
-	$tpl->setVariable("TEST_MARK", $value[0]["mark"]);
+	if (!strcmp($status_image, $lng->txt("tst_status_progress"))) {
+		$tpl->setVariable("TEST_MARK", "");
+	} else {
+		$tpl->setVariable("TEST_MARK", $value["test"]["mark"]);
+	}
+	$tpl->setVariable("TEST_TITLE", $value["test"]["test"]->getTitle() . $resume);
 	$tpl->parseCurrentBlock();
 }
 $tpl->setCurrentBlock("adm_content");
