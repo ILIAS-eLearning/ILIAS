@@ -26,7 +26,7 @@
 * Class ilObjExerciseGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjExerciseGUI.php,v 1.6 2004/04/26 20:38:13 akill Exp $
+* $Id$Id: class.ilObjExerciseGUI.php,v 1.7 2004/06/17 13:45:57 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -332,7 +332,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->__deassignMembers();
 				break;
 		}
-		header("location: ".$this->getReturnLocation("members","adm_object?ref_id=$_GET[ref_id]&cmd=members"));
+		header("location: ".$this->getReturnLocation("members","adm_object.php?ref_id=$_GET[ref_id]&cmd=members"));
 		exit;
 	}
 		
