@@ -3965,6 +3965,8 @@ survey#:#add_limits_for_standard_numbers#:#Veuillez saisir des limites basse et 
 survey#:#add_phrase#:#Ajouter expression
 survey#:#add_phrase_introduction#:#Veuillez sélectionner une expression
 survey#:#already_completed_survey#:#Vous avez déjà répondu au sondage ! Vous ne pouvez pas y entrer à nouveau.
+survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 32-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey. Your survey access code is<br /><span class="bold">%s</span>.<br />Please enter it in the text field below.###09 Dec 2004 new variable
+survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.###09 Dec 2004 new variable
 survey#:#anonymize_survey#:#Anonymiser les données du sondage
 survey#:#anonymize_survey_explanation#:#Quand cette option est activées, toutes les données utilisateurs sont anonymisées et ne peuvent pas être suivies.
 survey#:#answer#:#Réponse
@@ -4063,11 +4065,12 @@ survey#:#edit_constraints_introduction#:#Vous avez sélectionné les questions /
 survey#:#edit_heading#:#Modifier titre
 survey#:#end_date#:#Date de fin
 survey#:#end_date_reached#:#Vous ne pouvez pas commencer le sondage. La date de fin est dépassée.
+survey#:#enter_anonymous_id#:#Survey access code###09 Dec 2004 new variable
 survey#:#enter_phrase_title#:#Veuillez saisir un titre d'expression XXX
 survey#:#enter_value#:#Saisissez une valeur
 survey#:#error_add_heading#:#Veuillez ajouter un titre.
 survey#:#error_importing_question#:#Une erreur s'est produite pendant l'importation des questions depuis le fichier que vous avez sélectionné.
-survey#:#error_retrieving_anonymous_survey#:#Le système n'a pas pu trouver vos données de sondage pour le sondage code %s. Veuillez vérifier le code du sondage que vous avez saisi.
+survey#:#error_retrieving_anonymous_survey#:#Le système n'a pas pu trouver vos données de sondage pour le sondage code %s. Veuillez vérifier le code du sondage que vous avez saisi.###09 Dec 2004 content changed
 survey#:#evaluation#:#Evaluation
 survey#:#evaluation_access#:#Accès à l'évaluation
 survey#:#excel#:#Microsoft Excel
