@@ -69,6 +69,8 @@ require_once "classes/class.ilRbacReviewH.php";
 // include error_handling
 require_once "classes/class.ilErrorHandling.php";
 
+ini_set("session.save_handler", "files");
+session_save_path("/tmp");
 session_start();
 
 // LOAD OLD POST VARS IF ERROR HANDLER 'MESSAGE' WAS CALLED
