@@ -706,9 +706,14 @@ class Object
 					// CHECK ACCESS 'create' rolefolder
 					if ($rbacsystem->checkAccess('create', $this->id,'rolf'))
 					{
-						$role_obj["title"] = "Local roles";
-						$role_obj["desc"] = "Role Folder of object no. ".$this->id;
-						$this->saveObject($this->id,$_GET["parent"],$a_type,'rolf',$role_obj);
+						require_once ("classes/class.RoleFolderObject.php");
+						$rolfObj = new RoleFolderObject();
+						$rolfObj->setTitle("Local roles");
+						$rolfObj->setDescription("Role Folder of object no. ".$this->ref_id);
+						$rolfObj->create();
+						$rolfObj->createReference();
+						$rolfObj->putInTree($this->ref_id);
+						unset($rolfObj);
 					}
 					else
 					{

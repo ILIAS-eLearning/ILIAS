@@ -4,7 +4,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.LearningModuleObjectOut.php,v 1.12 2003/03/06 20:56:39 akill Exp $
+* $Id$Id: class.LearningModuleObjectOut.php,v 1.13 2003/03/10 10:55:41 shofmann Exp $
 * 
 * @extends ObjectOut
 * @package ilias-core
@@ -22,6 +22,7 @@ class LearningModuleObjectOut extends ObjectOut
 		$this->type = "le";
 		$this->ObjectOut($a_data,$a_id,$a_call_by_reference);
 	}
+
 
 	function viewObject()
 	{
