@@ -163,7 +163,7 @@ class MailExplorer extends ilExplorer
 	{
 		global $lng, $ilias;
 
-		$tpl = new Template("tpl.tree.html", true, true);
+		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", $a_option["type"]);

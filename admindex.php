@@ -21,7 +21,7 @@ $startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.adm.html
 
 if (file_exists($startfilename))
 {
-	$tpl = new Template("tpl.adm.html", false, false);
+	$tpl = new ilTemplate("tpl.adm.html", false, false);
 	$tpl->show();
 }
 else

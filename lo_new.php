@@ -9,7 +9,7 @@
 */
 require_once "./include/inc.header.php";
 
-$tpl = new Template("tpl.lo_data.html", false, false);
+$tpl = new ilTemplate("tpl.lo_data.html", false, false);
 
 //language substitutions
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("lo_edit"));

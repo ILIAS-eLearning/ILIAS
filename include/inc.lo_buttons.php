@@ -1,5 +1,5 @@
 <?php
-$tplbtn = new Template("tpl.buttons.html", true, true);
+$tplbtn = new ilTemplate("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","editor.php");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("overview"));

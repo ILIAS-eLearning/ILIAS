@@ -9,7 +9,7 @@
 */
 require_once "./include/inc.header.php";
 
-$tpl = new Template("tpl.lo_edit_infoptions.html", false, false);
+$tpl = new ilTemplate("tpl.lo_edit_infoptions.html", false, false);
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("information_abbr")."/".$lng->txt("options"));
 

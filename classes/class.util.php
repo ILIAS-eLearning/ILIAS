@@ -224,7 +224,7 @@ class TUtil
 	{
 		global $lng;
 		
-		$tpltab = new Template("tpl.tabs.html", true, true);
+		$tpltab = new ilTemplate("tpl.tabs.html", true, true);
 		
 		for ($i=1; $i<=4; $i++)
 		{

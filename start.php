@@ -14,7 +14,7 @@ $startfilename = $ilias->tplPath.$ilias->account->skin."/tpl.start.html";
 
 if (file_exists($startfilename))
 {
-	$tpl = new Template("tpl.start.html", false, false);
+	$tpl = new ilTemplate("tpl.start.html", false, false);
 	$tpl->show();
 }
 else

@@ -12,7 +12,7 @@ require_once "./classes/class.ilBookmark.php";
 
 $myBm = new ilBookmark($ilias->account->getId());
 
-$tplbtn = new Template("tpl.buttons.html", true, true);
+$tplbtn = new ilTemplate("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK","bookmark_newfolder.php");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("new_folder"));
@@ -24,7 +24,7 @@ $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
 
-$tpl = new Template("tpl.bookmark_newfolder.html", true, true);
+$tpl = new ilTemplate("tpl.bookmark_newfolder.html", true, true);
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
 $tplmain->setVariable("PAGETITLE", "ILIAS - ".$lng->txt("bookmarks"));

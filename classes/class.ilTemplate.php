@@ -9,7 +9,7 @@
 
 require_once "HTML/ITX.php";
 
-class Template extends IntegratedTemplateExtension
+class ilTemplate extends IntegratedTemplateExtension
 {
 	/**
 	* variablen die immer in jedem block ersetzt werden sollen
@@ -33,7 +33,7 @@ class Template extends IntegratedTemplateExtension
 	* @param	array	$vars zu ersetzenden Variablen
 	* @access	public
 	*/
-	function Template($file,$flag1,$flag2,$vars="DEFAULT")
+	function ilTemplate($file,$flag1,$flag2,$vars="DEFAULT")
 	{
 		global $ilias;
 

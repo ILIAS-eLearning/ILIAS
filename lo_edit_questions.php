@@ -9,7 +9,7 @@
 */
 require_once "./include/inc.header.php";
 
-$tpl = new Template("tpl.lo_edit_questions.html", false, false);
+$tpl = new ilTemplate("tpl.lo_edit_questions.html", false, false);
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("list_of_questions"));
 

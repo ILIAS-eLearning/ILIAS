@@ -9,7 +9,7 @@
 */
 include_once "./include/inc.header.php";
 
-$tpl = new Template("tpl.lo_edit_glossary.html", false, false);
+$tpl = new ilTemplate("tpl.lo_edit_glossary.html", false, false);
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("glossary"));
 $tpl->setVariable("TXT_ITEM", $lng->txt("item"));
