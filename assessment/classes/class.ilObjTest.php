@@ -507,7 +507,6 @@ class ilObjTest extends ilObject
   {
     global $ilias;
     $db =& $ilias->db->db;
-    
     if ($this->test_id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('tst_tests');
@@ -679,7 +678,7 @@ class ilObjTest extends ilObject
 * @access public
 * @see $type
 */
-  function set_test_type($type = ASS_ASSESSMENT) {
+  function set_test_type($type = TYPE_ASSESSMENT) {
     $this->test_type = $type;
   }
 

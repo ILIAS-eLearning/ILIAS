@@ -119,24 +119,25 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["processing_time"] = $this->object->get_processing_time();
 			$data["starting_time"] = $this->object->get_starting_time();
 		}
-		
-		$this->object->set_test_type($data["test_type"]);
+		$this->object->set_test_type($data["sel_test_types"]);
 		$this->object->setTitle($data["title"]);
 		$this->object->setDescription($data["description"]);
 		$this->object->set_author($data["author"]);
 		$this->object->set_introduction($data["introduction"]);
 		$this->object->set_sequence_settings($data["sequence_settings"]);
 		$this->object->set_score_reporting($data["score_reporting"]);
-		//$this->object->set_reporting_date($data["reporting_date"]);
+		//$this->object->set_reportin g_date($data["reporting_date"]);
 		$this->object->set_nr_of_tries($data["nr_of_tries"]);
 		$this->object->set_processing_time($data["processing_time"]);
 		$this->object->set_starting_time($data["starting_time"]);
-
     $add_parameter = $this->get_add_parameter();
     if ($_POST["cmd"]["save"]) {
 			$this->updateObject();
       header("location: ". $this->getReturnLocation("cancel","/ilias3/repository.php?ref_id=15"));
 			exit();
+    }
+    if ($_POST["cmd"]["apply"]) {
+			$this->updateObject();
     }
     if ($_POST["cmd"]["cancel"]) {
       sendInfo($this->lng->txt("msg_cancel"),true);
@@ -189,6 +190,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("HEADING_SESSION", $this->lng->txt("tst_session_settings"));
 		$this->tpl->setVariable("TEXT_NR_OF_TRIES", $this->lng->txt("tst_nr_of_tries"));
 		$this->tpl->setVariable("VALUE_NR_OF_TRIES", $data["nr_of_tries"]);
+		$this->tpl->setVariable("COMMENT_NR_OF_TRIES", $this->lng->txt("0_unlimited"));
 		$this->tpl->setVariable("TEXT_PROCESSING_TIME", $this->lng->txt("tst_processing_time"));
 		$this->tpl->setVariable("VALUE_PROCESSING_TIME", $data["processing_time"]);
 		$this->tpl->setVariable("TEXT_STARTING_TIME", $this->lng->txt("tst_starting_time"));
@@ -587,34 +589,45 @@ class ilObjTestGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 
+		$this->setLocator();
+
 		if (!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
 
-		if ($_GET["tab"] == 1) {
-			$sequence = $_GET["sequence"];
-			if (!$sequence) {
-				$sequence = 1;
-			} else {
-				if (($_POST["cmd"]["next"]) and ($sequence != count($this->object->questions))) {
-					$sequence++;
-				} elseif (($_POST["cmd"]["previous"]) and ($sequence != 1)) {
-					$sequence--;
-				}
-			}
-		}
-
-		$this->setRunningTabs($sequence);
-		$this->setLocator();
-		if ($_GET["tab"] == 0) {
+		if (!$_GET["sequence"]) {
 			// show introduction page
 			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_introduction.html", true);
 			$this->tpl->setCurrentBlock("info_row");
-			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_type"));
-			print "Hallo: " . $this->object->get_test_type();
-			print_r($this->object->test_types);
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_type") . ":");
 			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($this->object->test_types[$this->object->get_test_type()]));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("description") . ":");
+			$this->tpl->setVariable("TEXT_INFO_COL2", $this->object->getDescription());
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_sequence") . ":");
+			if ($this->object->get_sequence_settings() == TEST_FIXED_SEQUENCE) {
+				$seq_setting = "tst_sequence_fixed";
+			} else {
+				$seq_setting = "tst_sequence_postpone";
+			}
+			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($seq_setting));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_score_reporting") . ":");
+			if ($this->object->get_score_reporting() == REPORT_AFTER_QUESTION) {
+				$score_reporting = "tst_report_after_question";
+			} else {
+				$score_reporting = "tst_report_after_test";
+			}
+			$this->tpl->setVariable("TEXT_INFO_COL2", $this->lng->txt($score_reporting));
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setVariable("TEXT_INFO_COL1", $this->lng->txt("tst_nr_of_tries") . ":");
+			$num_of = $this->object->get_nr_of_tries();
+			if (!$num_of) {
+				$num_of = $this->lng->txt("unlimited");
+			}
+			$this->tpl->setVariable("TEXT_INFO_COL2", $num_of);
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("info");
 			$this->tpl->parseCurrentBlock();
@@ -623,37 +636,20 @@ class ilObjTestGUI extends ilObjectGUI
 			$introduction = $this->object->get_introduction();
 			$introduction = preg_replace("/0n/i", "<br />", $introduction);
 			$this->tpl->setVariable("TEXT_INTRODUCTION", $introduction);
-			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter&tab=1");
+			$this->tpl->setVariable("FORMACTION", $_SERVER['PHP_SELF'] . "$add_parameter&sequence=1");
 			$this->tpl->parseCurrentBlock();
-		} elseif ($_GET["tab"] == 1) {
+		} else {
+			$sequence = $_GET["sequence"];
+			if (($_POST["cmd"]["next"]) and ($sequence != count($this->object->questions))) {
+				$sequence++;
+			} elseif (($_POST["cmd"]["previous"]) and ($sequence != 1)) {
+				$sequence--;
+			}
+	
 			// show questions
 			$question_gui = new ASS_QuestionGui();
 			$question_gui->create_question("", $this->object->questions[$sequence]);
 			$question_gui->out_working_question($sequence);
-		}
-	}
-
-	function setRunningTabs($sequence) {
-    $add_parameter = $this->get_add_parameter();
-		if ((!$_GET["sequence"]) and ($_GET["tab"] == 0)) {
-			$tab1 = $this->lng->txt("tst_start_test");
-		} else {
-			$tab1 = $this->lng->txt("question") . " $sequence";
-		}
-		$tabs = array($this->lng->txt("tst_introduction"), $tab1, $this->lng->txt("goblin"));
-		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
-		foreach ($tabs as $key => $value) {
-			$this->tpl->setCurrentBlock("tab");
-			if ($_GET["tab"] == $key) {
-				$tabtype = "tabactive";
-			} else {
-				$tabtype = "tabinactive";
-			}
-			$this->tpl->setVariable("TAB_TYPE", "$tabtype");
-			$this->tpl->setVariable("TAB_LINK", $_SERVER['PHP_SELF'] . "$add_parameter&tab=$key");
-			$this->tpl->setVariable("TAB_TARGET", "bottom");
-			$this->tpl->setVariable("TAB_TEXT", $value);
-			$this->tpl->parseCurrentBlock();
 		}
 	}
 		
