@@ -705,6 +705,7 @@ common#:#condition_select_one#:#-Please select one condition-###14 Aug 2004 new 
 common#:#condition_update#:#Save###14 Aug 2004 new variable
 common#:#conditions_updated#:#Conditions saved###14 Aug 2004 new variable
 common#:#confirm#:#Zatwierdź
+common#:#confirmation#:#Confirmation###01 Sep 2004 new variable
 common#:#cont_object#:#Obiekt
 common#:#contact_data#:#Informacje kontaktowe
 common#:#container#:#Kontener
@@ -2108,6 +2109,8 @@ content#:#cont_export_files#:#Eksport plików
 content#:#cont_external#:#zewnętrzny
 content#:#cont_file#:#Plik
 content#:#cont_files#:#Pliki
+content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
+content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Format
 content#:#cont_free_pages#:#Wolne strony
 content#:#cont_full_is_in_dir#:#Usunięcie nie jest możliwe. Plik pełnoekranowy jest w katalogu.
@@ -2284,6 +2287,7 @@ content#:#cont_tracking_data#:#Dane śledzone
 content#:#cont_tracking_items#:#Pozycje śledzone
 content#:#cont_translations#:#Tłumaczenia
 content#:#cont_translations_assigned#:#Tłumaczenia zostały przydzielone
+content#:#cont_tree_fixed#:#Tree structure has been fixed.###01 Sep 2004 new variable
 content#:#cont_update#:#Uaktualnij
 content#:#cont_update_names#:#Uaktualnij nazwy
 content#:#cont_upload_file#:#Wyślij plik
@@ -3409,6 +3413,7 @@ survey#:#contains#:#Zawiera
 survey#:#continue#:#Kontynuuj >>
 survey#:#create_date#:#Utworzony
 survey#:#create_new#:#Twórz nowy
+survey#:#create_questionpool_before_add_question#:#You must create at least one questionpool to store your questions!###01 Sep 2004 new variable
 survey#:#csv#:#Wartości rozdzielone przecinkami (CSV)
 survey#:#dc_agree#:#zgodny
 survey#:#dc_always#:#zawsze

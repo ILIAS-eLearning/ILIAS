@@ -719,6 +719,7 @@ common#:#condition_select_one#:#-Please select one condition-###14 Aug 2004 new 
 common#:#condition_update#:#Save###14 Aug 2004 new variable
 common#:#conditions_updated#:#Conditions saved###14 Aug 2004 new variable
 common#:#confirm#:#Bevestig
+common#:#confirmation#:#Confirmation###01 Sep 2004 new variable
 common#:#cont_object#:#Object
 common#:#contact_data#:#Contact-informatie
 common#:#container#:#Container###11 Apr 2004 new variable
@@ -2134,6 +2135,8 @@ content#:#cont_export_files#:#Export- Bestanden
 content#:#cont_external#:#extern
 content#:#cont_file#:#Bestand
 content#:#cont_files#:#Bestanden
+content#:#cont_fix_tree#:#Fix structure###01 Sep 2004 new variable
+content#:#cont_fix_tree_confirm#:#Please execute this command only if the tree structure of this learning module is corrupted, e.g. if blank items occur in the explorer view.###01 Sep 2004 new variable
 content#:#cont_format#:#Formaat
 content#:#cont_free_pages#:#Free Pages###17 Apr 2004 new variable
 content#:#cont_full_is_in_dir#:#Verwijderen niet mogelijk. Fullscreen-bestand is in de directory.
@@ -2310,6 +2313,7 @@ content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
 content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
 content#:#cont_translations#:#Vertaling(en)
 content#:#cont_translations_assigned#:#De vertaling(en) zijn toegewezen
+content#:#cont_tree_fixed#:#Tree structure has been fixed.###01 Sep 2004 new variable
 content#:#cont_update#:#Bijwerken
 content#:#cont_update_names#:#Bijwerken namen
 content#:#cont_upload_file#:#Upload-bestand
@@ -3435,6 +3439,7 @@ survey#:#contains#:#Contains###10 Jun 2004 new variable
 survey#:#continue#:#Continue >>###26 May 2004 new variable
 survey#:#create_date#:#Created###21 May 2004 new variable
 survey#:#create_new#:#Create new###21 May 2004 new variable
+survey#:#create_questionpool_before_add_question#:#You must create at least one questionpool to store your questions!###01 Sep 2004 new variable
 survey#:#csv#:#Comma separated value (CSV)###12 Jun 2004 new variable
 survey#:#dc_agree#:#agree###23 May 2004 new variable
 survey#:#dc_always#:#always###23 May 2004 new variable
