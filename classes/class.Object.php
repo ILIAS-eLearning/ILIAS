@@ -486,6 +486,13 @@ class Object
 		$admin = new Admin();
 		return $admin->copyObject();
 	}
+	function linkAdmObject()
+	{
+		include_once ("classes/class.Admin.php");
+		
+		$admin = new Admin();
+		return $admin->linkObject();
+	}
 	function pasteAdmObject()
 	{
 		include_once ("classes/class.Admin.php");

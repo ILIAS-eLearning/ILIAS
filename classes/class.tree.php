@@ -220,7 +220,6 @@ class Tree
 		
 		return $data;
 	}
-
 	/**
 	* insert node under parent node
 	* @access	public
@@ -230,12 +229,12 @@ class Tree
 	function insertNode($a_node_id,$a_parent_id,$a_parent_parent_id)
 	{
 		// get left value
-	   $query = "SELECT * FROM tree ".
-		  "WHERE child = '".$a_parent_id."' ".
-		  "AND parent = '".$a_parent_parent_id."' ".
-		  "AND tree = '".$this->tree_id."'";
+	    $query = "SELECT * FROM tree ".
+		   "WHERE child = '".$a_parent_id."' ".
+		   "AND parent = '".$a_parent_parent_id."' ".
+		   "AND tree = '".$this->tree_id."'";
 
-		$res = $this->ilias->db->getRow($query);
+	    $res = $this->ilias->db->getRow($query);
 		
 		$left = $res->lft;
 
@@ -275,9 +274,10 @@ class Tree
 	* @param	array		node_data
 	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
 	*/
+	
 	function getSubTree($a_node)
 	{
-		$subtree = array();
+	    $subtree = array();
 	
 		$query = "SELECT * FROM tree ".
 				 "LEFT JOIN object_data ON object_data.obj_id = tree.child ".
@@ -292,7 +292,7 @@ class Tree
 		}
 			
 		return $subtree;
-	}	
+	}
 	
 	/**
 	* delete node and the whole subtree under this node
