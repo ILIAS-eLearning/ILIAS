@@ -381,3 +381,5 @@ common#:#lang_fr#:#Franz&ouml;sisch
 common#:#lang_it#:#Italienisch
 common#:#lang_id#:#Indonesisch
 common#:#lang_xx#:#benutzerdefiniert
+common#:#operation#:#Operation
+common#:#edit_operations#:#edit operations
