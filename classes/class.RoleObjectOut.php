@@ -3,7 +3,7 @@
 * Class RoleObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleObjectOut.php,v 1.5 2003/03/13 17:48:30 akill Exp $
+* $Id$Id: class.RoleObjectOut.php,v 1.6 2003/03/14 16:25:06 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -31,7 +31,7 @@ class RoleObjectOut extends ObjectOut
 	{
 		global $rbacsystem, $rbacadmin;
 
-	
+
 		// CHECK ACCESS 'write' to role folder
 		// TODO: check for create role permission should be better
 		//if (!$rbacsystem->checkAccess("write",$a_obj_id))
@@ -54,14 +54,13 @@ class RoleObjectOut extends ObjectOut
 			$roleObj->setTitle($_POST["Fobject"]["title"]);
 			$roleObj->setDescription($_POST["Fobject"]["desc"]);
 			$roleObj->create();
-			//$rbacadmin->assignRoleToFolder($new_obj_id,$a_obj_id,$a_parent,'y');
 			$rbacadmin->assignRoleToFolder($roleObj->getId(), $_GET["ref_id"], $_GET["parent"], 'y');
 		}
-		
-		return $new_obj_id;
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=view");
+		exit();
 	}
 
-	
+
 	function permObject()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");

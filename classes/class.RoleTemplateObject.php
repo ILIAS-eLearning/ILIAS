@@ -20,35 +20,6 @@ class RoleTemplateObject extends Object
 		$this->type = "rolt";
 	}
 
-	//
-	// Overwritten methods:
-	//
-
-	/**
-	* create a role template object 
-	* @access	public
-	*/
-	function createObject($a_id, $a_new_type)
-	{
-		// Creates a child object
-		global $tplContent, $rbacsystem;
-		
-		// TODO: get rif of $_GET var
-		
-		if ($rbacsystem->checkAccess("write",$a_id))
-		{
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = "";
-			$data["fields"]["desc"] = "";
-			return $data;
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
-		}
-	}
-
 
 	/**
 	* delete a role template object 

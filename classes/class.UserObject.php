@@ -35,68 +35,6 @@ class UserObject extends Object
 							  );
 	}
 
-	/**
-	* create user
-	* @access	public
-	* @param	integer	reference_id
-	* @param	string	object type
-	*/
-	/**
-	 * UserObject::createObject()
-	 * 
-	 * @param $a_ref_id
-	 * @param $a_new_type
-	 * @return 
-	 **/
-	function createObject($a_ref_id, $a_new_type)
-	{
-		global $tree,$tpl,$rbacsystem;
-
-		$obj = getObjectByReference($a_ref_id);
-		
-		// TODO: get rid of $_GET variables
-
-		if ($rbacsystem->checkAccess('write',$a_ref_id))
-		{
-			// gender selection
-			$gender = TUtil::formSelect($Fobject["gender"],"Fobject[gender]",$this->gender);
-
-			// role selection
-			$obj_list = getObjectList("role");
-			
-			foreach ($obj_list as $obj_data)
-			{
-				$rol[$obj_data["obj_id"]] = $obj_data["title"];
-			}
-			
-			$role = TUtil::formSelectWoTranslation($Fobject["default_role"],"Fobject[default_role]",$rol);
-
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["login"] = "";
-			$data["fields"]["passwd"] = "";
-			$data["fields"]["title"] = "";
-			$data["fields"]["gender"] = $gender;
-			$data["fields"]["firstname"] = "";
-			$data["fields"]["lastname"] = "";
-			$data["fields"]["institution"] = "";
-			$data["fields"]["street"] = "";
-			$data["fields"]["city"] = "";
-			$data["fields"]["zipcode"] = "";
-			$data["fields"]["country"] = "";
-			$data["fields"]["phone"] = "";		
-			$data["fields"]["email"] = "";
-			$data["fields"]["default_role"] = $role;
-			$data["title"] = $obj["title"];
-			
-			return $data;
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
-		}
-	}
-
 
 	/**
 	* delete user

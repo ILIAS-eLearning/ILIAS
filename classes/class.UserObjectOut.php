@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.8 2003/03/13 17:48:30 akill Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.10 2003/03/14 22:21:51 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -34,21 +34,64 @@ class UserObjectOut extends ObjectOut
 							  'f'    => "salutation_f"
 							  );
 	}
-	
+
+
+	/**
+	* display user create form
+	*/
 	function createObject()
 	{
-		$this->getTemplateFile("edit","usr");
+		global $tree,$tpl,$rbacsystem;
 
-		foreach ($this->data["fields"] as $key => $val)
+		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"], $_POST["new_type"]))
 		{
-			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
-			$this->tpl->parseCurrentBlock();
+			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
 		}
+		else
+		{
+			// gender selection
+			$gender = TUtil::formSelect($Fobject["gender"],"Fobject[gender]",$this->gender);
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]);
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+			// role selection
+			$obj_list = getObjectList("role");
+
+			foreach ($obj_list as $obj_data)
+			{
+				$rol[$obj_data["obj_id"]] = $obj_data["title"];
+			}
+
+			$role = TUtil::formSelectWoTranslation($Fobject["default_role"],"Fobject[default_role]",$rol);
+
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["login"] = "";
+			$data["fields"]["passwd"] = "";
+			$data["fields"]["title"] = "";
+			$data["fields"]["gender"] = $gender;
+			$data["fields"]["firstname"] = "";
+			$data["fields"]["lastname"] = "";
+			$data["fields"]["institution"] = "";
+			$data["fields"]["street"] = "";
+			$data["fields"]["city"] = "";
+			$data["fields"]["zipcode"] = "";
+			$data["fields"]["country"] = "";
+			$data["fields"]["phone"] = "";
+			$data["fields"]["email"] = "";
+			$data["fields"]["default_role"] = $role;
+
+			$this->getTemplateFile("edit","usr");
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), $val);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]);
+			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		}
 	}
 
 
