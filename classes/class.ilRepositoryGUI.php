@@ -145,6 +145,7 @@ class ilRepositoryGUI
 		$this->media_pools = array();
 		$this->ilinc_courses = array();
 		$this->ilinc_classrooms = array();
+		$this->link_resources = array();
 	}
 	
 	/**
@@ -626,6 +627,10 @@ class ilRepositoryGUI
 						$this->courses[$key] = $object;
 					}
 					break;
+
+				case 'webr':
+					$this->link_resources[$key] = $object;
+					break;
 			}
 		}
 		$ilBench->stop("Repository", "FlatList_02collectChilds");
@@ -777,7 +782,10 @@ class ilRepositoryGUI
 		{
 			$this->showiLincClassrooms();
 		}
-
+		if(count($this->link_resources))
+		{
+			$this->showLinkResources();
+		}
 		if ($this->visible_only_items == true)
 		{
 			$this->showVisibleOnlyMessage();
@@ -3266,7 +3274,7 @@ class ilRepositoryGUI
 						$tpl->setVariable("R_CLASS",'class="offline"');
 					}
 					$tpl->setVariable("READ_LINK", $obj_link);
-					$tpl->setVariable("READ_TARGET", "bottom");
+					$tpl->setVariable("READ_TARGET", "");
 					$tpl->parseCurrentBlock();
 				}
 				else
@@ -3415,6 +3423,131 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
+	/**
+	* show link resources
+	*/
+	function showLinkResources()
+	{
+		include_once './classes/class.ilRepositoryExplorer.php';
+
+		// GET ALL LINK_RESOURCES
+		global  $tree, $rbacsystem;
+
+		$tpl =& new ilTemplate("tpl.table.html", true, true);
+	
+		$maxcount = count($this->link_resources);
+
+		$cont_arr = array_slice($this->link_resources, $_GET["offset"], $_GET["limit"]);
+
+		$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.rep_lnkr_row.html");
+
+		$cont_num = count($cont_arr);
+
+		// render table content data
+		if ($cont_num > 0)
+		{
+			// counter for rowcolor change
+			$num = 0;
+			foreach ($cont_arr as $cont_data)
+			{
+				$tpl->setCurrentBlock("tbl_content");
+				$tmp_lr =& ilObjectFactory::getInstanceByRefId($cont_data["ref_id"]);
+
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+
+				$tpl->setVariable("LINK_IMG",ilUtil::getImagePath('icon_webr.gif'));
+				$tpl->setVariable("ALT_IMG",$this->lng->txt('obj_webr'));
+				
+				if(ilRepositoryExplorer::isClickable($cont_data['type'],$cont_data['ref_id'],$cont_data['obj_id']))
+				{
+					$tpl->setCurrentBlock("link_read");
+					$tpl->setVariable("READ_TITLE", $cont_data["title"]);
+					$tpl->setVariable("READ_LINK", ilRepositoryExplorer::buildLinkTarget($cont_data['ref_id'],'webr'));
+					$tpl->setVariable("READ_TARGET", "");
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("link_visible");
+					$tpl->setVariable("VIEW_TITLE", $cont_data["title"].
+						" ".$this->getVisibleOnly());
+					$tpl->parseCurrentBlock();
+				}
+				
+				$tpl->setCurrentBlock("tbl_content");
+
+				// edit
+				if ($this->rbacsystem->checkAccess('write', $cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("link_edit");
+
+					$tpl->setVariable("EDIT_LINK",ilRepositoryExplorer::buildEditLinkTarget($cont_data['ref_id'],'webr'));
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
+
+				if ($this->rbacsystem->checkAccess('delete',$cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("link_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("DELELTE_TARGET","bottom");
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
+					
+					$tpl->setCurrentBlock("link_cut");
+					$tpl->setVariable("CUT_LINK","repository.php?cmd=addToClipboard&ref_id=".
+									  $this->cur_ref_id."&item_ref_id=".$cont_data["ref_id"]."&act=cut");
+					$tpl->setVariable("TXT_CUT", $this->lng->txt("move"));
+					$tpl->parseCurrentBlock();
+				}
+				if($this->ilias->account->getId() != ANONYMOUS_USER_ID and 
+				   !$this->ilias->account->isDesktopItem($cont_data["ref_id"], "webr"))
+				{
+					$tpl->setCurrentBlock("link_desklink");
+					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+						"&item_ref_id=".$cont_data["ref_id"].
+						"&type=webr&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
+						"&sort_by=".$_GET["sort_by"]);
+
+					$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+					$tpl->parseCurrentBlock();
+				}
+				$tpl->setCurrentBlock("tbl_content");
+				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
+				$tpl->setVariable("OWNER", ilObject::_lookupOwnerName($cont_data["owner"]));
+				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
+				$tpl->parseCurrentBlock();
+			}
+		}
+
+		// create table
+		$tbl = new ilTableGUI();
+
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("objs_webr"),"icon_webr_b.gif",$this->lng->txt("objs_webr"));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array($this->lng->txt("type"),$this->lng->txt("title")));
+		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("1%","99%"));
+
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($maxcount);
+
+		// footer
+		$tbl->disable("footer");
+
+		// render table
+		$tbl->setTemplate($tpl);
+		$tbl->render();
+
+		$this->tpl->setCurrentBlock("folders");
+		$this->tpl->setVariable("FOLDERS", $tpl->get());
+		$this->tpl->parseCurrentBlock();
+	} // SHOW link_resources
+
 	function showiLincCourses()
 	{
 		global  $tree, $rbacsystem, $ilias, $lng;
@@ -3782,7 +3915,7 @@ class ilRepositoryGUI
 				{
 					if (in_array($row["name"], array("sahs", "alm", "hlm", "lm", "grp", "frm", "mep","crs",
 													 "cat", "glo", "dbk","exc", "qpl", "tst", "svy", "spl", "chat", 
-													 "htlm","fold","file","icrs","icla","crsg")))
+													 "htlm","fold","linkr","file","icrs","icla","crsg",'webr')))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{

@@ -227,7 +227,7 @@ class ilCourseContentInterface
 					}
 					if ($obj_frame == "")
 					{
-						$tpl->setVariable("READ_TARGET", "bottom");
+						$tpl->setVariable("READ_TARGET", "");
 					}
 					else
 					{
@@ -542,10 +542,10 @@ class ilCourseContentInterface
 
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_obj->getRefId(),$tmp_obj->getType());
 			$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_obj->getType(),$tmp_obj->getRefId(),$tmp_obj->getId());
-			$obj_frame = $obj_frame ? $obj_frame : 'bottom';
+			$obj_frame = $obj_frame ? $obj_frame : '';
 
 			// Tmp fix for tests
-			$obj_frame = $tmp_obj->getType() == 'tst' ? 'bottom' : $obj_frame;
+			$obj_frame = $tmp_obj->getType() == 'tst' ? '' : $obj_frame;
 
 			$contentObj = false;
 
@@ -586,7 +586,7 @@ class ilCourseContentInterface
 										$continue_data[$tmp_obj->getRefId()]['lm_page_id']);
 
 				$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 
-					'bottom' :
+					'' :
 					'ilContObj'.$cont_data[$obj_id]['obj_page_id'];
 					
 				$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
@@ -922,7 +922,7 @@ class ilCourseContentInterface
 				
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_or->getRefId(),$tmp_or->getType());
 			$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_or->getType(),$tmp_or->getRefId(),$tmp_or->getId());
-			$obj_frame = $obj_frame ? $obj_frame : 'bottom';
+			$obj_frame = $obj_frame ? $obj_frame : '';
 
 			if(ilRepositoryExplorer::isClickable($tmp_or->getType(),$tmp_or->getRefId(),$tmp_or->getId()))
 			{
@@ -1017,7 +1017,7 @@ class ilCourseContentInterface
 				
 			$obj_link = ilRepositoryExplorer::buildLinkTarget($tmp_lm->getRefId(),$tmp_lm->getType());
 			$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_lm->getType(),$tmp_lm->getRefId(),$tmp_lm->getId());
-			$obj_frame = $obj_frame ? $obj_frame : 'bottom';
+			$obj_frame = $obj_frame ? $obj_frame : '';
 			$contentObj = false;
 
 			if(ilRepositoryExplorer::isClickable($tmp_lm->getType(),$tmp_lm->getRefId(),$tmp_lm->getId()))
@@ -1057,7 +1057,7 @@ class ilCourseContentInterface
 										$cont_data[$lm_id]['lm_page_id']);
 
 				$target = $ilias->ini->readVariable("layout","view_target") == "frame" ? 
-					'bottom' :
+					'' :
 					'ilContObj'.$cont_data[$lm_id]['lm_page_id'];
 					
 				$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
@@ -1182,7 +1182,7 @@ class ilCourseContentInterface
 			#$obj_frame = ilRepositoryExplorer::buildFrameTarget($tmp_tst->getType(),$tmp_tst->getRefId(),$tmp_tst->getId());
 			#$obj_frame = $obj_frame ? $obj_frame : 'bottom';
 			// Always open in frameset
-			$obj_frame = 'bottom';
+			$obj_frame = '';
 
 			if(ilRepositoryExplorer::isClickable($tmp_tst->getType(),$tmp_tst->getRefId(),$tmp_tst->getId()))
 			{

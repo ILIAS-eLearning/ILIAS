@@ -2951,6 +2951,7 @@ class ilObjectGUI
 		// please define your tabs here
 	}
 
+	// PROTECTED
 	function __showButton($a_cmd,$a_text,$a_target = '')
 	{
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -2959,7 +2960,7 @@ class ilObjectGUI
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,$a_cmd));
 		$this->tpl->setVariable("BTN_TXT",$a_text);
-    		if($a_target)
+		if($a_target)
 		{
 			$this->tpl->setVariable("BTN_TARGET",$a_target);
 		}

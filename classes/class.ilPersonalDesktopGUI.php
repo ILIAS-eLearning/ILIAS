@@ -637,14 +637,22 @@ class ilPersonalDesktopGUI
 	 */
     function displayBookmarks()
     {
+		$lnkrs = $this->ilias->account->getDesktopItems('webr');
+		
         include_once("classes/class.ilBookmarkFolder.php");
         if (!empty($_GET["curBMFolder"]))
         {
             $_SESSION["ilCurBMFolder"] = $_GET["curBMFolder"];
         }
         $bm_items = ilBookmarkFolder::getObjects($_SESSION["ilCurBMFolder"]);
-        $i = 0;
 
+		if(ilBookmarkFolder::isRootFolder($_SESSION['ilCurBMFolder']) or !$_SESSION['ilCurBMFolder'])
+		{
+			$colspan = 2;
+			$bm_items = array_merge($bm_items,$lnkrs);
+		}
+ 
+		$i = 0;
         if (!ilBookmarkFolder::isRootFolder($_SESSION["ilCurBMFolder"])
             && !empty($_SESSION["ilCurBMFolder"]))
         {
@@ -662,7 +670,26 @@ class ilPersonalDesktopGUI
         foreach ($bm_items as $bm_item)
         {
             $i++;
-            $this->tpl->setCurrentBlock("tbl_bm_row");
+
+			if($bm_item['type'] == 'webr')
+			{
+				$this->tpl->setCurrentBlock("tbl_bm_edit");
+				$this->tpl->setVariable("TXT_BMEDIT", "<img border=\"0\" vspace=\"0\"  align=\"right\" src=\"".
+										ilUtil::getImagePath("delete.gif")."\">");
+				$this->tpl->setVariable("BMEDIT_LINK", 'usr_personaldesktop.php?cmd=dropItem&type=webr&id='.$bm_item['id']);
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock("tbl_bm_edit");
+				$this->tpl->setVariable("TXT_BMEDIT", "<img border=\"0\" vspace=\"0\" align=\"right\" src=\"".
+										ilUtil::getImagePath("icon_pencil.gif")."\">");
+				$this->tpl->setVariable("BMEDIT_LINK", $bm_item["edit_link"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->touchBlock('tbl_empty_cell');
+			}
+			$this->tpl->setCurrentBlock("tbl_bm_row");
             $this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
             $this->tpl->setVariable("BM_LINK", "target URL");
 
@@ -680,6 +707,13 @@ class ilPersonalDesktopGUI
 											ilUtil::getImagePath("icon_bm.gif")."\">&nbsp;".$bm_item["title"]);
                     $this->tpl->setVariable("BM_LINK", $bm_item["target"]);
                     $this->tpl->setVariable("BM_TARGET", "_blank");
+                    break;
+
+                case "webr":
+                    $this->tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
+											ilUtil::getImagePath("icon_webr.gif")."\">&nbsp;".$bm_item["title"]);
+                    $this->tpl->setVariable("BM_LINK", $bm_item["link"]);
+                    $this->tpl->setVariable("BM_TARGET", "bottom");
                     break;
             }
 

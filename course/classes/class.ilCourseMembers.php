@@ -878,7 +878,6 @@ class ilCourseMembers
 		$query = "SELECT * FROM crs_members as cm, usr_data as ud ".
 			"WHERE cm.usr_id = ud.usr_id ".
 			"AND cm.obj_id = '".$a_course_id."' ".
-			"AND cm.usr_id = '".$a_usr_id."' ".
 			$and;
 
 		$res = $ilDB->query($query);

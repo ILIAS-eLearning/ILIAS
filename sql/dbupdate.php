@@ -5779,5 +5779,97 @@ $ilDB->query('DELETE FROM crs_groupings');
 <#414>
 ALTER TABLE `crs_groupings` ADD `crs_ref_id` INT( 11 ) NOT NULL AFTER `crs_grp_id` ;
 
+
 <#415>
 ALTER TABLE media_item ADD COLUMN tried_thumb ENUM('y','n') DEFAULT 'n';
+
+<#416>
+<?php
+// insert link definition in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'webr', 'Link resource object', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+
+// add operation assignment to link object definition
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete, 7: subscribe, 8:unsubscribe
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','7')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','8')";
+$this->db->query($query);
+
+// add create operation
+$query = "INSERT INTO rbac_operations ".
+	"SET operation = 'create_webr', description = 'create web resource'";
+$this->db->query($query);
+
+// get new ops_id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$ops_id = $row[0];
+
+// add create for crs,cat,fold and grp
+// get category type id
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='cat'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$this->db->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='crs'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$this->db->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='grp'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$this->db->query($query);
+
+$query = "SELECT obj_id FROM object_data WHERE type='typ' and title='fold'";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$this->db->query($query);
+?>
+<#417>
+CREATE TABLE `webr_items` (
+  `link_id` int(11) NOT NULL auto_increment,
+  `webr_id` int(11) NOT NULL default '0',
+  `title` varchar(127) default NULL,
+  `target` text,
+  `active` tinyint(1) default NULL,
+  `disable_check` tinyint(1) default NULL,
+  `create_date` int(11) NOT NULL default '0',
+  `last_update` int(11) NOT NULL default '0',
+  `last_check` int(11) default NULL,
+  `valid` tinyint(1) NOT NULL default '0',
+  KEY `link_id` (`link_id`,`webr_id`)
+) TYPE=MyISAM AUTO_INCREMENT=1 ;

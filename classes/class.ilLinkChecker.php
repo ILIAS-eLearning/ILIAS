@@ -121,6 +121,30 @@ class ilLinkChecker
 		return $row->last_check ? $row->last_check : 0;
 	}
 
+	function checkWebResourceLinks()
+	{
+		$pages = array();
+
+		$this->__clearLogMessages();
+		$this->__clearInvalidLinks();
+		$this->__appendLogMessage('LinkChecker: Start checkLinks()');
+
+		if(count($invalid = $this->__validateLinks($this->__getWebResourceLinks())))
+		{
+			foreach($invalid as $invalid_item)
+			{
+				$this->__appendLogMessage('LinkChecker: found invalid link: '.$invalid_item['complete']);
+				$this->__appendInvalidLink($invalid_item);
+			}
+		}
+		
+		$this->__appendLogMessage('LinkChecker: End checkLinks()');
+		$this->__saveInDB();
+		
+		$this->__sendMail();
+		
+		return $this->getInvalidLinks();
+	}
 	
 	function checkLinks()
 	{
@@ -365,6 +389,34 @@ class ilLinkChecker
 
 		return $link ? $link : array();
 	}
+
+	function __getWebResourceLinks()
+	{
+		include_once 'link/classes/class.ilLinkResourceItems.php';
+
+		$link_res_obj = new ilLinkResourceItems($this->getObjId());
+
+		foreach($check_links = $link_res_obj->getCheckItems() as $item_data)
+		{
+				$url_data = parse_url($item_data['target']);
+				
+				// PUH, HTTP_REQUEST needs a beginning http://
+				if(!$url_data['scheme'])
+				{
+					$item_data['target'] = 'http://'.$item_data['target'];
+				}
+
+				$link[] = array('page_id'  => $item_data['link_id'],
+								'obj_id'   => $this->getObjId(),
+								'type'	   => 'webr',
+								'complete' => $item_data['target'],
+								'scheme'   => isset($url_data['scheme']) ? $url_data['scheme'] : 'http',
+								'host'	   => isset($url_data['host']) ? $url_data['host'] : $url_data['path']);
+		}
+		return $link ? $link : array();
+	}			
+
+		
 
 	function __validateLinks($a_links)
 	{

@@ -2409,6 +2409,30 @@ class ilObjUser extends ilObject
                                                 }
 					}
 					break;
+
+				case "webr":
+					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+						", object_data AS obj WHERE ".
+						"it.item_id = oref.ref_id AND ".
+						"oref.obj_id = obj.obj_id AND ".
+						"it.type = '$a_type' AND ".
+						"it.user_id = '".$this->getId()."' ".
+						"ORDER BY title";
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+								   "description" => $item_rec["description"],
+								   "link" => "link/link_resources.php?ref_id=".$item_rec["ref_id"], "target" => "bottom");
+
+						if ($rbacsystem->checkAccess("write", $item_rec["ref_id"]))
+						{
+							$items[$item_rec["title"].$a_type.$item_rec["ref_id"]]["edit_link"] = 
+								"link/link_resources.php?cmd=edit&ref_id=".$item_rec["ref_id"];
+						}
+					}
+					break;
 				case "grp":
 					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
 						", object_data AS obj WHERE ".
