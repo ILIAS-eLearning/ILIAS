@@ -15,9 +15,6 @@
     <td class="option">{TXT_PASSWD2}<span class="asterisk">*</span></td>
     <td class="option_value"><input type="password" name="Fobject[passwd2]"  value="{PASSWD2}" size="40" maxlength="32" /></td>
   </tr>
-  <tr>
-    <td colspan="2">&nbsp;</td>
-  </tr>
   <tr class="tblheader">
     <td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
   </tr>
@@ -40,9 +37,6 @@
   <tr>
     <td class="option">{TXT_TITLE}</td>
     <td class="option_value"><input type="text" name="Fobject[title]" value="{TITLE}" size="40" maxlength="32" /></td>
-  </tr>
-  <tr>
-    <td colspan="2">&nbsp;</td>
   </tr>
   <tr class="tblheader">
     <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
@@ -75,9 +69,6 @@
     <td class="option">{TXT_EMAIL}<span class="asterisk">*</span></td>
     <td class="option_value"><input type="text" name="Fobject[email]" value="{EMAIL}" size="40" maxlength="40" /></td>
   </tr>
-  <tr>
-    <td colspan="2">&nbsp;</td>
-  </tr>
   <tr class="tblheader">
     <td class="std" colspan="2">{TXT_SETTINGS}</td>
   </tr>
@@ -89,19 +80,15 @@
 <!-- END role -->
     </td>
   </tr>
-  <tr>
-    <td colspan="2">&nbsp;</td>
-  </tr>
 <!-- BEGIN inform_user -->
   <tr>
-    <td class="option" colspan="2" align="right"><span class="small">{TXT_INFORM_USER_MAIL}</span> <input type="checkbox" name="send_mail"  value="y" {SEND_MAIL} /></td>
+    <td class="option" colspan="2">{TXT_INFORM_USER_MAIL} <input type="checkbox" name="send_mail"  value="y" {SEND_MAIL} /></td>
   </tr>
 <!-- END inform_user -->
   <tr>
-	<td colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></td>
-  </tr>
-  <tr>
-	<td colspan="2" align="right"><input class="submit" type="submit" value="{TXT_SAVE}"/></td>
+	<td class="submit" colspan="2">
+	<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
+	<div align="right"><input class="submit" type="submit" value="{TXT_SAVE}"/></div></td>
   </tr>
 </table>
 </form>
@@ -124,12 +111,12 @@
 			</tr>
 			<!-- END TABLE_ROLES -->
 		  <!-- BEGIN TABLE_SUBMIT -->
-			<tr class="tblheader">
-			  <td class="std">
+			<tr>
+			  <td class="submit">
 				<img src="images/pfeil_rechts.gif" />
 			  </td>
-			  <td class="std">
-				<input class="submit" type="submit" value="assign" />
+			  <td class="submit">
+				<div align="right"><input class="submit" type="submit" value="assign" /></div>
 			  </td>
 			</tr>
 		  <!-- END TABLE_SUBMIT -->

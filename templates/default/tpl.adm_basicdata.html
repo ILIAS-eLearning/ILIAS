@@ -85,9 +85,6 @@
       <td class="option">{TXT_ERROR_RECIPIENT}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="error_recipient" value="{ERROR_RECIPIENT}" /></td>
     </tr>
-	<tr>
-      <td colspan="2">&nbsp;</td>
-    </tr>
 	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_PATHES}</td>
     </tr>
@@ -118,9 +115,6 @@
     <tr>
       <td class="option">{TXT_BABYLON_PATH}</td>
       <td class="option_value"><input type="text" size="40" maxlength="250" name="babylon_path" value="{BABYLON_PATH}" /></td>
-    </tr>
-	<tr>
-      <td colspan="2">&nbsp;</td>
     </tr>
 	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_MODULES}</td>
@@ -164,9 +158,6 @@
       <td class="option">{TXT_CRS_MANAGEMENT_SYSTEM}</td>
       <td class="option_value"><input type="checkbox" name="crs_enable"  value="y" {CRS_MANAGEMENT_SYSTEM} /></td>
     </tr>
-	<tr>
-      <td colspan="2">&nbsp;</td>
-    </tr>
  	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_LDAP}</td>
     </tr>
@@ -186,9 +177,6 @@
       <td class="option">{TXT_LDAP_BASEDN}</td>
       <td class="option_value"><input type="text" size="40" maxlength="200" name="ldap_basedn" value="{LDAP_BASEDN}" /></td>
     </tr>
-	<tr>
-      <td colspan="2">&nbsp;</td>
-    </tr>
  	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_MAIL_SMTP}</td>
     </tr>
@@ -199,9 +187,6 @@
     <tr>
       <td class="option">{TXT_MAIL_PORT}</td>
       <td class="option_value"><input type="text" size="5" maxlength="5" name="mail_port" value="{MAIL_PORT}" /></td>
-    </tr>
-	<tr>
-      <td colspan="2">&nbsp;</td>
     </tr>
  	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_MAIL_INTERN}</td>
@@ -238,9 +223,6 @@
       <td class="option">{TXT_MAIL_MAXTIME_ATTACH}</td>
       <td class="option_value"><input type="text" size="10" maxlength="10" name="mail_maxtime_attach" value="{MAIL_MAXTIME_ATTACH}" />
 	  {TXT_DAYS}</td>
-    </tr>
-	<tr>
-      <td colspan="2">&nbsp;</td>
     </tr>
 	<tr class="tblheader">
       <td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
@@ -290,10 +272,8 @@
       <td class="option_value"><input type="text" size="40" maxlength="64" name="admin_email" value="{ADMIN_EMAIL}" /></td>
     </tr>
 	<tr>
-	  <td colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span></td>
-	</tr>
-	<tr>
-	  <td colspan="2" align="right"><input class="submit" type="submit" name="save_settings" value="{TXT_SAVE}"/></td>
+	  <td class="submit" colspan="2"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}</span>
+	  <div align="right"><input class="submit" type="submit" name="save_settings" value="{TXT_SAVE}"/></div></td>
 	</tr>
     </table>
     </form>

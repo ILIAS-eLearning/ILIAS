@@ -40,7 +40,7 @@ input, textarea {
 
 table.std {
 	color:#222222;
-	background-color:#b9c0d5;
+	background-color:#bbbbbb;
 	border-spacing: 1px;
 	border-style: outset;
 	border-color: #bbbbbb;
@@ -99,6 +99,14 @@ td.option_value {
 	font-size:13px;
 	vertical-align:top;
 	text-align:left;
+}
+
+td.submit {
+	background-color:#d0d0d0;
+	color:#222222;
+	padding:4px;
+	font-size:13px;
+	vertical-align:top;
 }
 
 
