@@ -940,7 +940,7 @@ class ilObjectGUI
 
 		foreach ($parentRoles as $parRol)
 		{
-			$ops = $rbacreview->getOperations($parRol["obj_id"], $obj->getType(), $parRol["parent"]);
+			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], $obj->getType(), $parRol["parent"]);
 			$rbacadmin->grantPermission($parRol["obj_id"],$ops,$a_source_id);
 		}
 
@@ -2020,7 +2020,7 @@ class ilObjectGUI
 				foreach ($parentRoles as $parRol)
 				{
 					// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-					$ops = $rbacreview->getOperations($parRol["obj_id"],'rolf',$parRol["parent"]);
+					$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"],'rolf',$parRol["parent"]);
 					// TODO: make this work:
 					//$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id);
 				}

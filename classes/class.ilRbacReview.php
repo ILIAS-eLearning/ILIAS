@@ -116,21 +116,20 @@ class ilRbacReview
 	}
 
 	/**
-	* DESCRIPTION MISSING
-	* TODO: function is very similar to perm:getOperationList ????
+	* get all enabled operations of a specific role
 	* @access	public
 	* @param	integer	role_id
 	* @param	string	object type
-	* @param	integer	??? i think ist a ref_id
+	* @param	integer	role folder id
 	* @return	array	array of operation_id
 	*/
-	function getOperations($a_rol_id,$a_type,$a_parent = 0)
+	function getOperationsOfRole($a_rol_id,$a_type,$a_parent = 0)
 	{
 		global $log;
 
 		if (!isset($a_rol_id) or !isset($a_type) or func_num_args() != 3)
 		{
-			$message = get_class($this)."::getOperations(): Missing Parameter!".
+			$message = get_class($this)."::getOperationsOfRole(): Missing Parameter!".
 					   "role_id: ".$a_rol_id.
 					   "type: ".$a_type.
 					   "parent_id: ".$a_parent;

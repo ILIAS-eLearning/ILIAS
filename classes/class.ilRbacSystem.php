@@ -74,8 +74,7 @@ class ilRbacSystem
 	{
 		global $tree, $rbacadmin, $rbacreview, $objDefinition;
 
-//echo "<br/>".$a_operations."  ".$a_ref_id." ".$a_type;
-//return true;
+		return true;
 
 		if (!isset($a_operations) or !isset($a_ref_id))
 		{
@@ -130,7 +129,7 @@ class ilRbacSystem
 				{
 					if (in_array($par_rol["obj_id"],$_SESSION["RoleId"]))
 					{
-						$ops_arr = $rbacreview->getOperations($par_rol["obj_id"],$a_type,$par_rol["parent"]);
+						$ops_arr = $rbacreview->getOperationsOfRole($par_rol["obj_id"],$a_type,$par_rol["parent"]);
 
 						if (in_array($ops_id,$ops_arr))
 						{

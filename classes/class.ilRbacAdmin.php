@@ -379,7 +379,8 @@ class ilRbacAdmin
 
 		if (!is_array($a_ops))
 		{
-			$this->ilias->raiseError(get_class($this)."::grantPermission(): Wrong datatype for operations!",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError(get_class($this)."::grantPermission(): Wrong datatype for operations!",
+									 $this->ilias->error_obj->WARNING);
 		}
 
 		// Serialization des ops_id Arrays
