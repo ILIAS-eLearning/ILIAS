@@ -125,7 +125,7 @@ common#:#forum#:#forum
 common#:#forum_new#:#new forum
 common#:#forums#:#forums
 common#:#forums_available#:#available forums
-common#:#forums_of_your_groups#:#forums of your groups
+common#:#forums_overview#:#forums overview
 common#:#forward#:#forward
 common#:#from#:#from:
 common#:#functions#:#functions
@@ -385,9 +385,12 @@ common#:#forums_thread_new_entry#:#new topic has been inscribed
 common#:#forums_post_new_entry#:#new article has been inscribed
 common#:#form_empty_fields#:#please complete these fields:
 common#:#today#:#today
-common#:#forums_threads#:#topics
-common#:#forums_posts#:#articles
+common#:#forums_thread#:#thread
+common#:#forums_threads#:#threads
+common#:#forums_topics_overview#:#topics overview
+common#:#forums_posts#:#all articles
 common#:#forums_the_post#:#article
+common#:#forums_articles#:#articles
 common#:#forums_thread_create#:#created from
 common#:#operation#:#Operation
 common#:#edit_operations#:#edit operations
@@ -401,6 +404,11 @@ common#:#context#:#context
 common#:#forums_respond#:#respond to an article
 common#:#forums_your_reply#:#your reply
 common#:#of#:#de
+common#:#edited_at#:#edited at
+common#:#order_by#:#order by
+common#:#answers#:#answers
+common#:#mandatory_fields#:#mandatory fields
+common#:#visits#:#visits
 common#:#delete_object#:#delete object(s)
 common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)
 common#:#cancel#:#cancel

@@ -125,7 +125,7 @@ common#:#forum#:#Forum
 common#:#forum_new#:#Neues Forum
 common#:#forums#:#Foren
 common#:#forums_available#:#verfügbare Foren
-common#:#forums_of_your_groups#:#Foren in Ihren Gruppen
+common#:#forums_overview#:#Übersicht Foren
 common#:#forward#:#Weiterleiten
 common#:#from#:#Von
 common#:#functions#:#Funktionen
@@ -387,9 +387,12 @@ common#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 common#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
 common#:#form_empty_fields#:#Diese Felder bitte noch ausfüllen:
 common#:#today#:#Heute
+common#:#forums_thread#:#Thema
 common#:#forums_threads#:#Themen
-common#:#forums_posts#:#Beiträge
+common#:#forums_topics_overview#:#Themen-Übersicht
+common#:#forums_posts#:#Alle Beiträge
 common#:#forums_the_post#:#Beitrag
+common#:#forums_articles#:#Beiträge
 common#:#forums_thread_create#:#Erstellt von
 common#:#operation#:#Operation
 common#:#edit_operations#:#Operationen bearbeiten
@@ -402,6 +405,12 @@ common#:#registered_since#:#Eingetragen seit
 common#:#context#:#Kontext
 common#:#forums_respond#:#Beitrag beantworten
 common#:#forums_your_reply#:#Ihre Antwort
+common#:#of#:#von
+common#:#edited_at#:#Bearbeitet am
+common#:#order_by#:#Sortieren nach
+common#:#answers#:#Antworten
+common#:#mandatory_fields#:#Pflichtfelder
+common#:#visits#:#Besuche
 common#:#of#:#von
 common#:#delete_object#:#Lösche Objekte
 common#:#info_delete_sure#:#Sind Sie sicher, daß folgende Objekte gelöscht werden sollen:
