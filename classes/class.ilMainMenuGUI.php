@@ -179,8 +179,8 @@ class ilMainMenuGUI
 							"IMG_ILIAS" => "navbar/ilias.gif");
 
 		// temporary disable calendar
-		//unset($var2image["IMG_DP"]);
-		//unset($var2image["IMG_DP_O"]);
+		unset($var2image["IMG_DP"]);
+		unset($var2image["IMG_DP_O"]);
 
 		foreach ($var2image as $var => $im)
 		{
@@ -218,7 +218,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 
 		// temporary disable dateplaner
-		$this->tpl->setVariable("TXT_DP",  $lng->txt("dateplaner"));
+		//$this->tpl->setVariable("TXT_DP",  $lng->txt("dateplaner"));
 
 		// set target frame
 		$this->tpl->setVariable("TARGET", $this->target);
