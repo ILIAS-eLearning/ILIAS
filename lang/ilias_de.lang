@@ -1444,7 +1444,7 @@ common#:#mails#:#Mails###14 Sep 2004 content changed
 common#:#manage_tracking_data#:#Tracking-Daten verwalten
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
-common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
+common#:#matriculation#:#Matrikelnummer
 common#:#max_number_rec#:#Maximale Zahl der Einträge
 common#:#max_time#:#Maximale Zeit
 common#:#member#:#Mitglied
@@ -2127,7 +2127,7 @@ common#:#user_detail#:#Details
 common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_language#:#Benutzersprache
 common#:#user_not_chosen#:#Sie haben kein Gruppenmitglied ausgewählt!
-common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
+common#:#user_profile_other#:#Weitere Informationen
 common#:#user_statistics#:#Statistik
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
