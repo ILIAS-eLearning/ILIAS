@@ -88,7 +88,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				: $_GET["sel_question_types"];
 		}
 
-echo "<br>nextclass:$next_class:cmd:$cmd:";
+//echo "<br>nextclass:$next_class:cmd:$cmd:";
 		switch($next_class)
 		{
 			case "ass_multiplechoicegui":
@@ -246,6 +246,12 @@ echo "<br>ilObjQuestionPoolGUI->cancel_action()";
 		{
 			header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
 		}
+	}
+
+	function cancelObject()
+	{
+		unset($_SESSION["ass_q_id"]);
+		$this->ctrl->redirect($this, "questions");
 	}
 
 	/**
@@ -465,10 +471,14 @@ echo "<br>ilObjQuestionPoolGUI->assessmentObject()";
 		//    $this->set_question_form($type, $_GET["edit"]);
 	}
 
+	/**
+	* delete questions confirmation screen
+	*/
 	function deleteQuestionsObject()
 	{
-echo "<br>ilObjQuestionPoolGUI->deleteQuestions()";
+//echo "<br>ilObjQuestionPoolGUI->deleteQuestions()";
 		$checked_questions = $_POST["q_id"];
+		$_SESSION["ass_q_id"] = $_POST["q_id"];
 		sendInfo();
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_qpl_confirm_delete_questions.html", true);
 
@@ -519,9 +529,77 @@ echo "<br>ilObjQuestionPoolGUI->deleteQuestions()";
 		$this->tpl->parseCurrentBlock();
 	}
 
+
+	/**
+	* delete questions
+	*/
+	function confirmDeleteQuestionsObject()
+	{
+		// delete questions after confirmation
+		sendInfo($this->lng->txt("qpl_questions_deleted"), true);
+		foreach ($_SESSION["ass_q_id"] as $key => $value)
+		{
+			$this->object->deleteQuestion($value);
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
+
+	/**
+	* duplicate a question
+	*/
+	function duplicateObject()
+	{
+		// duplicate button was pressed
+		if (count($_POST["q_id"]) > 0)
+		{
+			foreach ($_POST["q_id"] as $key => $value)
+			{
+				$this->object->duplicateQuestion($value);
+			}
+		}
+		else
+		{
+			sendInfo($this->lng->txt("qpl_duplicate_select_none"));
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
+
+	/**
+	* export question
+	*/
+	function exportObject()
+	{
+		// export button was pressed
+		if (count($_POST["q_id"]) > 0)
+		{
+			foreach ($_POST["q_id"] as $key => $value)
+			{
+				$question =& $this->object->createQuestion("", $value);
+				$xml .= $question->object->to_xml();
+			}
+			if (count($_POST["q_id"]) > 1)
+			{
+				$xml = preg_replace("/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/", "", $xml);
+			}
+			$questiontitle = $question->object->getTitle();
+			$questiontitle = preg_replace("/[\s]/", "_", $questiontitle);
+			ilUtil::deliverData($xml, "$questiontitle.xml");
+			exit();
+		}
+		else
+		{
+			sendInfo($this->lng->txt("qpl_export_select_none"), true);
+		}
+		$this->ctrl->redirect($this, "questions");
+	}
+
+
+	/**
+	* list questions of question pool
+	*/
 	function questionsObject()
 	{
-echo "<br>ilObjQuestionPoolGUI->questionsObject()";
+//echo "<br>ilObjQuestionPoolGUI->questionsObject()";
 		global $rbacsystem;
 
 		$type = $_GET["sel_question_types"];
@@ -598,65 +676,6 @@ echo "<br>ilObjQuestionPoolGUI->questionsObject()";
 			elseif (count($checked_questions) == 0)
 			{
 				sendInfo($this->lng->txt("qpl_delete_select_none"));
-			}
-		}
-
-		if (strlen($_POST["cmd"]["confirm_delete"]) > 0)
-		{
-			// delete questions after confirmation
-			sendInfo($this->lng->txt("qpl_questions_deleted"));
-			$checked_questions = array();
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/id_(\d+)/", $key, $matches))
-				{
-					array_push($checked_questions, $matches[1]);
-				}
-			}
-			foreach ($checked_questions as $key => $value)
-			{
-				$this->object->deleteQuestion($value);
-			}
-		}
-
-		if (strlen($_POST["cmd"]["duplicate"]) > 0)
-		{
-			// duplicate button was pressed
-			if (count($checked_questions) > 0)
-			{
-				foreach ($checked_questions as $key => $value)
-				{
-					$this->object->duplicateQuestion($value);
-				}
-			}
-			elseif (count($checked_questions) == 0)
-			{
-				sendInfo($this->lng->txt("qpl_duplicate_select_none"));
-			}
-		}
-
-		if (strlen($_POST["cmd"]["export"]) > 0)
-		{
-			// export button was pressed
-			if (count($checked_questions) > 0)
-			{
-				foreach ($checked_questions as $key => $value)
-				{
-					$question =& $this->object->createQuestion("", $value);
-					$xml .= $question->object->to_xml();
-				}
-				if (count($checked_questions) > 1)
-				{
-					$xml = preg_replace("/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/", "", $xml);
-				}
-				$questiontitle = $question->object->getTitle();
-				$questiontitle = preg_replace("/[\s]/", "_", $questiontitle);
-				ilUtil::deliverData($xml, "$questiontitle.xml");
-				exit();
-			}
-			elseif (count($checked_questions) == 0)
-			{
-				sendInfo($this->lng->txt("qpl_export_select_none"));
 			}
 		}
 
@@ -1163,7 +1182,7 @@ echo "<br>ilObjQuestionPoolGUI->questionsObject()";
 	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php", $question_title = "")
 	{
-echo "<br>ilObjQuestionPoolGUI->setLocator()";
+//echo "<br>ilObjQuestionPoolGUI->setLocator()";
 		$ilias_locator = new ilLocatorGUI(false);
 		if (!is_object($a_tree))
 		{

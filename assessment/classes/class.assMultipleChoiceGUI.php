@@ -97,7 +97,7 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 	*/
 	function showEditForm()
 	{
-echo "<br>ASS_MultipleChoiceGUI->showEditForm()";
+//echo "<br>ASS_MultipleChoiceGUI->showEditForm()";
 		if ($this->object->get_response() == RESPONSE_SINGLE)
 		{
 			$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
@@ -266,7 +266,7 @@ echo "<br>ASS_MultipleChoiceGUI->showEditForm()";
 	*/
 	function outOtherQuestionData()
 	{
-echo "<br>ASS_MultipleChoiceGUI->outOtherQuestionData()";
+//echo "<br>ASS_MultipleChoiceGUI->outOtherQuestionData()";
 		$colspan = " colspan=\"3\"";
 
 		if (!empty($this->object->materials))
@@ -452,7 +452,7 @@ echo "<br>ASS_MultipleChoiceGUI->outOtherQuestionData()";
 
 		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
 		{
-echo "<br>checkInput1:FALSE";
+//echo "<br>checkInput1:FALSE";
 			return false;
 		}
 		foreach ($_POST as $key => $value)
@@ -461,7 +461,7 @@ echo "<br>checkInput1:FALSE";
 			{
 				if (!$value)
 				{
-echo "<br>checkInput2:FALSE";
+//echo "<br>checkInput2:FALSE";
 					return false;
 				}
 			}
@@ -547,7 +547,7 @@ echo "<br>checkInput2:FALSE";
 	function writePostData($force_save = false)
 	{
 //echo "here!"; exit;
-echo "<br>ASS_MultipleChoiceGUI->writePostData()";
+//echo "<br>ASS_MultipleChoiceGUI->writePostData()";
 		$result = 0;
 		if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
 		{
@@ -803,7 +803,7 @@ echo "<br>ASS_MultipleChoiceGUI->writePostData()";
 	*/
 	function outPreviewForm()
 	{
-echo "<br>ASS_MultipleChoiceGUI->outPreviewForm()";
+//echo "<br>ASS_MultipleChoiceGUI->outPreviewForm()";
 		$this->outWorkingForm();
 	}
 
