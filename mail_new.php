@@ -64,7 +64,11 @@ if(isset($_POST["cmd"]["send"]))
 	}
 	else
 	{
-		sendInfo($lng->txt("mail_message_send"));
+		$mbox = new ilMailbox($_SESSION["AccountId"]);
+
+		sendInfo($lng->txt("mail_message_send",true));
+		header("location: mail.php?sent=1&mobj_id=".$mbox->getInboxFolder());
+		exit;
 	}
 }
 
