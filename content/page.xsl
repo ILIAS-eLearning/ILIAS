@@ -1520,12 +1520,12 @@
 <xsl:template match="questestinterop"/>
 
 <!-- t&a: dump qti data -->
-<xsl:template match="material"/>
+<xsl:template match="matimage"/>
 
-<!-- t&a: text
+<!-- t&a: text -->
 <xsl:template match="mattext">
-	ee<xsl:apply-templates/>
-</xsl:template>-->
+	<xsl:apply-templates/>
+</xsl:template>
 
 
 <!-- t&a: response_str -->
