@@ -293,7 +293,7 @@ class ilLMEditorGUI
 		$exp = new ilLMEditorExplorer("lm_edit.php?cmd=view&ref_id=".$this->lm_obj->getRefId(),$this->lm_obj);
 		$exp->setTargetGet("obj_id");
 
-		if ($_GET["mexpand"] == "")
+		if ($_GET["lmexpand"] == "")
 		{
 			$mtree = new ilTree($this->lm_obj->getId());
 			$mtree->setTableNames('lm_tree','lm_data');
@@ -302,7 +302,7 @@ class ilLMEditorGUI
 		}
 		else
 		{
-			$expanded = $_GET["mexpand"];
+			$expanded = $_GET["lmexpand"];
 		}
 
 		$exp->setExpand($expanded);
@@ -314,7 +314,7 @@ class ilLMEditorGUI
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
 		$this->tpl->setVariable("EXPLORER",$output);
-		$this->tpl->setVariable("ACTION", "lm_edit.php?cmd=explorer&ref_id=".$this->ref_id."&mexpand=".$_GET["mexpand"]);
+		$this->tpl->setVariable("ACTION", "lm_edit.php?cmd=explorer&ref_id=".$this->ref_id."&lmexpand=".$_GET["lmexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
 
