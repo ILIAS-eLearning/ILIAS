@@ -38,6 +38,7 @@ change_password#:#Change password
 choose_language#:#choose your language
 choose_languages#:#Please choose additional languages and/or remove selected languages.
 choose_password#:#Please choose a password
+data_path#:#data path
 database#:#database
 database_exists#:#database exists
 database_is_uptodate#:#Your database is up-to-date
@@ -45,8 +46,6 @@ database_needs_update#:#Your database needs an update
 database_ready#:#database is ready.
 database_update#:#update database
 database_version#:#current database version
-data_path#:#data path
-webspace_dir#:#webspace data path
 date#:#date
 db_host#:#database host
 db_name#:#database name
@@ -138,5 +137,6 @@ update_applied#:#Update applied
 update_error#:#Error while updating
 update_not_found#:#Update not found!
 version#:#Version
+webspace_dir#:#webspace data path
 with#:#with
 wrong_password#:#Wrong password!
