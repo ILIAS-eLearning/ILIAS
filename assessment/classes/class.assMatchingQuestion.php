@@ -159,7 +159,7 @@ class ASS_MatchingQuestion extends ASS_Question
 
 		// add qti comment
 		$qtiComment = $this->domxml->create_element("qticomment");
-		$qtiCommentText = $this->domxml->create_text_node($this->getComment());
+		$qtiCommentText = $this->domxml->create_text_node("<![CDATA[".$this->getComment()."]]>");
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 
@@ -173,7 +173,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		// add material with question text to presentation
 		$qtiMaterial = $this->domxml->create_element("material");
 		$qtiMatText = $this->domxml->create_element("mattext");
-		$qtiMatTextText = $this->domxml->create_text_node($this->get_question());
+		$qtiMatTextText = $this->domxml->create_text_node("<![CDATA[".$this->get_question()."]]>");
 		$qtiMatText->append_child($qtiMatTextText);
 		$qtiMaterial->append_child($qtiMatText);
 		$qtiFlow->append_child($qtiMaterial);
@@ -250,7 +250,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			else
 			{
 				$qtiMatText = $this->domxml->create_element("mattext");
-				$qtiMatTextText = $this->domxml->create_text_node($matchingpair->get_answertext());
+				$qtiMatTextText = $this->domxml->create_text_node("<![CDATA[".$matchingpair->get_matchingtext()."]]>");
 				$qtiMatText->append_child($qtiMatTextText);
 				$qtiMaterial->append_child($qtiMatText);
 			}
