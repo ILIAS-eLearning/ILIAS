@@ -374,50 +374,45 @@ class ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// TODO: WE NEED ONLY THE ID IN THIS PLACE. MAYBE BY A FUNCTION getNodeIdsOfSubTree??
-		// FOR ALL SELECTED OBJECTS
+		// FOR ALL OBJECTS THAT SHOULD BE COPIED
 		foreach ($_POST["id"] as $ref_id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-
 			$node_data = $tree->getNodeData($ref_id);
 			$subtree_nodes = $tree->getSubTree($node_data);
-
+			
 			$all_node_data[] = $node_data;
 			$all_subtree_nodes[] = $subtree_nodes;
 
-			// CHECK READ PERMISSION OF ALL OBJECTS
+			// CHECK READ PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
 			foreach ($subtree_nodes as $node)
 			{
 				if (!$rbacsystem->checkAccess('read',$node["ref_id"]))
 				{
 					$no_copy[] = $node["ref_id"];
-					$perform_copy = false;
 				}
 			}
 		}
-
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'read'
 		if (count($no_copy))
 		{
-			$no_copy = implode(',',$no_copy);
+			foreach($no_copy as $id)
+			{
+				// GET OBJECT TITLE
+				$tmp_obj = $this->ilias->obj_factory->getInstanceByRefId($id);
+				$no_copy_title[] = $tmp_obj->getTitle();
+				unset($tmp_obj);
+			}
+			$no_copy = implode(',',$no_copy_title);
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_copy")." ".
 									 $no_copy,$this->ilias->error_obj->MESSAGE);
 		}
 
-		// COPY THEM
-		// SAVE SUBTREE
-		// TODO: clipboard is enough
-		$clipboard["parent"] = $_GET["ref_id"];
-		$clipboard["cmd"] = key($_POST["cmd"]);
-		
-		foreach ($_POST["id"] as $ref_id)
-		{
-			$clipboard["ref_ids"][] = $ref_id;
-		}
+		// OR SHORTER
+		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
+		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
+		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
 
-		$_SESSION["clipboard"] = $clipboard;
-		
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
@@ -688,45 +683,53 @@ class ilObjectGUI
 	*/
 	function cutObject()
 	{
-		global $clipboard,$tree,$rbacsystem,$rbacadmin;
+		global $tree, $rbacsystem;
 
-		// CHECK NOTHING CHECKED
 		if (!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		// CHECK ACCESS
+		// FOR ALL OBJECTS THAT SHOULD BE COPIED
 		foreach ($_POST["id"] as $ref_id)
 		{
-			if(!$rbacsystem->checkAccess('delete',$ref_id))
+			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
+			$node_data = $tree->getNodeData($ref_id);
+			$subtree_nodes = $tree->getSubTree($node_data);
+			
+			$all_node_data[] = $node_data;
+			$all_subtree_nodes[] = $subtree_nodes;
+
+			// CHECK DELETE PERMISSION OF ALL OBJECTS IN ACTUAL SUBTREE
+			foreach ($subtree_nodes as $node)
 			{
-				$no_cut[] = $ref_id;
+				if (!$rbacsystem->checkAccess('delete',$node["ref_id"]))
+				{
+					$no_cut[] = $node["ref_id"];
+				}
 			}
 		}
-
-		// NO ACCESS IF ONE OBJECT COULD NOT BE DELETED
+		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
 		if (count($no_cut))
 		{
+			foreach($no_cut as $id)
+			{
+				// GET OBJECT TITLE
+				$tmp_obj = $this->ilias->obj_factory->getInstanceByRefId($id);
+				$no_cut_title[] = $tmp_obj->getTitle();
+				unset($tmp_obj);
+			}
+			$no_cut = implode(',',$no_cut_title);
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_cut")." ".
-									 implode(',',$no_cut),$this->ilias->error_obj->MESSAGE);
+									 $no_cut,$this->ilias->error_obj->MESSAGE);
 		}
+		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
+		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
+		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
 
-		// WRITE TO CLIPBOARD
-		$clipboard["parent"] = $_GET["ref_id"];
-		$clipboard["cmd"] = key($_POST["cmd"]);
-		
-		foreach($_POST["id"] as $ref_id)
-		{
-			$clipboard["ref_ids"][] = $ref_id;
-		}
-
-		$_SESSION["clipboard"] = $clipboard;
-		
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
-
 	/**
 	* create an new reference of an object in tree
 	* it's like a hard link of unix
@@ -797,7 +800,8 @@ class ilObjectGUI
 	* @param	integer	reference id
 	* @param	integer	reference id of parent object
 	*/
-	function cloneObject($a_ref_id,$a_parent_id)
+#	function cloneObject($a_ref_id,$a_parent_id)
+	function cloneObject($a_ref_id)
 	{
 		global $objDefinition,$tree,$rbacsystem;
 
@@ -849,11 +853,11 @@ class ilObjectGUI
 
 		// NOW CLONE ALL OBJECTS
 		// THERFORE THE CLONE METHOD OF ALL OBJECTS IS CALLED
-//		foreach ($_SESSION["clipboard"] as $id => $object)
-//		{
-//			$this->cloneSavedNodes($id,$object["parent"],$a_obj_id,$a_parent_id,-(int) $id);
-//		}
-//		$this->clearObject();
+		foreach ($_SESSION["clipboard"] as $id => $object)
+		{
+			$this->cloneSavedNodes($id,$object["parent"],$a_obj_id,$a_parent_id,-(int) $id);
+		}
+		$this->clearObject();
 	}
 
 	/**
@@ -1892,6 +1896,7 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+		
 		// SAVE POST VALUES
 		$_SESSION["saved_post"] = $_POST["id"];
 
@@ -1916,8 +1921,8 @@ class ilObjectGUI
 				"last_update" => $obj_data->getLastUpdateDate());
 		}
 
-		$this->data["buttons"] = array( "cancelDelete"  => $this->lng->txt("cancel"),
-								  "confirmedDelete"  => $this->lng->txt("confirm"));
+		$this->data["buttons"] = array( "confirmedDelete"  => $this->lng->txt("confirm"),
+								  "cancelDelete"  => $this->lng->txt("cancel"));
 
 		$this->getTemplateFile("confirm");
 
