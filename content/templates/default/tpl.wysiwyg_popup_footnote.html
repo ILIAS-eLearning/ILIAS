@@ -154,6 +154,8 @@ function refreshFootnotes() {
 		obj2 = eval(fn);
 	}
 //	opener.editor.setHTML(TX);
+	
+	opener.editor.updateToolbar();
 	opener.refreshFootnotelist();
 	window.close();
 
@@ -177,6 +179,7 @@ function deleteFootnote(i)
 	//opener.fnCount = opener.fussnoten.length;
 	
 	opener.editor.setHTML(TX);
+	opener.editor.updateToolbar();
 	opener.refreshFootnotelist();
 	
 	window.location = "lm_edit.php?cmd=popup&ptype=footnote";
