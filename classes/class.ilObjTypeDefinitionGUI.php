@@ -26,7 +26,7 @@
 * Class ilObjTypeDefinitionGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.8 2003/06/12 14:37:40 smeyer Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.9 2003/06/12 14:51:05 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -38,7 +38,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 {
 	/**
 	* Constructor
-	* @access public
+	*
+	* @access	public
 	*/
 	function ilObjTypeDefinitionGUI($a_data,$a_id,$a_call_by_reference)
 	{
@@ -48,7 +49,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
 	/**
 	* list operations of object type
-	*/
+	* @access	public
+ 	*/
 	function viewObject()
 	{
 		global $rbacadmin, $rbacreview;
@@ -90,7 +92,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		require_once "./include/inc.sort.php";
+		include_once "./include/inc.sort.php";
 		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 
 		// now compute control information
@@ -114,9 +116,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
  	*/
 	function displayList()
 	{
-		global $tree, $rbacsystem;
-
-		require_once "./classes/class.ilTableGUI.php";
+		include_once "./classes/class.ilTableGUI.php";
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
@@ -215,12 +215,15 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
 	/**
 	* save (de-)activation of operations on object
+	*
+	* @access	public
 	*/
 	function saveObject()
 	{
-		global $rbacadmin,$rbacreview;
+		global $rbacadmin, $rbacreview;
 
 		$ops_valid = $rbacreview->getOperationsOnType($_GET["obj_id"]);
+
 		foreach ($_POST["id"] as $ops_id => $status)
 		{
 			if ($status == 'enabled')
@@ -236,12 +239,12 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 				if (in_array($ops_id,$ops_valid))
 				{
 					$rbacadmin->deassignOperationFromObject($_GET["obj_id"],$ops_id);
-//					$this->ilias->raiseError("It's not possible to deassign operations",$this->ilias->error_obj->WARNING);
 				}
 			}
 		}
 
 		sendInfo($this->lng->txt("saved_successfully"),true);
+
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		exit();
 	}
@@ -249,18 +252,17 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
 	/**
 	* display edit form
+	* 
+	* @access	public
 	*/
 	function editObject()
 	{
-		global $rbacsystem, $rbacadmin, $tpl, $rbacreview;
-
-		// TODO: maybe we can skip this check
-		if (!$rbacsystem->checkAccess('write',$_GET["ref_id"]))
+		global $rbacsystem, $rbacreview;
+		
+		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("No permission to edit operations",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-
-//		$this->getTemplateFile("edit");
 
 		//prepare objectlist
 		$this->data = array();
@@ -304,7 +306,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		require_once "./include/inc.sort.php";
+		include_once "./include/inc.sort.php";
 		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 
 		// now compute control information
@@ -321,7 +323,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		}					
 
 		// build table
-		require_once "./classes/class.ilTableGUI.php";
+		include_once "./classes/class.ilTableGUI.php";
 
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
@@ -399,69 +401,13 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
 				} //foreach
 
-$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("save"));
+				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("save"));
 
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 			} //for
 		} //if is_array
-
-
-//////////////////////////////
-/*		$this->getTemplateFile("edit");
-		$num = 0;
-
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=save");
-
-		//table header
-		foreach ($this->data["cols"] as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header_cell");
-
-			if ($key != "")
-			{
-			    $out = $this->lng->txt($key);
-			}
-			else
-			{
-				$out = "&nbsp;";
-			}
-
-			$this->tpl->setVariable("TEXT", $out);
-			$this->tpl->setVariable("LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&order=type&direction=".
-									$_GET["dir"]."&cmd=".$_GET["cmd"]);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		//table cell
-		for ($i=0; $i< count($this->data["data"]); $i++)
-		{
-			$data = $this->data["data"][$i];
-
-			$num++;
-
-			// color changing
-			$css_row = ilUtil::switchColor($num,"tblrow1","tblrow2");
-
-
-			//data
-			foreach ($data as $key => $val)
-			{
-				$this->tpl->setCurrentBlock("text");
-				$this->tpl->setVariable("TEXT_CONTENT", $val);
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("table_cell");
-				$this->tpl->parseCurrentBlock();
-			} //foreach
-
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->parseCurrentBlock();
-		} //for
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("save"));
-		*/
 	}
-
-} // END class.TypeDefinitionObjectOut
+} // END class.ilObjTypeDefinitionGUI
 ?>
