@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.28 2003/06/23 18:18:16 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.29 2003/06/26 14:18:25 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -48,8 +48,6 @@ class ilObjUserGUI extends ilObjectGUI
 	* Constructor
 	* @access	public
 	*/
-
-
 	function ilObjUserGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output = true)
 	{
 		$this->type = "usr";
@@ -79,8 +77,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$tpl->setCurrentBlock($a_template_block_name);
 
 		// Get name of picture of user
-
-		require_once "classes/class.ilObjUser.php";
+		include_once "classes/class.ilObjUser.php";
 		$userObj = new ilObjUser($_GET["user"]);
 
 		$tpl->setVariable("ROWCOL1", "tblrow1");
@@ -89,7 +86,7 @@ class ilObjUserGUI extends ilObjectGUI
 		//if (usr_id == $_GET["user"])
 		// Check from Database if value
 		// of public_profile = "y" show user infomation
-		if($userObj->getPref("public_profile")=="y")
+		if ($userObj->getPref("public_profile")=="y")
 		{
 			$tpl->setVariable("TXT_NAME",$this->lng->txt("name"));
 			$tpl->setVariable("FIRSTNAME",$userObj->getFirstName());
@@ -102,10 +99,10 @@ class ilObjUserGUI extends ilObjectGUI
 			$tpl->setVariable("LASTNAME","A");
 		}
 
-		if($userObj->getPref("public_upload")=="y")
+		if ($userObj->getPref("public_upload")=="y")
 		{
 			//Getting the flexible path of image form ini file
-			require_once "classes/class.ilSetup.php";
+			include_once "classes/class.ilSetup.php";
 			$mySetup = new ilSetup();
 			$mySetup->readIniFile();
 			$webspace_dir = $mySetup->getWebspacePath();
@@ -121,7 +118,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// Check from Database if value
 		// "y" show institute information
 		$tpl->setVariable("TXT_INSTITUTE",$this->lng->txt("institution"));
-		if($userObj->getPref(public_institution)=="y")
+
+		if ($userObj->getPref(public_institution)=="y")
 		{
 			$tpl->setVariable("INSTITUTE",$userObj->getInstitution());
 		}
@@ -133,7 +131,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// Check from Database if value
 		// "y" show institute information
 		$tpl->setVariable("TXT_STREET",$this->lng->txt("street"));
-		if($userObj->getPref(public_street)=="y")
+
+		if ($userObj->getPref(public_street)=="y")
 		{
 			$tpl->setVariable("STREET",$userObj->getStreet());
 		}
@@ -145,7 +144,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// Check from Database if value
 		// "y" show zip code information
 		$tpl->setVariable("TXT_ZIPCODE",$this->lng->txt("zipcode"));
-		if($userObj->getPref(public_zip)=="y")
+
+		if ($userObj->getPref(public_zip)=="y")
 		{
 			$tpl->setVariable("ZIPCODE",$userObj->getZipcode());
 		}
@@ -157,7 +157,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// Check from Database if value
 		// "y" show city information
 		$tpl->setVariable("TXT_CITY",$this->lng->txt("city"));
-		if($userObj->getPref(public_city)=="y")
+
+		if ($userObj->getPref(public_city)=="y")
 		{
 			$tpl->setVariable("CITY",$userObj->getCity());
 		}
@@ -169,7 +170,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// Check from Database if value
 		// "y" show country information
 		$tpl->setVariable("TXT_COUNTRY",$this->lng->txt("country"));
-		if($userObj->getPref(public_country)=="y")
+
+		if ($userObj->getPref(public_country)=="y")
 		{
 			$tpl->setVariable("COUNTRY",$userObj->getCountry());
 		}
@@ -181,7 +183,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// Check from Database if value
 		// "y" show phone information
 		$tpl->setVariable("TXT_PHONE",$this->lng->txt("phone"));
-		if($userObj->getPref(public_phone)=="y")
+
+		if ($userObj->getPref(public_phone)=="y")
 		{
 			$tpl->setVariable("PHONE",$userObj->getPhone());
 		}
@@ -193,7 +196,8 @@ class ilObjUserGUI extends ilObjectGUI
 		// Check from Database if value
 		// "y" show email information
 		$tpl->setVariable("TXT_EMAIL",$this->lng->txt("email"));
-		if($userObj->getPref(public_email)=="y")
+
+		if ($userObj->getPref(public_email)=="y")
 		{
 			$tpl->setVariable("EMAIL",$userObj->getEmail());
 		}
@@ -203,7 +207,8 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		$tpl->setVariable("TXT_HOBBY",$this->lng->txt("hobby"));
-		if($userObj->getPref(public_hobby)=="y")
+
+		if ($userObj->getPref(public_hobby)=="y")
 		{
 			$tpl->setVariable("HOBBY",$userObj->getHobby());
 		}
@@ -225,7 +230,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $_POST["new_type"]))
 		{
-			$this->ilias->raiseError("No permission to write to user folder",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
@@ -269,6 +274,7 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), $val);
 				$this->tpl->parseCurrentBlock();
 			}
+
 			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=save"."&ref_id=".$_GET["ref_id"]."&new_type=".$_POST["new_type"]);
 			$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 			$this->tpl->setVariable("TXT_REQUIRED_FIELDS", $this->lng->txt("required_field"));
@@ -292,8 +298,8 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->tpl->setVariable("PHONE",$_SESSION["error_post_vars"]["Fobject"]["phone"]);
 			$this->tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
 
-$this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
-;
+			$this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
+
 			// EMPTY SAVED VALUES
 			unset($_SESSION["error_post_vars"]);
 		}
@@ -309,9 +315,12 @@ $this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]
 	{
 		global $tpl, $rbacsystem, $rbacreview, $lng, $rbacadmin;
 
-		if ($rbacsystem->checkAccess('write',$_GET["ref_id"]) || ($this->id == $_SESSION["AccountId"]))
+		if (!$rbacsystem->checkAccess('write',$_GET["ref_id"]) || ($this->id == $_SESSION["AccountId"]))
 		{
-
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
 			// gender selection
 			$gender = ilUtil::formSelect($this->object->gender,"Fobject[gender]",$this->gender);
 
@@ -371,10 +380,6 @@ $this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]
 				$data["active_role"][$role]["title"] = $roleObj->getTitle();
 				unset($roleObj);
 			}
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to edit user",$this->ilias->error_obj->WARNING);
 		}
 
 		$this->getTemplateFile("edit","usr");
@@ -444,7 +449,7 @@ $this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]
 
 		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("No permission to create user",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_user"),$this->ilias->error_obj->WARNING);
 		}
 		// check required fields
 		if (empty($_POST["Fobject"]["firstname"]) or empty($_POST["Fobject"]["lastname"])
@@ -555,7 +560,7 @@ $this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]
 		// check write access
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 		{
-			$this->ilias->raiseError("No permission to modify user",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->WARNING);
 		}
 
 		// check required fields
@@ -651,14 +656,20 @@ $this->tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]
 	}
 
 
+	/**
+	* updates actives roles of user in session
+	* 
+	* @access	public
+	*/
 	function activeRoleSaveObject()
 	{
 		if (!count($_POST["active"]))
 		{
-			$this->ilias->raiseError("You must leave one active role",$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("min_one_active_role"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		$_SESSION["RoleId"] = $_POST["active"];
+
 		header("Location: adm_object.php?ref_id=$_GET[ref_id]&obj_id=$_GET[obj_id]&cmd=edit");
 		exit;
 	}

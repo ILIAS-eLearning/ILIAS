@@ -332,6 +332,9 @@ common#:#move_to#:#Ablegen in
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
 common#:#msg_error_copy#:#Fehler beim Kopieren
 common#:#msg_failed#:#Aktion fehlgeschlagen
+common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu &auml;ndern
+common#:#msg_no_perm_create_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzer anzulegen
+common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung
 common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Typs beinhalten: 
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu kopieren:###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu erzeugen:###04 Jul 2003 content changed
@@ -1084,3 +1087,4 @@ meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
 meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
 meta#:#meta_language#:#Language###14 May 2003 new variable
 meta#:#meta_title#:#Title###14 May 2003 new variable
+common#:#min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven Rollen zugewiesen sein!
