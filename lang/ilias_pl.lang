@@ -651,6 +651,7 @@ common#:#msg_multi_language_selected#:#Wybrałeś ten sam język dla różnych t
 common#:#msg_no_default_language#:#Domyślny język nie został wybrany! Musisz zdefiniować jedno tłumaczenie jako tłumaczenie domyślne.
 common#:#msg_no_delete_yourself#:#Nie możesz usunąć swojego konta.
 common#:#msg_no_language_selected#:#Nie podano języka tłumaczenia! Musisz zdefiniować język dla każdego tłumaczenia.
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#Nie masz uprawnień do tworzenia kopii następujących obiektów:
 common#:#msg_no_perm_create#:#Nie masz uprawnień do tworzenia następujących obiektów:
 common#:#msg_no_perm_create_object1#:#Nie masz uprawnień do tworzenia
@@ -673,6 +674,7 @@ common#:#msg_no_rolf_allowed1#:#Obiekt
 common#:#msg_no_rolf_allowed2#:#nie może zawierać Folderu Roli.
 common#:#msg_no_search_result#:#Brak pozycji.
 common#:#msg_no_search_string#:#Podaj swoje zapytanie
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
 common#:#msg_not_available_for_anon#:#Strona którą,wybrałeś jest dostępna tylko dla zarejestrowanych użytkowników.
 common#:#msg_not_in_itself#:#Nie można wkleić obiektu do samego siebie.
 common#:#msg_not_possible_link#:#Nie można utworzyć połączenia do obiektu: Typu
@@ -895,7 +897,7 @@ common#:#rolf_edit_permission#:#Zmień usawienia uprawnie�###31 Jan 2004 content
 common#:#rolf_edit_userassignment#:#Change userassignment of Roles###25 Jan 2004 new variable
 common#:#rolf_read#:#Prawo czytania Ról/Szablonów ról
 common#:#rolf_visible#:#Role/Szablony ról są widoczne
-common#:#rolf_write#:#Edycja Ról/Szablonów ról
+common#:#rolf_write#:#Edycja Ról/Szablonów ról###01 Feb 2004 content changed
 common#:#rolt#:#Szablon roli
 common#:#rolt_a#:#Szablon roli
 common#:#rolt_add#:#Dodaj szablon roli

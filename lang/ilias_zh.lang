@@ -668,6 +668,7 @@ common#:#msg_multi_language_selected#:#您为不同的翻译选择了相同的�
 common#:#msg_no_default_language#:#未指定缺省语言！您必须定义一个语言为缺省语言。
 common#:#msg_no_delete_yourself#:#您不能删除您自己的用户账号。
 common#:#msg_no_language_selected#:#未指定翻译语言！您必须为每一翻译定义一种语言
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#您无权限拷贝下列对象
 common#:#msg_no_perm_create#:#您无权限创建下列对象
 common#:#msg_no_perm_create_object1#:#您无权限创建
@@ -690,6 +691,7 @@ common#:#msg_no_rolf_allowed1#:#对象
 common#:#msg_no_rolf_allowed2#:#不允许包含角色夹
 common#:#msg_no_search_result#:#未找到条目
 common#:#msg_no_search_string#:#请输入您的问题
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
 common#:#msg_not_available_for_anon#:#您选择的页只能为注册的用户访问
 common#:#msg_not_in_itself#:#对象不可以自身粘贴
 common#:#msg_not_possible_link#:#不可以创建对象联接类型

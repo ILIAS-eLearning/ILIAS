@@ -651,6 +651,7 @@ common#:#msg_multi_language_selected#:#You selected the same language for differ
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.###01 Sep 2003 new variable
 common#:#msg_no_delete_yourself#:#Do you feel depressed? weary of life? You cannot delete your own user account.###19 Aug 2003 new variable
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation###01 Sep 2003 new variable
+common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create_object1#:#You have no permission to create###06 Aug 2003 new variable
@@ -673,6 +674,7 @@ common#:#msg_no_rolf_allowed1#:#The object###10 Jul 2003 new variable
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder.###10 Jul 2003 new variable
 common#:#msg_no_search_result#:#No entries found###04 Aug 2003 new variable
 common#:#msg_no_search_string#:#Please enter your query###04 Aug 2003 new variable
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#You may not assign users to the Systemadministrator Role if you are not assigned yourself to that Role ###01 Feb 2004 new variable
 common#:#msg_not_available_for_anon#:#The page you have chosen is only accessible for registered users###18 Nov 2003 new variable
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself###04 Aug 2003 new variable
 common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type###04 Aug 2003 new variable
