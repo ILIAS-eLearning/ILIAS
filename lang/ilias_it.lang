@@ -310,6 +310,7 @@ common#:#import_slm#:#Importa SCORM Package###23 Jun 2003 new variable
 common#:#in#:#in###01 Nov 2003 new variable
 common#:#in_use#:#Lingua utente
 common#:#inbox#:#Posta in arrivo
+common#:#info_assign_sure#:#Are you sure you want to assign the following user(s)?###04 Nov 2003 new variable
 common#:#info_delete_sure#:#Sei sicuro di voler cancellare i seguenti oggetti
 common#:#info_deleted#:#Oggetti cancellati
 common#:#info_trash#:#Oggetti cancellati
@@ -444,6 +445,7 @@ common#:#mail_z_local#:#Cartelle utente###25 Mar 2003 new variable
 common#:#mails#:#Mail
 common#:#mark_all_read#:#Contrassegna tutto come letto
 common#:#mark_all_unread#:#Contrassegna tutto come non letto
+common#:#member#:#Member###04 Nov 2003 new variable
 common#:#members#:#Membri
 common#:#message#:#Messaggio
 common#:#message_content#:#Contenuto del messaggio
@@ -515,6 +517,8 @@ common#:#msg_removed#:#Oggetti cancellati dal sistema.###10 Jul 2003 new variabl
 common#:#msg_role_exists1#:#Un ruolo/template di ruolo con il nome###08 Jul 2003 new variable
 common#:#msg_role_exists2#:#esiste gi&agrave;! Per favore, scegline un altro.###08 Jul 2003 new variable
 common#:#msg_role_reserved_prefix#:#Il prefisso 'il_' ai ruoli 'autogenerati'. Per favore, scegline un altro###19 Aug 2003 new variable
+common#:#msg_roleassignment_active_changed#:#Active Roleassigment changed###04 Nov 2003 new variable
+common#:#msg_roleassignment_active_changed_comment#:#This settings is not saved to the user's profile! If the user re-login all active role assignments reset to saved values again. ###04 Nov 2003 new variable
 common#:#msg_roleassignment_changed#:#Assegnamento del ruolo cambiato###04 Aug 2003 new variable
 common#:#msg_trash_empty#:#Non ci sono oggetti cancellati
 common#:#msg_undeleted#:#Cancellazione annullata.###10 Jul 2003 new variable
