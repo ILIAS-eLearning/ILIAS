@@ -110,6 +110,8 @@ assessment#:#apply#:#Aplicar
 assessment#:#ass_questions#:#Questões
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#por
+assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
+assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###07 Oct 2004 new variable
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
@@ -304,6 +306,7 @@ assessment#:#solution_order#:#Ordem solução
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
 assessment#:#symbol#:#Símbolo
+assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
 assessment#:#text_gap#:#Espaço de Texto
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
@@ -1445,6 +1448,7 @@ common#:#mails#:#Mensagens###14 Sep 2004 content changed
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#Marcar Todas como Lidas
 common#:#mark_all_unread#:#Marcar Todas como Não Lidas
+common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
 common#:#max_number_rec#:#Número máximo de registos
 common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Membro
@@ -2127,6 +2131,7 @@ common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#Importação de utilizador completa.
 common#:#user_language#:#Linguagem de Utilizador
 common#:#user_not_chosen#:#Você não escolheu um membro do grupo!
+common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
 common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#Dados do utilizador
 common#:#username#:#Nome do utilizador

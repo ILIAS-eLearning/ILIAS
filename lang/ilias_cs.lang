@@ -110,6 +110,8 @@ assessment#:#apply#:#Apply###16 Mar 2004 new variable
 assessment#:#ass_questions#:#Questions###16 Mar 2004 new variable
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#by###16 Mar 2004 new variable
+assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
+assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###07 Oct 2004 new variable
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
@@ -304,6 +306,7 @@ assessment#:#solution_order#:#Solution order###16 Mar 2004 new variable
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#starting_time_not_reached#:#You have not reached the starting time###23 Jun 2004 new variable
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
+assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
 assessment#:#text_gap#:#Text gap###16 Mar 2004 new variable
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!###19 May 2004 new variable
@@ -1445,6 +1448,7 @@ common#:#mails#:#Pošta###14 Sep 2004 content changed
 common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
 common#:#mark_all_read#:#Označit všechny jako přečtené
 common#:#mark_all_unread#:#Označit všechny jako nepřečtené
+common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
 common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
 common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Člen
@@ -2127,6 +2131,7 @@ common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#User import complete.###16 Mar 2004 new variable
 common#:#user_language#:#Uživatelský jazyk
 common#:#user_not_chosen#:#Nevybral(a) jste člena skupiny!
+common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
 common#:#user_statistics#:#Statistical Data###21 Jul 2004 new variable
 common#:#userdata#:#Údaje o uživateli
 common#:#username#:#Uživatelské jméno

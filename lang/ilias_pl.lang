@@ -109,6 +109,8 @@ assessment#:#apply#:#Zastosuj
 assessment#:#ass_questions#:#Pytania
 assessment#:#available_points#:#Available points###20 Sep 2004 new variable
 assessment#:#by#:#przez
+assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
+assessment#:#cannot_export_test#:#You do not possess sufficient permissions to export the test!###07 Oct 2004 new variable
 assessment#:#cannot_maintain_test#:#You do not possess sufficient permissions to maintain the test!###24 Sep 2004 new variable
 assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!###03 Oct 2004 new variable
 assessment#:#change_solution#:#Change suggested solution###05 Oct 2004 new variable
@@ -284,6 +286,7 @@ assessment#:#solution_hint#:#Suggested solution###05 Oct 2004 new variable
 assessment#:#solution_order#:#Porządek rozwiązywania
 assessment#:#start_tag#:#Znacznik początku
 assessment#:#symbol#:#Symbol
+assessment#:#test_cancelled#:#The test was cancelled###07 Oct 2004 new variable
 assessment#:#text_gap#:#Tekst odstępu
 assessment#:#time_format#:#GG MM SS
 assessment#:#too_many_empty_parameters#:#Wypełnij puste parametry apletu przed dodaniem nowego parametru!
@@ -1368,6 +1371,7 @@ common#:#mails#:#Wiadomości
 common#:#manage_tracking_data#:#Zarządzanie  danymi śledzenia
 common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
 common#:#mark_all_unread#:#Zaznacz wszystkie jako nieodczytane
+common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
 common#:#max_number_rec#:#Maksymalna liczba rekordów
 common#:#max_time#:#Maksymalny czas
 common#:#member#:#Członek
@@ -1983,6 +1987,7 @@ common#:#user_detail#:#Dane szczegółowe
 common#:#user_imported#:#Zakończony import użytkowników.
 common#:#user_language#:#Język użytkownika
 common#:#user_not_chosen#:#Nie możesz wybrać członka grupy!
+common#:#user_profile_other#:#Other Information###07 Oct 2004 new variable
 common#:#user_statistics#:#Dane statystyczne
 common#:#userdata#:#Dane użytkownika
 common#:#username#:#Użytkownik
