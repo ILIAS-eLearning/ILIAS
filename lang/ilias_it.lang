@@ -66,6 +66,7 @@ common#:#author#:#Autore
 common#:#authors#:#Autori
 common#:#available_languages#:#Lingue disponibili
 common#:#back#:#Indietro
+common#:#in#:#in
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Dati di base
 common#:#bm#:#Preferiti###09 Apr 2003 new variable
@@ -510,6 +511,9 @@ common#:#msg_undeleted#:#Cancellazione annullata.###10 Jul 2003 new variable
 common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a questo ruolo:###04 Jul 2003 new variable
 common#:#msg_user_last_role2#:#Per favore, cancella gli utenti o assegna loro un altro ruolo se vuoi cancellare questo ruolo.###04 Jul 2003 new variable
 common#:#msg_userassignment_changed#:#Cambiato assegnamento utente.###08 Jul 2003 new variable
+common#:#msg_user_last_role1#:#I seguenti utenti sono assegnati solamente a questo ruolo:
+common#:#msg_user_last_role2#:#Per poter cancellare questo ruolo, cancella gli utenti o assegnali ad un altro ruolo.
+common#:#msg_userassignment_changed#:#Assegnamento cambiato
 common#:#multimedia#:#Multimedia
 common#:#my_bms#:#I miei preferiti###29 Oct 2003 new variable
 common#:#my_frms#:#I miei forum###19 Aug 2003 new variable
@@ -947,6 +951,7 @@ content#:#cont_new_media_obj#:#Nuovo oggetto multimediale###13 Sep 2003 new vari
 content#:#cont_new_term#:#Nuovo termine###16 Aug 2003 new variable
 content#:#cont_no_assign_itself#:#L&acute;oggetto non pu&ograve; essere assegnato a s&eacute; stesso###26 Sep 2003 new variable
 content#:#cont_no_object_found#:#Non &egrave; stato trovato nessun oggetto con questo titolo###26 Sep 2003 new variable
+content#:#cont_no_page#:#Nessuna pagina trovata.
 content#:#cont_none#:#Nessuno###16 Jul 2003 new variable
 content#:#cont_nr_cols#:#Numero di colonne###09 Jun 2003 new variable
 content#:#cont_nr_items#:#Numero di elementi###12 Jul 2003 new variable
