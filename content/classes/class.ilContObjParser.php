@@ -714,18 +714,18 @@ class ilContObjParser extends ilSaxParser
 					$this->st_into_tree[] = array ("id" => $this->current_object->getId(),
 						"parent" => $parent_id);
 
-                    // Metadaten eines StructureObjects sichern in NestedSet
-                    include_once("./classes/class.ilNestedSetXML.php");
-                    $nested = new ilNestedSetXML();
-                    $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"st");
+					// Metadaten eines StructureObjects sichern in NestedSet
+					include_once("./classes/class.ilNestedSetXML.php");
+					$nested = new ilNestedSetXML();
+					$nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),"st");
 				}
-                else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule")
-                {
-                    // Metadaten eines ContentObjects sichern in NestedSet
-                    include_once("./classes/class.ilNestedSetXML.php");
-                    $nested = new ilNestedSetXML();
-                    $nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),$this->current_object->getType());
-                }
+				else if(get_class($this->current_object) == "ilobjdlbook" || get_class($this->current_object) == "ilobjlearningmodule")
+				{
+					// Metadaten eines ContentObjects sichern in NestedSet
+					include_once("./classes/class.ilNestedSetXML.php");
+					$nested = new ilNestedSetXML();
+					$nested->import($this->meta_data->getXMLContent(),$this->current_object->getId(),$this->current_object->getType());
+				}
 				else if(get_class($this->current_object) == "ilglossarydefinition" && !$this->in_media_object)
 				{
 //echo "saving page_object, xml:".$this->page_object->getXMLContent().":<br>";
@@ -750,12 +750,8 @@ class ilContObjParser extends ilSaxParser
 
 				$this->in_bib_item = false;
 
-                $nested = new ilNestedSetXML();
-                $nested->import($this->bib_item->getXMLContent(),$this->content_object->getId(),"bib");
-                break;
-
-			case "Paragraph":
-				// can't unset paragraph object, because PageObject is still processing
+				$nested = new ilNestedSetXML();
+				$nested->import($this->bib_item->getXMLContent(),$this->content_object->getId(),"bib");
 				break;
 
 			case "Table":

@@ -140,21 +140,17 @@ class ilLMPageObject extends ilLMObject
 		return $this->is_alias;
 	}
 
+	// only for page aliases
 	function setOriginID($a_id)
 	{
 		return $this->origin_id = $a_id;
 	}
 
+	// only for page aliases
 	function getOriginID()
 	{
 		return $this->origin_id;
 	}
-
-	function getimportId()
-	{
-		return $this->meta_data->getImportIdentifierEntryID();
-	}
-
 
 	/**
 	* static
