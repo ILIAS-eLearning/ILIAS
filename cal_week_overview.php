@@ -62,6 +62,7 @@ $appointments = $ah->getAppointmentArrayList($ilias->account->getId(), $beginnin
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.cal_week_overview.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 // display tabs
 include "./include/inc.calendar_tabs.php";

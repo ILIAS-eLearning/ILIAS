@@ -40,6 +40,7 @@ if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 }
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_agreement.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 //$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 

@@ -35,7 +35,7 @@ require_once "./include/inc.header.php";
 require_once "./classes/class.ilObjUserGUI.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_profile_view.html");
-//$tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 // set locator

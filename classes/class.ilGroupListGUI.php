@@ -153,6 +153,7 @@ class ilGroupListGUI
 		require_once "./classes/class.ilTableGUI.php";
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_basic.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		//$title = $this->object->getTitle();
 		//$locatorscript = "group.php?cmd=choose_view&";
 		$locatorscript = "grp_list.php?&cmd=displayList&viewmode=".$_SESSION["viewmode"]."&";

@@ -43,6 +43,7 @@ $frm->setForumRefId($forumObj->getRefId());
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $forumObj->getTitle());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_liste.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 // display infopanel if something happened

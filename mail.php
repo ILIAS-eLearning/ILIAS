@@ -47,6 +47,7 @@ $umail = new ilMail($_SESSION["AccountId"]);
 $mbox = new ilMailBox($_SESSION["AccountId"]);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 // display infopanel if something happened
 $tpl->setVariable("TXT_MAILS_OF",$lng->txt("mail_mails_of"));
 infoPanel();

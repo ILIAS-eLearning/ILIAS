@@ -45,6 +45,7 @@ $umail = new ilFormatMail($_SESSION["AccountId"]);
 $mfile = new ilFileDataMail($_SESSION["AccountId"]);
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_new.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->setVariable("TXT_COMPOSE",$lng->txt("mail_compose"));
 infoPanel();
 

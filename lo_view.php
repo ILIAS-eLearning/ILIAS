@@ -69,7 +69,7 @@ xslt_free($xh);
 
 //$T1 = ilUtil::StopWatch(); 
 $tpl->addBlockFile("CONTENT", "content", "tpl.lo_content.html");
-//$tpl->addBlockFile("LM_NAVBAR", "navbar", "tpl.lm_navbar.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 $tpl->touchBlock("buttons");
 

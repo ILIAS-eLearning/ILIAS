@@ -46,6 +46,7 @@ $topicData = $frm->getOneTopic();
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $forumObj->getTitle());
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_threads_new.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 // display infopanel if something happened
 infoPanel();

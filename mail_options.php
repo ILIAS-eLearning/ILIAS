@@ -42,6 +42,7 @@ $umail = new ilFormatMail($_SESSION["AccountId"]);
 
 // CREATE OUTPUT
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_options.html");
+$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 $tpl->setVariable("TXT_OPTIONS_OF",$lng->txt("mail_options_of"));
 infoPanel();
 

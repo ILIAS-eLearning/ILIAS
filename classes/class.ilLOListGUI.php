@@ -140,6 +140,7 @@ class ilLOListGUI
 	function displayList()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lo_overview.html");
+		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 		// add everywhere wegen sparkassen skin
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
