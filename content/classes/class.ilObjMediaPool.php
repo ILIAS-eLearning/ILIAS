@@ -308,6 +308,23 @@ class ilObjMediaPool extends ilObject
 
 		return $this->tree->getParentId($obj_id);
 	}
+	
+	function insertInTree($a_obj_id, $a_parent = "")
+	{
+		if (!$this->tree->isInTree($a_obj_id))
+		{
+			$parent = ($a_parent == "")
+				? $this->tree->getRootId()
+				: $a_parent;
+			$this->tree->insertNode($a_obj_id, $parent);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 
 	function deleteChild($obj_id)
 	{

@@ -21,10 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once ("content/classes/Pages/class.ilPageEditorGUI.php");
-require_once("./content/classes/Pages/class.ilPageObject.php");
-require_once("./content/classes/class.ilEditClipboardGUI.php");
-require_once("./classes/class.ilDOMUtil.php");
+include_once ("content/classes/Pages/class.ilPageEditorGUI.php");
+include_once("./content/classes/Pages/class.ilPageObject.php");
+include_once("./content/classes/class.ilEditClipboardGUI.php");
+include_once("./classes/class.ilDOMUtil.php");
 
 
 /**
@@ -36,7 +36,7 @@ require_once("./classes/class.ilDOMUtil.php");
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI
+* @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
 *
 * @package content
 */
@@ -356,6 +356,12 @@ class ilPageObjectGUI
 				//$page_editor->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($page_editor);
 				break;
+				
+			case "ilmediapooltargetselector":
+				include_once("content/classes/class.ilMediaPoolTargetSelector.php");
+				$target_sel =& new ilMediaPoolTargetSelector();
+				$ret =& $this->ctrl->forwardCommand($target_sel);
+				break;
 
 			default:
 				$ret =& $this->$cmd();
@@ -479,6 +485,7 @@ class ilPageObjectGUI
 						ilUtil::formSelect(0, "mob_id", $mob_links, false, true));
 					$this->tpl->setVariable("TXT_EDIT_MEDIA", $this->lng->txt("cont_edit_mob"));
 					$this->tpl->setVariable("TXT_COPY_TO_CLIPBOARD", $this->lng->txt("cont_copy_to_clipboard"));
+					//$this->tpl->setVariable("TXT_COPY_TO_POOL", $this->lng->txt("cont_copy_to_mediapool"));
 					$this->tpl->parseCurrentBlock();
 				}
 			}

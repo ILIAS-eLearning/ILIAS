@@ -184,6 +184,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				$this->prepareOutput();
 				$this->ctrl->setReturn($this, "listMedia");
 				$clip_gui = new ilEditClipboardGUI();
+				$clip_gui->setMultipleSelections(true);
 				//$ret =& $clip_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($clip_gui);
 				$this->tpl->show();
@@ -405,6 +406,12 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_NAME", "copyToClipboard");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_copy_to_clipboard"));
 		$this->tpl->parseCurrentBlock();
+		
+		// copy to clipboard
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "pasteFromClipboard");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cont_paste_from_clipboard"));
+		$this->tpl->parseCurrentBlock();
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
@@ -593,6 +600,46 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		}
 		$this->tpl->show();
 	}
+	
+	/**
+	* paste from clipboard
+	*/
+	function pasteFromClipboard()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->setParameterByClass("ileditclipboardgui", "returnCommand",
+			rawurlencode($ilCtrl->getLinkTarget($this,
+			"insertFromClipboard")));
+//echo ":".$ilCtrl->getLinkTarget($this, "insertFromClipboard").":";
+		$ilCtrl->redirectByClass("ilEditClipboardGUI", "getObject");
+	}
+	
+	
+	/**
+	* insert media object from clipboard
+	*/
+	function insertFromClipboard()
+	{
+		include_once("content/classes/class.ilEditClipboardGUI.php");
+		$ids = ilEditClipboardGUI::_getSelectedIDs();
+		$not_inserted = array();
+		foreach ($ids as $id)
+		{
+			if (!$this->object->insertInTree($id, $_GET["obj_id"]))
+			{
+				$not_inserted[] = ilObject::_lookupTitle($id)." [".
+					$id."]";
+			}
+		}
+		if (count($not_inserted) > 0)
+		{
+			sendInfo($this->lng->txt("mep_not_insert_already_exist")."<br>".
+				implode($not_inserted,"<br>"), true);
+		}
+		$this->ctrl->redirect($this, "listMedia");
+	}
+
 
 	/**
 	* cancel deletion of media objects/folders
