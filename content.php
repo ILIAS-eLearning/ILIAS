@@ -10,34 +10,33 @@ $obj = getObject($obj_id);
 //  Type = usrf => Verzweige nach content_user.php
 if($obj["type"] == 'usrf')
 {
-	header("Location: content_user.php?obj_id=$obj_id&parent=$parent");
+	header("Location: content_user.php?obj_id=$obj_id&parent=$parent&order=$_GET[order]&direction=$_GET[direction]");
 	exit();
 }
 // Type = rolf => Verzweige nach content_role.php
 if($obj["type"] == 'rolf')
 {
-	header("Location: content_role.php?obj_id=$obj_id&parent=$parent");
+	header("Location: content_role.php?obj_id=$obj_id&parent=$parent&order=$_GET[order]&direction=$_GET[direction]");
 	exit();
 }
 // Type = objf => Verzweige nach content_type.php
 if($obj["type"] == 'objf')
 {
-	header("Location: content_type.php?obj_id=$obj_id&parent=$parent");
+	header("Location: content_type.php?obj_id=$obj_id&parent=$parent&order=$_GET[order]&direction=$_GET[direction]");
 	exit();
 }
 // Type = adm => Verzweige nach content_adm.php
 if($obj["type"] == 'adm')
 {
-	header("Location: content_adm.php?obj_id=$obj_id&parent=$parent");
+	header("Location: content_adm.php?obj_id=$obj_id&parent=$parent&order=$_GET[order]&direction=$_GET[direction]");
 	exit();
 }
 //  Type = type => Verzweige nach content_type.php
 if($obj["type"] == 'type')
 {
-	header("Location: content_operations.php?obj_id=$obj_id&parent=$parent");
+	header("Location: content_operations.php?obj_id=$obj_id&parent=$parent&order=$_GET[order]&direction=$_GET[direction]");
 	exit();
 }
-
 // Template-Engine anschmeissen
 $tplContent = new Template("content_main.html",true,true);
 
@@ -65,13 +64,22 @@ $tplContent->setVariable("TREEPATH",$path);
 //$tplContent->setVariable("OBJ_SELF",substr(strrchr($REQUEST_URI, "/"), 1));
 $tplContent->setVariable("OBJ_SELF","content.php?parent=$parent&obj_id=$obj_id");
 
+// determine sort direction
+if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
+{
+	$tplContent->setVariable("DIR",'DESC');
+}
+if($_GET["direction"] == 'DESC')
+{
+	$tplContent->setVariable("DIR",'ASC');
+}
+
 $tplContent->setCurrentBlock("row",true);
 
 $rbacsystem = new RbacSystemH($ilias->db);
-if ($tree->getChilds())
+if ($tree->getChilds($_GET["obj_id"],$_GET["order"],$_GET["direction"]))
 {
 	$zaehler = 0;
-	
 	foreach ($tree->Childs as $key => $val)
     {
 		// VISIBLE?

@@ -203,12 +203,13 @@
 	  </table>
 	  </form>
 <br><br>
+<!-- BEGIN ASSIGN --> 
 <span style="color: #000000;">
   <strong>
 	{MESSAGE_BOTTOM}
   </strong>
 <br><br>
-	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=assignSave" name="objectItems" method="post">
+	<form action="object.php?obj_id={ASSIGN_OBJ_ID}&parent={ASSIGN_TPOS}&cmd=assignSave" name="objectItems" method="post">
 	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="header">
 			<td width="20%" align="left">
@@ -239,5 +240,6 @@
 			</tr>
 	  </table>
 	  </form>
+<!-- END ASSIGN -->
 </body>
 </html>

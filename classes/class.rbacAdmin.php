@@ -39,10 +39,6 @@ class RbacAdmin extends PEAR
 		$res = $this->db->query("SELECT obj_id FROM object_data ".
 								"WHERE title ='".$a_title.
 								"' AND type = 'role'");
-        if (DB::isError($res))
-        {
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$id[] = $row->obj_id;
@@ -66,10 +62,6 @@ class RbacAdmin extends PEAR
 			"',0,now(),now())";
 
 		$res = $this->db->query($query);
-        if (DB::isError($res))
-        {
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		return true;
     }
 /**
@@ -85,28 +77,12 @@ class RbacAdmin extends PEAR
 			// Einträge in object_data
 			$res = $this->db->query("DELETE FROM object_data ".
 									"WHERE obj_id='".$id."'");
-			if (DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-			}
 			$res = $this->db->query("DELETE FROM rbac_pa ".
 									"WHERE obj_id='".$id."'");
-			if (DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-			}
 			$res = $this->db->query("DELETE FROM rbac_ua ".
 									"WHERE usr_id='".$id."'");
-			if (DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-			}
 			$res = $this->db->query("DELETE FROM user_data ".
 									"WHERE usr_id='".$id."'");
-			if (DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-			}
 		}
 		return true;
     }
@@ -129,10 +105,6 @@ class RbacAdmin extends PEAR
 			"email = '".$a_userdata["Email"]."'".
 			" WHERE usr_id = '".$a_userdata["Id"]."'";
 		$res = $this->db->query($query);
-		if (DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		return true;
 	}
 /**
@@ -155,18 +127,10 @@ class RbacAdmin extends PEAR
 			"VALUES ('role','".$a_title."','".$a_description ."','-1',now(),now())";
 
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 
 		// Eintrag in rbac_ua
  		$query = "SELECT LAST_INSERT_ID()";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		$row = $res->fetchRow();
 		if(!$this->assignUser($row[0]))
 		{
@@ -193,34 +157,14 @@ class RbacAdmin extends PEAR
     {
 		$this->db->query("DELETE FROM object_data ".
 						 "WHERE obj_id = '".$a_obj_id ."'");
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		$this->db->query("DELETE FROM rbac_pa ".
 						 "WHERE rol_id = '".$a_obj_id ."'");
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		$this->db->query("DELETE FROM rbac_templates ".
 						 "WHERE rol_id = '".$a_obj_id ."'");
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		$this->db->query("DELETE FROM rbac_ua ".
 						 "WHERE rol_id = '".$a_obj_id ."'");
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		$this->db->query("DELETE FROM rbac_fa ".
 						 "WHERE rol_id = '".$a_obj_id ."'");
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		return 1;
     }
 /**
@@ -236,18 +180,10 @@ class RbacAdmin extends PEAR
 			"WHERE rol_id = '".$a_rol_id."' ".
 			"AND parent = '".$a_parent."'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		$query = "DELETE FROM rbac_templates ".
 			"WHERE rol_id = '".$a_rol_id."' ".
 			"AND parent = '".$a_parent."'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		return true;
 	}
 /**
@@ -316,10 +252,6 @@ class RbacAdmin extends PEAR
 		$query = "INSERT INTO rbac_ua ".
 			"VALUES ('".$a_usr_id."','".$a_rol_id."')";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		return 1;
     }
 /**
@@ -335,10 +267,6 @@ class RbacAdmin extends PEAR
 			"WHERE usr_id='".$a_usr_id."' ".
 			"AND rol_id='".$a_rol_id."'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		return 1;
     }
 /**
@@ -356,10 +284,6 @@ class RbacAdmin extends PEAR
 		$ops_ids = addslashes(serialize($a_ops_id));
 		$query = "INSERT INTO rbac_pa VALUES('".$a_rol_id."','".$ops_ids."','".$a_obj_id."','".$a_setid."')";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-	    }
 		return 1;
     }
 /**
@@ -387,10 +311,6 @@ class RbacAdmin extends PEAR
 			$and1.
 			$and2;
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		return 1;
     }
 /**
@@ -410,10 +330,6 @@ class RbacAdmin extends PEAR
 			"AND parent='".$a_parent."'";
 		
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		} 
 		if(!$res->numRows())
 			return $ops_id;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -438,19 +354,11 @@ class RbacAdmin extends PEAR
 			"WHERE rol_id = '".$a_rol_id."' ".
 			"AND parent = '".$a_from."'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		} 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$query = "INSERT INTO rbac_templates ".
 				"VALUES('".$a_dest_rol_id."','".$row->type."','".$row->ops_id."','".$a_to."')";
 			$result = $this->db->query($query);
-			if(DB::isError($result))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-			} 
 		}
 		return true;
 	}
@@ -467,10 +375,6 @@ class RbacAdmin extends PEAR
 			"WHERE rol_id = '".$a_rol_id."' ".
 			"AND parent = '".$a_parent."'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		} 
 		return true;
 	}
 /**
@@ -492,10 +396,6 @@ class RbacAdmin extends PEAR
 			$query = "INSERT INTO rbac_templates ".
 				"VALUES('".$a_rol_id."','".$a_type."','".$o."','".$a_parent."')";
 			$res = $this->db->query($query);
-			if(DB::isError($res))
-			{
-				return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-			}
 		}
 		return 1;
     }
@@ -511,10 +411,6 @@ class RbacAdmin extends PEAR
 		$query = "SELECT DISTINCT set_id FROM rbac_pa ".
 			"WHERE obj_id = '".$a_obj_id."'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
         while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$set_id[] = $row->set_id;
@@ -527,20 +423,20 @@ class RbacAdmin extends PEAR
  * @param int object id
  * @return array set ids
  */
-	function getRoleListByObject($a_parent)
+	function getRoleListByObject($a_parent,$a_order='',$a_direction='')
 	{
 		$role_list = array();
+
+		if(!$a_order)
+			$a_order = 'type';
 
 		$query = "SELECT * FROM object_data ".
 			"JOIN rbac_fa ".
 			"WHERE object_data.type = 'role' ".
 			"AND object_data.obj_id = rbac_fa.rol_id ".
-			"AND rbac_fa.parent = '".$a_parent."'";
+			"AND rbac_fa.parent = '".$a_parent."' ".
+			"ORDER BY ".$a_order." ".$a_direction;
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$role_list[] = array( 
@@ -567,10 +463,6 @@ class RbacAdmin extends PEAR
 		$query = "INSERT INTO rbac_fa (rol_id,parent,assign) ".
 			"VALUES ('".$a_rol_id."','".$a_parent."','".$a_assign."')";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		return true;
 	}
 /**
@@ -605,10 +497,6 @@ class RbacAdmin extends PEAR
 			"WHERE type = 'role' ".
 			"AND obj_id = '".$a_obj_id."'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$role_list = array( 
@@ -635,10 +523,6 @@ class RbacAdmin extends PEAR
 		$query = "SELECT DISTINCT parent FROM rbac_fa ".
 			"WHERE rol_id = '".$a_rol_id."'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$parent[] = $row->parent;
@@ -656,10 +540,6 @@ class RbacAdmin extends PEAR
 		$query = "SELECT rol_id FROM rbac_fa ".
 			"WHERE parent = '".$a_parent."'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$rol_id[] = $row->rol_id;
@@ -678,10 +558,6 @@ class RbacAdmin extends PEAR
 		
 		$query = "SELECT DISTINCT parent FROM rbac_fa";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$parent[] = $row->parent;
@@ -703,10 +579,6 @@ class RbacAdmin extends PEAR
 			"WHERE parent = '".$a_parent."' ".
 			"AND type = 'rolf'";
 		$res = $this->db->query($query);
-		if(DB::isError($res))
-		{
-			return $this->raiseError($res->getMessage().": ".$res->getDebugInfo(),$this->error_class->FATAL);
-		}
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$rol_data["child"] = $row->obj_id;

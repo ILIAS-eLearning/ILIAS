@@ -109,11 +109,18 @@
     </td>
   </tr>
 </table>
-	<span style="color: #000000;">
-	  <strong>
-		{MESSAGE}
+<!-- BEGIN sys_message -->
+<table width="100%" cellspacing="0" cellpadding="2" border="0">
+  <tr class="message">
+	<td align="center" valign="top" height="30">
+      <strong>
+            {ERROR_MESSAGE}
 	  </strong>
-	</span>
+    </td>
+  </tr>
+</table>
+<!-- END sys_message -->
+<br><br>
 <form action="object.php?obj_id={OBJ_ID}&parent={TPOS}" name="objectItems" method="post">
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr class="header">
@@ -121,12 +128,11 @@
     <div class="list-item"><a href="void">&nbsp;</a>
     </div>
   </td>
-  <td width="15%" align="left"><div class="list-item"><a 
-   href="./{OBJ_SELF}&sort=name"
+  <td width="15%" align="left"><div class="list-item"><a href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=operation&direction={DIR}"
    <strong>Operation</strong></a></div>
   </td>
    <td width="47%" align="left"><div class="list-item"><a 
-   href="./{OBJ_SELF}&sort=desc"
+   href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=description&direction={DIR}"
    <strong>Description</strong></a></div>
   </td>
   <td width="25%" align="right"><div class="list-item"> 

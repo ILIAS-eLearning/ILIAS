@@ -121,14 +121,17 @@
     *
     * @return array/boolean  returns array of ssers or false if no users found
     */
-    function getUserList ()
+    function getUserList ($a_order = '',$a_direction = '')
     {
         global $ilias;
         $db = $ilias->db;
 
+		if(!$a_order)
+			$a_order = 'title';
+
         $query = "SELECT * FROM object_data
                   WHERE type = 'user'
-                  ORDER BY title ASC";
+                  ORDER BY ".$a_order." ".$a_direction;
         $res = $db->query($query);
 
         if (DB::isError($res))
@@ -157,20 +160,19 @@
     *
     * @return array/boolean  returns array of types or false if no types found
     */
-    function getTypeList ()
+    function getTypeList ($a_order = '',$a_direction = '')
     {
         global $ilias;
         $db = $ilias->db;
 
-        $query = "SELECT * FROM object_data,object_types ".
-			"WHERE object_data.obj_id = object_types.typ_id ".
-			"ORDER BY object_data.title ASC";
+		if(!$a_order)
+			$a_order = 'title';
+
+        $query = "SELECT * FROM object_data ".
+			"WHERE type = 'type' ".
+			"ORDER BY ".$a_order." ".$a_direction;
         $res = $db->query($query);
 
-        if (DB::isError($res))
-        {
-			die("<b>".$res->getMessage()."</b><br>Script: ".__FILE__."<br>Line: ".__LINE__);
-		}			
 		while($data = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$arr[] = array(
@@ -419,22 +421,27 @@
     *
     * @return array/boolean  returns array of operations or false if no ops found
     */
-    function getOperationList ($Aobj_type = "")
+    function getOperationList ($Aobj_type = "",$a_order= '',$a_direction = '')
     {
         global $ilias;
         $db = $ilias->db;
 
-	if($Aobj_type)
-	{
-		$query = "SELECT * FROM rbac_operations ".
-				 "LEFT JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id ".
-				 "LEFT JOIN object_data ON rbac_ta.typ_id = object_data.obj_id ".
-				 "WHERE object_data.title='".$Aobj_type."' AND object_data.type='type'"; 
-	}
-	else
-	{
-        $query = "SELECT * FROM rbac_operations";
-	}
+		if(!$a_order)
+			$a_order = 'operation';
+
+		if($Aobj_type)
+		{
+			$query = "SELECT * FROM rbac_operations ".
+				"LEFT JOIN rbac_ta ON rbac_operations.ops_id = rbac_ta.ops_id ".
+				"LEFT JOIN object_data ON rbac_ta.typ_id = object_data.obj_id ".
+				"WHERE object_data.title='".$Aobj_type."' AND object_data.type='type' ".
+				"ORDER BY rbac_operation.".$a_order." ".$a_direction; 
+		}
+		else
+		{
+			$query = "SELECT * FROM rbac_operations ".
+				"ORDER BY ".$a_order." ".$a_direction;
+		}
         
 		$res = $db->query($query);
 
@@ -445,10 +452,10 @@
 		while ($row = $res->fetchRow())
 		{
 			$arr[] = array(
-							"ops_id"       => $row[0],
-							"operation"    => $row[1],
-							"desc"         => $row[2]
-							);
+				"ops_id"       => $row[0],
+				"operation"    => $row[1],
+				"desc"         => $row[2]
+				);
 		}
 		
 		return $arr;

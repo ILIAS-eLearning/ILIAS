@@ -279,4 +279,4 @@ class Explorer extends PEAR
 		return false;
 	}
 }
-?>f
+?>

@@ -20,10 +20,19 @@ $tplContent->setVariable("TYPE","role");
 $tplContent->setCurrentBlock("row",true);
 $rbacadmin = new RbacAdminH($ilias->db);
 
+// determine sort direction
+if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
+{
+	$tplContent->setVariable("DIR",'DESC');
+}
+if($_GET["direction"] == 'DESC')
+{
+	$tplContent->setVariable("DIR",'ASC');
+}
 
 if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
-	if($role_list = $rbacadmin->getRoleListByObject($obj_id))
+	if($role_list = $rbacadmin->getRoleListByObject($obj_id,$_GET["order"],$_GET["direction"]))
 	{
 		foreach($role_list as $key => $val)
 		{
@@ -47,16 +56,18 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$tplContent->setVariable("OBJ",$val["obj_id"]);
 			$tplContent->parseCurrentBlock("row");
 		}
-		$tplContent->touchBlock("options");
 	}
+	$tplContent->touchBlock("options");
 }
 else
 {
-	$ilias->raiseError("No permission to read role folder",$ilias->error_class->WARNING);
+	$ilias->raiseError("No permission to read role folder",$ilias->error_class->MESSAGE);
 }
-if($_SESSION["Error_Message"])
+if($_GET["message"])
 {
-	$tplContent->setVariable("ERROR",$_SESSION["Error_Message"]);
+	$tplContent->setCurrentBlock("sys_message");
+	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);
+	$tplContent->parseCurrentBlock();
 }
 include_once "include/ilias_footer.inc";
 ?>

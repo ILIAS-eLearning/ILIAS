@@ -16,11 +16,22 @@ $tplContent->setVariable("TREEPATH",$path);
 $tplContent->setVariable("MESSAGE","<h5>Click on the name of a user to edit that user</h5>");
 $tplContent->setVariable("TYPE","user");
 
+// determine sort direction
+if(!$_GET["direction"] || $_GET["direction"] == 'ASC')
+{
+	$tplContent->setVariable("DIR",'DESC');
+}
+if($_GET["direction"] == 'DESC')
+{
+	$tplContent->setVariable("DIR",'ASC');
+}
+
+
 // BEGIN ROW
 $tplContent->setCurrentBlock("row",true);
 if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
-	if($user_data = getUserList() )
+	if($user_data = getUserList($_GET["order"],$_GET["direction"]) )
 	{
 		foreach($user_data as $key => $val)
 		{
@@ -49,11 +60,13 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 }
 else
 {
-	$ilias->raiseError("No permission to read user folder",$ilias->error_class->WARNING);
+	$ilias->raiseError("No permission to read user folder",$ilias->error_class->MESSAGE);
 }
-if($_SESSION["Error_Message"])
+if($_GET["message"])
 {
-	$tplContent->setVariable("ERROR",$_SESSION["Error_Message"]);
+	$tplContent->setCurrentBlock("sys_message");
+	$tplContent->setVariable("ERROR_MESSAGE",$_GET["message"]);
+	$tplContent->parseCurrentBlock();
 }
 
 include_once "include/ilias_footer.inc";

@@ -81,11 +81,11 @@ if (substr(strrchr($_SERVER["PHP_SELF"],"/"),1) != "login.php")
 			$AccountId = $data[0];
 			$_SESSION["AccountId"] = $AccountId;
 		}
-	}
-// assigned roles are stored in $_SESSION["RoleId"]
-	$rbacreview = new RbacReviewH($ilias->db);
-	$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
+        // assigned roles are stored in $_SESSION["RoleId"]
+		$rbacreview = new RbacReviewH($ilias->db);
+		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
 
+	}
 	$rbacsystem = new RbacSystemH($ilias->db);
 
 // instantiate and init user
