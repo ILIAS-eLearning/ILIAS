@@ -292,7 +292,10 @@ tpl_path#:#template path
 lang_path#:#language path
 fill_out_all_required_fields#:#please fill out all required fields
 saved_successfully#:#saved successfully
-view_content#:#view content
-edit_properties#:#edit properties
-perm_settings#:#permission
-show_owner#:#show owner
+usr_style#:#usr style
+lo_overview#:#lo overview
+literature#:#literature
+forums#:#forums
+editor#:#editor
+help#:#help
+logout#:#logout

@@ -284,28 +284,44 @@ class TUtil
 	{
 		global $lng;
 		
-		//in the template COL1-4, COL1-4BG, COL1-4BASE are defined
-		$tpltab = new Template("tpl.adm_tabs.html", false, false);
+		$tpltab = new Template("tpl.adm_tabs.html", true, true);
+		
 		for ($i=1; $i<=4; $i++)
 		{
-			$tpltab->setVariable("COL".$i, "#efefef");
-			$tpltab->setVariable("COL".$i."BG", "#c0c0c0");
-			$tpltab->setVariable("COL".$i."BASE", "#000000");
-		}
-		$tpltab->setVariable("COL".$a_hl, "#ffffff");
-		$tpltab->setVariable("COL".$a_hl."BG", "#ffffff");
-		
-		//and the options
-		foreach ($a_o as $key => $val)
-		{
-			$tpltab->setVariable($key, $val);
+			$tpltab->setCurrentBlock("tab");
+			if ($a_hl == $i)
+			{
+		    	$tabtype = "tabactive";
+				$tab = $tabtype;
+			}
+			else
+			{
+				$tabtype = "tabinactive";
+				$tab = "tab";
+			}
+				
+			switch ($i)
+			{
+				case 1: 
+					$txt = $lng->txt("view_content");
+					break;
+				case 2: 
+					$txt = $lng->txt("edit_properties");
+					break;
+				case 3: 
+					$txt = $lng->txt("perm_settings");
+					break;
+				case 4: 
+					$txt = $lng->txt("show_owner");
+					break;
+			} // switch
+			$tpltab->setVariable("CONTENT", $txt);
+			$tpltab->setVariable("TABTYPE", $tabtype);
+			$tpltab->setVariable("TAB", $tab);
+			$tpltab->setVariable("LINK", $a_o["LINK".$i]);
+			$tpltab->parseCurrentBlock();
 		}
 
-		//last the language-replacements
-		$tpltab->setVariable("TXT_VIEW_CONTENT", $lng->txt("view_content"));
-		$tpltab->setVariable("TXT_EDIT_PROPERTIES", $lng->txt("edit_properties"));
-		$tpltab->setVariable("TXT_PERM_SETTINGS", $lng->txt("perm_settings"));
-		$tpltab->setVariable("TXT_SHOW_OWNER", $lng->txt("show_owner"));
 		return $tpltab->get();
 	}
 	

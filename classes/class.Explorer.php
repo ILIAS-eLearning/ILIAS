@@ -186,47 +186,47 @@ class Explorer
 	*/
 	function formatObject($a_obj_id,$a_option)
 	{
-		$tmp = '';
-		$tmp  .= "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n";
-		$tmp  .= "<tr>\n";
-
+		$tpl = new Template("tpl.tree.html", true, true);
+		
 		foreach ($a_option["tab"] as $picture)
 		{
 			if ($picture == 'plus')
 			{
 				$target = $this->createTarget('+',$a_obj_id);
-
-				// create expand href
-				$tmp .= "<td nowrap align=\"left\"><a href=\"".$target."\"><img src=\"./images/browser/".
-					$picture.".gif\" border=\"0\"></a></td>";
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_TARGET", $target);
+				$tpl->setVariable("ICONIMG", $picture);
+				$tpl->parseCurrentBlock();
 			}
 			if ($picture == 'minus')
 			{
 				$target = $this->createTarget('-',$a_obj_id);
-
-				// create href
-				$tmp .= "<td nowrap align=\"left\"><a href=\"".$target."\"><img src=\"./images/browser/".
-					$picture.".gif\" border=\"0\"></a></td>\n";
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("LINK_TARGET", $target);
+				$tpl->setVariable("ICONIMG", $picture);
+				$tpl->parseCurrentBlock();
 			}
 			if ($picture == 'blank' or $picture == 'winkel' 
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
-				$tmp .= "<td nowrap align=\"left\"><img src=\"./images/browser/".
-					$picture.".gif\" border=\"0\"></td>\n";
+				$tpl->setCurrentBlock("expander");
+				$tpl->setVariable("ICONIMG", $picture);
+				$tpl->parseCurrentBlock();
 			}
 		}
 
-		$tmp  .= "<td nowrap align=\"left\"><img src=\"./images/icon_".$a_option["type"].".gif\" border=\"0\"></td>\n";
-		$tmp  .= "<td nowrap align=\"left\"><a href=\"".$this->target."?obj_id=".$a_obj_id."&parent=".$a_option["parent"]."&amp;expand=".$_GET["expand"]."\"";
+		$tpl->setCurrentBlock("row");
+		$tpl->setVariable("TYPE", $a_option["type"]);
+		$tpl->setVariable("LINK_TARGET", $this->target."?obj_id=".$a_obj_id."&parent=".$a_option["parent"]."&amp;expand=".$_GET["expand"]);
+		$tpl->setVariable("TITLE", $a_option["title"]);
+
 		if ($this->frameTarget != "")
 		{
-			 $tmp .= " target=\"".$this->frameTarget."\"";
+			$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
 		}
-		$tmp .= ">".$a_option["title"]."</a></td>\n";
-		$tmp  .= "</tr>\n";
-		$tmp  .= "</table>\n";
+		$tpl->parseCurrentBlock();
 
-		$this->output[] = $tmp;
+		$this->output[] = $tpl->get();
 	}
 	
 	/**

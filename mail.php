@@ -157,6 +157,7 @@ $tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
 $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
 //	$tpl->setVariable("MAIL_SORT_SUBJ","link");
 $tpl->setVariable("TXT_DATE",$lng->txt("date"));
+$tpl->setVariable("DIRECTION", "up");
 //	$tpl->setVariable("MAIL_SORT_DATE","link");
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
