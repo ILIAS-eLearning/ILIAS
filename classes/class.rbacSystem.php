@@ -2,7 +2,6 @@
 
 include_once "classes/class.Object.php";
 
-
 /**
  * system
  * system function like checkAccess, addActiveRole ...
@@ -23,7 +22,6 @@ class RbacSystem extends PEAR
 	* @var object error_class
 	*/
 	var $error_class;
-
 
 // PUBLIC METHODS
 
@@ -54,6 +52,7 @@ class RbacSystem extends PEAR
     function createSession()
     {
     }
+
 // @access public
 // @params 
 // @return 
@@ -99,6 +98,7 @@ class RbacSystem extends PEAR
 		global $ilias;
 		global $tree;
 		
+		$create = false;
 		$operations = explode(",",$a_operations);
 		
 		$ops = array();
@@ -116,12 +116,12 @@ class RbacSystem extends PEAR
 
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				//echo $row->ops_id."<br>";
 				$ops_id = $row->ops_id;
 			}
+			
 			// Case 'create': naturally there is no rbac_pa entry
 			// => looking for the next template and compare operation with template permission
-			if($operation == 'create')
+			if ($operation == "create")
 			{
 				if (empty($a_type))
 				{
@@ -134,23 +134,40 @@ class RbacSystem extends PEAR
 				}
 
 				$obj = new Object($ilias);
-				$tree = new Tree($a_obj_id,$obj->ROOT_FOLDER_ID);
+				
+				// sometimes no tree-object was instated, therefore:
+				if (!is_object($tree))
+				{
+					$tree = new Tree($a_obj_id,$obj->ROOT_FOLDER_ID);
+				}
+
 				$path_ids = $tree->getPathId($a_obj_id,$obj->ROOT_FOLDER_ID);
 				array_unshift($path_ids,$obj->SYSTEM_FOLDER_ID);
 				$parent_roles = $rbacadmin->getParentRoles($path_ids);
-				foreach($parent_roles as $par_rol)
+
+				foreach ($parent_roles as $par_rol)
 				{
-					if(in_array($par_rol["obj_id"],$_SESSION["RoleId"]))
+					if (in_array($par_rol["obj_id"],$_SESSION["RoleId"]))
 					{
 						$ops = $rbacreview->getOperations($par_rol["obj_id"],$a_type,$par_rol["parent"]);
-						if(in_array($ops_id,$ops))
+						
+						if (in_array($ops_id,$ops))
 						{
-							continue;
+							$create = true;
+							break;
 						}
 					}
 				}
 				
-				return false;
+				if ($create)
+				{
+					continue;
+				}
+				else
+				{
+					return false;
+				}
+
 			} // END CASE 'create'
 	
 			// Um nur eine Abfrage zu haben
@@ -164,7 +181,8 @@ class RbacSystem extends PEAR
 				"AND set_id = '".$a_parent."'";
 			
 			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+
+			while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 			}
@@ -197,7 +215,6 @@ class RbacSystem extends PEAR
 		// Abfrage der ops_id der gewünschten Operation
 		$query = "SELECT ops_id FROM rbac_operations ".
 			"WHERE operation ='".$Aoperation."'";
-
 		
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -222,7 +239,8 @@ class RbacSystem extends PEAR
 			$and;
 		
 		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+
+		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 		}
