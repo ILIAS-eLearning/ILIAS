@@ -311,6 +311,7 @@ function storeCaret(textEl) {
 </tr>
 <!-- END content_selection -->
 </table>
+
 </form>
 
 <p>----------------------------------------------------------------------------------------------------------------</p>
@@ -559,7 +560,39 @@ function buttonX()
 {
 
 	var ancestors = editor.getAllAncestors();
-	if(ancestors.length==1) return;
+	if(ancestors.length<=1) {
+	
+		editor.surroundHTML("!1!1!","!2!2!");
+		S = editor.getHTML();
+		
+		for(i=0;i<100;i++) 
+		{
+			S = S.replace("<br />","*?*");
+			S = S.replace("<br/>","*?*");
+			S = S.replace("<br>","*?*");
+			S = S.replace("<BR>","*?*");
+			S = S.replace("<BR/>","*?*");
+			S = S.replace("<BR />","*?*");
+		}
+		
+		S3 = S.substring(S.indexOf("!1!1!")+5,S.indexOf("!2!2!"));
+		obj.value += S3+"\n";
+		
+		var re= /<\S[^>]*>/g; 
+		S4 = S3.replace(re,"");
+		
+		S = S.replace("!1!1!"+S3+"!2!2!",S4);
+		
+		for(i=0;i<100;i++) 
+		{
+			S = S.replace("*?*", "<br />");
+		}
+		
+		editor.setHTML(S+"&nbsp;");
+		editor.focusEditor();
+
+		return;
+	}
 	
 	var el = ancestors[0];
 	var cl = el.className;
@@ -570,8 +603,11 @@ function buttonX()
 	S = editor.getHTML();
 	S = S.replace("!1!1!"+unescape("%A0")+"!2!2!","!1!1!!2!2!");
 	
+	//d = S.substring(S.indexOf("!1!1!"),S.indexOf("!2!2!")+5);
+	//alert(escape(d));
 	
-	for(i=0;i<100;i++) {
+	for(i=0;i<100;i++) 
+	{
 		S = S.replace("<br />","*?*");
 		S = S.replace("<br/>","*?*");
 		S = S.replace("<br>","*?*");
@@ -582,18 +618,25 @@ function buttonX()
 	
 	pos1 = S.indexOf("!1!1!");
 	
+	
 	if(pos1>=0)
 	{
 		S1 = S.substr(0,pos1);
 		pos1b = S1.lastIndexOf(">");	// Rückwärts
 		pos1c = S1.lastIndexOf("<");	// Rückwärts
+		pos1d = S1.lastIndexOf("</");	// Rückwärts
+		
 		start = S1.substring(pos1c,pos1);
 		tagStart = S1.substring(pos1c,pos1b+1);
-		if(pos1c>=0) 
+		
+
+		if(pos1c>=0 && pos1d<pos1c) 
 		{
 			S1b = S1.substr(0,pos1c);
 			
 			pos2 = S.indexOf("!2!2!");
+			
+
 			if(pos2>=0) 
 			{
 				pos2 += 5;
@@ -602,6 +645,8 @@ function buttonX()
 				pos2c = S2.indexOf("<");
 				tagEnde = S2.substring(pos2c,pos2b+1);
 				ende = S2.substring(0,pos2b+1);
+				
+
 				if (pos2b>=0)
 				{
 					 
@@ -612,10 +657,12 @@ function buttonX()
 					start2 = start.replace(tagStart,"");
 					ende2 = ende.replace(tagEnde,"");
 					
+					
 					S = S.replace(start+"!1!1!",start2);
 					S = S.replace("!2!2!"+ende,ende2);
 
-					for(i=0;i<100;i++) {
+					for(i=0;i<100;i++) 
+					{
 						S = S.replace("*?*", "<br />");
 					}
 					
@@ -624,6 +671,25 @@ function buttonX()
 					
 				}
 			}
+			
+		}
+		else 
+		{
+			
+			S3 = S.substring(S.indexOf("!1!1!")+5,S.indexOf("!2!2!"));
+			
+			var re= /<\S[^>]*>/g; 
+			S4 = S3.replace(re,"");
+			
+			S = S.replace("!1!1!"+S3+"!2!2!",S4);
+			
+			for(i=0;i<100;i++) 
+			{
+				S = S.replace("*?*", "<br />");
+			}
+			
+			editor.setHTML(S+"&nbsp;");
+			editor.focusEditor();
 			
 		}
 	
