@@ -107,6 +107,11 @@ class ilRepositoryGUI
 		{
 			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
 		}
+		
+		if ($_SESSION["il_rep_mode"] == "")
+		{
+			$_SESSION["il_rep_mode"] = $this->ilias->getSetting("default_repository_view"); 
+		}
 
 		$this->mode = ($_SESSION["il_rep_mode"] != "")
 			? $_SESSION["il_rep_mode"]

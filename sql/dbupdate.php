@@ -5709,3 +5709,16 @@ $query = "UPDATE object_data SET type='stys', title = 'System Style Settings',".
 		" WHERE type='styf' ";
 $this->db->query($query);
 ?>
+<#407>
+DROP TABLE IF EXISTS `settings_deactivated_styles`;
+CREATE TABLE `settings_deactivated_styles` (
+	`skin` VARCHAR(100) NOT NULL,
+	`style` VARCHAR(100) NOT NULL,
+	PRIMARY KEY (`skin`,`style`)
+) TYPE=MyISAM;
+<#408>
+<?php
+// change style folder to style settings
+$query = "INSERT INTO settings (keyword, value) VALUES ('default_repository_view','flat')";
+$this->db->query($query);
+?>

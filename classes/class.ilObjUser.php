@@ -651,11 +651,19 @@ class ilObjUser extends ilObject
 	*/
 	function writePref($a_keyword, $a_value)
 	{
+		ilObjUser::_writePref($this->id, $a_keyword, $a_value);
+	}
+	
+	
+	function _writePref($a_usr_id, $a_keyword, $a_value)
+	{
+		global $ilDB;
+
 		//DELETE
 		$q = "DELETE FROM usr_pref ".
-			 "WHERE usr_id='".$this->id."' ".
+			 "WHERE usr_id='".$a_usr_id."' ".
 			 "AND keyword='".$a_keyword."'";
-		$this->ilias->db->query($q);
+		$ilDB->query($q);
 
 		//INSERT
 		if ($a_value != "")
@@ -663,9 +671,9 @@ class ilObjUser extends ilObject
 			$q = "INSERT INTO usr_pref ".
 				 "(usr_id, keyword, value) ".
 				 "VALUES ".
-				 "('".$this->id."', '".$a_keyword."', '".$a_value."')";
+				 "('".$a_usr_id."', '".$a_keyword."', '".$a_value."')";
 
-			$this->ilias->db->query($q);
+			$ilDB->query($q);
 		}
 	}
 
@@ -1965,6 +1973,46 @@ class ilObjUser extends ilObject
         }
         
    		return $result_arr;
+	}
+	
+	/**
+	* skins and styles
+	*/
+	function _getNumberOfUsersForStyle($a_skin, $a_style)
+	{
+		global $ilDB;
+		
+		$q = "SELECT count(*) as cnt FROM usr_pref AS up1, usr_pref AS up2 ".
+			" WHERE up1.keyword= ".$ilDB->quote("style")." AND up1.value= ".$ilDB->quote($a_style).
+			" AND up2.keyword= ".$ilDB->quote("skin")." AND up2.value= ".$ilDB->quote($a_skin).
+			" AND up1.usr_id = up2.usr_id ";
+			
+		$cnt_set = $ilDB->query($q);
+		
+		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return $cnt_rec["cnt"];
+	}
+
+	/**
+	* skins and styles
+	*/
+	function _moveUsersToStyle($a_from_skin, $a_from_style, $a_to_skin, $a_to_style)
+	{
+		global $ilDB;
+		
+		$q = "SELECT up1.usr_id as usr_id FROM usr_pref AS up1, usr_pref AS up2 ".
+			" WHERE up1.keyword= ".$ilDB->quote("style")." AND up1.value= ".$ilDB->quote($a_from_style).
+			" AND up2.keyword= ".$ilDB->quote("skin")." AND up2.value= ".$ilDB->quote($a_from_skin).
+			" AND up1.usr_id = up2.usr_id ";
+
+		$usr_set = $ilDB->query($q);
+
+		while ($usr_rec = $usr_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			ilObjUser::_writePref($usr_rec["usr_id"], "skin", $a_to_skin);
+			ilObjUser::_writePref($usr_rec["usr_id"], "style", $a_to_style);
+		}
 	}
 
 	/**

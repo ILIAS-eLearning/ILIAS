@@ -126,6 +126,58 @@ class ilObjStyleSettings extends ilObject
 		}
 	}
 	
+	/**
+	* lookup if a style is activated
+	*/
+	function _lookupActivatedStyle($a_skin, $a_style)
+	{
+		global $ilDB;
+		
+		$q = "SELECT count(*) AS cnt FROM settings_deactivated_styles".
+			" WHERE skin = ".$ilDB->quote($a_skin).
+			" AND style = ".$ilDB->quote($a_style);
+		
+		$cnt_set = $ilDB->query($q);
+		$cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		if ($cnt_rec["cnt"] > 0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	/**
+	* deactivate style
+	*/
+	function _deactivateStyle($a_skin, $a_style)
+	{
+		global $ilDB;
+
+		$q = "REPLACE into settings_deactivated_styles".
+			" (skin, style) VALUES ".
+			" (".$ilDB->quote($a_skin).",".
+			" ".$ilDB->quote($a_style).")";
+
+		$ilDB->query($q);
+	}
+
+	/**
+	* activate style
+	*/
+	function _activateStyle($a_skin, $a_style)
+	{
+		global $ilDB;
+
+		$q = "DELETE FROM settings_deactivated_styles".
+			" WHERE skin = ".$ilDB->quote($a_skin).
+			" AND style = ".$ilDB->quote($a_style);
+
+		$ilDB->query($q);
+	}
 	
 	/**
 	* get style ids

@@ -18,16 +18,6 @@
       <td class="option">{TXT_DB_VERSION}</td>
       <td class="option_value">{DB_VERSION}{TXT_DB_UPDATE}</td>
     </tr>
-	<tr>
-		<td class="option">{TXT_DEFAULT_SKIN_STYLE}</td>
-		<td class="option_value">
-		<select name="default_skin_style">
-<!-- BEGIN selectskin -->
-			<option value="{SKINVALUE}" {SKINSELECTED}>{SKINOPTION}</option>
-<!-- END selectskin -->
-		</select>
-		</td>
-	</tr>
     <tr>
       <td class="option">{TXT_OPEN_VIEWS_INSIDE_FRAMESET}</td>
       <td class="option_value"><input type="checkbox" name="open_views_inside_frameset"  value="1" {OPEN_VIEWS_INSIDE_FRAMESET} /><span class="subtitle">{TXT_REGISTRATION_DISABLED}</span></td>
@@ -53,6 +43,15 @@
     <tr>
       <td class="option">{TXT_PUB_SECTION}</td>
       <td class="option_value"><input type="checkbox" name="pub_section"  value="1" {PUB_SECTION} /></td>
+    </tr>
+    <tr>
+        <td class="option">{TXT_DEFAULT_REPOSITORY_VIEW}</td>
+        <td class="option_value">
+          <select name="default_rep_view">
+             <option value = "flat" {FLATSELECTED}>{TXT_FLAT}</option>
+			 <option value = "tree" {TREESELECTED}>{TXT_TREE}</option>
+          </select>
+        </td>
     </tr>
     <tr>
       <td class="option">{TXT_ENABLE_PASSWORD_ASSISTANCE}</td>
