@@ -1222,7 +1222,7 @@ foreach ($arr_pa_entries as $key => $pa_entry)
 {
 	// detect create permission
 	$pa_entry["create"] = array_search("5",$pa_entry["operations"]);
-	
+
 	// remove create permission and remember pa_entries with create permission
 	if ($pa_entry["create"] !== false)
 	{
@@ -1424,3 +1424,6 @@ DELETE FROM usr_session;
 <#89>
 ALTER TABLE rbac_pa CHANGE obj_id ref_id INT(11) DEFAULT '0' NOT NULL;
 DELETE FROM usr_session;
+
+<#90>
+UPDATE settings SET value = '3.0.0_beta3' WHERE keyword = 'ilias_version' LIMIT 1;
