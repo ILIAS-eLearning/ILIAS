@@ -2300,8 +2300,10 @@ class ilObjTest extends ilObject
 			$result = $this->ilias->db->query($query);
 			while ($row = $result->fetchRow(DB_FETCHMODE_ARRAY))
 			{
-				if (!in_array($row[0], $this->questions))
+				if ((!in_array($row[0], $this->questions)) && (strcmp($row[0], "") != 0))
+				{
 					$result_array[$row[0]] = $row[0];
+				}
 			}
 		}
 			else
@@ -2322,8 +2324,10 @@ class ilObjTest extends ilObject
 				}
 				$result = $this->ilias->db->query($query);
 				$result_row = $result->fetchRow(DB_FETCHMODE_ARRAY);
-				if (!in_array($result_row[0], $this->questions))
+				if ((!in_array($result_row[0], $this->questions)) && (strcmp($result_row[0], "") != 0))
+				{
 					$result_array[$result_row[0]] = $result_row[0];
+				}
 				$random_number = mt_rand(0, $row[0] - 1);
 			}
 		}
