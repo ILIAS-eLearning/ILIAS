@@ -32,10 +32,11 @@
 
 class ilClient
 {
-	var $id;				// client_id (md5 hash)
-	var $dir;				// directory name in ilias/clients/
-	var $name;				// installation name
-	var $db_exists = false;	// db installed?
+	var $id;					// client_id (md5 hash)
+	var $dir;					// directory name in ilias/clients/
+	var $name;					// installation name
+	var $db_exists = false;		// db exists?
+	var $db_installed = false;	// db installed?
 
 	var $client_defaults;	// default settings
 	var $status;			// contains status infos about setup process (todo: move function to this class)
@@ -73,13 +74,16 @@ class ilClient
 			return false;		
 		}
 
+		// only for ilias main
 		define(CLIENT_WEB_DIR,ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".$this->getId());
 		define(CLIENT_DATA_DIR,ILIAS_DATA_DIR."/".$this->getId());
 		
 		$this->db_exists = $this->connect();
 		
-		// set db connection parameters
-		//$this->setDSN();
+		if ($this->db_exists)
+		{
+			$this->db_installed = $this->isInstalledDB($this->db);
+		}
 		
 		return true;	
 	}
@@ -138,8 +142,32 @@ class ilClient
 		}
 		
 		$this->db_exists = true;
-
 		return true;
+	}
+
+	/**
+	* connect
+	*/
+	function isInstalledDB(&$a_db)
+	{
+		$q = "SHOW TABLES";
+		$r = $a_db->query($q);
+		
+		$tables = array();
+
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$tables[] = implode($row);
+		}
+
+		if (in_array("object_data",$tables))
+		{
+			$this->db_installed = true;
+			return true;
+		}
+		
+		$this->db_installed = false;
+		return false;
 	}
 
 	/**
@@ -256,7 +284,7 @@ class ilClient
 
 		return true;
 	}
-	
+
 	/**
 	* read one value from settings table
 	* @access	public

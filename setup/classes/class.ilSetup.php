@@ -82,6 +82,8 @@ class ilSetup extends PEAR
 	*/
 	function ilSetup($a_auth,$a_auth_type)
 	{
+		global $log;
+
 		$this->PEAR();
 		
 		$this->auth = ($a_auth) ? true : false;
@@ -102,7 +104,12 @@ class ilSetup extends PEAR
 		$this->setup_defaults = ILIAS_ABSOLUTE_PATH."/setup/ilias.master.ini.php";
 
 		// init setup.ini
-		$this->ini_ilias_exists = $this->init();	
+		$this->ini_ilias_exists = $this->init();
+
+		//if ($this->ini_ilias_exists)
+		//{
+		//	$
+		//}
 	}
 
 	function init()
@@ -181,25 +188,15 @@ class ilSetup extends PEAR
 		return true;
 	}
 
-	/**
-	* set the database data
-	*/
-	function installDatabase()
+	function createDatabase()
 	{
-		if (!$this->client->checkDatabaseHost())
-		{
-			$this->error = "no_connection_to_host";
-			return false;
-		}
-
 		if ($this->client->checkDatabaseExists())
 		{
 			$this->error = "database_exists";
 			return false;
 		}
-
-		//create database
 		
+		//create database
 		$db = DB::connect($this->client->dsn_host);
 		if (DB::isError($db))
 		{
@@ -218,18 +215,26 @@ class ilSetup extends PEAR
 
 		//database is created, now disconnect and reconnect
 		$db->disconnect();
+		
+		$this->client->db_exists = true;
+		return true;
+	}
+	
+	/**
+	* set the database data
+	*/
+	function installDatabase()
+	{
+		if (!$this->client->checkDatabaseHost())
+		{
+			$this->error = "no_connection_to_host";
+			return false;
+		}
 
 		if (!$this->client->connect())
 		{
 			return false;
 		}
-
-		/*if (DB::isError($db))
-		{
-			$this->error = "connection_failed";
-			$db->disconnect();
-			return false;
-		}*/
 
 		//take sql dump an put it in
 		$q = file($this->SQL_FILE);
@@ -241,6 +246,7 @@ class ilSetup extends PEAR
 			return false;
 		}
 
+		$this->client->db_installed = true;
 		return true;
 	}
 
@@ -545,7 +551,7 @@ class ilSetup extends PEAR
 		$status["ini"] = $this->checkClientIni($client);
 		$status["db"] = $this->checkClientDatabase($client);
 		
-		if ($status["db"]["comment"] == "no database")
+		if ($status["db"]["status"] == false)
 		{
 			$status["lang"]["status"] = false;
 			$status["lang"]["comment"] = $status["db"]["comment"];
@@ -611,32 +617,34 @@ class ilSetup extends PEAR
 	
 	function checkClientDatabase(&$client)
 	{
-		if (!$arr["status"] = $client->checkDatabaseExists())
+//		if (!$arr["status"] = $client->checkDatabaseExists())
+		if (!$arr["status"] = $client->db_exists)
 		{
 			$arr["comment"] = "no database";
 			return $arr;
 		}
 		
-		if ($arr["status"] = $client->connect())
+//		if ($arr["status"] = $client->connect())
+		if (!$arr["status"] = $client->db_installed)
 		{
-			// TODO: move this to client class!!
-			$client->setup_ok = (bool) $client->getSetting("setup_ok");
+			$arr["comment"] = "no installed";
+			return $arr;
+		}
+		
+		// TODO: move this to client class!!
+		$client->setup_ok = (bool) $client->getSetting("setup_ok");
 			
-			$this->lng->setDbHandler($client->db);
-			include_once "../classes/class.ilDBUpdate.php";
-			$dbupdate = new ilDBUpdate($client->db);
+		$this->lng->setDbHandler($client->db);
+		include_once "../classes/class.ilDBUpdate.php";
+		$dbupdate = new ilDBUpdate($client->db);
 				
-			if (!$arr["status"] = $dbupdate->getDBVersionStatus())
-			{
-				$arr["comment"] = "db_needs_update";
-				return $arr;
-			}
-
-			$arr["comment"] = "version ".$dbupdate->getCurrentVersion();
+		if (!$arr["status"] = $dbupdate->getDBVersionStatus())
+		{
+			$arr["comment"] = "db_needs_update";
 			return $arr;
 		}
 
-		$arr["comment"] = $client->getError();
+		$arr["comment"] = "version ".$dbupdate->getCurrentVersion();
 		return $arr;
 	}
 
