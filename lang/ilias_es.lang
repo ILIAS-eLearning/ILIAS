@@ -178,6 +178,7 @@ common#:#firstname#:#firstname
 common#:#flatview#:#Flat view###07 Feb 2003 new variable
 common#:#fold#:#Folder###23 Jun 2003 new variable
 common#:#folder#:#folder
+common#:#folder_added#:#Folder added###24 Jun 2003 new variable
 common#:#folders#:#folders
 common#:#forename#:#forename
 common#:#form_empty_fields#:#please complete these fields:

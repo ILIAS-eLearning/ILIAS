@@ -38,6 +38,7 @@ change_password#:#Passwort ändern
 choose_language#:#Bitte wählen Sie Ihre Sprache
 choose_languages#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder.
 choose_password#:#Bitte geben Sie das gewünschte Passwort ein
+data_path#:#data path###24 Jun 2003 new variable
 database#:#Datenbank
 database_exists#:#Datenbank existiert bereits
 database_is_uptodate#:#Ihre Datenbank ist auf dem neuesten Stand
@@ -101,6 +102,7 @@ logout#:#ausloggen
 no_changes#:#No changes.
 no_db_update_file#:#dbupdate.php nicht gefunden!
 not_connected_to_db#:#Sie sind nicht mit der Datenbank verbunden.
+out_of_webspace#:#(out of webspace)###24 Jun 2003 new variable
 password#:#Passwort
 password_changed#:#Das Passwort wurde geändert.
 password_empty#:#Kein Passwort angegeben!
@@ -135,5 +137,6 @@ update_applied#:#Update applied
 update_error#:#Error while updating
 update_not_found#:#Update not found!
 version#:#Version
+webspace_dir#:#webspace data path###24 Jun 2003 new variable
 with#:#mit
 wrong_password#:#Falsches Passwort!
