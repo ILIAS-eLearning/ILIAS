@@ -5253,4 +5253,7 @@ ALTER TABLE `lm_data` ADD INDEX (`type`);
 ALTER TABLE `survey_question` CHANGE `orientation` `orientation` ENUM( '0', '1', '2' ) DEFAULT '0';
 <#369>
 ALTER TABLE `survey_question` ADD `maxchars` INT DEFAULT '0' NOT NULL AFTER `orientation` ;
+<#370>
+ALTER TABLE content_object ADD public_html_file VARCHAR(50) DEFAULT '' NOT NULL;
+ALTER TABLE content_object ADD public_xml_file VARCHAR(50) DEFAULT '' NOT NULL;
 

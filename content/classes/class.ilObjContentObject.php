@@ -721,6 +721,8 @@ class ilObjContentObject extends ilObject
 		$this->setCleanFrames(ilUtil::yn2tf($lm_rec["clean_frames"]));
 		$this->setHistoryUserComments(ilUtil::yn2tf($lm_rec["hist_user_comments"]));
 		$this->setPublicAccessMode($lm_rec["public_access_mode"]);
+		$this->setPublicExportFile("xml", $lm_rec["public_xml_file"]);
+		$this->setPublicExportFile("html", $lm_rec["public_html_file"]);
 	}
 
 	/**
@@ -740,6 +742,8 @@ class ilObjContentObject extends ilObject
 			" clean_frames = '".ilUtil::tf2yn($this->cleanFrames())."',".
 			" hist_user_comments = '".ilUtil::tf2yn($this->isActiveHistoryUserComments())."',".
 			" public_access_mode = '".$this->getPublicAccessMode()."',".
+			" public_xml_file = '".$this->getPublicExportFile("xml")."',".
+			" public_html_file = '".$this->getPublicExportFile("html")."',".
 			" lm_menu_active = '".ilUtil::tf2yn($this->isActiveLMMenu())."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
@@ -1434,6 +1438,29 @@ class ilObjContentObject extends ilObject
 		reset ($file);
 
 		return $file;
+	}
+	
+	/**
+	* specify public export file for type
+	*
+	* @param	string		$a_type		type ("xml" / "html")
+	* @param	string		$a_file		file name
+	*/
+	function setPublicExportFile($a_type, $a_file)
+	{
+		$this->public_export_file[$a_type] = $a_file;
+	}
+
+	/**
+	* get public export file
+	*
+	* @param	string		$a_type		type ("xml" / "html")
+	*
+	* @return	string		$a_file		file name	
+	*/
+	function getPublicExportFile($a_type)
+	{
+		return $this->public_export_file[$a_type];
 	}
 
 	/**
