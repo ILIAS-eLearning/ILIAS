@@ -79,6 +79,14 @@ class ASS_JavaApplet extends ASS_Question {
 	var $java_height;
 	
 /**
+* Additional java applet parameters
+*
+* Additional java applet parameters
+*
+* @var array
+*/
+	var $parameters;
+/**
 * ASS_JavaApplet constructor
 *
 * The constructor takes possible arguments an creates an instance of the ASS_JavaApplet object.
@@ -105,6 +113,7 @@ class ASS_JavaApplet extends ASS_Question {
     $this->ASS_Question($title, $comment, $author, $owner);
     $this->question = $question;
 		$this->javaapplet_filename = $javaapplet_filename;
+		$this->parameters = array();
   }
 
 	
@@ -145,6 +154,12 @@ class ASS_JavaApplet extends ASS_Question {
 						$this->java_height = $matches[2];
 						break;
 				}
+				if (preg_match("/param_name_(\d+)/", $matches[1], $found_key)) {
+					$this->parameters[$found_key[1]]["name"] = $matches[2];
+				}
+				if (preg_match("/param_value_(\d+)/", $matches[1], $found_key)) {
+					$this->parameters[$found_key[1]]["value"] = $matches[2];
+				}
 			}
 		}
 	}
@@ -167,6 +182,10 @@ class ASS_JavaApplet extends ASS_Question {
 		}
 		if ($this->java_height) {
 			array_push($params_array, "java_height=$this->java_height");
+		}
+		foreach ($this->parameters as $key => $value) {
+			array_push($params_array, "param_name_$key=" . $value["name"]);
+			array_push($params_array, "param_value_$key=" . $value["value"]);
 		}
 		return join($params_array, "<separator>");
 	}
@@ -484,6 +503,119 @@ class ASS_JavaApplet extends ASS_Question {
     }
     return $user_result;
   }
+
+/**
+* Adds a new parameter value to the parameter list
+*
+* Adds a new parameter value to the parameter list
+*
+* @param string $name The name of the parameter value
+* @param string $value The value of the parameter value
+* @access public
+* @see $parameters
+*/
+	function add_parameter($name = "", $value = "") {
+		$index = get_parameter_index($name);
+		if ($index > -1) {
+			$this->parameters[$index] = array("name" => $name, "value" => $value);
+		} else {
+			array_push($this->parameters, array("name" => $name, "value" => $value));
+		}
+	}
+	
+/**
+* Adds a new parameter value to the parameter list at a given index
+*
+* Adds a new parameter value to the parameter list at a given index
+*
+* @param integer $index The index at which the parameter should be inserted
+* @param string $name The name of the parameter value
+* @param string $value The value of the parameter value
+* @access public
+* @see $parameters
+*/
+	function add_parameter_at_index($index = 0, $name = "", $value = "") {
+		$this->parameters[$index] = array("name" => $name, "value" => $value);
+	}
+	
+/**
+* Removes a parameter value from the parameter list
+*
+* Removes a parameter value from the parameter list
+*
+* @param string $name The name of the parameter value
+* @access public
+* @see $parameters
+*/
+	function remove_parameter($name) {
+		foreach ($this->parameters as $key => $value) {
+			if (strcmp($name, $value["name"]) == 0) {
+				array_splice($this->parameters, $key, 1);
+				return;
+			}
+		}
+	}
+	
+/**
+* Returns the paramter at a given index
+*
+* Returns the paramter at a given index
+*
+* @param intege $index The index value of the parameter
+* @return array The parameter at the given index
+* @access public
+* @see $parameters
+*/
+	function get_parameter($index) {
+		if (($index < 0) or ($index >= count($this->parameters))) {
+			return undef;
+		}
+		return $this->parameters[$index];
+	}
+
+/**
+* Returns the index of an applet parameter
+*
+* Returns the index of an applet parameter
+*
+* @param string $name The name of the parameter value
+* @return integer The index of the applet parameter or -1 if the parameter wasn't found
+* @access private
+* @see $parameters
+*/
+	function get_parameter_index($name) {
+		foreach ($this->parameters as $key => $value) {
+			if (array_key_exists($name, $value)) {
+				return $key;
+			}
+		}
+		return -1;
+	}
+	
+/**
+* Returns the number of additional applet parameters
+*
+* Returns the number of additional applet parameters
+*
+* @return integer The number of additional applet parameters
+* @access public
+* @see $parameters
+*/
+	function get_parameter_count() {
+		return count($this->parameters);
+	}
+	
+/**
+* Removes all applet parameters
+*
+* Removes all applet parameters
+*
+* @access public
+* @see $parameters
+*/
+	function flush_params() {
+		$this->parameters = array();
+	}
 
 /**
 * Saves the learners input of the question to the database
