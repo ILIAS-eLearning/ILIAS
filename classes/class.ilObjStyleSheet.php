@@ -120,11 +120,13 @@ class ilObjStyleSheet extends ilObject
 			array("tag" => "div", "class" => "Footnote", "parameter" => "font-style" ,"value" => "italic"),
 
 			array("tag" => "a", "class" => "IntLink", "parameter" => "color" ,"value" => "blue"),
+			array("tag" => "a", "class" => "IntLink:visited", "parameter" => "color" ,"value" => "blue"),
 			array("tag" => "a", "class" => "IntLink", "parameter" => "font-weight" ,"value" => "normal"),
 			array("tag" => "a", "class" => "IntLink", "parameter" => "text-decoration" ,"value" => "underline"),
 			array("tag" => "a", "class" => "IntLink:hover", "parameter" => "color" ,"value" => "#000000"),
 
 			array("tag" => "a", "class" => "ExtLink", "parameter" => "color" ,"value" => "blue"),
+			array("tag" => "a", "class" => "ExtLink:visited", "parameter" => "color" ,"value" => "blue"),
 			array("tag" => "a", "class" => "ExtLink", "parameter" => "font-weight" ,"value" => "normal"),
 			array("tag" => "a", "class" => "ExtLink", "parameter" => "text-decoration" ,"value" => "underline"),
 			array("tag" => "a", "class" => "ExtLink:hover", "parameter" => "color" ,"value" => "#000000"),
