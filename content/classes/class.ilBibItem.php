@@ -42,6 +42,11 @@ class ilBibItem
 	var $bibliography_attr;
 	var $abstract;
 
+	var $id = 0;
+	var $type = "bib";
+	
+	var $meta;
+
 	/**
 	* Constructor
 	* @access	public
@@ -64,7 +69,9 @@ class ilBibItem
 		$this->content_obj =& $content_obj;
 		if(is_object($content_obj))
 		{
+			$this->setID($this->content_obj->getId());
 			$this->readXML();
+#			$this->read();
 		}
 	}
 
@@ -141,13 +148,13 @@ class ilBibItem
 	}
 
 
-	function read()
-	{
-		if(!$this->__initNestedSet())
-		{
-			return false;
-		}
-		return;
+#	function read()
+#	{
+#		if(!$this->__initNestedSet())
+#		{
+#			return false;
+#		}
+#		return;
 		/*
 		$this->dom = domxml_open_mem($this->nested_obj->export($this->content_obj->getId(),"bib"));
 		
@@ -212,11 +219,11 @@ class ilBibItem
 		}
 		*/
 
-		$res = $this->nested_obj->getFirstDomNode("//Bibliography/BibItem/Language");
+#		$res = $this->nested_obj->getFirstDomNode("//Bibliography/BibItem/Language");
 		#$this->title = $res[0]["value"];
 		#var_dump("<pre>",$res,"</pre");
 
-	}
+#	}
 	//fbo:
 	
 	/**
@@ -261,9 +268,394 @@ class ilBibItem
 		include_once("classes/class.ilNestedSetXML.php");
 
 		$this->nested_obj =& new ilNestedSetXML();
-		$this->nested_obj->init($this->content_obj->getId(),"bib");
+		$this->nested_obj->init($this->getID(), $this->getType());
 
 		return $this->nested_obj->initDom();
 	}
+
+	function setBooktitle($a_booktitle)
+	{
+		if ($a_booktitle == "")
+		{
+			$a_booktitle = "NO TITLE";
+		}
+
+		$this->booktitle = $a_booktitle;
+	}
+
+	function getBooktitle()
+	{
+		return $this->booktitle;
+	}
+
+	function setEdition($a_edition)
+	{
+		$this->edition = $a_edition;
+	}
+
+	function getEdition()
+	{
+		return $this->edition;
+	}
+
+	function setPublisher($a_publisher)
+	{
+		$this->publisher = $a_publisher;
+	}
+
+	function getPublisher()
+	{
+		return $this->publisher;
+	}
+
+	function setYear($a_year)
+	{
+		$this->year = $a_year;
+	}
+
+	function getYear()
+	{
+		return $this->year;
+	}
+
+	/**
+	* set (posted) meta data
+	*/
+	function setMeta($a_data)
+	{
+		$this->meta = $a_data;
+	}
+
+	/**
+	* get meta data
+	*/
+	function getMeta()
+	{
+		return $this->meta;
+	}
+	/**
+	* set id
+	*/
+	function setID($a_id)
+	{
+		$this->id = $a_id;
+	}
+
+	function getID()
+	{
+		return $this->id;
+	}
+
+	function setType($a_type)
+	{
+		$this->type = $a_type;
+	}
+
+	function getType()
+	{
+		return $this->type;
+	}
+
+	/**
+	* set identifier catalog value
+	* note: only one value implemented currently
+	*/
+	function setElement($a_name, $a_data)
+	{
+		$this->$a_name = $a_data;
+	}
+
+	/**
+	* get identifier catalog value
+	* note: only one value implemented currently
+	*/
+	function getElement($a_name, $a_path = "", $a_index = 0)
+	{
+		if(!$this->__initNestedSet())
+		{
+			return false;
+		}
+
+		$p = "//Bibliography";
+		if ($a_path != "")
+		{
+			$p .= "/" . $a_path;
+		}
+		$nodes = $this->nested_obj->getDomContent($p, $a_name, $a_index);
+		$this->setElement($a_name, $nodes);
+/*		if ($a_name == "Author" ||
+			$a_name == "FirstName" ||
+			$a_name == "MiddleName" ||
+			$a_name == "LastName")
+		{
+			echo "Index: " . $a_index . " | Path: " . $p . " | Name: " . $a_name . "<br>\n";
+			vd($this->$a_name);
+		}
+*/
+		return $this->$a_name;
+	}
+
+	function read()
+	{
+		if(!$this->__initNestedSet())
+		{
+			return false;
+		}
+
+		/* Get bib data from nested set */
+		if ($this->getType() == "lm" ||
+			$this->getType() == "dbk") 
+		{
+			include_once("./classes/class.ilNestedSetXML.php");
+			$this->nested_obj = new ilNestedSetXML();
+#			echo "ID: " . $this->getID() . ", Type: " . $this->getType() . "<br>";
+			$this->nested_obj->init($this->id, $this->getType());
+			if ( !$this->nested_obj->initDom() )
+			{
+				/* No bib data found --> Create default bibliography dataset */
+				$xml = '
+					<Bibliography>
+						<BibItem Type="" Label="">
+							<Identifier Catalog="ILIAS" Entry="il__' . $this->getType() . '_' . $this->getID() . '"></Identifier>
+							<Language Language="' . $this->ilias->account->getLanguage() . '"></Language>
+							<Booktitle Language="' . $this->ilias->account->getLanguage() . '">NO TITLE</Booktitle>
+							<Edition>N/A</Edition>
+							<HowPublished Type=""></HowPublished>
+							<Publisher></Publisher>
+							<Year>N/A</Year>
+							<URL></URL>
+						</BibItem>
+					</Bibliography>
+				';
+				$this->nested->import($xml, $this->id, $this->getType());
+
+				$bibData["booktitle"] = "NO TITLE";
+				$bibData["edition"] = "";
+				$bibData["publisher"] = "";
+				$bibData["year"] = "";
+			}
+			else
+			{
+				$bibData["booktitle"] = $this->nested->getFirstDomContent("//Bibliography/BibItem/Booktitle");
+				$bibData["edition"] = $this->nested->getFirstDomContent("//Bibliography/BibItem/Edition");
+				$bibData["publisher"] = $this->nested->getFirstDomContent("//Bibliography/BibItem/Publisher");
+				$bibData["year"] = $this->nested->getFirstDomContent("//Bibliography/BibItem/Year");
+			}
+
+		} 
+		
+		$this->setBooktitle($bibData["booktitle"]);
+		$this->setEdition($bibData["edition"]);
+		$this->setPublisher($bibData["publisher"]);
+		$this->setYear($bibData["year"]);
+	}
+
+	/**
+	* delete meta data node
+	*/
+	function delete($a_name, $a_path, $a_index)
+	{
+		if ($a_name != "")
+		{
+			$p = "//Bibliography";
+			if ($a_path != "")
+			{
+				$p .= "/" . $a_path;
+			}
+			$this->nested_obj->deleteDomNode($p, $a_name, $a_index);
+			$this->nested_obj->updateFromDom();
+		}
+	}
+
+	/**
+	* add meta data node
+	*/
+	function add($a_name, $a_path, $a_index = 0)
+	{
+		$p = "//Bibliography";
+		if ($a_path != "")
+		{
+			$p .= "/" . $a_path;
+		}
+		$attributes = array();
+#		echo "Index: " . $a_index . " | Path: " . $p . " | Name: " . $a_name . "<br>\n";
+		switch ($a_name)
+		{
+			case "BibItem"		:	$xml = '
+										<BibItem Type="" Label="">
+											<Identifier Catalog="ILIAS" Entry="il__' . $this->getType() . '_' . $this->getID() . '"></Identifier>
+											<Language Language="' . $this->ilias->account->getLanguage() . '"></Language>
+											<Booktitle Language="' . $this->ilias->account->getLanguage() . '">NO TITLE</Booktitle>
+											<Edition>N/A</Edition>
+											<HowPublished Type=""></HowPublished>
+											<Publisher></Publisher>
+											<Year>N/A</Year>
+											<URL></URL>
+										</BibItem>
+									';
+									$this->nested_obj->addXMLNode($p, $xml, $a_index);
+									break;
+			case "Identifier"	:	$value = "";
+									$attributes[0] = array("name" => "Catalog", "value" => "");
+									$attributes[1] = array("name" => "Entry", "value" => "");
+									$this->nested_obj->addDomNode($p, $a_name, $value, $attributes, $a_index);
+									break;
+			case "Keyword"		:	;
+			case "Booktitle"	:	;
+			case "Language"		:	$value = "";
+									$attributes[0] = array("name" => "Language", value => $this->ilias->account->getLanguage());
+									$this->nested_obj->addDomNode($p, $a_name, $value, $attributes, $a_index);
+									break;
+			case "Author"		:	$xml = '
+										<Author>
+											<Lastname></Lastname>
+										</Author>
+									';
+									$this->nested_obj->addXMLNode($p, $xml, $a_index);
+									break;
+			case "HowPublished"	:	$value = "";
+									$attributes[0] = array("name" => "Type", value => "");
+									$this->nested_obj->addDomNode($p, $a_name, $value, $attributes, $a_index);
+									break;
+			case "Series"		:	$xml = '
+										<Series>
+											<SeriesTitle></SeriesTitle>
+										</Series>
+									';
+									$this->nested_obj->addXMLNode($p, $xml, $a_index);
+									break;
+			default				:	$value = "";
+									$attributes = "";
+									$this->nested_obj->addDomNode($p, $a_name, $value, $attributes, $a_index);
+									break;
+		}
+		$this->nested_obj->updateFromDom();
+	}
+
+	/**
+	* create bib data object in db
+	*/
+	function create()
+	{
+//echo "<b>meta create()</b><br>";
+		include_once("./classes/class.ilNestedSetXML.php");
+		$this->nested = new ilNestedSetXML();
+		$this->nested->init($this->id, $this->getType());
+		if ( !$this->nested->initDom() )
+		{
+			
+			if (is_object($this->obj)) 
+			{
+				$booktitle = $this->obj->getBooktitle();
+				$edition = $this->obj->getEdition();
+				$publisher = $this->obj->getPublisher();
+				$year = $this->obj->getYear();
+			}
+			
+			$xml = '
+				<Bibliography>
+					<BibItem Type="" Label="">
+						<Identifier Catalog="ILIAS" Entry="il__' . $this->getType() . '_' . $this->getID() . '"></Identifier>
+						<Language Language="' . $this->ilias->account->getLanguage() . '"></Language>
+						<Booktitle Language="' . $this->ilias->account->getLanguage() . '">NO TITLE</Booktitle>
+						<Edition>' . $edition . '</Edition>
+						<HowPublished Type=""></HowPublished>
+						<Publisher>' . $publisher . '</Publisher>
+						<Year>' . $year . '</Year>
+						<URL></URL>
+					</BibItem>
+				</Bibliography>
+			';
+			$this->nested->import($xml, $this->getID(), $this->getType());
+		}
+	}
+
+	/**
+	* update everything
+	*/
+	function update()
+	{
+		$query = "REPLACE INTO bib_data ";
+		$query .= "(obj_id, obj_type, booktitle, edition, publisher, year, language) VALUES (";
+		$query .= "'" . $this->getId() . "', ";
+		$query .= "'" . $this->getType() . "', ";
+		$query .= "'" . ilUtil::prepareDBString($this->getBooktitle()) . "', ";
+		$query .= "'" . ilUtil::prepareDBString($this->getEdition()) . "', ";
+		$query .= "'" . ilUtil::prepareDBString($this->getPublisher()) . "', ";
+		$query .= "'" . ilUtil::prepareDBString($this->getYear()) . "', ";
+		$query .= "'" . $this->getLanguage() . "')";
+		$this->ilias->db->query($query);
+
+		if ($this->getType() == "lm" ||
+			$this->getType() == "dbk")
+		{
+			$p = "//Bibliography";
+			$this->nested->updateDomNode($p, $this->meta);
+			$this->nested->updateFromDom();
+		}
+	}
+
+	function getCountries()
+	{
+		global $lng;
+
+		$lng->loadLanguageModule("meta");
+
+		$cntcodes = array ("DE","ES","FR","GB","AT","CH","AF","AL","DZ","AS","AD","AO",
+			"AI","AQ","AG","AR","AM","AW","AU","AT","AZ","BS","BH","BD","BB","BY",
+			"BE","BZ","BJ","BM","BT","BO","BA","BW","BV","BR","IO","BN","BG","BF",
+			"BI","KH","CM","CA","CV","KY","CF","TD","CL","CN","CX","CC","CO","KM",
+			"CG","CK","CR","CI","HR","CU","CY","CZ","DK","DJ","DM","DO","TP","EC",
+			"EG","SV","GQ","ER","EE","ET","FK","FO","FJ","FI","FR","FX","GF","PF",
+			"TF","GA","GM","GE","DE","GH","GI","GR","GL","GD","GP","GU","GT","GN",
+			"GW","GY","HT","HM","HN","HU","IS","IN","ID","IR","IQ","IE","IL","IT",
+			"JM","JP","JO","KZ","KE","KI","KP","KR","KW","KG","LA","LV","LB","LS",
+			"LR","LY","LI","LT","LU","MO","MK","MG","MW","MY","MV","ML","MT","MH",
+			"MQ","MR","MU","YT","MX","FM","MD","MC","MN","MS","MA","MZ","MM","NA",
+			"NR","NP","NL","AN","NC","NZ","NI","NE","NG","NU","NF","MP","NO","OM",
+			"PK","PW","PA","PG","PY","PE","PH","PN","PL","PT","PR","QA","RE","RO",
+			"RU","RW","KN","LC","VC","WS","SM","ST","SA","CH","SN","SC","SL","SG",
+			"SK","SI","SB","SO","ZA","GS","ES","LK","SH","PM","SD","SR","SJ","SZ",
+			"SE","SY","TW","TJ","TZ","TH","TG","TK","TO","TT","TN","TR","TM","TC",
+			"TV","UG","UA","AE","GB","UY","US","UM","UZ","VU","VA","VE","VN","VG",
+			"VI","WF","EH","YE","ZR","ZM","ZW");
+		$cntrs = array();
+		foreach($cntcodes as $cntcode)
+		{
+			$cntrs[$cntcode] = $lng->txt("meta_c_".$cntcode);
+		}
+		asort($cntrs);
+		return $cntrs;
+
+	}
+
+	/**
+	* get iso conform languages
+	* see http://www.oasis-open.org/cover/iso639a.html
+	*/
+	function getLanguages()
+	{
+		global $lng;
+
+		$lng->loadLanguageModule("meta");
+
+		$lngcodes = array("aa","ab","af","am","ar","as","ay","az","ba","be","bg","bh",
+			"bi","bn","bo","br","ca","co","cs","cy","da","de","dz","el","en","eo",
+			"es","et","eu","fa","fi","fj","fo","fr","fy","ga","gd","gl","gn","gu",
+			"ha","he","hi","hr","hu","hy","ia","ie","ik","id","is","it","iu","ja",
+			"jv","ka","kk","kl","km","kn","ko","ks","ku","ky","la","ln","ru","rw",
+			"sa","sd","sg","sh","si","sk","sl","sm","sn","so","sq","sr","ss","st",
+			"su","sv","sw","ta","te","tg","th","ti","tk","tl","tn","to","tr","ts",
+			"tt","tw","ug","uk","ur","uz","vi","vo","wo","xh","yi","yo","za","zh",
+			"zu");
+		$langs = array();
+		foreach($lngcodes as $lngcode)
+		{
+			$langs[$lngcode] = $lng->txt("meta_l_".$lngcode);
+		}
+		asort($langs);
+		return $langs;
+	}
+
 }
 ?>
