@@ -31,7 +31,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-common#:#absolute_path#:#absolute path
+common#:#absolute_path#:#absolute path###20 Jan 2003 content changed
 common#:#accept_usr_agreement#:#accept user agreement?
 common#:#access#:#access
 common#:#actions#:#actions
@@ -46,7 +46,7 @@ common#:#announce#:#anunciar
 common#:#announce_changes#:#announce changes
 common#:#answers#:#answers
 common#:#archive#:#archive
-common#:#are_you_sure#:#Estás seguro?
+common#:#are_you_sure#:#Estás seguro?###20 Jan 2003 content changed
 common#:#assign_lo_forum#:#assign lo forum
 common#:#author#:#author
 common#:#authors#:#autores
