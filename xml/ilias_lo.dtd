@@ -94,9 +94,9 @@
 <!ATTLIST Technical
 	Format (application-x-authorware-bin | application-x-authorware-map | application-x-authorware-seg | application-andrew-inset | application-excel | application-hstu | application-mac-binhex40 | application-mac-compactpro | application-msword | application-octet-stream | application-oda | application-pdf | application-postscript | application-powerpoint | application-rtf | application-smil | application-vnd.mif | application-vnd.ms-powerpoint | application-x-bcpio | application-x-cdlink | application-x-chess-pgn | application-x-compress | application-x-cpio | application-x-csh | application-x-director | application-x-dvi | application-x-futuresplash | application-x-gtar | application-x-gzip | application-x-hdf | application-x-httpd-cgi | application-x-javascript | application-x-koan | application-x-latex | application-x-mif | application-x-netcdf | application-x-sh | application-x-shar | application-x-shockwave-flash | application-x-stuffit | application-x-sv4cpio | application-x-sv4crc | application-x-tar | application-x-tcl | application-x-tex | application-x-texinfo | application-x-troff | application-x-troff-man | application-x-troff-me | application-x-troff-ms | application-x-ustar | application-x-wais-source | application-zip | audio-basic | audio-midi | audio-mpeg | audio-x-aiff | audio-x-pn-realaudio | audio-x-pn-realaudio-plugin | audio-x-realaudio | audio-x-wav | chemical-x-pdb | image-bmp | image-fif | image-gif | image-ief | image-jpeg | image-pict | image-png | image-tiff | image-x-cmu-raster | image-x-freehand | image-x-portable-anymap | image-x-portable-bitmap | image-x-portable-graymap | image-x-portable-pixmap | image-x-rgb | image-x-xbitmap | image-x-xpixmap | image-x-xwindowdump | model-iges | model-mesh | model-vrml | text-css | text-html | text-plain | text-richtext | text-sgml | text-tab-separated-values | text-x-setext | text-x-sgml | text-xml | video-mpeg | video-quicktime | video-x-msvideo | video-x-sgi-movie | x-conference-x-cooltalk | x-world-x-vrml) #REQUIRED
 >
-<!-- 4.2 The size of the digital resource in bytes. Only the digits '0'..'9' should be used; the unit is bytes, not MBytes,GB,etc.-->
+<!-- 4.2 The size of the digital resource in bytes. Only the digits '0'..'9' should be used; the unit is bytes, not MBytes, GB, etc.-->
 <!ELEMENT Size (#PCDATA)>
-<!-- 4.3 A string that is used to access this resource, see LOM annotation-->
+<!-- 4.3 A string that is used to access this resource, see LOM annotation -->
 <!ELEMENT Location (#PCDATA)>
 <!-- 4.4 Grouping of multiple requirements -->
 <!-- 4.4.1 Defining attributes of OrComposite -->
@@ -116,7 +116,7 @@
 	MinimumVersion CDATA #IMPLIED
 	MaximumVersion CDATA #IMPLIED
 >
-<!-- 4.5 Description on how to install this resource-->
+<!-- 4.5 Description on how to install this resource -->
 <!ELEMENT InstallationRemarks (#PCDATA)>
 <!ATTLIST InstallationRemarks
 	Language (%langcode;) #REQUIRED
@@ -126,7 +126,7 @@
 <!ATTLIST OtherPlatformRequirements
 	Language (%langcode;) #REQUIRED
 >
-<!-- 4.7 Time continuous resource takes when  -->
+<!-- 4.7 Time continuous resource takes when played at intended speed. This data element is especially useful for sounds, movies or animations. -->
 <!ELEMENT Duration (#PCDATA)>
 <!-- 5. Key educational or pedagogic characteristics of the resource -->
 <!ELEMENT Educational (TypicalAgeRange, TypicalLearningTime, Description*)>
@@ -196,7 +196,7 @@
 	CSS-URL CDATA #IMPLIED
 	HorizontalAlign (Left | Center | Right) #IMPLIED
 	VerticalAlign (Top | Middle | Bottom) #IMPLIED
-	TargetFrame (Media | FAQ | Glossary) #IMPLIED
+	TargetFrame (Media | FAQ | Glossary | NEW) #IMPLIED
 >
 <!-- PARAMETER -->
 <!-- Parameters needed for level 1 learning objects -->
