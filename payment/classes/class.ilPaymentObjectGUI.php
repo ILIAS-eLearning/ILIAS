@@ -777,6 +777,8 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$action = array();
 		$action[$this->pobject->PAY_METHOD_NOT_SPECIFIED] = $this->lng->txt('paya_pay_method_not_specified');
 		$action[$this->pobject->PAY_METHOD_BILL] = $this->lng->txt('paya_bill');
+		$action[$this->pobject->PAY_METHOD_BMF] = $this->lng->txt('paya_bmf');
+
 
 		return ilUtil::formSelect($this->pobject->getPayMethod(),'pay_method',$action,false,true);
 	}
@@ -797,6 +799,10 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 				$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilpaymentbilladmingui'));
 				$this->tpl->setVariable("BTN_TXT",$this->lng->txt('paya_edit_pay_method'));
 				$this->tpl->parseCurrentBlock();
+				break;
+
+			case $this->pobject->PAY_METHOD_BMF:
+				$this->showButton('editPayMethod',$this->lng->txt('paya_edit_pay_method'));
 				break;
 		}
 	}

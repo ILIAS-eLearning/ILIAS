@@ -4742,8 +4742,7 @@ CREATE TABLE `payment_shopping_cart` (
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
-
-
-
-
+<#305>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
