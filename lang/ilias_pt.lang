@@ -144,6 +144,7 @@ assessment#:#question_type#:#Tipo de questão
 assessment#:#region#:#Region###08 Mar 2004 new variable
 assessment#:#remove_question#:#Remove###08 Mar 2004 new variable
 assessment#:#reset_filter#:#Reajustar filtro
+assessment#:#result#:#Result###17 Mar 2004 new variable
 assessment#:#save_finish#:#Save and finish the test###08 Mar 2004 new variable
 assessment#:#save_introduction#:#Save and goto introduction###08 Mar 2004 new variable
 assessment#:#save_next#:#Save and goto next question###08 Mar 2004 new variable
@@ -154,8 +155,15 @@ assessment#:#solution_order#:#Ordem solução
 assessment#:#text_gap#:#Espaço de Texto
 assessment#:#true#:#Verdadeiro
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
+assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
 assessment#:#tst_browse_for_questions#:#Browse for questions###08 Mar 2004 new variable
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###08 Mar 2004 new variable
+assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
+assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
+assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
+assessment#:#tst_eval_total_passed#:#Total passed tests###17 Mar 2004 new variable
+assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests###17 Mar 2004 new variable
+assessment#:#tst_eval_total_persons#:#Total number of persons entered the test###17 Mar 2004 new variable
 assessment#:#tst_general_properties#:#Propriedades gerais
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###08 Mar 2004 new variable
 assessment#:#tst_introduction#:#Introdução
@@ -501,6 +509,7 @@ common#:#default_skin_style#:#Pele / Estilo defeito
 common#:#default_style#:#Estilo defeito
 common#:#delete#:#Apagar
 common#:#delete_all#:#Apagar Todos
+common#:#delete_all_rec#:#Delete all records###17 Mar 2004 new variable
 common#:#delete_object#:#Apagar Objecto(s)
 common#:#delete_selected#:#Apagar Seleccionados
 common#:#deleted#:#Apagados
@@ -920,6 +929,30 @@ common#:#mob#:#Objecto de Média
 common#:#module#:#módulo
 common#:#modules#:#Módulos
 common#:#month#:#Mês
+common#:#month_01_long#:#January###17 Mar 2004 new variable
+common#:#month_01_short#:#Jan###17 Mar 2004 new variable
+common#:#month_02_long#:#February###17 Mar 2004 new variable
+common#:#month_02_short#:#Feb###17 Mar 2004 new variable
+common#:#month_03_long#:#March###17 Mar 2004 new variable
+common#:#month_03_short#:#Mar###17 Mar 2004 new variable
+common#:#month_04_long#:#April###17 Mar 2004 new variable
+common#:#month_04_short#:#Apr###17 Mar 2004 new variable
+common#:#month_05_long#:#May###17 Mar 2004 new variable
+common#:#month_05_short#:#May###17 Mar 2004 new variable
+common#:#month_06_long#:#June###17 Mar 2004 new variable
+common#:#month_06_short#:#Jun###17 Mar 2004 new variable
+common#:#month_07_long#:#July###17 Mar 2004 new variable
+common#:#month_07_short#:#Jul###17 Mar 2004 new variable
+common#:#month_08_long#:#August###17 Mar 2004 new variable
+common#:#month_08_short#:#Aug###17 Mar 2004 new variable
+common#:#month_09_long#:#September###17 Mar 2004 new variable
+common#:#month_09_short#:#Sep###17 Mar 2004 new variable
+common#:#month_10_long#:#October###17 Mar 2004 new variable
+common#:#month_10_short#:#Oct###17 Mar 2004 new variable
+common#:#month_11_long#:#November###17 Mar 2004 new variable
+common#:#month_11_short#:#Nov###17 Mar 2004 new variable
+common#:#month_12_long#:#December###17 Mar 2004 new variable
+common#:#month_12_short#:#Dec###17 Mar 2004 new variable
 common#:#move#:#Mover
 common#:#moveChapter#:#Mover
 common#:#movePage#:#Mover
@@ -1261,6 +1294,7 @@ common#:#save_and_back#:#Guardar e Voltar
 common#:#save_message#:#Salvar Mensagem
 common#:#save_refresh#:#Salvar e Actualizar
 common#:#save_return#:#Salvar e Voltar
+common#:#save_settings#:#Save Settings###17 Mar 2004 new variable
 common#:#saved#:#Guardado
 common#:#saved_successfully#:#Guardado com Sucesso
 common#:#search#:#Procurar
