@@ -704,6 +704,8 @@ class ilObjTestGUI extends ilObjectGUI
 	}
 	
 	function runObject() {
+		global $ilUser;
+		
     $add_parameter = $this->get_add_parameter();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -717,6 +719,16 @@ class ilObjTestGUI extends ilObjectGUI
 			$question_gui = new ASS_QuestionGui();
 			$question_gui->create_question("", $this->object->get_question_id_from_active_user_sequence($_GET["sequence"]));
 			$question_gui->question->save_working_data($this->object->get_test_id());
+			// set new finish time for test
+			if ($_SESSION["active_time_id"]) {
+				$this->object->update_working_time($_SESSION["active_time_id"]);
+			}
+		}
+		
+		if ($_POST["cmd"]["start"] or $_POST["cmd"]["resume"]) {
+			// create new time dataset and set start time
+			$active_time_id = $this->object->start_working_time($ilUser->id);
+			$_SESSION["active_time_id"] = $active_time_id;
 		}
 
 		$this->sequence = $_GET["sequence"];
@@ -954,7 +966,7 @@ class ilObjTestGUI extends ilObjectGUI
 		} else {
 			$mark = $this->lng->txt("tst_result_sorry");
 		}
-    $mark .= "<br>" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
+    $mark .= "<br />" . $this->lng->txt("tst_your_mark_is") . ": &quot;" . $mark_obj->get_official_name() . "&quot;";
     $this->tpl->setVariable("USER_FEEDBACK", $mark);
     $this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("adm_content");

@@ -2045,3 +2045,12 @@ CREATE TABLE `qpl_question_material` (
   `materials` text,
   UNIQUE KEY `material_id` (`material_id`)
 ) TYPE=MyISAM;
+<#130>
+CREATE  TABLE  `tst_times` (
+`times_id` INT NOT  NULL  AUTO_INCREMENT ,
+`active_fi` INT NOT  NULL ,
+`started` DATETIME NOT  NULL ,
+`finished` DATETIME NOT  NULL ,
+`TIMESTAMP` TIMESTAMP NOT  NULL ,
+PRIMARY  KEY (  `times_id`  ) 
+) COMMENT  =  'Editing times of an assessment test';

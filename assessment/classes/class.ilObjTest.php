@@ -1099,6 +1099,31 @@ class ilObjTest extends ilObject
       return "";
     }
   }
+	
+	function start_working_time ($user_id) 
+	{
+		$result = "";
+		if (!($result = $this->get_active_test_user($user_id))) {
+			$this->set_active_test_user();
+			$result = $this->get_active_test_user($user_id);
+		}
+		$q = sprintf("INSERT INTO tst_times (times_id, active_fi, started, finished, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+			$this->ilias->db->quote($result->active_id),
+			$this->ilias->db->quote(strftime("%Y-%m-%d %H:%M:%S")),
+			$this->ilias->db->quote(strftime("%Y-%m-%d %H:%M:%S"))
+		);
+		$result = $this->ilias->db->query($q);
+		return $this->ilias->db->getLastInsertId();
+	}
+	
+	function update_working_time($times_id)
+	{
+		$q = sprintf("UPDATE tst_times SET finished = %s WHERE times_id = %s",
+			$this->ilias->db->quote(strftime("%Y-%m-%d %H:%M:%S")),
+			$this->ilias->db->quote($times_id)
+		);
+		$result = $this->ilias->db->query($q);
+	}
   
 	function get_question_count ()
 	{
