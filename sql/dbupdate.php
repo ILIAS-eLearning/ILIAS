@@ -1676,3 +1676,25 @@ $row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 $tree = new ilTree(ROOT_FOLDER_ID);
 $tree->insertNode($row->id,SYSTEM_FOLDER_ID);
 ?>
+
+<#103>
+CREATE TABLE chat_rooms (
+room_id INT( 11 ) NOT NULL AUTO_INCREMENT ,
+chat_id INT( 11 ) NOT NULL ,
+title VARCHAR( 64 ) ,
+owner INT( 11 ) NOT NULL ,
+PRIMARY KEY ( room_id )
+);
+CREATE TABLE chat_invitations (
+room_id INT( 11 ) NOT NULL ,
+guest_id INT( 11 ) NOT NULL ,
+PRIMARY KEY ( room_id , guest_id )
+);
+CREATE TABLE chat_user (
+usr_id INT( 11 ) NOT NULL ,
+room_id INT( 11 ) NOT NULL ,
+last_conn_timestamp TIMESTAMP NOT NULL ,
+PRIMARY KEY ( usr_id , room_id )
+);
+<#104>
+ALTER TABLE frm_posts ADD notify TINYINT( 1 ) NOT NULL ;
