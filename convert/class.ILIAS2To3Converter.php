@@ -1,119 +1,121 @@
 <?php
 
 /**
-* Content-converting from ILIAS2 to ILIAS3 using DOMXML
-*
-* Dependencies:
+* PEAR
+* @include
+*/
+require_once "PEAR.php";
+
+/**
+* PEAR DB
+* @include
+*/
+require_once "DB.php";
+
+/**
+* convert utilities
+* @include
+*/
+require_once "class.ILIAS2To3Utils.php";
+
+/**
+* XML writer
+* @include
+*/
+require_once "class.XmlWriter.php";
+
+/**
+* ILIAS 2 to ILIAS 3 content-converting class
+* 
+* Class to convert ILIAS 2 learningunits to ILIAS 3 LearningModules.
+* Generates a valid (ILIAS 3) ilias_lm.dtd XML file 
+* out of database dataset of an ILIAS 2 learningunit.
+* The XML file and the raw data files belonging to the LearningModule 
+* are packaged into a sigle zip file.
 * 
 * @author Matthias Rulinski <matthias.rulinski@mi.uni-koeln.de>
 * @version $Id$
 */
-
-//include files from PEAR
-require_once "PEAR.php";
-require_once "DB.php";
-
-// include other files
-require_once "class.ILIAS2To3Utils.php";
-
 class ILIAS2To3Converter
 {
-	//-----------
-	// properties
-	//-----------
-	
 	/**
-	* database handle from pear database class
-	* 
-	* @var object $db
+	* database handle from pear database class 
+	* @var object
 	* @access private
 	*/
 	var $db;
 	
 	/**
-	* object handle from utility class
-	* 
-	* @var object $util
+	* object handle from utility class 
+	* @var object
 	* @access private
 	*/
 	var $utils;
 	
 	/**
-	* domxml document object
-	* 
-	* @var object $doc
+	* object hangle from XML writer class 
+	* @var object
 	* @access private 
 	*/
-	var $doc;
+	var $xml;
 	
 	/**
-	* learninigunit id
-	* 
-	* @var integer $luId
+	* learninigunit id 
+	* @var integer
 	* @access private 
 	*/
 	var $luId;
 	
 	/**
-	* ILIAS2 base directory
-	* 
-	* @var string $iliasDir
+	* ILIAS 2 base directory 
+	* @var string
 	* @access private 
 	*/
 	var $iliasDir;
 	
 	/**
-	* source directory
-	* 
-	* @var string $sourceDir
+	* source directory 
+	* @var string
 	* @access private 
 	*/
 	var $sourceDir;
 	
 	/**
-	* target directory
-	* 
-	* @var string $targetDir
+	* target directory 
+	* @var string
 	* @access private 
 	*/
 	var $targetDir;
 	
 	/**
-	* file
-	* 
-	* @var string $file
-	* @access private 
-	*/
-	var $file;
-	
-	/**
-	* current language
-	* 
-	* @var string $curLang
+	* current language 
+	* @var string
 	* @access private 
 	*/
 	var $curLang;
 	
 	/**
-	* metadata set
-	* 
-	* @var array $metaData
+	* metadata set (General) 
+	* @var array
 	* @access private 
 	*/
 	var $metaData;
 	
-	//-------
-	//methods
-	//-------
-	
 	/**
-	* constructor
-	* 
-	* @param	string	xml version
-	* @access	public 
+	* constructor 
+	* @param string	user
+	* @param string	password
+	* @param string	host
+	* @param string	database
+	* @access public 
 	*/
-	function ILIAS2To3Converter ($user, $pass, $host, $dbname)
+	function ILIAS2To3Converter ($user, $pass, $host, $dbname, $iliasDir, $sDir, $tDir)
 	{
+		// set member vars
+		$this->iliasDir = $iliasDir;
+		$this->sourceDir = $sDir;
+		$this->targetDir = $tDir;
+		
 		// build dsn of database connection and connect
 		$dsn = "mysql://".$user.":".$pass."@".$host."/".$dbname;
 		$this->db = DB::connect($dsn, TRUE);
@@ -130,10 +132,8 @@ class ILIAS2To3Converter
 	}
 	
 	/**
-	* destructor
-	* 
-	* @access	private
-	* @return	boolean
+	* destructor 
+	* @access private
 	*/
 	function _ILIAS2To3Converter ()
 	{
@@ -142,9 +142,11 @@ class ILIAS2To3Converter
 	}
 	
 	/**
-	* db query wrapper
-	* calling script (to fill with __FILE__)
-	* calling script line (to fill with __LINE__)
+	* DB query wrapper
+	* @param string	sql statement
+	* @param string	calling script (to fill with __FILE__)
+	* @param string	calling script line (to fill with __LINE__)
+	* @access private
 	*/
 	function dbQuery ($sql, $file = "", $line  = "")
 	{
@@ -163,37 +165,8 @@ class ILIAS2To3Converter
 		}
 	}
 	
-	// write node using DOMXML (new node will be inserted right before the node $refnode if specified ***) 
-	function writeNode ($parent, $tag, $attrs = NULL, $text = NULL, $refnode = Null)
-	{
-		// create new element node
-		$node = $this->doc->create_element($tag);
-		
-		// set attributes
-		if (is_array($attrs))
-		{
-			foreach ($attrs as $name => $value)
-			{
-				$node->set_attribute($name, $value);
-			}
-		}
-		
-		// create and add a text node to the new element node
-		if (is_string($text) or
-			is_integer($text))
-		{
-			$nodeText = $this->doc->create_text_node(utf8_encode($text));
-			$nodeText = $node->append_child($nodeText);
-		}
-		
-		// add element node at at the end of the children of the parent
-		$node = $parent->insert_before($node, $refnode);
-		
-		return $node;
-	}
-	
 	// ILIAS 2 Metadata --> ILIAS3 MetaData
-	function exportMetadata ($id, $type, $parent)
+	function exportMetadata ($id, $type)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -337,7 +310,7 @@ class ILIAS2To3Converter
 				break;
 			
 			case "el":
-				// no additional data available ***
+				// no additional data available
 				break;
 			
 			case "test": // Test
@@ -637,68 +610,79 @@ class ILIAS2To3Converter
 		//----------------------
 		// create MetaData tree:
 		//----------------------
-		// MetaData
-		$MetaData = $this->writeNode($parent, "MetaData");
+		// MetaData (starttag)
+		$this->xml->xmlStartTag("MetaData");
 		
-		// 1 MetaData..General
+		// 1 MetaData..General (starttag)
 		$attrs = array();
 		$attrs["Structure"] = $this->utils->selectStructure($type);
-		$General = $this->writeNode($MetaData, "General", $attrs);
+		$this->xml->xmlStartTag("General", $attrs);
 		
-		// 1.1 ..General..Identifier
+		// 1.1 MetaData..General..Identifier
 		$attrs = array();
 		$attrs["Catalog"]	= $gen["Catalog"];
 		$attrs["Entry"]		= $gen["Entry"];
-		$Identifier = $this->writeNode($General, "Identifier", $attrs);
+		$this->xml->xmlElement("Identifier", $attrs);
 		
-		// 1.2 ..General..Title
+		// 1.2 MetaData..General..Title
 		$attrs = array();
-		$attrs["Language"]	= $gen["Language"];
-		$Title = $this->writeNode($General, "Title", $attrs, $gen["title"]);
+		$attrs["Language"] = $gen["Language"];
+		$this->xml->xmlElement("Title", $attrs, $gen["title"]);
 		
-		// 1.3 ..General..Language
-		$Language = $this->writeNode($General, "Language", NULL, $gen["Language"]);
+		// 1.3 MetaData..General..Language
+		$this->xml->xmlElement("Language", NULL, $gen["Language"]);
 		
-		// 1.4 ..General..Description
+		// 1.4 MetaData..General..Description
 		$attrs = array();
-		$attrs["Language"]	= $gen["Language"];
-		$Description = $this->writeNode($General, "Description", $attrs, $gen["Description"]);
+		$attrs["Language"] = $gen["Language"];
+		$this->xml->xmlElement("Description", $attrs, $gen["Description"]);
 		
-		// 1.5 ..General..Keyword
+		// 1.5 MetaData..General..Keyword
 		foreach ($gen["Keyword"] as $value) 
 		{
 			$attrs = array();
-			$attrs["Language"]	= $gen["Language"];
-			$Keyword = $this->writeNode($General, "Keyword", $attrs, $value);
+			$attrs["Language"] = $gen["Language"];
+			$this->xml->xmlElement("Keyword", $attrs, $value);
 		}
+		
+		// 1 MetaData..General (endtag)
+		$this->xml->xmlEndTag("General");
 		
 		// 1.6 ..General..Covarage --> unavailable in ILIAS 2
 		
 		// 2 MetaData..Lifecycle ***
 		if (is_array($life))
 		{
+			// (starttag)
 			$attrs = array();
-			$attrs["Status"]	= $life["Status"];
-			$Lifecycle = $this->writeNode($MetaData, "Lifecycle", $attrs);
+			$attrs["Status"] = $life["Status"];
+			$this->xml->xmlStartTag("Lifecycle", $attrs);
 			
-			// 2.1 ..Lifecycle..Version
+			// 2.1 MetaData..Lifecycle..Version
 			$attrs = array();
-			$attrs["Language"]	= $gen["Language"];
-			$Version = $this->writeNode($Lifecycle, "Version", $attrs, $life["Version"]);
+			$attrs["Language"] = $gen["Language"];
+			$this->xml->xmlElement("Version", $attrs, $life["Version"]);
 			
-			// 2.3 ..Lifecycle..Contribute
+			// 2.3 MetaData..Lifecycle..Contribute
 			foreach ($life["Contribute"] as $value) 
 			{
+				// (starttag)
 				$attrs = array();
-				$attrs["Role"]	= $value["Role"];
-				$Contribute = $this->writeNode($Lifecycle, "Contribute", $attrs);
+				$attrs["Role"] = $value["Role"];
+				$this->xml->xmlStartTag("Contribute", $attrs);
 				
-				// 2.3.2 ..Lifecycle..Contribute..Entity
-				$Entity = $this->writeNode($Contribute, "Entity", NULL, $value["Entity"]);
+				// 2.3.2 MetaData..Lifecycle..Contribute..Entity
+				$this->xml->xmlElement("Entity", NULL, $value["Entity"]);
 				
-				// 2.3.3 ..Lifecycle..Contribute..Date
-				$Date = $this->writeNode($Contribute, "Date", NULL, $value["Date"]);
+				// 2.3.3 MetaData..Lifecycle..Contribute..Date
+				$this->xml->xmlElement("Date", NULL, $value["Date"]);
+				
+				// (endtag)
+				$this->xml->xmlEndTag("Contribute");
 			}
+			
+			// (endtag)
+			$this->xml->xmlEndTag("Lifecycle");
 		}
 		
 		// 3 MetaData..Meta-Metadata  --> unavailable in ILIAS 2
@@ -708,29 +692,34 @@ class ILIAS2To3Converter
 		{
 			foreach ($tech as $value) 
 			{
+				// (starttag)
 				$attrs = array();
-				$attrs["Format"]	= $value["Format"];
-				$Technical = $this->writeNode($MetaData, "Technical", $attrs, NULL, $refnode);
+				$attrs["Format"] = $value["Format"];
+				$this->xml->xmlStartTag("Technical", $attrs);
 				
-				// 4.2 ..Technical..Size
-				$Size = $this->writeNode($Technical, "Size", NULL, $value["Size"]);
+				// 4.2 MetaData..Technical..Size
+				$this->xml->xmlElement("Size", NULL, $value["Size"]);
 				
-				// 4.3 ..Technical..Location
-				$Location = $this->writeNode($Technical, "Location", NULL, $value["Location"]);
+				// 4.3 MetaData..Technical..Location
+				$this->xml->xmlElement("Location", NULL, $value["Location"]);
 				
-				// 4.4 ..Technical..(Requirement | OrComposite) --> unavailable in ILIAS 2
+				// 4.4 MetaData..Technical..(Requirement | OrComposite) --> unavailable in ILIAS 2
 				
-				// 4.5 ..Technical..InstallationRemarks --> unavailable in ILIAS 2
+				// 4.5 MetaData..Technical..InstallationRemarks --> unavailable in ILIAS 2
 				
-				// 4.6 ..Technical..OtherPlatformRequirements --> unavailable in ILIAS 2
+				// 4.6 MetaData..Technical..OtherPlatformRequirements --> unavailable in ILIAS 2
 				
-				// 4.7 ..Technical..Duration --> unavailable in ILIAS 2
+				// 4.7 MetaData..Technical..Duration --> unavailable in ILIAS 2
+				
+				// (endtag)
+				$this->xml->xmlEndTag("Technical");
 			}
 		}
 		
 		// 5 MetaData..Educational
 		if (is_array($edu))
 		{
+			// (starttag)
 			$attrs = array();
 			$attrs["InteractivityType"]		= $edu["InteractivityType"];
 			$attrs["LearningResourceType"]	= $edu["LearningResourceType"];
@@ -739,15 +728,18 @@ class ILIAS2To3Converter
 			$attrs["IntendedEndUserRole"]	= $edu["IntendedEndUserRole"];
 			$attrs["Context"]				= $edu["Context"];
 			$attrs["Difficulty"]			= $edu["Difficulty"];
-			$Educational = $this->writeNode($MetaData, "Educational", $attrs);
+			$this->xml->xmlStartTag("Educational", $attrs);
 			
-			// 5.7 ..Educational..TypicalAgeRange
+			// 5.7 MetaData..Educational..TypicalAgeRange
 			$attrs = array();
-			$attrs["Language"]	= $gen["Language"];
-			$TypicalAgeRange = $this->writeNode($Educational, "TypicalAgeRange", $attrs, $edu["TypicalAgeRange"]);
+			$attrs["Language"] = $gen["Language"];
+			$this->xml->xmlElement("TypicalAgeRange", $attrs, $edu["TypicalAgeRange"]);
 			
-			// 5.9 ..Educational..TypicalLearningTime
-			$TypicalLearningTime = $this->writeNode($Educational, "TypicalLearningTime", NULL, $edu["TypicalLearningTime"]);
+			// 5.9 MetaData..Educational..TypicalLearningTime
+			$this->xml->xmlElement("TypicalLearningTime", NULL, $edu["TypicalLearningTime"]);
+			
+			// (endtag)
+			$this->xml->xmlEndTag("Educational");
 		}
 		
 		// 6 MetaData..Rights --> unavailable in ILIAS 2
@@ -761,48 +753,48 @@ class ILIAS2To3Converter
 		{
 			foreach ($class as $value) 
 			{
+				// (starttag)
 				$attrs = array();
-				$attrs["Purpose"]	= $value["Purpose"];
-				$Classification = $this->writeNode($MetaData, "Classification", $attrs);
+				$attrs["Purpose"] = $value["Purpose"];
+				$this->xml->xmlStartTag("Classification", $attrs);
 				
-				// 9.2 ..Classification..TaxonPath
-				$TaxonPath = $this->writeNode($Classification, "TaxonPath");
+				// 9.2 MetaData..Classification..TaxonPath (starttag)
+				$this->xml->xmlStartTag("TaxonPath");
 				
-				// 9.2.1 ..Classification..TaxonPath..Source
+				// 9.2.1 MetaData..Classification..TaxonPath..Source
 				$attrs = array();
-				$attrs["Language"]	= $gen["Language"];
-				$Source = $this->writeNode($TaxonPath, "Source", $attrs, $gen["Catalog"]);
+				$attrs["Language"] = $gen["Language"];
+				$this->xml->xmlElement("Source", $attrs, $gen["Catalog"]);
 				
-				// 9.2.2 ..Classification..TaxonPath.Taxon
+				// 9.2.2 MetaData..Classification..TaxonPath.Taxon
 				$attrs = array();
-				$attrs["Language"]	= $gen["Language"];
-				$Taxon = $this->writeNode($TaxonPath, "Taxon", $attrs, $value["Taxon"]);
+				$attrs["Language"] = $gen["Language"];
+				$this->xml->xmlElement("Taxon", $attrs, $value["Taxon"]);
 				
-				// ..Classification..Description
-				$attrs = array();
-				$attrs["Language"]	= $gen["Language"];
-				$Description = $this->writeNode($Classification, "Description", $attrs, "No description"); // default
+				// 9.2 MetaData..Classification..TaxonPath (starttag)
+				$this->xml->xmlEndTag("TaxonPath");
 				
-				// ..Classification..Keyword
+				// MetaData..Classification..Description
 				$attrs = array();
-				$attrs["Language"]	= $gen["Language"];
-				$Keyword = $this->writeNode($Classification, "Keyword", $attrs, "No keywords"); // default
+				$attrs["Language"] = $gen["Language"];
+				$this->xml->xmlElement("Description", $attrs, "No description"); // default
+				
+				// MetaData..Classification..Keyword
+				$attrs = array();
+				$attrs["Language"] = $gen["Language"];
+				$this->xml->xmlElement("Keyword", $attrs, "No keywords"); // default
+				
+				// (endtag)
+				$this->xml->xmlEndTag("Classification");
 			}
 		}
 		
-		//-------------
-		// free memory: ***
-		//-------------
-		unset($sql, $sql2, $row, $row2, $meta, $keyword, $contrib, $mtype, $attrs);
-		
-		//----------------------
-		// return MetaData tree:
-		//----------------------
-		return $MetaData;
+		// MetaData (endtag)
+		$this->xml->xmlEndTag("MetaData");
 	}
 	
 	// ILIAS 2 Image (element) --> ILIAS 3 MediaObject
-	function exportImage ($id, $parent)
+	function exportImage ($id)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -836,30 +828,22 @@ class ILIAS2To3Converter
 		//-------------------------
 		// create MediaObject tree:
 		//-------------------------		
-		// MediaObject
-		$MediaObject = $this->writeNode($parent, "MediaObject");
+		// MediaObject (starttag)
+		$this->xml->xmlStartTag("MediaObject");
 		
 		// MediaObject..MetaData
-		$MetaData = $this->exportMetadata($id, "img", $MediaObject);
+		$this->exportMetadata($id, "img");
 		
 		// MediaObject..Layout ***
-		// *** align
 		
 		// MediaObject..Parameter --> unavailable for images in ILIAS 2
 		
-		//-------------
-		// free memory: ***
-		//-------------
-		unset($sql, $image);
-		
-		//-------------------------
-		// return MediaObject tree:
-		//-------------------------
-		return $MediaObject;
+		// MediaObject (endtag)
+		$this->xml->xmlEndTag("MediaObject");
 	}
 	
 	// ILIAS 2 Imagemap (element) --> ILIAS 3 MediaObject
-	function exportImagemap ($id, $parent)
+	function exportImagemap ($id)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -867,7 +851,7 @@ class ILIAS2To3Converter
 		// table 'element' not needed at all!
 		
 		// table 'el_map'
-		$sql =	"SELECT align, type ". // *** layout
+		$sql =	"SELECT align, type ".
 				"FROM el_map ".
 				"WHERE id = ".$id.";";
 		// get db result
@@ -877,7 +861,7 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// Todo: resolve 'align' (image-alignment)
+		// Todo: resolve 'align' (imagemap-alignment)
 		
 		//--------------
 		// copy file(s): ***
@@ -887,30 +871,22 @@ class ILIAS2To3Converter
 		//-------------------------
 		// create MediaObject tree:
 		//-------------------------		
-		// MediaObject
-		$MediaObject = $this->writeNode($parent, "MediaObject");
+		// MediaObject (starttag)
+		$this->xml->xmlStartTag("MediaObject");
 		
 		// MediaObject..MetaData
-		$MetaData = $this->exportMetadata($id, "imap", $MediaObject);
+		$this->exportMetadata($id, "imap");
 		
 		// MediaObject..Layout ***
-		// *** align, ...
 		
 		// MediaObject..Parameter --> unavailable for imagemaps in ILIAS 2
 		
-		//-------------
-		// free memory: ***
-		//-------------
-		unset($sql, $map);
-		
-		//-------------------------
-		// return MediaObject tree:
-		//-------------------------
-		return $MediaObject;
+		// MediaObject (endtag)
+		$this->xml->xmlEndTag("MediaObject");
 	}
 	
 	// ILIAS 2 Multimedia --> ILIAS 3 MediaObject
-	function exportMultimedia ($id, $parent)
+	function exportMultimedia ($id)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -935,52 +911,55 @@ class ILIAS2To3Converter
 		if ($mm["st_type"] == "file" or
 			$mm["full_type"] == "file")
 		{
-			// *** copy file(s)
 			$this->utils->copyObjectFiles ($this->iliasDir."objects/", $this->targetDir."objects/", $id, "mm");
 		}
 		
 		//-------------------------
 		// create MediaObject tree:
 		//-------------------------		
-		// MediaObject
-		$MediaObject = $this->writeNode($parent, "MediaObject");
+		// MediaObject (starttag)
+		$this->xml->xmlStartTag("MediaObject");
 		
 		// MediaObject..MetaData
-		$MetaData = $this->exportMetadata($id, "mm", $MediaObject);
+		$this->exportMetadata($id, "mm");
 		
-		// MediaObject..Layout (special size)
+		// MediaObject..Layout
+		// = special size
 		if (!$this->utils->selectBool($mm["org_size"]))
 		{
 			$attrs = array();
 			$attrs["Width"]		= $mm["width"];
 			$attrs["Height"]	= $mm["height"];
-			$Layout = $this->writeNode($MediaObject, "Layout", $attrs);
+			$this->xml->xmlElement("Layout", $attrs);
 		}
 		
-		// MediaObject..Parameter (= full special size)
+		// MediaObject..Parameter
+		// = full special size
 		if (!$this->utils->selectBool($mm["full_org_size"]))
 		{
 			$attrs = array();
 			$attrs["Name"]	= "full_width";
 			$attrs["Value"]	= $mm["full_width"];
-			$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+			$this->xml->xmlElement("Parameter", $attrs);
 			
 			$attrs = array();
 			$attrs["Name"]	= "full_height";
 			$attrs["Value"]	= $mm["full_height"];
-			$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+			$this->xml->xmlElement("Parameter", $attrs);
 		}
 		
-		// MediaObject..Parameter (= caption)
+		// MediaObject..Parameter
+		// = caption
 		if (!empty($mm["caption"]))
 		{
 			$attrs = array();
 			$attrs["Name"]	= "caption";
 			$attrs["Value"]	= $mm["caption"];
-			$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+			$this->xml->xmlElement("Parameter", $attrs);
 		}
 		
-		// MediaObject..Parameter (= parameters)
+		// MediaObject..Parameter
+		// = parameters
 		if ($params = $this->utils->fetchParams($mm["defparam"]))
 		{
 		    foreach ($params as $value)
@@ -988,23 +967,16 @@ class ILIAS2To3Converter
 				$attrs = array();
 				$attrs["Name"]	= $value["Name"];
 				$attrs["Value"]	= $value["Value"];
-				$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+				$this->xml->xmlElement("Parameter", $attrs);
 			}
 		}
 		
-		//-------------
-		// free memory: ***
-		//-------------
-		unset($sql, $mm, $attrs, $params);
-		
-		//-------------------------
-		// return MediaObject tree:
-		//-------------------------
-		return $MediaObject;
+		// MediaObject (endtag)
+		$this->xml->xmlEndTag("MediaObject");
 	}
 	
 	// ILIAS 2 File --> ILIAS 3 MediaObject
-	function exportFile ($id, $parent)
+	function exportFile ($id)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -1019,30 +991,24 @@ class ILIAS2To3Converter
 		//-------------------------
 		// create MediaObject tree:
 		//-------------------------		
-		// MediaObject
-		$MediaObject = $this->writeNode($parent, "MediaObject");
+		// MediaObject (starttag)
+		$this->xml->xmlStartTag("MediaObject");
 		
 		// MediaObject..MetaData
-		$MetaData = $this->exportMetadata($id, "file", $MediaObject);
+		$this->exportMetadata($id, "file");
 		
 		// MediaObject..Layout --> unavailable for files in ILIAS 2
 		
 		// MediaObject..Parameter --> unavailable for files in ILIAS 2
 		
-		//-------------
-		// free memory: ***
-		//-------------
-		
-		//-------------------------
-		// return MediaObject tree:
-		//-------------------------
-		return $MediaObject;
+		// MediaObject (endtag)
+		$this->xml->xmlEndTag("MediaObject");
 	}
 	
 	/**
 	* convert text to paragraph and vri to IntLink ***
 	*/
-	function exportText ($data, $parent, $character = "", $code = FALSE)
+	function exportText ($data, $character = "", $code = FALSE)
 	{
 		// fetch vri (array)
 		if ($vri = $this->utils->fetchVri($data,"st|ab|pg|mm"))
@@ -1059,17 +1025,20 @@ class ILIAS2To3Converter
 					// ***
 					if ($code)
 					{
-						// Paragraph
+						// Paragraph (starttag)
 						$attrs = array();
 						$attrs["Language"] = $this->curLang;
 						if ($character <> "")
 						{
 							$attrs["Characteristic"] = $character;
 						}
-						$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+						$this->xml->xmlStartTag("Paragraph", $attrs);
 						
 						// Paragraph..Code
-						$Code = $this->writeNode($Paragraph, "Code", NULL, $text[$i]);
+						$this->xml->xmlElement("Code", NULL, $text[$i]);
+						
+						// Paragraph (endtag)
+						$this->xml->xmlEndTag("Paragraph");
 					}
 					else
 					{
@@ -1080,7 +1049,7 @@ class ILIAS2To3Converter
 						{
 							$attrs["Characteristic"] = $character;
 						}
-						$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text[$i]);
+						$this->xml->xmlElement("Paragraph", $attrs, $text[$i]);
 					}
 				}
 				
@@ -1097,17 +1066,20 @@ class ILIAS2To3Converter
 			// ***
 			if ($code)
 			{
-				// Paragraph
+				// Paragraph (starttag)
 				$attrs = array();
 				$attrs["Language"] = $this->curLang;
 				if ($character <> "")
 				{
 					$attrs["Characteristic"] = $character;
 				}
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+				$this->xml->xmlStartTag("Paragraph", $attrs);
 				
 				// Paragraph..Code
-				$Code = $this->writeNode($Paragraph, "Code", NULL, $data);
+				$this->xml->xmlElement("Code", NULL, $data);
+				
+				// Paragraph (endtag)
+				$this->xml->xmlEndTag("Paragraph");
 			}
 			else
 			{
@@ -1118,17 +1090,16 @@ class ILIAS2To3Converter
 				{
 					$attrs["Characteristic"] = $character;
 				}
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $data);
+				$this->xml->xmlElement("Paragraph", $attrs, $data);
 			}
 		}
-		// *** return $ret;
 	}
 	
 	/**
 	* convert vri to IntLink ***
 	* $vri array
 	*/
-	function exportVri ($vri, $parent)
+	function exportVri ($vri)
 	{
 		// initialize switch
 		$resolve = TRUE;
@@ -1216,10 +1187,10 @@ class ILIAS2To3Converter
 		
 		if ($resolve)
 		{
-			// Paragraph
+			// Paragraph (starttag)
 			$attrs = array();
 			$attrs["Language"] = $this->curLang;
-			$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+			$this->xml->xmlStartTag("Paragraph", $attrs);
 			
 			// Paragraph..IntLink
 			$attrs = array();
@@ -1229,7 +1200,10 @@ class ILIAS2To3Converter
 			{
 				$attrs["TargetFrame"] = $vri["target"];
 			}
-			$IntLink = $this->writeNode($Paragraph, "IntLink", $attrs, $vri["content"]);
+			$this->xml->xmlElement("IntLink", $attrs, $vri["content"]);
+			
+			// Paragraph (endtag)
+			$this->xml->xmlEndTag("Paragraph");
 		}
 		else
 		{
@@ -1244,13 +1218,12 @@ class ILIAS2To3Converter
 			{
 				$text .= " TargetFrame=".$vri["target"]."]";
 			}
-			$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text);
+			$this->xml->xmlElement("Paragraph", $attrs, $text);
 		}
-		// *** return $ret;
 	}
 	
 	// ILIAS 2 Element --> ILIAS 3 Paragraph or MediaObject (depends on type)
-	function exportElement ($id, $parent)
+	function exportElement ($id)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -1322,17 +1295,20 @@ class ILIAS2To3Converter
 				//-------------------------
 				// create MediaObject tree:
 				//-------------------------		
-				// MediaObject
-				$MediaObject = $this->writeNode($parent, "MediaObject");
+				// MediaObject (starttag)
+				$this->xml->xmlStartTag("MediaObject");
 				
 				// MediaObject..MediaAlias
 				$attrs = array();
 				$attrs["OriginId"] = "el_".$id;
-				$MediaAlias = $this->writeNode($MediaObject, "MediaAlias", $attrs);
+				$this->xml->xmlElement("MediaAlias", $attrs);
 				
 				// MediaObject..Layout --> default used
 				
 				// MediaObject..Parameter --> default used
+				
+				// MediaObject (endtag)
+				$this->xml->xmlEndTag("MediaObject");
 				break;
 			
 			// title
@@ -1397,16 +1373,16 @@ class ILIAS2To3Converter
 				//-----------------------
 				// create Paragraph tree:
 				//-----------------------
-				// Paragraph
+				// Paragraph (starttag)
 				$attrs = array();
 				$attrs["Language"] = $this->curLang;
 				if ($expl)
 				{
 					$attrs["Characteristic"] = "Example";
 				}
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+				$this->xml->xmlStartTag("Paragraph", $attrs);
 				
-				// Paragraph..Table
+				// Paragraph..Table (starttag)
 				$attrs = array();
 				$attrs["Id"] = "tb_".$id;
 				if ($table["width"] <> "")
@@ -1414,25 +1390,25 @@ class ILIAS2To3Converter
 					$attrs["Width"] = $table["width"];
 				}
 				$attrs["Border"] = $table["border"];
-				$Table = $this->writeNode($Paragraph, "Table", $attrs);
+				$this->xml->xmlStartTag("Table", $attrs);
 				
 				// Paragraph..Table..Title
 				$attrs = array();
 				$attrs["Language"]	= $this->curLang;
-				$Title = $this->writeNode($Table, "Title", $attrs, $table["title"]);
+				$this->xml->xmlElement("Title", $attrs, $table["title"]);
 				
 				// Paragraph..Table..HeaderCaption
 				if ($table["capalign"] == 0 and
 					$table["caption"] <> "")
 				{
-					$HeaderCaption = $this->writeNode($Table, "HeaderCaption", NULL,$table["caption"]);
+					$this->xml->xmlElement("HeaderCaption", NULL,$table["caption"]);
 				}
 				
 				// Paragraph..Table..FooterCaption
 				if ($table["capalign"] == 1 and
 					$table["caption"] <> "")
 				{
-					$FooterCaption = $this->writeNode($Table, "FooterCaption", NULL,$table["caption"]);
+					$this->xml->xmlElement("FooterCaption", NULL,$table["caption"]);
 				}
 				
 				// Paragraph..Table..Summary  --> unavailable in ILIAS 2
@@ -1442,7 +1418,8 @@ class ILIAS2To3Converter
 				{
 					for ($i = 1; $i <= $table["rows"]; $i++)
 					{
-						$TableRow = $this->writeNode($Table, "TableRow");
+						// (starttag)
+						$this->xml->xmlStartTag("TableRow");
 						
 						foreach ($data as $value) 
 						{
@@ -1458,12 +1435,21 @@ class ILIAS2To3Converter
 								{
 									$attrs = Null;
 								}
-								$TableData = $this->writeNode($TableRow, "TableData", $attrs, $value["text"]);
+								$this->xml->xmlElement("TableData", $attrs, $value["text"]);
 								break;
 							}
 						}
+						
+						// (endtag)
+						$this->xml->xmlEndTag("TableRow");
 					}
 				}
+				
+				// Paragraph..Table (endtag)
+				$this->xml->xmlEndTag("Table");
+				
+				// Paragraph (endtag)
+				$this->xml->xmlEndTag("Paragraph");
 				break;
 			
 			// imagemap
@@ -1490,20 +1476,20 @@ class ILIAS2To3Converter
 				//-----------------------
 				// create Paragraph tree:
 				//-----------------------		
-				// Paragraph
+				// Paragraph (starttag)
 				$attrs = array();
 				$attrs["Language"] = $this->curLang;
 				if ($expl)
 				{
 					$attrs["Characteristic"] = "Example";
 				}
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+				$this->xml->xmlStartTag("Paragraph", $attrs);
 				
-				// Paragraph..ImageMap
+				// Paragraph..ImageMap (starttag)
 				$attrs = array();
 				$attrs["Id"]		= "map_".$id;
 				$attrs["ImageId"]	= "el_".$id;
-				$ImageMap = $this->writeNode($Paragraph, "ImageMap", $attrs);
+				$this->xml->xmlStartTag("ImageMap", $attrs);
 				
 				// Paragraph..ImageMap..MapArea
 				if (is_array($area))
@@ -1515,13 +1501,24 @@ class ILIAS2To3Converter
 						$attrs["Coords"]	= $value["coords"];
 						$attrs["Href"]		= $value["href"];
 						$attrs["Alt"]		= $value["alt"];
-						$MapArea = $this->writeNode($ImageMap, "MapArea", $attrs);
+						$this->xml->xmlElement("MapArea", $attrs);
 					}
 				}
 				else // default
 				{
-					// to be competetd ***
+					$attrs = array();
+					$attrs["Shape"]		= "Rect";
+					$attrs["Coords"]	= "0,0,0,0";
+					$attrs["Href"]		= "";
+					$attrs["Alt"]		= "Area of an imagemap.";
+					$this->xml->xmlElement("MapArea", $attrs);
 				}
+				
+				// Paragraph..ImageMap (endtag)
+				$this->xml->xmlEndTag("ImageMap");
+				
+				// Paragraph (endtag)
+				$this->xml->xmlEndTag("Paragraph");
 				break;
 			
 			// multiple choice
@@ -1561,8 +1558,8 @@ class ILIAS2To3Converter
 				//--------------------------------------
 				// create Question, Answer, [Hint] tree:
 				//--------------------------------------
-				// TestItem..Question ***
-				$Question = $this->writeNode($parent, "Question");
+				// TestItem..Question (starttag)
+				$this->xml->xmlStartTag("Question");
 				
 				// TestItem..Question..Paragraph
 				$attrs = array();
@@ -1571,31 +1568,39 @@ class ILIAS2To3Converter
 				{
 					$attrs["Characteristic"] = "Example";
 				}
-				$Paragraph = $this->writeNode($Question, "Paragraph", $attrs, $mc["text"]);
+				$this->xml->xmlElement("Paragraph", $attrs, $mc["text"]);
 				
-				// TestItem..Answer ***
+				// TestItem..Question (endtag)
+				$this->xml->xmlEndTag("Question");
+				
+				// TestItem..Answer
 				if ($mc["type"] == "mul" and
 					is_array($answer))
 				{
 					foreach ($answer as $value) 
 					{
+						// (starttag)
 						$attrs = array();
 						$attrs["Solution"] = $this->utils->selectAnswer($value["mright"]);
-						$Answer = $this->writeNode($parent, "Answer", $attrs);
+						$this->xml->xmlStartTag("Answer", $attrs);
 						
-						// TestItem..Answer..Paragraph ***
+						// TestItem..Answer..Paragraph
 						$attrs = array();
 						$attrs["Language"] = $this->curLang;
 						if ($expl)
 						{
 							$attrs["Characteristic"] = "Example";
 						}
-						$Paragraph = $this->writeNode($Answer, "Paragraph", $attrs, $value["text"]);
+						$this->xml->xmlElement("Paragraph", $attrs, $value["text"]);
+						
+						// (endtag)
+						$this->xml->xmlEndTag("Answer");
 					}
 				}
 				else
 				{
-					$Answer = $this->writeNode($parent, "Answer");
+					// (starttag)
+					$this->xml->xmlStartTag("Answer");
 					
 					// TestItem..Answer..Paragraph
 					$attrs = array();
@@ -1604,7 +1609,10 @@ class ILIAS2To3Converter
 					{
 						$attrs["Characteristic"] = "Example";
 					}
-					$Paragraph = $this->writeNode($Answer, "Paragraph", $attrs, $this->utils->selectAnswer($mc["answer"]));
+					$this->xml->xmlElement("Paragraph", $attrs, $this->utils->selectAnswer($mc["answer"]));
+					
+					// (endtag)
+					$this->xml->xmlEndTag("Answer");
 				}
 				
 				// TestItem..Hint ***
@@ -1612,9 +1620,6 @@ class ILIAS2To3Converter
 				{
 					// *** falls vorhanden VRI auflösen, sonst nicht vorhanden
 				}
-				
-				// *** !!!!!!!!! return einbauen
-				
 				break;
 			
 			// multimedia
@@ -1639,47 +1644,51 @@ class ILIAS2To3Converter
 				//-------------------------
 				// create MediaObject tree:
 				//-------------------------		
-				// MediaObject (ILIAS 2 MetaData is not used here!)
-				$MediaObject = $this->writeNode($parent, "MediaObject");
+				// MediaObject (starttag)
+				$this->xml->xmlStartTag("MediaObject");
 				
 				// MediaObject..MediaAlias
 				$attrs = array();
 				$attrs["OriginId"] = "mm_".$mm["mm_id"];
-				$MediaAlias = $this->writeNode($MediaObject, "MediaAlias", $attrs);
+				$this->xml->xmlElement("MediaAlias", $attrs);
 				
-				// MediaObject..Layout (special size)
+				// MediaObject..Layout
+				// = special size
 				if (!$this->utils->selectBool($mm["derive_size"]))
 				{
 					$attrs = array();
 					$attrs["Width"]		= $mm["width"];
 					$attrs["Height"]	= $mm["height"];
-					$Layout = $this->writeNode($MediaObject, "Layout", $attrs);
+					$this->xml->xmlElement("Layout", $attrs);
 				}
 				
-				// MediaObject..Parameter (= full special size)
+				// MediaObject..Parameter
+				// = full special size
 				if (!$this->utils->selectBool($mm["derive_full_size"]))
 				{
 					$attrs = array();
 					$attrs["Name"]	= "full_width";
 					$attrs["Value"]	= $mm["full_width"];
-					$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+					$this->xml->xmlElement("Parameter", $attrs);
 					
 					$attrs = array();
 					$attrs["Name"]	= "full_height";
 					$attrs["Value"]	= $mm["full_height"];
-					$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+					$this->xml->xmlElement("Parameter", $attrs);
 				}
 				
-				// MediaObject..Parameter (= caption)
+				// MediaObject..Parameter
+				// = caption
 				if (!$this->utils->selectBool($mm["derive_caption"]))
 				{
 					$attrs = array();
 					$attrs["Name"]	= "caption";
 					$attrs["Value"]	= $mm["caption"];
-					$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+					$this->xml->xmlElement("Parameter", $attrs);
 				}
 				
-				// MediaObject..Parameter (= parameters)
+				// MediaObject..Parameter
+				// = parameters
 				if (!$this->utils->selectBool($mm["derive_defparam"]))
 				{
 					if ($params = $this->utils->fetchParams($mm["paras"]))
@@ -1689,10 +1698,13 @@ class ILIAS2To3Converter
 							$attrs = array();
 							$attrs["Name"]	= $value["Name"];
 							$attrs["Value"]	= $value["Value"];
-							$Parameter = $this->writeNode($MediaObject, "Parameter", $attrs);
+							$this->xml->xmlElement("Parameter", $attrs);
 						}
 					}
 				}
+				
+				// MediaObject (endtag)
+				$this->xml->xmlEndTag("MediaObject");
 				break;
 			
 			case 8: // filelist
@@ -1716,17 +1728,20 @@ class ILIAS2To3Converter
 				//-------------------------
 				// create MediaObject tree:
 				//-------------------------		
-				// MediaObject
-				$MediaObject = $this->writeNode($parent, "MediaObject");
+				// MediaObject (starttag)
+				$this->xml->xmlStartTag("MediaObject");
 				
 				// MediaObject..MediaAlias
 				$attrs = array();
 				$attrs["OriginId"] = "file_".$value["file_id"];
-				$MediaAlias = $this->writeNode($MediaObject, "MediaAlias", $attrs);
+				$this->xml->xmlElement("MediaAlias", $attrs);
 				
 				// MediaObject..Layout --> default used
 				
 				// MediaObject..Parameter --> default used
+				
+				// MediaObject (endtag)
+				$this->xml->xmlEndTag("MediaObject");
 				break;
 			
 			// temporary dummy for not supported element-types
@@ -1738,22 +1753,12 @@ class ILIAS2To3Converter
 				{
 					$attrs["Characteristic"] = "Example";
 				}
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, "Object not supported yet.");
+				$this->xml->xmlElement("Paragraph", $attrs, "Object not supported yet.");
 		}
-		
-		//-------------
-		// free memory: ***
-		//-------------
-		unset($sql, $row, $element, $text, $image, $names, $fileName, $fileSize, $mimetype, $table, $i, $data, $attrs, $area, $mc, $answer, $mm, $refText);
-		
-		//-------------
-		// return tree: ***
-		//-------------
-		return $Paragraph;
 	}
 	
 	// ILIAS 2 Glossar --> ILIAS 3 GlossaryItem
-	function exportGlossary ($id, $parent)
+	function exportGlossary ($id)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -1774,17 +1779,17 @@ class ILIAS2To3Converter
 		//--------------------------
 		// create GlossaryItem tree:
 		//--------------------------		
-		// GlossaryItem
-		$GlossaryItem = $this->writeNode($parent, "GlossaryItem");
+		// GlossaryItem (starttag)
+		$this->xml->xmlStartTag("GlossaryItem");
 		
 		// GlossaryItem..MetaData
-		$MetaData = $this->exportMetadata($gloss["page"], "gl", $GlossaryItem);
+		$this->exportMetadata($gloss["page"], "gl");
 		
 		// GlossaryItem..GlossaryTerm
-		$GlossaryTerm = $this->writeNode($GlossaryItem, "GlossaryTerm", NULL, $gloss["begriff"]);
+		$this->xml->xmlStartTag("GlossaryTerm", NULL, $gloss["begriff"]);
 		
-		// GlossaryItem..Definition
-		$Definition = $this->writeNode($GlossaryItem, "Definition");
+		// GlossaryItem..Definition (starttag)
+		$this->xml->xmlStartTag("Definition");
 		
 		// GlossaryItem..Definition..(Paragraph | MediaObject)
 		// = elements
@@ -1798,24 +1803,20 @@ class ILIAS2To3Converter
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$Element = $this->exportElement($row["id"], $Definition);
+			$this->exportElement($row["id"]);
 		}
 		// free result set
 		$result->free();
 		
-		//-------------
-		// free memory:
-		//-------------
-		unset($sql, $row, $gloss);
+		// GlossaryItem..Definition (endtag)
+		$this->xml->xmlEndTag("Definition");
 		
-		//--------------------------
-		// return GlossaryItem tree:
-		//--------------------------
-		return $GlossaryItem;
+		// GlossaryItem (endtag)
+		$this->xml->xmlEndTag("GlossaryItem");
 	}
 	
 	// ILIAS 2 multiple choice Test --> ILIAS 3 TestItem
-	function exportTest ($id, $parent)
+	function exportTest ($id)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -1825,11 +1826,11 @@ class ILIAS2To3Converter
 		//----------------------
 		// create TestItem tree:
 		//----------------------
-		// TestItem
-		$TestItem = $this->writeNode($parent, "TestItem");
+		// TestItem (starttag)
+		$this->xml->xmlStartTag("TestItem");
 		
 		// TestItem..MetaData
-		$MetaData = $this->exportMetadata($id, "mc", $TestItem);
+		$this->exportMetadata($id, "mc");
 		
 		// TestItem..(Question, Answer, [Hint]) 
 		// = element of type 6 (el_mc) ***
@@ -1843,8 +1844,7 @@ class ILIAS2To3Converter
 		// get row
 		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		
-		$Element = $this->exportElement($row["id"], $TestItem);
-		
+		$this->exportElement($row["id"]);
 		// free result set
 		$result->free();
 		
@@ -1861,25 +1861,18 @@ class ILIAS2To3Converter
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$Element = $this->exportElement($row["id"], $TestItem);
+			$this->exportElement($row["id"]);
 		}
 		// free result set
 		$result->free();
 		*/
 		
-		//-------------
-		// free memory:
-		//-------------
-		unset($sql, $row);
-		
-		//----------------------
-		// return TestItem tree:
-		//----------------------
-		return $TestItem;
+		// TestItem (endtag)
+		$this->xml->xmlEndTag("TestItem");
 	}
 	
 	// ILIAS 2 Page --> ILIAS 3 PageObject
-	function exportPage ($id, $parent)
+	function exportPage ($id)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -1936,14 +1929,14 @@ class ILIAS2To3Converter
 		//------------------------
 		// create PageObject tree:
 		//------------------------ 				
-		// PageObject
-		$PageObject = $this->writeNode($parent, "PageObject");
+		// PageObject (starttag)
+		$this->xml->xmlStartTag("PageObject");
 		
 		// PageObject..MetaData
-		$MetaData = $this->exportMetadata($id, "pg", $PageObject);
+		$this->exportMetadata($id, "pg");
 		
 		// PageObject..(Paragraph | MediaObject) 
-		// = elements  *** auf leere Seiten prüfen
+		// = elements
 		$sql =	"SELECT id ".
 				"FROM element ".
 				"WHERE page = ".$id." ".
@@ -1954,7 +1947,7 @@ class ILIAS2To3Converter
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$Element = $this->exportElement($row["id"], $PageObject);
+			$this->exportElement($row["id"]);
 		}
 		// free result set
 		$result->free();
@@ -1963,73 +1956,78 @@ class ILIAS2To3Converter
 		// = page's glossary items
 		if (is_array($gloss))
 		{
+			// (starttag)
 			$attrs = array();
 			$attrs["Language"] = $this->curLang;
 			$attrs["Characteristic"] = "Additional";
-			$Paragraph = $this->writeNode($PageObject, "Paragraph", $attrs);
+			$this->xml->xmlStartTag("Paragraph", $attrs);
 			
-			// ..IntLink (-> GlossaryItem)
+			// PageObject..Paragraph..IntLink (-> GlossaryItem)
 			foreach ($gloss as $value)
 			{
 				$attrs = array();
 				$attrs["Target"] = "pg_".$value["page"];
 				$attrs["Type"] = $this->utils->selectTargetType("gl");
-				$IntLink = $this->writeNode($Paragraph, "IntLink", $attrs, $value["term"]);
+				$this->xml->xmlElement("IntLink", $attrs, $value["term"]);
 			}
+			
+			// (endtag)
+			$this->xml->xmlEndTag("Paragraph");
 		}
 		
 		// PageObject..Paragraph 
 		// = page's links
 		if (is_array($link))
 		{
+			// (starttag)
 			$attrs = array();
 			$attrs["Language"] = $this->curLang;
 			$attrs["Characteristic"] = "Additional";
-			$Paragraph = $this->writeNode($PageObject, "Paragraph", $attrs);
+			$this->xml->xmlStartTag("Paragraph", $attrs);
 			
-			// ..ExtLink (-> URL)
+			// PageObject..Paragraph..ExtLink (-> URL)
 			foreach ($link as $value)
 			{
 				$attrs = array();
 				$attrs["Href"] = $value["url"];
-				$ExtLink = $this->writeNode($Paragraph, "ExtLink", $attrs, $value["titel"]);
+				$this->xml->xmlElement("ExtLink", $attrs, $value["titel"]);
 			}
+			
+			// (endtag)
+			$this->xml->xmlEndTag("Paragraph");
 		}
 		
-		// PageObject..Paragraph 
+		// PageObject..Paragraph
 		// = page's mc questions
 		if (is_array($mc))
 		{
+			// (starttag)
 			$attrs = array();
 			$attrs["Language"] = $this->curLang;
 			$attrs["Characteristic"] = "Additional";
-			$Paragraph = $this->writeNode($PageObject, "Paragraph", $attrs);
+			$this->xml->xmlStartTag("Paragraph", $attrs);
 			
-			// ..IntLink (-> TestItem)
+			// PageObject..Paragraph..IntLink (-> TestItem)
 			foreach ($mc as $value)
 			{
 				$attrs = array();
 				$attrs["Target"] = "mc_".$value["mc_id"];
 				$attrs["Type"] = $this->utils->selectTargetType("mc");
-				$IntLink = $this->writeNode($Paragraph, "IntLink", $attrs, $value["nr"]);
+				$this->xml->xmlElement("IntLink", $attrs, $value["nr"]);
 			}
+			
+			// (endtag)
+			$this->xml->xmlEndTag("Paragraph");
 		}
 		
 		// PageObject..Layout --> unavailable for pages in ILIAS 2
 		
-		//-------------
-		// free memory:
-		//-------------
-		unset($sql, $row, $gloss, $link, $mc, $value, $attrs);
-		
-		//------------------
-		// return PageObject
-		//------------------
-		return $PageObject;
+		// PageObject (endtag)
+		$this->xml->xmlEndTag("PageObject");
 	}
 	
 	// ILIAS 2 Structure (chapter) --> ILIAS 3 StructureObject
-	function exportStructure ($id, $parent)
+	function exportStructure ($id)
 	{
 		//-------------------------
 		// get data from db tables:
@@ -2039,13 +2037,14 @@ class ILIAS2To3Converter
 		//-----------------------------
 		// create StructureObject tree:
 		//-----------------------------		
-		// StructureObject
-		$StructureObject = $this->writeNode($parent, "StructureObject");
+		// StructureObject (starttag)
+		$this->xml->xmlStartTag("StructureObject");
 		
-		// StructureObject..MetaData ***
-		$MetaData = $this->exportMetadata($id, "st", $StructureObject);
+		// StructureObject..MetaData
+		$this->exportMetadata($id, "st");
 		
-		// StructureObject..StructureObject(s) (recursion for subchapters)
+		// StructureObject..StructureObject(s)
+		// = recursion for subchapters
 		$sql =	"SELECT gd.id ".
 				"FROM gliederung AS gd, gliederung AS mt ".
 				"WHERE gd.mutter = ".$id." ".
@@ -2057,12 +2056,13 @@ class ILIAS2To3Converter
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$SubStructureObject = $this->exportStructure($row["id"], $StructureObject); // *** Bezeichner ändern
+			$this->exportStructure($row["id"]);
 		}
 		// free result set
 		$result->free();
 		
-		// StructureObject..PageObject(s) (= linked pages of type 'le')
+		// StructureObject..PageObject(s)
+		// = linked pages of type 'le'
 		$sql =	"SELECT st.page AS page ".
 				"FROM struktur AS st, page AS pg ".
 				"WHERE st.page = pg.id ".
@@ -2078,30 +2078,26 @@ class ILIAS2To3Converter
 			//-------------------------
 			// create PageObject tree:
 			//-------------------------		
-			// PageObject
-			$PageObject = $this->writeNode($StructureObject, "PageObject");
+			// PageObject (starttag)
+			$this->xml->xmlStartTag("PageObject");
 			
 			// PageObject..PageAlias
 			$attrs = array();
 			$attrs["OriginId"] = "pg_".$row["page"];
-			$PageAlias = $this->writeNode($PageObject, "PageAlias", $attrs);
+			$this->xml->xmlElement("PageAlias", $attrs);
 			
 			// PageObject..Layout --> unavailable for pages in ILIAS 2
+			
+			// PageObject (endtag)
+			$this->xml->xmlEndTag("PageObject");
 		}
 		// free result set
 		$result->free();
 		
 		// StructureObject..Layout --> unavailable for structure in ILIAS 2
 		
-		//-------------
-		// free memory:
-		//-------------
-		unset($sql, $row, $attrs);
-		
-		//-----------------------------
-		// return StructureObject tree:
-		//-----------------------------
-		return $StructureObject;
+		// StructureObject (endtag)
+		$this->xml->xmlEndTag("StructureObject");
 	}
 	
 	// ILIAS 2 Learningunit --> ILIAS 3 LearningModule
@@ -2127,11 +2123,11 @@ class ILIAS2To3Converter
 		//----------------------------
 		// create LearningModule tree:
 		//----------------------------		
-		// LearningModule
-		$LearningModule = $this->writeNode($this->doc, "LearningModule");
+		// LearningModule (starttag)
+		$this->xml->xmlStartTag("LearningModule");
 		
 		// LearningModule..MetaData
-		$MetaData = $this->exportMetadata($id, "le", $LearningModule);
+		$this->exportMetadata($id, "le");
 		
 		// LearningModule..StructureObject
 		// = "startpage" of an ILIAS 2 Learningunit
@@ -2144,8 +2140,7 @@ class ILIAS2To3Converter
 		// get row(s)
 		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		
-		$StructureObject = $this->exportStructure($row["id"], $LearningModule);
-		
+		$this->exportStructure($row["id"]);
 		// free result set
 		$result->free();
 		
@@ -2161,22 +2156,10 @@ class ILIAS2To3Converter
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$StructureObject = $this->exportStructure($row["id"], $LearningModule);
+			$this->exportStructure($row["id"]);
 		}
 		// free result set
 		$result->free();
-		
-		/* ***
-		// LearningModule..PageObject(s) 
-		// = unlinked/dangling pages
-		$sql =	"SELECT p.id AS id ".
-				"FROM page AS p ".
-				"LEFT JOIN struktur AS s ON p.id = s.page ".
-				"WHERE p.lerneinheit = ".$id." ".
-				"AND p.pg_typ = 'le' ".
-				"AND s.page is NULL ".
-				"AND p.deleted = '0000-00-00 00:00:00';";
-		*/
 		
 		// LearningModule..PageObject(s) 
 		// = all linked and dangling pages of type 'le'
@@ -2190,13 +2173,13 @@ class ILIAS2To3Converter
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$PageObject = $this->exportPage($row["id"], $LearningModule);
+			$this->exportPage($row["id"]);
 		}
 		// free result set
 		$result->free();
 		
 		// LearningModule..MediaObject(s) 
-		// = image elements ***
+		// = image elements
 		$sql =	"SELECT DISTINCT el.id AS id ".
 				"FROM lerneinheit AS le, page AS pg, element AS el ".
 				"WHERE le.id = ".$id." ".
@@ -2209,13 +2192,13 @@ class ILIAS2To3Converter
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$MediaObject = $this->exportImage($row["id"], $LearningModule);
+			$this->exportImage($row["id"]);
 		}
 		// free result set
 		$result->free();
 		
 		// LearningModule..MediaObject(s) 
-		// = imagemap elements ***
+		// = imagemap elements
 		$sql =	"SELECT DISTINCT el.id AS id ".
 				"FROM lerneinheit AS le, page AS pg, element AS el ".
 				"WHERE le.id = ".$id." ".
@@ -2228,7 +2211,7 @@ class ILIAS2To3Converter
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$MediaObject = $this->exportImagemap($row["id"], $LearningModule);
+			$this->exportImagemap($row["id"]);
 		}
 		// free result set
 		$result->free();
@@ -2248,7 +2231,7 @@ class ILIAS2To3Converter
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$MediaObject = $this->exportMultimedia($row["id"], $LearningModule);
+			$this->exportMultimedia($row["id"]);
 			
 			// fill the test array used to avoid possible double entries
 			$test[] = $row["id"];
@@ -2275,7 +2258,7 @@ class ILIAS2To3Converter
 			// avoiding possible double entries
 			if (!in_array($row["id"],$test,strict))
 			{
-				$MediaObject = $this->exportMultimedia($row["id"], $LearningModule);
+				$this->exportMultimedia($row["id"]);
 			}
 		}
 		// free result set
@@ -2296,12 +2279,13 @@ class ILIAS2To3Converter
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$MediaObject = $this->exportFile($row["id"], $LearningModule);
+			$this->exportFile($row["id"]);
 		}
 		// free result set
 		$result->free();
 		
-		// LearningModule..Test ***
+		// LearningModule..Test
+		// = all pages of type 'mc'
 		$sql =	"SELECT id ".
 				"FROM page ".
 				"WHERE lerneinheit = ".$id." ".
@@ -2315,22 +2299,27 @@ class ILIAS2To3Converter
 			//------------------
 			// create Test tree:
 			//------------------
-			// Test
-			$Test = $this->writeNode($LearningModule, "Test");
+			// Test (starttag)
+			$this->xml->xmlStartTag("Test");
 			
 			// Test..MetaData
-			$MetaData = $this->exportMetadata($row["id"], "test", $Test);
-		}
-		// get row(s)
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			// Test..TestItem
-			$TestItem = $this->exportTest($row["id"], $Test);
+			$this->exportMetadata($row["id"], "test");
+			
+			// get row(s)
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				// Test..TestItem
+				$this->exportTest($row["id"]);
+			}
+			
+			// Test (endtag)
+			$this->xml->xmlEndTag("Test");
 		}
 		// free result set
 		$result->free();
 		
-		// LearningModule..Glossary ***
+		// LearningModule..Glossary
+		// = all glossary terms and their corresponding pages of type 'le'
 		$sql =	"SELECT id ".
 				"FROM glossar ".
 				"WHERE lerneinheit = ".$id." ".
@@ -2344,17 +2333,21 @@ class ILIAS2To3Converter
 			//----------------------
 			// create Glossary tree:
 			//----------------------
-			// Glossary
-			$Glossary = $this->writeNode($LearningModule, "Glossary");
+			// Glossary (starttag)
+			$this->xml->xmlStartTag("Glossary");
 			
 			// Glossary..MetaData
-			$MetaData = $this->exportMetadata($row["id"], "glos", $Glossary);
-		}
-		// get row(s)
-		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			// Glossary..GlossaryItem ***
-			$GlossaryItem = $this->exportGlossary($row["id"], $Glossary);
+			$this->exportMetadata($row["id"], "glos");
+			
+			// get row(s)
+			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{
+				// Glossary..GlossaryItem
+				$this->exportGlossary($row["id"]);
+			}
+			
+			// Glossary (endtag)
+			$this->xml->xmlEndTag("Glossary");
 		}
 		// free result set
 		$result->free();
@@ -2363,49 +2356,45 @@ class ILIAS2To3Converter
 		
 		// LearningModule..Layout --> unavailable in for learningunits ILIAS 2
 		
-		//-------------
-		// free memory: ***
-		//-------------
-		unset($sql, $row, $attrs, $test);
-		
-		//----------------------------
-		// return LearningModule tree:
-		//----------------------------
-		return $LearningModule;
+		// LearningModule (endtag)
+		$this->xml->xmlEndTag("LearningModule");
 	}
 	
-	// create xml output
-	function dumpFile ()
+	// output ILIAS 3 LearninigModule and corresponding raw data files into a (zip ***) file
+	// public
+	function dumpLearningModuleFile ($luId)
 	{
+		// set member var for Learningunit
+		$this->luId = $luId;
+		
 		//-------------------------
 		// create new xml document:
 		//-------------------------
+		// initialize writer object (use default values)
+		$this->xml = new XmlWriter;
 		
-		// create the xml string (workaround for domxml_new_doc) ***
-		$xmlStr =	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>". // *** ISO-8859-1
-					"<!DOCTYPE LearningModule SYSTEM \"http://127.0.0.1/ilias3/xml/ilias_lm.dtd\">".
-					"<root />"; // dummy node
+		// set dtd definition
+		$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://127.0.0.1/ilias3/xml/ilias_lm.dtd\">");
 		
-		// create a domxml document object
-		$this->doc = domxml_open_mem($xmlStr); // *** Fehlerabfrage
+		// set generated comment
+		$this->xml->xmlSetGenCmt("Export of ILIAS 2 learningunit nr ".$this->luId." to ILIAS 3 LearningModule");
 		
-		// delete dummy node 
-		$root = $this->doc->document_element();
-		$root->unlink_node();
+		// set xml header
+		$this->xml->xmlHeader();
 		
-		// create ILIAS3 LearningObject out of ILIAS2 Lerneinheit ***
-		$LearningModule = $this->exportLearningunit($this->luId);
+		// create ILIAS 3 LearningModule out of ILIAS 2 Learningunit
+		$this->exportLearningunit($this->luId);
 		
-		// dump xml document on the screen ***
+		// dump xml document to screen ***
 		echo "<PRE>";
-		echo htmlentities($this->doc->dump_mem(TRUE));
+		echo htmlentities($this->xml->xmlDumpMem());
 		echo "</PRE>";
 		
-		// dump xml document into a file ***
-		$this->doc->dump_file($this->targetDir.$this->file, FALSE, TRUE);
+		// dump xml document to file ***
+		$this->xml->xmlDumpFile($this->targetDir."lm.xml");
 		
-		// call destructor
-		$this->_ILIAS2To3Converter();
+		// destroy writer object
+		$xml->_XmlWriter;
 	}
 }
 
