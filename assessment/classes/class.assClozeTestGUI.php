@@ -554,16 +554,18 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$output = $this->outQuestionPage("CLOZE_TEST", $is_postponed);
 
 		// set solutions
-		/*
 		if ($test_id)
 		{
 			$solutions =& $this->object->getSolutionValues($test_id);
 			foreach ($solutions as $idx => $solution_value)
 			{
-				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
-				$output = str_replace($repl_str, $repl_str." checked=\"1\"", $output);
+				$repl_str = "dummy=\"tgap_".$solution_value->value1."\"";
+				$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
+				$repl_str = "dummy=\"sgap_".$solution_value->value1."_".$solution_value->value2."\"";
+				$output = str_replace($repl_str, $repl_str." selected=\"1\"", $output);
+//echo "<br>".$repl_str;
 			}
-		}*/
+		}
 
 		$this->tpl->setVariable("CLOZE_TEST", $output);
 
