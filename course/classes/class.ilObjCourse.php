@@ -639,18 +639,18 @@ class ilObjCourse extends ilObject
 			"activation_unlimited = '1', ".
 			"activation_start = '".$this->getActivationStart()."', ".
 			"activation_end = '".$this->getActivationEnd()."', ".
-			"activation_offline = '".(int) $this->getOfflineStatus()."', ".
+			"activation_offline = '1', ".
 			"subscription_unlimited = '1', ".
 			"subscription_start = '".$this->getSubscriptionStart()."', ".
 			"subscription_end = '".$this->getSubscriptionEnd()."', ".
-			"subscription_type = '".(int) $this->getSubscriptionType()."', ".
+			"subscription_type = '".(int) $this->SUBSCRIPTION_DEACTIVATED."', ".
 			"subscription_password = '".ilUtil::prepareDBString($this->getSubscriptionPassword())."', ".
 			"subscription_max_members = '".(int) $this->getSubscriptionMaxMembers()."', ".
-			"subscription_notify = '".(int) $this->getSubscriptionNotify()."', ".
-			"sortorder = '".(int) $this->getOrderType()."', ".
+			"subscription_notify = '1', ".
+			"sortorder = '".(int) $this->SORT_MANUAL."', ".
 			"archive_start = '".$this->getArchiveStart()."', ".
 			"archive_end = '".$this->getArchiveEnd()."', ".
-			"archive_type = '".(int) $this->getArchiveType()."'";
+			"archive_type = '".(int) $this->ARCHIVE_DISABLED."'";
 
 		$res = $ilDB->query($query);
 	}
