@@ -449,19 +449,21 @@ class ilObjDlBook extends ilObjContentObject
 				$ilBench->stop("Search", "ilObjDlBook_search_meta");
 
 				$counter = 0;
+				$ids = array();
 				while($row = $res1->fetchRow(DB_FETCHMODE_OBJECT))
 				{
+					$ids[] = $row->ref_id;
 					$result[$counter]["id"]		=  $row->ref_id;
-					#$result[$counter]["link"]	=  "content/lm_presentation.php?ref_id=".$row->ref_id;
-					#$result[$counter]["target"]	=  "_top";
 
 					++$counter;
 				}
 				while($row = $res2->fetchRow(DB_FETCHMODE_OBJECT))
 				{
+					if(in_array($row->ref_id,$ids))
+					{
+						continue;
+					}
 					$result[$counter]["id"]		=  $row->ref_id;
-					#$result[$counter]["link"]	=  "content/lm_presentation.php?ref_id=".$row->ref_id;
-					#$result[$counter]["target"]	=  "_top";
 
 					++$counter;
 				}
