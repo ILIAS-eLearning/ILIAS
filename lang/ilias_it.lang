@@ -333,6 +333,9 @@ common#:#frm_edit#:#Modifica forum
 common#:#frm_edit_permission#:#Modifica le impostazioni dei permessi
 common#:#frm_edit_post#:#Modifica un post
 common#:#frm_new#:#Nuovo forum
+common#:#frm_read#:#Read access to Forum###17 Jan 2004 new variable
+common#:#frm_visible#:#Forum is visible###17 Jan 2004 new variable
+common#:#frm_write#:#Edit forum###17 Jan 2004 new variable
 common#:#from#:#da:
 common#:#fullname#:#Nome completo
 common#:#functions#:#Funzioni
