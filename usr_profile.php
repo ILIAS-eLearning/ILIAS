@@ -149,8 +149,8 @@ $tpl->setVariable("INSTITUTION", $ilias->account->data["inst"]);
 $tpl->setVariable("CITY", $ilias->account->data["city"]);
 $tpl->setVariable("ZIP", $ilias->account->data["zip"]);
 $tpl->setVariable("PHONE", $ilias->account->data["phone"]);
-
-$tpl->setVariable("SYS_GRP", $lng->txt("administrator"));
+$obj = getObject($rbacadmin->getDefaultRole($_SESSION["AccountId"]));
+$tpl->setVariable("SYS_GRP",$obj["title"]);
 //button
 $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 

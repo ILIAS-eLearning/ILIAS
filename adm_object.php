@@ -77,10 +77,6 @@ else
 }
 $method = $_GET["cmd"]."Object";
 
-
-//var_dump("<pre>",$_POST["cmd"],$_GET["cmd"],"</pre");
-
-
 // CALL METHOD OF OBJECT
 // e.g: cmd = 'view' type = 'frm'
 // => $obj = new ForumObject(); $obj->viewObject() 

@@ -7,6 +7,7 @@
 *
 * @package ilias
 */
+
 require_once "include/inc.check_pear.php";
 require_once "include/inc.header.php";
 

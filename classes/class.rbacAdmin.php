@@ -321,8 +321,8 @@ class RbacAdmin
 	{
 		$def_role = $this->getDefaultRole($a_usr_id);
 		$this->deassignUser($def_role,$a_usr_id);
-		$this->assignUser($def_role,$a_usr_id,false);
-		$this->deassignUser($a_rol_id,$a_usr_id);
+//		$this->assignUser($def_role,$a_usr_id,false);
+//		$this->deassignUser($a_rol_id,$a_usr_id);
 		return $this->assignUser($a_rol_id,$a_usr_id,true);
 	}
 	/**

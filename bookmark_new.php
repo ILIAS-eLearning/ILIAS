@@ -57,7 +57,7 @@ $tplbtn->parseCurrentBlock();
 
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
-$tplmain->setVariable("PAGETITLE", "ILIAS - ".$lng->txt("bookmarks"));
+$tpl->setVariable("PAGETITLE", "ILIAS - ".$lng->txt("bookmarks"));
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("bookmarks"));
 $tpl->setVariable("TXT_URL", $lng->txt("url"));
 $tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
@@ -79,6 +79,6 @@ $tpl->setVariable("TXT_FOLDER", $lng->txt("folder"));
 $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 $tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("folder_new"));
 
-$tplmain->setVariable("PAGECONTENT",$tpl->get());
-$tplmain->show();
+$tpl->setVariable("PAGECONTENT",$tpl->get());
+$tpl->show();
 ?>
