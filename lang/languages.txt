@@ -1,6 +1,10 @@
 TOPIC	TOPIC_EN	TOPIC_DE	TOPIC_IT	TOPIC_ES
 lang_abbr	en	de	it	es
 lang_name	english	deutsch	italiano	espanol
+lang_version	1	1	1	1
+lang_dateformat	MM/DD/YYYY	DD.MM.YYYY	YYYY-MM-DD	YYYY-MM-DD
+sep_thousand	,	.	.	.
+sep_decimal	.	,	,	,
 accept_usr_agreement	accept user agreement?	Benutzer-Lizenz akzeptieren?	Accetti?	accept_usr_agreement
 administrate	administrate	administrieren	amministrare	administrate
 administration	administration	Administration	amministrazione	administration
