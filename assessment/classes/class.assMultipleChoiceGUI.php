@@ -748,12 +748,9 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 		}
 
 		$this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $output);
-		return;
 
 		//$this->tpl->addBlockFile("MULTIPLE_CHOICE_QUESTION", "multiple_choice", "tpl.il_as_execute_multiple_choice_question.html", true);
 
-
-		/*
 		if (!empty($this->object->materials))
 		{
 			$i = 1;
@@ -768,7 +765,8 @@ class ASS_MultipleChoiceGUI extends ASS_QuestionGUI
 			$this->tpl->setCurrentBlock("material_download");
 			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
 			$this->tpl->parseCurrentBlock();
-		}*/
+		}
+		return;
 
 		if ($this->object->response == RESPONSE_SINGLE)
 		{

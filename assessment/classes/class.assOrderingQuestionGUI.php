@@ -425,6 +425,39 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	*/
 	function outWorkingForm($test_id = "", $is_postponed = false)
 	{
+		$output = $this->outQuestionPage("ORDERING_QUESTION", $is_postponed);
+
+		// set solutions
+		/*
+		if ($test_id)
+		{
+			$solutions =& $this->object->getSolutionValues($test_id);
+			foreach ($solutions as $idx => $solution_value)
+			{
+				$repl_str = "dummy=\"mc".$solution_value->value1."\"";
+				$output = str_replace($repl_str, $repl_str." checked=\"1\"", $output);
+			}
+		}*/
+
+		$this->tpl->setVariable("ORDERING_QUESTION", $output);
+
+		if (!empty($this->object->materials))
+		{
+			$i = 1;
+			$this->tpl->setCurrentBlock("material_preview");
+			foreach ($this->object->materials as $key => $value)
+			{
+				$this->tpl->setVariable("COUNTER", $i++);
+				$this->tpl->setVariable("VALUE_MATERIAL_DOWNLOAD", $key);
+				$this->tpl->setVariable("URL_MATERIAL_DOWNLOAD", $this->object->getMaterialsPathWeb().$value);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->setCurrentBlock("material_download");
+			$this->tpl->setVariable("TEXT_MATERIAL_DOWNLOAD", $this->lng->txt("material_download"));
+			$this->tpl->parseCurrentBlock();
+		}
+		return;
+
 		$this->tpl->addBlockFile("ORDERING_QUESTION", "ordering", "tpl.il_as_execute_ordering_question.html", true);
 		$solutions = array();
 		$postponed = "";
