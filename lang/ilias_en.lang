@@ -82,6 +82,7 @@ administration#:#searching_missing_objs#:#Searching for missing objects...
 administration#:#searching_unbound_objs#:#Searching for unbound objects...
 administration#:#skipped#:#skipped
 administration#:#start_scan#:#Start!
+administration#:#stop_scan#:#Stop!
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#View last Scanlog
 administration#:#view_log#:#View details
