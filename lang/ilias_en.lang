@@ -739,6 +739,7 @@ common#:#cat_create_crs#:#Create Course
 common#:#cat_create_dbk#:#Create Digilib Book
 common#:#cat_create_exc#:#Create Exercise
 common#:#cat_create_file#:#Upload File
+common#:#cat_create_url#:#Create URL
 common#:#cat_create_frm#:#Create Forum
 common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
@@ -1276,6 +1277,7 @@ common#:#https_not_possible#:#This server is not supporting HTTPS connnections.
 common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#if_no_title_then_filename#:#Leave blank to display the file name
+common#:#if_no_title_then_url#:#Leave blank to display the URL
 common#:#ilias_version#:#ILIAS version
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image generation unsuccessful. Contact your system administrator and verify the convert path.
@@ -1572,6 +1574,7 @@ common#:#msg_multi_language_selected#:#You selected the same language for differ
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
 common#:#msg_no_file#:#You didn't choose a file
+common#:#msg_no_url#:#You didn't enter a URL
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's role assignment
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
@@ -1735,6 +1738,7 @@ common#:#obj_trac_desc#:#User access tracking data
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Object Type Definition
 common#:#obj_type#:#Object Type
+common#:#obj_url#:#URL
 common#:#obj_uset#:#User Settings
 common#:#obj_usr#:#User
 common#:#obj_usrf#:#User accounts
@@ -1756,6 +1760,7 @@ common#:#objs_dbk#:#Digilib Books
 common#:#objs_delete#:#Delete objects
 common#:#objs_exc#:#Exercises
 common#:#objs_file#:#Files
+common#:#objs_url#:#URLs
 common#:#objs_fold#:#Folders
 common#:#objs_frm#:#Forums
 common#:#objs_glo#:#Glossaries
@@ -2171,6 +2176,18 @@ common#:#upload#:#Upload
 common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.
 common#:#url#:#URL
 common#:#url_description#:#URL Description
+common#:#url_a#:#a URL
+common#:#url_add#:#Add URL
+common#:#url_added#:#URL added
+common#:#url_delete#:#Delete URL
+common#:#url_edit#:#Edit URL
+common#:#url_edit_permission#:#Change Permission settings
+common#:#url_new#:#New URL
+common#:#url_not_found#:#File Not Found
+common#:#url_read#:#Open URL
+common#:#url_write#:#Edit URL
+common#:#url_create_url#:#Create URL
+common#:#url_visible#:#URL is visible
 common#:#user#:#User
 common#:#user_access#:#Access per user
 common#:#user_added#:#User added
@@ -2540,6 +2557,8 @@ content#:#cont_table#:#Table
 content#:#cont_table_border#:#Table Border
 content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellspacing#:#Table Cell Spacing
+content#:#cont_table_html_import#:#Import HTML Table
+content#:#cont_table_html_import_info#:#Import only works with XHTML conform tables. Table must be root tag!
 content#:#cont_table_width#:#Table Width
 content#:#cont_target_within_source#:#Target must not be within source object.
 content#:#cont_term#:#Term
