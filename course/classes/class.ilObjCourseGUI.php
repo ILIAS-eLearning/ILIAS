@@ -518,7 +518,6 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST["crs"]["subscription_password"]));
 		$this->object->setSubscriptionMaxMembers($_POST["crs"]["subscription_max"]);
 		$this->object->setSubscriptionNotify($_POST["crs"]["subscription_notify"]);
-
 		$this->object->setOrderType($_POST["crs"]["sortorder_type"]);
 		$this->object->setArchiveStart($this->__toUnix($_POST["crs"]["archive_start"]));
 		$this->object->setArchiveEnd($this->__toUnix($_POST["crs"]["archive_end"]));
@@ -1306,7 +1305,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		if($number = $this->object->members_obj->autoFillSubscribers())
 		{
-			sendInfo($number." ".$this->lng->txt("crs_number_users_added"));
+			sendInfo($this->lng->txt("crs_number_users_added")." ".$number);
 		}
 		else
 		{
@@ -1398,6 +1397,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		}
 		$this->object->initCourseMemberObject();
 		$this->object->members_obj->delete($this->ilias->account->getId());
+		$this->object->members_obj->sendUnsubscribeNotificationToAdmins($this->ilias->account->getId());
 		
 		sendInfo($this->lng->txt('crs_unsubscribed_from_crs'),true);
 		$this->ctrl->setParameterByClass("ilRepositoryGUI","ref_id",$this->tree->getParentId($this->ref_id));
@@ -2219,7 +2219,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_btn");
 		$tpl->setVariable("BTN_NAME","removeMembers");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
+		$tpl->setVariable("BTN_VALUE",$this->lng->txt("crs_delete_member"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");

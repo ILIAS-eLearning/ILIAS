@@ -165,7 +165,10 @@ class ilCourseMembers
 		// 1. create entry
 		$this->__createMemberEntry($user_obj->getId(),$a_role,$status,$passed);
 
-		return $rbacadmin->assignUser($role,$user_obj->getId());
+		$rbacadmin->assignUser($role,$user_obj->getId());
+		ilObjUser::updateActiveRoles($user_obj->getId());
+
+		return true;
 	}
 
 	function update($a_usr_id,$a_role,$a_status,$a_passed)
@@ -238,6 +241,9 @@ class ilCourseMembers
 				break;
 		}
 
+		// Update active roles
+		ilObjUser::updateActiveRoles($a_usr_id);
+
 		$query = "UPDATE crs_members ".
 			"SET role = '".$a_role."', ".
 			"status = '".$a_status."', ".
@@ -308,6 +314,8 @@ class ilCourseMembers
 
 		$this->dropDesktopItem($a_usr_id);
 		$rbacadmin->deassignUser($role,$a_usr_id);
+		ilObjUser::updateActiveRoles($a_usr_id);
+
 		
 		$query = "DELETE FROM crs_members ".
 			"WHERE usr_id = '".$a_usr_id."' ".
@@ -641,6 +649,36 @@ class ilCourseMembers
 
 		return true;
 	}
+	function sendUnsubscribeNotificationToAdmins($a_usr_id)
+	{
+		if(!$this->course_obj->getSubscriptionNotify())
+		{
+			return true;
+		}
+
+		include_once("./classes/class.ilFormatMail.php");
+
+		$mail =& new ilFormatMail($a_usr_id);
+		$subject = $this->lng->txt("crs_cancel_subscription")." ".$this->lng->txt("obj_crs").": ".$this->course_obj->getTitle();
+		$body = $this->lng->txt("crs_cancel_subscription_body");
+
+		$query = "SELECT usr_id FROM crs_members ".
+			"WHERE status = '".$this->STATUS_NOTIFY."' ".
+			"AND obj_id = '".$this->course_obj->getId()."'";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$tmp_user =& ilObjectFactory::getInstanceByObjId($row->usr_id,false);
+
+			$message = $mail->sendMail($tmp_user->getLogin(),'','',$subject,$body,array(),array('normal'));
+			unset($tmp_user);
+		}
+		unset($mail);
+
+		return true;
+	}
+
 	// PRIVATE METHODS
 	function __getDefaultAdminStatus()
 	{
