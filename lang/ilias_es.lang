@@ -827,6 +827,9 @@ content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
 content#:#cont_characteristic#:#Characteristic###23 Jun 2003 new variable
 content#:#cont_choose_cont_obj#:#Choose Content Object###10 Sep 2003 new variable
 content#:#cont_choose_glossary#:#Choose Glossary###10 Sep 2003 new variable
+content#:#cont_citation_err_one#:#You have to select exactly one edition###09 Oct 2003 new variable
+content#:#cont_citation_selection_not_valid#:#You're selection is not valid###09 Oct 2003 new variable
+content#:#cont_citations#:#Citations###09 Oct 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_content_obj#:#Content Object###10 Sep 2003 new variable
 content#:#cont_cross_reference#:#Cross reference###19 Sep 2003 new variable
@@ -931,6 +934,7 @@ content#:#cont_series_volume#:#Series volume###19 Sep 2003 new variable
 content#:#cont_set_class#:#Set Class###11 Jun 2003 new variable
 content#:#cont_set_width#:#Set Width###11 Jun 2003 new variable
 content#:#cont_show#:#Show###19 Sep 2003 new variable
+content#:#cont_show_citation#:#Show with citation###09 Oct 2003 new variable
 content#:#cont_source#:#Quelle###13 Sep 2003 new variable
 content#:#cont_st_title#:#Chapter Title###16 Jul 2003 new variable
 content#:#cont_std_view#:#Standard View###04 Aug 2003 new variable

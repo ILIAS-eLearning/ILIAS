@@ -830,6 +830,9 @@ content#:#cont_chapters#:#Chapters
 content#:#cont_characteristic#:#Characteristic
 content#:#cont_choose_cont_obj#:#Choose Content Object
 content#:#cont_choose_glossary#:#Choose Glossary
+content#:#cont_citation_err_one#:#You have to select exactly one edition
+content#:#cont_citation_selection_not_valid#:#You're selection is not valid
+content#:#cont_citations#:#Citations
 content#:#cont_content#:#Content
 content#:#cont_content_obj#:#Content Object
 content#:#cont_cross_reference#:#Cross reference
@@ -935,6 +938,7 @@ content#:#cont_series_volume#:#Series volume
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_width#:#Set Width
 content#:#cont_show#:#Show
+content#:#cont_show_citation#:#Show with citation
 content#:#cont_source#:#Quelle
 content#:#cont_st_title#:#Chapter Title
 content#:#cont_std_view#:#Standard View
@@ -1605,7 +1609,3 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-content#:#cont_show_citation#:#Show with citation
-content#:#cont_citation_err_one#:#You have to select exactly one edition
-content#:#cont_citation_selection_not_valid#:#You're selection is not valid
-content#:#cont_citations#:#Citations
