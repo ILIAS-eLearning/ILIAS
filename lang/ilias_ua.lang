@@ -1,0 +1,1747 @@
+/**
+* ILIAS language file
+*
+* @module		language file english
+* @modulegroup	language
+* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @version		$Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+<!-- language file start -->
+common#:#3rd_party_software#:#програмне забезпечення третіх виробників
+common#:#absolute_path#:#Абсолютний Шлях
+common#:#accept_usr_agreement#:#Прийняти угоду користувача?
+common#:#access#:#Доступ
+common#:#action_aborted#:#Дію перервано
+common#:#actions#:#Дії
+common#:#active_roles#:#Активні Ролі
+common#:#add#:#Додати
+common#:#add_author#:#Додати Автора
+common#:#add_member#:#Додати Члена
+common#:#add_translation#:#Додати переклад
+common#:#administrate#:#Адмініструвати
+common#:#administration#:#Адміністрування
+common#:#administrator#:#Адміністратор
+common#:#adopt#:#прийняти
+common#:#adopt_perm_from_template#:#Прийняти параметри прав з Шаблону Ролей
+common#:#all_objects#:#Усі Об'єкти
+common#:#allow_register#:#Доступний в реєстраційній формі для нових користувачів
+common#:#and#:#та
+common#:#announce#:#Анонсувати
+common#:#announce_changes#:#Анонсувати Зміни
+common#:#answers#:#Відповіді
+common#:#application_date#:#Дата програми
+common#:#appointment#:#Призначення
+common#:#appointment_list#:#Список Призначення
+common#:#archive#:#Архів
+common#:#are_you_sure#:#Ви впевнені?
+common#:#assign#:#Призначити
+common#:#assign_lo_forum#:#Призначити LO Форум
+common#:#assign_user_to_role#:#Призначити Користувачу Роль
+common#:#at_location#:#знаходиться
+common#:#attachment#:#Прикріплення
+common#:#attachments#:#Прикріплення
+common#:#author#:#Автор
+common#:#authors#:#Атвори
+common#:#available_languages#:#Доступні Мови
+common#:#back#:#Назад
+common#:#basedn#:#БазаDN
+common#:#basic_data#:#Базові Дані
+common#:#bm#:#Закладинка
+common#:#bmf#:#Папка Закладинок
+common#:#bookmark_edit#:#Редагувати Закладинку
+common#:#bookmark_folder_edit#:#Редагувати Папку Закладинок
+common#:#bookmark_folder_new#:#Нова Папка Закладинок
+common#:#bookmark_new#:#Нова Закладинка
+common#:#bookmark_target#:#Ціль
+common#:#bookmarks#:#Закладинки
+common#:#bookmarks_of#:#Закладинки
+common#:#btn_remove_system#:#Видалити з Системи
+common#:#btn_undelete#:#Відмінити видалення
+common#:#by#:#
+common#:#calendar#:#Календар
+common#:#cancel#:#Відмінити
+common#:#cannot_uninstall_language_in_use#:#Ви не можете деінсталювати мову, що в данний час використовується!
+common#:#cannot_uninstall_systemlanguage#:#Ви не можете деінсталювати системну мову!
+common#:#cat#:#Категорія
+common#:#cat_a#:#категорія
+common#:#cat_add#:#Додати Категорію
+common#:#cat_added#:#Категорію додано
+common#:#cat_edit#:#Редагувати Категорію
+common#:#cat_new#:#Нова категорія
+common#:#categories#:#Категорії
+common#:#cc#:#CC
+common#:#censorship#:#Цензура
+common#:#change#:#Змінити
+common#:#change_active_assignment#:#Змінити активне призначення
+common#:#change_assignment#:#Змінити призначення
+common#:#change_existing_objects#:#Змінити існуючі Об'єкти
+common#:#change_lo_info#:#Змінити LO Інформацію
+common#:#change_metadata#:#Змінити Метадані
+common#:#change_sort_direction#:#Змінити напрямок сортування
+common#:#changed_to#:#змінити на
+common#:#chapter#:#Глава
+common#:#chapter_number#:#Номер Глави
+common#:#chapter_title#:#Назва Глави
+common#:#check#:#Перевірити
+common#:#check_langfile#:#Будь ласка перевірте ваш мовний файл
+common#:#check_languages#:#Перевірити Мови
+common#:#chg_language#:#Змінити Мову
+common#:#chg_password#:#Змінити Пароль
+common#:#choose_language#:#Виберіть Вашу Мову
+common#:#choose_location#:#Виберіть Місце Знаходження
+common#:#choose_only_one_language#:#Будь ласка виберіть тільки одну мову
+common#:#city#:#Місто
+common#:#clear#:#Очистити
+common#:#client_id#:#ID Клієнта
+common#:#clipboard#:#Буфер обміну
+common#:#close#:#Закрити
+common#:#comma_separated#:#Розділений Комами
+common#:#comment#:#коментар
+common#:#compose#:#Створити
+common#:#confirm#:#Підтвердити
+common#:#cont_object#:#Об'єкт
+common#:#contact_data#:#Контактна Інформація
+common#:#context#:#Контекст
+common#:#copy#:#Копіювати
+common#:#copy_of#:#Копія
+common#:#country#:#Країна
+common#:#course#:#Курс
+common#:#courses#:#Курси
+common#:#create#:#Створити
+common#:#create_in#:#Створити в
+common#:#create_stylesheet#:#Створити Стиль
+common#:#crs#:#Курс
+common#:#crs_a#:#Курс
+common#:#crs_add#:#Додати Курс
+common#:#crs_added#:#Курс додано
+common#:#crs_available#:#Доступні Курси
+common#:#crs_edit#:#Редагувати Курс
+common#:#crs_management_system#:#Система Управління Курсом
+common#:#crs_new#:#Новий Курс
+common#:#current_password#:#Поточний Пароль
+common#:#cut#:#Вирізати
+common#:#cutPage#:#Вирізати
+common#:#database#:#База даних
+common#:#database_version#:#Поточна Версія Бази даних
+common#:#dataset#:#Пункт
+common#:#date#:#Дата
+common#:#day#:#День
+common#:#days#:#Дні
+common#:#db_host#:#Хост з Базою даних
+common#:#db_name#:#Ім'я Бази даних
+common#:#db_need_update#:#База даних потребує оновлення!
+common#:#db_pass#:#Пароль до Бази даних
+common#:#db_type#:#Тип Бази даних
+common#:#db_user#:#Користувач Бази даних
+common#:#db_version#:#Версія Бази даних
+common#:#dbk#:#Digilib Book
+common#:#dbk_a#:#a Digilib Book
+common#:#dbk_add#:#Додати Digilib Book
+common#:#dbk_added#:#Digilib Book додана
+common#:#dbk_new#:#Нова Digilib Book
+common#:#default#:#Умовчання
+common#:#default_language#:#Мова за Умовчанням
+common#:#default_role#:#Роль по Замовчанню
+common#:#default_roles#:#Ролі по Замовчанню
+common#:#default_skin#:#Вигляд по Замовчанню
+common#:#default_skin_style#:#Вигляд / Стиль по Замовчанню
+common#:#default_style#:#Стиль по Замовчанню
+common#:#delete#:#Видалити
+common#:#delete_all#:#Видалити Усе
+common#:#delete_object#:#Видалити Об'єкт(и)
+common#:#delete_selected#:#Видалити Відмічене
+common#:#deleted#:#Видалено
+common#:#department#:#Відділ
+common#:#desc#:#Опис
+common#:#description#:#Опис
+common#:#desired_password#:#Потрібний Пароль
+common#:#disabled#:#Відключений
+common#:#down#:#Вниз
+common#:#download#:#Зпвантажити
+common#:#drafts#:#Чернетки
+common#:#drop#:#Викинути
+common#:#edit#:#Редагувати
+common#:#edit_data#:#редагувати дані
+common#:#edit_operations#:#Редагувати Операції
+common#:#edit_properties#:#Редагувати Властивості
+common#:#edit_stylesheet#:#Редагувати Стиль
+common#:#edited_at#:#Редагований
+common#:#editor#:#Редактор
+common#:#email#:#E-mail
+common#:#email_not_valid#:#Введена вами email адресa не є коректною!
+common#:#enable#:#Дозволити
+common#:#enable_registration#:#Дозволити реєстрацію нового коритсувача
+common#:#enabled#:#Дозволено
+common#:#enumerate#:#Перерахувати
+common#:#err_1_param#:#Тільки 1 параметр!
+common#:#err_2_param#:#Тільки 2 параметра!
+common#:#err_count_param#:#Причина: Невірна кількість параметрів
+common#:#err_in_line#:#Помилка в стрічці
+common#:#err_no_langfile_found#:#Жодного файлу мов не було знайдено!
+common#:#err_no_param#:#Немає параметру!
+common#:#err_over_3_param#:#Більш ніж 3 параметри!
+common#:#err_session_expired#:#Термін дії вашої сесії скінчився!
+common#:#err_wrong_header#:#Причина: Невірний заголовок.
+common#:#err_wrong_login#:#Невірний Логін
+common#:#error_recipient#:#Помилка Отримувача
+common#:#exc#:#Вправа
+common#:#exc_add#:#Додати Вправу
+common#:#exc_added#:#Вправу додано
+common#:#exc_ask_delete#:#Видалити файл?
+common#:#exc_assign_usr#:#Призначити Користувача
+common#:#exc_date_not_valid#:#Дата не є корректною
+common#:#exc_deassign_members#:#Видалити члена(ів)
+common#:#exc_edit#:#Нова вправа створена
+common#:#exc_edit_exercise#:#Редагувати вправу
+common#:#exc_edit_until#:#Редагувати поки
+common#:#exc_files#:#Файли
+common#:#exc_groups#:#Групи
+common#:#exc_header_members#:#Вправа(члени)
+common#:#exc_instruction#:#Робочі інструкції
+common#:#exc_members_already_assigned#:#Цей користувач вже призначений до цієї вправи
+common#:#exc_members_assigned#:#Члени призначені
+common#:#exc_new#:#Нова вправа
+common#:#exc_no_members_assigned#:#Жодного члену не призначено
+common#:#exc_notices#:#Повідомлення
+common#:#exc_obj#:#Вправа
+common#:#exc_save_changes#:#Зберігти
+common#:#exc_search_for#:#Пошук
+common#:#exc_send_exercise#:#Послати вправу
+common#:#exc_sent#:#Вправу було послано відміченим користувачам
+common#:#exc_status_returned#:#Повернений
+common#:#exc_status_saved#:#Впарву обновлено
+common#:#exc_status_solved#:#Вирішено
+common#:#exc_upload_error#:#Помилка завантаження файлу
+common#:#exc_users#:#Коритсувачі
+common#:#execute#:#Виконати
+common#:#export_html#:#експортувати як html файл
+common#:#export_xml#:#експортувати як xml файл
+common#:#faq_exercise#:#FAQ Вправа
+common#:#fax#:#Факс
+common#:#feedback#:#Зворотній зв'язокk
+common#:#feedback_recipient#:#Отримувач Зворотнього Зв'язку
+common#:#file#:#Файл
+common#:#file_a#:#Файл
+common#:#file_add#:#Завантажити Файл
+common#:#file_added#:#Файл завантажено
+common#:#file_new#:#Новий Файл
+common#:#file_not_found#:#Файл Не Знайдений
+common#:#file_not_valid#:#Файл є пошкодженим!
+common#:#file_valid#:#Файл є корректним!
+common#:#file_version#:#Версія Знаходиться в Файлі
+common#:#files_location#:#Місцезнаходження Файлів
+common#:#fill_out_all_required_fields#:#Будь ласка заповніть усі потрібні поля
+common#:#firstname#:#Ім'я
+common#:#flatview#:#Плоский Огляд
+common#:#fold#:#Папка
+common#:#fold_a#:#Папка
+common#:#fold_add#:#Додати Папку
+common#:#fold_added#:#Папка додана
+common#:#fold_new#:#Нова Папка
+common#:#folders#:#Папки
+common#:#force_accept_usr_agreement#:#Ви маєте прийняти угоду користувача!
+common#:#forename#:#Ім'я
+common#:#form_empty_fields#:#Бедь ласка завершіть ці поля:
+common#:#forum#:#Форум
+common#:#forums#:#Форуми
+common#:#forums_overview#:#Огляд Форумів
+common#:#frm#:#Форум
+common#:#frm_a#:#Форум
+common#:#frm_add#:#Додати Форум
+common#:#frm_added#:#Форум доданий
+common#:#frm_edit#:#Редагувати Форум
+common#:#frm_new#:#Новий Форум
+common#:#from#:#Від
+common#:#fullname#:#Повне ім'я
+common#:#functions#:#Функції
+common#:#gdf_add#:#Додати Визначення
+common#:#gdf_new#:#Нове Визначення
+common#:#gender#:#Пол
+common#:#gender_f#:#Жінка
+common#:#gender_m#:#Чоловік
+common#:#generate#:#Сгенерувати
+common#:#glo#:#Глосарій
+common#:#glo_a#:#Глосарій
+common#:#glo_add#:#Додати Глосарій
+common#:#glo_added#:#Глосарій доданий
+common#:#glo_new#:#Новий Глосарій
+common#:#glossaries#:#Глосарії
+common#:#glossary#:#Глосарій
+common#:#glossary_added#:#Глосарій доданий
+common#:#group_access_denied#:#В Доступі Відмовлено
+common#:#group_any_objects#:#Жоден підоб'єкт не є доступним
+common#:#group_desc#:#Опис Групи
+common#:#group_details#:#Деталі Групи
+common#:#group_filesharing#:#Спільне Використання Файлу Групи
+common#:#group_members#:#Члени Групи
+common#:#group_memstat#:#Статус Члена
+common#:#group_memstat_admin#:#Адміністратор
+common#:#group_memstat_member#:#Член
+common#:#group_name#:#Ім'я групи
+common#:#group_new_registrations#:#Нові Реєстрації
+common#:#group_no_registration#:#реєстрація непотрібна
+common#:#group_no_registration_msg#:#Ви поки не член цієї групи. По адміністративним причинам необхідно увійти в групу яка вимагається.<br> Як член ви маєте наступні переваги:<br>- Ви отримуєте інформацію про новини та оновлення<br>- Таким чином ви маєте доступ до об'єктів типу форумів, учбових модулів, тощо.<br><br>Ви можете припинити своє членство в будь який час.
+common#:#group_not_available#:#Жодна група не є доступною
+common#:#group_objects#:#Об'єкти групи
+common#:#group_password_registration_expired_msg#:#Період реєстрації цієї групи скінчився, повідомлення більше не є можливими. Будь ласка зв'яжіться з власником відповідної групи або адміністратором.
+common#:#group_password_registration_msg#:#Щоб увійти в цю групу ви маєте ввести пароль встановлений адміністратором цієї групи.<br>Вас автоматично включать у групу, якщо ваш пароль є коректним.
+common#:#group_registration_expiration_date#:#Дата закінчення терміну дії
+common#:#group_registration_expired#:#Період реєстрації скінчився
+common#:#group_registration_mode#:#Режим Реєстрації
+common#:#group_req_password#:#Потрібен реєстраційний пароль
+common#:#group_req_registration#:#Потрібна реєстрація
+common#:#group_req_registration_msg#:#Щоб увійти у групу ви маєте зареєструватись. Потім адміністратор групи призначіть вас до групи. Будь ласка вкажіть тему та причину ваших даних.<br>Ви отримаєте повідомлення коли вас буде призначено до групи.
+common#:#group_status#:#Статус Групи
+common#:#group_status_closed#:#Закрита
+common#:#group_status_public#:#Публічна
+common#:#groups#:#Групи
+common#:#groups_overview#:#Огляд Груп
+common#:#grp#:#Група
+common#:#grp_a#:#Група
+common#:#grp_add#:#Додати Групу
+common#:#grp_added#:#Група додана
+common#:#grp_edit#:#Редагувати Групу
+common#:#grp_mem_change_status#:#Змінити статус члена
+common#:#grp_mem_leave#:#Виключити члена з групи
+common#:#grp_mem_send_mail#:#Послати члену повідомлення
+common#:#grp_name_exists#:#Вже є група з таким ім'ям! Буль ласка виберіть інше ім'я.
+common#:#grp_new#:#Нова Група
+common#:#grp_register#:#Зареєструватись
+common#:#grp_registration_completed#:#Реєстрація закінчена
+common#:#guest#:#Гість
+common#:#guests#:#Гості
+common#:#help#:#Допомога
+common#:#hide_details#:#сховати деталі
+common#:#hide_structure#:#Заборонити Структурований-Огляд
+common#:#hobby#:#Інтереси/Хоббі
+common#:#home#:#Дім
+common#:#host#:#Хост
+common#:#http_path#:#Http Шлях
+common#:#id#:#ID
+common#:#identifier#:#ідентифікатор
+common#:#ilias_version#:#ILIAS версія
+common#:#image#:#Зображення
+common#:#image_gen_unsucc#:#Генерування зображення відбулось невдало. Зв'яжіться з вашим системним адміністратором та перевірте шлях конвертації.
+common#:#import#:#Імпорт
+common#:#import_lm#:#Імпортувати Учбовий модуль
+common#:#import_slm#:#Імпортувати SCORM Пакет
+common#:#in#:#в
+common#:#in_use#:#Мова Користувача
+common#:#inbox#:#Вхідні
+common#:#info_assign_sure#:#Ви впевнені що бажаєте призначити наступного користувача(користувачів)?
+common#:#info_delete_sure#:#Ви впевнені що бажаєете видалити наступний об'єкт(об'єкти)?
+common#:#info_deleted#:#Об'єкт(и) Видалений(і)
+common#:#info_trash#:#DВидалені Об'єкти
+common#:#inform_user_mail#:#Відіслати email щоб проінформувати користувачів про зміни
+common#:#information_abbr#:#Інформація
+common#:#ingmedia_all_offers#:#Усі LE
+common#:#ingmedia_back_to_le#:#Повернутись до LE
+common#:#ingmedia_good_afternoon#:#Доброго дня
+common#:#ingmedia_good_evening#:#Доброго вечора
+common#:#ingmedia_good_morning#:#Доброго ранку
+common#:#ingmedia_good_night#:#Доброї ночі
+common#:#ingmedia_hello#:#Привіт
+common#:#ingmedia_info_about_work1#:#Включити
+common#:#ingmedia_info_about_work2#:#, останнім часом ви працювали тут. Ви можете продовжити клікнувши тут:
+common#:#ingmedia_level_zero#:#Підвищити рівень
+common#:#ingmedia_pers_dates#:#Особисті дані
+common#:#ingmedia_reg_fo#:#Зареєстровані форуми
+common#:#ingmedia_reg_le#:#Зареєстровані LE
+common#:#ingmedia_use_info1#:#Тут ви можете змінити ваші особисті дані. Виключаючи з INGMEDIA ім'я користувача та пароль, ви не маєте заповнювати інші поля. Пам'ятайте, що загублений пароль може бути повернений тільки через e-mail (!).
+common#:#ingmedia_use_info2#:#Заборонено вживати спеціальні символи (такі як , ; . = - * + #) в вашому INGMEDIA імені користувача та паролі. Щоб мати дозвіл використовувати INGMEDIA платформу, ви маєте прийняти угоду користувача.
+common#:#ingmedia_use_info3#:#Будь ласка виберіть одне з посилань на краю панелі.
+common#:#ingmedia_use_title#:#Змінити дані користувача.
+common#:#ingmedia_user_agree#:#Угода
+common#:#ingmedia_vis_le#:#Відвідані LE
+common#:#ingmedia_visited_le#:#Ви вже відвідали усі LE.
+common#:#ingmedia_welcome#:#, ласкаво просимо до вашого особистого робочого столу!!
+common#:#inifile#:#Ini-Файл
+common#:#input_error#:#Помилка вводу
+common#:#insert#:#Вставити
+common#:#inst_id#:#Інсталяційне ID
+common#:#inst_info#:#Інсталяційна Інформація
+common#:#inst_name#:#Інсталяційне Ім'я
+common#:#install#:#Інсталювати
+common#:#installed#:#Інстальовано
+common#:#institution#:#Інститут
+common#:#internal_system#:#Внутрішня система
+common#:#ip_address#:#IP Адреса
+common#:#is_already_your#:#вже ваша
+common#:#item#:#Елемент
+common#:#kb#:#КілоБайт
+common#:#keywords#:#Ключові слова
+common#:#lang_dateformat#:#Y-m-d
+common#:#lang_de#:#Німецька
+common#:#lang_dk#:#Датська
+common#:#lang_en#:#Англійська
+common#:#lang_es#:#Іспанська
+common#:#lang_fr#:#Французська
+common#:#lang_id#:#Індонезійська
+common#:#lang_it#:#Італійська
+common#:#lang_no#:#Норвезька
+common#:#lang_path#:#Шлях до Мов
+common#:#lang_pl#:#Польська
+common#:#lang_se#:#Шведська
+common#:#lang_sep_decimal#:#.
+common#:#lang_sep_thousand#:#,
+common#:#lang_timeformat#:#H:i:s
+common#:#lang_version#:#1
+common#:#lang_xx#:#Вибір
+common#:#langfile_found#:#Мовний файл знайдено
+common#:#language#:#Мова
+common#:#language_not_installed#:#не установлена. Будь ласка встановіть цю мову спочатку
+common#:#languages#:#Мови
+common#:#languages_already_installed#:#Вибрана мова(и) вже встановлена
+common#:#languages_already_uninstalled#:#Вибрана мова(и) вже деінстальовані
+common#:#languages_updated#:#Усі встановлені мови були обновлені
+common#:#last_change#:#Остання Зміна
+common#:#last_visit#:#Останній Візит
+common#:#lastname#:#Останнє ім'я
+common#:#launch#:#Запустити
+common#:#ldap#:#LDAP
+common#:#learning_objects#:#Учбові Об'єкти
+common#:#learning_resources#:#Учбові Ресурси
+common#:#level#:#Рівень
+common#:#link#:#Посилання
+common#:#linked_pages#:#Зв'язані Сторінки
+common#:#list_of_pages#:#Список Сторінок
+common#:#list_of_questions#:#Список Питань
+common#:#literature#:#Література
+common#:#literature_bookmarks#:#Літературні Закладки
+common#:#lm#:#Учбовий Модуль
+common#:#lm_a#:#Учбовий Модуль
+common#:#lm_add#:#Додати Учбовий Модудь
+common#:#lm_added#:#Учбовий Модуль доданий
+common#:#lm_new#:#Новий Учбовий Модуль
+common#:#lng#:#Мова
+common#:#lngf#:#Папка з Мовами
+common#:#lo#:#Учбовий Об'єкт
+common#:#lo_available#:#Огляд Учбових Модулів та Курсів
+common#:#lo_categories#:#LO Категорії
+common#:#lo_edit#:#Редагувати Учбовий Об'єкт
+common#:#lo_new#:#Новий Учбовий Об'єкт
+common#:#lo_no_content#:#Жоден Учбовий Об'єкт не є Доступним
+common#:#lo_other_langs#:#LO's в інших Мовах
+common#:#lo_overview#:#LO Огляд
+common#:#locator#:#Місцезнаходження:
+common#:#login#:#Логін
+common#:#login_as#:#Залогінений як
+common#:#login_data#:#Дата логіна
+common#:#login_exists#:#Вже є користувач з цим логіном! Будь ласка виберіть інше.
+common#:#login_time#:#Час онлайн
+common#:#login_to_ilias#:#Логін в ILIAS
+common#:#logout#:#Вихід
+common#:#logout_text#:#Ви вийшли з ILIAS. Ваша сессія була закрита.
+common#:#los#:#Учбові Об'єкти
+common#:#los_last_visited#:#Останні Відвідані Учбові Об'єкти
+common#:#mail#:#Пошта
+common#:#mail_a_root#:#Поштова Скринька
+common#:#mail_addressbook#:#Адресна книга
+common#:#mail_allow_smtp#:#Дозволити SMTP
+common#:#mail_b_inbox#:#Вхідні
+common#:#mail_c_trash#:#Смітник
+common#:#mail_d_drafts#:#Чернетки
+common#:#mail_delete_error#:#Помилка при видаленні
+common#:#mail_delete_error_file#:#Помилка видалення файлу
+common#:#mail_e_sent#:#Відіслати
+common#:#mail_folders#:#Папка з Поштою
+common#:#mail_intern_enable#:#Дозволити
+common#:#mail_mails_of#:#Пошта
+common#:#mail_maxsize_attach#:#Максимальний розмір прикріплення
+common#:#mail_maxsize_box#:#Максимальний розмір поштової скриньки
+common#:#mail_maxsize_mail#:#Максимальний розмір пошти
+common#:#mail_maxtime_attach#:#Максимальна кількість днів для зберігання прикріплення
+common#:#mail_maxtime_mail#:#Максимальна кількість днів для зберігання пошти
+common#:#mail_not_sent#:#Пошта не видіслана!
+common#:#mail_search_no#:#Входжень не знайдено
+common#:#mail_search_word#:#Шукати слово
+common#:#mail_select_one#:#Ви маєте вибреати один лист
+common#:#mail_send_error#:#Помилка при відсиланні пошти
+common#:#mail_sent#:#Пошта відіслана!
+common#:#mail_system#:#Системне Повідомлення
+common#:#mail_z_local#:#Папки Користувача
+common#:#mails#:#Пошта
+common#:#mark_all_read#:#Помітити усе як прочитане
+common#:#mark_all_unread#:#Помітити усе як непрочитане
+common#:#member#:#Член
+common#:#members#:#Члени
+common#:#membership_annulled#:#Ваше членство було відмінено
+common#:#message#:#Повідомлення
+common#:#message_content#:#Зміст Повідомлення
+common#:#message_to#:#Повідомлення для:
+common#:#meta_data#:#Мета Дані
+common#:#migrate#:#Мігрувати
+common#:#mob#:#Медіа Об'єкт
+common#:#module#:#модуль
+common#:#modules#:#Модулі
+common#:#month#:#Місяць
+common#:#moveChapter#:#Перемістити
+common#:#movePage#:#Перемістити
+common#:#move_to#:#Перемістити в
+common#:#msg_cancel#:#Дія відмінена
+common#:#msg_changes_ok#:#Зміни відбулись добре
+common#:#msg_clear_clipboard#:#Буфер обміну очищений
+common#:#msg_cloned#:#Вибраний об'єкт(и) скопійований
+common#:#msg_copy_clipboard#:#Вибраний об'єкт(и) зберігається в буфері обміну (Дія: копіювати)
+common#:#msg_cut_clipboard#:#Вибраний об'єкт(и) зберігається в буфері обміну (Дія: вирізати)
+common#:#msg_cut_copied#:#Вибраний об'єкт(и) переміщений.
+common#:#msg_deleted_role#:#Роль видалена
+common#:#msg_deleted_roles#:#Ролі видалені
+common#:#msg_deleted_roles_rolts#:#Ролі та Шаблони Ролей видалені
+common#:#msg_deleted_rolt#:#Шаблон Ролі видалений
+common#:#msg_deleted_rolts#:#Шаблон Ролі видалений
+common#:#msg_error_copy#:#Помилка Копіювання
+common#:#msg_failed#:#Вибачте, дія невдалась
+common#:#msg_is_last_role#:#Ви відмінили призначення наступним користувачам з їхньої останньої глобальної ролі
+common#:#msg_link_clipboard#:#Вибраний об'єкт(и) зберігається в буфері обміну (Дія: зв'язати)
+common#:#msg_linked#:#Вибраний об'єкт(и) зв'язаний.
+common#:#msg_may_not_contain#:#Цей об'єкт може не містити об'єктів типу:
+common#:#msg_min_one_active_role#:#Кожний користувач повинен мати принаймні одну активну глобальну роль!
+common#:#msg_min_one_role#:#Кожний користувач повинен мати принаймні одну глобальну роль!
+common#:#msg_multi_language_selected#:#Ви вибрали одну і ту ж саму мову для різних перекладів!
+common#:#msg_no_default_language#:#Мова по замовчанню не вказана! Ви маєте визначити один переклад як переклад по замовчанню.
+common#:#msg_no_delete_yourself#:#Ви не можете видалити ваш особистий акаунт користувача.
+common#:#msg_no_language_selected#:#Не вказана мова перекладу! Ви маєте визначити мову для кожного перекладу
+common#:#msg_no_perm_copy#:#Ви не маєте прав стоврити копію наступного об'єкту(ів):
+common#:#msg_no_perm_create#:#Ви не маєте прав створити наступний об'єкт(и):
+common#:#msg_no_perm_create_object1#:#Ви не маєте прав створити
+common#:#msg_no_perm_create_object2#:#в цьому місці!
+common#:#msg_no_perm_create_role#:#Ви не маєте прав додавати ролі
+common#:#msg_no_perm_create_rolf#:#Ви не маєте прав створити Папку Ролей. Тому ви не можете зупинити наслідування ролей або додати локальну роль тут.
+common#:#msg_no_perm_create_rolt#:#Ви не маєте прав додавати шаблони ролі
+common#:#msg_no_perm_create_user#:#Ви не маєте прав додавати користувачів
+common#:#msg_no_perm_cut#:#Ви не маєте прав вирізати наступний об'єкт(и):
+common#:#msg_no_perm_delete#:#Ви не маєте прав видалити наступний об'єкт(и):
+common#:#msg_no_perm_link#:#Ви не маєте права стоврити посилання з наступниого об'єкту(ів):
+common#:#msg_no_perm_modify_role#:#Ви не маєте права змінювати ролі
+common#:#msg_no_perm_modify_rolt#:#Ви не маєте права змінювати шаблони ролей
+common#:#msg_no_perm_modify_user#:#Ви не маєте права змінювати дані користувачів
+common#:#msg_no_perm_paste#:#Ви не маєте права вставляти наступний об'єкт(и):
+common#:#msg_no_perm_perm#:#Ви не маєте права редагувати настройки прав
+common#:#msg_no_perm_undelete#:#Ви не маєте права відмінити видалення наступного об'єкту(ів):
+common#:#msg_no_perm_write#:#Ви не маєте права записувати
+common#:#msg_no_rolf_allowed1#:#Об'єкт
+common#:#msg_no_rolf_allowed2#:#не є дозволеним містити Папку Ролі
+common#:#msg_no_search_result#:#Входжень не знайдено
+common#:#msg_no_search_string#:#Будь ласка введіть ваш запит
+common#:#msg_not_available_for_anon#:#Сторінку що ви вибрали є доступною тільки для зареєстрованим користувачам
+common#:#msg_not_in_itself#:#Не є можливим вставити об'єкт в самого себе
+common#:#msg_not_possible_link#:#Не є можливим стоврити посилання об'єкта: Тип
+common#:#msg_nothing_found#:#msg_нічого_не_знайдено
+common#:#msg_obj_created#:#Об'єкт створений.
+common#:#msg_obj_exists#:#Цей об'єкт вже існує у цій папці
+common#:#msg_obj_modified#:#Зміни збережені.
+common#:#msg_perm_adopted_from1#:#Настройки прав наслідовані з
+common#:#msg_perm_adopted_from2#:#(Настройки були збережені!)
+common#:#msg_perm_adopted_from_itself#:#Ви не можете наслідувати настройки прав з поточної ролі/шаблонц ролі на себе самих.
+common#:#msg_removed#:#Об'єкт(и) видалений з системи.
+common#:#msg_role_exists1#:#Роль/шаблон ролі з ім'ям
+common#:#msg_role_exists2#:#вже існує! Будь ласка виберіть інше ім'я
+common#:#msg_role_reserved_prefix#:#Префікс 'il_' зарезервований для ролей що автоматично створюються. Будь ласка виберіть інше ім'я
+common#:#msg_roleassignment_active_changed#:#Призначення Активної Ролі змінено
+common#:#msg_roleassignment_active_changed_comment#:#Ці настройки не збережені для профайлу користувача! Якщо користувач перелогіниться усі активні призначення ролей повернуться до збережених значень знову.
+common#:#msg_roleassignment_changed#:#Призначення ролі змінено
+common#:#msg_sysrole_not_deletable#:#Системна роль не може бути видалена
+common#:#msg_sysrole_not_editable#:#Настройки прав сисемної ролі не можуть бути змінені. Системна роль гарантує усім призначенним користувачам необмежений доступ до усіх об'єктів та функцій.
+common#:#msg_trash_empty#:#Немає видалених об'єктів
+common#:#msg_undeleted#:#Відмінено видалення об'єкту(ів).
+common#:#msg_user_last_role1#:#Наступні користувачі призначені до ціїє ролі тільки:
+common#:#msg_user_last_role2#:#Будь ласка видаліть користувачів або призначте їм іншу роль для того щоб видалити цю роль.
+common#:#msg_userassignment_changed#:#Призначення користувача змінено
+common#:#multimedia#:#Мультимедіа
+common#:#my_bms#:#Мої Закладинки
+common#:#my_frms#:#Мої Форуми
+common#:#my_grps#:#Мої Групи
+common#:#my_los#:#Мої Учбові Об'єкти
+common#:#name#:#Ім'я
+common#:#new#:#Новий
+common#:#new_appointment#:#Нове Призначення
+common#:#new_folder#:#Нова Папка
+common#:#new_group#:#Нова Група
+common#:#new_language#:#Нова Мова
+common#:#new_mail#:#Нова пошта!
+common#:#news#:#Новини
+common#:#next#:#наступний
+common#:#nickname#:#Нікнейм
+common#:#no#:#Ні
+common#:#no_bm_in_personal_list#:#Жодної закладинки не визначено.
+common#:#no_checkbox#:#Жодного чекбоксу не вибрано!
+common#:#no_date#:#Немає дати
+common#:#no_frm_in_personal_list#:#Немає форумів в особистому списку.
+common#:#no_grp_in_personal_list#:#Немає груп в особистому списку.
+common#:#no_import_available#:#Імпорт не доступний для цього типу
+common#:#no_lo_in_personal_list#:#Немає жодного учбового об'єкту в особистому списку.
+common#:#no_objects#:#Немає об'єктів
+common#:#no_title#:#Немає Назви
+common#:#none#:#Ніщо
+common#:#normal#:#Нормальний
+common#:#not_installed#:#Не Інстальовано
+common#:#not_logged_in#:#Ви не залогінені в
+common#:#obj#:#Об'єкт
+common#:#obj_adm#:#Системні Настройки
+common#:#obj_adm_desc#:#Папка з головними системними настройками містить усі панелі для адміністрування вашої інсталяції ILIAS.
+common#:#obj_cat#:#Категорія
+common#:#obj_crs#:#Курс
+common#:#obj_dbk#:#Digilib Книга
+common#:#obj_file#:#Файл
+common#:#obj_fold#:#Папка
+common#:#obj_frm#:#Форум
+common#:#obj_glo#:#Глосарій
+common#:#obj_grp#:#Група
+common#:#obj_ldap#:#LDAP Настройки
+common#:#obj_ldap_desc#:#Конфігуруйте глобальні настройки LDAP тут.
+common#:#obj_le#:#Учбовий Модуль
+common#:#obj_lm#:#Учбовий Модуль
+common#:#obj_lng#:#Мова
+common#:#obj_lngf#:#Мови
+common#:#obj_lngf_desc#:#Управляйте вашими системними мовами тут.
+common#:#obj_lo#:#Учбовий Об'єкт
+common#:#obj_mail#:#Настойки Пошти
+common#:#obj_mail_desc#:#КОнфігуруйте глобальні поштові настройки тут.
+common#:#obj_not_found#:#Об'єкт Не Знайдений
+common#:#obj_note#:#Примітка
+common#:#obj_notf#:#Адмініструввання Примітками
+common#:#obj_objf#:#Визначення об'єкта
+common#:#obj_objf_desc#:#Упоавління типами об'єктів та правами об'єктів в ILIAS. (тільки для експертів!)
+common#:#obj_owner#:#Цей Об'єкт належить
+common#:#obj_pg#:#Сторінка
+common#:#obj_role#:#Роль
+common#:#obj_rolf#:#Ролі
+common#:#obj_rolf_desc#:#Управляйте вашими ролями тут.
+common#:#obj_rolf_local#:#Локальні Ролі
+common#:#obj_rolf_local_desc#:#Містить локальні ролі об'єкта №
+common#:#obj_rolt#:#Шаблон Ролі
+common#:#obj_root#:#root
+common#:#obj_slm#:#SCORM LM
+common#:#obj_st#:#Глава
+common#:#obj_typ#:#Визначення Типу Об'єкта
+common#:#obj_type#:#Тип Об'єкта
+common#:#obj_uset#:#Настройки Користувача
+common#:#obj_usr#:#Користувач
+common#:#obj_usrf#:#Аккаунт користувача
+common#:#obj_usrf_desc#:#Управляйте аккаунтами користувачів тут.
+common#:#objects#:#Об'єкти
+common#:#objf#:#Визначення об'єктів
+common#:#objs_delete#:#Видалити об'єкти
+common#:#objs_confirm#:#Підтвердити Видалення
+common#:#of#:#Of
+common#:#offline_version#:#Оффлайн Версія
+common#:#ok#:#Так
+common#:#old#:#Старий
+common#:#online_chapter#:#Онлайн Глава
+common#:#online_version#:#Онлайн Версія
+common#:#operation#:#Операція
+common#:#optimize#:#Оптимізувати
+common#:#options#:#Опції
+common#:#order_by#:#Сортувати по
+common#:#other#:#Інші
+common#:#overview#:#Огляд
+common#:#owner#:#Власник
+common#:#page#:#Сторінка
+common#:#page_edit#:#Редагувати Сторінку
+common#:#pages#:#Сторінки
+common#:#parameter#:#Параметр
+common#:#parse#:#Синтаксичний Аналіз
+common#:#passwd#:#Пароль
+common#:#passwd_invalid#:#Новий пароль є невірним! Тільки наступні символи є дозволеними (мінімум 6 символів): A-Z a-z 0-9 _.-+*@!$%~
+common#:#passwd_not_match#:#Ваші строки для нового паролю не співпадають! Будь ласка, введіть заново ваш новий пароль.
+common#:#passwd_wrong#:#Введений пароль є невірним!
+common#:#password#:#Пароль
+common#:#paste#:#Вставити
+common#:#pasteChapter#:#Вставити
+common#:#pastePage#:#Вставити
+common#:#path#:#Шлях
+common#:#path_not_set#:#Шлях не встановлений
+common#:#path_to_babylon#:#Шлях до Babylon
+common#:#path_to_convert#:#Шлях до Конвертора
+common#:#path_to_htmldoc#:#Шлях до HTMLdoc
+common#:#path_to_java#:#Шлях до Java
+common#:#path_to_unzip#:#Шлях до Unzip
+common#:#path_to_zip#:#Шлях до Zip
+common#:#pathes#:#Шляхи
+common#:#payment_system#:#Платіжна Система
+common#:#perm_settings#:#Права
+common#:#permission#:#Права
+common#:#permission_denied#:#В Доступі Відмовлено
+common#:#personal_data#:#Особиста інформація
+common#:#personal_desktop#:#Особстий Робочий Стіл
+common#:#personal_picture#:#Особиста Картинка
+common#:#personal_profile#:#Особистий Профіль
+common#:#persons#:#Personen
+common#:#pg_a#:#сторінка
+common#:#pg_add#:#Додати сторінку
+common#:#pg_added#:#Сторінка додана
+common#:#pg_edit#:#Редагувати сторінку
+common#:#pg_new#:#Нова сторінка
+common#:#phone#:#Телефон
+common#:#phone_home#:#Телефон, Домашній
+common#:#phone_mobile#:#Телефон, Мобільний
+common#:#phone_office#:#Телефон, Робочий
+common#:#phrase#:#Фраза
+common#:#please_enter_target#:#Будь ласка введіть ціль
+common#:#please_enter_title#:#Будь ласка введіть назву
+common#:#port#:#Порт
+common#:#position#:#Позиція
+common#:#presentation_options#:#Опції Показу
+common#:#previous#:#попередній
+common#:#print#:#Друкувати
+common#:#profile_changed#:#Ваш провіль був змінений
+common#:#profile_of#:#Профіль
+common#:#properties#:#Параметри
+common#:#pub_section#:#Публічна Секція
+common#:#public_profile#:#Публічний Профіль
+common#:#publication#:#Публікація
+common#:#publication_date#:#Дата Публікації
+common#:#published#:#Опублікований
+common#:#publishing_organisation#:#Організація що Публікує
+common#:#question#:#Питання
+common#:#quit#:#Вихід
+common#:#quote#:#Цитата
+common#:#read#:#Читати
+common#:#recipient#:#Одержувач
+common#:#refresh#:#Обновити
+common#:#refresh_languages#:#Обновити Мови
+common#:#refresh_list#:#Обновити Список
+common#:#register#:#Зареєструвати
+common#:#register_info#:#Будь ласка заповніть форму реєстрації (Поля позначені зірочкою обов'язкові для заповнення).
+common#:#registered_since#:#Зареєстрований з
+common#:#registered_user#:#зареєстрований Користувач
+common#:#registered_users#:#зареєстровані Користувачі
+common#:#registration#:#Новий акаунт реєстрації
+common#:#remove#:#Вилучити
+common#:#remove_translation#:#Видалити переклад
+common#:#rename#:#Переіменувати
+common#:#reply#:#Відповісти
+common#:#repository#:#Репозиторій
+common#:#required_field#:#Потрібні Поля
+common#:#reset#:#Сбросити
+common#:#resources#:#Ресурси
+common#:#retype_password#:#Введіть Пароль ще раз
+common#:#right#:#Право
+common#:#rights#:#Права
+common#:#role#:#Роль
+common#:#role_a#:#Роль
+common#:#role_add#:#Додати Роль
+common#:#role_add_local#:#Додати локальну Роль
+common#:#role_added#:#Роль додана
+common#:#role_assignment#:#Призначення Ролі
+common#:#role_deleted#:#Роль видалена
+common#:#role_edit#:#Редагувати Роль
+common#:#role_new#:#Нова Роль
+common#:#roles#:#Ролі
+common#:#rolf#:#Папка з Ролями
+common#:#rolf_added#:#Папка з Ролями додана
+common#:#rolt#:#Шаблон Ролі
+common#:#rolt_a#:#Шаблон Ролі
+common#:#rolt_add#:#Додати Шаблон Ролі
+common#:#rolt_added#:#Шаблон ролі доданий
+common#:#rolt_edit#:#Редагувати Шаблон Ролі
+common#:#rolt_new#:#Новий Шаблон Ролі
+common#:#salutation#:#Привітання
+common#:#salutation_f#:#Місс/Місіс
+common#:#salutation_m#:#Містер
+common#:#save#:#Зберігти
+common#:#save_and_back#:#Зберігти та Повернутись
+common#:#save_message#:#Зберігти Повідомлення
+common#:#save_refresh#:#Зберігти та Обновити
+common#:#save_return#:#Зберігти та Повернутись
+common#:#saved#:#Збережено
+common#:#saved_successfully#:#Збережено Вдало
+common#:#search#:#Пошук
+common#:#search_in#:#Пошук в
+common#:#search_new#:#Новий Пошук
+common#:#search_recipient#:#Шукати Одержувача
+common#:#search_result#:#Результат пошуку
+common#:#search_user#:#Шукати Користувача
+common#:#sections#:#Секції
+common#:#select#:#Вибрати
+common#:#select_all#:#Вибрати Усе
+common#:#select_file#:#Вибрати файл
+common#:#select_mode#:#Вибрати режим
+common#:#selected#:#Вибраний
+common#:#send#:#Відіслати
+common#:#sender#:#Відправник
+common#:#sent#:#Відісланий
+common#:#sequence#:#Послідовність
+common#:#sequences#:#Послідовності
+common#:#server#:#Сервер
+common#:#server_data#:#Дані серверу 
+common#:#server_software#:#Програмне Забезпечення Серверу
+common#:#set#:#Встановити
+common#:#setSystemLanguage#:#Встановити Системну Мову
+common#:#setUserLanguage#:#Встановити Мову Користувача
+common#:#set_offline#:#Встановити Оффлайн
+common#:#set_online#:#Встановити Онлайн
+common#:#settings#:#Настройки
+common#:#show_details#:#показати деталі
+common#:#show_list#:#Показати Список
+common#:#show_members#:#Показати Членів
+common#:#show_owner#:#Показати Власника
+common#:#show_structure#:#Дозволити Структурований Огляд
+common#:#signature#:#Сігнатура
+common#:#slm#:#SCORM LM
+common#:#slm_added#:#SCORM Учбовий модуль доданий
+common#:#smtp#:#SMTP
+common#:#sort_by_this_column#:#Сортувати по цій колонці
+common#:#st_a#:#глава
+common#:#st_add#:#Додати главу
+common#:#st_added#:#Глава додана
+common#:#st_edit#:#Редагувати главу
+common#:#st_new#:#Нова глава
+common#:#startpage#:#Початкова сторінка
+common#:#status#:#Статус
+common#:#step#:#Крок
+common#:#stop_inheritance#:#Зупинити наслідування
+common#:#street#:#Вулиця
+common#:#structure#:#Структура
+common#:#subcat_name#:#Ім'я Підкатегорії
+common#:#subchapter_new#:#Нова Підглава
+common#:#subject#:#Тема
+common#:#submit#:#Підтвердити
+common#:#subobjects#:#Підоб'єкти
+common#:#subscription#:#Підписка
+common#:#summary#:#Ітого
+common#:#system#:#Ситсема
+common#:#system_choose_language#:#Вибір системної Мови
+common#:#system_groups#:#Системна Групи
+common#:#system_grp#:#Системна Група
+common#:#system_language#:#Сисемна Мова
+common#:#system_message#:#Системне Повідомлення
+common#:#term#:#Термін
+common#:#test_intern#:#Тест Intern
+common#:#time#:#Час
+common#:#title#:#Назва
+common#:#to#:#
+common#:#to_desktop#:#Підписатися
+common#:#today#:#Сьогодні
+common#:#total#:#Загалом
+common#:#tpl_path#:#Шлях до Шаблона
+common#:#translation#:#Переклад
+common#:#trash#:#Смітник
+common#:#treeview#:#Огляд у вигляді дерева
+common#:#txt_add_object_instruction1#:#Вкажіть місце куди ви бажаєте додати
+common#:#txt_add_object_instruction2#:#.
+common#:#txt_registered#:#Ви вдало зареєстувались в ILIAS. Будь ласка клікніть на кнопку внизу зоб увійти в ILIAS під вашим аккаунтом.
+common#:#typ#:#Визначення Типу Об'єкту
+common#:#type#:#Тип
+common#:#type_your_message_here#:#Введіть Ваше Повідомлення Тут
+common#:#uid#:#UID
+common#:#uninstall#:#Деінсталювати
+common#:#uninstalled#:#деінстальовано.
+common#:#unknown#:#НЕВІДОМИЙ
+common#:#unread#:#Непрочитаний
+common#:#unsubscribe#:#відписатись
+common#:#up#:#Вгору
+common#:#update_applied#:#Обновлення Встановлено
+common#:#update_language#:#Обновити Мову
+common#:#upload#:#Завантажити
+common#:#url#:#URL
+common#:#url_description#:#URL Опис
+common#:#user#:#Користувач
+common#:#user_added#:#Користувач доданий
+common#:#user_assignment#:#Призначення Користувача
+common#:#user_deleted#:#Користувач Видалений
+common#:#user_language#:#Мова Користувача
+common#:#userdata#:#Дані користувача
+common#:#username#:#Ім'я користувача
+common#:#users#:#Користувачі
+common#:#users_online#:#Користувачі онлайн
+common#:#usr#:#Користувач
+common#:#usr_a#:#Користувач
+common#:#usr_add#:#Додати Користувача
+common#:#usr_added#:#Користувач доданий
+common#:#usr_agreement#:#Угода Користувача
+common#:#usr_agreement_empty#:#Угода не містить тексту
+common#:#usr_edit#:#Редагувати Користувача
+common#:#usr_new#:#Новий Користувач
+common#:#usr_skin_style#:#Скін / Стиль
+common#:#usr_style#:#Стиль Користувача
+common#:#usrf#:#Папка Користувача
+common#:#validate#:#Перевірити достовірність
+common#:#value#:#Значення
+common#:#version#:#Версія
+common#:#view#:#Огляд
+common#:#view_content#:#Огляд Вмісту
+common#:#visible_layers#:#Видимі Рівні
+common#:#visits#:#Візити
+common#:#week#:#Тиждень
+common#:#who_is_online#:#Хто є онлайн?
+common#:#with#:#з
+common#:#write#:#Писати
+common#:#yes#:#Так
+common#:#you_may_add_local_roles#:#Ви Можете Додати Локальні Ролі
+common#:#your_message#:#Ваше Повідомлення
+common#:#zip#:#Поштовий Код
+common#:#zipcode#:#Поштовий Код
+content#:#HTML export#:#Експорт HTML
+content#:#PDF export#:#Експорт PDF
+content#:#Pages#:#Сторінки
+content#:#all#:#Асі
+content#:#cont_Alphabetic#:#Алфавіт A, B, ...
+content#:#cont_Citation#:#Цитата
+content#:#cont_Example#:#Приклад
+content#:#cont_Headline1#:#Заголовок 1
+content#:#cont_Headline2#:#Заголовок 2
+content#:#cont_Headline3#:#Заголовок 3
+content#:#cont_List#:#Список
+content#:#cont_LocalFile#:#Локальний Файл
+content#:#cont_Mnemonic#:#Мнемонічний
+content#:#cont_Number#:#Число
+content#:#cont_Reference#:#Посилання
+content#:#cont_Remark#:#Ремарка
+content#:#cont_Roman#:#Римські I, II, ...
+content#:#cont_Unordered#:#Невпорядкований
+content#:#cont_add_definition#:#Додати Визначення
+content#:#cont_added_term#:#Термін доданий
+content#:#cont_all_definitions#:#Усі Визначення
+content#:#cont_all_pages#:#Усі Сторінки
+content#:#cont_alphabetic#:#Алфавітн a, b, ...
+content#:#cont_assign_full#:#Призначити Повний Екран
+content#:#cont_assign_std#:#Призначити Стандарт
+content#:#cont_assign_translation#:#Призначити переклад
+content#:#cont_assignments_deleted#:#Призначення було видалено
+content#:#cont_back#:#Назад
+content#:#cont_booktitle#:#Назва книжки
+content#:#cont_bottom#:#Низ
+content#:#cont_cant_del_full#:#Видалення повноекранного файлу є неможливим.
+content#:#cont_cant_del_std#:#Видалення стандартного файлу огляду є неможливим.
+content#:#cont_caption#:#Заголовок
+content#:#cont_change_type#:#Змінити Тип
+content#:#cont_chap_and_pages#:#Глави та Сторінки
+content#:#cont_chap_select_target_now#:#Глави відмічені для переміщення. Виберіть зараз ціль.
+content#:#cont_chapters#:#Глави
+content#:#cont_characteristic#:#Характеристика
+content#:#cont_choose_cont_obj#:#Виберіть Об'єкт Вмісту
+content#:#cont_choose_glossary#:#Виберіть Глосарій
+content#:#cont_citation_err_one#:#Ви маєте вибрати рівно одне видання
+content#:#cont_citation_selection_not_valid#:#Ваш вибір є некорректним
+content#:#cont_citations#:#Цитати
+content#:#cont_content#:#Вміст
+content#:#cont_content_obj#:#Об'єкт Вмісту
+content#:#cont_create_dir#:#Створити Директорію
+content#:#cont_cross_reference#:#Перехресне посилання
+content#:#cont_data_from_lms#:#adlcp:дані з lms
+content#:#cont_def_layout#:#Розміщення по Замовчанню
+content#:#cont_def_organization#:#по замовчанню
+content#:#cont_definition#:#Визначення
+content#:#cont_definitions#:#Визначення
+content#:#cont_del_assignment#:#Видалити призначення
+content#:#cont_dependencies#:#Залежності
+content#:#cont_details#:#Деталі
+content#:#cont_dir_file#:#Директорія/Файл
+content#:#cont_edit_file_list_properties#:#Редагувати Властивлсті Списку Файлів
+content#:#cont_edit_mob#:#Редагувати Медіа Об'єкт
+content#:#cont_edit_mob_alias_prop#:#Редагувати Властивості Екземмпляр Медіа Об'єкта
+content#:#cont_edit_mob_files#:#Файли Об'єкта
+content#:#cont_edit_mob_properties#:#Редагувати Властивості Медіа Об'єкта
+content#:#cont_edit_par#:#Редагувати Параграф
+content#:#cont_edit_tab_properties#:#Властивості Таблиці
+content#:#cont_edit_term#:#Редагувати Термін
+content#:#cont_edition#:#Випуск
+content#:#cont_file#:#Файл
+content#:#cont_files#:#Файли
+content#:#cont_full_is_in_dir#:#Видалення неможливе. Повноекранний файл є в директорії.
+content#:#cont_fullscreen#:#Повний екран
+content#:#cont_height#:#Висота
+content#:#cont_how_published#:#Як опублікувати
+content#:#cont_href#:#href
+content#:#cont_id_ref#:#identifierref
+content#:#cont_import_id#:#ідентифікатор
+content#:#cont_insert_file_item#:#Вставити Елемент Файлу
+content#:#cont_insert_file_list#:#Вставити Список Файлів
+content#:#cont_insert_list#:#Вставити Список
+content#:#cont_insert_mob#:#Вставити Медіа Об'єкт
+content#:#cont_insert_par#:#Вставити Параграф
+content#:#cont_insert_search#:#Будь ласка вставте пошуковий термін
+content#:#cont_insert_table#:#Вставити Таблицю
+content#:#cont_internal_link#:#внутрішнє посилання
+content#:#cont_is_visible#:#є видимим
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN
+content#:#cont_item#:#Пункт
+content#:#cont_journal#:#Журнал
+content#:#cont_keyword#:#Ключове слово
+content#:#cont_link_select#:#Внутрішнє Посилання
+content#:#cont_link_type#:#Тип Посилання
+content#:#cont_list_properties#:#Властивості Списку
+content#:#cont_lk_chapter#:#Глава
+content#:#cont_lk_chapter_new#:#Глава (Новий Фрейм)
+content#:#cont_lk_media_faq#:#Медіа (FAQ Фрейм)
+content#:#cont_lk_media_inline#:#Медіа (Інлайн)
+content#:#cont_lk_media_media#:#Медіа (Медіа Фрейм)
+content#:#cont_lk_media_new#:#Медіа (Новий Фрейм)
+content#:#cont_lk_page#:#Сторінка
+content#:#cont_lk_page_faq#:#Сторінка (FAQ Фрейм)
+content#:#cont_lk_page_new#:#Сторінка (Новий Фрейм)
+content#:#cont_lk_term#:#Термін Глосарія
+content#:#cont_lk_term_new#:#Термін Глосарія (Новий Фрейм)
+content#:#cont_lm_properties#:#Властивості Учбового Модуля
+content#:#cont_manifest#:#Маніфест
+content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
+content#:#cont_mob_files#:#Файли Об'єкта
+content#:#cont_mob_inst_prop#:#Властивості Екземпляру
+content#:#cont_mob_prop#:#Властивості Об'єкта
+content#:#cont_month#:#Місяць
+content#:#cont_msg_multiple_editions#:#Є неможливим показати деталі спльного редагування
+content#:#cont_new_assignment#:#Нове призначення
+content#:#cont_new_dir#:#Нова Директорія
+content#:#cont_new_file#:#Новий Файл
+content#:#cont_new_media_obj#:#Новий Медіа Об'єкт
+content#:#cont_new_term#:#Новий Термін
+content#:#cont_no_assign_itself#:#Об'єкт не може бути призначений сам собі
+content#:#cont_no_object_found#:#Неможливо знайти жоден об'єкт з цією назвою
+content#:#cont_no_page#:#Сторінка не знайдена.
+content#:#cont_none#:#Нічого
+content#:#cont_nr_cols#:#Кількість Колонок
+content#:#cont_nr_items#:#Кількість Пунктів
+content#:#cont_nr_rows#:#Кількість Рядків
+content#:#cont_online#:#Онлайн
+content#:#cont_order#:#Тип Сортування
+content#:#cont_organization#:#Організація
+content#:#cont_organizations#:#Організації
+content#:#cont_orig_size#:#Оригінальний Розмір
+content#:#cont_page_header#:#Шапка Сторінки
+content#:#cont_page_select_target_now#:#Сторінка помічена для переміщення. Виберіть ціль зараз.
+content#:#cont_pages#:#Сторінки
+content#:#cont_parameter#:#Параметр
+content#:#cont_parameters#:#параметри
+content#:#cont_personal_clipboard#:#Особистий Буфер Обміну
+content#:#cont_pg_content#:#Вміст Сторінки
+content#:#cont_pg_title#:#Назва Сторінки
+content#:#cont_prereq_type#:#adlcp:prerequisites.type
+content#:#cont_prerequisites#:#adlcp:prerequisites
+content#:#cont_preview#:#Попередній Огляд
+content#:#cont_publisher#:#Видавник
+content#:#cont_purpose#:#Призначення
+content#:#cont_ref_helptext#:#(наприклад http://www.server.org/myimage.jpg)
+content#:#cont_reference#:#Посилання
+content#:#cont_resource#:#Ресурс
+content#:#cont_resource_type#:#тип
+content#:#cont_resources#:#Ресурси
+content#:#cont_roman#:#Римські i, ii, ...
+content#:#cont_sc_title#:#назва
+content#:#cont_school#:#Школа
+content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_max_one_item#:#Будь ласка виберіть тільки один пункт
+content#:#cont_select_max_one_term#:#Будь ласка виберіть тільки один термін
+content#:#cont_select_one_translation#:#Будь ласка виберіть тільки один переклад
+content#:#cont_select_term#:#Виберіть термін
+content#:#cont_select_translation#:#Будь ласка виберіть призначення зі списку вище
+content#:#cont_series#:#Серії
+content#:#cont_series_editor#:#Редактор Серій
+content#:#cont_series_title#:#Назва серій
+content#:#cont_series_volume#:#Гучність серій
+content#:#cont_set_class#:#Встановити Класс
+content#:#cont_set_width#:#Встановити Ширину
+content#:#cont_show#:#Показати
+content#:#cont_show_citation#:#Показати з цитуванням
+content#:#cont_size#:#Розмір (Байтів)
+content#:#cont_source#:#Quelle
+content#:#cont_st_title#:#Назва Глави
+content#:#cont_std_is_in_dir#:#Видалення неможливе. Стандартний файл огляду є в директорії.
+content#:#cont_std_view#:#Стандартний Вид
+content#:#cont_structure#:#структура
+content#:#cont_subchapters#:#Підглави
+content#:#cont_table#:#Таблиця
+content#:#cont_table_border#:#Рамка Таблиці
+content#:#cont_table_cellpadding#:#Клітинний Відступ у Таблиці
+content#:#cont_table_cellspacing#:#Міжклітинний Відступ у Таблиці
+content#:#cont_table_width#:#Ширина Таблиці
+content#:#cont_target_within_source#:#Ціль не повинна бути всередині вихідного об'єкту.
+content#:#cont_term#:#Термін
+content#:#cont_terms#:#Терміни
+content#:#cont_time_limit_action#:#adlcp:timelimitaction
+content#:#cont_toc#:#Зміст
+content#:#cont_top#:#Вершина
+content#:#cont_translations#:#Переклад(и)
+content#:#cont_translations_assigned#:#Переклад(и) були призначені
+content#:#cont_upload_file#:#Завантажити Файл
+content#:#cont_url#:#URL
+content#:#cont_version#:#версія
+content#:#cont_where_published#:#Де опублікований
+content#:#cont_width#:#Ширина
+content#:#cont_wysiwyg#:#Вміст Wysiwyg
+content#:#cont_xml_base#:#xml:base
+content#:#cont_year#:#Рік
+content#:#pages from#:#Сторінки З
+content#:#par#:#Параграф
+content#:#pg#:#Сторінка
+content#:#read offline#:#Прочитати Оффлайн
+content#:#st#:#Глава
+content#:#start export#:#Почати Експорт
+forum#:#forums#:#Форуми
+forum#:#forums_articles#:#Пост
+forum#:#forums_attachments#:#Прикріплення
+forum#:#forums_attachments_add#:#Додати прикріплення
+forum#:#forums_attachments_edit#:#Редагувати прикріплення
+forum#:#forums_available#:#Доступні Форуми
+forum#:#forums_censor_comment#:#Коментар Цензора
+forum#:#forums_count#:#Кількість Форумів
+forum#:#forums_count_art#:#Кілкість Постів
+forum#:#forums_count_thr#:#Кількість Віток
+forum#:#forums_delete_file#:#Видалити прикріплення
+forum#:#forums_download_attachment#:#Завантажити файл
+forum#:#forums_edit_post#:#Редагувати Пост
+forum#:#forums_info_censor2_post#:#Відмінити права на Цензуру?
+forum#:#forums_info_censor_post#:#Ви впевнені що ви бажаєте сховати цей пост?
+forum#:#forums_info_delete_post#:#Ви впевнені що ви бажаєте видалитти цей пост разом з усіма відповідями на нього?
+forum#:#forums_last_post#:#Останній Пост
+forum#:#forums_moderators#:#Модератори
+forum#:#forums_new_entries#:#Нові Надходження в Форуми
+forum#:#forums_new_thread#:#Нова Тема
+forum#:#forums_not_available#:#Форуми Недоступні
+forum#:#forums_overview#:#Огляд Форумів
+forum#:#forums_post_deleted#:#Пост був видалений
+forum#:#forums_post_modified#:#Пост був відредагований
+forum#:#forums_post_new_entry#:#Новий пост був зареєстрований
+forum#:#forums_posts#:#Усі пости
+forum#:#forums_posts_not_available#:#Пост Недосупний
+forum#:#forums_print_thread#:#Друкувати Вітку
+forum#:#forums_quote#:#Цитата
+forum#:#forums_respond#:#Надіслати Відповідь
+forum#:#forums_the_post#:#Пост
+forum#:#forums_thread#:#Тема
+forum#:#forums_thread_articles#:#Пости до теми
+forum#:#forums_thread_create_date#:#Створений
+forum#:#forums_thread_create_from#:#Стоврений з
+forum#:#forums_thread_new_entry#:#Нова тема була зареєстрована
+forum#:#forums_threads#:#Вітки
+forum#:#forums_threads_not_available#:#Теми Недоступні
+forum#:#forums_topics_overview#:#Огляд Тем
+forum#:#forums_your_reply#:#Ваша Відповідь
+mail#:#also_as_email#:#Також по Email
+mail#:#bc#:#BC
+mail#:#forward#:#Переслати
+mail#:#linebreak#:#Розрив лінії
+mail#:#mail_add_recipient#:#Будь ласка введіть одержувача
+mail#:#mail_add_subfolder#:#Додати Підпапку
+mail#:#mail_add_subject#:#Будь ласка введіть тему
+mail#:#mail_add_to_addressbook#:#Доданий в адресну книжку
+mail#:#mail_add_type#:#Будь ласка введіть тип листа що ви бажаєте відіслати
+mail#:#mail_addr_entries#:#Входження
+mail#:#mail_attachments#:#Прикріплення
+mail#:#mail_bc_not_valid#:#Bc одержувач є некорректним
+mail#:#mail_bc_search#:#BC пошук
+mail#:#mail_byte#:#Байт
+mail#:#mail_cc_not_valid#:#Cc одержувач є некорректним
+mail#:#mail_cc_search#:#CC пошук
+mail#:#mail_change_to_folder#:#Перемкнути в папку:
+mail#:#mail_check_your_email_addr#:#Ваша email адреса є некорректною
+mail#:#mail_compose#:#Створити Повідомлення
+mail#:#mail_deleted#:#Пошта видалена
+mail#:#mail_deleted_entry#:#Входження видалені
+mail#:#mail_email_forbidden#:#Вам не дозволено відсилати email
+mail#:#mail_entry_added#:#Додати новий Запис
+mail#:#mail_entry_changed#:#Запис змінений
+mail#:#mail_file_name#:#Ім'я файлу
+mail#:#mail_file_size#:#Розмір файлу
+mail#:#mail_files_deleted#:#Файл(и) видалено
+mail#:#mail_folder_created#:#Нова папку була створена
+mail#:#mail_folder_deleted#:#Папка була видалена
+mail#:#mail_folder_exists#:#Папка вже існує з цим ім'ям
+mail#:#mail_folder_name#:#Ім'я папки
+mail#:#mail_folder_name_changed#:#Папка була переіменована
+mail#:#mail_folder_options#:#Опції Папки
+mail#:#mail_following_rcp_not_valid#:#Наступний одержувач є некорректним:
+mail#:#mail_global_options#:#Глобальні опції
+mail#:#mail_insert_folder_name#:#Будь ласка вставте ім'я папки
+mail#:#mail_insert_query#:#Будь ласка вставте запит
+mail#:#mail_intern#:#Внутрішній
+mail#:#mail_mark_read#:#Помітити пошту як прочитану
+mail#:#mail_mark_unread#:#Помітити пошту як непрочитану
+mail#:#mail_maxsize_attachment_error#:#Ліміт на завантаження:
+mail#:#mail_message_send#:#Повідомлення відіслане
+mail#:#mail_move_error#:#Помилка переміщення пошти
+mail#:#mail_move_to#:#Перемістити в:
+mail#:#mail_moved#:#Пошта була переміщена
+mail#:#mail_moved_to_trash#:#Пошта була переміщена в смітник
+mail#:#mail_new_file#:#Додати новий файл:
+mail#:#mail_no_attach_allowed#:#Системному повідомленню не дозволено містити прикріплення
+mail#:#mail_no_attachments_found#:#Прикріплення не знайдене
+mail#:#mail_options_of#:#Опції
+mail#:#mail_recipient_not_valid#:#Отримувач є некорректним
+mail#:#mail_s#:#Пошта
+mail#:#mail_s_unread#:#Непрочитана пошта
+mail#:#mail_saved#:#Повідомлення було збережено
+mail#:#mail_search_addressbook#:#пошук в адресній книзі
+mail#:#mail_search_system#:#пошук в системі
+mail#:#mail_select_one_entry#:#Ви маєте вибрати один запис
+mail#:#mail_select_one_file#:#Ви маєте вибрати один файл
+mail#:#mail_sure_delete#:#Ви впевнені що бажаєте видалити відмічену пошту
+mail#:#mail_sure_delete_entry#:#Ви впевнені що бажаєте видалити наступні входження
+mail#:#mail_sure_delete_file#:#Файл буде остаточно видалено
+mail#:#mail_sure_delete_folder#:#Папка та її вміст буде остаточно видалена
+mail#:#mail_to_search#:#Шукати
+mail#:#mail_user_addr_n_valid#:#Наступні користувачі не маєть коректної email адреси
+mail#:#search_bc_recipient#:#Шукати BC Одержувача
+mail#:#search_cc_recipient#:#Шукати CC Одержувача
+meta#:#meta_accessibility_restrictions#:#Доступність Обмежень
+meta#:#meta_active#:#Активний
+meta#:#meta_add#:#Додати
+meta#:#meta_annotation#:#Аннотація
+meta#:#meta_atomic#:#Атомарний
+meta#:#meta_author#:#Автор
+meta#:#meta_browser#:#Браузер
+meta#:#meta_c_AD#:#Andorra
+meta#:#meta_c_AE#:#United Arab Emirates
+meta#:#meta_c_AF#:#Afghanistan
+meta#:#meta_c_AG#:#Antigua And Barbuda
+meta#:#meta_c_AI#:#Anguilla
+meta#:#meta_c_AL#:#Albania
+meta#:#meta_c_AM#:#Armenia
+meta#:#meta_c_AN#:#Netherlands Antilles
+meta#:#meta_c_AO#:#Angola
+meta#:#meta_c_AQ#:#Antarctica
+meta#:#meta_c_AR#:#Argentina
+meta#:#meta_c_AS#:#American Samoa
+meta#:#meta_c_AT#:#Austria
+meta#:#meta_c_AU#:#Australia
+meta#:#meta_c_AW#:#Aruba
+meta#:#meta_c_AZ#:#Azerbaijan
+meta#:#meta_c_BA#:#Bosnia And Herzegowina
+meta#:#meta_c_BB#:#Barbados
+meta#:#meta_c_BD#:#Bangladesh
+meta#:#meta_c_BE#:#Belgium
+meta#:#meta_c_BF#:#Burkina Faso
+meta#:#meta_c_BG#:#Bulgaria
+meta#:#meta_c_BH#:#Bahrain
+meta#:#meta_c_BI#:#Burundi
+meta#:#meta_c_BJ#:#Benin
+meta#:#meta_c_BM#:#Bermuda
+meta#:#meta_c_BN#:#Brunei Darussalam
+meta#:#meta_c_BO#:#Bolivia
+meta#:#meta_c_BR#:#Brazil
+meta#:#meta_c_BS#:#Bahamas
+meta#:#meta_c_BT#:#Bhutan
+meta#:#meta_c_BV#:#Bouvet Island
+meta#:#meta_c_BW#:#Botswana
+meta#:#meta_c_BY#:#Belarus
+meta#:#meta_c_BZ#:#Belize
+meta#:#meta_c_CA#:#Canada
+meta#:#meta_c_CC#:#Cocos (Keeling) Islands
+meta#:#meta_c_CF#:#Central African Republic
+meta#:#meta_c_CG#:#Congo
+meta#:#meta_c_CH#:#Switzerland
+meta#:#meta_c_CI#:#Cote D' Ivoire
+meta#:#meta_c_CK#:#Cook Islands
+meta#:#meta_c_CL#:#Chile
+meta#:#meta_c_CM#:#Cameroon
+meta#:#meta_c_CN#:#China
+meta#:#meta_c_CO#:#Colombia
+meta#:#meta_c_CR#:#Costa Rica
+meta#:#meta_c_CU#:#Cuba
+meta#:#meta_c_CV#:#Cape Verde
+meta#:#meta_c_CX#:#Christmas Island
+meta#:#meta_c_CY#:#Cyprus
+meta#:#meta_c_CZ#:#Czech Republic
+meta#:#meta_c_DE#:#Germany
+meta#:#meta_c_DJ#:#Djibouti
+meta#:#meta_c_DK#:#Denmark
+meta#:#meta_c_DM#:#Dominica
+meta#:#meta_c_DO#:#Dominican Republic
+meta#:#meta_c_DZ#:#Algeria
+meta#:#meta_c_EC#:#Ecuador
+meta#:#meta_c_EE#:#Estonia
+meta#:#meta_c_EG#:#Egypt
+meta#:#meta_c_EH#:#Western Sahara
+meta#:#meta_c_ER#:#Eritrea
+meta#:#meta_c_ES#:#Spain
+meta#:#meta_c_ET#:#Ethiopia
+meta#:#meta_c_FI#:#Finland
+meta#:#meta_c_FJ#:#Fiji
+meta#:#meta_c_FK#:#Falkland Islands
+meta#:#meta_c_FM#:#Micronesia
+meta#:#meta_c_FO#:#Faroe Islands
+meta#:#meta_c_FR#:#France
+meta#:#meta_c_FX#:#France, Metropolitan
+meta#:#meta_c_GA#:#Gabon
+meta#:#meta_c_GB#:#United Kingdom
+meta#:#meta_c_GD#:#Grenada
+meta#:#meta_c_GE#:#Giorgia
+meta#:#meta_c_GF#:#French Guiana
+meta#:#meta_c_GH#:#Ghana
+meta#:#meta_c_GI#:#Gibraltar
+meta#:#meta_c_GL#:#Greenland
+meta#:#meta_c_GM#:#Gambia
+meta#:#meta_c_GN#:#Guinea
+meta#:#meta_c_GP#:#Guadeloupe
+meta#:#meta_c_GQ#:#Equatorial Guinea
+meta#:#meta_c_GR#:#Greece
+meta#:#meta_c_GS#:#South Georgia And The South Sandwich Islands
+meta#:#meta_c_GT#:#Guatemala
+meta#:#meta_c_GU#:#Guam
+meta#:#meta_c_GW#:#Guinea-Bissau
+meta#:#meta_c_GY#:#Guyana
+meta#:#meta_c_HM#:#Heard And Nc Donald Islands
+meta#:#meta_c_HN#:#Honduras
+meta#:#meta_c_HR#:#Croatia
+meta#:#meta_c_HT#:#Haiti
+meta#:#meta_c_HU#:#Hungary
+meta#:#meta_c_ID#:#Indonesia
+meta#:#meta_c_IE#:#Ireland
+meta#:#meta_c_IL#:#Israel
+meta#:#meta_c_IN#:#India
+meta#:#meta_c_IO#:#British Indian Ocean Territory
+meta#:#meta_c_IQ#:#Iraq
+meta#:#meta_c_IR#:#Iran
+meta#:#meta_c_IS#:#Iceland
+meta#:#meta_c_IT#:#Italy
+meta#:#meta_c_JM#:#Jamaica
+meta#:#meta_c_JO#:#Jordan
+meta#:#meta_c_JP#:#Japan
+meta#:#meta_c_KE#:#Kenya
+meta#:#meta_c_KG#:#Kyrgyzstan
+meta#:#meta_c_KH#:#Cambodia
+meta#:#meta_c_KI#:#Kiribati
+meta#:#meta_c_KM#:#Comoros
+meta#:#meta_c_KN#:#Saint Kitts And Nevis
+meta#:#meta_c_KP#:#North Korea (People's Republic Of Korea)
+meta#:#meta_c_KR#:#South Korea (Republic Of Korea)
+meta#:#meta_c_KW#:#Kuwait
+meta#:#meta_c_KY#:#Cayman Islands
+meta#:#meta_c_KZ#:#Kazakhstan
+meta#:#meta_c_LA#:#Lao People's Republic
+meta#:#meta_c_LB#:#Lebanon
+meta#:#meta_c_LC#:#Saint Lucia
+meta#:#meta_c_LI#:#Liechtenstein
+meta#:#meta_c_LK#:#Sri Lanka
+meta#:#meta_c_LR#:#Liberia
+meta#:#meta_c_LS#:#Lesotho
+meta#:#meta_c_LT#:#Lithunia
+meta#:#meta_c_LU#:#Luxembourg
+meta#:#meta_c_LV#:#Latvia
+meta#:#meta_c_LY#:#Libyan Arab Jamahiriya
+meta#:#meta_c_MA#:#Morocco
+meta#:#meta_c_MC#:#Monaco
+meta#:#meta_c_MD#:#Moldova
+meta#:#meta_c_MG#:#Madagascar
+meta#:#meta_c_MH#:#Marshall Islands
+meta#:#meta_c_MK#:#Macedonia
+meta#:#meta_c_ML#:#Mali
+meta#:#meta_c_MM#:#Myanmar
+meta#:#meta_c_MN#:#Mongolia
+meta#:#meta_c_MO#:#Macau
+meta#:#meta_c_MP#:#Northern Mariana Islands
+meta#:#meta_c_MQ#:#Martinique
+meta#:#meta_c_MR#:#Mauritania
+meta#:#meta_c_MS#:#Montserrat
+meta#:#meta_c_MT#:#Malta
+meta#:#meta_c_MU#:#Mauritius
+meta#:#meta_c_MV#:#Maldives
+meta#:#meta_c_MW#:#Malawi
+meta#:#meta_c_MX#:#Mexico
+meta#:#meta_c_MY#:#Malaysia
+meta#:#meta_c_MZ#:#Mozambique
+meta#:#meta_c_NA#:#Namibia
+meta#:#meta_c_NC#:#New Caledonia
+meta#:#meta_c_NE#:#Niger
+meta#:#meta_c_NF#:#Norfolk Island
+meta#:#meta_c_NG#:#Nigeria
+meta#:#meta_c_NI#:#Nicaragua
+meta#:#meta_c_NL#:#Netherlands
+meta#:#meta_c_NO#:#Norway
+meta#:#meta_c_NP#:#Nepal
+meta#:#meta_c_NR#:#Nauru
+meta#:#meta_c_NU#:#Niue
+meta#:#meta_c_NZ#:#New Zealand
+meta#:#meta_c_OM#:#Oman
+meta#:#meta_c_PA#:#Panama
+meta#:#meta_c_PE#:#Peru
+meta#:#meta_c_PF#:#French Polynesia
+meta#:#meta_c_PG#:#Papua New Guinea
+meta#:#meta_c_PH#:#Philippines
+meta#:#meta_c_PK#:#Pakistan
+meta#:#meta_c_PL#:#Poland
+meta#:#meta_c_PM#:#St. Pierre And Miquelon
+meta#:#meta_c_PN#:#Pitcairn
+meta#:#meta_c_PR#:#Puerto Rico
+meta#:#meta_c_PT#:#Portugal
+meta#:#meta_c_PW#:#Palau
+meta#:#meta_c_PY#:#Paraguay
+meta#:#meta_c_QA#:#Qatar
+meta#:#meta_c_RE#:#Reunion
+meta#:#meta_c_RO#:#Romania
+meta#:#meta_c_RU#:#Ran Federation
+meta#:#meta_c_RW#:#Rwanda
+meta#:#meta_c_SA#:#Saudi Arabia
+meta#:#meta_c_SB#:#Solomon Islands
+meta#:#meta_c_SC#:#Seychelles
+meta#:#meta_c_SD#:#Sudan
+meta#:#meta_c_SE#:#Sweden
+meta#:#meta_c_SG#:#Singapore
+meta#:#meta_c_SH#:#St. Helena
+meta#:#meta_c_SI#:#Slovenia
+meta#:#meta_c_SJ#:#Svalbard And Jan Mayen Islands
+meta#:#meta_c_SK#:#Slovakia
+meta#:#meta_c_SL#:#Siearra Leone
+meta#:#meta_c_SM#:#San Marino
+meta#:#meta_c_SN#:#Senegal
+meta#:#meta_c_SO#:#Somalia
+meta#:#meta_c_SR#:#Suriname
+meta#:#meta_c_ST#:#Sao Tome And Principe
+meta#:#meta_c_SV#:#El Salvador
+meta#:#meta_c_SY#:#Syrian Arab Republic
+meta#:#meta_c_SZ#:#Swaziland
+meta#:#meta_c_TC#:#Turks And Caicos Islands
+meta#:#meta_c_TD#:#Chad
+meta#:#meta_c_TF#:#French Southern Territories
+meta#:#meta_c_TG#:#Togo
+meta#:#meta_c_TH#:#Thailand
+meta#:#meta_c_TJ#:#Tajikistan
+meta#:#meta_c_TK#:#Tokelau
+meta#:#meta_c_TM#:#Turkmenistan
+meta#:#meta_c_TN#:#Tunisia
+meta#:#meta_c_TO#:#Tonga
+meta#:#meta_c_TP#:#East Timor
+meta#:#meta_c_TR#:#Turkey
+meta#:#meta_c_TT#:#Trinidad And Tobago
+meta#:#meta_c_TV#:#Tuvalu
+meta#:#meta_c_TW#:#Taiwan
+meta#:#meta_c_TZ#:#Tanzania
+meta#:#meta_c_UA#:#Ukraine
+meta#:#meta_c_UG#:#Uganda
+meta#:#meta_c_UM#:#U.S. Minor Outlying Islands
+meta#:#meta_c_US#:#U.S.A
+meta#:#meta_c_UY#:#Uruguay
+meta#:#meta_c_UZ#:#Uzbekistan
+meta#:#meta_c_VA#:#Vatican City State
+meta#:#meta_c_VC#:#Saint Vincent And The Grenadines
+meta#:#meta_c_VE#:#Venezuela
+meta#:#meta_c_VG#:#Virgin Islands (British)
+meta#:#meta_c_VI#:#Virgin Islands (US)
+meta#:#meta_c_VN#:#Viet Nam
+meta#:#meta_c_VU#:#Vanuatu
+meta#:#meta_c_WF#:#Wallis And Futuna Islands
+meta#:#meta_c_WS#:#Samoa
+meta#:#meta_c_YE#:#Yemen
+meta#:#meta_c_YT#:#Mayotte
+meta#:#meta_c_ZA#:#South Africa
+meta#:#meta_c_ZM#:#Zambia
+meta#:#meta_c_ZR#:#Zaire
+meta#:#meta_c_ZW#:#Zimbabwe
+meta#:#meta_c_ZZ#:#Інша Країна
+meta#:#meta_catalog#:#Каталог
+meta#:#meta_choose_element#:#Будь ласка виберіть елемент що ви бажаєте додати!
+meta#:#meta_choose_language#:#Будь ласка виберіть іншу мову
+meta#:#meta_choose_section#:#Будь ласка виберіть секцію
+meta#:#meta_classification#:#Класифікація
+meta#:#meta_collection#:#Коллекція
+meta#:#meta_competency#:#Компетенція
+meta#:#meta_context#:#Контекст
+meta#:#meta_contribute#:#Сприяти
+meta#:#meta_copyright_and_other_restrictions#:#Авторські Права та Інші Обмеження
+meta#:#meta_cost#:#Ціна
+meta#:#meta_coverage#:#Покриття
+meta#:#meta_date#:#Дата
+meta#:#meta_delete#:#Видалити
+meta#:#meta_description#:#Опис
+meta#:#meta_diagramm#:#Діаграма
+meta#:#meta_difficulty#:#Складність
+meta#:#meta_dificult#:#Складний
+meta#:#meta_draft#:#Чернетка
+meta#:#meta_duration#:#Тривалість
+meta#:#meta_easy#:#Легкий
+meta#:#meta_education#:#Навчання
+meta#:#meta_educational_level#:#Рівень Освіти
+meta#:#meta_educational_objective#:#Освітня Ціль
+meta#:#meta_entity#:#Об'єкт
+meta#:#meta_entry#:#Ввод
+meta#:#meta_exam#:#Екзамен
+meta#:#meta_exercise#:#Вправа
+meta#:#meta_experiment#:#Експеримент
+meta#:#meta_expositive#:#Описовий
+meta#:#meta_figure#:#Фігура
+meta#:#meta_final#:#Фінал
+meta#:#meta_format#:#Формат
+meta#:#meta_general#:#Загальний
+meta#:#meta_graph#:#Графік
+meta#:#meta_has_format#:#Has Format
+meta#:#meta_has_part#:#Has Part
+meta#:#meta_has_version#:#Has Version
+meta#:#meta_hierarchical#:#Ієрархічний
+meta#:#meta_high#:#Високий
+meta#:#meta_higher_education#:#Вища Освіта
+meta#:#meta_id#:#Id
+meta#:#meta_idea#:#Ідея
+meta#:#meta_identifier#:#Ідентифікатор
+meta#:#meta_index#:#Індекс
+meta#:#meta_installation_remarks#:#Інсталяційні Зауваження
+meta#:#meta_intended_end_user_role#:#Планована Кінцева Роль Користувача
+meta#:#meta_interactivity_level#:#Рівень Інтерактивності
+meta#:#meta_interactivity_type#:#Тип Інтерактивності
+meta#:#meta_is_based_on#:#Базується на
+meta#:#meta_is_basis_for#:#Є Основою Для
+meta#:#meta_is_format_of#:#Є Форматом
+meta#:#meta_is_part_of#:#Є Частниою
+meta#:#meta_is_referenced_by#:#Посилається На
+meta#:#meta_is_required_by#:#Потребується
+meta#:#meta_is_version_of#:#Є Версією
+meta#:#meta_keyword#:#Ключові слова
+meta#:#meta_kind#:#Тип
+meta#:#meta_l_aa#:#afar
+meta#:#meta_l_ab#:#abkhazian
+meta#:#meta_l_af#:#afrikaans
+meta#:#meta_l_am#:#amharic
+meta#:#meta_l_ar#:#arabic
+meta#:#meta_l_as#:#assamese
+meta#:#meta_l_ay#:#aymara
+meta#:#meta_l_az#:#azerbaijani
+meta#:#meta_l_ba#:#bashkir
+meta#:#meta_l_be#:#byelorussian
+meta#:#meta_l_bg#:#bulgarian
+meta#:#meta_l_bh#:#bihari
+meta#:#meta_l_bi#:#bislama
+meta#:#meta_l_bn#:#bengali;bangla
+meta#:#meta_l_bo#:#tibetan
+meta#:#meta_l_br#:#breton
+meta#:#meta_l_ca#:#catalan
+meta#:#meta_l_co#:#corsican
+meta#:#meta_l_cs#:#czech
+meta#:#meta_l_cy#:#welsh
+meta#:#meta_l_da#:#danish
+meta#:#meta_l_de#:#german
+meta#:#meta_l_dz#:#bhutani
+meta#:#meta_l_el#:#greek
+meta#:#meta_l_en#:#english
+meta#:#meta_l_eo#:#esperanto
+meta#:#meta_l_es#:#spanish
+meta#:#meta_l_et#:#estonian
+meta#:#meta_l_eu#:#basque
+meta#:#meta_l_fa#:#persian (farsi)
+meta#:#meta_l_fi#:#finnish
+meta#:#meta_l_fj#:#fiji
+meta#:#meta_l_fo#:#faroese
+meta#:#meta_l_fr#:#french
+meta#:#meta_l_fy#:#frisian
+meta#:#meta_l_ga#:#irish
+meta#:#meta_l_gd#:#scots gaelic
+meta#:#meta_l_gl#:#galician
+meta#:#meta_l_gn#:#guarani
+meta#:#meta_l_gu#:#gujarati
+meta#:#meta_l_ha#:#hausa
+meta#:#meta_l_he#:#hebrew
+meta#:#meta_l_hi#:#hindi
+meta#:#meta_l_hr#:#croatian
+meta#:#meta_l_hu#:#hungarian
+meta#:#meta_l_hy#:#armenian
+meta#:#meta_l_ia#:#interlingua
+meta#:#meta_l_id#:#indonesian
+meta#:#meta_l_ie#:#interlingue
+meta#:#meta_l_ik#:#inupiak
+meta#:#meta_l_is#:#icelandic
+meta#:#meta_l_it#:#italian
+meta#:#meta_l_iu#:#inuktitut
+meta#:#meta_l_ja#:#japanese
+meta#:#meta_l_jv#:#javanese
+meta#:#meta_l_ka#:#georgian
+meta#:#meta_l_kk#:#kazakh
+meta#:#meta_l_kl#:#greenlandic
+meta#:#meta_l_km#:#cambodian
+meta#:#meta_l_kn#:#kannada
+meta#:#meta_l_ko#:#korean
+meta#:#meta_l_ks#:#kashmiri
+meta#:#meta_l_ku#:#kurdish
+meta#:#meta_l_ky#:#kirghiz
+meta#:#meta_l_la#:#latin
+meta#:#meta_l_ln#:#lingala
+meta#:#meta_l_lo#:#laothian
+meta#:#meta_l_lt#:#lithuanian
+meta#:#meta_l_lv#:#latvian;lettish
+meta#:#meta_l_mg#:#malagasy
+meta#:#meta_l_mi#:#maori
+meta#:#meta_l_mk#:#macedonian
+meta#:#meta_l_ml#:#malayalam
+meta#:#meta_l_mn#:#mongolian
+meta#:#meta_l_mo#:#moldavian
+meta#:#meta_l_mr#:#marathi
+meta#:#meta_l_ms#:#malay
+meta#:#meta_l_mt#:#maltese
+meta#:#meta_l_my#:#burmese
+meta#:#meta_l_na#:#nauru
+meta#:#meta_l_ne#:#nepali
+meta#:#meta_l_nl#:#dutch
+meta#:#meta_l_no#:#norwegian
+meta#:#meta_l_oc#:#occitan
+meta#:#meta_l_om#:#afan (oromo)
+meta#:#meta_l_or#:#oriya
+meta#:#meta_l_pa#:#punjabi
+meta#:#meta_l_pl#:#polish
+meta#:#meta_l_ps#:#pashto;pushto
+meta#:#meta_l_pt#:#portuguese
+meta#:#meta_l_qu#:#quechua
+meta#:#meta_l_rm#:#rhaeto-romance
+meta#:#meta_l_rn#:#kurundi
+meta#:#meta_l_ro#:#romanian
+meta#:#meta_l_ru#:#russian
+meta#:#meta_l_rw#:#kinyarwanda
+meta#:#meta_l_sa#:#sanskrit
+meta#:#meta_l_sd#:#sindhi
+meta#:#meta_l_sg#:#sangho
+meta#:#meta_l_sh#:#serbo-croatian
+meta#:#meta_l_si#:#singhalese
+meta#:#meta_l_sk#:#slovak
+meta#:#meta_l_sl#:#slovenian
+meta#:#meta_l_sm#:#samoan
+meta#:#meta_l_sn#:#shona
+meta#:#meta_l_so#:#somali
+meta#:#meta_l_sq#:#albanian
+meta#:#meta_l_sr#:#serbian
+meta#:#meta_l_ss#:#siswati
+meta#:#meta_l_st#:#sesotho
+meta#:#meta_l_su#:#sundanese
+meta#:#meta_l_sv#:#swedish
+meta#:#meta_l_sw#:#swahili
+meta#:#meta_l_ta#:#tamil
+meta#:#meta_l_te#:#telugu
+meta#:#meta_l_tg#:#tajik
+meta#:#meta_l_th#:#thai
+meta#:#meta_l_ti#:#tigrinya
+meta#:#meta_l_tk#:#turkmen
+meta#:#meta_l_tl#:#tagalog
+meta#:#meta_l_tn#:#setswana
+meta#:#meta_l_to#:#tonga
+meta#:#meta_l_tr#:#turkish
+meta#:#meta_l_ts#:#tsonga
+meta#:#meta_l_tt#:#tatar
+meta#:#meta_l_tw#:#twi
+meta#:#meta_l_ug#:#uigur
+meta#:#meta_l_uk#:#ukrainian
+meta#:#meta_l_ur#:#urdu
+meta#:#meta_l_uz#:#uzbek
+meta#:#meta_l_vi#:#vietnamese
+meta#:#meta_l_vo#:#volapuk
+meta#:#meta_l_wo#:#wolof
+meta#:#meta_l_xh#:#xhosa
+meta#:#meta_l_yi#:#yiddish
+meta#:#meta_l_yo#:#yoruba
+meta#:#meta_l_za#:#zhuang
+meta#:#meta_l_zh#:#chinese
+meta#:#meta_l_zu#:#zulu
+meta#:#meta_language#:#Мова
+meta#:#meta_learner#:#Учень
+meta#:#meta_learning_resource_type#:#Учбовий Тип Ресурса
+meta#:#meta_lecture#:#Лекія
+meta#:#meta_lifecycle#:#Життєвий цикл
+meta#:#meta_linear#:#Лінійний
+meta#:#meta_local_file#:#Локальний Файл
+meta#:#meta_location#:#Місцезнаходження
+meta#:#meta_low#:#Низький
+meta#:#meta_mac_os#:#MacOS
+meta#:#meta_manager#:#Менеджер
+meta#:#meta_maximum_version#:#Максимальна Версія
+meta#:#meta_medium#:#Середній
+meta#:#meta_meta_metadata#:#Мета-Метадані
+meta#:#meta_metadatascheme#:#Схема Метаданих
+meta#:#meta_minimum_version#:#Мінімальна Версія
+meta#:#meta_mixed#:#Змішаний
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_multi_os#:#Multi-OS
+meta#:#meta_name#:#Ім'я
+meta#:#meta_narrative_text#:#Описовий Текст
+meta#:#meta_networked#:#Мережевий
+meta#:#meta_new_element#:#Новий Елемент
+meta#:#meta_no#:#Ні
+meta#:#meta_no_annotation#:#Немає доступних мета даних для секції Аннотації.
+meta#:#meta_no_classification#:#Немає доступних мета даних для секції Класифікації.
+meta#:#meta_no_educational#:#Немає доступних мета даних для Освітньої секції.
+meta#:#meta_no_lifecycle#:#Немає доступних мета даних для секції для секції Життєвого циклу.
+meta#:#meta_no_meta_metadata#:#Немає доступних мета даних для секції Мета-Метадани.
+meta#:#meta_no_relation#:#Немає доступних мета даних для секції Відношення.
+meta#:#meta_no_rights#:#Немає доступних мета даних для секції Прав.
+meta#:#meta_no_technical#:#Немає доступних мета даних для Технічної секції.
+meta#:#meta_none#:#Ніщо
+meta#:#meta_operating_system#:#Операційна Система
+meta#:#meta_or_composite#:#Або Композиція
+meta#:#meta_other#:#Інші
+meta#:#meta_other_plattform_requirements#:#Потребується Інша Платформа
+meta#:#meta_pc_dos#:#PC-DOS
+meta#:#meta_please_select#:#Будь ласка виберіть
+meta#:#meta_prerequisite#:#Попередня умова
+meta#:#meta_problem_statement#:#Постанова Задачі
+meta#:#meta_publisher#:#Видавник
+meta#:#meta_purpose#:#Призначення
+meta#:#meta_questionnaire#:#Анкета
+meta#:#meta_reference#:#Посилання
+meta#:#meta_references#:#Посилання
+meta#:#meta_relation#:#Відношення
+meta#:#meta_requirement#:#Вимога
+meta#:#meta_requires#:#Вимоги
+meta#:#meta_resource#:#Ресурс
+meta#:#meta_revised#:#Виправлений
+meta#:#meta_rights#:#Права
+meta#:#meta_role#:#Роль
+meta#:#meta_school#:#Школа
+meta#:#meta_security_level#:#Рівень Безпеки
+meta#:#meta_self_assessment#:#Особиста Оцінка
+meta#:#meta_semantic_density#:#Сематнична Інтенсивність
+meta#:#meta_simulation#:#Моделювання
+meta#:#meta_size#:#Розмір
+meta#:#meta_skill_level#:#Рівень Кваліфікації
+meta#:#meta_slide#:#Повзунок
+meta#:#meta_source#:#Джерело
+meta#:#meta_status#:#Статус
+meta#:#meta_structure#:#Структура
+meta#:#meta_table#:#Таблиця
+meta#:#meta_taxon#:#Таксон
+meta#:#meta_taxon_path#:#Шлях до Таксона
+meta#:#meta_teacher#:#Вчитель
+meta#:#meta_technical#:#Технічний
+meta#:#meta_title#:#Назва
+meta#:#meta_training#:#Тренування
+meta#:#meta_type#:#Тип
+meta#:#meta_typical_age_range#:#Типовий Діапазон Віку
+meta#:#meta_typical_learning_time#:#Типовий Час Навчання
+meta#:#meta_unavailable#:#Недоступний
+meta#:#meta_unix#:#Unix
+meta#:#meta_value#:#Значення
+meta#:#meta_version#:#Версія
+meta#:#meta_very_difficult#:#Дуже Складний
+meta#:#meta_very_easy#:#Дуже Легкий
+meta#:#meta_very_high#:#Даже Високий
+meta#:#meta_very_low#:#Дуже Низький
+meta#:#meta_yes#:#Так
+search#:#search_all_results#:#Усі результати
+search#:#search_concatenation#:#Об'єднання
+search#:#search_content#:#Вміст Сторінки
+search#:#search_dbk_content#:#Цифрова Бібліотека (вміст)
+search#:#search_dbk_meta#:#Цифрова Бібліотека (мета дані)
+search#:#search_in_result#:#Пошук всередині результатів
+search#:#search_lm_content#:#Учбові матеріали (вміст)
+search#:#search_lm_meta#:#Учбові матеріали (мета дані)
+search#:#search_meta#:#Мета дані
+search#:#search_minimum_three#:#Ваш пошук повинен бути принаймні три символи довжиною
+search#:#search_no_category#:#Ви не вибрали жодної категорії для пошуку
+search#:#search_no_match#:#Ваш пошук не приніс жодного результату
+search#:#search_no_search_term#:#Ви не вибрали жодного пошукового терміну
+search#:#search_search_for#:#Шукати
+search#:#search_search_term#:#Пошуковий термін
+search#:#search_show_result#:#Показати
+search#:#search_user#:#Користувачі
+mail#:#mail_options_saved#:#Опції збережені
