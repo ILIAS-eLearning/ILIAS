@@ -201,7 +201,7 @@ function setDatesInWeek($date_ts, $Dates, $day_ts, $row_height, &$style)
 					$week_float = $week_float."<span ".$DP_CSS[small]."><a  TITLE=\"".$alttag."\" href=\"dateplaner.php?app=date&timestamp=".$day_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\">".$starttime." - ".$endtime."</a> <br>".$shortext."</span><br>"; 
 				}else {
 					$week_float = $week_float."<span ".$DP_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')  href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$day_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >".$starttime." - ".$endtime."</a> <br>".$shortext."</span><br>"; 
-					$week_float.= $Gui->setToolTip($starttime, $endtime, $shortext, $text, $id );
+					$week_float.= $Gui->setToolTip($starttime, $endtime, $Dates[$i][5], $text, $id );
 				}
 
 			}
@@ -284,7 +284,7 @@ function setDayDatesInWeek($date_ts, $Dates, $row_height, &$style)
 					$week_float = $week_float."<span ".$DP_CSS[small]."><a  TITLE=\"".$alttag."\" href=\"dateplaner.php?app=date&timestamp=".$day_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\"><b>".$shortext."</b></a> </span><br>"; 
 				}else {
 					$week_float = $week_float."<span ".$DP_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')  href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$date_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" ><b>".$shortext."</b></a></span><br>"; 
-					$week_float.= $Gui->setToolTip($starttime, $endtime, $shortext, $text, $id );
+					$week_float.= $Gui->setToolTip($starttime, $endtime, $Dates[$i][5], $text, $id );
 				}
 
 

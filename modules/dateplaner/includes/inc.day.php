@@ -198,7 +198,7 @@ function generateDay($timestamp, $DB){
 			}
 			padBack ($stream, $arrayPadded, $intervall, $endDisplayTimeInMinutes);// generate fields in $arrayPadded, that resemble the free time after the last date.
 		}
-		$dayString = generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow);
+		$dayString = generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow, $timestamp);
 		
 	}
 	else{	// in case that table_sorted is empty, create an NULL array_padded for blank rows
@@ -208,7 +208,7 @@ function generateDay($timestamp, $DB){
 		$arrayPadded[0][0][5]=$intervall;
 		$arrayPadded[0][0][6]=1;
 		padBack(0, $arrayPadded, $intervall, $endDisplayTimeInMinutes);
-		$dayString = generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow);
+		$dayString = generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow, $timestamp);
 		
 	}
 	return $dayString;
@@ -512,10 +512,12 @@ function padBack($stream, &$arrayPadded, $intervall, $endDisplayTimeInMinutes){
 *	@return $dayString , the output variable of the Gui
 *	
 */
-function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow){
-	global $DP_CSS, $templatefolder, $actualtemplate, $_SESSION;
+function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow, $timestamp){
+	global $DP_CSS,$DP_language, $templatefolder, $actualtemplate, $_SESSION;
 	
-    	$stream=count($arrayPadded)-1;
+    	$ttd		= new TimestampToDate;
+
+		$stream=count($arrayPadded)-1;
     	for($i=0; $i<=$stream; $i++){
     		$streamCounter[$i]=0;
     	}
@@ -526,7 +528,15 @@ function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $e
         		$Stunde = ($time-$time%60)/60 ;
         		$Viertel= $time%60;
         		if ($Viertel==0) $Viertel="00";
-			$dayString=$dayString. $Stunde.":".$Viertel;
+			
+			//$dayString=$dayString. $Stunde.":".$Viertel;
+			$ttd->ttd($timestamp);
+			$new_ts = mktime ( $Stunde , $Viertel , 0, $ttd->monthnumber_long , $ttd->day_of_month, $ttd->year_long );
+			$dayString=$dayString."<a href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$new_ts."&PHPSESSID=$PHPSESSID','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" TITLE=\"".$DP_language[new_doc]."\"  >".$Stunde.":".$Viertel."
+			</a>";	
+
+
+
 			$dayString=$dayString. "</span></TD>";  
 		}
 		for($i=0; $i<=$stream; $i++){
@@ -545,12 +555,16 @@ function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $e
 						}
 
 						$dayString=$dayString.$arrayPadded[$i][$streamCounter[$i]][7];
-						if($arrayPadded[$i][$streamCounter[$i]][7] != $arrayPadded[$i][$streamCounter[$i]][8] )  $dayString=$dayString." - ".$arrayPadded[$i][$streamCounter[$i]][8];
+
+						if($arrayPadded[$i][$streamCounter[$i]][7] != $arrayPadded[$i][$streamCounter[$i]][8] ) 
+						{  
+							$dayString=$dayString." - ".$arrayPadded[$i][$streamCounter[$i]][8];
+						}
 						$DateValues[shorttext] = $arrayPadded[$i][$streamCounter[$i]][3] ;
 						$DateValues[text] = $arrayPadded[$i][$streamCounter[$i]][4];
 
 						$DateValues = parseDataForOutput ($DateValues);
-						$dayString=$dayString."</a> - <b>".$DateValues[shorttext]."</b>";
+						$dayString=$dayString."</a> -- <b>".$DateValues[shorttext]."</b>";
 						$dayString=$dayString."<BR>".$DateValues[text];
 						$dayString=$dayString."</span></TD>";
 						$streamCounter[$i]++;

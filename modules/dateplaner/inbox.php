@@ -35,7 +35,15 @@ include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.inbox.php');
 
 /* ------------------------------------  generate frames --------------------------- */
 // -----------------------------------------  fixed ---------------------------------//
-$minical_show = setMinicalendar($_REQUEST[month],$_REQUEST[year], $DP_Lang, $_REQUEST[app]);
+if($_GET[action] == "next"){
+		$_GET[year] = $_GET[year] + 1;
+		$minical_show = setMinicalendar($_GET[month], $_GET[year], $DP_Lang, $_GET[app]);
+}elseif($_GET[action] == "last"){
+		$_GET[year] = $_GET[year] - 1;
+		$minical_show = setMinicalendar($_GET[month], $_GET[year], $DP_Lang, $_GET[app]);
+}else{
+	$minical_show = setMinicalendar($_REQUEST[month],$_REQUEST[year], $DP_Lang, $_REQUEST[app]);
+}
 eval ("\$lefttxt = \"".$Gui->getTemplate("menue")."\";");
 eval ("\$left = \"".$Gui->getTemplate("left")."\";");
 
@@ -75,7 +83,7 @@ if ( isset($_POST[btn_accept]) ) 								// it the btton pressed
 	}
 }
 
-$centertxt = setWeekView($Gui, $DB);
+$centertxt = setInboxView($Gui, $DB);
 // -----------------------------------------  fixed ---------------------------------//
 // frameset template
 eval ("\$main = \"".$Gui->getTemplate("frames_set")."\";");
