@@ -53,6 +53,9 @@
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
+<!-- 
+	<property name="listUsers">administrate_users</property>
+-->
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
@@ -269,7 +272,6 @@
 <object name="usrf" class_name="UserFolder" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<subobj name="usr">usr</subobj>
 	<property name="view">view_content</property>
-	<property name="appliedUsers">applied_users</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
