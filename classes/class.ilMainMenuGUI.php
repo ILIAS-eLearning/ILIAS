@@ -203,6 +203,9 @@ class ilMainMenuGUI
 		// set target frame
 		$this->tpl->setVariable("TARGET", $this->target);
 
+		// set link to return to desktop, not depending on a specific position in the hierarchy
+		$this->tpl->setVariable("SCRIPT_START", $this->getScriptTarget("start.php"));
+
 		$this->tpl->parseCurrentBlock();
 	}
 
