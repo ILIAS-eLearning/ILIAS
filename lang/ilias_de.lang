@@ -683,15 +683,23 @@ common#:#retype_password#:#Passwort wiederholen
 common#:#right#:#Recht
 common#:#rights#:#Rechte
 common#:#role#:#Rolle
-common#:#role_add_local#:#Lokale Rolle hinzufügen
+common#:#role_a#:#eine Rolle
+common#:#role_add#:#Rolle anlegen
 common#:#role_added#:#Rolle angelegt
+common#:#role_edit#:#Rolle bearbeiten
+common#:#role_new#:#Neue Rolle
+common#:#role_add_local#:#Lokale Rolle hinzufügen
 common#:#role_assignment#:#Rollenzuweisung
 common#:#role_deleted#:#Rolle gelöscht
 common#:#roles#:#Rollen
 common#:#rolf#:#Rollenordner
 common#:#rolf_added#:#Rollenordner angelegt
 common#:#rolt#:#Rollenvorlage
+common#:#rolt_a#:#eine Rollenvorlage
+common#:#rolt_add#:#Rollenvorlage anlegen
 common#:#rolt_added#:#Rollenvorlage angelegt
+common#:#rolt_edit#:#Rollenvorlage bearbeiten
+common#:#rolt_new#:#Neue Rollenvorlage
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
