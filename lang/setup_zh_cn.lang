@@ -1,0 +1,159 @@
+/**
+* ILIAS language file
+*
+* @module		language file simplied Chinese
+* @modulegroup	language
+* @author 		范柏泉 (Fan Baiquan) <baiquan.fan@helsinki.fi>
+* @version		$Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source （开放代码软件）                                           |
+    +-----------------------------------------------------------------------------+
+    | 版权 (c) 1998-2001 ILIAS 开放代码软件，University of Cologne （科隆大学）     |
+    |                                                                             |
+    | 本程序为自由软件；在遵循由自由软件基金会公布的GNU公共版权许可证（GPL）条款下     |
+    | （许可证版本2或根据你的需要选择而后的版本），你可以重新分发及修改本软件。        |
+    |                                                                             |
+    | 分发本程序的目的是希望本程序有一定用途，但本程序没有任何担保；甚至没有为达到     |
+    | 某种目的的商品性或适切性的暗示间接的担保。详细见GNU公共版权许可证（GPL）。       |
+    |                                                                             |
+    | 同本程序一起你应该已经收到一份GNU公共版权许可证（GPL）的拷贝；如果没有，请写     |
+    | 信给自由软件基金会：                                                         |
+    | Free Software Foundation, Inc.                                              |
+    | 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.                   |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+<!-- language file start -->
+available_languages	#:#	可用语言
+back	#:#	返回
+change	#:#	更改
+change_password	#:#	更改口令
+choose_language	#:#	选择语言
+choose_languages	#:#	请选择其它语言或取消已选择的语言
+choose_password	#:#	请选择口令
+data_path	#:#	数据路径
+database	#:#	数据库
+database_exists	#:#	数据库存在
+database_is_uptodate	#:#	数据库已更新
+database_needs_update	#:#	数据库需要更新
+database_ready	#:#	数据库准备完毕
+database_update	#:#	更新数据库
+database_version	#:#	当前数据库版本
+date	#:#	日期
+db_host	#:#	数据库主机
+db_name	#:#	数据库名称
+db_pass	#:#	数据库口令
+db_type	#:#	数据库类型
+db_user	#:#	数据库用户
+db_version	#:#	数据库版本
+default	#:#	缺省值
+delete	#:#	删除
+en_by_default	#:#	（英语为缺省安装，不能删除）。
+enter_password	#:#	请输入口令
+env_ok	#:#	好，不错！
+env_using	#:#	ILIAS 3 将运行于
+env_warning	#:#	ILIAS 3 只在Linux和Windows上的Apache网站服务器上测试过！<br />然而，ILIAS 3 或许也能在您的环境中运行。
+environment	#:#	环境
+err_create_database_failed	#:#	数据库创建失败
+err_wrong_login	#:#	登录错误
+file_does_not_exist	#:#	文件不存在。
+file_version	#:#	文件版本
+fill_both_fields	#:#	请填充这两个域！
+ilias_version	#:#	ILIAS 版本
+inifile	#:#	ini-文件
+inifile_can_write	#:#	ILIAS 3 安装程序会写修改ini-文件。
+inifile_cannot_write	#:#	ILIAS 3 安装程序不能写修改ini-文件。请先检查写许可权限。
+inifile_content	#:#	ini-文件具有以下内容：
+inifile_exists	#:#	存在一个ini-文件。注意安装过程将删除以前的设置。 
+inifile_fill_all	#:#	请填充全部的域。
+inifile_firsttime	#:#	ini-文件不存在！可能是第一次启动ILIAS 3。
+inifile_written	#:#	ini-文件已经成功地存于主机。
+inst_name	#:#	安装名称
+install	#:#	安装
+installation	#:#	安装
+installed	#:#	已安装
+intro_install	#:#	这是ILIAS 3安装程序的主页。您可以从这里开始安装。
+lang_de	#:#	德语
+lang_dk	#:#	丹麦语
+lang_en	#:#	英语
+lang_error_occurred	#:#	遇到错误，安装中断。
+lang_es	#:#	西班牙语
+lang_fr	#:#	法语
+lang_id	#:#	印度尼西亚语
+lang_it	#:#	意大利语
+lang_no	#:#	挪威语
+lang_pl	#:#	波兰语
+lang_se	#:#	瑞典语
+lang_zh_cn    #:#    简体中文
+lang_xx	#:#	自定义
+language	#:#	语言
+languages	#:#	语言
+languages_installed	#:#	已安装的语言。
+logged_out	#:#	您已登出。
+login	#:#	登录
+login_to_ilias	#:#	登录到ILIAS 3
+logout	#:#	登出
+no_changes	#:#	无更改。
+no_db_update_file	#:#	未找到dbupdate.php！
+not_connected_to_db	#:#	未连接到数据库。
+out_of_webspace	#:#	（网站空间不足）
+password	#:#	口令
+password_changed	#:#	口令已更改。
+password_empty	#:#	未给出口令！
+password_info	#:#	为保护您的配置数据免于于其他用户破坏，您需要一个口令以用于以后再次访问ILIAS 3安装程序。
+password_set	#:#	口令已保存。
+pre_error	#:#	出现一两个错误。请先解决错误问题，否则不能安装ILIAS 3。
+pre_folder_create	#:#	在ILIAS 3文件夹中可以创建新文件夹
+pre_folder_write	#:#	ILIAS 3文件夹可写
+pre_intro	#:#	让我们先检查您的系统环境是否完全满足安装和运行ILIAS 3的要求。
+pre_php_version	#:#	PHP版本
+preliminaries	#:#	预备条件
+reset	#:#	重置
+set_newpasswd	#:#	请输入新口令
+set_oldpasswd	#:#	请输入旧口令
+setup	#:#	安装
+setup_database	#:#	安装数据库
+setup_database_desc	#:#	安装数据库
+setup_db_first	#:#	请先安装数据库！
+setup_ini_first	#:#	请先创建ini-文件！
+setup_inifile	#:#	创建ini-文件
+setup_inifile_desc	#:#	创建安装用的ini-文件
+setup_languages	#:#	安装语言
+setup_languages_desc	#:#	安装其它语言
+setup_mainmenu	#:#	安装主菜单
+setup_menu	#:#	安装菜单
+setup_password	#:#	创建口令
+setup_password_desc	#:#	创建口令以用于以后访问安装例行程序（即更新数据库）
+setup_ready	#:#	安装已完成。现在您可以登录进一步检查系统设置。
+setup_welcome	#:#	欢迎使用 ILIAS 3安装程序。本安装程序将帮助您
+submit	#:#	提交
+update_applied	#:#	更新已有效
+update_error	#:#	更新出错
+update_not_found	#:#	未发现更新！
+version	#:#	版本
+webspace_dir	#:#	网站空间数据路径
+with	#:#	同
+wrong_password	#:#	错误口令
