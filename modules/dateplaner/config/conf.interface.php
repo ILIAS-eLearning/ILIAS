@@ -3,18 +3,21 @@
 *	Bitte kommentieren Sie folgende 2 Zeilen aus nachdem sie die Einstellungen vorgenommen haben !
 *	please coment out these 2 lines after editing the file 
 */
+/*
 echo ("Die ist das Terminplaner Modul. <br> Bitte nehmen sie die Einstellunegn in der Konfigurationsdatei vor.<br><b> 'modules/dateplaner/config/conf.interface.php'</b><BR><BR>This is the dateplaner modul <BR> please set the properties in file <br> <B>'modules/dateplaner/config/conf.interface.php'</B>");
 exit;
+*/
 
 	/**
-	* ilias-root-directory (including the whole path beginning from system-root!)
+	* ilias module directory (up to the ilias root dir)
 	* @ var string
 	* @ access private
 	*/
-	$iliasRootDir = "/srv/ilias/public_html/ilias";
+
+	$modulDir = "/modules/dateplaner";
 
 	/** 
-	* relative path of the ilias dir
+	* relative path of the ilias root dir
 	* @ var string
 	* @ access private
 	*/
@@ -29,38 +32,43 @@ exit;
 
 	/**
 	* name of ilias database
-	* @var string
+	* set "-1" if ilias variables should be used
+ 	* @var string
 	* @access private
 	*/
-	$dbaseIlias  = "ilias";
+	$dbaseIlias  = "-1";
 	
 	/**
 	* name of cscw database
+	* set "-1" if ilias variables should be used
 	* @var string
 	* @access private
 	*/
-	$dbaseCscw  = "ilias";
+	$dbaseCscw  = "-1";
 	
 	/**
 	* hostname
+	* set "-1" if ilias variables should be used
 	* @var string
 	* @access private
 	*/
-	$host   = "localhost";
+	$host   = "-1";
 	
 	/**
 	* username
+	* set "-1" if ilias variables should be used
 	* @var string
 	* @access private
 	*/
-	$mysqlUser   = "root";
+	$mysqlUser   = "-1";
 	
 	/**
 	* password
+	* set "-1" if ilias variables should be used
 	* @var string
 	* @access private
 	*/
-	$mysqlPass   = "";
+	$mysqlPass   = "-1";
 	
 	/**
 	* group_ID for all users
