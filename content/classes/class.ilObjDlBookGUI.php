@@ -63,9 +63,16 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 	function showCitation($page_xml)
 	{
+		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-								ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		// syntax style
+		$this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
@@ -141,14 +148,21 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 
 		$this->object->initBibItemObject();
 
+		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-								ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		// syntax style
+		$this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ilPage");
-	
+
 		$tmp_tpl = new ilTemplate("tpl.bibliography.xsl",true,true,"content");
 		$tmp_tpl->setVariable("TITLE",$this->lng->txt("title"));
 		$tmp_tpl->setVariable("EDITION",$this->lng->txt("cont_edition"));
