@@ -159,7 +159,7 @@ common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
 common#:#cat_create#:#Create Category
 common#:#cat_create_cat#:#Create Category
-common#:#cat_create_chat#:#Create chat
+common#:#cat_create_chat#:#Create Chat
 common#:#cat_create_crs#:#Create Course
 common#:#cat_create_dbk#:#Create Digibook
 common#:#cat_create_exc#:#Create Exercise
@@ -473,6 +473,7 @@ common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
 common#:#grp_added#:#Group added
 common#:#grp_create#:#Create Group
+common#:#grp_create_chat#:#Create Chat
 common#:#grp_create_file#:#User may upload Files
 common#:#grp_create_fold#:#User may create Folders
 common#:#grp_create_frm#:#Create Forum

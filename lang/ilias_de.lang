@@ -473,6 +473,7 @@ common#:#grp_a#:#eine Gruppe
 common#:#grp_add#:#Gruppe anlegen
 common#:#grp_added#:#Gruppe angelegt
 common#:#grp_create#:#Neue Gruppe anlegen
+common#:#grp_create_chat#:#Neuen Chat anlegen
 common#:#grp_create_file#:#Benutzer kann Dateien hochladen
 common#:#grp_create_fold#:#Benutzer kann Ordner anlegen
 common#:#grp_create_frm#:#Neues Forum anlegen
