@@ -591,7 +591,7 @@ common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
-common#:#activate_https#:#Activate HTTPS (Payment, Login)
+common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
 common#:#activate_tracking#:#Activate Tracking
 common#:#activation#:#Activation
 common#:#active#:#Active
@@ -739,6 +739,7 @@ common#:#cat_delete#:#Delete Category
 common#:#cat_edit#:#Edit Category
 common#:#cat_edit_permission#:#Change permission settings
 common#:#cat_new#:#New Category
+common#:#user_cant_receive_mail#:#user is not allowed to use the mail system
 common#:#cat_read#:#Read access to Category
 common#:#cat_read_users#:#Read access to local user accounts
 common#:#cat_visible#:#Category is visible

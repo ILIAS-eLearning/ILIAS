@@ -64,7 +64,7 @@ if (!$rbacsystem->checkAccess("read,visible", $_GET["ref_id"]))
 if(isset($_POST["cmd"]["delete_file"]))
 {
 	$file_obj->unlinkFiles($_POST["del_file"]);
-	sendInfo("Datei gelöscht");
+	sendInfo("File deleted");
 }
 // DOWNLOAD FILE
 if($_GET["file"])
@@ -276,13 +276,16 @@ if (is_array($topicData = $frm->getOneTopic()))
 		sendInfo($lng->txt("forums_post_deleted"));
 	}
 */
+
 	// get first post of thread
 	$first_node = $frm->getFirstPostNode($_GET["thr_pk"]);
 
 	// get complete tree of thread
 	$frm->setOrderField($orderField);
 //echo "orderField:$orderField:<br>";
+
 	$subtree_nodes = $frm->getPostTree($first_node);
+
 	$posNum = count($subtree_nodes);
 
 	$pageHits = $frm->getPageHits();
@@ -578,17 +581,26 @@ if (is_array($topicData = $frm->getOneTopic()))
 			// get author data
 
 			unset($author);
-			$author = $frm->getUser($node["author"]);
+			if (ilObject::_exists($node["author"]))
+			{
+				$author = $frm->getUser($node["author"]);
+			}
+			else
+			{
+				unset($node["author"]);
+			}
+
 			/*
 			$tpl->setVariable("AUTHOR","<a href=\"forums_user_view.php?ref_id=".$_GET["ref_id"]."&user=".
 							  $node["author"]."&backurl=forums_threads_view&offset=".$Start."&orderby=".
 							  $_GET["orderby"]."&thr_pk=".$_GET["thr_pk"]."\">".$author->getLogin()."</a>");
 			*/
+
 			// GET USER DATA, USED FOR IMPORTED USERS
 			$usr_data = $frm->getUserData($node["author"],$node["import_name"]);
-
 			if($node["author"])
 			{
+				
 				$user_obj = new ilObjUser($usr_data["usr_id"]);
 
 				// user image

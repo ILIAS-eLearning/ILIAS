@@ -1630,6 +1630,7 @@ class ilRepositoryGUI
 					$tpl->setVariable("LAST_UPDATE_TXT1", $lng->txt("last_change"));
 					$tpl->setVariable("LAST_UPDATE_TXT2", strtolower($lng->txt("by")));
 					$tpl->setVariable("LAST_UPDATE", $frm->convertDate($topicData["top_update"]));
+					
 					$tpl->setVariable("LAST_UPDATE_USER","<a href=\"forums_user_view.php?ref_id=".
 									  $this->cur_ref_id."&user=".$topicData["update_user"]."&backurl=repository&offset=".
 									  $Start."\">".$moderator->getLogin()."</a>");
@@ -1649,7 +1650,7 @@ class ilRepositoryGUI
 						$data["ref_id"]."#".$lastPost["pos_pk"]."\">".$lastPost["pos_message"]."</a><br/>".
 						strtolower($lng->txt("from"))."&nbsp;";
 
-					if($lastPost["pos_usr_id"])
+					if($lastPost["pos_usr_id"] && ilObject::_exists($lastPost["pos_usr_id"]))
 					{
 						$lpCont .= "<a href=\"forums_user_view.php?ref_id=".$this->cur_ref_id."&user=".
 							$last_user["usr_id"]."&backurl=repository&offset=".$Start."\">".$last_user["login"]."</a><br/>";
