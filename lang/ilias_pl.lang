@@ -226,7 +226,9 @@ assessment#:#material_download#:#Materiał do pobrania
 assessment#:#material_file#:#Plik z materiałem
 assessment#:#maximum_nr_of_tries_reached#:#Przekroczyłeś maksymalną ilość prób w tym teście. Test nie może być wprowadzony!
 assessment#:#meaning#:#Znaczenie
+assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.###22 Oct 2004 new variable
 assessment#:#next_question_rows#:#Pytania %d - %d z %d >>
+assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn't saved.###22 Oct 2004 new variable
 assessment#:#no_questions_available#:#Brak dostępnych pytań!
 assessment#:#or#:#lub
 assessment#:#order_pictures#:#Uporządkuj obrazy

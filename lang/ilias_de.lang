@@ -235,8 +235,10 @@ assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#meaning#:#Bedeutung
+assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.###22 Oct 2004 new variable
 assessment#:#negative_points_not_allowed#:#Sie dürfen keine negativen Punkte vergeben!
 assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
+assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn't saved.###22 Oct 2004 new variable
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 assessment#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!

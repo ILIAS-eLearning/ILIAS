@@ -235,8 +235,10 @@ assessment#:#material_download#:#Material to download###16 Mar 2004 new variable
 assessment#:#material_file#:#Material file###23 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###16 Mar 2004 new variable
 assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
+assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.###22 Oct 2004 new variable
 assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!###13 Sep 2004 new variable
 assessment#:#next_question_rows#:#Questions %d - %d of %d >>###27 Jun 2004 new variable
+assessment#:#no_passed_mark#:#You must set at least one mark to PASSED! The mark schema wasn't saved.###22 Oct 2004 new variable
 assessment#:#no_question_selected_for_move#:#Please check at least one question to move it!###22 Jun 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###16 Mar 2004 new variable
 assessment#:#no_target_selected_for_move#:#You must select a target position!###22 Jun 2004 new variable
