@@ -48,6 +48,12 @@ switch($_GET["cmd"])
 	case "dropItem":
 		$ilias->account->dropDesktopItem($_GET["id"], $_GET["type"]);
 		break;
+
+	case "leaveGroup":
+		$groupObj = $ilias->obj_factory->getInstanceByRefId($_GET["id"]);
+		$groupObj->leave($ilias->account->getId());
+		$ilias->account->dropDesktopItem($groupObj->getRefId(), $groupObj->getType());
+		break;
 }
 
 //add template for content
@@ -337,8 +343,8 @@ foreach ($grp_items as $grp_item)
 	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
 	$tpl->setVariable("GRP_LINK", "group.php?ref_id=".$grp_item["id"]);
 	$tpl->setVariable("GRP_TITLE", $grp_item["title"]);
-	$tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=grp&id=".$grp_item["id"]);
-	$tpl->setVariable("TXT_DROP", "(".$lng->txt("drop").")");
+	$tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=leaveGroup&id=".$grp_item["id"]);
+	$tpl->setVariable("TXT_DROP", "(".$lng->txt("unsubscribe").")");
 	$tpl->parseCurrentBlock();
 }
 

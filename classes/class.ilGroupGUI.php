@@ -974,8 +974,11 @@ class ilGroupGUI extends ilObjectGUI
 	function joinGroupObject()
 	{
 //		$_SESSION["saved_post"]["user_id"][0] = $this->ilias->account->getId();
-		if($this->object->join($this->ilias->account->getId(),0))
+		if ($this->object->join($this->ilias->account->getId(),0))
+		{
+			$this->ilias->account->addDesktopItem($this->id,"grp");
 			sendInfo($this->lng->txt("assignment_completed"),true);
+		}
 		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 	}
 	/**
