@@ -36,10 +36,10 @@
 require_once "classes/class.ilObjectGUI.php";
 require_once "classes/class.ilMetaDataGUI.php";
 require_once "class.assQuestionGUI.php";
-require_once './classes/Spreadsheet/Excel/Writer.php';
+require_once 'classes/Spreadsheet/Excel/Writer.php';
 
-define ("TYPE_XLS", 0);
-define ("TYPE_SPSS", 1);
+define ("TYPE_XLS", "excel");
+define ("TYPE_SPSS", "csv");
 
 class ilObjTestGUI extends ilObjectGUI
 {
@@ -1300,7 +1300,34 @@ class ilObjTestGUI extends ilObjectGUI
 	function eval_statObject()
 	{
 		global $ilUser;
-
+		switch ($_POST["export_type"])
+		{
+			case TYPE_XLS:
+				// Creating a workbook
+				$workbook = new Spreadsheet_Excel_Writer();
+				
+				// sending HTTP headers
+				$workbook->send('eval.xls');
+				
+				// Creating a worksheet
+				$format_bold =& $workbook->addFormat();
+				$format_bold->setBold();
+				$format_percent =& $workbook->addFormat();
+				$format_percent->setNumFormat("0.00%");
+				$format_datetime =& $workbook->addFormat();
+				$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
+				$format_title =& $workbook->addFormat();
+				$format_title->setBold();
+				$format_title->setColor('black');
+				$format_title->setPattern(1);
+				$format_title->setFgColor('silver');
+				$worksheet =& $workbook->addWorksheet($this->object->getTitle());
+				break;
+			case TYPE_SPSS:
+				$csvfile = array();
+				break;
+		}
+		
     $add_parameter = $this->get_add_parameter();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.il_as_tst_content.html", true);
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -1319,70 +1346,57 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
-		if ($_POST["cmd"]["expEvalData"])
+		if ($_POST["cmd"]["stat_all_users"] or $_POST["cmd"]["stat_selected_users"] or $_POST["cmd"]["expEvalData"])
 		{
-			$stat_array = array();
-			$stat_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
-			$title_row = array();
-			// setting title row for export
-			foreach ($stat_settings as $key => $value)
+			if ($_POST["cmd"]["stat_all_users"] or $_POST["cmd"]["stat_selected_users"])
 			{
-				if ($value == 1) {
-					array_push($title_row, $this->lng->txt("tst_stat_result_$key"));
-				}
+				$eval_statistical_settings = array(
+					"qworkedthrough" => $_POST["chb_result_qworkedthrough"],
+					"pworkedthrough" => $_POST["chb_result_pworkedthrough"],
+					"timeofwork" => $_POST["chb_result_timeofwork"],
+					"atimeofwork" => $_POST["chb_result_atimeofwork"],
+					"firstvisit" => $_POST["chb_result_firstvisit"],
+					"lastvisit" => $_POST["chb_result_lastvisit"],
+					"resultspoints" => $_POST["chb_result_resultspoints"],
+					"resultsmarks" => $_POST["chb_result_resultsmarks"],
+					"distancemean" => $_POST["chb_result_distancemean"],
+					"distancequintile" => $_POST["chb_result_distancequintile"]
+				);
+				$this->object->evalSaveStatisticalSettings($eval_statistical_settings, $ilUser->id);
 			}
-			array_push($stat_array, $title_row);
-
-			// setting statistical data for export
-			foreach ($_POST as $key => $value)
+			else
 			{
-				if (preg_match("/user_(\d+)/", $key))
-				{
-					$stat_eval =& $this->object->evalStatistical($value);
-					$stat_row = array();
-					foreach ($stat_settings as $eval_value => $show)
-					{
-						if ($show == 1)
-						{
-							array_push($stat_row, $stat_eval[$eval_value]);
-						}
-					}
-					$test_results = array();
-					foreach ($stat_eval as $index => $statval)
-					{
-						if (preg_match("/\d+/", $index))
-						{
-							array_push($test_results, $statval);
-						}
-					}
-					array_push($stat_array, array("stat" => $stat_row, "points" => $test_results));
-				}
+				$user_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
+				$eval_statistical_settings = array(
+					"qworkedthrough" => $user_settings["qworkedthrough"],
+					"pworkedthrough" => $user_settings["pworkedthrough"],
+					"timeofwork" => $user_settings["timeofwork"],
+					"atimeofwork" => $user_settings["atimeofwork"],
+					"firstvisit" => $user_settings["firstvisit"],
+					"lastvisit" => $user_settings["lastvisit"],
+					"resultspoints" => $user_settings["resultspoints"],
+					"resultsmarks" => $user_settings["resultsmarks"],
+					"distancemean" => $user_settings["distancemean"],
+					"distancequintile" => $user_settings["distancequintile"]
+				);
 			}
-			$this->expEvalData($stat_array);
-			//exit();
-		}
-		else
-		if ($_POST["cmd"]["stat_all_users"] or $_POST["cmd"]["stat_selected_users"])
-		{
-			$eval_statistical_settings = array(
-				"qworkedthrough" => $_POST["chb_result_qworkedthrough"],
-				"pworkedthrough" => $_POST["chb_result_pworkedthrough"],
-				"timeofwork" => $_POST["chb_result_timeofwork"],
-				"atimeofwork" => $_POST["chb_result_atimeofwork"],
-				"firstvisit" => $_POST["chb_result_firstvisit"],
-				"lastvisit" => $_POST["chb_result_lastvisit"],
-				"resultspoints" => $_POST["chb_result_resultspoints"],
-				"resultsmarks" => $_POST["chb_result_resultsmarks"],
-				"distancemean" => $_POST["chb_result_distancemean"],
-				"distancequintile" => $_POST["chb_result_distancequintile"]
-			);
-			$this->object->evalSaveStatisticalSettings($eval_statistical_settings, $ilUser->id);
 			// bild title columns
 			$this->tpl->setCurrentBlock("titlecol");
 			$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("name"));
 			$this->tpl->parseCurrentBlock();
+			$column = 0;
+			$csvrow = array();
+			switch ($_POST["export_type"])
+			{
+				case TYPE_XLS:
+					$worksheet->write(0, $column++, $this->lng->txt("name"), $format_title);
+					break;
+				case TYPE_SPSS:
+					array_push($csvrow, $this->lng->txt("name"));
+					break;
+			}
 			$char = "A";
-			if ($_POST["chb_result_qworkedthrough"]) {
+			if ($eval_statistical_settings["qworkedthrough"]) {
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_qworkedthrough") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
@@ -1390,9 +1404,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_qworkedthrough"));
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_qworkedthrough"), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->lng->txt("tst_stat_result_qworkedthrough"));
+						break;
+				}
 				$char++;
 			}
-			if ($_POST["chb_result_pworkedthrough"]) {
+			if ($eval_statistical_settings["pworkedthrough"]) {
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_pworkedthrough") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
@@ -1400,9 +1423,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_pworkedthrough"));
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_pworkedthrough"), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->lng->txt("tst_stat_result_pworkedthrough"));
+						break;
+				}
 				$char++;
 			}
-			if ($_POST["chb_result_timeofwork"]) {
+			if ($eval_statistical_settings["timeofwork"]) {
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_timeofwork") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
@@ -1410,9 +1442,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_timeofwork"));
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_timeofwork"), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->lng->txt("tst_stat_result_timeofwork"));
+						break;
+				}
 				$char++;
 			}
-			if ($_POST["chb_result_atimeofwork"]) {
+			if ($eval_statistical_settings["atimeofwork"]) {
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_atimeofwork") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
@@ -1420,9 +1461,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_atimeofwork"));
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_atimeofwork"), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->lng->txt("tst_stat_result_atimeofwork"));
+						break;
+				}
 				$char++;
 			}
-			if ($_POST["chb_result_firstvisit"]) {
+			if ($eval_statistical_settings["firstvisit"]) {
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_firstvisit") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
@@ -1430,9 +1480,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_firstvisit"));
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_firstvisit"), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->lng->txt("tst_stat_result_firstvisit"));
+						break;
+				}
 				$char++;
 			}
-			if ($_POST["chb_result_lastvisit"]) {
+			if ($eval_statistical_settings["lastvisit"]) {
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_lastvisit") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
@@ -1440,9 +1499,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_lastvisit"));
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_lastvisit"), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->lng->txt("tst_stat_result_lastvisit"));
+						break;
+				}
 				$char++;
 			}
-			if ($_POST["chb_result_resultspoints"]) {
+			if ($eval_statistical_settings["resultspoints"]) {
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_resultspoints") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
@@ -1450,9 +1518,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_resultspoints"));
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_resultspoints"), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->lng->txt("tst_stat_result_resultspoints"));
+						break;
+				}
 				$char++;
 			}
-			if ($_POST["chb_result_resultsmarks"]) {
+			if ($eval_statistical_settings["resultsmarks"]) {
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_resultsmarks") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
@@ -1460,9 +1537,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_resultsmarks"));
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_resultsmarks"), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->lng->txt("tst_stat_result_resultsmarks"));
+						break;
+				}
 				$char++;
 			}
-			if ($_POST["chb_result_distancemean"]) {
+			if ($eval_statistical_settings["distancemean"]) {
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_distancemean") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
@@ -1470,9 +1556,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_distancemean"));
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_distancemean"), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->lng->txt("tst_stat_result_distancemean"));
+						break;
+				}
 				$char++;
 			}
-			if ($_POST["chb_result_distancequintile"]) {
+			if ($eval_statistical_settings["distancequintile"]) {
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", "<div title=\"" . $this->lng->txt("tst_stat_result_distancequintile") . "\">$char</div>");
 				$this->tpl->parseCurrentBlock();
@@ -1480,6 +1575,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("TXT_SYMBOL", $char);
 				$this->tpl->setVariable("TXT_MEANING", $this->lng->txt("tst_stat_result_distancequintile"));
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->lng->txt("tst_stat_result_distancequintile"), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->lng->txt("tst_stat_result_distancequintile"));
+						break;
+				}
 				$char++;
 			}
 			for ($i = 1; $i <= count($this->object->questions); $i++)
@@ -1487,9 +1591,28 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("titlecol");
 				$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("question_short") . " " . $i);
 				$this->tpl->parseCurrentBlock();
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write(0, $column++, $this->object->get_question_title($i), $format_title);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $this->object->get_question_title($i));
+						break;
+				}
 			}
-			if ($_POST["cmd"]["stat_all_users"]) {
+			switch ($_POST["export_type"])
+			{
+				case TYPE_SPSS:
+					array_push($csvfile, $csvrow);
+					break;
+			}
+			if ($_POST["cmd"]["stat_all_users"] or $_POST["stat_all_users"]) {
 				$selected_users =& $this->object->evalTotalPersonsArray();
+				$this->tpl->setCurrentBlock("hidden");
+				$this->tpl->setVariable("NAME_HIDDEN", "stat_all_users");
+				$this->tpl->setVariable("VALUE_HIDDEN", "1");
+				$this->tpl->parseCurrentBlock();
 			} else {
 				$sel_users =& $this->object->evalTotalPersonsArray();
 				$selected_users = array();
@@ -1497,13 +1620,19 @@ class ilObjTestGUI extends ilObjectGUI
 				{
 					if (preg_match("/chb_user_(\d+)/", $key, $matches)) {
 						$selected_users[$matches[1]] = $sel_users[$matches[1]];
+						$this->tpl->setCurrentBlock("hidden");
+						$this->tpl->setVariable("NAME_HIDDEN", "chb_user_$matches[1]");
+						$this->tpl->setVariable("VALUE_HIDDEN", "$matches[1]");
+						$this->tpl->parseCurrentBlock();
 					}
 				}
 			}
+			$row = 0;
 			$question_legend = false;
 			foreach ($selected_users as $key => $value) {
 				// receive array with statistical information on the test for a specific user
 				$stat_eval =& $this->object->evalStatistical($key);
+				$csvrow = array();
 				//$t = print_r($stat_eval, true);
 				//$t = preg_replace("/\n/", "<br>", $t);
 				//$t = preg_replace("/ /", "&nbsp;", $t);
@@ -1526,21 +1655,50 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 				$this->tpl->setCurrentBlock("datacol");
 				$this->tpl->setVariable("TXT_DATA", $value);
+				$column = 0;
+				$row++;
+				switch ($_POST["export_type"])
+				{
+					case TYPE_XLS:
+						$worksheet->write($row, $column++, $value);
+						break;
+					case TYPE_SPSS:
+						array_push($csvrow, $value);
+						break;
+				}
 				$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 				$this->tpl->parseCurrentBlock();
-				if ($_POST["chb_result_qworkedthrough"]) {
+				if ($eval_statistical_settings["qworkedthrough"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$this->tpl->setVariable("TXT_DATA", $stat_eval["qworkedthrough"]);
 					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, $stat_eval["qworkedthrough"]);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, $stat_eval["qworkedthrough"]);
+							break;
+					}
 				}
-				if ($_POST["chb_result_pworkedthrough"]) {
+				if ($eval_statistical_settings["pworkedthrough"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$this->tpl->setVariable("TXT_DATA", sprintf("%2.2f", $stat_eval["pworkedthrough"] * 100.0) . " %");
 					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, $stat_eval["pworkedthrough"], $format_percent);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, $stat_eval["pworkedthrough"]);
+							break;
+					}
 				}
-				if ($_POST["chb_result_timeofwork"]) {
+				if ($eval_statistical_settings["timeofwork"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$time = $stat_eval["timeofwork"];
@@ -1551,8 +1709,17 @@ class ilObjTestGUI extends ilObjectGUI
 					$time_seconds -= $time_minutes * 60;
 					$this->tpl->setVariable("TXT_DATA", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
 					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, $time);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, $time);
+							break;
+					}
 				}
-				if ($_POST["chb_result_atimeofwork"]) {
+				if ($eval_statistical_settings["atimeofwork"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$time = $stat_eval["atimeofwork"];
@@ -1563,43 +1730,106 @@ class ilObjTestGUI extends ilObjectGUI
 					$time_seconds -= $time_minutes * 60;
 					$this->tpl->setVariable("TXT_DATA", sprintf("%02d:%02d:%02d", $time_hours, $time_minutes, $time_seconds));
 					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, $time);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, $time);
+							break;
+					}
 				}
-				if ($_POST["chb_result_firstvisit"]) {
+				if ($eval_statistical_settings["firstvisit"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$this->tpl->setVariable("TXT_DATA", date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])));
 					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, ilUtil::excelTime($stat_eval["firstvisit"]["year"],$stat_eval["firstvisit"]["mon"],$stat_eval["firstvisit"]["mday"],$stat_eval["firstvisit"]["hours"],$stat_eval["firstvisit"]["minutes"],$stat_eval["firstvisit"]["seconds"]), $format_datetime);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["firstvisit"]["hours"], $stat_eval["firstvisit"]["minutes"], $stat_eval["firstvisit"]["seconds"], $stat_eval["firstvisit"]["mon"], $stat_eval["firstvisit"]["mday"], $stat_eval["firstvisit"]["year"])));
+							break;
+					}
 				}
-				if ($_POST["chb_result_lastvisit"]) {
+				if ($eval_statistical_settings["lastvisit"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$this->tpl->setVariable("TXT_DATA", date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"])));
 					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, ilUtil::excelTime($stat_eval["lastvisit"]["year"],$stat_eval["lastvisit"]["mon"],$stat_eval["lastvisit"]["mday"],$stat_eval["lastvisit"]["hours"],$stat_eval["lastvisit"]["minutes"],$stat_eval["lastvisit"]["seconds"]), $format_datetime);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, date($this->lng->text["lang_dateformat"] . " " . $this->lng->text["lang_timeformat"], mktime($stat_eval["lastvisit"]["hours"], $stat_eval["lastvisit"]["minutes"], $stat_eval["lastvisit"]["seconds"], $stat_eval["lastvisit"]["mon"], $stat_eval["lastvisit"]["mday"], $stat_eval["lastvisit"]["year"])));
+							break;
+					}
 				}
-				if ($_POST["chb_result_resultspoints"]) {
+				if ($eval_statistical_settings["resultspoints"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$this->tpl->setVariable("TXT_DATA", $stat_eval["resultspoints"] . " " .
 						strtolower($this->lng->txt("of")) . " " . $stat_eval["maxpoints"]);
 					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, $stat_eval["resultspoints"]);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, $stat_eval["resultspoints"]);
+							break;
+					}
 				}
-				if ($_POST["chb_result_resultsmarks"]) {
+				if ($eval_statistical_settings["resultsmarks"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$this->tpl->setVariable("TXT_DATA", $stat_eval["resultsmarks"]);
 					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, $stat_eval["resultsmarks"]);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, $stat_eval["resultsmarks"]);
+							break;
+					}
 				}
-				if ($_POST["chb_result_distancemean"]) {
+				if ($eval_statistical_settings["distancemean"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$this->tpl->setVariable("TXT_DATA", $stat_eval["distancemean"]);
 					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, $stat_eval["distancemean"]);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, $stat_eval["distancemean"]);
+							break;
+					}
 				}
-				if ($_POST["chb_result_distancequintile"]) {
+				if ($eval_statistical_settings["distancequintile"]) {
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$this->tpl->setVariable("TXT_DATA", $stat_eval["distancequintile"]);
 					$this->tpl->parseCurrentBlock();
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, $stat_eval["distancequintile"]);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, $stat_eval["distancequintile"]);
+							break;
+					}
 				}
 
 				for ($i = 1; $i <= count($this->object->questions); $i++)
@@ -1607,6 +1837,15 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->tpl->setCurrentBlock("datacol");
 					$this->tpl->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
 					$this->tpl->setVariable("TXT_DATA", $stat_eval[$i-1]["reached"] . " " . strtolower($this->lng->txt("of")) . " " .  $stat_eval[$i-1]["max"]);
+					switch ($_POST["export_type"])
+					{
+						case TYPE_XLS:
+							$worksheet->write($row, $column++, $stat_eval[$i-1]["reached"]);
+							break;
+						case TYPE_SPSS:
+							array_push($csvrow, $stat_eval[$i-1]["reached"]);
+							break;
+					}
 					$this->tpl->parseCurrentBlock();
 				}
 				$this->tpl->setCurrentBlock("row");
@@ -1614,6 +1853,12 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("USER_ID", $key);
 				$this->tpl->parseCurrentBlock();
 				$counter++;
+				switch ($_POST["export_type"])
+				{
+					case TYPE_SPSS:
+						array_push($csvfile, $csvrow);
+						break;
+				}
 			}
 			$this->tpl->setCurrentBlock("export_btn");
 			$this->tpl->setVariable("EXP_EVAL_DATA", $this->lng->txt("exp_eval_data"));
@@ -1682,77 +1927,25 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TXT_STATISTICAL_EVALUATION", $this->lng->txt("tst_statistical_evaluation"));
 		$this->tpl->parseCurrentBlock();
-	}
-
-	function expEvalData($xls_Data="")
-	{
-
-		if ($_POST["export_type"]==TYPE_XLS) {
-
-			// Creating a workbook
-			$workbook = new Spreadsheet_Excel_Writer();
-			
-			// sending HTTP headers
-			$workbook->send('test.xls');
-			
-			// Creating a worksheet
-			$format_bold =& $workbook->addFormat();
-			$format_bold->setBold();
-			$worksheet =& $workbook->addWorksheet($this->object->getTitle());
-
-			foreach ($xls_Data as $key => $value) {
-				if ($key == 0)
-				{
-					// title row
-					$counter = 0;
-					foreach ($value as $title)
-					{
-						$worksheet->write($key, $counter, $title, $format_bold);
-						$counter++;
-					}
+		switch ($_POST["export_type"])
+		{
+			case TYPE_XLS:
+				$workbook->close();
+				exit;
+			case TYPE_SPSS:
+				$user_agent = strtolower ($_SERVER["HTTP_USER_AGENT"]);
+				header( "Content-type: application/force-download" );
+				if ((is_integer (strpos($user_agent, "msie"))) && (is_integer (strpos($user_agent, "win")))) {
+					header( "Content-Disposition: filename=eval.txt");
+				} else {
+					header( "Content-Disposition: attachment; filename=eval.txt");
 				}
-				else
+				header( "Content-Description: File Transfer");
+				foreach ($csvfile as $csvrow)
 				{
-					$counter = 0;
-					foreach ($value["stat"] as $index => $statval)
-					{
-						if (!is_array($statval))
-						{
-							$worksheet->write($key, $counter, $statval);
-						}
-						$counter++;
-					}
-					foreach ($value["points"] as $index => $statval)
-					{
-						$worksheet->write($key, $counter, $statval["reached"]);
-						$worksheet->write(0, $counter, $this->object->get_question_title($statval["nr"]), $format_bold);
-						$counter++;
-
-					}
+					print join($csvrow, ",") . "\n";
 				}
-
-			}
-			// Let's send the file
-			$workbook->close();
-		}
-		else if ($_POST["export_type"]==TYPE_SPSS){
-
-			$filename=CLIENT_WEB_DIR . "/assessment/te.txt";
-
-			$file = fopen($filename,"w++");
-			fwrite($file,"This is where the contents of the text file goes");
-			fclose($file);
-
-			$user_agent = strtolower ($_SERVER["HTTP_USER_AGENT"]);
-			header( "Content-type: application/force-download" );
-			if ((is_integer (strpos($user_agent, "msie"))) && (is_integer (strpos($user_agent, "win")))) {
-			  header( "Content-Disposition: filename=".$filename);
-			} else {
-			  header( "Content-Disposition: attachment; filename=".$filename);
-			}
-			header( "Content-Description: File Transfert");
-			@readfile($filename);
-
+				exit;
 		}
 	}
 
