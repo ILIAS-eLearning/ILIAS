@@ -75,6 +75,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$this->data["cols"] = array("", "", "name", "type", "last_change");
 
 		if ($list = $rbacreview->getRoleListByObject($_GET["ref_id"],true))
+//		if ($list = $rbacreview->getAssignableRoles(true,false))
 		{
 			foreach ($list as $key => $val)
 			{

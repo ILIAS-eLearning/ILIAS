@@ -265,6 +265,7 @@ class ILIAS
 											'port'		=> $settings["ldap_port"],
 											'basedn'	=> $settings["ldap_basedn"],
 											'userdn'	=> $settings["ldap_search_base"],
+											'useroc'	=> $settings["ldap_objectclass"],
 											'userattr'	=> $settings["ldap_login_key"]
 											);
 				$this->auth = new Auth("LDAP", $this->auth_params,"",false);
