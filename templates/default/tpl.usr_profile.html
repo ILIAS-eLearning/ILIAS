@@ -10,13 +10,19 @@
 <tr>
         <td class="option">{TXT_NICKNAME}</td>
         <td class="option_value">{NICKNAME}</td>
+
 </tr>
 <tr>
         <td class="option">{TXT_DEFAULT_ROLE}</td>
         <td class="option_value">{DEFAULT_ROLE}</td>
+
+
 </tr>
 <tr class="tblheader">
   <td class="std" colspan="2">{TXT_PERSONAL_DATA}</td>
+  <td class="std" colspan="2">{TXT_PUBLIC_PROFILE}</td>
+  <td class="std"><input type="checkbox" name="chk_pub" {CHK_PUB}></td>
+
 </tr>
 <tr>
         <td class="option">{TXT_SALUTATION}</td>
@@ -45,30 +51,38 @@
 <tr>
         <td class="option">{TXT_INSTITUTION}</td>
         <td class="option_value"><input type="text" name="usr_institution" maxlength="80" size="40" value="{INSTITUTION}"/></td>
+	<td class="option_value"><center><input type="checkbox" name="chk_institute" {CHK_INSTITUTE}></center></td>
+
 </tr>
 <tr>
         <td class="option">{TXT_STREET}</td>
         <td class="option_value"><input type="text" name="usr_street" maxlength="40" size="40" value="{STREET}"/></td>
+	<td class="option_value"><center><input type="checkbox" name="chk_street" {CHK_STREET}></center></td>
 </tr>
 <tr>
         <td class="option">{TXT_ZIPCODE}</td>
         <td class="option_value"><input type="text" name="usr_zipcode" maxlength="10" size="10" value="{ZIPCODE}"/></td>
+	<td class="option_value"><center><input type="checkbox" name="chk_zip" {CHK_ZIP}></center></td>
 </tr>
 <tr>
         <td class="option">{TXT_CITY}</td>
         <td class="option_value"><input type="text" name="usr_city" maxlength="40" size="40" value="{CITY}"/></td>
+	<td class="option_value"><center><input type="checkbox" name="chk_city" {CHK_CITY}></center></td>
 </tr>
 <tr>
         <td class="option">{TXT_COUNTRY}</td>
         <td class="option_value"><input type="text" name="usr_country" maxlength="40" size="40" value="{COUNTRY}"/></td>
+	<td class="option_value"><center><input type="checkbox" name="chk_country" {CHK_COUNTRY}></center></td>
 </tr>
 <tr>
         <td class="option">{TXT_PHONE}</td>
         <td class="option_value"><input type="text" name="usr_phone" maxlength="40" size="40" value="{PHONE}"/></td>
+	<td class="option_value"><center><input type="checkbox" name="chk_phone" {CHK_PHONE}></center></td>
 </tr>
 <tr>
         <td class="option">{TXT_EMAIL}<span class="asterisk">*</span></td>
         <td class="option_value"><input type="text" name="usr_email" maxlength="40" size="40" value="{EMAIL}"/></td>
+	<td class="option_value"><center><input type="checkbox" name="chk_email" {CHK_EMAIL}></center></td>
 </tr>
 <tr class="tblheader">
   <td class="std" colspan="2">{TXT_SETTINGS}</td>
