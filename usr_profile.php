@@ -31,35 +31,79 @@ $tpl->parseCurrentBlock();
 //if data are posted
 if ($_GET["cmd"] == "save")
 {
+	//init checking var
+	$form_valid = true;
+
+	// check required fields
+	if (empty($_POST["usr_fname"]) or empty($_POST["usr_lname"])
+		 or empty($_POST["usr_email"]))
+	{
+		$ilias->error_obj->sendInfo($lng->txt("fill_out_all_required_fields"));
+		$form_valid = false;
+	}
+
+	// check email adress
+	if (!TUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid)
+	{
+		$ilias->error_obj->sendInfo($lng->txt("email_not_valid"));
+		$form_valid = false;
+	}
+
+	//update user data (not saving!)
 	$ilias->account->setFirstName($_POST["usr_fname"]);
 	$ilias->account->setLastName($_POST["usr_lname"]);
 	$ilias->account->setGender($_POST["usr_gender"]);
 	$ilias->account->setTitle($_POST["usr_title"]);
+	$ilias->account->setInstitution($_POST["usr_institution"]);
+	$ilias->account->setStreet($_POST["usr_street"]);
+	$ilias->account->setZipcode($_POST["usr_zipcode"]);
+	$ilias->account->setCity($_POST["usr_city"]);
+	$ilias->account->setCountry($_POST["usr_country"]);
+	$ilias->account->setPhone($_POST["usr_phone"]);
 	$ilias->account->setEmail($_POST["usr_email"]);
-	$ilias->account->setLanguage($_POST["usr_language"]);
+	$ilias->account->setLanguage($_POST["usr_language"]);	
 
-	//set user skin
-	if ($_POST["usr_skin"] != "")
+	// everthing's ok. save form data
+	if ($form_valid)
 	{
-		$ilias->account->setPref("skin", $_POST["usr_skin"]);
-
-		//set user style
-		if ($_POST["usr_style"] != "")
+		// init reload var. page should only be reloaded if skin or style were changed
+		$reload = false;
+		
+		//set user skin
+		if ($_POST["usr_skin"] != "" and $_POST["usr_skin"] != $ilias->account->getPref("skin"))
 		{
-			$ilias->account->setPref("style", $_POST["usr_style"]);
+			$ilias->account->setPref("skin", $_POST["usr_skin"]);
+			$reload = true;
 		}
-	}
-
-	//update userdata
-	if ($ilias->account->update() == false)
-	{
-		$tpl->setCurrentBlock("message");
-		$tpl->setVariable("MSG", $lng->txt($ilias->account->getErrorMsg()));
-		$tpl->parseCurrentBlock();
-	}
-	else
-	{
-		$tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
+		else	// set user style only if skin wasn't changed
+		{
+			if ($_POST["usr_style"] != "" and $_POST["usr_style"] != $ilias->account->getPref("style"))
+			{
+				$ilias->account->setPref("style", $_POST["usr_style"]);
+				$reload = true;
+			}
+		}
+		
+		// save user data
+		if ($ilias->account->update() == false)
+		{
+			$ilias->error_obj->sendInfo($lng->txt($ilias->account->getErrorMsg()));
+		}
+		else
+		{
+			// feddback
+			$ilias->error_obj->sendInfo($lng->txt("saved_successfully"),true);
+			// reload page only if skin or style were changed
+			if ($reload)
+			{
+				$tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
+			}
+			else
+			{
+				header ("Location: usr_personaldesktop.php");			
+				exit;
+			}
+		}
 	}
 }
 
@@ -119,6 +163,8 @@ $tpl->setCurrentBlock("content");
 $tpl->setVariable("FORMACTION", "usr_profile.php?cmd=save");
 
 $tpl->setVariable("TXT_PAGEHEADLINE",$lng->txt("profile"));
+$tpl->setVariable("TXT_OF",strtolower($lng->txt("of")));
+$tpl->setVariable("USR_FULLNAME",$ilias->account->getFullname());
 
 $tpl->setVariable("TXT_USR_DATA", $lng->txt("userdata"));
 $tpl->setVariable("TXT_NICKNAME", $lng->txt("username"));
@@ -130,7 +176,7 @@ $tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
 $tpl->setVariable("TXT_TITLE",$lng->txt("title"));
 $tpl->setVariable("TXT_INSTITUTION",$lng->txt("institution"));
 $tpl->setVariable("TXT_STREET",$lng->txt("street"));
-$tpl->setVariable("TXT_ZIP",$lng->txt("zipcode"));
+$tpl->setVariable("TXT_ZIPCODE",$lng->txt("zipcode"));
 $tpl->setVariable("TXT_CITY",$lng->txt("city"));
 $tpl->setVariable("TXT_COUNTRY",$lng->txt("country"));
 $tpl->setVariable("TXT_PHONE",$lng->txt("phone"));
@@ -139,7 +185,7 @@ $tpl->setVariable("TXT_STATUS",$lng->txt("status"));
 $tpl->setVariable("TXT_GUEST",$lng->txt("guest"));
 $tpl->setVariable("TXT_STUDENT",$lng->txt("student"));
 $tpl->setVariable("TXT_EMPLOYEE",$lng->txt("employee"));
-$tpl->setVariable("TXT_SYS_GRP",$lng->txt("system_grp"));
+$tpl->setVariable("TXT_DEFAULT_ROLE",$lng->txt("default_role"));
 $tpl->setVariable("TXT_LANGUAGE",$lng->txt("language"));
 $tpl->setVariable("TXT_USR_SKIN",$lng->txt("usr_skin"));
 $tpl->setVariable("TXT_USR_STYLE",$lng->txt("usr_style"));
@@ -152,7 +198,7 @@ $tpl->setVariable("LASTNAME", $ilias->account->getLastname());
 $tpl->setVariable("TITLE", $ilias->account->getTitle());
 $tpl->setVariable("INSTITUTION", $ilias->account->getInstitution());
 $tpl->setVariable("STREET", $ilias->account->getStreet());
-$tpl->setVariable("ZIPCODE", $ilias->account->getZipCode());
+$tpl->setVariable("ZIPCODE", $ilias->account->getZipcode());
 $tpl->setVariable("CITY", $ilias->account->getCity());
 $tpl->setVariable("COUNTRY", $ilias->account->getCountry());
 $tpl->setVariable("PHONE", $ilias->account->getPhone());
@@ -160,8 +206,9 @@ $tpl->setVariable("EMAIL", $ilias->account->getEmail());
 
 
 $obj = getObject($rbacadmin->getDefaultRole($_SESSION["AccountId"]));
-$tpl->setVariable("SYS_GRP",$obj["title"]);
+$tpl->setVariable("DEFAULT_ROLE",$obj["title"]);
 
+$tpl->setVariable("TXT_REQUIRED_FIELDS",$lng->txt("required_field"));
 //button
 $tpl->setVariable("TXT_SAVE",$lng->txt("save"));
 
