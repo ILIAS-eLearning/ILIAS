@@ -58,6 +58,11 @@ if(!$_GET["mobj_id"])
 	$_GET["mobj_id"] = $mbox->getInboxFolder();
 }
 
+if(isset($_GET["sent"]))
+{
+	sendInfo($lng->txt("mail_message_send"));
+}
+
 // IF REQUESTED FROM mail_read.php
 if(isset($_GET["mail_id"]))
 {
