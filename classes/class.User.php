@@ -969,11 +969,11 @@ class User
 	}
 	
 	/*
-	* get user id by login name
-	* @param	integer	account id (should be username)
+	* check user id with login name
+	* @param	integer	account id
 	* @access	public
 	*/
-	function getUserId($AccountId)
+	function checkUserId($AccountId)
 	{
 		$r = $this->ilias->db->query("SELECT usr_id FROM usr_data WHERE login='".$this->ilias->auth->getUsername()."'");
 		//query has got a result
@@ -985,6 +985,44 @@ class User
 		}
 		return false;
 	}
-	
+	/*
+	* get the user_id of a login name
+	* @param	string login name
+	* @access	public
+	*/
+	function getUserId($a_login)
+	{
+		$query = "SELECT usr_id FROM usr_data ".
+			"WHERE login = '".$a_login."'";
+
+		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		
+		return $row->usr_id ? $row->usr_id : 0;
+	}
+
+	/*
+	* get the user_ids which correspond a search string 
+	* @param	string search string
+	* @access	public
+	*/
+	function searchUsers($a_search_str)
+	{
+		$query = "SELECT usr_id,login,firstname,lastname FROM usr_data ".
+			"WHERE login LIKE '%".$a_search_str."%' ".
+			"OR firstname LIKE '%".$a_search_str."%' ".
+			"OR lastname LIKE '%".$a_search_str."%'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ids[] = array(
+				"usr_id"     => $row->usr_id,
+				"login"      => $row->login,
+				"firstname"  => $row->firstname,
+				"lastname"   => $row->lastname);
+		}
+		return $ids ? $ids : array();
+	}
+		
 } // END class.User
 ?>
