@@ -1,16 +1,14 @@
 <?php
 /**
 * Class Mail
-* this class handles base functions for mail handling mails
+* this class handles base functions for mail handling
 * 
 *  
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 * 
-* @package	common
+* @package	ilias-mail
 */
-require_once "classes/class.ilFileDataMail.php";
-
 class Mail
 {
 	/**
@@ -94,6 +92,7 @@ class Mail
 	*/
 	function Mail($a_user_id)
 	{
+		require_once "classes/class.ilFileDataMail.php";
 		global $ilias, $lng;
 		
 		// Initiate variables
@@ -294,19 +293,19 @@ class Mail
 	/**
 	* save mail in folder
 	* @access	public
-	* @param	int id of folder
-	* @param    int sender_id
+	* @param	integer id of folder
+	* @param    integer sender_id
 	* @param    array attachments
 	* @param    string to
 	* @param    string cc
 	* @param    string bcc
 	* @param    string status
 	* @param    string type of mail (system,normal)
-	* @param    int as email (1,0)
+	* @param    integer as email (1,0)
 	* @param    string subject
 	* @param    string message
-	* @param    int user_id
-	* @return	int mail_id
+	* @param    integer user_id
+	* @return	integer mail_id
 	*/
 	function sendInternalMail($a_folder_id,
 							  $a_sender_id,
@@ -348,14 +347,13 @@ class Mail
 	/**
 	* send internal message to recipients
 	* @access	public
-	* @param    array attachments
-	* @param    int sender_id
 	* @param    string to
 	* @param    string cc
 	* @param    string bcc
 	* @param    string subject
 	* @param    string message
-	* @param    int id of mail which is stored in sentbox
+	* @param    array attachments
+	* @param    integer id of mail which is stored in sentbox
 	* @param    string 'normal' or 'system'
 	* @return	bool
 	*/
@@ -487,7 +485,6 @@ class Mail
 	* @param    string rcp_bcc
 	* @param    string m_subject
 	* @param    string m_message
-	* @param    int m_email 
 	* @return	string error message
 	*/
 	function checkMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message)
@@ -535,7 +532,6 @@ class Mail
 	* @param    string rcp_bcc
 	* @param    string m_subject
 	* @param    string m_message
-	* @param    int m_email 
 	* @return	string error message
 	*/
 	function checkOnlyEmail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_m_subject,$a_m_message)
@@ -606,7 +602,6 @@ class Mail
 	* check if recipients are valid
 	* @access	public
 	* @param    string string with login names or group names (start with #)
-	* @param    int as email 
 	* @return	bool
 	*/
 	function checkRecipients($a_recipients)
@@ -705,6 +700,8 @@ class Mail
 	* @param string subject
 	* @param string message
 	* @param array attachments
+	* @param string type (normal,system or email)
+	* @param integer also as email (0,1)
 	* @access	public
 	* @return	array of saved data
 	*/

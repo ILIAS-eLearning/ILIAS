@@ -1,7 +1,7 @@
 <?php
 /**
-* Base class for all file (directory) operation
-* This class abstract and needs to be extended
+* Base class for all file (directory) operations
+* This class is abstract and needs to be extended
 *  
 * @author	Stefan Meyer <smeyer@databay.de>
 * @version $Id$
@@ -28,7 +28,7 @@ class ilFile
 
 	/**
 	* Constructor
-	* @param int user_id
+	* get ilias object
 	* @access	public
 	*/
 	function ilFile()

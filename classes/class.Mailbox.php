@@ -6,10 +6,8 @@
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
-* @package ilias-core
+* @package ilias-mail
 */
-require_once("classes/class.tree.php");
-
 class Mailbox
 {
 	/**
@@ -63,11 +61,12 @@ class Mailbox
 
 	/**
 	* Constructor
-	* @param $a_user_id    user_id of mailbox
+	* @param integer user_id of mailbox
 	* @access	public
 	*/
 	function Mailbox($a_user_id = 0)
 	{
+		require_once("classes/class.tree.php");
 		global $ilias,$lng;
 
 		$this->ilias = &$ilias;
@@ -187,9 +186,9 @@ class Mailbox
 	}
 	/**
 	* add folder
-	* @param int id of parent folder
+	* @param integer id of parent folder
 	* @param string name of folder
-	* @param boolean
+	* @return boolean
 	* @access	public
 	*/
 	function addFolder($a_parent_id,$a_folder_name)
@@ -324,7 +323,8 @@ class Mailbox
 	}
 	/**
 	* get all folders under given node
-	* @param int obj_id
+	* @param integer obj_id
+	* @param integer parent_id
 	* @access	public
 	*/
 	function getSubFolders($a_folder = 0,$a_folder_parent = 0)
