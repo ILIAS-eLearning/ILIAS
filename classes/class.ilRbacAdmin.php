@@ -479,5 +479,61 @@ class ilRbacAdmin
 		return true;
 	}
 
+	/**
+	* Assign an existing operation to an object 
+	* @access	public
+	* @param	integer	object type
+	* @param	integer	operation_id
+	* @return	boolean
+	*/
+	function assignPermissionToObject($a_type_id,$a_ops_id)
+	{
+		global $log;
+
+		if (!isset($a_type_id) or !isset($a_ops_id))
+		{
+			$message = get_class($this)."::assignPermissionToObject(): Missing parameter!".
+					   "type_id: ".$a_type_id.
+					   "ops_id: ".$a_ops_id;
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		$q = "INSERT INTO rbac_ta ".
+			 "VALUES('".$a_type_id."','".$a_ops_id."')";
+		$this->ilias->db->query($q);
+
+		return true;
+	}
+
+	/**
+	* Deassign an existing operation from an object 
+	* @access	public
+	* @param	integer	object type
+	* @param	integer	operation_id
+	* @return	boolean
+	*/
+	function deassignOperationFromObject($a_type_id,$a_ops_id)
+	{
+		global $log;
+
+		if (!isset($a_type_id) or !isset($a_ops_id))
+		{
+			$message = get_class($this)."::deassignPermissionFromObject(): Missing parameter!".
+					   "type_id: ".$a_type_id.
+					   "ops_id: ".$a_ops_id;
+			$log->writeWarning($message);
+			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
+		}
+
+		$q = "DELETE FROM rbac_ta ".
+			 "WHERE typ_id = '".$a_type_id."' ".
+			 "AND ops_id = '".$a_ops_id."'";
+		$this->ilias->db->query($q);
+	
+		return true;
+	}
+
+
 } // END class.ilRbacAdmin
 ?>
