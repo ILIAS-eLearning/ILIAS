@@ -228,9 +228,14 @@ class ILIAS
 									'usernamecol' => $this->ini->readVariable("auth", "usercol"),
 									'passwordcol' => $this->ini->readVariable("auth", "passcol")
 									);
+		// set session.save_handler to "user" & set expiry time
+		ini_set("session.save_handler", "user");
+		ini_set("session.gc_maxlifetime",$this->ini->readVariable("session","expire"));
+		ini_set("session.cookie_lifetime",$this->ini->readVariable("session","expire"));
 
 		// We use MySQL as storage container
 		$this->auth = new Auth("DB", $this->auth_params,"",false);
+		//$this->auth->setExpire($this->ini->readVariable("session","expire"),true);
 
 		// Error Handling
 		$this->error_obj =& $ilErr;
