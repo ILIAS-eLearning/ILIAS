@@ -8,6 +8,8 @@
 * 
 * @package ilias-mail
 */
+require_once("classes/class.Explorer.php");
+
 class MailExplorer extends Explorer
 {
 	/**
@@ -32,7 +34,6 @@ class MailExplorer extends Explorer
 	*/
 	function MailExplorer($a_target,$a_user_id)
 	{
-		require_once("classes/class.Explorer.php");
 		parent::Explorer($a_target);
 		$this->tree = new Tree($a_user_id);
 		$this->tree->setTableNames('mail_tree','mail_obj_data');

@@ -9,6 +9,8 @@
 * 
 * @package	application
 */
+require_once "classes/class.Mail.php";
+
 class FormatMail extends Mail
 {
 	/**
@@ -40,7 +42,6 @@ class FormatMail extends Mail
 	*/
 	function FormatMail($a_user_id)
 	{
-		require_once "classes/class.Mail.php";
 		parent::Mail($a_user_id);
 		
 		define("DEFAULT_LINEBREAK",60);

@@ -7,6 +7,8 @@
 * 
 * @package	mail
 */
+require_once("classes/class.ilFileData.php");
+				
 class ilFileDataMail extends ilFileData
 {
 	/**
@@ -32,8 +34,6 @@ class ilFileDataMail extends ilFileData
 	*/
 	function ilFileDataMail($a_user_id = 0)
 	{
-		require_once("classes/class.ilFileData.php");
-		
 		define('MAILPATH','mail');
 		parent::ilFileData();
 		$this->mail_path = parent::getPath()."/".MAILPATH;
