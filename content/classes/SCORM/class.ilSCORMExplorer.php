@@ -101,7 +101,7 @@ class ilSCORMExplorer extends ilExplorer
 			? $a_child
 			: -(int) $a_child;
 
-		return $_SERVER["SCRIPT_NAME"]."?cmd=explorer&ref_id=".$this->slm_obj->getRefId()."&mexpand=".$a_child;
+		return $_SERVER["PATH_INFO"]."?cmd=explorer&ref_id=".$this->slm_obj->getRefId()."&mexpand=".$a_child;
 	}
 }
 ?>

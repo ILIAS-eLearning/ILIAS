@@ -36,7 +36,7 @@ require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilMail.php";
 
 $tplprint = new ilTemplate("tpl.mail_print.html",true,true);
-$tplprint->setVariable("JSPATH",dirname($_SERVER["SCRIPT_FILENAME"]));
+$tplprint->setVariable("JSPATH",dirname($_SERVER["PATH_TRANSLATED"]));
 
 //get the mail from user
 $umail = new ilMail($_SESSION["AccountId"]);

@@ -33,9 +33,9 @@
 $lng->loadLanguageModule("mail");
 $tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
-$script_name = basename($_SERVER["SCRIPT_FILENAME"]);
+$script_name = basename($_SERVER["PATH_TRANSLATED"]);
 
-$file_name = basename($_SERVER["SCRIPT_NAME"]);
+$file_name = basename($_SERVER["PATH_INFO"]);
 
 // FOLDER
 $inc_type = $script_name == "mail.php" ? "tabactive" : "tabinactive";

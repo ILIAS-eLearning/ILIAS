@@ -298,7 +298,7 @@ class ilForumExplorer extends ilExplorer
 		//     negative if object is compressed
 		$a_node_id = $a_type == '+' ? $a_node_id : -(int) $a_node_id;
 
-		return $_SERVER["SCRIPT_NAME"]."?".$get."&fexpand=".$a_node_id;
+		return $_SERVER["PATH_INFO"]."?".$get."&fexpand=".$a_node_id;
 	}
 
 	

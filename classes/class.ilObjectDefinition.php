@@ -187,7 +187,7 @@ class ilObjectDefinition extends ilSaxParser
 		if($subobjects = $this->obj_data[$a_obj_type]["subobjects"])
 		{
 			// THIS IS TEMPORARY CODE! Purpose: hide fileobject and folderobject in admin console
-			if((basename($_SERVER["SCRIPT_NAME"]) == "adm_object.php" and $a_obj_type == "grp"))
+			if((basename($_SERVER["PATH_INFO"]) == "adm_object.php" and $a_obj_type == "grp"))
 			{
 				foreach ($subobjects as $data => $sub)
 				{
