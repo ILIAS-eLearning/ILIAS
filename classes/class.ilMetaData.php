@@ -67,7 +67,7 @@ class ilMetaData
 
 		$this->ilias =& $ilias;
 
-		$this->import_id = array();
+		$this->import_id = "";
 		$this->title = "";
 		$this->language = array();
 		$this->description = "";

@@ -5270,4 +5270,6 @@ INDEX ( `question_fi` )
 ALTER TABLE `survey_material` ADD `material_title` VARCHAR( 255 ) AFTER `import_id` ;
 <#373>
 ALTER TABLE content_object ADD COLUMN downloads_active ENUM('y','n') DEFAULT 'n';
-
+<#374>
+UPDATE object_data SET import_id='' WHERE import_id='Array';
+UPDATE lm_data SET import_id='' WHERE import_id='Array';
