@@ -331,6 +331,11 @@ function getOperationId($a_operation)
 * @access	public
 * @return	integer	last insert id
 */
+/*
+
+This function is deprecated !!!
+Use $ilDB->getLastInsertId()
+
 function getLastInsertId()
 {
 	global $ilias;
@@ -339,7 +344,7 @@ function getLastInsertId()
 	$row = $r->fetchRow();
 
 	return $row[0];
-}
+}*/
 
 /**
 * POSSIBLE DEPRECATED. IF NOT, FUNCTION BELONGS TO class.user
