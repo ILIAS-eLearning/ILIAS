@@ -21,18 +21,18 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
 /**
 * lessons
 *
 * @author Peter Gabriel <pgabriel@databay.de>
+* @author Sascha Hofmann <shofmann@databay.de>
 * @version $Id$
 *
 * @package ilias
 */
 require_once "./include/inc.header.php";
 require_once "./classes/class.ilExplorer.php";
-require_once "./include/inc.sort.php";
+require_once "./classes/class.ilTableGUI.php";
 
 // TODO: this function is common and belongs to class util!
 /**
@@ -74,10 +74,28 @@ infoPanel();
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("lo_available"));
 //$tpl->parseCurrentBlock();			// this line produces an empty <h1></h1>, alex 16.2.03
+
+// set offset & limit
+$offset = intval($_GET["offset"]);
+$limit = intval($_GET["limit"]);
+
+if ($limit == 0)
+{
+	$limit = 2;	// TODO: move to user settings 
+}
+
+// set default sort column
+if (empty($_GET["sort_by"]))
+{
+	$_GET["sort_by"] = "title";
+}
+
 if (!isset($_SESSION["viewmode"]))
 {
 	$_SESSION["viewmode"] = "flat";
 }
+
+// display different buttons depending on viewmod
 if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
 {
 	$tpl->setCurrentBlock("btn_cell");
@@ -100,75 +118,11 @@ switch ($_SESSION["viewmode"])
 	case "flat":
 		$lr_arr = ilUtil::getObjectsByOperations('le','visible');
 		$lr_arr = ilUtil::getObjectsByOperations('crs','visible');
-
-		usort($lr_arr,"sortObjectsByTitle");
-
-		$lr_num = count($lr_arr);
-
-		if ($lr_num > 0)
-		{
-			// counter for rowcolor change
-			$num = 0;
-
-			foreach ($lr_arr as $lr_data)
-			{
-				$tpl->setCurrentBlock("learningstuff_row");
-
-				// change row color
-				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-
-				$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
-				$obj_icon = "icon_".$lr_data["type"]."_b.gif";
-
-				$tpl->setVariable("TITLE", $lr_data["title"]);
-				$tpl->setVariable("LO_LINK", $obj_link);
-				if($lr_data["type"] == "le")		// Test
-				{
-					$tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
-					$tpl->setVariable("TXT_EDIT", "(".$lng->txt("edit").")");
-					$tpl->setVariable("VIEW_LINK","content/lm_presentation.php?lm_id=".$lr_data["obj_id"]);
-					$tpl->setVariable("TXT_VIEW", "(".$lng->txt("view").")");
-				}
-				$tpl->setVariable("IMG", $obj_icon);
-				$tpl->setVariable("ALT_IMG", $lng->txt("obj_".$lr_data["type"]));
-				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
-				$tpl->setVariable("STATUS", "N/A");
-				$tpl->setVariable("LAST_VISIT", "N/A");
-				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
-				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["ref_id"]));
-
-				$tpl->parseCurrentBlock("learningstuff_row");
-			}
-		}
-		else
-		{
-			$tpl->setCurrentBlock("no_content");
-			$tpl->setVariable("TXT_MSG_NO_CONTENT",$lng->txt("lo_no_content"));
-			$tpl->parseCurrentBlock("no_content");
-		}
-
-		$tpl->setCurrentBlock("learningstuff");
-		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
-		$tpl->setVariable("TXT_STATUS", $lng->txt("status"));
-		$tpl->setVariable("TXT_LAST_VISIT", $lng->txt("last_visit"));
-		$tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
-		$tpl->setVariable("TXT_CONTEXTPATH", $lng->txt("context"));
-		$tpl->parseCurrentBlock("learningstuff");
-
-		if ($_GET["message"])
-		{
-		    $tpl->addBlockFile("MESSAGE", "message2", "tpl.message.html");
-			$tpl->setCurrentBlock("message2");
-			$tpl->setVariable("MSG", urldecode( $_GET["message"]));
-			$tpl->parseCurrentBlock();
-		}
 		break;
-
+		
 	case "tree":
 		//go through valid objects and filter out the lessons only
-		$lessons = array();
+		$lr_arr = array();
 		$objects = $tree->getChilds($_GET["ref_id"],"title");
 
 		if (count($objects) > 0)
@@ -177,69 +131,94 @@ switch ($_SESSION["viewmode"])
 			{
 				if ($object["type"] == "le" && $rbacsystem->checkAccess('visible',$object["child"]))
 				{
-					$lessons[$key] = $object;
+					$lr_arr[$key] = $object;
 				}
 			}
 		}
-
-//TODO: maybe move the code above to this method
-//$lessons = $ilias->account->getLessons();
-
-		$lr_num = count($lessons);
-
-		if ($lr_num > 0)
-		{
-			// counter for rowcolor change
-			$num = 0;
-
-			foreach ($lessons as $lr_data)
-			{
-				$tpl->setCurrentBlock("learningstuff_row");
-
-				// change row color
-				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-
-				$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
-				$obj_icon = "icon_".$lr_data["type"]."_b.gif";
-
-				$tpl->setVariable("TITLE", $lr_data["title"]);
-				$tpl->setVariable("LO_LINK", $obj_link);
-
-				if($lr_data["type"] == "le")		// Test
-				{
-					$tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
-					$tpl->setVariable("TXT_EDIT", "(".$lng->txt("edit").")");
-					$tpl->setVariable("VIEW_LINK","content/lm_presentation.php?lm_id=".$lr_data["obj_id"]);
-					$tpl->setVariable("TXT_VIEW", "(".$lng->txt("view").")");
-				}
-				$tpl->setVariable("IMG", $obj_icon);
-				$tpl->setVariable("ALT_IMG", $lng->txt("obj_".$lr_data["type"]));
-				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
-				$tpl->setVariable("STATUS", "N/A");
-				$tpl->setVariable("LAST_VISIT", "N/A");
-				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
-				$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["ref_id"]));
-
-				$tpl->parseCurrentBlock("learningstuff_row");
-			}
-		}
-		else
-		{
-			$tpl->setCurrentBlock("no_content");
-			$tpl->setVAriable("TXT_MSG_NO_CONTENT",$lng->txt("lo_no_content"));
-			$tpl->parseCurrentBlock("no_content");
-		}
-
-		$tpl->setCurrentBlock("learningstuff");
-		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
-		$tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
-		$tpl->setVariable("TXT_STATUS", $lng->txt("status"));
-		$tpl->setVariable("TXT_LAST_VISIT", $lng->txt("last_visit"));
-		$tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
-		$tpl->setVariable("TXT_CONTEXTPATH", $lng->txt("context"));
-		$tpl->parseCurrentBlock("learningstuff");
 		break;
 }
+
+$maxcount = count($lr_arr);		// for numinfo in table footer
+require_once "./include/inc.sort.php";
+$lr_arr = sortArray($lr_arr,$_GET["sort_by"],$_GET["sort_order"]);
+$lr_arr = array_slice($lr_arr,$offset,$limit);
+	
+// load template for table
+$tpl->addBlockfile("LO_TABLE", "lo_table", "tpl.table.html");
+// load template for table content data
+$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.lo_tbl_rows.html");
+
+$lr_num = count($lr_arr);
+
+// render table content data
+if ($lr_num > 0)
+{
+	// counter for rowcolor change
+	$num = 0;
+
+	foreach ($lr_arr as $lr_data)
+	{
+		$tpl->setCurrentBlock("tbl_content");
+
+		// change row color
+		$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+		$num++;
+
+		$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
+		$obj_icon = "icon_".$lr_data["type"]."_b.gif";
+
+		$tpl->setVariable("TITLE", $lr_data["title"]);
+		$tpl->setVariable("LO_LINK", $obj_link);
+
+		if ($lr_data["type"] == "le")		// Test
+		{
+			$tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
+			$tpl->setVariable("TXT_EDIT", "(".$lng->txt("edit").")");
+			$tpl->setVariable("VIEW_LINK","content/lm_presentation.php?lm_id=".$lr_data["obj_id"]);
+			$tpl->setVariable("TXT_VIEW", "(".$lng->txt("view").")");
+		}
+
+		$tpl->setVariable("IMG", $obj_icon);
+		$tpl->setVariable("ALT_IMG", $lng->txt("obj_".$lr_data["type"]));
+		$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
+		$tpl->setVariable("STATUS", "N/A");
+		$tpl->setVariable("LAST_VISIT", "N/A");
+		$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
+		$tpl->setVariable("CONTEXTPATH", getContextPath($lr_data["ref_id"]));
+		$tpl->parseCurrentBlock();
+	}
+}
+else
+{
+	$tpl->setCurrentBlock("no_content");
+	$tpl->setVariable("TXT_MSG_NO_CONTENT",$lng->txt("lo_no_content"));
+	$tpl->parseCurrentBlock("no_content");
+}
+
+// create table
+$tbl = new ilTableGUI();
+
+// title & header columns
+$tbl->setTitle($lng->txt("lo_available"),"icon_crs_b.gif",$lng->txt("lo_available"));
+$tbl->setHelp("tbl_help.php","icon_le.gif",$lng->txt("help"));
+$tbl->setHeaderNames(array($lng->txt("title"),$lng->txt("description"),$lng->txt("status"),$lng->txt("last_visit"),$lng->txt("last_change"),$lng->txt("context")));
+$tbl->setHeaderVars(array("title","description","status","last_visit","last_update","context"));
+//$tbl->setColumnWidth(array("7%","7%","15%","31%","6%","17%"));
+
+// control
+$tbl->setOrderColumn($_GET["sort_by"]);
+$tbl->setOrderDirection($_GET["sort_order"]);
+$tbl->setLimit($limit);
+$tbl->setOffset($offset);
+$tbl->setMaxCount($maxcount);
+
+// footer
+$tbl->setFooter("tblfooter",$lng->txt("previous"),$lng->txt("next"));
+//$tbl->disable("content");
+//$tbl->disable("footer");
+
+// render table
+$tbl->render();
+
 $tpl->show();
 ?>

@@ -1037,3 +1037,8 @@ meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
 meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
 meta#:#meta_language#:#Language###14 May 2003 new variable
 meta#:#meta_title#:#Title###14 May 2003 new variable
+common#:#previous#:#zurück
+common#:#next#:#weiter
+common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
+common#:#change_sort_direction#:#Sortierrichtung ändern
+common#:#dataset#:#Datensatz

@@ -1037,3 +1037,8 @@ meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
 meta#:#meta_title#:#Title
+common#:#previous#:#previous
+common#:#next#:#next
+common#:#sort_by_this_column#:#Sort by this column
+common#:#change_sort_direction#:#Change sort direction
+commo#:#dataset#:#Dataset

@@ -3,65 +3,10 @@
 {BUTTONS}
 {LOCATOR}
 {MESSAGE}
-<!-- BEGIN learningstuff -->
-
-<!-- BEGIN linkbar -->
-<table cellpadding="3" cellspacing="1" border="0">
-<tr><td>{LINKBAR}</td></tr>
-</table>
-<!-- END linkbar -->
-
-<table class="fullwidth">
-<tr class="tblheader" valign="top">
-  <td class="std" nowrap="nowrap"><b>{TXT_TITLE}</b></td>
-  <td class="std"><b>{TXT_DESCRIPTION}</b></td>
-  <td class="std"><b>{TXT_STATUS}</b></td>
-  <td class="std"><b>{TXT_LAST_VISIT}</b></td>
-  <td class="std"><b>{TXT_LAST_CHANGE}</b></td>
-  <td class="std"><b>{TXT_CONTEXTPATH}</b></td>
-</tr>
-
-<!-- BEGIN learningstuff_row -->
-<tr>
-	<td valign="top" class="{ROWCOL}" nowrap="nowrap">
-	<a href="{LO_LINK}" target="lo_view">
-	<img src="{TPLPATH}/images/{IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" />
-	</a>
-	&nbsp;<a href="{LO_LINK}">{TITLE}</a>
-	&nbsp;<a href="{EDIT_LINK}" target="bottom">{TXT_EDIT}</a>
-	&nbsp;<a href="{VIEW_LINK}" target="_top">{TXT_VIEW}</a>
-	</td>
-	<td valign="top" class="{ROWCOL}"><i>{DESCRIPTION}</i></td>
-	<td valign="top" class="{ROWCOL}">{STATUS}</td>
-	<td valign="top" class="{ROWCOL}">{LAST_VISIT}</td>
-	<td valign="top" class="{ROWCOL}">{LAST_CHANGE}</td>
-	<td valign="top" class="{ROWCOL}"><font size="1">{CONTEXTPATH}</font></td>
-</tr>
-<!-- END learningstuff_row -->
+{LO_TABLE}
 
 <!-- BEGIN no_content -->
 <tr class="std">
  <td class="std" colspan="6">{TXT_MSG_NO_CONTENT}</td>
 </tr>
 <!-- END no_content -->
-
-</table>
-<!-- END learningstuff -->
-
-<!-- BEGIN nix -->
-<!-- BEGIN category -->
-<table cellpadding="0" cellspacing="0" border="0">
-<tr class="tblheader" valign="bottom">
-        <td class="std"><b>{TXT_TITLE}</b></td>
-        <td class="std" ALIGN="right"><b>{TXT_SUBSCRIPTION}</b><img src="./images/spacer.gif" width="5" height="1" border="0" alt="" /></td>
-</tr>
-<!-- BEGIN subcategory -->
-<tr class="{ROWCOL}" VALIGN="bottom">
-        <td class="std"><a href="{LINK_LO}">{TITLE}</a></td>
-        <td class="std" align="right">{IMG_AND_LINK}<img src="./images/spacer.gif" width="5" height="1" border="0" alt="" /></td>
-</tr>
-<!-- END subcategory -->
-
-</table>
-<!-- END category -->
-<!-- END nix -->
