@@ -25,7 +25,7 @@
   <td class="option_value" colspan="5"><select name="ordering_type" id="ordering_type"><option value="0"{SELECTED_PICTURES}>{TEXT_TYPE_PICTURES}</option><option value="1"{SELECTED_TERMS}>{TEXT_TYPE_TERMS}</option></select></td>
 </tr>
 
-<tr><td colspan="5" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
+<tr><td colspan="5" class="option"><input name="cmd[addItem]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
 <!-- BEGIN answers -->
 <tr>
 <td colspan="2" class="tblheader"><a name="answer_{VALUE_ANSWER_COUNTER}"></a>{TEXT_ANSWER} {VALUE_ANSWER_COUNTER}</td>
@@ -55,7 +55,7 @@
   <td class="option_value"><label for="points_{ANSWER_ORDER}">{TEXT_POINTS}</label>: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="10" value="{VALUE_ORDERING_POINTS}" /></td>
   <td class="option_value">
 <!-- BEGIN deletebutton -->
-<input type="submit" class="submit" name="delete_{ANSWER_ORDER}" value="{DELETE}" />
+<input type="submit" class="submit" name="cmd[delete_{ANSWER_ORDER}]" value="{DELETE}" />
 <!-- END deletebutton -->
 </td>
 </tr>
