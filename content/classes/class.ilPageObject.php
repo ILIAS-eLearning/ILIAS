@@ -22,6 +22,7 @@
 */
 
 require_once("content/classes/class.ilMetaData.php");
+require_once("content/classes/class.ilLMObject.php");
 
 /**
 * Class ilPageObject
@@ -33,14 +34,11 @@ require_once("content/classes/class.ilMetaData.php");
 *
 * @package application
 */
-class ilPageObject
+class ilPageObject extends ilLMObject
 {
-	var $ilias;
-	var $meta_data;
 	var $is_alias;
 	var $origin_id;
 	var $content;		// array of objects (ilParagraph or ilMediaObject)
-	var $lm_id;
 	var $id;
 
 	/**
@@ -49,10 +47,9 @@ class ilPageObject
 	*/
 	function ilPageObject()
 	{
-		global $ilias;
-
-		$this->ilias =& $ilias;
-
+		parent::ilLMObject();
+		$this->setType("pg");
+	
 		$this->is_alias = false;
 		$this->content = array();
 	}
@@ -93,11 +90,6 @@ class ilPageObject
 		return $this->origin_id;
 	}
 
-	function assignMetaData(&$a_meta_data)
-	{
-		$this->meta_data =& $a_meta_data;
-	}
-
 	function getimportId()
 	{
 		return $this->meta_data->getImportIdentifierEntryID();
@@ -127,26 +119,13 @@ class ilPageObject
 		return $xml;
 	}
 
-
-	function setLMId($a_lm_id)
-	{
-		$this->lm_id = $a_lm_id;
-	}
-
-	function getLMId()
-	{
-		return $this->lm_id;
-	}
-
 	function create()
 	{
-		$query = "INSERT INTO lm_page_object (lm_id, content) VALUES ".
-			"('".$this->getLMId()."','".$this->getXMLContent()."')";
+		// create object
+		parent::create();
+		$query = "INSERT INTO lm_page_object (page_id, lm_id, content) VALUES ".
+			"('".$this->getId()."', '".$this->getLMId()."','".$this->getXMLContent()."')";
 		$this->ilias->db->query($query);
-		$this->setId(getLastInsertId());
-		$this->meta_data->setId($this->getId());
-		$this->meta_data->setType("pg");
-		$this->meta_data->create();
 	}
 
 }

@@ -792,3 +792,7 @@ CREATE TABLE lm_data (
 	type char(2) NOT NULL default '',
 	PRIMARY KEY  (obj_id)
 ) TYPE=MyISAM;
+
+<#31>
+
+ALTER TABLE lm_data ADD COLUMN lm_id int(11) NOT NULL;
