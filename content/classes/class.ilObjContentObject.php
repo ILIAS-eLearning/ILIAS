@@ -45,6 +45,7 @@ class ilObjContentObject extends ilObject
 	var $layout;
 	var $style_id;
 	var $pg_header;
+	var $online;
 
 	/**
 	* Constructor
@@ -484,17 +485,28 @@ class ilObjContentObject extends ilObject
 		$this->pg_header = $a_pg_header;
 	}
 
+	function setOnline($a_online)
+	{
+		$this->online = $a_online;
+	}
+
+	function getOnline()
+	{
+		return $this->online;
+	}
+
 	/**
 	* read content object properties
 	*/
 	function readProperties()
 	{
-		$q = "SELECT * FROM learning_module WHERE id = '".$this->getId()."'";
+		$q = "SELECT * FROM content_object WHERE id = '".$this->getId()."'";
 		$lm_set = $this->ilias->db->query($q);
 		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->setLayout($lm_rec["default_layout"]);
 		$this->setStyleSheetId($lm_rec["stylesheet"]);
 		$this->setPageHeader($lm_rec["page_header"]);
+		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
 	}
 
 	/**
@@ -502,10 +514,11 @@ class ilObjContentObject extends ilObject
 	*/
 	function updateProperties()
 	{
-		$q = "UPDATE learning_module SET ".
+		$q = "UPDATE content_object SET ".
 			" default_layout = '".$this->getLayout()."', ".
 			" stylesheet = '".$this->getStyleSheetId()."',".
-			" page_header = '".$this->getPageHeader()."'".
+			" page_header = '".$this->getPageHeader()."',".
+			" online = '".ilUtil::tf2yn($this->getOnline())."'".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}
@@ -515,7 +528,7 @@ class ilObjContentObject extends ilObject
 	*/
 	function createProperties()
 	{
-		$q = "INSERT INTO learning_module (id) VALUES ('".$this->getId()."')";
+		$q = "INSERT INTO content_object (id) VALUES ('".$this->getId()."')";
 		$this->ilias->db->query($q);
 		$this->readProperties();		// to get db default values
 	}

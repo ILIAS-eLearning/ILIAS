@@ -320,3 +320,9 @@ CREATE TABLE exc_members
 INSERT INTO rbac_templates VALUES(81,"frm",4,8);
 INSERT INTO rbac_templates VALUES(80,"frm",9,8);
 INSERT INTO rbac_templates VALUES(80,"frm",10,8);
+
+<#41>
+ALTER TABLE learning_module RENAME content_object;
+
+<#42>
+ALTER TABLE content_object ADD COLUMN online ENUM('y','n') DEFAULT 'n';

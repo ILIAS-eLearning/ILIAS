@@ -235,7 +235,7 @@ class ilLOListGUI
 				{
 					foreach ($objects as $key => $object)
 					{
-						if ((($object["type"] == "lm") || $object["type"] == "dbk" || 
+						if ((($object["type"] == "lm") || $object["type"] == "dbk" ||
 							($object["type"] == "slm") ||
 							($object["type"] == "crs"))
 							&& $this->rbacsystem->checkAccess('visible',$object["child"]))
@@ -245,6 +245,20 @@ class ilLOListGUI
 					}
 				}
 				break;
+		}
+
+		// additional checks
+		foreach($lr_arr AS $key => $object)
+		{
+			if ($object["type"] == "lm")
+			{
+				include_once("content/classes/class.ilObjLearningModule.php");
+				$lm_obj =& new ilObjLearningModule($object["ref_id"]);
+				if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
+				{
+					unset ($lr_arr[$key]);
+				}
+			}
 		}
 
 		$maxcount = count($lr_arr);		// for numinfo in table footer
@@ -287,9 +301,12 @@ class ilLOListGUI
 					$this->tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$lr_data["ref_id"]));
 					$this->tpl->setVariable("VIEW_LINK", $obj_link);
 					$this->tpl->setVariable("VIEW_TARGET", "_top");
-					$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);
-					$this->tpl->setVariable("EDIT_TARGET","bottom");
-					$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
+					if($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]))
+					{
+						$this->tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);
+						$this->tpl->setVariable("EDIT_TARGET","bottom");
+						$this->tpl->setVariable("TXT_EDIT", "(".$this->lng->txt("edit").")");
+					}
 					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], "lm"))
 					{
 						$this->tpl->setVariable("TO_DESK_LINK", "lo_list.php?cmd=addToDesk&ref_id=".$_GET["ref_id"].

@@ -53,7 +53,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->actions = $this->objDefinition->getActions("lm");
 
 	}
-	// PROPERTY METHODS MOVED FROM class.ilObjLearningModuleGUI.php
+
+	/**
+	* edit properties form
+	*/
 	function properties()
 	{
 		//add template for view button
@@ -90,12 +93,23 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->object->getRefId()."&cmd=post");
 		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
 
+		// online
+		$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
+		$this->tpl->setVariable("CBOX_ONLINE", "cobj_online");
+		$this->tpl->setVariable("VAL_ONLINE", "y");
+		if ($this->object->getOnline())
+		{
+			$this->tpl->setVariable("CHK_ONLINE", "checked");
+		}
+
+		// layout
 		$this->tpl->setVariable("TXT_LAYOUT", $this->lng->txt("cont_def_layout"));
 		$layouts = ilObjLearningModule::getAvailableLayouts();
 		$select_layout = ilUtil::formSelect ($this->object->getLayout(), "lm_layout",
 			$layouts, false, true);
 		$this->tpl->setVariable("SELECT_LAYOUT", $select_layout);
 
+		// page header
 		$this->tpl->setVariable("TXT_PAGE_HEADER", $this->lng->txt("cont_page_header"));
 		$pg_header = array ("st_title" => $this->lng->txt("cont_st_title"),
 			"pg_title" => $this->lng->txt("cont_pg_title"),
@@ -114,6 +128,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	{
 		$this->object->setLayout($_POST["lm_layout"]);
 		$this->object->setPageHeader($_POST["lm_pg_header"]);
+		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 		$this->object->updateProperties();
 		sendInfo($this->lng->txt("msg_obj_modified"));
 		$this->view();
