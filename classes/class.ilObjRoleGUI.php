@@ -59,29 +59,26 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
-		else
-		{
-			$this->getTemplateFile("edit","role");
 
-			// fill in saved values in case of error
-			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]));
-			$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]));
-			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
+		$this->getTemplateFile("edit","role");
 
-			$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
-			$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
-			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
-			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
-			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
+		// fill in saved values in case of error
+		$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]));
+		$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]));
+		$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
+
+		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
+		$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
+		$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
 																	   $_GET["ref_id"]."&new_type=".$new_type));
-			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-			$this->tpl->setVariable("CMD_SUBMIT", "save");
-			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-	
-		}
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
+		$this->tpl->setVariable("CMD_SUBMIT", "save");
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 	}
 
 	/**
