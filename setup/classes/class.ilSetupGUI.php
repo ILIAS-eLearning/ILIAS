@@ -418,7 +418,7 @@ class ilSetupGUI extends ilSetup
 		{
 			return false;
 		}
-		$ths->display_mode_old = $_SESSION["display_mode"];
+
 		$this->display_mode = $a_mode;
 		$_SESSION["display_mode"] = $this->display_mode;
 		
@@ -442,11 +442,10 @@ class ilSetupGUI extends ilSetup
 		
 		if ($this->cmd != "logout" and $this->isInstalled())
 		{
-			var_dump($this->display_mode);
 			// add client link
 			if ($this->isAdmin())
 			{
-				if ($this->display_mode != "setup")
+				if ($this->display_mode == "view" or $this->cmd == "clientlist" or $this->cmd == "changepassword" or $this->cmd == "mastersettings")
 				{
 					$this->tpl->setCurrentBlock("add_client");
 					$this->tpl->setVariable("TXT_ADD_CLIENT",ucfirst($this->lng->txt("new")));
@@ -492,7 +491,7 @@ class ilSetupGUI extends ilSetup
 		// footer (not really)
 		if ($this->cmd != "logout")
 		{
-			if ($this->ini_ilias_exists and $this->display_mode == "setup" and isset($_SESSION["ClientId"]))
+			if ($this->ini_ilias_exists and $this->display_mode == "setup" and $this->client->getId() != "")
 			{
 				$this->tpl->setVariable("TXT_ACCESS_MODE","(".$this->lng->txt("client_id").": ".$this->client->getId().")");
 			}
