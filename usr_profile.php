@@ -54,20 +54,24 @@ $webspace_dir = $ilias->ini->readVariable("server","webspace_dir");
 // function added by ratana ty
 function upload_file()
 {
-// TODO
-// Check the type of file and then check the size
-// of the file whether we allow people to upload or not
+	global $upload_error,$lng;
 	global $userfile, $userfile_name, $userfile_size,
 	$userfile_type, $archive_dir, $WINDIR,$ilias,$lng;
 	global $target_file, $return_path;
 
+	if ($_FILES["userfile"]["size"] == 0)
+	{
+		$upload_error=$lng->txt("msg_no_file");
+		return;
+	}
+
+// TODO
+// Check the type of file and then check the size
+// of the file whether we allow people to upload or not
+
+
 	$webspace_dir = ilUtil::getWebspaceDir();
 	$image_dir = $webspace_dir."/usr_images";
-
-	if(!@is_dir($image_dir))		// this is done in setup.php, line 518. Dir creation could be removed...
-	{
-		ilUtil::makeDir($image_dir);
-	}
 
 	$path_info = pathinfo($_FILES["userfile"]["name"]);
 	$target_file = $image_dir."/usr_".$ilias->account->getId()."."."jpg";
@@ -186,11 +190,14 @@ include "./include/inc.personaldesktop_buttons.php";
 //if data are posted
 if ($_GET["cmd"] == "save")
 {
+	$upload_error;
+
+	// upload usr_image
 	if (!empty($_POST["usr_upload"]))
 	{
 		upload_file();
 	}
-
+	
 	// error content
 	$password_error;
 
@@ -315,11 +322,15 @@ if ($_GET["cmd"] == "save")
 			{
 				sendInfo($password_error,true);
 			}
+			elseif (!empty($upload_error))
+			{
+				sendInfo($upload_error,true);
+			}
 			else
 			{
 				sendInfo($lng->txt("saved_successfully"),true);
 			}
-
+			
 			header ("Location: usr_profile.php");
 			exit();
 		}
