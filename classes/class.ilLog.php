@@ -35,9 +35,7 @@
 * @package	application
 */
 
-require_once(dirname(__FILE__)."/class.ilErrorHandling.php");
-
-class ilLog extends PEAR
+class ilLog
 {
 
 	/**
@@ -45,12 +43,9 @@ class ilLog extends PEAR
 	* @var		string
 	* @access	private
 	*/
-	var $LOGFILE = "application.log";
-
-	/**
-	* error handling
-	*/
-	var $error_class;
+	var $path;
+	var $filename;
+	var $tag;
 
 	/**
 	* constructor
@@ -61,26 +56,35 @@ class ilLog extends PEAR
 	* @return	boolean 
 	* @access	public
 	*/
-	function ilLog($logfile = "")
+	function ilLog($a_log_path, $a_log_file, $a_tag = "", $a_enabled = true)
 	{
-		if ($logfile == "")
-		{
-			$this->filename = $this->LOGFILE;
-		}
-		else
-		{
-			$this->filename = $logfile;
-		}
-
-		$this->PEAR();
-		$this->error_class = new ilErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK, array($this->error_class,'errorHandler'));
+		$this->path = $a_log_path;
+		$this->filename = $a_log_file;
+		$this->tag = ($a_tag == "") ? "unknown" : $a_tag;
+		$this->enabled = (bool) $a_enabled;
+	}
 	
-		//TODO: check logfile accessable, creatable, writable and so on
-		return true;
+	function setPath($a_str)
+	{
+		$this->path = $a_str;
 	}
 
+	function setFilename($a_str)
+	{
+		$this->filename = $a_str;
+	}
+
+	function setTag($a_str)
+	{
+		$this->tag = $a_str;
+	}
 	
+	// not ne
+	function start($a_str)
+	{
+		$this->path = $a_str;
+	}
+
 	/**
 	* special language checking routine
 	* 
@@ -119,19 +123,22 @@ class ilLog extends PEAR
 	*/
 	function write($msg)
 	{
-		$fp = @fopen (ILIAS_ABSOLUTE_PATH."/".$this->filename, "a");
-
-		if ($fp == false)
+		if ($this->enabled)
 		{
-			$this->raiseError("Logfile: cannot open file. Please give Logfile Writepermissions.",$this->error_class->WARNING);
+			$fp = @fopen ($this->path."/".$this->filename, "a");
+	
+			if ($fp == false)
+			{
+				die("Logfile: cannot open file. Please give Logfile Writepermissions.");
+			}
+	
+			if (fwrite($fp,date("[y-m-d H:i] ")."[".$this->tag."] ".$msg."\n") == -1)
+			{
+				die("Logfile: cannot write to file. Please give Logfile Writepermissions.");
+			}
+	
+			fclose($fp);
 		}
-
-		if (fwrite($fp,date("[y-m-d H:i] ").$msg."\n") == -1)
-		{
-			$this->raiseError("Logfile: cannot write to file. Please give Logfile Writepermissions.",$this->error_class->WARNING);
-		}
-
-		fclose($fp);
 	}
-} //class
+} // END class.ilLog
 ?>

@@ -140,13 +140,18 @@ class ILIAS extends PEAR
 		define ("ILIAS_HTTP_PATH",$this->ini_ilias->readVariable('server','http_path'));
 		define ("ILIAS_ABSOLUTE_PATH",$this->ini_ilias->readVariable('server','absolute_path'));
 
+		// logging
+		define ("ILIAS_LOG_DIR",$this->ini_ilias->readVariable("log","path"));		
+		define ("ILIAS_LOG_FILE",$this->ini_ilias->readVariable("log","file"));		
+		define ("ILIAS_LOG_ENABLED",$this->ini_ilias->readVariable("log","enabled"));		
+
 		// read path + command for third party tools from ilias.ini
 		define ("PATH_TO_CONVERT",$this->ini_ilias->readVariable("tools","convert"));	
 		define ("PATH_TO_ZIP",$this->ini_ilias->readVariable("tools","zip"));
 		define ("PATH_TO_UNZIP",$this->ini_ilias->readVariable("tools","unzip"));
 		define ("PATH_TO_JAVA",$this->ini_ilias->readVariable("tools","java"));
 		define ("PATH_TO_HTMLDOC",$this->ini_ilias->readVariable("tools","htmldoc"));
-		
+
 		// set to default client if empty
 		if (!$a_client_id)
 		{
@@ -416,6 +421,11 @@ class ILIAS extends PEAR
 	function &getCurrentUser()
 	{
 		return $this->account;
+	}
+	
+	function getClientId()
+	{
+		return $this->client_id;
 	}
 
 } // END class.ilias
