@@ -18,16 +18,15 @@ class UserObject extends Object
 	var $gender;
 
 	/**
-	* contructor
-	* TODO: remove ilias parameter in all object classes
-	* @param object ilias
+	* Contructor
 	* @access public
 	*/
-	function UserObject(&$a_ilias)
+	function UserObject()
 	{
 		global $lng;
 
-		$this->Object($a_ilias);
+		$this->Object();
+
 		$this->gender = array(
 							  'm'    => $lng->txt("salutation_m"),
 							  'f'    => $lng->txt("salutation_f")
@@ -211,6 +210,7 @@ class UserObject extends Object
 			$this->ilias->raiseError("No permission to edit user",$this->ilias->error_obj->WARNING);
 		}
 	}
+
 	/**
 	* update user data
 	* TODO: The entrry in object_data must be changed too!!
@@ -262,5 +262,5 @@ class UserObject extends Object
 		header("Location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit");
 		exit;
 	}
-} //end class
+} //end class.UserObject
 ?>

@@ -2,23 +2,22 @@
 include_once("classes/class.Object.php");
 
 /**
- * Class LearningObject
- * @extends class.Object.php
- * @author Stefan Meyer <smeyer@databay.de> 
- * $Id$ 
- * 
+* Class LearningObject
+* @extends class.Object.php
+* @author Stefan Meyer <smeyer@databay.de> 
+* $Id$ 
+* 
 */
 
 class LearningObject extends Object
 {
-/**
- * constructor
- * @param object ilias
- * @access public
- */
-	function LearningObject(&$a_ilias)
+	/**
+	* Constructor
+	* @access public
+	*/
+	function LearningObject()
 	{
-		$this->Object($a_ilias);
+		$this->Object();
 	}
-}
+} // END class.LeraningObject
 ?>
