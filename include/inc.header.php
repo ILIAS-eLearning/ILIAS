@@ -144,6 +144,7 @@ if ($script != "login.php" && $script != "index.php")
 }
 $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
+/*
 $mbox = new ilMailbox($_SESSION["AccountId"]);
 if ($mail_id = $mbox->hasNewMail())
 {
@@ -155,4 +156,5 @@ if ($mail_id = $mbox->hasNewMail())
 									"img"	=> "icon_mail.gif"
 									);
 }
+*/
 ?>
