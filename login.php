@@ -19,7 +19,7 @@ $tplContent = new Template("login.html", true, true);
 
 //language handling
 if ($lang == "")
-	$lang = "en";
+	$lang = $ilias->ini->readVariable("language","default");
 //instantiate language
 $lng = new Language($lang);
 $langs = $lng->getAllLanguages();
