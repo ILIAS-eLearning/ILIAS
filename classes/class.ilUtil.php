@@ -850,19 +850,21 @@ class ilUtil
 	*/
 	function getWebspaceDir($mode = "filesystem")
 	{
+		global $ilias;
+
 		if ($mode == "filesystem")
 		{
-			return "./".ILIAS_WEB_DIR;
+			return "./".ILIAS_WEB_DIR."/".$ilias->client_id;
 		}
 		else
 		{
 			if (defined("ILIAS_MODULE"))
 			{
-				return "../".ILIAS_WEB_DIR;
+				return "../".ILIAS_WEB_DIR."/".$ilias->client_id;
 			}
 			else
 			{
-				return "./".ILIAS_WEB_DIR;
+				return "./".ILIAS_WEB_DIR"/".$ilias->client_id;
 			}
 		}
 
