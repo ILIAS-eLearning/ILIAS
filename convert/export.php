@@ -108,21 +108,27 @@ class ILIAS2export
 			case "le":
 				$str = "Hierarchical";
 				break;
+			
 			case "gd":
 				$str = "Hierarchical";
 				break;
+			
 			case "pg":
 				$str = "Collection";
 				break;
+			
 			case "mc": // *** -> test element ohne eigene Daten (*** gl auch unterbringen)
 				$str = "Collection";
 				break;
+			
 			case "el":
 				$str = "Atomic"; // *** -> nicht immer Atomic
 				break;
+			
 			case "mm":
 				$str = "Atomic"; // *** mm und el metadaten für mm_el
 				break;
+			
 			case "file":
 				$str = "Atomic";
 				break;
@@ -139,21 +145,27 @@ class ILIAS2export
 			case "le":
 				$str = "4";
 				break;
+			
 			case "gd":
 				$str = "3";
 				break;
+			
 			case "pg":
 				$str = "2";
 				break;
+			
 			case "mc": // *** -> test element ohne eigene Daten?
 				$str = "2";
 				break;
+			
 			case "el":
 				$str = "1"; // *** -> nicht immer 1
 				break;
+			
 			case "mm":
 				$str = "1"; // *** mm und el metadaten für mm_el
 				break;
+			
 			case "file":
 				$str = "1";
 				break;
@@ -170,27 +182,35 @@ class ILIAS2export
 			case 1: // Standardtext
 				$str = "NarrativeText";
 				break;
+			
 			case 2: // Einleitung
 				$str = "NarrativeText";
 				break;
+			
 			case 3: // Zusammenfassung
 				$str = "NarrativeText";
 				break;
+			
 			case 4: // Beispiel
 				$str = "NarrativeText";
 				break;
+			
 			case 5: // Fallstudie
 				$str = "NarrativeText";
 				break;
+			
 			case 6: // Glossar
 				$str = "NarrativeText";
 				break;
+			
 			case 7: // Übung
 				$str = "Exercise";
 				break;
+			
 			case 8: // Simulation
 				$str = "Simulation";
 				break;
+			
 			default: // all exceptions
 				$str = "NarrativeText";
 		}		
@@ -206,15 +226,19 @@ class ILIAS2export
 			case "draft": // offline
 				$str = "Draft";
 				break;
+			
 			case "final": // online
 				$str = "Final";
 				break;
+			
 			case "revised": // ?
 				$str = "Revised";
 				break;
+			
 			case "": // unavailable
 				$str = "Unavailable";
 				break;
+			
 			default: // all exceptions
 				$str = "Unavailable";
 		}
@@ -230,18 +254,23 @@ class ILIAS2export
 			case 0:
 				$str = "VeryEasy";
 				break;
+			
 			case 1:
 				$str = "Easy";
 				break;
+			
 			case 2:
 				$str = "Medium";
 				break;
+			
 			case 3:
 				$str = "Difficult";
 				break;
+			
 			case 4:
 				$str = "VeryDifficult";
 				break;
+			
 			default: // all exceptions
 				$str = "Medium";
 		}
@@ -257,39 +286,51 @@ class ILIAS2export
 			case 0: // not available
 				$str = "Other";
 				break;
+			
 			case 1: // UniversityFirstCycle
 				$str = "HigherEducation";
 				break;
+			
 			case 2: // UniversitySecondCycle
 				$str = "HigherEducation";
 				break;
+			
 			case 3: // UniversityPostgrade
 				$str = "HigherEducation";
 				break;
+			
 			case 4: // PrimaryEducation
 				$str = "School";
 				break;
+			
 			case 5: // SecondaryEducation
 				$str = "School";
 				break;
+			
 			case 6: // HigherEducation
 				$str = "HigherEducation";
 				break;
+			
 			case 7: // TechnicalSchoolFirstCycle
 				$str = "HigherEducation";
 				break;
+			
 			case 8: // TechnicalSchoolSecondCycle
 				$str = "HigherEducation";
 				break;
+			
 			case 9: // ProfessionalFormation
 				$str = "Other";
 				break;
+			
 			case 10: // ContinousFormation
 				$str = "Other";
 				break;
+			
 			case 11: // VocationalFormation
 				$str = "Other";
 				break;
+			
 			default: // all exceptions
 				$str = "Other";
 		}
@@ -305,11 +346,40 @@ class ILIAS2export
 			case 0:
 				$str = "Basic Knowledge";
 				break;
+			
 			case 5:
 				$str = "In-depth Knowledge";
 				break;
+			
 			default: // all exceptions
 				$str = "Unknown";
+		}
+		
+		return $str;
+	}
+	
+	// convert (answer status | answer) values ***
+	function convertAnswerStatus ($answerStatus)
+	{
+		switch ($answerStatus) 
+		{
+			case "y":
+			case "r":
+				$str = "Right";
+				break;
+			
+			case "n":
+			case "f":
+				$str = "Wrong";
+				break;
+			
+			case "j":
+				$str = "Yes";
+				break;
+			
+			case "n":
+				$str = "No";
+				break;
 		}
 		
 		return $str;
@@ -731,19 +801,16 @@ class ILIAS2export
 				$result->free();
 				
 				//--------------------------
-				// create Text subtree:
+				// create Paragraph subtree:
 				// *** (convert VRIs, HTML and Layout (alignment))
 				//--------------------------
 				
 				// MetaData *** (Parent LearningObjet already has MetaData) Unterschlagen???
 				
-				// Text ***
-				$Text = $this->writeNode($parent, "Text");
-				
-				// Text..Paragraph ***
+				// Paragraph ***
 				$attrs = array(	"Language" => "de", // *** aus meta holen
 								"Characteristic" => "Example"); // *** aus bsp holen
-				$Paragraph = $this->writeNode($Text, "Paragraph", $attrs, $text["text"]);
+				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text["text"]);
 				
 				break;
 			
@@ -801,6 +868,8 @@ class ILIAS2export
 			
 			// multiple choice element
 			case 6:
+				
+				// table 'el_mc'
 				$sql =	"SELECT type, text, answer, vristr ".
 						"FROM el_mc ".
 						"WHERE id = $id;";
@@ -816,11 +885,33 @@ class ILIAS2export
 				// free result set
 				$result->free();
 				
-				//---------------------
-				// create Text subtree:
-				//---------------------
+				// answer possibilities for flexible questiontype
+				if ($mc["type"] == "mul")
+				{
+					// table 'mc_answer'
+					$sql =	"SELECT text, mright ".
+							"FROM mc_answer ".
+							"WHERE id = $id ".
+							"ORDER BY nr;";
+					
+					$result = $this->db->query($sql);		
+					// check $result for error
+					if (DB::isError($result))
+					{
+						die ($result->getMessage());
+					}
+					// get row(s)
+					while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$answer[] = $row;
+					}
+					// free result set
+					$result->free();
+				}
 				
-				// *** !!!!!!!!! return einbauen
+				//---------------------
+				// create Test subtree:
+				//---------------------
 				
 				// MetaData *** checken
 				
@@ -833,16 +924,34 @@ class ILIAS2export
 				$Paragraph = $this->writeNode($Question, "Paragraph", $attrs, $mc["text"]);
 				
 				// TestItem..Answer ***
+				if ($mc["type"] == "mul" and
+					is_array($answer))
+				{
+					foreach ($answer as $value) 
+					{
+						$attrs = array(	"Status" => $this->convertAnswerStatus($value["mright"]));
+						$Answer = $this->writeNode($parent, "Answer", $attrs);
+						
+						// ..Answer..Paragraph ***
+						$attrs = array(	"Language" => "de", // *** aus meta holen
+										"Characteristic" => "Example"); // *** aus bsp holen
+						$Paragraph = $this->writeNode($Answer, "Paragraph", $attrs, $value["text"]);
+					}
+				}
+				else
+				{
+					$Answer = $this->writeNode($parent, "Answer");
+					
+					// ..Answer..Paragraph ***
+					$attrs = array(	"Language" => "de", // *** aus meta holen
+									"Characteristic" => "Example"); // *** aus bsp holen
+					$Paragraph = $this->writeNode($Answer, "Paragraph", $attrs, $this->convertAnswerStatus($mc["answer"]));
+				}
 				
 				// TestItem..Hint ***
+				// *** falls vorhanden VRI auflösen, sonst nicht vorhanden
 				
-				/* ***
-				// answer possibilities for flexible questiontype
-				$sql =	"SELECT text, mright ".
-						"FROM mc_answer ".
-						"WHERE id = $id ".
-						"ORDER BY nr;";
-				*/
+				// *** !!!!!!!!! return einbauen
 				
 				break;
 			
@@ -856,7 +965,7 @@ class ILIAS2export
 				// table multimedia is treated separatly
 				break;
 			
-			// filelist
+			// filelist element
 			case 8:
 				$sql =	"SELECT * ".
 						"FROM el_filelist ".
@@ -870,7 +979,7 @@ class ILIAS2export
 				// table file is treated separatly
 				break;
 			
-			// sourcecode
+			// sourcecode element
 			case 9:
 				$sql =	"SELECT * ".
 						"FROM el_sourcecode ".
@@ -878,7 +987,7 @@ class ILIAS2export
 				
 				break;
 			
-			// survey
+			// survey element
 			case 10:
 				// el_survey
 				break;
@@ -898,7 +1007,7 @@ class ILIAS2export
 		//-------------
 		// free memory: ***
 		//-------------
-		unset($sql, $row, $element, $text, $attrs, $mc);
+		unset($sql, $row, $element, $text, $attrs, $mc, $answer);
 		
 		//----------------------------------------
 		// return (Text | LearningObject) subtree: ***
@@ -955,7 +1064,7 @@ class ILIAS2export
 				// LearningObject..Layout ***
 				
 				// LearningObject..Content ***
-				$sql =	"SELECT id ".
+				$sql =	"SELECT id, typ ".
 						"FROM element ".
 						"WHERE page = $id ".
 						"AND deleted = '0000-00-00 00:00:00' ".
@@ -976,7 +1085,21 @@ class ILIAS2export
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 				{
 					// ..Content.. ***
-					$Element = $this->exportElement($row["id"], $Content);
+					switch ($row["typ"]) 
+					{
+						case 1:
+						// *** case 3:
+						// *** case 4:
+							// ..Content..Text ***
+							$Text = $this->writeNode($Content, "Text");
+							
+							// ..Content..Text.. ***
+							$Element = $this->exportElement($row["id"], $Text);
+							break;
+							
+						default:
+							$Element = $this->exportElement($row["id"], $Content);
+					}
 				}
 				// free result set
 				$result->free();
@@ -985,7 +1108,7 @@ class ILIAS2export
 				
 				// LearningObject..Glossary ***
 				
-				// LearningObject..Bibliography --> unavailabel in ILIAS2
+				// LearningObject..Bibliography --> unavailable in ILIAS2
 				
 				break;
 			
@@ -1037,7 +1160,7 @@ class ILIAS2export
 				$sql =	"SELECT id ".
 						"FROM element ".
 						"WHERE page = $id ".
-						"AND typ = 6 ". // *** nur mc elemente filtern? oder Item anders veranktern
+						// "AND typ = 6 ". // *** nur mc elemente filtern? oder Item anders veranktern
 						"AND deleted = '0000-00-00 00:00:00' ".
 						"ORDER BY nr;";
 				
@@ -1303,7 +1426,7 @@ class ILIAS2export
 		
 		// LearningObject..Glossary --> unavailabel for ILIAS2 chapter
 		
-		// LearningObject..Bibliography --> unavailabel in ILIAS2
+		// LearningObject..Bibliography --> unavailable in ILIAS2
 		
 		//-------------
 		// free memory: ***
@@ -1454,7 +1577,7 @@ class ILIAS2export
 		// free result set
 		$result->free();
 		
-		// LearningObject..Bibliography --> unavailabel in ILIAS2
+		// LearningObject..Bibliography --> unavailable in ILIAS2
 		
 		//-------------
 		// free memory: ***
