@@ -23,6 +23,7 @@
 
 require_once("content/classes/class.ilMetaData.php");
 require_once("content/classes/class.ilLMObject.php");
+require_once("content/classes/class.ilPageParser.php");
 
 /**
 * Class ilPageObject
@@ -32,7 +33,7 @@ require_once("content/classes/class.ilLMObject.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @package application
+* @package content
 */
 class ilPageObject extends ilLMObject
 {
@@ -40,18 +41,45 @@ class ilPageObject extends ilLMObject
 	var $origin_id;
 	var $content;		// array of objects (ilParagraph or ilMediaObject)
 	var $id;
+	var $ilias;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObject()
+	function ilPageObject($a_id = 0)
 	{
+		global $ilias;
+
 		parent::ilLMObject();
 		$this->setType("pg");
-	
+		$this->id = $a_id;
+		$this->ilias =& $ilias;
+
 		$this->is_alias = false;
 		$this->content = array();
+
+		if($a_id != 0)
+		{
+			$this->read();
+		}
+	}
+
+	/**
+	*
+	*/
+	function read()
+	{
+		parent::read();
+
+		$query = "SELECT * FROM lm_page_object WHERE page_id = '".$this->id."'";
+		$pg_set = $this->ilias->db->query($query);
+		$this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->xml_content = $this->page_record["content"];
+
+		$page_parser = new ilPageParser($this, $this->xml_content);
+		$page_parser->startParsing();
+
 	}
 
 	/**
