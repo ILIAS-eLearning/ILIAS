@@ -3,11 +3,14 @@
 * Class ilObjRootFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.RootFolderObjectOut.php,v 1.2 2003/03/10 10:55:41 shofmann Exp $
+* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
 */
+
+require_once "class.ilObjectGUI.php";
+
 class ilObjRootFolderGUI extends ilObjectGUI
 {
 	/**

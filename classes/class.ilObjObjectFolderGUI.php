@@ -9,6 +9,8 @@
 * @package ilias-core
 */
 
+require_once "class.ilObjectGUI.php";
+
 class ilObjObjectFolderGUI extends ilObjectGUI
 {
 	/**

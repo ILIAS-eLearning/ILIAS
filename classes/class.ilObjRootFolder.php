@@ -3,11 +3,14 @@
 * Class ilObjRootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.RootFolderObject.php,v 1.7 2003/03/19 11:46:55 shofmann Exp $
+* @version $Id$Id: class.ilObjRootFolder.php,v 1.1 2003/03/24 15:41:43 akill Exp $
 * 
 * @extends ilObject
 * @package ilias-core
 */
+
+require_once "class.ilObject.php";
+
 class ilObjRootFolder extends ilObject
 {
 	/**

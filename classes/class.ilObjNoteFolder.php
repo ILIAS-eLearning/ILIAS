@@ -9,6 +9,8 @@
 * @package ilias-core
 */
 
+require_once "class.ilObject.php";
+
 // TODO: note class need complete redesign since to user trees are saved to main tree table.
 // is a tree actually useful to administrate user settings?
 class ilObjNoteFolder extends ilObject

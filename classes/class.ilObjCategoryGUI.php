@@ -3,11 +3,13 @@
 * Class ilObjCategoryGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.CategoryObjectOut.php,v 1.3 2003/03/13 17:48:30 akill Exp $
+* $Id$Id: class.ilObjCategoryGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
 */
+
+require_once "class.ilObjectGUI.php";
 
 class ilObjCategoryGUI extends ilObjectGUI
 {

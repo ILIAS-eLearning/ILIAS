@@ -8,8 +8,6 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "classes/class.Forum.php";
-require_once "classes/class.ilObject.php";
 require_once "classes/class.ilObjForum.php";
 
 $forumObj = new ilObjForum($_GET["ref_id"]);

@@ -8,6 +8,9 @@
 * @extends ilObject
 * @package ilias-core
 */
+
+require_once "class.ilObject.php";
+
 require_once "classes/class.ilObject.php";
 
 class ilObjNote extends ilObject

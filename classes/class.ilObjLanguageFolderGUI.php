@@ -3,13 +3,14 @@
 * Class ilObjLanguageFolderGUI
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.15 2003/03/24 10:23:01 shofmann Exp $
+* @version	$Id$Id: class.ilObjLanguageFolderGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
 *
 * @extends	ilObject
 * @package	ilias-core
 */
 
 require_once "classes/class.ilObjLanguage.php";
+require_once "class.ilObjectGUI.php";
 
 class ilObjLanguageFolderGUI extends ilObjectGUI
 {

@@ -8,6 +8,9 @@
 * @extends Object
 * @package ilias-core
 */
+
+require_once "class.ilObject.php";
+
 class ilObjCourse extends ilObject
 {
 	/**

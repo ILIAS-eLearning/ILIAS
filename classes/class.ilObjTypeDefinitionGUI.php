@@ -3,11 +3,13 @@
 * Class ilObjTypeDefinitionGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.TypeDefinitionObjectOut.php,v 1.8 2003/03/19 21:12:02 shofmann Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
 */
+
+require_once "class.ilObjectGUI.php";
 
 class ilObjTypeDefinitionGUI extends ilObjectGUI
 {

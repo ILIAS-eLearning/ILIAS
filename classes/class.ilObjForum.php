@@ -10,6 +10,7 @@
 */
 
 require_once "class.Forum.php";
+require_once "class.ilObject.php";
 
 class ilObjForum extends ilObject
 {
