@@ -66,6 +66,7 @@ client_institution#:#Instytucja
 client_login#:#Zaloguj się ze swoim ID Klienta
 client_name#:#Nazwa
 client_setup_not_finished#:#Instalacja klienta jeszcze nie została ukończona.
+collation#:#Collation###23 Mar 2005 new variable
 contact#:#Informacje kontaktowe
 contact_data#:#Dane kontaktowe
 convert_path#:#Ścieżka do Convert
@@ -129,6 +130,7 @@ environment#:#środowisko
 err_create_database_failed#:#utworzenie bazy danych nieudane
 err_wrong_login#:#Błędny login
 error_recipient#:#Błąd adresu odbiorcy
+example#:#Example###23 Mar 2005 new variable
 feedback_recipient#:#Odbiorca komunikatów o błędach
 file_does_not_exist#:#Plik nie istnieje.
 file_version#:#wersja pliku
@@ -154,6 +156,8 @@ ilias_setup#:#Instalowanie ILIAS3
 ilias_version#:#wersja ILIAS
 info_text_contact#:#Tutaj należy podać dodatkowe informacje o kliencie i dane kontaktowe administratora systemu dla tego klienta. Pola zaznaczone gwiazdką muszą być wypełnione. Wszystkie informacje są pamiętane w twojej bazie danych. Na następnym ekranie możesz zarejestrować swoją instalację na serwerze ILIAS-NIC (aby te dane zostały przesłane na ten serwer).
 info_text_db#:#Baza danych nie istnieje lub jest pusta. Kliknij na przycisk umieszczony poniżej aby zainstalować bazę danych. Jeśli baza danych z wybraną nazwą nie istnieje, wybierz opcję 'Twórz bazę danych'. Instalator automatycznie utworzy bazę danych. Jeśli utworzenie się nie uda, (np. z powodu braku uprawnień) skontaktuj się z administratorem  serwera bazy danych i poproś o utworzenie bazy danych z tą nazwą.
+info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
+info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###23 Mar 2005 new variable
 info_text_delete#:#Możesz usunąć tego klienta poprzez kliknięcie na przycisk 'Usuń' poniżej. Jednak, tylko twój plik client.ini zostanie usunięty, pozostawiając wszystkie inne pliki w katalogu danych klienta i w bazie danych. Pliki i zawartość bazy danych muszą być usunięte ręcznie przez administratora.
 info_text_finish1#:#Gratulacje! Instalacja klienta zakończona. Kliknij na 'Zaloguj' aby wejść do swojej instalacji ILIAS.
 info_text_finish2#:#Brak pewnych ustawień lub są błędne. Spójrz na arkusz procesu instalacji aby zobaczyć co ma być zrobione!

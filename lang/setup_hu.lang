@@ -67,6 +67,7 @@ client_institution#:#Intézmény
 client_login#:#Bejelentkezés a kliensazonosítójával
 client_name#:#Név
 client_setup_not_finished#:#A kliens-setup még nem fejeződött be
+collation#:#Collation###23 Mar 2005 new variable
 contact#:#Kapcsolattartási információk
 contact_data#:#Kapcsolattartási információk
 convert_path#:#Elérési út konvertáláshoz
@@ -129,6 +130,7 @@ environment#:#Környezet
 err_create_database_failed#:#az adatbázis létrehozása nem sikerült
 err_wrong_login#:#Hibás bejelentkezés
 error_recipient#:#Hibás címzett
+example#:#Example###23 Mar 2005 new variable
 feedback_recipient#:#Visszacsatolt címzett
 file_does_not_exist#:#A fájl nem létezik.
 file_version#:#fájlverzió
@@ -154,6 +156,8 @@ ilias_setup#:#ILIAS3 setup
 ilias_version#:#ILIAS verzió
 info_text_contact#:#További kliensinformációkat és ezen kliens rendszergazdájának kapcsolati adatait is mutathatja. A csillaggal jelölt mezők kötelezően kitöltendők. Minden adat adatbázisában tárolt. A következő képernyőn regisztrálhatja installációját az ILIAS-NIC szerveren, így ezek az adatok átkerülnek erre a szerverre. 
 info_text_db#:#Az adatbázis nem létezik vagy üres. Kattintson a lenti gombra adatbázisa installálásához. Ha a kiválasztott névvel nem létezik adatbázis, válassza az 'adatbázis létrehozása' opciót. A setup ezután csatlakozik, hogy automatikusan létrehozza adatbázisát. Ha a létrehozás nem sikerülne (pl. jogosultságok hiányában), vegye fel a kapcsolatot az adatbázis megfelelő rendszeradminisztrátorával, és kérje őt az adatbázis létrehozására a kívánt néven.
+info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.###23 Mar 2005 new variable
+info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.###23 Mar 2005 new variable
 info_text_delete#:#Ezt a klienst az alul levő gombra kattintva törölheti. Bár client.ini fájlja eltávolításra kerül, minden fájl a kliens adatkönyvtárakban és az adatbázisban lesz. A fájlokat és adatbázist a rendszergazdának manuálisan kell eltávolítania.
 info_text_finish1#:#Gratulálunk! Kliens setupja sikeres volt. Kattintson a 'Bejelentkezés"-re, hogy bejelentkezhessen az ILIAS-ba.
 info_text_finish2#:#Néhány beállítás még hiányzik vagy nem pontos. Nézze meg az eljárásvázlatot, hogy megtudhassa, mit kell elvégeznie.
