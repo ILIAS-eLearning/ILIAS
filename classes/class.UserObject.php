@@ -7,8 +7,6 @@
 * 
 * @extends Object
 * @package ilias-core
-* @see User
-* @see rbacAdmin
 */
 class UserObject extends Object
 {

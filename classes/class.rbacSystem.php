@@ -124,7 +124,7 @@ class RbacSystem extends PEAR
 			{
 				if (empty($a_type))
 				{
-					$this->raiseError("CheckAccess: Expect a type definition for checking 'create' permission",$this->error_class->MESSAGE);
+					$ilias->raiseError("CheckAccess: Expect a type definition for checking 'create' permission",$ilias->error_obj->MESSAGE);
 				}
 				
 				if (!isset($ilias->typedefinition[$a_type]))

@@ -9,8 +9,9 @@
 * Klasse wird nicht instanziert
 * 
 * @author Sascha Hofmann <shofmann@databay.de>
-* @package ilias-core
 * @version $Id$
+* 
+* @package ilias-core
 */
 class TPrevNextNavBar 
 {
@@ -33,11 +34,11 @@ class TPrevNextNavBar
 	* @param	array		Die zu übergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
 	* @return	array		linkbar or false on error
 	*/
-	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = "")
+	function Linkbar ($AScript,$AHits,$ALimit,$AOffset,$AParams = 0)
 	{
 		$LinkBar = "";
 
-		// Wenn Hits gr÷sser Limit, zeige Links an
+		// Wenn Hits grösser Limit, zeige Links an
 		if ($AHits > $ALimit)
 		{
 			if (!empty($AParams))
@@ -50,14 +51,14 @@ class TPrevNextNavBar
 			// if ($params) $params = substr($params,0,-1);
 			$link = $AScript."?".$params."offset=";
 
-			// šbergehe "zurck"-link, wenn offset 0 ist.
+			// übergehe "zurck"-link, wenn offset 0 ist.
 			if ($AOffset >= 1)
 			{
 				$prevoffset = $AOffset - $ALimit;
 				$LinkBar .= "<a class=\"inlist\" href=\"".$link.$prevoffset."\">&lt;&lt;&lt;&nbsp;</a>";
 			}
 
-			// Ben÷tigte Seitenzahl kalkulieren
+			// Benötigte Seitenzahl kalkulieren
 			$pages=intval($AHits/$ALimit);
 
 			// Wenn ein Rest bleibt, addiere eine Seite
@@ -97,9 +98,7 @@ class TPrevNextNavBar
 		{
 			return false;
 		}
-
     }
-
 } // class TPrevNextNavBar ENDE
 
 ?>
