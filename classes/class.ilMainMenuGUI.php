@@ -186,6 +186,7 @@ class ilMainMenuGUI
 
 		// set target scripts
 		$scripts = array (	"SCRIPT_COURSE"	=> "lo_list.php",
+							"SCRIPT_CATALOG" => "repository.php",
 							"SCRIPT_SEARCH"	=> "search.php",
 							//"SCRIPT_LITERAT"=> "literature.php",
 							"SCRIPT_FORUMS"	=> "forums.php",
@@ -199,6 +200,7 @@ class ilMainMenuGUI
 		}
 
 		// set tooltip texts
+		$this->tpl->setVariable("TXT_CATALOG", $lng->txt("repository"));
 		$this->tpl->setVariable("TXT_LO_OVERVIEW", $lng->txt("lo_overview"));
 		$this->tpl->setVariable("TXT_BOOKMARKS", $lng->txt("bookmarks"));
 		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
