@@ -1780,6 +1780,15 @@ class ilRepositoryGUI
 					$tpl->parseCurrentBlock();
 				}
 
+				if ($this->rbacsystem->checkAccess('read',$tst_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("tst_edit");
+					$tpl->setVariable("EDIT_LINK","assessment/test.php?ref_id=".$tst_data["ref_id"]);
+					$tpl->setVariable("EDIT_TARGET","bottom");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("view"));
+					$tpl->parseCurrentBlock();
+				}
+
 				if ($this->rbacsystem->checkAccess('delete', $tst_data["ref_id"]))
 				{
 					$tpl->setCurrentBlock("tst_delete");
