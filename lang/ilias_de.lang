@@ -2477,12 +2477,14 @@ common#:#users_online#:#Aktive Benutzer
 common#:#usertracking#:#Benutzer-Tracking
 common#:#usr#:#Benutzer
 common#:#usr_a#:#ein Benutzer
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#Neuer Benutzer
 common#:#usr_added#:#Benutzer angelegt
 common#:#usr_agreement#:#Nutzungsvereinbarung
 common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text
 common#:#usr_edit#:#Benutzer bearbeiten
 common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#Neuer Benutzer
 common#:#usr_settings_explanation_profile#:#Klicken Sie in die angebotenen Kontrollkästchen, um die Einstellungen im persönlichen Profil aller Nutzerinnen zu aktivieren oder zu deaktiveren. Alle deaktivierten oder versteckten Einstellungen können nur noch über Administration/Benutzerkonten bearbeitet werden!
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten

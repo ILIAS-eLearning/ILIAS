@@ -2383,12 +2383,14 @@ common#:#users_online#:#Usuarios conectados
 common#:#usertracking#:#Seguimiento de usuarios
 common#:#usr#:#usuario
 common#:#usr_a#:#un Usuario
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#Añadir Usuario
 common#:#usr_added#:#Usuario añadido
 common#:#usr_agreement#:#acuerdo de usuario
 common#:#usr_agreement_empty#:#El acuerdo de usuario no contiene texto.
 common#:#usr_edit#:#Editar Usuario
 common#:#usr_hits_per_page#:#items/página en tablas
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#Nuevo Usuario
 common#:#usr_settings_explanation_profile#:#Compruebe las casillas disponibles para deshabilitar u ocultar la configuración del perfil personal para todos los usuarios en la pestaña de perfil personal en el escritorio. Todas las configuraciones o configuraciones ocultas del perfil personal son únicamente editables usando 'cuentas de usuario' en el árbol de administración.
 common#:#usr_settings_header_profile#:#Configuración del perfil de usuario

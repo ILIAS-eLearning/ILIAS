@@ -2478,12 +2478,14 @@ common#:#users_online#:#Користувачі онлайн
 common#:#usertracking#:#Спостереження за Користувачем
 common#:#usr#:#Користувач
 common#:#usr_a#:#Користувач
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#Додати Користувача
 common#:#usr_added#:#Користувач доданий
 common#:#usr_agreement#:#Угода Користувача
 common#:#usr_agreement_empty#:#Угода не містить тексту
 common#:#usr_edit#:#Редагувати Користувача
 common#:#usr_hits_per_page#:#Хіти/сторінки в таблицях
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#Новий Користувач
 common#:#usr_settings_explanation_profile#:#Відмітьте запропоновані чекбокси щоб заблокувати або скрити настройки особистого профілю для усіх користувачів на вкладці персонального профілю на особистому робочому столі. Усі заблоковані або скриті настройки особистого профілю можна редагувати тільки використовуючи адміністраторське дерево / акаунти користувачів.  
 common#:#usr_settings_header_profile#:#Настройки профілю користувача

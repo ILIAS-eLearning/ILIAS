@@ -2478,12 +2478,14 @@ common#:#users_online#:#Użytkownicy zalogowani
 common#:#usertracking#:#Śledzenie użytkownika
 common#:#usr#:#Użytkownik
 common#:#usr_a#:#Użytkownik
+common#:#usr_active_only#:#Active Users only###26 Mar 2005 new variable
 common#:#usr_add#:#Dodaj użytkownika
 common#:#usr_added#:#Użytkownik został dodany
 common#:#usr_agreement#:#Zasady użytkowania
 common#:#usr_agreement_empty#:#Zasady Użytkowania nie zawierają tekstu.
 common#:#usr_edit#:#Edytuj użytkownika
 common#:#usr_hits_per_page#:#Dotknięć/stronę w tabeli
+common#:#usr_inactive_only#:#Inactive Users only###26 Mar 2005 new variable
 common#:#usr_new#:#Nowy użytkownik
 common#:#usr_settings_explanation_profile#:#Sprawdź pola wyboru aby wyłączyć lub ukryć ustawienia profilu osobistego dla wszystkich użytkowników w Biurze osobistym. Wszystkie wyłączone lub ukryte ustawienia profili są modyfikowane tylko funkcjami z drzewa administracyjnego / kont użytkowników.
 common#:#usr_settings_header_profile#:#Ustawienia profilu użytkownika
