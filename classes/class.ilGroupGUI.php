@@ -24,12 +24,11 @@ require_once("include/inc.header.php");
 require_once("classes/class.ilObjGroupGUI.php");
 require_once("classes/class.ilGroupExplorer.php");
 require_once("classes/class.ilTableGUI.php");
-require_once("classes/class.ilTree.php");
 require_once("classes/class.ilObjGroup.php");
 /**
 * Class ilGroupGUI
 *
-* GUI class for ilLearningModule
+* GUI class for Group management
 *
 * @author Martin Rus <mrus@smail.uni-koeln.de>
 
@@ -108,21 +107,14 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		if (isset($_POST["cmd"]))
 		{
-			//var_dump ($_POST);
-			//var_dump ($_POST["id"]);
 			$cmd = key($_POST["cmd"]);
 			$fullcmd = $cmd."object";
-			//echo ($fullcmd);
 
 			$this->$fullcmd();
 			exit();
-
 		}
 
 		$this->$cmd();
-
-		//var_dump($_GET);
-
 	}
 
 	/**
@@ -712,13 +704,19 @@ class ilGroupGUI extends ilObjectGUI
 	}
 
 
-	function getContextPath($a_endnode_id, $a_startnode_id = 0)
+	/**
+	* get
+	* @access	public
+	* @param	integer	group id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
+	*/
+	function getContextPath ($a_endnode_id, $a_startnode_id = 0)
 	{
 		global $tree;
 
-		$path = "";
+		$path = "";		
 
-		$tmpPath = $this->tree->getPathFull($a_endnode_id, $a_startnode_id);
+		$tmpPath = $tree->getPathFull($a_endnode_id, $a_startnode_id);		
 
 		// count -1, to exclude the forum itself
 		for ($i = 0; $i < (count($tmpPath) - 1); $i++)
@@ -727,11 +725,11 @@ class ilGroupGUI extends ilObjectGUI
 			{
 				$path .= " > ";
 			}
-
+		
 			$path .= $tmpPath[$i]["title"];
 		}
 
-	return $path;
+		return $path;
 	}
 
 
@@ -1056,7 +1054,7 @@ class ilGroupGUI extends ilObjectGUI
 						//MEMBER LEAVES GROUP
 						if($newGrp->isMember($mem_id) && !$newGrp->isAdmin($mem_id))
 						{
-							if(!$newGrp->leaveGroup($mem_id))
+							if(!$newGrp->leave($mem_id))
 								$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
 						}
 						else	//ADMIN LEAVES GROUP
@@ -1066,7 +1064,7 @@ class ilGroupGUI extends ilObjectGUI
 							{
 								$this->ilias->raiseError("At least one group administrator is required! Please entitle a new group administrator first ! ",$this->ilias->error_obj->WARNING);
 							}
-							else if(!$newGrp->leaveGroup($mem_id))
+							else if(!$newGrp->leave($mem_id))
 								$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
 						}
 					}
@@ -2134,8 +2132,8 @@ echo "asdf";
 
 							if(strcmp($member_Obj->getTitle(), "grp_Member")==0)
 							{
-								//if(!$newGrp->leaveGroup($_GET["mem_id"]))
-								if(!$newGrp->leaveGroup($mem_id))
+								//if(!$newGrp->leave($_GET["mem_id"]))
+								if(!$newGrp->leave($mem_id))
 									$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
 							}
 							//if user is admin, he has to make another user become admin
@@ -2149,16 +2147,16 @@ echo "asdf";
 									{
 										foreach($_POST["newAdmin_id"] as $newAdmin)
 										{
-											$newGrp->leaveGroup($newAdmin);
-											$newGrp->joinGroup($newAdmin,1); //join as admin
+											$newGrp->leave($newAdmin);
+											$newGrp->join($newAdmin,1); //join as admin
 										}
 										//remove old admin from group
-										//if(!$newGrp->leaveGroup($_GET["mem_id"]))
-										if(!$newGrp->leaveGroup($mem_id))
+										//if(!$newGrp->leave($_GET["mem_id"]))
+										if(!$newGrp->leave($mem_id))
 											$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
 									}
 								}
-								else if(!$newGrp->leaveGroup($_SESSION["AccountId"]))
+								else if(!$newGrp->leave($_SESSION["AccountId"]))
 									$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
 							}
 						}
@@ -2169,8 +2167,8 @@ echo "asdf";
 				//check if user has the permission to skip other groupmember
 				else if($rbacsystem->checkAccess('write',$_GET["ref_id"]))
 				{
-					//if(!$newGrp->leaveGroup($_GET["mem_id"]))
-					if(!$newGrp->leaveGroup($mem_id))
+					//if(!$newGrp->leave($_GET["mem_id"]))
+					if(!$newGrp->leave($mem_id))
 						$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
 
 				}
@@ -2206,7 +2204,7 @@ echo "asdf";
 
 		$groupObj->createDefaultGroupRoles($rfoldObj->getRefId());
 
-		$groupObj->joinGroup($this->ilias->account->getId(),1); //join as admin=1
+		$groupObj->join($this->ilias->account->getId(),1); //join as admin=1
 
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
@@ -2353,7 +2351,7 @@ echo "asdf";
 			$newGrp = new ilObjGroup($this->object->getRefId(), true);
 			foreach($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
-				if(!$newGrp->joinGroup($new_member, $_SESSION["status"]) )
+				if(!$newGrp->join($new_member, $_SESSION["status"]) )
 				{
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
 
@@ -2546,7 +2544,7 @@ echo "asdf";
 				//$this->tpl->setVariable("STATUS", "N/A");
 				//$this->tpl->setVariable("LAST_VISIT", "N/A");
 				//$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
-				$this->tpl->setVariable("GRP_CONTEXT", ilObjGroup::getContextPath2($grp_data["ref_id"]));
+				$this->tpl->setVariable("GRP_CONTEXT", $this->getContextPath ($grp_data["ref_id"]));
 
 				$this->tpl->parseCurrentBlock("tblcontent");
 			}
@@ -2618,7 +2616,7 @@ echo "asdf";
 			$this->tpl->setVariable("LO_DESC", $lr_data["description"]);
 			$this->tpl->setVariable("LO_NAME", $lr_data["title"]);
 			$this->tpl->setVariable("LO_LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
-			$this->tpl->setVariable("LO_CONTEXTPATH", ilObjGroup::getContextPath2($lr_data["ref_id"]));
+			$this->tpl->setVariable("LO_CONTEXTPATH", $this->getContextPath($lr_data["ref_id"]));
 			$this->tpl->parseCurrentBlock("locontent");
 		}
 	}

@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.31 2003/08/25 14:10:39 mrus Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.32 2003/09/26 10:44:30 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -114,7 +114,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
 
 		$groupObj->createDefaultGroupRoles($rfoldObj->getRefId());
-		$groupObj->joinGroup($this->ilias->account->getId(),1); //join as admin=1
+		$groupObj->join($this->ilias->account->getId(),1); //join as admin=1
 
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status"]);
@@ -354,7 +354,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$newGrp = new ilObjGroup($this->object->getRefId(), true);
 			foreach($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
-				if(!$newGrp->joinGroup($new_member, $_SESSION["saved_post"]["status"]) )
+				if(!$newGrp->join($new_member, $_SESSION["saved_post"]["status"]) )
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
 			}
 			unset($_SESSION["saved_post"]);
@@ -421,7 +421,7 @@ class ilObjGroupGUI extends ilObjectGUI
 						//MEMBER LEAVES GROUP
 						if($this->object->isMember($mem_id) && !$this->object->isAdmin($mem_id))
 						{
-							if(!$newGrp->leaveGroup($mem_id))
+							if(!$newGrp->leave($mem_id))
 								$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
 						}
 						else	//ADMIN LEAVES GROUP
@@ -431,7 +431,7 @@ class ilObjGroupGUI extends ilObjectGUI
 							{
 								$this->ilias->raiseError("At least one group administrator is required! Please entitle a new group administrator first ! ",$this->ilias->error_obj->WARNING);
 							}
-							else if(!$newGrp->leaveGroup($mem_id))
+							else if(!$newGrp->leave($mem_id))
 								$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
 						}
 					}
@@ -764,28 +764,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		header("Location: adm_object.php?".$this->link_params."&cmd=members");
 
 
-	}
-
-	function getContextPath($a_endnode_id, $a_startnode_id = 0)
-	{
-		global $tree;
-
-		$path = "";
-
-		$tmpPath = $this->tree->getPathFull($a_endnode_id, $a_startnode_id);
-
-		// count -1, to exclude the forum itself
-		for ($i = 0; $i < (count($tmpPath) - 1); $i++)
-		{
-			if ($path != "")
-			{
-				$path .= " > ";
-			}
-
-			$path .= $tmpPath[$i]["title"];
-		}
-
-		return $path;
 	}
 } // END class.ilObjGroupGUI
 ?>
