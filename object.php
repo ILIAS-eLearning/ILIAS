@@ -15,7 +15,7 @@ if(!isset($_POST["type"]))
 }
 else
 {
-    //echo "no parent!";
+	//echo "no parent!";
 }
 $methode = $cmd."Object";
 switch ($type)

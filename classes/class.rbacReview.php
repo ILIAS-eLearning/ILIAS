@@ -1,10 +1,10 @@
 <?php
-// CLASS RbacReview
-// 
-// Review Functions for Core RBAC
-//
-// @author Stefan Meyer smeyer@databay.de
-// 
+/**
+ * class RbacReview
+ * @author Stefan Meyer <smeyer@databay.de> 
+ * $Id$ 
+ * 
+ */
 class RbacReview
 {
     var $db; // Database Handle
@@ -16,17 +16,20 @@ class RbacReview
     {
         $this->db =& $dbhandle;
     }
-// 
-// @access public
-// @params void
-// @return type String
+/** 
+ * @access public
+ * @params void
+ * @return type String
+ */
     function getErrorMessage()
     {
         return $this->Error;
     }
-// @access public
-// @params int (rol_id)
-// @return type int array (Uid der Rolle)
+/**
+ * @access public
+ * @params int (rol_id)
+ * @return type int array (Uid der Rolle)
+ */
     function assignedUsers($Arol_id)
     {
         $usr = array();
@@ -49,28 +52,30 @@ class RbacReview
     }
     function getUserData($Ausr_id)
     {
-	$res = $this->db->query("SELECT * FROM user_data WHERE usr_id='".$Ausr_id."'");	
-	if (DB::isError($res))		
-	    die ($res->getMessage());
-	while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-	{	
-	    $arr = array(
-		"usr_id"	=>	$row->usr_id,
-		"login"		=>	$row->login,
-		"firstname"	=>	$row->firstname,
-		"surname"	=>	$row->surname,
-		"title"		=>	$row->title,
-		"gender"	=>	$row->gender,	
-		"email"		=>	$row->email,
-		"last_login"	=>	$row->last_login,
-		"last_update"	=>	$row->last_update,
-		"create_date"	=>	$row->create_date);
-	}		
-	return $arr;
+		$res = $this->db->query("SELECT * FROM user_data WHERE usr_id='".$Ausr_id."'");	
+		if (DB::isError($res))		
+			die ($res->getMessage());
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{	
+			$arr = array(
+				"usr_id"	=>	$row->usr_id,
+				"login"		=>	$row->login,
+				"firstname"	=>	$row->firstname,
+				"surname"	=>	$row->surname,
+				"title"		=>	$row->title,
+				"gender"	=>	$row->gender,	
+				"email"		=>	$row->email,
+				"last_login"	=>	$row->last_login,
+				"last_update"	=>	$row->last_update,
+				"create_date"	=>	$row->create_date);
+		}		
+		return $arr;
     }
-// @access public
-// @params int (usr_id)
-// @return type int array (RoleID des Users)
+/**
+ * @access public
+ * @params int (usr_id)
+ * @return type int array (RoleID des Users)
+ */
     function assignedRoles($Ausr_id)
     {
         $rol = array();
@@ -91,9 +96,11 @@ class RbacReview
         }
         return $rol;
     }
-// @access public
-// @params int (usr_id)
-// @return type string array (Role Title des Users)
+/**
+ * @access public
+ * @params int (usr_id)
+ * @return type string array (Role Title des Users)
+ */
     function assignedRoleTitles($Ausr_id)
     {
         $res = $this->db->query("SELECT title FROM object_data JOIN rbac_ua WHERE object_data.obj_id = rbac_ua.rol_id AND rbac_ua.usr_id = '".$Ausr_id . "'");
@@ -112,9 +119,11 @@ class RbacReview
         }
         return $role_title;
     }
-// @access public
-// @params int,int (RoleID und optional ID eines Objektes)
-// @return type 2-dim Array (Objekt-Permissions,Object-ID zu einer Rolle)
+/**
+ * @access public
+ * @params int,int (RoleID und optional ID eines Objektes)
+ * @return type 2-dim Array (Objekt-Permissions,Object-ID zu einer Rolle)
+ */
     function rolePermissons($Arol_id,$Aobj_id = 0)
     {
         $ops = array();
@@ -140,9 +149,11 @@ class RbacReview
         return $ops;
 
     }
-// @access public
-// @params int (UserID)
-// @return type int array (Objekt-Permissions eines Users)
+/**
+ * @access public
+ * @params int (UserID)
+ * @return type int array (Objekt-Permissions eines Users)
+ */
     function userPermissions($Ausr_id)
     {
         $ops = array();
@@ -164,22 +175,27 @@ class RbacReview
         }
         return $ops;
     }
-// @access public
-// @params void
-// @return type String
+/**
+ * @access public
+ * @params void
+ * @return type String
+ */
     function sessionRoles()
     {
     }
-
-// @access public
-// @params void
-// @return type String
+/**
+ * @access public
+ * @params void
+ * @return type String
+ */
     function sessionPermissions()
     {
     }
-// @access public
-// @params int,int (RoleID und ObjektID)
-// @return type int array (Permissions fÅr Rolle/Objekt) 
+/**
+ * @access public
+ * @params int,int (RoleID und ObjektID)
+ * @return type int array (Permissions fÅr Rolle/Objekt) 
+ */
     function roleOperationsOnObject($Arol_id,$Aobj_id)
     {
         $query = "SELECT ops_id FROM rbac_pa WHERE rol_id = '".$Arol_id."' AND obj_id = '".$Aobj_id."'";
@@ -199,9 +215,11 @@ class RbacReview
         }
         return $ops ? $ops : array();
     }
-// @access public
-// @params int int int ROlID Type und RoleFolderId
-// @return type array(int) Array der Operations
+/**
+ * @access public
+ * @params int int int ROlID Type und RoleFolderId
+ * @return type array(int) Array der Operations
+ */
     function getOperations($Arol_id,$Atype,$Aparent = "")
     {
 		$ops = array();
@@ -226,11 +244,11 @@ class RbacReview
 		}
 		return $ops;
     }
-	
-
-// @access public
-// @params int,int (UserID und ObjektID)
-// @return type int array (Permisions fÅr User/Objekt)
+/**
+ * @access public
+ * @params int,int (UserID und ObjektID)
+ * @return type int array (Permisions fÅr User/Objekt)
+ */
     function userOperationsOnObject($Ausr_id,$Aobj_id)
     {
         $ops = array();

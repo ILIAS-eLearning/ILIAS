@@ -1,10 +1,11 @@
 <?php
-// CLASS RbacReview
-// 
-// Review Functions for Core RBAC
-//
-// @author Stefan Meyer smeyer@databay.de
-// 
+/**
+ * class RbacreviewH
+ * extensions for hierachical Rbac (maybe later)
+ * @author Stefan Meyer <smeyer@databay.de> 
+ * $Id$ 
+ * 
+*/
 class RbacReviewH extends RbacReview
 {
 

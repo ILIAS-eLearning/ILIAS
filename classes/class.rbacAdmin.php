@@ -1,11 +1,10 @@
 <?php
-// CLASS Rbac
-// 
-// Admin Functions for Core RBAC
-//
-// @author Stefan Meyer smeyer@databay.de
-//
-
+/**
+ * Class RbacAdmin 
+ * core functions for role based access control
+ * @author Stefan Meyer <smeyer@databay.de>
+ * $Id$
+ */
 class RbacAdmin
 {
     var $db;			//  Database Handle
@@ -19,19 +18,20 @@ class RbacAdmin
 		$this->Errno = 0; 
 		$this->Error = "";
     }
-// 
-// @access public
-// @params void
-// @return type String
+/**
+ * @access public
+ * @params void
+ * @return type String
+ */
     function getErrorMessage()
     {
         return $this->Error;
     }
-
-// 
-// @access public
-// @params String (Titel der Rolle)
-// @return type 1,0,-1(Fehler)
+/**
+ * @access public
+ * @params String (Titel der Rolle)
+ * @return type 1,0,-1(Fehler)
+ */
     function roleExists($Atitle)
     {
 		$res = $this->db->query("SELECT obj_id FROM object_data ".
@@ -44,17 +44,19 @@ class RbacAdmin
 		}
 		return $res->fetchRow() ? 1 : 0;
     }
-// 
-// @access public
-// @params void
-// @return type String
-    function addUser()
+/** 
+ * @access public
+ * @params void
+ * @return type String
+ */
+	function addUser()
     {
     }
-// 
-// @access public
-// @params Array(int) Array der zu löschenden obj_id
-// @return type true false
+/**
+ * @access public
+ * @params Array(int) Array der zu löschenden obj_id
+ * @return type true false
+ */
     function deleteUser($Ausr_id)
     {
 		foreach($Ausr_id as $id)
@@ -91,10 +93,11 @@ class RbacAdmin
 		}
 		return true;
     }
-// 
-// @access public
-// @params Array(user_daten) Array der User Daten
-// @return type true false
+/** 
+ * @access public
+ * @params Array(user_daten) Array der User Daten
+ * @return type true false
+ */
 	function updateUser($Auserdata)
 	{
 		$query = "UPDATE user_data ".
@@ -115,10 +118,12 @@ class RbacAdmin
 		}
 		return true;
 	}
-// Anlegen des Rolle in object_data, rbac_ua, rbac_pa
-// @access public
-// @params string,string (Titel, Beschreibung)
-// @return type int (neue obj_id) sonst -1
+/**
+ * Anlegen des Rolle in object_data, rbac_ua, rbac_pa
+ * @access public
+ * @params string,string (Titel, Beschreibung)
+ * @return type int (neue obj_id) sonst -1
+ */
     function addRole($Atitle,$Adescription)
     {
 		$rbacreview = new RbacReview($this->db);
@@ -167,14 +172,15 @@ class RbacAdmin
 		}
 		return $row[0];
 	}
- 
-// @access public
-// @params int (Objekt ID und )
-// @return type 1,-1 (Fehler)
+	/**
+	 * @access public
+	 * @params int (Objekt ID und )
+	 * @return type 1,-1 (Fehler)
+	 */
     function deleteRole($Aobj_id)
     {
 		$this->db->query("DELETE FROM object_data ".
-							   "WHERE obj_id = '".$Aobj_id ."'");
+						 "WHERE obj_id = '".$Aobj_id ."'");
 		if(DB::isError($res))
 		{
 			$this->Errno = 2;
@@ -182,7 +188,7 @@ class RbacAdmin
 			return -1;
 		}
 		$this->db->query("DELETE FROM rbac_pa ".
-							   "WHERE rol_id = '".$Aobj_id ."'");
+						 "WHERE rol_id = '".$Aobj_id ."'");
 		if(DB::isError($res))
 		{
 			$this->Errno = 2;
@@ -190,7 +196,7 @@ class RbacAdmin
 			return -1;
 		}
 		$this->db->query("DELETE FROM rbac_templates ".
-							   "WHERE rol_id = '".$Aobj_id ."'");
+						 "WHERE rol_id = '".$Aobj_id ."'");
 		if(DB::isError($res))
 		{
 			$this->Errno = 2;
@@ -198,7 +204,7 @@ class RbacAdmin
 			return -1;
 		}
 		$this->db->query("DELETE FROM rbac_ua ".
-							   "WHERE rol_id = '".$Aobj_id ."'");
+						 "WHERE rol_id = '".$Aobj_id ."'");
 		if(DB::isError($res))
 		{
 			$this->Errno = 2;
@@ -206,7 +212,7 @@ class RbacAdmin
 			return -1;
 		}
 		$this->db->query("DELETE FROM rbac_fa ".
-							   "WHERE rol_id = '".$Aobj_id ."'");
+						 "WHERE rol_id = '".$Aobj_id ."'");
 		if(DB::isError($res))
 		{
 			$this->Errno = 2;
@@ -215,9 +221,11 @@ class RbacAdmin
 		}
 		return 1;
     }
-// @access public
-// @params int (Objekt ID und )
-// @return type 1,-1 (Fehler)
+/**
+ * @access public
+ * @params int (Objekt ID und )
+ * @return type 1,-1 (Fehler)
+ */
 	function deleteLocalRole($Arol_id,$Aparent)
 	{
 		$query = "DELETE FROM rbac_fa ".
@@ -242,10 +250,11 @@ class RbacAdmin
 		}
 		return true;
 	}
-
-// @access public
-// @params int (Objekt ID)
-// @return type 1,-1 (Fehler)
+/**
+ * @access public
+ * @params int (Objekt ID)
+ * @return type 1,-1 (Fehler)
+ */
 	function getParentRoles($Apath,$Achild = "")
 	{
 		$parentRoles = array();
@@ -290,10 +299,11 @@ class RbacAdmin
 		}
 		return $parentRoles;
 	}
-
-// @access public
-// @params int,int (RoleID, UsrID default sonst aktueller Benutzer) 
-// @return 1,-1 (Fehler) 
+/**
+ * @access public
+ * @params int,int (RoleID, UsrID default sonst aktueller Benutzer) 
+ * @return 1,-1 (Fehler) 
+ */
     function assignUser($Arol_id,$Ausr_id = 0)
     {
         // Zuweisung des aktuellen Benutzers zu der Rolle
@@ -313,9 +323,11 @@ class RbacAdmin
 		}
 		return 1;
     }
-// @access public
-// @params int,int (RoleId und UserId)
-// @return 1,-1(Fehler)
+/**
+ * @access public
+ * @params int,int (RoleId und UserId)
+ * @return 1,-1(Fehler)
+ */
     function deassignUser($Arol_id,$Ausr_id)
     {
 		$query = "DELETE FROM rbac_ua ".
@@ -330,9 +342,11 @@ class RbacAdmin
 		}
 		return 1;
     }
-// @access public
-// @params int,array(int),int,int (RoleId,OpsID,OBjektID und SetID)
-// @return 1,-1 (Fehler)
+/**
+ * @access public
+ * @params int,array(int),int,int (RoleId,OpsID,OBjektID und SetID)
+ * @return 1,-1 (Fehler)
+ */
     function grantPermission($Arol_id,$Aops_id,$Aobj_id,$Asetid)
     {
 		// Serialization des ops_id Arrays
@@ -347,9 +361,11 @@ class RbacAdmin
 	    }
 		return 1;
     }
-// @access public
-// @params int,array(int,int) (OBjektID und RoleId)
-// @return 1,-1 (Fehler)
+/**
+ * @access public
+ * @params int,array(int,int) (OBjektID und RoleId)
+ * @return 1,-1 (Fehler)
+ */
     function revokePermission($Aobj_id,$Arol_id = "",$Aset_id = "")
     {
 		if($Aset_id)
@@ -375,9 +391,11 @@ class RbacAdmin
 		}
 		return 1;
     }
-// @access public
-// @params int,string (RoleID und Object Type)  
-// @return int[] (OperationID aus rbac_templates sonst 0)
+/**
+ * @access public
+ * @params int,string (RoleID und Object Type)  
+ * @return int[] (OperationID aus rbac_templates sonst 0)
+ */
     function getRolePermission($Arol_id,$Atype,$Aparent)
     {
 		$ops_id = array();
@@ -401,9 +419,11 @@ class RbacAdmin
 		}
 		return $ops_id;
     }
-// @access public
-// @params int int (RoleFolderId Destination Source)  
-// @return 1,-1 (Fehler)
+/**
+ * @access public
+ * @params int int (RoleFolderId Destination Source)  
+ * @return 1,-1 (Fehler)
+ */
 	function copyRolePermission($Arol_id,$Afrom,$Ato)
 	{
 		$query = "SELECT * FROM rbac_templates ".
@@ -430,9 +450,11 @@ class RbacAdmin
 		}
 		return true;
 	}
-// @access public
-// @params int,string,int[] (RoleID RoleFolderId)  
-// @return 1,-1 (Fehler)
+/**
+ * @access public
+ * @params int,string,int[] (RoleID RoleFolderId)  
+ * @return 1,-1 (Fehler)
+ */
 	function deleteRolePermission($Arol_id,$Aparent)
 	{
 		$query = "DELETE FROM rbac_templates ".
@@ -447,10 +469,11 @@ class RbacAdmin
 		} 
 		return true;
 	}
-
-// @access public
-// @params int,string,int[] (RoleID und Object Type und OperationID)  
-// @return 1,-1 (Fehler)
+/**
+ * @access public
+ * @params int,string,int[] (RoleID und Object Type und OperationID)  
+ * @return 1,-1 (Fehler)
+ */
     function setRolePermission($Arol_id,$Atype,$Aops_id,$Aparent)
     {
 		if(!$Aops_id)
@@ -470,9 +493,11 @@ class RbacAdmin
 		}
 		return 1;
     }
-// @access public
-// @params int (ObjectId eines Objektes)  
-// @return array(int) (Array mit setIDs)
+/**
+ * @access public
+ * @params int (ObjectId eines Objektes)  
+ * @return array(int) (Array mit setIDs)
+ */
     function getSetIdByObject($Aobj_id)
     {
 		$set_id = array();
@@ -491,9 +516,11 @@ class RbacAdmin
         }
 		return $set_id;
     }
-// @access public
-// @params int (ObjectId des RoleFolders)  
-// @return array(int) (Array mit setIDs)
+/**
+ * @access public
+ * @params int (ObjectId des RoleFolders)  
+ * @return array(int) (Array mit setIDs)
+ */
 	function getRoleListByObject($Aparent)
 	{
 		$role_list = array();
@@ -523,9 +550,11 @@ class RbacAdmin
 		}
 		return $role_list;
 	}
-// @access public
-// @params int (ObjectId des RoleFolders)  
-// @return array(int) (Array mit setIDs)
+/**
+ * @access public
+ * @params int (ObjectId des RoleFolders)  
+ * @return array(int) (Array mit setIDs)
+ */
 	function assignRoleToFolder($Arol_id,$Aparent)
 	{
 		$query = "INSERT INTO rbac_fa (rol_id,parent) ".
@@ -539,9 +568,11 @@ class RbacAdmin
 		}
 		return true;
 	}
-// @access public
-// @params int (ObjectId einer Rolle)  
-// @return array(int) (Array mit setIDs)
+/**
+ * @access public
+ * @params int (ObjectId einer Rolle)  
+ * @return array(int) (Array mit setIDs)
+ */
 	function getRoleData($Aobj_id)
 	{
 		$role_list = array();
@@ -569,9 +600,11 @@ class RbacAdmin
 		}
 		return $role_list;
 	}
-// @access public
-// @params int (ObjectId des RoleFolders)  
-// @return array(int) (Array mit setIDs)
+/**
+ * @access public
+ * @params int (ObjectId des RoleFolders)  
+ * @return array(int) (Array mit setIDs)
+ */
 	function getFoldersAssignedToRole($Arol_id)
 	{
 		$parent = array();
@@ -591,10 +624,11 @@ class RbacAdmin
 		}
 		return $parent;
 	}
-
-// @access public
-// @params int (ObjectId des RoleFolders)  
-// @return array(int) (Array mit setIDs)
+/**
+ * @access public
+ * @params int (ObjectId des RoleFolders)  
+ * @return array(int) (Array mit setIDs)
+ */
 	function getRoleFolder()
 	{
 		$parent = array();
@@ -613,9 +647,11 @@ class RbacAdmin
 		}
 		return $parent;
 	}
-// @access public
-// @params int (ObjectId des Parent Objects)  
-// @return int array(Id und parentID des RoleFolders) sonst false
+/**
+ * @access public
+ * @params int (ObjectId des Parent Objects)  
+ * @return int array(Id und parentID des RoleFolders) sonst false
+ */
 	function getRoleFolderOfObject($Aparent)
 	{
 		$rol_data = array();
@@ -638,26 +674,30 @@ class RbacAdmin
 		}
 		return $rol_data;
 	}
-// @access public
-// @params int (ObjectId des ROleFolders)  
-// @return int (ObjectId) sonst false
+/**
+ * @access public
+ * @params int (ObjectId des ROleFolders)  
+ * @return int (ObjectId) sonst false
+ */
 	function getParentObject($Achild)
 	{
 		$res = $this->db->query("SELECT * FROM tree ".
-			"WHERE child = '".$Achild."'");
+								"WHERE child = '".$Achild."'");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$parent = $row->parent;
 		}
 		return $parent;
 	}
-// @access public
-// @params int (TypeId des Objektes)  
-// @return array(int) (OperationId) sonst false
+/**
+ * @access public
+ * @params int (TypeId des Objektes)  
+ * @return array(int) (OperationId) sonst false
+ */
 	function getOperationsOnType($a_typ_id)
 	{
 		$res = $this->db->query("SELECT * FROM rbac_ta ".
-			"WHERE typ_id = '".$a_typ_id."'");
+								"WHERE typ_id = '".$a_typ_id."'");
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$ops_id[] = $row->ops_id;

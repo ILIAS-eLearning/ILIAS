@@ -106,8 +106,11 @@
 		  </td>
 		</tr>
 	</table>
-
-	<br>
+<br>
+<strong>
+	{MESSAGE_TOP}
+</strong>
+<br><br>
 	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=permSave" name="objectItems" method="post">
 	  <table width="100%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="header">
@@ -151,20 +154,18 @@
 			</td>
 			<!-- END CHECK_INHERIT -->
 		  </tr>
+		  <tr class="header">
+			<td colspan="100">
+			  <input type="SUBMIT" value="submit">
+			</td>
+		  </tr>
 	  </table>
-	  <br>
-	  <input type="SUBMIT" value="submit">
-
-
-
-<!-- BEGIN LOCAL_ROLES -->
-<br>
-<br>
+<br><br>
 <strong>
-	  You can also define local roles
+	  {MESSAGE_BOTTOM}
 </strong>
 <br><br>
-	<form action="object.php?cmd=add_role&obj_id={OBJECT_ID}&parent={PARENT_ID}" method="POST">
+	<form action="object.php?cmd=addRole&obj_id={OBJ_ID}&parent={TPOS}" method="POST">
 	  <table>
 		  <tr>
 			<td>
@@ -176,6 +177,5 @@
 		  </tr>
 	  </table>
 	</form>
-<!-- END LOCAL_ROLES -->
 </body>
 </html>

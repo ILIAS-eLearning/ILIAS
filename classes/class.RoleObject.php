@@ -1,4 +1,11 @@
 <?php
+/**
+ * Class RoleObject
+ * @extends class.Object.php
+ * @author Stefan Meyer <smeyer@databay.de> 
+ * $Id$ 
+ * 
+*/
 include_once("classes/class.Object.php");
 class RoleObject extends Object
 {
@@ -30,9 +37,10 @@ class RoleObject extends Object
 		// => sonst deleteLocalRole() für alle Kinder und den zu löschenden RoleFolder
 
 		$rbacsystem = new RbacSystemH($this->ilias->db);
-		if($rbacsystem->checkAccess($_GET["obj_id"],"delete",$_GET["parent"]) && $_POST["id"])
+		if($_POST["id"])
 		{
 			$rbacadmin = new RbacAdminH($this->ilias->db);
+			$parent = $_GET["parent"] == $this->SYSTEM_FOLDER_ID ? $this->ROOT_FOLDER_ID : $_GET["parent"];
 			foreach($_POST["id"] as $id)
 			{
 				$folders = $rbacadmin->getFoldersAssignedToRole($id);
@@ -45,7 +53,7 @@ class RoleObject extends Object
 					foreach($folders as $folder)
 					{
 						$path_cmp = $tree->showPathId($folder,1);
-						if(in_array($_GET["parent"],$path_cmp))
+						if(in_array($parent,$path_cmp))
 						{
 							$to_delete[] = $folder;
 						}
