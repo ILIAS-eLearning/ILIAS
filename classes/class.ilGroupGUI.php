@@ -3014,12 +3014,17 @@ class ilGroupGUI extends ilObjectGUI
 			$grp_node_data = $saved_grp_tree->getNodeData($id);
 			$grp_subtree_nodes = $saved_grp_tree->getSubTree($grp_node_data);
 		
+			
 			if( $grp_subtree_nodes[0]["perm"] == 1 ) 
 			{
 				// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES FROM TREE TABLE
 				$saved_tree = new ilTree(-(int)$id);
 				$node_data = $saved_tree->getNodeData($id);
 				$subtree_nodes = $saved_tree->getSubTree($node_data);
+			}
+			else
+			{
+				$subtree_nodes = array();
 			}
 			
 
@@ -3036,8 +3041,11 @@ class ilGroupGUI extends ilObjectGUI
 				$node_obj->delete();
 			}
 			
-			// FIRST DELETE ALL ENTRIES IN RBAC TREE
-			$this->tree->deleteTree($node_data);
+			// DELETE ALL ENTRIES IN TREES
+			if( $grp_subtree_nodes[0]["perm"] == 1 ) 
+			{
+				$this->tree->deleteTree($node_data);
+			}
 			$this->grp_tree->deleteTree($grp_node_data);
 			
 		}
