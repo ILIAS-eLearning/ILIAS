@@ -138,7 +138,7 @@ class ASS_MatchingQuestion extends ASS_Question
 	* @return string The QTI xml representation of the question
 	* @access public
 	*/
-	function to_xml($a_include_header = true, $a_include_binary = true)
+	function to_xml($a_include_header = true, $a_include_binary = true, $a_shuffle = false)
 	{
 		if (!empty($this->domxml))
 		{
@@ -206,8 +206,18 @@ class ASS_MatchingQuestion extends ASS_Question
 			array_push($matchingtext_orders, $matchingpair->get_matchingtext_order());
 		}
 
-		foreach ($this->matchingpairs as $index => $matchingpair)
+		// shuffle it
+		$pkeys = array_keys($this->matchingpairs);
+		if ($this->getshuffle() && $a_shuffle)
 		{
+			$pkeys = $this->pcArrayShuffle($pkeys);
+		}
+
+		// add answers
+		foreach ($pkeys as $index)
+		{
+			$matchingpair = $this->matchingpairs[$index];
+
 			$qtiResponseLabel = $this->domxml->create_element("response_label");
 			$qtiResponseLabel->set_attribute("ident", $matchingpair->get_order());
 			$qtiResponseLabel->set_attribute("match_max", "1");
@@ -222,8 +232,9 @@ class ASS_MatchingQuestion extends ASS_Question
 		}
 
 		// add matchingtext
-		foreach ($this->matchingpairs as $index => $matchingpair)
+		foreach ($pkeys as $index)
 		{
+			$matchingpair = $this->matchingpairs[$index];
 			$qtiResponseLabel = $this->domxml->create_element("response_label");
 			$qtiResponseLabel->set_attribute("ident", $matchingpair->get_matchingtext_order());
 			$qtiMaterial = $this->domxml->create_element("material");

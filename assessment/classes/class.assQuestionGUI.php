@@ -434,7 +434,7 @@ class ASS_QuestionGUI
 		$this->lng->loadLanguageModule("content");
 		$page =& new ilPageObject("qpl", $this->object->getId());
 		$page_gui =& new ilPageObjectGUI($page);
-		$page_gui->setQuestionXML($this->object->to_xml(false, false));
+		$page_gui->setQuestionXML($this->object->to_xml(false, false, true));
 		$page_gui->setTemplateTargetVar($a_temp_var);
 		$page_gui->setOutputMode("presentation");
 		//$page_gui->setHeader($this->object->getTitle());
