@@ -21,6 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
+define ("IL_MODE_ALIAS", 1);
+define ("IL_MODE_OUTPUT", 2);
+define ("IL_MODE_FULL", 3);
+
 require_once("classes/class.ilObjMediaObject.php");
 
 /**
@@ -40,7 +44,6 @@ class ilMediaObject extends ilObjMediaObject
 	var $is_alias;
 	var $origin_id;
 	var $id;
-	var $ilias;
 	var $dom;
 	var $width;
 	var $height;
@@ -57,11 +60,8 @@ class ilMediaObject extends ilObjMediaObject
 	*/
 	function ilMediaObject($a_id = 0)
 	{
-		global $ilias;
 
-		$this->setType("mob");
-		$this->id = $a_id;
-		$this->ilias =& $ilias;
+		parent::ilObjMediaObject($a_id);
 
 		$this->is_alias = false;
 		$this->parameters = array();
@@ -73,10 +73,28 @@ class ilMediaObject extends ilObjMediaObject
 	}
 
 	/**
-	* todo
+	* read media object data from db
 	*/
 	function read()
 	{
+		// read media_object record
+		$query = "SELECT * FROM media_object WHERE id = '".$this->getId()."'";
+		$mob_set = $this->ilias->db->query($query);
+		$mob_rec = $mob_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setWidth($mob_rec["width"]);
+		$this->setHeight($mob_rec["height"]);
+		$this->setHAlign($mob_rec["halign"]);
+
+		// read mob parameters
+		$query = "SELECT * FROM mob_parameter WHERE mob_id = '".$this->getId()."'";
+		$par_set = $this->ilias->db->query($query);
+		while ($par_rec = $par_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->parameters[$par_rec["name"]] = $par_rec["value"];
+		}
+
+		// get meta data
+		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
 
 	/**
@@ -268,21 +286,32 @@ class ilMediaObject extends ilObjMediaObject
 
 	/**
 	* get MediaObject XLM Tag
-	*
-	* @param	boolean		$a_alias	return tag as media alias
+	*  @param	int		$a_mode		IL_MODE_ALIAS | IL_MODE_OUTPUT | IL_MODE_FULL
 	*/
-	function getXML($a_alias = false)
+	function getXML($a_mode = IL_MODE_FULL)
 	{
+		// TODO: full implementation of all parameters
 		$xml = "<MediaObject>\n";
-		if ($a_alias)
+		switch ($a_mode)
 		{
-			$xml .= "<MediaAlias OriginId=\"".$this->getId()."\"/>\n";
-			$xml .= "<Layout Width=\"".$this->getWidth()."\" Height=\"".$this->getHeight()."\"/>\n";
-			$parameters = $this->getParameters();
-			foreach ($parameters as $name => $value)
-			{
-				$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
-			}
+			case IL_MODE_ALIAS:
+				$xml .= "<MediaAlias OriginId=\"".$this->getId()."\"/>\n";
+				$xml .= "<Layout Width=\"".$this->getWidth()."\" Height=\"".$this->getHeight()."\"/>\n";
+				$parameters = $this->getParameters();
+				foreach ($parameters as $name => $value)
+				{
+					$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
+				}
+				break;
+
+			case IL_MODE_OUTPUT:
+				$xml .= "<Layout Width=\"".$this->getWidth()."\" Height=\"".$this->getHeight()."\"/>\n";
+				$parameters = $this->getParameters();
+				foreach ($parameters as $name => $value)
+				{
+					$xml .= "<Parameter Name=\"$name\" Value=\"$value\"/>\n";
+				}
+				break;
 		}
 		$xml .= "</MediaObject>";
 
