@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 require_once("classes/class.ilExplorer.php");
+require_once("classes/class.ilObjectFactory.php");
 
 class ilGroupExplorer extends ilExplorer
 {
@@ -35,8 +36,37 @@ class ilGroupExplorer extends ilExplorer
 		parent::ilExplorer($a_target);
 		
 	}
+	/**
+	* Creates output
+	* recursive method
+	* @access	public
+	* @return	string
+	*/
+	function getOutput()
+	{
+		$this->format_options[0]["tab"] = array();
+		$obj_factory =& new ilObjectFactory();
+		
+		$depth = $this->tree->getMaximumDepth();
 
-/**
+		for ($i=0;$i<$depth;++$i)
+		{
+			$this->createLines($i);
+		}
+
+		foreach ($this->format_options as $key => $options)
+		{
+			if ($options["visible"] and $key != 0)
+			{
+				$node = $obj_factory->getInstanceByRefId($options["child"]); 
+				$this->formatObject($options["child"],$options,$node->getType());
+			}
+		}
+
+		return implode('',$this->output);
+	}
+	
+	/**
 	* Creates output
 	* recursive method
 	* overwritten method from class Explorer
@@ -45,7 +75,7 @@ class ilGroupExplorer extends ilExplorer
 	* @param	array
 	* @return	string
 	*/
-	function formatObject($a_node_id,$a_option)
+	function formatObject($a_node_id,$a_option,$a_type)
 	{
 		global $lng;
 
@@ -93,9 +123,14 @@ class ilGroupExplorer extends ilExplorer
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
 		
-		//TODO
-		$tpl->setVariable("LINK_TARGET", "group_view.php?grp_id=".$a_node_id);
-		//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id);
+		if ($a_type == "grp")
+		{
+			$tpl->setVariable("LINK_TARGET", "group_view.php?grp_id=".$a_node_id);
+		}
+		else
+		{
+			$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id);
+		}
 		
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
