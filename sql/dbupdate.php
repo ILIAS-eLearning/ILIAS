@@ -94,7 +94,22 @@ ALTER TABLE `frm_data` ADD `top_usr_id` BIGINT( 20 ) NOT NULL ;
 # delete column in `frm_threads`
 ALTER TABLE `frm_threads` DROP `thr_last_modified`;
 
+
 <#5>
 # There are some old wrong entries in rbac_templates => delete them
 DELETE FROM rbac_templates
 WHERE parent='152';
+
+<#6>
+# new forum operation in `rbac_operations`
+INSERT INTO `rbac_operations` ( `ops_id` , `operation` , `description` ) 
+VALUES (
+'9', 'edit post', 'edit forum articles'
+);
+
+# new operation link in `rbac_ta`
+INSERT INTO `rbac_ta` ( `typ_id` , `ops_id` ) 
+VALUES (
+'14', '9'
+);
+
