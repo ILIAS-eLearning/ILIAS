@@ -205,6 +205,8 @@ common#:#dbk_new#:#Neues Digilib-Buch
 common#:#dbk_read#:#Digilib-Buch lesen
 common#:#dbk_visible#:#Digilib-Buch ist sichtbar
 common#:#dbk_write#:#Digilib-Buch bearbeiten
+common#:#DD.MM.YYYY#:#TT.MM.JJJJ
+common#:#HH:MM#:#SS:MM
 common#:#default#:#Standard
 common#:#default_language#:#Standard-Sprache
 common#:#default_perm_settings#:#Rechtevorgaben
