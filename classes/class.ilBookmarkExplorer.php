@@ -92,7 +92,7 @@ class ilBookmarkExplorer extends ilExplorer
 		{
 //			var_dump("<pre>",$objects,"</pre");
 			$tab = ++$a_depth - 2;
-			
+
 			if($a_depth < 4)
 			{
 				for($i=0;$i<count($objects);++$i)
@@ -108,7 +108,7 @@ class ilBookmarkExplorer extends ilExplorer
 				{
 					continue;
 				}
-				
+
 				//ask for FILTER
 				if ($object["child"] != $this->root_id)
 				{
@@ -221,7 +221,7 @@ class ilBookmarkExplorer extends ilExplorer
 		//     negative if object is compressed
 		$a_child = $a_type == '+' ? $a_child : -(int) $a_child;
 
-		return $_SERVER["SCRIPT_NAME"]."?mexpand=".$a_child;
+		return $_SERVER["SCRIPT_NAME"]."?cmd=explorer&mexpand=".$a_child;
 	}
 } // END class.ilMailExplorer
 ?>

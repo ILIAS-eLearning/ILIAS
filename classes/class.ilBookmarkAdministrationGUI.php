@@ -10,6 +10,7 @@
 * @package application
 */
 
+require_once ("./classes/class.ilBookmarkExplorer.php");
 require_once ("./classes/class.ilBookmarkFolder.php");
 require_once ("./classes/class.ilBookmark.php");
 
@@ -61,32 +62,84 @@ class ilBookmarkAdministrationGUI
 		$this->tree->setTableNames('bookmark_tree','bookmark_data');
 		$this->root_id = $this->tree->readRootId();
 
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		//$title = $this->object->getTitle();
-
-		// catch feedback message
-		//sendInfo();
-
-		//if (!empty($title))
-		//{
-			$this->tpl->setVariable("HEADER", $lng->txt("bookmarks"));
-		//}
-		$this->displayLocator();
-
 	}
+
+
+	/**
+	* output main frameset of bookmark administration
+	* left frame: explorer tree of bookmark folders
+	* right frame: content of bookmark folders
+	*/
+	function frameset()
+	{
+		$this->tpl = new ilTemplate("tpl.bookmark_frameset.html", false, false);
+	}
+
+	/**
+	* output explorer tree with bookmark folders
+	*/
+	function explorer()
+	{
+		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
+
+		$exp = new ilBookmarkExplorer("usr_bookmarks.php",$_SESSION["AccountId"]);
+		$exp->setTargetGet("bmf_id");
+
+		if ($_GET["mexpand"] == "")
+		{
+			$mtree = new ilTree($_SESSION["AccountId"]);
+			$mtree->setTableNames('bookmark_tree','bookmark_data');
+			$expanded = $mtree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["mexpand"];
+		}
+
+		$exp->setExpand($expanded);
+
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("EXPLORER",$output);
+		$this->tpl->setVariable("ACTION", "usr_bookmarks.php?cmd=explorer&mexpand=".$_GET["mexpand"]);
+		$this->tpl->parseCurrentBlock();
+	}
+
+
+	/**
+	* output main header (title and locator)
+	*/
+	function main_header()
+	{
+		global $lng;
+
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+		$this->tpl->setVariable("HEADER", $lng->txt("bookmarks"));
+		$this->displayLocator();
+	}
+
 
 	/*
 	* display content of bookmark folder
 	*/
-	function view()
+	function view($a_output_header = true)
 	{
 		global $tree, $rbacsystem;
+
+		if ($a_output_header)
+		{
+			$this->main_header();
+		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_view.html");
 		$num = 0;
 
 
-		$this->tpl->setVariable("FORMACTION", "bookmarks.php?bmf_id=".$this->id."&cmd=post");
+		$this->tpl->setVariable("FORMACTION", "usr_bookmarks.php?bmf_id=".$this->id."&cmd=post");
 
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
@@ -104,7 +157,7 @@ class ilBookmarkAdministrationGUI
 			$num++;
 
 			$this->tpl->setVariable("HEADER_TEXT", $out);
-			$this->tpl->setVariable("HEADER_LINK", "bookmarks.php?bmf_id=".$this->id."&order=type&direction=".
+			$this->tpl->setVariable("HEADER_LINK", "usr_bookmarks.php?bmf_id=".$this->id."&order=type&direction=".
 							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
 
 			$this->tpl->parseCurrentBlock();
@@ -184,8 +237,8 @@ class ilBookmarkAdministrationGUI
 
 				// type icon
 				$link = ($object["type"] == "bmf") ?
-					"bookmarks.php?cmd=editForm&type=bmf&obj_id=".$object["obj_id"]."&bmf_id=".$this->id :
-					"bookmarks.php?cmd=editForm&type=bm&obj_id=".$object["obj_id"]."&bmf_id=".$this->id;
+					"usr_bookmarks.php?cmd=editForm&type=bmf&obj_id=".$object["obj_id"]."&bmf_id=".$this->id :
+					"usr_bookmarks.php?cmd=editForm&type=bm&obj_id=".$object["obj_id"]."&bmf_id=".$this->id;
 				$img_type = ($object["type"] == "bmf") ? "cat" : $object["type"];
 				$val = ilUtil::getImageTagByType($img_type, $this->tpl->tplPath);
 
@@ -193,7 +246,7 @@ class ilBookmarkAdministrationGUI
 				
 				// title
 				$link = ($object["type"] == "bmf") ?
-					"bookmarks.php?bmf_id=".$object["obj_id"] :
+					"usr_bookmarks.php?bmf_id=".$object["obj_id"] :
 					$object["target"];
 				$this->add_cell($object["title"], $link);
 
@@ -258,11 +311,6 @@ class ilBookmarkAdministrationGUI
 		$path = $this->tree->getPathFull($this->id);
 
 		$modifier = 1;
-		/*
-		if (isset($_GET["obj_id"]))
-		{
-			$modifier = 0;
-		}*/
 
 		foreach ($path as $key => $row)
 		{
@@ -277,7 +325,7 @@ class ilBookmarkAdministrationGUI
 				$row["title"];
 			$this->tpl->setVariable("ITEM", $title);
 			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$this->tpl->setVariable("LINK_ITEM", "bookmarks.php?bmf_id=".$row["child"]);
+			$this->tpl->setVariable("LINK_ITEM", "usr_bookmarks.php?bmf_id=".$row["child"]);
 			$this->tpl->parseCurrentBlock();
 
 		}
@@ -296,15 +344,6 @@ class ilBookmarkAdministrationGUI
 
 		$this->tpl->setCurrentBlock("locator");
 
-		//$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
-
-		/*
-		if ($_GET["cmd"] == "confirmDeleteAdm")
-		{
-			$prop_name = "delete_object";
-		} */
-
-		//$this->tpl->setVariable("TXT_PATH",$this->lng->txt($prop_name)." ".strtolower($this->lng->txt("of")));
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -316,12 +355,14 @@ class ilBookmarkAdministrationGUI
 	{
 		global $tpl, $lng;
 
+		$this->main_header();
+
 		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_newfolder.html");
 
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 		$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("bookmark_folder_new"));
-		$tpl->setVariable("FORMACTION", "bookmarks.php?bmf_id=".$this->id."&cmd=createBookmarkFolder");
+		$tpl->setVariable("FORMACTION", "usr_bookmarks.php?bmf_id=".$this->id."&cmd=createBookmarkFolder");
 	}
 
 
@@ -332,6 +373,8 @@ class ilBookmarkAdministrationGUI
 	{
 		global $tpl, $lng;
 
+		$this->main_header();
+
 		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_newfolder.html");
 
 		$bmf = new ilBookmarkFolder($_GET["obj_id"]);
@@ -340,7 +383,7 @@ class ilBookmarkAdministrationGUI
 		$tpl->setVariable("TITLE", $bmf->getTitle());
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 		$tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("bookmark_folder_edit"));
-		$tpl->setVariable("FORMACTION", "bookmarks.php?obj_id=".$_GET["obj_id"].
+		$tpl->setVariable("FORMACTION", "usr_bookmarks.php?obj_id=".$_GET["obj_id"].
 			"&bmf_id=".$this->id."&cmd=updateBookmarkFolder");
 	}
 
@@ -352,6 +395,8 @@ class ilBookmarkAdministrationGUI
 	{
 		global $tpl, $lng;
 
+		$this->main_header();
+
 		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_new.html");
 
 		$tpl->setVariable("TXT_BOOKMARK_NEW", $lng->txt("bookmark_new"));
@@ -361,7 +406,7 @@ class ilBookmarkAdministrationGUI
 
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
-		$tpl->setVariable("FORMACTION", "bookmarks.php?bmf_id=".$this->id."&cmd=createBookmark");
+		$tpl->setVariable("FORMACTION", "usr_bookmarks.php?bmf_id=".$this->id."&cmd=createBookmark");
 		$tpl->parseCurrentBlock();
 	}
 
@@ -372,6 +417,8 @@ class ilBookmarkAdministrationGUI
 	{
 		global $tpl, $lng;
 
+		$this->main_header();
+
 		$tpl->addBlockFile("ADM_CONTENT", "ADM_content", "tpl.bookmark_new.html");
 
 		$tpl->setVariable("TXT_BOOKMARK_NEW", $lng->txt("bookmark_edit"));
@@ -379,12 +426,14 @@ class ilBookmarkAdministrationGUI
 		$tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 
 		$Bookmark = new ilBookmark($_GET["obj_id"]);
-		$tpl->setVariable("TITLE", $Bookmark->getTitle());
-		$tpl->setVariable("TARGET", $Bookmark->getTarget());
+		$title = (isset($_POST["title"])) ? $_POST["title"] : $Bookmark->getTitle();
+		$tpl->setVariable("TITLE", $title);
+		$target = (isset($_POST["target"])) ? $_POST["target"] : $Bookmark->getTarget();
+		$tpl->setVariable("TARGET", $target);
 
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
-		$tpl->setVariable("FORMACTION", "bookmarks.php?obj_id=".$_GET["obj_id"].
+		$tpl->setVariable("FORMACTION", "usr_bookmarks.php?obj_id=".$_GET["obj_id"].
 			"&bmf_id=".$this->id."&cmd=updateBookmark");
 		$tpl->parseCurrentBlock();
 	}
@@ -395,6 +444,13 @@ class ilBookmarkAdministrationGUI
 	*/
 	function createBookmarkFolder()
 	{
+		// check title
+		if (empty($_POST["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// create bookmark folder
 		$bmf = new ilBookmarkFolder();
 		$bmf->setTitle($_POST["title"]);
 		$bmf->setParent($this->id);
@@ -405,8 +461,18 @@ class ilBookmarkAdministrationGUI
 	}
 
 
+	/**
+	* update bookmark folder
+	*/
 	function updateBookmarkFolder()
 	{
+		// check title
+		if (empty($_POST["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// update bookmark folder
 		$bmf = new ilBookmarkFolder($_GET["obj_id"]);
 		$bmf->setTitle($_POST["title"]);
 		$bmf->update();
@@ -420,6 +486,17 @@ class ilBookmarkAdministrationGUI
 	*/
 	function createBookmark()
 	{
+		// check title and target
+		if (empty($_POST["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+		}
+		if (empty($_POST["target"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// create bookmark
 		$bm = new ilBookmark();
 		$bm->setTitle($_POST["title"]);
 		$bm->setTarget($_POST["target"]);
@@ -429,8 +506,22 @@ class ilBookmarkAdministrationGUI
 		$this->view();
 	}
 
+	/**
+	* update bookmark in db
+	*/
 	function updateBookmark()
 	{
+		// check title and target
+		if (empty($_POST["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("please_enter_title"),$this->ilias->error_obj->MESSAGE);
+		}
+		if (empty($_POST["target"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("please_enter_target"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		// update bookmark
 		$bm = new ilBookmark($_GET["obj_id"]);
 		$bm->setTitle($_POST["title"]);
 		$bm->setTarget($_POST["target"]);
@@ -444,10 +535,18 @@ class ilBookmarkAdministrationGUI
 	*/
 	function delete()
 	{
+
+		$this->main_header();
+
+		if (!isset($_POST["id"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
 
 		sendInfo($this->lng->txt("info_delete_sure"));
-		$this->tpl->setVariable("FORMACTION", "bookmarks.php?bmf_id=".$this->id."&cmd=post");
+		$this->tpl->setVariable("FORMACTION", "usr_bookmarks.php?bmf_id=".$this->id."&cmd=post");
 
 		// output table header
 		$cols = array("type", "title", "target");
@@ -567,10 +666,12 @@ class ilBookmarkAdministrationGUI
 			}
 		}
 
+		$this->main_header();
+
 		// Feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 
-		$this->view();
+		$this->view(false);
 	}
 
 
@@ -663,7 +764,7 @@ class ilBookmarkAdministrationGUI
 
 			$this->tpl->setCurrentBlock("add_obj");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$this->tpl->setVariable("FORMACTION_OBJ_ADD", "bookmarks.php?cmd=newForm&bmf_id=".$_GET["bmf_id"]);
+			$this->tpl->setVariable("FORMACTION_OBJ_ADD", "usr_bookmarks.php?cmd=newForm&bmf_id=".$_GET["bmf_id"]);
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->parseCurrentBlock();
 		}
