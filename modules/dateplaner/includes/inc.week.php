@@ -17,12 +17,12 @@
 * 	@description : stet variables in the setNavigation of week 
 * 	@param int timestamp
 * 	@param string rowSpan   ( to format the Span of rows, control variable )
-*	@global Array CSCW_language ( include Languageproperties )
+*	@global Array DP_language ( include Languageproperties )
 * 	@return string week_navigation   ( contains the output ) 
 */
 function setNavigation($timestamp,$rowSpan)
 {
-	global $CSCW_language;
+	global $DP_language;
 
 	$Gui		= new Gui();
 
@@ -87,19 +87,20 @@ function setDateInTblHead($timestamp)
 * 	@description : get Content for the Week View from the sortdates functions 
 * 	@param int begin_ts
 * 	@param int end_ts
-* 	@global string CSCW_UId     ( actual User ID )
-* 	@global Array CSCW_Keywords ( actuel Keywords)
+* 	@param int $DB (object of th db class ) 
+* 	@global string DP_UId     ( actual User ID )
+* 	@global Array DP_Keywords ( actuel Keywords)
 * 	@return Array [][][] 
 * 			[0]	Dates			( normel Dates )
 * 			[1] WholeDates		( one day Dates )
 */
-function getContent($begin_ts, $end_ts)
+function getContent($begin_ts, $end_ts, $DB)
 {
 
-	global $CSCW_UId , $CSCW_Keywords ;
+	global $DP_UId , $_SESSION ;
 
-	$Dates				= getDateList ($CSCW_UId, $begin_ts, $end_ts, $CSCW_Keywords);
-	$WholeDates			= getWholeDayDateList ($CSCW_UId, $begin_ts, $end_ts, $CSCW_Keywords);
+	$Dates				= getDateList ($DP_UId, $begin_ts, $end_ts, $_SESSION[DP_Keywords], $DB);
+	$WholeDates			= getWholeDayDateList ($DP_UId, $begin_ts, $end_ts, $_SESSION[DP_Keywords], $DB);
 	$DATE[0]=$Dates;
 	$DATE[1]=$WholeDates;
 	return $DATE;
@@ -114,21 +115,21 @@ function getContent($begin_ts, $end_ts)
 *	@param Array Dates			( Date Data )
 *	@param string style			( to format rows, control variable )
 *	@param string row_height	( to format the height of rows, control variable )
-*	@global Array CSCW_language ( include Languageproperties )
-*	@global	bol $CSCW_JSscript  ( is 0 if JavaScript disabled )
+*	@global Array DP_language ( include Languageproperties )
+*	@global	$_SESSION			( DP_JSscript is 0 if JavaScript disabled )
 *	@return string week_float   ( contains the output )
 */
 function setDatesInWeek($date_ts, $Dates, $day_ts, $row_height, &$style)
 {
 
-		global $CSCW_language, $CSCW_CSS, $CSCW_JSscript;
+		global $DP_language, $DP_CSS, $_SESSION;
 
 		$ttd = new TimestampToDate;
 		$Gui = new Gui();
 
 		$datesperhalfhourmax	= 4 ; // max dates in a day
 		$shorttextmax			= 10; // max lenght of shorttext in normal dates
-		$today_style			= $CSCW_CSS[tblrow1];
+		$today_style			= $DP_CSS[tblrow1];
 
 		$ttd->ttd($date_ts);
 		$day = $ttd->day_of_month ;
@@ -172,10 +173,10 @@ function setDatesInWeek($date_ts, $Dates, $day_ts, $row_height, &$style)
 				$text = $Dates[$i][6];
 				$id = rand(1,100);
 
-				if($CSCW_JSscript != 1 ) {
-					$week_float = $week_float."<span ".$CSCW_CSS[small]."><a  TITLE=\"".$alttag."\" href=\"date.php?timestamp=".$day_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\">".$starttime." - ".$endtime."</a> <br>".$shortext."</span><br>"; 
+				if($_SESSION[DP_JSscript] != 1 ) {
+					$week_float = $week_float."<span ".$DP_CSS[small]."><a  TITLE=\"".$alttag."\" href=\"dateplaner.php?app=date&timestamp=".$day_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\">".$starttime." - ".$endtime."</a> <br>".$shortext."</span><br>"; 
 				}else {
-					$week_float = $week_float."<span ".$CSCW_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')  href=\"javascript:popup('date.php?timestamp=".$day_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >".$starttime." - ".$endtime."</a> <br>".$shortext."</span><br>"; 
+					$week_float = $week_float."<span ".$DP_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')  href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$day_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >".$starttime." - ".$endtime."</a> <br>".$shortext."</span><br>"; 
 					$week_float.= $Gui->setToolTip($starttime, $endtime, $shortext, $text, $id );
 				}
 
@@ -183,7 +184,7 @@ function setDatesInWeek($date_ts, $Dates, $day_ts, $row_height, &$style)
 
 			if ($datesperhalfhourmax == $datesperhalfhour) 
 			{
-				$week_float = $week_float."<span ".$CSCW_CSS[small]."><a href=\"day.php?timestamp=".$date_ts."\">".$CSCW_language[more]."</a> </span>";
+				$week_float = $week_float."<span ".$DP_CSS[small]."><a href=\"day.php?timestamp=".$date_ts."\">".$DP_language[more]."</a> </span>";
 				break ;  
 			}
 		}
@@ -200,21 +201,21 @@ function setDatesInWeek($date_ts, $Dates, $day_ts, $row_height, &$style)
 * 	@param Array Dates			( Date Data )
 * 	@param string style		( to format rows, control variable )
 * 	@param string row_height   ( to format the height of rows, control variable )
-* 	@global Array CSCW_language ( include Languageproperties )
-* 	@global array CSCW_CSS		( contains CSS Strings from the conf.gui file )
-*	@global	bol $CSCW_JSscript ( is 0 if JavaScript disabled )
+* 	@global Array DP_language ( include Languageproperties )
+* 	@global array DP_CSS		( contains CSS Strings from the conf.gui file )
+*	@global	 $_SESSION ( $DP_JSscriptis 0 if JavaScript disabled )
 * 	@return string week_float   ( contains the output )
 */
 function setDayDatesInWeek($date_ts, $Dates, $row_height, &$style)
 {
-		global $CSCW_language, $CSCW_CSS, $CSCW_JSscript;
+		global $DP_language, $DP_CSS, $_SESSION;
 		$ttd = new TimestampToDate;
 		$Gui = new Gui();
 
 		$datesperhalfhourmax	= 4 ; // maximale Termine pro Tag
 		$shorttextmax			= 12; // maximale Länge des shorttextes
 
-		$today_style			= $CSCW_CSS[tblrow1];
+		$today_style			= $DP_CSS[tblrow1];
 
 		$ttd->ttd($date_ts);
 		$day = $ttd->day_of_month ;
@@ -255,10 +256,10 @@ function setDayDatesInWeek($date_ts, $Dates, $row_height, &$style)
 				$id = rand(100,200);
 
 
-				if($CSCW_JSscript != 1 ) {
-					$week_float = $week_float."<span ".$CSCW_CSS[small]."><a  TITLE=\"".$alttag."\" href=\"date.php?timestamp=".$day_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\"><b>".$shortext."</b></a> </span><br>"; 
+				if($_SESSION[DP_JSscript] != 1 ) {
+					$week_float = $week_float."<span ".$DP_CSS[small]."><a  TITLE=\"".$alttag."\" href=\"dateplaner.php?app=date&timestamp=".$day_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."\" target=\"_blank\"><b>".$shortext."</b></a> </span><br>"; 
 				}else {
-					$week_float = $week_float."<span ".$CSCW_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')  href=\"javascript:popup('date.php?timestamp=".$date_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" ><b>".$shortext."</b></a></span><br>"; 
+					$week_float = $week_float."<span ".$DP_CSS[small]."><a onMouseOver=show('".$id."') onMouseOut=hide('".$id."')  href=\"javascript:popup('dateplaner.php?app=date&timestamp=".$date_ts."&date_id=".$Dates[$i][0]."&PHPSESSID=".session_id()."','Date','width=600,height=650,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" ><b>".$shortext."</b></a></span><br>"; 
 					$week_float.= $Gui->setToolTip($starttime, $endtime, $shortext, $text, $id );
 				}
 
@@ -267,7 +268,7 @@ function setDayDatesInWeek($date_ts, $Dates, $row_height, &$style)
 			}
 			if ($datesperhalfhourmax == $datesperhalfhour) 
 			{
-				$week_float = $week_float."<span ".$CSCW_CSS[small]."><a href=\"day.php?timestamp=".$date_ts."\">".$CSCW_language[more]."</a> </span>";
+				$week_float = $week_float."<span ".$DP_CSS[small]."><a href=\"day.php?timestamp=".$date_ts."\">".$DP_language[more]."</a> </span>";
 				break ;  
 			}
 		}
@@ -281,27 +282,28 @@ function setDayDatesInWeek($date_ts, $Dates, $row_height, &$style)
 * 	@description : the Main function of the week view
 * 	@description : called from the executed file
 * 	@param int week_ts				( one timestamp in the week, which should be shown ) 
+* 	@param int $DB					(object of th db class ) 
 * 	@global array S_Datum			( contains Date from Table Top )
-* 	@global array CSCW_language		( include Languageproperties )
-* 	@global array CSCW_CSS			( contains CSS Strings from the conf.gui file )
-* 	@global string CSCW_Starttime	( include Start Time of during on day in week view )
-* 	@global string CSCW_Endtime		( include End Time of during on day in week view )
+* 	@global array DP_language		( include Languageproperties )
+* 	@global array DP_CSS			( contains CSS Strings from the conf.gui file )
+* 	@global string  $_SESSION 		( DP_Starttime include Start Time of during on day in week view and 
+*                                     DP_Endtimeinclude End Time of during on day in week view)
 *   @return Array Return
 *						[0] string week_navigation	( contains the navigation output )
 *						[1] string week_float		( contains the output )
 *						[2] array S_Datum			( contains Date from Table Top )
 */
-function setWeekView($week_ts)
+function setWeekView($week_ts, $DB)
 
 {
-	global $CSCW_language, $CSCW_CSS, $CSCW_Starttime, $CSCW_Endtime;
+	global $DP_language, $DP_CSS, $_SESSION;
 
 	srand(microtime()*1000000);
 
 	// time period for view
 
-	$from_time	= $CSCW_Starttime; 
-	$to_time	= $CSCW_Endtime;
+	$from_time	= $_SESSION[DP_Starttime]; 
+	$to_time	= $_SESSION[DP_Endtime];
 
 	$ttd = new TimestampToDate;
 
@@ -320,7 +322,7 @@ function setWeekView($week_ts)
 	// set Week view start and End time
 	$start_ts	= $week_ts;
 	$end_ts		= strtotime ("+6 days 23 hours 59 minutes 59 seconds", $week_ts );	
-	$DATE		= getContent($start_ts, $end_ts);
+	$DATE		= getContent($start_ts, $end_ts, $DB);
 	$Dates		= $DATE[0];
 	$WholeDates	= $DATE[1];
 
@@ -358,7 +360,7 @@ function setWeekView($week_ts)
 	$S_Datum = setDateInTblHead($week_ts) ;
 
 	$monatstag_ts	= $week_ts;
-    $style			= $CSCW_CSS[tblrow2];
+    $style			= $DP_CSS[tblrow2];
 
 	// 1st - one day dates , cause more important 
 	$c_rows	= 0;
@@ -368,7 +370,7 @@ function setWeekView($week_ts)
 		if ($i==0) 
 		{
 			$week_float = $week_float."<tr >\n";
-			$week_float = $week_float."<td width=\"4%\" height=\"".$row_height."%\" style=\"border-style: solid;  border-width: 1\" $CSCW_CSS[tblrow2] ><center>".$CSCW_language[o_day_date]."<center></td>";
+			$week_float = $week_float."<td width=\"4%\" height=\"".$row_height."%\" style=\"border-style: solid;  border-width: 1\" $DP_CSS[tblrow2] ><center>".$DP_language[o_day_date]."<center></td>";
 		}
 		else 
 		{
@@ -383,7 +385,7 @@ function setWeekView($week_ts)
 	$ttd->ttd($week_ts);
 	$week_ts		= mktime($from_time,0,0,$ttd->monthnumber,$ttd->day_of_month,$ttd->year_long);
 	$monatstag_ts	= $week_ts;
-	$style			= $CSCW_CSS[tblrow2];
+	$style			= $DP_CSS[tblrow2];
 	$day_ts			= mktime(0,0,0,$ttd->monthnumber,$ttd->day_of_month,$ttd->year_long);
 	
 	// 2nd - normal dates  
@@ -419,7 +421,7 @@ function setWeekView($week_ts)
 					}
 				}
 				$week_float = $week_float."<tr >\n";
-				$week_float = $week_float."<td width=\"4%\" height=\"".$row_height."%\" style=\"border-style: solid;  border-width: 1\" $CSCW_CSS[tblrow2] ><center>".$time."<center></td>";
+				$week_float = $week_float."<td width=\"4%\" height=\"".$row_height."%\" style=\"border-style: solid;  border-width: 1\" $DP_CSS[tblrow2] ><center>".$time."<center></td>";
 			}
 			else 
 			{

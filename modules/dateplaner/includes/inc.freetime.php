@@ -26,9 +26,8 @@ return mktime (0,0,0, $t[1], $t[0], $t[2]);
 */
 function setDateInTblHead($timestamp)
 {
-	global $S_Datum;
 
-	$ttd			= new TimestampToDate;
+	$ttd = new TimestampToDate;
 
 	$ttd->ttd($timestamp);
 	$S_Datum[week]				= $ttd->weeknumber;
@@ -53,6 +52,7 @@ function setDateInTblHead($timestamp)
 	$ttd->ttd(strtotime ("+6 day" , $timestamp));
 	$S_Datum[sunday_full]		= $ttd->extrashorttime ;
 
+	Return $S_Datum;
 } // end func
 
 

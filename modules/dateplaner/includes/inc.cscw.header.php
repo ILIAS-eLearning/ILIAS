@@ -31,7 +31,7 @@ require_once	('./classes/class.Gui.php');
 require_once	('./classes/class.TimestampToDate.php');
 
 //include language_file
-require_once	('./lang/cscw_'.$CSCW_Lang.'.lang.php');
+require_once	('./lang/DP_'.$DP_Lang.'.lang.php');
 
 //include keyword functions
 require_once	('./includes/inc.keywords.php');
@@ -43,7 +43,7 @@ require_once	('./includes/inc.sortdates.php');
 //include keyword functions
 require_once	('./includes/inc.minicalendar.php');
 
-if (!session_is_registered("CSCW_ScreenHeight") or !session_is_registered("CSCW_ScreenWith")) 
+if (!session_is_registered("DP_ScreenHeight") or !session_is_registered("DP_ScreenWith")) 
 {
     session_start ();
 	$SidName	= session_name();
@@ -60,19 +60,19 @@ if (!session_is_registered("CSCW_ScreenHeight") or !session_is_registered("CSCW_
 		}
 	</script>
 		 ';
-	$CSCW_JSscript		= $HTTP_GET_VARS[JSscript] ;
+	$DP_JSscript		= $HTTP_GET_VARS[JSscript] ;
 	if($HTTP_GET_VARS[ScreenWith]) {
-		$CSCW_ScreenWith	= $HTTP_GET_VARS[ScreenWith] ;
-		session_register("CSCW_ScreenWith");
+		$DP_ScreenWith	= $HTTP_GET_VARS[ScreenWith] ;
+		session_register("DP_ScreenWith");
 	}else {
-		$CSCW_JSscript	= 0 ;
+		$DP_JSscript	= 0 ;
 	}
 	if($HTTP_GET_VARS[ScreenHeight]) {
-		$CSCW_ScreenHeight	= $HTTP_GET_VARS[ScreenHeight] ;
-		session_register("CSCW_ScreenHeight");
+		$DP_ScreenHeight	= $HTTP_GET_VARS[ScreenHeight] ;
+		session_register("DP_ScreenHeight");
 	}else {
-		$CSCW_JSscript	= 0 ;
+		$DP_JSscript	= 0 ;
 	}
-	session_register("CSCW_JSscript");
+	session_register("DP_JSscript");
 }
 ?>

@@ -49,12 +49,12 @@
 *	
 *	@param $timestamp, a required timestamp of sometime during the current day.
 *	@global $day_navigation, the output variable of the Gui,
-*	@global $CSCW_language, used by the Gui to determine the language of "today" as set in the language file.
+*	@global $DP_language, used by the Gui to determine the language of "today" as set in the language file.
 *	
 *	@description This function generates the timestamps for the day navigation and passes them to the template day_navigation 
 */
 function navigation($timestamp){
-			global $CSCW_language;
+			global $DP_language;
 			$Gui				= new Gui();
 
 			$today		= mktime(0,0,0);
@@ -78,7 +78,7 @@ function navigation($timestamp){
 @description This function generates the day string for the day view and passes it to the GUI
 */
 function getDateForDay($timestamp){
-	global $CSCW_language;
+	global $DP_language;
 	$Date = new TimestampToDate();
 	$Date->ttd($timestamp);
 	$showdate = $Date->shorttime;
@@ -94,28 +94,29 @@ function getDateForDay($timestamp){
 *	void function getWholeDay($timestamp)
 *	
 *	@param $timestamp, a required timestamp of sometime during the current day.
+*	@param $DB, a DB class object.
 *	@global $wholeDayDayDates, contains dates from 00:00:00 to 23:59:59 
 *			  for the selected day as html, evaluated by the Gui.
-	@global	$CSCW_UId reads the User ID from the session
-	@global	array[] $CSCW_Keywords array containing selected Keywords
-	@global	bol $CSCW_JSscript is 1 if JavaScript disabled
+	@global	$DP_UId reads the User ID from the session
+	@global	array[] $DP_Keywords array containing selected Keywords
+	@global	$_SESSION ( bol $DP_JSscript is 1 if JavaScript disabled)
 *	
 @description 	This function queries for whole day dates and generates html code which is passed to the Gui
 */
-function getWholeDay($timestamp){
-	global $CSCW_UId, $CSCW_Keywords, $CSCW_JSscript;
+function getWholeDay($timestamp, $DB){
+	global $DP_UId, $_SESSION;
 	$startshow = mktime(0, 0, 0, date("m", $timestamp), date ("d", $timestamp), date("Y", $timestamp));// don't edit
 	$endshow   = mktime(23,59,59, date("m", $timestamp), date ("d", $timestamp), date("Y", $timestamp));// don't edit
-	$dates = getWholeDayDateList($CSCW_UId, $startshow, $endshow, $CSCW_Keywords);
+	$dates = getWholeDayDateList($DP_UId, $startshow, $endshow, $_SESSION[DP_Keywords], $DB);
 	if($dates){
 		foreach($dates as $date){
-			if($CSCW_JSscript != 1) {
-				$wholeDayDayDates=$wholeDayDayDates."<a href=\"date.php?date_id=";
+			if($_SESSION[DP_JSscript] != 1) {
+				$wholeDayDayDates=$wholeDayDayDates."<a href=\"dateplaner.php?app=date&date_id=";
 				$wholeDayDayDates=$wholeDayDayDates.$date[0];
 				$wholeDayDayDates=$wholeDayDayDates."&PHPSESSID=".$PHPSESSID."\" target=\"_blank\" >";
 			
 			}else {
-				$wholeDayDayDates=$wholeDayDayDates."<a href=\"javascript:popup('date.php?date_id=";
+				$wholeDayDayDates=$wholeDayDayDates."<a href=\"javascript:popup('dateplaner.php?app=date&date_id=";
 				$wholeDayDayDates=$wholeDayDayDates.$date[0];
 				$wholeDayDayDates=$wholeDayDayDates."&PHPSESSID=".$PHPSESSID."','Date','width=600,height=600,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >";
 			}
@@ -134,10 +135,9 @@ function getWholeDay($timestamp){
 *	void function generateDay($timestamp)
 *	
 *	@param $timestamp, a required timestamp of sometime during the current day.
-*	@global $CSCW_UId, Session Variable of the User ID
-*	@global array[] $CSCW_Keywords, array containing selected Keywords
-*	@global time $CSCW_Endtime, user set display end time
-*	@global time $CSCW_Starttime, user set display start time
+*	@param $DB, a DB class object.
+*	@global $DP_UId, Session Variable of the User ID
+*	@global $_SESSION  ( $DP_Keywords, array containing selected Keywords, time $DP_Endtime, user set display end time and  time $DP_Starttime, user set display start time)
 	@description this funktion calls the other relevant funktions to fetch dates, reformat them and to generate
 *			output in HTML format.
 */
@@ -145,14 +145,14 @@ function getWholeDay($timestamp){
 
 
 
-function generateDay($timestamp){
-	global 	$CSCW_UId, $CSCW_Keywords, $CSCW_Endtime, $CSCW_Starttime;
-     	$startDisplayTimeInMinutes = 60 * $CSCW_Starttime; // convert to minutes, cast time to int
-	$endDisplayTimeInMinutes = 60 * $CSCW_Endtime; // convert to minutes, cast time to int
+function generateDay($timestamp, $DB){
+	global 	$DP_UId, $_SESSION ;
+     	$startDisplayTimeInMinutes = 60 * $_SESSION[DP_Starttime]; // convert to minutes, cast time to int
+	$endDisplayTimeInMinutes = 60 * $_SESSION[DP_Endtime]; // convert to minutes, cast time to int
 	
 	$intervall = 15; // intervall of dividers, e.g 15 (min)
 	initTS($timestamp, $startshow, $endshow); // get start and end time for the day
-	$table_sorted  = getDayList($CSCW_UId,$startshow , $endshow, $CSCW_Keywords); // get streamed dates
+	$table_sorted  = getDayList($DP_UId,$startshow , $endshow, $_SESSION[DP_Keywords], $DB); // get streamed dates
 	if($table_sorted){ // check for existance of dates
 		for($stream=0; $stream<count($table_sorted); $stream++){
 			turnToMinutes	($table_sorted[$stream], $startshow); // convert timestamps to minutes and format date
@@ -243,14 +243,14 @@ function initDisplayTime(&$startDisplayTimeInMinutes, &$endDisplayTimeInMinutes,
 *	param	array[][] $dateList, a 2-dimensional array of dates
 *	param	int $startshow , timestamp of the start of the day
 *
-*	global	array[] $CSCW_language, an array containung language dependant information
+*	global	array[] $DP_language, an array containung language dependant information
 *	
 *	@description This function reformats the timestamps of start and end to minutes of the day.
 *			Additionally, the timestamps are formated as a date string, as to prepare data for output
 */
 function turnToMinutes(&$dateList, $startshow){
-	global $CSCW_language;
-	$format = $CSCW_language[date_format];
+	global $DP_language;
+	$format = $DP_language[date_format];
 	for($date=0; $date<count($dateList); $date++){
 		$dateList[$date][7]= date($format, $dateList[$date][1]); // save the date and start time readeable
 		$dateList[$date][8]= date($format, $dateList[$date][2]); // save the date and end time readeable
@@ -471,8 +471,8 @@ function padBack($stream, &$arrayPadded, $intervall, $endDisplayTimeInMinutes){
 *
 *	@global string $templatefolder, holds the variable to the folder containing template files
 *	@global string $actualtemplate, defines the used template
-*	@global array[] $CSCW_CSS, an array containing CSS information
-*	@global	bol $CSCW_JSscript is 1 if JavaScript disabled
+*	@global array[] $DP_CSS, an array containing CSS information
+*	@global	$_SESSION  ( bol $DP_JSscript is 1 if JavaScript disabled)
 *
 *	@return $dayString, the output variable of the Gui
 *	
@@ -485,7 +485,7 @@ function padBack($stream, &$arrayPadded, $intervall, $endDisplayTimeInMinutes){
 *		 
 */
 function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $endDisplayTimeInMinutes, $startshow){
-	global $CSCW_CSS, $templatefolder, $actualtemplate, $CSCW_JSscript;
+	global $DP_CSS, $templatefolder, $actualtemplate, $_SESSION;
 	
     	$stream=count($arrayPadded)-1;
     	for($i=0; $i<=$stream; $i++){
@@ -494,7 +494,7 @@ function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $e
     	for($time=$startDisplayTimeInMinutes; $time< $endDisplayTimeInMinutes; $time++){
     		$dayString=$dayString. "<TR >";
         	if($time%15==0) {
-    			$dayString=$dayString. "<TD valign='top' width='10' rowspan='".$intervall."'  ".$CSCW_CSS[tblrow2]."  style='border-style: solid; border-width: 1'  ".$CSCW_CSS[small]." ><span  ".$CSCW_CSS[small]." >";
+    			$dayString=$dayString. "<TD valign='top' width='10' rowspan='".$intervall."'  ".$DP_CSS[tblrow2]."  style='border-style: solid; border-width: 1'  ".$DP_CSS[small]." ><span  ".$DP_CSS[small]." >";
         		$Stunde = ($time-$time%60)/60 ;
         		$Viertel= $time%60;
         		if ($Viertel==0) $Viertel="00";
@@ -505,13 +505,13 @@ function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $e
 			if($arrayPadded[$i][$streamCounter[$i]][1]==$time){
 				while($arrayPadded[$i][$streamCounter[$i]][1]==$time){
 					if($arrayPadded[$i][$streamCounter[$i]][0]!="NULL"){
-						$dayString=$dayString."<TD valign='top' rowspan=".$arrayPadded[$i][$streamCounter[$i]][5]." ".$CSCW_CSS[tblrow2]." style='border-style: solid; border-width: 1' ".$CSCW_CSS[small]." ><span ".$CSCW_CSS[small]." >";
-						if($CSCW_JSscript != 1) {
-							$dayString=$dayString."<a href=\"date.php?date_id=";
+						$dayString=$dayString."<TD valign='top' rowspan=".$arrayPadded[$i][$streamCounter[$i]][5]." ".$DP_CSS[tblrow2]." style='border-style: solid; border-width: 1' ".$DP_CSS[small]." ><span ".$DP_CSS[small]." >";
+						if($_SESSION[DP_JSscript] != 1) {
+							$dayString=$dayString."<a href=\"dateplaner.php?app=date&date_id=";
 							$dayString=$dayString.$arrayPadded[$i][$streamCounter[$i]][0];
 							$dayString=$dayString."&PHPSESSID=".$session_id."&timestamp=".$startshow."\" target=\"_blank\" >";
 						}else {
-							$dayString=$dayString."<a href=\"javascript:popup('date.php?date_id=";
+							$dayString=$dayString."<a href=\"javascript:popup('dateplaner.php?app=date&date_id=";
 							$dayString=$dayString.$arrayPadded[$i][$streamCounter[$i]][0];
 							$dayString=$dayString."&PHPSESSID=".$session_id."&timestamp=".$startshow."','Date','width=600,height=600,directories=no,toolbar=no,location=no,menubar=no,scrollbars=yes,status=yes,resizable=yes,dependent=no')\" >";
 						}
@@ -527,7 +527,7 @@ function generateOutput($arrayPadded, $intervall, $startDisplayTimeInMinutes, $e
 						$dayString=$dayString."</span></TD>";
 						$streamCounter[$i]++;
 					}else{
-						$dayString=$dayString."<TD rowspan=".$arrayPadded[$i][$streamCounter[$i]][5]."  ".$CSCW_CSS[tblrow4]."style='border-style: solid; border-width: 1' ><span ".$CSCW_CSS[small]. " >";
+						$dayString=$dayString."<TD rowspan=".$arrayPadded[$i][$streamCounter[$i]][5]."  ".$DP_CSS[tblrow4]."style='border-style: solid; border-width: 1' ><span ".$DP_CSS[small]. " >";
 						$dayString=$dayString."<img src='".$templatefolder."/".$actualtemplate."/images/blind.gif' height='1' width='1'>";
 						$dayString=$dayString."</span></TD>";
 						$streamCounter[$i]++;

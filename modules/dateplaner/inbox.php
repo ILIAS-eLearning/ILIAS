@@ -1,48 +1,33 @@
 <?php
-
-require_once	('./classes/class.interface.php');
-
-//get variables from ilias
-
-$interface				= new Interface;
-
-$CSCW_UId				= $interface->getUId();
-$CSCW_Lang				= $interface->getLang();
-$CSCW_Skin				= $interface->getSkin();
-$CSCW_Style				= $interface->getStyle();
-$CSCW_StyleFname		= $interface->getStyleFname();
-
-$CSCW_GroupIds			= $interface->getGroupIds();
-
-/* -----------------------------   Session Initialisierung -----------------------------------*/
-
-// include CSCW Header 
-require_once	('./includes/inc.cscw.header.php');
-
-$DB					= new Database();
-
-require_once	('./includes/inc.session.php');
-
-// uncoment for ilias 2.3.8 Session Handler 
-//db_session_write(session_id(),session_encode());
-
-require_once	('./includes/inc.output.php');
-require_once	('./includes/inc.inbox.php');
-
-// Objects
-$db			= new Database();
-$Gui		= new Gui($db);
-
-$PAGETITLE	= "Inbox";
-
-
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul - inbox												  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+// include DP inbox functions
+include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.inbox.php');
 // Generiere Frames
 // -----------------------------------------  FEST ---------------------------------//
-$minical_show = setMinicalendar($month,$year,$CSCW_Lang);
-//$keywords_show = showKeywords();
+$minical_show = setMinicalendar($_REQUEST[month],$_REQUEST[year], $DP_Lang, $_REQUEST[app]);
 eval ("\$lefttxt = \"".$Gui->getTemplate("menue")."\";");
 eval ("\$left = \"".$Gui->getTemplate("left")."\";");
-
 
 // rechter Frame wird nicht benötigt
 $right	= '';
@@ -53,22 +38,22 @@ $downtext = '';
 
 // --------------------------------------  ende Fest -------------------------------//
 
-if ( isset( $btn_accept) ) 		// Wurde Button gedrückt
+if ( isset($_POST[btn_accept]) ) 		// Wurde Button gedrückt
 {
 	$i = 0;
 
-	while ( isset($$i) )		// Solange noch weitere Termine anstehen
+	while ( isset($_POST[$i]) )		// Solange noch weitere Termine anstehen
 	{
-		$array = explode("-",$$i);	// String in Array Elemente aufteilen
+		$array = explode("-",$_POST[$i]);	// String in Array Elemente aufteilen
 
 		switch ($array[0])		// Welchewr Radiobutton wurde angewählt?
 		{
 			
 			case 'ok':
-				$db->applyChangedDate ($CSCW_UId, $array[1], $array[2] );
+				$DB->applyChangedDate ($DP_UId, $array[1], $array[2] );
 				break;
 			case 'del':
-				$db->discardChangedDate ($CSCW_UId, $array[1], $array[2] );
+				$DB->discardChangedDate ($DP_UId, $array[1], $array[2] );
 				break;
 			case 'noChange':
 				// Nichts tun
@@ -79,9 +64,9 @@ if ( isset( $btn_accept) ) 		// Wurde Button gedrückt
 	}
 }
 // Get Dates from Database
-$newDates = $db->getchangedDates($CSCW_UId, 0);
-$changedDates = $db->getchangedDates($CSCW_UId, 1);
-$deletedDates = $db->getchangedDates($CSCW_UId, 2);
+$newDates		= $DB->getchangedDates($DP_UId, 0);
+$changedDates	= $DB->getchangedDates($DP_UId, 1);
+$deletedDates	= $DB->getchangedDates($DP_UId, 2);
 
 //*******************************************************************************************************
 $DateID = 0;
@@ -89,38 +74,38 @@ $DateID = 0;
 if ($newDates != false)
 {
 	
-	$array = createTable($newDates, $DateID, $Gui, $db, 1);
+	$array = createTable($newDates, $DateID, $Gui, $DB, 1);
 	$DateID = $array[0];
 	$neueTermine = $array[1];
 }
 else
 {
-	$neueTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$CSCW_language[no_entry]</td></tr>";
+	$neueTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$DP_language[no_entry]</td></tr>";
 }
 
 //*******************************************************************************************************
 // Tabelle mit geänderten Terminen erstellen
 if ($changedDates != false)
 {
-	$array = createTable($changedDates,$DateID, $Gui, $db, 1);
+	$array = createTable($changedDates,$DateID, $Gui, $DB, 1);
 	$DateID = $array[0];
 	$geänderteTermine = $array[1];
 }
 else
 {
-	$geänderteTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$CSCW_language[no_entry]</td></tr>";
+	$geänderteTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$DP_language[no_entry]</td></tr>";
 }
 //*******************************************************************************************************
 // Tabelle mit gelöschten Terminen erstellen
 if ($deletedDates != false)
 {
-	$array = createTable($deletedDates,$DateID, $Gui, $db, 0);
+	$array = createTable($deletedDates,$DateID, $Gui, $DB, 0);
 	$DateID = $array[0];
 	$gelöschteTermine = $array[1];
 }
 else
 {
-	$gelöschteTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$CSCW_language[no_entry]</td></tr>";
+	$gelöschteTermine = "<tr class='tblrow2'><td align='center' colspan=7 >$DP_language[no_entry]</td></tr>";
 }
 //*******************************************************************************************************
 $tableBorder = 1;

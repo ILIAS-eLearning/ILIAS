@@ -16,7 +16,7 @@
 * Als Ausführende Datei nutzt darum diese Klasse die Funktion "inc.output.php" im Includes Ordner.   
 */
 
-require('./config/conf.gui.php');
+include('.'.DATEPLANER_ROOT_DIR.'/config/conf.gui.php');
 
 class Gui
 {
@@ -42,9 +42,8 @@ class Gui
         global $templatefolder, $actualtemplate;
 
         if(!$templatefolder) $templatefolder = "templates";
-        return str_replace("\"","\\\"",implode("",file($templatefolder."/".$actualtemplate."/".$template.".".$extension)));
+        return str_replace("\"","\\\"",implode("",file(".".DATEPLANER_ROOT_DIR.$templatefolder."/".$actualtemplate."/".$template.".".$extension)));
 	}
-
 	/**
 	* function setToolTip($starttime, $endtime, $shortext, $text, $id)
 	* @description : set a mouse over tooltip to dates 

@@ -5,12 +5,12 @@
 * 	@description: This function is generating the main-view of a date in three diferent views, for new, update and update with read only.
 *
 * 	@param		: $DateValues, $flag
-* 	@global		: $CSCW_language, $templatefolder, $actualtemplate,  $CSCW_CSS 
+* 	@global		: $DP_language, $templatefolder, $actualtemplate,  $DP_CSS 
 *	@return		: $dateContent
 */
-function setDateView ($DateValues, $flag)
+function setDateView ($DateValues, $flag, $DB)
 {
-	global $CSCW_language, $templatefolder, $actualtemplate,  $CSCW_CSS;
+	global $DP_language, $templatefolder, $actualtemplate,  $DP_CSS;
 
 	$Gui		= new Gui();
 	$ttd		= new TimestampToDate;
@@ -34,9 +34,9 @@ function setDateView ($DateValues, $flag)
 			eval ("\$tab_end_date = \"".$Gui->getTemplate("date_enddate")."\";");
 			if($DateValues[rotation]) $DateValues[$DateValues[rotation]] = "selected";
 			eval ("\$tab_rotation = \"".$Gui->getTemplate("date_rotation")."\";");
-			$DateValues[Groupform] = setGroups($DateValues[group_id]);
+			$DateValues[Groupform] = setGroups($DateValues[group_id], $DB);
 			eval ("\$tab_group = \"".$Gui->getTemplate("date_group")."\";");
-			$DateValues[Keywordform] = setKeywords($DateValues[keyword_id]);
+			$DateValues[Keywordform] = setKeywords($DateValues[keyword_id], $DB);
 			eval ("\$tab_keyword = \"".$Gui->getTemplate("date_keyword")."\";");
 			eval ("\$tab_text = \"".$Gui->getTemplate("date_text")."\";");
 			eval ("\$btn_in = \"".$Gui->getTemplate("date_btnin")."\";");
@@ -56,15 +56,15 @@ function setDateView ($DateValues, $flag)
 			eval ("\$tab_rotation = \"".$Gui->getTemplate("date_rotation")."\";");
 			eval ("\$tab_group = \"".$Gui->getTemplate("date_group_ro")."\";");
 			if($DateValues[keyword_id]) {
-				$DateValues[Keywordform] = setKeywords($DateValues[keyword_id]);
+				$DateValues[Keywordform] = setKeywords($DateValues[keyword_id],$DB);
 			}else {
-				$DateValues[Keywordform] = setKeywords($DateValues[DateArray][keyword_id]);
+				$DateValues[Keywordform] = setKeywords($DateValues[DateArray][keyword_id],$DB);
 			}
 			eval ("\$tab_keyword = \"".$Gui->getTemplate("date_keyword")."\";");
 			eval ("\$tab_text = \"".$Gui->getTemplate("date_text")."\";");
 			//Format Date Text for Priview Output
 			$DateValues = parseDataForOutput ($DateValues);
-			$CSCW_language[dv_message] = $CSCW_language[dv_message].$CSCW_language[dv_preview];
+			$DP_language[dv_message] = $DP_language[dv_message].$DP_language[dv_preview];
 			eval ("\$tab_pretext = \"".$Gui->getTemplate("date_text_ro")."\";");
 			eval ("\$btn_del = \"".$Gui->getTemplate("date_btndel")."\";");
 			eval ("\$btn_upd = \"".$Gui->getTemplate("date_btnupd")."\";");
@@ -106,7 +106,7 @@ function setDateView ($DateValues, $flag)
 			}
 			eval ("\$tab_group = \"".$Gui->getTemplate("date_group_ro")."\";");
 
-			$DateValues[Keywordform] = setKeywords($DateValues[DateArray][keyword_id]);
+			$DateValues[Keywordform] = setKeywords($DateValues[DateArray][keyword_id],$DB);
 			eval ("\$tab_keyword = \"".$Gui->getTemplate("date_keyword")."\";");
 			eval ("\$tab_text = \"".$Gui->getTemplate("date_text_ro")."\";");
 			eval ("\$btn_del = \"".$Gui->getTemplate("date_btndel")."\";");
@@ -178,38 +178,38 @@ function  parseDataForOutput ($DateValues) {
 * 	@description: This function generates the small pop-up calendars in the dateview or newdateview for date selection.
 *
 * 	@param		: ---
-* 	@global		: $CSCW_language
+* 	@global		: $DP_language
 *	@return		: $Array
 */
 function setJs() {
-	global $CSCW_language;
+	global $DP_language;
 
 	$Array[1] = '
 <script language=JavaScript>
 			var cal2 = new CalendarPopup();  
-			cal2.showYearNavigation(); 			cal2.setMonthNames(\''.$CSCW_language[long_01].'\',\''.$CSCW_language[long_02].'\',\''.$CSCW_language[long_03].'\',\''.$CSCW_language[long_04].'\',\''.$CSCW_language[long_05].'\',\''.$CSCW_language[long_06].'\',\''.$CSCW_language[long_07].'\',\''.$CSCW_language[long_08].'\',\''.$CSCW_language[long_09].'\',\''.$CSCW_language[long_10].'\',\''.$CSCW_language[long_11].'\',\''.$CSCW_language[long_12].'\'); 
-			cal2.setDayHeaders(\''.$CSCW_language[Su_short].'\',\''.$CSCW_language[Mo_short].'\',\''.$CSCW_language[Tu_short].'\',\''.$CSCW_language[We_short].'\',\''.$CSCW_language[Th_short].'\',\''.$CSCW_language[Fr_short].'\',\''.$CSCW_language[Sa_short].'\');
+			cal2.showYearNavigation(); 			cal2.setMonthNames(\''.$DP_language[long_01].'\',\''.$DP_language[long_02].'\',\''.$DP_language[long_03].'\',\''.$DP_language[long_04].'\',\''.$DP_language[long_05].'\',\''.$DP_language[long_06].'\',\''.$DP_language[long_07].'\',\''.$DP_language[long_08].'\',\''.$DP_language[long_09].'\',\''.$DP_language[long_10].'\',\''.$DP_language[long_11].'\',\''.$DP_language[long_12].'\'); 
+			cal2.setDayHeaders(\''.$DP_language[Su_short].'\',\''.$DP_language[Mo_short].'\',\''.$DP_language[Tu_short].'\',\''.$DP_language[We_short].'\',\''.$DP_language[Th_short].'\',\''.$DP_language[Fr_short].'\',\''.$DP_language[Sa_short].'\');
 			cal2.setWeekStartDay(1);
-			cal2.setTodayText("'.$CSCW_language[today].'");
+			cal2.setTodayText("'.$DP_language[today].'");
 </script>
 ';
 
 	$Array[2] = '
 <script language=JavaScript >
-			var cal4 = new CalendarPopup();	cal4.setMonthNames(\''.$CSCW_language[long_01].'\',\''.$CSCW_language[long_02].'\',\''.$CSCW_language[long_03].'\',\''.$CSCW_language[long_04].'\',\''.$CSCW_language[long_05].'\',\''.$CSCW_language[long_06].'\',\''.$CSCW_language[long_07].'\',\''.$CSCW_language[long_08].'\',\''.$CSCW_language[long_09].'\',\''.$CSCW_language[long_10].'\',\''.$CSCW_language[long_11].'\',\''.$CSCW_language[long_12].'\'); 
-			cal4.setDayHeaders(\''.$CSCW_language[Su_short].'\',\''.$CSCW_language[Mo_short].'\',\''.$CSCW_language[Tu_short].'\',\''.$CSCW_language[We_short].'\',\''.$CSCW_language[Th_short].'\',\''.$CSCW_language[Fr_short].'\',\''.$CSCW_language[Sa_short].'\');
+			var cal4 = new CalendarPopup();	cal4.setMonthNames(\''.$DP_language[long_01].'\',\''.$DP_language[long_02].'\',\''.$DP_language[long_03].'\',\''.$DP_language[long_04].'\',\''.$DP_language[long_05].'\',\''.$DP_language[long_06].'\',\''.$DP_language[long_07].'\',\''.$DP_language[long_08].'\',\''.$DP_language[long_09].'\',\''.$DP_language[long_10].'\',\''.$DP_language[long_11].'\',\''.$DP_language[long_12].'\'); 
+			cal4.setDayHeaders(\''.$DP_language[Su_short].'\',\''.$DP_language[Mo_short].'\',\''.$DP_language[Tu_short].'\',\''.$DP_language[We_short].'\',\''.$DP_language[Th_short].'\',\''.$DP_language[Fr_short].'\',\''.$DP_language[Sa_short].'\');
 			cal4.setWeekStartDay(1);
-			cal4.setTodayText("'.$CSCW_language[today].'");			
+			cal4.setTodayText("'.$DP_language[today].'");			
 			cal4.showYearNavigation(); 
 </script>
 ';
 
 	$Array[3] = '
 <script language=JavaScript >
-			var cal6 = new CalendarPopup();	cal6.setMonthNames(\''.$CSCW_language[long_01].'\',\''.$CSCW_language[long_02].'\',\''.$CSCW_language[long_03].'\',\''.$CSCW_language[long_04].'\',\''.$CSCW_language[long_05].'\',\''.$CSCW_language[long_06].'\',\''.$CSCW_language[long_07].'\',\''.$CSCW_language[long_08].'\',\''.$CSCW_language[long_09].'\',\''.$CSCW_language[long_10].'\',\''.$CSCW_language[long_11].'\',\''.$CSCW_language[long_12].'\'); 
-			cal6.setDayHeaders(\''.$CSCW_language[Su_short].'\',\''.$CSCW_language[Mo_short].'\',\''.$CSCW_language[Tu_short].'\',\''.$CSCW_language[We_short].'\',\''.$CSCW_language[Th_short].'\',\''.$CSCW_language[Fr_short].'\',\''.$CSCW_language[Sa_short].'\');
+			var cal6 = new CalendarPopup();	cal6.setMonthNames(\''.$DP_language[long_01].'\',\''.$DP_language[long_02].'\',\''.$DP_language[long_03].'\',\''.$DP_language[long_04].'\',\''.$DP_language[long_05].'\',\''.$DP_language[long_06].'\',\''.$DP_language[long_07].'\',\''.$DP_language[long_08].'\',\''.$DP_language[long_09].'\',\''.$DP_language[long_10].'\',\''.$DP_language[long_11].'\',\''.$DP_language[long_12].'\'); 
+			cal6.setDayHeaders(\''.$DP_language[Su_short].'\',\''.$DP_language[Mo_short].'\',\''.$DP_language[Tu_short].'\',\''.$DP_language[We_short].'\',\''.$DP_language[Th_short].'\',\''.$DP_language[Fr_short].'\',\''.$DP_language[Sa_short].'\');
 			cal6.setWeekStartDay(1);
-			cal6.setTodayText("'.$CSCW_language[today].'");			
+			cal6.setTodayText("'.$DP_language[today].'");			
 			cal6.showYearNavigation(); 
 </script>
 ';
@@ -225,8 +225,8 @@ function setJs() {
 * 	@global		: ---
 *	@return		: $Keywordform
 */
-function setKeywords($keyword_id) {
-	$Keywords = getKeywordContent();
+function setKeywords($keyword_id,$DB) {
+	$Keywords = getKeywordContent($DB);
 	if($Keywords) {
 		for ($j = 0 ; $j < count($Keywords) ; $j++) {
 			if($keyword_id == $Keywords[$j][0]) {
@@ -249,8 +249,8 @@ function setKeywords($keyword_id) {
 * 	@global		: --- 
 *	@return		: $Groupform
 */
-function setGroups($groupID) {
-	$Groups = getGroupContent();
+function setGroups($groupID,$DB) {
+	$Groups = getGroupContent($DB);
 	if($Groups) {
 		for ($i = 0 ; $i < count($Groups) ; $i++) {
 			if($groupID and $groupID == $Groups[$i][0] ) {
@@ -270,13 +270,12 @@ function setGroups($groupID) {
 * 	@description: Calls the DB-function getUserGroups, and returns the result (all groups of a user).
 *
 * 	@param		: ---
-* 	@global		: $CSCW_UId
+* 	@global		: $DP_UId
 *	@return		: $Groups
 */
-function getGroupContent() {
-	global $CSCW_UId  ;
-	$DB		= new Database();
-	$Groups = $DB->getUserGroups ($CSCW_UId);
+function getGroupContent($DB) {
+	global $DP_UId  ;
+	$Groups = $DB->getUserGroups ($DP_UId);
 
 	Return $Groups;
 
@@ -288,13 +287,12 @@ function getGroupContent() {
 * 	@description: Calls the DB-function getKeywords, and returns the result  (all keywords of a user).
 *
 * 	@param		: ---
-* 	@global		: $CSCW_UId
+* 	@global		: $DP_UId
 *	@return		: $Keywords
 */
-function getKeywordContent() {
-	global $CSCW_UId ;
-	$DB			= new Database();
-	$Keywords	= $DB->getKeywords ($CSCW_UId);
+function getKeywordContent($DB) {
+	global $DP_UId ;
+	$Keywords	= $DB->getKeywords ($DP_UId);
 
 	Return $Keywords;
 
@@ -307,46 +305,46 @@ function getKeywordContent() {
 * 	@description: Validates the user input from the dayview-form.
 *
 * 	@param		: $DateValues, $Start_date, $End_date, $End_rotation
-* 	@global		: $CSCW_language 
+* 	@global		: $DP_language 
 *	@return		: $Valid
 */
 function  parseData ($DateValues, $Start_date, $End_date, $End_rotation) {
-	global $CSCW_language;
-	if($DateValues[start_ts] == "-1") $Valid[] = $CSCW_language[ERROR_STARTDATE];
-	if($DateValues[whole_day] !=1 and $DateValues[end_ts] == "-1") $Valid[] = $CSCW_language[ERROR_ENDDATE];
-	if($DateValues[end_rotation_ts] == "-1") $Valid[] = $CSCW_language[ERROR_ROTATIONEND];
-	if($DateValues[whole_day] !=1 and $DateValues[start_ts] > $DateValues[end_ts]) $Valid[] = $CSCW_language[ERROR_END_START]; 
-	if($DateValues[end_rotation_ts] and $DateValues[end_rotation_ts] < $DateValues[start_ts]) $Valid[] = $CSCW_language[ERROR_ROT_END_START]; 
+	global $DP_language;
+	if($DateValues[start_ts] == "-1") $Valid[] = $DP_language[ERROR_STARTDATE];
+	if($DateValues[whole_day] !=1 and $DateValues[end_ts] == "-1") $Valid[] = $DP_language[ERROR_ENDDATE];
+	if($DateValues[end_rotation_ts] == "-1") $Valid[] = $DP_language[ERROR_ROTATIONEND];
+	if($DateValues[whole_day] !=1 and $DateValues[start_ts] > $DateValues[end_ts]) $Valid[] = $DP_language[ERROR_END_START]; 
+	if($DateValues[end_rotation_ts] and $DateValues[end_rotation_ts] < $DateValues[start_ts]) $Valid[] = $DP_language[ERROR_ROT_END_START]; 
 
 	if(	$Start_date[0] != date ("d", mktime(0,0,0,$Start_date[1],$Start_date[0],$Start_date[2])) or
 		$Start_date[1] != date ("m", mktime(0,0,0,$Start_date[1],$Start_date[0],$Start_date[2])) or 
 		$Start_date[2] != date ("Y", mktime(0,0,0,$Start_date[1],$Start_date[0],$Start_date[2]))) 
 	{
-		 $Valid[] = $CSCW_language[ERROR_STARTDATE];
+		 $Valid[] = $DP_language[ERROR_STARTDATE];
 	}
 	if(	$End_date and $DateValues[begin_h] != date ("H", mktime($DateValues[begin_h],0,0,$Start_date[1],$Start_date[0],$Start_date[2])) or
 		$DateValues[begin_min] != date ("i", mktime(0,$DateValues[begin_min],0,$Start_date[1],$Start_date[0],$Start_date[2]))) 
 	{
-		 $Valid[] = $CSCW_language[ERROR_STARTTIME];
+		 $Valid[] = $DP_language[ERROR_STARTTIME];
 	}
 	if(	$End_date and ($End_date[0] != date ("d", mktime(0,0,0,$End_date[1],$End_date[0],$End_date[2])) or
 		$End_date[1] != date ("m", mktime(0,0,0,$End_date[1],$End_date[0],$End_date[2])) or 
 		$End_date[2] != date ("Y", mktime(0,0,0,$End_date[1],$End_date[0],$End_date[2])))) 
 	{
-		 $Valid[] = $CSCW_language[ERROR_ENDDATE];
+		 $Valid[] = $DP_language[ERROR_ENDDATE];
 	}
 	if(	$DateValues[end_h] != date ("H", mktime($DateValues[end_h],0,0,$Start_date[1],$Start_date[0],$Start_date[2])) or
 		$DateValues[end_min] != date ("i", mktime(0,$DateValues[end_min],0,$Start_date[1],$Start_date[0],$Start_date[2]))) 
 	{
-		 $Valid[] = $CSCW_language[ERROR_ENDTIME];
+		 $Valid[] = $DP_language[ERROR_ENDTIME];
 	}
 	if(	$End_rotation and ($End_rotation[0] != date ("d", mktime(0,0,0,$End_rotation[1],$End_rotation[0],$End_rotation[2])) or
 		$End_rotation[1] != date ("m", mktime(0,0,0,$End_rotation[1],$End_rotation[0],$End_rotation[2])) or 
 		$End_rotation[2] != date ("Y", mktime(0,0,0,$End_rotation[1],$End_rotation[0],$End_rotation[2])))) 
 	{
-		 $Valid[] = $CSCW_language[ERROR_ROTATIONEND];
+		 $Valid[] = $DP_language[ERROR_ROTATIONEND];
 	}
-	if($DateValues[shorttext] == "") $Valid[] = $CSCW_language[ERROR_SHORTTEXT]; 
+	if($DateValues[shorttext] == "") $Valid[] = $DP_language[ERROR_SHORTTEXT]; 
 
 	$Valid[] = "TRUE";
 	Return $Valid;
@@ -361,7 +359,7 @@ function  parseData ($DateValues, $Start_date, $End_date, $End_rotation) {
 * 	@global		: $dateaction 		
 *	@return		: $dateContent
 */
-function setInsertDate($timestamp, $DateValues) 
+function setInsertDate($timestamp, $DateValues, $DB) 
 {
 	global $dateaction ;
 
@@ -375,7 +373,7 @@ function setInsertDate($timestamp, $DateValues)
 		$DateValues[begin_min]	= $DateValues[end_min] 	= $ttd->minutes ;
 	}
 	
-	$dateContent = setDateView ($DateValues, "i") ;
+	$dateContent = setDateView ($DateValues, "i",  $DB) ;
 
 	Return $dateContent;	
 
@@ -387,12 +385,11 @@ function setInsertDate($timestamp, $DateValues)
 * 	@description: This function is adding the date information into the DB and adepting them, e.g. date to timestamp.
 *
 * 	@param		: $startdate,$enddate, $endrotation, $DateValues
-* 	@global		: $CSCW_UId, $CSCW_language 
+* 	@global		: $DP_UId, $DP_language 
 *	@return		: $msg
 */
-function setInsertAction( $startdate,$enddate, $endrotation, $DateValues) {
-	global $CSCW_UId, $CSCW_language;
-	$DB					= new Database();
+function setInsertAction( $startdate,$enddate, $endrotation, $DateValues,$DB ) {
+	global $DP_UId, $DP_language;
 
 	$End_rotation		= False ;
 	$End_date			= False ;
@@ -426,7 +423,7 @@ function setInsertAction( $startdate,$enddate, $endrotation, $DateValues) {
 		$return = $DB->addDate (	$DateValues[start_ts], 
 									$DateValues[end_ts], 
 									$DateValues[group_id], 
-									$CSCW_UId, 
+									$DP_UId, 
 									mktime(), 
 									$DateValues[rotation], 
 									$DateValues[end_rotation_ts], 
@@ -437,9 +434,9 @@ function setInsertAction( $startdate,$enddate, $endrotation, $DateValues) {
 		switch ($return){
 				case "0": $msg = False;
 						break;
-				case "1": $msg = $CSCW_language[ERROR_DATE_EXISTS]."<br>";
+				case "1": $msg = $DP_language[ERROR_DATE_EXISTS]."<br>";
 						break;
-				case "2": $msg = $CSCW_language[ERROR_DB_CONNECT]."<br>";
+				case "2": $msg = $DP_language[ERROR_DB_CONNECT]."<br>";
 						break;
 		}
 	}else 
@@ -461,13 +458,12 @@ function setInsertAction( $startdate,$enddate, $endrotation, $DateValues) {
 * 	@description: Adaption of the given perameters to the output form. Eg. timestamp to real time.
 *
 * 	@param		: $timestamp, $date_id, $DateArray, $DateValues
-* 	@global		: $dateaction, $DateValues, $js ,$CSCW_UId, $CSCW_language 
+* 	@global		: $dateaction, $DateValues, $js ,$DP_UId, $DP_language 
 *	@return		: $dateContent
 */
-function setUpdateDeleteDate($timestamp, $date_id, $DateArray, $DateValues) 
+function setUpdateDeleteDate($timestamp, $date_id, $DateArray, $DateValues, $DB) 
 {
-	global $dateaction, $DateValues, $js ,$CSCW_UId, $CSCW_language ;
-	$DB			= new Database();
+	global $dateaction, $DateValues, $js ,$DP_UId, $DP_language ;
 
 	if(!$DateValues[referer]) {
 	$ttd						= new TimestampToDate;
@@ -493,28 +489,28 @@ function setUpdateDeleteDate($timestamp, $date_id, $DateArray, $DateValues)
 	$DateValues[rotation]		= $DateArray[rotation] ;
 	switch($DateArray[rotation]) {
 		case '0':
-			$DateValues[rotation_name] = $CSCW_language[r_nonrecurring];
+			$DateValues[rotation_name] = $DP_language[r_nonrecurring];
 			break; 
 		case '1':
-			$DateValues[rotation_name] = $CSCW_language[r_day];
+			$DateValues[rotation_name] = $DP_language[r_day];
 			break; 
 		case '2':
-			$DateValues[rotation_name] = $CSCW_language[r_week];
+			$DateValues[rotation_name] = $DP_language[r_week];
 			break; 
 		case '3':
-			$DateValues[rotation_name] = $CSCW_language[r_14];
+			$DateValues[rotation_name] = $DP_language[r_14];
 			break; 
 		case '4':
-			$DateValues[rotation_name] = $CSCW_language[r_4_weeks];
+			$DateValues[rotation_name] = $DP_language[r_4_weeks];
 			break; 
 		case '5':
-			$DateValues[rotation_name] = $CSCW_language[r_month];
+			$DateValues[rotation_name] = $DP_language[r_month];
 			break; 
 		case '6':
-			$DateValues[rotation_name] = $CSCW_language[r_halfyear];
+			$DateValues[rotation_name] = $DP_language[r_halfyear];
 			break;
 		case '7':
-			$DateValues[rotation_name] = $CSCW_language[r_year];
+			$DateValues[rotation_name] = $DP_language[r_year];
 			break; 
 	}
 	$DateValues[date_id]		= $DateArray[date_id] ;
@@ -523,10 +519,10 @@ function setUpdateDeleteDate($timestamp, $date_id, $DateArray, $DateValues)
 
 	}
 	// if u wish that more than the owner of a group can chane properties af a date , this row down is the row that has to be changed.
-	if($DateArray[user_id] == $CSCW_UId or $DateArray[group_id] == 0) {
-		$dateContent = setDateView ($DateValues, "ud_w") ;
+	if($DateArray[user_id] == $DP_UId or $DateArray[group_id] == 0) {
+		$dateContent = setDateView ($DateValues, "ud_w", $DB) ;
 	}else {
-		$dateContent = setDateView ($DateValues, "ud_ro") ;
+		$dateContent = setDateView ($DateValues, "ud_ro", $DB) ;
 		$js = "ro";
 	}
 
@@ -540,12 +536,11 @@ function setUpdateDeleteDate($timestamp, $date_id, $DateArray, $DateValues)
 * 	@description: This function is updating the information of a date in the database.
 *
 * 	@param		: $startdate,$enddate, $endrotation, $DateValues
-* 	@global		: $CSCW_UId, $CSCW_language
+* 	@global		: $DP_UId, $DP_language
 *	@return		: $msg
 */
-function setUpdateAction( $startdate,$enddate, $endrotation, $DateValues) {
-	global $CSCW_UId, $CSCW_language;
-	$DB					= new Database();
+function setUpdateAction( $startdate,$enddate, $endrotation, $DateValues, $DB) {
+	global $DP_UId, $DP_language;
 	if($DateValues[writepermission] != "ro") {
 		$End_rotation		= False ;
 		$End_date			= False ;
@@ -585,7 +580,7 @@ function setUpdateAction( $startdate,$enddate, $endrotation, $DateValues) {
 			$return = $DB->updateDate (	$DateValues[date_id],
 									$DateValues[start_ts], 
 									$DateValues[end_ts], 
-									$CSCW_UId, 
+									$DP_UId, 
 									mktime(), 
 									$DateValues[rotation], 
 									$DateValues[end_rotation_ts], 
@@ -594,13 +589,13 @@ function setUpdateAction( $startdate,$enddate, $endrotation, $DateValues) {
 		}
 
 		$return = $DB->updateKeyword2Date (
-									$CSCW_UId, 
+									$DP_UId, 
 									$DateValues[date_id],
 									$DateValues[keyword_id]);
 		if($return) {
 			$msg = False;
 		}else {
-			$msg = $CSCW_language[ERROR_DB]."<br>";
+			$msg = $DP_language[ERROR_DB]."<br>";
 		}
 //			$msg = $msg.' Damit der Timo debuggen kann :
 //			<br> hier rotation: '.$DateValues[rotation].'<br>
@@ -622,12 +617,11 @@ function setUpdateAction( $startdate,$enddate, $endrotation, $DateValues) {
 * 	@description: This function is selecting the way in which a date is going to be deleted. 
 *
 * 	@param		: $DateValues
-* 	@global		: $CSCW_UId, $CSCW_language 
+* 	@global		: $DP_UId, $DP_language 
 *	@return		: $msg or $DB->delDate ()
 */
-function setDeleteAction($DateValues) {
-	global $CSCW_UId, $CSCW_language;
-	$DB					= new Database();
+function setDeleteAction($DateValues, $DB) {
+	global $DP_UId, $DP_language;
 	$Gui				= new Gui();
 
 	if($DateValues[rotation_id] != 0) {
@@ -637,28 +631,28 @@ function setDeleteAction($DateValues) {
 	}
 	switch($DateValues[rotation_ack]) {
 		case 'one':
-			echo('del one :'.$DateValues[date_id]."/".$CSCW_UId."/".$DateValues[date_timestamp]);
+//			echo('del one :'.$DateValues[date_id]."/".$DP_UId."/".$DateValues[date_timestamp]);
 			$return = $DB->delDate (	$DateValues[date_id],
-										$CSCW_UId, 
+										$DP_UId, 
 										$DateValues[date_timestamp]);
 			break; 
 		case 'all':
-			echo('del all :'.$DateValues[date_id]."/".$CSCW_UId."/"."0");
+//			echo('del all :'.$DateValues[date_id]."/".$DP_UId."/"."0");
 			$return = $DB->delDate (	$DateValues[date_id],
-										$CSCW_UId, 
+										$DP_UId, 
 										"0");
 			break; 
 		default :
-			echo('default');
+//			echo('default');
 			$return = $DB->delDate (	$DateValues[date_id],
-										$CSCW_UId, 
+										$DP_UId, 
 										"0");
 	}
 
 	if($return) {
 			$msg = false;
 	}else {
-			$msg = $CSCW_language[ERROR_DB]."";
+			$msg = $DP_language[ERROR_DB]."";
 	}	
 		//$msg = $msg.' Damit der Timo debuggen kann :<br>Rückgabewert : '.$return.' <br> ';
 

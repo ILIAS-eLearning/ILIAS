@@ -16,22 +16,22 @@
 
 // it is an action required to generate images..
 
-if ($action == "show") {
+if ($_GET[action] == "show") {
 	$im = ImageCreate (162, 160)
       or die ("Kann keinen neuen GD-Bild-Stream erzeugen");
-	$im = showMinicalendar($month,$year, $im, $Lang);
+	$im = showMinicalendar($_GET[month],$_GET[year], $im, $_GET[DP_Lang]);
 	// Ilias3 + GD >1.6.1
 	ImagePNG($im);
 
 	// Ilias2 + GD <1.6.1
 	//ImageGif($im);
 
-}elseif($action == "next"){
+}elseif($_GET[action] == "next"){
 		$year = $year + 1;
-		$minical_show = setMinicalendar($month,$year, $CSCW_Lang);
-}elseif($action == "last"){
+		$minical_show = setMinicalendar($_GET[month],$_GET[year], $_GET[DP_Lang]);
+}elseif($_GET[action] == "last"){
 		$year = $year - 1;
-		$minical_show = setMinicalendar($month,$year, $CSCW_Lang);
+		$minical_show = setMinicalendar($_GET[month],$_GET[year], $_GET[DP_Lang]);
 }else {
 	if(!$month || !$year){
 		$month = date(m);
@@ -47,15 +47,15 @@ if ($action == "show") {
 * 	@param int $month
 * 	@param int $year
 *   @param string $im				( pointer to image )
-* 	@global Array CSCW_Lang			( Name of the active Language )
+* 	@global Array DP_Lang			( Name of the active Language )
 */
-function showMinicalendar($month,$year, $im, $Lang)
+function showMinicalendar($month,$year, $im, $DP_Lang)
 {
 
-	global $CSCW_Lang;
 	//session_start();
 
-    @include			('../lang/cscw_'.$Lang.'.lang.php');
+	//include language_file
+	@include_once	('../lang/dp_de.lang.php');
 
 	if(!$month || !$year)
 	{
@@ -63,7 +63,7 @@ function showMinicalendar($month,$year, $im, $Lang)
 		$year = date(Y);	
 	}
 
-
+//$pBuf = getcwd()
 	//Wieviele Tage hat der vorherige month
 	$lastday = strftime("%d.", mktime (0,0,0,$month,0,$year));
 	//Welcher Wochentag ist der 1. des Monats
@@ -71,8 +71,8 @@ function showMinicalendar($month,$year, $im, $Lang)
 	if ($firstday == -1) $firstday = 6; 
 	$startday = $lastday - $firstday;
 
-	$Tagesnamen = array("KW", $CSCW_language[Mo_short],$CSCW_language[Tu_short],$CSCW_language[We_short],$CSCW_language[Th_short],$CSCW_language[Fr_short],$CSCW_language[Sa_short],$CSCW_language[Su_short]);
-	$Monatabk = array("",$CSCW_language[short_01],$CSCW_language[short_02],$CSCW_language[short_03],$CSCW_language[short_04],$CSCW_language[short_05],$CSCW_language[short_06],$CSCW_language[short_07],$CSCW_language[short_08],$CSCW_language[short_09],$CSCW_language[short_10], $CSCW_language[short_11],$CSCW_language[short_12]);
+	$Tagesnamen = array("KW", $DP_language[Mo_short],$DP_language[Tu_short],$DP_language[We_short],$DP_language[Th_short],$DP_language[Fr_short],$DP_language[Sa_short],$DP_language[Su_short]);
+	$Monatabk = array("",$DP_language[short_01],$DP_language[short_02],$DP_language[short_03],$DP_language[short_04],$DP_language[short_05],$DP_language[short_06],$DP_language[short_07],$DP_language[short_08],$DP_language[short_09],$DP_language[short_10], $DP_language[short_11],$DP_language[short_12]);
 
 
 	ImageColorAllocate ($im, 0, 102, 150);
@@ -209,7 +209,7 @@ function showMinicalendar($month,$year, $im, $Lang)
 * 	@param int $month
 * 	@param int $year
 */
-function setMinicalendar($month,$year, $CSCW_Lang)
+function setMinicalendar($month,$year, $DP_Lang, $app)
 {
 	
 	if(!$month || !$year)
@@ -243,7 +243,7 @@ function setMinicalendar($month,$year, $CSCW_Lang)
 			$x1 = $x + 15;
 			$y1 = $y + 15;
 			$minical_show = $minical_show. "
-			<area shape=rect coords='$x,$y,$x1,$y1' href='week.php?timestamp=$week_ts'>";
+			<area shape=rect coords='$x,$y,$x1,$y1' href='dateplaner.php?app=week&timestamp=$week_ts'>";
 			$week_ts= strtotime ("+1 week", $week_ts );
 	}
 
@@ -280,7 +280,7 @@ function setMinicalendar($month,$year, $CSCW_Lang)
 				$y1 = $y + 15;
 				$day_ts=mktime (0,0,0,$month,$startday,$year);
 				$minical_show = $minical_show. "
-	<area shape=rect coords='$x,$y,$x1,$y1' href='day.php?timestamp=$day_ts'>";
+	<area shape=rect coords='$x,$y,$x1,$y1' href='dateplaner.php?app=day&timestamp=$day_ts'>";
 			}
 			$startday++;
 		}
@@ -296,20 +296,19 @@ function setMinicalendar($month,$year, $CSCW_Lang)
 			$y1 = $y + 10;
 			$month_ts=mktime (0,0,0,$c0,1,$year);
 			$minical_show = $minical_show. "
-	<area shape=rect coords='$x,$y,$x1,$y1' href='$PHP_SELF?month=$c0&year=$year&timestamp=$month_ts'>";
+	<area shape=rect coords='$x,$y,$x1,$y1' href='dateplaner.php?app=$app&month=$c0&year=$year&timestamp=$month_ts'>";
 			$c0++;
 		}	
 	}
 	$minical_show = $minical_show. "
-	<area shape=rect coords='10,2,25,17' href='$PHP_SELF?month=$month&year=$year&action=last'>
-	<area shape=rect coords='135,2,150,17' href='$PHP_SELF?month=$month&year=$year&action=next'>
+	<area shape=rect coords='10,2,25,17' href='dateplaner.php?app=$app&month=$month&year=$year&action=last'>
+	<area shape=rect coords='135,2,150,17' href='dateplaner.php?app=$app&month=$month&year=$year&action=next'>
 </map>
 
-<img src='includes/inc.minicalendar.php?action=show&month=".$month."&year=".$year."&Lang=".$CSCW_Lang."' usemap='#Calendar' border=0>
+<img src='.".DATEPLANER_ROOT_DIR."/includes/inc.minicalendar.php?action=show&month=".$month."&year=".$year."&DP_Lang=".$DP_Lang."' usemap='#Calendar' border=0>
 ";
 	return $minical_show;
 		
 } // end func
-
 
 ?>

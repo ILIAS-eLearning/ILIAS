@@ -92,7 +92,7 @@ function formatDate($timestampStart, $timestampEnd, $singleRotation)
 *						other:	
 * @return array 	$retArray		  
 * @access public
-* @global array 	$CSCW_language	Array for labels
+* @global array 	$DP_language	Array for labels
 * 
 * @author Stefan Stahlkopf <mail@stefan-stahlkopf.de> 
 * 
@@ -101,7 +101,7 @@ function formatDate($timestampStart, $timestampEnd, $singleRotation)
 */
 function createTable($Dates,$DateID, $Gui , $db, $mode)
 {
-global $CSCW_language;
+global $DP_language;
 for ( $i = 0; $i < sizeof($Dates); $i++ )
 {
 	if ( $Dates[$i][6] == 0 )
@@ -141,28 +141,28 @@ for ( $i = 0; $i < sizeof($Dates); $i++ )
 		{
 			// type of rotation
 			case 0:
-				$col7 = $CSCW_language[r_nonrecurring];
+				$col7 = $DP_language[r_nonrecurring];
 				break;
 			case 1:
-				$col7 = $CSCW_language[r_day];
+				$col7 = $DP_language[r_day];
 				break;
 			case 2:
-				$col7 = $CSCW_language[r_week];
+				$col7 = $DP_language[r_week];
 				break;
 			case 3:
-				$col7 = $CSCW_language[r_14];
+				$col7 = $DP_language[r_14];
 				break;
 			case 4:
-				$col7 = $CSCW_language[r_4_weeks];
+				$col7 = $DP_language[r_4_weeks];
 				break;
 			case 5:
-				$col7 = $CSCW_language[r_month];
+				$col7 = $DP_language[r_month];
 				break;
 			case 6:
-				$col7 = $CSCW_language[r_halfyear];
+				$col7 = $DP_language[r_halfyear];
 				break;
 			case 7:
-				$col7 = $CSCW_language[r_year];
+				$col7 = $DP_language[r_year];
 				break;
 			default:
 				$col7 = " ";
@@ -171,7 +171,7 @@ for ( $i = 0; $i < sizeof($Dates); $i++ )
 	else
 	{
 		// single rotation date
-		$col7 = $CSCW_language[singleDate];
+		$col7 = $DP_language[singleDate];
 			
 	}
 	

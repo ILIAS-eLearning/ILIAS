@@ -15,14 +15,14 @@
 /**
 * 	function getKeywords()
 * 	@description : get Content for the Week View from the sortdates functions 
-* 	@param string CSCW_UId     ( actual User ID )
+* 	@param  string DP_UId     ( actual User ID )
+*	@param  DB $DB		( Object of class db )
 * 	@return Array Keywords [][]
 */
-function getKeywords($CSCW_UId)
+function getKeywords($DP_UId, $DB)
 {
 
-	$DB					= new Database();
-	$Keywords			= $DB->getKeywords ($CSCW_UId);
+	$Keywords			= $DB->getKeywords ($DP_UId);
 	return $Keywords;
 	
 } // end func 
@@ -33,42 +33,39 @@ function getKeywords($CSCW_UId)
 * 	@description : the Main function of the keyword function
 * 	@description : called from the executed file
 * 	@param  Array S_Keywords    ( control variable )
-* 	@global string CSCW_UId     ( actual User ID )
-* 	@global Array CSCW_language ( include Languageproperties )
-* 	@global Array CSCW_Keywords ( active Keywords )
+*	@param  DB $DB		( Object of class db )
+* 	@global string DP_UId     ( actual User ID )
+* 	@global Array DP_language ( include Languageproperties )
+* 	@global Array $_SESSION  ( DP_Keywords = active Keywords )
 * 	@return string keywords_float    ( contains the output )
 */
-function showKeywords($S_Keywords)
+function showKeywords($S_Keywords, $DB)
 {
-	global $CSCW_UId, $CSCW_Keywords , $CSCW_language;
+	global $DP_UId, $_SESSION , $DP_language;
 	
-	$Keywords = getKeywords($CSCW_UId);
+	$Keywords = getKeywords($DP_UId, $DB);
 	$keywords_float = "<br>";
 
-	if ($S_Keywords) 
-	{
-		$CSCW_Keywords =  $S_Keywords;
-		session_register("CSCW_Keywords");
-	}
+	$DP_Keywords = $_SESSION[DP_Keywords];
 
 	$keywords_float = $keywords_float.'
 		<form name="Keywords" action="" method="post">
 		<select multiple size="6" name="S_Keywords[]">';
 
-	if ($CSCW_Keywords[0] ==  "*" or !isset($CSCW_Keywords)) 
+	if ($DP_Keywords[0] ==  "*" or !isset($DP_Keywords)) 
 	{
-		$CSCW_Keywords = array ("*");
-		$keywords_float = $keywords_float.'<option value="*" selected >'.$CSCW_language[k_alldates].'</option>';
+		$DP_Keywords = array ("*");
+		$keywords_float = $keywords_float.'<option value="*" selected >'.$DP_language[k_alldates].'</option>';
 	}
 	else 
 	{
-		$keywords_float = $keywords_float.'<option value="*">'.$CSCW_language[k_alldates].'</option>';
+		$keywords_float = $keywords_float.'<option value="*">'.$DP_language[k_alldates].'</option>';
 	}
 
 	for ($i=0;$i<count($Keywords);$i++) 
 	{
 		$j = $i+1;
-		if (@in_array ( $Keywords[$i][0] , $CSCW_Keywords)) 
+		if (@in_array ( $Keywords[$i][0] , $DP_Keywords)) 
 		{
 			$keywords_float = $keywords_float.'<option value="'.$Keywords[$i][0].'" selected>'.$Keywords[$i][1].'</option>';
 		}

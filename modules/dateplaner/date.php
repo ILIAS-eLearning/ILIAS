@@ -1,27 +1,28 @@
 <?php
-//session_start() ;
-
-// CSCW Header includieren
-require			('./includes/inc.cscw.header.php');
-require_once	('./includes/inc.dates.php');
-require_once	('./includes/inc.output.php');
-
-$DB				= new Database();
-$Gui			= new Gui();
-
-
-//Übergabe parameter Prüfen
-
-if ($date_id){
-	$DateArray		= $DB->getDate ($date_id, $CSCW_UId);
-// debug 
-//	echo("DATEARRAY <br>");
-//	print_r($DateArray);
-	$PAGETITLE		= "Date : ".$DateArray[8];			// Page Titel setzten
-} else {
-	$PAGETITLE		= "Date :".@$DateValues[shorttext];	// Page Titel setzten
-}
-
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source															  |
+	|	Dateplaner Modul - date													  |													
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 2004 ILIAS open source & University of Applied Sciences Bremen|
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+// include DP date functions
+include_once	('.'.DATEPLANER_ROOT_DIR.'/includes/inc.dates.php');
 
 // Generiere Frames
 // -----------------------------------------  FEST ---------------------------------//
@@ -30,27 +31,27 @@ $left	= '';
 // --------------------------------------  ende Fest -------------------------------//
 
 // kein Timpestamp vorhanden !
-
-$DateValues[date2]		= $date2 ;
-$DateValues[date4]		= $date4 ;
-$DateValues[date6]		= $date6 ;
-$DateValues[group_id]	= $DateValuesGroup_id;
-$DateValues[rotation]	= $DateValuesRotation;
-$DateValues[whole_day]	= $DateValuesWhole_day;
+$DateValues				= $_REQUEST[DateValues];
+$DateValues[date2]		= $_REQUEST["date2"] ;
+$DateValues[date4]		= $_REQUEST["date4"] ;
+$DateValues[date6]		= $_REQUEST["date6"] ;
+$DateValues[group_id]	= $_REQUEST["DateValuesGroup_id"];
+$DateValues[rotation]	= $_REQUEST["DateValuesRotation"];
+$DateValues[whole_day]	= $_REQUEST["DateValuesWhole_day"];
 
 // aktionen
-if($dateaction) {
-	switch($dateaction) {
+if($_REQUEST["dateaction"]) {
+	switch($_REQUEST["dateaction"]) {
 		case 'insert':
-			$msg = setInsertAction($date2, $date4, $date6, $DateValues);
+			$msg = setInsertAction($_REQUEST["date2"], $_REQUEST["date4"], $_REQUEST["date6"], $DateValues, $DB);
 			if($msg) {
 				eval ("\$dateContent = \"".$Gui->getTemplate("date_msg")."\";");
 			}else {
 				echo '<script language=JavaScript> opener.location.reload(); window.close(); </script>';
 			}
 			break; 
-		case $CSCW_language[dv_button_update]:
-			$msg = setUpdateAction($date2, $date4, $date6, $DateValues);
+		case $DP_language[dv_button_update]:
+			$msg = setUpdateAction($_REQUEST["date2"], $_REQUEST["date4"], $_REQUEST["date6"], $DateValues, $DB);
 			if($msg) {
 				eval ("\$dateContent = \"".$Gui->getTemplate("date_msg")."\";");
 			}else {
@@ -58,8 +59,8 @@ if($dateaction) {
 			}
 			
 			break;
-		case $CSCW_language[dv_button_delete]:
-			$msg = setDeleteAction($DateValues);
+		case $DP_language[dv_button_delete]:
+			$msg = setDeleteAction($DateValues, $DB);
 			if($msg) {
 				eval ("\$dateContent = \"".$Gui->getTemplate("date_msg")."\";");
 			}else {
@@ -68,10 +69,10 @@ if($dateaction) {
 			break;
 	}
 }else {
-	if ((!$date_id and !$DateValues[date_id]) or $dateview == "insert"  )
+	if ((!$_REQUEST["date_id"] and !$DateValues[date_id]) or $_REQUEST["dateview"] == "insert"  )
 	// neuer Termin soll eingetragen werden
 	{
-		if($dateview == "freetime") {
+		if($_REQUEST["dateview"] == "freetime") {
 			if($timestamp != "") {
 				$ttd					= new TimestampToDate;
 				$ttd->ttd($timestamp);
@@ -80,14 +81,14 @@ if($dateaction) {
 				$DateValues[begin_min]	= $DateValues[end_min] 	= $ttd->minutes ;
 			}
 		}
-		if (!$timestamp ) $timestamp = (int)mktime(0,0,0);
-		$dateContent = setInsertDate($timestamp, $DateValues);
+		if (!$timestamp = $_REQUEST["timestamp"] ) $timestamp = (int)mktime(0,0,0);
+		$dateContent = setInsertDate($timestamp, $DateValues, $DB);
 		$jscriptboddy = "onLoad=\"HideElements('textOne','textTwo','textThree', 'textFour'); HideThingsRotation(); HideThingsGroup()\"";
 	}else 
 	{
 		if (!$timestamp ) $timestamp = (int)mktime(0,0,0);
 		$DateArray[old_keyword_id] = $DateArray[keyword_id];
-		$dateContent = setUpdateDeleteDate($timestamp, $date_id, $DateArray, $DateValues );
+		$dateContent = setUpdateDeleteDate($timestamp, $date_id, $DateArray, $DateValues, $DB );
 
 		if($js != "ro") 
 		{
@@ -110,7 +111,7 @@ eval ("\$main = \"".$Gui->getTemplate("date_main")."\";");
 eval("doOutput(\"".$Gui->getTemplate("main")."\");"); 
 // --------------------------------------  ende Fest -------------------------------//
 
-echo ("<noscript>".$CSCW_language[ERROR_JAVASCRIPT]." </noscript>");
+echo ("<noscript>".$DP_language[ERROR_JAVASCRIPT]." </noscript>");
  
 exit;
 

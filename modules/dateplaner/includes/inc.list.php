@@ -19,12 +19,12 @@
 * 	@param int totime_ts   
 * 	@global string $actualtemplate  ( name of actual cscw skin )
 * 	@global string $templatefolder  ( name of template folder )
-* 	@global Array CSCW_language		( include Languageproperties )
+* 	@global Array DP_language		( include Languageproperties )
 * 	@return string $list_navigation ( contains the output for the setNavigation )
 */
 function setNavigation($fromtime_ts, $totime_ts)
 	{
-		global $templatefolder, $actualtemplate , $CSCW_language;
+		global $templatefolder, $actualtemplate , $DP_language;
 		$Gui		= new Gui();
 		$ttd		= new TimestampToDate;
 		$ttd->ttd($fromtime_ts);
@@ -34,18 +34,18 @@ function setNavigation($fromtime_ts, $totime_ts)
 		$popupcall_1 = '
 <script language=JavaScript>
 			var cal2 = new CalendarPopup();  
-			cal2.showYearNavigation(); cal2.setMonthNames(\''.$CSCW_language[long_01].'\',\''.$CSCW_language[long_02].'\',\''.$CSCW_language[long_03].'\',\''.$CSCW_language[long_04].'\',\''.$CSCW_language[long_05].'\',\''.$CSCW_language[long_06].'\',\''.$CSCW_language[long_07].'\',\''.$CSCW_language[long_08].'\',\''.$CSCW_language[long_09].'\',\''.$CSCW_language[long_10].'\',\''.$CSCW_language[long_11].'\',\''.$CSCW_language[long_12].'\'); 
-		    cal2.setDayHeaders(\''.$CSCW_language[Su_short].'\',\''.$CSCW_language[Mo_short].'\',\''.$CSCW_language[Tu_short].'\',\''.$CSCW_language[We_short].'\',\''.$CSCW_language[Th_short].'\',\''.$CSCW_language[Fr_short].'\',\''.$CSCW_language[Sa_short].'\');
+			cal2.showYearNavigation(); cal2.setMonthNames(\''.$DP_language[long_01].'\',\''.$DP_language[long_02].'\',\''.$DP_language[long_03].'\',\''.$DP_language[long_04].'\',\''.$DP_language[long_05].'\',\''.$DP_language[long_06].'\',\''.$DP_language[long_07].'\',\''.$DP_language[long_08].'\',\''.$DP_language[long_09].'\',\''.$DP_language[long_10].'\',\''.$DP_language[long_11].'\',\''.$DP_language[long_12].'\'); 
+		    cal2.setDayHeaders(\''.$DP_language[Su_short].'\',\''.$DP_language[Mo_short].'\',\''.$DP_language[Tu_short].'\',\''.$DP_language[We_short].'\',\''.$DP_language[Th_short].'\',\''.$DP_language[Fr_short].'\',\''.$DP_language[Sa_short].'\');
 			cal2.setWeekStartDay(1);
-			cal2.setTodayText("'.$CSCW_language[today].'");
+			cal2.setTodayText("'.$DP_language[today].'");
 </script>
 		';
 		$popupcall_2 = '
 <script language=JavaScript >
-			var cal4 = new CalendarPopup();	cal4.setMonthNames(\''.$CSCW_language[long_01].'\',\''.$CSCW_language[long_02].'\',\''.$CSCW_language[long_03].'\',\''.$CSCW_language[long_04].'\',\''.$CSCW_language[long_05].'\',\''.$CSCW_language[long_06].'\',\''.$CSCW_language[long_07].'\',\''.$CSCW_language[long_08].'\',\''.$CSCW_language[long_09].'\',\''.$CSCW_language[long_10].'\',\''.$CSCW_language[long_11].'\',\''.$CSCW_language[long_12].'\'); 
-		    cal4.setDayHeaders(\''.$CSCW_language[Su_short].'\',\''.$CSCW_language[Mo_short].'\',\''.$CSCW_language[Tu_short].'\',\''.$CSCW_language[We_short].'\',\''.$CSCW_language[Th_short].'\',\''.$CSCW_language[Fr_short].'\',\''.$CSCW_language[Sa_short].'\');
+			var cal4 = new CalendarPopup();	cal4.setMonthNames(\''.$DP_language[long_01].'\',\''.$DP_language[long_02].'\',\''.$DP_language[long_03].'\',\''.$DP_language[long_04].'\',\''.$DP_language[long_05].'\',\''.$DP_language[long_06].'\',\''.$DP_language[long_07].'\',\''.$DP_language[long_08].'\',\''.$DP_language[long_09].'\',\''.$DP_language[long_10].'\',\''.$DP_language[long_11].'\',\''.$DP_language[long_12].'\'); 
+		    cal4.setDayHeaders(\''.$DP_language[Su_short].'\',\''.$DP_language[Mo_short].'\',\''.$DP_language[Tu_short].'\',\''.$DP_language[We_short].'\',\''.$DP_language[Th_short].'\',\''.$DP_language[Fr_short].'\',\''.$DP_language[Sa_short].'\');
 			cal4.setWeekStartDay(1);
-			cal4.setTodayText("'.$CSCW_language[today].'");			
+			cal4.setTodayText("'.$DP_language[today].'");			
 			cal4.showYearNavigation(); 
 </script>
 		';
@@ -60,17 +60,17 @@ function setNavigation($fromtime_ts, $totime_ts)
 * 	@description : get Content for the Week View from the sortdates functions 
 * 	@param int start_ts
 * 	@param int end_ts
-* 	@global string CSCW_UId     ( actual User ID )
-* 	@global Array CSCW_Keywords ( actuel Keywords)
+* 	@global string DP_UId     ( actual User ID )
+* 	@global $_SESSION -->		Array DP_Keywords ( actuel Keywords)
 * 	@return Array [][][] 
 * 			[0]	Dates			( normel Dates )
 * 			[1] WholeDates		( one day Dates )
 */
-function getContent($start_ts, $end_ts)
+function getContent($start_ts, $end_ts, $DB)
 {
-	global  $CSCW_Keywords, $CSCW_UId;
-	$Dates				= getDateList ($CSCW_UId, $start_ts, $end_ts, $CSCW_Keywords);
-	$WholeDates			= getWholeDayDateList ($CSCW_UId, $start_ts, $end_ts, $CSCW_Keywords);
+	global  $_SESSION, $DP_UId;
+	$Dates				= getDateList ($DP_UId, $start_ts, $end_ts, $_SESSION[DP_Keywords], $DB);
+	$WholeDates			= getWholeDayDateList ($DP_UId, $start_ts, $end_ts, $_SESSION[DP_Keywords], $DB);
 
 	$DATE[0]=$Dates;
 	$DATE[1]=$WholeDates;
@@ -82,13 +82,13 @@ function getContent($start_ts, $end_ts)
 * 	@description : the second Main function of the list view , to print out the List result
 * 	@param int fromtime_ts
 * 	@param int totime_ts   
-* 	@global array CSCW_language		( include Languageproperties )
-* 	@global array CSCW_CSS			( contains CSS Strings from the conf.gui file )
+* 	@global array DP_language		( include Languageproperties )
+* 	@global array DP_CSS			( contains CSS Strings from the conf.gui file )
 *   @return string list_print_float ( contains the output )
 */
-function printDateList($fromtime_ts, $totime_ts)
+function printDateList($fromtime_ts, $totime_ts, $DB)
 {
-	global $CSCW_language, $CSCW_CSS ;
+	global $DP_language, $DP_CSS ;
 
 
 	$ttd				= new TimestampToDate;
@@ -105,21 +105,21 @@ function printDateList($fromtime_ts, $totime_ts)
 		$totime_ts = mktime(23,59,59,$ttd->monthnumber,$ttd->day_of_month,$ttd->year_long); 
 	}
 
-	$DATE				= getContent($fromtime_ts, $totime_ts);
+	$DATE				= getContent($fromtime_ts, $totime_ts, $DB);
 	$Dates				= $DATE[0];
 	$WholeDates			= $DATE[1];
 	
 	// 1st - one day dates , cause more important 
 	$list_print_float = $list_print_float."
   <tr>
-    <td width=\"100%\" colspan=\"4\" $CSCW_CSS[tblrow1] >".$CSCW_language[extra_dates]."</td>
+    <td width=\"100%\" colspan=\"4\" $DP_CSS[tblrow1] >".$DP_language[extra_dates]."</td>
   </tr>
 	";
 	if ($WholeDates == False) 
 	{
 		$list_print_float = $list_print_float."
   <tr>
-    <td width=\"100%\" colspan=\"4\" >".$CSCW_language[no_entry]."</td>
+    <td width=\"100%\" colspan=\"4\" >".$DP_language[no_entry]."</td>
   </tr>
 		";
 	}
@@ -158,7 +158,7 @@ function printDateList($fromtime_ts, $totime_ts)
 	// 2nd - normal dates  
 	$list_print_float = $list_print_float."
   <tr>
-    <td width=\"100%\" colspan=\"4\" $CSCW_CSS[tblrow1] >".$CSCW_language[main_dates]."</td>
+    <td width=\"100%\" colspan=\"4\" $DP_CSS[tblrow1] >".$DP_language[main_dates]."</td>
   </tr>
 	";
 
@@ -166,7 +166,7 @@ function printDateList($fromtime_ts, $totime_ts)
 	{
 		$list_print_float = $list_print_float."
   <tr>
-    <td width=\"100%\" colspan=\"4\" >".$CSCW_language[no_entry]."</td>
+    <td width=\"100%\" colspan=\"4\" >".$DP_language[no_entry]."</td>
   </tr>
 		";
 	}
@@ -210,27 +210,27 @@ function printDateList($fromtime_ts, $totime_ts)
 * 	@param int totime_ts   
 * 	@param array Start_date
 * 	@param array End_date  
-* 	@global Array CSCW_language		( include Languageproperties )
+* 	@global Array DP_language		( include Languageproperties )
 *	@return array $Valid
 */
 function  parseData ($fromtime_ts, $totime_ts , $Start_date, $End_date) {
-	global  $CSCW_language;
+	global  $DP_language;
 
-	if($fromtime_ts == "-1")			$Valid[] = $CSCW_language[ERROR_STARTDATE];
-	if($totime_ts == "-1")				$Valid[] = $CSCW_language[ERROR_ENDDATE];
-	if($fromtime_ts > $totime_ts)		$Valid[] = $CSCW_language[ERROR_END_START]; 
+	if($fromtime_ts == "-1")			$Valid[] = $DP_language[ERROR_STARTDATE];
+	if($totime_ts == "-1")				$Valid[] = $DP_language[ERROR_ENDDATE];
+	if($fromtime_ts > $totime_ts)		$Valid[] = $DP_language[ERROR_END_START]; 
 
 	if(	$Start_date[0] != date ("d", mktime(0,0,0,$Start_date[1],$Start_date[0],$Start_date[2])) or
 		$Start_date[1] != date ("m", mktime(0,0,0,$Start_date[1],$Start_date[0],$Start_date[2])) or 
 		$Start_date[2] != date ("Y", mktime(0,0,0,$Start_date[1],$Start_date[0],$Start_date[2]))) 
 	{
-		 $Valid[] = $CSCW_language[ERROR_STARTDATE];
+		 $Valid[] = $DP_language[ERROR_STARTDATE];
 	}
 	if(	$End_date and ($End_date[0] != date ("d", mktime(0,0,0,$End_date[1],$End_date[0],$End_date[2])) or
 		$End_date[1] != date ("m", mktime(0,0,0,$End_date[1],$End_date[0],$End_date[2])) or 
 		$End_date[2] != date ("Y", mktime(0,0,0,$End_date[1],$End_date[0],$End_date[2])))) 
 	{
-		 $Valid[] = $CSCW_language[ERROR_ENDDATE];
+		 $Valid[] = $DP_language[ERROR_ENDDATE];
 	}
 
 	$Valid[] = "TRUE";
@@ -244,24 +244,17 @@ function  parseData ($fromtime_ts, $totime_ts , $Start_date, $End_date) {
 * 	@description : the first Main function of the list view , to list out the result
 * 	@param int fromtime_ts
 * 	@param int totime_ts   
-* 	@global Array CSCW_language		( include Languageproperties )
-* 	@global array CSCW_CSS			( contains CSS Strings from the conf.gui file )
+* 	@global Array DP_language		( include Languageproperties )
+* 	@global array DP_CSS			( contains CSS Strings from the conf.gui file )
 *   @return Array Return
 *						[0] $list_navigation	( contains the navigation output )
 *						[1] $list_float			( contains the output )
 */
-function setDateList($fromtime_ts, $totime_ts)
+function setDateList($fromtime_ts, $totime_ts, $DB)
 {
-	global   $CSCW_language, $CSCW_CSS;
-	$DB					= new Database();
+	global   $DP_language, $DP_CSS;
 	$ttd				= new TimestampToDate;
 	
-	if (!session_is_registered("CSCW_fromtime_ts")) {
-		session_register ("CSCW_fromtime_ts");
-	}
-	if (!session_is_registered("CSCW_totime_ts")) {
-		session_register ("CSCW_totime_ts");
-	}
 	$list_navigation = setNavigation($fromtime_ts, $totime_ts);
 
 	if($fromtime_ts == $totime_ts) 
@@ -271,21 +264,21 @@ function setDateList($fromtime_ts, $totime_ts)
 	}
 
 	$list_float = "";
-	$DATE = getContent($fromtime_ts, $totime_ts);
+	$DATE = getContent($fromtime_ts, $totime_ts, $DB);
 	$Dates		= $DATE[0];
 	$WholeDates	= $DATE[1];
 
 	// 1st - one day dates , cause more important 
 	$list_float = $list_float."
-  <tr ".$CSCW_CSS[tblrow1].">
-    <td width=\"100%\" colspan=\"4\"  >".$CSCW_language[extra_dates]."</td>
+  <tr ".$DP_CSS[tblrow1].">
+    <td width=\"100%\" colspan=\"4\"  >".$DP_language[extra_dates]."</td>
   </tr>
 	";
 	if ($WholeDates == False) 
 	{
 		$list_float = $list_float."
   <tr>
-    <td width=\"100%\" colspan=\"4\" ".$CSCW_CSS[tblrow2]." >".$CSCW_language[no_entry]."</td>
+    <td width=\"100%\" colspan=\"4\" ".$DP_CSS[tblrow2]." >".$DP_language[no_entry]."</td>
   </tr>
 		";
 	}
@@ -298,7 +291,7 @@ function setDateList($fromtime_ts, $totime_ts)
 		for ($i=0;$i<count($WholeDates);$i++) 
 		{
 			$list_float = $list_float."
-		<tr ".$CSCW_CSS[tblrow2]." >
+		<tr ".$DP_CSS[tblrow2]." >
 			<td width=\"10%\" >
 			";
 			$ttd->ttd($WholeDates[$i][1]);
@@ -329,15 +322,15 @@ function setDateList($fromtime_ts, $totime_ts)
 	// 2nd - normal dates  
 	$list_float = $list_float."
   <tr>
-    <td width=\"100%\" colspan=\"4\" $CSCW_CSS[tblrow1] >".$CSCW_language[main_dates]."</td>
+    <td width=\"100%\" colspan=\"4\" $DP_CSS[tblrow1] >".$DP_language[main_dates]."</td>
   </tr>
 	";
 
 	if ($Dates == False) 
 	{
 		$list_float = $list_float."
-  <tr ".$CSCW_CSS[tblrow2]." >
-    <td width=\"100%\" colspan=\"4\" >".$CSCW_language[no_entry]."</td>
+  <tr ".$DP_CSS[tblrow2]." >
+    <td width=\"100%\" colspan=\"4\" >".$DP_language[no_entry]."</td>
   </tr>
 		";
 	}
@@ -352,7 +345,7 @@ function setDateList($fromtime_ts, $totime_ts)
 		{
 
 			$list_float = $list_float."
-		<tr ".$CSCW_CSS[tblrow2].">
+		<tr ".$DP_CSS[tblrow2].">
 			<td width=\"10%\">
 			";
 			$ttd->ttd($Dates[$i][1]);
