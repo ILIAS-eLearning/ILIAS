@@ -76,6 +76,45 @@ class ilObjContentObject extends ilObject
 	}
 
 	/**
+	* init default roles settings
+	* @access	public
+	* @return	array	object IDs of created local roles.
+	*/
+	function initDefaultRoles()
+	{
+		global $rbacadmin;
+
+		// create a local role folder
+		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of content object ".$this->getId());
+
+		// create author role and assign role to rolefolder...
+		$roleObj = $rfoldObj->createRole("author object ".$this->getRefId(),"author of content object ref id ".$this->getRefId());
+		$roles[] = $roleObj->getId();
+		$rbacadmin->copyRolePermission($this->getAuthorRoleTemplateId(), 8, $rfoldObj->getRefId(), $roleObj->getId());
+
+		unset($rfoldObj);
+		unset($roleObj);
+
+		return $roles ? $roles : array();
+	}
+
+
+	/**
+	* get author role template id
+	*
+	* @access	public
+	* @return	int		id of author role template
+	*/
+	function getAuthorRoleTemplateId()
+	{
+		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='lm_Author_rolt'";
+		$res = $this->ilias->db->query($q);
+		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+		return $row["obj_id"];
+	}
+
+
+	/**
 	* read data of content object
 	*/
 	function read()
@@ -402,30 +441,6 @@ class ilObjContentObject extends ilObject
 		}
 		asort($layouts);
 		return $layouts;
-	}
-
-	/**
-	* init default roles settings
-	* @access	public
-	* @return	array	object IDs of created local roles.
-	*/
-	function initDefaultRoles()
-	{
-		global $rbacadmin;
-
-		/*
-		// create a local role folder
-		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of learning module obj_no.".$this->getId());
-
-		// create moderator role and assign role to rolefolder...
-		$roleObj = $rfoldObj->createRole("Subscribersr","Subscribers of learning module obj_no.".$this->getId());
-		$roles[] = $roleObj->getId();
-
-		unset($rfoldObj);
-		unset($roleObj);
-		*/
-
-		return $roles ? $roles : array();
 	}
 
 
