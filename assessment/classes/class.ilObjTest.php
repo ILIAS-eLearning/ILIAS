@@ -940,7 +940,7 @@ class ilObjTest extends ilObject
 * @param object $db A pear DB object
 * @access public
 */
-  function saveToDb()
+  function saveToDb($properties_only = false)
   {
     global $ilias;
     $db =& $ilias->db;
@@ -1018,32 +1018,15 @@ class ilObjTest extends ilObject
       );
       $result = $db->query($query);
     }
-    if ($result == DB_OK) {
-			if (!$this->isRandomTest())
-			{
-				$this->saveQuestionsToDb();
+		if (!$properties_only)
+		{
+			if ($result == DB_OK) {
+				if (!$this->isRandomTest())
+				{
+					$this->saveQuestionsToDb();
+				}
+				$this->mark_schema->saveToDb($this->test_id);
 			}
-      $this->mark_schema->saveToDb($this->test_id);
-    }
-		if ($this->isRandomTest())
-		{
-			// delete eventually set questions of a previous non-random test
-			$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
-				$this->ilias->db->quote($this->getTestId())
-			);
-			$result = $this->ilias->db->query($query);
-		}
-		else
-		{
-			// delete eventually set random question pools of a previous random test
-			$query = sprintf("DELETE FROM tst_test_random_question WHERE test_fi = %s",
-				$this->ilias->db->quote($this->getTestId())
-			);
-			$result = $this->ilias->db->query($query);
-			$query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
-				$this->ilias->db->quote($this->getTestId())
-			);
-			$result = $this->ilias->db->query($query);
 		}
   }
 
@@ -4707,5 +4690,26 @@ class ilObjTest extends ilObject
 			$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 		}
 	}	
+
+	function removeNonRandomTestData()
+	{
+		// delete eventually set questions of a previous non-random test
+		$this->removeAllTestEditings();
+		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+	}
+	
+	function removeRandomTestData()
+	{
+		// delete eventually set random question pools of a previous random test
+		$this->removeAllTestEditings();
+		$query = sprintf("DELETE FROM tst_test_random WHERE test_fi = %s",
+			$this->ilias->db->quote($this->getTestId())
+		);
+		$result = $this->ilias->db->query($query);
+	}
+	
 } // END class.ilObjTest
 ?>

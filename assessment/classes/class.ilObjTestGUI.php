@@ -576,11 +576,16 @@ class ilObjTestGUI extends ilObjectGUI
 	function savePropertiesObject()
 	{
 		$deleteuserdata = false;
+		$randomtest_switch = false;
 		// Check the values the user entered in the form
 		$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
 		if ($data["sel_test_types"] != $this->object->getTestType())
 		{
 			$deleteuserdata = true;
+		}
+		if ($data["random_test"] != $this->object->random_test)
+		{
+			$randomtest_switch = true;
 		}
 		$data["title"] = ilUtil::stripSlashes($_POST["title"]);
 		$data["description"] = ilUtil::stripSlashes($_POST["description"]);
@@ -695,7 +700,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$this->object->updateTitleAndDescription();
 		$this->update = $this->object->update();
-		$this->object->saveToDb();
+		$this->object->saveToDb(true);
 
 		if ($deleteuserdata)
 		{
@@ -705,6 +710,17 @@ class ilObjTestGUI extends ilObjectGUI
 		else
 		{
 			sendInfo($this->lng->txt("msg_obj_modified"));
+		}
+		if ($randomtest_switch)
+		{
+			if ($this->object->isRandomTest())
+			{
+				$this->object->removeNonRandomTestData();
+			}
+			else
+			{
+				$this->object->removeRandomTestData();
+			}
 		}
 		$this->propertiesObject();
 	}
