@@ -257,7 +257,7 @@ class ilGlossaryTerm
 			" term = '".ilUtil::prepareDBString($this->getTerm())."', ".
 			" import_id = '".$this->getImportId()."', ".
 			" language = '".$this->getLanguage()."', ".
-			" last_update = now(), ".
+			" last_update = now() ".
 			" WHERE id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}

@@ -157,7 +157,7 @@ class ilLMObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
 		$meta_gui->save($_POST["meta_section"]);
-		header("location: lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
+		ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
 			$this->obj->getId());
 	}
 
@@ -342,9 +342,8 @@ class ilLMObjectGUI
 	function cancelDelete()
 	{
 		session_unregister("saved_post");
-		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->content_object->getRefId()."&obj_id=".
+		ilUtil::redirect("lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->content_object->getRefId()."&obj_id=".
 			$this->obj->getId());
-		exit();
 	}
 
 

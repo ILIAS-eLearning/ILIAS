@@ -66,6 +66,8 @@ class ilGlossaryTermGUI
 	*/
 	function create()
 	{
+		global $ilUser;
+
 		// load template for table
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_new.html", true);
 		$this->tpl->setVariable("FORMACTION", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=post");
@@ -74,7 +76,17 @@ class ilGlossaryTermGUI
 		$this->tpl->setVariable("INPUT_TERM", "term");
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
 		$lang = ilMetaData::getLanguages();
-		$select_language = ilUtil::formSelect ("","term_language",$lang,false,true);
+
+		if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
+		{
+			$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
+		}
+		else
+		{
+			$s_lang = $ilUser->getLanguage();
+		}
+
+		$select_language = ilUtil::formSelect ($s_lang, "term_language",$lang,false,true);
 		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
 		$this->tpl->setVariable("BTN_NAME", "saveTerm");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
@@ -86,6 +98,7 @@ class ilGlossaryTermGUI
 		$term->setGlossary($this->glossary);
 		$term->setTerm($_POST["term"]);
 		$term->setLanguage($_POST["term_language"]);
+		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["term_language"];
 		$term->create();
 	}
 

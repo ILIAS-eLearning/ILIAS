@@ -122,8 +122,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 			// always send a message
 			sendInfo($this->lng->txt("glo_added"),true);
-			header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-			exit();
+			ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		}
 	}
 
@@ -142,8 +141,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->save($_POST["meta_section"]);
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]);
-		exit;
+		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 	}
 
 
@@ -463,8 +461,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("msg_cancel"),true);
 
-		header("Location: glossary_edit.php?ref_id=".$this->ref_id."&cmd=listTerms");
-		exit();
+		ilUtil::redirect("glossary_edit.php?ref_id=".$this->ref_id."&cmd=listTerms");
 	}
 
 	function deleteTerms()
@@ -476,8 +473,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		session_unregister("term_delete");
 
-		header("Location: glossary_edit.php?ref_id=".$this->ref_id."&cmd=listTerms");
-		exit();
+		ilUtil::redirect("glossary_edit.php?ref_id=".$this->ref_id."&cmd=listTerms");
 	}
 
 	/**
@@ -616,7 +612,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$def->setTitle($_POST["Fobject"]["title"]);#"content object ".$newObj->getId());		// set by meta_gui->save
 		$def->setDescription($_POST["Fobject"]["desc"]);	// set by meta_gui->save
 		$def->create();
-		header("Location: glossary_edit.php?cmd=view&ref_id=".$this->object->getRefId().
+		ilUtil::redirect("glossary_edit.php?cmd=view&ref_id=".$this->object->getRefId().
 			"&def=".$def->getId());
 	}
 
@@ -635,7 +631,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->save();
-		header("Location: glossary_edit.php?cmd=view&ref_id=".$this->object->getRefId());
+		ilUtil::redirect("glossary_edit.php?cmd=view&ref_id=".$this->object->getRefId());
 	}
 
 	function perm()
@@ -689,8 +685,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("cont_added_term"),true);
 
-		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
-		exit();
+		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
 
 	}
 
@@ -712,9 +707,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("msg_obj_modified"),true);
 
-		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".
+		ilUtil::redirect("glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".
 			$_GET["term_id"]."&cmd=listDefinitions");
-		exit();
 
 	}
 
@@ -737,28 +731,31 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 			$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 
-			foreach ($tabs as $row)
+			if (is_array($tabs))
 			{
-				$i++;
-
-				if ($row[1] == $_GET["cmd"])
+				foreach ($tabs as $row)
 				{
-					$tabtype = "tabactive";
-					$tab = $tabtype;
-				}
-				else
-				{
-					$tabtype = "tabinactive";
-					$tab = "tab";
-				}
+					$i++;
 
-				$this->tpl->setCurrentBlock("tab");
-				$this->tpl->setVariable("TAB_TYPE", $tabtype);
-				$this->tpl->setVariable("TAB_TYPE2", $tab);
-				$this->tpl->setVariable("TAB_LINK", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&def=".
-					$_GET["def"]."&term_id=".$_GET["term_id"]."&cmd=".$row[1]);
-				$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
-				$this->tpl->parseCurrentBlock();
+					if ($row[1] == $_GET["cmd"])
+					{
+						$tabtype = "tabactive";
+						$tab = $tabtype;
+					}
+					else
+					{
+						$tabtype = "tabinactive";
+						$tab = "tab";
+					}
+
+					$this->tpl->setCurrentBlock("tab");
+					$this->tpl->setVariable("TAB_TYPE", $tabtype);
+					$this->tpl->setVariable("TAB_TYPE2", $tab);
+					$this->tpl->setVariable("TAB_LINK", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&def=".
+						$_GET["def"]."&term_id=".$_GET["term_id"]."&cmd=".$row[1]);
+					$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
+					$this->tpl->parseCurrentBlock();
+				}
 			}
 		}
 	}

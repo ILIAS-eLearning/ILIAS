@@ -225,7 +225,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		// -> a free page is created (not in the tree)
 		if (empty($_GET["obj_id"]))
 		{
-			header("location: lm_edit.php?cmd=pages&ref_id=".$this->content_object->getRefId());
+			ilUtil::redirect("lm_edit.php?cmd=pages&ref_id=".$this->content_object->getRefId());
 		}
 		else
 		{
@@ -234,7 +234,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 			// check the tree
 			$this->checkTree();
 
-			header("location: lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
+			ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
 				$_GET["obj_id"]);
 		}
 	}
