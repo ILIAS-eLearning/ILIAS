@@ -17,7 +17,7 @@
    |                                                                            |
    | You should have received a copy of the GNU General Public License          |
    | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. | 
+   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
    +----------------------------------------------------------------------------+
 */
 
@@ -30,8 +30,8 @@ require_once "assessment/classes/class.assImagemapQuestion.php";
 
 /**
 * GUI Handler class for every assessment question type
-* 
-* The ASS_QuestionGUI class defines and encapsulates basic methods and attributes 
+*
+* The ASS_QuestionGUI class defines and encapsulates basic methods and attributes
 * communicating between Ilias3 assessment objects and the Ilias3 GUI
 *
 * @author		Helmut Schottmüller <hschottm@tzi.de>
@@ -42,7 +42,7 @@ require_once "assessment/classes/class.assImagemapQuestion.php";
 class ASS_QuestionGUI extends PEAR {
 /**
 * The reference to the ILIAS class
-* 
+*
 * The reference to the ILIAS class
 *
 * @var object
@@ -51,7 +51,7 @@ class ASS_QuestionGUI extends PEAR {
 
 /**
 * The reference to the Template class
-* 
+*
 * The reference to the Template class
 *
 * @var object
@@ -60,13 +60,13 @@ class ASS_QuestionGUI extends PEAR {
 
 /**
 * The reference to the Language class
-* 
+*
 * The reference to the Language class
 *
 * @var object
 */
   var $lng;
-  
+
 /**
 * An alias to an assessment question object
 *
@@ -75,15 +75,15 @@ class ASS_QuestionGUI extends PEAR {
 * @var object
 */
   var $question;
-  
+
 /**
 * ASS_QuestionGUI constructor
-* 
+*
 * The constructor takes possible arguments an creates an instance of the ASS_QuestionGUI object.
 *
 * @access public
 */
-  function ASS_QuestionGUI() 
+  function ASS_QuestionGUI()
   {
 		global $ilias;
     global $lng;
@@ -93,10 +93,10 @@ class ASS_QuestionGUI extends PEAR {
     $this->lng =& $lng;
     $this->tpl =& $tpl;
   }
-  
+
 /**
 * Creates a question
-* 
+*
 * Creates a question and returns the alias to the question
 *
 * @param string $question_type The question type as it is used in the language database
@@ -147,7 +147,7 @@ class ASS_QuestionGUI extends PEAR {
 
 /**
 * Returns the question type as it is used in the language database
-* 
+*
 * Returns the question type as it is used in the language database
 *
 * @return string The question type as it is used in the language database
@@ -176,10 +176,10 @@ class ASS_QuestionGUI extends PEAR {
         break;
     }
   }
-  
+
 /**
 * Cancels actions editing this question
-* 
+*
 * Cancels actions editing this question
 *
 * @access private
@@ -191,18 +191,55 @@ class ASS_QuestionGUI extends PEAR {
   function get_add_parameter() {
     return "?ref_id=" . $_GET["ref_id"] . "&cmd=" . $_GET["cmd"];
   }
+/**
+* Sets the material field of a question from a posted create/edit form
+*
+* Sets the material field of a question from a posted create/edit form
+*
+* @access private
+*/
+  function out_material_question_data() {
+
+    if (!empty($this->question->materials)) {
+		$this->tpl->setCurrentBlock("mainselect_block");
+
+		$this->tpl->setCurrentBlock("select_block");
+		foreach ($this->question->materials as $key => $value) {
+		  $this->tpl->setVariable("MATERIAL_VALUE", $value);
+		  $this->tpl->parseCurrentBlock();
+		}
+		$this->tpl->setCurrentBlock("materiallist_block");
+		$i = 1;
+		foreach ($this->question->materials as $key => $value) {
+		  $this->tpl->setVariable("MATERIAL_COUNTER", $i);
+		  $this->tpl->setVariable("MATERIAL_VALUE", $value);
+		  $this->tpl->parseCurrentBlock();
+		  $i++;
+		}
+		$this->tpl->setVariable("UPLOADED_MATERIAL", $this->lng->txt("uploaded_material"));
+		$this->tpl->setVariable("VALUE_MATERIAL_DELETE", $this->lng->txt("delete"));
+		$this->tpl->parse("mainselect_block");
+	}
+
+    $this->tpl->setCurrentBlock("question_material");
+    $this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
+    $this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
+    $this->tpl->parseCurrentBlock();
+}
 
 /**
 * Sets the fields of a multiple choice create/edit form
-* 
+*
 * Sets the fields of a multiple choice create/edit form
 *
 * @access private
 */
   function out_multiple_choice_data() {
+
     if ($this->question->get_response() == RESPONSE_SINGLE) {
       $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_sr.html", true);
-  
+	  $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
+
       // output of existing single response answers
       for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
         $this->tpl->setCurrentBlock("deletebutton");
@@ -224,7 +261,7 @@ class ASS_QuestionGUI extends PEAR {
         }
         $this->tpl->parseCurrentBlock();
       }
-        
+
       if (strlen($_POST["cmd"]["add"]) > 0) {
         // Create template for a new answer
         $this->tpl->setCurrentBlock("answers");
@@ -236,9 +273,11 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
         $this->tpl->parseCurrentBlock();
       }
-        
+      // call to materials block
+  	  $this->out_material_question_data();
+
       $this->tpl->setCurrentBlock("question_data");
-   
+
       $this->tpl->setVariable("MULTIPLE_CHOICE_ID", $this->question->get_id());
       $this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_TITLE", $this->question->get_title());
       $this->tpl->setVariable("VALUE_MULTIPLE_CHOICE_COMMENT", $this->question->get_comment());
@@ -257,7 +296,8 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->parseCurrentBlock();
     } else {
       $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_mc_mr.html", true);
-    
+      $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
+
       // output of existing multiple response answers
       for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
         $this->tpl->setCurrentBlock("deletebutton");
@@ -279,7 +319,7 @@ class ASS_QuestionGUI extends PEAR {
         }
         $this->tpl->parseCurrentBlock();
       }
-        
+
       if (strlen($_POST["cmd"]["add"]) > 0) {
         // Create template for a new answer
         $this->tpl->setCurrentBlock("answers");
@@ -292,9 +332,12 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->setVariable("VALUE_TRUE", $this->lng->txt("true"));
         $this->tpl->parseCurrentBlock();
       }
-        
+
+      // call to materials block
+  	  $this->out_material_question_data();
+
       $this->tpl->setCurrentBlock("question_data");
-    
+
       $this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
       $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
       $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -313,10 +356,10 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->parseCurrentBlock();
     }
   }
-  
+
 /**
 * Sets the fields of a cloze question create/edit form
-* 
+*
 * Sets the fields of a cloze question create/edit form
 *
 * @access private
@@ -327,6 +370,8 @@ class ASS_QuestionGUI extends PEAR {
     } else {
       $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_cloze_select.html", true);
     }
+    $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
+
     if ($this->question->get_cloze_type() == CLOZE_TEXT)
     {
       for ($i = 0; $i < $this->question->get_gap_count(); $i++)
@@ -378,6 +423,8 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->parseCurrentBlock();
       }
     }
+    // call to materials block
+	$this->out_material_question_data();
 
     $this->tpl->setCurrentBlock("question_data");
     $this->tpl->setVariable("VALUE_CLOZE_TITLE", $this->question->get_title());
@@ -410,13 +457,14 @@ class ASS_QuestionGUI extends PEAR {
 
 /**
 * Sets the fields of an ordering question create/edit form
-* 
+*
 * Sets the fields of an ordering question create/edit form
 *
 * @access private
 */
   function out_ordering_question_data() {
     $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_ordering.html", true);
+    $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
 
     // Output of existing answers
     for ($i = 0; $i < $this->question->get_answer_count(); $i++) {
@@ -451,6 +499,8 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("VALUE_ORDERING_POINTS", sprintf("%d", 0));
       $this->tpl->parseCurrentBlock();
     }
+    // call to materials block
+	$this->out_material_question_data();
 
     $this->tpl->setCurrentBlock("question_data");
 
@@ -474,13 +524,14 @@ class ASS_QuestionGUI extends PEAR {
 
 /**
 * Sets the fields of a matching question create/edit form
-* 
+*
 * Sets the fields of a matching question create/edit form
 *
 * @access private
 */
   function out_matching_question_data() {
     $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_matching.html", true);
+    $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
 
     // Vorhandene Anworten ausgeben
     for ($i = 0; $i < $this->question->get_matchingpair_count(); $i++) {
@@ -522,6 +573,8 @@ class ASS_QuestionGUI extends PEAR {
       $this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
       $this->tpl->parseCurrentBlock();
     }
+    // call to materials block
+	$this->out_material_question_data();
 
     if (strlen($_POST["cmd"]["add"]) > 0) {
       // Template für neue Antwort erzeugen
@@ -576,7 +629,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("ACTION_MATCHING_QUESTION", $_SERVER["PHP_SELF"] . $this->get_add_parameter() . "&sel_question_types=qt_matching");
     $this->tpl->parseCurrentBlock();
   }
-  
+
 /**
 * Sets the fields of a imagemap create/edit form
 *
@@ -588,6 +641,7 @@ class ASS_QuestionGUI extends PEAR {
 
 
       $this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_imagemap_question.html", true);
+      $this->tpl->addBlockFile("QUESTION_MATERIAL", "question_material", "tpl.il_as_qpl_material_question.html", true);
 
 
       // Create gap between head and answers
@@ -615,6 +669,7 @@ class ASS_QuestionGUI extends PEAR {
       }
 
 		if ($this->question->get_id() > 0) {
+			$this->out_material_question_data();
 			// image block
 			$this->tpl->setCurrentBlock("post_save");
 			$img = $this->question->get_image_filename();
@@ -630,7 +685,7 @@ class ASS_QuestionGUI extends PEAR {
 			} else {
 				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
 			}
-	
+
 			// imagemap block
 			$imgmap = $this->question->get_imagemap_filename();
 	    $this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
@@ -644,6 +699,8 @@ class ASS_QuestionGUI extends PEAR {
 				$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("upload"));
 			}
 			$this->tpl->parseCurrentBlock();
+
+
 		} else {
 			$this->tpl->setCurrentBlock("pre_save");
 			$this->tpl->setVariable("APPLY_MESSAGE", "You must apply your changes before you can upload an image map!");
@@ -668,9 +725,10 @@ class ASS_QuestionGUI extends PEAR {
 		$this->tpl->parseCurrentBlock();
   }
 
+
 /**
 * Sets the content of a question from a posted create/edit form
-* 
+*
 * Sets the content of a question from a posted create/edit form
 *
 * @access private
@@ -698,7 +756,7 @@ class ASS_QuestionGUI extends PEAR {
 
 /**
 * Sets the content of a muliple choice question from a posted create/edit form
-* 
+*
 * Sets the content of a muliple choice question from a posted create/edit form
 *
 * @return integer A positive value, if one of the required fields wasn't set, else 0
@@ -719,10 +777,12 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
-    
+    // adding materials uris
+    $this->set_question_material_from_material_template();
+
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_answers();
-    
+
     // Add all answers from the form into the object
     if ($this->question->get_response() == RESPONSE_SINGLE) {
       // ...for multiple choice with single response
@@ -734,9 +794,9 @@ class ASS_QuestionGUI extends PEAR {
             $is_true = FALSE;
           }
           $this->question->add_answer(
-            ilUtil::stripSlashes($_POST["$key"]), 
-            ilUtil::stripSlashes($_POST["points_$matches[1]"]), 
-            ilUtil::stripSlashes($is_true), 
+            ilUtil::stripSlashes($_POST["$key"]),
+            ilUtil::stripSlashes($_POST["points_$matches[1]"]),
+            ilUtil::stripSlashes($is_true),
             ilUtil::stripSlashes($matches[1]));
         }
       }
@@ -750,14 +810,14 @@ class ASS_QuestionGUI extends PEAR {
             $is_true = FALSE;
           }
           $this->question->add_answer(
-            ilUtil::stripSlashes($_POST["$key"]), 
-            ilUtil::stripSlashes($_POST["points_$matches[1]"]), 
-            ilUtil::stripSlashes($is_true), 
+            ilUtil::stripSlashes($_POST["$key"]),
+            ilUtil::stripSlashes($_POST["points_$matches[1]"]),
+            ilUtil::stripSlashes($is_true),
             ilUtil::stripSlashes($matches[1]));
         }
       }
     }
-    
+
     // After adding all questions from the form we have to check if the learner pressed a delete button
     foreach ($_POST as $key => $value) {
       // was one of the answers deleted
@@ -765,7 +825,7 @@ class ASS_QuestionGUI extends PEAR {
         $this->question->delete_answer($matches[1]);
       }
     }
-    
+
     // Set the question id from a hidden form parameter
     if ($_POST["multiple_choice_id"] > 0)
       $this->question->set_id($_POST["multiple_choice_id"]);
@@ -775,7 +835,7 @@ class ASS_QuestionGUI extends PEAR {
 
 /**
 * Sets the content of a cloze question from a posted create/edit form
-* 
+*
 * Sets the content of a cloze question from a posted create/edit form
 *
 * @return integer A positive value, if one of the required fields wasn't set, else 0
@@ -785,7 +845,7 @@ class ASS_QuestionGUI extends PEAR {
     $result = 0;
     // Delete all existing gaps and create new gaps from the form data
     $this->question->flush_gaps();
-    
+
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]))
       $result = 1;
       
@@ -800,7 +860,8 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_cloze_type(ilUtil::stripSlashes($_POST["clozetype"]));
     $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
-    
+    // adding materials uris
+    $this->set_question_material_from_material_template();
     
     if (strlen($_POST["creategaps"]) == 0) {
       // Create gaps wasn't activated => check gaps for changes and/or deletions
@@ -814,8 +875,8 @@ class ASS_QuestionGUI extends PEAR {
               // Only change gap values <> empty string
               if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
                 $this->question->set_answertext(
-                  ilUtil::stripSlashes($matches[1]), 
-                  ilUtil::stripSlashes($matches[2]), 
+                  ilUtil::stripSlashes($matches[1]),
+                  ilUtil::stripSlashes($matches[2]),
                   ilUtil::stripSlashes($value));
               }
             } else {
@@ -828,7 +889,7 @@ class ASS_QuestionGUI extends PEAR {
             $this->question->set_gap_points($matches[1]-1, $value);
           }
         }
-        
+
         foreach ($_POST as $key => $value) {
           // Check, if one of the gap values was deleted
           if (preg_match("/delete_(\d+)_(\d+)/", $key, $matches)) {
@@ -847,8 +908,8 @@ class ASS_QuestionGUI extends PEAR {
               // Only change gap values <> empty string
               if (strcmp($value, $answer_array[$matches[2]]->get_answertext()) != 0) {
                 $this->question->set_answertext(
-                  ilUtil::stripSlashes($matches[1]), 
-                  ilUtil::stripSlashes($matches[2]), 
+                  ilUtil::stripSlashes($matches[1]),
+                  ilUtil::stripSlashes($matches[2]),
                   ilUtil::stripSlashes($value));
               }
             } else {
@@ -877,7 +938,7 @@ class ASS_QuestionGUI extends PEAR {
             $this->question->answer_move_down($answer_array[$matches[2]]);
           }
         }
-        
+
         foreach ($_POST as $key => $value) {
           // Check, if one of the gap values was deleted
           if (preg_match("/delete_(\d+)_(\d+)/", $key, $matches)) {
@@ -893,7 +954,7 @@ class ASS_QuestionGUI extends PEAR {
 
 /**
 * Sets the content of a matching question from a posted create/edit form
-* 
+*
 * Sets the content of a matching question from a posted create/edit form
 *
 * @return integer A positive value, if one of the required fields wasn't set, else 0
@@ -901,7 +962,7 @@ class ASS_QuestionGUI extends PEAR {
 */
   function set_question_data_from_matching_question_template() {
     $result = 0;
-    
+
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
      
@@ -915,8 +976,10 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
+    // adding materials uris
+    $this->set_question_material_from_material_template();
 		$this->question->set_matching_type($_POST["matching_type"]);
-    
+
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_matchingpairs();
 		$saved = false;    
@@ -945,10 +1008,10 @@ class ASS_QuestionGUI extends PEAR {
 					}
 				}
         $this->question->add_matchingpair(
-          ilUtil::stripSlashes($_POST["$key"]), 
-          ilUtil::stripSlashes($_POST["right_$matches[1]_$matchingtext_id"]), 
-          ilUtil::stripSlashes($_POST["points_$matches[1]"]), 
-          ilUtil::stripSlashes($matches[2]), 
+          ilUtil::stripSlashes($_POST["$key"]),
+          ilUtil::stripSlashes($_POST["right_$matches[1]_$matchingtext_id"]),
+          ilUtil::stripSlashes($_POST["points_$matches[1]"]),
+          ilUtil::stripSlashes($matches[2]),
           ilUtil::stripSlashes($matchingtext_id));
       }
     }
@@ -971,7 +1034,7 @@ class ASS_QuestionGUI extends PEAR {
 
 /**
 * Sets the content of a ordering question from a posted create/edit form
-* 
+*
 * Sets the content of a ordering question from a posted create/edit form
 *
 * @return integer A positive value, if one of the required fields wasn't set, else 0
@@ -995,13 +1058,15 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
+    // adding materials uris
+    $this->set_question_material_from_material_template();
     // Add answers from the form
     foreach ($_POST as $key => $value) {
       if (preg_match("/answer_(\d+)/", $key, $matches)) {
         $this->question->add_answer(
-          ilUtil::stripSlashes($_POST["$key"]), 
-          ilUtil::stripSlashes($_POST["points_$matches[1]"]), 
-          ilUtil::stripSlashes($matches[1]), 
+          ilUtil::stripSlashes($_POST["$key"]),
+          ilUtil::stripSlashes($_POST["points_$matches[1]"]),
+          ilUtil::stripSlashes($matches[1]),
           ilUtil::stripSlashes($_POST["order_$matches[1]"]));
       }
     }
@@ -1033,6 +1098,9 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
 
 		if ($_POST["id"] > 0) {
+
+			$this->set_question_material_from_material_template();
+
 			// Question is already saved, so imagemaps and images can be uploaded
 			//setting image file
 			if (empty($_FILES['imageName']['tmp_name'])) {
@@ -1071,10 +1139,35 @@ class ASS_QuestionGUI extends PEAR {
 		}
 		return $result;
   }
+/**
+* Sets the materials uris of a question from a posted create/edit form
+*
+* Sets the materials uris of a question from a posted create/edit form
+*
+* @access private
+*/
+  function set_question_material_from_material_template() {
+	// Add all materials uris from the form into the object
+	$this->question->flush_materials();
+	foreach ($_POST as $key => $value) {
+		if (preg_match("/material_list(\d+)/", $key, $matches)) {
+			$this->question->add_materials($value);
+		}
+	}
+	if (!empty($_FILES['materialName']['tmp_name'])) {
+		$this->question->set_materialsfile($_FILES['materialName']['name'], $_FILES['materialName']['tmp_name']);
+	}
 
+	// Delete material if the delete button was pressed
+	if ((strlen($_POST["cmd"]["deletematerial"]) > 0)&&(!empty($_POST[materialselect]))) {
+		foreach ($_POST[materialselect] as $value) {
+			$this->question->delete_material($value);
+		}
+	}
+}
 /**
 * Sets the content of a question from a posted create/edit form
-* 
+*
 * Sets the content of a question from a posted create/edit form
 *
 * @param string $question_type The question type string
@@ -1114,13 +1207,13 @@ class ASS_QuestionGUI extends PEAR {
 */
   function set_edit_template() {
     $missing_required_fields = 0;
-    
+
     if (strlen($_POST["cmd"]["cancel"]) > 0) {
       // Cancel
       $this->cancel_action();
       exit();
     }
-    
+
     $this->question->set_ref_id($_GET["ref_id"]);
     $question_type = $this->get_question_type($this->question);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_question.html", true);
@@ -1129,7 +1222,7 @@ class ASS_QuestionGUI extends PEAR {
       // First of all: Load question data from database
       $this->question->load_from_db($_POST["id"]);
     }
-  
+
     if (!$_GET["edit"]) {
       $missing_required_fields = $this->set_question_data_from_template($question_type);
     }
@@ -1153,7 +1246,7 @@ class ASS_QuestionGUI extends PEAR {
     }
 
     $this->set_template_from_question_data($question_type);
-    
+
     $this->tpl->setCurrentBlock("adm_content");
     if ($this->question->id > 0) {
       $this->tpl->setVariable("TXT_PAGEHEADLINE", $this->lng->txt("edit") . " " . $this->lng->txt($question_type));
@@ -1162,7 +1255,7 @@ class ASS_QuestionGUI extends PEAR {
     }
     $this->tpl->parseCurrentBlock();
   }
-  
+
 /**
 * Creates the learners output of a multiple choice question
 *
@@ -1211,7 +1304,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("MULTIPLE_CHOICE_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
-  
+
 /**
 * Creates the learners output of a cloze question
 *
@@ -1294,7 +1387,7 @@ class ASS_QuestionGUI extends PEAR {
       $array_matching[$value->get_order()] = $value->get_answertext();
     }
     asort($array_matching);
-    
+
     $this->tpl->addBlockFile("MATCHING_QUESTION", "matching", "tpl.il_as_execute_matching_question.html", true);
     $this->tpl->setCurrentBlock("matching_question");
     foreach ($this->question->matchingpairs as $key => $value) {
@@ -1329,7 +1422,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("MATCHING_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
-  
+
 /**
 * Creates the learners output of an ordering question
 *
@@ -1364,7 +1457,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("ORDERING_QUESTION", $this->question->get_question());
     $this->tpl->parseCurrentBlock();
   }
-  
+
 /**
 * Creates the learners output of a imagemap question
 *
@@ -1457,6 +1550,7 @@ class ASS_QuestionGUI extends PEAR {
 */
   function out_working_question($sequence = 1, $finish = false, $test_id, $active, $postpone_allowed) {
     $question_type = $this->get_question_type($this->question);
+    $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_preview.html", true);
 
 		$is_postponed = false;
 		if ($active) {

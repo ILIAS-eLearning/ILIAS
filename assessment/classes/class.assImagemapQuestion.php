@@ -115,12 +115,11 @@ class ASS_ImagemapQuestion extends ASS_Question {
     $owner = -1,
     $question = "",
     $imagemap_filename = "",
-    $image_filename = "",
-    $materials = ""
+    $image_filename = ""
 
   )
   {
-    $this->ASS_Question($title, $comment, $author, $owner, $materials);
+    $this->ASS_Question($title, $comment, $author, $owner);
     $this->question = $question;
     $this->imagemap_filename = $imagemap_filename;
     $this->image_filename = $image_filename;
@@ -148,7 +147,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
       $now = getdate();
       $question_type = 6;
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, points, imagemap_file, image_file, materials, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, points, imagemap_file, image_file, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote($question_type),
         $db->quote($this->ref_id),
@@ -160,10 +159,8 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $db->quote($this->points),
         $db->quote($this->imagemap_filename),
         $db->quote($this->image_filename),
-        $db->quote($this->materials),
         $db->quote($created)
       );
-      //print "id:".$id." question type:".$question_type." this->title:".$this->title." this->comment:".$this->comment." this->author:".$this->author." this->owner:".$this->owner." this->private:".$this->private." this->free_use:".$this->free_use." this->copyable:".$this->copyable." this->question:".$this->question." this->points:".$this->points." this->imagemap_file:".$this->imagemap_filename." this->image_file:".$this->image_filename." this->materials:".$this->materials;
       $result = $db->query($query);
       if ($result == DB_OK) {
         $this->id = $id;
@@ -174,7 +171,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, points = %s, imagemap_file = %s, image_file = %s, materials = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, points = %s, imagemap_file = %s, image_file = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
@@ -182,12 +179,13 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $db->quote($this->points),
         $db->quote($this->imagemap_filename),
         $db->quote($this->image_filename),
-        $db->quote($this->materials),
         $db->quote($this->id)
       );
       $result = $db->query($query);
     }
     if ($result == DB_OK) {
+      // saving material uris in the database
+      $this->save_materials_to_db();
       // Antworten schreiben
       // alte Antworten löschen
       $query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
@@ -243,8 +241,9 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $this->imagemap_filename = $data->imagemap_file;
         $this->image_filename = $data->image_file;
         $this->points = $data->points;
-        $this->materials = $data->materials;
       }
+      // loads materials uris from database
+      $this->load_material_from_db($question_id);
       $query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY aorder ASC",
         $db->quote($question_id)
       );
@@ -348,7 +347,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
 * @see $image_filename
 */
   function set_image_filename($image_filename, $image_tempfilename = "") {
- 		
+
     if (!empty($image_filename)) {
       $this->image_filename = $image_filename;
     }
@@ -436,7 +435,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
     $correctness = FALSE,
     $order = 0,
     $coords="",
-    $area=""   
+    $area=""
   )
   {
     if (array_key_exists($order, $this->answers)) {
