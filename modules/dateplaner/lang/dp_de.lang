@@ -50,7 +50,7 @@ dateplaner#:#week#:#Woche
 dateplaner#:#year#:#Jahr
 dateplaner#:#month#:#Monat
 dateplaner#:#hour#:#Stunde
-dateplaner#:#o_day_date#:#
+dateplaner#:#o_day_date#:#ganztägig
 dateplaner#:#date_format#:#d.m.Y H:i //day.month.Year4Digits Hour24:Minutes
 dateplaner#:#date_format_middle#:#d/m/y//month/day/Year
 dateplaner#:#myeahr#:#letztes Jahr
