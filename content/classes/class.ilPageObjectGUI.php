@@ -79,7 +79,7 @@ class ilPageObjectGUI
 
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
-		$cols = array("", "type", "title", "content");
+		$cols = array("", "type", "content");
 		foreach ($cols as $key)
 		{
 			if ($key != "")
@@ -99,32 +99,6 @@ class ilPageObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		/*
-		$this->objectList = array();
-		$this->data["data"] = array();
-		$this->data["ctrl"] = array();
-		$childs = $this->tree->getChilds($this->id, "title");
-
-		$objects = array();
-		$bookmarks = array();
-		foreach ($childs as $key => $child)
-		{
-			switch ($child["type"])
-			{
-				case "bmf":
-					$objects[] = $child;
-					break;
-
-				case "bm":
-					$bookmarks[] = $child;
-					break;
-			}
-		}
-		foreach ($bookmarks as $key => $bookmark)
-		{
-			$objects[] = $bookmark;
-		}*/
-
 		$cnt = 0;
 		$content = $this->pg_obj->getContent();
 		foreach ($content as $content_obj)
@@ -141,23 +115,18 @@ class ilPageObjectGUI
 			$this->tpl->setCurrentBlock("table_cell");
 			$this->tpl->parseCurrentBlock();
 
-			// type icon
-			$link = "lm_edit.php?";
-			$val = ilUtil::getImageTagByType("par", $this->tpl->tplPath);
-
-			$this->add_cell($val, $link);
-
-			// title
-			$link = "";
+			// type
+			$link = "lm_edit.php?cmd=edit&lm_id=".$this->lm_obj->getId()."&obj_id=".
+				$this->pg_obj->getId()."&cont_cnt=".$cnt;
 			$this->add_cell($this->lng->txt("cont_paragraph"), $link);
 
-			// target
+			// content
+echo "<br>:inPageObjectGUI::view:".htmlentities($content_obj->getText()).":<br>";
 			$this->add_cell($content_obj->getText(),"");
 
 			$this->tpl->setCurrentBlock("table_row");
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 			$this->tpl->parseCurrentBlock();
-			$cnt++;
 		}
 		if($cnt == 0)
 		{
@@ -182,6 +151,53 @@ class ilPageObjectGUI
 
 	}
 
+	function edit()
+	{
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.page_edit.html", true);
+		$content = $this->pg_obj->getContent();
+		$cnt = 1;
+
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
+			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId().
+			"&cont_cnt=".$_GET["cont_cnt"]."&cmd=post");
+
+		// content edit
+		$cur_content_obj = $content[$_GET["cont_cnt"] - 1];
+		switch (get_class($cur_content_obj))
+		{
+			case "ilparagraph":
+				require_once ("./content/classes/class.ilParagraphGUI.php");
+				$para_gui =& new ilParagraphGUI($cur_content_obj);
+				$para_gui->edit("EDIT_CONTENT");
+				break;
+		}
+
+		// content selection
+		reset($content);
+		foreach ($content as $content_obj)
+		{
+			switch (get_class($content_obj))
+			{
+				case "ilparagraph":
+					$cont_sel[$cnt] = $content_obj->getText();
+					break;
+			}
+			$cnt++;
+		}
+		$this->tpl->setCurrentBlock("content_selection");
+		$this->tpl->setVariable("SELECT_CONTENT" ,
+			ilUtil::formSelect($_GET["cont_cnt"], "cont_cnt",$cont_sel, false, true));
+		$this->tpl->setVariable("BTN_NAME", "edit");
+		$this->tpl->setVariable("TXT_SELECT",$this->lng->txt("select"));
+		$this->tpl->parseCurrentBlock();
+
+		// operations
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveContent");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+	}
+
 	/**
 	* output a cell in object list
 	*/
@@ -202,6 +218,23 @@ class ilPageObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function saveContent()
+	{
+		$content = $this->pg_obj->getContent();
 
+		$cur_content_obj =& $content[$_GET["cont_cnt"] - 1];
+
+		switch (get_class($cur_content_obj))
+		{
+			case "ilparagraph":
+				require_once ("./content/classes/class.ilParagraphGUI.php");
+				$para_gui =& new ilParagraphGUI($cur_content_obj);
+				$para_gui->processInput();
+				break;
+		}
+
+		$this->pg_obj->update();
+		$this->view();
+	}
 }
 ?>

@@ -66,6 +66,10 @@ class ilLMEditorGUI
 		$this->obj_id = $_GET["obj_id"];
 
 		$cmd = (empty($_GET["cmd"])) ? "frameset" : $_GET["cmd"];
+		if ($cmd == "post")
+		{
+			$cmd = key($_POST["cmd"]);
+		}
 
 		switch($cmd)
 		{

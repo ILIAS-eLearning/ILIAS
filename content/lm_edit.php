@@ -37,7 +37,7 @@ require_once "./include/inc.header.php";
 
 // learning module presentation class does the rest
 require_once "./content/classes/class.ilLMEditorGUI.php";
-$lm_presentation = new ilLMEditorGUI();
+$lm_editor_gui = new ilLMEditorGUI();
 
 //$tpl->show();
 

@@ -21,94 +21,71 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("./content/classes/class.ilParagraph.php");
 
 /**
-* Class ilParagraph
+* Class ilParagraphGUI
 *
-* Paragraph of ilPageObject of ILIAS Learning Module (see ILIAS DTD)
+* User Interface for Paragraph Editing
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
-class ilParagraph
+class ilParagraphGUI
 {
+	var $para_obj;
 	var $ilias;
-	var $text;
-	var $language;
-	var $characteristic;
+	var $tpl;
+	var $lng;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilParagraph()
+	function ilParagraphGUI(&$a_para_obj)
 	{
-		global $ilias;
+		global $ilias, $tpl, $lng;
 
 		$this->ilias =& $ilias;
-		$this->text = "";
-		$this->characteristic = "";
-		$this->language = "";
+		$this->tpl =& $tpl;
+		$this->lng =& $lng;
+		$this->para_obj =& $a_para_obj;
 	}
 
-	/**
-	*
-	*/
-	function appendText($a_text)
+	function edit($a_template_var)
 	{
-		$this->text.= $a_text;
+		$this->tpl->addBlockFile($a_template_var, "paragraph_edit", "tpl.paragraph_edit.html", true);
+		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
+echo htmlentities($this->para_obj->getText());
+		$this->tpl->setVariable("PAR_TA_CONTENT", $this->xml2nl($this->para_obj->getText()));
+		//$this->tpl->setVariable("PAR_TA_CONTENT", "Hallo Echo");
+		$this->tpl->parseCurrentBlock();
 	}
 
-	/**
-	*
-	*/
-	function setText($a_text)
+	function processInput()
 	{
-		$this->text = $a_text;
+		$this->para_obj->setText($this->nl2xml($_POST["par_content"]));
 	}
 
-	/**
-	*
-	*/
-	function getText()
+	function nl2xml($a_text)
 	{
-		return $this->text;
+		$a_text = ereg_replace(chr(13).chr(10),"<br />",trim($a_text));
+		$a_text = ereg_replace(chr(13),"<br />", $a_text);
+		$a_text = ereg_replace(chr(10),"<br />", $a_text);
+		/*$blob = ereg_replace("<NR><NR>","<P>",$blob);
+		$blob = ereg_replace("<NR>"," ",$blob);*/
+
+		//$a_text = nl2br($a_text);
+		return $a_text;
 	}
 
-	/**
-	*
-	*/
-	function setCharacteristic($a_char)
+	function xml2nl($a_text)
 	{
-		$this->characteristic = $a_char;
+		return str_replace("<br />", "\n", $a_text);
+		//return str_replace("<br />", chr(13).chr(10), $a_text);
 	}
-
-	/**
-	*
-	*/
-	function getCharacteristic()
-	{
-		return $this->characteristic;
-	}
-
-	function setLanguage($a_lang)
-	{
-		$this->language = $a_lang;
-	}
-
-	function getLanguage()
-	{
-		return $this->language;
-	}
-
-	function getXML()
-	{
-		return "<Paragraph Language=\"".$this->getLanguage().
-			"\">".$this->getText()."</Paragraph>";
-	}
-
 
 }
 ?>
