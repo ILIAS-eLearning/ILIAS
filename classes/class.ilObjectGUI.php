@@ -1536,8 +1536,11 @@ class ilObjectGUI
 				}
 
 				$this->tpl->setCurrentBlock("table_cell");
+				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
 				$this->tpl->parseCurrentBlock();
-
+				
+				$color = 1;		// DigiLib-Template
+				
 				foreach ($data as $key => $val)
 				{
 					//build link
@@ -1606,7 +1609,10 @@ class ilObjectGUI
 					$this->tpl->setCurrentBlock("text");
 					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();
+
+					$css_cell = ilUtil::switchColor($color++,"tblrow1","tblrow2");	// DigiLib-Template
 					$this->tpl->setCurrentBlock("table_cell");
+					$this->tpl->setVariable("CELLSTYLE", $css_cell);	// DigiLib-Template
 					$this->tpl->parseCurrentBlock();
 
 				} //foreach
