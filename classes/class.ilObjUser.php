@@ -1782,6 +1782,24 @@ class ilObjUser extends ilObject
 							"link" => "repository.php?ref_id=".$item_rec["ref_id"]."&cmdClass=ilobjgroupgui", "target" => "bottom");
 					}
 					break;
+				case "exc":
+					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
+						", object_data AS obj WHERE ".
+						"it.item_id = oref.ref_id AND ".
+						"oref.obj_id = obj.obj_id AND ".
+						"it.type = 'exc' AND ".
+						"it.user_id = '".$this->getId()."' ".
+						"ORDER BY title";
+					$item_set = $this->ilias->db->query($q);
+					while ($item_rec = $item_set->fetchRow(DB_FETCHMODE_ASSOC))
+					{
+						$items[$item_rec["title"].$a_type.$item_rec["ref_id"]] =
+							array ("type" => $a_type, "id" => $item_rec["ref_id"], "title" => $item_rec["title"],
+							"description" => $item_rec["description"],
+							"link" => "exercise.php?cmd=view&ref_id=".$item_rec["ref_id"], "target" => "bottom");
+					}
+					break;
+
 
 				case "chat":
 					$q = "SELECT obj.description, oref.ref_id, obj.title FROM desktop_item AS it, object_reference AS oref ".
