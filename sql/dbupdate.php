@@ -4991,4 +4991,6 @@ ALTER TABLE `tst_solutions` ADD INDEX `user_fi` ( `user_fi` );
 ALTER TABLE `tst_solutions` ADD INDEX `test_fi` ( `test_fi` );
 <#338>
 UPDATE settings SET value = '3.2.2 2004-11-19' WHERE keyword = 'ilias_version' LIMIT 1;
+<#339>
+UPDATE settings SET value = '3.2.3 2004-11-22' WHERE keyword = 'ilias_version' LIMIT 1;
 
