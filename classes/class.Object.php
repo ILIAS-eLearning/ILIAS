@@ -283,8 +283,8 @@ class Object
 					// CHECK ACCESS 'create' rolefolder
 					if ($rbacsystem->checkAccess('create',$_GET["obj_id"],$_GET["parent"],'rolf'))
 					{
-						$role_obj["title"] = 'Role Folder';
-						$role_obj["desc"] = 'Automatisch genierter Role Folder';
+						$role_obj["title"] = "Local roles";
+						$role_obj["desc"] = "Role Folder of object no. ".$_GET["obj_id"];
 						$rolf_id = createNewObject("rolf",$role_obj);
 						$tree->insertNode($rolf_id,$_GET["obj_id"]);
 
