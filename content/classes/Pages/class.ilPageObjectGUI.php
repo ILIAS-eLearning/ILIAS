@@ -190,8 +190,8 @@ class ilPageObjectGUI
 		$num = 0;
 
 		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
-			$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
+		//$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+		//	$this->lm_obj->getRefId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
 		// output
 		$builded = $this->obj->buildDom();
@@ -206,7 +206,8 @@ class ilPageObjectGUI
 		// todo: utf-header should be set globally
 		//header('Content-type: text/html; charset=UTF-8');
 
-		$pg_title = $this->obj->getPresentationTitle($this->lm_obj->getPageHeader());
+		$pg_title = $this->getPresentationTitle();
+		//$pg_title = $this->obj->getPresentationTitle($this->lm_obj->getPageHeader());
 
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
@@ -216,7 +217,7 @@ class ilPageObjectGUI
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$params = array ('mode' => 'preview', 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
-			'ref_id' => $this->lm_obj->getRefId(), 'webspace_path' => $wb_path,
+			'webspace_path' => $wb_path,
 			'enlarge_path' => $enlarge_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
 		echo xslt_error($xh);

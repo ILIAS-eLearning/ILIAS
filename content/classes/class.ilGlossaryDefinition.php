@@ -155,8 +155,8 @@ class ilGlossaryDefinition
 		$def_set = $this->ilias->db->query($q);
 		while ($def_rec = $def_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$defs[] = array("term_id" => $term_rec["term_id"],
-				"page_id" => $term_rec["page_id"], "id" => $term_rec["id"]);
+			$defs[] = array("term_id" => $def_rec["term_id"],
+				"page_id" => $def_rec["page_id"], "id" => $def_rec["id"]);
 		}
 		return $defs;
 	}

@@ -40,6 +40,8 @@ require_once("content/classes/class.ilTermDefinitionEditorGUI.php");
 */
 class ilObjGlossaryGUI extends ilObjectGUI
 {
+	var $admin_tabs;
+
 	/**
 	* Constructor
 	* @access	public
@@ -181,8 +183,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->prepareOutput();
 			$cmd = $_GET["cmd"];
+			if ($cmd != "listDefinitions" && $cmd != "editTerm")
+			{
+				$this->prepareOutput();
+			}
 			if($cmd == "")
 			{
 				$cmd = "listTerms";
@@ -266,6 +271,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				for($j=0; $j<=count($defs); $j++)
 				{
 					$def = $defs[$j];
+					$this->tpl->setCurrentBlock("definition");
+					$this->tpl->setVariable("DEF_LINK",
+						"glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=view&def=".$def["id"]);
+					$this->tpl->setVariable("DEF_TEXT", $this->lng->txt("cont_definition")." ".($j + 1));
+					$this->tpl->parseCurrentBlock();
 				}
 
 				$this->tpl->setVariable("CSS_ROW", $css_row);
@@ -285,6 +295,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+
+	function listDefinitions()
+	{
+		$this->admin_tabs[] = array("cont_definitions","listDefinitions");
+		$this->admin_tabs[] = array("meta_data","editTerm");
 	}
 
 	/**
@@ -307,14 +323,26 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 				$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-				$this->tpl->touchBlock("locator_separator");
+				if (!empty($_GET["term_id"]))
+				{
+					$this->tpl->touchBlock("locator_separator");
+				}
 
 				$this->tpl->setCurrentBlock("locator_item");
 				$this->tpl->setVariable("ITEM", $this->object->getTitle());
 				// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-				$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"]);
+				$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
 				$this->tpl->parseCurrentBlock();
 
+				if (!empty($_GET["term_id"]))
+				{
+					$term =& new ilGlossaryTerm($_GET["term_id"]);
+					$this->tpl->setCurrentBlock("locator_item");
+					$this->tpl->setVariable("ITEM", $term->getTerm());
+					$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"].
+						"&cmd=editTerm&term_id=".$term->getId());
+					$this->tpl->parseCurrentBlock();
+				}
 
 				//$this->tpl->touchBlock("locator_separator");
 
@@ -324,6 +352,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			}
 		}
 
+	}
+
+	function loadAdmTemplate()
+	{
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+
+		// catch feedback message
+		sendInfo();
 	}
 
 	function addDefinition()
@@ -427,13 +463,16 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("cont_added_term"),true);
 
-		header("location: glossary_edit.php?ref_id=".$_GET["ref_id"]."cmd=listTerms");
+		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
 		exit();
 
 	}
 
 	function editTerm()
 	{
+		$this->loadAdmTemplate();
+		$this->setAdminTabs("term_edit");
+		$this->setLocator();
 		$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
 		$term_gui->editTerm();
 	}
@@ -445,9 +484,54 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		sendinfo($this->lng->txt("msg_obj_modified"),true);
 
-		header("location: glossary_edit.php?ref_id=".$_GET["ref_id"]."cmd=listTerms");
+		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listTerms");
 		exit();
 
+	}
+
+	function setAdminTabs($mode = "std")
+	{
+		if ($mode == "std")
+		{
+			parent::setAdminTabs();
+		}
+		else
+		{
+
+			switch($mode)
+			{
+				case "term_edit":
+					$tabs[] = array("properties","editTerm");
+					$tabs[] = array("cont_definitions","listDefinitions");
+					break;
+			}
+
+			$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+
+			foreach ($tabs as $row)
+			{
+				$i++;
+
+				if ($row[1] == $_GET["cmd"])
+				{
+					$tabtype = "tabactive";
+					$tab = $tabtype;
+				}
+				else
+				{
+					$tabtype = "tabinactive";
+					$tab = "tab";
+				}
+
+				$this->tpl->setCurrentBlock("tab");
+				$this->tpl->setVariable("TAB_TYPE", $tabtype);
+				$this->tpl->setVariable("TAB_TYPE2", $tab);
+				$this->tpl->setVariable("TAB_LINK", "glossary_edit.php?ref_id=".$_GET["ref_id"]."&def=".
+					$_GET["def"]."&term_id=".$_GET["term_id"]."&cmd=".$row[1]);
+				$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($row[0]));
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 	}
 
 }
