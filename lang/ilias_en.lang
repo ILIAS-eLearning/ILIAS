@@ -3699,7 +3699,7 @@ payment#:#paya_insert_only_numbers#:#Please insert only integers.
 payment#:#paya_locator#:#Payment administration
 payment#:#paya_months#:#Month(s)
 payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given
-payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
+payment#:#paya_no_bookings#:#No statistic available.
 payment#:#paya_no_object_selected#:#Please select one object.
 payment#:#paya_no_objects_assigned#:#There are no sellable objects.
 payment#:#paya_no_price_available#:#No prices available
