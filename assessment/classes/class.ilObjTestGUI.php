@@ -54,7 +54,14 @@ class ilObjTestGUI extends ilObjectGUI
 		$lng->loadLanguageModule("assessment");
 		$this->type = "tst";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
-		$this->setTabTargetScript("test.php");
+		if (!defined("ILIAS_MODULE"))
+		{
+			$this->setTabTargetScript("adm_object.php");
+		}
+		else
+		{
+			$this->setTabTargetScript("test.php");
+		}
 		if ($a_prepare_output) {
 			$this->prepareOutput();
 		}

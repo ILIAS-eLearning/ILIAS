@@ -52,7 +52,14 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->type = "spl";
 		$lng->loadLanguageModule("survey");
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
-		$this->setTabTargetScript("questionpool.php");
+		if (!defined("ILIAS_MODULE"))
+		{
+			$this->setTabTargetScript("adm_object.php");
+		}
+		else
+		{
+			$this->setTabTargetScript("questionpool.php");
+		}
 		if ($a_prepare_output) {
 			$this->prepareOutput();
 		}

@@ -352,7 +352,7 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="tst" class_name="Test" module="assessment" checkbox="1" inherit="1" translate="0" rbac="0" devmode="1">
+<object name="tst" class_name="Test" module="assessment" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
 	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
 	<property name="questions" module="1">ass_questions</property>
