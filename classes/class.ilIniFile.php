@@ -79,7 +79,7 @@ class ilIniFile
 	/**
 	* read
 	* @access	private
-	*/	
+	*/
 	function read()
 	{
 		//check if file exists
@@ -96,7 +96,7 @@ class ilIniFile
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 

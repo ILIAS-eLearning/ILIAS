@@ -32,9 +32,9 @@
 * @package application
 */
 
-require_once ("./classes/class.ilBookmarkExplorer.php");
-require_once ("./classes/class.ilBookmarkFolder.php");
-require_once ("./classes/class.ilBookmark.php");
+require_once ("classes/class.ilBookmarkExplorer.php");
+require_once ("classes/class.ilBookmarkFolder.php");
+require_once ("classes/class.ilBookmark.php");
 
 class ilBookmarkAdministrationGUI
 {

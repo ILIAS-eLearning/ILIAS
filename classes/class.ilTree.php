@@ -222,7 +222,7 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE lft = (rgt -1) ".
-			 "AND ".$this->tree_pk." = '".$this->tree->id."'";
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree->id."'";
 		$r = $this->ilias->db->query($q);
 
 		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
@@ -270,7 +270,7 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE parent = '".$a_node_id."' ".
-			 "AND ".$this->tree_pk." = '".$this->tree_id."' ".
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
 			 $order_clause;
 		$r = $this->ilias->db->query($q);
 
@@ -318,7 +318,7 @@ class ilTree
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 $this->buildJoin().
 			 "WHERE parent = '".$a_node_id."' ".
-			 "AND ".$this->tree_pk." = '".$this->tree_id."' ".
+			 "AND ".$this->table_tree.".".$this->tree_pk." = '".$this->tree_id."' ".
 			 "AND ".$this->table_obj_data.".type='".$a_type."'";
 		$r = $this->ilias->db->query($q);
 

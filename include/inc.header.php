@@ -2,7 +2,7 @@
 /**
 * header include for all ilias files. This script will be always included first for every page
 * in ILIAS. Inits RBAC-Classes & recent user, log-,language- & tree-object
-* 
+*
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
 * @version $Id$
@@ -101,12 +101,12 @@ if ($script != "login.php" && $script != "index.php")
 	}
 
 	$ilias->account->read();
-	
+
 	if ($script == "logout.php")
 	{
 		$ilias->account->refreshLogin();
 	}
-	
+
 	//init language
 	$lng = new ilLanguage($ilias->account->prefs["language"]);
 
@@ -124,10 +124,10 @@ if ($script != "login.php" && $script != "index.php")
 	$_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
 	//$parent = $parent ? $parent : 0; // for downward compatibility
 	//$_GET["parent"] = $_GET["parent"] ? $_GET["parent"] : 0;
-	
+
 	// init tree
 	$tree = new ilTree(ROOT_FOLDER_ID);
-}	
+}
 
 // instantiate main template
 $tpl = new ilTemplate("tpl.main.html", true, true);
@@ -138,16 +138,16 @@ if ($script != "login.php" && $script != "index.php")
 	if ($tpl->includeNavigation() == true)
 	{
 		$tpl->addBlockFile("NAVIGATION", "navigation", "tpl.main_buttons.html");
-		include("./include/inc.mainmenu.php");		
+		include("include/inc.mainmenu.php");
 	}
 }
 
-$tpl->setVariable("LOCATION_STYLESHEET", $tpl->tplPath."/".$ilias->account->prefs["style"].".css");
+$tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 
 if ($mail_id = hasNewMail())
 {
 	$folder_id = getMailFolderId($mail_id);
-	
+
 	$_SESSION["infopanel"] = array ("link"	=> "mail_frameset.php?target=".htmlentities(urlencode("mail_read.php?mobj_id=".$folder_id."&mail_id=".$mail_id)),
 									"text"	=> "new_mail",
 									"img"	=> "icon_mail.gif"

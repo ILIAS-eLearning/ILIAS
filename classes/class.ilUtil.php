@@ -19,7 +19,54 @@ class ilUtil
 	{
 		return "<img src=\"".$a_path."/images/"."icon_".$a_type."_b.gif\" border=\"0\"/>";
 	}
-	
+
+	function getImageTag($img, $in_module = false)
+	{
+		global $ilias;
+
+		if(defined("ILIAS_MODULE"))
+		{
+			$base = "../";
+		}
+		else
+		{
+			$base = "./";
+		}
+		if ($in_module)
+		{
+			$base.= ILIAS_MODULE."/";
+		}
+		$base .= "templates/";
+		$user_skin_and_style = $base.$ilias->account->skin."/".
+			$ilias->account->prefs["style"]."/images/".$img;
+		$user_skin = $base.$ilias->account->skin."/images/".$img;
+		$default = $base."default/images/".$img;
+		if (file_exists($user_skin_and_style))
+		{
+			return "<img src=\"".$user_skin_and_style."\" border=\"0\"/>";
+		}
+		else if (file_exists($user_skin))
+		{
+			return "<img src=\"".$user_skin."\" border=\"0\"/>";
+		}
+		return "<img src=\"".$default."\" border=\"0\"/>";
+	}
+
+	function getStyleSheetLocation()
+	{
+		global $ilias;
+
+		if(defined("ILIAS_MODULE"))
+		{
+			$base = "../";
+		}
+		else
+		{
+			$base = "./";
+		}
+		return $base."templates/".$ilias->account->skin."/".$ilias->account->prefs["style"].".css";
+	}
+
 	/**
 	* Builds a select form field with options and shows the selected option first
 	* @param	string	value to be selected
@@ -38,7 +85,7 @@ class ilUtil
 		{
 		
 			$str .= " <option value=\"".$val."\"";
-			
+
 			if ($selected == $key)
 			{
 				$str .= " selected=\"selected\"";
@@ -131,7 +178,7 @@ class ilUtil
 		{
 			$str .= " checked=\"checked\"";
 		}
-		
+
 		$str .= " value=\"".$value."\" />\n";
 		
 		return $str;
@@ -163,16 +210,6 @@ class ilUtil
 		//return getcwd().$a_path;
 		return $a_path;
 	}
-
-
-	/**
-	* deprecated: use ilObject->getOwner() or ilObject->getOwnerName()
-	*/
-	/*
-	function getOwner ($a_obj_id)
-	{
-	}*/
-
 
 	/**
 	* switches style sheets for each even $a_num
@@ -310,7 +347,7 @@ class ilUtil
 	
 		return $feedback;
 	}
-	
+
 	/**
 	* Linkbar
 	* Diese Funktion erzeugt einen typischen Navigationsbalken mit
@@ -320,7 +357,7 @@ class ilUtil
 	* der Variablenname für den offset ist "offset"
 	* 
 	* @author Sascha Hofmann <shofmann@databay.de>
-	* 
+	*
 	* @access	public
 	* @param	integer	Name der Skriptdatei (z.B. test.php)
 	* @param	integer	Anzahl der Elemente insgesamt
@@ -367,7 +404,7 @@ class ilUtil
 				for ($i = 1 ;$i <= $pages ; $i++)
 				{
 					$newoffset=$ALimit*($i-1);
-					
+
 					if ($newoffset == $AOffset)
 					{
 						$LinkBar .= "<font color='Gray'>[<b>".$i."</b>]</font>";
@@ -398,7 +435,7 @@ class ilUtil
 	/**
 	* makeClickable
 	* In Texten enthaltene URLs und Mail-Adressen klickbar machen
-	* 
+	*
 	* @access	public
 	* @param	string	$text: Der Text
 	* @return	string	clickable link
@@ -406,36 +443,36 @@ class ilUtil
 	function makeClickable($a_text)
 	{
 		// URL mit ://-Angabe
-		$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=-])", 
+		$ret = eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=-])",
 							 "<a href=\"\\1://\\2\\3\" target=\"_blank\">\\1://\\2\\3</a>", $a_text);
-		
+
 		// www-URL ohne ://-Angabe
-		$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)", 
+		$ret = eregi_replace("([[:space:]]+)(www\.)([[:alnum:]#?/&=\.-]+)",
 							 "\\1<a href=\"http://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
-		
+
 		// ftp-URL ohne ://-Angabe
-		$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)", 
+		$ret = eregi_replace("([[:space:]]+)(ftp\.)([[:alnum:]#?/&=\.-]+)",
 							 "\\1<a href=\"ftp://\\2\\3\" target=\"_blank\">\\2\\3</a>", $ret);
-		
+
 		// E-Mail
-		$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",  
+		$ret = eregi_replace("(([a-z0-9_]|\\-|\\.)+@([^[:space:]]*)([[:alnum:]-]))",
 							 "<a  href=\"mailto:\\1\">\\1</a>", $ret);
-		
+
 		return($ret);
 	}
 
 	/**
 	* StopWatch
 	* benchmark scriptcode
-	* 
+	*
 	* Usage:
 	* $t1 = StopWatch(); // starts the StopWatch
 	* // your code you want to benchmark
 	* $diff = StopWatch($t1); // stops the StopWatch
-	* 
+	*
 	* $diff contains the time elapsed so far from the point where you set the marker $t1
-	* in microseconds	
-	* 
+	* in microseconds
+	*
 	* @access	public
 	* @param	float	starttime in microseconds
 	* @return	float	time in microseconds
@@ -444,7 +481,7 @@ class ilUtil
 	{
 		$m = explode(" ",microtime());
 		$m = $m[0] + $m[1];
-	
+
 		if ($begin != -1)
 		{
 			$m = $m - $begin;

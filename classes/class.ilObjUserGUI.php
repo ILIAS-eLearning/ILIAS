@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.13 2003/04/18 13:42:26 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.14 2003/04/24 17:09:37 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -152,7 +152,7 @@ class ilObjUserGUI extends ilObjectGUI
 			foreach ($assigned_roles as $key => $role)
 			{
 				// BEGIN TABLE_ROLES
-				require_once "./classes/class.ilObjRole.php";
+				require_once "classes/class.ilObjRole.php";
 				$roleObj = new ilObjRole($role);
 
 				if ($this->object->getId() == $_SESSION["AccountId"])
@@ -280,7 +280,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// TODO: check length of login and passwd
 
 		// checks passed. save user
-		require_once("./classes/class.ilObjUser.php");
+		require_once("classes/class.ilObjUser.php");
 		$userObj = new ilObjUser();
 		$userObj->assignData($_POST["Fobject"]);
 		$userObj->setTitle($userObj->getFullname());

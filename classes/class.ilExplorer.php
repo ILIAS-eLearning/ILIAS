@@ -227,7 +227,7 @@ class ilExplorer
 		}
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
-		
+
 		foreach ($a_option["tab"] as $picture)
 		{
 			if ($picture == 'plus')
@@ -235,7 +235,7 @@ class ilExplorer
 				$target = $this->createTarget('+',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET", $target);
-				$tpl->setVariable("ICONIMG", $picture);
+				$tpl->setVariable("ICONIMG", ilUtil::getImageTag("browser/plus.gif"));
 				$tpl->parseCurrentBlock();
 			}
 
@@ -244,22 +244,24 @@ class ilExplorer
 				$target = $this->createTarget('-',$a_node_id);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET", $target);
-				$tpl->setVariable("ICONIMG", $picture);
+				$tpl->setVariable("ICONIMG", ilUtil::getImageTag("browser/minus.gif"));
 				$tpl->parseCurrentBlock();
 			}
 
-			if ($picture == 'blank' or $picture == 'winkel' 
+			if ($picture == 'blank' or $picture == 'winkel'
 			   or $picture == 'hoch' or $picture == 'quer' or $picture == 'ecke')
 			{
 				$tpl->setCurrentBlock("expander");
-				$tpl->setVariable("ICONIMG", $picture);
+				$tpl->setVariable("ICONIMG", ilUtil::getImageTag("browser/".$picture.".gif"));
 				$tpl->parseCurrentBlock();
 			}
 		}
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", $a_option["type"]);
-		$tpl->setVariable("LINK_TARGET", $this->target."?".$this->target_get."=".$a_node_id);
+		$target = (strpos($this->target, "?") === false) ?
+			$this->target."?" : $this->target."&";
+		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id);
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
 		if ($this->frameTarget != "")

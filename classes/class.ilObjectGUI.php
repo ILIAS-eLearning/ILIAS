@@ -1020,7 +1020,7 @@ class ilObjectGUI
 		{
 			// create and insert object in objecttree
 			$class_name = "ilObj".$objDefinition->getClassName($_GET["new_type"]);
-			require_once("./classes/class.".$class_name.".php");
+			require_once("classes/class.".$class_name.".php");
 			$newObj = new $class_name();
 			$newObj->setType($_GET["new_type"]);
 			$newObj->setTitle($_POST["Fobject"]["title"]);
