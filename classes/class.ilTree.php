@@ -480,6 +480,11 @@ class ilTree
 		{
 			case IL_FIRST_NODE:
 
+				if($this->__isMainTree())
+				{
+					ilDBx::_lockTables(array('tree' => 'WRITE'));
+				}
+
 				// get left value of parent
 				$q = "SELECT * FROM ".$this->table_tree." ".
 					"WHERE child = '".$a_parent_id."' ".
@@ -489,6 +494,10 @@ class ilTree
 
 				if ($r->parent == NULL)
 				{
+					if($this->__isMainTree())
+					{
+						ilDBx::_unlockTables();
+					}
 					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".$a_parent_id." not found in ".
 											 $this->table_tree."!",$this->ilErr->WARNING);
 				}
@@ -511,9 +520,20 @@ class ilTree
 					"END ".
 					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
 				$this->ilDB->query($q);
+
+				if($this->__isMainTree())
+				{
+					ilDBx::_unlockTables();
+				}
+				
 				break;
 
 			case IL_LAST_NODE:
+
+				if($this->__isMainTree())
+				{
+					ilDBx::_lockTables(array('tree' => 'WRITE'));
+				}
 
 				// get right value of parent
 				$q = "SELECT * FROM ".$this->table_tree." ".
@@ -524,6 +544,10 @@ class ilTree
 				
 				if ($r->parent == NULL)
 				{
+					if($this->__isMainTree())
+					{
+						ilDBx::_unlockTables();
+					}
 					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parent with ID ".
 											 $a_parent_id." not found in ".$this->table_tree."!",$this->ilErr->WARNING);
 				}
@@ -546,6 +570,12 @@ class ilTree
 					"END ".
 					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
 				$this->ilDB->query($q);
+
+				if($this->__isMainTree())
+				{
+					ilDBx::_unlockTables();
+				}
+
 				break;
 
 			default:
@@ -560,6 +590,10 @@ class ilTree
 				// crosscheck parents of sibling and new node (must be identical)
 				if ($r->parent != $a_parent_id)
 				{
+					if($this->__isMainTree())
+					{
+						ilDBx::_unlockTables();
+					}
 					$this->ilErr->raiseError(get_class($this)."::insertNode(): Parents mismatch! ".
 						"new node parent: ".$a_parent_id." sibling parent: ".$r->parent,$this->ilErr->WARNING);
 				}
@@ -582,6 +616,10 @@ class ilTree
 					"END ".
 					"WHERE ".$this->tree_pk." = '".$this->tree_id."'";
 				$this->ilDB->query($q);
+				if($this->__isMainTree())
+				{
+					ilDBx::_unlockTables();
+				}
 
 				break;
 
@@ -699,10 +737,30 @@ class ilTree
 		}
 		$diff = $a_node["rgt"] - $a_node["lft"] + 1;
 
+
+		// LOCKED ###########################################################
+		// get lft and rgt values. Don't trust parameter lft/rgt values of $a_node
+		if($this->__isMainTree())
+		{
+			ilDBx::_lockTables(array('tree' => 'WRITE'));
+		}
+
+		$query = "SELECT * FROM ".$this->table_tree." ".
+			"WHERE child = '".$a_node['child']."' ".
+			"AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$a_node['lft'] = $row->lft;
+			$a_node['rgt'] = $row->rgt;
+			$diff = $a_node["rgt"] - $a_node["lft"] + 1;
+		}
+
 		// delete subtree
 		$q = "DELETE FROM ".$this->table_tree." ".
-			"WHERE lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]." '".
-			"AND rgt BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]." '".
+			"WHERE lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
+			"AND rgt BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]."' ".
 			"AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
 		$this->ilDB->query($q);
 
@@ -720,6 +778,12 @@ class ilTree
 			 "END ".
 			 "WHERE ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
 		$this->ilDB->query($q);
+
+		if($this->__isMainTree())
+		{
+			ilDBx::_unlockTables();
+		}
+		// LOCKED ###########################################################
 	}
 
 	/**
@@ -1140,7 +1204,6 @@ class ilTree
 					"desc"			=> $a_row->description
 					);*/
 
-
 		return $data ? $data : array();
 	}
 
@@ -1375,6 +1438,12 @@ class ilTree
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
+		// LOCKED ###############################################
+		if($this->__isMainTree())
+		{
+			ilDBx::_lockTables(array('tree' => 'WRITE'));
+		}
+
 		// GET LEFT AND RIGHT VALUE
 		$q = "SELECT * FROM ".$this->table_tree." ".
 			 "WHERE ".$this->tree_pk." = '".$this->tree_id."' ".
@@ -1407,7 +1476,12 @@ class ilTree
 				 $node["lft"]."','".$node["rgt"]."','".$node["depth"]."')";
 			$r = $this->ilDB->query($q);
 		}
+		if($this->__isMainTree())
+		{
+			ilDBX::_unlockTables();
+		}
 
+		// LOCKED ###############################################
 		return true;
 	}
 
@@ -1689,7 +1763,7 @@ class ilTree
 	}
 
 	/**
-	* renumber left/right values and close the gaps in numbers
+	* Wrapper for renumber. This method locks the table tree
 	* (recursive)
 	* @access	public
 	* @param	integer	node_id where to start (usually the root node)
@@ -1698,6 +1772,27 @@ class ilTree
 	*/
 	function renumber($node_id = 1, $i = 1)
 	{
+		// LOCKED ###################################
+		ilDBx::_lockTables(array('tree' => 'WRITE'));
+		$return = $this->__renumber($node_id,$i);
+		ilDBx::_unlockTables();
+		// LOCKED ###################################
+
+		return $return;
+	}
+
+	// PRIVATE
+	/**
+	* This method is private. Always call ilTree->renumber() since it locks the tree table
+ 	* renumber left/right values and close the gaps in numbers
+	* (recursive)
+	* @access	public
+	* @param	integer	node_id where to start (usually the root node)
+	* @param	integer	first left value of start node (usually 1)
+	* @return	integer	current left value of recursive call
+	*/
+	function __renumber($node_id = 1, $i = 1)
+	{
 		$q = "UPDATE ".$this->table_tree." SET lft='".$i."' WHERE child='".$node_id."'";
 		$this->ilDB->query($q);
 
@@ -1705,7 +1800,7 @@ class ilTree
 
 		foreach ($childs as $child)
 		{
-			$i = $this->renumber($child["child"],$i+1);
+			$i = $this->__renumber($child["child"],$i+1);
 		}
 
 		$i++;
@@ -1714,6 +1809,7 @@ class ilTree
 
 		return $i;
 	}
+
 
 	/**
 	* Check for parent type

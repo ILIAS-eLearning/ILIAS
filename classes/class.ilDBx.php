@@ -38,6 +38,7 @@ require_once ("DB.php");
 * @package application
 * @access public
 */
+
 class ilDBx extends PEAR
 {
 	/**
@@ -303,6 +304,38 @@ class ilDBx extends PEAR
 		#var_dump("<pre>",$this->max_allowed_packet_size,"<pre>");
 		return true;
 	}
+
+	/**
+	* Lock existing table
+	* @param array (tablename => lock type READ, WRITE, READ LOCAL or LOW_PRIORITY) e.g array('tree' => 'WRITE')
+	* @return boolean
+	*/
+	function _lockTables($a_table_params)
+	{
+		global $ilDB;
+		
+		$lock_str = 'LOCK TABLES ';
+		$counter = 0;
+		foreach($a_table_params as $table_name => $type)
+		{
+			$lock_str .= $counter++ ? ',' : '';
+			$lock_str .= $table_name.' '.$type;
+		}
+
+		$ilDB->query($lock_str);
+
+		return true;
+	}
+	function _unlockTables()
+	{
+		global $ilDB;
+		
+		$ilDB->query('UNLOCK TABLES');
+
+		return true;
+	}
+
+		
 
 } //end Class
 ?>
