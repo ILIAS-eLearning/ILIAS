@@ -717,6 +717,7 @@ common#:#available_languages#:#Available Languages
 common#:#average_time#:#Average time
 common#:#back#:#Back
 common#:#basedn#:#BaseDN
+common#:#size#:#Size
 common#:#basic_data#:#Basic Data
 common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Settings
@@ -805,6 +806,7 @@ common#:#chapter#:#Chapter
 common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#chat#:#Chat
+common#:#last_update#:#Last Update
 common#:#chat_add#:#Add Chat
 common#:#chat_delete#:#Delete chat
 common#:#chat_edit_permission#:#Change permission settings
@@ -1623,6 +1625,7 @@ common#:#msg_no_perm_write#:#You have no permission to write
 common#:#msg_no_rolf_allowed1#:#The object
 common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder
 common#:#msg_no_scan_log#:#Scan log not implemented yet
+common#:#msg_no_title#:#Please enter a title.
 common#:#msg_no_search_result#:#No entries found
 common#:#msg_no_search_string#:#Please enter your query
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Only a System Administrator may assign users to the System Administrator Role
@@ -2215,11 +2218,17 @@ common#:#url_description#:#URL Description
 common#:#url_edit#:#Edit URL
 common#:#url_edit_permission#:#Change Permission settings
 common#:#url_new#:#New URL
+common#:#replace_file#:#Replace File
 common#:#url_not_found#:#File Not Found
 common#:#url_read#:#Open URL
 common#:#url_visible#:#URL is visible
 common#:#url_write#:#Edit URL
+common#:#history#:#History
+common#:#hist_file_create#:#File created, filename is "%1".
+common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.
 common#:#user#:#User
+common#:#action#:#Action
+common#:#info#:#Information
 common#:#user_access#:#Access per user
 common#:#user_added#:#User added
 common#:#user_assignment#:#User Assignment

@@ -5047,3 +5047,11 @@ CREATE TABLE `history` (
   INDEX object_id (`obj_id`)
 ) TYPE=MyISAM;
 
+<#346>
+ALTER TABLE file_data ADD version INT;
+
+<#347>
+ALTER TABLE history ADD info_params TEXT;
+
+<#348>
+UPDATE file_data SET version = 1;

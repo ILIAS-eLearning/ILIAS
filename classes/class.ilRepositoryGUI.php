@@ -2651,20 +2651,21 @@ class ilRepositoryGUI
 				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and 
 					!$this->ilias->account->isDesktopItem($cont_data["ref_id"], "file")
 					&& $this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
-                                {
-                                        $tpl->setCurrentBlock("file_desklink");
-                                        $tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
-                                                "&item_ref_id=".$cont_data["ref_id"].
-                                                "&type=file"
-                                        );
-                                        $tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
-                                        $tpl->parseCurrentBlock();
-                                }
+				{
+					$tpl->setCurrentBlock("file_desklink");
+					$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
+							"&item_ref_id=".$cont_data["ref_id"].
+							"&type=file"
+					);
+					$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+					$tpl->parseCurrentBlock();
+				}
 
 				$tpl->setCurrentBlock("tbl_content");
 				$tpl->setVariable("DESCRIPTION", $cont_data["description"]);
-				$tpl->setVariable("OWNER", ilObject::_lookupOwnerName($cont_data["owner"]));
-				$tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);
+				$tpl->setVariable("VERSION", ilObjFile::_lookupVersion($cont_data["obj_id"]));
+				$tpl->setVariable("SIZE", ilObjFile::_lookupFileSize($cont_data["obj_id"], true));
+				$tpl->setVariable("LAST_UPDATE", $cont_data["last_update"]);
 				$tpl->parseCurrentBlock();
 			}
 		}
@@ -2675,9 +2676,10 @@ class ilRepositoryGUI
 		// title & header columns
 		$tbl->setTitle($this->lng->txt("files"),"icon_file_b.gif",$this->lng->txt("files"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner")));
-		$tbl->setHeaderVars(array("title","owner"), array("ref_id" => $this->cur_ref_id));
-		$tbl->setColumnWidth(array("85%","15%"));
+		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("version"),
+			$this->lng->txt("size"), $this->lng->txt("last_update")));
+		$tbl->setHeaderVars(array("title","version","size","last_update"), array("ref_id" => $this->cur_ref_id));
+		$tbl->setColumnWidth(array("60%","10%","10%","20%"));
 		//$tbl->setOrderColumn($_GET["sort_by"]);
 		//$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($_GET["limit"]);

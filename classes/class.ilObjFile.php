@@ -49,6 +49,7 @@ class ilObjFile extends ilObject
 	*/
 	function ilObjFile($a_id = 0,$a_call_by_reference = true)
 	{
+		$this->version = 0;
 		$this->type = "file";
 		$this->ilObject($a_id,$a_call_by_reference);
 
@@ -62,7 +63,11 @@ class ilObjFile extends ilObject
 	{
 		parent::create();
 
-		$q = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$this->getId()."','".ilUtil::addSlashes($this->getFileName())."','".$this->getFileType()."')";
+		require_once("classes/class.ilHistory.php");
+		ilHistory::_createEntry($this->getId(), "create", $this->getFileName());
+
+		$q = "INSERT INTO file_data (file_id,file_name,file_type,version) VALUES ('".$this->getId()."','".ilUtil::addSlashes($this->getFileName())."','".$this->getFileType()."'".
+			",'"."1"."')";
 		$this->ilias->db->query($q);
 	}
 
@@ -80,13 +85,43 @@ class ilObjFile extends ilObject
 	{
 		$file = $this->getDirectory()."/".$a_filename;
 		move_uploaded_file($a_upload_file, $file);
+		$this->setVersion($this->getVersion() + 1);
 	}
 
+	/**
+	* replace file with new file
+	*/
+	function replaceFile($a_upload_file, $a_filename)
+	{
+		$this->clearDataDirectory();		// ! This has to be changed, if multiple versions should be supported
+		$this->getUploadFile($a_upload_file, $a_filename);
+		
+		require_once("classes/class.ilHistory.php");
+		ilHistory::_createEntry($this->getId(), "replace",
+			$a_filename.",".$this->getVersion());
+	}
+
+
+	/**
+	* clear data directory
+	*/
 	function copy($a_source,$a_destination)
 	{
 		return copy($a_source,$this->getDirectory()."/".$a_destination);
 	}
+	
+	/**
+	* clear data directory
+	*/
+	function clearDataDirectory()
+	{
+		ilUtil::delDir($this->getDirectory());
+		$this->createDirectory();
+	}
 
+	/**
+	* read file properties
+	*/
 	function read()
 	{
 		parent::read();
@@ -98,14 +133,19 @@ class ilObjFile extends ilObject
 		$this->setFileName(ilUtil::stripSlashes($row->file_name));
 		$this->setFileType($row->file_type);
 		$this->setFilePath($this->getDirectory());
+		$this->setVersion($row->version);
 	}
 
+	/**
+	* update file
+	*/
 	function update()
 	{
 		parent::update();
-
+		
 		$q = "UPDATE file_data SET file_name = '".$this->getFileName().
 			"', file_type = '".$this->getFiletype()."' ".
+			", version = '".$this->getVersion()."' ".
 			"WHERE file_id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 		
@@ -142,6 +182,15 @@ class ilObjFile extends ilObject
 		return $this->filetype;
 	}
 
+	function setVersion($a_version)
+	{
+		$this->version = $a_version;
+	}
+
+	function getVersion()
+	{
+		return $this->version;
+	}
 
 	function _lookupFileName($a_id)
 	{
@@ -155,7 +204,7 @@ class ilObjFile extends ilObject
 	}
 
 
-	function _lookupFileSize($a_id)
+	function _lookupFileSize($a_id, $a_as_string = false)
 	{
 		global $ilDB;
 
@@ -167,13 +216,45 @@ class ilObjFile extends ilObject
 
 		if (is_file($file))
 		{
-			return filesize($file);
+			$size = filesize($file);
 		}
 		else
 		{
-			return 0;
+			$size = 0;
+		}
+		
+		if ($a_as_string)
+		{
+			if ($size > 1000000)
+			{
+				return round($size/1000000,2)." MB";
+			}
+			else if ($size > 1000)
+			{
+				return round($size/1000,2)." KBytes";
+			}
+			else
+			{
+				return $size." Bytes";
+			}
+			
 		}
 	}
+	
+	/**
+	* lookup version
+	*/
+	function _lookupVersion($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM file_data WHERE file_id = '".$a_id."'";
+		$r = $ilDB->query($q);
+		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+
+		return ilUtil::stripSlashes($row->version);
+	}
+
 
 	function sendFile()
 	{
