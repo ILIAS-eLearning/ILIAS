@@ -517,7 +517,7 @@ class ilObjContentObject extends ilObject
 	* @param	array	passes optional paramters if required
 	* @return	boolean
 	*/
-	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
+	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
 	{
 		global $tree;
 		
@@ -567,7 +567,7 @@ class ilObjContentObject extends ilObject
 			}
 		}
 		
-		parent::notify($a_event,$a_ref_id,$a_node_id,$a_params);
+		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
 	/**
