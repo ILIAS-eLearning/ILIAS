@@ -100,6 +100,7 @@ assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create gaps
 assessment#:#create_new#:#Create new
 assessment#:#duplicate#:#Duplicate
+assessment#:#end_tag#:#End tag
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.
 assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.
@@ -114,6 +115,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all requi
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!
 assessment#:#filter#:#Filter
+assessment#:#gap_definition#:#Gap definition
 assessment#:#gap_selection#:#Gap selection
 assessment#:#imagemap#:#Image map
 assessment#:#last_update#:#Last update
@@ -158,6 +160,7 @@ assessment#:#qt_ordering#:#Ordering Question
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
 assessment#:#question_short#:#Q
 assessment#:#question_type#:#Question Type
+assessment#:#random_selection#:#Random selection
 assessment#:#region#:#Region
 assessment#:#remove_question#:#Remove
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s
@@ -169,19 +172,15 @@ assessment#:#save_next#:#Save and goto next question
 assessment#:#save_previous#:#Save and goto previous question
 assessment#:#select_gap#:#Select gap
 assessment#:#set_filter#:#Set filter
+assessment#:#shuffle_answers#:#Shuffle answers
 assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
-assessment#:#end_tag#:#End tag
-assessment#:#random_selection#:#Random selection
-assessment#:#gap_definition#:#Gap definition
-assessment#:#shuffle_answers#:#Shuffle answers
 assessment#:#symbol#:#Symbol
 assessment#:#text_gap#:#Text gap
 assessment#:#true#:#True
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_anon_eval#:#Anonymous aggregated results
 assessment#:#tst_browse_for_questions#:#Browse for questions
-assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.
 assessment#:#tst_eval_total_finished#:#Total finished tests
@@ -211,6 +210,7 @@ assessment#:#tst_nr_of_tries#:#Max. number of tries
 assessment#:#tst_percent_solved#:#Percent solved
 assessment#:#tst_processing_time#:#Max. processing time
 assessment#:#tst_question_no#:#Order
+assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?
 assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question type
 assessment#:#tst_questions_inserted#:#Question(s) inserted!
@@ -425,9 +425,6 @@ common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language cu
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cannot_unzip_file#:#Cannot unpack file.
 common#:#cat#:#Category
-common#:#htlm#:#HTML Learning Module
-common#:#htlm_new#:#New HTML Learning Module
-common#:#htlm_add#:#Add HTML Learning Module
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
@@ -438,9 +435,9 @@ common#:#cat_create_crs#:#Create Course
 common#:#cat_create_dbk#:#Create Digibook
 common#:#cat_create_exc#:#Create Exercise
 common#:#cat_create_frm#:#Create Forum
-common#:#cat_create_htlm#:#Create HTML Learning Module
 common#:#cat_create_glo#:#Create Glossary
 common#:#cat_create_grp#:#Create Group
+common#:#cat_create_htlm#:#Create HTML Learning Module
 common#:#cat_create_lm#:#Create Learning Module
 common#:#cat_create_mep#:#Create Media Pool
 common#:#cat_create_qpl#:#Create Question Pool
@@ -808,6 +805,15 @@ common#:#hide_structure#:#Disable Structured-View
 common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Home
 common#:#host#:#Host
+common#:#htlm#:#HTML Learning Module
+common#:#htlm_add#:#Add HTML Learning Module
+common#:#htlm_delete#:#Delete HTML Learning Module
+common#:#htlm_edit#:#Edit HTML Learning Module Properties
+common#:#htlm_edit_permission#:#Change permission settings
+common#:#htlm_new#:#New HTML Learning Module
+common#:#htlm_read#:#Read HTML Learning Module
+common#:#htlm_visible#:#HTML Learning Module is visible
+common#:#htlm_write#:#Edit HTML Learning Module
 common#:#http_path#:#Http Path
 common#:#id#:#ID
 common#:#identifier#:#identifier
@@ -867,7 +873,6 @@ common#:#ip_address#:#IP Address
 common#:#is_already_your#:#is already your
 common#:#item#:#Item
 common#:#kb#:#KByte
-common#:#htlm_edit#:#Edit HTML Learning Module Properties
 common#:#keywords#:#Keywords
 common#:#lang_cs#:#Czech
 common#:#lang_dateformat#:#Y-m-d
@@ -1003,17 +1008,12 @@ common#:#mep#:#Media Pool
 common#:#mep_add#:#Add Media Pool
 common#:#mep_added#:#Added Media Pool
 common#:#mep_delete#:#Delete Media Pool
-common#:#htlm_delete#:#Delete HTML Learning Module
 common#:#mep_edit#:#Edit Media Pool Properties
 common#:#mep_edit_permission#:#Change permission settings
-common#:#htlm_edit_permission#:#Change permission settings
 common#:#mep_new#:#New Media Pool
 common#:#mep_read#:#Read Media Pool Content
-common#:#htlm_read#:#Read HTML Learning Module
 common#:#mep_visible#:#Media Pool is visible
-common#:#htlm_visible#:#HTML Learning Module is visible
 common#:#mep_write#:#Edit Media Pool Content
-common#:#htlm_write#:#Edit HTML Learning Module
 common#:#message#:#Message
 common#:#message_content#:#Message Content
 common#:#message_to#:#Message to:
@@ -1176,6 +1176,7 @@ common#:#obj_fold#:#Folder
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossary
 common#:#obj_grp#:#Group
+common#:#obj_htlm#:#HTML Learning Module
 common#:#obj_ldap#:#LDAP Settings
 common#:#obj_ldap_desc#:#Configure global LDAP Settings here.
 common#:#obj_lm#:#Learning Module
@@ -1205,8 +1206,6 @@ common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#ILIAS root node
 common#:#obj_slm#:#SCORM Learning Module
-common#:#obj_htlm#:#HTML Learning Module
-common#:#objs_htlm#:#HTML Learning Modules
 common#:#obj_st#:#Chapter
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objecttype Definition
@@ -1233,11 +1232,12 @@ common#:#objs_fold#:#Folders
 common#:#objs_frm#:#Forums
 common#:#objs_glo#:#Glossaries
 common#:#objs_grp#:#Groups
+common#:#objs_htlm#:#HTML Learning Modules
 common#:#objs_lm#:#Learning Modules
 common#:#objs_lng#:#Languages
 common#:#objs_lo#:#Learning Objects
-common#:#objs_mob#:#Media Objects
 common#:#objs_mep#:#Media Pools
+common#:#objs_mob#:#Media Objects
 common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
 common#:#objs_qpl#:#Question Pools
@@ -1503,6 +1503,7 @@ common#:#uninstalled#:#uninstalled.
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#Unread
 common#:#unsubscribe#:#unsubscribe
+common#:#unzip#:#Unzip
 common#:#up#:#Up
 common#:#update_applied#:#Update Applied
 common#:#update_language#:#Update Language
@@ -1554,7 +1555,6 @@ common#:#who_is_online#:#Who is online?
 common#:#with#:#with
 common#:#write#:#Write
 common#:#yes#:#Yes
-common#:#unzip#:#Unzip
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zip#:#Postal Code
@@ -1572,7 +1572,6 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_List#:#List
-content#:#cont_list_files#:#List Files
 content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
@@ -1681,6 +1680,7 @@ content#:#cont_link_ext#:#Link (external)
 content#:#cont_link_int#:#Link (internal)
 content#:#cont_link_select#:#Internal Link
 content#:#cont_link_type#:#Link Type
+content#:#cont_list_files#:#List Files
 content#:#cont_list_properties#:#List Properties
 content#:#cont_lk_chapter#:#Chapter
 content#:#cont_lk_chapter_new#:#Chapter (New Frame)
@@ -1899,6 +1899,7 @@ dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate
 dateplaner#:#end_date#:#End of Date
 dateplaner#:#endtime_for_view#:#Endtime for view:
 dateplaner#:#error_minical_img#:#Cant create GD-picture-stream
+dateplaner#:#execute#:#execute choices
 dateplaner#:#extra_dates#:#One Day Dates
 dateplaner#:#free#:#free
 dateplaner#:#freetime#:#free Time in group
@@ -1977,7 +1978,6 @@ dateplaner#:#more#:#more
 dateplaner#:#mweek#:#last week
 dateplaner#:#myeahr#:#last year
 dateplaner#:#newDates#:#New dates
-dateplaner#:#execute#:#execute choices
 dateplaner#:#newKeyword#:#New:
 dateplaner#:#new_doc#:#create new date
 dateplaner#:#no_entry#:#no dates available

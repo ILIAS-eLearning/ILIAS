@@ -88,6 +88,7 @@ assessment#:#add_answer#:#Додати віповідь
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
 assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
 assessment#:#add_matching_pair#:#Додати співпадаючу пару
+assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Відповідь
 assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#Текст відповіді
@@ -99,6 +100,7 @@ assessment#:#create_date#:#Створений
 assessment#:#create_gaps#:#Створити проміжок
 assessment#:#create_new#:#Створити новий
 assessment#:#duplicate#:#Дублювати
+assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
@@ -113,6 +115,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all requi
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###09 Mar 2004 new variable
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###09 Mar 2004 new variable
 assessment#:#filter#:#Фільтр
+assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Вибір проміжку
 assessment#:#imagemap#:#Image map###25 Feb 2004 new variable
 assessment#:#last_update#:#Останнє оновлення
@@ -128,6 +131,7 @@ assessment#:#material_file#:#Material file###23 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
 assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
 assessment#:#no_questions_available#:#Немає доступних питань!
+assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
 assessment#:#points#:#Бали
@@ -156,6 +160,7 @@ assessment#:#qt_ordering#:#Порядкове Питання
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###09 Mar 2004 new variable
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Тип Питання
+assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
 assessment#:#region#:#Region###25 Feb 2004 new variable
 assessment#:#remove_question#:#Remove###23 Feb 2004 new variable
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
@@ -167,7 +172,9 @@ assessment#:#save_next#:#Save and goto next question###06 Mar 2004 new variable
 assessment#:#save_previous#:#Save and goto previous question###06 Mar 2004 new variable
 assessment#:#select_gap#:#Вибрати проміжок
 assessment#:#set_filter#:#Встановити фільтр
+assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Порядок розв'язку
+assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#Текстовий проміжок
 assessment#:#true#:#Правда
@@ -203,10 +210,13 @@ assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
 assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
 assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
 assessment#:#tst_question_no#:#Order###11 Mar 2004 new variable
+assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?###07 Apr 2004 new variable
 assessment#:#tst_question_title#:#Title###23 Feb 2004 new variable
 assessment#:#tst_question_type#:#Question type###23 Feb 2004 new variable
 assessment#:#tst_questions_inserted#:#Question(s) inserted!###19 Mar 2004 new variable
 assessment#:#tst_questions_removed#:#Question(s) removed!###19 Mar 2004 new variable
+assessment#:#tst_random_nr_of_questions#:#How many questions?###07 Apr 2004 new variable
+assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from###07 Apr 2004 new variable
 assessment#:#tst_reached_points#:#Reached points###11 Mar 2004 new variable
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
@@ -427,6 +437,7 @@ common#:#cat_create_exc#:#Створити Вправу
 common#:#cat_create_frm#:#Створити Форум
 common#:#cat_create_glo#:#Створити Глосарій
 common#:#cat_create_grp#:#Створити Групу
+common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Створити Учбовий Модуль
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Створити Чергу Питань
@@ -794,6 +805,15 @@ common#:#hide_structure#:#Заборонити Структурований-Ог
 common#:#hobby#:#Інтереси/Хоббі
 common#:#home#:#Дім
 common#:#host#:#Хост
+common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_edit#:#Edit HTML Learning Module Properties###07 Apr 2004 new variable
+common#:#htlm_edit_permission#:#Change permission settings###07 Apr 2004 new variable
+common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
+common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Http Шлях
 common#:#id#:#ID
 common#:#identifier#:#ідентифікатор
@@ -1156,6 +1176,7 @@ common#:#obj_fold#:#Папка
 common#:#obj_frm#:#Форум
 common#:#obj_glo#:#Глосарій
 common#:#obj_grp#:#Група
+common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#LDAP Настройки
 common#:#obj_ldap_desc#:#Конфігуруйте глобальні настройки LDAP тут.
 common#:#obj_lm#:#Учбовий Модуль
@@ -1211,9 +1232,11 @@ common#:#objs_fold#:#Folders###18 Feb 2004 new variable
 common#:#objs_frm#:#Forums###18 Feb 2004 new variable
 common#:#objs_glo#:#Glossaries###18 Feb 2004 new variable
 common#:#objs_grp#:#Groups###18 Feb 2004 new variable
+common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
 common#:#objs_lm#:#Learning Modules###18 Feb 2004 new variable
 common#:#objs_lng#:#Languages###18 Feb 2004 new variable
 common#:#objs_lo#:#Learning Objects###18 Feb 2004 new variable
+common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
 common#:#objs_mob#:#Multimedia Objects###18 Feb 2004 new variable
 common#:#objs_note#:#Notes###18 Feb 2004 new variable
 common#:#objs_pg#:#Pages###18 Feb 2004 new variable
@@ -1480,6 +1503,7 @@ common#:#uninstalled#:#деінстальовано.
 common#:#unknown#:#НЕВІДОМИЙ
 common#:#unread#:#Непрочитаний
 common#:#unsubscribe#:#відписатись
+common#:#unzip#:#Unzip###07 Apr 2004 new variable
 common#:#up#:#Вгору
 common#:#update_applied#:#Обновлення Встановлено
 common#:#update_language#:#Обновити Мову
@@ -1656,6 +1680,7 @@ content#:#cont_link_ext#:#Посилання (зовнішнє)
 content#:#cont_link_int#:#Посилання (внутрішнє)
 content#:#cont_link_select#:#Внутрішнє Посилання
 content#:#cont_link_type#:#Тип Посилання
+content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
 content#:#cont_list_properties#:#Властивості Списку
 content#:#cont_lk_chapter#:#Глава
 content#:#cont_lk_chapter_new#:#Глава (Новий Фрейм)
@@ -1874,6 +1899,7 @@ dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate
 dateplaner#:#end_date#:#End of Date###16 Mar 2004 new variable
 dateplaner#:#endtime_for_view#:#Endtime for view:###16 Mar 2004 new variable
 dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###16 Mar 2004 new variable
+dateplaner#:#execute#:#execute choices###07 Apr 2004 new variable
 dateplaner#:#extra_dates#:#One Day Dates###16 Mar 2004 new variable
 dateplaner#:#free#:#free###16 Mar 2004 new variable
 dateplaner#:#freetime#:#free Time in group###16 Mar 2004 new variable

@@ -88,6 +88,7 @@ assessment#:#add_answer#:#Adicionar resposta
 assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
 assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
 assessment#:#add_matching_pair#:#Adicionar par correpondente
+assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Resposta
 assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#Texto de resposta
@@ -99,6 +100,7 @@ assessment#:#create_date#:#Criado
 assessment#:#create_gaps#:#Criar espaços
 assessment#:#create_new#:#Criar novo
 assessment#:#duplicate#:#Duplicar
+assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
@@ -113,6 +115,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all requi
 assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###08 Mar 2004 new variable
 assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###08 Mar 2004 new variable
 assessment#:#filter#:#Filtro
+assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Selecção de espaço
 assessment#:#imagemap#:#Image map###08 Mar 2004 new variable
 assessment#:#last_update#:#Last update
@@ -128,6 +131,7 @@ assessment#:#material_file#:#Material file###23 Mar 2004 new variable
 assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
 assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
 assessment#:#no_questions_available#:#Não existem nenhumas perguntas disponíveis!
+assessment#:#or#:#or###07 Apr 2004 new variable
 assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
 assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
 assessment#:#points#:#Pontos
@@ -156,6 +160,7 @@ assessment#:#qt_ordering#:#Questão de ordenação
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###08 Mar 2004 new variable
 assessment#:#question_short#:#Q###23 Mar 2004 new variable
 assessment#:#question_type#:#Tipo de questão
+assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
 assessment#:#region#:#Region###08 Mar 2004 new variable
 assessment#:#remove_question#:#Remove###08 Mar 2004 new variable
 assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
@@ -167,7 +172,9 @@ assessment#:#save_next#:#Save and goto next question###08 Mar 2004 new variable
 assessment#:#save_previous#:#Save and goto previous question###08 Mar 2004 new variable
 assessment#:#select_gap#:#Seleccionar espaço
 assessment#:#set_filter#:#Definir filtro
+assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Ordem solução
+assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#Espaço de Texto
 assessment#:#true#:#Verdadeiro
@@ -203,10 +210,13 @@ assessment#:#tst_nr_of_tries#:#Max. número de tentativas
 assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
 assessment#:#tst_processing_time#:#Max. tempo de processamento
 assessment#:#tst_question_no#:#Order###11 Mar 2004 new variable
+assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?###07 Apr 2004 new variable
 assessment#:#tst_question_title#:#Title###08 Mar 2004 new variable
 assessment#:#tst_question_type#:#Question type###08 Mar 2004 new variable
 assessment#:#tst_questions_inserted#:#Question(s) inserted!###19 Mar 2004 new variable
 assessment#:#tst_questions_removed#:#Question(s) removed!###19 Mar 2004 new variable
+assessment#:#tst_random_nr_of_questions#:#How many questions?###07 Apr 2004 new variable
+assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from###07 Apr 2004 new variable
 assessment#:#tst_reached_points#:#Reached points###11 Mar 2004 new variable
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
@@ -427,6 +437,7 @@ common#:#cat_create_exc#:#Criar Exercício
 common#:#cat_create_frm#:#Criar Fórum
 common#:#cat_create_glo#:#Criar Glossário
 common#:#cat_create_grp#:#Criar Grupo
+common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Criar Módulo de Aprendizagem
 common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
 common#:#cat_create_qpl#:#Criar Banco de Questões
@@ -794,6 +805,15 @@ common#:#hide_structure#:#Desligar Vista-Estruturada
 common#:#hobby#:#Interesses/Passatempos
 common#:#home#:#Casa
 common#:#host#:#Anfitrião
+common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_edit#:#Edit HTML Learning Module Properties###07 Apr 2004 new variable
+common#:#htlm_edit_permission#:#Change permission settings###07 Apr 2004 new variable
+common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
+common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
 common#:#http_path#:#Caminho Http
 common#:#id#:#ID
 common#:#identifier#:#identificador
@@ -1156,6 +1176,7 @@ common#:#obj_fold#:#Pasta
 common#:#obj_frm#:#Fórum
 common#:#obj_glo#:#Glossário
 common#:#obj_grp#:#Grupo
+common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
 common#:#obj_ldap#:#Definições LDAP
 common#:#obj_ldap_desc#:#Configure aqui as definições globais de LDAP.
 common#:#obj_lm#:#Módulo de Aprendizagem
@@ -1211,9 +1232,11 @@ common#:#objs_fold#:#Pastas
 common#:#objs_frm#:#Fóruns
 common#:#objs_glo#:#Glossários
 common#:#objs_grp#:#Grupos
+common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
 common#:#objs_lm#:#Módulos de Aprendizagem
 common#:#objs_lng#:#Linguagens
 common#:#objs_lo#:#Objectos de Aprendizagem
+common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
 common#:#objs_mob#:#Objectos Multimédia###06 Apr 2004 content changed
 common#:#objs_note#:#Notas
 common#:#objs_pg#:#Páginas
@@ -1480,6 +1503,7 @@ common#:#uninstalled#:#desinstalado.
 common#:#unknown#:#DESCONHECIDO
 common#:#unread#:#Não lido
 common#:#unsubscribe#:#desistir
+common#:#unzip#:#Unzip###07 Apr 2004 new variable
 common#:#up#:#Cima
 common#:#update_applied#:#Actualização Aplicada
 common#:#update_language#:#Actualizar Linguagem
@@ -1656,6 +1680,7 @@ content#:#cont_link_ext#:#Ligação (externa)
 content#:#cont_link_int#:#Ligação (interna)
 content#:#cont_link_select#:#Ligação Interna
 content#:#cont_link_type#:#Tipo de Ligação
+content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
 content#:#cont_list_properties#:#Propriedades da Lista
 content#:#cont_lk_chapter#:#Capítulo
 content#:#cont_lk_chapter_new#:#Capítulo (Nova janela)
@@ -1874,6 +1899,7 @@ dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate
 dateplaner#:#end_date#:#End of Date###16 Mar 2004 new variable
 dateplaner#:#endtime_for_view#:#Endtime for view:###16 Mar 2004 new variable
 dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###16 Mar 2004 new variable
+dateplaner#:#execute#:#execute choices###07 Apr 2004 new variable
 dateplaner#:#extra_dates#:#One Day Dates###16 Mar 2004 new variable
 dateplaner#:#free#:#free###16 Mar 2004 new variable
 dateplaner#:#freetime#:#free Time in group###16 Mar 2004 new variable
