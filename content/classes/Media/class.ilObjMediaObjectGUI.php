@@ -2235,6 +2235,70 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$this->ctrl->getLinkTarget($this), $meta_section);
 	}
+	
+	/**
+	* get media info as html
+	*/
+	function _getMediaInfoHTML(&$a_mob)
+	{
+		global $lng;
+		
+		$tpl =& new ilTemplate("tpl.media_info.html", true, true, "content");
+		$types = array("Standard", "Fullscreen");
+		foreach ($types as $type)
+		{
+			if($type == "Fullscreen" && !$a_mob->hasFullScreenItem())
+			{
+				continue;
+			}
+
+			$med =& $a_mob->getMediaItem($type);
+			$tpl->setCurrentBlock("media_info");
+			if ($type == "Standard")
+			{
+				$tpl->setVariable("TXT_PURPOSE", $lng->txt("cont_std_view"));
+			}
+			else
+			{
+				$tpl->setVariable("TXT_PURPOSE", $lng->txt("cont_fullscreen"));
+			}
+			$tpl->setVariable("TXT_TYPE", $lng->txt("cont_".$med->getLocationType()));
+			$tpl->setVariable("VAL_LOCATION", $med->getLocation());
+			if ($med->getLocationType() == "LocalFile")
+			{
+				$file = ilObjMediaObject::_getDirectory($med->getMobId())."/".$med->getLocation();
+				$size = filesize($file);
+				$tpl->setVariable("VAL_FILE_SIZE", " ($size ".$lng->txt("bytes").")");
+			}
+			$tpl->setVariable("TXT_FORMAT", $lng->txt("cont_format"));
+			$tpl->setVariable("VAL_FORMAT", $med->getFormat());
+			if ($med->getWidth() != "" && $med->getHeight() != "")
+			{
+				$tpl->setCurrentBlock("size");
+				$tpl->setVariable("TXT_SIZE", $lng->txt("size"));
+				$tpl->setVariable("VAL_SIZE", $med->getWidth()."x".$med->getHeight());
+				$tpl->parseCurrentBlock();
+			}
+				
+			// original size
+			if ($orig_size = $med->getOriginalSize())
+			{
+				if ($orig_size["width"] != $med->getWidth() ||
+					$orig_size["height"] != $med->getHeight())
+				{
+					$tpl->setCurrentBlock("orig_size");
+					$tpl->setVariable("TXT_ORIG_SIZE", $lng->txt("cont_orig_size"));
+					$tpl->setVariable("ORIG_WIDTH", $orig_size["width"]);
+					$tpl->setVariable("ORIG_HEIGHT", $orig_size["height"]);
+					$tpl->parseCurrentBlock();
+				}
+			}
+			$tpl->setCurrentBlock("media_info");
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl->get();
+	}
 
 
 	/**

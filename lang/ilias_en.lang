@@ -2919,6 +2919,7 @@ content#:#cont_show_print_view#:#Show Print View
 content#:#cont_size#:#Size (Bytes)
 content#:#cont_skip_chapter#:#Skip this chapter
 content#:#cont_source#:#Source
+common#:#bytes#:#Bytes
 content#:#cont_src#:#Source code
 content#:#cont_src_other#:#other
 content#:#cont_st_on_pg#:#this function is not allowed.

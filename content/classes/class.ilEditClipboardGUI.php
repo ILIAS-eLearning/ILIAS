@@ -182,13 +182,12 @@ class ilEditClipboardGUI
 		$tbl->setTitle($this->lng->txt("objs_mob"));
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
-		$tbl->setHeaderNames(array("", $this->lng->txt("cont_object")));
+		$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_object")));
 
-		$cols = array("", "title");
-		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
-			"cmd" => "view", "cmdClass" => get_class($this));
+		$cols = array("", "", "title");
+		$header_params = $this->ctrl->getParameterArray($this, "view");
 		$tbl->setHeaderVars($cols, $header_params);
-		$tbl->setColumnWidth(array("1%","99%"));
+		$tbl->setColumnWidth(array("1%","1%","98%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -198,7 +197,7 @@ class ilEditClipboardGUI
 		$tbl->setMaxCount($this->maxcount);		// ???
 		//$tbl->setMaxCount(30);		// ???
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 2);
+		$this->tpl->setVariable("COLUMN_COUNTS", 3);
 
 		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		if ($this->mode != "getObject")
@@ -242,8 +241,21 @@ class ilEditClipboardGUI
 			$i=0;
 			foreach($objs as $obj)
 			{
-				if ($this->mode != "getObject")
+				// output thumbnail
+				$mob =& new ilObjMediaObject($obj["id"]);
+				$med =& $mob->getMediaItem("Standard");
+				$target = $med->getThumbnailTarget();
+				if ($target != "")
 				{
+					$this->tpl->setCurrentBlock("thumbnail");
+					$this->tpl->setVariable("IMG_THUMB", $target);
+					$this->tpl->parseCurrentBlock();
+				}
+
+				// allow editing of media objects
+				if ($this->mode != "getObject")
+				{					
+					// output edit link
 					$this->tpl->setCurrentBlock("edit");
 					$this->ctrl->setParameter($this, "clip_mob_id", $obj["id"]);
 					$this->tpl->setVariable("EDIT_LINK",
@@ -253,13 +265,17 @@ class ilEditClipboardGUI
 						" [".$obj["id"]."]");
 					$this->tpl->parseCurrentBlock();
 				}
-				else
+				else		// just list elements for selection
 				{
 					$this->tpl->setCurrentBlock("show");
 					$this->tpl->setVariable("TEXT_OBJECT2", $obj["title"].
 						" [".$obj["id"]."]");
 					$this->tpl->parseCurrentBlock();
 				}
+				
+				include_once("content/classes/Media/class.ilObjMediaObjectGUI.php");
+				$this->tpl->setVariable("MEDIA_INFO",
+					ilObjMediaObjectGUI::_getMediaInfoHTML($mob));
 
 				$this->tpl->setCurrentBlock("tbl_content");
 				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");

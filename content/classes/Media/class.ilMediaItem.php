@@ -656,12 +656,15 @@ class ilMediaItem
 	/**
 	* get thumbnail target
 	*/
-	function getThumbnailTarget()
+	function getThumbnailTarget($a_size = "")
 	{
 		if (is_int(strpos($this->getFormat(), "image")))
 		{
 			$thumb_file = $this->getThumbnailDirectory()."/".
 				$this->getPurpose().".jpeg";
+
+			$thumb_file_small = $this->getThumbnailDirectory()."/".
+				$this->getPurpose()."_small.jpeg";
 
 			// generate thumbnail (if not tried before)
 			if ($this->getThumbTried() == "n" && $this->getLocationType() == "LocalFile")
@@ -670,19 +673,35 @@ class ilMediaItem
 				{
 					unlink($thumb_file);
 				}
+				if (is_file($thumb_file_small))
+				{
+					unlink($thumb_file_small);
+				}
 				$this->writeThumbTried("y");
 				ilObjMediaObject::_createThumbnailDirectory($this->getMobId());
 				$med_file = $this->getDirectory()."/".$this->getLocation();
 				if (is_file($med_file))
 				{
 					ilUtil::convertImage($med_file, $thumb_file, "jpeg", "80");
+					ilUtil::convertImage($med_file, $thumb_file_small, "jpeg", "40");
 				}
 			}
 			
-			if (is_file($thumb_file))
+			if ($a_size == "small")
 			{
-				return $this->getThumbnailDirectory("output")."/".
-					$this->getPurpose().".jpeg?dummy=".rand(1, 999999);
+				if (is_file($thumb_file_small))
+				{
+					return $this->getThumbnailDirectory("output")."/".
+						$this->getPurpose()."_small.jpeg?dummy=".rand(1, 999999);
+				}
+			}
+			else
+			{
+				if (is_file($thumb_file))
+				{
+					return $this->getThumbnailDirectory("output")."/".
+						$this->getPurpose().".jpeg?dummy=".rand(1, 999999);
+				}
 			}
 		}
 		
