@@ -1097,6 +1097,9 @@ class ilObjQuestionPool extends ilObject
 							case JAVAAPPLET_QUESTION_IDENTIFIER:
 								$question = new ASS_JavaApplet();
 								break;
+							case TEXT_QUESTION_IDENTIFIER:
+								$question = new ASS_TextQuestion();
+								break;
 						}
 						if ($question)
 						{
