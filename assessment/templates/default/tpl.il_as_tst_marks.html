@@ -25,8 +25,27 @@
 <!-- BEGIN Footer -->
 <tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="4"><input class="submit" type="submit" name="cmd[delete]" value="{BUTTON_DELETE}" /></td></tr>
 <!-- END Footer -->
-<!-- BEGIN action_buttons -->
-<tr><td colspan="5" class="option"><input name="cmd[save]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" /></td></tr>
-<!-- END action_buttons -->
 </table>
+<!-- BEGIN ects -->
+<br />
+<table class="std">
+<tr class="tblheader">
+	<td class="std"></td>
+	<td class="std">{TEXT_OUTPUT_ECTS_GRADES}</td>
+</tr>
+<tr class="tblrow1">
+	<td class="tblrow1"><input type="checkbox" name="chbECTS" value="1" id="chbECTS" /></td>
+	<td class="tblrow1"><label for="chbECTS">{TEXT_ALLOW_ECTS_GRADES}</label></td>
+</tr>
+<tr class="tblrow2">
+	<td class="tblrow2"><input type="checkbox" name="chbUseFX" value="1" id="chbUseFX" /></td>
+	<td class="tblrow2"><label for="chbUseFX">{TEXT_USE_FX}</label> <input type="text" name="percentFX" {VALUE_PERCENT_FX}size="4" maxlength="2" /> {TEXT_PERCENT}</td>
+</tr>
+</table>
+<!-- END ects -->
+<!-- BEGIN action_buttons -->
+<p>
+<input name="cmd[save]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+</p>
+<!-- END action_buttons -->
 </form>
