@@ -3,7 +3,7 @@
 * Class ilObjRoleTemplateGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
+* $Id$Id: class.ilObjRoleTemplateGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -97,7 +97,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 						$checked = in_array($operations["ops_id"],$selected);
 						// Es wird eine 2-dim Post Variable übergeben: perm[rol_id][ops_id]
-						$box = TUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"]);
+						$box = ilUtil::formCheckBox($checked,"template_perm[".$data["title"]."][]",$operations["ops_id"]);
 						$output["perm"]["$operation_name"][] = $box;
 					}
 					else
@@ -108,7 +108,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 				// END CHECK_PERM
 				// color changing
-				$css_row = TUtil::switchColor($key, "tblrow1", "tblrow2");
+				$css_row = ilUtil::switchColor($key, "tblrow1", "tblrow2");
 				$output["perm"]["$operation_name"]["color"] = $css_row;
 			}
 
@@ -125,8 +125,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 			foreach ($parent_role_ids as $key => $par)
 			{
-				$radio = TUtil::formRadioButton(0,"adopt",$par["obj_id"]);
-				$output["adopt"][$key]["css_row_adopt"] = TUtil::switchColor($key, "tblrow1", "tblrow2");
+				$radio = ilUtil::formRadioButton(0,"adopt",$par["obj_id"]);
+				$output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
 				$output["adopt"][$key]["check_adopt"] = $radio;
 				$output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
 				$output["adopt"][$key]["role_name"] = $par["title"];

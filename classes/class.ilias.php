@@ -140,7 +140,7 @@ class ILIAS extends PEAR
 									'passwordcol' => $this->ini->readVariable("auth", "passcol")
 									);
 		// set tplPath
-		$this->tplPath = TUtil::setPathStr($this->ini->readVariable("server", "tpl_path"));
+		$this->tplPath = ilUtil::setPathStr($this->ini->readVariable("server", "tpl_path"));
 		
 		// We use MySQL as storage container
 		$this->auth = new Auth("DB", $this->auth_params,"",false);

@@ -11,10 +11,10 @@
 */
 
 //include class.util first to start StopWatch
-require_once "classes/class.util.php";
+require_once "classes/class.ilUtil.php";
 
 // start the StopWatch
-$t_pagestart = TUtil::StopWatch();
+$t_pagestart = ilUtil::StopWatch();
 
 //include files from PEAR
 require_once "PEAR.php";

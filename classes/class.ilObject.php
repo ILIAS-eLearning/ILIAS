@@ -290,8 +290,8 @@ class ilObject
 	{
 		global $lng;
 		
-		// Todo: remove this from TUtil
-		$owner = TUtil::getOwner($this->getId());
+		// Todo: remove this from ilUtil
+		$owner = ilUtil::getOwner($this->getId());
 
 		if (is_object($owner))
 		{

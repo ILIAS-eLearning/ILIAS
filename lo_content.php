@@ -72,8 +72,8 @@ else
 switch ($_SESSION["viewmode"])
 {
 	case "flat":
-		$lr_arr = TUtil::getObjectsByOperations('le','visible');
-		$lr_arr = TUtil::getObjectsByOperations('crs','visible');
+		$lr_arr = ilUtil::getObjectsByOperations('le','visible');
+		$lr_arr = ilUtil::getObjectsByOperations('crs','visible');
 		
 		usort($lr_arr,"sortObjectsByTitle");
 		
@@ -89,7 +89,7 @@ switch ($_SESSION["viewmode"])
 				$tpl->setCurrentBlock("learningstuff_row");
 		
 				// change row color
-				$tpl->setVariable("ROWCOL", TUtil::switchColor($num,"tblrow2","tblrow1"));
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;		
 		
 				$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
@@ -164,7 +164,7 @@ switch ($_SESSION["viewmode"])
 				$tpl->setCurrentBlock("learningstuff_row");
 		
 				// change row color
-				$tpl->setVariable("ROWCOL", TUtil::switchColor($num,"tblrow2","tblrow1"));
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;		
 		
 				$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];

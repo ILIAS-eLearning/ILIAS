@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserGUI.php,v 1.3 2003/03/28 16:49:20 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.4 2003/03/31 09:04:53 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -52,7 +52,7 @@ class ilObjUserGUI extends ilObjectGUI
 		else
 		{
 			// gender selection
-			$gender = TUtil::formSelect($Fobject["gender"],"Fobject[gender]",$this->gender);
+			$gender = ilUtil::formSelect($Fobject["gender"],"Fobject[gender]",$this->gender);
 
 			// role selection
 			$obj_list = getObjectList("role");
@@ -62,7 +62,7 @@ class ilObjUserGUI extends ilObjectGUI
 				$rol[$obj_data["obj_id"]] = $obj_data["title"];
 			}
 
-			$role = TUtil::formSelectWoTranslation($Fobject["default_role"],"Fobject[default_role]",$rol);
+			$role = ilUtil::formSelectWoTranslation($Fobject["default_role"],"Fobject[default_role]",$rol);
 
 			$data = array();
 			$data["fields"] = array();
@@ -115,7 +115,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$user = new User($this->obj_id);
 
 			// gender selection
-			$gender = TUtil::formSelect($user->gender,"Fobject[gender]",$this->gender);
+			$gender = ilUtil::formSelect($user->gender,"Fobject[gender]",$this->gender);
 
 			// role selection
 			$obj_list = getObjectList("role");
@@ -126,7 +126,7 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 
 			$def_role = $rbacadmin->getDefaultRole($user->getId());
-			$role = TUtil::formSelectWoTranslation($def_role,"Fobject[default_role]",$rol);
+			$role = ilUtil::formSelectWoTranslation($def_role,"Fobject[default_role]",$rol);
 
 			$data = array();
 			$data["fields"] = array();
@@ -159,7 +159,7 @@ class ilObjUserGUI extends ilObjectGUI
 			   if ($user->getId() == $_SESSION["AccountId"])
 			   {
 				  $data["active_role"]["access"] = true;
-				  $box = Tutil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
+				  $box = ilUtil::formCheckBox(in_array($role,$_SESSION["RoleId"]),'active[]',$role);
 			   }
 			   else
 			   {
@@ -216,7 +216,7 @@ class ilObjUserGUI extends ilObjectGUI
 		foreach($data["active_role"] as $role_id => $role)
 		{
 		   ++$counter;
-		   $this->tpl->setVariable("ACTIVE_ROLE_CSS_ROW",TUtil::switchColor($counter,"tblrow2","tblrow1"));
+		   $this->tpl->setVariable("ACTIVE_ROLE_CSS_ROW",ilUtil::switchColor($counter,"tblrow2","tblrow1"));
 		   $this->tpl->setVariable("CHECK_ROLE",$role["checkbox"]);
 		   $this->tpl->setVariable("ROLENAME",$role["title"]);
 		   $this->tpl->parseCurrentBlock();
@@ -265,13 +265,13 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		
 		// validate password
-		if (!TUtil::is_password($_POST["Fobject"]["passwd"]))
+		if (!ilUtil::is_password($_POST["Fobject"]["passwd"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// validate email
-		if (!TUtil::is_email($_POST["Fobject"]["email"]))
+		if (!ilUtil::is_email($_POST["Fobject"]["email"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -368,13 +368,13 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 		
 		// validate password
-		if (!TUtil::is_password($_POST["Fobject"]["passwd"]))
+		if (!ilUtil::is_password($_POST["Fobject"]["passwd"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("passwd_invalid"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// validate email
-		if (!TUtil::is_email($_POST["Fobject"]["email"]))
+		if (!ilUtil::is_email($_POST["Fobject"]["email"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("email_not_valid"),$this->ilias->error_obj->MESSAGE);
 		}

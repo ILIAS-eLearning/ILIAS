@@ -72,7 +72,7 @@ if ($_GET["cmd"] == "newthread")
 		$lng->txt("message")   => $formData["message"]	
 	);
 	
-	$errors = TUtil::checkFormEmpty($checkEmptyFields);
+	$errors = ilUtil::checkFormEmpty($checkEmptyFields);
 	
 	if ($errors != "")
 	{

@@ -3,7 +3,7 @@
 * Class ilObjLanguageFolderGUI
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.ilObjLanguageFolderGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
+* @version	$Id$Id: class.ilObjLanguageFolderGUI.php,v 1.3 2003/03/28 18:33:46 akill Exp $
 *
 * @extends	ilObject
 * @package	ilias-core
@@ -129,7 +129,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 			$ctrl = $this->data["ctrl"][$i];
 			$num++;
 			// color changing
-			$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
+			$css_row = ilUtil::switchColor($num,"tblrow1","tblrow2");
 			$this->tpl->setCurrentBlock("checkbox");
 
 			$this->tpl->setVariable("CHECKBOX_ID", $lang_data["obj_id"]);

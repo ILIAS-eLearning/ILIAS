@@ -88,7 +88,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 				$Start = $_GET["offset"];
 			}
 			
-			$linkbar = TUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$thrNum,$pageHits,$Start,$params);
+			$linkbar = ilUtil::Linkbar(basename($_SERVER["PHP_SELF"]),$thrNum,$pageHits,$Start,$params);
 			
 			if ($linkbar != "")
 			{
@@ -107,7 +107,7 @@ if (is_array($topicData = $frm->getOneTopic()))
 			if (($thrNum > $pageHits && $z >= $Start) || $thrNum <= $pageHits)
 			{
 				$tpl->setCurrentBlock("threads_row");
-				$rowCol = TUtil::switchColor($z,"tblrow2","tblrow1");
+				$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
 				$tpl->setVariable("ROWCOL", $rowCol);
 				
 				$thrData["thr_date"] = $frm->convertDate($thrData["thr_date"]);

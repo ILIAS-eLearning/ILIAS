@@ -3,7 +3,7 @@
 * Class ilObjTypeDefinitionGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.1 2003/03/24 15:41:43 akill Exp $
+* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -91,7 +91,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 				$num++;
 
 				// color changing
-				$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
+				$css_row = ilUtil::switchColor($num,"tblrow1","tblrow2");
 
 				$this->tpl->touchBlock("empty_cell");
 
@@ -218,7 +218,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 					}
 
 					$obj = $ops["ops_id"];
-					$ops_options = TUtil::formSelect($ops_status,"id[$obj]",$options);
+					$ops_options = ilUtil::formSelect($ops_status,"id[$obj]",$options);
 
 					//visible data part
 					$this->data["data"][] = array(
@@ -269,7 +269,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 			$num++;
 
 			// color changing
-			$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
+			$css_row = ilUtil::switchColor($num,"tblrow1","tblrow2");
 
 			$this->tpl->touchBlock("empty_cell");
 			$this->tpl->setCurrentBlock("table_cell");
