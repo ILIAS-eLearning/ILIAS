@@ -84,6 +84,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 		$this->tpl->setVariable("TXT_IMPORT_SLM", $this->lng->txt("import_slm"));
 		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+		$this->tpl->setVariable("TXT_VALIDATE_FILE", $this->lng->txt("cont_validate_file"));
 	}
 
 	/**
@@ -127,7 +128,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$newObj->putInTree($_GET["ref_id"]);
 		$newObj->setPermissions($_GET["ref_id"]);
 		$newObj->notify("new",$_GET["ref_id"],$_GET["parent_non_rbac_id"],$_GET["ref_id"],$newObj->getRefId());
-		
+
 		// create data directory, copy file to directory
 		$newObj->createDataDirectory();
 
@@ -137,20 +138,31 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 
 		ilUtil::unzip($file_path);
 
-		//validate the XML-Files in the SCORM-Package
-		if (!$newObj->validate($newObj->getDataDirectory()))
+		// check if manifest file exists
+		$manifest_file = $newObj->getDataDirectory()."/imsmanifest.xml";
+		if (!@is_file($manifest_file))
 		{
-			$this->ilias->raiseError("<b>Validation Error(s):</b><br>".$newObj->getValidationSummary(), $this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("cont_no_manifest"),
+				$this->ilias->error_obj->WARNING);
+		}
+
+		//validate the XML-Files in the SCORM-Package
+		if ($_POST["validate"] == "y")
+		{
+			if (!$newObj->validate($newObj->getDataDirectory()))
+			{
+				$this->ilias->raiseError("<b>Validation Error(s):</b><br>".$newObj->getValidationSummary(),
+					$this->ilias->error_obj->WARNING);
+			}
 		}
 
 		// start SCORM package parser
 		include_once ("content/classes/SCORM/class.ilSCORMPackageParser.php");
 		// todo determine imsmanifest.xml path here...
-		$manifest_file = $newObj->getDataDirectory()."/imsmanifest.xml";
 		$slmParser = new ilSCORMPackageParser($newObj, $manifest_file);
 		$slmParser->startParsing();
 
-		header("Location: adm_object.php?".$this->link_params);
+		header("Location: adm_object.php?cmd=view&ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 
