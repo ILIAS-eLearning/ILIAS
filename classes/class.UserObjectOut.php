@@ -3,7 +3,7 @@
 * Class UserObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.UserObjectOut.php,v 1.16 2003/03/20 00:32:40 shofmann Exp $
+* $Id$Id: class.UserObjectOut.php,v 1.17 2003/03/21 14:23:26 smeyer Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -240,7 +240,7 @@ class UserObjectOut extends ObjectOut
 		
 		// checks passed. save user		
 		$user = new User();
-		$user->setData($_POST["Fobject"]);
+		$user->assignData($_POST["Fobject"]);
 		
 		//create new UserObject
 		$userObj = new UserObject();
@@ -325,7 +325,7 @@ class UserObjectOut extends ObjectOut
 
 		// checks passed. save user
 		$user = new User($this->object->getId());
-		$user->setData($_POST["Fobject"]);
+		$user->assignData($_POST["Fobject"]);
 		$user->update();
 		$this->object->setTitle($user->getFullname());
 		$this->object->setDescription($user->getEmail());
