@@ -474,6 +474,17 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 				}
 				else
 				{
+					if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
+					{
+						foreach ($this->object->matchingpairs as $pdx => $pair)
+						{
+							if ($pair->getDefinitionId() == $solution_value->value2)
+							{
+								$size = GetImageSize ($this->object->getImagePath() . $pair->getPicture() . ".thumb.jpg", &$info);
+								$output = str_replace("<img border=\"0\" id=\"definition_" . $solution_value->value2 . "\"", "<img border=\"0\" id=\"definition_" . $solution_value->value2 . "\" " . $size[3], $output);
+							}
+						}
+					}
 					$output = str_replace("initial_value_" . $solution_value->value2, $solution_value->value1, $output);
 					if (($solution_value->value2 > 1) && ($solution_value->value1 > 1))
 					{

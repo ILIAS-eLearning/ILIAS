@@ -419,7 +419,7 @@ assessment#:#tst_type#:#Test type
 assessment#:#tst_type_changed#:#You have changed the test type. All previous processed tests have been deleted!
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!
 assessment#:#tst_types#:#Test types
-assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions (Apple Safari browser is not supported)
+assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_your_mark_is#:#Your mark is
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test

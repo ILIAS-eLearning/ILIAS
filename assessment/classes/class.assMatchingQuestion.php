@@ -1169,7 +1169,6 @@ class ASS_MatchingQuestion extends ASS_Question
 	{
 		global $ilDB;
 		global $ilUser;
-
 		$saveWorkingDataResult = $this->checkSaveData();
 		if ($saveWorkingDataResult)
 		{
