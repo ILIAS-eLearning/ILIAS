@@ -27,7 +27,9 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de>
-* $Id$Id: class.ilObjFolderGUI.php,v 1.27 2004/08/18 08:48:18 smeyer Exp $
+* $Id$
+*
+* @ilCtrl_Calls ilObjFolderGUI: ilConditionHandlerInterface
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -79,6 +81,22 @@ class ilObjFolderGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		switch ($next_class)
 		{
+			case "ilconditionhandlerinterface":
+				include_once './classes/class.ilConditionHandlerInterface.php';
+
+				if($_GET['item_id'])
+				{
+					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
+					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+					$this->ctrl->forwardCommand($new_gui);
+				}
+				else
+				{
+					$new_gui =& new ilConditionHandlerInterface($this);
+					$this->ctrl->forwardCommand($new_gui);
+				}
+				break;
+
 			default:
 				if (empty($cmd))
 				{

@@ -268,7 +268,7 @@ class ilRepositoryExplorer extends ilExplorer
 				}
 
 			case "grp":
-				return "content";
+				return "";
 
 			case "crs":
 				return "content";

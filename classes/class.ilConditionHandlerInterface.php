@@ -36,6 +36,8 @@
 
 class ilConditionHandlerInterface
 {
+	var $ctrl = null;
+
 	var $lng;
 	var $tpl;
 	var $tree;
@@ -48,14 +50,17 @@ class ilConditionHandlerInterface
 	var $target_title;
 	var $target_ref_id;
 
+	var $automatic_validation = true;
+
 	function ilConditionHandlerInterface(&$gui_obj,$a_ref_id = null)
 	{
-		global $lng,$tpl,$tree;
+		global $lng,$tpl,$tree,$ilCtrl;
 
 		include_once "./classes/class.ilConditionHandler.php";
 
 		$this->ch_obj =& new ilConditionHandler();
 
+		$this->ctrl =& $ilCtrl;
 		$this->gui_obj =& $gui_obj;
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
@@ -81,6 +86,32 @@ class ilConditionHandlerInterface
 		}
 		
 	}
+
+	function &executeCommand()
+	{
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+		switch ($next_class)
+		{
+			default:
+				if (empty($cmd))
+				{
+					$cmd = "view";
+				}
+				$this->$cmd();
+				break;
+		}
+	}
+
+	function setAutomaticValidation($a_status)
+	{
+		$this->automatic_validation = $a_status;
+	}
+	function getAutomaticValidation()
+	{
+		return $this->automatic_validation;
+	}
+
 	
 	/**
 	* set target id
@@ -169,18 +200,22 @@ class ilConditionHandlerInterface
 	/**
 	* get conditioni list
 	*/
-	function &chi_list()
+	function listConditions()
 	{
 		global $rbacsystem;
 
-		$operators = array(''			=> $this->lng->txt('condition_select_one'),
-						   'passed'		=> $this->lng->txt('condition_passed'));
+		$this->lng->loadLanguageModule('crs');
+
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_edit.html');
+
 
 		$tpl =& new ilTemplate("tpl.table.html", true, true);
 
 
 		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION",$this->gui_obj->ctrl->getFormAction($this->gui_obj));
+		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+
+		$tpl->setVariable("WIDTH",'width="60%"');
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("tbl_action_row");
@@ -191,18 +226,14 @@ class ilConditionHandlerInterface
 		{
 
 			$tpl->setCurrentBlock("tbl_action_btn");
-			$tpl->setVariable("BTN_NAME","chi_delete");
+			$tpl->setVariable("BTN_NAME","delete");
 			$tpl->setVariable("BTN_VALUE",$this->lng->txt("delete"));
 			$tpl->parseCurrentBlock();
 
-			$tpl->setCurrentBlock("plain_button");
-			$tpl->setVariable("PBTN_NAME","chi_update");
-			$tpl->setVariable("PBTN_VALUE",$this->lng->txt("condition_update"));
-			$tpl->parseCurrentBlock();
 		}
 
 		$tpl->setCurrentBlock("plain_button");
-		$tpl->setVariable("PBTN_NAME","chi_selector");
+		$tpl->setVariable("PBTN_NAME","selector");
 		$tpl->setVariable("PBTN_VALUE",$this->lng->txt("add_condition"));
 		$tpl->parseCurrentBlock();
 
@@ -225,14 +256,8 @@ class ilConditionHandlerInterface
 			$tpl->setVariable("OBJ_DESCRIPTION",$tmp_obj->getDescription());
 			$tpl->setVariable("ROWCOL", ilUtil::switchColor($counter++,"tblrow2","tblrow1"));
 
-			$tpl->setVariable("OBJ_CONDITION",ilUtil::formSelect($condition['operator'],
-																 "operator[".$condition['id']."]",
-																 $operators,
-																 false,
-																 true));
-
-			$tpl->setVariable("OBJ_VALUE_NAME","value[".$condition['id']."]");
-			$tpl->setVariable("OBJ_VALUE_VALUE",$condition['value']); 
+			$tpl->setVariable("OBJ_CONDITION",$this->lng->txt('condition_'.$condition['operator']));
+			$tpl->setVariable("OBJ_CONDITION_VALUE",$condition['value'] ? $condition['value'] : $this->lng->txt('crs_not_available')); 
 
 			$tpl->parseCurrentBlock();
 		}
@@ -242,6 +267,7 @@ class ilConditionHandlerInterface
 		include_once './classes/class.ilTableGUI.php';
 
 		$tbl =& new ilTableGUI();
+		$tbl->setStyle('table','std');
 
 		// title & header columns
 		$tbl->setTitle($this->getTargetTitle()." ".$this->lng->txt("preconditions"),"icon_".$this->getTargetType().".gif",
@@ -268,10 +294,12 @@ class ilConditionHandlerInterface
 		$tbl->setTemplate($tpl);
 		$tbl->render();
 
-		return $tpl->get();
+		$this->tpl->setVariable("PRECONDITION_TABLE",$tpl->get());
+
+		return true;
 	}
 
-	function chi_delete()
+	function delete()
 	{
 		if(!count($_POST['conditions']))
 		{
@@ -285,38 +313,91 @@ class ilConditionHandlerInterface
 			$this->ch_obj->deleteCondition($condition_id);
 		}
 		sendInfo($this->lng->txt('condition_deleted'));
+		$this->listConditions();
+
 		return true;
 	}
 	
-	function chi_selector($a_tpl_block = "content", $a_tpl_var = "OBJECTS")
+	function selector()
 	{
 		include_once ("classes/class.ilConditionSelector.php");
 
-		$this->tpl->setCurrentBlock($a_tpl_block);
-		$this->tpl->addBlockFile($a_tpl_var, "objects", "tpl.condition_selector.html");
+		$this->tpl->addBlockFile('ADM_CONTENT', "adm_content", "tpl.condition_selector.html");
 
 		sendInfo($this->lng->txt("condition_select_object"));
 
-		$exp = new ilConditionSelector($this->gui_obj->ctrl->getLinkTarget($this->gui_obj,'copySelector'));
+		$exp = new ilConditionSelector($this->ctrl->getLinkTarget($this,'copySelector'));
 		$exp->setExpand($_GET["condition_selector_expand"] ? $_GET["condition_selector_expand"] : $this->tree->readRootId());
-		$exp->setExpandTarget($this->gui_obj->ctrl->getLinkTarget($this->gui_obj,'chi_selector'));
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'selector'));
 		$exp->setTargetGet("ref_id");
 		$exp->setRefId($this->getTargetRefId());
+
 		$exp->addFilter('crs');
+		$exp->addFilter('tst');
+
 		$exp->setSelectableTypes($this->ch_obj->getTriggerTypes());
-		$exp->setControlClass($this->gui_obj);
+		$exp->setControlClass($this);
 		// build html-output
 		$exp->setOutput(0);
 
-		$this->tpl->setCurrentBlock("objects");
+		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function add()
+	{
+		// TODO: ONLY FOR REFERENCED OBJECTS
+		$tmp_source_obj =& ilObjectFactory::getInstanceByRefId((int) $_GET['source_id']);
+
+		include_once "./classes/class.ilConditionHandler.php";
+
+		$ch_obj =& new ilConditionHandler();
+		
+		$operators[] = $this->lng->txt('condition_select_one');
+		foreach($ch_obj->getOperatorsByTargetType($tmp_source_obj->getType()) as $operator)
+		{
+			$operators[$operator] = $this->lng->txt('condition_'.$operator);
+		} 
+
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.condition_handler_add.html');
+
+		// does not work in the moment
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTarget($this,'selector'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('new_selection'));
+		$this->tpl->parseCurrentBlock();
+
+		$this->ctrl->setParameter($this,'source_id',(int) $_GET['source_id']);
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("CSS_TABLE",'std');
+		$this->tpl->setVariable("WIDTH",'50%');
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_'.$this->getTargetType().'.gif'));
+		$this->tpl->setVariable("TBL_TITLE_ALT",$this->lng->txt('obj_',$this->getTargetType()));
+		
+
+		$this->tpl->setVariable("CONDITION_SELECT",ilUtil::formSelect('',
+																	  "operator",
+																	  $operators,
+																	  false,
+																	  true));
+
+		$title = $this->lng->txt('add_condition').' ('.$tmp_source_obj->getTitle().')';
+		unset($tmp_source_obj);
+
+		$this->tpl->setVariable("TBL_TITLE",$title);
+		
+		$this->tpl->setVariable("TXT_ADD",$this->lng->txt('add_condition'));
+		$this->tpl->setVariable("CMD_ADD",'assign');
+
+		return true;
+	}
+
+
 	/**
 	* assign new trigger condition to target
 	*/
-	function chi_assign($a_automatic_validation = true)
+	function assign()
 	{
 		if(!isset($_GET['source_id']))
 		{
@@ -324,18 +405,15 @@ class ilConditionHandlerInterface
 
 			return false;
 		}
-
-		// automatic determination of obj id and type works only for
-		// referenced objects
-		if ($this->getTargetRefId() > 0)
+		if(!strlen($_POST['operator']))
 		{
-			if(!$target_obj =& ilObjectFactory::getInstanceByRefId($this->getTargetRefId(),false))
-			{
-				echo 'ilConditionHandler: Target object does not exist';
-			}
-			$this->ch_obj->setTargetObjId($target_obj->getId());
-			$this->ch_obj->setTargetType($target_obj->getType());
+			sendInfo($this->lng->txt('no_operator_selected'));
+			$this->add();
+
+			return false;
 		}
+
+
 		$this->ch_obj->setTargetRefId($this->getTargetRefId());
 		$this->ch_obj->setTargetObjId($this->getTargetId());
 		$this->ch_obj->setTargetType($this->getTargetType());
@@ -348,10 +426,10 @@ class ilConditionHandlerInterface
 		$this->ch_obj->setTriggerRefId($trigger_obj->getRefId());
 		$this->ch_obj->setTriggerObjId($trigger_obj->getId());
 		$this->ch_obj->setTriggerType($trigger_obj->getType());
-		$this->ch_obj->setOperator('');
+		$this->ch_obj->setOperator($_POST['operator']);
 		$this->ch_obj->setValue('');
 
-		$this->ch_obj->enableAutomaticValidation($a_automatic_validation);
+		$this->ch_obj->enableAutomaticValidation($this->getAutomaticValidation());
 		if(!$this->ch_obj->storeCondition())
 		{
 			sendInfo($this->ch_obj->getErrorMessage());
@@ -360,6 +438,9 @@ class ilConditionHandlerInterface
 		{
 			sendInfo($this->lng->txt('added_new_condition'));
 		}
+
+		$this->listConditions();
+
 		return true;
 	}
 
@@ -379,6 +460,8 @@ class ilConditionHandlerInterface
 
 		}
 		sendInfo($this->lng->txt('conditions_updated'));
+		
+		$this->ctrl->returnToParent($this);
 
 		return true;
 	}

@@ -563,10 +563,7 @@ class ilCourseObjectivesGUI
 
 		$this->tpl->setVariable("OBJECTIVES_TABLE", $tpl->get());
 		
-
 		return true;
-
-
 	}
 
 	function assignLMChapter()

@@ -147,7 +147,6 @@ class ilRepositoryGUI
 		global $tree, $rbacsystem, $ilias, $lng;
 
 		$next_class = $this->ctrl->getNextClass($this);
-
 		/*if (empty($next_class))
 		{
 			// get object of current ref id

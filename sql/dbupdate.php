@@ -5500,3 +5500,8 @@ CREATE TABLE IF NOT EXISTS `crs_objective_tst` (
 ) TYPE=MyISAM;
 <#391>
 ALTER TABLE `crs_settings` ADD `abo` TINYINT( 2 ) DEFAULT '1';
+
+<#392>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

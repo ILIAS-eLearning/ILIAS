@@ -28,7 +28,7 @@
 * @author Stefan Meyer <smeyer@databay.de> 
 * $Id$
 *
-* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilCourseRegisterGUI, ilPaymentPurchaseGUI, ilCourseObjectivesGUI, ilConditionHandlerInterface
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -179,7 +179,7 @@ class ilObjCourseGUI extends ilObjectGUI
 		if($this->object->getContactEmail())
 		{
 			$this->tpl->setCurrentBlock("email_link");
-			$this->tpl->setVariable("EMAIL_LINK","mail_new.php?type=new&mail_data[rcp_to]=".$this->object->getContactEmail());
+			$this->tpl->setVariable("EMAIL_LINK","mail_new.php?type=new&rcp_to=".$this->object->getContactEmail());
 			$this->tpl->setVariable("CONTACT_EMAIL",$this->object->getContactEmail());
 			$this->tpl->parseCurrentBlock();
 		}
@@ -231,16 +231,18 @@ class ilObjCourseGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
 		}
 
-
-		#$this->tpl->addBlockFile("CONTENT_BLOCK", "htmlarea", "tpl.crs_htmleditor.html", true);
-		#$this->tpl->setCurrentBlock("htmlarea");
-		#$this->tpl->setVariable("CSS_PATH", ilUtil::getStyleSheetLocation());
-		#$this->tpl->setVariable("JAVASCRIPT_PATH", "./assessment/templates/default/javascript");
-		#$this->tpl->parseCurrentBlock();
-		#$this->tpl->setVariable("BODY_ATTRIBUTES", " onload=\"initEditor()\"");
-
+		$this->ctrl->setReturn($this,'editObject');
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_edit.html","course");
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		
+		// display button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK",$this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'));
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('preconditions'));
+		$this->tpl->parseCurrentBlock();
+
+
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 
@@ -501,9 +503,10 @@ class ilObjCourseGUI extends ilObjectGUI
 		$this->tpl->setVariable("CMD_SUBMIT","update");
 
 		$this->initConditionHandlerGUI($this->object->getRefId());
-		$this->tpl->setVariable("PRECONDITION_TABLE",$this->chi_obj->chi_list());
 
-
+		#$this->tpl->setVariable("PRECONDITION_TABLE",$this->chi_obj->chi_list());
+		#$this->ctrl->setReturn($this,'editObject');
+		#$this->tpl->setVariable("PRECONDITION_TABLE",$this->ctrl->forwardCommand($this->chi_obj));
 	}
 
 	function updateObject()
@@ -1005,7 +1008,7 @@ class ilObjCourseGUI extends ilObjectGUI
 						$this->lng->txt('crs_member_passed') :
 						$this->lng->txt('crs_member_not_passed');
 
-					$link_mail = "<a target=\"_blank\" href=\"mail_new.php?type=new&mail_data[rcp_to]=".
+					$link_mail = "<a target=\"_blank\" href=\"mail_new.php?type=new&rcp_to=".
 						$tmp_obj->getLogin()."\">".$img_mail."</a>";
 
 					$this->ctrl->setParameter($this,"member_id",$tmp_obj->getId());
@@ -2931,6 +2934,22 @@ class ilObjCourseGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($reg_gui);
 				break;
 
+			case "ilconditionhandlerinterface":
+				include_once './classes/class.ilConditionHandlerInterface.php';
+
+				if($_GET['item_id'])
+				{
+					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
+					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
+					$this->ctrl->forwardCommand($new_gui);
+				}
+				else
+				{
+					$new_gui =& new ilConditionHandlerInterface($this);
+					$this->ctrl->forwardCommand($new_gui);
+				}
+				break;
+
 			default:
 				if(!$rbacsystem->checkAccess("read",$this->object->getRefId()))
 				{
@@ -2965,7 +2984,7 @@ class ilObjCourseGUI extends ilObjectGUI
 	// STATIC
 	function _forwards()
 	{
-		return array("ilCourseRegisterGUI");
+		return array("ilCourseRegisterGUI",'ilConditionHandlerInterface');
 	}
 
 	// METHODS FOR COURSE CONTENT INTERFACE
@@ -3099,6 +3118,12 @@ class ilObjCourseGUI extends ilObjectGUI
 			$this->editObject();
 		}
 	}
-		
+	function chi_addObject()
+	{
+		$this->initConditionHandlerGUI($_GET['item_id'] ? $_GET['item_id'] : $this->object->getRefId());
+		$this->chi_obj->chi_add();
+
+		return true;
+	}		
 } // END class.ilObjCourseGUI
 ?>

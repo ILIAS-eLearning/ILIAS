@@ -103,7 +103,8 @@ class ilConditionSelector extends ilExplorer
 		{
 			#$this->ctrl->setParameterByClass('ilrepositorygui','source_id',$a_node_id);
 			$this->ctrl->setParameter($this->getControlClass(),'source_id',$a_node_id);
-			return $this->ctrl->getLinkTarget($this->getControlClass(),'chi_assign');
+			
+			return $this->ctrl->getLinkTarget($this->getControlClass(),'add');
 		}
 		else
 		{
