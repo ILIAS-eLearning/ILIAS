@@ -43,20 +43,27 @@ class ilPersonalDesktopGUI
 	*/
 	function displayLearningResources()
 	{
-		$lo_items = $this->ilias->account->getDesktopItems("lm");
 		$i = 0;
+		$types = array("lm", "dbk", "glo");
 
-		foreach ($lo_items as $lo_item)
+		foreach ($types as $type)
 		{
-			$i++;
-			$this->tpl->setCurrentBlock("tbl_lo_row");
-			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-			$this->tpl->setVariable("LO_LINK", "content/lm_presentation.php?ref_id=".$lo_item["id"].
-				"&obj_id=".$lo_item["parameters"]);
-			$this->tpl->setVariable("LO_TITLE", $lo_item["title"]);
-			$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=lm&id=".$lo_item["id"]);
-			$this->tpl->setVariable("TXT_DROP", "(".$this->lng->txt("drop").")");
-			$this->tpl->parseCurrentBlock();
+			$lo_items = $this->ilias->account->getDesktopItems($type);
+
+			foreach ($lo_items as $lo_item)
+			{
+				$i++;
+				$this->tpl->setCurrentBlock("tbl_lo_row");
+				$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+				$this->tpl->setVariable("LO_LINK", $lo_item["link"]);
+				$this->tpl->setVariable("LO_TARGET", $lo_item["target"]);
+				$img = "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
+					ilUtil::getImagePath("icon_".$lo_item["type"].".gif")."\">&nbsp;";
+				$this->tpl->setVariable("LO_TITLE", $img.$lo_item["title"]);
+				$this->tpl->setVariable("DROP_LINK", "usr_personaldesktop.php?cmd=dropItem&type=".$type."&id=".$lo_item["id"]);
+				$this->tpl->setVariable("TXT_DROP", "(".$this->lng->txt("drop").")");
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		if ($i == 0)
@@ -324,7 +331,8 @@ class ilPersonalDesktopGUI
 					break;
 
 				case "bm":
-					$this->tpl->setVariable("BM_TITLE", $bm_item["title"]);
+					$this->tpl->setVariable("BM_TITLE", "<img border=\"0\" vspace=\"0\" align=\"left\" src=\"".
+						ilUtil::getImagePath("icon_bm.gif")."\">&nbsp;".$bm_item["title"]);
 					$this->tpl->setVariable("BM_LINK", $bm_item["target"]);
 					break;
 			}
