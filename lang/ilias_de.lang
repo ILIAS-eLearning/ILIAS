@@ -316,13 +316,16 @@ common#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre eMail Adresse
 common#:#mail_compose#:#Nachricht erstellen
 common#:#mail_d_drafts#:#Entwürfe
 common#:#mail_delete_error#:#Fehler beim Löschen###28 Mar 2003 content changed
+common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
 common#:#mail_deleted_entry#:#Die Einträge wurden gelöscht
 common#:#mail_e_sent#:#Gesendete
+common#:#mail_email_forbidden#:#Sie sind nicht berechtigt eMails zu verschicken
 common#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
 common#:#mail_entry_changed#:#Der Eintrag wurde geändert
 common#:#mail_file_name#:#Dateiname
 common#:#mail_file_size#:#Dateigröße
+common#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
 common#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
 common#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 common#:#mail_folder_name#:#Ordnername
@@ -346,6 +349,7 @@ common#:#mail_move_to#:#Nachricht(en) verschieben
 common#:#mail_moved#:#Ihre Nachrichten wurden verschoben
 common#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
 common#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
+common#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
 common#:#mail_options_of#:#Einstellungen:
 common#:#mail_recipient_not_valid#:#Der Empfänger ist nicht gültig
@@ -361,6 +365,7 @@ common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_sure_delete#:#Sind Sie sicher, daß die markierten Nachrichten gelöscht werden sollen
 common#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge gelöscht werden sollen
+common#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen
 common#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gelöscht
 common#:#mail_system#:#Systemnachricht
 common#:#mail_to_search#:#Empfänger suchen
@@ -542,7 +547,7 @@ common#:#system_message#:#Systemnachricht
 common#:#test_intern#:#Interner Test
 common#:#time#:#Zeit
 common#:#title#:#Titel
-common#:#to#:#An
+common#:#to#:#An###04 Apr 2003 content changed
 common#:#today#:#Heute
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
@@ -584,8 +589,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-common#:#mail_email_forbidden#:#Sie sind nicht berechtigt eMails zu verschicken
-common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
-common#:#mail_sure_delete_file#:#Sind Sie sicher, daß die markierten Dateien gelöscht werden sollen
-common#:#mail_files_deleted#:#Die Datei(en) wurde(n) gelöscht
-common#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden

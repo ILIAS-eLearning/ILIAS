@@ -316,13 +316,16 @@ common#:#mail_check_your_email_addr#:#Your email address is not valid###29 Mar 2
 common#:#mail_compose#:#Compose Message###28 Mar 2003 new variable
 common#:#mail_d_drafts#:#Drafts###25 Mar 2003 new variable
 common#:#mail_delete_error#:#Error deleting mail(s)###25 Mar 2003 new variable
+common#:#mail_delete_error_file#:#Error deleting file###04 Apr 2003 new variable
 common#:#mail_deleted#:#The mail(s) have been deleted###25 Mar 2003 new variable
 common#:#mail_deleted_entry#:#The entries are deleted###28 Mar 2003 new variable
 common#:#mail_e_sent#:#Sent###25 Mar 2003 new variable
+common#:#mail_email_forbidden#:#You are not allowed to send email###04 Apr 2003 new variable
 common#:#mail_entry_added#:#Added new Entry###28 Mar 2003 new variable
 common#:#mail_entry_changed#:#The entry is changed###28 Mar 2003 new variable
 common#:#mail_file_name#:#Filename###03 Apr 2003 new variable
 common#:#mail_file_size#:#Filesize###03 Apr 2003 new variable
+common#:#mail_files_deleted#:#The file(s) are deleted###04 Apr 2003 new variable
 common#:#mail_folder_created#:#A new folder is created###28 Mar 2003 new variable
 common#:#mail_folder_exists#:#A folder already exists with this name###28 Mar 2003 new variable
 common#:#mail_folder_name#:#Folder name###28 Mar 2003 new variable
@@ -346,6 +349,7 @@ common#:#mail_move_to#:#Move mails to###25 Mar 2003 new variable
 common#:#mail_moved#:#The mail(s) have been moved###25 Mar 2003 new variable
 common#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash###28 Mar 2003 new variable
 common#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments###29 Mar 2003 new variable
+common#:#mail_no_attachments_found#:#No attachments found###04 Apr 2003 new variable
 common#:#mail_not_sent#:#Mail not sent!###20 Mar 2003 new variable
 common#:#mail_options_of#:#Options:###28 Mar 2003 new variable
 common#:#mail_recipient_not_valid#:#The recipient is not valid###29 Mar 2003 new variable
@@ -361,6 +365,7 @@ common#:#mail_send_error#:#Error sending mail###25 Mar 2003 new variable
 common#:#mail_sent#:#Mail successfully sent!###20 Mar 2003 new variable
 common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)###25 Mar 2003 new variable
 common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries###28 Mar 2003 new variable
+common#:#mail_sure_delete_file#:#The file will be removed permanently###04 Apr 2003 new variable
 common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently###28 Mar 2003 new variable
 common#:#mail_system#:#System Message###03 Apr 2003 new variable
 common#:#mail_to_search#:#To search###25 Mar 2003 new variable
@@ -542,7 +547,7 @@ common#:#system_message#:#messaggio di sistema
 common#:#test_intern#:#test interno
 common#:#time#:#ora
 common#:#title#:#titolo
-common#:#to#:#per:
+common#:#to#:#per:###04 Apr 2003 content changed
 common#:#today#:#today
 common#:#total#:#totale
 common#:#tpl_path#:#percorso template
