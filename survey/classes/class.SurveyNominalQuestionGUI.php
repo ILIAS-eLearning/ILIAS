@@ -278,6 +278,7 @@ class SurveyNominalQuestionGUI {
 		
 		$this->tpl->setCurrentBlock("question_data_nominal");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
+		$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
 		$this->tpl->parseCurrentBlock();
 	}
 	

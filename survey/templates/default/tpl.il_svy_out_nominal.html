@@ -1,16 +1,17 @@
 <!-- BEGIN question_data_nominal -->
+<div class="questionTitle">{QUESTION_TITLE}</div>
 <p>{QUESTIONTEXT}</p>
 <table class="nobackground">
 <!-- BEGIN nominal_row_sr -->
 <tr>
-<td class="nobackground" width="1%"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_NOMINAL}" id="{VALUE_NOMINAL}"{CHECKED_NOMINAL} /></td>
-<td class="nobackground"><label for="{VALUE_NOMINAL}">{TEXT_NOMINAL}</label></td>
+<td class="nobackground" width="1%"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_NOMINAL}" id="{QUESTION_ID}_{VALUE_NOMINAL}"{CHECKED_NOMINAL} /></td>
+<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_NOMINAL}">{TEXT_NOMINAL}</label></td>
 </tr>
 <!-- END nominal_row_sr -->
 <!-- BEGIN nominal_row_mr -->
 <tr>
-<td class="nobackground" width="1%"><input type="checkbox" name="{QUESTION_ID}_value[]" value="{VALUE_NOMINAL}" id="{VALUE_NOMINAL}"{CHECKED_NOMINAL} /></td>
-<td class="nobackground"><label for="{VALUE_NOMINAL}">{TEXT_NOMINAL}</label></td>
+<td class="nobackground" width="1%"><input type="checkbox" name="{QUESTION_ID}_value[]" value="{VALUE_NOMINAL}" id="{QUESTION_ID}_{VALUE_NOMINAL}"{CHECKED_NOMINAL} /></td>
+<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_NOMINAL}">{TEXT_NOMINAL}</label></td>
 </tr>
 <!-- END nominal_row_mr -->
 </table>

@@ -170,6 +170,7 @@ class SurveyTextQuestionGUI {
 	{
 		$this->tpl->setCurrentBlock("question_data_text");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
+		$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
 		$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
 		if (is_array($working_data))

@@ -1025,9 +1025,9 @@ div.ilc_TableOfContents
 	padding: 2em;
 }
 
-.surveyTitle {
-	border-bottom: thin solid #333333;
-	font-size: 14px;
-	font-weight: bold;
-	padding-bottom: 0.5em;
+.questionblockTitle {
+	margin-bottom: 10px;
+	border: thin ridge #cccccc;
+	background: #cccccc;
+	padding: 5px;
 }

@@ -362,6 +362,7 @@ class SurveyOrdinalQuestionGUI {
 		}
 		$this->tpl->setCurrentBlock("question_data_ordinal");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
+		$this->tpl->setVariable("QUESTION_TITLE", $this->object->getTitle());
 		$this->tpl->parseCurrentBlock();
 	}
 
