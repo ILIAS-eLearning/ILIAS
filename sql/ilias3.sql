@@ -509,7 +509,7 @@ CREATE TABLE `grp_tree` (
 #
 
 CREATE TABLE `int_link` (
-  `source_type` char(4) NOT NULL default '',
+  `source_type` varchar(10) NOT NULL default '',
   `source_id` int(11) NOT NULL default '0',
   `target_type` char(4) NOT NULL default '',
   `target_id` int(11) NOT NULL default '0',
@@ -3571,7 +3571,7 @@ CREATE TABLE `settings` (
 INSERT INTO `settings` VALUES ('admin_position', '');
 INSERT INTO `settings` VALUES ('admin_title', '');
 INSERT INTO `settings` VALUES ('convert_path', '');
-INSERT INTO `settings` VALUES ('db_version', '66');
+INSERT INTO `settings` VALUES ('db_version', '67');
 INSERT INTO `settings` VALUES ('admin_institution', '');
 INSERT INTO `settings` VALUES ('ilias_version', '3.0.0_beta1');
 INSERT INTO `settings` VALUES ('inst_info', '');
