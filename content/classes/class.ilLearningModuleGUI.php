@@ -36,22 +36,17 @@ require_once("classes/class.ilObjLearningModuleGUI.php");
 */
 class ilLearningModuleGUI extends ilObjLearningModuleGUI
 {
-	var $tree;
 	var $lm_obj;
-	var $ilias;
-	var $tpl;
-	var $lng;
-	var $objDefinition;
 	var $lm_tree;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLearningModuleGUI($a_id = 0)
+	function ilLearningModuleGUI($a_ref_id = 0)
 	{
-		parent::ilObjLearningModuleGUI("", $a_id, false,false);
-		if($a_id != 0)
+		parent::ilObjLearningModuleGUI("", $a_ref_id, true, false);
+		if($a_ref_id != 0)
 		{
 			$this->lm_tree =& $this->object->getLMTree();
 		}
@@ -67,15 +62,16 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		//$this->read(); todo
 	}
 
+	/*
 	function setLearningModuleObject(&$a_lm_obj)
 	{
 		$this->lm_obj =& $a_lm_obj;
 		//$this->obj =& $this->lm_obj;
-	}
+	}*/
 
 	function view()
 	{
-		
+
 	}
 
 	function chapters()
@@ -85,14 +81,14 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.structure_edit.html", true);
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->object->getId()."&cmd=post");
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_chapters"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
 
 		$cnt = 0;
-		$childs = $this->lm_tree->getChilds($this->tree->getRootId());
+		$childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
 		foreach ($childs as $child)
 		{
 			if($child["type"] != "st")
@@ -110,7 +106,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_cat.gif"));
 
 			// type
-			$link = "lm_edit.php?cmd=view&lm_id=".$this->object->getId()."&obj_id=".
+			$link = "lm_edit.php?cmd=view&ref_id=".$this->object->getRefId()."&obj_id=".
 				$child["obj_id"];
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
@@ -160,14 +156,14 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		$num = 0;
 
 		$this->tpl->setCurrentBlock("form");
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&backcmd=pages&cmd=post");
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&backcmd=pages&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_pages"));
 		$this->tpl->setVariable("CONTEXT", $this->lng->txt("context"));
 		$this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
 
 		$cnt = 0;
-		$pages = ilPageObject::getPageList($this->lm_obj->getId());
+		$pages = ilPageObject::getPageList($this->object->getId());
 		foreach ($pages as $page)
 		{
 			$this->tpl->setCurrentBlock("table_row");
@@ -180,7 +176,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_le.gif"));
 
 			// type
-			$link = "lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$link = "lm_edit.php?cmd=view&ref_id=".$this->object->getRefId()."&obj_id=".
 				$page["obj_id"];
 			$this->tpl->setVariable("LINK_TARGET", $link);
 
@@ -253,8 +249,8 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", true);
 
 		sendInfo($this->lng->txt("info_delete_sure"));
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&backcmd=".$_GET["backcmd"]."&cmd=post");
+		$this->tpl->setVariable("FORMACTION", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&backcmd=".$_GET["backcmd"]."&cmd=post");
 		// BEGIN TABLE HEADER
 		$this->tpl->setCurrentBlock("table_header");
 		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
@@ -299,14 +295,14 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 	{
 		session_unregister("saved_post");
 
-		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&lm_id=".$this->lm_obj->getId());
+		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->object->getRefId());
 		exit();
 
 	}
 
 	function confirmedDelete()
 	{
-		$tree = new ilTree($_GET["lm_id"]);
+		$tree = new ilTree($this->object->getId());
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
 
@@ -327,7 +323,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		// feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 
-		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&lm_id=".$this->lm_obj->getId());
+		header("location: lm_edit.php?cmd=".$_GET["backcmd"]."&ref_id=".$this->object->getRefId());
 		exit();
 	}
 
@@ -410,21 +406,44 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 
 	function editMeta()
 	{
+		require_once("classes/class.ilMetaDataGUI.php");
 		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setLMObject($this->lm_obj);
-		$meta_gui->setObject($this->lm_obj);
-		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&cmd=saveMeta");
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
+			$this->object->getRefId()."&cmd=saveMeta");
 	}
 
 	function saveMeta()
 	{
+		require_once("classes/class.ilMetaDataGUI.php");
 		$meta_gui =& new ilMetaDataGUI();
-		$meta_gui->setLMObject($this->lm_obj);
-		$meta_gui->setObject($this->lm_obj);
+		$meta_gui->setObject($this->object);
 		$meta_gui->save();
-		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId());
+		header("location: lm_edit.php?cmd=view&ref_id=".$this->object->getRefId());
 	}
 
+	function perm()
+	{
+		$this->setFormAction("addRole", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=addRole");
+		$this->setFormAction("permSave", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=permSave");
+		$this->permObject();
+	}
+
+	function permSave()
+	{
+		$this->setReturnLocation("permSave", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
+		$this->permSaveObject();
+	}
+
+	function addRole()
+	{
+		$this->setReturnLocation("addRole", "lm_edit.php?ref_id=".$this->object->getRefId()."&cmd=perm");
+		$this->addRoleObject();
+	}
+
+	function owner()
+	{
+		$this->ownerObject();
+	}
 }
 ?>

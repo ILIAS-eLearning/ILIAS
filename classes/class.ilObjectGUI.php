@@ -83,7 +83,9 @@ class ilObjectGUI
 	var $object;
 	var $ref_id;
 	var $obj_id;
-	var $maxcount;	// contains number of child objects
+	var $maxcount;			// contains number of child objects
+	var $formaction;		// special formation (array "cmd" => "formaction")
+	var $return_location;	// special return location (array "cmd" => "location")
 
 	/**
 	* Constructor
@@ -101,6 +103,8 @@ class ilObjectGUI
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
 		$this->tree =& $tree;
+		$this->formaction = array();
+		$this->return_location = array();
 
 		$this->data = $a_data;
 		$this->id = $a_id;
@@ -144,33 +148,33 @@ class ilObjectGUI
 		// TODO: init better move to inc.header.php
 		$_GET["offset"] = intval($_GET["offset"]);
 		$_GET["limit"] = intval($_GET["limit"]);
-		
+
 		if ($_GET["limit"] == 0)
 		{
 			$_GET["limit"] = 10;	// TODO: move to user settings
 		}
-		
+
 		// set default sort column
 		if (empty($_GET["sort_by"]))
 		{
 			// TODO: init sort_by better in obj class?
-			if ($this->object->getType() == "usrf" 
+			if ($this->object->getType() == "usrf"
 				or $this->object->getType() == "rolf")
 			{
 				$_GET["sort_by"] = "name";
 			}
 			elseif ($this->object->getType() == "typ")
 			{
-				$_GET["sort_by"] = "operation";			
+				$_GET["sort_by"] = "operation";
 			}
 			elseif ($this->object->getType() == "lngf")
 			{
-				$_GET["sort_by"] = "language";			
+				$_GET["sort_by"] = "language";
 			}
 			else
 			{
-				$_GET["sort_by"] = "title";			
-			}			
+				$_GET["sort_by"] = "title";
+			}
 		}
 	}
 
@@ -181,7 +185,7 @@ class ilObjectGUI
 	function setAdminTabs()
 	{
 		global $rbacsystem;
-		
+
 		$tabs = array();
 		$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
 		$d = $this->objDefinition->getProperties($this->type);
@@ -747,7 +751,7 @@ class ilObjectGUI
 			$actions = $objDefinition->getActions($object->getType());
 			
 			
-				
+
 			if ($actions["link"]["exec"] == 'false')
 			{
 				$no_link[] = $object->getType();
@@ -777,7 +781,7 @@ class ilObjectGUI
 		}
 
 		$_SESSION["clipboard"] = $clipboard;
-		
+
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 
@@ -1189,6 +1193,26 @@ class ilObjectGUI
 		exit();
 	}
 
+	function importObject()
+	{
+		global $rbacsystem;
+
+		// CHECK ACCESS 'write' of role folder
+		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"], $_POST["new_type"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no permission"),$this->ilias->error_obj->WARNING);
+		}
+		$imp_obj =$this->objDefinition->getImportObjects($this->object->getType());
+		if(!in_array($_POST["new_type"], $imp_obj))
+		{
+			$this->ilias->raiseError($this->lng->txt("no import"),
+				$this->ilias->error_obj->MESSAGE);
+		}
+		// no general implementation of this feature, the specialized classes
+		// must provide further processing
+	}
+
+
 	/**
 	* edit object
 	*
@@ -1276,14 +1300,14 @@ class ilObjectGUI
 
 			// GET ALL LOCAL ROLE IDS
 			$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
-			
+
 			$local_roles = array();
 
 			if ($role_folder)
 			{
 				$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
 			}
-				
+
 			foreach ($parentRoles as $r)
 			{
 				$data["rolenames"][] = $r["title"];
@@ -1304,7 +1328,7 @@ class ilObjectGUI
 			foreach ($ope_list as $key => $operation)
 			{
 				$opdata = array();
-				
+
 				// skip 'create' permission because an object permission 'create' makes no sense
 				if ($operation["operation"] != "create")
 				{
@@ -1325,7 +1349,7 @@ class ilObjectGUI
 		{
 			$this->ilias->raiseError("No permission to change permissions",$this->ilias->error_obj->WARNING);
 		}
-		
+
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
 		$permission = $rolf_data ? 'write' : 'create';
 		$rolf_id = $rolf_data["obj_id"] ? $rolf_data["obj_id"] : $this->object->getRefId();
@@ -1347,7 +1371,7 @@ class ilObjectGUI
 		/////////////////////
 		// START DATA OUTPUT
 		/////////////////////
-		
+
 		$this->getTemplateFile("perm");
 		$this->tpl->setCurrentBlock("tableheader");
 		$this->tpl->setVariable("TXT_PERMISSION", $this->lng->txt("permission"));
@@ -1373,11 +1397,11 @@ class ilObjectGUI
 
 			$num++;
 		}
-		
+
 		// save num for required column span and the end of parsing
 		$colspan = $num + 1;
 		$num = 0;
-		
+
 		// offer option 'stop inheritance' only to those objects where this option is permitted
 		if ($objDefinition->stopInheritance($this->type))
 		{
@@ -1385,7 +1409,7 @@ class ilObjectGUI
 			$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		foreach ($data["permission"] as $ar_perm)
 		{
 			foreach ($ar_perm["values"] as $box)
@@ -1410,16 +1434,70 @@ class ilObjectGUI
 		$this->tpl->setCurrentBlock("LOCAL_ROLE");
 		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 		$this->tpl->setVariable("MESSAGE_BOTTOM", $this->lng->txt("you_may_add_local_roles"));
-		$this->tpl->setVariable("FORMACTION_LR","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole");
+		$this->tpl->setVariable("FORMACTION_LR",
+			$this->getFormAction("addRole", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole"));
 
 		$this->tpl->parseCurrentBlock();
 
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION","adm_object.php?".$this->link_params."&cmd=permSave");
+		$this->tpl->setVariable("FORMACTION",
+			$this->getFormAction("permSave","adm_object.php?".$this->link_params."&cmd=permSave"));
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("COL_ANZ",$colspan);
 		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	* get form action for command (command is method name without "Object", e.g. "perm")
+	* @paran	string		$a_cmd		command
+	* @param	string		$a_cmd		default formaction (is returned, if no special
+	*									formaction was set)
+	*/
+	function getFormAction($a_cmd, $a_formaction ="")
+	{
+		if($this->formaction[$a_cmd] != "")
+		{
+			return $this->formaction[$a_cmd];
+		}
+		else
+		{
+			return $a_formaction;
+		}
+	}
+
+	/**
+	* set specific form action for command
+	*/
+	function setFormAction($a_cmd, $a_formaction)
+	{
+		$this->formaction[$a_cmd] = $a_formaction;
+	}
+
+	/**
+	* get return location for command (command is method name without "Object", e.g. "perm")
+	* @paran	string		$a_cmd		command
+	* @param	string		$a_cmd		default return location (is returned, if no special
+	*									return location was set)
+	*/
+	function getReturnLocation($a_cmd, $a_location ="")
+	{
+		if($this->return_location[$a_cmd] != "")
+		{
+			return $this->return_location[$a_cmd];
+		}
+		else
+		{
+			return $a_location;
+		}
+	}
+
+	/**
+	* set specific return location for command
+	*/
+	function setReturnLocation($a_cmd, $a_location)
+	{
+		$this->return_location[$a_cmd] = $a_location;
 	}
 
 	/**
@@ -1504,7 +1582,8 @@ class ilObjectGUI
 		}// END STOP INHERIT
 	
 		sendinfo($this->lng->txt("saved_successfully"),true);	
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
+		header("Location: ".$this->getReturnLocation("permSave",
+			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
 		exit();
 	}
 
@@ -1547,7 +1626,7 @@ class ilObjectGUI
 
 		// create table
 		$tbl = new ilTableGUI();
-		
+
 		// title & header columns
 		$tbl->setTitle($this->object->getTitle(),"icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
@@ -1735,7 +1814,7 @@ class ilObjectGUI
 	function viewObject()
 	{
 		global $tree,$rbacsystem,$lng;
-		
+
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -1756,7 +1835,7 @@ class ilObjectGUI
 			{
 				continue;
 			}
-				
+
 			//visible data part
 			$this->data["data"][] = array(
 										"type" => $val["type"],
@@ -1765,11 +1844,11 @@ class ilObjectGUI
 										"last_change" => $val["last_update"],
 										"ref_id" => $val["ref_id"]
 										);
-				
+
 			//control information is set below
 
 	    } //foreach
-		
+
 		$this->maxcount = count($this->data["data"]);
 		// sorting array
 		require_once "./include/inc.sort.php";
@@ -1782,12 +1861,12 @@ class ilObjectGUI
 			$this->data["ctrl"][$key] = array(
 											"type" => $val["type"],
 											"ref_id" => $val["ref_id"]
-											);		
+											);
 
 			unset($this->data["data"][$key]["ref_id"]);
 						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
-		
+
 		$this->displayList();
 	}
 
@@ -2047,10 +2126,11 @@ class ilObjectGUI
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
 
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
+		header("Location: ".$this->getReturnLocation("addRole",
+			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm"));
 		exit();
 	}
-	
+
 	/**
 	* show possible action (form buttons)
 	*
@@ -2095,7 +2175,7 @@ class ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		
+
 		if ($with_subobjects === true)
 		{
 			$this->showPossibleSubObjects();
@@ -2113,6 +2193,8 @@ class ilObjectGUI
 	function showPossibleSubObjects()
 	{
 		$d = $this->objDefinition->getSubObjects($_GET["type"]);
+
+		$import = false;
 
 		if (count($d) > 0)
 		{
@@ -2133,12 +2215,26 @@ class ilObjectGUI
 				if ($row["max"] == "" || $count < $row["max"])
 				{
 					$subobj[] = $row["name"];
+					if($row["import"] == "1")	// import allowed?
+					{
+						$import = true;
+					}
 				}
 			}
 		}
 
 		if (is_array($subobj))
 		{
+			// show import button if at least one
+			// object type can be imported
+			if ($import)
+			{
+				$this->tpl->setCurrentBlock("import_object");
+				$this->tpl->setVariable("BTN_IMP", "import");
+				$this->tpl->setVariable("TXT_IMP", $this->lng->txt("import"));
+				$this->tpl->parseCurrentBlock();
+			}
+
 			//build form
 			$opts = ilUtil::formSelect(12,"new_type",$subobj);
 			$this->tpl->setCurrentBlock("add_object");
@@ -2159,7 +2255,6 @@ class ilObjectGUI
  	*/
 	function getTemplateFile($a_cmd,$a_type = "")
 	{
-		// <get rid of $_GET variable
 		if (!$a_type)
 		{
 			$a_type = $_GET["type"];

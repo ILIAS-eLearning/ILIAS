@@ -62,7 +62,6 @@ class ilMetaDataGUI
 	{
 		$this->obj =& $a_obj;
 		$this->meta_obj =& $this->obj->getMetaData();
-
 	}
 
 	/**

@@ -50,7 +50,7 @@ class ilLMPresentationGUI
 
 		// Todo: check lm id
 
-		$this->lm =& new ilLearningModule($_GET["lm_id"]);
+		$this->lm =& new ilLearningModule($_GET["ref_id"]);
 
 		$this->$cmd();
 	}
@@ -146,7 +146,7 @@ class ilLMPresentationGUI
 	function ilTOC($a_target)
 	{
 		require_once("./content/classes/class.ilLMTOCExplorer.php");
-		$exp = new ilLMTOCExplorer("lm_presentation.php?cmd=layout&frame=$a_target&lm_id=".$this->lm->getId(),$this->lm);
+		$exp = new ilLMTOCExplorer("lm_presentation.php?cmd=layout&frame=$a_target&ref_id=".$this->lm->getRefId(),$this->lm);
 		$exp->setTargetGet("obj_id");
 		$exp->setFrameTarget($a_target);
 		$exp->addFilter("du");
@@ -173,7 +173,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "lm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
-			"&lm_id=".$this->lm->getId()."&mexpand=".$_GET["mexpand"]);
+			"&ref_id=".$this->lm->getRefId()."&mexpand=".$_GET["mexpand"]);
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -211,7 +211,7 @@ class ilLMPresentationGUI
 					if(!empty($attributes["name"]))
 					{
 						$a_content .= "<frame name=\"".$attributes["name"]."\" ".
-							"src=\"lm_presentation.php?lm_id=".$this->lm->getId()."&cmd=layout&frame=".$attributes["name"]."\" />\n";
+							"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."\" />\n";
 					}
 					else	// ok, no name means that we can easily output the frameset tag
 					{
@@ -223,7 +223,7 @@ class ilLMPresentationGUI
 				else	// frame with
 				{
 					$a_content .= "<frame name=\"".$attributes["name"]."\" ".
-						"src=\"lm_presentation.php?lm_id=".$this->lm->getId()."&cmd=layout&frame=".$attributes["name"]."\" />\n";
+						"src=\"lm_presentation.php?ref_id=".$this->lm->getRefId()."&cmd=layout&frame=".$attributes["name"]."\" />\n";
 				}
 			}
 		}
