@@ -4079,19 +4079,19 @@ survey#:#start_survey#:#Umfrage beginnen
 survey#:#subject_mail_survey_id#:#Ihr Umfragecode für "%s
 survey#:#subtype#:#Untertyp
 survey#:#survey_code_message_sent#:#In Ihren Posteingang wurde ein Umfragecode gesendet, der es Ihnen erlaubt, die Umfrage fortzusetzen, falls Sie sie unterbrechen!
-survey#:#survey_finish#:#Speichern und Umfrage beenden >>>
+survey#:#survey_finish#:#Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
 survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
-survey#:#survey_next#:#Speichern und weiter >>>
+survey#:#survey_next#:#Weiter >>>
 survey#:#survey_offline_message#:#Es können keine Nutzerinnen eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
-survey#:#survey_previous#:#<<< Speichern und zurück
+survey#:#survey_previous#:#<<< Zurück
 survey#:#survey_questions#:#Fragen
 survey#:#survey_skip_finish#:#Überspringen und Umfrage beenden >>>
 survey#:#survey_skip_next#:#Überspringen und weiter >>>
 survey#:#survey_skip_previous#:#<<< Überspringen und zurück
 survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
-survey#:#survey_start#:#<<< Speichern und zur Startseite
+survey#:#survey_start#:#<<< Zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_create_export_file#:#Exportdatei erzeugen
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
