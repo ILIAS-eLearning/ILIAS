@@ -53,7 +53,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="dbk" class_name="DlBook" module="content" checkbox="1" inherit="1" translate="0">
+<object name="dbk" class_name="DlBook" module="content" checkbox="1" inherit="1" translate="0" allow_link="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="properties" module="1">properties</property>
 	<property name="view">subobjects</property>
@@ -96,7 +96,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="frm" class_name="Forum" checkbox="1" inherit="1" translate="0">
+<object name="frm" class_name="Forum" checkbox="1" inherit="1" translate="0" allow_link="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -132,7 +132,7 @@
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
 </object>
-<object name="lm" class_name="LearningModule" module="content" checkbox="1" inherit="1" translate="0">
+<object name="lm" class_name="LearningModule" module="content" checkbox="1" inherit="1" translate="0" allow_link="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view" module="n">view</property>
 	<property name="properties" module="1">properties</property>
@@ -143,14 +143,14 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="slm" class_name="SCORMLearningModule" checkbox="1" inherit="1" translate="0">
+<object name="slm" class_name="SCORMLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 </object>
-<object name="glo" class_name="Glossary" module="content" checkbox="1" inherit="1" translate="0">
+<object name="glo" class_name="Glossary" module="content" checkbox="1" inherit="1" translate="0" allow_link="1">
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="listTerms" module="1">cont_terms</property>
 	<property name="view">view_content</property>
@@ -283,7 +283,7 @@
 <object name="sty" class_name="StyleSheet" checkbox="1" inherit="0" translate="0">
 	<property name="view">cont_content</property>
 </object>
-<object name="exc" class_name="Exercise" checkbox="1" inherit="1">
+<object name="exc" class_name="Exercise" checkbox="1" inherit="1" allow_link="1">
 	<property name="view">view</property>
 	<property name="edit">edit_properties</property>
 	<property name="members">show_members</property>

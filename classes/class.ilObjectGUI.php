@@ -544,7 +544,7 @@ class ilObjectGUI
 		foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 		{
 			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
-
+			
 			// CHECK ACCESS
 			if (!$rbacsystem->checkAccess('create', $_GET["ref_id"], $obj_data->getType()))
 			{
@@ -877,9 +877,8 @@ class ilObjectGUI
 			}
 
 			$object =& $this->ilias->obj_factory->getInstanceByRefId($ref_id);
-			$actions = $this->objDefinition->getActions($object->getType());
-			
-			if ($actions["link"]["exec"] == 'false')
+
+			if (!$this->objDefinition->allowLink($object->getType()))
 			{
 				$no_link[] = $object->getType();
 			}
@@ -894,8 +893,17 @@ class ilObjectGUI
 
 		if (count($no_link))
 		{
-			$this->ilias->raiseError($this->lng->txt("msg_not_possible_link")." ".
-									 implode(',',$no_link),$this->ilias->error_obj->MESSAGE);
+			$no_link = array_unique($no_link);
+
+			foreach ($no_link as $type)
+			{
+				$txt_objs[] = $this->lng->txt("objs_".$type);
+			}
+
+			$this->ilias->raiseError(implode(', ',$txt_objs)." ".$this->lng->txt("msg_obj_no_link"),$this->ilias->error_obj->MESSAGE);
+
+			//$this->ilias->raiseError($this->lng->txt("msg_not_possible_link")." ".
+			//						 implode(',',$no_link),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// WRITE TO CLIPBOARD
