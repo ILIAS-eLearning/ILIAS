@@ -114,10 +114,15 @@ $module_dir = ($module == "")
 $class_constr = "ilObj".$class_name."GUI";
 require_once("./".$module_dir."classes/class.ilObj".$class_name."GUI.php");
 //echo $class_constr.":".$method;
-if (strcmp($_GET["cmd"], "run")) {
-	$prepare_output = true;
-} else {
-	$prepare_output = false;
+switch ($_GET["cmd"]) 
+{
+	case "run":
+	case "eval_a":
+		$prepare_output = false;
+		break;
+	default:
+		$prepare_output = true;
+		break;
 }
 $obj = new $class_constr($data, $id, $call_by_reference, $prepare_output);
 $obj->$method();
