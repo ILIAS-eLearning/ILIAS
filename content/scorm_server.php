@@ -24,8 +24,8 @@
 /**
 * scorm learning module presentation script
 *
-* @author Ralph Barthel <ralph.barthel@21ll.com> , 21 LearnLine AG
-* @version $Id: scorm_server.php,v 1.0 2003/08/12
+* @author Alex Killing <alex.killing@gmx.de>
+* @version $Id$
 *
 * @package content
 */
@@ -39,49 +39,11 @@ $cmd = ($_GET["cmd"] == "")
 	? $_POST["cmd"]
 	: $_GET["cmd"];
 
-
-if ($api == 2)
-{
-	require_once "./include/inc.header.php";
-	require_once "./content/classes/SCORM/class.ilObjSCORMTracking2.php";
-	$track = new ilObjSCORMTracking2();
-	$track->$cmd();
-	exit;
-}
-
-session_id($_GET["PHPSESSID"]);
 require_once "./include/inc.header.php";
-
 require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
-require_once "./content/classes/SCORM/class.ilObjDebug.php";
-$scorm_communication=new ilObjSCORMTracking($_GET["user_id"],$_GET["item_id"]);
-
+$track = new ilObjSCORMTracking();
+$track->$cmd();
 exit;
 
-$debug = new ilObjDebug("/srv/ilias/www/ilias3_cvs/debug/debug.scorm_server");
-
-if (isset($_GET["value"])) //setValue Call
-{
-	//fehler $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].','.$_GET["value"].'");';
-	$temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].'","'.$_GET["value"].'");';
-	$debug->debug("Method: ".$temp);
-	$retval=eval("$temp");
-	$debug->debug("ReturnValue: ".$retval);
-
-	return $retval;
-
-}
-else
-{
-	if ($_GET["var"]=="null") {
-		$temp='$scorm_communication->'.$_GET["function"].'("");';
-	}	else {
-		$temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].'");';
-		}
-		$debug->debug("Method: ".$temp);
-	$retval=eval("$temp");
-	$debug->debug("ReturnValue: ".$retval);
-	return $retval;
-}
 
 ?>

@@ -246,16 +246,11 @@ class ilSCORMPresentationGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if($ilUser->getFirstName() == "Joe")	// for test purpose
-		{
-			$this->tpl->setCurrentBlock("credit");
-			$this->tpl->setVariable("CREDIT_MODE", "normal");
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$query = "SELECT * FROM scorm_tracking2 WHERE".
+		$query = "SELECT * FROM scorm_tracking WHERE".
 			" user_id = ".$ilDB->quote($ilUser->getId()).
 			" AND sco_id = ".$ilDB->quote($sco_id);
+
+
 		$val_set = $ilDB->query($query);
 		$re_value = array();
 		while($val_rec = $val_set->fetchRow(DB_FETCHMODE_ASSOC))
@@ -334,6 +329,30 @@ class ilSCORMPresentationGUI
 					$this->setArray("cmi.interactions", $value, "latency", $re_value);
 					break;
 			}
+		}
+
+		// lesson mode
+		$lesson_mode = $this->slm->getDefaultLessonMode();
+		if ($this->slm->getAutoReview())
+		{
+			if ($re_value["cmi.core.lesson_status"] == "completed" ||
+				$re_value["cmi.core.lesson_status"] == "passed" ||
+				$re_value["cmi.core.lesson_status"] == "failed")
+			{
+				$lesson_mode = "review";
+			}
+		}
+		$this->tpl->setVariable("LESSON_MODE", $lesson_mode);
+
+		// credit mode
+		if ($lesson_mode == "normal")
+		{
+			$this->tpl->setVariable("CREDIT_MODE",
+				str_replace("_", " ", $this->slm->getCreditMode()));
+		}
+		else
+		{
+			$this->tpl->setVariable("CREDIT_MODE", "no credit");
 		}
 
 		// init cmi.core.total_time, cmi.core.lesson_status and cmi.core.entry
