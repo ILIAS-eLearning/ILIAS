@@ -69,7 +69,7 @@ class ilObjGroup extends ilObject
 	* @param	integer	user id of new member
 	* @param	integer	member status [0=member|1=admin]
 	*/
-	function joinGroup($a_user_id, $a_memStatus)
+	function join($a_user_id, $a_memStatus)
 	{
 		global $rbacadmin, $rbacsystem;
 
@@ -111,7 +111,7 @@ class ilObjGroup extends ilObject
 	* @param	integer	user-Id
 	* @param	integer group-Id
 	*/
-	function leaveGroup($a_user_id, $a_grpId="")
+	function leave($a_user_id, $a_grpId="")
 	{
 		global $rbacadmin, $rbacsystem, $rbacreview;
 
@@ -397,8 +397,8 @@ class ilObjGroup extends ilObject
 	{
 		if(isset($a_user_id) && isset($a_member_status))
 		{
-			$this->leaveGroup($a_user_id);
-			$this->joinGroup($a_user_id,$a_member_status);
+			$this->leave($a_user_id);
+			$this->join($a_user_id,$a_member_status);
 		}
 	}
 
@@ -540,47 +540,6 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
-	* get
-	* @access	public
-	* @param	integer	group id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function getContextPath2($a_endnode_id, $a_startnode_id = 0)
-	{
-		global $tree;
-
-		$path = "";		
-
-		$tmpPath = $tree->getPathFull($a_endnode_id, $a_startnode_id);		
-
-		// count -1, to exclude the forum itself
-		for ($i = 0; $i < (count($tmpPath) - 1); $i++)
-		{
-			if ($path != "")
-			{
-				$path .= " > ";
-			}
-		
-			$path .= $tmpPath[$i]["title"];
-		}
-
-		return $path;
-	}
-
-
-
-
-	/**
-	* get Member status
-	* @access	public
-	* @param	integer	user id
-	*/
-	function getContextPath($a_userId="")
-	{
-	}
-
-
-	/**
 	* is Member
 	* @access	public
 	* @param	integer	user_id
@@ -701,7 +660,7 @@ class ilObjGroup extends ilObject
 		$groupObj->createGroupRoles($rfoldObj->getRefId());
 
 		//creator becomes admin of group
-		$groupObj->joinGroup($groupObj->getOwner(),"admin");
+		$groupObj->join($groupObj->getOwner(),"admin");
 		
 		// TODO: function getGroupStatus returns integer but setGroupStatus expects a string.
 		// I disabled this function. Please investigate
