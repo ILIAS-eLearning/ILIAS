@@ -84,6 +84,7 @@ function doMouseOut(id, dotted)
 var dragDropShow = false;
 var mouseIsDown = false;
 var mouseDownBlocked = false;
+var mouseUpBlocked = false;
 var Mposx = 0;
 var Mposy = 0;
 
@@ -124,10 +125,15 @@ function callBeforeAfterAction(setCmd3)
 	doActionForm(cmd1, cmd2, cmd3, cmd4);
 }
 
+
 function doMouseUp(id) 
 {
-	if (dragDropShow) 
+	if (dragDropShow)
 	{
+		if(mouseUpBlocked) return;
+		mouseUpBlocked = true;
+		setTimeout("mouseUpBlocked = false;",200);
+		
 		// mousebutton released over new object. call moveafter
 		//alert(dragId+" - "+overId);
 		DID = overId.substr(7);
@@ -179,7 +185,7 @@ function doMouseClick(e,id,ctype)
 {
 	// dies ist n�tig, weil wenn zwei Layer �bereinander liegen von beiden ein Event ausgel�st wird.
 	// Jetzt wird aber bei einem Klick das Men� geblockt f�r einen halbe sekunde.
-	if(menuBlocked) return;
+	if(menuBlocked || mouseUpBlocked) return;
 	menuBlocked = true;
 	setTimeout("nextMenuClick()",100);
 	
