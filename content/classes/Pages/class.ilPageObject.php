@@ -1373,5 +1373,32 @@ class ilPageObject
 		unset($xpc);
 	}
 
+	/**
+	* get fo page content
+	*/
+	function getFO()
+	{
+		$xml = $this->getXMLFromDom(false, true, true);
+		$xsl = file_get_contents("./content/page_fo.xsl");
+		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
+		$xh = xslt_create();
+
+		$params = array ();
+
+
+		$fo = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+
+		// do some replacements
+		$fo = str_replace("\n", "", $fo);
+		$fo = str_replace("<br/>", "<br>", $fo);
+		$fo = str_replace("<br>", "\n", $fo);
+
+		xslt_free($xh);
+
+		//
+		$fo = substr($fo, strpos($fo,">") + 1);
+echo "<br><b>fo:</b><br>".htmlentities($fo); flush();
+		return $fo;
+	}
 }
 ?>
