@@ -158,7 +158,7 @@ class ilGroupGUI extends ilObjectGUI
 		$owner  = new ilObjUser($grp->getOwner());
 
 		$_SESSION["saved_post"]["user_id"][0] = $this->ilias->account->getId();
-		$_SESSION["status"] 	= 0;
+		$_SESSION["status"] 	= $this->object->getDefaultMemberRole();
 
 		switch($grpObj->getRegistrationFlag())
 		{
@@ -680,10 +680,10 @@ class ilGroupGUI extends ilObjectGUI
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
 				}
 			}
-			unset($_SESSION["user_id"]);
+			unset($_SESSION["saved_post"]);
+			unset($_SESSION["status"]);
 			sendInfo($this->lng->txt("usr_added"),true);
 		}
-
 		header("Location: group.php?cmd=view&".$this->link_params);
 	}
 
@@ -1175,7 +1175,7 @@ class ilGroupGUI extends ilObjectGUI
 	function newMembersObject()
 	{
 		//create additional tabs for tab-bar
-
+		
 		$this->prepareOutput(true);
 
 		$this->tpl->setVariable("HEADER", $this->lng->txt("add_member"));
@@ -1519,7 +1519,7 @@ class ilGroupGUI extends ilObjectGUI
 		sendInfo();
 		$counter = 3;
 		$tab = array();
-		
+
 		$tab[0] = array ();
 		$tab[0]["tab_cmd"] = "cmd=show_content&ref_id=".$this->grp_id;//link for tab
 		$tab[0]["ftabtype"] = 'tabinactive';  					//tab is marked
@@ -1576,7 +1576,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[6]["tab_cmd"]  = 'cmd=permobject&ref_id='.$_GET["ref_id"];		//link for tab
 			$tab[6]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[6]["target"]   = "_self";						//target-frame of tab_cmd
-			$tab[6]["tab_text"] = "permission";				//tab -text
+			$tab[6]["tab_text"] = "perm_settings";				//tab -text
 			$counter++;
 		}
 
