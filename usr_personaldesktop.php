@@ -35,6 +35,7 @@
 */
 require_once "./include/inc.header.php";
 require_once "classes/class.ilObjUser.php";
+require_once "classes/class.ilGroupGUI.php";
 require_once "classes/class.ilMail.php";
 require_once "classes/class.ilPersonalDesktopGUI.php";
 
@@ -50,13 +51,25 @@ switch($_GET["cmd"])
 		$ilias->account->dropDesktopItem($_GET["id"], $_GET["type"]);
 		break;
 
-	case "leaveGroup":
-		$groupObj = $ilias->obj_factory->getInstanceByRefId($_GET["id"]);
-		$err_msg = $groupObj->removeMember($ilias->account->getId());
+	case "removeMember":
+		//$groupObj = $ilias->obj_factory->getInstanceByRefId($_GET["id"]);
+		$groupObj = new ilGroupGUI($a_data, $_GET["id"], false);
+		//$err_msg = $groupObj->removeMember($ilias->account->getId());
 		if(strlen($err_msg) > 0)
 			$ilias->raiseError($lng->txt($err_msg),$ilias->error_obj->MESSAGE);
+		exit();
 		break;
+
 }
+/*if ($_GET["action"] == "removeMember")
+{
+	$groupObj = new ilGroupGUI($a_data, $_GET["id"], false);
+	//$err_msg = $groupObj->removeMember("usr_personaldesktop.php" , "loaction: usr_personaldesktop.php");//$ilias->account->getId());
+	if(strlen($err_msg) > 0)
+		$ilias->raiseError($lng->txt($err_msg),$ilias->error_obj->MESSAGE);
+	exit();
+	break;
+}*/
 
 //add template for content
 $tpl->addBlockFile("CONTENT", "content", "tpl.usr_personaldesktop.html");
