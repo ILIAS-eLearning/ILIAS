@@ -54,7 +54,7 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$val["obj_id"]."&parent=$obj_id&cmd=edit");
 			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
-			$tplContent->setVariable("IMG_TYPE","autor.gif");
+			$tplContent->setVariable("IMG_TYPE","icon_user_b.gif");
 			$tplContent->setVariable("ALT_IMG_TYPE","user");
 			$tplContent->setVariable("CSS_ROW",$css_row);
 			$tplContent->setVariable("OBJ",$val["obj_id"]);

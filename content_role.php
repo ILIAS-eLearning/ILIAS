@@ -58,7 +58,7 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
 
 			// determine image (role object or role template?)
-			$image = $val["type"] == 'rolt' ? 'autor.gif' : 'admin.gif';
+			$image = $val["type"] == 'rolt' ? 'icon_rtpl_b.gif' : 'icon_role_b.gif';
 
 			$tplContent->setVariable("IMG_TYPE",$image);
 			$tplContent->setVariable("ALT_IMG_TYPE",$val["type"]);
