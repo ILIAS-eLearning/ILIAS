@@ -1487,6 +1487,8 @@ class ilObjSurvey extends ilObject
 				}
 				$all_questions[$question_id]["questionblock_title"] = $questionblocks[$question_id]->title;
 				$all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]->questionblock_id;
+				// overwrite obligatory flag for single questions with obligatory flag of the block
+				$all_questions[$question_id]["obligatory"] = $questionblocks[$question_id]->obligatory;
 				$currentblock = $questionblocks[$question_id]->questionblock_id;
 			}
 			else
