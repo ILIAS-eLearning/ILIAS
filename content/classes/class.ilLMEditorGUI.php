@@ -170,6 +170,12 @@ class ilLMEditorGUI
 							$tab_gui->$cmd();
 							break;
 
+						case "td":
+							require_once ("content/classes/class.ilLMTableDataGUI.php");
+							$td_gui =& new ilLMTableDataGUI($this->lm_obj, $obj, $cont_obj, $hier_id);
+							$td_gui->$cmd();
+							break;
+
 					}
 				}
 				else

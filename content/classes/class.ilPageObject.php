@@ -171,17 +171,27 @@ class ilPageObject extends ilLMObject
 		{
 			case "Paragraph":
 
-				$par = new ilParagraph($this->dom);
+				require_once("content/classes/class.ilParagraph.php");
+				$par =& new ilParagraph($this->dom);
 				$par->setNode($cont_node);
 				$par->setHierId($a_hier_id);
 				return $par;
 
 			case "Table":
 
-				$tab = new ilLMTable($this->dom);
+				require_once("content/classes/class.ilLMTable.php");
+				$tab =& new ilLMTable($this->dom);
 				$tab->setNode($cont_node);
 				$tab->setHierId($a_hier_id);
 				return $tab;
+
+			case "TableData":
+
+				require_once("content/classes/class.ilLMTableData.php");
+				$td =& new ilLMTableData($this->dom);
+				$td->setNode($cont_node);
+				$td->setHierId($a_hier_id);
+				return $td;
 
 		}
 	}

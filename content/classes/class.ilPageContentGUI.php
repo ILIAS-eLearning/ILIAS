@@ -72,7 +72,7 @@ class ilPageContentGUI
 	{
 		$this->pg_obj->deleteContent($this->hier_id);
 		//$this->pg_obj->update();
-		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
@@ -98,7 +98,7 @@ class ilPageContentGUI
 //echo "PCGUItarget:".$_POST["target"][0]."<br>";
 		// move
 		$this->pg_obj->moveContentAfter($this->hier_id, $_POST["target"][0]);
-		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
@@ -124,7 +124,7 @@ class ilPageContentGUI
 
 		// move
 		$this->pg_obj->moveContentBefore($this->hier_id, $_POST["target"][0]);
-		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
+		header("location: lm_edit.php?cmd=viewWysiwyg&ref_id=".$this->lm_obj->getRefId()."&obj_id=".
 			$this->pg_obj->getId());
 	}
 
