@@ -401,6 +401,42 @@ class ilObjSurveyQuestionPool extends ilObject
       return;
     }
   }
+	
+/**
+* Checks if a question is in use by a survey
+* 
+* Checks if a question is in use by a survey
+*
+* @param integer $question_id The database id of the question
+* @result mixed An array of the surveys which use the question, when the question is in use by at least one survey, otherwise false
+* @access public
+*/
+	function isInUse($question_id)
+	{
+		// check out the already answered questions
+		$query = sprintf("SELECT answer_id FROM survey_answer WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+    $result = $this->ilias->db->query($query);
+		$answered = $result->numRows();
+		
+		// check out the questions inserted in surveys
+		$query = sprintf("SELECT survey_survey.* FROM survey_survey, survey_survey_question WHERE survey_survey_question.survey_fi = survey_survey.survey_id AND survey_survey_question.question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+    $result = $this->ilias->db->query($query);
+		$inserted = $result->numRows();
+		if (($inserted + $answered) == 0)
+		{
+			return false;
+		}
+		$result_array = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($result_array, $row);
+		}
+		return $result_array;
+	}
 
 } // END class.ilSurveyObjQuestionPool
 ?>

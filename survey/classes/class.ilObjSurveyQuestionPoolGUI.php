@@ -338,12 +338,54 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	}
 	
 	/**
+	* Displays a warning if the question is in use by a survey
+	*
+	* @param	array	$surveys An array containing the surveys which use the question
+	* @access	public
+	*/
+	function showEditWarning($surveys)
+	{
+		require_once ("class.ilObjSurvey.php");
+		$this->prepareOutput();
+		$classes = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($surveys as $survey)
+		{
+			$surveyObj = new ilObjSurvey($survey->ref_fi);
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
+			$this->tpl->setVariable("VALUE_TITLE", $surveyObj->getTitle());
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_warning.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TEXT_WARNING", $this->lng->txt("warning_question_in_use"));
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TEXT_ASK_CONTINUE", $this->lng->txt("edit_ask_continue"));
+		$this->tpl->setVariable("BTN_CONTINUE", $this->lng->txt("continue"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter() . "&edit=" . $_GET["edit"]);
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
 	* Displays the question browser
 	* @access	public
 	*/
   function questionsObject()
   {
     global $rbacsystem;
+
+		if (($_GET["edit"]) and (!$_POST["cmd"]["continue"]) and (!$_POST["cmd"]["cancel"]))
+		{
+			$inUse = $this->object->isInUse($_GET["edit"]);
+			if (is_array($inUse))
+			{
+				$this->showEditWarning($inUse);
+				return;
+			}
+		}
 
     if ($_GET["preview"]) {
       $this->outPreviewForm($_GET["preview"]);

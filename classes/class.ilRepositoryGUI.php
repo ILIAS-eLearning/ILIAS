@@ -308,7 +308,6 @@ class ilRepositoryGUI
 		$ilBench->start("Repository", "FlatList_02collectChilds");
 
 		$found = false;
-
 		foreach ($objects as $key => $object)
 		{
 			if (!$this->rbacsystem->checkAccess('visible',$object["child"]))
@@ -784,7 +783,6 @@ class ilRepositoryGUI
 
 			// counter for rowcolor change
 			$num = 0;
-
 			foreach ($lrs as $lr_data)
 			{
 				$tpl->setCurrentBlock("tbl_content");

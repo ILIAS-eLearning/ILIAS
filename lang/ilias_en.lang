@@ -1882,6 +1882,7 @@ content#:#cont_lk_media_new#:#Media (New Frame)
 content#:#cont_lk_page#:#Page
 content#:#cont_lk_page_faq#:#Page (FAQ Frame)
 content#:#cont_lk_page_new#:#Page (New Frame)
+content#:#cont_lk_survey#:#Survey
 content#:#cont_lk_term#:#Glossary Term
 content#:#cont_lk_term_new#:#Glossary Term (New Frame)
 content#:#cont_lm_menu#:#Menu
@@ -3107,3 +3108,6 @@ survey#:#percentage_of_selections#:#Percentage of users that selected this categ
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
 survey#:#given_answers#:#Given answers
 survey#:#subtype#:#Subtype
+survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
+survey#:#edit_ask_continue#:#Do you want to continue and edit this question?
+survey#:#survey_online_warning#:#The survey is online. You cannot edit the survey questions!
