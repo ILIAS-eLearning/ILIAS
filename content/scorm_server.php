@@ -25,28 +25,37 @@
 * scorm learning module presentation script
 *
 * @author Ralph Barthel <ralph.barthel@21ll.com> , 21 LearnLine AG
-* @version $Id: scorm_server.php,v 1.1 2003/08/12 
+* @version $Id: scorm_server.php,v 1.0 2003/08/12 
 *
 * @package content
 */
 chdir("..");
 require_once "./include/inc.header.php";
 require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
+require_once "./content/classes/SCORM/class.ilObjDebug.php";
 $scorm_communication=new ilObjSCORMTracking($_GET["user_id"],$_GET["item_id"]);
+$debug = new ilObjDebug("/opt/ilias/www/htdocs/ilias3/debug/debug.scorm_server");
 
 if (isset($_GET["value"])) //setValue Call
 {
   $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].','.$_GET["value"].'");';
+	$debug->debug("Method: ".$temp);
    $retval=eval("$temp");
+	$debug->debug("ReturnValue: ".$retval);
    return $retval;
    
 }
 else
 {
-	
-  $temp='$scorm_communication->'.$_GET["function"].'('.$_GET["var"].');';
+  if ($_GET["var"]=="null") {
+  	$temp='$scorm_communication->'.$_GET["function"].'("");';
+  }	else {
+	  $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].'");';
+	}
+	$debug->debug("Method: ".$temp);
   $retval=eval("$temp");
-  return $retval;
+	$debug->debug("ReturnValue: ".$retval);
+    return $retval;
 }
 
 ?>
