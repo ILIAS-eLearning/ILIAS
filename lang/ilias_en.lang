@@ -31,10 +31,6 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start --> 
-common#:#lang_version#:#1
-common#:#lang_dateformat#:#MM/DD/YYYY
-common#:#sep_thousand#:#,
-common#:#sep_decimal#:#.
 common#:#absolute_path#:#absolute path
 common#:#accept_usr_agreement#:#accept user agreement?
 common#:#access#:#access
@@ -48,9 +44,11 @@ common#:#administrator#:#administrator
 common#:#also_as_email#:#also as email
 common#:#announce#:#announce
 common#:#announce_changes#:#announce changes
+common#:#answers#:#answers
 common#:#archive#:#archive
 common#:#are_you_sure#:#Are you sure?
 common#:#assign_lo_forum#:#assign lo forum
+common#:#author#:#author
 common#:#authors#:#authors
 common#:#available_languages#:#available languages
 common#:#back#:#back
@@ -59,30 +57,43 @@ common#:#basic_data#:#basic data
 common#:#bc#:#bc
 common#:#bookmark_new#:#new bookmark
 common#:#bookmarks#:#bookmarks
+common#:#btn_remove_system#:#remove from system
+common#:#btn_undelete#:#undelete
+common#:#by#:#by
+common#:#cancel#:#cancel
+common#:#cat#:#category
 common#:#categories#:#categories
 common#:#cc#:#cc
 common#:#change#:#change
+common#:#change_language#:#set user language
 common#:#change_lo_info#:#change lo info
 common#:#change_metadata#:#change metadata
 common#:#chapter#:#chapter
 common#:#chapter_number#:#chapter number
 common#:#chapter_title#:#chapter title
 common#:#check#:#check
+common#:#check_language#:#check language
 common#:#chg_language#:#change language
 common#:#chg_password#:#change password
 common#:#choose_language#:#choose your language
 common#:#city#:#city
+common#:#clear#:#clear
 common#:#comma_separated#:#comma separated
 common#:#compose#:#compose
+common#:#confirm#:#confirm
 common#:#contact_information#:#contact information
+common#:#context#:#context
+common#:#copy#:#copy
 common#:#country#:#country
 common#:#course#:#course
 common#:#courses#:#courses
 common#:#create#:#create
 common#:#create_in#:#create in
+common#:#crs#:#course
 common#:#crs_available#:#available courses
 common#:#crs_management_system#:#course management system
 common#:#current_password#:#current password
+common#:#cut#:#cut
 common#:#database#:#database
 common#:#database_version#:#current database version
 common#:#date#:#date
@@ -93,20 +104,27 @@ common#:#db_type#:#database type
 common#:#db_user#:#database user
 common#:#db_version#:#database version
 common#:#default#:#default
+common#:#default_role#:#default role
 common#:#delete#:#delete
 common#:#delete_all#:#delete all
+common#:#delete_object#:#delete object(s)
 common#:#delete_selected#:#delete selected
 common#:#deleted#:#deleted
+common#:#desc#:#description
 common#:#description#:#description
 common#:#desired_password#:#desired password
+common#:#disabled#:#disabled
 common#:#drafts#:#drafts
 common#:#edit#:#edit
 common#:#edit_data#:#edit data
+common#:#edit_operations#:#edit operations
 common#:#edit_properties#:#edit properties
+common#:#edited_at#:#edited at
 common#:#editor#:#editor
 common#:#email#:#email
 common#:#employee#:#employee
 common#:#enable#:#enable
+common#:#enabled#:#enabled
 common#:#enumerate#:#enumerate
 common#:#err_wrong_login#:#wrong login
 common#:#error_recipient#:#error recipient
@@ -114,6 +132,8 @@ common#:#execute#:#execute
 common#:#faq_exercise#:#faq exercise
 common#:#feedback#:#feedback
 common#:#feedback_recipient#:#feedback recipient
+common#:#file#:#file
+common#:#file_not_found#:#File not found
 common#:#file_version#:#version provided in file
 common#:#files_location#:#files location
 common#:#fill_out_all_required_fields#:#please fill out all required fields
@@ -121,12 +141,37 @@ common#:#firstname#:#firstname
 common#:#folder#:#folder
 common#:#folders#:#folders
 common#:#forename#:#forename
+common#:#form_empty_fields#:#please complete these fields:
 common#:#forum#:#forum
 common#:#forum_new#:#new forum
 common#:#forums#:#forums
+common#:#forums_articles#:#articles
 common#:#forums_available#:#available forums
+common#:#forums_count#:#number of forums
+common#:#forums_count_art#:#number of articles
+common#:#forums_count_thr#:#number of threads
+common#:#forums_edit_post#:#edit article
+common#:#forums_last_post#:#last article
+common#:#forums_moderators#:#moderators
+common#:#forums_new_thread#:#new topic
+common#:#forums_not_available#:#forums not available
 common#:#forums_overview#:#forums overview
+common#:#forums_post_modified#:#article has been modified
+common#:#forums_post_new_entry#:#new article has been inscribed
+common#:#forums_posts#:#all articles
+common#:#forums_posts_not_available#:#articles not available
+common#:#forums_respond#:#respond to an article
+common#:#forums_the_post#:#article
+common#:#forums_thread#:#thread
+common#:#forums_thread_articles#:#articles to the thread
+common#:#forums_thread_create#:#created from
+common#:#forums_thread_new_entry#:#new topic has been inscribed
+common#:#forums_threads#:#threads
+common#:#forums_threads_not_available#:#topics not available
+common#:#forums_topics_overview#:#topics overview
+common#:#forums_your_reply#:#your reply
 common#:#forward#:#forward
+common#:#frm#:#forum
 common#:#from#:#from:
 common#:#functions#:#functions
 common#:#gender#:#gender
@@ -136,13 +181,19 @@ common#:#group_filesharing#:#group file sharing
 common#:#groupname#:#groupname
 common#:#groups#:#groups
 common#:#groupscope#:#groupscope
+common#:#grp#:#group
 common#:#guest#:#guest
 common#:#help#:#help
 common#:#host#:#host
 common#:#http_path#:#http path
 common#:#id#:#ID
 common#:#ilias_version#:#ILIAS version
+common#:#import#:#import
+common#:#in_use#:#user language
 common#:#inbox#:#inbox
+common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)
+common#:#info_deleted#:#Object(s) deleted
+common#:#info_trash#:#Deleted Objects
 common#:#information_abbr#:#info
 common#:#inifile#:#ini-file
 common#:#inst_id#:#installation ID
@@ -154,12 +205,27 @@ common#:#institution#:#institution
 common#:#ip_address#:#IP address
 common#:#item#:#item
 common#:#keywords#:#keywords
+common#:#lang_dateformat#:#MM/DD/YYYY
+common#:#lang_de#:#German
+common#:#lang_dk#:#Danish
+common#:#lang_en#:#English
+common#:#lang_es#:#Spanish
+common#:#lang_fr#:#French
+common#:#lang_id#:#Indonesian
+common#:#lang_it#:#Italian
+common#:#lang_no#:#Norwegisch
 common#:#lang_path#:#language path
+common#:#lang_pl#:#Polish
+common#:#lang_se#:#Swedish
+common#:#lang_version#:#1
+common#:#lang_xx#:#Custom
 common#:#language#:#language
 common#:#languages#:#languages
 common#:#last_change#:#last change
 common#:#lastname#:#lastname
+common#:#launch#:#launch
 common#:#ldap#:#LDAP
+common#:#le#:#learning module
 common#:#level#:#level
 common#:#linebreak#:#linebreak
 common#:#link#:#link
@@ -168,6 +234,8 @@ common#:#list_of_pages#:#pages list
 common#:#list_of_questions#:#question list
 common#:#literature#:#literature
 common#:#literature_bookmarks#:#literature bookmarks
+common#:#lng#:#language
+common#:#lngf#:#language folder
 common#:#lo#:#learning object
 common#:#lo_available#:#available learning objects
 common#:#lo_categories#:#lo categories
@@ -184,6 +252,7 @@ common#:#mail#:#mail
 common#:#mail_s#:#mail(s)
 common#:#mail_s_unread#:#unread mail(s)
 common#:#mails#:#mails
+common#:#mandatory_fields#:#mandatory fields
 common#:#mark_all_read#:#mark all as read
 common#:#mark_all_unread#:#mark all as unread
 common#:#members#:#members
@@ -194,34 +263,56 @@ common#:#migrate#:#migrate
 common#:#move_to#:#move to
 common#:#msg_changes_ok#:#the changes were ok
 common#:#msg_failed#:#sorry, action failed
+common#:#msg_may_not_contain#:#This object may not contain objects of type: 
+common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.
+common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.
+common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s): No.
+common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s): No.
+common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s): No.
+common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s): No.
+common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
+common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
 common#:#msg_nothing_found#:#msg_nothing_found
+common#:#msg_obj_exists#:#This object already exists in this folder
+common#:#msg_trash_empty#:#There are no deleted objects
 common#:#multimedia#:#multimedia
 common#:#must_fill_in#:#must fill in
 common#:#name#:#name
 common#:#new#:#new
 common#:#new_folder#:#new folder
 common#:#new_group#:#new group
+common#:#new_language#:#New language
 common#:#news#:#news
 common#:#nickname#:#nickname
 common#:#no#:#no
+common#:#no_checkbox#:#No checkbox checked!
 common#:#no_objects#:#no objects
 common#:#no_title#:#no title
 common#:#none#:#none
 common#:#normal#:#normal
 common#:#not_installed#:#not installed
+common#:#obj#:#object
+common#:#obj_not_found#:#object not found
+common#:#obj_owner#:#This Object is owned by
 common#:#objects#:#objects
+common#:#objf#:#object folder
+common#:#of#:#of
 common#:#offline_version#:#offline version
 common#:#old#:#old
 common#:#online_chapter#:#online chapter
 common#:#online_version#:#online version
+common#:#operation#:#Operation
 common#:#optimize#:#optimize
 common#:#options#:#options
+common#:#order_by#:#order by
 common#:#other#:#other
 common#:#overview#:#overview
 common#:#owner#:#owner
 common#:#page#:#page
 common#:#page_edit#:#edit page
+common#:#passwd#:#password
 common#:#password#:#password
+common#:#paste#:#paste
 common#:#path#:#path
 common#:#path_to_babylon#:#path to babylon
 common#:#path_to_convert#:#path to convert
@@ -230,6 +321,8 @@ common#:#path_to_unzip#:#path to unzip
 common#:#path_to_zip#:#path to zip
 common#:#payment_system#:#payment system
 common#:#perm_settings#:#permissions
+common#:#permission#:#permission
+common#:#permission_denied#:#permission denied
 common#:#personal_desktop#:#personal desktop
 common#:#personal_profile#:#personal profile
 common#:#phone#:#phone
@@ -250,11 +343,17 @@ common#:#read#:#read
 common#:#recipient#:#recipient
 common#:#refresh#:#refresh
 common#:#refresh_list#:#refresh list
+common#:#registered_since#:#registered since
 common#:#reply#:#reply
+common#:#required_field#:#required field
 common#:#reset#:#reset
 common#:#retype_password#:#retype password
 common#:#right#:#right
 common#:#rights#:#rights
+common#:#role#:#role
+common#:#roles#:#roles
+common#:#rolf#:#role folder
+common#:#rolt#:#role template
 common#:#salutation#:#salutation
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -274,6 +373,8 @@ common#:#selected#:#selected
 common#:#send#:#send
 common#:#sender#:#sender
 common#:#sent#:#sent
+common#:#sep_decimal#:#.
+common#:#sep_thousand#:#,
 common#:#sequence#:#sequence
 common#:#sequences#:#sequences
 common#:#server#:#server
@@ -281,6 +382,7 @@ common#:#server_software#:#server software
 common#:#set#:#set
 common#:#set_offline#:#set offline
 common#:#set_online#:#set online
+common#:#set_system_language#:#set system language
 common#:#show_owner#:#show owner
 common#:#signature#:#signature
 common#:#startpage#:#startpage
@@ -296,146 +398,44 @@ common#:#submit#:#submit
 common#:#subscription#:#subscription
 common#:#summary#:#summary
 common#:#system#:#system
+common#:#system_choose_language#:#system choose language
 common#:#system_groups#:#system groups
 common#:#system_grp#:#system group
-common#:#system_message#:#system message
 common#:#system_language#:#system language
+common#:#system_message#:#system message
 common#:#test_intern#:#test intern
 common#:#time#:#time
 common#:#title#:#title
 common#:#to#:#to:
+common#:#today#:#today
 common#:#total#:#total
 common#:#tpl_path#:#template path
 common#:#trash#:#trash
 common#:#type#:#type
 common#:#type_your_message_here#:#type your message here
 common#:#uid#:#uid
+common#:#uninstall#:#uninstall
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#unread
 common#:#update_applied#:#update applied
+common#:#update_language#:#update language
 common#:#url#:#url
 common#:#url_description#:#url description
+common#:#user#:#user
 common#:#userdata#:#userdata
 common#:#username#:#username
 common#:#users#:#users
+common#:#usr#:#user
 common#:#usr_agreement#:#user agreement
 common#:#usr_skin#:#user skin
 common#:#usr_style#:#usr style
+common#:#usrf#:#user folder
 common#:#version#:#version
 common#:#view_content#:#view content
 common#:#visible_layers#:#visible layers
+common#:#visits#:#visits
 common#:#write#:#write
 common#:#yes#:#yes
+common#:#you_may_add_local_roles#:#you may add local roles
 common#:#your_message#:#your message
 common#:#zip#:#zip code
-common#:#obj_not_found#:#object not found
-common#:#cut#:#cut
-common#:#copy#:#copy
-common#:#paste#:#paste
-common#:#clear#:#clear
-common#:#required_field#:#required field
-common#:#you_may_add_local_roles#:#you may add local roles
-common#:#obj_owner#:#This Object is owned by
-common#:#permission#:#permission
-common#:#roles#:#roles
-common#:#uninstall#:#uninstall
-common#:#frm#:#forum
-common#:#obj#:#object
-common#:#cat#:#category
-common#:#le#:#learning module
-common#:#grp#:#group
-common#:#crs#:#course
-common#:#file#:#file
-common#:#rolf#:#role folder
-common#:#rolt#:#role template
-common#:#lngf#:#language folder
-common#:#lng#:#language
-common#:#change_language#:#set user language
-common#:#update_language#:#update language
-common#:#check_language#:#check language
-common#:#set_system_language#:#set system language
-common#:#system_choose_language#:#system choose language
-common#:#usr#:#user
-common#:#user#:#user
-common#:#usrf#:#user folder
-common#:#objf#:#object folder
-common#:#role#:#role
-common#:#passwd#:#password
-common#:#desc#:#description
-common#:#default_role#:#default role
-common#:#enabled#:#enabled
-common#:#disabled#:#disabled
-common#:#import#:#import
-common#:#in_use#:#user language
-common#:#lang_de#:#German
-common#:#lang_dk#:#Danish
-common#:#lang_en#:#English
-common#:#lang_es#:#Spanish
-common#:#lang_fr#:#French
-common#:#lang_id#:#Indonesian
-common#:#lang_it#:#Italian
-common#:#lang_no#:#Norwegisch
-common#:#lang_pl#:#Polish
-common#:#lang_se#:#Swedish
-common#:#lang_xx#:#Custom
-common#:#forums_not_available#:#forums not available
-common#:#forums_last_post#:#last article
-common#:#forums_moderators#:#moderators
-common#:#forums_new_thread#:#new topic
-common#:#permission_denied#:#permission denied
-common#:#forums_thread_new_entry#:#new topic has been inscribed
-common#:#forums_post_new_entry#:#new article has been inscribed
-common#:#form_empty_fields#:#please complete these fields:
-common#:#today#:#today
-common#:#forums_thread#:#thread
-common#:#forums_threads#:#threads
-common#:#forums_topics_overview#:#topics overview
-common#:#forums_posts#:#all articles
-common#:#forums_the_post#:#article
-common#:#forums_articles#:#articles
-common#:#forums_thread_create#:#created from
-common#:#operation#:#Operation
-common#:#edit_operations#:#edit operations
-common#:#file_not_found#:#File not found
-common#:#new_language#:#New language
-common#:#forums_threads_not_available#:#topics not available
-common#:#forums_posts_not_available#:#articles not available
-common#:#author#:#author
-common#:#registered_since#:#registered since
-common#:#context#:#context
-common#:#forums_respond#:#respond to an article
-common#:#forums_your_reply#:#your reply
-common#:#of#:#of
-common#:#edited_at#:#edited at
-common#:#order_by#:#order by
-common#:#answers#:#answers
-common#:#mandatory_fields#:#mandatory fields
-common#:#visits#:#visits
-common#:#delete_object#:#delete object(s)
-common#:#info_delete_sure#:#Are you sure you want to delete the following object(s)
-common#:#cancel#:#cancel
-common#:#confirm#:#confirm
-common#:#no_checkbox#:#No checkbox checked!
-common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s): No.
-common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s): No.
-common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
-common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.
-common#:#msg_obj_exists#:#This object already exists in this folder
-common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s): No.
-common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
-common#:#msg_may_not_contain#:#This object may not contain objects of type: 
-common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.
-common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s): No.
-common#:#info_deleted#:#Object(s) deleted
-common#:#forums_thread_articles#:#articles to the thread
-common#:#forums_count#:#number of forums
-common#:#forums_count_thr#:#number of threads
-common#:#forums_count_art#:#number of articles
-common#:#by#:#by
-common#:#launch#:#launch
-common#:#info_trash#:#Deleted Objects
-common#:#btn_undelete#:#undelete
-common#:#btn_remove_system#:#remove from system
-common#:#msg_trash_empty#:#There are no deleted objects
-common#:#forums_edit_post#:#edit article
-common#:#forums_post_modified#:#article has been modified
