@@ -350,18 +350,18 @@ class ilObjSCORMLearningModule extends ilObject
 	function notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params = 0)
 	{
 		global $tree;
-		
+
 		switch ($a_event)
 		{
 			case "link":
-				
+
 				//var_dump("<pre>",$a_params,"</pre>");
 				//echo "SCORMLearningModule ".$this->getRefId()." triggered by link event. Objects linked into target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
-			
+
 			case "cut":
-				
+
 				//echo "SCORMLearningModule ".$this->getRefId()." triggered by cut event. Objects are removed from target object ref_id: ".$a_ref_id;
 				//exit;
 				break;
@@ -396,8 +396,37 @@ class ilObjSCORMLearningModule extends ilObject
 				$a_node_id = (int) $tree->getParentId($a_node_id);
 			}
 		}
-		
+
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
+
+	/**
+	* get all tracking items of scorm object
+	*/
+	function getTrackingItems()
+	{
+		include_once("content/classes/SCORM/class.ilSCORMTree.php");
+		$tree = new ilSCORMTree($this->getId());
+		$root_id = $tree->readRootId();
+
+		$items = array();
+		$childs = $tree->getSubTree($tree->getNodeData($root_id));
+		foreach($childs as $child)
+		{
+			if($child["type"] == "sit")
+			{
+				include_once("content/classes/SCORM/class.ilSCORMItem.php");
+				$sc_item =& new ilSCORMItem($child["obj_id"]);
+				if ($sc_item->getIdentifierRef() != "")
+				{
+					$items[count($items)] =& $sc_item;
+				}
+			}
+		}
+
+		return $items;
+	}
+
+
 } // END class.ilObjSCORMLearningModule
 ?>

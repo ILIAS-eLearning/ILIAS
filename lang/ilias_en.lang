@@ -697,6 +697,7 @@ common#:#file_version#:#Version Provided in File
 common#:#file_visible#:#File is visible
 common#:#file_write#:#Edit File
 common#:#files#:#Files
+common#:#rename_file#:#Rename File
 common#:#files_location#:#Files Location
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
 common#:#firstname#:#First name
@@ -1637,6 +1638,8 @@ content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
+content#:#cont_tracking_items#:#Tracking Items
+content#:#cont_tracking_data#:#Tracking Data
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
