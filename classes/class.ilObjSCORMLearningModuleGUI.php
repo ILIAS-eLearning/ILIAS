@@ -110,15 +110,24 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 		$newObj->createDataDirectory();
 
 		// copy uploaded file to data directory
+		$file = pathinfo($_FILES["scormfile"]["name"]);
 		$file_path = $newObj->getDataDirectory()."/".$_FILES["scormfile"]["name"];
 		move_uploaded_file($_FILES["scormfile"]["tmp_name"], $file_path);
 
-		// todo: checks + unzip
+		// unzip (note: unzip command must be specified in ILIAS 3 administration !)
+		$cdir = getcwd();
+		chdir($newObj->getDataDirectory());
+		$unzip = $this->ilias->getSetting("unzip_path");
+		$unzipcmd = $unzip." ".$file["basename"];
+		exec($unzipcmd);
+		chdir($cdir);
 
 		// start SCORM package parser
 		require_once ("content/classes/SCORM/class.ilSCORMPackageParser.php");
-		$slmParser = new ilSCORMPackageParser($newObj, $file_path);
-		$slmParser->startParsing();
+		// todo determine imsmanifest.xml path here...
+		//$manifest_file = $newObj->getDataDirectory()."/imsmanifest.xml";
+		//$slmParser = new ilSCORMPackageParser($newObj, $manifest_file);
+		//$slmParser->startParsing();
 
 		header("Location: adm_object.php?".$this->link_params);
 		exit();
