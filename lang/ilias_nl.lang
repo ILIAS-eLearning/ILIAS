@@ -2438,7 +2438,8 @@ content#:#cont_coords#:#Inhouds-object
 content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
 content#:#cont_copy_to_clipboard#:#Inhoud
 content#:#cont_create_dir#:#Coördinaten
-content#:#cont_create_export_file#:#Copiëernaar het klembord
+content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
+content#:#cont_create_export_file_xml#:#Create Export File (XML)###22 Dec 2004 new variable
 content#:#cont_create_folder#:#Creëer map
 content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Creëer export-bestand
@@ -2631,6 +2632,7 @@ content#:#cont_prereq_type#:#Pagina-titel
 content#:#cont_prerequisites#:#selecteer a.u.b
 content#:#cont_preview#:#adlcp:prerequisites.type
 content#:#cont_print_view#:#adlcp:prerequisites
+content#:#cont_public_access#:#Public access###22 Dec 2004 new variable
 content#:#cont_publisher#:#Laten zien
 content#:#cont_purpose#:#Printoverzicht
 content#:#cont_ref_helptext#:#Uitgever
@@ -4069,6 +4071,7 @@ survey#:#category_nr_selected#:#Weet u zeker dat u de volgende kategoriën wilt 
 survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
 survey#:#codes#:#Access codes###20 Dec 2004 new variable
+survey#:#combobox#:#Combobox###22 Dec 2004 new variable
 survey#:#concatenation#:#Kies tenminste één kategorie om te verwijderen!
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
@@ -4116,6 +4119,7 @@ survey#:#dc_varying#:#onbeslist
 survey#:#dc_verygood#:#ongewenst
 survey#:#dc_yes#:#variëring
 survey#:#define_questionblock#:#heel goed
+survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###22 Dec 2004 new variable
 survey#:#disinvite#:#ja
 survey#:#display_all_available#:#Definiëer vraagblok
 survey#:#dp_standard_attitude_agree5#:#Onuitgenodigd
@@ -4197,6 +4201,7 @@ survey#:#lower_limit#:#Uitgenodigde gebruikers
 survey#:#maintenance#:#Laatst bijgewerkt
 survey#:#manage_phrases#:#onderste begrenzing
 survey#:#material_file#:#Onderhoud
+survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
 survey#:#maximum#:#Beheer gezegden
 survey#:#median#:#Materiaal-bestand
 survey#:#median_between#:#Maximum waarde
@@ -4296,6 +4301,7 @@ survey#:#search_term#:#Zoek naar gebruikers of groep om uit te nodigen
 survey#:#search_type_all#:#Zoek in vragen
 survey#:#search_users#:#Zoek-begrip
 survey#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
+survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Zoek in alle typen vragen
 survey#:#select_questionpool#:#Gebruikers
@@ -4305,6 +4311,7 @@ survey#:#select_svy_option#:#--- Please select a survey ---###05 Nov 2004 new va
 survey#:#select_target_position_for_move#:#Selecteer a.u.b. vraagpool om de gecreëerde vraag op te slaan!
 survey#:#select_target_position_for_move_question#:#Selecteer een relaties
 survey#:#select_value#:#Selecteer a.u.b. doel-positie om de kategoriën te verplaatsen en druk op één van de invoeg-buttons!
+survey#:#selection#:#Selection###22 Dec 2004 new variable
 survey#:#set_filter#:#Selecteer a.u.b. doel-positie om de vraag/vragen te verplaatsen en druk op één van de invoeg-buttons!
 survey#:#skipped#:#skipped###10 Dec 2004 new variable
 survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
@@ -4353,6 +4360,7 @@ survey#:#svy_statistical_evaluation#:#U heeft geen vragen in deze enquête! Voeg
 survey#:#svy_status_missing#:#U heeft geen enquête-titel ingevoerd. Ga naar de sectie metagegevens en voer een titel in.
 survey#:#svy_status_missing_elements#:#Statistische evaluatie
 survey#:#svy_status_ok#:#Dere are vereistd elements missing in this enquête!
+survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###22 Dec 2004 new variable
 survey#:#text_question_not_filled_out#:#De volgende elementen ontbreken:
 survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.###04 Oct 2004 new variable
 survey#:#title_resume_survey#:#Resume the survey - Enter survey code###04 Oct 2004 new variable

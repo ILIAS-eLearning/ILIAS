@@ -2438,7 +2438,8 @@ content#:#cont_coords#:#Koordynaty
 content#:#cont_copy_object#:#Kopiuj obiekt
 content#:#cont_copy_to_clipboard#:#Kopiuj do schowka
 content#:#cont_create_dir#:#Utwórz katalog
-content#:#cont_create_export_file#:#Twórz plik eksportowy
+content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
+content#:#cont_create_export_file_xml#:#Create Export File (XML)###22 Dec 2004 new variable
 content#:#cont_create_folder#:#Twórz Folder
 content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Twórz Obiekt Medialny
@@ -2631,6 +2632,7 @@ content#:#cont_prereq_type#:#Typ warunków wstępnych
 content#:#cont_prerequisites#:#Warunki wstępne
 content#:#cont_preview#:#Podgląd
 content#:#cont_print_view#:#Podgląd wydruku
+content#:#cont_public_access#:#Public access###22 Dec 2004 new variable
 content#:#cont_publisher#:#Wydawca
 content#:#cont_purpose#:#Cel
 content#:#cont_ref_helptext#:#(np. http://www.serwer.org/mojobraz.jpg)
@@ -4069,6 +4071,7 @@ survey#:#category_nr_selected#:#Ilość użytkowników, którzy wybrali tę kate
 survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#Musisz wybrać conajmniej jedną kategorię dla zapisania frazy!
 survey#:#codes#:#Access codes###20 Dec 2004 new variable
+survey#:#combobox#:#Combobox###22 Dec 2004 new variable
 survey#:#concatenation#:#Połączenie
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
@@ -4116,6 +4119,7 @@ survey#:#dc_varying#:#zmiennie
 survey#:#dc_verygood#:#bardzo dobrze
 survey#:#dc_yes#:#tak
 survey#:#define_questionblock#:#Definiuj blok pytań
+survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###22 Dec 2004 new variable
 survey#:#disinvite#:#Anuluj zaproszenie
 survey#:#display_all_available#:#Wyświetl wszystkie dostępne
 survey#:#dp_standard_attitude_agree5#:#Standardowe stany (mocno zgodny-zgodny-nie wiem-niezgodny-mocno niezgodny)
@@ -4197,6 +4201,7 @@ survey#:#lower_limit#:#Limit dolny
 survey#:#maintenance#:#Konserwacja
 survey#:#manage_phrases#:#Zarządzaj frazami
 survey#:#material_file#:#Plik z materiałami
+survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
 survey#:#maximum#:#Maksymalna wartość
 survey#:#median#:#Środkowa
 survey#:#median_between#:#pomiędzy
@@ -4296,6 +4301,7 @@ survey#:#search_term#:#Szukany termin
 survey#:#search_type_all#:#Szukaj we wszystkich typach pytań
 survey#:#search_users#:#Użytkownicy
 survey#:#select_max_one_item#:#Wybierz tylko jedną pozycję
+survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
 survey#:#select_phrase_to_add#:#Wybierz frazę dla dodania jej do pytania!
 survey#:#select_prior_question#:#wybierz z góry pytanie
 survey#:#select_questionpool#:#Wybierz pulę pytań dla zachowania utworzonego pytania
@@ -4305,6 +4311,7 @@ survey#:#select_svy_option#:#--- Wybierz ankietę ---
 survey#:#select_target_position_for_move#:#Wybierz pozycję docelową dla przesunięcia kategorii i naciśnij jeden z przycisków wstawiających!
 survey#:#select_target_position_for_move_question#:#Wybierz pozycję docelową dla przesunięcia pytania i naciśnij jeden z przycisków wstawiających!
 survey#:#select_value#:#wybierz wartość
+survey#:#selection#:#Selection###22 Dec 2004 new variable
 survey#:#set_filter#:#Ustaw filtr
 survey#:#skipped#:#pominięty
 survey#:#spl_select_file_for_import#:#Musisz wybrać plik do importu!
@@ -4353,6 +4360,7 @@ survey#:#svy_statistical_evaluation#:#Ocena Statystyczna
 survey#:#svy_status_missing#:#Brak wymaganych elementów w ankiecie!
 survey#:#svy_status_missing_elements#:#Brak następujących elementów:
 survey#:#svy_status_ok#:#Status ankiety jest OK. Nie ma brakujących elementów.
+survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###22 Dec 2004 new variable
 survey#:#text_question_not_filled_out#:#Wypełnij pole odpowiedzi!
 survey#:#text_resume_survey#:#Próbujesz powrócić do anonimowej ankiety. Dla kontynuacji ankiety z poprzednimi odpowiedziami podaj 32 cyfrowy kod ankiety, który otrzymałeś po rozpoczęciu ankiety (został on przesłany do twojej skrzynki odbiorczej). Zamiast wprowadzenia kodu możesz go skopiować ze swojej skrzynki odbiorczej i wstawić do poniższego pola ytekstowego.
 survey#:#title_resume_survey#:#Powrót do ankiety - Podaj kod ankiety

@@ -2439,7 +2439,8 @@ content#:#cont_coords#:#Coordenadas
 content#:#cont_copy_object#:#copy object###29 Nov 2004 new variable
 content#:#cont_copy_to_clipboard#:#Copiar al portapapeles
 content#:#cont_create_dir#:#Crear Directorio
-content#:#cont_create_export_file#:#-Crear Fichero Exportado-
+content#:#cont_create_export_file_html#:#Create Export File (HTML)###22 Dec 2004 new variable
+content#:#cont_create_export_file_xml#:#Create Export File (XML)###22 Dec 2004 new variable
 content#:#cont_create_folder#:#Crear Carpeta
 content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Crear Objeto Media
@@ -2632,6 +2633,7 @@ content#:#cont_prereq_type#:#adlcp:prerequisites.type
 content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#previsualizar
 content#:#cont_print_view#:#Vista de Impresión
+content#:#cont_public_access#:#Public access###22 Dec 2004 new variable
 content#:#cont_publisher#:#Editor/Editorial
 content#:#cont_purpose#:#Propósito
 content#:#cont_ref_helptext#:#(ej: http://www.server.org/myimage.jpg)
@@ -3958,6 +3960,7 @@ survey#:#category_delete_select_none#:#Por favor seleccione al menos una categor
 survey#:#category_nr_selected#:#Número de usuarios que seleccionaron esta categoría
 survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#codes#:#Access codes###20 Dec 2004 new variable
+survey#:#combobox#:#Combobox###22 Dec 2004 new variable
 survey#:#concatenation#:#Concatenación
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?###21 Dec 2004 new variable
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?###21 Dec 2004 new variable
@@ -4005,6 +4008,7 @@ survey#:#dc_varying#:#variable
 survey#:#dc_verygood#:#muy bien
 survey#:#dc_yes#:#si
 survey#:#define_questionblock#:#Definir bloque de preguntas
+survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.###22 Dec 2004 new variable
 survey#:#disinvite#:#Disinvite###27 May 2004 new variable
 survey#:#display_all_available#:#Mostrar todas las disponibles
 survey#:#dp_standard_attitude_agree5#:#Niveles Actitud (bastante de acuerdo-de acuerdo-indeciso-en desacuerdo-totalmente en desacuerdo)
@@ -4080,6 +4084,7 @@ survey#:#lower_limit#:#Límite inferior
 survey#:#maintenance#:#Mantenimiento
 survey#:#manage_phrases#:#Gestionar frases
 survey#:#material_file#:#fichero de material
+survey#:#maxchars#:#Maximum number of characters###22 Dec 2004 new variable
 survey#:#maximum#:#Valor Máximo
 survey#:#median#:#Mediana
 survey#:#median_between#:#entre
@@ -4175,6 +4180,7 @@ survey#:#search_term#:#Search term###27 May 2004 new variable
 survey#:#search_type_all#:#Search in all question types###10 Jun 2004 new variable
 survey#:#search_users#:#Users###27 May 2004 new variable
 survey#:#select_max_one_item#:#Please select one item only###05 Nov 2004 new variable
+survey#:#select_option#:#--- Please select an option ---###22 Dec 2004 new variable
 survey#:#select_phrase_to_add#:#Please select a phrase to add it to the question!###29 Nov 2004 new variable
 survey#:#select_prior_question#:#Select a prior question###26 May 2004 new variable
 survey#:#select_questionpool#:#Please select a question pool to store the created question###26 May 2004 new variable
@@ -4184,6 +4190,7 @@ survey#:#select_svy_option#:#--- Please select a survey ---###05 Nov 2004 new va
 survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!###22 May 2004 new variable
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
 survey#:#select_value#:#Select a value###26 May 2004 new variable
+survey#:#selection#:#Selection###22 Dec 2004 new variable
 survey#:#set_filter#:#Set filter###21 May 2004 new variable
 survey#:#skipped#:#skipped###10 Dec 2004 new variable
 survey#:#spl_select_file_for_import#:#You must select a file for import!###08 Nov 2004 new variable
@@ -4232,6 +4239,7 @@ survey#:#svy_statistical_evaluation#:#Statistical evaluation###26 Aug 2004 new v
 survey#:#svy_status_missing#:#There are required elements missing in this survey!###13 Sep 2004 new variable
 survey#:#svy_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
 survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.###13 Sep 2004 new variable
+survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.###22 Dec 2004 new variable
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 Jun 2004 new variable
 survey#:#text_resume_survey#:#You are trying to resume an anonymized survey. To continue the survey with your previously entered values please enter the 32 digit survey code which you received after starting the survey (it was sent with a message to your ILIAS mail folder). Instead of typing your survey code you also can copy it from your inbox and paste it into the text field below.###04 Oct 2004 new variable
 survey#:#title_resume_survey#:#Resume the survey - Enter survey code###04 Oct 2004 new variable
