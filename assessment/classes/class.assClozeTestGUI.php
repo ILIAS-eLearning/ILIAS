@@ -337,7 +337,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->object->setTitle(ilUtil::stripSlashes($_POST["title"]));
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
-		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], false);
+		$cloze_text = ilUtil::stripSlashes($_POST["clozetext"], true, "<strong><em><code><cite><gap>");
 		$cloze_text = preg_replace("/\n/", "<br />", $cloze_text);
 		$this->object->set_cloze_text($cloze_text);
 		// adding estimated working time
