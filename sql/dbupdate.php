@@ -1510,3 +1510,22 @@ ALTER TABLE sc_resource_dependency ADD COLUMN nr INT;
 
 <#85>
 ALTER TABLE sc_resource CHANGE type resourcetype VARCHAR(30);
+
+<#86>
+CREATE TABLE `scorm_tracking` (
+	`sc_item_id` int(11) NOT NULL default '0',
+	`usr_id` int(11) NOT NULL default '0',
+	`entry` enum('ab-initio','resume','') NOT NULL default 'ab-initio',
+	`exit` enum('time-out','suspend','logout','') NOT NULL default 'time-out',
+	`lesson_location` varchar(255) NOT NULL default '',
+	`credit` enum('credit','no-credit') NOT NULL default 'credit',
+	`raw` decimal(10,0) NOT NULL default '0',
+	`session_time` time NOT NULL default '00:00:00',
+	`total_time` time NOT NULL default '00:00:00',
+	`comments` text NOT NULL,
+	`lesson_status` enum('passed','completed','failed','incomplete','browsed','not attempted') NOT NULL default 'passed',
+	`launch_data` text NOT NULL,
+	`suspend_data` text NOT NULL,
+	`mastery_score` decimal(10,0) NOT NULL default '0',
+	PRIMARY KEY  (`sc_item_id`,`sc_item_id`,`usr_id`)
+) TYPE=MyISAM;
