@@ -398,9 +398,22 @@ class ilSCORMExplorer extends ilExplorer
 			$frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
 			if ($frame_target != "")
 			{
+				$sc_object =& new ilSCORMItem($a_node_id);
+				$id_ref = $sc_object->getIdentifierRef();
+				$sc_res =& new ilSCORMResource();
+				$sc_res->readByIdRef($id_ref, $sc_object->getSLMId());
+				if (strtolower($sc_res->getScormType()) == "asset")
+				{
+					$call = "IliasLaunchAsset";
+				}
+				else
+				{
+					$call = "IliasLaunchSco";
+				}
+
 				$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"]." ($a_node_id)", $this->textwidth, true));
 				$tpl->setVariable("LINK_TARGET", "javascript:void(0);");
-				$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.IliasLaunchSco('".$a_node_id."');return false;\"");
+				$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.setupApi();parent.APIFRAME.API.".$call."('".$a_node_id."');return false;\"");
 			}
 			$tpl->parseCurrentBlock();
 		}

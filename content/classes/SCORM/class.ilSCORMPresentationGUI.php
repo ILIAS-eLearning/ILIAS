@@ -333,9 +333,9 @@ class ilSCORMPresentationGUI
 		}
 
 		global $lng;
-		$this->tpl->setCurrentBlock("tree_aufmotz");
+		$this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sco_id"]);
-		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath('scorm/running.gif'));
+		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.gif"));
 		$this->tpl->setVariable("SCO_ALT",
 			 $lng->txt("cont_status").": "
 			.$lng->txt("cont_sc_stat_running")
