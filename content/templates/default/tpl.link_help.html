@@ -26,7 +26,12 @@ body { margin:0px; }
 <tr>
 	<td class="submit">
 	<input type="submit" class="submit" name="cmd[{CMD_CHANGETYPE}]" value="{BTN_CHANGETYPE}">
+	<!-- BEGIN buttonclose -->
 	<input type="submit" class="submit" name="cmd[{CMD_CLOSE}]" value="{BTN_CLOSE}">
+	<!-- END buttonclose -->
+	<!-- BEGIN buttonclosejs -->
+	<input type="button" class="submit" value="{BTN_CLOSE_JS}" onClick="window.close();">
+	<!-- END buttonclosejs -->
 	</td>
 </tr>
 </table>
@@ -51,20 +56,29 @@ body { margin:0px; }
 	</td>
 </tr>
 <!-- BEGIN row -->
-<!-- BEGIN chapter_row -->
-<tr class="{ROWCLASS}">
-	<td class="std"><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}</td>
-</tr>
-<!-- END chapter_row -->
-<!-- BEGIN link_row -->
-<tr class="{ROWCLASS}">
-	<td class="std" nowrap="1">
-	<!-- BEGIN icon -->
-	<img border="0" src="{ICON_SRC}"/>
-	<!-- END icon -->
-	<a href="{LINK}" target="{LINK_TARGET}">{TXT_CHAPTER}</a></td>
-</tr>
-<!-- END link_row -->
+
+	<!-- BEGIN chapter_row -->
+		<tr class="{ROWCLASS}">
+			<td class="std"><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}</td>
+		</tr>
+	<!-- END chapter_row -->
+
+	<!-- BEGIN chapter_row_js -->
+		<tr class="{ROWCLASS}">
+			<td class="std"><b><a href="#" onClick="opener.addInternalLink('{LINK_CHAPTER}');setTimeout('window.close()',300);return(false);">{TXT_CHAPTER}</a></b></td>
+		</tr>
+	<!-- END chapter_row_js -->
+	
+	<!-- BEGIN link_row -->
+		<tr class="{ROWCLASS}">
+			<td class="std" nowrap="1">
+			<!-- BEGIN icon -->
+				<img border="0" src="{ICON_SRC}"/>
+			<!-- END icon -->
+			<a href="{LINK}" target="{LINK_TARGET}">{TXT_CHAPTER}</a></td>
+		</tr>
+	<!-- END link_row -->
+	
 <!-- END row -->
 </table>
 <!-- END chapter_list -->
