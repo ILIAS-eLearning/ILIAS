@@ -1,4 +1,4 @@
-/**
+ï»¿/**
 * ILIAS language file
 *
 * @module		language file spanish
@@ -59,7 +59,7 @@ common#:#application_date#:#Application date###06 Nov 2003 new variable
 common#:#appointment#:#Appointment###01 Sep 2003 new variable
 common#:#appointment_list#:#Appointment List###01 Sep 2003 new variable
 common#:#archive#:#archive
-common#:#are_you_sure#:#Estás seguro?
+common#:#are_you_sure#:#Estï¿½s seguro?
 common#:#assign#:#Assign###26 Sep 2003 new variable
 common#:#assign_lo_forum#:#assign lo forum
 common#:#assign_user_to_role#:#Assign User to Role###29 Mar 2003 new variable
@@ -406,7 +406,7 @@ common#:#keywords#:#keywords
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_de#:#Aleman
 common#:#lang_dk#:#Dinamarqu&eacute;s
-common#:#lang_en#:#Inglés
+common#:#lang_en#:#Inglï¿½s
 common#:#lang_es#:#Espa&ntilde;ol
 common#:#lang_fr#:#Franc&eacute;s
 common#:#lang_id#:#Indonesian
