@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.10 2002/12/19 00:39:19 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.11 2002/12/19 16:25:36 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -321,11 +321,9 @@ class ObjectOut
 		
 				// color changing
 				$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
-			
-				// surpress checkbox for particular object types
 
-				
-				if ($ctrl["type"] == "adm" || $ctrl["type"] == "typ" || $ctrl["type"] == "perm")
+				// surpress checkbox for particular object types
+				if (!$this->objDefinition->hasCheckbox($ctrl["type"]))
 				{
 					$this->tpl->touchBlock("empty_cell");
 				}
