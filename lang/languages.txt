@@ -13,7 +13,7 @@ chapter	chapter	Kapitel	capitolo	chapter
 check	check	prüfen	controlla	check
 chg_language	change language	Sprache ändern	cambia lingua	chg_language
 chg_password	change password	Password ändern	cambia password	chg_password
-choose_language_s	choose language(s)	Wählen Sie eine Sprache	scegli lingua	choose_language_s
+choose_language	choose your language	Bitte wählen Sie Ihre Sprache	scegli lingua	please choose your language
 city	city	Stadt	città	city
 country	country	Land	paese	country
 courses	courses	Kurse	corso	courses
@@ -89,3 +89,14 @@ usr_agreement	user agreement	Vereinbarung	user agreement	usr_agreement
 write	write	schreiben	scrivi	write
 yes	yes	Ja	si	yes
 zip_code	zip code	Postleitzahl	codice postale	zip_code
+step	step	Schritt	step	step
+inifile	INI-file	Ini-Datei	inifile	inifile
+db_name	database name	Datenbankname	database name	database name
+db_user	database user	Datenbankbenutzer	database user	database user
+dp_pass	database password	Datenbankpassword	database password	database password
+reset	reset	Zurücksetzen	reset	reset
+err_create_database_failed	creation of database failed	Datenbank konnte nicht erstellt werden	creation of database failed	creation of database failed
+setup_ready	setup is ready	Setup wurde erfolgreich beendet	setup is ready	setup is ready
+database_exists	database exists	Datenbank existiert bereits	database exists	database exists
+languages_generate_from_file	generate languages from file	Sprachdateien generieren aus Datei	generate languages from file	generate languages from file
+languages_generate_from_upload	generate languages from uploaded file	Sprachdateien generieren aus hochgeladener Datei	generate languages from uploaded file	generate languages from uploaded file
