@@ -316,13 +316,16 @@ common#:#mail_check_your_email_addr#:#Your email address is not valid
 common#:#mail_compose#:#Compose Message
 common#:#mail_d_drafts#:#Drafts
 common#:#mail_delete_error#:#Error while deleting
+common#:#mail_delete_error_file#:#Error deleting file
 common#:#mail_deleted#:#The mail(s) have been deleted
 common#:#mail_deleted_entry#:#The entries are deleted
 common#:#mail_e_sent#:#Sent
+common#:#mail_email_forbidden#:#You are not allowed to send email
 common#:#mail_entry_added#:#Added new Entry
 common#:#mail_entry_changed#:#The entry is changed
 common#:#mail_file_name#:#Filename
 common#:#mail_file_size#:#Filesize
+common#:#mail_files_deleted#:#The file(s) are deleted
 common#:#mail_folder_created#:#A new folder is created
 common#:#mail_folder_exists#:#A folder already exists with this name
 common#:#mail_folder_name#:#Folder name
@@ -346,6 +349,7 @@ common#:#mail_move_to#:#Move mails to
 common#:#mail_moved#:#The mail(s) have been moved
 common#:#mail_moved_to_trash#:#Mail(s) have benn moved to trash
 common#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
+common#:#mail_no_attachments_found#:#No attachments found
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_options_of#:#Options:
 common#:#mail_recipient_not_valid#:#The recipient is not valid
@@ -361,6 +365,7 @@ common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail successfully sent!
 common#:#mail_sure_delete#:#Are you sure, to delete the marked mail(s)
 common#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries
+common#:#mail_sure_delete_file#:#The file will be removed permanently
 common#:#mail_sure_delete_folder#:#The folder and its content will be removed permanently
 common#:#mail_system#:#System Message
 common#:#mail_to_search#:#To search
@@ -584,8 +589,3 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-common#:#mail_email_forbidden#:#You are not allowed to send email
-common#:#mail_delete_error_file#:#Error deleting file
-common#:#mail_sure_delete_file#:#The file will be removed permanently
-common#:#mail_files_deleted#:#The file(s) are deleted
-common#:#mail_no_attachments_found#:#No attachments found
