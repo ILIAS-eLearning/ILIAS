@@ -234,9 +234,9 @@ class ilObjectGUI
 	*/
 	function setAdminTabs($a_new_type = 0)
 	{
-		// temp. for groups
+		// temp. for groups and systemfolder
 		// TODO: use this style for all objects
-		if ($this->object->getType() == "grp")
+		if ($this->object->getType() == "grp" or $this->object->getType() == "adm")
 		{
 			include_once "./classes/class.ilTabsGUI.php";
 			$tabs_gui =& new ilTabsGUI();
