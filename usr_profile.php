@@ -31,11 +31,11 @@
 * @package ilias
 */
 require_once "./include/inc.header.php";
-require_once "./classes/class.ilObjUser.php";
+
 // added by ratana ty to read image directory
 // for upload file
 require_once "./classes/class.ilSetup.php";
-
+// TODO: use $ilias->ini->getVariable instead using setup class to fetch webspace_path
 // Read from ini file webspace dir ./docss
 require_once "classes/class.ilSetup.php";
 $mySetup = new ilSetup();
@@ -259,7 +259,8 @@ if ($_GET["cmd"] == "save")
 	$ilias->account->setFirstName($_POST["usr_fname"]);
 	$ilias->account->setLastName($_POST["usr_lname"]);
 	$ilias->account->setGender($_POST["usr_gender"]);
-	$ilias->account->setTitle($_POST["usr_title"]);
+	$ilias->account->setUTitle($_POST["usr_title"]);
+	$ilias->account->setFullname();
 	// added for upload by ratana ty
 	//$ilias->account->setFile($_POST["usr_file"]);
 	$ilias->account->setInstitution($_POST["usr_institution"]);
@@ -294,29 +295,38 @@ if ($_GET["cmd"] == "save")
 			}
 		}
 
-		// save user data
+		// save user data & object_data
+		$ilias->account->setTitle($ilias->account->getFullname());
+		$ilias->account->setDescription($ilias->account->getEmail());
 		$ilias->account->update();
 		//upload_file();
 
+		// this is not needed because the object_data entry is updated by ilObject
 		// update object_data
-		require_once "classes/class.ilObjUser.php";
-		$userObj = new ilObjUser($ilias->account->getId());
-		$userObj->setTitle($ilias->account->getFullname());
-		$userObj->setDescription($ilias->account->getEmail());
-		$userObj->update();
-
-		// feedback
-		sendInfo($lng->txt("saved_successfully"),true);
+		//include_once "classes/class.ilObjUser.php";
+		//$userObj = new ilObjUser($ilias->account->getId());
+		//$userObj->setTitle($ilias->account->getFullname());
+		//$userObj->setDescription($ilias->account->getEmail());
+		//$userObj->update();
+		
+		//$userObj->setTitle($ilias->account->getFullname());
+		//$userObj->setDescription($ilias->account->getEmail());
+		//$userObj->update();
 
 		// reload page only if skin or style were changed
 		if ($reload)
 		{
+			// feedback
+			sendInfo($lng->txt("saved_successfully"));
 			$tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 		}
 		else
 		{
+			// feedback
+			sendInfo($lng->txt("saved_successfully"),true);
+
 			header ("Location: usr_personaldesktop.php");
-			exit;
+			exit();
 		}
 
 	}
@@ -423,7 +433,7 @@ $tpl->setVariable("SELECTED_".strtoupper($ilias->account->getGender()), "selecte
 $tpl->setVariable("FIRSTNAME", $ilias->account->getFirstname());
 $tpl->setVariable("LASTNAME", $ilias->account->getLastname());
 
-$tpl->setVariable("TITLE", $ilias->account->getTitle());
+$tpl->setVariable("TITLE", $ilias->account->getUTitle());
 $tpl->setVariable("INSTITUTION", $ilias->account->getInstitution());
 $tpl->setVariable("STREET", $ilias->account->getStreet());
 $tpl->setVariable("ZIPCODE", $ilias->account->getZipcode());
@@ -491,5 +501,4 @@ if($ilias->account->prefs["public_hobby"]=="y")			// here
 
 $tpl->parseCurrentBlock();
 $tpl->show();
-
 ?>
