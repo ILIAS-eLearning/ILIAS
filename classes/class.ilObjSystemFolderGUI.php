@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.40 2004/09/21 15:47:13 smeyer Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.41.2.1 2004/10/14 10:24:59 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1160,11 +1160,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			{
 				$scan_log .= $this->lng->txt("nothing_to_remove").$this->lng->txt("skipped");
 			}
+
+			// find unbound objects again AFTER cleaning process!
+			// This updates the array 'unboundobjects' required for the further steps
+			// There might be other objects unbounded now due to removal of object_data/reference entries.
+			$validator->findUnboundObjects();
 		}
 
-		// find unbound objects again AFTER cleaning process!
-		$validator->findUnboundObjects();
-		
 		// STEP 3: Restore objects
 		$scan_log .= "<br /><br />".$this->lng->txt("restoring");
 		
