@@ -2551,6 +2551,7 @@ content#:#cont_offline#:#Versions hors-ligne
 content#:#cont_online#:#En ligne
 content#:#cont_or#:#or###29 Nov 2004 new variable
 content#:#cont_order#:#Type d'ordre
+content#:#cont_ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###11 Dec 2004 new variable
 content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisations
 content#:#cont_orig_size#:#Taille originale

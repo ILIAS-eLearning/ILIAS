@@ -1657,9 +1657,9 @@ common#:#msg_no_rolf_allowed2#:#no está permitido contener una Carpeta de Roles
 common#:#msg_no_scan_log#:#Scan Log no implementado aún
 common#:#msg_no_search_result#:#No se encontraron resultados
 common#:#msg_no_search_string#:#Por favor introduzca su consulta
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#No puede asignar usuarios al rol de administrador si no está asignado a ese rol
 common#:#msg_no_title#:#Please enter a title.###29 Nov 2004 new variable
 common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#No puede asignar usuarios al rol de administrador si no está asignado a ese rol
 common#:#msg_not_available_for_anon#:#La página especificada sólo está accesible para usuarios registrados
 common#:#msg_not_in_itself#:#No es posible pegar el objeto sobre sí mismo
 common#:#msg_nothing_found#:#Nada encontrado
@@ -2354,8 +2354,8 @@ content#:#cont_active#:#Habilitar Menú
 content#:#cont_add_area#:#Añadir Área
 content#:#cont_add_change_comment#:#Add change comment###03 Dec 2004 new variable
 content#:#cont_add_definition#:#Añadir Definición
-content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
 content#:#cont_add_fullscreen#:#Añadir Pantalla Completa
+content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
 content#:#cont_added_term#:#-Término- añadido
 content#:#cont_all_definitions#:#Todas las Definiciones
 content#:#cont_all_pages#:#Todas las Páginas
@@ -2578,6 +2578,7 @@ content#:#cont_offline#:#Versiones Offline
 content#:#cont_online#:#Online
 content#:#cont_or#:#or###29 Nov 2004 new variable
 content#:#cont_order#:#Tipo de Orden
+content#:#cont_ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###11 Dec 2004 new variable
 content#:#cont_organization#:#Organización
 content#:#cont_organizations#:#Organizaciones
 content#:#cont_orig_size#:#Tamaño Original
@@ -3773,9 +3774,6 @@ payment#:#paya_locator#:#Administrador de pago
 payment#:#paya_months#:#Mes(es)
 payment#:#paya_no_booking_id_given#:#Error: no se ha introducido 'booking id'
 payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.###04 Oct 2004 new variable
-payment#:#pays_add_info#:#Additional information for bill (optional)###29 Nov 2004 new variable
-payment#:#pays_address#:#Address for bill###29 Nov 2004 new variable
-payment#:#pays_bank_data#:#Bank data for bill###29 Nov 2004 new variable
 payment#:#paya_no_object_selected#:#Por favor seleccione un objeto
 payment#:#paya_no_objects_assigned#:#No hay objetos en venta.
 payment#:#paya_no_price_available#:#No hay precios disponibles
@@ -3815,10 +3813,13 @@ payment#:#paya_updated_trustees#:#Permisos actualizados
 payment#:#paya_user_already_assigned#:#Usuario ya asignado.
 payment#:#paya_vendor#:#Proveedor
 payment#:#pays_active_bookings#:#Reservas activas
+payment#:#pays_add_info#:#Additional information for bill (optional)###29 Nov 2004 new variable
 payment#:#pays_add_vendor#:#Añadir proveedor
 payment#:#pays_added_vendor#:#Nuevo proveedor añadido
+payment#:#pays_address#:#Address for bill###29 Nov 2004 new variable
 payment#:#pays_already_assigned_vendors#:#El siguiente número de usuarios ya fue asignado:
 payment#:#pays_assigned_vendors#:#El siguiente número de usuarios ha sido asignado a la lista de proveedores:
+payment#:#pays_bank_data#:#Bank data for bill###29 Nov 2004 new variable
 payment#:#pays_bill#:#Factura
 payment#:#pays_bmf#:#BMF###02 Oct 2004 new variable
 payment#:#pays_cost_center#:#Centro de gasto
