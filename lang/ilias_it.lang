@@ -118,7 +118,7 @@ assessment#:#create_imagemap#:#Crea una immaggine con mappa
 assessment#:#create_new#:#Nuova domanda
 assessment#:#delete_area#:#Elimina area
 assessment#:#detail_ending_time_reached#:#Il tempo disponibile per l'esecuzione del test &#232; trascorso. Il test non sar&#224; disponibile fino al %s
-assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!###03 Jul 2004 new variable
+assessment#:#detail_max_processing_time_reached#:#Hai raggiunto il tempo massimo consentito per l'esecuzione del test!
 assessment#:#detail_starting_time_not_reached#:#Non &#232; ancora possibile eseguire il test. Il test sar&#224; disponibile il %s
 assessment#:#duplicate#:#Duplica
 assessment#:#end_tag#:#Fine tag
@@ -126,15 +126,15 @@ assessment#:#ending_time_reached#:#Hai esaurito il tempo a disposizione
 assessment#:#error_open_image_file#:#Errore nell'apertura dell'immagine!
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s &#232; %s. Ricevi %s punti.
-assessment#:#eval_data#:#Evaluation Data###04 Jul 2004 new variable
+assessment#:#eval_data#:#Dati di valutazione
 assessment#:#eval_imagemap_result#:#L'immagine scelta &#232; %s. Ricevi %s punti.
 assessment#:#eval_java_result#:#La risposta corretta alla domanda %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_legend_link#:#Per il significato dei simboli nella testata, vedi la legenda.
 assessment#:#eval_matching_result#:#La coppia corrispondente %s - %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_order_result#:#La risposta %s &#232; la numero %s. Ricevi %s punti.
-assessment#:#exp_eval_data#:#Esporta dati da valutare###02 Jul 2004 content changed
-assessment#:#exp_type_excel#:#  Excel  ###02 Jul 2004 content changed
-assessment#:#exp_type_spss#:#  SPSS  ###02 Jul 2004 content changed
+assessment#:#exp_eval_data#:#Esporta i dati con le valutazioni
+assessment#:#exp_type_excel#:#  Excel  
+assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Esporta
 assessment#:#false#:#Falso
 assessment#:#fill_out_all_answer_fields#:#Per favore, riempi tutti i testi delle risposte prima di aggiungerne un'altra!
@@ -160,7 +160,7 @@ assessment#:#javaapplet#:#Applet Java
 assessment#:#last_update#:#Ultimo aggiornamento
 assessment#:#legend#:#Legenda
 assessment#:#locked#:#Bloccato
-assessment#:#maintenance#:#Maintenance###10 Jul 2004 new variable
+assessment#:#maintenance#:#Manutenzione
 assessment#:#mark_schema#:#Schema voti
 assessment#:#match_terms_and_definitions#:#Associa termini e definizioni
 assessment#:#match_terms_and_pictures#:#Associa termini e figure
@@ -240,11 +240,11 @@ assessment#:#text_gap#:#Spazio vuoto
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Per favore, riempi i campi vuoti dei parametri dell'applet prima di aggiungerne nuovi!
 assessment#:#true#:#Vero
-assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!###10 Jul 2004 new variable
+assessment#:#tst_all_user_data_deleted#:#Tutti i dati degli utenti di questo test sono stati cancellati!
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
 assessment#:#tst_browse_for_questions#:#Cerca le domande
-assessment#:#tst_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+assessment#:#tst_delete_all_user_data#:#Cancella tutti i dati degli utenti
 assessment#:#tst_delete_missing_mark#:#Per favore, scegli almeno un voto se vuoi eliminarlo
 assessment#:#tst_ending_time#:#Ora di fine
 assessment#:#tst_eval_no_anonymous_aggregation#:#Nessuno ha ancora inserito il test. Non sono disponibili risultati aggregati per Anonimo
@@ -489,7 +489,7 @@ common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#access#:#Accesso
 common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
-common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
+common#:#activate_tracking#:#Attiva il tracciamento
 common#:#activation#:#Attivazione
 common#:#active_roles#:#Ruoli attivi
 common#:#add#:#Aggiungi
@@ -506,25 +506,25 @@ common#:#administration#:#Amministrazione
 common#:#administrator#:#Amministratore
 common#:#adopt#:#Adotta
 common#:#adopt_perm_from_template#:#Assegna i permessi del Template di Ruolo
-common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
+common#:#all_lms#:#Tutti i moduli
 common#:#all_objects#:#Tutti gli oggetti
-common#:#all_tsts#:#All tests###02 Jul 2004 new variable
+common#:#all_tsts#:#Tutti i test
 common#:#allow_register#:#Disponibile nel form di registrazione per i nuovi utenti
-common#:#alm#:#AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_added#:#AICC Learning Module added###15 Jul 2004 new variable
-common#:#alm_create#:#Create AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_delete#:#Delete AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
-common#:#alm_join#:#Subscribe to AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_leave#:#Unsubscribe from AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_read#:#Read access to AICC Learning Module###15 Jul 2004 new variable
-common#:#alm_visible#:#AICC Learning Module is visible###15 Jul 2004 new variable
-common#:#alm_write#:#Edit AICC Learning Module###15 Jul 2004 new variable
+common#:#alm#:#Modulo AICC
+common#:#alm_added#:#Modulo AICC aggiunto
+common#:#alm_create#:#Creare un modulo AICC
+common#:#alm_delete#:#Cancellare un modulo AICC
+common#:#alm_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#alm_join#:#Iscrivere ad un modulo AICC
+common#:#alm_leave#:#Annullare iscrizione ad un modulo AICC
+common#:#alm_read#:#Accedere in lettura ad un modulo AICC
+common#:#alm_visible#:#Vedere i moduli AICC
+common#:#alm_write#:#Modificare i moduli AICC
 common#:#and#:#e
 common#:#announce#:#Annuncia
 common#:#announce_changes#:#Annuncia cambiamenti
 common#:#answers#:#Risposta
-common#:#any_language#:#Any language###02 Jul 2004 new variable
+common#:#any_language#:#Tutte le lingue
 common#:#application_completed#:#Richiesta completata
 common#:#application_date#:#Data della richiesta
 common#:#appointment#:#Appuntamento
@@ -561,7 +561,7 @@ common#:#bookmark_target#:#Indirizzo
 common#:#bookmarks#:#Segnalibri
 common#:#bookmarks_of#:#Segnalibri di
 common#:#btn_remove_system#:#Rimuovi dal sistema
-common#:#btn_undelete#:#annulla la cancellazione
+common#:#btn_undelete#:#Annulla la cancellazione
 common#:#by#:#da
 common#:#calendar#:#Agenda
 common#:#cancel#:#Annulla
@@ -574,7 +574,7 @@ common#:#cat_a#:#Una categoria
 common#:#cat_add#:#Aggiungi categoria
 common#:#cat_added#:#Categoria aggiunta
 common#:#cat_create#:#Crea una categoria
-common#:#cat_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#cat_create_alm#:#Creare un modulo AICC
 common#:#cat_create_cat#:#Creare una categoria
 common#:#cat_create_chat#:#Creare una chat
 common#:#cat_create_crs#:#Creare un corso
@@ -583,7 +583,7 @@ common#:#cat_create_exc#:#Creare un esercizio
 common#:#cat_create_frm#:#Creare un forum
 common#:#cat_create_glo#:#Creare un glossario
 common#:#cat_create_grp#:#Creare un gruppo
-common#:#cat_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#cat_create_hlm#:#Creare un modulo HACP
 common#:#cat_create_htlm#:#Creare un modulo HTML
 common#:#cat_create_lm#:#Creare un modulo
 common#:#cat_create_mep#:#Creare una libreria multimediale
@@ -678,10 +678,10 @@ common#:#crs_add#:#Aggiungi corso
 common#:#crs_added#:#Corso aggiunto
 common#:#crs_available#:#Corsi disponibili
 common#:#crs_create#:#Creare un corso
-common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#crs_create_alm#:#Creare un modulo AICC
 common#:#crs_create_frm#:#Creare un forum
 common#:#crs_create_glo#:#Creare un glossario
-common#:#crs_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#crs_create_hlm#:#Creare un modulo HACP
 common#:#crs_create_lm#:#Creare un modulo
 common#:#crs_create_slm#:#Creare un modulo SCORM
 common#:#crs_delete#:#Cancellare un corso
@@ -706,7 +706,7 @@ common#:#date#:#Data
 common#:#dateplaner#:#Agenda
 common#:#day#:#Giorno
 common#:#days#:#Giorni
-common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
+common#:#days_of_period#:#Giorni nel periodo
 common#:#db_host#:#Macchina con il database
 common#:#db_name#:#Nome del database
 common#:#db_need_update#:#Occorre aggiornare il database!
@@ -738,7 +738,7 @@ common#:#delete_all#:#Elimina tutto
 common#:#delete_all_rec#:#Cancella tutti i record
 common#:#delete_object#:#Elimina oggetto
 common#:#delete_selected#:#Elimina selezionato
-common#:#delete_tr_data#:#Delete tracking data###09 Jul 2004 new variable
+common#:#delete_tr_data#:#Elimina i dati del tracciamento
 common#:#deleted#:#Eliminato
 common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
@@ -849,13 +849,13 @@ common#:#fold#:#Cartella
 common#:#fold_a#:#una cartella
 common#:#fold_add#:#Aggiungi cartella
 common#:#fold_added#:#Cartella aggiunta
-common#:#fold_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#fold_create_alm#:#Creare modulo AICC
 common#:#fold_create_chat#:#Creare chat
 common#:#fold_create_file#:#Creare file
 common#:#fold_create_fold#:#Creare cartelle
 common#:#fold_create_frm#:#Creare forum
 common#:#fold_create_glo#:#Creare glossari
-common#:#fold_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#fold_create_hlm#:#Creare modulo HACP
 common#:#fold_create_lm#:#Creare moduli
 common#:#fold_create_slm#:#Creare moduli SCORM
 common#:#fold_delete#:#Cancellare cartelle
@@ -960,7 +960,7 @@ common#:#grp_added#:#Gruppo aggiunto
 common#:#grp_already_applied#:#E' gi&#224; stato applicato a questo gruppo! Aspetta la conferma
 common#:#grp_back#:#Indietro
 common#:#grp_create#:#Crea un gruppo
-common#:#grp_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
+common#:#grp_create_alm#:#Creare moduli AICC
 common#:#grp_create_chat#:#Creare Chat
 common#:#grp_create_dbk#:#Creare Libri digitali
 common#:#grp_create_exc#:#Create Esercizi
@@ -968,7 +968,7 @@ common#:#grp_create_file#:#Eseguire upload di file
 common#:#grp_create_fold#:#Creare cartelle
 common#:#grp_create_frm#:#Creare forum
 common#:#grp_create_glo#:#Creare glossario
-common#:#grp_create_hlm#:#Create HACP Learning Module###15 Jul 2004 new variable
+common#:#grp_create_hlm#:#Creare moduli HACP
 common#:#grp_create_htlm#:#Creare moduli HTML
 common#:#grp_create_lm#:#Creare moduli
 common#:#grp_create_mep#:#Creare raccolte multimediali
@@ -1007,20 +1007,20 @@ common#:#header_title#:#Intestazione
 common#:#help#:#Aiuto
 common#:#hide_details#:#Nascondi dettagli
 common#:#hide_structure#:#Nascondi la vista della struttura
-common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_added#:#HACP Learning Module added###15 Jul 2004 new variable
-common#:#hlm_create#:#Create HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_delete#:#Delete HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_edit_permission#:#Change permission settings###15 Jul 2004 new variable
-common#:#hlm_join#:#Subscribe to HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_leave#:#Unsubscribe from HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_read#:#Read access to HACP Learning Module###15 Jul 2004 new variable
-common#:#hlm_visible#:#HACP Learning Module is visible###15 Jul 2004 new variable
-common#:#hlm_write#:#Edit HACP Learning Module###15 Jul 2004 new variable
+common#:#hlm#:#Modulo HACP
+common#:#hlm_added#:#Modulo HACP aggiunto
+common#:#hlm_create#:#Creare un modulo HACP
+common#:#hlm_delete#:#Eliminare un modulo HACP
+common#:#hlm_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#hlm_join#:#Iscrivere ad un modulo HACP
+common#:#hlm_leave#:#Annullare iscrizione ad un modulo HACP
+common#:#hlm_read#:#Accedere in lettura ai moduli HACP
+common#:#hlm_visible#:#Vedere i moduli HACP
+common#:#hlm_write#:#Modificare i moduli HACP
 common#:#hobby#:#Interessi/Passatempi
 common#:#home#:#Home
 common#:#host#:#Macchina
-common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
+common#:#hours_of_day#:#Ore nel giorno
 common#:#htlm#:#Modulo HTML
 common#:#htlm_add#:#Aggiungi modulo HTML
 common#:#htlm_delete#:#Cancellare un modulo HTML
@@ -1038,7 +1038,7 @@ common#:#ilias_version#:#Versione ILIAS3
 common#:#image#:#Immagine
 common#:#image_gen_unsucc#:#Generazione dell&#039;immagine fallita. Contatta l&#039;amministratore di sistema e controlla la configurazione degli strumenti di conversione.
 common#:#import#:#Importa
-common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
+common#:#import_alm#:#Importa un modulo AICC
 common#:#import_categories#:#Importa categorie
 common#:#import_file#:#Importa file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
@@ -1046,7 +1046,7 @@ common#:#import_finished#:#Numero di messaggi importati.
 common#:#import_forum_finished#:#Il forum &#232; stato importato.
 common#:#import_glossary#:#Importa Glossario
 common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
-common#:#import_hlm#:#Import HACP Package###15 Jul 2004 new variable
+common#:#import_hlm#:#Importa un modulo HACP
 common#:#import_lm#:#Importa modulo
 common#:#import_root_user#:#Importa utente root
 common#:#import_slm#:#Importa modulo SCORM
@@ -1224,7 +1224,7 @@ common#:#mail_visible#:#Vedere le impostazioni della posta
 common#:#mail_write#:#Modificare le impostazioni della posta
 common#:#mail_z_local#:#Cartelle utente
 common#:#mails#:#Mail
-common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
+common#:#manage_tracking_data#:#Gestione dati di tracciamento
 common#:#mark_all_read#:#Contrassegna tutto come letto
 common#:#mark_all_unread#:#Contrassegna tutto come non letto
 common#:#max_number_rec#:#Numero massimo di record
@@ -1316,15 +1316,15 @@ common#:#msg_no_perm_create_rolt#:#Non hai i diritti per aggiungere template di 
 common#:#msg_no_perm_create_user#:#Non hai i diritti per creare utenti
 common#:#msg_no_perm_cut#:#Non hai i diritti per tagliare i seguenti oggetti: 
 common#:#msg_no_perm_delete#:#Non hai i diritti per eliminare i seguenti oggetti: 
-common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.###10 Jul 2004 new variable
+common#:#msg_no_perm_delete_track#:#Non hai i diritti per eliminare i dati di tracciamento.
 common#:#msg_no_perm_link#:#Non hai i diritti per creare dei collegamenti dai seguenti oggetti: 
 common#:#msg_no_perm_modify_role#:#Non hai i diritti per modificare i ruoli
 common#:#msg_no_perm_modify_rolt#:#Non hai i diritti per modificare i template dei ruoli
 common#:#msg_no_perm_modify_user#:#Non hai i diritti per modificare i dati dell&#039;utente
 common#:#msg_no_perm_paste#:#Non hai i diritti per incollare i seguenti oggetti:
 common#:#msg_no_perm_perm#:#Non hai i diritti per modificare le impostazioni dei permessi
-common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
-common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
+common#:#msg_no_perm_read_lm#:#Non hai i diritti per accedre a questo modulo.
+common#:#msg_no_perm_read_track#:#Non hai i diritti per accedere al tracciamento utente.
 common#:#msg_no_perm_undelete#:#Non hai i diritti per ripristinare i seguenti oggetti:
 common#:#msg_no_perm_write#:#Non hai i diritti di scrittura
 common#:#msg_no_rolf_allowed1#:#L&#039;oggetto
@@ -1393,12 +1393,12 @@ common#:#normal#:#Normale
 common#:#not_implemented_yet#:#Non ancora implementato
 common#:#not_installed#:#Non installata
 common#:#not_logged_in#:#Non sei entrato in ILIAS3
-common#:#number_of_accesses#:#Number of accesses###09 Jul 2004 new variable
+common#:#number_of_accesses#:#Numero di accessi
 common#:#number_of_records#:#Numero di record
 common#:#obj#:#Oggetto
 common#:#obj_adm#:#Impostazioni di sistema
 common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS3.
-common#:#obj_alm#:#AICC Learning Module###15 Jul 2004 new variable
+common#:#obj_alm#:#Modulo AICC
 common#:#obj_cat#:#Categoria
 common#:#obj_cen#:#Evento principale
 common#:#obj_chac#:#Impostazioni chat
@@ -1412,7 +1412,7 @@ common#:#obj_fold#:#Cartella
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossario
 common#:#obj_grp#:#Gruppo
-common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
+common#:#obj_hlm#:#Modulo HACP
 common#:#obj_htlm#:#Modulo HTML
 common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le ipostazioni globali del LDAP qui.
@@ -1449,8 +1449,8 @@ common#:#obj_svy#:#Verifica
 common#:#obj_tax#:#Tassonomia
 common#:#obj_taxf#:#Tassonomie
 common#:#obj_taxf_desc#:#Cartella per le tassonomie
-common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
-common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
+common#:#obj_trac#:#Tracciamento utenti
+common#:#obj_trac_desc#:#Dati accesso utente
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Definizione tipo oggetto
 common#:#obj_type#:#Tipo oggetto
@@ -1465,7 +1465,7 @@ common#:#objf_edit_permission#:#Modificare le impostazioni dei permessi degli og
 common#:#objf_read#:#Accedere in lettura alle definizioni degli oggetti
 common#:#objf_visible#:#Vedere le definizioni degli oggetti
 common#:#objf_write#:#Modificare le definizioni degli oggetti
-common#:#objs_alm#:#AICC Learning Modules###15 Jul 2004 new variable
+common#:#objs_alm#:#Modulo AICC
 common#:#objs_cat#:#Categorie
 common#:#objs_chat#:#Chat
 common#:#objs_confirm#:#Conferma la cancellazione
@@ -1478,7 +1478,7 @@ common#:#objs_fold#:#Cartelle
 common#:#objs_frm#:#Forum
 common#:#objs_glo#:#Glossari
 common#:#objs_grp#:#Gruppi
-common#:#objs_hlm#:#HACP Learning Modules###15 Jul 2004 new variable
+common#:#objs_hlm#:#Modulo HACP
 common#:#objs_htlm#:#Moduli HTML
 common#:#objs_lm#:#Moduli
 common#:#objs_lng#:#Lingue
@@ -1519,7 +1519,7 @@ common#:#passwd#:#Password
 common#:#passwd_invalid#:#La nuova password non &#232; valida! Per favore, scegli un'altra password.
 common#:#passwd_not_match#:#I valori della nuova password non sono uguali! Per favore, riscrivi la nuova password.
 common#:#passwd_wrong#:#La password inserita &#232; sbagliata!
-common#:#password#:#Con password
+common#:#password#:#Password
 common#:#paste#:#Incolla
 common#:#pasteChapter#:#Incolla capitolo
 common#:#pastePage#:#Incolla pagina
@@ -1577,7 +1577,7 @@ common#:#qpl_new#:#Nuova raccolta di domande
 common#:#qpl_read#:#Accedere in lettura ad una raccolta di domande
 common#:#qpl_visible#:#Vedere una raccolta di domande
 common#:#qpl_write#:#Modificare una raccolta di domande
-common#:#query_data#:#Query data###02 Jul 2004 new variable
+common#:#query_data#:#Invia
 common#:#question#:#Domanda
 common#:#question_pools#:#Raccolte di domande
 common#:#quit#:#Esci
@@ -1652,7 +1652,7 @@ common#:#save_message#:#Salva messaggio
 common#:#save_refresh#:#Salva e aggiorna
 common#:#save_return#:#Salva e invia
 common#:#save_settings#:#Salva le impostazioni
-common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
+common#:#save_user_related_data#:#Salva i dati relativi agli accessi degli utenti
 common#:#saved#:#Salvato
 common#:#saved_successfully#:#Modifiche effettuate con successo
 common#:#search#:#Ricerca
@@ -1696,11 +1696,11 @@ common#:#slm_added#:#Aggiungere un modulo SCORM
 common#:#slm_create#:#Creare un modulo SCORM
 common#:#slm_delete#:#Cancellare un modulo SCORM
 common#:#slm_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#slm_join#:#Iscrivere al modulo SCORM
-common#:#slm_leave#:#Cancellare l&#039;iscrizione al modulo SCORM
-common#:#slm_read#:#Accedere in lettira al modulo SCORM
-common#:#slm_visible#:#Vedere il modulo SCORM
-common#:#slm_write#:#Modificare il modulo SCORM
+common#:#slm_join#:#Iscrivere ad un modulo SCORM
+common#:#slm_leave#:#Cancellare l&#039;iscrizione ad un modulo SCORM
+common#:#slm_read#:#Accedere in lettura ad un modulo SCORM
+common#:#slm_visible#:#Vedere un modulo SCORM
+common#:#slm_write#:#Modificare un modulo SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
 common#:#spl#:#Raccolta di domande (questionario)
@@ -1717,7 +1717,7 @@ common#:#st_added#:#Captolo aggiunto
 common#:#st_edit#:#Modifica capitolo
 common#:#st_new#:#Nuovo capitolo
 common#:#startpage#:#Pagina di partenza
-common#:#statistic#:#Statistic###02 Jul 2004 new variable
+common#:#statistic#:#Statistiche
 common#:#status#:#Stato
 common#:#step#:#Passo
 common#:#stop_inheritance#:#Interrompi l&#039;ereditariet&#224;
@@ -1749,12 +1749,12 @@ common#:#system_grp#:#Gruppo di sistema
 common#:#system_language#:#Lingua di sistema
 common#:#system_message#:#Messaggio di sistema
 common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
-common#:#tax#:#Taxonomy###15 Jul 2004 new variable
-common#:#tax_add#:#Add Taxonomy###15 Jul 2004 new variable
-common#:#tax_delete#:#Cancellare le tassonomie
-common#:#tax_edit#:#Edit Taxonomy###15 Jul 2004 new variable
+common#:#tax#:#Tassonomia
+common#:#tax_add#:#Aggiungi tassonomia
+common#:#tax_delete#:#Eliminare le tassonomie
+common#:#tax_edit#:#Modificare le tassonomie
 common#:#tax_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#tax_new#:#New Taxonomy###15 Jul 2004 new variable
+common#:#tax_new#:#Nuova tassonomia
 common#:#tax_read#:#Accedere in lettura alle tassonomie
 common#:#tax_visible#:#Vedere le tassonomie
 common#:#tax_write#:#Accedere in scrittura alle tassonomie
@@ -1770,7 +1770,7 @@ common#:#tests#:#Test
 common#:#time#:#Ora
 common#:#time_d#:#Giorno
 common#:#time_h#:#Ora
-common#:#time_segment#:#Intervallo di tempo###02 Jul 2004 content changed
+common#:#time_segment#:#Intervallo di tempo
 common#:#title#:#Titolo
 common#:#to#:#A:
 common#:#to_client_list#:#Vai alla lista di Client
@@ -1778,15 +1778,15 @@ common#:#to_desktop#:#Invia sul desktop
 common#:#today#:#Oggi
 common#:#total#:#Totale
 common#:#tpl_path#:#Percorso template
-common#:#trac_delete#:#Delete Tracking Data###10 Jul 2004 new variable
-common#:#trac_edit_permission#:#Change permission settings###10 Jul 2004 new variable
-common#:#trac_read#:#Read Tracking Data###10 Jul 2004 new variable
-common#:#trac_visible#:#User tracking is visible###10 Jul 2004 new variable
-common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
-common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
-common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
-common#:#tracking_data_deleted#:#Tracking data deleted###09 Jul 2004 new variable
-common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
+common#:#trac_delete#:#Eliminare i dati di tracciamento
+common#:#trac_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#trac_read#:#Accedere in lettura ai dati di tracciamento
+common#:#trac_visible#:#Vedere i dati di tracciamento
+common#:#tracked_objects#:#Oggetti tracciati
+common#:#tracking_data#:#Dati di tracciamento
+common#:#tracking_data_del_confirm#:#Vuoi veramente eliminare tutti i dati di tracciamento del mese specifico e dei precedenti?
+common#:#tracking_data_deleted#:#Dati di tracciamento eliminati.
+common#:#tracking_settings#:#Impostazioni del tracciamento
 common#:#translation#:#Traduzione
 common#:#trash#:#Cestino
 common#:#treeview#:#Vista ad albero
@@ -1819,19 +1819,19 @@ common#:#uploaded_and_checked#:#E'stato eseguito l'upload ed il controllo del fi
 common#:#url#:#URL
 common#:#url_description#:#Descrizione URL
 common#:#user#:#Utente
-common#:#user_access#:#Access per user###02 Jul 2004 new variable
+common#:#user_access#:#Accesso utente
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utente assegnato
 common#:#user_deleted#:#Cancellazione eseguita
 common#:#user_imported#:#Importazione utenti completata.
-common#:#user_language#:#la tua lingua utente
+common#:#user_language#:#Lingua
 common#:#user_not_chosen#:#Non hai scelto un membro del gruppo!
 common#:#userdata#:#Dati utente
 common#:#username#:#Nome utente
 common#:#users#:#Utenti
 common#:#users_not_imported#:#I seguenti utenti non esistono, i loro messaggi non possono essere importati
 common#:#users_online#:#Utenti online
-common#:#usertracking#:#Tracciamento utente
+common#:#usertracking#:#Tracciamento utenti
 common#:#usr#:#Utente
 common#:#usr_a#:#un utente
 common#:#usr_add#:#Aggiungi utente
@@ -1900,14 +1900,14 @@ content#:#cont_added_term#:#Termine aggiunto
 content#:#cont_all_definitions#:#Tutte le definizioni
 content#:#cont_all_pages#:#Tutte le pagine
 content#:#cont_alphabetic#:#Alfabetico a, b, ...
-content#:#cont_api_adapter#:#API Adapter Name###20 Apr 2004 new variable
-content#:#cont_api_func_prefix#:#API Functions Prefix###20 Apr 2004 new variable
+content#:#cont_api_adapter#:#Nome del modulo Adapter (API)
+content#:#cont_api_func_prefix#:#Prefisso delle funzioni (API)
 content#:#cont_areas_deleted#:#Aree cancellate.
 content#:#cont_assign_full#:#Imposta a schermo pieno
 content#:#cont_assign_std#:#Imposta a schermo standard
 content#:#cont_assign_translation#:#Assegna la traduzione
 content#:#cont_assignments_deleted#:#Le impostazioni sono state cancellate
-content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
+content#:#cont_autoindent#:#Indentazione automatica
 content#:#cont_back#:#Indietro
 content#:#cont_booktitle#:#Titolo del libro
 content#:#cont_bottom#:#In fondo
@@ -1945,14 +1945,14 @@ content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_folder#:#Crea cartella
 content#:#cont_create_mob#:#Crea un oggetto multimediale
-content#:#cont_credit_mode#:#Modalit&#224; con crediti (per lezioni i tipo 'normal')
+content#:#cont_credit_mode#:#Modalit&#224; con crediti (per lezioni i tipo 'Normale')
 content#:#cont_credit_off#:#Senza crediti
 content#:#cont_credit_on#:#Con crediti
 content#:#cont_credits#:#Ringraziamenti
 content#:#cont_cross_reference#:#Riferimento incrociato
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Layout predefinito
-content#:#cont_def_lesson_mode#:#Modalit&#224; della lezione normale
+content#:#cont_def_lesson_mode#:#Modalit&#224; di esecuzione del modulo
 content#:#cont_def_organization#:#Organizzazione predefinita
 content#:#cont_definition#:#Definizione
 content#:#cont_definitions#:#Definizioni
@@ -2088,8 +2088,8 @@ content#:#cont_roman#:#Romani i, ii, ...
 content#:#cont_rvalue#:#Valori
 content#:#cont_saved_map_area#:#Area salvata
 content#:#cont_saved_map_data#:#Dati salvati
-content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
-content#:#cont_sc_less_mode_browse#:#Visione
+content#:#cont_sc_auto_review#:#Imposta in modalit&#224; 'Lettura' se lo studente ha completato il modulo
+content#:#cont_sc_less_mode_browse#:#Lettura
 content#:#cont_sc_less_mode_normal#:#Normale
 content#:#cont_sc_stat_browsed#:#Visto
 content#:#cont_sc_stat_completed#:#Completato
@@ -2100,7 +2100,7 @@ content#:#cont_sc_stat_passed#:#Superato
 content#:#cont_sc_stat_running#:#In esecuzione
 content#:#cont_sc_title#:#Titolo
 content#:#cont_school#:#Scuola
-content#:#cont_score#:#Score###10 Jul 2004 new variable
+content#:#cont_score#:#Punteggio
 content#:#cont_scorm_type#:#tipo di SCORM
 content#:#cont_select_item#:#Seleziona almeno un elemento.
 content#:#cont_select_max_one_item#:#Per favore, scegli solo un elemento
@@ -2143,7 +2143,7 @@ content#:#cont_table_width#:#Larghezza tabella
 content#:#cont_target_within_source#:#Il destinatario non deve essere l&#039;oggetto sorgente.
 content#:#cont_term#:#Termine
 content#:#cont_terms#:#Termini
-content#:#cont_time#:#Time###10 Jul 2004 new variable
+content#:#cont_time#:#Tempo
 content#:#cont_time_limit_action#:#esecuzione a tempo
 content#:#cont_toc#:#Tabella dei contenuti
 content#:#cont_toc_mode#:#Modalit&#224; menu
@@ -3084,9 +3084,9 @@ survey#:#ask_insert_questionblocks#:#Sei sicuro di voler inserire i seguenti blo
 survey#:#ask_insert_questions#:#Sei sicuro di voler inserire le seguenti domande nel questionario?
 survey#:#back#:#<< Indietro
 survey#:#browse_for_questions#:#Scegli le domande
-survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!###10 Jul 2004 new variable
-survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!###10 Jul 2004 new variable
-survey#:#cannot_participate_survey#:#You have no rights to participate the survey!###10 Jul 2004 new variable
+survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il questionario!
+survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!
+survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al questionario!
 survey#:#category#:#Categoria
 survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?
 survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria da eliminare!
@@ -3190,7 +3190,7 @@ survey#:#invited_groups#:#Gruppi invitati
 survey#:#invited_users#:#Utenti invitati
 survey#:#last_update#:#Data ultima modifica
 survey#:#lower_limit#:#Limite inferiore
-survey#:#maintenance#:#Maintenance###10 Jul 2004 new variable
+survey#:#maintenance#:#Manutenzione
 survey#:#manage_phrases#:#Gestione frasi
 survey#:#material_file#:#File materiale
 survey#:#maximum#:#Valore massimo
@@ -3241,7 +3241,7 @@ survey#:#qpl_delete_rbac_error#:#Non hai diritti sufficienti per cancellare le d
 survey#:#qpl_delete_select_none#:#Per favore, seleziona almeno una domanda da cancellare!
 survey#:#qpl_duplicate_select_none#:#Per favore, seleziona almeno una domanda da duplicare!
 survey#:#qpl_past_questions_confirmation#:#Sei sicuro di voler incollare le seguenti domande nella raccolta?
-survey#:#qpl_phrases_deleted#:#Frasi cancellate###04 Jul 2004 content changed
+survey#:#qpl_phrases_deleted#:#Frasi eliminate
 survey#:#qpl_questions_deleted#:#Domande cancellate
 survey#:#qpl_questions_pasted#:#Domande incollate
 survey#:#qpl_savephrase_empty#:#Per favore, indica il titolo!
@@ -3301,14 +3301,14 @@ survey#:#survey_skip_next#:#Salta e vai alla pagina successiva >>>
 survey#:#survey_skip_previous#:#<<< Salta e torna alla pagina precedente
 survey#:#survey_skip_start#:#<<< Salta e torna alla pagina iniziale
 survey#:#survey_start#:#<<< Salva e vai alla pagina iniziale
-survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!###10 Jul 2004 new variable
-survey#:#svy_delete_all_user_data#:#Delete all user data###10 Jul 2004 new variable
+survey#:#svy_all_user_data_deleted#:#Tutti i dati degli utenti di questo questionario sono stati eliminati!
+survey#:#svy_delete_all_user_data#:#Elimina tutti i dati degli utenti
 survey#:#text_question_not_filled_out#:#Per favore, riempi il campo della risposta!
 survey#:#unfold#:#Apri blocco di domande
 survey#:#unlimited_users#:#Illimitato
 survey#:#uploaded_material#:#Materiale Uploadato
 survey#:#upper_limit#:#Limite superiore
-survey#:#upper_limit_must_be_greater#:#IL limite superiore deve essere maggiore del limite inferiore!
+survey#:#upper_limit_must_be_greater#:#Il limite superiore deve essere maggiore del limite inferiore!
 survey#:#users_answered#:#Utenti che hanno risposto
 survey#:#users_skipped#:#Utenti che hanno saltato
 survey#:#value_nr_entered#:#Numero di utenti che hanno quel valore
