@@ -2923,6 +2923,7 @@ survey#:#add_phrase_introduction#:#Bitte wählen Sie eine Phrase aus:
 survey#:#already_completed_survey#:#You have already completed the survey! You are not able to enter the survey again.###31 May 2004 new variable
 survey#:#answer#:#Answer###27 May 2004 new variable
 survey#:#apply#:#Übernehmen
+survey#:#arithmetic_mean#:#Arithmetic mean###02 Jun 2004 new variable
 survey#:#ask_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fragee(n) der Umfrage anfügen wollen?
 survey#:#back#:#<< Back###26 May 2004 new variable
 survey#:#browse_for_questions#:#Nach Fragen durchsuchen
@@ -2996,11 +2997,14 @@ survey#:#duplicate#:#Duplizieren
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints###26 May 2004 new variable
 survey#:#end_date#:#Enddatum
 survey#:#enter_value#:#Enter a value###26 May 2004 new variable
+survey#:#evaluation#:#Evaluation###02 Jun 2004 new variable
 survey#:#evaluation_access#:#Evaluationszugriff
 survey#:#exit#:#Exit###01 Jun 2004 new variable
 survey#:#fill_out_all_category_fields#:#Bitte füllen Sie alle bestehenden Kategorien aus, bevor Sie eine neue Kategorie erzeugen!
 survey#:#fill_out_all_required_fields_add_category#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Kategorien anfügen können!
 survey#:#filter#:#Filter
+survey#:#geometric_mean#:#Geometric mean###02 Jun 2004 new variable
+survey#:#harmonic_mean#:#Harmonic mean###02 Jun 2004 new variable
 survey#:#insert_after#:#Einfügen hinter
 survey#:#insert_before#:#Einfügen vor
 survey#:#introduction#:#Einleitung
@@ -3012,8 +3016,11 @@ survey#:#invited_users#:#Invited users###27 May 2004 new variable
 survey#:#last_update#:#Letzte Aktualisierung
 survey#:#material_file#:#Material-Datei
 survey#:#maximum#:#Maximalwert
+survey#:#median#:#Median###02 Jun 2004 new variable
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###31 May 2004 new variable
 survey#:#minimum#:#Minimalwert
+survey#:#mode#:#Most selected value###02 Jun 2004 new variable
+survey#:#mode_nr_of_selections#:#Nr of selections###02 Jun 2004 new variable
 survey#:#multiple_choice_multiple_response#:#Multiple Choice Frage (Mehrfachauswahl)
 survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl)
 survey#:#no_available_constraints#:#There are no constraints defined!###26 May 2004 new variable
@@ -3046,9 +3053,12 @@ survey#:#qt_metric#:#Metrische Frage
 survey#:#qt_nominal#:#Nominale Frage
 survey#:#qt_ordinal#:#Ordinale Frage
 survey#:#qt_text#:#Textfrage
+survey#:#question_has_constraints#:#Constraints###02 Jun 2004 new variable
+survey#:#question_obligatory#:#The question is obligatory!###02 Jun 2004 new variable
 survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 survey#:#question_type#:#Fragentyp
 survey#:#questionblock#:#Fragenblock
+survey#:#questionblock_has_constraints#:#Constraints###02 Jun 2004 new variable
 survey#:#questions_inserted#:#Frage(n) angefügt
 survey#:#questions_removed#:#Frage(n) und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragentyp
@@ -3086,4 +3096,6 @@ survey#:#text_question_not_filled_out#:#Please fill out the answer field!###01 J
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
 survey#:#uploaded_material#:#Hochgeladene Materialien
+survey#:#users_answered#:#Users answered###02 Jun 2004 new variable
+survey#:#users_skipped#:#Users skipped###02 Jun 2004 new variable
 survey#:#view_phrase#:#View phrase###31 May 2004 new variable
