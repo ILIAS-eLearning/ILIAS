@@ -1107,6 +1107,7 @@ common#:#no_date#:#No date###25 Mar 2003 new variable
 common#:#no_frm_in_personal_list#:#No forums in personal list.###19 Aug 2003 new variable
 common#:#no_grp_in_personal_list#:#No groups in personal list.###29 Oct 2003 new variable
 common#:#no_import_available#:#Import not available for type###18 Jun 2003 new variable
+common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#No learning objects in personal list.###19 Aug 2003 new variable
 common#:#no_objects#:#no objects
 common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
@@ -1478,6 +1479,7 @@ common#:#usr_added#:#User added###30 Oct 2003 new variable
 common#:#usr_agreement#:#user agreement
 common#:#usr_agreement_empty#:#The agreement contains no text.###04 Aug 2003 new variable
 common#:#usr_edit#:#Edit User###30 Oct 2003 new variable
+common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
 common#:#usr_new#:#New User###30 Oct 2003 new variable
 common#:#usr_skin_style#:#Skin / Style###09 Nov 2003 new variable
 common#:#usr_style#:#usr style

@@ -1107,6 +1107,7 @@ common#:#no_date#:#Geen datum
 common#:#no_frm_in_personal_list#:#Geen forums in de persoonlijke lijst.
 common#:#no_grp_in_personal_list#:#Geen groepen in de persoonlijke lijst.
 common#:#no_import_available#:#Importeren niet mogelijk voor type
+common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#Geen lesobjecten in de persoonlijke lijst.
 common#:#no_objects#:#Geen objecten
 common#:#no_permission_to_join#:#Het is niet toegestaan bij deze groep tegaan!
@@ -1478,6 +1479,7 @@ common#:#usr_added#:#Gebruiker toegevoegd
 common#:#usr_agreement#:#Gebruikers-overeenkomst
 common#:#usr_agreement_empty#:#De overeenkomst bevat geen tekst
 common#:#usr_edit#:#Wijzig gebruiker
+common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
 common#:#usr_new#:#Nieuwe gebruiker
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#Gebruikers-stijl

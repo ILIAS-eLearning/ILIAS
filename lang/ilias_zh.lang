@@ -1124,6 +1124,7 @@ common#:#no_date#:#无日期
 common#:#no_frm_in_personal_list#:#个人列表中无论坛。
 common#:#no_grp_in_personal_list#:#个人列表中无组。
 common#:#no_import_available#:#类型无导入
+common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#个人列表中无学习对象。
 common#:#no_objects#:#无对象
 common#:#no_permission_to_join#:#您不允许加入此组！
@@ -1495,6 +1496,7 @@ common#:#usr_added#:#用户已增加
 common#:#usr_agreement#:#用户协议
 common#:#usr_agreement_empty#:#协议无文本
 common#:#usr_edit#:#编辑用户
+common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
 common#:#usr_new#:#新用户
 common#:#usr_skin_style#:#外壳/风格
 common#:#usr_style#:#用户风格

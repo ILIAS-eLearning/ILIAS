@@ -36,7 +36,6 @@
 administration#:#analyze_data#:#Analyze data Integrity
 administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
 administration#:#analyzing#:#Analyzing...
-common#:#no_limit#:#No limit
 administration#:#clean#:#Clean up
 administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.
 administration#:#cleaning#:#Cleaning...
@@ -1108,6 +1107,7 @@ common#:#no_date#:#No date
 common#:#no_frm_in_personal_list#:#No forums in personal list.
 common#:#no_grp_in_personal_list#:#No groups in personal list.
 common#:#no_import_available#:#Import not available for type
+common#:#no_limit#:#No limit
 common#:#no_lo_in_personal_list#:#No learning objects in personal list.
 common#:#no_objects#:#No objects
 common#:#no_permission_to_join#:#You are not allowed to join this group!
@@ -1479,6 +1479,7 @@ common#:#usr_added#:#User added
 common#:#usr_agreement#:#User Agreement
 common#:#usr_agreement_empty#:#The agreement contains no text
 common#:#usr_edit#:#Edit User
+common#:#usr_hits_per_page#:#Hits/page in tables
 common#:#usr_new#:#New User
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_style#:#User Style
@@ -1745,7 +1746,6 @@ content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Year
 content#:#pages from#:#Pages From
 content#:#par#:#Paragraph
-common#:#usr_hits_per_page#:#Hits/page in tables
 content#:#pg#:#Page
 content#:#read offline#:#Read Offline
 content#:#st#:#Chapter

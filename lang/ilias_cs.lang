@@ -1107,6 +1107,7 @@ common#:#no_date#:#Žádné datum
 common#:#no_frm_in_personal_list#:#Žádné diskusní skupiny v osobním seznamu.
 common#:#no_grp_in_personal_list#:#Žádné skupiny v osobním seznamu.
 common#:#no_import_available#:#Import není možný pro daný typ
+common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#Žádné výukové objekty v osobním seznamu.
 common#:#no_objects#:#Žádné objekty
 common#:#no_permission_to_join#:#Nemáte oprávnění pro vstup do skupiny!
@@ -1478,6 +1479,7 @@ common#:#usr_added#:#Upravit údaje uživatele
 common#:#usr_agreement#:#Uživatelské ujednání
 common#:#usr_agreement_empty#:#Ujejednání neobsahuje žádný text
 common#:#usr_edit#:#Upravit údaje uživatele
+common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
 common#:#usr_new#:#Přidat uživatele
 common#:#usr_skin_style#:#Vzhled/styl
 common#:#usr_style#:#Uživatelský styl

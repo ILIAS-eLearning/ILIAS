@@ -1107,6 +1107,7 @@ common#:#no_date#:#Pas de date
 common#:#no_frm_in_personal_list#:#Pas de forums dans la liste personnelle
 common#:#no_grp_in_personal_list#:#Pas de groupes dans la liste personnelle
 common#:#no_import_available#:#Importation non disponible pour le type
+common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#Pas de cours dans la liste personnelle
 common#:#no_objects#:#Pas d'objet
 common#:#no_permission_to_join#:#You are not allowed to join this group!###11 Dec 2003 new variable
@@ -1478,6 +1479,7 @@ common#:#usr_added#:#Utilisateur ajouté
 common#:#usr_agreement#:#Charte d'utilisation
 common#:#usr_agreement_empty#:#La charte d'utilisation ne contient pas de texte
 common#:#usr_edit#:#Modifier utilisateur
+common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
 common#:#usr_new#:#Nouvel utilisateur
 common#:#usr_skin_style#:#Skin / Style###26 Nov 2003 new variable
 common#:#usr_style#:#Style utilisateur

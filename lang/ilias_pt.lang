@@ -1107,6 +1107,7 @@ common#:#no_date#:#Nenhuma data
 common#:#no_frm_in_personal_list#:#Não existem fóruns na sua lista pessoal.
 common#:#no_grp_in_personal_list#:#Não existem grupos na sua lista pessoal.
 common#:#no_import_available#:#Importação não disponível para o tipo
+common#:#no_limit#:#No limit###24 Mar 2004 new variable
 common#:#no_lo_in_personal_list#:#Não existem objectos de aprendizagem na sua lista pessoal.
 common#:#no_objects#:#Nenhuns objectos
 common#:#no_permission_to_join#:#Não lhe é permitido juntar-se a este grupo!
@@ -1478,6 +1479,7 @@ common#:#usr_added#:#Utilizador adicionado
 common#:#usr_agreement#:#Acordo de utilizador
 common#:#usr_agreement_empty#:#O acordo não contém nenhum texto
 common#:#usr_edit#:#Editar Utilizador
+common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
 common#:#usr_new#:#Novo Utilizador
 common#:#usr_skin_style#:#Pele / Estilo
 common#:#usr_style#:#Estilo do Utilizador
