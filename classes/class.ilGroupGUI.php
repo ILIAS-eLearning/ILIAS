@@ -266,18 +266,19 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
-
-		$cont_arr = $this->getContent();
 		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");
+/*
+//		$cont_arr = $this->getContent();
 
-		$maxcount = count($cont_arr);
-		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
-		$cont_arr = array_slice($cont_arr,$_GET["offset"],$_GET["limit"]);
+//		$maxcount = count($cont_arr);
+//		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
+//		$cont_arr = array_slice($cont_arr,$_GET["offset"],$_GET["limit"]);
 
 		//check if user got "write" permissions; if so $access is set true to prevent further database queries in this function
-		 $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
 
 		$cont_num = count($cont_arr);
+*/
+		 $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_tbl_rows.html");
 
 		// render table content data
 		if ($cont_num > 0)
@@ -297,7 +298,7 @@ class ilGroupGUI extends ilObjectGUI
 					$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 
 					$this->tpl->setVariable("TITLE", $cont_data["title"]);
-//					$this->tpl->setVariable("LINK_TARGET", $link_target);
+					$this->tpl->setVariable("LINK_TARGET", $link_target);
 					$this->tpl->setVariable("IMG", $obj_icon);
 					$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 					$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
@@ -468,7 +469,8 @@ class ilGroupGUI extends ilObjectGUI
 		$grp_status = $this->grp_object->getGroupStatus();
 		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$this->object->getRefId());
-		$this->tpl->setVariable("TARGET", "bottom");
+//		$this->tpl->setVariable("TARGET", "bottom");
+		$this->tpl->setVariable("TARGET",$this->getTargetFrame("save","bottom"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 		$this->tpl->setVariable("CMD_CANCEL", "view" );
@@ -477,27 +479,6 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
 		$this->tpl->show();
-	}
-
-	function getContent()
-	{
-		global $rbacsystem;
-		$cont_arr = array();
-		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
-
-		if (count($objects) > 0)
-		{
-			foreach ($objects as $key => $object)
-			{
-				//if ($rbacsystem->checkAccess('visible',$this->object["ref_id"]) or $this->object["type"] == "fold" )
-				if ($rbacsystem->checkAccess('visible',$this->object->getRefId()) or $this->object->getType() == "fold" )
-				{
-					$cont_arr[$key] = $object;
-					//var_dump($cont_arr[$key]);
-				}
-			}
-		}
-		return $cont_arr;
 	}
 
 	/*
@@ -524,9 +505,6 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[1]["ftabtype"] = "tabactive";  					//tab is marked
 			$tab[1]["target"] = "bottom";  						//target-frame of tab_cmd
 			$tab[1]["tab_text"] ='flatview';
-		
-		
-		
 		}
 		else
 		{
@@ -546,7 +524,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[2] = array ();
 		$tab[2]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
 		$tab[2]["ftabtype"] = 'tabinactive';						//tab is marked
-		$tab[2]["target"]   = "_self";							//target-frame of tab_cmd
+		$tab[2]["target"]   = "bottom";							//target-frame of tab_cmd		
 		$tab[2]["tab_text"] = 'group_members';						//tab -text
 
 		//check if trash is filled
@@ -580,8 +558,8 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
 		// set offset & limit
-/*
-		$cont_arr = array();
+		
+
 		$objects = $this->grp_tree->getChilds($this->object->getRefId(),"title"); //provides variable with objects located under given node
 
 		if (count($objects) > 0)
@@ -595,13 +573,7 @@ class ilGroupGUI extends ilObjectGUI
 				}
 			}
 		}
-*/
-		$cont_arr = $this->getContent();
-
-		$maxcount = count($cont_arr);
-		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
-		$cont_arr = array_slice($cont_arr,$_GET["offset"],$_GET["limit"]);
-
+		
 		// load template for table
 		$this->tpl->addBlockfile("CONTENT", "group_table", "tpl.table.html");
 		// load template for table content data
@@ -639,8 +611,9 @@ class ilGroupGUI extends ilObjectGUI
 
 					if ($cont_data["type"] == "lm" || $cont_data["type"] == "frm" )
 					{
-						$link_target = "_parent";
-//						$link_target = "_top";
+//						$link_target = "_parent";
+						$link_target = "bottom";
+//						$link_target = "top";
 					}
 					else
 					{
@@ -651,7 +624,7 @@ class ilGroupGUI extends ilObjectGUI
 
 					$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 					$this->tpl->setVariable("TITLE", $cont_data["title"]);
-					$this->tpl->setVariable("LO_LINK", $obj_link);
+					$this->tpl->setVariable("LINK", $obj_link);
 					$this->tpl->setVariable("LINK_TARGET", $link_target);
 					$this->tpl->setVariable("IMG", $obj_icon);
 					$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
@@ -663,7 +636,6 @@ class ilGroupGUI extends ilObjectGUI
 					{
 						$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["child"]));
 					}
-
 					$this->tpl->parseCurrentBlock();
 				}
 			}
@@ -886,15 +858,12 @@ class ilGroupGUI extends ilObjectGUI
 		sendInfo ($this->lng->txt($info));
 		$this->tpl->addBlockFile("CONTENT", "confirmation", "tpl.table.html");
 		$this->tpl->setVariable("FORMACTION", "group.php?ref_id=".$_GET["ref_id"]."&parent_on_rbac_id=".$_GET["parent_non_rbac_id"]."&gateway=true");
-		$this->tpl->setVariable("ACTIONTARGET", "bottom");
-		
 		$this->tpl->addBlockFile("TBL_CONTENT", "confirmcontent","tpl.grp_tbl_confirm.html" );
-
+ 
 		$this->tpl->setCurrentBlock("confirmcontent");
-
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
+		$limit  = intval($_GET["limit"]);
 
 		if ($limit == 0)
 		{
@@ -916,13 +885,13 @@ class ilGroupGUI extends ilObjectGUI
 					$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
 
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
 				$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
 				$this->tpl->setVariable("TITLE", $obj_data->getTitle());
 				$this->tpl->setVariable("TYPE", ilUtil::getImageTagByType($obj_data->getType(),$this->tpl->tplPath));
 				$this->tpl->setVariable("LAST_UPDATE", $obj_data->getLastUpdateDate());
 				$this->tpl->parseCurrentBlock();
 				unset($obj_data);
+				$num++;
 			}
 		}
 		else
@@ -1000,7 +969,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab = array();
 
 		//create additional tabs for tab-bar
-		/*$tab[0] = array ();
+		$tab[0] = array ();
 		$tab[0]["tab_cmd"] = 'cmd=view&ref_id='.$_GET["ref_id"];
 		$tab[0]["ftabtype"] = 'tabinactive';
 		$tab[0]["target"] = "bottom";
@@ -1010,7 +979,7 @@ class ilGroupGUI extends ilObjectGUI
 		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
 		$tab[1]["ftabtype"] = 'tabactive';
 		$tab[1]["target"] = "bottom";
-		$tab[1]["tab_text"] = 'group_members';*/
+		$tab[1]["tab_text"] = 'group_members';
 
 		$this->prepareOutput(false, $tab);
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -1322,7 +1291,7 @@ class ilGroupGUI extends ilObjectGUI
 		//TODO: check the
 		// creates a child object
 		global $rbacsystem;
-
+		
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 
 		$this->prepareOutput();
@@ -1680,6 +1649,7 @@ class ilGroupGUI extends ilObjectGUI
 				foreach ($_POST["member_status_select"] as $key=>$value)
 				{
 					$grp->setMemberStatus($key,$value);
+					ilObjUser::updateActiveRoles($key);
 				}
 			}
 		}
