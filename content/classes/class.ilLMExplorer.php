@@ -78,7 +78,7 @@ class ilLMExplorer extends ilExplorer
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$tpl->setCurrentBlock("link");
-		$tpl->setVariable("TITLE", $this->lm_obj->getTitle());
+		$tpl->setVariable("TITLE", ilUtil::shortenText($this->lm_obj->getTitle(), $this->textwidth, true));
 		$tpl->setVariable("LINK_TARGET", $this->target);
 		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
 		$tpl->parseCurrentBlock();

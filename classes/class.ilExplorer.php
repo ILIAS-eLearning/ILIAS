@@ -158,6 +158,7 @@ class ilExplorer
 		$this->rbac_check = true;
 		$this->output_icons = true;
 		$this->expand_variable = "expand";
+		$this->textwidth=50;
 	}
 
 	/**
@@ -475,7 +476,7 @@ class ilExplorer
 			$target = (strpos($this->target, "?") === false) ?
 				$this->target."?" : $this->target."&";
 			$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
-			$tpl->setVariable("TITLE", $a_option["title"]);
+			$tpl->setVariable("TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 
 			if ($this->frame_target != "")
 			{
@@ -486,7 +487,7 @@ class ilExplorer
 		else			// output text only
 		{
 			$tpl->setCurrentBlock("text");
-			$tpl->setVariable("OBJ_TITLE", $a_option["title"]);
+			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText($a_option["title"], $this->textwidth, true));
 			$tpl->parseCurrentBlock();
 		}
 
