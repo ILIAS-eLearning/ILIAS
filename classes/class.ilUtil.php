@@ -991,5 +991,40 @@ class ilUtil
 		return $url;
 	}
 
+	/**
+	* creates a new directory and inherits all filesystem permissions of the parent directory
+	* You may pass only the name of your new directory or with the entire path or relative path information.
+	* 
+	* examples:
+	* a_dir = /tmp/test/your_dir
+	* a_dir = ../test/your_dir
+	* a_dir = your_dir (--> creates your_dir in current directory)
+	*  
+	* @access	public
+	* @param	string	[path] + directory name
+	* @return	boolean
+	*  
+	*/
+	function makeDir($a_dir)
+	{
+		$a_dir = trim($a_dir);
+		
+		// remove trailing slash
+		if (substr($a_dir,-1) == "/")
+		{
+			$a_dir = substr($a_dir,0,-1);
+		}
+		
+		// check if a_dir comes with a path
+		if (!($path = substr($a_dir,0, strrpos($a_dir,"/") - strlen($a_dir))))
+		{
+			$path = ".";
+		}
+	
+		// create directory with file permissions of parent directory
+		umask(0000);
+		return @mkdir($a_dir,fileperms($path));
+	}
+	
 } // END class.ilUtil
 ?>
