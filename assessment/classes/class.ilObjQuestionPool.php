@@ -649,6 +649,10 @@ class ilObjQuestionPool extends ilObject
 			}
 		}
 		$maxentries = $ilUser->prefs["hits_per_page"];
+		if ($maxentries < 1)
+		{
+			$maxentries = 9999;
+		}
 		$query = "SELECT qpl_questions.question_id FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND qpl_questions.obj_fi = " . $this->getId() . " $where$order$limit";
 		$query_result = $this->ilias->db->query($query);
 		$max = $query_result->numRows();
