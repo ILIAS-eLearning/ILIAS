@@ -205,7 +205,7 @@ class UserMail
 					"email"		=> $row["email"],
 					"subject"	=> $row["subject"],
 					"body"		=> $row["body"],
-					"datetime"	=> $lng->fmtDateTime($row["date_send"]),
+					"datetime"	=> $row["date_send"],
 					"new"		=> 0
 					);
 			

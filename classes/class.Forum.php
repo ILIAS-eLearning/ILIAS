@@ -578,11 +578,11 @@ class Forum
 	* @return array 
 	* @access public
    	*/
-	function getModerator($mod_user_id)
+	function getUser($mod_user_id)
 	{
-		$moderator = new User($mod_user_id);
+		$userObj = new User($mod_user_id);
 		
-		return $moderator->data;
+		return $userObj;
 	}
 	
 	

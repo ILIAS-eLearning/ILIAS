@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.23 2003/02/06 15:34:16 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.24 2003/02/21 08:58:16 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -169,6 +169,7 @@ class ObjectOut
 			}
 			$this->tpl->setCurrentBlock("locator_item");
 			$this->tpl->setVariable("ITEM", $row["title"]);
+			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
 			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?obj_id=".$row["id"].
 							  "&parent=".$row["parent"]."&parent_parent=".$row["parent_parent"]);
 			$this->tpl->parseCurrentBlock();
