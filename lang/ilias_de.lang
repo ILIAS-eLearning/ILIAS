@@ -212,7 +212,10 @@ common#:#from#:#Von
 common#:#functions#:#Funktionen
 common#:#gender#:#Geschlecht
 common#:#generate#:#generieren
+common#:#glo#:#Glossary###15 Aug 2003 new variable
+common#:#glo_added#:#Added glossary###15 Aug 2003 new variable
 common#:#glossary#:#Glossar
+common#:#glossary_added#:#Glossary added###15 Aug 2003 new variable
 common#:#group_any_objects#:#Keine Unterobjekte vorhanden  
 common#:#group_details#:#Gruppen-Details
 common#:#group_filesharing#:#Gruppen-Filesharing
@@ -446,6 +449,7 @@ common#:#obj_cat#:#Kategorie
 common#:#obj_crs#:#Kurs
 common#:#obj_file#:#Datei
 common#:#obj_frm#:#Forum
+common#:#obj_glo#:#Glossary###15 Aug 2003 new variable
 common#:#obj_grp#:#Gruppe
 common#:#obj_le#:#Lernmodul
 common#:#obj_lm#:#Lernmodul
@@ -458,11 +462,13 @@ common#:#obj_note#:#Notiz
 common#:#obj_notf#:#Notizenverwaltung
 common#:#obj_objf#:#Objektverwaltung
 common#:#obj_owner#:#Besitzer des Objekts ist
+common#:#obj_pg#:#Page###15 Aug 2003 new variable
 common#:#obj_role#:#Rolle
 common#:#obj_rolf#:#Rollenverwaltung
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#root
 common#:#obj_slm#:#SCORM Lernmodul
+common#:#obj_st#:#Chapter###15 Aug 2003 new variable
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
 common#:#obj_uset#:#Benutzereinstellungen
@@ -751,6 +757,8 @@ content#:#cont_table_border#:#Tabellenrand
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
 content#:#cont_table_cellspacing#:#Abstand Tabellenzellen
 content#:#cont_table_width#:#Tabellenbreite
+content#:#cont_term#:#Term###15 Aug 2003 new variable
+content#:#cont_terms#:#Terms###15 Aug 2003 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_top#:#Oben
 content#:#cont_version#:#version

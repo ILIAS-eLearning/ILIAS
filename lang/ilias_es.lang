@@ -212,7 +212,10 @@ common#:#from#:#from:###25 Mar 2003 content changed
 common#:#functions#:#functions
 common#:#gender#:#gender
 common#:#generate#:#generate
+common#:#glo#:#Glossary###15 Aug 2003 new variable
+common#:#glo_added#:#Added glossary###15 Aug 2003 new variable
 common#:#glossary#:#glossary
+common#:#glossary_added#:#Glossary added###15 Aug 2003 new variable
 common#:#group_any_objects#:#No Subobjects avilable ###12 Jun 2003 new variable
 common#:#group_details#:#Group Details###12 Jun 2003 new variable
 common#:#group_filesharing#:#group file sharing
@@ -446,6 +449,7 @@ common#:#obj_cat#:#Category###15 May 2003 new variable
 common#:#obj_crs#:#Course###15 May 2003 new variable
 common#:#obj_file#:#File###15 May 2003 new variable
 common#:#obj_frm#:#Forum###15 May 2003 new variable
+common#:#obj_glo#:#Glossary###15 Aug 2003 new variable
 common#:#obj_grp#:#Group###15 May 2003 new variable
 common#:#obj_le#:#Learning Module###15 May 2003 new variable
 common#:#obj_lm#:#Learning Module###18 Jun 2003 new variable
@@ -458,11 +462,13 @@ common#:#obj_note#:#Note###15 May 2003 new variable
 common#:#obj_notf#:#Note Administration###15 May 2003 new variable
 common#:#obj_objf#:#Object Administration###15 May 2003 new variable
 common#:#obj_owner#:#This Object is owned by###04 Jun 2003 content changed
+common#:#obj_pg#:#Page###15 Aug 2003 new variable
 common#:#obj_role#:#Role###15 May 2003 new variable
 common#:#obj_rolf#:#Role Administration###15 May 2003 new variable
 common#:#obj_rolt#:#Role Template###15 May 2003 new variable
 common#:#obj_root#:#root###15 May 2003 new variable
 common#:#obj_slm#:#SCORM LM###18 Jun 2003 new variable
+common#:#obj_st#:#Chapter###15 Aug 2003 new variable
 common#:#obj_typ#:#Objecttype Definition###15 May 2003 new variable
 common#:#obj_type#:#Object Type###01 Apr 2003 new variable
 common#:#obj_uset#:#User Settings###15 May 2003 new variable
@@ -751,6 +757,8 @@ content#:#cont_table_border#:#Table Border###09 Jun 2003 new variable
 content#:#cont_table_cellpadding#:#Table Cell Padding###09 Jun 2003 new variable
 content#:#cont_table_cellspacing#:#Table Cell Spacing###09 Jun 2003 new variable
 content#:#cont_table_width#:#Table Width###09 Jun 2003 new variable
+content#:#cont_term#:#Term###15 Aug 2003 new variable
+content#:#cont_terms#:#Terms###15 Aug 2003 new variable
 content#:#cont_time_limit_action#:#adlcp:timelimitaction###04 Aug 2003 new variable
 content#:#cont_top#:#Top###11 Jun 2003 new variable
 content#:#cont_version#:#version###04 Aug 2003 new variable

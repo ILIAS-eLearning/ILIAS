@@ -79,8 +79,6 @@ common#:#cancel#:#Cancel
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
 common#:#cat#:#Category
-common#:#glo#:#Glossary
-common#:#glossary_added#:#Glossary added
 common#:#cat_a#:#a category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
@@ -214,7 +212,10 @@ common#:#from#:#From
 common#:#functions#:#Functions
 common#:#gender#:#Gender
 common#:#generate#:#Generate
+common#:#glo#:#Glossary
+common#:#glo_added#:#Added glossary
 common#:#glossary#:#Glossary
+common#:#glossary_added#:#Glossary added
 common#:#group_any_objects#:#No Subobjects avilable 
 common#:#group_details#:#Group Details
 common#:#group_filesharing#:#Group File Sharing
@@ -443,16 +444,13 @@ common#:#normal#:#Normal
 common#:#not_installed#:#Not Installed
 common#:#not_logged_in#:#Your are not logged in
 common#:#obj#:#Object
-common#:#glo_added#:#Added glossary
 common#:#obj_adm#:#System Settings
 common#:#obj_cat#:#Category
 common#:#obj_crs#:#Course
 common#:#obj_file#:#File
 common#:#obj_frm#:#Forum
-common#:#obj_grp#:#Group
-common#:#obj_st#:#Chapter
 common#:#obj_glo#:#Glossary
-common#:#obj_pg#:#Page
+common#:#obj_grp#:#Group
 common#:#obj_le#:#Learning Module
 common#:#obj_lm#:#Learning Module
 common#:#obj_lng#:#Language
@@ -464,11 +462,13 @@ common#:#obj_note#:#Note
 common#:#obj_notf#:#Note Administration
 common#:#obj_objf#:#Object Administration
 common#:#obj_owner#:#This Object is owned by
+common#:#obj_pg#:#Page
 common#:#obj_role#:#Role
 common#:#obj_rolf#:#Role Administration
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#root
 common#:#obj_slm#:#SCORM LM
+common#:#obj_st#:#Chapter
 common#:#obj_typ#:#Objecttype Definition
 common#:#obj_type#:#Object Type
 common#:#obj_uset#:#User Settings
@@ -743,8 +743,6 @@ content#:#cont_reference#:#Reference
 content#:#cont_resource#:#Resource
 content#:#cont_resource_type#:#type
 content#:#cont_resources#:#Resources
-content#:#cont_term#:#Term
-content#:#cont_terms#:#Terms
 content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_sc_title#:#title
 content#:#cont_scorm_type#:#adlcp:scormtype
@@ -759,6 +757,8 @@ content#:#cont_table_border#:#Table Border
 content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellspacing#:#Table Cell Spacing
 content#:#cont_table_width#:#Table Width
+content#:#cont_term#:#Term
+content#:#cont_terms#:#Terms
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_top#:#Top
 content#:#cont_version#:#version
