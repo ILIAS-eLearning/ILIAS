@@ -93,7 +93,7 @@ assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
 assessment#:#add_applet_parameter#:#Aggiungi i parametri dell'applet
 assessment#:#add_area#:#Aggiungi area
 assessment#:#add_gap#:#Aggiungi testo per spazio vuoto
-assessment#:#add_imagemap#:#Aggiungi immagine con mappa
+assessment#:#add_imagemap#:#Aggiungi immagine con mappa###11 Sep 2004 content changed
 assessment#:#add_matching_pair#:#Aggiungi coppia da associare
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Risposta
@@ -163,6 +163,7 @@ assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
 assessment#:#height#:#Altezza
 assessment#:#imagemap#:#Mappa di immagine
+assessment#:#imagemap_file#:#Image map file###11 Sep 2004 new variable
 assessment#:#imagemap_source#:#Immagine a mappa
 assessment#:#import_question#:#Importa domande
 assessment#:#insert_after#:#Inserisci dopo
@@ -532,12 +533,14 @@ common#:#add_condition#:#Crea una condizione
 common#:#add_member#:#Aggiungi membro
 common#:#add_members#:#aggiungi membri
 common#:#add_translation#:#Aggiungi traduzione
+common#:#add_user#:#Add local user###11 Sep 2004 new variable
 common#:#added_new_condition#:#Creata nuova condizione
 common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi di sistema
 common#:#adm_read#:#Accedere in lettura alle impostazioni di sistema
 common#:#adm_visible#:#Vedere le impostazioni di sistema
 common#:#adm_write#:#Modificare le impostazioni di sistema
 common#:#administrate#:#Amministra
+common#:#administrate_users#:#Local user administration###11 Sep 2004 new variable
 common#:#administration#:#Amministrazione
 common#:#administrator#:#Amministratore
 common#:#adopt#:#Adotta
@@ -546,6 +549,7 @@ common#:#all_authors#:#Tutti gli autori
 common#:#all_lms#:#Tutti i moduli
 common#:#all_objects#:#Tutti gli oggetti
 common#:#all_tsts#:#Tutti i test
+common#:#all_users#:#All users###11 Sep 2004 new variable
 common#:#allow_register#:#Disponibile nel form di registrazione per i nuovi utenti
 common#:#alm#:#Modulo AICC
 common#:#alm_added#:#Modulo AICC aggiunto
@@ -565,6 +569,7 @@ common#:#any_language#:#Tutte le lingue
 common#:#application_completed#:#Richiesta completata
 common#:#application_date#:#Data della richiesta
 common#:#applied_users#:#Utenti iscritti
+common#:#apply_filter#:#Apply filter###11 Sep 2004 new variable
 common#:#appointment#:#Appuntamento
 common#:#appointment_list#:#Lista appuntamenti
 common#:#archive#:#Archivio
@@ -629,6 +634,7 @@ common#:#cat#:#Categoria
 common#:#cat_a#:#Una categoria
 common#:#cat_add#:#Aggiungi categoria
 common#:#cat_added#:#Categoria aggiunta
+common#:#cat_cat_administrate_users#:#Administrate local user accounts###11 Sep 2004 new variable
 common#:#cat_create#:#Crea una categoria
 common#:#cat_create_alm#:#Creare un modulo AICC
 common#:#cat_create_cat#:#Creare una categoria
@@ -645,7 +651,7 @@ common#:#cat_create_htlm#:#Creare un modulo HTML
 common#:#cat_create_lm#:#Creare un modulo
 common#:#cat_create_mep#:#Creare una libreria multimediale
 common#:#cat_create_qpl#:#Creare una raccolta di domande
-common#:#cat_create_slm#:#Creare un modulo SCORM
+common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#cat_create_spl#:#Creare una raccolta di domande (Verifica)
 common#:#cat_create_svy#:#Creare una verifica
 common#:#cat_create_tst#:#Creare un test
@@ -654,6 +660,7 @@ common#:#cat_edit#:#Modificare un categoria
 common#:#cat_edit_permission#:#Modificare le impostazioni dei permessi di una categoria
 common#:#cat_new#:#Nuova categoria
 common#:#cat_read#:#Accedere in lettura alla categoria
+common#:#cat_read_users#:#Read access to local user accounts###11 Sep 2004 new variable
 common#:#cat_visible#:#Vedere una categoria
 common#:#cat_write#:#Modificare una categoria
 common#:#categories#:#Categorie
@@ -755,7 +762,7 @@ common#:#crs_create_frm#:#Creare un forum
 common#:#crs_create_glo#:#Creare un glossario
 common#:#crs_create_hlm#:#Creare un modulo HACP
 common#:#crs_create_lm#:#Creare un modulo
-common#:#crs_create_slm#:#Creare un modulo SCORM
+common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#Cancellare un corso
 common#:#crs_edit#:#Modificare un corso
 common#:#crs_edit_permission#:#Modificare le impostazioni dei permessi
@@ -818,6 +825,7 @@ common#:#delete_object#:#Elimina oggetto
 common#:#delete_selected#:#Elimina selezionato
 common#:#delete_tr_data#:#Elimina i dati del tracciamento
 common#:#deleted#:#Eliminato
+common#:#deleted_user#:#The user has been deleted###11 Sep 2004 new variable
 common#:#department#:#Dipartimento
 common#:#desc#:#Descrizione
 common#:#description#:#Descrizione
@@ -928,6 +936,7 @@ common#:#file_write#:#Creare un file
 common#:#files#:#File
 common#:#files_location#:#Posizione dei file
 common#:#fill_out_all_required_fields#:#Compilare tutti i campi obbligatori
+common#:#filter#:#Filter:###11 Sep 2004 new variable
 common#:#firstname#:#Nome
 common#:#flatview#:#Indirizzo
 common#:#fold#:#Cartelle
@@ -942,7 +951,7 @@ common#:#fold_create_frm#:#Creare forum
 common#:#fold_create_glo#:#Creare glossari
 common#:#fold_create_hlm#:#Creare modulo HACP
 common#:#fold_create_lm#:#Creare moduli
-common#:#fold_create_slm#:#Creare moduli SCORM
+common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#fold_delete#:#Cancellare cartelle
 common#:#fold_edit#:#Modificare cartelle
 common#:#fold_edit_permission#:#Modificare le impostazioni dei permessi
@@ -1001,6 +1010,8 @@ common#:#glo_read#:#Accedere in lettura al glossario
 common#:#glo_upload_file#:#File
 common#:#glo_visible#:#Vedere il glossario
 common#:#glo_write#:#Modificare il glossario
+common#:#global#:#Global###11 Sep 2004 new variable
+common#:#global_user#:#Global users###11 Sep 2004 new variable
 common#:#glossaries#:#Glossari
 common#:#glossary#:#Glossario
 common#:#glossary_added#:#Aggiunto glossario
@@ -1059,7 +1070,7 @@ common#:#grp_create_hlm#:#Creare moduli HACP
 common#:#grp_create_htlm#:#Creare moduli HTML
 common#:#grp_create_lm#:#Creare moduli
 common#:#grp_create_mep#:#Creare raccolte multimediali
-common#:#grp_create_slm#:#Creare moduli SCORM
+common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#Eliminare il gruppo
 common#:#grp_dismiss_member#:#Sei sicuro di voler annullare l&#039;iscrizione dei seguenti membri dal gruppo?###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#Sei sicuro di voler annullare la tua iscrizione al gruppo?###02 Sep 2004 content changed
@@ -1145,7 +1156,7 @@ common#:#import_grp_finished#:#Importazione gruppi eseguita senza errori
 common#:#import_hlm#:#Importa un modulo HACP
 common#:#import_lm#:#Importa modulo
 common#:#import_root_user#:#Importa utente root
-common#:#import_slm#:#Importa modulo SCORM
+common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Importa utenti
 common#:#imported#:#importato
 common#:#in#:#in
@@ -1270,6 +1281,8 @@ common#:#lm_join#:#Iscrivere al modulo
 common#:#lm_leave#:#Annullare l&#039;iscrizione al modulo
 common#:#lm_new#:#Nuovo modulo
 common#:#lm_read#:#Accedere in lettura al modulo
+common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
+common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM###29 Aug 2004 new variable
 common#:#lm_visible#:#Vedere il modulo
 common#:#lm_write#:#Modificare il modulo
@@ -1286,6 +1299,7 @@ common#:#lo_new#:#Nuova unit&#224; didattica
 common#:#lo_no_content#:#Non ci sono unit&#224; didattiche disponibili
 common#:#lo_other_langs#:#Unit&#224; didattiche in altre lingue
 common#:#lo_overview#:#Descrizione della unit&#224; didattica
+common#:#local#:#Local###11 Sep 2004 new variable
 common#:#locator#:#Adesso sei in:
 common#:#logic_and#:#and###26 Aug 2004 new variable
 common#:#logic_or#:#or###26 Aug 2004 new variable
@@ -1493,6 +1507,7 @@ common#:#no_checkbox#:#Nesuna opzione selezionata!
 common#:#no_date#:#Manca la data
 common#:#no_description#:#Nessuna descrizione
 common#:#no_frm_in_personal_list#:#Nessun forum nella lista personale.
+common#:#no_global_role_left#:#Every user has to be assigned to one role.###11 Sep 2004 new variable
 common#:#no_grp_in_personal_list#:#Nessun gruppo nella lista personale.
 common#:#no_import_available#:#Importazione non disponibile per il tipo
 common#:#no_limit#:#Nessun limite
@@ -1502,6 +1517,7 @@ common#:#no_permission_to_join#:#Non puoi far parte di questo gruppo!
 common#:#no_title#:#Nessun titolo
 common#:#no_tst_in_personal_list#:#Non ci sono test nella lista personale.
 common#:#no_users_applied#:#Per favore scegli un utente.
+common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
 common#:#none#:#Nessuno
 common#:#normal#:#Normale
 common#:#not_implemented_yet#:#Non ancora implementato
@@ -1560,7 +1576,7 @@ common#:#obj_rolf_local#:#Ruoli locali
 common#:#obj_rolf_local_desc#:#Contiene ruoli locali degli oggetti no.
 common#:#obj_rolt#:#Template di Ruolo
 common#:#obj_root#:#Root
-common#:#obj_slm#:#Modulo SCORM
+common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#obj_spl#:#Raccolta di domande (verifica)
 common#:#obj_st#:#Capitolo
 common#:#obj_svy#:#Verifica
@@ -1609,7 +1625,7 @@ common#:#objs_pg#:#Pagine
 common#:#objs_qpl#:#Raccolte di domande
 common#:#objs_role#:#Ruoli
 common#:#objs_rolt#:#Template di ruolo
-common#:#objs_slm#:#Moduli SCORM
+common#:#objs_sahs#:#SCORM/AICC Learning Modules###11 Sep 2004 new variable
 common#:#objs_spl#:#Raccolte di domande (questionari)
 common#:#objs_st#:#Capitoli
 common#:#objs_svy#:#Questionari
@@ -1743,6 +1759,7 @@ common#:#role_add#:#Aggiungi ruolo
 common#:#role_add_local#:#Aggiungi ruolo locale
 common#:#role_added#:#Ruolo aggiunto
 common#:#role_assignment#:#Ruolo assegnato
+common#:#role_assignment_updated#:#Role assignment has been updated.###11 Sep 2004 new variable
 common#:#role_deleted#:#Ruolo eliminato
 common#:#role_edit#:#Modifica ruolo
 common#:#role_new#:#Nuovo ruolo
@@ -1771,6 +1788,16 @@ common#:#root_edit_permission#:#Modificare le impostazioni dei permessi del sist
 common#:#root_read#:#Accedere in lettura al sistema
 common#:#root_visible#:#Vedere il sistema
 common#:#root_write#:#Modificare il nodo radice di ILIAS 3
+common#:#sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_added#:#SCORM/AICC Learning Module added###11 Sep 2004 new variable
+common#:#sahs_create#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_delete#:#Delete SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_edit_permission#:#Change permission settings###11 Sep 2004 new variable
+common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_read#:#Read access to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_visible#:#SCORM/AICC Learning Module is visible###11 Sep 2004 new variable
+common#:#sahs_write#:#Edit SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#salutation#:#Titolo
 common#:#salutation_f#:#Signora/Signorina
 common#:#salutation_m#:#Signore
@@ -1821,16 +1848,6 @@ common#:#show_owner#:#Mostra il proprietario
 common#:#show_structure#:#Abilita la vista della struttura
 common#:#show_users_online#:#Vedi gli utenti online
 common#:#signature#:#Firma
-common#:#slm#:#Modulo SCORM
-common#:#slm_added#:#Aggiungere un modulo SCORM
-common#:#slm_create#:#Creare un modulo SCORM
-common#:#slm_delete#:#Cancellare un modulo SCORM
-common#:#slm_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#slm_join#:#Iscrivere ad un modulo SCORM
-common#:#slm_leave#:#Cancellare l&#039;iscrizione ad un modulo SCORM
-common#:#slm_read#:#Accedere in lettura ad un modulo SCORM
-common#:#slm_visible#:#Vedere un modulo SCORM
-common#:#slm_write#:#Modificare un modulo SCORM
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Ordina secondo questa colonna
 common#:#spl#:#Raccolta di domande (questionario)
@@ -1861,6 +1878,7 @@ common#:#submit#:#Conferma
 common#:#subobjects#:#Sotto categorie
 common#:#subscription#:#Abbonamento
 common#:#summary#:#Riassunto
+common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)###11 Sep 2004 new variable
 common#:#svy#:#Questionario
 common#:#svy_add#:#Aggiungi questionario
 common#:#svy_delete#:#Eliminare il questionario
@@ -1992,6 +2010,7 @@ common#:#usrf_delete#:#Eliminare un utente
 common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi degli utenti
 common#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti
 common#:#usrf_read#:#Accedere in lettura alla registrazione utente
+common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
 common#:#usrf_visible#:#Vedere le registrazioni degli utenti
 common#:#usrf_write#:#Modificare le registrazioni degli utenti
 common#:#validate#:#Valida
@@ -2328,7 +2347,7 @@ content#:#cont_terms#:#Termini
 content#:#cont_time#:#Tempo
 content#:#cont_time_limit_action#:#esecuzione a tempo
 content#:#cont_toc#:#Tabella dei contenuti
-content#:#cont_toc_mode#:#Modalit&#224; menu
+content#:#cont_toc_mode#:#Modalit&#224; menu###11 Sep 2004 content changed
 content#:#cont_top#:#Alto
 content#:#cont_total_time#:#Tempo totale
 content#:#cont_tracking_data#:#Dati tracciati
@@ -3451,6 +3470,7 @@ survey#:#browse_for_questions#:#Scegli le domande
 survey#:#cannot_maintain_survey#:#Non hai i diritti di scrittura per manutenere il questionario!
 survey#:#cannot_manage_phrases#:#Non hai i diritti di scrittura per gestire le frasi!
 survey#:#cannot_participate_survey#:#Non hai i diritti per partecipare al questionario!
+survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!###11 Sep 2004 new variable
 survey#:#category#:#Categoria
 survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?
 survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria da eliminare!
@@ -3659,6 +3679,7 @@ survey#:#start_survey#:#Inizia il questionario
 survey#:#subtype#:#Sottotipo
 survey#:#survey_finish#:#Salva e finisci il questionario >>>
 survey#:#survey_finished#:#Il questionario &#232; finito. Grazie per la tua partecipazione!
+survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###11 Sep 2004 new variable
 survey#:#survey_next#:#Salva e vai avanti >>>
 survey#:#survey_offline_message#:#Non puoi invitare partecipanti. Il questionario &#232; offline!
 survey#:#survey_online_warning#:#Il questionario &#232; online. Non puoi modificare le domande!

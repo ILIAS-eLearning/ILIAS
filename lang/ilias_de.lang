@@ -93,7 +93,7 @@ assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
 assessment#:#add_applet_parameter#:#Applet-Parameter anfügen
 assessment#:#add_area#:#Region anfügen
 assessment#:#add_gap#:#Lückentext anfügen
-assessment#:#add_imagemap#:#Imagemap anfügen
+assessment#:#add_imagemap#:#Imagemap anfügen###11 Sep 2004 content changed
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
@@ -163,6 +163,7 @@ assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
 assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
+assessment#:#imagemap_file#:#Image map file###11 Sep 2004 new variable
 assessment#:#imagemap_source#:#Imagemap Quelltext
 assessment#:#import_question#:#Frage(n) importieren
 assessment#:#insert_after#:#Einfügen hinter
@@ -532,12 +533,14 @@ common#:#add_condition#:#Neue Verknüpfung anlegen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_members#:#Mitglieder hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
+common#:#add_user#:#Lokalen Benutzer hinzufügen
 common#:#added_new_condition#:#Eine neue Vorbedingung wurde angelegt.
 common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar
 common#:#adm_write#:#Systemgrunddaten bearbeiten
 common#:#administrate#:#Administrieren
+common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
@@ -546,6 +549,7 @@ common#:#all_authors#:#Alle Autoren
 common#:#all_lms#:#Alle Lernmodule
 common#:#all_objects#:#Alle Objekte
 common#:#all_tsts#:#Alle Tests
+common#:#all_users#:#Alle Benutzer
 common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
 common#:#alm#:#AICC Lernmodul
 common#:#alm_create#:#Neues AICC Lernmodul anlegen
@@ -564,6 +568,7 @@ common#:#any_language#:#Alle Sprachen
 common#:#application_completed#:#Anmeldung erfolgt
 common#:#application_date#:#Anmeldedatum
 common#:#applied_users#:#Angelegte Benutzer
+common#:#apply_filter#:#Filter anwenden
 common#:#appointment#:#Termin
 common#:#appointment_list#:#Terminliste
 common#:#archive#:#Archiv
@@ -628,6 +633,7 @@ common#:#cat#:#Kategorie
 common#:#cat_a#:#eine Kategorie
 common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
+common#:#cat_cat_administrate_users#:#Lokale Benutzer verwalten
 common#:#cat_create#:#Neue Kategorie anlegen
 common#:#cat_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#cat_create_cat#:#Neue Kategorie anlegen
@@ -644,7 +650,7 @@ common#:#cat_create_htlm#:#Lege HTML-Lernmodul an
 common#:#cat_create_lm#:#Neues Lernmodul anlegen
 common#:#cat_create_mep#:#Lege Media-Pool an
 common#:#cat_create_qpl#:#Neuen Fragenpool für Assessment anlegen
-common#:#cat_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
@@ -653,6 +659,7 @@ common#:#cat_edit#:#Kategorie bearbeiten
 common#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie
 common#:#cat_read#:#Lesezugriff auf Kategorie
+common#:#cat_read_users#:#Lesezugriff auf lokale Benutzer
 common#:#cat_visible#:#Kategorie ist sichtbar
 common#:#cat_write#:#Kategorie bearbeiten
 common#:#categories#:#Kategorien
@@ -756,7 +763,7 @@ common#:#crs_create_frm#:#Neues Forum anlegen
 common#:#crs_create_glo#:#Neues Glossar anlegen
 common#:#crs_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#crs_create_lm#:#Neues Lernmodul anlegen
-common#:#crs_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
@@ -819,6 +826,7 @@ common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
 common#:#delete_tr_data#:#Tracking Daten löschen
 common#:#deleted#:#Gelöscht
+common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
@@ -929,6 +937,7 @@ common#:#file_write#:#Datei bearbeiten
 common#:#files#:#Dateien
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
+common#:#filter#:#Filter:###11 Sep 2004 new variable
 common#:#firstname#:#Vorname
 common#:#flatview#:#Flache Ansicht
 common#:#fold#:#Ordner
@@ -943,7 +952,7 @@ common#:#fold_create_frm#:#Neues Forum anlegen
 common#:#fold_create_glo#:#Neues Glossar anlegen
 common#:#fold_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#fold_create_lm#:#Neues Lernmodul anlegen
-common#:#fold_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_edit_permission#:#Rechteeinstellungen ändern
@@ -1002,6 +1011,8 @@ common#:#glo_read#:#Glossar lesen
 common#:#glo_upload_file#:#Datei
 common#:#glo_visible#:#Glossar ist sichtbar
 common#:#glo_write#:#Glossar bearbeiten
+common#:#global#:#Global###11 Sep 2004 new variable
+common#:#global_user#:#Globale Benutzer
 common#:#glossaries#:#Glossare
 common#:#glossary#:#Glossar
 common#:#glossary_added#:#Glossar hinzugefügt
@@ -1060,7 +1071,7 @@ common#:#grp_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#grp_create_htlm#:#Neues HTML Lernmodul anlegen
 common#:#grp_create_lm#:#Neues Lernmodul anlegen
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
-common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?###02 Sep 2004 content changed
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen?###02 Sep 2004 content changed
@@ -1143,6 +1154,7 @@ common#:#import_glossary#:#Glossar importieren
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
 common#:#import_lm#:#Import Lernmodul
 common#:#import_root_user#:#Root User importieren
+common#:#import_sahs#:#Import SCORM/AICC Package###11 Sep 2004 new variable
 common#:#import_users#:#Benutzer importieren
 common#:#imported#:#importiert
 common#:#in#:#in
@@ -1267,6 +1279,8 @@ common#:#lm_join#:#Lernmodul abonnieren
 common#:#lm_leave#:#Lernmodulabonnement aufheben
 common#:#lm_new#:#Neues Lernmodul
 common#:#lm_read#:#Lernmodul lesen
+common#:#lm_type_aicc#:#AICC###11 Sep 2004 new variable
+common#:#lm_type_hacp#:#HACP###11 Sep 2004 new variable
 common#:#lm_type_scorm#:#SCORM
 common#:#lm_visible#:#Lernmodul ist sichtbar
 common#:#lm_write#:#Lernmodul bearbeiten
@@ -1283,6 +1297,7 @@ common#:#lo_new#:#neues Lernmodul
 common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lernmodule in anderen Sprachen
 common#:#lo_overview#:#Übersicht Lernmaterialien
+common#:#local#:#Lokal
 common#:#locator#:#Position:
 common#:#logic_and#:#und
 common#:#logic_or#:#oder
@@ -1490,6 +1505,7 @@ common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_date#:#Kein Datum
 common#:#no_description#:#Keine Beschreibung
 common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
+common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rolle zugeordnet sein.
 common#:#no_grp_in_personal_list#:#Es sind keine Gruppen abonniert.
 common#:#no_import_available#:#Import nicht verfügbar für Typ
 common#:#no_limit#:#Kein Limit
@@ -1499,6 +1515,7 @@ common#:#no_permission_to_join#:#Sie sind nicht berechtigt der Gruppe beizutrete
 common#:#no_title#:#Kein Titel
 common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Liste.
 common#:#no_users_applied#:#Sie haben keine Benutzer angelegt.
+common#:#no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
 common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_implemented_yet#:#In Entwicklung
@@ -1557,7 +1574,7 @@ common#:#obj_rolf_local#:#Lokale Rollen
 common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#ILIAS-System
-common#:#obj_slm#:#SCORM Lernmodul
+common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
 common#:#obj_svy#:#Umfrage
@@ -1606,7 +1623,7 @@ common#:#objs_pg#:#Seiten
 common#:#objs_qpl#:#Fragenpools für Assessment
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
-common#:#objs_slm#:#SCORM Lernmodule
+common#:#objs_sahs#:#SCORM/AICC Learning Modules###11 Sep 2004 new variable
 common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
 common#:#objs_svy#:#Umfragen
@@ -1740,6 +1757,7 @@ common#:#role_add#:#Rolle anlegen
 common#:#role_add_local#:#Lokale Rolle hinzufügen
 common#:#role_added#:#Rolle angelegt
 common#:#role_assignment#:#Rollenzuweisung
+common#:#role_assignment_updated#:#Die Rollenzuweisung wurde geändert.
 common#:#role_deleted#:#Rolle gelöscht
 common#:#role_edit#:#Rolle bearbeiten
 common#:#role_new#:#Neue Rolle
@@ -1768,6 +1786,16 @@ common#:#root_edit_permission#:#Rechteeinstellungen ändern
 common#:#root_read#:#Lesezugriff auf ILIAS System
 common#:#root_visible#:#ILIAS System ist sichtbar
 common#:#root_write#:#Daten des Systemknotens bearbeiten
+common#:#sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_added#:#SCORM/AICC Learning Module added###11 Sep 2004 new variable
+common#:#sahs_create#:#Create SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_delete#:#Delete SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_edit_permission#:#Change permission settings###11 Sep 2004 new variable
+common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_read#:#Read access to SCORM/AICC Learning Module###11 Sep 2004 new variable
+common#:#sahs_visible#:#SCORM/AICC Learning Module is visible###11 Sep 2004 new variable
+common#:#sahs_write#:#Edit SCORM/AICC Learning Module###11 Sep 2004 new variable
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -1818,15 +1846,6 @@ common#:#show_owner#:#Besitzerinfo
 common#:#show_structure#:#Strukturansicht einblenden
 common#:#show_users_online#:#Aktive Benutzer anzeigen
 common#:#signature#:#Signatur
-common#:#slm#:#SCORM Lernmodul
-common#:#slm_create#:#Neues SCORM Lernmodul anlegen
-common#:#slm_delete#:#SCORM Lernmodul löschen
-common#:#slm_edit_permission#:#Rechteeinstellungen ändern
-common#:#slm_join#:#SCORM Lernmodul abonnieren
-common#:#slm_leave#:#SCORM Lernmodulabonnement aufheben
-common#:#slm_read#:#SCORM Lernmodul lesen
-common#:#slm_visible#:#Lernmodul ist sichtbar
-common#:#slm_write#:#SCORM Lernmodul bearbeiten
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#spl#:#Fragenpool für Umfrage
@@ -1857,6 +1876,7 @@ common#:#submit#:#Abschicken
 common#:#subobjects#:#Unter-Objekte
 common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
+common#:#sure_delete_selected_users#:#Sind sie sicher, dass die ausgewählten Benutzer gelöscht werden sollen?
 common#:#svy#:#Umfrage
 common#:#svy_add#:#Umfrage anfügen
 common#:#svy_delete#:#Umfrage löschen
@@ -1988,6 +2008,7 @@ common#:#usrf_delete#:#Benutzerkonten löschen
 common#:#usrf_edit_permission#:#Zugriff auf Benutzerkonten ändern
 common#:#usrf_edit_roleassignment#:#Rollenzuweisung von Benutzerkonten ändern
 common#:#usrf_read#:#Lesezugriff auf Benutzerkonten
+common#:#usrf_read_users#:#Rollenzuweisung für lokale Administratoren
 common#:#usrf_visible#:#Benutzerkonten sind sichtbar
 common#:#usrf_write#:#Benutzerkonten bearbeiten
 common#:#validate#:#Validieren
@@ -2324,7 +2345,7 @@ content#:#cont_terms#:#Begriffe
 content#:#cont_time#:#Zeit
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Inhaltsverzeichnis
-content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:
+content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:###11 Sep 2004 content changed
 content#:#cont_top#:#Oben
 content#:#cont_total_time#:#Gesamtzeit
 content#:#cont_tracking_data#:#Protokolldaten
@@ -3448,6 +3469,7 @@ survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
 survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
+survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!###11 Sep 2004 new variable
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
@@ -3656,6 +3678,7 @@ survey#:#start_survey#:#Umfrage beginnen
 survey#:#subtype#:#Untertyp
 survey#:#survey_finish#:#Speichern und Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
+survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###11 Sep 2004 new variable
 survey#:#survey_next#:#Speichern und weiter >>>
 survey#:#survey_offline_message#:#Es können keine NutzerInnen eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
@@ -3681,19 +3704,3 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
-common#:#administrate_users#:#Lokale Benutzerverwaltung
-common#:#add_user#:#Lokalen Benutzer hinzufügen
-common#:#all_users#:#Alle Benutzer
-common#:#global_user#:#Globale Benutzer
-common#:#filter#:#Filter:
-common#:#apply_filter#:#Filter anwenden
-common#:#no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
-common#:#local#:#Lokal
-common#:#global#:#Global
-common#:#no_global_role_left#:#Jeder Benutzer muss mindestens einer globalen Rolle zugeordnet sein.
-common#:#role_assignment_updated#:#Die Rollenzuweisung wurde geändert.
-common#:#sure_delete_selected_users#:#Sind sie sicher, dass die ausgewählten Benutzer gelöscht werden sollen?
-common#:#deleted_user#:#Der/die Benutzer wurden gelöscht.
-common#:#cat_cat_administrate_users#:#Lokale Benutzer verwalten
-common#:#cat_read_users#:#Lesezugriff auf lokale Benutzer
-common#:#usrf_read_users#:#Rollenzuweisung für lokale Administratoren
