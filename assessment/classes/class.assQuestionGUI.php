@@ -708,6 +708,13 @@ class ASS_QuestionGUI extends PEAR {
     $result = 0;
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
+
+		if (($result) and ($_POST["cmd"]["add"])) {
+			// You cannot add answers before you enter the required data
+      sendInfo($this->lng->txt("fill_out_all_required_fields_add_answer"));
+			$_POST["cmd"]["add"] = "";
+		}
+
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
@@ -782,6 +789,12 @@ class ASS_QuestionGUI extends PEAR {
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["clozetext"]))
       $result = 1;
       
+		if (($result) and ($_POST["cmd"]["add"])) {
+			// You cannot create gaps before you enter the required data
+      sendInfo($this->lng->txt("fill_out_all_required_fields_create_gaps"));
+			$_POST["cmd"]["add"] = "";
+		}
+
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
@@ -891,7 +904,13 @@ class ASS_QuestionGUI extends PEAR {
     
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
-      
+     
+		if (($result) and ($_POST["cmd"]["add"])) {
+			// You cannot add matching pairs before you enter the required data
+      sendInfo($this->lng->txt("fill_out_all_required_fields_add_matching"));
+			$_POST["cmd"]["add"] = "";
+		}
+		
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
@@ -900,7 +919,7 @@ class ASS_QuestionGUI extends PEAR {
     
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_matchingpairs();
-    
+		$saved = false;    
     // Add all answers from the form into the object
     foreach ($_POST as $key => $value) {
       if (preg_match("/left_(\d+)_(\d+)/", $key, $matches)) {
@@ -914,6 +933,11 @@ class ASS_QuestionGUI extends PEAR {
 						if (preg_match("/right_$matches[1]_(\d+)/", $key2, $matches2)) {
 							if ($value2["tmp_name"]) {
 								// upload the matching picture
+								if ($this->question->get_id() <= 0) {
+									$this->question->save_to_db();
+									$saved = true;
+						      sendInfo($this->lng->txt("question_saved_for_upload"));
+								}
 								$this->question->set_image_file($value2['name'], $value2['tmp_name']);
 								$_POST["right_$matches[1]_$matchingtext_id"] = $value2['name'];
 							}
@@ -935,6 +959,13 @@ class ASS_QuestionGUI extends PEAR {
         $this->question->delete_matchingpair($matches[1]);
       }
     }
+		if ($saved) {
+			// If the question was saved automatically before an upload, we have to make
+			// sure, that the state after the upload is saved. Otherwise the user could be
+			// irritated, if he presses cancel, because he only has the question state before
+			// the upload process.
+			$this->question->save_to_db();
+		}
     return $result;
   }
 
@@ -953,6 +984,12 @@ class ASS_QuestionGUI extends PEAR {
 
     if ((!$_POST["title"]) or (!$_POST["author"]) or (!$_POST["question"]))
       $result = 1;
+
+		if (($result) and ($_POST["cmd"]["add"])) {
+			// You cannot add answers before you enter the required data
+      sendInfo($this->lng->txt("fill_out_all_required_fields_add_answers"));
+			$_POST["cmd"]["add"] = "";
+		}
 
     $this->question->set_title(ilUtil::stripSlashes($_POST["title"]));
     $this->question->set_author(ilUtil::stripSlashes($_POST["author"]));
