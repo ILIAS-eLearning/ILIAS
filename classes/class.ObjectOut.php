@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.16 2003/01/06 16:54:20 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.17 2003/01/08 15:15:32 smeyer Exp $
 *
 * @package ilias-core
 */
@@ -64,7 +64,7 @@ class ObjectOut
 		$this->objDefinition =& $objDefinition;
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;
-		$this->tree = & $tree;
+		$this->tree =& $tree;
 		$this->data = $a_data;
         
         //prepare output of administration view
@@ -73,6 +73,7 @@ class ObjectOut
 		$this->setAdminTabs();
 		$this->setLocator();
 	}
+
 	/**
 	* set admin tabs
 	* @access	public
@@ -111,6 +112,7 @@ class ObjectOut
 			$this->tpl->parseCurrentBlock();
 		}	
 	}
+
 	function setLocator()
 	{
 		global $lng;
@@ -166,8 +168,8 @@ class ObjectOut
 
 		$this->tpl->setVariable("TXT_PATH",$debug.$lng->txt($prop_name)." ".$lng->txt("of"));
 		$this->tpl->parseCurrentBlock();
-
 	}
+
 	function createObject()
 	{
 		$this->getTemplateFile("edit");
@@ -379,6 +381,7 @@ class ObjectOut
 		else
 		{
 			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 		}
 		
