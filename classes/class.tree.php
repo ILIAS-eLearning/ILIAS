@@ -19,6 +19,13 @@ class Tree extends PEAR
 	var $db;
 
 	/**
+	* ilias object
+	* @var object
+	* @access private
+	*/
+	var $ilias;
+
+	/**
 	* points to actual position in tree (node)
 	* @var integer
 	* @access public
@@ -75,35 +82,31 @@ class Tree extends PEAR
 	var $maxlvl;
 
 	/**
-	* local error object
-	* @var object
-	* @access private
-	*/
-	var $error_obj;
-	
-	/**
 	* constructor
 	* @param	integer	$a_node_id		node_id
 	* @param	integer	$a_parent_id	parent_id
 	* @param	integer	$a_root_id		root_id (optional)
 	* @param	integer	$a_tree_id		tree_id (optional)
 	*/
-	function Tree($a_node_id, $a_parent_id, $a_root_id = 1, $a_tree_id = 1)
+	function Tree($a_node_id, $a_parent_id, $a_root_id = "", $a_tree_id = 1)
 	{
 		global $ilias;
 
+		// set ilias
+		$this->ilias =& $ilias;
+		
 		// set db-handler
 		$this->db =& $ilias->db;
-		
-		// init error-handler
-		$this->PEAR();
-		$this->error_obj = new ErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
 		
 		//init variables
 		$this->node_id		= $a_node_id;
 		$this->parent_id	= $a_parent_id;
-		$this->root_id		= $a_root_id;
+		
+		if (empty($a_root_id))
+		{
+			$this->root_id = ROOT_FOLDER_ID;
+		}
+		
 		$this->tree_id		= $a_tree_id;
 	}
 
@@ -134,7 +137,7 @@ class Tree extends PEAR
 		else
 		{
 			// No Leafs found? An error occured
-			return $this->raiseError("Error: No Leafs found!",$this->error_obj->WARNING);
+			$this->ilias->raiseError("No Leafs found!",$this->ilias->error_obj->WARNING);
 		}
 	}
 
@@ -468,6 +471,7 @@ class Tree extends PEAR
 			$delete[] = $data["child"];
 		}
 		
+		// TODO: rbac issues should NOT be handled in tree-class!!
 		foreach ($delete as $val)
 		{
 			$res = $this->db->query("DELETE FROM object_data WHERE obj_id='".$val."'");
@@ -530,9 +534,9 @@ class Tree extends PEAR
 				 "FROM tree AS T1, tree AS T2, tree AS T3 ".
 				 "LEFT JOIN object_data ON T2.child=object_data.obj_id ".
 				 "WHERE T1.child = '".$a_startnode." '".
-				 "AND T1.parent = '0'".
+				 "AND T1.parent = '0' ".
 				 "AND T3.child = '".$a_endnode." '".
-				 "AND T3.parent = '".$this->parent_id." '".
+				 "AND T3.parent = '".$_GET["parent"]." '".
 				 "AND T2.lft BETWEEN T1.lft AND T1.rgt ".
 				 "AND T3.lft BETWEEN T2.lft AND T2.rgt ".
 				 "AND T2.tree = '".$this->tree_id." '".
@@ -546,7 +550,7 @@ class Tree extends PEAR
 		}
 		else
 		{
-			$this->raiseError("Error: No path found!",$this->error_obj->MESSAGE);
+			$this->ilias->raiseError("Error: No path found!",$this->ilias->error_obj->MESSAGE);
 		}
 	}
 
@@ -619,7 +623,7 @@ class Tree extends PEAR
 			
 		if (count($all) != count($uni))
 		{
-			return $this->raiseError("Error: Tree is corrupted!!",$this->error_obj->WARNING);
+			return $this->ilias->raiseError("Error: Tree is corrupted!!",$this->ilias->error_obj->WARNING);
 		}
 		
 		return true;

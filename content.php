@@ -1,11 +1,7 @@
 <?php
 include_once "include/ilias_header.inc";
 
-// on first start obj_id is set to 1
-$obj_id = $obj_id ? $obj_id : 1;
-$_GET["obj_id"] = $_GET["obj_id"] ? $_GET["obj_id"] : 1;
-
-$obj = getObject($obj_id);
+$obj = getObject($_GET["obj_id"]);
 
 //  Type = usrf => Verzweige nach content_user.php
 if($obj["type"] == 'usrf')
@@ -39,9 +35,6 @@ if($obj["type"] == 'type')
 }
 // Template-Engine anschmeissen
 $tplContent = new Template("content_main.html",true,true);
-
-// create tree object: if $pos is not set use root id
-$tree =& new Tree($obj_id,1,1);
 
 // was a command submitted?
 if (isset($_POST["cmd"]))

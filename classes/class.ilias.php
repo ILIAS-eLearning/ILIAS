@@ -15,65 +15,65 @@ include_once("./classes/class.DBx.php");
 class ILIAS extends PEAR
 {
 	/**
-	 * ini file
-	 * @var string
-	 */
+	* ini file
+	* @var string
+	*/
  	var $INI_FILE = "./ilias.ini";
 
-    /**
-    *  database connector
-    *  @var string
-    *  @access public
+	/**
+	* database connector
+	* @var string
+	* @access public
 	*/
-    var $dsn = "";
+	var $dsn = "";
 
-    /**
-    *  database handle
-    *  @var object database
-    *  @access private
-    */
-    var $db;
+	/**
+	* database handle
+	* @var object database
+	* @access private
+	*/
+	var $db;
 	
-    /**
-    *  template path
-    *  @var string
-    *  @access private
-    */
-    var $tplPath = "";
-
-    /**
-    *  user account
-    *  @var object user
-    *  @access public
+	/**
+	* template path
+	* @var string
+	* @access private
 	*/
-    var $account;
+	var $tplPath = "";
 
-    /**
-    *  auth parameters
-    *  @var array
-    *  @access private
-    */
-    var $auth_params = array();
+	/**
+	* user account
+	* @var object user
+	* @access public
+	*/
+	var $account;
+
+	/**
+	* auth parameters
+	* @var array
+	* @access private
+	*/
+	var $auth_params = array();
 		
-    /**
-    *  auth handler
-    *  @var object auth
-    *  @access public
-    */
-    var $auth;
+	/**
+	* auth handler
+	* @var object auth
+	* @access public
+	*/
+	var $auth;
 	
-    /**
-    *  operation list
-    *  @var array
-    *  @access private
-    */
-    var $operations;
+	/**
+	* operation list
+	* @var array
+	* @access private
+	*/
+	var $operations;
 	
-    /**
-    *  type definition
-    *  @var array
-    *  @access private
-    */	
+	/**
+	* type definition
+	* @var array
+	* @access private
+	*/	
 	var $typedefinition = array(
 								"grp"  => "'frm','le','crs','file','rolf'",
 								"cat"  => "'cat','frm','le','grp','crs','file','rolf'",
@@ -86,26 +86,28 @@ class ILIAS extends PEAR
 								"rolf" => "'role','rolt'",
 								"objf" => "'type'"
 							);
-/**
-    *  system settings
-    *  @var array
-    *  @access public
-    */
+	/**
+	* system settings
+	* @var array
+	* @access public
+	*/
 	var $ini = array();
 	
-    /**
-     * Error Handling
-     * @var object Error
-     * @access public
-     */
-	var $error_class;
-	/** 
-	 * setup ILIAS global object
-	 * 
-	 * @return boolean
-	 */
+	/**
+	* Error Handling
+	* @var object Error
+	* @access public
+	*/
+	var $error_obj;
+
+	/**
+	* Constructor
+	* setup ILIAS global object
+	* 
+	* @return boolean
+	*/
 	function ILIAS()
-    {
+	{
 		$this->PEAR();
 
 		// get settings from ini file
@@ -139,34 +141,33 @@ class ILIAS extends PEAR
 		
 		// We use MySQL as storage container
 		$this->auth = new Auth("DB",$this->auth_params,"",false);
-		
 
 		// Error Handling
-		$this->error_class = new ErrorHandling();
-		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_class,'errorHandler'));
+		$this->error_obj = new ErrorHandling();
+		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
 	}
 
-    /**
-    * destructor
+	/**
+	* destructor
 	* 
-    * @return boolean
-    */
-    function _ILIAS()
+	* @return boolean
+	*/
+	function _ILIAS()
 	{
 		if ($this->ini->readVariable("db", "type") != "")
 		{
 			$this->db->disconnect();
-        }
+		}
 		
 		return true;
-    }
+		}
 
 	/**
-	 * read string value from settingstable
-	 * @access public
-	 * @param string key
-	 * @return string value
-	 */
+	* read string value from settingstable
+	* @access public
+	* @param string key
+	* @return string value
+	*/
 	function getSettingsStr($key)
 	{
 		$sql = "SELECT value_str FROM settings WHERE keyword='".$key."'";
@@ -183,11 +184,11 @@ class ILIAS extends PEAR
 	}
 
 	/**
-	 * read integer value from settingstable
-	 * @access public
-	 * @param string key
-	 * @return int value
-	 */
+	* read integer value from settingstable
+	* @access public
+	* @param string key
+	* @return int value
+	*/
 	function getSettingsInt($key)
 	{
 		$sql = "SELECT value_int FROM settings WHERE keyword='".$key."'";
@@ -205,12 +206,12 @@ class ILIAS extends PEAR
 	}
 
 	/**
-	 * write integer value to settingstable
-	 * @access public
-	 * @param string key
-	 * @param int value
-	 * @return int value
-	 */
+	* write integer value to settingstable
+	* @access public
+	* @param string key
+	* @param int value
+	* @return int value
+	*/
 	function setSettingsInt($key, $value)
 	{
 		$sql = "DELETE FROM settings WHERE keyword='".$key."'";
