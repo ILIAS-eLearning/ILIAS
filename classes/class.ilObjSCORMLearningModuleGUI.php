@@ -324,60 +324,83 @@ class ilObjSCORMLearningModuleGUI extends ilObjectGUI
 	*/
 	function readObject($newObj)
 	{
-
-		// convert imsmanifest.xml file in iso to utf8
+		// the seems_utf8($str) function 
+		include_once("include/inc.utf8checker.php");
+		$needs_convert=false;
+		// convert imsmanifest.xml file in iso to utf8 if needed
 		// include_once("include/inc.convertcharset.php");
 		$manifest_file = $newObj->getDataDirectory()."/imsmanifest.xml";
 
 		// check if manifestfile exists and space left on device...
 		$check_for_manifest_file=is_file($manifest_file);
+
+		// if no manifestfile
+		if (!$check_for_manifest_file)
+		{
+			$this->ilias->raiseError($this->lng->txt("Manifestfile $manifest_file not found!"),$this->ilias->error_obj->MESSAGE);
+			return;
+		}
+
 		if ($check_for_manifest_file) {
+			$manifest_file_array=file($manifest_file);	
+			foreach($manifest_file_array as $mfa)
+			{
+				if (!seems_not_utf8($mfa)) {
+					$needs_convert=true; 
+					break;
+				}
+			}
+			
+			
 			// to copy the file we need some extraspace, counted in bytes *2 ... we need 2 copies....
 			$estimated_manifest_filesize=filesize($manifest_file) * 2;
 			$check_disc_free=disk_free_space($newObj->getDataDirectory()) - $estimated_manifest_filesize;
 		}
 		
-		
-		// if file exists and enough space left on device		
-		if ($check_for_manifest_file && ($check_disc_free > 1)) {
+		// if $manifest_file needs to be converted to UTF8
+		if ($needs_convert)
+		{
+			// if file exists and enough space left on device		
+			if ($check_for_manifest_file && ($check_disc_free > 1)) {
+				
+				// create backup from original
+				if (!copy($manifest_file, $manifest_file.".old")) {
+					echo "Failed to copy $manifest_file...<br>\n";
+				}
 			
-			// create backup from original
-			if (!copy($manifest_file, $manifest_file.".old")) {
-				echo "Failed to copy $manifest_file...<br>\n";
-			}
-		
-			// read backupfile, convert each line to utf8, write line to new file
-			// php < 4.3 style
-			$f_write_handler=fopen($manifest_file.".new", "w");
-			$f_read_handler=fopen($manifest_file.".old", "r");
-			while (!feof($f_read_handler))
-			{
-				$zeile =fgets($f_read_handler);
-				fputs($f_write_handler, utf8_encode($zeile));
-			}
-			fclose($f_read_handler);
-			fclose($f_write_handler);
-		
-			// copy new utf8-file to imsmanifest.xml
-			if (!copy($manifest_file.".new", $manifest_file)) {
-				echo "Failed to copy $manifest_file...<br>\n";
+				// read backupfile, convert each line to utf8, write line to new file
+				// php < 4.3 style
+				$f_write_handler=fopen($manifest_file.".new", "w");
+				$f_read_handler=fopen($manifest_file.".old", "r");
+				while (!feof($f_read_handler))
+				{
+					$zeile =fgets($f_read_handler);
+					//echo mb_detect_encoding($zeile);
+					fputs($f_write_handler, utf8_encode($zeile));
+				}
+				fclose($f_read_handler);
+				fclose($f_write_handler);
+			
+				// copy new utf8-file to imsmanifest.xml
+				if (!copy($manifest_file.".new", $manifest_file)) {
+					echo "Failed to copy $manifest_file...<br>\n";
+				}
+				
+				if (!@is_file($manifest_file))
+				{
+					$this->ilias->raiseError($this->lng->txt("cont_no_manifest"),
+					$this->ilias->error_obj->WARNING);
+				}
+			} else { 
+				// gives out the specific error
+			
+				if (!($check_disc_free > 1))
+					$this->ilias->raiseError($this->lng->txt("Not enough space left on device!"),$this->ilias->error_obj->MESSAGE);
+					return;
 			}
 			
-			if (!@is_file($manifest_file))
-			{
-				$this->ilias->raiseError($this->lng->txt("cont_no_manifest"),
-				$this->ilias->error_obj->WARNING);
-			}
-		} else { 
-			// gives out the specific error
-		
-			if (!$check_for_manifest_file)
-				$this->ilias->raiseError($this->lng->txt("Manifestfile $manifest_file not found!"),$this->ilias->error_obj->MESSAGE);
-			else if (!($check_disc_free > 1))
-				$this->ilias->raiseError($this->lng->txt("Not enough space left on device!"),$this->ilias->error_obj->MESSAGE);
-			return;
 		}
-			
+
 		//validate the XML-Files in the SCORM-Package
 		if ($_POST["validate"] == "y")
 		{
