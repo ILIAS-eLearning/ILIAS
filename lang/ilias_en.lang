@@ -3011,3 +3011,15 @@ survey#:#dp_standard_beliefs_always5#:#Standard beliefs (always-many times-varyi
 survey#:#dp_standard_behaviour_certainly5#:#Standard behaviour (most certainly-more positive-undecided-more negative-most certainly not)
 survey#:#view_phrase#:#View phrase
 survey#:#add_phrase_introduction#:#Please select a phrase:
+survey#:#define_questionblock#:#Define question block
+survey#:#unfold#:#Unfold
+survey#:#qpl_unfold_select_none#:#Please select a least one questionblock if you want to unfold question blocks!
+survey#:#qpl_define_questionblock_select_missing#:#Please select a least two questions if you want to define a question block!
+survey#:#introduction#:#Introduction
+survey#:#start_date#:#Start date
+survey#:#end_date#:#End date
+survey#:#evaluation_access#:#Evaluation access
+survey#:#online#:#online
+survey#:#offline#:#offline
+survey#:#on#:#on
+survey#:#off#:#off

@@ -24,6 +24,7 @@
 <input type="checkbox" name="cb_{QUESTION_ID}" value="1" />
 <!-- END checkable -->
 </td>
+<!-- BEGIN noblock -->
 <td class="{COLOR_CLASS}">{QUESTION_TITLE}</td>
 <td class="{COLOR_CLASS}">{EDIT}</td>
 <td class="{COLOR_CLASS}">{PREVIEW}</td>
@@ -32,10 +33,14 @@
 <td class="{COLOR_CLASS}">{QUESTION_AUTHOR}</td>
 <td class="{COLOR_CLASS}">{QUESTION_CREATED}</td>
 <td class="{COLOR_CLASS}">{QUESTION_UPDATED}</td>
+<!-- END noblock -->
+<!-- BEGIN block -->
+<td class="{COLOR_CLASS}" colspan="8">{TEXT_QUESTIONBLOCK}</td>
+<!-- END block -->
 </tr>
-<!-- END QTab --> 
+<!-- END QTab -->
 <!-- BEGIN Emptytable -->
-<tr><td class="option_value" colspan="10">{TEXT_EMPTYTABLE}</td></tr>
+<tr><td class="option_value" colspan="9">{TEXT_EMPTYTABLE}</td></tr>
 <!-- END Emptytable -->
 <!-- BEGIN Footer -->
 <tr><td class="option_value">{ARROW}</td><td class="option_value" colspan="9">{A_BUTTONS}</td></tr>

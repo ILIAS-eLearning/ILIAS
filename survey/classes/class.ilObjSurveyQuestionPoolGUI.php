@@ -102,6 +102,37 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	}
 	
 /**
+* Displays the definition form for a question block
+*
+* Displays the definition form for a question block
+*
+* @access public
+*/
+	function defineQuestionblock()
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_define_questionblock.html", true);
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/cb_(\d+)/", $key, $matches))
+			{
+				$this->tpl->setCurrentBlock("hidden");
+				$this->tpl->setVariable("HIDDEN_NAME", "cb_$matches[1]");
+				$this->tpl->setVariable("HIDDEN_VALUE", $matches[1]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("DEFINE_QUESTIONBLOCK_HEADING", $this->lng->txt("define_questionblock"));
+		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->parseCurrentBlock();
+	}
+
+/**
 * Creates a confirmation form to delete questions from the question pool
 *
 * Creates a confirmation form to delete questions from the question pool
@@ -378,6 +409,63 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       }
 		}
 
+		if ($_POST["cmd"]["questionblock"])
+		{
+			$questionblock = array();
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/cb_(\d+)/", $key, $matches))
+				{
+					array_push($questionblock, $value);
+				}
+			}
+			if (count($questionblock) < 2)
+			{
+        sendInfo($this->lng->txt("qpl_define_questionblock_select_missing"));
+			}
+			else
+			{
+				$this->defineQuestionblock();
+				return;
+			}
+		}
+		
+		if ($_POST["cmd"]["unfold"])
+		{
+			$unfoldblocks = array();
+			foreach ($_POST as $key => $value)
+			{
+				if (preg_match("/cb_qb_(\d+)/", $key, $matches))
+				{
+					array_push($unfoldblocks, $matches[1]);
+				}
+			}
+			if (count($unfoldblocks))
+			{
+				$this->object->unfoldQuestionblocks($unfoldblocks);
+			}
+			else
+			{
+        sendInfo($this->lng->txt("qpl_unfold_select_none"));
+			}
+		}
+		
+		if ($_POST["cmd"]["save_questionblock"])
+		{
+			if ($_POST["title"])
+			{
+				$questionblock = array();
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/cb_(\d+)/", $key, $matches))
+					{
+						array_push($questionblock, $value);
+					}
+				}
+				$this->object->createQuestionblock($_POST["title"], $questionblock);
+			}
+		}
+		
   /*  if (strlen($_POST["cmd"]["duplicate"]) > 0) {
       // duplicate button was pressed
       if (count($checked_questions) > 0) {
@@ -489,75 +577,100 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       $this->tpl->setCurrentBlock("standard");
       $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
       $this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
-      $this->tpl->setVariable("EXPORT", $this->lng->txt("export"));
+      $this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
+      $this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
       $this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("Footer");
 			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
 			$this->tpl->parseCurrentBlock();
 	}    
     
-    $this->tpl->setCurrentBlock("QTab");
-
     // build sort order for sql query
     if (count($_GET["sort"])) {
       foreach ($_GET["sort"] as $key => $value) {
         switch($key) {
           case "title":
-            $order = " ORDER BY title $value";
+            $order = " ORDER BY questionblock_fi, title $value";
             $img_title = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "description":
-            $order = " ORDER BY description $value";
+            $order = " ORDER BY questionblock_fi, description $value";
             $img_description = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "type":
-            $order = " ORDER BY questiontype_fi $value";
+            $order = " ORDER BY questionblock_fi, questiontype_fi $value";
             $img_type = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "author":
-            $order = " ORDER BY author $value";
+            $order = " ORDER BY questionblock_fi, author $value";
             $img_author = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "created":
-            $order = " ORDER BY created $value";
+            $order = " ORDER BY questionblock_fi, created $value";
             $img_created = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
           case "updated":
-            $order = " ORDER BY TIMESTAMP $value";
+            $order = " ORDER BY questionblock_fi, TIMESTAMP $value";
             $img_updated = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
             break;
         }
       }
-    }
+    } else {
+			$order = " ORDER BY questionblock_fi";
+		}
 
     // display all questions in the question pool
-    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.ref_fi = " . $_GET["ref_id"] . " $where$order";
+		$query = "SELECT survey_question. * , survey_questiontype.type_tag, survey_questionblock_question.questionblock_fi " .
+							"FROM survey_question " .
+							"LEFT JOIN survey_questiontype ON survey_question.questiontype_fi = survey_questiontype.questiontype_id " .
+							"LEFT JOIN survey_questionblock_question ON survey_question.question_id = survey_questionblock_question.question_fi " .
+							"WHERE survey_question.ref_fi = " . $_GET["ref_id"] . " $where$order";
+//    $query = "SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.ref_fi = " . $_GET["ref_id"] . " $where$order";
     $query_result = $this->ilias->db->query($query);
     $colors = array("tblrow1", "tblrow2");
     $counter = 0;
+		$last_questionblock_id = 0;
 		$editable = $rbacsystem->checkAccess('write', $this->ref_id);
+		$questionblock_titles =& $this->object->getQuestionblockTitles();
     if ($query_result->numRows() > 0)
     {
       while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
       {
-        if (($data->private != 1) or ($data->owner == $this->ilias->account->id)) {
-          $this->tpl->setVariable("QUESTION_ID", $data->question_id);
-          if ($editable) {
-	          $this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&edit=$data->question_id\">" . $this->lng->txt("edit") . "</a>]");
-          }
-          $this->tpl->setVariable("QUESTION_TITLE", "<strong>$data->title</strong>");
-					//$this->lng->txt("preview")
-          $this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>]");
-          $this->tpl->setVariable("QUESTION_DESCRIPTION", $data->description);
-					$this->tpl->setVariable("QUESTION_PREVIEW", $this->lng->txt("preview"));
-          $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
-          $this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
-          $this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->created), "date"));
-          $this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->TIMESTAMP), "date"));
-          $this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-          $this->tpl->parseCurrentBlock();
-          $counter++;
-        }
+				if (($data->questionblock_fi > 0) and ($data->questionblock_fi != $last_questionblock_id))
+				{
+					$this->tpl->setCurrentBlock("block");
+					$this->tpl->setVariable("TEXT_QUESTIONBLOCK", $questionblock_titles[$data->questionblock_fi]);
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("QTab");
+					$this->tpl->setVariable("QUESTION_ID", "qb_$data->questionblock_fi");
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+					$this->tpl->parseCurrentBlock();
+					$counter++;
+				}
+				if (!$data->questionblock_fi)
+				{
+					$this->tpl->setCurrentBlock("checkable");
+					$this->tpl->setVariable("QUESTION_ID", $data->question_id);
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("QTab");
+				if ($editable) {
+					$this->tpl->setVariable("EDIT", "[<a href=\"" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions&edit=$data->question_id\">" . $this->lng->txt("edit") . "</a>]");
+				}
+				$this->tpl->setVariable("QUESTION_TITLE", "<strong>$data->title</strong>");
+				//$this->lng->txt("preview")
+				$this->tpl->setVariable("PREVIEW", "[<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>]");
+				$this->tpl->setVariable("QUESTION_DESCRIPTION", $data->description);
+				$this->tpl->setVariable("QUESTION_PREVIEW", $this->lng->txt("preview"));
+				$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+				$this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
+				$this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->created), "date"));
+				$this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->TIMESTAMP), "date"));
+				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+				$this->tpl->parseCurrentBlock();
+				$counter++;
+				$last_questionblock_id = $data->questionblock_fi;
       }
     }
     
