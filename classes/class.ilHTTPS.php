@@ -69,6 +69,7 @@ class ilHTTPS
 	function __readProtectedScripts()
 	{
 		$this->protected_scripts[] = 'login.php';
+		$this->protected_scripts[] = 'start_bmf.php';
 
 		return true;
 	}
