@@ -13,15 +13,16 @@ class RbacReviewH extends RbacReview
 {
 	/**
 	* Constructor
-	* @param object db
+	* @access	public
 	*/
-	function RbacReviewH(&$dbhandle)
+	function RbacReviewH()
 	{
-		$this->RbacReview($dbhandle);
+		$this->RbacReview();
 	}
 
 	/**
-	* @access public
+	* DESCRIPTION MISSING
+	* @access	public
 	*/
 	function authorizedUsers()
 	{
@@ -29,7 +30,8 @@ class RbacReviewH extends RbacReview
 	}
 
 	/**
-	* @access public
+	* DESCRIPTION MISSING
+	* @access	public
 	*/
 	function authorizedRoles()
 	{
@@ -37,7 +39,8 @@ class RbacReviewH extends RbacReview
 	}
 	
 	/**
-	* @access public
+	* DESCRIPTION MISSING
+	* @access	public
 	*/
 	function rolePermissions()
 	{
