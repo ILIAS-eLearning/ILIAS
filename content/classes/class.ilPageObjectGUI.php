@@ -154,10 +154,15 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
 			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId()."&cmd=edpost");
 
-		$content = $this->pg_obj->getXMLContent();
+		// setting to utf-8 here
+		$content = $this->pg_obj->getXMLContent(true);
+		header('Content-type: text/html; charset=UTF-8');
+
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
+//echo "<b>XML</b>:".htmlentities($content).":<br>";
+//echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args);
 		echo xslt_error($xh);
 		xslt_free($xh);

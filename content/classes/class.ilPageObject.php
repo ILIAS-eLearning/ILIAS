@@ -139,7 +139,7 @@ class ilPageObject extends ilLMObject
 		}
 	}
 
-	function getXMLContent()
+	function getXMLContent($a_utf8_encoded = false)
 	{
 		$xml = "";
 		reset($this->content);
@@ -147,10 +147,13 @@ class ilPageObject extends ilLMObject
 		{
 			if (get_class($co_object) == "ilparagraph")
 			{
-				$xml .= $co_object->getXML();
+				$xml .= $co_object->getXML($a_utf8_encoded);
 			}
 		}
-		return "<PageObject>".$xml."</PageObject>";
+		$utfstr = ($a_utf8_encoded)
+			? "encoding=\"UTF-8\""
+			: "";
+		return "<?xml version=\"1.0\" $utfstr ?><PageObject>".$xml."</PageObject>";
 	}
 
 	function create()
