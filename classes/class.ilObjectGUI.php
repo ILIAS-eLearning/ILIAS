@@ -1109,7 +1109,7 @@ class ilObjectGUI
 	*/
 	function permObject()
 	{
-		global $lng, $log, $rbacsystem, $rbacreview, $rbacadmin;
+		global $lng, $log, $rbacsystem, $rbacreview, $rbacadmin, $objDefinition;
 		static $num = 0;
 
 		if ($rbacsystem->checkAccess("edit permission", $this->object->getRefId()))
@@ -1196,6 +1196,7 @@ class ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		$num = 0;
+
 		foreach($data["rolenames"] as $name)
 		{
 			// BLOCK ROLENAMES
@@ -1204,12 +1205,24 @@ class ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 
 			// BLOCK CHECK INHERIT
-			$this->tpl->setCurrentBLock("CHECK_INHERIT");
-			$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num++]);
+			if ($objDefinition->stopInheritance($this->type))
+			{
+				$this->tpl->setCurrentBLock("CHECK_INHERIT");
+				$this->tpl->setVariable("CHECK_INHERITANCE",$data["check_inherit"][$num++]);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
+		$num = 0;
+		
+		// offer option 'stop inheritance' only to those objects where this option is permitted
+		if ($objDefinition->stopInheritance($this->type))
+		{
+			$this->tpl->setCurrentBLock("STOP_INHERIT");
+			$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
 			$this->tpl->parseCurrentBlock();
 		}
-		$num = 0;
-
+		
 		foreach($data["permission"] as $ar_perm)
 		{
 			foreach ($ar_perm["values"] as $box)
@@ -1239,9 +1252,9 @@ class ilObjectGUI
 
 			$this->tpl->parseCurrentBlock();
 		}
+
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_STOP_INHERITANCE", $this->lng->txt("stop_inheritance"));
 		$this->tpl->setVariable("FORMACTION","adm_object.php?".$this->link_params."&cmd=permSave");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->parseCurrentBlock();

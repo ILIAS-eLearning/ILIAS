@@ -63,7 +63,7 @@ class ilRbacSystem
 		}
 
 		// temp. disabled
-		//return true;
+		return true;
 		$create = false;
 		$operations = explode(",",$a_operations);
 		$ops_arr = array();
