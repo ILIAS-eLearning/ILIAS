@@ -315,11 +315,7 @@ class ilObjContentObject extends ilObject
 
 		// create learning module directory (data_dir/lm_data/lm_<id>)
 		$lm_dir = $lm_data_dir."/lm_".$this->getId();
-		if(!@is_dir($lm_dir))
-		{
-			@mkdir($lm_dir);
-			@chmod($lm_dir,0755);
-		}
+		ilUtil::makeDir($lm_dir);
 		if(!@is_dir($lm_dir))
 		{
 			$this->ilias->raiseError("Creation of Learning Module Directory failed.",$this->ilias->error_obj->FATAL);
@@ -327,11 +323,7 @@ class ilObjContentObject extends ilObject
 
 		// create import subdirectory (data_dir/lm_data/lm_<id>/import)
 		$import_dir = $lm_dir."/import";
-		if(!@is_dir($import_dir))
-		{
-			@mkdir($import_dir);
-			@chmod($import_dir,0755);
-		}
+		ilUtil::makeDir($import_dir);
 		if(!@is_dir($import_dir))
 		{
 			$this->ilias->raiseError("Creation of Import Directory failed.",$this->ilias->error_obj->FATAL);

@@ -588,7 +588,7 @@ class ilRepositoryGUI
 		}
 		
 		$this->setAdminTabs();
-		
+
 		//$this->tpl->setCurrentBlock("content");
 
 		//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit")
@@ -975,6 +975,14 @@ class ilRepositoryGUI
 					$tpl->setVariable("EDIT_LINK","content/glossary_edit.php?cmd=listTerms&ref_id=".$gl_data["ref_id"]);
 					$tpl->setVariable("EDIT_TARGET","bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
+				}
+
+				if ($this->rbacsystem->checkAccess('delete', $gl_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("glo_delete");
+					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$gl_data["ref_id"]);
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 					$tpl->parseCurrentBlock();
 				}
 
@@ -2375,7 +2383,6 @@ class ilRepositoryGUI
 
 				$obj->setFormAction("save","repository.php?cmd=post&mode=$cmd&ref_id=".$this->cur_ref_id."&new_type=".$new_type);
 				$obj->setTargetFrame("save", "bottom");
-//echo "<br>meth:".$method;
 				$obj->$method();
 			}
 		}
@@ -2454,6 +2461,11 @@ class ilRepositoryGUI
 	}
 
 	function create()
+	{
+		$this->executeAdminCommand();
+	}
+
+	function import()
 	{
 		$this->executeAdminCommand();
 	}
