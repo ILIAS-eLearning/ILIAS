@@ -678,15 +678,23 @@ common#:#retype_password#:#retype password
 common#:#right#:#right
 common#:#rights#:#rights
 common#:#role#:#role
+common#:#role_a#:#a Role###30 Oct 2003 new variable
+common#:#role_add#:#Add Role###30 Oct 2003 new variable
 common#:#role_add_local#:#Add local Role###01 Sep 2003 new variable
 common#:#role_added#:#Role added###02 Apr 2003 new variable
 common#:#role_assignment#:#Role Assignment###04 Aug 2003 new variable
 common#:#role_deleted#:#Role deleted###10 Jul 2003 new variable
+common#:#role_edit#:#Edit Role###30 Oct 2003 new variable
+common#:#role_new#:#New Role###30 Oct 2003 new variable
 common#:#roles#:#roles
 common#:#rolf#:#rolf
 common#:#rolf_added#:#Role Folder added###16 Jul 2003 new variable
 common#:#rolt#:#rolt
+common#:#rolt_a#:#a Role Template###30 Oct 2003 new variable
+common#:#rolt_add#:#Add Role Template###30 Oct 2003 new variable
 common#:#rolt_added#:#Role template added###02 Apr 2003 new variable
+common#:#rolt_edit#:#Edit Role Template###30 Oct 2003 new variable
+common#:#rolt_new#:#New Role Template###30 Oct 2003 new variable
 common#:#salutation#:#salutation
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -796,8 +804,13 @@ common#:#username#:#username###29 Oct 2003 content changed
 common#:#users#:#users
 common#:#users_online#:#Users online###04 Aug 2003 new variable
 common#:#usr#:#user
+common#:#usr_a#:#a User###30 Oct 2003 new variable
+common#:#usr_add#:#Add User###30 Oct 2003 new variable
+common#:#usr_added#:#User added###30 Oct 2003 new variable
 common#:#usr_agreement#:#user agreement
 common#:#usr_agreement_empty#:#The agreement contains no text.###04 Aug 2003 new variable
+common#:#usr_edit#:#Edit User###30 Oct 2003 new variable
+common#:#usr_new#:#New User###30 Oct 2003 new variable
 common#:#usr_skin#:#user skin
 common#:#usr_style#:#usr style
 common#:#usrf#:#usrf

@@ -678,15 +678,23 @@ common#:#retype_password#:#Ridigita la password
 common#:#right#:#Diritto
 common#:#rights#:#Diritti
 common#:#role#:#Ruolo
+common#:#role_a#:#a Role###30 Oct 2003 new variable
+common#:#role_add#:#Add Role###30 Oct 2003 new variable
 common#:#role_add_local#:#Aggiungi un ruolo locale###01 Sep 2003 new variable
 common#:#role_added#:#Ruolo aggiunto###02 Apr 2003 new variable
 common#:#role_assignment#:#Ruolo assegnato###04 Aug 2003 new variable
 common#:#role_deleted#:#Ruolo eliminato###10 Jul 2003 new variable
+common#:#role_edit#:#Edit Role###30 Oct 2003 new variable
+common#:#role_new#:#New Role###30 Oct 2003 new variable
 common#:#roles#:#Ruoli
 common#:#rolf#:#rolf
 common#:#rolf_added#:#Cartella di ruolo aggiunta###16 Jul 2003 new variable
 common#:#rolt#:#rolt
+common#:#rolt_a#:#a Role Template###30 Oct 2003 new variable
+common#:#rolt_add#:#Add Role Template###30 Oct 2003 new variable
 common#:#rolt_added#:#Template di ruolo aggiunto###02 Apr 2003 new variable
+common#:#rolt_edit#:#Edit Role Template###30 Oct 2003 new variable
+common#:#rolt_new#:#New Role Template###30 Oct 2003 new variable
 common#:#salutation#:#Titolo
 common#:#salutation_f#:#Femminile###Signora/Signorina
 common#:#salutation_m#:#Maschile###Signore
@@ -796,8 +804,13 @@ common#:#username#:#Nome utente###29 Oct 2003 content changed
 common#:#users#:#Utenti
 common#:#users_online#:#Utenti online###04 Aug 2003 new variable
 common#:#usr#:#Utente
+common#:#usr_a#:#a User###30 Oct 2003 new variable
+common#:#usr_add#:#Add User###30 Oct 2003 new variable
+common#:#usr_added#:#User added###30 Oct 2003 new variable
 common#:#usr_agreement#:#Dichiarazione di accettazione
 common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene testo.###04 Aug 2003 new variable
+common#:#usr_edit#:#Edit User###30 Oct 2003 new variable
+common#:#usr_new#:#New User###30 Oct 2003 new variable
 common#:#usr_skin#:#Tema dell&acute;utente
 common#:#usr_style#:#Stiled ell&acute;utente
 common#:#usrf#:#usrf
