@@ -986,23 +986,24 @@ class ASS_MultipleChoice extends ASS_Question
 			}
 		}
 		$points = 0;
-		if (count($found_values) > 0)
+		if ((count($found_values) > 0) and ($this->get_response() == RESPONSE_SINGLE))
 		{
-			foreach ($this->answers as $key => $answer)
+			return $points;
+		}
+		foreach ($this->answers as $key => $answer)
+		{
+			if ($answer->isStateChecked())
 			{
-				if ($answer->isStateChecked())
+				if (in_array($key, $found_values))
 				{
-					if (in_array($key, $found_values))
-					{
-						$points += $answer->get_points();
-					}
+					$points += $answer->get_points();
 				}
-				else
+			}
+			else
+			{
+				if (!in_array($key, $found_values))
 				{
-					if (!in_array($key, $found_values))
-					{
-						$points += $answer->get_points();
-					}
+					$points += $answer->get_points();
 				}
 			}
 		}
