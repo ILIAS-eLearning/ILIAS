@@ -100,6 +100,8 @@ class ilPaymentObject
 		return $this->vendor_id;
 	}
 
+	
+
 	// return new unique id
 	function add()
 	{
@@ -149,6 +151,20 @@ class ilPaymentObject
 		return true;
 	}
 	// STATIC
+	function _lookupPobjectId($a_ref_id)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM payment_objects ".
+			"WHERE ref_id = '".$a_ref_id."'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->pobject_id;
+		}
+		return 0;
+	}
 
 	function _getCountObjectsByPayMethod($a_type)
 	{
@@ -240,6 +256,33 @@ class ilPaymentObject
 		return $res->numRows() ? false : true;
 	}
 
+	// base method to check access for a specific object
+	function _hasAccess($a_ref_id)
+	{
+		include_once './payment/classes/class.ilPaymentBookings.php';
+
+		global $rbacsystem,$ilDB;
+
+		// check write access
+		if($rbacsystem->checkAccess('write',$a_ref_id))
+		{
+			return true;
+		}
+		$query = "SELECT * FROM payment_objects ".
+			"WHERE ref_id = '".$a_ref_id."' ".
+			"AND status = '1' OR status = '2'";
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			if(!ilPaymentBookings::_hasAccess($row->pobject_id))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+		
 	// PRIVATE
 	function __read()
 	{

@@ -1,0 +1,46 @@
+  <form action="{DETAILS_FORMACTION}" method="post">
+	<table class="std" width="50%">
+	  <tr class="tbltitle">
+		<td colspan="2">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="option">{TXT_INFO}</td>
+		<td class="option_value">{INFO_PAY}</td>
+	  </tr>
+	  <tr>
+		<td rowspan="{ROWSPAN}" class="option">{TXT_PRICES}</td>
+		<td class="option_value">
+		  <table>
+			<tr>
+			  <td>{CHECKBOX}</td>
+			  <td>{DURATION}</td>
+			  <td>{PRICE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <!-- BEGIN price_row -->
+	  <tr>
+		<td class="option_value">
+		  <table>
+			<tr>
+			  <td>{ROW_CHECKBOX}</td>
+			  <td>{ROW_DURATION}</td>
+			  <td>{ROW_PRICE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <!-- END price_row -->
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="2" ><input class="submit" type="submit" name="cmd[{INPUT_CMD}]" value="{INPUT_VALUE}" /></td>
+	  </tr>
+	</table>
+</form>

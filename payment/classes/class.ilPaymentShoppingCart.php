@@ -76,8 +76,8 @@ class ilPaymentShoppingCart
 	function add()
 	{
 		$query = "INSERT INTO payment_shopping_cart ".
-			"SET customer_id = '".$this->user_obj->getId()."',' ".
-			"pobject_id = '".$this->getPobjectId()."',' ".
+			"SET customer_id = '".$this->user_obj->getId()."', ".
+			"pobject_id = '".$this->getPobjectId()."', ".
 			"price_id = '".$this->getPriceId()."'";
 
 		$this->db->query($query);
