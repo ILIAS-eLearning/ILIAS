@@ -128,7 +128,7 @@ ilias_setup#:#ILIAS3 setup
 ilias_version#:#ILIAS Version
 info_text_first_client#:#Die Grundeinstellungen wurden gespeichert. Wir beginnen nun mit der Installation des ersten Mandanten. Das Setup-Programm führt Sie durch den gesamten Installationprozess.
 Während der Installation können Sie den momentanen Status in der Tabelle rechts immer ablesen.
-info_text_first_install#:#
+info_text_first_install#:#Sie installieren ILIAS das erste Mal. Daher müssen zunächst einige rundeinstellungen vorgenommen werden.
 info_text_lang#:#Bitte wählen Sie die gewünschten zusätzlichen Sprachen aus und/oder entfernen Sie bereits installierte Sprachen wieder. Über die Option 'Standard' legen Sie fest, welche Sprache neu angemeldet Benutzer bzw. Benutzer bekommen, die über ihre persönlichen Einsellungen noch keine Sprache ausgewählt haben.
 info_text_nic1#:#Wenn Sie Ihre Installation über ILIAS-NIC-Server registrieren erhalten Sie eine eindeutige Kennung zugewiesen. Die Registrierung ist freiwillig. Wenn Sie sich nicht registrieren wollen, wählen Sie bitte 'Keine Registrierung' (Sie können jederzeit zu einem späteren Zeitpunkt die Registrierung nachholen). Möchten Sie oder benötigen Sie eine eindeutige Kennung, wählen Sie bitte 'Online-´Registrierung'. Sie bekommen ihre Kennung dann automatisch übermittelt. Falls Sie keine aktive Online-Verbindung oder die Registrierung fehlschlägt (z.B. wegen einer Firewall), dann schicken Sie bitte diese
 info_text_nic2#:#an ilias-info@uni-koeln.de. Sie erhalten dann umgehend ihre Kennung per Email zugeschickt. tragen Sie diese Nummer bitte bei der Option 'Email-Registrierung' in das Freifeld ein.
@@ -343,10 +343,14 @@ change_sort_direction#:#Sortierrichtung ndern
 info_text_contact#:#Geben Sie hier zusätzliche informationen zu ihrer Installation an und tragen Sie den Namen und Kontaktinformationen des verantwortlichen Systemadministrators ein. Alle Informationen werden in ihrer Datenbank gespeichert. Im nächsten Installationsschritt haben Sie die Möglichkeit, Ihre Installation per ILIAS-NIC zu registrieren. Die als Pflichtfelder gekennzeichneten Angaben werden bei der Registrierung übermittelt.
 info_text_ini#:#Hier geben Sie bitte eine Kennung für Ihren Mandanten an. Erlaubt sind alle Buchstaben (ausser Umlaute) und Zahlen. Die Kennung muss aus einem Wort bestehen.<br/>Anschliessend geben Sie bitte die Verbindungsdaten zu Ihrer Datenbank an. Setup baut eine Testverbindung mit Ihren Verbindungsangaben auf und prüft, ob die Datenbank bereits vorhanden ist oder nicht. Falls nicht versucht Setup im nächsten Installationschritt eine Datenbank mit dem angegebenen Namen zu erzeugen. Sollten Sie nicht das Recht haben, eigene Datenbanken zu erzeugen, müssen Sie die vom Systemadministrator vorgebene Datenbank hier angeben.
 info_text_db#:#Dei Datenbank ist leer oder nicht vorhanden. Klicken Sie unten auf den Button, um die Datenbank anzulegen.
-info_text_finish1#:#Gratulation! Die Installtion war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
+info_text_finish1#:#Gratulation! Die Installation war erfolgreich. klicken Sie auf 'Einloggen', um sich in ILIAS einzuloggen.
 info_text_finish2#:#Ein oder mehrere Installationsschritte sind nicht erfolgreich durchgeführt worden. Bitte überprüfen Sie die Statusanzeige rechts.
 info_text_login#:#Geben Sie bitte Ihre Mandanten ID und Ihre Zugangsdaten an. Ihr Benutzerkonto muss der Rolle 'Administrator' zugeordnet sein.
 info_text_list#:#Diese Übersicht zeigt alle vorhandenen Installationen an und informiert über deren Installations- und Zugangsstatus.
 root_access#:#Administrator-Zugang
 finish_initial_setup_first#:#Bitte beenden Sie zuerst die Erstinstallation
 info_text_delete#:#Sie können diese Installation löschen, indem Sie auf den Button unten klicken. Es wird nur die Initialisierungsdatei gelöscht. Datenbank und Dateien bleiben erhalten und müssen manuell entfernt werden.
+no_setup_pass_given#:#Geben Sie bitte ein Passwort für den Administatorzugriff an
+pass_does_not_match#:#Die eingebenen Passwörter stimmen nicht überein
+database_installed#:#Datenbank installiert
+no_changes#:#No changes

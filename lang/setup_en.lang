@@ -31,7 +31,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
-3rd_party_software#:#3rd party softwaree
+3rd_party_software#:#3rd Party Software
 absolute_path#:#Absolute path
 access#:#Access
 access_status#:#Access status
@@ -352,3 +352,7 @@ info_text_login#:#Please enter the Client ID of your Installation and your accou
 info_text_list#:#In this overview you see all available clients and there setup and access status.
 root_access#:#root access
 finish_initial_setup_first#:#Please finish intial setup first
+no_setup_pass_given#:#No setup password given
+pass_does_not_match#:#Entered passwords does not match
+database_installed#:#Database installed
+no_changes#:#Keine Änderungen
