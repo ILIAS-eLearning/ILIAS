@@ -136,7 +136,8 @@ function db_set_save_handler()
 	// set session.save_handler to "user"
 	ini_set("session.save_handler", "user");
 	ini_set("session.gc_maxlifetime",$ilias->ini->readVariable("session","expire"));
-
+	ini_set("session.cookie_lifetime",$ilias->ini->readVariable("session","expire"));
+	
 	// register save handler functions
 	if (ini_get("session.save_handler") == "user")
 	{
