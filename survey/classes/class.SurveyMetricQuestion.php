@@ -434,13 +434,36 @@ class SurveyMetricQuestion extends SurveyQuestion {
 							{
 								$ident = $flownode->get_attribute("ident");
 								$shuffle = "";
-								$render_choice = $flownode->first_child();
-								if (strcmp($render_choice->node_name(), "render_fib") == 0)
+
+								$response_lid_nodes = $flownode->child_nodes();
+								foreach ($response_lid_nodes as $resp_lid_id => $resp_lid_node)
 								{
-									$minnumber = $render_choice->get_attribute("minnumber");
-									$this->setMinimum($minnumber);
-									$maxnumber = $render_choice->get_attribute("maxnumber");
-									$this->setMaximum($maxnumber);
+									switch ($resp_lid_node->node_name())
+									{
+										case "render_fib":
+											$render_choice = $resp_lid_node;
+											$minnumber = $render_choice->get_attribute("minnumber");
+											$this->setMinimum($minnumber);
+											$maxnumber = $render_choice->get_attribute("maxnumber");
+											$this->setMaximum($maxnumber);
+											break;
+										case "material":
+											$matlabel = $resp_lid_node->get_attribute("label");
+											$mattype = $resp_lid_node->first_child();
+											if (strcmp($mattype->node_name(), "mattext") == 0)
+											{
+												$material = $mattype->get_content();
+												if ($material)
+												{
+													if ($this->getId() < 1)
+													{
+														$this->saveToDb();
+													}
+													$this->setMaterial($material, true, $matlabel);
+												}
+											}
+											break;
+									}
 								}
 							}
 						}
@@ -540,6 +563,26 @@ class SurveyMetricQuestion extends SurveyQuestion {
 		$qtiResponseNum = $this->domxml->create_element("response_num");
 		$qtiResponseNum->set_attribute("ident", "METRIC");
 		$qtiResponseNum->set_attribute("rcardinality", "Single");
+
+		if (count($this->material))
+		{
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
+			{
+				$qtiMaterial = $this->domxml->create_element("material");
+				$qtiMaterial->set_attribute("label", $this->material["title"]);
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+				if (strcmp($matches[1], "") != 0)
+				{
+					$intlink = $this->material["internal_link"];
+				}
+				$qtiMatTextText = $this->domxml->create_text_node($intlink);
+				$qtiMatText->append_child($qtiMatTextText);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiResponseNum->append_child($qtiMaterial);
+			}
+		}
+
 		$qtiRenderChoice = $this->domxml->create_element("render_fib");
 		$qtiRenderChoice->set_attribute("minnumber", $this->getMinimum());
 		$qtiRenderChoice->set_attribute("maxnumber", $this->getMaximum());

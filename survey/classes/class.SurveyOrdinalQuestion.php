@@ -529,16 +529,39 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 							{
 								$ident = $flownode->get_attribute("ident");
 								$shuffle = "";
-								$render_choice = $flownode->first_child();
-								if (strcmp($render_choice->node_name(), "render_choice") == 0)
+
+								$response_lid_nodes = $flownode->child_nodes();
+								foreach ($response_lid_nodes as $resp_lid_id => $resp_lid_node)
 								{
-									$labels = $render_choice->child_nodes();
-									foreach ($labels as $lidx => $response_label)
+									switch ($resp_lid_node->node_name())
 									{
-										$material = $response_label->first_child();
-										$mattext = $material->first_child();
-										$shuf = 0;
-										$this->addCategoryWithIndex($mattext->get_content(), $response_label->get_attribute("ident"));
+										case "render_choice":
+											$render_choice = $resp_lid_node;
+											$labels = $render_choice->child_nodes();
+											foreach ($labels as $lidx => $response_label)
+											{
+												$material = $response_label->first_child();
+												$mattext = $material->first_child();
+												$shuf = 0;
+												$this->addCategoryWithIndex($mattext->get_content(), $response_label->get_attribute("ident"));
+											}
+											break;
+										case "material":
+											$matlabel = $resp_lid_node->get_attribute("label");
+											$mattype = $resp_lid_node->first_child();
+											if (strcmp($mattype->node_name(), "mattext") == 0)
+											{
+												$material = $mattype->get_content();
+												if ($material)
+												{
+													if ($this->getId() < 1)
+													{
+														$this->saveToDb();
+													}
+													$this->setMaterial($material, true, $matlabel);
+												}
+											}
+											break;
 									}
 								}
 							}
@@ -629,6 +652,26 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 		$qtiResponseLid = $this->domxml->create_element("response_lid");
 		$qtiResponseLid->set_attribute("ident", "MCSR");
 		$qtiResponseLid->set_attribute("rcardinality", "Single");
+
+		if (count($this->material))
+		{
+			if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches))
+			{
+				$qtiMaterial = $this->domxml->create_element("material");
+				$qtiMaterial->set_attribute("label", $this->material["title"]);
+				$qtiMatText = $this->domxml->create_element("mattext");
+				$intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+				if (strcmp($matches[1], "") != 0)
+				{
+					$intlink = $this->material["internal_link"];
+				}
+				$qtiMatTextText = $this->domxml->create_text_node($intlink);
+				$qtiMatText->append_child($qtiMatTextText);
+				$qtiMaterial->append_child($qtiMatText);
+				$qtiResponseLid->append_child($qtiMaterial);
+			}
+		}
+
 		$qtiRenderChoice = $this->domxml->create_element("render_choice");
 		$qtiRenderChoice->set_attribute("shuffle", "no");
 
