@@ -82,7 +82,7 @@ class ilGroupGUI extends ilObjectGUI
 		
 		$this->grp_id = $this->getGroupId($_GET["ref_id"]);
 
-//var_dump($_GET["ref_id"],$this->object->getType());exit;
+//var_dump($this->grp_id,$_GET["ref_id"],$this->object->getType());exit;
 
 		$this->grp_tree = new ilTree($this->grp_id,$this->grp_id);
 		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
@@ -110,6 +110,7 @@ class ilGroupGUI extends ilObjectGUI
 			$cmd = key($_POST["cmd"]);
 			$fullcmd = $cmd."object";
 
+			//var_dump($fullcmd,$cmd);exit;
 			// only createObject!!
 			$this->$fullcmd();
 			exit();
@@ -488,14 +489,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		if ($_GET["type"]=="fold")
-		{
-			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
-		}
-		else
-		{
-			$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=-1");
-		}
+		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]."&parent_non_rbac_id=".$this->object->getRefId());
 
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
 
@@ -588,7 +582,7 @@ class ilGroupGUI extends ilObjectGUI
 
 					$obj_icon = "icon_".$cont_data["type"]."_b.gif";
 
-					if ($access)
+					if ($access and $cont_data["type"] != "fold")
 					{
 						$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"id[]",$cont_data["ref_id"]));
 					}
@@ -886,7 +880,7 @@ class ilGroupGUI extends ilObjectGUI
 
 			foreach ($user_id as $id)
 			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+				$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
 
 				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
 				$num++;
@@ -901,7 +895,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$maxcount = 1;
 
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($user_id);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($user_id);
 
 			$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
 			$this->tpl->setVariable("TITLE", $obj_data->getTitle());
@@ -911,9 +905,9 @@ class ilGroupGUI extends ilObjectGUI
 		}
 		
 		// the variable $_SESSION["saved_post"] is aleady set  for the method  "confirmedDelete"
-		if($confirm!="confirmedDelete")
+		if ($confirm!="confirmedDelete")
 		{
-			if(is_array($user_id))
+			if (is_array($user_id))
 			{	
 				$_SESSION["saved_post"]["user_id"] = $user_id;
 			}
@@ -1235,7 +1229,7 @@ class ilGroupGUI extends ilObjectGUI
 		*/
 		//sendInfo($this->lng->txt("info_trash"));
 
-		$this->tpl->setVariable("FORMACTION", "group?cmd=removeFromSystem&gateway=true&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]);
 
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)

@@ -59,7 +59,7 @@ if (!isset($_GET["type"]))
 
 if (isset($_POST["cmd"]) or isset($_GET["new_type"]) )
 {
-		if ($_GET["gateway"]== "true")
+		if ($_GET["gateway"] == "true")
 		{
 			$grp_gui =& new ilGroupGUI($data, $id, $call_by_reference);
 			exit();
@@ -79,7 +79,6 @@ if (isset($_POST["cmd"]) or isset($_GET["new_type"]) )
 				$obj_type = $_POST["new_type"];
 			}
 			else
-
 			{
 				$obj_type = $_GET["new_type"];
 				
@@ -105,6 +104,7 @@ switch ($obj->getType())
 
 	case "fold":
 	case "file":
+	//echo "hier_group.php";exit;
 		if ($obj_type != "fold")
 		$_GET["ref_id"] = $obj->getGroupId();
 		break;
