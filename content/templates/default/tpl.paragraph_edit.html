@@ -468,14 +468,14 @@ function initEditor(TextAreaName)
 		[ 
           
 		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator",
-		  "ilias-fn", "ilias-xtl", "ilias-itl",
+		   "ilias-xtl", "ilias-itl",
 		  "separator",
 		  "copy", "cut", "paste"
 		  
           ],
 
 	];
-
+//"ilias-fn",
     
 /*
 "ilias-str", "ilias-emp",
@@ -612,6 +612,22 @@ function refreshFootnotelist()
 	document.getElementById("footnotelist").innerHTML = fhtml;
 }
 
+
+function buttonFootnote() 
+{
+	if(editor.hasSelectedText() && editor.getSelectedHTML()!="&nbsp;") 
+	{
+		addFussnote(editor.getSelectedHTML());
+		editor.surroundHTML('<span class=\"footnote\" value=\"','\">['+fnCount+']</span>');
+		refreshFootnotelist()
+	} 
+	else 
+	{
+		w = window.open("lm_edit.php?cmd=popup&ptype=footnote","footnote","width=500,height=450,resizable=yes");
+		setTimeout("w.focus()",500);
+	}
+}
+
 function addInternalLink(Link,title) 
 {
 	//Link = Link.replace("&quot;","\"",Link);
@@ -630,21 +646,6 @@ function addInternalLink(Link,title)
 	}
 }
 
-
-function buttonFootnote() 
-{
-	if(editor.hasSelectedText() && editor.getSelectedHTML()!="&nbsp;") 
-	{
-		addFussnote(editor.getSelectedHTML());
-		editor.surroundHTML('<span class=\"footnote\" value=\"','\">['+fnCount+']</span>');
-		refreshFootnotelist()
-	} 
-	else 
-	{
-		w = window.open("lm_edit.php?cmd=popup&ptype=footnote","footnote","width=500,height=450,resizable=yes");
-		setTimeout("w.focus()",500);
-	}
-}
 
 function buttonExternalLink() 
 {
