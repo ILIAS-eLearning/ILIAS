@@ -30,6 +30,8 @@
 // The language file starts beyond the HTML-comment below. DO NOT modify this line !
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
+// Notice: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
 <!-- language file start -->
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
@@ -52,8 +54,8 @@ common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
-common#:#appointment#:#Appointment###01 Sep 2003 new variable
-common#:#appointment_list#:#Appointment List###01 Sep 2003 new variable
+common#:#appointment#:#Termin
+common#:#appointment_list#:#Terminliste
 common#:#archive#:#Archiv
 common#:#are_you_sure#:#Sind Sie Sicher?
 common#:#assign#:#Zuordnen
@@ -80,7 +82,7 @@ common#:#bookmarks_of#:#Bookmarks von
 common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
-common#:#calendar#:#Calendar###01 Sep 2003 new variable
+common#:#calendar#:#Kalender
 common#:#cancel#:#Abbrechen
 common#:#cannot_uninstall_language_in_use#:#Sie können keine aktuell benutzte Sprache deinstallieren!
 common#:#cannot_uninstall_systemlanguage#:#Sie können die Systemsprache nicht deinstallieren.
@@ -89,7 +91,7 @@ common#:#cat_a#:#eine Kategorie
 common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
 common#:#cat_edit#:#Kategorie bearbeiten
-common#:#cat_new#:#Neue Kategorie###01 Sep 2003 content changed
+common#:#cat_new#:#Neue Kategorie
 common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
@@ -112,10 +114,10 @@ common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
 common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
-common#:#city#:#Stadt
+common#:#city#:#Ort
 common#:#clear#:#Abbrechen
-common#:#clipboard#:#Clipboard###15 Sep 2003 new variable
-common#:#close#:#Close###28 Sep 2003 new variable
+common#:#clipboard#:#Clipboard
+common#:#close#:#Schließen
 common#:#comma_separated#:#Kommagetrennt
 common#:#comment#:#Kommentar
 common#:#compose#:#Erstellen
@@ -146,7 +148,7 @@ common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
 common#:#dataset#:#Datensatz
 common#:#date#:#Datum
-common#:#day#:#Day###01 Sep 2003 new variable
+common#:#day#:#Tag
 common#:#days#:#Tage
 common#:#db_host#:#Datenbank Host
 common#:#db_name#:#Datenbankname
@@ -173,7 +175,7 @@ common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#disabled#:#Ausgeschaltet
-common#:#down#:#Down###02 Sep 2003 new variable
+common#:#down#:#Runter
 common#:#download#:#Herunterladen
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
@@ -246,20 +248,20 @@ common#:#gender#:#Geschlecht
 common#:#generate#:#generieren
 common#:#glo#:#Glossar
 common#:#glo_a#:#ein Glossar
-common#:#glo_add#:#Add Glossary###22 Sep 2003 new variable
+common#:#glo_add#:#Glossar hinzufügen
 common#:#glo_added#:#Glossar hinzugefügt
-common#:#glo_new#:#New Glossary###22 Sep 2003 new variable
+common#:#glo_new#:#Neues Glossar
 common#:#glossary#:#Glossar
 common#:#glossary_added#:#Glossar hinzugefügt
-common#:#group_any_objects#:#Keine Unterobjekte vorhanden###09 Sep 2003 content changed
+common#:#group_any_objects#:#Keine Unterobjekte vorhanden
 common#:#group_details#:#Gruppendetails
 common#:#group_filesharing#:#Gruppen-Filesharing
 common#:#group_members#:#Gruppenmitglieder
 common#:#group_memstat#:#Mitgliederstatus
-common#:#group_memstat_admin#:#Administrator###01 Oct 2003 new variable
+common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
-common#:#group_not_available#:#keine Gruppe verfügbar###02 Oct 2003 content changed
+common#:#group_not_available#:#keine Gruppe verfügbar
 common#:#group_objects#:#Gruppenobjekte
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
@@ -274,7 +276,7 @@ common#:#grp_edit#:#Gruppe bearbeiten
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_leave#:#Mitglied aus der Gruppe austragen
 common#:#grp_mem_send_mail#:#Mitglied eine Nachricht senden
-common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie eine andere Gruppenbezeichnung.
+common#:#grp_name_exists#:#Eine Gruppe mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Gruppennamen.
 common#:#grp_new#:#Neue Gruppe
 common#:#guest#:#Gast
 common#:#guests#:#Gäste
@@ -298,26 +300,26 @@ common#:#info_trash#:#Gelöschte Objekte
 common#:#inform_user_mail#:#Benutzer per E-Mail über Änderungen informieren
 common#:#information_abbr#:#Infos
 common#:#ingmedia_all_offers#:#Alle LE
-common#:#ingmedia_back_to_le#:#Zur&uuml;ck zur Lerneinheit
+common#:#ingmedia_back_to_le#:#Zurück zur Lerneinheit
 common#:#ingmedia_good_afternoon#:#Guten Nachmittag
 common#:#ingmedia_good_evening#:#Guten Abend
 common#:#ingmedia_good_morning#:#Guten Morgen
-common#:#ingmedia_good_night#:#Guten Nacht
+common#:#ingmedia_good_night#:#Gute Nacht
 common#:#ingmedia_hello#:#Guten Tag
 common#:#ingmedia_info_about_work1#:#Sie haben hier am
-common#:#ingmedia_info_about_work2#:#zum letzten Mal gearbeitet. Sie k&ouml;nnen jetzt dort weitermachen, wo Sie damals aufgeh&ouml;rt haben:
+common#:#ingmedia_info_about_work2#:#zum letzten Mal gearbeitet. Sie können jetzt dort weitermachen, wo Sie damals aufgehört haben:
 common#:#ingmedia_level_zero#:#Eine Ebene nach oben
-common#:#ingmedia_pers_dates#:#Pers&ouml;nliche Daten
+common#:#ingmedia_pers_dates#:#Persönliche Daten
 common#:#ingmedia_reg_fo#:#Registrierte Foren
 common#:#ingmedia_reg_le#:#Registrierte LE
-common#:#ingmedia_use_info1#:#Hier k&ouml;nnen Sie Ihre pers&ouml;nliche Daten &auml;ndern. Sie sind NICHT verpflichtet, au&szlig;er dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder d&uuml;rfen Sie mit sonstigen Zeichen f&uuml;llen.
-common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu d&uuml;rfen, m&uuml;ssen Sie mit den Benutzervereinbarungen einverstanden sein.
-common#:#ingmedia_use_info3#:#Bitte w&auml;hlen Sie einen, von denen auf der linken Seite eingeblendeten Links, aus.
-common#:#ingmedia_use_title#:#Benutzerdaten &auml;ndern
+common#:#ingmedia_use_info1#:#Hier können Sie Ihre persönliche Daten ändern. Sie sind NICHT verpflichtet, außer dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder dürfen Sie mit sonstigen Zeichen füllen.
+common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu dürfen, müssen Sie mit den Benutzervereinbarungen einverstanden sein.
+common#:#ingmedia_use_info3#:#Bitte wählen Sie einen, von denen auf der linken Seite eingeblendeten Links, aus.
+common#:#ingmedia_use_title#:#Benutzerdaten ändern
 common#:#ingmedia_user_agree#:#Benutzervereinbarung
 common#:#ingmedia_vis_le#:#Besuchte LE
 common#:#ingmedia_visited_le#:#Alle besuchten Lerneinheiten
-common#:#ingmedia_welcome#:#, willkommen an Ihrem pers&ouml;nlichen Schreibtisch!
+common#:#ingmedia_welcome#:#, willkommen an Ihrem persönlichen Schreibtisch!
 common#:#inifile#:#INI-Datei
 common#:#input_error#:#Eingabefehler
 common#:#insert#:#Einfügen
@@ -354,8 +356,8 @@ common#:#langfile_found#:#Sprachdatei gefunden
 common#:#language#:#Sprache
 common#:#language_not_installed#:#ist nicht installiert. Bitte installieren Sie die Sprache zuerst.
 common#:#languages#:#Sprachen
-common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert###22 Aug 2003 content changed
-common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert###22 Aug 2003 content changed
+common#:#languages_already_installed#:#Gewählte Sprache/n ist/sind bereits installiert
+common#:#languages_already_uninstalled#:#Angewählte Sprache/n ist/sind bereits deinstalliert
 common#:#languages_updated#:#Alle installierten Sprachen wurden aktualisiert
 common#:#last_change#:#Letzte Änderung
 common#:#last_visit#:#Letzter Besuch
@@ -388,11 +390,11 @@ common#:#lo_overview#:#Übersicht Lernmaterialien
 common#:#locator#:#Locator:
 common#:#login#:#Login
 common#:#login_data#:#Logindaten
-common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen###17 Oct 2003 content changed
+common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte wählen Sie einen anderen Benutzernamen
 common#:#login_time#:#Onlinezeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
-common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.###01 Sep 2003 content changed
+common#:#logout_text#:#Sie sind nun abgemeldet. Ihre Sitzung wurde geschlossen.
 common#:#los#:#Lernmodule
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
 common#:#mail#:#Mail
@@ -430,16 +432,16 @@ common#:#message_content#:#Nachrichteninhalt
 common#:#message_to#:#Nachricht an:
 common#:#meta_data#:#Metadaten
 common#:#migrate#:#Migrieren
-common#:#mob#:#Media Object###28 Sep 2003 new variable
+common#:#mob#:#Media Objekt
 common#:#module#:#Modul
 common#:#modules#:#Module
-common#:#month#:#Month###01 Sep 2003 new variable
-common#:#moveChapter#:#Move###19 Sep 2003 new variable
-common#:#movePage#:#Move###20 Sep 2003 new variable
+common#:#month#:#Monat
+common#:#moveChapter#:#Verschieben
+common#:#movePage#:#Verschieben
 common#:#move_to#:#Ablegen in
 common#:#msg_cancel#:#Aktion abgebrochen
 common#:#msg_changes_ok#:#Die Änderungen wurden übernommen
-common#:#msg_clear_clipboard#:#Zwischenablage gelösch
+common#:#msg_clear_clipboard#:#Zwischenablage gelöscht
 common#:#msg_cloned#:#Objekt(e) kopiert.
 common#:#msg_copy_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: kopieren)
 common#:#msg_cut_clipboard#:#Ausgewählte(s) Objekt(e) in der Zwischenablage vermerkt (Aktion: verschieben)
@@ -459,7 +461,7 @@ common#:#msg_min_one_active_role#:#Jeder Benutzer muss mindestens einer aktiven 
 common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer Rolle zugewiesen sein!
 common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
-common#:#msg_no_delete_yourself#:#Depressiv? Lebensmüde? Sie können nicht Ihr eigenes Benutzerkonto löschen.###22 Aug 2003 content changed
+common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Benutzerkonto löschen.
 common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
 common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu kopieren:
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
@@ -509,7 +511,7 @@ common#:#my_frms#:#Meine Foren
 common#:#my_los#:#Meine Lernobjekte
 common#:#name#:#Name
 common#:#new#:#Neu
-common#:#new_appointment#:#New Appointment###01 Sep 2003 new variable
+common#:#new_appointment#:#Neuer Termin
 common#:#new_folder#:#Neuer Ordner
 common#:#new_group#:#Neue Gruppe
 common#:#new_language#:#Neue Sprache
@@ -534,7 +536,7 @@ common#:#obj_adm#:#Systemeinstellungen
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_cat#:#Kategorie
 common#:#obj_crs#:#Kurs
-common#:#obj_dbk#:#Digilib-Buch
+common#:#obj_dbk#:#DigiBook
 common#:#obj_file#:#Datei
 common#:#obj_fold#:#Ordner
 common#:#obj_frm#:#Forum
@@ -571,7 +573,7 @@ common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerkonten
 common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
 common#:#objects#:#Objekte
-common#:#objf#:#Objektdefinitionen###02 Oct 2003 content changed
+common#:#objf#:#Objektdefinitionen
 common#:#objs_delete#:#Objekte löschen
 common#:#of#:#von
 common#:#offline_version#:#Offline Version
@@ -597,8 +599,8 @@ common#:#passwd_not_match#:#Ihre Eingaben für das neue Passwort stimmen nicht �
 common#:#passwd_wrong#:#Das eingegebene Passwort ist falsch!
 common#:#password#:#Passwort
 common#:#paste#:#Einfügen
-common#:#pasteChapter#:#Paste###19 Sep 2003 new variable
-common#:#pastePage#:#Paste###19 Sep 2003 new variable
+common#:#pasteChapter#:#Einfügen
+common#:#pastePage#:#Einfügen
 common#:#path#:#Pfad
 common#:#path_to_babylon#:#BABYLON Befehlszeile
 common#:#path_to_convert#:#CONVERT Befehlszeile
@@ -653,7 +655,7 @@ common#:#remove#:#Entfernen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#reply#:#Antworten
-common#:#required_field#:#erforderliches Feld
+common#:#required_field#:#Erforderliche Angabe
 common#:#reset#:#Zurücksetzen
 common#:#retype_password#:#Passwort wiederholen
 common#:#right#:#Recht
@@ -741,15 +743,15 @@ common#:#test_intern#:#Interner Test
 common#:#time#:#Zeit
 common#:#title#:#Titel
 common#:#to#:#An
-common#:#to_desktop#:#Abo###22 Aug 2003 content changed
+common#:#to_desktop#:#Abo
 common#:#today#:#Heute
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
 common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
-common#:#txt_add_object_instruction1#:#W&auml;hlen Sie links die Position, an der Sie
-common#:#txt_add_object_instruction2#:#einf&uuml;gen m&ouml;chten.
+common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
+common#:#txt_add_object_instruction2#:#einfügen möchten.
 common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte unten auf 'Login', um sich mit Ihrem Benutzerkonto anzumelden.
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
@@ -759,7 +761,7 @@ common#:#uninstall#:#Deinstallieren
 common#:#uninstalled#:#deinstalliert.
 common#:#unknown#:#UNBEKANNT
 common#:#unread#:#Ungelesen
-common#:#up#:#Up###02 Sep 2003 new variable
+common#:#up#:#Hoch
 common#:#update_applied#:#Datenbankupdate erfolgreich
 common#:#update_language#:#Sprache updaten
 common#:#upload#:#Hochladen
@@ -787,7 +789,7 @@ common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
-common#:#week#:#Week###01 Sep 2003 new variable
+common#:#week#:#Woche
 common#:#welcome#:#Willkommen
 common#:#who_is_online#:#Wer ist Online?
 common#:#with#:#mit
@@ -796,63 +798,63 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
-content#:#HTML export#:#HTML Export###22 Sep 2003 new variable
-content#:#PDF export#:#PDF Export###22 Sep 2003 new variable
-content#:#Pages#:#Pages###22 Sep 2003 new variable
-content#:#all#:#All###22 Sep 2003 new variable
+content#:#HTML export#:#HTML Export
+content#:#PDF export#:#PDF Export
+content#:#Pages#:#Seiten
+content#:#all#:#Alle
 content#:#cont_Alphabetic#:#Alphabetisch A, B, ...
 content#:#cont_Citation#:#Zitat
 content#:#cont_Example#:#Beispiel
-content#:#cont_Headline1#:#Headline 1###06 Sep 2003 new variable
-content#:#cont_Headline2#:#Headline 2###06 Sep 2003 new variable
-content#:#cont_Headline3#:#Headline 3###06 Sep 2003 new variable
-content#:#cont_List#:#ListListe
+content#:#cont_Headline1#:#Überschrift 1
+content#:#cont_Headline2#:#Überschrift 2
+content#:#cont_Headline3#:#Überschrift 3
+content#:#cont_List#:#Liste
 content#:#cont_LocalFile#:#Lokale Datei
 content#:#cont_Mnemonic#:#Merksatz
 content#:#cont_Number#:#Nummer
 content#:#cont_Reference#:#Referenz
-content#:#cont_Remark#:#Remark###06 Sep 2003 new variable
+content#:#cont_Remark#:#Bemerkung
 content#:#cont_Roman#:#Römisch I, II, ...
 content#:#cont_Unordered#:#Ungeordnet
-content#:#cont_add_definition#:#Add Definition###01 Sep 2003 new variable
+content#:#cont_add_definition#:#Definition hinzufügen
 content#:#cont_added_term#:#Begriff hinzugefügt
-content#:#cont_all_definitions#:#All Definitions###02 Sep 2003 new variable
+content#:#cont_all_definitions#:#Alle Definitionen
 content#:#cont_all_pages#:#Alle Seiten
 content#:#cont_alphabetic#:#Alphabetisch a, b, ...
-content#:#cont_assign_full#:#Assign Fullscreen###23 Oct 2003 new variable
-content#:#cont_assign_std#:#Assign Standard###23 Oct 2003 new variable
+content#:#cont_assign_full#:#Als Vollansicht
+content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_translation#:#Übersetzung zuordnen
 content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
 content#:#cont_caption#:#Bildunterschrift
-content#:#cont_change_type#:#Change Type###09 Sep 2003 new variable
+content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
-content#:#cont_chap_select_target_now#:#Chapter marked for moving. Select target now.###19 Sep 2003 new variable
+content#:#cont_chap_select_target_now#:#Wählen Sie jetzt das Ziel, wohin das Kapitel verschoben werden soll. 
 content#:#cont_chapters#:#Kapitel
 content#:#cont_characteristic#:#Art
-content#:#cont_choose_cont_obj#:#Choose Content Object###10 Sep 2003 new variable
-content#:#cont_choose_glossary#:#Choose Glossary###10 Sep 2003 new variable
+content#:#cont_choose_cont_obj#:#Wählen Sie das Content Object
+content#:#cont_choose_glossary#:#Wählen Sie das Glossar
 content#:#cont_citation_err_one#:#Für die Zitatfunktion muß genau eine Auflage ausgewählt werden.
 content#:#cont_citation_selection_not_valid#:#Ihre Auswahl ist nicht gültig, bitte überprüfen Sie Ihre Eingaben.
 content#:#cont_citations#:#Zitate
 content#:#cont_content#:#Inhalt
-content#:#cont_content_obj#:#Content Object###10 Sep 2003 new variable
-content#:#cont_create_dir#:#Create Directory###22 Oct 2003 new variable
+content#:#cont_content_obj#:#Content Object
+content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_organization#:#Standard
-content#:#cont_definition#:#Definition###01 Sep 2003 new variable
-content#:#cont_definitions#:#Definitions###01 Sep 2003 new variable
+content#:#cont_definition#:#Definition
+content#:#cont_definitions#:#Definitionen
 content#:#cont_del_assignment#:#Zuordnung löschen
-content#:#cont_dependencies#:#Dependencies
-content#:#cont_details#:#Details###19 Sep 2003 new variable
-content#:#cont_dir_file#:#Directory/File###22 Oct 2003 new variable
-content#:#cont_edit_file_list_properties#:#Edit File List Properties###14 Oct 2003 new variable
+content#:#cont_dependencies#:#Abhängigkeiten
+content#:#cont_details#:#Details
+content#:#cont_dir_file#:#Verzeichnis/Datei
+content#:#cont_edit_file_list_properties#:#Eigenschaften der Dateilisten bearbeiten
 content#:#cont_edit_mob#:#Media Objekt editieren
 content#:#cont_edit_mob_alias_prop#:#Eigenschaften der Mediaobjekt-Instanz bearbeiten
-content#:#cont_edit_mob_files#:#Object Files###21 Oct 2003 new variable
+content#:#cont_edit_mob_files#:#Objektdateien
 content#:#cont_edit_mob_properties#:#Eigenschaften des Mediaobjekts bearbeiten
 content#:#cont_edit_par#:#Absatz bearbeiten
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
@@ -866,48 +868,48 @@ content#:#cont_how_published#:#Veröffentlichungsart
 content#:#cont_href#:#href
 content#:#cont_id_ref#:#identifierref
 content#:#cont_import_id#:#identifier
-content#:#cont_insert_file_item#:#Insert File Item###14 Oct 2003 new variable
-content#:#cont_insert_file_list#:#Insert File List###14 Oct 2003 new variable
+content#:#cont_insert_file_item#:#Datei einfügen
+content#:#cont_insert_file_list#:#Dateiliste einfügen
 content#:#cont_insert_list#:#Liste einfügen
 content#:#cont_insert_mob#:#Mediaobjekt
 content#:#cont_insert_par#:#Absatz einfügen
 content#:#cont_insert_search#:#Bitte geben Sie einen Suchbegriff für das zuzuordnende Objekt ein
 content#:#cont_insert_table#:#Tabelle einfügen
-content#:#cont_internal_link#:#interner link
+content#:#cont_internal_link#:#interner Link
 content#:#cont_is_visible#:#isvisible
-content#:#cont_isbn#:#ISBN###19 Sep 2003 new variable
-content#:#cont_issn#:#ISSN###19 Sep 2003 new variable
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN
 content#:#cont_item#:#Item
-content#:#cont_journal#:#Journal###19 Sep 2003 new variable
+content#:#cont_journal#:#Journal
 content#:#cont_keyword#:#Schlagwort
-content#:#cont_link_select#:#Internal Link###06 Sep 2003 new variable
-content#:#cont_link_type#:#Link Type###06 Sep 2003 new variable
+content#:#cont_link_select#:#Interner Link
+content#:#cont_link_type#:#Linktyp
 content#:#cont_list_properties#:#Listen-Eigenschaften
-content#:#cont_lk_chapter#:#Chapter###06 Sep 2003 new variable
-content#:#cont_lk_chapter_new#:#Chapter (New Frame)###06 Sep 2003 new variable
-content#:#cont_lk_media_faq#:#Media (FAQ Frame)###06 Sep 2003 new variable
-content#:#cont_lk_media_inline#:#Media (Inline)###06 Sep 2003 new variable
-content#:#cont_lk_media_media#:#Media (Media Frame)###06 Sep 2003 new variable
-content#:#cont_lk_media_new#:#Media (New Frame)###06 Sep 2003 new variable
-content#:#cont_lk_page#:#Page###06 Sep 2003 new variable
-content#:#cont_lk_page_faq#:#Page (FAQ Frame)###06 Sep 2003 new variable
-content#:#cont_lk_page_new#:#Page (New Frame)###06 Sep 2003 new variable
-content#:#cont_lk_term#:#Glossary Term###06 Sep 2003 new variable
-content#:#cont_lk_term_new#:#Glossary Term (New Frame)###06 Sep 2003 new variable
+content#:#cont_lk_chapter#:#Kapitel
+content#:#cont_lk_chapter_new#:#Kapitel (Neuer Frame)
+content#:#cont_lk_media_faq#:#Media-Objekt (FAQ Frame)
+content#:#cont_lk_media_inline#:#Media-Objekt (Inline)
+content#:#cont_lk_media_media#:#Media-Objekt (Media Frame)
+content#:#cont_lk_media_new#:#Media-Objekt (Neuer Frame)
+content#:#cont_lk_page#:#Seite
+content#:#cont_lk_page_faq#:#Seite (FAQ Frame)
+content#:#cont_lk_page_new#:#Seite (Neuer Frame)
+content#:#cont_lk_term#:#Glossarbegriff
+content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_properties#:#Lernmodul-Eigenschaften
 content#:#cont_manifest#:#Manifest
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_month#:#Monat
-content#:#cont_msg_multiple_editions#:#Es ist nicht möglich Details mehrerer Ausgaben anzuzeigen
+content#:#cont_msg_multiple_editions#:#Es ist nicht möglich, Details mehrerer Ausgaben anzuzeigen
 content#:#cont_new_assignment#:#Neue Zuordnung
-content#:#cont_new_dir#:#New Directory###23 Oct 2003 new variable
-content#:#cont_new_file#:#New File###23 Oct 2003 new variable
-content#:#cont_new_media_obj#:#New Media Object###13 Sep 2003 new variable
+content#:#cont_new_dir#:#Neues Verzeichnis
+content#:#cont_new_file#:#Neue Datei
+content#:#cont_new_media_obj#:#Neues Media-Objekt
 content#:#cont_new_term#:#Neuer Begriff
 content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
 content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
-content#:#cont_no_page#:#No Page found.###22 Aug 2003 new variable
+content#:#cont_no_page#:#Keine Seite gefunden
 content#:#cont_none#:#Keine
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
@@ -917,11 +919,11 @@ content#:#cont_organization#:#Organisation
 content#:#cont_organizations#:#Organisationen
 content#:#cont_orig_size#:#Originalgröße
 content#:#cont_page_header#:#Seitentitel
-content#:#cont_page_select_target_now#:#Page marked for moving. Select target now.###20 Sep 2003 new variable
+content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll. 
 content#:#cont_pages#:#Seiten
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
-content#:#cont_personal_clipboard#:#Personal Clipboard###13 Sep 2003 new variable
+content#:#cont_personal_clipboard#:#Persönliches Clipboard
 content#:#cont_pg_content#:#Seiteninhalt
 content#:#cont_pg_title#:#Seitentitel
 content#:#cont_prereq_type#:#adlcp:prerequisites.type
@@ -929,7 +931,7 @@ content#:#cont_prerequisites#:#adlcp:prerequisites
 content#:#cont_preview#:#Vorschau
 content#:#cont_publisher#:#Herausgeber
 content#:#cont_purpose#:#Purpose###22 Oct 2003 new variable
-content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)
+content#:#cont_ref_helptext#:#(e.g. http://www.ilias.de/logo.jpg)
 content#:#cont_reference#:#Referenz
 content#:#cont_resource#:#Ressource
 content#:#cont_resource_type#:#Typ
@@ -962,7 +964,7 @@ content#:#cont_table_border#:#Tabellenrand
 content#:#cont_table_cellpadding#:#Innenabstand Tabellenzellen
 content#:#cont_table_cellspacing#:#Abstand Tabellenzellen
 content#:#cont_table_width#:#Tabellenbreite
-content#:#cont_target_within_source#:#Target must not be within source object.###19 Sep 2003 new variable
+content#:#cont_target_within_source#:#Das Ziel darf nicht innerhalb des Objektes liegen.
 content#:#cont_term#:#Begriff
 content#:#cont_terms#:#Begriffe
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
@@ -970,7 +972,7 @@ content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_top#:#Oben
 content#:#cont_translations#:#Übersetzung(en)
 content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
-content#:#cont_upload_file#:#Upload File###22 Oct 2003 new variable
+content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_url#:#URL###19 Sep 2003 new variable
 content#:#cont_version#:#version
 content#:#cont_where_published#:#Veröffentlichungsort
@@ -978,12 +980,12 @@ content#:#cont_width#:#Breite
 content#:#cont_wysiwyg#:#Inhalt Wysiwyg
 content#:#cont_xml_base#:#xml:base
 content#:#cont_year#:#Jahr
-content#:#pages from#:#Pages From###22 Sep 2003 new variable
+content#:#pages from#:#Seiten von
 content#:#par#:#Absatz
 content#:#pg#:#Seite
-content#:#read offline#:#Read Offline###22 Sep 2003 new variable
+content#:#read offline#:#Offline lesen
 content#:#st#:#Kapitel
-content#:#start export#:#Start Export###22 Sep 2003 new variable
+content#:#start export#:#Export starten
 forum#:#forums#:#Foren
 forum#:#forums_articles#:#Beiträge
 forum#:#forums_available#:#Verfügbare Foren
@@ -1006,7 +1008,7 @@ forum#:#forums_post_new_entry#:#Neuer Beitrag wurde eingetragen
 forum#:#forums_posts#:#Alle Beiträge
 forum#:#forums_posts_not_available#:#Keine Artikel verfügbar
 forum#:#forums_quote#:#Zitieren
-forum#:#forums_respond#:#Antworten###01 Sep 2003 content changed
+forum#:#forums_respond#:#Antworten
 forum#:#forums_the_post#:#Beitrag
 forum#:#forums_thread#:#Thema
 forum#:#forums_thread_articles#:#Beiträge zum Thema
@@ -1087,7 +1089,7 @@ meta#:#meta_add#:#Hinzufügen
 meta#:#meta_annotation#:#Erläuterung
 meta#:#meta_atomic#:#Atomar
 meta#:#meta_author#:#Autor
-meta#:#meta_browser#:#Browser###01 Oct 2003 new variable
+meta#:#meta_browser#:#Browser
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#Vereinigte Arabische Emirate
 meta#:#meta_c_AF#:#Afghanistan
@@ -1341,36 +1343,36 @@ meta#:#meta_coverage#:#Coverage###01 Oct 2003 new variable
 meta#:#meta_date#:#Datum
 meta#:#meta_delete#:#Löschen
 meta#:#meta_description#:#Beschreibung
-meta#:#meta_diagramm#:#Diagramm###01 Oct 2003 new variable
+meta#:#meta_diagramm#:#Diagramm
 meta#:#meta_difficulty#:#Schwierigkeit
 meta#:#meta_dificult#:#Schwierig
 meta#:#meta_draft#:#Entwurf
 meta#:#meta_duration#:#Dauer
 meta#:#meta_easy#:#Leicht
-meta#:#meta_education#:#Education###01 Oct 2003 new variable
+meta#:#meta_education#:#Ausbildung
 meta#:#meta_educational_level#:#Ausbildungsstufe
 meta#:#meta_educational_objective#:#Erzieherisches Ziel
 meta#:#meta_entity#:#Instanz
 meta#:#meta_entry#:#Eintrag
 meta#:#meta_exam#:#Prüfung
 meta#:#meta_exercise#:#Übung
-meta#:#meta_experiment#:#Experiment###01 Oct 2003 new variable
+meta#:#meta_experiment#:#Experiment
 meta#:#meta_expositive#:#Erklärend
 meta#:#meta_figure#:#Abbildung
 meta#:#meta_final#:#Endfassung
-meta#:#meta_format#:#Format###01 Oct 2003 new variable
+meta#:#meta_format#:#Format
 meta#:#meta_general#:#Allgemein
-meta#:#meta_graph#:#Graph###01 Oct 2003 new variable
+meta#:#meta_graph#:#Graph
 meta#:#meta_has_format#:#Hat Format
 meta#:#meta_has_part#:#Hat Teil
 meta#:#meta_has_version#:#Hat Version
 meta#:#meta_hierarchical#:#Hierarchisch
 meta#:#meta_high#:#Hoch
 meta#:#meta_higher_education#:#Hochschulbildung
-meta#:#meta_id#:#Id###01 Oct 2003 new variable
+meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
-meta#:#meta_index#:#Index###01 Oct 2003 new variable
+meta#:#meta_index#:#Index
 meta#:#meta_installation_remarks#:#Installationsanmerkungen
 meta#:#meta_intended_end_user_role#:#Beabsichtige Endbenutzer Rolle
 meta#:#meta_interactivity_level#:#Stufe der Interaktivität
@@ -1455,24 +1457,24 @@ meta#:#meta_l_lt#:#Litauisch
 meta#:#meta_l_lv#:#Lettisch
 meta#:#meta_l_mg#:#malagasy###28 May 2003 new variable
 meta#:#meta_l_mi#:#maori###28 May 2003 new variable
-meta#:#meta_l_mk#:#macedonian###28 May 2003 new variable
-meta#:#meta_l_ml#:#malayalam###28 May 2003 new variable
-meta#:#meta_l_mn#:#mongolian###28 May 2003 new variable
-meta#:#meta_l_mo#:#moldavian###28 May 2003 new variable
+meta#:#meta_l_mk#:#Mazedonisch
+meta#:#meta_l_ml#:#Malayisch
+meta#:#meta_l_mn#:#Mongolisch
+meta#:#meta_l_mo#:#Moldavisch
 meta#:#meta_l_mr#:#marathi###28 May 2003 new variable
 meta#:#meta_l_ms#:#Malayisch
 meta#:#meta_l_mt#:#maltese###28 May 2003 new variable
-meta#:#meta_l_my#:#burmese###28 May 2003 new variable
+meta#:#meta_l_my#:#Burmesisch
 meta#:#meta_l_na#:#nauru###28 May 2003 new variable
 meta#:#meta_l_ne#:#nepali###28 May 2003 new variable
 meta#:#meta_l_nl#:#Niederländisch
 meta#:#meta_l_no#:#Norwegisch
-meta#:#meta_l_oc#:#occitan###28 May 2003 new variable
+meta#:#meta_l_oc#:#Occitanisch
 meta#:#meta_l_om#:#afan (oromo)###28 May 2003 new variable
 meta#:#meta_l_or#:#oriya###28 May 2003 new variable
 meta#:#meta_l_pa#:#punjabi###28 May 2003 new variable
 meta#:#meta_l_pl#:#Polnisch
-meta#:#meta_l_ps#:#pashto;pushto###28 May 2003 new variable
+meta#:#meta_l_ps#:#Paschtu
 meta#:#meta_l_pt#:#Portugisisch
 meta#:#meta_l_qu#:#quechua###28 May 2003 new variable
 meta#:#meta_l_rm#:#Rätoromanisch
@@ -1532,17 +1534,17 @@ meta#:#meta_linear#:#Linear###18 Sep 2003 new variable
 meta#:#meta_local_file#:#Lokale Datei
 meta#:#meta_location#:#Location###01 Oct 2003 new variable
 meta#:#meta_low#:#niedrig
-meta#:#meta_mac_os#:#MacOS###01 Oct 2003 new variable
-meta#:#meta_manager#:#Manager###01 Oct 2003 new variable
+meta#:#meta_mac_os#:#MacOS
+meta#:#meta_manager#:#Manager
 meta#:#meta_maximum_version#:#Maximale Version
 meta#:#meta_medium#:#Mittel
-meta#:#meta_meta_metadata#:#Meta-Metadata###01 Oct 2003 new variable
+meta#:#meta_meta_metadata#:#Meta-Metadaten
 meta#:#meta_metadatascheme#:#Metadaten Schema
 meta#:#meta_minimum_version#:#Minimale Version
 meta#:#meta_mixed#:#Gemischt
-meta#:#meta_ms_windows#:#MS-Windows###01 Oct 2003 new variable
-meta#:#meta_multi_os#:#Multi-OS###01 Oct 2003 new variable
-meta#:#meta_name#:#Name###01 Oct 2003 new variable
+meta#:#meta_ms_windows#:#MS-Windows
+meta#:#meta_multi_os#:#Multi-OS
+meta#:#meta_name#:#Name
 meta#:#meta_narrative_text#:#Erzählender Text
 meta#:#meta_networked#:#Vernetzt
 meta#:#meta_new_element#:#Neues Element
@@ -1560,7 +1562,7 @@ meta#:#meta_operating_system#:#Betriebssystem
 meta#:#meta_or_composite#:#Oder zusammengefasst
 meta#:#meta_other#:#Andere
 meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
-meta#:#meta_pc_dos#:#PC-DOS###01 Oct 2003 new variable
+meta#:#meta_pc_dos#:#PC-DOS
 meta#:#meta_please_select#:#Bitte wählen Sie
 meta#:#meta_prerequisite#:#Voraussetzung
 meta#:#meta_problem_statement#:#Problemstellung
@@ -1572,7 +1574,7 @@ meta#:#meta_references#:#Referenzen
 meta#:#meta_relation#:#Beziehung
 meta#:#meta_requirement#:#Anforderung
 meta#:#meta_requires#:#Benötigt
-meta#:#meta_resource#:#Resource###01 Oct 2003 new variable
+meta#:#meta_resource#:#Ressource
 meta#:#meta_revised#:#Überarbeitete Fassung
 meta#:#meta_rights#:#Rechte
 meta#:#meta_role#:#Rolle
@@ -1580,12 +1582,12 @@ meta#:#meta_school#:#Schule
 meta#:#meta_security_level#:#Sicherheitsstufe
 meta#:#meta_self_assessment#:#Selbsttest
 meta#:#meta_semantic_density#:#Semantische Dichte
-meta#:#meta_simulation#:#Simulation###01 Oct 2003 new variable
+meta#:#meta_simulation#:#Simulation
 meta#:#meta_size#:#Größe
 meta#:#meta_skill_level#:#Stufe der Fertigkeit
 meta#:#meta_slide#:#Folie
 meta#:#meta_source#:#Quelle
-meta#:#meta_status#:#Status###01 Oct 2003 new variable
+meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Struktur
 meta#:#meta_table#:#Tabelle
 meta#:#meta_taxon#:#Taxonomie
@@ -1593,14 +1595,14 @@ meta#:#meta_taxon_path#:#Taxonomie Pfad
 meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
 meta#:#meta_title#:#Titel
-meta#:#meta_training#:#Training###01 Oct 2003 new variable
+meta#:#meta_training#:#Training
 meta#:#meta_type#:#Typ
 meta#:#meta_typical_age_range#:#Typische Altersspanne
 meta#:#meta_typical_learning_time#:#Typische Lerndauer
 meta#:#meta_unavailable#:#Nicht verfügbar
-meta#:#meta_unix#:#Unix###01 Oct 2003 new variable
+meta#:#meta_unix#:#Unix
 meta#:#meta_value#:#Wert
-meta#:#meta_version#:#Version###01 Oct 2003 new variable
+meta#:#meta_version#:#Version
 meta#:#meta_very_difficult#:#Sehr schwierig
 meta#:#meta_very_easy#:#Sehr leicht
 meta#:#meta_very_high#:#Sehr hoch
