@@ -31,6 +31,7 @@
 * @package ilias-core
 * @package assessment
 */
+// ALTER  TABLE  `qpl_questions`  ADD  `original_id` INT AFTER  `created` ;
 
 require_once "classes/class.ilObject.php";
 require_once "class.assMarkSchema.php";
@@ -403,15 +404,14 @@ class ilObjTest extends ilObject
 		);
 		$result = $this->ilias->db->query($query);
 		
-		$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s",
+		$query = sprintf("SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
 		);
 		$result = $this->ilias->db->query($query);
-		
-		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi = %s",
-			$this->ilias->db->quote($this->getTestId())
-		);
-		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->removeQuestion($row->question_fi);
+		}
 		
 		$query = sprintf("DELETE FROM tst_tests WHERE test_id = %s",
 			$this->ilias->db->quote($this->getTestId())
@@ -1105,6 +1105,22 @@ class ilObjTest extends ilObject
 			$result = $this->ilias->db->query($query);
 			$counter++;
 		}
+
+		$query = sprintf("DELETE FROM qpl_questions WHERE question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		
+		$query = sprintf("DELETE FROM qpl_answers WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("DELETE FROM qpl_question_material WHERE question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
 		$this->removeAllTestEditings($question_id);
 		$this->loadQuestions();
 	}
@@ -1234,7 +1250,100 @@ class ilObjTest extends ilObject
 		$this->loadQuestions();
 	}
 	
-	function insertQuestion($question_id) {
+/**
+* Takes a question and creates a copy of the question for use in the test
+*
+* Takes a question and creates a copy of the question for use in the test
+*
+* @param integer $question_id The database id of the question
+* @result integer The database id of the copied question
+* @access public
+*/
+	function duplicateQuestionForTest($question_id)
+	{
+		global $ilUser;
+		
+		$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 0)
+		{
+			return 0;
+		}
+		$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+		$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, points, start_tag, end_tag, matching_type, ordering_type, cloze_type, choice_response, materials, image_file, params, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$this->ilias->db->quote("$row->question_type_fi"),
+			$this->ilias->db->quote("$row->ref_fi"),
+			$this->ilias->db->quote("$row->title"),
+			$this->ilias->db->quote("$row->comment"),
+			$this->ilias->db->quote("$row->author"),
+			$this->ilias->db->quote("$ilUser->id"),
+			$this->ilias->db->quote("$row->question_text"),
+			$this->ilias->db->quote("$row->working_time"),
+			$this->ilias->db->quote("$row->shuffle"),
+			$this->ilias->db->quote("$row->points"),
+			$this->ilias->db->quote("$row->start_tag"),
+			$this->ilias->db->quote("$row->end_tag"),
+			$this->ilias->db->quote("$row->matching_type"),
+			$this->ilias->db->quote("$row->ordering_type"),
+			$this->ilias->db->quote("$row->cloze_type"),
+			$this->ilias->db->quote("$row->choice_response"),
+			$this->ilias->db->quote("$row->materials"),
+			$this->ilias->db->quote("$row->image_file"),
+			$this->ilias->db->quote("$row->params"),
+			$this->ilias->db->quote("$row->complete"),
+			$this->ilias->db->quote("$row->created"),
+			$this->ilias->db->quote("$row->question_id")
+		);
+		$result = $this->ilias->db->query($query);
+		$duplicate_id = $this->ilias->db->getLastInsertId();
+		
+		$query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$insertquery = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, name, shuffle, answertext, points, aorder, correctness, solution_order, matchingtext, matching_order, gap_id, cloze_type, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote("$duplicate_id"),
+				$this->ilias->db->quote("$row->name"),
+				$this->ilias->db->quote("$row->shuffle"),
+				$this->ilias->db->quote("$row->answertext"),
+				$this->ilias->db->quote("$row->points"),
+				$this->ilias->db->quote("$row->aorder"),
+				$this->ilias->db->quote("$row->correctness"),
+				$this->ilias->db->quote("$row->solution_order"),
+				$this->ilias->db->quote("$row->matchingtext"),
+				$this->ilias->db->quote("$row->matching_order"),
+				$this->ilias->db->quote("$row->gap_id"),
+				$this->ilias->db->quote("$row->cloze_type"),
+				$this->ilias->db->quote("$row->coords"),
+				$this->ilias->db->quote("$row->area")
+			);
+	    $insertresult = $this->ilias->db->query($insertquery);
+		}
+
+		// copy question materials
+		$query = sprintf("SELECT * FROM qpl_question_material WHERE question_id = %s",
+			$this->ilias->db->quote($question_id)
+		);
+    $result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$insertquery = sprintf("INSERT INTO qpl_question_material (material_id, question_id, materials, materials_file, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+				$this->ilias->db->quote("$duplicate_id"),
+				$this->ilias->db->quote("$row->materials"),
+				$this->ilias->db->quote("$row->materials_file")
+			);
+	    $insertresult = $this->ilias->db->query($insertquery);
+		}
+		return $duplicate_id;
+	}
+	
+	function insertQuestion($question_id) 
+	{
+		$duplicate_id = $this->duplicateQuestionForTest($question_id);
     // get maximum sequence index in test
     $query = sprintf("SELECT MAX(sequence) AS seq FROM tst_test_question WHERE test_fi=%s",
       $this->ilias->db->quote($this->getTestId())
@@ -1247,7 +1356,7 @@ class ilObjTest extends ilObject
     }
     $query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
       $this->ilias->db->quote($this->getTestId()),
-      $this->ilias->db->quote($question_id),
+      $this->ilias->db->quote($duplicate_id),
       $this->ilias->db->quote($sequence)
     );
     $result = $this->ilias->db->query($query);

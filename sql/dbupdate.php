@@ -3558,3 +3558,105 @@ ALTER  TABLE  `qpl_question_material`  ADD  `TIMESTAMP` TIMESTAMP NOT  NULL ;
 
 <#218>
 ALTER  TABLE  `qpl_questions`  DROP  `imagemap_file`;
+
+<#219>
+ALTER  TABLE  `qpl_questions`  ADD  `original_id` INT AFTER  `created` ;
+
+<#220>
+<?php
+// duplicate all test questions. work with duplicates instead of references
+$query = "SELECT test_question_id, question_fi, test_fi FROM tst_test_question";
+$search_result = $this->db->query($query);
+while ($result_row = $search_result->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$question_id = $result_row->question_fi;
+	$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
+		$this->db->quote($question_id)
+	);
+	$result = $this->db->query($query);
+  if (strcmp(get_class($result), db_result) == 0) {
+		if ($result->numRows() == 1)
+		{
+			$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, points, start_tag, end_tag, matching_type, ordering_type, cloze_type, choice_response, materials, image_file, params, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+				$this->db->quote("$row->question_type_fi"),
+				$this->db->quote("$row->ref_fi"),
+				$this->db->quote("$row->title"),
+				$this->db->quote("$row->comment"),
+				$this->db->quote("$row->author"),
+				$this->db->quote("$row->owner"),
+				$this->db->quote("$row->question_text"),
+				$this->db->quote("$row->working_time"),
+				$this->db->quote("$row->shuffle"),
+				$this->db->quote("$row->points"),
+				$this->db->quote("$row->start_tag"),
+				$this->db->quote("$row->end_tag"),
+				$this->db->quote("$row->matching_type"),
+				$this->db->quote("$row->ordering_type"),
+				$this->db->quote("$row->cloze_type"),
+				$this->db->quote("$row->choice_response"),
+				$this->db->quote("$row->materials"),
+				$this->db->quote("$row->image_file"),
+				$this->db->quote("$row->params"),
+				$this->db->quote("$row->complete"),
+				$this->db->quote("$row->created"),
+				$this->db->quote("$row->question_id")
+			);
+			$result = $this->db->query($query);
+			$duplicate_id = $this->db->getLastInsertId();
+			$query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s",
+				$this->db->quote($question_id)
+			);
+			$result = $this->db->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$insertquery = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, name, shuffle, answertext, points, aorder, correctness, solution_order, matchingtext, matching_order, gap_id, cloze_type, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+					$this->db->quote("$duplicate_id"),
+					$this->db->quote("$row->name"),
+					$this->db->quote("$row->shuffle"),
+					$this->db->quote("$row->answertext"),
+					$this->db->quote("$row->points"),
+					$this->db->quote("$row->aorder"),
+					$this->db->quote("$row->correctness"),
+					$this->db->quote("$row->solution_order"),
+					$this->db->quote("$row->matchingtext"),
+					$this->db->quote("$row->matching_order"),
+					$this->db->quote("$row->gap_id"),
+					$this->db->quote("$row->cloze_type"),
+					$this->db->quote("$row->coords"),
+					$this->db->quote("$row->area")
+				);
+				$insertresult = $this->db->query($insertquery);
+			}
+			
+			// copy question materials
+			$query = sprintf("SELECT * FROM qpl_question_material WHERE question_id = %s",
+				$this->db->quote($question_id)
+			);
+			$result = $this->db->query($query);
+			while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$insertquery = sprintf("INSERT INTO qpl_question_material (material_id, question_id, materials, materials_file, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+					$this->db->quote("$duplicate_id"),
+					$this->db->quote("$row->materials"),
+					$this->db->quote("$row->materials_file")
+				);
+				$insertresult = $this->db->query($insertquery);
+			}
+			
+			$query = sprintf("UPDATE tst_test_question SET question_fi = %s WHERE test_question_id = %s",
+				$this->db->quote($duplicate_id),
+				$this->db->quote($result_row->test_question_id)
+			);
+			$result = $this->db->query($query);
+		
+			$query = sprintf("UPDATE tst_solutions SET question_fi = %s WHERE test_fi = %s AND question_fi = %s",
+				$this->db->quote($duplicate_id),
+				$this->db->quote($result_row->test_fi),
+				$this->db->quote($result_row->question_fi)
+			);
+			$result = $this->db->query($query);
+		}
+	}
+}
+?>

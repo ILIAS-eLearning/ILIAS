@@ -339,8 +339,21 @@ class ilObjQuestionPool extends ilObject
 	
 	function get_total_answers($question_id)
 	{
-		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s GROUP BY CONCAT(user_fi,test_fi)",
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
 			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 0)
+		{
+			return 0;
+		}
+		$found_id = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($found_id, $row->question_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
+			join($found_id, ",")
 		);
     $result = $this->ilias->db->query($query);
 		return $result->numRows();	
@@ -348,15 +361,28 @@ class ilObjQuestionPool extends ilObject
 
 	function get_total_right_answers($question_id)
 	{
-		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi = %s GROUP BY CONCAT(user_fi,test_fi)",
+		$query = sprintf("SELECT question_id FROM qpl_questions WHERE original_id = %s",
 			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		if ($result->numRows() == 0)
+		{
+			return 0;
+		}
+		$found_id = array();
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($found_id, $row->question_id);
+		}
+		$query = sprintf("SELECT * FROM tst_solutions WHERE question_fi IN (%s) GROUP BY CONCAT(user_fi,test_fi)",
+			join($found_id, ",")
 		);
     $result = $this->ilias->db->query($query);
 		$answers = array();
 		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
-    	$question =& $this->create_question("", $row->question_fi);
+    	$question =& $this->createQuestion("", $row->question_fi);
 			$reached = $question->object->getReachedPoints($row->user_fi, $row->test_fi);
-			$max = $question->getMaximumPoints();
+			$max = $question->object->getMaximumPoints();
 			array_push($answers, array("reached" => $reached, "max" => $max));
 		}
 		$max = 0.0;

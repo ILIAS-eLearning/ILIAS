@@ -428,7 +428,7 @@ class ilObjTestGUI extends ilObjectGUI
     }
 
     // display all questions in accessable question pools
-    $query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id" . " $where$order";
+    $query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id" . " $where$order";
     $query_result = $this->ilias->db->query($query);
     $colors = array("tblrow1", "tblrow2");
     $counter = 0;
@@ -555,7 +555,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$where = preg_replace("/^ OR /", "", $where);
 		$where = "($where)";
-    $query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id AND $where";
+    $query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE ISNULL(qpl_questions.original_id) AND qpl_questions.question_type_fi = qpl_question_type.question_type_id AND $where";
 		$query_result = $this->ilias->db->query($query);
 		$colors = array("tblrow1", "tblrow2");
 		$counter = 0;
