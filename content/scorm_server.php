@@ -33,33 +33,51 @@ chdir("..");
 session_id($_GET["PHPSESSID"]);
 
 require_once "./include/inc.header.php";
+
+
+$api = ($_GET["api"] == "")
+	? $_POST["api"]
+	: $_GET["api"];
+
+$cmd = ($_GET["cmd"] == "")
+	? $_POST["cmd"]
+	: $_GET["cmd"];
+
+if ($api == 2)
+{
+	require_once "./content/classes/SCORM/class.ilObjSCORMTracking2.php";
+	$track = new ilObjSCORMTracking2();
+	$track->$cmd();
+	exit;
+}
+
 require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
 require_once "./content/classes/SCORM/class.ilObjDebug.php";
-
 $scorm_communication=new ilObjSCORMTracking($_GET["user_id"],$_GET["item_id"]);
 $debug = new ilObjDebug("/srv/ilias/www/ilias3_cvs/debug/debug.scorm_server");
 
 if (isset($_GET["value"])) //setValue Call
 {
 	//fehler $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].','.$_GET["value"].'");';
-  $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].'","'.$_GET["value"].'");';
-  $debug->debug("Method: ".$temp);
-   $retval=eval("$temp");
+	$temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].'","'.$_GET["value"].'");';
+	$debug->debug("Method: ".$temp);
+	$retval=eval("$temp");
 	$debug->debug("ReturnValue: ".$retval);
-	 return $retval;
-   
+
+	return $retval;
+
 }
 else
 {
-  if ($_GET["var"]=="null") {
-  	$temp='$scorm_communication->'.$_GET["function"].'("");';
-  }	else {
-	  $temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].'");';
-	}
-	$debug->debug("Method: ".$temp);
-  $retval=eval("$temp");
+	if ($_GET["var"]=="null") {
+		$temp='$scorm_communication->'.$_GET["function"].'("");';
+	}	else {
+		$temp='$scorm_communication->'.$_GET["function"].'("'.$_GET["var"].'");';
+		}
+		$debug->debug("Method: ".$temp);
+	$retval=eval("$temp");
 	$debug->debug("ReturnValue: ".$retval);
-    return $retval;
+	return $retval;
 }
 
 ?>

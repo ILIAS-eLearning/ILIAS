@@ -131,6 +131,7 @@ class ilSCORMPresentationGUI
 	*/
 	function explorer2($a_target = "scorm_content")
 	{
+//echo "expl2";
 		$this->tpl = new ilTemplate("tpl.scorm_exp_main.html", true, true, true);
 		$this->tpl->setVariable("LOCATION_JAVASCRIPT", "./scorm_functions.js");
 		require_once("./content/classes/SCORM/class.ilSCORMExplorer.php");
@@ -205,6 +206,7 @@ class ilSCORMPresentationGUI
 		//$this->tpl->setVariable("SCORM_FUNCTIONS", $func_tpl->get());
 		//$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
 		$this->tpl->setVariable("USER_ID",$ilias->account->getId());
+		$this->tpl->setVariable("REF_ID",$_GET["ref_id"]);
 		$this->tpl->setVariable("SESSION_ID",session_id());
 
 		$this->tpl->setVariable("CODE_BASE", "http://".$_SERVER['SERVER_NAME'].substr($_SERVER['PHP_SELF'], 0, strpos ($_SERVER['PHP_SELF'], "/scorm_presentation.php")));
@@ -212,6 +214,31 @@ class ilSCORMPresentationGUI
 
 		$this->tpl->show(false);
 		exit;
+	}
+
+	function launchSco()
+	{
+		$sco_id = ($_GET["scoid"] == "")
+			? $_POST["scoid"]
+			: $_GET["scoid"];
+		$ref_id = ($_GET["ref_id"] == "")
+			? $_POST["ref_id"]
+			: $_GET["ref_id"];
+
+		$this->slm =& new ilObjSCORMLearningModule($ref_id, true);
+
+		include_once("content/classes/SCORM/class.ilSCORMItem.php");
+		include_once("content/classes/SCORM/class.ilSCORMResource.php");
+		$item =& new ilSCORMItem($sco_id);
+
+		$id_ref = $item->getIdentifierRef();
+		$resource =& new ilSCORMResource();
+		$resource->readByIdRef($id_ref, $item->getSLMId());
+		//$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
+		$href = $resource->getHref();
+		$this->tpl = new ilTemplate("tpl.scorm_launch_sco.html", true, true, true);
+		$this->tpl->setVariable("HREF", $this->slm->getDataDirectory("output")."/".$href);
+		$this->tpl->show();
 	}
 
 }
