@@ -150,6 +150,7 @@ common#:#appointment_list#:#Liste de rendez-vous
 common#:#archive#:#Archives
 common#:#are_you_sure#:#Etes-vous sûr(e) ?
 common#:#assign#:#Assigner
+common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
 common#:#assign_lo_forum#:#Assigner le forum de cours
 common#:#assign_user_to_role#:#Assigner l'utilisateur au rôle
 common#:#at_location#:#à l'emplacement
@@ -543,8 +544,11 @@ common#:#ilias_version#:#Version ILIAS
 common#:#image#:#Image###26 Nov 2003 new variable
 common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###26 Nov 2003 new variable
 common#:#import#:#Importation
+common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_lm#:#Importation de cours
+common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Importation de paquet SCORM
+common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#in#:#dans
 common#:#in_use#:#Langue utilisateur
 common#:#inbox#:#Réception
@@ -1027,6 +1031,7 @@ common#:#role_deleted#:#Rôle détruit
 common#:#role_edit#:#Modifier rôle
 common#:#role_new#:#Nouveau rôle
 common#:#roles#:#Rôles
+common#:#roles_of_import#:#Roles of Import File###27 Feb 2004 new variable
 common#:#rolf#:#Dossier de rôles###13 Jan 2004 content changed
 common#:#rolf_added#:#Dossier de rôles ajouté
 common#:#rolf_create_role#:#Create new Role definition###13 Jan 2004 new variable

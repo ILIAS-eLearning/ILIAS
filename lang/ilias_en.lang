@@ -136,9 +136,6 @@ common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#adopt
-common#:#import_users#:#Import Users
-common#:#import_file#:#Import File
-common#:#import_root_user#:#Import Root User
 common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template
 common#:#all_objects#:#All Objects
 common#:#allow_register#:#Available in registration form for new users
@@ -153,6 +150,7 @@ common#:#appointment_list#:#Appointment List
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#assign#:#Assign
+common#:#assign_global_role#:#Assign to global role
 common#:#assign_lo_forum#:#Assign LO Forum
 common#:#assign_user_to_role#:#Assign User to Role
 common#:#at_location#:#at location
@@ -162,8 +160,6 @@ common#:#author#:#Author
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
 common#:#back#:#Back
-common#:#roles_of_import#:#Roles of Import File
-common#:#assign_global_role#:#Assign to global role
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Basic Data
 common#:#bm#:#Bookmark
@@ -548,8 +544,11 @@ common#:#ilias_version#:#ILIAS version
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.
 common#:#import#:#Import
+common#:#import_file#:#Import File
 common#:#import_lm#:#Import Learningmodule
+common#:#import_root_user#:#Import Root User
 common#:#import_slm#:#Import SCORM Package
+common#:#import_users#:#Import Users
 common#:#in#:#in
 common#:#in_use#:#User Language
 common#:#inbox#:#Inbox
@@ -1032,6 +1031,7 @@ common#:#role_deleted#:#Role deleted
 common#:#role_edit#:#Edit Role
 common#:#role_new#:#New Role
 common#:#roles#:#Roles
+common#:#roles_of_import#:#Roles of Import File
 common#:#rolf#:#Roles
 common#:#rolf_added#:#Role Folder added
 common#:#rolf_create_role#:#Create new Role definition

@@ -150,6 +150,7 @@ common#:#appointment_list#:#Lista umówionych spotkań
 common#:#archive#:#Archiwuj
 common#:#are_you_sure#:#Jesteś pewien?
 common#:#assign#:#Przydziel
+common#:#assign_global_role#:#Assign to global role###27 Feb 2004 new variable
 common#:#assign_lo_forum#:#Przydziel forum (PN)
 common#:#assign_user_to_role#:#Przydziel użytkownikowi rolę
 common#:#at_location#:#w miejscu
@@ -543,8 +544,11 @@ common#:#ilias_version#:#Wersja ILIAS
 common#:#image#:#Obrazek
 common#:#image_gen_unsucc#:#Nieudane generowanie obrazka. Skontaktuj się z administratorem systemu i sprawdź ścieżkę konwersji.
 common#:#import#:#Import
+common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_lm#:#Importuj moduł nauczania
+common#:#import_root_user#:#Import Root User###27 Feb 2004 new variable
 common#:#import_slm#:#Importuj pakiet SCORM
+common#:#import_users#:#Import Users###27 Feb 2004 new variable
 common#:#in#:#w
 common#:#in_use#:#język użytkownika
 common#:#inbox#:#Skrzynka odbiorcza
@@ -1027,6 +1031,7 @@ common#:#role_deleted#:#Rola usunięta
 common#:#role_edit#:#Edytuj rolę
 common#:#role_new#:#Nowa rola
 common#:#roles#:#Role
+common#:#roles_of_import#:#Roles of Import File###27 Feb 2004 new variable
 common#:#rolf#:#Folder roli
 common#:#rolf_added#:#Folder roli został dodany
 common#:#rolf_create_role#:#Twórz definicję Roli
