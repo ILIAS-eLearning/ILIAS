@@ -913,39 +913,43 @@ class ilObjGroup extends ilObject
 	*/
 	function initDefaultRoles()
 	{
-		global $rbacadmin;
-		
+		global $rbacadmin, $rbacreview;
+
 		// create a local role folder
 		$rfoldObj = $this->createRoleFolder();
 
-		// ADMIN ROLE ($roles[0])
+		// ADMIN ROLE
 		// create role and assign role to rolefolder...
+
 		$roleObj = $rfoldObj->createRole("il_grp_admin_".$this->getRefId(),"Groupadmin of group obj_no.".$this->getId());
-		$roles[] = $roleObj->getId();
-		// set admin role id for group object
 		$this->m_roleAdminId = $roleObj->getId();
+
 		//set permissions
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_admin'";
-		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);		
+		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
+
 		$rbacadmin->copyRolePermission($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
 
-		// MEMBER ROLE ($roles[1])
+		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"grp",$rfoldObj->getRefId());
+		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
+
+		// MEMBER ROLE
 		// create role and assign role to rolefolder...
+
 		$roleObj = $rfoldObj->createRole("il_grp_member_".$this->getRefId(),"Groupmember of group obj_no.".$this->getId());
-		$roles[] = $roleObj->getId();
+		//$roles[] = $roleObj->getId();
+
 		// set member role id for group object
 		$this->m_roleMemberId = $roleObj->getId();
+
 		//set permissions
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_member'";
 		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRolePermission($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
 
-		//create permissionsettings for grp_admin and grp_member
-		$grp_DefaultRoles = $this->getDefaultGroupRoles();
-		$ops = array(2,3,8);
-		$rbacadmin->grantPermission($grp_DefaultRoles["grp_member_role"],$ops,$this->getRefId());
-		$ops = array(1,2,3,4,5,6,7,8);
-		$rbacadmin->grantPermission($grp_DefaultRoles["grp_admin_role"],$ops,$this->getRefId());
+		$rbacadmin->copyRolePermission($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
+		
+		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"grp",$rfoldObj->getRefId());
+		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
 
 		unset($rfoldObj);
 		unset($roleObj);
@@ -954,9 +958,9 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
-	*checks if the object is already a node of the group's root 
+	*checks if the object is already a node of the group's root
 	*obj_id of the tree/group
-	*obj_id of the node 
+	*obj_id of the node
 	*/
 	function objectExist($a_tree_id, $a_node_id)
 	{//echo $a_tree_id."------".$a_node_id;
