@@ -31,6 +31,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
+commo#:#dataset#:#Dataset###30 May 2003 new variable
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
@@ -82,6 +83,7 @@ common#:#change#:#ändern
 common#:#change_existing_objects#:#Vorhandene Objekte ändern
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
+common#:#change_sort_direction#:#Sortierrichtung ändern
 common#:#changed_to#:#gewechselt zu
 common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
@@ -340,6 +342,7 @@ common#:#new_group#:#Neue Gruppe
 common#:#new_language#:#Neue Sprache
 common#:#new_mail#:#Neue Mail!
 common#:#news#:#News
+common#:#next#:#weiter
 common#:#nickname#:#Login
 common#:#no#:#Nein
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
@@ -422,6 +425,7 @@ common#:#please_enter_title#:#Please enter a title.###12 Apr 2003 new variable
 common#:#port#:#Port
 common#:#position#:#Position
 common#:#presentation_options#:#Präsentationsoptionen
+common#:#previous#:#zurück
 common#:#print#:#Drucken
 common#:#profile_changed#:#Ihr Profil wurde geändert
 common#:#pub_section#:#öffentlicher Bereich
@@ -486,6 +490,7 @@ common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#signature#:#Signatur
 common#:#smtp#:#SMTP
+common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#startpage#:#Startseite
 common#:#status#:#Status
 common#:#step#:#Schritt
@@ -1037,8 +1042,3 @@ meta#:#meta_l_zh#:#chinese###28 May 2003 new variable
 meta#:#meta_l_zu#:#zulu###28 May 2003 new variable
 meta#:#meta_language#:#Language###14 May 2003 new variable
 meta#:#meta_title#:#Title###14 May 2003 new variable
-common#:#previous#:#zurück
-common#:#next#:#weiter
-common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
-common#:#change_sort_direction#:#Sortierrichtung ändern
-common#:#dataset#:#Datensatz

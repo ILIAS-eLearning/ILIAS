@@ -31,6 +31,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
+commo#:#dataset#:#Dataset###30 May 2003 new variable
 common#:#absolute_path#:#percorso assoluto
 common#:#accept_usr_agreement#:#Accetti accordo utente?
 common#:#access#:#accesso
@@ -82,6 +83,7 @@ common#:#change#:#cambiare
 common#:#change_existing_objects#:#Change existing Objects###29 Mar 2003 new variable
 common#:#change_lo_info#:#cambia LO Informazioni
 common#:#change_metadata#:#cambia metadati
+common#:#change_sort_direction#:#Change sort direction###30 May 2003 new variable
 common#:#changed_to#:#changed to###20 Mar 2003 new variable
 common#:#chapter#:#capitolo
 common#:#chapter_number#:#numero del capitolo
@@ -340,6 +342,7 @@ common#:#new_group#:#nuovo gruppo
 common#:#new_language#:#New language
 common#:#new_mail#:#New mail!###28 Mar 2003 new variable
 common#:#news#:#novità
+common#:#next#:#next###30 May 2003 new variable
 common#:#nickname#:#nickname
 common#:#no#:#no
 common#:#no_checkbox#:#No checkbox checked!
@@ -422,6 +425,7 @@ common#:#please_enter_title#:#Please enter a title.###12 Apr 2003 new variable
 common#:#port#:##port
 common#:#position#:#posizione
 common#:#presentation_options#:#opzioni di presentazione
+common#:#previous#:#previous###30 May 2003 new variable
 common#:#print#:#stampare
 common#:#profile_changed#:#Your profile has changed###25 Mar 2003 new variable
 common#:#pub_section#:#sezione pubblica
@@ -486,6 +490,7 @@ common#:#show_members#:#display members###07 Feb 2003 new variable
 common#:#show_owner#:#proprietario
 common#:#signature#:##signature
 common#:#smtp#:#SMTP###20 Mar 2003 new variable
+common#:#sort_by_this_column#:#Sort by this column###30 May 2003 new variable
 common#:#startpage#:##startpage
 common#:#status#:#stato
 common#:#step#:#passo
