@@ -133,6 +133,7 @@ class ilRbacSystem
 				 "AND obj_id = '".$a_ref_id."' ";
 			$r = $this->ilias->db->query($q);
 
+			$ops = array();
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 			{
 				$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
