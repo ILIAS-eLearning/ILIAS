@@ -68,10 +68,7 @@ class ilUserTracking {
 		$q = "SELECT * from ut_access "
 		." WHERE "
 		." user_id = ".$ilDB->quote($ilUser->getId())
-// changed following line to " limit 1 "; because acc_time doesn't exist in table
-// 2004-06-27 17:18 MEST, Helmut Schottmueller, hschottm@tzi.de
-			// ." order by acc_time desc limit 1 ";
-		." limit 1 ";
+		." order by acc_time desc limit 1 ";
 		$res = $ilDB->query($q);
 		return $res->fetchRow(DB_FETCHMODE_ASSOC);
 	}
@@ -111,10 +108,7 @@ class ilUserTracking {
 			$q = "INSERT INTO ut_access ("
 				."user_id, action_type, php_script, client_ip,"
 				."acc_obj_type, acc_obj_id, acc_sub_type, acc_sub_id,"
-// changed following line to " limit 1 "; because acc_time doesn't exist in table
-// 2004-06-27 17:18 MEST, Helmut Schottmueller, hschottm@tzi.de
 				."language, browser, session_id, acc_time"
-				."language, browser, session_id"
 				.") VALUES ("
 				.$ilDB->quote($user_id).","
 				.$ilDB->quote($a_action_type).","
@@ -126,10 +120,7 @@ class ilUserTracking {
 				.$ilDB->quote($a_sub_id).","
 				.$ilDB->quote($language).","
 				.$ilDB->quote($_SERVER["HTTP_USER_AGENT"]).","
-// changed following line to " limit 1 "; because acc_time doesn't exist in table
-// 2004-06-27 17:18 MEST, Helmut Schottmueller, hschottm@tzi.de
 				.$ilDB->quote($session_id).", now()"
-				.$ilDB->quote($session_id)
 				.")";
 		   $ilDB->query($q);
 		}

@@ -3688,3 +3688,22 @@ CREATE TABLE ctrl_calls
 <#225>
 DROP TABLE IF EXISTS `aicc_lm`;
 DROP TABLE IF EXISTS `aicc_tree`;
+
+<#226>
+DROP TABLE IF EXISTS `ut_access`;
+CREATE TABLE `ut_access` (
+  `id` int(10) NOT NULL auto_increment,
+  `user_id` int(10) unsigned NOT NULL default '0',
+  `action_type` char(10) default NULL,
+  `php_script` char(100) NOT NULL default '',
+  `client_ip` char(15) default NULL,
+  `acc_obj_type` char(10) NOT NULL default '',
+  `acc_obj_id` int(10) NOT NULL default '0',
+  `acc_sub_type` char(10) NOT NULL default '',
+  `acc_sub_id` int(10) NOT NULL default '0',
+  `language` char(15) default NULL,
+  `browser` char(60) NOT NULL default '',
+  `session_id` char(40) default NULL,
+  `acc_time` datetime default NULL,
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
