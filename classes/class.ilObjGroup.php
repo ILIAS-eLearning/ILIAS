@@ -162,7 +162,8 @@ class ilObjGroup extends ilObject
 		else
 		{
 			$rbacadmin->deassignUser($this->getGroupRoleId($a_user_id), $a_user_id);
-				return true;
+			ilObjUser::updateActiveRoles($a_user_id);
+			return true;
 		}
 
 
