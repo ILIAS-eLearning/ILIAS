@@ -73,12 +73,12 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
-		
+
 		if ($_GET["offset"] == "")
 		{
 			$_GET["offset"] = 0;
 		}
-		
+
 		$_GET["offset"] = intval($_GET["offset"]);
 		$_GET["limit"] = intval($_GET["limit"]);
 
@@ -90,7 +90,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$_GET["sort_by"]= "title";
 		}
-		
+
 		// get the object
 		$this->assignObject();
 		$this->object =& $ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
@@ -105,8 +105,8 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$this->grp_object = $this->object;
 		}
-		
-		
+
+
 		$this->grp_id = ilUtil::getGroupId($_GET["ref_id"]);
 
 		$this->grp_tree = new ilTree($this->grp_id,$this->grp_id);
@@ -808,7 +808,7 @@ class ilGroupGUI extends ilObjectGUI
 		switch ($cont_data["type"])
 		{
 	  		case "frm":
-				
+
 				require_once "classes/class.ilForum.php";
 				
 				$frm = new ilForum();
@@ -1611,23 +1611,24 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem,$ilias;
 
+		$obj_grp = & $this->ilias->obj_factory->getInstanceByRefId($this->grp_id);
 		if (isset($_GET["viewmode"]))
 		{
 			$_SESSION["viewmode"] = $_GET["viewmode"];
 		}
 		else if(!isset($_SESSION["viewmode"]))
 			$_SESSION["viewmode"] = "flat";	//default viewmode
-		
-		if ($this->object->isMember()==false && $this->object->getRegistrationFlag() == 1)
+
+		if ($obj_grp->isMember()==false && $obj_grp->getRegistrationFlag() == 1)
 		{
 			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);
 		}
-		else if ($this->object->isMember()==false && $rbacsystem->checkAccess("join", $this->ref_id))		
-		{	
-			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);		
-//			header("location: group.php?cmd=joinGroup&ref_id=".$_GET["ref_id"]);		
+		else if ($obj_grp->isMember()==false && $rbacsystem->checkAccess("join", $this->ref_id))
+		{
+			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);
+//			header("location: group.php?cmd=joinGroup&ref_id=".$_GET["ref_id"]);
 		}
-		else if($this->object->isMember()==true)
+		else if($obj_grp->isMember()==true)
 		{
 			$this->show_content();			
 		}
@@ -2121,3 +2122,4 @@ class ilGroupGUI extends ilObjectGUI
 	}
 }
 ?>
+
