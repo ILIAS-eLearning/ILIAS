@@ -82,7 +82,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_PAGETITLE", "ILIAS3 - ".$lng->txt("usr_agreement"));
 $tpl->setVariable("TXT_USR_AGREEMENT", getUserAgreement());
 
-if ($cmd == "getAcceptance")
+if ($_GET["cmd"] == "getAcceptance")
 {
 	if ($_POST["status"]=="accepted")
 	{
