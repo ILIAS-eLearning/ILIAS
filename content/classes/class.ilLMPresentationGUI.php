@@ -159,7 +159,7 @@ class ilLMPresentationGUI
 
 					$page++;
 
-					if ($_POST["pages"]=="all" || ($_POST["pages"]=="fromto" && $page>=$_POST["pagefrom"] && $page<=$_POST["pageto"] )) 
+					if ($_POST["pages"]=="all" || ($_POST["pages"]=="fromto" && $page>=$_POST["pagefrom"] && $page<=$_POST["pageto"] ))
                     {
 
                         if ($showpage>0)
@@ -199,6 +199,13 @@ class ilLMPresentationGUI
 				$printTpl->setVariable("LOCATION_STYLESHEET", $css2);
 				$printTpl->setVariable("CONTENT",$output);
 
+				// syntax style
+				$printTpl->setCurrentBlock("SyntaxStyle");
+				$printTpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+					ilObjStyleSheet::getSyntaxStylePath());
+				$printTpl->parseCurrentBlock();
+
+
 				$html = $printTpl->get();
 
 				/**
@@ -235,7 +242,7 @@ class ilLMPresentationGUI
                         $dbk->export();
                     }
 
-                } 
+                }
                 else if($_POST["type"] == "print")
 				{
 					echo $html;
@@ -293,7 +300,7 @@ class ilLMPresentationGUI
     *   @access public
     *   @return
     */
-	function offlineexportform() 
+	function offlineexportform()
     {
 
 		switch($this->lm->getType())
@@ -302,10 +309,10 @@ class ilLMPresentationGUI
 				$this->lm_gui->offlineexportform();
 				break;
 		}
-		
+
 	}
-	
-    
+
+
     /**
     *   export bibinfo for download or copy/paste
     *
@@ -333,6 +340,13 @@ class ilLMPresentationGUI
 			$printTpl->setVariable("LOCATION_CONTENT_STYLESHEET", $css1 );
 
 			$printTpl->setVariable("LOCATION_STYLESHEET", $css2);
+
+			// syntax style
+			$printTpl->setCurrentBlock("SyntaxStyle");
+			$printTpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+				ilObjStyleSheet::getSyntaxStylePath());
+			$printTpl->parseCurrentBlock();
+
 			$printTpl->setVariable("CONTENT",$C);
 
 			echo $printTpl->get();
@@ -968,9 +982,16 @@ class ilLMPresentationGUI
 			$page_object_gui->setOutputSubmode("translation");
 		}
 
+		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		// syntax style
+		$this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
 		// track user access to page
@@ -1054,7 +1075,9 @@ class ilLMPresentationGUI
 	}
 
 
-
+	/**
+	* show glossary term
+	*/
 	function ilGlossary()
 	{
 		global $ilBench;
@@ -1067,9 +1090,16 @@ class ilLMPresentationGUI
 		require_once("content/classes/class.ilGlossaryTermGUI.php");
 		$term_gui =& new ilGlossaryTermGUI($_GET["obj_id"]);
 
+		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		$this->tpl->parseCurrentBlock();
+
+		// syntax style
+		$this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
 		$term_gui->output();

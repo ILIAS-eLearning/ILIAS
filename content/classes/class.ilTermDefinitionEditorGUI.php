@@ -76,9 +76,16 @@ class ilTermDefinitionEditorGUI
 		$cmd = $this->ctrl->getCmd();
 
 
+		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));
+		$this->tpl->parseCurrentBlock();
+
+		// syntax style
+		$this->tpl->setCurrentBlock("SyntaxStyle");
+		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
 		//$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
