@@ -5757,3 +5757,7 @@ $ops_id = $res->obj_id;
 $query = "DELETE FROM rbac_ta WHERE typ_id = '".$ops_id."'";
 $this->db->query($query);
 ?>
+<#411>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
