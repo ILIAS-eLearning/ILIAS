@@ -11,8 +11,6 @@ include("./include/inc.main.php");
 
 $tpl = new Template("tpl.mail_new.html", true, true);
 
-$lng = new Language($ilias->account->data["language"]);
-
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("mail"));
 
 include("./include/inc.mail_buttons.php");

@@ -13,7 +13,6 @@ include("./include/inc.main.php");
 include_once("./classes/class.DBUpdate.php");
 
 $myDB = new DBUpdate();
-$lng = new Language($ilias->account->data["language"]);
 $tpl = new Template("tpl.adm_database.html", true, true);
 
 if ($_GET["cmd"]=="migrate")

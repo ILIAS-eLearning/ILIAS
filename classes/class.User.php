@@ -14,27 +14,39 @@ class User extends PEAR
 	/**
 	* User Id
 	*
-	* @var integer
+	* @var		integer
+	* @access	public
 	*/
 	var $Id;					
 
 	/**
-	* Contains all Userdata
+	* Contains fixed Userdata
 	*
-	* @var array
+	* @var		array
+	* @access	public
 	*/
 	var $data;
+
+	/**
+	* Contains variable Userdata (Prefs, Settings)
+	*
+	* @var		array
+	* @access	public
+	*/
+	var $prefs;
 	
 	/**
 	* database handler
 	*
-	* @var object DB
+	* @var		object	DBx
+	* @access	private
 	*/	
 	var $db;
 	
 	/**
 	* error handling
-	* @var object error
+	* @var	object	error
+	* @acess private
 	*/
 	var $error_class;
 
@@ -70,16 +82,14 @@ class User extends PEAR
 	*/
 	function getUserdata ()
 	{
+		global $ilias;
+		
 		$query = "SELECT * FROM user_data
 				 LEFT JOIN rbac_ua
 				 ON user_data.usr_id=rbac_ua.usr_id
 				 WHERE user_data.usr_id='".$this->Id."'";	
 		
 		$res = $this->db->query($query);
-		
-		if (DB::isError($res)) {
-			 die("<b>".$res->getMessage()."</b><br>Class: ".get_class($this)."<br>Script: ".__FILE__."<br>Line: ".__LINE__);
-		}
 		
 		if ($res->numRows() > 0)
 		{
@@ -96,16 +106,17 @@ class User extends PEAR
 				"Email"      => $data["email"],
 				"Role"       => $data["rol_id"],
 				"LastLogin"  => $data["last_login"],
-				"language" => $data["language"]
-				);
-			
-			// TODO: implement new language concept ($lng)
-			if ($this->data["language"] == "")
-				$this->data["language"] = "en";
+			);
+
+			//get userpreferences from user_pref table
+			$this->getPrefs();
+			//set language to default if not set
+			if ($this->prefs["language"] == "")
+				$this->prefs["language"] = $ilias->ini->readVariable("language","default");
 		}
 		else
 		{
-			 die("<b>Error: There is no dataset with id ".$this->Id."!</b><br>class: ".get_class($this)."<br>Script: ".__FILE__."<br>Line: ".__LINE__);
+			 $this->raiseError("<b>Error: There is no dataset with id ".$this->Id."!</b><br>class: ".get_class($this)."<br>Script: ".__FILE__."<br>Line: ".__LINE__, $this->FATAL);
 		}
 	}
 	
@@ -128,11 +139,7 @@ class User extends PEAR
 	*/
 	function getLanguage ()
 	{
-				// TODO: implement new language concept ($lng)
-		if ($this->data["language"] == "")
-			 return "en";
-		 else
-			 return $this->data["language"];
+		 return $this->data["language"];
 	}
 
 	/**
@@ -149,21 +156,16 @@ class User extends PEAR
 				 firstname,surname,
 				 title,gender,
 				 email,
-				 language,
 				 last_login,last_update,create_date)
 				 VALUES
 				 ('".$this->data["Id"]."','".$this->data["Login"]."','".md5($this->data["Passwd"])."',
 				  '".$this->data["FirstName"]."','".$this->data["SurName"]."',
 				  '".$this->data["Title"]."','".$this->data["Gender"]."',
 				  '".$this->data["Email"]."',
-				  '".$this->data["language"]."',0,now(),now())";
+				  ',0,now(),now())";
 
 		$res = $this->db->query($query);
 
-		if(DB::isError($res))
-		{
-			die ($res->getMessage());
-		}
 		$this->Id = $this->data["Id"];
 	}
 
@@ -176,21 +178,87 @@ class User extends PEAR
 	function update ()
 	{
 		$this->Id = $this->data["Id"];
-		// TODO: move into db-wrapper-class
+
 		$query = "UPDATE user_data SET
 				 gender='".$this->data[Gender]."',
 				 title='".$this->data[Title]."',
 				 firstname='".$this->data[FirstName]."',
 				 surname='".$this->data[SurName]."',
-				 email='".$this->data[Email]."',
-				 language='".$this->data[language]."'
+				 email='".$this->data[Email]."'
 				 WHERE usr_id='".$this->Id."'";
 		$this->db->query($query);
+		
+		$this->writePrefs();
 		
 		$this->getUserData();
 		return true;
 	}
 
+	
+	/**
+	* write userpref to user table
+	* @param string keyword
+	* @param string value
+	* @author Peter Gabriel <pgabriel@databay.de>
+	*/
+	function writePref($keyword, $value)
+	{
+		//DELETE
+		$sql = "DELETE FROM user_pref 
+				WHERE usr_id='".$this->Id."'
+				AND keyword='".$keyword."'";
+		$r = $this->db->query($sql);
+		//INSERT
+		$sql = "INSERT INTO user_pref 
+				(usr_id, keyword, value_str)
+				VALUES
+				('".$this->Id."', '".$keyword."', '".$value."')";
+		$r = $this->db->query($sql);
+	}
+
+	/**
+	* write all userprefs
+	* @author Peter Gabriel <pgabriel@databay.de>
+	* @access	public
+	*/
+	function writePrefs()
+	{
+		//DELETE
+		$sql = "DELETE FROM user_pref 
+			WHERE usr_id='".$this->Id."'";
+		$r = $this->db->query($sql);
+		foreach ($this->prefs as $keyword => $value)
+		{
+			//INSERT
+			$sql = "INSERT INTO user_pref 
+				(usr_id, keyword, value_str)
+				VALUES
+				('".$this->Id."', '".$keyword."', '".$value."')";
+			$r = $this->db->query($sql);
+		}
+	}
+
+
+	/**
+	* get all user preferences
+	* @return interger number of preferences
+	* @author Peter Gabriel <pgabriel@databay.de>
+	*/
+	function getPrefs()
+	{
+		$this->prefs = array();
+		
+		$query = "SELECT * FROM user_pref
+			 WHERE usr_id='".$this->Id."'";	
+		$r = $this->db->query($query);
+		while($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$this->prefs[$row["keyword"]] = $row["value_str"];
+		} // while	 
+
+		return $r->numRows();
+	}
+	
 	/**
 	* deletes a user
 	* @param string
@@ -470,7 +538,7 @@ class User extends PEAR
 	*/
 	function setLanguage($str)
 	{
-		$this->data["language"] = $str;
+		$this->prefs["language"] = $str;
 	}
 } // END class.User
 ?>

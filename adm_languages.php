@@ -10,9 +10,8 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-$lng = new Language($ilias->account->data["language"]);
 $lng->setSystemLanguage($ilias->ini->readVariable("language", "default"));
-$lng->setUserLanguage($ilias->account->data["language"]);
+$lng->setUserLanguage($lng->lng);
 
 
 $tpl = new Template("tpl.adm_languages.html", true, true);

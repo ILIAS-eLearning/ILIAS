@@ -446,9 +446,8 @@ class Language
 		if ($l_file == false)
 		{
 			$this->error = "Input-file '".$this->MASTERLANGFILE."' not found!";
-			return false;
+			return $langs;
 		} //if
-
 		$ids = explode("\t",$l_file[1]);
 		$names = explode("\t",$l_file[2]);
 

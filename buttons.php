@@ -10,8 +10,6 @@
 include_once("./include/ilias_header.inc");
 include_once("./include/inc.main.php");
 
-$lng = new Language($ilias->account->data["language"]);
-
 $tpl = new Template("tpl.main_buttons.html", false, false);
 $tpl->show();
 //$tplmain->setVariable("PAGECONTENT",$tpl->get());

@@ -9,6 +9,16 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
+include("./classes/class.Explorer.php");
+
+$exp = new Explorer("lo_content.php");
+
+$exp->setExpand(1);
+//filter object types
+$exp->addFilter("cat");
+$exp->addFilter("grp");
+$exp->setFiltered(true);
+
 $grp_sys[] = array("name" => "Administrator",
 				"desc" => "System Administrators",
 				"owner" => "System Administrator [root]"
