@@ -73,8 +73,14 @@ class ilCron
 	function start()
 	{
 		// add here other checks
-		$this->__checkUserAccounts();
-		$this->__checkLinks();
+		if($this->__readSetting('cron_user_check'))
+		{
+			$this->__checkUserAccounts();
+		}
+		if($this->__readSetting('cron_link_check'))
+		{
+			$this->__checkLinks();
+		}
 	}
 
 	function __checkUserAccounts()
@@ -146,6 +152,19 @@ class ilCron
 		}
 
 		return true;
+	}
+
+	function __readSetting($a_keyword)
+	{
+		$query = "SELECT * FROM settings ".
+			"WHERE keyword = '".$a_keyword."'";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->value ? $row->value : 0;
+		}
+		return 0;
 	}
 }
 ?>

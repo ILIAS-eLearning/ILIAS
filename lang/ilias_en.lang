@@ -4335,3 +4335,14 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
+common#:#link_check#:#Link check
+common#:#cron_jobs#:#Cron jobs
+common#:#cron_jobs_desc#:#A cron job is an automated process that operates at predefined time intervals. You will find informations about the setup in the 'INSTALL Documentation.
+common#:#check_user_accounts#:#Check user accounts
+common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.
+common#:#check_link#:#Link check
+common#:#check_link_desc#:#If enabled all external links in ILIAS learning modules will be cheked if they are active.
+common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by email.
+common#:#link_checker_refreshed#:#Refreshed view
+common#:#link_check_subject#:#[ILIAS 3] Link check
+common#:#link_check_body_top#:#You receive this mail because you want to be informed about invalid links of the following learning modules:
