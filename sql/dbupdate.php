@@ -1522,5 +1522,76 @@ $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','27')";
 $this->db->query($query);
 $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','28')";
 $this->db->query($query);
-
 ?>
+
+<#98>
+
+#
+# Table structure for table 'qpl_answers'
+#
+
+DROP TABLE IF EXISTS `qpl_answers`;
+CREATE TABLE `qpl_answers` (
+  `answer_id` int(10) unsigned NOT NULL auto_increment,
+  `question_fi` int(10) unsigned NOT NULL default '0',
+  `answertext` char(100) NOT NULL default '',
+  `points` double NOT NULL default '0',
+  `order` int(10) unsigned NOT NULL default '0',
+  `correctness` enum('0','1') NOT NULL default '0',
+  `solution_order` int(10) unsigned NOT NULL default '0',
+  `matchingtext` char(100) default NULL,
+  `matching_order` int(10) unsigned default NULL,
+  `gap_id` int(10) unsigned NOT NULL default '0',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`answer_id`),
+  UNIQUE KEY `answer_id` (`answer_id`),
+  KEY `answer_id_2` (`answer_id`)
+) TYPE=MyISAM;
+
+<#99>
+
+#
+# Table structure for table 'qpl_question_type'
+#
+
+DROP TABLE IF EXISTS `qpl_question_type`;
+CREATE TABLE `qpl_question_type` (
+  `question_type_id` int(3) unsigned NOT NULL auto_increment,
+  `type_tag` char(25) NOT NULL default '',
+  PRIMARY KEY  (`question_type_id`),
+  UNIQUE KEY `question_type_id` (`question_type_id`),
+  KEY `question_type_id_2` (`question_type_id`)
+) TYPE=MyISAM;
+
+INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES("1", "qt_multiple_choice_sr");
+INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES("2", "qt_multiple_choice_mr");
+INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES("3", "qt_cloze");
+INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES("4", "qt_matching");
+INSERT INTO `qpl_question_type` (`question_type_id`, `type_tag`) VALUES("5", "qt_ordering");
+
+<#100>
+
+#
+# Table structure for table 'qpl_questions'
+#
+
+DROP TABLE IF EXISTS `qpl_questions`;
+CREATE TABLE `qpl_questions` (
+  `question_id` int(11) NOT NULL default '0',
+  `question_type_fi` int(10) unsigned NOT NULL default '0',
+  `ref_fi` int(10) unsigned NOT NULL default '0',
+  `title` varchar(100) NOT NULL default '',
+  `comment` text,
+  `author` varchar(50) NOT NULL default '',
+  `owner` int(11) NOT NULL default '0',
+  `question_text` text NOT NULL,
+  `points` double default NULL,
+  `start_tag` varchar(5) default NULL,
+  `end_tag` varchar(5) default NULL,
+  `cloze_type` enum('0','1') default NULL,
+  `choice_response` enum('0','1') default NULL,
+  `materials` text,
+  `created` varchar(14) NOT NULL default '',
+  `TIMESTAMP` timestamp(14) NOT NULL,
+  PRIMARY KEY  (`question_id`)
+) TYPE=MyISAM;

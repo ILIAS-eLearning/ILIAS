@@ -33,6 +33,40 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+assessment#:#add_answer#:#Add answer
+assessment#:#add_matching_pair#:#Add matching pair
+assessment#:#answer#:#Answer
+assessment#:#answer_text#:#Answer text
+assessment#:#apply#:#Apply
+assessment#:#ass_questions#:#Questions
+assessment#:#by#:#by
+assessment#:#cloze_text#:#Cloze text
+assessment#:#create_date#:#Created
+assessment#:#create_gaps#:#Create gaps
+assessment#:#create_new#:#Create new
+assessment#:#duplicate#:#Duplicate
+assessment#:#export#:#Export
+assessment#:#false#:#False
+assessment#:#filter#:#Filter
+assessment#:#gap_selection#:#Gap selection
+assessment#:#last_update#:#Last update
+assessment#:#matching_pair#:#Matching pair
+assessment#:#matches#:#matches
+assessment#:#no_questions_available#:#There are no questions available!
+assessment#:#points#:#Points
+assessment#:#possible_gap_text#:#Possible gap text
+assessment#:#question_type#:#Question Type
+assessment#:#qt_cloze#:#Cloze Question
+assessment#:#qt_matching#:#Matching Question
+assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
+assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
+assessment#:#qt_ordering#:#Ordering Question
+assessment#:#reset_filter#:#Reset filter
+assessment#:#select_gap#:#Select gap
+assessment#:#set_filter#:#Set filter
+assessment#:#solution_order#:#Solution order
+assessment#:#text_gap#:#Text gap
+assessment#:#true#:#True
 common#:#3rd_party_software#:#3rd party software 
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM

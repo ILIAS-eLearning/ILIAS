@@ -1,0 +1,41 @@
+﻿<form name="frm_ordering" action="{ACTION_ORDERING_QUESTION}" method="post">
+<input type="hidden" name="id" value="{ORDERING_ID}">
+<table class="std">
+<tr>
+  <td class="option">{TEXT_TITLE}:</td>
+  <td class="option_value" colspan="3"><input name="title" type="text" value="{VALUE_ORDERING_TITLE}" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_AUTHOR}:</td>
+  <td class="option_value" colspan="3"><input name="author" type="text" value="{VALUE_ORDERING_AUTHOR}" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_COMMENT}:</td>
+  <td class="option_value" colspan="3"><input name="comment" type="text" value="{VALUE_ORDERING_COMMENT}" id="comment" size="50" /></td></tr>
+<tr>
+  <td class="option">{TEXT_QUESTION}:</td>
+  <td class="option_value" colspan="3"><textarea name="question" cols="50" rows="5" id="question">{VALUE_QUESTION}</textarea></td>
+</tr>
+<tr>
+  <td class="option">{TEXT_POINTS}:</td>
+  <td class="option_value" colspan="3"><input name="points" type="text" id="points" size="10" value="{VALUE_ORDERING_POINTS}" /></td>
+</tr>
+<tr><td colspan="4" class="option"><input name="cmd[add]" type="submit" class="submit" id="add_answer" value="{VALUE_ADD_ANSWER}" /></td>
+<!-- BEGIN answers -->
+<tr>
+<td colspan="2" class="tblheader">{TEXT_ANSWER} {VALUE_ANSWER_COUNTER}</td>
+<td class="tblheader"> {TEXT_SOLUTION_ORDER}</td>
+<td class="tblheader"></td>
+</tr>
+<tr>
+  <td class="option">{TEXT_ANSWER_TEXT}:</td>
+  <td class="option_value"><input name="answer_{ANSWER_ORDER}" type="text" id="answer_{ANSWER_ORDER}" size="50" value="{VALUE_ANSWER}" /></td>
+  <td class="option_value"><input name="order_{ANSWER_ORDER}" type="text" id="order_{ANSWER_ORDER}" size="3" value="{VALUE_ORDER}" /></td>
+  <td class="option_value">
+<!-- BEGIN deletebutton -->
+<input type="submit" class="submit" name="delete_{ANSWER_ORDER}" value="{DELETE}" />
+<!-- END deletebutton -->
+</td>
+</tr>
+<!-- END answers -->
+<tr><td colspan="4" class="option"><input name="cmd[apply]" type="submit" class="submit" id="apply_ordering" value="{APPLY}" />&nbsp;<input name="cmd[save]" type="submit" class="submit" id="save_ordering" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancel]" type="submit" class="submit" id="cancel" value="{CANCEL}" /></td></tr>
+</table>
+</form>
