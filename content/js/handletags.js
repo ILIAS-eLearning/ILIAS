@@ -1,3 +1,107 @@
+function replaceAll(heystack, needle, newneedle) 
+{
+	var i=0;
+	while (heystack.indexOf(needle)!=-1) 
+	{
+		i++;if(i>100) break;
+		heystack = heystack.replace(needle, newneedle);
+	}
+	return(heystack);
+}
+
+
+function addTagInEditor(tagName,className) 
+{
+// {{{
+	
+	if (editor.hasSelectedText() && editor.getSelectedHTML()!="&nbsp;"  && editor.getSelectedHTML()!=" ") 
+	{
+		editor.surroundHTML(startMarker,endMarker);
+		text = editor.getHTML();
+		
+		text = replaceAll(text, "<br />","%%BR%%");
+		text = replaceAll(text, "<br/>","%%BR%%");
+		text = replaceAll(text, "<br>","%%BR%%");
+		
+		text = replaceAll(text,"&nbsp;"," ");
+		text2 = addTag(text, tagName, className);
+		
+		// Zur Sicherheit alle eventuell übriggebliebenen Hilfszeichen entfernen.
+		for(i=1;i<=10;i++) 
+		{
+			for(j=1;j<=10;j++) 
+			{
+				text2 = replaceAll(text2,"%%"+i+"x"+j+"x%%","");
+				text2 = replaceAll(text2,"+%"+i+"x"+j+"x%+","");
+			}
+		}
+		
+		
+		
+		text2 = replaceAll(text2, "<"+tagName+" class=\""+className+"\"></"+tagName+">", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"></span>", "");
+		text2 = replaceAll(text2, "<code class=\"ilc_Code\"></code>", "");
+		
+		text2 = replaceAll(text2, "%%BR%%", "<br />");
+		
+		editor.setHTML(text2);
+		
+		text2 = editor.getHTML();
+
+		text2 = replaceAll(text2, "<span class=\"ilc_Strong\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Emph\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Comment\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<code class=\"ilc_Code\">&nbsp;</code>", " ");
+
+		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"> </span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"> </span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"> </span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"> </span>", " ");
+		text2 = replaceAll(text2, "<code class=\"ilc_Code\"> </code>", " ");
+		
+		for (i=0;i<10;i++) {
+			text2 = replaceAll(text2, " <\/span>","</span> ");
+			text2 = replaceAll(text2, " <\/code>","</code> ");
+		}
+		
+		text2 = replaceAll(text2,"&nbsp;"," ");
+		
+		editor.setHTML(text2);
+	} 
+	else 
+	{
+		text2 = editor.getHTML();
+		text2 = replaceAll(text2, "<"+tagName+" class=\""+className+"\"></"+tagName+">", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"></span>", "");
+		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"></span>", "");
+		text2 = replaceAll(text2, "<code class=\"ilc_Code\"></code>", "");
+
+		text2 = replaceAll(text2, "<span class=\"ilc_Strong\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Emph\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<span class=\"ilc_Comment\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<code class=\"ilc_Code\">&nbsp;</code>", " ");
+		
+		text2 = replaceAll(text2,"&nbsp;"," ");
+
+		for (i=0;i<10;i++) {
+			text2 = replaceAll(text2, " <\/span>","</span> ");
+			text2 = replaceAll(text2, " <\/code>","</code> ");
+		}
+
+		editor.setHTML(text2);
+	}
+	
+	editor.updateToolbar();
+		// }}}
+}
+
 
 function tt_bis(Text,BisText) {
 	local_T2 = Text.substr(0,Text.indexOf(BisText));

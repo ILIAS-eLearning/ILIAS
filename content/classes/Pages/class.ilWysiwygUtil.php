@@ -125,6 +125,8 @@ class ilWysiwygUtil
 	{
 		$this->tpl = new ilTemplate("tpl.wysiwyg_popup_footnote.html",false,false,true);
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation() );
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET_HTMLAREA", "../content/content.css" );
+
 		
 		$this->tpl->setVariable("TXT_FOOTNOTES", $this->lng->txt("cont_title_footnotes"));
 		$this->tpl->setVariable("TXT_INSERT_NEW_FOOTNOTES", $this->lng->txt("cont_insert_new_footnote"));
@@ -150,6 +152,7 @@ class ilWysiwygUtil
     function convertFromPost($content) 
 	{
         
+		
 		$content = str_replace("&nbsp;"," ",$content);
 		//vd(htmlspecialchars($content));
 		
@@ -171,24 +174,33 @@ class ilWysiwygUtil
 //		echo "<p>";
 //		echo(rawurlencode($content));
 		
-        $xml_parser = xml_parser_create("UTF-8");
-        xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
-        xml_set_object($xml_parser,$this);
-        xml_set_element_handler($xml_parser, "startElement", "endElement");
-        xml_set_character_data_handler($xml_parser, "characterData");
+		for($k=0;$k<2;$k++) {
+			$xml_parser = xml_parser_create("UTF-8");
+			xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
+			xml_set_object($xml_parser,$this);
+			xml_set_element_handler($xml_parser, "startElement", "endElement");
+			xml_set_character_data_handler($xml_parser, "characterData");
+	
+			$xml_data = "<xml>".$content."</xml>";
+			
+			$this->depth = 0;
+			$this->struct = array();
+			$this->newXml = "";
+			
+			if (!xml_parse($xml_parser, $xml_data)) 
+			{
+				die(sprintf("XML error: %s at line %d",	xml_error_string(xml_get_error_code($xml_parser)),xml_get_current_line_number($xml_parser)));
+			}
+			xml_parser_free($xml_parser);
+			
+			$this->newXml = str_replace("<xml>","",$this->newXml);
+			$this->newXml = str_replace("</xml>","",$this->newXml);
+			
+			$content = $this->newXml;
 
-        $xml_data = "<xml>".$content."</xml>";
-        
-        $this->depth = 0;
-        $this->struct = array();
-        $this->$newXml = "";
-        
-        if (!xml_parse($xml_parser, $xml_data)) 
-		{
-            die(sprintf("XML error: %s at line %d",	xml_error_string(xml_get_error_code($xml_parser)),xml_get_current_line_number($xml_parser)));
-        }
-        xml_parser_free($xml_parser);
-        
+			
+			//echo htmlspecialchars($content)."<p>";
+		}        
 		//echo htmlspecialchars($this->newXml);
 		//exit;
 		
@@ -206,11 +218,10 @@ class ilWysiwygUtil
 		$this->newXml = str_replace("<Strong/>","",$this->newXml);
 		$this->newXml = str_replace("<Emph/>","",$this->newXml);
 		
-        $this->newXml = str_replace("<xml>","",$this->newXml);
-        $this->newXml = str_replace("</xml>","",$this->newXml);
-        
 		$this->newXml = str_replace("<span>","",$this->newXml);
 		$this->newXml = str_replace("</span>","",$this->newXml);
+		
+		//vd(htmlspecialchars($this->newXml));
 		
         return($this->newXml);
     }
@@ -298,8 +309,24 @@ class ilWysiwygUtil
 		if ($attrs["class"] == "footnote") 
 		{
 			//vd($attrs);
-			$new["convert"] = "[fn]".$attrs[value];
-            $new["convert2"] = "[/fn]";
+
+			$fn1 = explode("|**#",stripslashes($_POST["footnotelist"]));
+			for ($i=0;$i<count($fn1);$i++) 
+			{
+				// {{{
+				$fn2 = explode("|*#",$fn1[$i]);
+				
+				//echo htmlspecialchars(serialize($fn2[1]))."<p>";
+				
+				if($fn2[0] == $attrs["value"]) 
+				{
+					$new["convert"] = "[fn]".$fn2[1];
+					$new["convert2"] = "[/fn]";
+					break;
+				}
+				
+				// }}}
+			}
 			
 		}
 		
