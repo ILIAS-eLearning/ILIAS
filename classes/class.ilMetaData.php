@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once ("classes/class.ilMetaTechnicalRequirement.php");
+require_once ("classes/class.ilMetaTechnicalRequirementSet.php");
+
 /**
 * Class ilMetaData
 *
@@ -45,6 +48,11 @@ class ilMetaData
 	var $structure;			// "Atomic" | "Collection" | "Networked" | "Hierarchical" | "Linear"
 	var $id;
 	var $type;
+	var $technical_size;
+	var $technical_locations;
+	var $technical_requirements;
+	var $technical_install_lang;
+	var $technical_install_remarks;
 
 	/**
 	* Constructor
@@ -190,6 +198,134 @@ class ilMetaData
 		return $this->keyword;
 	}
 
+	/**
+	* TECHNICAL: Format
+	*
+	* @param	string		$a_format		mime type
+	*/
+	function setTechnicalFormat($a_format)
+	{
+		$this->technical_format = $a_format;
+	}
+
+	function getTechnicalFormat($a_format)
+	{
+		return $this->technical_format;
+	}
+
+	/**
+	* TECHNICAL: Size
+	*/
+	function setTechnicalSize($a_size)
+	{
+		$this->technical_size = $a_size;
+	}
+
+	function getTechnicalSize()
+	{
+		return $this->technical_size;
+	}
+
+
+	/**
+	* TECHNICAL Location
+	*/
+	function addTechnicalLocation($a_loc)
+	{
+		$this->technical_locations[] = $a_loc;
+	}
+
+	function getTechnicalLocations()
+	{
+		return $this->technical_locations;
+	}
+
+	/**
+	* TECHNICAL Requirements
+	*
+	* @param	array	$a_requirement		array(
+	*/
+	function addTechnicalRequirementSet($a_requirement_set)
+	{
+		$this->requirement_sets[] = $a_requirement_set;
+	}
+
+	function getTechnicalRequirementSets()
+	{
+		return $this->requirement_sets;
+	}
+
+
+	/**
+	* TECHNICAL Installation Remarks
+	*
+	* @param	string	$a_lang		language code
+	* @param	string	$a_remarks	installation remarks
+	*/
+	function setTechnicalInstallationRemarks($a_remarks)
+	{
+		$this->technical_install_remarks = $a_remarks;
+	}
+
+	function setTechnicalInstallationRemarksLanguage($a_lang)
+	{
+		$this->technical_install_lang = $a_lang;
+	}
+
+	function getTechnicalInstallationRemarksLanguage()
+	{
+		return $this->technical_install_lang;
+	}
+
+	function getTechnicalInstallationRemarks()
+	{
+		return $this->technical_install_remarks;
+	}
+
+
+	/**
+	* TECHNICAL Other Platform Requirements
+	*
+	* @param	string	$a_remarks	requirements
+	*/
+	function setTechnicalOtherRequirements($a_requirements)
+	{
+		$this->technical_other_req = $a_requirements;
+	}
+
+	function setTechnicalOtherRequirementsLanguage($a_lang)
+	{
+		$this->technical_other_req_lang = $a_lang;
+	}
+
+	function getTechnicalOtherRequirementsLanguage()
+	{
+		return $this->technical_other_req_lang;
+	}
+
+	function getTechnicalOtherRequirements()
+	{
+		return $this->technical_other_req;
+	}
+
+	/**
+	* TECHNICAL Duration
+	*
+	* @param	string	$a_duration		duration
+	*/
+	function setTechnicalDuration($a_duration)
+	{
+		$this->technical_duration = $a_duration;
+	}
+
+	function getTechnicalDuration()
+	{
+		return $this->technical_duration;
+	}
+
+	/**
+	* create meta data object in db
+	*/
 	function create()
 	{
 		$query = "INSERT INTO meta_data (obj_id, obj_type, title,".
@@ -200,6 +336,10 @@ class ilMetaData
 		$this->updateKeywords();
 	}
 
+
+	/**
+	* update everything
+	*/
 	function update()
 	{
 		$query = "REPLACE INTO meta_data (obj_id, obj_type, title,".
@@ -210,6 +350,10 @@ class ilMetaData
 		$this->updateKeywords();
 	}
 
+
+	/**
+	* update / create keywords
+	*/
 	function updateKeywords()
 	{
 		$query = "DELETE FROM meta_keyword ".

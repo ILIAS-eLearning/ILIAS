@@ -271,18 +271,29 @@ class ilLMParser extends ilSaxParser
 				}
 				break;
 
+			////////////////////////////////////////////////
+			/// Meta Data Section
+			////////////////////////////////////////////////
 			case "MetaData":
 				$this->in_meta_data = true;
 				$this->meta_data =& new ilMetaData();
-				$this->current_object->assignMetaData($this->meta_data);
-				if(get_class($this->current_object) == "ilobjlearningmodule")
+				if(!$this->in_media_object)
 				{
+					$this->current_object->assignMetaData($this->meta_data);
+					if(get_class($this->current_object) == "ilobjlearningmodule")
+					{
 //echo "starting new meta data for lm<br>";
-					$this->meta_data->setId($this->lm_object->getId());
-					$this->meta_data->setType("lm");
+						$this->meta_data->setId($this->lm_object->getId());
+						$this->meta_data->setType("lm");
+					}
+				}
+				else
+				{
+					$this->media_object->assignMetaData($this->meta_data);
 				}
 				break;
 
+			// GENERAL: Identifier
 			case "Identifier":
 				if ($this->in_meta_data)
 				{
@@ -291,8 +302,60 @@ class ilLMParser extends ilSaxParser
 				}
 				break;
 
+			// GENERAL: Keyword
 			case "Keyword":
 				$this->keyword_language = $a_attribs["Language"];
+				break;
+
+			// TECHNICAL
+			case "Technical":
+				$this->meta_data->setTechnicalFormat($a_attribs["Format"]);
+				break;
+
+			// TECHNICAL: Size
+			case "Size":
+				$this->meta_data->setTechnicalSize($a_attribs["Size"]);
+				break;
+
+			// TECHNICAL: Requirement
+			case "Requirement":
+				if (!is_object($this->requirement_set))
+				{
+					$this->requirement_set =& new ilMetaTechnicalRequirementSet();
+				}
+				$this->requirement =& new ilMetaTechnicalRequirement();
+				break;
+
+			// TECHNICAL: OperatingSystem
+			case "OperatingSystem":
+				$this->requirement->setType("OperatingSystem");
+				$this->requirement->setName($a_attribs["Name"]);
+				$this->requirement->setMinVersion($a_attribs["MinimumVersion"]);
+				$this->requirement->setMaxVersion($a_attribs["MaximumVersion"]);
+				break;
+
+			// TECHNICAL: Browser
+			case "Browser":
+				$this->requirement->setType("Browser");
+				$this->requirement->setName($a_attribs["Name"]);
+				$this->requirement->setMinVersion($a_attribs["MinimumVersion"]);
+				$this->requirement->setMaxVersion($a_attribs["MaximumVersion"]);
+				break;
+
+			// TECHNICAL: OrComposite
+			case "OrComposite":
+				$this->meta_data->addTechnicalRequirementSet($this->requirement_set);
+				unset($this->requirement_set);
+				break;
+
+			// TECHNICAL: InstallationRemarks
+			case "InstallationRemarks":
+				$this->setTechnicalInstallationRemarksLanguage($a_attribs["Language"]);
+				break;
+
+			// TECHNICAL: InstallationRemarks
+			case "OtherPlatformRequirements":
+				$this->setTechnicalOtherRequirementsLanguage($a_attribs["Language"]);
 				break;
 
 		}
@@ -305,6 +368,7 @@ class ilLMParser extends ilSaxParser
 			$this->page_object->appendXMLContent($this->buildTag("start", $a_name, $a_attribs));
 		}
 	}
+
 
 	/**
 	* handler for end of element
@@ -359,9 +423,27 @@ class ilLMParser extends ilSaxParser
 
 			case "MediaObject":
 				$this->in_media_object = false;
-				$this->media_object->create();
-				$this->mob_mapping[$this->media_object->getOriginId()]
-						= $this->media_object->getId();
+
+				// create media object on first time
+				if(empty($this->mob_mapping[$this->media_object->getOriginId()]))
+				{
+					$this->media_object->create();
+					$this->mob_mapping[$this->media_object->getOriginId()]
+							= $this->media_object->getId();
+				}
+
+				// update "real" (no alias) media object
+				if (!$this->media_object->isAlias())
+				{
+					$this->media_object->update();
+				}
+
+				// append media alias to page, if we are in a page
+				if ($this->in_page_object)
+				{
+					$this->page_object->appendXMLContent($this->media_object->getXML(true));
+				}
+
 				break;
 
 			case "MetaData":
@@ -397,6 +479,14 @@ class ilLMParser extends ilSaxParser
 
 			case "Table":
 				unset ($this->container[count($this->container) - 1]);
+				break;
+
+			//////////////////////////////////
+			/// MetaData Section
+			//////////////////////////////////
+			// TECHNICAL: Requirement
+			case "Requirement":
+				$this->requirement_set->addRequirement($this->requirement);
 				break;
 
 		}
@@ -435,6 +525,10 @@ class ilLMParser extends ilSaxParser
 //echo "setText(".htmlentities($a_data)."), strlen:".strlen($a_data)."<br>";
 					break;
 
+
+				///////////////////////////
+				/// MetaData Section
+				///////////////////////////
 				case "Title":
 					$this->meta_data->setTitle($a_data);
 					break;
@@ -450,6 +544,31 @@ class ilLMParser extends ilSaxParser
 				case "Keyword":
 					$this->meta_data->addKeyword($this->keyword_language, $a_data);
 //echo "KEYWORD_ADD:".$this->keyword_language.":".$a_data."::<br>";
+					break;
+
+				// TECHNICAL: Size
+				case "Size":
+					$this->meta_data->setTechnicalSize($a_data);
+					break;
+
+				// TECHNICAL: Location
+				case "Location":
+					$this->meta_data->addTechnicalLocation($a_data);
+					break;
+
+				// TECHNICAL: InstallationRemarks
+				case "InstallationRemarks":
+					$this->setTechnicalInstallationRemarks($a_data);
+					break;
+
+				// TECHNICAL: InstallationRemarks
+				case "OtherPlatformRequirements":
+					$this->setTechnicalOtherRequirements($a_data);
+					break;
+
+				// TECHNICAL: Duration
+				case "Duration":
+					$this->setTechnicalDuration($a_data);
 					break;
 
 			}

@@ -21,77 +21,112 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-require_once "classes/class.ilObject.php";
-
 /**
-* Class ilObjMediaObject
+* Class ilMetaTechnicalRequirement
+*
+* Handles Technical Requirement of Meta Data (see ILIAS DTD)
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* $Id$
+* @version $Id$
 *
-* @extends ilObject
-* @package ilias-core
+* @package application
 */
-class ilObjMediaObject extends ilObject
+class ilMetaTechnicalRequirement
 {
+	var $ilias;
+	var $type;
+	var $name;
+	var $min_version;
+	var $max_version;
 
-	var $meta_data;
 
 	/**
 	* Constructor
+	*
+	* @param	string		$a_type		OperatingSystem | Browser
 	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjMediaObject($a_id = 0, $a_call_by_reference = false)
+	function ilMetaTechnicalRequirement($a_type)
 	{
-		$this->type = "mob";
+		global $ilias;
 
-		if($a_call_by_reference)
-		{
-			$this->ilias->raiseError("Can't instantiate media object via reference id.",$this->ilias->error_obj->FATAL);
-		}
-
-		parent::ilObject($a_id, false);
-	}
-
-	function setRefId()
-	{
-		$this->ilias->raiseError("Operation ilObjMedia::setRefId() not allowed.",$this->ilias->error_obj->FATAL);
-	}
-
-	function getRefId()
-	{
-		$this->ilias->raiseError("Operation ilObjMedia::getRefId() not allowed.",$this->ilias->error_obj->FATAL);
-	}
-
-	function putInTree()
-	{
-		$this->ilias->raiseError("Operation ilObjMedia::putInTree() not allowed.",$this->ilias->error_obj->FATAL);
-	}
-
-	function createReference()
-	{
-		$this->ilias->raiseError("Operation ilObjMedia::createReference() not allowed.",$this->ilias->error_obj->FATAL);
+		$this->type = $a_type;
 	}
 
 	/**
-	* assign meta data object
+	* set requirement type
+	*
+	* @param	string		$a_type		OperatingSystem | Browser
 	*/
-	function assignMetaData(&$a_meta_data)
+	function setType($a_type)
 	{
-		$this->meta_data =& $a_meta_data;
+		$this->type = $a_type;
 	}
 
 	/**
-	* get meta data object
+	* get requirement type
 	*/
-	function &getMetaData()
+	function getType()
 	{
-		return $this->meta_data;
+		return $this->type;
 	}
 
+	/**
+	* set requirement system/browser name
+	*
+	* @param	string		$a_name		(PC-DOS | MS-Windows | MacOS | Unix | Multi-OS | None)
+	*									for type OperatingSystem
+	*									(Any | NetscapeCommunicator | MS-InternetExplorer | Opera | Amaya | Mozilla)
+	*									for type Browser
+	*/
+	function setName($a_name)
+	{
+		$this->name = $a_name;
+	}
 
-} // END class.ilObjMediaObject
+	/**
+	* get requirement system/browser name
+	*/
+	function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	* set minimum version
+	*
+	* @param	string		$a_min_version		minimum version
+	*/
+	function setMinVersion($a_min_version)
+	{
+		$this->min_version = $a_min_version;
+	}
+
+	/**
+	* get minimum version
+	*/
+	function getMinVersion()
+	{
+		return $this->min_version;
+	}
+
+	/**
+	* set maximum version
+	*
+	* @param	string		$a_max_version		maximum version
+	*/
+	function setMaxVersion($a_max_version)
+	{
+		$this->max_version = $a_max_version;
+	}
+
+	/**
+	* get maximum version
+	*/
+	function getMaxVersion()
+	{
+		return $this->max_version;
+	}
+
+}
 ?>
