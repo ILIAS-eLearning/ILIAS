@@ -20,7 +20,7 @@ chg_password	change password	Password ändern	cambia password	chg_password
 choose_language	choose your language	Bitte wählen Sie Ihre Sprache	scegli lingua	please choose your language
 city	city	Stadt	città	city
 country	country	Land	paese	country
-courses	courses	Kurse	corso	courses
+courses	courses	Kurse	corsi	courses
 create	create	erstellen	creare	create
 current_password	current password	derzeitiges Passwort	password attuale	current_password
 database	database	Datenbank	banca dati	database
@@ -42,13 +42,12 @@ institution	institution	Institution	istituzione	institution
 language	language	Sprache 	lingua	language
 languages	languages	Sprachen	lingue	languages
 last_change	last change	letzte Änderung	ultimo cambio	last_change
-last_visited_lessons	last visited lessons	zuletzt besuchte Lerneinheit	ultima lezione visitata	last_visited_lessons
 lastname	lastname	Nachname	cognome	lastname
 lesson	lesson	Lerneinheit	lezione	lesson
 lessons	lessons	Lerneinheiten	lezioni	lessons
 login	login	Login	login	login
 login_to_ilias	login to ILIAS	bei ILIAS anmelden	login a ILIAS	login_to_ilias
-mail	mail	Mail	messaggio	mail
+mail	mail	Mail	Posta 	mail
 mail_s_unread	unread mail(s)	ungelesene Mail(s)	messaggi non letti	mail_s_unread
 mails	mails	Mails	messaggi 	mails
 migrate	migrate	migrieren	migrare	migrate
@@ -58,7 +57,7 @@ no	no	Nein	no	no
 not_installed	not installed	nicht installiert	non istallato	not_installed
 page	page	Seite	pagina	page
 password	password	Passwort	password	password
-personal_desktop	personal desktop	personal desktop	desktop personale	personal_desktop
+personal_desktop	personal desktop	Personal Desktop	desktop personale	personal_desktop
 personal_profile	personal profile	persönliches Profil	profilo personale	personal_profile
 phone	phone	Telefon	telefono	phone
 profile	profile	Profil	profilo 	profile
@@ -100,24 +99,77 @@ db_user	database user	Datenbankbenutzer	database utente	database user
 db_pass	database password	Datenbankpassword	database password	database password
 reset	reset	Zurücksetzen	reset	reset
 err_create_database_failed	creation of database failed	Datenbank konnte nicht erstellt werden	creation of database failed	creation of database failed
-setup_ready	setup is ready	Setup wurde erfolgreich beendet	setup is ready	setup is ready
+setup_ready	setup is ready	Setup wurde erfolgreich beendet	setup finito	setup is ready
 database_exists	database exists	Datenbank existiert bereits	database esiste	database exists
 languages_generate_from_file	generate languages from file	Sprachdateien generieren aus Datei	generate languages from file	generate languages from file
 languages_generate_from_upload	generate languages from uploaded file	Sprachdateien generieren aus hochgeladener Datei	generate languages from uploaded file	generate languages from uploaded file
 update_applied	update applied	Datenbankupdate erfolgreich	update applied	update applied
 database_version	current database version	Ihre Datenbankversion	current database version	current database version
-file_version	version provided in file	verfügbare Version	provided version	provided version
+file_version	version provided in file	verfügbare Version	versione disponibile	provided version
 database_is_uptodate	the database is up-to-date	Ihre Datenbank ist auf dem neuesten Stand	database uptodate	database uptodate
 version	version	Version	versione	version
 database_needs_update	database needs an update	Datenbank benötigt Update	database needs update	database needs update
 database_update	update database	Datenbank updated	update database	update database
 groups	groups	Gruppen	gruppi	groups
-search	search	suchen	cercare	search
-search_in	search_in	suchen in	cercare in	search_in
+search	search	Suchen	cercare	search
+search_in	search in	suchen in	cercare in	search in
 keywords	keywords	Schlüsselwörter	parole chiave	keywords
 phrase	phrase	Phrase	frase	phrase
-				
+course	course	Kurs	corso	course
 msg_nothing_found	msg_nothing_found	nichts gefunden	niente trovato	msg_nothing_found
-				
-				
-				
+lo_available	available lessons	verfügbare Lerneinheiten	lezioni disponibili	available lessons
+inbox	inbox	Posteingang	posta in arrivo	inbox
+compose	compose	schreiben	comporre	compose
+options	options	Optionen	opzioni	options
+old	old	alt	vecchio	old
+sent	sent	gesendet	inviato	sent
+saved	saved	gespeichert	salvato	saved
+deleted	deleted	gelöscht	eliminato	deleted
+delete_selected	delete selected	Auswahl löschen	elimina selezionato	delete selected
+delete_all	delete all	alle löschen	elimina tutto	delete all
+execute	execute	ausführen	esegui	execute
+new_folder	new folder	neuer Ordner	nuova cartella	new folder
+bookmark_new	new bookmark	Favorit hinzufügen	new bookmark	new bookmark
+url	url	URL	URL	url
+bookmarks	bookmarks	Favoriten	bookmarks	bookmarks
+crs_available	available courses	verfügbare Kurse	corsi disponibili	available courses
+literature_bookmarks	literature bookmarks	Literatur Favoriten	bookmarks  letteratura	literature bookmarks
+forums_available	available forums	verfügbare Foren	fori disponibili	available forums
+name	name	Name	nome	name
+owner	owner	Besitzer	owner	owner
+system_groups	system groups	Systemgruppen	gruppi del sistema	system groups
+forums_of_your_groups	forums of your groups	Foren in Ihren Gruppen	gruppi nei tuoi fori	forums of your groups
+lo_edit	edit lessons	Lerneinheiten editieren	edit lessons	edit lessons
+test_intern	test intern 	interner Test	test intern 	test intern 
+lo_new	new lesson	neue Lerneinheit	nuova lezione	new lesson
+objects	objects	Objekte	oggetti	objects
+feedback	feedback	Feedback	feedback	feedback
+message_to	message to	Nachricht an	messaggio a	message to
+your_message	your message	Ihre Nachricht	Tuo messagio	your message
+send 	send	abschicken	invia	send
+type_your_message_here	type your message here	schreiben Sie Ihre Nachricht hier	scrivi il Tuo messaggio qua	type your message here
+edit_data	edit data	Daten bearbeiten	edit data	edit data
+uid	uid	UID	uid	uid
+publishing_organisation	publishing organisation	veröffentlichende Organisation	publishing organisation	publishing organisation
+summary	summary	Zusammenfasung	summary	summary
+authors	authors	Autoren	autori	authors
+firstname	firstname	Vorname	nome	firstname
+add_author	add author	Autor hinzufügen	aggiungi autore	add author
+members	members	Mitglieder	members	members
+add_member	add member	Mitglied hinzufügen	add member	add member
+comma_separated	comma separated	kommagetrennt	coma separated	coma separated
+level	level	Stufe	level	level
+categories	categories	Kategorien	categorie	categories
+subcat_name	subcategory name	Unterkategorie Name	subcategory name	subcategory name
+save_and_back	save and back	speichern und zurück	salva e indietro	save and back
+none	none	keine	nessuno	none
+other	other	andere	altri	other
+online_version	online version	Online Version	versione online	online version
+offline_version	offline version	Offline Version	versione offline	offline version
+published	published	veröffentlicht	publicato	published
+lo	lesson	Lerneinheit	lezione	lesson
+set_offline	set offline	Offline setzen	mettere offline	set offline
+set_online	set online	Online stellen	mettere online	set online
+announce	announce	ankündigen	annunciare	announce
+generate	generate	generieren	generare	generate
+lo_last_visited	last visited lessons	zuletzt besuchte Lerneinheit	ultima lezione visitata	last visited lessons
