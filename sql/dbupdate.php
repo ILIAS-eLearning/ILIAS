@@ -2214,3 +2214,47 @@ ALTER TABLE mail DROP COLUMN timest;
 
 <#146>
 ALTER TABLE mail CHANGE m_type m_type VARCHAR( 255 ) DEFAULT NULL;
+
+<#147>
+INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('32', 'create_htlm', 'create new html learning module');
+
+<#148>
+<?php
+
+// insert media pool definition in object_data
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
+		 "VALUES ('typ', 'htlm', 'HTML LM object', -1, now(), now())";
+$this->db->query($query);
+
+// fetch type id
+$query = "SELECT LAST_INSERT_ID()";
+$res = $this->db->query($query);
+$row = $res->fetchRow();
+$typ_id = $row[0];
+
+// add operations to html lm
+// 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$this->db->query($query);
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$this->db->query($query);
+?>
+
+<#149>
+<?php
+
+// add create html lm operation to categories
+$query = "SELECT obj_id FROM object_data WHERE type='typ' AND title='cat'";
+$res = $this->db->query($query);
+$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
+$typ_id = $row["obj_id"];
+
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','32')";
+$this->db->query($query);
+?>
