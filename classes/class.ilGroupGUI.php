@@ -818,12 +818,6 @@ class ilGroupGUI extends ilObjectGUI
 			// rolefolder doesn't exists, so create one
 			if (empty($rolf_id))
 			{
-				// CHECK ACCESS 'create' rolefolder
-				if (!$rbacsystem->checkAccess('create',$this->ref_id,'rolf'))
-				{
-					$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
-				}
-
 				// create a local role folder
 				$rfoldObj = $this->object->createRoleFolder();
 
@@ -834,6 +828,7 @@ class ilGroupGUI extends ilObjectGUI
 			// CHECK ACCESS 'write' of role folder
 			if (!$rbacsystem->checkAccess('write',$rolf_id))
 			{
+				
 				$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 			}
 
@@ -936,6 +931,7 @@ class ilGroupGUI extends ilObjectGUI
 		elseif ($new_type == "file")
 		{
 			// fill in saved values in case of error
+			
 			$data = array();
 			$data["fields"] = array();
 			$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
@@ -948,7 +944,7 @@ class ilGroupGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
 				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
-				$this->tpl->parseCurrentBlock();
+				//$this->tpl->parseCurrentBlock();
 			}
 
 			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
@@ -966,6 +962,7 @@ class ilGroupGUI extends ilObjectGUI
 			$data["fields"]["desc"] = "";
 
 			$this->tpl->addBlockFile("CONTENT", "create_table" ,"tpl.obj_edit.html");
+			$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 
 			foreach ($data["fields"] as $key => $val)
 			{
@@ -1992,23 +1989,22 @@ class ilGroupGUI extends ilObjectGUI
 				if ($row["max"] == "" || $count < $row["max"])
 				{
 					//special case: if type is folder or file then the 'create' right of the group (first RBAC-PARENT object)is checked
-					if ($row["name"] == "fold" and $this->grp_object->isAdmin($this->ilias->account->getId()) )
+					if (($row["name"] == "fold") || ($row["name"] == "file"  ))
 					{
-						$obj_type = "grp";
-					}
-					elseif($row["name"] == "file")
-					{
-						$obj_type = "grp";
+						//show only creatable objects for current user
+						if($rbacsystem->checkAccess('create_'.$row["name"],$this->grp_id))
+						{
+							$subobj[] = $row["name"];
+						}
 					}
 					else
 					{
-						$obj_type = $row["name"];
-					}
+						//show only creatable objects for current user
+						if($rbacsystem->checkAccess('create',$this->grp_id,$row["name"]))
+						{
+							$subobj[] = $row["name"];
+						}
 
-					//show only creatable objects for current user
-					if($rbacsystem->checkAccess('create',$this->grp_id,$obj_type))
-					{
-						$subobj[] = $row["name"];
 					}
 					if($row["import"] == "1")	// import allowed?
 					{
