@@ -705,15 +705,19 @@ class ilNestedSetXML
         // }}}
     }
 */	
-	function getXpathNodes(&$dom, $expr) 
+	function getXpathNodes(&$doc, $qry) 
 	{
-		if (is_object($dom))
+#		echo "XPath query: " . $qry . "<br>\n"; 
+		if (is_object($doc))
 		{
-			$xpth = $dom->xpath_new_context();
-			$xnode = xpath_eval($xpth,$expr);
-			if (is_array ($xnode->nodeset)) 
+			$xpath = $doc->xpath_init();
+			$ctx = $doc->xpath_new_context();
+			$result = $ctx->xpath_eval($qry);
+#			echo "XPath query result:<br>\n";
+#			vd($result);
+			if (is_array($result->nodeset)) 
 			{
-				return($xnode->nodeset);
+				return($result->nodeset);
 			}
 		}
 		return Null;
@@ -788,8 +792,13 @@ class ilNestedSetXML
 	/**
 	*	deletes node
 	*/
-	function deleteDomNode($xPath, $name, $index) 
+	function deleteDomNode($xPath, $name, $index = 0) 
 	{
+#		echo "Index: " . $index . " | Path: " . $xPath . " | Name: " . $name . "<br>\n";
+		if ($index == "")
+		{
+			$index = 0;
+		}
 		if (strpos($index, ","))
 		{
 			$indices = explode(",", $index);
@@ -863,7 +872,14 @@ class ilNestedSetXML
 	{
 		$update = false;
 
-		$nodes = $this->getXpathNodes($this->dom, $xPath);
+		if ($xPath == "//Bibliography")
+		{
+			$nodes = $this->getXpathNodes($this->dom, $xPath . "/BibItem[" . ($no+1) . "]");
+		}
+		else
+		{
+			$nodes = $this->getXpathNodes($this->dom, $xPath);
+		}
 #		echo "Path: " . $xPath . "<br>\n";
 #		var_dump("<pre>", $meta, "</pre>");
 #		var_dump("<pre>", $nodes, "</pre>");
@@ -871,8 +887,109 @@ class ilNestedSetXML
 		{
 
 #echo $nodes[0]->node_name();
+			/* BibItem */
+			if ($nodes[0]->node_name() == "BibItem")
+			{
+				$xml = '<BibItem Type="' . ilUtil::stripSlashes($meta["Type"]) . '" Label="' . ilUtil::stripSlashes($meta["Label"]["Value"]) . '">';
+				$xml .= '<Identifier Catalog="' . ilUtil::stripSlashes($meta["Identifier"]["Catalog"]) . '" Entry="' .  str_replace("\"", "", ilUtil::stripSlashes($meta["Identifier"]["Entry"])) . '"/>';
+				for ($i = 0; $i < count($meta["Language"]); $i++)
+				{
+					$xml .= '<Language Language="' . ilUtil::stripSlashes($meta["Language"][$i]["Language"]) . '"/>';
+				}
+				for ($i = 0; $i < count($meta["Author"]); $i++)
+				{
+					$xml .= '<Author>';
+					for ($j = 0; $j < count($meta["Author"][$i]["FirstName"]); $j++)
+					{
+						$xml .= '<FirstName>' . ilUtil::stripSlashes($meta["Author"][$i]["FirstName"]) . '</FirstName>';
+					}
+					for ($j = 0; $j < count($meta["Author"][$i]["MiddleName"]); $j++)
+					{
+						$xml .= '<MiddleName>' . ilUtil::stripSlashes($meta["Author"][$i]["MiddleName"]) . '</MiddleName>';
+					}
+					for ($j = 0; $j < count($meta["Author"][$i]["LastName"]); $j++)
+					{
+						$xml .= '<LastName>' . ilUtil::stripSlashes($meta["Author"][$i]["LastName"]) . '</LastName>';
+					}
+					$xml .= '</Author>';
+				}
+				$xml .= '<Booktitle Language="' . ilUtil::stripSlashes($meta["Booktitle"]["Language"]) . '">' . ilUtil::stripSlashes($meta["Booktitle"]["Value"]) . '</Booktitle>';
+				for ($i = 0; $i < count($meta["CrossRef"]); $i++)
+				{
+					$xml .= '<CrossRef>' . ilUtil::stripSlashes($meta["CrossRef"][$i]["Value"]) . '</CrossRef>';
+				}
+				$xml .= '<Edition>' . ilUtil::stripSlashes($meta["Edition"]["Value"]) . '</Edition>';
+				for ($i = 0; $i < count($meta["Editor"]); $i++)
+				{
+					$xml .= '<Editor>' . ilUtil::stripSlashes($meta["Editor"][$i]["Value"]) . '</Editor>';
+				}
+				$xml .= '<HowPublished Type="' . ilUtil::stripSlashes($meta["HowPublished"]["Type"]) . '"/>';
+				for ($i = 0; $i < count($meta["WherePublished"]); $i++)
+				{
+					$xml .= '<WherePublished>' . ilUtil::stripSlashes($meta["WherePublished"][$i]["Value"]) . '</WherePublished>';
+				}
+				for ($i = 0; $i < count($meta["Institution"]); $i++)
+				{
+					$xml .= '<Institution>' . ilUtil::stripSlashes($meta["Institution"][$i]["Value"]) . '</Institution>';
+				}
+				if (is_array($meta["Journal"]))
+				{
+					$xml .= '<Journal Note="' . ilUtil::stripSlashes($meta["Journal"]["Note"]) . '" Number="' . ilUtil::stripSlashes($meta["Journal"]["Number"]) . '" Organization="' . ilUtil::stripSlashes($meta["Journal"]["Organization"]) . '"/>';
+				}
+				for ($i = 0; $i < count($meta["Keyword"]); $i++)
+				{
+					$xml .= '<Keyword Language="' . ilUtil::stripSlashes($meta["Keyword"][$i]["Language"]) . '">' . ilUtil::stripSlashes($meta["Keyword"][$i]["Value"]) . '</Keyword>';
+				}
+				if (is_array($meta["Month"]))
+				{
+					$xml .= '<Month>' . ilUtil::stripSlashes($meta["Month"]["Value"]) . '</Month>';
+				}
+				if (is_array($meta["Pages"]))
+				{
+					$xml .= '<Pages>' . ilUtil::stripSlashes($meta["Pages"]["Value"]) . '</Pages>';
+				}
+				$xml .= '<Publisher>' . ilUtil::stripSlashes($meta["Publisher"]["Value"]) . '</Publisher>';
+				for ($i = 0; $i < count($meta["School"]); $i++)
+				{
+					$xml .= '<School>' . ilUtil::stripSlashes($meta["School"][$i]["Value"]) . '</School>';
+				}
+				if (is_array($meta["Series"]))
+				{
+					$xml .= '<Series>';
+					$xml .= '<SeriesTitle>' . ilUtil::stripSlashes($meta["Series"]["SeriesTitle"]) . '</SeriesTitle>';
+#					for ($i = 0; $i < count($meta["Series"]["SeriesEditor"]); $i++)
+					if (isset($meta["Series"]["SeriesEditor"]))
+					{
+#						$xml .= '<SeriesEditor>' . ilUtil::stripSlashes($meta["Series"]["SeriesEditor"][$i]) . '</SeriesEditor>';
+						$xml .= '<SeriesEditor>' . ilUtil::stripSlashes($meta["Series"]["SeriesEditor"]) . '</SeriesEditor>';
+					}
+					if (isset($meta["Series"]["SeriesVolume"]))
+					{
+						$xml .= '<SeriesVolume>' . ilUtil::stripSlashes($meta["Series"]["SeriesVolume"]) . '</SeriesVolume>';
+					}
+					$xml .= '</Series>';
+				}
+				$xml .= '<Year>' . ilUtil::stripSlashes($meta["Year"]["Value"]) . '</Year>';
+				if ($meta["URL_ISBN_ISSN"]["Type"] == "URL")
+				{
+					$xml .= '<URL>' . ilUtil::stripSlashes($meta["URL_ISBN_ISSN"]["Value"]) . '</URL>';
+				}
+				else if ($meta["URL_ISBN_ISSN"]["Type"] == "ISBN")
+				{
+					$xml .= '<ISBN>' . ilUtil::stripSlashes($meta["URL_ISBN_ISSN"]["Value"]) . '</ISBN>';
+				}
+				else if ($meta["URL_ISBN_ISSN"]["Type"] == "ISSN")
+				{
+					$xml .= '<ISSN>' . ilUtil::stripSlashes($meta["URL_ISBN_ISSN"]["Value"]) . '</ISSN>';
+				}
+				$xml .= '</BibItem>';
+#				echo htmlspecialchars($xml);
+
+				$update = true;
+			}
+
 			/* General */
-			if ($nodes[0]->node_name() == "General")
+			else if ($nodes[0]->node_name() == "General")
 			{
 
 				$xml = '<General Structure="' . ilUtil::stripSlashes($meta["Structure"]) . '">';
@@ -1142,7 +1259,10 @@ class ilNestedSetXML
 			{
 				$nodes[0]->unlink_node();
 
-				$xPath = "//MetaData";
+				if (!$xPath == "//Bibliography")
+				{
+					$xPath = "//MetaData";
+				}
 				$this->addXMLNode($xPath, $xml);
 #				echo htmlspecialchars($this->dom->dump_mem(0));
 			}
@@ -1160,6 +1280,10 @@ class ilNestedSetXML
 	*/
 	function getDomContent($xPath, $name = "", $index = 0) 
 	{
+		if ($index == "")
+		{
+			$index = 0;
+		}
 #		echo "Index: " . $index . " | Path: " . $xPath . " | Name: " . $name . "<br>\n";
 		$nodes = $this->getXpathNodes($this->dom, $xPath);
 		if (count($nodes) > 0)

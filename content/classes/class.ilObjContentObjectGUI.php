@@ -325,6 +325,30 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $meta_section);
 	}
 
+	function addBibItemObject()
+	{
+		include_once "content/classes/class.ilBibItemGUI.php";
+		$bib_gui =& new ilBibItemGUI();
+		$bib_gui->setObject($this->object);
+		$bibItemName = $_POST["bibItemName"] ? $_POST["bibItemName"] : $_GET["bibItemName"];
+		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
+		if ($bibItemIndex == "")
+			$bibItemIndex = 0;
+		$bibItemPath = $_POST["bibItemPath"] ? $_POST["bibItemPath"] : $_GET["bibItemPath"];
+		if ($bibItemName != "")
+		{
+			$bib_gui->bib_obj->add($bibItemName, $bibItemPath, $bibItemIndex);
+			$data = $bib_gui->bib_obj->getElement("BibItem");
+			$bibItemIndex = (count($data) - 1);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("bibitem_choose_element"), true);
+		}
+#		echo "Name: " . $bibItemName . " | Path: " . $bibItemPath . " | Index: " . $bibItemIndex . "<br>\n";
+		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $bibItemIndex);
+	}
+
 	function addMeta()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -358,6 +382,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $_GET["meta_section"]);
 	}
 
+	function deleteBibItemObject()
+	{
+		include_once "content/classes/class.ilBibItemGUI.php";
+		$bib_gui =& new ilBibItemGUI();
+		$bib_gui->setObject($this->object);
+		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
+		$bib_gui->bib_obj->delete($_GET["bibItemName"], $_GET["bibItemPath"], $bibItemIndex);
+		if (strpos($bibItemIndex, ",") > 0)
+		{
+			$bibItemIndex = substr($bibItemIndex, 0, strpos($bibItemIndex, ","));
+		}
+		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $bibItemIndex);
+	}
+
 	function deleteMeta()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -378,6 +416,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			"adm_object.php?ref_id=".$_GET["ref_id"]);
 	}
 
+	function editBibItemObject()
+	{
+		include_once "content/classes/class.ilBibItemGUI.php";
+		$bib_gui =& new ilBibItemGUI();
+		$bib_gui->setObject($this->object);
+		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
+		$bibItemIndex *= 1;
+		if ($bibItemIndex < 0)
+		{
+			$bibItemIndex = 0;
+		}
+		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $bibItemIndex);
+	}
+
 	function saveMetaObject()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
@@ -389,7 +441,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
 #		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
 	}
 
-
+	function saveBibItemObject()
+	{
+		include_once "content/classes/class.ilBibItemGUI.php";
+		$bib_gui =& new ilBibItemGUI();
+		$bib_gui->setObject($this->object);
+		$bibItemIndex = $_POST["bibItemIndex"] ? $_POST["bibItemIndex"] : $_GET["bibItemIndex"];
+		$bibItemIndex *= 1;
+		if ($bibItemIndex < 0)
+		{
+			$bibItemIndex = 0;
+		}
+		$bibItemIndex = $bib_gui->save($bibItemIndex);
+		$bib_gui->edit("ADM_CONTENT", "adm_content", "adm_object.php?ref_id=".$_GET["ref_id"], $bibItemIndex);
+#		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]);
+	}
 
 	/**
 	* view object
