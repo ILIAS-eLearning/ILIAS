@@ -63,17 +63,18 @@ class ilFile
 
 	/**
 	* delete trailing slash of path variables
-	* @param string path
+	* @param	string	path
 	* @access	public
-	* @return string path
+	* @return	string	path
 	*/
 	function deleteTrailingSlash($a_path)
 	{
 		// DELETE TRAILING '/'
 		if(substr($a_path,-1) == '/')
 		{
-			$a_path = substr($a_path,-1);
+			$a_path = substr($a_path,0,-1);
 		}
+
 		return $a_path;
 	}
 }
