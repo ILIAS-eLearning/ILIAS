@@ -76,6 +76,13 @@ class ilExplorer
 	var $target_get;
 
 	/**
+	* additional get parameter
+	* @var string
+	* @access public
+	*/
+	var $params_get;
+
+	/**
 	* expanded
 	* @var array
 	* @access public
@@ -141,7 +148,6 @@ class ilExplorer
 
 	/**
 	* set the varname in Get-string
-	* recursive method
 	* @access	public
 	* @param	string		varname containing Ids to be used in GET-string
 	*/
@@ -153,6 +159,26 @@ class ilExplorer
 		}
 
 		$this->target_get = $a_target_get;
+	}
+	
+	/**
+	* set additional params to be passed in Get-string
+	* @access	public
+	* @param	array		
+	*/
+	function setParamsGet($a_params_get)
+	{
+		if (!isset($a_params_get) or !is_array($a_params_get))
+		{
+			$this->ilias->raiseError(get_class($this)."::setTargetGet(): No target given!",$this->ilias->error_obj->WARNING);
+		}
+
+		foreach ($a_params_get as $key => $val)
+		{
+			$str .= "&".$key."=".$val;
+		}
+	
+		$this->params_get = $str;
 	}
 
 
@@ -341,7 +367,7 @@ class ilExplorer
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
-		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id);
+		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
 		if ($this->frameTarget != "")
