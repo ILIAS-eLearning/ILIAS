@@ -165,7 +165,14 @@ class ilObjFile extends ilObject
 
 		$file = ilUtil::getDataDir()."/files/file_".$a_id."/".$row->file_name;
 
-		return filesize($file);
+		if (is_file($file))
+		{
+			return filesize($file);
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	function sendFile()
