@@ -31,7 +31,7 @@ require_once "classes/class.ilFormat.php";
 require_once "classes/class.ObjectDefinition.php";
 require_once "classes/class.perm.php";
 require_once "classes/class.tree.php";
-require_once "classes/class.Language.php";
+require_once "classes/class.ilLanguage.php";
 require_once "classes/class.Log.php";
 
 //include role based access control system
@@ -108,7 +108,7 @@ if ($script != "login.php" && $script != "index.php")
 	}
 	
 	//init language
-	$lng = new Language($ilias->account->prefs["language"]);
+	$lng = new ilLanguage($ilias->account->prefs["language"]);
 
 	// init rbac
 	$rbacsystem = new RbacSystemH();

@@ -28,7 +28,7 @@ if ($_GET["lang"] == "")
 }
 
 //instantiate language
-$lng = new Language($_GET["lang"]);
+$lng = new ilLanguage($_GET["lang"]);
 
 $languages = $lng->getInstalledLanguages();
 
