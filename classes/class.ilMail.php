@@ -432,7 +432,7 @@ class ilMail
 	}
 	/**
 	* send internal message to recipients
-	* @access	public
+	* @access	private
 	* @param    string to
 	* @param    string cc
 	* @param    string bcc
@@ -440,10 +440,10 @@ class ilMail
 	* @param    string message
 	* @param    array attachments
 	* @param    integer id of mail which is stored in sentbox
-	* @param    string 'normal' or 'system'
+	* @param    array 'normal' and/or 'system' and/or 'email'
 	* @return	bool
 	*/
-	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id,$a_type)
+	function distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bcc,$a_subject,$a_message,$a_attachments,$sent_mail_id,$a_type,$a_action)
 	{
 		require_once "classes/class.ilMailbox.php";
 
@@ -452,7 +452,7 @@ class ilMail
 		$rcp_ids = $this->getUserIds(trim($a_rcp_to).",".trim($a_rcp_cc).",".trim($a_rcp_bcc));
 		foreach($rcp_ids as $id)
 		{
-			if(in_array('system',$a_type))
+			if($a_action == 'system')
 			{
 				$inbox_id = 0;
 			}
@@ -783,14 +783,14 @@ class ilMail
 		// ACTIONS FOR TYPE SYSTEM AND NORMAL
 		if(in_array('normal',$a_type))
 		{
-			if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type))
+			if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'normal'))
 			{
 				return $lng->txt("mail_send_error");
 			}
 		}
 		if(in_array('system',$a_type))
 		{
-			if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type))
+			if(!$this->distributeMail($a_rcp_to,$a_rcp_cc,$a_rcp_bc,$a_m_subject,$a_m_message,$a_attachment,$sent_id,$a_type,'system'))
 			{
 				return $lng->txt("mail_send_error");
 			}
