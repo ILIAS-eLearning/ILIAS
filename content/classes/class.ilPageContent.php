@@ -38,7 +38,8 @@ class ilPageContent
 {
 	var $ilias;
 	var $type;
-	var $ed_id; 		// hierarchical editing id
+	var $hier_id; 		// hierarchical editing id
+	var $node;
 
 	/**
 	* Constructor
@@ -51,12 +52,6 @@ class ilPageContent
 		$this->ilias =& $ilias;
 	}
 
-	/**
-	* abstract function, must be implemented by derived classes
-	*/
-	function getXML($a_utf8_encoded = false, $a_short_mode = false, $a_incl_ed_ids = false)
-	{
-	}
 
 	function setType($a_type)
 	{
@@ -68,20 +63,31 @@ class ilPageContent
 		return $this->type;
 	}
 
-	/**
-	* set editing id
-	*/
-	function setEdId($a_ed_id)
+	function setNode(&$a_node)
 	{
-		$this->ed_id = $a_ed_id;
+		$this->node =& $a_node;
+	}
+
+	function &getNode()
+	{
+		return $this->node;
+	}
+
+
+	/**
+	* set hierarchical id
+	*/
+	function setHierId($a_hier_id)
+	{
+		$this->hier_id = $a_hier_id;
 	}
 
 	/**
-	* get editing id
+	* get hierarchical id
 	*/
-	function getEdId()
+	function getHierId()
 	{
-		return $this->ed_id;
+		return $this->hier_id;
 	}
 
 	/**
@@ -91,10 +97,7 @@ class ilPageContent
 	function incEdId($ed_id)
 	{
 		$id = explode("_", $ed_id);
-		if (!is_int(strpos($id[count($id) - 1] ,"r")))	// don't increase "r...c.." table cell numbers
-		{
-			$id[count($id) - 1]++;
-		}
+		$id[count($id) - 1]++;
 		return implode($id, "_");
 	}
 
@@ -105,10 +108,7 @@ class ilPageContent
 	function decEdId($ed_id)
 	{
 		$id = explode("_", $ed_id);
-		if (!is_int(strpos($id[count($id) - 1] ,"r")))	// don't increase "r...c.." table cell numbers
-		{
-			$id[count($id) - 1]--;
-		}
+		$id[count($id) - 1]--;
 		return implode($id, "_");
 	}
 

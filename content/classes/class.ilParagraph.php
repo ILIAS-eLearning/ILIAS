@@ -38,7 +38,6 @@ class ilParagraph extends ilPageContent
 	var $text;
 	var $language;
 	var $characteristic;
-	var $node;
 	var $dom;
 
 	/**
@@ -56,29 +55,12 @@ class ilParagraph extends ilPageContent
 		$this->dom =& $a_dom;
 	}
 
-	function setNode(&$a_node)
-	{
-		$this->node =& $a_node;
-	}
-
-	function &getNode()
-	{
-		return $this->node;
-	}
 
 	function createNode()
 	{
 		$this->node =& $this->dom->create_element("Paragraph");
 	}
 
-	/**
-	*
-	*/
-	/*
-	function appendText($a_text)
-	{
-		$this->text.= $a_text;
-	}*/
 
 	/**
 	*
@@ -108,33 +90,27 @@ class ilParagraph extends ilPageContent
 		{
 			return "";
 		}
-		/*
-		if (!$a_short_mode)
-		{
-			return $this->text;
-		}
-		else
-		{
-			return ilUtil::shortenText($this->xml2output($this->text), 100);
-		}*/
 	}
 
 	/**
 	*
 	*/
+	/*
 	function setCharacteristic($a_char)
 	{
 		$this->characteristic = $a_char;
-	}
+	}*/
 
 	/**
 	*
 	*/
+	/*
 	function getCharacteristic()
 	{
 		return $this->characteristic;
-	}
+	}*/
 
+	/*
 	function setLanguage($a_lang)
 	{
 		$this->language = $a_lang;
@@ -143,26 +119,6 @@ class ilParagraph extends ilPageContent
 	function getLanguage()
 	{
 		return $this->language;
-	}
-
-	/*
-	function getXML($a_utf8_encoded = false, $a_short_mode = false, $a_incl_ed_ids = false)
-	{
-		$ed_id = ($a_incl_ed_ids)
-			? "ed_id=\"".$this->getEdId()."\""
-			: "";
-//echo "in par ed_id:".$ed_id.":<br>";
-		if ($a_utf8_encoded)
-		{
-			return "<Paragraph $ed_id Language=\"".$this->getLanguage().
-				"\">".utf8_encode($this->getText($a_short_mode))."</Paragraph>";
-		}
-		else
-		{
-			return "<Paragraph $ed_id Language=\"".$this->getLanguage().
-				"\">".$this->getText($a_short_mode)."</Paragraph>";
-		}
-
 	}*/
 
 	function input2xml($a_text)
@@ -220,7 +176,6 @@ class ilParagraph extends ilPageContent
 		return $a_text;
 		//return str_replace("<br />", chr(13).chr(10), $a_text);
 	}
-
 
 }
 ?>

@@ -263,23 +263,22 @@
 <!-- Only a minimum of style elements and attributes defined -->
 <!ELEMENT Table (Title?, HeaderCaption?, FooterCaption?, Summary?, TableRow+)>
 <!ATTLIST Table
+	Language (%langcode;) #REQUIRED
 	Id ID #IMPLIED
 	Width CDATA #IMPLIED
-	Height CDATA #IMPLIED
 	Border CDATA #IMPLIED
+	CellPadding CDATA #IMPLIED
+	CellSpacing CDATA #IMPLIED
+	Class CDATA #IMPLIED
 >
 <!ELEMENT HeaderCaption (%titletext;)*>
 <!ELEMENT FooterCaption (%titletext;)*>
 <!ELEMENT Summary (%simpletext;)*>
-<!ATTLIST Summary
-	Language (%langcode;) #IMPLIED
->
 <!ELEMENT TableRow (TableData+)>
 <!ELEMENT TableData (Paragraph | MediaObject | Table)*>
 <!ATTLIST TableData
 	Width CDATA #IMPLIED
-	Colspan CDATA #IMPLIED
-	Rowspan CDATA #IMPLIED
+	Class CDATA #IMPLIED
 >
 <!-- ImageMap -->
 <!-- Client-side image map -->

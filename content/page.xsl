@@ -33,7 +33,7 @@
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
 	<p class="ilParagraph">
-		<!-- <xsl:value-of select="@HierId"/> -->
+		<xsl:value-of select="@HierId"/>
 		<!-- checkbox -->
 		<!--
 		<xsl:if test="$mode = 'edit'">
@@ -86,19 +86,27 @@
 		<br/>
 	</xsl:if>
 
-	<xsl:for-each select="Title">
-		<xsl:value-of select="."/>
-	<br/>
-	</xsl:for-each>
-	<table class="Table">
+	<table>
 	<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
 	<xsl:attribute name="border"><xsl:value-of select="@Border"/></xsl:attribute>
 	<xsl:attribute name="cellspacing"><xsl:value-of select="@CellSpacing"/></xsl:attribute>
 	<xsl:attribute name="cellpadding"><xsl:value-of select="@CellPadding"/></xsl:attribute>
+	<xsl:for-each select="HeaderCaption">
+		<caption align="top">
+		<xsl:value-of select="."/>
+		</caption>
+	</xsl:for-each>
+	<xsl:for-each select="FooterCaption">
+		<caption align="bottom">
+		<xsl:value-of select="."/>
+		</caption>
+	</xsl:for-each>
 	<xsl:for-each select="TableRow">
-		<tr class="TableRow" id="lo_view" valign="top">
+		<tr valign="top">
 			<xsl:for-each select="TableData">
-				<td class="TableData" id="lo_view">
+				<td>
+					<xsl:attribute name="class"><xsl:value-of select="@Class"/></xsl:attribute>
+					<xsl:attribute name="width"><xsl:value-of select="@Width"/></xsl:attribute>
 					<!-- insert commands -->
 					<!-- <xsl:value-of select="@HierId"/> -->
 					<xsl:if test="$mode = 'edit'">
@@ -130,7 +138,7 @@
 	</table>
 	<!-- command selectbox -->
 	<xsl:if test="$mode = 'edit'">
-		<!-- <xsl:value-of select="@HierId"/> -->
+		<xsl:value-of select="@HierId"/>
 		<input type="checkbox" name="target[]">
 			<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
 			</xsl:attribute>

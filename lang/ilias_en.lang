@@ -556,6 +556,8 @@ common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
 content#:#cont_content#:#Content
+content#:#cont_chapters#:#Chapters
+content#:#cont_all_pages#:#All Pages
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
 content#:#cont_insert_par#:#Insert Paragraph
