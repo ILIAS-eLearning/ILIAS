@@ -68,6 +68,8 @@ common#:#bookmark_folder_edit#:#Edit Bookmark Folder
 common#:#bookmark_folder_new#:#New Bookmark Folder
 common#:#bookmark_new#:#New Bookmark
 common#:#bookmark_target#:#Target
+common#:#please_enter_title#:#Please enter a title.
+common#:#please_enter_target#:#Please enter a target.
 common#:#bookmarks#:#Bookmarks
 common#:#bookmarks_of#:#Bookmarks of
 common#:#btn_remove_system#:#Remove from System
@@ -585,6 +587,7 @@ common#:#usr_skin#:#User Skin
 common#:#usr_style#:#User Style
 common#:#usrf#:#User Folder
 common#:#validate#:#Validate
+common#:#import_lm#:#Import Learningmodule
 common#:#value#:#value
 common#:#version#:#Version
 common#:#view#:#View
