@@ -332,6 +332,8 @@ common#:#grp_mem_leave#:#Togli il membro dal gruppo###02 Oct 2003 new variable
 common#:#grp_mem_send_mail#:#Invia una mail al membro###02 Oct 2003 new variable
 common#:#grp_name_exists#:#Esiste gi&#224; un gruppo con questo nome! Per favore, scegline un altro.###17 Oct 2003 new variable
 common#:#grp_new#:#Nuovo gruppo###06 Aug 2003 new variable
+common#:#grp_register#:#Register###21 Nov 2003 new variable
+common#:#grp_registration_completed#:#Registration completed###21 Nov 2003 new variable
 common#:#guest#:#Ospite###20 Aug 2003 new variable
 common#:#guests#:#Ospiti###20 Aug 2003 new variable
 common#:#help#:#Aiuto

@@ -332,6 +332,8 @@ common#:#grp_mem_leave#:#Wyklucz członka grupy
 common#:#grp_mem_send_mail#:#Wyślij członkowi wiadomość
 common#:#grp_name_exists#:#Już jest grupa o takiej samej nazwie! Wybierz inną nazwę.
 common#:#grp_new#:#Nowa Grupa
+common#:#grp_register#:#Register###21 Nov 2003 new variable
+common#:#grp_registration_completed#:#Registration completed###21 Nov 2003 new variable
 common#:#guest#:#Gość
 common#:#guests#:#Goście
 common#:#help#:#Pomoc
@@ -1102,7 +1104,7 @@ forum#:#forums_count_thr#:#Ilość wątków
 forum#:#forums_delete_file#:#Usuń załącznik
 forum#:#forums_download_attachment#:#Pobierz plik
 forum#:#forums_edit_post#:#Edytuj artykuł
-forum#:#forums_info_censor2_post#:#Jesteś pewien, że chcesz kontynuować ukrycie tego artykułu?
+forum#:#forums_info_censor2_post#:#Jesteś pewien, że chcesz kontynuować ukrycie tego artykułu?###21 Nov 2003 content changed
 forum#:#forums_info_censor_post#:#Jesteś pewien, że chcesz ukryć ten artykuł?
 forum#:#forums_info_delete_post#:#Jesteś pewien, że chcesz usunąć ten artykuł włącznie z odpowiedziami?
 forum#:#forums_last_post#:#Ostatni artykuł
