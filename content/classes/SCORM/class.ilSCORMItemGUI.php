@@ -63,7 +63,8 @@ class ilSCORMItemGUI extends ilSCORMObjectGUI
 				$this->tpl->setVariable("ITEM_LOCATION",$slm_obj->getDataDirectory()."/".$resource->getHref());
 				$this->tpl->setVariable("ITEM_ID", $_GET["obj_id"]);
 				$this->tpl->setVariable("REF_ID", $_GET["ref_id"]);
-				//$this->tpl->setVariable("USER_ID",$ilias->account->getId());
+				$this->tpl->setVariable("USER_ID",$ilias->account->getId());
+//				echo "itemid: ".$_GET["obj_id"]."userid: ".$ilias->account->getId();
 				$this->tpl->show();
 				exit;
 			}

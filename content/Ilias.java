@@ -9,18 +9,21 @@ import java.net.URLConnection;
 
 public class Ilias extends Applet
 {
-
+String user_id;
+String item_id;
     public Ilias()
     {
     }
 
     public void init()
     {
+	    user_id=getParameter("user_id");
+	    item_id=getParameter("item_id");
     }
 
     public String LMSInitialize(String s)
     {
-        return getData("lmsInitialize",s);
+        return getData("lmsInitialize","");
     }
 
     public String LMSFinish(String s)
@@ -63,13 +66,13 @@ public class Ilias extends Applet
 
     private String getData(String functionName, String elem)
     {
-       String urlStr="function="+functionName+"&var="+elem;
+       String urlStr="function="+functionName+"&var="+elem+"&user_id="+user_id+"&item_id="+item_id;
        return callServer(urlStr);
     }
 
     private String setData(String functionName, String elem, String value)
     {
-        String urlStr="function="+functionName+"&var="+elem+"&value="+value;
+        String urlStr="function="+functionName+"&var="+elem+"&value="+value+"&user_id="+user_id+"&item_id="+item_id;
        return callServer(urlStr);
     }
 
@@ -78,7 +81,7 @@ public class Ilias extends Applet
         String s1 = "";
         try
         {
-            URL url = new URL(getCodeBase() + "api_test.php?"+ urlString);
+            URL url = new URL(getCodeBase() + "scorm_server.php?"+ urlString);
             URLConnection urlconnection = url.openConnection();
             DataInputStream datainputstream = new DataInputStream(urlconnection.getInputStream());
             int i;
@@ -89,7 +92,8 @@ public class Ilias extends Applet
         }
         catch(IOException ioexception)
         {
-            System.err.println(ioexception);
+	    return "erroe";
+           // System.err.println(ioexception);
         }
         return s1;
     }
