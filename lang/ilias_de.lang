@@ -85,7 +85,6 @@ administration#:#start_scan#:#Start!
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
 administration#:#view_log#:#Zeige Details
-assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#add_answer#:#Antwort anfügen
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
 assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
