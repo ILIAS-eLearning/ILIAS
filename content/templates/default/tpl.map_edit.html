@@ -19,9 +19,39 @@
 	</tr>
 </table>
 <br />
+<!-- BEGIN new_area -->
+<table class="std">
+	<tr class="tblheader">
+		<td class="std" colspan="2">
+			{TXT_NEW_AREA}
+		</td>
+	</tr>
+	<tr>
+		<td class = "option">{TXT_NAME2}</td>
+		<td class = "option_value">
+			<input type="text" size="20" maxlength="200" name="{VAR_NAME2}" value="{VAL_NAME2}" />
+		</td>
+	</tr>
+	<tr>
+		<td class = "option">{TXT_LINK2}</td>
+		<td class = "option_value">
+			<input type="text" size="20" maxlength="200" name="{VAR_LINK2}" value="{VAL_LINK2}" />
+		</td>
+	</tr>
+	<!-- BEGIN commands -->
+	<tr class="std">
+		<td class="submit" colspan="2">
+		<input type="submit" class="submit" name="cmd[{BTN_SAVE}]" value="{TXT_SAVE}">
+		</td>
+	</tr>
+</table>
+<!-- END new_area -->
 <!-- BEGIN area_table -->
 <table class="fullwidth">
 	<tr class="tblheader">
+		<td class="std" width="1">
+			&nbsp;
+		</td>
 		<td class="std">
 			{TXT_NAME}
 		</td>
@@ -38,6 +68,9 @@
 	<!-- BEGIN area_row -->
 	<tr class="{CSS_ROW}">
 		<td class="std">
+			{CHECKBOX}
+		</td>
+		<td class="std">
 			<input type="text" size="20" maxlength="200" name="{VAR_NAME}" value="{VAL_NAME}" />
 		</td>
 		<td class="std">
@@ -53,9 +86,15 @@
 	<!-- END area_row -->
 	<!-- BEGIN commands -->
 	<tr class="std">
-		<td class="submit" colspan="4">
+		<td class="submit" colspan="5">
+		<img src="{IMG_ARROW}" border="0">
+		<input type="submit" class="submit" name="cmd[{BTN_DELETE}]" value="{TXT_DELETE}">
+		</td>
+	</tr>
+	<tr class="std">
+		<td class="submit" colspan="5">
 		<input type="submit" class="submit" name="cmd[{BTN_UPDATE}]" value="{TXT_UPDATE}">
-		&nbsp;&nbsp;{SELECT_TYPE}&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;{SELECT_TYPE}&nbsp;
 		<input type="submit" class="submit" name="cmd[{BTN_ADD_AREA}]" value="{TXT_ADD_AREA}">
 		</td>
 	</tr>

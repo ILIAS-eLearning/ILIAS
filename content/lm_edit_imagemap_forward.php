@@ -43,7 +43,14 @@ if ($_GET["coords"] != "")
 	$_GET["coords"] .= ",";
 }
 $pos = strpos($QUERY_STRING, "?");
-$_GET["coords"] .= substr($QUERY_STRING, $pos + 1, strlen($QUERY_STRING) - $pos);
+if ($pos > 0)
+{
+	$_GET["coords"] .= substr($QUERY_STRING, $pos + 1, strlen($QUERY_STRING) - $pos);
+}
+else
+{
+	$_GET["coords"] .= $QUERY_STRING;
+}
 
 
 // call lm_edit script

@@ -1086,6 +1086,9 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			"Circle" => $this->lng->txt("cont_Circle"),
 			"Poly" => $this->lng->txt("cont_Poly"));
 		$sel_str = ilUtil::formSelect("", "areatype", $sel_arr, false, true);
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("BTN_DELETE", "deleteAreas");
+		$this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
 		$this->tpl->setVariable("SELECT_TYPE", $sel_str);
 		$this->tpl->setVariable("BTN_UPDATE", "updateAreas");
 		$this->tpl->setVariable("TXT_UPDATE", $this->lng->txt("cont_update"));
@@ -1104,6 +1107,8 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			$this->tpl->setVariable("CSS_ROW", $css_row);
 
 			$area =& new ilMapArea($st_item->getId(), $i);
+			$this->tpl->setVariable("CHECKBOX",
+				ilUtil::formCheckBox("", "area[]", $i));
 			$this->tpl->setVariable("VAR_NAME", "name_".$i);
 			$this->tpl->setVariable("VAL_NAME", $area->getTitle());
 			$this->tpl->setVariable("VAL_SHAPE", $area->getShape());
@@ -1234,7 +1239,7 @@ echo "AT:".$_SESSION["il_map_edit_area_type"].":";
 	}
 
 	/**
-	* get next coordinate
+	* show map area properties form
 	*/
 	function showMapAreaPropertiesForm()
 	{
@@ -1244,48 +1249,31 @@ echo "AT:".$_SESSION["il_map_edit_area_type"].":";
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.map_edit.html", true);
 
+echo "coords:".$coords.":<br>";
+
 		$this->tpl->setVariable("FORMACTION",
 			ilUtil::appendUrlParameterString($this->getTargetScript(),
 			"hier_id=".$this->hier_id."&cmd=edpost"));
 
 		$this->tpl->setVariable("TXT_IMAGEMAP", $this->lng->txt("cont_imagemap"));
 
-		// output instruction text
-		$this->tpl->setCurrentBlock("instruction");
-echo "at:$area_type:<br>";
-echo "cntcoords:".$cnt_coords.":<br>";
-		switch ($area_type)
-		{
-			// Rectangle
-			case "Rect" :
-				if ($cnt_coords == 0)
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_tl_corner"));
-				}
-				if ($cnt_coords == 1)
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_br_corner"));
-				}
-				break;
-
-			// circle
-			case "Circle" :
-				if ($cnt_coords == 0)
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_center"));
-				}
-				if ($cnt_coords == 1)
-				{
-					$this->tpl->setVariable("INSTRUCTION", $this->lng->txt("cont_click_circle"));
-				}
-				break;
-		}
+		// map properties input fields (name and link)
+		$this->tpl->setCurrentBlock("new_area");
+		$this->tpl->setVariable("TXT_NAME2", $this->lng->txt("cont_name"));
+		$this->tpl->setVariable("TXT_LINK2", $this->lng->txt("cont_link"));
+		$this->tpl->setVariable("VAR_NAME2", "area_name");
+		$this->tpl->setVariable("VAR_LINK2", "area_link");
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_NEW_AREA", $this->lng->txt("cont_new_area"));
+		$this->tpl->setVariable("BTN_SAVE", "saveArea");
 		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("adm_content");
 
 		// create/update imagemap work copy
 		$st_item =& $this->content_obj->getMediaItem("Standard");
 		$st_item->makeMapWorkCopy();
+		$st_item->addAreaToMapWorkCopy($area_type, $coords);
 
 		// output image map
 		$xml = "<dummy>";
@@ -1298,7 +1286,8 @@ echo "cntcoords:".$cnt_coords.":<br>";
 		$xh = xslt_create();
 		$wb_path = ilUtil::getWebspaceDir("output");
 		$mode = "media";
-		$params = array ('map_edit_mode' => "get_coords",
+		$map_edit_mode = "";
+		$params = array ('map_edit_mode' => $map_edit_mode,
 			'map_item' => $st_item->getId(), 'mode' => $mode,
 			'link_params' => "ref_id=".$_GET["ref_id"]."&rand=".rand(1,999999),
 			'ref_id' => $_GET["ref_id"], 'pg_frame' => "", 'webspace_path' => $wb_path);
@@ -1307,6 +1296,7 @@ echo "cntcoords:".$cnt_coords.":<br>";
 		echo xslt_error($xh);
 		xslt_free($xh);
 		$this->tpl->setVariable("IMAGE_MAP", $output);
+
 
 		$this->tpl->parseCurrentBlock();
 	}
@@ -1332,6 +1322,7 @@ echo "cntcoords:".$cnt_coords.":<br>";
 		$this->tpl->setCurrentBlock("instruction");
 echo "at:$area_type:<br>";
 echo "cntcoords:".$cnt_coords.":<br>";
+echo "coords:".$coords.":<br>";
 		switch ($area_type)
 		{
 			// Rectangle
@@ -1407,7 +1398,62 @@ echo "cntcoords:".$cnt_coords.":<br>";
 			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
 	}
 
+	/**
+	* delete map areas
+	*/
+	function deleteAreas()
+	{
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$max = ilMapArea::_getMaxNr($st_item->getId());
 
+		if (count($_POST["area"]) > 0)
+		{
+			foreach ($_POST["area"] as $area_nr)
+			{
+				$st_item->deleteMapArea($area_nr);
+			}
+
+			$this->content_obj->update();
+			sendInfo($this->lng->txt("cont_areas_deleted"), true);
+		}
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
+	}
+
+	/**
+	* save new map area
+	*/
+	function saveArea()
+	{
+		$area_type = $_SESSION["il_map_edit_area_type"];
+		$coords = $_SESSION["il_map_edit_coords"];
+
+		$st_item =& $this->content_obj->getMediaItem("Standard");
+		$max = ilMapArea::_getMaxNr($st_item->getId());
+
+		// make new area object
+		$area = new ilMapArea();
+		$area->setItemId($st_item->getId());
+		$area->setShape($area_type);
+		$area->setCoords($coords);
+		$area->setNr($max + 1);
+		$area->setTitle($_POST["area_name"]);
+		$area->setLinkType(IL_EXT_LINK);
+		$area->setHref($_POST["area_link"]);
+
+		// put area into item and update media object
+		$st_item->addMapArea($area);
+		$this->content_obj->update();
+
+		sendInfo($this->lng->txt("cont_saved_map_area"), true);
+		header("Location: ".ilUtil::appendUrlParameterString($this->getReturnLocation(),
+			"mode=page_edit&cmd=editMapAreas&hier_id=".$_GET["hier_id"]));
+	}
+
+
+	/**
+	*
+	*/
 	function copyToClipboard()
 	{
 		$this->ilias->account->addObjectToClipboard($this->content_obj->getId(), $this->content_obj->getType()
@@ -1416,6 +1462,9 @@ echo "cntcoords:".$cnt_coords.":<br>";
 		header("Location: ".$this->getReturnLocation());
 	}
 
+	/**
+	*
+	*/
 	function centerAlign()
 	{
 		$std_alias_item =& new ilMediaAliasItem($this->dom, $this->getHierId(), "Standard");
