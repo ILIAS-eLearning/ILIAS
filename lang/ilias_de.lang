@@ -203,6 +203,7 @@ common#:#err_over_3_param#:#Mehr als 3 Parameter!
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Login ungültig
+common#:#err_wrong_password#:#falsches Passwort
 common#:#error_recipient#:#Empfänger von Fehlermeldungen
 common#:#execute#:#Ausführen
 common#:#export_html#:#Exportieren als HTML-Datei
@@ -257,6 +258,8 @@ common#:#glo_added#:#Glossar hinzugefügt
 common#:#glo_new#:#Neues Glossar
 common#:#glossary#:#Glossar
 common#:#glossary_added#:#Glossar hinzugefügt
+common#:#group_applicants#:#Bewerber
+common#:#group_desc#:#Gruppenbeschreibung
 common#:#group_any_objects#:#Keine Unterobjekte vorhanden
 common#:#group_details#:#Gruppendetails
 common#:#group_filesharing#:#Gruppen-Filesharing
@@ -286,6 +289,7 @@ common#:#guest#:#Gast
 common#:#guests#:#Gäste
 common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
+common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
 common#:#host#:#Host
@@ -715,10 +719,12 @@ common#:#setUserLanguage#:#Benutzersprache ändern
 common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#settings#:#Einstellungen
+common#:#show_structure#:#Strukturansicht einblenden
 common#:#show_details#:#Details anzeigen
 common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
+common#:#show_structrue#:#Strukturansicht einschalten
 common#:#signature#:#Signatur
 common#:#slm#:#SCORM Lernmodul
 common#:#slm_added#:#SCORM Lernmodul angelegt
