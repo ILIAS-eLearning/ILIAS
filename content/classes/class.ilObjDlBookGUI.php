@@ -68,22 +68,28 @@ class ilObjDlBookGUI extends ilObjLearningModuleGUI
 
     function setilLMMenu()
 	{
-		/*
+		
 		include_once("./classes/class.ilTemplate.php");
 
 		$tpl_menu =& new ilTemplate("tpl.buttons.html",true,true);
 		
 		$tpl_menu->setCurrentBlock("btn_cell");
-		$tpl_menu->setVariable("BTN_LINK","../mail.php");
-		$tpl_menu->setVariable("BTN_TXT","Mail");
+		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=export&ref_id=".$_GET["ref_id"]);
+		$tpl_menu->setVariable("BTN_TXT","Export");
 		// $tpl_menu->setVariable("BTN_TARGET","...");
 		$tpl_menu->parseCurrentBlock();
 
+/*
+		$tpl_menu->setVariable("BTN_LINK","./lm_presentation.php?cmd=export&ref_id=".$_GET["ref_id"]);
+		$tpl_menu->setVariable("BTN_TXT","PDF-Export");
+		// $tpl_menu->setVariable("BTN_TARGET","...");
+		$tpl_menu->parseCurrentBlock();
+*/		
 		$tpl_menu->setCurrentBlock("btn_row");
 		$tpl_menu->parseCurrentBlock();
 
 		return $tpl_menu->get();
-		*/
+		
 	}
 }
 ?>
