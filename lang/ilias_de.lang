@@ -3919,7 +3919,7 @@ payment#:#paya_added_new_object#:#Ein neues Objekt wurde angelegt. Bitte bearbei
 payment#:#paya_err_adding_object#:#Fehler beim Anlegen des Objektes
 payment#:#paya_edit_pay_method#:#Bezahlart bearbeiten
 payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
-payment#:#paya_no_booking_id_given#:#Fehler kein Datensatz angegeben
+payment#:#paya_no_booking_id_given#:#Fehler: kein Datensatz angegeben
 payment#:#paya_transaction#:#Transaktion
 payment#:#paya_order_date#:#Bestelldatum
 payment#:#paya_payed#:#Bezahlt
@@ -3931,3 +3931,6 @@ payment#:#pay_deleted_booking#:#Der Datensatz wurde gelöscht.
 payment#:#paya_customer#:#Käufer
 payment#:#paya_payed_access#:#Bezahlt/Zugriff
 payment#:#update#:#Aktualisieren
+payment#:#paya_bookings_available#:#Dieses Objekt wurde bereits gekauft. Bitte löschen Sie zuerst die Statistikdaten.
+payment#:#paya_sure_delete_object#:#Sind Sie sicher, dass dieses Objekt nicht mehr verkauft werden soll? Alle zugehörigen Daten werden gelöscht.
+payment#:#paya_deleted_object#:#Das Payment wurde für dieses Objekt aufgelöst. Alle zugehörigen Daten wurden entfernt.

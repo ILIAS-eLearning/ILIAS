@@ -3935,3 +3935,6 @@ payment#:#pay_deleted_booking#:#The entry has been deleted.
 payment#:#paya_customer#:#Customer
 payment#:#paya_payed_access#:#Payed/Access
 payment#:#update#:#Update
+payment#:#paya_bookings_available#:#This object has been sold. Please delete all statistic data first.
+payment#:#paya_sure_delete_object#:#Are you sure, you want to stop payment for this object? All assigned data will get lost.
+payment#:#paya_deleted_object#:#Stoped payment for the selected object.

@@ -123,13 +123,18 @@ class ilPaymentObject
 	}
 	function delete()
 	{
-		$query = "DELETE FROM payment_objects ".
-			"WHERE pobject_id = '".$this->getPobjectId()."'";
-
-		$this->db->query($query);
-
-		return true;
+		if($this->getPobjectId())
+		{
+			$query = "DELETE FROM payment_objects ".
+				"WHERE pobject_id = '".$this->getPobjectId()."'";
+			
+			$this->db->query($query);
+			
+			return true;
+		}
+		return false;
 	}
+
 	function update()
 	{
 		$query = "UPDATE payment_objects ".
