@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.99 2004/10/03 19:13:25 hschottm Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.100 2004/10/03 19:41:42 hschottm Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -1955,21 +1955,13 @@ class ilObjGroupGUI extends ilObjectGUI
 		$format_title->setFgColor('silver');
 		$worksheet =& $workbook->addWorksheet();
 		$column = 0;
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("email")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("gender")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("firstname")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("lastname")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("person_title")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("institution")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("department")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("street")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("zipcode")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("city")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("country")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("phone_office")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("phone_home")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("phone_mobile")), $format_title);
-		$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt("fax")), $format_title);
+		$profile_data = array("email", "gender", "firstname", "lastname", "person_title", "institution", 
+			"department", "street", "zipcode","city", "country", "phone_office", "phone_home", "phone_mobile",
+			"fax", "matriculation");
+		foreach ($profile_data as $data)
+		{
+			$worksheet->writeString(0, $column++, $this->cleanString($this->lng->txt($data)), $format_title);
+		}
 		$member_ids = $this->object->getGroupMemberIds($this->object->getRefId());
 		$row = 1;
 		foreach ($member_ids as $member_id)
@@ -2063,6 +2055,14 @@ class ilObjGroupGUI extends ilObjectGUI
 			if ($member->getPref("public_fax")=="y")
 			{
 				$worksheet->writeString($row, $column++, $this->cleanString($member->getFax()));
+			}
+			else
+			{
+				$column++;
+			}
+			if ($member->getPref("public_matriculation")=="y")
+			{
+				$worksheet->writeString($row, $column++, $this->cleanString($member->getMatriculation()));
 			}
 			else
 			{
