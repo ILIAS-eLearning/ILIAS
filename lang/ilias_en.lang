@@ -953,8 +953,16 @@ content#:#cont_set_class#:#Set Class
 content#:#cont_set_width#:#Set Width
 content#:#cont_show#:#Show
 content#:#cont_show_citation#:#Show with citation
-content#:#cont_size#:#Size
+content#:#cont_size#:#Size (Bytes)
 content#:#cont_source#:#Quelle
+content#:#cont_mob_inst_prop#:#Instance Properties
+content#:#cont_mob_prop#:#Object Properties
+content#:#cont_mob_files#:#Object Files
+content#:#cont_back#:#Back
+content#:#cont_cant_del_std#:#Deletion of standard view file not possible.
+content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
+content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.
+content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.
 content#:#cont_st_title#:#Chapter Title
 content#:#cont_std_view#:#Standard View
 content#:#cont_structure#:#structure

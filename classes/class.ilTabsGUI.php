@@ -36,6 +36,7 @@ class ilTabsGUI
 	var $obj_type;
 	var $tpl;
 	var $lng;
+	var $tabs;
 	var $objDefinition;
 
 	/**
@@ -68,21 +69,39 @@ class ilTabsGUI
 		$this->target_script = $a_script;
 	}
 
+	function getTargetScript()
+	{
+		return $this->target_script;
+	}
+
+	function setTabs($a_tabs)
+	{
+		$this->tabs = $a_tabs;
+	}
+
 	function display()
 	{
+
 		$tabs = array();
 		$this->tpl->addBlockFile($this->temp_var, "tabs", "tpl.tabs.html");
-		$d = $this->objDefinition->getProperties($this->obj_type);
 
-		foreach ($d as $key => $row)
+		if(!is_array($this->tabs))
 		{
-			$tabs[] = array($row["lng"], $row["name"]);
+			$d = $this->objDefinition->getProperties($this->obj_type);
+
+			foreach ($d as $key => $row)
+			{
+				$tabs[] = array($row["lng"], $row["name"]);
+			}
+		}
+		else
+		{
+			$tabs = $this->tabs;
 		}
 
 		foreach ($tabs as $row)
 		{
 			$i++;
-
 			if ($row[1] == $_GET["cmd"])
 			{
 				$tabtype = "tabactive";
