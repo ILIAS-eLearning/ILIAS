@@ -266,7 +266,7 @@ class RoleObject extends Object
 		{
 			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 			$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.adm_perm_role.html");
-			$tpl->addBlockFile("LOCATOR", "locator", "tpl.adm_locator.html");
+			$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
 			$obj_data = getTypeList();
 			// BEGIN OBJECT_TYPES

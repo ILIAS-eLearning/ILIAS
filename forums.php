@@ -11,7 +11,6 @@ require_once "./include/ilias_header.inc";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
 
-$tpl->setVariable("TXT_FORUMS", $lng->txt("forums_available"));
 
 for ($i = 0; $i < 3; $i++)
 {
