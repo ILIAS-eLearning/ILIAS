@@ -30,13 +30,20 @@
 *
 * @package ilias
 */
-
 require_once "./include/inc.header.php";
 
 // catch hack attempts
 if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 {
 	$ilias->raiseError($lng->txt("msg_not_available_for_anon"),$ilias->error_obj->MESSAGE);
+}
+
+if (isset($_POST))
+{
+	foreach ($_POST as $key => $val)
+	{
+		$POST[$key] = ilUtil::prepareFormOutput($val);
+	}
 }
 
 $webspace_dir = $ilias->ini->readVariable("server","webspace_dir");
@@ -166,13 +173,7 @@ if ($_GET["cmd"] == "save")
 {
 	if (!empty($_POST["usr_upload"]))
 	{
-	upload_file();
-	//echo "./".$target_file;
-	//exit;
-	//2$tpl->setVariable("IMAGE_PATH", "./".$target_file);
-
-	//3header ("Location: usr_profile.php");
-	//4exit;
+		upload_file();
 	}
 	
 	// error content
@@ -326,6 +327,9 @@ if ($_GET["cmd"] == "save")
 //get all languages
 $languages = $lng->getInstalledLanguages();
 
+// preselect previous chosen language otherwise saved language
+$selected_lang = (isset($_POST["usr_language"])) ? $_POST["usr_language"] : $ilias->account->getLanguage();
+
 //go through languages
 foreach ($languages as $lang_key)
 {
@@ -333,7 +337,7 @@ foreach ($languages as $lang_key)
 	$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
 	$tpl->setVariable("LANGSHORT", $lang_key);
 
-	if ($ilias->account->getLanguage() == $lang_key)
+	if ($selected_lang == $lang_key)
 	{
 		$tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
 	}
@@ -428,9 +432,9 @@ $tpl->setVariable("TXT_CONTACT_DATA", $lng->txt("contact_data"));
 $tpl->setVariable("TXT_SETTINGS", $lng->txt("settings"));
 
 //values
-$tpl->setVariable("NICKNAME", $ilias->account->getLogin());
-$tpl->setVariable("FIRSTNAME", $ilias->account->getFirstname());
-$tpl->setVariable("LASTNAME", $ilias->account->getLastname());
+$tpl->setVariable("NICKNAME", ilUtil::prepareFormOutput($ilias->account->getLogin()));
+$tpl->setVariable("FIRSTNAME", ilUtil::prepareFormOutput($ilias->account->getFirstname()));
+$tpl->setVariable("LASTNAME", ilUtil::prepareFormOutput($ilias->account->getLastname()));
 
 // gender selection
 $gender = strtoupper($ilias->account->getGender());
@@ -440,19 +444,19 @@ if (!empty($gender))
 	$tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
 }
 
-$tpl->setVariable("TITLE", $ilias->account->getUTitle());
-$tpl->setVariable("INSTITUTION", $ilias->account->getInstitution());
-$tpl->setVariable("DEPARTMENT", $ilias->account->getDepartment());
-$tpl->setVariable("STREET", $ilias->account->getStreet());
-$tpl->setVariable("ZIPCODE", $ilias->account->getZipcode());
-$tpl->setVariable("CITY", $ilias->account->getCity());
-$tpl->setVariable("COUNTRY", $ilias->account->getCountry());
-$tpl->setVariable("PHONE_OFFICE", $ilias->account->getPhoneOffice());
-$tpl->setVariable("PHONE_HOME", $ilias->account->getPhoneHome());
-$tpl->setVariable("PHONE_MOBILE", $ilias->account->getPhoneMobile());
-$tpl->setVariable("FAX", $ilias->account->getFax());
+$tpl->setVariable("TITLE", ilUtil::prepareFormOutput($ilias->account->getUTitle()));
+$tpl->setVariable("INSTITUTION", ilUtil::prepareFormOutput($ilias->account->getInstitution()));
+$tpl->setVariable("DEPARTMENT", ilUtil::prepareFormOutput($ilias->account->getDepartment()));
+$tpl->setVariable("STREET", ilUtil::prepareFormOutput($ilias->account->getStreet()));
+$tpl->setVariable("ZIPCODE", ilUtil::prepareFormOutput($ilias->account->getZipcode()));
+$tpl->setVariable("CITY", ilUtil::prepareFormOutput($ilias->account->getCity()));
+$tpl->setVariable("COUNTRY", ilUtil::prepareFormOutput($ilias->account->getCountry()));
+$tpl->setVariable("PHONE_OFFICE", ilUtil::prepareFormOutput($ilias->account->getPhoneOffice()));
+$tpl->setVariable("PHONE_HOME", ilUtil::prepareFormOutput($ilias->account->getPhoneHome()));
+$tpl->setVariable("PHONE_MOBILE", ilUtil::prepareFormOutput($ilias->account->getPhoneMobile()));
+$tpl->setVariable("FAX", ilUtil::prepareFormOutput($ilias->account->getFax()));
 $tpl->setVariable("EMAIL", $ilias->account->getEmail());
-$tpl->setVariable("HOBBY", $ilias->account->getHobby());		// here
+$tpl->setVariable("HOBBY", ilUtil::prepareFormOutput($ilias->account->getHobby()));		// here
 
 include_once "./classes/class.ilObjRole.php";
 $roleObj = new ilObjRole($rbacadmin->getDefaultRole($_SESSION["AccountId"]));

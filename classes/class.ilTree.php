@@ -823,7 +823,7 @@ class ilTree
 		global $objDefinition, $lng;
 		
 		$data = $a_row;
-		$data["desc"] = $a_row["description"];
+		$data["desc"] = $a_row["description"];  // for compability
 
 		// multilingual support systemobjects (sys) & categories (db)
 		$translation_type = $objDefinition->getTranslationType($data["type"]);
@@ -860,7 +860,10 @@ class ilTree
 				$data["desc"] = $row->description;
 			}
 		}
-		
+
+		$data["title"] = ilUtil::stripSlashes($data["title"]);
+		$data["description"] = ilUtil::stripSlashes($data["description"]);
+		$data["desc"] = ilUtil::stripSlashes($data["desc"]);
 		/*
 		$data = array(
 					"ref_id"		=> $a_row->ref_id,

@@ -97,13 +97,13 @@ function updateObject ($a_obj_id,$a_title,$a_desc,$a_len_title=MAXLENGTH_OBJ_TIT
 	}
 
 	// cut length of text
-	$a_title = addslashes(ilUtil::shortenText($a_title,$a_len_title,$a_dots));
-	$_desc = addslashes(ilUtil::shortenText($a_desc,$a_len_desc,$a_dots));
+	$a_title = ilUtil::shortenText($a_title,$a_len_title,$a_dots);
+	$_desc = ilUtil::shortenText($a_desc,$a_len_desc,$a_dots);
 
 	$q = "UPDATE object_data ".
 		 "SET ".
-		 "title='".$a_title."',".
-		 "description='".$a_desc."', ".
+		 "title='".addslashes($a_title)."',".
+		 "description='".addslashes($a_desc)."', ".
 		 "last_update=now() ".
 		 "WHERE obj_id='".$a_obj_id."'";
 	$ilias->db->query($q);
@@ -136,7 +136,7 @@ function updateObjectValue($a_obj_id,$a_column,$a_value)
 	}
 
 	$q = "UPDATE object_data ".
-		 "SET ".$a_column."='".$a_value."',".
+		 "SET ".$a_column."='".addslashes($a_value)."',".
 		 "last_update=now() ".
 		 "WHERE obj_id='".$a_id."'";
 	$ilias->db->query($q);
@@ -156,9 +156,9 @@ function fetchObjectData($a_row)
 					"obj_id"		=> $a_row->obj_id,
 					"ref_id"		=> $a_row->ref_id,
 					"type"			=> $a_row->type,
-					"title"			=> stripslashes($a_row->title),
-					"description"	=> stripslashes($a_row->description),	// for compability only
-					"desc"			=> stripslashes($a_row->description),
+					"title"			=> ilUtil::stripSlashes($a_row->title),
+					"description"	=> ilUtil::stripSlashes($a_row->description),	// for compability only
+					"desc"			=> ilUtil::stripSlashes($a_row->description),
 					"usr_id"		=> $a_row->owner,	// compability
 					"owner"			=> $a_row->owner,
 					"create_date"	=> $a_row->create_date,
@@ -295,7 +295,7 @@ function createNewOperation ($a_operation,$a_description)
 	$q = "INSERT INTO operations ".
 		 "(operation,description) ".
 		 "VALUES ".
-		 "('".$a_operation."','".$a_description."')";
+		 "('".addslashes($a_operation)."','".addslashes($a_description)."')";
 	$ilias->db->query($q);
 	
 	return getLastInsertId();
@@ -411,7 +411,7 @@ function loginExists($a_login,$a_user_id = 0)
 	}
 
 	$q = "SELECT DISTINCT login FROM usr_data ".
-		 "WHERE login = '".$a_login."' ".$clause;
+		 "WHERE login = '".ilUtil::stripSlashes($a_login)."' ".$clause;
 	$r = $ilias->db->query($q);
 	
 	if ($r->numRows() == 1)

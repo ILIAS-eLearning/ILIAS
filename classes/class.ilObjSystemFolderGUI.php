@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.12 2003/10/27 16:20:53 shofmann Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.13 2003/10/27 16:27:56 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -88,7 +88,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->maxcount = count($this->data["data"]);
 
 		// sorting array
-		require_once "./include/inc.sort.php";
+		include_once "./include/inc.sort.php";
 		$this->data["data"] = sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
 
 		// now compute control information
@@ -147,11 +147,17 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$form_valid = false;
 			}
 
+			// prepare output
+			foreach ($_POST as $key => $val)
+			{
+				$_POST[$key] = ilUtil::prepareFormOutput($val);
+			}
+
 			if (!$form_valid)	//required fields not satisfied. Set formular to already fill in values
 			{
 		////////////////////////////////////////////////////////////
 		// load user modified settings again
-
+		
 				// basic data
 				$settings["inst_name"] = $_POST["inst_name"];
 				$settings["inst_info"] = $_POST["inst_info"];

@@ -62,7 +62,7 @@ function loginPage()
 	$tpl->setVariable("FORMACTION","login.php");
 	$tpl->setVariable("TARGET","target=\"_parent\"");
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
-	$tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".urldecode($_GET["fullname"])."!");
+	$tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".urldecode(ilUtil::stripSlashes($_GET["fullname"]))."!");
 	$tpl->setVariable("TXT_REGISTERED", $lng->txt("txt_registered"));
 	$tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
 	$tpl->setVariable("USERNAME", $_GET["username"]);
@@ -137,7 +137,7 @@ function saveForm()
 	$userObj->saveAsNew();
 
 	// setup user preferences
-	$userObj->setLanguage($_POST["usr_language"]);
+	$userObj->setLanguage($_POST["Fobject"]["language"]);
 	$userObj->writePrefs();
 
 	//set role entries
@@ -158,7 +158,7 @@ function saveForm()
 	$bmf->createNewBookmarkTree();
 
 
-	header("location: register.php?cmd=login&username=".$_POST["Fobject"]["login"]."&password=".$_POST["Fobject"]["passwd"]."&fullname=".urlencode($userObj->getFullname()));
+	header("location: register.php?cmd=login&username=".$_POST["Fobject"]["login"]."&password=".$_POST["Fobject"]["passwd"]."&fullname=".urlencode(ilUtil::stripSlashes($userObj->getFullname())));
 	exit();
 }
 
@@ -167,13 +167,10 @@ function displayForm ()
 {
 	global $tpl,$ilias,$lng;
 
-
-	//instantiate login template
+	// load login template
 	$tpl->addBlockFile("CONTENT", "content", "tpl.usr_registration.html");
 
 	sendInfo();
-
-
 
 	// role selection (only those roles marked with allow_register)
 	$q = "SELECT * FROM role_data ".
@@ -194,7 +191,7 @@ function displayForm ()
 		$rol[$obj_data["obj_id"]] = $obj_data["title"];
 	}
 
-	$role = ilUtil::formSelectWoTranslation($Fobject["default_role"],"Fobject[default_role]",$rol);
+	$role = ilUtil::formSelectWoTranslation($_SESSION["error_post_vars"]["Fobject"]["default_role"],"Fobject[default_role]",$rol);
 
 	$data = array();
 	$data["fields"] = array();
@@ -219,10 +216,19 @@ function displayForm ()
 	$data["fields"]["hobby"] = "";
 	$data["fields"]["default_role"] = $role;
 
+	// fill presets
 	foreach ($data["fields"] as $key => $val)
 	{
 		$tpl->setVariable("TXT_".strtoupper($key), $lng->txt($key));
-		$tpl->setVariable(strtoupper($key), $val);
+
+		if ($key == "default_role")
+		{
+			$tpl->setVariable(strtoupper($key), $val);
+		}
+		else
+		{
+			$tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+		}
 	}
 
 	$tpl->setVariable("FORMACTION", "register.php?cmd=save");
@@ -240,13 +246,16 @@ function displayForm ()
 	// language selection
 	$languages = $lng->getInstalledLanguages();
 
+	// preselect previous chosen language otherwise default language
+	$selected_lang = (isset($_SESSION["error_post_vars"]["Fobject"]["language"])) ? $_SESSION["error_post_vars"]["Fobject"]["language"] : $ilias->getSetting("language");
+	
 	foreach ($languages as $lang_key)
 	{
 		$tpl->setCurrentBlock("language_selection");
 		$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
 		$tpl->setVariable("LANGSHORT", $lang_key);
 
-		if ($ilias->getSetting("language") == $lang_key)
+		if ($selected_lang == $lang_key)
 		{
 			$tpl->setVariable("SELECTED_LANG", "selected=\"selected\"");
 		}
@@ -255,29 +264,23 @@ function displayForm ()
 	} // END language selection
 
 	// FILL SAVED VALUES IN CASE OF ERROR
-	$tpl->setVariable("LOGIN",$_SESSION["error_post_vars"]["Fobject"]["login"]);
-	$tpl->setVariable("FIRSTNAME",$_SESSION["error_post_vars"]["Fobject"]["firstname"]);
-	$tpl->setVariable("LASTNAME",$_SESSION["error_post_vars"]["Fobject"]["lastname"]);
-	$tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
-	$tpl->setVariable("INSTITUTION",$_SESSION["error_post_vars"]["Fobject"]["institution"]);
-	$tpl->setVariable("DEPARTMENT",$_SESSION["error_post_vars"]["Fobject"]["department"]);
-	$tpl->setVariable("STREET",$_SESSION["error_post_vars"]["Fobject"]["street"]);
-	$tpl->setVariable("CITY",$_SESSION["error_post_vars"]["Fobject"]["city"]);
-	$tpl->setVariable("ZIPCODE",$_SESSION["error_post_vars"]["Fobject"]["zipcode"]);
-	$tpl->setVariable("COUNTRY",$_SESSION["error_post_vars"]["Fobject"]["country"]);
-	$tpl->setVariable("PHONE_OFFICE",$_SESSION["error_post_vars"]["Fobject"]["phone_office"]);
-	$tpl->setVariable("PHONE_HOME",$_SESSION["error_post_vars"]["Fobject"]["phone_home"]);
-	$tpl->setVariable("PHONE_MOBILE",$_SESSION["error_post_vars"]["Fobject"]["phone_mobile"]);
-	$tpl->setVariable("FAX",$_SESSION["error_post_vars"]["Fobject"]["fax"]);
-	$tpl->setVariable("EMAIL",$_SESSION["error_post_vars"]["Fobject"]["email"]);
-	$tpl->setVariable("HOBBY",$_SESSION["error_post_vars"]["Fobject"]["hobby"]);
-
-	// gender selection
-	$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
-		
-	if (!empty($gender))
+	if (isset($_SESSION["error_post_vars"]["Fobject"]))
 	{
-		$tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
+		foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
+		{
+			if ($key != "default_role" and $key != "language")
+			{
+				$tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+			}
+		}
+
+		// gender selection
+		$gender = strtoupper($_SESSION["error_post_vars"]["Fobject"]["gender"]);
+
+		if (!empty($gender))
+		{
+			$tpl->setVariable("BTN_GENDER_".$gender,"checked=\"checked\"");
+		}
 	}
 
 	$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
@@ -288,6 +291,7 @@ function displayForm ()
 
 	$tpl->show();
 }
+
 function getUserAgreement()
 {
 	global $lng, $ilias;

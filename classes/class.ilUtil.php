@@ -1221,6 +1221,17 @@ class ilUtil
 	}
 	
 	/**
+	* prepares string output for html forms
+	* @access	public
+	* @param	string
+	* @return	string
+	*/
+	function prepareFormOutput($a_str)
+	{
+		return htmlspecialchars(ilUtil::stripSlashes($a_str));
+	}
+
+	/**
 	* removes object from all user's desktops
 	* @access	public
 	* @param	integer	ref_id
