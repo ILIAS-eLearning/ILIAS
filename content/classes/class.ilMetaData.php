@@ -36,13 +36,15 @@ class ilMetaData
 	var $ilias;
 
 	// attributes of the "General" Section
-	var $identifier;		// +, array
+	var $import_id;			// +, array
 	var $title;				// 1
 	var $language;			// +, array
 	var $description;		// +, array
 	var $keyword;			// +, array
 	var $coverage;			// ?, optional
 	var $structure;			// "Atomic" | "Collection" | "Networked" | "Hierarchical" | "Linear"
+	var $id;
+	var $type;
 
 	/**
 	* Constructor
@@ -54,7 +56,7 @@ class ilMetaData
 
 		$this->ilias =& $ilias;
 
-		$identifier = array();
+		$import_id = array();
 		$title = "";
 		$language = array();
 		$description = array();
@@ -67,36 +69,36 @@ class ilMetaData
 	* set identifier catalog value
 	* note: only one ID implemented currently
 	*/
-	function setIdentifierCatalog($a_cdata)
+	function setImportIdentifierCatalog($a_cdata)
 	{
-		$this->identifier[0]["catalog"] = $a_data;
+		$this->import_id[0]["catalog"] = $a_data;
 	}
 
 	/**
 	* set identifier entry ID
 	* note: only one ID implemented currently
 	*/
-	function setIdentifierEntryID($a_id)
+	function setImportIdentifierEntryID($a_id)
 	{
-		$this->identifier[0]["entry_id"] = $a_id;
+		$this->import_id[0]["entry_id"] = $a_id;
 	}
 
 	/**
 	* get identifier catalog value
 	* note: only one ID implemented currently
 	*/
-	function getIdentifierCatalog()
+	function getImportIdentifierCatalog()
 	{
-		return $this->identifier[0]["catalog"];
+		return $this->import_id[0]["catalog"];
 	}
 
 	/**
 	* get identifier entry ID
 	* note: only one ID implemented currently
 	*/
-	function getIdentifierEntryID()
+	function getImportIdentifierEntryID()
 	{
-		return $this->identifier[0]["entry_id"];
+		return $this->import_id[0]["entry_id"];
 	}
 
 	/**
@@ -110,10 +112,41 @@ class ilMetaData
 	/**
 	* get title
 	*/
-	function getTitle($a_title)
+	function getTitle()
 	{
 		return $a_title;
 	}
+
+	/**
+	* set id
+	*/
+	function setID($a_id)
+	{
+		$this->id = $a_id;
+	}
+
+	function getID()
+	{
+		return $this->id;
+	}
+
+	function setType($a_type)
+	{
+		$this->type = $a_type;
+	}
+
+	function getType()
+	{
+		return $this->type;
+	}
+
+	function create()
+	{
+		$query = "INSERT INTO meta_data (obj_id, obj_type, title) VALUES ".
+			"('".$this->getId()."','".$this->getType()."','".$this->getTitle()."')";
+		$this->ilias->db->query($query);
+	}
+
 
 
 }

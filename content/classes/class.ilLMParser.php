@@ -46,17 +46,27 @@ class ilLMParser extends ilSaxParser
 	var $current_object;	// at the time a LearningModule, PageObject or StructureObject
 	var $meta_data;			// current meta data object
 	var $paragraph;
+	var $lm_id;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLMParser($a_xml_file)
+	function ilLMParser($a_lm_id, $a_xml_file)
 	{
 		parent::ilSaxParser($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
 		$this->structure_objects = array();
+		$this->lm_id = $a_lm_id;
+
+		// Todo: The following has to go to other places
+		$query = "DELETE FROM lm_structure_object WHERE lm_id ='".$a_lm_id."'";
+		$this->ilias->db->query($query);
+		$query = "DELETE FROM lm_page_object WHERE lm_id ='".$a_lm_id."'";
+		$this->ilias->db->query($query);
+		$query = "DELETE FROM meta_data";
+		$this->ilias->db->query($query);
 	}
 
 	/**
@@ -167,6 +177,7 @@ class ilLMParser extends ilSaxParser
 
 			case "PageObject":
 				$this->page_object =& new ilPageObject();
+				$this->page_object->setLMId($this->lm_id);
 				$this->current_object =& $this->page_object;
 				break;
 
@@ -174,7 +185,7 @@ class ilLMParser extends ilSaxParser
 				$this->page_object->setAlias(true);
 				$this->page_object->setOriginID($a_attribs["OriginId"]);
 				break;
-			
+
 			case "Paragraph":
 				$this->paragraph =& new ilParagraph();
 				$this->paragraph->setLanguage($a_attribs["Language"]);
@@ -189,8 +200,8 @@ class ilLMParser extends ilSaxParser
 				break;
 
 			case "Identifier":
-				$this->meta_data->setIdentifierEntryID($a_attribs["Entry"]);
-				$this->meta_data->setIdentifierCatalog($a_attribs["Catalog"]);
+				$this->meta_data->setImportIdentifierEntryID($a_attribs["Entry"]);
+				$this->meta_data->setImportIdentifierCatalog($a_attribs["Catalog"]);
 				break;
 
 		}
@@ -208,7 +219,7 @@ class ilLMParser extends ilSaxParser
 			case "PageObject":
 				if (!$this->page_object->isAlias())
 				{
-					echo "PageObject ".$this->page_object->getID().":<br>";
+					echo "PageObject ".$this->page_object->getImportId().":<br>";
 					$content = $this->page_object->getContent();
 					foreach($content as $co_object)
 					{
@@ -217,6 +228,9 @@ class ilLMParser extends ilSaxParser
 							echo nl2br($co_object->getText())."<br><br>";
 						}
 					}
+					$this->page_object->create();
+					$this->pg_mapping[$this->page_object->getImportId()]
+						= $this->page_object->getId();
 				}
 				unset($this->meta_data);	//!?!
 				unset($this->page_object);
@@ -232,7 +246,7 @@ class ilLMParser extends ilSaxParser
 		$this->endElement($a_name);
 
 	}
-	
+
 	/**
 	* handler for character data
 	*/

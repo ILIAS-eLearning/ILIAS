@@ -40,6 +40,8 @@ class ilPageObject
 	var $is_alias;
 	var $origin_id;
 	var $content;		// array of objects (ilParagraph or ilMediaObject)
+	var $lm_id;
+	var $id;
 
 	/**
 	* Constructor
@@ -53,6 +55,19 @@ class ilPageObject
 
 		$this->is_alias = false;
 		$this->content = array();
+	}
+
+	/**
+	* set id
+	*/
+	function setId($a_id)
+	{
+		$this->id = $a_id;
+	}
+
+	function getId()
+	{
+		return $this->id;
 	}
 
 	/**
@@ -82,20 +97,56 @@ class ilPageObject
 	{
 		$this->meta_data =& $a_meta_data;
 	}
-	
-	function getID()
+
+	function getimportId()
 	{
-		return $this->meta_data->getIdentifierEntryID();
+		return $this->meta_data->getImportIdentifierEntryID();
 	}
-	
+
 	function appendContent(&$a_content_obj)
 	{
 		$this->content[] =& $a_content_obj;
 	}
-	
+
 	function getContent()
 	{
 		return $this->content;
+	}
+
+	function getXMLContent()
+	{
+		$xml = "";
+		reset($this->content);
+		foreach($this->content as $co_object)
+		{
+			if (get_class($co_object) == "ilparagraph")
+			{
+				$xml .= $co_object->getXML();
+			}
+		}
+		return $xml;
+	}
+
+
+	function setLMId($a_lm_id)
+	{
+		$this->lm_id = $a_lm_id;
+	}
+
+	function getLMId()
+	{
+		return $this->lm_id;
+	}
+
+	function create()
+	{
+		$query = "INSERT INTO lm_page_object (lm_id, content) VALUES ".
+			"('".$this->getLMId()."','".$this->getXMLContent()."')";
+		$this->ilias->db->query($query);
+		$this->setId(getLastInsertId());
+		$this->meta_data->setId($this->getId());
+		$this->meta_data->setType("pg");
+		$this->meta_data->create();
 	}
 
 }
