@@ -302,7 +302,7 @@ class ilPageObjectGUI
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 		$xh = xslt_create();
-//echo "<b>XML</b>:".htmlentities($content).":<br>";
+echo "<b>XML</b>:".htmlentities($content).":<br>";
 //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
 //echo "mode:".$this->getOutputMode().":<br>";
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
@@ -563,8 +563,7 @@ class ilPageObjectGUI
 									."&mode=page_edit&hier_id=".$_GET["hier_id"].
 									"&cmd=setInternalLink&linktype=PageObject".
 									"&linktarget=il__pg_".$node["obj_id"].
-									"&linktargetframe=".$link_target.
-									"&coords=".$_GET["coords"]);
+									"&linktargetframe=".$link_target);
 								$tpl->parseCurrentBlock();
 								break;
 
@@ -622,8 +621,7 @@ class ilPageObjectGUI
 									."&mode=page_edit&hier_id=".$_GET["hier_id"].
 									"&cmd=setInternalLink&linktype=StructureObject".
 									"&linktarget=il__st_".$node["obj_id"].
-									"&linktargetframe=".$link_target.
-									"&coords=".$_GET["coords"]);
+									"&linktargetframe=".$link_target);
 								$tpl->parseCurrentBlock();
 								break;
 
@@ -678,8 +676,7 @@ class ilPageObjectGUI
 								."&mode=page_edit&hier_id=".$_GET["hier_id"].
 								"&cmd=setInternalLink&linktype=GlossaryItem".
 								"&linktarget=il__git_".$term["id"].
-								"&linktargetframe=".$link_target.
-								"&coords=".$_GET["coords"]);
+								"&linktargetframe=".$link_target);
 							$tpl->parseCurrentBlock();
 							break;
 
@@ -734,8 +731,7 @@ class ilPageObjectGUI
 								."&mode=page_edit&hier_id=".$_GET["hier_id"].
 								"&cmd=setInternalLink&linktype=MediaObject".
 								"&linktarget=il__mob_".$obj["id"].
-								"&linktargetframe=".$link_target.
-								"&coords=".$_GET["coords"]);
+								"&linktargetframe=".$link_target);
 							$tpl->parseCurrentBlock();
 							break;
 
