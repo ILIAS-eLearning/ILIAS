@@ -694,7 +694,7 @@ $this->db->query($query13);
 <#60>
 <?php
 $query1 = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'folder', 'Folder object', -1, now(), now())";
+		 "VALUES ('typ', 'fold', 'Folder object', -1, now(), now())";
 $this->db->query($query1);
 $query2 = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
 		 "VALUES ('typ', 'file', 'File object', -1, now(), now())";
