@@ -203,16 +203,6 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 
 	}
 
-	/**
-	* apply changes
-	*/
-	function apply()
-	{
-		$this->writePostData();
-		$this->object->saveToDb();
-		$_GET["q_id"] = $this->object->getId();
-		$this->editQuestion();
-	}
 
 	function uploadingMaterial()
 	{

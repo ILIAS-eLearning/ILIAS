@@ -349,15 +349,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	}
 
 	/**
-	* apply changes
-	*/
-	function apply()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
-
-	/**
 	* upload material
 	*/
 	function uploadingMaterial()

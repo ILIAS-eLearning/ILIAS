@@ -280,14 +280,6 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	/**
-	* apply changes
-	*/
-	function apply()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
 
 	/**
 	* add matching pair

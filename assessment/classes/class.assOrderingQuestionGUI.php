@@ -228,14 +228,6 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	/**
-	* apply changes
-	*/
-	function apply()
-	{
-		$this->writePostData();
-		$this->editQuestion();
-	}
 
 	function addItem()
 	{
