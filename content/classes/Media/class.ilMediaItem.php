@@ -128,14 +128,21 @@ class ilMediaItem
 	*/
 	function create()
 	{
+		global $ilDB;
+
 		$query = "INSERT INTO media_item (mob_id, purpose, location, ".
 			"location_type, format, width, ".
 			"height, halign, caption, nr) VALUES ".
-			"('".$this->getMobId()."',".
-			"'".$this->getPurpose()."','".ilUtil::prepareDBString($this->getLocation())."','".
-			$this->getLocationType()."','".$this->getFormat()."','".
-			$this->getWidth()."','".$this->getHeight()."','".$this->getHAlign().
-			"','".$this->getCaption()."','".$this->getNr()."')";
+			"(".$ilDB->quote($this->getMobId()).",".
+			$ilDB->quote($this->getPurpose()).",".
+			$ilDB->quote($this->getLocation()).",".
+			$ilDB->quote($this->getLocationType()).",".
+			$ilDB->quote($this->getFormat()).",".
+			$ilDB->quote($this->getWidth()).",".
+			$ilDB->quote($this->getHeight()).",".
+			$ilDB->quote($this->getHAlign()).",".
+			$ilDB->quote($this->getCaption()).",".
+			$ilDB->quote($this->getNr()).")";
 		$this->ilias->db->query($query);
 //echo "create_mob:$query:<br>";
 		$item_id = $this->ilias->db->getLastInsertId();
@@ -146,7 +153,9 @@ class ilMediaItem
 		foreach($params as $name => $value)
 		{
 			$query = "INSERT INTO mob_parameter (med_item_id, name, value) VALUES ".
-				"('".$item_id."', '".$name."', '".$value."')";
+				"(".$ilDB->quote($item_id).",".
+				$ilDB->quote($name).",".
+				$ilDB->quote($value).")";
 			$this->ilias->db->query($query);
 		}
 
