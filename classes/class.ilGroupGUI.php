@@ -352,7 +352,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 		$this->prepareOutput(false);
-		$this->tpl->setVariable("HEADER", $this->lng->txt("edit_group"));
+		$this->tpl->setVariable("HEADER", $this->lng->txt("grp_edit"));
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$data = array();
@@ -449,7 +449,7 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
 			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[3]["target"]   = "bottom";						//target-frame of tab_cmd
-			$tab[3]["tab_text"] = "change_grp_data";				//tab -text
+			$tab[3]["tab_text"] = "grp_edit";				//tab -text
 		}
 
 		$this->prepareOutput(false, $tab);
