@@ -355,7 +355,7 @@ common#:#msg_not_possible_link#:#Es ist nicht möglich die folgenden Objekte zu v
 common#:#msg_nothing_found#:#Nichts gefunden
 common#:#msg_obj_exists#:#Dieses Objekt existiert bereits in diesem Ordner
 common#:#msg_perm_adopted_from1#:#Rechteeinstellungen übernommen von
-common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)
+common#:#msg_perm_adopted_from2#:#(Die Einstellungen wurden gespeichert!)###09 Jul 2003 content changed
 common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstellugen von der aktuellen Rolle/Rollenvorlage selbst zu &uuml;bernehmen.
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
 common#:#msg_role_exists2#:#existiert bereits! Bitte w&auml;hlen Sie einen anderen Namen.
