@@ -86,13 +86,13 @@ class ObjectOut
 		// TODO: id_name is wrong & useless. In case of a given obj_id BOTH ids are needed!!
 		if ($this->call_by_reference)
 		{
-			$this->id_name = "ref_id";
+			//$this->id_name = "ref_id";
 			$this->link_params = "ref_id=".$this->ref_id."&obj_id=".$this->obj_id;
 
 		}
 		else
 		{
-			$this->id_name = "obj_id";
+			//$this->id_name = "obj_id";
 			$this->link_params = "ref_id=".$this->ref_id;
 		}
 	}
@@ -105,7 +105,7 @@ class ObjectOut
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$title = $this->object->getTitle();
 
-		if(!empty($title))
+		if (!empty($title))
 		{
 			$this->tpl->setVariable("HEADER", $title);
 		}
@@ -323,7 +323,7 @@ class ObjectOut
 
 		if (key($_POST["cmd"]) != "delete")
 		{
-			header("location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=view");
+			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 			exit();
 		}
 	}
@@ -391,7 +391,7 @@ class ObjectOut
 			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
 		}
 
-		header("Location: adm_object.php?".$this->id_name."=".$this->id."&cmd=view");
+		header("Location: adm_object.php?".$this->link_params);
 		exit();
 	}
 
@@ -457,7 +457,7 @@ class ObjectOut
 			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
 		}
 
-		header("Location: adm_object.php?ref_id=".$this->ref_id."&cmd=view");
+		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}
 
@@ -581,14 +581,13 @@ class ObjectOut
 			$this->tpl->setCurrentBlock("LOCAL_ROLE");
 			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
 			$this->tpl->setVariable("MESSAGE_BOTTOM", $this->lng->txt("you_may_add_local_roles"));
-			$this->tpl->setVariable("FORMACTION_LR","adm_object.php?cmd=addRole&ref_id=".$_GET["ref_id"]."&parent=".
-									$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
+			$this->tpl->setVariable("FORMACTION_LR","adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=addRole");
 
 			$this->tpl->parseCurrentBlock();
 		}
 		// PARSE BLOCKFILE
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORMACTION","adm_object.php?".$this->id_name."=".$this->id."&cmd=perm");
+		$this->tpl->setVariable("FORMACTION","adm_object.php?".$this->link_params."&cmd=perm");
 		$this->tpl->parseCurrentBlock();
 	}
 
@@ -875,8 +874,7 @@ class ObjectOut
 
 		$this->getTemplateFile("confirm");
 		$this->ilias->error_obj->sendInfo($this->lng->txt("info_delete_sure"));
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&parent=".
-								$_GET["parent"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
 		{
@@ -935,8 +933,7 @@ class ObjectOut
 		}
 
 		$this->ilias->error_obj->sendInfo($this->lng->txt("info_trash"));
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&parent=".
-								$_GET["parent"]."&cmd=gateway");
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)

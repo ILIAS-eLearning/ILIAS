@@ -3,7 +3,7 @@
 * Class RoleFolderObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleFolderObjectOut.php,v 1.3 2003/02/26 13:44:10 shofmann Exp $
+* $Id$Id: class.RoleFolderObjectOut.php,v 1.4 2003/03/10 10:55:41 shofmann Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -70,8 +70,7 @@ class RoleFolderObjectOut extends ObjectOut
 
 	function adoptPermSaveObject()
 	{
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&parent=".
-			   $_GET["parent"]."&cmd=perm");
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
 		exit();
 	}
 

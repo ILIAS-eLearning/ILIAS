@@ -3,7 +3,7 @@
 * Class TypeDefinitionObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.TypeDefinitionObjectOut.php,v 1.6 2003/03/12 16:52:25 akill Exp $
+* $Id$Id: class.TypeDefinitionObjectOut.php,v 1.7 2003/03/14 22:01:47 akill Exp $
 *
 * @extends Object
 * @package ilias-core
@@ -27,7 +27,7 @@ class TypeDefinitionObjectOut extends ObjectOut
 	function viewObject()
 	{
 		global $rbacadmin;
-
+		
 		$this->getTemplateFile("view");
 		$num = 0;
 
@@ -35,6 +35,7 @@ class TypeDefinitionObjectOut extends ObjectOut
 		$this->tpl->setCurrentBlock("table_header_cell");
 
 		$cols = array("", "type", "operation", "description", "status");
+
 		foreach ($cols as $key)
 		{
 			if ($key != "")
@@ -45,10 +46,9 @@ class TypeDefinitionObjectOut extends ObjectOut
 			{
 				$out = "&nbsp;";
 			}
+
 			$this->tpl->setVariable("HEADER_TEXT", $out);
-			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-							  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&order=type&direction=".
-							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
+			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&order=type&direction=".$_GET["dir"]."&cmd=".$_GET["cmd"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -77,11 +77,11 @@ class TypeDefinitionObjectOut extends ObjectOut
 				);
 
 				//control information
+				// TODO: Maybe deprecated
 				$this->objectList["ctrl"][] = array(
 					"type" => "perm",
 					"obj_id" => $ops["ops_id"],
-					"parent" => $this->id,
-					"parent_parent" => $this->parent
+					"parent" => $this->id
 				);
 
 				$ctrl = $this->data["ctrl"][$i];
@@ -175,7 +175,7 @@ class TypeDefinitionObjectOut extends ObjectOut
 				}
 			}
 		}
-		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=view");
+		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
 		exit();
 	}
 
@@ -238,21 +238,24 @@ class TypeDefinitionObjectOut extends ObjectOut
 		$this->getTemplateFile("edit");
 		$num = 0;
 
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?&cmd=save&obj_id=".$_GET["obj_id"].
-			"&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]."&cmd=save.");
 
 		//table header
 		foreach ($this->data["cols"] as $key)
 		{
 			$this->tpl->setCurrentBlock("table_header_cell");
+
 			if ($key != "")
+			{
 			    $out = $this->lng->txt($key);
+			}
 			else
+			{
 				$out = "&nbsp;";
+			}
+
 			$this->tpl->setVariable("TEXT", $out);
-			$this->tpl->setVariable("LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-							  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&order=type&direction=".
-							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
+			$this->tpl->setVariable("LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&order=type&direction=".$_GET["dir"]."&cmd=".$_GET["cmd"]);
 			$this->tpl->parseCurrentBlock();
 		}
 

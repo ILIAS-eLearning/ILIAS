@@ -3,7 +3,7 @@
 * Class RoleTemplateObjectOut
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.RoleTemplateObjectOut.php,v 1.7 2003/03/18 08:51:23 akill Exp $
+* $Id$Id: class.RoleTemplateObjectOut.php,v 1.8 2003/03/18 14:13:33 akill Exp $
 * 
 * @extends Object
 * @package ilias-core
@@ -52,7 +52,7 @@ class RoleTemplateObjectOut extends ObjectOut
 		{
 			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
 		}
-		header("Location: adm_object.php?ref_id=".$this->ref_id."&cmd=view");
+		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}
 

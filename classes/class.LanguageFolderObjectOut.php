@@ -3,7 +3,7 @@
 * Class LanguageFolderObjectOut
 *
 * @author	Stefan Meyer <smeyer@databay.de>
-* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.12 2003/03/18 09:42:39 shofmann Exp $
+* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.13 2003/03/19 19:09:24 shofmann Exp $
 *
 * @extends	Object
 * @package	ilias-core
@@ -94,9 +94,7 @@ class LanguageFolderObjectOut extends ObjectOut
 			}
 
 			$this->tpl->setVariable("HEADER_TEXT", $out);
-			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-							  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&order=type&direction=".
-							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
+			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?ref_id=".$_GET["ref_id"]."&order=type&direction=".$_GET["dir"]);
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -399,7 +397,7 @@ class LanguageFolderObjectOut extends ObjectOut
 	function out()
 	{
 		$this->ilias->error_obj->sendInfo($this->data);
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=view");
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 } // END class.LanguageFolderObjectOut
