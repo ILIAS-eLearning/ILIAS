@@ -9,8 +9,6 @@
 */
 require_once "./include/ilias_header.inc";
 
-$tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("profile"));
-
 //display buttons
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
@@ -124,6 +122,7 @@ foreach ($ilias->skins as $row)
 
 //what styles are available for current skin
 $ilias->getStyles($ilias->account->prefs["skin"]);
+
 $style = "style_".$ilias->account->prefs["skin"];
 foreach ($ilias->styles as $row)
 {

@@ -1,18 +1,5 @@
-# phpMyAdmin MySQL-Dump
-# version 2.3.0
-# http://phpwizard.net/phpMyAdmin/
-# http://www.phpmyadmin.net/ (download page)
-#
-# Host: localhost
-# Generation Time: Aug 30, 2002 at 02:09 PM
-# Server version: 3.23.44
-# PHP Version: 4.2.1
-# Database : `ilias3`
-# --------------------------------------------------------
-
-#
-# Table structure for table `bookmarks`
-#
+# MYSQL DUMP (phpMyAdmin) for ILIAS
+# @version $Id$
 
 CREATE TABLE bookmarks (
   usr_fk int(11) NOT NULL default '0',
@@ -138,6 +125,7 @@ INSERT INTO object_data (obj_id, type, title, description, owner, create_date, l
 CREATE TABLE rbac_fa (
   rol_id int(11) NOT NULL default '0',
   parent int(11) NOT NULL default '0',
+  parent_obj int(11) NOT NULL default '0',
   assign enum('y','n') default NULL,
   PRIMARY KEY  (rol_id,parent)
 ) TYPE=MyISAM;
@@ -146,10 +134,10 @@ CREATE TABLE rbac_fa (
 # Dumping data for table `rbac_fa`
 #
 
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (2, 8, 'y');
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (3, 8, 'y');
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (4, 8, 'y');
-INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (5, 8, 'y');
+INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (2, 8, 9, 'y');
+INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (3, 8, 9, 'y');
+INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (4, 8, 9, 'y');
+INSERT INTO rbac_fa (rol_id, parent, assign) VALUES (5, 8, 9, 'y');
 # --------------------------------------------------------
 
 #
@@ -583,7 +571,7 @@ INSERT INTO settings (keyword, value) VALUES ('city', 'gjjg');
 INSERT INTO settings (keyword, value) VALUES ('convert_path', '');
 INSERT INTO settings (keyword, value) VALUES ('country', 'hjgh');
 INSERT INTO settings (keyword, value) VALUES ('crs_enable', '');
-INSERT INTO settings (keyword, value) VALUES ('db_version', '1');
+INSERT INTO settings (keyword, value) VALUES ('db_version', '3');
 INSERT INTO settings (keyword, value) VALUES ('email', 'hjgj');
 INSERT INTO settings (keyword, value) VALUES ('errors', '');
 INSERT INTO settings (keyword, value) VALUES ('feedback', '');
@@ -669,8 +657,7 @@ INSERT INTO user_data (usr_id, login, passwd, firstname, surname, title, gender,
 CREATE TABLE user_pref (
   usr_id int(11) NOT NULL default '0',
   keyword char(40) NOT NULL default '',
-  value_str char(40) default NULL,
-  value_int bigint(20) default NULL,
+  value char(40) default NULL,
   PRIMARY KEY  (usr_id,keyword)
 ) TYPE=MyISAM;
 
@@ -678,7 +665,7 @@ CREATE TABLE user_pref (
 # Dumping data for table `user_pref`
 #
 
-INSERT INTO user_pref (usr_id, keyword, value_str, value_int) VALUES (6, 'language', 'de', NULL);
+INSERT INTO user_pref (usr_id, keyword, value) VALUES (6, 'language', 'de');
 # --------------------------------------------------------
 
 #
@@ -691,9 +678,3 @@ CREATE TABLE user_session (
   value text NOT NULL,
   PRIMARY KEY  (sesskey)
 ) TYPE=MyISAM;
-
-#
-# Dumping data for table `user_session`
-#
-
-

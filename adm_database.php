@@ -29,13 +29,24 @@ if ($_GET["cmd"]=="migrate")
 	}
 }
 
+if ($_POST["cmd"] != "")
+{
+	$msg = $myDB->optimizeTables($key);
+	foreach ($msg as $row)
+	{
+		$tpl->setCurrentBlock("versionmessage");
+		$tpl->setVariable("MSG", $row);
+		$tpl->parseCurrentBlock();
+	}
+}
+
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("database"));
 $tpl->setVariable("TXT_VERSION", $lng->txt("version"));
 $tpl->setVariable("TXT_DATABASE_VERSION", $lng->txt("database_version"));
 $tpl->setVariable("DATABASE_VERSION", $myDB->currentVersion);
 $tpl->setVariable("TXT_FILE_VERSION", $lng->txt("file_version"));
 $tpl->setVariable("FILE_VERSION", $myDB->fileVersion);
-$tpl->setVariable("TXT_DATABASE_VERSION_STATUS", $lng->txt($myDB->getDBVersionStatus()));
+$tpl->setVariable("DATABASE_VERSION_STATUS", $lng->txt($myDB->getDBVersionStatus()));
 
 if ($myDB->getDBVersionStatus()=="database_needs_update")
 {
@@ -43,6 +54,22 @@ if ($myDB->getDBVersionStatus()=="database_needs_update")
 	$tpl->setVariable("TXT_MIGRATE", $lng->txt("database_update"));
 	$tpl->parseCurrentBlock();
 }
+
+
+// optimization
+$dbtables = $myDB->getTables();
+$i = 0;
+foreach ($dbtables as $row)
+{
+	$tpl->setCurrentBlock("optrow");
+	$tpl->setVariable("TABLE", $row["table"]);
+	$tpl->setVariable("TABLEID", $row["table"]);
+	$tpl->setVariable("ROWCOL", "tblrow".(($i%2)+1));
+	$tpl->parseCurrentBlock();
+	$i++;
+}
+
+$tpl->setVariable("TXT_OPTIMIZE", $lng->txt("optimize"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
