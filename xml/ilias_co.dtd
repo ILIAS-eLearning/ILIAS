@@ -471,7 +471,6 @@
 	Name CDATA #REQUIRED
 	Value CDATA #REQUIRED
 >
-
 <!-- Bibliography -->
 <!ELEMENT Bibliography (BibItem+, Abstract?)>
 <!ATTLIST Bibliography

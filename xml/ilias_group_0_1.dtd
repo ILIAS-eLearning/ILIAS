@@ -1,0 +1,49 @@
+<!-- ilias_user.dtd for ILIAS mail import -->
+<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
+<!-- $Id$ -->
+
+<!-- GROUP -->
+<!ELEMENT group (title,description,owner,admin*,member*,file*,folder*)>
+<!ATTLIST group
+    exportVersion CDATA #REQUIRED
+    id CDATA #REQUIRED
+    type CDATA #REQUIRED
+>
+
+<!-- TITLE -->
+<!ELEMENT title (#PCDATA)>
+
+<!-- DESCRIPTION -->
+<!ELEMENT description (#PCDATA)>
+
+<!-- OWNER -->
+<!ELEMENT owner EMPTY>
+<!ATTLIST owner
+    id CDATA #REQUIRED
+>
+
+<!-- ADMIN -->
+<!ELEMENT admin EMPTY>
+<!ATTLIST admin
+    id CDATA #REQUIRED
+>
+
+<!-- ADMIN -->
+<!ELEMENT member EMPTY>
+<!ATTLIST member
+    id CDATA #REQUIRED
+>
+
+<!-- FILE stored in objects directory with filename "id" -->
+<!ELEMENT file EMPTY>
+<!ATTLIST file
+    id CDATA #REQUIRED
+    fileName CDATA #REQUIRED>
+
+<!-- FOLDER -->
+<!ELEMENT folder (folderTitle,file*,folder*)>
+
+<!-- TITLE -->
+<!ELEMENT folderTitle (#PCDATA)>
+
+
