@@ -126,7 +126,7 @@ assessment#:#available_points#:#Available points
 assessment#:#average_reached_points#:#Average reached points
 assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#by#:#by
-assessment#:#cancel_test#:#Cancel the test
+assessment#:#cancel_test#:#Suspend the test
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!
 assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!
