@@ -81,14 +81,13 @@ class ilBookmarkFolder
 	*/
 	function read()
 	{
-		global $log, $ilias;
+		global $ilias;
 
 		$q = "SELECT * FROM bookmark_data WHERE obj_id = '".$this->id."'";
 		$bmf_set = $this->ilias->db->query($q);
 		if ($bmf_set->numRows() == 0)
 		{
 			$message = "ilBookmarkFolder::read(): Bookmark Folder with id ".$this->id." not found!";
-			$log->writeWarning($message);
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 		else

@@ -82,9 +82,16 @@ class ilErrorHandling
 	*/
 	function errorHandler($a_error_obj)
 	{
+		global $log;
+		
 		if ($_SESSION["message"])
 		{
 			return;
+		}
+
+		if (is_object($log) and $log->enabled == true)
+		{
+			$log->logError($a_error_obj->getCode(),$a_error_obj->getMessage());
 		}
 
 		if ($a_error_obj->getCode() == $this->FATAL)

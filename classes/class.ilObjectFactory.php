@@ -48,13 +48,12 @@ class ilObjectFactory
 	*/
 	function getInstanceByObjId($a_obj_id)
 	{
-		global $ilias, $log, $objDefinition;
+		global $ilias, $objDefinition;
 
 		// check object id
 		if (!isset($a_obj_id))
 		{
 			$message = "ilObjectFactory::getInstanceByObjId(): No obj_id given!";
-			$log->writeWarning($message);
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
@@ -67,7 +66,6 @@ class ilObjectFactory
 		if ($object_set->numRows() == 0)
 		{
 			$message = "ilObjectFactory::getInstanceByObjId(): Object with obj_id: ".$a_obj_id." not found!";
-			$log->writeWarning($message);
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
@@ -79,7 +77,6 @@ class ilObjectFactory
 		{
 			$message = "ilObjectFactory::getInstanceByObjId(): Not able to determine object ".
 				"class for type".$object_rec["type"].".";
-			$log->writeWarning($message);
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
@@ -108,13 +105,12 @@ class ilObjectFactory
 	*/
 	function getInstanceByRefId($a_ref_id)
 	{
-		global $ilias, $log, $objDefinition;
+		global $ilias, $objDefinition;
 
 		// check reference id
 		if (!isset($a_ref_id))
 		{
 			$message = "ilObjectFactory::getInstanceByRefId(): No ref_id given!";
-			$log->writeWarning($message);
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
@@ -128,7 +124,6 @@ class ilObjectFactory
 		if ($object_set->numRows() == 0)
 		{
 			$message = "ilObjectFactory::getInstanceByRefId(): Object with ref_id ".$a_ref_id." not found!";
-			$log->writeWarning($message);
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 
@@ -140,7 +135,6 @@ class ilObjectFactory
 		{
 			$message = "ilObjectFactory::getInstanceByRefId(): Not able to determine object ".
 				"class for type".$object_rec["type"].".";
-			$log->writeWarning($message);
 			$ilias->raiseError($message,$ilias->error_obj->WARNING);
 		}
 

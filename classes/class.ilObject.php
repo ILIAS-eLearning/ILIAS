@@ -151,7 +151,7 @@ class ilObject
 	*/
 	function read($a_force_db = false)
 	{
-		global $log, $objDefinition;
+		global $objDefinition;
 		
 		if (isset($this->obj_data_record) && !$a_force_db)
 		{
@@ -163,7 +163,6 @@ class ilObject
 			if (!isset($this->ref_id))
 			{
 				$message = "ilObject::read(): No ref_id given!";
-				$log->writeWarning($message);
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
@@ -177,7 +176,6 @@ class ilObject
 			if ($object_set->numRows() == 0)
 			{
 				$message = "ilObject::read(): Object with ref_id ".$this->ref_id." not found!";
-				$log->writeWarning($message);
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
@@ -189,7 +187,6 @@ class ilObject
 			if (!isset($this->id))
 			{
 				$message = "ilObject::read(): No obj_id given!";
-				$log->writeWarning($message);
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
@@ -202,7 +199,6 @@ class ilObject
 			if ($object_set->numRows() == 0)
 			{
 				$message = "ilObject::read(): Object with obj_id: ".$this->id." not found!";
-				$log->writeWarning($message);
 				$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 			}
 
@@ -464,12 +460,9 @@ class ilObject
 	*/
 	function create()
 	{
-		global $log;
-
 		if (!isset($this->type))
 		{
 			$message = get_class($this)."::create(): No object type given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -570,12 +563,9 @@ class ilObject
 	*/
 	function createReference()
 	{
-		global $log;
-
 		if (!isset($this->id))
 		{
 			$message = "ilObject::createNewReference(): No obj_id given!";
-			$log->writeWarning($message);
 			$this->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -597,12 +587,9 @@ class ilObject
 	*/
 	function countReferences()
 	{
-		global $log;
-
 		if (!isset($this->id))
 		{
 			$message = "ilObject::countReferences(): No obj_id given!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 

@@ -504,12 +504,11 @@ class ilObjectGUI
  	*/
 	function pasteObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview, $log;
+		global $rbacsystem, $rbacadmin, $rbacreview;
 
 		if (!in_array($_SESSION["clipboard"]["cmd"],array("cut","link","copy")))
 		{
 			$message = get_class($this)."::pasteObject(): cmd was neither 'cut','link' or 'copy'; may be a hack attempt!";
-			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 

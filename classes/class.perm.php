@@ -311,12 +311,11 @@ function createNewOperation ($a_operation,$a_description)
 */
 function getOperationId($a_operation)
 {
-	global $ilias, $log;
+	global $ilias;
 
 	if (!isset($a_operation))
 	{
 		$message = "perm::getOperationId(): No operation given!";
-		$log->writeWarning($message);
 		$ilias->raiseError($message,$ilias->error_obj->WARNING);	
 	}
 

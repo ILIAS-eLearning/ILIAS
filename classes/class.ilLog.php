@@ -58,10 +58,11 @@ class ilLog
 	*/
 	function ilLog($a_log_path, $a_log_file, $a_tag = "", $a_enabled = true)
 	{
-		$this->path = $a_log_path;
-		$this->filename = $a_log_file;
+		$this->path = ($a_log_path) ? $a_log_path : ILIAS_ABSOLUTE_PATH;
+		$this->filename = ($a_log_file) ? $a_log_file : "ilias.log";
 		$this->tag = ($a_tag == "") ? "unknown" : $a_tag;
 		$this->enabled = (bool) $a_enabled;
+		
 	}
 	
 	function setPath($a_str)
@@ -79,12 +80,6 @@ class ilLog
 		$this->tag = $a_str;
 	}
 	
-	// not ne
-	function start($a_str)
-	{
-		$this->path = $a_str;
-	}
-
 	/**
 	* special language checking routine
 	* 
@@ -112,6 +107,31 @@ class ilLog
 		$this->write("WARNING: ".$a_message);
 	}
 	
+	function logError($a_code,$a_msg)
+	{
+		switch ($a_code)
+		{
+			case "3":
+				return; // don't log messages
+				$error_level = "message";
+				break;
+
+			case "2":
+				$error_level = "warning";
+				break;
+
+			case "1":
+				$error_level = "fatal";
+				break;
+				
+			default:
+				$error_level = "unknown";
+				break;
+		}
+		
+		$this->write("ERROR (".$error_level."): ".$a_msg);	
+	}
+
 	/**
 	* logging 
 	* 

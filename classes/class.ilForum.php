@@ -926,8 +926,6 @@ class ilForum
 	*/
 	function getPostChilds($a_node_id, $a_thr_id)
 	{
-		global $log;
-
 		// init childs
 		$childs = array();
 
@@ -942,6 +940,7 @@ class ilForum
 		$r = $this->ilias->db->query($q);
 
 		$count = $r->numRows();
+
 		if ($count > 0)
 		{
 			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))

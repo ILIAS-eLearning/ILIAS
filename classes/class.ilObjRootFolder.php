@@ -26,7 +26,7 @@
 * Class ilObjRootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolder.php,v 1.10 2003/09/02 11:48:06 mrus Exp $
+* @version $Id$Id: class.ilObjRootFolder.php,v 1.11 2003/09/18 15:08:29 mrus Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -79,10 +79,9 @@ class ilObjRootFolder extends ilObject
 	*/
 	function delete()
 	{		
-		// DISABLED
-		global $log;
+		// delete is disabled
+
 		$message = get_class($this)."::delete(): Can't delete root folder!";
-		$log->writeWarning($message);
 		$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		return false;
 		
