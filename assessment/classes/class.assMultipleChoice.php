@@ -121,8 +121,8 @@ class ASS_MultipleChoice extends ASS_Question {
 		if (($this->title) and ($this->author) and ($this->question) and (count($this->answers)))
 		{
 			return true;
-		} 
-			else 
+		}
+			else
 		{
 			return false;
 		}
@@ -314,6 +314,9 @@ class ASS_MultipleChoice extends ASS_Question {
 			$complete = 1;
 		}
     $db = & $ilias->db->db;
+
+	$estw_time = $this->get_estimated_working_time();
+	$estw_time = sprintf("%02d%02d%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
     if ($this->id == -1) {
       // Neuen Datensatz schreiben
       $id = $db->nextId('qpl_questions');
@@ -324,7 +327,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $question_type = 2;
       }
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, choice_response, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, choice_response, complete, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote($question_type),
         $db->quote($this->ref_id),
@@ -333,6 +336,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $db->quote($this->author),
         $db->quote($this->owner),
         $db->quote($this->question),
+        $db->quote($estw_time),
         $db->quote($this->response),
 				$db->quote("$complete"),
         $db->quote($created)
@@ -347,11 +351,12 @@ class ASS_MultipleChoice extends ASS_Question {
       }
     } else {
       // Vorhandenen Datensatz aktualisieren
-      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, choice_response = %s, complete = %s WHERE question_id = %s",
+      $query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, choice_response = %s, complete = %s WHERE question_id = %s",
         $db->quote($this->title),
         $db->quote($this->comment),
         $db->quote($this->author),
         $db->quote($this->question),
+        $db->quote($estw_time),
         $db->quote($this->response),
 				$db->quote("$complete"),
         $db->quote($this->id)
@@ -412,6 +417,7 @@ class ASS_MultipleChoice extends ASS_Question {
         $this->owner = $data->owner;
         $this->question = $data->question_text;
         $this->response = $data->choice_response;
+        $this->set_estimated_working_time(substr($data->working_time, 0, 2), substr($data->working_time, 2, 2), substr($data->working_time, 4, 2));
       }
       // loads materials uris from database
       $this->load_material_from_db($question_id);
@@ -718,7 +724,7 @@ class ASS_MultipleChoice extends ASS_Question {
     $db =& $ilDB->db;
 
     if ($this->response == RESPONSE_SINGLE) {
-			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",    
+			$query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
 				$db->quote($this->get_id())
@@ -741,7 +747,7 @@ class ASS_MultipleChoice extends ASS_Question {
 			}
       $result = $db->query($query);
     } else {
-			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",    
+			$query = sprintf("DELETE FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
 				$db->quote($ilUser->id),
 				$db->quote($test_id),
 				$db->quote($this->get_id())

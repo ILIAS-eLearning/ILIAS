@@ -83,6 +83,15 @@ class ASS_Question extends PEAR {
   var $author;
 
 /**
+* Contains estimates working time on a question (HH MM SS)
+*
+* Contains estimates working time on a question (HH MM SS)
+*
+* @var array
+*/
+  var $est_working_time;
+
+/**
 * Contains uris name and uris to additional materials
 *
 * Contains uris name and uris to additional materials
@@ -293,7 +302,20 @@ class ASS_Question extends PEAR {
   function set_comment($comment = "") {
     $this->comment = $comment;
   }
-
+/**
+* Sets the estimated working time of a question
+*
+* Sets the estimated working time of a question
+*
+* @param integer $hour Hour
+* @param integer $min Minutes
+* @param integer $sec Seconds
+* @access public
+* @see $comment
+*/
+  function set_estimated_working_time($hour=0, $min=0, $sec=0) {
+    $this->est_working_time = array("h" => (int)$hour, "m" => (int)$min, "s" => (int)$sec);
+  }
 /**
 * Sets the materials uri
 *
@@ -468,6 +490,21 @@ class ASS_Question extends PEAR {
 */
   function get_comment() {
     return $this->comment;
+  }
+/**
+* Gets the estimated working time of a question
+*
+* Gets the estimated working time of a question
+*
+* @return array Estimated Working Time of a question
+* @access public
+* @see $est_working_time
+*/
+  function get_estimated_working_time() {
+  	if (!$this->est_working_time) {
+  	    $this->est_working_time = array("h" => 0, "m" => 0, "s" => 0);
+  	}
+    return $this->est_working_time;
   }
 
 /**

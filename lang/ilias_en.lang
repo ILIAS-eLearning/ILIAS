@@ -153,6 +153,8 @@ assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
 assessment#:#qt_cloze#:#Cloze Question
 assessment#:#qt_imagemap#:#Image Map Question
+assessment#:#working_time#:#Working Time
+assessment#:#time_format#:#HH MM SS
 assessment#:#qt_matching#:#Matching Question
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
@@ -261,6 +263,9 @@ assessment#:#tst_status_progress#:#in progress
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
 assessment#:#tst_your_mark_is#:#Your mark is
+assessment#:#exp_eval_data#:#Export Evaluation Data
+assessment#:#exp_type_excel#:#  Excel  
+assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test

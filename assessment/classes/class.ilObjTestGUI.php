@@ -38,6 +38,9 @@ require_once "classes/class.ilMetaDataGUI.php";
 require_once "class.assQuestionGUI.php";
 require_once "classes/class.ilXlsGenerator.php";
 
+define ("TYPE_XLS", 0);
+define ("TYPE_SPSS", 1);
+
 class ilObjTestGUI extends ilObjectGUI
 {
 	var $sequence;
@@ -560,7 +563,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->get_add_parameter());
 		$this->tpl->parseCurrentBlock();
 	}
-	
+
 	function questionpoolSelect()
 	{
 		global $ilUser;
@@ -732,7 +735,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->insertQuestions($selected_array);
 			return;
 		}
-				
+
 		if (($_POST["cmd"]["insert_question"]) or ($_GET["insert_question"])) {
 			$show_questionbrowser = true;
 			if ($_POST["cmd"]["insert"]) {
@@ -1255,7 +1258,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$color_class = array("tblrow1", "tblrow2");
 		$counter = 0;
-		if ($_POST["cmd"]["genXls"])
+		if ($_POST["cmd"]["expEvalData"])
 		{
 			$stat_array = array();
 			$stat_settings = $this->object->evalLoadStatisticalSettings($ilUser->id);
@@ -1268,7 +1271,7 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 			array_push($stat_array, $title_row);
-			
+
 			// setting statistical data for export
 			foreach ($_POST as $key => $value)
 			{
@@ -1294,7 +1297,7 @@ class ilObjTestGUI extends ilObjectGUI
 					array_push($stat_array, array("stat" => $stat_row, "points" => $test_results));
 				}
 			}
-			//$this->genXls($stat_array);
+			$this->expEvalData($stat_array);
 			//exit();
 		}
 		else
@@ -1444,7 +1447,7 @@ class ilObjTestGUI extends ilObjectGUI
 				//$t = preg_replace("/\n/", "<br>", $t);
 				//$t = preg_replace("/ /", "&nbsp;", $t);
 				//print ($t);
-				if (!$question_legend) 
+				if (!$question_legend)
 				{
 					$i = 1;
 					foreach ($stat_eval as $key1 => $value1)
@@ -1551,8 +1554,10 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
-			$this->tpl->setCurrentBlock("xls_btn");
-			$this->tpl->setVariable("GENERATE_XLS", $this->lng->txt("tst_generate_xls"));
+			$this->tpl->setCurrentBlock("export_btn");
+			$this->tpl->setVariable("EXP_EVAL_DATA", $this->lng->txt("exp_eval_data"));
+			$this->tpl->setVariable("TEXT_TYPE_XLS", $this->lng->txt("exp_type_excel"));
+			$this->tpl->setVariable("TEXT_TYPE_SPSS", $this->lng->txt("exp_type_spss"));
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("legend");
@@ -1618,43 +1623,49 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	function genXls($xls_Data = "")
+	function expEvalData($xls_Data="")
 	{
-//		$t = print_r($xls_Data, true);
-//		$t = preg_replace("/\n/", "<br>", $t);
-//		$t = preg_replace("/ /", "&nbsp;", $t);
-//		print $t;
-//		return;
-		$xls = new ilXlsGenerator(true);
-		foreach ($xls_Data as $key => $value) {
-			if ($key == 0)
-			{
-				// title row
-				$counter = 0;
-				foreach ($value as $title)
+
+		if ($_POST["export_type"]==TYPE_XLS) {
+
+			$xls = new ilXlsGenerator(false);
+			foreach ($xls_Data as $key => $value) {
+				if ($key == 0)
 				{
-					$xls->WriteLabel($key, $counter, $title);
-					$counter++;
+					// title row
+					$counter = 0;
+					foreach ($value as $title)
+					{
+						$xls->WriteLabel($key, $counter, $title);
+						$counter++;
+					}
 				}
-			}
 				else
-			{
-				$counter = 0;
-				foreach ($value["stat"] as $index => $statval)
 				{
-					$xls->WriteNumber($key, $counter, $statval);
-					$counter++;
+					$counter = 0;
+					foreach ($value["stat"] as $index => $statval)
+					{
+						$xls->WriteNumber($key, $counter, $statval);
+						$counter++;
+					}
+					foreach ($value["points"] as $index => $statval)
+					{
+						$xls->WriteNumber($key, $counter, $statval["reached"]);
+						$xls->WriteLabel(0, $counter, $this->object->get_question_title($statval["nr"]));
+						$counter++;
+
+					}
 				}
-				foreach ($value["points"] as $index => $statval)
-				{
-					$xls->WriteNumber($key, $counter, $statval["reached"]);
-					$xls->WriteLabel(0, $counter, $this->object->get_question_title($statval["nr"]));
-					$counter++;
-				}
+
 			}
+			$xls->SendFile(); // close the stream
 		}
-		$xls->toFile("/opt/ilias/www/htdocs/ilias3/moe.xls");
-//   	$xls->SendFile("moe.xls"); // close the stream
+		else if ($_POST["export_type"]==TYPE_SPSS){
+			print CLIENT_WEB_DIR . "/assessment/evaluation/evaluation.txt";
+			$file = fopen(CLIENT_WEB_DIR . "/assessment/evaluation/evaluation.txt","w++");
+			fwrite($file,"This is where the contents of the text file goes");
+			fclose($file);
+		}
 	}
 
 	function eval_aObject()
