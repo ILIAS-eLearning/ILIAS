@@ -101,7 +101,7 @@ class ilObjectGUI
 	*/
 	function ilObjectGUI($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr;
+		global $ilias, $objDefinition, $tpl, $tree, $ilCtrl, $ilErr, $lng;
 
 		if (!isset($ilErr))
 		{
@@ -128,7 +128,7 @@ class ilObjectGUI
 
 		$this->ctrl->saveParameter($this, $params);
 
-		//$this->lng =& $lng;
+		$this->lng =& $lng;
 		$this->tree =& $tree;
 		$this->formaction = array();
 		$this->return_location = array();
@@ -147,7 +147,9 @@ class ilObjectGUI
 
 		// get the object
 		$this->assignObject();
-		$this->lng =& $this->object->lng;
+		
+		// use global $lng instead, when creating new objects object is not
+		//$this->lng =& $this->object->lng;
 
 		//prepare output
 		if ($a_prepare_output)
