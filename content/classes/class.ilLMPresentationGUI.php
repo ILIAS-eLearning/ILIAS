@@ -40,17 +40,21 @@ class ilLMPresentationGUI
 	var $ilias;
 	var $lm;
 	var $tpl;
+	var $lng;
 	var $layout_doc;
 
 	function ilLMPresentationGUI()
 	{
-		global $ilias;
+		global $ilias, $lng;
 
 		$this->ilias =& $ilias;
+		$this->lng =& $lng;
+
 		$cmd = (!empty($_GET["cmd"])) ? $_GET["cmd"] : "layout";
 
 		// Todo: check lm id
 		$this->lm =& new ilObjLearningModule($_GET["ref_id"], true);
+		//echo $this->lm->getTitle(); exit;
 
 		$this->$cmd();
 	}
@@ -183,6 +187,10 @@ class ilLMPresentationGUI
 					case "ilMedia":
 						$this->ilMedia();
 						break;
+
+					case "ilLocator":
+						$this->ilLocator();
+						break;
 				}
 			}
 		}
@@ -236,9 +244,96 @@ class ilLMPresentationGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_toc"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "lm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
 			"&ref_id=".$this->lm->getRefId()."&lmexpand=".$_GET["lmexpand"]);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	function ilLocator()
+	{
+		$this->tpl->setCurrentBlock("ilLocator");
+
+		$lm_tree = new ilTree($this->lm->getId());
+		$lm_tree->setTableNames('lm_tree','lm_data');
+		$lm_tree->setTreeTablePK("lm_id");
+
+		if (empty($_GET["obj_id"]))
+		{
+			$a_id = $lm_tree->getRootId();
+		}
+		else
+		{
+			$a_id = $_GET["obj_id"];
+		}
+
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+		$path = $lm_tree->getPathFull($a_id);
+
+		// this is a stupid workaround for a bug in PEAR:IT
+		$modifier = 1;
+
+		//$modifier = 0;
+
+		$i = 0;
+		foreach ($path as $key => $row)
+		{
+			if ($row["type"] != "pg")
+			{
+
+				if ($path[$i + 1]["type"] == "st")
+				{
+					$this->tpl->touchBlock("locator_separator");
+				}
+
+				$this->tpl->setCurrentBlock("locator_item");
+
+				if($row["child"] != $lm_tree->getRootId())
+				{
+					$this->tpl->setVariable("ITEM", $row["title"]);
+					// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+					$this->tpl->setVariable("LINK_ITEM", "lm_presentation.php?frame=".$_GET["frame"]."&cmd=layout&ref_id=".
+						$_GET["ref_id"]."&obj_id=".$row["child"]);
+				}
+				else
+				{
+					$this->tpl->setVariable("ITEM", $this->lm->getTitle());
+					// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+					$this->tpl->setVariable("LINK_ITEM", "lm_presentation.php?frame=".$_GET["frame"]."&cmd=layout&ref_id=".
+						$_GET["ref_id"]);
+				}
+
+				$this->tpl->parseCurrentBlock();
+			}
+			$i++;
+		}
+
+		/*
+		if (isset($_GET["obj_id"]))
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
+
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
+			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$this->tpl->parseCurrentBlock();
+		}*/
+
+		$this->tpl->setCurrentBlock("locator");
+
+		if (DEBUG)
+		{
+			$debug = "DEBUG: <font color=\"red\">".$this->type."::".$this->id."::".$_GET["cmd"]."</font><br/>";
+		}
+
+		//$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
+
+
+		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
+
 		$this->tpl->parseCurrentBlock();
 	}
 

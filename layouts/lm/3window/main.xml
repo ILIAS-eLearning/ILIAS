@@ -13,6 +13,7 @@
 					<LinkTarget Type="Media" Frame="topright" />
 				</ilPage>
 				<ilLMNavigation />
+				<ilLocator />
 			</PageObject>
 		</ilFrame>
 		<ilFrame rows="66%,34%">

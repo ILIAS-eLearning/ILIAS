@@ -61,7 +61,6 @@ class ilLMExplorer extends ilExplorer
 		$this->order_column = "";
 		$this->setSessionExpandVariable("lmexpand");
 		$this->checkPermissions(false);
-		$this->setExpandTarget("lm_edit.php?cmd=explorer&ref_id=".$this->lm_obj->getRefId());
 	}
 
 

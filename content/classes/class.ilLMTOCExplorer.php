@@ -43,27 +43,8 @@ class ilLMTOCExplorer extends ilLMExplorer
 	function ilLMTOCExplorer($a_target,&$a_lm_obj)
 	{
 		parent::ilLMExplorer($a_target, $a_lm_obj);
+		$this->setExpandTarget("lm_presentation.php?frame=".$_GET["frame"]."&cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId());
 	}
 
-		/**
-	* Creates Get Parameter
-	* @access	private
-	* @param	string
-	* @param	integer
-	* @return	string
-	*/
-	function createTarget($a_type,$a_child)
-	{
-		// SET expand parameter:
-		//     positive if object is expanded
-		//     negative if object is compressed
-		$a_child = $a_type == '+' ? $a_child : -(int) $a_child;
-
-		return $_SERVER["SCRIPT_NAME"]."?frame=".$_GET["frame"].
-			"&cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId()."&lmexpand=".$a_child;
-	}
-
-
-
-} // END class.ilLMEditorExplorer
+} // END class.ilLMTOCExplorer
 ?>
