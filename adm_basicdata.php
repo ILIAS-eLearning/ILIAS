@@ -8,7 +8,7 @@
 * @package ilias
 */
 require_once "./include/ilias_header.inc";
-echo $message;
+
 $tpl = new Template("tpl.adm_basicdata.html", true, true);
 
 if ($_POST["cmd"] == "setting_save")  //Formular wurde abgeschickt

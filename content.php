@@ -163,6 +163,14 @@ $tplContent->setVariable("OBJ_SELF","content.php?obj_id=".$_GET["obj_id"]."&pare
 $tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 $tplContent->setVariable("TPOS",$_GET["parent"]);
 
+//show tabs
+$o = array();
+$o["LINK1"] = "content.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"];
+$o["LINK2"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit";
+$o["LINK3"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm";
+$o["LINK4"] = "./object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=owner";
+$tplContent->setVariable("TABS", TUtil::showTabs(1,$o));
+
 if ($_GET["message"])
 {
 	$tplContent->setCurrentBlock("sys_message");
