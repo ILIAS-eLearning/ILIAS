@@ -28,8 +28,6 @@ require_once "./assessment/classes/class.assMatchingQuestionGUI.php";
 require_once "./assessment/classes/class.assMultipleChoiceGUI.php";
 require_once "./assessment/classes/class.assOrderingQuestionGUI.php";
 require_once "./content/classes/Pages/class.ilPageObject.php";
-require_once "./assessment/classes/class.assEnhancedAnswerblock.php";
-require_once "./assessment/classes/class.assAnswerblockAnswer.php";
 
 define("LIMIT_NO_LIMIT", 0);
 define("LIMIT_TIME_ONLY", 1);
@@ -178,26 +176,7 @@ class ASS_Question
 	*/
 	var $outputType;
 
-	/**
-	* An array containing the answerblocks of the enhanced question mode
-	*
-	* An array containing the answerblocks of the enhanced question mode
-	*
-	* @var array
-	*/
-
-	var $answerblocks;
-
-	/**
-	* Contains an internal link reference id to a solution hint learning module
-	*
-	* Contains an internal link reference id to a solution hint learning module
-	*
-	* @var integer
-	*/
-
-	var $solution_hint;
-
+	var $suggested_solutions;
 	/**
 	* ASS_Question constructor
 	*
@@ -238,11 +217,10 @@ class ASS_Question
 		}
 		$this->id = -1;
 		$this->test_id = -1;
-		$this->solution_hint = "";
+		$this->suggested_solutions = array();
 		$this->shuffle = 1;
 		$this->setEstimatedWorkingTime(0,1,0);
 		$this->outputType = OUTPUT_HTML;
-		$this->answerblocks = array();
 		register_shutdown_function(array(&$this, '_ASS_Question'));
 	}
 
@@ -318,20 +296,6 @@ class ASS_Question
 	function setTitle($title = "")
 	{
 		$this->title = $title;
-	}
-
-	/**
-	* Sets the solution hint
-	*
-	* Sets the solution hint
-	*
-	* @param integer $hint The reference id of the solution hint learning module
-	* @access public
-	* @see $solution_hint
-	*/
-	function setSolutionHint($hint = "")
-	{
-		$this->solution_hint = $hint;
 	}
 
 	/**
@@ -496,20 +460,6 @@ class ASS_Question
 	function getTitle()
 	{
 		return $this->title;
-	}
-
-	/**
-	* Gets the reference id of the solution hint learning module
-	*
-	* Gets the reference id of the solution hint learning module
-	*
-	* @return integer The reference id of the solution hint learning module
-	* @access public
-	* @see $solution_hint
-	*/
-	function getSolutionHint()
-	{
-		return $this->solution_hint;
 	}
 
 	/**
@@ -1156,251 +1106,124 @@ class ASS_Question
   }
 
 /**
-* Returns the number of answerblocks of a question
-* 
-* Returns the number of answerblocks of a question
+* Loads the question from the database
 *
-* @return integer Number of answerblocks
-* @access private
-*/
-	function getAnswerblockCount()
-	{
-		$query = sprintf("SELECT count(answerblock_id) FROM qpl_answerblock WHERE question_fi = %s",
-			$this->ilias->db->quote($this->getId() . "")
-		);
-		$result = $this->ilias->db->query($query);
-		if ($result->numRows())
-		{
-			$row = $result->fetchRow();
-			return $row[0];
-		}
-		else
-		{
-			return 0;
-		}
-	}
-
-/**
-* Adds an answerblock to the question
-* 
-* Adds an answerblock to the question
-*
-* @return integer The id of the created answerblock
-* @access private
-*/
-	function addAnswerblock()
-	{
-		$count = $this->getAnswerblockCount();
-		$query = sprintf("INSERT INTO qpl_answerblock (answerblock_id, answerblock_index, question_fi, subquestion_index, points, feedback) VALUES (NULL, %s, %s, %s, %s, NULL)",
-			$this->ilias->db->quote($count . ""),
-			$this->ilias->db->quote($this->getId() . ""),
-			$this->ilias->db->quote("0"),
-			$this->ilias->db->quote("0")
-		);
-		$result = $this->ilias->db->query($query);
-		$answerblock_id = $this->ilias->db->getLastInsertId();
-		$answerblock = new EnhancedAnswerblock($this->getId());
-		$answerblock->setAnswerblockIndex(count($this->answerblocks));
-		array_push($this->answerblocks, $answerblock);
-		return $answerblock_id;
-	}
-
-/**
-* Returns an array with all answerblocks of the question
-* 
-* Returns an array with all answerblocks of the question
-*
-* @return array An array containing the answerblocks of the question
-* @access private
-*/
-	function &getAnswerblocks()
-	{
-		$answerblocks = array();
-		$query = sprintf("SELECT * FROM qpl_answerblock WHERE question_fi = %s ORDER BY answerblock_index",
-			$this->ilias->db->quote($this->getId() . "")
-		);
-		$result = $this->ilias->db->query($query);
-		if ($result->numRows())
-		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				array_push($answerblocks, $row);
-			}
-		}
-		return $answerblocks;
-	}
-
-/**
-* Returns an array with all connections of an answerblock
-* 
-* Returns an array with all connections of an answerblock
-*
-* @return array An array containing the connections of the answerblock
-* @access private
-*/
-	function &getAnswerblockConnections($answerblock_id)
-	{
-		$connections = array();
-		$query = sprintf("SELECT * FROM qpl_answer_enhanced WHERE answerblock_fi = %s ORDER BY enhanced_order",
-			$this->ilias->db->quote($answerblock_id . "")
-		);
-		$result = $this->ilias->db->query($query);
-		if ($result->numRows())
-		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				array_push($connections, $row);
-			}
-		}
-		return $connections;
-	}
-
-	function setEnhancedData($connections, $booleans, $points, $feedbacks)
-	{
-		$this->flushAnswerblocks();
-		foreach ($connections as $index => $block)
-		{
-			$connection = new EnhancedAnswerblock($this->getId());
-			$connection->setAnswerblockIndex($index);
-			$connection->setPoints($points[$index]);
-			$connection->setFeedback($feedbacks[$index]);
-			foreach ($block as $blockindex => $answer_id)
-			{
-				if (preg_match("/(\d+)_(\d+)/", $answer_id, $matches))
-				{
-					$answer_id = $matches[2];
-					$connection->setSubquestionIndex($matches[1]);
-				}
-				if ($answer_id >= 0)
-				{
-					$connection->addConnection($answer_id, $blockindex, $booleans[$index][$blockindex]);
-				}
-			}
-			array_push($this->answerblocks, $connection);
-		}
-	}
-	
-	function flushAnswerblocks()
-	{
-		$this->answerblocks = array();
-	}
-
-/**
-* Loads existing answerblocks from the database
-*
-* Loads existing answerblocks from the database
+* Loads the question from the database
 *
 * @param integer $question_id A unique key which defines the question in the database
 * @access public
 */
 	function loadFromDb($question_id)
 	{
-    global $ilias;
-    $db =& $ilias->db;
-		$this->flushAnswerblocks();
-    $query = sprintf("SELECT * FROM qpl_answerblock WHERE question_fi = %s ORDER BY answerblock_index",
-      $db->quote($question_id)
-    );
-    $result = $db->query($query);
-		$answerblocks = array();
+		$query = sprintf("SELECT * FROM qpl_suggested_solutions WHERE question_fi = %s",
+			$this->ilias->db->quote($this->getId() . "")
+		);
+		$result = $this->ilias->db->query($query);
+		$this->suggested_solutions = array();
 		if ($result->numRows())
 		{
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
-				array_push($answerblocks, $row);
+				$this->suggested_solutions[$row["subquestion_index"]] = array(
+					"internal_link" => $row["internal_link"],
+					"import_id" => $row["import_id"]
+				);
 			}
-		}
-		foreach ($answerblocks as $answerblock_data)
-		{
-			$query = sprintf("SELECT * FROM qpl_answer_enhanced WHERE answerblock_fi = %s ORDER BY enhanced_order",
-				$db->quote($answerblock_data["answerblock_id"])
-			);
-			$result = $db->query($query);
-			$answerblock = new EnhancedAnswerblock($this->getId());
-			$answerblock->setAnswerblockIndex($answerblock_data["answerblock_index"]);
-			$answerblock->setPoints($answerblock_data["points"]);
-			$answerblock->setFeedback($answerblock_data["feedback"]);
-			$answerblock->setSubquestionIndex($answerblock_data["subquestion_index"]);
-			if ($result->numRows())
-			{
-				while ($enhancedrow = $result->fetchRow(DB_FETCHMODE_ASSOC))
-				{
-					$answerblock->addConnection($enhancedrow["value1"], $enhancedrow["enhanced_order"], $enhancedrow["answer_boolean_prefix"]);
-				}
-			}
-			array_push($this->answerblocks, $answerblock);
 		}
 	}
 
 	/**
-	* Saves the enhanced answer information to the database
+	* Saves the question to the database
 	*
-	* Saves the enhanced answer information to the database
+	* Saves the question to the database
 	*
 	* @param integer $original_id
 	* @access public
 	*/
 	function saveToDb($original_id = "")
 	{
-    global $ilias;
-    $db =& $ilias->db;
-		$this->deleteAllEnhancedData();
-		foreach ($this->answerblocks as $index => $answerblock)
+		foreach ($this->suggested_solutions as $index => $solution)
 		{
-			$query = sprintf("INSERT INTO qpl_answerblock (answerblock_id, answerblock_index, subquestion_index, question_fi, points, feedback, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($answerblock->getAnswerblockIndex() . ""),
-				$db->quote($answerblock->getSubquestionIndex() . ""),
-				$db->quote($this->getId() . ""),
-				$db->quote($answerblock->getPoints() . ""),
-				$db->quote($answerblock->getFeedback() . "")
+			$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s AND subquestion_index = %s",
+				$this->ilias->db->quote($this->getId() . ""),
+				$this->ilias->db->quote($index . "")
 			);
-			$result = $db->query($query);
-			$answerblock_id = $db->getLastInsertId();
-			foreach ($answerblock->connections as $order => $connection)
-			{
-				$query = sprintf("INSERT INTO qpl_answer_enhanced (answer_enhanced_id, answerblock_fi, value1, answer_boolean_prefix, enhanced_order, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
-					$db->quote($answerblock_id . ""),
-					$db->quote($connection->getAnswerId() . ""),
-					$db->quote($connection->getBooleanPrefix() . ""),
-					$db->quote($order . "")
-				);
-				$result = $db->query($query);
-			}
+			$result = $this->ilias->db->query($query);
+			$query = sprintf("INSERT INTO qpl_suggested_solutions (suggested_solution_id, question_fi, internal_link, import_id, subquestion_index, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+				$this->ilias->db->quote($this->getId() . ""),
+				$this->ilias->db->quote($solution["internal_link"] . ""),
+				$this->ilias->db->quote($solution["import_id"] . ""),
+				$this->ilias->db->quote($index . "")
+			);
+			$this->ilias->db->query($query);
 		}
 	}
 	
-	function deleteAllEnhancedData()
+	function deleteSuggestedSolutions()
 	{
-    global $ilias;
-    $db =& $ilias->db;
-    $query = sprintf("SELECT * FROM qpl_answerblock WHERE question_fi = %s ORDER BY answerblock_index",
-      $db->quote($this->getId() . "")
-    );
-    $result = $db->query($query);
-		$answerblocks = array();
-		if ($result->numRows())
-		{
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
-			{
-				array_push($answerblocks, $row);
-			}
-		}
-		$query = sprintf("DELETE FROM qpl_answerblock WHERE question_fi = %s",
-			$db->quote($this->getId() . "")
+		$query = sprintf("DELETE FROM qpl_suggested_solutions WHERE question_fi = %s",
+			$this->ilias->db->quote($this->getId() . "")
 		);
-		$result = $db->query($query);
-		foreach ($answerblocks as $data)
+		$result = $this->ilias->db->query($query);
+	}
+	
+/**
+* Returns a feedback to an existing answer to on of the gaps
+*
+* Returns a feedback to an existing answer to on of the gaps
+*
+* @param integer $subqueston_index The index of the subquestion
+* @return string Feedback value
+* @access public
+*/
+	function getAnswerFeedback($subquestion_index)
+	{
+		return "";
+	}
+	
+	function getSuggestedSolution($subquestion_index = 0)
+	{
+		if (array_key_exists($subquestion_index, $this->suggested_solutions))
 		{
-			$query = sprintf("DELETE FROM qpl_answer_enhanced WHERE answerblock_fi = %s",
-				$db->quote($data["answerblock_id"] . "")
-			);
-			$result = $db->query($query);
+			return $this->suggested_solutions[$subquestion_index];
+		}
+		else
+		{
+			return array();
 		}
 	}
 	
-	function getAnswerFeedback()
+	function setSuggestedSolution($solution_id = "", $subquestion_index = 0, $is_import = false)
 	{
-		// define method in parent classes
+		$import_id = "";
+		if ($is_import)
+		{
+			if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $solution_id, $matches))
+			{
+				require_once "./content/classes/Pages/class.ilInternalLink.php";
+				require_once "./content/classes/class.ilLMObject.php";
+				$import_id = $solution_id;
+				switch ($matches[2])
+				{
+					case "pg":
+						$solution_id = ilInternalLink::_getIdForImportId("PageObject", $import_id);
+						break;
+					case "st":
+						$solution_id = ilInternalLink::_getIdForImportId("StructureObject", $import_id);
+						break;
+					case "git":
+						$solution_id = ilInternalLink::_getIdForImportId("GlossaryItem", $import_id);
+						break;
+					case "mob":
+						$solution_id = ilInternalLink::_getIdForImportId("MediaObject", $import_id);
+						break;
+				}
+			}
+		}
+		$this->suggested_solutions[$subquestion_index] = array(
+			"internal_link" => $solution_id,
+			"import_id" => $import_id
+		);
 	}
 }
 	

@@ -206,17 +206,19 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("TEXT_CLOZE_TEXT", $this->lng->txt("cloze_text"));
 		$this->tpl->setVariable("TEXT_GAP_DEFINITION", $this->lng->txt("gap_definition"));
 		$this->tpl->setVariable("TEXT_SOLUTION_HINT", $this->lng->txt("solution_hint"));
-		if ($this->object->getSolutionHint())
+		if (count($this->object->suggested_solutions))
 		{
-			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSolutionHint() . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+//			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . $this->object->getSuggestedSolution(0) . "\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
+			$this->tpl->setVariable("TEXT_VALUE_SOLUTION_HINT", " <a href=\"\" target=\"content\">" . $this->lng->txt("solution_hint"). "</a> ");
 			$this->tpl->setVariable("BUTTON_REMOVE_SOLUTION", $this->lng->txt("remove_solution"));
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("change_solution"));
+			$solution_array = $this->object->getSuggestedSolution(0);
+			$this->tpl->setVariable("VALUE_SOLUTION_HINT", $solution_array["internal_link"]);
 		}
 		else
 		{
 			$this->tpl->setVariable("BUTTON_ADD_SOLUTION", $this->lng->txt("add_solution"));
 		}
-		$this->tpl->setVariable("VALUE_SOLUTION_HINT", $this->object->getSolutionHint());
 		$this->tpl->setVariable("SAVE",$this->lng->txt("save"));
 		$this->tpl->setVariable("SAVE_EDIT", $this->lng->txt("save_edit"));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt("cancel"));
@@ -280,7 +282,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->object->setAuthor(ilUtil::stripSlashes($_POST["author"]));
 		$this->object->setComment(ilUtil::stripSlashes($_POST["comment"]));
 		$this->object->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"], false));
-		$this->object->setSolutionHint($_POST["solution_hint"]);
+		$this->object->setSuggestedSolution($_POST["solution_hint"], 0);
 		// adding estimated working time
 		$saved = $saved | $this->writeOtherPostData($result);
 
@@ -540,7 +542,7 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 					$solution_value = $solvalue->value2;
 				}
 			}
-			$feedback = $this->object->getAnswerFeedback($idx, $solution_value);
+			$feedback = $this->object->getAnswerFeedback($idx);
 			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
 			{
 				$points = 0;
@@ -676,36 +678,6 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 		$this->tpl->setVariable("HEADER", $this->object->getTitle());
 		$this->getQuestionTemplate("qt_cloze");
 		parent::addSuggestedSolution();
-	}
-
-	function fillAnswerblockOptions($select_id)
-	{
-		$matched_value = preg_match("/(\d+)_(\d+)/", $select_id, $matches);
-		
-		foreach ($this->object->gaps as $key => $value)
-		{
-			if (($key == $matches[1]) or (!$matched_value))
-			{
-				foreach ($value as $answer_id => $answer_obj)
-				{
-					$this->tpl->setCurrentBlock("option_value");
-					$this->tpl->setVariable("ANSWER_ID", $key . "_" . $answer_obj->get_order());
-					$this->tpl->setVariable("ANSWER_TEXT", $answer_obj->get_name() . "." . $answer_obj->get_answertext());
-					if ($matched_value)
-					{
-						if (($matches[1] == $key) and ($matches[2] == $answer_obj->get_order()))
-						{
-							$this->tpl->setVariable("ANSWER_SELECTED", " selected=\"selected\"");
-						}
-					}
-					$this->tpl->parseCurrentBlock();
-				}
-				$this->tpl->setCurrentBlock("option_value");
-				$this->tpl->setVariable("ANSWER_ID", "-1");
-				$this->tpl->setVariable("ANSWER_TEXT", "----------------------");
-				$this->tpl->parseCurrentBlock();
-			}
-		}
 	}
 }
 ?>

@@ -1104,10 +1104,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$tabs_gui->addTarget("properties",
 				$this->ctrl->getLinkTargetByClass($classname, "editQuestion"), "editQuestion",
 				$classname);
-	
-			$tabs_gui->addTarget("enhanced",
-				$this->ctrl->getLinkTargetByClass($classname, "enhancedMode"), "enhancedMode",
-				$classname);
 		}
 
 		if ($_GET["q_id"])

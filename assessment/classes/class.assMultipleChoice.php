@@ -153,7 +153,6 @@ class ASS_MultipleChoice extends ASS_Question
 		}
 		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
 		$this->domxml = domxml_open_mem($xml_text);
-		$feedbacks = array();
 		if (!empty($this->domxml))
 		{
 			$root = $this->domxml->document_element();
@@ -201,22 +200,51 @@ class ASS_MultipleChoice extends ASS_Question
 									$this->set_response(RESPONSE_MULTIPLE);
 								}
 								$shuffle = "";
-								$render_choice = $flownode->first_child();
-								if (strcmp($render_choice->node_name(), "render_choice") == 0)
+								
+								$subnodes = $flownode->child_nodes();
+								foreach ($subnodes as $node_type)
 								{
-									// select gap
-									$shuffle = $render_choice->get_attribute("shuffle");
-									$labels = $render_choice->child_nodes();
-									foreach ($labels as $lidx => $response_label)
+									switch ($node_type->node_name())
 									{
-										$material = $response_label->first_child();
-										$mattext = $material->first_child();
-										$shuf = 0;
-										if (strcmp(strtolower($shuffle), "yes") == 0)
-										{
-											$shuf = 1;
-										}
-										$this->add_answer($mattext->get_content(), 0, 0,  $response_label->get_attribute("ident"));
+										case "render_choice":
+											$render_choice = $node_type;
+											if (strcmp($render_choice->node_name(), "render_choice") == 0)
+											{
+												// select gap
+												$shuffle = $render_choice->get_attribute("shuffle");
+												$labels = $render_choice->child_nodes();
+												foreach ($labels as $lidx => $response_label)
+												{
+													$material = $response_label->first_child();
+													$mattext = $material->first_child();
+													$shuf = 0;
+													if (strcmp(strtolower($shuffle), "yes") == 0)
+													{
+														$shuf = 1;
+													}
+													$this->add_answer($mattext->get_content(), 0, 0,  $response_label->get_attribute("ident"));
+												}
+											}
+											break;
+										case "material":
+											$matlabel = $node_type->get_attribute("label");
+											if (strcmp($matlabel, "suggested_solution") == 0)
+											{
+												$mattype = $node_type->first_child();
+												if (strcmp($mattype->node_name(), "mattext") == 0)
+												{
+													$suggested_solution = $mattype->get_content();
+													if ($suggested_solution)
+													{
+														if ($this->getId() < 1)
+														{
+															$this->saveToDb();
+														}
+														$this->setSuggestedSolution($suggested_solution, 0, true);
+													}
+												}
+											}
+											break;
 									}
 								}
 							}
@@ -245,57 +273,7 @@ class ASS_MultipleChoice extends ASS_Question
 							}
 						}
 						break;
-					case "itemfeedback":
-						require_once "./content/classes/Pages/class.ilInternalLink.php";
-						require_once "./content/classes/class.ilLMObject.php";
-						$feedback_ident = $node->get_attribute("ident");
-						if ($feedbacks[$feedback_ident])
-						{
-							$itemfeedback_children = $node->child_nodes();
-							foreach ($itemfeedback_children as $index => $matnode)
-							{
-								switch ($matnode->node_name())
-								{
-									case "flow_mat":
-										$material = $matnode->first_child();
-										$mattype = $material->first_child();
-										if (strcmp($mattype->node_name(), "mattext") == 0)
-										{
-											$feedbacktext = $mattype->get_content();
-											if (strcmp($feedbacktext, "") != 0)
-											{
-												$feedbacks[$feedback_ident]["feedback"] = ilInternalLink::_getIdForImportId("PageObject", $feedbacktext);
-											}
-											else
-											{
-												unset($feedbacks[$feedback_ident]);
-											}
-										}
-										break;
-								}
-							}
-						}
-						break;
 				}
-			}
-			if (count($feedbacks))
-			{
-				// existing feedbacks -> choose enhanced mode
-				require_once "./assessment/classes/class.assEnhancedAnswerblock.php";
-				require_once "./assessment/classes/class.assAnswerblockAnswer.php";
-				$this->saveToDb();  // save test to get a valid test id
-				$connection = new EnhancedAnswerblock($this->getId());
-				$connection->setAnswerblockIndex(0);
-				$connection->setPoints($this->getMaximumPoints());
-				$connection->setSubquestionIndex(0);
-				$order = 0;
-				foreach ($feedbacks as $key => $feedback)
-				{
-					$connection->setFeedback($feedback["feedback"]);
-					$connection->addConnection($feedback["value"], $order, $feedback["not"]);
-					$order++;
-				}
-				array_push($this->answerblocks, $connection);
 			}
 			$result = true;
 		}
@@ -561,7 +539,7 @@ class ASS_MultipleChoice extends ASS_Question
 				$question_type = 2;
 			}
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, choice_response, complete, solution_hint, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, shuffle, choice_response, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
 				$db->quote($question_type),
 				$db->quote($this->obj_id),
 				$db->quote($this->title),
@@ -573,7 +551,6 @@ class ASS_MultipleChoice extends ASS_Question
 				$db->quote("$this->shuffle"),
 				$db->quote($this->response),
 				$db->quote("$complete"),
-				$db->quote($this->getSolutionHint() . ""),
 				$db->quote($created),
 				$original_id
 			);
@@ -596,7 +573,7 @@ class ASS_MultipleChoice extends ASS_Question
 		else
 		{
 			// Vorhandenen Datensatz aktualisieren
-			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, shuffle = %s, choice_response = %s, complete = %s, solution_hint = %s WHERE question_id = %s",
+			$query = sprintf("UPDATE qpl_questions SET obj_fi = %s, title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, shuffle = %s, choice_response = %s, complete = %s WHERE question_id = %s",
 				$db->quote($this->obj_id. ""),
 				$db->quote($this->title),
 				$db->quote($this->comment),
@@ -606,7 +583,6 @@ class ASS_MultipleChoice extends ASS_Question
 				$db->quote("$this->shuffle"),
 				$db->quote($this->response),
 				$db->quote("$complete"),
-				$db->quote($this->getSolutionHint() . ""),
 				$db->quote($this->id)
 			);
 			$result = $db->query($query);
