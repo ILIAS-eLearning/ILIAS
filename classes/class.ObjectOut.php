@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.28 2003/02/28 15:57:54 akill Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.29 2003/03/06 20:56:39 akill Exp $
 *
 * @package ilias-core
 */
@@ -53,6 +53,13 @@ class ObjectOut
 	var $data;
 
 	/**
+	* object
+	* @var		object
+	* @access	private
+	*/
+	var $object;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -66,10 +73,13 @@ class ObjectOut
 		$this->lng =& $lng;
 		$this->tree =& $tree;
 		$this->data = $a_data;
+		$this->object =& new Object($_GET["obj_id"]);
         
-        //prepare output of administration view
+		//prepare output of administration view
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-
+		$title = $this->object->getTitle();
+		if(!empty($title))
+			$this->tpl->setVariable("HEADER", $title);
 		$this->setAdminTabs();
 		$this->setLocator();
 	}
@@ -313,12 +323,53 @@ class ObjectOut
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 
 	}
+
+
+	/**
+	* save object
+	*/
 	function saveObject()
 	{
+		global $rbacsystem,$rbacreview,$rbacadmin,$tree;
+
+		require_once("./classes/class.Object.php");
+		
+		// $_GET["obj_id"], $_GET["parent"], $_GET["type"], $_GET["new_type"], $_POST["Fobject"]
+
+		if ($rbacsystem->checkAccess("create",$_GET["obj_id"], $_GET["parent"], $_GET["new_type"]))
+		{
+			// create object
+			$newObj = new Object();
+			$newObj->setType($_GET["new_type"]);
+			$newObj->setTitle($_POST["Fobject"]["title"]);
+			$newObj->setDescription($_POST["Fobject"]["desc"]);
+			$newObj->create();
+
+			// insert object in objecttree
+			$tree->insertNode($newObj->getId(), $_GET["obj_id"], $_GET["parent"]);
+
+			$parentRoles = $rbacadmin->getParentRoleIds();
+			
+			foreach ($parentRoles as $parRol)
+			{
+				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
+				$ops = $rbacreview->getOperations($parRol["obj_id"], $_GET["new_type"], $parRol["parent"]);
+				$rbacadmin->grantPermission($parRol["obj_id"],$ops, $newObj->getId(), $_GET["obj_id"]);
+			}
+		}
+		else
+		{
+			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
+		}
+		
+		//$this->data = $this->id;
+
 		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 		exit();
 	}
+
+
 	function editObject()
 	{
 		$this->getTemplateFile("edit");
@@ -818,7 +869,6 @@ class ObjectOut
 
 	function getTemplateFile($a_cmd,$a_type = "")
 	{
-		// <get rid of $_GET variable
 		if(!$a_type)
 		{
 			$a_type = $_GET["type"];
