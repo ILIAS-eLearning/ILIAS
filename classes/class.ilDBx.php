@@ -7,7 +7,7 @@ require_once ("DB.php");
 * Database Wrapper
 *
 * this class should extend PEAR::DB, add error Management
-* in case of a db-error in any database query the DBx-class raises an error
+* in case of a db-error in any database query the ilDBx-class raises an error
 * 
 * @author Peter Gabriel <peter@gabriel-online.net>
 * 
@@ -15,7 +15,7 @@ require_once ("DB.php");
 * @package application
 * @access public
 */
-class DBx extends PEAR
+class ilDBx extends PEAR
 {
 	/**
 	* error class
@@ -43,7 +43,7 @@ class DBx extends PEAR
 	* 
 	* @param string dsn database-connection-string for pear-db
 	*/
-	function DBx($dsn)
+	function ilDBx($dsn)
 	{
 		//call parent constructor
 		$parent = get_parent_class($this);
@@ -74,7 +74,7 @@ class DBx extends PEAR
 	/**
 	* destructor
 	*/
-	function _DBx() {
+	function _ilDBx() {
 		//$this->db->disconnect();
 	} //end destructor
 

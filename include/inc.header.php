@@ -23,7 +23,7 @@ require_once "Auth/Auth.php";
 
 //include classes and function libraries
 require_once "classes/class.IniFile.php";
-require_once "classes/class.DBx.php";
+require_once "classes/class.ilDBx.php";
 require_once "classes/class.template.php";
 require_once "classes/class.ilias.php";
 require_once "classes/class.ilAdmTabsGUI.php";
