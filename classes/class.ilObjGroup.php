@@ -990,6 +990,8 @@ class ilObjGroup extends ilObject
 	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
 	{  //echo " notify ref".$a_ref_id."node".$a_node_id;
 		// object specific event handling
+		global $tree;
+		
 		switch ($a_event)
 		{
 			case "link":
@@ -1035,15 +1037,19 @@ class ilObjGroup extends ilObject
 				break;
 		}
 		
-		// stop walking up the tree
-		//return true;
-		//echo "pass";
-		if ($a_node_id==$a_ref_id)
+		// At the beginning of the recursive process it avoids second call of the notify function with the same parameter
+		if ($a_node_id==$a_ref_id) 
 		{	
-			$a_node_id = (int) $this->tree->getParentId($a_node_id);
+			$parent_obj =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
+			$parent_type = $parent_obj->getType();
+			if($parent_type == $this->getType())
+			{
+				$a_node_id = (int) $tree->getParentId($a_node_id);
+			}
 		}
 		parent::notify($a_event,$a_ref_id,$a_node_id,$a_params);
 	}
 
 } //END class.ilObjGroup
+
 ?>
