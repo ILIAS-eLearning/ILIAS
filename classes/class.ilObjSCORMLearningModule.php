@@ -297,6 +297,11 @@ class ilObjSCORMLearningModule extends ilObject
 	/**
 	* delete SCORM learning module and all related data	
 	*
+	* this method has been tested on may 9th 2004
+	* meta data, scorm lm data, scorm tree, scorm objects (organization(s),
+	* manifest, resources and items), tracking data and data directory
+	* have been deleted correctly as desired
+	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/

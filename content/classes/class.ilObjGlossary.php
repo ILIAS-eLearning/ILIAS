@@ -169,6 +169,9 @@ class ilObjGlossary extends ilObject
 	}
 
 
+	/**
+	* get term list
+	*/
 	function getTermList()
 	{
 		$list = ilGlossaryTerm::getTermList($this->getId());
@@ -296,7 +299,7 @@ class ilObjGlossary extends ilObject
 		return $file;
 	}
 
-		/**
+	/**
 	* export object to xml (see ilias_co.dtd)
 	*
 	* @param	object		$a_xml_writer	ilXmlWriter object that receives the
@@ -506,17 +509,37 @@ class ilObjGlossary extends ilObject
 	}
 
 	/**
-	* delete learning module and all related data
+	* delete glossary and all related data
+	*
+	* this method has been tested on may 9th 2004
+	* meta data, terms, definitions, definition meta data
+	* and definition pages have been deleted correctly as desired
 	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
 	function delete()
 	{
-		// todo: put glossary specific stuff here
+		// always call parent delete function first!!
+		if (!parent::delete())
+		{
+			return false;
+		}
 
-		// always call parent delete function at the end!!
-		return (parent::delete()) ? true : false;
+		// delete terms
+		$terms = $this->getTermList();
+		foreach ($terms as $term)
+		{
+			$term_obj =& new ilGlossaryTerm($term["id"]);
+			$term_obj->delete();
+		}
+
+		// delete meta data
+		$nested = new ilNestedSetXML();
+		$nested->init($this->getId(), $this->getType());
+		$nested->deleteAllDBData();
+
+		return true;
 	}
 
 	/**

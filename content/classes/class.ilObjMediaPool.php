@@ -137,6 +137,10 @@ class ilObjMediaPool extends ilObject
 	/**
 	* delete object and all related data
 	*
+	* this method has been tested on may 9th 2004
+	* media pool tree, media objects and folders
+	* have been deleted correctly as desired
+	*
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
