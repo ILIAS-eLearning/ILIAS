@@ -185,6 +185,7 @@
 <object name="mail" class_name="Mail" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<property name="view">view_content</property>
 	<property name="perm">perm_settings</property>
+	<property name="import">mail_import</property>
 	<property name="owner">show_owner</property>
 </object>
 <object name="ldap" class_name="Ldap" checkbox="0" inherit="0" translate="sys" rbac="1">

@@ -1348,9 +1348,9 @@ class ilObjUser extends ilObject
 			"LEFT JOIN usr_pref USING (usr_id) ".
 			$where_condition." ".
 			$in." ".
-			"AND usr_data.usr_id != '".ANONYMOUS_USER_ID."' ".
-			"AND usr_pref.keyword = 'public_profile' ".
-			"AND usr_pref.value = 'y'";
+			"AND usr_data.usr_id != '".ANONYMOUS_USER_ID."' ";
+#			"AND usr_pref.keyword = 'public_profile' ";
+#			"AND usr_pref.value = 'y'";
 
 		$ilBench->start("Search", "ilObjUser_search");
 		$res = $a_search_obj->ilias->db->query($query);
@@ -1774,6 +1774,20 @@ class ilObjUser extends ilObject
 			" AND user_id = '".$this->getId()."'";
 		$this->ilias->db->query($q);
 	}
+
+	function _getImportedUserId($i2_id)
+	{
+		$query = "SELECT obj_id FROM object_data WHERE import_id = '".$i2_id."'";
+
+		$res = $this->ilias->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$id = $row->obj_id;
+		}
+		return $id ? $id : 0;
+	}
+
+		
 
 } // END class ilObjUser
 ?>

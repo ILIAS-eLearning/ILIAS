@@ -187,6 +187,55 @@ class ilDBx extends PEAR
 		return $row[0];
 	}
 
+	/**
+	* Wrapper for Pear prepare
+	* @param String query
+	* @return resource
+	*/
+	function prepare($query)
+	{
+		return $this->db->prepare($query);
+	}
+
+	/**
+	* Wrapper for Pear executeMultiple
+	* @param resource (statement from prepare)
+	* @param array multidim array of data
+	* @return mixed a new DB_result/DB_OK  or a DB_Error, if fail
+	*/
+	function executeMultiple($stmt,$data)
+	{
+		$res = $this->db->executeMultiple($stmt,$data);
+
+		if (DB::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $res;
+		}
+	}
+
+	/**
+	* Wrapper for Pear executeMultiple
+	* @param resource (statement from prepare)
+	* @param array multidim array of data
+	* @return mixed a new DB_result/DB_OK  or a DB_Error, if fail
+	*/
+	function execute($stmt,$data)
+	{
+		$res = $this->db->execute($stmt,$data);
+
+		if (DB::isError($res))
+		{
+			$this->raiseError($res->getMessage()."<br><font size=-1>SQL: ".$data."</font>", $this->error_class->FATAL);
+		}
+		else
+		{
+			return $res;
+		}
+	}
 
 	function checkQuerySize($a_query)
 	{
@@ -201,6 +250,9 @@ class ilDBx extends PEAR
 			return true;
 		}
 	}
+
+	
+
 
 	// PRIVATE
 	function setMaxAllowedPacket()

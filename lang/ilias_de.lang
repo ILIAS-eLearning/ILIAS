@@ -2648,3 +2648,14 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+common#:#mail_import#:#Import
+common#:#table_mail_import#:#Import von ILIAS 2 Mails 
+common#:#import_file_not_valid#:#Die Importdatei ist nicht gültig.
+common#:#cannot_unzip_file#:#Kann die heraufgeladene Datei nicht entpacken.
+common#:#cannot_find_xml#:#Kann keine XML-Datei finden.
+common#:#error_parser#:#Fehler beim Starten des Parsers.
+common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
+common#:#checked_files#:#Importierbare Dateien
+common#:#mail_import_file#:#ILIAS 2 Exportdatei
+common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, Sie können sie nun importieren.
+common#:#import_finished#:#Anzahl der importierten Nachrichten:

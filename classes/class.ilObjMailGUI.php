@@ -147,5 +147,123 @@ class ilObjMailGUI extends ilObjectGUI
 
 		$this->tpl->parseCurrentBlock();
 	}
+
+	function importObject()
+	{
+		global $rbacsystem,$lng;
+
+		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+		}
+		$this->getTemplateFile("import");
+
+		// GET ALREADY CREATED UPLOADED XML FILE
+		$this->__initFileObject();
+		if($this->file_obj->findXMLFile())
+		{
+			$this->tpl->setVariable("TXT_IMPORTED_FILE",$lng->txt("checked_files"));
+			$this->tpl->setVariable("XML_FILE",basename($this->file_obj->getXMLFile()));
+
+			$this->tpl->setVariable("BTN_IMPORT",$this->lng->txt("import"));
+		}
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+		$this->tpl->setVariable("TXT_IMPORT_MAIL",$this->lng->txt("table_mail_import"));
+		$this->tpl->setVariable("TXT_IMPORT_FILE",$this->lng->txt("mail_import_file"));
+		$this->tpl->setVariable("BTN_CANCEL",$this->lng->txt("cancel"));
+		$this->tpl->setVariable("BTN_UPLOAD",$this->lng->txt("upload"));
+
+		return true;
+	}
+
+	function performImportObject()
+	{
+		global $rbacsystem,$lng;
+
+		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+		}
+		$this->__initFileObject();
+		$this->file_obj->findXMLFile();
+		$this->__initParserObject($this->file_obj->getXMLFile(),"import");
+		$this->parser_obj->startParsing();
+		$number = $this->parser_obj->getCountImported();
+		sendInfo($lng->txt("import_finished")." ".$number,true);
+		
+		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=import");
+	}
+	
+	
+
+	function uploadObject()
+	{
+		global $rbacsystem,$lng;
+
+		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
+		}
+		
+		$this->__initFileObject();
+		if(!$this->file_obj->storeUploadedFile($_FILES["importFile"]))	// STEP 1 save file in ...import/mail
+		{
+			$this->message = $lng->txt("import_file_not_valid"); 
+			$this->file_obj->unlinkLast();
+		}
+		else if(!$this->file_obj->unzip())
+		{
+			$this->message = $lng->txt("cannot_unzip_file");					// STEP 2 unzip uplaoded file
+			$this->file_obj->unlinkLast();
+		}
+		else if(!$this->file_obj->findXMLFile())						// STEP 3 getXMLFile
+		{
+			$this->message = $lng->txt("cannot_find_xml");
+			$this->file_obj->unlinkLast();
+		}
+		else if(!$this->__initParserObject($this->file_obj->getXMLFile(),"check"))
+		{
+			$this->message = $lng->txt("error_parser");				// STEP 4 init sax parser
+		}
+		else if(!$this->parser_obj->startParsing())
+		{
+			$this->message = $lng->txt("users_not_imported").":<br/>"; // STEP 5 start parsing
+			$this->message .= $this->parser_obj->getNotAssignableUsers();
+		}
+		// FINALLY CHECK ERROR
+		if(!$this->message)
+		{
+			$this->message = $lng->txt("uploaded_and_checked");
+		}
+		sendInfo($this->message,true);
+		
+
+		ilUtil::redirect("adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=import");
+	}
+
+	// PRIVATE
+	function __initFileObject()
+	{
+		include_once "./classes/class.ilFileDataImportMail.php";
+
+		$this->file_obj =& new ilFileDataImportMail();
+
+		return true;
+	}
+	function __initParserObject($a_xml,$a_mode)
+	{
+		include_once "./classes/class.ilMailImportParser.php";
+
+		if(!$a_xml)
+		{
+			return false;
+		}
+
+		$this->parser_obj =& new ilMailImportParser($a_xml,$a_mode);
+		
+		return true;
+	}
+
 } // END class.ilObjMailGUI
 ?>

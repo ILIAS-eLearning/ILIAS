@@ -432,7 +432,6 @@ class ilMail
 			"sender_id"       => $a_row->sender_id,
 			"attachments"     => unserialize(stripslashes($a_row->attachments)), 
 			"send_time"       => $a_row->send_time,
-			"timest"          => $a_row->timest,
 			"rcp_to"          => stripslashes($a_row->rcp_to),
 			"rcp_cc"          => stripslashes($a_row->rcp_cc),
 			"rcp_bcc"         => stripslashes($a_row->rcp_bcc),
