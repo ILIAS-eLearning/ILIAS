@@ -1081,5 +1081,6 @@ meta#:#meta_l_zh#:#chinese
 meta#:#meta_l_zu#:#zulu
 meta#:#meta_language#:#Language
 meta#:#meta_title#:#Title
+common#:#msg_error_copy#:#Copy Error
 common#:#msg_user_last_role1#:#The following users are only assigned to this role:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
