@@ -2347,7 +2347,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		$this->db->quote($new_text),
 		$this->db->quote("$row->question_id")
 	);
-	$update_res = $this->db->query($update_query);	
+	$update_res = $this->db->query($update_query);
 }
 ?>
 <#160>
@@ -2458,7 +2458,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 
 	// change existing objects
 	$node_id = $tree->getParentId($dest_rolf_id);
-	
+
 	if (empty($node_id))
 	{
 		continue;
@@ -2489,7 +2489,7 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 				$check = true;
 				continue;
 			}
-	
+
 			$valid_nodes[] = $node;
 		}
 		else
@@ -2644,3 +2644,6 @@ while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 ALTER  TABLE  `qpl_answers`  ADD  `name` VARCHAR( 50  )  NOT  NULL  AFTER  `question_fi` ;
 <#162>
 ALTER  TABLE  `qpl_answers`  ADD  `shuffle` ENUM('0','1')  NOT  NULL DEFAULT '1' AFTER  `name` ;
+
+<#163>
+UPDATE settings SET value = '3.0.0RC1 2004/04/18' WHERE keyword = 'ilias_version' LIMIT 1;
