@@ -1158,6 +1158,7 @@ common#:#no_bm_in_personal_list#:#Žádné záložky nebyly definovány.
 common#:#no_chat_in_personal_list#:#No chats in personal list###16 Mar 2004 new variable
 common#:#no_checkbox#:#Žádné zaškrtávací políčko nebylo označeno!
 common#:#no_date#:#Žádné datum
+common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Žádné diskusní skupiny v osobním seznamu.
 common#:#no_grp_in_personal_list#:#Žádné skupiny v osobním seznamu.
 common#:#no_import_available#:#Import není možný pro daný typ

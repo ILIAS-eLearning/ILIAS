@@ -1175,6 +1175,7 @@ common#:#no_bm_in_personal_list#:#未定义书签
 common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
 common#:#no_checkbox#:#未选中选项栏
 common#:#no_date#:#无日期
+common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#个人列表中无论坛。
 common#:#no_grp_in_personal_list#:#个人列表中无组。
 common#:#no_import_available#:#类型无导入

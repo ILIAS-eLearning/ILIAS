@@ -590,7 +590,6 @@ common#:#deleted#:#Gelöscht
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
 common#:#description#:#Beschreibung
-common#:#no_description#:#Keine Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#disabled#:#Ausgeschaltet
 common#:#domain#:#Domäne
@@ -1159,6 +1158,7 @@ common#:#no_bm_in_personal_list#:#Es sind keine Bookmarks angelegt.
 common#:#no_chat_in_personal_list#:#No chats in personal list###16 Mar 2004 new variable
 common#:#no_checkbox#:#Sie haben keine Auswahl getroffen
 common#:#no_date#:#Kein Datum
+common#:#no_description#:#Keine Beschreibung
 common#:#no_frm_in_personal_list#:#Es sind keine Foren abonniert.
 common#:#no_grp_in_personal_list#:#Es sind keine Gruppen abonniert.
 common#:#no_import_available#:#Import nicht verfügbar für Typ
