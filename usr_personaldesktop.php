@@ -363,10 +363,13 @@ if ($_GET["cmd"] == "whois" or $_GET["cmd"] == "whoisdetail")
 				$tpl->setCurrentBlock("tbl_users_row");
 				$tpl->setVariable("ROWCOL",$rowCol);		
 				$tpl->setVariable("USR_LOGIN",$user["login"]);	
-				$tpl->setVariable("USR_TITLE",$user["title"]);
-				$tpl->setVariable("USR_FIRSTNAME",$user["firstname"]);
-				$tpl->setVariable("USR_LASTNAME",$user["lastname"]);
+				$tpl->setVariable("USR_FULLNAME",ilObjUser::setFullname($user["title"],$user["firstname"],$user["lastname"]));
 				$tpl->setVariable("USR_LOGIN_TIME",$login_time);
+				$tpl->setVariable("IMG_VIEW", ilUtil::getImagePath("enlarge.gif", false));
+				$tpl->setVariable("ALT_TXT_VIEW",$lng->txt("view"));
+				$tpl->setVariable("USR_ID",$user_id);
+				$tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_pencil_b.gif", false));
+				$tpl->setVariable("ALT_TXT_MAIL",$lng->txt("mail"));
 				$tpl->parseCurrentBlock();
 			
 				$z++;	
@@ -377,9 +380,7 @@ if ($_GET["cmd"] == "whois" or $_GET["cmd"] == "whoisdetail")
 		{
 			$tpl->setCurrentBlock("tbl_users_header");
 			$tpl->setVariable("TXT_USR_LOGIN",ucfirst($lng->txt("username")));	
-			$tpl->setVariable("TXT_USR_TITLE",ucfirst($lng->txt("title")));
-			$tpl->setVariable("TXT_USR_FIRSTNAME",ucfirst($lng->txt("firstname")));
-			$tpl->setVariable("TXT_USR_LASTNAME",ucfirst($lng->txt("lastname")));
+			$tpl->setVariable("TXT_USR_FULLNAME",ucfirst($lng->txt("fullname")));
 			$tpl->setVariable("TXT_USR_LOGIN_TIME",ucfirst($lng->txt("login_time")));
 			$tpl->parseCurrentBlock();
 		}
