@@ -67,6 +67,7 @@ assessment#:#false#:#否
 assessment#:#filter#:#过滤程序
 assessment#:#gap_selection#:#间隔选择
 assessment#:#last_update#:#上次更新
+assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#matches#:# 匹配
 assessment#:#matching_pair#:# 匹配对
 assessment#:#no_questions_available#:#无可用问题！
@@ -92,8 +93,16 @@ assessment#:#set_filter#:#设置过滤程序
 assessment#:#solution_order#:#解答次序
 assessment#:#text_gap#:#文本间隔
 assessment#:#true#:#是
+assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
 assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
 assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
+assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###20 Feb 2004 new variable
+assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###20 Feb 2004 new variable
+assessment#:#tst_mark_minimum_level#:#Minimum level (in %)###20 Feb 2004 new variable
+assessment#:#tst_mark_official_form#:#Official form###20 Feb 2004 new variable
+assessment#:#tst_mark_passed#:#Passed###20 Feb 2004 new variable
+assessment#:#tst_mark_short_form#:#Short form###20 Feb 2004 new variable
+assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
 assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
 assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable

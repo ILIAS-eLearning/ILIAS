@@ -50,6 +50,7 @@ assessment#:#false#:#False###05 Feb 2004 new variable
 assessment#:#filter#:#Filter###05 Feb 2004 new variable
 assessment#:#gap_selection#:#Gap selection###05 Feb 2004 new variable
 assessment#:#last_update#:#Last update###05 Feb 2004 new variable
+assessment#:#mark_schema#:#Mark schema###20 Feb 2004 new variable
 assessment#:#matches#:#matches###05 Feb 2004 new variable
 assessment#:#matching_pair#:#Matching pair###05 Feb 2004 new variable
 assessment#:#no_questions_available#:#There are no questions available!###05 Feb 2004 new variable
@@ -75,8 +76,16 @@ assessment#:#set_filter#:#Set filter###05 Feb 2004 new variable
 assessment#:#solution_order#:#Solution order###05 Feb 2004 new variable
 assessment#:#text_gap#:#Text gap###05 Feb 2004 new variable
 assessment#:#true#:#True###05 Feb 2004 new variable
+assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###20 Feb 2004 new variable
 assessment#:#tst_general_properties#:#General properties###18 Feb 2004 new variable
 assessment#:#tst_introduction#:#Introduction###18 Feb 2004 new variable
+assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###20 Feb 2004 new variable
+assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###20 Feb 2004 new variable
+assessment#:#tst_mark_minimum_level#:#Minimum level (in %)###20 Feb 2004 new variable
+assessment#:#tst_mark_official_form#:#Official form###20 Feb 2004 new variable
+assessment#:#tst_mark_passed#:#Passed###20 Feb 2004 new variable
+assessment#:#tst_mark_short_form#:#Short form###20 Feb 2004 new variable
+assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###20 Feb 2004 new variable
 assessment#:#tst_nr_of_tries#:#Max. number of tries###18 Feb 2004 new variable
 assessment#:#tst_processing_time#:#Max. processing time###18 Feb 2004 new variable
 assessment#:#tst_report_after_question#:#Report the score after every question is answered###18 Feb 2004 new variable
