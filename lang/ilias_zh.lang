@@ -999,6 +999,7 @@ common#:#email#:#电子邮件
 common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#您输入的电子邮件地址无效！###14 Sep 2004 content changed
 common#:#enable#:#激活
+common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
 common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
 common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 new variable
@@ -1290,8 +1291,17 @@ common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#帮助
 common#:#hide_details#:#隐藏详情
 common#:#hide_structure#:#禁止结构化视图
+common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
+common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_dbk:pg_update#:#Page changed###03 Dec 2004 new variable
 common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
 common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
+common#:#hist_lm:pg_create#:#Page created###03 Dec 2004 new variable
+common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
+common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
 common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Hits/Page###16 Sep 2004 new variable
 common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
@@ -1330,6 +1340,7 @@ common#:#image_gen_unsucc#:#图象生成失败。联系系统管理员检查转�
 common#:#import#:#导入
 common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Import Categories###06 Mar 2004 new variable
+common#:#import_dbk#:#Import Digilib Book###03 Dec 2004 new variable
 common#:#import_file#:#Import File###27 Feb 2004 new variable
 common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
 common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
@@ -2264,6 +2275,7 @@ common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#用户已增加
 common#:#user_assignment#:#用户指派
 common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
+common#:#user_comment#:#User comment###03 Dec 2004 new variable
 common#:#user_deleted#:#用户已删除
 common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#User import complete.###04 Mar 2004 new variable
@@ -2344,8 +2356,10 @@ content#:#cont_Unordered#:#未排序的
 content#:#cont_act_number#:#Chapter Numeration###05 Sep 2004 new variable
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#增加区域
+content#:#cont_add_change_comment#:#Add change comment###03 Dec 2004 new variable
 content#:#cont_add_definition#:#增加定义
 content#:#cont_add_fullscreen#:#Add Fullscreen###25 Feb 2004 new variable
+content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
 content#:#cont_added_term#:#术语已增加
 content#:#cont_all_definitions#:#全部定义
 content#:#cont_all_pages#:#全部页
@@ -3097,6 +3111,7 @@ forum#:#forums_info_delete_post#:#您肯定要删除这篇文章及其答覆吗�
 forum#:#forums_last_post#:#最后的文章
 forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_moderators#:#监督员
+forum#:#forums_new_articles#:#New articles###03 Dec 2004 new variable
 forum#:#forums_new_entries#:#新论坛条目
 forum#:#forums_new_thread#:#新主题
 forum#:#forums_not_available#:#论坛不可用

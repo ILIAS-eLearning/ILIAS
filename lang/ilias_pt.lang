@@ -981,6 +981,7 @@ common#:#email#:#E-mail###05 Nov 2004 new variable
 common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#O endereço de email que pôs é inválido!###14 Sep 2004 content changed
 common#:#enable#:#Ligar
+common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
 common#:#enable_js_edit#:#Enable JavaScript Editing###29 Nov 2004 new variable
 common#:#enable_js_edit_info#:#This option enables JavaScript editing for all content objects (ILIAS Learning Modules, Glossaries, Assessment Questions, Digilib Books) ###29 Nov 2004 new variable
 common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 new variable
@@ -1272,8 +1273,17 @@ common#:#header_title#:#Header Title###03 May 2004 new variable
 common#:#help#:#Ajuda
 common#:#hide_details#:#esconder detalhes
 common#:#hide_structure#:#Desligar Vista-Estruturada
+common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
+common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_dbk:pg_update#:#Page changed###03 Dec 2004 new variable
 common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
 common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
+common#:#hist_lm:pg_create#:#Page created###03 Dec 2004 new variable
+common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
+common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
 common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Hits/Page###16 Sep 2004 new variable
 common#:#hlm#:#HACP Learning Module###15 Jul 2004 new variable
@@ -1312,6 +1322,7 @@ common#:#image_gen_unsucc#:#Geração de imagem mal sucedida. Contacte a adminis
 common#:#import#:#Importar
 common#:#import_alm#:#Import AICC Package###15 Jul 2004 new variable
 common#:#import_categories#:#Importar Categorias
+common#:#import_dbk#:#Import Digilib Book###03 Dec 2004 new variable
 common#:#import_file#:#Importar Ficheiro
 common#:#import_file_not_valid#:#O ficheiro a importar não é válido.
 common#:#import_finished#:#Número de mensagens importadas.
@@ -2246,6 +2257,7 @@ common#:#user_access#:#Access per user###02 Jul 2004 new variable
 common#:#user_added#:#Utilizador adicionado
 common#:#user_assignment#:#Atribuição de Utilizador
 common#:#user_cant_receive_mail#:#user is not allowed to use the mail system###18 Oct 2004 new variable
+common#:#user_comment#:#User comment###03 Dec 2004 new variable
 common#:#user_deleted#:#Utilizador apagado
 common#:#user_detail#:#Detail Data###21 Jul 2004 new variable
 common#:#user_imported#:#Importação de utilizador completa.
@@ -2326,8 +2338,10 @@ content#:#cont_Unordered#:#Desordenado
 content#:#cont_act_number#:#Chapter Numeration###05 Sep 2004 new variable
 content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
 content#:#cont_add_area#:#Adicionar Área
+content#:#cont_add_change_comment#:#Add change comment###03 Dec 2004 new variable
 content#:#cont_add_definition#:#Adicionar Definição
 content#:#cont_add_fullscreen#:#Adicionar Ecrã Inteiro###14 Sep 2004 content changed
+content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
 content#:#cont_added_term#:#Termo adicionado
 content#:#cont_all_definitions#:#Todas as Definições
 content#:#cont_all_pages#:#Todas as Páginas
@@ -3079,6 +3093,7 @@ forum#:#forums_info_delete_post#:#Tem a certeza que quer esconder este artigo in
 forum#:#forums_last_post#:#Último Artigo
 forum#:#forums_mark_read#:#Mark all read###02 Dec 2004 new variable
 forum#:#forums_moderators#:#Moderadores
+forum#:#forums_new_articles#:#New articles###03 Dec 2004 new variable
 forum#:#forums_new_entries#:#Novas Entradas em Fóruns
 forum#:#forums_new_thread#:#Novo Tópico
 forum#:#forums_not_available#:#Fóruns Não Disponíveis

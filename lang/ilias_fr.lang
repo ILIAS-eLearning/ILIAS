@@ -966,6 +966,7 @@ common#:#email#:#Email
 common#:#email_footer#:#<br />powered by ILIAS
 common#:#email_not_valid#:#L'adresse email que vous avez saisie n'est pas valide
 common#:#enable#:#Activer
+common#:#enable_hist_user_comments#:#Enable user comments in history###03 Dec 2004 new variable
 common#:#enable_js_edit#:#Activer éditeur javascript
 common#:#enable_js_edit_info#:#Cette option permet d'activer un éditeur pour tout les ressources d'apprentissage (module d'apprentissage ILIAS, Glossaire, question etc.)
 common#:#enable_password_assistance#:#Activer l'assistance pour les mots de passe
@@ -1253,8 +1254,17 @@ common#:#header_title#:#Titre d'entête
 common#:#help#:#Aide
 common#:#hide_details#:#cacher détails
 common#:#hide_structure#:#Désactiver vue structurée
+common#:#hist_dbk:pg_create#:#Page created###03 Dec 2004 new variable
+common#:#hist_dbk:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_dbk:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_dbk:pg_update#:#Page changed###03 Dec 2004 new variable
 common#:#hist_file_create#:#File created, filename is "%1".###29 Nov 2004 new variable
 common#:#hist_file_replace#:#File replaced, new filename is "%1", new version is %2.###29 Nov 2004 new variable
+common#:#hist_lm:pg_create#:#Page created###03 Dec 2004 new variable
+common#:#hist_lm:pg_cut#:#Page cut out of chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_lm:pg_paste#:#Page pasted into chapter "%1" [%2]###03 Dec 2004 new variable
+common#:#hist_lm:pg_update#:#Page changed###03 Dec 2004 new variable
+common#:#hist_no_entries#:#No entries in history.###03 Dec 2004 new variable
 common#:#history#:#History###29 Nov 2004 new variable
 common#:#hits_per_page#:#Hits/Page
 common#:#hlm#:#Module d'apprentissage HACP
@@ -1293,6 +1303,7 @@ common#:#image_gen_unsucc#:#Echec de la génération d'image. Veuillez demander 
 common#:#import#:#Importation
 common#:#import_alm#:#Importer paquet AICC
 common#:#import_categories#:#Importer catégories
+common#:#import_dbk#:#Import Digilib Book###03 Dec 2004 new variable
 common#:#import_file#:#Importer fichier
 common#:#import_file_not_valid#:#Le fichier d'importation n'est pas valide
 common#:#import_finished#:#Nombre de messages importés
@@ -2222,6 +2233,7 @@ common#:#user#:#Utilisateur
 common#:#user_access#:#Accès par utilisateur
 common#:#user_added#:#Utilisateur ajouté
 common#:#user_assignment#:#Assignation d'utilisateur
+common#:#user_comment#:#User comment###03 Dec 2004 new variable
 common#:#user_deleted#:#Utilisateur détruit
 common#:#user_detail#:#Détail
 common#:#user_imported#:#Importation des utilisateurs terminée
@@ -2301,8 +2313,10 @@ content#:#cont_Unordered#:#Non trié
 content#:#cont_act_number#:#Numérotation de chapitre
 content#:#cont_active#:#Activer menu
 content#:#cont_add_area#:#Ajouter zone
+content#:#cont_add_change_comment#:#Add change comment###03 Dec 2004 new variable
 content#:#cont_add_definition#:#Ajouter définition
 content#:#cont_add_fullscreen#:#Ajouter plein écran
+content#:#cont_added_comment#:#Comment has been added to history.###03 Dec 2004 new variable
 content#:#cont_added_term#:#Terme ajouté
 content#:#cont_all_definitions#:#Toutes les définitions
 content#:#cont_all_pages#:#Toutes les pages
@@ -2619,7 +2633,7 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_title#:#title###29 Nov 2004 new variable
 content#:#cont_title_footnotes#:#Footnotes###29 Nov 2004 new variable
 content#:#cont_toc#:#Table des matières
-content#:#cont_toc_mode#:#Mode de table des matières
+content#:#cont_toc_mode#:#Mode de table des matières###03 Dec 2004 content changed
 content#:#cont_top#:#En haut
 content#:#cont_total_time#:#Temps total
 content#:#cont_tracking_data#:#Données de suivi
@@ -3052,6 +3066,7 @@ forum#:#forums_info_censor_post#:#Etes-vous sûr(e) de vouloir cacher cet articl
 forum#:#forums_info_delete_post#:#Etes-vous sûr(e) de vouloir détruire cet article et toutes les réponses ?
 forum#:#forums_last_post#:#Dernier article
 forum#:#forums_moderators#:#Modérateurs
+forum#:#forums_new_articles#:#New articles###03 Dec 2004 new variable
 forum#:#forums_new_entries#:#Nouvelles entrées de forum
 forum#:#forums_new_thread#:#Nouveau sujet
 forum#:#forums_not_available#:#Forums non disponible
