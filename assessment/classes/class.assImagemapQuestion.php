@@ -272,7 +272,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $this->imagemap_filename = $data->imagemap_file;
         $this->image_filename = $data->image_file;
         $this->points = $data->points;
-        $this->setEstimatedWorkingTiem(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+        $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       // loads materials uris from database
       $this->loadMaterialFromDb($question_id);

@@ -428,7 +428,7 @@ class ASS_MatchingQuestion extends ASS_Question {
 				$this->matching_type = $data->matching_type;
         $this->question = $data->question_text;
         $this->points = $data->points;
-        $this->setEstimatedWorkingTiem(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
+        $this->setEstimatedWorkingTime(substr($data->working_time, 0, 2), substr($data->working_time, 3, 2), substr($data->working_time, 6, 2));
       }
       // loads materials uris from database
       $this->loadMaterialFromDb($question_id);

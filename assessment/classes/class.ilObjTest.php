@@ -534,8 +534,8 @@ class ilObjTest extends ilObject
 */
   function test_title_exists($title) {
     $query = sprintf("SELECT * FROM object_data WHERE title = %s AND type = %s",
-      $this->ilias->db->db->quote($title),
-			$this->ilias->db->db->quote("tst")
+      $this->ilias->db->quote($title),
+			$this->ilias->db->quote("tst")
     );
     $result = $this->ilias->db->query($query);
     if (strcmp(get_class($result), db_result) == 0) {
@@ -563,17 +563,17 @@ class ilObjTest extends ilObject
     $clone->set_title($this->get_title() . " ($counter)");
     $clone->set_owner($this->ilias->account->id);
     $clone->set_author($this->ilias->account->fullname);
-    $clone->save_to_db($this->ilias->db->db);
+    $clone->save_to_db($this->ilias->db);
     // Zugeordnete Fragen duplizieren
     $query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s",
-      $this->ilias->db->db->quote($this->get_id())
+      $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
     while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
       $query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-        $this->ilias->db->db->quote($clone->get_id()),
-        $this->ilias->db->db->quote($data->question_fi),
-        $this->ilias->db->db->quote($data->sequence)
+        $this->ilias->db->quote($clone->getId()),
+        $this->ilias->db->quote($data->question_fi),
+        $this->ilias->db->quote($data->sequence)
       );
       $insert_result = $this->ilias->db->query($query);
     }
@@ -601,7 +601,7 @@ class ilObjTest extends ilObject
 
 	function save_complete_status() {
     global $ilias;
-    $db =& $ilias->db->db;
+    $db =& $ilias->db;
 		$complete = 0;
 		if ($this->isComplete()) {
 			$complete = 1;
@@ -626,7 +626,7 @@ class ilObjTest extends ilObject
   function save_to_db()
   {
     global $ilias;
-    $db =& $ilias->db->db;
+    $db =& $ilias->db;
 		$complete = 0;
 		if ($this->isComplete()) {
 			$complete = 1;
@@ -688,7 +688,7 @@ class ilObjTest extends ilObject
 */
   function loadFromDb()
   {
-    $db = $this->ilias->db->db;
+    $db = $this->ilias->db;
     
     $query = sprintf("SELECT * FROM tst_tests WHERE ref_fi = %s",
       $db->quote($this->getRefId())
@@ -716,7 +716,7 @@ class ilObjTest extends ilObject
  }
 
 	function load_questions() {
-    $db = $this->ilias->db->db;
+    $db = $this->ilias->db;
 		$this->questions = array();
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s ORDER BY sequence",
 			$db->quote($this->test_id)
@@ -1076,8 +1076,8 @@ class ilObjTest extends ilObject
 		if (!$question_id)
 			return;
 		$query = sprintf("DELETE FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$this->ilias->db->db->quote($this->get_test_id()),
-			$this->ilias->db->db->quote($question_id)
+			$this->ilias->db->quote($this->get_test_id()),
+			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
 		
@@ -1158,29 +1158,29 @@ class ilObjTest extends ilObject
 	function question_move_up($question_id) {
 		// Move a question up in sequence
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$this->ilias->db->db->quote($this->get_test_id()),
-			$this->ilias->db->db->quote($question_id)
+			$this->ilias->db->quote($this->get_test_id()),
+			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
 		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		if ($data->sequence > 1) {
 			// OK, it's not the top question, so move it up
 			$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
-				$this->ilias->db->db->quote($this->get_test_id()),
-				$this->ilias->db->db->quote($data->sequence - 1)
+				$this->ilias->db->quote($this->get_test_id()),
+				$this->ilias->db->quote($data->sequence - 1)
 			);
 			$result = $this->ilias->db->query($query);
 			$data_previous = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			// change previous dataset
 			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$this->ilias->db->db->quote($data->sequence),
-				$this->ilias->db->db->quote($data_previous->test_question_id)
+				$this->ilias->db->quote($data->sequence),
+				$this->ilias->db->quote($data_previous->test_question_id)
 			);
 			$result = $this->ilias->db->query($query);
 			// move actual dataset up
 			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$this->ilias->db->db->quote($data->sequence - 1),
-				$this->ilias->db->db->quote($data->test_question_id)
+				$this->ilias->db->quote($data->sequence - 1),
+				$this->ilias->db->quote($data->test_question_id)
 			);
 			$result = $this->ilias->db->query($query);
 		}
@@ -1199,14 +1199,14 @@ class ilObjTest extends ilObject
 	function question_move_down($question_id) {
 		// Move a question down in sequence
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND question_fi=%s",
-			$this->ilias->db->db->quote($this->get_test_id()),
-			$this->ilias->db->db->quote($question_id)
+			$this->ilias->db->quote($this->get_test_id()),
+			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);
 		$data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi=%s AND sequence=%s",
-			$this->ilias->db->db->quote($this->get_test_id()),
-			$this->ilias->db->db->quote($data->sequence + 1)
+			$this->ilias->db->quote($this->get_test_id()),
+			$this->ilias->db->quote($data->sequence + 1)
 		);
 		$result = $this->ilias->db->query($query);
 		if ($result->numRows() == 1) {
@@ -1214,14 +1214,14 @@ class ilObjTest extends ilObject
 			$data_next = $result->fetchRow(DB_FETCHMODE_OBJECT);
 			// change next dataset
 			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$this->ilias->db->db->quote($data->sequence),
-				$this->ilias->db->db->quote($data_next->test_question_id)
+				$this->ilias->db->quote($data->sequence),
+				$this->ilias->db->quote($data_next->test_question_id)
 			);
 			$result = $this->ilias->db->query($query);
 			// move actual dataset down
 			$query = sprintf("UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
-				$this->ilias->db->db->quote($data->sequence + 1),
-				$this->ilias->db->db->quote($data->test_question_id)
+				$this->ilias->db->quote($data->sequence + 1),
+				$this->ilias->db->quote($data->test_question_id)
 			);
 			$result = $this->ilias->db->query($query);
 		}
@@ -1231,7 +1231,7 @@ class ilObjTest extends ilObject
 	function insert_question($question_id) {
     // get maximum sequence index in test
     $query = sprintf("SELECT MAX(sequence) AS seq FROM tst_test_question WHERE test_fi=%s",
-      $this->ilias->db->db->quote($this->get_test_id())
+      $this->ilias->db->quote($this->get_test_id())
     );
     $result = $this->ilias->db->query($query);
     $sequence = 1;
@@ -1240,9 +1240,9 @@ class ilObjTest extends ilObject
       $sequence = $data->seq + 1;
     }
     $query = sprintf("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-      $this->ilias->db->db->quote($this->get_test_id()),
-      $this->ilias->db->db->quote($question_id),
-      $this->ilias->db->db->quote($sequence)
+      $this->ilias->db->quote($this->get_test_id()),
+      $this->ilias->db->quote($question_id),
+      $this->ilias->db->quote($sequence)
     );
     $result = $this->ilias->db->query($query);
     if ($result != DB_OK) {
@@ -1296,7 +1296,7 @@ class ilObjTest extends ilObject
 	function &get_qpl_titles() {
 		$qpl_titles = array();
 		$query = sprintf("SELECT object_data.title, object_reference.ref_id FROM object_data, object_reference WHERE object_data.obj_id = object_reference.obj_id AND object_data.type = %s",
-			$this->ilias->db->db->quote("qpl")
+			$this->ilias->db->quote("qpl")
 		);
 		$result = $this->ilias->db->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
@@ -1308,7 +1308,7 @@ class ilObjTest extends ilObject
 	function &get_existing_questions() {
 		$existing_questions = array();
 		$query = sprintf("SELECT * FROM tst_test_question WHERE test_fi = %s",
-			$this->ilias->db->db->quote($this->get_test_id())
+			$this->ilias->db->quote($this->get_test_id())
 		);
 		$result = $this->ilias->db->query($query);
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
@@ -1321,9 +1321,9 @@ class ilObjTest extends ilObject
     if ($question_id < 1)
       return -1;
     $query = sprintf("SELECT type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
-      $this->ilias->db->db->quote($question_id)
+      $this->ilias->db->quote($question_id)
     );
-    $result = $this->ilias->db->db->query($query);
+    $result = $this->ilias->db->query($query);
     if ($result->numRows() == 1) {
       $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
       return $data->type_tag;

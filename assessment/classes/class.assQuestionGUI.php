@@ -145,7 +145,7 @@ class ASS_QuestionGUI {
 * @access private
 */
 	function writeOtherPostData($result = 0) {
-		$this->object->setEstimatedWorkingTiem(
+		$this->object->setEstimatedWorkingTime(
 			ilUtil::stripSlashes($_POST["Estimated"][h]),
 			ilUtil::stripSlashes($_POST["Estimated"][m]),
 			ilUtil::stripSlashes($_POST["Estimated"][s])
