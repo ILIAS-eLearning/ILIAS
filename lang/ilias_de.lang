@@ -478,6 +478,7 @@ common#:#are_you_sure#:#Sind Sie sicher?
 common#:#assign#:#Annehmen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
+common#:#assign_local_role#:#Assign to local role###25 May 2004 new variable
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
 common#:#at_location#:#an Position
 common#:#attachment#:#Attachment
@@ -1517,7 +1518,8 @@ common#:#role_deleted#:#Rolle gelöscht
 common#:#role_edit#:#Rolle bearbeiten
 common#:#role_new#:#Neue Rolle
 common#:#roles#:#Rollen
-common#:#roles_of_import#:#Rollen der Importdatei
+common#:#roles_of_import_global#:#Global roles of import file###25 May 2004 new variable
+common#:#roles_of_import_local#:#Local roles of import file###25 May 2004 new variable
 common#:#rolf#:#Rollenordner
 common#:#rolf_added#:#Rollenordner angelegt
 common#:#rolf_create_role#:#Neue Rolle anlegen
@@ -2996,6 +2998,7 @@ survey#:#multiple_choice_single_response#:#Multiple Choice Frage (Einfachauswahl
 survey#:#no_category_selected_for_deleting#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
 survey#:#no_category_selected_for_move#:#Bitte wählen Sie mindestens eine Kategorie zum Verschieben aus!
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!###24 May 2004 new variable
+survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!###25 May 2004 new variable
 survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_target_selected_for_move#:#You must select a target position!###24 May 2004 new variable
 survey#:#non_ratio#:#Non-Ratio###22 May 2004 new variable
@@ -3018,16 +3021,20 @@ survey#:#qt_ordinal#:#Ordinale Frage
 survey#:#qt_text#:#Textfrage
 survey#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 survey#:#question_type#:#Fragentyp
+survey#:#questionblock#:#Question block###25 May 2004 new variable
 survey#:#questions_inserted#:#Question(s) inserted!###24 May 2004 new variable
+survey#:#questions_removed#:#Question(s) and/or question block(s) removed!###25 May 2004 new variable
 survey#:#questiontype#:#Fragentyp
 survey#:#ratio_absolute#:#Ratio-Absolute###22 May 2004 new variable
 survey#:#ratio_non_absolute#:#Ratio-Non-Absolute###22 May 2004 new variable
 survey#:#remove_question#:#Remove###24 May 2004 new variable
+survey#:#remove_questions#:#Are you sure you want to remove the following question(s) and/or question block(s) from the test?###25 May 2004 new variable
 survey#:#reset_filter#:#Filter zurücksetzen
 survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Kategorien zu verschieben und drücken Sie dann eine der beiden Einfüge-Schaltflächen!
 survey#:#select_target_position_for_move_question#:#Please select a target position to move the question(s) and press one of the insert buttons!###24 May 2004 new variable
 survey#:#set_filter#:#Filter setzen
 survey#:#start_date#:#Startdatum
+survey#:#start_survey#:#Start survey###25 May 2004 new variable
 survey#:#survey_questions#:#Fragen
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#uploaded_material#:#Hochgeladene Materialien
