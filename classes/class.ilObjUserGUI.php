@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.64 2003/11/08 09:55:59 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.65 2003/11/14 18:58:22 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -253,37 +253,41 @@ class ilObjUserGUI extends ilObjectGUI
 				// fetch context path of role
 				$rolf = $rbacreview->getFoldersAssignedToRole($role,true);
 
-				$path = "";
-
-				if ($this->tree->isInTree($rolf[0]))
+				// only list roles that are not set to status "deleted"
+				if (!$rbacreview->isDeleted($rolf[0]))
 				{
-					$tmpPath = $this->tree->getPathFull($rolf[0]);
-
-					// count -1, to exclude the role folder itself
-					for ($i = 0; $i < (count($tmpPath)-1); $i++)
+					$path = "";
+	
+					if ($this->tree->isInTree($rolf[0]))
 					{
-						if ($path != "")
+						$tmpPath = $this->tree->getPathFull($rolf[0]);
+	
+						// count -1, to exclude the role folder itself
+						for ($i = 0; $i < (count($tmpPath)-1); $i++)
 						{
-							$path .= " > ";
+							if ($path != "")
+							{
+								$path .= " > ";
+							}
+	
+							$path .= $tmpPath[$i]["title"];
 						}
-
-						$path .= $tmpPath[$i]["title"];
 					}
+					else
+					{
+						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$role.")</b>";
+					}
+	
+					if (in_array($role,$active_roles))
+					{
+						$data["active_role"][$role]["active"] = true;
+					}
+	
+					$data["active_role"][$role]["title"] = $roleObj->getTitle();
+					$data["active_role"][$role]["context"] = $path;
+	
+					unset($roleObj);
 				}
-				else
-				{
-					$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$role.")</b>";
-				}
-
-				if (in_array($role,$active_roles))
-				{
-					$data["active_role"][$role]["active"] = true;
-				}
-
-				$data["active_role"][$role]["title"] = $roleObj->getTitle();
-				$data["active_role"][$role]["context"] = $path;
-
-				unset($roleObj);
 			}
 		}
 
@@ -793,7 +797,7 @@ class ilObjUserGUI extends ilObjectGUI
 			// fetch context path of role
 			$rolf = $rbacreview->getFoldersAssignedToRole($val["obj_id"],true);
 //echo "3";
-			// only list roles that are not deleted
+			// only list roles that are not set to status "deleted"
 			if (!$rbacreview->isDeleted($rolf[0]))
 			{
 				$path = "";
