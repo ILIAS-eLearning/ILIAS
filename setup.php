@@ -460,7 +460,7 @@ switch ($_GET["step"])
 			// PREPARE MAIL DIRECTORY
 			if(file_exists($mySetup->getDataPath()))
 			{
-				if(!file_exists($mySetup->getDataPath()))
+				if(is_writeable($mySetup->getDataPath()))
 				{
 					mkdir($mySetup->getDataPath().'/mail');
 				}
