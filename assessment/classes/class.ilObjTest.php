@@ -3786,15 +3786,6 @@ class ilObjTest extends ilObject
 	}
 
 	/**
-	* Set the title and the description for the meta data
-	*/
-	function updateTitleAndDescription()
-	{
-		$this->initMeta();
-		$this->meta_data->updateTitleAndDescription($this->getTitle(), $this->getDescription());
-	}
-
-	/**
 	* update meta data only
 	*/
 	function updateMetaData()
