@@ -817,11 +817,6 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	*/
 	function editFiles()
 	{
-		if($_GET["limit"] == 0 )
-		{
-			$_GET["limit"] = 15;
-		}
-
 		// standard item
 		$std_item =& $this->content_obj->getMediaItem("Standard");
 		if($this->content_obj->hasFullscreenItem())
@@ -1266,11 +1261,6 @@ class ilMediaObjectGUI extends ilPageContentGUI
 	*/
 	function showUsages()
 	{
-		if($_GET["limit"] == 0 )
-		{
-			$_GET["limit"] = 15;
-		}
-
 		// create table
 		require_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();

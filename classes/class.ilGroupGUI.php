@@ -60,7 +60,7 @@ class ilGroupGUI extends ilObjGroupGUI
 
 	function ilGroupGUI($a_data,$a_id,$a_call_by_reference)
 	{
-		global $tpl, $ilias, $lng, $tree, $rbacsystem, $objDefinition, $offset, $limit;
+		global $tpl, $ilias, $lng, $tree, $rbacsystem, $objDefinition;
 
 		$this->type ="grp";
 		$this->ilias =& $ilias;
@@ -79,19 +79,8 @@ class ilGroupGUI extends ilObjGroupGUI
 		$this->ref_id = $_GET["ref_id"];
 		$this->obj_id = $_GET["obj_id"];
 
-		if ($_GET["offset"] == "")
-		{
-			$_GET["offset"] = 0;
-		}
 		$lng->loadlanguageModule("search");
-		$_GET["offset"] = intval($_GET["offset"]);
-		$_GET["limit"] = intval($_GET["limit"]);
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-		if ($_GET["limit"] == 0)
-		{
-			$_GET["limit"] = 10;	// TODO: move to user settings
-		}
+
 		if (empty($_GET["sort_by"]))
 		{
 			$_GET["sort_by"]= "title";
@@ -519,19 +508,6 @@ class ilGroupGUI extends ilObjGroupGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-
-		if ($limit == 0)
-		{
-			$limit = 10;	// TODO: move to user settings
-		}
-
-		if ($offset == "")
-		{
-			$offset = 0;	// TODO: move to user settings
-		}
-
 		// create table
 		$tbl = new ilTableGUI($this->data["data"]);
 		// title & header columns
@@ -584,18 +560,6 @@ class ilGroupGUI extends ilObjGroupGUI
 		$this->tpl->addBlockFile("TBL_CONTENT", "confirmcontent","tpl.grp_tbl_confirm.html" );
 
 		$this->tpl->setCurrentBlock("confirmcontent");
-		// set offset & limit
-		$offset = intval($_GET["offset"]);
-		$limit  = intval($_GET["limit"]);
-
-		if ($limit == 0)
-		{
-			$limit = 10;	// TODO: move to user settings
-		}
-		if ($offset == "")
-		{
-			$offset = 0;	// TODO: move to user settings
-		}
 
 		if (is_array($user_id))
 		{
@@ -1413,19 +1377,6 @@ class ilGroupGUI extends ilObjGroupGUI
 
 				$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
 
-				$offset = intval($_GET["offset"]);
-				$limit = intval($_GET["limit"]);
-
-				if ($limit == 0)
-				{
-					$limit = 10;	// TODO: move to user settings
-				}
-
-				if ($offset == "")
-				{
-					$offset = 0;	// TODO: move to user settings
-				}
-
 				// create table
 				include_once "./classes/class.ilTableGUI.php";
 
@@ -1943,17 +1894,11 @@ class ilGroupGUI extends ilObjGroupGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-
-		if ($limit == 0) $limit = 10;	// TODO: move to user settings
-		if ($offset == "") $offset = 0;	// TODO: move to user settings
-
 		if (isset($this->data["data"]))
 		{
 			//sort data array
 			$this->data["data"] = ilUtil::sortArray($this->data["data"], $_GET["sort_by"], $_GET["sort_order"]);
-			$output = array_slice($this->data["data"],$offset,$limit);
+			$output = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
 		}
 
 		// create table
@@ -1970,8 +1915,8 @@ class ilGroupGUI extends ilObjGroupGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount(count($this->data["data"]));
 
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));

@@ -110,10 +110,6 @@ class ilGlossaryPresentationGUI
 	*/
 	function listTerms()
 	{
-		$limit = (empty($_GET["limit"]))
-			? $limit = 20
-			: $_GET["limit"];
-
 		$this->lng->loadLanguageModule("meta");
 		include_once "./classes/class.ilTableGUI.php";
 
@@ -146,7 +142,7 @@ class ilGlossaryPresentationGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
+		$tbl->setLimit($_GET["limit"]);
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);
 
@@ -161,7 +157,7 @@ class ilGlossaryPresentationGUI
 
 		// sorting array
 		//$term_list = ilUtil::sortArray($term_list, $_GET["sort_by"], $_GET["sort_order"]);
-		$term_list = array_slice($term_list, $_GET["offset"], $limit);
+		$term_list = array_slice($term_list, $_GET["offset"], $_GET["limit"]);
 
 		// render table
 		$tbl->render();

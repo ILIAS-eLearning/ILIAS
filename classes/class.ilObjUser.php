@@ -200,12 +200,18 @@ class ilObjUser extends ilObject
 				//load default (css)
 		 		$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");
 			}
+			
+			if (empty($this->prefs["hits_per_page"]))
+			{
+				$this->prefs["hits_per_page"] = 10;
+			}
 
 		}
 		else
 		{
 			 $this->ilias->raiseError("<b>Error: There is no dataset with id ".$this->id."!</b><br />class: ".get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $this->ilias->FATAL);
 		}
+
 		parent::read();
 	}
 

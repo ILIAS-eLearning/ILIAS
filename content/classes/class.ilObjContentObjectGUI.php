@@ -1218,11 +1218,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		$export_files = $this->object->getExportFiles($export_dir);
 
-		if($_GET["limit"] == 0 )
-		{
-			$_GET["limit"] = 15;
-		}
-
 		// create table
 		require_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();

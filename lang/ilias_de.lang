@@ -1,4 +1,4 @@
-/**
+﻿/**
 * ILIAS language file
 *
 * @module		language file german
@@ -97,6 +97,7 @@ assessment#:#by#:#by###05 Feb 2004 new variable
 assessment#:#cloze_text#:#Cloze text###05 Feb 2004 new variable
 assessment#:#create_date#:#Created###05 Feb 2004 new variable
 assessment#:#create_gaps#:#Create gaps###05 Feb 2004 new variable
+common#:#no_limit#:#Kein Limit
 assessment#:#create_new#:#Create new###05 Feb 2004 new variable
 assessment#:#duplicate#:#Duplicate###05 Feb 2004 new variable
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###16 Mar 2004 new variable
@@ -2634,6 +2635,7 @@ search#:#search_save_as_select#:#Speichern unter:
 search#:#search_search_for#:#Suchen nach
 search#:#search_search_no_results_saved#:#Sie haben noch keine Suchergebnisse gespeichert
 search#:#search_search_results#:#Suchergebnisse
+common#:#usr_hits_per_page#:#Treffer/Seite in Tabellen
 search#:#search_search_term#:#Suchbegriff
 search#:#search_select_exactly_one_object#:#Sie müssen genau ein Objekt auswählen.
 search#:#search_select_one#:#Bitte wählen Sie einen Ordner aus

@@ -245,11 +245,6 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 			? $obj_id = $this->object->tree->getRootId()
 			: $_GET["obj_id"];
 
-		if($_GET["limit"] == 0 )
-		{
-			$_GET["limit"] = 15;
-		}
-
 		// create table
 		require_once("classes/class.ilTableGUI.php");
 		$tbl = new ilTableGUI();

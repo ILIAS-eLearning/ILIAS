@@ -875,12 +875,6 @@ class ilPageObjectGUI
 	{
 		global $tree;
 
-		// workaround
-		if($_GET["limit"] == 0 )
-		{
-			$_GET["limit"] = 10;
-		}
-
 		include_once "./classes/class.ilTableGUI.php";
 
 		// load template for table

@@ -197,15 +197,6 @@ class ilLOListGUI
 		$this->tpl->setVariable("TXT_PAGEHEADLINE",  $this->lng->txt("lo_available"));
 		//$this->tpl->parseCurrentBlock();			// this line produces an empty <h1></h1>, alex 16.2.03
 
-		// set offset & limit
-		$offset = intval($_GET["offset"]);
-		$limit = intval($_GET["limit"]);
-
-		if ($limit == 0)
-		{
-			$limit = 10;	// TODO: move to user settings
-		}
-
 		// set default sort column
 		if (empty($_GET["sort_by"]))
 		{
@@ -267,7 +258,7 @@ class ilLOListGUI
 
 		$maxcount = count($lr_arr);		// for numinfo in table footer
 		$lr_arr = ilUtil::sortArray($lr_arr,$_GET["sort_by"],$_GET["sort_order"]);
-		$lr_arr = array_slice($lr_arr,$offset,$limit);
+		$lr_arr = array_slice($lr_arr,$_GET["offset"],$_GET["limit"]);
 
 		// load template for table
 		$this->tpl->addBlockfile("LO_TABLE", "lo_table", "tpl.table.html");
@@ -372,8 +363,8 @@ class ilLOListGUI
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($maxcount);
 
 		// footer

@@ -68,8 +68,7 @@ body { margin:0px; }
 </tr>
 
 <tr class="tblheader">
-	<td class="std" colspan="2">{TXT_CHANGE_PASSWORD}</td>
-	<td class="option_value" colspan="2">&nbsp;</td>
+	<td class="std" colspan="4">{TXT_CHANGE_PASSWORD}</td>
 </tr>
 <tr>
 	<td class="option">{TXT_CURRENT_PW}</td>
@@ -92,8 +91,7 @@ body { margin:0px; }
 </tr>
 
 <tr class="tblheader">
-	<td class="std" colspan="2">{TXT_CONTACT_DATA}</td>
-	<td class="option_value" colspan="2">&nbsp;</td>
+	<td class="std" colspan="4">{TXT_CONTACT_DATA}</td>
 </tr>
 <tr>
 	<td class="option">{TXT_INSTITUTION}</td>
@@ -160,8 +158,8 @@ body { margin:0px; }
 </tr>
 
 <tr class="tblheader">
-	<td class="std" colspan="2">{TXT_SETTINGS}</td>
-	<td class="option_value" colspan="2">&nbsp;</td>
+	<td class="std" colspan="4">{TXT_SETTINGS}</td>
+
 </tr>
 <tr>
 	<td class="option">{TXT_LANGUAGE}</td>
@@ -183,6 +181,18 @@ body { margin:0px; }
 <!-- END selectskin -->
 	</select>
 	</td>
+	<td class="option_value" colspan="2">&nbsp;</td>
+</tr>
+<tr>
+	<td class="option">{TXT_USR_HITS_PER_PAGE}</td>
+	<td class="option_value">
+	<select name="usr_hits_per_page">
+<!-- BEGIN selecthits -->
+		<option value="{HITSVALUE}" {HITSSELECTED}>{HITSOPTION}</option>
+<!-- END selecthits -->
+	</select>
+	</td>
+	<td class="option_value" colspan="2">&nbsp;</td>
 </tr>
 <tr>
 	<td class="submit" colspan="4"><span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FIELDS}<br /><br /></span>
