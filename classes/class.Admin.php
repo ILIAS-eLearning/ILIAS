@@ -249,7 +249,7 @@ class Admin
 			// THE COMBINATION child/parent ALREADY EXISTS
 
 			//if ($tree->isGrandChild(1,0))
-			if ($tree->isGrandChild($id,$a_ref_id)
+			if ($tree->isGrandChild($id,$a_ref_id))
 			{
 				$is_child[] = $id;
 			}
@@ -316,7 +316,7 @@ class Admin
 			}
 
 			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
-			if ($tree->isGrandChild($id,$a_ref_id)
+			if ($tree->isGrandChild($id,$a_ref_id))
 			{
 				$is_child[] = $id;
 			}

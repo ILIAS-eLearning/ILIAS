@@ -74,32 +74,6 @@ class RoleObject extends Object
 		return true;
 	}
 
-	/**
-	* edit a role object
-	* @access	public
-	* 
-	*/
-	function editObject($a_order, $a_direction)
-	{
-		global $rbacsystem;
-
-		// TODO: get rid of $_GET["parent_parent"]
-		if ($rbacsystem->checkAccess('write', $this->parent, $_GET["parent_parent"]))
-		{
-			$obj = getObject($this->id);
-			
-			$data = array();
-			$data["fields"] = array();
-			
-			$data["fields"]["title"] = $obj["title"];
-			$data["fields"]["desc"] = $obj["desc"];
-			return $data;
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
-		}			
-	}
 
 	/**
 	* update a role object

@@ -73,32 +73,6 @@ class RoleTemplateObject extends Object
 		return true;
 	}
 
-	/**
-	* edit a role template object
-	* @access	public
-	* 
-	**/
-	function editObject($a_order, $a_direction)
-	{
-		global $tplContent, $rbacsystem;
-		
-		// TODO: get rif of $_GET vars
-
-		if ($rbacsystem->checkAccess('write',$_GET["parent"]))
-		{
-			$obj = getObject($this->id);
-
-			$data = array();
-			$data["fields"] = array();
-			$data["fields"]["title"] = $obj["title"];
-			$data["fields"]["desc"] = $obj["desc"];
-			return $data;
-		}
-		else
-		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
-		}			
-	}
 
 	/**
 	* show permission templates of role
