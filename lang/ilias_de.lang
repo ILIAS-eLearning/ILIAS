@@ -550,12 +550,14 @@ mail#:#mail_add_recipient#:#Bitte geben Sie einen Empfänger ein
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
 mail#:#mail_add_to_addressbook#:#Zum Adressbuch hinzufügen
+mail#:#mail_add_type#:#Bitte geben Sie den Typ der Nachricht an
 mail#:#mail_addr_entries#:#Einträge
 mail#:#mail_attachments#:#Attachments###16 Apr 2003 new variable
 mail#:#mail_bc_not_valid#:#Der Bc Empfänger ist nicht gültig
 mail#:#mail_bc_search#:#BC Empfänger suchen
 mail#:#mail_cc_not_valid#:#Der Cc Empfänger ist nicht gültig
 mail#:#mail_cc_search#:#CC Empfänger suchen
+mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
 mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
 mail#:#mail_check_your_email_addr#:#Bitte überprüfen Sie Ihre eMail Adresse
 mail#:#mail_compose#:#Nachricht erstellen
@@ -572,6 +574,7 @@ mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 mail#:#mail_folder_name#:#Ordnername
 mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
 mail#:#mail_folder_options#:#Ordner Einstellungen
+mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gültig:
 mail#:#mail_global_options#:#Allgemeine Einstellungen
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
@@ -581,7 +584,8 @@ mail#:#mail_message_send#:#Ihre Nachricht wurde versandt
 mail#:#mail_move_error#:#Fehler beim Senden der Nachricht
 mail#:#mail_move_to#:#Verschieben nach:###24 Apr 2003 content changed
 mail#:#mail_moved#:#Ihre Nachrichten wurden verschoben
-mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben
+mail#:#mail_moved_to_trash#:#Die Nachricht(en) wurde(n) in den Papierkorb verschoben###25 Apr 2003 content changed
+mail#:#mail_new_file#:#Neue Datei hinzufügen:
 mail#:#mail_new_file#:#Neue Datei hinzufügen:
 mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Attachments beinhalten
 mail#:#mail_no_attachments_found#:#Es wurden keine Attachments gefunden
@@ -602,7 +606,3 @@ mail#:#search_addressbook#:#Adressbuchsuche
 mail#:#search_bc_recipient#:#BC Empfänger suchen
 mail#:#search_cc_recipient#:#CC Empfänger suchen
 mail#:#search_system#:#Systemsuche
-mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
-mail#:#mail_new_file#:#Neue Datei hinzufügen:
-mail#:#mail_add_type#:#Bitte geben Sie den Typ der Nachricht an
-mail#:#mail_following_rcp_not_valid#:#Die folgenden Empfänger sind nicht gültig:
