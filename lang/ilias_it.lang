@@ -336,20 +336,30 @@ common#:#msg_failed#:#fallito
 common#:#msg_may_not_contain#:#This object may not contain objects of type: 
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s): No.###04 Jul 2003 content changed
+common#:#msg_no_perm_create_role#:#You have no permission to add roles###08 Jul 2003 new variable
+common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates###08 Jul 2003 new variable
 common#:#msg_no_perm_create_user#:#You have no permission to create users###07 Jul 2003 new variable
 common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s): No.###04 Jul 2003 content changed
 common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s): No.###04 Jul 2003 content changed
+common#:#msg_no_perm_modify_role#:#You have no permission to modify roles###08 Jul 2003 new variable
+common#:#msg_no_perm_modify_rolt#:#You have no permission to modify role templates###08 Jul 2003 new variable
 common#:#msg_no_perm_modify_user#:#You have no permission to modify user datas###07 Jul 2003 new variable
-common#:#msg_no_perm_passte#:#You have no permission to paste the following object(s):###07 Jul 2003 new variable
+common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):###08 Jul 2003 new variable
+common#:#msg_no_perm_perm#:#You have no permission to edit permission settings###08 Jul 2003 new variable
 common#:#msg_no_perm_write#:#You have no permission to write###07 Jul 2003 new variable
 common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
 common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
 common#:#msg_nothing_found#:#niente trovato
 common#:#msg_obj_exists#:#This object already exists in this folder
+common#:#msg_perm_adopted_from1#:#Permission settings adopted from###08 Jul 2003 new variable
+common#:#msg_perm_adopted_from2#:#(The setting have been saved!)###08 Jul 2003 new variable
+common#:#msg_role_exists1#:#A role/role template with the name###08 Jul 2003 new variable
+common#:#msg_role_exists2#:#already exists! Please choose another name.###08 Jul 2003 new variable
 common#:#msg_trash_empty#:#There are no deleted objects
 common#:#msg_user_last_role1#:#The following users are only assigned to this role:###04 Jul 2003 new variable
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.###04 Jul 2003 new variable
+common#:#msg_userassignment_changed#:#Userassigment changed.###08 Jul 2003 new variable
 common#:#multimedia#:#multimedia
 common#:#name#:#nome
 common#:#new#:#nuovo
@@ -588,8 +598,12 @@ content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
 content#:#cont_characteristic#:#Characteristic###23 Jun 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_def_layout#:#Default Layout###01 Jul 2003 new variable
+content#:#cont_edit_mob_properties#:#Edit Media Object Properties###08 Jul 2003 new variable
 content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
 content#:#cont_edit_tab_properties#:#Table Properties###09 Jun 2003 new variable
+content#:#cont_file#:#File###08 Jul 2003 new variable
+content#:#cont_height#:#Height###08 Jul 2003 new variable
+content#:#cont_insert_mob#:#Insert Media Object###08 Jul 2003 new variable
 content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable
 content#:#cont_insert_table#:#Insert Table###09 Jun 2003 new variable
 content#:#cont_lm_properties#:#Learning Module Properties###01 Jul 2003 new variable
@@ -607,6 +621,7 @@ content#:#cont_table_cellpadding#:#Table Cell Padding###09 Jun 2003 new variable
 content#:#cont_table_cellspacing#:#Table Cell Spacing###09 Jun 2003 new variable
 content#:#cont_table_width#:#Table Width###09 Jun 2003 new variable
 content#:#cont_top#:#Top###11 Jun 2003 new variable
+content#:#cont_width#:#Width###08 Jul 2003 new variable
 content#:#cont_wysiwyg#:#Content Wysiwyg###24 May 2003 new variable
 content#:#par#:#Paragraph###12 May 2003 new variable
 content#:#pg#:#Page###12 May 2003 new variable

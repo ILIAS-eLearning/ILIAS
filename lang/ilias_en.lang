@@ -333,33 +333,33 @@ common#:#move_to#:#Move to
 common#:#msg_changes_ok#:#The changes were OK
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
-common#:#msg_userassignment_changed#:#Userassigment changed.
+common#:#msg_may_not_contain#:#This object may not contain objects of type: 
+common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
+common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
+common#:#msg_no_perm_create_role#:#You have no permission to add roles
+common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates
+common#:#msg_no_perm_create_user#:#You have no permission to add users
+common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s):
+common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s):
+common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s):
+common#:#msg_no_perm_modify_role#:#You have no permission to modify roles
+common#:#msg_no_perm_modify_rolt#:#You have no permission to modify role templates
+common#:#msg_no_perm_modify_user#:#You have no permission to modify user datas
+common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
+common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
+common#:#msg_no_perm_write#:#You have no permission to write
+common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
+common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
+common#:#msg_nothing_found#:#msg_nothing_found
+common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_perm_adopted_from1#:#Permission settings adopted from
 common#:#msg_perm_adopted_from2#:#(The setting have been saved!)
 common#:#msg_role_exists1#:#A role/role template with the name
 common#:#msg_role_exists2#:#already exists! Please choose another name.
-common#:#msg_may_not_contain#:#This object may not contain objects of type: 
-common#:#msg_no_perm_write#:#You have no permission to write
-common#:#msg_no_perm_perm#:#You have no permission to edit permission settings
-common#:#msg_no_perm_create_role#:#You have no permission to add roles
-common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates
-common#:#msg_no_perm_create_user#:#You have no permission to add users
-common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
-common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
-common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s):
-common#:#msg_no_perm_delete#:#You have no permission to delete the following object(s):
-common#:#msg_no_perm_link#:#You have no permission to create a link from the following object(s):
-common#:#msg_no_perm_paste#:#You have no permission to paste the following object(s):
-common#:#msg_no_perm_modify_user#:#You have no permission to modify user datas
-common#:#msg_not_in_itself#:#It's not possible to paste the object in itself
-common#:#msg_not_possible_link#:#It's not possible to create a link of the object: Type
-common#:#msg_no_perm_modify_role#:#You have no permission to modify roles
-common#:#msg_no_perm_modify_rolt#:#You have no permission to modify role templates
-common#:#msg_nothing_found#:#msg_nothing_found
-common#:#msg_obj_exists#:#This object already exists in this folder
 common#:#msg_trash_empty#:#There are no deleted objects
 common#:#msg_user_last_role1#:#The following users are only assigned to this role:
 common#:#msg_user_last_role2#:#Please delete the users or assign them to another role in order to delete this role.
+common#:#msg_userassignment_changed#:#Userassigment changed.
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name
 common#:#new#:#New
@@ -586,11 +586,6 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_insert_mob#:#Insert Media Object
-content#:#cont_file#:#File
-content#:#cont_edit_mob_properties#:#Edit Media Object Properties
-content#:#cont_width#:#Width
-content#:#cont_height#:#Height
 content#:#cont_Additional#:#Additional
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
@@ -603,8 +598,12 @@ content#:#cont_chapters#:#Chapters
 content#:#cont_characteristic#:#Characteristic
 content#:#cont_content#:#Content
 content#:#cont_def_layout#:#Default Layout
+content#:#cont_edit_mob_properties#:#Edit Media Object Properties
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_edit_tab_properties#:#Table Properties
+content#:#cont_file#:#File
+content#:#cont_height#:#Height
+content#:#cont_insert_mob#:#Insert Media Object
 content#:#cont_insert_par#:#Insert Paragraph
 content#:#cont_insert_table#:#Insert Table
 content#:#cont_lm_properties#:#Learning Module Properties
@@ -622,6 +621,7 @@ content#:#cont_table_cellpadding#:#Table Cell Padding
 content#:#cont_table_cellspacing#:#Table Cell Spacing
 content#:#cont_table_width#:#Table Width
 content#:#cont_top#:#Top
+content#:#cont_width#:#Width
 content#:#cont_wysiwyg#:#Content Wysiwyg
 content#:#par#:#Paragraph
 content#:#pg#:#Page
