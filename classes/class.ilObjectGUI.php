@@ -865,8 +865,10 @@ class ilObjectGUI
 			}
 			else
 			{
-				$rolf = $this->tree->getChilds($new_ref_id);
-				$mapping[$rolf[0]["ref_id"]] = $child["ref_id"];
+				if (count($rolf = $this->tree->getChildsByType($new_ref_id,"rolf")))
+				{
+					$mapping[$rolf[0]["ref_id"]] = $child["ref_id"];
+				}
 			}
 		}
 
