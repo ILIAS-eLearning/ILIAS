@@ -175,3 +175,9 @@ CREATE TABLE personal_clipboard
 	title		CHAR(70) NOT NULL DEFAULT '',
 	PRIMARY KEY (user_id, item_id, type)
 );
+
+<#28>
+INSERT INTO cal_priority (priorityId, description, term) VALUES ('1','high','high');
+INSERT INTO cal_priority (priorityId, description, term) VALUES ('2','middle','middle');
+INSERT INTO cal_priority (priorityId, description, term) VALUES ('3','low','low');
+INSERT INTO cal_category (categoryId, description, term) VALUES ('1','test','test');
