@@ -73,9 +73,14 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 
 include_once "./payment/classes/class.ilPaymentVendors.php";
 include_once "./payment/classes/class.ilPaymentTrustees.php";
+include_once "./payment/classes/class.ilPaymentShoppingCart.php";
 
 global $ilias;
 
+if(ilPaymentShoppingCart::_hasEntries($ilias->account->getId()))
+{
+	$inhalt1[] = array('tabinactive',"./payment/payment.php",$lng->txt('payment'),'bottom');
+}	
 if(ilPaymentVendors::_isVendor($ilias->account->getId()) or
    ilPaymentTrustees::_hasAccess($ilias->account->getId()))
 {
