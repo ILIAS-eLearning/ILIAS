@@ -1768,6 +1768,31 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	* get all users, that have a certain object within their clipboard
+	*
+	* @param	string		$a_type		object type
+	* @param	string		$a_type		object type
+	*
+	* @return	array		array of user IDs
+	*/
+	function _getUsersForClipboadObject($a_type, $a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT DISTINCT user_id FROM personal_clipboard WHERE ".
+			"item_id = '$a_id' AND ".
+			"type = '$a_type'";
+		$user_set = $ilDB->query($q);
+		$users = array();
+		while ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$users[] = $user_rec["user_id"];
+		}
+
+		return $users;
+	}
+
+	/**
 	* remove object from user's personal clipboard
 	*
 	* @param	int		$a_item_id		ref_id for objects, that are in the main tree
@@ -1794,7 +1819,7 @@ class ilObjUser extends ilObject
 		return $id ? $id : 0;
 	}
 
-		
+
 
 } // END class ilObjUser
 ?>

@@ -1101,6 +1101,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 								break;
 						}
 						break;
+
+					case "mep":
+						$this->tpl->setVariable("TXT_OBJECT", $this->lng->txt("obj_mep").
+							": ".ilObject::_lookupTitle($usage["id"]));
+						break;
+
 				}
 				// set usage link / text
 				//$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);

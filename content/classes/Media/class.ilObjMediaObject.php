@@ -763,14 +763,45 @@ class ilObjMediaObject extends ilObject
 	*/
 	function getUsages()
 	{
-		$q = "SELECT * FROM mob_usage WHERE id = '".$this->getId()."'";
-		$us_set = $this->ilias->db->query($q);
+		global $ilDB;
 
+		// get usages in learning modules
+		$q = "SELECT * FROM mob_usage WHERE id = '".$this->getId()."'";
+		$us_set = $ilDB->query($q);
 		$ret = array();
 		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
 		{
 			$ret[] = array("type" => $us_rec["usage_type"],
 				"id" => $us_rec["usage_id"]);
+		}
+
+		// get usages in media pools
+		$q = "SELECT DISTINCT mep_id FROM mep_tree WHERE child = '".$this->getId()."'";
+		$us_set = $ilDB->query($q);
+		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$ret[] = array("type" => "mep",
+				"id" => $us_rec["mep_id"]);
+		}
+
+		// get usages in map areas
+		$q = "SELECT DISTINCT mob_id FROM media_item as it, map_area as area ".
+			" WHERE area.item_id = it.id ".
+			" AND area.link_type='int' ".
+			" AND area.target = 'il__mob_".$this->getId()."'";
+		$us_set = $ilDB->query($q);
+		while($us_rec = $us_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$ret[] = array("type" => "map",
+				"id" => $us_rec["mob_id"]);
+		}
+
+		// get usages in personal clipboards
+		$users = ilObjUser::_getUsersForClipboadObject("mob", $this->getId());
+		foreach ($users as $user)
+		{
+			$ret[] = array("type" => "clip",
+				"id" => $user);
 		}
 
 		return $ret;

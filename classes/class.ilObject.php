@@ -594,6 +594,22 @@ class ilObject
 	}
 
 	/**
+	* lookup object title
+	*
+	* @param	int		$a_id		object id
+	*/
+	function _lookupTitle($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT title FROM object_data WHERE obj_id = '".$a_id."'";
+		$obj_set = $ilDB->query($q);
+		$obj_rec = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		return $obj_rec["title"];
+	}
+
+	/**
 	* maybe this method should be in tree object!?
 	*
 	* @todo	role/rbac stuff
