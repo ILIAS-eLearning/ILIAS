@@ -211,12 +211,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportList"));
-		//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("export"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "fixTreeConfirm"));
 		//$this->tpl->setVariable("BTN_TARGET"," target=\"_top\" ");
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_fix_tree"));
@@ -1873,19 +1867,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->exportList();
 	}
 
-	/*
-	* list all export files
-	*/
-	function exportList()
+	function exportMenu()
 	{
-		global $tree;
-
-		$this->setTabs();
-
-		//add template for view button
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// create export file button
+				// create export file button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "export"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file_xml"));
@@ -1906,6 +1890,22 @@ class ilObjContentObjectGUI extends ilObjectGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
+	}
+		
+	/*
+	* list all export files
+	*/
+	function exportList()
+	{
+		global $tree;
+
+		$this->setTabs();
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		$this->exportMenu();
+		
 		$export_files = $this->object->getExportFiles();
 
 		// create table
@@ -1981,7 +1981,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 
 				$this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
-				$this->tpl->setVariable("TXT_TYPE", $exp_file["type"]);
+				$public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
+					? " <b>(".$this->lng->txt("public").")<b>"
+					: "";
+				$this->tpl->setVariable("TXT_TYPE", $exp_file["type"].$public_str);
 				$this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"].":".$exp_file["file"]);
 
 				$file_arr = explode("__", $exp_file["file"]);
@@ -2012,12 +2015,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		// create export file button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportList"));
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_export_files"));
-		$this->tpl->parseCurrentBlock();
+		
+		$this->exportMenu();
 
 		// load files templates
 		$this->tpl->setVariable("ADM_CONTENT",
@@ -2045,6 +2044,32 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$export_dir = $this->object->getExportDirectory($file[0]);
 		ilUtil::deliverFile($export_dir."/".$file[1],
 			$file[1]);
+	}
+
+	/**
+	* download export file
+	*/
+	function publishExportFile()
+	{
+		if(!isset($_POST["file"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		$file = explode(":", $_POST["file"][0]);
+		$export_dir = $this->object->getExportDirectory($file[0]);
+		
+		if ($this->object->getPublicExportFile($file[0]) ==
+			$file[1])
+		{
+			$this->object->setPublicExportFile($file[0], "");
+		}
+		else
+		{
+			$this->object->setPublicExportFile($file[0], $file[1]);
+		}
+		$this->object->update();
+		$this->ctrl->redirect($this, "exportList");
 	}
 
 	/**
