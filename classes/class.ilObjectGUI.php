@@ -1743,7 +1743,7 @@ class ilObjectGUI
 		// first save the new permission settings for all roles
 		$rbacadmin->revokePermission($this->ref_id);
 
-		if(is_array($_POST["perm"]))
+		if (is_array($_POST["perm"]))
 		{
 			foreach ($_POST["perm"] as $key => $new_role_perms)
 			{
