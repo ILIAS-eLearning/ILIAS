@@ -1568,6 +1568,7 @@ content#:#cont_chapters#:#Capítulos
 content#:#cont_characteristic#:#Característica
 content#:#cont_choose_cont_obj#:#Escolher Objecto de Conteúdo
 content#:#cont_choose_glossary#:#Escolher Glossário
+content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
 content#:#cont_citation_err_one#:#Você tem de seleccionar exactamente uma edição
 content#:#cont_citation_selection_not_valid#:#A sua selecção não é válida
 content#:#cont_citations#:#Citações
@@ -1658,6 +1659,7 @@ content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Ligar Áreas
 content#:#cont_mastery_score#:#adlcp:pontuaçãomestre
 content#:#cont_max_time_allowed#:#adlcp:maxtempopermitido
+content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
 content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
 content#:#cont_mob_files#:#Ficheiros de Objecto
 content#:#cont_mob_inst_prop#:#Propriedades de Instância
@@ -1729,7 +1731,7 @@ content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostrar
 content#:#cont_show_citation#:#Mostar com citação
 content#:#cont_size#:#Tamanho (Bytes)
-content#:#cont_source#:#Fonte
+content#:#cont_source#:#Fonte###01 Apr 2004 content changed
 content#:#cont_st_title#:#Título do Capítulo
 content#:#cont_std_is_in_dir#:#Eliminação não possível. Ficheiro de vista padrão está na directoria.
 content#:#cont_std_view#:#Vista Padrão
