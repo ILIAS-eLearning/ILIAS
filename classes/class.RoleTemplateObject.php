@@ -294,7 +294,7 @@ class RoleTemplateObject extends Object
 		if($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
-			$parentRoles = $this->getParentRoleIds($_GET["parent"]);
+			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"]);
 			$rbacadmin->copyRolePermission($_POST["adopt"],$parentRoles["$_POST[adopt]"]["parent"],$_GET["parent"],$_GET["obj_id"]);
 		}
 		else
