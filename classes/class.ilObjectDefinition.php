@@ -145,12 +145,12 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getProperties($a_obj_name)
 	{
-		if(defined("ILIAS_MODULE"))
+		if (defined("ILIAS_MODULE"))
 		{
 			$props = array();
 			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
 			{
-				if($prop["module"] != "n")
+				if ($prop["module"] != "n")
 				{
 					$props[$data] = $prop;
 				}
@@ -162,7 +162,7 @@ class ilObjectDefinition extends ilSaxParser
 			$props = array();
 			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
 			{
-				if($prop["module"] != 1)
+				if ($prop["module"] != 1)
 				{
 					$props[$data] = $prop;
 				}
@@ -213,6 +213,39 @@ class ilObjectDefinition extends ilSaxParser
 		}
 
 		return $devtypes ? $devtypes : array();
+	}
+
+	/**
+	* get RBAC status by type
+	* returns true if object type is a RBAC object type
+	*
+	* @param	string	object type
+	* @access	public
+	*/
+	function isRBACObject($a_obj_name)
+	{
+		return (bool) $this->obj_data[$a_obj_name]["rbac"];
+	}
+
+	/**
+	* get all RBAC object types
+	*
+	* @access	public
+	* @return	array	object types set to development
+	*/
+	function getAllRBACObjects()
+	{
+		$types = array_keys($this->obj_data);
+		
+		foreach ($types as $type)
+		{
+			if ($this->isRBACObject($type))
+			{
+				$rbactypes[] = $type;
+			}
+		}
+
+		return $rbactypes ? $rbactypes : array();
 	}
 
 	/**
@@ -320,7 +353,7 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function getFirstProperty($a_obj_name)
 	{
-		if(defined("ILIAS_MODULE"))
+		if (defined("ILIAS_MODULE"))
 		{
 			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
 			{
@@ -334,7 +367,7 @@ class ilObjectDefinition extends ilSaxParser
 		{
 			foreach ($this->obj_data[$a_obj_name]["properties"] as $data => $prop)
 			{
-				if($prop["module"] != 1)
+				if ($prop["module"] != 1)
 				{
 					return $data;
 				}
@@ -387,12 +420,13 @@ class ilObjectDefinition extends ilSaxParser
 		{
 			foreach ($this->obj_data[$a_obj_type]["subobjects"] as $sub)
 			{
-				if($sub["import"] == 1)
+				if ($sub["import"] == 1)
 				{
 					$imp[] = $sub["name"];
 				}
 			}
 		}
+
 		return $imp;
 	}
 
@@ -421,7 +455,7 @@ class ilObjectDefinition extends ilSaxParser
 	*/
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
-		switch($a_name)
+		switch ($a_name)
 		{
 			case 'objects':
 				$this->current_tag = '';
@@ -437,6 +471,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data["$a_attribs[name]"]["translate"] = $a_attribs["translate"];
 				$this->obj_data["$a_attribs[name]"]["devmode"] = $a_attribs["devmode"];
 				$this->obj_data["$a_attribs[name]"]["allow_link"] = $a_attribs["allow_link"];
+				$this->obj_data["$a_attribs[name]"]["rbac"] = $a_attribs["rbac"];
 				break;
 			case 'subobj':
 				$this->current_tag = "subobj";
@@ -447,7 +482,6 @@ class ilObjectDefinition extends ilSaxParser
 				// also allow import ("1" means yes)
 				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["import"] = $a_attribs["import"];
 				$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["module"] = $a_attribs["module"];
-
 				break;
 			case 'property':
 				$this->current_tag = "property";
@@ -476,9 +510,9 @@ class ilObjectDefinition extends ilSaxParser
 		$a_data = preg_replace("/\n/","",$a_data);
 		$a_data = preg_replace("/\t+/","",$a_data);
 
-		if(!empty($a_data))
+		if (!empty($a_data))
 		{
-			switch($this->current_tag)
+			switch ($this->current_tag)
 			{
 				case "subobj":
 					$this->obj_data[$this->parent_tag_name]["subobjects"][$this->current_tag_name]["lng"] .= $a_data;
