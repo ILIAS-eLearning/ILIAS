@@ -189,7 +189,7 @@ class ilGroupGUI extends ilObjectGUI
 			{	
 				$this->tpl->setCurrentBlock("tab");
 				$this->tpl->setVariable("TAB_TYPE", $addtab["ftabtype"]);
-				$this->tpl->setVariable("TAB_TARGET", "content");
+				$this->tpl->setVariable("TAB_TARGET", $addtab["target"]);
 				$this->tpl->setVariable("TAB_LINK", "group.php?".$addtab["tab_cmd"]);
 				$this->tpl->setVariable("TAB_TEXT", $this->lng->txt($addtab["tab_text"]));
 				$this->tpl->parseCurrentBlock();
@@ -488,10 +488,29 @@ class ilGroupGUI extends ilObjectGUI
 
 		global $tree, $tpl, $lng, $rbacsystem;
 		$tab = array();
+
+		if (strcmp ($_SESSION["viewmode"],"flat") == 0)
+		{
+			$linktarget = "bottom";
+		}
+		else
+		{
+			$linktarget = "content";
+		}
 		$tab[0] = array ();
 		$tab[0]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$_GET["ref_id"];
 		$tab[0]["ftabtype"] = 'tabinactive';
+		$tab[0]["target"] = $linktarget;
 		$tab[0]["tab_text"] = 'show_members';
+
+		if (strcmp ($_SESSION["viewmode"],"flat") == 0)
+		{
+			$tab[1] = array ();
+			$tab[1]["tab_cmd"] = 'cmd=view&ref_id='.$_GET["ref_id"];
+			$tab[1]["ftabtype"] = 'tabinactive';
+			$tab[1]["target"] = $linktarget;
+			$tab[1]["tab_text"] = 'groups_overview';
+		}
 
 
 		$this->prepareOutput(true, $tab, "group.php");
@@ -1149,7 +1168,7 @@ class ilGroupGUI extends ilObjectGUI
 
 	function confirmation($user_id="", $confirm, $cancel, $info="", $status="",$call_by_reference="n")
 	{
-		$this->prepareOutput(false);
+		$this->prepareOutput(false);		
 		$this->tpl->setVariable("HEADER", $this->lng->txt("confirm_action"));
 		sendInfo ($info);
 		$this->tpl->addBlockFile("CONTENT", "confirmation", "tpl.table.html");
