@@ -37,6 +37,19 @@
 	Number CDATA #IMPLIED
 >
 
+<!-- Identifier -->
+<!ELEMENT Identifier EMPTY>
+<!ATTLIST Identifier
+	Catalog CDATA #IMPLIED
+	Entry ID #REQUIRED
+>
+
+<!-- Title -->
+<!ELEMENT Title (%titletext;)*>
+<!ATTLIST Title
+	Language (%langcode;) #REQUIRED
+>
+
 <!-- MediaObject -->
 <!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
 <!-- MediaObjects are comparable to LOM LearningObjects of aggregation level 1 -->

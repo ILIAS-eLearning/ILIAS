@@ -34,6 +34,7 @@ require_once("content/classes/class.ilBibItem.php");
 require_once("content/classes/class.ilObjGlossary.php");
 require_once("content/classes/class.ilGlossaryTerm.php");
 require_once("content/classes/class.ilGlossaryDefinition.php");
+require_once("classes/class.ilObjFile.php");
 
 /**
 * Content Object Parser
@@ -66,9 +67,11 @@ class ilContObjParser extends ilSaxParser
 	var $in_page_object;	// are we currently within a PageObject? true/false
 	var $in_meta_data;		// are we currently within MetaData? true/false
 	var $in_media_object;
+	var $in_file_item;
 	var $in_glossary;
 	var $content_object;
 	var $glossary_object;
+	var $file_item;
 	var $keyword_language;
 	var $pages_with_int_links;
 	var $mob_mapping;
@@ -402,6 +405,8 @@ class ilContObjParser extends ilSaxParser
 			case "FileItem":
 				$this->in_file_item = true;
 				$this->file_item =& new ilObjFile();
+				$this->file_item->setTitle("dummy");
+				$this->file_item->create();
 				break;
 
 			////////////////////////////////////////////////
@@ -554,7 +559,7 @@ class ilContObjParser extends ilSaxParser
 	*/
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
-
+//echo "END TAG: $a_name <br>";
 		// append content to page xml content
 		if (($this->in_page_object || $this->in_glossary_definition)
 			&& !$this->in_meta_data && !$this->in_media_object)

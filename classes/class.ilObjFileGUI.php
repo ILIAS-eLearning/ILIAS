@@ -151,11 +151,9 @@ class ilObjFileGUI extends ilObjectGUI
 		//insert file in grp_tree
 		$fileObj->putInTree($_GET["ref_id"]);
 		// upload file to filesystem
-		$file_dir = ilUtil::getWebspaceDir()."/files/file_".$fileObj->getId();
-		ilUtil::makeDir($file_dir);
-
-		$file = $file_dir."/".$_FILES["Fobject"]["name"]["file"];
-		move_uploaded_file($_FILES["Fobject"]["tmp_name"]["file"], $file);
+		$fileObj->createDirectory();
+		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],
+			$_FILES["Fobject"]["name"]["file"]);
 
 		// insert file in db
 		//$q = "INSERT INTO file_data (file_id,file_name,file_type) VALUES ('".$fileObj->getId()."','".$_FILES["Fobject"]["name"]["file"]."','".$_FILES["Fobject"]["type"]["file"]."')";

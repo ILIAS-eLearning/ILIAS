@@ -24,16 +24,16 @@
 require_once("content/classes/Pages/class.ilPageContent.php");
 
 /**
-* Class ilPCList
+* Class ilPCFileList
 *
-* List content object (see ILIAS DTD)
+* File List content object (see ILIAS DTD)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package content
 */
-class ilPCList extends ilPageContent
+class ilPCFileList extends ilPageContent
 {
 	var $dom;
 	var $list_node;
@@ -43,10 +43,10 @@ class ilPCList extends ilPageContent
 	* Constructor
 	* @access	public
 	*/
-	function ilPCList(&$a_dom)
+	function ilPCFileList(&$a_dom)
 	{
 		parent::ilPageContent();
-		$this->setType("list");
+		$this->setType("flst");
 
 		$this->dom =& $a_dom;
 	}
@@ -62,10 +62,11 @@ class ilPCList extends ilPageContent
 //echo "::".is_object($this->dom).":";
 		$this->node =& $this->dom->create_element("PageContent");
 		$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
-		$this->list_node =& $this->dom->create_element("List");
+		$this->list_node =& $this->dom->create_element("FileList");
 		$this->list_node =& $this->node->append_child($this->list_node);
 	}
 
+	/*
 	function addItems($a_nr)
 	{
 		for ($i=1; $i<=$a_nr; $i++)
@@ -73,46 +74,63 @@ class ilPCList extends ilPageContent
 			$new_item =& $this->dom->create_element("ListItem");
 			$new_item =& $this->list_node->append_child($new_item);
 		}
-	}
+	}*/
 
-	function setOrderType($a_type = "Unordered")
+	function appendItem($a_id, $a_location, $a_format)
 	{
-		switch ($a_type)
-		{
-			case "Unordered":
-				$this->list_node->set_attribute("Type", "Unordered");
-				if ($this->list_node->has_attribute("NumberingType"))
-				{
-					$this->list_node->remove_attribute("NumberingType");
-				}
-				break;
+		// File Item
+		$new_item =& $this->dom->create_element("FileItem");
+		$new_item =& $this->list_node->append_child($new_item);
 
-			case "Number":
-				$this->list_node->set_attribute("Type", "Ordered");
-				$this->list_node->set_attribute("NumberingType", "Number");
-				break;
+		// Identifier
+		$id_node =& $this->dom->create_element("Identifier");
+		$id_node =& $new_item->append_child($id_node);
+		$id_node->set_attribute("Catalog", "ILIAS");
+		$id_node->set_attribute("Entry", "flit_".$a_id);
 
-			case "Roman":
-				$this->list_node->set_attribute("Type", "Ordered");
-				$this->list_node->set_attribute("NumberingType", "Roman");
-				break;
+		// Location
+		$loc_node =& $this->dom->create_element("Location");
+		$loc_node =& $new_item->append_child($loc_node);
+		$loc_node->set_attribute("Type", "LocalFile");
+		$loc_node->set_content($a_location);
 
-			case "roman":
-				$this->list_node->set_attribute("Type", "Ordered");
-				$this->list_node->set_attribute("NumberingType", "roman");
-				break;
-
-			case "Alphabetic":
-				$this->list_node->set_attribute("Type", "Ordered");
-				$this->list_node->set_attribute("NumberingType", "Alphabetic");
-				break;
-
-			case "alphabetic":
-				$this->list_node->set_attribute("Type", "Ordered");
-				$this->list_node->set_attribute("NumberingType", "alphabetic");
-				break;
-		}
+		// Format
+		$form_node =& $this->dom->create_element("Format");
+		$form_node =& $new_item->append_child($form_node);
+		$form_node->set_content($a_location);
 	}
 
+	function setListTitle($a_title, $a_language)
+	{
+		ilDOMUtil::setFirstOptionalElement($this->dom,
+			$this->list_node, "Title", array("FileItem"),
+			$a_title, array("Language" => $a_language));
+	}
+
+	function getListTitle()
+	{
+		$chlds =& $this->list_node->child_nodes();
+		for($i=0; $i<count($chlds); $i++)
+		{
+			if ($chlds[$i]->node_name() == "Title")
+			{
+				return $chlds[$i]->get_content();
+			}
+		}
+		return "";
+	}
+
+	function getLanguage()
+	{
+		$chlds =& $this->list_node->child_nodes();
+		for($i=0; $i<count($chlds); $i++)
+		{
+			if ($chlds[$i]->node_name() == "Title")
+			{
+				return $chlds[$i]->get_attribute("Language");
+			}
+		}
+		return "";
+	}
 }
 ?>

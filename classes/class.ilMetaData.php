@@ -541,6 +541,7 @@ class ilMetaData
 	*/
 	function create()
 	{
+//echo "<b>meta create()</b><br>";
 		include_once("./classes/class.ilNestedSetXML.php");
 		$this->nested = new ilNestedSetXML();
 		$this->nested->init($this->id, $this->getType());
