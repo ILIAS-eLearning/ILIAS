@@ -133,6 +133,12 @@ assessment#:#duplicate_order_values_entered#:#You have entered duplicate order v
 assessment#:#ects_allow_ects_grades#:#Show ECTS grade additional to received mark
 assessment#:#ects_grade#:#ECTS grade
 assessment#:#percentile#:#Percentile
+assessment#:#ects_fill_out_all_values#:#Please enter a value for every ECTS grade!
+assessment#:#ects_range_error_a#:#Please enter a value between 0 and 100 for ECTS grade A!
+assessment#:#ects_range_error_b#:#Please enter a value between 0 and 100 for ECTS grade B!
+assessment#:#ects_range_error_c#:#Please enter a value between 0 and 100 for ECTS grade C!
+assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECTS grade D!
+assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
 assessment#:#ects_grade_a#:#outstanding performance with only minor errors
 assessment#:#ects_grade_a_short#:#EXCELLENT
 assessment#:#ects_grade_b#:#above the average standard but with some errors
