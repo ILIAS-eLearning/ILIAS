@@ -14,11 +14,11 @@
 <!ENTITY % simpletext "#PCDATA | Link | Emph | Strong | Quotation | Code | Formula | GlossaryTerm | Reference | RefTarget">
 <!ENTITY % titletext "#PCDATA | Emph | Strong | Quotation | Code | Formula">
 <!-- technical entities -->
-<!ENTITY % operatingsystem "#PCDATA | PC-DOS | MS-Windows | MacOS | Unix | Multi-OS | None">
-<!ENTITY % browser "#PCDATA | Any | NetscapeCommunicator | MS-InternetExplorer | Opera | Amaya | Mozilla">
+<!ENTITY % operatingsystem "PC-DOS | MS-Windows | MacOS | Unix | Multi-OS | None">
+<!ENTITY % browser "Any | NetscapeCommunicator | MS-InternetExplorer | Opera | Amaya | Mozilla">
 <!-- LearningObject: object of highest complexity -->
-<!-- if the LearningObject has an AggregationLevel 1 (atomic), there is only MetaData and optionally Layout -->
-<!ELEMENT LearningObject (MetaData, Layout?, Content?, Test?, Glossary?, Bibliography?)>
+<!-- if the LearningObject has an AggregationLevel 1 (atomic), there is only MetaData and optionally Layout and Parameter -->
+<!ELEMENT LearningObject (MetaData, Layout?, Parameter?, Content?, Test?, Glossary?, Bibliography?)>
 <!-- METADATA -->
 <!-- MetaData referring to LOM/SCORM standard, see http://www.adlnet.org/library/documents/scorm/specifications/SCORM_1.2_CAM.pdf for details -->
 <!-- the base scheme consists of nine categories: -->
@@ -201,6 +201,11 @@
 	VerticalAlign (Top | Middle | Bottom) #IMPLIED
 	TargetFrame (Media | FAQ | Glossary) #IMPLIED
 >
+<!-- PARAMETER -->
+<!-- Parameters needed for learning objects -->
+<!ELEMENT Parameter (ParameterName, ParameterValue)+>
+<!ELEMENT ParameterName (#PCDATA)>
+<!ELEMENT ParameterValue (#PCDATA)>
 <!--  CONTENT -->
 <!-- (textual) Content of a learning object should be divided in single paragraphs -->
 <!-- the Content may include another LO (e.g. images, video) -->
