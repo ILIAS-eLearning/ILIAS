@@ -2595,6 +2595,7 @@ content#:#cont_offline#:#Offline Versions###26 May 2004 new variable
 content#:#cont_online#:#在线
 content#:#cont_or#:#or###29 Nov 2004 new variable
 content#:#cont_order#:#顺序类型
+content#:#cont_ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###11 Dec 2004 new variable
 content#:#cont_organization#:#组织
 content#:#cont_organizations#:#组织
 content#:#cont_orig_size#:#原始大小
