@@ -108,7 +108,11 @@ class ilRepositoryLinkSelector extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id)
 	{
-		return $a_type == $this->selectable_type and $a_ref_id != $this->ref_id;
+		global $rbacsystem;
+
+		return $a_type == $this->selectable_type 
+			and $a_ref_id != $this->ref_id 
+			and $rbacsystem->checkAccess('write',$a_ref_id);
 	}
 
 	function showChilds($a_ref_id)

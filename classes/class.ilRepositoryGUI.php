@@ -3779,7 +3779,7 @@ class ilRepositoryGUI
 			}
 			if($a_types["$node[type]"] == 'link')
 			{
-				if(!$this->rbacsystem->checkAccess('delete',$node["child"]))
+				if(!$this->rbacsystem->checkAccess('write',$node["child"]))
 				{
 					return false;
 				}
