@@ -230,3 +230,5 @@ enumerate	enumerate	nummerieren	enumerate	enumerate
 page_edit	edit page	Seite bearbeiten	edit page	edit page
 forum_new	new forum	Neues Forum	new forum	new forum
 link	link	verknüpfen	link	link
+folder	folder	Ordner	folder	folder
+create_in	create in	erstellen in	create in	create in

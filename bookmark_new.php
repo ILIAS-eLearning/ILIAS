@@ -8,6 +8,35 @@
  */
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
+include("./classes/class.Bookmarks.php");
+
+$tpl = new Template("tpl.bookmark_new.html", true, true);
+
+$myBm = new Bookmarks($ilias->db, $ilias->account->Id);
+
+//form has been submitted
+if ($_POST["submit"] != "")
+{
+	if ($_POST["id"] != "")
+		$myBm->setId($_POST["id"]);
+		
+	$myBm->setName($_POST["name"]);
+	$myBm->setURL($_POST["url"]);
+
+	if ($_POST["id"] != "")
+		$myBm->update();
+	else
+		$myBm->insert();
+	
+}
+
+if ($_GET["id"]!="")
+{
+	$bm = $myBm->getBookmark($_GET["id"]);
+	$tpl->setVariable("NAME", $bm["name"]);
+	$tpl->setVariable("URL", $bm["url"]);
+		
+}
 
 $tplbtn = new Template("tpl.buttons.html", true, true);
 $tplbtn->setCurrentBlock("btn_cell");
@@ -21,7 +50,6 @@ $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
 
-$tpl = new Template("tpl.bookmark_new.html", true, true);
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
 $tplmain->setVariable("PAGETITLE", "ILIAS - ".$lng->txt("bookmarks"));
@@ -29,7 +57,7 @@ $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("bookmarks"));
 $tpl->setVariable("TXT_URL", $lng->txt("url"));
 $tpl->setVariable("TXT_DESCRIPTION", $lng->txt("description"));
 
-$bmf = $ilias->account->getBookmarkFolder();
+$bmf = $myBm->getFolders();
 
 foreach ($bmf as $row)
 {
@@ -41,7 +69,7 @@ foreach ($bmf as $row)
 }
 $tpl->setVariable("TXT_TOP", $lng->txt("top"));
 $tpl->setVariable("TXT_NAME", $lng->txt("name"));
-$tpl->setVariable("TXT_CREATE_IN_FOLDER", $lng->txt("create_in_folder"));
+$tpl->setVariable("TXT_FOLDER", $lng->txt("folder"));
 $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 $tpl->setVariable("TXT_FOLDER_NEW", $lng->txt("folder_new"));
 

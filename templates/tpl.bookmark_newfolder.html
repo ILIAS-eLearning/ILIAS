@@ -8,20 +8,22 @@
 <h3>{TXT_FOLDER_NEW}</h3>
 
 <table cellspacing=0 cellpadding=2 border=0>
-<tr>
+<tr class="tblrow2">
   <td><b>&nbsp;{TXT_NAME}</b></td>
   <td>&nbsp;<input type=text maxlength=255 name="name" value="{NAME}">&nbsp;</td>
 </tr>
-<tr>
+<tr class="tblrow1">
   <td>&nbsp;{TXT_CREATE_IN_FOLDER}</td>
   <td>&nbsp;<select name="in_folder" size=1>
+  <option value="top">{TXT_TOP}</option>
 <!-- BEGIN selfolders -->
   <option value="{SEL_VALUE}" {SEL_SELECTED}>{SEL_OPTION}</option>
 <!-- END selfolders -->
   </select></td>
 </tr>
-<tr>
-  <td colspan=2><input type=submit name="submit" value="{TXT_SAVE}"></td>
+<tr class="tblrow2">
+	<td>&nbsp;</td>
+  <td>&nbsp;<input type=submit name="submit" value="{TXT_SAVE}"></td>
 </tr>
 </table>
 </FORM>
