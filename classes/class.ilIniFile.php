@@ -348,6 +348,24 @@ class ilIniFile
 	}
 	
 	/**
+	* removes a group
+	* @access	public
+	* @param	string		group name
+	* @return	boolean
+	*/
+	function removeGroup($a_group_name)
+	{
+		if (!$this->groupExists($a_group_name))
+		{
+			$this->error("Group '".$a_group_name."' does not exists");
+			return false;		
+		}
+
+		unset($this->GROUPS[$a_group_name]);
+		return true;
+	}
+
+	/**
 	* reads a single variable from a group
 	* @access	public
 	* @param	string		group name
