@@ -26,7 +26,9 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.27 2003/08/08 10:19:38 mrus Exp $
+
+* $Id$Id: class.ilObjGroupGUI.php,v 1.28 2003/08/11 14:45:43 neiken Exp $
+
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -36,6 +38,7 @@
 include_once "class.ilObjectGUI.php";
 include_once "class.ilObjGroup.php";
 require_once("classes/class.ilTableGUI.php");
+
 
 class ilObjGroupGUI extends ilObjectGUI
 {	
@@ -145,8 +148,6 @@ class ilObjGroupGUI extends ilObjectGUI
 	* @access	public
 	*/
 	function viewObject()
-//function: Befehl nicht gefunden.
-
 	{
 		global $rbacsystem,$lng;
 
@@ -163,6 +164,8 @@ class ilObjGroupGUI extends ilObjectGUI
 		$childs = $this->tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
 
 
+		// tmp display std tree
+		$childs = $this->tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
 
 		foreach ($childs as $key => $val)
 		{
@@ -183,7 +186,6 @@ class ilObjGroupGUI extends ilObjectGUI
 										"last_change" => $val["last_update"],
 										"ref_id" => $val["ref_id"]
 										);
-
 			//control information is set below
 
 	    } //foreach
@@ -273,10 +275,8 @@ class ilObjGroupGUI extends ilObjectGUI
 	* displays confirmation form
 	* @access public
 	*/
-	/*function confirmationObject($user_id="", $confirm, $cancel, $info="", $status="")
+	function confirmationObject($user_id="", $confirm, $cancel, $info="", $status="")
 	{
-
-
 		$this->data["cols"] = array("type", "title", "description", "last_change");
 		if(is_array($user_id))
 			foreach($user_id as $id)
@@ -304,15 +304,14 @@ class ilObjGroupGUI extends ilObjectGUI
 				);
 		}
 
-		$_SESSION["saved_post"] = array();
+		//write  in sessionvariables
 		if(is_array($user_id))
-			$_SESSION["saved_post"] = $user_id;
+			$_SESSION["saved_post"]["user_id"] = $user_id;
 		else
-			$_SESSION["saved_post"][0] = $user_id;
+			$_SESSION["saved_post"]["user_id"][0] = $user_id;
 
-		//write  in sessionvar
 		if(isset($status))
-			$_SESSION["status"] = $status;
+			$_SESSION["saved_post"]["status"] = $status;
 
 		$this->data["buttons"] = array( $confirm  => $this->lng->txt("confirm"),
 						$cancel  => $this->lng->txt("cancel"));
@@ -373,126 +372,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		}
 
 	}
-	*/
-
-
-	function confirmationobject($user_id="", $confirm, $cancel, $info="", $status="")
-	{
-
-  		$this->tpl->addBlockfile("ADD_OBJ", "add_obj", "tpl.confirmation.html");
-		$this->tpl->addBlockfile("TBL", "tbl", "tpl.table.html");
-
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.confirmation_tbl.html");
-
-		$this->tpl->setCurrentBlock("tbl_form_header");
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
-		
-		if(is_array($user_id))
-		{
-
-			foreach($user_id as $id)
-			{
-				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
-				$this->tpl->setCurrentBlock("tbl_content");
-
-				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-
-
-
-				$obj_icon = "icon_".$obj_data->getType()."_b.gif";
-
-
-				$this->tpl->setVariable("TITLE", $obj_data->getTitle());
-
-
-				$this->tpl->setVariable("IMG", $obj_icon);
-				//$this->tpl->setVariable("ALT_IMG", $lng->txt("obj_".$cont_data["type"]));
-				$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
-
-
-				$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($obj_data->getLastUpdateDate()));
-
-
-				$this->tpl->parseCurrentBlock();
-
-			}
-		}
-		else
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($user_id);
-			$this->tpl->setCurrentBlock("tbl_content");
-
-			$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-			$num++;
-			$obj_icon = "icon_".$obj_data->getType()."_b.gif";
-			$this->tpl->setVariable("TITLE", $obj_data->getTitle());
-			$this->tpl->setVariable("IMG", $obj_icon);
-			$this->tpl->setVariable("DESCRIPTION", $obj_data->getDescription());
-
-			$this->tpl->setVariable("LAST_VISIT", "N/A");
-			$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($obj_data->getLastUpdate()));
-
-			//$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
-			$this->tpl->parseCurrentBlock();
-
-		}
-		infoPanel();
-		sendInfo($this->lng->txt($info));
-
-		$_SESSION["saved_post"] = array();
-		if(is_array($user_id))
-			$_SESSION["saved_post"] = $user_id;
-		else
-			$_SESSION["saved_post"][0] = $user_id;
-
-		//write  in sessionvar
-		if(isset($status))
-			$_SESSION["status"] = $status;
-
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		//$tbl->setTitle($this->lng->txt("group_details"),"icon_grp_b.gif",$this->lng->txt("group_details"));
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
-		$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("last_change")));
-		$tbl->setHeaderVars(array("title","description","last_change"));
-		$tbl->setColumnWidth(array("3%","6%","22%"));
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($limit);
-		$tbl->setOffset($offset);
-		$tbl->setMaxCount($maxcount);
-
-
-
-
-		//$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->SetVariable("COLUMN_COUNTS", "3");
-		$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->setVariable("BTN_NAME", $confirm);
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("confirm"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setVariable("BTN_NAME", $cancel);
-		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("tbl_action_row");
-		$this->tpl->parseCurrentBlock();
-
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		//$tbl->disable("content");
-		//$tbl->disable("footer");
-
-		// render table
-		$tbl->render();
-
-		//$this->tpl->show();
-	}
 
 	/**
 	* leave Group
@@ -533,7 +412,9 @@ class ilObjGroupGUI extends ilObjectGUI
 			$confirm = "confirmedAssignMember";
 			$cancel  = "canceled";
 			$info	 = "info_assign_sure";
-			$this->confirmationObject($user_ids, $confirm, $cancel, $info, "");
+			$status  = $_SESSION["post_vars"]["status"];
+
+			$this->confirmationObject($user_ids, $confirm, $cancel, $info, $status);
 		}
 		else
 		{
@@ -549,16 +430,16 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function confirmedAssignMemberObject()
 	{
-		if(isset($_SESSION["saved_post"]) && isset($_SESSION["status"]) )
+		if(isset($_SESSION["saved_post"]["user_id"]) && isset($_SESSION["saved_post"]["status"]) )
 		{
 			//let new members join the group
 			$newGrp = new ilObjGroup($this->object->getRefId(), true);
-			foreach($_SESSION["saved_post"] as $new_member)
+			foreach($_SESSION["saved_post"]["user_id"] as $new_member)
 			{
-				if(!$newGrp->joinGroup($new_member, $_SESSION["status"]) )
+				if(!$newGrp->joinGroup($new_member, $_SESSION["saved_post"]["status"]) )
 					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
 			}
-			unset($_SESSION["status"]);
+			unset($_SESSION["saved_post"]);
 		}
 
 		header("Location: adm_object.php?".$this->link_params);
@@ -597,10 +478,11 @@ class ilObjGroupGUI extends ilObjectGUI
 	function confirmedRemoveMemberObject()
 	{
 		global $rbacsystem,$ilias;
+//		print_r($_SESSION["saved_post"]);
 
-		if(isset($_SESSION["saved_post"]) )
+		if(isset($_SESSION["saved_post"]["user_id"]) )
 		{
-			foreach($_SESSION["saved_post"] as $mem_id)
+			foreach($_SESSION["saved_post"]["user_id"] as $mem_id)
 			{
 				$newGrp = new ilObjGroup($_GET["ref_id"],true);
 				if($rbacsystem->checkAccess('leave',$_GET["ref_id"]))
@@ -640,6 +522,7 @@ class ilObjGroupGUI extends ilObjectGUI
 					$this->ilias->raiseError("You are not allowed to leave this group!",$this->ilias->error_obj->MESSAGE);
 			}
 		}
+		unset($_SESSION["saved_post"]);
 		header("Location: adm_object.php?".$this->link_params."&cmd=members");
 	}
 
@@ -738,12 +621,13 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_STATUS", $this->lng->txt("Member Status"));
 
 		$radio_member = ilUtil::formRadioButton($_POST["status"] ? 0:1,"status",0);
-		$radio_admin = ilUtil::formRadioButton($_POST["status"] ? 1:0,"status",1);
+		$radio_admin  = ilUtil::formRadioButton($_POST["status"] ? 1:0,"status",1);
 		$this->tpl->setVariable("RADIO_MEMBER", $radio_member);
 		$this->tpl->setVariable("RADIO_ADMIN", $radio_admin);
 		$this->tpl->setVariable("TXT_MEMBER_STATUS", "Member");
 		$this->tpl->setVariable("TXT_ADMIN_STATUS", "Admin");
 		$this->tpl->setVariable("TXT_SEARCH", "Search");
+
 		if(isset($_POST["search_user"]) )
 			$this->tpl->setVariable("SEARCH_STRING", $_POST["search_user"]);
 		else if(isset($_GET["search_user"]) )
@@ -756,9 +640,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		if( (isset($_POST["search_user"]) && isset($_POST["status"]) ) || ( isset($_GET["search_user"]) && isset($_GET["status"]) ) )//&& isset($_GET["ref_id"]) )
 		{
 			$member_ids = ilObjUser::searchUsers($_POST["search_user"] ? $_POST["search_user"] : $_GET["search_user"]);
-
-			//INTERIMS SOLUTION
-			$_SESSION["status"] = $_POST["status"];
 
 			foreach($member_ids as $member)
 			{
@@ -821,8 +702,6 @@ class ilObjGroupGUI extends ilObjectGUI
 
 			// render table
 			$tbl->render();
-			
-
 		}
 	}
 
@@ -871,19 +750,8 @@ class ilObjGroupGUI extends ilObjectGUI
 
 
 
-
 			$grp_role_id = $newGrp->getGroupRoleId($member->getId());
 			$newObj	     = new ilObject($grp_role_id,false);
-
-
-		$newGrp = new ilObjGroup($this->object->getRefId(),true);
-		$member_ids = $newGrp->getGroupMemberIds();
-		$admin_ids  = $newGrp->getGroupAdminIds();
-
-		$member_arr = array();
-		foreach ($member_ids as $member_id)
-		{
-			array_push($member_arr, new ilObjUser($member_id));
 
 			$this->data["data"][$member->getId()]= array(
 			        "check"		=> ilUtil::formCheckBox(0,"user_id[]",$member->getId()),
@@ -896,14 +764,14 @@ class ilObjGroupGUI extends ilObjectGUI
 						<a href=\"$link_leave\">$val_leave</a>"
 				);
 			unset($member);
-
+			unset($newObj);
 		}
 
 		$this->getTemplateFile("chooseuser","grp");
 		infoPanel();
 
 		$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
-
+		
 		// load template for table content data
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 
@@ -952,6 +820,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		$tbl->render();
 	}
 
+
 	/**
 	* displays form in which the member-status can be changed
 	* @access public
@@ -959,43 +828,13 @@ class ilObjGroupGUI extends ilObjectGUI
 	function updateMemberStatusObject()
 	{
 		global $rbacsystem;
+
 		if(!$rbacsystem->checkAccess("write",$this->object->getRefId()) )
 		{
 			$this->ilias->raiseError("No permissions to change member status!",$this->ilias->error_obj->WARNING);
 		}
-
-
-		$member_Obj =& $ilias->obj_factory->getInstanceByObjId($_GET["mem_id"]);
-		$newGrp = new ilObjGroup($_GET["ref_id"],true);
-
-		$mem_status = $newGrp->getMemberStatus($_GET["mem_id"]);
-
-		$stati = array(0=>"grp_member_role",1=>"grp_admin_role");
-
-		//build form
-		$opts = ilUtil::formSelect($mem_status,"member_status_select",$stati,false,true);
-		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-		$this->tpl->setVariable("TXT_MEMBER_NAME", "Membername");
-		$this->tpl->setVariable("TITLE", $member_Obj->getLogin());
-		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("member_status"));
-		$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=updateMemberStatus"."&ref_id=".$_GET["ref_id"]."&mem_id=".$_GET["mem_id"]);
-			//"&new_type=".$_POST["new_type"]);
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("update"));
-
-	}
-
-	/**
-	* displays form in which the member-status can be changed
-	* @access public
-	*/
-	/*function updateMemberStatusObject()
-	{
-		global $rbacsystem;
-
-		if($rbacsystem->checkAccess("write",$this->object->getRefId()) )
-
-		else{
-
+		else
+		{
 			if(isset($_POST["member_status_select"]))
 			{
 				foreach($_POST["member_status_select"] as $key=>$value)
@@ -1003,10 +842,12 @@ class ilObjGroupGUI extends ilObjectGUI
 					$this->object->setMemberStatus($key,$value);
 				}
 			}
+		}
 		//TODO: link back
 		header("Location: adm_object.php?".$this->link_params."&cmd=members");
 
-	}/*
+
+	}
 
 
 
@@ -1020,16 +861,9 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->getTemplateFile("overview", "grp");
 
 		//$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
 		//$this->tpl->addBlockfile("CONTENT", "content", "tpl.grp_overview.html");
 
-
-
-
-
-
 		$this->tpl->setCurrentBlock("content");
-
 
 		$this->tpl->setVariable("TXT_GROUPS",  $this->lng->txt("groups"));
 		$this->tpl->setCurrentBlock("tblheader");
@@ -1381,7 +1215,7 @@ class ilObjGroupGUI extends ilObjectGUI
 				// get subnodes of top nodes
 				$subnodes[$ref_id] = $tree->getSubtree($top_node);
 			}
- 			
+
 			// now move all subtrees to new location
 			foreach($subnodes as $key => $subnode)
 			{  
@@ -1416,7 +1250,7 @@ class ilObjGroupGUI extends ilObjectGUI
 				$groupObj = new ilObjGroup($_GET["ref_id"]);
 				$groupObj->insertGroupNode($obj_data->getId(),$obj_data->getRefId(), $groupObj->getId(),$this->grp_tree );
 >>>>>>> 1.27
-				
+
 				
 				// ... remove top_node from list....
 				array_shift($subnode);
@@ -1431,7 +1265,7 @@ class ilObjGroupGUI extends ilObjectGUI
 						// TODO: $node["parent"] is wrong in case of new reference!!!!
 						$obj_data->putInTree($node["parent"]);
 						$obj_data->setPermissions($node["parent"]);
-						
+
 						//todo !!!
 						//$this->grp_tree->insertNode($obj_data->getRefId(), $node["parent"]);
 					
@@ -1611,7 +1445,7 @@ class ilObjGroupGUI extends ilObjectGUI
 								{
 									$val = "<del>".$val."</del>";
 								}
-								
+
 								if ($cmd == "copy" and $key == "title")
 								{
 									$val = "<font color=\"green\">+</font>  ".$val;
@@ -1629,10 +1463,10 @@ class ilObjGroupGUI extends ilObjectGUI
 
 					if ($key == "type")
 					{
-						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);						
+						$val = ilUtil::getImageTagByType($val,$this->tpl->tplPath);
 					}
 
-					$this->tpl->setVariable("TEXT_CONTENT", $val);					
+					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setCurrentBlock("table_cell");
@@ -1656,7 +1490,7 @@ class ilObjGroupGUI extends ilObjectGUI
 	}
 
 
-}
+
 
 	function getContextPath($a_endnode_id, $a_startnode_id = 0)
 	{
@@ -1677,7 +1511,7 @@ class ilObjGroupGUI extends ilObjectGUI
 			$path .= $tmpPath[$i]["title"];
 		}
 
-	return $path;
+		return $path;
 	}
 
 
