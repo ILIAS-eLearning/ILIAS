@@ -435,6 +435,7 @@ common#:#usr_skin#:#Benutzeroberfläche
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
 common#:#version#:#Version
+common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#sichtbare Ebenen
 common#:#visits#:#Besuche
@@ -443,4 +444,3 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zip#:#Postleitzahl
-common#:#view#:#Zeigen
