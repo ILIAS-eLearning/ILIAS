@@ -182,6 +182,9 @@ class ilChatServerCommunicator
 			case "test":
 				return "GET /Version";
 
+			default:
+				return "GET /Version";
+
 		}
 	}
 
