@@ -32,25 +32,11 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absoluter Pfad
-common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
-common#:#msg_no_search_result#:#Keine Eintr&auml;ge gefunden
-common#:#with#:#mit
-common#:#who_is_online#:#Wer ist Online?
-common#:#search_result#:#Suchergebnis
-common#:#users_online#:#Aktive Benutzer
-common#:#login_time#:#Onlinezeit
-common#:#user_assignment#:#Benutzerzuweisung
-common#:#role_assignment#:#Rollenzuweisung
 common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen!
 common#:#actions#:#Aktionen
-common#:#search_user#:#Benutzer suchen
-common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text.
-common#:#search_new#:#Neue Suche
 common#:#active_roles#:#Aktive Rollen
-common#:#change_assignment#:#Zuweisung &auml;ndern
-common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#add#:#hinzuf&uuml;gen
 common#:#add_author#:#Autor hinzuf&uuml;gen
 common#:#add_member#:#Mitglied hinzuf&uuml;gen
@@ -59,6 +45,7 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#&Uuml;bernehmen
 common#:#adopt_perm_from_template#:#&Uuml;bernehme Rechteeinstellungen von Rollenvorlage
+common#:#all_objects#:#All Objects###04 Aug 2003 new variable
 common#:#announce#:#ank&uuml;ndigen
 common#:#announce_changes#:#&Auml;nderungen bekanntgeben
 common#:#answers#:#Antworten
@@ -95,6 +82,7 @@ common#:#categories#:#Kategorien
 common#:#cc#:#CC
 common#:#censorship#:#Zensur
 common#:#change#:#&auml;ndern
+common#:#change_assignment#:#Zuweisung &auml;ndern
 common#:#change_existing_objects#:#Vorhandene Objekte &auml;ndern
 common#:#change_lo_info#:#Lerneinheiten-Infos &auml;ndern
 common#:#change_metadata#:#Metadaten &auml;ndern
@@ -177,6 +165,7 @@ common#:#err_in_line#:#Fehler in Zeile
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
 common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
+common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_wrong_header#:#Grund: Falscher Header.
 common#:#err_wrong_login#:#Login ung&uuml;ltig
 common#:#error_recipient#:#Empf&auml;nger von Fehlermeldungen
@@ -287,6 +276,7 @@ common#:#last_visit#:#Letzter Besuch
 common#:#lastname#:#Nachname
 common#:#launch#:#Start
 common#:#ldap#:#LDAP
+common#:#learning_objects#:#Learning Objects###04 Aug 2003 new variable
 common#:#level#:#Stufe
 common#:#link#:#verkn&uuml;pfen
 common#:#linked_pages#:#Verkn&uuml;pft mit den Seiten
@@ -306,9 +296,11 @@ common#:#lo_new#:#neue Lerneinheit
 common#:#lo_no_content#:#Keine Lernmaterialien vorhanden
 common#:#lo_other_langs#:#Lerneinheiten in anderen Sprachen
 common#:#lo_overview#:#LE &Uuml;bersicht
+common#:#locator#:#Locator:###04 Aug 2003 new variable
 common#:#login#:#Login
 common#:#login_data#:#Logindaten
 common#:#login_exists#:#Ein Benutzer mit diesem Namen existiert bereits! Bitte w&auml;hlen Sie einen anderen Benutzernamen
+common#:#login_time#:#Onlinezeit
 common#:#login_to_ilias#:#Bei ILIAS anmelden
 common#:#logout#:#Logout
 common#:#los#:#Lerneinheiten
@@ -323,6 +315,7 @@ common#:#mail_d_drafts#:#Entw&uuml;rfe
 common#:#mail_delete_error#:#Fehler beim L&ouml;schen###28 Mar 2003 content changed
 common#:#mail_delete_error_file#:#Fehler beim L&ouml;schen der Datei
 common#:#mail_e_sent#:#Gesendete
+common#:#mail_folders#:#Mail Folders###04 Aug 2003 new variable
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mails_of#:#Nachrichten###24 Apr 2003 content changed
 common#:#mail_maxsize_attach#:#Max. Attachmentgr&ouml;sse
@@ -385,6 +378,8 @@ common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung
 common#:#msg_no_rolf_allowed1#:#Das Objekt
 common#:#msg_no_rolf_allowed2#:#kann keinen Rollenordner beinhalten.
+common#:#msg_no_search_result#:#Keine Eintr&auml;ge gefunden
+common#:#msg_no_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#msg_not_in_itself#:#Es ist nicht m&ouml;glich die folgenden Objekte in sich selbst einzuf&uuml;gen:
 common#:#msg_not_possible_link#:#Es ist nicht m&ouml;glich die folgenden Objekte zu verkn&uuml;pfen: Typ
 common#:#msg_nothing_found#:#Nichts gefunden
@@ -397,12 +392,12 @@ common#:#msg_perm_adopted_from_itself#:#Es ist nicht m&ouml;glich, die Rechteein
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
 common#:#msg_role_exists2#:#existiert bereits! Bitte w&auml;hlen Sie einen anderen Namen.
+common#:#msg_roleassignment_changed#:#Rollenzuweisung ge&auml;ndert
 common#:#msg_trash_empty#:#In diesem Ordner existieren keine gel&ouml;schten Objekte 
 common#:#msg_undeleted#:#Objekt(e) wiederhergestellt.
 common#:#msg_user_last_role1#:#Die folgenden Benutzer sind nur dieser einen Rolle zugewiesen:###10 Jul 2003 content changed
 common#:#msg_user_last_role2#:#Bitte l&ouml;schen Sie die Benutzer oder weisen Sie ihnen einer anderen Rolle zu.
-common#:#msg_userassignment_changed#:#Benutzerzuweisung ge&auml;ndert
-common#:#msg_roleassignment_changed#:#Rollenzuweisung ge&auml;ndert
+common#:#msg_userassignment_changed#:#Benutzerzuweisung ge&auml;ndert###04 Aug 2003 content changed
 common#:#multimedia#:#Multimedia
 common#:#name#:#Name
 common#:#new#:#Neu
@@ -501,6 +496,7 @@ common#:#presentation_options#:#Pr&auml;sentationsoptionen
 common#:#previous#:#zur&uuml;ck
 common#:#print#:#Drucken
 common#:#profile_changed#:#Ihr Profil wurde ge&auml;ndert
+common#:#properties#:#Properties###04 Aug 2003 new variable
 common#:#pub_section#:#&ouml;ffentlicher Bereich
 common#:#public_profile#:#Public Profile###14 May 2003 new variable
 common#:#publication#:#Ver&ouml;ffentlichung
@@ -525,6 +521,7 @@ common#:#right#:#Recht
 common#:#rights#:#Rechte
 common#:#role#:#Rolle
 common#:#role_added#:#Rolle angelegt
+common#:#role_assignment#:#Rollenzuweisung
 common#:#role_deleted#:#Rolle gel&ouml;scht
 common#:#roles#:#Rollen
 common#:#rolf#:#Rollenordner
@@ -543,7 +540,10 @@ common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre &Auml;nderungen wurden gespeichert
 common#:#search#:#Suchen
 common#:#search_in#:#Suchen in
+common#:#search_new#:#Neue Suche
 common#:#search_recipient#:#Empf&auml;nger suchen
+common#:#search_result#:#Suchergebnis
+common#:#search_user#:#Benutzer suchen
 common#:#sections#:#Bereiche
 common#:#select#:#Select###12 May 2003 new variable
 common#:#select_all#:#Alle ausw&auml;hlen
@@ -581,6 +581,7 @@ common#:#subcat_name#:#Unterkategorie Name
 common#:#subchapter_new#:#Neues Unterkapitel
 common#:#subject#:#Betreff
 common#:#submit#:#Abschicken
+common#:#subobjects#:#Subobjects###04 Aug 2003 new variable
 common#:#subscription#:#Abo
 common#:#summary#:#Zusammenfassung
 common#:#system#:#System
@@ -613,13 +614,16 @@ common#:#url#:#URL
 common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
 common#:#user_added#:#Benutzer angelegt
+common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_deleted#:#Benutzer gel&ouml;scht
 common#:#user_language#:#Benutzersprache
 common#:#userdata#:#Benutzerdaten
 common#:#username#:#Benutzername
 common#:#users#:#Benutzer
+common#:#users_online#:#Aktive Benutzer
 common#:#usr#:#Benutzer
 common#:#usr_agreement#:#Vereinbarung
+common#:#usr_agreement_empty#:#Die Vereinbarung enthält keinen Text.
 common#:#usr_skin#:#Benutzeroberfl&auml;che
 common#:#usr_style#:#Stil
 common#:#usrf#:#Benutzerordner
@@ -630,6 +634,8 @@ common#:#view#:#Zeigen
 common#:#view_content#:#Inhalt
 common#:#visible_layers#:#Sichtbare Ebenen
 common#:#visits#:#Besuche
+common#:#who_is_online#:#Wer ist Online?
+common#:#with#:#mit
 common#:#write#:#Schreiben
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie k&ouml;nnen lokale Rollen hinzuf&uuml;gen
@@ -649,44 +655,78 @@ content#:#cont_all_pages#:#All Pages###10 Jun 2003 new variable
 content#:#cont_alphabetic#:#Alphabetic a, b, ...###12 Jul 2003 new variable
 content#:#cont_bottom#:#Bottom###11 Jun 2003 new variable
 content#:#cont_caption#:#Caption###11 Jun 2003 new variable
+content#:#cont_chap_and_pages#:#Chapters and Pages###04 Aug 2003 new variable
 content#:#cont_chapters#:#Chapters###10 Jun 2003 new variable
 content#:#cont_characteristic#:#Characteristic###23 Jun 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
+content#:#cont_data_from_lms#:#adlcp:datafromlms###04 Aug 2003 new variable
 content#:#cont_def_layout#:#Default Layout###01 Jul 2003 new variable
+content#:#cont_def_organization#:#default###04 Aug 2003 new variable
+content#:#cont_dependencies#:#Dependencies###04 Aug 2003 new variable
+content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties###04 Aug 2003 new variable
 content#:#cont_edit_mob_properties#:#Edit Media Object Properties###08 Jul 2003 new variable
 content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
 content#:#cont_edit_tab_properties#:#Table Properties###09 Jun 2003 new variable
 content#:#cont_file#:#File###08 Jul 2003 new variable
+content#:#cont_files#:#Files###04 Aug 2003 new variable
+content#:#cont_fullscreen#:#Fullscreen###04 Aug 2003 new variable
 content#:#cont_height#:#Height###08 Jul 2003 new variable
+content#:#cont_href#:#href###04 Aug 2003 new variable
+content#:#cont_id_ref#:#identifierref###04 Aug 2003 new variable
+content#:#cont_import_id#:#identifier###04 Aug 2003 new variable
 content#:#cont_insert_list#:#Insert List###12 Jul 2003 new variable
 content#:#cont_insert_mob#:#Insert Media Object###08 Jul 2003 new variable
 content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable
 content#:#cont_insert_table#:#Insert Table###09 Jun 2003 new variable
+content#:#cont_is_visible#:#isvisible###04 Aug 2003 new variable
+content#:#cont_item#:#Item###04 Aug 2003 new variable
 content#:#cont_list_properties#:#List Properties###16 Jul 2003 new variable
 content#:#cont_lm_properties#:#Learning Module Properties###01 Jul 2003 new variable
+content#:#cont_manifest#:#Manifest###04 Aug 2003 new variable
+content#:#cont_mastery_score#:#adlcp:masteryscore###04 Aug 2003 new variable
+content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed###04 Aug 2003 new variable
 content#:#cont_none#:#None###16 Jul 2003 new variable
 content#:#cont_nr_cols#:#Number of Columns###09 Jun 2003 new variable
 content#:#cont_nr_items#:#Number of Items###12 Jul 2003 new variable
 content#:#cont_nr_rows#:#Number of Rows###09 Jun 2003 new variable
 content#:#cont_order#:#Order Type###16 Jul 2003 new variable
+content#:#cont_organization#:#Organization###04 Aug 2003 new variable
+content#:#cont_organizations#:#Organizations###04 Aug 2003 new variable
+content#:#cont_orig_size#:#Original Size###04 Aug 2003 new variable
 content#:#cont_page_header#:#Page Header###16 Jul 2003 new variable
 content#:#cont_pages#:#Pages###28 May 2003 new variable
+content#:#cont_parameter#:#Parameter###04 Aug 2003 new variable
+content#:#cont_parameters#:#parameters###04 Aug 2003 new variable
 content#:#cont_pg_content#:#Page Content###24 May 2003 new variable
 content#:#cont_pg_title#:#Page Title###16 Jul 2003 new variable
+content#:#cont_prereq_type#:#adlcp:prerequisites.type###04 Aug 2003 new variable
+content#:#cont_prerequisites#:#adlcp:prerequisites###04 Aug 2003 new variable
 content#:#cont_preview#:#Preview###07 Jun 2003 new variable
+content#:#cont_ref_helptext#:#(e.g. http://www.server.org/myimage.jpg)###04 Aug 2003 new variable
+content#:#cont_reference#:#Reference###04 Aug 2003 new variable
+content#:#cont_resource#:#Resource###04 Aug 2003 new variable
+content#:#cont_resource_type#:#type###04 Aug 2003 new variable
+content#:#cont_resources#:#Resources###04 Aug 2003 new variable
 content#:#cont_roman#:#Roman i, ii, ...###12 Jul 2003 new variable
+content#:#cont_sc_title#:#title###04 Aug 2003 new variable
+content#:#cont_scorm_type#:#adlcp:scormtype###04 Aug 2003 new variable
 content#:#cont_set_class#:#Set Class###11 Jun 2003 new variable
 content#:#cont_set_width#:#Set Width###11 Jun 2003 new variable
 content#:#cont_st_title#:#Chapter Title###16 Jul 2003 new variable
+content#:#cont_std_view#:#Standard View###04 Aug 2003 new variable
+content#:#cont_structure#:#structure###04 Aug 2003 new variable
 content#:#cont_subchapters#:#Subchapters###28 May 2003 new variable
 content#:#cont_table#:#Table###11 Jun 2003 new variable
 content#:#cont_table_border#:#Table Border###09 Jun 2003 new variable
 content#:#cont_table_cellpadding#:#Table Cell Padding###09 Jun 2003 new variable
 content#:#cont_table_cellspacing#:#Table Cell Spacing###09 Jun 2003 new variable
 content#:#cont_table_width#:#Table Width###09 Jun 2003 new variable
+content#:#cont_time_limit_action#:#adlcp:timelimitaction###04 Aug 2003 new variable
 content#:#cont_top#:#Top###11 Jun 2003 new variable
+content#:#cont_version#:#version###04 Aug 2003 new variable
 content#:#cont_width#:#Width###08 Jul 2003 new variable
 content#:#cont_wysiwyg#:#Content Wysiwyg###24 May 2003 new variable
+content#:#cont_xml_base#:#xml:base###04 Aug 2003 new variable
 content#:#par#:#Paragraph###12 May 2003 new variable
 content#:#pg#:#Page###12 May 2003 new variable
 content#:#st#:#Chapter###12 May 2003 new variable
