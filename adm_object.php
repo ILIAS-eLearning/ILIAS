@@ -226,6 +226,7 @@ if ($tpl->fileExists($template) == false)
 {
 	$template = "tpl.obj_".$tplpart.".html";
 }
+
 $tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
 
 switch($_GET["cmd"])
@@ -322,14 +323,16 @@ switch($_GET["cmd"])
 		foreach ($obj->objectList["cols"] as $key)
 		{
 			$tpl->setCurrentBlock("table_header_cell");
-			$tpl->setVariable("LINK", "adm_object.php?obj_id=".$this->id."&parent=".$this->parent."&parent_parent=".$this->parent_parent."&order=type&direction=".$_GET["dir"]."&cmd=".$_GET["cmd"]);
 			if ($key != "")
 			    $out = $lng->txt($key);
 			else
-				$out = $key;
+				$out = "&nbsp;";
 			$tpl->setVariable("TEXT", $out);
+			$tpl->setVariable("LINK", "adm_object.php?obj_id=".$this->id."&parent=".$this->parent."&parent_parent=".$this->parent_parent."&order=type&direction=".$_GET["dir"]."&cmd=".$_GET["cmd"]);
 			$tpl->parseCurrentBlock();
 		}
+		$tpl->setCurrentBlock("table_header_row");
+		$tpl->parseCurrentBlock();
 		
 		if (is_array($obj->objectList["data"][0]))
 		{
