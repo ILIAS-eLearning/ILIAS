@@ -8,7 +8,7 @@
 <form method="post" name="cmd" action="{FORMACTION}">
 <table class="fullwidth">
 <tr class="tbltitle">
-	<td colspan="7">
+	<td colspan="6">
 	<table class="fullwidth_invisible">
 	<tr class="tbltitle">
 		<td width="10"><img src="{FRM_IMG}" alt="{FRM_IMG_ALT}" title="{FRM_IMG_ALT}" border="0" /></td>
@@ -23,8 +23,7 @@
   <td class="std" align="center">{TXT_NUM_THREADS}</td>
   <td class="std" align="center">{TXT_NUM_POSTS}</td>
   <td class="std" align="center">{TXT_NUM_VISITS}</td>
-  <td class="std" width="20%" align="center" nowrap="nowrap">{TXT_LAST_POST}</td>
-  <td class="std" width="20%" align="center">{TXT_MODS}</td>
+  <td class="std" width="39%" align="center" nowrap="nowrap">{TXT_LAST_POST}</td>
 </tr>
 <!-- BEGIN forum_row -->
 <tr>
@@ -34,9 +33,7 @@
  <br/>
  <span class="quote">{DESCRIPTION}</span><br/>
  <!-- <span class="small">{TXT_FORUMPATH}: {FORUMPATH}</span><br/> -->
- <!-- BEGIN start_data -->
- <span class="small">{START_DATE_TXT1}: {START_DATE} {START_DATE_TXT2} {START_DATE_USER}</span>
- <!-- END start_data -->
+ <span class="small">{TXT_MODERATORS}: {MODS}</span>
  <!-- BEGIN update_data -->
  <br/><span class="small">{LAST_UPDATE_TXT1}: {LAST_UPDATE} {LAST_UPDATE_TXT2} {LAST_UPDATE_USER}</span>
  <!-- END update_data -->
@@ -45,22 +42,21 @@
  <td align="center" nowrap="nowrap" class="tblrow2" valign="top">{NUM_POSTS}</td>
  <td align="center" nowrap="nowrap" class="tblrow1" valign="top">{NUM_VISITS}</td>
  <td width="20%" nowrap="nowrap" class="tblrow2" valign="top">{LAST_POST}</td>
- <td align="center" width="20%" class="tblrow1" valign="top">{MODS}</td>
-</tr>
+ </tr>
 <!-- END forum_row -->
 <!-- BEGIN forum_no -->
 <tr class="std">
-	<td class="std" colspan="7">{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
+	<td class="std" colspan="6">{TXT_MSG_NO_FORUMS_AVAILABLE}</td>
 </tr>
 <!-- END forum_no -->
 <!-- BEGIN forum_options -->
 <tr>
-	<td class="submit" nowrap="nowrap" colspan="7"><input type="checkbox" name="all" value="check_all" onClick="CheckAllBoxes(document.cmd);">&nbsp;
+	<td class="submit" nowrap="nowrap" colspan="6"><input type="checkbox" name="all" value="check_all" onClick="CheckAllBoxes(document.cmd);">&nbsp;
 	<strong>{TXT_SELECT_ALL}</strong>
 	</td>
 </tr>
 <tr>
-	<td class="submit" colspan="7">
+	<td class="submit" colspan="6">
 	<img src="{IMGPATH}/images/arrow_downright.gif" />&nbsp;
 	<select name="action">
 		<option value="html">{TXT_EXPORT_HTML}</option>
