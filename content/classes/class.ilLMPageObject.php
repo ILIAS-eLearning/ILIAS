@@ -188,16 +188,18 @@ class ilLMPageObject extends ilLMObject
 		switch ($type)
 		{
 			case "lm":
+				include_once ("content/classes/class.ilObjLearningModule.php");
 				$cont_obj = new ilObjLearningModule($lm_id, false);
 				break;
-				
+
 			case "dbk":
+				include_once ("content/classes/class.ilObjDlBook.php");
 				$cont_obj = new ilObjDlBook($lm_id, false);
 				break;
 		}
-		
+
 		$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
-		
+
 		// create new page
 		$meta =& new ilMetaData();
 		$lm_page =& new ilLMPageObject($cont_obj);
@@ -252,10 +254,12 @@ class ilLMPageObject extends ilLMObject
 		switch ($type)
 		{
 			case "lm":
+				include_once ("content/classes/class.ilObjLearningModule.php");
 				$cont_obj = new ilObjLearningModule($lm_id, false);
 				break;
-				
+
 			case "dbk":
+				include_once ("content/classes/class.ilObjDlBook.php");
 				$cont_obj = new ilObjDlBook($lm_id, false);
 				break;
 		}

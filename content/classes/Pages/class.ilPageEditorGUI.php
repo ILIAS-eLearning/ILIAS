@@ -22,18 +22,18 @@
 */
 
 //require_once ("classes/class.ilDOMUtil.php");
-require_once ("content/classes/Pages/class.ilPageObjectGUI.php");
-require_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
-require_once ("content/classes/Pages/class.ilPCParagraphGUI.php");
-require_once ("content/classes/Pages/class.ilPCSourcecodeGUI.php");
-require_once ("content/classes/Pages/class.ilPCTableGUI.php");
-require_once ("content/classes/Pages/class.ilPCTableDataGUI.php");
-require_once ("content/classes/Pages/class.ilPCListGUI.php");
-require_once ("content/classes/Pages/class.ilPCListItemGUI.php");
-require_once ("content/classes/Pages/class.ilPCFileListGUI.php");
-require_once ("content/classes/Pages/class.ilPCFileItemGUI.php");
-require_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
-require_once ("classes/class.ilTabsGUI.php");
+include_once ("content/classes/Pages/class.ilPageObjectGUI.php");
+//include_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
+//include_once ("content/classes/Pages/class.ilPCParagraphGUI.php");
+//include_once ("content/classes/Pages/class.ilPCSourcecodeGUI.php");
+//include_once ("content/classes/Pages/class.ilPCTableGUI.php");
+//include_once ("content/classes/Pages/class.ilPCTableDataGUI.php");
+//include_once ("content/classes/Pages/class.ilPCListGUI.php");
+//include_once ("content/classes/Pages/class.ilPCListItemGUI.php");
+//include_once ("content/classes/Pages/class.ilPCFileListGUI.php");
+//include_once ("content/classes/Pages/class.ilPCFileItemGUI.php");
+//include_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
+include_once ("classes/class.ilTabsGUI.php");
 
 /**
 * Page Editor GUI class
@@ -306,7 +306,7 @@ class ilPageEditorGUI
 
 			// Sourcecode
 			case "ilpcsourcecodegui":
-
+				include_once ("content/classes/Pages/class.ilPCSourcecodeGUI.php");
 				$src_gui =& new ilPCSourcecodeGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $src_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($src_gui);
@@ -314,6 +314,7 @@ class ilPageEditorGUI
 
 			// Paragraph
 			case "ilpcparagraphgui":
+				include_once ("content/classes/Pages/class.ilPCParagraphGUI.php");
 				$par_gui =& new ilPCParagraphGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $par_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($par_gui);
@@ -321,6 +322,7 @@ class ilPageEditorGUI
 
 			// Table
 			case "ilpctablegui":
+				include_once ("content/classes/Pages/class.ilPCTableGUI.php");
 				$tab_gui =& new ilPCTableGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $tab_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($tab_gui);
@@ -328,6 +330,7 @@ class ilPageEditorGUI
 
 			// Table Cell
 			case "ilpctabledatagui":
+				include_once ("content/classes/Pages/class.ilPCTableDataGUI.php");
 				$td_gui =& new ilPCTableDataGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $td_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($td_gui);
@@ -336,6 +339,8 @@ class ilPageEditorGUI
 			// PC Media Object
 			case "ilpcmediaobjectgui":
 			case "ilobjmediaobjectgui":
+				include_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
+				include_once ("content/classes/Pages/class.ilPCMediaObjectGUI.php");
 				$tabs_gui =& new ilTabsGUI();
 				if ($_GET["pgEdMediaMode"] != "editLinkedMedia")
 				{
@@ -378,6 +383,7 @@ class ilPageEditorGUI
 
 			// List
 			case "ilpclistgui":
+				include_once ("content/classes/Pages/class.ilPCListGUI.php");
 				$list_gui =& new ilPCListGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $list_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($list_gui);
@@ -385,6 +391,7 @@ class ilPageEditorGUI
 
 			// List Item
 			case "ilpclistitemgui":
+				include_once ("content/classes/Pages/class.ilPCListItemGUI.php");
 				$list_item_gui =& new ilPCListItemGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $list_item_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($list_item_gui);
@@ -392,6 +399,7 @@ class ilPageEditorGUI
 
 			// File List
 			case "ilpcfilelistgui":
+				include_once ("content/classes/Pages/class.ilPCFileListGUI.php");
 				$file_list_gui =& new ilPCFileListGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $file_list_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($file_list_gui);
@@ -399,6 +407,7 @@ class ilPageEditorGUI
 
 			// File List Item
 			case "ilpcfileitemgui":
+				include_once ("content/classes/Pages/class.ilPCFileItemGUI.php");
 				$file_item_gui =& new ilPCFileItemGUI($this->page, $cont_obj, $hier_id);
 				//$ret =& $file_item_gui->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($file_item_gui);
@@ -543,6 +552,7 @@ class ilPageEditorGUI
 	*/
 	function insertFromClipboard()
 	{
+		include_once ("content/classes/Media/class.ilObjMediaObjectGUI.php");
 		if ($_GET["clip_obj_id"] != "")
 		{
 			if ($_GET["clip_obj_type"] == "mob")
