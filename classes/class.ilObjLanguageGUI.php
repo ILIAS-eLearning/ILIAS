@@ -26,9 +26,9 @@
 * Class ilObjLanguageGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjLanguageGUI.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
+* $Id$Id: class.ilObjLanguageGUI.php,v 1.3 2003/05/16 13:39:22 smeyer Exp $
 * 
-* @extends ilObject
+* @extends ilObjectGUI
 * @package ilias-core
 */
 
@@ -45,5 +45,5 @@ class ilObjLanguageGUI extends ilObjectGUI
 		$this->type = "lng";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 	}
-} // END class.LanguageObjectOut
+} // END class.ilObjLanguageGUI
 ?>
