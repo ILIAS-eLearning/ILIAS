@@ -69,7 +69,7 @@ class ilLMObject
 		if(!isset($this->data_record))
 		{
 			$query = "SELECT * FROM lm_data WHERE obj_id = '".$this->id."'";
-			$obj_set = $ilias->db->query($query);
+			$obj_set = $this->ilias->db->query($query);
 			$this->data_record = $obj_set->fetchRow(DB_FETCHMODE_ASSOC);
 		}
 
@@ -155,6 +155,13 @@ class ilLMObject
 		// create meta data
 		$this->meta_data->update();
 
+	}
+
+	function delete()
+	{
+		$this->meta_data->delete();
+		$query = "DELETE FROM lm_data WHERE obj_id= '".$this->getId()."'";
+		$this->ilias->db->query($query);
 	}
 
 }

@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("content/classes/class.ilPageContent.php");
 
 /**
 * Class ilParagraph
@@ -32,9 +33,8 @@
 *
 * @package content
 */
-class ilParagraph
+class ilParagraph extends ilPageContent
 {
-	var $ilias;
 	var $text;
 	var $language;
 	var $characteristic;
@@ -45,9 +45,9 @@ class ilParagraph
 	*/
 	function ilParagraph()
 	{
-		global $ilias;
+		parent::ilPageContent();
+		$this->setType("par");
 
-		$this->ilias =& $ilias;
 		$this->text = "";
 		$this->characteristic = "";
 		$this->language = "";

@@ -35,7 +35,7 @@ require_once("./content/classes/class.ilLMObjectGUI.php");
 */
 class ilStructureObjectGUI extends ilLMObjectGUI
 {
-	var $st_obj;	// structure object
+	var $obj;	// structure object
 	var $tree;
 	var $lm_object;
 
@@ -49,13 +49,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		parent::ilLMObjectGUI();
 		$this->lm_obj =& $a_lm_object;
-		$this->st_obj =& $a_st_object;
 		$this->tree =& $a_tree;
 	}
 
 	function setStructureObject(&$a_st_object)
 	{
-		$this->st_obj =& $a_st_object;
+		$this->obj =& $a_st_object;
 	}
 
 	/*
@@ -70,11 +69,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->tpl->setCurrentBlock("form");
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->st_obj->getId()."&cmd=post");
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_pages"));
 
 		$cnt = 0;
-		$childs = $this->tree->getChilds($this->st_obj->getId());
+		$childs = $this->tree->getChilds($this->obj->getId());
 		foreach ($childs as $child)
 		{
 			if($child["type"] != "pg")
@@ -109,13 +108,23 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		else
 		{
 			// SHOW VALID ACTIONS
-			//$this->tpl->setVariable("NUM_COLS", 4);
-			//$this->showActions();
+			$this->tpl->setVariable("NUM_COLS", 2);
+			$this->showActions();
 		}
 
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->tpl->setVariable("NUM_COLS", 2);
-		$this->showPossibleSubObjects("st");
+		//$this->showPossibleSubObjects("st");
+		$subobj = array("pg");
+		$opts = ilUtil::formSelect(12,"new_type",$subobj);
+		//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setCurrentBlock("add_object");
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		//$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
+		$this->tpl->setVariable("BTN_NAME", "create");
+		$this->tpl->setVariable("TXT_ADD", $this->lng->txt("insert"));
+		$this->tpl->parseCurrentBlock();
+
 
 		$this->tpl->setCurrentBlock("form");
 		$this->tpl->parseCurrentBlock();
@@ -135,11 +144,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 		$this->tpl->setCurrentBlock("form");
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->st_obj->getId()."&cmd=post");
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=post");
 		$this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_subchapters"));
 
 		$cnt = 0;
-		$childs = $this->tree->getChilds($this->st_obj->getId());
+		$childs = $this->tree->getChilds($this->obj->getId());
 		foreach ($childs as $child)
 		{
 			if($child["type"] != "st")

@@ -86,11 +86,13 @@ class ilMetaDataGUI
 		}
 	}
 
-	function edit()
+	function edit($a_temp_var, $a_temp_block, $a_formaction)
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.meta_data.html", true);
-		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->meta_obj->getId()."&cmd=save_meta");
+		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.meta_data.html", true);
+		$this->tpl->addBlockFile($a_temp_var, $a_temp_block, "tpl.meta_data.html", true);
+		//$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
+		//	$this->lm_obj->getId()."&obj_id=".$this->meta_obj->getId()."&cmd=save_meta");
+		$this->tpl->setVariable("FORMACTION", $a_formaction);
 		$this->tpl->setVariable("TXT_GENERAL", $this->lng->txt("meta_general"));
 		$this->tpl->setVariable("TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
 		$this->tpl->setVariable("VAL_IDENTIFIER", $this->curValue("ID"));
@@ -118,9 +120,15 @@ class ilMetaDataGUI
 		$meta = $_POST["meta"];
 		$this->meta_obj->setTitle($meta["title"]);
 		$this->obj->update();
-		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
-			$this->obj->getId());
 	}
 
+	function &create()
+	{
+		$meta = $_POST["meta"];
+		$this->meta_obj =& new ilMetaData();
+		$this->meta_obj->setTitle($meta["title"]);
+
+		return $this->meta_obj;
+	}
 }
 ?>

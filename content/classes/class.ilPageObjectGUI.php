@@ -35,7 +35,7 @@ require_once("./content/classes/class.ilLMObjectGUI.php");
 */
 class ilPageObjectGUI extends ilLMObjectGUI
 {
-	var $pg_obj;
+	var $obj;
 	var $lm_obj;
 
 	/**
@@ -53,7 +53,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 
 	function setPageObject(&$a_pg_obj)
 	{
-		$this->pg_obj =& $a_pg_obj;
+		$this->obj =& $a_pg_obj;
 	}
 
 	/*
@@ -67,7 +67,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$num = 0;
 
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId()."&cmd=post");
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=post");
 
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
@@ -92,7 +92,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		}
 
 		$cnt = 0;
-		$content = $this->pg_obj->getContent();
+		$content = $this->obj->getContent();
 		foreach ($content as $content_obj)
 		{
 			// color changing
@@ -109,7 +109,7 @@ class ilPageObjectGUI extends ilLMObjectGUI
 
 			// type
 			$link = "lm_edit.php?cmd=edit&lm_id=".$this->lm_obj->getId()."&obj_id=".
-				$this->pg_obj->getId()."&cont_cnt=".$cnt;
+				$this->obj->getId()."&cont_cnt=".$cnt;
 			$this->add_cell($this->lng->txt("par"), $link);
 
 			// content
@@ -152,10 +152,10 @@ class ilPageObjectGUI extends ilLMObjectGUI
 
 		$this->tpl->setVariable("TXT_PG_CONTENT", $this->lng->txt("cont_pg_content"));
 		$this->tpl->setVariable("FORMACTION", "lm_edit.php?lm_id=".
-			$this->lm_obj->getId()."&obj_id=".$this->pg_obj->getId()."&cmd=edpost");
+			$this->lm_obj->getId()."&obj_id=".$this->obj->getId()."&cmd=edpost");
 
 		// setting to utf-8 here
-		$content = $this->pg_obj->getXMLContent(true);
+		$content = $this->obj->getXMLContent(true);
 		header('Content-type: text/html; charset=UTF-8');
 
 		$xsl = file_get_contents("./content/page.xsl");
@@ -195,26 +195,22 @@ class ilPageObjectGUI extends ilLMObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	/*
-	function saveContent()
+
+	function save()
 	{
-		$content = $this->pg_obj->getContent();
+		// create new object
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_data =& $meta_gui->create();
+		$this->obj =& new ilPageObject();
+		$this->obj->assignMetaData($meta_data);
+		$this->obj->setType($_GET["new_type"]);
+		$this->obj->setLMId($_GET["lm_id"]);
+		$this->obj->create();
 
-		$cur_content_obj =& $content[$_GET["cont_cnt"] - 1];
+		$this->putInTree();
 
-		switch (get_class($cur_content_obj))
-		{
-			case "ilparagraph":
-				require_once ("./content/classes/class.ilParagraphGUI.php");
-				$para_gui =& new ilParagraphGUI($cur_content_obj);
-				$para_gui->processInput();
-				break;
-		}
-
-		$this->pg_obj->update();
-		header("location: lm_edit.php?lm_id=".$this->lm_obj->getId()."&obj_id=".
-			$this->pg_obj->getId());
-		exit;
-	}*/
+		header("location: lm_edit.php?cmd=view&lm_id=".$this->lm_obj->getId()."&obj_id=".
+			$_GET["obj_id"]);
+	}
 }
 ?>

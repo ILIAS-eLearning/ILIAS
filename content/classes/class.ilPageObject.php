@@ -127,7 +127,7 @@ class ilPageObject extends ilLMObject
 		$this->content[] =& $a_content_obj;
 	}
 
-	function getContent($a_nr = 0)
+	function &getContent($a_nr = 0)
 	{
 		if($a_nr == 0)
 		{

@@ -263,6 +263,7 @@
 	<property name="edit_meta">cont_meta_data</property>
 	<subobj name="st">st</subobj>
 	<subobj name="pg">pg</subobj>
+	<action name="confirmDeletion">delete</action>
 </object>
 <object name="pg">
 	<property name="view">cont_content</property>
