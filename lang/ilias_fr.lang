@@ -728,6 +728,7 @@ common#:#msg_min_one_role#:#Chaque utilisateur doit avoir au moins un rôle glob
 common#:#msg_multi_language_selected#:#Vous avez choisi la même langue pour plusieurs traductions !
 common#:#msg_no_default_language#:#Pas de langage par défaut spécifié !  Vous devez définir une traduction comme traduction par défaut.
 common#:#msg_no_delete_yourself#:#Vous ne pouvez pas détruire votre propre compte utilisateur.
+common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
 common#:#msg_no_language_selected#:#Pas de langue de traduction spécifiée !  Vous devez définir une langue pour chaque traduction.
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#Vous n'avez pas la permission de créer une copie des objets suivants : 

@@ -728,6 +728,7 @@ common#:#msg_min_one_role#:#Each user must have at least one role!###09 Aug 2003
 common#:#msg_multi_language_selected#:#You selected the same language for different translations!###01 Sep 2003 new variable
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.###01 Sep 2003 new variable
 common#:#msg_no_delete_yourself#:#Do you feel depressed? weary of life? You cannot delete your own user account.###19 Aug 2003 new variable
+common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation###01 Sep 2003 new variable
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s): No.###04 Jul 2003 content changed

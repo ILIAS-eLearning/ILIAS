@@ -728,6 +728,7 @@ common#:#msg_min_one_role#:#Każdy użytkownik musi posiadać conajmniej jedną 
 common#:#msg_multi_language_selected#:#Wybrałeś ten sam język dla różnych tłumaczeń!
 common#:#msg_no_default_language#:#Domyślny język nie został wybrany! Musisz zdefiniować jedno tłumaczenie jako tłumaczenie domyślne.
 common#:#msg_no_delete_yourself#:#Nie możesz usunąć swojego konta.
+common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
 common#:#msg_no_language_selected#:#Nie podano języka tłumaczenia! Musisz zdefiniować język dla każdego tłumaczenia.
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment###01 Feb 2004 new variable
 common#:#msg_no_perm_copy#:#Nie masz uprawnień do tworzenia kopii następujących obiektów:

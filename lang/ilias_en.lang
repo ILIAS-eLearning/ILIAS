@@ -47,7 +47,6 @@ assessment#:#create_new#:#Create new
 assessment#:#duplicate#:#Duplicate
 assessment#:#export#:#Export
 assessment#:#false#:#False
-common#:#msg_no_file#:#You didn't choose a file
 assessment#:#filter#:#Filter
 assessment#:#gap_selection#:#Gap selection
 assessment#:#last_update#:#Last update
@@ -729,6 +728,7 @@ common#:#msg_min_one_role#:#Each user must have at least one global role!
 common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
+common#:#msg_no_file#:#You didn't choose a file
 common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
 common#:#msg_no_perm_assign_role_to_user#:#You have no permission to change user's roleassignment
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
