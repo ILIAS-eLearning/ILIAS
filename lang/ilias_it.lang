@@ -52,6 +52,7 @@ common#:#and#:#e###20 Aug 2003 new variable
 common#:#announce#:#Annuncia
 common#:#announce_changes#:#Annuncia cambiamenti
 common#:#answers#:#Rispondi
+common#:#application_date#:#Application date###06 Nov 2003 new variable
 common#:#appointment#:#Appuntamento###01 Sep 2003 new variable
 common#:#appointment_list#:#Lista appuntamenti###01 Sep 2003 new variable
 common#:#archive#:#Archivio
@@ -203,6 +204,27 @@ common#:#err_session_expired#:#La sessione &egrave; scaduta!###04 Aug 2003 new v
 common#:#err_wrong_header#:#Causa: errata intestazione.###26 Mar 2003 new variable
 common#:#err_wrong_login#:#Tentativo di accesso errato
 common#:#error_recipient#:#Destinatario per gli errori
+common#:#exc_ask_delete#:#Delete file?###06 Nov 2003 new variable
+common#:#exc_assign_usr#:#Assign User###06 Nov 2003 new variable
+common#:#exc_date_not_valid#:#The date is not valid###06 Nov 2003 new variable
+common#:#exc_deassign_members#:#Delete member(s)###06 Nov 2003 new variable
+common#:#exc_edit#:#New exercise created###06 Nov 2003 new variable
+common#:#exc_edit_exercise#:#Edit exercise###06 Nov 2003 new variable
+common#:#exc_edit_until#:#Edit until###06 Nov 2003 new variable
+common#:#exc_files#:#Files###06 Nov 2003 new variable
+common#:#exc_header_members#:#Exercise(members)###06 Nov 2003 new variable
+common#:#exc_instruction#:#Work instructions###06 Nov 2003 new variable
+common#:#exc_members_assigned#:#Members assigned###06 Nov 2003 new variable
+common#:#exc_no_members_assigned#:#No members assigned###06 Nov 2003 new variable
+common#:#exc_notices#:#Notices###06 Nov 2003 new variable
+common#:#exc_obj#:#Exercise###06 Nov 2003 new variable
+common#:#exc_save_changes#:#Save###06 Nov 2003 new variable
+common#:#exc_send_exercise#:#Send exercise###06 Nov 2003 new variable
+common#:#exc_sent#:#The exercise has been sent to the selected users###06 Nov 2003 new variable
+common#:#exc_status_returned#:#Returned###06 Nov 2003 new variable
+common#:#exc_status_saved#:#Exercise updated###06 Nov 2003 new variable
+common#:#exc_status_solved#:#Solved###06 Nov 2003 new variable
+common#:#exc_upload_error#:#Error uploading file###06 Nov 2003 new variable
 common#:#execute#:#Esegui
 common#:#export_html#:#Esporta come file html###09 May 2003 new variable
 common#:#export_xml#:#Esporta come file xml###09 May 2003 new variable
@@ -274,7 +296,9 @@ common#:#group_not_available#:#Nessun gruppo disponibile###12 Jun 2003 new varia
 common#:#group_objects#:#Gruppo di oggetti###09 Sep 2003 new variable
 common#:#group_password_registration_expired_msg#:#Il periodo di appartenenza a questo gruppo &#232; terminato, questo &#232; l&#039;ultimo avviso. Puoi contattare il proprietario o l&#039;amministratore del gruppo.###01 Nov 2003 new variable
 common#:#group_password_registration_msg#:#Per poter entrare devi avere la password fornita dall&#039;amministratore di questo gruppo.<br>Fai automaticamente parte del gruppo se la password &#232; corretta.###01 Nov 2003 new variable
+common#:#group_registration_expiration_date#:#Expiration Date###06 Nov 2003 new variable
 common#:#group_registration_expired#:#Periodo di registrazione terminato###01 Nov 2003 new variable
+common#:#group_registration_mode#:#Registration Mode###06 Nov 2003 new variable
 common#:#group_req_password#:#E&#039; richiesta la password di registrazione###01 Nov 2003 new variable
 common#:#group_req_registration#:#E&#039; richiesta la registrazione###01 Nov 2003 new variable
 common#:#group_req_registration_msg#:#Per appartenere a questo gruppo devi essere registrato. Sar&#224; l&#039;amministratore del gruppo che ti assegner&#224; la password. Per favore, specifica i motivi della tua richiesta.<br>Quando verrai assegnato al gruppo riceverai una mail.###01 Nov 2003 new variable

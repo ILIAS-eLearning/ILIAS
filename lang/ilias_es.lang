@@ -52,6 +52,7 @@ common#:#and#:#and###20 Aug 2003 new variable
 common#:#announce#:#anunciar
 common#:#announce_changes#:#announce changes
 common#:#answers#:#answers
+common#:#application_date#:#Application date###06 Nov 2003 new variable
 common#:#appointment#:#Appointment###01 Sep 2003 new variable
 common#:#appointment_list#:#Appointment List###01 Sep 2003 new variable
 common#:#archive#:#archive
@@ -203,6 +204,27 @@ common#:#err_session_expired#:#Your session is expired!###04 Aug 2003 new variab
 common#:#err_wrong_header#:#Reason: Wrong header.###26 Mar 2003 new variable
 common#:#err_wrong_login#:#wrong login
 common#:#error_recipient#:#error recipient
+common#:#exc_ask_delete#:#Delete file?###06 Nov 2003 new variable
+common#:#exc_assign_usr#:#Assign User###06 Nov 2003 new variable
+common#:#exc_date_not_valid#:#The date is not valid###06 Nov 2003 new variable
+common#:#exc_deassign_members#:#Delete member(s)###06 Nov 2003 new variable
+common#:#exc_edit#:#New exercise created###06 Nov 2003 new variable
+common#:#exc_edit_exercise#:#Edit exercise###06 Nov 2003 new variable
+common#:#exc_edit_until#:#Edit until###06 Nov 2003 new variable
+common#:#exc_files#:#Files###06 Nov 2003 new variable
+common#:#exc_header_members#:#Exercise(members)###06 Nov 2003 new variable
+common#:#exc_instruction#:#Work instructions###06 Nov 2003 new variable
+common#:#exc_members_assigned#:#Members assigned###06 Nov 2003 new variable
+common#:#exc_no_members_assigned#:#No members assigned###06 Nov 2003 new variable
+common#:#exc_notices#:#Notices###06 Nov 2003 new variable
+common#:#exc_obj#:#Exercise###06 Nov 2003 new variable
+common#:#exc_save_changes#:#Save###06 Nov 2003 new variable
+common#:#exc_send_exercise#:#Send exercise###06 Nov 2003 new variable
+common#:#exc_sent#:#The exercise has been sent to the selected users###06 Nov 2003 new variable
+common#:#exc_status_returned#:#Returned###06 Nov 2003 new variable
+common#:#exc_status_saved#:#Exercise updated###06 Nov 2003 new variable
+common#:#exc_status_solved#:#Solved###06 Nov 2003 new variable
+common#:#exc_upload_error#:#Error uploading file###06 Nov 2003 new variable
 common#:#execute#:#execute
 common#:#export_html#:#export as html file###09 May 2003 new variable
 common#:#export_xml#:#export as xml file###09 May 2003 new variable
@@ -274,7 +296,9 @@ common#:#group_not_available#:#any group available###12 Jun 2003 new variable
 common#:#group_objects#:#Group Objects###09 Sep 2003 new variable
 common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.###01 Nov 2003 new variable
 common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.###01 Nov 2003 new variable
+common#:#group_registration_expiration_date#:#Expiration Date###06 Nov 2003 new variable
 common#:#group_registration_expired#:#Period of registraton expired###01 Nov 2003 new variable
+common#:#group_registration_mode#:#Registration Mode###06 Nov 2003 new variable
 common#:#group_req_password#:#Registration password required###01 Nov 2003 new variable
 common#:#group_req_registration#:#Registration required###01 Nov 2003 new variable
 common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.###01 Nov 2003 new variable
