@@ -1918,7 +1918,7 @@ class ilRepositoryGUI
 					$result = $ilDB->query($q);
 					if ($result->numRows() == 1) {
 						$row = $result->fetchRow(DB_FETCHMODE_OBJECT);
-						$surveys[$key]["finished"] = $row->state;
+						$surveys[$key]["finished"] = (int)$row->state;
 					}
 					else
 					{
@@ -1986,13 +1986,17 @@ class ilRepositoryGUI
 				if (strcmp($svy_data["finished"], "") != 0)
 				{
 					$tpl->setCurrentBlock("svy_finished");
-					if ($svy_data["finished"] == 1)
+					if ($svy_data["finished"] === 1)
 					{
 						$tpl->setVariable("TXT_FINISHED", $this->lng->txt("finished"));
 					}
-					else
+					else if ($svy_data["finished"] === 0)
 					{
 						$tpl->setVariable("TXT_FINISHED", $this->lng->txt("not_finished"));
+					}
+					else
+					{
+						$tpl->setVariable("TXT_FINISHED", $this->lng->txt("not_started"));
 					}
 					$tpl->parseCurrentBlock();
 				}

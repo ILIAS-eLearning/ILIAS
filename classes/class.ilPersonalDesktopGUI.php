@@ -136,18 +136,23 @@ class ilPersonalDesktopGUI
 					$tpl->parseCurrentBlock();
 				}
 				if (strcmp($a_type, "svy")==0) {
-					switch ($item["finished"])
+					if ($item["finished"] === 0)
 					{
-						case 0:
-							$tpl->setCurrentBlock("finished");
-							$tpl->setVariable("TXT_FINISHED", $this->lng->txt("not_finished"));
-							$tpl->parseCurrentBlock();
-							break;
-						case 1:
-							$tpl->setCurrentBlock("finished");
-							$tpl->setVariable("TXT_FINISHED", $this->lng->txt("finished"));
-							$tpl->parseCurrentBlock();
-							break;
+						$tpl->setCurrentBlock("finished");
+						$tpl->setVariable("TXT_FINISHED", $this->lng->txt("not_finished"));
+						$tpl->parseCurrentBlock();
+					}
+					else if ($item["finished"] === 1)
+					{
+						$tpl->setCurrentBlock("finished");
+						$tpl->setVariable("TXT_FINISHED", $this->lng->txt("finished"));
+						$tpl->parseCurrentBlock();
+					}
+					else
+					{
+						$tpl->setCurrentBlock("finished");
+						$tpl->setVariable("TXT_FINISHED", $this->lng->txt("not_started"));
+						$tpl->parseCurrentBlock();
 					}
 				}
 
