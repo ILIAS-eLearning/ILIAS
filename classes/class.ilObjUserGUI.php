@@ -808,7 +808,6 @@ class ilObjUserGUI extends ilObjectGUI
 			$selected_style = $this->object->prefs["style"];
 			$selected_skin = $this->object->skin;	
 		}
-			
 		foreach ($templates as $template)
 		{
 			// get styles for skin
@@ -816,7 +815,6 @@ class ilObjUserGUI extends ilObjectGUI
 			$styleDef =& new ilStyleDefinition($template["id"]);
 			$styleDef->startParsing();
 			$styles = $styleDef->getStyles();
-
 			foreach ($styles as $style)
 			{
 				$this->tpl->setCurrentBlock("selectskin");

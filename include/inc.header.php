@@ -38,7 +38,8 @@ include("include/inc.get_pear.php");
 //include class.util first to start StopWatch
 require_once "classes/class.ilUtil.php";
 require_once "classes/class.ilBenchmark.php";
-$ilBench = new ilBenchmark();
+$ilBench =& new ilBenchmark();
+$GLOBALS['ilBench'] =& $ilBench;
 $ilBench->start("Core", "HeaderInclude");
 
 // start the StopWatch
@@ -103,20 +104,25 @@ $ilBench->stop("Core", "HeaderInclude_IncludeFiles");
 
 $ilBench->start("Core", "HeaderInclude_GetErrorHandler");
 $ilErr = new ilErrorHandling();
+$GLOBALS['ilErr'] =& $ilErr;
 $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
 $ilBench->stop("Core", "HeaderInclude_GetErrorHandler");
 
 // load main class
 $ilBench->start("Core", "HeaderInclude_GetILIASObject");
-$ilias = new ILIAS($_COOKIE["ilClientId"]);
+$ilias =& new ILIAS($_COOKIE["ilClientId"]);
+$GLOBALS['ilias'] =& $ilias;
 $ilBench->stop("Core", "HeaderInclude_GetILIASObject");
 
 require_once './classes/class.ilHTTPS.php';
 
 $https =& new ilHTTPS();
+$GLOBALS['https'] =& $https;
 $https->checkPort();
 
 
+$ilDB = $ilias->db;
+$GLOBALS['ilDB'] =& $ilDB;
 if (!db_set_save_handler())
 {
 	$message = "Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini";
@@ -151,10 +157,12 @@ if ($_GET["cmd"] == "force_login")
 
 // start logging
 $log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);
+$GLOBALS['log'] =& $log;
 
 // load object definitions
 $ilBench->start("Core", "HeaderInclude_getObjectDefinitions");
 $objDefinition = new ilObjectDefinition();
+$GLOBALS['objDefinition'] =& $objDefinition;
 $objDefinition->startParsing();
 $ilBench->stop("Core", "HeaderInclude_getObjectDefinitions");
 
@@ -164,12 +172,13 @@ $ilBench->start("Core", "HeaderInclude_getCurrentUser");
 $ilias->account = new ilObjUser();
 $ilBench->stop("Core", "HeaderInclude_getCurrentUser");
 
-
 // create references for subobjects in ilias object
-$ilDB =& $ilias->db;
 $ilUser =& $ilias->account;
+$GLOBALS['ilUser'] =& $ilUser;
 $ilCtrl = new ilCtrl();
+$GLOBALS['ilCtrl'] =& $ilCtrl;
 $ilLog =& $log;
+$GLOBALS['ilLog'] =& $ilLog;
 
 //but in login.php and index.php don't check for authentication
 $script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
@@ -200,6 +209,7 @@ if ($ilias->auth->getAuth() && $ilias->account->isCurrentUserActive())
 
         // assigned roles are stored in $_SESSION["RoleId"]
 		$rbacreview = new ilRbacReview();
+		$GLOBALS['rbacreview'] =& $rbacreview;
 		$_SESSION["RoleId"] = $rbacreview->assignedRoles($_SESSION["AccountId"]);
 	} // TODO: do we need 'else' here?
 	else
@@ -281,14 +291,18 @@ elseif ($script != "login.php" and $script != "nologin.php" and $script != "inde
 $ilBench->start("Core", "HeaderInclude_initLanguage");
 $lang_key = ($_GET["lang"]) ? $_GET["lang"] : $ilias->account->prefs["language"];
 $lng = new ilLanguage($lang_key);
+$GLOBALS['lng'] =& $lng;
 $ilBench->stop("Core", "HeaderInclude_initLanguage");
 
 
 // init rbac
 $ilBench->start("Core", "HeaderInclude_initRBAC");
 $rbacsystem = new ilRbacSystem();
+$GLOBALS['rbacsystem'] =& $rbacsystem;
 $rbacadmin = new ilRbacAdmin();
+$GLOBALS['rbacadmin'] =& $rbacadmin;
 $rbacreview = new ilRbacReview();
+$GLOBALS['rbacreview'] =& $rbacreview;
 $ilBench->stop("Core", "HeaderInclude_initRBAC");
 
 
@@ -297,9 +311,11 @@ $_GET["ref_id"] = $_GET["ref_id"] ? $_GET["ref_id"] : ROOT_FOLDER_ID;
 
 // init tree
 $tree = new ilTree(ROOT_FOLDER_ID);
+$GLOBALS['tree'] =& $tree;
 
 // instantiate main template
 $tpl = new ilTemplate("tpl.main.html", true, true);
+$GLOBALS['tpl'] =& $tpl;
 
 
 // ### AA 03.10.29 added new LocatorGUI class ###
@@ -311,10 +327,12 @@ if ( !isset($_SESSION["locator_level"]) )
 }
 // initialise global ilias_locator object
 $ilias_locator = new ilLocatorGUI();
+$GLOBALS['ilias_locator'] =& $ilias_locator;
 
 // load style definitions
 $ilBench->start("Core", "HeaderInclude_getStyleDefinitions");
 $styleDefinition = new ilStyleDefinition();
+$GLOBALS['styleDefinition'] =& $styleDefinition;
 $styleDefinition->startParsing();
 $ilBench->stop("Core", "HeaderInclude_getStyleDefinitions");
 
@@ -374,6 +392,7 @@ if (version_compare(PHP_VERSION,'5','>='))
 
 // provide global browser information
 $ilBrowser = new ilBrowser();
+$GLOBALS['ilBrowser'] =& $ilBrowser;
 
 $ilBench->stop("Core", "HeaderInclude");
 $ilBench->save();

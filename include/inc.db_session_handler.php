@@ -64,10 +64,10 @@ function db_session_close()
 */
 function db_session_read($session_id)
 {
-	global $ilias;
+	global $ilDB;
 
 	$q = "SELECT data FROM usr_session WHERE session_id = '".addslashes($session_id)."'";
-	$r = $ilias->db->query($q);
+	$r = $ilDB->query($q);
 	$data = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
 	return $data["data"];
@@ -81,14 +81,14 @@ function db_session_read($session_id)
 */
 function db_session_write($session_id, $data)
 {
-	global $pear_session_db,$ilias;
+	global $pear_session_db,$ilDB;
 
 	//var_dump("<pre>",session_decode($data),"</pre>");exit;
 	$expires = time() + ini_get("session.gc_maxlifetime");
 	$q = "REPLACE INTO usr_session (session_id, expires, data, ctime,user_id) ".
 		 "VALUES('".addslashes($session_id)."','".$expires."','".addslashes($data).
 		 "','".time()."','".$_SESSION["AccountId"]."')";
-	$ilias->db->query($q);	 
+	$ilDB->query($q);	 
 		 
 	return true;
 }
@@ -100,10 +100,10 @@ function db_session_write($session_id, $data)
 */
 function db_session_destroy($session_id)
 {
-	global $ilias;
+	global $ilDB;
 
 	$q = "DELETE FROM usr_session WHERE session_id = '".addslashes($session_id)."'";
-	$ilias->db->query($q);
+	$ilDB->query($q);
   
 	return true;
 }
@@ -116,10 +116,10 @@ function db_session_destroy($session_id)
 */
 function db_session_gc($gc_maxlifetime)
 {
-	global $pear_session_db,$ilias;
+	global $pear_session_db,$ilDB;
 
 	$q = "DELETE FROM usr_session WHERE expires < ".time();
-	$ilias->db->query($q);
+	$ilDB->query($q);
 	
 	return true;
 }
