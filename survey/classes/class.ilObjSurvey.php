@@ -3791,6 +3791,10 @@ class ilObjSurvey extends ilObject
 		$qtiCommentText = $domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
 		$qtiComment->append_child($qtiCommentText);
 		$qtiSurvey->append_child($qtiComment);
+		$qtiComment = $domxml->create_element("qticomment");
+		$qtiCommentText = $domxml->create_text_node("Author=".$this->getAuthor());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiSurvey->append_child($qtiComment);
 		// add qti objectives
 		$qtiObjectives = $domxml->create_element("objectives");
 		$qtiMaterial = $domxml->create_element("material");
@@ -4119,7 +4123,8 @@ class ilObjSurvey extends ilObject
 					}
 				}
 			}
-	
+
+			$this->saveToDb();
 			// add question blocks
 			foreach ($import_results["questionblocks"] as $questionblock)
 			{
@@ -4171,7 +4176,18 @@ class ilObjSurvey extends ilObject
 				{
 					case "qticomment":
 						$comment = $node->get_content();
-						if (strpos($comment, "ILIAS Version") === false)
+						if (strpos($comment, "ILIAS Version=") !== false)
+						{
+						}
+						elseif (strpos($comment, "Questiontype=") !== false)
+						{
+						}
+						elseif (strpos($comment, "Author=") !== false)
+						{
+							$comment = str_replace("Author=", "", $comment);
+							$this->setAuthor($comment);
+						}
+						else
 						{
 							$this->setDescription($comment);
 						}
