@@ -120,6 +120,7 @@ assessment#:#ass_file#:#Fichier
 assessment#:#ass_questions#:#Questions
 assessment#:#ass_size#:#Taille
 assessment#:#available_points#:#Points disponibles
+assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#par
 assessment#:#cancel_test#:#Annuler le test
 assessment#:#cannot_export_test#:#Vous n'avez pas les permissions nécessaires pour exporter le test.
@@ -299,6 +300,7 @@ assessment#:#qt_multiple_choice_sr#:#Question
 assessment#:#qt_ordering#:#Question de remise en ordre
 assessment#:#question_saved_for_upload#:#La question a été enregistrée automatiquement pour réserver de l'espace de stockage pour le fichier téléversé.  Si vous quittez ce formulaire maintenant en annulant, pensez à détruire la question dans le jeu de questions si vous ne souhaitez pas la conserver.
 assessment#:#question_short#:#Q
+assessment#:#question_title#:#Question title###17 Dec 2004 new variable
 assessment#:#question_type#:#Type de Question
 assessment#:#questionpool_not_entered#:#Veuillez saisir un nom pour un groupe de questions.
 assessment#:#questions_from#:#questions from###06 Dec 2004 new variable
@@ -2394,6 +2396,7 @@ content#:#cont_copy_to_clipboard#:#Copier dans le presse-papier
 content#:#cont_create_dir#:#Créer répertoire
 content#:#cont_create_export_file#:#Créer répertoire d'exportation
 content#:#cont_create_folder#:#Créer répertoire
+content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Créer objet média
 content#:#cont_credit_mode#:#Mode de crédit (pour le mode leçon 'normal') XXX
 content#:#cont_credit_off#:#Pas de crédit
@@ -2561,6 +2564,8 @@ content#:#cont_nr_items#:#Nombre d'objets
 content#:#cont_nr_rows#:#Nombre de lignes
 content#:#cont_obj_removed#:#Objets supprimés
 content#:#cont_offline#:#Versions hors-ligne
+content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
+content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
 content#:#cont_online#:#En ligne
 content#:#cont_or#:#or###29 Nov 2004 new variable
 content#:#cont_order#:#Type d'ordre
@@ -4004,6 +4009,7 @@ survey#:#category#:#Catégorie
 survey#:#category_delete_confirm#:#Etes-vous sûr(e) de vouloir détruire les catégories suivantes ?
 survey#:#category_delete_select_none#:#Veuillez cocher au moins une catégorie pour la détruire.
 survey#:#category_nr_selected#:#Nombre d'utilisateurs qui ont sélectionné cette catégorie
+survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
 survey#:#concatenation#:#Concaténation
 survey#:#confirm_sync_questions#:#La question que vous avez modifiée est une copie qui a été créée pour l'utilisation dans le sondage en cours. Voulez-vous également modifier l'original de cette question ?

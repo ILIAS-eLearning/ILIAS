@@ -122,6 +122,7 @@ assessment#:#ass_file#:#File###19 Oct 2004 new variable
 assessment#:#ass_questions#:#Vragen
 assessment#:#ass_size#:#Size###19 Oct 2004 new variable
 assessment#:#available_points#:#Beschikbare punten
+assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#door
 assessment#:#cancel_test#:#Cancel the test###07 Oct 2004 new variable
 assessment#:#cannot_export_qpl#:#You do not possess sufficient permissions to export the questionpool!###02 Nov 2004 new variable
@@ -303,6 +304,7 @@ assessment#:#qt_multiple_choice_sr#:#Meerkeuze vraag (één antwoord)
 assessment#:#qt_ordering#:#Bestel-vraag
 assessment#:#question_saved_for_upload#:#De vraag werd automatisch opgeslagen om schrijfruimte te reserveren voor het te uploadenbestand. Als u de verwerking van deze vraag nu annuleert moet u de vraag in de vraagpool, als u deze niet wilt bewaren, zelf verwijderen !
 assessment#:#question_short#:#Q###05 Nov 2004 new variable
+assessment#:#question_title#:#Question title###17 Dec 2004 new variable
 assessment#:#question_type#:#Vraag-type
 assessment#:#questionpool_not_entered#:#Please enter a name for a question pool!###05 Nov 2004 new variable
 assessment#:#questions_from#:#questions from###06 Dec 2004 new variable
@@ -2419,6 +2421,7 @@ content#:#cont_copy_to_clipboard#:#Inhoud
 content#:#cont_create_dir#:#Coördinaten
 content#:#cont_create_export_file#:#Copiëernaar het klembord
 content#:#cont_create_folder#:#Creëer map
+content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Creëer export-bestand
 content#:#cont_credit_mode#:#Creëer Map
 content#:#cont_credit_off#:#Creëer Media-object
@@ -2587,6 +2590,8 @@ content#:#cont_nr_items#:#Geen enkele
 content#:#cont_nr_rows#:#Aantal kolommen
 content#:#cont_obj_removed#:#Aantal eenheden
 content#:#cont_offline#:#Aantal rijen
+content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
+content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
 content#:#cont_online#:#Objecten verwijderd.
 content#:#cont_or#:#or###29 Nov 2004 new variable
 content#:#cont_order#:#Offline Versies
@@ -4035,6 +4040,7 @@ survey#:#category#:#U bent niet in het bezit van voldoende rechten om te partici
 survey#:#category_delete_confirm#:#De status kan niet gewijzigd worden in &quot;online&quot; omdat er geen vragen in de test zijn!
 survey#:#category_delete_select_none#:#Kategorie
 survey#:#category_nr_selected#:#Weet u zeker dat u de volgende kategoriën wilt verwijderen?
+survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#You must select a least one category to save a phrase!###29 Nov 2004 new variable
 survey#:#concatenation#:#Kies tenminste één kategorie om te verwijderen!
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###10 Nov 2004 new variable

@@ -122,6 +122,7 @@ assessment#:#ass_file#:#File
 assessment#:#ass_questions#:#Domande
 assessment#:#ass_size#:#Dimensioni
 assessment#:#available_points#:#Punti disponibili
+assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#da
 assessment#:#cancel_test#:#Cancella il test
 assessment#:#cannot_export_qpl#:#Non hai i diritti per esportare la raccolta di domande!
@@ -303,6 +304,7 @@ assessment#:#qt_multiple_choice_sr#:#a scelta multipla (risposta singola)
 assessment#:#qt_ordering#:#con risposte da ordinare
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi eliminare il form, stai attento perch&#233; devi eliminare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
+assessment#:#question_title#:#Question title###17 Dec 2004 new variable
 assessment#:#question_type#:#Tipo di domanda
 assessment#:#questionpool_not_entered#:#Per favore inserisci il nome della raccolta di domande!
 assessment#:#questions_from#:#domande da
@@ -2419,6 +2421,7 @@ content#:#cont_copy_to_clipboard#:#Copia negli appunti
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_folder#:#Crea cartella
+content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Crea un oggetto multimediale
 content#:#cont_credit_mode#:#Modalit&#224; con crediti (per lezioni di tipo 'Normale')
 content#:#cont_credit_off#:#Senza crediti
@@ -2586,6 +2589,8 @@ content#:#cont_nr_items#:#Numero di elementi
 content#:#cont_nr_rows#:#Numero di righe
 content#:#cont_obj_removed#:#Oggetti cancellati.
 content#:#cont_offline#:#Versione Offline
+content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
+content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_or#:#o
 content#:#cont_order#:#Tipo di ordinamento
@@ -4034,6 +4039,7 @@ survey#:#category#:#Categoria
 survey#:#category_delete_confirm#:#Sei sicuro di voler eliminare le seguenti categorie ?
 survey#:#category_delete_select_none#:#Per favore, scegli almeno una categoria da eliminare!
 survey#:#category_nr_selected#:#Numero di utenti che hanno scelto questa categoria
+survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#Devi scegliere almeno una categoria se vuoi salvare la frase!
 survey#:#concatenation#:#Concatenazione
 survey#:#confirm_sync_questions#:#La domanda che hai cambiato &#232; la copia di una che &#232; stata creata per essere usata in un sondaggio ancora attivo. Vuoi modificare anche la domanda originale?

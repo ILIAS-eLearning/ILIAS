@@ -122,6 +122,7 @@ assessment#:#ass_file#:#Datei
 assessment#:#ass_questions#:#Fragen
 assessment#:#ass_size#:#Grösse
 assessment#:#available_points#:#Erreichbare Punkte
+assessment#:#average_reached_points#:#Average reached points###17 Dec 2004 new variable
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
 assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
@@ -303,6 +304,7 @@ assessment#:#qt_multiple_choice_sr#:#Multiple Choice Frage (Einfachauswahl)
 assessment#:#qt_ordering#:#Objekte anordnen
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
+assessment#:#question_title#:#Question title###17 Dec 2004 new variable
 assessment#:#question_type#:#Fragentyp
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
 assessment#:#questions_from#:#Fragen aus
@@ -2419,6 +2421,7 @@ content#:#cont_copy_to_clipboard#:#Ins Clipboard kopieren
 content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Export-Datei anlegen
 content#:#cont_create_folder#:#Ordner anlegen
+content#:#cont_create_html_version#:#Create HTML Package###17 Dec 2004 new variable
 content#:#cont_create_mob#:#Medienobjekt anlegen
 content#:#cont_credit_mode#:#Credit-Modus (bei Lesson-Modus 'normal')
 content#:#cont_credit_off#:#Kein Credit
@@ -2587,6 +2590,8 @@ content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_obj_removed#:#Objekte entfernt
 content#:#cont_offline#:#Offline Versionen
+content#:#cont_offline_files#:#Offline versions###17 Dec 2004 new variable
+content#:#cont_offline_versions#:#Offline Versions###17 Dec 2004 new variable
 content#:#cont_online#:#Online
 content#:#cont_or#:#oder
 content#:#cont_order#:#Aufzählungstyp
@@ -4035,6 +4040,7 @@ survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
 survey#:#category_nr_selected#:#Anzahl der Teilnehmerinnen, die diese Kategorie ausgewählt haben
+survey#:#chart#:#Chart###17 Dec 2004 new variable
 survey#:#check_category_to_save_phrase#:#Sie müssen mindestens eine Kategorie auswählen, um eine Phrase speichern zu können!
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
