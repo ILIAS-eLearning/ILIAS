@@ -16,7 +16,6 @@
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
-	<action exec ="false" name="link">link</action>
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
@@ -46,7 +45,6 @@
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
-	<action exec ="false" name="link">link</action>
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
@@ -65,7 +63,6 @@
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
-	<action exec ="false" name="link">link</action>
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
@@ -84,7 +81,6 @@
 	<property name="owner">show_owner</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
-	<action exec ="true" name="link">link</action>
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
@@ -103,7 +99,6 @@
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
-	<action exec ="false" name="link">link</action>
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
@@ -119,7 +114,6 @@
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
 	<action name="copy">copy</action>
-	<action exec ="true" name="link">link</action>
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
