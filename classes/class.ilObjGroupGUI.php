@@ -27,7 +27,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.40 2003/10/09 12:38:40 mmaschke Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.41 2003/10/16 12:33:30 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -105,6 +105,8 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
+		global $rbacadmin;
+		
 		include_once "./classes/class.ilGroup.php";
 		$grp = new ilGroup();
 
@@ -113,7 +115,18 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("grp_name_exists"),$this->ilias->error_obj->MESSAGE);
 		}
+		
+		// create and insert forum in objecttree
+		$groupObj = parent::saveObject();
+
+		// setup rolefolder & default local roles (admin & member)
+		$roles = $groupObj->initDefaultRoles();
+
+		// ...finally assign groupadmin role to creator of group object
+		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
+		ilObjUser::updateActiveRoles($groupObj->getOwner());
 	
+/************ old
 		$groupObj = parent::saveObject();
 
 		$rfoldObj = $groupObj->initRoleFolder();
@@ -121,10 +134,10 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		$groupObj->createDefaultGroupRoles($rfoldObj->getRefId());
 		$groupObj->join($this->ilias->account->getId(),1); //join as admin=1
+*/
 
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status"]);
-
 		//save new group in grp_tree table
 		$groupObj->createNewGroupTree($groupObj->getRefId());
 		
