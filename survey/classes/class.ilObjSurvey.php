@@ -2193,7 +2193,7 @@ class ilObjSurvey extends ilObject
 *
 * @access public
 */
-	function &getSurveyQuestions()
+	function &getSurveyQuestions($with_answers = false)
 	{
 		$obligatory_states =& $this->getObligatoryStates();
 		// get questionblocks
@@ -2239,6 +2239,20 @@ class ilObjSurvey extends ilObject
 				$all_questions[$question_id]["questionblock_title"] = "";
 				$all_questions[$question_id]["questionblock_id"] = "";
 				$all_questions[$question_id]["constraints"] = $constraints;
+			}
+			if ($with_answers)
+			{
+				$answers = array();
+				$query = sprintf("SELECT survey_variable.*, survey_category.title FROM survey_variable, survey_category WHERE survey_variable.question_fi = %s AND survey_variable.category_fi = survey_category.category_id ORDER BY sequence ASC",
+					$this->ilias->db->quote($question_id . "")
+				);
+				$result = $this->ilias->db->query($query);
+				if (strcmp(strtolower(get_class($result)), db_result) == 0) {
+					while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
+						array_push($answers, $data->title);
+					}
+				}
+				$all_questions[$question_id]["answers"] = $answers;				
 			}
 		}
 		return $all_questions;
@@ -3211,6 +3225,7 @@ class ilObjSurvey extends ilObject
 			{
 				$resultset["answers"][$key] = array();
 			}
+			sort($resultset["answers"][$key]);
 		}
 		return $resultset;
 	}

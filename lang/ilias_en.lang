@@ -4313,3 +4313,4 @@ survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
 survey#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 survey#:#legend#:#Legend
+survey#:#skipped#:#skipped
