@@ -220,7 +220,7 @@ class User
 			 "email,institution,street,city,zipcode,country,".
 			 "phone,last_login,last_update,create_date) ".
 			 "VALUES ".
-			 "('".$this->id."','".$this->login."','".$this->passwd."', ".
+			 "('".$this->id."','".$this->login."','".md5($this->passwd)."', ".
 			 "'".$this->firstname."','".$this->lastname."', ".
 			 "'".$this->title."','".$this->gender."', ".
 			 "'".$this->email."','".$this->institution."','".$this->street."', ".
@@ -275,18 +275,30 @@ class User
 	
 	/**
 	* updates password
-	* @param string
-	* @param string
-	* @param string
+	* @param	string	old password
+	* @param	string	new password1
+	* @param	string	new password2
+	* @return	boolean	true on success; otherwise false
 	* @access	public
 	*/
 	function updatePassword($old, $pw1, $pw2)
 	{
+		if (func_num_args() != 3)
+		{
+			return false;
+		}
+		
+		if (!isset($a_old) or !isset($a_new1) or !isset($a_new2))
+		{
+			return false;
+		}
+
 		if ($pw1 != $pw2)
 		{
 			return false;
 		}
 		
+		// is catched by isset() ???
 		if ($pw1 == "" || $old == "")
 		{
 			return false;
@@ -654,7 +666,7 @@ class User
 	*/
 	function setPasswd($a_str)
 	{
-		$this->passwd = md5($a_str);
+		$this->passwd = $a_str;
 	}	
 	
 	/**
