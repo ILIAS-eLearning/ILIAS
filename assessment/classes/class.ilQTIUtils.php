@@ -61,6 +61,7 @@ class ilQTIUtils
 					if (strcmp($operation->node_name(), "varequal") == 0)
 					{
 						$respident = $operation->get_attribute("respident");
+						$idx = $operation->get_attribute("index");
 						$value = $operation->get_content();
 					}
 					elseif (strcmp($operation->node_name(), "varsubset") == 0)
@@ -70,6 +71,7 @@ class ilQTIUtils
 					}
 					$result["conditionvar"]["selected"] = $selected;
 					$result["conditionvar"]["respident"] = $respident;
+					$result["conditionvar"]["index"] = $idx;					
 					$result["conditionvar"]["value"] = $value;					
 					break;
 				case "setvar":
