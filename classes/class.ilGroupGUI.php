@@ -2362,16 +2362,22 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		if(!$rbacsystem->checkAccess("write",$_GET["ref_id"]) )
+		// check required fields
+		if (empty($_POST["Fobject"]["title"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (!$rbacsystem->checkAccess("write",$_GET["ref_id"]) )
 		{
 			$this->ilias->raiseError("No permissions to change group status!",$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
-			if(isset($_POST["group_status"]))
+			if (isset($_POST["group_status"]))
 			{	
-				$this->grp_object->setTitle($_POST["Fobject"]["title"]);
-				$this->grp_object->setDescription($_POST["Fobject"]["desc"]);
+				$this->grp_object->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
+				$this->grp_object->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
 				$this->grp_object->setGroupStatus($_POST["group_status"]);
 				$this->grp_object->setRegistrationFlag($_POST["enable_registration"]);
 				$this->grp_object->setPassword($_POST["password"]);
@@ -2379,16 +2385,15 @@ class ilGroupGUI extends ilObjectGUI
 				$this->update = $this->grp_object->update();
 			}
 		}
+
 		header("Location: group.php?".$this->link_params);
 	}
-	
 		
 	function viewObject()
 	{
 		//necessary for gateway calls
 		$this->view();
 	}
-
 
 	/**
 	* displays form with all members of group
@@ -2572,10 +2577,6 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->render();
 		$this->tpl->show();
 	}
-
-
-
-
 
 	/**
 	* displays confirmation formular with users that shall be assigned to group
