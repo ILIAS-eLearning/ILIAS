@@ -1,3 +1,8 @@
+<style>
+body { margin:0px; }
+</style>
+{LOCATOR}
+<div class="invisible_border">
 <div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1>
 <div class="il_Tab">
 {TABS}
@@ -6,7 +11,7 @@
 
 {BUTTONS}
 
-<table width="100%" border="0">
+<table class="fullwidth">
 	<tr>
 		<td colspan="8" align="center"><a href="cal_week_overview.php?ts={GOTOTODAYLINK}">{TXT_GOTOTODAY}</a></td>
 	</tr>
@@ -46,8 +51,8 @@
 			</table>
 		</td>
 	</tr>
-	<tr>
-		<th>&nbsp;</th>
+	<tr class="tblheader">
+		<th class="il_invisible">&nbsp;</th>
 		<!-- BEGIN weekday -->
 		<th width="14%"><a href="cal_date.php?ts={WEEKDAYLINK}" target="bottom">{WEEKDAY}</a></th>
 		<!-- END weekday -->
@@ -75,3 +80,4 @@
 		</td>
 	</tr>
 </table>
+</div>

@@ -112,7 +112,7 @@ if ($_POST["day"] != null) {
 		$appointmentErr = TRUE;
 	}
 	
-	if ($cal->isNumeric($_POST["duration_d"]) && 
+	if ($cal->isNumeric($_POST["duration_d"]) &&
 		 $cal->isNumeric($_POST["duration_h"]) && 
 		 $cal->isNumeric($_POST["duration_m"])) {
 		$duration = 0;
@@ -421,6 +421,7 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 	$tpl->setVariable("VAL_aid", $appointment->getAppointmentId());
 	$tpl->setVariable("TXT_PAGEHEADLINE", "Termin hinzuf&uuml;gen / &auml;ndern");
 	$tpl->setVariable("TXT_Error", $errString);
+	$tpl->setVariable("TXT_APPOINTMENT", $lng->txt("appointment"));
 	$tpl->setVariable("TXT_Term", "Kurzbeschreibung");
 	$tpl->setVariable("VAL_Term", $appointment->getTerm());
 	$tpl->setVariable("TXT_Description", "Beschreibung");
@@ -545,7 +546,7 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 	$tpl->setVariable("TXT_Serial", "Format: 31.12.1900");
 	$tpl->setVariable("TXT_Submit", "Speichern");
 	$tpl->setVariable("TXT_Cancel", "Zurücksetzen");
-	
+
 	if ($appointment->getAccess() == "Public") {
 		$tpl->setVariable("VAL_public", "selected");
 	}
@@ -566,7 +567,7 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 			$pri_chkd = "";
 		}
 	}
-	
+
 	$tpl->setVariable("VAL_priority_count", $pri_str);
 	$resultC = $dbhandler->select("cal_category", "", "", "categoryid");
 	if($resultC->numRows() > 0) {
@@ -579,7 +580,7 @@ if ($confirmation == FALSE && $delete != TRUE && $updateconf != TRUE) {
 		}
 	}
 	$tpl->setVariable("VAL_category_count", $cat_str);
-	
+
 	if ($appointment->getSer_type() == "ser_week") {
 		$tpl->setVariable("VAL_week", "selected");
 	}
@@ -689,7 +690,7 @@ elseif ($confirmation == TRUE || $delete == TRUE || $app_double == TRUE || $upda
 	}
 }
 else {
-	echo "<font size=\"300%\" color=\"red\">ILIAS ist komplett abgestürzt.</font><br> Bitte melden Sie sich beim Administrator, damit er ILIAS von der Festplatte entfernt.<br>";
+	//echo "<font size=\"300%\" color=\"red\">ILIAS ist komplett abgestürzt.</font><br> Bitte melden Sie sich beim Administrator, damit er ILIAS von der Festplatte entfernt.<br>";
 }
 $tpl->show();
 ?>
