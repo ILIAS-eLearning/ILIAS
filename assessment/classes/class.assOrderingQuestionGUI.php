@@ -407,5 +407,42 @@ class ASS_OrderingQuestionGUI extends ASS_QuestionGUI
 	{
 		$this->outWorkingForm();
 	}
+
+	/**
+	* Creates an output of the user's solution
+	*
+	* Creates an output of the user's solution
+	*
+	* @access public
+	*/
+	function outUserSolution($user_id, $test_id)
+	{
+		$results = $this->object->getReachedInformation($user_id, $test_id);
+		foreach ($this->object->answers as $key => $answer)
+		{
+			$this->tpl->setCurrentBlock("tablerow");
+			if ($answer->get_solution_order() == $results[$key]["order"])
+			{
+				$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("right.png", true));
+				$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_right"));
+			}
+			else
+			{
+				$this->tpl->setVariable("ANSWER_IMAGE", ilUtil::getImagePath("wrong.png", true));
+				$this->tpl->setVariable("ANSWER_IMAGE_TITLE", $this->lng->txt("answer_is_wrong"));
+			}
+			if ($this->object->get_ordering_type() == OQ_PICTURES)
+			{
+				$answertext = "<img src=\"" . $this->object->getImagePathWeb() . $answer->get_answertext() . ".thumb.jpg\" alt=\"" . $this->lng->txt("selected_image") . "\" />";
+			}
+			else
+			{
+				$answertext = "&quot;<em>" . $answer->get_answertext() . "</em>&quot;";
+			}
+			$this->tpl->setVariable("ANSWER_DESCRIPTION", $answertext);
+			$this->tpl->setVariable("ANSWER_DESCRIPTION_CONNECTOR", $this->lng->txt("with_order") . " &quot;<em>" . $results[$key]["order"] . "</em>&quot;");
+			$this->tpl->parseCurrentBlock();
+		}
+	}
 }
 ?>

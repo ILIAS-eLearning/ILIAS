@@ -990,30 +990,14 @@ class ASS_OrderingQuestion extends ASS_Question
 			$this->ilias->db->quote($this->getId())
 		);
 		$result = $this->ilias->db->query($query);
+		$user_result = array();
 		while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			array_push($found_value1, $data->value1);
-			array_push($found_value2, $data->value2);
-		}
-		$counter = 1;
-		$user_result = array();
-		foreach ($found_value1 as $key => $value)
-		{
 			$solution = array(
-				"order" => "$counter",
-				"points" => 0,
-				"true" => 0,
-				"value" => "",
+				"answer_id" => $data->value1,
+				"order" => $data->value2
 			);
-			if ($this->answers[$value]->get_solution_order() == $found_value2[$key])
-			{
-				$points += $this->answers[$value]->get_points();
-				$solution["points"] = $this->answers[$value]->get_points();
-				$solution["value"] = $this->answers[$value]->get_answertext();
-				$solution["true"] = 1;
-			}
-			$counter++;
-			array_push($user_result, $solution);
+			$user_result[$data->value1] = $solution;
 		}
 		return $user_result;
 	}
