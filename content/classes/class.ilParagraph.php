@@ -184,6 +184,7 @@ class ilParagraph extends ilPageContent
 		$a_text = trim($a_text);
 
 		// mask html
+		$a_text = str_replace("&","&amp;",$a_text);
 		$a_text = str_replace("<","&lt;",$a_text);
 		$a_text = str_replace(">","&gt;",$a_text);
 
@@ -309,6 +310,7 @@ class ilParagraph extends ilPageContent
 		// unmask html
 		$a_text = str_replace("&lt;", "<", $a_text);
 		$a_text = str_replace("&gt;", ">",$a_text);
+		//$a_text = str_replace("--amp--", "&amp;", $a_text);
 		return $a_text;
 		//return str_replace("<br />", chr(13).chr(10), $a_text);
 	}
