@@ -275,7 +275,7 @@ class SurveyOrdinalQuestionGUI {
 *
 * @access public
 */
-	function outWorkingForm()
+	function outWorkingForm($working_data = "")
 	{
 		for ($i = 0; $i < $this->object->getCategoryCount(); $i++) {
 			$category = $this->object->getCategory($i);
@@ -283,6 +283,16 @@ class SurveyOrdinalQuestionGUI {
 			$this->tpl->setVariable("TEXT_ORDINAL", $category);
 			$this->tpl->setVariable("VALUE_ORDINAL", $i);
 			$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+			if (is_array($working_data))
+			{
+				if (strcmp($working_data[0]["value"], "") != 0)
+				{
+					if ($working_data[0]["value"] == $i)
+					{
+						$this->tpl->setVariable("CHECKED_ORDINAL", " checked=\"checked\"");
+					}
+				}
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("question_data_ordinal");

@@ -154,14 +154,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 		$direction = 0;
 		$error = 0;
-		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"] or $_POST["cmd"]["resume"])
+		if ($_POST["cmd"]["start"] or $_POST["cmd"]["previous"] or $_POST["cmd"]["next"] or $_POST["cmd"]["resume"] or $_POST["cmd"]["skip_next"] or $_POST["cmd"]["skip_previous"])
 		{
 			$activepage = "";
 			$direction = 0;
 			if ($_POST["cmd"]["resume"])
 			{
 				$activepage = $this->object->getLastActivePage($ilUser->id);
-				$direction = 1;
+				$direction = 0;
 			}
 			if ($_POST["cmd"]["previous"] or $_POST["cmd"]["next"])
 			{
@@ -180,9 +180,40 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$error = 1;
 						}
 					}
+					if (strcmp($data["type_tag"], "qt_nominal") == 0)
+					{
+						$variables =& $this->object->getVariables($data["question_id"]);
+						if ((strcmp($_POST[$_GET["qid"] . "_value"], "") == 0) and ($data["subtype"] == SUBTYPE_MCSR))
+						{
+							// none of the radio buttons was checked
+							sendInfo("nominal_question_not_checked");
+							$error = 1;
+						}
+					}
+					if (strcmp($data["type_tag"], "qt_ordinal") == 0)
+					{
+						$variables =& $this->object->getVariables($data["question_id"]);
+						if (strcmp($_POST[$_GET["qid"] . "_value"], "") == 0)
+						{
+							// none of the radio buttons was checked
+							sendInfo("ordinal_question_not_checked");
+							$error = 1;
+						}
+					}
+					if (strcmp($data["type_tag"], "qt_text") == 0)
+					{
+						$variables =& $this->object->getVariables($data["question_id"]);
+						if (strcmp($_POST[$_GET["qid"] . "_text_question"], "") == 0)
+						{
+							// none of the radio buttons was checked
+							sendInfo("text_question_not_filled_out");
+							$error = 1;
+						}
+					}
 					if (!$error)
 					{
 						// save user input
+						$this->object->deleteWorkingData($data["question_id"], $ilUser->id);
 						switch ($data["type_tag"])
 						{
 							case "qt_nominal":
@@ -219,7 +250,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 			
-			if ($_POST["cmd"]["previous"])
+			if ($_POST["cmd"]["previous"] or $_POST["cmd"]["skip_previous"])
 			{
 				$activepage = $_GET["qid"];
 				if (!$error)
@@ -227,7 +258,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$direction = -1;
 				}
 			}
-			else if ($_POST["cmd"]["next"])
+			else if ($_POST["cmd"]["next"] or $_POST["cmd"]["skip_next"])
 			{
 				$activepage = $_GET["qid"];
 				if (!$error)
@@ -238,12 +269,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 			$page = $this->object->getNextPage($activepage, $direction);
 			$qid = "";
-			if ($page == 0)
+			if ($page === 0)
 			{
 				$this->runShowIntroductionPage();
 				return;
 			}
-			else if ($page == 1)
+			else if ($page === 1)
 			{
 				$this->runShowFinishedPage();
 				return;
@@ -254,16 +285,57 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->addBlockFile("ORDINAL_QUESTION", "ordinal_question", "tpl.il_svy_out_ordinal.html", true);
 				$this->tpl->addBlockFile("METRIC_QUESTION", "metric_question", "tpl.il_svy_out_metric.html", true);
 				$this->tpl->addBlockFile("TEXT_QUESTION", "text_question", "tpl.il_svy_out_text.html", true);
+				$prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
 				$this->tpl->setCurrentBlock("prev");
-				$this->tpl->setVariable("BTN_PREV", $this->lng->txt("previous"));
+				if ($prevpage === 0)
+				{
+					$this->tpl->setVariable("BTN_PREV", $this->lng->txt("survey_start"));
+				}
+				else
+				{
+					$this->tpl->setVariable("BTN_PREV", $this->lng->txt("survey_previous"));
+				}
 				$this->tpl->parseCurrentBlock();
+				$nextpage = $this->object->getNextPage($page[0]["question_id"], 1);
 				$this->tpl->setCurrentBlock("next");
-				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("next"));
+				if ($nextpage === 1)
+				{
+					$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_finish"));
+				}
+				else
+				{
+					$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
+				}
 				$this->tpl->parseCurrentBlock();
+				if ((count($page) == 1) and ($page[0]["obligatory"] == 0))
+				{
+					// The question is not obligatory. Display skip buttons
+					$this->tpl->setCurrentBlock("skipprev");
+					if ($prevpage === 0)
+					{
+						$this->tpl->setVariable("BTN_SKIP_PREV", $this->lng->txt("survey_skip_start"));
+					}
+					else
+					{
+						$this->tpl->setVariable("BTN_SKIP_PREV", $this->lng->txt("survey_skip_previous"));
+					}
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("skipnext");
+					if ($nextpage === 1)
+					{
+						$this->tpl->setVariable("BTN_SKIP_NEXT", $this->lng->txt("survey_skip_finish"));
+					}
+					else
+					{
+						$this->tpl->setVariable("BTN_SKIP_NEXT", $this->lng->txt("survey_skip_next"));
+					}
+					$this->tpl->parseCurrentBlock();
+				}
 				foreach ($page as $data)
 				{
 					$question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
-					$question_gui->outWorkingForm();
+					$working_data = $this->object->loadWorkingData($data["question_id"], $ilUser->id);
+					$question_gui->outWorkingForm($working_data);
 					$qid = "&qid=" . $data["question_id"];
 				}
 			}

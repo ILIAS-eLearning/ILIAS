@@ -230,7 +230,7 @@ class SurveyMetricQuestionGUI {
 *
 * @access public
 */
-	function outWorkingForm()
+	function outWorkingForm($working_data = "")
 	{
 		$this->tpl->setCurrentBlock("question_data_metric");
 		$this->tpl->setVariable("QUESTIONTEXT", $this->object->getQuestiontext());
@@ -240,6 +240,10 @@ class SurveyMetricQuestionGUI {
 		$this->tpl->setVariable("TEXT_MAXIMUM", $this->lng->txt("maximum"));
 		$this->tpl->setVariable("VALUE_MAXIMUM", $this->object->getMaximum());
 		$this->tpl->setVariable("QUESTION_ID", $this->object->getId());
+		if (is_array($working_data))
+		{
+			$this->tpl->setVariable("VALUE_METRIC", $working_data[0]["value"]);
+		}
 
 		if (strlen($this->object->getMaximum())>1) {
 			$len = strlen($this->object->getMaximum()) + 2;
