@@ -164,7 +164,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				$this->tpl->setVariable("INPUT_VAL", $input);
 				$this->tpl->parseCurrentBlock();
 			}
-			if (!is_int(strpos($tag[0]["class"], ":hover")))
+			if ((!is_int(strpos($tag[0]["class"], ":hover"))) &&
+				(!is_int(strpos($tag[0]["class"], ":visited"))) &&
+				(!is_int(strpos($tag[0]["class"], ":active")))
+				)
 			{
 				$this->tpl->setCurrentBlock("Example_".$tag[0]["tag"]);
 				$this->tpl->setVariable("EX_CLASS", "ilc_".$tag[0]["class"]);
