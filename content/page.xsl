@@ -275,52 +275,66 @@
 
 <!-- Paragraph -->
 <xsl:template match="Paragraph">
-	<p>
-		<xsl:if test="not(@Characteristic)">
-		<xsl:attribute name="class">ilc_Standard</xsl:attribute>
-		</xsl:if>
-		<xsl:if test="@Characteristic">
-		<xsl:attribute name="class">ilc_<xsl:value-of select="@Characteristic"/></xsl:attribute>
-		</xsl:if>
-		<!-- <xsl:value-of select="@HierId"/> -->
-		<!-- checkbox -->
-		<!--
-		<xsl:if test="$mode = 'edit'">
-			<input type="checkbox" name="target[]">
-				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
-				</xsl:attribute>
-			</input>
-		</xsl:if> -->
-		<xsl:call-template name="EditReturnAnchors"/>
-		<!-- content -->
+	<xsl:if test="not(@Characteristic = 'Code')">
+		<p>
+			<xsl:call-template name="ShowParagraph"/>
+		</p>
+	</xsl:if>
+	<xsl:if test="@Characteristic = 'Code'">
+		<xsl:call-template name="ShowParagraph"/>
+	</xsl:if>
+</xsl:template>
+
+<xsl:template name="ShowParagraph">
+	<xsl:if test="not(@Characteristic)">
+	<xsl:attribute name="class">ilc_Standard</xsl:attribute>
+	</xsl:if>
+	<xsl:if test="@Characteristic and not (@Characteristic = 'Code')">
+	<xsl:attribute name="class">ilc_<xsl:value-of select="@Characteristic"/></xsl:attribute>
+	</xsl:if>
+	<!-- <xsl:value-of select="@HierId"/> -->
+	<!-- checkbox -->
+	<!--
+	<xsl:if test="$mode = 'edit'">
+		<input type="checkbox" name="target[]">
+			<xsl:attribute name="value"><xsl:value-of select="@HierId"/>
+			</xsl:attribute>
+		</input>
+	</xsl:if> -->
+	<xsl:call-template name="EditReturnAnchors"/>
+	<!-- content -->
+	<xsl:if test="not(@Characteristic = 'Code')">
 		<xsl:apply-templates/>
-		<!-- command selectbox -->
-		<xsl:if test="$mode = 'edit'">
-			<br />
-			<!-- <xsl:value-of select="../@HierId"/> -->
-			<input type="checkbox" name="target[]">
-				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
-				</xsl:attribute>
-			</input>
-			<select size="1" class="ilEditSelect">
-				<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
-				</xsl:attribute>
-			<option value="edit">edit</option>
-			<option value="insert_par">insert Paragr.</option>
-			<option value="insert_tab">insert Table</option>
-			<option value="insert_mob">insert Media</option>
-			<option value="insert_list">insert List</option>
-			<option value="insert_flst">insert File List</option>
-			<option value="delete">delete</option>
-			<option value="moveAfter">move after</option>
-			<option value="moveBefore">move before</option>
-			<option value="pasteFromClipboard">paste from clipboard</option>
-			</select>
-			<input class="ilEditSubmit" type="submit" value="Go">
-				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
-			</input>
-		</xsl:if>
-	</p>
+	</xsl:if>
+	<xsl:if test="@Characteristic = 'Code'">
+		<pre><xsl:apply-templates/></pre>
+	</xsl:if>
+	<!-- command selectbox -->
+	<xsl:if test="$mode = 'edit'">
+		<br />
+		<!-- <xsl:value-of select="../@HierId"/> -->
+		<input type="checkbox" name="target[]">
+			<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>
+			</xsl:attribute>
+		</input>
+		<select size="1" class="ilEditSelect">
+			<xsl:attribute name="name">command<xsl:value-of select="../@HierId"/>
+			</xsl:attribute>
+		<option value="edit">edit</option>
+		<option value="insert_par">insert Paragr.</option>
+		<option value="insert_tab">insert Table</option>
+		<option value="insert_mob">insert Media</option>
+		<option value="insert_list">insert List</option>
+		<option value="insert_flst">insert File List</option>
+		<option value="delete">delete</option>
+		<option value="moveAfter">move after</option>
+		<option value="moveBefore">move before</option>
+		<option value="pasteFromClipboard">paste from clipboard</option>
+		</select>
+		<input class="ilEditSubmit" type="submit" value="Go">
+			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="../@HierId"/>]</xsl:attribute>
+		</input>
+	</xsl:if>
 </xsl:template>
 
 <!-- Emph, Strong, Comment, Quotation -->

@@ -190,6 +190,12 @@ p.ilc_Remark
 	text-align: right;
 }
 
+/*
+p.ilc_Code
+{
+	white-space: pre;
+}*/
+
 table.ilc_Media
 {
 	background-color: #F5F5F5;
