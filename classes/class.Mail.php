@@ -761,6 +761,9 @@ class Mail
 				}
 				$this->sendMimeMail($a_rcp_to,$a_rcp_cc,
 									$a_rcp_bcc,$a_m_subject,$a_m_message,$a_attachment);
+				// SAVE IN SENTBOX
+				$sent_id = $this->saveInSentbox(array(),$a_rcp_to,$a_rcp_cc,$a_rcp_bcc,'email',
+												$a_as_email,$a_m_subject,$a_m_message);
 				break;
 		}
 		return $error_message;

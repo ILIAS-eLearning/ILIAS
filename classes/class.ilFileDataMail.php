@@ -177,7 +177,7 @@ class ilFileDataMail extends ilFileData
 					$files[] = array(
 						'name'     => $rest,
 						'size'     => filesize($this->mail_path.'/'.$file),
-						'ctime'    => Format::formatDate(filectime($this->mail_path.'/'.$file)));
+						'ctime'    => Format::formatDate(date('Y-m-d H:i:s',filectime($this->mail_path.'/'.$file))));
 				}
 			}
 		}
