@@ -1,8 +1,14 @@
 <form method="post" action="{FORMACTION}">
+<input type="hidden" name="form[delete]" value="1"/>
 <table class="std">
 <tr class="tblheader">
-	<td class="std" colspan="2">delete client options</td>
+	<td class="std" colspan="2">{TXT_DELETE_CONFIRM}</td>
 </tr>
+<tr>
+	<td class="option_value">{TXT_DELETE_INFO}</td>
+</tr>
+
+<!-- disabled
 <tr>
 	<td class="option_value"><input type="radio" name="form[delete]" value="1"/>&nbsp;remove client from list (delete ini file only)</td>
 </tr>
@@ -12,8 +18,10 @@
 <tr>
 	<td class="option_value"><input type="radio" name="form[delete]" value="3"/>&nbsp;delete all (ini file, database & files)</td>
 </tr>
+-->
+
 <tr>
-	<td class="submit" align="right">
+	<td class="submit" align="center">
 	<input class="submit" type="submit" name="cmd[delete]" value="{TXT_DELETE}"/>
 	</td>
 </tr>

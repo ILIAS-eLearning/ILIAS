@@ -37,7 +37,7 @@
 require_once "./include/inc.setup_header.php";
 
 // display info messages
-sendInfo();
+//sendInfo();
 
 $setup =& new ilSetupGUI();
 ?>
