@@ -54,7 +54,7 @@ class ilLog
 	* set the filename
 	* 
 	* @param	string
-	* @return	boolean 
+	* @return	boolean
 	* @access	public
 	*/
 	function ilLog($a_log_path, $a_log_file, $a_tag = "", $a_enabled = true)
@@ -158,7 +158,7 @@ class ilLog
 		if ($this->enabled)
 		{
 			$fp = @fopen ($this->path."/".$this->filename, "a");
-	
+
 			if ($fp == false)
 			{
 				die("Logfile: cannot open file. Please give Logfile Writepermissions.");
@@ -168,8 +168,19 @@ class ilLog
 			{
 				die("Logfile: cannot write to file. Please give Logfile Writepermissions.");
 			}
-	
+
 			fclose($fp);
+		}
+	}
+
+	/**
+	* delete logfile
+	*/
+	function delete()
+	{
+		if (@is_file($this->path."/".$this->filename))
+		{
+			@unlink($this->path."/".$this->filename);
 		}
 	}
 } // END class.ilLog

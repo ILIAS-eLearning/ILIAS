@@ -63,7 +63,7 @@ class ilPageObject
 	* Constructor
 	* @access	public
 	*/
-	function ilPageObject($a_parent_type, $a_id = 0)
+	function ilPageObject($a_parent_type, $a_id = 0, $a_halt = true)
 	{
 		global $ilias;
 
@@ -75,11 +75,17 @@ class ilPageObject
 		$this->update_listeners = array();
 		$this->update_listener_cnt = 0;
 		$this->dom_builded = false;
+		$this->halt_on_error = $a_halt;
 
 		if($a_id != 0)
 		{
 			$this->read();
 		}
+	}
+
+	function haltOnError($a_halt)
+	{
+		$this->halt_on_error = $a_halt;
 	}
 
 	/**
@@ -92,11 +98,17 @@ class ilPageObject
 		$pg_set = $this->ilias->db->query($query);
 		if (!($this->page_record = $pg_set->fetchRow(DB_FETCHMODE_ASSOC)))
 		{
-			echo "Error: Page ".$this->id." is not in database".
-				" (parent type ".$this->getParentType().")."; exit;
+			if ($this->halt_on_error)
+			{
+				echo "Error: Page ".$this->id." is not in database".
+					" (parent type ".$this->getParentType().")."; exit;
+			}
+			else
+			{
+				return;
+			}
 		}
 
-		// todo: make utf8 global (db content should be already utf8)
 		$this->xml = $this->page_record["content"];
 		$this->setParentId($this->page_record["parent_id"]);
 

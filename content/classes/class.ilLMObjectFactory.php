@@ -36,7 +36,7 @@ require_once ("content/classes/class.ilStructureObject.php");
 */
 class ilLMObjectFactory
 {
-	function getInstance(&$a_content_obj, $a_id = 0)
+	function getInstance(&$a_content_obj, $a_id = 0, $a_halt = true)
 	{
 		global $ilias;
 
@@ -54,7 +54,7 @@ class ilLMObjectFactory
 				break;
 
 			case "pg":
-				$obj =& new ilLMPageObject($a_content_obj);
+				$obj =& new ilLMPageObject($a_content_obj, 0, $a_halt);
 				$obj->setId($obj_rec["obj_id"]);
 				$obj->setDataRecord($obj_rec);
 				$obj->read();

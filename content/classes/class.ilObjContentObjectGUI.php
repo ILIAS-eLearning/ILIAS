@@ -973,10 +973,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		{
 			if ($id != IL_FIRST_NODE)
 			{
-				$obj =& ilLMObjectFactory::getInstance($this->object, $id);
-				$obj->setLMId($this->object->getId());
+				$obj =& ilLMObjectFactory::getInstance($this->object, $id, false);
 				$node_data = $tree->getNodeData($id);
-				$obj->delete();
+				if (is_object($obj))
+				{
+					$obj->setLMId($this->object->getId());
+					$obj->delete();
+				}
 				if($tree->isInTree($id))
 				{
 					$tree->deleteTree($node_data);
@@ -1298,11 +1301,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		//add template for view button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		// view button
+		// create export file button
 		$this->tpl->setCurrentBlock("btn_cell");
 		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "export"));
 		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_create_export_file"));
 		$this->tpl->parseCurrentBlock();
+
+		// view last export log button
+		if (is_file($this->object->getExportDirectory()."/export.log"))
+		{
+			$this->tpl->setCurrentBlock("btn_cell");
+			$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "viewExportLog"));
+			$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_view_last_export_log"));
+			$this->tpl->parseCurrentBlock();
+		}
+
 
 		$export_dir = $this->object->getExportDirectory();
 
@@ -1392,6 +1405,30 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/*
+	* list all export files
+	*/
+	function viewExportLog()
+	{
+		global $tree;
+
+		$this->setTabs();
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// create export file button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this, "exportList"));
+		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("cont_export_files"));
+		$this->tpl->parseCurrentBlock();
+
+		// load files templates
+		$this->tpl->setVariable("ADM_CONTENT",
+			nl2br(file_get_contents($this->object->getExportDirectory()."/export.log")));
+
+		$this->tpl->parseCurrentBlock();
+	}
 
 	/**
 	* download export file
