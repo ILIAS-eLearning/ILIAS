@@ -736,9 +736,9 @@ class ilObjTest extends ilObject
         $db->quote($this->reporting_date),
         $db->quote($this->starting_time),
         $db->quote($this->ending_time),
+				$db->quote("$complete"),
 				$db->quote($this->ects_output . ""),
 				$ects_fx,
-				$db->quote("$complete"),
         $db->quote($created)
       );
       $result = $db->query($query);
