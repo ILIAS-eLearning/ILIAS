@@ -897,6 +897,8 @@ class ilPageObject
 	{
 		global $lng;
 //echo "<br>PageObject::updateFromXML[".$this->getId()."]";
+//echo "update:".ilUtil::prepareDBString(($this->getXMLContent())).":<br>";
+//echo "update:".htmlentities(ilUtil::prepareDBString(($this->getXMLContent()))).":<br>";
 		$query = "UPDATE page_object ".
 			"SET content = '".ilUtil::prepareDBString(($this->getXMLContent()))."' ".
 			"WHERE page_id = '".$this->getId()."' AND parent_type='".$this->getParentType()."'";
@@ -919,6 +921,7 @@ class ilPageObject
 		global $lng;
 //echo "<br>PageObject::update[".$this->getId()."],validate($a_validate)";
 
+//echo "<br>PageObject::update:".$this->getXMLFromDom().":";
 //echo "<br>PageObject::update:".htmlentities($this->getXMLFromDom()).":"; exit;
 		// test validating
 		if($a_validate)
