@@ -1,0 +1,43 @@
+p.ilc_Code {
+}
+
+
+table.ilc_Sourcecode {
+	border: 1px solid black;
+	background: white;
+	padding: 5px;
+}
+
+span.ilc_CodeCategory_1 {
+	color: navy;
+	font-weight: bold;
+}
+
+span.ilc_CodeCategory_2 {
+	color: navy;
+}
+
+span.ilc_CodeCategory_3 {
+	color: black;
+}
+
+span.ilc_CodeQuote {
+	color: green;
+}
+
+span.ilc_CodeLinecomment {
+	color: gray;
+}
+
+span.ilc_CodeBlockcomment {
+	color: gray;
+}
+
+span.ilc_CodePrepro {
+	color: black;
+}
+
+span.ilc_CodeSelect {
+	color: black;
+}
+
