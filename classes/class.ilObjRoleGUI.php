@@ -65,14 +65,14 @@ class ilObjRoleGUI extends ilObjectGUI
 		// fill in saved values in case of error
 		$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]));
 		$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]));
+
 		$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
+		$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
+		$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
 
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
-		$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
-		$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".
-																	   $_GET["ref_id"]."&new_type=".$new_type));
+		$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
 		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
@@ -706,14 +706,12 @@ class ilObjRoleGUI extends ilObjectGUI
 			// fill in saved values in case of error
 			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"]));
 			$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["desc"]));
-			
 			$allow_register = ($_SESSION["error_post_vars"]["Fobject"]["allow_register"]) ? "checked=\"checked\"" : "";
 		}
 		else
 		{
 			$this->tpl->setVariable("TITLE",ilUtil::prepareFormOutput($this->object->getTitle()));
 			$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput($this->object->getDescription()));
-			
 			$allow_register = ($this->object->getAllowRegister()) ? "checked=\"checked\"" : "";
 		}
 
@@ -721,8 +719,16 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt("title"));
 		$this->tpl->setVariable("TXT_DESC",$this->lng->txt("desc"));
-		$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
-		$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
+		
+		// exclude allow register option for anonymous role
+		if ($this->object->getId() != ANONYMOUS_ROLE_ID)
+		{
+			$this->tpl->setCurrentBlock("allow_register");
+			$this->tpl->setVariable("TXT_ALLOW_REGISTER",$this->lng->txt("allow_register"));
+			$this->tpl->setVariable("ALLOW_REGISTER",$allow_register);
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("update","adm_object.php?cmd=gateway&ref_id=".$this->ref_id.$obj_str));
 		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
 		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
