@@ -11,8 +11,8 @@
 * @package ilias-core
 */
 require_once "include/inc.header.php";
-require_once "classes/class.Object.php";	// base class for all Object Types
-require_once "classes/class.ObjectOut.php";
+require_once "classes/class.ilObject.php";	// base class for all Object Types
+require_once "classes/class.ilObjectGUI.php";
 
 /*
 echo "<pre>";
@@ -81,8 +81,8 @@ $method = $_GET["cmd"]."Object";
 // e.g: cmd = 'view' type = 'frm'
 // => $obj = new ForumObject(); $obj->viewObject()
 $class_name = $objDefinition->getClassName($obj_type);
-$class_constr = $class_name."Object";
-require_once("./classes/class.".$class_name."Object.php");
+$class_constr = "ilObj".$class_name;
+require_once("./classes/class.ilObj".$class_name.".php");
 $obj = new $class_constr($id,$call_by_reference);
 // call object method
 switch ($_GET["cmd"])
@@ -132,11 +132,11 @@ switch ($_GET["cmd"])
 }
 
 // CALL OUTPUT METHOD OF OBJECT
-$class_constr = $class_name."ObjectOut";
-require_once("./classes/class.".$class_name."ObjectOut.php");
+$class_constr = "ilObj".$class_name."GUI";
+require_once("./classes/class.ilObj".$class_name."GUI.php");
 //echo "$class_constr().$method<br>";
 $obj = new $class_constr($data, $id, $call_by_reference);
-$obj->readObject($class_name."Object");
+$obj->readObject("ilObj".$class_name);
 $obj->prepareOutput();
 $obj->$method();
 
