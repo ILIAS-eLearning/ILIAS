@@ -2913,42 +2913,42 @@ search#:#search_user#:#Users
 survey#:#add_category#:#Add category
 survey#:#apply#:#Apply
 survey#:#category#:#Category
+survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?
+survey#:#category_delete_select_none#:#Please check at least one category to delete it!
 survey#:#create_date#:#Created
 survey#:#create_new#:#Create new
 survey#:#duplicate#:#Duplicate
 survey#:#fill_out_all_category_fields#:#Please fill out all category fields before you add a new one!
 survey#:#fill_out_all_required_fields_add_category#:#Please fill out all required fields before you add categories!
 survey#:#filter#:#Filter
+survey#:#insert_after#:#Insert after
+survey#:#insert_before#:#Insert before
 survey#:#last_update#:#Last update
 survey#:#material_file#:#Material file
+survey#:#maximum#:#Maximum value
+survey#:#minimum#:#Minimum value
 survey#:#multiple_choice_multiple_response#:#Multiple choice (multiple response)
 survey#:#multiple_choice_single_response#:#Multiple choice (single response)
 survey#:#no_category_selected_for_deleting#:#Please select a least one category if you want to delete categories!
-survey#:#no_questions_available#:#There are no questions available!
-survey#:#preview#:#Preview
-survey#:#qt_metric#:#Metric question
-survey#:#qt_nominal#:#Nominal question
-survey#:#qt_ordinal#:#Ordinal question
-survey#:#qt_text#:#Text question
-survey#:#question_type#:#Question type
-survey#:#questiontype#:#Question type
-survey#:#reset_filter#:#Reset filter
-survey#:#set_filter#:#Set filter
-survey#:#survey_questions#:#Questions
-survey#:#category_delete_select_none#:#Please check at least one category to delete it!
-survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?
-survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
-survey#:#uploaded_material#:#Uploaded Material
 survey#:#no_category_selected_for_move#:#Please check at least one category to move it!
-survey#:#insert_before#:#Insert before
-survey#:#insert_after#:#Insert after
-survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!
+survey#:#no_questions_available#:#There are no questions available!
+survey#:#non_ratio#:#Non-Ratio
+survey#:#preview#:#Preview
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
 survey#:#qpl_delete_rbac_error#:#You have no rights to delete the question(s)!
 survey#:#qpl_delete_select_none#:#Please check at least one question to delete it!
 survey#:#qpl_questions_deleted#:#Question(s) deleted.
-survey#:#minimum#:#Minimum value
-survey#:#maximum#:#Maximum value
-survey#:#ratio_non_absolute#:#Ratio-Non-Absolute
-survey#:#non_ratio#:#Non-Ratio
+survey#:#qt_metric#:#Metric question
+survey#:#qt_nominal#:#Nominal question
+survey#:#qt_ordinal#:#Ordinal question
+survey#:#qt_text#:#Text question
+survey#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!
+survey#:#question_type#:#Question type
+survey#:#questiontype#:#Question type
 survey#:#ratio_absolute#:#Ratio-Absolute
+survey#:#ratio_non_absolute#:#Ratio-Non-Absolute
+survey#:#reset_filter#:#Reset filter
+survey#:#select_target_position_for_move#:#Please select a target position to move the categories and press one of the insert buttons!
+survey#:#set_filter#:#Set filter
+survey#:#survey_questions#:#Questions
+survey#:#uploaded_material#:#Uploaded Material
