@@ -51,7 +51,6 @@ if ($_POST["cmd"] != "")
 if ($_GET["cmd"] == "")
 	$_GET["cmd"] = "view";
 
-
 $methode = $_GET["cmd"]."Object";
 
 switch ($_POST["type"])
@@ -122,18 +121,6 @@ switch ($_POST["type"])
 		$data = $obj->$methode();
 		break;
 
-	case "objf":
-		require_once "classes/class.ObjectFolderObject.php";
-		$obj = new ObjectFolderObject();
-		$data = $obj->$methode();
-		break;
-    
-	case "adm":
-		require_once "classes/class.SystemFolderObject.php";
-		$obj = new SystemFolderObject();
-		$data = $obj->$methode();
-		break;
-
 	case "lngf":
 		require_once "classes/class.LanguageFolderObject.php";
 		$obj = new LanguageFolderObject();
@@ -143,6 +130,18 @@ switch ($_POST["type"])
 	case "lang":
 		require_once "classes/class.LanguageObject.php";
 		$obj = new LanguageObject();
+		$data = $obj->$methode();
+		break;
+		
+	case "objf":
+		require_once "classes/class.ObjectFolderObject.php";
+		$obj = new ObjectFolderObject();
+		$data = $obj->$methode();
+		break;
+    
+	case "adm":
+		require_once "classes/class.SystemFolderObject.php";
+		$obj = new SystemFolderObject();
 		$data = $obj->$methode();
 		break;
 
@@ -228,7 +227,6 @@ if ($tpl->fileExists($template) == false)
 }
 
 $tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);
-
 switch($_GET["cmd"])
 {
 	case "save":
@@ -317,7 +315,6 @@ switch($_GET["cmd"])
 
 	case "view": 
 	default:
-//		vd($data);
 		$num = 0;
 		//table header
 		foreach ($obj->objectList["cols"] as $key)
