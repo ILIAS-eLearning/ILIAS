@@ -138,6 +138,7 @@ class ilLearningModuleGUI extends ilObjLearningModuleGUI
 		$this->object->setLayout($_POST["lm_layout"]);
 		$this->object->setPageHeader($_POST["lm_pg_header"]);
 		$this->object->updateProperties();
+		sendInfo($this->lng->txt("msg_obj_modified"));
 		$this->view();
 	}
 
