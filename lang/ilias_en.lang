@@ -160,6 +160,7 @@ assessment#:#javaapplet#:#Java Applet
 assessment#:#last_update#:#Last update
 assessment#:#legend#:#Legend
 assessment#:#locked#:#locked
+assessment#:#maintenance#:#Maintenance
 assessment#:#mark_schema#:#Mark schema
 assessment#:#match_terms_and_definitions#:#Match terms and definitions
 assessment#:#match_terms_and_pictures#:#Match terms and pictures
@@ -239,9 +240,11 @@ assessment#:#text_gap#:#Text gap
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!
 assessment#:#true#:#True
+assessment#:#tst_all_user_data_deleted#:#All user data of this test has been deleted!
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_anon_eval#:#Anonymous aggregated results
 assessment#:#tst_browse_for_questions#:#Browse for questions
+assessment#:#tst_delete_all_user_data#:#Delete all user data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_ending_time#:#Ending time
 assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.
@@ -3042,6 +3045,9 @@ survey#:#ask_insert_questionblocks#:#Are you sure you want to insert the followi
 survey#:#ask_insert_questions#:#Are you sure you want to insert the following question(s) to the survey?
 survey#:#back#:#<< Back
 survey#:#browse_for_questions#:#Browse for questions
+survey#:#cannot_maintain_survey#:#You have no write permissions to maintain the survey!
+survey#:#cannot_manage_phrases#:#You have no write permissions to manage the phrases!
+survey#:#cannot_participate_survey#:#You have no rights to participate the survey!
 survey#:#category#:#Category
 survey#:#category_delete_confirm#:#Are you sure you want to delete the following categorie(s)?
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!
@@ -3267,3 +3273,6 @@ survey#:#value_nr_entered#:#Number of users that entered that value
 survey#:#values#:#Values
 survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
+survey#:#svy_all_user_data_deleted#:#All user data of this survey has been deleted!
+survey#:#svy_delete_all_user_data#:#Delete all user data
+survey#:#maintenance#:#Maintenance

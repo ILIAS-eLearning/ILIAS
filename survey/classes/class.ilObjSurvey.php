@@ -294,6 +294,13 @@ class ilObjSurvey extends ilObject
 		return true;
 	}
 	
+	/**
+	* Deletes the survey from the database
+	* 
+	* Deletes the survey from the database
+	* 
+	* @access	public
+	*/
 	function deleteSurveyRecord()
 	{
 		$query = sprintf("DELETE FROM survey_survey WHERE survey_id = %s",
@@ -320,6 +327,18 @@ class ilObjSurvey extends ilObject
 		);
 		$result = $this->ilias->db->query($query);
 		
+		$this->deleteAllUserData();
+	}
+	
+	/**
+	* Deletes all user data of a survey
+	* 
+	* Deletes all user data of a survey
+	* 
+	* @access	public
+	*/
+	function deleteAllUserData()
+	{
 		$query = sprintf("SELECT user_fi FROM survey_invited_user WHERE survey_fi = %s",
 			$this->ilias->db->quote($this->getSurveyId())
 		);

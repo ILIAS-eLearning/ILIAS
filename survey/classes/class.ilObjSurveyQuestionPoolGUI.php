@@ -541,74 +541,83 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
   function phrasesObject()
 	{
+		global $rbacsystem;
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_phrases.html", true);
-		if ($_POST["cmd"]["delete_phrase"])
+		if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
-			$phrases = array();
-			foreach ($_POST as $key => $value)
+			if ($_POST["cmd"]["delete_phrase"])
 			{
-				if (preg_match("/phrase_(\d+)/", $key, $matches))
+				$phrases = array();
+				foreach ($_POST as $key => $value)
 				{
-					array_push($phrases, $matches[1]);
+					if (preg_match("/phrase_(\d+)/", $key, $matches))
+					{
+						array_push($phrases, $matches[1]);
+					}
+				}
+				if (count($phrases))
+				{
+					sendInfo($this->lng->txt("qpl_confirm_delete_phrases"));
+					$this->deletePhrasesForm($phrases);
+					return;
+				}
+				else
+				{
+					sendInfo($this->lng->txt("qpl_delete_phrase_select_none"));
 				}
 			}
+			if ($_POST["cmd"]["confirm_delete"])
+			{
+				$phrases = array();
+				foreach ($_POST as $key => $value)
+				{
+					if (preg_match("/phrase_(\d+)/", $key, $matches))
+					{
+						array_push($phrases, $matches[1]);
+					}
+				}
+				$this->object->deletePhrases($phrases);
+				sendInfo($this->lng->txt("qpl_phrases_deleted"));
+			}
+			$ordinal = new SurveyOrdinalQuestion();
+			$phrases =& $ordinal->getAvailablePhrases(1);
 			if (count($phrases))
 			{
-				sendInfo($this->lng->txt("qpl_confirm_delete_phrases"));
-				$this->deletePhrasesForm($phrases);
-				return;
+				$colors = array("tblrow1", "tblrow2");
+				$counter = 0;
+				foreach ($phrases as $phrase_id => $phrase_array)
+				{
+					$this->tpl->setCurrentBlock("phraserow");
+					$this->tpl->setVariable("PHRASE_ID", $phrase_id);
+					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
+					$this->tpl->setVariable("PHRASE_TITLE", $phrase_array["title"]);
+					$categories =& $ordinal->getCategoriesForPhrase($phrase_id);
+					$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ", "));
+					$this->tpl->parseCurrentBlock();
+				}
+				$this->tpl->setCurrentBlock("Footer");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+				$this->tpl->setVariable("TEXT_DELETE", $this->lng->txt("delete"));
+				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
-				sendInfo($this->lng->txt("qpl_delete_phrase_select_none"));
-			}
-		}
-		if ($_POST["cmd"]["confirm_delete"])
-		{
-			$phrases = array();
-			foreach ($_POST as $key => $value)
-			{
-				if (preg_match("/phrase_(\d+)/", $key, $matches))
-				{
-					array_push($phrases, $matches[1]);
-				}
-			}
-			$this->object->deletePhrases($phrases);
-			sendInfo($this->lng->txt("qpl_phrases_deleted"));
-		}
-		$ordinal = new SurveyOrdinalQuestion();
-		$phrases =& $ordinal->getAvailablePhrases(1);
-		if (count($phrases))
-		{
-			$colors = array("tblrow1", "tblrow2");
-			$counter = 0;
-			foreach ($phrases as $phrase_id => $phrase_array)
-			{
-				$this->tpl->setCurrentBlock("phraserow");
-				$this->tpl->setVariable("PHRASE_ID", $phrase_id);
-				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter++ % 2]);
-				$this->tpl->setVariable("PHRASE_TITLE", $phrase_array["title"]);
-				$categories =& $ordinal->getCategoriesForPhrase($phrase_id);
-				$this->tpl->setVariable("PHRASE_CONTENT", join($categories, ", "));
+				$this->tpl->setCurrentBlock("Emptytable");
+				$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_user_phrases_defined"));
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setCurrentBlock("Footer");
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
-			$this->tpl->setVariable("TEXT_DELETE", $this->lng->txt("delete"));
+			$this->tpl->setCurrentBlock("adm_content");
+			$this->tpl->setVariable("INTRODUCTION_MANAGE_PHRASES", $this->lng->txt("introduction_manage_phrases"));
+			$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("phrase"));
+			$this->tpl->setVariable("TEXT_PHRASE_CONTENT", $this->lng->txt("categories"));
+			$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("Emptytable");
-			$this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_user_phrases_defined"));
-			$this->tpl->parseCurrentBlock();
+			sendInfo($this->lng->txt("cannot_manage_phrases"));
 		}
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("INTRODUCTION_MANAGE_PHRASES", $this->lng->txt("introduction_manage_phrases"));
-		$this->tpl->setVariable("TEXT_PHRASE_TITLE", $this->lng->txt("phrase"));
-		$this->tpl->setVariable("TEXT_PHRASE_CONTENT", $this->lng->txt("categories"));
-		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
-		$this->tpl->parseCurrentBlock();
 	}
 	
 	/**
