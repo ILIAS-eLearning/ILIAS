@@ -603,15 +603,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CHANGE", $this->lng->txt("change"));
     $this->tpl->parseCurrentBlock();
 
-	  // create edit buttons & table footer
-		$this->tpl->setCurrentBlock("selection");
-		$this->tpl->setVariable("INSERT", $this->lng->txt("insert"));
-		$this->tpl->parseCurrentBlock();
-
-    $this->tpl->setCurrentBlock("Footer");
-    $this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
-    $this->tpl->parseCurrentBlock();
-
 		if ($_POST["cmd"]["reset"])
 		{
 			$_POST["filter_text"] = "";
@@ -733,7 +724,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
       $this->tpl->parseCurrentBlock();
     }
-
+		else
+		{
+			// create edit buttons & table footer
+			$this->tpl->setCurrentBlock("selection");
+			$this->tpl->setVariable("INSERT", $this->lng->txt("insert"));
+			$this->tpl->parseCurrentBlock();
+	
+			$this->tpl->setCurrentBlock("Footer");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+			$this->tpl->parseCurrentBlock();
+		}
     // define the sort column parameters
     $sort = array(
       "title" => $_GET["sort"]["title"],
