@@ -1698,3 +1698,5 @@ PRIMARY KEY ( usr_id , room_id )
 );
 <#104>
 ALTER TABLE frm_posts ADD notify TINYINT( 1 ) NOT NULL ;
+<#105>
+UPDATE settings SET value = '3.0.0_beta4 2004/02/18' WHERE keyword = 'ilias_version' LIMIT 1;
