@@ -554,6 +554,8 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+content#:#cont_all_pages#:#All Pages###02 Jun 2003 new variable
+content#:#cont_chapters#:#Chapters###02 Jun 2003 new variable
 content#:#cont_content#:#Content###12 May 2003 new variable
 content#:#cont_edit_par#:#Edit Paragraph###24 May 2003 new variable
 content#:#cont_insert_par#:#Insert Paragraph###24 May 2003 new variable

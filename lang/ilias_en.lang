@@ -554,6 +554,8 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+content#:#cont_all_pages#:#All Pages
+content#:#cont_chapters#:#Chapters
 content#:#cont_content#:#Content
 content#:#cont_edit_par#:#Edit Paragraph
 content#:#cont_insert_par#:#Insert Paragraph
@@ -561,8 +563,6 @@ content#:#cont_meta_data#:#Meta Data
 content#:#cont_pages#:#Pages
 content#:#cont_pg_content#:#Page Content
 content#:#cont_subchapters#:#Subchapters
-content#:#cont_chapters#:#Chapters
-content#:#cont_all_pages#:#All Pages
 content#:#cont_wysiwyg#:#Content Wysiwyg
 content#:#par#:#Paragraph
 content#:#pg#:#Page
