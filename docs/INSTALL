@@ -2,7 +2,7 @@
                         ILIAS open source - Installation
                        ==================================
 
-          Author: Boris H. Schuermann 
+          Author: Boris H. Schuermann
           Send any questions to loeffelholz@xh9.net (Wolf von Loeffelholz)
 
           $Id$
@@ -23,29 +23,15 @@ Table of Contents
 
        2.3.1 Libraries & utilities
 
-       2.3.2 MySQL / PHP4 / Apache
+       2.3.2 MySQL / PHP / Apache
 
-   2.4 Installing ILIAS
+   2.4 Installing ILIAS 3
 
-       2.4.1 Installing ILIAS 2
+3. Updating ILIAS 3
 
-       2.4.2 Installing ILIAS 3
-
-   2.5 Installing optional third-party software
-
-3. Software updates
-
-   3.1 Updating ILIAS 2
-
-   3.2 Updating ILIAS 3
-
-   3.3 Updating third-party software
+4. Migrating from MySQL 4.0.x to MySQL 4.1.x
 
 Appendix A: Note on using Apache 2
-
-Appendix B: MySQL and Apache init scripts for RedHat
-
-
 
 
 1. I N T R O D U C T I O N
@@ -56,9 +42,9 @@ under the GNU General Public License (GPL). It uses the MySQL database and the
 Apache web server. The main target operating system is Linux, but ILIAS may also
 be run on other Unix systems and even Windows.
 
-This document describes the installation of ILIAS 2 and ILIAS 3 with the all
+This document describes the installation of ILIAS 3 with the all
 software required for running an ILIAS system. The procedure has been tested
-under RedHat Linux 7.x/8.0. With minor modifications it should also apply to
+under RedHat and Debian. With minor modifications it should also apply to
 other Linux distributions, Solaris and other Unix systems.
 
 The following third-party software is necessary for running ILIAS. Release
@@ -74,16 +60,18 @@ ILIAS itself, all these programs are available as Open Source software.
     - IJG JPEG (libjpeg) 6b    ftp://ftp.uu.net/graphics/jpeg/jpegsrc.v6b.tar.gz
     - ImageMagick 6.0.1        http://www.imagemagick.org
     - Info-ZIP (Zip/UnZip)     http://www.info-zip.org
-
-For running ILIAS 3 additional software is required:
-
     - libxml2 2.6.9            http://www.xmlsoft.org
     - libxslt 1.1.6            http://www.xmlsoft.org
-    - libexpat 1.95.7          http://www.libexpat.org
-    - Sablotron 1.1            http://www.gingerall.com
+    - libexpat 1.95.7          http://www.libexpat.org (not needed for PHP5)
+    - Sablotron 1.1            http://www.gingerall.com (not needed for PHP5)
 
 The recommended releases can also be downloaded from the ILIAS open source web
 site: http://www.ilias.uni-koeln.de/ios/source.html
+
+ILIAS should also run with PHP 5.x.x. If you are using PHP 5 libexpat and
+Sablotron are not needed. MySQL 4.1.x has been tested also. Please read the
+MySQL chapter if you plan to migrate from an existing MySQL 4.0.x to
+MySQL 4.1.x.
 
 Please see chapter 2.5 for information about optional software.
 
@@ -207,14 +195,6 @@ Directories for the ILIAS web space and all ILIAS related data:
     mkdir /opt/ilias/mysqldata
     mkdir /opt/ilias/www
 
-For running ILIAS 2 create the following additional data directories:
-
-    mkdir /opt/ilias/data/files
-    mkdir /opt/ilias/data/offline
-    mkdir /opt/ilias/data/import
-    mkdir /opt/ilias/data/export
-
-
 Copy all source tar files to /opt/ilias/src/tarballs. GNU-Tar will extract the
 source files into separate directories in /opt/ilias/src:
 
@@ -229,20 +209,13 @@ source files into separate directories in /opt/ilias/src:
     tar -xzf tarballs/mysql-4.0.18.tar.gz
     tar -xzf tarballs/apache_1.3.29.tar.gz
     tar -xzf tarballs/php-4.3.6.tar.gz
-
-For running ILIAS 3 please also unpack the following files:
-
     tar -xzf tarballs/libxml2-2.6.9.tar.gz
     tar -xzf tarballs/libxslt-1.1.6.tar.gz
-    tar -xzf tarballs/expat-1.95.7.tar.gz
-    tar -xzf tarballs/Sablot-1.1.tar.gz
+    tar -xzf tarballs/expat-1.95.7.tar.gz (PHP4 only)
+    tar -xzf tarballs/Sablot-1.1.tar.gz (PHP4 only)
 
 The ILIAS software, its documentation and the web space directory structure is
 stored in:
-
-    ilias-2.4.6.tar.gz
-
-or for ILIAS 3 in:
 
     ilias-3.4.0_beta2.tar.gz
 
@@ -266,14 +239,11 @@ must be installed:
     - libpng (PNG graphics library used by libgd and Imagemagick)
     - ImageMagick (graphics tool used by ILIAS for Image format conversion)
     - Info-ZIP (Zip/UnZip tools used for compressing offline courses)
-
-For ILIAS 3 these additional packages are required:
-
     - libxml (GNOME XML library, required by PHP for XML DOM parsing. At least a
       version >= 2.4.14 is required)
     - libxslt (GNOME XSLT library, required by PHP for using DOM XSLT features)
-    - Expat (XML parser used by the Sablotron XSLT processor)
-    - Sablotron (XSLT processor)
+    - Expat (XML parser used by the Sablotron XSLT processor) (PHP4 only)
+    - Sablotron (XSLT processor) (PHP4 only)
 
 The programs can be compiled and installed using the command sequences shown
 below. However, you may decide to install them in different locations such
@@ -441,7 +411,7 @@ The following steps are only necessary for running ILIAS 3:
         make install
 
 
-(i) Expat
+(i) Expat (PHP4 only)
 
         cd /opt/ilias/src/expat-1.95.7
         ./configure --prefix=/opt/ilias
@@ -449,7 +419,7 @@ The following steps are only necessary for running ILIAS 3:
         make install
 
 
-(j) Sablotron
+(j) Sablotron (PHP4 only)
 
         cd /opt/ilias/src/Sablot-1.1
         ./configure \
@@ -460,7 +430,7 @@ The following steps are only necessary for running ILIAS 3:
 
 
 
-2.3.2 MySQL / PHP4 / Apache
+2.3.2 MySQL / PHP / Apache
 
 After the libraries and tools are set up you may install the main third-party
 components:
@@ -468,9 +438,8 @@ components:
 
 (a) MySQL database
 
-    IMPORTANT NOTE: ILIAS has been tested on several 4.0.x version but it will
-    not run on 4.1.x or 5.x version of MySQL due to fundamental changes in
-    these versions.
+    IMPORTANT NOTE: ILIAS has been tested on several 4.0.x and 4.1.x. versions.
+	MySQL 5.x.x versions have not yet been tested.
 
     Configure & make:
 
@@ -563,7 +532,6 @@ components:
         /opt/ilias/bin/mysql -u root password <password>
         mysql> grant LOCK TABLES on *.* to dbuser@localhost;
 
-
 (b) Apache (preparation)
 
         cd /opt/ilias/src/apache_1.3.29
@@ -574,6 +542,8 @@ components:
 
     Configure & make:
 
+		PHP 4.x.x:
+		
         cd /opt/ilias/src/php-4.3.6
         ./configure \
         --prefix=/opt/ilias \
@@ -585,22 +555,34 @@ components:
         --with-gd \
         --with-jpeg-dir=/opt/ilias \
         --with-png-dir=/opt/ilias
+        --with-dom=/opt/ilias
+        --with-dom-xslt=/opt/ilias
+        --enable-xslt
+        --with-pear=/opt/ilias/lib/pear
+        --with-xslt-sablot=/opt/ilias
+        --with-expat-dir=/opt/ilias
         make
         make install
+		
+		PHP 5.x.x:
+		
+		./configure \
+		--with-apxs \
+		--with-mysql=/opt/ilias \
+		--with-zlib=/opt/ilias \
+		--with-gd
+		--with-jpeg-dir=/opt/ilias \
+		--with-png-dir=/opt/ilias \
+		--with-config-file-path=/opt/ilias/config
+		--with-libxml-dir=/opt/ilias \
+		--with-xsl=/opt/ilias
+		make
+		make install
 
     Newer PHP releases come with an integrated libgd which is activated by
     using the --with-gd directive. If you are using a version of PHP < 4.3.0 or
     want to build it with an external libgd you should specify the location of
     the libgd on your system, e.g. by entering '--with-gd=/opt/ilias'.
-
-    For running ILIAS 3 the following configure options must be added:
-
-        --with-dom=/opt/ilias
-        --with-dom-xslt=/opt/ilias
-        --enable-xslt
-        --with-xslt-sablot=/opt/ilias
-        --with-expat-dir=/opt/ilias
-        --with-pear=/opt/ilias/lib/pear
 
     Note: If compilation/linking fails with a compile error concerning undefined
     references in 'libsablot.so' try to set the and LDFLAGS environment variable
@@ -612,7 +594,7 @@ components:
 
         - Auth
         - HTML_Template_IT
-		- HTTP_Request ( if cron-jobs are used)
+		- HTTP_Request (if cron-jobs are used)
 
     They can be obtained directly from the Web using the PEAR command line
     installer that comes with PHP:
@@ -633,15 +615,8 @@ components:
 
         cp php.ini-dist /opt/ilias/config/php.ini
 
-    IMPORTANT: In PHP versions later than 4.1 the default value for the php.ini
-    parameter 'register_globals' is set to 'off'. At the time being, ILIAS 2 will
-    only work if 'register_globals' is enabled. For this reason you must change
-    /opt/ilias/config/php.ini if you are using ILIAS 2:
-
-        vi /opt/ilias/config/php.ini
-
-    ILIAS 3 will also work with register_globals=Off.
-
+    Open the file in your favourite editor.
+		
     The parameter 'memory_limit' defines the maximum amount of memory a php
     script may consume. The default value of 8M maybe to low for some ILIAS
     scripts. We recommend to set this parameter to 40M.
@@ -734,225 +709,7 @@ components:
     directories.
 
 
-
-2.4 Installing ILIAS
-
-2.4.1 Installing ILIAS 2
-
-
-(a) Installing the ILIAS 2 program files
-
-    First of all extract the content of the ILIAS tarball into
-
-        cd /opt/ilias/www/htdocs/
-        tar -xzf /opt/ilias/src/tarballs/ilias-2.4.6.tar.gz
-
-    IMPORTANT: Please make sure your webserver has write permission for at least
-    the following subdirectories located in /opt/ilias/www/htdocs/ilias/:
-
-        bilder/
-        coursefiles/
-        imagemaps/
-        logos/
-        low_cat/
-        objects/
-        plugins/
-        sonderzeichen/
-        tmp/
-
-    Write access by the web server is also required for the directories under
-    /opt/ilias/data/ (used for storing various data that shall not appear in
-    the web space) and for /opt/ilias/log/ilias (used for saving ILIAS specific
-    logfiles). Please set directory ownership and permissions accordingly.
-
-    In most cases it will be sufficient to make the web server daemon user the
-    owner of the entire ILIAS directory, its subdirectories and all other
-    directories where data is stored by the web server. Example:
-
-        chown -R wwwrun /opt/ilias/www/htdocs/ilias
-        chown -R wwwrun /opt/ilias/data
-        chown -R wwwrun /opt/ilias/log/ilias
-
-    Depending on your MySQL setup it will probably be necessary to edit the
-    include file 'ilias_db.inc', containing the settings for the ILIAS database.
-    You may set the database name (in case you choose a different name for
-    your ILIAS database in the subsequent step), host, user and password:
-
-        cd /opt/ilias/www/htdocs/ilias/include
-        vi ilias_db.inc
-
-
-(b) Setting up the ILIAS database
-
-    If not activated yet, please start the MySQL and Apache daemons, either by
-    manually executing the appropriate init script using the parameter 'start'
-    or by rebooting your system.
-
-    For creating the ILIAS database you need to start the MySQL client. If a
-    password has been set for the MySQL root account - which is strongly
-    recommended -, use the -p option and your password to start the client.
-
-    Create the ILIAS database:
-
-        /opt/ilias/bin/mysql
-        CREATE DATABASE ilias;
-        exit
-
-    Import the database template file:
-
-        cd /opt/ilias/www/htdocs/ilias/sql/template
-        /opt/ilias/bin/mysql ilias < ilias.database-template.sql
-
-    If you are running a MySQL version below 3.23.x please remove 'TYPE=MyISAM'
-    and 'TYPE=MyISAM PACK_KEYS=1' entries in all CREATE statements within the
-    template file prior to importing it.
-
-    After importing the template file it is necessary to run a migration script
-    in order make sure that recent changes in the database structure are also
-    incorporated into your database. For this purpose please access the file
-    'http://www.yourserver.com/ilias/sql/migration/db_migration.php' with your
-    web browser and identify yourself with the ILIAS superuser account:
-
-        User ID: root
-        Password: homer
-
-    The migration process is performed immediately after authentication.
-    Afterwards you may proceede to the next step.
-
-    The database migration is especially important when UPGRADING to a new
-    ILIAS release. In this case the database structure of your installation is
-    likely to be out of date. Running the migration script will ensure that the
-    new version of the ILIAS software works with your existing ILIAS database.
-
-
-(c) Initial login
-
-    After everything has been installed, accessing /ilias/index.php (or just the
-    directory /ilias) with your web browser should bring up the ILIAS login
-    screen. Please use the ILIAS superuser account for your first login:
-
-        User ID: root
-        Password: homer
-
-    You will automatically enter the 'Basic System Settings' which are part of
-    the ILIAS administration menu. There you will have to fill in some site
-    specific data. The system's hostname, IP address, server port and software
-    are obtained automatically. Please note that all path names in the system
-    settings must be entered with a trailing slash.
-
-        - Installation Name: a short name for your ILIAS installation.
-        - Installation Info: a short system description.
-        - Institution: the name of your institution.
-        - HTTP Path: full URL of your ILIAS installation. The required format is
-          the format 'http://host.domain/ilias-directory/'.
-        - Absolute path: absolute filesystem path to your ILIAS directory.
-        - Convert Path: path to the ImageMagick 'convert' tool.
-        - Zip Path: location and name of your Zip compress utility.
-        - Unzip Path: location and name of your Unzip uncompress untility.
-        - Java Path: location of your Java environment (only in conjunction with
-          the Babylon chat).
-        - Babylon Path: location of your Babylon chat installation.
-        - Logfile Path: directory for your ILIAS logfiles.
-        - Session Logging: log all ILIAS sessions to a file in the directory
-          specified under 'Logfile Path'.
-        - Feedback Recipients: names of ILIAS users which shall receive messages
-          sent through the feedback function. Multiple entries must be seperated
-          by comma.
-        - Error Recipients: the names of ILIAS users who shall receive error
-          messages generated by ILIAS. Multiple entries must be seperated by
-          comma.
-        - By clicking on the check boxes you may activate/deactivate the
-          following functions: Public Section, News, TeX Functions (requires
-          the installation and configuration of TeX, please consult the ILIAS
-          documentation under ./ilias/docs/html/index.html), mandatory Password
-          Generation/Forwarding, Group File Sharing, Course Management System.
-        - E-mail sender address for password forwarding.
-        - ILIAS-NIC Server: the HTTP address of the ILIAS-NIC server. Default
-          setting is 'http://homer.ilias.uni-koeln.de/ilias-nic/index.php'.
-        - LDAP Settings (for further information please see the documentation
-          under ./ilias/docs/html/index.html).
-        - External Authentication (for further information please see the
-          documentation under ./ilias/docs/html/index.html).
-        - Contact Information: information to be sent to the ILIAS-NIC server.
-
-    About ILIAS-NIC:
-
-    Normally, when saving the Basic System Settings, some of the information
-    above will automatically be sent to the ILIAS Network Information Center
-    (ILIAS-NIC) at the University of Cologne: Hostname, IP address, installation
-    name, installation info, HTTP path and contact information. In return your
-    system receives a unique installation ID, which will allow data exchange
-    between different ILIAS hosts as soon as this feature is implemented.
-
-    All information provided will be treated confidentially and will not be
-    disclosed to third parties. If for any reasons you dislike the idea of
-    having this information transmitted to the ILIAS-NIC you can disable this
-    function by clicking the check box 'Disable ILIAS-NIC connection'. All
-    ILIAS functions except for the future networking extensions will work
-    without setting the installation ID.
-
-    If you disable the ILIAS-NIC connection on the first time installation,
-    the installation ID will be set to '1', which is the default ID for all
-    standalone ILIAS hosts. Afterwards you will not be able to reactivate
-    the ILIAS-NIC function. If you want to obtain an installation ID at a
-    later point, e.g. in order to participate in the future network of ILIAS
-    systems, please contact ilias-info@uni-koeln.de in order to obtain an
-    appropriate database patch.
-
-    Depending on the configuration of your firewall or proxy server, problems
-    may occur when establishing an HTTP connection to the ILIAS-NIC server.
-    In this case it may also be necessary to disable the function and obtain
-    the ID by sending a request to ilias-info@uni.koeln.de.
-
-    After entering the Basic System Settings you should also check the following
-    settings in the ILIAS administration:
-
-        - System / Directories: set the location of the ILIAS data directories
-          used for storing files and offline courses outside the web space.
-        - System / Edit Desktop Links: if desired add Internet links to the
-          user's personal desktop.
-        - System / Library-Administration: Specify Internet links to online
-          libraries and catalogs that shall appear in the ILIAS library section.
-        - Courses / Categories: enter your course categories.
-          Courses / Types of Material: Specify the types of learning material
-          that shall appear in the meta data of the ILIAS editor. .
-        - Courses / Overview Mode: select the course overview mode, that is the
-          way the list of courses is presented to the user.
-        - Template / Courses: Enable or disable course templates, e.g. for multi
-          frame views.
-
-    You may use the 'System / System Check' function in the ILIAS administration
-    to check if your ILIAS system has been set up properly.
-
-    Please CHANGE THE ILIAS ROOT PASSWORD on your first login!
-
-    The ILIAS superuser account should only be used for system installation,
-    upgrades and other special occasions, e.g. the creation of user accounts
-    that belong to the Administration user group. Please create your own
-    personal administrator account and use it for all regular administrative
-    tasks.
-
-    IMPORTANT: The script 'neuanmeldung.php' allows users to register themselves
-    with status 'Learner' or 'Guest' in your ILIAS system. If you do not want
-    anybody to self-register, you should remove the script from your web space
-    or modify the it according to your needs.
-
-
-(d) Settting up the chat server
-
-    The file chatserver/install.txt explains how the chat server installation
-    works.
-
-
-2.4.2 Installing ILIAS 3
-
-IMPORTANT: Please note that the following instructions are preliminary. Further
-information will be provided with upcoming ILIAS 3 stable releases.
-
-ILIAS 3 requires a Java Environment to be installed on the server for validation
-of imported SCORM files against an XML scheme. The path to the Java installation
-must be specified in the ILIAS 3 system settings.
-
+2.4 Installing ILIAS 3
 
 (a) Installing the ILIAS 3 program files
 
@@ -1068,321 +825,10 @@ must be specified in the ILIAS 3 system settings.
     started cron job writes messages in your log file.
 
 
-2.5  Installing optional third-party software
+3. Updating ILIAS 3
 
-
-(a) JpGraph graphics library for PHP
-
-    The user tracking and statistics functions available in ILIAS 2 versions >=
-    2.4.0_beta use the JpGraph library for displaying diagrams. The library
-    is not part of the ILIAS distribution and needs to be installed seperately.
-    It is available from:
-
-        http://www.aditus.nu/jpgraph/
-
-    Please note that JpGraph is not distributed under the GPL but under two
-    different licenses: the QT Free License (QPL) that allows free use only for
-    non-commercial purposes and the GpGraph Professional License that applies
-    when JpGraph is used for commercial purposes. Depending on your use of
-    ILIAS a licence fee for using JpGraph may be required.
-
-    JpGraph is installed in the ILIAS web space directory in an own subdirectory
-    named 'jpgraph':
-
-        cd /opt/ilias/www/htdocs/ilias
-        tar -xzf /opt/ilias/src/jpgraph-1.12.2.tar.gz
-        mv ./jpgraph-1.12.2/ ./jpgrapj/
-
-    After JpGraph has been properly installed in that location, the functions
-    'Administrator Statistics' (in the ILIAS administration section) and 'Course
-    Statistics' (on the Personal Desktop of course authors) will not only return
-    the numerical values but also display statistical diagrams.
-
-
-(b) Zend Optimizer
-
-    As a PHP preprocessor the Zend Optimizer is used to improve the performance
-    of the PHP interpreter. However, the performance increases that can be
-    achieved by using it are rather limited. You may try it out though, since
-    it usually does not have any negative effects either.
-
-    Zend Optimizer is offered by Zend Technologies Ltd. free of charge, but it
-    is not Open Source software. Different versions are available for Linux,
-    Solaris and FreeBSD from:
-
-        http://www.zend.com
-
-    After unpacking the Zend Optimizer .tar.gz file you can start a shell script
-    which guides you through the installation process.
-
-    Having unpacked the appropriate .tar.gz file installation is fairly simple.
-    The example shows the installation of the ZendOptimizer for Linux glibc 2.1:
-
-        cd /opt/ilias/src
-        tar -xzf tarballs/ZendOptimizer-2.1.0b-Linux_glibc21-i386.tar.gz
-        cd /opt/ilias/src/ZendOptimizer-2.1.0b-Linux_glibc21-i386
-        ./install.sh
-
-    During the installation you will have to specify the following locations:
-
-    Where to install Zend Optimizer: /opt/ilias/lib
-    Location of your php.ini file:   /opt/ilias/config
-    Apache configuration directory:  /opt/ilias/config
-    Apache bin directory:            /opt/ilias/bin
-
-    Your original php.ini file will be backed up in /opt/ilias/config/. The new
-    php.ini file created by the ZendOptimizer installation script will be
-    located in /opt/ilias/lib/etc/ with a link in /opt/ilias/config/ pointing
-    to it.
-		
-    After restarting your Apache daemon you may find out if the ZendOptimizer is
-    properly installed by checking the beginning of the 'PHP-Info' output in the
-    ILIAS administration menu.
-
-
-(c) ionCube PHP Accelerator
-
-    The PHP Accelerator provides a caching for PHP scripts in the shared memory.
-    Versions for various operating systems are available from:
-
-        http://www.php-accelerator.co.uk/
-
-    As opposed to the Zend Optimizer which offers only limited performance
-    increases the PHP Accelerator can deliver significant acceleration. However,
-    it does not run stable on every kind of server and usually requires some
-    experimenting. We are still testing the PHP Accelerator and recommend it
-    only to experienced users which monitor their servers closely. 
-
-    Please note that PHP Accelerator and Zend Optimizer cannot be used in
-    combination!
-
-    Installation of the PHP Accelerator is rather straightforward. The example
-    below shows the installation of version 1.3.3r2 for Linux. Basically you
-    just copy the PHP Accelerator library and the administration tool to the
-    appropriate directories under /opt/ilias and register it as a zend_extension
-    in your php.ini file:
-    
-        cd /opt/ilias/src/
-        tar xzf tarballs/php_accelerator-1.3.3r2_php-4.3.0_linux_i686*.tgz
-        cd php_accelerator-1.3.3r2_php-4.3.0_linux_i686-glibc2.1.3
-        cp php_accelerator_1.3.3r2.so /opt/ilias/lib/
-        cp phpa_cache_admin /opt/ilias/bin/
-
-    Open your php.ini file for editing, e.g. using 'vi' and insert the following
-    lines:
-    
-     ; PHP Accelerator extension
-     zend_extension="/opt/ilias/lib/php_accelerator_1.3.3r2.so"
- 
-    Please check the PHP Accelerator configuration documentation for further
-    options. Especially you may want to enlarge the cache size. For a rather
-    complex system like ILIAS the default size of 8 MB is rather low. We
-    recommend a size of up to 32 MB, if your systems main memory size allows
-    it, even more. Solaris users should read the 'solaris_notes' (included in
-    the PHP Accelerator tarball) on how to configure shared memory.
- 
-    After restarting your Apache daemon you may find out if the PHP accelerator
-    is in effect by checking the beginning of the 'PHP-Info' output in the ILIAS
-    administration menu.
-
-
-(d) Radius authentication (ILIAS 2 only)
-
-    ILIAS currently supports a rudimentary Radius authentication in the user
-    registration module using Unix PAM and a module for PAM support in PHP. The
-    Radius authentication allows checking a Radius server for valid accounts
-    before granting access to the ILIAS user registration. The following 
-    optional components are required:
-
-        - pam_auth: integrates basic Unix-PAM support into PHP4. It is available
-          from http://www.math.ohio-state.edu/~ccunning/pam_auth.html. Currently
-          only a modified version of pam_auth-0.1 (which also contains a minor
-          bugfix, cf. pam_auth.c for details) seems to works properly with both,
-          pam_radius_auth and PHP 4.3.x. It is available from the ILIAS web site
-          http://www.ilias.uni-koeln.de/download/xsrc/pam_auth-0.1_ilias.tar.gz
-
-        - pam_radius_auth-1.1.3: a module for Radius authentication via Unix-
-          PAM. It is available from: http://www.freeradius.org/pam_radius_auth
-
-    Before compiling PHP, the modified version of pam_auth must be added to the
-    PHP source code. Please note that PHP requires libtool 1.4.3 or newer
-    installed in order to run buildconf:
-
-         cd /opt/ilias/src
-         cp -r pam_auth /opt/ilias/src/php-4.3.6/ext/
-         cd /opt/ilias/src/php-4.3.6
-         ./buildconf --force
-
-    When compiling PHP add this configure directive:
-
-         --with-pam_auth
-
-    Create the file /etc/pam.d/php containing this line:
-
-         auth     required     /lib/security/pam_radius_auth.so
-
-    If desired 'debug' may be added to the end of the line. Debug messages from
-    the PAM Radius module will then be written to /var/log/messages.
-
-    Compile pam_radius_auth:
-
-         cd /opt/ilias/src/pam_radius-1.3.11
-         make
-
-    Copy pam_radius_auth to the appropriate library directory:
-
-         cp pam_radius_auth.so /lib/security/pam_radius_auth.so
-
-    Create file /etc/raddb/server with the following entry:
-
-         servername:port                secret    timeout
-
-         Example:
-
-         mail1.rrz.uni-koeln.de:1645    xyz    60
-
-    According to the pam_radius_auth documentation /etc/raddb/server and its
-    directory need to be secure, accessible only by root. However, this does not
-    work when using tha pam_radius_auth module together with PHP/pam_auth. As a
-    workaround, permissions may be set to allow read access for the httpd daemon
-    user. Please be aware of the resulting security gap.
-
-    In ILIAS, Radius support must be enabled in 'Administration / Modules'.
-
-    IMPORTANT: Please note that the ILIAS Radius authentication should only be
-    used with secure connections. At least the ILIAS registration script
-    (neuanmeldung.php) should be secured with SSL encryption. Otherwise the
-    usernames/passwords of the Radius accounts to be validated might easily
-    be intercepted when being sent via http.
-
-
-
-
-3.  S O F T W A R E  U P D A T E S
-
-
-3.1  Updating ILIAS 2
-
-BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
-AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
-
-IMPORTANT: With ILIAS release 2.3.8 some recommendations in this document have
-changed:
-
-    - /opt/ilias/data/ was formerly /opt/ilias/iliasdata/
-    - /opt/ilias/log/ was formerly /opt/ilias/logfiles/
-    - the third-party software packages Apache, MySQL, PHP and ImageMagick now
-      have the same base directory /opt/ilias/ instead of being installed in
-      separate base directories under /opt/ilias/.
-    - /opt/ilias/log/ilias/ has been introduced as directory for ILIAS logfiles.
-      Write access must be granted to the web server daemon user.
-
-Please take this into consideration when upgrading from an old installation and
-adapt the path names if necessary. If you decide to rename your existing
-directories make sure that the ILIAS system settings and all configuration files
-reflect the changes.
-
-At the time being no installation script is available for updating ILIAS. For
-this reason the ILIAS script files must be updated manually. In the following
-steps it it assumed that your existing ILIAS installation is located in
-/opt/ilias/www/htdocs/ilias/ while the contents of the ILIAS distribution tar
-file lies in /tmp/. If the locations differ on your system you may need to adapt
-the commands used in the following.
-
-Some files and directories will be replaced in the update process. They must be
-removed from your ILIAS web directory. If you keep any additional files or data
-that is worth to be saved in one of these directories please take all necessary
-precautions. This is especially important if you have modified parts of the
-ILIAS source code, the language files in ./lang/ or the course templates in
-./templates/. It is also recommended to save the file ilias_db.inc located in
-the  directory ./include/ which contains settings sepcific to your MySQL
-database. After installing the new ILIAS release you may easily restore the it.
-
-    cd /opt/ilias/www/htdocs/ilias
-    rm *
-    rm -r convert docs help ilias_hilfe images include lang modules sql
-    rm -r syntax_highlight
-
-You may ignore any 'no such file or directory' errors because depending on
-your current ILIAS installation some of the directories above may not exist on
-your system.
-
-Then extract the ILIAS distribution tar file to /tmp/ (or any other directory of
-your choice). Do not simply overwrite the 'ilias' directory in your webspace!
-Example:
-
-    cd /tmp
-    tar -xzf /opt/ilias/src/tarballs/ilias-2.4.6.tar.gz
-
-After extracting the files you will find a newly created subdirectory 'ilias' in
-your tmp/ directory. Depending on the ILIAS version you are replacing you must
-copy various files and directories to your ILIAS web directory:
-
-Migrating from version 2.x.x:
-
-    cd /tmp/ilias
-    cp -p * /opt/ilias/www/htdocs/ilias/
-    cp -rp include lang images sql help templates /opt/ilias/www/htdocs/ilias/
-    cp -rp docs syntax_highlight modules tmp /opt/ilias/www/htdocs/ilias/
-    cp -rp convert /opt/ilias/www/htdocs/ilias/
-    mkdir /opt/ilias/data
-    mkdir /opt/ilias/data/offline
-    mkdir /opt/ilias/data/files
-    mkdir /opt/ilias/data/import
-    mkdir /opt/ilias/data/export
-    mkdir /opt/ilias/log/ilias
-
-Migrating from version 1.9.x / 1.8.x /  1.7.x:
-
-    cd /tmp/ilias
-    cp -p * /opt/ilias/www/htdocs/ilias/
-    cp -p include/* /opt/ilias/www/htdocs/ilias/include/
-    cp -p lang/* /opt/ilias/www/htdocs/ilias/lang/
-    cp -rp include lang images sql help templates /opt/ilias/www/htdocs/ilias/
-    cp -rp docs syntax_highlight modules tmp /opt/ilias/www/htdocs/ilias/
-    cp -rp logos low_cat coursefiles convert /opt/ilias/www/htdocs/ilias/
-    cd html
-    cp -p login.html logout.html /opt/ilias/www/htdocs/ilias/html/
-    mkdir /opt/ilias/data
-    mkdir /opt/ilias/data/offline
-    mkdir /opt/ilias/data/files
-    mkdir /opt/ilias/data/import
-    mkdir /opt/ilias/data/export
-    mkdir /opt/ilias/log/ilias
-
-Please ignore any 'File exists' error messages. After all files have been copied
-you may remove /tmp/ilias/.
-
-The directories under /opt/ilias/data/ are used for storing various kinds of
-data, e.g. files in group folders. It is located outside the web space but the
-web server daemon user must have read/write access to it. Please set file
-ownership and permissions accordingly. Please also register the directories in
-the ILIAS administration (-> 'System / Directories').
-
-/opt/ilias/data/offline/ may be used to store offline courses available for
-download. They were formerly saved in /opt/ilias/www/htdocs/ilias/offline/ and
-should be moved to the new location. The original directory may be removed
-afterwards. Please set file ownership and permissions so that the web server
-daemon can still access the files.
-
-After installing a new ILIAS release you must run the database migration script,
-so that all changes in the database structure are also applied to your database.
-To do so, access the file
-
-    'http://www.yourserver.com/ilias/sql/migration/db_migration.php'
-
-with your web browser and identify yourself using the ILIAS 'root' account and
-password. The migration process is performed immediately after authentication.
-Depending on the size of your database this may take a while.
-
-Please check section 2.4.1 (Installing ILIAS 2), c) (Inital login) for new
-options in the ILIAS system settings.
-
-
-3.2  Updating ILIAS 3
-
-THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3.0.0 beta version or
-higher to ILIAS 3.4.0 Beta 2.
+THIS INSTRUCTIONS EXPLAIN HOW TO UPDATE FROM ANY ILIAS 3 beta version to
+ILIAS 3.4.0 Beta 2.
 
 BACKUP YOUR ILIAS MYSQL DATABASE, THE ENTIRE CONTENTS OF THE ILIAS WEB DIRECTORY
 AND THE ILIAS DATA DIRECTORIES BEFORE DOING ANY CHANGES!
@@ -1393,7 +839,7 @@ candidate or final version of ILIAS 3 from scratch.
 
 At the time being no installation script is available for updating ILIAS 3. For
 this reason the ILIAS script files must be updated manually. In the following
-steps it it assumed that your existing ILIAS 3 installation is located in
+steps it is assumed that your existing ILIAS 3 installation is located in
 /opt/ilias/www/htdocs/ilias/ while the contents of the ILIAS distribution tar
 file lies in /tmp/. If the locations differ on your system you may need to adapt
 the commands used in the following.
@@ -1453,27 +899,29 @@ in the language administration of the system settings ("Administration" ->
 "System Settings" -> "Languages" -> "Refresh Languages").
 
 
-3.3  Updating third-party software
+4. Migration from MySQL 4.0.x to MySQL 4.1.x
 
-Because the main third-party software components interact in different ways,
-updating one of these components usually requires a complete re-installation
-as described in 'First Time Installation'.
+    If you want to migrate an existing ILIAS from MySQL 4.0.x to 4.1.x you
+    need to do the following steps:
+	
+	1. Update to ILIAS 3.4.0 stable or higher (run db migration in setup)
+	2. Backup your database
+	3. Dump your ILIAS 3 MySQL 4.0.x database
+       /opt/ilias/bin/mysqldump > ilias3.dump
+    4. Update to MySQL 4.1.x
+    5. Create a new ILIAS database, set the default character set to utf-8
+       and the default collation to your appropriate utf-8 collation
+       (see http://dev.mysql.com/doc/mysql/en/charset-unicode-sets.html), e.g.
+       if you are located in germany:
+       /opt/ilias/bin/mysql
+       mysql> CREATE DATABASE ilias3 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+    6. Load the MySQL 4.0 dump file into the newly created database:
+       /opt/ilias/bin/mysql ilias3 < ilias3.dump
 
-MySQL, PHP and the Apache Webserver can normally be re-installed at any time
-while retaining the original system configuration (configuration files will
-not be modified). Before doing so make sure you have backed up your system.
-Then clean up your /opt/ilias/src/ directory and extract the new source files
-to this location. Configure and compile the software with the directives used
-n the inital installation process and in the same order, starting with MySQL
-and ending with the Apache server.
-
-
-
+	   
 A P P E N D I X  A: Note on using Apache 2
 
-At the time being Apache 2 is not yet recommended for production use with PHP.
-However, we are already testing ILIAS with Apache 2. If you like to try out
-Apache 2 for your ILIAS system, please proceed as follows:
+Please proceed as follows:
 
     - Omit the preparatory step and directly compile and install Apache 2 as
       described in section '2.3.2 - (d) Apache'" but replace the configure
@@ -1489,127 +937,3 @@ Apache 2 for your ILIAS system, please proceed as follows:
       '--with-apxs2=/opt/ilias/bin/apxs'.
 
     - Starting the Apache 2 daemon should now also invoke the PHP module.
-
-
-
-A P P E N D I X  B: MySQL and Apache init scripts for RedHat
-
-
-(1) mysql - MySQL init script for RedHat Linux -----
-
-#!/bin/sh
-
-# chkconfig: 345 72 72
-# description: Mysql is a SQL (Structured Query Language) database server
-#
-# Source function library.
-. /etc/rc.d/init.d/functions
-
-mode=$1
-PATH=/sbin:/bin:/usr/bin:/usr/sbin
-set `id`
-bindir=/opt/ilias/bin
-datadir=/opt/ilias/mysqldata
-pid_file=/opt/ilias/mysqldata/mysqld.pid
-
-mysql_daemon_user=mysql    # Run mysqld as this user.
-
-if [ $1 != "uid=0(root)" ]; then
-    echo "$0: this script must be run as root ... fatal error"
-    exit 1
-fi
-
-case "$mode" in
-'start')
-    # Start deamon
-    echo -n "Starting mysqld: "
-    daemon $bindir/safe_mysqld --datadir=$datadir --user=$mysql_daemon_user &
-    RETVAL=$?
-    echo
-    [ $RETVAL -eq 0 ] && touch /var/lock/subsys/mysql
-    ;;
-'status')
-    status mysqld
-    ;;
-'restart')
-    $0 stop
-    $0 start
-        ;;
-'stop')
-    # Stop deamon
-    echo -n "Shutting down mysqld: "
-    #mysqladmin shutdown
-    killproc mysqld 2>/dev/null
-    RETVAL=$?
-    echo
-    [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/mysql
-    ;;
-		
-*)
-    echo "usage: $0 start|status|restart|stop"
-    exit 1
-    ;;
-
-esac
-
-
------
-
-
-(2) httpd - Apache init script for RedHat linuy -----
-
-#!/bin/sh
-#
-# Startup script for the Apache Web Server
-#
-# chkconfig: 345 85 15
-# description: Apache is a World Wide Web server.  It is used to serve \
-#	       HTML files and CGI.
-# processname: httpd
-# pidfile: /opt/ilias/log/httpd.pid
-# config: /opt/ilias/config/access.conf
-# config: /opt/ilias/config/httpd.conf
-# config: /opt/ilias/config/srm.conf
-
-
-# Source function library.
-. /etc/rc.d/init.d/functions
-
-bindir=/opt/ilias/bin
-pid_file=/opt/ilias/httpd/log/httpd.pid
-
-# See how we were called.
-case "$1" in
-start)
-    echo -n "Starting httpd: "
-    daemon $bindir/httpd
-    echo
-    touch /var/lock/subsys/httpd
-	;;
-stop)
-    echo -n "Shutting down http: "
-    killproc httpd
-    echo
-    rm -f /var/lock/subsys/httpd
-    rm -f $pid_file
-    ;;
-status)
-    status httpd
-    ;;
-restart)
-    $0 stop
-    $0 start
-    ;;
-reload)
-    echo -n "Reloading httpd: "
-    killproc httpd -HUP
-    echo
-    ;;
-*)
-    echo "Usage: $0 {start|stop|restart|reload|status}"
-    exit 1
-esac
-
-exit 0
-
------
