@@ -178,7 +178,7 @@ class Tree extends PEAR
 		return $data;
 	}
     // insert node under parent node
-    function insertNode($AObjId,$AParId = "")
+    function insertNode($AObjId,$AParId = "",$a_depth)
 	
     {
         if (!empty($AParId))
@@ -213,8 +213,8 @@ class Tree extends PEAR
         $res = $this->db->query($query);
 
         // insert node
-        $query = "INSERT INTO tree (tree,child,parent,lft,rgt)
-                  VALUES ('".$this->TreeId."','".$AObjId."','".$this->ParId."','".$lft."','".$rgt."')";
+        $query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth)
+                  VALUES ('".$this->TreeId."','".$AObjId."','".$this->ParId."','".$lft."','".$rgt."','".$a_depth."')";
         $res = $this->db->query($query);
 
     }
@@ -603,6 +603,79 @@ class Tree extends PEAR
 		
 		return $knoten;		
 	}	
-	
+	function getChildsByDepth($a_depth,$a_parent)
+	{
+        // to reset the content
+		$this->Childs = array();
+		
+		$query = "SELECT * FROM tree ".
+			"LEFT JOIN object_data ON tree.child=object_data.obj_id ".
+			"WHERE depth = '".$a_depth."' ".
+			"AND parent = '".$a_parent."' ".
+            "AND tree = '".$this->TreeId."'";
+
+        $res = $this->db->query($query);
+        
+		$count = $res->numRows();
+		
+		if ($res->numRows() > 0)
+        {
+            while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC))
+            {
+				$this->Childs[] = array(
+                                        "id"  		 => $data["obj_id"],
+                                        "title" 	 => $data["title"],
+										"desc"		 => $data["description"],
+										"type"		 => $data["type"],
+										"last_update"=> $data["last_update"],
+										"parent"	 => $data["parent"],
+										"lft"		 => $data["lft"],
+										"rgt"		 => $data["rgt"]
+                                        );
+            }
+
+			$this->Childs[$count - 1]["last"] = true;
+            
+            return $this->Childs;
+        }
+
+        return false;
+	}
+/**
+ * Return the maximum depth in tree
+ * @access public
+ * @return int
+ *
+ */
+	function getMaximumDepth()
+	{
+		$query = "SELECT MAX(depth) FROM tree";
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow())
+		{
+			return $row[0];
+		}
+	}
+/**
+ * Return depth of an object
+ * @access public
+ * @param int
+ * @param int
+ * @return int
+ * 
+ */
+	function getDepth($a_child,$a_parent,$a_tree=1)
+	{
+		$query = "SELECT depth FROM tree ".
+			"WHERE child = '".$a_child."' ".
+			"AND parent = '".$a_parent."' ".
+			"AND tree = '".$a_tree."'";
+
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->depth;
+		}
+	}
 }
 ?>
