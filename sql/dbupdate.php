@@ -4841,3 +4841,31 @@ PRIMARY KEY ( `answerblock_id` ) ,
 INDEX ( `question_fi` )
 ) COMMENT = 'defines an answerblock, a combination of given answers of a test question';
 
+<#319>
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,23);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,24);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,27);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,28);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,29);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,31);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,32);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,42);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (87,43);
+
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,17);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,23);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,24);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,25);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,26);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,27);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,28);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,29);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,31);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,32);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,42);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (17,43);
+
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (15,27);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (15,28);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (15,42);
+REPLACE INTO rbac_ta (typ_id,ops_id) VALUES (15,43);

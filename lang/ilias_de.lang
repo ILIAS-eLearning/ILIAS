@@ -610,6 +610,7 @@ common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar###14 Sep 2004 content changed
 common#:#adm_write#:#Systemgrunddaten bearbeiten
+common#:#adm_create_tax#:#Neue Taxonomie anlegen
 common#:#administrate#:#Administrieren
 common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
@@ -845,6 +846,30 @@ common#:#crs_create#:#Neuen Kurs anlegen
 common#:#crs_create_alm#:#Neues AICC Lernmodul anlegen
 common#:#crs_create_frm#:#Neues Forum anlegen
 common#:#crs_create_glo#:#Neues Glossar anlegen
+common#:#crs_create_grp#:#Neue Gruppe anlegen
+common#:#crs_create_dbk#:#Neues Digilib-Buch anlegen
+common#:#crs_create_exc#:#Neue Übung anlegen
+common#:#crs_create_file#:#Neue Datei hochladen
+common#:#crs_create_fold#:#Neuen Ordner anlegen
+common#:#crs_create_tst#:#Neuen Test anlegen
+common#:#crs_create_qpl#:#Neuen Fragenpool für Test anlegen
+common#:#crs_create_chat#:#Neuen Chat anlegen
+common#:#crs_create_mep#:#Neuen Media-Pool anlegen
+common#:#crs_create_htlm#:#Neues HTML Lernmodul anlegen
+common#:#crs_create_svy#:#Neue Umfrage anlegen
+common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+common#:#fold_create_dbk#:#Neues Digilib-Buch anlegen
+common#:#fold_create_exc#:#Neue Übung anlegen
+common#:#fold_create_tst#:#Neuen Test anlegen
+common#:#fold_create_qpl#:#Neuen Fragenpool für Test anlegen
+common#:#fold_create_mep#:#Neuen Media-Pool anlegen
+common#:#fold_create_htlm#:#Neues HTML Lernmodul anlegen
+common#:#fold_create_svy#:#Neue Umfrage anlegen
+common#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+common#:#grp_create_tst#:#Neuen Test anlegen
+common#:#grp_create_qpl#:#Neuen Fragenpool für Test anlegen
+common#:#grp_create_svy#:#Neue Umfrage anlegen
+common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#crs_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#crs_create_lm#:#Neues ILIAS Lernmodul anlegen###24 Sep 2004 content changed
 common#:#crs_create_sahs#:#Neues SCORM/AICC Lernmodul anlegen
