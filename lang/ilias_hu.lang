@@ -4068,20 +4068,21 @@ survey#:#start_date_not_reached#:#You cannot start the survey until the start da
 survey#:#start_survey#:#Felmérés kezdete
 survey#:#subject_mail_survey_id#:#Your survey code for "%s"###05 Nov 2004 new variable
 survey#:#subtype#:#Altípus
-survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###05 Nov 2004 new variable
-survey#:#survey_finish#:#felmérés mentése és befejezése
+survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Nov 2004 new variable
+survey#:#survey_finish#:#felmérés mentése és befejezése###26 Nov 2004 content changed
 survey#:#survey_finished#:#Befejezte a felmérést! Köszönjük részvételét!
 survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###05 Nov 2004 new variable
 survey#:#survey_next#:#mentés >>>
 survey#:#survey_offline_message#:#Nem hívhatók meg felhasználók. A felmérés off-line!
 survey#:#survey_online_warning#:#A felmérés on-lin. Nem szerkesztheti a felmérés kérdéseit!
-survey#:#survey_previous#:#<<< mentés
+survey#:#survey_previous#:#<<< mentés###26 Nov 2004 content changed
+survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)###26 Nov 2004 new variable
 survey#:#survey_questions#:#Kérdések
 survey#:#survey_skip_finish#:#ugrás és a felmérés befejezése
 survey#:#survey_skip_next#:#következő >>>
 survey#:#survey_skip_previous#:#<<< előző
 survey#:#survey_skip_start#:#ugrás és vissza a kezdőlapra
-survey#:#survey_start#:#mentés és vissza a kezdőlapra
+survey#:#survey_start#:#mentés és vissza a kezdőlapra###26 Nov 2004 content changed
 survey#:#svy_all_user_data_deleted#:#Ennek a felmérésnek minden felhasználói adata törlésre került!
 survey#:#svy_create_export_file#:#Create export file###05 Nov 2004 new variable
 survey#:#svy_delete_all_user_data#:#Minden felhasználói adat törlése

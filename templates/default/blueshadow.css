@@ -29,10 +29,17 @@ input {
 
 textarea {
 	font-family:Verdana,Arial,Helvetica,sans-serif;
+}
+
+input.fullwidth {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
 	width: 98%
 }
 
-
+textarea.fullwidth {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	width: 98%
+}
 /* ---------------- alternating tablerowcolors ----------------- */
 
 .tblrow2 {

@@ -4069,19 +4069,20 @@ survey#:#start_survey#:#Start-datum
 survey#:#subject_mail_survey_id#:#Your survey code for "%s"###04 Oct 2004 new variable
 survey#:#subtype#:#U kunt de enquête niet starten voordat de start-datum is bereikt!
 survey#:#survey_code_message_sent#:#A survey code which allows you to resume the survey was sent to your INBOX!###04 Oct 2004 new variable
-survey#:#survey_finish#:#Start-enquête
+survey#:#survey_finish#:#Start-enquête###26 Nov 2004 content changed
 survey#:#survey_finished#:#Subtype
 survey#:#survey_is_offline#:#opslaan en beëindigen enquête
-survey#:#survey_next#:#U bent klaar met de enquête. Dank u voor uw  participatie!
+survey#:#survey_next#:#U bent klaar met de enquête. Dank u voor uw  participatie!###26 Nov 2004 content changed
 survey#:#survey_offline_message#:#U kunt de enquête niet starten! De enquête is offline.
 survey#:#survey_online_warning#:#opslaan >>>
-survey#:#survey_previous#:#kan gebruikers niet uitnodigen. De enquête is niet online!
+survey#:#survey_previous#:#kan gebruikers niet uitnodigen. De enquête is niet online!###26 Nov 2004 content changed
+survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)###26 Nov 2004 new variable
 survey#:#survey_questions#:#De enquête is online. U kunt de enquête niet wijzigen!
 survey#:#survey_skip_finish#:#<<< opslaan
 survey#:#survey_skip_next#:#Vragen
 survey#:#survey_skip_previous#:#Sla over en beëindig enquête
 survey#:#survey_skip_start#:#Sla over >>>
-survey#:#survey_start#:#<<< overslaan
+survey#:#survey_start#:#<<< overslaan###26 Nov 2004 content changed
 survey#:#svy_all_user_data_deleted#:#sla over en ga naar de start-pagina
 survey#:#svy_create_export_file#:#Create export file###05 Nov 2004 new variable
 survey#:#svy_delete_all_user_data#:#Sla op en ga naar start-pagina

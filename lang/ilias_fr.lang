@@ -4047,19 +4047,20 @@ survey#:#start_survey#:#Commencer sondage
 survey#:#subject_mail_survey_id#:#Votre code de sondage pour "%s"
 survey#:#subtype#:#Sous-type
 survey#:#survey_code_message_sent#:#Un code de sondage qui vous permettra de reprendre le sondage a été envoyé dans votre boîte aux lettres.
-survey#:#survey_finish#:#enregistrer et terminer sondage >>>
+survey#:#survey_finish#:#enregistrer et terminer sondage >>>###26 Nov 2004 content changed
 survey#:#survey_finished#:#Le sondage est terminé. Merci pour votre participation.
 survey#:#survey_is_offline#:# Vous ne pouvez pas commencer le sondage. Le sondage est hors-ligne.
-survey#:#survey_next#:#enregistrer  et page suivante >>>
+survey#:#survey_next#:#enregistrer  et page suivante >>>###26 Nov 2004 content changed
 survey#:#survey_offline_message#:#Impossible d'inviter des utilisateurs. Le sondage est hors-ligne.
 survey#:#survey_online_warning#:#Le sondage est en ligne. Vous ne pouvez pas modifier les questions.
-survey#:#survey_previous#:#<<< enregistrer et page précédente
+survey#:#survey_previous#:#<<< enregistrer et page précédente###26 Nov 2004 content changed
+survey#:#survey_question_obligatory#:#(This question is obligatory. You must answer the question)###26 Nov 2004 new variable
 survey#:#survey_questions#:#Questions
 survey#:#survey_skip_finish#:#passer et terminer sondage >>>
 survey#:#survey_skip_next#:#passer et page suivante >>>
 survey#:#survey_skip_previous#:#<<< passer et page précédente
 survey#:#survey_skip_start#:#<<< passer et revenir à la page de départ
-survey#:#survey_start#:#<<< enregistrer et revenir à la page de départ
+survey#:#survey_start#:#<<< enregistrer et revenir à la page de départ###26 Nov 2004 content changed
 survey#:#svy_all_user_data_deleted#:#Toutes les données utilisateurs de ce sondage ont été détruites.
 survey#:#svy_create_export_file#:#Créer fichier d'exportation
 survey#:#svy_delete_all_user_data#:#Détruire toutes les données utilisateurs.

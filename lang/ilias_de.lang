@@ -4086,6 +4086,7 @@ survey#:#survey_next#:#Weiter >>>
 survey#:#survey_offline_message#:#Es können keine Nutzerinnen eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
 survey#:#survey_previous#:#<<< Zurück
+survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_questions#:#Fragen
 survey#:#survey_skip_finish#:#Überspringen und Umfrage beenden >>>
 survey#:#survey_skip_next#:#Überspringen und weiter >>>
