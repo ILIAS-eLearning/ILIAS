@@ -27,7 +27,7 @@
 * class to setup ILIAS first and maintain the ini-settings and the database
 *
 * @author	Peter Gabriel <pgabriel@databay.de>
-* @author Sascha Hofmann <shofmann@databay.de> 
+* @author	Sascha Hofmann <shofmann@databay.de> 
 * @version	$Id$
 * @package	ilias-setup
 */

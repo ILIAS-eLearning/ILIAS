@@ -65,6 +65,9 @@ require_once "../classes/class.ilFile.php";
 // include error_handling
 require_once "../classes/class.ilErrorHandling.php";
 
+$ilErr = new ilErrorHandling();
+$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
+
 // set ilias pathes
 define ("ILIAS_HTTP_PATH",substr("http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["REQUEST_URI"]),0,-6));
 
@@ -79,8 +82,6 @@ else
 }
 
 define ("TPLPATH","./templates/blueshadow");
-
-//var_dump(ILIAS_ABSOLUTE_PATH);exit;
 
 // init session
 $sess = new Session();
