@@ -194,17 +194,18 @@ class ilMediaObject extends ilObjMediaObject
 	function getFile()
 	{
 		return $this->file;
-	}
+	}*/
+
 
 	function setCaption($a_caption)
 	{
-		$this->caption = $a_caption;
+		$this->setParameter("il_Caption", $a_caption);
 	}
 
 	function getCaption()
 	{
-		return $this->caption;
-	}*/
+		return $this->getParameter("il_Caption");
+	}
 
 	function setHAlign($a_halign)
 	{
@@ -238,7 +239,23 @@ class ilMediaObject extends ilObjMediaObject
 	*/
 	function getParameter($a_name)
 	{
-		return $this->parameter[$a_name];
+		return $this->parameters[$a_name];
+	}
+
+	/**
+	* set standard type
+	*/
+	function setStandardType($a_type)
+	{
+		$this->setParameter("il_StandardType", $a_type);
+	}
+
+	/**
+	* set standard type
+	*/
+	function getStandardType($a_type)
+	{
+		$this->getParameter("il_StandardType");
 	}
 
 	/**
@@ -410,6 +427,15 @@ class ilMediaObject extends ilObjMediaObject
 			$layout_node->set_attribute("Height", $this->getHeight());
 		}
 		$layout_node->set_attribute("HorizontalAlign", "Left");
+
+		// caption
+		if ($this->getCaption() != "")
+		{
+			$par_node =& $this->dom->create_element("Parameter");
+			$par_node =& $this->mob_node->append_child($par_node);
+			$par_node->set_attribute("Name", "il_Caption");
+			$par_node->set_attribute("Value", $this->getCaption());
+		}
 	}
 
 
@@ -487,7 +513,7 @@ class ilMediaObject extends ilObjMediaObject
 	{
 		// get Layout node
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Parameter[@Name='caption']";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Parameter[@Name='il_Caption']";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{
@@ -504,7 +530,7 @@ class ilMediaObject extends ilObjMediaObject
 				$med_node =& $res->nodeset[0];
 				$par_node =& $this->dom->create_element("Parameter");
 				$par_node =& $med_node->append_child($par_node);
-				$par_node->set_attribute("Name", "caption");
+				$par_node->set_attribute("Name", "il_Caption");
 				$par_node->set_attribute("Value", $a_caption);
 			}
 		}
@@ -515,7 +541,7 @@ class ilMediaObject extends ilObjMediaObject
 	{
 		// get Layout node
 		$xpc = xpath_new_context($this->dom);
-		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Parameter[@Name='caption']";
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/MediaObject/Parameter[@Name='il_Caption']";
 		$res =& xpath_eval($xpc, $path);
 		if (count($res->nodeset) == 1)
 		{

@@ -313,9 +313,9 @@ class ilGroupGUI extends ilObjGroupGUI
 
 
 	function explorer()
-	{ 
-		
-		
+	{
+
+
 		require_once "include/inc.header.php";
 		require_once "classes/class.ilExplorer.php";
 		require_once "classes/class.ilGroupExplorer.php";
@@ -323,7 +323,7 @@ class ilGroupGUI extends ilObjGroupGUI
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
 		$exp = new ilGroupExplorer("group.php?cmd=displayList");
-		
+
 		if ($_GET["expand"] == "")
 		{
 			$expanded = "1";
@@ -332,9 +332,9 @@ class ilGroupGUI extends ilObjGroupGUI
 		{
 			$expanded = $_GET["expand"];
 		}
-		
+
 		$exp->setExpand($expanded);
-	
+
 		//filter object types
 		$exp->addFilter("root");
 		$exp->addFilter("cat");
@@ -346,19 +346,20 @@ class ilGroupGUI extends ilObjGroupGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setCurrentBlock("content");
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER",$this->lng->txt("groups"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		//$this->tpl->setVariable("ACTION", "group_menu.php?expand=".$_GET["expand"]);
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->show();
-	
-	}	
-	
+
+	}
+
 	function show_content()
-	{	
+	{
 		global $tree, $tpl, $lng, $rbacsystem;
-	
-		
+
+
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.group_detail.html");
 
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
