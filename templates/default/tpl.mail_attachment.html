@@ -2,10 +2,11 @@
 body { margin:0px; }
 </style>
 {STATUSLINE}
-<div class="invisible_border">
+<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
+<!--<div class="invisible_border">-->
 <div class="il_Header"><h1>{TXT_ATTACHMENT}</h1>
 <div class="il_Tab">
-{TABS}	  
+{TABS}
 </div>
 </div>
 {BUTTONS}
@@ -22,13 +23,12 @@ body { margin:0px; }
 		  </tr>
 	  </table>
 	  <!-- END confirm_delete -->
-	  <H3>{TXT_ATTACHMENT}</H3>
 	  <table class="fullwidth">
 		  <tr class="tblheader" valign="top">
-			<td class="std" width="4%">
-			  &nbsp;			
+			<td class="std" width="1%">
+			  &nbsp;
 			</td>
-			<td class="std"  width="40%">
+			<td class="std"  width="43%">
 			  <b>{TXT_FILENAME}</b>
 			</td>
 			<td class="std"  width="20%">
@@ -55,31 +55,29 @@ body { margin:0px; }
 		  </tr>
 		  <!-- END no_content -->
 		  <tr>
-			<td class="std" align="center">
-			  <img src="templates/default/images/arrow_downright.gif" />
-			</td>
-			<td class="std"  colspan="4">
+			<td class="submit" colspan="5">
+			  <img src="templates/default/images/arrow_downright.gif" />&nbsp;
 			  <input class="submit" type="submit" name="attachment[adopt]" value="{BUTTON_ATTACHMENT_ADOPT}">
 			  <input class="submit" type="submit" name="attachment[delete]" value="{BUTTON_ATTACHMENT_DELETE}">
 			  <input class="submit" type="submit" name="attachment[cancel]" value="{BUTTON_ATTACHMENT_CANCEL}">
 			</td>
 		  </tr>
-		  <tr>
-			<td>
-			  &nbsp;
-			</td>
-		  </tr>
 	  </table>
-{TXT_NEW_FILE}
 	</form>
+	<form action="{UPLOAD}" method="POST" enctype="multipart/form-data">
 	<table class="fullwidth">
-		<tr>
+		<tr class="tblheader">
 		  <td class="std"  align="left">
-			<form action="{UPLOAD}" method="POST" enctype="multipart/form-data">
+		  {TXT_NEW_FILE}
+		  </td>
+		</tr>
+		<tr class="std">
+		  <td class="std"  align="left">
 			  <input class="submit" type="file" name="userfile" />
 			  <input class="submit" type="submit" name="cmd[upload]" value="{BUTTON_UPLOAD}" />
-			</form>
 		  </td>
 		</tr>
 	</table>
-</div>
+	</form>
+<!--</div>-->
+</td></tr></table>

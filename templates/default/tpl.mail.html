@@ -2,19 +2,22 @@
 body { margin:0px; }
 </style>
 {STATUSLINE}
-<div class="invisible_border">
+<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
+<!--<div class="invisible_border">-->
 <div class="il_Header"><h1>{TXT_MAILS_OF}</h1>
 <div class="il_Tab">
-{TABS}	  
+{TABS}
 </div>
 </div>
 {BUTTONS}
 <br />
 	<form action="{ACTION_FLAT}" method="GET">
 	  <!-- BEGIN show_folder -->
-	  <table class="fullwidth">
-		  <tr>
-			<td class="std"  align="left">{TXT_FOLDERS}
+	  <table class="std">
+		  <tr class="std">
+			<td class="option">{TXT_FOLDERS}
+			</td>
+			<td class="option_row">
 			  <select name="mobj_id">
 				<!-- BEGIN flat_select -->
 				<option value="{FLAT_VALUE}" "{FLAT_SELECTED}">{FLAT_NAME}</option>
@@ -24,7 +27,7 @@ body { margin:0px; }
 			</td>
 		  </tr>
 	  </table>
-	  <!-- END show_folder -->	  
+	  <!-- END show_folder -->
 	</form>
 	  {MESSAGE}
 	<form method="post" name="cmd" action="{ACTION}">
@@ -38,7 +41,6 @@ body { margin:0px; }
 		  </tr>
 	  </table>
 	  <!-- END confirm_delete -->
-	  <p>{MAIL_COUNT}&nbsp;{TXT_MAIL_S} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</p>
 	  <!-- BEGIN linkbar -->
 	  <table class="std">
 		  <tr>
@@ -47,6 +49,9 @@ body { margin:0px; }
 	  </table>
 	  <!-- END linkbar -->
 	  <table class="fullwidth">
+		  <tr class="tblheader">
+			<td class="std" colspan="4">{MAIL_COUNT}&nbsp;{TXT_MAIL_S} ({MAIL_COUNT_UNREAD} {TXT_UNREAD})</td>
+		  </tr>
 		  <tr class="tblheader">
 			<td class="std"  width="4%">&nbsp;</td>
 			<td class="std" >{TXT_SENDER}</td>
@@ -67,11 +72,11 @@ body { margin:0px; }
 			  <strong>{TXT_SELECT_ALL}</strong>
 			</td>
 		  </tr>
-		  <tr class="tblfooter">
-			<td class="std"  width="4%" align="center">
+		  <tr>
+			<td class="submit"  width="4%" align="center">
 			  <img src="{IMGPATH}/images/arrow_downright.gif" />
 			</td>
-			<td class="std" colspan="3">
+			<td class="submit" colspan="3">
 			  <select name="action">
 				<!-- BEGIN mailactions -->
 				<option value="{MAILACTION_VALUE}" {MAILACTION_SELECTED}>{MAILACTION_NAME}</option>
@@ -82,4 +87,5 @@ body { margin:0px; }
 		  </tr>
 	  </table>
 	</form>
-</div>
+<!--</div>-->
+</td></tr></table>
