@@ -85,7 +85,7 @@ common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen.
 common#:#city#:#Stadt
 common#:#clear#:#Abbrechen
 common#:#comma_separated#:#Kommagetrennt
-common#:#compose#:#Schreiben
+common#:#compose#:#Erstellen
 common#:#confirm#:#Bestätigen
 common#:#contact_data#:#Kontaktinformationen
 common#:#context#:#Kontext
@@ -303,7 +303,7 @@ common#:#mail_delete_error#:#Fehler beim Löschen
 common#:#mail_deleted#:#Die Nachricht(en) wurden gelöscht
 common#:#mail_e_sent#:#Gesendete
 common#:#mail_intern_enable#:#Aktivieren
-common#:#mail_mails_of#:#Nachrichten von:
+common#:#mail_mails_of#:#Nachrichten:
 common#:#mail_mark_read#:#Als gelesen markieren
 common#:#mail_mark_unread#:#Als ungelesen markieren
 common#:#mail_maxsize_attach#:#Max. Attachmentgrösse
@@ -381,7 +381,7 @@ common#:#online_chapter#:#Online Kapitel
 common#:#online_version#:#Online Version
 common#:#operation#:#Operation
 common#:#optimize#:#Optimieren
-common#:#options#:#Optionen
+common#:#options#:#Einstellungen
 common#:#order_by#:#Sortieren nach
 common#:#other#:#Andere
 common#:#overview#:#Übersicht
@@ -553,3 +553,15 @@ common#:#mail_sure_delete_entry#:#Sind Sie sicher, daß die markierten Einträge g
 common#:#new_mail#:#Neue Mail!
 common#:#mail_entry_changed#:#Der Eintrag wurde geändert
 common#:#mail_entry_added#:#Ein neuer Eintrag wurde hinzugefügt
+common#:#mail_options_of#:#Einstellungen:
+common#:#mail_compose#:#Nachricht erstellen
+common#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
+common#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
+common#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
+common#:#mail_folder_created#:#Ein neuer Ordner wurde angelegt
+common#:#mail_sure_delete_folder#:#Der Ordner und sein Inhalt werden unwiederruflich gelöscht
+common#:#mail_folder_options#:#Ordner Einstellungen
+common#:#mail_folder_name#:#Ordnername
+common#:#mail_global_options#:#Allgemeine Einstellungen
+common#:#rename#:#Umbenennen
+common#:#adopt#:#Übernehmen
