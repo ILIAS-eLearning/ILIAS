@@ -1,17 +1,24 @@
 <tr>
 	<td valign="top" class="{ROWCOL}" nowrap="nowrap">
-	<img src="{TPLPATH}/images/{IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" />
+	<img src="{LRES_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" />
 	</td>
 	<td valign="top" class="{ROWCOL}">
-	<!-- BEGIN read -->
+	<!-- BEGIN lres_read -->
 	<a href="{VIEW_LINK}" target={VIEW_TARGET}>{R_TITLE}</a>
-	<!-- END read -->
-	<!-- BEGIN visible -->
+	<!-- END lres_read -->
+	<!-- BEGIN lres_visible -->
 	<b>{V_TITLE}</b>
-	<!-- END visible -->
-	&nbsp;<a href="{EDIT_LINK}" target="{EDIT_TARGET}">{TXT_EDIT}</a>
-	&nbsp;<a href="{DELETE_LINK}">{TXT_DELETE}</a>
-	&nbsp;<a href="{TO_DESK_LINK}">{TXT_TO_DESK}</a><br />
+	<!-- END lres_visible -->
+	&nbsp;
+	<!-- BEGIN lres_edit -->
+	[<a href="{EDIT_LINK}" target="{EDIT_TARGET}">{TXT_EDIT}</a>]
+	<!-- END lres_edit -->
+	<!-- BEGIN lres_delete -->
+	[<a href="{DELETE_LINK}">{TXT_DELETE}</a>]
+	<!-- END lres_delete -->
+	<!-- BEGIN lres_desklink -->
+	[<a href="{TO_DESK_LINK}">{TXT_TO_DESK}</a>]<br />
+	<!-- END lres_desklink -->
 	<div class="il_Description">{DESCRIPTION}</div>
 	</td>
 </tr>

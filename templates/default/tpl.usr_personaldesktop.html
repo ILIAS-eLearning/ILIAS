@@ -21,9 +21,11 @@ body { margin:0px; }
 	</tr>
 <!-- BEGIN tbl_lo_row -->
 	<tr class="{ROWCOL}">
-	<td class="std"><a href="{LO_LINK}" CLASS="navigation" target="{LO_TARGET}">{LO_TITLE}</a>
-	 <a href="{EDIT_LINK}" CLASS="navigation">{TXT_EDIT}</a>
-	 <a href="{DROP_LINK}" CLASS="navigation">{TXT_DROP}</a>
+	<td class="std"><a href="{LO_LINK}" class="navigation" target="{LO_TARGET}">{LO_TITLE}</a>&nbsp;
+<!-- BEGIN tbl_lo_edit -->
+	 [<a href="{EDIT_LINK}" class="navigation">{TXT_EDIT}</a>]
+<!-- END tbl_lo_edit -->
+	 [<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
 	</td>
 	</tr>
 <!-- END tbl_lo_row -->
@@ -43,8 +45,8 @@ body { margin:0px; }
   </tr>
 <!-- BEGIN tbl_frm_row -->
   <tr class="{ROWCOL}">
-	<td class="std"><a href="{FRM_LINK}" CLASS="navigation" target="bottom">{FRM_TITLE}</a>
-	&nbsp;<a href="{DROP_LINK}" CLASS="navigation">{TXT_DROP}</a>
+	<td class="std"><a href="{FRM_LINK}" class="navigation" target="bottom">{FRM_TITLE}</a>
+	&nbsp;[<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
 	</td>
   </tr>
 <!-- END tbl_frm_row -->
@@ -102,8 +104,11 @@ body { margin:0px; }
   </tr>
 <!-- BEGIN tbl_bm_row -->
   <tr class="{ROWCOL}">
-	<td class="std"><a href="{BM_LINK}" CLASS="navigation" target="bottom">{BM_TITLE}</a>
-	&nbsp;<a href="{DROP_LINK}" CLASS="navigation">{TXT_DROP}</a>
+	<td class="std"><a href="{BM_LINK}" class="navigation" target="bottom">{BM_TITLE}</a>
+	&nbsp;
+<!-- BEGIN tbl_bm_drop -->
+[<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
+<!-- END tbl_bm_drop -->
 	</td>
   </tr>
 <!-- END tbl_bm_row -->
@@ -123,8 +128,8 @@ body { margin:0px; }
   </tr>
 <!-- BEGIN tbl_grp_row -->
   <tr class="{ROWCOL}">
-	<td class="std"><a href="{GRP_LINK}" CLASS="navigation" target="bottom">{GRP_TITLE}</a>
-	&nbsp;<a href="{DROP_LINK}" CLASS="navigation">{TXT_DROP}</a>
+	<td class="std"><a href="{GRP_LINK}" class="navigation" target="bottom">{GRP_TITLE}</a>
+	&nbsp;[<a href="{DROP_LINK}" class="navigation">{TXT_DROP}</a>]
 	</td>
   </tr>
 <!-- END tbl_grp_row -->

@@ -1,14 +1,20 @@
 <tr>
 	<td valign="top" class="{ROWCOL}">{CHECKBOX}</td>
 	<td valign="top" class="{ROWCOL}">
-	<!-- BEGIN read -->
+	<!-- BEGIN glo_read -->
 	<a href="{VIEW_LINK}" target={VIEW_TARGET}>{R_TITLE}</a>
-	<!-- END read -->
-	<!-- BEGIN visible -->
+	<!-- END glo_read -->
+	<!-- BEGIN glo_visible -->
 	<b>{V_TITLE}</b>
-	<!-- END visible -->
-	&nbsp;<a href="{EDIT_LINK}" target="{EDIT_TARGET}">{TXT_EDIT}</a>
-	&nbsp;<a href="{TO_DESK_LINK}">{TXT_TO_DESK}</a><br />
+	<!-- END glo_visible -->
+	&nbsp;
+	<!-- BEGIN glo_edit -->	
+	[<a href="{EDIT_LINK}" target="{EDIT_TARGET}">{TXT_EDIT}</a>]
+	<!-- END glo_edit -->
+	<!-- BEGIN glo_desklink -->
+	[<a href="{TO_DESK_LINK}">{TXT_TO_DESK}</a>]
+	<!-- END glo_desklink -->
+	<br />
 	<div class="il_Description">{DESCRIPTION}</div>
 	</td>
 </tr>

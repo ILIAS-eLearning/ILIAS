@@ -394,17 +394,8 @@ class ilRepositoryGUI
 
 			foreach ($cats as $cat)
 			{
-
-				require_once("classes/class.ilObjCategory.php");
+				include_once("classes/class.ilObjCategory.php");
 				$cat_obj =& new ilObjCategory($cat["ref_id"], true);
-
-				$tpl->setCurrentBlock("tbl_content");
-
-				// change row color
-				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-
-				$tpl->setVariable("CAT_IMG", ilUtil::getImagePath("icon_cat.gif"));
 
 				$obj_link = "repository.php?ref_id=".$cat["ref_id"];
 				//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("", "items[]", $cat["ref_id"]));
@@ -421,21 +412,32 @@ class ilRepositoryGUI
 					$tpl->setVariable("STITLE", $cat["title"]);
 					$tpl->parseCurrentBlock();
 				}
-				$tpl->setCurrentBlock("tbl_content");
 
 				// edit
-				if($this->rbacsystem->checkAccess('write',$cat["ref_id"]))
+				if ($this->rbacsystem->checkAccess('write',$cat["ref_id"]))
 				{
+					$tpl->setCurrentBlock("cat_edit");
 					$tpl->setVariable("EDIT_LINK","repository.php?cmd=edit&ref_id=".$cat["ref_id"]);
-					$tpl->setVariable("TXT_EDIT", "[".$this->lng->txt("edit")."]");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
 				}
 
 				// delete
-				if($this->rbacsystem->checkAccess('delete', $cat["ref_id"]))
+				if ($this->rbacsystem->checkAccess('delete', $cat["ref_id"]))
 				{
+					$tpl->setCurrentBlock("cat_delete");
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$cat["ref_id"]);
-					$tpl->setVariable("TXT_DELETE", "[".$this->lng->txt("delete")."]");
+					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+					$tpl->parseCurrentBlock();
 				}
+
+				$tpl->setCurrentBlock("tbl_content");
+
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+
+				$tpl->setVariable("CAT_IMG", ilUtil::getImagePath("icon_cat.gif"));
 
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_cat"));
 				$tpl->setVariable("DESCRIPTION", $cat_obj->getDescription());
@@ -529,8 +531,6 @@ class ilRepositoryGUI
 
 				$obj_icon = "icon_".$lr_data["type"]."_b.gif";
 
-				//$tpl->setVariable("TITLE", $lr_data["title"]);
-
 				// learning modules
 				if ($lr_data["type"] == "lm" || $lr_data["type"] == "dbk")
 				{
@@ -538,7 +538,7 @@ class ilRepositoryGUI
 					//$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$lr_data["ref_id"]));
 					if ($this->rbacsystem->checkAccess('read',$lr_data["ref_id"]))
 					{
-						$tpl->setCurrentBlock("read");
+						$tpl->setCurrentBlock("lres_read");
 						$tpl->setVariable("VIEW_LINK", $obj_link);
 						$tpl->setVariable("VIEW_TARGET", "_top");
 						$tpl->setVariable("R_TITLE", $lr_data["title"]);
@@ -546,7 +546,7 @@ class ilRepositoryGUI
 					}
 					else
 					{
-						$tpl->setCurrentBlock("visible");
+						$tpl->setCurrentBlock("lres_visible");
 						$tpl->setVariable("V_TITLE", $lr_data["title"]);
 						$tpl->parseCurrentBlock();
 					}
@@ -555,26 +555,32 @@ class ilRepositoryGUI
 
 					if ($this->rbacsystem->checkAccess('write',$lr_data["ref_id"]))
 					{
+						$tpl->setCurrentBlock("lres_edit");
 						$tpl->setVariable("EDIT_LINK","content/lm_edit.php?ref_id=".$lr_data["ref_id"]);
 						$tpl->setVariable("EDIT_TARGET","bottom");
-						$tpl->setVariable("TXT_EDIT", "[".$this->lng->txt("edit")."]");
+						$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+						$tpl->parseCurrentBlock();
 					}
 
 					if ($this->rbacsystem->checkAccess('delete', $lr_data["ref_id"]))
 					{
+						$tpl->setCurrentBlock("lres_delete");
 						$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$lr_data["ref_id"]);
-						$tpl->setVariable("TXT_DELETE", "[".$this->lng->txt("delete")."]");
+						$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+						$tpl->setCurrentBlock("tbl_content");
 					}
 
 					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], "lm"))
 					{
 						if ($this->rbacsystem->checkAccess('read', $lr_data["ref_id"]))
 						{
+							$tpl->setCurrentBlock("lres_desklink");
 							$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
 								"&item_ref_id=".$lr_data["ref_id"].
 								"&type=lm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 								"&sort_by=".$_GET["sort_by"]);
-							$tpl->setVariable("TXT_TO_DESK", "[".$this->lng->txt("to_desktop")."]");
+							$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+							$tpl->setCurrentBlock("tbl_content");
 						}
 					}
 				}
@@ -582,7 +588,6 @@ class ilRepositoryGUI
 				// scorm learning modules
 				if ($lr_data["type"] == "slm")
 				{
-					//vd($lr_data);
 					$obj_link = "content/scorm_presentation.php?ref_id=".$lr_data["ref_id"];
 					$tpl->setVariable("VIEW_LINK", $obj_link);
 					$tpl->setVariable("VIEW_TARGET", "bottom");
@@ -590,24 +595,28 @@ class ilRepositoryGUI
 					
 					if ($this->rbacsystem->checkAccess('delete', $lr_data["ref_id"]))
 					{
+						$tpl->setCurrentBlock("lres_delete");
 						$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$lr_data["ref_id"]);
-						$tpl->setVariable("TXT_DELETE", "[".$this->lng->txt("delete")."]");
+						$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+						$tpl->parseCurrentBlock();
 					}
 
 					if (!$this->ilias->account->isDesktopItem($lr_data["ref_id"], "slm"))
 					{
 						if ($this->rbacsystem->checkAccess('read', $lr_data["ref_id"]))
 						{
+							$tpl->setCurrentBlock("lres_desklink");
 							$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
 								"&item_ref_id=".$lr_data["ref_id"].
 								"&type=slm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 								"&sort_by=".$_GET["sort_by"]);
-							$tpl->setVariable("TXT_TO_DESK", "[".$this->lng->txt("to_desktop")."]");
+							$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+							$tpl->parseCurrentBlock();
 						}
 					}
 				}
 
-				$tpl->setVariable("IMG", $obj_icon);
+				$tpl->setVariable("LRES_IMG", ilUtil::getImagePath("icon_".$lr_data["type"].".gif"));				
 				$tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$lr_data["type"]));
 				$tpl->setVariable("DESCRIPTION", $lr_data["description"]);
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
@@ -617,7 +626,6 @@ class ilRepositoryGUI
 		}
 		else
 		{
-
 			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
 			$tpl->setCurrentBlock("tbl_content");
 			$tpl->setVariable("ROWCOL", "tblrow1");
@@ -695,21 +703,13 @@ class ilRepositoryGUI
 
 			foreach ($glos as $gl_data)
 			{
-				$tpl->setCurrentBlock("tbl_content");
-
-				// change row color
-				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$num++;
-
+				
 				$obj_icon = "icon_glo_b.gif";
-
-				//$tpl->setVariable("TITLE", $lr_data["title"]);
-
 				$obj_link = "content/glossary_presentation.php?ref_id=".$gl_data["ref_id"];
-				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$gl_data["ref_id"]));
-				if($this->rbacsystem->checkAccess('read',$gl_data["ref_id"]))
+
+				if ($this->rbacsystem->checkAccess('read',$gl_data["ref_id"]))
 				{
-					$tpl->setCurrentBlock("read");
+					$tpl->setCurrentBlock("glo_read");
 					$tpl->setVariable("VIEW_LINK", $obj_link);
 					$tpl->setVariable("VIEW_TARGET", "bottom");
 					$tpl->setVariable("R_TITLE", $gl_data["title"]);
@@ -717,29 +717,41 @@ class ilRepositoryGUI
 				}
 				else
 				{
-					$tpl->setCurrentBlock("visible");
+					$tpl->setCurrentBlock("glo_visible");
 					$tpl->setVariable("V_TITLE", $gl_data["title"]);
 					$tpl->parseCurrentBlock();
 				}
-				$tpl->setCurrentBlock("tbl_content");
-				if($this->rbacsystem->checkAccess('write',$gl_data["ref_id"]))
+
+				if ($this->rbacsystem->checkAccess('write',$gl_data["ref_id"]))
 				{
+					$tpl->setCurrentBlock("glo_edit");
 					$tpl->setVariable("EDIT_LINK","content/glossary_edit.php?cmd=listTerms&ref_id=".$gl_data["ref_id"]);
 					$tpl->setVariable("EDIT_TARGET","bottom");
-					$tpl->setVariable("TXT_EDIT", "[".$this->lng->txt("edit")."]");
+					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->parseCurrentBlock();
 				}
+
 				if (!$this->ilias->account->isDesktopItem($gl_data["ref_id"], "glo"))
 				{
 					if ($this->rbacsystem->checkAccess('read', $gl_data["ref_id"]))
 					{
+						$tpl->setCurrentBlock("glo_delete");
 						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDesk&ref_id=".$this->cur_ref_id.
 							"&item_ref_id=".$gl_data["ref_id"].
 							"&type=glo&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 							"&sort_by=".$_GET["sort_by"]);
-						$tpl->setVariable("TXT_TO_DESK", "[".$this->lng->txt("to_desktop")."]");
+						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
+						$tpl->parseCurrentBlock();
 					}
 				}
 
+				$tpl->setCurrentBlock("tbl_content");
+
+				// change row color
+				$tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
+				$num++;
+
+				$tpl->setVariable("CHECKBOX",ilUtil::formCheckBox("","items[]",$gl_data["ref_id"]));
 				$tpl->setVariable("DESCRIPTION", $gl_data["description"]);
 				$tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($gl_data["last_update"]));
 				$tpl->parseCurrentBlock();
@@ -748,7 +760,6 @@ class ilRepositoryGUI
 		}
 		else
 		{
-
 			$tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.no_objects_row.html");
 			$tpl->setCurrentBlock("tbl_content");
 			$tpl->setVariable("ROWCOL", "tblrow1");
@@ -867,7 +878,7 @@ class ilRepositoryGUI
 						"&type=frm&offset=".$_GET["offset"]."&sort_order=".$_GET["sort_order"].
 						"&sort_by=".$_GET["sort_by"]);
 
-					$tpl->setVariable("TXT_TO_DESK", "[".$lng->txt("to_desktop")."]");
+					$tpl->setVariable("TXT_TO_DESK", $lng->txt("to_desktop"));
 				}
 				// create-dates of forum
 				if ($topicData["top_usr_id"] > 0)
