@@ -212,7 +212,7 @@ class ilGroupGUI extends ilObjectGUI
 		$_SESSION["status"] 	= 0;
 
 		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = "cmd=confirmedAssignMemberObject&ref_id=".$_GET["ref_id"]; 	//link for tab
+//		$tab[0]["tab_cmd"] = "cmd=confirmedAssignMemberObject&ref_id=".$_GET["ref_id"]; 	//link for tab
 		$tab[0]["ftabtype"] = "tabinactive"; 					//tab is marked
 		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
 		$tab[0]["tab_text"] = $this->lng->txt("grp_access");
@@ -262,7 +262,6 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-
 		if (isset($_GET["grp_viewmode"]))
 		{
 			$_SESSION["grp_viewmode"] = $_GET["grp_viewmode"];
@@ -272,7 +271,6 @@ class ilGroupGUI extends ilObjectGUI
 
 		if (!$rbacsystem->checkAccess('read',$_GET["ref_id"]))
 		{
-//			$this->ilias->raiseError("Permission denied! May be group is closed! ",$this->ilias->error_obj->MESSAGE);
 			header("location: group.php?cmd=AccessDenied&ref_id=".$_GET["ref_id"]);
 		}
 
@@ -290,7 +288,13 @@ class ilGroupGUI extends ilObjectGUI
 		}
 	}
 
+	function viewObject()
+	{
+		//necessary for gateway calls
+		$this->view();
+	}
 
+	
 	function explorer()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
@@ -335,6 +339,64 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->show();
 	}
 
+	/**
+	* edit Group
+	* @access public
+	*/
+	function editGroup()
+	{
+		global $rbacsystem;
+
+		if (!$rbacsystem->checkAccess("write", $this->ref_id))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
+		}
+		$this->prepareOutput(false);
+		$this->tpl->setVariable("HEADER", $this->lng->txt("edit_group"));
+		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		$data = array();
+
+		if ($_SESSION["error_post_vars"])
+		{
+			// fill in saved values in case of error
+			$data["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+			$data["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
+		}
+		else
+		{
+			$data["title"] = $this->object->getTitle();
+			$data["desc"] = $this->object->getDescription();
+		}
+
+		$this->tpl->addBlockFile("CONTENT", "edit", "tpl.grp_edit.html");
+
+		foreach ($data as $key => $val)
+		{
+			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+			$this->tpl->setVariable(strtoupper($key), $val);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$stati = array(0=>"group_status_public",2=>"group_status_closed");
+
+		//build form
+		$grp_status = $this->object->getGroupStatus();
+		$opts = ilUtil::formSelect($grp_status,"group_status",$stati,false,true);
+		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$this->object->getRefId());
+		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($this->object->getType()."_edit"));
+		$this->tpl->setVariable("TARGET", $this->getTargetFrame("update"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
+		$this->tpl->setVariable("CMD_CANCEL", "view");
+		$this->tpl->setVariable("CMD_SUBMIT", "updateGroupStatus");
+		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+
+		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+		$this->tpl->setVariable("TXT_GROUP_STATUS", $this->lng->txt("group_status"));
+		$this->tpl->show();
+	}
+
 	/*
 	*function displays content of a group given by its ref_id
 	*
@@ -364,10 +426,10 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		$tab[1] = array ();
-		$tab[1]["tab_cmd"] = 'cmd=groupmembers&ref_id='.$this->grp_id;	//link for tab
-		$tab[1]["ftabtype"] = 'tabinactive';					//tab is marked
-		$tab[1]["target"] = "bottom";						//target-frame of tab_cmd
-		$tab[1]["tab_text"] = 'group_members';					//tab -text
+		$tab[1]["tab_cmd"]  = 'cmd=groupmembers&ref_id='.$this->grp_id;			//link for tab
+		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
+		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
+		$tab[1]["tab_text"] = 'group_members';						//tab -text
 
 		//check if trash is filled
 		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
@@ -375,10 +437,19 @@ class ilGroupGUI extends ilObjectGUI
 		if (count($objects) > 0)
 		{
 			$tab[2] = array ();
-			$tab[2]["tab_cmd"] = 'cmd=trash&ref_id='.$_GET["ref_id"];	//link for tab
+			$tab[2]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"];		//link for tab
 			$tab[2]["ftabtype"] = 'tabinactive';					//tab is marked
-			$tab[2]["target"] = "bottom";						//target-frame of tab_cmd
-			$tab[2]["tab_text"] = 'trash';					//tab -text
+			$tab[2]["target"]   = "bottom";						//target-frame of tab_cmd
+			$tab[2]["tab_text"] = 'trash';						//tab -text
+		}
+
+		if( $rbacsystem->checkAccess('delete',$_GET["ref_id"]) )
+		{
+			$tab[3] = array ();
+			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
+			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
+			$tab[3]["target"]   = "bottom";						//target-frame of tab_cmd
+			$tab[3]["tab_text"] = "change_grp_data";				//tab -text
 		}
 
 		$this->prepareOutput(false, $tab);
@@ -407,7 +478,7 @@ class ilGroupGUI extends ilObjectGUI
 			}
 		}
 
-		$maxcount = count($cont_arr);		
+		$maxcount = count($cont_arr);
 		$cont_arr = sortArray($cont_arr,$_GET["sort_by"],$_GET["sort_order"]);
 		$cont_arr = array_slice($cont_arr,$_GET["offset"],$_GET["limit"]);
 
@@ -661,7 +732,6 @@ class ilGroupGUI extends ilObjectGUI
 							{
 								$this->ilias->raiseError("At least one group administrator is required! Please entitle a new group administrator first ! ",$this->ilias->error_obj->WARNING);
 							}
-
 							elseif (!$newGrp->leave($mem_id))
 							{
 								$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
@@ -677,7 +747,7 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		unset($_SESSION["saved_post"]);
-		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 	}
 
 	/**
@@ -716,8 +786,6 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$offset = 0;	// TODO: move to user settings
 		}
-
-
 
 		if (is_array($user_id))
 
@@ -796,7 +864,6 @@ class ilGroupGUI extends ilObjectGUI
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->render();
-		//$this->tpl->show();
 	}
 
 	/**
@@ -1124,7 +1191,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		sendInfo($this->lng->txt("action_aborted"),true);
 
-		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
+		header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 
@@ -1503,6 +1570,27 @@ class ilGroupGUI extends ilObjectGUI
 		header("location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 	}
 
+	function updateGroupStatusObject()
+	{
+		global $rbacsystem;
+
+		if(!$rbacsystem->checkAccess("write",$_GET["ref_id"]) )
+		{
+			$this->ilias->raiseError("No permissions to change group status!",$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			if(isset($_POST["group_status"]))
+			{
+				$this->object->setTitle($_POST["Fobject"]["title"]);
+				$this->object->setDescription($_POST["Fobject"]["desc"]);
+				$this->object->setGroupStatus($_POST["group_status"]);
+				$this->update = $this->object->update();
+			}
+		}
+		header("Location: group.php?".$this->link_params);
+	}
+
 
 	/**
 	* displays search form for new users
@@ -1667,8 +1755,8 @@ class ilGroupGUI extends ilObjectGUI
 			unset($_SESSION["status"]);
 			unset($_SESSION["saved_post"]);
 		}
-		
-		header("Location: group.php?cmd=show_content&".$this->link_params);
+
+		header("Location: group.php?cmd=view&".$this->link_params);
 	}
 
 	/**
@@ -1693,7 +1781,7 @@ class ilGroupGUI extends ilObjectGUI
 		else
 		{
 			sendInfo($this->lng->txt("You have to choose at least one user !"),true);
-			header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]."target=\"bottom\"");
+			header("Location: group.php?cmd=view&ref_id=".$_GET["ref_id"]);
 		}
 	}
 
