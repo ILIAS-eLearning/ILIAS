@@ -240,7 +240,10 @@ class ASS_QuestionGUI extends PEAR {
     $this->tpl->setVariable("TEXT_WORKING_TIME", $this->lng->txt("working_time"));
     $this->tpl->setVariable("TIME_FORMAT", $this->lng->txt("time_format"));
     $this->tpl->setVariable("VALUE_WORKING_TIME", ilUtil::makeTimeSelect("Estimated", false, $est_working_time[h], $est_working_time[m], $est_working_time[s]));
-
+		if ($this->question->get_id() < 1)
+		{
+//	    $this->tpl->setVariable("DISABLED_MATERIAL_UPLOAD", " disabled=\"disabled\"");
+		}
     $this->tpl->setVariable("TEXT_MATERIAL", $this->lng->txt("material"));
     $this->tpl->setVariable("TEXT_MATERIAL_FILE", $this->lng->txt("material_file"));
     $this->tpl->setVariable("VALUE_MATERIAL_UPLOAD", $this->lng->txt("upload"));
@@ -817,52 +820,47 @@ class ASS_QuestionGUI extends PEAR {
         $this->tpl->parseCurrentBlock();
       }
 
-		if ($this->question->get_id() > 0) {
-			// call to other question data i.e. material, estimated working time block
-			$this->out_other_question_data();
-			// image block
-			$this->tpl->setCurrentBlock("post_save");
-			$img = $this->question->get_image_filename();
-			$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
-			if (!empty($img)) {
-				$this->tpl->setVariable("IMAGE_FILENAME", $img);
-				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("change"));
-				$this->tpl->setCurrentBlock("imageupload");
-				//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
-				$this->tpl->parse("imageupload");
-				$imagepath = $this->question->get_image_path_web() . $img;
-				$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"$img\" border=\"\" />");
-			} else {
-				$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
-			}
-
-			// imagemap block
-			$imgmap = $this->question->get_imagemap_filename();
-	    $this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
-			if (!empty($imgmap)) {
-				$this->tpl->setVariable("IMAGEMAP_FILENAME", $imgmap);
-				$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("change"));
-				$this->tpl->setCurrentBlock("imagemapupload");
-				$this->tpl->setVariable("UPLOADED_IMAGEMAP", $imgmap);
-				$this->tpl->parse("imagemapupload");
-			} else {
-				$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("upload"));
-			}
-			$this->tpl->parseCurrentBlock();
-
-
-		} else {
-			$this->tpl->setCurrentBlock("pre_save");
-			$this->tpl->setVariable("APPLY_MESSAGE", $this->lng->txt("save_before_upload_imagemap"));
-			$this->tpl->parseCurrentBlock();
-		}
+		// call to other question data i.e. material, estimated working time block
+		$this->out_other_question_data();
+		// image block
 
     $this->tpl->setCurrentBlock("question_data");
+		$img = $this->question->get_image_filename();
+		$this->tpl->setVariable("TEXT_IMAGE", $this->lng->txt("image"));
+		if (!empty($img)) {
+			$this->tpl->setVariable("IMAGE_FILENAME", $img);
+			$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("change"));
+			$this->tpl->setCurrentBlock("imageupload");
+			//$this->tpl->setVariable("UPLOADED_IMAGE", $img);
+			$this->tpl->parse("imageupload");
+			$imagepath = $this->question->get_image_path_web() . $img;
+			$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"$img\" border=\"\" />");
+		} else {
+			$this->tpl->setVariable("VALUE_IMAGE_UPLOAD", $this->lng->txt("upload"));
+		}
+
+		// imagemap block
+		$imgmap = $this->question->get_imagemap_filename();
+		$this->tpl->setVariable("TEXT_IMAGEMAP", $this->lng->txt("imagemap"));
+		if (!empty($imgmap)) {
+			$this->tpl->setVariable("IMAGEMAP_FILENAME", $imgmap);
+			$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("change"));
+			$this->tpl->setCurrentBlock("imagemapupload");
+			$this->tpl->setVariable("UPLOADED_IMAGEMAP", $imgmap);
+			$this->tpl->parse("imagemapupload");
+		} else {
+			$this->tpl->setVariable("VALUE_IMAGEMAP_UPLOAD", $this->lng->txt("upload"));
+		}
     $this->tpl->setVariable("IMAGEMAP_ID", $this->question->get_id());
     $this->tpl->setVariable("VALUE_IMAGEMAP_TITLE", $this->question->get_title());
     $this->tpl->setVariable("VALUE_IMAGEMAP_COMMENT", $this->question->get_comment());
     $this->tpl->setVariable("VALUE_IMAGEMAP_AUTHOR", $this->question->get_author());
     $this->tpl->setVariable("VALUE_QUESTION", $this->question->get_question());
+		if ($this->question->get_id() < 1)
+		{
+	    //$this->tpl->setVariable("DISABLED_UPLOAD_IMAGE", " disabled=\"disabled\"");
+	    //$this->tpl->setVariable("DISABLED_UPLOAD_IMAGEMAP", " disabled=\"disabled\"");
+		}
     $this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("title"));
     $this->tpl->setVariable("TEXT_AUTHOR", $this->lng->txt("author"));
     $this->tpl->setVariable("TEXT_COMMENT", $this->lng->txt("description"));
@@ -1054,7 +1052,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->question->set_shuffle($_POST["shuffle"]);
     // adding materials uris
-    $this->set_question_data_from_other_template();
+    $this->set_question_data_from_other_template($result);
 
     // Delete all existing answers and create new answers from the form data
     $this->question->flush_answers();
@@ -1180,7 +1178,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_comment(ilUtil::stripSlashes($_POST["comment"]));
     $this->question->set_cloze_text(ilUtil::stripSlashes($_POST["clozetext"]));
     // adding estimated working time and materials uris
-    $saved = $saved | $this->set_question_data_from_other_template();
+    $saved = $saved | $this->set_question_data_from_other_template($result);
 
     if (strlen($_POST["creategaps"]) == 0) {
       // Create gaps wasn't activated => check gaps for changes and/or deletions
@@ -1353,7 +1351,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->question->set_shuffle($_POST["shuffle"]);
     // adding estimated working time and materials uris
-    $saved = $saved | $this->set_question_data_from_other_template();
+    $saved = $saved | $this->set_question_data_from_other_template($result);
 		$this->question->set_matching_type($_POST["matching_type"]);
 
     // Delete all existing answers and create new answers from the form data
@@ -1449,7 +1447,7 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->question->set_shuffle($_POST["shuffle"]);
     // adding estimated working time and materials uris
-    $saved = $saved | $this->set_question_data_from_other_template();
+    $saved = $saved | $this->set_question_data_from_other_template($result);
     $this->question->set_ordering_type($_POST["ordering_type"]);
 
     // Add answers from the form
@@ -1511,9 +1509,10 @@ class ASS_QuestionGUI extends PEAR {
     $this->question->set_question(ilUtil::stripSlashes($_POST["question"]));
 		$this->question->set_shuffle($_POST["shuffle"]);
 
-		if ($_POST["id"] > 0) {
-			// adding estimated working time and materials uris
-			$this->set_question_data_from_other_template();
+		// adding estimated working time and materials uris
+		$this->set_question_data_from_other_template($result);
+		
+		if (($_POST["id"] > 0) or ($result != 1)) {
 
 			// Question is already saved, so imagemaps and images can be uploaded
 			//setting image file
@@ -1521,6 +1520,11 @@ class ASS_QuestionGUI extends PEAR {
 				$this->question->set_image_filename(ilUtil::stripSlashes($_POST["uploaded_image"]));
 			}
 			else {
+				if ($this->question->get_id() <= 0) {
+					$this->question->save_to_db();
+					$saved = true;
+					sendInfo($this->lng->txt("question_saved_for_upload"));
+				}
 				$this->question->set_image_filename($_FILES['imageName']['name'], $_FILES['imageName']['tmp_name']);
 			}
 
@@ -1536,7 +1540,7 @@ class ASS_QuestionGUI extends PEAR {
 						} else {
 							$is_true = FALSE;
 						}
-						$this->question->add_answer(
+						$this->	question->add_answer(
 							ilUtil::stripSlashes($_POST["$key"]),
 							ilUtil::stripSlashes($_POST["points_$matches[1]"]),
 							ilUtil::stripSlashes($is_true, $matches[1]),
@@ -1548,7 +1552,23 @@ class ASS_QuestionGUI extends PEAR {
 				}
 			}
 			else {
+				if ($this->question->get_id() <= 0) {
+					$this->question->save_to_db();
+					$saved = true;
+					sendInfo($this->lng->txt("question_saved_for_upload"));
+				}
 				$this->question->set_imagemap_filename($_FILES['imagemapName']['name'], $_FILES['imagemapName']['tmp_name']);
+			}
+		} 
+		else 
+		{
+			if (($_POST["cmd"]["uploadingImage"]) and (!empty($_FILES['imageName']['tmp_name'])))
+			{
+				sendInfo($this->lng->txt("fill_out_all_required_fields_upload_image"));
+			}
+			else if (($_POST["cmd"]["uploadingImagemap"]) and (!empty($_FILES['imagemapName']['tmp_name'])))
+			{
+				sendInfo($this->lng->txt("fill_out_all_required_fields_upload_imagemap"));
 			}
 		}
 		return $result;
@@ -1575,7 +1595,7 @@ class ASS_QuestionGUI extends PEAR {
 
 		if ($_POST["id"] > 0) {
 			// adding estimated working time and materials uris
-			$this->set_question_data_from_other_template();
+			$this->set_question_data_from_other_template($result);
 
 			// Question is already saved, appledcode can be uploaded
 			//setting java applet
@@ -1615,8 +1635,7 @@ class ASS_QuestionGUI extends PEAR {
 * @return boolean Returns true, if the question had to be autosaved to get a question id for the save path of the material, otherwise returns false.
 * @access private
 */
-	function set_question_data_from_other_template() {
-
+	function set_question_data_from_other_template($result = 0) {
 		$this->question->set_estimated_working_time(
 						ilUtil::stripSlashes($_POST["Estimated"][h]),
 						ilUtil::stripSlashes($_POST["Estimated"][m]),
@@ -1631,13 +1650,22 @@ class ASS_QuestionGUI extends PEAR {
 				$this->question->add_materials($value, str_replace("material_list_", "", $key));
 			}
 		}
-		if (!empty($_FILES['materialFile']['tmp_name'])) {
-			if ($this->question->get_id() <= 0) {
-				$this->question->save_to_db();
-				$saved = true;
-				sendInfo($this->lng->txt("question_saved_for_upload"));
+		if (!empty($_FILES['materialFile']['tmp_name']) and ($_POST["cmd"]["uploadingMaterial"])) {
+			if (($_POST["id"] > 0) or ($result != 1)) {
+				if ($this->question->get_id() <= 0) {
+					$this->question->save_to_db();
+					$saved = true;
+					sendInfo($this->lng->txt("question_saved_for_upload"));
+				}
+				$this->question->set_materialsfile($_FILES['materialFile']['name'], $_FILES['materialFile']['tmp_name'], $_POST[materialName]);
 			}
-			$this->question->set_materialsfile($_FILES['materialFile']['name'], $_FILES['materialFile']['tmp_name'], $_POST[materialName]);
+			else
+			{
+				if ($_POST["cmd"]["uploadingMaterial"])
+				{
+					sendInfo($this->lng->txt("fill_out_all_required_fields_upload_material"));
+				}
+			}
 		}
 
 		// Delete material if the delete button was pressed

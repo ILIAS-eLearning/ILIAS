@@ -17,7 +17,6 @@
 	<td class="option">{TEXT_QUESTION}<span class="asterisk">*</span>:</td>
 	<td class="option_value" colspan="4"><textarea name="question" cols="50" rows="5" id="question">{VALUE_QUESTION}</textarea></td>
 </tr>
-<!-- BEGIN post_save -->
 {OTHER_QUESTION_DATA}
 <tr>
 	<td class="option">{TEXT_IMAGE}:</td>
@@ -29,7 +28,7 @@
   <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
   <input name="imageName" type="file" id="image" size="30" />
  	</td>
- 	<td class="option_value" colspan="3" > <input name="cmd[uploadingImage]" type="submit" class="submit" id="upload_image" value={VALUE_IMAGE_UPLOAD} /></td>
+ 	<td class="option_value" colspan="3" > <input name="cmd[uploadingImage]" type="submit" class="submit" id="upload_image" value="{VALUE_IMAGE_UPLOAD}"{DISABLED_UPLOAD_IMAGE} /></td>
 </tr>
 <tr>
 	<td class="option">{TEXT_IMAGEMAP}:</td>
@@ -39,11 +38,10 @@
   <!-- END imagemapupload -->
   <input type="hidden" name="uploaded_imagemap" value="{IMAGEMAP_FILENAME}">
   <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
-  <input name="imagemapName" type="file" id="imagemap" size="30" />
+  <input type="file" name="imagemapName" id="imagemap" size="30" />
 	</td>
-	<td class="option_value" colspan="3" > <input name="cmd[uploadingImagemap]" type="submit" class="submit" id="upload_imagemap" value={VALUE_IMAGEMAP_UPLOAD} /></td>
+	<td class="option_value" colspan="3" > <input name="cmd[uploadingImagemap]" type="submit" class="submit" id="upload_imagemap" value="{VALUE_IMAGEMAP_UPLOAD}"{DISABLED_UPLOAD_IMAGEMAP} /></td>
 </tr>
-<!-- END post_save -->
 <!-- BEGIN gape -->
 <tr><td class="option_value"><br></td></tr>
 <!-- END gape -->
@@ -62,9 +60,6 @@
 </tr>
 
 <!-- END answers -->
-<!-- BEGIN pre_save -->
-<tr><td colspan="5" class="std">{APPLY_MESSAGE}</td></tr>
-<!-- END pre_save -->
 <tr><td colspan="5" class="submit">
 <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
 <div align="right">
