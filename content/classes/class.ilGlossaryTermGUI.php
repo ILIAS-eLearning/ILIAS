@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("content/class.ilGlossaryTerm.php");
+require_once("content/classes/class.ilGlossaryTerm.php");
 
 /**
 * GUI class for glossary terms

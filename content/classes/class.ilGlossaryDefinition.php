@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once("content/classes/Pages/class.ilPageObject.php");
 
 /**
 * Class ilGlossaryDefinition
@@ -39,6 +40,8 @@ class ilGlossaryDefinition
 	var $id;
 	var $term_id;
 	var $glo_id;
+	var $meta_data;
+	var $page_object;
 
 	/**
 	* Constructor
@@ -53,7 +56,6 @@ class ilGlossaryDefinition
 		$this->tpl =& $tpl;
 
 		$this->id = $a_id;
-		$this->type = "gdef";
 		if ($a_id != 0)
 		{
 			$this->read();
@@ -71,6 +73,8 @@ class ilGlossaryDefinition
 
 		$this->setTermId($def_rec["term_id"]);
 		$this->setPageId($def_rec["language"]);
+
+		$this->page_object =& new ilPageObject("gdf", $this->id);
 	}
 
 	function setId($a_id)
@@ -83,6 +87,20 @@ class ilGlossaryDefinition
 		return $this->id;
 	}
 
+	function assignMetaData(&$a_meta_data)
+	{
+		$this->meta_data =& $a_meta_data;
+	}
+
+	function &getMetaData()
+	{
+		return $this->meta_data;
+	}
+
+	function getType()
+	{
+		return "gdf";
+	}
 
 	function setTermId($a_term_id)
 	{
@@ -94,14 +112,28 @@ class ilGlossaryDefinition
 		return $this->term_id;
 	}
 
+	function &getPageObject()
+	{
+		return $this->page_object;
+	}
 
 	function create()
 	{
-		$q = "INSERT INTO glossary_definition (term_id, page_id)".
-			" VALUES ('".$this->getTermId()."', '".$this->getPageId()."')";
+		$term =& new ilGlossaryTerm($this->getTermId());
+
+		$q = "INSERT INTO glossary_definition (term_id)".
+			" VALUES ('".$this->getTermId()."')";
 
 		$this->ilias->db->query($q);
 		$this->setId($this->ilias->db->getLastInsertId());
+
+		$this->meta_data->setId($this->getId());
+		$this->meta_data->setType($this->getType());
+		$this->meta_data->create();
+		$this->page_object =& new ilPageObject("gdf");
+		$this->page_object->setId($this->getId());
+		$this->page_object->setParentId($term->getGlossaryId());
+		$this->page_object->create();
 	}
 
 	function update()
