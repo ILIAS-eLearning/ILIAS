@@ -150,7 +150,7 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->setType($this->type);
 		$fileObj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
 		$fileObj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$fileObj->setFileName($_FILES["Fobject"]["name"]["file"]);
+		$fileObj->setFileName(ilUtil::stripSlashes($_FILES["Fobject"]["name"]["file"]));
 		$fileObj->setFileType($_FILES["Fobject"]["type"]["file"]);
 		$fileObj->create();
 		$fileObj->createReference();
@@ -158,7 +158,7 @@ class ilObjFileGUI extends ilObjectGUI
 		$fileObj->setPermissions($_GET["ref_id"]);
 		// upload file to filesystem
 		$fileObj->createDirectory();
-		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],$_FILES["Fobject"]["name"]["file"]);
+		$fileObj->getUploadFile($_FILES["Fobject"]["tmp_name"]["file"],ilUtil::stripSlashes($_FILES["Fobject"]["name"]["file"]));
 
 		sendInfo($this->lng->txt("file_added"),true);
 		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
@@ -311,7 +311,6 @@ class ilObjFileGUI extends ilObjectGUI
 		$this->tpl->setVariable("ADM_CONTENT", $hist_html);
 	}
 
-	
 	// get tabs
 	function getTabs(&$tabs_gui)
 	{

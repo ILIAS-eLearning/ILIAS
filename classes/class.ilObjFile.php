@@ -62,8 +62,11 @@ class ilObjFile extends ilObject
 		require_once("classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
 
-		$q = "INSERT INTO file_data (file_id,file_name,file_type,version) VALUES ('".$this->getId()."','".ilUtil::addSlashes($this->getFileName())."','".$this->getFileType()."'".
-			",'"."1"."')";
+		$q = "INSERT INTO file_data (file_id,file_name,file_type,version) "
+			."VALUES ('".$this->getId()."','"
+			.ilUtil::prepareDBString($this->getFileName())."','"
+			.$this->getFileType()."','"
+			."1"."')";
 		$this->ilias->db->query($q);
 	}
 
@@ -145,7 +148,7 @@ class ilObjFile extends ilObject
 		$r = $this->ilias->db->query($q);
 		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
 
-		$this->setFileName(ilUtil::stripSlashes($row->file_name));
+		$this->setFileName($row->file_name);
 		$this->setFileType($row->file_type);
 		$this->setVersion($row->version);
 	}
@@ -332,12 +335,14 @@ class ilObjFile extends ilObject
 		
 		// copy all versions of file
 		ilUtil::rCopy($this->getDirectory(),$fileObj->getDirectory());
-		
 		//copy($this->getDirectory()."/".$this->getFileName(),$fileObj->getDirectory()."/".$this->getFileName());
 
-		// copy file_data entry
-		$q = "INSERT INTO file_data (file_id,file_name,file_type,version) VALUES ('".$fileObj->getId()."','".
-			ilUtil::addSlashes($this->getFileName())."','".$this->getFileType()."','".$this->getVersion()."')";
+		$q = "INSERT INTO file_data (file_id,file_name,file_type,version) VALUES ('"
+			.$fileObj->getId()."','"
+			.ilUtil::prepareDBString($this->getFileName())."','"
+			.$this->getFileType()."','".$this->getVersion()
+			."')";
+
 		$this->ilias->db->query($q);
 
 		// copy history entries
