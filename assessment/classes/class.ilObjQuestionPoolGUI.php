@@ -944,8 +944,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php", $question_title = "")
 	{
-//		global $ilias_locator;
-	  $ilias_locator = new ilLocatorGUI(false);
+		$ilias_locator = new ilLocatorGUI(false);
 		if (!is_object($a_tree))
 		{
 			$a_tree =& $this->tree;
@@ -958,9 +957,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		{
 			$scriptname = "repository.php";
 		}
-
-		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
 		$path = $a_tree->getPathFull($a_id);
 		//check if object isn't in tree, this is the case if parent_parent is set
 		// TODO: parent_parent no longer exist. need another marker
@@ -986,36 +982,43 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
 
-		foreach ($path as $key => $row)
-		{
-			if (strcmp($row["title"], "ILIAS") == 0) {
-				$row["title"] = $this->lng->txt("repository");
+		if (!defined("ILIAS_MODULE")) {
+			foreach ($path as $key => $row)
+			{
+				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/adm_object.php?ref_id=".$row["child"],"bottom");
 			}
-			if ($this->ref_id == $row["child"]) {
-				$param = "&cmd=questions";
-				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . $param,"bottom");
-				switch ($_GET["cmd"]) {
-					case "question":
-						$id = $_GET["edit"];
-						if (!$id) {
-							$id = $_POST["id"];
-						}
-						if ($question_title) {
-							$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=question&edit=$id","bottom");
-						}
-						break;
+		} else {
+			foreach ($path as $key => $row)
+			{
+				if (strcmp($row["title"], "ILIAS") == 0) {
+					$row["title"] = $this->lng->txt("repository");
 				}
-			} else {
-				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
+				if ($this->ref_id == $row["child"]) {
+					$param = "&cmd=questions";
+					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . $param,"bottom");
+					switch ($_GET["cmd"]) {
+						case "question":
+							$id = $_GET["edit"];
+							if (!$id) {
+								$id = $_POST["id"];
+							}
+							if ($question_title) {
+								$ilias_locator->navigate($i++, $question_title, ILIAS_HTTP_PATH . "/assessment/questionpool.php" . "?ref_id=".$row["child"] . "&cmd=question&edit=$id","bottom");
+							}
+							break;
+					}
+				} else {
+					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
+				}
+			}
+	
+			if (isset($_GET["obj_id"]))
+			{
+				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
+				$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
 			}
 		}
-
-		if (isset($_GET["obj_id"]))
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-			$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
-		}
-    $ilias_locator->output(true);
+		$ilias_locator->output(true);
 	}
 
 

@@ -1924,33 +1924,40 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// ### AA 03.11.10 added new locator GUI class ###
 		$i = 1;
-		foreach ($path as $key => $row)
-		{
-			if (strcmp($row["title"], "ILIAS") == 0) {
-				$row["title"] = $this->lng->txt("repository");
+		if (!defined("ILIAS_MODULE")) {
+			foreach ($path as $key => $row)
+			{
+				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/adm_object.php?ref_id=".$row["child"],"bottom");
 			}
-			if ($this->ref_id == $row["child"]) {
-				if ($_GET["cmd"]) {
-					$param = "&cmd=" . $_GET["cmd"];
-				} else {
-					$param = "";
+		} else {
+			foreach ($path as $key => $row)
+			{
+				if (strcmp($row["title"], "ILIAS") == 0) {
+					$row["title"] = $this->lng->txt("repository");
 				}
-				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param,"bottom");
-				if ($this->sequence) {
-					if (($this->sequence <= $this->object->get_question_count()) and (!$_POST["cmd"]["showresults"])) {
-						$ilias_locator->navigate($i++, $this->object->get_question_title($this->sequence), ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"bottom");
+				if ($this->ref_id == $row["child"]) {
+					if ($_GET["cmd"]) {
+						$param = "&cmd=" . $_GET["cmd"];
 					} else {
+						$param = "";
 					}
+					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param,"bottom");
+					if ($this->sequence) {
+						if (($this->sequence <= $this->object->get_question_count()) and (!$_POST["cmd"]["showresults"])) {
+							$ilias_locator->navigate($i++, $this->object->get_question_title($this->sequence), ILIAS_HTTP_PATH . "/assessment/test.php" . "?ref_id=".$row["child"] . $param . "&sequence=" . $this->sequence,"bottom");
+						} else {
+						}
+					}
+				} else {
+					$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
 				}
-			} else {
-				$ilias_locator->navigate($i++, $row["title"], ILIAS_HTTP_PATH . "/" . $scriptname."?ref_id=".$row["child"],"bottom");
 			}
-		}
-
-		if (isset($_GET["obj_id"]))
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-			$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
+	
+			if (isset($_GET["obj_id"]))
+			{
+				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
+				$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
+			}
 		}
     $ilias_locator->output();
 	}
