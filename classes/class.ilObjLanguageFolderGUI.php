@@ -248,7 +248,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	{
 		if (!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("nothing_checked"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		foreach ($_POST["id"] as $obj_id)
@@ -293,7 +293,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	{
 		if (!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("nothing_checked"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// uninstall all selected languages
@@ -385,7 +385,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
 		if (!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("nothing_checked"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		if (count($_POST["id"]) != 1)
@@ -425,7 +425,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 	{
 		if (!isset($_POST["id"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("nothing_checked"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		if (count($_POST["id"]) != 1)
