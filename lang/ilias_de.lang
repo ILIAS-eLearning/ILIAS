@@ -559,8 +559,11 @@ common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
 common#:#all_authors#:#Alle Autoren
+common#:#all_global_roles#:#Globale Rollen
 common#:#all_lms#:#Alle Lernmodule
+common#:#all_local_roles#:#Lokale Rollen (alle)
 common#:#all_objects#:#Alle Objekte
+common#:#all_roles#:#Alle Rollen
 common#:#all_tsts#:#Alle Tests
 common#:#all_users#:#Alle Benutzer
 common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erlauben.
@@ -594,6 +597,7 @@ common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assign_user_to_role#:#Benutzer Rolle zuweisen
+common#:#assigned_roles#:#Zugewiesene Rollen
 common#:#assigned_users#:#Zugewiesene Benutzer
 common#:#at_location#:#an Position
 common#:#attachment#:#Attachment
@@ -861,6 +865,7 @@ common#:#edit_data#:#Daten bearbeiten
 common#:#edit_operations#:#Operationen bearbeiten
 common#:#edit_perm_ruleset#:#Rechtevorgaben bearbeiten
 common#:#edit_properties#:#Eigenschaften
+common#:#edit_roleassignment#:#Rollenzuweisung bearbeiten
 common#:#edit_stylesheet#:#Style bearbeiten
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
@@ -1135,6 +1140,7 @@ common#:#header_title#:#Installationsüberschrift
 common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
+common#:#hits_per_page#:#Treffer/Seite
 common#:#hlm#:#HACP Lernmodul
 common#:#hlm_create#:#Neues HACP Lernmodul anlegen
 common#:#hlm_delete#:#HACP Lernmodul löschen
@@ -1217,6 +1223,7 @@ common#:#inst_name#:#Installationsname
 common#:#install#:#Installieren
 common#:#installed#:#Installiert
 common#:#institution#:#Institution
+common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)
 common#:#internal_system#:#Internes System
 common#:#ip_address#:#IP Adresse
 common#:#is_already_your#:#ist bereits Ihre
@@ -1538,6 +1545,7 @@ common#:#no_title#:#Kein Titel
 common#:#no_tst_in_personal_list#:#Es sind keine Tests in ihrer persönlichen Liste.
 common#:#no_users_applied#:#Sie haben keine Benutzer angelegt.###14 Sep 2004 content changed
 common#:#no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
+common#:#non_internal_local_roles_only#:#Lokale Rollen (nur selbsterstellte)
 common#:#none#:#Keine
 common#:#normal#:#Normal
 common#:#not_implemented_yet#:#In Entwicklung
@@ -1815,6 +1823,7 @@ common#:#role_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#role_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 common#:#role_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#role_search_users#:#Benutzersuche
+common#:#role_templates_only#:#Nur Rollenvorlagen
 common#:#role_user_deassign#:#Benutzer aus der Rolle austragen
 common#:#role_user_edit#:#Benutzerdaten bearbeiten
 common#:#role_user_send_mail#:#Benutzer eine Nachricht senden
@@ -3779,12 +3788,3 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
-common#:#edit_roleassignment#:#Rollenzuweisung bearbeiten
-common#:#assigned_roles#:#Zugewiesene Rollen
-common#:#all_roles#:#Alle Rollen
-common#:#all_local_roles#:#Lokale Rollen (alle)
-common#:#all_global_roles#:#Globale Rollen
-common#:#internal_local_roles_only#:#Lokale Rollen (nur autom. erstellte)
-common#:#non_internal_local_roles_only#:#Lokale Rollen (nur selbsterstellte)
-common#:#role_templates_only#:#Nur Rollenvorlagen
-common#:#hits_per_page#:#Treffer/Seite
