@@ -595,19 +595,17 @@ class Tree
 	* @param	array	full path information
 	* @param	string	scriptname to use for hyperlinks
 	* @return	string	HTML-formatted string
+	* @deprecated
 	*/
 	function showPath($a_path,$a_scriptname)
 	{
 		foreach ($a_path as $key => $val)
 		{
-			if ($key < (count($a_path) - 1))
-			{
-				$path .= "[<a href=\"".$a_scriptname."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a>]";
+			$path .= "[<a href=\"".$a_scriptname."?obj_id=".$val["id"]."&parent=".$val["parent"];
+			if ($val["parent_parent"] != "") {
+				$path .= "&parent_parent=".$val["parent_parent"];
 			}
-			else
-			{
-				$path .= "[<b><a href=\"".$a_scriptname."?obj_id=".$val["id"]."&parent=".$val["parent"]."\">".$val["title"]."</a></b>]";;
-			}
+			$path .= "\">".$val["title"]."</a>]";
 
 			if ($key < (count($a_path) - 1))
 			{

@@ -20,6 +20,7 @@ require_once "classes/class.IniFile.php";
 require_once "classes/class.DBx.php";
 require_once "classes/class.template.php";
 require_once "classes/class.ilias.php";
+require_once "classes/class.AdmTabs.php";
 require_once "classes/class.util.php";
 require_once "classes/class.User.php";
 require_once "classes/class.format.php";

@@ -1,32 +1,30 @@
-<form action="content.php?obj_id={OBJ_ID}&parent={TPOS}" name="objectItems" method="post">
+<form action="{FORMACTION}" name="objectItems" method="post">
 
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
+<!-- BEGIN table_header_row -->
 <tr class="tblheader">
   <td width="3%">&nbsp;</td>
+<!-- BEGIN table_header_cell -->
   <td width="6%">
-    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=type&direction={DIR}">
-	  <strong>Type</strong></a>
+    <a class="tblheader" href="{LINK}"><strong>{TEXT}</strong></a>
   </td>
-  <td width="25%">
-    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=title&direction={DIR}"
-      <strong>Title</strong></a>
-  </td>
-  <td width="42%">
-    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=description&direction={DIR}"
-      <strong>Description</strong></a>
-  </td>
-  <td width="24%" align="right">
-    <a class="tblheader" href="content.php?obj_id={OBJ_ID}&parent={TPOS}&order=last_update&direction={DIR}">
-	  <strong>Last modified</strong></a>
-  </td>
+<!-- END table_header_cell -->
 </tr>
+<!-- END table_header_row -->
 
 
-<!-- BEGIN row -->
+<!-- BEGIN table_row -->
 <tr class="{CSS_ROW}">
+<!-- BEGIN checkbox -->
   <td valign="top" width="16">
-    {CHECKBOX}
+	<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" />
   </td>
+<!-- END checkbox -->
+<!-- BEGIN empty_cell -->
+  <td valign="top" width="16">
+	&nbsp;
+  </td>
+<!-- END empty_cell -->
   <td align="center" valign="top" nowrap="1">
     <a href="{LINK_TARGET}">
   	<img src="{TPLPATH}/images/{IMG_TYPE}" alt="{ALT_IMG_TYPE}" title="{ALT_IMG_TYPE}" border="0" vspace="0" /></a>
@@ -41,7 +39,7 @@
       {OBJ_LAST_UPDATE}
   </td>
 </tr>
-<!-- END row -->
+<!-- END table_row -->
 
 <!-- BEGIN notfound -->
 <tr>
@@ -50,7 +48,6 @@
   </td>
 </tr>
 <!-- END notfound -->
-
 </table>
 
 <table cellspacing="0" cellpadding="2" border="0">

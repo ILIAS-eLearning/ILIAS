@@ -4,7 +4,7 @@ require_once "classes/class.Explorer.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
 
-$explorer = new Explorer("content.php");
+$explorer = new Explorer("adm_object.php");
 
 $explorer->setExpand($_GET["expand"]);
 
