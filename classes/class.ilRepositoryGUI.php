@@ -116,6 +116,8 @@ class ilRepositoryGUI
 		$this->glossaries = array();
 		$this->exercises = array();
 		$this->questionpools = array();
+		$this->surveys = array();
+		$this->surveyquestionpools = array();
 		$this->tests = array();
 		$this->files = array();
 		$this->folders = array();
@@ -316,6 +318,16 @@ class ilRepositoryGUI
 					$this->questionpools[$key] = $object;
 					break;
 
+				// survey tool
+				case "svy":
+					$this->surveys[$key] = $object;
+					break;
+
+				case "spl":
+					$this->surveyquestionpools[$key] = $object;
+					break;
+
+
 				// media pools
 				case "mep":
 					$this->media_pools[$key] = $object;
@@ -441,6 +453,17 @@ class ilRepositoryGUI
 		if (count($this->tests))
 		{
 			$this->showTests();
+		}
+		
+		// survey tool
+		if (count($this->survey))
+		{
+			$this->showSurveys();
+		}
+		
+		if (count($this->surveyquestionpools))
+		{
+			$this->showSurveyquestionpools();
 		}
 
 		// learning resources
@@ -1800,6 +1823,12 @@ class ilRepositoryGUI
 		$this->tpl->parseCurrentBlock();
   }
   
+	function showSurveys() {
+	}
+	
+	function showSurveyquestionpools() {
+	}
+
   function showQuestionPools()
   {
 		$maxcount = count($this->questionpools);
@@ -2182,7 +2211,7 @@ class ilRepositoryGUI
 				if ($row["max"] == "" || $count < $row["max"])
 				{
 					if (in_array($row["name"], array("slm", "lm", "grp", "frm", "mep",
-						"cat", "glo", "exc", "qpl", "tst", "chat", "htlm","fold","file")))
+						"cat", "glo", "exc", "qpl", "tst", "svy", "spl", "chat", "htlm","fold","file")))
 					{
 						if ($this->rbacsystem->checkAccess("create", $this->cur_ref_id, $row["name"]))
 						{
