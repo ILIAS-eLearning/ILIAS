@@ -54,12 +54,20 @@ class ilLMObjectGUI
 		$this->content_object =& $a_content_obj;
 	}
 
+	function choose_meta_section()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->obj);
+		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId(), $_POST["meta_section"]);
+	}
+
 	function edit_meta()
 	{
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->content_object->getRefId()."&obj_id=".$this->obj->getId()."&cmd=save_meta");
+			$this->content_object->getRefId()."&obj_id=".$this->obj->getId());
 	}
 
 	function save_meta()

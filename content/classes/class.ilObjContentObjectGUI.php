@@ -123,13 +123,22 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		}
 	}
 
+	function chooseMetaSectionObject()
+	{
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			"adm_object.php?ref_id=".$_GET["ref_id"], $_POST["meta_section"]);
+	}
+
 	function editMetaObject()
 	{
 		include_once "classes/class.ilMetaDataGUI.php";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
+			"adm_object.php?ref_id=".$_GET["ref_id"]);
 	}
 
 	function saveMetaObject()
