@@ -247,10 +247,10 @@ class Forum
 				
 				if ($modData["email"] != "")
 				{
-					$m = "New Message from: ".$userData["email"]."\n";
+					$m = "New Message from: ".$userData["Email"]."\n";
 					$m .= "Message-ID: ".$lastInsert[0]."\n";
 					
-					mail($modData["email"], "New Message in Forum", $m, "From:".$userData["email"]);
+					mail($modData["Email"], "New Message in Forum", $m, "From:".$userData["Email"]);
 				}
 			}
 		}	
@@ -305,8 +305,9 @@ class Forum
 	{
 		$q = "SELECT frm_threads.*, usr_data.surname FROM frm_threads, usr_data WHERE ";
 		$q .= "thr_top_fk ='".$topic."' AND ";
-		$q .= "thr_usr_id = usr_id ";
-		$q .= "ORDER BY ".$this->orderField;	
+		$q .= "thr_usr_id = usr_id";
+		if ($this->orderField != "")
+			$q .= " ORDER BY ".$this->orderField;	
 		
 		$res = $this->ilias->db->query($q);			
 		

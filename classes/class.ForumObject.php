@@ -17,6 +17,7 @@ class ForumObject extends Object
 	function ForumObject()
 	{
 		$this->Object();
+		require_once "class.Forum.php";
 	}
 	
 	
@@ -50,47 +51,84 @@ class ForumObject extends Object
             "top_num_threads"   => 0,
             "top_last_post"     => "",
 			"top_mods"      	=> $frm_data["owner"],
-            "top_last_modified" => date("Y-m-d H:i:s")
+			"top_usr_id"      	=> $_SESSION["AccountId"],
+            "top_date" 			=> date("Y-m-d H:i:s")			
         );
 		
 		// insert new forum as new topic into frm_data
 		$q = "INSERT INTO frm_data ";
-		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_last_modified) ";
+		$q .= "(top_frm_fk,top_name,top_description,top_num_posts,top_num_threads,top_last_post,top_mods,top_date,top_usr_id) ";
 		$q .= "VALUES ";
-		$q .= "('".$top_data["top_frm_fk"]."','".$top_data["top_name"]."','".$top_data["top_description"]."','".$top_data["top_num_posts"]."','".$top_data["top_num_threads"]."','".$top_data["top_last_post"]."','".$top_data["top_mods"]."','".$top_data["top_last_modified"]."')";
+		$q .= "('".$top_data["top_frm_fk"]."','".$top_data["top_name"]."','".$top_data["top_description"]."','".$top_data["top_num_posts"]."','".$top_data["top_num_threads"]."','".$top_data["top_last_post"]."','".$top_data["top_mods"]."','".$top_data["top_date"]."','".$top_data["top_usr_id"]."')";
 		$result = $this->ilias->db->query($q);
-				
-		/*	
-	 	// get last insert id and return it
-		$query = "SELECT LAST_INSERT_ID()";
-		$res = $this->ilias->db->query($query);
-		$lastInsert = $res->fetchRow();	
-		*/
+		
 		
 		return $newFrm_ID;	
 		
 	}
+	
+	
+			
+	/**
+	* update forum data
+	* @access	public
+	**/
+	function updateObject()
+	{		
+		
+		if (parent::updateObject())
+		{
+			$userData = Forum::getModerator($_SESSION["AccountId"]);			
+			$a_obj_data = $_POST["Fobject"];
+			
+			$query = "UPDATE frm_data ".
+					 "SET ".
+					 "top_name = '".$a_obj_data["title"]."',".
+					 "top_description = '".$a_obj_data["desc"]."',".
+					 "top_update = '".date("Y-m-d H:i:s")."',".
+					 "update_user = '".$userData["Id"]."' ".
+					 "WHERE top_frm_fk = '".$this->id."'";
+			$res = $this->ilias->db->query($query);
+		
+			return true;
+		}	
+		
+	}
+	
+	
 	
 	/**
 	* delete forum and all contents	
 	* @access public
 	*/
 	function deleteObject($a_obj_id, $a_parent_id, $a_tree_id = 1)
-	{
-		//global $tree, $rbacsystem, $rbacadmin;
+	{		
 		
-		/*
-		1. SELECT from frm_data where top_frm_fk = $a_obj_id (numrow=1)
-		2. SELECT from threads where thr_top_fk = frm_data.top_pk (numrow>1)
-			3. DELETE from posts where pos_thr_fk =  threads.thr_pk
-			4. DELETE from threads this thr_pk
-		5. DELETE from frm_data this top_pk
-		*/
-		/*
-		$q = "DELETE FROM frm_data WHERE top_frm_fk = '".$a_obj_id."'";
-		$this->ilias->db->query($q);
-		echo "q:".$q;
-		*/
+		Forum::setWhereCondition("top_frm_fk = ".$a_obj_id);			
+		$topData = Forum::getOneTopic();	
+		
+		$resThreads = Forum::getThreadList($topData["top_pk"]);	
+		
+		while ($thrData = $resThreads->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			// delete tree
+			$query = "DELETE FROM frm_posts_tree WHERE thr_fk = '".$thrData["thr_pk"]."'";
+			$this->ilias->db->query($query);
+			
+			// delete posts
+			$query = "DELETE FROM frm_posts WHERE pos_thr_fk = '".$thrData["thr_pk"]."'";
+			$this->ilias->db->query($query);
+			
+			// delete thread
+			$query = "DELETE FROM frm_threads WHERE thr_pk = '".$thrData["thr_pk"]."'";
+			$this->ilias->db->query($query);
+		}
+		
+		// delete topic
+		$query = "DELETE FROM frm_data WHERE top_frm_fk = '".$a_obj_id."'";
+		$this->ilias->db->query($query);
+		
+		
 		return parent::deleteObject($a_obj_id, $a_parent_id, $a_tree_id);		
 		
 	}
