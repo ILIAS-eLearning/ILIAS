@@ -103,6 +103,7 @@ function upload_file()
 		exit();
 
 	}
+
 	return $target_file;
 }
 // End of function upload file
@@ -278,6 +279,7 @@ if ($_GET["cmd"] == "save")
 		if ($_POST["usr_skin_style"] != "")
 		{
 			$sknst = explode(":", $_POST["usr_skin_style"]);
+			
 			if ($ilias->account->getPref("style") != $sknst[1] ||
 				$ilias->account->getPref("skin") != $sknst[0])
 			{
@@ -286,38 +288,18 @@ if ($_GET["cmd"] == "save")
 				$reload = true;
 			}
 		}
-		/*
-		// set user style only if skin wasn't changed
-		elseif ($_POST["usr_style"] != "" and $_POST["usr_style"] != $ilias->account->getPref("style"))
-		{
-				$ilias->account->setPref("style", $_POST["usr_style"]);
-				$reload = true;
-		}*/
+
 		// set user language
-		elseif ($_POST["usr_language"] != "" and $_POST["usr_language"] != $ilias->account->getLanguage())
+		if ($_POST["usr_language"] != "" and $_POST["usr_language"] != $ilias->account->getLanguage())
 		{
-				$ilias->account->setLanguage($_POST["usr_language"]);
+				$ilias->account->setPref("language",$_POST["usr_language"]);
 				$reload = true;
 		}
-
 
 		// save user data & object_data
 		$ilias->account->setTitle($ilias->account->getFullname());
 		$ilias->account->setDescription($ilias->account->getEmail());
 		$ilias->account->update();
-		//upload_file();
-
-		// this is not needed because the object_data entry is updated by ilObject
-		// update object_data
-		//include_once "classes/class.ilObjUser.php";
-		//$userObj = new ilObjUser($ilias->account->getId());
-		//$userObj->setTitle($ilias->account->getFullname());
-		//$userObj->setDescription($ilias->account->getEmail());
-		//$userObj->update();
-
-		//$userObj->setTitle($ilias->account->getFullname());
-		//$userObj->setDescription($ilias->account->getEmail());
-		//$userObj->update();
 
 		// reload page only if skin or style were changed
 		if ($reload)
@@ -366,43 +348,9 @@ foreach ($languages as $lang_key)
 	$tpl->parseCurrentBlock();
 }
 
-/*
-//what gui's are available for ilias?
-$ilias->getSkins();
-
-foreach ($ilias->skins as $row)
-{
-	$tpl->setCurrentBlock("selectskin");
-
-	if ($ilias->account->skin == $row["name"])
-	{
-		$tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
-	}
-
-	$tpl->setVariable("SKINVALUE", $row["name"]);
-	$tpl->setVariable("SKINOPTION", $row["name"]);
-	$tpl->parseCurrentBlock();
-}
-
-//what styles are available for current skin
-$ilias->getStyles($ilias->account->skin);
-
-foreach ($ilias->styles as $row)
-{
-	$tpl->setCurrentBlock("selectstyle");
-
-	if ($ilias->account->prefs["style"] == $row["name"])
-	{
-		$tpl->setVariable("STYLESELECTED", "selected=\"selected\"");
-	}
-
-	$tpl->setVariable("STYLEVALUE", $row["name"]);
-	$tpl->setVariable("STYLEOPTION", $row["name"]);
-	$tpl->parseCurrentBlock();
-}*/
-
 // get all skins
 $ilias->getSkins();
+
 foreach ($ilias->skins as $skin)
 {
 	// get styles for skin
@@ -453,6 +401,7 @@ $last_dot = strrpos($full_img, ".");
 $small_img = substr($full_img, 0, $last_dot).
 	"_small".substr($full_img, $last_dot, strlen($full_img) - $last_dot);
 $image_file = $webspace_dir."/usr_images/".$small_img;
+
 if (@is_file($image_file))
 {
 	$tpl->setCurrentBlock("pers_image");
@@ -519,6 +468,7 @@ $tpl->setVariable("HOBBY", ilUtil::stripSlashes($ilias->account->getHobby()));		
 
 // get assigned global roles (default roles)
 $global_roles = $rbacreview->getGlobalRoles();
+
 foreach ($global_roles as $role_id)
 {
 	if (in_array($role_id,$_SESSION["RoleId"]))
