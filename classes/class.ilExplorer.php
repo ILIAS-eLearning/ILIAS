@@ -177,13 +177,11 @@ class ilExplorer
 		{
 			$this->ilias->raiseError(get_class($this)."::setOutput(): No node_id given!",$this->ilias->error_obj->WARNING);
 		}
-
 		$objects = $this->tree->getChilds($a_parent_id, $this->order_column);
 
 		if (count($objects) > 0)
 		{
 			$tab = ++$a_depth - 2;
-
 			// Maybe call a lexical sort function for the child objects
 			foreach ($objects as $key => $object)
 			{
@@ -196,7 +194,6 @@ class ilExplorer
 						{
 							$parent_index = $this->getIndex($object);
 						}
-
 						$this->format_options["$counter"]["parent"]		= $object["parent"];
 						$this->format_options["$counter"]["child"]		= $object["child"];
 						$this->format_options["$counter"]["title"]		= $object["title"];
@@ -268,7 +265,7 @@ class ilExplorer
 				$this->formatObject($options["child"],$options);
 			}
 		}
-		
+
 		return implode('',$this->output);
 	}
 
@@ -376,7 +373,7 @@ class ilExplorer
 	{
 		$this->frameTarget = $a_target;
 	}
-	
+
 	/**
 	* Creates lines for explorer view
 	* @access	private
@@ -549,7 +546,7 @@ class ilExplorer
 		// IF ISN'T SET CREATE SESSION VARIABLE
 		if(!is_array($_SESSION["expand"]))
 		{
-			$_SESSION["expand"] = array(ROOT_FOLDER_ID);
+			$_SESSION["expand"] = array($this->tree->getRootId());
 		}
 		// IF $_GET["expand"] is positive => expand this node
 		if ($a_node_id > 0 && !in_array($a_node_id,$_SESSION["expand"]))
