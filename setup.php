@@ -65,19 +65,24 @@ function step1()
 		$dbname = $mySetup->dbName;
 	if ($dbuser=="")
 		$dbuser = $mySetup->dbUser;
+
 	echo "<p>Welcome to the setup of ILIAS.</p>\n";
 	echo "<p>To make Ilias operatable please fill out the following fields.</p>";
 	echo "<p>ILIAS will install the database with the given parameters after pressing &lt;submit&gt;.</p>\n";
+	
 	if ($mySetup->error != "")
 	{
 		echo "<p><font color=\"red\">";
 		switch ($mySetup->error)
 		{
+			case "file_does_not_exist":
+				echo "It seems you just installed ILIAS. ILIAS needs a database connection to operate properly.";
+				break;
 			case "file_not_accessible":
 				echo "The Ini-File is not readable or writable. Please set permissions.";
 				break;
 			case "database_exists":
-				echo "The Database exists. Please choose another Databasename or delete the Database first."; 
+				echo "The Database exists or your data is invalid. Please check all fields."; 
 				break;
 			case "data_invalid":
 				echo "Data is invalid. Please check the given data.<br>SQL Message: ".$mySetup->error_msg;
@@ -85,12 +90,16 @@ function step1()
 			case "create_database_failed":
 				echo "The Connection to the database-host was successful<br> but cannot create Database on the Database-Host. Please Check. <br>SQL Message: ".$mySetup->error_msg;
 				break;
+			case "cannot_write":
+				echo "Sorry, I cannot write to your ILIAS directory. Please make the dir webserver-writable";;
+				break;
 			default: 
 				echo $mySetup->error;
+		
 		}
 		echo "</font></p>";
 	}
-	echo "<form method=\"post\" name=\"form\">\n";
+	echo "<form method=\"post\" name=\"form\" action=\"setup.php\">\n";
 	echo "<input type=\"hidden\" name=\"step\" value=\"2\">";
 	echo "<table>";
 	echo "<tr>";
@@ -101,7 +110,10 @@ function step1()
 	reset ($mySetup->dbTypes);
 	while (list($k,$v) = each($mySetup->dbTypes))
 	{
-		echo "<option value=\"$k\">$v</option>";
+		echo "<option value=\"$k\"";
+		if ($mySetup->dbType == $k)
+			echo " selected";
+		echo ">$v</option>";
 	} 
 	echo "</select></td>";
 	echo "</tr>";
@@ -150,7 +162,10 @@ function step2()
 // main program
 // ***************************************************************************
 if (empty($step))
+	$step = $_POST["step"];
+if (empty($step))
 	$step = 1;
+	
 
 //check submitted values and check database
 if ($step == 2)

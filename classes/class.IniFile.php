@@ -63,20 +63,20 @@ class IniFile
 		//check if a filename is given
     	if(empty($iniFileName))
 		{
-			$this->error("INIFile::constructor: no ini file given");
+			$this->error("no_file_given");
 			return false;
 		}
 		
-		//check if file exists
+		$this->INI_FILE_NAME = $iniFileName;
+		
+        //check if file exists
 		if(!file_exists($iniFileName))
 		{
-			$this->error("INIFile::constructor: This file does not exist!");
+			$this->error("file_does_not_exist");
 			return false;
 		}
 		else
 		{
-			$this->INI_FILE_NAME = $iniFileName;
-
 			//parse the file
 			if ($this->parse()==false)
 				return false;
@@ -92,6 +92,7 @@ class IniFile
     function parse()
 	{
 		$this->GROUPS = parse_ini_file($this->INI_FILE_NAME, true);
+
 		if ($this->GROUPS == false)
 		{
 			$this->error("file_not_accessible");
@@ -121,6 +122,12 @@ class IniFile
     		$this->GROUPS[$this->CURRENT_GROUP][trim($split_data[0])]=trim($split_data[1]);
     	}
     }
+
+	function setContent($data)
+	{
+		$this->GROUPS = $data;
+		return true;
+	}
     
     /**
 	 * save ini-file-data
@@ -128,11 +135,11 @@ class IniFile
 	 */
     function save()
     {
-    	$fp = fopen($this->INI_FILE_NAME,"w");
+    	$fp = @fopen($this->INI_FILE_NAME,"w");
     	
     	if(empty($fp))
     	{
-    		$this->Error("Cannot create file $this->INI_FILE_NAME");
+    		$this->error("Cannot create file $this->INI_FILE_NAME");
     		return false;
     	}
     	
