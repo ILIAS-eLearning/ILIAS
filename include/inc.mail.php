@@ -26,6 +26,14 @@ function setLocator($a_obj_id,$a_user_id,$a_txt_prefix)
 {
 		global $lng,$tpl;
 
+		// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
+		if(!$a_obj_id)
+		{
+			include_once "classes/class.ilMailbox.php";
+			$mbox = new ilMailBox($_SESSION["AccountId"]);
+			$a_obj_id = $mbox->getInboxFolder();
+		}		
+
 		$tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		$tpl->setVariable("TXT_LOCATOR",$lng->txt("locator"));
 		$mtree = new ilTree($a_user_id);
