@@ -14,9 +14,11 @@ require_once "classes/class.Mail.php";
 require_once "classes/class.Addressbook.php";
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.mail_addressbook.html");
+$tpl->setVariable("TXT_ADDRESSBOOK",$lng->txt("mail_addressbook"));
+infoPanel();
 
 // LOCATOR
-setLocator($_GET["mobj_id"],$_SESSION["AccountId"],$lng->txt("mail_mails_of"));
+setLocator($_GET["mobj_id"],$_SESSION["AccountId"],"");
 
 // BUTTONS
 include "./include/inc.mail_buttons.php";
@@ -121,7 +123,6 @@ if(isset($_POST["cmd"]))
 
 
 $tpl->setVariable("ACTION","mail_addressbook.php?mobj_id=$_GET[mobj_id]");
-$tpl->setVariable("TXT_ADDRESSBOOK",$lng->txt("mail_addressbook"));
 $tpl->setVariable("TXT_ENTRIES",$lng->txt("mail_addr_entries"));
 
 // CASE CONFIRM DELETE
