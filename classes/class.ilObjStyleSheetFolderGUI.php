@@ -143,6 +143,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 
 			$this->tpl->setVariable("CHECKBOX_ID", $style_id);
 			$this->tpl->setVariable("TXT_TITLE", ilObject::_lookupTitle($style_id));
+			$this->tpl->setVariable("TXT_DESC", ilObject::_lookupDescription($style_id));
 			$this->tpl->setVariable("LINK_STYLE",
 				"adm_object.php?ref_id=".$_GET["ref_id"].
 				"&obj_id=".$style_id);
