@@ -1,17 +1,17 @@
 TOPIC	TOPIC_EN	TOPIC_DE	TOPIC_IT	TOPIC_ES
-lang_name	english	deutsch	italiano	espanol
 lang_abbr	en	de	it	es
+lang_name	english	deutsch	italiano	espanol
 accept_usr_agreement	accept user agreement?	Benutzer-Lizenz akzeptieren?	Accetti?	accept_usr_agreement
 administrate	administrate	administrieren	amministrare	administrate
 administration	administration	Administration	amministrazione	administration
 administrator	administrator	Administrator	amministratore	administrator
 are_you_sure	Are you sure?	Sind Sie Sicher?	Sei sicuro?	are_you_sure
 available_languages	available languages	verfügbare Sprachen	lingue disponibili	available_languages
-basic_data	basic_data	Grunddaten	basic_data	basic_data
-change	change	wechseln	cambia	change
+basic_data	basic_data	Grunddaten	dati di base	basic_data
+change	change	ändern	cambia	change
 chapter	chapter	Kapitel	capitolo	chapter
-check	check	prüfen	check	check
-chg_language	change language	Sprache wechseln	cambia lingua	chg_language
+check	check	prüfen	controlla	check
+chg_language	change language	Sprache ändern	cambia lingua	chg_language
 chg_password	change password	Password ändern	cambia password	chg_password
 choose_language_s	choose language(s)	Wählen Sie eine Sprache	scegli lingua	choose_language_s
 city	city	Stadt	città	city
@@ -19,17 +19,17 @@ country	country	Land	paese	country
 courses	courses	Kurse	corso	courses
 create	create	erstellen	creare	create
 current_password	current password	derzeitiges Passwort	password attuale	current_password
-database	database	Datenbank	database	database
+database	database	Datenbank	banca dati	database
 date	date	Datum	data	date
-db_host	database host		database host	db_host
-db_type	database type		database type	db_type
+db_host	database host	Datenbank Host	database host	db_host
+db_type	database type	Datenbank Typ	database type	db_type
 delete	delete	löschen	elimina	delete
 description	description	Beschreibung	descrizione	description
-desired_password	desired password	neues Password	password desiderata	desired_password
+desired_password	desired password	neues Password	nuova password	desired_password
 edit	edit	bearbeiten	edit	edit
 email	email	eMail	email	email
-employee	employee	Arbeiter	impiegato	employee
-files_location	files location	Dateiort	files location	files_location
+employee	employee	Angestellter	impiegato	employee
+files_location	files location	Dateiort	posizione dati	files_location
 forename	forename	Vorname	nome 	forename
 gender	gender	Geschlecht	sesso	gender
 guest	guest	Gast	ospite	guest
@@ -38,53 +38,54 @@ institution	institution	Institution	istituzione	institution
 language	language	Sprache 	lingua	language
 languages	languages	Sprachen	lingue	languages
 last_change	last change	letzte Änderung	ultimo cambio	last_change
-last_visited_lessons	last visited lessons	last visited lessons	last visited lessons	last_visited_lessons
+last_visited_lessons	last visited lessons	zuletzt besuchte Lerneinheit	ultima lezione visitata	last_visited_lessons
 lastname	lastname	Nachname	cognome	lastname
-lesson	lesson	lesson	lezione	lesson
-lessons	lessons	lessons	lezioni	lessons
-login	login	login	login	login
+lesson	lesson	Lerneinheit	lezione	lesson
+lessons	lessons	Lerneinheiten	lezioni	lessons
+login	login	Login	login	login
 login_to_ilias	login to ILIAS	bei ILIAS anmelden	login to ILIAS	login_to_ilias
-mail	mail	Mail	mail	mail
+mail	mail	Mail	messaggio	mail
 mail_s_unread	unread mail(s)	ungelesene Mail(s)	messaggi non letti	mail_s_unread
 mails	mails	Mails	messaggi 	mails
-msg_changes_ok	the changes were ok	die Änderungen wurden übernommen	the changes were ok	msg_changes_ok
+migrate	migrate	migrieren	migrare	migrate
+msg_changes_ok	the changes were ok	die Änderungen wurden übernommen	cambio salvato	msg_changes_ok
 nickname	nickname	Login	nickname	nickname
 no	no	Nein	no	no
 not_installed	not installed	nicht installiert	non istallato	not_installed
 page	page	Seite	pagina	page
 password	password	Passwort	password	password
-personal_desktop	personal desktop	personal desktop	personal desktop	personal_desktop
+personal_desktop	personal desktop	personal desktop	desktop personale	personal_desktop
 personal_profile	personal profile	persönliches Profil	profilo personale	personal_profile
-phone	phone	phone	telefono	phone
+phone	phone	Telefon	telefono	phone
 profile	profile	Profil	profilo 	profile
-quit	quit	quit	esci	quit
+quit	quit	Logout	esci	quit
 read	read	lesen	leggi	read
-refresh	refresh	refresh	refresh	refresh
-refresh_list	refresh list	refresh list	refresh list	refresh_list
-retype_password	retype password	retype password	ridigita la nuova password	retype password
-right	right	right	diritto	right
-rights	rights	rights	diritti	rights
+refresh	refresh	aktualisieren	aggiorna	refresh
+refresh_list	refresh list	refresh list	aggiorna lista	refresh_list
+retype_password	retype password	Passwort wiederholen	ridigita la nuova password	retype password
+right	right	Recht	diritto	right
+rights	rights	Rechte	diritti	rights
 salutation	salutation	Anrede	salutation	salutation
-salutation_f	Ms./Mrs.	Frau	Ms./Mrs.	salutation_f
-salutation_m	Mr.	Herr	Mr.	salutation_m
+salutation_f	Ms./Mrs.	Frau	Signora/Signorina	salutation_f
+salutation_m	Mr.	Herr	Signore	salutation_m
 save	save	speichern	salva	save
 sender	sender	Absender	mittente	sender
-setup	setup		setup	setup
+setup	setup	setup	setup	setup
 setup_welcome	Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.	Willkommen	Benvenuti	setup_welcome
-status	status	status	stato	status
+status	status	Status	stato	status
 street	street	Straße	via	street
-student	student	student	studente	student
+student	student	Student	studente	student
 subject	subject	subject	oggetto	subject
 submit	submit	abschicken	invia	submit
 system	system	System	sistema	system
-system_grp	system group	system group	system group	system_grp
+system_grp	system group	Systemgruppe	gruppo sistema	system_grp
 time	time	Zeit	ora	time
 title	title	Titel	titolo	title
 user	user	Benutzer	utente	user
-userdata	userdata	userdata	userdata	userdata
+userdata	userdata	Benutzerdaten	dati untente	userdata
 username	username	Benutzername	nome utente	username
 users	users	Benutzer	utenti	users
-usr_agreement	user agreement	user agreement	user agreement	usr_agreement
+usr_agreement	user agreement	Vereinbarung	user agreement	usr_agreement
 write	write	schreiben	scrivi	write
 yes	yes	Ja	si	yes
 zip_code	zip code	Postleitzahl	codice postale	zip_code
