@@ -149,9 +149,9 @@ class ilGroupExplorer extends ilExplorer
 			//$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 			$tpl->setVariable("TITLE", $a_option["title"]);
 
-			if ($this->frameTarget != "" && strcmp($a_option["type"],"grp"))
+			if ($this->frame_target != "" && strcmp($a_option["type"],"grp"))
 			{
-				$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
+				$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
 			}
 			
 			

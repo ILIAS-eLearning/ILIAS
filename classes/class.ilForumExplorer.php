@@ -237,9 +237,9 @@ class ilForumExplorer extends ilExplorer
 			: substr($a_option["title"],0,FULLNAME_MAXLENGTH)."...";
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
-		if ($this->frameTarget != "")
+		if ($this->frame_target != "")
 		{
-			$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
+			$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
 		}
 
 		$tpl->parseCurrentBlock();

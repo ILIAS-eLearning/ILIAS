@@ -134,7 +134,7 @@ class ilFileExplorer
 		$this->expanded = array();
 		$this->target = $a_target;
 		$this->target_get = 'ref_id';
-		$this->frameTarget = "_top";
+		$this->frame_target = "_top";
 		$this->order_column = "title";
 		$this->expand_target = $_SERVER["SCRIPT_NAME"];
 		$this->rbac_check = true;
@@ -421,9 +421,9 @@ class ilFileExplorer
 		$tpl->setVariable("LINK_TARGET", $target.$this->target_get."=".$a_node_id.$this->params_get);
 		$tpl->setVariable("TITLE", $a_option["title"]);
 
-		if ($this->frameTarget != "")
+		if ($this->frame_target != "")
 		{
-			$tpl->setVariable("TARGET", " target=\"".$this->frameTarget."\"");
+			$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
 		}
 
 		$tpl->parseCurrentBlock();
@@ -465,7 +465,7 @@ class ilFileExplorer
 	*/
 	function setFrameTarget($a_target)
 	{
-		$this->frameTarget = $a_target;
+		$this->frame_target = $a_target;
 	}
 
 	/**
