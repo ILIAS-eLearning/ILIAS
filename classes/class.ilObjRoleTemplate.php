@@ -29,20 +29,17 @@ class ilObjRoleTemplate extends ilObject
 	/**
 	* delete a role template object 
 	* @access	public
-	* @param	integer	object_id
-	* @param	integer parent_id // WE DON'T NEED THIS
-	* @param	integer	tree_id // WE DON'T NEED THIS
 	* @return	boolean
 	**/
-	function deleteObject($a_obj_id, $a_parent, $a_tree_id = 1)
+	function delete()
 	{
 		global $rbacsystem, $rbacadmin;
 
 		// delete rbac permissions
-		$rbacadmin->deleteTemplate($a_obj_id);
+		$rbacadmin->deleteTemplate($this->getId());
 
 		// delete object data entry
-		deleteObject($a_obj_id);
+		parent::delete();
 
 		//TODO: delete references
 

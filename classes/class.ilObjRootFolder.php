@@ -3,7 +3,7 @@
 * Class ilObjRootFolder
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ilObjRootFolder.php,v 1.1 2003/03/24 15:41:43 akill Exp $
+* @version $Id$Id: class.ilObjRootFolder.php,v 1.2 2003/03/28 10:30:36 shofmann Exp $
 * 
 * @extends ilObject
 * @package ilias-core
@@ -25,23 +25,27 @@ class ilObjRootFolder extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
 
-	function deleteObject($a_obj_id, $a_parent, $a_tree_id = 1)
+	/*
+	* deletion (no deletion of root folder)
+	*/
+	function delete()
 	{
 		global $rbacadmin;
+		
+		$this->ilias->raiseError("ilObjRootFolder::delete(): Can't delete root folder", $this->ilias->error_obj->MESSAGE);
 
 		// GET ALL ROLES OF ROLE FOLDER
-		$all_roles = $rbacadmin->getRolesAssignedToFolder($a_obj_id);
+		/*
+		$all_roles = $rbacadmin->getRolesAssignedToFolder($this->getId());
 		
 		// FIRST DELETE THIS ROLES
 		foreach($all_roles as $role_id)
 		{
-			include_once("classes/class.ilObjRole.php");
-
-			$role_obj = new ilObjRole();
-			$role_obj->deleteObject($role_id,$a_obj_id);
+			$role_obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
+			$role_obj->delete();
 		}
 		// NOW DELETE ROLE FOLDER
-		parent::deleteObject($a_obj_id,$a_parent,$a_tree_id);
+		parent::delete();*/
 	}
 } // END class.RootFolder
 ?>

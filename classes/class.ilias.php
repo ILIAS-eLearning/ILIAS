@@ -85,6 +85,14 @@ class ILIAS extends PEAR
 	var $error_obj;
 	
 	/**
+	* object factory
+	*
+	* @var object factory
+	* @access public
+	*/
+	var $obj_factory;
+	
+	/**
 	* Constructor
 	* setup ILIAS global object
 	* @access	public
@@ -140,6 +148,10 @@ class ILIAS extends PEAR
 		// Error Handling
 		$this->error_obj = new ErrorHandling();
 		$this->setErrorHandling(PEAR_ERROR_CALLBACK,array($this->error_obj,'errorHandler'));
+		
+		// create instance of object factory
+		require_once("./classes/class.ilObjectFactory.php");
+		$this->obj_factory =& new ilObjectFactory();
 	}
 	
 	/**
