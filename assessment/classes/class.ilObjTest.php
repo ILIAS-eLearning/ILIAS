@@ -2358,6 +2358,35 @@ class ilObjTest extends ilObject
 		$this->questions = array_values(array_merge($part1, $move_questions, $part2));
 		$this->saveQuestionsToDb();
 	}
+
+	
+/**
+* Returns true if the starting time of a test is reached
+*
+* Returns true if the starting time of a test is reached
+* A starting time is not available for self assessment tests
+*
+* @return boolean true if the starting time is reached, otherwise false
+* @access public
+*/
+	function startingTimeReached()
+	{
+		if ($this->getTestType() == TYPE_ASSESSMENT) 
+		{
+			if ($this->getStartingTime()) 
+			{
+				preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $this->getStartingTime(), $matches);
+				$epoch_time = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+				$now = mktime();
+				if ($now < $epoch_time) 
+				{
+					// starting time not reachd
+					return false;
+				}
+			}
+		}
+		return true;
+	}		
 	
 } // END class.ilObjTest
 ?>

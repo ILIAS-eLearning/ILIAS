@@ -1884,7 +1884,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	function evaluationObject()
 	{
 		global $ilUser;
-
+		
+		$surveyname = preg_replace("/\s/", "_", $this->object->getTitle());
 		switch ($_POST["export_format"])
 		{
 			case "csv":
@@ -1908,7 +1909,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				// Creating a workbook
 				$workbook = new Spreadsheet_Excel_Writer();
 				// sending HTTP headers
-				$workbook->send("eval.xls");
+				$workbook->send("$surveyname.xls");
 				
 				$format_bold =& $workbook->addFormat();
 				$format_bold->setBold();
@@ -2295,18 +2296,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				exit();
 				break;
 			case "csv":
-				$user_agent = strtolower ($_SERVER["HTTP_USER_AGENT"]);
-				header( "Content-type: application/force-download" );
-				if ((is_integer (strpos($user_agent, "msie"))) && (is_integer (strpos($user_agent, "win")))) {
-					header( "Content-Disposition: filename=eval.txt");
-				} else {
-					header( "Content-Disposition: attachment; filename=eval.txt");
-				}
-				header( "Content-Description: File Transfer");
+				$csv = "";
 				foreach ($csvfile as $csvrow)
 				{
-					print join($csvrow, ",") . "\n";
+					$csv .= join($csvrow, ",") . "\n";
 				}
+				ilUtil::deliverData($csv, "$surveyname.csv");
 				exit();
 				break;
 		}
