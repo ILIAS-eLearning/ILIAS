@@ -2269,6 +2269,7 @@ common#:#usrimport_cant_update#:#Can't perform "Update" action. No such user in 
 common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database). ###09 Mar 2005 new variable
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.###09 Mar 2005 new variable
 common#:#usrimport_login_is_not_unique#:#Login is not unique.###09 Mar 2005 new variable
+common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.###19 Mar 2005 new variable
 common#:#usrimport_xml_attribute_missing#:#Attribute "%2$s" in element "%1$s" is missing.###09 Mar 2005 new variable
 common#:#usrimport_xml_attribute_value_illegal#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is illegal.###09 Mar 2005 new variable
 common#:#usrimport_xml_attribute_value_inapplicable#:#Value "%3$s" of attribute "%2$s" in element "%1$s" is inapplicable for "%4$s" action.###09 Mar 2005 new variable
@@ -3025,6 +3026,7 @@ dateplaner#:#viewlist#:#vis
 dateplaner#:#week#:#uge
 dateplaner#:#year#:#&aring;r
 forum#:#forums#:#Forums
+forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
 forum#:#forums_articles#:#Artikler
 forum#:#forums_attachments#:#Vedh&aelig;ftninger
 forum#:#forums_attachments_add#:#Tilf&oslash;j vedh&aelig;ftning

@@ -2508,6 +2508,7 @@ common#:#usrimport_cant_update#:#Non pu&#242; essere eseguita l'operazione di "M
 common#:#usrimport_conflict_handling_info#:#Se &#232; selezionato "Ignora i conflitti", ILIAS ignora le operazioni che non possono essere eseguite (come le modifiche di utenti non esistenti o l'inserimento di utenti gi&#224; presenti).\nSe &#232; selezionato "Modifica i conflitti", ILIAS aggiorna comunque il database anche se l'operazione richiesta non pu&#242; essere eseguita (per esempio l'operazione di inserimento di un utente gi&#224; presente viene sostituita con l'operazione di modifica).
 common#:#usrimport_global_role_for_action_required#:#Per l'operazione "%1$s" deve essere specificato almeno un ruolo globale.
 common#:#usrimport_login_is_not_unique#:#Login non unico.
+common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.###19 Mar 2005 new variable
 common#:#usrimport_xml_attribute_missing#:#L'attributo "%2$s" nell'elemento "%1$s" &#232; mancante.
 common#:#usrimport_xml_attribute_value_illegal#:#Il valore "%3$s" dell'attributo "%2$s" nell'elemento "%1$s" non &#232; consentito.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Il valore "%3$s" dell'attributo "%2$s" nell'elemento "%1$s" non &#232; consentito per l'azione "%4$s".
@@ -3502,6 +3503,7 @@ dateplaner#:#viewlist#:#Vista
 dateplaner#:#week#:#Settimana
 dateplaner#:#year#:#Anno
 forum#:#forums#:#Forum
+forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
 forum#:#forums_articles#:#Articoli
 forum#:#forums_attachments#:#Allegati
 forum#:#forums_attachments_add#:#Aggiungi allegato

@@ -2405,6 +2405,7 @@ common#:#usrf_read#:#Acceso de Lectura a las cuentas de usuario
 common#:#usrf_read_users#:#Asignación de rol para administradores locales
 common#:#usrf_visible#:#Cuentas de usuario visibles
 common#:#usrf_write#:#Editar cuentas de usuario
+common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.###19 Mar 2005 new variable
 common#:#validate#:#Validar
 common#:#value#:#valor
 common#:#vcard#:#Tarjeta de visita
@@ -3228,6 +3229,7 @@ dateplaner#:#viewlist#:#vista
 dateplaner#:#week#:#semana
 dateplaner#:#year#:#año
 forum#:#forums#:#Foros
+forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
 forum#:#forums_articles#:#artículos
 forum#:#forums_attachments#:#Adjuntos
 forum#:#forums_attachments_add#:#Añadir adjunto

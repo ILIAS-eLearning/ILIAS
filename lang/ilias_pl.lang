@@ -2510,6 +2510,7 @@ common#:#usrimport_cant_update#:#Nie można wykonać akcji "Uaktualnij". Brak ta
 common#:#usrimport_conflict_handling_info#:#Kiedy jest wybrane "Ignoruj przy konflikcie", ILIAS ignoruje akcję, jeśli ona nie może być wykonana (np. akcja "Wstaw" nie jest wykonana, jeśli już istnieje w bazie danych użytkownik o tym samym loginie.)\nKiedy jest wybrane "Uaktualnij przy konflikcie", ILIAS uaktualnia bazę danych jeśli akcja nie może zostać wykonana. (np. akcja "Wstaw" jest zastępowana przez akcję "Uaktualnij", jeśli już istnieje w bazie danych użytkownik o takim samym loginie).
 common#:#usrimport_global_role_for_action_required#:#Conajmniej jedna globalna rola musi być określona dla akcji "%1$s".
 common#:#usrimport_login_is_not_unique#:#Login nie jest unikalny.
+common#:#usrimport_with_specified_role_not_permitted#:#Import with specified role not permitted.###19 Mar 2005 new variable
 common#:#usrimport_xml_attribute_missing#:#Brak Atrybutu "%2$s" w elemencie "%1$s".
 common#:#usrimport_xml_attribute_value_illegal#:#Wartość "%3$s" atrybutu "%2$s" w elemencie "%1$s" jest niedozwolona.
 common#:#usrimport_xml_attribute_value_inapplicable#:#Wartość "%3$s" atrybutu "%2$s" w elemencie "%1$s" jest nieodpowiednia dla akcji "%4$s".
@@ -3505,6 +3506,7 @@ dateplaner#:#viewlist#:#widok
 dateplaner#:#week#:#tydzień
 dateplaner#:#year#:#rok
 forum#:#forums#:#Fora
+forum#:#forums_all_threads_marked_read#:#All threads have been marked as read###19 Mar 2005 new variable
 forum#:#forums_articles#:#Artykuły
 forum#:#forums_attachments#:#Załączniki
 forum#:#forums_attachments_add#:#Dodaj załączniki
