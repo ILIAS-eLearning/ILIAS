@@ -480,3 +480,13 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
+common#:#internal_system#:#Internal system
+common#:#mail_intern_enable#:#Enable
+common#:#mail_allow_smtp#:#Allow SMTP
+common#:#mail_maxsize_mail#:#Max. mail size
+common#:#mail_maxsize_attach#:#Max. attachment size
+common#:#mail_maxsize_box#:#Max. mailbox size
+common#:#mail_maxtime_mail#:#Max. days to keep mails 
+common#:#mail_maxtime_attach#:#Max. days to keep attachments
+common#:#in_kb#:#in Kb
+common#:#days#:#Days

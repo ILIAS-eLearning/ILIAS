@@ -418,7 +418,7 @@ common#:#show_list#:#Auflistung anzeigen
 common#:#show_members#:#Mitglieder anzeigen
 common#:#show_owner#:#Besitzerinfo
 common#:#signature#:#Signatur
-common#:#smtp#:#SMTP###20 Mar 2003 new variable
+common#:#smtp#:#SMTP
 common#:#startpage#:#Startseite
 common#:#status#:#Status
 common#:#step#:#Schritt
@@ -480,3 +480,13 @@ common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
 common#:#zipcode#:#Postleitzahl
+common#:#internal_system#:#Internes System
+common#:#mail_intern_enable#:#Aktivieren
+common#:#mail_allow_smtp#:#SMTP zulassen
+common#:#mail_maxsize_mail#:#Max. Mailgrösse
+common#:#mail_maxsize_attach#:#Max. Attachmentgrösse
+common#:#mail_maxsize_box#:#Max. Mailboxgrösse
+common#:#mail_maxtime_mail#:#Max. Aufbewahrungszeit für Mails 
+common#:#mail_maxtime_attach#:#Max. Aufbewahrungszeit für Attachments
+common#:#in_kb#:#in Kb
+common#:#days#:#Tage
