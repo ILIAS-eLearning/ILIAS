@@ -9,7 +9,6 @@
 include_once("./include/ilias_header.inc");
 include_once("./include/inc.main.php");
 
-$lng = new Language($ilias->account->data["language"]);
 $tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("profile"));
 
 $tpl = new Template("tpl.admin.html", true, true);

@@ -42,7 +42,7 @@ if (isset($_POST["cmd"]))
 {
 	$methode = $_POST["cmd"]."Object"; 
 	include_once ("classes/class.Admin.php");
-	$obj2 = new Admin($ilias);
+	$obj2 = new Admin();
 	$obj2->$methode();
 }
 

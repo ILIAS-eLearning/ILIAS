@@ -4,6 +4,8 @@
  * class for explorer view in admin frame
  * @author Stefan Meyer <smeyer@databay.de>
  * @version $Id$
+ * 
+ * @extends PEAR
  * @package ilias-core
  * @todo maybe only container should be visible, because the number of objects could be to big for recursion
  * implement a sort function
@@ -41,13 +43,13 @@ class Explorer extends PEAR
 	/**
 	* Constructor
 	* @access public
-	* @param object Ilias
-	*
 	*/
-	function Explorer(&$a_ilias)
+	function Explorer()
 	{
+		global $ilias;
+		
 		$this->PEAR();
-		$this->ilias = $a_ilias;
+		$this->ilias = $ilias;
 		$this->output = "";
 		
 		$this->tree = new Tree(1,0);

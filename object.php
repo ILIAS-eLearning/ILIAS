@@ -2,14 +2,6 @@
 
 include_once "include/ilias_header.inc";
 
-// create tree object: if $pos is not set use root id
-//$tree =& new Tree($obj_id,1,1);
-
-//display path
-//$tree->getPathFull();
-
-//$path = $tree->showPath($tree->Path,"content.php");
-
 if(!isset($_POST["type"]))
 {
     $obj = getObject($_GET["obj_id"]);
@@ -21,68 +13,63 @@ else
 }
 
 $methode = $cmd."Object"; 
+
 switch ($type)
 {
     case "le":
 		include_once "classes/class.LearningObject.php";
-		$obj = new LearningObject($ilias);
+		$obj = new LearningObject();
 		$obj->$methode();
 		break;
 
     case "frm":
 		include_once "classes/class.ForumObject.php";
-		$obj = new ForumObject($ilias);
+		$obj = new ForumObject();
 		$obj->$methode();
 		break;
     
     case "grp":
 		include_once "classes/class.GroupObject.php";
-		$obj = new GroupObject($ilias);
+		$obj = new GroupObject();
 		$obj->$methode();
 		break;
 
     case "cat":
 		include_once "classes/class.CategoryObject.php";
-		$obj = new CategoryObject($ilias);
+		$obj = new CategoryObject();
 		$obj->$methode();
 		break;
 
     case "role": 
 		include_once "classes/class.RoleObject.php";
-		$obj = new RoleObject($ilias);
+		$obj = new RoleObject();
 		$obj->$methode();
 		break;
 
     case "rolt": 
 		include_once "classes/class.RoleTemplateObject.php";
-		$obj = new RoleTemplateObject($ilias);
+		$obj = new RoleTemplateObject();
 		$obj->$methode();
 		break;
 
 	case "rolf":
 		include_once "classes/class.RoleFolderObject.php";
-		$obj = new RoleFolderObject($ilias);
+		$obj = new RoleFolderObject();
 		$obj->$methode();
 		break;
 
     case "user":
 		include_once "classes/class.UserObject.php";
-		$obj = new UserObject($ilias);
+		$obj = new UserObject();
 		$obj->$methode();
 		break;
 
 	case "usrf":
 		include_once "classes/class.UserFolderObject.php";
-		$obj = new UserFolderObject($ilias);
+		$obj = new UserFolderObject();
 		$obj->$methode();
 		break;
 		
-	case "admin":
-		include_once ("classes/class.Admin.php");
-		$obj = new Admin($ilias);
-		$obj->$methode();
-		break;
-
 		/*
 		  case "kurs":
 		  include_once ("include/kurs.inc");
@@ -111,25 +98,24 @@ switch ($type)
 		
 	case "type":
 		include_once "classes/class.TypeDefinitionObject.php";
-		$obj = new TypeDefinitionObject($ilias);
+		$obj = new TypeDefinitionObject();
 		$obj->$methode();
 		break;
 
 	case "objf":
 		include_once "classes/class.ObjectFolderObject.php";
-		$obj = new ObjectFolderObject($ilias);
+		$obj = new ObjectFolderObject();
 		$obj->$methode();
 		break;
     
 	case "adm":
 		include_once "classes/class.SystemFolderObject.php";
-		$obj = new SystemFolderObject($ilias);
+		$obj = new SystemFolderObject();
 		$obj->$methode();
 		break;
 
     default:
-		$sys_message = "Objekttyp <i>".$type."</i> nocht nicht implementiert";
-		header("Location: browser.php?sys_message=".urlencode($sys_message));
+		$ilias->raiseError("Object type '".$type."' is not implemented yet.",$ilias->error_obj->MESSAGE);
 		break;
 }
 

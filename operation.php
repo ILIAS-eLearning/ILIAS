@@ -21,10 +21,6 @@ switch ($cmd)
         // count objects
         $res = $ilias->db->query("SELECT COUNT(*) as num FROM rbac_operations".$where_clause);
 
-		if (DB::isError($res)) {
-			die("<b>".$res->getMessage()."</b><br>Script: ".__FILE__."<br>Line: ".__LINE__);
-		}
-	
 		if ($res->numRows() > 0)
 		{
     		$data = $res->fetchRow();
@@ -62,7 +58,7 @@ switch ($cmd)
         // Linkbar
         $tplContent->setCurrentBlock("linkbar");
         
-        if($linkbar = TPrevNextNavBar::Linkbar("operation.php",$hitcount,$limit,$offset,$params))
+        if( ($linkbar = TPrevNextNavBar::Linkbar("operation.php",$hitcount,$limit,$offset,$params))
         {
             $tplContent->setVariable(LINKBAR,$linkbar);
         }
@@ -86,6 +82,7 @@ switch ($cmd)
 		$ops_id = createNewOperation($Fobject);
 		
 		header("Location: operation.php?cmd=list");
+		exit;
     break;
 }
 
