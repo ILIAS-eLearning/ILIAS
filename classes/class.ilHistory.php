@@ -150,6 +150,56 @@ class ilHistory
 		
 		return $hist_items;
 	}
+	
+	/**
+	* remove all history entries for an object
+	*
+	* @param	int		$a_obj_id		object id
+	*
+	* @return	boolean
+	*/
+	function _removeEntriesForObject($a_obj_id)
+	{
+		global $ilDB;
+
+		$q = "DELETE FROM history WHERE obj_id = ".$ilDB->quote($a_obj_id);
+		$r = $ilDB->query($q);
+		
+		return true;
+	}
+	
+	/**
+	* copy all history entries for an object
+	*
+	* @param	integer $a_src_id		source object id
+	* @param	integer $a_dst_id		destination object id
+	* @return	boolean
+	*/
+	function _copyEntriesForObject($a_src_id,$a_dst_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT * FROM history WHERE obj_id = ".$ilDB->quote($a_src_id);
+		$r = $ilDB->query($q);
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$q = "INSERT INTO history (obj_id, obj_type, action, hdate, usr_id, info_params, user_comment) VALUES ".
+				 "(".
+					$ilDB->quote($a_dst_id).", ".
+					$ilDB->quote($row->obj_type).", ".
+					$ilDB->quote($row->action).", ".
+					$ilDB->quote($row->hdate).", ".
+					$ilDB->quote($row->usr_id).", ".
+					$ilDB->quote($row->info_params).", ".
+					$ilDB->quote($row->user_comment).
+				 ")";
+
+			$ilDB->query($q);
+		}
+		
+		return true;
+	}
 
 } // END class.ilHistory
 ?>
