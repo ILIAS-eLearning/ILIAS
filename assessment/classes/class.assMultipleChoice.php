@@ -495,7 +495,6 @@ class ASS_MultipleChoice extends ASS_Question {
 					$db->quote($_POST["multiple_choice_result"]),
 					$db->quote($update)
 				);
-				print $query;
 			} else {
 				$query = sprintf("INSERT INTO tst_solutions (solution_id, user_fi, test_fi, question_fi, value1, value2, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL, NULL)",
 					$db->quote($ilUser->id),
