@@ -237,6 +237,7 @@ class ilForumExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("TYPE", "cat");
+		$tpl->setVariable("IMGPATH", ilUtil::getImagePath("icon_frm.gif"));
 		$tpl->setVariable("TITLE", $a_option["title"]." ".$lng->txt("forums_thread").": ".$threadData["thr_subject"]);
 		$tpl->setVariable("TARGET","target=content");
 		$tpl->setVariable("LINK_TARGET",$this->target);
