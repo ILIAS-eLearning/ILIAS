@@ -436,9 +436,10 @@
 	<property name="trash">trash</property>
 	<action name="delete">delete</action>
 </object>
-<object name="trac" class_name="SysUserTracking" checkbox="1" translate="sys" rbac="1" devmode="1">
+<object name="trac" class_name="SysUserTracking" checkbox="1" translate="sys" rbac="1">
 	<property name="trackingDataQueryForm">tracking_data</property>
 	<property name="settings">settings</property>
 	<property name="manageData">manage_tracking_data</property>
+	<property name="perm">perm_settings</property>
 </object>
 </objects>
