@@ -9,7 +9,7 @@
 * @version $Id$
 */
 
-// *** = dirty/buggy --> to be modified/extended
+// *** = dirty/buggy --> to be modified/extended + Kommentare anpassen
 
 //include files from PEAR
 require_once "PEAR.php";
@@ -49,6 +49,14 @@ class ILIAS2To3Converter
 	var $doc;
 	
 	/**
+	* learninigunit id ***
+	* 
+	* @var integer $luId
+	* @access private 
+	*/
+	var $luId;
+	
+	/**
 	* ILIAS2 base directory ***
 	* 
 	* @var string $iliasDir
@@ -71,6 +79,30 @@ class ILIAS2To3Converter
 	* @access private 
 	*/
 	var $targetDir;
+	
+	/**
+	* file ***
+	* 
+	* @var string $file
+	* @access private 
+	*/
+	var $file;
+	
+	/**
+	* current language ***
+	* 
+	* @var string $curLang
+	* @access private 
+	*/
+	var $curLang;
+	
+	/**
+	* metadata set ***
+	* 
+	* @var array $metaData
+	* @access private 
+	*/
+	var $metaData;
 	
 	//-------
 	//methods
@@ -149,8 +181,41 @@ class ILIAS2To3Converter
 		// type-specific tables
 		switch ($type) 
 		{
-			case "img":
+			case "le":
+				// no additional data available
+				break;
+			
+			case "st":
+				// table 'gliederung'
+				$sql =	"SELECT inst, titel ".
+						"FROM gliederung ".
+						"WHERE id = ".$id.";";
 				
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
+				}
+				// get row(s)
+				$glied = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// free result set
+				$result->free();
+				
+				// there is not dedicated metadata for chapters in ILIAS 2
+				// set the minimum data needed in ILIAS 3´in an array
+				$gen = $this->metaData;
+				// reset catalog, identifier entry and title
+				$gen["Catalog"]		= "ILIAS2 ".$glied["inst"];
+				$gen["Entry"]		= $type."_".$id;
+				$gen["Title"]		= $glied["titel"];
+				break;
+			
+			case "pg":
+				// no additional data available
+				break;
+			
+			case "img":
 				// reset type (img -> el)
 				// images are treated as a particular element type 
 				$type = "el";
@@ -164,7 +229,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row(s)
 				$image = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -178,17 +243,10 @@ class ILIAS2To3Converter
 				}
 				
 				// set mimetype, size and location for the image file into an array
-				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/imagemap".$id."/".$id.".".$map["type"]);
-				
-				/* ***
-				echo "<pre>";
-				print_r($tech);
-				echo "</pre>";
-				*/
+				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/image".$id."/".$image["datei"]);
 				break;
 			
 			case "imap":
-				
 				// reset type (imap -> el)
 				// imagemaps are treated as a particular element type 
 				$type = "el";
@@ -202,7 +260,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row(s)
 				$map = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -210,19 +268,12 @@ class ILIAS2To3Converter
 				$result->free();
 				
 				// set mimetype, size and location for the imagemap file into an array
-				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/image".$id."/".$image["datei"]);
-				
-				/* ***
-				echo "<pre>";
-				print_r($tech);
-				echo "</pre>";
-				*/
+				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/imagemap".$id."/".$id.".".$map["type"]);
 				break;
 			
 			case "mm":
-				
 				// table 'multimedia'
-				$sql =	"SELECT st_type, file, verweis, startklasse ". // *** some are unsed yet
+				$sql =	"SELECT st_type, file, verweis, startklasse ". // *** startklasse unsed yet
 								" full_view, full_type, full_file, full_ref ".
 						"FROM multimedia ".
 						"WHERE id = ".$id.";";
@@ -231,7 +282,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row(s)
 				$mm = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -268,9 +319,8 @@ class ILIAS2To3Converter
 				break;
 			
 			case "file":
-				
 				// table 'file'
-				$sql =	"SELECT file, version ". // *** some are unsed yet
+				$sql =	"SELECT file, version ". // *** version unsed yet
 						"FROM file ".
 						"WHERE id = ".$id.";";
 				
@@ -278,7 +328,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row(s)
 				$file = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -289,115 +339,181 @@ class ILIAS2To3Converter
 				$tech[] = $this->utils->getTechInfo($this->targetDir, "objects/file".$id."/".$file["file"]);
 				break;
 			
-			case "gd": // *** Problem: Kapitel besitzen keine expliziten Metadaten in ILIAS2
+			case "el":
+				// no additional data available ***
+				break;
+			
+			case "test": // Test
+				// there is not dedicated metadata for test (as a whole) in ILIAS 2
+				// set the minimum data needed in ILIAS 3´in an array ***
+				$gen = $this->metaData;
+				// reset identifier entry
+				$gen["Entry"]		= $type;
+				break;
+			
+			case "mc":  // TestItem
+				// no additional data available
+				break;
+			
+			case "glos": // Glossary
+				// there is not dedicated metadata for glossary (as a whole) in ILIAS 2
+				// set the minimum data needed in ILIAS 3´in an array ***
+				$gen = $this->metaData;
+				// reset identifier entry
+				$gen["Entry"]		= $type;
+				break;
+			
+			case "gl": // GlossaryItem
+				// reset type (gl -> pg)
+				// glossary items are treated as a particular page type 
+				$type = "pg";
 				
-				// table 'gliederung'
-				$sql =	"SELECT inst, titel, utime ".
-						"FROM gliederung ".
-						"WHERE id = ".$id.";";
+				// table 'glossar' and 'benutzer'
+				$sql =	"SELECT b.vorname AS firstname, b.nachname AS surname, g.utime ".
+						"FROM glossar AS g, benutzer AS b ".
+						"WHERE g.autor = b.id ".
+						"AND g.id = ".$id.";";
 				
 				$result = $this->db->query($sql);		
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
-				// get row(s)
-				$gliederung = $result->fetchRow(DB_FETCHMODE_ASSOC);
+				// get row
+				$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				// free result set
 				$result->free();
 				
-				// *** workaraound
-				$meta["inst"] = $gliederung["inst"];
-				$meta["lang"] = "none";
-				$meta["title"] = $gliederung["titel"];
-				$meta["description"] = "Not available"; // default
-				$meta["last_modified_date"] = $gliederung["utime"];
+				// set Lifecycle (Contribute) data in an array ***
+				$cont["Role"]			= "Author";
+				$cont["Entity"]			= $row["firstname"]." ".$row["surname"];
+				$cont["Date"]			= $row["utime"];
+				$life["Contribute"][]	= $cont;
 				break;
-			
-			/* ***
-			case "le":
-				$str = "3";
-				break;
-			
-			case "pg":
-				$str = "2";
-				break;
-			
-			case "mc":
-				$str = "2";
-				break;
-			
-			case "el":
-				$str = "1";
-				break;
-			*/
 		}
 		
 		// ***
-		if ($type <> "gd")
+		if ($type <> "st" and
+			$type <> "test" and
+			$type <> "glos")
 		{
 			// table 'meta'
 			$sql =	"SELECT inst, title, lang, description, diff, level, status, ".
-					"material_level, last_modified_date, publisher, publish_date ".
+						"material_level, last_modified_date, publisher, publish_date ".
 					"FROM meta ".
-					"WHERE id = $id ".
-					"AND typ = '$type';";
+					"WHERE id = ".$id." ".
+					"AND typ = '".$type."';";
 			
 			$result = $this->db->query($sql);		
 			// check $result for error
 			if (DB::isError($result))
 			{
-				die ($result->getMessage());
+				die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 			}
 			// get row
 			$meta = $result->fetchRow(DB_FETCHMODE_ASSOC);
 			// free result set
 			$result->free();
 			
-			// set Contribute data in an array
-			$contrib[] = array(	"Role" => "Publisher",
-								"Entity" => $meta["publisher"],
-								"Date" => $meta["publish_date"]);
+			// save current language in the dedicated object var
+			// (used in objects) ***
+			if ($type == "le")
+			{
+			    if ($meta["lang"] <> "")
+				{
+			    	$this->curLang = $meta["lang"];
+			    }
+				else
+				{
+					$this->curLang = "none"; // default
+					$meta["lang"] = $this->curLang;
+				}
+				
+			}
+			else // only current language
+			{
+				if ($meta["lang"] <> "")
+				{
+			    	$this->curLang = $meta["lang"];
+			    }
+				else
+				{
+					$meta["lang"] = $this->curLang; // ***
+				}
+			}
 			
-			// set Classification data in an array
-			$class[] = array(	"Purpose" => "EducationalLevel",
-								"SourceLanguage" => $meta["lang"],
-								"Source" => "ILIAS2 ".$meta["inst"],
-								"TaxonLanguage" => "none", // default, due to convert function
-								"Taxon" => $this->utils->selectMaterialLevel($meta["material_level"]));
+			// set General data in an array
+			$gen["Catalog"]		= "ILIAS2 ".$meta["inst"];
+			$gen["Entry"]		= $type."_".$id;
+			$gen["Title"]		= $meta["title"];
+			$gen["Language"]	= $meta["lang"];
+			$gen["Description"]	= $meta["description"];
+			
+			// set Lifecycle data in an array ***
+			$life["Status"]			= $this->utils->selectStatus($meta["status"]);
+			$life["Version"]		= "Not available"; // default
+			$cont["Role"]			= "Publisher";
+			$cont["Entity"]			= $meta["publisher"];
+			$cont["Date"]			= $meta["publish_date"];
+			$life["Contribute"][]	= $cont;
+			
+			// set Educational data in an array ***
+			$edu["InteractivityType"]		= "Expositive"; // default
+			$edu["LearningResourceType"]	= $this->utils->selectMaterialType($mtype["mtype"]);
+			$edu["InteractivityLevel"]		= "Medium"; // default
+			$edu["SemanticDensity"]			= "Medium"; // default
+			$edu["IntendedEndUserRole"]		= "Learner"; // default
+			$edu["Context"]					= $this->utils->selectLevel($meta["level"]);
+			$edu["Difficulty"]				= $this->utils->selectDifficulty($meta["diff"]);
+			$edu["TypicalAgeRange"]			= "Not available"; // default
+			$edu["TypicalLearningTime"]		= "00:00:00"; // default
+			
+			// set Classification data in an array ***
+			$tax["Purpose"]	= "EducationalLevel";
+			$tax["Taxon"]	= $this->utils->selectMaterialLevel($meta["material_level"]);
+			$class[]		= $tax;
 			
 			// table 'meta_keyword'
 			$sql =	"SELECT DISTINCT keyword ".
 					"FROM meta_keyword ".
-					"WHERE id = $id ".
-					"AND typ = '$type';";
+					"WHERE id = ".$id." ".
+					"AND typ = '".$type."';";
 			
 			$result = $this->db->query($sql);		
 			// check $result for error
 			if (DB::isError($result))
 			{
-				die ($result->getMessage());
+				die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 			}
-			// get row(s)
-			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			// check row number
+			if ($result->numRows() > 0)
 			{
-				$keyword[] = $row["keyword"];
+				// get row(s)
+				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
+				{
+					$gen["Keyword"][] = $row["keyword"];
+				}
 			}
+			else
+			{
+				$gen["Keyword"][] = "No keywords"; // default
+			}
+			
 			// free result set
 			$result->free();
 			
 			// table 'meta_author'
 			$sql =	"SELECT DISTINCT author_firstname, author_surname ".
 					"FROM meta_author ".
-					"WHERE id = $id ".
-					"AND typ = '$type';";
+					"WHERE id = ".$id." ".
+					"AND typ = '".$type."';";
 			
 			$result = $this->db->query($sql);		
 			// check $result for error
 			if (DB::isError($result))
 			{
-				die ($result->getMessage());
+				die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 			}
 			// get row(s)
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -408,31 +524,33 @@ class ILIAS2To3Converter
 					$sql2 =	"SELECT b.vorname AS author_firstname, b.nachname AS author_surname ".
 							"FROM meta_author AS ma, benutzer AS b ".
 							"WHERE ma.author_local_id = b.id ".
-							"AND ma.id = $id ".
-							"AND ma.typ = '$type';";
+							"AND ma.id = ".$id." ".
+							"AND ma.typ = '".$type."';";
 					
 					$result2 = $this->db->query($sql2);		
 					// check $result for error
 					if (DB::isError($result2))
 					{
-						die ($result2->getMessage());
+						die ($result2->getMessage()."<br><font size=-1>SQL: ".$sql2."</font>");
 					}
 					// get row
 					$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
 					// free result set
 					$result2->free();
 					
-					// set Contribute data in an array ***
-					$contrib[] = array(	"Role" => "Author",
-										"Entity" => $row2["author_firstname"]." ".$row2["author_surname"],
-										"Date" => $meta["last_modified_date"]);
+					// set Lifecycle (Contribute) data in an array ***
+					$cont["Role"]			= "Author";
+					$cont["Entity"]			= $row2["author_firstname"]." ".$row2["author_surname"];
+					$cont["Date"]			= $meta["last_modified_date"];
+					$life["Contribute"][]	= $cont;
 				}
 				else
 				{
-					// set Contribute data in an array ***
-					$contrib[] = array(	"Role" => "Author",
-										"Entity" => $row["author_firstname"]." ".$row["author_surname"],
-										"Date" => $meta["last_modified_date"]);
+					// set Lifecycle (Contribute) data in an array ***
+					$cont["Role"]			= "Author";
+					$cont["Entity"]			= $row["author_firstname"]." ".$row["author_surname"];
+					$cont["Date"]			= $meta["last_modified_date"];
+					$life["Contribute"][]	= $cont;
 				}
 			}
 			// free result set
@@ -441,14 +559,14 @@ class ILIAS2To3Converter
 			// table 'meta_contrib'
 			$sql =	"SELECT DISTINCT contrib_firstname, contrib_surname ".
 					"FROM meta_contrib ".
-					"WHERE id = $id ".
-					"AND typ = '$type';";
+					"WHERE id = ".$id." ".
+					"AND typ = '".$type."';";
 			
 			$result = $this->db->query($sql);		
 			// check $result for error
 			if (DB::isError($result))
 			{
-				die ($result->getMessage());
+				die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 			}
 			// get row(s)
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -459,31 +577,33 @@ class ILIAS2To3Converter
 					$sql2 =	"SELECT b.vorname AS contrib_firstname, b.nachname AS contrib_surname ".
 							"FROM meta_contrib AS mc, benutzer AS b ".
 							"WHERE mc.contrib_local_id = b.id ".
-							"AND mc.typ = '$type' ".
-							"AND mc.id = $id;";
+							"AND mc.typ = '".$type."' ".
+							"AND mc.id = ".$id.";";
 					
 					$result2 = $this->db->query($sql2);		
 					// check $result for error
 					if (DB::isError($result2))
 					{
-						die ($result2->getMessage());
+						die ($result2->getMessage()."<br><font size=-1>SQL: ".$sql2."</font>");
 					}
 					// get row
 					$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
 					// free result set
 					$result2->free();
 					
-					// set Contribute data in an array ***
-					$contrib[] = array(	"Role" => "TechnicalImplementer",
-										"Entity" => $row2["contrib_firstname"]." ".$row2["contrib_surname"],
-										"Date" => $meta["last_modified_date"]);
+					// set Lifecycle (Contribute) data in an array ***
+					$cont["Role"]			= "TechnicalImplementer";
+					$cont["Entity"]			= $row2["contrib_firstname"]." ".$row2["contrib_surname"];
+					$cont["Date"]			= $meta["last_modified_date"];
+					$life["Contribute"][]	= $cont;
 				}
 				else
 				{
-					// set Contribute data in an array ***
-					$contrib[] = array(	"Role" => "TechnicalImplementer",
-										"Entity" => $row["contrib_firstname"]." ".$row["contrib_surname"],
-										"Date" => $meta["last_modified_date"]);
+					// set Lifecycle (Contribute) data in an array ***
+					$cont["Role"]			= "TechnicalImplementer";
+					$cont["Entity"]			= $row["contrib_firstname"]." ".$row["contrib_surname"];
+					$cont["Date"]			= $meta["last_modified_date"];
+					$life["Contribute"][]	= $cont;
 				}
 			}
 			// free result set
@@ -493,14 +613,14 @@ class ILIAS2To3Converter
 			$sql =	"SELECT m.mtype AS mtype ".
 					"FROM meta_mtype AS mt, materialtype AS m ".
 					"WHERE mt.mtype = m.id ". 
-					"AND mt.id = $id ".
-					"AND mt.typ = '$type';";
+					"AND mt.id = ".$id." ".
+					"AND mt.typ = '".$type."';";
 			
 			$result = $this->db->query($sql);		
 			// check $result for error
 			if (DB::isError($result))
 			{
-				die ($result->getMessage());
+				die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 			}
 			// get row
 			$mtype = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -511,24 +631,22 @@ class ILIAS2To3Converter
 			$sql =	"SELECT DISTINCT d.disc AS discipline ".
 					"FROM meta_discipline AS md, discipline AS d ".
 					"WHERE md.disc = d.id ".
-					"AND md.id = $id ".
-					"AND md.typ = '$type';";
+					"AND md.id = ".$id." ".
+					"AND md.typ = '".$type."';";
 			
 			$result = $this->db->query($sql);		
 			// check $result for error
 			if (DB::isError($result))
 			{
-				die ($result->getMessage());
+				die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 			}
 			// get row(s)
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				// set Classification data in an array ***
-				$class[] = array(	"Purpose" => "Discipline",
-									"SourceLanguage" => $meta["lang"],
-									"Source" => "ILIAS2 ".$meta["inst"],
-									"TaxonLanguage" => $meta["lang"],
-									"Taxon" => $row["discipline"]);
+				$tax["Purpose"]	= "Discipline";
+				$tax["Taxon"]	= $row["discipline"];
+				$class[]		= $tax;
 			}
 			// free result set
 			$result->free();
@@ -537,92 +655,95 @@ class ILIAS2To3Converter
 			$sql =	"SELECT DISTINCT s.subdisc AS subdiscipline ".
 					"FROM meta_subdiscipline AS ms, subdiscipline AS s ".
 					"WHERE ms.disc = s.id ".
-					"AND ms.id = $id ".
-					"AND ms.typ = '$type';";
+					"AND ms.id = ".$id." ".
+					"AND ms.typ = '".$type."';";
 			
 			$result = $this->db->query($sql);		
 			// check $result for error
 			if (DB::isError($result))
 			{
-				die ($result->getMessage());
+				die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 			}
 			// get row(s)
 			while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 			{
 				// set Classification data in an array ***
-				$class[] = array(	"Purpose" => "Discipline",
-									"SourceLanguage" => $meta["lang"],
-									"Source" => "ILIAS2 ".$meta["inst"],
-									"TaxonLanguage" => $meta["lang"],
-									"Taxon" => $row["subdiscipline"]);
+				$tax["Purpose"]	= "Discipline";
+				$tax["Taxon"]	= $row["subdiscipline"];
+				$class[]		= $tax;
 			}
 			// free result set
 			$result->free();
 			
-			// table 'meta_ibo_kat' --> information not used in ILIAS3
+			// table 'meta_ibo_kat' --> information not used in ILIAS 3
 					
-			// table 'meta_ibo_right' --> information not used in ILIAS3
+			// table 'meta_ibo_right' --> information not used in ILIAS 3
+			
+			// save minimal metadata (MetaData..General) in the dedicated object var
+			// (used in object with no metadata in ILIAS 2) ***
+			if ($type == "le")
+			{
+			    $this->metaData = $gen;
+			}
 		}
 		
-		//-------------------------
-		// create MetaData subtree:
-		// *** Reihenfolge und Validität beachten: defaultvalues, falls records leer, aber requiered
-		//-------------------------
-		
-		// MetaData ***
+		//----------------------
+		// create MetaData tree:
+		//----------------------
+		// MetaData
 		$MetaData = $this->writeNode($parent, "MetaData");
 		
 		// 1 MetaData..General
-		$attrs = array(	"Structure" => $this->utils->selectStructure($type));
+		$attrs = array();
+		$attrs["Structure"] = $this->utils->selectStructure($type);
 		$General = $this->writeNode($MetaData, "General", $attrs);
 		
 		// 1.1 ..General..Identifier
-		$attrs = array(	"Catalog" => "ILIAS2 ".$meta["inst"],
-						"Entry" => $type."_".$id); // *** checken
+		$attrs = array();
+		$attrs["Catalog"]	= $gen["Catalog"];
+		$attrs["Entry"]		= $gen["Entry"];
 		$Identifier = $this->writeNode($General, "Identifier", $attrs);
 		
 		// 1.2 ..General..Title
-		$attrs = array(	"Language" => $meta["lang"]);
-		$Title = $this->writeNode($General, "Title", $attrs, $meta["title"]);
+		$attrs = array();
+		$attrs["Language"]	= $gen["Language"];
+		$Title = $this->writeNode($General, "Title", $attrs, $gen["title"]);
 		
 		// 1.3 ..General..Language
-		$Language = $this->writeNode($General, "Language", NULL, $meta["lang"]);
+		$Language = $this->writeNode($General, "Language", NULL, $gen["Language"]);
 		
 		// 1.4 ..General..Description
-		$attrs = array(	"Language" => $meta["lang"]);
-		$Description = $this->writeNode($General, "Description", $attrs, $meta["description"]);
+		$attrs = array();
+		$attrs["Language"]	= $gen["Language"];
+		$Description = $this->writeNode($General, "Description", $attrs, $gen["Description"]);
 		
 		// 1.5 ..General..Keyword
-		if (is_array($keyword))
+		foreach ($gen["Keyword"] as $value) 
 		{
-			foreach ($keyword as $value) 
-			{
-				$attrs = array(	"Language" => $meta["lang"]);
-				$Keyword = $this->writeNode($General, "Keyword", $attrs, $value);
-			}
-		}
-		else
-		{
-			$attrs = array(	"Language" => $meta["lang"]);
-			$Keyword = $this->writeNode($General, "Keyword", $attrs, "Not available"); // default
+			$attrs = array();
+			$attrs["Language"]	= $gen["Language"];
+			$Keyword = $this->writeNode($General, "Keyword", $attrs, $value);
 		}
 		
-		// 1.6 ..General..Covarage --> unavailable in ILIAS2
+		// 1.6 ..General..Covarage --> unavailable in ILIAS 2
 		
-		// 2 MetaData..Lifecycle
-		$attrs = array(	"Status" => $this->utils->selectStatus($meta["status"]));
-		$Lifecycle = $this->writeNode($MetaData, "Lifecycle", $attrs);
-		
-		// 2.1 ..Lifecycle..Version
-		$attrs = array(	"Language" => $meta["lang"]);
-		$Version = $this->writeNode($Lifecycle, "Version", $attrs, "Not available"); // default
-		
-		// 2.3 ..Lifecycle..Contribute
-		if (is_array($contrib))
+		// 2 MetaData..Lifecycle ***
+		if (is_array($life))
 		{
-			foreach ($contrib as $value) 
+			$attrs = array();
+			$attrs["Status"]	= $life["Status"];
+			$Lifecycle = $this->writeNode($MetaData, "Lifecycle", $attrs);
+			
+			// 2.1 ..Lifecycle..Version
+			$attrs = array();
+			$attrs["Language"]	= $gen["Language"];
+			$Version = $this->writeNode($Lifecycle, "Version", $attrs, $life["Version"]);
+			
+			// 2.3 ..Lifecycle..Contribute
+			foreach ($life["Contribute"] as $value) 
 			{
-				$attrs = array(	"Role" => $value["Role"]);
+				$attrs = array();
+				$attrs["Role"]	= $value["Role"];
 				$Contribute = $this->writeNode($Lifecycle, "Contribute", $attrs);
 				
 				// 2.3.2 ..Lifecycle..Contribute..Entity
@@ -633,15 +754,15 @@ class ILIAS2To3Converter
 			}
 		}
 		
-		// 3 MetaData..Meta-Metadata  --> unavailable in ILIAS2
-		
+		// 3 MetaData..Meta-Metadata  --> unavailable in ILIAS 2
 		
 		// 4 MetaData..Technical ***
 		if (is_array($tech))
 		{
 			foreach ($tech as $value) 
 			{
-				$attrs = array(	"Format" => $value["Format"]);
+				$attrs = array();
+				$attrs["Format"]	= $value["Format"];
 				$Technical = $this->writeNode($MetaData, "Technical", $attrs, NULL, $refnode);
 				
 				// 4.2 ..Technical..Size
@@ -650,76 +771,86 @@ class ILIAS2To3Converter
 				// 4.3 ..Technical..Location
 				$Location = $this->writeNode($Technical, "Location", NULL, $value["Location"]);
 				
-				// 4.4 ..Technical..(Requirement | OrComposite) ***
+				// 4.4 ..Technical..(Requirement | OrComposite) --> unavailable in ILIAS 2
 				
-				// 4.5 ..Technical..InstallationRemarks ***
+				// 4.5 ..Technical..InstallationRemarks --> unavailable in ILIAS 2
 				
-				// 4.6 ..Technical..OtherPlatformRequirements ***
+				// 4.6 ..Technical..OtherPlatformRequirements --> unavailable in ILIAS 2
 				
-				// 4.7 ..Technical..Duration ***
+				// 4.7 ..Technical..Duration --> unavailable in ILIAS 2
 			}
 		}
 		
 		// 5 MetaData..Educational
-		$attrs = array(	"InteractivityType" => "Expositive", // default
-						"LearningResourceType" => $this->utils->selectMaterialType($mtype["mtype"]),
-						"InteractivityLevel" => "Medium", // default
-						"SemanticDensity" => "Medium", // default
-						"IntendedEndUserRole" => "Learner", // default
-						"Context" => $this->utils->selectLevel($meta["level"]),
-						"Difficulty" => $this->utils->selectDifficulty($meta["diff"]));
-		$Educational = $this->writeNode($MetaData, "Educational", $attrs);
+		if (is_array($edu))
+		{
+			$attrs = array();
+			$attrs["InteractivityType"]		= $edu["InteractivityType"];
+			$attrs["LearningResourceType"]	= $edu["LearningResourceType"];
+			$attrs["InteractivityLevel"]	= $edu["InteractivityLevel"];
+			$attrs["SemanticDensity"]		= $edu["SemanticDensity"];
+			$attrs["IntendedEndUserRole"]	= $edu["IntendedEndUserRole"];
+			$attrs["Context"]				= $edu["Context"];
+			$attrs["Difficulty"]			= $edu["Difficulty"];
+			$Educational = $this->writeNode($MetaData, "Educational", $attrs);
+			
+			// 5.7 ..Educational..TypicalAgeRange
+			$attrs = array();
+			$attrs["Language"]	= $gen["Language"];
+			$TypicalAgeRange = $this->writeNode($Educational, "TypicalAgeRange", $attrs, $edu["TypicalAgeRange"]);
+			
+			// 5.9 ..Educational..TypicalLearningTime
+			$TypicalLearningTime = $this->writeNode($Educational, "TypicalLearningTime", NULL, $edu["TypicalLearningTime"]);
+		}
 		
-		// 5.7 ..Educational..TypicalAgeRange
-		$attrs = array(	"Language" => $meta["lang"]);
-		$TypicalAgeRange = $this->writeNode($Educational, "TypicalAgeRange", $attrs, "Not available"); // default
+		// 6 MetaData..Rights --> unavailable in ILIAS 2
 		
-		// 5.9 ..Educational..TypicalLearningTime
-		$TypicalLearningTime = $this->writeNode($Educational, "TypicalLearningTime", NULL, "00:00:00"); // default
+		// 7 MetaData..Relation --> unavailable in ILIAS 2
 		
-		// 6 MetaData..Rights ***
+		// 8 MetaData..Annotation --> unavailable in ILIAS 2
 		
-		// 7 MetaData..Relation ***
-		
-		// 8 MetaData..Annotation ***
-		
-		// 9 MetaData..Classification
+		// 9 MetaData..Classification ***
 		if (is_array($class))
 		{
 			foreach ($class as $value) 
 			{
-				$attrs = array(	"Purpose" => $value["Purpose"]);
+				$attrs = array();
+				$attrs["Purpose"]	= $value["Purpose"];
 				$Classification = $this->writeNode($MetaData, "Classification", $attrs);
 				
 				// 9.2 ..Classification..TaxonPath
 				$TaxonPath = $this->writeNode($Classification, "TaxonPath");
 				
 				// 9.2.1 ..Classification..TaxonPath..Source
-				$attrs = array(	"Language" => $value["SourceLanguage"]);
-				$Source = $this->writeNode($TaxonPath, "Source", $attrs, $value["Source"]);
+				$attrs = array();
+				$attrs["Language"]	= $gen["Language"];
+				$Source = $this->writeNode($TaxonPath, "Source", $attrs, $gen["Catalog"]);
 				
 				// 9.2.2 ..Classification..TaxonPath.Taxon
-				$attrs = array(	"Language" => $value["TaxonLanguage"]);
+				$attrs = array();
+				$attrs["Language"]	= $gen["Language"];
 				$Taxon = $this->writeNode($TaxonPath, "Taxon", $attrs, $value["Taxon"]);
 				
 				// ..Classification..Description
-				$attrs = array(	"Language" => $meta["lang"]);
-				$Description = $this->writeNode($Classification, "Description", $attrs, "Not available"); // default
+				$attrs = array();
+				$attrs["Language"]	= $gen["Language"];
+				$Description = $this->writeNode($Classification, "Description", $attrs, "No description"); // default
 				
 				// ..Classification..Keyword
-				$attrs = array(	"Language" => $meta["lang"]);
-				$Keyword = $this->writeNode($Classification, "Keyword", $attrs, "Not available"); // default
+				$attrs = array();
+				$attrs["Language"]	= $gen["Language"];
+				$Keyword = $this->writeNode($Classification, "Keyword", $attrs, "No keywords"); // default
 			}
 		}
 		
 		//-------------
-		// free memory:
+		// free memory: ***
 		//-------------
 		unset($sql, $sql2, $row, $row2, $meta, $keyword, $contrib, $mtype, $attrs);
 		
-		//-------------------------
-		// return MetaData subtree:
-		//-------------------------
+		//----------------------
+		// return MetaData tree:
+		//----------------------
 		return $MetaData;
 	}
 	
@@ -740,7 +871,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		$image = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -800,7 +931,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row
 		$map = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -854,7 +985,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		$mm = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -973,9 +1104,9 @@ class ILIAS2To3Converter
 	}
 	
 	/**
-	* convert text to paragraph and vri to reference ***
+	* convert text to paragraph and vri to IntLink ***
 	*/
-	function exportTextWithVri ($data, $parent)
+	function exportText ($data, $parent, $example = FALSE, $code = FALSE)
 	{
 		// fetch vri (array)
 		if ($vri = $this->utils->fetchVri($data,"st|ab|pg|mm"))
@@ -989,67 +1120,250 @@ class ILIAS2To3Converter
 				// *** test ob leer
 				if (!empty($text[$i]))
 				{
-					// Paragraph ***
-					$attrs = array("Language" => "de"); // *** aus ... holen
-					$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text[$i]);
+					// ***
+					if ($code)
+					{
+						// Paragraph
+						$attrs = array();
+						$attrs["Language"] = $this->curLang;
+						if ($example)
+						{
+							$attrs["Characteristic"] = "Example";
+						}
+						$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+						
+						// Paragraph..Code
+						$attrs = array();
+						$attrs["Id"] = ""; // *** id generieren
+						$Code = $this->writeNode($Paragraph, "Code", $attrs, $text[$i]);
+					}
+					else
+					{
+						// Paragraph
+						$attrs = array();
+						$attrs["Language"] = $this->curLang;
+						if ($example)
+						{
+							$attrs["Characteristic"] = "Example";
+						}
+						$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text[$i]);
+					}
 				}
 				
 				// ***
 				if (isset($vri[$i]))
 				{
-					// Paragraph ***
-					$attrs = array("Language" => "de"); // *** aus ... holen
-					$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
-					
-					// *** auf empty target testen!!!!
-					
-					// Paragraph..IntLink ***
-					$attrs = array(	"Target" => $vri[$i]["type"]."_".$vri[$i]["id"],
-									"Type" => $this->utils->selectTargetType($vri[$i]["type"]),
-									"TargetFrame" => $vri[$i]["target"]);
-					$IntLink = $this->writeNode($Paragraph, "IntLink", $attrs, $vri[$i]["content"]);
+					// ***
+					$this->exportVri($vri[$i], $parent);
 				}
 			}		
 		}
 		else
 		{
-			// Paragraph ***
-			$attrs = array("Language" => "de"); // *** aus ... holen
-			$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $data);
+			// ***
+			if ($code)
+			{
+				// Paragraph
+				$attrs = array();
+				$attrs["Language"] = $this->curLang;
+				if ($example)
+				{
+					$attrs["Characteristic"] = "Example";
+				}
+				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+				
+				// Paragraph..Code
+				$attrs = array();
+				$attrs["Id"] = ""; // *** id generieren
+				$Code = $this->writeNode($Paragraph, "Code", $attrs, $data);
+			}
+			else
+			{
+				// Paragraph
+				$attrs = array();
+				$attrs["Language"] = $this->curLang;
+				if ($example)
+				{
+					$attrs["Characteristic"] = "Example";
+				}
+				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $data);
+			}
 		}
 		// *** return $ret;
 	}
 	
-	// ILIAS 2 Element --> ILIAS 3 LearningObject AggregationLevel 1 or 2 or Text (depends on type)
+	/**
+	* convert vri to IntLink ***
+	* $vri array
+	*/
+	function exportVri ($vri, $parent)
+	{
+		// initialize switch
+		$resolve = TRUE;
+		
+		// resolve VRI-Link to IntLink
+		switch ($vri["type"]) 
+		{
+			case "st":
+				// *** get page corresponding to structure 
+				// and check if it is a part of the learnining unit 
+				$sql =	"SELECT st.page AS page ".
+						"FROM struktur AS st, page AS pg ".
+						"WHERE st.page = pg.id ".
+						"AND st.id = ".$vri["id"]." ".
+						"AND pg.lerneinheit = ".$this->luId." ".
+						"AND pg.pg_typ = 'le' ".
+						"AND pg.deleted = '0000-00-00 00:00:00';";
+				
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
+				}
+				// check row number
+				if ($result->numRows() > 0)
+				{
+					// get row
+					$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+					
+					// reset link data
+					$vri["id"] = $row["page"];
+					$vri["type"] = "pg";
+					$type = "pg"; // ***
+				}
+				else
+				{
+					$resolve = FALSE;
+				}
+				// free result set
+				$result->free();
+				break;
+			
+			case "pg": // *** le, gl, mc???
+			case "ab":
+				// *** check if page (type = 'le|gl|mc' is a part of the learnining unit 
+				$sql =	"SELECT id, pg_typ ".
+						"FROM page ".
+						"WHERE id = ".$vri["id"]." ".
+						"AND lerneinheit = ".$this->luId." ".
+						"AND deleted = '0000-00-00 00:00:00';";
+				
+				$result = $this->db->query($sql);		
+				// check $result for error
+				if (DB::isError($result))
+				{
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
+				}
+				// check row number
+				if ($result->numRows() > 0)
+				{
+					// get row
+					$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+					
+					// reset link data
+					if ($row["pg_typ"] == "le")
+					{
+						$vri["type"] = "pg";
+						$type = "pg"; // ***
+					}
+					if ($row["pg_typ"] == "gl")
+					{
+						$vri["type"] = "gl";
+						$type = "pg"; // ***
+					}
+					if ($row["pg_typ"] == "mc")
+					{
+						$vri["type"] = "mc";
+						$type = "mc"; // ***
+					}
+				}
+				else
+				{
+					$resolve = "FALSE";
+				}
+				// free result set
+				$result->free();
+				break;
+			
+			case "mm":
+				// *** is der test hier nötig
+				$type = "mm"; // ***
+				break;
+		}
+		
+		if ($resolve)
+		{
+			// Paragraph
+			$attrs = array();
+			$attrs["Language"] = $this->curLang;
+			if ($example)
+			{
+				$attrs["Characteristic"] = "Example";
+			}
+			$Paragraph = $this->writeNode($parent, "Paragraph", $attrs);
+			
+			// Paragraph..IntLink
+			$attrs = array();
+			$attrs["Target"]	= $type."_".$vri["id"];
+			$attrs["Type"]		= $this->utils->selectTargetType($vri["type"]);
+			if ($vri["target"] <> "")
+			{
+				$attrs["TargetFrame"] = $vri["target"];
+			}
+			$IntLink = $this->writeNode($Paragraph, "IntLink", $attrs, $vri["content"]);
+		}
+		else
+		{
+			// Paragraph
+			$attrs = array();
+			$attrs["Language"] = $this->curLang;
+			$text = "VRI-Link could not be resolved - Target object is not a part of current learningunit. ";
+			$text .= "[".$vri["content"]." ";
+			$text .= "Target=".$vri["id"]." ";
+			$text .= "Type=".$vri["type"];
+			if ($vri["target"] <> "")
+			{
+				$text .= " TargetFrame=".$vri["target"]."]";
+			}
+			$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text);
+		}
+		// *** return $ret;
+	}
+	
+	// ILIAS 2 Element --> ILIAS 3 Paragraph or MediaObject (depends on type) ***
+	// metadata 'el' wird bis auf image und imagemap unterschlagen ***
 	function exportElement ($id, $parent)
 	{
 		//-------------------------
 		// get data from db tables:
-		//-------------------------
-		
+		//-------------------------		
 		// table 'element'
-		$sql =	"SELECT typ, page, nr, src, bsp ".
+		$sql =	"SELECT typ, src, bsp ".
 				"FROM element ".
-				"WHERE id = ".$id." ".
-				"AND deleted = '0000-00-00 00:00:00'";
+				"WHERE id = ".$id.";";
 		
 		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row
 		$element = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		// free result set
 		$result->free();
 		
+		// ***
+		$code = $this->utils->selectBool($element["src"]);
+		$expl = $this->utils->selectBool($element["bsp"]);
+		
 		// select tables according to element's type
 		switch($element["typ"]) 
 		{
 			case 1: // text
 				// table 'el_text'
-				$sql =	"SELECT text, align ".
+				$sql =	"SELECT text, align ". // *** align auflösen!!!
 						"FROM el_text ".
 						"WHERE id = ".$id.";";
 				
@@ -1057,7 +1371,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row
 				$text = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -1067,25 +1381,13 @@ class ILIAS2To3Converter
 				//-----------------------
 				// create Paragraph tree:
 				//-----------------------
-				
-				// *** (convert VRIs, HTML and Layout (alignment))
-				// MetaData *** (Parent LearningObjet already has MetaData) Unterschlagen???
-				
-				/* ***
-				// Paragraph ***
-				$attrs = array(	"Language" => "de", // *** aus meta holen
-								"Characteristic" => "Example"); // *** aus bsp holen
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text["text"]);
-				*/
-				
 				// ***
-				$this->exportTextWithVri($text["text"], $parent);				
+				$this->exportText($text["text"], $parent, $expl, $code);
 				break;
 			
 			// image (bild)
 			case 2:
 				// table 'el_bild' not needed at all!
-				
 				//-------------------------
 				// create MediaObject tree:
 				//-------------------------		
@@ -1093,7 +1395,7 @@ class ILIAS2To3Converter
 				$MediaObject = $this->writeNode($parent, "MediaObject");
 				
 				// MediaObject..MediaAlias
-				$attrs = array(); // ***
+				$attrs = array();
 				$attrs["OriginId"] = "el_".$id;
 				$MediaAlias = $this->writeNode($MediaObject, "MediaAlias", $attrs);
 				
@@ -1113,31 +1415,24 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row
 				$text = $result->fetchRow(DB_FETCHMODE_ASSOC);
 				// free result set
 				$result->free();
 				
-				//--------------------------
-				// create Paragraph subtree:
-				// *** (convert VRIs, HTML and Layout (alignment))
-				//--------------------------
-				
-				// MetaData *** (Parent LearningObject already has MetaData) Unterschlagen???
-				
-				// Paragraph ***
-				$attrs = array(	"Language" => "de", // *** aus meta holen
-								"Characteristic" => "Headline"); // *** mit bsp vergeleichen
-				$Paragraph = $this->writeNode($parent, "Paragraph", $attrs, $text["text"]);
-				
+				//-----------------------
+				// create Paragraph tree:
+				//-----------------------
+				// *** "Characteristic" => "Headline" ***
+				$this->exportText($text["text"], $parent, $expl, $code);
 				break;
 			
 			// table
 			case 4:
 				// table 'el_table'
-				$sql =	"SELECT rows, border, caption, capalign, width ". // *** auf weiter checken
+				$sql =	"SELECT rows, border, caption, capalign, width ".
 						"FROM el_table ".
 						"WHERE id = ".$id.";";
 				
@@ -1145,7 +1440,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row
 				$table = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -1165,7 +1460,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row(s)
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1175,13 +1470,9 @@ class ILIAS2To3Converter
 				// free result set
 				$result->free();
 				
-				//--------------------------
-				// create Paragraph subtree:
-				// *** (convert VRIs, HTML and Layout (alignment))
-				//--------------------------
-				
-				// MetaData *** (Parent LearningObjet already has MetaData) Unterschlagen???
-				
+				//-----------------------
+				// create Paragraph tree:
+				//-----------------------
 				// Paragraph ***
 				$attrs = array(	"Language" => "de", // *** aus meta holen
 								"Characteristic" => "Example"); // *** aus bsp holen
@@ -1237,7 +1528,6 @@ class ILIAS2To3Converter
 						}
 					}
 				}
-				
 				break;
 			
 			// imagemap
@@ -1254,7 +1544,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row(s)
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1284,7 +1574,7 @@ class ILIAS2To3Converter
 					foreach ($area as $value)
 					{
 						$attrs = array(); // ***
-						$attrs["Shape"]		= $value["shape"];
+						$attrs["Shape"]		= $this->utils->selectShape($value["shape"]);
 						$attrs["Coords"]	= $value["coords"];
 						$attrs["Href"]		= $value["href"];
 						$attrs["Alt"]		= $value["alt"];
@@ -1308,7 +1598,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row
 				$mc = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -1328,7 +1618,7 @@ class ILIAS2To3Converter
 					// check $result for error
 					if (DB::isError($result))
 					{
-						die ($result->getMessage());
+						die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 					}
 					// get row(s)
 					while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1339,18 +1629,16 @@ class ILIAS2To3Converter
 					$result->free();
 				}
 				
-				//---------------------
-				// create Test subtree:
-				//---------------------
-				
-				// MetaData *** checken
-				
+				//--------------------------------------
+				// create Question, Answer, [Hint] tree:
+				//--------------------------------------
 				// TestItem..Question ***
 				$Question = $this->writeNode($parent, "Question");
 				
-				// ..Question..Paragraph ***
-				$attrs = array(	"Language" => "de", // *** aus meta holen
-								"Characteristic" => "Example"); // *** aus bsp holen
+				// TestItem..Question..Paragraph ***
+				$attrs = array();
+				$attrs["Language"]			= "de"; // *** aus meta holen
+				$attrs["Characteristic"]	= "Example"; // *** aus bsp holen
 				$Paragraph = $this->writeNode($Question, "Paragraph", $attrs, $mc["text"]);
 				
 				// TestItem..Answer ***
@@ -1359,12 +1647,14 @@ class ILIAS2To3Converter
 				{
 					foreach ($answer as $value) 
 					{
-						$attrs = array(	"Solution" => $this->utils->selectAnswer($value["mright"]));
+						$attrs = array();
+						$attrs["Solution"] = $this->utils->selectAnswer($value["mright"]);
 						$Answer = $this->writeNode($parent, "Answer", $attrs);
 						
-						// ..Answer..Paragraph ***
-						$attrs = array(	"Language" => "de", // *** aus meta holen
-										"Characteristic" => "Example"); // *** aus bsp holen
+						// TestItem..Answer..Paragraph ***
+						$attrs = array();
+						$attrs["Language"]			= "de"; // *** aus meta holen
+						$attrs["Characteristic"]	= "Example"; // *** aus bsp holen
 						$Paragraph = $this->writeNode($Answer, "Paragraph", $attrs, $value["text"]);
 					}
 				}
@@ -1372,14 +1662,19 @@ class ILIAS2To3Converter
 				{
 					$Answer = $this->writeNode($parent, "Answer");
 					
-					// ..Answer..Paragraph ***
-					$attrs = array(	"Language" => "de", // *** aus meta holen
-									"Characteristic" => "Example"); // *** aus bsp holen
+					// TestItem..Answer..Paragraph ***
+					$attrs = array();
+					$attrs["Language"]			= "de"; // *** aus meta holen
+					$attrs["Characteristic"]	= "Example"; // *** aus bsp holen
 					$Paragraph = $this->writeNode($Answer, "Paragraph", $attrs, $this->utils->selectAnswer($mc["answer"]));
 				}
 				
 				// TestItem..Hint ***
 				// *** falls vorhanden VRI auflösen, sonst nicht vorhanden
+				if ($mc["vristr"] <> "")
+				{
+					
+				}
 				
 				// *** !!!!!!!!! return einbauen
 				
@@ -1400,7 +1695,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row
 				$mm = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -1479,7 +1774,7 @@ class ILIAS2To3Converter
 				// check $result for error
 				if (DB::isError($result))
 				{
-					die ($result->getMessage());
+					die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 				}
 				// get row(s)
 				while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1544,7 +1839,7 @@ class ILIAS2To3Converter
 		// get data from db tables:
 		//-------------------------		
 		// table 'glossar'
-		$sql =	"SELECT page, autor, begriff ". // *** autor zu Metadaten
+		$sql =	"SELECT page, begriff ".
 				"FROM glossar ".
 				"WHERE id = ".$id.";";
 		
@@ -1552,14 +1847,14 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		$gloss = $result->fetchRow(DB_FETCHMODE_ASSOC);
 		// free result set
 		$result->free();
 		
-		// table 'page' not needed at all!
+		// table 'page' (type = 'gl') not needed at all!
 		
 		//--------------------------
 		// create GlossaryItem tree:
@@ -1567,9 +1862,8 @@ class ILIAS2To3Converter
 		// GlossaryItem
 		$GlossaryItem = $this->writeNode($parent, "GlossaryItem");
 		
-		// GlossaryItem..MetaData ***
-		// *** Problem metadata zu Page: typ 'pg' nicht 'gl':
-		$MetaData = $this->exportMetadata($gloss["page"], "pg", $GlossaryItem);
+		// GlossaryItem..MetaData
+		$MetaData = $this->exportMetadata($gloss["page"], "gl", $GlossaryItem);
 		
 		// GlossaryItem..GlossaryTerm
 		$GlossaryTerm = $this->writeNode($GlossaryItem, "GlossaryTerm", NULL, $gloss["begriff"]);
@@ -1577,7 +1871,8 @@ class ILIAS2To3Converter
 		// GlossaryItem..Definition
 		$Definition = $this->writeNode($GlossaryItem, "Definition");
 		
-		// GlossaryItem..Definition..[Paragraph | MediaObject] (= elements)
+		// GlossaryItem..Definition..(Paragraph | MediaObject)
+		// = elements
 		$sql =	"SELECT id ".
 				"FROM element ".
 				"WHERE page = ".$gloss["page"]." ".
@@ -1588,7 +1883,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1599,7 +1894,7 @@ class ILIAS2To3Converter
 		$result->free();
 		
 		//-------------
-		// free memory: ***
+		// free memory:
 		//-------------
 		unset($sql, $row, $gloss);
 		
@@ -1626,11 +1921,34 @@ class ILIAS2To3Converter
 		// TestItem..MetaData
 		$MetaData = $this->exportMetadata($id, "mc", $TestItem);
 		
-		// TestItem.. (= elements) ***
+		// TestItem..(Question, Answer, [Hint]) 
+		// = element of type 6 (el_mc) ***
 		$sql =	"SELECT id ".
 				"FROM element ".
 				"WHERE page = ".$id." ".
-				// "AND typ = 6 ". // *** nur mc elemente filtern? oder Item anders verankern
+				"AND typ = 6 ".
+				"AND deleted = '0000-00-00 00:00:00';";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
+		}
+		// get row
+		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		$Element = $this->exportElement($row["id"], $TestItem);
+		
+		// free result set
+		$result->free();
+		
+		// = element other types ***
+		/* ***
+		$sql =	"SELECT id ".
+				"FROM element ".
+				"WHERE page = ".$id." ".
+				"AND typ <> 6 ".
 				"AND deleted = '0000-00-00 00:00:00' ".
 				"ORDER BY nr;";
 		
@@ -1638,7 +1956,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1647,9 +1965,10 @@ class ILIAS2To3Converter
 		}
 		// free result set
 		$result->free();
+		*/
 		
 		//-------------
-		// free memory: ***
+		// free memory:
 		//-------------
 		unset($sql, $row);
 		
@@ -1667,17 +1986,26 @@ class ILIAS2To3Converter
 		//-------------------------		
 		// table 'page' not needed at all!
 		
-		// table 'page_glossar' // *** ggf. content für link
+		// table 'page_glossar'
+		/* ***
 		$sql =	"SELECT glossar ".
 				"FROM page_glossar ".
 				"WHERE page = ".$id." ". 
 				"ORDER BY id;";
+		*/
+		
+		$sql =	"SELECT p.id AS page, g.begriff AS term ".
+				"FROM page AS p, glossar AS g, page_glossar AS pg ".
+				"WHERE p.id = g.page ".
+				"AND g.id = pg.glossar ".
+				"AND pg.page = ".$id." ".
+				"ORDER BY pg.id;";
 		
 		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1697,7 +2025,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1717,7 +2045,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1727,16 +2055,17 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		//-------------------------
+		//------------------------
 		// create PageObject tree:
-		//-------------------------				
+		//------------------------ 				
 		// PageObject
 		$PageObject = $this->writeNode($parent, "PageObject");
 		
 		// PageObject..MetaData
 		$MetaData = $this->exportMetadata($id, "pg", $PageObject);
 		
-		// PageObject..[Paragraph | MediaObject] (= Elements)
+		// PageObject..(Paragraph | MediaObject) 
+		// = elements  *** auf leere Seiten prüfen
 		$sql =	"SELECT id ".
 				"FROM element ".
 				"WHERE page = ".$id." ".
@@ -1747,7 +2076,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1757,59 +2086,68 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// PageObject..Paragraph (= page's glossary items)
+		// PageObject..Paragraph
+		// = page's glossary items
 		if (is_array($gloss))
 		{
 			foreach ($gloss as $value)
 			{
-				$attrs = array(	"Language" => "de", // *** aus ... holen
-								"Characteristic" => "Additional"); 
+				$attrs = array();
+				$attrs["Language"] = "de"; // *** aus ... holen
+				$attrs["Characteristic"] = "Additional";
 				$Paragraph = $this->writeNode($PageObject, "Paragraph", $attrs);
 				
 				// ..IntLink (-> GlossaryItem)
-				$attrs = array(	"Target" => "gl_".$value["glossar"], // id abgleichen ***
-								"Type" => $this->utils->selectTargetType("gl"));
-				$IntLink = $this->writeNode($Paragraph, "IntLink", $attrs);
+				$attrs = array();
+				$attrs["Target"] = "pg_".$value["page"];
+				$attrs["Type"] = $this->utils->selectTargetType("gl");
+				$IntLink = $this->writeNode($Paragraph, "IntLink", $attrs, $value["term"]);
 			}
 		}
 		
-		// PageObject..Paragraph (= page's links)
+		// PageObject..Paragraph 
+		// = page's links
 		if (is_array($link))
 		{
 			foreach ($link as $value)
 			{
-				$attrs = array(	"Language" => "de", // *** aus ... holen
-								"Characteristic" => "Additional"); 
+				$attrs = array();
+				$attrs["Language"] = "de"; // *** aus ... holen
+				$attrs["Characteristic"] = "Additional";
 				$Paragraph = $this->writeNode($PageObject, "Paragraph", $attrs);
 				
 				// ..ExtLink (-> URL)
-				$attrs = array(	"Href" => $value["url"]);
+				$attrs = array();
+				$attrs["Href"] = $value["url"];
 				$ExtLink = $this->writeNode($Paragraph, "ExtLink", $attrs, $value["titel"]);
 			}
 		}
 		
-		// PageObject..Paragraph (= page's mc questions)
+		// PageObject..Paragraph 
+		// = page's mc questions
 		if (is_array($mc))
 		{
 			foreach ($mc as $value)
 			{
-				$attrs = array(	"Language" => "de", // *** aus ... holen
-								"Characteristic" => "Additional"); 
+				$attrs = array();
+				$attrs["Language"] = "de"; // *** aus ... holen
+				$attrs["Characteristic"] = "Additional";
 				$Paragraph = $this->writeNode($PageObject, "Paragraph", $attrs);
 				
 				// ..IntLink (-> TestItem)
-				$attrs = array(	"Target" => "mc_".$value["mc_id"], // id abgleichen ***
-								"Type" => $this->utils->selectTargetType("mc"));
+				$attrs = array();
+				$attrs["Target"] = "mc_".$value["mc_id"];
+				$attrs["Type"] = $this->utils->selectTargetType("mc");
 				$IntLink = $this->writeNode($Paragraph, "IntLink", $attrs);
 			}
 		}
 		
-		// PageObject..Layout --> unavailable for pages in ILIAS2
+		// PageObject..Layout --> unavailable for pages in ILIAS 2
 		
 		//-------------
-		// free memory: ***
+		// free memory:
 		//-------------
-		unset($sql, $row, $gloss, $link, $mc, $attrs);
+		unset($sql, $row, $gloss, $link, $mc, $value, $attrs);
 		
 		//------------------
 		// return PageObject
@@ -1832,9 +2170,9 @@ class ILIAS2To3Converter
 		$StructureObject = $this->writeNode($parent, "StructureObject");
 		
 		// StructureObject..MetaData ***
-		$MetaData = $this->exportMetadata($id, "gd", $StructureObject);
+		$MetaData = $this->exportMetadata($id, "st", $StructureObject);
 		
-		// StructureObject..StructureObject(s) (recursion for subchapters) ***
+		// StructureObject..StructureObject(s) (recursion for subchapters)
 		$sql =	"SELECT gd.id ".
 				"FROM gliederung AS gd, gliederung AS mt ".
 				"WHERE gd.mutter = ".$id." ".
@@ -1846,7 +2184,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1856,13 +2194,11 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// StructureObject..PageObject(s) ***
-		// only linked Pages of type 'le', using table 'struktur'
-		// *** Problem: 1 Page ggf. mehrmals verlinkt -> ID doppelt -> referenzieren???
-		$sql =	"SELECT st.id AS id , st.page AS page ".
+		// StructureObject..PageObject(s) (= linked pages of type 'le')
+		$sql =	"SELECT st.page AS page ".
 				"FROM struktur AS st, page AS pg ".
 				"WHERE st.page = pg.id ".
-				"And st.gliederung = ".$id." ".
+				"AND st.gliederung = ".$id." ".
 				"AND pg.pg_typ = 'le' ".
 				"AND pg.deleted = '0000-00-00 00:00:00' ";
 				"ORDER BY st.nr;";
@@ -1871,12 +2207,23 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			$PageObject = $this->exportPage($row["page"], $StructureObject);
+			//-------------------------
+			// create PageObject tree:
+			//-------------------------		
+			// PageObject
+			$PageObject = $this->writeNode($StructureObject, "PageObject");
+			
+			// PageObject..PageAlias
+			$attrs = array();
+			$attrs["OriginId"] = "pg_".$row["page"];
+			$PageAlias = $this->writeNode($PageObject, "PageAlias", $attrs);
+			
+			// PageObject..Layout --> unavailable for pages in ILIAS 2
 		}
 		// free result set
 		$result->free();
@@ -1884,7 +2231,7 @@ class ILIAS2To3Converter
 		// StructureObject..Layout --> unavailable for structure in ILIAS 2
 		
 		//-------------
-		// free memory: ***
+		// free memory:
 		//-------------
 		unset($sql, $row, $attrs);
 		
@@ -1901,12 +2248,23 @@ class ILIAS2To3Converter
 		// get data from db tables:
 		//-------------------------		
 		// table 'lerneinheit'
-		/*
-		$sql =	"SELECT * ".
+		$sql =	"SELECT id ".
 				"FROM lerneinheit ".
-				"WHERE id = $id ".
-				"AND deleted = '0000-00-00 00:00:00'";
-		*/
+				"WHERE id = ".$id." ".
+				"AND deleted = '0000-00-00 00:00:00';";
+		
+		$result = $this->db->query($sql);		
+		// check $result for error
+		if (DB::isError($result))
+		{
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
+		}
+		// check row number
+		if ($result->numRows() == 0)
+		{
+			die ("ERROR: No Learningunit with the id ".$id." available."); // ***
+		}
+		$result->free();
 		
 		//----------------------------
 		// create LearningModule tree:
@@ -1917,7 +2275,8 @@ class ILIAS2To3Converter
 		// LearningModule..MetaData
 		$MetaData = $this->exportMetadata($id, "le", $LearningModule);
 		
-		// LearningModule..StructureObject (= "startpage" of an ILIAS 2 Learningunit)
+		// LearningModule..StructureObject
+		// = "startpage" of an ILIAS 2 Learningunit
 		$sql =	"SELECT id ".
 				"FROM gliederung ".
 				"WHERE lerneinheit = ".$id." ".
@@ -1927,7 +2286,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
@@ -1937,7 +2296,8 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// LearningModule..StructureObject(s) (= all chapters beeing childern of "startpage" above)
+		// LearningModule..StructureObject(s)
+		// = all chapters beeing childern of "startpage" above
 		$sql =	"SELECT id ".
 				"FROM gliederung ".
 				"WHERE lerneinheit = ".$id." ".
@@ -1948,7 +2308,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1958,7 +2318,9 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// LearningModule..PageObject(s) (= unlinked/dangling Pages)
+		/* ***
+		// LearningModule..PageObject(s) 
+		// = unlinked/dangling pages
 		$sql =	"SELECT p.id AS id ".
 				"FROM page AS p ".
 				"LEFT JOIN struktur AS s ON p.id = s.page ".
@@ -1966,12 +2328,21 @@ class ILIAS2To3Converter
 				"AND p.pg_typ = 'le' ".
 				"AND s.page is NULL ".
 				"AND p.deleted = '0000-00-00 00:00:00';";
+		*/
+		
+		// LearningModule..PageObject(s) 
+		// = all linked and dangling pages of type 'le'
+		$sql =	"SELECT id ".
+				"FROM page ".
+				"WHERE lerneinheit = ".$id." ".
+				"AND pg_typ = 'le' ".
+				"AND deleted = '0000-00-00 00:00:00';";
 		
 		$result = $this->db->query($sql);		
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -1981,7 +2352,8 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// LearningModule..MediaObject(s) (= image elements) ***
+		// LearningModule..MediaObject(s) 
+		// = image elements ***
 		$sql =	"SELECT DISTINCT el.id AS id ".
 				"FROM lerneinheit AS le, page AS pg, element AS el ".
 				"WHERE le.id = ".$id." ".
@@ -1994,7 +2366,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2004,7 +2376,8 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// LearningModule..MediaObject(s) (= imagemap elements) ***
+		// LearningModule..MediaObject(s) 
+		// = imagemap elements ***
 		$sql =	"SELECT DISTINCT el.id AS id ".
 				"FROM lerneinheit AS le, page AS pg, element AS el ".
 				"WHERE le.id = ".$id." ".
@@ -2017,7 +2390,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2027,7 +2400,8 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// LearningModule..MediaObject(s) (= multimedia objects of multimedia elements)
+		// LearningModule..MediaObject(s) 
+		// = multimedia objects of multimedia elements
 		$sql =	"SELECT DISTINCT mm.id AS id ".
 				"FROM lerneinheit AS le, page AS pg, element AS el, el_multimedia AS el_mm, multimedia AS mm ".
 				"WHERE le.id = ".$id." ".
@@ -2041,7 +2415,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2054,7 +2428,8 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// LearningModule..MediaObject(s) (= multimedia objects of vri links)
+		// LearningModule..MediaObject(s) 
+		// = multimedia objects of vri links
 		$sql =	"SELECT DISTINCT mm.id AS id ".
 				"FROM lerneinheit AS le, page AS pg, element AS el, vri_link AS vl, multimedia AS mm ".
 				"WHERE le.id = ".$id." ".
@@ -2069,7 +2444,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2083,7 +2458,8 @@ class ILIAS2To3Converter
 		// free result set
 		$result->free();
 		
-		// LearningModule..MediaObject(s) (= files)
+		// LearningModule..MediaObject(s) 
+		// = files
 		$sql =	"SELECT DISTINCT fi.id AS id ".
 				"FROM lerneinheit AS le, page AS pg, element AS el, filelist_entry AS fl_en, file AS fi ".
 				"WHERE le.id = ".$id." ".
@@ -2097,7 +2473,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2118,7 +2494,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// check row number
 		if ($result->numRows() > 0)
@@ -2129,8 +2505,8 @@ class ILIAS2To3Converter
 			// Test
 			$Test = $this->writeNode($LearningModule, "Test");
 			
-			// Test..MetaData ***
-			// *** $MetaData = $this->exportMetadata($row["id"], "mc***", $LearningModule);
+			// Test..MetaData
+			$MetaData = $this->exportMetadata($row["id"], "test", $Test);
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2152,7 +2528,7 @@ class ILIAS2To3Converter
 		// check $result for error
 		if (DB::isError($result))
 		{
-			die ($result->getMessage());
+			die ($result->getMessage()."<br><font size=-1>SQL: ".$sql."</font>");
 		}
 		// check row number
 		if ($result->numRows() > 0)
@@ -2163,8 +2539,8 @@ class ILIAS2To3Converter
 			// Glossary
 			$Glossary = $this->writeNode($LearningModule, "Glossary");
 			
-			// Glossary..MetaData ***
-			// *** $MetaData = $this->exportMetadata($row["id"], "gl***", $LearningModule);
+			// Glossary..MetaData
+			$MetaData = $this->exportMetadata($row["id"], "glos", $Glossary);
 		}
 		// get row(s)
 		while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC))
@@ -2191,7 +2567,7 @@ class ILIAS2To3Converter
 	}
 	
 	// create xml output
-	function dumpFile ($leId, $path)
+	function dumpFile ()
 	{
 		//-------------------------
 		// create new xml document:
@@ -2210,7 +2586,7 @@ class ILIAS2To3Converter
 		$root->unlink_node();
 		
 		// create ILIAS3 LearningObject out of ILIAS2 Lerneinheit ***
-		$LearningModule = $this->exportLearningunit($leId);
+		$LearningModule = $this->exportLearningunit($this->luId);
 		
 		// dump xml document on the screen ***
 		echo "<PRE>";
@@ -2218,7 +2594,7 @@ class ILIAS2To3Converter
 		echo "</PRE>";
 		
 		// dump xml document into a file ***
-		$this->doc->dump_file($path, FALSE, TRUE);
+		$this->doc->dump_file($this->targetDir.$this->file, FALSE, TRUE);
 		
 		// call destructor
 		$this->_ILIAS2To3Converter();
