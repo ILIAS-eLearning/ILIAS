@@ -709,7 +709,31 @@ class ilGroupGUI extends ilObjectGUI
 		}
 
 		// temp. switch for file upload
-		if ($new_type == "file")
+		if ($new_type == "slm")
+		{
+			// fill in saved values in case of error
+			$data = array();
+			$data["fields"] = array();
+			$data["fields"]["scorml_m"] = "";
+
+			$this->tpl->addBlockFile("CONTENT", "create_table" ,"tpl.slm_import.html");
+
+			foreach ($data["fields"] as $key => $val)
+			{
+				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
+				$this->tpl->parseCurrentBlock();
+			}
+			
+			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
+			$this->tpl->setVariable("BTN_NAME", "upload");
+			$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
+			$this->tpl->setVariable("TXT_IMPORT_SLM", $this->lng->txt("import_slm"));
+			$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
+			
+		}
+		elseif ($new_type == "file")
 		{
 			// fill in saved values in case of error
 			$data = array();
