@@ -1,158 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE objects SYSTEM "http://127.0.0.1/ilias3/objects.dtd">
-<objects xmlns="http://www.w3.org">
-<object name="lng">
-	<property cmd="edit">edit_properties</property>
-	<property cmd="owner">show_owner</property>
-	<action cmd="refresh">refresh</action>
-	<action cmd="install">install</action>
-	<action cmd="uninstall">uninstall</action>
-	<action cmd="edit">edit</action>
-</object>
-<object name="lngf">
-	<subobj>lng</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
-	<action cmd="install">install</action>
-	<action cmd="uninstall">uninstall</action>
-	<action cmd="refresh">refresh</action>
-</object>
-<object name="grp">
-	<subobj>frm</subobj>
-	<subobj>le</subobj>
-	<subobj>crs</subobj>
-	<subobj max="1">file</subobj>
-	<subobj max="1">rolf</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="members">show_members</property>
-	<property cmd="owner">show_owner</property>
-	<action cmd="cut">cut</action>
-	<action cmd="copy">copy</action>
-	<action cmd="delete">delete</action>
-	<action cmd="paste">paste</action>
-	<action cmd="clear">clear</action>
+<objects xmlns="http://www.w3.org" version="$Id$">
+<object name="adm">
+	<subobj name="usrf" max="1">usrf</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<subobj name="objf" max="1">objf</subobj>
+	<subobj name="lngf" max="1">lngf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
 </object>
 <object name="cat">
-	<subobj>cat</subobj>
-	<subobj>frm</subobj>
-	<subobj>le</subobj>
-	<subobj>grp</subobj>
-	<subobj>crs</subobj>
-	<subobj max="1">file</subobj>
-	<subobj max="1">rolf</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
-	<action cmd="cut">cut</action>
-	<action cmd="copy">copy</action>
-	<action cmd="delete">delete</action>
-	<action cmd="paste">paste</action>
-	<action cmd="clear">clear</action>
-</object>
-<object name="frm">
-	<subobj max="1">rolf</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
-	<action cmd="cut">cut</action>
-	<action cmd="copy">copy</action>
-	<action cmd="delete">delete</action>
-	<action cmd="paste">paste</action>
-	<action cmd="clear">clear</action>
-</object>
-<object name="le">
-	<subobj max="1">rolf</subobj>
-	<subobj max="1">file</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
-	<action cmd="cut">cut</action>
-	<action cmd="copy">copy</action>
-	<action cmd="delete">delete</action>
-	<action cmd="paste">paste</action>
-	<action cmd="clear">clear</action>
+	<subobj name="cat">cat</subobj>
+	<subobj name="frm">frm</subobj>
+	<subobj name="le">le</subobj>
+	<subobj name="grp">grp</subobj>
+	<subobj name="crs">crs</subobj>
+	<subobj name="file" max="1">file</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
 </object>
 <object name="crs">
-	<subobj>frm</subobj>
-	<subobj>le</subobj>
-	<subobj>grp</subobj>
-	<subobj max="1">file</subobj>
-	<subobj max="1">rolf</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="members">show_members</property>
-	<property cmd="owner">show_owner</property>
-	<action cmd="cut">cut</action>
-	<action cmd="copy">copy</action>
-	<action cmd="delete">delete</action>
-	<action cmd="paste">paste</action>
-	<action cmd="clear">clear</action>
+	<subobj name="frm">frm</subobj>
+	<subobj name="le">le</subobj>
+	<subobj name="grp">grp</subobj>
+	<subobj name="file" max="1">file</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="members">show_members</property>
+	<property name="owner">show_owner</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
 </object>
 <object name="file">
-	<subobj max="1">rolf</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
-	<action cmd="delete">delete</action>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
 </object>
-<object name="adm">
-	<subobj max="1">usrf</subobj>
-	<subobj max="1">rolf</subobj>
-	<subobj max="1">objf</subobj>
-	<subobj max="1">lngf</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
+<object name="frm">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
 </object>
-<object name="usrf">
-	<subobj>usr</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
-	<action cmd="delete">delete</action>
+<object name="grp">
+	<subobj name="frm">frm</subobj>
+	<subobj name="le">le</subobj>
+	<subobj name="crs">crs</subobj>
+	<subobj name="file" max="1">file</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="members">show_members</property>
+	<property name="owner">show_owner</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
 </object>
-<object name="usr">
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
+<object name="le">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<subobj name="file" max="1">file</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
 </object>
-<object name="rolf">
-	<subobj>rolt</subobj>
-	<subobj>role</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
-	<action cmd="delete">delete</action>
+<object name="lo">
+	<property name="view">view_content</property>
 </object>
-<object name="role">
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
+<object name="lng">
+	<property name="edit">edit_properties</property>
+	<property name="owner">show_owner</property>
+	<action name="refresh">refresh</action>
+	<action name="install">install</action>
+	<action name="uninstall">uninstall</action>
+	<action name="edit">edit</action>
+</object>
+<object name="lngf">
+	<subobj name="lng">lng</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<action name="install">install</action>
+	<action name="uninstall">uninstall</action>
+	<action name="refresh">refresh</action>
+</object>
+<object name="mail">
+	<action name="refresh">refresh</action>
 </object>
 <object name="objf">
-	<subobj>typ</subobj>
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
+	<subobj name="typ">typ</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+</object>
+<object name="role">
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+</object>
+<object name="rolf">
+	<subobj name="rolt">rolt</subobj>
+	<subobj name="role">role</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
+</object>
+<object name="rolt">
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
 </object>
 <object name="typ">
-	<property cmd="view">view_content</property>
-	<property cmd="edit">edit_properties</property>
-	<property cmd="perm">perm_settings</property>
-	<property cmd="owner">show_owner</property>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+</object>
+<object name="usr">
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+</object>
+<object name="usrf">
+	<subobj name="usr">usr</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="owner">show_owner</property>
+	<action name="delete">delete</action>
 </object>
 </objects>
