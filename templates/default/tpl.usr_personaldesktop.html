@@ -5,88 +5,67 @@ body { margin:0px; }
 <div class="invisible_border">
 <div class="il_Header"><h1>{TXT_PAGEHEADLINE}</h1>
 <!-- BEGIN subtitle -->
-<p>{TXT_SUBTITLE}</p>
+{TXT_SUBTITLE_not_needed_anymore}
 <!-- END subtitle -->
 </div>
 {INFOPANEL}
 {BUTTONS}
 {MESSAGE}
-<!-- BEGIN tbl_mail -->
-<h2>{SYSTEM_MAILS}</h2>
-    <table class="fullwidth">
-    <tr class="tblheader">
-      <td class="std"><b>{TXT_SENDER}</b></td>
-      <td class="std"><b>{TXT_SUBJECT}</b></td>
-      <td class="std"><b>{TXT_DATETIME}</b></td>
-    </tr>
-<!-- BEGIN tbl_mail_row -->
-<tr class="{ROWCOL}">
-  <td class="std" valign="middle">{MAIL_FROM}</td>
-  <td class="std" valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}" target="bottom">{MAIL_SUBJ}</a></td>
-  <td class="std" valign="middle">{MAIL_DATE}</td>
-</tr>
-<!-- END tbl_mail_row -->
-    </table>
-<!-- END tbl_mail -->
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr>
 
+<td width="50%" valign="top">
 <!-- BEGIN tbl_lo -->
 <h2>{TXT_LO_HEADER}</h2>
-    <table class="fullwidth">
-    <tr class="tblheader">
-      <td class="std"><b>{TXT_LO_TIME}</b></td>
-      <td class="std"><b>{TXT_LO_TITLE}</b></td>
-      <td class="std"><b>{TXT_LO_PAGE}</b></td>
-    </tr>
-<!-- BEGIN tbl_lo_row -->
-    <tr class="{ROWCOL}">
-      <td class="std">{LO_TIME}</td>
-      <td class="std"><a href="{LO_LINK_LO}" CLASS="navigation" target="_top">{LO_TITLE}</a></td>
-      <td class="std"><a href="{LO_LINK_LO_PAGE}" CLASS="navigation" target="_top">{LO_PAGE}</a></td>
-    </tr>
-<!-- END tbl_lo_row -->
-    </table>
-<!-- END tbl_lo -->
-
-<!-- BEGIN tbl_crs -->
-<h2>{TXT_COURSES}</h2>
-    <table class="fullwidth">
-    <tr class="tblheader">
-      <td class="std"><b>{TXT_TITLE}</b></td>
-      <td class="std"><b>{TXT_DESC}</b></td>
-      <td class="std"></td>
-    </tr>
-<!-- BEGIN tbl_crs_row -->
-    <tr class="{ROWCOL}">
-      <td class="std"><a href="{CRS_LINK}">{CRS_TITLE}</a></td>
-      <td class="std">{CRS_DESC}</td>
-      <td class="std"><a href="{CRS_LINK_QUIT}">{TXT_QUIT}</a></td>
-    </tr>
-<!-- END tbl_crs_row -->
-    </table>
-<!-- END tbl_crs -->
-
-<!-- BEGIN tbl_frm -->
-<h2>{TXT_FORUMS}</h2>
-    <table class="fullwidth">
-	<!-- BEGIN show_btn -->
-	<tr>
-      <td  class="std" valign=top><b>></b>{LIST_BUTTON}</td>      
-	<!-- END show_btn -->
-	
-	<!-- BEGIN show_list -->
+<table class="fullwidth">
 	<tr class="tblheader">
-      <td class="std" valign="top" width="60%"><b>{TXT_TITLE}</b></td>
-      <td class="std" valign="top"><b>{TXT_LASTPOST}</b></td> 
-	<!-- END show_list -->     
-    </tr>
+	<td class="std"><b>{TXT_LO_TITLE}</b></td>
+	</tr>
+<!-- BEGIN tbl_lo_row -->
+	<tr class="{ROWCOL}">
+	<td class="std"><a href="{LO_LINK}" CLASS="navigation" target="_top">{LO_TITLE}</a>
+	&nbsp;<a href="{DROP_LINK}" CLASS="navigation">{TXT_DROP}</a>
+	</td>
+	</tr>
+<!-- END tbl_lo_row -->
+<!-- BEGIN tbl_no_lo -->
+	<tr class="{ROWCOL}">
+	<td class="std">{TXT_NO_LO}</td>
+	</tr>
+<!-- END tbl_no_lo -->
+</table>
+<!-- END tbl_lo -->
+</td>
+
+<td>
+<img class="spacer" src="{IMG_SPACE}" border="0" width="20" height="1" />
+</td>
+
+<td width="50%" valign="top">
+<!-- BEGIN tbl_frm -->
+<h2>{TXT_FRM_HEADER}</h2>
+<table class="fullwidth">
+	<tr class="tblheader">
+	<td class="std"><b>{TXT_FRM_TITLE}</b></td>
+	</tr>
 <!-- BEGIN tbl_frm_row -->
-    <tr class="{ROWCOL}">
-      <td class="std" valign="top" width="60%">{FRM_TITLE}</td>
-      <td class="std" valign="top">{LAST_POST}</td>      
-    </tr>
+	<tr class="{ROWCOL}">
+	<td class="std"><a href="{FRM_LINK}" CLASS="navigation" target="bottom">{FRM_TITLE}</a>
+	&nbsp;<a href="{DROP_LINK}" CLASS="navigation">{TXT_DROP}</a>
+	</td>
+	</tr>
 <!-- END tbl_frm_row -->
-    </table>
+<!-- BEGIN tbl_no_frm -->
+	<tr class="{ROWCOL}">
+	<td class="std">{TXT_NO_FRM}</td>
+	</tr>
+<!-- END tbl_no_frm -->
+</table>
 <!-- END tbl_frm -->
+</td>
+
+</tr></table>
+
 
 <!-- BEGIN tbl_users -->
 <h2>{TXT_USERS_ONLINE}</h2>
@@ -94,9 +73,9 @@ body { margin:0px; }
 	<tr class="tblheader">
       <td class="std" valign="top"><b>{TXT_USR_LOGIN}</b></td>
       <td class="std" valign="top"><b>{TXT_USR_TITLE}</b></td>
-      <td class="std" valign="top"><b>{TXT_USR_FIRSTNAME}</b></td> 
-      <td class="std" valign="top"><b>{TXT_USR_LASTNAME}</b></td> 
-      <td class="std" valign="top"><b>{TXT_USR_LOGIN_TIME}</b></td> 
+      <td class="std" valign="top"><b>{TXT_USR_FIRSTNAME}</b></td>
+      <td class="std" valign="top"><b>{TXT_USR_LASTNAME}</b></td>
+      <td class="std" valign="top"><b>{TXT_USR_LOGIN_TIME}</b></td>
 <!-- BEGIN tbl_users_row -->
     <tr class="{ROWCOL}">
       <td class="std" valign="top">{USR_LOGIN}</td>

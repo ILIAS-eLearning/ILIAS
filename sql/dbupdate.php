@@ -15,3 +15,12 @@ CREATE TABLE glossary_definition
 	term_id		INT NOT NULL,
 	page_id		INT NOT NULL
 );
+
+<#3>
+CREATE TABLE desktop_item
+(
+	user_id		INT NOT NULL,
+	item_id		INT NOT NULL,
+	type		CHAR(4) NOT NULL,
+	INDEX user_id (user_id)
+);
