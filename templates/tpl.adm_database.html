@@ -1,7 +1,15 @@
 <h1>{TXT_PAGEHEADLINE}</h1>
 
-<h2>{TXT_DATABASE_VERSION}</h2>
-<p>{TXT_DATABASE_VERSION_STATUS}</p>
+<h2>{TXT_VERSION}</h2>
+<p><font color="red">
+<!-- BEGIN versionmessage -->
+{MSG}<br>
+<!-- END versionmessage -->
+</font></p>
+<p>{TXT_DATABASE_VERSION}</p>
+<p>{TXT_FILE_VERSION}</p>
+<p><font color="red"><b>{TXT_DATABASE_VERSION_STATUS}</b></font></p>
+
 <!-- BEGIN migrate -->
  <a href="adm_database.php?func=migrate">{TXT_MIGRATE}</a>
 <!-- END migrate -->

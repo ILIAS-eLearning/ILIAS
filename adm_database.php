@@ -13,16 +13,36 @@ include("./include/inc.main.php");
 include_once("./classes/class.DBUpdate.php");
 
 $myDB = new DBUpdate();
-
-echo "Your DB Version: ".$myDB->getCurrentVersion();
-echo "File Version: ".$myDB->getFileVersion();
-
-
 $lng = new Language($ilias->account->data["language"]);
+$tpl = new Template("tpl.adm_database.html", true, true);
 
-$tpl = new Template("tpl.adm_database.html", false, false);
+if ($_GET["func"]=="migrate")
+{
+	$myDB->applyUpdate();
+	
+	if ($myDB->updateMsg != "no_changes")
+	{
+		foreach ($myDB->updateMsg as $row)
+		{
+			$tpl->setCurrentBlock("versionmessage");
+			$tpl->setVariable("MSG", $row["msg"].": ".$row["nr"]);
+			$tpl->parseCurrentBlock();
+		}
+	}
+}
 
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("database"));
+$tpl->setVariable("TXT_VERSION", $lng->txt("version"));
+$tpl->setVariable("TXT_DATABASE_VERSION", $lng->txt("database_version").": ".$myDB->currentVersion);
+$tpl->setVariable("TXT_FILE_VERSION", $lng->txt("file_version").": ".$myDB->fileVersion);
+$tpl->setVariable("TXT_DATABASE_VERSION_STATUS", $lng->txt($myDB->getDBVersionStatus()));
+
+if ($myDB->getDBVersionStatus()=="database_needs_update")
+{
+	$tpl->setCurrentBlock("migrate");
+	$tpl->setVariable("TXT_MIGRATE", $lng->txt("database_update"));
+	$tpl->parseCurrentBlock();
+}
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
