@@ -4,7 +4,7 @@
 # http://phpmyadmin.sourceforge.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Jul 22, 2002 at 04:28 PM
+# Generation Time: Jul 25, 2002 at 04:19 PM
 # Server version: 3.23.44
 # PHP Version: 4.2.1
 # Database : `uni-koeln_ilias3f_smeyer`
@@ -162,7 +162,7 @@ CREATE TABLE rbac_pa (
 # Dumping data for table `rbac_pa`
 #
 
-INSERT INTO rbac_pa VALUES (2, 'a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}', 1, 0);
+INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 1, 0);
 INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 1, 0);
 INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 1, 0);
 INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 1, 0);
@@ -170,16 +170,16 @@ INSERT INTO rbac_pa VALUES (2, 'a:3:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";}', 7, 
 INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 7, 9);
 INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"1";}', 7, 9);
 INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 7, 9);
-INSERT INTO rbac_pa VALUES (2, 'a:1:{i:0;s:1:"2";}', 8, 9);
+INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 8, 9);
 INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 150, 148);
 INSERT INTO rbac_pa VALUES (3, 'a:1:{i:0;s:1:"2";}', 8, 9);
 INSERT INTO rbac_pa VALUES (4, 'a:1:{i:0;s:1:"1";}', 8, 9);
 INSERT INTO rbac_pa VALUES (5, 'N;', 8, 9);
-INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 9, 1);
+INSERT INTO rbac_pa VALUES (2, 'a:4:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";}', 9, 1);
 INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 9, 1);
 INSERT INTO rbac_pa VALUES (4, 'a:1:{i:0;s:1:"1";}', 9, 1);
 INSERT INTO rbac_pa VALUES (5, 'N;', 9, 1);
-INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 10, 9);
+INSERT INTO rbac_pa VALUES (2, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 10, 9);
 INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 10, 9);
 INSERT INTO rbac_pa VALUES (4, 'a:1:{i:0;s:1:"1";}', 10, 9);
 INSERT INTO rbac_pa VALUES (5, 'N;', 10, 9);
@@ -187,21 +187,21 @@ INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 150, 148);
 INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"1";}', 149, 148);
 INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 149, 148);
 INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"1";}', 149, 148);
-INSERT INTO rbac_pa VALUES (2, 'a:4:{i:0;s:1:"4";i:1;s:1:"3";i:2;s:1:"2";i:3;s:1:"1";}', 149, 148);
 INSERT INTO rbac_pa VALUES (5, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 148, 1);
-INSERT INTO rbac_pa VALUES (2, 'a:3:{i:0;s:1:"3";i:1;s:1:"2";i:2;s:1:"1";}', 148, 1);
+INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 148, 1);
 INSERT INTO rbac_pa VALUES (4, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 148, 1);
 INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"2";i:1;s:1:"1";}', 148, 1);
-INSERT INTO rbac_pa VALUES (2, 'a:4:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";}', 150, 148);
-INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"5";i:1;s:1:"4";i:2;s:1:"3";i:3;s:1:"2";i:4;s:1:"1";}', 151, 150);
+INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 151, 150);
 INSERT INTO rbac_pa VALUES (3, 'a:2:{i:0;s:1:"1";i:1;s:1:"2";}', 151, 150);
 INSERT INTO rbac_pa VALUES (4, 'a:1:{i:0;s:1:"1";}', 151, 150);
 INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"1";}', 151, 150);
 INSERT INTO rbac_pa VALUES (5, 'a:1:{i:0;s:1:"1";}', 150, 148);
-INSERT INTO rbac_pa VALUES (2, 'a:1:{i:0;s:1:"2";}', 152, 150);
+INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 152, 150);
 INSERT INTO rbac_pa VALUES (3, 'a:1:{i:0;s:1:"2";}', 152, 150);
 INSERT INTO rbac_pa VALUES (4, 'a:0:{}', 152, 150);
 INSERT INTO rbac_pa VALUES (5, 'a:0:{}', 152, 150);
+INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 150, 148);
+INSERT INTO rbac_pa VALUES (2, 'a:5:{i:0;s:1:"1";i:1;s:1:"2";i:2;s:1:"3";i:3;s:1:"4";i:4;s:1:"5";}', 149, 148);
 # --------------------------------------------------------
 
 #
@@ -242,9 +242,12 @@ INSERT INTO rbac_ta VALUES (15, 1);
 INSERT INTO rbac_ta VALUES (15, 2);
 INSERT INTO rbac_ta VALUES (15, 3);
 INSERT INTO rbac_ta VALUES (15, 4);
+INSERT INTO rbac_ta VALUES (15, 5);
 INSERT INTO rbac_ta VALUES (16, 1);
 INSERT INTO rbac_ta VALUES (16, 2);
 INSERT INTO rbac_ta VALUES (16, 3);
+INSERT INTO rbac_ta VALUES (16, 4);
+INSERT INTO rbac_ta VALUES (16, 5);
 INSERT INTO rbac_ta VALUES (17, 1);
 INSERT INTO rbac_ta VALUES (17, 2);
 INSERT INTO rbac_ta VALUES (17, 3);
@@ -262,13 +265,18 @@ INSERT INTO rbac_ta VALUES (21, 4);
 INSERT INTO rbac_ta VALUES (22, 1);
 INSERT INTO rbac_ta VALUES (22, 2);
 INSERT INTO rbac_ta VALUES (22, 3);
+INSERT INTO rbac_ta VALUES (23, 1);
 INSERT INTO rbac_ta VALUES (23, 2);
+INSERT INTO rbac_ta VALUES (23, 3);
+INSERT INTO rbac_ta VALUES (23, 4);
+INSERT INTO rbac_ta VALUES (23, 5);
 INSERT INTO rbac_ta VALUES (24, 1);
 INSERT INTO rbac_ta VALUES (24, 2);
 INSERT INTO rbac_ta VALUES (25, 1);
 INSERT INTO rbac_ta VALUES (25, 2);
 INSERT INTO rbac_ta VALUES (26, 1);
 INSERT INTO rbac_ta VALUES (26, 2);
+INSERT INTO rbac_ta VALUES (26, 3);
 # --------------------------------------------------------
 
 #
@@ -286,27 +294,27 @@ CREATE TABLE rbac_templates (
 # Dumping data for table `rbac_templates`
 #
 
-INSERT INTO rbac_templates VALUES (2, 'rolf', 2, 8);
-INSERT INTO rbac_templates VALUES (2, 'usrf', 3, 8);
 INSERT INTO rbac_templates VALUES (2, 'usrf', 2, 8);
 INSERT INTO rbac_templates VALUES (2, 'usrf', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'type', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'type', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'type', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'rolf', 5, 8);
+INSERT INTO rbac_templates VALUES (2, 'rolf', 4, 8);
+INSERT INTO rbac_templates VALUES (2, 'rolf', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'rolf', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'rolf', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'role', 5, 8);
+INSERT INTO rbac_templates VALUES (2, 'role', 4, 8);
+INSERT INTO rbac_templates VALUES (2, 'role', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'role', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'role', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'objf', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'objf', 1, 8);
 INSERT INTO rbac_templates VALUES (2, 'le', 5, 8);
 INSERT INTO rbac_templates VALUES (2, 'le', 4, 8);
 INSERT INTO rbac_templates VALUES (2, 'le', 3, 8);
 INSERT INTO rbac_templates VALUES (2, 'le', 2, 8);
-INSERT INTO rbac_templates VALUES (2, 'le', 1, 8);
-INSERT INTO rbac_templates VALUES (2, 'grp', 4, 8);
-INSERT INTO rbac_templates VALUES (2, 'grp', 3, 8);
-INSERT INTO rbac_templates VALUES (2, 'grp', 2, 8);
-INSERT INTO rbac_templates VALUES (2, 'grp', 1, 8);
-INSERT INTO rbac_templates VALUES (2, 'frm', 5, 8);
-INSERT INTO rbac_templates VALUES (2, 'frm', 4, 8);
-INSERT INTO rbac_templates VALUES (2, 'frm', 3, 8);
-INSERT INTO rbac_templates VALUES (2, 'frm', 2, 8);
-INSERT INTO rbac_templates VALUES (2, 'frm', 1, 8);
-INSERT INTO rbac_templates VALUES (2, 'cat', 3, 8);
-INSERT INTO rbac_templates VALUES (2, 'cat', 2, 8);
-INSERT INTO rbac_templates VALUES (2, 'cat', 1, 8);
 INSERT INTO rbac_templates VALUES (3, 'rolf', 2, 8);
 INSERT INTO rbac_templates VALUES (3, 'usrf', 2, 8);
 INSERT INTO rbac_templates VALUES (3, 'usrf', 1, 8);
@@ -361,6 +369,27 @@ INSERT INTO rbac_templates VALUES (5, 'le', 1, 152);
 INSERT INTO rbac_templates VALUES (5, 'grp', 1, 152);
 INSERT INTO rbac_templates VALUES (5, 'frm', 1, 152);
 INSERT INTO rbac_templates VALUES (5, 'cat', 1, 152);
+INSERT INTO rbac_templates VALUES (2, 'le', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'grp', 5, 8);
+INSERT INTO rbac_templates VALUES (2, 'grp', 4, 8);
+INSERT INTO rbac_templates VALUES (2, 'grp', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'grp', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'grp', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'frm', 5, 8);
+INSERT INTO rbac_templates VALUES (2, 'frm', 4, 8);
+INSERT INTO rbac_templates VALUES (2, 'frm', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'frm', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'frm', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'cat', 5, 8);
+INSERT INTO rbac_templates VALUES (2, 'cat', 4, 8);
+INSERT INTO rbac_templates VALUES (2, 'cat', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'cat', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'cat', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'adm', 4, 8);
+INSERT INTO rbac_templates VALUES (2, 'adm', 3, 8);
+INSERT INTO rbac_templates VALUES (2, 'adm', 2, 8);
+INSERT INTO rbac_templates VALUES (2, 'adm', 1, 8);
+INSERT INTO rbac_templates VALUES (2, 'usrf', 3, 8);
 # --------------------------------------------------------
 
 #

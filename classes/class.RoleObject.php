@@ -20,9 +20,13 @@ class RoleObject extends Object
 	function saveObject()
 	{
 		$rbacadmin = new RbacAdminH($this->ilias->db); 
+		$rbacsystem = new RbacSystemH($this->ilias->db);
 
-		$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
-		$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"]);
+		if($rbacsystem->checkAccess('create',$_POST["type"]))
+		{
+			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
+			$rbacadmin->assignRoleToFolder($new_obj_id,$_GET["obj_id"]);
+		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
 
@@ -72,6 +76,11 @@ class RoleObject extends Object
 					}
 				}
 			}
+		}
+		// if there is no role in role folder => delete role folder
+		if(!$rbacadmin->getRolesAssignedToFolder($_GET['obj_id']))
+		{
+			header("Location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&cmd=delete");
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}

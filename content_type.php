@@ -20,7 +20,7 @@ $tplContent->setVariable("MESSAGE","<h5>Click on the name of a object type to ed
 $tplContent->setCurrentBlock("row",true);
 
 // Wegen short circuit evaluation muss die Rechte Abfrage zuerst erfolgen
-if ($rbacsystem->checkAccess($obj_id,"read") and $type_data = getTypeList())
+if ($rbacsystem->checkAccess("read") and $type_data = getTypeList())
 {
 	foreach($type_data as $key => $val)
 	{

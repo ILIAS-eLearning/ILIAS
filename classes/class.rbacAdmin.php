@@ -44,13 +44,28 @@ class RbacAdmin
 		}
 		return $res->fetchRow() ? 1 : 0;
     }
-/** 
+/**
+ * Inserts userdata in user_data table
  * @access public
- * @params void
- * @return type String
+ * @params array user data set
+ * @return bool true/false
  */
-	function addUser()
+	function addUser($a_data)
     {
+		$passwd = md5($a_data["Passwd"]);
+		$query = "INSERT INTO user_data ".
+			"(usr_id,login,passwd,firstname,surname,title,gender,email,last_login,last_update,create_date) ".
+			"VALUES('".$a_data["Id"]."','".$a_data["Login"]."','".$passwd."','".$a_data["FirstName"].
+			"','".$a_data["SurName"]."','".$a_data["Title"]."','".$a_data["Gender"]."','".$a_data["Email"].
+			"',0,now(),now())";
+
+		$res = $this->db->query($query);
+        if (DB::isError($res))
+        {
+			$this->Error = $res->getMessage();
+			return -1;
+		}
+		return true;
     }
 /**
  * @access public
@@ -626,6 +641,28 @@ class RbacAdmin
 	}
 /**
  * @access public
+ * @params int (ObjectId of RoleFolder)  
+ * @return array(int) (Array with rol_ids)
+ */
+	function getRolesAssignedToFolder($a_parent)
+	{
+		$query = "SELECT rol_id FROM rbac_fa ".
+			"WHERE parent = '".$a_parent."'";
+		$res = $this->db->query($query);
+		if(DB::isError($res))
+		{
+			$this->Errno = 2;
+			$this->Error = $res->getMessage();
+			return -1;
+		}
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$rol_id[] = $row->rol_id;
+		}
+		return $rol_id ? $rol_id : array();
+	}
+/**
+ * @access public
  * @params int (ObjectId des RoleFolders)  
  * @return array(int) (Array mit setIDs)
  */
@@ -704,6 +741,5 @@ class RbacAdmin
 		}
 		return $ops_id ? $ops_id : array();
 	}
-		
 }
 ?>

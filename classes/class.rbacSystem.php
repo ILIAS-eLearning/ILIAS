@@ -13,6 +13,7 @@ class RbacSystem
     var $Errno = 0; 
     var $Error = "";
 
+// PUBLIC METHODS
     function RbacSystem(&$dbhandle)
     {
         $this->db =& $dbhandle;
@@ -53,9 +54,15 @@ class RbacSystem
  * @params ObjectId, das abzufragende Recht
  * @return true false
  */
-    function checkAccess($Aobj_id,$Aoperation,$Aset_id="")
+    function checkAccess($Aoperation,$a_type = '')
     {
+		global $ilias;
+		global $tree;
+
 		$ops = array();
+
+		$rbacadmin = new RbacAdminH($this->db);
+		$rbacreview = new RbacReviewH($this->db);
 
 		// Abfrage der ops_id der gewünschten Operation
 		$query = "SELECT ops_id FROM rbac_operations ".
@@ -69,17 +76,28 @@ class RbacSystem
 			//echo $row->ops_id."<br>";
 			$ops_id = $row->ops_id;
 		}
-	
-		// ABFRAGE DER OPS_ID
-		if(!$Aset_id)
+		// Case 'create': naturally there is no rbac_pa entry
+		// => looking for the next template and compare operation with template permission
+		if($Aoperation == 'create')
 		{
-			$and = "";
-		}
-		else
-		{
-			$and = " AND set_id = '".$Aset_id."'";
-		}
-		
+			$obj = new Object($ilias);
+			$path_ids = $tree->showPathId($_GET["obj_id"],$obj->ROOT_FOLDER_ID);
+			array_unshift($path_ids,$obj->SYSTEM_FOLDER_ID);
+			$parent_roles = $rbacadmin->getParentRoles($path_ids);
+			foreach($parent_roles as $par_rol)
+			{
+				if(in_array($par_rol["obj_id"],$_SESSION["RoleId"]))
+				{
+					$ops = $rbacreview->getOperations($par_rol["obj_id"],$a_type,$par_rol["parent"]);
+					if(in_array($ops_id,$ops))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		} // END CASE 'create'
+
 		// Um nur eine Abfrage zu haben
 		$in = " IN ('";
 		$in .= implode("','",$_SESSION["RoleId"]);
@@ -87,8 +105,8 @@ class RbacSystem
 
 		$query = "SELECT * FROM rbac_pa ".
 			"WHERE rol_id ".$in." ".
-			"AND obj_id = '".$Aobj_id."' ".
-			$and;
+			"AND obj_id = '".$_GET["obj_id"]."' ".
+			"AND set_id = '".$_GET["parent"]."'";
 		
 		$res = $this->db->query($query);
 		
@@ -96,7 +114,6 @@ class RbacSystem
 		{
 			$ops = array_merge($ops,unserialize(stripslashes($row->ops_id)));
 		}
-		
 		return in_array($ops_id,$ops);
     }
 /**
@@ -145,6 +162,5 @@ class RbacSystem
 		
 		return in_array($ops_id,$ops);
 	}
-
 } // END CLASS RbacSystem
 ?>

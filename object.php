@@ -17,7 +17,7 @@ else
 {
 	//echo "no parent!";
 }
-$methode = $cmd."Object";
+$methode = $cmd."Object"; 
 switch ($type)
 {
     case "le":
@@ -112,6 +112,12 @@ switch ($type)
 		$obj->$methode();
 		break;
     
+	case "adm":
+		include_once "classes/class.SystemFolderObject.php";
+		$obj = new SystemFolderObject($ilias);
+		$obj->$methode();
+		break;
+
     default:
 		$sys_message = "Objekttyp <i>".$type."</i> nocht nicht implementiert";
 		header("Location: browser.php?sys_message=".urlencode($sys_message));

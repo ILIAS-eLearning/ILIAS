@@ -34,7 +34,7 @@ class Object
 
 		// Zur Ausgabe des 'Path' wird die Private-Methode createPath() aufgerufen 
 		$tplContent->setVariable("TREEPATH",$this->getPath());
-        $tplContent->setVariable("CMD","save");
+		$tplContent->setVariable("CMD","save");
 		$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 		$tplContent->setVariable("TPOS",$_GET["parent"]);
 		$tplContent->setVariable("TYPE",$_POST["type"]);
@@ -46,18 +46,21 @@ class Object
 
 		$rbacreview = new RbacReviewH($this->ilias->db);
 		$rbacadmin = new RbacAdminH($this->ilias->db); 
-
-		// Erzeugen und Eintragen eines Objektes in Tree
-		$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
-		$tree->insertNode($new_obj_id,$_GET["obj_id"]);
-
-		// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
-		$parentRoles = $this->getParentRoleIds();
-		foreach($parentRoles as $parRol)
+		$rbacsystem = new RbacSystem($this->ilias->db);
+		if($rbacsystem->checkAccess('create',$_POST["type"]))
 		{
-			// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-			$ops = $rbacreview->getOperations($parRol["obj_id"],$_POST["type"],$parRol["parent"]);
-			$rbacadmin->grantPermission($parRol["obj_id"],$ops,$new_obj_id,$_GET["obj_id"]);
+			// Erzeugen und Eintragen eines Objektes in Tree
+			$new_obj_id = createNewObject($_POST["type"],$_POST["Fobject"]);
+			$tree->insertNode($new_obj_id,$_GET["obj_id"]);
+
+			// Suche aller Parent Rollen im Baum mit der Private-Methode getParentRoleIds()
+			$parentRoles = $this->getParentRoleIds();
+			foreach($parentRoles as $parRol)
+			{
+				// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
+				$ops = $rbacreview->getOperations($parRol["obj_id"],$_POST["type"],$parRol["parent"]);
+				$rbacadmin->grantPermission($parRol["obj_id"],$ops,$new_obj_id,$_GET["obj_id"]);
+			}
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
