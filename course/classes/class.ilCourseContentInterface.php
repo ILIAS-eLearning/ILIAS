@@ -85,6 +85,7 @@ class ilCourseContentInterface
 		include_once "./classes/class.ilRepositoryExplorer.php";
 
 		global $rbacsystem;
+		global $ilias;
 
 		$write_perm = $rbacsystem->checkAccess("write",$this->cci_ref_id);
 			
@@ -191,6 +192,21 @@ class ilCourseContentInterface
 						$tpl->setCurrentBlock("crs_edit");
 						$tpl->setVariable("EDIT_LINK", $obj_link);
 						$tpl->setVariable("TXT_EDIT",$this->lng->txt('edit'));
+						$tpl->parseCurrentBlock();
+					}
+				}
+
+				// add to desktop link
+				if ($ilias->account->getId() != ANONYMOUS_USER_ID 
+				and !$ilias->account->isDesktopItem($cont_data['ref_id'], $cont_data["type"]))
+				{
+					if ($rbacsystem->checkAccess('read', $cont_data['ref_id']))
+					{
+						$tpl->setCurrentBlock("crs_subscribe");
+						$tpl->setVariable("TO_DESK_LINK", "repository.php?cmd=addToDeskCourse&ref_id=".$this->cci_ref_id.
+							"&item_ref_id=".$cont_data["ref_id"]."&type=".$cont_data["type"]);
+
+						$tpl->setVariable("TXT_TO_DESK", $this->lng->txt("to_desktop"));
 						$tpl->parseCurrentBlock();
 					}
 				}
