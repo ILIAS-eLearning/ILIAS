@@ -21,8 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "PEAR.php";
-
 /**
 * Class for simple answers
 * 
@@ -33,7 +31,7 @@ require_once "PEAR.php";
 * @module   class.assAnswerSimple.php
 * @modulegroup   Assessment
 */
-class ASS_AnswerSimple extends PEAR
+class ASS_AnswerSimple
 {
 	/**
 	* Answer text

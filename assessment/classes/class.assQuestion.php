@@ -21,7 +21,6 @@
    +----------------------------------------------------------------------------+
 */
 
-require_once "PEAR.php";
 require_once "./assessment/classes/class.assClozeTestGUI.php";
 require_once "./assessment/classes/class.assImagemapQuestionGUI.php";
 require_once "./assessment/classes/class.assJavaAppletGUI.php";
@@ -44,7 +43,7 @@ define("LIMIT_TIME_ONLY", 1);
 * @module   class.assQuestion.php
 * @modulegroup   Assessment
 */
-class ASS_Question extends PEAR
+class ASS_Question
 {
 	/**
 	* Question id
