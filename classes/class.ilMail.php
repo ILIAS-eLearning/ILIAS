@@ -614,7 +614,7 @@ class ilMail
 			}
 		}
 
-		return $ids;
+		return is_array($ids) ? $ids : array();
 	}
 	/**
 	* check if mail is complete, recipients are valid
