@@ -1071,6 +1071,44 @@ class ilUtil
         exec($htmldoc);
         
     }
+
+    /**
+    *   deliver data for download via browser.
+    */
+    function deliverData($a_data, $a_filename)
+    {
+          $disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
+          $mime = "application/octet-stream"; // or whatever the mime type is
+         
+          if (isset($_SERVER["HTTPS"])) {
+              /**
+               * We need to set the following headers to make downloads work using IE in HTTPS mode.
+               */
+              header("Pragma: ");
+              header("Cache-Control: ");
+              header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+              header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+              header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
+              header("Cache-Control: post-check=0, pre-check=0", false);
+          }
+          else if ($disposition == "attachment") 
+          {
+                  header("Cache-control: private");
+          }
+          else 
+          {
+              header("Cache-Control: no-cache, must-revalidate");
+              header("Pragma: no-cache");
+          }
+          header("Content-Type: $mime");
+          header("Content-Disposition:$disposition; filename=\"".trim(htmlentities($a_filename))."\"");
+          header("Content-Description: ".trim(htmlentities($a_filename)));
+          header("Content-Length: ".(string)(strlen($a_data)));
+          header("Connection: close");
+        
+        echo $a_data;
+        
+    }
     
     /**
     *   deliver file for download via browser.
