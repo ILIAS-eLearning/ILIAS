@@ -90,6 +90,13 @@ class ilExplorer
 	var $order_column;
 
 	/**
+	* target script for expand icon links
+	* @var string
+	* @access private
+	*/
+	var $expand_target;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
@@ -111,6 +118,7 @@ class ilExplorer
 		$this->frameTarget = "content";
 		$this->order_column = "title";
 		$this->tree = new ilTree(ROOT_FOLDER_ID);
+		$this->expand_target = $_SERVER["SCRIPT_NAME"];
 	}
 
 	/**
@@ -137,6 +145,18 @@ class ilExplorer
 		}
 
 		$this->target_get = $a_target_get;
+	}
+
+
+	/**
+	* target script for expand icons
+	*
+	* @param	string		$a_exp_target	script name of target script(may include parameters)
+	*										initially set to $_SERVER["SCRIPT_NAME"]
+	*/
+	function setExpandTarget($a_exp_target)
+	{
+		$this->expand_target = $a_exp_target;
 	}
 
 	/**
@@ -339,7 +359,10 @@ class ilExplorer
 		//     negative if object is compressed
 		$a_node_id = $a_type == '+' ? $a_node_id : -(int) $a_node_id;
 
-		return $_SERVER["SCRIPT_NAME"]."?expand=".$a_node_id;
+		$sep = (is_int(strpos($this->expand_target, "?")))
+			? "&"
+			: "?";
+		return $this->expand_target.$sep."expand=".$a_node_id;
 	}
 
 	/**
