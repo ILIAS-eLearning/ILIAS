@@ -128,6 +128,7 @@ assessment#:#circle_click_center#:#Klik op het centrum van het gewenste gebied
 assessment#:#circle_click_circle#:#Klik op een cirkelpunt van het gewenste gebied
 assessment#:#cloze_text#:#Gatentekst
 assessment#:#code#:#Code###05 Nov 2004 new variable
+assessment#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?###12 Nov 2004 new variable
 assessment#:#coordinates#:#Coördinaten
 assessment#:#correct_solution_is#:#De correcte oplossing is
 assessment#:#counter#:#Counter###06 Oct 2004 new variable
@@ -346,6 +347,7 @@ assessment#:#tst_eval_total_passed_average_points#:#testen
 assessment#:#tst_eval_total_persons#:#Totaal aantal deelnemers aan de test
 assessment#:#tst_general_properties#:#Algemeen eigenschappen
 assessment#:#tst_generate_xls#:#Genereer Excel
+assessment#:#tst_in_use_edit_questions_disabled#:#The test is in use by %d user(s). You are not allowed to edit or move the questions in this test!###12 Nov 2004 new variable
 assessment#:#tst_insert_missing_question#:#Selecteer a.u.b op zijn minst één vraag als u deze in de test wilt invoegen!
 assessment#:#tst_insert_questions#:#Weet u zeker, dat u de volgende vraag(vragen) aan de test wilt toevoegen?
 assessment#:#tst_insert_questions_and_results#:#Deze test was al door %s gebruiker(s) uitgevoerd. Toevoegen van vragen zal alle test-resultaten van deze gebruikers verwijderen. Weet u zeker dat u de volgende vraag/vragen avn de test wilt verwijderen?
@@ -968,6 +970,7 @@ common#:#email#:#E-mail###05 Nov 2004 new variable
 common#:#email_footer#:#<br />powered by ILIAS###09 Nov 2004 new variable
 common#:#email_not_valid#:#Het email-adres dat u invoerde is niet geldig!
 common#:#enable#:#Inschakelen
+common#:#enable_password_assistance#:#Enable password assistance###12 Nov 2004 new variable
 common#:#enable_registration#:#Nieuwe gebruikers-registratie inschakelen
 common#:#enabled#:#Ingeschakeld
 common#:#enter_filename_deliver#:#Enter exercise to deliver###06 Oct 2004 new variable
@@ -1819,6 +1822,8 @@ common#:#passwd_invalid#:#Het nieuwe wachtwoord is ongeldig. Alleen de volgende 
 common#:#passwd_not_match#:#Uw ingaven voor het nieuwe wachtwoord komen niet overeen! Geef uw nieuwe wachtwoord opnieuw.
 common#:#passwd_wrong#:#Het opgegeven wachtwoord is fout!
 common#:#password#:#Wachtwoord
+common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.###12 Nov 2004 new variable
+common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.###12 Nov 2004 new variable
 common#:#paste#:#Plakken
 common#:#pasteChapter#:#Plakken
 common#:#pastePage#:#Plakken
@@ -3740,6 +3745,18 @@ payment#:#pays_user_already_assigned#:#Boekingen actief
 payment#:#pays_vendor#:#Wilt u werkelijk de geselecteerde leverancier(s) verwijderen
 payment#:#price_a#:#Price###04 Oct 2004 new variable
 payment#:#update#:#Update###04 Oct 2004 new variable
+pwassist#:#password_assistance#:#Password Assistance###12 Nov 2004 new variable
+pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.###12 Nov 2004 new variable
+pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.###12 Nov 2004 new variable
+pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.###12 Nov 2004 new variable
+pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance.###12 Nov 2004 new variable
+pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%1$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform you can perform the three steps abeove only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.###12 Nov 2004 new variable
+pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box.###12 Nov 2004 new variable
+pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance###12 Nov 2004 new variable
+pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered.###12 Nov 2004 new variable
+pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".###12 Nov 2004 new variable
+pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been e-mailed to you more than once, or because too much time has passed since the link has been sent to you.###12 Nov 2004 new variable
+pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.###12 Nov 2004 new variable
 search#:#search_active#:#Deze gebruiker is al aan de leveranciers-lijst toegevoegd
 search#:#search_all_results#:#Leverancier
 search#:#search_and#:#Voeg aktieve gebruikers in
