@@ -383,7 +383,7 @@ class ilSCORMExplorer extends ilExplorer
 				}
 				else
 				{
-					$tpl->setVariable("ONCLICK", " onclick=\"test\"");
+					$tpl->setVariable("ONCLICK", " onclick=\"parent.APIFRAME.ILIASLaunchSCO('".$a_node_id."');\"");
 				}
 
 			}

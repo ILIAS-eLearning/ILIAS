@@ -10,6 +10,15 @@
 	var item_id="{ITEM_ID}";
 	var session_id="{SESSION_ID}";
 
+function ILIASLaunchSCO(sco_id)
+{
+ 	return document.APIAdapter.IliasLaunchSco(sco_id);
+}
+
+function ILIASSetValue(lvalue, rvalue)
+{
+ 	return APIAdapter.IliasSetValue(lvalue, rvalue);
+}
 
 function LMSGetValue(dataModelElement)
 {
