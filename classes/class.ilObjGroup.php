@@ -1049,6 +1049,13 @@ class ilObjGroup extends ilObject
 		}
 	}
 	
+	//delete node, which is in trash
+	function removeSavedNodesFromGrpTree($a_delete_id)
+	{
+		$query = "DELETE FROM grp_tree  WHERE child=".$a_delete_id." AND tree != ".$this->getRefId();
+		$this->ilias->db->query($query);
+	}
+	
 	/**
 	* updates the Group trees
 	*
@@ -1283,14 +1290,16 @@ class ilObjGroup extends ilObject
 		foreach ($_POST["trash_id"] as $id)
 		{
 			$tmp_obj=& $this->ilias->obj_factory->getInstanceByRefId($id);
-			$dest_obj=& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+			//$dest_obj=& $this->ilias->obj_factory->getInstanceByRefId($_GET["ref_id"]);
+			$dest_obj=& $this->ilias->obj_factory->getInstanceByRefId($this->getRefId());
 			
 			// INSERT 
 			$this->insertSavedNodesInGrpTree($tmp_obj->getRefId(),$dest_obj->getRefId(),-(int) $tmp_obj->getRefId(),$id);
 			
 			// DELETE SAVED TREE
-			$saved_tree = new ilGroupTree(-(int)$tmp_obj->getRefId());
-			$saved_tree->deleteTree($saved_tree->getNodeData($tmp_obj->getRefId()));
+			$this->removeSavedNodesFromGrpTree($tmp_obj->getRefId());
+			//$saved_tree = new ilGroupTree(-(int)$tmp_obj->getRefId());
+			//$saved_tree->deleteTree($saved_tree->getNodeData($tmp_obj->getRefId()));
 		}
 	}
 
