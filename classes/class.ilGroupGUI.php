@@ -200,7 +200,6 @@ class ilGroupGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("CONTENT", "tbldesc", "tpl.grp_accessdenied.html");
 		$this->tpl->setVariable("TXT_HEADER",$this->lng->txt("group_access_denied"));
 		$this->tpl->setVariable("TXT_MESSAGE",$msg);
-
 		$this->tpl->setVariable("TXT_GRP_NAME", $this->lng->txt("group_name").":");
 		$this->tpl->setVariable("GRP_NAME",$grp->getTitle());
 		$this->tpl->setVariable("TXT_GRP_DESC",$this->lng->txt("group_desc").":");
@@ -465,14 +464,14 @@ class ilGroupGUI extends ilObjectGUI
 			unset($member);
 		}
 
-		$tab = array();
+		/*$tab = array();
 		$tab[0] = array ();
 		$tab[0]["tab_cmd"] = 'cmd=showgroupmembers&ref_id='.$_GET["ref_id"];
 		$tab[0]["ftabtype"] = 'tabinactive';
 		$tab[0]["target"] = "bottom";
-		$tab[0]["tab_text"] = 'group_members';
+		$tab[0]["tab_text"] = 'group_members';*/
 
-		$this->prepareOutput(false, $tab);
+		$this->prepareOutput(false,99);
 		$this->tpl->setVariable("HEADER", $this->lng->txt("grp_mem_change_status"));
 
 		$this->tpl->addBlockfile("CONTENT", "member_table", "tpl.table.html");
@@ -550,7 +549,7 @@ class ilGroupGUI extends ilObjectGUI
 	function confirmation($user_id="", $confirm, $cancel, $info="", $status="",$ref_IDs="n")
 	{
 		$num = 0;
-		$this->prepareOutput(false);
+		$this->prepareOutput(false,99);
 		$this->tpl->setVariable("HEADER", $this->lng->txt("objs_confirm"));
 		sendInfo ($this->lng->txt($info));
 		$this->tpl->addBlockFile("CONTENT", "confirmation", "tpl.table.html");
@@ -867,14 +866,14 @@ class ilGroupGUI extends ilObjectGUI
 
 		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
 		//if new obj type is a folder or file then the right to create a group is checked
-		// because grp object is the the first RBAC-parent object  
+		// because grp object is the the first RBAC-parent object
 		if ($new_type == "fold" or $new_type == "file")
 		{
 			$check_type = "grp";
 		}else{
 			$check_type = $new_type;
 		}
-		
+
 		$this->prepareOutput();
 		$this->tpl->setVariable("HEADER", $this->lng->txt($new_type."_new"));
 		// TODO: get rid of $_GET variable
@@ -899,14 +898,14 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				$this->tpl->parseCurrentBlock();
 			}
-			
+
 			$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$new_type));
 			$this->tpl->setVariable("BTN_NAME", "upload");
 			$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
 			$this->tpl->setVariable("TXT_IMPORT_SLM", $this->lng->txt("import_slm"));
 			$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
 			$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-			
+
 		}
 		elseif ($new_type == "file")
 		{
@@ -958,7 +957,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->show();
 	}
-	
+
 	/**
 	* delete Object
 	* @access public
@@ -993,7 +992,7 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
-		$this->prepareOutput(true,1);
+		$this->prepareOutput(true,4);
 		$this->tpl->setVariable("HEADER", $this->lng->txt("grp_edit"));
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
@@ -1408,7 +1407,7 @@ class ilGroupGUI extends ilObjectGUI
 		/////////////////////
 		// START DATA OUTPUT
 		/////////////////////
-		$this->prepareOutput(true, 5);
+		$this->prepareOutput(true, 7);
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")." - \"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("CONTENT","permission", "tpl.obj_perm.html");
 		$this->tpl->setCurrentBlock("tableheader");
@@ -1515,7 +1514,7 @@ class ilGroupGUI extends ilObjectGUI
 	* @param	multidimensional array for additional tabs; is only passed on;optional
 	* @param	script that is used for linking in loacator;optional; default: "group.php"
 	**/
-	function prepareOutput($tabs=true, $active="")
+	function prepareOutput($tabs=true, $active)
 	{
 		global $rbacsystem;
 
@@ -1524,15 +1523,16 @@ class ilGroupGUI extends ilObjectGUI
 
 		infoPanel();
 		sendInfo();
+		$counter = 3;
 		$tab = array();
 		$tab[0] = array ();
-		$tab[0]["tab_cmd"] = "cmd=show_content&ref_id=".$this->grp_id."&active=0";//link for tab
+		$tab[0]["tab_cmd"] = "cmd=show_content&ref_id=".$this->grp_id;//link for tab
 		$tab[0]["ftabtype"] = 'tabinactive';  					//tab is marked
 		$tab[0]["target"] = "bottom";  						//target-frame of tab_cmd
 		$tab[0]["tab_text"] ='resources';
 
 		$tab[1] = array ();
-		$tab[1]["tab_cmd"]  = 'cmd=showgroupmembers&ref_id='.$this->grp_id."&active=1";			//link for tab
+		$tab[1]["tab_cmd"]  = 'cmd=showgroupmembers&ref_id='.$this->grp_id;			//link for tab
 		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
 		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
 		$tab[1]["tab_text"] = 'group_members';						//tab -text
@@ -1546,10 +1546,11 @@ class ilGroupGUI extends ilObjectGUI
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
 			$tab[5] = array ();
-			$tab[5]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id."&active=5";			//link for tab
+			$tab[5]["tab_cmd"]  = 'cmd=showApplicationList&ref_id='.$this->grp_id;			//link for tab
 			$tab[5]["ftabtype"] = 'tabinactive';						//tab is marked
 			$tab[5]["target"]   = "bottom";							//target-frame of tab_cmd
 			$tab[5]["tab_text"] = 'group_new_registrations';						//tab -text
+			$counter ++;
 		}
 
 		//check if trash is filled
@@ -1557,39 +1558,39 @@ class ilGroupGUI extends ilObjectGUI
 		if (count($objects) > 0 /*and  $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) */)
 		{
 			$tab[4] = array ();
-			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"]."&active=4";		//link for tab
+			$tab[4]["tab_cmd"]  = 'cmd=trash&ref_id='.$_GET["ref_id"];		//link for tab
 			$tab[4]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[4]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[4]["tab_text"] = 'trash';						//tab -text
+			$counter ++;
 		}
 
 		if( $rbacsystem->checkAccess('delete',ilUtil::getGroupId($_GET["ref_id"])) )
 		{
 			$tab[3] = array ();
-			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"]."&active=3";		//link for tab
+			$tab[3]["tab_cmd"]  = 'cmd=editGroup&ref_id='.$_GET["ref_id"];		//link for tab
 			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[3]["target"]   = "_self";						//target-frame of tab_cmd
 			$tab[3]["tab_text"] = "properties";				//tab -text
+			$counter++;
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission', ilUtil::getGroupId($_GET["ref_id"])) )
 		{
 			$tab[6] = array ();
-			$tab[6]["tab_cmd"]  = 'cmd=permobject&ref_id='.$_GET["ref_id"]."&active=6";		//link for tab
+			$tab[6]["tab_cmd"]  = 'cmd=permobject&ref_id='.$_GET["ref_id"];		//link for tab
 			$tab[6]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[6]["target"]   = "_self";						//target-frame of tab_cmd
 			$tab[6]["tab_text"] = "permission";				//tab -text
+			$counter++;
 		}
 
-		if ( empty ($_GET["active"]))
+
+		if ($active != 99)
 		{
-			$_GET["active"] = $active;
+			$tab[$active-1]["ftabtype"] = "tabactive";
 		}
 
-		if ( !empty ($_GET["active"]) || $_GET["active"]== 0)
-		{
-			$tab[$_GET["active"]]["ftabtype"] = "tabactive";
-		}
 
 		$this->setAdminTabs($tabs, $tab);
 		$this->setLocator();
@@ -1661,7 +1662,7 @@ class ilGroupGUI extends ilObjectGUI
 			$this->tpl->setVariable("TAB_LINK", "group.php?viewmode=flat&ref_id=".$_GET["ref_id"]);
 			$this->tpl->setVariable("TAB_TEXT", $this->lng->txt("flatview"));
 			$this->tpl->parseCurrentBlock();
-		}*/
+		}*/		
 
 		if (!empty($addtabs))
 		{
@@ -1681,7 +1682,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 
-		$this->prepareOutput(false, $tab);
+		$this->prepareOutput(false, 6);
 
 		$tab[0] = array ();
 		$tab[0]["tab_cmd"] = "cmd=view&viewmode=flat&ref_id=".$_GET["ref_id"];//link for tab
@@ -1966,8 +1967,8 @@ class ilGroupGUI extends ilObjectGUI
 	function show_content()
 	{
 		global $rbacsystem;
-		
-		$tab[1] = array ();
+
+/*		$tab[1] = array ();
 		$tab[1]["tab_cmd"]  = 'cmd=showgroupmembers&ref_id='.$this->grp_id;			//link for tab
 		$tab[1]["ftabtype"] = 'tabinactive';						//tab is marked
 		$tab[1]["target"]   = "bottom";							//target-frame of tab_cmd
@@ -1997,9 +1998,9 @@ class ilGroupGUI extends ilObjectGUI
 			$tab[3]["ftabtype"] = 'tabinactive';					//tab is marked
 			$tab[3]["target"]   = "bottom";						//target-frame of tab_cmd
 			$tab[3]["tab_text"] = "properties";				//tab -text
-		}
-
-		$this->prepareOutput(false, 0);
+		}*/
+		
+		$this->prepareOutput(false,1);
 
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("grp")."&nbsp;&nbsp;\"".$this->object->getTitle()."\"");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
@@ -2116,17 +2117,17 @@ class ilGroupGUI extends ilObjectGUI
 		// buttons in bottom-bar
 		if ($access)
 		{
-			$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change")));
-			$tbl->setHeaderVars(array("checkbox","title","description","status","last_change"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
-			$tbl->setColumnWidth(array("3%","7%","10%","15%","15%","22%"));
+			$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("owner"),$this->lng->txt("last_change")));
+			$tbl->setHeaderVars(array("checkbox","title","status","last_change"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
+			$tbl->setColumnWidth(array("15","70%","15%","15%"));
 			$this->tpl->setCurrentBlock("tbl_action_btn");
 			$this->tpl->SetVariable("COLUMN_COUNTS", "5");
 			$this->showActions(true);
 		}
 		else
 		{
-			$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change")));
-			$tbl->setHeaderVars(array("title","description","status","last_change"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
+			$tbl->setHeaderNames(array($this->lng->txt("title"),$this->lng->txt("owner"),$this->lng->txt("last_change")));
+			$tbl->setHeaderVars(array("title","status","last_change"), array("cmd"=>"show_content", "ref_id"=>$_GET["ref_id"]));
 			$tbl->setColumnWidth(array("7%","10%","15%","15%","22%"));
 		}
 
@@ -2223,7 +2224,7 @@ class ilGroupGUI extends ilObjectGUI
  	*/
 	function trash()
 	{
-		$this->prepareOutput(false);
+		$this->prepareOutput(false, 5);
 
 		$objects = $this->grp_tree->getSavedNodeData($_GET["ref_id"]);
 	
@@ -2406,11 +2407,11 @@ class ilGroupGUI extends ilObjectGUI
   		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()))
 		{
 			$this->ilias->raiseError("Permission denied !",$this->ilias->error_obj->MESSAGE);
-		}
-
-		$this->prepareOutput(false);
+		}		
+		$this->prepareOutput(false, 2);
 
 		$newGrp = new ilObjGroup($_GET["ref_id"],true);
+
 		$admin_ids = $newGrp->getGroupAdminIds();
 
 		//if current user is admin he is able to add new members to group
@@ -2770,44 +2771,44 @@ class ilGroupGUI extends ilObjectGUI
 	function confirmedDeleteObject()
 	{
 		global $rbacsystem, $rbacadmin;
-	
+
 		// TODO: move checkings to deleteObject
 		// TODO: cannot distinguish between obj_id from ref_id with the posted IDs.
 		// change the form field and use instead of 'id' 'ref_id' and 'obj_id'. Then switch with varname
-		
+
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_SESSION["saved_post"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
-																//echo " node_data "; var_dump($node_data); echo " subtree_nodes "; var_dump($subtree_nodes);
+		//echo " node_data "; var_dump($node_data); echo " subtree_nodes "; var_dump($subtree_nodes);
 
 
 		// FOR ALL SELECTED OBJECTS
 		foreach ($_SESSION["saved_post"] as $id)
 		{
-		
+
 		 	// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES FROM TREE TABLE
 			$tree_subtree_nodes = $this->tree->getSubTree($this->tree->getNodeData($id));
 
 			$tree_all_node_data[] = $tree_node_data;
 			$tree_all_subtree_nodes[] = $tree_subtree_nodes;
-			
-			
+
+
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES FROM GRP_TREE TABLE
 			$grp_tree_subtree_nodes = $this->grp_tree->getSubTree($this->grp_tree->getNodeData($id));
 
 			//$grp_tree_all_node_data[] = $grp_tree_node_data;
 			$grp_tree_all_subtree_nodes[] = $grp_tree_subtree_nodes;
-			
-			
-			
-			//GET ALL NODES THAT SHOUD BE DELETED (from grp_tree and from tree) 
+
+
+
+			//GET ALL NODES THAT SHOUD BE DELETED (from grp_tree and from tree)
 			$all_subnodes = array();
-			
+
 			$all_subnodes = $this->grp_tree->getSubtree($this->grp_tree->getNodeData($id));
-			
+
 			if($all_subnodes[0]["perm"] == 0)
 			{
 				foreach($all_subnodes as $node)
@@ -2831,29 +2832,29 @@ class ilGroupGUI extends ilObjectGUI
 					}
 				}
 			}
-			
-			
-			
-			
+
+
+
+
 			// CHECK DELETE PERMISSION OF ALL OBJECTS
 			foreach ($all_subnodes as $node)
-			{	
+			{
 				$check_id = $node["child"];
-				
+
 				if($node["perm"] == 0)
 				{
 					$check_id == $this->grp_id;
 				}
-				
+
 				if (!$rbacsystem->checkAccess('delete',$check_id))
 				{
 					$not_deletable[] = $node["child"];
 					$perform_delete = false;
 				}
 			}
-			
-			
-			
+
+
+
 		}
 
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO DELETE
