@@ -276,6 +276,7 @@
 <!ELEMENT TableRow (TableData+)>
 <!ELEMENT TableData (%text;)*>
 <!ATTLIST TableData
+	Width CDATA #IMPLIED
 	Colspan CDATA #IMPLIED
 	Rowspan CDATA #IMPLIED
 >
