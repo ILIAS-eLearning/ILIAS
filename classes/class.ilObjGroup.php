@@ -46,7 +46,7 @@ class ilObjGroup extends ilObject
 	var $m_grpId;
 
 	var $m_grpStatus;
-	
+
 	var $ilias;
 
 	var $tree;
@@ -90,47 +90,43 @@ class ilObjGroup extends ilObject
 	/**
 	* join Group
 	* @access	public
-	* @param	integer	reference_id or object_id
+	* @param	integer	user id of new member
+	* @param	integer	member status [0=member|1=admin]
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function joinGroup($a_userId, $a_memStatus)
+	function joinGroup($a_user_id, $a_memStatus)
 	{
 		global $rbacadmin, $rbacsystem;
 
 		//get default group roles (member, admin)
 		$grp_DefaultRoles = $this->getDefaultGroupRoles();
 
-		if(isset($a_userId) && isset($a_memStatus))
+		if(isset($a_user_id) && isset($a_memStatus) && !$this->isMember($a_user_id) )
 		{
 			if( $rbacsystem->checkAccess("join", $this->getRefId(),'grp') )
 			{
 				//assignUser needs to be renamed into assignObject
-				if(strcmp($a_memStatus,"member") == 0)		//member
+				if( (strcmp($a_memStatus,"member") == 0) || $a_memStatus == 0)		//member
 				{
-					$rbacadmin->assignUser($grp_DefaultRoles["grp_member_role"],$a_userId, false);
+					$rbacadmin->assignUser($grp_DefaultRoles["grp_member_role"],$a_user_id, false);
 				}
-				else if(strcmp($a_memStatus,"admin") == 0)		//admin
+				else if( (strcmp($a_memStatus,"admin") == 0) || $a_memStatus == 1)		//admin
 				{
-					$rbacadmin->assignUser($grp_DefaultRoles["grp_admin_role"],$a_userId, true);
+					$rbacadmin->assignUser($grp_DefaultRoles["grp_admin_role"],$a_user_id, true);
 				}
-				else											//request??
-				{
-					//todo: check if request role exists
-					if(isRole($this->m_roleRequest))
-					{
 
-					}
-
-				}
+				return true;
 			}
 			else
 			{
 				$this->ilias->raiseError("No permission to join this group",$this->ilias->error_obj->WARNING);
-			}
 
+			}
 		}
+
+		return false;
 	}
-	
+
 
 	/**
 	* leave Group
@@ -138,97 +134,91 @@ class ilObjGroup extends ilObject
 	* @param	integer	user-Id
 	* @param	integer group-Id
 	*/
-	function leaveGroup($a_userId, $a_grpId="")
+	function leaveGroup($a_user_id, $a_grpId="")
 	{
-
 		global $rbacadmin, $rbacsystem, $rbacreview;
-		//get rolefolder of group
 
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
-		//get roles out of folder
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
-		if(count($role_arr) <= 1)
-		{
-			//echo "You are the last member of this group.<br>";
-			return false;
-		}
+		$arr_members = array();
+		
+		if(isset($a_grp_id))
+			$grp_id = $a_grp_id;
 		else
-		foreach ($role_arr as $role_id)
+			$grp_id = $this->getRefId();
+
+		$grp_DefaultRoles = $this->getDefaultGroupRoles($grp_id);
+
+		foreach($grp_DefaultRoles as $role_id)
 		{
-			foreach ($rbacreview->assignedUsers($role_id) as $member_id)
-			{
-				if($member_id == $a_userId)
-				{
-					$rbacadmin->deassignUser($role_id, $member_id);
-				}
-			}
+			$grp_assignedUsers = $rbacreview->assignedUsers($role_id);
+			foreach($grp_assignedUsers as $user)
+				array_push($arr_members, $user);
 		}
-		return true;
+		if(count($arr_members) <= 1 || !in_array($a_user_id, $arr_members))
+			return false;
+		else
+		{
+			$rbacadmin->deassignUser($this->getGroupRoleId($a_user_id), $a_user_id);
+				return true;
+		}
+
+
+
 	}
 
 	/**
 	* get group Members
 	* @access	public
 	* @param	integer	group id
-	* @param	return array of groupmembers that are assigned to the groupspecific roles (grp_member,grp_admin)
+	* @param	return array of users (obj_ids) that are assigned to the groupspecific roles (grp_member,grp_admin)
 	*/
 	function getGroupMemberIds($a_grpId="")
 	{
-
 		global $rbacadmin, $rbacreview;
 
 		if(!empty($a_grpId) )
-			$this->m_grpId = $a_grpId;
+			$grp_id = $a_grpId;
 		else
-			$this->m_grpId = $this->object->getRefId();
-		
-		$usr_arr= array();
-		$rolf = $rbacreview->getRoleFolderOfObject($this->m_grpId);
-		$rol  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+			$grp_id = $this->getRefId();
 
-		//interims solution
-		//TODO: global roles should be located by a function
-		$arr_globalRoles = array(2,3,4,5);
+		$usr_arr= array();
+		$rol  = $this->getDefaultGroupRoles($grp_id);
+
 		foreach ($rol as $value)
 		{
-			if(!in_array($value,$arr_globalRoles))
-				foreach ($rbacreview->assignedUsers($value) as $member_id)
-				{
-					array_push($usr_arr,$member_id);
-				}
+			foreach ($rbacreview->assignedUsers($value) as $member_id)
+			{
+				array_push($usr_arr,$member_id);
+			}
 		}
 		$mem_arr = array_unique($usr_arr);
-		//var_dump ($mem_arr);
 		return $mem_arr;
 	}
 
-	function getGroupRole($a_user_id, $a_grp_id="")
+	/**
+	* get Group Admin Id
+	* @access	public
+	* @param	integer	group id
+	* @param	returns userids that are assigned to a group administrator! role
+	*/
+	function getGroupAdminIds($a_grpId="")
 	{
-		global $rbacadmin, $rbacreview;
-		if(isset($a_grp_id))
-			$grp_id = a_grp_id;
+		global $rbacreview;
+
+		if(!empty($a_grpId) )
+			$grp_id = $a_grpId;
 		else
-			$grp_id = $this->m_grpId;
+			$grp_id = $this->getRefId();
 
-		//$rolf 	   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($grp_id);
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
-
-		//TOOODOOOO: schoen machen !!!
-		foreach ($role_arr as $role_id)
+		$usr_arr = array();
+		$roles = $this->getDefaultGroupRoles($this->getRefId());
+		foreach ($rbacreview->assignedUsers($roles["grp_admin_role"]) as $member_id)
 		{
-			foreach ($rbacreview->assignedUsers($role_id) as $member_id)
-			{
-				if($member_id == $a_userId)
-				{
-					$newObj = new Object($role_id, false);
-					return $newObj->getTitle();
-				}
-			}
+			array_push($usr_arr,$member_id);
 		}
-		return NULL;
 
+		return $usr_arr;
 	}
+
 	/**
 	* delete Group
 	* @access	public
@@ -236,19 +226,25 @@ class ilObjGroup extends ilObject
 	*/
 	function deleteGroup($a_grpId="")
 	{
+		//TO DO!
 	}
-	
+
 	/**
 	* get default group roles
 	* @access	public
 	* @param 	returns the obj_ids of group specific roles(member,admin)
 	*/
-	function getDefaultGroupRoles()
+	function getDefaultGroupRoles($a_grp_id="")
 	{
 		global $rbacadmin, $rbacreview;
 
+		if(strlen($a_grp_id) > 0)
+			$grp_id = $a_grp_id;
+		else
+			$grp_id = $this->getRefId();
 
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getRefId());
+		//$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getRefId());
+		$rolf 	   = $rbacreview->getRoleFolderOfObject($grp_id);
 		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
 
 		foreach ($role_arr as $role_id)
@@ -265,7 +261,8 @@ class ilObjGroup extends ilObject
 		return $arr_grpDefaultRoles;
 
 	}
-	
+
+
 	/**
 	* get group status closed template
 	* @access	public
@@ -293,6 +290,44 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
+	* get group member status
+	* @access	public
+	* @param	returns [0=grp_member_role|1=grp_admin_role]
+	*/
+	function getMemberStatus($a_user_id, $a_grp_id="")
+	{
+		global $rbacadmin, $rbacreview;
+
+		if(strlen($a_grp_id) > 0)
+			$grp_id = $a_grp_id;
+		else
+			$grp_id = $this->getRefId();
+
+		$roles = $this->getDefaultGroupRoles($grp_id);
+
+		if( in_array($a_user_id,$rbacreview->assignedUsers($roles["grp_member_role"]) ))
+			return 0;		//MEMBER
+		if( in_array($a_user_id,$rbacreview->assignedUsers($roles["grp_admin_role"]) ))
+			return 1;		//ADMIN
+
+	}
+
+	/**
+	* set member status
+	* @access	public
+	* @param	integer	user id
+	* @param	integer member status (0=member|1=admin)
+	*/
+	function setMemberStatus($a_user_id, $a_member_status)
+	{
+		if(isset($a_user_id) && isset($a_member_status))
+		{
+			$this->leaveGroup($a_user_id);
+			$this->joinGroup($a_user_id,$a_member_status);
+		}
+	}
+
+	/**
 	* set group status
 	* @access	public
 	* @param	integer	group id (optional)
@@ -301,16 +336,14 @@ class ilObjGroup extends ilObject
 	function setGroupStatus($a_grpStatus)
 	{
 		global $rbacadmin, $rbacreview;
-		
-		$grp_Status = array("group_status_public" => 0,"group_status_private" => 1, "group_status_closed" => 2);
 
 		//get Rolefolder of group
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
 		//the (global)roles who must be considered when inheritance is stopped
-		//todo: query that fetches the considering roles
+		//todo: query that fetches the considering global roles
 		$arr_globalRoles = array(2,3,4,5); //admin,author,learner,guest
 
-	  	if(strcmp($a_grpStatus,"group_status_public") == 0 || strcmp($a_grpStatus,"group_status_private") == 0)			//group status set opened
+	  	if($a_grpStatus == 0 || $a_grpStatus == 1)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'grp_status_closed'
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', 8);
@@ -330,15 +363,15 @@ class ilObjGroup extends ilObject
 				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],$rolf_data["parent"],'n');
 			}//END foreach
 
-			$this->m_grpStatus = 2;
+			$this->m_grpStatus = 0;
 		}
 
-		if(strcmp($a_grpStatus,"group_status_private") == 0)			//group status set private (=1)
+	  	if($a_grpStatus == 1)
 		{
 			$this->m_grpStatus = 1;
 		}
-  		
-		if(strcmp($a_grpStatus,"group_status_closed") == 0)			//group status set closed (=2)
+
+	  	if($a_grpStatus == 2)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'grp_status_closed'
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusClosedTemplateId(), 'grp', 8);
@@ -358,7 +391,7 @@ class ilObjGroup extends ilObject
 				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],$rolf_data["parent"],'n');
 			}//END foreach
 
-			$this->m_grpStatus = 0;
+			$this->m_grpStatus = 2;
 		}
 
 
@@ -366,9 +399,9 @@ class ilObjGroup extends ilObject
 		$res		= $this->ilias->db->query($sql_query1);
 
 		if($res->numRows() == 0)
-			$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->getId().",".$grp_Status[$a_grpStatus].")";
+			$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->getId().",".$this->m_grpStatus.")";
 		else
-			$sql_query = "UPDATE grp_data SET status='".$grp_Status[$a_grpStatus]."' WHERE grp_id='".$this->getId()."'";
+			$sql_query = "UPDATE grp_data SET status='".$this->m_grpStatus."' WHERE grp_id='".$this->getId()."'";
 
 		$res = $this->ilias->db->query($sql_query);
 
@@ -377,7 +410,7 @@ class ilObjGroup extends ilObject
 	/**
 	* get group status
 	* @access	public
-	* @param	integer	group id
+	* @param	return group status[0=public|1=?private?|2=closed]
 	*/
 	function getGroupStatus()
 	{
@@ -420,10 +453,10 @@ class ilObjGroup extends ilObject
 
 				// put the role into local role folder...
 				$rbacadmin->assignRoleToFolder($roleObj->getId(),$rolfId,$this->getRefId(),"y");
-		
+
 				// set member role id for group object
 				$this->m_roleMemberId = $roleObj->getId();
-				$rbacadmin->copyRolePermission($res->obj_id,ROLE_FOLDER_ID,$rolfId,$roleObj->getId());		
+				$rbacadmin->copyRolePermission($res->obj_id,ROLE_FOLDER_ID,$rolfId,$roleObj->getId());
 
 				// dump role object & $res
 				unset($roleObj);
@@ -440,7 +473,7 @@ class ilObjGroup extends ilObject
 			//set permissions for ADMIN ROLE
 			$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='grp_Admin_rolt' AND description='Administrator role template of groups'";
 			$res = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
-		
+
 			//TODO: errorhandling, if query return more than 1 id matching this query
 			if ($res->obj_id)
 			{
@@ -452,7 +485,7 @@ class ilObjGroup extends ilObject
 
 				// put the role into local role folder...
 				$rbacadmin->assignRoleToFolder($roleObj->getId(),$rolfId,$this->getRefId(),"y");
-		
+
 				// set adimn role id for group object
 				$this->m_roleAdminId = $roleObj->getId();
 				$rbacadmin->copyRolePermission($res->obj_id,ROLE_FOLDER_ID,$rolfId,$roleObj->getId());
@@ -502,36 +535,41 @@ class ilObjGroup extends ilObject
 	}
 
 	/**
+	* get Group Role
+	* @access	public
+	* @param	return the id of the group role user is assigned to (grp_Member, grp_Admin)
+	*/
+	function getGroupRoleId($a_user_id, $a_grp_id="")
+	{
+		global $rbacadmin, $rbacreview;
+
+
+		if(strlen($a_grp_id) > 0)
+			$grp_id = $a_grp_id;
+		else
+			$grp_id = $this->getRefId();
+
+		$grp_Roles = $this->getDefaultGroupRoles($grp_id);
+
+		foreach ($grp_Roles as $role_id)
+		{
+			if( in_array($a_user_id,$rbacreview->assignedUsers($role_id) ))
+			{
+				return $role_id;
+			}
+		}
+		return NULL;
+	}
+
+	/**
 	* get
 	* @access	public
 	* @param	integer	group id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function getGroupRoleId($a_userId,$grpId="")
-	{
-		global $rbacadmin, $rbacreview;
-
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
-
-		//TOOODOOOO: schoen machen !!!
-		foreach ($role_arr as $role_id)
-		{
-			foreach ($rbacreview->assignedUsers($role_id) as $member_id)
-			{
-				if($member_id == $a_userId)
-				{
-					return $role_id;
-				}
-			}
-		}
-		return NULL;		
-	}
-
-	
 	function getContextPath2($a_endnode_id, $a_startnode_id = 0)
 	{
-		global $tree;		
+		global $tree;
 
 		$path = "";		
 
@@ -563,16 +601,7 @@ class ilObjGroup extends ilObject
 	{
 	}
 
-	/**
-	* set member status
-	* @access	public
-	* @param	integer	user_id
-	* @param	integer role_id
-	*/
-	function setMemberStatus($a_userId, $a_status)
-	{
-	}
-	
+
 	/**
 	* is Member
 	* @access	public
@@ -582,9 +611,9 @@ class ilObjGroup extends ilObject
 	{
 		global $rbacadmin, $rbacreview;
 
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($this->m_grpId);
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
-		foreach ($role_arr as $role_id)
+		$grp_Roles = $this->getDefaultGroupRoles();
+
+		foreach ($grp_Roles as $role_id)
 		{
 			if( in_array($a_userId,$rbacreview->assignedUsers($role_id) ))
 				return true;
@@ -595,12 +624,10 @@ class ilObjGroup extends ilObject
 
 	function createNewGroupTree()
 	{
-
-	$this->grp_tree = new ilTree($this->getRefId());
-	$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
-	$this->grp_tree->addTree($this->getRefId());
-	
-	}	
+		$this->grp_tree = new ilTree($this->getRefId());
+		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
+		$this->grp_tree->addTree($this->getRefId());
+	}
 
 	/**
 	* copy all properties and subobjects of a group.
@@ -653,5 +680,6 @@ class ilObjGroup extends ilObject
 
 		return $new_ref_id;
 	}
+
 } //END class.GroupObject
 ?>
