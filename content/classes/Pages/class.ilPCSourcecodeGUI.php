@@ -96,45 +96,19 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		{
 			$s_lang = $_POST["par_language"];
 			$s_char = $_POST["par_characteristic"];
-			$s_isexample = $_POST["par_isexample"];
-			if (strcmp ($s_isexample,"on") == 0 )
-			{
-				$s_char = "Code-Example";
-			}
-			else
-			{
-				$s_char = "Code";
-			}
 			$s_subchar = $_POST["par_subcharacteristic"];
 			$s_downloadtitle = $_POST["par_downloadtitle"];
-			$s_showlinenumbers = $_POST["par_showlinenumbers"];
-			if (strcmp($s_showlinenumbers, 'on') == 0)
-			{
-				$s_showlinenumbers = 'y';
-			}
-			else
-			{
-				$s_showlinenumbers = 'n';
-			}
-			
+			$s_showlinenumbers = ($_POST["par_showlinenumbers"]=="on")?'y':'n';
+			$s_autoindent = ($_POST["par_autoindent"]=="on")?'y':'n';
 		}
 		else
 		{
 			$s_lang = $this->content_obj->getLanguage();
 			$s_char = $this->content_obj->getCharacteristic();
-			
-			if ($s_char == "Code-Example")
-			{
-				$s_isexample = 'y';
-			}
-			else
-			{
-				$s_isexample = 'n';
-			}
-
 			$s_subchar = $this->content_obj->getSubCharacteristic();			
 			$s_downloadtitle = $this->content_obj->getDownloadTitle();
 			$s_showlinenumbers = $this->content_obj->getShowLineNumbers();					
+			$s_autoindent = $this->content_obj->getAutoIndent ();
 		}
 				
 		$this->setTemplateText($s_lang, $s_subchar);
@@ -157,9 +131,9 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 			$this->tpl->setVariable("SHOWLINENUMBERS", "checked=\"checked\"");
 		}
 		
-		if (strcmp($s_isexample,"y") == 0)
+		if (strcmp($s_autoindent,"y") == 0)
 		{
-			$this->tpl->setVariable("ISEXAMPLE", "checked=\"checked\"");
+			$this->tpl->setVariable("AUTOINDENT", "checked=\"checked\"");
 		}
 		
 
@@ -183,6 +157,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->tpl->setVariable ("TXT_SUBCHARACTERISTIC", $this->lng->txt("cont_src"));
 		$this->tpl->setVariable ("TXT_LANGUAGE", $this->lng->txt("language"));
 		$this->tpl->setVariable ("TXT_SHOWLINENUMBERS", $this->lng->txt("cont_show_line_numbers"));
+		$this->tpl->setVariable ("TXT_AUTOINDENT", $this->lng->txt("cont_autoindent"));
 
 				
 		$this->tpl->setVariable ("FORMACTION", $this->ctrl->getFormAction($this));		
@@ -233,6 +208,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 			$s_subchar = $_POST["par_subcharacteristic"];
 			$s_downloadtitle = $_POST["par_downloadtitle"];
 			$s_showlinenumbers = strcmp($_POST["par_showlinenumbers"],'on')==0?'checked=\"true\"':'';	
+			$s_autoindent = strcmp($_POST["par_autoindent"],'on')==0?'checked=\"true\"':'';	
 			$s_isexample = strcmp($_POST["par_isexample"],"on")==0?'checked=\"true\"':'';			
 		}
 		else
@@ -247,6 +223,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 			}
 			
 			$s_showlinenumbers = 'CHECKED';
+			$s_autoindent = 'CHECKED';
 			$s_isexample = '';			
 			$s_subchar = '';
 		}
@@ -254,6 +231,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->setTemplateText($s_lang, $s_subchar);
 
 		$this->tpl->setVariable("SHOWLINENUMBERS", $s_showlinenumbers);
+		$this->tpl->setVariable("AUTOINDENT", $s_autoindent);
 		$this->tpl->setVariable("DOWNLOAD_TITLE_VALUE", $s_downloadtitle);
 		$this->tpl->setVariable("ISEXAMPLE", $s_isexample);
 
@@ -304,29 +282,10 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 		$this->content_obj->setDownloadTitle($_POST["par_downloadtitle"]);
-		
-		$s_showlinenumbers = $_POST["par_showlinenumbers"];
-		if ($s_showlinenumbers == 'on')
-		{
-			$s_showlinenumbers = 'y';
-		}
-		else
-		{
-			$s_showlinenumbers = 'n';
-		}
-		
-		$this->content_obj->setShowLineNumbers($s_showlinenumbers);
-		$s_isexample = $_POST["par_isexample"];
-			
-		if ($s_isexample == 'on')
-		{
-			$this->content_obj->setCharacteristic("Code-Example");
-		}
-		else
-		{
+		$this->content_obj->setShowLineNumbers(($_POST["par_showlinenumbers"]=="on")?"y":"n");
+		$this->content_obj->setAutoIndent(($_POST["par_autoindent"]=="on")?"y":"n");
+		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 			$this->content_obj->setCharacteristic("Code");
-		}
-		
 
 		$this->updated = $this->content_obj->setText($this->content_obj->input2xml(stripslashes($_POST["par_content"])));
 
@@ -369,7 +328,8 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
 		$this->content_obj->setDownloadTitle    ($_POST["par_downloadtitle"]);
 		$this->content_obj->setShowLineNumbers  (($_POST["par_showlinenumbers"]=='on')?'y':'n');
-		$this->content_obj->setCharacteristic   (($_POST["par_isexample"]=='on')?'Code-Example':'Code');
+		$this->content_obj->setCharacteristic   ('Code');
+		$this->content_obj->setIndenting   	(($_POST["par_indent"]=='on')?'y':'n');
 				
 		if ($uploaded) {
 			$this->insert ();
