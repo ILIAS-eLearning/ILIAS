@@ -1236,8 +1236,18 @@ class ilObjectGUI
 		else
 		{
 			$fields = array();
-			$fields["title"] = $this->object->getTitle();
-			$fields["desc"] = $this->object->getDescription();
+			
+			if ($_SESSION["error_post_vars"])
+			{
+				// fill in saved values in case of error
+				$fields["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
+				$fields["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];			
+			}
+			else
+			{
+				$fields["title"] = $this->object->getTitle();
+				$fields["desc"] = $this->object->getDescription();			
+			}
 
 			$this->displayEditForm($fields);
 		}
@@ -1265,10 +1275,6 @@ class ilObjectGUI
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$this->ref_id.$obj_str."&cmd=update");
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
-		// fill in saved values in case of error
-		$this->tpl->setVariable("TITLE",$_SESSION["error_post_vars"]["Fobject"]["title"]);
-		$this->tpl->setVariable("DESC",$_SESSION["error_post_vars"]["Fobject"]["desc"]);
 	}
 
 
