@@ -42,7 +42,7 @@ class ilValidator extends PEAR
 	* list of object types to exclude from recovering
 	* @var	array
 	*/
-	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf","trac","taxf","auth");
+	var $object_types_exclude = array("adm","root","mail","usrf","objf","lngf","trac","taxf","auth","rolf");
 	
 	/**
 	* set mode
@@ -50,6 +50,7 @@ class ilValidator extends PEAR
 	*/
 	var $mode = array(
 						"analyze"		=> true,		// gather information about corrupted entries
+						"check_tree"	=> false,		// check tree consistence
 						"clean" 		=> false,		// remove all unusable entries & renumber tree
 						"restore"		=> false,		// restore objects with invalid parent to RecoveryFolder
 						"purge"			=> false,		// delete all objects with invalid parent from system
@@ -87,6 +88,14 @@ class ilValidator extends PEAR
 	*/
 	var $deleted_objects = array();
 
+	/**
+	* contains missing objects that are rolefolders. found by this::
+	* findMissingObjects()' these rolefolders must be removed before any
+	* restore operations
+	* @var	array
+	*/
+	var $invalid_rolefolders = array();
+	
 	/**
 	* contains correct registrated objects but data are corrupted (experimental)
 	* @var	array
@@ -262,9 +271,9 @@ class ilValidator extends PEAR
 		
 		// init
 		$this->missing_objects = array();
-		
+	
 		$this->writeScanLogLine("\nfindMissingObjects:");
-
+		
 		$q = "SELECT object_data.*, ref_id FROM object_data ".
 			 "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id ".
 			 "LEFT JOIN tree ON object_reference.ref_id = tree.child ".
@@ -298,8 +307,166 @@ class ilValidator extends PEAR
 		}
 
 		$this->writeScanLogLine("none");
-		return false;		
+		return false;	
+	}
 
+	/**
+	* Search database for all rolefolder object entries with missing reference
+	* entry. Furthermore gets all rolefolders that are placed accidently in
+	* RECOVERY_FOLDER from earlier versions of System check.
+	* Result is stored in $this->invalid_rolefolders
+	* 
+	* @access	public
+	* @return	boolean	false if analyze mode disabled or nothing found
+	* @see		this::getInvalidRolefolders()
+	* @see		this::removeInvalidRolefolders()
+	*/
+	function findInvalidRolefolders()
+	{
+		// check mode: analyze
+		if ($this->mode["analyze"] !== true)
+		{
+			return false;
+		}
+		
+		// init
+		$this->invalid_rolefolders = array();
+		
+		$this->writeScanLogLine("\nfindInvalidRolefolders:");
+
+		// find rolfs without reference/tree entry
+		$q = "SELECT object_data.*, ref_id FROM object_data ".
+			 "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id ".
+			 "LEFT JOIN tree ON object_reference.ref_id = tree.child ".
+			 "WHERE (object_reference.obj_id IS NULL OR tree.child IS NULL) ".
+			 "AND object_data.type='rolf'";
+		$r = $this->db->query($q);
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->invalid_rolefolders[] = array(
+												"obj_id"		=> $row->obj_id,
+												"type"			=> $row->type,
+												"ref_id"		=> $row->ref_id,
+												"child"			=> $row->child,
+												"title"			=> $row->title,
+												"desc"			=> $row->description,
+												"owner"			=> $row->owner,
+												"create_date"	=> $row->create_date,
+												"last_update"	=> $row->last_update
+											);
+		}
+		
+		// find rolfs within RECOVERY FOLDER
+		$q = "SELECT object_data.*, ref_id FROM object_data ".
+			 "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id ".
+			 "LEFT JOIN tree ON object_reference.ref_id = tree.child ".
+			 "WHERE object_reference.ref_id ='".RECOVERY_FOLDER_ID."' ".
+			 "AND object_data.type='rolf'";
+		$r = $this->db->query($q);
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->invalid_rolefolders[] = array(
+												"obj_id"		=> $row->obj_id,
+												"type"			=> $row->type,
+												"ref_id"		=> $row->ref_id,
+												"child"			=> $row->child,
+												"title"			=> $row->title,
+												"desc"			=> $row->description,
+												"owner"			=> $row->owner,
+												"create_date"	=> $row->create_date,
+												"last_update"	=> $row->last_update
+											);
+		}
+			
+		if (count($this->invalid_rolefolders) > 0)
+		{
+			$this->writeScanLogLine("obj_id\ttype\tref_id\tchild\ttitle\tdesc\towner\tcreate_date\tlast_update");
+			$this->writeScanLogArray($this->invalid_rolefolders);
+			return true;
+		}
+
+		$this->writeScanLogLine("none");
+		return false;	
+	}
+
+	/**
+	* Search database for all role entries that are linked to invalid
+	* ref_ids
+	* 
+	* @access	public
+	* @return	boolean	false if analyze mode disabled or nothing found
+	* @see		this::getInvalidRBACEntries()
+	* @see		this::removeInvalidRBACEntries()
+	*/
+	function findInvalidRBACEntries()
+	{
+		// check mode: analyze
+		if ($this->mode["analyze"] !== true)
+		{
+			return false;
+		}
+		
+		// init
+		$this->invalid_rbac_entries = array();
+		
+		$this->writeScanLogLine("\nfindInvalidRBACEntries:");
+
+		$q = "SELECT object_data.*, ref_id FROM object_data ".
+			 "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id ".
+			 "LEFT JOIN tree ON object_reference.ref_id = tree.child ".
+			 "WHERE (object_reference.obj_id IS NULL OR tree.child IS NULL) ".
+			 "AND object_data.type='rolf'";
+		$r = $this->db->query($q);
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->invalid_rolefolders[] = array(
+												"obj_id"		=> $row->obj_id,
+												"type"			=> $row->type,
+												"ref_id"		=> $row->ref_id,
+												"child"			=> $row->child,
+												"title"			=> $row->title,
+												"desc"			=> $row->description,
+												"owner"			=> $row->owner,
+												"create_date"	=> $row->create_date,
+												"last_update"	=> $row->last_update
+											);
+		}
+		
+		// find rolfs within RECOVERY FOLDER
+		$q = "SELECT object_data.*, ref_id FROM object_data ".
+			 "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id ".
+			 "LEFT JOIN tree ON object_reference.ref_id = tree.child ".
+			 "WHERE object_reference.ref_id ='".RECOVERY_FOLDER_ID."' ".
+			 "AND object_data.type='rolf'";
+		$r = $this->db->query($q);
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$this->invalid_rolefolders[] = array(
+												"obj_id"		=> $row->obj_id,
+												"type"			=> $row->type,
+												"ref_id"		=> $row->ref_id,
+												"child"			=> $row->child,
+												"title"			=> $row->title,
+												"desc"			=> $row->description,
+												"owner"			=> $row->owner,
+												"create_date"	=> $row->create_date,
+												"last_update"	=> $row->last_update
+											);
+		}
+			
+		if (count($this->invalid_rolefolders) > 0)
+		{
+			$this->writeScanLogLine("obj_id\ttype\tref_id\tchild\ttitle\tdesc\towner\tcreate_date\tlast_update");
+			$this->writeScanLogArray($this->invalid_rolefolders);
+			return true;
+		}
+
+		$this->writeScanLogLine("none");
+		return false;	
 	}
 
 	/**
@@ -445,8 +612,8 @@ class ilValidator extends PEAR
 	/**
 	* Search database for all tree entries having no valid parent (=> no valid path to root node)
 	* and stores result in $this->unbound_objects
-	* Result also contains childs that are marked as deleted! Deleted childs has
-	* a negative number in ["deleted"] otherwise NULL.
+	* Result does not contain childs that are marked as deleted! Deleted childs
+	* have a negative number.
 	*
 	* @access	public
 	* @return	boolean	false if analyze mode disabled or nothing found
@@ -473,13 +640,14 @@ class ilValidator extends PEAR
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			// exclude deleted nodes
 			if ($row->deleted === NULL)
 			{
 				$this->unbound_objects[] = array(
 												"child"			=> $row->child,
 												"parent"		=> $row->parent,
 												"tree"			=> 1,
-												"msg"			=> "Parent is not valid"
+												"msg"			=> "No valid parent node found"
 												);
 			}
 		}
@@ -580,6 +748,19 @@ class ilValidator extends PEAR
 	{
 		return $this->deleted_objects;
 	}
+	
+	/**
+	* Gets invalid rolefolders (same as missing objects)
+	* 
+	* @access	public
+	* @return	array
+	* @see		this::findMissingObjects()
+	* @see		this::removeInvalidRolefolders()
+	*/
+	function getInvalidRolefolders()
+	{
+		return $this->invalid_rolefolders;
+	}
 
 	/**
 	* Removes all reference entries that are linked with invalid object IDs
@@ -621,7 +802,7 @@ class ilValidator extends PEAR
 		}
 
 /*******************
-restore starts here
+removal starts here
 ********************/
 
 		$message = sprintf('%s::removeInvalidReferences(): Started...',
@@ -633,26 +814,10 @@ restore starts here
 			$q = "DELETE FROM object_reference WHERE ref_id='".$entry["ref_id"]."' AND obj_id='".$entry["obj_id"]."'";
 			$this->db->query($q);
 
-			$affected_rows = $this->db->affectedRows();
-			
-			if ($affected_rows == 1)
-			{
-				$message = sprintf('%s::removeInvalidReferences(): Reference %s removed (count:%s)',
+			$message = sprintf('%s::removeInvalidReferences(): Reference %s removed',
 							   get_class($this),
-							   $entry["ref_id"],
-							   $affected_rows);
-				$ilLog->write($message,$ilLog->WARNING);
-			}
-			else
-			{
-				$this->throwError(INVALID_PARAM, FATAL, DEBUG);
-				$message = sprintf('%s::removeInvalidReferences(): Reference %s NOT removed (count:%s)',
-							   get_class($this),
-							   $entry["ref_id"],
-							   $affected_rows);
-				$ilLog->write($message,$ilLog->FATAL);
-				return false;
-			}	
+							   $entry["ref_id"]);
+			$ilLog->write($message,$ilLog->WARNING);
 			
 			$this->writeScanLogLine("Entry ".$entry["ref_id"]." removed");
 		}
@@ -701,7 +866,7 @@ restore starts here
 		}
 
 /*******************
-remove starts here
+removal starts here
 ********************/
 
 		$message = sprintf('%s::removeInvalidChilds(): Started...',
@@ -713,39 +878,87 @@ remove starts here
 			$q = "DELETE FROM tree WHERE child='".$entry["child"]."'";
 			$this->db->query($q);
 
-			$affected_rows = $this->db->affectedRows();
-			
-			if ($affected_rows == 1)
-			{
-				$message = sprintf('%s::removeInvalidChilds(): Entry child=%s removed (count:%s)',
+			$message = sprintf('%s::removeInvalidChilds(): Entry child=%s removed',
 							   get_class($this),
-							   $entry["child"],
-							   $affected_rows);
-				$ilLog->write($message,$ilLog->WARNING);
-			}
-			elseif ($affected_rows > 1)
-			{
-				$message = sprintf('%s::removeInvalidChilds(): Entry child=%s removed (count:%s)',
-							   get_class($this),
-							   $entry["child"],
-							   $affected_rows);
-				$ilLog->write($message,$ilLog->FATAL);
-			}
-			else
-			{
-				$this->throwError(INVALID_PARAM, FATAL, DEBUG);
-				$message = sprintf('%s::removeInvalidChilds(): Entry child=%s NOT removed (count:%s)',
-							   get_class($this),
-							   $entry["child"],
-							   $affected_rows);
-				$ilLog->write($message,$ilLog->FATAL);
-				return false;
-			}				
-		
+							   $entry["child"]);
+			$ilLog->write($message,$ilLog->WARNING);
+				
 			$this->writeScanLogLine("Entry ".$entry["child"]." removed");
 		}
 		
 		return true;	
+	}
+
+	/**
+	* Removes invalid rolefolders
+	* 
+	* @access	public
+	* @param	array	obj_ids of rolefolder objects (optional)
+	* @return	boolean	true if any object were removed / false on error or
+	* remove mode disabled
+	* @see		this::getInvalidRolefolders()
+	* @see		this::findMissingObjects()
+	*/
+	function removeInvalidRolefolders($a_invalid_rolefolders = NULL)
+	{
+		global $ilias,$ilLog;
+		
+		// check mode: clean
+		if ($this->mode["clean"] !== true)
+		{
+			return false;
+		}
+
+		$this->writeScanLogLine("\nremoveInvalidRolefolders:");
+
+		if ($a_invalid_rolefolders === NULL and isset($this->invalid_rolefolders))
+		{
+			$a_invalid_rolefolders = $this->invalid_rolefolders;
+		}
+
+		// handle wrong input
+		if (!is_array($a_invalid_rolefolders)) 
+		{
+			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
+			return false;
+		}
+
+		// no invalid rolefolders found. do nothing
+		if (count($a_invalid_rolefolders) == 0)
+		{
+			$this->writeScanLogLine("none");
+			return false;
+		}
+		
+/*******************
+removal starts here
+********************/
+
+		$removed = false;
+		
+		$message = sprintf('%s::removeInvalidRolefolders(): Started...',
+						   get_class($this));
+		$ilLog->write($message,$ilLog->WARNING);
+		
+		foreach ($a_invalid_rolefolders as $rolf)
+		{
+			// restore ref_id in case of missing
+			if ($rolf["ref_id"] === NULL)
+			{
+				$rolf["ref_id"] = $this->restoreReference($rolf["obj_id"]);
+
+				$this->writeScanLogLine("Created missing reference '".$rolf["ref_id"]."' for rolefolder object '".$rolf["obj_id"]."'");
+			}
+
+			// now delete rolefolder
+			$obj_data =& $ilias->obj_factory->getInstanceByRefId($rolf["ref_id"]);
+			$obj_data->delete();
+			unset($obj_data);
+			$removed = true;
+			$this->writeScanLogLine("Removed invalid rolefolder '".$rolf["title"]."' (id=".$rolf["obj_id"].",ref=".$rolf["ref_id"].") from system");
+		}
+		
+		return $removed;
 	}
 
 	/**
@@ -760,7 +973,7 @@ remove starts here
 	*/
 	function restoreMissingObjects($a_missing_objects = NULL)
 	{
-		global $tree,$ilLog;
+		global $ilias,$rbacadmin,$ilLog;
 		
 		// check mode: restore
 		if ($this->mode["restore"] !== true)
@@ -782,7 +995,7 @@ remove starts here
 			return false;
 		}
 
-		// no missing objectss found. do nothing
+		// no missing objects found. do nothing
 		if (count($a_missing_objects) == 0)
 		{
 			$this->writeScanLogLine("none");
@@ -812,9 +1025,15 @@ restore starts here
 			// put in tree under RecoveryFolder if not on exclude list
 			if (!in_array($missing_obj["type"],$this->object_types_exclude))
 			{
-				$tree->insertNode($missing_obj["ref_id"],RECOVERY_FOLDER_ID);
+				$rbacadmin->revokePermission($missing_obj["ref_id"]);
+				$obj_data =& $ilias->obj_factory->getInstanceByRefId($missing_obj["ref_id"]);
+				$obj_data->putInTree(RECOVERY_FOLDER_ID);
+				$obj_data->setPermissions(RECOVERY_FOLDER_ID);
+				$obj_data->initDefaultRoles();
+				unset($obj_data);
+				//$tree->insertNode($missing_obj["ref_id"],RECOVERY_FOLDER_ID);
 				$restored = true;
-				$this->writeScanLogLine("Created missing tree entry for object '".$missing_obj["obj_id"]."'");
+				$this->writeScanLogLine("Restored object '".$missing_obj["title"]."' (id=".$missing_obj["obj_id"].",ref=".$missing_obj["ref_id"].") in 'Restored objects folder'");
 			}
 			
 			// TODO: process rolefolders
@@ -1274,7 +1493,7 @@ restore starts here
 	{
 		global $tree,$ilLog;
 		
-		$message = sprintf('%s::closeGapsInTree(): Start re-numbering of main tree',
+		$message = sprintf('%s::closeGapsInTree(): Started...',
 						   get_class($this));
 		$ilLog->write($message,$ilLog->WARNING);
 
@@ -1414,6 +1633,15 @@ restore starts here
 		{
 			return array_slice($a_scan_log,array_pop($logs)+2);
 		}
+		
+		return false;
+	}
+	
+	function checkTreeStructure($a_testmode,$a_startnode = null)
+	{
+		global $tree;
+
+		$this->writeScanLogLine("\nchecking tree structure is disabled");
 		
 		return false;
 	}
