@@ -249,7 +249,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$cols = array("", "type", "title");
 		$header_params = array("ref_id" => $_GET["ref_id"],
-			"obj_id" => $_GET["obj_id"]);
+			"obj_id" => $_GET["obj_id"], "cmd" => "listMedia");
 		$tbl->setHeaderVars($cols, $header_params);
 		$tbl->setColumnWidth(array("1%", "1%", "98%"));
 
@@ -484,6 +484,10 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 	}
 
+
+	/**
+	* set locator
+	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php")
 	{
 		global $ilias_locator;
@@ -498,7 +502,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 				? $tree->getRootId()
 				: $_GET["obj_id"];
 			parent::setLocator($tree, $obj_id, "mep_edit.php?cmd=listMedia&ref_id=".$_GET["ref_id"],
-				"obj_id", false);
+				"obj_id", false, $this->object->getTitle());
 		}
 		return;
 

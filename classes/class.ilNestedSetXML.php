@@ -87,7 +87,7 @@ class ilNestedSetXML
         $row = $r->fetchRow();
 
         $pk = $row[0];
-        
+
         /**
         *   Verschieben der Rechten Ränder der schon eingetragenen TAGs
         *   Es müssen beim Import nur Rechte Ränder verschoben werden, da von Links nach Rechts der NestedSetBaum aufgespalten wird.
@@ -373,7 +373,7 @@ class ilNestedSetXML
         $query = "SELECT * FROM xmlnestedset,xmltags WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' AND ns_l='".$this->LEFT."' AND ns_r='".$this->RIGHT."' AND ns_tag_fk=tag_pk LIMIT 1";
 		$result = $this->db->query($query);
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-        
+
         return($row["tag_name"]);
         
     }
@@ -444,7 +444,7 @@ class ilNestedSetXML
 							tag_name = 'TAGVALUE'
 							ORDER BY ns_l";
 		$result = $this->db->query($query);
-		
+
         if (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC) ) ) 
 		{
 			
@@ -588,7 +588,7 @@ class ilNestedSetXML
 			$l = $this->LEFT;
 			$r = $this->RIGHT;
 		}
-		
+
 		
         $ret = "";
         if ($depth<count($path)) 
@@ -660,7 +660,7 @@ class ilNestedSetXML
         // }}}
     }    	
 	
-    function getNode($path, $l=-1, $r=-1, $depth=1) 
+    function getNode($path, $l=-1, $r=-1, $depth=1)
 	{
         // {{{
         if (is_string($path)) 
@@ -723,7 +723,7 @@ class ilNestedSetXML
 */	
 	function getXpathNodes(&$doc, $qry) 
 	{
-#		echo "XPath query: " . $qry . "<br>\n"; 
+#		echo "XPath query: " . $qry . "<br>\n";
 		if (is_object($doc))
 		{
 			$xpath = $doc->xpath_init();
@@ -731,18 +731,18 @@ class ilNestedSetXML
 			$result = $ctx->xpath_eval($qry);
 #			echo "XPath query result:<br>\n";
 #			vd($result);
-			if (is_array($result->nodeset)) 
+			if (is_array($result->nodeset))
 			{
 				return($result->nodeset);
 			}
 		}
 		return Null;
-	}	
-	
+	}
+
 	/**
 	*	inits dom-object from given xml-content
 	*/
-	function initDom() 
+	function initDom()
 	{
 		$xml = $this->export($this->obj_id, $this->obj_type);
 
@@ -755,13 +755,13 @@ class ilNestedSetXML
 			</General>
 		</MetaData>
 		';
-		
+
 //		$xml = $xml_test;
-		
+
 		if ($xml=="") {
 			return(false);
 		} else {
-#		echo "<pre>".htmlspecialchars($xml)."</pre>";
+#	echo "<pre>".htmlspecialchars($xml)."</pre>";
 			$this->dom = domxml_open_mem($xml);
 			return(true);
 		}
@@ -887,9 +887,9 @@ class ilNestedSetXML
 	/**
 	*	updates dom node
 	*/
-	function updateDomNode($xPath, $meta, $no = 0) 
+	function updateDomNode($xPath, $meta, $no = 0)
 	{
-	
+
 #		vd($meta);
 		$update = false;
 
@@ -1365,16 +1365,16 @@ class ilNestedSetXML
 				}
 			}
 		}
-	}	
-	
-	function getFirstDomNode($xPath) 
+	}
+
+	function getFirstDomNode($xPath)
 	{
-		
+
 		$node = $this->getXpathNodes($this->dom,$xPath);
 		return($node[0]);
-		
+
 	}
-	
+
 	/**
 	*	imports xml-data from dom new into nestedSet
 	*/
@@ -1386,29 +1386,29 @@ class ilNestedSetXML
 		$xml = $this->dom->dump_mem(0);
 
 		$this->import($xml,$this->obj_id,$this->obj_type);
-		
+
 		// echo htmlspecialchars($xml);
 	}
-	
+
 	/**
 	*	deletes current db-data
 	*/
-	function deleteAllDbData() 
+	function deleteAllDbData()
 	{
-		
+
 		$res = $this->db->query("SELECT * FROM xmlnestedset WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' ");
-		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) 
+		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
-			
+
 			$this->db->query("DELETE FROM xmlparam WHERE tag_fk='".$row["ns_tag_fk"]."' ");
 			$this->db->query("DELETE FROM xmlvalue WHERE tag_fk='".$row["ns_tag_fk"]."' ");
 			$this->db->query("DELETE FROM xmltags WHERE tag_pk='".$row["ns_tag_fk"]."' ");
-			
+
 		}
 		$this->db->query("DELETE FROM xmlnestedset WHERE ns_book_fk='".$this->obj_id."' AND ns_type='".$this->obj_type."' ");
-		
+
 	}
-	
+
     // }}}
     // ------------------------------------------------------------------------------------------------------------------------------
     // ------------------------------------------------------------------------------------------------------------------------------

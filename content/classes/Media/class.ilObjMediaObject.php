@@ -311,7 +311,7 @@ class ilObjMediaObject extends ilObject
 		$this->meta_data->setId($this->getId());
 		$this->meta_data->setType($this->getType());
 		$this->meta_data->create();
-
+		$this->meta_data->getDom();
 		$media_items =& $this->getMediaItems();
 		for($i=0; $i<count($media_items); $i++)
 		{
@@ -332,18 +332,18 @@ class ilObjMediaObject extends ilObject
 		$this->meta_data->update();
 		if ($this->meta_data->section != "General")
 		{
-			/* this is evil at creation time
-			$meta = $this->meta_data->getElement("Title", "General");
-			$this->meta_data->setTitle($meta[0]["value"]);
-			$meta = $this->meta_data->getElement("Description", "General");
-			$this->meta_data->setDescription($meta[0]["value"]);*/
+			// this is evil at creation time
+			//$meta = $this->meta_data->getElement("Title", "General");
+			//$this->meta_data->setTitle($meta[0]["value"]);
+			//$meta = $this->meta_data->getElement("Description", "General");
+			//$this->meta_data->setDescription($meta[0]["value"]);
 		}
 		else
 		{
 			$this->setTitle($this->meta_data->getTitle());
 			$this->setDescription($this->meta_data->getDescription());
+			parent::update();
 		}
-		parent::update();
 	}
 
 

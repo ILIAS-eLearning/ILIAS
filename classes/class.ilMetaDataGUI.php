@@ -1343,6 +1343,7 @@ class ilMetaDataGUI
 		/* editing meta data with editor */
 		if (is_array($_POST["meta"]))
 		{
+//echo "metagui_Save_1<br>";
 			$meta = $_POST["meta"];
 			$this->meta_obj->setTitle(ilUtil::stripSlashes($meta["Title"]["Value"]));
 			$this->meta_obj->setMeta($meta);
@@ -1350,10 +1351,12 @@ class ilMetaDataGUI
 		/* creating a new object -> meta data: title and description */
 		else if (is_array($_POST["Fobject"]))
 		{
+//echo "metagui_Save_2<br>";
 			$meta = $_POST["Fobject"];
 			$this->meta_obj->setTitle(ilUtil::stripSlashes($meta["title"]));
 			$this->meta_obj->setMeta($meta);
 		}
+//echo "metagui_Save_3<br>"; exit;
 		$this->meta_obj->setSection($a_section);
 		$this->obj->updateMetaData();
 	}

@@ -104,7 +104,7 @@ class ilMetaData
 			$this->getType() == "tst" ||
 			$this->getType() == "qpl" ||
 			$this->getType() == "gdf" ||
-			$this->getType() == "dbk") 
+			$this->getType() == "dbk")
 		{
 			include_once("./classes/class.ilNestedSetXML.php");
 			$this->nested = new ilNestedSetXML();
@@ -132,8 +132,8 @@ class ilMetaData
 				$meta_rec["description"] = $this->nested->getFirstDomContent("//MetaData/General/Description");
 			}
 
-		} 
-		
+		}
+
 		$this->setTitle($meta_rec["title"]);
 		$this->setDescription($meta_rec["description"]);
 	}
@@ -389,6 +389,8 @@ class ilMetaData
 		}
 
 		$this->title = $a_title;
+
+//echo "metadata_settitle<br>";
 	}
 
 	/**
@@ -548,15 +550,15 @@ class ilMetaData
 		include_once("./classes/class.ilNestedSetXML.php");
 		$this->nested = new ilNestedSetXML();
 		$this->nested->init($this->id, $this->getType());
+
 		if ( !$this->nested->initDom() )
 		{
-			
-			if (is_object($this->obj)) 
+			if (is_object($this->obj))
 			{
 				$title = $this->obj->getTitle();
 				$desc = $this->obj->getDescription();
 			}
-			
+
 			$xml = '
 				<MetaData>
 					<General Structure="Hierarchical">
@@ -569,6 +571,11 @@ class ilMetaData
 			';
 			$this->nested->import($xml, $this->getID(), $this->getType());
 		}
+	}
+
+	function getDom()
+	{
+		return $this->nested->initDom();
 	}
 
 	/**
@@ -586,7 +593,7 @@ class ilMetaData
 
 		if ($this->getType() == "pg" || $this->getType() == "st" || $this->getType() == "lm"
 			|| $this->getType() == "glo" || $this->getType() == "gdf" || $this->getType() == "dbk"
-			|| $this->getType() == "tst" || $this->getType() == "qpl")
+			|| $this->getType() == "tst" || $this->getType() == "qpl" || $this->getType() == "mob")
 		{
 #			echo "Section: " . $this->section . "<br>\n";
 			$p = "//MetaData";
@@ -601,10 +608,12 @@ class ilMetaData
 				$this->setTitle($this->meta["title_value"]);
 				$this->setDescription($this->meta["description_value"][0]);
 			}*/
+
 			if ($this->getType() == "lm" ||
 					 $this->getType() == "dbk" ||
 					 $this->getType() == "glo" ||
 					 $this->getType() == "tst" ||
+					 $this->getType() == "mob" ||
 					 $this->getType() == "qpl" ||
 					 $this->getType() == "st" ||
 					 $this->getType() == "pg")
@@ -614,9 +623,17 @@ class ilMetaData
 				{
 					$this->setTitle(ilUtil::stripSlashes($this->meta["Title"]["Value"]));
 					$this->setDescription(ilUtil::stripSlashes($this->meta["Description"][0]["Value"]));
-					$query = "UPDATE lm_data SET title = '".ilUtil::prepareDBString($this->meta["Title"]["Value"])."' WHERE ".
-							 "obj_id = '" . $this->getID() . "'";
-					$this->ilias->db->query($query);
+
+					/**
+					* todo: get rid of this ! lm_data should not be accessed here!
+					*/
+					if ($this->getType() == "st" ||
+							$this->getType() == "pg")
+					{
+						$query = "UPDATE lm_data SET title = '".ilUtil::prepareDBString($this->meta["Title"]["Value"])."' WHERE ".
+								"obj_id = '" . $this->getID() . "'";
+						$this->ilias->db->query($query);
+					}
 				}
 			}
 		}

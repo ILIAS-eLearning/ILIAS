@@ -126,14 +126,24 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
+		// determinte title and format
+		if ($_POST["standard_type"] == "File")
+		{
+			$title = $_FILES['standard_file']['name'];
+		}
+		else
+		{
+			$title = $_POST["standard_reference"];
+		}
+
 		// create dummy object in db (we need an id)
 		$this->object = new ilObjMediaObject();
 		$dummy_meta =& new ilMetaData();
 		$dummy_meta->setObject($this->object);
 
 		$this->object->assignMetaData($dummy_meta);
-		$this->object->setTitle("dummy");
-		$this->object->setDescription("dummy");
+		$this->object->setTitle($title);
+		$this->object->setDescription("");
 		$this->object->create();
 
 		// determine and create mob directory, move uploaded file to directory
@@ -1005,7 +1015,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 		$cols = array("object", "context");
 		$header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
-			"cmd" => "showUsages", "hier_id" => $_GET["hier_id"]);
+			"cmd" => "showUsages", "hier_id" => $_GET["hier_id"], "cmdClass" => "ilObjMediaObjectGUI");
 		$tbl->setHeaderVars($cols, $header_params);
 		//$tbl->setColumnWidth(array("1%", "1%", "33%", "33%", "32%"));
 
@@ -1494,7 +1504,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				}
 
 				// internal link list
-				$this->tpl->setVariable("LINK_ILINK", "lm_edit.php?ref_id=".$_GET["ref_id"]."&cmd=showLinkHelp&linkmode=map&mode=page_edit&obj_id=".$_GET["obj_id"]);
+				$this->tpl->setVariable("LINK_ILINK",
+					ilUtil::appendUrlParameterString($this->getTargetScript(), "cmd=showLinkHelp&linkmode=map"));
 				$this->tpl->setVariable("TXT_ILINK", "[".$this->lng->txt("cont_get_link")."]");
 
 				$this->tpl->parseCurrentBlock();
@@ -1991,7 +2002,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$meta_gui->setObject($this->object);
 		$meta_gui->save($_POST["meta_section"]);
 		sendInfo($this->lng->txt("msg_obj_modified"), true);
-		ilUtil::redirect($this->getReturnLocation());
+		ilUtil::redirect(ilUtil::appendUrlParameterString($this->getTargetScript(),
+			"cmd=editMeta"));
 	}
 
 	/**
@@ -2018,6 +2030,22 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		}
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
 			$this->getTargetScript(), $meta_section);
+	}
+
+
+	/**
+	* show link help
+	*/
+	function showLinkHelpObject()
+	{
+		require_once("content/classes/class.ilInternalLinkGUI.php");
+		$link_gui =& new ilInternalLinkGUI($this->getTargetScript(), "Media_Media", 0);
+		$link_gui->setMode("link");
+		$link_gui->setSetLinkTargetScript(
+			ilUtil::appendUrlParameterString($this->getTargetScript,
+			"cmd=setLink&cmdClass=ilObjMediaObjectGUI"));
+		$link_gui->filterLinkType("Media");
+		$link_gui->showLinkHelp();
 	}
 
 	/**
@@ -2084,12 +2112,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		// catch feedback message
 		sendInfo();
 
-		$title = $this->object->getTitle();
-		if (!empty($title))
-		{
-			$this->tpl->setVariable("HEADER", $title);
-		}
-
 		include_once("classes/class.ilTabsGUI.php");
 		$tabs_gui =& new ilTabsGUI;
 		$tabs_gui->setTargetScript($this->getTargetScript());
@@ -2098,6 +2120,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			"cmdClass=ilObjMediaObjectGUI"));*/
 		if (is_object($this->object) && $this->object->getType() == "mob")
 		{
+			$title = $this->object->getTitle();
+			$this->tpl->setVariable("HEADER", $title);
+
 			$tabs[] = array("cont_mob_prop", "edit");
 			$tabs[] = array("cont_mob_files", "editFiles");
 			$tabs[] = array("cont_mob_usages", "showUsages");
@@ -2114,6 +2139,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 			$tabs[] = array("meta_data", "editMeta");
 		}
+		else
+		{
+			$title = $this->object->getTitle();
+			$this->tpl->setVariable("HEADER", $this->lng->txt("cont_create_mob"));
+		}
+
 		$tabs[] = array("cont_back", "returnToContext");
 
 		/*

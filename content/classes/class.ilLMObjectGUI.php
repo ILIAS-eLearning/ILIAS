@@ -154,9 +154,12 @@ class ilLMObjectGUI
 	*/
 	function saveMeta()
 	{
+//echo "lmobjectgui_Savemeta1<br>";
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->obj);
+//echo "lmobjectgui_Savemeta2<br>";
 		$meta_gui->save($_POST["meta_section"]);
+//echo "lmobjectgui_Savemeta3<br>";
 		ilUtil::redirect("lm_edit.php?cmd=view&ref_id=".$this->content_object->getRefId()."&obj_id=".
 			$this->obj->getId());
 	}

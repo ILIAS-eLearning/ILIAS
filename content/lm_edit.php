@@ -44,9 +44,6 @@ if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
 	$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->WARNING);
 }
 
-// set encoding to utf-8 (only done if needed, see ilPageObjectGUI::viewWysiwyg()
-//header('Content-type: text/html; charset=UTF-8');
-
 // editor GUI class does the rest
 require_once "./content/classes/class.ilLMEditorGUI.php";
 $lm_editor_gui =& new ilLMEditorGUI();
