@@ -60,7 +60,7 @@ class ilLMTOCExplorer extends ilLMExplorer
 		$a_child = $a_type == '+' ? $a_child : -(int) $a_child;
 
 		return $_SERVER["SCRIPT_NAME"]."?frame=".$_GET["frame"].
-			"&cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId()."&mexpand=".$a_child;
+			"&cmd=".$_GET["cmd"]."&ref_id=".$this->lm_obj->getRefId()."&lmexpand=".$a_child;
 	}
 
 

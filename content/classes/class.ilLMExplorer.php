@@ -207,22 +207,22 @@ class ilLMExplorer extends ilExplorer
 	function setExpand($a_node_id)
 	{
 		// IF ISN'T SET CREATE SESSION VARIABLE
-		if(!is_array($_SESSION["mexpand"]))
+		if(!is_array($_SESSION["lmexpand"]))
 		{
-			$_SESSION["mexpand"] = array();
+			$_SESSION["lmexpand"] = array();
 		}
 		// IF $_GET["expand"] is positive => expand this node
-		if($a_node_id > 0 && !in_array($a_node_id,$_SESSION["mexpand"]))
+		if($a_node_id > 0 && !in_array($a_node_id,$_SESSION["lmexpand"]))
 		{
-			array_push($_SESSION["mexpand"],$a_node_id);
+			array_push($_SESSION["lmexpand"],$a_node_id);
 		}
 		// IF $_GET["expand"] is negative => compress this node
 		if($a_node_id < 0)
 		{
-			$key = array_keys($_SESSION["mexpand"],-(int) $a_node_id);
-			unset($_SESSION["mexpand"][$key[0]]);
+			$key = array_keys($_SESSION["lmexpand"],-(int) $a_node_id);
+			unset($_SESSION["lmexpand"][$key[0]]);
 		}
-		$this->expanded = $_SESSION["mexpand"];
+		$this->expanded = $_SESSION["lmexpand"];
 	}
 	/**
 	* Creates Get Parameter
@@ -238,7 +238,7 @@ class ilLMExplorer extends ilExplorer
 		//     negative if object is compressed
 		$a_child = $a_type == '+' ? $a_child : -(int) $a_child;
 
-		return $_SERVER["SCRIPT_NAME"]."?cmd=explorer&ref_id=".$this->lm_obj->getRefId()."&mexpand=".$a_child;
+		return $_SERVER["SCRIPT_NAME"]."?cmd=explorer&ref_id=".$this->lm_obj->getRefId()."&lmexpand=".$a_child;
 	}
 } // END class.ilMailExplorer
 ?>

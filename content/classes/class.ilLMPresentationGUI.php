@@ -208,7 +208,7 @@ class ilLMPresentationGUI
 		$exp->addFilter("st");
 		$exp->setFiltered(true);
 
-		if ($_GET["mexpand"] == "")
+		if ($_GET["lmexpand"] == "")
 		{
 			$mtree = new ilTree($this->lm->getId());
 			$mtree->setTableNames('lm_tree','lm_data');
@@ -217,7 +217,7 @@ class ilLMPresentationGUI
 		}
 		else
 		{
-			$expanded = $_GET["mexpand"];
+			$expanded = $_GET["lmexpand"];
 		}
 		$exp->setExpand($expanded);
 
@@ -228,7 +228,7 @@ class ilLMPresentationGUI
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "lm_presentation.php?cmd=".$_GET["cmd"]."&frame=".$_GET["frame"].
-			"&ref_id=".$this->lm->getRefId()."&mexpand=".$_GET["mexpand"]);
+			"&ref_id=".$this->lm->getRefId()."&lmexpand=".$_GET["lmexpand"]);
 		$this->tpl->parseCurrentBlock();
 	}
 
