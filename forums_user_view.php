@@ -33,14 +33,30 @@
 require_once "./include/inc.header.php";
 require_once "classes/class.ilForum.php";
 
+
+
 $lng->loadLanguageModule("forum");
 
 $frm = new ilForum();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_user_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
+
+
+require_once ("classes/class.ilObjUserGUI.php");
+//$user_gui = new ilObjUserGUI("",$_GET["user"], false);
+//echo "user:".$_GET["user"].":";
+$_GET["obj_id"]=$_GET["user"];
+$user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
+$user_gui->insertPublicProfile("USR_PROFILE","usr_profile");
+
+
+
+
+
 // display infopanel if something happened
 infoPanel();
+
 
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK",$_GET["backurl"].".php?ref_id=".$_GET["ref_id"]."&thr_pk=".$_GET["thr_pk"]."&pos_pk=".$_GET["pos_pk"]."&offset=".$_GET["offset"]."&orderby=".$_GET["orderby"]);
@@ -55,7 +71,7 @@ if (!$rbacsystem->checkAccess("read", $_GET["ref_id"]))
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("userdata"));
 
 // get user data
-$author = $frm->getUser($_GET["user"]);	
+$author = $frm->getUser($_GET["user"]);
 
 $tpl->setCurrentBlock("usertable");
 
@@ -63,11 +79,11 @@ $tpl->setVariable("ROWCOL1", "tblrow1");
 $tpl->setVariable("ROWCOL2", "tblrow2");
 
 $tpl->setVariable("TXT_LOGIN", $lng->txt("login"));
-$tpl->setVariable("LOGIN",$author->getLogin());	
+$tpl->setVariable("LOGIN",$author->getLogin());
 
 $tpl->setVariable("TXT_NAME", $lng->txt("name"));
-$tpl->setVariable("FIRSTNAME",$author->getFirstName());	
-$tpl->setVariable("LASTNAME",$author->getLastName());	
+$tpl->setVariable("FIRSTNAME",$author->getFirstName());
+$tpl->setVariable("LASTNAME",$author->getLastName());
 
 $tpl->setVariable("TXT_TITLE", $lng->txt("title"));
 $tpl->setVariable("TITLE",$author->getTitle());
