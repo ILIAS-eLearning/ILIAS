@@ -34,14 +34,6 @@ class ilMail
 	var $mfile;
 
 	/**
-	* actions
-	*
-	* @var array contains all possible actions
-	* @access private
-	*/	
-	var $actions;
-
-	/**
 	* User Id
 	* @var integer
 	* @access public
@@ -101,11 +93,6 @@ class ilMail
 		$this->lng   = &$lng;
 		$this->table_mail = 'mail';
 		$this->table_mail_saved = 'mail_saved';
-		$this->actions = array(
-			"move"        => $this->lng->txt("mail_move_to"),
-			"mark_read"   => $this->lng->txt("mail_mark_read"),
-			"mark_unread" => $this->lng->txt("mail_mark_unread"),
-			"delete"      => $this->lng->txt("delete"));
 		$this->user_id = $a_user_id;
 		$this->mfile = new ilFileDataMail($this->user_id);
 
@@ -253,16 +240,6 @@ class ilMail
 			$this->mfile->deassignAttachmentFromDirectory($id);
 		}
 		return true;
-	}
-
-	/**
-	* get all possible actions
-	* @access	public
-	* @return	array possible actions
-	*/
-	function getActions()
-	{
-		return $this->actions;
 	}
 
 	/**
@@ -463,7 +440,7 @@ class ilMail
 
 		$user = new ilUser();
 
-		$tmp_names = explode(',',$a_recipients);
+		$tmp_names = $this->explodeRecipients($a_recipients);
 		
 		for($i = 0;$i < count($tmp_names); $i++)
 		{
@@ -548,7 +525,7 @@ class ilMail
 			$error_message .= $error_message ? "<br>" : '';
 			$error_message .= $this->lng->txt("mail_add_recipient");
 		}
-		$arr_rcp = explode(',',trim($a_rcp_to));
+		$arr_rcp = $this->explodeRecipients($a_rcp_to);
 		$valid = true;
 		foreach($arr_rcp as $rcp)
 		{
@@ -564,7 +541,7 @@ class ilMail
 		}
 		if(!empty($a_rcp_cc))
 		{
-			$arr_rcp = explode(',',trim($a_rcp_cc));
+			$arr_rcp = $this->explodeRecipients($a_rcp_cc);
 			$valid = true;
 			foreach($arr_rcp as $rcp)
 			{
@@ -581,7 +558,7 @@ class ilMail
 		}
 		if(!empty($a_rcp_bcc))
 		{
-			$arr_rcp = explode(',',trim($a_rcp_bcc));
+			$arr_rcp = $this->explodeRecipients($a_rcp_bcc);
 			$valid = true;
 			foreach($arr_rcp as $rcp)
 			{
@@ -613,7 +590,7 @@ class ilMail
 		$user = new ilUser();
 		$group = new ilGroup();
 
-		$tmp_rcp = explode(',',$a_recipients);
+		$tmp_rcp = $this->explodeRecipients($a_recipients);
 
 		foreach($tmp_rcp as $rcp)
 		{
@@ -930,6 +907,21 @@ class ilMail
 	{
 		return $this->mail_data["attachments"] ? $this->mail_data["attachments"] : array();
 	}
+	
+	/**
+	* explode recipient string
+	* allowed seperators are ',' ';' ' '
+	* @access	private
+	* @return array array of recipients
+	*/
+	function explodeRecipients($a_recipients)
+	{
+		$a_recipients = trim($a_recipients);
+		$a_recipients = preg_replace("/ /",",",$a_recipients);
+		$a_recipients = preg_replace("/;/",",",$a_recipients);
+		return explode(',',$a_recipients);
+	}
+
 			
 } // END class.UserMail
 ?>
