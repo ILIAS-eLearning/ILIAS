@@ -55,6 +55,9 @@ class Setup
     function Setup()
     {
 		//initialize default values in case of error
+		$default["server"]["tpl_path"] = "./templates";
+		$default["server"]["lang_path"] = "./lang";
+		
 		$default["db"]["type"] = "mysql";
 		$default["db"]["host"] = "your host";
 		$default["db"]["user"] = "your db username";
