@@ -70,6 +70,110 @@ class ilHistoryGUI
 		{
 			$tbl->setHeaderNames(array($this->lng->txt("date"),
 				$this->lng->txt("user"), $this->lng->txt("action"),
+				$this->lng->txt("user_comment")));
+			$tbl->setColumnWidth(array("25%", "15%", "25%", "45%"));
+			$cols = array("date", "user", "action", "comment");
+		}
+		else
+		{
+			$tbl->setHeaderNames(array($this->lng->txt("date"),
+				$this->lng->txt("user"), $this->lng->txt("action")));
+			$tbl->setColumnWidth(array("25%", "25%", "50%"));
+			$cols = array("date", "user", "action");
+		}
+
+		if ($a_header_params == "")
+		{
+			$a_header_params = array();
+		}
+		$header_params = $a_header_params;
+		$tbl->setHeaderVars($cols, $header_params);
+
+		// table variables
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+		// get history entries
+		$entries = ilHistory::_getEntriesForObject($this->obj_id, $this->obj_type);
+
+		$tbl->setMaxCount(count($entries));
+		$entries = array_slice($entries, $_GET["offset"], $_GET["limit"]);
+
+		$this->tpl =& $tbl->getTemplateObject();
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.history_row.html", false);
+
+		if(count($entries) > 0)
+		{
+			$i=0;
+			foreach($entries as $entry)
+			{
+				$this->tpl->setCurrentBlock("tbl_content");
+				$css_row = ($cssrow != "tblrow1") ? "tblrow1" : "tblrow2";
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->setVariable("TXT_DATE", $entry["date"]);
+				$name = ilObjUser::_lookupName($entry["user_id"]);
+				$this->tpl->setVariable("TXT_USER",
+					$name["title"]." ".$name["firstname"]." ".$name["lastname"]." [".$entry["user_id"]."]");
+				$info_params = explode(",", $entry["info_params"]);
+				$info_text = $this->lng->txt("hist_".$this->obj_type.
+					"_".$entry["action"]);
+				$i=1;
+				foreach($info_params as $info_param)
+				{
+					$info_text = str_replace("%".$i, $info_param, $info_text);
+					$i++;
+				}
+				$this->tpl->setVariable("TXT_ACTION", $info_text);
+				if ($a_user_comment)
+				{
+					$this->tpl->setCurrentBlock("user_comment");
+					$this->tpl->setVariable("TXT_USER_COMMENT", $entry["user_comment"]);
+					$this->tpl->parseCurrentBlock();
+					$this->tpl->setCurrentBlock("tbl_content");
+				}
+				
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("tbl_content_cell");
+			$this->tpl->setVariable("TBL_CONTENT_CELL", $this->lng->txt("hist_no_entries"));
+			$this->tpl->setVariable("TBL_COL_SPAN", 4);
+			$this->tpl->parseCurrentBlock();
+			$this->tpl->setCurrentBlock("tbl_content_row");
+			$this->tpl->setVariable("ROWCOLOR", "tblrow1");
+			$this->tpl->parseCurrentBlock();
+		}
+		$tbl->render();
+		//$this->tpl->parseCurrentBlock();
+		
+		return $this->tpl->get();
+	}
+
+	/**
+	* get versions table
+	*/
+	function getVersionsTable($a_header_params, $a_user_comment = false)
+	{
+		$ref_id = $a_header_params["ref_id"];
+		
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI(0, false);
+		
+		// table header
+		$tbl->setTitle($this->lng->txt("versions"));
+		if ($a_user_comment)
+		{
+			$tbl->setHeaderNames(array($this->lng->txt("date"),
+				$this->lng->txt("user"), $this->lng->txt("action"),
 				$this->lng->txt("user_comment"), ""));
 			$tbl->setColumnWidth(array("15%", "15%", "45%", "20%","5%"));
 			$cols = array("date", "user", "action", "comment", "");
@@ -137,9 +241,13 @@ class ilHistoryGUI
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->setCurrentBlock("tbl_content");
 				}
+				
+				$this->tpl->setCurrentBlock("dl_link");
 				$this->tpl->setVariable("TXT_DL", $this->lng->txt("download"));
 				$this->tpl->setVariable("DL_LINK", "repository.php?cmd=sendfile&hist_id=".$entry["hist_entry_id"]."&ref_id=".$ref_id);
+				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();
+
 			}
 		} //if is_array
 		else
@@ -152,11 +260,11 @@ class ilHistoryGUI
 			$this->tpl->setVariable("ROWCOLOR", "tblrow1");
 			$this->tpl->parseCurrentBlock();
 		}
+		
 		$tbl->render();
-		$this->tpl->parseCurrentBlock();
+		//$this->tpl->parseCurrentBlock();
 		
 		return $this->tpl->get();
-
 	}
 
 } // END class.ilHistoryGUI

@@ -2755,7 +2755,7 @@ class ilRepositoryGUI
 					
 					$tpl->setCurrentBlock("file_history");
 					$tpl->setVariable("TXT_HISTORY", $this->lng->txt("versions"));
-					$tpl->setVariable("HISTORY_LINK", "repository.php?cmd=history&cmdClass=ilobjfilegui&cmdNode=32&ref_id=".$cont_data["ref_id"]);
+					$tpl->setVariable("HISTORY_LINK", "repository.php?cmd=versions&cmdClass=ilobjfilegui&cmdNode=32&ref_id=".$cont_data["ref_id"]);
 					$tpl->setVariable("HISTORY_TARGET", "bottom");
 					$tpl->parseCurrentBlock();
 
