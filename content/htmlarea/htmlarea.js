@@ -26,6 +26,8 @@ if (typeof _editor_lang == "string") {
 	_editor_lang = "en";
 }
 
+var ttid = 0;
+
 // Creates a new HTMLArea object.  Tries to replace the textarea with the given
 // ID with it.
 function HTMLArea(textarea, config) {
@@ -80,10 +82,10 @@ HTMLArea.Config = function () {
 	this.statusBar = true;
 
 	// maximum size of the undo queue
-	this.undoSteps = 20;
+	this.undoSteps = 0;
 
 	// the time interval at which undo samples are taken
-	this.undoTimeout = 500;	// 1/2 sec.
+	this.undoTimeout = 50000;	// 1/2 sec.
 
 	// the next parameter specifies whether the toolbar should be included
 	// in the size or not.
@@ -561,10 +563,11 @@ HTMLArea.prototype._createToolbar = function () {
 				img.style.width = "18px";
 				img.style.height = "18px";
 			} else {
+				
 				var img = document.createElement("div");
-				H = "<table width=18 height=18 cellspacing=0 cellpadding=0 border=0><tr><td align=center>"+btn[1]+"</td></tr></table>";
+				H = "<table height=18 cellspacing=0 cellpadding=0 border=0><tr><td align=center>"+btn[1]+"</td></tr></table>";
 				H += "<div style='position:relative;left:0;top:-18;'>";
-				H += "<div style='z-index:1000;position:absolute;'><img src='./htmlarea/images/blank.gif' width=18 height=18></div>";
+				H += "<div style='z-index:1000;position:absolute;'><img src='./htmlarea/images/blank.gif' width="+(btn[1].length*8)+" height=18 border=1></div>";
 				H += "</div>";
 				img.innerHTML = H;
 			}
@@ -1709,10 +1712,8 @@ HTMLArea.prototype.execCommand = function(cmdID, UI, param) {
 		break;
 	    case "undo":
 	    case "redo":
-		if (this._customUndo)
-			this[cmdID]();
-		else
-			this._doc.execCommand(cmdID, UI, param);
+		if (this._customUndo) this[cmdID]();
+		//else this._doc.execCommand(cmdID, UI, param);
 		break;
 	    case "inserttable": this._insertTable(); break;
 	    case "insertimage": this._insertImage(); break;
