@@ -743,6 +743,7 @@ common#:#crs_add#:#Cursus toevoegen
 common#:#crs_added#:#Cursus toegevoegd
 common#:#crs_archives#:#Archives###07 Aug 2004 new variable
 common#:#crs_available#:#Beschikbare cursussen
+common#:#crs_container_link_not_allowed#:#It is not possible to link container objects###01 Sep 2004 new variable
 common#:#crs_create#:#Creëer cursus
 common#:#crs_create_alm#:#Create AICC Learning Module###15 Jul 2004 new variable
 common#:#crs_create_frm#:#Creëer forum
@@ -1237,6 +1238,7 @@ common#:#learning_objects#:#Lesobjecten
 common#:#learning_resources#:#Leerbronnen
 common#:#level#:#Niveau
 common#:#link#:#Link
+common#:#linked_object#:#The object has been linked###01 Sep 2004 new variable
 common#:#linked_pages#:#Gelinkte pagina's
 common#:#list_of_pages#:#Pagina-lijst
 common#:#list_of_questions#:#Vragenlijst
@@ -1779,6 +1781,7 @@ common#:#select_all#:#Selecteer alles
 common#:#select_file#:#Selecteer bestand
 common#:#select_mode#:#Selecteer modus
 common#:#select_object_to_copy#:#Please select the object you want to copy###07 Aug 2004 new variable
+common#:#select_object_to_link#:#Please select the object which you want to link###01 Sep 2004 new variable
 common#:#selected#:#Geselecteerd
 common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
 common#:#send#:#Zend
@@ -3505,6 +3508,7 @@ survey#:#duplicate#:#Duplicate###21 May 2004 new variable
 survey#:#edit_ask_continue#:#Do you want to continue and edit this question?###04 Jun 2004 new variable
 survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints###26 May 2004 new variable
 survey#:#end_date#:#End date###23 May 2004 new variable
+survey#:#end_date_reached#:#You cannot start the survey. The end date is reached!###01 Sep 2004 new variable
 survey#:#enter_phrase_title#:#Please enter a phrase title###07 Jun 2004 new variable
 survey#:#enter_value#:#Enter a value###26 May 2004 new variable
 survey#:#evaluation#:#Evaluation###02 Jun 2004 new variable
@@ -3538,6 +3542,7 @@ survey#:#manage_phrases#:#Manage phrases###28 Jun 2004 new variable
 survey#:#material_file#:#Material file###21 May 2004 new variable
 survey#:#maximum#:#Maximum value###22 May 2004 new variable
 survey#:#median#:#Median###02 Jun 2004 new variable
+survey#:#median_between#:#between###01 Sep 2004 new variable
 survey#:#metric_question_out_of_bounds#:#The value you entered is not between the minimum and maximum value!###31 May 2004 new variable
 survey#:#minimum#:#Minimum value###22 May 2004 new variable
 survey#:#missing_upper_or_lower_limit#:#Please enter a lower and an upper limit!###07 Jun 2004 new variable
@@ -3630,6 +3635,7 @@ survey#:#select_target_position_for_move_question#:#Please select a target posit
 survey#:#select_value#:#Select a value###26 May 2004 new variable
 survey#:#set_filter#:#Set filter###21 May 2004 new variable
 survey#:#start_date#:#Start date###23 May 2004 new variable
+survey#:#start_date_not_reached#:#You cannot start the survey until the start date is reached!###01 Sep 2004 new variable
 survey#:#start_survey#:#Start survey###25 May 2004 new variable
 survey#:#subtype#:#Subtype###04 Jun 2004 new variable
 survey#:#survey_finish#:#save and finish survey >>>###01 Jun 2004 new variable
