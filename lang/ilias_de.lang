@@ -93,7 +93,7 @@ assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
 assessment#:#add_applet_parameter#:#Applet-Parameter anfügen
 assessment#:#add_area#:#Region anfügen
 assessment#:#add_gap#:#Lückentext anfügen
-assessment#:#add_imagemap#:#Imagemap anfügen###11 Sep 2004 content changed
+assessment#:#add_imagemap#:#Imagemap anfügen
 assessment#:#add_matching_pair#:#Zuordnungspaar anfügen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#answer#:#Antwort
@@ -163,7 +163,7 @@ assessment#:#gap_definition#:#Lückendefinition
 assessment#:#gap_selection#:#Lückenauswahl
 assessment#:#height#:#Höhe
 assessment#:#imagemap#:#Imagemap
-assessment#:#imagemap_file#:#Image map file###11 Sep 2004 new variable
+assessment#:#imagemap_file#:#Imagemap Datei
 assessment#:#imagemap_source#:#Imagemap Quelltext
 assessment#:#import_question#:#Frage(n) importieren
 assessment#:#insert_after#:#Einfügen hinter
@@ -185,7 +185,7 @@ assessment#:#material_download#:#Materialien zum Herunterladen
 assessment#:#material_file#:#Material-Datei
 assessment#:#maximum_nr_of_tries_reached#:#Sie haben die maximale Anzahl von Versuchen für diesen Test ausgeschöpft. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#meaning#:#Bedeutung
-assessment#:#negative_points_not_allowed#:#You are not allowed to enter negative points!###13 Sep 2004 new variable
+assessment#:#negative_points_not_allowed#:#Sie dürfen keine negativen Punkte vergeben!
 assessment#:#next_question_rows#:#Fragen %d - %d von %d >>
 assessment#:#no_question_selected_for_move#:#Bitte wählen Sie mindestens eine Frage aus, um sie zu verschieben!
 assessment#:#no_questions_available#:#Es sind keine Fragen verfügbar!
@@ -291,10 +291,10 @@ assessment#:#tst_mark_official_form#:#Offizielle Bezeichnung
 assessment#:#tst_mark_passed#:#Bestanden
 assessment#:#tst_mark_short_form#:#Kurzbezeichnung
 assessment#:#tst_maximum_points#:#Maximale Punktezahl
-assessment#:#tst_missing_author#:#You don't have entered the authors name in the test properties! Please add an authors name.###13 Sep 2004 new variable
-assessment#:#tst_missing_marks#:#You don't have a mark schema in the test! Please add at least a simple mark schema into the test.###13 Sep 2004 new variable
-assessment#:#tst_missing_questions#:#You don't have any questions in the test! Please add at least one question into the test.###13 Sep 2004 new variable
-assessment#:#tst_missing_title#:#You don't have entered a test title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
+assessment#:#tst_missing_author#:#Sie haben keine Autorin in den Test-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.
+assessment#:#tst_missing_marks#:#Sie haben kein Notenschema für den Test angegeben! Bitte fügen Sie wenigstens ein einfaches Notenschema hinzu.
+assessment#:#tst_missing_questions#:#Sie haben dem Test noch keine Fragen hinzugefügt! Bitte fügen Sie dem Test wenigstens eine Frage hinzu.
+assessment#:#tst_missing_title#:#Sie haben keinen Test-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 assessment#:#tst_no_marks_defined#:#Es sind keine Noten definiert. Bitte erzeugen Sie wenigstens ein einfaches Notenschema!
 assessment#:#tst_no_question_selected_for_removal#:#Bitte wählen Sie wenigstens eine Frage zum löschen aus!
 assessment#:#tst_no_questions_available#:#Es sind keine Fragen verfügbar! Sie müssen neue Fragen erzeugen oder nach weiteren Fragen durchsuchen.
@@ -355,10 +355,10 @@ assessment#:#tst_stat_users_intro#:#Anzeige der statistischen Auswertung für
 assessment#:#tst_statistical_evaluation#:#Statistische Auswertung
 assessment#:#tst_status_completed#:#vollständig
 assessment#:#tst_status_completed_more_tries_possible#:#(vollständig)
-assessment#:#tst_status_missing#:#There are required elements missing in this test!###13 Sep 2004 new variable
-assessment#:#tst_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
+assessment#:#tst_status_missing#:#In diesem Test fehlen benötigte Elemente!
+assessment#:#tst_status_missing_elements#:#Die folgenden Elemente fehlen:
 assessment#:#tst_status_not_entered#:#unbearbeitet
-assessment#:#tst_status_ok#:#The status of the test is OK. There are no missing elements.###13 Sep 2004 new variable
+assessment#:#tst_status_ok#:#Der Status des Tests ist in Ordnung. Es gibt keine fehlenden Elemente.
 assessment#:#tst_status_progress#:#in Bearbeitung
 assessment#:#tst_time_already_spent#:#Bereits benötigte Arbeitszeit
 assessment#:#tst_type#:#Test-Typ
@@ -372,8 +372,8 @@ assessment#:#unlock#:#Entsperren
 assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen NutzerInnen gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool duplizieren und nach Ihren Vorstellungen verändern.
 assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
-assessment#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable
-assessment#:#warning_test_not_complete#:#The test is not complete!###13 Sep 2004 new variable
+assessment#:#warning_question_not_complete#:#Die Frage ist unvollständig!
+assessment#:#warning_test_not_complete#:#Der Test ist unvollständig!
 assessment#:#when#:#wenn
 assessment#:#width#:#Breite
 assessment#:#with_order#:#mit der Reihenfolge
@@ -3479,7 +3479,7 @@ survey#:#browse_for_questions#:#Nach Fragen durchsuchen
 survey#:#cannot_maintain_survey#:#Sie haben keinen Schreibzugriff, um die Wartung durchführen zu können!
 survey#:#cannot_manage_phrases#:#Sie haben keinen Schreibzugriff, um die Phrasen bearbeiten zu können!
 survey#:#cannot_participate_survey#:#Sie haben keine Zugriffsrechte, um an der Umfrage teilnehmen zu können!
-survey#:#cannot_switch_to_online_no_questions#:#The status cannot be changed to &quot;online&quot; because there are no questions in the test!###11 Sep 2004 new variable
+survey#:#cannot_switch_to_online_no_questions#:#Der Status kann nich auf &quot;online (aktiviert)&quot; geändert werden, da der Umfrage noch keine Fragen hinzugefügt wurden!
 survey#:#category#:#Kategorie
 survey#:#category_delete_confirm#:#Sind Sie sicher, dass Sie die folgende(n) Kategorie(n) löschen wollen?
 survey#:#category_delete_select_none#:#Bitte wählen Sie mindestens eine Kategorie aus, um den Löschvorgang durchzuführen!
@@ -3688,7 +3688,7 @@ survey#:#start_survey#:#Umfrage beginnen
 survey#:#subtype#:#Untertyp
 survey#:#survey_finish#:#Speichern und Umfrage beenden >>>
 survey#:#survey_finished#:#Die Umfrage ist beendet. Vielen Dank für Ihre Teilnahme!
-survey#:#survey_is_offline#:#You cannot start the survey! The survey is offline.###11 Sep 2004 new variable
+survey#:#survey_is_offline#:#Sie können die Umfrage nicht starten! Die Umfrage ist offline (nicht aktiviert).
 survey#:#survey_next#:#Speichern und weiter >>>
 survey#:#survey_offline_message#:#Es können keine NutzerInnen eingeladen werden. Die Umfrage ist nicht online!
 survey#:#survey_online_warning#:#Die Umfrage ist online. Sie dürfen keine Fragen bearbeiten!
@@ -3701,13 +3701,13 @@ survey#:#survey_skip_start#:#<<< Überspringen und zur Startseite
 survey#:#survey_start#:#<<< Speichern und zur Startseite
 survey#:#svy_all_user_data_deleted#:#Alle Nutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_delete_all_user_data#:#Alle Nutzerdaten löschen
-survey#:#svy_missing_author#:#You don't have entered the authors name in the survey properties! Please add an authors name.###13 Sep 2004 new variable
-survey#:#svy_missing_questions#:#You don't have any questions in the survey! Please add at least one question into the survey.###13 Sep 2004 new variable
-survey#:#svy_missing_title#:#You don't have entered a survey title! Please go to the meta data section and enter a title.###13 Sep 2004 new variable
+survey#:#svy_missing_author#:#Sie haben keine Autorin in den Umfrage-Eigenschaften eingetragen. Bitte fügen Sie eine Autorin hinzu.
+survey#:#svy_missing_questions#:#Sie haben der Umfrage noch keine Fragen hinzugefügt! Bitte fügen Sie der Umfrage wenigstens eine Frage hinzu.
+survey#:#svy_missing_title#:#Sie haben keinen Umfrage-Titel angegeben! Bitte wechseln Sie zu den Metadaten und tragen Sie einen Titel ein.
 survey#:#svy_statistical_evaluation#:#Statistische Auswertung
-survey#:#svy_status_missing#:#There are required elements missing in this survey!###13 Sep 2004 new variable
-survey#:#svy_status_missing_elements#:#The following elements are missing:###13 Sep 2004 new variable
-survey#:#svy_status_ok#:#The status of the survey is OK. There are no missing elements.###13 Sep 2004 new variable
+survey#:#svy_status_missing#:#In dieser Umfrage fehlen benötigte Elemente!
+survey#:#svy_status_missing_elements#:#Die folgenden Elemente fehlen:
+survey#:#svy_status_ok#:#Der Status der Umfrage ist in Ordnung! Es gibt keine fehlenden Elemente.
 survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfüllen!
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#unlimited_users#:#Unbegrenzt
@@ -3720,5 +3720,5 @@ survey#:#value_nr_entered#:#Anzahl der NutzerInnen, die diesen Wert angegeben ha
 survey#:#values#:#Werte
 survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
-survey#:#warning_question_not_complete#:#The question is not complete!###13 Sep 2004 new variable
-survey#:#warning_survey_not_complete#:#The survey is not complete!###13 Sep 2004 new variable
+survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
+survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
