@@ -109,20 +109,23 @@ $tpl->setVariable("BTN_LINK","usr_profile.php");
 $tpl->setVariable("BTN_TXT",$lng->txt("personal_profile"));
 $tpl->parseCurrentBlock();
 
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","usr_password.php");
-$tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","usr_agreement.php");
-$tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("btn_cell");
-$tpl->setVariable("BTN_LINK","usr_bookmarks.php?cmd=frameset");
-$tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
-$tpl->parseCurrentBlock();
+if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+{
+	$tpl->setCurrentBlock("btn_cell");
+	$tpl->setVariable("BTN_LINK","usr_password.php");
+	$tpl->setVariable("BTN_TXT",$lng->txt("chg_password"));
+	$tpl->parseCurrentBlock();
+	
+	$tpl->setCurrentBlock("btn_cell");
+	$tpl->setVariable("BTN_LINK","usr_agreement.php");
+	$tpl->setVariable("BTN_TXT",$lng->txt("usr_agreement"));
+	$tpl->parseCurrentBlock();
+	
+	$tpl->setCurrentBlock("btn_cell");
+	$tpl->setVariable("BTN_LINK","usr_bookmarks.php?cmd=frameset");
+	$tpl->setVariable("BTN_TXT",$lng->txt("bookmarks"));
+	$tpl->parseCurrentBlock();
+}
 
 $tpl->setCurrentBlock("btn_cell");
 $tpl->setVariable("BTN_LINK","usr_personaldesktop.php?cmd=whois");
