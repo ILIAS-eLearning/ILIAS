@@ -426,8 +426,18 @@ class ilObjContentObject extends ilObject
 	*/
 	function delete()
 	{
-		// todo: put here learning module specific stuff
+		// delete lm object data
+		require_once("content/classes/class.ilLMObject.php");
+		ilLMObject::_deleteAllObjectData($this);
 
+		// delete meta data of content object
+		$nested = new ilNestedSetXML();
+		$nested->init($this->getId(), $this->getType());
+		$nested->deleteAllDBData();
+//echo "2";
+		// delete learning module tree
+		$this->lm_tree->removeTree($this->lm_tree->getTreeId());
+//echo "3";
 		// always call parent delete function at the end!!
 		return (parent::delete()) ? true : false;
 	}
