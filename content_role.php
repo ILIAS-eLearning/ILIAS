@@ -32,7 +32,7 @@ if($_GET["direction"] == 'DESC')
 
 if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 {
-	if($role_list = $rbacadmin->getRoleListByObject($obj_id,$_GET["order"],$_GET["direction"]))
+	if($role_list = $rbacadmin->getRoleAndTemplateListByObject($obj_id,$_GET["order"],$_GET["direction"]))
 	{
 		foreach($role_list as $key => $val)
 		{
@@ -50,7 +50,8 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 			$tplContent->setVariable("LINK_TARGET","object.php?obj_id=".$val["obj_id"]."&parent=$obj_id&cmd=perm&show=rolf");
 			$tplContent->setVariable("OBJ_TITLE",$val["title"]);
 			$tplContent->setVariable("OBJ_LAST_UPDATE",$val["last_update"]);
-			$tplContent->setVariable("IMG_TYPE","admin.gif");
+			$image = $val["type"] == 'rolt' ? 'autor.gif' : 'admin.gif';
+			$tplContent->setVariable("IMG_TYPE",$image);
 			$tplContent->setVariable("ALT_IMG_TYPE","Category");
 			$tplContent->setVariable("CSS_ROW",$css_row);
 			$tplContent->setVariable("OBJ",$val["obj_id"]);

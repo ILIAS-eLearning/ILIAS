@@ -66,7 +66,7 @@ CREATE TABLE mail (
 
 CREATE TABLE object_data (
   obj_id int(11) NOT NULL auto_increment,
-  type enum('role','user','le','frm','grp','cat','kurs','file','mail','abo','set','adm','none','usrf','rolf','objf','type') NOT NULL default 'none',
+  type enum('role','user','le','frm','grp','cat','kurs','file','mail','abo','set','adm','none','usrf','rolf','rolt','objf','type') NOT NULL default 'none',
   title char(70) NOT NULL default '',
   description char(128) default NULL,
   owner int(11) NOT NULL default '0',
@@ -108,6 +108,7 @@ INSERT INTO object_data VALUES (23, 'type', 'rolf', 'Role Folder object', -1, '2
 INSERT INTO object_data VALUES (24, 'type', 'objf', 'Object-Type Folder object', -1, '2002-07-15 15:57:17', '2002-07-15 15:57:17');
 INSERT INTO object_data VALUES (25, 'type', 'set', 'Set object', -1, '2002-07-15 15:57:57', '2002-07-15 15:57:57');
 INSERT INTO object_data VALUES (26, 'type', 'type', 'Object Type Definition object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
+INSERT INTO object_data VALUES (27, 'type', 'rolt', 'Role template object', -1, '2002-07-15 15:58:16', '2002-07-15 15:58:16');
 INSERT INTO object_data VALUES (150, 'grp', 'closed', 'Closed Group', 6, '2002-07-22 16:25:54', '2002-07-22 16:25:54');
 INSERT INTO object_data VALUES (149, 'grp', 'open', '', 6, '2002-07-22 16:25:37', '2002-07-22 16:25:37');
 INSERT INTO object_data VALUES (148, 'cat', 'Uni Köln', '', 6, '2002-07-22 16:25:15', '2002-07-22 16:25:15');

@@ -154,7 +154,7 @@
 		  </tr>
 		  <!-- END TABLE_DATA_OUTER -->
 		  <tr class="header">
-			<td  align="left"><font color="red">Change existing Objects</font></td>
+			<td  align="left"><font color="red">{MESSAGE_TABLE}</font></td>
 			<td>
 			  {CHECK_BOTTOM}
 			</td>
@@ -172,14 +172,20 @@
 <br><br>
 </span>
 	<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd=adoptPermSave" name="objectItems" method="post">
-	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
+	  <table width="50%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="header">
-			<td width="20%" align="left">
+			<td width="10%" align="left">
 			  <div class="list-item">
 			  </div>
 			</td>
-			<td width="80%" align="left"><div class="list-item"> 
+			<td width="30%" align="left"><div class="list-item"> 
 				<strong>Role:</strong></div>
+			</td>
+			<td width="30%" align="left"><div class="list-item"> 
+				<strong>Type:</strong></div>
+			</td>
+			<td width="50%" align="left"><div class="list-item"> 
+				<strong>Location:</strong></div>
 			</td>
 		  </tr>
 			<!-- BEGIN ADOPT_PERMISSIONS -->
@@ -190,13 +196,19 @@
 			  <td>
 				{ROLE_NAME}
 			  </td>
+			  <td>
+				{TYPE}
+			  </td>
+			  <td>
+				{LOCATION}
+			  </td>
 			</tr>
 			<!-- END ADOPT_PERMISSIONS -->
 			<tr class="header">
 			  <td>
 				<img src="images/pfeil_rechts.gif">
 			  </td>
-			  <td>
+			  <td colspan=3>
 				<input type="SUBMIT" value="adopt">
 			  </td>
 			</tr>

@@ -175,6 +175,23 @@ class RbacAdmin extends PEAR
 						 "WHERE rol_id = '".$a_obj_id ."'");
 		return 1;
     }
+	/**
+	 * Deletes a template from role folder and deletes all entries in object_data, rbac_templates, rbac_fa
+	 * @access public
+	 * @param int Object Id
+	 * @return bool true/false
+	 */
+    function deleteTemplate($a_obj_id,$a_parent)
+    {
+		$this->db->query("DELETE FROM object_data ".
+						 "WHERE obj_id = '".$a_obj_id ."'");
+		$this->db->query("DELETE FROM rbac_templates ".
+						 "WHERE rol_id = '".$a_obj_id ."' ");
+		$this->db->query("DELETE FROM rbac_fa ".
+						 "WHERE rol_id = '".$a_obj_id ."' ");
+		return 1;
+    }
+
 /**
  * Deletes a local role and entries in rbac_fa and rbac_templates
  * @access public
@@ -200,9 +217,10 @@ class RbacAdmin extends PEAR
  * @access public
  * @param array Path Id
  * @param string
+ * @param bool 
  * @return bool true/false
  */
-	function getParentRoles($a_path,$a_child = "")
+	function getParentRoles($a_path,$a_child = "",$a_templates = false)
 	{
 		$parentRoles = array();
 
@@ -233,7 +251,14 @@ class RbacAdmin extends PEAR
 			}
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
-				$roles = $this->getRoleListByObject($row->child);
+				if($a_templates)
+				{
+					$roles = $this->getRoleAndTemplateListByObject($row->child);
+				}
+				else
+				{					
+					$roles = $this->getRoleListByObject($row->child);
+				}
 				foreach($roles as $role)
 				{
 					$id = $role["obj_id"];
@@ -466,6 +491,42 @@ class RbacAdmin extends PEAR
 		}
 		return $role_list;
 	}
+/**
+ * Returns a list of roles  and templates of an container
+ * @access public
+ * @param int object id
+ * @param string
+ * @param string
+ * @return array set ids
+ */
+	function getRoleAndTemplateListByObject($a_parent,$a_order='',$a_direction='')
+	{
+		$role_list = array();
+
+		if(!$a_order)
+			$a_order = 'type';
+
+		$query = "SELECT * FROM object_data ".
+			"JOIN rbac_fa ".
+			"WHERE object_data.type IN ('role','rolt')".
+			"AND object_data.obj_id = rbac_fa.rol_id ".
+			"AND rbac_fa.parent = '".$a_parent."' ".
+			"ORDER BY ".$a_order." ".$a_direction;
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$role_list[] = array( 
+				"obj_id"            => $row->obj_id,
+				"type"              => $row->type,
+				"title"             => $row->title,
+				"description"       => $row->description,
+				"owner"             => $row->owner,
+				"create_date"       => $row->create_date,
+				"last_update"       => $row->last_update);
+		}
+		return $role_list;
+	}
+
 /**
  * Assigns a role to an role folder
  * @access public

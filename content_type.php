@@ -60,7 +60,7 @@ if($rbacsystem->checkAccess('read',$_GET["obj_id"],$_GET["parent"]))
 }
 else
 {
-	$ilias->raiseError("No permission to read object folder",$ilias->error_class->MESSAGE);
+	$ilias->raiseError("No permission to read 'object' folder",$ilias->error_class->MESSAGE);
 }
 if($_GET["message"])
 {

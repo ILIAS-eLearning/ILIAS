@@ -162,6 +162,7 @@ class Object
 	function permObject()
 	{
 		global $tplContent;
+		global $ilias;
 
 		$obj = getObject($_GET["obj_id"]);
 
@@ -237,12 +238,17 @@ class Object
 		if($rbacsystem->checkAccess('edit permission',$_GET["obj_id"],$_GET["parent"]) &&
 		   $rbacsystem->checkAccess($permission,$rolf_id,$rolf_parent,'rolf'))
 		{
-			// ADD LOCAL ROLE
-			$tplContent->setCurrentBlock("LOCAL_ROLE");
-			$tplContent->setVariable("MESSAGE_BOTTOM","You can also add local roles");
-			$tplContent->setVariable("LR_OBJ_ID",$_GET["obj_id"]);
-			$tplContent->setVariable("LR_TPOS",$_GET["parent"]);
-			$tplContent->parseCurrentBlock();
+			// Check if object is able to contain role folder
+			$child_objects = TUtil::getModules($ilias->typedefinition["$obj[type]"]);
+			if($child_objects["rolf"])
+			{
+				// ADD LOCAL ROLE
+				$tplContent->setCurrentBlock("LOCAL_ROLE");
+				$tplContent->setVariable("MESSAGE_BOTTOM","You can also add local roles");
+				$tplContent->setVariable("LR_OBJ_ID",$_GET["obj_id"]);
+				$tplContent->setVariable("LR_TPOS",$_GET["parent"]);
+				$tplContent->parseCurrentBlock();
+			}
 		}
 	}
 /**
@@ -353,9 +359,15 @@ class Object
 		$rbacreview = new RbacReviewH($this->ilias->db);
 		$rbacsystem = new RbacSystemH($this->ilias->db);
 
+		$object = getObject($_GET["obj_id"]);
 		$rolf_data = $rbacadmin->getRoleFolderOfObject($_GET["obj_id"]);
 		if(!($rolf_id = $rolf_data["child"]))
 		{
+			if(!in_array('rolf',TUtil::getModules($ilias->typedefinition["$object[type]"])))
+			{
+				$this->ilias->raiseError("$object[title] are not allowed to contain Role Folder",$this->ilias->error_class->WARNING);
+			}
+			exit();
 			// CHECK ACCESS 'create' rolefolder
 			if($rbacsystem->checkAccess('create',$_GET["obj_id"],$_GET["parent"],'rolf'))
 			{
@@ -486,14 +498,31 @@ class Object
 		return $rbacadmin->getParentRoles($pathIds);
 	}
 /**
+ * get role and template ids of all parent role folder 
+ * @access private
+ * @param string object id of start node
+ * @return string 
+ */
+	function getParentRoleTemplateIds($a_start_node = '')
+	{
+		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];
+		$tree = new Tree($_GET["parent"],$this->ROOT_FOLDER_ID);
+		$rbacadmin = new RbacAdminH($this->ilias->db);
+
+		$pathIds  = $tree->getPathId($a_start_node,1);
+		$pathIds[0] = $this->SYSTEM_FOLDER_ID;
+		return $rbacadmin->getParentRoles($pathIds,'',true);
+	}
+/**
  * returns the parent object id of $_GET["parent"]
  * @access private
  * @return int
  */
-	function getParentObjectId()
+	function getParentObjectId($a_start = '')
 	{
-		$tree = new Tree($_GET["parent"],$this->ROOT_FOLDER_ID);
-		$path_ids = $tree->getPathId($_GET["parent"],$this->ROOT_FOLDER_ID);
+		$a_start = $a_start ? $a_start : $_GET["parent"];
+		$tree = new Tree($a_start,$this->ROOT_FOLDER_ID);
+		$path_ids = $tree->getPathId($a_start,$this->ROOT_FOLDER_ID);
 		array_pop($path_ids);
 		return array_pop($path_ids);
 	}
