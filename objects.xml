@@ -92,8 +92,8 @@
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="editMeta">meta_data</property>
-	<property name="perm">perm_settings</property>
 	<property name="members">members</property>
+	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
@@ -158,9 +158,9 @@
 	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="file" module="1">file</subobj>
 	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
 	<property name="members">group_members</property>
 	<property name="shownewRegistrations">group_new_registrations</property>
-	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>

@@ -26,7 +26,7 @@
 *
 * @author	Stefan Meyer <smeyer@databay.de>
 * @author	Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.93 2004/08/18 08:48:18 smeyer Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.94 2004/08/25 13:21:06 hschottm Exp $
 *
 * @ilCtrl_Calls ilObjGroupGUI: ilRegisterGUI
 *
@@ -1492,23 +1492,26 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$tabs_gui->addTarget("view_content",
 				$this->ctrl->getLinkTarget($this, ""), "", get_class($this));
-			
-			$tabs_gui->addTarget("group_members",
-				$this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
-		}
-
-		$applications = $this->object->getNewRegistrations();
-
-		if (is_array($applications) and $this->object->isAdmin($this->ilias->account->getId()))
-		{
-			$tabs_gui->addTarget("group_new_registrations",
-				$this->ctrl->getLinkTarget($this, "ShownewRegistrations"), "ShownewRegistrations", get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('write',$this->ref_id))
 		{
 			$tabs_gui->addTarget("edit_properties",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this));
+		}
+
+		if ($rbacsystem->checkAccess('read',$this->ref_id))
+		{
+			$tabs_gui->addTarget("group_members",
+				$this->ctrl->getLinkTarget($this, "members"), "members", get_class($this));
+		}
+		
+		$applications = $this->object->getNewRegistrations();
+
+		if (is_array($applications) and $this->object->isAdmin($this->ilias->account->getId()))
+		{
+			$tabs_gui->addTarget("group_new_registrations",
+				$this->ctrl->getLinkTarget($this, "ShownewRegistrations"), "ShownewRegistrations", get_class($this));
 		}
 
 		if ($rbacsystem->checkAccess('edit_permission',$this->ref_id))
