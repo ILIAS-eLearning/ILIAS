@@ -3145,7 +3145,7 @@ crs#:#crs_print_list#:#Liste ausdrucken
 crs#:#crs_question_assignment#:#Fragen-Zuordnung
 crs#:#crs_reg_subscription_deactivated#:#Die Anmeldung ist deaktiviert
 crs#:#crs_reg_subscription_end_earlier#:#Die Anmeldungszeit ist bereits abgelaufen
-crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten. Sie werden auf die Warteliste gesetzt
+crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten.
 crs#:#crs_reg_subscription_start_later#:#Die Anmeldungszeit hat noch nicht begonnen
 crs#:#crs_reg_until#:#Anmeldungszeitraum
 crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
@@ -4797,3 +4797,4 @@ common#:#monthly#:#monatlich
 common#:#quarterly#:#vierteljährlich
 common#:#check_web_resources#:#Web-Resourcen überprüfen
 common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Web-Resourcen nach ungültigen externen Links überprüft.
+common#:#obj_webr#:#Web-Resource
