@@ -190,7 +190,14 @@ class ilPageObjectGUI
 		// init template
 		if($this->outputToTemplate())
 		{
-			$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", true);
+			if($this->getOutputMode() == "edit")
+			{
+				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", true);
+			}
+			else
+			{
+				$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_content.html", true);
+			}
 			$this->tpl->setVariable("FORMACTION", $this->getTargetScript()."&cmd=edpost");
 		}
 
@@ -226,7 +233,7 @@ class ilPageObjectGUI
 		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
 		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => $pg_title, 'pg_id' => $this->obj->getId(),
-						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params, 
+						 'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path, 'link_params' => $this->link_params,
 						 'bib_id' => $this->getBibId());
 
 		if($this->link_frame != "")		// todo other link types

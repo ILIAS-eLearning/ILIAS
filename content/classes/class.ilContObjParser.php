@@ -856,7 +856,7 @@ class ilContObjParser extends ilSaxParser
 				/// MetaData Section
 				///////////////////////////
 				case "Title":
-					$this->meta_data->setTitle($a_data);
+					$this->meta_data->setTitle(addslashes($a_data));
 					break;
 
 				case "Language":

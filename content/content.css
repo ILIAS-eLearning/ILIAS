@@ -4,8 +4,7 @@ div.ilc_PageTitle
 {
 	margin-top: 5px;
 	margin-bottom: 20px;
-	font-size:23px;
-	font-weight: bold;
+	font-size: 18px;
 	padding-bottom: 3px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
@@ -84,6 +83,7 @@ div.ilc_LMNavigation
 	border-style: outset;
 	border-color: #EEEEEE;
 	border-width: 1px;
+	margin-top: 0px;
 }
 
 div.ilc_Page
@@ -94,6 +94,7 @@ div.ilc_Page
 	border-style: outset;
 	border-color: #EEEEEE;
 	border-width: 1px;
+	margin-bottom: 0px;
 }
 
 td.ilc_Cell1
