@@ -67,8 +67,6 @@ common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#author#:#Author
 common#:#authors#:#Authors
-common#:#image#:#Image
-common#:#profile_of#:#Profile of
 common#:#available_languages#:#Available Languages
 common#:#back#:#Back
 common#:#basedn#:#BaseDN
@@ -341,6 +339,8 @@ common#:#http_path#:#Http Path
 common#:#id#:#ID
 common#:#identifier#:#identifier
 common#:#ilias_version#:#ILIAS version
+common#:#image#:#Image
+common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.
 common#:#import#:#Import
 common#:#import_lm#:#Import Learningmodule
 common#:#import_slm#:#Import SCORM Package
@@ -700,6 +700,7 @@ common#:#presentation_options#:#Presentation Options
 common#:#previous#:#previous
 common#:#print#:#Print
 common#:#profile_changed#:#Your profile has changed
+common#:#profile_of#:#Profile of
 common#:#properties#:#Properties
 common#:#pub_section#:#Public Section
 common#:#public_profile#:#Public Profile
@@ -883,9 +884,8 @@ common#:#write#:#Write
 common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
-common#:#zipcode#:#Postal Code
 common#:#zip#:#Postal Code
-common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.
+common#:#zipcode#:#Postal Code
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
 content#:#Pages#:#Pages

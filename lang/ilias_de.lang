@@ -147,7 +147,7 @@ common#:#cut#:#Ausschneiden
 common#:#cutPage#:#Ausschneiden
 common#:#database#:#Datenbank
 common#:#database_version#:#Ihre Datenbankversion
-common#:#dataset#:#Eintrag
+common#:#dataset#:#Eintrag###08 Nov 2003 content changed
 common#:#date#:#Datum
 common#:#day#:#Tag
 common#:#days#:#Tage
@@ -339,6 +339,8 @@ common#:#http_path#:#HTTP Pfad
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#ilias_version#:#ILIAS Version
+common#:#image#:#Image###08 Nov 2003 new variable
+common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###08 Nov 2003 new variable
 common#:#import#:#Import
 common#:#import_lm#:#Import Lernmodul
 common#:#import_slm#:#Import SCORM-Datei
@@ -552,7 +554,7 @@ common#:#msg_perm_adopted_from_itself#:#Es ist nicht möglich, die Rechteeinstel
 common#:#msg_removed#:#Objekt(e) aus dem System entfernt
 common#:#msg_role_exists1#:#Eine Rolle/Rollenvorlage mit dem Namen
 common#:#msg_role_exists2#:#existiert bereits! Bitte wählen Sie einen anderen Namen
-common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen
+common#:#msg_role_reserved_prefix#:#Das Präfix 'il_' ist reserviert für automatisch generierte Rollen. Bitte wählen Sie einen anderen Namen###08 Nov 2003 content changed
 common#:#msg_roleassignment_active_changed#:#Aktive Rollenzuweisung geändert
 common#:#msg_roleassignment_active_changed_comment#:#Diese Einstellung wird nicht im Benutzerprofil gespeichert! Wenn der Benutzer sich ab- und wieder anmeldet, wird die Rollenzuweisung wieder auf die gespeicherten Einstellungen zurückgesetzt. 
 common#:#msg_roleassignment_changed#:#Rollenzuweisung geändert
@@ -698,6 +700,7 @@ common#:#presentation_options#:#Präsentationsoptionen
 common#:#previous#:#zurück
 common#:#print#:#Drucken
 common#:#profile_changed#:#Ihr Profil wurde geändert
+common#:#profile_of#:#Profile of###08 Nov 2003 new variable
 common#:#properties#:#Eigenschaften
 common#:#pub_section#:#öffentlicher Bereich
 common#:#public_profile#:#Öffentliches Profil
@@ -881,6 +884,7 @@ common#:#write#:#Schreiben
 common#:#yes#:#Ja
 common#:#you_may_add_local_roles#:#Sie können lokale Rollen hinzufügen
 common#:#your_message#:#Ihre Nachricht
+common#:#zip#:#Postal Code###08 Nov 2003 new variable
 common#:#zipcode#:#Postleitzahl
 content#:#HTML export#:#HTML Export
 content#:#PDF export#:#PDF Export
