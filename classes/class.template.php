@@ -8,43 +8,40 @@ require_once('HTML/ITX.php');
 * @version $Id$
 * @package application
 */
-class Template extends IntegratedTemplateExtension {
-
-    /*
-    * Konstruktor
-    * @param string $file templatefile (mit oder ohne pfad)
-    * @param bool $flag1 wie in IntegratedTemplate
-    * @param bool $flag1 wie in IntegratedTemplate
-    * @param array $vars zu ersetzenden Variablen
-    * @access public
+class Template extends IntegratedTemplateExtension
+{
+    /**
+	* variablen die immer in jedem block ersetzt werden sollen
+    * @var array
     */
-
     var $vars;
 
     /**
-    *	Aktueller Block
-    *	Der wird gemerkt bei der berladenen Funktion setCurrentBlock, damit beim ParseBlock
-    *	vorher ein replace auf alle Variablen gemacht werden kann, die mit dem BLockname anfangen.
+    * Aktueller Block
+    * Der wird gemerkt bei der berladenen Funktion setCurrentBlock, damit beim ParseBlock
+    * vorher ein replace auf alle Variablen gemacht werden kann, die mit dem BLockname anfangen.
     */
     var $activeBlock;
 
-/**
-* constructor
-* @param string
-* @param string
-* @param string
-* @param string
-*/
-   function Template($file,$flag1,$flag2,$vars="DEFAULT") {
+	/**
+	* constructor
+	* @param string $file templatefile (mit oder ohne pfad)
+	* @param boolean $flag1 wie in IntegratedTemplate
+	* @param boolean $flag1 wie in IntegratedTemplate
+	* @param array $vars zu ersetzenden Variablen
+	* @access public
+	*/
+	function Template($file,$flag1,$flag2,$vars="DEFAULT") {
 
         global $ilias;
-
+		$this->activeBlock = "__global__";
 		$this->vars = array();
 
         if (strpos($file,"/")===false)
 		{
             $fname = $ilias->tplPath;
 
+			//pda support - currently only Windows CE
 			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
 			{
 				$fname .= "pda/";
@@ -67,6 +64,7 @@ class Template extends IntegratedTemplateExtension {
 		{
             $fname = $file;
         }
+		
 		$this->tplName = basename($fname);
 		$this->tplPath = dirname($fname);
 		
@@ -89,8 +87,6 @@ class Template extends IntegratedTemplateExtension {
 */
     function get($part = "DEFAULT") {
 
-//         $this->replace($this->vars);
-
         if ($part == "DEFAULT") {
             return parent::get();
         } else {
@@ -103,8 +99,8 @@ class Template extends IntegratedTemplateExtension {
 */
     function show($part = "DEFAULT") {
 
-        $this->replace($this->vars);
-
+		$this->fillVars();
+	
         if ($part == "DEFAULT") {
             parent::show();
         } else {
@@ -117,6 +113,29 @@ class Template extends IntegratedTemplateExtension {
 		}
     }
 
+	/**
+	* added by pg
+	*/
+	function fillVars()
+	{
+        reset($this->vars);
+
+        while(list($key, $val) = each($this->vars))
+		{
+//            if (!array_key_exists($key, $this->variableCache))
+//			{
+			if (is_array($this->blockvariables[$this->activeBlock]))
+			{
+//				vd($this->blockvariables[$this->activeBlock]);
+				if  (array_key_exists($key, $this->blockvariables[$this->activeBlock]))
+				{
+					$this->setVariable($key, $val);
+				}
+			}
+//			}
+        }
+	}
+	
     /**
     *	überladene Funktion, die sich hier lokal noch den aktuellen Block merkt.
     * @param string
@@ -129,14 +148,12 @@ class Template extends IntegratedTemplateExtension {
         } else {
             return parent::setCurrentBlock($part);
         }
-		
-		$this->replace($this->vars);
     }
 
 	function touchBlock($block)
 	{
 		$this->setCurrentBlock($block);
-		$this->replace($this->vars);
+		$this->fillVars();
 		$this->parseCurrentBlock();
 	}
 	
@@ -156,10 +173,9 @@ class Template extends IntegratedTemplateExtension {
 	        $this->activeBlock = $tmp;
 		}
 
-		$blockName = $this->activeBlock;
-		if ( $blockName != "" ) $blockName .= "_";
-        $this->replace( $this->vars , $blockName );
+		$this->fillVars();
 
+		$this->activeBlock = "__global__";
 
         if ($part == "DEFAULT") {
             return parent::parseCurrentBlock();
