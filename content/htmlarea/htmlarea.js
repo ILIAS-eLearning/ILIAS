@@ -11,6 +11,25 @@
 //
 // $Id$
 
+
+
+var globNr =0;
+function btnlength(str) 
+{
+	// {{{
+	i=0;
+	while (str.indexOf("<")!=-1 && str.indexOf(">")!=-1) 
+	{
+		i++;if(i>100) break;
+		str1 = str.substr(0,str.indexOf("<"));
+		str = str.substring(str.indexOf("<")+1,str.length);
+		str2 = str.substring(str.indexOf(">")+1,str.length);
+		str = str1+str2;
+	}
+	return(str.length);
+	// }}}	
+}
+
 if (typeof _editor_url == "string") {
 	// Leave exactly one backslash at the end of _editor_url
 	_editor_url = _editor_url.replace(/\x2f*$/, '/');
@@ -567,9 +586,11 @@ HTMLArea.prototype._createToolbar = function () {
 				var img = document.createElement("div");
 				H = "<table width=18 height=18 cellspacing=0 cellpadding=0 border=0><tr><td align=center><img src='"+btn[1]+"'></td></tr></table>";
 
-				H += "<div style='position:relative;left:0;top:-18;'>";
-				H += "<div style='z-index:1000;position:absolute;'><img src='./htmlarea/images/blank.gif' width=18 height=18 border=1></div>";
-				H += "</div>";
+				if(navigator.appName.indexOf("Microsoft")!=-1 && navigator.appName.indexOf("Internet")!=-1) {
+					H += "<div style='position:relative;left:0;top:-18;border:1px;'>";
+					H += "<div style='z-index:1000;position:absolute;'><img src='./htmlarea/images/blank.gif' width=18 height=18 border=1></div>";
+					H += "</div>";
+				}
 				
 				img.innerHTML = H;
 
@@ -577,9 +598,13 @@ HTMLArea.prototype._createToolbar = function () {
 				
 				var img = document.createElement("div");
 				H = "<table height=18 cellspacing=0 cellpadding=0 border=0><tr><td align=center>"+btn[1]+"</td></tr></table>";
-				H += "<div style='position:relative;left:0;top:-18;'>";
-				H += "<div style='z-index:1000;position:absolute;'><img src='./htmlarea/images/blank.gif' width="+(btn[1].length*8)+" height=18 border=1></div>";
-				H += "</div>";
+				if(navigator.appName.indexOf("Microsoft")!=-1 && navigator.appName.indexOf("Internet")!=-1) {
+					H += "<div id='bt"+(globNr++)+"' style='position:relative;left:0;top:-18;'>";
+					H += "<div style='z-index:1000;position:absolute;'>";
+					H += "<img src='./htmlarea/images/blank.gif' width="+(btnlength(btn[1])*7)+" height=18 border=1>";
+					H += "</div>";
+					H += "</div>";
+				}
 				img.innerHTML = H;
 			}
 			el.appendChild(img);
