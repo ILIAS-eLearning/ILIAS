@@ -2379,7 +2379,7 @@ $a_allow = "<strong><em><code><cite><gap>";
 			{
 				sendInfo($vir[1], true);
 			}
-			move_uploaded_file($a_file, $a_target);
+			return move_uploaded_file($a_file, $a_target);
 		}
 	}
 

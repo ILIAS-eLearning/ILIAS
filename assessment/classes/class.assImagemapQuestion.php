@@ -914,7 +914,10 @@ class ASS_ImagemapQuestion extends ASS_Question {
 			if (!file_exists($imagepath)) {
 				ilUtil::makeDirParents($imagepath);
 			}
-			if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename)) {
+			
+			//if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename))
+			if (!ilUtil::moveUploadedFile($image_tempfilename, $image_filename, $imagepath.$image_filename))
+			{
 				print "image not uploaded!!!! ";
 			} else {
 				// create thumbnail file

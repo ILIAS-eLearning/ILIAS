@@ -1234,7 +1234,9 @@ class ASS_JavaApplet extends ASS_Question
 			{
 				ilUtil::makeDirParents($javapath);
 			}
-			if (!move_uploaded_file($javaapplet_tempfilename, $javapath . $javaapplet_filename))
+			
+			//if (!move_uploaded_file($javaapplet_tempfilename, $javapath . $javaapplet_filename))
+			if (!ilUtil::moveUploadedFile($javaapplet_tempfilename, $javaapplet_filename, $javapath.$javaapplet_filename))
 			{
 				print "java applet not uploaded!!!! ";
 			}
