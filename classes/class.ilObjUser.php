@@ -446,6 +446,49 @@ class ilObjUser extends ilObject
 		return (crypt($a_passwd,substr($a_passwd,0,2)));
 	}
 
+	/**
+	* check if user has ilias 2 password (imported user)
+	*/
+	function _lookupHasIlias2Password($a_user_login)
+	{
+		global $ilias;
+
+		$q = "SELECT i2passwd FROM usr_data ".
+			 "WHERE login = '".$a_user_login."'";
+		$user_set = $ilias->db->query($q);
+
+		if ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($user_rec["i2passwd"] != "")
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	function _switchToIlias3Password($a_user, $a_pw)
+	{
+		global $ilias;
+
+		$q = "SELECT i2passwd FROM usr_data ".
+			 "WHERE login = '".$a_user."'";
+		$user_set = $ilias->db->query($q);
+
+		if ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($user_rec["i2passwd"] == ilObjUser::_makeIlias2Password($a_pw))
+			{
+				$q = "UPDATE usr_data SET passwd='".md5($a_pw)."', i2passwd=''".
+					"WHERE login = '".$a_user."'";
+				$ilias->db->query($q);
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	/**
 	* update login name
@@ -1216,10 +1259,12 @@ class ilObjUser extends ilObject
 	 */
 	function getUserIdByLogin($a_login)
 	{
+		global $ilias;
+
 		$query = "SELECT usr_id FROM usr_data ".
 			"WHERE login = '".$a_login."'";
 
-		$row = $this->ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return $row->usr_id ? $row->usr_id : 0;
 	}
