@@ -1,15 +1,14 @@
 <?php
 include_once "include/ilias_header.inc";
 
-//var_dump($_GET);
 $rbacadmin = new RbacAdminH($ilias->db);
+$tree = new Tree($_GET["obj_id"],1,1);
 
 // Template generieren
 $tplContent = new Template("content_operations.html",true,true);
 $tplContent->setVariable($ilias->ini["layout"]);
 // Show path
-$tree = new Tree($_GET["obj_id"],1,1);
-$path = $tree->showPath($tree->getPathFull(),"content.php");
+$path = $tree->showPath($tree->getPathFull($_GET["parent"],1),"content.php");
 $tplContent->setVariable("TREEPATH",$path);
 
 $tplContent->setVariable("OBJ_SELF","content.php?obj_id=$obj_id&parent=$parent");
