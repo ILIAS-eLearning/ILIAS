@@ -155,6 +155,15 @@ class ilChatServerConfig
 			}
 			$this->error_message .= $this->lng->txt("chat_add_moderator_password");
 		}
+		if(!$this->getAllowedHosts())
+		{
+			if($this->error_message)
+			{
+				$this->error_message .= "<br />";
+			}
+			$this->error_message .= $this->lng->txt("chat_add_allowed_hosts");
+		}
+
 		if($this->getAllowedHosts())
 		{
 			$this->__parseAllowedHosts();
@@ -235,7 +244,7 @@ class ilChatServerConfig
 		}
 		$content .= "IpAddress = ".$this->getIp()."\n";
 		$content .= "Port = ".$this->getPort()."\n";
-		$content .= "ModeratorPassword".$this->getModeratorPassword()."\n";
+		$content .= "ModeratorPassword = ".$this->getModeratorPassword()."\n";
 		$content .= "HeaderFileName = ".ILIAS_ABSOLUTE_PATH."/chat/templates/default/header.html\n";
 		$content .= "FooterFileName = ".ILIAS_ABSOLUTE_PATH."/chat/templates/default/footer.html\n";
 		$content .= "Authentication = 1\n";

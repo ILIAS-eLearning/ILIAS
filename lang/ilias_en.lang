@@ -2228,3 +2228,4 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.

@@ -2223,3 +2223,4 @@ search#:#search_select_one_result#:#Bitte wählen Sie mindestens ein Suchergebni
 search#:#search_select_one_select#:#--Bitte wählen Sie einen Ordner--
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chatserver zugreifen dürfen
