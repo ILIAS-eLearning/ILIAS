@@ -179,20 +179,63 @@ class ilLMPresentationGUI
 
 	function ilPage()
 	{
+		// get predecessor and successor page node
 		$lmtree = new ilTree($this->lm->getId());
 		$lmtree->setTableNames('lm_tree','lm_data');
 		$lmtree->setTreeTablePK("lm_id");
+		if(empty($_GET["obj_id"]))
+		{
+			$obj_id = $lmtree->getRootId();
+		}
+		else
+		{
+			$obj_id = $_GET["obj_id"];
+		}
+
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setCurrentBlock("ilPage");
-		$succ_node = $lmtree->fetchSuccessorNode($_GET["obj_id"], "pg");
+		$succ_node = $lmtree->fetchSuccessorNode($obj_id, "pg");
 		$succ_str = ($succ_node !== false)
 			? " -> ".$succ_node["obj_id"]."_".$succ_node["type"]
 			: "";
-		$pre_node = $lmtree->fetchPredecessorNode($_GET["obj_id"], "pg");
+		$pre_node = $lmtree->fetchPredecessorNode($obj_id, "pg");
 		$pre_str = ($pre_node !== false)
 			? $pre_node["obj_id"]."_".$pre_node["type"]." -> "
 			: "";
-		$this->tpl->setVariable("PAGE_CONTENT", $pre_str.$_GET["obj_id"].$succ_str);
-		$this->tpl->parseCurrentBlock();
+
+		if(empty($succ_node["obj_id"]))
+		{
+			return;
+		}
+
+		// output
+		require_once("content/classes/class.ilPageObject.php");
+		$pg_obj =& new ilPageObject($succ_node["obj_id"]);
+		$content = $pg_obj->getXMLContent();
+
+		// convert bb code to xml
+		//$this->bbCode2XML($content);
+
+		// todo: utf-header should be set globally
+		header('Content-type: text/html; charset=UTF-8');
+
+		$xsl = file_get_contents("./content/page.xsl");
+		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
+		$xh = xslt_create();
+//echo "<b>XML</b>:".htmlentities($content).":<br>";
+//echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
+		$params = array ('mode' => 'preview');
+		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+		echo xslt_error($xh);
+		xslt_free($xh);
+
+		// unmask user html
+		$output = str_replace("&lt;","<",$output);
+		$output = str_replace("&gt;",">",$output);
+//echo "<b>HTML</b>".htmlentities($output);
+		$this->tpl->setVariable("PAGE_CONTENT", $output);
+
+
 	}
 
 	function processNodes(&$a_content, &$a_node)
