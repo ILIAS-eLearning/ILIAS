@@ -3160,17 +3160,6 @@ class ilObjTest extends ilObject
 		$qtiMetadatafield->append_child($qtiFieldLabel);
 		$qtiMetadatafield->append_child($qtiFieldEntry);
 		$qtiMetadata->append_child($qtiMetadatafield);
-		// description
-		$qtiMetadatafield = $domxml->create_element("qtimetadatafield");
-		$qtiFieldLabel = $domxml->create_element("fieldlabel");
-		$qtiFieldLabelText = $domxml->create_text_node("description");
-		$qtiFieldLabel->append_child($qtiFieldLabelText);
-		$qtiFieldEntry = $domxml->create_element("fieldentry");
-		$qtiFieldEntryText = $domxml->create_text_node($this->getDescription());
-		$qtiFieldEntry->append_child($qtiFieldEntryText);
-		$qtiMetadatafield->append_child($qtiFieldLabel);
-		$qtiMetadatafield->append_child($qtiFieldEntry);
-		$qtiMetadata->append_child($qtiMetadatafield);
 		// score reporting date
 		if ($this->getReportingDate())
 		{
@@ -3487,9 +3476,6 @@ class ilObjTest extends ilObject
 									break;
 								case "author":
 									$this->setAuthor($fieldentry->get_content());
-									break;
-								case "description":
-									$this->setDescription($fieldentry->get_content());
 									break;
 								case "test_type":
 									$this->setTestType($fieldentry->get_content());
