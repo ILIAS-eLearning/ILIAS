@@ -1419,7 +1419,9 @@ class ilObjectGUI
 			}
 
 			// FIRST DELETE ALL ENTRIES IN RBAC TREE
-			$this->tree->deleteTree($node_data);
+			#$this->tree->deleteTree($node_data);
+			// Use the saved tree object here (negative tree_id)
+			$saved_tree->deleteTree($node_data);
 						
 			// write log entry
 			$log->write("ilObjectGUI::removeFromSystemObject(), deleted tree, tree_id: ".$node_data["tree"].

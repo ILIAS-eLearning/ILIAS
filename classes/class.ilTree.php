@@ -649,13 +649,36 @@ class ilTree
 		{
 			$this->ilErr->raiseError(get_class($this)."::deleteTree(): Wrong datatype for node_data! ",$this->ilErr->WARNING);
 		}
+		if($this->__isMainTree())
+		{
+			if($a_node['lft'] <= 1 or $a_node['rgt'] <= 2)
+			{
+				$message = sprintf('%s::deleteTree(): Invalid parameters given: $a_node["lft"]: %s, $a_node["rgt"] %s',
+								   get_class($this),
+								   $a_node['lft'],
+								   $a_node['rgt']);
 
+				$this->log->write($message,$this->log->FATAL);
+				$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			}
+			else if(!$this->__checkDelete($a_node))
+			{
+				$message = sprintf('%s::deleteTree(): Check delete failed: $a_node["lft"]: %s, $a_node["rgt"] %s',
+								   get_class($this),
+								   $a_node['lft'],
+								   $a_node['rgt']);
+				$this->log->write($message,$this->log->FATAL);
+				$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			}
+				
+		}
 		$diff = $a_node["rgt"] - $a_node["lft"] + 1;
 
 		// delete subtree
 		$q = "DELETE FROM ".$this->table_tree." ".
-			 "WHERE lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]." '".
-			 "AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
+			"WHERE lft BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]." '".
+			"AND rgt BETWEEN '".$a_node["lft"]."' AND '".$a_node["rgt"]." '".
+			"AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
 		$this->ilDB->query($q);
 
 		// close gaps
@@ -687,7 +710,8 @@ class ilTree
 		if ($this->table_obj_reference)
 		{
 			$leftjoin = "LEFT JOIN ".$this->table_obj_reference." ON T2.child=".$this->table_obj_reference.".".$this->ref_pk." ".
-						"LEFT JOIN ".$this->table_obj_data." ON ".$this->table_obj_reference.".".$this->obj_pk."=".$this->table_obj_data.".".$this->obj_pk." ";
+						"LEFT JOIN ".$this->table_obj_data." ON ".$this->table_obj_reference.".".$this->obj_pk."=".
+				$this->table_obj_data.".".$this->obj_pk." ";
 			$select_obj_id = $this->table_obj_data.".obj_id,";
 		}
 		else
@@ -1176,7 +1200,8 @@ class ilTree
 	{
 		if (!isset($a_startnode_id) or !isset($a_querynode_id))
 		{
-			$this->ilErr->raiseError(get_class($this)."::isGrandChild(): Missing parameter! startnode: ".$a_startnode_id." querynode: ".$a_querynode_id,$this->ilErr->WARNING);
+			$this->ilErr->raiseError(get_class($this)."::isGrandChild(): Missing parameter! startnode: ".$a_startnode_id." querynode: ".
+									 $a_querynode_id,$this->ilErr->WARNING);
 		}
 
 		$q = "SELECT * FROM ".$this->table_tree." s,".$this->table_tree." v ".
@@ -1733,7 +1758,123 @@ class ilTree
 	{
 		return $this->table_tree === 'tree';
 	}
-	
 
+	/**
+	* Check for deleteTree()
+	* compares a subtree of a given node by checking lft, rgt against parent relation
+	*
+ 	* @access	private
+	* @param array node data from ilTree::getNodeData()
+	* @return boolean
+	*/
+	function __checkDelete($a_node)
+	{
+		// get subtree by lft,rgt
+		$query = "SELECT * FROM ".$this->table_tree." ".
+			"WHERE lft >= ".$a_node['lft']." ".
+			"AND rgt <= ".$a_node['rgt']." ".
+			"AND ".$this->tree_pk." = '".$a_node[$this->tree_pk]."'";
+
+
+		$res = $this->ilDB->query($query);
+
+		$counter = (int) $lft_childs = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$lft_childs[$row->child] = $row->parent;
+			++$counter;
+		} 
+
+		// CHECK FOR DUPLICATE CHILD IDS
+		if($counter != count($lft_childs))
+		{
+			$message = sprintf('%s::__checkTree(): Duplicate entries for "child" in maintree! $a_node_id: %s',
+								   get_class($this),
+							   $a_node['child']);
+			$this->log->write($message,$this->log->FATAL);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
+
+		// GET SUBTREE BY PARENT RELATION
+		$parent_childs = array();
+		$this->__getSubTreeByParentRelation($a_node['child'],$parent_childs);
+		$this->__validateSubtrees($lft_childs,$parent_childs);
+
+		return true;
+	}
+
+	function __getSubTreeByParentRelation($a_node_id,&$parent_childs)
+	{
+		// GET PARENT ID
+		$query = "SELECT * FROM ".$this->table_tree." ".
+			"WHERE child = '".$a_node_id."' ".
+			"AND tree = '".$this->tree_id."'";
+
+		$res = $this->ilDB->query($query);
+		$counter = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$parent_childs[$a_node_id] = $row->parent;
+			++$counter;
+		}
+		// MULTIPLE ENTRIES
+		if($counter > 1)
+		{
+			$message = sprintf('%s::__getSubTreeByParentRelation(): Multiple entries in maintree! $a_node_id: %s',
+							   get_class($this),
+							   $a_node_id);
+			$this->log->write($message,$this->log->FATAL);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
+		
+		// GET ALL CHILDS
+		$query = "SELECT * FROM ".$this->table_tree." ".
+			"WHERE parent = '".$a_node_id."'";
+
+		$res = $this->ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			// RECURSION
+			$this->__getSubTreeByParentRelation($row->child,$parent_childs);
+		}
+		return true;
+	}
+
+	function __validateSubtrees(&$lft_childs,$parent_childs)
+	{
+		// SORT BY KEY
+		ksort($lft_childs);
+		ksort($parent_childs);
+
+		if(count($lft_childs) != count($parent_childs))
+		{
+			$message = sprintf('%s::__validateSubtrees(): (COUNT) Tree is corrupted! Left/Right subtree does not comply .'.
+							   'with parent relation',
+							   get_class($this));
+			$this->log->write($message,$this->log->FATAL);
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
+
+		foreach($lft_childs as $key => $value)
+		{
+			if($parent_childs[$key] != $value)
+			{
+				$message = sprintf('%s::__validateSubtrees(): (COMPARE) Tree is corrupted! Left/Right subtree does not comply '.
+								   'with parent relation',
+								   get_class($this));
+				$this->log->write($message,$this->log->FATAL);
+				$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			}
+			if($key == ROOT_FOLDER_ID)
+			{
+				$message = sprintf('%s::__validateSubtrees(): (ROOT_FOLDER) Tree is corrupted! Tried to delete root folder',
+								   get_class($this));
+				$this->log->write($message,$this->log->FATAL);
+				$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			}
+		}
+		return true;
+	}		
+		
 } // END class.tree
 ?>
