@@ -4782,7 +4782,7 @@ INDEX ( `user_id` )
 <#314>
 ALTER TABLE `usr_data` ADD `matriculation` VARCHAR( 40 ) AFTER `referral_comment` ;
 <#315>
-DROP TABLE `survey_relation`;
+DROP TABLE IF EXISTS `survey_relation`;
 
 CREATE TABLE `survey_relation` (
   `relation_id` int(11) NOT NULL auto_increment,
