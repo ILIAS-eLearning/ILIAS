@@ -75,6 +75,7 @@ class ilContObjParser extends ilSaxParser
 	var $keyword_language;
 	var $pages_with_int_links;
 	var $mob_mapping;
+	var $file_item_mapping;
 	var $subdir;
 	var $media_item;		// current media item
 	var $loc_type;			// current location type
@@ -103,6 +104,7 @@ class ilContObjParser extends ilSaxParser
 		$this->pg_into_tree = array();
 		$this->pages_with_int_links = array();
 		$this->mob_mapping = array();
+		$this->file_item_mapping = array();
 		$this->pg_mapping = array();
 		$this->subdir = $a_subdir;
 		$this->lng =& $lng;
@@ -211,6 +213,7 @@ class ilContObjParser extends ilSaxParser
 				continue;
 			}
 
+			/*
 			$origin_arr = explode("_", $origin_id);
 			if ($origin_arr[2] == "el") // imagemap
 			{
@@ -219,7 +222,9 @@ class ilContObjParser extends ilSaxParser
 			else // normal media object
 			{
 				$obj_dir = "mm".$origin_arr[3];
-			}
+			}*/
+
+			$obj_dir = $origin_id;
 			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
 			$target_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$mob_id;
 
@@ -227,8 +232,40 @@ class ilContObjParser extends ilSaxParser
 			if (@is_dir($source_dir))
 			{
 				// make target directory
-				@mkdir($target_dir);
-				@chmod($target_dir, 0755);
+				ilUtil::makeDir($target_dir);
+				//@mkdir($target_dir);
+				//@chmod($target_dir, 0755);
+
+				if (@is_dir($target_dir))
+				{
+					ilUtil::rCopy($source_dir, $target_dir);
+				}
+			}
+		}
+	}
+
+	/**
+	* copy files of file items
+	*/
+	function copyFileItems()
+	{
+		foreach ($this->file_item_mapping as $origin_id => $file_item_id)
+		{
+			if(empty($origin_id))
+			{
+				continue;
+			}
+			$obj_dir = $origin_id;
+			$source_dir = $imp_dir."/".$this->subdir."/objects/".$obj_dir;
+			$target_dir = ilUtil::getDataDir()."/files/file_".$file_item_id;
+
+			//echo "copy from $source_dir to $target_dir <br>";
+			if (@is_dir($source_dir))
+			{
+				// make target directory
+				ilUtil::makeDir($target_dir);
+				//@mkdir($target_dir);
+				//@chmod($target_dir, 0755);
 
 				if (@is_dir($target_dir))
 				{
@@ -452,6 +489,7 @@ class ilContObjParser extends ilSaxParser
 				if ($this->in_file_item)
 				{
 					$this->file_item->setImportId($a_attribs["Entry"]);
+					$this->file_item_mapping[$this->file_item->getId()] = $a_attribs["Entry"];
 				}
 				break;
 

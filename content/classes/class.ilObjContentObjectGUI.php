@@ -1138,7 +1138,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 	}
 
 	/**
-	* move chapter
+	* move page
 	*/
 	function movePage()
 	{
