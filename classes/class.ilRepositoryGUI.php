@@ -1722,11 +1722,26 @@ class ilRepositoryGUI
 				$num++;
 				$this->ctrl->setParameterByClass("ilObjGroupGUI", "ref_id", $cont_data["ref_id"]);
 				$obj_link = $this->ctrl->getLinkTargetByClass("ilObjGroupGUI");
-
 				$obj_icon = "icon_".$cont_data["type"]."_b.gif";
-				$tpl->setVariable("TITLE", $cont_data["title"]);
-				$tpl->setVariable("LINK", $obj_link);
-				$tpl->setVariable("LINK_TARGET", "bottom");
+			
+				if ($this->rbacsystem->checkAccess('read',$cont_data["ref_id"]))
+				{
+					$tpl->setCurrentBlock("group_read");
+					$tpl->setVariable("VIEW_LINK", $obj_link);
+					$tpl->setVariable("VIEW_TARGET", "bottom");
+					$tpl->setVariable("R_TITLE", $cont_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$tpl->setCurrentBlock("group_visible");
+					$tpl->setVariable("V_TITLE", $cont_data["title"]);
+					$tpl->parseCurrentBlock();
+				}
+
+				//$tpl->setVariable("TITLE", $cont_data["title"]);
+				//$tpl->setVariable("LINK", $obj_link);
+				//$tpl->setVariable("LINK_TARGET", "bottom");
 
 				// add to desktop link
 				if ($this->ilias->account->getId() != ANONYMOUS_USER_ID and !$ilias->account->isDesktopItem($cont_data["ref_id"], "grp"))
