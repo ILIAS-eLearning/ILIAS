@@ -69,14 +69,13 @@ class IniFile
 		
 		$this->INI_FILE_NAME = $iniFileName;
 
-
-    return true;
+		return true;
     }
     
     function read()
     {
         //check if file exists
-		if(!file_exists($iniFileName))
+		if(!file_exists($this->INI_FILE_NAME))
 		{
 			$this->error("file_does_not_exist");
 			return false;
