@@ -88,7 +88,7 @@ assessment#:#add_answer#:#Aggiungi risposta
 assessment#:#add_answer_tf#:#Aggiungi risposta di tipo Vero/Falso
 assessment#:#add_answer_yn#:#Aggiungi risposta di tipo Si/No
 assessment#:#add_matching_pair#:#Aggiungi la coppia corrispondente
-assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
+assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
 assessment#:#answer#:#Rispondi
 assessment#:#answer_picture#:#Rispondi alla figura
 assessment#:#answer_text#:#Rispondi il testo
@@ -100,16 +100,16 @@ assessment#:#create_date#:#Creata
 assessment#:#create_gaps#:#Crea un vuoto
 assessment#:#create_new#:#Crea nuovo
 assessment#:#duplicate#:#Duplica
-assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
+assessment#:#end_tag#:#Fine tag
 assessment#:#eval_choice_result#:#La scelta con il valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_cloze_result#:#Lo spazio vuoto numero %s con valore %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_imagemap_result#:#L'immagine scelta &#232; %s. Ricevi %s punti.
 assessment#:#eval_legend_link#:#Per il significato dei simboli nella testata, vedi la legenda.
 assessment#:#eval_matching_result#:#La coppia corrispondente %s - %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_order_result#:#La risposta %s &#232; la numero %s. Ricevi %s punti.
-assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
-assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
-assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
+assessment#:#exp_eval_data#:#Esporta dati da valutare
+assessment#:#exp_type_excel#:#  Excel  
+assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Esporta
 assessment#:#false#:#Falso
 assessment#:#fill_out_all_answer_fields#:#Per favore, riempi tutti i testi delle risposte prima di aggiungerne un'altra!
@@ -118,7 +118,7 @@ assessment#:#fill_out_all_required_fields_add_answer#:#Per favore, riempi tutti 
 assessment#:#fill_out_all_required_fields_add_matching#:#Per favore, riempi tutti i campi richiesti prima di aggiungere una domanda a corrispondenza!
 assessment#:#fill_out_all_required_fields_create_gaps#:#Per favore, riempi tutti i campi richiesti prima di creare uno spazio vuoto!
 assessment#:#filter#:#Filtro
-assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
+assessment#:#gap_definition#:#Definizione vuoto
 assessment#:#gap_selection#:#Selezione vuota
 assessment#:#imagemap#:#Mappa di immagine
 assessment#:#last_update#:#Ultimo aggiornamento
@@ -134,7 +134,7 @@ assessment#:#material_file#:#File disponibili
 assessment#:#maximum_nr_of_tries_reached#:#Hai raggiunto il numero massimo di tentativi per questo test. Il test non pu&#242; essere inserito!
 assessment#:#meaning#:#Significato
 assessment#:#no_questions_available#:#Non ci sono domande disponibili
-assessment#:#or#:#or###07 Apr 2004 new variable
+assessment#:#or#:#oppure
 assessment#:#order_pictures#:#Ordina le immagini
 assessment#:#order_terms#:#Ordina i termini
 assessment#:#points#:#Punti
@@ -146,14 +146,14 @@ assessment#:#qpl_assessment_no_assessment_of_questions#:#Non esiste la valutazio
 assessment#:#qpl_assessment_of_questions#:#Valutazione delle domande
 assessment#:#qpl_assessment_total_of_answers#:#Totale delle risposte
 assessment#:#qpl_assessment_total_of_right_answers#:#Percentuale totale di risposte giuste (percentuale con il punteggio massimo)
-assessment#:#qpl_delete_rbac_error#:#Non hai i diritti per cancellare questa domanda!
-assessment#:#qpl_delete_select_none#:#Seleziona la domanda da cancellare
+assessment#:#qpl_delete_rbac_error#:#Non hai i diritti per cancellare questa raccolta di domande!
+assessment#:#qpl_delete_select_none#:#Seleziona la raccolta di domande da cancellare
 assessment#:#qpl_display_fullsize_image#:#Clicca qui per mostrare l'immagine originale!
-assessment#:#qpl_duplicate_select_none#:#Seleziona la domanda da duplicare
-assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa domanda!
-assessment#:#qpl_edit_select_multiple#:#Seleziona solo una domanda da modificare
-assessment#:#qpl_edit_select_none#:#Seleziona la domanda da modificare
-assessment#:#qpl_export_select_none#:#Seleziona la domanda da esportare
+assessment#:#qpl_duplicate_select_none#:#Seleziona la racoolta di domande da duplicare
+assessment#:#qpl_edit_rbac_error#:#Non hai i diritti per modificare questa raccolta di domande!
+assessment#:#qpl_edit_select_multiple#:#Seleziona solo una raccolta di domande da modificare
+assessment#:#qpl_edit_select_none#:#Seleziona la raccolta di domande da modificare
+assessment#:#qpl_export_select_none#:#Seleziona la raccolta di domande da esportare
 assessment#:#qt_cloze#:#Domanda con risposta da completare
 assessment#:#qt_imagemap#:#Domanda con immagine a mappa
 assessment#:#qt_matching#:#Domanda a corrispondenza
@@ -163,7 +163,7 @@ assessment#:#qt_ordering#:#Domanda con risposte da ordinare
 assessment#:#question_saved_for_upload#:#La domanda &#232; stata salvata automaticamente in modo da lasciare spazio sul disco per l'upload del file. Se vuoi cancellare il form, stai attento perch&#233; devi cancellare la domanda dall'elenco se non vuoi pi&#249; tenerla!
 assessment#:#question_short#:#D
 assessment#:#question_type#:#Tipo di domanda
-assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
+assessment#:#random_selection#:#Selezione casuale
 assessment#:#region#:#Regione
 assessment#:#remove_question#:#Rimuovi
 assessment#:#report_date_not_reached#:#Non hai raggiunto la date per il rapporto. Sarai in grado di vedere i risultati del test il %s
@@ -175,12 +175,12 @@ assessment#:#save_next#:#Salva e vai alla omanda successiva
 assessment#:#save_previous#:#Salva e vai alla domanda precedente
 assessment#:#select_gap#:#Seleziona spazio
 assessment#:#set_filter#:#Imposta filtro
-assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
+assessment#:#shuffle_answers#:#Trascina le risposte
 assessment#:#solution_order#:#Ordine risposte
-assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
+assessment#:#start_tag#:#Inizio tag
 assessment#:#symbol#:#Simbolo
 assessment#:#text_gap#:#Spazio vuoto
-assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
+assessment#:#time_format#:#HH MM SS
 assessment#:#true#:#Vero
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
@@ -214,13 +214,13 @@ assessment#:#tst_nr_of_tries#:#Numero massimo di tentativi
 assessment#:#tst_percent_solved#:#Percentuale risolta
 assessment#:#tst_processing_time#:#Tempo massimo di esecuzione
 assessment#:#tst_question_no#:#Ordine
-assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?###07 Apr 2004 new variable
+assessment#:#tst_question_offer#:#Va bene questo esempio o ne vuoi un altro?
 assessment#:#tst_question_title#:#Titolo
 assessment#:#tst_question_type#:#Tipo di domanda
 assessment#:#tst_questions_inserted#:#Domanda(e) inserita(e)!
 assessment#:#tst_questions_removed#:#Domanda(e) cancellata(e)!
-assessment#:#tst_random_nr_of_questions#:#How many questions?###07 Apr 2004 new variable
-assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from###07 Apr 2004 new variable
+assessment#:#tst_random_nr_of_questions#:#Quante domande?
+assessment#:#tst_random_select_questionpool#:#Seleziona la raccolta dal quale scegliere le domande
 assessment#:#tst_reached_points#:#Punteggio raggiunto
 assessment#:#tst_remove_questions#:#Sei sicuro che vuoi cancellare le seguenti domande dal test?
 assessment#:#tst_remove_questions_and_results#:#Questo test &#232; gi&#224; stato eseguito da %s utente(i). Se vengono tolte domande dal test, verrano cancellati tutti i risultati degli utenti del test. Sei sicuro che vuoi rimuovere le seguenti domande dal test?
@@ -233,7 +233,7 @@ assessment#:#tst_resume_test#:#Riprendi il test
 assessment#:#tst_score_reporting#:#Rapporto del punteggio
 assessment#:#tst_score_reporting_date#:#Data del rapporto del punteggio
 assessment#:#tst_score_type#:#Tipo del rapporto del punteggio
-assessment#:#tst_select_questionpool#:#Per favore, seleziona una esercitazione alla quale aggiungere la domanda creata
+assessment#:#tst_select_questionpool#:#Per favore, seleziona una raccolta alla quale aggiungere la domanda creata
 assessment#:#tst_sequence#:#Sequenza
 assessment#:#tst_sequence_fixed#:#La sequenza delle domande &#232; fissata
 assessment#:#tst_sequence_postpone#:#Lo studente pu&#242; posporre la domanda alla fine del test
@@ -270,7 +270,7 @@ assessment#:#tt_navigation_controlling#:#Test di controllo della navigazione deg
 assessment#:#tt_self_assessment#:#Test di autovalutazione
 assessment#:#unlimited#:#non limitato
 assessment#:#uploaded_material#:#Materiale uploadato
-assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
+assessment#:#working_time#:#Tempo di esecuzione
 chat#:#chat_active#:#Attiva
 chat#:#chat_active_users#:#Utente (attivo)
 chat#:#chat_add_allowed_hosts#:#Per favore, aggiungi l'indirizzo dell'host(s) ai quali &#232; consentito accedere al server chat.
@@ -358,7 +358,7 @@ chat#:#chat_user_invited#:#Utente invitato alla chat.
 chat#:#chat_yellow#:#giallo
 chat#:#chats#:#Chat
 chat#:#my_chats#:#Le mie Chat
-common#:#3rd_party_software#:#Software di terze parti###11 Apr 2004 content changed
+common#:#3rd_party_software#:#Software di terze parti
 common#:#DD.MM.YYYY#:#DD.MM.YYYY
 common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Percorso assoluto
@@ -442,10 +442,10 @@ common#:#cat_create_exc#:#Creare un esercizio
 common#:#cat_create_frm#:#Creare un forum
 common#:#cat_create_glo#:#Creare un glossario
 common#:#cat_create_grp#:#Creare un gruppo
-common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
+common#:#cat_create_htlm#:#Creare un modulo HTML
 common#:#cat_create_lm#:#Creare un modulo
-common#:#cat_create_mep#:#Creare un Media Pool
-common#:#cat_create_qpl#:#Creare un esame
+common#:#cat_create_mep#:#Creare una libreria multimediale
+common#:#cat_create_qpl#:#Creare una raccolta di domande
 common#:#cat_create_slm#:#Creare un modulo SCORM
 common#:#cat_create_tst#:#Creare un test
 common#:#cat_delete#:#Cancellare un categoria
@@ -513,7 +513,7 @@ common#:#compose#:#Scrivi
 common#:#confirm#:#Conferma
 common#:#cont_object#:#Oggetto
 common#:#contact_data#:#Dati personali
-common#:#container#:#Container###11 Apr 2004 new variable
+common#:#container#:#Contenitore
 common#:#context#:#Contesto
 common#:#copy#:#Copia
 common#:#copy_of#:#Copia di
@@ -543,7 +543,7 @@ common#:#crs_new#:#Nuovo corso
 common#:#crs_read#:#Accesso in lettura al corso
 common#:#crs_visible#:#Corso &#232; visibile
 common#:#crs_write#:#Modifica il corso
-common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
+common#:#cumulative_time#:#Tempo totale
 common#:#cur_number_rec#:#Numero corrente di record
 common#:#current_password#:#Password attuale
 common#:#cut#:#Taglia
@@ -693,8 +693,8 @@ common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
 common#:#forename#:#Nome
 common#:#form_empty_fields#:#Per favore completa i campi vuoti:
 common#:#forum#:#Forum
-common#:#forum_import#:#Forum import###09 Apr 2004 new variable
-common#:#forum_import_file#:#Import file###09 Apr 2004 new variable
+common#:#forum_import#:#Importa forum
+common#:#forum_import_file#:#Importa file
 common#:#forum_notification#:#Notifica
 common#:#forum_notify_me#:#Avvisami quando viene aggiunta una risposta
 common#:#forum_post_replied#:#E&#039;stato risposto al tuo intervento
@@ -814,15 +814,15 @@ common#:#hide_structure#:#Nascondi la vista della struttura
 common#:#hobby#:#Interessi/Passatempi
 common#:#home#:#Home
 common#:#host#:#Macchina
-common#:#htlm#:#HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_add#:#Add HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_delete#:#Delete HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_edit#:#Edit HTML Learning Module Properties###07 Apr 2004 new variable
-common#:#htlm_edit_permission#:#Change permission settings###07 Apr 2004 new variable
-common#:#htlm_new#:#New HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_read#:#Read HTML Learning Module###07 Apr 2004 new variable
-common#:#htlm_visible#:#HTML Learning Module is visible###07 Apr 2004 new variable
-common#:#htlm_write#:#Edit HTML Learning Module###07 Apr 2004 new variable
+common#:#htlm#:#Modulo HTML
+common#:#htlm_add#:#Aggiungi un modulo HTML
+common#:#htlm_delete#:#Cancella un modulo HTML
+common#:#htlm_edit#:#Modifica un modulo HTML
+common#:#htlm_edit_permission#:#Modificare le impostazioni dei permessi
+common#:#htlm_new#:#Aggiungere un modulo HTML
+common#:#htlm_read#:#Leggere un modulo HTML
+common#:#htlm_visible#:#Vedere un modulo HTML
+common#:#htlm_write#:#MOdificare un modulo HTML
 common#:#http_path#:#Percorso HTTP
 common#:#id#:#ID
 common#:#identifier#:#Identificatore
@@ -834,7 +834,7 @@ common#:#import_categories#:#Importa categorie
 common#:#import_file#:#Importa file
 common#:#import_file_not_valid#:#Il file di import non &#232; valido.
 common#:#import_finished#:#Numero di messaggi importati.
-common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
+common#:#import_forum_finished#:#Il forum &#232; stato importato.
 common#:#import_lm#:#Importa modulo
 common#:#import_root_user#:#Importa utente root
 common#:#import_slm#:#Importa SCORM Package
@@ -1011,26 +1011,26 @@ common#:#mails#:#Mail
 common#:#mark_all_read#:#Contrassegna tutto come letto
 common#:#mark_all_unread#:#Contrassegna tutto come non letto
 common#:#max_number_rec#:#Numero massimo di record
-common#:#max_time#:#Maximum time###09 Apr 2004 new variable
+common#:#max_time#:#Tempo massimo
 common#:#member#:#Membro
 common#:#members#:#Membri
 common#:#membership_annulled#:#La tua iscrizione &#232; stata cancellata
-common#:#mep#:#Media Pool###22 Mar 2004 new variable
-common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
-common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
-common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
-common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
-common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
-common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
-common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
-common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
-common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
+common#:#mep#:#Libreria multimediale
+common#:#mep_add#:#Aggiungi libreria multimediale
+common#:#mep_added#:#Aggiunta libreria multimediale
+common#:#mep_delete#:#Cancella libreria multimediale
+common#:#mep_edit#:#Modifica libreria multimediale
+common#:#mep_edit_permission#:#Modifica le impostazioni dei permessi della libreria multimediale
+common#:#mep_new#:#Creare una libreria multimediale
+common#:#mep_read#:#Visionare una libreria multimediale
+common#:#mep_visible#:#Vedere una libreria multimediale
+common#:#mep_write#:#Modificare il contenuto di una libreria multimediale
 common#:#message#:#Messaggio
 common#:#message_content#:#Contenuto del messaggio
 common#:#message_to#:#Messaggio a:
 common#:#meta_data#:#Meta Dati
 common#:#migrate#:#migrare
-common#:#min_time#:#Minimum time###09 Apr 2004 new variable
+common#:#min_time#:#Tempo minimo
 common#:#mob#:#Oggetto multimediale
 common#:#module#:#Modulo
 common#:#modules#:#Moduli
@@ -1158,7 +1158,7 @@ common#:#no_bm_in_personal_list#:#Nessun preferito definito.
 common#:#no_chat_in_personal_list#:#Non ci sono chat nella lista personale.
 common#:#no_checkbox#:#Nesuna opzione selezionata!
 common#:#no_date#:#Manca la data
-common#:#no_description#:#No description###13 Apr 2004 new variable
+common#:#no_description#:#Nessuna descrizione
 common#:#no_frm_in_personal_list#:#Nessun forum nella lista personale.
 common#:#no_grp_in_personal_list#:#Nessun gruppo nella lista personale.
 common#:#no_import_available#:#Importazione non disponibile per il tipo
@@ -1177,7 +1177,7 @@ common#:#obj#:#Oggetto
 common#:#obj_adm#:#Impostazioni di sistema
 common#:#obj_adm_desc#:#La pagina delle impostazioni di sistema contiene tutti i pannelli per amministrare la tua installazione di ILIAS3.
 common#:#obj_cat#:#Categoria
-common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
+common#:#obj_cen#:#Evento principale
 common#:#obj_chac#:#Impostazioni chat
 common#:#obj_chac_desc#:#Configura qui il tuo server di chat. Abilita/Disabilita chat.
 common#:#obj_chat#:#Chat
@@ -1189,7 +1189,7 @@ common#:#obj_fold#:#Cartella
 common#:#obj_frm#:#Forum
 common#:#obj_glo#:#Glossario
 common#:#obj_grp#:#Gruppo
-common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
+common#:#obj_htlm#:#Modulo HTML
 common#:#obj_ldap#:#Impostazioni LDAP
 common#:#obj_ldap_desc#:#Configura le ipostazioni globali del LDAP qui.
 common#:#obj_lm#:#Modulo
@@ -1199,7 +1199,7 @@ common#:#obj_lngf_desc#:#Configura le tue lingue di sistema qui.
 common#:#obj_lo#:#Lezioni
 common#:#obj_mail#:#Impostazioni posta
 common#:#obj_mail_desc#:#Configura le impostazioni globali delle mail qui.
-common#:#obj_mep#:#Media Pool
+common#:#obj_mep#:#Libreria multimediale
 common#:#obj_mob#:#Oggetto multimediale
 common#:#obj_not_found#:#Oggetto non trovato
 common#:#obj_note#:#Note
@@ -1208,7 +1208,7 @@ common#:#obj_objf#:#Gestione oggetti
 common#:#obj_objf_desc#:#Configura i tipi degli oggetti ed i permessi sugli oggetti in ILIAS3. (solo per utenti esperti!)
 common#:#obj_owner#:#Questo oggetto &#232; posseduto da
 common#:#obj_pg#:#Pagina
-common#:#obj_qpl#:#Esame
+common#:#obj_qpl#:#Raccolta di domande
 common#:#obj_recf#:#Oggetti ripristinati
 common#:#obj_recf_desc#:#Contiene oggetti ripristinati dal sistema di controllo.
 common#:#obj_role#:#Ruolo
@@ -1235,7 +1235,7 @@ common#:#objf_read#:#Accedere in lettura alle definizioni degli oggetti
 common#:#objf_visible#:#Vedere le definizioni degli oggetti
 common#:#objf_write#:#Modificare le definizioni degli oggetti
 common#:#objs_cat#:#Categorie
-common#:#objs_chat#:#Chats###12 Apr 2004 new variable
+common#:#objs_chat#:#Chat
 common#:#objs_confirm#:#Conferma la cancellazione
 common#:#objs_crs#:#Corsi
 common#:#objs_dbk#:#Libri digitali
@@ -1246,15 +1246,15 @@ common#:#objs_fold#:#Cartelle
 common#:#objs_frm#:#Forum
 common#:#objs_glo#:#Glossari
 common#:#objs_grp#:#Gruppi
-common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
+common#:#objs_htlm#:#Moduli HTML
 common#:#objs_lm#:#Moduli
 common#:#objs_lng#:#Lingue
 common#:#objs_lo#:#Risorse
-common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
+common#:#objs_mep#:#Librerie multimediali
 common#:#objs_mob#:#Oggetti multimediali
 common#:#objs_note#:#Note
 common#:#objs_pg#:#Pagine
-common#:#objs_qpl#:#Esercitazioni
+common#:#objs_qpl#:#Raccolte di domande
 common#:#objs_role#:#Ruoli
 common#:#objs_rolt#:#Template di ruolo
 common#:#objs_slm#:#Moduli SCORM
@@ -1333,16 +1333,16 @@ common#:#publication#:#Pubblicazione
 common#:#publication_date#:#Data di pubblicazione
 common#:#published#:#Pubblicato
 common#:#publishing_organisation#:#Organizzazione di pubblicazione
-common#:#qpl#:#Esame
-common#:#qpl_add#:#Aggiungere un esame
-common#:#qpl_delete#:#Cancellare un esame
+common#:#qpl#:#Raccolta di domande
+common#:#qpl_add#:#Aggiungere una raccolta di domande
+common#:#qpl_delete#:#Cancellare una raccolta di domande
 common#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#qpl_new#:#Creare un esame
-common#:#qpl_read#:#Accedere in lettura agli esami
-common#:#qpl_visible#:#Vedere gli esami
-common#:#qpl_write#:#Modificare esame
+common#:#qpl_new#:#Creare una raccolta di domande
+common#:#qpl_read#:#Accedere in lettura ad una raccolta di domande
+common#:#qpl_visible#:#Vedere una raccolta di domande
+common#:#qpl_write#:#Modificare una raccolta di domande
 common#:#question#:#Domanda
-common#:#question_pools#:#Esami
+common#:#question_pools#:#Raccolte di domande
 common#:#quit#:#Esci
 common#:#quote#:#Virgolette
 common#:#read#:#Leggi
@@ -1424,7 +1424,7 @@ common#:#select_all#:#Seleziona tutto
 common#:#select_file#:#Seleziona file
 common#:#select_mode#:#Seleziona modo
 common#:#selected#:#Selezionati
-common#:#selected_items#:#Personal Items###12 Apr 2004 new variable
+common#:#selected_items#:#Elementi selezionati
 common#:#send#:#Invia
 common#:#sender#:#Mittente
 common#:#sent#:#Inviato
@@ -1518,7 +1518,7 @@ common#:#uninstalled#:#Rimosso.
 common#:#unknown#:#Sconosciuto
 common#:#unread#:#Non letto
 common#:#unsubscribe#:#Annulla l&#039;iscrizione
-common#:#unzip#:#Unzip###07 Apr 2004 new variable
+common#:#unzip#:#Unzip
 common#:#up#:#Su
 common#:#update_applied#:#Aggiornamento effettuato
 common#:#update_language#:#Lingua aggiornata
@@ -1545,7 +1545,7 @@ common#:#usr_added#:#Utente aggiunto
 common#:#usr_agreement#:#Dichiarazione di accettazione
 common#:#usr_agreement_empty#:#La dichiarazione di accettazione non contiene testo.
 common#:#usr_edit#:#Modifica utente
-common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
+common#:#usr_hits_per_page#:#Contatti/pagina nella tabella
 common#:#usr_new#:#Nuovo utente
 common#:#usr_skin_style#:#Tema / Stile
 common#:#usr_style#:#Stile dell&#039;utente
@@ -1596,7 +1596,7 @@ content#:#cont_Reference#:#Riferimento
 content#:#cont_Remark#:#Osservazione
 content#:#cont_Roman#:#Romani I, II, ...
 content#:#cont_Unordered#:#Non ordinato
-content#:#cont_active#:#Enable Menu###14 Apr 2004 new variable
+content#:#cont_active#:#Abilita menu
 content#:#cont_add_area#:#Aggiungi paese
 content#:#cont_add_definition#:#Aggiungi definizione
 content#:#cont_add_fullscreen#:#Aggiungi a tutto schermo 
@@ -1612,7 +1612,7 @@ content#:#cont_assignments_deleted#:#Le impostazioni sono state cancellate
 content#:#cont_back#:#Indietro
 content#:#cont_booktitle#:#Titolo del libro
 content#:#cont_bottom#:#In fondo
-content#:#cont_cant_copy_folders#:#Folders cannot be copied to clipboard.###11 Apr 2004 new variable
+content#:#cont_cant_copy_folders#:#Le cartelle non possono essere copiate negli appunti.
 content#:#cont_cant_del_full#:#La cancellazione della modalit&#224; di vista a schermo pieno non &#232; possibile.
 content#:#cont_cant_del_std#:#La cancellazione del modalit&#224; di vista standard non &#232; possibile.
 content#:#cont_caption#:#Etichetta
@@ -1636,9 +1636,9 @@ content#:#cont_click_starting_point#:#Per favore, clicca nel punto di partenza d
 content#:#cont_click_tl_corner#:#Per favore, clicca nell&#039;angolo superiore sinistro dell'area desiderata.
 content#:#cont_content#:#Contenuto
 content#:#cont_content_obj#:#Contenuto dell&#039;oggetto
-content#:#cont_contents#:#Contents###14 Apr 2004 new variable
+content#:#cont_contents#:#Contenuti
 content#:#cont_coords#:#Coordinate
-content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
+content#:#cont_copy_to_clipboard#:#Copia negli appunti
 content#:#cont_create_dir#:#Crea una cartella
 content#:#cont_create_export_file#:#Crea file di export
 content#:#cont_create_folder#:#Crea cartella
@@ -1695,12 +1695,12 @@ content#:#cont_item#:#Elemento
 content#:#cont_journal#:#Giornaliero
 content#:#cont_keyword#:#Chiave
 content#:#cont_link#:#Collegamento
-content#:#cont_link_area#:#Link Area###11 Apr 2004 new variable
+content#:#cont_link_area#:#Collega area
 content#:#cont_link_ext#:#Link (esterno)
 content#:#cont_link_int#:#Link (interno)
 content#:#cont_link_select#:#Collegamento interno
 content#:#cont_link_type#:#Tipo di collegamento
-content#:#cont_list_files#:#List Files###07 Apr 2004 new variable
+content#:#cont_list_files#:#Elenco file
 content#:#cont_list_properties#:#Elenca le propriet&#224;
 content#:#cont_lk_chapter#:#Capitolo
 content#:#cont_lk_chapter_new#:#Capitolo (Nuovo Frame)
@@ -1713,14 +1713,14 @@ content#:#cont_lk_page_faq#:#Pagina (FAQ Frame)
 content#:#cont_lk_page_new#:#Pagina (New Frame)
 content#:#cont_lk_term#:#Glossario
 content#:#cont_lk_term_new#:#Glossario (New Frame)
-content#:#cont_lm_menu#:#Menu###14 Apr 2004 new variable
+content#:#cont_lm_menu#:#Menu
 content#:#cont_lm_properties#:#Propriet&#224; del Modulo
 content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Collega aree
 content#:#cont_mastery_score#:#punteggio minimo
 content#:#cont_max_time_allowed#:#tempo massimo consentito
 content#:#cont_media_source#:#Sorgenti multimediale
-content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
+content#:#cont_mep_structure#:#Struttura libreria multimediale
 content#:#cont_mob_files#:#File oggetto
 content#:#cont_mob_inst_prop#:#Propriet&#224; dell&#039;istanza
 content#:#cont_mob_prop#:#Propriet&#224; dell&#039;oggetto
@@ -1741,7 +1741,7 @@ content#:#cont_none#:#Nessuno
 content#:#cont_nr_cols#:#Numero di colonne
 content#:#cont_nr_items#:#Numero di elementi
 content#:#cont_nr_rows#:#Numero di righe
-content#:#cont_obj_removed#:#Objects removed.###11 Apr 2004 new variable
+content#:#cont_obj_removed#:#Oggetti cancellati.
 content#:#cont_online#:#Online
 content#:#cont_order#:#Tipo di ordinamento
 content#:#cont_organization#:#Organizzazione
@@ -1787,7 +1787,7 @@ content#:#cont_series_volume#:#Volume della serie
 content#:#cont_set_class#:#Imposta classe
 content#:#cont_set_link#:#Imposta il collegamento
 content#:#cont_set_shape#:#Modifica la forma
-content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
+content#:#cont_set_start_file#:#Imposta file di partenza
 content#:#cont_set_width#:#Imposta larghezza
 content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostra
@@ -1795,7 +1795,7 @@ content#:#cont_show_citation#:#Mostra la citazione
 content#:#cont_size#:#Dimensioni
 content#:#cont_source#:#Sorgente
 content#:#cont_st_title#:#Titolo capitolo
-content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
+content#:#cont_startfile#:#File di partenza
 content#:#cont_std_is_in_dir#:#La cancellazione non &#232; possibile. Il file a vista standard &#232; nella cartella.
 content#:#cont_std_view#:#Vista standard
 content#:#cont_structure#:#Struttura
@@ -1817,21 +1817,21 @@ content#:#cont_update#:#Aggiorna
 content#:#cont_update_names#:#Aggiorna i nomi
 content#:#cont_upload_file#:#Upload del file
 content#:#cont_url#:#URL
-content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
-content#:#cont_users_have_mob_in_clip2#:#user(s).###11 Apr 2004 new variable
+content#:#cont_users_have_mob_in_clip1#:#Questo oggetto &#232; negli appunti di
+content#:#cont_users_have_mob_in_clip2#:#utente(i).
 content#:#cont_version#:#Versione
-content#:#cont_view_last_export_log#:#Last Export Log###09 Apr 2004 new variable
+content#:#cont_view_last_export_log#:#Ultimo Log di Export
 content#:#cont_where_published#:#Dove pubblicata
 content#:#cont_width#:#Larghezza
 content#:#cont_wysiwyg#:#Contenuto WYSIWYG
 content#:#cont_xml_base#:#basato su xml
 content#:#cont_year#:#Anno
-content#:#copied_to_clipboard#:#Copied object(s) to clipboard.###11 Apr 2004 new variable
+content#:#copied_to_clipboard#:#Oggetti copiati negli appunti.
 content#:#pages from#:#Pagine da
 content#:#par#:#Paragrafo
 content#:#pg#:#Pagina
 content#:#read offline#:#Leggi offline
-content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
+content#:#select_a_file#:#Per favore seleziona un file.
 content#:#st#:#Capitolo
 content#:#start export#:#Inizia l&#039;esportazione
 dateplaner#:#DateText#:#Messaggi
@@ -1892,8 +1892,8 @@ dateplaner#:#changedDates#:#Appuntamenti modificati:
 dateplaner#:#checkforfreetime#:#Cerca intervalli liberi
 dateplaner#:#created#:#Creato
 dateplaner#:#date#:#Appuntamento
-dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes###07 Apr 2004 content changed
-dateplaner#:#date_format_middle#:#m/d/y//month/day/Year###07 Apr 2004 content changed
+dateplaner#:#date_format#:#m/d/Y H:i//mese/giorno/Anno4Cifre Ora24:Minuti
+dateplaner#:#date_format_middle#:#m/d/y//mese/giorno/Anno
 dateplaner#:#del_all#:#Cancella tutti gli appuntamenti
 dateplaner#:#del_one#:#Cancella un appuntamento
 dateplaner#:#delete#:#Cancella
@@ -1928,16 +1928,16 @@ dateplaner#:#dv_whole_rotation#:#Vuoi cancellare tutti gli appuntamenti ricorren
 dateplaner#:#end_date#:#Fine dell'appuntamento
 dateplaner#:#endtime_for_view#:#Ora finale della vista:
 dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###16 Mar 2004 new variable
-dateplaner#:#execute#:#execute choices###07 Apr 2004 new variable
+dateplaner#:#execute#:#scelte eseguite
 dateplaner#:#extra_dates#:#Appuntamento di un giorno
 dateplaner#:#free#:#libero
 dateplaner#:#freetime#:#tempo libero del gruppo
 dateplaner#:#group#:#Gruppo
 dateplaner#:#help_day#:#Vista giornaliera dell'agenda
 dateplaner#:#help_day_l#:#In una vista giornaliera sono visibili tutti gli appuntamenti del giorno scelto.
-dateplaner#:#help_enddate#:#Appuntamento finale - sintassi[dd//mm/yyyy]###14 Apr 2004 content changed
+dateplaner#:#help_enddate#:#Appuntamento finale - sintassi[dd//mm/yyyy]
 dateplaner#:#help_enddate_l#:#Contiene la scadenza dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
-dateplaner#:#help_endrotation#:#Data finale sintassi[dd//mm/yyyy]###14 Apr 2004 content changed
+dateplaner#:#help_endrotation#:#Data finale sintassi[dd//mm/yyyy]
 dateplaner#:#help_endrotation_l#:#In questo giorno la ricorsione terminerà .<br> Il simbolo apre un piccolo calendario per la scelta della data apportuna.
 dateplaner#:#help_endtime#:#Ora finale - sintassi[hh/mm] 24h format
 dateplaner#:#help_endtime_l#:#Contiene l'ora finale dell'appuntamento nel formato 24h.
@@ -1961,16 +1961,16 @@ dateplaner#:#help_properties_alt_l#:#Scegli la chiave dalla finestra dialogo.<br
 dateplaner#:#help_properties_del#:#Cancella la chiave
 dateplaner#:#help_properties_del_l#:#Scegli la chiave dalla finestra dialogo. Clicca il pulsante per cancellare la chiave.
 dateplaner#:#help_properties_import#:#Importazione dei file CSV di Outlook
-dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the dateplanner.###16 Mar 2004 new variable
+dateplaner#:#help_properties_import_l#:#Qui un file CSC pu&#242; essere scelto, il quale deve contenere appuntamenti di Outlook. Questi appuntamenti saranno importati nella Agenda.
 dateplaner#:#help_properties_new#:#Aggiungi una chiave, max. 20 caratteri
 dateplaner#:#help_properties_new_l#:#Aggiungi una nuova chiave nel campo 'Nuova'. Importante: max. 20 caratteri
-dateplaner#:#help_properties_time#:#Displaytime for dayview/weekview###16 Mar 2004 new variable
-dateplaner#:#help_properties_time_l#:#The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.###16 Mar 2004 new variable
+dateplaner#:#help_properties_time#:#Intervallo scelto per la vista giornaliera/settimanale
+dateplaner#:#help_properties_time_l#:#L'intervallo scelto per la vista giornaliera/settimanale pu&#242; essere cambiato. Se gli appuntamenti sono esterni al giorno o alla settimana scelti, l'intervallo sar&#232; esteso per comprenderli. Le impostazioni di base sono 8h -18h.
 dateplaner#:#help_rotation#:#Ripetizione
 dateplaner#:#help_rotation_l#:#Contiene il tipo di rotazione/ripetizione.
 dateplaner#:#help_shorttext#:#Test breve con max. 50 caratteri
 dateplaner#:#help_shorttext_l#:#Qui puoi inserire il testo breve per un appuntamento specifico.
-dateplaner#:#help_startdate#:#Data di inizio - sintassi[dd//mm/yyyy]###14 Apr 2004 content changed
+dateplaner#:#help_startdate#:#Data di inizio - sintassi[dd//mm/yyyy]
 dateplaner#:#help_startdate_l#:#Contiene l'inizio dell'appuntamento. <br> Il simbolo apre un piccolo calendario per la scelta della data appropriata.
 dateplaner#:#help_starttime#:#Ora di inizio - sintassi[hh/mm] formato 24h
 dateplaner#:#help_starttime_l#:#Contiene l'inizio dell'appuntamento usando il formato 24h.
