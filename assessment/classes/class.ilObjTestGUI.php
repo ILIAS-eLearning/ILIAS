@@ -46,8 +46,11 @@ class ilObjTestGUI extends ilObjectGUI
     global $lng;
 	  $lng->loadLanguageModule("assessment");
 		$this->type = "tst";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, $a_prepare_output);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference, false);
 		$this->setTabTargetScript("test.php");
+		if ($a_prepare_output) {
+			$this->prepareOutput();
+		}
 	}
 	
 	/**
@@ -194,48 +197,177 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("SAVE", $this->lng->txt("save"));
 		$this->tpl->setVariable("CANCEL", $this->lng->txt("cancel"));
     $this->tpl->parseCurrentBlock();
-		return;
-    $add_parameter = $this->get_add_parameter();
-    if ($_POST["cmd"]["save"]) {
-      $this->updateObject();
-      return;
-    }
-    if ($_POST["cmd"]["cancel"]) {
-      sendInfo($this->lng->txt("msg_cancel"),true);
-      header("location: ". $this->getReturnLocation("cancel","test.php?ref_id=".$this->ref_id));
-      exit();
-    }
-    $data = array();
-		$data["fields"] = array();
-    if ($_SESSION["error_post_vars"]) {
-      $data["fields"]["title"] = ilUtil::prepareFormOutput($_SESSION["error_post_vars"]["Fobject"]["title"],true);
-      $data["fields"]["desc"] = ilUtil::stripSlashes($_SESSION["error_post_vars"]["Fobject"]["desc"]);
-    } else {
-      $data["fields"]["title"] = $this->object->getTitle();
-      $data["fields"]["desc"] = $this->object->getDescription();
-    }
-		$this->getTemplateFile("edit");
-
-		foreach ($data["fields"] as $key => $val)
-    {
-			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
-      if ($this->prepare_output)
-			{
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-
-		$this->tpl->setVariable("FORMACTION", $_SERVER["PHP_SELF"] . $add_parameter);
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("obj_qpl") . ": " . $this->object->getTitle());
-		$this->tpl->setVariable("TITLE", $data["fields"]["title"]);
-		$this->tpl->setVariable("DESC", $data["fields"]["desc"]);
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("CMD_SUBMIT", "save");
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-    $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
   }
+	
+	function questionBrowser() {
+    global $rbacsystem;
+		
+    $add_parameter = $this->get_add_parameter() . "&insert_question=1";
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_questionbrowser.html", true);
+    $this->tpl->addBlockFile("A_BUTTONS", "a_buttons", "tpl.il_as_qpl_action_buttons.html", true);
+    $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_as_qpl_filter_questions.html", true);
+
+    $filter_fields = array(
+      "title" => $this->lng->txt("title"),
+      "comment" => $this->lng->txt("description"),
+      "author" => $this->lng->txt("author"),
+    );
+    $this->tpl->setCurrentBlock("filterrow");
+    foreach ($filter_fields as $key => $value) {
+      $this->tpl->setVariable("VALUE_FILTER_TYPE", "$key");
+      $this->tpl->setVariable("NAME_FILTER_TYPE", "$value");
+      if (!$_POST["cmd"]["reset"]) {
+        if (strcmp($_POST["sel_filter_type"], $key) == 0) {
+          $this->tpl->setVariable("VALUE_FILTER_SELECTED", " selected=\"selected\"");
+        }
+      }
+      $this->tpl->parseCurrentBlock();
+    }
+    
+    $this->tpl->setCurrentBlock("filter_questions");
+    $this->tpl->setVariable("FILTER_TEXT", $this->lng->txt("filter"));
+    $this->tpl->setVariable("TEXT_FILTER_BY", $this->lng->txt("by"));
+    if (!$_POST["cmd"]["reset"]) {
+      $this->tpl->setVariable("VALUE_FILTER_TEXT", $_POST["filter_text"]);
+    }
+    $this->tpl->setVariable("VALUE_SUBMIT_FILTER", $this->lng->txt("set_filter"));
+    $this->tpl->setVariable("VALUE_RESET_FILTER", $this->lng->txt("reset_filter"));
+    $this->tpl->parseCurrentBlock();
+    
+    if (!$_POST["cmd"]["reset"]) {
+      if (strlen($_POST["filter_text"]) > 0) {
+        switch($_POST["sel_filter_type"]) {
+          case "title":
+            $where = " AND qpl_questions.title LIKE " . $this->ilias->db->db->quote("%" . $_POST["filter_text"] . "%");
+            break;
+          case "comment":
+            $where = " AND qpl_questions.comment LIKE " . $this->ilias->db->db->quote("%" . $_POST["filter_text"] . "%");
+            break;
+          case "author":
+            $where = " AND qpl_questions.author LIKE " . $this->ilias->db->db->quote("%" . $_POST["filter_text"] . "%");
+            break;
+        }
+      }
+    }
+  
+  // create edit buttons & table footer
+		$this->tpl->setCurrentBlock("selection");
+		$this->tpl->setVariable("INSERT", $this->lng->txt("insert"));
+		$this->tpl->parseCurrentBlock();
+    
+    $this->tpl->setCurrentBlock("Footer");
+    $this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"\">");
+    $this->tpl->parseCurrentBlock();
+    
+    $this->tpl->setCurrentBlock("QTab");
+
+    // build sort order for sql query
+    if (count($_GET["sort"])) {
+      foreach ($_GET["sort"] as $key => $value) {
+        switch($key) {
+          case "title":
+            $order = " ORDER BY title $value";
+            $img_title = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "comment":
+            $order = " ORDER BY comment $value";
+            $img_comment = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "type":
+            $order = " ORDER BY question_type_id $value";
+            $img_type = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "author":
+            $order = " ORDER BY author $value";
+            $img_author = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "created":
+            $order = " ORDER BY created $value";
+            $img_created = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+          case "updated":
+            $order = " ORDER BY TIMESTAMP $value";
+            $img_updated = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+            break;
+					case "qpl":
+						$order = " ORDER BY ref_fi $value";
+            $img_qpl = " <img src=\"" . ilUtil::getImagePath(strtolower($value) . "_order.png", true) . "\" alt=\"" . strtolower($value) . "ending order\" />";
+						break;
+        }
+      }
+    }
+
+    // display all questions in accessable question pools
+    $query = "SELECT qpl_questions.*, qpl_question_type.type_tag FROM qpl_questions, qpl_question_type WHERE qpl_questions.question_type_fi = qpl_question_type.question_type_id" . " $where$order";
+    $query_result = $this->ilias->db->query($query);
+    $colors = array("tblrow1", "tblrow2");
+    $counter = 0;
+		$questionpools =& $this->object->get_qpl_titles();
+    if ($query_result->numRows() > 0)
+    {
+			$existing_questions =& $this->object->get_existing_questions();
+      while ($data = $query_result->fetchRow(DB_FETCHMODE_OBJECT))
+      {
+        if (($rbacsystem->checkAccess("read", $data->ref_fi)) and (!in_array($data->question_id, $existing_questions))) {
+          $this->tpl->setVariable("QUESTION_ID", $data->question_id);
+          //if ($rbacsystem->checkAccess('edit', $this->ref_id)) {
+          //  $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&edit=$data->question_id\">$data->title</a>");
+          //} else {
+            $this->tpl->setVariable("QUESTION_TITLE", $data->title);
+          //}
+          $this->tpl->setVariable("PREVIEW", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&preview=$data->question_id\">" . $this->lng->txt("preview") . "</a>");
+          $this->tpl->setVariable("QUESTION_COMMENT", $data->comment);
+          $this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt($data->type_tag));
+          $this->tpl->setVariable("QUESTION_AUTHOR", $data->author);
+          $this->tpl->setVariable("QUESTION_CREATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->created), "date"));
+          $this->tpl->setVariable("QUESTION_UPDATED", ilFormat::formatDate(ilFormat::ftimestamp2dateDB($data->TIMESTAMP), "date"));
+          $this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+          $this->tpl->setVariable("QUESTION_POOL", $questionpools[$data->ref_fi]);
+          $this->tpl->parseCurrentBlock();
+          $counter++;
+        }
+      }
+    }
+    
+    // if there are no questions, display a message
+    if ($counter == 0) {
+      $this->tpl->setCurrentBlock("Emptytable");
+      $this->tpl->setVariable("TEXT_EMPTYTABLE", $this->lng->txt("no_questions_available"));
+      $this->tpl->parseCurrentBlock();
+    }
+    
+    // define the sort column parameters
+    $sort = array(
+      "title" => $_GET["sort"]["title"],
+      "comment" => $_GET["sort"]["comment"],
+      "type" => $_GET["sort"]["type"],
+      "author" => $_GET["sort"]["author"],
+      "created" => $_GET["sort"]["created"],
+      "updated" => $_GET["sort"]["updated"],
+			"qpl" => $_GET["sort"]["qpl"]
+    );
+    foreach ($sort as $key => $value) {
+      if (strcmp($value, "ASC") == 0) {
+        $sort[$key] = "DESC";
+      } else {
+        $sort[$key] = "ASC";
+      }
+    }
+    
+    $this->tpl->setCurrentBlock("adm_content");
+    // create table header
+    $this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[title]=" . $sort["title"] . "\">" . $this->lng->txt("title") . "</a>$img_title");
+    $this->tpl->setVariable("QUESTION_COMMENT", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[comment]=" . $sort["comment"] . "\">" . $this->lng->txt("description") . "</a>$img_comment");
+    $this->tpl->setVariable("QUESTION_TYPE", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[type]=" . $sort["type"] . "\">" . $this->lng->txt("question_type") . "</a>$img_type");
+    $this->tpl->setVariable("QUESTION_AUTHOR", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[author]=" . $sort["author"] . "\">" . $this->lng->txt("author") . "</a>$img_author");
+    $this->tpl->setVariable("QUESTION_CREATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[created]=" . $sort["created"] . "\">" . $this->lng->txt("create_date") . "</a>$img_created");
+    $this->tpl->setVariable("QUESTION_UPDATED", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[updated]=" . $sort["updated"] . "\">" . $this->lng->txt("last_update") . "</a>$img_updated");
+		$this->tpl->setVariable("QUESTION_POOL", "<a href=\"" . $_SERVER["PHP_SELF"] . "$add_parameter&sort[qpl]=" . $sort["qpl"] . "\">" . $this->lng->txt("obj_qpl") . "</a>$img_qpl");
+    $this->tpl->setVariable("BUTTON_BACK", $this->lng->txt("back"));
+    $this->tpl->setVariable("ACTION_QUESTION_FORM", $_SERVER["PHP_SELF"] . $add_parameter);
+    $this->tpl->parseCurrentBlock();
+	}
 
 	function questionsObject() {
     $add_parameter = $this->get_add_parameter();
@@ -244,15 +376,35 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->question_move_up($_GET["up"]);
 		}
 		if ($_GET["down"] > 0) {
-			$this->object->question_move_up($_GET["down"]);
+			$this->object->question_move_down($_GET["down"]);
 		}
-		if ($_POST["cmd"]["insert_question"]) {
-			//header("location:il_as_question_manager.php");
-			exit();
+		if (($_POST["cmd"]["insert_question"]) or ($_GET["insert_question"])) {
+			$show_questionbrowser = true;
+			if ($_POST["cmd"]["insert"]) {
+				// insert selected questions into test
+				$selected_counter = 0;
+				foreach ($_POST as $key => $value) {
+					if (preg_match("/cb_(\d+)/", $key, $matches)) {
+						$this->object->insert_question($matches[1]);
+						$selected_counter++;
+					}
+				}
+				if (!$selected_counter) {
+					sendInfo($this->lng->txt("tst_insert_missing_question"));
+				} else {
+					$show_questionbrowser = false;
+				}
+			}
+			if ($_POST["cmd"]["back"]) {	
+				$show_questionbrowser = false;
+			}
+			if ($show_questionbrowser) {
+				$this->questionBrowser();
+				return;
+			}
 		}
 		if ($_POST["cmd"]["create_question"]) {
 			//header("location:il_as_question_composer.php?sel_question_types=" . $_POST["sel_question_types"]);
-			exit();
 		}
 		if (strlen($_POST["cmd"]["remove"]) > 0) {
 			$checked_questions = array();
