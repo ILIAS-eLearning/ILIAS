@@ -799,6 +799,7 @@ common#:#file_edit_permission#:#Change Permission settings
 common#:#file_new#:#New File
 common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
+common#:#file_notice#:#Please take care of the filesizelimit of  
 common#:#file_read#:#Download File
 common#:#file_valid#:#File is valid!
 common#:#file_version#:#Version Provided in File
