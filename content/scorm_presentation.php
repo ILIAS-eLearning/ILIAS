@@ -54,7 +54,7 @@ require_once "./content/classes/SCORM/class.ilSCORMPresentationGUI.php";
 //	session_register($lm_locklist);
 	//echo $_GET["obj_id"]." wurde soeben gelockt!";
 //} elseif ($locked) {
-	//echo $_GET["obj_id"]." ist gesperrt fuer Login: ".$ilias->account->login;
+//	echo $_GET["obj_id"]." ist gesperrt fuer Login: ".$ilias->account->login;
 //}
 //if (!($_GET["obj_id"])) {
 	$scorm_presentation = new ilSCORMPresentationGUI();
