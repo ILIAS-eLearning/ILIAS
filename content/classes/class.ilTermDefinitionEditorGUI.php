@@ -101,15 +101,11 @@ class ilTermDefinitionEditorGUI
 					break;
 
 				case "confirmDefinitionDeletion":
-					$this->confirmDefinitionDeletion();
-					break;
-
 				case "cancelDefinitionDeletion":
-					$this->cancelDefinitionDeletion();
-					break;
-
 				case "deleteDefinition":
-					$this->deleteDefinition();
+				case "moveDown":
+				case "moveUp":
+					$this->$cmd();
 					break;
 
 				default:
@@ -154,6 +150,24 @@ class ilTermDefinitionEditorGUI
 	function deleteDefinition()
 	{
 		$this->definition->delete();
+		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
+			"&term_id=".$this->term->getId());
+		exit;
+	}
+
+
+	function moveUp()
+	{
+		$this->definition->moveUp();
+		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
+			"&term_id=".$this->term->getId());
+		exit;
+	}
+
+
+	function moveDown()
+	{
+		$this->definition->moveDown();
 		header("Location: glossary_edit.php?ref_id=".$_GET["ref_id"]."&cmd=listDefinitions".
 			"&term_id=".$this->term->getId());
 		exit;

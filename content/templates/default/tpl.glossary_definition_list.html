@@ -3,6 +3,7 @@ body { margin:0px; }
 </style>
 {LOCATOR}
 <div class="invisible_border">
+<form action="{FORMACTION}" name="post" method="post">
 <div class="il_Header"><h1>{TXT_HEADER}</h1>
 <div class="il_Tab">
 {TABS}
@@ -19,8 +20,20 @@ body { margin:0px; }
 </td></tr></table>
 <br />
 <a class="submit" href="{LINK_EDIT}">{TXT_EDIT}</a>&nbsp;&nbsp;
-<a class="submit" href="{LINK_DELETE}">{TXT_DELETE}</a>
+<a class="submit" href="{LINK_DELETE}">{TXT_DELETE}</a>&nbsp;&nbsp;
+<!-- BEGIN up -->
+<a class="submit" href="{LINK_UP}">{TXT_UP}</a>&nbsp;&nbsp;
+<!-- END up -->
+<!-- BEGIN down -->
+<a class="submit" href="{LINK_DOWN}">{TXT_DOWN}</a>&nbsp;&nbsp;
+<!-- END down -->
 <br /><br />
 <!-- END definition -->
 </div>
+<table class="fullwidth">
+<tr class="std">
+	<td class="submit"><input type="submit" class="submit" name="cmd[{BTN_ADD}]" value="{TXT_ADD_DEFINITION}"></td>
+</tr>
+</table>
+</form>
 </div>
