@@ -35,20 +35,25 @@ class ilValidator extends PEAR
 	* name of RecoveryFolder
 	* @var	string
 	*/
-	var $recovery_folder_name = "__Recovered Objects";
-	
+	var $rfolder_name = "__Restored Objects";
+
 	/**
 	* ref_id of RecoveryFolder
 	* @var	integer
 	*/
-	var $recovery_folder_ref_id;
+	var $rfolder_ref_id = NULL;
 
 	/**
 	* all valid rbac object types
-	* @var	arrayr
+	* @var	string
 	*/
-	var $rbac_object_types;
-	
+	var $rbac_object_types = NULL;
+
+	/**
+	* list of object types to exclude from recovering
+	* @var	array
+	*/
+	var $object_types_exclude = array("adm","root","ldap","mail","usrf","objf","lngf");
 	
 	/**
 	* set mode
@@ -57,35 +62,56 @@ class ilValidator extends PEAR
 	var $mode = array(
 						"analyze"		=> true,
 						"clean" 		=> false,
-						"recover"		=> false,
+						"restore"		=> false,
 						"empty_trash"	=> false
 					);
-	
-	
+
+	/**
+	* unbound references
+	* @var	array
+	*/
+	var $unbound_references = array();
+
+	/**
+	* unbound childs (tree entries)
+	* @var	array
+	*/
+	var $unbound_childs = array();
+
+	/**
+	* missing objects
+	* @var	array
+	*/
+	var $missing_objects = array();
+
+	/**
+	* childs with invalid parent
+	* @var	array
+	*/
+	var $childs_with_invalid_parent = array();
+
 	/**
 	* Constructor
 	* 
 	* @access	public
 	* @param	integer	mode
-	* 
 	*/
 	function ilValidator()
 	{
 		global $objDefinition, $ilDB;
 		
 		$this->PEAR();
-		
-        $this->setErrorHandling(PEAR_ERROR_CALLBACK,array(&$this, 'handleErr'));
-
-		$this->rbac_object_types = "'".implode("','",$objDefinition->getAllRBACObjects())."'";
 		$this->db =& $ilDB;
+		$this->rbac_object_types = "'".implode("','",$objDefinition->getAllRBACObjects())."'";
+        $this->setErrorHandling(PEAR_ERROR_CALLBACK,array(&$this, 'handleErr'));
 	}
-	
+
 	/**
 	* set mode of ilValidator
-	* Usage: setMode("recover",true)	=> enable object recovery
+	* Usage: setMode("restore",true)	=> enable object restorey
 	* 		 setMode("all",true) 		=> enable all features
-	* 		For all possible modes see variables declaration
+	* 		 For all possible modes see variables declaration
+	*
 	* @access	public
 	* @param	string	mode
 	* @param	boolean	value (true=enable/false=disable)
@@ -115,20 +141,35 @@ class ilValidator extends PEAR
 	}
 	
 	/**
-	* Gets all object entries with missing reference and/or tree entry.
-	* Returns
-	*		obj_id		=> actual object entry with missing reference or tree
-	*		type		=> symbolic name of object type
-	*		ref_id		=> reference entry of object (or NULL if missing)
-	* 		child		=> always NULL (only for debugging and verification)
+	* Is a particular mode enabled?
+	*
+	* @access	public
+	* @param	string	mode to query
+	* @return	boolean
+	*/
+	function isModeEnabled($a_mode)
+	{
+		if (!in_array($a_mode,array_keys($this->mode)))
+		{
+			$this->throwError(VALIDATER_UNKNOWN_MODE, WARNING, DEBUG);
+			return false;
+		}
+		
+		return $this->mode[$a_mode];
+	}
+
+	/**
+	* Search database for all object entries with missing reference and/or tree entry
+	* and stores result in $this->missing_objects
 	* 
 	* @access	public
-	* @return	array/boolean	false if analyze mode disabled
+	* @return	boolean	false if analyze mode disabled or nothing found
+	* @see		this::getMissingObjects()
 	* @see		this::restoreMissingObjects()
 	*/
-	function getMissingObjects()
+	function findMissingObjects()
 	{
-
+		// check mode: analyze
 		if ($this->mode["analyze"] !== true)
 		{
 			return false;
@@ -143,26 +184,47 @@ class ilValidator extends PEAR
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$arr_objs[] = array(
-								"obj_id"	=> $row->obj_id,
-								"type"		=> $row->type,
-								"ref_id"	=> $row->ref_id,
-								"child"		=> $row->child
-								);
+			$this->missing_objects[] = array(
+											"obj_id"	=> $row->obj_id,
+											"type"		=> $row->type,
+											"ref_id"	=> $row->ref_id,
+											"child"		=> $row->child
+											);
 		}
 
-		return $arr_objs ? $arr_objs : array();
+		return (count($this->missing_objects) > 0) ? true : false;
 	}
 
 	/**
-	* Gets all reference entries that are linked with invalid object IDs
+	* Gets all object entries with missing reference and/or tree entry.
+	* Returns array with
+	*		obj_id		=> actual object entry with missing reference or tree
+	*		type		=> symbolic name of object type
+	*		ref_id		=> reference entry of object (or NULL if missing)
+	* 		child		=> always NULL (only for debugging and verification)
 	* 
 	* @access	public
-	* @return	array/boolean	reference entries or false if analyze mode disabled
-	* @see		this::removeUnboundedReferences()
-	*/	
-	function getUnboundedReferences()
+	* @return	array
+	* @see		this::findMissingObjects()
+	* @see		this::restoreMissingObjects()
+	*/
+	function getMissingObjects()
 	{
+		return $this->missing_objects;
+	}
+
+	/**
+	* Search database for all reference entries that are not linked with a valid object id
+	* and stores result in $this->unbound_references
+	* 
+	* @access	public
+	* @return	boolean	false if analyze mode disabled or nothing found
+	* @see		this::getUnboundReferences()
+	* @see		this::removeUnboundReferences()
+ 	*/	
+	function findUnboundReferences()
+	{
+		// check mode: analyze
 		if ($this->mode["analyze"] !== true)
 		{
 			return false;
@@ -176,24 +238,40 @@ class ilValidator extends PEAR
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$arr_objs[] = array(
-								"ref_id"	=> $row->ref_id,
-								"obj_id"	=> $row->obj_id
-								);
+			$this->unbound_references = array(
+											"ref_id"	=> $row->ref_id,
+											"obj_id"	=> $row->obj_id
+											);
 		}
 
-		return $arr_objs ? $arr_objs : array();
+		return (count($this->unbound_references) > 0) ? true : false;
 	}
 
 	/**
-	* Gets all tree entries without any link to a valid object
+	* Gets all reference entries that are not linked with a valid object id.
 	* 
 	* @access	public
-	* @return	array/boolean	false if analyze mode disabled
-	* @see		this::removeUnboundedChilds()
-	*/
-	function getUnboundedChilds()
+	* @return	array
+	* @see		this::findUnboundReferences()
+	* @see		this::removeUnboundedReferences()
+	*/	
+	function getUnboundReferences()
 	{
+		return $this->unbound_references;
+	}
+
+	/**
+	* Search database for all tree entries without any link to a valid object
+	* and stores result in $this->unbound_childs
+	* 
+	* @access	public
+	* @return	boolean	false if analyze mode disabled or nothing found
+	* @see		this::getUnboundChilds()
+	* @see		this::removeUnboundChilds()
+	*/
+	function findUnboundChilds()
+	{
+		// check mode: analyze
 		if ($this->mode["analyze"] !== true)
 		{
 			return false;
@@ -206,30 +284,40 @@ class ilValidator extends PEAR
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$arr_objs[] = array(
-								"child"		=> $row->child,
-								"ref_id"	=> $row->ref_id
-								);
+			$this->unbound_childs[] = array(
+											"child"		=> $row->child,
+											"ref_id"	=> $row->ref_id
+											);
 		}
 
-		return $arr_objs ? $arr_objs : array();
+		return (count($this->unbound_childs) > 0) ? true : false;
 	}
 
 	/**
-	* Gets all tree entries having no valid parent (=> no valid path to root node)
-	* Returns an array with
-	*		child		=> actual entry with broken uplink to its parent
-	*		parent		=> parent of child that does not exist
-	*		grandparent	=> grandparent of child (where path to root node continues)
-	* 		deleted		=> containing a negative number (= parent in trash) or NULL (parent does not exists at all)
+	* Gets all tree entries without any link to a valid object
 	* 
 	* @access	public
-	* @return	array/boolean	array of invalid tree entries or false if analyze mode disabled
-	* @see		this::restoreUnboundedChilds()
-	* 
+	* @return	array
+	* @see		this::findUnboundChilds()
+	* @see		this::removeUnboundChilds()
 	*/
-	function getChildsWithInvalidParents()
+	function getUnboundChilds()
 	{
+		return $this->unbound_childs;
+	}
+
+	/**
+	* Search database for all tree entries having no valid parent (=> no valid path to root node)
+	* and stores result in $this->childs-with_invalid_parent
+	*
+	* @access	public
+	* @return	boolean	false if analyze mode disabled or nothing found
+	* @see		this::getChildsWithInvalidParent()
+	* @see		this::restoreUnboundedChilds()
+	*/
+	function findChildsWithInvalidParent()
+	{
+		// check mode: analyze
 		if ($this->mode["analyze"] !== true)
 		{
 			return false;
@@ -242,37 +330,72 @@ class ilValidator extends PEAR
 		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$arr_objs[] = array(
-								"child"			=> $row->child,
-								"parent"		=> $row->parent,
-								"grandparent"	=> $row->grandparent,
-								"deleted"		=> $row->deleted
-								);
+			$this->childs_with_invalid_parent = array(
+													"child"			=> $row->child,
+													"parent"		=> $row->parent,
+													"grandparent"	=> $row->grandparent,
+													"deleted"		=> $row->deleted
+													);
 		}
 
-		return $arr_objs ? $arr_objs : array();
+		return (count($this->childs_with_invalid_parent) > 0) ? true : false;
 	}
-	
+
+	/**
+	* Gets all tree entries having no valid parent (=> no valid path to root node)
+	* Returns an array with
+	*		child		=> actual entry with broken uplink to its parent
+	*		parent		=> parent of child that does not exist
+	*		grandparent	=> grandparent of child (where path to root node continues)
+	* 		deleted		=> containing a negative number (= parent in trash) or NULL (parent does not exists at all)
+	* 
+	* @access	public
+	* @return	array
+	* @see		this::findChildsWithInvalidParent()
+	* @see		this::restoreUnboundedChilds()
+	*/
+	function getChildsWithInvalidParent()
+	{
+		return $this->childs_with_invalid_parent;
+	}
+
 	/**
 	* Removes all reference entries that are linked with invalid object IDs
 	* 
 	* @access	public
-	* @param	array	invalid IDs in object_reference
+	* @param	array	invalid IDs in object_reference (optional)
 	* @return	boolean	true if any ID were removed / false on error or clean mode disabled
-	* @see		this::getUnboundenReferences()
+	* @see		this::getUnboundReferences()
+	* @see		this::findUnboundReferences()
 	*/
-	function removeUnboundedReferences($a_unbound_refs)
+	function removeUnboundReferences($a_unbound_refs = NULL)
 	{
-		if (!is_array($a_unbound_refs) or count($a_unbound_refs) == 0)
-		{
-			$this->throwError(INVALID_PARAM, FATAL, DEBUG);
-			return false;
-		}
-
+		// check mode: clean
 		if ($this->mode["clean"] !== true)
 		{
 			return false;
 		}
+
+		if ($a_unbound_refs === NULL and isset($this->unbound_references))
+		{
+			$a_unbound_refs =& $this->unbound_references; 
+		}
+
+		// handle wrong input
+		if (!is_array($a_unbound_refs))
+		{
+			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
+			return false;
+		}
+		// no unbound references found. do nothing
+		if (count($a_unbound_refs) == 0)
+		{
+			return false;
+		}
+
+/*******************
+restore starts here
+********************/
 
 		foreach ($a_unbound_refs as $entry)
 		{
@@ -287,22 +410,40 @@ class ilValidator extends PEAR
 	* Removes all tree entries without any link to a valid object
 	* 
 	* @access	public
-	* @param	array	invalid IDs in tree
+	* @param	array	invalid IDs in tree (optional)
 	* @return	boolean	true if any ID were removed / false on error or clean mode disabled
-	* @see		this::getUnboundenChilds()
+	* @see		this::getUnboundChilds()
+	* @see		this::findUnboundChilds()
 	*/
-	function removeUnboundedChilds($a_unbound_childs)
+	function removeUnboundChilds($a_unbound_childs = NULL)
 	{
-		if (!is_array($a_unbound_childs) or count($a_unbound_childs) == 0)
-		{
-			$this->throwError(INVALID_PARAM, FATAL, DEBUG);
-			return false;
-		}
-
+		// check mode: clean
 		if ($this->mode["clean"] !== true)
 		{
 			return false;
 		}
+
+		if ($a_unbound_childs === NULL and isset($this->unbound_childs))
+		{
+			$a_unbound_childs =& $this->unbound_childs; 
+		}
+
+		// handle wrong input
+		if (!is_array($a_unbound_childs))
+		{
+			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
+			return false;
+		}
+
+		// no unbound childs found. do nothing
+		if (count($a_unbound_childs) == 0)
+		{
+			return false;
+		}
+
+/*******************
+remove starts here
+********************/
 
 		foreach ($a_unbound_childs as $entry)
 		{
@@ -312,37 +453,65 @@ class ilValidator extends PEAR
 		
 		return true;	
 	}
-	
+
 	/**
 	* Restores missing reference and/or tree entry for all objects found by this::getMissingObjects()
-	* Retored object are placed RecoveryFolder defined in this::recovery_folder_name
+	* Restored object are placed in RecoveryFolder defined in this::rfolder_name
+	* 
 	* @access	public
-	* @param	object	RecoveryFolder
-	* @param	array	object IDs
-	* @return	boolean	true if any object were restored / false on error or recover mode disabled
+	* @param	integer	ref_id of RecoveryFolder (optional)
+	* @param	array	obj_ids of missing objects (optional)
+	* @return	boolean	true if any object were restored / false on error or restore mode disabled
 	* @see		this::getMissingObjects()
+	* @see		this::findMissingObjects()
 	*/
-	function restoreMissingObjects(&$a_objRecover,$a_objs_no_ref)
+	function restoreMissingObjects($a_rfolder_ref_id = NULL,$a_missing_objects = NULL)
 	{
 		global $tree;
 
-		if (!is_object($a_objRecover) or !is_array($a_objs_no_ref) or count($a_objs_no_ref) == 0)
+		// check mode: restore
+		if ($this->mode["restore"] !== true)
 		{
-			$this->throwError(INVALID_PARAM, FATAL, DEBUG);
 			return false;
 		}
 
-		if ($this->mode["recover"] !== true)
+		if ($a_rfolder_ref_id === NULL)
+		{
+			if ($this->rfolder_ref_id !== NULL)
+			{
+				$a_rfolder_ref_id = $this->rfolder_ref_id;
+			}
+			else
+			{
+				$a_rfolder_ref_id = $this->getRecoveryFolderId();
+			}
+		}
+
+		if ($a_missing_objects === NULL and isset($this->missing_objects))
+		{
+			$a_missing_objects = $this->missing_objects;
+		}
+
+		// handle wrong input
+		if (!is_integer($a_rfolder_ref_id) or !is_array($a_missing_objects)) 
+		{
+			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
+			return false;
+		}
+
+		// no missing objectss found. do nothing
+		if (count($a_missing_objects) == 0)
 		{
 			return false;
 		}
 		
+/*******************
+restore starts here
+********************/
+
 		$restored = false;
 		
-		// list of excluded objects
-		$obj_types_excluded = array("adm","root","ldap","mail","usrf","objf","lngf");
-
-		foreach ($a_objs_no_ref as $missing_obj)
+		foreach ($a_missing_objects as $missing_obj)
 		{
 			// restore ref_id in case of missing
 			if ($missing_obj["ref_id"] == NULL)
@@ -350,10 +519,10 @@ class ilValidator extends PEAR
 				$missing_obj["ref_id"] = $this->restoreReference($missing_obj["obj_id"]);
 			}
 			
-			// put in tree under recover category if not on exclude list
-			if (!in_array($missing_obj["type"],$obj_types_excluded))
+			// put in tree under RecoveryFolder if not on exclude list
+			if (!in_array($missing_obj["type"],$this->object_types_exclude))
 			{
-				$tree->insertNode($missing_obj["ref_id"],$a_objRecover->getRefId());
+				$tree->insertNode($missing_obj["ref_id"],$a_rfolder_ref_id);
 				$restored = true;
 			}
 			
@@ -362,19 +531,21 @@ class ilValidator extends PEAR
 		
 		return $restored;
 	}
-	
+
 	/**
 	* restore a reference for an object
 	* Creates a new reference entry in DB table object_reference for $a_obj_id
+	* 
 	* @param	integer	obj_id
 	* @access	private
 	* @return	integer/boolean	generated ref_id or false on error
+	* @see		this::restoreMissingObjects()	
 	*/
 	function restoreReference($a_obj_id)
 	{
 		if (empty($a_obj_id))
 		{
-			$this->setError(INVALID_PARAM,"restoreReference");
+			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
 			return false;
 		}
 		
@@ -385,33 +556,62 @@ class ilValidator extends PEAR
 	}
 
 	/**
-	* restore subtrees
-	* @param	object	category object for recovered objects
-	* @param	array	list of childs with invalid parents
+	* Restore objects (and their subobjects) that are valid but not linked correctly
+	* to the hierarchy because they point to an invalid parent_id
+	*
 	* @access	public
-	* @return	boolean false on error or recover mode disabled
+ 	* @param	integer	ref_id of RecoveryFolder (optional)
+	* @param	array	list of childs with invalid parents (optional)
+	* @return	boolean false on error or restore mode disabled
 	* @see		this::getChildsWithInvalidParent()
+	* @see		this::findChildsWithInvalidParent()
 	*/
-	function restoreUnboundedChilds(&$a_objRecover,$a_childs_no_parent)
+	function restoreUnboundChilds($a_rfolder_ref_id = NULL,$a_childs_with_invalid_parent = NULL)
 	{
 		global $tree,$rbacadmin,$ilias;
 
-		if (!is_object($a_objRecover) or !is_array($a_childs_no_parent) or count($a_childs_no_parent) == 0)
-		{
-			$this->throwError(INVALID_PARAM,"restoreUnboundChilds");
-			return false;
-		}
-
-		if ($this->mode["recover"] !== true)
+		// check mode: restore
+		if ($this->mode["restore"] !== true)
 		{
 			return false;
 		}
 		
-		// list of excluded objects
-		$obj_types_excluded = array("adm","root","ldap","mail","usrf","objf","lngf");
+		if ($a_rfolder_ref_id === NULL)
+		{
+			if ($this->rfolder_ref_id !== NULL)
+			{
+				$a_rfolder_ref_id = $this->rfolder_ref_id;
+			}
+			else
+			{
+				$a_rfolder_ref_id = $this->getRecoveryFolderId();
+			}
+		}
+		
+		if ($a_childs_with_invalid_parent === NULL and isset($this->childs_with_invalid_parent))
+		{
+			$a_childs_with_invalid_parent = $this->childs_with_invalid_parent;
+		}
 
+		// handle wrong input
+		if (!is_integer($a_rfolder_ref_id) or !is_array($a_childs_with_invalid_parent)) 
+		{
+			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
+			return false;
+		}
+
+		// no invalid parents found. do nothing
+		if (count($a_childs_with_invalid_parent) == 0)
+		{
+			return false;
+		}
+		
+/*******************
+restore starts here
+********************/
+		
 		// process move subtree
-		foreach ($a_childs_no_parent as $entry)
+		foreach ($a_childs_with_invalid_parent as $entry)
 		{
 			// get node data
 			$top_node = $tree->getNodeData($entry["child"]);
@@ -462,73 +662,71 @@ class ilValidator extends PEAR
 		
 		return true;
 	}
-	
+
 	/**
-	* Gets the RecoveryFolder. Looks for an object named this::recovery_folder_name
-	* and returns its ref_id. If RecoveryFolder is not found
-	* RecoveryFolder will be created by calling private method this::creatRecoveryFolder().
+	* Gets reference id of RecoveryFolder. Looks for an object named this::rfolder_name
+	* and returns its ref_id. If RecoveryFolder is not found it will be created by calling private method this::creatRecoveryFolder().
 	* 
 	* @access	public
-	* @return	object	RecoveryFolder (category object)
+	* @return	integer	ref_id of RecoveryFolder
+	* @see		this::restoreUnboundedChilds()
+	* @see		this::restoreMissingObjects()
 	*/
-	function getRecoveryFolder()
+	function getRecoveryFolderId()
 	{
 		global $ilias;
 		
-		if (is_integer($this->recovery_folder_ref_id))
+		if (is_integer($this->rfolder_ref_id))
 		{
-			return $ilias->obj_factory->getInstanceByRefId($this->recovery_folder_ref_id);
+			return $this->rfolder_ref_id;
 		}
 		
+		// RecoveryFolder not set. Fetch from database
 		$q = "SELECT ref_id FROM object_reference ".
 			 "LEFT JOIN object_data ON object_data.obj_id=object_reference.obj_id ".
-			 "WHERE object_data.title = '".$this->recovery_folder_name."'";
+			 "WHERE object_data.title = '".$this->rfolder_name."'";
 		$r = $this->db->getRow($q);
 
+		// RecoveryFolder does not exists. Create one
 		if (!$r->ref_id)
 		{
-			if ($this->mode["recover"] !== true)
-			{
-				return false;
-			}
-			else
-			{
-				return $this->createRecoveryFolder();
-			}
+			return $this->createRecoveryFolder();
 		}
 		else
 		{
-			$this->recovery_folder_ref_id = $r->ref_id;
-			return $ilias->obj_factory->getInstanceByRefId($r->ref_id);
+			$this->rfolder_ref_id = (int) $r->ref_id;
+
+			return $this->rfolder_ref_id;
 		}
 	}
-	
+
 	/**
 	* create the RecoveryFolder. RecoveryFolder is a category object and 
 	* will be created under ILIAS root node by default.
+	*
 	* @access	private
 	* @param	integer	ref_id of parent object where RecoveryFolder should be created (optional)
-	* @return	object	RecoveryFolder (=> category object)
-	* @see		this::getRecoveryFolder()
+	* @return	integer	ref_id of RecoveryFolder
+	* @see		this::getRecoveryFolderId()
  	*/
 	function createRecoveryFolder($a_parent_id = ROOT_FOLDER_ID)
 	{
 		include_once "classes/class.ilObjCategory.php";
 		$objRecover = new ilObjCategory();
-		$objRecover->setTitle(ilUtil::stripSlashes($this->recovery_folder_name));
-		$objRecover->setDescription(ilUtil::stripSlashes("Contains restored objects by recovery tool"));
+		$objRecover->setTitle(ilUtil::stripSlashes($this->rfolder_name));
+		$objRecover->setDescription(ilUtil::stripSlashes("Contains objects restored by recovery tool"));
 		$objRecover->create();
 		$objRecover->createReference();
 		$objRecover->putInTree($a_parent_id);
 		$objRecover->addTranslation($objRecover->getTitle(),$objRecover->getDescription(),"en",1);
-		// don't set any permissions -> recoveryfolder only accessible by admins
-		//$objRecover->setPermissions(ROOT_FOLDER_ID);
-		
-		$this->recovery_folder_ref_id = $objRecover->getRefId();
+		// don't set any permissions -> RecoveryFolder is only accessible by admins
 
-		return $objRecover;
+		$this->rfolder_ref_id = (int) $objRecover->getRefId();
+		unset($objRecover);
+
+		return $this->rfolder_ref_id;
 	}
-	
+
 	/**
 	* close gaps in lft/rgt values of a tree
 	* Wrapper for ilTree::renumber()
@@ -541,18 +739,20 @@ class ilValidator extends PEAR
 	{
 		global $tree;
 		
+		// check mode: clean
 		if ($this->mode["clean"] !== true)
 		{
 			return false;
 		}
 
 		$tree->renumber(ROOT_FOLDER_ID);
+
 		return true;
 	}
-	
+
 	/**
 	* Callback function
-	* handles error of PEAR_error
+	* handles PEAR_error and outputs detailed infos about error
 	* TODO: implement that in global errorhandler of ILIAS (via templates)
 	* 
 	* @access	private
@@ -604,14 +804,14 @@ class ilValidator extends PEAR
 			}
 		}
 
-		$err_msg = "<br/><b>".$error->getCode()." error:</b> ".$error->getMessage()." in ".$call_loc["class"].$call_loc["type"].$call_loc["function"].
+		$err_msg = "<br/><b>".$error->getCode().":</b> ".$error->getMessage()." in ".$call_loc["class"].$call_loc["type"].$call_loc["function"]."()".
 				   "<br/>Called from: ".basename($call_loc["file"])." , line ".$call_loc["line"].
-				   "<br/>Passed parameters: [".$num_args."] ".$arg_str;
+				   "<br/>Passed parameters: [".$num_args."] ".$arg_str."<br/>";
 		printf($err_msg);
 		
 		if ($error->getUserInfo())
 		{
-			printf("<br/><br/>Parameter details:");
+			printf("<br/>Parameter details:");
 			echo "<pre>";
 			var_dump($call_loc["args"]);
 			echo "</pre>";

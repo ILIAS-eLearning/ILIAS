@@ -37,66 +37,97 @@ require_once "./include/inc.header.php";
 require_once "./classes/class.ilValidator.php";
 
 // error codes
-define("INVALID_PARAM",INVALID_PARAM);
+//define("INVALID_PARAM",INVALID_PARAM);
 
 $validator = new ilValidator();
+$validator->setMode("all",true);
 
-//$validator->setMode("all",true);
+// STEP 1: Analyzing: Get all incomplete entries
+echo "<br/><br/>Analyzing...";
 
-// general clean up first
-
-// remove unbound references
-$unbound_refs = $validator->getUnboundedReferences();
-vd("unbound_refs",$unbound_refs);
-
-$refs_removed = $validator->removeUnboundedReferences($unbound_refs);
-
-if ($refs_removed)
+echo "<br/>Search unbound references...";
+if ($validator->findUnboundReferences())
 {
-	echo "references removed";
+	echo "done (".count($validator->getUnboundReferences())." found).";
+}
+else
+{
+	echo "nothing found.";
 }
 
-// remove unbound tree entries (childs without any reference)
-$unbound_childs = $validator->getUnboundedChilds();
-vd("unbound_childs",$unbound_childs);
-
-$childs_removed = $validator->removeUnboundedChilds($unbound_childs);
-
-if ($childs_removed)
+echo "<br/>Search for unbound tree entries...";
+if ($validator->findUnboundChilds())
 {
-	echo "childs removed";
+	echo "done (".count($validator->getUnboundChilds())." found).";
+}
+else
+{
+	echo "nothing found.";
 }
 
-// create category containing recovered objects
-$objRecover = $validator->getRecoveryFolder();
-
-
-// save unbounded objects and childs with invalid parent to category '__recovered'
-$objs_no_ref = $validator->getMissingObjects();
-vd("missing_overall",$objs_no_ref);
-
-$objs_restored = $validator->restoreMissingObjects($objRecover,$objs_no_ref);
-
-if ($objs_restored)
+echo "<br/>Search for missing objects...";
+if ($validator->findMissingObjects())
 {
-	echo "Missing objects restored";
+	echo "done (".count($validator->getMissingObjects())." found).";
+}
+else
+{
+	echo "nothing found.";
 }
 
-// restore childs with invalid parents
-$childs_invalid_parent = $validator->getChildsWithInvalidParents();
-vd("invalid_parents",$childs_invalid_parent);
+// STEP 2: Cleaning: Remove unbound references & tree entries
+echo "<br/><br/>Cleaning...";
 
-$childs_restored = $validator->restoreUnboundedChilds($objRecover,$childs_invalid_parent);
-
-if ($childs_restored)
+echo "<br/>Removing unbound references...";
+if ($validator->removeUnboundReferences())
 {
-	echo "Unbounded childs restored";
+	echo "done.";
+}
+else
+{
+	echo "none. passed.";
 }
 
-// close gaps in tree
+echo "<br/>Removing unbound tree entries...";
+if ($validator->removeUnboundChilds())
+{
+	echo "done.";
+}
+else
+{
+	echo "none. passed.";
+}
+
+// STEP 3: Restore objects
+echo "<br/><br/>Restoring...";
+
+echo "<br/>Restoring missing Objects...";
+if ($validator->restoreMissingObjects())
+{
+	echo "done.";
+}
+else
+{
+	echo "none. passed.";
+}
+
+echo "<br/>Restoring unbounded childs & subtree entries...";
+$validator->getChildsWithInvalidParent();
+if ($validator->restoreUnboundChilds())
+{
+	echo "done.";
+}
+else
+{
+	echo "none. passed.";
+}
+
+
+// STEP $: Close gaps in tree
+echo "<br/><br/>Cleaning...";
 if ($validator->closeGapsInTree())
 {
-	echo "Closed gaps in tree (left/right values)";
+	echo "<br/>Closed gaps in tree...done";
 }
 
 // check RBAC starts here
