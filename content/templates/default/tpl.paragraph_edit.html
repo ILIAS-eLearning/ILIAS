@@ -317,10 +317,10 @@ function storeCaret(textEl) {
 
 <div id="footnotelist"></div>
 
-<div id="subformeditor" style="visibility:hidden;">
+<div id="subformeditor" style="visibility:visible;">
 <p>
 <form name="subform">
-<textarea rows=3 cols=80 style="width=100%" name="subform" id="subform"></textarea>
+<textarea rows=3 cols=80 style="width:100%" name="subform" id="subform"></textarea>
 </form>
 </div>
 
@@ -341,6 +341,7 @@ var subeditor = null;
 
 function initSubEditor(TextAreaName) 
 {
+// {{{
   subeditor = new HTMLArea(TextAreaName);
   var subcfg = subeditor.config; // this is the default configuration
 
@@ -360,13 +361,13 @@ function initSubEditor(TextAreaName)
   subeditor.config = subcfg;
   subeditor.generate();
   return false;
-	
- }
+	// }}}
+}
 
 
 function initEditor(TextAreaName) 
 {
-
+// {{{
 /**
 * <p> in IE while <br /> in Mozilla
 * see: http://www.htmlarea.com/forum/htmlArea_3_(beta)_C4/htmlArea_v3.0_-_Beta_Release_F14/gforum.cgi?post=36031;search_string=linebreak;guest=10274569&t=search_engine#36031
@@ -455,7 +456,7 @@ function initEditor(TextAreaName)
 				  	if (checkAllowTagInside("code"))
 					{
                     	//editor.surroundHTML('<code>', '</code>');
-						addTagInEditor("code", "");
+						addTagInEditor("code", "ilc_Code");
 					}
                   }
     });
@@ -550,7 +551,7 @@ function initEditor(TextAreaName)
 		  "ilias-str", "ilias-emp", "ilias-com", "ilias-quot", "ilias-code", "separator","ilias-fn", "separator",
 		   "ilias-xtl", "ilias-itl",
 		  "separator",
-		  "copy", "cut", "paste"
+		  "copy", "cut", "paste","htmlmode"
 		  
           ],
 
@@ -589,14 +590,12 @@ function initEditor(TextAreaName)
   // comment the following two lines to see how customization works
   editor.generate();
   return false;
-
+  // }}}
 }
-
-
-
 
 function addTagInEditor(tagName,className) 
 {
+// {{{
 	
 	if (editor.hasSelectedText() && editor.getSelectedHTML()!="&nbsp;"  && editor.getSelectedHTML()!=" ") 
 	{
@@ -627,6 +626,7 @@ function addTagInEditor(tagName,className)
 		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"></span>", "");
 		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"></span>", "");
 		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"></span>", "");
+		text2 = replaceAll(text2, "<code class=\"ilc_Code\"></code>", "");
 		
 		text2 = replaceAll(text2, "%%BR%%", "<br />");
 		
@@ -638,11 +638,18 @@ function addTagInEditor(tagName,className)
 		text2 = replaceAll(text2, "<span class=\"ilc_Emph\">&nbsp;</span>", " ");
 		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\">&nbsp;</span>", " ");
 		text2 = replaceAll(text2, "<span class=\"ilc_Comment\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<code class=\"ilc_Code\">&nbsp;</code>", " ");
 
 		text2 = replaceAll(text2, "<span class=\"ilc_Strong\"> </span>", " ");
 		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"> </span>", " ");
 		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"> </span>", " ");
 		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"> </span>", " ");
+		text2 = replaceAll(text2, "<code class=\"ilc_Code\"> </code>", " ");
+		
+		for (i=0;i<10;i++) {
+			text2 = replaceAll(text2, " <\/span>","</span> ");
+			text2 = replaceAll(text2, " <\/code>","</code> ");
+		}
 		
 		text2 = replaceAll(text2,"&nbsp;"," ");
 		
@@ -656,24 +663,30 @@ function addTagInEditor(tagName,className)
 		text2 = replaceAll(text2, "<span class=\"ilc_Emph\"></span>", "");
 		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\"></span>", "");
 		text2 = replaceAll(text2, "<span class=\"ilc_Comment\"></span>", "");
+		text2 = replaceAll(text2, "<code class=\"ilc_Code\"></code>", "");
 
 		text2 = replaceAll(text2, "<span class=\"ilc_Strong\">&nbsp;</span>", " ");
 		text2 = replaceAll(text2, "<span class=\"ilc_Emph\">&nbsp;</span>", " ");
 		text2 = replaceAll(text2, "<span class=\"ilc_Quotation\">&nbsp;</span>", " ");
 		text2 = replaceAll(text2, "<span class=\"ilc_Comment\">&nbsp;</span>", " ");
+		text2 = replaceAll(text2, "<code class=\"ilc_Code\">&nbsp;</code>", " ");
 		
 		text2 = replaceAll(text2,"&nbsp;"," ");
+
+		for (i=0;i<10;i++) {
+			text2 = replaceAll(text2, " <\/span>","</span> ");
+			text2 = replaceAll(text2, " <\/code>","</code> ");
+		}
 
 		editor.setHTML(text2);
 	}
 	
 	editor.updateToolbar();
-		
+		// }}}
 }
 
-
-
 var notAllowedTagsInside = new Array();
+// {{{
 function addNATI(which, inWhich, inClass) 
 {
 	a = new Array();
@@ -696,6 +709,7 @@ addNATI("code",	"code",	"code");
 addNATI("iln",	"xln",	"ilc_ExtLink");
 addNATI("xln",	"iln",	"iliasiln");
 addNATI("iln",	"iln",	"iliasiln");
+// }}}
 
 function buttonX() 
 {
@@ -881,6 +895,7 @@ function checkAllowTagInside3(which)
 // {{{
 function checkAllowTagInside(which) 
 {
+// {{{
 	return(true);
 	
 	
@@ -942,10 +957,13 @@ function checkAllowTagInside(which)
 		}
 	}
 	return(true);
+	// }}}
 }
 // }}}
 
-function getClearTags() {
+function getClearTags() 
+{
+// {{{
 	N1 = "";
 	N2 = "";
 	var ancestors = editor.getAllAncestors();
@@ -966,7 +984,7 @@ function getClearTags() {
 	A[0] = N1;
 	A[1] = N2;
 	return(A);
-
+	// }}}
 }
 
 function replaceAll(heystack, needle, newneedle) 
@@ -989,6 +1007,7 @@ function addFussnote(Tb)
 
 function refreshFootnotelist() 
 {
+	// {{{
 	fhtml = "<ul>";
 	for (i=0;i<fussnoten.length;i++) 
 	{
@@ -1002,12 +1021,13 @@ function refreshFootnotelist()
 	fhtml += "<ul>";
 	
 	document.getElementById("footnotelist").innerHTML = fhtml;
+	// }}}
 }
 
 
 function buttonFootnote() 
 {
-
+	// {{{
 	found = false;
 	var ancestors = editor.getAllAncestors();
 	for (k=0;k<ancestors.length-1;k++)
@@ -1059,14 +1079,12 @@ function buttonFootnote()
 		w = window.open("lm_edit.php?cmd=popup&ptype=footnote","footnote","width=500,height=450,resizable=yes");
 		setTimeout("w.focus()",500);
 	}
+	// }}}
 }
 
 function addInternalLink(Link,title) 
 {
-	//Link = Link.replace("&quot;","\"",Link);
-	//Link = Link.replace("&quot;","\"",Link);
-	
-	
+	// {{{	
 
 	Link = Link.replace("[iln ","<a class=\"iliasiln\" ");
 	Link = Link.replace("\"]","\">");
@@ -1101,6 +1119,7 @@ function addInternalLink(Link,title)
 	}
 	editor.updateToolbar();
 	editor.focusEditor();
+	// }}}
 }
 
 
@@ -1112,7 +1131,7 @@ function buttonExternalLink()
 	
 function buttonInternalLink() 
 {
-
+	// {{{
 	found = false;
 	var ancestors = editor.getAllAncestors();
 	for (k=0;k<ancestors.length-1;k++)
@@ -1145,14 +1164,16 @@ function buttonInternalLink()
 		}
 	}
 	editor.updateToolbar();
+	// }}}
 }	
 	
 
 </script>
 
 <script type="text/javascript">
-    function doInit() {
-    
+    function doInit() 
+	{
+    	// {{{
         obj = document.getElementById("{PAR_TA_NAME}");
         T = obj.value;
 		
@@ -1181,7 +1202,7 @@ function buttonInternalLink()
         T = replaceAll(T, "[quot]","<span class=\"ilc_Quotation\">");
         T = replaceAll(T, "[/quot]","</span>");
 
-        T = replaceAll(T, "[code]","<code>");
+        T = replaceAll(T, "[code]","<code class=\"ilc_Code\">");
         T = replaceAll(T, "[/code]","</code>");
 
 		
@@ -1254,13 +1275,12 @@ function buttonInternalLink()
         obj.value = T;
     
         initEditor("{PAR_TA_NAME}");
-
-		initSubEditor("subform");
-
+		//initSubEditor("subform");
         obj = document.getElementById("usedwsiwygeditor");
         obj.value = "1";
         obj = document.getElementById("bbcodebuttons");
         obj.style.visibility = "hidden";
+		// }}}
 	}
 
 </script>
