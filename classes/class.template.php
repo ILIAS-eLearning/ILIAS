@@ -111,7 +111,7 @@ class Template extends IntegratedTemplateExtension {
     function show($part = "DEFAULT") {
 
         $this->replace($this->vars);
-		
+
         if ($part == "DEFAULT") {
             parent::show();
         } else {
@@ -140,6 +140,13 @@ class Template extends IntegratedTemplateExtension {
 		$this->replace($this->vars);
     }
 
+	function touchBlock($block)
+	{
+		$this->setCurrentBlock($block);
+		$this->replace($this->vars);
+		$this->parseCurrentBlock();
+	}
+	
     /**
     *	überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausfhrt
     * @param string

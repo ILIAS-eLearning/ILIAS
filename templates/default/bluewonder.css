@@ -128,4 +128,12 @@ textarea {
 	font-size: x-small;
 	color: #000000;
 	font-weight: bold;
+	background-color:#000000;
+}
+
+.tabactive {
+	background-color:#eeeeee;
+}
+.tabinactive {
+	background-color:#cccccc;
 }

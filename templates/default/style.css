@@ -29,7 +29,7 @@ td {
 
 .tblheader {
      color:#ffffff;
-     background-color:#003366;
+     background-color:#666677;
 }
 
 /* ---------------- headlines ------------------ */
@@ -112,4 +112,12 @@ a.btn:hover {
 	font-size: x-small;
 	color: #000000;
 	font-weight: bold;
+	background-color:#000000;
+}
+
+.tabactive {
+	background-color:#dddddd;
+}
+.tabinactive {
+	background-color:#bbbbbb;
 }

@@ -122,7 +122,7 @@ if ($script != "login.php" && $script != "index.php")
 {
 	if ($tplmain->includeNavigation() == true)
 	{
-		$tplnav = new Template("tpl.main_buttons.html", false, false);
+		include("./include/inc.mainmenu.php");		
 		$tplmain->setVariable("NAVIGATION", $tplnav->get());
 	}
 }

@@ -10,7 +10,7 @@
 */
 require_once "./include/ilias_header.inc";
 
-$tpl = new Template("tpl.main_buttons.html", true, true);
+include("./include/inc.mainmenu.php");
 
 //user stylehandling
 if ($ilias->account->prefs["style_".$ilias->account->prefs["skin"]] != "")
@@ -21,13 +21,7 @@ else
 {
 	$style = "style.css";
 }
-$tpl->setVariable("LOCATION_STYLESHEET", $tplmain->tplPath."/".$style);
+$tplnav->setVariable("LOCATION_STYLESHEET", $tplmain->tplPath."/".$style);
 
-$tpl->setCurrentBlock("userisadmin");
-$tpl->parseCurrentBlock();
-
-$tpl->setCurrentBlock("userisauthor");
-$tpl->parseCurrentBlock();
-
-$tpl->show();
+$tplnav->show();
 ?>

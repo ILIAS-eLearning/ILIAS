@@ -294,3 +294,10 @@ tpl_path	template path	Template-Pfad	tpl_path	tpl_path
 lang_path	language path	Sprachdateien-Pfad	lang_path	lang_path
 fill_out_all_required_fields	please fill out all required fields	Bitte füllen Sie alle benötigten Felder aus	fill_out_all_required_fields	fill_out_all_required_fields
 saved_successfully	saved successfully	Ihre Änderungen wurden gespeichert	saved_successfully	saved_successfully
+usr_style	usr style	Stil	style	style
+lo_overview	lo overview	LE Übersicht	lo overview	lo overview
+literature	literature	Literatur	literature	literature
+forums	forums	Foren	forums	forums
+editor	editor	Editor	editor	editor
+help	help	Hilfe	help	help
+logout	logout	Logout	logout	logout
