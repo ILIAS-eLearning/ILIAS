@@ -985,7 +985,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				//
 				if (!$rbacreview->isDeleted($rolf[0])
 				&& $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0]))
-				&& substr($loc_role["title"],6) != 'il_crs'
+				&& substr($loc_role["title"],0,6) != 'il_crs'
 				)
 				{
 					$path = "";
@@ -1007,7 +1007,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					{
 						$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
 					}
-					if ($loc_role["role_type"] != "global")
+					if ($loc_role["role_type"] != "Global")
 					{
 						$l_roles[$loc_role["obj_id"]] = $path.": ".$loc_role["title"];
 					}

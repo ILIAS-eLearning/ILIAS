@@ -40,8 +40,8 @@ class ilUserImportParser extends ilSaxParser
 	var $folder_id;
 	var $roles;
 	/**
-	 * The Action element determines what to do for the current User element.
-     * This variable supports the following values: "insert","update","delete".
+	 * The Action attribute determines what to do for the current User element.
+     * This variable supports the following values: "Insert","Update","Delete".
 	 */
 	var $action;
 	/**
@@ -77,6 +77,10 @@ class ilUserImportParser extends ilSaxParser
 	 * The password of the current user.
 	 */
 	var $currPassword;
+	/**
+	 * The active state of the current user.
+     */
+    var $currActive;
 
 	/**
 	* Constructor
@@ -219,9 +223,10 @@ class ilUserImportParser extends ilSaxParser
 				$this->userObj = new ilObjUser();
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
-				$this->action = "insert";
+				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
 				$this->currPassword = null;
 				$this->currPasswordType = null;
+				$this->currActive = null;
 				break;
 
 			case "Password":
@@ -243,21 +248,46 @@ class ilUserImportParser extends ilSaxParser
 					$this->log($this->userObj->getLogin(), "'Id' attribute in 'Role' element must be specified.");
 					$this->success = false;
 				}
-				if ($a_attribs['Type'] != 'Global'
-				&& $a_attribs['Type'] != 'Local')
+				$this->current_role_id = $a_attribs["Id"];
+				$this->current_role_type = $a_attribs["Type"];
+				if ($this->current_role_type != 'Global'
+				&& $this->current_role_type != 'Local')
 				{
 					$this->log($this->userObj->getLogin(), "'Type' attribute in 'Role' element must be specified with value 'Global' or 'Local'.");
 					$this->success = false;
 				}
-				$this->current_role_id = $a_attribs["Id"];
-				$this->current_role_type = $a_attribs["Type"];
+				$this->current_role_action = (is_null($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
+				if ($this->current_role_action != "Assign"
+				&& $this->current_role_action != "Detach")
+				{
+					$this->log($this->userObj->getLogin(), "'Action' attribute in 'Role' element must be specified with value 'Assign' or 'Detach'.");
+					$this->success = false;
+				}
+				if ($this->action == "Insert"
+				&& $this->current_role_action == "detach")
+				{
+					$this->log($this->userObj->getLogin(), "'Action' attribute in 'Role' element must be 'Assign' when 'Action' attribute in 'User' element is 'Insert'.");
+					$this->success = false;
+				}
+				if ($this->action == "Delete")
+				{
+					$this->log($this->userObj->getLogin(), "'Role' element must not be specified when 'Action' attribute in 'User' element is 'Delete'.");
+					$this->success = false;
+				}
 				break;
 
 			case "User":
 				$this->userObj = new ilObjUser();
 				$this->userObj->setLanguage($a_attribs["Language"]);
 				$this->userObj->setImportId($a_attribs["Id"]);
-				$this->action = "insert";
+				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
+				if ($this->action != "Insert"
+				&& $this->action != "Update"
+				&& $this->action != "Delete")
+				{
+					$this->log($this->userObj->getImportId(), "'Action' attribute in 'User' element must be specified with value 'Insert', 'udpate' or 'Delete'.");
+					$this->success = false;
+				}
 				$this->currPassword = null;
 				$this->currPasswordType = null;
 				break;
@@ -313,18 +343,18 @@ class ilUserImportParser extends ilSaxParser
 		{
 			case "Role":
 				$this->roles[$this->current_role_id]["name"] = $this->cdata;
-				$this->roles[$this->current_role_id]["type"] =
-					$this->current_role_type;
+				$this->roles[$this->current_role_id]["type"] = $this->current_role_type;
+				$this->roles[$this->current_role_id]["action"] = $this->current_role_action;
 				break;
 
 			case "User":
 				$user_id = ilObjUser::getUserIdByLogin($this->userObj->getLogin());
 				switch ($this->action)
 				{
-					case "insert" :
+					case "Insert" :
 						if ($user_id) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'insert', user is already in database.");
+							$this->log($this->userObj->getLogin(),"Can't perform Action 'Insert', user is already in database.");
 							$this->success = false;
 						}
 						else
@@ -349,7 +379,7 @@ class ilUserImportParser extends ilSaxParser
 							$this->userObj->setTimeLimitUnlimited($ilias->account->getTimeLimitUnlimited());
 							$this->userObj->setTimeLimitFrom($ilias->account->getTimeLimitFrom());
 							$this->userObj->setTimeLimitUntil($ilias->account->getTimeLimitUntil());
-							$this->userObj->setActive(true , $ilUser->getId());
+							$this->userObj->setActive($this->currActive == 'true' || is_null($this->currActive), $ilUser->getId());
 
 							$this->userObj->create();
 
@@ -372,10 +402,10 @@ class ilUserImportParser extends ilSaxParser
 						}
 						break;
 
-					case "update" :
+					case "Update" :
 						if (! $user_id) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'update', no such user in database.");
+							$this->log($this->userObj->getLogin(),"Can't perform Action 'Update', no such user in database.");
 							$this->success = false;
 						}
 						else
@@ -413,41 +443,33 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getHobby())) $updateUser->setHobby($this->userObj->getHobby());
 							if (! is_null($this->userObj->getComment())) $updateUser->setComment($this->userObj->getComment());
 							if (! is_null($this->userObj->getDepartment())) $updateUser->setDepartment($this->userObj->getDepartment());
+							if (! is_null($this->userObj->getMatriculation())) $updateUser->setMatriculation($this->userObj->getMatriculation());
+							if (! is_null($this->currActive)) $updateUser->setActive($this->currActive == "true", $ilUser->getId());
 
 							$updateUser->update();
 
 							//update role entries
 							//-------------------
-							//If a global role is in the import data, we deassign
-							//the user from all other global roles.
-							$is_update_global_role = false;
 							foreach ($this->roles as $role_id => $role)
 							{
-								if ($role["type"] == "Global")
+								switch ($role["action"])
 								{
-									$is_update_global_role = true;
-									break;
+									case "Assign" :
+										$rbacadmin->assignUser($this->role_assign[$role_id],
+											$updateUser->getId(), true);
+										break;
+									case "Detach" :
+										$rbacadmin->deassignUser($role_id, 
+											$updateUser->getId());
+										break;
 								}
-							}
-							if ($is_update_global_role)
-							{
-								foreach ($rbacreview->getGlobalRoles() as $role_id)
-								{
-									$rbacadmin->deassignUser($role_id, $updateUser->getId());
-								}
-							}
-							// Assign the user to the roles
-							foreach ($this->roles as $role_id => $role)
-							{
-								$rbacadmin->assignUser($this->role_assign[$role_id],
-									$updateUser->getId(), true);
 							}
 						}
 						break;
-					case "delete" :
+					case "Delete" :
 						if (! $user_id) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'delete', no such user in database.");
+							$this->log($this->userObj->getLogin(),"Can't perform Action 'Delete', no such user in database.");
 							$this->success = false;
 						}
 						else
@@ -460,10 +482,6 @@ class ilUserImportParser extends ilSaxParser
 
 				// init role array for next user
 				$this->roles = array();
-				break;
-
-			case "Action":
-				$this->action = $this->cdata;
 				break;
 
 			case "Login":
@@ -542,6 +560,14 @@ class ilUserImportParser extends ilSaxParser
 			case "Department":
 				$this->userObj->setDepartment($this->cdata);
 				break;
+
+			case "Matriculation":
+				$this->userObj->setMatriculation($this->cdata);
+				break;
+
+			case "Active":
+				$this->currActive = $this->cdata;
+				break;
 		}
 	}
 
@@ -555,6 +581,7 @@ class ilUserImportParser extends ilSaxParser
 			case "Role":
 				$this->roles[$this->current_role_id]["name"] = $this->cdata;
 				$this->roles[$this->current_role_id]["type"] = $this->current_role_type;
+				$this->roles[$this->current_role_id]["action"] = $this->current_role_action;
 				break;
 
 			case "User":
@@ -562,20 +589,20 @@ class ilUserImportParser extends ilSaxParser
 
 				switch ($this->action)
 				{
-					case "insert" :
+					case "Insert" :
 						if ($user_exists) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'insert'. User is already in database.");
+							$this->log($this->userObj->getLogin(),"Can't perform Action 'Insert'. User is already in database.");
 							$this->success = false;
 						}
 						if (is_null($this->userObj->getGender()))
 						{	
-							$this->log($this->userObj->getLogin(),"Gender element must be specified for Action 'insert'.");
+							$this->log($this->userObj->getLogin(),"Gender element must be specified for Action 'Insert'.");
 							$this->success = false;
 						}
 						if (count($this->roles) == 0)
 						{	
-							$this->log($this->userObj->getLogin(),"Role element must be specified for Action 'insert'.");
+							$this->log($this->userObj->getLogin(),"Role element must be specified for Action 'Insert'.");
 							$this->success = false;
 						} 
 						else 
@@ -591,22 +618,22 @@ class ilUserImportParser extends ilSaxParser
 							}
 							if (! $has_global_role)
 							{
-							$this->log($this->userObj->getLogin(),"At least one global Role must be specified for Action 'insert'.");
+							$this->log($this->userObj->getLogin(),"At least one global Role must be specified for Action 'Insert'.");
 							$this->success = false;
 							}
 						}
 						break;
-					case "update" :
+					case "Update" :
 						if (! $user_exists) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'update'. No such user in database.");
+							$this->log($this->userObj->getLogin(),"Can't perform Action 'Update'. No such user in database.");
 							$this->success = false;
 						}
 						break;
-					case "delete" :
+					case "Delete" :
 						if (! $user_exists) 
 						{
-							$this->log($this->userObj->getLogin(),"Can't perform Action 'delete'. No such user in database.");
+							$this->log($this->userObj->getLogin(),"Can't perform Action 'Delete'. No such user in database.");
 							$this->success = false;
 						}
 						break;
@@ -614,17 +641,6 @@ class ilUserImportParser extends ilSaxParser
 
 				// init role array for next user
 				$this->roles = array();
-				break;
-
-			case "Action":
-				if ($this->cdata != "insert"
-				&& $this->cdata != "update"
-				&& $this->cdata != "delete")
-				{
-					$this->log($this->userObj->getLogin(), "Unsupported action '".$this_cdata."'. Content of Action element must be 'insert', 'delete' or 'update'.");
-					$this->success = false;
-				}
-				$this->action = $this->cdata;
 				break;
 
 			case "Login":
@@ -652,7 +668,7 @@ class ilUserImportParser extends ilSaxParser
 						break;
 
 					default :
-						$this->log($this->userObj->getLogin(), "Illegal password type '".$this->currPasswordType."'. Password type must be 'ILIAS2' or 'ILIAS3'.");
+						$this->log($this->userObj->getLogin(), "Invalid password type '".$this->currPasswordType."'. Password type must be 'ILIAS2' or 'ILIAS3'.");
 						$this->success = false;
 						break;
 				}
@@ -675,7 +691,7 @@ class ilUserImportParser extends ilSaxParser
 				if ($this->cdata != "m"
 				&& $this->cdata != "f")
 				{
-					$this->log($this->userObj->getLogin(), "Illegal gender '".$this->cdata."'. Gender must be 'm' or 'f'.");
+					$this->log($this->userObj->getLogin(), "Invalid Gender element '".$this->cdata."'. Gender must be 'm' or 'f'.");
 					$this->success = false;
 				}
 				$this->userObj->setGender($this->cdata);
@@ -731,6 +747,20 @@ class ilUserImportParser extends ilSaxParser
 
 			case "Department":
 				$this->userObj->setDepartment($this->cdata);
+				break;
+
+			case "Matriculation":
+				$this->userObj->setMatriculation($this->cdata);
+				break;
+
+			case "Active":
+				if ($this->cdata != "true"
+				&& $this->cdata != "false")
+				{
+					$this->log($this->userObj->getLogin(), "Invalid Active element '".$this->cdata."'. Active must be 'm' or 'f'.");
+					$this->success = false;
+				}
+				$this->currActive = $this->cdata;
 				break;
 		}
 	}
