@@ -2280,6 +2280,16 @@ class ilObjTestGUI extends ilObjectGUI
 		$counter = 0;
 		$this->tpl->addBlockFile("TEST_RESULTS", "results", "tpl.il_as_tst_results.html", true);
 		$result_array =& $this->object->getTestResult($user_id);
+		if (!$result_array["test"]["total_max_points"])
+		{
+			$percentage = 0;
+		}
+		else
+		{
+			$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
+		}
+		$total_max = $result_array["test"]["total_max_points"];
+		$total_reached = $result_array["test"]["total_reached_points"];
 		$img_title_percent = "";
 		$img_title_nr = "";
 		switch ($_GET["sortres"]) {
@@ -2323,13 +2333,12 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
-		$percentage = ($result_array["test"]["total_reached_points"]/$result_array["test"]["total_max_points"])*100;
 		$this->tpl->setCurrentBlock("question");
 		$this->tpl->setVariable("COLOR_CLASS", "std");
 		$this->tpl->setVariable("VALUE_QUESTION_COUNTER", "<strong>" . $this->lng->txt("total") . "</strong>");
 		$this->tpl->setVariable("VALUE_QUESTION_TITLE", "");
-		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $result_array["test"]["total_max_points"]) . "</strong>");
-		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $result_array["test"]["total_reached_points"]) . "</strong>");
+		$this->tpl->setVariable("VALUE_MAX_POINTS", "<strong>" . sprintf("%d", $total_max) . "</strong>");
+		$this->tpl->setVariable("VALUE_REACHED_POINTS", "<strong>" . sprintf("%d", $total_reached) . "</strong>");
 		$this->tpl->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
 		$this->tpl->parseCurrentBlock();
 
