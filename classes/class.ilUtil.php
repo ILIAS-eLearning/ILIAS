@@ -1456,7 +1456,6 @@ class ilUtil
 	*/
 	function makeDirParents($a_dir)
 	{
-		$basedir = @ini_get('open_basedir');
 		$dirs = array($a_dir);
 		$a_dir = dirname($a_dir);
 		$last_dirname = '';
@@ -1467,11 +1466,25 @@ class ilUtil
 			$a_dir = dirname($a_dir);
 		}
 
-		umask(0000);
-		foreach ($dirs as $dir)
+		// find the first existing dir
+		$reverse_paths = array_reverse($dirs, TRUE);
+		$found_index = -1;
+		foreach ($reverse_paths as $key => $value)
 		{
-			// only take the allowed part when open_basedir is activated
-			if (!((strlen($basedir) > 0) and (strpos($dir, $basedir) === false)))
+			if ($found_index == -1)
+			{
+				if (is_dir($value))
+				{
+					$found_index = $key;
+				}
+			}
+		}
+		
+		umask(0000);
+		foreach ($dirs as $dirindex => $dir)
+		{
+			// starting with the longest existing path
+			if ($dirindex >= $found_index) 
 			{
 				if (! file_exists($dir))
 				{
