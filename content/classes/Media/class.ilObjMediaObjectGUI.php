@@ -301,7 +301,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			}
 
 		}
-
+//echo "-".$mob_dir."-";
+		ilUtil::renameExecutables($mob_dir);
 		$this->object->update();
 
 		return $this->object;
@@ -795,6 +796,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			move_uploaded_file($_FILES["new_file"]["tmp_name"],
 				$cur_dir."/".$_FILES["new_file"]["name"]);
 		}
+		ilUtil::renameExecutables($mob_dir);
 		$this->ctrl->saveParameter($this, "cdir");
 		$this->ctrl->redirect($this, "editFiles");
 	}

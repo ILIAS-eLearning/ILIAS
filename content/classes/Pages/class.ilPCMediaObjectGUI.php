@@ -258,7 +258,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 			}
 
 		}
-
+		ilUtil::renameExecutables($mob_dir);
 		$this->content_obj->update();
 
 		if ($a_create_alias)
