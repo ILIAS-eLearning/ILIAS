@@ -284,9 +284,12 @@ class ilObjRole extends ilObject
 		//  purge empty rolefolders
 		foreach ($role_folders as $rolf)
 		{
-			$rolfObj = $this->ilias->obj_factory->getInstanceByRefId($rolf);
-			$rolfObj->purge();
-			unset($roleObj);
+			if (ilObject::_exists($rolf,true))
+			{
+				$rolfObj = $this->ilias->obj_factory->getInstanceByRefId($rolf);
+				$rolfObj->purge();
+				unset($roleObj);
+			}
 		}
 		
 		return true;

@@ -735,14 +735,25 @@ class ilObject
 	* checks if an object exists in object_data
 	* @static
 	* @access	public
-	* @param	integer	object id
+	* @param	integer	object id or reference id
+	* @param	boolean	ture if id is a reference, else false (default)
 	* @return	boolean	true if object exists
 	*/
-	function _exists($a_obj_id)
+	function _exists($a_id, $a_reference = false)
 	{
 		global $ilias;
-
-		$q = "SELECT * FROM object_data WHERE obj_id='".$a_obj_id."'";
+		
+		if ($a_reference)
+		{
+			$q = "SELECT * FROM object_data ".
+				 "LEFT JOIN object_reference ON object_reference.obj_id=object_data.obj_id ".
+				 "WHERE object_reference.ref_id='".$a_id."'";
+		}
+		else
+		{
+			$q = "SELECT * FROM object_data WHERE obj_id='".$a_id."'";
+		}
+		
 		$r = $ilias->db->query($q);
 
 		return $r->numRows() ? true : false;
