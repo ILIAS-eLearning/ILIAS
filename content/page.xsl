@@ -385,7 +385,7 @@
 <xsl:template name="MOBTable">
 	<xsl:variable name="cmobid" select="@OriginId"/>
 
-	<table class="ilc_MobTable">
+	<table class="ilc_MobTable" width="1">
 		<!-- Alignment Part 2 (LeftFloat, RightFloat) -->
 		<xsl:if test="../MediaItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'">
 			<xsl:attribute name="style">float:left; clear:both; margin-left: 0px;</xsl:attribute>
@@ -402,40 +402,52 @@
 			<xsl:attribute name="style">margin-right: 0px;</xsl:attribute>
 		</xsl:if>
 
-
+		<!-- build object tag -->
 		<tr><td class="ilc_Mob"><object>
-			<xsl:for-each select="../MediaItem[@Purpose='Fullscreen']">
+			<!-- standard -->
+			<xsl:for-each select="../MediaItem[@Purpose='Standard']">
 
-				<xsl:variable name="citemnr"><xsl:number count="MediaItem" from="MediaAlias"/></xsl:variable>
+				<!-- data / Location -->
+				<xsl:variable name="curItemNr"><xsl:number count="MediaItem" from="MediaAlias"/></xsl:variable>
+				<xsl:variable name="curType" select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$curItemNr]/@Type"/>
+				<xsl:if test="$curType = 'LocalFile'">
+					<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$curItemNr]"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$curType = 'Reference'">
+					<xsl:attribute name="data"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[position()=$curItemNr]"/></xsl:attribute>
+				</xsl:if>
 
-				<xsl:if test="//MediaObject[@Id=$cmobid]/Technical/Location[$citemnr]/@Type = 'File'">
-					<xsl:attribute name="data"><xsl:value-of select="$webspace_path"/>/mobs/mm_<xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[$citemnr]"/></xsl:attribute>
-				</xsl:if>
-				<xsl:if test="//MediaObject[@Id=$cmobid]/Technical/Location[$citemnr]/@Type = 'Reference'">
-					<xsl:attribute name="data"><xsl:value-of select="$cmobid"/>/<xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Location[$citemnr]"/></xsl:attribute>
-				</xsl:if>
-				<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical[1]/@Format"/></xsl:attribute>
-				<xsl:attribute name="width"><xsl:value-of select="../Layout[1]/@Width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="../Layout[1]/@Height"/></xsl:attribute>
+				<!-- type / Format -->
+				<xsl:attribute name="type"><xsl:value-of select="//MediaObject[@Id=$cmobid]/Technical/Format[position()=$curItemNr]"/></xsl:attribute>
+
+				<!-- width and height -->
+				<xsl:choose>
+					<xsl:when test="../MediaItem[@Purpose='Standard']/Layout[1]/@Width != '' or ../MediaItem[@Purpose='Standard']/Layout[1]/@Height != ''">
+						<xsl:attribute name="width"><xsl:value-of select="../MediaItem[@Purpose='Standard']/Layout[1]/@Width"/></xsl:attribute>
+						<xsl:attribute name="height"><xsl:value-of select="../MediaItem[@Purpose='Standard']/Layout[1]/@Height"/></xsl:attribute>
+					</xsl:when>
+					<xsl:when test="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Layout[1]/@Width != '' or
+						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Layout[1]/@Height != ''">
+						<xsl:attribute name="width"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Layout[1]/@Width"/></xsl:attribute>
+						<xsl:attribute name="height"><xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Layout[1]/@Height"/></xsl:attribute>
+					</xsl:when>
+				</xsl:choose>
+
 			</xsl:for-each>
 		</object></td></tr>
 
-		<!-- mob caption -->
+		<!-- mob caption / standard -->
 		<xsl:choose>			<!-- derive -->
-			<xsl:when test="../Parameter[@Name='il_DeriveCaption'][1]/@Value = 'y'">
-				<xsl:if test="count(//MediaObject[@Id=$cmobid]/Parameter[@Name='il_Caption']) = 1">
+			<xsl:when test="count(../MediaItem[@Purpose='Standard']/Caption[1]) != 0">
 				<tr><td class="ilc_MobCaption">
-				<xsl:value-of select="//MediaObject[@Id=$cmobid]/Parameter[@Name='il_Caption']/@Value"/>
+				<xsl:value-of select="../MediaItem[@Purpose='Standard']/Caption[1]"/>
 				</td></tr>
-				</xsl:if>
 			</xsl:when>
-			<xsl:otherwise>
-				<xsl:if test="count(../Parameter[@Name='il_Caption']) = 1">
+			<xsl:when test="count(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Caption[1]) != 0">
 				<tr><td class="ilc_MobCaption">
-				<xsl:value-of select="../Parameter[@Name='il_Caption']/@Value"/>
+				<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose='Standard']/Caption[1]"/>
 				</td></tr>
-				</xsl:if>
-			</xsl:otherwise>
+			</xsl:when>
 		</xsl:choose>
 
 		<tr><td>
