@@ -67,7 +67,14 @@ class ilStyleDefinition extends ilSaxParser
 	function getStyles()
 	{
 //echo ":".count($this->styles).":";
-		return $this->styles;
+		if (is_array($this->styles))
+		{
+			return $this->styles;
+		}
+		else
+		{
+			return array();
+		}
 	}
 
 	function getTemplateName()

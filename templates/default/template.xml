@@ -6,7 +6,8 @@
 	<style	name = "Blue Shadow (IE)"
 			id = "blueshadow_ie"
 			image_directory = "blueshadow" />
+	<!--
 	<style 	name = "Grey"
 			id = "default"
-			image_directory = ""/>
+			image_directory = ""/>-->
 </template>
