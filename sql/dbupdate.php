@@ -3027,4 +3027,15 @@ $row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
 $tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+
+<#194>
+DROP TABLE IF EXISTS aicc_lm;
+CREATE TABLE aicc_lm (
+  `id` int(11) NOT NULL default '0',
+  `online` enum('y','n') default 'n',
+  `api_adapter` varchar(80) default 'API',
+  `api_func_prefix` varchar(20) default 'LMS',
+  PRIMARY KEY  (`id`)
+) TYPE=MyISAM;
+
 ?>
