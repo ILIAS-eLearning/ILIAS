@@ -92,16 +92,16 @@ class User
 			$data = $res->fetchRow(DB_FETCHMODE_ASSOC);
 
 			$this->data = array(
-				"Id"		 => $this->Id,
+				"usr_id"	 => $this->Id,
 				"login"      => $data["login"],
 				"passwd"     => $data["passwd"],
-				"Gender"	 => $data["gender"],
-				"Title"      => $data["title"],
-				"FirstName"  => $data["firstname"],
-				"SurName"    => $data["surname"],
-				"Email"      => $data["email"],
-				"Role"       => $data["rol_id"],
-				"LastLogin"  => $data["last_login"],
+				"gender"	 => $data["gender"],
+				"title"      => $data["title"],
+				"firstname"  => $data["firstname"],
+				"surname"    => $data["surname"],
+				"email"      => $data["email"],
+				"rol_id"     => $data["rol_id"],
+				"last_login" => $data["last_login"],
 			);
 
 			//get userpreferences from usr_pref table
