@@ -107,6 +107,9 @@ assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###23 Mar 2004 new variable
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###11 Mar 2004 new variable
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
+assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
+assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
 assessment#:#export#:#Експорт
 assessment#:#false#:#Невірний
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!###13 Mar 2004 new variable
@@ -177,6 +180,7 @@ assessment#:#solution_order#:#Порядок розв'язку
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
 assessment#:#text_gap#:#Текстовий проміжок
+assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#true#:#Правда
 assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
 assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
@@ -266,6 +270,7 @@ assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###
 assessment#:#tt_self_assessment#:#Self assessment test###20 Feb 2004 new variable
 assessment#:#unlimited#:#unlimited###06 Mar 2004 new variable
 assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
+assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
 chat#:#chat_active#:#Aktive###05 Mar 2004 new variable
 chat#:#chat_active_users#:#User (aktive)###05 Mar 2004 new variable
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###06 Mar 2004 new variable

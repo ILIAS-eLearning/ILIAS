@@ -107,6 +107,9 @@ assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %
 assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.
 assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.
 assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.
+assessment#:#exp_eval_data#:#Export Evaluation Data
+assessment#:#exp_type_excel#:#  Excel  
+assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#export#:#Export
 assessment#:#false#:#False
 assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!
@@ -153,8 +156,6 @@ assessment#:#qpl_edit_select_none#:#Please check one question for editing
 assessment#:#qpl_export_select_none#:#Please check at least one question to export it
 assessment#:#qt_cloze#:#Cloze Question
 assessment#:#qt_imagemap#:#Image Map Question
-assessment#:#working_time#:#Working Time
-assessment#:#time_format#:#HH MM SS
 assessment#:#qt_matching#:#Matching Question
 assessment#:#qt_multiple_choice_mr#:#Multiple Choice Question (multiple response)
 assessment#:#qt_multiple_choice_sr#:#Multiple Choice Question (single response)
@@ -179,6 +180,7 @@ assessment#:#solution_order#:#Solution order
 assessment#:#start_tag#:#Start tag
 assessment#:#symbol#:#Symbol
 assessment#:#text_gap#:#Text gap
+assessment#:#time_format#:#HH MM SS
 assessment#:#true#:#True
 assessment#:#tst_already_taken#:#Tests already taken
 assessment#:#tst_anon_eval#:#Anonymous aggregated results
@@ -263,14 +265,12 @@ assessment#:#tst_status_progress#:#in progress
 assessment#:#tst_type#:#Test type
 assessment#:#tst_types#:#Test types
 assessment#:#tst_your_mark_is#:#Your mark is
-assessment#:#exp_eval_data#:#Export Evaluation Data
-assessment#:#exp_type_excel#:#  Excel  
-assessment#:#exp_type_spss#:#  SPSS  
 assessment#:#tt_assessment#:#Assessment test
 assessment#:#tt_navigation_controlling#:#Controlling learners navigation test
 assessment#:#tt_self_assessment#:#Self assessment test
 assessment#:#unlimited#:#unlimited
 assessment#:#uploaded_material#:#Uploaded Material
+assessment#:#working_time#:#Working Time
 chat#:#chat_active#:#Aktive
 chat#:#chat_active_users#:#User (aktive)
 chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.

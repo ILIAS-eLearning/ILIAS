@@ -107,6 +107,9 @@ assessment#:#eval_imagemap_result#:#L'immagine scelta &#232; %s. Ricevi %s punti
 assessment#:#eval_legend_link#:#Per il significato dei simboli nella testata, vedi la legenda.
 assessment#:#eval_matching_result#:#La coppia corrispondente %s - %s &#232; %s. Ricevi %s punti.
 assessment#:#eval_order_result#:#La risposta %s &#232; la numero %s. Ricevi %s punti.
+assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
+assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
+assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
 assessment#:#export#:#Esporta
 assessment#:#false#:#Falso
 assessment#:#fill_out_all_answer_fields#:#Per favore, riempi tutti i testi delle risposte prima di aggiungerne un'altra!
@@ -177,6 +180,7 @@ assessment#:#solution_order#:#Ordine risposte
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
 assessment#:#symbol#:#Simbolo
 assessment#:#text_gap#:#Spazio vuoto
+assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#true#:#Vero
 assessment#:#tst_already_taken#:#Test gi&#224; eseguito
 assessment#:#tst_anon_eval#:#Risultati aggregati per Anonimo
@@ -266,6 +270,7 @@ assessment#:#tt_navigation_controlling#:#Test di controllo della navigazione deg
 assessment#:#tt_self_assessment#:#Test di autovalutazione
 assessment#:#unlimited#:#non limitato
 assessment#:#uploaded_material#:#Materiale uploadato
+assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
 chat#:#chat_active#:#Attiva
 chat#:#chat_active_users#:#Utente (attivo)
 chat#:#chat_add_allowed_hosts#:#Per favore, aggiungi l'indirizzo dell'host(s) ai quali &#232; consentito accedere al server chat.
