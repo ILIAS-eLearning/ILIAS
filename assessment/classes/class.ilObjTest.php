@@ -1337,6 +1337,26 @@ class ilObjTest extends ilObject
 	}
 	
 /**
+* Removes all question solutions for a given user
+*
+* Removes all question solutions for a given user
+* The tst_active table is not affected. Only the existing
+* solutions for all questions the user answered will be removed.
+* This resets the test to the default values
+*
+* @access public
+*/
+	function deleteResults($user_id = "") {
+		if ($user_id) {
+			$query = sprintf("DELETE FROM tst_solutions WHERE test_fi = %s AND user_fi = %s",
+				$this->ilias->db->quote($this->getTestId()),
+				$this->ilias->db->quote($user_id)
+			);
+			$result = $this->ilias->db->query($query);
+		}
+	}
+	
+/**
 * Moves a question up in order
 * 
 * Moves a question up in order
