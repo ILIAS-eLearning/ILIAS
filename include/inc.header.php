@@ -27,7 +27,6 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-<<<<<<< inc.header.php
 * @version $Id$
 *
 * @package ilias-core
