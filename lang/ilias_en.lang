@@ -32,23 +32,15 @@
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 <!-- language file start -->
 common#:#absolute_path#:#Absolute Path
-common#:#home#:#Home
-common#:#appointment#:#Appointment
-common#:#new_appointment#:#New Appointment
-common#:#calendar#:#Calendar
-common#:#day#:#Day
-common#:#week#:#Week
-common#:#month#:#Month
-common#:#appointment_list#:#Appointment List
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
 common#:#active_roles#:#Active Roles
-common#:#remove_translation#:#Remove translation
 common#:#add#:#Add
 common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
+common#:#add_translation#:#Add translation
 common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
@@ -60,6 +52,8 @@ common#:#and#:#and
 common#:#announce#:#Announce
 common#:#announce_changes#:#Announce Changes
 common#:#answers#:#Answers
+common#:#appointment#:#Appointment
+common#:#appointment_list#:#Appointment List
 common#:#archive#:#Archive
 common#:#are_you_sure#:#Are you sure?
 common#:#assign_lo_forum#:#Assign LO Forum
@@ -68,8 +62,6 @@ common#:#at_location#:#at location
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#author#:#Author
-common#:#obj_rolf_local_desc#:#Contains local roles of object no.
-common#:#obj_rolf_local#:#Local Roles
 common#:#authors#:#Authors
 common#:#available_languages#:#Available Languages
 common#:#back#:#Back
@@ -87,6 +79,7 @@ common#:#bookmarks_of#:#Bookmarks of
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Undelete
 common#:#by#:#By
+common#:#calendar#:#Calendar
 common#:#cancel#:#Cancel
 common#:#cannot_uninstall_language_in_use#:#You cannot uninstall the language currently in use!
 common#:#cannot_uninstall_systemlanguage#:#You cannot uninstall the system language!
@@ -94,13 +87,10 @@ common#:#cat#:#Category
 common#:#cat_a#:#a category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
-common#:#cat_new#:#New category
 common#:#cat_edit#:#Edit Category
+common#:#cat_new#:#New category
 common#:#categories#:#Categories
 common#:#cc#:#CC
-common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
-common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
-common#:#msg_multi_language_selected#:#You selected the same language for different translations!
 common#:#censorship#:#censorship
 common#:#change#:#Change
 common#:#change_active_assignment#:#Change active assignment
@@ -139,9 +129,9 @@ common#:#create_stylesheet#:#Create Style
 common#:#crs#:#Course
 common#:#crs_a#:#a Course
 common#:#crs_add#:#Add Course
-common#:#crs_edit#:#Edit Course
 common#:#crs_added#:#Course added
 common#:#crs_available#:#Available Courses
+common#:#crs_edit#:#Edit Course
 common#:#crs_management_system#:#Course Management System
 common#:#crs_new#:#New Course
 common#:#current_password#:#Current Password
@@ -150,6 +140,7 @@ common#:#database#:#Database
 common#:#database_version#:#Current Database Version
 common#:#dataset#:#Dataset
 common#:#date#:#Date
+common#:#day#:#Day
 common#:#days#:#Days
 common#:#db_host#:#Database Host
 common#:#db_name#:#Database Name
@@ -225,8 +216,8 @@ common#:#forums_overview#:#Forums Overview
 common#:#frm#:#Forum
 common#:#frm_a#:#a Forum
 common#:#frm_add#:#Add Forum
-common#:#frm_edit#:#Edit Forum
 common#:#frm_added#:#Forum added
+common#:#frm_edit#:#Edit Forum
 common#:#frm_new#:#New Forum
 common#:#from#:#From
 common#:#fullname#:#Fullname
@@ -252,14 +243,15 @@ common#:#groups_overview#:#Groups Overview
 common#:#grp#:#Group
 common#:#grp_a#:#a Group
 common#:#grp_add#:#Add Group
-common#:#grp_edit#:#Edit Group
 common#:#grp_added#:#Group added
+common#:#grp_edit#:#Edit Group
 common#:#grp_new#:#New Group
 common#:#guest#:#Guest
 common#:#guests#:#Guests
 common#:#help#:#Help
 common#:#hide_details#:#hide details
 common#:#hobby#:#Interests/Hobbies
+common#:#home#:#Home
 common#:#host#:#Host
 common#:#http_path#:#Http Path
 common#:#id#:#ID
@@ -319,8 +311,6 @@ common#:#last_visit#:#Last Visit
 common#:#lastname#:#Lastname
 common#:#launch#:#Launch
 common#:#ldap#:#LDAP
-common#:#add_translation#:#Add translation
-common#:#translation#:#Translation
 common#:#learning_objects#:#Learning Objects
 common#:#level#:#Level
 common#:#link#:#Link
@@ -391,6 +381,7 @@ common#:#meta_data#:#Meta Data
 common#:#migrate#:#Migrate
 common#:#module#:#module
 common#:#modules#:#Modules
+common#:#month#:#Month
 common#:#move_to#:#Move to
 common#:#msg_cancel#:#Action cancelled
 common#:#msg_changes_ok#:#The changes were OK
@@ -412,7 +403,10 @@ common#:#msg_linked#:#Selected object(s) linked.
 common#:#msg_may_not_contain#:#This object may not contain objects of type:
 common#:#msg_min_one_active_role#:#Each user must have at least one active role!
 common#:#msg_min_one_role#:#Each user must have at least one role!
+common#:#msg_multi_language_selected#:#You selected the same language for different translations!
+common#:#msg_no_default_language#:#No default language specified! You must define one translation as default translation.
 common#:#msg_no_delete_yourself#:#You cannot delete your own user account.
+common#:#msg_no_language_selected#:#No translation language specified! You must define a language for each translation
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
 common#:#msg_no_perm_create_object1#:#You have no permission to create
@@ -461,6 +455,7 @@ common#:#my_frms#:#My Forums
 common#:#my_los#:#My Learning Objects
 common#:#name#:#Name
 common#:#new#:#New
+common#:#new_appointment#:#New Appointment
 common#:#new_folder#:#New Folder
 common#:#new_group#:#New Group
 common#:#new_language#:#New Language
@@ -502,6 +497,8 @@ common#:#obj_owner#:#This Object is owned by
 common#:#obj_pg#:#Page
 common#:#obj_role#:#Role
 common#:#obj_rolf#:#Role Administration
+common#:#obj_rolf_local#:#Local Roles
+common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolt#:#Role Template
 common#:#obj_root#:#root
 common#:#obj_slm#:#SCORM LM
@@ -581,6 +578,7 @@ common#:#register#:#Register
 common#:#register_info#:#Please fill out the form to register (Fields marked with an asteriks are required information).
 common#:#registered_since#:#Registered since
 common#:#registration#:#New account registration
+common#:#remove_translation#:#Remove translation
 common#:#rename#:#Rename
 common#:#reply#:#Reply
 common#:#required_field#:#Required Field
@@ -670,6 +668,7 @@ common#:#to_desktop#:#Subscribe
 common#:#today#:#Today
 common#:#total#:#Total
 common#:#tpl_path#:#Template Path
+common#:#translation#:#Translation
 common#:#trash#:#Trash
 common#:#treeview#:#Tree View
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
@@ -710,6 +709,7 @@ common#:#view#:#View
 common#:#view_content#:#View Content
 common#:#visible_layers#:#Visible Layers
 common#:#visits#:#Visits
+common#:#week#:#Week
 common#:#welcome#:#Welcome
 common#:#who_is_online#:#Who is online?
 common#:#with#:#with
@@ -718,11 +718,6 @@ common#:#yes#:#Yes
 common#:#you_may_add_local_roles#:#You May Add Local Roles
 common#:#your_message#:#Your Message
 common#:#zipcode#:#Zip Code
-content#:#cont_select_term#:#Select a term
-content#:#cont_select_max_one_term#:#Select one term only
-content#:#cont_add_definition#:#Add Definition
-content#:#cont_definitions#:#Definitions
-content#:#cont_definition#:#Definition
 content#:#cont_Additional#:#Additional
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Citation#:#Citation
@@ -735,6 +730,7 @@ content#:#cont_Number#:#Number
 content#:#cont_Reference#:#Reference
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
+content#:#cont_add_definition#:#Add Definition
 content#:#cont_added_term#:#Term added
 content#:#cont_all_pages#:#All Pages
 content#:#cont_alphabetic#:#Alphabetic a, b, ...
@@ -747,6 +743,8 @@ content#:#cont_content#:#Content
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Default Layout
 content#:#cont_def_organization#:#default
+content#:#cont_definition#:#Definition
+content#:#cont_definitions#:#Definitions
 content#:#cont_dependencies#:#Dependencies
 content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
@@ -799,6 +797,8 @@ content#:#cont_resources#:#Resources
 content#:#cont_roman#:#Roman i, ii, ...
 content#:#cont_sc_title#:#title
 content#:#cont_scorm_type#:#adlcp:scormtype
+content#:#cont_select_max_one_term#:#Select one term only
+content#:#cont_select_term#:#Select a term
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_width#:#Set Width
 content#:#cont_st_title#:#Chapter Title
@@ -843,8 +843,8 @@ forum#:#forums_post_modified#:#Article has been modified
 forum#:#forums_post_new_entry#:#New article has been inscribed
 forum#:#forums_posts#:#All articles
 forum#:#forums_posts_not_available#:#Articles Not Available
-forum#:#forums_respond#:#Post Reply
 forum#:#forums_quote#:#Quote
+forum#:#forums_respond#:#Post Reply
 forum#:#forums_the_post#:#Article
 forum#:#forums_thread#:#Topic
 forum#:#forums_thread_articles#:#Articles to the topic
