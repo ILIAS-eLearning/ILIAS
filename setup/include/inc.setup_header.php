@@ -56,6 +56,7 @@ require_once "../classes/class.ilLog.php";
 require_once "../classes/class.ilUtil.php";
 require_once "../classes/class.ilIniFile.php";
 require_once "../classes/class.perm.php";
+require_once "../classes/class.ilDbx.php";
 require_once "./classes/class.ilSetupGUI.php";
 require_once "./classes/class.Session.php";
 require_once "./classes/class.ilClientList.php";
