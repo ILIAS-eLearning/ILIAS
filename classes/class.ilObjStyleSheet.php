@@ -356,7 +356,93 @@ class ilObjStyleSheet extends ilObject
 	{
 		return $this->style;
 	}
+	
+	/**
+	* set styles
+	*/
+	function setStyle($a_style)
+	{
+		$this->style = $a_style;
+	}
+	
+	
+	/**
+	* get xml representation of style object
+	*/
+	function getXML()
+	{
+		$xml.= "<StyleSheet>";
+		$xml.= "<Title>".$this->getTitle()."</Title>";
+		$xml.= "<Description>".$this->getDescription()."</Description>";
+		foreach($this->style as $style)
+		{
+			$xml.= "<Style Tag=\"".$style[0]["tag"]."\" Class=\"".$style[0]["class"]."\">";
+			foreach($style as $tag)
+			{
+				$xml.="<StyleParameter Name=\"".$tag["parameter"]."\" Value=\"".$tag["value"]."\"/>";
+			}
+			$xml.= "</Style>";
+		}
+		$xml.= "</StyleSheet>";
+		
+		return $xml;
+	}
+	
+	
+	/**
+	* export style xml file to directory
+	*/
+	function exportXML($a_dir)
+	{
+		$file = $a_dir."/style.xml";
+		
+		// open file
+		if (!($fp = @fopen($file,"w")))
+		{
+			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
+		}
+		
+		// set file permissions
+		chmod($file, 0770);
+		
+		// write xml data into the file
+		fwrite($fp, $this->getXML());
+		
+		// close file
+		fclose($fp);
 
+	}
+
+	/**
+	* create style from xml file
+	*/
+	function createFromXMLFile($a_file)
+	{
+		parent::create();		
+		include_once("classes/class.ilStyleImportParser.php");
+		$importParser = new ilStyleImportParser($a_file, $this);
+		$importParser->startParsing();
+		
+		// store style parameter
+		foreach ($this->style as $style)
+		{
+			foreach($style as $tag)
+			{
+				$q = "INSERT INTO style_parameter (style_id, tag, class, parameter, value) VALUES ".
+					"('".$this->getId()."','".$tag["tag"]."','".$tag["class"].
+					"','".$tag["parameter"]."','".$tag["value"]."')";
+				$this->ilias->db->query($q);
+			}
+		}
+		$this->update();
+		$this->read();
+		$this->writeCSSFile();
+	}
+	
+	/**
+	* get all available tags in an array
+	*/
 	function getAvailableTags()
 	{
 		$tags = array("a.FootnoteLink", "a.FootnoteLink:hover", "a.IntLink", "a.IntLink:hover",
@@ -391,7 +477,7 @@ class ilObjStyleSheet extends ilObject
 
 			"text-indent" => array(),
 			"line-height" => array(),
-			"vertival-align" => array("top", "middle", "bottom", "baseline", "sub", "super",
+			"vertical-align" => array("top", "middle", "bottom", "baseline", "sub", "super",
 				"text-top", "text-bottom"),
 			"text-align" => array("left", "center", "right", "justify"),
 			"white-space" => array("normal", "pre", "nowrap"),

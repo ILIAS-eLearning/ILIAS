@@ -224,6 +224,13 @@ class ilContObjectExport
 			$this->export_dir."/".$this->subdir, $expLog);
 		$ilBench->stop("ContentObjectExport", "buildExportFile_getXML");
 
+		// export style
+		if ($this->cont_obj->getStyleSheetId() > 0)
+		{
+			$style_obj = new ilObjStyleSheet($this->cont_obj->getStyleSheetId(), false);
+			$style_obj->exportXML($this->export_dir."/".$this->subdir);
+		}
+
 		// dump xml document to screen (only for debugging reasons)
 		/*
 		echo "<PRE>";

@@ -72,12 +72,12 @@ class ilObj<module_name> extends ilObject
 	* @param	integer	ref_id of parent object
 	* @return	integer	new ref id
 	*/
-	function clone($a_parent_ref)
+	function ilClone($a_parent_ref)
 	{		
 		global $rbacadmin;
 
 		// always call parent clone function first!!
-		$new_ref_id = parent::clone($a_parent_ref);
+		$new_ref_id = parent::ilClone($a_parent_ref);
 		
 		// get object instance of cloned object
 		//$newObj =& $this->ilias->obj_factory->getInstanceByRefId($new_ref_id);

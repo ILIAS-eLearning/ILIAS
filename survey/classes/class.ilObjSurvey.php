@@ -816,7 +816,8 @@ class ilObjSurvey extends ilObject
 	function getTitle()
 	{
 		//return $this->title;
-		return $this->meta_data->getTitle();
+		return parent::getTitle();
+		//return $this->meta_data->getTitle();
 	}
 
 	/**
@@ -900,7 +901,7 @@ class ilObjSurvey extends ilObject
       $this->ilias->db->quote($this->getId())
     );
     $result = $this->ilias->db->query($query);
-    if (strcmp(get_class($result), db_result) == 0) {
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
       if ($result->numRows() == 1) {
         $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->survey_id = $data->survey_id;

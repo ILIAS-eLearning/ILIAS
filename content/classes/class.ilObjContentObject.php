@@ -564,6 +564,21 @@ class ilObjContentObject extends ilObject
 	}
 
 	/**
+	* write ID of assigned style sheet object to db
+	*/
+	function writeStyleSheetId($a_style_id)
+	{
+		global $ilDB;
+		
+		$q = "UPDATE content_object SET ".
+			" stylesheet = ".$ilDB->quote($a_style_id).
+			" WHERE id = '".$this->getId()."'";
+		$ilDB->query($q);
+
+		$this->style_id = $a_style_id;
+	}
+
+	/**
 	* get page header mode (IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER)
 	*/
 	function getPageHeader()
