@@ -5,6 +5,7 @@
 	</ilFrame>
 	<ilFrame name="content" cols="50%,50%">
 		<ilFrame name="maincontent" template="tpl.page.html" template_location="module">
+			<ilLocator />
 			<ilPage />
 			<ilLMNavigation />
 		</ilFrame>
