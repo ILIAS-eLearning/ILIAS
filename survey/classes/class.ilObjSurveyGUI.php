@@ -2692,6 +2692,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 						$categories = "<ol>$categories</ol>";
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
+						
+						// display chart for ordinal question for array $eval["variables"]
+						
 						switch ($_POST["export_format"])
 						{
 							case TYPE_PRINT:
@@ -2760,6 +2763,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 						$categories = "<ol>$categories</ol>";
 						$this->tpl->setVariable("VALUE_CATEGORIES", $categories);
+
+						// display chart for nominal question for array $eval["variables"]
+
 						switch ($_POST["export_format"])
 						{
 							case TYPE_PRINT:
@@ -2848,6 +2854,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 						}
 						$values = "<ol>$values</ol>";
 						$this->tpl->setVariable("VALUE_VALUES", $values);
+
+						// display chart for metric question for array $eval["values"]
+
 						switch ($_POST["export_format"])
 						{
 							case TYPE_PRINT:
