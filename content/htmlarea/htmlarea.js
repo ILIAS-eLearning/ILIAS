@@ -187,11 +187,14 @@ HTMLArea.Config = function () {
 	//    - ToolTip: default tooltip, for cases when it is not defined in the -lang- file (HTMLArea.I18N)
 	//    - Icon: path to an icon image file for the button (TODO: use one image for all buttons!)
 	//    - Enabled in text mode: if false the button gets disabled for text-only mode; otherwise enabled all the time.
+	// bold: [ "Bold", "ed_format_bold.gif", false, function(e) {e.execCommand("bold");} ],
+	// italic: [ "Italic", "ed_format_italic.gif", false, function(e) {e.execCommand("italic");} ],
+
 	this.btnList = {
-		bold: [ "Bold", "ed_format_bold.gif", false, function(e) {e.execCommand("bold");} ],
-		italic: [ "Italic", "ed_format_italic.gif", false, function(e) {e.execCommand("italic");} ],
+		bold: [ "Bold", "&nbsp;<span class=ilc_Strong>B</span>", false, function(e) {e.execCommand("bold");} ],
+		italic: [ "Italic", "&nbsp;<span class=ilc_Emph>I</span>", false, function(e) {e.execCommand("italic");} ],
 		underline: [ "Underline", "ed_format_underline.gif", false, function(e) {e.execCommand("underline");} ],
-		strikethrough: [ "Strikethrough", "ed_format_strike.gif", false, function(e) {e.execCommand("strikethrough");} ],
+		strikethrough: [ "Strikethrough", "ed_com.gif", false, function(e) {e.execCommand("strikethrough");} ],
 		subscript: [ "Subscript", "ed_format_sub.gif", false, function(e) {e.execCommand("subscript");} ],
 		superscript: [ "Superscript", "ed_format_sup.gif", false, function(e) {e.execCommand("superscript");} ],
 		justifyleft: [ "Justify Left", "ed_align_left.gif", false, function(e) {e.execCommand("justifyleft");} ],
@@ -246,7 +249,9 @@ HTMLArea.Config = function () {
 	// initialize tooltips from the I18N module and generate correct image path
 	for (var i in this.btnList) {
 		var btn = this.btnList[i];
-		btn[1] = _editor_url + this.imgURL + btn[1];
+		if (btn[1].indexOf(".gif")>0) {
+			btn[1] = _editor_url + this.imgURL + btn[1];
+		}
 		if (typeof HTMLArea.I18N.tooltips[i] != "undefined") {
 			btn[0] = HTMLArea.I18N.tooltips[i];
 		}
@@ -549,11 +554,19 @@ HTMLArea.prototype._createToolbar = function () {
 					_stopEvent(is_ie ? window.event : ev);
 				}
 			});
-			var img = document.createElement("img");
-			img.src = btn[1];
-			img.style.width = "18px";
-			img.style.height = "18px";
+			
+			if (btn[1].indexOf(".gif")>0) {
+				var img = document.createElement("img");
+				img.src = btn[1];
+				img.style.width = "18px";
+				img.style.height = "18px";
+			} else {
+				var img = document.createElement("span");
+				
+				img.innerHTML = btn[1];
+			}
 			el.appendChild(img);
+			
 		} else if (!el) {
 			el = createSelect(txt);
 		}

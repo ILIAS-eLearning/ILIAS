@@ -342,7 +342,8 @@ function initEditor(TextAreaName)
 
   var cfg = editor.config; // this is the default configuration
 
-    cfg.registerButton(
+/*
+	cfg.registerButton(
 	{
       id        : "ilias-str",
       tooltip   : "Strong",
@@ -351,13 +352,10 @@ function initEditor(TextAreaName)
 	  context   : "",
       action    : function(editor, id) 
 	  			  {
-				  	editor.execCommand("bold");
-				  	/*
 					if (checkAllowTagInside("str"))
 					{
                     	editor.surroundHTML('<span class="ilc_Strong">', '</span>');
 					}
-					*/
                   }
     });
 
@@ -375,12 +373,12 @@ function initEditor(TextAreaName)
 					}
                   }
     });
-
+*/
     cfg.registerButton(
 	{
       id        : "ilias-com",
       tooltip   : "Kommentar",
-      image     : "./htmlarea/images/ed_com.gif",
+      image     : "&nbsp;<span class=ilc_Comment>C</span>",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -395,7 +393,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-quot",
       tooltip   : "Quotation",
-      image     : "./htmlarea/images/ed_quot.gif",
+      image     : "&nbsp;<span class=ilc_Quotation>Q</span>",
       textMode  : false,
       action    : function(editor, id) 	
 	  			  {
@@ -410,7 +408,7 @@ function initEditor(TextAreaName)
 	{
       id        : "ilias-code",
       tooltip   : "Code",
-      image     : "./htmlarea/images/ed_code.gif",
+      image     : "<code>Co</code>",
       textMode  : false,
       action    : function(editor, id) 
 	  			  {
@@ -678,6 +676,9 @@ function buttonInternalLink()
 		
         T = replaceAll(T, "[com]","<span class=\"ilc_Comment\">");
         T = replaceAll(T, "[/com]","</span>");
+		
+        //T = replaceAll(T, "[com]","<span style=\"text-decoration: line-through;\">");
+        //T = replaceAll(T, "[/com]","</span>");
         
         T = replaceAll(T, "[quot]","<span class=\"ilc_Quotation\">");
         T = replaceAll(T, "[/quot]","</span>");
