@@ -148,190 +148,378 @@ literature_bookmarks	literature bookmarks	Literatur Bookmarks	favoriti letteratu
 lo	learning object	Lerneinheit	lezione	learning object
 lo_available	available learning objects	verfügbare Lerneinheiten	lezioni disponibili	available learning objects
 lo_categories	lo categories	Lerneinheiten Kategorien	LO categorie	lo categories
+
 lo_edit	edit learning object	Lerneinheiten editieren	editare lezioni	edit learning object
+
 lo_new	new learning object	neue Lerneinheit	nuova lezione	new learning object
+
 lo_other_langs	lo's in other langauges	Lerneinheiten in anderen Sprachen	LO in altre lingue	lo's in other langauges
+
 lo_overview	lo overview	LE Übersicht	visione generale LO	lo overview
+
 login	login	Login	login	login
+
 login_to_ilias	login to ILIAS	bei ILIAS anmelden	login a ILIAS	login to ILIAS
+
 logout	logout	Logout	logout	logout
+
 los	learning objects	Lerneinheiten	lezioni	learning objects
+
 los_last_visited	last visited learning objects	zuletzt besuchte Lerneinheiten	ultima lezione visitata	last visited learning objects
+
 mail	mail	Mail	Posta 	mail
+
 mail_s	mail(s)	Mail(s)	mail	mail(s)
+
 mail_s_unread	unread mail(s)	ungelesene Mail(s)	messaggi non letti	unread mail(s)
+
 mails	mails	Mails	messaggi 	mails
+
 mark_all_read	mark all as read	als gelesen markieren	contrassegna tutto come letto	mark all as read
+
 mark_all_unread	mark all as unread	als ungelesen markieren	contrassegna tutto come non letto	mark all as unread
+
 members	members	Mitglieder	membri	members
+
 message	message	Nachricht	messaggio	message
+
 message_content	message content	Nachrichteninhalt	contenuto del messaggio	message content
+
 message_to	message to:	Nachricht an:	messaggio a:	message to:
+
 migrate	migrate	migrieren	migrare	migrate
+
 move_to	move to	ablegen in 	inserisci in cartella	move to
+
 msg_changes_ok	the changes were ok	die Änderungen wurden übernommen	cambio salvato	the changes were ok
+
 msg_failed	sorry, action failed	Aktion fehlgeschlagen	fallito	sorry, action failed
+
 msg_nothing_found	msg_nothing_found	nichts gefunden	niente trovato	msg_nothing_found
+
 multimedia	multimedia	Multimedia	multimedia	multimedia
+
 must_fill_in	must fill in	Felder müssen ausgefüllt werden	campi obbligatori	must fill in
+
 name	name	Name	nome	name
+
 new	new	neu	nuovo	new
+
 new_folder	new folder	neuer Ordner	nuova cartella	new folder
+
 new_group	new group	neue Gruppe	nuovo gruppo	new group
+
 news	news	News	novità	news
+
 nickname	nickname	Login	nickname	nickname
+
 no	no	Nein	no	no
+
 no_objects	no objects	keine Objekte	nessun oggetto	no objects
+
 no_title	no title	kein Titel	nessun titolo	no title
+
 none	none	keine	nessuno	none
+
 normal	normal	normal	normale	normal
+
 not_installed	not installed	nicht installiert	non istallato	not installed
+
 objects	objects	Objekte	oggetti	objects
+
 offline_version	offline version	Offline Version	versione offline	offline version
+
 old	old	alt	vecchio	old
+
 online_chapter	online chapter	Online Kapitel	capitolo online	online chapter
+
 online_version	online version	Online Version	versione online	online version
+
 optimize	optimize	Optimieren	ottimare	optimize
+
 options	options	Optionen	opzioni	options
+
 other	other	andere	altri	other
+
 overview	overview	Übersicht	visione generale	overview
+
 owner	owner	Besitzer	proprietario	owner
+
 page	page	Seite	pagina	page
+
 page_edit	edit page	Seite bearbeiten	editare pagina	edit page
+
 password	password	Passwort	password	password
+
 path	path	Pfad	path	path
+
 path_to_babylon	path to babylon	BABYLON Befehlszeile	percorso BABYLON	path to babylon
+
 path_to_convert	path to convert	CONVERT Befehlszeile	percorso CONVERT	path to convert
+
 path_to_java	path to java	JAVA Befehlszeile	percorso JAVA	path to java
+
 path_to_unzip	path to unzip	UNZIP Befehlszeile	percorso UNZIP	path to unzip
+
 path_to_zip	path to zip	ZIP Befehszeile	percorso ZIP	path to zip
+
 payment_system	payment system	Bezahlungssystem	sistema di pagamento	payment system
+
 perm_settings	permissions	Rechte	diritti	permissions
+
 personal_desktop	personal desktop	Personal Desktop	desktop personale	personal desktop
+
 personal_profile	personal profile	persönliches Profil	profilo personale	personal profile
+
 phone	phone	Telefon	telefono	phone
+
 phrase	phrase	Phrase	frase	phrase
+
 port	port	Port	#port	port
+
 position	position	Position	posizione	position
+
 presentation_options	presentation options	Präsentationsoptionen	opzioni di presentazione	presentation options
+
 print	print	Drucken	stampare	print
+
 profile	profile	Profil	profilo 	profile
+
 pub_section	public section	öffentlicher Bereich	sezione pubblica	public section
+
 publication	publication	Veröffentlichung 	pubblicazione	publication
+
 publication_date	publication date	Veröffentlichungsdatum	data di pubblicazione	publication date
+
 published	published	veröffentlicht	pubblicato	published
+
 publishing_organisation	publishing organisation	veröffentlichende Organisation	organizzazione di pubblicazione	publishing organisation
+
 question	question	Frage	domanda	question
+
 quit	quit	Logout	esci	quit
+
 read	read	lesen	leggi	read
+
 recipient	recipient	Empfänger	destinario	recipient
+
 refresh	refresh	aktualisieren	aggiorna	refresh
+
 refresh_list	refresh list	refresh list	aggiorna lista	refresh list
+
 reply	reply	Antworten	rispondere	reply
+
 reset	reset	Zurücksetzen	#reset	reset
+
 retype_password	retype password	Passwort wiederholen	ridigita la nuova password	retype password
+
 right	right	Recht	diritto	right
+
 rights	rights	Rechte	diritti	rights
+
 salutation	salutation	Anrede	apellativo	salutation
+
 salutation_f	Ms./Mrs.	Frau	Signora/Signorina	Ms./Mrs.
+
 salutation_m	Mr.	Herr	Signore	Mr.
+
 save	save	speichern	salva	save
+
 save_and_back	save and back	speichern und zurück	salva e indietro	save and back
+
 save_message	save message	Nachricht speichern	salva messaggio	save message
+
 saved	saved	gespeichert	salvato	saved
+
 saved_successfully	saved successfully	Ihre Änderungen wurden gespeichert	cambiamenti salvati con successo	saved successfully
+
 search	search	Suchen	cercare	search
+
 search_bc_recipient	search bc recipient	BC Empfänger suchen	cercare bc destinario	search bc recipient
+
 search_cc_recipient	search cc recipient	CC Empfänger suchen	cercare cc destinario	search cc recipient
+
 search_in	search in	suchen in	cerca in	search in
+
 search_recipient	search recipient	Empfänger suchen	cercare destinario	search recipient
+
 sections	sections	Bereiche	sezioni	sections
+
 select_all	select all	Alle auswählen	selezionare tutto	select all
+
 selected	selected	ausgewählte	selezionati	selected
+
 send 	send	abschicken	invia	send
+
 sender	sender	Absender	mittente	sender
+
 sent	sent	gesendet	inviato	sent
+
 sequence	sequence	Sequenz 	sequenza	sequence
+
 sequences	sequences	Sequenzen	esquenza	sequences
+
 server	server	Server	#server	server
+
 server_software	server software	Server Software	#server software	server software
+
 set	set	setzen	#set	set
+
 set_offline	set offline	Offline setzen	mettere offline	set offline
+
 set_online	set online	Online stellen	mettere online	set online
+
 setup	setup	setup	setup	setup
+
 setup_ready	setup is ready	Setup wurde erfolgreich beendet	setup finito	setup is ready
+
 setup_welcome	Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.	Willkommen	Benvenuti	Welcome to the setup of ILIAS.<br>To make Ilias operatable please fill out the following fields.<br>ILIAS will install the database with the given parameters after pressing <submit>.
+
 show_owner	show owner	Besitzerinfo	proprietario	show owner
+
 signature	signature	Signatur	#signature	signature
+
 startpage	startpage	Startseite	#startpage	startpage
+
 status	status	Status	stato	status
+
 step	step	Schritt	passo	step
+
 street	street	Straße	via	street
+
 structure	structure	Gliederung	struttura	structure
+
 student	student	Student	studente	student
+
 subcat_name	subcategory name	Unterkategorie Name	#subcategory name	subcategory name
+
 subchapter_new	new subchapter	neues Unterkapitel	#new subchapter	new subchapter
+
 subject	subject	Betreff	oggetto	subject
+
 submit	submit	abschicken	invia	submit
+
 subscription	subscription	Abo	abonnamento	subscription
+
 summary	summary	Zusammenfassung	riassunto	summary
+
 system	system	System	sistema	system
+
 system_groups	system groups	Systemgruppen	gruppi del sistema	system groups
+
 system_grp	system group	Systemgruppe	gruppo sistema	system group
+
 system_message	system message	Systemnachricht	messaggio di sistema	system message
+
 test_intern	test intern 	interner Test	test interno	test intern 
+
 time	time	Zeit	ora	time
+
 title	title	Titel	titolo	title
+
 to	to:	An	per:	to:
+
 total	total	gesamt	totale	total
+
 tpl_path	template path	Template-Pfad	percorso template	template path
+
 trash	trash	Papierkorb	cestino	trash
+
 type 	type 	Typ	tipo	type 
+
 type_your_message_here	type your message here	schreiben Sie Ihre Nachricht hier	scrivi il Tuo messaggio qua	type your message here
+
 uid	uid	UID	uid	uid
+
 unknown	UNKNOWN	UNBEKANNT	IGNOTO	UNKNOWN
+
 unread	unread	ungelesen	non letto	unread
+
 update_applied	update applied	Datenbankupdate erfolgreich	update riuscito	update applied
+
 url	url	URL	URL	url
+
 url_description	url description	URL Beschreibung	URL descrizione	url description
+
 userdata	userdata	Benutzerdaten	dati utente	userdata
+
 username	username	Benutzername	nome utente	username
+
 users	users	Benutzer	utenti	users
+
 usr_agreement	user agreement	Vereinbarung	accordo utente	user agreement
+
 usr_skin	user skin	Benutzeroberfläche	#user skin	user skin
+
 usr_style	usr style	Stil	stile	usr style
+
 version	version	Version	versione	version
+
 view_content	view content	Inhalt	contenuto	view content
+
 visible_layers	visible layers	sichtbare Ebenen	#visible layers	visible layers
+
 write	write	schreiben	scrivi	write
+
 yes	yes	Ja	si	yes
+
 your_message	your message	Ihre Nachricht	Tuo messagio	your message
+
 zip	zip code	Postleitzahl	codice postale	zip code
+
 obj_not_found	object not found	Kein Objekt gefunden	object_not_found	object_not_found
+
 cut	cut	ausschneiden	cut	cut
+
 copy	copy	kopieren	copy	copy
+
 paste	paste	einfügen	paste	paste
+
 clear	clear	abbrechen	clear	clear
+
 required_field	required field	erforderliches Feld	required	required
+
 you_may_add_local_roles	you may add local roles	Sie können lokale Rollen hinzufügen	you_may_add_local_roles	you_may_add_local_roles
+
 obj_owner	This Object is owned by	Besitzer des Objekts ist	This Object is owned by	This Object is owned by 
+
 permission	permission	Recht	permission	permission
+
 roles	roles	Rollen	roles	roles
+
 uninstall	uninstall	deinstallieren	uninstall	uninstall
+
 frm	forum	Forum	forum	frm
+
 obj	object	Objekt	obj	obj
+
 cat	category	Kategorie	cat	cat
+
 lo	learning object	Lerneinheit	lo	lo
+
 le	learning module	Lernmodul	le	le
+
 grp	group	Gruppe	grp	grp
+
 crs	course	Kurs	crs	crs
+
 file	file	Datei	file	file
+
 rolf	role folder	Rollenordner	rolf	rolf
+
 rolt	role template	Rollenvorlage	rolt	rolt
+
 lngf	language folder	Sprachordner	lngf	idiomaf
+
 lng	language	Sprache 	lingua	idioma
+
 usr	user	Benutzer	utente	user
+
 user	user	Benutzer	utente	user
+
 usrf	user folder	Benutzerordner	usrf	usrf
+
 objf	object folder	Objektordner	objf	objf
+
 role	role	Rolle	role	role
+passwd	password	Passwort	passwd	passwd

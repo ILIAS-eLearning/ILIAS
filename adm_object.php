@@ -2,6 +2,7 @@
 require_once "include/ilias_header.inc";
 require_once "classes/class.Object.php";	// base class for all Object Types
 
+
 if ($_POST["type"])
 {
 	$_GET["type"] = $_POST["type"];
@@ -253,11 +254,11 @@ switch($_GET["cmd"])
 		break;
 		
 	case "edit":
+
 		foreach ($data["fields"] as $key => $val)
 		{
-			$tpl->setCurrentBlock("valueblock");
-			$tpl->setVariable("TITLE", $lng->txt($key));
-			$tpl->setVariable("VALUE", "<input type=\"text\" name=\"$key\" value=\"$val\">");
+			$tpl->setVariable("TXT_".strtoupper($key), $lng->txt($key));
+			$tpl->setVariable(strtoupper($key), $val);
 			$tpl->parseCurrentBlock();
 		}
 		$tpl->setVariable("FORMACTION", "adm_objects.php?type=".$obj->type."&cmd=update&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
@@ -472,6 +473,14 @@ switch($_GET["cmd"])
 		
 		
 } // switch
+
+if ($_GET["cmd"] == "view" && $obj->type == "adm")
+{
+	$tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
+	$tpl->setCurrentBlock("systemsettings");
+	require_once("./include/inc.basicdata.php");
+	$tpl->parseCurrentBlock();
+}
 
 $tpl->show();
 
