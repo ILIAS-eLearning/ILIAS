@@ -60,22 +60,6 @@ class ilObjForum extends ilObject
 	}
 
 	/**
-	* saves new object in admin interface
-	*
-	* @param	integer		obj_id
-	* @param	integer		parent_id
-	* @param	string		obj_type
-	* @param	string		new_obj_type
-	* @param	array		title & description
-	* @return	integer		new obj_id
-	* @access	public
-	*/
-	function create()
-	{
-		$newFrm_ID = parent::create();
-	}
-
-	/**
 	* update forum data
 	*
 	* @access	public
