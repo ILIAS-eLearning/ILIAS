@@ -1,4 +1,4 @@
-﻿/**
+/**
 * ILIAS language file
 *
 * @module		language file german
@@ -489,7 +489,7 @@ common#:#accept_usr_agreement#:#Benutzer-Lizenz akzeptieren?
 common#:#access#:#Zugang
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
-common#:#activate_tracking#:#Activate Tracking###02 Jul 2004 new variable
+common#:#activate_tracking#:#Tracking aktivieren
 common#:#activation#:#Aktivierung
 common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
@@ -506,7 +506,7 @@ common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
 common#:#adopt_perm_from_template#:#Übernehme Rechteeinstellungen von Rollenvorlage
-common#:#all_lms#:#All learning modules###02 Jul 2004 new variable
+common#:#all_lms#:#Alle Lernmodule
 common#:#all_objects#:#Alle Objekte
 common#:#all_tsts#:#Alle Tests
 common#:#allow_register#:#Verfügbar im Anmeldeformular für neue Benutzer
@@ -514,7 +514,7 @@ common#:#and#:#und
 common#:#announce#:#Ankündigen
 common#:#announce_changes#:#Änderungen bekanntgeben
 common#:#answers#:#Antworten
-common#:#any_language#:#Any language###02 Jul 2004 new variable
+common#:#any_language#:#Alle Sprachen
 common#:#application_completed#:#Anmeldung erfolgt
 common#:#application_date#:#Anmeldedatum
 common#:#appointment#:#Termin
@@ -637,7 +637,7 @@ common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#city#:#Ort
 common#:#clear#:#Abbrechen
-common#:#client ip#:#Client Ip###24 Jun 2004 new variable
+common#:#client ip#:#Client IP
 common#:#client_id#:#Mandanten ID
 common#:#clipboard#:#Clipboard
 common#:#close#:#Schließen
@@ -653,7 +653,7 @@ common#:#continue_work#:#Fortsetzen
 common#:#copy#:#Kopieren
 common#:#copyPage#:#Kopiere
 common#:#copy_of#:#Kopie von
-common#:#count#:#Count###24 Jun 2004 new variable
+common#:#count#:#Anzahl
 common#:#country#:#Land
 common#:#course#:#Kurs
 common#:#courses#:#Kurse
@@ -692,7 +692,7 @@ common#:#date#:#Datum
 common#:#dateplaner#:#Terminplaner
 common#:#day#:#Tag
 common#:#days#:#Tage
-common#:#days_of_period#:#Days of period###02 Jul 2004 new variable
+common#:#days_of_period#:#Alle Tage des Zeitraums
 common#:#db_host#:#Datenbank Host
 common#:#db_name#:#Datenbankname
 common#:#db_need_update#:#Datenbank benötigt ein Update!
@@ -724,7 +724,7 @@ common#:#delete_all#:#Alle löschen
 common#:#delete_all_rec#:#Lösche alle Einträge
 common#:#delete_object#:#Lösche Objekte
 common#:#delete_selected#:#Auswahl löschen
-common#:#delete_tr_data#:#Delete tracking data###09 Jul 2004 new variable
+common#:#delete_tr_data#:#Tracking Daten löschen
 common#:#deleted#:#Gelöscht
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
@@ -992,7 +992,7 @@ common#:#hide_structure#:#Strukturansicht ausblenden
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zur Startseite
 common#:#host#:#Host
-common#:#hours_of_day#:#Hours of day###02 Jul 2004 new variable
+common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#HTML-Lernmodul
 common#:#htlm_add#:#HTML-Lernmodul hinzufügen
 common#:#htlm_delete#:#HTML-Lernmodul löschen
@@ -1110,7 +1110,7 @@ common#:#ldap_edit_permission#:#Rechteeinstellungen ändern
 common#:#ldap_read#:#Lesezugriff auf LDAP-Einstellungen
 common#:#ldap_visible#:#LDAP-Einstellungen sind sichtbar
 common#:#ldap_write#:#LDAP-Einstellungen bearbeiten
-common#:#learning module#:#Learning Module###24 Jun 2004 new variable
+common#:#learning module#:#Lernmodul
 common#:#learning_objects#:#Lernobjekte
 common#:#learning_resources#:#Lernmaterialien
 common#:#level#:#Stufe
@@ -1194,7 +1194,7 @@ common#:#mail_visible#:#Maileinstellungen sind sichtbar
 common#:#mail_write#:#Maileinstellungen bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
-common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
+common#:#manage_tracking_data#:#Tracking-Daten verwalten
 common#:#mark_all_read#:#Als gelesen markieren
 common#:#mark_all_unread#:#Als ungelesen markieren
 common#:#max_number_rec#:#Maximale Zahl der Einträge
@@ -1280,21 +1280,21 @@ common#:#msg_no_perm_copy#:#Sie besitzen keine ausreichende Berechtigung, die fo
 common#:#msg_no_perm_create#:#Sie besitzen keine ausreichende Berechtigung, die folgenden Objekte zu erzeugen:
 common#:#msg_no_perm_create_object1#:#Sie besitzen keine Berechtigung, um
 common#:#msg_no_perm_create_object2#:#an dieser Position anzulegen!
-common#:#msg_no_perm_create_role#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollen anzulegen!
-common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung, um einen Rollenordner anzulegen. Deshalb können Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
-common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung, um neue Rollenvorlagen anzulegen!
-common#:#msg_no_perm_create_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzer anzulegen!
+common#:#msg_no_perm_create_role#:#Sie besitzen keine ausreichende Berechtigung um neue Rollen anzulegen!
+common#:#msg_no_perm_create_rolf#:#Sie besitzen keine ausreichende Berechtigung um einen Rollenordner anzulegen. Deshalb können Sie hier nicht die Vererbung von Rollen unterbrechen oder lokale Rollen anlegen.
+common#:#msg_no_perm_create_rolt#:#Sie besitzen keine ausreichende Berechtigung um neue Rollenvorlagen anzulegen!
+common#:#msg_no_perm_create_user#:#Sie besitzen keine ausreichende Berechtigung um Benutzer anzulegen!
 common#:#msg_no_perm_cut#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte auszuschneiden:
 common#:#msg_no_perm_delete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte zu löschen:
-common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.###10 Jul 2004 new variable
+common#:#msg_no_perm_delete_track#:#Sie besitzen keine ausreichende Berechtigung um Tracking-Daten zu löschen!
 common#:#msg_no_perm_link#:#Sie besitzen keine ausreichende Berechtigung eine Verknüpfung für die folgenden Objekte zu erstellen:
-common#:#msg_no_perm_modify_role#:#Sie besitzen keine ausreichende Berechtigung, um Rollen zu ändern!
-common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung, um Rollenvorlagen zu ändern!
-common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung, um Benutzerdaten zu ändern!
+common#:#msg_no_perm_modify_role#:#Sie besitzen keine ausreichende Berechtigung um Rollen zu ändern!
+common#:#msg_no_perm_modify_rolt#:#Sie besitzen keine ausreichende Berechtigung um Rollenvorlagen zu ändern!
+common#:#msg_no_perm_modify_user#:#Sie besitzen keine ausreichende Berechtigung um Benutzerdaten zu ändern!
 common#:#msg_no_perm_paste#:#Sie besitzen keine ausreichende Berechtigung, um die folgenden Objekte einzufügen:
 common#:#msg_no_perm_perm#:#Sie besitzen keine ausreichende Berechtigung, um auf die Rechteeinstellungen zuzugreifen!
-common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
-common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
+common#:#msg_no_perm_read_track#:#Sie besitzen keine ausreichende Berechtigung um Tracking-Daten anzuzeigen.
+common#:#msg_no_perm_read_lm#:#Sie besitzen keine ausreichende Berechtigung um diese Lernmodul anzuzeigen.
 common#:#msg_no_perm_undelete#:#Sie besitzen keine ausreichende Berechtigung die folgenden Objekte wiederherzustellen:
 common#:#msg_no_perm_write#:#Sie besitzen keine Schreibberechtigung!
 common#:#msg_no_rolf_allowed1#:#Das Objekt
@@ -1363,7 +1363,7 @@ common#:#normal#:#Normal
 common#:#not_implemented_yet#:#In Entwicklung
 common#:#not_installed#:#Nicht installiert
 common#:#not_logged_in#:#Sie sind nicht eingeloggt
-common#:#number_of_accesses#:#Number of accesses###09 Jul 2004 new variable
+common#:#number_of_accesses#:#Anzahl Zugriffe
 common#:#number_of_records#:#Zahl der Einträge
 common#:#obj#:#Objekt
 common#:#obj_adm#:#Administration
@@ -1418,7 +1418,7 @@ common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_taxf_desc#:#Ordner für Taxonomien
 common#:#obj_trac#:#Zugriffsstatistiken
-common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
+common#:#obj_trac_desc#:#Benutzerzugriff Tracking-Daten
 common#:#obj_tst#:#Test
 common#:#obj_typ#:#Objekttyp-Definition
 common#:#obj_type#:#Objekttyp
@@ -1543,7 +1543,7 @@ common#:#qpl_new#:#Neuer Fragenpool
 common#:#qpl_read#:#Lesezugriff auf Fragenpool
 common#:#qpl_visible#:#Fragenpool ist sichtbar
 common#:#qpl_write#:#Fragenpool bearbeiten
-common#:#query_data#:#Query data###02 Jul 2004 new variable
+common#:#query_data#:#Daten anzeigen
 common#:#question#:#Frage
 common#:#question_pools#:#Fragenpools
 common#:#quit#:#Logout
@@ -1563,7 +1563,7 @@ common#:#registered_users#:#registrierte Benutzer
 common#:#registration#:#Neuanmeldung
 common#:#registration_expired#:#Der Anmeldezeitraum ist abgelaufen...
 common#:#remove#:#Entfernen
-common#:#remove_personal_picture#:#Remove###24 Jun 2004 new variable
+common#:#remove_personal_picture#:#Löschen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
 common#:#rename_file#:#Datei umbenennen
@@ -1618,11 +1618,11 @@ common#:#save_message#:#Nachricht speichern
 common#:#save_refresh#:#Speichern und aktualisieren
 common#:#save_return#:#Speichern und zurückkehren
 common#:#save_settings#:#Einstellungen speichern
-common#:#save_user_related_data#:#Save user related access data###02 Jul 2004 new variable
+common#:#save_user_related_data#:#Benutzerspezifische Zugriffsdaten speichern
 common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#search#:#Suchen
-common#:#search_for#:#Search For###24 Jun 2004 new variable
+common#:#search_for#:#Suchen
 common#:#search_in#:#Suchen in
 common#:#search_new#:#Neue Suche
 common#:#search_recipient#:#Empfänger suchen
@@ -1683,7 +1683,7 @@ common#:#st_added#:#Kapitel angelegt
 common#:#st_edit#:#Kapitel bearbeiten
 common#:#st_new#:#Neues Kapitel
 common#:#startpage#:#Startseite
-common#:#statistic#:#Statistic###02 Jul 2004 new variable
+common#:#statistic#:#Statistik
 common#:#status#:#Status
 common#:#step#:#Schritt
 common#:#stop_inheritance#:#Vererbung unterbrechen
@@ -1718,7 +1718,7 @@ common#:#table_mail_import#:#Import von Nachrichten
 common#:#tax_delete#:#Löschen von Taxonomien
 common#:#tax_edit_permission#:#Rechteeinstellungen ändern
 common#:#tax_read#:#Lesezugriff auf Taxonomien
-common#:#tax_visible#:#Toxonomien sind sichtbar
+common#:#tax_visible#:#Taxonomien sind sichtbar
 common#:#tax_write#:#schreibzugriff auf Taxonomien
 common#:#taxf_edit_permission#:#Rechteeinstellungen ändern
 common#:#taxf_read#:#Lesezugriff auf Taxonomienordner
@@ -1727,12 +1727,12 @@ common#:#taxf_write#:#Schreibzugriff auf Taxonomienordner
 common#:#term#:#Begriff
 common#:#test#:#Test
 common#:#test_intern#:#Interner Test
-common#:#test_module#:#Test Module###24 Jun 2004 new variable
+common#:#test_module#:#Test
 common#:#tests#:#Tests
 common#:#time#:#Zeit
-common#:#time_d#:#Day###24 Jun 2004 new variable
-common#:#time_h#:#Hour###24 Jun 2004 new variable
-common#:#time_segment#:#Time Segment###24 Jun 2004 new variable
+common#:#time_d#:#Tag
+common#:#time_h#:#Stunde
+common#:#time_segment#:#Zeitraum
 common#:#title#:#Titel
 common#:#to#:#An
 common#:#to_client_list#:#Zur Mandantenauswahl
@@ -1740,15 +1740,15 @@ common#:#to_desktop#:#Abo
 common#:#today#:#Heute
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
-common#:#trac_delete#:#Delete Tracking Data###10 Jul 2004 new variable
-common#:#trac_edit_permission#:#Change permission settings###10 Jul 2004 new variable
-common#:#trac_read#:#Read Tracking Data###10 Jul 2004 new variable
-common#:#trac_visible#:#User tracking is visible###10 Jul 2004 new variable
-common#:#tracked_objects#:#Tracked objects###02 Jul 2004 new variable
-common#:#tracking_data#:#Tracking Data###02 Jul 2004 new variable
-common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?###09 Jul 2004 new variable
-common#:#tracking_data_deleted#:#Tracking data deleted###09 Jul 2004 new variable
-common#:#tracking_settings#:#Tracking Settings###02 Jul 2004 new variable
+common#:#trac_delete#:#Tracking-Daten löschen
+common#:#trac_edit_permission#:#Rechteeinstellungen ändern
+common#:#trac_read#:#Lesezugriff auf Tracking-Daten
+common#:#trac_visible#:#Tracking-Daten sind sichtbar
+common#:#tracked_objects#:#Zugriffsobjekte
+common#:#tracking_data#:#Tracking-Daten
+common#:#tracking_data_del_confirm#:#Möchten sie wirklich alle Tracking Daten ab (und inklusive) dem angegebenen Monat löschen?
+common#:#tracking_data_deleted#:#Tracking-Daten wurden gelöscht.
+common#:#tracking_settings#:#Einstellungen
 common#:#translation#:#Übersetzung
 common#:#trash#:#Papierkorb
 common#:#treeview#:#Baumansicht
@@ -1781,7 +1781,7 @@ common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, S
 common#:#url#:#URL
 common#:#url_description#:#URL Beschreibung
 common#:#user#:#Benutzer
-common#:#user_access#:#Access per user###02 Jul 2004 new variable
+common#:#user_access#:#Zugriff pro Benutzer
 common#:#user_added#:#Benutzer angelegt
 common#:#user_assignment#:#Benutzerzuweisung
 common#:#user_deleted#:#Benutzer gelöscht
@@ -1793,7 +1793,7 @@ common#:#username#:#Benutzername
 common#:#users#:#Benutzer
 common#:#users_not_imported#:#Die folgenden Benutzer sind nicht angelegt, Ihre Nachrichten können deshalb nicht importiert werden
 common#:#users_online#:#Aktive Benutzer
-common#:#usertracking#:#User Tracking###24 Jun 2004 new variable
+common#:#usertracking#:#Benutzer-Tracking
 common#:#usr#:#Benutzer
 common#:#usr_a#:#ein Benutzer
 common#:#usr_add#:#Neuer Benutzer
@@ -1869,7 +1869,7 @@ content#:#cont_assign_full#:#Als Vollansicht
 content#:#cont_assign_std#:#Als Standardansicht
 content#:#cont_assign_translation#:#Übersetzung zuordnen
 content#:#cont_assignments_deleted#:#Die Zuordnung(en) wurden entfernt
-content#:#cont_autoindent#:#Auto Indent###09 Jul 2004 new variable
+content#:#cont_autoindent#:#Automatische Einrückung
 content#:#cont_back#:#Zurück
 content#:#cont_booktitle#:#Buchtitel
 content#:#cont_bottom#:#Unten
@@ -1907,14 +1907,14 @@ content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Export-Datei anlegen
 content#:#cont_create_folder#:#Ordner anlegen
 content#:#cont_create_mob#:#Medienobjekt anlegen
-content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')###14 Jun 2004 new variable
-content#:#cont_credit_off#:#No Credit###14 Jun 2004 new variable
-content#:#cont_credit_on#:#Credit###14 Jun 2004 new variable
+content#:#cont_credit_mode#:#Credit-Modus (bei Lesson-Modus 'normal')
+content#:#cont_credit_off#:#Kein Credit
+content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Punkte
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
-content#:#cont_def_lesson_mode#:#Default lesson mode###14 Jun 2004 new variable
+content#:#cont_def_lesson_mode#:#Standard Lesson-Modus
 content#:#cont_def_organization#:#Standard
 content#:#cont_definition#:#Definition
 content#:#cont_definitions#:#Definitionen
@@ -2050,9 +2050,9 @@ content#:#cont_roman#:#Römisch i, ii, ...
 content#:#cont_rvalue#:#Wert
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
-content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO###14 Jun 2004 new variable
-content#:#cont_sc_less_mode_browse#:#Browse###14 Jun 2004 new variable
-content#:#cont_sc_less_mode_normal#:#Normal###14 Jun 2004 new variable
+content#:#cont_sc_auto_review#:#Nach Abschluß Lesson-Modus auf 'review' setzen.
+content#:#cont_sc_less_mode_browse#:#Anzeigen (Browse)
+content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_stat_browsed#:#Besucht
 content#:#cont_sc_stat_completed#:#Abgeschlossen
 content#:#cont_sc_stat_failed#:#Nicht bestanden
@@ -2062,7 +2062,7 @@ content#:#cont_sc_stat_passed#:#Bestanden
 content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
-content#:#cont_score#:#Score###10 Jul 2004 new variable
+content#:#cont_score#:#Punkte
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_select_item#:#Wählen Sie mindestens ein Objekt aus.
 content#:#cont_select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
@@ -2105,7 +2105,7 @@ content#:#cont_table_width#:#Tabellenbreite
 content#:#cont_target_within_source#:#Das Ziel darf nicht innerhalb des Objektes liegen.
 content#:#cont_term#:#Begriff
 content#:#cont_terms#:#Begriffe
-content#:#cont_time#:#Time###10 Jul 2004 new variable
+content#:#cont_time#:#Zeit
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Inhaltsverzeichnis
 content#:#cont_toc_mode#:#Inhaltsverzeichnis bei toc2win-Modus
