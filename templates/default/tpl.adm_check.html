@@ -2,114 +2,114 @@
 <!--
 function handleScanOnly(form)
 {
-	if (form.elements[0].checked)
+	if (form.analyze.checked)
 	{
-		form.elements[1].disabled = true;
-		form.elements[2].disabled = true;
-		form.elements[3].disabled = true;
-		form.elements[4].disabled = true;
-		form.elements[5].disabled = true;
+		form.clean.disabled = true;
+		form.restore.disabled = true;
+		form.purge.disabled = true;
+		form.restore_trash.disabled = true;
+		form.purge_trash.disabled = true;
 	}
 	else
 	{
-		form.elements[1].disabled = false;
+		form.clean.disabled = false;
 		
-		if (!form.elements[3].checked)
+		if (!form.purge.checked)
 		{
-			form.elements[2].disabled = false;
+			form.restore.disabled = false;
 		}
 		
-		if (!form.elements[2].checked)
+		if (!form.restore.checked)
 		{
-			form.elements[3].disabled = false;
+			form.purge.disabled = false;
 		}
 		
-		if (!form.elements[5].checked)
+		if (!form.purge_trash.checked)
 		{
-			form.elements[4].disabled = false;
+			form.restore_trash.disabled = false;
 		}
 		
-		if (!form.elements[4].checked)
+		if (!form.restore_trash.checked)
 		{
-			form.elements[5].disabled = false;
+			form.purge_trash.disabled = false;
 		}
 	}
 }
 
 function handleClean(form)
 {
-	if (form.elements[2].checked || form.elements[3].checked || form.elements[4].checked || form.elements[5].checked)
+	if (form.restore.checked || form.purge.checked || form.restore_trash.checked || form.purge_trash.checked)
 	{
-		form.elements[1].checked = true;
+		form.clean.checked = true;
 		alert("Cleaning process is required for restore/purge");
 	}
 }
 
 function handleRestore(form)
 {
-	if (!form.elements[1].checked && form.elements[2].checked)
+	if (!form.clean.checked && form.restore.checked)
 	{
-		form.elements[1].checked = true;
+		form.clean.checked = true;
 	}
 	
-	if (form.elements[2].checked)
+	if (form.restore.checked)
 	{
-		form.elements[3].disabled = true;
+		form.purge.disabled = true;
 	}
 	else
 	{
-		form.elements[3].disabled = false;	
+		form.purge.disabled = false;	
 	}
 }
 
 function handlePurge(form)
 {
-	if (!form.elements[1].checked && form.elements[3].checked)
+	if (!form.clean.checked && form.purge.checked)
 	{
-		form.elements[1].checked = true;
+		form.clean.checked = true;
 	}
 	
-	if (form.elements[3].checked)
+	if (form.purge.checked)
 	{
-		form.elements[2].disabled = true;
+		form.restore.disabled = true;
 	}
 	else
 	{
-		form.elements[2].disabled = false;	
+		form.restore.disabled = false;	
 	}
 }
 
 function handleRestoreTrash(form)
 {
-	if (!form.elements[1].checked && form.elements[4].checked)
+	if (!form.clean.checked && form.restore_trash.checked)
 	{
-		form.elements[1].checked = true;
+		form.clean.checked = true;
 	}
 	
-	if (form.elements[4].checked)
+	if (form.restore_trash.checked)
 	{
-		form.elements[5].disabled = true;
+		form.purge_trash.disabled = true;
 	}
 	else
 	{
-		form.elements[5].disabled = false;	
+		form.purge_trash.disabled = false;	
 	}
 }
 
 function handlePurgeTrash(form)
 {
-	if (!form.elements[1].checked && form.elements[5].checked)
+	if (!form.clean.checked && form.purge_trash.checked)
 	{
-		form.elements[1].checked = true;
+		form.clean.checked = true;
 	}
 	
-	if (form.elements[5].checked)
+	if (form.purge_trash.checked)
 	{
-		form.elements[4].disabled = true;
+		form.restore_trash.disabled = true;
 	}
 	else
 	{
-		form.elements[4].disabled = false;	
+		form.restore_trash.disabled = false;	
 	}
 }
 //-->
@@ -131,37 +131,37 @@ function handlePurgeTrash(form)
   </tr>
   <tr>
    <td class="option">{TXT_ANALYZE}</td>
-   <td class="option_value"><input type="checkbox" name="mode[analyze]"  value="1" checked="checked" onClick="handleScanOnly(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[analyze]"  value="1" id="analyze" checked="checked" onClick="handleScanOnly(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_ANALYZE_DESC}</td>
   </tr>
   <tr>
    <td class="option">{TXT_CLEAN}</td>
-   <td class="option_value"><input type="checkbox" name="mode[clean]" value="1" disabled="disabled" onClick="handleClean(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[clean]" value="1" id="clean" disabled="disabled" onClick="handleClean(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_CLEAN_DESC}</td>
   </tr>
   <tr>
    <td class="option">{TXT_RESTORE}</td>
-   <td class="option_value"><input type="checkbox" name="mode[restore]" value="1" disabled="disabled" onClick="handleRestore(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[restore]" value="1" id="restore" disabled="disabled" onClick="handleRestore(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_RESTORE_DESC}</td>
   </tr>
   <tr>
    <td class="option">{TXT_PURGE}</td>
-   <td class="option_value"><input type="checkbox" name="mode[purge]"  value="1" disabled="disabled" onClick="handlePurge(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[purge]"  value="1" id="purge" disabled="disabled" onClick="handlePurge(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_PURGE_DESC}</td>
   </tr>
   <tr>
    <td class="option">{TXT_RESTORE_TRASH}</td>
-   <td class="option_value"><input type="checkbox" name="mode[restore_trash]" disabled="disabled" value="1" onClick="handleRestoreTrash(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[restore_trash]" id="restore_trash" disabled="disabled" value="1" onClick="handleRestoreTrash(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_RESTORE_TRASH_DESC}</td>
   </tr>
   <tr>
    <td class="option">{TXT_PURGE_TRASH}</td>
-   <td class="option_value"><input type="checkbox" name="mode[purge_trash]" disabled="disabled" value="1" onClick="handlePurgeTrash(document.ScanOptions)" /></td>
+   <td class="option_value"><input type="checkbox" name="mode[purge_trash]" id="purge_trash" disabled="disabled" value="1" onClick="handlePurgeTrash(document.ScanOptions)" /></td>
    <td class="option_desc">{TXT_PURGE_TRASH_DESC}</td>
   </tr>
   <tr>
    <td class="option">{TXT_LOG_SCAN}</td>
-   <td class="option_value"><input type="checkbox" name="log_scan" value="1"/></td>
+   <td class="option_value"><input type="checkbox" name="log_scan" id="log_scan" value="1" checked="checked"/></td>
    <td class="option_desc">{TXT_LOG_SCAN_DESC}</td>
   </tr>
   <tr>
