@@ -33,6 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
+###27 May 2004 new variable
 administration#:#analyze_data#:#Analizar integridad de datos
 administration#:#analyze_desc#:#Escaner sistema en busca de objetos corruptos/inválidos/inexistentes/sobredimensionados
 administration#:#analyzing#:#Analizando...
@@ -2941,4 +2942,3 @@ survey#:#survey_questions#:#Questions###21 May 2004 new variable
 survey#:#unfold#:#Unfold###23 May 2004 new variable
 survey#:#unlimited_users#:#Unlimited###27 May 2004 new variable
 survey#:#uploaded_material#:#Uploaded Material###22 May 2004 new variable
-survey#:#view_phrase#:#View phrase###23 May 2004 new variable
