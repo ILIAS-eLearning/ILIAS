@@ -164,6 +164,7 @@ class ilPersonalDesktopGUI
 					$tpl->setVariable("LINK_CONTINUE", $item["continue_link"]);
 					$tpl->setVariable("TARGET_CONTINUE", $item["target"]);
 					$tpl->setVariable("TXT_CONTINUE", $this->lng->txt("continue_work"));
+					$tpl->setVariable("IMG_CONTINUE", ilUtil::getImagePath("nav_arr_R.gif"));
 					$tpl->parseCurrentBlock();
 				}
 				else
@@ -179,6 +180,7 @@ class ilPersonalDesktopGUI
 					$tpl->setVariable("LINK_EDIT", $item["edit_link"]);
 					$tpl->setVariable("TARGET_EDIT", "bottom");
 					$tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+					$tpl->setVariable("IMG_EDIT", ilUtil::getImagePath("icon_pencil.gif"));
 					$tpl->parseCurrentBlock();
 				}
 				else
@@ -191,6 +193,7 @@ class ilPersonalDesktopGUI
 				$tpl->setVariable("TYPE", $item["type"]);
 				$tpl->setVariable("ID", $item["id"]);
 				$tpl->setVariable("TXT_DROP", $this->lng->txt("drop"));
+				$tpl->setVariable("IMG_DROP", ilUtil::getImagePath("delete.gif"));
 				$tpl->parseCurrentBlock();
 
 				// description
