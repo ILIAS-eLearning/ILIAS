@@ -227,6 +227,24 @@ class ilSCORMExplorer extends ilExplorer
 		return implode('',$this->output);
 	}
 
+	function isClickable($a_type, $a_id = 0)
+	{
+		if ($a_type != "sit")
+		{
+			return false;
+		}
+		else
+		{
+			$sc_object =& new ilSCORMItem($a_id);
+			if ($sc_object->getIdentifierRef() != "")
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 
 /**
 	* Creates output
