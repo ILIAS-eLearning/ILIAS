@@ -780,7 +780,7 @@ common#:#obj_rolf_local#:#局部角色
 common#:#obj_rolf_local_desc#:#所包含的局部角色的对象为
 common#:#obj_rolt#:#角色模板
 common#:#obj_root#:#根目录###13 Jan 2004 content changed
-common#:#obj_slm#:#SCORM学习模块
+common#:#obj_slm#:#SCORM学习模块###31 Jan 2004 content changed
 common#:#obj_st#:#章
 common#:#obj_typ#:#对象类型定义
 common#:#obj_type#:#对象类型定义
