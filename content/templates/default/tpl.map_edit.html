@@ -26,6 +26,7 @@
 			{TXT_NEW_AREA}
 		</td>
 	</tr>
+	<!-- BEGIN edit_link -->
 	<tr>
 		<td class = "option">{TXT_LINK_EXT}
 			<input type="radio" name="{VAR_LINK_TYPE}" value="ext" {EXT_CHECKED}>
@@ -42,6 +43,7 @@
 			{VAL_LINK_INT}&nbsp;<a href="{LINK_ILINK}" target="tree">{TXT_ILINK}</a>
 		</td>
 	</tr>
+	<!-- END edit_link -->
 	<!-- BEGIN edit_name -->
 	<tr>
 		<td class = "option">{TXT_NAME2}</td>
@@ -50,7 +52,6 @@
 		</td>
 	</tr>
 	<!-- END edit_name -->
-	<!-- BEGIN commands -->
 	<tr class="std">
 		<td class="submit" colspan="2">
 		<input type="submit" class="submit" name="cmd[{BTN_SAVE}]" value="{TXT_SAVE}">
@@ -103,13 +104,17 @@
 		<input type="submit" class="submit" name="cmd[{BTN_DELETE}]" value="{TXT_DELETE}">
 		&nbsp;
 		<input type="submit" class="submit" name="cmd[{BTN_SET_LINK}]" value="{TXT_SET_LINK}">
+		&nbsp;
+		<input type="submit" class="submit" name="cmd[{BTN_SET_SHAPE}]" value="{TXT_SET_SHAPE}">
+		&nbsp;{SELECT_TYPE2}
 		</td>
 	</tr>
 	<tr class="std">
 		<td class="submit" colspan="5">
 		<input type="submit" class="submit" name="cmd[{BTN_UPDATE}]" value="{TXT_UPDATE}">
-		&nbsp;&nbsp;&nbsp;&nbsp;{SELECT_TYPE}&nbsp;
+		&nbsp;
 		<input type="submit" class="submit" name="cmd[{BTN_ADD_AREA}]" value="{TXT_ADD_AREA}">
+		&nbsp;{SELECT_TYPE}
 		</td>
 	</tr>
 	<!-- END commands -->
