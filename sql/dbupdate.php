@@ -3555,3 +3555,6 @@ while ($user_rec = $user_set->fetchRow(DB_FETCHMODE_ASSOC))
 <#217>
 ALTER  TABLE  `qpl_question_material`  ADD  `materials_file` TEXT;
 ALTER  TABLE  `qpl_question_material`  ADD  `TIMESTAMP` TIMESTAMP NOT  NULL ;
+
+<#218>
+ALTER  TABLE  `qpl_questions`  DROP  `imagemap_file`;
