@@ -93,7 +93,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return "content/fblm_presentation.php?ref_id=".$a_node_id;
 
 			case "slm":
-				return "content/scorm_presentation.php?ref_id=".$a_node_id;
+				return "content/sahs_presentation.php?ref_id=".$a_node_id;
 
 			case "mep":
 				return "content/mep_edit.php?ref_id=".$a_node_id;
