@@ -511,6 +511,8 @@ common#:#salutation_m#:#Mr.
 common#:#save#:#save
 common#:#save_and_back#:#save and back
 common#:#save_message#:#save message
+common#:#save_refresh#:#Save and Refresh###11 Jul 2003 new variable
+common#:#save_return#:#Save and Return###11 Jul 2003 new variable
 common#:#saved#:#saved
 common#:#saved_successfully#:#saved successfully
 common#:#search#:#search
