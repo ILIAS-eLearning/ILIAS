@@ -438,7 +438,7 @@ $tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
 //$tpl->setVariable("IMAGE_PATH",'$archive_dir."/".$filename');
 
 $tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
-$tpl->setVariable("TXT_TITLE",$lng->txt("title"));
+$tpl->setVariable("TXT_TITLE",$lng->txt("person_title"));
 $tpl->setVariable("TXT_UPLOAD",$lng->txt("personal_picture"));
 
 $webspace_dir = ilUtil::getWebspaceDir("output");

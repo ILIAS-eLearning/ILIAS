@@ -932,7 +932,7 @@ common#:#htlm_write#:#Edit HTML Learning Module
 common#:#http_path#:#Http Path
 common#:#id#:#ID
 common#:#identifier#:#identifier
-common#:#if_no_title_then_filename#:#Leave blank to display the file name 
+common#:#if_no_title_then_filename#:#Leave blank to display the file name
 common#:#ilias_version#:#ILIAS version
 common#:#image#:#Image
 common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.
@@ -1623,6 +1623,7 @@ common#:#test_intern#:#Test Intern
 common#:#tests#:#Tests
 common#:#time#:#Time
 common#:#title#:#Title
+common#:#person_title#:#Title
 common#:#to#:#To
 common#:#to_client_list#:#To Client selection
 common#:#to_desktop#:#Subscribe

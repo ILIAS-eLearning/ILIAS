@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.80 2004/05/07 17:29:37 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.81 2004/05/07 19:50:08 shofmann Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -117,10 +117,10 @@ class ilObjUserGUI extends ilObjectGUI
 				$key = key($keys[2]);
 				unset($keys[$key]);
 			}
-			
+
 			$default_role = array_shift($keys);
 		}
-		
+
 		$pre_selected_role = (isset($_SESSION["error_post_vars"]["Fobject"]["default_role"])) ? $_SESSION["error_post_vars"]["Fobject"]["default_role"] : $default_role;
 
 		$roles = ilUtil::formSelect($pre_selected_role,"Fobject[default_role]",$rol,false,true);
@@ -153,7 +153,13 @@ class ilObjUserGUI extends ilObjectGUI
 		// fill presets
 		foreach ($data["fields"] as $key => $val)
 		{
-			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+			$str = $this->lng->txt($key);
+			if ($key == "title")
+			{
+				$str = $this->lng->txt("person_title");
+			}
+
+			$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 
 			if ($key == "default_role")
 			{
@@ -458,11 +464,11 @@ class ilObjUserGUI extends ilObjectGUI
 					if (!$rbacreview->isDeleted($rolf[0]))
 					{
 						$path = "";
-		
+
 						if ($this->tree->isInTree($rolf[0]))
 						{
 							$tmpPath = $this->tree->getPathFull($rolf[0]);
-		
+
 							// count -1, to exclude the role folder itself
 							for ($i = 0; $i < (count($tmpPath)-1); $i++)
 							{
@@ -470,7 +476,7 @@ class ilObjUserGUI extends ilObjectGUI
 								{
 									$path .= " > ";
 								}
-		
+
 								$path .= $tmpPath[$i]["title"];
 							}
 						}
@@ -478,15 +484,15 @@ class ilObjUserGUI extends ilObjectGUI
 						{
 							$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$role.")</b>";
 						}
-		
+
 						if (in_array($role,$active_roles))
 						{
 							$data["active_role"][$role]["active"] = true;
 						}
-		
+
 						$data["active_role"][$role]["title"] = $roleObj->getTitle();
 						$data["active_role"][$role]["context"] = $path;
-		
+
 						unset($roleObj);
 					}
 				}
@@ -504,7 +510,13 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			foreach ($_SESSION["error_post_vars"]["Fobject"] as $key => $val)
 			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$str = $this->lng->txt($key);
+				if ($key == "title")
+				{
+					$str = $this->lng->txt("person_title");
+				}
+
+				$this->tpl->setVariable("TXT_".strtoupper($key), $str);
 
 				if ($key != "default_role" and $key != "language" and $key != "skin_style")
 				{
@@ -524,7 +536,13 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			foreach ($data["fields"] as $key => $val)
 			{
-				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
+				$str = $this->lng->txt($key);
+				if ($key == "title")
+				{
+					$str = $this->lng->txt("person_title");
+				}
+				$this->tpl->setVariable("TXT_".strtoupper($key), $str);
+
 				$this->tpl->setVariable(strtoupper($key), ilUtil::prepareFormOutput($val));
 				$this->tpl->parseCurrentBlock();
 			}
