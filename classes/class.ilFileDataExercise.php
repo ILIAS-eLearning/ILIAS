@@ -353,14 +353,7 @@ class ilFileDataExercise extends ilFileData
 	{
 		if(is_writable($this->getPath()))
 		{
-			if(mkdir($this->getPath().'/'.EXERCISE_PATH))
-			{
-				if(chmod($this->getPath().'/'.EXERCISE_PATH,0755))
-				{
-					$this->exercise_path = $this->getPath().'/'.EXERCISE_PATH;
-					return true;
-				}
-			} 
+			return ilUtil::makeDir($this->excercise_path = $this->getPath().'/'.EXERCISE_PATH);
 		}
 		return false;
 	}

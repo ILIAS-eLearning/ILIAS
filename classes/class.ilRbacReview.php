@@ -37,13 +37,17 @@
 */
 class ilRbacReview
 {
+	var $log = null;
+
 	/**
 	* Constructor
 	* @access	public
 	*/
 	function ilRbacReview()
 	{
-		global $ilDB,$ilErr,$ilias;
+		global $ilDB,$ilErr,$ilias,$ilLog;
+
+		$this->log =& $ilLog;
 
 		// set db & error handler
 		(isset($ilDB)) ? $this->ilDB =& $ilDB : $this->ilDB =& $ilias->db;
@@ -729,8 +733,12 @@ class ilRbacReview
 		
 		if (!$row)
 		{
-			$message = get_class($this)."::isDeleted(): Rolefolder with ref_id '".$a_node_id."' not found!";
-			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+			$message = sprintf('%s::isDeleted(): Role folder with ref_id %s not found!',
+							   get_class($this),
+							   $a_node_id);
+			$this->log->write($message,$this->log->FATAL);
+
+			return true;
 		}
 
 		// rolefolder is deleted
