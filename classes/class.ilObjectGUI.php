@@ -403,6 +403,8 @@ class ilObjectGUI
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
 		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
+		
+		sendinfo($this->lng->txt("msg_copy_clipboard"),true);
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
@@ -423,7 +425,6 @@ class ilObjectGUI
 			// IF CMD WAS 'copy' CALL PRIVATE CLONE METHOD
 			$this->cloneObject($_GET["ref_id"]);
 			return true;
-			exit(); // und wech... will never be executed
 		}
 
 		// PASTE IF CMD WAS 'cut' (TODO: Could be merged with 'link' routine below in some parts)
@@ -644,11 +645,20 @@ class ilObjectGUI
 			}
 		} // END IF 'link & paste'
 				
+		// save cmd for correct message output after clearing the clipboard
+		$last_cmd = $_SESSION["clipboard"]["cmd"];
+		
 		// clear clipboard
 		$this->clearObject();
 		
-		// TODO: sendInfo does not work in this place :-(
-		sendInfo($this->lng->txt("msg_changes_ok"),true);
+		if ($last_cmd == "cut")
+		{
+			sendInfo($this->lng->txt("msg_cut_copied"),true);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("msg_linked"),true);		
+		}
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
@@ -662,9 +672,15 @@ class ilObjectGUI
 	function clearObject()
 	{
 		session_unregister("clipboard");
-		
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
-		exit();
+
+		//var_dump("<pre>",$_POST,"</pre>");exit;
+		if (isset($_POST["cmd"]["clear"]))
+		{
+			sendinfo($this->lng->txt("msg_clear_clipboard"),true);
+				
+			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+			exit();
+		}
 	}
 
 	/**
@@ -709,6 +725,8 @@ class ilObjectGUI
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
 		$_SESSION["clipboard"]["cmd"] = key($_POST["cmd"]);
 		$_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
+		
+		sendinfo($this->lng->txt("msg_cut_clipboard"),true);
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
@@ -768,6 +786,8 @@ class ilObjectGUI
 		}
 
 		$_SESSION["clipboard"] = $clipboard;
+	
+		sendinfo($this->lng->txt("msg_link_clipboard"),true);
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
@@ -842,6 +862,11 @@ class ilObjectGUI
 		}
 
 		$this->clearObject();
+
+		sendinfo($this->lng->txt("msg_cloned"),true);
+
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+		exit();
 	}
 
 	/**
@@ -911,7 +936,8 @@ class ilObjectGUI
 			$saved_tree = new ilTree(-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 		}
-
+		
+		sendInfo($this->lng->txt("msg_undeleted"),true);
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
@@ -1037,12 +1063,12 @@ class ilObjectGUI
 				$this->tree->deleteTree($this->tree->getNodeData($id));
 			}
 		}
+
 		// Feedback
 		sendInfo($this->lng->txt("info_deleted"),true);
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
-
 	}
 
 	/**
@@ -1054,18 +1080,16 @@ class ilObjectGUI
 	{
 		session_unregister("saved_post");
 		
+		sendInfo($this->lng->txt("msg_cancel_delete"),true);
+		
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 
 	}
 
-
 	/**
 	* remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
 	*
-	* @param	array	array of id to remove
-	* @param	integer	obj_id
-	* @param	integer	parent_id
 	* @access	public
 	*/
 	function removeFromSystemObject()
@@ -1115,6 +1139,8 @@ class ilObjectGUI
 				//$this->object->delete($node["obj_id"],$node["parent"]);
 			}
 		}
+		
+		sendInfo($this->lng->txt("msg_removed"),true);
 
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=trash");
 		exit();
@@ -1127,7 +1153,6 @@ class ilObjectGUI
 	*/
 	function createObject()
 	{
-		// creates a child object
 		global $rbacsystem;
 
 		// TODO: get rid of $_GET variable
@@ -1167,7 +1192,11 @@ class ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview, $rbacadmin;
 
-		if ($rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_GET["new_type"]))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
+		}
+		else
 		{
 			// create and insert object in objecttree
 			$class_name = "ilObj".$this->objDefinition->getClassName($_GET["new_type"]);
@@ -1182,15 +1211,12 @@ class ilObjectGUI
 			$newObj->setPermissions($_GET["ref_id"]);
 			unset($newObj);
 		}
-		else
-		{
-			$this->ilias->raiseError("No permission to create object", $this->ilias->error_obj->WARNING);
-		}
+
+		sendInfo($this->lng->txt("msg_obj_created"),true);
 
 		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
 	}
-
 
 	/**
 	* import new object form
@@ -1202,10 +1228,12 @@ class ilObjectGUI
 		global $rbacsystem;
 
 		// CHECK ACCESS 'write' of role folder
+		// TODO: new_type will never be checked, if queried operation is not 'create'
 		if (!$rbacsystem->checkAccess('write', $_GET["ref_id"], $_POST["new_type"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no permission"),$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->WARNING);
 		}
+
 		$imp_obj =$this->objDefinition->getImportObjects($this->object->getType());
 
 		if (!in_array($_POST["new_type"], $imp_obj))
@@ -1230,7 +1258,7 @@ class ilObjectGUI
 
 		if (!$rbacsystem->checkAccess("write", $this->ref_id))
 		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 		else
 		{
@@ -1288,7 +1316,7 @@ class ilObjectGUI
 
 		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
 		{
-			$this->ilias->raiseError("No permission to edit the object",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 		else
 		{
@@ -1297,6 +1325,8 @@ class ilObjectGUI
 			$this->update = $this->object->update();
 		}
 
+		sendInfo($this->lng->txt("msg_obj_modified"),true);
+		
 		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}
@@ -1481,9 +1511,11 @@ class ilObjectGUI
 
 	/**
 	* get form action for command (command is method name without "Object", e.g. "perm")
-	* @paran	string		$a_cmd		command
+	* @param	string		$a_cmd		command
 	* @param	string		$a_cmd		default formaction (is returned, if no special
 	*									formaction was set)
+	* @access	public
+	* @return	string
 	*/
 	function getFormAction($a_cmd, $a_formaction ="")
 	{
@@ -1499,6 +1531,11 @@ class ilObjectGUI
 
 	/**
 	* set specific form action for command
+	*
+	* @param	string		$a_cmd		command
+	* @param	string		$a_cmd		default formaction (is returned, if no special
+	*									formaction was set)
+	* @access	public 
 	*/
 	function setFormAction($a_cmd, $a_formaction)
 	{
@@ -1507,9 +1544,10 @@ class ilObjectGUI
 
 	/**
 	* get return location for command (command is method name without "Object", e.g. "perm")
-	* @paran	string		$a_cmd		command
+	* @param	string		$a_cmd		command
 	* @param	string		$a_cmd		default return location (is returned, if no special
 	*									return location was set)
+	* @access	public 
 	*/
 	function getReturnLocation($a_cmd, $a_location ="")
 	{
@@ -1525,6 +1563,10 @@ class ilObjectGUI
 
 	/**
 	* set specific return location for command
+	* @param	string		$a_cmd		command
+	* @param	string		$a_cmd		default return location (is returned, if no special
+	*									return location was set)
+	* @access	public 
 	*/
 	function setReturnLocation($a_cmd, $a_location)
 	{
@@ -1567,7 +1609,7 @@ class ilObjectGUI
 				// CHECK ACCESS 'create' rolefolder
 				if (!$rbacsystem->checkAccess('create',$_GET["ref_id"],'rolf'))
 				{
-					$this->ilias->raiseError("No permission to create Role Folder. Thus you may not stop inheritance of roles.",$this->ilias->error_obj->WARNING);
+					$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
 				}
 				else
 				{
@@ -1589,7 +1631,7 @@ class ilObjectGUI
 			// CHECK ACCESS 'write' of role folder
 			if (!$rbacsystem->checkAccess('write',$rolf_data["child"]))
 			{
-				$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
+				$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 			}
 			else
 			{
@@ -1649,8 +1691,6 @@ class ilObjectGUI
  	*/
 	function displayList()
 	{
-		global $rbacsystem;
-
 		include_once "./classes/class.ilTableGUI.php";
 
 		// load template for table
@@ -2122,55 +2162,65 @@ class ilObjectGUI
 									 $this->lng->txt("msg_role_exists2"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
-
-		// is there already a rolefolder?
-		if (!($rolf_id = $rolf_data["child"]))
+		// if the current object is no role folder, create one
+		if ($this->object->getType() != "rolf")
 		{
-			// can the current object contain a rolefolder?
-			$mods = $rbacreview->getModules($this->object->getType(),$_GET["ref_id"]);
-
-			if (!isset($mods["rolf"]))
+			$rolf_data = $rbacreview->getRoleFolderOfObject($_GET["ref_id"]);
+	
+			// is there already a rolefolder?
+			if (!($rolf_id = $rolf_data["child"]))
 			{
-				$this->ilias->raiseError("'".$this->object->getTitle()."' are not allowed to contain Role Folder",$this->ilias->error_obj->WARNING);
-			}
-
-			// CHECK ACCESS 'create' rolefolder
-			if (!$rbacsystem->checkAccess('create',$_GET["ref_id"],'rolf'))
-			{
-				$this->ilias->raiseError("No permission to create role folder",$this->ilias->error_obj->WARNING);
-			}
-			else
-			{
-				// create a rolefolder
-				include_once ("./classes/class.ilObjRoleFolder.php");
-				$rolfObj = new ilObjRoleFolder();
-				$rolfObj->setTitle("Role Folder");
-				$rolfObj->setDescription("Automatically generated Role Folder for ref no. ".$this->object->getRefId());
-				$rolfObj->create();
-				$rolfObj->createReference();
-				$rolfObj->putInTree($this->object->getRefId());
-				$rolfObj->setPermissions($_GET["ref_id"]);
-
-				$rolf_id = $rolfObj->getRefId();
-
-				// Suche aller Parent Rollen im Baum
-				$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
-
-				foreach ($parentRoles as $parRol)
+				// can the current object contain a rolefolder?
+				$mods = $rbacreview->getModules($this->object->getType(),$_GET["ref_id"]);
+	
+				if (!isset($mods["rolf"]))
 				{
-					// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
-					$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"],'rolf',$parRol["parent"]);
-					// TODO: make this work:
-					//$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id);
+					$this->ilias->raiseError($this->lng->txt("msg_no_rolf_allowed1")." '".$this->object->getTitle()."' ".
+											$this->lng->txt("msg_no_rolf_allowed2"),$this->ilias->error_obj->WARNING);
+				}
+	
+				// CHECK ACCESS 'create' rolefolder
+				if (!$rbacsystem->checkAccess('create',$_GET["ref_id"],'rolf'))
+				{
+					$this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
+				}
+				else
+				{
+					// create a rolefolder
+					include_once ("./classes/class.ilObjRoleFolder.php");
+					$rolfObj = new ilObjRoleFolder();
+					$rolfObj->setTitle("Role Folder");
+					$rolfObj->setDescription("Automatically generated Role Folder for ref no. ".$this->object->getRefId());
+					$rolfObj->create();
+					$rolfObj->createReference();
+					$rolfObj->putInTree($this->object->getRefId());
+					$rolfObj->setPermissions($_GET["ref_id"]);
+	
+					$rolf_id = $rolfObj->getRefId();
+	
+					// Suche aller Parent Rollen im Baum
+					$parentRoles = $rbacreview->getParentRoleIds($this->object->getRefId());
+	
+					foreach ($parentRoles as $parRol)
+					{
+						// Es werden die im Baum am 'nächsten liegenden' Templates ausgelesen
+						$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"],'rolf',$parRol["parent"]);
+						// TODO: make this work:
+						//$rbacadmin->grantPermission($parRol["obj_id"],$ops,$rolf_id);
+					}
 				}
 			}
+		}
+		else
+		{
+			// Current object is already a rolefolder. To create the role we take its reference id
+			$rolf_id = $this->object->getRefId();
 		}
 
 		// CHECK ACCESS 'write' of role folder
 		if (!$rbacsystem->checkAccess('write',$rolf_id))
 		{
-			$this->ilias->raiseError("No permission to write to role folder",$this->ilias->error_obj->WARNING);
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
 		else
 		{
@@ -2191,7 +2241,8 @@ class ilObjectGUI
 
 	/**
 	* show possible action (form buttons)
-	*
+	* 
+	* @param	boolean
 	* @access	public
  	*/
 	function showActions($with_subobjects = false)
@@ -2332,8 +2383,8 @@ class ilObjectGUI
 	* get Titles of objects
 	* this method is used for error messages in methods cut/copy/paste
 	*
-	* @param	array(integer) Array of ref_ids
-	* @return   array(string)  Array of titles
+	* @param	array	Array of ref_ids (integer)
+	* @return   array	Array of titles (string)
 	* @access	private
  	*/
 	function getTitlesByRefId($a_ref_ids)

@@ -332,13 +332,28 @@ common#:#min_one_active_role#:#Each user must have at least one active role!
 common#:#module#:#module
 common#:#modules#:#Modules
 common#:#move_to#:#Move to
+common#:#msg_copy_clipboard#:#Selected object(s) stored in clipboard (Action: copy).
+common#:#msg_cut_clipboard#:#Selected object(s) stored in clipboard (Action: cut).
+common#:#msg_clear_clipboard#:#Clipboard cleared.
+common#:#msg_link_clipboard#:#Selected object(s) stored in clipboard (Action: link).
+common#:#msg_cloned#:#Selected object(s) copied.
+common#:#msg_linked#:#Selected object(s) linked.
+common#:#msg_cut_copied#:#Selected object(s) moved.
 common#:#msg_changes_ok#:#The changes were OK
+common#:#msg_undeleted#:#Object(s) undeleted.
+common#:#msg_removed#:#Object(s) removed from system.
+common#:#msg_cancel_delete#:#Action cancelled.
+common#:#msg_obj_created#:#Object created.
+common#:#msg_obj_modified#:#Modifications saved.
 common#:#msg_error_copy#:#Copy Error
 common#:#msg_failed#:#Sorry, action failed
 common#:#msg_may_not_contain#:#This object may not contain objects of type: 
 common#:#msg_no_perm_copy#:#You have no permission to create a copy of the following object(s):
 common#:#msg_no_perm_create#:#You have no permission to create the following object(s):
+common#:#msg_no_rolf_allowed1#:#The object
+common#:#msg_no_rolf_allowed2#:#is not allowed to contain a Role Folder.
 common#:#msg_no_perm_create_role#:#You have no permission to add roles
+common#:#msg_no_perm_create_rolf#:#You have no permission to create a Role Folder. Therefore you may not stop inheritance of roles or add local roles here.
 common#:#msg_no_perm_create_rolt#:#You have no permission to add role templates
 common#:#msg_no_perm_create_user#:#You have no permission to add users
 common#:#msg_no_perm_cut#:#You have no permission to cut the following object(s):
@@ -382,7 +397,6 @@ common#:#no_title#:#No Title
 common#:#none#:#None
 common#:#normal#:#Normal
 common#:#not_installed#:#Not Installed
-common#:#nothing_checked#:#Funny, no checkbox checked.
 common#:#obj#:#Object
 common#:#obj_adm#:#System Settings
 common#:#obj_cat#:#Category
@@ -485,6 +499,7 @@ common#:#right#:#Right
 common#:#rights#:#Rights
 common#:#role#:#Role
 common#:#role_added#:#Role added
+common#:#role_deleted#:#Role deleted
 common#:#roles#:#Roles
 common#:#rolf#:#Role Folder
 common#:#rolt#:#Role Template
@@ -568,6 +583,7 @@ common#:#url#:#URL
 common#:#url_description#:#URL Description
 common#:#user#:#User
 common#:#user_added#:#User added
+common#:#user_deleted#:#User deleted
 common#:#user_language#:#User Language
 common#:#userdata#:#Userdata
 common#:#username#:#Username

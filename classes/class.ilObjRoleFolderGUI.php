@@ -48,11 +48,12 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 	/**
 	* view object
+	*
 	* @access	public
 	*/
 	function viewObject()
 	{
-		global $rbacsystem, $rbacadmin, $rbacreview, $tpl;
+		global $rbacsystem, $rbacreview;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -134,7 +135,10 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			}
 			
 			// Feedback
-			sendInfo($this->lng->txt("info_deleted"),true);	
+			sendInfo($this->lng->txt("role_deleted"),true);
+
+			header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
+			exit();
 		}
 	}
 	
@@ -172,7 +176,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$this->getTemplateFile("confirm");
 
 		sendInfo($this->lng->txt("info_delete_sure"));
+
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
 		{
@@ -185,15 +191,15 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		// BEGIN TABLE DATA
 		$counter = 0;
 
-		foreach($this->data["data"] as $key => $value)
+		foreach ($this->data["data"] as $key => $value)
 		{
 			// BEGIN TABLE CELL
-			foreach($value as $key => $cell_data)
+			foreach ($value as $key => $cell_data)
 			{
 				$this->tpl->setCurrentBlock("table_cell");
 
 				// CREATE TEXT STRING
-				if($key == "type")
+				if ($key == "type")
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
 				}
@@ -201,6 +207,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 				{
 					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
 				}
+
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -223,12 +230,65 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
 	/**
 	* ???
+	* TODO: what is the purpose of this function?
 	* @access	public
 	*/
 	function adoptPermSaveObject()
 	{
+		sendinfo($this->lng->txt("saved_successfully"),true);
+		
 		header("Location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=perm");
 		exit();
 	}
-} // END class.RoleFolderObjectOut
+	
+	/**
+	* show possible subobjects (pulldown menu)
+	* overwritten to prevent displaying of role templates in local role folders
+	*
+	* @access	public
+ 	*/
+	function showPossibleSubObjects()
+	{
+		$d = $this->objDefinition->getSubObjects($this->object->getType());
+		
+		if ($this->object->getRefId() != ROLE_FOLDER_ID)
+		{
+			unset($d["rolt"]);
+		}
+
+		if (count($d) > 0)
+		{
+			foreach ($d as $row)
+			{
+			    $count = 0;
+				if ($row["max"] > 0)
+				{
+					//how many elements are present?
+					for ($i=0; $i<count($this->data["ctrl"]); $i++)
+					{
+						if ($this->data["ctrl"][$i]["type"] == $row["name"])
+						{
+						    $count++;
+						}
+					}
+				}
+				if ($row["max"] == "" || $count < $row["max"])
+				{
+					$subobj[] = $row["name"];
+				}
+			}
+		}
+
+		if (is_array($subobj))
+		{
+			//build form
+			$opts = ilUtil::formSelect(12,"new_type",$subobj);
+			$this->tpl->setCurrentBlock("add_object");
+			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
+			$this->tpl->setVariable("BTN_NAME", "create");
+			$this->tpl->setVariable("TXT_ADD", $this->lng->txt("add"));
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+} // END class.ilObjRoleFolderGUI
 ?>

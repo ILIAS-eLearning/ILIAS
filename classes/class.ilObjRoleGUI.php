@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.28 2003/07/08 11:59:57 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.29 2003/07/09 15:46:01 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -108,6 +108,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			foreach ($obj_data as $key => $type)
 			{
 				$ops_arr = $rbacreview->getOperationsOnType($type["obj_id"]);
+
 				if (empty($ops_arr))
 				{
 					unset($obj_data[$key]);				
@@ -188,8 +189,6 @@ class ilObjRoleGUI extends ilObjectGUI
 			// USER ASSIGNMENT
 			if ($rbacreview->isAssignable($this->object->getId(),$_GET["ref_id"]))
 			{
-				include_once "./classes/class.ilObjUser.php";
-				
 				// TODO: NEED ANOTHER METHOD SINCE SEARCHING WITH LIKE IS TOO SLOW
 				$user_ids = ilObjUser::searchUsers("");
 				$assigned_users = $rbacreview->assignedUsers($this->object->getId());
