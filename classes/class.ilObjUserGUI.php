@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.62 2003/11/07 11:11:17 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.63 2003/11/07 18:02:00 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1002,7 +1002,7 @@ class ilObjUserGUI extends ilObjectGUI
 	* @param	string	$a_template_block_name	name of profile template block
 	* @access	public
 	*/
-	function insertPublicProfile($a_template_var, $a_template_block_name, $a_additional)
+	function insertPublicProfile($a_template_var, $a_template_block_name, $a_additional = "")
 	{
 		$this->tpl->addBlockFile($a_template_var, $a_template_block_name, "tpl.usr_public_profile.html");
 		$this->tpl->setCurrentBlock($a_template_block_name);
