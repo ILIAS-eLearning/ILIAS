@@ -230,21 +230,10 @@ class ilGroupGUI extends ilObjectGUI
 		require_once "./classes/class.ilExplorer.php";
 		require_once "./classes/class.ilTableGUI.php";
 
-
-
-
-
-
 		$this->prepareOutput();
-		$_SESSION["LAST_LOCATION"] = "DisplayList";
-
 		$this->tpl->setVariable("HEADER",  $this->lng->txt("groups_overview"));
-
 		$this->tpl->setVariable("FORMACTION", "group.php?gateway=true&ref_id=".$_GET["ref_id"]);
 		$this->tpl->setVariable("FORM_ACTION_METHOD", "post");
-
-
-
 
 		// set offset & limit
 		$offset = intval($_GET["offset"]);
@@ -254,7 +243,11 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$limit = 10;	// TODO: move to user settings
 		}
-
+		if ($offset == "")
+		{
+			
+			$offset = 0;	// TODO: move to user settings
+		}
 		// set default sort column
 		if (empty($_GET["sort_by"]))
 		{
@@ -265,9 +258,6 @@ class ilGroupGUI extends ilObjectGUI
 		{
 			$_SESSION["viewmode"] = "flat";
 		}
-
-
-
 
 	//show "new group" button only if category or dlib objects were chosen(current object)
 
@@ -360,7 +350,7 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_".$cont_data["type"]));
 				$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$this->tpl->setVariable("OWNER", $newuser->getFullName($cont_data["owner"]));
-				$this->tpl->setVariable("LAST_VISIT", "N/A");
+				//$this->tpl->setVariable("LAST_VISIT", "N/A");
 				//$this->tpl->setVariable("ROLE_IN_GROUP", "keine Rolle zugewiesen");
 				$this->tpl->setVariable("LAST_CHANGE", $cont_data["last_update"]);//ilFormat::formatDate($cont_data["last_update"])
 				$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
@@ -382,32 +372,24 @@ class ilGroupGUI extends ilObjectGUI
 
 		$tbl->setTitle($this->lng->txt("groups_overview"),"icon_grp_b.gif",$this->lng->txt("groups_overview"));
 		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_visit"),$this->lng->txt("last_change"),$this->lng->txt("context")));
-		$tbl->setHeaderVars(array("checkbox", "title","description","owner","last_visit","last_change","context"));
-		$tbl->setColumnWidth(array("3%", "7%","7%","15%","31%","6%","17%"));
+		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("description"),$this->lng->txt("owner"),$this->lng->txt("last_change"),$this->lng->txt("context")));
+		$tbl->setHeaderVars(array("checkbox", "title","description","owner","last_change","context"), array("cmd"=>"DisplayList", "ref_id"=>$_GET["ref_id"]));
+		//$tbl->setColumnWidth(array("3%", "7%","7%","15%","31%","6%","17%"));
+		$tbl->setColumnWidth(array("3%","7%","10%","15%","15%","22%"));
 
-		// control
+
 		$tbl->setOrderColumn($_GET["sort_by"]);
 		$tbl->setOrderDirection($_GET["sort_order"]);
 		$tbl->setLimit($limit);
 		$tbl->setOffset($offset);
-		$tbl->setMaxCount($this->maxcount);
+		$tbl->setMaxCount($maxcount);
 
-
-		$this->tpl->SetVariable("COLUMN_COUNTS", "7");
-		$this->tpl->SetVariable("COLUMN_COUNTS", "7");
-		$this->showActions(true);
 
 		// footer
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-		$tbl->disable("content");
-		$tbl->disable("footer");
-
 		// render table
 		$tbl->render();
 		$this->tpl->show();
-
-
 	}
 
 	function explorer()
@@ -569,10 +551,10 @@ class ilGroupGUI extends ilObjectGUI
 				$this->tpl->setVariable("ALT_IMG", $lng->txt("obj_".$cont_data["type"]));
 				$this->tpl->setVariable("DESCRIPTION", $cont_data["description"]);
 				$this->tpl->setVariable("OWNER", $newuser->getFullName());
-				$this->tpl->setVariable("LAST_VISIT", "N/A");
+				//$this->tpl->setVariable("LAST_VISIT", "N/A");
 				$this->tpl->setVariable("LAST_CHANGE", ilFormat::formatDate($cont_data["last_update"]));
 				//TODO
-				//$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
+				$this->tpl->setVariable("CONTEXTPATH", $this->getContextPath($cont_data["ref_id"]));
 				$this->tpl->parseCurrentBlock();
 				}
 			}
@@ -589,10 +571,10 @@ class ilGroupGUI extends ilObjectGUI
 
 		// title & header columns
 		$tbl->setTitle($lng->txt("group_details")." - ".$this->object->getTitle(),"icon_grp_b.gif", $lng->txt("group_details"));
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
-		$tbl->setHeaderNames(array("",$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_visit"),$lng->txt("last_change"),$lng->txt("context")));
-		$tbl->setHeaderVars(array("checkbox","title","description","status","last_visit","last_change","context"));
-		$tbl->setColumnWidth(array("3%","7%","7%","15%","15%","6%","22%"));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$lng->txt("help"));
+		$tbl->setHeaderNames(array("",$lng->txt("title"),$lng->txt("description"),$lng->txt("owner"),$lng->txt("last_change"),$lng->txt("context")));
+		$tbl->setHeaderVars(array("checkbox","title","description","status","last_change","context"));
+		$tbl->setColumnWidth(array("3%","7%","10%","15%","15%","22%"));
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"]);
@@ -605,7 +587,7 @@ class ilGroupGUI extends ilObjectGUI
 
 
 		//$this->tpl->setCurrentBlock("tbl_action_btn");
-		$this->tpl->SetVariable("COLUMN_COUNTS", "7");
+		$this->tpl->SetVariable("COLUMN_COUNTS", "6");
 		$this->showActions(true);
 
 		// footer
@@ -618,7 +600,7 @@ class ilGroupGUI extends ilObjectGUI
 
 		$this->tpl->show();
 	}
-	
+
 	/**
 	* function chooses right view depending on what kind of object is selected in locator bar
 	* @acess	public
@@ -1818,7 +1800,7 @@ class ilGroupGUI extends ilObjectGUI
 		// creates a child object
 		global $rbacsystem;
 
-
+		$this->prepareOutput();
 		// TODO: get rid of $_GET variable
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], $_POST["new_type"]))
 		{
@@ -1830,7 +1812,7 @@ class ilGroupGUI extends ilObjectGUI
 			$data["fields"] = array();
 			$data["fields"]["title"] = "";
 			$data["fields"]["desc"] = "";
-			$this->prepareOutput();
+
 
 			$this->tpl->setVariable("HEADER", $this->lng->txt("new_obj"));
 			$this->tpl->addBlockFile("CONTENT", "create_table" ,"tpl.obj_edit.html");
@@ -1845,14 +1827,9 @@ class ilGroupGUI extends ilObjectGUI
 
 				"&new_type=".$_POST["new_type"]);
 
-			//$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-			//$this->tpl->setVariable("BTN_NAME", "cmd[save]");
-
 			$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 			$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
 			$this->tpl->setVariable("CMD_SUBMIT", "save");
-
-
 			$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
 		}
 		$this->tpl->show();
