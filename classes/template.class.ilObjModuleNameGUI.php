@@ -39,10 +39,10 @@ class ilObj<module_name>GUI extends ilObjectGUI
 	* Constructor
 	* @access public
 	*/
-	function ilObj<module_name>GUI($a_data,$a_id,$a_call_by_reference)
+	function ilObj<module_name>GUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output = true)
 	{
 		$this->type = "<type ID>";
-		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
+		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 	}
 	
 	/**
@@ -67,8 +67,18 @@ class ilObj<module_name>GUI extends ilObjectGUI
 		// always send a message
 		sendInfo($this->lng->txt("object_added"),true);
 		
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		exit();
+		ilUtil::redirect($this->getReturnLocation("save",$this->ctrl->getLinkTarget($this,"")));
+	}
+	
+	/**
+	* get tabs
+	* @access	public
+	* @param	object	tabs gui object
+	*/
+	function getTabs(&$tabs_gui)
+	{
+		// tabs are defined manually here. The autogeneration via objects.xml will be deprecated in future
+		// for usage examples see ilObjGroupGUI or ilObjSystemFolderGUI
 	}
 } // END class.ilObj<module_name>
 ?>
