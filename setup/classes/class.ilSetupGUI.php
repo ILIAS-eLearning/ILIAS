@@ -1665,7 +1665,7 @@ class ilSetupGUI extends ilSetup
 		// output
 		$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_lang.html");
 
-		$languages = $this->lng->getLanguages();
+		$languages = $this->lng->getInstallableLanguages();
 		$installed_langs = $this->lng->getInstalledLanguages();
 		$default_lang = $this->client->getDefaultLanguage();
 		
