@@ -267,8 +267,17 @@ common#:#group_memstat#:#Mitgliederstatus
 common#:#group_memstat_admin#:#Administrator
 common#:#group_memstat_member#:#Mitglied
 common#:#group_name#:#Gruppenname
+common#:#group_new_registrations#:#Neuanmeldungen
 common#:#group_not_available#:#keine Gruppe verfügbar
+common#:#group_no_registration#:#keine Registrierung erforderlich
+common#:#group_no_registration_msg#:#Sie sind bislang kein Mitglied dieser Gruppe. Zur besseren Verwaltung der Gruppenmitglieder ist es jedoch notwendig, dass Sie der gewünschten Gruppe beitreten. <br>Als Gruppenmitglied haben Sie folgende Vorteile:<br>- Sie werden über Aktualisierungen informiert<br>- Sie haben Zugriff auf gruppenspezifische Objekte wie Diskussionsforen, Lerneinheiten, etc.<br><br>Sie können Ihre Mitgliedschaft jederzeit wieder aufheben.
 common#:#group_objects#:#Gruppenobjekte
+common#:#group_password_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist die Eingabe eines Passwortes erforderlich, das von dem jeweiligen Gruppenadministrator vergeben worden ist.<br>Bei richtiger Eingabe des Passwortes werden Sie automatisch in die Gruppe aufgenommen.
+common#:#group_password_registration_expired_msg#:#Der Registrierungszeitraum der von Ihnen gewählten Gruppe ist abgelaufen, d.h. eine Anmeldung ist nicht mehr möglich.<br>Bitte wenden Sie sich an den entsprechenden Gruppenadministrator.
+common#:#group_req_password#:#Registrierungspasswort erforderlich
+common#:#group_registration_expired#:#Anmeldezeitraum abgelaufen
+common#:#group_req_registration#:#Registrierung erforderlich
+common#:#group_req_registration_msg#:#Um der von Ihnen gewählten Gruppe beizutreten ist eine Registrierung erforderlich, die nur von dem jeweiligen Gruppenadministrator bestätigt werden kann.<br>Sie erhalten eine Nachricht, wenn Sie in die Gruppe aufgenommen worden sind.
 common#:#group_status#:#Gruppenstatus
 common#:#group_status_closed#:#Geschlossen
 common#:#group_status_public#:#Öffentlich
