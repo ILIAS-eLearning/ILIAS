@@ -156,13 +156,13 @@ class RoleObject extends Object
 	{
 		global $tplContent, $rbacsystem;
 
-		$parent_obj_id = $this->getParentObjectId();
-		
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+		$rbacsystem = new RbacSystemH($this->ilias->db);
+
+		if($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$tplContent = new Template("object_form.html",true,true);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
-			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"]));
+			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
 			$tplContent->setVariable("CMD","update");
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
 
@@ -187,14 +187,11 @@ class RoleObject extends Object
 	{
 		global $rbacsystem;
 
-		$parent_obj_id = $this->getParentObjectId();
-
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+		if($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			updateObject($_GET["obj_id"],$_GET["type"],$_POST["Fobject"]);
-
-			header("Location: content.php?obj_id=".$_GET["parent"]."&parent=".$parent_obj_id);
-			exit;
+			header("Location: content.php?obj_id=$_GET[parent]&parent=$_GET[parent]");
+			exit();
 		}
 		else
 		{
@@ -210,15 +207,14 @@ class RoleObject extends Object
 	{
 		global $tree, $tplContent, $rbacadmin, $rbacreview, $rbacsystem;
 
-		$parent_obj_id = $this->getParentObjectId();
-		
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id))
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$tplContent = new Template("role_perm.html",true,true);
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
 			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
+			$tplContent->setVariable("PAR",$_GET["parent_parent"]);
 			$tplContent->setVariable($this->ilias->ini["layout"]);
-			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"]));
+			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
 
 			$role_data = $rbacadmin->getRoleData($_GET["obj_id"]);
 			$tplContent->setVariable("MESSAGE_TOP","Permission Template of Role: ".$role_data["title"]);
@@ -285,7 +281,7 @@ class RoleObject extends Object
 
 				$tplContent->setVariable("MESSAGE_BOTTOM","Assign User To Role");
 				$tplContent->setCurrentBLock("TABLE_USER");
-
+				$tplContent->setVariable("ASSIGN_PAR",$_GET["parent_parent"]);
 				foreach ($users as $key => $user)
 				{
 					$tplContent->setVariable("CSS_ROW_USER",$key % 2 ? "row_low" : "row_high");
@@ -305,7 +301,7 @@ class RoleObject extends Object
 			
 			// BEGIN ADOPT_PERMISSIONS
 			$tplContent->setCurrentBlock("ADOPT_PERMISSIONS");
-			$parent_role_ids = $this->getParentRoleTemplateIds($_GET["parent"],true);
+			$parent_role_ids = $this->getParentRoleTemplateIds($_GET["parent"],$_GET["parent_parent"]);
 
 			foreach ($parent_role_ids as $key => $par)
 			{
@@ -314,9 +310,6 @@ class RoleObject extends Object
 				$tplContent->setVariable("CHECK_ADOPT",$radio);
 				$tplContent->setVariable("TYPE",$par["type"] == 'role' ? 'Role' : 'Template');
 				$tplContent->setVariable("ROLE_NAME",$par["title"]);
-				$object = $this->getParentObjectId($par["parent"]);
-				$object = getObject($object);
-				$tplContent->setVariable("LOCATION",$object["title"]);
 				$tplContent->parseCurrentBlock();
 			}
 			// END ADOPT_PERMISSIONS
@@ -335,9 +328,7 @@ class RoleObject extends Object
 	{
 		global $tree, $rbacsystem, $rbacadmin;
 
-		$parent_obj_id = $this->getParentObjectId();
-
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			// delete all template entries
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
@@ -350,8 +341,7 @@ class RoleObject extends Object
 			// Existierende Objekte anpassen
 			if ($_POST["recursive"])
 			{
-				$parent_obj = $this->getParentObjectId();
-
+				$parent_obj = $_GET["parent_parent"];
 				if ($parent_obj == SYSTEM_FOLDER_ID)
 				{
 					$object_id = ROOT_FOLDER_ID;
@@ -360,7 +350,7 @@ class RoleObject extends Object
 				else
 				{
 					$object_id = $_GET["parent"];
-					$parent = $parent_obj;
+					$parent = $_GET["parent_parent"];
 				}
 				// revoke all permissions where no permissions are set 
 				$types = getTypeList();
@@ -396,8 +386,7 @@ class RoleObject extends Object
 		{
 			$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
-
-		header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm");
+		header("location:object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&parent_parent=$_GET[parent_parent]&cmd=perm");
 		exit;
 
 	}
@@ -410,9 +399,7 @@ class RoleObject extends Object
 	{
 		global $rbacadmin, $rbacsystem;
 
-		$parent_obj_id = $this->getParentObjectId();
-
-		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
+		if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 		{
 			$rbacadmin->deleteRolePermission($_GET["obj_id"],$_GET["parent"]);
 			$parentRoles = $rbacadmin->getParentRoleIds($_GET["parent"]);
@@ -422,7 +409,7 @@ class RoleObject extends Object
 		{
 			$this->ilias->raiseError("No Permission to edit permissions",$this->ilias->error_obj->WARNING);
 		}
-		header("Location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm");
+		header("location:object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&parent_parent=$_GET[parent_parent]&cmd=perm");
 		exit;
 	}
 
@@ -436,9 +423,7 @@ class RoleObject extends Object
 		 
 		if ($rbacadmin->isAssignable($_GET["obj_id"],$_GET["parent"]))
 		{
-			$parent_obj_id = $this->getParentObjectId();
-
-			if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$parent_obj_id))
+			if ($rbacsystem->checkAccess('edit permission',$_GET["parent"],$_GET["parent_parent"]))
 			{
 				$assigned_users = $rbacreview->assignedUsers($_GET["obj_id"]);
 				$_POST["user"] = $_POST["user"] ? $_POST["user"] : array();
@@ -457,7 +442,7 @@ class RoleObject extends Object
 			{
 				$this->ilias->raiseError("No permission to edit permissions",$this->ilias->error_obj->WARNING);
 			}
-			header("location:object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=perm");
+			header("location:object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&parent_parent=$_GET[parent_parent]&cmd=perm");
 			exit;
 		}
 		else
