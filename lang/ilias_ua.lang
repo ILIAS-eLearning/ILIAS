@@ -1576,23 +1576,23 @@ common#:#lo_other_langs#:#УО на інших Мовах
 common#:#lo_overview#:#Огляд УО
 common#:#local#:#Локальний
 common#:#locator#:#Місцезнаходження:
-common#:#logic_and#:#and###26 Aug 2004 new variable
-common#:#logic_or#:#or###26 Aug 2004 new variable
+common#:#logic_and#:#та
+common#:#logic_or#:#або
 common#:#login#:#Логін
 common#:#login_as#:#Залогінений як
 common#:#login_data#:#Дата логіна
-common#:#login_exists#:#Вже є користувач з цим логіном! Будь ласка виберіть інше.###14 Sep 2004 content changed
-common#:#login_invalid#:#The chosen login is invalid! Only the following characters are allowed (minimum 4 characters): A-Z a-z 0-9 _.-+*@!$%~###08 May 2004 new variable
+common#:#login_exists#:#Вже є користувач з цим логіном! Будь ласка виберіть собі інший.
+common#:#login_invalid#:#Вибраний логін є невірним! Дозволеними є тільки наступні символи (мінімум 4 символи): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Час онлайн
 common#:#login_to_ilias#:#Логін в ILIAS
 common#:#logout#:#Вихід
 common#:#logout_text#:#Ви вийшли з ILIAS. Ваша сессія була закрита.
-common#:#logs#:#Log data###07 Jan 2005 new variable
+common#:#logs#:#Лог дата
 common#:#los#:#Учбові Об'єкти
 common#:#los_last_visited#:#Останні Відвідані Учбові Об'єкти
 common#:#mail#:#Пошта
 common#:#mail_a_root#:#Поштова Скринька
-common#:#mail_addressbook#:#Адресна книга###14 Sep 2004 content changed
+common#:#mail_addressbook#:#Адресна книга
 common#:#mail_allow_smtp#:#Дозволити SMTP
 common#:#mail_b_inbox#:#Вхідні
 common#:#mail_c_trash#:#Смітник
@@ -1602,21 +1602,21 @@ common#:#mail_delete_error_file#:#Помилка видалення файлу
 common#:#mail_e_sent#:#Відіслати
 common#:#mail_edit_permission#:#Змінити настройки прав
 common#:#mail_folders#:#Папка з Поштою
-common#:#mail_import#:#Import###31 Mar 2004 new variable
-common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
+common#:#mail_import#:#Імпортувати
+common#:#mail_import_file#:#ILIAS 2 експорт файл
 common#:#mail_intern_enable#:#Дозволити
-common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
-common#:#mail_mails_of#:#Пошта###14 Sep 2004 content changed
+common#:#mail_mail_visible#:#Користувач може використовувати поштову систему
+common#:#mail_mails_of#:#Пошта
 common#:#mail_maxsize_attach#:#Максимальний розмір прикріплення
 common#:#mail_maxsize_box#:#Максимальний розмір поштової скриньки
 common#:#mail_maxsize_mail#:#Максимальний розмір пошти
 common#:#mail_maxtime_attach#:#Максимальна кількість днів для зберігання прикріплення
-common#:#mail_maxtime_mail#:#Максимальна кількість днів для зберігання пошти###14 Sep 2004 content changed
+common#:#mail_maxtime_mail#:#Максимальна кількість днів для зберігання пошти
 common#:#mail_not_sent#:#Пошта не видіслана!
 common#:#mail_read#:#Доступ на читання до настроювань Пошти
 common#:#mail_search_no#:#Входжень не знайдено
 common#:#mail_search_word#:#Шукати слово
-common#:#mail_select_one#:#Ви маєте вибреати один лист###14 Sep 2004 content changed
+common#:#mail_select_one#:#Ви маєте вибреати один лист
 common#:#mail_send_error#:#Помилка при відсиланні пошти
 common#:#mail_sent#:#Пошта відіслана!
 common#:#mail_smtp_mail#:#Користувач може відіслати пошту через SMTP
@@ -1625,62 +1625,62 @@ common#:#mail_system_message#:#Користувач може відсилати 
 common#:#mail_visible#:#Настройки Пошти є видимі
 common#:#mail_write#:#Редагувати Поштові настройки
 common#:#mail_z_local#:#Папки Користувача
-common#:#mails#:#Пошта###14 Sep 2004 content changed
-common#:#manage_tracking_data#:#Manage Tracking Data###09 Jul 2004 new variable
+common#:#mails#:#Пошта
+common#:#manage_tracking_data#:#Управляти Даними Відслідковування
 common#:#mark_all_read#:#Помітити усе як прочитане
 common#:#mark_all_unread#:#Помітити усе як непрочитане
-common#:#matriculation#:#Matriculation number###07 Oct 2004 new variable
-common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
-common#:#max_time#:#Maximum time###09 Apr 2004 new variable
+common#:#matriculation#:#Номер зачислення
+common#:#max_number_rec#:#Максимальна кількість записів
+common#:#max_time#:#Максимальний час
 common#:#member#:#Член
 common#:#members#:#Члени
 common#:#membership_annulled#:#Ваше членство було відмінено
-common#:#mep#:#Media Pool###22 Mar 2004 new variable
-common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
-common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
-common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
-common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
-common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
-common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
-common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
-common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
-common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
+common#:#mep#:#Медіа Банк
+common#:#mep_add#:#Додати Медіа Банк
+common#:#mep_added#:#Доданий Медіа Банк
+common#:#mep_delete#:#Видалити Медіа Банк
+common#:#mep_edit#:#Редагувати Властивості Медіа Банку
+common#:#mep_edit_permission#:#Змінити настройки прав
+common#:#mep_new#:#Новий Медіа Банк
+common#:#mep_read#:#Читати Вмсіст Медіа Банку
+common#:#mep_visible#:#Медіа Банк є видимим
+common#:#mep_write#:#Редагувати Вміст Медіа Банку
 common#:#message#:#Повідомлення
 common#:#message_content#:#Зміст Повідомлення
-common#:#message_no_delivered_files#:#You don't have delivered a file!###06 Oct 2004 new variable
+common#:#message_no_delivered_files#:#Ви не доставили файл!
 common#:#message_to#:#Повідомлення для:
-common#:#meta_data#:#Мета Дані###14 Sep 2004 content changed
+common#:#meta_data#:#Метадані
 common#:#migrate#:#Мігрувати
-common#:#min_time#:#Minimum time###09 Apr 2004 new variable
-common#:#missing#:#Missing###23 Dec 2004 new variable
+common#:#min_time#:#Мінімальний час
+common#:#missing#:#Пропущений
 common#:#mob#:#Медіа Об'єкт
 common#:#module#:#модуль
 common#:#modules#:#Модулі
 common#:#month#:#Місяць
-common#:#month_01_long#:#January###17 Mar 2004 new variable
-common#:#month_01_short#:#Jan###17 Mar 2004 new variable
-common#:#month_02_long#:#February###17 Mar 2004 new variable
-common#:#month_02_short#:#Feb###17 Mar 2004 new variable
-common#:#month_03_long#:#March###17 Mar 2004 new variable
-common#:#month_03_short#:#Mar###17 Mar 2004 new variable
-common#:#month_04_long#:#April###17 Mar 2004 new variable
-common#:#month_04_short#:#Apr###17 Mar 2004 new variable
-common#:#month_05_long#:#May###17 Mar 2004 new variable
-common#:#month_05_short#:#May###17 Mar 2004 new variable
-common#:#month_06_long#:#June###17 Mar 2004 new variable
-common#:#month_06_short#:#Jun###17 Mar 2004 new variable
-common#:#month_07_long#:#July###17 Mar 2004 new variable
-common#:#month_07_short#:#Jul###17 Mar 2004 new variable
-common#:#month_08_long#:#August###17 Mar 2004 new variable
-common#:#month_08_short#:#Aug###17 Mar 2004 new variable
-common#:#month_09_long#:#September###17 Mar 2004 new variable
-common#:#month_09_short#:#Sep###17 Mar 2004 new variable
-common#:#month_10_long#:#October###17 Mar 2004 new variable
-common#:#month_10_short#:#Oct###17 Mar 2004 new variable
-common#:#month_11_long#:#November###17 Mar 2004 new variable
-common#:#month_11_short#:#Nov###17 Mar 2004 new variable
-common#:#month_12_long#:#December###17 Mar 2004 new variable
-common#:#month_12_short#:#Dec###17 Mar 2004 new variable
+common#:#month_01_long#:#Січень
+common#:#month_01_short#:#Січ
+common#:#month_02_long#:#Лютий
+common#:#month_02_short#:#Лют
+common#:#month_03_long#:#Березень
+common#:#month_03_short#:#Бер
+common#:#month_04_long#:#Квітень
+common#:#month_04_short#:#Кві
+common#:#month_05_long#:#Травень
+common#:#month_05_short#:#Тра
+common#:#month_06_long#:#Червень
+common#:#month_06_short#:#Чер
+common#:#month_07_long#:#Липень
+common#:#month_07_short#:#Лип
+common#:#month_08_long#:#Серпень
+common#:#month_08_short#:#Сер
+common#:#month_09_long#:#Вересень
+common#:#month_09_short#:#Вер
+common#:#month_10_long#:#Жовтень
+common#:#month_10_short#:#Жов
+common#:#month_11_long#:#Листопад
+common#:#month_11_short#:#Лис
+common#:#month_12_long#:#Грудень
+common#:#month_12_short#:#Гру
 common#:#move#:#Перемістити
 common#:#moveChapter#:#Перемістити
 common#:#movePage#:#Перемістити
@@ -1699,7 +1699,7 @@ common#:#msg_deleted_rolt#:#Шаблон Ролі видалений
 common#:#msg_deleted_rolts#:#Шаблон Ролі видалений
 common#:#msg_error_copy#:#Помилка Копіювання
 common#:#msg_failed#:#Вибачте, дія невдалась
-common#:#msg_is_last_role#:#Ви відмінили призначення наступним користувачам з їхньої останньої глобальної ролі###14 Sep 2004 content changed
+common#:#msg_is_last_role#:#Ви видалили останню глобальну роль для наступних користувачів
 common#:#msg_link_clipboard#:#Вибраний об'єкт(и) зберігається в буфері обміну (Дія: зв'язати)
 common#:#msg_linked#:#Вибраний об'єкт(и) зв'язаний.
 common#:#msg_may_not_contain#:#Цей об'єкт може не містити об'єктів типу:
@@ -1708,9 +1708,9 @@ common#:#msg_min_one_role#:#Кожний користувач повинен м�
 common#:#msg_multi_language_selected#:#Ви вибрали одну і ту ж саму мову для різних перекладів!
 common#:#msg_no_default_language#:#Мова по замовчанню не вказана! Ви маєте визначити один переклад як переклад по замовчанню.
 common#:#msg_no_delete_yourself#:#Ви не можете видалити ваш особистий акаунт користувача.
-common#:#msg_no_file#:#You didn't choose a file###19 Feb 2004 new variable
+common#:#msg_no_file#:#Ви не вибрали файл
 common#:#msg_no_language_selected#:#Не вказана мова перекладу! Ви маєте визначити мову для кожного перекладу
-common#:#msg_no_perm_assign_role_to_user#:#Ви не маєте прав змінювати призначення ролей користувачам.###14 Sep 2004 content changed
+common#:#msg_no_perm_assign_role_to_user#:#Ви не маєте прав змінити призначення ролі користувачу.
 common#:#msg_no_perm_copy#:#Ви не маєте прав стоврити копію наступного об'єкту(ів):
 common#:#msg_no_perm_create#:#Ви не маєте прав створити наступний об'єкт(и):
 common#:#msg_no_perm_create_object1#:#Ви не маєте прав створити
@@ -1721,112 +1721,112 @@ common#:#msg_no_perm_create_rolt#:#Ви не маєте прав додават�
 common#:#msg_no_perm_create_user#:#Ви не маєте прав додавати користувачів
 common#:#msg_no_perm_cut#:#Ви не маєте прав вирізати наступний об'єкт(и):
 common#:#msg_no_perm_delete#:#Ви не маєте прав видалити наступний об'єкт(и):
-common#:#msg_no_perm_delete_track#:#You have no permission to delete tracking data.###10 Jul 2004 new variable
+common#:#msg_no_perm_delete_track#:#Ви не маєте прав видалити дані відслідковування.
 common#:#msg_no_perm_link#:#Ви не маєте права стоврити посилання з наступниого об'єкту(ів):
 common#:#msg_no_perm_modify_role#:#Ви не маєте права змінювати ролі
 common#:#msg_no_perm_modify_rolt#:#Ви не маєте права змінювати шаблони ролей
-common#:#msg_no_perm_modify_user#:#Ви не маєте права змінювати дані користувачів###14 Sep 2004 content changed
+common#:#msg_no_perm_modify_user#:#Ви не маєте права змінювати дані користувача
 common#:#msg_no_perm_paste#:#Ви не маєте права вставляти наступний об'єкт(и):
 common#:#msg_no_perm_perm#:#Ви не маєте права редагувати настройки прав
-common#:#msg_no_perm_read_lm#:#You have no permission to read this learning module.###11 Jul 2004 new variable
-common#:#msg_no_perm_read_track#:#You have no permission to access the user tracking.###10 Jul 2004 new variable
+common#:#msg_no_perm_read_lm#:#Ви не маєте прав читати цей учбовий модуль.
+common#:#msg_no_perm_read_track#:#Ви не маєте прав для доступу до відслідковування користувача.
 common#:#msg_no_perm_undelete#:#Ви не маєте права відмінити видалення наступного об'єкту(ів):
 common#:#msg_no_perm_write#:#Ви не маєте права записувати
 common#:#msg_no_rolf_allowed1#:#Об'єкт
 common#:#msg_no_rolf_allowed2#:#не є дозволеним містити Папку Ролі
-common#:#msg_no_scan_log#:#Scan log not implemented yet###06 Mar 2004 new variable
+common#:#msg_no_scan_log#:#Логи сканування ще не виконані
 common#:#msg_no_search_result#:#Входжень не знайдено
 common#:#msg_no_search_string#:#Будь ласка введіть ваш запит
-common#:#msg_no_sysadmin_sysrole_not_assignable#:#Ви можете не призначати користувачів на Роль Системного адміністратора, якщо ви не призначили себе на цю Роль###14 Sep 2004 content changed
-common#:#msg_no_title#:#Please enter a title.###29 Nov 2004 new variable
-common#:#msg_no_url#:#You didn't enter a URL###23 Oct 2004 new variable
+common#:#msg_no_sysadmin_sysrole_not_assignable#:#Тільки Системний Адміністратор може призначати користувачів на Роль Системного Адміністратора
+common#:#msg_no_title#:#Будь ласка введіть назву.
+common#:#msg_no_url#:#Ви не ввели URL
 common#:#msg_not_available_for_anon#:#Сторінку що ви вибрали є доступною тільки для зареєстрованим користувачам
 common#:#msg_not_in_itself#:#Не є можливим вставити об'єкт в самого себе
 common#:#msg_nothing_found#:#msg_нічого_не_знайдено
 common#:#msg_obj_created#:#Об'єкт створений.
 common#:#msg_obj_exists#:#Цей об'єкт вже існує у цій папці
 common#:#msg_obj_modified#:#Зміни збережені.
-common#:#msg_obj_no_link#:#are not allowed to be linked###18 Feb 2004 new variable
-common#:#msg_obj_not_deletable_sold#:#Payment is activated for the following objects. They can no be deleted.###29 Nov 2004 new variable
+common#:#msg_obj_no_link#:#не дозволено бути зв'язаним
+common#:#msg_obj_not_deletable_sold#:#Оплата активована для наступних об'єктів. Вони не можуть бути видалені.
 common#:#msg_perm_adopted_from1#:#Настройки прав наслідовані з
 common#:#msg_perm_adopted_from2#:#(Настройки були збережені!)
 common#:#msg_perm_adopted_from_itself#:#Ви не можете наслідувати настройки прав з поточної ролі/шаблонц ролі на себе самих.
 common#:#msg_removed#:#Об'єкт(и) видалений з системи.
 common#:#msg_role_exists1#:#Роль/шаблон ролі з ім'ям
 common#:#msg_role_exists2#:#вже існує! Будь ласка виберіть інше ім'я
-common#:#msg_role_reserved_prefix#:#Префікс 'il_' зарезервований для ролей що автоматично створюються. Будь ласка виберіть інше ім'я###14 Sep 2004 content changed
-common#:#msg_roleassignment_active_changed#:#Призначення Активної Ролі змінено###14 Sep 2004 content changed
-common#:#msg_roleassignment_active_changed_comment#:#Ці настройки не збережені для профайлу користувача! Якщо користувач перелогіниться усі активні призначення ролей повернуться до збережених значень знову.###14 Sep 2004 content changed
-common#:#msg_roleassignment_changed#:#Призначення ролі змінено###14 Sep 2004 content changed
-common#:#msg_sysrole_not_deletable#:#Системна роль не може бути видалена###14 Sep 2004 content changed
+common#:#msg_role_reserved_prefix#:#Префікс 'il_' зарезервований для ролей що автоматично створюються. Будь ласка виберіть інше ім'я
+common#:#msg_roleassignment_active_changed#:#Призначення Активної Ролі змінено
+common#:#msg_roleassignment_active_changed_comment#:#Ці настройки не збережені для профайлу користувача! Якщо користувач перелогіниться усі активні призначення ролей повернуться до їх збережених значень.
+common#:#msg_roleassignment_changed#:#Призначення ролі змінено
+common#:#msg_sysrole_not_deletable#:#Системна роль не може бути видалена
 common#:#msg_sysrole_not_editable#:#Настройки прав сисемної ролі не можуть бути змінені. Системна роль гарантує усім призначенним користувачам необмежений доступ до усіх об'єктів та функцій.
 common#:#msg_trash_empty#:#Немає видалених об'єктів
 common#:#msg_undeleted#:#Відмінено видалення об'єкту(ів).
 common#:#msg_user_last_role1#:#Наступні користувачі призначені до ціїє ролі тільки:
 common#:#msg_user_last_role2#:#Будь ласка видаліть користувачів або призначте їм іншу роль для того щоб видалити цю роль.
-common#:#msg_userassignment_changed#:#Призначення користувача змінено###14 Sep 2004 content changed
+common#:#msg_userassignment_changed#:#Призначення користувача змінено
 common#:#multimedia#:#Мультимедіа
 common#:#my_bms#:#Мої Закладинки
 common#:#my_frms#:#Мої Форуми
 common#:#my_grps#:#Мої Групи
 common#:#my_los#:#Мої Учбові Об'єкти
-common#:#my_tsts#:#My Tests###08 Mar 2004 new variable
+common#:#my_tsts#:#Мої Тести
 common#:#name#:#Ім'я
 common#:#new#:#Новий
 common#:#new_appointment#:#Нове Призначення
 common#:#new_folder#:#Нова Папка
 common#:#new_group#:#Нова Група
 common#:#new_language#:#Нова Мова
-common#:#new_list_password#:#New suggestions###29 Nov 2004 new variable
+common#:#new_list_password#:#Нові пропозиції
 common#:#new_mail#:#Нова пошта!
 common#:#news#:#Новини
 common#:#next#:#наступний
 common#:#nickname#:#Нікнейм
 common#:#no#:#Ні
-common#:#no_access_link_object#:#You are not allowed to link this object###07 Aug 2004 new variable
+common#:#no_access_link_object#:#Вам не дозволено зв'язувати цей об'єкт
 common#:#no_bm_in_personal_list#:#Жодної закладинки не визначено.
-common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
+common#:#no_chat_in_personal_list#:#Немає чатів в персональному списку
 common#:#no_checkbox#:#Жодного чекбоксу не вибрано!
-common#:#no_datasets#:#The table is empty###13 Nov 2004 new variable
+common#:#no_datasets#:#Таблиця порожня
 common#:#no_date#:#Немає дати
-common#:#no_description#:#No description###13 Apr 2004 new variable
+common#:#no_description#:#Немає опису
 common#:#no_frm_in_personal_list#:#Немає форумів в особистому списку.
-common#:#no_global_role_left#:#Every user has to be assigned to one role.###11 Sep 2004 new variable
+common#:#no_global_role_left#:#Кожному користувачу має бути призначена одна роль.
 common#:#no_grp_in_personal_list#:#Немає груп в особистому списку.
 common#:#no_import_available#:#Імпорт не доступний для цього типу
-common#:#no_invalid_links#:#No invalid links found.###18 Dec 2004 new variable
-common#:#no_limit#:#No limit###24 Mar 2004 new variable
+common#:#no_invalid_links#:#Жодного невірного лінку не знайдено.
+common#:#no_limit#:#Немає обмеження
 common#:#no_lo_in_personal_list#:#Немає жодного учбового об'єкту в особистому списку.
-common#:#no_local_users#:#There are no local user###21 Sep 2004 new variable
+common#:#no_local_users#:#Немає локальних користувачів
 common#:#no_objects#:#Немає об'єктів
 common#:#no_permission_to_join#:#Вам не дозволено приєднуватись до цієї групи!
-common#:#no_roles_user_can_be_assigned_to#:#There are no global roles the user can be assigned to. Therefore you are not allowed to add users.###14 Sep 2004 new variable
+common#:#no_roles_user_can_be_assigned_to#:#Немає глобальної ролі до якої може бути призначений користувач. Тому вам не дозволено додавати користувачів.
 common#:#no_title#:#Немає Назви
-common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
-common#:#no_users_applied#:#Please select an user.###14 Aug 2004 new variable
-common#:#no_users_selected#:#Please select one user.###11 Sep 2004 new variable
-common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:###12 Oct 2004 new variable
-common#:#no_zip_file#:#No zip file found.###12 Oct 2004 new variable
-common#:#non_internal_local_roles_only#:#Local roles (only userdefined)###16 Sep 2004 new variable
+common#:#no_tst_in_personal_list#:#Немає тестів в персональному списку.
+common#:#no_users_applied#:#Будь ласка виберіть користувача.
+common#:#no_users_selected#:#Будь ласка виберіть одного користувача.
+common#:#no_xml_file_found_in_zip#:#XML файл всередині zip файлу не знайдений:
+common#:#no_zip_file#:#Ні один zip файл не знайдений.
+common#:#non_internal_local_roles_only#:#Локальні ролі (тільки визначені користувачем)
 common#:#none#:#Ніщо
 common#:#normal#:#Нормальний
-common#:#not_implemented_yet#:#Not implemented yet###15 May 2004 new variable
+common#:#not_implemented_yet#:#Ще не реалізовано
 common#:#not_installed#:#Не Інстальовано
 common#:#not_logged_in#:#Ви не залогінені в
-common#:#number_of_accesses#:#Number of accesses###09 Jul 2004 new variable
-common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
+common#:#number_of_accesses#:#Кількість доступів
+common#:#number_of_records#:#Кількість записів
 common#:#obj#:#Об'єкт
-common#:#obj_adm#:#Системні Настройки###05 Mar 2004 content changed
+common#:#obj_adm#:#Адміністрування
 common#:#obj_adm_desc#:#Папка з головними системними настройками містить усі панелі для адміністрування вашої інсталяції ILIAS.
-common#:#obj_alm#:#AICC Learning Module###15 Jul 2004 new variable
-common#:#obj_assf#:#Test&Assessment###07 Jan 2005 new variable
-common#:#obj_auth#:#Authentication###24 Jul 2004 new variable
-common#:#obj_auth_desc#:#Configure your authentication mode (local, LDAP, ...)###24 Jul 2004 new variable
+common#:#obj_alm#:#AICC Учбовий Модуль
+common#:#obj_assf#:#Тест&Оцінка
+common#:#obj_auth#:#Аутентифікація
+common#:#obj_auth_desc#:#Конфігурувати ваш метод аутентифікації (локальна, LDAP, ...)
 common#:#obj_cat#:#Категорія
-common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
-common#:#obj_chac#:#Chat settings###18 Feb 2004 new variable
-common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###09 Mar 2004 new variable
-common#:#obj_chat#:#Chat###18 Feb 2004 new variable
+common#:#obj_cen#:#Centra Event
+common#:#obj_chac#:#Настройки чату
+common#:#obj_chac_desc#:#Конфігуруйте ваш чатсервер тут. Дозволити/заборонити чати.
+common#:#obj_chat#:#Чат
 common#:#obj_crs#:#Курс
 common#:#obj_dbk#:#Digilib Книга
 common#:#obj_exc#:#Вправа
@@ -1835,31 +1835,31 @@ common#:#obj_fold#:#Папка
 common#:#obj_frm#:#Форум
 common#:#obj_glo#:#Глосарій
 common#:#obj_grp#:#Група
-common#:#obj_hlm#:#HACP Learning Module###15 Jul 2004 new variable
-common#:#obj_htlm#:#HTML Learning Module###07 Apr 2004 new variable
+common#:#obj_hlm#:#HACP Учбовий Модуль
+common#:#obj_htlm#:#HTML Учбовий Модуль
 common#:#obj_ldap#:#LDAP Настройки
 common#:#obj_ldap_desc#:#Конфігуруйте глобальні настройки LDAP тут.
-common#:#obj_lm#:#Учбовий Модуль###24 Sep 2004 content changed
+common#:#obj_lm#:#Учбовий Модуль ILIAS
 common#:#obj_lng#:#Мова
 common#:#obj_lngf#:#Мови
 common#:#obj_lngf_desc#:#Управляйте вашими системними мовами тут.
 common#:#obj_lo#:#Учбовий Об'єкт
 common#:#obj_mail#:#Настойки Пошти
 common#:#obj_mail_desc#:#КОнфігуруйте глобальні поштові настройки тут.
-common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
-common#:#obj_mob#:#Мультимедіа Об'єкт###06 Apr 2004 content changed
+common#:#obj_mep#:#Медіа Банк
+common#:#obj_mob#:#Медіа Об'єкт
 common#:#obj_not_found#:#Об'єкт Не Знайдений
 common#:#obj_note#:#Примітка
 common#:#obj_notf#:#Адмініструввання Примітками
-common#:#obj_objf#:#Визначення об'єкта###14 Sep 2004 content changed
+common#:#obj_objf#:#Визначення об'єкта
 common#:#obj_objf_desc#:#Упоавління типами об'єктів та правами об'єктів в ILIAS. (тільки для експертів!)
 common#:#obj_owner#:#Цей Об'єкт належить
-common#:#obj_pays#:#Payment settings###28 Aug 2004 new variable
-common#:#obj_pays_desc#:#Configure payment settings and vendors###28 Aug 2004 new variable
+common#:#obj_pays#:#Настройки оплати
+common#:#obj_pays_desc#:#Сконфігуруйте настройки оплати та продавців
 common#:#obj_pg#:#Сторінка
-common#:#obj_qpl#:#Черга Питань###07 May 2004 content changed
-common#:#obj_recf#:#Restored Objects###09 Mar 2004 new variable
-common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.###09 Mar 2004 new variable
+common#:#obj_qpl#:#Банк Питань для Тесту
+common#:#obj_recf#:#Відновлені Об'єкти
+common#:#obj_recf_desc#:#Містить відновлені Об'єкти після перевірки системи.
 common#:#obj_role#:#Роль
 common#:#obj_rolf#:#Ролі
 common#:#obj_rolf_desc#:#Управляйте вашими ролями тут.
@@ -1867,76 +1867,76 @@ common#:#obj_rolf_local#:#Локальні Ролі
 common#:#obj_rolf_local_desc#:#Містить локальні ролі об'єкта №
 common#:#obj_rolt#:#Шаблон Ролі
 common#:#obj_root#:#root
-common#:#obj_sahs#:#SCORM/AICC Learning Module###11 Sep 2004 new variable
-common#:#obj_spl#:#Question Pool (Survey)###07 May 2004 new variable
+common#:#obj_sahs#:#SCORM/AICC Учбовий Модуль
+common#:#obj_spl#:#Банк Питань (Опитування)
 common#:#obj_st#:#Глава
-common#:#obj_svy#:#Survey###07 May 2004 new variable
-common#:#obj_tax#:#Taxonomy###19 Jun 2004 new variable
-common#:#obj_taxf#:#Taxonomies###19 Jun 2004 new variable
-common#:#obj_taxf_desc#:#Folder for taxonomies###19 Jun 2004 new variable
-common#:#obj_trac#:#User Tracking###02 Jul 2004 new variable
-common#:#obj_trac_desc#:#User access tracking data###02 Jul 2004 new variable
+common#:#obj_svy#:#Опитування
+common#:#obj_tax#:#Таксономія
+common#:#obj_taxf#:#Таксономії
+common#:#obj_taxf_desc#:#Папка для таксономій
+common#:#obj_trac#:#Відслідковування Користувача
+common#:#obj_trac_desc#:#Дані відслідковування для доступу користувача
 common#:#obj_tst#:#Тест
-common#:#obj_typ#:#Визначення Типу Об'єкта###14 Sep 2004 content changed
+common#:#obj_typ#:#Визначення Типу Об'єкта
 common#:#obj_type#:#Тип Об'єкта
-common#:#obj_url#:#URL###23 Oct 2004 new variable
+common#:#obj_url#:#URL
 common#:#obj_uset#:#Настройки Користувача
 common#:#obj_usr#:#Користувач
 common#:#obj_usrf#:#Аккаунт користувача
 common#:#obj_usrf_desc#:#Управляйте аккаунтами користувачів тут.
-common#:#object#:#Object###21 Jul 2004 new variable
-common#:#object_added#:#Object added###03 Apr 2004 new variable
+common#:#object#:#Об'єкт
+common#:#object_added#:#Об'єкт доданий
 common#:#objects#:#Об'єкти
-common#:#objf#:#Визначення об'єктів###14 Sep 2004 content changed
-common#:#objf_edit_permission#:#CЗмінити настройки прав
-common#:#objf_read#:#Доступ на читання до визначень Об'єкта###14 Sep 2004 content changed
-common#:#objf_visible#:#Визначення Об'єкта є видимі###14 Sep 2004 content changed
-common#:#objf_write#:#Редагувати Визначення Об'єкта###14 Sep 2004 content changed
-common#:#objs_alm#:#AICC Learning Modules###15 Jul 2004 new variable
-common#:#objs_cat#:#Categories###18 Feb 2004 new variable
-common#:#objs_chat#:#Chats###12 Apr 2004 new variable
+common#:#objf#:#Визначення об'єктів
+common#:#objf_edit_permission#:#Cмінити настройки прав
+common#:#objf_read#:#Доступ на читання до визначень Об'єкта
+common#:#objf_visible#:#Визначення Об'єкта є видимі
+common#:#objf_write#:#Редагувати Визначення Об'єкта
+common#:#objs_alm#:#AICC Учбові Модулі
+common#:#objs_cat#:#Категорії
+common#:#objs_chat#:#Чати
 common#:#objs_confirm#:#Підтвердити Дію
-common#:#objs_crs#:#Courses###18 Feb 2004 new variable
-common#:#objs_dbk#:#Digilib Books###18 Feb 2004 new variable
+common#:#objs_crs#:#Курси
+common#:#objs_dbk#:#Digilib Книги
 common#:#objs_delete#:#Видалити об'єкти
-common#:#objs_exc#:#Exersices###18 Feb 2004 new variable
-common#:#objs_file#:#Files###18 Feb 2004 new variable
-common#:#objs_fold#:#Folders###18 Feb 2004 new variable
-common#:#objs_frm#:#Forums###18 Feb 2004 new variable
-common#:#objs_glo#:#Glossaries###18 Feb 2004 new variable
-common#:#objs_grp#:#Groups###18 Feb 2004 new variable
-common#:#objs_hlm#:#HACP Learning Modules###15 Jul 2004 new variable
-common#:#objs_htlm#:#HTML Learning Modules###07 Apr 2004 new variable
-common#:#objs_lm#:#Learning Modules###18 Feb 2004 new variable
-common#:#objs_lng#:#Languages###18 Feb 2004 new variable
-common#:#objs_lo#:#Learning Objects###18 Feb 2004 new variable
-common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
-common#:#objs_mob#:#Multimedia Objects###18 Feb 2004 new variable
-common#:#objs_note#:#Notes###18 Feb 2004 new variable
-common#:#objs_pg#:#Pages###18 Feb 2004 new variable
-common#:#objs_qpl#:#Question Pools###18 Feb 2004 new variable
-common#:#objs_role#:#Roles###18 Feb 2004 new variable
-common#:#objs_rolt#:#Role Templates###18 Feb 2004 new variable
-common#:#objs_sahs#:#SCORM/AICC Learning Modules###11 Sep 2004 new variable
-common#:#objs_spl#:#Question Pools (Surveys)###07 May 2004 new variable
-common#:#objs_st#:#Chapters###18 Feb 2004 new variable
-common#:#objs_svy#:#Surveys###07 May 2004 new variable
-common#:#objs_tst#:#Tests###18 Feb 2004 new variable
-common#:#objs_type#:#Objecttypes###18 Feb 2004 new variable
-common#:#objs_url#:#URLs###23 Oct 2004 new variable
-common#:#objs_usr#:#Users###18 Feb 2004 new variable
-common#:#of#:#Of###05 Nov 2004 new variable
-common#:#offline#:#offline###10 Dec 2004 new variable
+common#:#objs_exc#:#Вправи
+common#:#objs_file#:#Файли
+common#:#objs_fold#:#Папки
+common#:#objs_frm#:#Форуми
+common#:#objs_glo#:#Глосарії
+common#:#objs_grp#:#Групи
+common#:#objs_hlm#:#HACP Учбові Модулі
+common#:#objs_htlm#:#HTML Учбові Модулі
+common#:#objs_lm#:#Учбові Модулі
+common#:#objs_lng#:#Мови
+common#:#objs_lo#:#Учбові Об'єкти
+common#:#objs_mep#:#Медіа Банки
+common#:#objs_mob#:#Мультимедіа Об'єкти
+common#:#objs_note#:#Примітки
+common#:#objs_pg#:#Сторінки
+common#:#objs_qpl#:#Банки Питань
+common#:#objs_role#:#Ролі
+common#:#objs_rolt#:#Шаблони Ролей
+common#:#objs_sahs#:#SCORM/AICC Учбові Модулі
+common#:#objs_spl#:#Банки Питань (Опитування)
+common#:#objs_st#:#Глави
+common#:#objs_svy#:#Опитування
+common#:#objs_tst#:#Тести
+common#:#objs_type#:#Типи об'єктів
+common#:#objs_url#:#URLs
+common#:#objs_usr#:#Користувачі
+common#:#of#:#Of
+common#:#offline#:#оффлайн
 common#:#offline_version#:#Оффлайн Версія
 common#:#ok#:#Так
 common#:#old#:#Старий
 common#:#online_chapter#:#Онлайн Глава
 common#:#online_version#:#Онлайн Версія
-common#:#open_views_inside_frameset#:#Open views inside frameset###22 Sep 2004 new variable
+common#:#open_views_inside_frameset#:#Відкрити перегляд всередині фреймсету
 common#:#operation#:#Операція
 common#:#optimize#:#Оптимізувати
 common#:#options#:#Опції
-common#:#options_for_subobjects#:#Options for subobjects###07 Aug 2004 new variable
+common#:#options_for_subobjects#:#Опції для підоб'єктів
 common#:#order_by#:#Сортувати по
 common#:#other#:#Інші
 common#:#overview#:#Огляд
@@ -1946,14 +1946,14 @@ common#:#page_edit#:#Редагувати Сторінку
 common#:#pages#:#Сторінки
 common#:#parameter#:#Параметр
 common#:#parse#:#Синтаксичний Аналіз
-common#:#passed#:#Passed###07 Dec 2004 new variable
+common#:#passed#:#Пройдений
 common#:#passwd#:#Пароль
 common#:#passwd_invalid#:#Новий пароль є невірним! Тільки наступні символи є дозволеними (мінімум 6 символів): A-Z a-z 0-9 _.-+*@!$%~
 common#:#passwd_not_match#:#Ваші строки для нового паролю не співпадають! Будь ласка, введіть заново ваш новий пароль.
 common#:#passwd_wrong#:#Введений пароль є невірним!
 common#:#password#:#Пароль
-common#:#password_assistance_disabled#:#Password assistance is only then available, when user authentication is done via local ILIAS database.###12 Nov 2004 new variable
-common#:#password_assistance_info#:#If password assistance is enabled, a link with the text "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to assign a new password to their user account, without needing assistance from a system administrator.###12 Nov 2004 new variable
+common#:#password_assistance_disabled#:#Відновлення можливе тільки тоді, коли аутентифікація користувачів проходить через локальні базу даних ILIAS.
+common#:#password_assistance_info#:#Якщо відновлення паролю дозволено, посилання з текстом "Забули пароль?" буде показуватись на сторінці з логіном до ILIAS. Користувачі можуть використовувати це посилання щоб призначити новий пароль до свого акаунту, без потреби турбувати системного адміністратора.
 common#:#paste#:#Вставити
 common#:#pasteChapter#:#Вставити
 common#:#pastePage#:#Вставити
@@ -1965,25 +1965,25 @@ common#:#path_to_htmldoc#:#Шлях до HTMLdoc
 common#:#path_to_java#:#Шлях до Java
 common#:#path_to_unzip#:#Шлях до Unzip
 common#:#path_to_zip#:#Шлях до Zip
-common#:#pathes#:#Шляхи###14 Sep 2004 content changed
-common#:#pay_methods#:#Pay methods###02 Oct 2004 new variable
+common#:#pathes#:#Шляхи
+common#:#pay_methods#:#Методи оплати
 common#:#payment_system#:#Платіжна Система
-common#:#pays_edit#:#Edit payment settings###28 Aug 2004 new variable
-common#:#pays_edit_permission#:#Change permission settings###28 Aug 2004 new variable
-common#:#pays_read#:#Access payment settings###28 Aug 2004 new variable
-common#:#pays_visible#:#Payment settings are visible###28 Aug 2004 new variable
-common#:#pays_write#:#Edit payment settings###31 Aug 2004 new variable
-common#:#per_object#:#Access per object###29 Jul 2004 new variable
+common#:#pays_edit#:#Редагувати настройки оплати
+common#:#pays_edit_permission#:#Змінити настройки прав
+common#:#pays_read#:#Доступ до настроювань оплати
+common#:#pays_visible#:#Настройки оплати є видимі
+common#:#pays_write#:#Редагувати настройки оплати
+common#:#per_object#:#Доступ для кожного об'єкта
 common#:#perm_settings#:#Права
 common#:#permission#:#Права
 common#:#permission_denied#:#В Доступі Відмовлено
 common#:#permission_settings#:#Настройки прав
-common#:#person_title#:#Title###14 May 2004 new variable
+common#:#person_title#:#Назва
 common#:#personal_data#:#Особиста інформація
 common#:#personal_desktop#:#Особстий Робочий Стіл
 common#:#personal_picture#:#Особиста Картинка
 common#:#personal_profile#:#Особистий Профіль
-common#:#persons#:#Personen###14 Sep 2004 content changed
+common#:#persons#:#Personen
 common#:#pg_a#:#сторінка
 common#:#pg_add#:#Додати сторінку
 common#:#pg_added#:#Сторінка додана
@@ -1996,8 +1996,8 @@ common#:#phone_office#:#Телефон, Робочий
 common#:#phrase#:#Фраза
 common#:#please_enter_target#:#Будь ласка введіть ціль
 common#:#please_enter_title#:#Будь ласка введіть назву
-common#:#please_select_a_delivered_file_to_delete#:#You must select at least one delivered file to delete it!###06 Oct 2004 new variable
-common#:#please_select_a_delivered_file_to_download#:#You must select at least one delivered file to download it!###06 Oct 2004 new variable
+common#:#please_select_a_delivered_file_to_delete#:#Ви маєте вибрати принаймні один доставлений файл щоб видалити його!
+common#:#please_select_a_delivered_file_to_download#:#Ви маєте вибрати принаймні один доставлений файл щоб завантажити його!
 common#:#port#:#Порт
 common#:#position#:#Позиція
 common#:#preconditions#:#Preconditions###14 Aug 2004 new variable
