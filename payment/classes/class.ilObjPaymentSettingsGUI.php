@@ -43,6 +43,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		$this->type = "pays";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+
+		$this->lng->loadLanguageModule('payment');
 	}
 
 	function gatewayObject()
@@ -127,6 +129,96 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		return true;
 	}
+	
+	function payMethodsObject()
+	{
+		include_once './payment/classes/class.ilPayMethods.php';
+
+		global $rbacsystem;
+
+		// MINIMUM ACCESS LEVEL = 'read'
+		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pays_pay_methods.html",true);
+
+		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays.gif'));
+		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_pays'));
+		$this->tpl->setVariable("TITLE",$this->lng->txt('pays_pay_methods'));
+		$this->tpl->setVariable("TXT_OFFLINE",$this->lng->txt('pays_offline'));
+		$this->tpl->setVariable("TXT_BILL",$this->lng->txt('pays_bill'));
+		$this->tpl->setVariable("BILL_CHECK",ilUtil::formCheckbox(
+									(int) ilPayMethods::_enabled('pm_bill') ? 1 : 0,'pm_bill',1,true));
+
+		$this->tpl->setVariable("TXT_ENABLED",$this->lng->txt('enabled'));
+		$this->tpl->setVariable("TXT_ONLINE",$this->lng->txt('pays_online'));
+		$this->tpl->setVariable("TXT_BMF",$this->lng->txt('pays_bmf'));
+		$this->tpl->setVariable("ONLINE_CHECK",ilUtil::formCheckbox((int) ilPayMethods::_enabled('pm_bmf'),'pm_bmf',1));
+		
+		// footer
+		$this->tpl->setVariable("COLUMN_COUNT",3);
+		$this->tpl->setVariable("PBTN_NAME",'savePayMethods');
+		$this->tpl->setVariable("PBTN_VALUE",$this->lng->txt('save'));
+		
+	}
+
+	function savePayMethodsObject()
+	{
+		include_once './payment/classes/class.ilPayMethods.php';
+		include_once './payment/classes/class.ilPaymentObject.php';
+
+
+		global $rbacsystem;
+
+		// MINIMUM ACCESS LEVEL = 'read'
+		if(!$rbacsystem->checkAccess("read", $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+
+		// check current payings
+		if(ilPayMethods::_enabled('pm_bill') and !$_POST['pm_bill'])
+		{
+			if(ilPaymentObject::_getCountObjectsByPayMethod('pm_bill'))
+			{
+				sendInfo($this->lng->txt('pays_objects_bill_exist'));
+				$this->payMethodsObject();
+
+				return false;
+			}
+		}
+
+		if(ilPayMethods::_enabled('pm_bmf') and !$_POST['pm_bmf'])
+		{
+			if(ilPaymentObject::_getCountObjectsByPayMethod('pm_bmf'))
+			{
+				sendInfo($this->lng->txt('pays_objects_bmf_exist'));
+				$this->payMethodsObject();
+
+				return false;
+			}
+		}
+
+		ilPayMethods::_disableAll();
+		if(isset($_POST['pm_bill']))
+		{
+			ilPayMethods::_enable('pm_bill');
+		}
+		if(isset($_POST['pm_bmf']))
+		{
+			ilPayMethods::_enable('pm_bmf');
+		}
+		$this->payMethodsObject();
+
+		sendInfo($this->lng->txt('pays_updated_pay_method'));
+
+		return true;
+	}
+
 	function cancelDeleteVendorsObject()
 	{
 		unset($_SESSION['pays_vendor']);

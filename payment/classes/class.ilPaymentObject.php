@@ -145,6 +145,37 @@ class ilPaymentObject
 	}
 	// STATIC
 
+	function _getCountObjectsByPayMethod($a_type)
+	{
+		global $ilDB;
+
+		switch($a_type)
+		{
+			case 'pm_bill':
+				$pm = 1;
+				break;
+
+			case 'pm_bmf':
+				$pm = 2;
+				break;
+
+			default:
+				$pm = -1;
+		}
+		
+		$query = 'SELECT count(pay_method) as pm FROM payment_objects '.
+			"WHERE pay_method = '".$pm."'";
+
+		$res = $ilDB->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->pm;
+		}
+		return 0;
+	}
+		
+
 	// only called from payment settings object. Since there is no vendor check.
 	function _getAllObjectsData()
 	{

@@ -79,12 +79,14 @@ global $ilias;
 
 if(ilPaymentShoppingCart::_hasEntries($ilias->account->getId()))
 {
-	$inhalt1[] = array('tabinactive',"./payment/payment.php",$lng->txt('payment'),'bottom');
+	$lng->loadLanguageModule('payment');
+	$inhalt1[] = array('tabinactive',"./payment/payment.php",$lng->txt('pay_header'),'bottom');
 }	
 if(ilPaymentVendors::_isVendor($ilias->account->getId()) or
    ilPaymentTrustees::_hasAccess($ilias->account->getId()))
 {
-	$inhalt1[] = array('tabinactive',"./payment/payment_admin.php",$lng->txt('payment_admin'),'bottom');
+	$lng->loadLanguageModule('payment');
+	$inhalt1[] = array('tabinactive',"./payment/payment_admin.php",$lng->txt('paya_header'),'bottom');
 }
 
 

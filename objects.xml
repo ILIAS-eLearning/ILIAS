@@ -454,6 +454,7 @@
 </object>
 <object name="pays" class_name="PaymentSettings" module="payment" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1">
 	<property name="vendors">vendors</property>
+	<property name="payMethods">pay_methods</property>
 	<property name="perm">perm_settings</property>
 </object>
 </objects>

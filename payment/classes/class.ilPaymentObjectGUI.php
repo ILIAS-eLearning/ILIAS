@@ -118,11 +118,11 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 					break;
 
 				case $this->pobject->PAY_METHOD_BILL:
-					$f_result[$counter][] = $this->lng->txt('paya_bill');
+					$f_result[$counter][] = $this->lng->txt('pays_bill');
 					break;
 
 				case $this->pobject->PAY_METHOD_BMF:
-					$f_result[$counter][] = $this->lng->txt('paya_bmf');
+					$f_result[$counter][] = $this->lng->txt('pays_bmf');
 					break;
 			}
 			$tmp_user =& ilObjectFactory::getInstanceByObjId($data['vendor_id']);
@@ -778,10 +778,19 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 	function __showPayMethodSelector()
 	{
+		include_once './payment/classes/class.ilPayMethods.php';
+
 		$action = array();
+
 		$action[$this->pobject->PAY_METHOD_NOT_SPECIFIED] = $this->lng->txt('paya_pay_method_not_specified');
-		$action[$this->pobject->PAY_METHOD_BILL] = $this->lng->txt('paya_bill');
-		$action[$this->pobject->PAY_METHOD_BMF] = $this->lng->txt('paya_bmf');
+		if(ilPayMethods::_enabled('pm_bill'))
+		{
+			$action[$this->pobject->PAY_METHOD_BILL] = $this->lng->txt('pays_bill');
+		}
+		if(ilPayMethods::_enabled('pm_bmf'))
+		{
+			$action[$this->pobject->PAY_METHOD_BMF] = $this->lng->txt('pays_bmf');
+		}
 
 
 		return ilUtil::formSelect($this->pobject->getPayMethod(),'pay_method',$action,false,true);
