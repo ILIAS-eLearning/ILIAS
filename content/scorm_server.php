@@ -25,7 +25,7 @@
 * scorm learning module presentation script
 *
 * @author Ralph Barthel <ralph.barthel@21ll.com> , 21 LearnLine AG
-* @version $Id: scorm_server.php,v 1.0 2003/08/12 
+* @version $Id: scorm_server.php,v 1.1 2003/08/12 
 *
 * @package content
 */
@@ -33,7 +33,6 @@ chdir("..");
 require_once "./include/inc.header.php";
 require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
 $scorm_communication=new ilObjSCORMTracking($_GET["user_id"],$_GET["item_id"]);
-
 
 if (isset($_GET["value"])) //setValue Call
 {
