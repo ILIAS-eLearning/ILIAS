@@ -1067,8 +1067,12 @@
 	<xsl:choose>
 		<xsl:when test="($media_mode = 'disable' and $mode='edit') or $mode='table_edit'">
 			<img border="0">
+				<xsl:if test="$width != ''">
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$height != ''">
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				</xsl:if>				
 				<xsl:attribute name="src"><xsl:value-of select="$med_disabled_path"/></xsl:attribute>
 			</img>
 		</xsl:when>
@@ -1083,8 +1087,12 @@
 					<xsl:if test = "$map_item != ''">
 						<xsl:attribute name="src">lm_edit.php?cmd=showImageMap&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
 					</xsl:if>
+					<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					</xsl:if>
+					<xsl:if test="$height != ''">
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					</xsl:if>		
 					<xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[1]">
 						<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
 					</xsl:if>
