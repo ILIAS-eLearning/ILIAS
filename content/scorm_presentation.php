@@ -33,11 +33,17 @@
 define("ILIAS_MODULE", "content");
 chdir("..");
 require_once "./include/inc.header.php";
-$lng->loadLanguageModule("content");
 
 // learning module presentation class does the rest
 require_once "./content/classes/SCORM/class.ilSCORMPresentationGUI.php";
 $scorm_presentation = new ilSCORMPresentationGUI();
+require_once "./content/classes/SCORM/class.ilObjSCORMTracking.php";
+/*
+echo "<html><body>";
+$scorm_communication=new ilObjSCORMTracking();
+$test=$scorm_communication->lmsFinish("");
+echo "</body></html>";*/
+
 
 //$tpl->show();
 
