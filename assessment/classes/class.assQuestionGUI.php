@@ -524,7 +524,7 @@ class ASS_QuestionGUI
 	
 	function linkChilds()
 	{
-		$this->object->setSuggestedSolution($_GET["source_id"], 0);
+		$this->object->setSuggestedSolution("il__lm_" . $_GET["source_id"], 0);
 		$this->editQuestion();
 	}
 }
