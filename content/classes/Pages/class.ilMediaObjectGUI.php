@@ -1057,15 +1057,16 @@ class ilMediaObjectGUI extends ilPageContentGUI
 		$xml.= $this->content_obj->getXML(IL_MODE_ALIAS);
 		$xml.= $this->content_obj->getXML(IL_MODE_OUTPUT);
 		$xml.="</dummy>";
-echo "xml:".htmlentities($xml).":<br>";
+//echo "xml:".htmlentities($xml).":<br>";
 		$xsl = file_get_contents("./content/page.xsl");
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
 		$wb_path = ilUtil::getWebspaceDir("output");
 		$mode = "media";
-		$params = array ('mode' => $mode,
+		$params = array ('mode' => $mode, 'link_params' => "ref_id=".$_GET["ref_id"],
 			'ref_id' => $_GET["ref_id"], 'pg_frame' => "", 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+//echo "<br>html:".htmlentities($output).":<br>";
 		echo xslt_error($xh);
 		xslt_free($xh);
 		$this->tpl->setVariable("IMAGE_MAP", $output);

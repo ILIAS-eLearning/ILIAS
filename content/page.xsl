@@ -19,6 +19,9 @@
 	node wraps the pageobject and the mediaobject tags. -->
 <xsl:template match="dummy">
 	<xsl:apply-templates/>
+	<xsl:if test = "count(./PageObject) = 0">
+		<xsl:call-template name="outputImageMaps" />
+	</xsl:if>
 </xsl:template>
 
 <!-- PageObject -->
@@ -108,7 +111,13 @@
 		</xsl:if>
 	</xsl:if>
 
-    <!-- image map data -->
+	<!-- image map data -->
+	<xsl:call-template name="outputImageMaps" />
+
+</xsl:template>
+
+<!-- output image maps -->
+<xsl:template name="outputImageMaps">
 	<xsl:for-each select="//MediaItem/MapArea[1]">
 		<map>
 			<xsl:attribute name="name">map_<xsl:value-of select="../../@Id"/>_<xsl:value-of select="../@Purpose"/></xsl:attribute>
@@ -124,6 +133,9 @@
 						<xsl:if test="$targetframe != ''">
 							<xsl:attribute name="target"><xsl:value-of select="$targetframe"/></xsl:attribute>
 						</xsl:if>
+						<xsl:if test="$mode = 'media'">	<!-- for map editing, may be not correct for presentation? -->
+							<xsl:attribute name="target">_new</xsl:attribute>
+						</xsl:if>
 						<xsl:call-template name="IntLinkHref"/>
 						<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
 						<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
@@ -137,73 +149,72 @@
 			</xsl:for-each>
 		</map>
 	</xsl:for-each>
-
 </xsl:template>
 
 <!-- SHOW SELECTBOX OF CITATIONS -->
 <xsl:template name="showCitationSelect">
-  <xsl:param name="pos" />
-  <xsl:text> </xsl:text>
-  <select class="ilEditSelect">
-    <xsl:attribute name="name">ct_option[<xsl:value-of select="$pos" />]</xsl:attribute>
-    <option value="single">Paragraph</option>
-    <option value="from">From</option>
-    <option value="to">To</option>
-    <option value="f">F</option>
-    <option value="ff">FF</option>
-  </select>
+	<xsl:param name="pos" />
+	<xsl:text> </xsl:text>
+	<select class="ilEditSelect">
+		<xsl:attribute name="name">ct_option[<xsl:value-of select="$pos" />]</xsl:attribute>
+		<option value="single">Paragraph</option>
+		<option value="from">From</option>
+		<option value="to">To</option>
+		<option value="f">F</option>
+		<option value="ff">FF</option>
+	</select>
 </xsl:template>
 
 <!-- SHOW CITATION SUBMIT BUTTON -->
 <xsl:template name="showCitationSubmit">
-  <br />
-  <input class="ilEditSubmit" type="submit" name="cmd[citation]" value="Citate" />
+	<br />
+	<input class="ilEditSubmit" type="submit" name="cmd[citation]" value="Citate" />
 </xsl:template>
 
 <!-- GET BIB ITEM ENTRY BY BIB ID -->
 <xsl:template name="get_bib_item">
-  <xsl:for-each select="//Bibliography/BibItem">
-    <xsl:if test="contains($bib_id,concat(',',position(),','))">
-      <xsl:value-of select="./Identifier/@Entry" /><xsl:text>,</xsl:text>
-    </xsl:if>
-  </xsl:for-each>
+	<xsl:for-each select="//Bibliography/BibItem">
+		<xsl:if test="contains($bib_id,concat(',',position(),','))">
+		<xsl:value-of select="./Identifier/@Entry" /><xsl:text>,</xsl:text>
+		</xsl:if>
+	</xsl:for-each>
 </xsl:template>
 
 <!-- GET PREDECESSOR OF FIRST PAGE NUMBER USED FOR CITATION -->
 <xsl:template name="getFirstPageNumber">
-  <xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
-  <xsl:for-each select="//PageTurn[contains($entry_two,./BibItemIdentifier/@Entry)]">
-    <xsl:if test="position() = 1">
-      <xsl:choose>
-        <xsl:when test="@NumberingType = 'Roman'">
-          <xsl:number format="i" value="@Number - 1" />
-        </xsl:when>
-        <xsl:when test="@NumberingType = 'Arabic'">
-          <xsl:number format="1"  value="@Number - 1" />
-        </xsl:when>
-        <xsl:when test="@NumberingType = 'Alpanumeric'">
-          <xsl:number format="A" value="@Number - 1" />
-        </xsl:when>
-      </xsl:choose>
-    </xsl:if>
-  </xsl:for-each>
+	<xsl:variable name="entry_two"><xsl:call-template name="get_bib_item" /></xsl:variable>
+	<xsl:for-each select="//PageTurn[contains($entry_two,./BibItemIdentifier/@Entry)]">
+		<xsl:if test="position() = 1">
+		<xsl:choose>
+			<xsl:when test="@NumberingType = 'Roman'">
+			<xsl:number format="i" value="@Number - 1" />
+			</xsl:when>
+			<xsl:when test="@NumberingType = 'Arabic'">
+			<xsl:number format="1"  value="@Number - 1" />
+			</xsl:when>
+			<xsl:when test="@NumberingType = 'Alpanumeric'">
+			<xsl:number format="A" value="@Number - 1" />
+			</xsl:when>
+		</xsl:choose>
+		</xsl:if>
+	</xsl:for-each>
 </xsl:template>
 
 <!-- Sucht zu den Pageturns die Edition und das Jahr raus -->
 <xsl:template name="searchEdition">
-  <xsl:param name="Entry"/>
-  <xsl:variable name="act_number">
-    <xsl:value-of select="./@Number" />
-  </xsl:variable>
-  <xsl:for-each select="//Bibliography/BibItem">
-    <xsl:variable name="entry_cmp"><xsl:value-of select="./Identifier/@Entry" /></xsl:variable>
-    <xsl:if test="$entry_cmp=$Entry">
-      <xsl:text> Page: </xsl:text><xsl:value-of select="$act_number" /><xsl:text>, </xsl:text>
-    </xsl:if>
-    <xsl:if test="$entry_cmp=$Entry">
-      <xsl:value-of select="./Edition/."/><xsl:text>, </xsl:text><xsl:value-of select="./Year/."/>
-    </xsl:if>
-  </xsl:for-each>
+	<xsl:param name="Entry"/>
+	<xsl:variable name="act_number">
+		<xsl:value-of select="./@Number" />
+	</xsl:variable>
+	<xsl:for-each select="//Bibliography/BibItem">
+		<xsl:variable name="entry_cmp"><xsl:value-of select="./Identifier/@Entry" /></xsl:variable>
+		<xsl:if test="$entry_cmp=$Entry">
+		<xsl:text> Page: </xsl:text><xsl:value-of select="$act_number" /><xsl:text>, </xsl:text>
+		</xsl:if>
+		<xsl:if test="$entry_cmp=$Entry">
+		<xsl:value-of select="./Edition/."/><xsl:text>, </xsl:text><xsl:value-of select="./Year/."/>
+		</xsl:if>
+	</xsl:for-each>
 </xsl:template>
 
 <!-- Bibliography-Tag nie ausgeben -->
@@ -339,7 +350,9 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				<xsl:call-template name="IntLinkHref"/>
+				<xsl:call-template name="IntLinkHref">
+					<xsl:with-param name="frame" select="$frame" />
+				</xsl:call-template>
 				<xsl:apply-templates/>
 			</a>
 		</xsl:when>
@@ -379,6 +392,8 @@
 
 <!-- build href attribute for interna links -->
 <xsl:template name="IntLinkHref">
+	<xsl:param name="frame"/>
+
 	<!-- Page Objects -->
 	<xsl:if test="@Type = 'PageObject'">
 		<xsl:if test="$mode = 'edit'">
@@ -387,7 +402,7 @@
 		<xsl:if test="$mode = 'preview'">
 			<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$mode = 'presentation'">
+		<xsl:if test="$mode = 'presentation' or $mode = 'media'">
 			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'pg_')"/></xsl:attribute>
 		</xsl:if>
 	</xsl:if>
@@ -399,7 +414,7 @@
 		<xsl:if test="$mode = 'preview'">
 			<xsl:attribute name="href">lm_edit.php?cmd=preview&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$mode = 'presentation'">
+		<xsl:if test="$mode = 'presentation' or $mode = 'media'">
 			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=layout&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'st_')"/></xsl:attribute>
 		</xsl:if>
 	</xsl:if>
@@ -408,7 +423,7 @@
 		<xsl:if test="$mode = 'edit' or $mode = 'preview'">
 			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=_new&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'git_')"/></xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$mode = 'presentation'">
+		<xsl:if test="$mode = 'presentation' or $mode = 'media'">
 			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=glossary&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;obj_id=<xsl:value-of select="substring-after(@Target,'git_')"/></xsl:attribute>
 		</xsl:if>
 	</xsl:if>
@@ -417,7 +432,7 @@
 		<xsl:if test="$mode = 'edit' or $mode = 'preview'">
 			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=media&amp;frame=_new&amp;<xsl:value-of select="$link_params"/>&amp;mob_id=<xsl:value-of select="substring-after(@Target,'mob_')"/></xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$mode = 'presentation'">
+		<xsl:if test="$mode = 'presentation' or $mode = 'media'">
 			<xsl:attribute name="href">lm_presentation.php?obj_type=<xsl:value-of select="@Type"/>&amp;cmd=media&amp;frame=<xsl:value-of select="$frame"/>&amp;<xsl:value-of select="$link_params"/>&amp;mob_id=<xsl:value-of select="substring-after(@Target,'mob_')"/></xsl:attribute>
 		</xsl:if>
 	</xsl:if>
