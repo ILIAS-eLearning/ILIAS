@@ -38,13 +38,30 @@ class ilObjCourse extends ilObject
 {
 	/**
 	* Constructor
-	*
-	* @param	int		$a_id		object id
 	* @access	public
+	* @param	integer	reference_id or object_id
+	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	function ilObjCourse($a_id,$a_call_by_reference = true)
+	function ilObjCategory($a_id = 0,$a_call_by_reference = true)
 	{
+		$this->type = "crs";
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
-} //END class.CourseObject
+
+	/**
+	* copy all properties and subobjects of a course.
+	* 
+	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		global $rbacadmin;
+
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// put here crs specific stuff
+	}
+} //END class.ilObjCourse
 ?>

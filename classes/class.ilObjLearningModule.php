@@ -401,6 +401,20 @@ echo "Build Tree<br>";
 		}
 	}
 
+	/**
+	* copy all properties and subobjects of a learning module.
+	* 
+	* @access	public
+	* @return	integer	new ref id
+	*/
+	function clone($a_parent_ref)
+	{		
+		global $rbacadmin;
 
-} // END class.LearningModuleObject
+		// always call parent clone function first!!
+		$new_ref_id = parent::clone($a_parent_ref);
+		
+		// put here lm specific stuff
+	}
+} // END class.ilObjLearningModule
 ?>
