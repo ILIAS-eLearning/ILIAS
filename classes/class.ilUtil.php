@@ -390,11 +390,104 @@ class ilUtil
 	* @access	public
 	* @param	string	type or 'all' to get all objects
 	* @param	string	permissions to check e.g. 'visible','read'
+	* @param	boolean	if true, access of all parent nodes of each found object are checked too (default is true)
+	* @return	array	returned objects
+	*/
+	function getObjectsByOperations($a_type,$a_operation,$a_checkpath = true)
+	{
+		global $ilDB, $rbacsystem, $tree;
+		
+		$objects = array();
+		
+		if ($a_checkpath === true and !$rbacsystem->checkAccess($a_operation, ROOT_FOLDER_ID, $a_type))
+		{
+			return $objects;
+		}
+
+		$q = "SELECT * FROM tree ".
+		     "LEFT JOIN object_reference ON tree.child=object_reference.ref_id ".
+			 "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id ".
+			 "WHERE object_data.type = '".$a_type."' ".
+			 "AND tree.tree = 1";
+
+		$r = $ilDB->query($q);
+		
+		while ($row = $r->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($rbacsystem->checkAccess($a_operation, $row["ref_id"], $a_type))
+			{
+				$objects[] = $row;
+			}
+		}
+		
+		/*if ($a_checkpath === true)
+		{
+			$nodes_passed = array(ROOT_FOLDER_ID);
+			$nodes_checked = array(ROOT_FOLDER_ID);
+			
+			foreach ($objects as $key => $node)
+			{
+				$path = $tree->getPathId($node["ref_id"],ROOT_FOLDER_ID);
+				
+				if ($num = count($path) > 2)
+				{
+				    for ($i = 1, $i <= $num - 2, $i++)
+				    {
+						if (in_array($path[$i],$nodes_passed))
+						{
+							continue;
+						}
+						
+						if (!in_array($path[$i],$nodes_checked))
+						{
+						    array_push($nodes_checked,$path[$i]);
+
+							if ($rbacsystem->checkAccess($a_operation, $path[$i], $a_type))
+							{
+							    array_push($nodes_passed,$path[$i]);
+							}
+							else
+							{
+								unset($objects[$key]);
+								// break for
+								break;
+							}
+						}
+					} // end for
+				}
+			}
+		} */
+		
+		return $objects;
+	}
+
+	/**
+	* Get all objects of a specific type and check access
+	* recursive method
+	*
+	* Get all objects of a specific type where access is granted for the given list
+	* of operations. This function does a checkAccess call for all objects
+	* in the object hierarchy and return only the objects of the given type.
+	* Please note if access is not granted to any object in the hierarchy
+	* the function skips all objects under it.
+	* Example:
+	* You want a list of all Courses that are visible and readable for the user.
+	* The function call would be:
+	* $your_list = IlUtil::GetObjectsByOperations ("crs", "visible,read");
+	* Lets say there is a course A where the user would have access to according to
+	* his role assignments. Course A lies within a group object which is not readable
+	* for the user. Therefore course A won't appear in the result list although
+	* the queried operations 'visible' and 'read' would actually permit the user
+	* to access course A.
+	*
+	* @access	public
+	* @param	string	type or 'all' to get all objects
+	* @param	string	permissions to check e.g. 'visible','read'
 	* @param	integer	node_id from where to start search (optional)
 	* @param	array	returned objects (internal use only for recursion)
 	* @return	array	returned objects
 	*/
-	function getObjectsByOperations($a_type,$a_operation,$a_node_id = ROOT_FOLDER_ID, $objects = array())
+	function getObjectsByOperations_old($a_type,$a_operation,$a_node_id = ROOT_FOLDER_ID, $objects = array())
 	{
 		global $tree, $rbacsystem;
 
