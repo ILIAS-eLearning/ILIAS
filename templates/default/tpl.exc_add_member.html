@@ -8,7 +8,16 @@
 			<td class="option">{SEARCH_SEARCH_TERM}</td>
 			<td class="option_value"><input type="text" name="search_str" size="30" /></td>
 		  </tr>
-		  <tr>
+		  <tr class="std">
+			<td class="option">{SEARCH_FOR}</td>
+			<td class="option_value">&nbsp;</td>
+		  </tr>
+		  <!-- BEGIN USR_SEARCH_ROW -->
+		  <tr class="std">
+			<td class="sub_option">&nbsp;</td>
+			<td class="option_value">{SEARCH_ROW_CHECK}&nbsp; {SEARCH_ROW_TXT}</td>
+		  </tr>
+		  <!-- END USR_SEARCH_ROW -->
 			<td class="submit" colspan="2">
 			  <input class="submit" type="submit" name="cancel" value="{BTN2_VALUE}" />&nbsp;
 			  <input class="submit" type="submit" name="search" value="{BTN1_VALUE}" />&nbsp;
@@ -41,4 +50,27 @@
 		  </tr>
 	  </table>
 	  <!-- END USR_SELECT -->
+	  <!-- BEGIN OBJ_SELECT -->
+	  <table class="std" width="40%">
+		  <tr class="tblheader">
+			<td class="std">&nbsp;</td>
+			<td class="std">{OBJ_SELECT_TITLE}</td>
+			<td class="std">{OBJ_SELECT_DESCRIPTION}</td>
+		  </tr>
+		  <!-- BEGIN OBJ_SELECT_ROW -->
+		  <tr class="std">
+			<td class="option_value"><input type="checkbox" name="obj[][id]" value="{OBJ_ROW_ID}" /></td>
+			<td class="option_value">{OBJ_ROW_TITLE}</td>
+			<td class="option_value">{OBJ_ROW_DESCRIPTION}</td>
+		  </tr>
+		  <!-- END OBJ_SELECT_ROW -->
+		  <tr class="tblfooter">
+			<td colspan="4">
+			  <input class="submit" type="submit" name="cancel" value="{OBJ_BTN2_VALUE}" />&nbsp;
+			  <input class="submit" type="submit" name="obj_select" value="{OBJ_BTN1_VALUE}" />
+			</td>
+		  </tr>
+	  </table>
+	  <!-- END OBJ_SELECT -->
+
 	</form>

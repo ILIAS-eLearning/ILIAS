@@ -1717,3 +1717,7 @@ search#:#search_search_for#:#Suchen nach
 search#:#search_search_term#:#Suchbegriff
 search#:#search_show_result#:#Anzeigen
 search#:#search_user#:#Benutzer
+common#:#exc_users#:#Benutzern
+common#:#exc_groups#:#Gruppen
+common#:#exc_search_for#:#Suchen nach
+common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglied dieser Übung

@@ -50,7 +50,7 @@ class ilSearch
 	var $result;				// RESULT SET array['object_type']['counter']
 	var $perform_update;		// UPDATE USER SEARCH HISTORY default is true SEE function setPerformUpdate()
 
-	var $allow_emty_search;		// ALLOW EMPTY SEARCH TERM use setEmtySearch(true | false) TO SET THIS VALUE DEFAULT (FALSE)
+	var $allow_empty_search;		// ALLOW EMPTY SEARCH TERM use setEmtySearch(true | false) TO SET THIS VALUE DEFAULT (FALSE)
 	/**
 	* Constructor
 	* @access	public

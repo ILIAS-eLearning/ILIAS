@@ -1717,3 +1717,7 @@ search#:#search_search_for#:#Search for
 search#:#search_search_term#:#Search term
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
+common#:#exc_users#:#Users
+common#:#exc_groups#:#Groups
+common#:#exc_search_for#:#Search for
+common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
