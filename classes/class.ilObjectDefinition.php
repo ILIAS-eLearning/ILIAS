@@ -435,6 +435,7 @@ class ilObjectDefinition extends ilSaxParser
 				$this->obj_data["$a_attribs[name]"]["module"] = $a_attribs["module"];
 				$this->obj_data["$a_attribs[name]"]["translate"] = $a_attribs["translate"];
 				$this->obj_data["$a_attribs[name]"]["devmode"] = $a_attribs["devmode"];
+				$this->obj_data["$a_attribs[name]"]["allow_link"] = $a_attribs["allow_link"];
 				break;
 			case 'subobj':
 				$this->current_tag = "subobj";
