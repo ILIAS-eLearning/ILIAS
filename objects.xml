@@ -8,7 +8,6 @@
 	<subobj name="grp">grp</subobj>
 	<subobj name="crs">crs</subobj>
 	<subobj name="file" max="1">file</subobj>
-	<subobj name="rolf" max="1">rolf</subobj>
 	<subobj name="adm" max="1">adm</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
@@ -69,7 +68,6 @@
 	<action name="clear">clear</action>
 </object>
 <object name="file" class_name="" chkbox="1">
-	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
@@ -77,7 +75,6 @@
 	<action name="delete">delete</action>
 </object>
 <object name="frm" class_name="Forum" chkbox="1">
-	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
 	<property name="perm">perm_settings</property>
@@ -88,7 +85,6 @@
 	<action name="delete">delete</action>
 	<action name="paste">paste</action>
 	<action name="clear">clear</action>
-	<action name="quote">quote</action>
 </object>
 <object name="grp" class_name="Group" chkbox="1">
 	<subobj name="frm">frm</subobj>
