@@ -44,6 +44,100 @@ class ilObjDlBook extends ilObjContentObject
 		parent::ilObjContentObject($a_id, $a_call_by_reference);
 	}
 
+	
+	/**
+	*	exports the digi-lib-object into a xml structure
+	*/
+	function export($ref_id) 
+	{
+
+		include_once("./classes/class.ilNestedSetXML.php");
+		
+		// anhand der ref_id die obj_id ermitteln.
+		$query = "SELECT * FROM object_reference WHERE ref_id='".$ref_id."' ";
+        $result = $this->ilias->db->query($query);
+
+		$row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+		
+		$obj_id = $row["obj_id"];
+
+		// Jetzt alle lm_data anhand der obj_id auslesen.
+		$query = "SELECT * FROM lm_data WHERE lm_id='".$obj_id."' ";
+        $result = $this->ilias->db->query($query);
+
+		$xml = "<?xml version=\"1.0\"?>\n<!DOCTYPE ContentObject SYSTEM \"ilias_co.dtd\">\n<ContentObject Type=\"LibObject\">\n";
+		
+		$nested = new ilNestedSetXML();
+		$co = $nested->export($obj_id,"dbk");
+		$xml .= $co."\n";
+
+		$inStruture = false;
+		while (is_array($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) ) {
+			// vd($row);
+			
+			// StructureObject
+			if ($row["type"] == "st") {
+				
+				if ($inStructure) {
+					$xml .= "</StructureObject>\n";
+				}
+				
+				$xml .= "<StructureObject>\n";
+				$inStructure = true;
+				
+				$nested = new ilNestedSetXML();
+				$xml .= $nested->export($row["obj_id"],"st");
+				$xml .= "\n";
+				
+				
+			}
+			
+			//PageObject
+			if ($row["type"] == "pg") {
+				
+				$query = "SELECT * FROM page_object WHERE page_id='".$row["obj_id"]."' ";
+				$result2 = $this->ilias->db->query($query);
+		
+				$row2 = $result2->fetchRow(DB_FETCHMODE_ASSOC);
+				
+				$PO = $row2["content"]."\n";
+				
+				$nested = new ilNestedSetXML();
+				$mdxml = $nested->export($row["obj_id"],"pg");
+
+				$PO = str_replace("<PageObject>","<PageObject>\n$mdxml\n",$PO);
+				
+				$xml .= $PO;
+				
+			}
+			
+			
+		}
+		
+		if ($inStructure) {
+			$xml .= "\n</StructureObject>\n";
+		}
+	
+		$nested = new ilNestedSetXML();
+		$bib = $nested->export($obj_id,"bib");
+		
+		$xml .= $bib."\n";
+	
+		$xml .= "</ContentObject>";		
+		
+		// TODO: Handle file-output
+		
+		
+		/*
+		echo "<pre>";
+		echo htmlspecialchars($xml);
+		echo "</pre>";
+		*/
+		
+	}
+
+	
+	
 } // END class.ilObjDlBook
 
 ?>
