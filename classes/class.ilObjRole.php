@@ -37,6 +37,14 @@ require_once "class.ilObject.php";
 class ilObjRole extends ilObject
 {
 	/**
+	* reference id of parent object
+	* this is _only_ neccessary for non RBAC protected objects
+	* TODO: maybe move this to basic Object class
+	* @var		integer
+	* @access	private
+	*/
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -46,6 +54,29 @@ class ilObjRole extends ilObject
 	{
 		$this->type = "role";
 		$this->ilObject($a_id,$a_call_by_reference);
+	}
+	
+	/**
+	* set reference id of parent object
+	* this is neccessary for non RBAC protected objects!!!
+	* 
+	* @access	public
+	* @param	integer	ref_id of parent object
+	*/
+	function setParent($a_parent_ref)
+	{
+		$this->parent = $a_parent_ref;
+	}
+	
+	/**
+	* get reference id of parent object
+	* 
+	* @access	public
+	* @return	integer	ref_id of parent object
+	*/
+	function getParent()
+	{
+		return $this->parent;
 	}
 
 	/**
@@ -83,7 +114,7 @@ class ilObjRole extends ilObject
 		// TODO: unassign users from deleted role
 
 		// check if role is a linked local role or not
-		if ($rbacreview->isAssignable($this->getId(),$_GET["ref_id"]))
+		if ($rbacreview->isAssignable($this->getId(),$this->getParent()))
 		{
 			// do not delete role if this role is the last role a user is assigned to
 			
@@ -122,7 +153,7 @@ class ilObjRole extends ilObject
 			else
 			{
 				// IT'S A BASE ROLE
-				$rbacadmin->deleteRole($this->getId(),$_GET["ref_id"]);
+				$rbacadmin->deleteRole($this->getId(),$this->getParent());
 
 				// delete object_data entry
 				parent::delete();
@@ -132,7 +163,7 @@ class ilObjRole extends ilObject
 		else
 		{
 			// linked local role: INHERITANCE WAS STOPPED, SO DELETE ONLY THIS LOCAL ROLE
-			$rbacadmin->deleteLocalRole($this->getId(),$_GET["ref_id"]);
+			$rbacadmin->deleteLocalRole($this->getId(),$this->getParent());
 		}
 
 		return true;
