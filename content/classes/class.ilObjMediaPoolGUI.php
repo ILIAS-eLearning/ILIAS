@@ -597,6 +597,12 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 	*/
 	function showMedia()
 	{
+		$this->tpl =& new ilTemplate("tpl.fullscreen.html", true, true, "content");
+		include_once("classes/class.ilObjStyleSheet.php");
+		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath(0));
+
 		//$int_links = $page_object->getInternalLinks();
 		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
 		
@@ -636,7 +642,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		xslt_free($xh);
 
 		// unmask user html
-		$this->tpl->setVariable("CONTENT", $output);
+		$this->tpl->setVariable("MEDIA_CONTENT", $output);
 
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show();
