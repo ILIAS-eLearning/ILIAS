@@ -85,14 +85,14 @@ administration#:#start_scan#:#Start!
 administration#:#systemcheck#:#Systemcheck
 administration#:#view_last_log#:#Zeige letztes Untersuchungsergebnis
 administration#:#view_log#:#Zeige Details
-assessment#:#0_unlimited#:#(0 = unlimited)###06 Mar 2004 new variable
-assessment#:#add_answer#:#Add answer###05 Feb 2004 new variable
-assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
-assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
-assessment#:#add_gap#:#Add Gap Text###03 May 2004 new variable
+assessment#:#0_unlimited#:#(0 = unbegrenzt)
+assessment#:#add_answer#:#Antort anfügen
+assessment#:#add_answer_tf#:#Richtig-/Falsch-Antwort anfügen
+assessment#:#add_answer_yn#:#Ja-/Nein-Antwort anfügen
+assessment#:#add_gap#:#Lückentext anfügen
 assessment#:#add_matching_pair#:#Add matching pair###05 Feb 2004 new variable
-assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
-assessment#:#answer#:#Answer###05 Feb 2004 new variable
+assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
+assessment#:#answer#:#Antwort
 assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
 assessment#:#answer_text#:#Answer text###05 Feb 2004 new variable
 assessment#:#apply#:#Apply###05 Feb 2004 new variable
@@ -487,7 +487,7 @@ common#:#change#:#Ändern
 common#:#change_active_assignment#:#Aktive Zuweisung ändern
 common#:#change_assignment#:#Zuweisung ändern
 common#:#change_existing_objects#:#Vorhandene Objekte ändern
-common#:#change_header_title#:#Edit Header Title###03 May 2004 new variable
+common#:#change_header_title#:#Installationsüberschrift bearbeiten
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
 common#:#change_sort_direction#:#Sortierrichtung ändern
@@ -849,7 +849,7 @@ common#:#grp_visible#:#Gruppe ist sichtbar
 common#:#grp_write#:#Gruppe bearbeiten
 common#:#guest#:#Gast
 common#:#guests#:#Gäste
-common#:#header_title#:#Header Title###03 May 2004 new variable
+common#:#header_title#:#Installationsüberschrift
 common#:#help#:#Hilfe
 common#:#hide_details#:#Details ausblenden
 common#:#hide_structure#:#Strukturansicht ausblenden
@@ -1030,7 +1030,7 @@ common#:#mail_e_sent#:#Gesendete
 common#:#mail_edit_permission#:#Rechteeinstellungen ändern
 common#:#mail_folders#:#Mail-Ordner
 common#:#mail_import#:#Import
-common#:#mail_import_file#:#Exportdatei###30 Apr 2004 content changed
+common#:#mail_import_file#:#Exportdatei
 common#:#mail_intern_enable#:#Aktivieren
 common#:#mail_mail_visible#:#Benutzer darf Mailsystem benutzen
 common#:#mail_mails_of#:#Nachrichten
@@ -1406,7 +1406,7 @@ common#:#registration_expired#:#Der Anmeldezeitraum ist abgelaufen...
 common#:#remove#:#Entfernen
 common#:#remove_translation#:#Übersetzung entfernen
 common#:#rename#:#Umbenennen
-common#:#rename_file#:#Rename File###03 May 2004 new variable
+common#:#rename_file#:#Datei umbenennen
 common#:#reply#:#Antworten
 common#:#repository#:#Magazin
 common#:#required_field#:#Erforderliche Angabe
@@ -1530,7 +1530,7 @@ common#:#system_groups#:#Systemgruppen
 common#:#system_grp#:#Systemgruppe
 common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachricht
-common#:#table_mail_import#:#Import von Nachrichten ###30 Apr 2004 content changed
+common#:#table_mail_import#:#Import von Nachrichten
 common#:#term#:#Begriff
 common#:#test_intern#:#Interner Test
 common#:#tests#:#Tests
@@ -1669,8 +1669,8 @@ content#:#cont_change_type#:#Typ ändern
 content#:#cont_chap_and_pages#:#Kapitel und Seiten
 content#:#cont_chap_select_target_now#:#Wählen Sie jetzt das Ziel, wohin das Kapitel verschoben werden soll. 
 content#:#cont_chapters#:#Kapitel
-content#:#cont_chapters_and_pages#:#Chapters and Pages###01 May 2004 new variable
-content#:#cont_chapters_only#:#Chapters only###01 May 2004 new variable
+content#:#cont_chapters_and_pages#:#Kapitel und Seiten
+content#:#cont_chapters_only#:#Nur Kapitel
 content#:#cont_characteristic#:#Art
 content#:#cont_choose_cont_obj#:#Wählen Sie das 'Content Object'
 content#:#cont_choose_glossary#:#Wählen Sie das Glossar
@@ -1694,7 +1694,7 @@ content#:#cont_create_dir#:#Verzeichnis anlegen
 content#:#cont_create_export_file#:#Export-Datei anlegen
 content#:#cont_create_folder#:#Ordner anlegen
 content#:#cont_create_mob#:#Medienobjekt anlegen
-content#:#cont_credits#:#Credits###03 May 2004 new variable
+content#:#cont_credits#:#Punkte
 content#:#cont_cross_reference#:#Verweis
 content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_def_layout#:#Standard-Layout
@@ -1825,12 +1825,12 @@ content#:#cont_resources#:#Ressourcen
 content#:#cont_roman#:#Römisch i, ii, ...
 content#:#cont_saved_map_area#:#Link-Bereich gespeichert.
 content#:#cont_saved_map_data#:#Image-Map gespeichert.
-content#:#cont_sc_stat_browsed#:#Browsed###03 May 2004 new variable
-content#:#cont_sc_stat_completed#:#Completed###03 May 2004 new variable
-content#:#cont_sc_stat_failed#:#Failed###03 May 2004 new variable
-content#:#cont_sc_stat_incomplete#:#Incomplete###03 May 2004 new variable
-content#:#cont_sc_stat_not_attempted#:#Not attempted###03 May 2004 new variable
-content#:#cont_sc_stat_passed#:#Passed###03 May 2004 new variable
+content#:#cont_sc_stat_browsed#:#Besucht
+content#:#cont_sc_stat_completed#:#Abgeschlossen
+content#:#cont_sc_stat_failed#:#Nicht bestanden
+content#:#cont_sc_stat_incomplete#:#Nicht vollständig
+content#:#cont_sc_stat_not_attempted#:#Nicht begonnen
+content#:#cont_sc_stat_passed#:#Bestanden
 content#:#cont_sc_title#:#Titel
 content#:#cont_school#:#Schule
 content#:#cont_scorm_type#:#adlcp:scormtype
@@ -1859,7 +1859,7 @@ content#:#cont_size#:#Größe
 content#:#cont_source#:#Quelle
 content#:#cont_st_title#:#Kapitel-Titel
 content#:#cont_startfile#:#Startdatei
-content#:#cont_status#:#Status###03 May 2004 new variable
+content#:#cont_status#:#Status
 content#:#cont_std_is_in_dir#:#Löschen nicht möglich. Datei für Standardsicht liegt im Verzeichnis.
 content#:#cont_std_view#:#Standardsicht
 content#:#cont_structure#:#Struktur
@@ -1874,11 +1874,11 @@ content#:#cont_term#:#Begriff
 content#:#cont_terms#:#Begriffe
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_toc#:#Inhaltsverzeichnis
-content#:#cont_toc_mode#:#TOC Mode###01 May 2004 new variable
+content#:#cont_toc_mode#:#Verzeichnis und Inhalt
 content#:#cont_top#:#Oben
-content#:#cont_total_time#:#Total Time###03 May 2004 new variable
-content#:#cont_tracking_data#:#Tracking Data###03 May 2004 new variable
-content#:#cont_tracking_items#:#Tracking Items###03 May 2004 new variable
+content#:#cont_total_time#:#Gesamtzeit
+content#:#cont_tracking_data#:#Protokolldaten
+content#:#cont_tracking_items#:#Protokollierte Inhalte
 content#:#cont_translations#:#Übersetzung(en)
 content#:#cont_translations_assigned#:#Die Übersetzung(en) wurde(n) zugeordnet
 content#:#cont_update#:#Update
