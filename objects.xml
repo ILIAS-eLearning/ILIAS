@@ -35,13 +35,14 @@
 <object name="cat" class_name="Category" checkbox="1" inherit="1" translate="db" rbac="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="chat">chat</subobj>
+	<subobj name="crs">crs</subobj>
 	<subobj name="frm">frm</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
 	<subobj name="alm" import="1">alm</subobj>
 	<subobj name="hlm" import="1">hlm</subobj>
 	<subobj name="glo">glo</subobj>
-	<subobj name="grp">grp</subobj>
+	<subobj name="grp" import="1">grp</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="spl">spl</subobj>
@@ -75,14 +76,26 @@
 	<property name="owner">show_owner</property>
 	<action name="delete">delete</action>
 </object>
-<object name="crs" class_name="Course" checkbox="1" inherit="1" translate="0" rbac="1">
-	<subobj name="frm">frm</subobj>
+<object name="crs" class_name="Course" module="course" checkbox="1" inherit="1" translate="0" rbac="1" devmode="1">
 	<subobj name="lm">lm</subobj>
+	<subobj name="slm" import="1">slm</subobj>
+	<subobj name="dbk">dbk</subobj>
+	<subobj name="glo">glo</subobj>
+	<subobj name="chat">chat</subobj>
+	<subobj name="frm" import="1">frm</subobj>
+	<subobj name="file">file</subobj>
+	<subobj name="tst">tst</subobj>
+	<subobj name="grp" import="1">grp</subobj>
+	<subobj name="exc">exc</subobj>
+	<subobj name="fold">fold</subobj>
+	<subobj name="frm" import="1">frm</subobj>
+	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="rolf" max="1">rolf</subobj>
 	<property name="view">view_content</property>
 	<property name="edit">edit_properties</property>
+	<property name="editMeta">meta_data</property>
 	<property name="perm">perm_settings</property>
-	<property name="members">show_members</property>
+	<property name="members">members</property>
 	<property name="owner">show_owner</property>
 	<property name="trash">trash</property>
 	<action name="cut">cut</action>
@@ -93,7 +106,7 @@
 	<action name="clear">clear</action>
 </object>
 <object name="fold" class_name="Folder" checkbox="1" inherit="0" translate="0" rbac="1">
-	<subobj name="frm">frm</subobj>
+	<subobj name="frm" import="1">frm</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
@@ -126,7 +139,7 @@
 	<action name="clear">clear</action>
 </object>
 <object name="grp" class_name="Group" checkbox="1" inherit="1" translate="0" rbac="1">
-	<subobj name="frm">frm</subobj>
+	<subobj name="frm" import="1">frm</subobj>
 	<subobj name="chat">chat</subobj>
 	<subobj name="lm" import="1">lm</subobj>
 	<subobj name="slm" import="1">slm</subobj>
@@ -405,11 +418,11 @@
 <object name="recf" class_name="RecoveryFolder" checkbox="0" inherit="0" translate="sys" rbac="1">
 	<subobj name="cat">cat</subobj>
 	<subobj name="chat">chat</subobj>
-	<subobj name="frm">frm</subobj>
+	<subobj name="frm" import="1">frm</subobj>
 	<subobj name="lm">lm</subobj>
 	<subobj name="slm">slm</subobj>
 	<subobj name="glo">glo</subobj>
-	<subobj name="grp">grp</subobj>
+	<subobj name="grp" import="1">grp</subobj>
 	<subobj name="qpl">qpl</subobj>
 	<subobj name="tst">tst</subobj>
 	<subobj name="spl">spl</subobj>
