@@ -9,9 +9,15 @@
 * @access public
 * @version $Id$
 */
-
+include_once("./classes/class.IniFile.php");
 class ILIAS extends PEAR
 {
+	/**
+	 * ini file
+	 * @const INI_FILE
+	 */
+ 	var $INI_FILE = "./ilias.ini";
+
     /**
     *  database connector
     *  @var string
@@ -95,14 +101,20 @@ class ILIAS extends PEAR
     function ILIAS()
     {
 		// get settings from ini file
-		$this->ini = parse_ini_file("ilias.ini",true);
-		
+		$this->ini = new IniFile($this->INI_FILE);
+
+		//check for error
+		if ($this->ini->ERROR != "")
+		{
+			echo "shit";
+		}
+	
         // build dsn of database connection and connect
-		$this->dsn = $this->ini["db"]["type"].
-					 "://".$this->ini["db"]["user"].
-					 ":".$this->ini["db"]["pass"].
-					 "@".$this->ini["db"]["host"].
-					 "/".$this->ini["db"]["name"];
+		$this->dsn = $this->ini->readVariable("db","type").
+					 "://".$this->ini->readVariable("db", "user").
+					 ":".$this->ini->readVariable("db", "pass").
+					 "@".$this->ini->readVariable("db", "host").
+					 "/".$this->ini->readVariable("db", "name");
 		
 		$this->db = DB::connect($this->dsn,true);
             
@@ -113,12 +125,12 @@ class ILIAS extends PEAR
 		// build option string for PEAR::Auth
 		$this->auth_params = array(
 									'dsn'		  => $this->dsn,
-									'table'       => $this->ini["auth"]["table"],
-									'usernamecol' => $this->ini["auth"]["usercol"],
-									'passwordcol' => $this->ini["auth"]["passcol"]
+									'table'       => $this->ini->readVariable("auth", "table"),
+									'usernamecol' => $this->ini->readVariable("auth", "usercol"),
+									'passwordcol' => $this->ini->readVariable("auth", "passcol")
 									);
 		// set tplPath
-		$this->tplPath = TUtil::setPathStr($this->ini["server"]["tpl_path"]);
+		$this->tplPath = TUtil::setPathStr($this->ini->readVariable("server", "tpl_path"));
 		
 		// We use MySQL as storage container
 		$this->auth = new Auth("DB",$this->auth_params,"",false);
@@ -134,7 +146,7 @@ class ILIAS extends PEAR
     */
     function _ILIAS()
 	{
-		if ($this->ini["db"]["type"] != "")
+		if ($this->ini->readVariable("db", "type") != "")
 		{
 			$this->db->disconnect();
         }
