@@ -282,7 +282,7 @@ class ilObjDlBook extends ilObjContentObject
                 }
                 
                 $mobdir = "./data/mobs/mm_".$key;
-                ilUtil::copyfiles($mobdir, $export_dir."/".$fileName."/objects/mm".$key);
+                ilUtil::rCopy($mobdir, $export_dir."/".$fileName."/objects/mm".$key);
             }
         }
 		
