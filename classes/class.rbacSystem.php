@@ -12,11 +12,25 @@ include_once "classes/class.Object.php";
  */
 class RbacSystem extends PEAR
 {
-    var $db; // Database Handle
+	/**
+	* database handle
+	* @var object db
+	*/
+    var $db;
+	
+	/**
+	* error handle
+	* @var object error_class
+	*/
 	var $error_class;
 
 
 // PUBLIC METHODS
+
+	/**
+	* constructor
+	* @param object db
+	*/
     function RbacSystem(&$dbhandle)
     {
 		$this->PEAR();
@@ -25,16 +39,18 @@ class RbacSystem extends PEAR
 
         $this->db =& $dbhandle;
     }
-// @access public
-// @params void
-// @return type String
+	
+	/**
+	* @access public
+	*/
     function getErrorMessage()
     {
         return $this->Error;
     }
-// @access public
-// @params 
-// @return 
+	
+	/**
+	* @access public
+	*/
     function createSession()
     {
     }
@@ -46,23 +62,25 @@ class RbacSystem extends PEAR
     }
 /**
  * adds an active role in $_SESSION["RoleId"]
- * @param int
  * @return bool
- * 
  */
     function addActiveRole()
     {
     }
-// @access public
-// @params 
-// @return 
-    function dropActiveRole()
+	/**
+	* @access public
+	*/
+	function dropActiveRole()
     {
     }
+
 /**	
  * @access public
- * @params ObjectId, das abzufragende Recht
- * @return true false
+ * @param integer ObjectId, das abzufragende Recht
+ * @param integer
+ * @oaram integer
+ * @param string
+ * @return boolean true false
  */
     function checkAccess($Aoperation,$a_obj_id,$a_parent,$a_type = "")
     {
@@ -125,10 +143,14 @@ class RbacSystem extends PEAR
 		}
 		return in_array($ops_id,$ops);
     }
+	
 /**
  * @access public
- * @params ObjectId,RoleIds, das abzufragende Recht
- * @return true false
+ * @param integer ObjectId,
+ * @param integer RoleIds, 
+ * @param integer das abzufragende Recht
+ * @param string
+ * @return boolean true false
  */
 	function checkPermission($Aobj_id,$Arol_id,$Aoperation,$Aset_id="")
 	{

@@ -5,43 +5,45 @@
  * @author Stefan Meyer <smeyer@databay.de> 
  * @version $Id$ 
  * @package rbac
- * 
 */
 class RbacReviewH extends RbacReview
 {
-
-    function RbacReview(&$dbhandle)
+	/**
+	* constructor ??
+	* @param object db
+	*/
+    function RbacReviewH(&$dbhandle)
     {
         $this->RbacReview($dbhandle);
     }
-    // 
-    // @access public
-    // @params void
-    // @return
+
+    /**
+    * @access public
+	*/
     function authorizedUsers()
     {
     }
-    // 
-    // @access public
-    // @params void
-    // @return
+    /** 
+    * @access public
+	*/
     function authorizedRoles()
     {
     }
-    // 
-    // @access public
-    // @params void
-    // @return
+	
+	/**
+    *
+    * @access public
+	*/
     function rolePermissions()
     {
     }
-    // 
-    // @access public
-    // @params void
-    // @return
+
+    /**
+	* @access public
+	*/
     function userPermissions()
     {
     }
 
-} // END CLASS RbacReviewH
+} // end class
 ?>

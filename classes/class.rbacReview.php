@@ -8,10 +8,26 @@
  */
 class RbacReview extends PEAR
 {
-    var $db; // Database Handle
+	/**
+	* Database Handle
+	* @access private
+	* @var object db
+	*/
+    var $db; 
 
+	/**
+	* Error Handle
+	* @access private
+	* @var object error_class
+	*/
 	var $error_class;
 
+	/**
+	* constructor
+	* 
+	* @access public
+	* @param object db
+	*/
     function RbacReview(&$dbhandle)
     {
 		$this->PEAR();
@@ -20,11 +36,12 @@ class RbacReview extends PEAR
 
         $this->db =& $dbhandle;
     }
-/**
- * @access public
- * @params int (rol_id)
- * @return type int array (Uid der Rolle)
- */
+
+	/**
+	* @access public
+	* @params int
+	* @return type int array Role-Uid
+	*/
     function assignedUsers($Arol_id)
     {
         $usr = array();
@@ -36,6 +53,11 @@ class RbacReview extends PEAR
         }
         return $usr;
     }
+	
+	/**
+	* get uer data
+	* @param integer
+	*/
     function getUserData($Ausr_id)
     {
 		$res = $this->db->query("SELECT * FROM user_data WHERE usr_id='".$Ausr_id."'");	
@@ -92,9 +114,11 @@ class RbacReview extends PEAR
         }
         return $role_title;
     }
+
 /**
  * @access public
- * @params int,int (RoleID und optional ID eines Objektes)
+ * @param integer
+ * @param integer
  * @return type 2-dim Array (Objekt-Permissions,Object-ID zu einer Rolle)
  */
     function rolePermissons($Arol_id,$Aobj_id = 0)
@@ -140,16 +164,12 @@ class RbacReview extends PEAR
     }
 /**
  * @access public
- * @params void
- * @return type String
  */
     function sessionRoles()
     {
     }
 /**
  * @access public
- * @params void
- * @return type String
  */
     function sessionPermissions()
     {
@@ -175,7 +195,8 @@ class RbacReview extends PEAR
     }
 /**
  * @access public
- * @params int int int ROlID Type und RoleFolderId
+ * @param int
+ * @param int
  * @return type array(int) Array der Operations
  */
     function getOperations($Arol_id,$Atype,$Aparent = "")
@@ -199,7 +220,8 @@ class RbacReview extends PEAR
     }
 /**
  * @access public
- * @params int,int (UserID und ObjektID)
+ * @param int
+ * @param int
  * @return type int array (Permisions fÅr User/Objekt)
  */
     function userOperationsOnObject($Ausr_id,$Aobj_id)
@@ -222,7 +244,8 @@ class RbacReview extends PEAR
 /**
  * Assign an existing permission to an object 
  * @access public
- * @params int,int (type_id,ops_id)
+ * @param int
+ * @param int
  * @return bool true/false
  */
 	function assignPermissionToObject($a_type_id,$a_ops_id)

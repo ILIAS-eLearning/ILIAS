@@ -1,4 +1,6 @@
 <?php
+include_once("classes/class.Object.php");
+
 /**
  * Class ObjectFolderObject
  * @extends class.Object.php
@@ -7,11 +9,10 @@
  * @package ilias-core
  * 
 */
-include_once("classes/class.Object.php");
 class ObjectFolderObject extends Object
 {
 /**
- * contructor
+ * constructor
  * @param object ilias
  * @access public
  **/

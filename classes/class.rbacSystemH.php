@@ -11,26 +11,26 @@ class RbacSystemH extends RbacSystem
 {
 /**
  * Consructor
- * @params object ilias
- *
- * */
+ * @param object ilias
+*/
     function RbacSystemH(&$a_ilias)
     {
         $this->RbacSystem($a_ilias);
     }
-    // 
-    // @access public
-    // @params void
-    // @return
+
+	/**
+	* @access public
+	*/
     function createSession()
     {
     }
-    // 
-    // @access public
-    // @params void
-    // @return
+
+	/**
+	* @access public
+	*/
     function addActiveRole()
     {
     }
+
 } // END CLASS RbacSystemH
 ?>

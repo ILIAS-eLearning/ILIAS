@@ -9,31 +9,31 @@
  */
 class Object
 {
-// PUBLIC METHODEN
+
 /**
  * ilias object
  * @var object ilias
  * @access private
- **/
+ */
 	var $ilias;
 /**
  * object id of system folder
  * @var int
  * @access private
- **/
+ */
 	var $SYSTEM_FOLDER_ID;
 /**
  * object id of root folder
  * @var int
  * @access private
- **/
+ */
 	var $ROOT_FOLDER_ID;
 
 /**
  * Constructor
  * @param object ilias
  * @access public
- **/
+ */
 	function Object(&$a_ilias)
 	{
 
@@ -41,11 +41,11 @@ class Object
 		$this->SYSTEM_FOLDER_ID = "9";
 		$this->ROOT_FOLDER_ID = "1";
 	}
+	
 /**
  * create object in admin interface
  * @access public
- *
- **/
+*/
 	function createObject()
 	{
 		// Creates a child object
@@ -452,13 +452,13 @@ class Object
 		}
 		header("Location: content.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]");
 	}
-// PRIVATE METHODEN
+
 /**
  * create path
  * @access private
- * @param int object id of an object
+ * @param int
  * @return string
- **/
+ */
 	function getPath($a_id = "")
 	{		
 		if(!$a_id)
@@ -468,12 +468,13 @@ class Object
 		$tree = new Tree($a_id,1,1);
 		return $tree->showPath($tree->getPathFull($a_id,$this->ROOT_FOLDER_ID),"content.php");
 	}
+
 /**
  * get role ids of all parent roles
  * @access private
- * @param int object id of start node
+ * @param string object id of start node
  * @return string 
- **/
+ */
 	function getParentRoleIds($a_start_node = '')
 	{
 		$a_start_node = $a_start_node ? $a_start_node : $_GET["obj_id"];

@@ -1,4 +1,7 @@
 <?php
+
+include_once("classes/class.Object.php");
+
 /**
  * Class CategoryObject
  * @extends class.Object.php
@@ -7,9 +10,12 @@
  * @package ilias-core
  * 
 */
-include_once("classes/class.Object.php");
 class CategoryObject extends Object
 {
+	
+	/**
+	* @param object db
+	*/
 	function CategoryObject(&$a_dbhandle)
 	{
 		$this->Object($a_dbhandle);
