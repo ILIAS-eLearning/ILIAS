@@ -285,7 +285,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content",
-			"adm_object.php?ref_id=".$_GET["ref_id"], $_POST["meta_section"]);
+			"adm_object.php?ref_id=".$_GET["ref_id"], $_REQUEST["meta_section"]);
 	}
 
 	// called by editor
@@ -295,7 +295,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->edit("ADM_CONTENT", "adm_content", "lm_edit.php?ref_id=".
-			$this->object->getRefId(), $_POST["meta_section"]);
+			$this->object->getRefId(), $_REQUEST["meta_section"]);
 	}
 
 	function addMetaObject()
