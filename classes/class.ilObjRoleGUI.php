@@ -26,7 +26,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.88.2.1 2004/12/01 07:35:11 hschottm Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.89.2.1 2005/02/14 12:21:03 smeyer Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -990,7 +990,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		foreach ($assigned_users as $user)
 		{
-			$link_contact = "mail_new.php?type=new&mail_data[rcp_to]=".$user["login"];
+			$link_contact = "mail_new.php?type=new&rcp_to=".$user["login"];
 			$link_change = "adm_object.php?ref_id=7&obj_id=".$user["usr_id"]."&cmd=edit";
 			$link_leave = $this->ctrl->getLinkTarget($this,"deassignUser")."&user_id=".$user["usr_id"];
 

@@ -120,7 +120,7 @@ class ilRegisterGUI
 				{
 					$no_cancel = true;
 					$msg = $this->lng->txt("group_password_registration_expired_msg");
-					$msg_send = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=root";
+					$msg_send = "mail_new.php?mobj_id=3&type=new&rcp_to=root";
 					$cmd_submit = "cancel";
 					$txt_submit = $this->lng->txt("grp_back");
 					$readonly = "readonly";

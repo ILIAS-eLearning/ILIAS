@@ -823,7 +823,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 		foreach ($members as $mem)
 		{
-			$link_contact = "mail_new.php?type=new&mail_data[rcp_to]=".$mem["login"];
+			$link_contact = "mail_new.php?type=new&rcp_to=".$mem["login"];
 			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$mem["id"];
 		
 			if (($mem["id"] == $account_id && $access_leave) || $access_delete)
@@ -913,7 +913,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		{
 			$user =& $this->ilias->obj_factory->getInstanceByObjId($applicant->user_id);
 
-			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$user->getLogin();
+			$link_contact = "mail_new.php?mobj_id=3&type=new&rcp_to=".$user->getLogin();
 			$link_change = $this->ctrl->getLinkTarget($this,"changeMember")."&mem_id=".$user->getId();
 			$member_functions = "<a href=\"$link_change\">$val_change</a>";
 			if (strcmp($_GET["check"], "all") == 0)

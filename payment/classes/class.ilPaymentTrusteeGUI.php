@@ -139,7 +139,7 @@ class ilPaymentTrusteeGUI extends ilPaymentBaseGUI
 															 false,
 															 true);
 
-				$link_mail = "<a target=\"_blank\" href=\"../mail_new.php?type=new&mail_data[rcp_to]=".
+				$link_mail = "<a target=\"_blank\" href=\"../mail_new.php?type=new&rcp_to=".
 					$tmp_obj->getLogin()."\"".$img_mail."</a>";
 				
 				$f_result[$counter][]	= $link_mail;
