@@ -31,7 +31,15 @@
   <td class="option_value"><input name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" type="text" id="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" size="20" value="{A_VALUE_RIGHT}" /></td>
 <!-- END definitions -->
 <!-- BEGIN pictures -->
-  <td class="option_value"><input name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" type="file" id="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" size="20" value="{A_VALUE_RIGHT}" /></td>
+  <td class="option_value">
+  <!-- BEGIN imageupload -->
+	{UPLOADED_IMAGE}<br>
+  <!-- END imageupload -->
+  <input type="hidden" name="uploaded_image" value="{IMAGE_FILENAME}" />
+  <input type="hidden" name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" value="{IMAGE_FILENAME}" />
+	<input name="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" type="file" id="right_{A_ANSWER_ORDER}_{A_MATCHING_ID}" size="20" value="{A_VALUE_RIGHT}" />
+	<input type="submit" class="submit" name="cmd[upload_{A_ANSWER_ORDER}]" value="{UPLOAD}" />
+	</td>
 <!-- END pictures -->
   <td class="option_value">{TEXT_POINTS}: <input name="points_{ANSWER_ORDER}" type="text" id="points_{ANSWER_ORDER}" size="3" value="{VALUE_MATCHING_POINTS}" /></td>
   <td class="option_value">

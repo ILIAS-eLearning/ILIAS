@@ -128,7 +128,7 @@ class ASS_MatchingQuestion extends ASS_Question {
       $now = getdate();
       $question_type = 4;
       $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
-      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, matching_type, points, materials, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+      $query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, matching_type, points, materials, created, TIMESTAMP) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
         $db->quote($id),
         $db->quote($question_type),
         $db->quote($this->ref_id),
@@ -487,6 +487,31 @@ class ASS_MatchingQuestion extends ASS_Question {
     return $this->points;
   }
   
+/**
+* Sets the image file
+*
+* Sets the image file and uploads the image to the object's image directory.
+*
+* @param string $image_filename Name of the original image file
+* @param string $image_tempfilename Name of the temporary uploaded image file
+* @access public
+*/
+  function set_image_file($image_filename, $image_tempfilename = "") {
+ 		
+    if (!empty($image_filename)) {
+      $this->image_filename = $image_filename;
+    }
+		if (!empty($image_tempfilename)) {
+			$imagepath = $this->get_image_path();
+			if (!file_exists($imagepath)) {
+				ilUtil::makeDirParents($imagepath);
+			}
+			if (!move_uploaded_file($image_tempfilename, $imagepath . $image_filename)) {
+				print "image not uploaded!!!! ";
+			}
+		}
+  }
+
 /**
 * Saves the learners input of the question to the database
 * 
