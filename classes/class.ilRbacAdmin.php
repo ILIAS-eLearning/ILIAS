@@ -739,37 +739,6 @@ class ilRbacAdmin
 		return $parent;
 	}
 
-	/**
-	* TODO: function should be renamed
-	* get all objects in which the inheritance was stopped
-	* @access	public
-	* @param	integer	role_id
-	* @return	array
-	*/
-	function getObjectsWithStopedInheritance($a_rol_id)
-	{
-		global $log;
-		
-		if (!isset($a_rol_id))
-		{
-			$message = get_class($this)."::getObjectsWithStopedInheritance(): No role_id given!";
-			$log->writeWarning($message);
-			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
-		}
-			
-		$parent_obj = array();
-		
-		$q = "SELECT DISTINCT parent_obj FROM rbac_fa ".
-			 "WHERE rol_id = '".$a_rol_id."'";
-		$r = $this->ilias->db->query($q);
-
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$parent_obj[] = $row->parent_obj;
-		}
-
-		return $parent_obj;
-	}
 
 	/**
 	* returns the data of a role folder assigned to an object

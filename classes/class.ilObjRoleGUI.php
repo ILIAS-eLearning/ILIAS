@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.18 2003/05/14 09:03:33 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.19 2003/05/14 15:52:24 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -291,7 +291,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function permSaveObject()
 	{
-		global $tree, $rbacsystem, $rbacadmin;
+		global $tree, $rbacsystem, $rbacadmin, $rbacreview;
 
 		// SET TEMPLATE PERMISSIONS
 		if (!$rbacsystem->checkAccess('edit permission', $_GET["ref_id"]))
@@ -333,8 +333,8 @@ class ilObjRoleGUI extends ilObjectGUI
 				$subtree_nodes = $tree->getSubTree($node_data);
 
 				// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDERS
-				$all_rolf_obj = $rbacadmin->getObjectsWithStopedInheritance($this->object->getId());
-
+				$all_rolf_obj = $rbacreview->getObjectsWithStopedInheritance($this->object->getId());
+				
 				// DELETE ACTUAL ROLE FOLDER FROM ARRAY
 				$key = array_keys($all_rolf_obj,$node_id);
 				unset($all_rolf_obj["$key[0]"]);
