@@ -161,6 +161,7 @@ class ilEditClipboardGUI
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 2);
 
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		if ($this->mode != "getObject")
 		{
 			// delete button

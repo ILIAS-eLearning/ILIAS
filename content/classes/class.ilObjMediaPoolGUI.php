@@ -388,6 +388,7 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("COLUMN_COUNTS", 3);
 
 		// remove button
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "confirmRemove");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("remove"));

@@ -26,7 +26,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.77 2004/02/18 17:21:36 shofmann Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.78 2004/03/02 16:51:09 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -1164,6 +1164,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 
 		// display arrow
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->touchBlock("tbl_action_row");
 
 		// footer

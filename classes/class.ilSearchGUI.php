@@ -278,8 +278,9 @@ class ilSearchGUI
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("COLUMN_COUNTS",5);
-		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		//$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 		$this->tpl->parseCurrentBlock();
 	}
 

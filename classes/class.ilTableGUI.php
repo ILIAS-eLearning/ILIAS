@@ -104,6 +104,8 @@ class ilTableGUI
 			$this->tpl = new ilTemplate("tpl.table.html",true,true);
 		}
 
+		//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+
 		$this->lng =& $lng;
 
 		if (!$this->lng)
@@ -393,7 +395,7 @@ class ilTableGUI
 	}
 
 	/**
-	* render table 
+	* render table
 	* @access	public
 	*/
 	function render()
@@ -546,7 +548,7 @@ class ilTableGUI
 		}
 
 		$this->tpl->touchBlock("tbl_form_footer");
-		
+
 		if (!$this->global_tpl)
 		{
 			return $this->tpl->get();

@@ -265,6 +265,7 @@ class ilBookmarkAdministrationGUI
 
 
 		// SHOW POSSIBLE SUB OBJECTS
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setVariable("NUM_COLS", 4);
 		$this->showPossibleSubObjects();
 
@@ -606,6 +607,8 @@ class ilBookmarkAdministrationGUI
 		// cancel and confirm button
 		$buttons = array( "cancel"  => $this->lng->txt("cancel"),
 			"confirm"  => $this->lng->txt("confirm"));
+
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		foreach($buttons as $name => $value)
 		{
 			$this->tpl->setCurrentBlock("operation_btn");

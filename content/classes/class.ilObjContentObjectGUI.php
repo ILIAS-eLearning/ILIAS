@@ -1384,6 +1384,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 
 		// delete button
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));

@@ -2556,6 +2556,7 @@ class ilObjectGUI
 		}
 		
 		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 		$this->tpl->parseCurrentBlock();
 	}
 

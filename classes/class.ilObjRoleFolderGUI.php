@@ -326,6 +326,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		if ((count($operations) > 0) or $subobjs === true)
 		{
 			$this->tpl->setCurrentBlock("tbl_action_row");
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 			$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 			$this->tpl->parseCurrentBlock();
 		}

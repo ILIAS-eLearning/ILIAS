@@ -26,7 +26,7 @@
 * Class ilObjUserFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjUserFolderGUI.php,v 1.23 2004/03/02 16:51:09 akill Exp $
+* $Id$Id: class.ilObjUserFolderGUI.php,v 1.24 2004/03/05 17:16:07 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -353,6 +353,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			foreach ($operations as $val)
 			{
 				$this->tpl->setCurrentBlock("tbl_action_btn");
+				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
 				$this->tpl->setVariable("BTN_NAME", $val["name"]);
 				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
 				$this->tpl->parseCurrentBlock();

@@ -1820,7 +1820,7 @@ content#:#cont_select_max_one_term#:#Bitte wählen Sie nur einen Zeitraum aus.
 content#:#cont_select_one_edition#:#Bitte wählen Sie mindestens eine Auflage aus.
 content#:#cont_select_one_translation#:#Bitte wählen Sie mindestens eine Übersetzung aus
 content#:#cont_select_one_translation_warning#:#Es kann nur maximal eine Übersetzung angezeigt werden.
-content#:#cont_select_term#:#Wählen Sie einen Zeitraum aus.
+content#:#cont_select_term#:#Bitte wählen sie einen Begriff aus.
 content#:#cont_select_translation#:#Bitte wählen Sie die zuzuordnende Übersetzung aus untenstehender Liste aus.
 content#:#cont_series#:#Serie
 content#:#cont_series_editor#:#Autor der Serie
