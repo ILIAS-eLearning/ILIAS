@@ -132,3 +132,10 @@ input
 CODE {
 	font-size: 8pt;
 }
+/* ------------------ tabs -------------- */
+.tab {
+	font-size: x-small;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	color: #000000;
+	font-weight: bold;
+}
