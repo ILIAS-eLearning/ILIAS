@@ -1410,7 +1410,8 @@ class ilObjGroup extends ilObject
 		$query = "SELECT ore.ref_id AS ref_id FROM object_data AS od, object_reference AS ore ".
 			$where_condition." ".
 			$in." ".
-			"AND od.obj_id = ore.obj_id";
+			"AND od.obj_id = ore.obj_id ".
+			"AND od.type = 'grp' ";
 
 		$res = $a_search_obj->ilias->db->query($query);
 		
