@@ -138,7 +138,9 @@ class Language
 					$name = fgets($fp,1000);
 					fclose($fp);
 					$langs[] = array( "id" => $id,
-									  "name" => $name
+									  "name" => $name,
+									  "status" => "installed",
+									  "lastchange" => date("Y-m-d H:i:s",filectime($this->LANGUAGESDIR."/".$file))
 						);
 				} //if
 			}  //while

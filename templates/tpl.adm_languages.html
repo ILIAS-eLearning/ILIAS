@@ -8,7 +8,7 @@
 <p>{MSG}</p>
 <!-- END message -->
 
-<table cellpadding="0" cellspacing="0" border="0">
+<table cellpadding="2" cellspacing="0" border="0">
 <tr  class="tblheader" >
   <td><b>&nbsp;{TXT_LANG}&nbsp;</b></td>
   <td><b>&nbsp;{TXT_STATUS}&nbsp;</b></td>
@@ -19,7 +19,7 @@
 <tr class="{ROWCOL}">
   <td>&nbsp;{TITLE}&nbsp;</td>
   <td><a href="{LINK}" target="_top">&nbsp;{STATUS}&nbsp;</a></td>
-  <td><font size=-1>{LASTCHANGE}</font></td>
+  <td><font size=-1>&nbsp;{LASTCHANGE}</font></td>
 </tr>
 <!-- END language_row -->
 </table>
@@ -27,7 +27,6 @@
 {BUTTONS2}
 
 <form name="form" method="post" action="adm_languages.php">
-<input type="hidden" name="func" value="gen_langs">
 <p>{TXT_GENERATE} <input type="text" name="langfile" value="{LANGMASTERFILE}">
 <input type="submit" name="butSubmit" value="{TXT_SUBMIT}"></p>
 </form>

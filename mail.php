@@ -9,10 +9,11 @@
 include_once("./include/ilias_header.inc");
 include("./include/inc.main.php");
 
-if ($_GET["folder"] == "")
-	$folder = "inbox";
-else
+$folder = $_POST["folder"];
+if ($folder == "")
 	$folder = $_GET["folder"];
+if ($folder == "")
+	$folder = "inbox";
 
 $tpl = new Template("tpl.mail.html", true, true);
 
@@ -102,7 +103,20 @@ $tpl->setVariable("MAILMOVETO_VALUE", "inbox");
 $tpl->setVariable("MAILMOVETO_OPTION", $lng->txt("inbox"));
 $tpl->parseCurrentBlock();
 
+//set folderselectbox
+$tpl->setVariable("TXT_FOLDERS", $lng->txt("folders"));
+$folders = $myMails->getMailFolders();
 
+foreach ($folders as $row)
+{
+	$tpl->setCurrentBlock("folder");
+	$tpl->setVariable("FOLDER_VALUE", $row["name"]);
+	if ($folder == $row["name"])
+		$tpl->setVariable("FOLDER_SELECTED", " selected");
+		
+	$tpl->setVariable("FOLDER_OPTION", $lng->txt($row["name"]));
+	$tpl->parseCurrentBlock();
+}
 // output mails
 foreach ($mails["msg"] as $row)
 {

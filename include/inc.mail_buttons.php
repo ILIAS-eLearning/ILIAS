@@ -17,6 +17,7 @@ $tplbtn->parseCurrentBlock();
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
 
+/*
 $tplbtn->setCurrentBlock("btn_cell");
 $tplbtn->setVariable("BTN_LINK", "mail.php?folder=archive");
 $tplbtn->setVariable("BTN_TXT", $lng->txt("archive"));
@@ -36,7 +37,7 @@ $tplbtn->parseCurrentBlock();
 
 $tplbtn->setCurrentBlock("btn_row");
 $tplbtn->parseCurrentBlock();
-
+*/
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
 
