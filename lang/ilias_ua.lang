@@ -473,6 +473,7 @@ common#:#grp_a#:#Група
 common#:#grp_add#:#Додати Групу
 common#:#grp_added#:#Група додана
 common#:#grp_create#:#Створити Групу
+common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
 common#:#grp_create_file#:#Користувач може завантажувати Файли
 common#:#grp_create_fold#:#Користувач може створювати Папки
 common#:#grp_create_frm#:#Створити Форум

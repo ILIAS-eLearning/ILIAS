@@ -490,6 +490,7 @@ common#:#grp_a#:#一个组
 common#:#grp_add#:#增加组
 common#:#grp_added#:#已增加组
 common#:#grp_create#:#创建组
+common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
 common#:#grp_create_file#:#用户可以上载文件
 common#:#grp_create_fold#:#用户可以创建文件夹
 common#:#grp_create_frm#:#创建论坛

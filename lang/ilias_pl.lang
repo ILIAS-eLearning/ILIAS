@@ -473,6 +473,7 @@ common#:#grp_a#:#Grupa
 common#:#grp_add#:#Dodaj Grupę
 common#:#grp_added#:#Grupa została dodana
 common#:#grp_create#:#Twórz Grupę
+common#:#grp_create_chat#:#Create Chat###18 Feb 2004 new variable
 common#:#grp_create_file#:#Użytkownik może przysyłać pliki
 common#:#grp_create_fold#:#Użytkownik może tworzyć foldery
 common#:#grp_create_frm#:#Twórz Forum
