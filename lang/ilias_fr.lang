@@ -2487,6 +2487,7 @@ common#:#usrimport_cant_insert#:#Insertion impossible :  l'utilisateur existe d�
 common#:#usrimport_cant_update#:#Mise à jour impossible : aucun utilisateur ne correspond
 common#:#usrimport_conflict_handling_info#:#Quand 'Ignorer les conflits' est sélectionné, ILIAS ignore une action s'il ne peut pas la réaliser (par exemple, une insertion n'est pas faite si un utilisateur avec le même login existe déjà dans la base de données)\nQuand 'Mettre à jour en cas de conflit' est sélectionné, ILIAS met la base à jour si une action ne peut pas être réalisée (par exemple, une action 'insertion' est remplacée par une action 'mise à jour' si un utilisateur portant le même login existe déjà).
 common#:#usrimport_global_role_for_action_required#:#Au moins un rôle global doit être spécifié pour l'action "%1$s".
+common#:#usrimport_ignore_role#:#Ignore role###06 Apr 2005 new variable
 common#:#usrimport_login_is_not_unique#:#Le login n'est unique.
 common#:#usrimport_with_specified_role_not_permitted#:#L'importation avec le rôle spécifié n'est pas autorisé.
 common#:#usrimport_xml_attribute_missing#:#L'attribute "%2$s" dans l'élément "%1$s" est manquant.
@@ -3493,6 +3494,7 @@ forum#:#forums_censor_comment#:#Commentaire du modérateur
 forum#:#forums_count#:#Nombre de forums
 forum#:#forums_count_art#:#Nombre d'articles
 forum#:#forums_count_thr#:#Nombre de fils de discussion
+forum#:#forums_created_by#:#Created by###06 Apr 2005 new variable
 forum#:#forums_delete_file#:#Supprimer document joint
 forum#:#forums_download_attachment#:#Télécharger fichier
 forum#:#forums_edit_post#:#Modifier article
@@ -3513,6 +3515,7 @@ forum#:#forums_post_new_entry#:#Le nouvel article a été inscrit
 forum#:#forums_posts#:#Tous les articles
 forum#:#forums_posts_not_available#:#Articles non disponibles
 forum#:#forums_print_thread#:#Imprimer fil de discussion
+forum#:#forums_print_view#:#Print view###06 Apr 2005 new variable
 forum#:#forums_quote#:#Citer
 forum#:#forums_respond#:#Envoyer réponse
 forum#:#forums_subject#:#Sujet
@@ -3523,7 +3526,7 @@ forum#:#forums_thread_create_date#:#Créé à
 forum#:#forums_thread_create_from#:#Créé par
 forum#:#forums_thread_marked#:#Fil de discussion marqué comme lu
 forum#:#forums_thread_new_entry#:#Le nouveau sujet a été inscrit
-forum#:#forums_threads#:#Fils de discussion
+forum#:#forums_threads#:#Fils de discussion###06 Apr 2005 content changed
 forum#:#forums_threads_not_available#:#Sujets non disponibles
 forum#:#forums_topics_overview#:#Vue générale des sujets
 forum#:#forums_your_reply#:#Votre réponse

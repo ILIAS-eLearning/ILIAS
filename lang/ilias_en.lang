@@ -3519,6 +3519,7 @@ forum#:#forums_censor_comment#:#Comment of Censor
 forum#:#forums_count#:#Number of Forums
 forum#:#forums_count_art#:#Number of Articles
 forum#:#forums_count_thr#:#Number of Threads
+forum#:#forums_created_by#:#Created by
 forum#:#forums_delete_file#:#Delete attachment
 forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_post#:#Edit Article
@@ -3539,6 +3540,7 @@ forum#:#forums_post_new_entry#:#New article has been created
 forum#:#forums_posts#:#All articles
 forum#:#forums_posts_not_available#:#Articles Not Available
 forum#:#forums_print_thread#:#Print Thread
+forum#:#forums_print_view#:#Print view
 forum#:#forums_quote#:#Quote
 forum#:#forums_respond#:#Post Reply
 forum#:#forums_subject#:#Subject
@@ -4817,5 +4819,3 @@ survey#:#view_phrase#:#View phrase
 survey#:#warning_question_in_use#:#Warning! The question you want to edit is in use by the surveys listed below. If you decide to continue and save/apply the question, all answers of the surveys listed below will be deleted. If you want to change the question and use it in another survey, please choose duplicate in the question browser to create a new instance of this question.
 survey#:#warning_question_not_complete#:#The question is not complete!
 survey#:#warning_survey_not_complete#:#The survey is not complete!
-forum#:#forums_created_by#:#Created by
-forum#:#forums_print_view#:#Print view
