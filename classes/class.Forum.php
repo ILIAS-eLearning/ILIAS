@@ -328,11 +328,25 @@ class Forum
 		$q .= "pos_pk = '".$LP[2]."' AND ";
 		$q .= "pos_usr_id = usr_id";		
 
-		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
+		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);		
 		
-		if (strlen($result["pos_message"]) > 40)
-			$result["pos_message"] = substr($result["pos_message"], 0, 37)."...";
+		// Message-Länge begrenzen
+		$QU = 0;			
+		if (strpos($result["pos_message"], $this->txtQuote1) > 0 || strpos($result["pos_message"], $this->txtQuote2) > 0)
+		{			
+			// falls [quote] enthalten sind...
+			$C1 = substr_count($result["pos_message"], $this->txtQuote1);
+			$C2 = substr_count($result["pos_message"], $this->txtQuote2);
 			
+			$N1 = $C1 * strlen($this->txtQuote1);
+			$N2 = $C2 * strlen($this->txtQuote2);
+			
+			$QU = $N1 + $N2;
+		}			
+		if (strlen($result["pos_message"]) > (40+$QU))
+			$result["pos_message"] = substr($result["pos_message"], 0, (40+$QU-3))."...";
+				
+		// Datum konvertieren
 		$result["pos_date"] = $this->convertDate($result["pos_date"]);
 				
 		
