@@ -255,7 +255,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "lang":
-				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] == "lang")
+				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "lang")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -266,7 +266,7 @@ class ilSetupGUI extends ilSetup
 				break;
 
 			case "contact":
-				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] == "contact")
+				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "contact")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -277,7 +277,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "nic":
-				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] == "nic")
+				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "nic")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -288,7 +288,7 @@ class ilSetupGUI extends ilSetup
 				break;
 	
 			case "finish":
-				if (!$this->client->status["finish"]["status"] and $_GET["cmd"] == "finish")
+				if (!isset($_GET["lang"]) and !$this->client->status["finish"]["status"] and $_GET["cmd"] == "finish")
 				{
 					$this->jumpToFirstUnfinishedSetupStep();
 				}
@@ -1521,11 +1521,11 @@ class ilSetupGUI extends ilSetup
 				{
 					$message = $this->error;
 					$this->client->status["db"]["status"] = false;
-					$this->client->status["db"]["comment"] = "install_error!";
+					$this->client->status["db"]["comment"] = "install_error";
 				}
 				else
 				{
-					$message = "Database installed";
+					$message = "database_installed";
 				}
 			}
 			else
@@ -1539,7 +1539,7 @@ class ilSetupGUI extends ilSetup
 			
 				if ($dbupdate->updateMsg == "no_changes")
 				{
-					$message = "No changes. ".$this->lng->txt("database_is_uptodate");
+					$message = $this->lng->txt("no_changes").". ".$this->lng->txt("database_is_uptodate");
 				}
 				else
 				{
@@ -2224,6 +2224,12 @@ class ilSetupGUI extends ilSetup
 			$this->cmd = "nic";
 			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayNIC();		
+		}
+		elseif (!$this->client->status["finish"]["status"])
+		{
+			$this->cmd = "finish";
+			sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			$this->displayFinishSetup();		
 		}
 		else
 		{
