@@ -127,9 +127,13 @@ class ObjectDefinition extends SaxParser
 	*/
 	function getSubObjectsAsString($a_obj_name)
 	{
-		$data = array_keys($this->obj_data[$a_obj_name]["subobjects"]);
-		$string = "'".implode("','", $data)."'";
-		return $string;
+		$string = '';
+		if(is_array($this->obj_data[$a_obj_name]["subobjects"]))
+		{
+			$data = array_keys($this->obj_data[$a_obj_name]["subobjects"]);
+			$string = "'".implode("','", $data)."'";
+		}
+			return $string;
 	}
 
 // PRIVATE METHODS
