@@ -577,6 +577,8 @@ common#:#cat_create_lm#:#Neues Lernmodul anlegen
 common#:#cat_create_mep#:#Lege Media-Pool an
 common#:#cat_create_qpl#:#Neuen Fragenpool anlegen
 common#:#cat_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#cat_create_alm#:#Neues AICC Lernmodul anlegen
+common#:#cat_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 common#:#cat_create_svy#:#Neue Umfrage anlegen
 common#:#cat_create_tst#:#Neuen Test anlegen
@@ -670,6 +672,8 @@ common#:#crs_create_frm#:#Neues Forum anlegen
 common#:#crs_create_glo#:#Neues Glossar anlegen
 common#:#crs_create_lm#:#Neues Lernmodul anlegen
 common#:#crs_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#crs_create_alm#:#Neues AICC Lernmodul anlegen
+common#:#crs_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
 common#:#crs_edit_permission#:#Rechteeinstellungen ändern
@@ -842,6 +846,8 @@ common#:#fold_create_frm#:#Neues Forum anlegen
 common#:#fold_create_glo#:#Neues Glossar anlegen
 common#:#fold_create_lm#:#Neues Lernmodul anlegen
 common#:#fold_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#fold_create_alm#:#Neues AICC Lernmodul anlegen
+common#:#fold_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_edit_permission#:#Rechteeinstellungen ändern
@@ -955,6 +961,8 @@ common#:#grp_create_htlm#:#Neues HTML Lernmodul anlegen
 common#:#grp_create_lm#:#Neues Lernmodul anlegen
 common#:#grp_create_mep#:#Neuen Media-Pool anlegen
 common#:#grp_create_slm#:#Neues SCORM Lernmodul anlegen
+common#:#grp_create_alm#:#Neues AICC Lernmodul anlegen
+common#:#grp_create_hlm#:#Neues HACP Lernmodul anlegen
 common#:#grp_delete#:#Gruppe löschen
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen.
 common#:#grp_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus der Gruppe ausgetragen wollen.###19 Jun 2004 content changed
@@ -1020,6 +1028,8 @@ common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
 common#:#import_lm#:#Import Lernmodul
 common#:#import_root_user#:#Root User importieren
 common#:#import_slm#:#Import SCORM-Datei
+common#:#import_alm#:#Import AICC-Datei
+common#:#import_hlm#:#Import HACP-Datei
 common#:#import_users#:#Benutzer importieren
 common#:#imported#:#importiert
 common#:#in#:#in
@@ -1411,6 +1421,8 @@ common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
 common#:#obj_root#:#ILIAS-System
 common#:#obj_slm#:#SCORM Lernmodul
+common#:#obj_alm#:#AICC Lernmodul
+common#:#obj_hlm#:#HACP Lernmodul
 common#:#obj_spl#:#Fragenpool für Umfrage
 common#:#obj_st#:#Kapitel
 common#:#obj_svy#:#Umfrage
@@ -1457,6 +1469,8 @@ common#:#objs_qpl#:#Fragenpools
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
 common#:#objs_slm#:#SCORM Lernmodule
+common#:#objs_alm#:#AICC Lernmodule
+common#:#objs_hlm#:#HACP Lernmodule
 common#:#objs_spl#:#Fragenpools für Umfragen
 common#:#objs_st#:#Kapitel
 common#:#objs_svy#:#Umfragen
@@ -1667,6 +1681,26 @@ common#:#slm_leave#:#SCORM Lernmodulabonnement aufheben
 common#:#slm_read#:#SCORM Lernmodul lesen
 common#:#slm_visible#:#Lernmodul ist sichtbar
 common#:#slm_write#:#SCORM Lernmodul bearbeiten
+common#:#alm#:#AICC Lernmodul
+common#:#alm_added#:#AICC Lernmodul angelegt
+common#:#alm_create#:#Neues AICC Lernmodul anlegen
+common#:#alm_delete#:#AICC Lernmodul löschen
+common#:#alm_edit_permission#:#Rechteeinstellungen ändern
+common#:#alm_join#:#AICC Lernmodul abonnieren
+common#:#alm_leave#:#SCORM Lernmodulabonnement aufheben
+common#:#alm_read#:#AICC Lernmodul lesen
+common#:#alm_visible#:#Lernmodul ist sichtbar
+common#:#alm_write#:#AICC Lernmodul bearbeiten
+common#:#hlm#:#HACP Lernmodul
+common#:#hlm_added#:#HACP Lernmodul angelegt
+common#:#hlm_create#:#Neues HACP Lernmodul anlegen
+common#:#hlm_delete#:#HACP Lernmodul löschen
+common#:#hlm_edit_permission#:#Rechteeinstellungen ändern
+common#:#hlm_join#:#HACP Lernmodul abonnieren
+common#:#hlm_leave#:#HACP Lernmodulabonnement aufheben
+common#:#hlm_read#:#HACP Lernmodul lesen
+common#:#hlm_visible#:#Lernmodul ist sichtbar
+common#:#hlm_write#:#HACP Lernmodul bearbeiten
 common#:#smtp#:#SMTP
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#spl#:#Fragenpool für Umfrage
