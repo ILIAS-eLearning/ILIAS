@@ -54,41 +54,9 @@ $tplbtn->parseCurrentBlock();
 
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
-$tpl->setVariable("TXT_DELETE_SELECTED", $lng->txt("delete_selected"));
-$tpl->setVariable("TXT_DELETE_ALL", $lng->txt("delete_all"));
-$tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
-
-//get the user mails
-$myMails = new UserMail($ilias->db, $ilias->account->Id);
-$mails = $myMails->getMail();
-
-foreach ($mails as $row)
-{
-	$i++;
-	$tpl->setCurrentBlock("row");
-	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-	$tpl->setVariable("MAIL_SND_LNAME", $row["from"]);
-	$tpl->setVariable("MAIL_SND_FNAME", "");
-	$tpl->setVariable("MAIL_SND_NICK", "");
-	$tpl->setVariable("MAIL_SND", "");
-	$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
-	$tpl->setVariable("MAIL_DATE", $row["datetime"]);
-	$tpl->setVariable("MAIL_LINK_READ", "mail.php?id=".$row["id"]);
-	$tpl->setVariable("MAIL_LINK_DEL","");
-	$tpl->setVariable("TXT_DELETE",$lng->txt("delete"));
-	$tpl->setVariable("TXT_ARE_YOU_SURE",$lng->txt("are_you_sure"));
-	$tpl->parseCurrentBlock();
-}
-
-//headline
-$tpl->setVariable("MAIL_COUNT",count($mails));
-$tpl->setVariable("TXT_MAIL_S",$lng->txt("mail_s_unread"));
-//columns headlines
-$tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
-$tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
-//	$tpl->setVariable("MAIL_SORT_SUBJ","link");
-$tpl->setVariable("TXT_DATETIME",$lng->txt("date")."/".$lng->txt("time"));
-//	$tpl->setVariable("MAIL_SORT_DATE","link");
+$tpl->setVariable("TXT_LINEBREAK", $lng->txt("linebreak"));
+$tpl->setVariable("TXT_SIGNATURE", $lng->txt("signature"));
+$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();

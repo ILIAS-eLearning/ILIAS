@@ -54,39 +54,22 @@ $tplbtn->parseCurrentBlock();
 
 $tpl->setVariable("BUTTONS",$tplbtn->get());
 
-$tpl->setVariable("TXT_DELETE_SELECTED", $lng->txt("delete_selected"));
-$tpl->setVariable("TXT_DELETE_ALL", $lng->txt("delete_all"));
-$tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
-
-$mails = $ilias->account->getUnreadMail();
-
-foreach ($mails as $row)
-{
-	$i++;
-	$tpl->setCurrentBlock("row");
-	$tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
-	$tpl->setVariable("MAIL_SND_LNAME", $row["from"]);
-	$tpl->setVariable("MAIL_SND_FNAME", "");
-	$tpl->setVariable("MAIL_SND_NICK", "");
-	$tpl->setVariable("MAIL_SND", "");
-	$tpl->setVariable("MAIL_SUBJ", $row["subject"]);
-	$tpl->setVariable("MAIL_DATE", $row["datetime"]);
-	$tpl->setVariable("MAIL_LINK_READ", "mail.php?id=".$row["id"]);
-	$tpl->setVariable("MAIL_LINK_DEL","");
-	$tpl->setVariable("TXT_DELETE",$lng->txt("delete"));
-	$tpl->setVariable("TXT_ARE_YOU_SURE",$lng->txt("are_you_sure"));
-	$tpl->parseCurrentBlock();
-}
-
-//headline
-$tpl->setVariable("MAIL_COUNT",count($mails));
-$tpl->setVariable("TXT_MAIL_S",$lng->txt("mail_s_unread"));
-//columns headlines
-$tpl->setVariable("TXT_SENDER", $lng->txt("sender"));
+$tpl->setVariable("TXT_RECIPIENT", $lng->txt("recipient"));
+$tpl->setVariable("TXT_SEARCH_RECIPIENT", $lng->txt("search_recipient"));
+$tpl->setVariable("TXT_CC", $lng->txt("cc"));
+$tpl->setVariable("TXT_SEARCH_CC_RECIPIENT", $lng->txt("search_cc_recipient"));
+$tpl->setVariable("TXT_BC", $lng->txt("bc"));
+$tpl->setVariable("TXT_SEARCH_BC_RECIPIENT", $lng->txt("search_bc_recipient"));
 $tpl->setVariable("TXT_SUBJECT", $lng->txt("subject"));
-//	$tpl->setVariable("MAIL_SORT_SUBJ","link");
-$tpl->setVariable("TXT_DATETIME",$lng->txt("date")."/".$lng->txt("time"));
-//	$tpl->setVariable("MAIL_SORT_DATE","link");
+$tpl->setVariable("TXT_TYPE", $lng->txt("type"));
+$tpl->setVariable("TXT_NORMAL", $lng->txt("normal"));
+$tpl->setVariable("TXT_SYSTEM_MSG", $lng->txt("system_message"));
+$tpl->setVariable("TXT_ALSO_AS_EMAIL", $lng->txt("also_as_email"));
+$tpl->setVariable("TXT_URL", $lng->txt("url"));
+$tpl->setVariable("TXT_URL_DESC", $lng->txt("url_description"));
+$tpl->setVariable("TXT_MSG_CONTENT", $lng->txt("message_content"));
+$tpl->setVariable("TXT_SEND", $lng->txt("send"));
+$tpl->setVariable("TXT_MSG_SAVE", $lng->txt("save_message"));
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
