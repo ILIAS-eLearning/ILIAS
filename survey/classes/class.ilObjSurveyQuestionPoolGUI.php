@@ -389,6 +389,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
         $this->object->removeQuestion($value);
       }
 		}
+		
   /*  if (strlen($_POST["cmd"]["duplicate"]) > 0) {
       // duplicate button was pressed
       if (count($checked_questions) > 0) {
@@ -401,33 +402,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
         sendInfo($this->lng->txt("qpl_duplicate_select_none"));
       }
     }
-    
-    if (strlen($_POST["cmd"]["export"]) > 0) {
-      // export button was pressed
-      if (count($checked_questions) > 0) {
-				foreach ($checked_questions as $key => $value) {
-					$question_gui =& new ASS_QuestionGUI();
-					$question =& $question_gui->create_question("", $value);
-					$xml .= $question_gui->question->to_xml();
-				}
-				if (count($checked_questions) > 1)
-				{
-					$xml = preg_replace("/<\/questestinterop>\s*<.xml.*?>\s*<questestinterop>/", "", $xml);
-
-				}
-        header ("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
-        header ("Cache-Control: no-cache, must-revalidate");
-        header ("Pragma: no-cache");
-				// force downloading of the xml file: use octet-stream instead of text/xml
-				header ("Content-type: application/octet-stream");
-				header ("Content-Disposition: attachment; filename=qti_export.xml" );
- 				print $xml;
-				exit();
-      } elseif (count($checked_questions) == 0) {
-        sendInfo($this->lng->txt("qpl_export_select_none"));
-      }
-    }
-*/
+*/    
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_questions.html", true);
 	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
   	  $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_svy_qpl_create_new_question.html", true);
@@ -435,23 +410,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		}
     $this->tpl->addBlockFile("FILTER_QUESTION_MANAGER", "filter_questions", "tpl.il_svy_qpl_filter_questions.html", true);
 
-    
-/*    if (strlen($_POST["cmd"]["insert"]) > 0) {
-      // insert button was pressed
-      if (count($checked_questions) > 0) {
-        foreach ($_POST as $key => $value) {
-          if (preg_match("/cb_(\d+)/", $key, $matches)) {
-            $this->insert_question_in_test($matches[1], $_GET["test"]);
-          }
-        }       
-        header("location:il_as_test_composer.php?edit=" . $_GET["test"] . "&tab=questions");
-      } elseif (count($checked_questions) == 0) {
-        sendInfo("Please check at least one question to insert it into your test");
-      }
-    }
-*/    
     // create filter form
-
     $filter_fields = array(
       "title" => $this->lng->txt("title"),
       "description" => $this->lng->txt("description"),

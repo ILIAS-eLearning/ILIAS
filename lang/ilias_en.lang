@@ -1633,6 +1633,8 @@ common#:#svy_new#:#New survey
 common#:#svy_read#:#Read access to survey
 common#:#svy_visible#:#Survey is visible
 common#:#svy_write#:#Edit survey
+common#:#svy_invite#:#Invite users to a survey
+common#:#svy_participate#:#Participate in a survey
 common#:#system#:#System
 common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
@@ -3041,3 +3043,14 @@ survey#:#unfold#:#Unfold
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#view_phrase#:#View phrase
 survey#:#select_questionpool#:#Please select a question pool to store the created question
+survey#:#invite_participants#:#Invite participants
+survey#:#constraints#:#Constraints
+survey#:#edit_constraints_introduction#:#You have selected the following question(s)/questionblock(s) to edit the constraints
+survey#:#no_constraints_checked#:#Please select a least one question or question block to edit the constraints!
+survey#:#select_prior_question#:#Select a prior question
+survey#:#continue#:#Continue >>
+survey#:#back#:#<< Back
+survey#:#select_relation#:#Select a relation
+survey#:#select_value#:#Select a value
+survey#:#enter_value#:#Enter a value
+survey#:#no_available_constraints#:#There are no constraints defined!

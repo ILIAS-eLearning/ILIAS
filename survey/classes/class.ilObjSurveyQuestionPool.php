@@ -310,7 +310,35 @@ class ilObjSurveyQuestionPool extends ilObject
 		);
 		$result = $this->ilias->db->query($query);
 
+		$query = sprintf("SELECT constraint_id FROM survey_constraint WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$query = sprintf("DELETE FROM survey_question_constraint WHERE constraint_fi = %s",
+				$this->ilias->db->quote($row->constraint_id)
+			);
+			$delresult = $this->ilias->db->query($query);
+		}
+		
 		$query = sprintf("DELETE FROM survey_constraint WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+
+		$query = sprintf("SELECT constraint_fi FROM survey_question_constraint WHERE question_fi = %s",
+			$this->ilias->db->quote($question_id)
+		);
+		$result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$query = sprintf("DELETE FROM survey_constraint WHERE constraint_id = %s",
+				$this->ilias->db->quote($row->constraint_fi)
+			);
+			$delresult = $this->ilias->db->query($query);
+		}
+		$query = sprintf("DELETE FROM survey_question_constraint WHERE question_fi = %s",
 			$this->ilias->db->quote($question_id)
 		);
 		$result = $this->ilias->db->query($query);

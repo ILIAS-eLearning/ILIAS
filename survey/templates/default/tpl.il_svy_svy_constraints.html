@@ -1,0 +1,31 @@
+<p>{TEXT_EDIT_CONSTRAINTS}</p>
+<form name="constraintsForm" method="post" action="{FORM_ACTION}">
+<!-- BEGIN question -->
+<table class="fullwidth">
+<tr class="tblheader">
+<td class="std" colspan="2">{QUESTION_IDENTIFIER}</td>
+</tr>
+<!-- BEGIN empty_row -->
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}" colspan="2">{EMPTY_TEXT}</td>
+</tr>
+<!-- END empty_row -->
+<!-- BEGIN constraint -->
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}">{CONSTRAINT_TEXT}</td>
+<td class="{COLOR_CLASS}"><input type="submit" class="submit" name="delete_constraint_{CONSTRAINT_ID}_{CONSTRAINT_QUESTION_ID}" value="{BTN_DELETE}" /></td>
+</tr>
+<!-- END constraint -->
+<tr class="std">
+<td class="std" colspan="2">
+<input type="submit" class="submit" name="add_constraint_{QUESTION_ID}" value="{BTN_ADD}" />
+</td>
+</tr>
+</table>
+<br />
+<!-- END question -->
+<!-- BEGIN hidden -->
+<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
+<!-- END hidden -->
+<input type="submit" name="cmd[cancel]" value="{BTN_BACK}" />
+</form>
