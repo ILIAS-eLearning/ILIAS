@@ -28,7 +28,8 @@
 * Description:
 *
 * A Simpe Ini File Implementation to keep settings 
-* in a simple file instead of in a DB 
+* in a simple file instead of in a DB
+* Based upon class.INIfile.php by Mircho Mirev <mircho@macropoint.com>
 * 
 * Usage Examples: 
 * $ini = new IniFile("./ini.ini");
