@@ -34,6 +34,7 @@
 
 require_once "classes/class.ilObject.php";
 require_once "class.assMarkSchema.php";
+require_once("classes/class.ilMetaData.php");
 
 define("TEST_FIXED_SEQUENCE", 0);
 define("TEST_POSTPONE", 1);
@@ -244,6 +245,28 @@ class ilObjTest extends ilObject
     $this->test_type = TYPE_ASSESSMENT;
     $this->test_formats = 7;
     $this->mark_schema = new ASS_MarkSchema();
+		if ($a_id == 0)
+		{
+			$new_meta =& new ilMetaData();
+			$this->assignMetaData($new_meta);
+		}
+	}
+
+	/**
+	* create test object
+	*/
+	function create($a_upload = false)
+	{
+		parent::create();
+		if (!$a_upload)
+		{
+			$this->meta_data->setId($this->getId());
+			$this->meta_data->setType($this->getType());
+			$this->meta_data->setTitle($this->getTitle());
+			$this->meta_data->setDescription($this->getDescription());
+			$this->meta_data->setObject($this);
+			$this->meta_data->create();
+		}
 	}
 
 	/**
@@ -254,6 +277,7 @@ class ilObjTest extends ilObject
 	*/
 	function update()
 	{
+		$this->updateMetaData();
 		if (!parent::update())
 		{			
 			return false;
@@ -278,6 +302,7 @@ class ilObjTest extends ilObject
 	{
 		parent::read($a_force_db);
 		$this->load_from_db();
+		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
 	}
 	
 /**
@@ -1202,5 +1227,75 @@ class ilObjTest extends ilObject
 		return $result_array;
 	}
 	
+	/**
+	* get description of content object
+	*
+	* @return	string		description
+	*/
+	function getDescription()
+	{
+//		return parent::getDescription();
+		return $this->meta_data->getDescription();
+	}
+
+	/**
+	* set description of content object
+	*/
+	function setDescription($a_description)
+	{
+//		parent::setTitle($a_title);
+		$this->meta_data->setDescription($a_description);
+	}
+
+	/**
+	* get title of glossary object
+	*
+	* @return	string		title
+	*/
+	function getTitle()
+	{
+		//return $this->title;
+		return $this->meta_data->getTitle();
+	}
+
+	/**
+	* set title of glossary object
+	*/
+	function setTitle($a_title)
+	{
+		$this->meta_data->setTitle($a_title);
+	}
+
+	/**
+	* assign a meta data object to glossary object
+	*
+	* @param	object		$a_meta_data	meta data object
+	*/
+	function assignMetaData(&$a_meta_data)
+	{
+		$this->meta_data =& $a_meta_data;
+	}
+
+	/**
+	* get meta data object of glossary object
+	*
+	* @return	object		meta data object
+	*/
+	function &getMetaData()
+	{
+		return $this->meta_data;
+	}
+
+	/**
+	* update meta data only
+	*/
+	function updateMetaData()
+	{
+		$this->meta_data->update();
+		$this->setTitle($this->meta_data->getTitle());
+		$this->setDescription($this->meta_data->getDescription());
+		parent::update();
+	}
+
 } // END class.ilObjTest
 ?>

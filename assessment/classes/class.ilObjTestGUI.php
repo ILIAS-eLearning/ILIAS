@@ -34,6 +34,7 @@
 */
 
 require_once "classes/class.ilObjectGUI.php";
+require_once "classes/class.ilMetaDataGUI.php";
 require_once "class.assQuestionGUI.php";
 
 class ilObjTestGUI extends ilObjectGUI
@@ -98,8 +99,8 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($_POST["cmd"]["save"] or $_POST["cmd"]["apply"]) {
 			// Check the values the user entered in the form
 			$data["sel_test_types"] = ilUtil::stripSlashes($_POST["sel_test_types"]);
-			$data["title"] = ilUtil::stripSlashes($_POST["title"]);
-			$data["description"] = ilUtil::stripSlashes($_POST["description"]);
+			//$data["title"] = ilUtil::stripSlashes($_POST["title"]);
+			//$data["description"] = ilUtil::stripSlashes($_POST["description"]);
 			$data["author"] = ilUtil::stripSlashes($_POST["author"]);
 			$data["introduction"] = ilUtil::stripSlashes($_POST["introduction"]);
 			$data["sequence_settings"] = ilUtil::stripSlashes($_POST["sequence_settings"]);
@@ -110,8 +111,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["starting_time"] = ilUtil::stripSlashes($_POST["starting_time"]);
 		} else {
 			$data["sel_test_types"] = $this->object->get_test_type();
-			$data["title"] = $this->object->getTitle();
-			$data["description"] = $this->object->getDescription();
 			$data["author"] = $this->object->get_author();
 			$data["introduction"] = $this->object->get_introduction();
 			$data["sequence_settings"] = $this->object->get_sequence_settings();
@@ -121,6 +120,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$data["processing_time"] = $this->object->get_processing_time();
 			$data["starting_time"] = $this->object->get_starting_time();
 		}
+		$data["title"] = $this->object->getTitle();
+		$data["description"] = $this->object->getDescription();
 		$this->object->set_test_type($data["sel_test_types"]);
 		$this->object->setTitle($data["title"]);
 		$this->object->setDescription($data["description"]);
@@ -493,7 +494,92 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	function editMetaObject() {
+	function editMetaObject()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			"test.php?ref_id=".$_GET["ref_id"]."&cmd=saveMeta");
+	}
+	
+		function saveMetaObject()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->save($_POST["meta_section"]);
+		ilUtil::redirect("test.php?ref_id=".$_GET["ref_id"]);
+	}
+
+	// called by administration
+	function chooseMetaSectionObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = "test.php?ref_id=".$_GET["ref_id"];
+		}
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_REQUEST["meta_section"]);
+	}
+
+	// called by editor
+	function chooseMetaSection()
+	{
+		$this->chooseMetaSectionObject("test.php?ref_id=".
+			$this->object->getRefId());
+	}
+
+	function addMetaObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = "test.php?ref_id=".$_GET["ref_id"];
+		}
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_name = $_POST["meta_name"] ? $_POST["meta_name"] : $_GET["meta_name"];
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		if ($meta_index == "")
+			$meta_index = 0;
+		$meta_path = $_POST["meta_path"] ? $_POST["meta_path"] : $_GET["meta_path"];
+		$meta_section = $_POST["meta_section"] ? $_POST["meta_section"] : $_GET["meta_section"];
+		if ($meta_name != "")
+		{
+			$meta_gui->meta_obj->add($meta_name, $meta_path, $meta_index);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("meta_choose_element"), true);
+		}
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $meta_section);
+	}
+
+	function addMeta()
+	{
+		$this->addMetaObject("test.php?ref_id=".
+			$this->object->getRefId());
+	}
+
+	function deleteMetaObject($a_script = "",
+		$a_templ_var = "ADM_CONTENT", $a_templ_block = "adm_content")
+	{
+		if ($a_script == "")
+		{
+			$a_script = "test.php?ref_id=".$_GET["ref_id"];
+		}
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setObject($this->object);
+		$meta_index = $_POST["meta_index"] ? $_POST["meta_index"] : $_GET["meta_index"];
+		$meta_gui->meta_obj->delete($_GET["meta_name"], $_GET["meta_path"], $meta_index);
+		$meta_gui->edit($a_templ_var, $a_templ_block, $a_script, $_GET["meta_section"]);
+	}
+
+	function deleteMeta()
+	{
+		$this->deleteMetaObject("test.php?ref_id=".
+			$this->object->getRefId());
 	}
 	
 	function takenObject() {
