@@ -26,7 +26,7 @@
 * Class ilObjGroupGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjGroupGUI.php,v 1.18 2003/07/15 08:23:56 shofmann Exp $
+* $Id$Id: class.ilObjGroupGUI.php,v 1.19 2003/07/16 11:49:22 mrus Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -44,21 +44,21 @@ class ilObjGroupGUI extends ilObjectGUI
 	
 	var $grp_tree;
 
-	
+
 	/**
 	* Constructor
 	* @access public
 	*/
 	function ilObjGroupGUI($a_data,$a_id,$a_call_by_reference)
-	{	
+	{
 		global $tree;
-		
+
 		$this->type = "grp";
 		//$this->lng =& $lng;
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference);
 
-		
-		
+
+
 		$this->grp_tree = new ilTree($this->object->getRefId());
 		$this->grp_tree->setTableNames("grp_tree","object_data","object_reference");
 	}
@@ -77,9 +77,8 @@ class ilObjGroupGUI extends ilObjectGUI
 			$data["fields"]["group_name"] = "";
 			$data["fields"]["desc"] = "";
 
-
 			$this->getTemplateFile("new","group");
-			
+
 			foreach ($data["fields"] as $key => $val)
 			{
 				$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
@@ -107,94 +106,29 @@ class ilObjGroupGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
+
 		//TODO: check the acces rights; compare class.ilObjectGUI.php
 		global $rbacadmin,$ilias;
-	
+
 		// always call parent method first to create an object_data entry & a reference
 		$groupObj = parent::saveObject();
-		
+
 		$rfoldObj = $groupObj->initRoleFolder();
-		
+
 		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
-		$roles = $groupObj->initDefaultRoles($rfoldObj);
-		
-		// ...finally assign moderator role to creator of forum object
-		$rbacadmin->assignUser($roles[0], $groupObj->getOwner(), "n");
-			
+		$groupObj->createDefaultGroupRoles($rfoldObj->getRefId());
+		$groupObj->joinGroup($this->ilias->account->getId(),1); //join as admin=1
+
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
 		$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
 		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId());
-		
+
 		// always send a message
 		sendInfo($this->lng->txt("grp_added"),true);
-		
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 
+		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
 		exit();
-
-		//wenn keine Fehlerauftauchen , dann auskommentierte Zeilen löschen
-		
-		
-		// TODO: An die Leute, die an der Gruppenfunktionalität arbeiten:
-		// Bitte schiebt alle Dinge, die die lokalen Rollen und den Rollenordner betreffen in die Methode ilObjGroup::initDefaultRoles()
-		// Schaut euch hierzu bitte an, wie das in ilObjForum/GUI gemacht wurde.
-		// Bitte auch ilObjGroup::clone entsprechend anpassen (dort sollte nach dem parent-Aufruf nur noch initDefaultRoles aufgerufen. Ggf. spezielle Gruppendatgen noch mit kopiert werden.
-		
-		/*$refGrpId = $newObj->getRefId();
-		$objGrpId = $newObj->getId();
-
-		$newObj->putInTree($_GET["ref_id"]);
-		$newObj->setPermissions($_GET["ref_id"]);
-
-		unset($newObj);
-		//rolefolder
-
-		//create new rolefolder-object
-		$newObj = new ilObject();
-		$newObj->setType("rolf");
-		$newObj->setTitle("Rolefolder:".$_POST["Fobject"]["title"]);
-		$newObj->setDescription($_POST["Fobject"]["desc"]);
-
-		$newObj->create();
-		$newObj->createReference();
-		$newObj->putInTree($refGrpId);		//assign rolefolder to group
-		$newObj->setPermissions($refGrpId);
-
-		$refRolf = $newObj->getRefId();
-		$objRolf = $newObj->getId();
-		unset($newObj);
-
-		// create new role objects
-		$newGrp = new ilObjGroup($refGrpId,true);
-		//create standard group roles:member,admin,request(!),depending on group status(public,private,closed)
-
-		//the order is very important, please do not change: first create roles and join group, then setGroupStatus !!!
-		$newGrp->createGroupRoles($refRolf);
-		//creator becomes admin of group
-		//$newGrp->joinGroup($ilias->account->getId(),"admin");
-		$newGrp->joinGroup($ilias->account->getId(),1);
-		*/
-		//0=public,1=private,2=closed
-		//$groupObj->setGroupStatus($_POST["group_status_select"]);
-		
-		//$refGrpId = $groupObj->getRefId();
-		//$objGrpId = $groupObj->getId();
-		//create new tree in "grp_tree" table; each group has his own tree in "grp_tree" table
-		
-		//echo $refGrpId;
-		//$grp_tree = new ilTree($objGrpId);
-		
-		/*$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
-		$groupObj->insertGroupNode($rfoldObj->getId(),$rfoldObj->getRefId(),$groupObj->getId());
-		
-		// always send a message
-		sendInfo($this->lng->txt("grp_added"),true);
-		
-		header("Location:".$this->getReturnLocation("save","adm_object.php?".$this->link_params));
-
-		exit();*/
-
 	}
 
 	/**
@@ -216,19 +150,19 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->data["data"] = array();
 		$this->data["ctrl"] = array();
 		$this->data["cols"] = array("", "type", "title", "description", "last_change");
-		
-		
+
+
 		$childs = $this->grp_tree->getChilds($_GET["ref_id"], $_GET["order"], $_GET["direction"]);
-	
+
 		foreach ($childs as $key => $val)
-	    {
-			//nur für Objecte mit Rechten	
+		{
+			//nur fr Objecte mit Rechten
 			// visible
 			/*if (!$rbacsystem->checkAccess("visible",$val["ref_id"]))
 			{
 				continue;
 			}*/
-		
+
 			//visible data part
 			$this->data["data"][] = array(
 										"type" => $val["type"],
@@ -237,7 +171,7 @@ class ilObjGroupGUI extends ilObjectGUI
 										"last_change" => $val["last_update"],
 										"ref_id" => $val["ref_id"]
 										);
-			
+
 			//control information is set below
 
 	    } //foreach
@@ -257,14 +191,14 @@ class ilObjGroupGUI extends ilObjectGUI
 											"tree_id" => $_GET["ref_id"],
 											"tree_table" => $this->grp_tree->table_tree
 											);
-			
+
 			unset($this->data["data"][$key]["ref_id"]);
 						$this->data["data"][$key]["last_change"] = ilFormat::formatDate($this->data["data"][$key]["last_change"]);
 		}
 
 		$this->displayList();
 	}
-		
+	
 	/**
 	* update GroupObject
 	* @access public
@@ -281,6 +215,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		header("Location: adm_object.php?".$this->link_params);
 
 	}
+
 	/**
 	* edit Group
 	* @access public
@@ -318,6 +253,105 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("DESC",$this->object->getDescription() );
 
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("update"));
+
+	}
+
+
+	/**
+	* displays confirmation form
+	* @access public
+	*/
+	function confirmationObject($user_id="", $confirm, $cancel, $info="", $status="")
+	{
+		$this->data["cols"] = array("type", "title", "description", "last_change");
+		if(is_array($user_id))
+			foreach($user_id as $id)
+			{
+				$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+
+				$this->data["data"]["$id"] = array(
+					"type"        => $obj_data->getType(),
+					"title"       => $obj_data->getTitle(),
+					"desc"        => $obj_data->getDescription(),
+					"last_update" => $obj_data->getLastUpdateDate(),
+					);
+			}
+		else
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($user_id);
+
+			$this->data["data"]["$id"] = array(
+				"type"        => $obj_data->getType(),
+				"title"       => $obj_data->getTitle(),
+				"desc"        => $obj_data->getDescription(),
+				"last_update" => $obj_data->getLastUpdateDate(),
+				);
+		}
+
+		$_SESSION["saved_post"] = array();
+		if(is_array($user_id))
+			$_SESSION["saved_post"] = $user_id;
+		else
+			$_SESSION["saved_post"][0] = $user_id;
+
+		//write memberstatus in sessionvar
+		if(isset($status))
+			$_SESSION["status"] = $status;
+
+		$this->data["buttons"] = array( $confirm  => $this->lng->txt("confirm"),
+						$cancel  => $this->lng->txt("cancel"));
+
+		$this->getTemplateFile("confirm");
+
+		sendInfo($this->lng->txt($info));
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+
+		// BEGIN TABLE HEADER
+		foreach ($this->data["cols"] as $key)
+		{
+			$this->tpl->setCurrentBlock("table_header");
+			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
+			$this->tpl->parseCurrentBlock();
+		}
+		// END TABLE HEADER
+
+		// BEGIN TABLE DATA
+		$counter = 0;
+
+		foreach ($this->data["data"] as $key => $value)
+		{
+			// BEGIN TABLE CELL
+			foreach($value as $key => $cell_data)
+			{
+				$this->tpl->setCurrentBlock("table_cell");
+
+				// CREATE TEXT STRING
+				if($key == "type")
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
+				}
+				else
+				{
+					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+
+			$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
+			$this->tpl->parseCurrentBlock();
+			// END TABLE CELL
+		}
+		// END TABLE DATA
+
+		// BEGIN OPERATION_BTN
+		foreach ($this->data["buttons"] as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("operation_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	/**
@@ -328,83 +362,24 @@ class ilObjGroupGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $ilias;
 
-		$newGrp = new ilObjGroup($_GET["ref_id"],true);
-
-		//Check if user wants to skip himself
-		if($_SESSION["AccountId"] == $_GET["mem_id"])
-		{
-			if($rbacsystem->checkAccess('leave',$_GET["ref_id"]))
-			{
-				//check ammount of members
-				if(count($newGrp->getGroupMemberIds()) == 1)
-				{
-					if($rbacsystem->checkAccess('delete',$_GET["ref_id"]))
-					{
-						//GROUP DELETE
-						$this->ilias->raiseError("Gruppe loeschen, da letztes Mitglied!",$this->ilias->error_obj->MESSAGE);
-					}
-					else
-						$this->ilias->raiseError("You do not have the permissions to delete this group!",$this->ilias->error_obj->MESSAGE);
-				}
-				else
-				{
-					$role_id = $newGrp->getGroupRoleId($_SESSION["AccountId"]);
-
-					$member_Obj =& $ilias->obj_factory->getInstanceByObjId($role_id);
-
-					if(strcmp($member_Obj->getTitle(), "grp_Member")==0)
-					{
-						if(!$newGrp->leaveGroup($_GET["mem_id"]))
-							$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
-					}
-					//if user is admin, he has to make another user become admin
-					else
-					if(strcmp($member_Obj->getTitle(),"grp_Administrator")==0 )
-					{
-						if(count($newGrp->getGroupAdminIds()) <= 1)
-						{
-							if(!isset($_POST["newAdmin_id"]) )
-								$this->chooseNewAdmin();
-							else
-							{
-								foreach($_POST["newAdmin_id"] as $newAdmin)
-								{
-									$newGrp->leaveGroup($newAdmin);
-									$newGrp->joinGroup($newAdmin,1); //join as admin
-								}
-								//remove old admin from group
-								if(!$newGrp->leaveGroup($_GET["mem_id"]))
-									$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
-							}
-						}
-						else if(!$newGrp->leaveGroup($_SESSION["AccountId"]))
-							$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
-					}
-				}
-			}
-			else
-				$this->ilias->raiseError("You are not allowed to leave this group!",$this->ilias->error_obj->MESSAGE);
-
-		}
-		//check if user has the permission to skip other groupmember
-		else if($rbacsystem->checkAccess('write',$_GET["ref_id"]))
-		{
-			if(!$newGrp->leaveGroup($_GET["mem_id"]))
-				$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
-		}
-		else
-		{
-			$this->ilias->raiseError("You are not allowed to discharge this group member!",$this->ilias->error_obj->MESSAGE);
-		}
-
-//		header("Location: adm_object.php?".$this->link_params."&cmd=members");
-
+		$member = array($_GET["mem_id"]);
+		//set methods that are called after confirmation
+		$confirm = "confirmedDeleteMember";
+		$cancel  = "canceled";
+		$info	 = "info_delete_sure";
+		$status  = "";
+		$this->confirmationObject($member, $confirm, $cancel, $info, $status);
 	}
 
+	/**
+	* method is called when last admin tries to leave group
+	* TODO: method gets in this version never called ->implementation
+	* @access public
+	*/
 	function chooseNewAdmin()
 	{
 		global $ilias,$lng;
-		require_once "./classes/class.ilTableGUI.php";
+		include_once "./classes/class.ilTableGUI.php";
 
 		$num = 0;
 
@@ -469,185 +444,435 @@ class ilObjGroupGUI extends ilObjectGUI
 
 	}
 
-	/**
-	* displays formular
-	* @access public
-	*/
-	function newMemberObject()
+	function canceledObject()
 	{
-		global $ilias,$lng;
-
-		require_once "./classes/class.ilTableGUI.php";
-
-
-		if( isset($_POST["search_user"]) && isset($_POST["status"]) )//&& isset($_GET["ref_id"]) )
-		{
-			//display search results
-			$users = ilObjUser::searchUsers($_POST["search_user"]);
-
-			$newGrp = new ilObjGroup($_GET["ref_id"],true);
-
-			$this->getTemplateFile("chooseuser","grp");
-			infoPanel();
-
-			// output data
-
-			$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
-
-			// load template for table content data
-			$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.grp_selectuser.html");
-
-			$num = 0;
-
-			foreach($users as $user)
-			{
-				$this->tpl->setCurrentBlock("tbl_content");
-				$user_Obj =& $ilias->obj_factory->getInstanceByObjId($user["usr_id"]);
-				$num++;
-				$this->tpl->setVariable("ROWCOL", ilUtil::switchColor($num,"tblrow2","tblrow1"));
-				$this->tpl->setVariable("CHECKBOX", ilUtil::formCheckBox(0,"newMember_id[]",$user_Obj->getId()));
-				$this->tpl->setVariable("LOGIN",$user_Obj->getLogin());
-				$this->tpl->setVariable("FIRSTNAME", $user_Obj->getFirstname());
-				$this->tpl->setVariable("LASTNAME", $user_Obj->getLastname());
-				$this->tpl->setVariable("ROLENAME", $lng->txt("Systemrole"));
-				$this->tpl->parseCurrentBlock();
-				unset($user_Obj);
-				// END TABLE MEMBERS
-			}
-
-			$this->tpl->setVariable("FORMACTION", "adm_object.php?cmd=newMember"."&ref_id=".$_GET["ref_id"]."&status=".$_POST["status"]);//."&mem_id=".$_GET["mem_id"]);
-			$this->tpl->setVariable("TXT_SAVE","speichern");
-
-			// create table
-			$tbl = new ilTableGUI();
-			// title & header columns
-			$tbl->setTitle($this->lng->txt("new member"),"icon_crs_b.gif",$this->lng->txt("new member"));
-			$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-			$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role")));
-			$tbl->setHeaderVars(array("checkbox","login","firstname","lastname","role"));
-			$tbl->setColumnWidth(array("5%","15%","30%","30%","20%"));
-			// control
-			$tbl->setOrderColumn($_GET["sort_by"]);
-			$tbl->setOrderDirection($_GET["sort_order"]);
-			$tbl->setLimit($limit);
-			$tbl->setOffset($offset);
-			$tbl->setMaxCount($maxcount);
-			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-			$tbl->disable("content");
-			$tbl->disable("footer");
-			// render table
-			$tbl->render();
-
-		}
-		else if(isset($_POST["newMember_id"]) && isset($_GET["status"]) )
-		{
-			//let new members join the group
-			$newGrp = new ilObjGroup($this->object->getRefId(), true);
-			foreach($_POST["newMember_id"] as $new_member)
-			{
-				//if(!$newGrp->joinGroup($user[0]["usr_id"],$_POST["status"]) )
-				if(!$newGrp->joinGroup($new_member, $_GET["status"]) )
-					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
-			}
-
-		}
-
-		//header("Location: adm_object.php?".$this->link_params);
+		header("Location: adm_object.php?".$this->link_params);
 	}
 
 	/**
-	* show members of the group object
+	* displays confirmation formular with users that shall be assigned to gorup
 	* @access public
 	*/
-	function membersObject()
+	function assignMemberObject()
 	{
-		global $rbacsystem;
-
-		if(!$rbacsystem->checkAccess("read,leave",$this->object->getRefId() ))
+		$user_ids = $_POST["user_id"];
+		if(isset($user_ids))
 		{
-			$this->ilias->raiseError("Permission denied !",$this->ilias->error_obj->MESSAGE);
+			$confirm = "confirmedAssignMember";
+			$cancel  = "canceled";
+			$info	 = "info_assign_sure";
+			$this->confirmationObject($user_ids, $confirm, $cancel, $info, "");
 		}
-		$num = 0;
+		else
+		{
+			sendInfo($this->lng->txt("You have to choose at least one user !"),true);
+			header("Location: adm_object.php?".$this->link_params);
+		}
 
-		$this->getTemplateFile("members","obj");
+	}
+
+	/**
+	* assign new member to group
+	* @access public
+	*/
+	function confirmedAssignMemberObject()
+	{
+		if(isset($_SESSION["saved_post"]) && isset($_SESSION["status"]) )
+		{
+			//let new members join the group
+			$newGrp = new ilObjGroup($this->object->getRefId(), true);
+			foreach($_SESSION["saved_post"] as $new_member)
+			{
+				if(!$newGrp->joinGroup($new_member, $_SESSION["status"]) )
+					$this->ilias->raiseError("An Error occured while assigning user to group !",$this->ilias->error_obj->MESSAGE);
+			}
+			unset($_SESSION["status"]);
+		}
+		header("Location: adm_object.php?".$this->link_params);
+	}
+
+	/**
+	* displays confirmation formular with users that shall be DEassigned from group
+	* @access public
+	*/
+	function deassignMemberObject()
+	{
+		$user_ids = array();
+		if(isset($_POST["user_id"]))
+			$user_ids = $_POST["user_id"];
+		else if(isset($_GET["mem_id"]))
+			$user_ids = $_GET["mem_id"];
+		if(isset($user_ids))
+		{
+			$confirm = "confirmedDeassignMember";
+			$cancel  = "canceled";
+			$info	 = "info_delete_sure";
+			$status  = "";
+			$this->confirmationObject($user_ids, $confirm, $cancel, $info, $status);
+		}
+		else
+		{
+			sendInfo($this->lng->txt("You have to choose at least one user !"),true);
+			header("Location: adm_object.php?".$this->link_params."&cmd=members");
+		}
+	}
+
+	/**
+	* DEassign members from group
+	* @access public
+	*/
+	function confirmedDeassignMemberObject()
+	{
+		global $rbacsystem,$ilias;
+
+		if(isset($_SESSION["saved_post"]) )
+		{
+			//$mem_id = $_SESSION["saved_post"][0];
+			foreach($_SESSION["saved_post"] as $mem_id)
+			{
+				$newGrp = new ilObjGroup($_GET["ref_id"],true);
+				//Check if user wants to skip himself
+				//if($_SESSION["AccountId"] == $_GET["mem_id"])
+				if($_SESSION["AccountId"] == $mem_id)
+				{
+					if($rbacsystem->checkAccess('leave',$_GET["ref_id"]))
+					{
+						//check ammount of members
+						if(count($newGrp->getGroupMemberIds()) == 1)
+						{
+							if($rbacsystem->checkAccess('delete',$_GET["ref_id"]))
+							{
+								//GROUP DELETE
+								$this->ilias->raiseError("Gruppe loeschen, da letztes Mitglied!",$this->ilias->error_obj->MESSAGE);
+							}
+							else
+								$this->ilias->raiseError("You do not have the permissions to delete this group!",$this->ilias->error_obj->MESSAGE);
+						}
+						else
+						{
+							$role_id = $newGrp->getGroupRoleId($_SESSION["AccountId"]);
+
+							$member_Obj =& $ilias->obj_factory->getInstanceByObjId($role_id);
+
+							if(strcmp($member_Obj->getTitle(), "grp_Member")==0)
+							{
+								//if(!$newGrp->leaveGroup($_GET["mem_id"]))
+								if(!$newGrp->leaveGroup($mem_id))
+									$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
+							}
+							//if user is admin, he has to make another user become admin
+							else if(strcmp($member_Obj->getTitle(),"grp_Administrator")==0 )
+							{
+								if(count($newGrp->getGroupAdminIds()) <= 1)
+								{
+									if(!isset($_POST["newAdmin_id"]) )
+										$this->chooseNewAdmin();
+									else
+									{
+										foreach($_POST["newAdmin_id"] as $newAdmin)
+										{
+											$newGrp->leaveGroup($newAdmin);
+											$newGrp->joinGroup($newAdmin,1); //join as admin
+										}
+										//remove old admin from group
+										//if(!$newGrp->leaveGroup($_GET["mem_id"]))
+										if(!$newGrp->leaveGroup($mem_id))
+											$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
+									}
+								}
+								else if(!$newGrp->leaveGroup($_SESSION["AccountId"]))
+									$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
+							}
+						}
+					}
+					else
+						$this->ilias->raiseError("You are not allowed to leave this group!",$this->ilias->error_obj->MESSAGE);
+				}
+				//check if user has the permission to skip other groupmember
+				else if($rbacsystem->checkAccess('write',$_GET["ref_id"]))
+				{
+					//if(!$newGrp->leaveGroup($_GET["mem_id"]))
+					if(!$newGrp->leaveGroup($mem_id))
+						$this->ilias->raiseError("Error while attempting to discharge user!",$this->ilias->error_obj->MESSAGE);
+
+				}
+				else
+				{
+					$this->ilias->raiseError("You are not allowed to discharge this group member!",$this->ilias->error_obj->MESSAGE);
+				}
+			}
+		}
+		header("Location: adm_object.php?".$this->link_params."&cmd=members");
+	}
+
+
+	/**
+	* displays form in which the member-status can be changed
+	* @access public
+	*/
+	function changeMemberObject()
+	{
+		global $ilias,$tpl;
+
+		include_once "./classes/class.ilTableGUI.php";
+		
+		$member_ids = array();
+		if(isset($_POST["user_id"]))
+			$member_ids = $_POST["user_id"];
+		else if(isset($_GET["mem_id"]))
+			$member_ids[0] = $_GET["mem_id"];
+
+		$newGrp = new ilObjGroup($_GET["ref_id"],true);
+		$stati = array(0=>"grp_member_role",1=>"grp_admin_role");
+
+		//build data structure
+		foreach($member_ids as $member_id)
+		{
+			$member =& $ilias->obj_factory->getInstanceByObjId($member_id);
+			$mem_status = $newGrp->getMemberStatus($member_id);
+
+			$this->data["data"][$member->getId()]= array(
+				"login"        => $member->getLogin(),
+				"firstname"       => $member->getFirstname(),
+				"lastname"        => $member->getLastname(),
+				"grp_role" => ilUtil::formSelect($mem_status,"member_status_select[".$member->getId()."]",$stati,false,true)
+				);
+			unset($member);
+		}
+
+		$this->getTemplateFile("chooseuser","grp");
+		infoPanel();
+
+		$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+
+		$this->data["buttons"] = array( "updateMemberStatus"  => $this->lng->txt("confirm"),
+						"members"  => $this->lng->txt("cancel"));
+
+		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->setVariable("COLUMN_COUNTS",4);
+		$this->tpl->setVariable("TPLPATH",$this->ilias->tplPath);
+
+		foreach ($this->data["buttons"] as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// create table
+		$tbl = new ilTableGUI($this->data["data"]);
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("change member status"),"icon_usr_b.gif",$this->lng->txt("change member status"));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array($this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("status")));
+		$tbl->setHeaderVars(array("firstname","lastname","role","status"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
+
+		$tbl->setColumnWidth(array("25%","25%","25%","25%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit(10);
+		$tbl->setOffset(0);
+		$tbl->setMaxCount(count($this->data["data"]));
+
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+		// render table
+		$tbl->render();
+	}
+
+
+	/**
+	* displays search form for new users
+	* @access public
+	*/
+	function newMembersObject()
+	{
+		$this->getTemplateFile("newmember","grp");
 
 		$this->tpl->setVariable("TXT_MEMBER_NAME", $this->lng->txt("Username"));
 		$this->tpl->setVariable("TXT_STATUS", $this->lng->txt("Member Status"));
-		$radio_member = ilUtil::formRadioButton(1,"status",0);
-		$radio_admin = ilUtil::formRadioButton(0,"status",1);
+
+		$radio_member = ilUtil::formRadioButton($_POST["status"] ? 0:1,"status",0);
+		$radio_admin = ilUtil::formRadioButton($_POST["status"] ? 1:0,"status",1);
 		$this->tpl->setVariable("RADIO_MEMBER", $radio_member);
 		$this->tpl->setVariable("RADIO_ADMIN", $radio_admin);
 		$this->tpl->setVariable("TXT_MEMBER_STATUS", "Member");
 		$this->tpl->setVariable("TXT_ADMIN_STATUS", "Admin");
 		$this->tpl->setVariable("TXT_SEARCH", "Search");
-		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", "adm_object.php?type=grp&cmd=newMember&ref_id=".$_GET["ref_id"]);//"&search_user=".$_POST["search_user"]
-
-		$newGrp = new ilObjGroup($this->object->getRefId(),true);
-		$member_ids = $newGrp->getGroupMemberIds();
-		$admin_ids  = $newGrp->getGroupAdminIds();
-		$member_arr = array();
-		foreach ($member_ids as $member_id)
-		{
-			array_push($member_arr, new ilObjUser($member_id));
-		}
-
-		// output data
-
-		$this->tpl->setCurrentBlock("HEADER_MEMBERS");
-		$this->tpl->setVariable("TXT_USER", $this->lng->txt("Login"));
-		$this->tpl->setVariable("TXT_FIRSTNAME", $this->lng->txt("Firstname"));
-		$this->tpl->setVariable("TXT_LASTNAME", $this->lng->txt("Lastname"));
-		$this->tpl->setVariable("TXT_JOINDATE", $this->lng->txt("Join date"));
-		$this->tpl->setVariable("TXT_ROLE", $this->lng->txt("Group role"));
-		$this->tpl->setVariable("TXT_FUNCTIONS", $this->lng->txt("Functions"));
-
-
+		$this->tpl->setVariable("SEARCH_STRING", $_POST["search_user"]);
+		$this->tpl->setVariable("FORMACTION_NEW_MEMBER", "adm_object.php?type=grp&cmd=newMembers&ref_id=".$_GET["ref_id"]);//"&search_user=".$_POST["search_user"]
 		$this->tpl->parseCurrentBlock();
 
-		foreach($member_arr as $member)
+		//query already started ?
+		if( isset($_POST["search_user"]) && isset($_POST["status"]) )//&& isset($_GET["ref_id"]) )
 		{
+			$member_ids = ilObjUser::searchUsers($_POST["search_user"]);
+
+			//INTERIMS SOLUTION
+			$_SESSION["status"] = $_POST["status"];
+
+			foreach($member_ids as $member)
+			{
+				$this->data["data"][$member["usr_id"]]= array(
+					"check"		=> ilUtil::formCheckBox(0,"user_id[]",$member["usr_id"]),
+					"login"        => $member["login"],
+					"firstname"       => $member["firstname"],
+					"lastname"        => $member["lastname"]
+					);
+
+			}
+
+			//display searcg results
+			infoPanel();
+
+			$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
+			// load template for table content data
+
+			$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+
+			$this->data["buttons"] = array( "assignMember"  => $this->lng->txt("assign"),
+							"canceled"  => $this->lng->txt("cancel"));
+
+			$this->tpl->setCurrentBlock("tbl_action_row");
+			$this->tpl->setVariable("COLUMN_COUNTS",4);
+			$this->tpl->setVariable("TPLPATH",$this->tplPath);
+
+			foreach ($this->data["buttons"] as $name => $value)
+			{
+				$this->tpl->setCurrentBlock("tbl_action_btn");
+				$this->tpl->setVariable("BTN_NAME",$name);
+				$this->tpl->setVariable("BTN_VALUE",$value);
+				$this->tpl->parseCurrentBlock();
+			}
+
+			// create table
+			include_once "./classes/class.ilTableGUI.php";
+			$tbl = new ilTableGUI($this->data["data"]);
+			// title & header columns
+			$tbl->setTitle($this->lng->txt("member list"),"icon_usr_b.gif",$this->lng->txt("member list"));
+			$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+			$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname")));
+			$tbl->setHeaderVars(array("check","login","firstname","lastname"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
+
+			$tbl->setColumnWidth(array("5%","25%","35%","35%"));
+
+			// control
+			$tbl->setOrderColumn($_GET["sort_by"]);
+			$tbl->setOrderDirection($_GET["sort_order"]);
+			$tbl->setLimit(10);
+			$tbl->setOffset(0);
+			$tbl->setMaxCount(count($this->data["data"]));
+
+			$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+			// render table
+			$tbl->render();
+
+		}
+	}
+
+	/**
+	* displays form with all members of group
+	* @access public
+	*/
+	function membersObject()
+	{
+		include_once "./classes/class.ilTableGUI.php";
+
+		$img_contact = "pencil";
+		$img_change = "change";
+		$img_leave = "group_out";
+		$val_contact = ilUtil::getImageTagByType($img_contact, $this->tpl->tplPath);
+		$val_change = ilUtil::getImageTagByType($img_change, $this->tpl->tplPath);
+		$val_leave  = ilUtil::getImageTagByType($img_leave, $this->tpl->tplPath);
+
+		$newGrp = new ilObjGroup($_GET["ref_id"],true);
+		$member_ids = $newGrp->getGroupMemberIds($_GET["ref_id"]);
+
+		foreach($member_ids as $member_id)
+		{
+			$member =& $this->ilias->obj_factory->getInstanceByObjId($member_id);
+
+			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
+//			$link_change = "adm_object.php?cmd=editMember&ref_id=".$this->ref_id."&mem_id=".$member->getId();
+			$link_change = "adm_object.php?cmd=changeMember&ref_id=".$this->ref_id."&mem_id=".$member->getId();
+			$link_leave = "adm_object.php?type=grp&cmd=deassignMember&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
+
 			$grp_role_id = $newGrp->getGroupRoleId($member->getId());
 			$newObj	     = new ilObject($grp_role_id,false);
 
-			$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
-			$link_change = "adm_object.php?cmd=editMember&ref_id=".$this->ref_id."&mem_id=".$member->getId();
-			$link_leave = "adm_object.php?type=grp&cmd=leaveGrp&ref_id=".$_GET["ref_id"]."&mem_id=".$member->getId();
-			$img_contact = "pencil";
-			$img_change = "change";
-			$img_leave = "group_out";
-			$val_contact = ilUtil::getImageTagByType($img_contact, $this->tpl->tplPath);
-			$val_change = ilUtil::getImageTagByType($img_change, $this->tpl->tplPath);
-			$val_leave  = ilUtil::getImageTagByType($img_leave, $this->tpl->tplPath);
-
-			// BEGIN TABLE MEMBERS
-			$this->tpl->setCurrentBlock("TABLE_MEMBERS");
-			$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
-			$this->tpl->setVariable("CSS_ROW",$css_row);
-			$this->tpl->setVariable("LOGIN",$member->getLogin());
-			$this->tpl->setVariable("FIRSTNAME", $member->getFirstname());
-			$this->tpl->setVariable("LASTNAME", $member->getLastname());
-			$this->tpl->setVariable("ANNOUNCEMENT_DATE", "Announcement Date");
-			$this->tpl->setVariable("ROLENAME", $newObj->getTitle());
-
-			$this->tpl->setVariable("LINK_CONTACT", $link_contact);
-			$this->tpl->setVariable("CONTACT", $val_contact);
-			if(in_array($_SESSION["AccountId"], $admin_ids))
-			{
-				$this->tpl->setVariable("LINK_CHANGE", $link_change);
-				$this->tpl->setVariable("CHANGE", $val_change);
-			}
-			if(in_array($_SESSION["AccountId"], $admin_ids) || $member->getId() == $_SESSION["AccountId"])
-			{
-				$this->tpl->setVariable("LINK_LEAVE", $link_leave);
-				$this->tpl->setVariable("LEAVE", $val_leave);
-			}
-			$this->tpl->parseCurrentBlock();
-			// END TABLE MEMBERS
+			$this->data["data"][$member->getId()]= array(
+			        "check"		=> ilUtil::formCheckBox(0,"user_id[]",$member->getId()),
+				"login"        => $member->getLogin(),
+				"firstname"       => $member->getFirstname(),
+				"lastname"        => $member->getLastname(),
+//				"join_date" => "todo",
+				"grp_role" => $newObj->getTitle(),
+				"functions" => "<a href=\"$link_contact\">".$val_contact."</a>
+						<a href=\"$link_change\">$val_change</a>
+						<a href=\"$link_leave\">$val_leave</a>"
+				);
+			unset($member);
 		}
+
+		$this->getTemplateFile("chooseuser","grp");
+		infoPanel();
+		//tabelle die mitglieder darstellt
+		$this->tpl->addBlockfile("NEW_MEMBERS_TABLE", "member_table", "tpl.table.html");
+		// load template for table content data
+
+		$this->tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
+
+		$this->data["buttons"] = array( "deassignMember"  => $this->lng->txt("deassign"),
+						"changeMember"  => $this->lng->txt("change"));
+
+		$this->tpl->setCurrentBlock("tbl_action_row");
+		$this->tpl->setVariable("COLUMN_COUNTS",6);
+		$this->tpl->setVariable("TPLPATH",$this->tplPath);
+
+		foreach ($this->data["buttons"] as $name => $value)
+		{
+			$this->tpl->setCurrentBlock("tbl_action_btn");
+			$this->tpl->setVariable("BTN_NAME",$name);
+			$this->tpl->setVariable("BTN_VALUE",$value);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		// create table
+		$tbl = new ilTableGUI($this->data["data"]);
+		// title & header columns
+		$tbl->setTitle($this->lng->txt("member list"),"icon_usr_b.gif",$this->lng->txt("member list"));
+		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setHeaderNames(array($this->lng->txt("check"),$this->lng->txt("username"),$this->lng->txt("firstname"),$this->lng->txt("lastname"),$this->lng->txt("role"),$this->lng->txt("functions")));
+		$tbl->setHeaderVars(array("check","login","firstname","lastname","role","functions"),array("ref_id"=>$_GET["ref_id"],"cmd"=>$_GET["cmd"]));
+
+		$tbl->setColumnWidth(array("5%","15%","30%","30%","10%","10%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit(10);
+		$tbl->setOffset(0);
+		$tbl->setMaxCount(count($this->data["data"]));
+
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+
+		// render table
+		$tbl->render();
 
 	}
 
-	
+
+	/**
+	* displays form in which the member-status can be changed
+	* @access public
+	*/
 	function editMemberObject()
 	{
 		global $rbacsystem, $ilias;
@@ -682,21 +907,33 @@ class ilObjGroupGUI extends ilObjectGUI
 			//"&new_type=".$_POST["new_type"]);
 		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("update"));
 
-
 	}
-	
+
+	/**
+	* displays form in which the member-status can be changed
+	* @access public
+	*/
 	function updateMemberStatusObject()
 	{
 		global $rbacsystem;
 		if($rbacsystem->checkAccess("write",$this->object->getRefId()) )
 			if(isset($_POST["member_status_select"]))
 			{
-				$this->object->setMemberStatus($_GET["mem_id"],$_POST["member_status_select"]);
+				foreach($_POST["member_status_select"] as $key=>$value)
+				{
+					$this->object->setMemberStatus($key,$value);
+				}
 			}
 		//TODO: link back
+		header("Location: adm_object.php?".$this->link_params."&cmd=members");
 
 	}
 
+	
+	/**
+	* displays groups
+	* @access public
+	*/
 	function listGroups()
 	{
 
@@ -762,24 +999,17 @@ class ilObjGroupGUI extends ilObjectGUI
 
 	}
 
+
+	/**
+	* show details -> HOW NEEDS THIS METHOD
+	* @access public
+	*/
 	function showDetails()
 	{
 		$this->getTemplateFile("details", "grp");
 		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.grp_details.html");
 		$this->tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-		/*$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","groups.php");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("group_summary"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","groups.php");
-		$this->tpl->setVariable("BTN_TXT", $this->lng->txt("treeview"));
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->touchBlock("btn_row");
-		$this->tpl->setCurrentBlock("content");
-		//$this->tpl->setVariable("TXT_GROUP_DETAILS", $this->lng->txt("group_details"));
-		//$this->tpl->parseCurrentBlock();*/
 		$this->tpl->setVariable("TXT_GRP_TITLE", $this->lng->txt("group_members"));
 		$this->tpl->setCurrentBlock("groupheader");
 
@@ -788,63 +1018,6 @@ class ilObjGroupGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_OWNER", $this->lng->txt("owner"));
 		$this->tpl->setVariable("TXT_ROLE_IN_GROUP", $this->lng->txt("role"));
 		$this->tpl->parseCurrentBlock("grouphesder");
-		//echo ("getID: ".$this->object->getId());
-		//echo("getRefID: ".$this->object->getRefId());
-		//$newGrp = new ilObjGroup($this->object->getId());
-		//$member_ids = $newGrp->object->getGroupMemberIds($this->object->getId());
-		//var_dump (member_ids);
-		//$member_arr = array();
-		/*foreach ($member_ids as $member_arr)
-		{
-			array_push($member_arr, new ilObjUser($member_id));
-		}
-		$i=0;
-		/*$this->tpl->setCurrentBlock("group_row");
-		$this->tpl->setVariable("Grp_USER", "User");
-		$this->tpl->setVariable("TXT_FIRSTNAME", "Firstname");
-		$this->tpl->setVariable("TXT_LASTNAME", "Lastname");
-		//$this->tpl->setVariable("TXT_JOINDATE", "Join date");
-		$this->tpl->setVariable("TXT_ROLE", "Role");
-		//$this->tpl->setVariable("TXT_FUNCTIONS", "Functions");
-
-		$this->tpl->parseCurrentBlock();*/
-
-		/*foreach($member_arr as $member)
-		{
-			$grp_role_id = $this->object->getGroupRoleId($member->getId());
-			$newObj 	 = new ilObject($grp_role_id,false);
-
-			//todo: chechAccess, each user sees only the symbols belonging to his rigths
-			//$link_contact = "mail_new.php?mobj_id=3&type=new&mail_data[rcp_to]=".$member->getLogin();
-			/*$link_change = "adm_object.php?cmd=editMembership&mem_id=".$member->getId();
-			$link_leave = "adm_object.php?type=grp&cmd=leaveGrp&ref_id=".$this->ref_id."&mem_id=".$member->getId();
-			$img_contact = "pencil";
-			$img_change = "change";
-			$img_leave = "group_out";
-			$val_contact = ilUtil::getImageTagByType($img_contact, $this->tpl->tplPath);
-			$val_change = ilUtil::getImageTagByType($img_change, $this->tpl->tplPath);
-			$val_leave  = ilUtil::getImageTagByType($img_leave,
-			$this->tpl->tplPath);*/
-	/*
-			// BEGIN TABLE MEMBERS
-			$this->tpl->setCurrentBlock("member_row");
-			$css_row = ilUtil::switchColor($num++, "tblrow1", "tblrow2");
-			//$this->tpl->setVariable("CSS_ROW",$css_row);
-			//$this->tpl->setVariable("LOGIN",$member->getLogin());
-			$this->tpl->setVariable("MEMBER_NAME",$member->getFullName());
-			//$this->tpl->setVariable("LASTNAME", $member->getLastname());
-			//$this->tpl->setVariable("ANNOUNCEMENT_DATE", "Announcement Date");
-			//$this->tpl->setVariable("ROLENAME", $newObj->getTitle());
-
-			/*$this->tpl->setVariable("LINK_CONTACT", $link_contact);
-			$this->tpl->setVariable("CONTACT", $val_contact);
-			$this->tpl->setVariable("LINK_CHANGE", $link_change);
-			$this->tpl->setVariable("CHANGE", $val_change);
-			$this->tpl->setVariable("LINK_LEAVE", $link_leave);
-			$this->tpl->setVariable("LEAVE", $val_leave);
-			$this->tpl->parseCurrentBlock();
-			// END TABLE MEMBERS
-		}*/
 		$lr_arr = array();
 		$objects = $this->tree->getChilds($this->object->getId(),"title");
 		//var_dump ($objects);
@@ -855,7 +1028,7 @@ class ilObjGroupGUI extends ilObjectGUI
 				//var_dump ($object);
 				if ($object["type"] == "le")// && $rbacsystem->checkAccess('visible',$objects["child"]))
 				{
-					
+
 					$lr_arr[$key] = $object;
 					//var_dump ($lr_arr);
 				}
@@ -864,18 +1037,18 @@ class ilObjGroupGUI extends ilObjectGUI
 		//var_dump ($lr_arr);
 		$maxcount = count($lr_arr);
 		//echo ($maxcount);		// for numinfo in table footer
-		require_once "./include/inc.sort.php";
+		include_once "./include/inc.sort.php";
 		$lr_arr = sortArray($lr_arr,$_GET["sort_by"],$_GET["sort_order"]);
 		//$lr_arr = array_slice($lr_arr,$offset,$limit);
-		
-		
+
+
 			$this->tpl->setCurrentBlock("loheader");
 			$this->tpl->setVariable("TXT_LO_TITLE", $this->lng->txt("lo"));
 			$this->tpl->setVariable("TXT_LO_NAME", $this->lng->txt("name"));
 			$this->tpl->setVariable("TXT_LO_DESC", $this->lng->txt("description"));
 			$this->tpl->setVariable("TXT_LO_OWNER", $this->lng->txt("owner"));
 			$this->tpl->setVariable("TXT_LO_LAST_CHANGE", $this->lng->txt("last_change"));
-		
+
 		//var_dump ($lr_arr);
 		$num = 0;
 		foreach ($lr_arr as $lr_data)
@@ -889,40 +1062,14 @@ class ilObjGroupGUI extends ilObjectGUI
 			//$obj_link = "lo_view.php?lm_id=".$lr_data["ref_id"];
 			$obj_icon = "icon_".$lr_data["type"]."_b.gif";
 
-			//$tpl->setVariable("TITLE", $lr_data["title"]);
-			//$tpl->setVariable("LO_LINK", $obj_link);
-
-			/*if ($lr_data["type"] == "le")		// Test
-			{
-				$tpl->setVariable("EDIT_LINK","content/lm_edit.php?lm_id=".$lr_data["obj_id"]);
-				$tpl->setVariable("TXT_EDIT", "(".$lng->txt("edit").")");
-				$tpl->setVariable("VIEW_LINK","content/lm_presentation.php?lm_id=".$lr_data["obj_id"]);
-				$tpl->setVariable("TXT_VIEW", "(".$lng->txt("view").")");
-			}	*/
-
-			//$tpl->setVariable("IMG", $obj_icon);
-			//$tpl->setVariable("ALT_IMG", $lng->txt("obj_".$lr_data["type"]));
 			$this->tpl->setVariable("LO_DESC", $lr_data["description"]);
 			$this->tpl->setVariable("LO_NAME", $lr_data["title"]);
-			//$tpl->setVariable("LO_OWNER", $lr_data["title"]);
-			//$tpl->setVariable("STATUS", "N/A");
-			//$tpl->setVariable("LAST_VISIT", "N/A");
 			$this->tpl->setVariable("LO_LAST_CHANGE", ilFormat::formatDate($lr_data["last_update"]));
-			//echo (ilObjGroup::getContextPath2($lr_data["ref_id"]));
 			$this->tpl->setVariable("LO_CONTEXTPATH", ilObjGroup::getContextPath2($lr_data["ref_id"]));
 			$this->tpl->parseCurrentBlock("locontent");
-		}	
-		
-	
-		
-		//$this->tpl->parseCurrentBlock();
-
-		//$this->tpl->setCurrentBlock("content");
-		
-		//$this->tpl->show();
-		
+		}
 	}
-	
+
 	/**
 	* paste object from clipboard to current place
 	* TODO an die Besonderheiten der Gruppe (grp_tree) anpassen
@@ -1017,7 +1164,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 				// get node data
 				$top_node = $tree->getNodeData($ref_id);
-			
+
 				// get subnodes of top nodes
 				$subnodes[$ref_id] = $tree->getSubtree($top_node);
 			
@@ -1127,7 +1274,7 @@ class ilObjGroupGUI extends ilObjectGUI
 
 				// get node data
 				$top_node = $tree->getNodeData($ref_id);
-			
+
 				// get subnodes of top nodes
 				$subnodes[$ref_id] = $tree->getSubtree($top_node);
 			}
@@ -1166,7 +1313,7 @@ class ilObjGroupGUI extends ilObjectGUI
 				}
 			}
 		} // END IF 'link & paste'
-				
+
 		// clear clipboard
 		$this->clearObject();
 		
@@ -1175,7 +1322,7 @@ class ilObjGroupGUI extends ilObjectGUI
 		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
-	
+
 	/**
 	* display object list
 	*
