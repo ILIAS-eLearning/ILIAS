@@ -112,6 +112,7 @@ common#:#chapter_title#:#Назва Глави
 common#:#check#:#Перевірити
 common#:#check_langfile#:#Будь ласка перевірте ваш мовний файл
 common#:#check_languages#:#Перевірити Мови
+common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
 common#:#chg_language#:#Змінити Мову
 common#:#chg_password#:#Змінити Пароль
 common#:#choose_language#:#Виберіть Вашу Мову

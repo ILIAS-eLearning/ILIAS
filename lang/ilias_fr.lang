@@ -112,6 +112,7 @@ common#:#chapter_title#:#Titre du chapitre
 common#:#check#:#Vérifier
 common#:#check_langfile#:#Veuillez vérifier votre fichier de langue
 common#:#check_languages#:#Vérifier les langues
+common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
 common#:#chg_language#:#Changer langue
 common#:#chg_password#:#Changer mot de passe
 common#:#choose_language#:#Choisissez votre langue

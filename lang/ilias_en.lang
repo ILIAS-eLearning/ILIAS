@@ -112,6 +112,7 @@ common#:#chapter_title#:#Chapter Title
 common#:#check#:#Check
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check Languages
+common#:#check_max_allowed_packet_size#:#The page content size is too large.
 common#:#chg_language#:#Change Language
 common#:#chg_password#:#Change Password
 common#:#choose_language#:#Choose Your Language
@@ -1799,4 +1800,3 @@ search#:#search_select_one_result#:#Select at least one search result
 search#:#search_select_one_select#:#--Select one folder--
 search#:#search_show_result#:#Show
 search#:#search_user#:#Users
-common#:#check_max_allowed_packet_size#:#The page content size is too large.

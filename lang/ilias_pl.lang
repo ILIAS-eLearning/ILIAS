@@ -33,7 +33,7 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-common#:#3rd_party_software#:#Oprogramowanie innych firm
+common#:#3rd_party_software#:#Oprogramowanie innych firm###09 Jan 2004 content changed
 common#:#absolute_path#:#Ścieżka bezwzględna
 common#:#accept_usr_agreement#:#Akceptujesz warunki uczestnictwa?
 common#:#access#:#Akces
@@ -112,6 +112,7 @@ common#:#chapter_title#:#Tytuł rozdziału
 common#:#check#:#Sprawdź
 common#:#check_langfile#:#Sprawdź swój plik językowy
 common#:#check_languages#:#Sprawdź języki
+common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
 common#:#chg_language#:#Zmień język
 common#:#chg_password#:#Zmień hasło
 common#:#choose_language#:#wybierz swój język

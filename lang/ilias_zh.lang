@@ -129,6 +129,7 @@ common#:#chapter_title#:#章标题
 common#:#check#:#检查
 common#:#check_langfile#:#请检查语言文件
 common#:#check_languages#:#检查语言
+common#:#check_max_allowed_packet_size#:#The page content size is too large.###09 Jan 2004 new variable
 common#:#chg_language#:#更改语言
 common#:#chg_password#:#更改口令
 common#:#choose_language#:#选择语言
