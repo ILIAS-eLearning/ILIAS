@@ -1,9 +1,9 @@
 /**
 * ILIAS language file
 *
-* @module		language file simplified chinese
-* @modulegroup	language
-* @author 		 
+* @modulelanguage file simplied Chinese
+* @modulegrouplanguage
+* @author 范柏泉 (Fan Baiquan) <baiquan.fan@helsinki.fi>
 * @version		$Id$
 */
 
@@ -26,354 +26,370 @@
     | along with this program; if not, write to the Free Software                 |
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
-
+	
+	+-----------------------------------------------------------------------------+
+    | ILIAS open source （开放代码软件）                                           |
+    +-----------------------------------------------------------------------------+
+    | 版权 (c) 1998-2001 ILIAS 开放代码软件，University of Cologne （科隆大学）   |
+    |                                                                             |
+    | 本程序为自由软件；在遵循由自由软件基金会公布的GNU公共版权许可证（GPL）条款下|
+    | （许可证版本2或根据你的需要选择而后的版本），你可以重新分发及修改本软件。   |
+    |                                                                             |
+    | 分发本程序的目的是希望本程序有一定用途，但本程序没有任何担保；甚至没有为达到|
+    | 某种目的的商品性或适切性的暗示间接的担保。详细见GNU公共版权许可证（GPL）。  |
+    |                                                                             |
+    | 同本程序一起你应该已经收到一份GNU公共版权许可证（GPL）的拷贝；如果没有，请写|
+    | 信给自由软件基金会#:#                                                       |
+    | Free Software Foundation, Inc.                                              |
+    | 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.                   |
+    +-----------------------------------------------------------------------------+
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-3rd_party_software#:#3rd Party Software###05 Jan 2004 new variable 
-absolute_path#:#Absolute path###05 Jan 2004 new variable 
-access#:#Access###05 Jan 2004 new variable 
-access_status#:#Access status###05 Jan 2004 new variable 
-admin_login#:#Login as Administrator###05 Jan 2004 new variable 
-available_clients#:#Available Clients###05 Jan 2004 new variable 
-available_languages#:#available languages###05 Jan 2004 new variable 
-back#:#back###05 Jan 2004 new variable 
-cannot_create_datadir_no_write_access#:#No write access. Cannot create data directory###05 Jan 2004 new variable 
-change#:#change###05 Jan 2004 new variable 
-change_basic_settings#:#Change basic settings###05 Jan 2004 new variable 
-change_password#:#Change password###05 Jan 2004 new variable 
-change_sort_direction#:#Change sort direction###05 Jan 2004 new variable 
-check_failed_convert#:#Testing convert failed###05 Jan 2004 new variable 
-check_failed_htmldoc#:#Testing HTMLdoc failed###05 Jan 2004 new variable 
-check_failed_java#:#Testing java failed###05 Jan 2004 new variable 
-check_failed_unzip#:#Testing unzip failed###05 Jan 2004 new variable 
-check_failed_zip#:#Testing zip failed###05 Jan 2004 new variable 
-choose_language#:#choose your language###05 Jan 2004 new variable 
-choose_languages#:#Please choose additional languages and/or remove selected languages.###05 Jan 2004 new variable
-choose_password#:#Please choose a password###05 Jan 2004 new variable 
-city#:#City###05 Jan 2004 new variable 
-client#:#Client###05 Jan 2004 new variable 
-client_access_mode_changed#:#Client's access mode changed###05 Jan 2004 new variable 
-client_data#:#Client Information###05 Jan 2004 new variable 
-client_id#:#Client ID###05 Jan 2004 new variable 
-client_info#:#Description###05 Jan 2004 new variable 
-client_institution#:#Institution###05 Jan 2004 new variable 
-client_login#:#Login with your Client ID###05 Jan 2004 new variable 
-client_name#:#Name###05 Jan 2004 new variable 
-client_setup_not_finished#:#Client setup is not finished yet###05 Jan 2004 new variable 
-contact#:#Contact Information###05 Jan 2004 new variable 
-contact_data#:#Contact Information###05 Jan 2004 new variable 
-convert_path#:#Path to Convert###05 Jan 2004 new variable 
-convert_path_comment#:#required for displaying thumbnails of images###05 Jan 2004 new variable 
-could_not_create_logfile#:#Could not create logfile###05 Jan 2004 new variable 
-country#:#Country###05 Jan 2004 new variable 
-create#:#create###05 Jan 2004 new variable 
-create_datadir_failed#:#Creation of data directory failed###05 Jan 2004 new variable 
-create_new_client#:#Create new client###05 Jan 2004 new variable 
-create_webdir_failed#:#Creation of web directory failed###05 Jan 2004 new variable 
-data_path#:#data path###05 Jan 2004 new variable 
-database#:#database###05 Jan 2004 new variable 
-database_create#:#Create database###05 Jan 2004 new variable 
-database_exists#:#database exists###05 Jan 2004 new variable 
-database_install#:#Install database###05 Jan 2004 new variable 
-database_installed#:#Database installed###05 Jan 2004 new variable 
-database_is_uptodate#:#Your database is up-to-date###05 Jan 2004 new variable 
-database_needs_update#:#Your database needs an update###05 Jan 2004 new variable 
-database_not_exists_create_first#:#Database does not exists. Please create database first.###05 Jan 2004 new variable 
-database_ready#:#database is ready.###05 Jan 2004 new variable 
-database_update#:#update database###05 Jan 2004 new variable 
-database_version#:#current database version###05 Jan 2004 new variable 
-datadir_path#:#Path to Data Directory###05 Jan 2004 new variable 
-datadir_path_comment1#:#Mandatory###05 Jan 2004 new variable 
-datadir_path_comment2#:#cannot be changed in this setup version###05 Jan 2004 new variable 
-datadir_webspacedir_match#:#The path to your data directory points to the same directory where your webspace directory is located. Please choose another directory.###05 Jan 2004 new variable 
-date#:#date###05 Jan 2004 new variable 
-db_conn#:#Database connection###05 Jan 2004 new variable 
-db_host#:#database host###05 Jan 2004 new variable 
-db_name#:#database name###05 Jan 2004 new variable 
-db_needs_update#:#Database needs update###05 Jan 2004 new variable 
-db_pass#:#database password###05 Jan 2004 new variable 
-db_type#:#database type###05 Jan 2004 new variable 
-db_user#:#database user###05 Jan 2004 new variable 
-db_version#:#database version###05 Jan 2004 new variable 
-default#:#default###05 Jan 2004 new variable 
-default_client_changed#:#Changed default client###05 Jan 2004 new variable 
-default_language#:#Default language###05 Jan 2004 new variable 
-delete#:#delete###05 Jan 2004 new variable 
-delete_confirm#:#Confirm client deletion###05 Jan 2004 new variable 
-delete_info#:#Are you sure?###05 Jan 2004 new variable 
-details#:#Details###05 Jan 2004 new variable 
-dir_exists_create#:#Directory already exists. uncheck 'create' to select this directory as your data directory###05 Jan 2004 new variable 
-disable#:#disable###05 Jan 2004 new variable 
-disable_check#:#disable check###05 Jan 2004 new variable 
-disable_logging#:#disable logging###05 Jan 2004 new variable 
-disabled#:#disabled###05 Jan 2004 new variable 
-display_clientlist#:#Display client selection###05 Jan 2004 new variable 
-email#:#Email###05 Jan 2004 new variable 
-email_not_valid#:#Invalid email address###05 Jan 2004 new variable 
-en_by_default#:#(English is installed by default and cannot be deleted).###05 Jan 2004 new variable 
-enable#:#enable###05 Jan 2004 new variable 
-enabled#:#enabled###05 Jan 2004 new variable 
-enter_password#:#Please enter password###05 Jan 2004 new variable 
-env_ok#:#Ok. Sounds good.###05 Jan 2004 new variable 
-env_using#:#ILIAS 3 will be running on###05 Jan 2004 new variable 
-env_warning#:#ILIAS 3 was only tested on Linux and Windows using Apache web server!<br />However, ILIAS 3 may work with your environment too.###05 Jan 2004 new variable 
-environment#:#Environment###05 Jan 2004 new variable 
-err_create_database_failed#:#creation of database failed###05 Jan 2004 new variable 
-err_wrong_login#:#Wrong login###05 Jan 2004 new variable 
-error_recipient#:#Error recipient###05 Jan 2004 new variable 
-feedback_recipient#:#Feedback recipient###05 Jan 2004 new variable 
-file_does_not_exist#:#File does not exist.###05 Jan 2004 new variable 
-file_version#:#file version###05 Jan 2004 new variable 
-fill_both_fields#:#Please fill out both fields!###05 Jan 2004 new variable 
-fill_out_required_fields#:#Please fill out all fields marked as required.###05 Jan 2004 new variable 
-filled_out#:#filled out correctly###05 Jan 2004 new variable 
-finish#:#Finish setup###05 Jan 2004 new variable 
-finish_initial_setup_first#:#Please finish intial setup first###05 Jan 2004 new variable 
-finish_setup#:#Finishing setup###05 Jan 2004 new variable 
-firstname#:#Firstname###05 Jan 2004 new variable 
-hide_clientlist#:#Hide client selection###05 Jan 2004 new variable 
-host#:#Host###05 Jan 2004 new variable 
-htmldoc_path#:#Path to HTMLdoc###05 Jan 2004 new variable 
-htmldoc_path_comment#:#required to generate PDF billings (Paymentsystem)###05 Jan 2004 new variable 
-http_path#:#HTTP path###05 Jan 2004 new variable 
-id#:#ID###05 Jan 2004 new variable 
-ilias_homepage#:#ILIAS Homepage###05 Jan 2004 new variable 
-ilias_nic#:#NIC Registration###05 Jan 2004 new variable 
-ilias_nic_id#:#NIC ID###05 Jan 2004 new variable 
-ilias_setup#:#ILIAS3 setup###05 Jan 2004 new variable 
-ilias_version#:#ILIAS version###05 Jan 2004 new variable 
-info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. The fields marked with an asteriks must be filled out. All informationen are stored in your database. On the next screen you may register your installation at our ILIAS-NIC server, whereby this data are transmitted to this server.###05 Jan 2004 new variable 
-info_text_db#:#The database doesn't exists or is empty. Click the button below to install your database. If a database with the chosen name doesn't exists yet, please check the option 'create database'. Setup then attempts to create your database automatically. If creation should fail, (e.g. due to restricted access permissions) please contact the responsible systemadministrator of the database server and ask him to create you a database with desired name in advanced.###05 Jan 2004 new variable 
-info_text_delete#:#You may delete this client by clicking on the delete button below. However, only your client.ini file is removed, keeping all files stored in clients data directories and the database. Files and database have to be removed manually by the system's administrator.###05 Jan 2004 new variable 
-info_text_finish1#:#Congratulations! Your client setup were successful. Click on 'Login' to enter your ILIAS installation.###05 Jan 2004 new variable 
-info_text_finish2#:#Some settings are still missing or incorrect. Please look at the process chart what has to be done!###05 Jan 2004 new variable 
-info_text_first_client#:#Your basic settings have been saved. Now we will setup your first client. Setup will guide you through the installation process. On the panel to the right you can always see the current status of the installation process.###05 Jan 2004 new variable 
-info_text_first_install#:#It seems that you install ILIAS3 for the very first time, because no ilias.ini was found. In ilias.ini we store a master password to protect ILIAS setup from unauthorized access.###05 Jan 2004 new variable 
-info_text_ini#:#Please choose a client ID. Allowed are any letter (execpt umlauts) and number. The client ID must be in one word.<br/>Next you enter your database connection data. Setup establishes a test connection to verify your settings and to test if the already database exists. If not, you may prompt Setup in the next installation step to create the database for you.###05 Jan 2004 new variable 
-info_text_lang#:#Please choose additional languages and/or remove selected languages. The default language specified the language for new user accounts or users which haven't selected a prefered language yet.###05 Jan 2004 new variable 
-info_text_list#:#In this overview you see all available clients and there setup and access status. On the top right you may toggle the client selection screen on/off. If client selection is on, all available clients that are online will be displayed in a list on the start page of ILIAS. If client selection is turned off and a user hit the startpage, always the login screen of the <i>default</i> client is displayed. You may determine the default client with the button below.###05 Jan 2004 new variable 
-info_text_login#:#Please enter the Client ID of your Installation and your account data. Your account has to be assigned to the 'administrator'-role.###05 Jan 2004 new variable 
-info_text_nic1#:#Obtain an installation id (nic-id) from our ILIAS server. A unique nic-id is required if you want to share content with other ILIAS installations. Registration is voluntary. If you don't want to register select 'skip registration' (You may register later at any time).<br/> We recommend to use the online registration. If you have problems to get connected (e.g. you are behind a firewall) you may alternatively obtain a nic-id via email: Please send an###05 Jan 2004 new variable 
-info_text_nic2#:#with your installation infos to ilias-info@uni-koeln.de. Enter the nic-id you will receive in an response email into the appropiate field and select 'register via Email'.###05 Jan 2004 new variable 
-info_text_nic3#:#You registered your installation. Your nic-id is###05 Jan 2004 new variable 
-info_text_password#:#Here you may change the master password for the setup programm.###05 Jan 2004 new variable 
-info_text_pathes#:#ILIAS3 supports multiple clients with different databases. Below you enter the base data directory, log file location and the pathes to 3rd party programs. These settings are valid for all clients you create later on.###05 Jan 2004 new variable 
-ini_client_id_exists#:#A client with that ID already exists! Please choose another client ID.###05 Jan 2004 new variable 
-ini_client_id_invalid#:#The client ID you entered contains invalid characers###05 Jan 2004 new variable 
-ini_client_id_no_change#:#Client Id cannot be changed in this version after client directories has been created successfully.###05 Jan 2004 new variable 
-ini_client_id_too_long#:#Client Id too long###05 Jan 2004 new variable 
-ini_client_id_too_short#:#Client ID too short###05 Jan 2004 new variable 
-ini_db_name_exists#:#already exists! Please choose another database name###05 Jan 2004 new variable 
-ini_no_client_id#:#No client ID given.###05 Jan 2004 new variable 
-ini_no_db_host#:#No hostname###05 Jan 2004 new variable 
-ini_no_db_name#:#no database name###05 Jan 2004 new variable 
-ini_no_db_user#:#No database username###05 Jan 2004 new variable 
-inifile#:#ini-file###05 Jan 2004 new variable 
-inifile_can_write#:#ILIAS 3 setup can write your ini-file.###05 Jan 2004 new variable 
-inifile_cannot_write#:#ILIAS 3 setup cannot write your ini-file. Please check write permissions first.###05 Jan 2004 new variable 
-inifile_content#:#Your ini-file has this content:###05 Jan 2004 new variable 
-inifile_exists#:#An ini-file exists. Note that this Installation process deletes previous settings.###05 Jan 2004 new variable 
-inifile_fill_all#:#Please fill out all fields.###05 Jan 2004 new variable 
-inifile_firsttime#:#No ini-file present! It seems this is the first start of ILIAS 3.###05 Jan 2004 new variable 
-inifile_written#:#The ini-file has been successfully saved on your host.###05 Jan 2004 new variable 
-input_error#:#Input error###05 Jan 2004 new variable 
-inst_identification#:#Installation Identification###05 Jan 2004 new variable 
-inst_name#:#installation name###05 Jan 2004 new variable 
-install#:#install###05 Jan 2004 new variable 
-installation#:#Installation###05 Jan 2004 new variable 
-installed#:#installed###05 Jan 2004 new variable 
-institution#:#Institution###05 Jan 2004 new variable 
-intro_install#:#This is the main page of ILIAS 3 setup. From here you can step through the installation.###05 Jan 2004 new variable 
-ip_address#:#IP address###05 Jan 2004 new variable 
-java_path#:#Path to Java###05 Jan 2004 new variable 
-java_path_comment#:#required for SCORM Learning modules###05 Jan 2004 new variable 
-lang_de#:#German###05 Jan 2004 new variable 
-lang_dk#:#Danish###05 Jan 2004 new variable 
-lang_en#:#English###05 Jan 2004 new variable 
-lang_error_occurred#:#Encountered an error. Action aborted.###05 Jan 2004 new variable 
-lang_es#:#Spanish###05 Jan 2004 new variable 
-lang_fr#:#French###05 Jan 2004 new variable 
-lang_id#:#Indonesian###05 Jan 2004 new variable 
-lang_it#:#Italian###05 Jan 2004 new variable 
-lang_lt#:#Lithuanian###05 Jan 2004 new variable 
-lang_min_one_language#:#You must install at least one language!###05 Jan 2004 new variable 
-lang_nl#:#Dutch###05 Jan 2004 new variable 
-lang_no#:#Norwegisch###05 Jan 2004 new variable 
-lang_none_installed#:#No language installed###05 Jan 2004 new variable 
-lang_not_installed_default#:#The language you selected as defualt language is not installed!###05 Jan 2004 new variable 
-lang_pl#:#Polish###05 Jan 2004 new variable 
-lang_se#:#Swedish###05 Jan 2004 new variable 
-lang_ua#:#Ukrainian###15 Jan 2004 new variable
-lang_xx#:#Custom###05 Jan 2004 new variable 
-lang_zh#:#Chinese###05 Jan 2004 new variable 
-langs_not_valid_not_installed#:#Following languages were not installed due to invalid language files###05 Jan 2004 new variable 
-language#:#language###05 Jan 2004 new variable 
-languages#:#languages###05 Jan 2004 new variable 
-languages_installed#:#Language(s) installed###05 Jan 2004 new variable 
-lastname#:#Lastname###05 Jan 2004 new variable 
-list#:#list###05 Jan 2004 new variable 
-list_disabled#:#Client selection disabled###05 Jan 2004 new variable 
-list_enabled#:#Client selection enabled###05 Jan 2004 new variable 
-log_path#:#Path to Logfile###05 Jan 2004 new variable 
-log_path_comment#:#enter with filename. File will be created.###05 Jan 2004 new variable 
-logged_out#:#You logged out.###05 Jan 2004 new variable 
-logging#:#Logging###05 Jan 2004 new variable 
-login#:#login###05 Jan 2004 new variable 
-login_invalid#:#Login invalid###05 Jan 2004 new variable 
-login_to_ilias#:#login to ILIAS###05 Jan 2004 new variable 
-logout#:#logout###05 Jan 2004 new variable 
-main_datadir_outside_webspace#:#Main data directory outside webspace###05 Jan 2004 new variable 
-missing_data#:#Missing data###05 Jan 2004 new variable 
-name#:#Name###05 Jan 2004 new variable 
-new#:#new###05 Jan 2004 new variable 
-next#:#Next###05 Jan 2004 new variable 
-nic_not_disabled#:#No NIC-ID & not disabled###05 Jan 2004 new variable 
-nic_reg_disable#:#skip NIC registration###05 Jan 2004 new variable 
-nic_reg_disable_comment#:#(register later)###05 Jan 2004 new variable 
-nic_reg_disabled#:#NIC registration disabled###05 Jan 2004 new variable 
-nic_reg_email#:#register via Email###05 Jan 2004 new variable 
-nic_reg_enabled#:#NIC registration enabled!###05 Jan 2004 new variable 
-nic_reg_enter_checksum#:#Enter sent checksum###05 Jan 2004 new variable 
-nic_reg_enter_correct_id#:#Please enter correct nic_id###05 Jan 2004 new variable 
-nic_reg_enter_id#:#Enter sent NIC ID###05 Jan 2004 new variable 
-nic_reg_failed#:#NIC registration failed###05 Jan 2004 new variable 
-nic_reg_online#:#register online###05 Jan 2004 new variable 
-nic_registration#:#NIC Registration###05 Jan 2004 new variable 
-no_changes#:#No changes.###05 Jan 2004 new variable 
-no_client_id#:#No Client ID given###05 Jan 2004 new variable 
-no_client_name#:#NO CLIENT NAME###05 Jan 2004 new variable 
-no_clients_available#:#No Clients available###05 Jan 2004 new variable 
-no_database#:#No database###05 Jan 2004 new variable 
-no_db_connect_consult_admin#:#Could not connect to database. Please consult the system administrator###05 Jan 2004 new variable 
-no_db_update_file#:#dbupdate.php not found!###05 Jan 2004 new variable 
-no_password#:#No password given###05 Jan 2004 new variable 
-no_path_convert#:#No convert path given###05 Jan 2004 new variable 
-no_path_datadir#:#No data directory given###05 Jan 2004 new variable 
-no_path_given#:#No path given###05 Jan 2004 new variable 
-no_path_htmldoc#:#No HTMLdoc path given###05 Jan 2004 new variable 
-no_path_java#:#No java path given###05 Jan 2004 new variable 
-no_path_log#:#No log path given###05 Jan 2004 new variable 
-no_path_unzip#:#No unzip path given###05 Jan 2004 new variable 
-no_path_zip#:#No zip path given###05 Jan 2004 new variable 
-no_setup_pass_given#:#No setup password given###05 Jan 2004 new variable 
-no_username#:#No username given###05 Jan 2004 new variable 
-no_valid_client_id#:#No valid client ID###05 Jan 2004 new variable 
-not_connected_to_db#:#You are not connected to database###05 Jan 2004 new variable 
-online#:#online###05 Jan 2004 new variable 
-or#:#or###05 Jan 2004 new variable 
-out_of_webspace#:#(out of webspace)###05 Jan 2004 new variable 
-overall_status#:#Overall status###05 Jan 2004 new variable 
-overview#:#Overview###05 Jan 2004 new variable 
-pass_does_not_match#:#Entered passwords does not match###05 Jan 2004 new variable 
-password#:#password###05 Jan 2004 new variable 
-password_changed#:#Password changed.###05 Jan 2004 new variable 
-password_empty#:#No password given!###05 Jan 2004 new variable 
-password_enter_old#:#You must enter your old password first!###05 Jan 2004 new variable 
-password_info#:#To protect your configuration data from unauthorized access please enter a password to change these settings later again.###05 Jan 2004 new variable 
-password_new_master#:#Set new master password###05 Jan 2004 new variable 
-password_not_match#:#New Password entered does not match!###05 Jan 2004 new variable 
-password_old_wrong#:#Old password entered is wrong!###05 Jan 2004 new variable 
-password_retype#:#Retype new password###05 Jan 2004 new variable 
-password_same#:#Old and new password are the same!###05 Jan 2004 new variable 
-password_set#:#Password saved###05 Jan 2004 new variable 
-path_not_set#:#Path not set###05 Jan 2004 new variable 
-path_to_convert#:#Path to Convert###05 Jan 2004 new variable 
-path_to_htmldoc#:#Path to HTMLdoc###05 Jan 2004 new variable 
-path_to_java#:#Path to Java###05 Jan 2004 new variable 
-path_to_unzip#:#Path to Unzip###05 Jan 2004 new variable 
-path_to_zip#:#Path to Zip###05 Jan 2004 new variable 
-pathes#:#Pathes###05 Jan 2004 new variable 
-phone#:#Phone###05 Jan 2004 new variable 
-port#:#port###05 Jan 2004 new variable 
-position#:#Position###05 Jan 2004 new variable 
-pre_cookies_disabled#:#Cookies are disabled. Cookies are required to use ILIAS 3.###05 Jan 2004 new variable 
-pre_cookies_enabled#:#Cookies enabled###05 Jan 2004 new variable 
-pre_error#:#One or two things failed. Please correct the problems first or you cannot setup ILIAS 3.###05 Jan 2004 new variable 
-pre_folder_create#:#New folders creatable in ILIAS 3 folder###05 Jan 2004 new variable 
-pre_folder_create_error#:#Cannot create subfolders! Please check your permission settings in your filesystem!###05 Jan 2004 new variable 
-pre_folder_write#:#Writable ILIAS 3 folder###05 Jan 2004 new variable 
-pre_folder_write_error#:#Cannot write in ILIAS 3 folder! Please check your permission settings in your filesystem!###05 Jan 2004 new variable 
-pre_intro#:#Let us first see, if your environment meets all requirements to install and run ILIAS3 on your system.###05 Jan 2004 new variable 
-pre_javascript_comment#:#You may run ILIAS without Javascript but you will miss some interface features.###05 Jan 2004 new variable 
-pre_javascript_enabled#:#Javascript enabled###05 Jan 2004 new variable 
-pre_php_version#:#PHP version###05 Jan 2004 new variable 
-pre_php_version_3#:#Your PHP version is much too old for using ILIAS 3! Please upgrade PHP.###05 Jan 2004 new variable 
-pre_php_version_4.1#:#PEAR classes won't work properly with this version! Please upgrade PHP.###05 Jan 2004 new variable 
-pre_php_version_4.2#:#DOMXML and XSLT support won't work properly with this version!###05 Jan 2004 new variable 
-pre_php_version_5#:#ILIAS 3 has not been tested with PHP 5 yet. Use with own risk.###05 Jan 2004 new variable 
-pre_php_version_unknown#:#ILIAS setup don't know this version. Use with own risk!###05 Jan 2004 new variable 
-preliminaries#:#Preliminaries###05 Jan 2004 new variable 
-prev#:#Previous###05 Jan 2004 new variable 
-required_field#:#required fields###05 Jan 2004 new variable 
-reset#:#Reset###05 Jan 2004 new variable 
-root_access#:#root access###05 Jan 2004 new variable 
-safe_mode_enabled#:#Safe mode is enabled!###05 Jan 2004 new variable 
-save#:#Save###05 Jan 2004 new variable 
-save_error#:#Save Error!###05 Jan 2004 new variable 
-saved_successfully#:#Saved successfully###05 Jan 2004 new variable 
-select_client#:#Select a Client###05 Jan 2004 new variable 
-server_info#:#Server Information###05 Jan 2004 new variable 
-server_software#:#Server software###05 Jan 2004 new variable 
-set_default_client#:#Set Default Client###05 Jan 2004 new variable 
-set_newpasswd#:#Please enter new password###05 Jan 2004 new variable 
-set_oldpasswd#:#Please enter old password###05 Jan 2004 new variable 
-settings_changed#:#Settings changed###05 Jan 2004 new variable 
-settings_saved#:#Settings saved###05 Jan 2004 new variable 
-setup#:#setup###05 Jan 2004 new variable 
-setup_basic_settings#:#Setup basic settings###05 Jan 2004 new variable 
-setup_contact_data#:#Setup Contact Information###05 Jan 2004 new variable 
-setup_database#:#setup database###05 Jan 2004 new variable 
-setup_database_desc#:#setup the database###05 Jan 2004 new variable 
-setup_db_first#:#Please setup your database first!###05 Jan 2004 new variable 
-setup_finished#:#Setup finished###05 Jan 2004 new variable 
-setup_first_client#:#Setup your first Client###05 Jan 2004 new variable 
-setup_ini_first#:#Please create your ini-file first!###05 Jan 2004 new variable 
-setup_inifile#:#create ini-file###05 Jan 2004 new variable 
-setup_inifile_desc#:#create the ini-file for your installion###05 Jan 2004 new variable 
-setup_languages#:#install languages###05 Jan 2004 new variable 
-setup_languages_desc#:#install additional languages###05 Jan 2004 new variable 
-setup_login#:#Login to Setup###05 Jan 2004 new variable 
-setup_mainmenu#:#Setup mainmenu###05 Jan 2004 new variable 
-setup_menu#:#setup menu###05 Jan 2004 new variable 
-setup_nic_desc#:#registration of your installation at ILIAS-NIC-Server###05 Jan 2004 new variable 
-setup_not_finished#:#Setup not finished###05 Jan 2004 new variable 
-setup_pass#:#Password###05 Jan 2004 new variable 
-setup_pass2#:#Retype password###05 Jan 2004 new variable 
-setup_pass_title#:#Set master password###05 Jan 2004 new variable 
-setup_password#:#create password###05 Jan 2004 new variable 
-setup_password_desc#:#create a password to access the setup-routine later on (i.e. to update your database)###05 Jan 2004 new variable 
-setup_process_status#:#Setup Process Status###05 Jan 2004 new variable 
-setup_process_step_contact#:#Enter contact information###05 Jan 2004 new variable 
-setup_process_step_db#:#Install/Update database###05 Jan 2004 new variable 
-setup_process_step_finish#:#Finish installation###05 Jan 2004 new variable 
-setup_process_step_ini#:#Setup basic data###05 Jan 2004 new variable 
-setup_process_step_lang#:#Install system languages###05 Jan 2004 new variable 
-setup_process_step_nic#:#Register at ILIAS-NIC###05 Jan 2004 new variable 
-setup_ready#:#Setup is ready. you may now proceed with the login and check further system settings.###05 Jan 2004 new variable 
-setup_welcome#:#Welcome to ILIAS 3 setup. This setup-routine helps you to###05 Jan 2004 new variable 
-sort_by_this_column#:#Sort by this column###05 Jan 2004 new variable 
-status#:#Status###05 Jan 2004 new variable 
-step#:#Step###05 Jan 2004 new variable 
-street#:#Street###05 Jan 2004 new variable 
-submit#:#Submit###05 Jan 2004 new variable 
-title#:#Title###05 Jan 2004 new variable 
-unknown_client_id#:#Unknown Client###05 Jan 2004 new variable 
-unknown_command#:#Unknown command###05 Jan 2004 new variable 
-unknown_display_mode#:#Unknown display mode###05 Jan 2004 new variable 
-unzip_path#:#Path to Unzip###05 Jan 2004 new variable 
-unzip_path_comment#:#required for importing learning modules###05 Jan 2004 new variable 
-update_applied#:#Update applied###05 Jan 2004 new variable 
-update_error#:#Error while updating###05 Jan 2004 new variable 
-update_not_found#:#Update not found!###05 Jan 2004 new variable 
-username#:#username###05 Jan 2004 new variable 
-version#:#Version###05 Jan 2004 new variable 
-webspace_dir#:#webspace data path###05 Jan 2004 new variable 
-with#:#with###05 Jan 2004 new variable 
-wrong_password#:#Wrong password!###05 Jan 2004 new variable 
-zip_path#:#Path to Zip###05 Jan 2004 new variable 
-zip_path_comment#:#required for exporting learning modules###05 Jan 2004 new variable 
-zipcode#:#Zipcode###05 Jan 2004 new variable
+3rd_party_software#:#第三方软件 
+absolute_path#:#绝对路径 
+access#:#访问 
+access_status#:#访问状态 
+admin_login#:#管理员登录e 
+available_clients#:#可用客户 
+available_languages#:#可用语言 
+back#:#返回 
+cannot_create_datadir_no_write_access#:#无写访问。不能创建数据目录 
+change#:#更改 
+change_basic_settings#:#更改基本设置 
+change_password#:#更改口令 
+change_sort_direction#:#更改排序方向 
+check_failed_convert#:#转换测试失败 
+check_failed_htmldoc#:#HTMLdoc测试失败de 
+check_failed_java#:#Java测试失败 
+check_failed_unzip#:#unzip测试失败 
+check_failed_zip#:#zip测试失败 
+choose_language#:#选择语言 
+choose_languages#:#请选择其它语言及删除已选择的语言。
+choose_password#:#请选择口令
+city#:#城市
+client#:#客户
+client_access_mode_changed#:#客户访问方式已更改 
+client_data#:#客户信息 
+client_id#:#客户身份
+client_info#:#描述 
+client_institution#:#单位
+client_login#:#登录客户身份
+client_name#:#姓名 
+client_setup_not_finished#:#客户安装尚未完成 
+contact#:#联系信息 
+contact_data#:#联系信息 
+convert_path#:#转换路径 
+convert_path_comment#:#用于显示图象略图 
+could_not_create_logfile#:#不能创建日志文件
+country#:#国家
+create#:#创建 
+create_datadir_failed#:#创建数据目录失败 
+create_new_client#:#创建新客户 
+create_webdir_failed#:#创建web目录失败 
+data_path#:#数据路径
+database#:#数据库 
+database_create#:#创建数据库 
+database_exists#:#数据库存在 
+database_install#:#安装数据库 
+database_installed#:#数据库已安装 
+database_is_uptodate#:#数据库是已更新的
+database_needs_update#:#数据库需要更新 
+database_not_exists_create_first#:#数据库不存在。请先创建数据库。
+database_ready#:#数据库已准备完毕。 
+database_update#:#更新数据库 
+database_version#:#当前数据库版本 
+datadir_path#:#数据目录路径 
+datadir_path_comment1#:#强制的 
+datadir_path_comment2#:#在此安装版本中不能更改
+datadir_webspacedir_match#:#数据目录路径指向web空间目录。请选择其它目录。
+date#:#日期 
+db_conn#:#数据库连接
+db_host#:#数据库主机 
+db_name#:#数据库名称 
+db_needs_update#:#数据库需要更新
+db_pass#:#数据库口令
+db_type#:#数据库类型 
+db_user#:#数据库用户
+db_version#:#数据库版本
+default#:#缺省 
+default_client_changed#:#已更改的缺省客户
+default_language#:#缺省语言
+delete#:#删除 
+delete_confirm#:#确认客户删除 
+delete_info#:#您肯定吗？ 
+details#:#详细情况 
+dir_exists_create#:#目录已存在。取消”创建“选择此目录作为数据目录
+disable#:# 禁止 
+disable_check#:# 禁止选择 
+disable_logging#:# 禁止日志 
+disabled#:#已禁止
+display_clientlist#:#显示客户选择 
+email#:#电子邮件 
+email_not_valid#:#无效电子邮件地址 
+en_by_default#:#（英语为缺省安装，不能删除）。 
+enable#:#激活 
+enabled#:#已激活 
+enter_password#:#请输入口令
+env_ok#:#好，看起来不错。 
+env_using#:#ILIAS 3将运行于 
+env_warning#:#ILIAS 3只在Linux和Windows上使用web服务器Apache测试过！<br />然而，ILIAS 3也可以在于您自己的环境下运行。
+environment#:#环境 
+err_create_database_failed#:#数据库创建失败 
+err_wrong_login#:#错误登录 
+error_recipient#:#错误收件人 
+feedback_recipient#:#反馈收件人 
+file_does_not_exist#:#文件不存在。
+file_version#:#文件版本 
+fill_both_fields#:#请填充这两个域！
+fill_out_required_fields#:#请填充标记为必添项的全部域。 
+filled_out#:#已正确填充 
+finish#:#完成安装 
+finish_initial_setup_first#:#请先完成初始安装 
+finish_setup#:#正在完成安装
+firstname#:#名 
+hide_clientlist#:#隐藏客户选择
+host#:#主机 
+htmldoc_path#:#到HTMLdoc的路径 
+htmldoc_path_comment#:#用于生成PDF帐单（付账系统） 
+http_path#:#HTTP路径 
+id#:#身份 
+ilias_homepage#:#ILIAS主页
+ilias_nic#:#NIC注册 
+ilias_nic_id#:#NIC身份 
+ilias_setup#:#ILIAS3安装 
+ilias_version#:#ILIAS版本 
+info_text_contact#:#这里您要指明其他客户信息及其系统管理员的联系资料。必须填充带星号的域。全部信息都将存于数据库。在下一屏中，您可以在ILIAS-NIC服务器中注册您的安装，这些资料将传送到此服务器中。
+info_text_db#:#数据库不存在或空。点击下面按钮安装数据库。如果具有已选名称的数据库尚未存在，请选择”创建数据库“。安装程序将自动创建数据库。如果创建失败（例如由于访问许可的限制），请联系负责数据库服务器的系统管理员，请求他先为您创建一个具有所要求名称的数据库。###05 Jan 2004 new variable 
+info_text_delete#:#您可以点击下面的删除按钮伤处此客户。但是只是删除您的client.ini文件，而全部存于客户数据目录和数据库中的文件不变。这些文件和数据库需要由系统管理员手工删除。
+info_text_finish1#:#祝贺您，！客户安装成功！点击”登录“进入您的ILIAS安装程序。
+info_text_finish2#:#一些设置还缺少或不正确。请参见步骤表看还需要做什么！
+info_text_first_client#:#基本设置已存。现在我们将安装您的第一位客户。安装程序将引导您安装过程。在右边的面板上总是显示安装过程的当前状态。 
+info_text_first_install#:#看起来您是第一次安装ILIAS3，因为未发现ilias.ini文件。在ilias.ini文件中存有主口令保护ILIAS安装被未授权访问。
+info_text_ini#:#请选择客户身份。允许任何字符（变音字符除外）和数字。客户身份必须为一个词。<br/>下一步要输入数据库连接信息。安装程序建立一个测试连接验证您的设置并测试数据库是否存在。如果数据库不存在，您可以在下一个安装步骤中提示安装程序创建数据库。
+info_text_lang#:#请选择其它语言及删除选择的语言。缺省语言被设定为新用户账号或尚未选择优先语言用户账号的语言。 
+info_text_list#:#在此概观中，您可以看见全部可用客户及其安装访问状态。在右上边，您可以将客户选择屏幕转换为开或关。如果客户选择为开，则全部在线可用客户将显示在ILIAS首页。如果客户选择为关并且用户点击首页，则总是显示<i>缺省</i>客户的登录屏。您可以用下面的按钮确定缺省客户。
+info_text_login#:#请输入安装客户身份及账号信息。您的账号必须设为”administrator“角色。 
+info_text_nic1#:#从我们的ILIA服务器中获得安装身份（nic-id）。如果您要同其它ILIAS安装共享内容，需要唯一的nic-id。注册是自愿的。如果您不想注册，请选择”跳过注册“（您可以以后任何时间注册）。<br/> 我们建议使用在线注册。如果连接有问题（例如您在防火墙后），您可以另外通过电子邮件获取nic-id：请发邮件给ilias-info@uni-koeln.de， 
+info_text_nic2#:#并附上您的安装信息。将您从收到回信中的nic-id输入到相应的域中并选择”通过电子邮件注册“。 
+info_text_nic3#:#您已注册安装。您的nic-id是
+info_text_password#:#在这里您可以更改安装程序的主口令。
+info_text_pathes#:#ILIAS3支持具有不同数据库的多客户。在下面输入基本数据目录、日志文件位置和第三方程序路径。这些设置对所有您以后创建的客户有效。
+ini_client_id_exists#:#具有此身份的客户已存在！请选择其它客户身份。 
+ini_client_id_invalid#:#您输入的客户身份包含非法字符 
+ini_client_id_no_change#:#在此版本中当客户目录成功创建后，客户身份不能更改。
+ini_client_id_too_long#:#客户身份过长 
+ini_client_id_too_short#:#客户身份过短 
+ini_db_name_exists#:#已存在！请选择其它数据库名称
+ini_no_client_id#:#未给定身份 
+ini_no_db_host#:#无主机名 
+ini_no_db_name#:#无数据库名称
+ini_no_db_user#:#无数据库用户名
+inifile#:#ini文件 
+inifile_can_write#:#ILIAS 3安装程序可以写ini文件。
+inifile_cannot_write#:#ILIAS 3安装程序不能写ini文件。请先检查写许可。 
+inifile_content#:#ini文件具有内容： 
+inifile_exists#:#存在一个ini文件。注意此安装过程将删除以前的设置。
+inifile_fill_all#:#请填充全部域。 
+inifile_firsttime#:#无ini文件！看起来这是第一次启动ILIAS 3。 
+inifile_written#:#ini文件已经成功保存到主机。
+input_error#:#输入错误 
+inst_identification#:#安装证明 
+inst_name#:#安装名称 
+install#:#安装 
+installation#:#安装 
+installed#:#已安装
+institution#:#单位 
+intro_install#:#这是ILIAS 3安装程序主页。从这里可以一步步进行安装。
+ip_address#:#IP地址
+java_path#:#Java路径 
+java_path_comment#:#用于SCORM学习模块 
+lang_de#:#德语 
+lang_dk#:#丹麦语
+lang_en#:#英语 
+lang_error_occurred#:#遇到错误。操作失败。 
+lang_es#:#西班牙语 
+lang_fr#:#法语 
+lang_id#:#印度尼西亚语 
+lang_it#:#意大利语 
+lang_lt#:#立陶宛语 
+lang_min_one_language#:#必须至少安装一种语言。 
+lang_nl#:#荷兰语 
+lang_no#:#挪威语 
+lang_none_installed#:#未安装语言 
+lang_not_installed_default#:#您选择的缺省语言未安装！
+lang_pl#:#波兰语 
+lang_se#:#瑞典语 
+lang_ua#:#乌克兰语
+lang_xx#:#自定义
+lang_zh#:#汉语 
+langs_not_valid_not_installed#:#因为无效语言文件，下列语言未安装
+language#:#语言
+languages#:#语言 
+languages_installed#:#已安装的语言 
+lastname#:#姓 
+list#:#列表 
+list_disabled#:#禁止客户选择
+list_enabled#:#激活客户选择 
+log_path#:#日志文件路径 
+log_path_comment#:#输入文件名，创建文件。 
+logged_out#:#您已注销 
+logging#:#登录 
+login#:#登录 
+login_invalid#:#登录无效 
+login_to_ilias#:#登录到ILIAS 
+logout#:#注销 
+main_datadir_outside_webspace#:#web空间外的主数据目录 
+missing_data#:#缺失数据 
+name#:#名称 
+new#:#新的 
+next#:#下一个
+nic_not_disabled#:#无NIC-ID及未被禁止 
+nic_reg_disable#:#跳过NIC注册
+nic_reg_disable_comment#:#（以后注册）
+nic_reg_disabled#:#禁止NIC注册
+nic_reg_email#:#通过电子邮件注册 
+nic_reg_enabled#:#激活NIC注册！ 
+nic_reg_enter_checksum#:#输入发送校验和
+nic_reg_enter_correct_id#:#请输入正确的nic_id 
+nic_reg_enter_id#:#输入发送的NIC身份 
+nic_reg_failed#:#NIC注册失败
+nic_reg_online#:#在线注册 
+nic_registration#:#NIC注册 
+no_changes#:#无更改。
+no_client_id#:#未给定客户身份
+no_client_name#:#无客户名 
+no_clients_available#:#无可用客户 
+no_database#:#无数据库 
+no_db_connect_consult_admin#:#不能连接到数据库。请向系统管理员咨询 
+no_db_update_file#:#未找到dbupdate.php！ 
+no_password#:#未给定口令 
+no_path_convert#:#未给定转换路径
+no_path_datadir#:#未给定数据目录 
+no_path_given#:#未给定路径 
+no_path_htmldoc#:#未给定HTMLdoc路径 
+no_path_java#:#未给定java路径 
+no_path_log#:#未给定日志路径 
+no_path_unzip#:#未给定unzip路径 
+no_path_zip#:#未给定zip路径
+no_setup_pass_given#:#未给定安装程序口令 
+no_username#:#未给定用户名 
+no_valid_client_id#:#无有效客户身份
+not_connected_to_db#:#未连接到数据库 
+online#:#在线e 
+or#:#或 
+out_of_webspace#:#（无web空间） 
+overall_status#:#整体状态 
+overview#:#概观 
+pass_does_not_match#:#输入的口令不匹配 
+password#:#口令 
+password_changed#:#口令已更改 
+password_empty#:#未给定口令！ 
+password_enter_old#:#必须先输入旧口令！ 
+password_info#:#为保护配置信息免于未授权访问，请以后更改这些设置。
+password_new_master#:#设定新的主口令 
+password_not_match#:#输入的新口令不匹配！ 
+password_old_wrong#:#输入的旧口令错误！ 
+password_retype#:#重复输入新口令！
+password_same#:#新旧口令相同！ 
+password_set#:#口令已存 
+path_not_set#:#未设定路径 
+path_to_convert#:#转换路径！ 
+path_to_htmldoc#:#HTMLdoc路径 
+path_to_java#:#Java路径 
+path_to_unzip#:#Unzip路径 
+path_to_zip#:#Zip路径 
+pathes#:#路径 
+phone#:#电话 
+port#:#端口
+position#:#位置 
+pre_cookies_disabled#:#禁止Cookies。ILIAS 3需要使用Cookies。
+pre_cookies_enabled#:#激活Cookies 
+pre_error#:#有一两件事失败了。请先解决问题，否则不能安装ILIAS 3。 
+pre_folder_create#:#可以在ILIAS 3文件夹中创建新文件夹
+pre_folder_create_error#:#不能创建子文件夹！请检查文件系统的许可设置！
+pre_folder_write#:#可写ILIAS 3文件夹 
+pre_folder_write_error#:#不能在ILIAS 3文件夹中写！请检查文件系统的许可设置！
+pre_intro#:#先检查环境是否满足安装要求，然后在系统上运行ILIAS3 
+pre_javascript_comment#:#可以无Javascript运行ILIAS，但将缺少一些界面特色
+pre_javascript_enabled#:#激活Javascript 
+pre_php_version#:#PHP版本 
+pre_php_version_3#:#对于ILIAS 3，PHP版本太老！
+pre_php_version_4.1#:#此版本PEAR类不能正常工作！请升级PHP。
+pre_php_version_4.2#:#此版本DOMXML和XSLT支持不能正常工作！
+pre_php_version_5#:#ILIAS 3尚未用PHP 5测试。如若使用，责任自负。
+pre_php_version_unknown#:#ILIAS安装程序不知此版本。如若使用，责任自负。
+preliminaries#:#预备 
+prev#:#前一个
+required_field#:#必添域 
+reset#:#重置 
+root_access#:#根访问 
+safe_mode_enabled#:#激活安全模式！ 
+save#:#保存 
+save_error#:#存错误 
+saved_successfully#:#成功保存！ 
+select_client#:#选择一个客户
+server_info#:#服务器信息！ 
+server_software#:#服务器软件
+set_default_client#:#设定缺省客户 
+set_newpasswd#:#请输入新口令 
+set_oldpasswd#:#请输入旧口令 
+settings_changed#:#设置已更改
+settings_saved#:#设置已保存 
+setup#:#安装程序 
+setup_basic_settings#:#安装基本设置 
+setup_contact_data#:#安装联系信息
+setup_database#:#安装数据库 
+setup_database_desc#:#安装数据库 
+setup_db_first#:#请先安装数据库 
+setup_finished#:#安装结束 
+setup_first_client#:#安装第一位客户 
+setup_ini_first#:#请先创建ini文件！ 
+setup_inifile#:#创建ini文件
+setup_inifile_desc#:#创建安装用ini文件 
+setup_languages#:#安装语言
+setup_languages_desc#:#安装其它语言 
+setup_login#:#登录安装程序 
+setup_mainmenu#:#安装主菜单 
+setup_menu#:#安装菜单 
+setup_nic_desc#:#在ILIAS-NIC服务器注册安装 
+setup_not_finished#:#安装未完成 
+setup_pass#:#口令 
+setup_pass2#:#重复输入口令 
+setup_pass_title#:#设定主口令 
+setup_password#:#创建口令 
+setup_password_desc#:#创建口令供以后访问安装程序（即升级数据库）
+setup_process_status#:#安装过程状态 
+setup_process_step_contact#:#输入联系信息 
+setup_process_step_db#:#安装/升级数据库e 
+setup_process_step_finish#:#完成安装 
+setup_process_step_ini#:#安装基本信息 
+setup_process_step_lang#:#安装系统语言
+setup_process_step_nic#:#在ILIAS-NIC上注册 
+setup_ready#:#安装完成。可以登录进一步检查系统设置。
+setup_welcome#:#欢迎使用ILIAS 3安装程序。此安装程序将帮助您
+sort_by_this_column#:#根据此列排序 
+status#:#状态 
+step#:#步骤
+street#:#街 
+submit#:#提交 
+title#:#标题 
+unknown_client_id#:#未知客户 
+unknown_command#:#未知命令 
+unknown_display_mode#:#未知显示模式
+unzip_path#:#Unzip路径 
+unzip_path_comment#:#用于导入学习模块 
+update_applied#:#使更新 
+update_error#:#更新错误
+update_not_found#:#未发现更新 
+username#:#用户名 
+version#:#版本 
+webspace_dir#:#web空间数据路径 
+with#:#同 
+wrong_password#:#错误口令！ 
+zip_path#:#Zip路径
+zip_path_comment#:#用于导出学习模块
+zipcode#:#邮政编码
