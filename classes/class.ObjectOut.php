@@ -780,6 +780,27 @@ class ObjectOut
 						$this->tpl->touchBlock("end_link");
 					}
 
+			// TODO: this loop is for marking objects 'cut' or 'copied'.
+			// the array structure if clipboard must be change!!! 
+					if (isset($_SESSION["clipboard"]))
+					{
+						foreach ($_SESSION["clipboard"] as $clip_id => $clip)
+						{
+							if ($ctrl["ref_id"] == $clip_id)
+							{
+								if ($clip["cmd"]["cut"] and $key == "title")
+								{
+									$val = "<del>".$val."</del>";
+								}
+								
+								if ($clip["cmd"]["copy"] and $key == "title")
+								{
+									$val = "<font color=\"green\">+</font>  ".$val;
+								}
+							}
+						}
+					}
+
 					$this->tpl->setCurrentBlock("text");
 					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();

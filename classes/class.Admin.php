@@ -204,8 +204,8 @@ class Admin
 		foreach ($a_post_data as $ref_id)
 		{
 			//$tree->saveSubTree($ref_id);
-			$clipboard[$id]["parent"] = $a_obj_id;
-			$clipboard[$id]["cmd"] = $a_post_cmd;
+			$clipboard[$ref_id]["parent"] = $a_obj_id;
+			$clipboard[$ref_id]["cmd"] = $a_post_cmd;
 		}
 
 		$_SESSION["clipboard"] = $clipboard;
