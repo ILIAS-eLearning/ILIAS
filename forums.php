@@ -10,8 +10,6 @@
 require_once "./include/inc.header.php";
 require_once "classes/class.Forum.php";
 
-//$_SESSION["backurl"] = "forums";
-
 $frm = new Forum();
 
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums.html");
