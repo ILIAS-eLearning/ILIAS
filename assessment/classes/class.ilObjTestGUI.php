@@ -496,6 +496,9 @@ class ilObjTestGUI extends ilObjectGUI
 	function editMetaObject() {
 	}
 	
+	function takenObject() {
+	}
+	
 	function marksObject() {
     $add_parameter = $this->get_add_parameter();
 

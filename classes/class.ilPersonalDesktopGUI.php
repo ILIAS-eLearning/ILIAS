@@ -505,6 +505,11 @@ class ilPersonalDesktopGUI
 			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
 			$this->tpl->setVariable("TXT_NO_TST", $this->lng->txt("no_tst_in_personal_list"));
 			$this->tpl->parseCurrentBlock();
+		} else {
+			$this->tpl->setCurrentBlock("tbl_no_tst");
+			$this->tpl->setVariable("ROWCOL","tblrow".(($i % 2)+1));
+			$this->tpl->setVariable("TXT_NO_TST", "<br /><a href=\"assessment/tests_taken.php\" class=\"submit\">" . $this->lng->txt("tst_already_taken") . "</a><br />&nbsp;");
+			$this->tpl->parseCurrentBlock();
 		}
 
 		$this->tpl->setCurrentBlock("tbl_tst");
