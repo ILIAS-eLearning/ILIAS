@@ -130,6 +130,90 @@ class ASS_MatchingQuestion extends ASS_Question
 	}
 
 	/**
+	* Imports a question from XML
+	*
+	* Sets the attributes of the question from the XML text passed
+	* as argument
+	*
+	* @access public
+	*/
+	function from_xml($xml_text)
+	{
+		if (!empty($this->domxml))
+		{
+			$this->domxml->free();
+		}
+		$xml_text = preg_replace("/>\s*?</", "><", $xml_text);
+		$this->domxml = domxml_open_mem($xml_text);
+		$root = $this->domxml->document_element();
+		$item = $root->first_child();
+		$this->setTitle($item->get_attribute("title"));
+		$this->gaps = array();
+		$comment = $item->first_child();
+		if (strcmp($comment->node_name(), "qticomment") == 0)
+		{
+			$this->setComment($comment->get_content());
+		}
+		$itemnodes = $item->child_nodes();
+		$materials = array();
+		$shuffle = "";
+		foreach ($itemnodes as $index => $node)
+		{
+			switch ($node->node_name())
+			{
+				case "presentation":
+					$flow = $node->first_child();
+					$flownodes = $flow->child_nodes();
+					foreach ($flownodes as $idx => $flownode)
+					{
+						if (strcmp($flownode->node_name(), "material") == 0)
+						{
+							$mattext = $flownode->first_child();
+							$this->set_question($mattext->get_content());
+						}
+						elseif (strcmp($flownode->node_name(), "response_grp") == 0)
+						{
+							$ident = $flownode->get_attribute("ident");
+							if (strcmp($ident, "MQT") == 0)
+							{
+								$this->set_matching_type(MT_TERMS_DEFINITIONS);
+							}
+							elseif (strcmp($ident, "MQP") == 0)
+							{
+								$this->set_matching_type(MT_TERMS_PICTURES);
+							}
+							$render_choice = $flownode->first_child();
+							if (strcmp($render_choice->node_name(), "render_choice") == 0)
+							{
+								$shuffle = $render_choice->get_attribute("shuffle");
+								$labels = $render_choice->child_nodes();
+								foreach ($labels as $lidx => $response_label)
+								{
+									$material = $response_label->first_child();
+									$mattext = $material->first_child();
+									$materials[$response_label->get_attribute("ident")] = $mattext->get_content();
+								}
+							}
+						}
+					}
+					break;
+				case "resprocessing":
+					$resproc_nodes = $node->child_nodes();
+					foreach ($resproc_nodes as $index => $respcondition)
+					{
+						if (strcmp($respcondition->node_name(), "respcondition") == 0)
+						{
+							$respcondition_array =& ilQTIUtils::_getRespcondition($respcondition);
+							$pair = split(",", $respcondition_array["conditionvar"]["value"]);
+							$this->add_matchingpair($materials[$pair[0]], $materials[$pair[1]], $respcondition_array["setvar"]["points"], $pair[0], $pair[1]);
+						}
+					}
+					break;
+			}
+		}
+	}
+
+	/**
 	* Returns a QTI xml representation of the question
 	*
 	* Returns a QTI xml representation of the question and sets the internal
@@ -214,7 +298,7 @@ class ASS_MatchingQuestion extends ASS_Question
 		$matchingtext_orders = array();
 		foreach ($this->matchingpairs as $index => $matchingpair)
 		{
-			array_push($matchingtext_orders, $matchingpair->get_matchingtext_order());
+			array_push($matchingtext_orders, $matchingpair->get_order());
 		}
 
 		// shuffle it
@@ -230,7 +314,7 @@ class ASS_MatchingQuestion extends ASS_Question
 			$matchingpair = $this->matchingpairs[$index];
 
 			$qtiResponseLabel = $this->domxml->create_element("response_label");
-			$qtiResponseLabel->set_attribute("ident", $matchingpair->get_order());
+			$qtiResponseLabel->set_attribute("ident", $matchingpair->get_matchingtext_order());
 			$qtiResponseLabel->set_attribute("match_max", "1");
 			$qtiResponseLabel->set_attribute("match_group", join($matchingtext_orders, ","));
 			$qtiMaterial = $this->domxml->create_element("material");
@@ -238,9 +322,9 @@ class ASS_MatchingQuestion extends ASS_Question
 			{
 				$qtiMatImage = $this->domxml->create_element("matimage");
 				$qtiMatImage->set_attribute("imagtype", "image/jpeg");
-				$qtiMatImage->set_attribute("label", $matchingpair->get_answertext());
+				$qtiMatImage->set_attribute("label", $matchingpair->get_matchingtext());
 				$qtiMatImage->set_attribute("embedded", "base64");
-				$imagepath = $this->getImagePath() . $matchingpair->get_answertext();
+				$imagepath = $this->getImagePath() . $matchingpair->get_matchingtext();
 				$fh = @fopen($imagepath, "rb");
 				if ($fh == false)
 				{
@@ -271,10 +355,10 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			$matchingpair = $this->matchingpairs[$index];
 			$qtiResponseLabel = $this->domxml->create_element("response_label");
-			$qtiResponseLabel->set_attribute("ident", $matchingpair->get_matchingtext_order());
+			$qtiResponseLabel->set_attribute("ident", $matchingpair->get_order());
 			$qtiMaterial = $this->domxml->create_element("material");
 			$qtiMatText = $this->domxml->create_element("mattext");
-			$qtiMatTextText = $this->domxml->create_text_node($matchingpair->get_matchingtext());
+			$qtiMatTextText = $this->domxml->create_text_node($matchingpair->get_answertext());
 			$qtiMatText->append_child($qtiMatTextText);
 			$qtiMaterial->append_child($qtiMatText);
 			$qtiResponseLabel->append_child($qtiMaterial);
@@ -394,18 +478,18 @@ class ASS_MatchingQuestion extends ASS_Question
 			$question_type = 4;
 			$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
 			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, obj_fi, title, comment, author, owner, question_text, working_time, matching_type, points, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$db->quote($question_type),
-				$db->quote($this->obj_id),
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->owner),
-				$db->quote($this->question),
-				$db->quote($estw_time),
-				$db->quote($this->matching_type),
-				$db->quote($this->points),
-				$db->quote("$complete"),
-				$db->quote($created),
+				$db->quote($question_type. ""),
+				$db->quote($this->obj_id. ""),
+				$db->quote($this->title. ""),
+				$db->quote($this->comment. ""),
+				$db->quote($this->author. ""),
+				$db->quote($this->owner. ""),
+				$db->quote($this->question. ""),
+				$db->quote($estw_time. ""),
+				$db->quote($this->matching_type. ""),
+				$db->quote($this->points. ""),
+				$db->quote($complete. ""),
+				$db->quote($created. ""),
 				$original_id
 			);
 
@@ -428,15 +512,15 @@ class ASS_MatchingQuestion extends ASS_Question
 		{
 			// Vorhandenen Datensatz aktualisieren
 			$query = sprintf("UPDATE qpl_questions SET title = %s, comment = %s, author = %s, question_text = %s, working_time=%s, matching_type = %s, points = %s, complete = %s WHERE question_id = %s",
-				$db->quote($this->title),
-				$db->quote($this->comment),
-				$db->quote($this->author),
-				$db->quote($this->question),
-				$db->quote($estw_time),
-				$db->quote($this->matching_type),
-				$db->quote($this->points),
-				$db->quote("$complete"),
-				$db->quote($this->id)
+				$db->quote($this->title. ""),
+				$db->quote($this->comment. ""),
+				$db->quote($this->author. ""),
+				$db->quote($this->question. ""),
+				$db->quote($estw_time. ""),
+				$db->quote($this->matching_type. ""),
+				$db->quote($this->points. ""),
+				$db->quote($complete. ""),
+				$db->quote($this->id. "")
 			);
 			$result = $db->query($query);
 		}

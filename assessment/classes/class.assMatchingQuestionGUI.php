@@ -91,7 +91,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function editQuestion()
+	function editQuestion($has_error = 0)
 	{
 		$this->getQuestionTemplate("qt_matching");
 		$this->tpl->addBlockFile("QUESTION_DATA", "question_data", "tpl.il_as_qpl_matching.html", true);
@@ -102,87 +102,87 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		{
 			$this->tpl->setCurrentBlock("deletebutton");
 			$this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
-			$this->tpl->setVariable("A_ANSWER_ORDER", $i);
+			$this->tpl->setVariable("ANSWER_ORDER", $i);
 			$this->tpl->parseCurrentBlock();
 			$thispair = $this->object->get_matchingpair($i);
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 			{
 				$this->tpl->setCurrentBlock("pictures");
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
-				$this->tpl->setVariable("ANSWER_ID", $thispair->get_order());
-				$filename = $thispair->get_answertext();
+				$this->tpl->setVariable("PICTURE_ID", $thispair->get_matchingtext_order());
+				$filename = $thispair->get_matchingtext();
 				if ($filename)
 				{
 					//$this->tpl->setVariable("UPLOADED_IMAGE", $thispair->get_matchingtext());
-					$imagepath = $this->object->getImagePathWeb() . $thispair->get_answertext();
+					$imagepath = $this->object->getImagePathWeb() . $thispair->get_matchingtext();
 					$this->tpl->setVariable("UPLOADED_IMAGE", "<img src=\"$imagepath.thumb.jpg\" alt=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" title=\"" . $this->lng->txt("qpl_display_fullsize_image") . "\" border=\"\" />");
-					$this->tpl->setVariable("IMAGE_FILENAME", $thispair->get_answertext());
-					$this->tpl->setVariable("VALUE_LEFT", $thispair->get_answertext());
+					$this->tpl->setVariable("IMAGE_FILENAME", $thispair->get_matchingtext());
+					$this->tpl->setVariable("VALUE_PICTURE", $thispair->get_matchingtext());
 				}
 				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 			}
 			elseif ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
 			{
 				$this->tpl->setCurrentBlock("definitions");
-				$this->tpl->setVariable("ANSWER_ID", $thispair->get_order());
-				$this->tpl->setVariable("VALUE_LEFT", $thispair->get_answertext());
 				$this->tpl->setVariable("ANSWER_ORDER", $i);
-
-				//$this->tpl->setVariable("A_ANSWER_ORDER", $i);
-				//$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
-				//$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
+				$this->tpl->setVariable("DEFINITION_ID", $thispair->get_matchingtext_order());
+				$this->tpl->setVariable("VALUE_DEFINITION", $thispair->get_matchingtext());
 			}
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("answers");
 			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $i + 1);
-			//$this->tpl->setVariable("ANSWER_ID", $thispair->get_order());
-			$pair = "#pair_" . $thispair->get_order();
-			$this->tpl->setVariable("A_ANSWER_ORDER", $i);
-			$this->tpl->setVariable("A_MATCHING_ID", $thispair->get_matchingtext_order());
-			$this->tpl->setVariable("A_VALUE_RIGHT", $thispair->get_matchingtext());
-			//$this->tpl->setVariable("VALUE_LEFT", $thispair->get_answertext());
-			//$this->tpl->setVariable("ANSWER_ORDER", $i);
-			//$this->tpl->setVariable("VALUE_RIGHT", $thispair->get_matchingtext());
 			$this->tpl->setVariable("TEXT_MATCHING_PAIR", $this->lng->txt("matching_pair"));
 			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
+			$this->tpl->setVariable("ANSWER_ORDER", $i);
+			$this->tpl->setVariable("TERM_ID", $thispair->get_order());
+			$this->tpl->setVariable("VALUE_TERM", $thispair->get_answertext());
 			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-			$this->tpl->setVariable("VALUE_MATCHING_POINTS", sprintf("%d", $thispair->get_points()));
-			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", $thispair->get_points()));
 			$this->tpl->parseCurrentBlock();
 		}
 		// call to other question data i.e. material, estimated working time block
 		$this->outOtherQuestionData();
 
-		if ($this->ctrl->getCmd() == "addPair")
+		// Check the creation of new answer text fields
+		$allow_add_pair = 1;
+		foreach ($_POST as $key => $value)
 		{
-			// Template f�r neue Antwort erzeugen
+			if (preg_match("/(term|picture|definition)_(\d+)_(\d+)/", $key, $matches))
+			{
+				if (!$value)
+				{
+					$allow_add_pair = 0;
+					sendInfo($this->lng->txt("fill_out_all_matching_pairs"));
+				}
+			}
+		}
+		if (($this->ctrl->getCmd() == "addPair") and $allow_add_pair and (!$has_error))
+		{
+			// Template für neue Antwort erzeugen
 			if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 			{
 				$this->tpl->setCurrentBlock("pictures");
-				$this->tpl->setVariable("A_ANSWER_ORDER", $this->object->get_matchingpair_count());
-				$this->tpl->setVariable("A_MATCHING_ID", $this->object->get_random_id("matching"));
-				$this->tpl->setVariable("A_VALUE_RIGHT", "");
+				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
+				$this->tpl->setVariable("PICTURE_ID", $this->object->get_random_id("matching"));
+				$this->tpl->setVariable("VALUE_PICTURE", "");
 				$this->tpl->setVariable("UPLOAD", $this->lng->txt("upload"));
 			}
 			elseif ($this->object->get_matching_type() == MT_TERMS_DEFINITIONS)
 			{
 				$this->tpl->setCurrentBlock("definitions");
-				$this->tpl->setVariable("A_ANSWER_ORDER", $this->object->get_matchingpair_count());
-				$this->tpl->setVariable("A_MATCHING_ID", $this->object->get_random_id("matching"));
-				$this->tpl->setVariable("A_VALUE_RIGHT", "");
+				$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
+				$this->tpl->setVariable("DEFINITION_ID", $this->object->get_random_id("matching"));
+				$this->tpl->setVariable("VALUE_DEFINITION", "");
 			}
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("answers");
-			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_matchingpair_count() + 1);
-			$id = $this->object->get_random_id("answer");
-			$this->tpl->setVariable("ANSWER_ID", $id);
-			$pair = "#pair_$id";
-			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
-			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
-			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
-			$this->tpl->setVariable("VALUE_MATCHING_POINTS", sprintf("%d", 0));
 			$this->tpl->setVariable("TEXT_MATCHING_PAIR", $this->lng->txt("matching_pair"));
-			$this->tpl->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+			$this->tpl->setVariable("VALUE_ANSWER_COUNTER", $this->object->get_matchingpair_count() + 1);
+			$this->tpl->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
+			$this->tpl->setVariable("ANSWER_ORDER", $this->object->get_matchingpair_count());
+			$this->tpl->setVariable("TERM_ID", $this->object->get_random_id("answer"));
+			$this->tpl->setVariable("TEXT_POINTS", $this->lng->txt("points"));
+			$this->tpl->setVariable("VALUE_MATCHINGPAIR_POINTS", sprintf("%d", 0));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -286,20 +286,8 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	*/
 	function addPair()
 	{
-		// Check the creation of new answer text fields
-		foreach ($_POST as $key => $value)
-		{
-			if ((preg_match("/left_(\d+)_(\d+)/", $key, $matches)) or (preg_match("/right_(\d+)_(\d+)/", $key, $matches)))
-			{
-				if (!$value)
-				{
-					$_POST["cmd"]["add"] = "";
-					sendInfo($this->lng->txt("fill_out_all_matching_pairs"));
-				}
-			}
-		}
-		$this->writePostData();
-		$this->editQuestion();
+		$result = $this->writePostData();
+		$this->editQuestion($result);
 	}
 
 	/**
@@ -348,7 +336,7 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			$result = 1;
 		}
 
-		if (($result) and ($_POST["cmd"]["add"]))
+		if (($result) and ($_POST["cmd"]["addPair"]))
 		{
 			// You cannot add matching pairs before you enter the required data
 			sendInfo($this->lng->txt("fill_out_all_required_fields_add_matching"));
@@ -370,26 +358,35 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 		// Add all answers from the form into the object
 		foreach ($_POST as $key => $value)
 		{
-			if (preg_match("/left_(\d+)_(\d+)/", $key, $matches))
+			$matching_text = "";
+			if (preg_match("/term_(\d+)_(\d+)/", $key, $matches))
 			{
+				// find out random id for term
 				foreach ($_POST as $key2 => $value2)
 				{
-					if (preg_match("/right_$matches[1]_(\d+)/", $key2, $matches2))
+					if (preg_match("/(definition|picture)_$matches[1]_(\d+)/", $key2, $matches2))
 					{
-						$matchingtext_id = $matches2[1];
+						$matchingtext_id = $matches2[2];
+						if (strcmp($matches2[1], "definition") == 0)
+						{
+							$matching_text = $_POST["definition_$matches[1]_$matches2[2]"];
+						}
+						else
+						{
+							$matching_text = $_POST["picture_$matches[1]_$matches2[2]"];
+						}
 					}
 				}
+				
+				// save picture file if matching terms and pictures
 				if ($this->object->get_matching_type() == MT_TERMS_PICTURES)
 				{
 					foreach ($_FILES as $key2 => $value2)
 					{
-//echo "<br>FILE_".$key2."_".$value2["tmp_name"];
-						if (preg_match("/left_$matches[1]_(\d+)/", $key2, $matches2))
+						if (preg_match("/picture_$matches[1]_(\d+)/", $key2, $matches2))
 						{
-//echo "<br>YES:".$matches[1].", $key2";
 							if ($value2["tmp_name"])
 							{
-//echo "<br>GO!";
 								// upload the matching picture
 								if ($this->object->getId() <= 0)
 								{
@@ -398,15 +395,15 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 									sendInfo($this->lng->txt("question_saved_for_upload"));
 								}
 								$this->object->set_image_file($value2['name'], $value2['tmp_name']);
-								$_POST["left_$matches[1]_".$matches2[1]] = $value2['name'];
-//echo "<br>left_$matches[1]_".$matches2[1]." = ".$value2['name'];
+								$_POST["picture_$matches[1]_".$matches2[1]] = $value2['name'];
+								$matching_text = $value2['name'];
 							}
 						}
 					}
 				}
 				$this->object->add_matchingpair(
 					ilUtil::stripSlashes($_POST["$key"]),
-					ilUtil::stripSlashes($_POST["right_$matches[1]_$matchingtext_id"]),
+					ilUtil::stripSlashes($matching_text),
 					ilUtil::stripSlashes($_POST["points_$matches[1]"]),
 					ilUtil::stripSlashes($matches[2]),
 					ilUtil::stripSlashes($matchingtext_id)

@@ -63,6 +63,11 @@ class ilQTIUtils
 						$respident = $operation->get_attribute("respident");
 						$value = $operation->get_content();
 					}
+					elseif (strcmp($operation->node_name(), "varsubset") == 0)
+					{
+						$respident = $operation->get_attribute("respident");
+						$value = $operation->get_content();
+					}
 					$result["conditionvar"]["selected"] = $selected;
 					$result["conditionvar"]["respident"] = $respident;
 					$result["conditionvar"]["value"] = $value;					
