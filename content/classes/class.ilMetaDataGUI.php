@@ -99,12 +99,12 @@ class ilMetaDataGUI
 		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
 		$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", true);
 		$this->tpl->setVariable("SEL_NAME", "language");
-		$lngcodes = ilMetaData::getLanguageCodes();
-		foreach($lngcodes as $lngcode)
+		$languages = ilMetaData::getLanguages();
+		foreach($languages as $code => $language)
 		{
 			$this->tpl->setCurrentBlock("lg_option");
-			$this->tpl->setVariable("VAL_LG", $lngcode);
-			$this->tpl->setVariable("TXT_LG", $this->lng->txt("meta_c_".$lngcode));
+			$this->tpl->setVariable("VAL_LG", $code);
+			$this->tpl->setVariable("TXT_LG", $language);
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setCurrentBlock("adm_content");
