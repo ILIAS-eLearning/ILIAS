@@ -176,6 +176,20 @@ class Forum
 	}
 	
 	
+	function getOnePost($post)
+	{				
+		$q = "SELECT frm_posts.*, usr_data.surname FROM frm_posts, usr_data WHERE ";		
+		$q .= "pos_pk = '".$post."' AND ";
+		$q .= "pos_usr_id = usr_id";		
+
+		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
+					
+		$result["pos_date"] = $this->convertDate($result["pos_date"]);
+					
+		return $result;
+	}
+	
+	
 	/**
 	* generate new dataset in frm_posts
 	* @param	int	$topic
@@ -186,6 +200,7 @@ class Forum
 	*/
 	function generatePost($obj_id, $parent_id, $topic, $thread, $user, $message, $parent_pos=0, $firstPos="no")
 	{		
+		global $rbacreview;
 		
 		$pos_data = array(
             "pos_top_fk"   	=> $topic,
@@ -229,6 +244,7 @@ class Forum
         $q .= "WHERE top_pk = '" . $topic . "'";
         $result = $this->ilias->db->query($q);
 		
+		/*
 		// Moderatoren informieren
 		$a_user_id = $this->ilias->account->data["usr_id"]; //eingelogter Session-User
 		$userData = $this->getModerator($a_user_id);
@@ -236,22 +252,24 @@ class Forum
 		$this->setWhereCondition("top_pk = ".$topic);
 		$topicData = $this->getOneTopic();	
 		
-		if ($topicData["top_mods"] != "")
+		if ($topicData["top_mods"] > 0)
 		{
-			$MODS = explode("#", $topicData["top_mods"]);
+			$MODS = $rbacreview->assignedUsers($topicData["top_mods"]);			
+			
 			for ($i = 0; $i < count($MODS); $i++)
 			{
 				$modData = $this->getModerator($MODS[$i]);	// Moderator-User
 				
 				if ($modData["email"] != "")
 				{
-					$m = "New Message from: ".$userData["Email"]."\n";
+					$m = "New Article from: ".$userData["Email"]."\n";
 					$m .= "Message-ID: ".$lastInsert[0]."\n";
 					
-					mail($modData["Email"], "New Message in Forum", $m, "From:".$userData["Email"]);
+					mail($modData["Email"], "New Article in Forum", $m, "From:".$userData["Email"]);
 				}
 			}
 		}	
+		*/
 		
 		return 	$lastInsert[0];
 		
@@ -320,8 +338,9 @@ class Forum
 		$q = "SELECT frm_posts.*, usr_data.surname FROM frm_posts, usr_data WHERE ";
 		$q .= "pos_top_fk ='".$topic."' AND ";
 		$q .= "pos_thr_fk ='".$thread."' AND ";
-		$q .= "pos_usr_id = usr_id ";
-		$q .= "ORDER BY ".$this->orderField;	
+		$q .= "pos_usr_id = usr_id";
+		if ($this->orderField != "")
+			$q .= " ORDER BY ".$this->orderField;
 		
 		$res = $this->ilias->db->query($q);			
 		
@@ -366,22 +385,7 @@ class Forum
 				
 		
 		return $result;
-	}
-	
-	
-	function getOnePost($post)
-	{				
-		$q = "SELECT frm_posts.*, usr_data.surname FROM frm_posts, usr_data WHERE ";		
-		$q .= "pos_pk = '".$post."' AND ";
-		$q .= "pos_usr_id = usr_id";		
-
-		$result = $this->ilias->db->getRow($q, DB_FETCHMODE_ASSOC);
-					
-		$result["pos_date"] = $this->convertDate($result["pos_date"]);
-					
-		return $result;
-	}
-	
+	}	
 	
 	
 	function getModerator($mod_user_id)
@@ -390,6 +394,26 @@ class Forum
 		
 		return $moderator->data;
 	}
+	
+	
+	function checkEditRight($post_id)
+	{
+		global $rbacsystem;		
+				
+		$q = "SELECT * FROM frm_posts WHERE ";
+		$q .= "pos_usr_id ='".$_SESSION["AccountId"]."' ";
+		$q .= "AND pos_pk ='".$post_id."'";
+				
+		$res = $this->ilias->db->query($q);			
+		
+		if ($res->numRows() > 0) 
+			return true;
+		elseif ($rbacsystem->checkAccess("edit post", $_GET["obj_id"], $_GET["parent"]))
+			return true;		
+		else
+			return false;
+	}
+	
 	
 	
 	function countUserArticles($user)
