@@ -4634,3 +4634,26 @@ REPLACE INTO settings (keyword, value) VALUES ('require_email', '1');
 REPLACE INTO settings (keyword, value) VALUES ('require_hobby', '');
 REPLACE INTO settings (keyword, value) VALUES ('require_default_role', '1');
 REPLACE INTO settings (keyword, value) VALUES ('require_referral_comment', '');
+<#289>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#290>
+CREATE TABLE `payment_prices` (
+`price_id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
+`pobject_id` INT( 11 ) NOT NULL ,
+`duration` INT( 4 ) NOT NULL ,
+`currency` INT( 4 ) NOT NULL ,
+`unit_value` INT( 6 ) DEFAULT '0',
+`sub_unit_value` INT( 3 ) DEFAULT '0',
+PRIMARY KEY ( `price_id` )
+);
+<#291>
+CREATE TABLE `payment_currencies` (
+  `currency_id` int(3) NOT NULL default '0',
+  `unit` char(32) NOT NULL default '',
+  `subunit` char(32) NOT NULL default '',
+  PRIMARY KEY  (`currency_id`)
+) TYPE=MyISAM;
+<#292>
+INSERT INTO `payment_currencies` VALUES (1, 'euro', 'cent');

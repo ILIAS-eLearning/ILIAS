@@ -52,8 +52,10 @@ class ilPaymentObject
 		$this->STATUS_NOT_BUYABLE = 2;
 		$this->STATUS_EXPIRES = 3;
 
+		$this->PAY_METHOD_NOT_SPECIFIED = 0;
 		$this->PAY_METHOD_BILL = 1;
 		$this->PAY_METHOD_BMF = 2;
+		
 
 		$this->pobject_id = $a_pobject_id;
 		$this->__read();
@@ -102,7 +104,7 @@ class ilPaymentObject
 	function add()
 	{
 		$query = "INSERT INTO payment_objects ".
-			"VALUES('','".$this->getPobjectId()."','".
+			"VALUES('','".
 			$this->getRefId()."','".
 			$this->getStatus()."',' ".
 			$this->getPayMethod()."',' ".
@@ -134,7 +136,8 @@ class ilPaymentObject
 			"SET ref_id = '".$this->getRefId()."', ".
 			"status = '".$this->getStatus()."', ".
 			"pay_method = '".$this->getPayMethod()."', ".
-			"vendor_id = '".$this->getVendorId()."'";
+			"vendor_id = '".$this->getVendorId()."' ".
+			"WHERE pobject_id = '".$this->getPobjectId()."'";
 
 		$this->db->query($query);
 
@@ -190,9 +193,11 @@ class ilPaymentObject
 	{
 		global $ilDB;
 
+		// In the moment it's not possible to sell one object twice
 		$query = "SELECT * FROM payment_objects ".
-			"WHERE ref_id = '".$a_ref_id."' ".
-			"AND status = '1' OR status = '3' ";
+			"WHERE ref_id = '".$a_ref_id."'";
+
+		#"AND status = '1' OR status = '3' ";
 		
 		$res = $ilDB->query($query);
 
@@ -202,7 +207,7 @@ class ilPaymentObject
 	// PRIVATE
 	function __read()
 	{
-		if($this->getRefId())
+		if($this->getPobjectId())
 		{
 			$query = "SELECT * FROM payment_objects ".
 				"WHERE pobject_id = '".$this->getPobjectId()."'";

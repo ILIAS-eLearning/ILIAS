@@ -39,8 +39,6 @@ class ilPaymentBaseGUI
 	{
 		global $ilias,$ilDB,$lng,$tpl,$rbacsystem;
 
-		define('ILIAS_MODULE','payment');
-
 		$this->ilias =& $ilias;
 		$this->db =& $ilDB;
 		$this->lng =& $lng;

@@ -20,28 +20,49 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-
-
 /**
-* repository
-*
+* Class ilPaymentCurrency
+* 
 * @author Stefan Meyer <smeyer@databay.de>
 * @version $Id$
 *
 * @package ilias-core
 */
-chdir("..");
+class ilPaymentCurrency
+{
+	function _getAvailableCurrencies()
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM payment_currencies ";
+		$res = $ilDB->query($query);
 
-define('ILIAS_MODULE','payment');
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$currencies[$row->currency_id]['currency_id']		= $row->currency_id;
+			$currencies[$row->currency_id]['unit']				= $row->unit;
+			$currencies[$row->currency_id]['subunit']			= $row->subunit;
+			$currencies[$row->currency_id]['shortform']			= $row->shortform;
+		}
+		return $currencies ? $currencies : array();
+	}
+	function _getCurrency($a_currency_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM payment_currencies ".
+			"WHERE currency_id = '".$a_currency_id."'";
 
-require_once "include/inc.header.php";
-require_once "./payment/classes/class.ilPaymentAdminGUI.php";
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$currencies['currency_id']		= $row->currency_id;
+			$currencies['unit']				= $row->unit;
+			$currencies['subunit']			= $row->subunit;
+			$currencies['shortform']		= $row->shortform;
+		}
+		return $currencies;
+	}
+}
 
-$ilCtrl->setTargetScript("payment_admin.php");
-$ilCtrl->getCallStructure("ilpaymentadmingui");
-
-$pa =& new ilPaymentAdminGUI($ilias->account);
-$ilCtrl->forwardCommand($pa);
-
-$tpl->show();
 ?>
