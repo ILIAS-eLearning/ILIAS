@@ -493,9 +493,15 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
 	{
+		global $ilUser;
+		
 		$output = $this->outQuestionPage("CLOZE_TEST", $is_postponed);
+		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+		$solutionoutput = preg_replace("/\"tgap/", "\"solution_tgap", $solutionoutput);
+		$solutionoutput = preg_replace("/\"sgap/", "\"solution_sgap", $solutionoutput);
+		$solutionoutput = preg_replace("/name=\"gap/", "name=\"solution_gap", $solutionoutput);
 
 		// set solutions
 		if ($test_id)
@@ -506,12 +512,54 @@ class ASS_ClozeTestGUI extends ASS_QuestionGUI
 				$repl_str = "dummy=\"tgap_".$solution_value->value1."\"";
 				$output = str_replace($repl_str, $repl_str." value=\"".$solution_value->value2."\"", $output);
 				$repl_str = "dummy=\"sgap_".$solution_value->value1."_".$solution_value->value2."\"";
-				$output = str_replace($repl_str, $repl_str." selected=\"1\"", $output);
+				$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
 //echo "<br>".$repl_str;
 			}
 		}
 
-		$this->tpl->setVariable("CLOZE_TEST", $output);
+		foreach ($this->object->gaps as $idx => $gap)
+		{
+			if ($gap[0]->get_cloze_type() == CLOZE_SELECT)
+			{
+				$points = 0;
+				foreach ($gap as $answeridx => $answer)
+				{
+					$points += $answer->get_points();
+					if ($answer->isStateChecked())
+					{
+						$repl_str = "dummy=\"solution_sgap_$idx" . "_$answeridx\"";
+						$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
+//						$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <em>(" . $answer->get_points() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+					}
+				}
+				$solutionoutput = preg_replace("/(<select name\=\"solution_gap_$idx((?:(?!<select).)*)<\/select>)/is", "\\1" . " <em>(" . $points . " " . $this->lng->txt("points") . ")</em> " , $solutionoutput);
+			}
+			else
+			{
+				$repl_str = "dummy=\"solution_tgap_$idx\"";
+				$pvals = array();
+				foreach ($gap as $answeridx => $answer)
+				{
+					array_push($pvals, $answer->get_answertext());
+				}
+				$possible_values = join($pvals, " " . $this->lng->txt("or") . " ");
+				$solutionoutput = str_replace($repl_str, $repl_str." value=\"$possible_values\"", $solutionoutput);
+				$solutionoutput = preg_replace("/(<input[^<]*?dummy\=\"solution_tgap_$idx" . "[^>]*?>)/is", "\\1" . " <em>(" . $gap[0]->get_points() . " " . $this->lng->txt("points") . ")</em> ", $solutionoutput);
+			}
+		}
+
+		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
+		if ($test_id) 
+		{
+			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
+		}
+		if (!$showsolution)
+		{
+			$solutionoutput = "";
+			$received_points = "";
+		}
+
+		$this->tpl->setVariable("CLOZE_TEST", $output.$solutionoutput.$received_points);
 		return;
 	}
 

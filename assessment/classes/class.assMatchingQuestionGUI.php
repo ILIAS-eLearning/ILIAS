@@ -399,9 +399,13 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 	*
 	* @access public
 	*/
-	function outWorkingForm($test_id = "", $is_postponed = false)
+	function outWorkingForm($test_id = "", $is_postponed = false, $showsolution = 0)
 	{
+		global $ilUser;
+		
 		$output = $this->outQuestionPage("MATCHING_QUESTION", $is_postponed);
+		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
+		$solutionoutput = preg_replace("/\"match/", "\"solution_match", $solutionoutput);
 
 		// set solutions
 
@@ -412,11 +416,29 @@ class ASS_MatchingQuestionGUI extends ASS_QuestionGUI
 			{
 				$repl_str = "dummy=\"match".$solution_value->value2."_".$solution_value->value1."\"";
 //echo "<br>".$repl_str;
-				$output = str_replace($repl_str, $repl_str." selected=\"1\"", $output);
+				$output = str_replace($repl_str, $repl_str." selected=\"selected\"", $output);
 			}
 		}
 
-		$this->tpl->setVariable("MATCHING_QUESTION", $output);
+		foreach ($this->object->matchingpairs as $idx => $answer)
+		{
+			$id = $answer->getDefinitionId()."_".$answer->getTermId();
+			$repl_str = "dummy=\"solution_match".$id."\"";
+			$solutionoutput = str_replace($repl_str, $repl_str." selected=\"selected\"", $solutionoutput);
+			$solutionoutput = preg_replace("/(<tr.*?dummy=\"solution_match$id.*?)<\/tr>/", "\\1<td>" . "<em>(" . $answer->getPoints() . " " . $this->lng->txt("points") . ")</em>" . "</td></tr>", $solutionoutput);
+		}
+
+		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
+		if ($test_id) 
+		{
+			$received_points = "<p>" . sprintf($this->lng->txt("you_received_a_of_b_points"), $this->object->getReachedPoints($ilUser->id, $test_id), $this->object->getMaximumPoints()) . "</p>";
+		}
+		if (!$showsolution)
+		{
+			$solutionoutput = "";
+			$received_points = "";
+		}
+		$this->tpl->setVariable("MATCHING_QUESTION", $output.$solutionoutput.$received_points);
 	}
 
 	/**
