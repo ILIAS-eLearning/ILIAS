@@ -196,7 +196,7 @@ class ilMetaData
 			case "Relation"		:	$xml = '
 										<Relation>
 											<Resource>
-												<Identifier_ Catalog="ILIAS" Entry="' . substr(md5(uniqid(rand())), 0, 5) . '"/>
+												<Identifier_ Catalog="ILIAS" Entry=""/>
 												<Description Language="' . $this->ilias->account->getLanguage() . '"/>
 											</Resource>
 										</Relation>
@@ -215,8 +215,8 @@ class ilMetaData
 									$this->nested->addXMLNode($p, $xml, $a_index);
 									break;
 			case "Meta-Metadata":	$xml = '
-										<Meta-Metadata MetadataScheme="" Language="' . $this->ilias->account->getLanguage() . '">
-											<Identifier Catalog="ILIAS" Entry="' . substr(md5(uniqid(rand())), 0, 5) . '"/>
+										<Meta-Metadata MetadataScheme="LOM v 1.0" Language="' . $this->ilias->account->getLanguage() . '">
+											<Identifier Catalog="ILIAS" Entry=""/>
 											<Contribute Role="Author">
 												<Entity/>
 												<Data/>
@@ -297,14 +297,14 @@ class ilMetaData
 			case "TaxonPath"	:	$xml = '
 										<TaxonPath>
 											<Source Language="' . $this->ilias->account->getLanguage() . '"/>
-											<Taxon Language="' . $this->ilias->account->getLanguage() . '" Id="' . substr(md5(uniqid(rand())), 0, 5) . '"/>
+											<Taxon Language="' . $this->ilias->account->getLanguage() . '" Id=""/>
 										</TaxonPath>
 									';
 									$this->nested->addXMLNode($p, $xml, $a_index);
 									break;
 			case "Taxon"		:	$value = "";
 									$attributes[0] = array("name" => "Language", value => $this->ilias->account->getLanguage());
-									$attributes[1] = array("name" => "Id", value => substr(md5(uniqid(rand())), 0, 5));
+									$attributes[1] = array("name" => "Id", value => "");
 									$this->nested->addDomNode($p, $a_name, $value, $attributes, $a_index);
 									break;
 			case "Identifier"	:	;
@@ -313,7 +313,7 @@ class ilMetaData
 									$attributes[1] = array("name" => "Entry", "value" => "");
 									$this->nested->addDomNode($p, $a_name, $value, $attributes, $a_index);
 									break;
-			case "Language"		:	$value = $this->ilias->account->getLanguage();
+			case "Language"		:	$value = "";
 									$attributes[0] = array("name" => "Language", value => $this->ilias->account->getLanguage());
 									$this->nested->addDomNode($p, $a_name, $value, $attributes, $a_index);
 									break;
@@ -557,7 +557,7 @@ class ilMetaData
 			$xml = '
 				<MetaData>
 					<General Structure="Hierarchical">
-						<Identifier Catalog="ILIAS" Entry="' . substr(md5(uniqid(rand())), 0, 6) . '"></Identifier>
+						<Identifier Catalog="ILIAS" Entry="il__' . $this->obj->getType() . '_' . $this->obj->getId() . '"></Identifier>
 						<Title Language="' . $this->ilias->account->getLanguage() . '">' . $title . '</Title>
 						<Description Language="' . $this->ilias->account->getLanguage() . '">' . $desc . '</Description>
 						<Keyword Language="' . $this->ilias->account->getLanguage() . '"></Keyword>

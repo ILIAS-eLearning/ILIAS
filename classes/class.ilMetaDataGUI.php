@@ -145,8 +145,6 @@ class ilMetaDataGUI
 				$tpl->setCurrentBlock("identifier_loop");
 				$tpl->setVariable("IDENTIFIER_LOOP_NO", $i);
 				$tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
-				$tpl->setVariable("IDENTIFIER_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER", ilUtil::prepareFormOutput($identifier[$i]["value"]));
 				$tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
 				$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG", ilUtil::prepareFormOutput($identifier[$i]["Catalog"]));
 				$tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
@@ -172,8 +170,6 @@ class ilMetaDataGUI
 				}
 				$tpl->setCurrentBlock("language_loop");
 				$tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-				$tpl->setVariable("LANGUAGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-				$tpl->setVariable("LANGUAGE_LOOP_VAL", $this->showLangSel("meta[Language][" . $i . "][Value]", $language[$i]["value"]));
 				$tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 				$tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Language][" . $i . "][Language]", $language[$i]["Language"]));
 				$tpl->setVariable("LANGUAGE_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Language&meta_language=" . $a_language . "&meta_path=General&meta_section=" . $a_section);
@@ -415,7 +411,7 @@ class ilMetaDataGUI
 			if (is_array($meta_metadata = $this->meta_obj->getElement("Meta-Metadata")))
 			{
 				$tpl->setVariable("VAL_LANGUAGE", $this->showLangSel("meta[Language]", $meta_metadata[0]["Language"]));
-				$tpl->setVariable("VAL_METADATASCHEME", ilUtil::prepareFormOutput($meta_metadata[0]["MetadataScheme"]));
+				$tpl->setVariable("VAL_METADATASCHEME", ilUtil::stripSlashes($meta_metadata[0]["MetadataScheme"]));
 			}
 	
 			/* Identifier */
@@ -434,8 +430,6 @@ class ilMetaDataGUI
 					$tpl->setCurrentBlock("identifier_loop");
 					$tpl->setVariable("IDENTIFIER_LOOP_NO", $i);
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
-					$tpl->setVariable("IDENTIFIER_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER", ilUtil::prepareFormOutput($identifier[$i]["value"]));
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
 					$tpl->setVariable("IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG", ilUtil::prepareFormOutput($identifier[$i]["Catalog"]));
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
@@ -657,8 +651,6 @@ class ilMetaDataGUI
 				{
 					$tpl->setCurrentBlock("language_loop");
 					$tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-					$tpl->setVariable("LANGUAGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-					$tpl->setVariable("LANGUAGE_LOOP_VAL", $this->showLangSel("meta[Language][" . $i . "][Value]", $language[$i]["value"]));
 					$tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
 					$tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->showLangSel("meta[Language][" . $i . "][Language]", $language[$i]["Language"]));
 	
@@ -1259,10 +1251,8 @@ class ilMetaDataGUI
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
 					$tpl->setVariable("IDENTIFIER_LOOP_ACTION_ADD", $a_formaction . "&cmd=addMeta&meta_name=Identifier_&meta_language=" . $a_language . "&meta_path=Relation/Resource&meta_section=" . $a_section);
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-					$tpl->setVariable("IDENTIFIER_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
 					$tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
-					$tpl->setVariable("IDENTIFIER_LOOP_VAL", ilUtil::prepareFormOutput($identifier[$i]["value"]));
 					$tpl->setVariable("IDENTIFIER_LOOP_VAL_CATALOG", ilUtil::prepareFormOutput($identifier[$i]["Catalog"]));
 					$tpl->setVariable("IDENTIFIER_LOOP_VAL_ENTRY", ilUtil::prepareFormOutput($identifier[$i]["Entry"]));
 					$tpl->parseCurrentBlock();
