@@ -233,7 +233,7 @@ class ilForumExplorer extends ilExplorer
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/".$picture.".gif"));
-				$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+				//$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 				$tpl->parseCurrentBlock();
 			}
 			

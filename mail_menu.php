@@ -48,6 +48,7 @@ $output = $exp->getOutput();
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_EXPLORER_HEADER", $lng->txt("mail_folders"));
+$tpl->setVariable("EXP_REFRESH", $lng->txt("refresh"));
 $tpl->setVariable("EXPLORER",$output);
 $tpl->setVariable("ACTION", "mail_menu.php?mexpand=".$_GET["mexpand"]);
 $tpl->parseCurrentBlock();

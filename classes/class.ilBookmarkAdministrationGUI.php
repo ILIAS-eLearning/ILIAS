@@ -129,6 +129,7 @@ class ilBookmarkAdministrationGUI
 
 		$this->tpl->setCurrentBlock("content");
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("bookmarks"));
+		$this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "usr_bookmarks.php?cmd=explorer&mexpand=".$_GET["mexpand"]);
 		$this->tpl->parseCurrentBlock();

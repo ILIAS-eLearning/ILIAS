@@ -61,6 +61,7 @@ $output = $exp->getOutput();
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_EXPLORER_HEADER", $lng->txt("choose_location"));
+$tpl->setVariable("EXP_REFRESH", $lng->txt("refresh"));
 $tpl->setVariable("EXPLORER",$output);
 $tpl->setVariable("ACTION", "obj_location_menu.php?expand=".$_GET["expand"]);
 $tpl->parseCurrentBlock();

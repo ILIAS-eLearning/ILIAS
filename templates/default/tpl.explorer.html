@@ -10,7 +10,10 @@ body { margin:4px; }
 <br/>
 <div align="left">
   <form action="{ACTION}" method="post">
-    <input class="submit" type="submit" value="refresh" />
+    <input class="submit" type="submit" name="cmd[refresh]" value="{EXP_REFRESH}" />
+	<!-- BEGIN exp_button -->
+	<input class="submit" type="submit" name="cmd[{CMD_EXP_BTN}]" value="{TXT_EXP_BTN}" />
+	<!-- END exp_button -->
   </form>
 </div>
 
