@@ -2345,7 +2345,7 @@ class ilObjCourseGUI extends ilObjectGUI
 
 			if($num_courses = $tmp_obj->getCountAssignedCourses())
 			{
-				$this->tpl->setVariable("ASSIGNED_COURSES",$this->lng->txt('crs_grp_assigned_courses_info')."<b>$num_courses</b> ");
+				$this->tpl->setVariable("ASSIGNED_COURSES",$this->lng->txt('crs_grp_assigned_courses_info')." <b>$num_courses</b> ");
 			}
 			else
 			{

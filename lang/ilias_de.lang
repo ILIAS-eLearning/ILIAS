@@ -4690,3 +4690,4 @@ survey#:#view_phrase#:#Phrase ansehen
 survey#:#warning_question_in_use#:#Warnung! Die Frage, die Sie bearbeiten wollen, wird von den unten aufgeführten Umfragen verwendet. Wenn Sie sich entscheiden, die Frage trotzdem zu bearbeiten und zu speichern, werden alle Antworten der unten aufgelisteten Umfragen gelöscht! Sie können diese Frage aber auch duplizieren, verändern und dann in Ihre Umfragen einfügen.
 survey#:#warning_question_not_complete#:#Die Frage ist unvollständig!
 survey#:#warning_survey_not_complete#:#Die Umfrage ist unvollständig!
+crs#:#crs_grp_matriculation_required#:#Zur Aufnahme in diese Kursgruppierung ist eine eindeutige Matrikelnummer notwendig. <br />Bitte tragen Sie diese in den Einstellungen des Persönlichen Profils ein.
