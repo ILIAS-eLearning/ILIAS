@@ -1,0 +1,200 @@
+Mapping of ILIAS 2 Lerneinheiten to ILIAS 3 LearningObjects
+-----------------------------------------------------------
+2002-12-13, Matthias Rulinski
+
+
+METADATA (id, typ, parent)
+(ILIAS2 Metadata --> ILIAS3 MetaData)
+
+	meta
+		id					-->		1.1 Identifier.Entry ("typ_id")
+		inst				-->		1.1 Identifier.Catalog (ILIAS2 inst)
+		typ					-->		1.1 Identifier.Entry | 1 General.Structure .AggregationLevel *** (Not precise)
+		title				-->		1.2 Title
+		lang				-->		1.3 Language
+		description			-->		1.4 Description
+		diff				-->		5 Educational.Difficulty
+		level				-->		5 Educational.Context
+		status				-->		2 Lifecycle.Status
+		material_level		-->		9 Classification (.Purpose = "EducationalLevel") -> 9.2.2 Taxon
+		last_modified_date	-->		2.3 Contribute (.Role = "Author" | "TechnicalImplementer") -> 2.3.3 Date
+		publisher			-->		2.3 Contribute (.Role = "Publisher") -> 2.3.2 Entity *** (only typ="le")
+		publish_date		-->		2.3 Contribute (.Role = "Publisher") -> 2.3.3 Date *** (only typ="le")
+		
+	meta_keyword
+		keyword				-->		1.5 Keyword
+	
+	meta_author
+		author_firstname	-->		2.3 Contribute (.Role = "Author") -> 2.3.2 Entity
+		author_surname
+	
+	meta_contrib
+		contrib_firstname	-->		2.3 Contribute (.Role = "TechnicalImplementer") -> 2.3.2 Entity
+		contrib_surname
+	
+	meta_mtype
+		mtype				-->		5 Educational.LearningResourceType
+	materialtype
+		id
+		mtype
+	
+	meta_discipline
+		disc				-->		9 Classification (.Purpose = "Discipline") -> 9.2.2 Taxon -> Entry *** (only typ="le")
+	discipline
+		id
+		disc
+	
+	meta_subdiscipline
+		sub					-->		9 Classification (.Purpose = "Discipline") -> 9.2.2 Taxon (Entry) *** (only typ="le")
+	subdiscipline
+		id
+		subdisc
+
+
+MULTIMEDIA ***
+META ('mm')
+multimedia (copy mm object files)
+
+FILE ***
+META ('file')
+file (copy files)
+
+
+ELEMENT (id, parent)
+(ILIAS2 Element (only undeleted) --> ILIAS3 LearningObject AggregationLevel 1 or 2 or Text (depends on type))
+
+	METADATA ('el')
+	
+	element
+		id					-->		used in METADATA
+		inst				-->		used in METADATA
+		typ					-->		***
+		page				-->		***
+		nr					-->		***
+		src					-->		*** (text formatting -> paragraph..code)
+		bsp					-->		*** (text formatting -> paragraph.characteristic)
+	
+	el_text (*** METADATA -> no LearningObject)
+		text				-->		Paragraph *** (convert VRIs, HTML and Layout (alignment))
+		align				-->		*** (alignment)
+									0 left, wrapped by text
+									1 left
+									2 right, wrapped by text
+									3 right
+									4 center
+									5 citation
+									6 mnemonic
+									7 pointed list
+									8 numerical list
+									9 alphabetic list
+									10 list with roman numerals
+	
+	el_bild
+		id
+		titel
+		datei
+		align (formatting 0-4 -> ***)
+		(copy image files)
+	
+	el_titel
+	
+	el_table
+	table_cell
+	table_rowcol
+	
+	el_map (copy imagemap files)
+	maparea
+	
+	el_mc
+	mc_answer
+	
+	el_multimedia
+	
+	el_filelist
+	filelist_entry
+	
+	el_sourcecode
+	(*** sourcecode_lang)
+	
+	el_survey ***
+	
+	vri_link (copy vri mm object files)
+
+
+PAGE (id, parent)
+(ILIAS2 Page (only undeleted) --> ILIAS3 LearningObject AggregationLevel 2 or 3 or Test or Glossary)
+
+	METADATA ('pg','mc','gl') ***
+
+	page
+		id					-->		used in METADATA
+		inst				-->		used in METADATA
+		pg_typ				-->		*** (type)
+									le course
+									gl glossary
+									mc multiple choice
+		aktiv				-->		*** (online/offline)
+									y online/active
+									n offline/inactive
+		lerneinheit			-->		***
+		
+	
+	page_link ***
+		id
+		page
+		titel
+		url
+	
+	ELEMENT(s)
+
+
+LERNEINHEIT (id)
+(ILIAS2 Lerneinheit --> ILIAS3 LearningObject AggregationLevel 4)
+
+METADATA ('le')
+
+	Lerneinheit
+		id					-->		used in METADATA
+		inst				-->		used in METADATA
+		co_view				-->
+		ex_ch_id			-->
+		ex_ch_inst			-->
+		ex_graphic_cat		-->
+		faq_ch_id			-->
+		faq_ch_inst			-->
+		kontakt				-->
+		kontakt_adr			-->
+		lehrstuhl			-->
+		lehrstuhl_url		-->
+		material_url		-->
+		mc_certification	-->
+		more_co_inst		-->
+		more_course			-->
+		pdf_copyright		-->
+		pdf_file			-->
+		public				-->
+		semester			-->
+		show_authors		-->
+		test_view			-->
+		type				-->
+	
+glossar
+page_glossar
+page_frage
+gliederung (*** Gliederung (Kapitel) und Struktur klären -> LO 2)
+struktur (*** Sequenz innerhalb eines Kapitels)
+
+
++ + + + + + + + + + + + + + + + + + + + + + + + +
+
+
+Changes to the DTD:
+-------------------
+
+Paragraph -> new attribute: Characteristic (Example | Citation | Mnemonic) #IMPLIED
+Contribute -> attribute Role: double entry for validator
+Title -> (%titletext;)* --> (#PCDATA)
+Description -> (%simpletext;)* --> (#PCDATA)
+Taxon -> (Entry) --> (#PCDATA), new attribute: Language (%langcode;) #REQUIRED
+Entry -> removed (not needed at all)
+Educational -> Language+ removed (obsolete)
