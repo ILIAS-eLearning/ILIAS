@@ -1546,6 +1546,9 @@ class ilPageObject
 			$rows .= "<TD class=\"ilc_Sourcecode\"><PRE>".$content."</PRE></TD></TR>";
 
 			$newcontent = str_replace("\n", "<br />", $rows);
+			
+			// fix for ie explorer which is not able to produce empty line feeds with <br /><br />
+			$newcontent  = str_replace("<br /><br />", "<br/> <br />", $newcontent  );
 //echo "<br>".htmlentities($newcontent);
 			$context_node->set_content($newcontent);
 		}
