@@ -65,6 +65,8 @@ class ilCourseItems
 	function setParentId($a_parent = 0)
 	{
 		$this->parent = $a_parent ? $a_parent : $this->course_obj->getRefId();
+
+		$this->__read();
 		
 		return true;
 	}
