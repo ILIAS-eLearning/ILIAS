@@ -598,7 +598,7 @@ class ilSetup extends PEAR
 		
 		//var_dump($status["db"],$client->db_exists,$client->db_installed);
 		
-		if ($status["db"]["comment"] == "no database" or $status["db"]["comment"] == "not installed")
+		if ($status["db"]["status"] === false)
 		{
 			$status["lang"]["status"] = false;
 			$status["lang"]["comment"] = $status["db"]["comment"];
@@ -667,14 +667,14 @@ class ilSetup extends PEAR
 //		if (!$arr["status"] = $client->checkDatabaseExists())
 		if (!$arr["status"] = $client->db_exists)
 		{
-			$arr["comment"] = "no database";
+			$arr["comment"] = "no_db";
 			return $arr;
 		}
 		
 //		if ($arr["status"] = $client->connect())
 		if (!$arr["status"] = $client->db_installed)
 		{
-			$arr["comment"] = "not installed";
+			$arr["comment"] = "db_not_installed";
 			return $arr;
 		}
 		
@@ -704,7 +704,7 @@ class ilSetup extends PEAR
 		if ($count < 1)
 		{
 			$arr["status"] = false;
-			$arr["comment"] = "no language installed";		
+			$arr["comment"] = "no_language_installed";		
 		}
 		else
 		{
@@ -731,14 +731,14 @@ class ilSetup extends PEAR
 			or empty($client_name) or empty($settings["inst_institution"]))
 		{
 			$arr["status"] = false;
-			$arr["comment"] = "missing data";
+			$arr["comment"] = "missing_data";
 		}
 			
 		// admin email
 		if (!ilUtil::is_email($settings["admin_email"]) and $arr["status"] != false)
 		{
 			$arr["status"] = false;
-			$arr["comment"] = "invalid email";
+			$arr["comment"] = "invalid_email";
 		}
 		
 		return $arr;
@@ -759,7 +759,7 @@ class ilSetup extends PEAR
 
 		if ($settings["nic_enabled"] == "-1")
 		{
-			$arr["comment"] = "nic registration failed";
+			$arr["comment"] = "nic_registration_failed";
 			return $arr;
 		}
 
