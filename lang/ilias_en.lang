@@ -2674,8 +2674,8 @@ crs#:#crs_max_members_reached#:#The maximum number of members has been reached
 crs#:#crs_mem_change_status#:#Change status
 crs#:#crs_mem_send_mail#:#Send mail
 crs#:#crs_member#:#Member
-crs#:#crs_member_blocked#:#Mitglied (unblocked)
-crs#:#crs_member_unblocked#:#Member (blocked)
+crs#:#crs_member_blocked#:#Mitglied (blocked)
+crs#:#crs_member_unblocked#:#Member (unblocked)
 crs#:#crs_member_updated#:#The member has been updated
 crs#:#crs_members_deleted#:#Deleted members
 crs#:#crs_members_print_title#:#Course members
