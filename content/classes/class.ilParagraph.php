@@ -110,16 +110,20 @@ class ilParagraph extends ilPageContent
 		return $this->language;
 	}
 
-	function getXML($a_utf8_encoded = false, $a_short_mode = false)
+	function getXML($a_utf8_encoded = false, $a_short_mode = false, $a_incl_ed_ids = false)
 	{
+		$ed_id = ($a_incl_ed_ids)
+			? "ed_id=\"".$this->getEdId()."\""
+			: "";
+//echo "in par ed_id:".$ed_id.":<br>";
 		if ($a_utf8_encoded)
 		{
-			return "<Paragraph Language=\"".$this->getLanguage().
+			return "<Paragraph $ed_id Language=\"".$this->getLanguage().
 				"\">".utf8_encode($this->getText($a_short_mode))."</Paragraph>";
 		}
 		else
 		{
-			return "<Paragraph Language=\"".$this->getLanguage().
+			return "<Paragraph $ed_id Language=\"".$this->getLanguage().
 				"\">".$this->getText($a_short_mode)."</Paragraph>";
 		}
 

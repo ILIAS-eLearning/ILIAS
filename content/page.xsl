@@ -27,14 +27,14 @@
 
 <xsl:template match="Paragraph">
 	<p class="ilParagraph">
-		<xsl:number count="Paragraph" level="any"/>
+		<!-- <xsl:value-of select="@ed_id"/> -->
 		<input type="checkbox" name="target[]">
-			<xsl:attribute name="value"><xsl:value-of select="position()"/>
+			<xsl:attribute name="value"><xsl:value-of select="@ed_id"/>
 			</xsl:attribute>
 		</input>
 		<xsl:apply-templates/>
 		<select size="1" class="ilEditSelect">
-			<xsl:attribute name="name">command<xsl:value-of select="position()"/>
+			<xsl:attribute name="name">command<xsl:value-of select="@ed_id"/>
 			</xsl:attribute>
 		<option value="edit">edit</option>
 		<option value="insert">insert</option>
@@ -43,7 +43,7 @@
 		<option value="moveBefore">move before</option>
 		</select>
 		<input class="ilEditSubmit" type="submit" value="Go">
-			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="position()"/>]
+			<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@ed_id"/>]
 			</xsl:attribute>
 		</input>
 	</p>

@@ -42,6 +42,9 @@ class ilPageParser extends ilSaxParser
 	var $current_element;
 	var $cur_container;
 	var $container;
+	var $incl_edit_ids;
+	var $level;
+	var $ed_id;
 
 
 	/**
@@ -61,6 +64,8 @@ class ilPageParser extends ilSaxParser
 		$this->current_element = array();
 		$this->container[] =& $a_page_object;
 		$this->cur_container =& $a_page_object;
+		$this->level = 1;
+		$this->ed_id[1] = 0;
 		parent::ilSaxParser($a_xml_file);	//???
 	}
 
@@ -140,11 +145,13 @@ class ilPageParser extends ilSaxParser
 		switch($a_name)
 		{
 			case "Paragraph":
+				$this->ed_id[$this->level]++;
 				$cur_container =& $this->container[count($this->container) - 1];
 
 				if (is_object($cur_container))
 				{
 					$this->paragraph =& new ilParagraph();
+					$this->paragraph->setEdId($this->getEdId());
 					$this->paragraph->setLanguage($a_attribs["Language"]);
 					$this->paragraph->setCharacteristic($a_attribs["Characteristic"]);
 					$cur_container->appendContent($this->paragraph);
@@ -152,14 +159,18 @@ class ilPageParser extends ilSaxParser
 				break;
 
 			case "Table":	// todo: allow nesting in tables and lists here
+				$this->ed_id[$this->level]++;
 				$cur_container =& $this->container[count($this->container) - 1];
 				if (is_object($cur_container))
 				{
 					$this->table =& new ilLMTable();
+					$this->table->setEdId($this->getEdId());
 					// todo: attribute handling here
 					$cur_container->appendContent($this->table);
 				}
 				$this->container[] =& $this->table;
+				$this->level++;
+				$this->ed_id[$this->level] = 0;
 				break;
 
 			case "TableRow":
@@ -218,6 +229,7 @@ class ilPageParser extends ilSaxParser
 
 			case "Table":
 				unset ($this->container[count($this->container) - 1]);
+				$this->level--;
 				break;
 
 		}
@@ -255,6 +267,21 @@ class ilPageParser extends ilSaxParser
 			}
 		}
 
+	}
+
+	/**
+	* get current hierarchical editing id
+	*/
+	function getEdId()
+	{
+		$sep = "";
+		$id = "";
+		for($i = 1; $i <= $this->level; $i++)
+		{
+			$id.= $sep.$this->ed_id[$i];
+			$sep = "_";
+		}
+		return $id;
 	}
 
 }

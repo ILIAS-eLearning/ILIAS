@@ -102,7 +102,8 @@ class ilLMEditorGUI
 			else
 			{
 				$cmd = explode("_", key($_POST["cmd"]));
-				$cont_cnt = $cmd[1];
+				unset($cmd[0]);
+				$cont_cnt = implode($cmd, "_");
 				$cmd = $_POST["command".$cont_cnt];
 			}
 		}
@@ -119,6 +120,7 @@ class ilLMEditorGUI
 				$this->tree->setTableNames('lm_tree','lm_data');
 				$this->tree->setTreeTablePK("lm_id");
 				$this->lm_obj =& new ilLearningModule($this->lm_id);
+
 				if(!empty($_GET["obj_id"]))		// we got a page or structure object
 				{
 					$obj =& ilLMObjectFactory::getInstance($_GET["obj_id"]);
@@ -131,8 +133,8 @@ class ilLMEditorGUI
 					}
 					else
 					{
-				 		$content =& $obj->getContent();
-						$cont_obj =& $content[$cont_cnt - 1];
+				 		$cont_obj =& $obj->getContent($cont_cnt);
+						//$cont_obj =& $content[$cont_cnt - 1];
 						$ctype = ($cmd == "insert" || $cmd == "create")
 							? "par"
 							: $cont_obj->getType();
