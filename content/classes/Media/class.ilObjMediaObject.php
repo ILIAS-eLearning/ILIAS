@@ -531,7 +531,7 @@ class ilObjMediaObject extends ilObject
 
 				// meta data
 				$nested = new ilNestedSetXML();
-				$nested->setParameterModifier($this, "insertInstInMeta");
+				$nested->setParameterModifier($this, "modifyExportIdentifier");
 				$xml.= $nested->export($this->getId(), $this->getType());
 
 				$media_items =& $this->getMediaItems();
@@ -609,9 +609,9 @@ class ilObjMediaObject extends ilObject
 	}
 
 
-	function insertInstInMeta($a_tag, $a_param, $a_value)
+	function modifyExportIdentifier($a_tag, $a_param, $a_value)
 	{
-		if ($a_tag == "Identifier" && $a_param = "Entry")
+		if ($a_tag == "Identifier" && $a_param == "Entry")
 		{
 			$a_value = ilUtil::insertInstIntoID($a_value);
 		}

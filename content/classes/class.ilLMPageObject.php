@@ -293,16 +293,17 @@ class ilLMPageObject extends ilLMObject
 	function exportXMLMetaData(&$a_xml_writer)
 	{
 		$nested = new ilNestedSetXML();
-		$nested->setParameterModifier($this, "insertInstInMeta");
+		$nested->setParameterModifier($this, "modifyExportIdentifier");
 		$a_xml_writer->appendXML($nested->export($this->getId(),
 			$this->getType()));
 	}
 
-	function insertInstInMeta($a_tag, $a_param, $a_value)
+	function modifyExportIdentifier($a_tag, $a_param, $a_value)
 	{
-		if ($a_tag == "Identifier" && $a_param = "Entry")
+		if ($a_tag == "Identifier" && $a_param == "Entry")
 		{
-			$a_value = ilUtil::insertInstIntoID($a_value);
+			$a_value = "il_".IL_INST_ID."_pg_".$this->getId();
+			//$a_value = ilUtil::insertInstIntoID($a_value);
 		}
 
 		return $a_value;
