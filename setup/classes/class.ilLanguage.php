@@ -188,6 +188,8 @@ class ilLanguage
 		{
 			$a_lang_keys = array();
 		}
+		
+		$err_lang = array();
 
 		$this->flushLanguages();
 		
@@ -210,35 +212,42 @@ class ilLanguage
 					$this->db->query($q);
 				}
 			}
+			else
+			{
+				$err_lang[] = $lang_key;
+			}
 		}
 		
 		foreach ($db_langs as $key => $val)
 		{
-			if (in_array($key,$a_lang_keys))
+			if (!in_array($key,$err_lang))
 			{
-				if ($val["status"] != "installed")
+				if (in_array($key,$a_lang_keys))
 				{
-					$q = "UPDATE object_data SET ".
-						 "description = 'installed',last_update = now() ".
-						 "WHERE obj_id='".$val["obj_id"]."' ".
-						 "AND type='lng'";
-					$this->db->query($q);
+					if ($val["status"] != "installed")
+					{
+						$q = "UPDATE object_data SET ".
+							 "description = 'installed',last_update = now() ".
+							 "WHERE obj_id='".$val["obj_id"]."' ".
+							 "AND type='lng'";
+						$this->db->query($q);
+					}
 				}
-			}
-			else
-			{
-				if ($val["status"] == "installed")
+				else
 				{
-					$q = "UPDATE object_data SET ".
-						 "description = 'not_installed',last_update = now() ".
-						 "WHERE obj_id='".$val["obj_id"]."' ".
-						 "AND type='lng'";
-					$this->db->query($q);
+					if ($val["status"] == "installed")
+					{
+						$q = "UPDATE object_data SET ".
+							 "description = 'not_installed',last_update = now() ".
+							 "WHERE obj_id='".$val["obj_id"]."' ".
+							 "AND type='lng'";
+						$this->db->query($q);
+					}
 				}
 			}
 		}
 
-		return true;
+		return ($err_lang) ? $err_lang : true;
 	}
 
 	// get already installed languages

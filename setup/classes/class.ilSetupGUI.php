@@ -1650,9 +1650,31 @@ class ilSetupGUI extends ilSetup
 				$this->raiseError($message,$this->error_obj->MESSAGE);
 			}
 			
-			$this->lng->installLanguages($_POST["form"]["lang_id"]);
+			$result = $this->lng->installLanguages($_POST["form"]["lang_id"]);
+			
+			if (is_array($result))
+			{
+				$count = count($result);
+				$txt = "tet";
+				
+				foreach ($result as $key => $lang_key)
+				{
+					$list .= $this->lng->txt("lang_".$lang_key);
+					
+					if ($count > $key + 1)
+					{
+						$list .= ", ";
+					}
+				}
+			}
+
 			$this->client->setDefaultLanguage($_POST["form"]["lang_default"]);
 			$message = $this->lng->txt("languages_installed");
+			
+			if ($result !== true)
+			{
+				$message .= "<br/>(".$this->lng->txt("langs_not_valid_not_installed").": ".$list.")";
+			}
 			sendInfo($message);
 		}
 

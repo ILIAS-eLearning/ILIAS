@@ -358,3 +358,4 @@ list_disabled#:#Mandantenauswahl deaktiviert
 list_enabled#:#Mandantenauswahl aktiviert
 display_clientlist#:#Freie Mandantenauswahl
 hide_clientlist#:#keine Mandantenauswahl
+langs_not_valid_not_installed#:#Folgende Sprachen wurden nicht installiert, aufgrund fehlerhafter Sprachdateien
