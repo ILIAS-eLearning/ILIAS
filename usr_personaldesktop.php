@@ -36,7 +36,7 @@ $tpl->touchBlock("btn_row");
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("personal_desktop"));
-$tpl->parseCurrentBlock();
+//$tpl->parseCurrentBlock();			// -> this line produces an empty <h1></h1>, alex 16.2.03
 
 //mails
 $myMails = new UserMail($ilias->account->Id);
