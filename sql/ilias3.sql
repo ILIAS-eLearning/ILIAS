@@ -3960,6 +3960,23 @@ CREATE TABLE `usr_search` (
 # Dumping data for table `usr_search`
 #
 
+# --------------------------------------------------------
+
+#
+# Table structure for table `usr_session`
+#
+
+CREATE TABLE `usr_session` (
+  `session_id` varchar(32) NOT NULL default '',
+  `expires` int(11) NOT NULL default '0',
+  `data` text NOT NULL,
+  `ctime` int(11) NOT NULL default '0',
+  `user_id` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`session_id`),
+  KEY `expires` (`expires`),
+  KEY `user_id` (`user_id`)
+) TYPE=MyISAM;
+
 
 # --------------------------------------------------------
 
