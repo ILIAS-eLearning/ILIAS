@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
  * admin interface
  *
@@ -7,7 +7,7 @@
  * @version $Id$
  */
 include_once("./include/ilias_header.inc");
-include("./include/inc.main.php");
+include_once("./include/inc.main.php");
 
 $lng = new Language($ilias->account->data["language"]);
 $tplmain->setVariable("TXT_PAGETITLE","ILIAS - ".$lng->txt("profile"));
@@ -77,5 +77,4 @@ $tpl->touchBlock("adminrow");
 
 $tplmain->setVariable("PAGECONTENT",$tpl->get());
 $tplmain->show();
-
 ?>
