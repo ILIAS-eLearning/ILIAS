@@ -21,37 +21,60 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilMetaData.php");
+require_once("content/classes/class.ilMetaData.php");
 
 /**
-* Class ilLearningModule
+* Class ilPageObject
 *
-* This class handles Learning Modules like ilObjLearningModule
-* , maybe they will be merged sometime. This class is only an
-* intermediate test class. All object_data storage and the like is done
-* by ilObjLearningModule. This class represents a LearningModule of ILIAS DTD.
+* Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package application
 */
-class ilLearningModule
+class ilPageObject
 {
 	var $ilias;
 	var $meta_data;
+	var $is_alias;
+	var $origin_id;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilLearningModule()
+	function ilPageObject()
 	{
 		global $ilias;
 
 		$this->ilias =& $ilias;
+
+		$this->is_alias = false;
 	}
 
+	/**
+	* set wether page object is an alias
+	*/
+	function setAlias($a_is_alias)
+	{
+		$this->is_alias = $a_is_alias;
+	}
+
+	function isAlias()
+	{
+		return $this->is_alias;
+	}
+
+	function setOriginID($a_id)
+	{
+		return $this->origin_id = $a_id;
+	}
+
+	function getOriginID()
+	{
+		return $this->origin_id;
+	}
 
 	function assignMetaData(&$a_meta_data)
 	{

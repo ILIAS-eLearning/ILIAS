@@ -21,36 +21,37 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilMetaData.php");
+require_once("content/classes/class.ilMetaData.php");
 
 /**
-* Class ilStructreObject
+* Class ilLearningModule
 *
-* Handles StructureObjects of ILIAS Learning Modules (see ILIAS DTD)
+* This class handles Learning Modules like ilObjLearningModule
+* , maybe they will be merged sometime. This class is only an
+* intermediate test class. All object_data storage and the like is done
+* by ilObjLearningModule. This class represents a LearningModule of ILIAS DTD.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
 * @package application
 */
-class ilStructureObject
+class ilLearningModule
 {
 	var $ilias;
 	var $meta_data;
-	var $is_alias;
-	var $origin_id;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilStructureObject()
+	function ilLearningModule()
 	{
 		global $ilias;
 
 		$this->ilias =& $ilias;
-
 	}
+
 
 	function assignMetaData(&$a_meta_data)
 	{
