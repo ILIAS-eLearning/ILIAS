@@ -47,6 +47,7 @@ assessment#:#create_new#:#Create new
 assessment#:#duplicate#:#Duplicate
 assessment#:#export#:#Export
 assessment#:#false#:#False
+common#:#msg_no_file#:#You didn't choose a file
 assessment#:#filter#:#Filter
 assessment#:#gap_selection#:#Gap selection
 assessment#:#last_update#:#Last update
