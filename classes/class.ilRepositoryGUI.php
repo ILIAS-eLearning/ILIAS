@@ -1252,10 +1252,10 @@ class ilRepositoryGUI
 
 				if ($this->rbacsystem->checkAccess('delete', $data["ref_id"]))
 				{
-					$tpl->setCurrentBlock("forum_delete");
+					// $tpl->setCurrentBlock("forum_delete"); // jk: bug fix
 					$tpl->setVariable("DELETE_LINK","repository.php?cmd=delete&ref_id=".$data["ref_id"]);
 					$tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-					$tpl->parseCurrentBlock();
+					// $tpl->parseCurrentBlock(); // jk: bug fix
 				}
 
 				// add to desktop link
