@@ -61,7 +61,7 @@ class ilLMPresentationGUI
 		{
 			case "dbk":
 				include_once("./content/classes/class.ilObjDlBookGUI.php");
-				
+
 				$this->lm_gui = new ilObjDlBookGUI($data,$_GET["ref_id"],true,false);
 				break;
 			case "lm":
@@ -91,6 +91,16 @@ class ilLMPresentationGUI
 		{
 			case "dbk":
 				$this->lm_gui->offlineexport();
+				break;
+		}
+		
+	}
+	function offlineexportform() {
+		
+		switch($this->lm->getType())
+		{
+			case "dbk":
+				$this->lm_gui->offlineexportform();
 				break;
 		}
 		
@@ -464,7 +474,7 @@ class ilLMPresentationGUI
 
 		require_once("content/classes/Pages/class.ilPageObject.php");
 		require_once("content/classes/class.ilLMPageObject.php");
-		$pg_obj =& new ilPageObject("lm", $page_id);
+		$pg_obj =& new ilPageObject($this->lm->getType(), $page_id);
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
 		$pg_obj->setParentId($this->lm->getId());
