@@ -9,8 +9,33 @@
  * @version $Id$
 */
 require_once "./include/inc.header.php";
+require_once "./classes/class.ilMailbox.php";
+
+$lng->loadLanguageModule("mail");
 
 $startfilename = $ilias->tplPath.$ilias->account->getPref("skin")."/tpl.mail_frameset.html"; 
+
+// ADD FOLDER cmd comes from mail.php or mail_options button
+if(isset($_POST["cmd"]["add"]))
+{
+	$mbox = new ilMailbox($_SESSION["AccountId"]);
+
+	if(empty($_POST['folder_name_add']))
+	{
+		sendInfo($lng->txt("mail_insert_folder_name"),true);
+		$_GET["target"] = urlencode("mail_options.php?mobj_id=$_GET[mobj_id]");
+	}
+	else if($new_id = $mbox->addFolder($_GET["mobj_id"],$_POST["folder_name_add"]))
+	{
+		sendInfo($lng->txt("mail_folder_created"),true);
+		$_GET["mobj_id"] = $new_id;
+	}
+	else
+	{
+		sendInfo($lng->txt("mail_folder_exists"),true);
+		$_GET["target"] = urlencode("mail_options.php?mobj_id=$_GET[mobj_id]");
+	}
+}
 
 if (isset($_GET["viewmode"]))
 {
@@ -25,7 +50,7 @@ if (file_exists($startfilename) and ($_SESSION["viewmode"] == "tree"))
 	}
 	else
 	{
-		$tpl->setVariable("FRAME_RIGHT_SRC","mail.php");
+		$tpl->setVariable("FRAME_RIGHT_SRC","mail.php?mobj_id=$_GET[mobj_id]");
 	}
 	$tpl->show();
 }
@@ -37,7 +62,7 @@ else
 	}
 	else
 	{
-		header("location: mail.php");
+		header("location: mail.php?mobj_id=$_GET[mobj_id]");
 	}
 }
 ?>

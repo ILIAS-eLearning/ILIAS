@@ -419,9 +419,9 @@ function sendInfo($a_info = "",$a_keep = false)
 	if (!empty($_SESSION["info"]))
 	{
 		$tpl->addBlockFile("MESSAGE", "message", "tpl.message.html");
-		$tpl->setCurrentBlock("message");
+#		$tpl->setCurrentBlock("message");
 		$tpl->setVariable("INFO",$_SESSION["info"]);
-		$tpl->parseCurrentBlock();
+#		$tpl->parseCurrentBlock();
 	}
 
 	if (!$a_keep)
@@ -493,4 +493,14 @@ function getMailFolderId()
 
 	return $row->obj_id;
 }
+function debug($text)
+{
+	$str = '';
+	for($i=0;$i<strlen($text);$i++)
+	{
+		$str .= sprintf("%d is %s\n",ord(substr($text,$i,1)),substr($text,$i,1));
+	}
+	var_dump("<pre>",$str,"</pre");
+}
+	
 ?>
