@@ -9,6 +9,7 @@
 		</ilFrame>
 		<ilFrame name="maincontent" template="tpl.page.html" template_location="module">
 			<ilLocator />
+			<ilLMMenu />
 			<ilPage />
 			<ilLMNavigation />
 		</ilFrame>
