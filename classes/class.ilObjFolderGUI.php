@@ -27,7 +27,7 @@
 * Class ilObjFolderGUI
 *
 * @author Martin Rus <develop-ilias@uni-koeln.de> 
-* $Id$Id: class.ilObjFolderGUI.php,v 1.12 2003/11/03 09:58:20 mrus Exp $
+* $Id$Id: class.ilObjFolderGUI.php,v 1.13 2004/01/12 16:30:53 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -68,7 +68,7 @@ class ilObjFolderGUI extends ilObjectGUI
 		// creates a child object
 		global $rbacsystem;
 		
-		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"]))
+		if (!$rbacsystem->checkAccess("create_fold", $_GET["ref_id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 			exit();
