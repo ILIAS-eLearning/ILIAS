@@ -164,7 +164,18 @@ class ASS_OrderingQuestion extends ASS_Question
 				{
 					case "qticomment":
 						$comment = $node->get_content();
-						if (!(preg_match("/ILIAS Version\=/is", $comment, $matches) or preg_match("/Questiontype\=/is", $comment, $matches)))
+						if (strpos($comment, "ILIAS Version=") !== false)
+						{
+						}
+						elseif (strpos($comment, "Questiontype=") !== false)
+						{
+						}
+						elseif (strpos($comment, "Author=") !== false)
+						{
+							$comment = str_replace("Author=", "", $comment);
+							$this->setAuthor($comment);
+						}
+						else
 						{
 							$this->setComment($comment);
 						}
@@ -327,6 +338,10 @@ class ASS_OrderingQuestion extends ASS_Question
 		$qtiIdent->append_child($qtiComment);
 		$qtiComment = $this->domxml->create_element("qticomment");
 		$qtiCommentText = $this->domxml->create_text_node("Questiontype=".ORDERING_QUESTION_IDENTIFIER);
+		$qtiComment->append_child($qtiCommentText);
+		$qtiIdent->append_child($qtiComment);
+		$qtiComment = $this->domxml->create_element("qticomment");
+		$qtiCommentText = $this->domxml->create_text_node("Author=".$this->getAuthor());
 		$qtiComment->append_child($qtiCommentText);
 		$qtiIdent->append_child($qtiComment);
 		// add estimated working time

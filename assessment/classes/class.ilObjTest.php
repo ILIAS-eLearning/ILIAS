@@ -3502,6 +3502,10 @@ class ilObjTest extends ilObject
 		$qtiCommentText = $domxml->create_text_node("ILIAS Version=".$this->ilias->getSetting("ilias_version"));
 		$qtiComment->append_child($qtiCommentText);
 		$qtiAssessment->append_child($qtiComment);
+		$qtiComment = $domxml->create_element("qticomment");
+		$qtiCommentText = $domxml->create_text_node("Author=".$this->getAuthor());
+		$qtiComment->append_child($qtiCommentText);
+		$qtiAssessment->append_child($qtiComment);
 		// add qti duration
 		if ($this->enable_processing_time)
 		{
@@ -3861,7 +3865,15 @@ class ilObjTest extends ilObject
 				{
 					case "qticomment":
 						$comment = $node->get_content();
-						if (strpos($comment, "ILIAS Version") === false)
+						if (strpos($comment, "Author=") !== false)
+						{
+							$comment = str_replace("Author=", "", $comment);
+							$this->setAuthor($comment);
+						}
+						elseif (strpos($comment, "ILIAS Version=") !== false)
+						{
+						}
+						else
 						{
 							$this->setDescription($comment);
 						}
