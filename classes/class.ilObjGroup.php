@@ -274,55 +274,39 @@ class ilObjGroup extends ilObject
 	*/
 	function setGroupStatus($a_grpStatus)
 	{
-		global $rbacadmin, $rbacreview;
+		global $rbacadmin, $rbacreview, $rbacsystem;
 
 		//get Rolefolder of group
 		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
-		//the (global)roles who must be considered when inheritance is stopped
-		//todo: query that fetches the considering global roles
-		//$arr_globalRoles = array(2,3,4,5); //admin,author,learner,guest
-
 			
 		//define all relevant roles that rights are needed to be changed
-//		$arr_globalRoles = array_diff(array_keys($rbacreview->getParentRoleIds($this->getRefId())),$rbacreview->getRolesOfRoleFolder($rolf_data["ref_id"]));
+
 		$arr_globalRoles = array_diff(array_keys($rbacreview->getParentRoleIds($this->getRefId())),$this->getDefaultGroupRoles());
 
 		//group status opened/private		
-	  	if ($a_grpStatus == 0 || $a_grpStatus == 1)
+	  	if ($a_grpStatus == 0 )//|| $a_grpStatus == 1)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusOpenTemplateId(), 'grp', 8);
-
 			foreach ($arr_globalRoles as $globalRole)
 			{
 				if($this->getGroupStatus() != NULL)
 					$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
-
-				//revoke all permission on current group object for all(!) global roles, may be a workaround
-				//refid des objektes,dass rechte aberkannt werden, opti.:roleid, wenn nur dieser rechte aberkannt...
+				//revoke all permission on current group object for all(!) global roles
 				$rbacadmin->revokePermission($this->getRefId(), $globalRole);
-
-				//rollenid,operationen,refid des objektes auf das rechte gesetzt werden
+				//grant new permissions according to group status
 				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());
-
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
 				//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
 				$rbacadmin->copyRolePermission($this->getGrpStatusOpenTemplateId(),8,$rolf_data["child"],$globalRole);
-
 				//the assignment stops the inheritation
-				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"n");
+				if( $rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join") == false)				
+						$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"n");
 			}//END foreach
-
-			$this->m_grpStatus = 0;
 		}
 
-	  	if($a_grpStatus == 1)
-		{
-			$this->m_grpStatus = 1;
-		}
-		
 		//group status closed
-	  	if($a_grpStatus == 2)
+	  	if($a_grpStatus == 1)
 		{
 			//get defined operations on object group depending on group status "CLOSED"->template 'il_grp_status_closed'
 			$arr_ops = $rbacreview->getOperationsOfRole($this->getGrpStatusClosedTemplateId(), 'grp', 8);
@@ -332,30 +316,16 @@ class ilObjGroup extends ilObject
 				{	
 					$rbacadmin->deleteLocalRole($globalRole,$rolf_data["child"]);
 				}
-
 				//revoke all permission on current group object for all(!) global roles, may be a workaround
 				$rbacadmin->revokePermission($this->getRefId(), $globalRole);//refid des grpobjektes,dass rechte aberkannt werden, opti.:roleid, wenn nur dieser rechte aberkannt...
 				//set permissions of global role (admin,author,guest,learner) for group object
 				$rbacadmin->grantPermission($globalRole,$arr_ops, $this->getRefId());//rollenid,operationen,refid des objektes auf das rechte gesetzt werden
-
 				//copy permissiondefinitions of template for adminrole to localrolefolder of group
 				$rbacadmin->copyRolePermission($this->getGrpStatusClosedTemplateId(),8,$globalRole,$rolf_data["child"]);			//RollenTemplateId, Rollenfolder von Template (->8),RollenfolderRefId von Gruppe,Rolle die Rechte Ã¼bernehmen soll
 				//the assignment stops the inheritation
 				$rbacadmin->assignRoleToFolder($globalRole,$rolf_data["child"],"false");
 			}//END foreach
-
-			$this->m_grpStatus = 2;
 		}
-
-		$sql_query1 = "SELECT * FROM grp_data WHERE grp_id='".$this->getRefId()."'";
-		$res		= $this->ilias->db->query($sql_query1);
-
-		if($res->numRows() == 0)
-			$sql_query = "INSERT INTO grp_data (grp_id, status) VALUES (".$this->getRefId().",".$this->m_grpStatus.")";
-		else
-			$sql_query = "UPDATE grp_data SET status='".$this->m_grpStatus."' WHERE grp_id='".$this->getRefId()."'";
-
-		$res = $this->ilias->db->query($sql_query);
 	}
 
 	/**
@@ -365,13 +335,25 @@ class ilObjGroup extends ilObject
 	*/
 	function getGroupStatus()
 	{
-		$sql_query = "SELECT status FROM grp_data WHERE grp_id=".$this->getRefId();
-		$res = $this->ilias->db->query($sql_query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		if($res->numRows() == 0)
-		 	return NULL;
-		else
-			return $row["status"];
+		global $rbacsystem,$rbacreview;
+		$role_folder = $rbacreview->getRoleFolderOfObject($this->getRefId());
+		$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
+
+		//get Rolefolder of group
+		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());		
+		//get all relevant roles
+		$arr_globalRoles = array_diff($local_roles, $this->getDefaultGroupRoles());
+
+		//if one global role has no permission to join the group is officially closed !
+		foreach($arr_globalRoles as $role)
+		{
+			if( $rbacsystem->checkPermission($this->getRefId(), $role ,"join") == false)
+			{
+				return 1;
+			}
+		}
+		return 0;
+
 	}
 
 	/**
