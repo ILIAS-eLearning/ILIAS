@@ -27,7 +27,7 @@
 *
 * @author Stefan Meyer <smeyer@databay.de>
 * @author Sascha Hofmann <shofmann@databay.de>
-* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.15 2003/06/17 13:48:02 akill Exp $
+* $Id$Id: class.ilObjLearningModuleGUI.php,v 1.16 2003/06/24 07:42:41 akill Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -250,7 +250,7 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 		}
 
 		// check correct file type
-		if ($HTTP_POST_FILES["xmldoc"]["type"] != "text/xml")
+		if ($HTTP_POST_FILES["xmldoc"]["type"] != "application/zip")
 		{
 			$this->ilias->raiseError("Wrong file type!",$this->ilias->error_obj->MESSAGE);
 		}
@@ -276,11 +276,26 @@ class ilObjLearningModuleGUI extends ilObjectGUI
 			$newObj->createImportDirectory();
 
 			// copy uploaded file to import directory
-			$file_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
-			move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $file_path);
+			$file = pathinfo($_FILES["xmldoc"]["name"]);
+			$full_path = $newObj->getImportDirectory()."/".$_FILES["xmldoc"]["name"];
+			move_uploaded_file($_FILES["xmldoc"]["tmp_name"], $full_path);
+
+			// unzip file
+			$cdir = getcwd();
+			chdir($newObj->getImportDirectory());
+			$unzip = $this->ilias->getSetting("unzip_path");
+			$unzipcmd = $unzip." ".$file["basename"];
+echo "unzipcmd :".$unzipcmd.":<br>";
+			exec($unzipcmd);
+			chdir($cdir);
+
+			// determine filename of xml file
+			$subdir = basename($file["basename"],".".$file["extension"]);
+			$xml_file = $newObj->getImportDirectory()."/".$subdir."/".$subdir.".xml";
+echo "xmlfile:".$xml_file;
 
 			require_once ("content/classes/class.ilLMParser.php");
-			$lmParser = new ilLMParser($newObj, $file_path);
+			$lmParser = new ilLMParser($newObj, $xml_file);
 			$lmParser->startParsing();
 		} // --- end: test of alternate parsing / lm storing
 		else
