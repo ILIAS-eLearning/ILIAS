@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.19 2003/01/13 13:38:15 smeyer Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.20 2003/01/22 09:37:13 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -192,6 +192,37 @@ class ObjectOut
 		$this->tpl->parseCurrentBlock();
 	}
 
+	/**
+	* this methods handles all button actions
+	* @access	public
+	*/
+	function gatewayObject()
+	{
+		global $lng;
+
+		switch($_POST["cmd"])
+		{
+			case $lng->txt("delete"):
+				$this->confirmDeleteAdmObject();
+				break;
+
+			case $lng->txt("btn_undelete"):
+				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
+				exit();
+
+			case $lng->txt("btn_remove_system"):
+				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
+				exit();
+
+			default:
+				header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+					   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+				exit();
+		}
+	}
+
 	function createObject()
 	{
 		$this->getTemplateFile("edit");
@@ -325,7 +356,7 @@ class ObjectOut
 		$num = 0;
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-								$_GET["parent"]);
+								$_GET["parent"]."&cmd=gateway");
 		
 		//table header
 		foreach ($this->data["cols"] as $key)
@@ -429,50 +460,13 @@ class ObjectOut
 
 	}
 
-	function cutAdmObject()
-	{
-		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
-		exit();
-	}
-	function copyAdmObject()
-	{
-		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
-		exit();
-	}
-	function linkAdmObject()
-	{
-		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
-		exit();
-	}
-	function pasteAdmObject()
-	{
-		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
-		exit();
-	}
-	function cancelDeleteObject()
-	{
-		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
-		exit();
-	}
-	function deleteAdmObject()
-	{
-		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
-		exit();
-
-	}
 	function confirmDeleteAdmObject()
 	{
 
 		$this->getTemplateFile("confirm");
 		$this->ilias->error_obj->sendInfo($this->lng->txt("info_delete_sure"));
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-								$_GET["parent"]);
+								$_GET["parent"]."&cmd=gateway");
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
 		{
@@ -529,7 +523,7 @@ class ObjectOut
 
 		$this->ilias->error_obj->sendInfo($this->lng->txt("info_trash"));
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-								$_GET["parent"]);
+								$_GET["parent"]."&cmd=gateway");
 		// BEGIN TABLE HEADER
 		foreach ($this->data["cols"] as $key)
 		{
@@ -580,25 +574,7 @@ class ObjectOut
 			$this->tpl->parseCurrentBlock();
 		}
 	}
-	function removeAdmObject()
-	{
-		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=trash");
-		exit();
-	}
 
-	function clearAdmObject()
-	{
-		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
-		exit();
-	}
-	function undeleteAdmObject()
-	{
-		header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
-			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
-		exit();
-	}
 	function showActions()
 	{
 		$notoperations = array();
@@ -641,7 +617,7 @@ class ObjectOut
 
 	function showPossibleSubObjects()
 	{
-		$d = $this->objDefinition->getSubObjects($_GET["type"]); // TYPE ALWAYS SET ???????????????????
+		$d = $this->objDefinition->getSubObjects($_GET["type"]);
 		foreach ($d as $row)
 		{
 			//@todo max value abfragen und entsprechend evtl aus der liste streichen
