@@ -33,64 +33,64 @@
 // NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode!
 <!-- language file start -->
-administration#:#analyze_data#:#Analyze data Integrity###09 Mar 2004 new variable
-administration#:#analyze_desc#:#Scan system for corrupted/invalid/missing/unbound objects.###09 Mar 2004 new variable
-administration#:#analyzing#:#Analyzing...###09 Mar 2004 new variable
-administration#:#clean#:#Clean up###09 Mar 2004 new variable
-administration#:#clean_desc#:#Remove invalid references & tree entries. Close gaps in tree structure.###09 Mar 2004 new variable
-administration#:#cleaning#:#Cleaning...###09 Mar 2004 new variable
-administration#:#cleaning_final#:#Final cleaning...###09 Mar 2004 new variable
-administration#:#closing_gaps#:#Closing gaps in tree...###09 Mar 2004 new variable
-administration#:#disabled#:#disabled###09 Mar 2004 new variable
-administration#:#done#:#Done###09 Mar 2004 new variable
-administration#:#found#:#found.###09 Mar 2004 new variable
-administration#:#found_none#:#none found.###09 Mar 2004 new variable
-administration#:#log_scan#:#Log scan results###09 Mar 2004 new variable
-administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.###09 Mar 2004 new variable
-administration#:#nothing_to_purge#:#Nothing to purge...###09 Mar 2004 new variable
-administration#:#nothing_to_remove#:#Nothing to remove...###09 Mar 2004 new variable
-administration#:#nothing_to_restore#:#Nothing to restore...###09 Mar 2004 new variable
-administration#:#options#:#Options###09 Mar 2004 new variable
-administration#:#purge_missing#:#Purge missing objects###09 Mar 2004 new variable
-administration#:#purge_missing_desc#:#Remove all missing and unbound objects found from system.###09 Mar 2004 new variable
-administration#:#purge_trash#:#Purge deleted objects###09 Mar 2004 new variable
-administration#:#purge_trash_desc#:#Remove all objects in trash bin from system.###09 Mar 2004 new variable
-administration#:#purging#:#Purging...###09 Mar 2004 new variable
-administration#:#purging_trash#:#Purging trash...###09 Mar 2004 new variable
-administration#:#purging_unbound_objs#:#Purging unbound objects...###09 Mar 2004 new variable
-administration#:#removing_invalid_childs#:#Removing invalid tree entries...###09 Mar 2004 new variable
-administration#:#removing_invalid_refs#:#Removing invalid references...###09 Mar 2004 new variable
-administration#:#restore_missing#:#Restore missing objects###09 Mar 2004 new variable
-administration#:#restore_missing_desc#:#Restore missing and unbound objects to RecoveryFolder.###09 Mar 2004 new variable
-administration#:#restore_trash#:#Restore deleted objects###09 Mar 2004 new variable
-administration#:#restore_trash_desc#:#Restore all objects in trash bin to RecoveryFolder.###09 Mar 2004 new variable
-administration#:#restoring#:#Restoring...###09 Mar 2004 new variable
-administration#:#restoring_missing_objs#:#Restoring missing objects...###09 Mar 2004 new variable
-administration#:#restoring_trash#:#Restoring trash...###09 Mar 2004 new variable
-administration#:#restoring_unbound_objs#:#Restoring unbound objects & subobjects...###09 Mar 2004 new variable
-administration#:#scan_completed#:#Scan completed###09 Mar 2004 new variable
-administration#:#scan_details#:#Scan details###09 Mar 2004 new variable
-administration#:#scan_modes#:#Scan modes used###09 Mar 2004 new variable
-administration#:#scan_only#:#Scan only###09 Mar 2004 new variable
-administration#:#scanning_system#:#Scanning system...###09 Mar 2004 new variable
-administration#:#searching_deleted_objs#:#Searching for deleted objects...###09 Mar 2004 new variable
-administration#:#searching_invalid_childs#:#Searching for invalid tree entries...###09 Mar 2004 new variable
-administration#:#searching_invalid_refs#:#Searching for invalid references...###09 Mar 2004 new variable
-administration#:#searching_missing_objs#:#Searching for missing objects...###09 Mar 2004 new variable
-administration#:#searching_unbound_objs#:#Searching for unbound objects...###09 Mar 2004 new variable
-administration#:#skippede#:#skipped###09 Mar 2004 new variable
-administration#:#start_scan#:#Start!###09 Mar 2004 new variable
-administration#:#systemcheck#:#Systemcheck###09 Mar 2004 new variable
-administration#:#view_last_log#:#View last Scanlog###09 Mar 2004 new variable
-administration#:#view_log#:#View details###09 Mar 2004 new variable
-assessment#:#0_unlimited#:#(0 = unlimited)###08 Mar 2004 new variable
+administration#:#analyze_data#:#Analizar Integridade dos Dados
+administration#:#analyze_desc#:#Verificar sistema por objectos corrupidos/inválidos/em falta/incircunscritos.
+administration#:#analyzing#:#A analizar...
+administration#:#clean#:#Limpar
+administration#:#clean_desc#:#Remover referências inválidas e entradas de árvore. Fechar vazios na estrutura da árvore.
+administration#:#cleaning#:#A limpar...
+administration#:#cleaning_final#:#Limpeza final...
+administration#:#closing_gaps#:#A fechar vazios na árvore...
+administration#:#disabled#:#desactivado
+administration#:#done#:#Feito
+administration#:#found#:#encontrado.
+administration#:#found_none#:#nenhum encontrado.
+administration#:#log_scan#:#Fazer Log dos resultados da verificação
+administration#:#log_scan_desc#:#Escrever os resultados da verificação em 'scanlog.log' na directoria de dados do cliente.
+administration#:#nothing_to_purge#:#Nada para limpar...
+administration#:#nothing_to_remove#:#Nada para remover...
+administration#:#nothing_to_restore#:#Nada para restaurar...
+administration#:#options#:#Opções
+administration#:#purge_missing#:#Limpar objectos em falta
+administration#:#purge_missing_desc#:#Remover todos os objectos em falta e incircunscritos encontrados no sistema.
+administration#:#purge_trash#:#Limpar objectos apagados
+administration#:#purge_trash_desc#:#Remover todos os objectos no lixo do sistema.
+administration#:#purging#:#A Limpar...
+administration#:#purging_trash#:#A limpar o lixo...
+administration#:#purging_unbound_objs#:#A limpar os objectos incircunscritos...
+administration#:#removing_invalid_childs#:#A remover entradas de árvore inválidas...
+administration#:#removing_invalid_refs#:#A remover referências inválidas...
+administration#:#restore_missing#:#Restaurar os objectos em falta
+administration#:#restore_missing_desc#:#Restaurar os objectos em falta e incircunscritos para a PastaDeRecureração.
+administration#:#restore_trash#:#Restaurar objectos apagados
+administration#:#restore_trash_desc#:#Restaurar todos os objectos no lixo para a PastaDeRecuperação.
+administration#:#restoring#:#A restaurar...
+administration#:#restoring_missing_objs#:#A restaurar os objectos em falta...
+administration#:#restoring_trash#:#A restaurar o lixo...
+administration#:#restoring_unbound_objs#:#A restaurar os objectos incircunscritos e subobjectos...
+administration#:#scan_completed#:#Verificação completa
+administration#:#scan_details#:#Detalhes da verificação
+administration#:#scan_modes#:#Modos de verificação usados
+administration#:#scan_only#:#Verificar apenas
+administration#:#scanning_system#:#A verificar o sistema...
+administration#:#searching_deleted_objs#:#A procurar objectos apagados...
+administration#:#searching_invalid_childs#:#A procurar entradas de árvore inválidas...
+administration#:#searching_invalid_refs#:#A procurar referências inválidas...
+administration#:#searching_missing_objs#:#A procurar objectos em falta...
+administration#:#searching_unbound_objs#:#A procurar objectos incircunscritos...
+administration#:#skippede#:#passado por cima
+administration#:#start_scan#:#Iniciar!
+administration#:#systemcheck#:#Verificação de sistema
+administration#:#view_last_log#:#Ver último Log de verificação
+administration#:#view_log#:#Ver detalhes
+assessment#:#0_unlimited#:#(0 = ilimitado)
 assessment#:#add_answer#:#Adicionar resposta
-assessment#:#add_answer_tf#:#Add true/false answers###23 Mar 2004 new variable
-assessment#:#add_answer_yn#:#Add yes/no answers###23 Mar 2004 new variable
+assessment#:#add_answer_tf#:#Adicionar respostas verdadeiro/falso
+assessment#:#add_answer_yn#:#Adicionar respostas sim/não
 assessment#:#add_matching_pair#:#Adicionar par correpondente
 assessment#:#all_available_question_pools#:#All available question pools###07 Apr 2004 new variable
 assessment#:#answer#:#Resposta
-assessment#:#answer_picture#:#Answer picture###23 Mar 2004 new variable
+assessment#:#answer_picture#:#Foto de resposta
 assessment#:#answer_text#:#Texto de resposta
 assessment#:#apply#:#Aplicar
 assessment#:#ass_questions#:#Questões
@@ -101,264 +101,264 @@ assessment#:#create_gaps#:#Criar espaços
 assessment#:#create_new#:#Criar novo
 assessment#:#duplicate#:#Duplicar
 assessment#:#end_tag#:#End tag###07 Apr 2004 new variable
-assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_imagemap_result#:#The imagemap selection is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_legend_link#:#Please refer to the legend for the meaning of the column header symbols.###23 Mar 2004 new variable
-assessment#:#eval_matching_result#:#The matching pair %s - %s is %s. You received %s points.###11 Mar 2004 new variable
-assessment#:#eval_order_result#:#The order for the value %s is %s. You received %s points.###11 Mar 2004 new variable
+assessment#:#eval_choice_result#:#A escolha com o valor %s é %s. Você recebeu %s pontos.
+assessment#:#eval_cloze_result#:#Número do espaço %s com o valor %s é %s. Você recebeu %s pontos.
+assessment#:#eval_imagemap_result#:#A selecção do mapa de imagem é %s. Você recebeu %s pontos.
+assessment#:#eval_legend_link#:#Por favor refira a legenda para o significado dos símbolos do cabeçalho da coluna.
+assessment#:#eval_matching_result#:#O par correspondente %s - %s é %s. Você recebeu %s pontos.
+assessment#:#eval_order_result#:#A ordem para o valor %s é %s. Você recebeu %s pontos.
 assessment#:#exp_eval_data#:#Export Evaluation Data###08 Apr 2004 new variable
 assessment#:#exp_type_excel#:#  Excel  ###08 Apr 2004 new variable
 assessment#:#exp_type_spss#:#  SPSS  ###08 Apr 2004 new variable
 assessment#:#export#:#Exportar
 assessment#:#false#:#Falso
-assessment#:#fill_out_all_answer_fields#:#Please fill out all answer text fields before you add a new one!###13 Mar 2004 new variable
-assessment#:#fill_out_all_matching_pairs#:#Please fill out all matching pairs before you add a new one!###13 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_add_answer#:#Please fill out all required fields before you add answers!###08 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_add_matching#:#Please fill out all required fields before you add a matching pair!###08 Mar 2004 new variable
-assessment#:#fill_out_all_required_fields_create_gaps#:#Please fill out all required fields before you create gaps!###08 Mar 2004 new variable
+assessment#:#fill_out_all_answer_fields#:#Por favor preencha todos os campos de texto de resposta antes de adicionar um novo!
+assessment#:#fill_out_all_matching_pairs#:#Por favor preencha todos os pares correspondentes antes de adicionar um novo!
+assessment#:#fill_out_all_required_fields_add_answer#:#Por favor preencha todos os campos requeridos antes de adicionar respostas!
+assessment#:#fill_out_all_required_fields_add_matching#:#Por favor preencha todos os campos requeridos antes de adicionar um par correspondente!
+assessment#:#fill_out_all_required_fields_create_gaps#:#Por favor preencha todos os campos requeridos antes de criar espaços!
 assessment#:#filter#:#Filtro
 assessment#:#gap_definition#:#Gap definition###07 Apr 2004 new variable
 assessment#:#gap_selection#:#Selecção de espaço
-assessment#:#imagemap#:#Image map###08 Mar 2004 new variable
+assessment#:#imagemap#:#Mapa de imagem
 assessment#:#last_update#:#Last update
-assessment#:#legend#:#Legend###23 Mar 2004 new variable
-assessment#:#mark_schema#:#Mark schema###08 Mar 2004 new variable
-assessment#:#match_terms_and_definitions#:#Match terms and definitions###08 Mar 2004 new variable
-assessment#:#match_terms_and_pictures#:#Match terms and pictures###08 Mar 2004 new variable
+assessment#:#legend#:#Legenda
+assessment#:#mark_schema#:#Esquema de notas
+assessment#:#match_terms_and_definitions#:#Corresponder termos e definições
+assessment#:#match_terms_and_pictures#:#Corresponder termos e imagens
 assessment#:#matches#:#correspondências
 assessment#:#matching_pair#:#Par correspondente
-assessment#:#material#:#Material###11 Mar 2004 new variable
-assessment#:#material_download#:#Material to download###11 Mar 2004 new variable
-assessment#:#material_file#:#Material file###23 Mar 2004 new variable
-assessment#:#maximum_nr_of_tries_reached#:#You have reached the maximum number of tries for this test. The test cannot be entered!###08 Mar 2004 new variable
-assessment#:#meaning#:#Meaning###23 Mar 2004 new variable
+assessment#:#material#:#Material
+assessment#:#material_download#:#Material para descarregar
+assessment#:#material_file#:#Ficheiro de material
+assessment#:#maximum_nr_of_tries_reached#:#Você chegou ao número máximo de tentativas para este teste. O teste não pode entrar!
+assessment#:#meaning#:#Significado
 assessment#:#no_questions_available#:#Não existem nenhumas perguntas disponíveis!
 assessment#:#or#:#or###07 Apr 2004 new variable
-assessment#:#order_pictures#:#Order pictures###23 Mar 2004 new variable
-assessment#:#order_terms#:#Order terms###23 Mar 2004 new variable
+assessment#:#order_pictures#:#Ordenar imagens
+assessment#:#order_terms#:#Ordenar termos
 assessment#:#points#:#Pontos
 assessment#:#possible_gap_text#:#Texto possível do espaço
-assessment#:#postpone#:#Postpone question###08 Mar 2004 new variable
-assessment#:#postponed#:#postponed###08 Mar 2004 new variable
+assessment#:#postpone#:#Adiar questão
+assessment#:#postponed#:#adiada
 assessment#:#preview#:#Previsão
-assessment#:#qpl_assessment_no_assessment_of_questions#:#There is no assessment of questions available for the selected question. The question was never used in a test.###17 Mar 2004 new variable
-assessment#:#qpl_assessment_of_questions#:#Assessment of questions###17 Mar 2004 new variable
-assessment#:#qpl_assessment_total_of_answers#:#Total of answers###17 Mar 2004 new variable
-assessment#:#qpl_assessment_total_of_right_answers#:#Total percentage of right answers (percentage of maximum points)###17 Mar 2004 new variable
+assessment#:#qpl_assessment_no_assessment_of_questions#:#Não existe nenhuma avaliação das questões disponível para as questões seleccionadas. A questão nunca foi usada num teste.
+assessment#:#qpl_assessment_of_questions#:#Avaliação de questões
+assessment#:#qpl_assessment_total_of_answers#:#Total de respostas
+assessment#:#qpl_assessment_total_of_right_answers#:#Percentagem total de respostas certas (percentagem de pontos máximos)
 assessment#:#qpl_delete_rbac_error#:#Você não tem permissão para apagar esta questão!
 assessment#:#qpl_delete_select_none#:#Por favor seleccione pelo menos uma questão para apagar
-assessment#:#qpl_display_fullsize_image#:#Click here to display the original image!###23 Mar 2004 new variable
+assessment#:#qpl_display_fullsize_image#:#Carregue aqui para mostrar a imagem original!
 assessment#:#qpl_duplicate_select_none#:#Por favor seleccione pelo menos uma questão para duplicar
 assessment#:#qpl_edit_rbac_error#:#Você não tem permissão para editar esta questão!
 assessment#:#qpl_edit_select_multiple#:#Por favor seleccione apenas uma questão para editar
 assessment#:#qpl_edit_select_none#:#Por favor seleccione uma questão para editar
 assessment#:#qpl_export_select_none#:#Por favor seleccione pelo menos uma questão para exportar
 assessment#:#qt_cloze#:#Fechar questão
-assessment#:#qt_imagemap#:#Image Map Question###08 Mar 2004 new variable
+assessment#:#qt_imagemap#:#Questão de Mapa de Imagem
 assessment#:#qt_matching#:#Questão correspondente
 assessment#:#qt_multiple_choice_mr#:#Questão de escolha múltipla (resposta múltipla)
 assessment#:#qt_multiple_choice_sr#:#Questão de escolha múltipla (resposta única)
 assessment#:#qt_ordering#:#Questão de ordenação
-assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve harddisk space to store the uploaded file. If you cancel this form now, be aware that you have to delete the question in the questionpool if you don't want to keep it!###08 Mar 2004 new variable
-assessment#:#question_short#:#Q###23 Mar 2004 new variable
+assessment#:#question_saved_for_upload#:#A questão foi guardada automáticamente para reservar espaço no disco para guardar o ficheiro enviado. Se você cancelar esta operação agora, tenha atenção que você tem de apagar a questão no banco de questões se não quiser mantê-la!
+assessment#:#question_short#:#Q
 assessment#:#question_type#:#Tipo de questão
 assessment#:#random_selection#:#Random selection###07 Apr 2004 new variable
-assessment#:#region#:#Region###08 Mar 2004 new variable
-assessment#:#remove_question#:#Remove###08 Mar 2004 new variable
-assessment#:#report_date_not_reached#:#You have not reached the reporting date. You will be able to view the test results at %s###22 Mar 2004 new variable
+assessment#:#region#:#Região
+assessment#:#remove_question#:#Remover
+assessment#:#report_date_not_reached#:#Você não chegou à data de reportação. Você poderá ver os resultados do teste em %s
 assessment#:#reset_filter#:#Reajustar filtro
-assessment#:#result#:#Result###17 Mar 2004 new variable
-assessment#:#save_finish#:#Save and finish the test###08 Mar 2004 new variable
-assessment#:#save_introduction#:#Save and goto introduction###08 Mar 2004 new variable
-assessment#:#save_next#:#Save and goto next question###08 Mar 2004 new variable
-assessment#:#save_previous#:#Save and goto previous question###08 Mar 2004 new variable
+assessment#:#result#:#Resultado
+assessment#:#save_finish#:#Guardar e finalizar o teste
+assessment#:#save_introduction#:#Guardar e ir para a introdução
+assessment#:#save_next#:#Guardar e ir para a próxima questão
+assessment#:#save_previous#:#Guardar e ir para para a questão anterior
 assessment#:#select_gap#:#Seleccionar espaço
 assessment#:#set_filter#:#Definir filtro
 assessment#:#shuffle_answers#:#Shuffle answers###07 Apr 2004 new variable
 assessment#:#solution_order#:#Ordem solução
 assessment#:#start_tag#:#Start tag###07 Apr 2004 new variable
-assessment#:#symbol#:#Symbol###23 Mar 2004 new variable
+assessment#:#symbol#:#Símbolo
 assessment#:#text_gap#:#Espaço de Texto
 assessment#:#time_format#:#HH MM SS###08 Apr 2004 new variable
 assessment#:#true#:#Verdadeiro
-assessment#:#tst_already_taken#:#Tests already taken###12 Mar 2004 new variable
-assessment#:#tst_anon_eval#:#Anonymous aggregated results###17 Mar 2004 new variable
-assessment#:#tst_browse_for_questions#:#Browse for questions###08 Mar 2004 new variable
-assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it###08 Mar 2004 new variable
-assessment#:#tst_eval_no_anonymous_aggregation#:#Noone has entered the test yet. There are no anonymous aggregated test results available.###17 Mar 2004 new variable
-assessment#:#tst_eval_total_finished#:#Total finished tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_finished_average_time#:#Average processing time for finished tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_passed#:#Total passed tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_passed_average_points#:#Average points of passed tests###17 Mar 2004 new variable
-assessment#:#tst_eval_total_persons#:#Total number of persons entered the test###17 Mar 2004 new variable
+assessment#:#tst_already_taken#:#Testes já feitos
+assessment#:#tst_anon_eval#:#Resultados agregados anónimos
+assessment#:#tst_browse_for_questions#:#Procurar por questões
+assessment#:#tst_delete_missing_mark#:#Por favor seleccione pelo menos um avanço de nota para apagá-lo
+assessment#:#tst_eval_no_anonymous_aggregation#:#Ninguém ainda entrou no teste. Não existem resultados agregados de testes disponíveis.
+assessment#:#tst_eval_total_finished#:#Total de testes acabados
+assessment#:#tst_eval_total_finished_average_time#:#Tempo médio de realização para os testes acabados
+assessment#:#tst_eval_total_passed#:#Total de testes passados
+assessment#:#tst_eval_total_passed_average_points#:#Média de pontos de testes passados
+assessment#:#tst_eval_total_persons#:#Número total de pessoas que entraram no teste
 assessment#:#tst_general_properties#:#Propriedades gerais
-assessment#:#tst_generate_xls#:#Generate Excel###26 Mar 2004 new variable
-assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!###08 Mar 2004 new variable
-assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
-assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?###19 Mar 2004 new variable
+assessment#:#tst_generate_xls#:#Gerar Excel
+assessment#:#tst_insert_missing_question#:#Por favor seleccione pelo menos uma questão para inserir-la no teste!
+assessment#:#tst_insert_questions#:#Tem a certeza que quer inserir as seguintes questões no teste?
+assessment#:#tst_insert_questions_and_results#:#Este teste foi já feito por %s utilizadores. Inserir questões neste teste removerá todos os resultados destes utilizadores. Tem a certeza que quer inserir as seguintes questões no teste?
 assessment#:#tst_introduction#:#Introdução
-assessment#:#tst_mark#:#Mark###12 Mar 2004 new variable
-assessment#:#tst_mark_create_new_mark_step#:#Create new mark step###08 Mar 2004 new variable
-assessment#:#tst_mark_create_simple_mark_schema#:#Create simple mark schema###08 Mar 2004 new variable
-assessment#:#tst_mark_minimum_level#:#Minimum level (in %)###08 Mar 2004 new variable
-assessment#:#tst_mark_official_form#:#Official form###08 Mar 2004 new variable
-assessment#:#tst_mark_passed#:#Passed###08 Mar 2004 new variable
-assessment#:#tst_mark_short_form#:#Short form###08 Mar 2004 new variable
-assessment#:#tst_maximum_points#:#Maximum points###11 Mar 2004 new variable
-assessment#:#tst_no_marks_defined#:#There are no marks defined, please create at least a simple mark schema!###08 Mar 2004 new variable
-assessment#:#tst_no_question_selected_for_removal#:#Please check at least one question to remove it!###08 Mar 2004 new variable
-assessment#:#tst_no_questions_available#:#There are no questions available! You need to create new questions or browse for questions.###08 Mar 2004 new variable
-assessment#:#tst_no_taken_tests#:#There are no taken tests!###13 Mar 2004 new variable
+assessment#:#tst_mark#:#Nota
+assessment#:#tst_mark_create_new_mark_step#:#Criar novo avanço de nota
+assessment#:#tst_mark_create_simple_mark_schema#:#Criar esquema de notas simples
+assessment#:#tst_mark_minimum_level#:#Nível mínimo (em %)
+assessment#:#tst_mark_official_form#:#Forma oficial
+assessment#:#tst_mark_passed#:#Passou
+assessment#:#tst_mark_short_form#:#Forma curta
+assessment#:#tst_maximum_points#:#Máximo de Pontos
+assessment#:#tst_no_marks_defined#:#Não existem nenhumas notas definidas, por favor crie pelo menos um esquema de notas simples!
+assessment#:#tst_no_question_selected_for_removal#:#Por favor seleccione pelo menos uma questão para a remover!
+assessment#:#tst_no_questions_available#:#Não existem questões disponíveis! Você precisa de criar novas questões ou procurar por questões.
+assessment#:#tst_no_taken_tests#:#Não existem teste tomados!
 assessment#:#tst_nr_of_tries#:#Max. número de tentativas
-assessment#:#tst_percent_solved#:#Percent solved###11 Mar 2004 new variable
+assessment#:#tst_percent_solved#:#Percentagem resolvido
 assessment#:#tst_processing_time#:#Max. tempo de processamento
-assessment#:#tst_question_no#:#Order###11 Mar 2004 new variable
+assessment#:#tst_question_no#:#Ordem
 assessment#:#tst_question_offer#:#Do you accept this sample or do you want another one?###07 Apr 2004 new variable
-assessment#:#tst_question_title#:#Title###08 Mar 2004 new variable
-assessment#:#tst_question_type#:#Question type###08 Mar 2004 new variable
-assessment#:#tst_questions_inserted#:#Question(s) inserted!###19 Mar 2004 new variable
-assessment#:#tst_questions_removed#:#Question(s) removed!###19 Mar 2004 new variable
+assessment#:#tst_question_title#:#Título
+assessment#:#tst_question_type#:#Tipo de Questão
+assessment#:#tst_questions_inserted#:#Questõe(s) inseridas!
+assessment#:#tst_questions_removed#:#Questõe(s) removidas!
 assessment#:#tst_random_nr_of_questions#:#How many questions?###07 Apr 2004 new variable
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from###07 Apr 2004 new variable
-assessment#:#tst_reached_points#:#Reached points###11 Mar 2004 new variable
-assessment#:#tst_remove_questions#:#Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
-assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?###19 Mar 2004 new variable
+assessment#:#tst_reached_points#:#Pontos conseguidos
+assessment#:#tst_remove_questions#:#Tem a certeza que quer remover as seguintes questõe(s) do teste?
+assessment#:#tst_remove_questions_and_results#:#Este teste já foi feito pelos %s utilizadore(s). Remover questões deste teste fará remover todos os resultados destes utilizadores. Tem a certeza que quer remover as seguintes questões do teste?
 assessment#:#tst_report_after_question#:#Mostrar pontuação depois de cada questão respondida
 assessment#:#tst_report_after_test#:#Mostrar pontuação depois de completo todo o teste
-assessment#:#tst_result_congratulations#:#Congratulations! You passed the test.###11 Mar 2004 new variable
-assessment#:#tst_result_sorry#:#Sorry, you failed the test.###11 Mar 2004 new variable
-assessment#:#tst_results#:#Test results###08 Mar 2004 new variable
-assessment#:#tst_resume_test#:#Resume the test###08 Mar 2004 new variable
+assessment#:#tst_result_congratulations#:#Parabéns! Você passou no teste.
+assessment#:#tst_result_sorry#:#Com muita pena, você falhou o teste.
+assessment#:#tst_results#:#Resultados do Teste
+assessment#:#tst_resume_test#:#Continuar o teste
 assessment#:#tst_score_reporting#:#Mostragem de pontuação
 assessment#:#tst_score_reporting_date#:#Data de mostragem de pontuação
 assessment#:#tst_score_type#:#Tipo de mostragem de pontuação
-assessment#:#tst_select_questionpool#:#Please select a question pool to store the created question###25 Mar 2004 new variable
+assessment#:#tst_select_questionpool#:#Por favor seleccione um banco de questões para guardar a questão criada
 assessment#:#tst_sequence#:#Sequência
 assessment#:#tst_sequence_fixed#:#A sequência das questões é fixa
 assessment#:#tst_sequence_postpone#:#O aluno pode adiar a questão para o fim do teste
 assessment#:#tst_sequence_properties#:#Propriedades da sequência
 assessment#:#tst_session_settings#:#Parâmetros de sessão
-assessment#:#tst_show_results#:#Show test results###08 Mar 2004 new variable
-assessment#:#tst_start_test#:#Start the test###08 Mar 2004 new variable
+assessment#:#tst_show_results#:#Mostrar resultados do teste
+assessment#:#tst_start_test#:#Começar o teste
 assessment#:#tst_starting_time#:#Tempo de começo
-assessment#:#tst_stat_all_users#:#All users###20 Mar 2004 new variable
-assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)###20 Mar 2004 new variable
-assessment#:#tst_stat_result_atimeofwork#:#Average time of work###20 Mar 2004 new variable
-assessment#:#tst_stat_result_distancemean#:#Distance to arithmetic mean###20 Mar 2004 new variable
-assessment#:#tst_stat_result_distancequintile#:#Distance to arithmetic quintile###20 Mar 2004 new variable
-assessment#:#tst_stat_result_firstvisit#:#First visit###20 Mar 2004 new variable
-assessment#:#tst_stat_result_lastvisit#:#Last visit###20 Mar 2004 new variable
-assessment#:#tst_stat_result_pworkedthrough#:#Percent of total workload already worked through###20 Mar 2004 new variable
-assessment#:#tst_stat_result_qworkedthrough#:#Questions already worked through###20 Mar 2004 new variable
-assessment#:#tst_stat_result_resultsmarks#:#Test results in marks###20 Mar 2004 new variable
-assessment#:#tst_stat_result_resultspoints#:#Test results in points###20 Mar 2004 new variable
-assessment#:#tst_stat_result_specification#:#Specification of evaluation data###20 Mar 2004 new variable
-assessment#:#tst_stat_result_timeofwork#:#Time of work###20 Mar 2004 new variable
-assessment#:#tst_stat_selected_users#:#Selected users###20 Mar 2004 new variable
-assessment#:#tst_stat_users_intro#:#Show statistical evaluation for###20 Mar 2004 new variable
-assessment#:#tst_statistical_evaluation#:#Statistical evaluation tool###20 Mar 2004 new variable
-assessment#:#tst_status_completed#:#completed###12 Mar 2004 new variable
-assessment#:#tst_status_completed_more_tries_possible#:#(completed)###12 Mar 2004 new variable
-assessment#:#tst_status_not_entered#:#not entered###12 Mar 2004 new variable
-assessment#:#tst_status_progress#:#in progress###12 Mar 2004 new variable
-assessment#:#tst_type#:#Test type###08 Mar 2004 new variable
+assessment#:#tst_stat_all_users#:#Todos os utilizadores
+assessment#:#tst_stat_choose_users#:#(seleccione um ou mais utilizadores da lista de utilizadores)
+assessment#:#tst_stat_result_atimeofwork#:#Tempo médio de trabalho
+assessment#:#tst_stat_result_distancemean#:#Distância da média aritmética
+assessment#:#tst_stat_result_distancequintile#:#Distância do quintil aritmético
+assessment#:#tst_stat_result_firstvisit#:#Primeira visita
+assessment#:#tst_stat_result_lastvisit#:#Última visita
+assessment#:#tst_stat_result_pworkedthrough#:#Percentagem do trabalho total já feito
+assessment#:#tst_stat_result_qworkedthrough#:#Questões já feitas
+assessment#:#tst_stat_result_resultsmarks#:#Resultados de testes em notas
+assessment#:#tst_stat_result_resultspoints#:#Resultados de testes em pontos
+assessment#:#tst_stat_result_specification#:#Especificação de dados da avaliação
+assessment#:#tst_stat_result_timeofwork#:#Tempo de trabalho
+assessment#:#tst_stat_selected_users#:#Utilizadores seleccionados
+assessment#:#tst_stat_users_intro#:#Mostrar avaliação estatística para
+assessment#:#tst_statistical_evaluation#:#Ferramenta de avaliação estatística
+assessment#:#tst_status_completed#:#completo
+assessment#:#tst_status_completed_more_tries_possible#:#(completo)
+assessment#:#tst_status_not_entered#:#não inserido
+assessment#:#tst_status_progress#:#em progresso
+assessment#:#tst_type#:#Tipo de teste
 assessment#:#tst_types#:#Tipos de teste
-assessment#:#tst_your_mark_is#:#Your mark is###11 Mar 2004 new variable
-assessment#:#tt_assessment#:#Assessment test###08 Mar 2004 new variable
-assessment#:#tt_navigation_controlling#:#Controlling learners navigation test###08 Mar 2004 new variable
-assessment#:#tt_self_assessment#:#Self assessment test###08 Mar 2004 new variable
-assessment#:#unlimited#:#unlimited###08 Mar 2004 new variable
-assessment#:#uploaded_material#:#Uploaded Material###11 Mar 2004 new variable
+assessment#:#tst_your_mark_is#:#A sua nota é
+assessment#:#tt_assessment#:#Teste de avaliação
+assessment#:#tt_navigation_controlling#:#Teste de controle de navegação dos alunos
+assessment#:#tt_self_assessment#:#Teste de Auto-avaliação
+assessment#:#unlimited#:#ilimitado
+assessment#:#uploaded_material#:#Material enviado
 assessment#:#working_time#:#Working Time###08 Apr 2004 new variable
-chat#:#chat_active#:#Aktive###08 Mar 2004 new variable
-chat#:#chat_active_users#:#User (aktive)###08 Mar 2004 new variable
-chat#:#chat_add_allowed_hosts#:#Please add the address of the host(s) which are allowed to access the chat server.###08 Mar 2004 new variable
-chat#:#chat_add_ip#:#Please add the server ip.###08 Mar 2004 new variable
-chat#:#chat_add_moderator_password#:#Please add a moderator password.###08 Mar 2004 new variable
-chat#:#chat_add_port#:#Please add the server port.###08 Mar 2004 new variable
-chat#:#chat_aqua#:#aqua###08 Mar 2004 new variable
-chat#:#chat_arial#:#Arial###08 Mar 2004 new variable
-chat#:#chat_black#:#black###08 Mar 2004 new variable
-chat#:#chat_blue#:#blue###08 Mar 2004 new variable
-chat#:#chat_bold#:#Bold###08 Mar 2004 new variable
-chat#:#chat_chatroom_body#:#Chatroom:###08 Mar 2004 new variable
-chat#:#chat_chatroom_rename#:#Edit chatroom###08 Mar 2004 new variable
-chat#:#chat_chatrooms#:#Chatrooms###08 Mar 2004 new variable
-chat#:#chat_color#:#Font color###08 Mar 2004 new variable
-chat#:#chat_delete_sure#:#Are you sure, you want to delete this chatroom###08 Mar 2004 new variable
-chat#:#chat_drop_user#:#User kicked###09 Mar 2004 new variable
-chat#:#chat_edit#:#Edit chat ###08 Mar 2004 new variable
-chat#:#chat_face#:#Font type###08 Mar 2004 new variable
-chat#:#chat_fuchsia#:#fuchsia###08 Mar 2004 new variable
-chat#:#chat_gray#:#gray###08 Mar 2004 new variable
-chat#:#chat_green#:#green###08 Mar 2004 new variable
-chat#:#chat_hide_details#:#Hide details###08 Mar 2004 new variable
-chat#:#chat_html_export#:#HTML export###08 Mar 2004 new variable
-chat#:#chat_ilias#:#Ilias Chat module###08 Mar 2004 new variable
-chat#:#chat_inactive#:#Inaktive###08 Mar 2004 new variable
-chat#:#chat_input#:#Input###08 Mar 2004 new variable
-chat#:#chat_insert_message#:#PLease insert a message###08 Mar 2004 new variable
-chat#:#chat_invitation_body#:#Invitation to chat from:###08 Mar 2004 new variable
-chat#:#chat_invitation_subject#:#Chat invitation###08 Mar 2004 new variable
-chat#:#chat_invite_user#:#Invite user###08 Mar 2004 new variable
-chat#:#chat_italic#:#Italic###08 Mar 2004 new variable
-chat#:#chat_level_all#:#All###08 Mar 2004 new variable
-chat#:#chat_level_debug#:#Debug###08 Mar 2004 new variable
-chat#:#chat_level_error#:#Error###08 Mar 2004 new variable
-chat#:#chat_level_fatal#:#Fatal###08 Mar 2004 new variable
-chat#:#chat_level_info#:#Info###08 Mar 2004 new variable
-chat#:#chat_lime#:#lime###08 Mar 2004 new variable
-chat#:#chat_maroon#:#maroon###08 Mar 2004 new variable
-chat#:#chat_messages_deleted#:#Messages have been deleted.###08 Mar 2004 new variable
-chat#:#chat_moderator_password#:#Moderator password###08 Mar 2004 new variable
-chat#:#chat_navy#:#navy###08 Mar 2004 new variable
-chat#:#chat_no_active_users#:#No users present.###08 Mar 2004 new variable
-chat#:#chat_no_connection#:#Cannot contact chatserver.###08 Mar 2004 new variable
-chat#:#chat_no_delete_public#:#The public chatroom cannot be deleted###08 Mar 2004 new variable
-chat#:#chat_no_refresh_public#:#the public chatroom cannot be refreshed.###08 Mar 2004 new variable
-chat#:#chat_no_rename_public#:#The public room cannot be renamed###08 Mar 2004 new variable
-chat#:#chat_no_write_perm#:#No permission to write###08 Mar 2004 new variable
-chat#:#chat_olive#:#olive###08 Mar 2004 new variable
-chat#:#chat_online_users#:#User (online)###08 Mar 2004 new variable
-chat#:#chat_private_message#:#Private Message###08 Mar 2004 new variable
-chat#:#chat_public_room#:#Public chatroom###08 Mar 2004 new variable
-chat#:#chat_purple#:#purple###08 Mar 2004 new variable
-chat#:#chat_red#:#red###08 Mar 2004 new variable
-chat#:#chat_refresh#:#Refresh###08 Mar 2004 new variable
-chat#:#chat_room_added#:#Added new chatroom###08 Mar 2004 new variable
-chat#:#chat_room_name#:#Name of chatroom###08 Mar 2004 new variable
-chat#:#chat_room_renamed#:#Chatroom renamed.###08 Mar 2004 new variable
-chat#:#chat_room_select#:#Private chatroom###08 Mar 2004 new variable
-chat#:#chat_rooms#:#Chatrooms###08 Mar 2004 new variable
-chat#:#chat_rooms_deleted#:#Chatroom(s) deleted.###08 Mar 2004 new variable
-chat#:#chat_select_one_room#:#Please select one chatroom###08 Mar 2004 new variable
-chat#:#chat_server_allowed#:#Allowed hosts###08 Mar 2004 new variable
-chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)###08 Mar 2004 new variable
-chat#:#chat_server_ip#:#Server Ip###08 Mar 2004 new variable
-chat#:#chat_server_logfile#:#Logfile path###08 Mar 2004 new variable
-chat#:#chat_server_loglevel#:#Loglevel###08 Mar 2004 new variable
-chat#:#chat_server_not_active#:#The chatserver is not active###08 Mar 2004 new variable
-chat#:#chat_server_port#:#Server Port###08 Mar 2004 new variable
-chat#:#chat_server_settings#:#Chatserver settings###08 Mar 2004 new variable
-chat#:#chat_settings_saved#:#Settings saved###08 Mar 2004 new variable
-chat#:#chat_show_details#:#Show details###08 Mar 2004 new variable
-chat#:#chat_silver#:#silver###08 Mar 2004 new variable
-chat#:#chat_status#:#Status###08 Mar 2004 new variable
-chat#:#chat_status_saved#:#The status has been changed###08 Mar 2004 new variable
-chat#:#chat_tahoma#:#Tahoma###08 Mar 2004 new variable
-chat#:#chat_teal#:#teal###08 Mar 2004 new variable
-chat#:#chat_times#:#Times###08 Mar 2004 new variable
-chat#:#chat_title_missing#:#Please insert a name.###08 Mar 2004 new variable
-chat#:#chat_to_chat_body#:#To the chat###08 Mar 2004 new variable
-chat#:#chat_type#:#Font face###08 Mar 2004 new variable
-chat#:#chat_underlined#:#Underlined###08 Mar 2004 new variable
-chat#:#chat_user_dropped#:#User kicked###08 Mar 2004 new variable
-chat#:#chat_user_invited#:#Invited user to chat.###08 Mar 2004 new variable
-chat#:#chat_yellow#:#yellow###08 Mar 2004 new variable
-chat#:#chats#:#Chats###08 Mar 2004 new variable
-chat#:#my_chats#:#My Chats###08 Mar 2004 new variable
-common#:#3rd_party_software#:#Software 3rd party###11 Apr 2004 content changed
+chat#:#chat_active#:#Activo
+chat#:#chat_active_users#:#Utilizador (activo)
+chat#:#chat_add_allowed_hosts#:#Por favor adicione os endereços dos anfitriões que são permitidos aceder ao servidor de chat.
+chat#:#chat_add_ip#:#Por favor adicione o IP do servidor.
+chat#:#chat_add_moderator_password#:#Por favor adicione uma palavra-passe do moderador.
+chat#:#chat_add_port#:#Por favor adicione o Porto do servidor.
+chat#:#chat_aqua#:#aqua
+chat#:#chat_arial#:#Arial
+chat#:#chat_black#:#preto
+chat#:#chat_blue#:#azul
+chat#:#chat_bold#:#Negrito
+chat#:#chat_chatroom_body#:#Sala de chat:
+chat#:#chat_chatroom_rename#:#Editar sala de chat
+chat#:#chat_chatrooms#:#Salas de chat
+chat#:#chat_color#:#Cor da Fonte
+chat#:#chat_delete_sure#:#Tem a certeza, quer apagar esta Sala de chat
+chat#:#chat_drop_user#:#Utilizador dispensado
+chat#:#chat_edit#:#Editar chat
+chat#:#chat_face#:#Tipo de Fonte
+chat#:#chat_fuchsia#:#fúcsia
+chat#:#chat_gray#:#cinzento
+chat#:#chat_green#:#verde
+chat#:#chat_hide_details#:#Esconder detalhes
+chat#:#chat_html_export#:#Exportação HTML
+chat#:#chat_ilias#:#Módulo de Chat do Ilias
+chat#:#chat_inactive#:#Inactivo
+chat#:#chat_input#:#Entrada
+chat#:#chat_insert_message#:#Por favor insira uma mensagem
+chat#:#chat_invitation_body#:#Convite para o chat de:
+chat#:#chat_invitation_subject#:#Convite para o chat
+chat#:#chat_invite_user#:#Convidar utilizador
+chat#:#chat_italic#:#Itálico
+chat#:#chat_level_all#:#Todos
+chat#:#chat_level_debug#:#Depurar
+chat#:#chat_level_error#:#Erro
+chat#:#chat_level_fatal#:#Fatal
+chat#:#chat_level_info#:#Info
+chat#:#chat_lime#:#lima
+chat#:#chat_maroon#:#castanho avermelhado
+chat#:#chat_messages_deleted#:#As mensagens form apagadas.
+chat#:#chat_moderator_password#:#Palavra-passe do Moderador
+chat#:#chat_navy#:#azul-marinho
+chat#:#chat_no_active_users#:#Nenhuns utilizadores presentes.
+chat#:#chat_no_connection#:#Não pode contactar o servidor de chat.
+chat#:#chat_no_delete_public#:#A sala de chat pública não pode ser apagada
+chat#:#chat_no_refresh_public#:#A sala de chat pública não pode ser actualizada.
+chat#:#chat_no_rename_public#:#A sala pública não pode ser renomeada
+chat#:#chat_no_write_perm#:#Sem permissão para escrever
+chat#:#chat_olive#:#verde-negro
+chat#:#chat_online_users#:#Utilizador (ligado)
+chat#:#chat_private_message#:#Mensagem Privada
+chat#:#chat_public_room#:#Sala de chat pública
+chat#:#chat_purple#:#púrpura
+chat#:#chat_red#:#vermelho
+chat#:#chat_refresh#:#Actualizar
+chat#:#chat_room_added#:#Adicionada nova Sala de chat
+chat#:#chat_room_name#:#Nome da Sala de chat
+chat#:#chat_room_renamed#:#Sala de chat renomeada.
+chat#:#chat_room_select#:#Sala de chat Privada
+chat#:#chat_rooms#:#Salas de Chat
+chat#:#chat_rooms_deleted#:#Sala(s) de Chat apagadas.
+chat#:#chat_select_one_room#:#Por favor seleccione uma sala de chat
+chat#:#chat_server_allowed#:#Anfitriões permitidos
+chat#:#chat_server_allowed_b#:#(e.g 192.168.1.1,192.168.1.2)
+chat#:#chat_server_ip#:#IP do Servidor
+chat#:#chat_server_logfile#:#Caminho do ficheiro de Log
+chat#:#chat_server_loglevel#:#Nível de Log
+chat#:#chat_server_not_active#:#O servidor de chat não está ectivo
+chat#:#chat_server_port#:#Porto do Servidor
+chat#:#chat_server_settings#:#Definições do Servidor de chat
+chat#:#chat_settings_saved#:#Definições guardadas
+chat#:#chat_show_details#:#Mostrar detalhes
+chat#:#chat_silver#:#prata
+chat#:#chat_status#:#Estado
+chat#:#chat_status_saved#:#O estado mudou
+chat#:#chat_tahoma#:#Tahoma
+chat#:#chat_teal#:#teal
+chat#:#chat_times#:#Tempos
+chat#:#chat_title_missing#:#Por favor insira um nome.
+chat#:#chat_to_chat_body#:#Para o chat
+chat#:#chat_type#:#Cara da Fonte
+chat#:#chat_underlined#:#Sublinhado
+chat#:#chat_user_dropped#:#Utilizador dispensado
+chat#:#chat_user_invited#:#Utilizador convidado para o chat.
+chat#:#chat_yellow#:#amarelo
+chat#:#chats#:#Chats
+chat#:#my_chats#:#Os Meus Chats
+common#:#3rd_party_software#:#Software 3rd party
 common#:#DD.MM.YYYY#:#DD.MM.AAAA
 common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Caminho absoluto
@@ -366,7 +366,7 @@ common#:#accept_usr_agreement#:#Aceitar acordo de utilização?
 common#:#access#:#Acesso
 common#:#action_aborted#:#Acção abortada
 common#:#actions#:#Acções
-common#:#activation#:#Activation###16 Mar 2004 new variable
+common#:#activation#:#Activação
 common#:#active_roles#:#Papéis activos
 common#:#add#:#Adicionar
 common#:#add_author#:#Adicionar autor
@@ -380,7 +380,7 @@ common#:#administrate#:#Administrar
 common#:#administration#:#Administração
 common#:#administrator#:#Administrador
 common#:#adopt#:#adoptar
-common#:#adopt_perm_from_template#:#Adopt permission settings from Role Template###08 Mar 2004 new variable
+common#:#adopt_perm_from_template#:#Adoptar definições de permissões de Modelo de Papel
 common#:#all_objects#:#Todos os Objectos
 common#:#allow_register#:#Disponível no registo de novos utilizadores
 common#:#and#:#e
@@ -394,23 +394,23 @@ common#:#appointment_list#:#Lista de marcações
 common#:#archive#:#Arquivo
 common#:#are_you_sure#:#Tem a certeza?
 common#:#assign#:#Atribuir
-common#:#assign_global_role#:#Assign to global role###08 Mar 2004 new variable
+common#:#assign_global_role#:#Atribuir ao papel global
 common#:#assign_lo_forum#:#Atribuir a Fórum LO
 common#:#assign_user_to_role#:#Atribuir utilizador ao papel
 common#:#at_location#:#na localização
 common#:#attachment#:#Anexo
 common#:#attachments#:#Anexos
-common#:#attend#:#Attend###03 Apr 2004 new variable
+common#:#attend#:#Atender
 common#:#author#:#Autor
 common#:#authors#:#Autores
 common#:#available_languages#:#Linguagens disponíveis
-common#:#average_time#:#Average time###16 Mar 2004 new variable
+common#:#average_time#:#Tempo médio
 common#:#back#:#Anterior
 common#:#basedn#:#BaseDN
 common#:#basic_data#:#Dados Básicos
-common#:#benchmark#:#Benchmark###16 Mar 2004 new variable
-common#:#benchmark_settings#:#Benchmark Settings###16 Mar 2004 new variable
-common#:#benchmarks#:#Benchmarks###16 Mar 2004 new variable
+common#:#benchmark#:#Cotação
+common#:#benchmark_settings#:#Definições de cotação
+common#:#benchmarks#:#Cotações
 common#:#bm#:#Marcador
 common#:#bmf#:#Pasta de Marcadores
 common#:#bookmark_edit#:#Editar Marcador
@@ -425,10 +425,10 @@ common#:#btn_undelete#:#Repor
 common#:#by#:#Por
 common#:#calendar#:#Calendário
 common#:#cancel#:#Cancelar
-common#:#cannot_find_xml#:#Cannot find any XML-file.###31 Mar 2004 new variable
+common#:#cannot_find_xml#:#Não pode encontrar nenhum ficheiro XML.
 common#:#cannot_uninstall_language_in_use#:#Não pode desinstalar a linguagem actualmente em utilizacão!
 common#:#cannot_uninstall_systemlanguage#:#Não pode desinstalar a linguagem de sistema!
-common#:#cannot_unzip_file#:#Cannot unpack file.###31 Mar 2004 new variable
+common#:#cannot_unzip_file#:#Não pode descompactar o ficheiro.
 common#:#cat#:#Categoria
 common#:#cat_a#:#uma Categoria
 common#:#cat_add#:#Adicionar Categoria
@@ -444,7 +444,7 @@ common#:#cat_create_glo#:#Criar Glossário
 common#:#cat_create_grp#:#Criar Grupo
 common#:#cat_create_htlm#:#Create HTML Learning Module###07 Apr 2004 new variable
 common#:#cat_create_lm#:#Criar Módulo de Aprendizagem
-common#:#cat_create_mep#:#Create Media Pool###22 Mar 2004 new variable
+common#:#cat_create_mep#:#Criar Banco de Média
 common#:#cat_create_qpl#:#Criar Banco de Questões
 common#:#cat_create_slm#:#Criar Módulo de Aprendizagem SCORM
 common#:#cat_create_tst#:#Criar Teste
@@ -456,19 +456,19 @@ common#:#cat_read#:#Acesso de Leitura à Categoria
 common#:#cat_visible#:#A Categoria é visível
 common#:#cat_write#:#Editar Categoria
 common#:#categories#:#Categorias
-common#:#categories_imported#:#Category import complete.###08 Mar 2004 new variable
+common#:#categories_imported#:#Importação de Categoria completa.
 common#:#cc#:#CC
-common#:#cen#:#Centra Event###03 Apr 2004 new variable
-common#:#cen_add#:#Add Centra Event###03 Apr 2004 new variable
-common#:#cen_added#:#Centra Event added###03 Apr 2004 new variable
-common#:#cen_delete#:#Delete Centra Event###03 Apr 2004 new variable
-common#:#cen_edit#:#Edit Centra Event###03 Apr 2004 new variable
-common#:#cen_new#:#New Centra Event###03 Apr 2004 new variable
-common#:#cen_save#:#Save Centra Event###03 Apr 2004 new variable
+common#:#cen#:#Evento Centra
+common#:#cen_add#:#Adicionar Evento Centra
+common#:#cen_added#:#Evento Centra adicionado
+common#:#cen_delete#:#Apagar Evento Centra
+common#:#cen_edit#:#Editar Evento Centra
+common#:#cen_new#:#Novo Evento Centra
+common#:#cen_save#:#Guardar Evento Centra
 common#:#censorship#:#Censura
-common#:#centra_account#:#Centra Admin Account###03 Apr 2004 new variable
-common#:#centra_rooms#:#Centra Rooms###03 Apr 2004 new variable
-common#:#centra_server#:#Centra Server###03 Apr 2004 new variable
+common#:#centra_account#:#Conta de Administração Centra
+common#:#centra_rooms#:#Salas Centra
+common#:#centra_server#:#Servidor Centra
 common#:#chac_edit_permission#:#Mudar definições de permissões
 common#:#chac_read#:#Acesso de Leitura às definições de Chat
 common#:#chac_visible#:#As definições de Chat são visíveis
@@ -484,11 +484,11 @@ common#:#changed_to#:#mudado para
 common#:#chapter#:#Capítulo
 common#:#chapter_number#:#Número do Capítulo
 common#:#chapter_title#:#Título do Capítulo
-common#:#chat#:#Chat###08 Mar 2004 new variable
-common#:#chat_add#:#Add Chat###08 Mar 2004 new variable
+common#:#chat#:#Chat
+common#:#chat_add#:#Adicionar Chat
 common#:#chat_delete#:#Apagar chat
 common#:#chat_edit_permission#:#Mudar definições de permissões
-common#:#chat_new#:#New Chat###08 Mar 2004 new variable
+common#:#chat_new#:#Novo Chat
 common#:#chat_read#:#Acesso de Leitura/Escrita ao chat
 common#:#chat_visible#:#O Chat está visível
 common#:#chat_write#:#Editar chat
@@ -496,7 +496,7 @@ common#:#check#:#Verificar
 common#:#check_langfile#:#Por favor verifique o ficheiro de linguagem
 common#:#check_languages#:#Verificar Linguagens
 common#:#check_max_allowed_packet_size#:#O tamanho do conteúdo da página é grande demais.
-common#:#checked_files#:#Importable files###31 Mar 2004 new variable
+common#:#checked_files#:#Ficheiros importáveis
 common#:#chg_language#:#Mudar linguagem
 common#:#chg_password#:#Mudar Palavra-passe
 common#:#choose_language#:#Escolha a sua linguagem
@@ -544,7 +544,7 @@ common#:#crs_read#:#Acesso de Leitura ao Curso
 common#:#crs_visible#:#O Curso é visível
 common#:#crs_write#:#Editar- Curso
 common#:#cumulative_time#:#Cumulative time###09 Apr 2004 new variable
-common#:#cur_number_rec#:#Current number of records###16 Mar 2004 new variable
+common#:#cur_number_rec#:#Número actual de registos
 common#:#current_password#:#Palavra-passe Actual
 common#:#cut#:#Cortar
 common#:#cutPage#:#Cortar
@@ -583,7 +583,7 @@ common#:#default_skin_style#:#Pele / Estilo defeito
 common#:#default_style#:#Estilo defeito
 common#:#delete#:#Apagar
 common#:#delete_all#:#Apagar Todos
-common#:#delete_all_rec#:#Delete all records###17 Mar 2004 new variable
+common#:#delete_all_rec#:#Apagar todos os registos
 common#:#delete_object#:#Apagar Objecto(s)
 common#:#delete_selected#:#Apagar Seleccionados
 common#:#deleted#:#Apagados
@@ -592,7 +592,7 @@ common#:#desc#:#Descrição
 common#:#description#:#Descrição
 common#:#desired_password#:#Palavra-passe desejada
 common#:#disabled#:#Desligado
-common#:#domain#:#Domain###03 Apr 2004 new variable
+common#:#domain#:#Domínio
 common#:#down#:#Baixo
 common#:#download#:#Descarregar
 common#:#drafts#:#Rascunhos
@@ -622,7 +622,7 @@ common#:#err_role_not_assignable#:#Você não pode atribuir utilizadores a este 
 common#:#err_session_expired#:#A sua sessão expirou!
 common#:#err_wrong_header#:#Razão: Cabeçalho errado.
 common#:#err_wrong_login#:#Entrada Errada
-common#:#error_parser#:#Error starting the parser.###31 Mar 2004 new variable
+common#:#error_parser#:#Erro a começar o analisador.
 common#:#error_recipient#:#Recipiente Errado
 common#:#exc#:#Exercício
 common#:#exc_add#:#Adicionar Exercício
@@ -662,7 +662,7 @@ common#:#exc_visible#:#O Exercise é visível
 common#:#exc_write#:#Editar exercício
 common#:#excs#:#Exercícios
 common#:#execute#:#Executar
-common#:#export#:#Export###20 Mar 2004 new variable
+common#:#export#:#Exportar
 common#:#export_html#:#exportar como ficheiro html
 common#:#export_xml#:#exportar como ficheiro xml
 common#:#faq_exercise#:#Exercício FAQ
@@ -706,14 +706,14 @@ common#:#frm_add#:#Adicionar Fórum
 common#:#frm_added#:#Fórum adicionado
 common#:#frm_create#:#Criar Fórum
 common#:#frm_delete#:#Apagar Fórum
-common#:#frm_delete_post#:#Apagar uma mensagem###30 Mar 2004 content changed
+common#:#frm_delete_post#:#Apagar uma mensagem
 common#:#frm_edit#:#Editar Fórum
 common#:#frm_edit_permission#:#Mudar definições de permissões
-common#:#frm_edit_post#:#Editar uma mensagem###30 Mar 2004 content changed
+common#:#frm_edit_post#:#Editar uma mensagem
 common#:#frm_new#:#Novo Fórum
 common#:#frm_read#:#Acesso de Leitura ao Fórum
 common#:#frm_visible#:#O Fórum é visível
-common#:#frm_write#:#Editar fórum/escrever mensagem###30 Mar 2004 content changed
+common#:#frm_write#:#Editar fórum/escrever mensagem
 common#:#from#:#De
 common#:#fullname#:#Nome completo
 common#:#functions#:#Funções
@@ -830,15 +830,15 @@ common#:#ilias_version#:#Versão do ILIAS
 common#:#image#:#Imagem
 common#:#image_gen_unsucc#:#Geração de imagem mal sucedida. Contacte a administração do sistema e verifique o caminho para o convert.
 common#:#import#:#Importar
-common#:#import_categories#:#Import Categories###08 Mar 2004 new variable
-common#:#import_file#:#Import File###08 Mar 2004 new variable
-common#:#import_file_not_valid#:#The import file is not valid.###31 Mar 2004 new variable
-common#:#import_finished#:#Number of imported messages.###31 Mar 2004 new variable
+common#:#import_categories#:#Importar Categorias
+common#:#import_file#:#Importar Ficheiro
+common#:#import_file_not_valid#:#O ficheiro a importar não é válido.
+common#:#import_finished#:#Número de mensagens importadas.
 common#:#import_forum_finished#:#The forum has been imported.###09 Apr 2004 new variable
 common#:#import_lm#:#Importar Módulo de Aprendizagem
-common#:#import_root_user#:#Import Root User###08 Mar 2004 new variable
+common#:#import_root_user#:#Importar Utilizador Raiz
 common#:#import_slm#:#Importar Pacote SCORM
-common#:#import_users#:#Import Users###08 Mar 2004 new variable
+common#:#import_users#:#Importar Utilizadores
 common#:#in#:#em
 common#:#in_use#:#Linguagem de Utilizador
 common#:#inbox#:#Caixa de Entrada
@@ -884,7 +884,7 @@ common#:#is_already_your#:#já é o seu
 common#:#item#:#Item
 common#:#kb#:#KByte
 common#:#keywords#:#Palavras chave
-common#:#lang_cs#:#Czech###17 Mar 2004 new variable
+common#:#lang_cs#:#Checo
 common#:#lang_dateformat#:#A-m-d
 common#:#lang_de#:#Alemão
 common#:#lang_dk#:#Dinamarquês
@@ -984,10 +984,10 @@ common#:#mail_delete_error_file#:#Erro a apagar ficheiro
 common#:#mail_e_sent#:#Enviado
 common#:#mail_edit_permission#:#Mudar definições de permissões
 common#:#mail_folders#:#Pastas de Correio
-common#:#mail_import#:#Import###31 Mar 2004 new variable
-common#:#mail_import_file#:#ILIAS 2 export file###31 Mar 2004 new variable
+common#:#mail_import#:#Importar
+common#:#mail_import_file#:#Ficheiro de exportação do ILIAS 2
 common#:#mail_intern_enable#:#Ligar
-common#:#mail_mail_visible#:#User may use mail system###20 Mar 2004 new variable
+common#:#mail_mail_visible#:#O utilizador pode usar o sistema de mensagens
 common#:#mail_mails_of#:#Mensagens
 common#:#mail_maxsize_attach#:#Max. tamanho anexo
 common#:#mail_maxsize_box#:#Max. tamanho das caixas de correio
@@ -1010,21 +1010,21 @@ common#:#mail_z_local#:#Pastas de Utilizador
 common#:#mails#:#Mensagens
 common#:#mark_all_read#:#Marcar Todas como Lidas
 common#:#mark_all_unread#:#Marcar Todas como Não Lidas
-common#:#max_number_rec#:#Maximum number of records###16 Mar 2004 new variable
+common#:#max_number_rec#:#Número máximo de registos
 common#:#max_time#:#Maximum time###09 Apr 2004 new variable
 common#:#member#:#Membro
 common#:#members#:#Membros
 common#:#membership_annulled#:#A sua inscrição foi cancelada
-common#:#mep#:#Media Pool###22 Mar 2004 new variable
-common#:#mep_add#:#Add Media Pool###22 Mar 2004 new variable
-common#:#mep_added#:#Added Media Pool###22 Mar 2004 new variable
-common#:#mep_delete#:#Delete Media Pool###22 Mar 2004 new variable
-common#:#mep_edit#:#Edit Media Pool Properties###22 Mar 2004 new variable
-common#:#mep_edit_permission#:#Change permission settings###22 Mar 2004 new variable
-common#:#mep_new#:#New Media Pool###22 Mar 2004 new variable
-common#:#mep_read#:#Read Media Pool Content###22 Mar 2004 new variable
-common#:#mep_visible#:#Media Pool is visible###22 Mar 2004 new variable
-common#:#mep_write#:#Edit Media Pool Content###22 Mar 2004 new variable
+common#:#mep#:#Banco de Média
+common#:#mep_add#:#Adicionar Banco de Média
+common#:#mep_added#:#Banco de Média Adicionado
+common#:#mep_delete#:#Apagar Banco de Média
+common#:#mep_edit#:#Editar Propriedades do Banco de Média
+common#:#mep_edit_permission#:#Mudar definições de permissões
+common#:#mep_new#:#Novo Banco de Média
+common#:#mep_read#:#Ler Conteúdo do Banco de Média
+common#:#mep_visible#:#O Banco de Média é visível
+common#:#mep_write#:#Editar Conteúdo do Banco de Média
 common#:#message#:#Mensagem
 common#:#message_content#:#Conteúdo da Mensagem
 common#:#message_to#:#Mensagem para:
@@ -1035,30 +1035,30 @@ common#:#mob#:#Objecto de Média
 common#:#module#:#módulo
 common#:#modules#:#Módulos
 common#:#month#:#Mês
-common#:#month_01_long#:#January###17 Mar 2004 new variable
-common#:#month_01_short#:#Jan###17 Mar 2004 new variable
-common#:#month_02_long#:#February###17 Mar 2004 new variable
-common#:#month_02_short#:#Feb###17 Mar 2004 new variable
-common#:#month_03_long#:#March###17 Mar 2004 new variable
-common#:#month_03_short#:#Mar###17 Mar 2004 new variable
-common#:#month_04_long#:#April###17 Mar 2004 new variable
-common#:#month_04_short#:#Apr###17 Mar 2004 new variable
-common#:#month_05_long#:#May###17 Mar 2004 new variable
-common#:#month_05_short#:#May###17 Mar 2004 new variable
-common#:#month_06_long#:#June###17 Mar 2004 new variable
-common#:#month_06_short#:#Jun###17 Mar 2004 new variable
-common#:#month_07_long#:#July###17 Mar 2004 new variable
-common#:#month_07_short#:#Jul###17 Mar 2004 new variable
-common#:#month_08_long#:#August###17 Mar 2004 new variable
-common#:#month_08_short#:#Aug###17 Mar 2004 new variable
-common#:#month_09_long#:#September###17 Mar 2004 new variable
-common#:#month_09_short#:#Sep###17 Mar 2004 new variable
-common#:#month_10_long#:#October###17 Mar 2004 new variable
-common#:#month_10_short#:#Oct###17 Mar 2004 new variable
-common#:#month_11_long#:#November###17 Mar 2004 new variable
-common#:#month_11_short#:#Nov###17 Mar 2004 new variable
-common#:#month_12_long#:#December###17 Mar 2004 new variable
-common#:#month_12_short#:#Dec###17 Mar 2004 new variable
+common#:#month_01_long#:#Janeiro
+common#:#month_01_short#:#Jan
+common#:#month_02_long#:#Fevereiro
+common#:#month_02_short#:#Fev
+common#:#month_03_long#:#Março
+common#:#month_03_short#:#Mar
+common#:#month_04_long#:#Abril
+common#:#month_04_short#:#Abr
+common#:#month_05_long#:#Maio
+common#:#month_05_short#:#Mai
+common#:#month_06_long#:#Junho
+common#:#month_06_short#:#Jun
+common#:#month_07_long#:#Julho
+common#:#month_07_short#:#Jul
+common#:#month_08_long#:#Agosto
+common#:#month_08_short#:#Ago
+common#:#month_09_long#:#Setembro
+common#:#month_09_short#:#Set
+common#:#month_10_long#:#Outubro
+common#:#month_10_short#:#Out
+common#:#month_11_long#:#Novembro
+common#:#month_11_short#:#Nov
+common#:#month_12_long#:#Dezembro
+common#:#month_12_short#:#Dez
 common#:#move#:#Mover
 common#:#moveChapter#:#Mover
 common#:#movePage#:#Mover
@@ -1109,7 +1109,7 @@ common#:#msg_no_perm_undelete#:#Você não tem permissão para repor os seguinte
 common#:#msg_no_perm_write#:#Você não tem permissão para escrever
 common#:#msg_no_rolf_allowed1#:#O objecto
 common#:#msg_no_rolf_allowed2#:#não é permitido conter uma Pasta de Papéis
-common#:#msg_no_scan_log#:#Scan log not implemented yet###08 Mar 2004 new variable
+common#:#msg_no_scan_log#:#O log de verificação ainda não está implementado
 common#:#msg_no_search_result#:#Nenhumas entradas encontradas
 common#:#msg_no_search_string#:#Por favor insira a sua consulta
 common#:#msg_no_sysadmin_sysrole_not_assignable#:#Você não pode atribuir utilizadores ao papel de Adminitrador de sistema se você não tiver o mesmo papel
@@ -1155,31 +1155,31 @@ common#:#next#:#próximo
 common#:#nickname#:#Alcunha
 common#:#no#:#Não
 common#:#no_bm_in_personal_list#:#Nenhuns marcadores definidos.
-common#:#no_chat_in_personal_list#:#No chats in personal list###09 Mar 2004 new variable
+common#:#no_chat_in_personal_list#:#Nenhuns chats na lista pessoal
 common#:#no_checkbox#:#Nenhuma caixa de selecção seleccionada!
 common#:#no_date#:#Nenhuma data
 common#:#no_description#:#No description###13 Apr 2004 new variable
 common#:#no_frm_in_personal_list#:#Não existem fóruns na sua lista pessoal.
 common#:#no_grp_in_personal_list#:#Não existem grupos na sua lista pessoal.
 common#:#no_import_available#:#Importação não disponível para o tipo
-common#:#no_limit#:#No limit###24 Mar 2004 new variable
+common#:#no_limit#:#Nenhum limite
 common#:#no_lo_in_personal_list#:#Não existem objectos de aprendizagem na sua lista pessoal.
 common#:#no_objects#:#Nenhuns objectos
 common#:#no_permission_to_join#:#Não lhe é permitido juntar-se a este grupo!
 common#:#no_title#:#Nenhum título
-common#:#no_tst_in_personal_list#:#No tests in personal list.###08 Mar 2004 new variable
+common#:#no_tst_in_personal_list#:#Nenhuns testes na lista pessoal.
 common#:#none#:#Nenhum
 common#:#normal#:#Normal
 common#:#not_installed#:#Não Instalado
 common#:#not_logged_in#:#Você não está ligado
-common#:#number_of_records#:#Number of records###16 Mar 2004 new variable
+common#:#number_of_records#:#Número de registos
 common#:#obj#:#Objecto
 common#:#obj_adm#:#Definições de Sistema
 common#:#obj_adm_desc#:#Principal pasta de definições de sistema contendo todos os painéis para administrar a sua instalação do ILIAS.
 common#:#obj_cat#:#Categoria
-common#:#obj_cen#:#Centra Event###03 Apr 2004 new variable
+common#:#obj_cen#:#Evento Centra
 common#:#obj_chac#:#Definições de Chat
-common#:#obj_chac_desc#:#Configure your chatserver here. Enable/disable chats.###09 Mar 2004 new variable
+common#:#obj_chac_desc#:#Configure aqui o seu servidor de chat. Ligar/desligar chats.
 common#:#obj_chat#:#Chat
 common#:#obj_crs#:#Curso
 common#:#obj_dbk#:#Livro Digilib
@@ -1199,8 +1199,8 @@ common#:#obj_lngf_desc#:#Gira aqui as suas linguagens de sistema.
 common#:#obj_lo#:#Módulo de Aprendizagem
 common#:#obj_mail#:#Definições de Correio
 common#:#obj_mail_desc#:#Configure aqui as definições globais de correio.
-common#:#obj_mep#:#Media Pool###22 Mar 2004 new variable
-common#:#obj_mob#:#Objecto Multimédia###06 Apr 2004 content changed
+common#:#obj_mep#:#Banco de Média
+common#:#obj_mob#:#Objecto Multimédia
 common#:#obj_not_found#:#Objecto Não Encontrado
 common#:#obj_note#:#Nota
 common#:#obj_notf#:#Administração de Notas
@@ -1209,8 +1209,8 @@ common#:#obj_objf_desc#:#Gira tipos e permissões de objectos ILIAS. (apenas par
 common#:#obj_owner#:#Este Objecto é possuído por
 common#:#obj_pg#:#Página
 common#:#obj_qpl#:#Banco de Questões
-common#:#obj_recf#:#Restored Objects###09 Mar 2004 new variable
-common#:#obj_recf_desc#:#Contains restored Objects from Systemcheck.###09 Mar 2004 new variable
+common#:#obj_recf#:#Objectos Restaurados
+common#:#obj_recf_desc#:#Contém Objectos restaurados da Verificação do sistema.
 common#:#obj_role#:#Papel
 common#:#obj_rolf#:#Papéis
 common#:#obj_rolf_desc#:#Gira aqui os seus papéis.
@@ -1227,7 +1227,7 @@ common#:#obj_uset#:#Definições de Utilizador
 common#:#obj_usr#:#Utilizador
 common#:#obj_usrf#:#Contas de utilizadores
 common#:#obj_usrf_desc#:#Gira aqui as contas de utilizadores.
-common#:#object_added#:#Object added###03 Apr 2004 new variable
+common#:#object_added#:#Objecto adicionado
 common#:#objects#:#Objectos
 common#:#objf#:#Definições de Objectos
 common#:#objf_edit_permission#:#Mudar definições de permissões
@@ -1251,7 +1251,7 @@ common#:#objs_lm#:#Módulos de Aprendizagem
 common#:#objs_lng#:#Linguagens
 common#:#objs_lo#:#Objectos de Aprendizagem
 common#:#objs_mep#:#Media Pools###07 Apr 2004 new variable
-common#:#objs_mob#:#Objectos Multimédia###06 Apr 2004 content changed
+common#:#objs_mob#:#Objectos Multimédia
 common#:#objs_note#:#Notas
 common#:#objs_pg#:#Páginas
 common#:#objs_qpl#:#Bancos de Questões
@@ -1357,7 +1357,7 @@ common#:#registered_user#:#Utilizador registado
 common#:#registered_users#:#Utilizadores registados
 common#:#registration#:#Registo de nova conta
 common#:#registration_expired#:#O período de registo expirou...
-common#:#remove#:#Dispensar###25 Mar 2004 content changed
+common#:#remove#:#Remover
 common#:#remove_translation#:#Remover tradução
 common#:#rename#:#Renomear
 common#:#reply#:#Responder
@@ -1378,7 +1378,7 @@ common#:#role_deleted#:#Papel apagado
 common#:#role_edit#:#Editar Papel
 common#:#role_new#:#Novo Papel
 common#:#roles#:#Papéis
-common#:#roles_of_import#:#Roles of Import File###08 Mar 2004 new variable
+common#:#roles_of_import#:#Papéis do Ficheiro de Importação
 common#:#rolf#:#Papéis
 common#:#rolf_added#:#Pasta de Papéis adicionada
 common#:#rolf_create_role#:#Criar nova definição de Papel
@@ -1409,7 +1409,7 @@ common#:#save_and_back#:#Guardar e Voltar
 common#:#save_message#:#Salvar Mensagem
 common#:#save_refresh#:#Salvar e Actualizar
 common#:#save_return#:#Salvar e Voltar
-common#:#save_settings#:#Save Settings###17 Mar 2004 new variable
+common#:#save_settings#:#Guardar definições
 common#:#saved#:#Guardado
 common#:#saved_successfully#:#Guardado com Sucesso
 common#:#search#:#Procurar
@@ -1439,7 +1439,7 @@ common#:#setUserLanguage#:#Definir Linguagem de Utilizador
 common#:#set_offline#:#Por Offline
 common#:#set_online#:#Por Online
 common#:#settings#:#Definições
-common#:#show#:#Show###16 Mar 2004 new variable
+common#:#show#:#Mostrar
 common#:#show_details#:#mostrar detalhes
 common#:#show_list#:#Mostrar Lista
 common#:#show_members#:#Mostrar Membros
@@ -1477,13 +1477,13 @@ common#:#subobjects#:#Assuntos
 common#:#subscription#:#Subscrição
 common#:#summary#:#Sumário
 common#:#system#:#Sistema
-common#:#system_check#:#System Check###08 Mar 2004 new variable
+common#:#system_check#:#Verificação de Sistema
 common#:#system_choose_language#:#Sistema Escolha Linguagem
 common#:#system_groups#:#Grupos do Sistema
 common#:#system_grp#:#Grupo do Sistema
 common#:#system_language#:#Linguagem de Sistema
 common#:#system_message#:#Mensagem de Sistema
-common#:#table_mail_import#:#Import from ILIAS 2 Mails###31 Mar 2004 new variable
+common#:#table_mail_import#:#Importar mensagens do ILIAS 2
 common#:#term#:#Termo
 common#:#test_intern#:#Teste Interno
 common#:#tests#:#Testes
@@ -1523,20 +1523,20 @@ common#:#up#:#Cima
 common#:#update_applied#:#Actualização Aplicada
 common#:#update_language#:#Actualizar Linguagem
 common#:#upload#:#Mandar
-common#:#uploaded_and_checked#:#The file has been uploaded and checked, you can now start to import it.###31 Mar 2004 new variable
+common#:#uploaded_and_checked#:#O ficheiro foi enviado e verificado, você pode agora começar a importá-lo.
 common#:#url#:#URL
 common#:#url_description#:#Descrição do URL
 common#:#user#:#Utilizador
 common#:#user_added#:#Utilizador adicionado
 common#:#user_assignment#:#Atribuição de Utilizador
 common#:#user_deleted#:#Utilizador apagado
-common#:#user_imported#:#User import complete.###08 Mar 2004 new variable
+common#:#user_imported#:#Importação de utilizador completa.
 common#:#user_language#:#Linguagem de Utilizador
 common#:#user_not_chosen#:#Você não escolheu um membro do grupo!
 common#:#userdata#:#Dados do utilizador
 common#:#username#:#Nome do utilizador
 common#:#users#:#Utilizadores
-common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported###31 Mar 2004 new variable
+common#:#users_not_imported#:#Os seguintes utilizadores não existem, as suas mensagens não podem ser importadas
 common#:#users_online#:#Utilizadores ligados
 common#:#usr#:#Utilizador
 common#:#usr_a#:#um Utilizador
@@ -1545,7 +1545,7 @@ common#:#usr_added#:#Utilizador adicionado
 common#:#usr_agreement#:#Acordo de utilizador
 common#:#usr_agreement_empty#:#O acordo não contém nenhum texto
 common#:#usr_edit#:#Editar Utilizador
-common#:#usr_hits_per_page#:#Hits/page in tables###24 Mar 2004 new variable
+common#:#usr_hits_per_page#:#Visitas/página em tabelas
 common#:#usr_new#:#Novo Utilizador
 common#:#usr_skin_style#:#Pele / Estilo
 common#:#usr_style#:#Estilo do Utilizador
@@ -1578,7 +1578,7 @@ content#:#HTML export#:#Exportar HTML
 content#:#PDF export#:#Exportar PDF
 content#:#Pages#:#Páginas
 content#:#all#:#Todos
-content#:#cont_Additional#:#Additional###08 Mar 2004 new variable
+content#:#cont_Additional#:#Adicional
 content#:#cont_Alphabetic#:#Alfabético A, B, ...
 content#:#cont_Circle#:#Círculo
 content#:#cont_Citation#:#Citação
@@ -1598,7 +1598,7 @@ content#:#cont_Roman#:#Romano I, II, ...
 content#:#cont_Unordered#:#Desordenado
 content#:#cont_add_area#:#Adicionar Área
 content#:#cont_add_definition#:#Adicionar Definição
-content#:#cont_add_fullscreen#:#Add Fullscreen###08 Mar 2004 new variable
+content#:#cont_add_fullscreen#:#Adicionar Ecrã Inteiro
 content#:#cont_added_term#:#Termo adicionado
 content#:#cont_all_definitions#:#Todas as Definições
 content#:#cont_all_pages#:#Todas as Páginas
@@ -1622,7 +1622,7 @@ content#:#cont_chapters#:#Capítulos
 content#:#cont_characteristic#:#Característica
 content#:#cont_choose_cont_obj#:#Escolher Objecto de Conteúdo
 content#:#cont_choose_glossary#:#Escolher Glossário
-content#:#cont_choose_media_source#:#Choose Media Source###01 Apr 2004 new variable
+content#:#cont_choose_media_source#:#Escolha Fonte de Média
 content#:#cont_citation_err_one#:#Você tem de seleccionar exactamente uma edição
 content#:#cont_citation_selection_not_valid#:#A sua selecção não é válida
 content#:#cont_citations#:#Citações
@@ -1638,9 +1638,9 @@ content#:#cont_content_obj#:#Objecto de Conteúdo
 content#:#cont_coords#:#Coordenadas
 content#:#cont_copy_to_clipboard#:#Copy to clipboard###11 Apr 2004 new variable
 content#:#cont_create_dir#:#Criar Directoria
-content#:#cont_create_export_file#:#Create Export File###21 Mar 2004 new variable
-content#:#cont_create_folder#:#Create Folder###23 Mar 2004 new variable
-content#:#cont_create_mob#:#Create Media Object###26 Mar 2004 new variable
+content#:#cont_create_export_file#:#Criar Ficheiro de Exportação
+content#:#cont_create_folder#:#Criar Pasta
+content#:#cont_create_mob#:#Criar Objecto de Média
 content#:#cont_cross_reference#:#Referência cruzada
 content#:#cont_data_from_lms#:#adlcp:datadelms
 content#:#cont_def_layout#:#Disposição por Defeito
@@ -1649,10 +1649,10 @@ content#:#cont_definition#:#Definição
 content#:#cont_definitions#:#Definições
 content#:#cont_del_assignment#:#Apagar atribuição
 content#:#cont_dependencies#:#Dependências
-content#:#cont_derive_from_obj#:#Derive from Object###08 Mar 2004 new variable
+content#:#cont_derive_from_obj#:#Derivar do Objecto
 content#:#cont_details#:#Detalhes
 content#:#cont_dir_file#:#Directoria/Ficheiro
-content#:#cont_edit_area#:#Edit Area###08 Mar 2004 new variable
+content#:#cont_edit_area#:#Editar Área
 content#:#cont_edit_file_list_properties#:#Editar Propriedades da Lista de Ficheiros
 content#:#cont_edit_mob#:#Editar Objecto de Média
 content#:#cont_edit_mob_alias_prop#:#Editar Propriedades da Instância de Objecto Média
@@ -1662,15 +1662,15 @@ content#:#cont_edit_par#:#Editar Parágrafo
 content#:#cont_edit_tab_properties#:#Propriedades da Tabela
 content#:#cont_edit_term#:#Editar Termo
 content#:#cont_edition#:#Edição
-content#:#cont_export_files#:#Export Files###21 Mar 2004 new variable
+content#:#cont_export_files#:#Exportar Ficheiros
 content#:#cont_external#:#externo
 content#:#cont_file#:#Ficheiro
 content#:#cont_files#:#Ficheiros
-content#:#cont_format#:#Format###08 Mar 2004 new variable
+content#:#cont_format#:#Formato
 content#:#cont_full_is_in_dir#:#Eliminação não possível. Ficheiro de ecrã inteiro está na directoria.
 content#:#cont_fullscreen#:#Ecrã inteiro
 content#:#cont_get_link#:#obter ligação
-content#:#cont_get_orig_size#:#Set original size###08 Mar 2004 new variable
+content#:#cont_get_orig_size#:#Definir tamanho original
 content#:#cont_height#:#Altura
 content#:#cont_how_published#:#Como está publicado
 content#:#cont_href#:#href
@@ -1716,8 +1716,8 @@ content#:#cont_manifest#:#Manifesto
 content#:#cont_map_areas#:#Ligar Áreas
 content#:#cont_mastery_score#:#adlcp:pontuaçãomestre
 content#:#cont_max_time_allowed#:#adlcp:maxtempopermitido
-content#:#cont_media_source#:#Media Source###01 Apr 2004 new variable
-content#:#cont_mep_structure#:#Media Pool Structure###23 Mar 2004 new variable
+content#:#cont_media_source#:#Fonte de Média
+content#:#cont_mep_structure#:#Estrutura do Banco de Média
 content#:#cont_mob_files#:#Ficheiros de Objecto
 content#:#cont_mob_inst_prop#:#Propriedades de Instância
 content#:#cont_mob_prop#:#Propriedades de Objecto
@@ -1759,7 +1759,7 @@ content#:#cont_publisher#:#Publicador
 content#:#cont_purpose#:#Propósito
 content#:#cont_ref_helptext#:#(e.g. http://www.servidor.pt/minhaimagem.jpg)
 content#:#cont_reference#:#Referência
-content#:#cont_remove_fullscreen#:#Remove Fullscreen###08 Mar 2004 new variable
+content#:#cont_remove_fullscreen#:#Remover Ecrã Inteiro
 content#:#cont_resource#:#Recurso
 content#:#cont_resource_type#:#tipo
 content#:#cont_resources#:#Recursos
@@ -1769,7 +1769,7 @@ content#:#cont_saved_map_data#:#Dados de mapa guardados
 content#:#cont_sc_title#:#título
 content#:#cont_school#:#Escola
 content#:#cont_scorm_type#:#adlcp:tiposcorm
-content#:#cont_select_item#:#Select at least one item.###08 Mar 2004 new variable
+content#:#cont_select_item#:#Seleccione pelo menos um item.
 content#:#cont_select_max_one_item#:#Por favor seleccione apenas um item
 content#:#cont_select_max_one_term#:#Por favor seleccione apenas um termo
 content#:#cont_select_one_edition#:#Por favor seleccione pelo menos uma edição.
@@ -1782,14 +1782,14 @@ content#:#cont_series_editor#:#Editor de séries
 content#:#cont_series_title#:#Título da Série
 content#:#cont_series_volume#:#Volume da Série
 content#:#cont_set_class#:#Definir Classe
-content#:#cont_set_link#:#Edit Link###08 Mar 2004 new variable
-content#:#cont_set_shape#:#Edit Shape###08 Mar 2004 new variable
+content#:#cont_set_link#:#Editar Ligação
+content#:#cont_set_shape#:#Editar Forma
 content#:#cont_set_width#:#Definir Largura
 content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostrar
 content#:#cont_show_citation#:#Mostar com citação
 content#:#cont_size#:#Tamanho (Bytes)
-content#:#cont_source#:#Fonte###01 Apr 2004 content changed
+content#:#cont_source#:#Fonte
 content#:#cont_st_title#:#Título do Capítulo
 content#:#cont_std_is_in_dir#:#Eliminação não possível. Ficheiro de vista padrão está na directoria.
 content#:#cont_std_view#:#Vista Padrão
@@ -1809,7 +1809,7 @@ content#:#cont_top#:#Topo
 content#:#cont_translations#:#Tradução(ões)
 content#:#cont_translations_assigned#:#A tradução(ões) foi atribuída
 content#:#cont_update#:#Actualizar
-content#:#cont_update_names#:#Update Names###08 Mar 2004 new variable
+content#:#cont_update_names#:#Actualizar Nomes
 content#:#cont_upload_file#:#Mandar Ficheiro
 content#:#cont_url#:#URL
 content#:#cont_users_have_mob_in_clip1#:#This media object is in the clipboard of###11 Apr 2004 new variable
@@ -1828,225 +1828,225 @@ content#:#pg#:#Página
 content#:#read offline#:#Ler Offline
 content#:#st#:#Capítulo
 content#:#start export#:#Começar Exportação
-dateplaner#:#DateText#:#Message###16 Mar 2004 new variable
-dateplaner#:#Day_long#:#Day View###16 Mar 2004 new variable
-dateplaner#:#ERROR_DATE_EXISTS#:#This date already exists.###16 Mar 2004 new variable
-dateplaner#:#ERROR_DB#:#Database write error!###16 Mar 2004 new variable
-dateplaner#:#ERROR_DB_CONNECT#:#The datebase is disconnected.###16 Mar 2004 new variable
-dateplaner#:#ERROR_DEL_MSG#:#This is a Rotation Date. Would you like to delete one or all dates###16 Mar 2004 new variable
-dateplaner#:#ERROR_ENDDATE#:#Wrong Enddate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
-dateplaner#:#ERROR_ENDTIME#:#Wrong Endtime. Format: hh:mm###16 Mar 2004 new variable
-dateplaner#:#ERROR_END_START#:#Wrong Enddate input. Enddate is before Startdate.###16 Mar 2004 new variable
-dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid csv File.###16 Mar 2004 new variable
-dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't except JavaScript. <BR> Please close this Window after insert manually. <BR> Thank you</CENTER></B>###16 Mar 2004 new variable
-dateplaner#:#ERROR_ROTATIONEND#:#Wrong Rotation Enddate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
-dateplaner#:#ERROR_ROT_END_START#:#Wrong Rotation Enddate input. Rotation Enddate is before Startdate.###16 Mar 2004 new variable
-dateplaner#:#ERROR_SHORTTEXT#:#Wrong Shorttext input. Shorttext is required.###16 Mar 2004 new variable
-dateplaner#:#ERROR_STARTDATE#:#Wrong Startdate input. Format: dd/mm/yyyy###16 Mar 2004 new variable
-dateplaner#:#ERROR_STARTTIME#:#Wrong Starttime. Format: hh:mm###16 Mar 2004 new variable
-dateplaner#:#ERROR_TS#:#Incorrect date format###16 Mar 2004 new variable
-dateplaner#:#Fr_long#:#Friday###16 Mar 2004 new variable
-dateplaner#:#Fr_short#:#Fr###16 Mar 2004 new variable
-dateplaner#:#Language_file#:#english###16 Mar 2004 new variable
-dateplaner#:#Listbox_long#:#List of Dates###16 Mar 2004 new variable
-dateplaner#:#Mo_long#:#Monday###16 Mar 2004 new variable
-dateplaner#:#Mo_short#:#Mo###16 Mar 2004 new variable
-dateplaner#:#Month_long#:#Month View###16 Mar 2004 new variable
-dateplaner#:#Sa_long#:#Saturday###16 Mar 2004 new variable
-dateplaner#:#Sa_short#:#Sa###16 Mar 2004 new variable
-dateplaner#:#Su_long#:#Sunday###16 Mar 2004 new variable
-dateplaner#:#Su_short#:#Su###16 Mar 2004 new variable
-dateplaner#:#Text#:#Text###16 Mar 2004 new variable
-dateplaner#:#Th_long#:#Thursday###16 Mar 2004 new variable
-dateplaner#:#Th_short#:#Th###16 Mar 2004 new variable
-dateplaner#:#Tu_long#:#Tuesday###16 Mar 2004 new variable
-dateplaner#:#Tu_short#:#Tu###16 Mar 2004 new variable
-dateplaner#:#View#:#View:###16 Mar 2004 new variable
-dateplaner#:#We_long#:#Wednesday###16 Mar 2004 new variable
-dateplaner#:#We_short#:#We###16 Mar 2004 new variable
-dateplaner#:#Week_long#:#Week View###16 Mar 2004 new variable
-dateplaner#:#add_data#:#Additional data###16 Mar 2004 new variable
-dateplaner#:#app_#:#group dates inbox###16 Mar 2004 new variable
-dateplaner#:#app_date#:#insert date###16 Mar 2004 new variable
-dateplaner#:#app_day#:#dayview###16 Mar 2004 new variable
-dateplaner#:#app_freetime#:#freetime of other group members (catch a time)###16 Mar 2004 new variable
-dateplaner#:#app_inbox#:#group dates inbox###16 Mar 2004 new variable
-dateplaner#:#app_list#:#date list###16 Mar 2004 new variable
-dateplaner#:#app_month#:#monthview###16 Mar 2004 new variable
-dateplaner#:#app_properties#:#properties###16 Mar 2004 new variable
-dateplaner#:#app_week#:#weekview###16 Mar 2004 new variable
-dateplaner#:#application#:#Dateplaner###16 Mar 2004 new variable
-dateplaner#:#apply#:#apply###16 Mar 2004 new variable
-dateplaner#:#back#:#back###16 Mar 2004 new variable
-dateplaner#:#begin_date#:#Begin of Date###16 Mar 2004 new variable
-dateplaner#:#busytime#:#busy time in group###16 Mar 2004 new variable
-dateplaner#:#c_date#:#Create Date###16 Mar 2004 new variable
-dateplaner#:#changeTo#:#Change to:###16 Mar 2004 new variable
-dateplaner#:#changedDates#:#Changed dates###16 Mar 2004 new variable
-dateplaner#:#checkforfreetime#:#Check for free time###16 Mar 2004 new variable
-dateplaner#:#created#:#Created###16 Mar 2004 new variable
-dateplaner#:#date#:#Date###16 Mar 2004 new variable
-dateplaner#:#date_format#:#m/d/Y H:i//month/day/Year4Digits Hour24:Minutes###16 Mar 2004 new variable
-dateplaner#:#date_format_middle#:#m/d/y//month/day/Year###16 Mar 2004 new variable
-dateplaner#:#del_all#:#delete all dates###16 Mar 2004 new variable
-dateplaner#:#del_one#:#delete one date###16 Mar 2004 new variable
-dateplaner#:#delete#:#delete###16 Mar 2004 new variable
-dateplaner#:#deletedDates#:#Deleted dates###16 Mar 2004 new variable
-dateplaner#:#discard#:#discard###16 Mar 2004 new variable
-dateplaner#:#dv_Grouptime#:#free time###16 Mar 2004 new variable
-dateplaner#:#dv_button_cancel#:#Cancel###16 Mar 2004 new variable
-dateplaner#:#dv_button_delete#:#Delete###16 Mar 2004 new variable
-dateplaner#:#dv_button_insert#:#Insert###16 Mar 2004 new variable
-dateplaner#:#dv_button_update#:#Update###16 Mar 2004 new variable
-dateplaner#:#dv_date_begin#:#Date Start:###16 Mar 2004 new variable
-dateplaner#:#dv_date_end#:#Date End:###16 Mar 2004 new variable
-dateplaner#:#dv_date_hm#:#Hour:Minute###16 Mar 2004 new variable
-dateplaner#:#dv_enddate#:#Enddate:###16 Mar 2004 new variable
-dateplaner#:#dv_groupselect#:#Groupselect:###16 Mar 2004 new variable
-dateplaner#:#dv_groupview#:#Groupdate:###16 Mar 2004 new variable
-dateplaner#:#dv_groupview_text#:#Group:<br>###16 Mar 2004 new variable
-dateplaner#:#dv_keywords#:#Keywords:###16 Mar 2004 new variable
-dateplaner#:#dv_keywordselect#:#Keywordselect:###16 Mar 2004 new variable
-dateplaner#:#dv_message#:#Message:###16 Mar 2004 new variable
-dateplaner#:#dv_noGroup#:#no Group###16 Mar 2004 new variable
-dateplaner#:#dv_noKey#:#no Keyword###16 Mar 2004 new variable
-dateplaner#:#dv_preview#:#      <b>! Preview !</b>###16 Mar 2004 new variable
-dateplaner#:#dv_rotation#:#Rotation:###16 Mar 2004 new variable
-dateplaner#:#dv_rotation_date#:#Rotation date:###16 Mar 2004 new variable
-dateplaner#:#dv_rotation_end#:#Rotation end:###16 Mar 2004 new variable
-dateplaner#:#dv_shorttext#:#Shorttext:###16 Mar 2004 new variable
-dateplaner#:#dv_startdate#:#Startdate:###16 Mar 2004 new variable
-dateplaner#:#dv_text#:#Text:###16 Mar 2004 new variable
-dateplaner#:#dv_whole_day#:#Whole day:###16 Mar 2004 new variable
-dateplaner#:#dv_whole_rotation#:#Would you like to delete the whole Rotationdate? (click the checkbox)###16 Mar 2004 new variable
-dateplaner#:#end_date#:#End of Date###16 Mar 2004 new variable
-dateplaner#:#endtime_for_view#:#Endtime for view:###16 Mar 2004 new variable
-dateplaner#:#error_minical_img#:#Cant create GD-picture-stream###16 Mar 2004 new variable
+dateplaner#:#DateText#:#Mensagem
+dateplaner#:#Day_long#:#Ver de Dias
+dateplaner#:#ERROR_DATE_EXISTS#:#Este compromisso já existe.
+dateplaner#:#ERROR_DB#:#Erro a escrever na Base de Dados!
+dateplaner#:#ERROR_DB_CONNECT#:#A Base de Dados está desconectada.
+dateplaner#:#ERROR_DEL_MSG#:#Este é um Compromisso de Rotação. Gostaria de apagar um ou todos os compromissos
+dateplaner#:#ERROR_ENDDATE#:#Entrada de Fim de Compromisso errada. Formato: dd/mm/aaaa
+dateplaner#:#ERROR_ENDTIME#:#Hora de Fim errada. Formato: hh:mm
+dateplaner#:#ERROR_END_START#:#Entrada de Fim de Compromisso errada. Fim do Compromisso é antes do Ínicio.
+dateplaner#:#ERROR_FILE_CSV_MSG#:#Por favor tome um ficheiro csv válido.
+dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>o seu navegador não aceita JavaScript. <BR> Por favor feche esta Janela depois de inserir manualmente. <BR> Obrigado</CENTER></B>
+dateplaner#:#ERROR_ROTATIONEND#:#Entrada errada de Fim de Compromisso de Rotação. Formato: dd/mm/aaaa
+dateplaner#:#ERROR_ROT_END_START#:#Entrada errada de Fim de Compromisso de Rotação. Fim do Compromisso de Rotação é anterior ao Ínicio.
+dateplaner#:#ERROR_SHORTTEXT#:#Entrada de Pequeno texto errada. Pequeno texto é requerido.
+dateplaner#:#ERROR_STARTDATE#:#Entrada de Ínicio de Compromisso errada. Formato: dd/mm/aaaa
+dateplaner#:#ERROR_STARTTIME#:#Hora de Ínicio errada. Formato: hh:mm
+dateplaner#:#ERROR_TS#:#Formato de data incorrecto
+dateplaner#:#Fr_long#:#Sexta
+dateplaner#:#Fr_short#:#Sex
+dateplaner#:#Language_file#:#inglês
+dateplaner#:#Listbox_long#:#Lista de Datas
+dateplaner#:#Mo_long#:#Segunda
+dateplaner#:#Mo_short#:#Seg
+dateplaner#:#Month_long#:#Vista do Mês
+dateplaner#:#Sa_long#:#Sábado
+dateplaner#:#Sa_short#:#Sab
+dateplaner#:#Su_long#:#Domingo
+dateplaner#:#Su_short#:#Dom
+dateplaner#:#Text#:#Texto
+dateplaner#:#Th_long#:#Quinta
+dateplaner#:#Th_short#:#Qui
+dateplaner#:#Tu_long#:#Terça
+dateplaner#:#Tu_short#:#Ter
+dateplaner#:#View#:#Ver:
+dateplaner#:#We_long#:#Quarta
+dateplaner#:#We_short#:#Qua
+dateplaner#:#Week_long#:#Vista da Semana
+dateplaner#:#add_data#:#Dados Adicionais
+dateplaner#:#app_#:#caixa de entrada de datas de grupos
+dateplaner#:#app_date#:#inserir data
+dateplaner#:#app_day#:#vista dia
+dateplaner#:#app_freetime#:#tempo livre de outros membros do grupo (obter uma hora)
+dateplaner#:#app_inbox#:#caixa de entrada de datas de grupo
+dateplaner#:#app_list#:#lista de datas
+dateplaner#:#app_month#:#vista mês
+dateplaner#:#app_properties#:#propriedades
+dateplaner#:#app_week#:#vista semana
+dateplaner#:#application#:#Planeador de Datas
+dateplaner#:#apply#:#aplicar
+dateplaner#:#back#:#voltar
+dateplaner#:#begin_date#:#Ínicio de Data
+dateplaner#:#busytime#:#tempo ocupado no grupo
+dateplaner#:#c_date#:#Criar Data
+dateplaner#:#changeTo#:#Mudar para:
+dateplaner#:#changedDates#:#Datas mudadas
+dateplaner#:#checkforfreetime#:#Verificar tempo livre
+dateplaner#:#created#:#Criado
+dateplaner#:#date#:#Data
+dateplaner#:#date_format#:#m/d/A H:i//mês/dia/Ano4Digitos Hora24:Minutos
+dateplaner#:#date_format_middle#:#m/d/a//mês/dia/Ano
+dateplaner#:#del_all#:#apagar todas as datas
+dateplaner#:#del_one#:#apagar uma data
+dateplaner#:#delete#:#apagar
+dateplaner#:#deletedDates#:#Datas apagadas
+dateplaner#:#discard#:#dispensar
+dateplaner#:#dv_Grouptime#:#tempo livre
+dateplaner#:#dv_button_cancel#:#Cancelar
+dateplaner#:#dv_button_delete#:#Apagar
+dateplaner#:#dv_button_insert#:#Inserir
+dateplaner#:#dv_button_update#:#Actualizar
+dateplaner#:#dv_date_begin#:#Data Ínicio:
+dateplaner#:#dv_date_end#:#Date Fim:
+dateplaner#:#dv_date_hm#:#Hora:Minuto
+dateplaner#:#dv_enddate#:#Data de Fim:
+dateplaner#:#dv_groupselect#:#Selecção de Grupo:
+dateplaner#:#dv_groupview#:#Data de Grupo:
+dateplaner#:#dv_groupview_text#:#Grupo:<br>
+dateplaner#:#dv_keywords#:#Palavras Chave:
+dateplaner#:#dv_keywordselect#:#Selecção de Palavra Chave:
+dateplaner#:#dv_message#:#Mensagem:
+dateplaner#:#dv_noGroup#:#nenhum Grupo
+dateplaner#:#dv_noKey#:#nenhuma Palavra Chave
+dateplaner#:#dv_preview#:#      <b>! Previsão !</b>
+dateplaner#:#dv_rotation#:#Rotação:
+dateplaner#:#dv_rotation_date#:#Data de Rotação:
+dateplaner#:#dv_rotation_end#:#Fim de Rotação:
+dateplaner#:#dv_shorttext#:#Pequeno texto:
+dateplaner#:#dv_startdate#:#Data de Ínicio:
+dateplaner#:#dv_text#:#Texto:
+dateplaner#:#dv_whole_day#:#Todo o dia:
+dateplaner#:#dv_whole_rotation#:#Gostaria de apagar toda a data de Rotação? (carregue na caixa)
+dateplaner#:#end_date#:#Fim de Data
+dateplaner#:#endtime_for_view#:#Hora de fim para ver:
+dateplaner#:#error_minical_img#:#Não pode criar fluxo-imagem-GD
 dateplaner#:#execute#:#execute choices###07 Apr 2004 new variable
-dateplaner#:#extra_dates#:#One Day Dates###16 Mar 2004 new variable
-dateplaner#:#free#:#free###16 Mar 2004 new variable
-dateplaner#:#freetime#:#free Time in group###16 Mar 2004 new variable
-dateplaner#:#group#:#group###16 Mar 2004 new variable
-dateplaner#:#help_day#:#Dateplaner dayview###16 Mar 2004 new variable
-dateplaner#:#help_day_l#:#In the dayview all dates of a chosen day are displayed.###16 Mar 2004 new variable
-dateplaner#:#help_enddate#:#Enddate - syntax[dd//mm/yyyy]###16 Mar 2004 new variable
-dateplaner#:#help_enddate_l#:#Contains the endpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.###16 Mar 2004 new variable
-dateplaner#:#help_endrotation#:#Endtime syntax[dd//mm/yyyy]###16 Mar 2004 new variable
-dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br> The symbol opens a small calender for choosing the appropriate date###16 Mar 2004 new variable
-dateplaner#:#help_endtime#:#Endtime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
-dateplaner#:#help_endtime_l#:#Contaons the endtime of the appointment using the 24h format.###16 Mar 2004 new variable
-dateplaner#:#help_fullday#:#Wholeday date - syntax[on/off]###16 Mar 2004 new variable
-dateplaner#:#help_fullday_l#:#If the date steches over a whole day, please chose this option.<br> Hereby the starttime, endtime and enddate are hidden.###16 Mar 2004 new variable
-dateplaner#:#help_further#:#<br> <b>click here for further information.</b>###16 Mar 2004 new variable
-dateplaner#:#help_group#:#Groupdates selection###16 Mar 2004 new variable
-dateplaner#:#help_group_l#:#Contains the groups for which the loged-in user has administrator rights and for which a date can be created. <br> After chosing this it is possible to view the unscheduled time of the group.###16 Mar 2004 new variable
-dateplaner#:#help_inbox#:#Dateplaner Inbox###16 Mar 2004 new variable
-dateplaner#:#help_inbox_l#:#Here all new, changed and deleted groupdates are displayed.###16 Mar 2004 new variable
-dateplaner#:#help_keyword#:#Keyword selection###16 Mar 2004 new variable
-dateplaner#:#help_keywordUse#:#Keyword  selection###16 Mar 2004 new variable
-dateplaner#:#help_keywordUse_l#:#Chose one or more keywords from the dialog box. <br>TIP: use the CTRL key for selecting several entrys.###16 Mar 2004 new variable
-dateplaner#:#help_keyword_l#:#Contains the keywords which a user can associate to dates.###16 Mar 2004 new variable
-dateplaner#:#help_list#:#Dateplaner datelist###16 Mar 2004 new variable
-dateplaner#:#help_list_l#:#In the datelis all dates over a given period of time are displayed.###16 Mar 2004 new variable
-dateplaner#:#help_month#:#Dateplaner monthview###16 Mar 2004 new variable
-dateplaner#:#help_month_l#:#In the monthviel all dates of a given month are displayed.###16 Mar 2004 new variable
-dateplaner#:#help_properties_alt#:#Changes the keyword###16 Mar 2004 new variable
-dateplaner#:#help_properties_alt_l#:#Chose a keyword from the dialog box.<br>Change the keyword in the textfield . Important: max. 20 characters.###16 Mar 2004 new variable
-dateplaner#:#help_properties_del#:#Deletes the keyword###16 Mar 2004 new variable
-dateplaner#:#help_properties_del_l#:#Chose a keyword from the dialog box. Click the button to delete the keyword.###16 Mar 2004 new variable
-dateplaner#:#help_properties_import#:#Import of Outlook-CSV-Files###16 Mar 2004 new variable
-dateplaner#:#help_properties_import_l#:#Here a CSC-File can be selected, which contains Outlook-Dates. These dates will be imported into the dateplanner.###16 Mar 2004 new variable
-dateplaner#:#help_properties_new#:#Add a keyword, max. 20 characters###16 Mar 2004 new variable
-dateplaner#:#help_properties_new_l#:#Add a new keyword to the field \"new\". Important: max. 20 characters.###16 Mar 2004 new variable
-dateplaner#:#help_properties_time#:#Displaytime for dayview/weekview###16 Mar 2004 new variable
-dateplaner#:#help_properties_time_l#:#The standard diysplaytime for the dayview and weekview can be changed. If dates are outside of the displaytime for a given days or week, the displaytime will be changed for that timestretch. Standard is 8h -18h.###16 Mar 2004 new variable
-dateplaner#:#help_rotation#:#Rotation###16 Mar 2004 new variable
-dateplaner#:#help_rotation_l#:#Contains the type of the rotation / repetition.###16 Mar 2004 new variable
-dateplaner#:#help_shorttext#:#Shorttext whith max. 50 characters###16 Mar 2004 new variable
-dateplaner#:#help_shorttext_l#:#Here one can enter the shorttext for a given date.###16 Mar 2004 new variable
-dateplaner#:#help_startdate#:#Startdate - syntax[dd//mm/yyyy]###16 Mar 2004 new variable
-dateplaner#:#help_startdate_l#:#Contains the startpoint of the appointment. <br> The symbol opens a small calendar for chosing the appropriate date.###16 Mar 2004 new variable
-dateplaner#:#help_starttime#:#Starttime - syntax[hh/mm] 24h format###16 Mar 2004 new variable
-dateplaner#:#help_starttime_l#:#Contains the startpoint of the appointment using the 24h format.###16 Mar 2004 new variable
-dateplaner#:#help_text#:#Text###16 Mar 2004 new variable
-dateplaner#:#help_text_l#:#Here one can enter the text for a given date.###16 Mar 2004 new variable
-dateplaner#:#help_week#:#Dateplaner weekview###16 Mar 2004 new variable
-dateplaner#:#help_week_l#:#In the weekview all dates of a given week are displayed.###16 Mar 2004 new variable
-dateplaner#:#hour#:#hour###16 Mar 2004 new variable
-dateplaner#:#importDates#:#Import of Outlook Dates###16 Mar 2004 new variable
-dateplaner#:#inbox#:#Inbox###16 Mar 2004 new variable
-dateplaner#:#insertImportDates#:#These dates were successfully registered:###16 Mar 2004 new variable
-dateplaner#:#k_alldates#:#all dates###16 Mar 2004 new variable
-dateplaner#:#keep#:#keep###16 Mar 2004 new variable
-dateplaner#:#keyword#:#Keyword###16 Mar 2004 new variable
-dateplaner#:#keywords#:#Keywords###16 Mar 2004 new variable
-dateplaner#:#last_change#:#Last changed###16 Mar 2004 new variable
-dateplaner#:#long_01#:#January###16 Mar 2004 new variable
-dateplaner#:#long_02#:#February###16 Mar 2004 new variable
-dateplaner#:#long_03#:#March###16 Mar 2004 new variable
-dateplaner#:#long_04#:#April###16 Mar 2004 new variable
-dateplaner#:#long_05#:#May###16 Mar 2004 new variable
-dateplaner#:#long_06#:#June###16 Mar 2004 new variable
-dateplaner#:#long_07#:#July###16 Mar 2004 new variable
-dateplaner#:#long_08#:#August###16 Mar 2004 new variable
-dateplaner#:#long_09#:#September###16 Mar 2004 new variable
-dateplaner#:#long_10#:#October###16 Mar 2004 new variable
-dateplaner#:#long_11#:#November###16 Mar 2004 new variable
-dateplaner#:#long_12#:#December###16 Mar 2004 new variable
-dateplaner#:#main_dates#:#Main Dates###16 Mar 2004 new variable
-dateplaner#:#menue#:#Menu###16 Mar 2004 new variable
-dateplaner#:#mmonth#:#last month###16 Mar 2004 new variable
-dateplaner#:#month#:#month###16 Mar 2004 new variable
-dateplaner#:#more#:#more###16 Mar 2004 new variable
-dateplaner#:#mweek#:#last week###16 Mar 2004 new variable
-dateplaner#:#myeahr#:#last year###16 Mar 2004 new variable
-dateplaner#:#newDates#:#New dates###16 Mar 2004 new variable
-dateplaner#:#newKeyword#:#New:###16 Mar 2004 new variable
-dateplaner#:#new_doc#:#create new date###16 Mar 2004 new variable
-dateplaner#:#no_entry#:#no dates available###16 Mar 2004 new variable
-dateplaner#:#o_day_date#:#24h date###16 Mar 2004 new variable
-dateplaner#:#of#:#of###16 Mar 2004 new variable
-dateplaner#:#open_day#:#dayview###16 Mar 2004 new variable
-dateplaner#:#pmonth#:#next month###16 Mar 2004 new variable
-dateplaner#:#printlist#:#print###16 Mar 2004 new variable
-dateplaner#:#properties#:#Properties###16 Mar 2004 new variable
-dateplaner#:#pweek#:#next week###16 Mar 2004 new variable
-dateplaner#:#pyear#:#next year###16 Mar 2004 new variable
-dateplaner#:#r_14#:#every 14 days###16 Mar 2004 new variable
-dateplaner#:#r_4_weeks#:#every 4 weeks###16 Mar 2004 new variable
-dateplaner#:#r_day#:#every day###16 Mar 2004 new variable
-dateplaner#:#r_halfyear#:#every half year###16 Mar 2004 new variable
-dateplaner#:#r_month#:#every month###16 Mar 2004 new variable
-dateplaner#:#r_nonrecurring#:#Once###16 Mar 2004 new variable
-dateplaner#:#r_week#:#every week###16 Mar 2004 new variable
-dateplaner#:#r_year#:#every year###16 Mar 2004 new variable
-dateplaner#:#readimportfile#:#insert###16 Mar 2004 new variable
-dateplaner#:#rotation#:#Rotation###16 Mar 2004 new variable
-dateplaner#:#rotation_dates#:#Rotation Dates###16 Mar 2004 new variable
-dateplaner#:#semester_name#:#Semester Name###16 Mar 2004 new variable
-dateplaner#:#short_01#:#Jan###16 Mar 2004 new variable
-dateplaner#:#short_02#:#Feb###16 Mar 2004 new variable
-dateplaner#:#short_03#:#Mar###16 Mar 2004 new variable
-dateplaner#:#short_04#:#Apr###16 Mar 2004 new variable
-dateplaner#:#short_05#:#May###16 Mar 2004 new variable
-dateplaner#:#short_06#:#Jun###16 Mar 2004 new variable
-dateplaner#:#short_07#:#Jul###16 Mar 2004 new variable
-dateplaner#:#short_08#:#Aug###16 Mar 2004 new variable
-dateplaner#:#short_09#:#Sep###16 Mar 2004 new variable
-dateplaner#:#short_10#:#Oct###16 Mar 2004 new variable
-dateplaner#:#short_11#:#Nov###16 Mar 2004 new variable
-dateplaner#:#short_12#:#Dec###16 Mar 2004 new variable
-dateplaner#:#shorttext#:#Short Text###16 Mar 2004 new variable
-dateplaner#:#singleDate#:#single date###16 Mar 2004 new variable
-dateplaner#:#starttime_for_view#:#Starttime for view:###16 Mar 2004 new variable
-dateplaner#:#timedate#:#Time / Date###16 Mar 2004 new variable
-dateplaner#:#timeslice#:#Time:###16 Mar 2004 new variable
-dateplaner#:#title#:#Ilias dateplaner###16 Mar 2004 new variable
-dateplaner#:#to#:#to###16 Mar 2004 new variable
-dateplaner#:#today#:#today###16 Mar 2004 new variable
-dateplaner#:#viewlist#:#view###16 Mar 2004 new variable
-dateplaner#:#week#:#week###16 Mar 2004 new variable
-dateplaner#:#year#:#year###16 Mar 2004 new variable
+dateplaner#:#extra_dates#:#Datas de Um Dia
+dateplaner#:#free#:#livre
+dateplaner#:#freetime#:#Tempo livre no grupo
+dateplaner#:#group#:#grupo
+dateplaner#:#help_day#:#Vista de dias do Planeador de Datas
+dateplaner#:#help_day_l#:#Na vista de dia todas as datas de um dia são mostradas.
+dateplaner#:#help_enddate#:#Data de Fim - sintaxe[dd//mm/aaaa]
+dateplaner#:#help_enddate_l#:#Contém o ponto de fim da marcação. <br> O símbolo abre um pequeno calendário para se escolher a data apropriada.
+dateplaner#:#help_endrotation#:#Sintaxe da Data de Fim[dd//mm/aaaa]
+dateplaner#:#help_endrotation_l#:#Neste dia a repetição acabará.<br> O símbolo abre um calendário para se escolher a data apropriada
+dateplaner#:#help_endtime#:#Hora de Fim - syntaxe[hh/mm] Formato 24h
+dateplaner#:#help_endtime_l#:#Contém a Hora de Fim da marcação usando o formato 24h.
+dateplaner#:#help_fullday#:#Data de Todo o Dia - syntaxe[ligado/deslidado]
+dateplaner#:#help_fullday_l#:#Se um compromisso se esticar no dia inteiro, por favor escolha esta opção.<br> Assim a hora de ínicio, hora de fim e data de fim são escondidas.
+dateplaner#:#help_further#:#<br> <b>carregue aqui para mais informação.</b>
+dateplaner#:#help_group#:#Selecção de compromissos de grupo
+dateplaner#:#help_group_l#:#Contém os grupos para os quais o utilizador tem direitos de administrador e para os quais um compromisso pode ser criado. <br> Depois de escolher isto é possível ver o tempo livre do grupo.
+dateplaner#:#help_inbox#:#Caixa de Entrada do Planeador de Datas
+dateplaner#:#help_inbox_l#:#Aqui todos os compromissos novos, mudados e apagados do grupo são mostrados.
+dateplaner#:#help_keyword#:#Selecção de Palavra Chave
+dateplaner#:#help_keywordUse#:#Selecção de Palavra Chave
+dateplaner#:#help_keywordUse_l#:#Escolha uma ou mais palavras chave na caixa de diálogo. <br>AJUDA: use a tecla CTRL para seleccionar muitas entradas.
+dateplaner#:#help_keyword_l#:#Contém as palavras chave que um utilizador pode associar a compromissos.
+dateplaner#:#help_list#:#Lista de Datas do Planeador de Datas
+dateplaner#:#help_list_l#:#Na lista de compromissos todos os compromissos num dado período de tempo são mostrados.
+dateplaner#:#help_month#:#Vista de mês do Planeador de Compromissos
+dateplaner#:#help_month_l#:#Na vista do mês todas as datas de um mês são mostradas.
+dateplaner#:#help_properties_alt#:#Muda a Palavra Chave
+dateplaner#:#help_properties_alt_l#:#Escolha uma palavra chave na caixa de diálogo.<br>Mude a palavra passe no campo de texto. Importante: 20 characteres max.
+dateplaner#:#help_properties_del#:#Apaga a Palavra Chave
+dateplaner#:#help_properties_del_l#:#Escolha uma palavra chave na caixa de diálogo. Carregue no botão para apagar a palavra passe.
+dateplaner#:#help_properties_import#:#Importação de Ficheiros-CSV-Outlook
+dateplaner#:#help_properties_import_l#:#Aqui um Ficheiro-CSV pode ser seleccionado, que contém Compromissos-Outlook. Estes compromissos serão importados para o planeador de compromissos.
+dateplaner#:#help_properties_new#:#Adicione uma palavra-chave, 20 characteres max.
+dateplaner#:#help_properties_new_l#:#Adicione uma nova palavra chave ao campo \"nova\". Importante: 20 characters max.
+dateplaner#:#help_properties_time#:#Mostrar hora para vista de dia/semana
+dateplaner#:#help_properties_time_l#:#A mostragem de hora standard para a vista de dia e semana pode ser mudada. Se os compromissos estiverem fora da mostragem de hora para um dado dia ou semana, a mostragem de hora será mudada para essa hora. O Standard é 8h -18h.
+dateplaner#:#help_rotation#:#Rotação
+dateplaner#:#help_rotation_l#:#Contém o tipo da rotação / repetição.
+dateplaner#:#help_shorttext#:#Pequeno texto com 50 characteres max.
+dateplaner#:#help_shorttext_l#:#Aqui pode-se inserir um pequeno texto para um dado compromisso.
+dateplaner#:#help_startdate#:#Data de ínicio - syntaxe[dd//mm/aaaa]
+dateplaner#:#help_startdate_l#:#Contém o ponto de ínicio da marcação. <br> O símbolo abre um pequeno calendário para se escolher a data apropriada.
+dateplaner#:#help_starttime#:#Hora de ínicio - syntaxe[hh/mm] formato 24h
+dateplaner#:#help_starttime_l#:#Contém o ponto de ínicio da marcação usando o formato de 24h.
+dateplaner#:#help_text#:#Texto
+dateplaner#:#help_text_l#:#Aqui pode-se inserir o texto para uma dada data.
+dateplaner#:#help_week#:#Vista da semana do Planeador de Datas
+dateplaner#:#help_week_l#:#Na vista da semana todas as datas de uma semana são mostradas.
+dateplaner#:#hour#:#hora
+dateplaner#:#importDates#:#Importação de Datas do Outlook
+dateplaner#:#inbox#:#Caixa de Entrada
+dateplaner#:#insertImportDates#:#Estas datas foram registadas com sucesso:
+dateplaner#:#k_alldates#:#todas as datas
+dateplaner#:#keep#:#manter
+dateplaner#:#keyword#:#Palavra Chave
+dateplaner#:#keywords#:#Palavras Chave
+dateplaner#:#last_change#:#Última mudada
+dateplaner#:#long_01#:#Janeiro
+dateplaner#:#long_02#:#Fevereiro
+dateplaner#:#long_03#:#Março
+dateplaner#:#long_04#:#Abril
+dateplaner#:#long_05#:#Maio
+dateplaner#:#long_06#:#Junho
+dateplaner#:#long_07#:#Julho
+dateplaner#:#long_08#:#Agosto
+dateplaner#:#long_09#:#Setembro
+dateplaner#:#long_10#:#Outubro
+dateplaner#:#long_11#:#Novembro
+dateplaner#:#long_12#:#Dezembro
+dateplaner#:#main_dates#:#Datas Principais
+dateplaner#:#menue#:#Menu
+dateplaner#:#mmonth#:#último mês
+dateplaner#:#month#:#mês
+dateplaner#:#more#:#mais
+dateplaner#:#mweek#:#última semana
+dateplaner#:#myeahr#:#último ano
+dateplaner#:#newDates#:#Novas datas
+dateplaner#:#newKeyword#:#Nova:
+dateplaner#:#new_doc#:#criar nova data
+dateplaner#:#no_entry#:#nenhumas datas disponíveis
+dateplaner#:#o_day_date#:#data 24h
+dateplaner#:#of#:#de
+dateplaner#:#open_day#:#vista de dia
+dateplaner#:#pmonth#:#próximo mês
+dateplaner#:#printlist#:#imprimir
+dateplaner#:#properties#:#Propriedades
+dateplaner#:#pweek#:#próxima semana
+dateplaner#:#pyear#:#próximo ano
+dateplaner#:#r_14#:#todos os 14 dias
+dateplaner#:#r_4_weeks#:#todas as 4 semanas
+dateplaner#:#r_day#:#todos os dias
+dateplaner#:#r_halfyear#:#todos os meios anos
+dateplaner#:#r_month#:#todos os meses
+dateplaner#:#r_nonrecurring#:#Uma vez
+dateplaner#:#r_week#:#todas as semanas
+dateplaner#:#r_year#:#todos os anos
+dateplaner#:#readimportfile#:#inserir
+dateplaner#:#rotation#:#Rotação
+dateplaner#:#rotation_dates#:#Datas de Rotação
+dateplaner#:#semester_name#:#Nome do Semestre
+dateplaner#:#short_01#:#Jan
+dateplaner#:#short_02#:#Fev
+dateplaner#:#short_03#:#Mar
+dateplaner#:#short_04#:#Abr
+dateplaner#:#short_05#:#Mai
+dateplaner#:#short_06#:#Jun
+dateplaner#:#short_07#:#Jul
+dateplaner#:#short_08#:#Ago
+dateplaner#:#short_09#:#Set
+dateplaner#:#short_10#:#Out
+dateplaner#:#short_11#:#Nov
+dateplaner#:#short_12#:#Dez
+dateplaner#:#shorttext#:#Pequeno Texto
+dateplaner#:#singleDate#:#data única
+dateplaner#:#starttime_for_view#:#Hora de ínicio para ver:
+dateplaner#:#timedate#:#Hora / Data
+dateplaner#:#timeslice#:#Hora:
+dateplaner#:#title#:#Planeador de datas do Ilias
+dateplaner#:#to#:#para
+dateplaner#:#today#:#hoje
+dateplaner#:#viewlist#:#ver
+dateplaner#:#week#:#semana
+dateplaner#:#year#:#ano
 forum#:#forums#:#Fórums
 forum#:#forums_articles#:#Artigos
 forum#:#forums_attachments#:#Anexos
