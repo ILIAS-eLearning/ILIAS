@@ -51,7 +51,8 @@ if ($_POST["cmd"] != "")
 			$result = $obj2->clearObject();
 			break;
 	}
-	header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+	header("location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+		   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 }
 
 //if no cmd is given default to first property
@@ -251,7 +252,8 @@ switch($_GET["cmd"])
 	case "addPermission":
 	case "permSave":
 	case "update":
-		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
+		header("Location: adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
+			   $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&cmd=view");
 		exit();
 		break;
 		
@@ -262,7 +264,8 @@ switch($_GET["cmd"])
 			$tpl->setVariable(strtoupper($key), $val);
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setVariable("FORMACTION", "adm_object.php?cmd=save&type=".$_GET["type"]."&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
+		$tpl->setVariable("FORMACTION", "adm_object.php?cmd=save&type=".$_GET["type"].
+						  "&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 		$tpl->setVariable("TXT_REQUIRED_FLD", $lng->txt("required_field"));
 		break;
@@ -274,7 +277,8 @@ switch($_GET["cmd"])
 			$tpl->setVariable(strtoupper($key), $val);
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setVariable("FORMACTION", "adm_object.php?type=".$obj->type."&cmd=update&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
+		$tpl->setVariable("FORMACTION", "adm_object.php?type=".$obj->type.
+						  "&cmd=update&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
 		$tpl->setVariable("TXT_SAVE", $lng->txt("save"));
 		$tpl->setVariable("TXT_REQUIRED_FLD", $lng->txt("required_field"));
 		break;
@@ -344,7 +348,9 @@ switch($_GET["cmd"])
 			else
 				$out = "&nbsp;";
 			$tpl->setVariable("TEXT", $out);
-			$tpl->setVariable("LINK", "adm_object.php?obj_id=".$this->id."&parent=".$this->parent."&parent_parent=".$this->parent_parent."&order=type&direction=".$_GET["dir"]."&cmd=".$_GET["cmd"]);
+			$tpl->setVariable("LINK", "adm_object.php?obj_id=".$this->id."&parent=".
+							  $this->parent."&parent_parent=".$this->parent_parent."&order=type&direction=".
+							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
 			$tpl->parseCurrentBlock();
 		}
 		$tpl->setCurrentBlock("table_header_row");
@@ -470,7 +476,6 @@ switch($_GET["cmd"])
 			}
 		}		
 
-		
 		if (is_array($subobj))
 		{
 			//build form
@@ -478,7 +483,8 @@ switch($_GET["cmd"])
 	
 			$tpl->setCurrentBlock("add_obj");
 			$tpl->setVariable("SELECT_OBJTYPE", $opts);
-			$tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&obj_id=".$obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
+			$tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&obj_id=".
+							  $obj->id."&parent=".$obj->parent."&parent_parent=".$obj->parent_parent);
 			$tpl->setVariable("TXT_ADD", $lng->txt("add"));
 			$tpl->parseCurrentBlock();
 		}
