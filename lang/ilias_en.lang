@@ -1591,12 +1591,9 @@ content#:#cont_LocalFile#:#Local File
 content#:#cont_Mnemonic#:#Mnemonic
 content#:#cont_Number#:#Number
 content#:#cont_Poly#:#Polygon
-content#:#cont_startfile#:#Start File
-content#:#cont_set_start_file#:#Set Start File
 content#:#cont_Rect#:#Rectangle
 content#:#cont_Reference#:#Reference
 content#:#cont_Remark#:#Remark
-content#:#select_a_file#:#Please select a file.
 content#:#cont_Roman#:#Roman I, II, ...
 content#:#cont_Unordered#:#Unordered
 content#:#cont_active#:#Enable Menu
@@ -1790,6 +1787,7 @@ content#:#cont_series_volume#:#Series volume
 content#:#cont_set_class#:#Set Class
 content#:#cont_set_link#:#Edit Link
 content#:#cont_set_shape#:#Edit Shape
+content#:#cont_set_start_file#:#Set Start File
 content#:#cont_set_width#:#Set Width
 content#:#cont_shape#:#Shape
 content#:#cont_show#:#Show
@@ -1797,6 +1795,7 @@ content#:#cont_show_citation#:#Show with citation
 content#:#cont_size#:#Size (Bytes)
 content#:#cont_source#:#Source
 content#:#cont_st_title#:#Chapter Title
+content#:#cont_startfile#:#Start File
 content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.
 content#:#cont_std_view#:#Standard View
 content#:#cont_structure#:#structure
@@ -1832,6 +1831,7 @@ content#:#pages from#:#Pages From
 content#:#par#:#Paragraph
 content#:#pg#:#Page
 content#:#read offline#:#Read Offline
+content#:#select_a_file#:#Please select a file.
 content#:#st#:#Chapter
 content#:#start export#:#Start Export
 dateplaner#:#DateText#:#Message

@@ -1787,6 +1787,7 @@ content#:#cont_series_volume#:#Díl série
 content#:#cont_set_class#:#Nastav třídu
 content#:#cont_set_link#:#Edit Link###16 Mar 2004 new variable
 content#:#cont_set_shape#:#Edit Shape###16 Mar 2004 new variable
+content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
 content#:#cont_set_width#:#Nastav šířku
 content#:#cont_shape#:#Shape###16 Mar 2004 new variable
 content#:#cont_show#:#Zobrazit
@@ -1794,6 +1795,7 @@ content#:#cont_show_citation#:#Zobrazit s citací
 content#:#cont_size#:#Velikost (Bajty)
 content#:#cont_source#:#Zdroj###01 Apr 2004 content changed
 content#:#cont_st_title#:#Název kapitoly
+content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_std_is_in_dir#:#Odstranění není možné. Adresář obsahuje soubor standardního zobrazení.
 content#:#cont_std_view#:#Standardní zobrazení
 content#:#cont_structure#:#struktura
@@ -1829,6 +1831,7 @@ content#:#pages from#:#Stránky od
 content#:#par#:#Odstavec
 content#:#pg#:#Stránka
 content#:#read offline#:#Číst offline
+content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
 content#:#st#:#Kapitola
 content#:#start export#:#Spustit export
 dateplaner#:#DateText#:#Message###16 Mar 2004 new variable

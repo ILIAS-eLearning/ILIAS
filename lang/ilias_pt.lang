@@ -1787,6 +1787,7 @@ content#:#cont_series_volume#:#Volume da Série
 content#:#cont_set_class#:#Definir Classe
 content#:#cont_set_link#:#Editar Ligação
 content#:#cont_set_shape#:#Editar Forma
+content#:#cont_set_start_file#:#Set Start File###15 Apr 2004 new variable
 content#:#cont_set_width#:#Definir Largura
 content#:#cont_shape#:#Forma
 content#:#cont_show#:#Mostrar
@@ -1794,6 +1795,7 @@ content#:#cont_show_citation#:#Mostar com citação
 content#:#cont_size#:#Tamanho (Bytes)
 content#:#cont_source#:#Fonte
 content#:#cont_st_title#:#Título do Capítulo
+content#:#cont_startfile#:#Start File###15 Apr 2004 new variable
 content#:#cont_std_is_in_dir#:#Eliminação não possível. Ficheiro de vista padrão está na directoria.
 content#:#cont_std_view#:#Vista Padrão
 content#:#cont_structure#:#estrutura
@@ -1829,6 +1831,7 @@ content#:#pages from#:#Páginas De
 content#:#par#:#Parágrafo
 content#:#pg#:#Página
 content#:#read offline#:#Ler Offline
+content#:#select_a_file#:#Please select a file.###15 Apr 2004 new variable
 content#:#st#:#Capítulo
 content#:#start export#:#Começar Exportação
 dateplaner#:#DateText#:#Mensagem
