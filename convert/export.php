@@ -90,7 +90,7 @@ class ILIAS2export
 		// create and add a text node to the new element node
 		if (is_string($text))
 		{
-			$nodeText = $this->doc->create_text_node($text);
+			$nodeText = $this->doc->create_text_node(iconv("ISO-8859-1","UTF-8",$text)); // ***
 			$nodeText = $node->append_child($nodeText);
 		}
 		
@@ -1598,7 +1598,7 @@ class ILIAS2export
 		//-------------------------
 		
 		// create the xml string (workaround for domxml_new_doc) ***
-		$xmlStr =	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>".
+		$xmlStr =	"<?xml version=\"1.0\" encoding=\"UTF-8\"?>". // *** ISO-8859-1
 					"<!DOCTYPE LearningObject SYSTEM \"http://localhost/ilias3/convert/ilias_lo.dtd\">".
 					"<root />"; // dummy node
 		
