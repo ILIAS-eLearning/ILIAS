@@ -42,7 +42,6 @@ $frm = new ilForum();
 $tpl->addBlockFile("CONTENT", "content", "tpl.forums_user_view.html");
 $tpl->addBlockFile("BUTTONS", "buttons", "tpl.buttons.html");
 
-$tpl->setCurrentBlock("content");
 
 require_once ("classes/class.ilObjUserGUI.php");
 
@@ -50,7 +49,6 @@ $_GET["obj_id"]=$_GET["user"];
 $user_gui = new ilObjUserGUI("",$_GET["user"], false, false);
 $user_gui->insertPublicProfile("USR_PROFILE","usr_profile");
 
-$tpl->setCurrentBlock("usertable");
 // display infopanel if something happened
 infoPanel();
 
