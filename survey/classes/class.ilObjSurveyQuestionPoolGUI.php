@@ -597,9 +597,18 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		if (!$error)
 		{
 			// import file into questionpool
+			// create import directory
+			$this->object->createImportDirectory();
+
+			// copy uploaded file to import directory
+			$full_path = $this->object->getImportDirectory()."/".$_FILES["qtidoc"]["name"];
+			move_uploaded_file($_FILES["qtidoc"]["tmp_name"], $full_path);
+			$source = $full_path;
+
 			$fh = fopen($source, "r") or die("");
 			$xml = fread($fh, filesize($source));
 			fclose($fh) or die("");
+			unlink($source);
 			if (preg_match_all("/(<item[^>]*>.*?<\/item>)/si", $xml, $matches))
 			{
 				foreach ($matches[1] as $index => $item)
