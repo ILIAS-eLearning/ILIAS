@@ -209,7 +209,8 @@ class ilWysiwygUtil
         $new["convert2"] = "</".$name.">";
         
 		
-		if ($attrs["class"] == "iliasxln") 
+		// alex changed
+		if ($attrs["class"] == "ilc_ExtLink") 
 		{
 			$new["convert"] = "[xln url=\"".$attrs[url]."\"]";
             $new["convert2"] = "[/xln]";
