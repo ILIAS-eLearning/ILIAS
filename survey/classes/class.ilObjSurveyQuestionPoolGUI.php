@@ -165,6 +165,49 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	}
 	
 /**
+* Creates a confirmation form to paste copied questions in the question pool
+*
+* Creates a confirmation form to paste copied questions in the question pool
+*
+* @param array $copied_questions An array with the id's of the copied questions
+* @access public
+*/
+	function pasteQuestionsForm($copied_questions)
+	{
+		sendInfo();
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_paste_questions.html", true);
+		$questions_info =& $this->object->getQuestionsInfo($copied_questions);
+		$colors = array("tblrow1", "tblrow2");
+		$counter = 0;
+		foreach ($questions_info as $data)
+		{
+			$this->tpl->setCurrentBlock("row");
+			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
+			$this->tpl->setVariable("TXT_TITLE", $data->title);
+			$this->tpl->setVariable("TXT_DESCRIPTION", $data->description);
+			$this->tpl->setVariable("TXT_TYPE", $this->lng->txt($data->type_tag));
+			$this->tpl->parseCurrentBlock();
+			$counter++;
+		}
+		foreach ($questions_info as $data)
+		{
+			$this->tpl->setCurrentBlock("hidden");
+			$this->tpl->setVariable("HIDDEN_NAME", "id_$data->question_id");
+			$this->tpl->setVariable("HIDDEN_VALUE", $data->question_id);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
+		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
+		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("question_type"));
+		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
+		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter());
+		$this->tpl->parseCurrentBlock();
+	}
+	
+/**
 * Displays a preview of a question
 *
 * Displays a preview of a question
@@ -571,6 +614,42 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       }
     }
   
+		if (strlen($_POST["cmd"]["copy"]) > 0) {
+      // copy button was pressed
+      if (count($checked_questions) > 0) {
+				$_SESSION["spl_copied_questions"] = join($checked_questions, ",");
+      } elseif (count($checked_questions) == 0) {
+        sendInfo($this->lng->txt("qpl_copy_select_none"));
+				$_SESSION["spl_copied_questions"] = "";
+      }
+    }
+  
+		if (strlen($_POST["cmd"]["paste"]) > 0) {
+      // paste button was pressed
+			if (strcmp($_SESSION["spl_copied_questions"], "") != 0)
+			{
+				$copied_questions = split("/,/", $_SESSION["spl_copied_questions"]);
+				sendInfo($this->lng->txt("qpl_past_questions_confirmation"));
+				$this->pasteQuestionsForm($copied_questions);
+				return;
+			}
+    }
+  
+		if (strlen($_POST["cmd"]["confirm_paste"]) > 0)
+		{
+			// paste questions after confirmation
+			sendInfo($this->lng->txt("qpl_questions_pasted"));
+			$checked_questions = array();
+			foreach ($_POST as $key => $value) {
+				if (preg_match("/id_(\d+)/", $key, $matches)) {
+					array_push($checked_questions, $matches[1]);
+				}
+			}
+      foreach ($checked_questions as $key => $value) {
+        $this->object->paste($value);
+      }
+		}
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_questions.html", true);
 	  if ($rbacsystem->checkAccess('write', $this->ref_id)) {
   	  $this->tpl->addBlockFile("CREATE_QUESTION", "create_question", "tpl.il_svy_qpl_create_new_question.html", true);
@@ -627,6 +706,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
       $this->tpl->setCurrentBlock("standard");
       $this->tpl->setVariable("DELETE", $this->lng->txt("delete"));
       $this->tpl->setVariable("DUPLICATE", $this->lng->txt("duplicate"));
+      $this->tpl->setVariable("COPY", $this->lng->txt("copy"));
+      $this->tpl->setVariable("PASTE", $this->lng->txt("paste"));
+			if (strcmp($_SESSION["spl_copied_questions"], "") == 0)
+			{
+	      $this->tpl->setVariable("PASTE_DISABLED", " disabled=\"disabled\"");
+			}
       $this->tpl->setVariable("QUESTIONBLOCK", $this->lng->txt("define_questionblock"));
       $this->tpl->setVariable("UNFOLD", $this->lng->txt("unfold"));
       $this->tpl->parseCurrentBlock();

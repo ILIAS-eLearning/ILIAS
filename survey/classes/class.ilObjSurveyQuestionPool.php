@@ -471,6 +471,59 @@ class ilObjSurveyQuestionPool extends ilObject
 		$question->loadFromDb($question_id);
 		$question->duplicate();
 	}
+	
+/**
+* Pastes a question in the question pool
+* 
+* Pastes a question in the question pool
+*
+* @param integer $question_id The database id of the question
+* @access public
+*/
+	function paste($question_id)
+	{
+		$questiontype = $this->getQuestiontype($question_id);
+		switch ($questiontype)
+		{
+			case "qt_nominal":
+				$question = new SurveyNominalQuestion();
+				break;
+			case "qt_ordinal":
+				$question = new SurveyOrdinalQuestion();
+				break;
+			case "qt_metric":
+				$question = new SurveyMetricQuestion();
+				break;
+			case "qt_text":
+				$question = new SurveyTextQuestion();
+				break;
+		}
+		$question->loadFromDb($question_id);
+		$question->duplicate($this->getRefId());
+	}
+	
+/**
+* Retrieves the datase entries for questions from a given array
+* 
+* Retrieves the datase entries for questions from a given array
+*
+* @param array $question_array An array containing the id's of the questions
+* @result array An array containing the database rows of the given question id's
+* @access public
+*/
+	function &getQuestionsInfo($question_array)
+	{
+		$result_array = array();
+		$query = sprintf("SELECT survey_question.*, survey_questiontype.type_tag FROM survey_question, survey_questiontype WHERE survey_question.questiontype_fi = survey_questiontype.questiontype_id AND survey_question.question_id IN (%s)",
+			join($question_array, ",")
+		);
+    $result = $this->ilias->db->query($query);
+		while ($row = $result->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			array_push($result_array, $row);
+		}
+		return $result_array;
+	}
 
 } // END class.ilSurveyObjQuestionPool
 ?>
