@@ -1,3 +1,19 @@
+<script language="JavaScript"><!-- 
+
+function CheckAllBoxes(form){
+	if(form.all)
+	{
+		var c = form.all.checked;
+	}
+	for (var i=0;i<form.elements.length;i++)
+	{
+		var e = form.elements[i];
+ 	  	if(e.name != 'all') e.checked = c;
+   	}
+}
+
+//--></script>
+
 <!-- BEGIN forum -->
 <h1>{TXT_PAGEHEADLINE}</h1>
 {INFOPANEL}
@@ -10,8 +26,12 @@
 </table>
 <!-- END linkbar -->
 {MESSAGE}
+
+<form method="post" name="cmd" action="{FORMACTION}">
+
 <table class="fullwidth">
 <tr class="tblheader">
+  <td class="std" width=1%>&nbsp;</td>
   <td class="std" width=60%>{TXT_FORUM}</td>
   <td class="std" align="center">{TXT_NUM_THREADS}</td>
   <td class="std" align="center">{TXT_NUM_POSTS}</td>
@@ -21,7 +41,8 @@
 </tr>
 <!-- BEGIN forum_row -->
 <tr>
- <td width="60%" class="tblrow2">{TITLE}<br/>
+ <td class="tblrow1" nowrap="nowrap" width="1%" valign="top"><input type="checkbox" name="forum_id[]" value="{FORUM_ID}"{CHECKBOX_CHECKED}></td>
+ <td width="60%" class="tblrow2" valign="top">{TITLE}<br/>
  <span class="quote">{DESCRIPTION}</span><br/>
  <span class="small">{TXT_FORUMPATH}: {FORUMPATH}</span><br/>
  <!-- BEGIN start_data -->
@@ -31,11 +52,11 @@
  <br/><span class="small">{LAST_UPDATE_TXT1}: {LAST_UPDATE} {LAST_UPDATE_TXT2} {LAST_UPDATE_USER}</span>
  <!-- END update_data -->
  </td>
- <td align="center" nowrap="nowrap" class="tblrow1">{NUM_THREADS}</td>
- <td align="center" nowrap="nowrap" class="tblrow2">{NUM_POSTS}</td>
- <td align="center" nowrap="nowrap" class="tblrow1">{NUM_VISITS}</td>
- <td width="20%" nowrap="nowrap" class="tblrow2">{LAST_POST}</td>
- <td align="center" width="20%" class="tblrow1">{MODS}</td>
+ <td align="center" nowrap="nowrap" class="tblrow1" valign="top">{NUM_THREADS}</td>
+ <td align="center" nowrap="nowrap" class="tblrow2" valign="top">{NUM_POSTS}</td>
+ <td align="center" nowrap="nowrap" class="tblrow1" valign="top">{NUM_VISITS}</td>
+ <td width="20%" nowrap="nowrap" class="tblrow2" valign="top">{LAST_POST}</td>
+ <td align="center" width="20%" class="tblrow1" valign="top">{MODS}</td>
 </tr>
 <!-- END forum_row -->
 <!-- BEGIN forum_no -->
@@ -44,4 +65,26 @@
 </tr>
 <!-- END forum_no -->
 </table>
+<table class="fullwidth">
+  <tr class="tblrow1">
+	<td class="std" nowrap="nowrap"><input type="checkbox" name="all" value="check_all" onClick="CheckAllBoxes(document.cmd);">&nbsp;
+	  <strong>{TXT_SELECT_ALL}</strong>
+	</td>
+  </tr>
+ </table>
+<table class="fullwidth">
+  <tr>
+	<td class="std"  width="1%" align="center" nowrap="nowrap"><img src="{IMGPATH}/images/arrow_downright.gif" /></td>
+	<td class="std" nowrap="nowrap">
+	  <select name="action">			
+		<option value="html">{TXT_EXPORT_HTML}</option>
+		<option value="xml">{TXT_EXPORT_XML}</option>
+	  </select>
+	  <input class="submit" type="submit" name="cmd[submit]" value="{TXT_OK}"/>
+	</td>
+  </tr>
+ </table>
+
+</form>
+
 <!-- END forum -->
