@@ -761,6 +761,7 @@ common#:#assign_local_role#:#Toewijzen aan een lokale rol
 common#:#assign_user_to_role#:#Gebruikersrol toewijzen
 common#:#assigned_roles#:#Toegewezen rollen
 common#:#assigned_users#:#Toegewezen gebruikers
+common#:#at_least_one_style#:#At least one style must remain activated.###02 Mar 2005 new variable
 common#:#at_location#:#op locatie
 common#:#attachment#:#Attachment###05 Nov 2004 new variable
 common#:#attachments#:#Attachments###05 Nov 2004 new variable
@@ -815,6 +816,7 @@ common#:#cannot_find_xml#:#Kan XML-bestand niet vinden.
 common#:#cannot_uninstall_language_in_use#:#U kunt geen talen deïnstalleren die in gebruik zijn!
 common#:#cannot_uninstall_systemlanguage#:#U kunt de systeem-taal niet deïnstalleren!
 common#:#cannot_unzip_file#:#Kan bestand niet uitpakken.
+common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###02 Mar 2005 new variable
 common#:#cat#:#Kategorie
 common#:#cat_a#:#een kategorie
 common#:#cat_add#:#Kategorie toevoegen
@@ -932,6 +934,7 @@ common#:#confirmation#:#Bevestiging
 common#:#cont_object#:#Object###05 Nov 2004 new variable
 common#:#contact_data#:#Contact-informatie
 common#:#container#:#Container###05 Nov 2004 new variable
+common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Context###05 Nov 2004 new variable
 common#:#continue_work#:#Doorlopend
 common#:#copied_object#:#Gecopiëerd object
@@ -1024,6 +1027,7 @@ common#:#dbk_new#:#Nieuw Digilib-boek
 common#:#dbk_read#:#Lees-toegang op Digiboek
 common#:#dbk_visible#:#Digiboek is zichtbaar
 common#:#dbk_write#:#Wijzig Digiboek
+common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
 common#:#default#:#Standaard
 common#:#default_language#:#Standaard taal
 common#:#default_perm_settings#:#Standaard rechten
@@ -1714,6 +1718,7 @@ common#:#move#:#Verplaatsen
 common#:#moveChapter#:#Verplaatsen
 common#:#movePage#:#Verplaatsen
 common#:#move_to#:#Verplaatsen naar
+common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
 common#:#msg_cancel#:#Activiteit gestopt
 common#:#msg_changes_ok#:#De wijzigingen waren in order
 common#:#msg_clear_clipboard#:#Klembord leeggemaakt
@@ -1843,6 +1848,7 @@ common#:#not_accessed#:#Not accessed###01 Mar 2005 new variable
 common#:#not_implemented_yet#:#Nog niet geïmplementeerd
 common#:#not_installed#:#Niet geïnstalleerd
 common#:#not_logged_in#:#U bent niet ingelogd
+common#:#num_users#:#Number of users###02 Mar 2005 new variable
 common#:#number_of_accesses#:#Aantal  benaderingen
 common#:#number_of_records#:#Aantal rekords
 common#:#obj#:#Object###05 Nov 2004 new variable
@@ -1902,8 +1908,8 @@ common#:#obj_root#:#ILIAS root node###05 Nov 2004 new variable
 common#:#obj_sahs#:#SCORM/AICC Lesmodule
 common#:#obj_spl#:#Vraagpool (Survey)
 common#:#obj_st#:#Hoofdstuk
-common#:#obj_styf#:#Style Folder###01 Mar 2005 new variable
-common#:#obj_styf_desc#:#Manage system styles here.###01 Mar 2005 new variable
+common#:#obj_stys#:#Style Settings ###02 Mar 2005 new variable
+common#:#obj_stys_desc#:#Manage system skin and style settings here###02 Mar 2005 new variable
 common#:#obj_svy#:#Enquête
 common#:#obj_tax#:#Taxonomie
 common#:#obj_taxf#:#Taxonomies###05 Nov 2004 new variable
@@ -2270,6 +2276,11 @@ common#:#stop_inheritance#:#Stop overerven
 common#:#street#:#Straat
 common#:#structure#:#Indeling
 common#:#sty#:#Style###01 Mar 2005 new variable
+common#:#style_activation#:#Style Activation###02 Mar 2005 new variable
+common#:#stys_edit_permission#:#Change permission settings###02 Mar 2005 new variable
+common#:#stys_read#:#Read access to style settings###02 Mar 2005 new variable
+common#:#stys_visible#:#Style settings are visible###02 Mar 2005 new variable
+common#:#stys_write#:#Edit style settings###02 Mar 2005 new variable
 common#:#subcat_name#:#Subcategorie-naam
 common#:#subchapter_new#:#Nieuwe paragraaf
 common#:#subject#:#Subject###05 Nov 2004 new variable
@@ -2298,6 +2309,7 @@ common#:#system_grp#:#Systeem-groep
 common#:#system_information#:#Systeem-information
 common#:#system_language#:#Systeemtaal
 common#:#system_message#:#Systeem-bericht
+common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
 common#:#table_mail_import#:#Mail-import
 common#:#tax#:#Taxonomie
 common#:#tax_add#:#Voeg een taxonomie toe
@@ -2949,6 +2961,7 @@ crs#:#crs_file_name#:#Eind
 crs#:#crs_from#:#Cursus-export
 crs#:#crs_grouping#:#Course grouping###01 Mar 2005 new variable
 crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?###01 Mar 2005 new variable
+crs#:#crs_grouping_deleted#:#Deleted course grouping.###02 Mar 2005 new variable
 crs#:#crs_grouping_select_one#:#Please select a course grouping.###01 Mar 2005 new variable
 crs#:#crs_groupings#:#Kurs groupings###01 Mar 2005 new variable
 crs#:#crs_groupings_ask_delete#:#Delete course grouping###01 Mar 2005 new variable
@@ -2961,6 +2974,7 @@ crs#:#crs_grp_crs_assignment#:#Course assignment###01 Mar 2005 new variable
 crs#:#crs_grp_deassigned_courses#:#Delete assignment###01 Mar 2005 new variable
 crs#:#crs_grp_enter_title#:#Please enter a title.###01 Mar 2005 new variable
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:###01 Mar 2005 new variable
+crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.###02 Mar 2005 new variable
 crs#:#crs_grp_modified_grouping#:#Saved modifications.###01 Mar 2005 new variable
 crs#:#crs_grp_no_course_selected#:#Please select one course.###01 Mar 2005 new variable
 crs#:#crs_grp_no_courses_assigned#:#No assigned courses.###01 Mar 2005 new variable

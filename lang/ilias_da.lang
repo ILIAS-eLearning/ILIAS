@@ -532,7 +532,6 @@ bibitem#:#bibitem_year#:#&aring;r
 chat#:#chat_active#:#Aktiv
 chat#:#chat_active_users#:#Bruger (aktiv)
 chat#:#chat_add_allowed_hosts#:#Tilf&oslash;j venligst adressen p&aring; den v&aelig;rt der er tilladt at bruge chat serveren.
-chat#:#chat_add_ip#:#Tilf&oslash;j venligst serverens IP.
 chat#:#chat_add_moderator_password#:#Tilf&oslash;j venligst et password.
 chat#:#chat_add_port#:#Tilf&oslash;j venligst en server port.
 chat#:#chat_aqua#:#aqua
@@ -593,7 +592,6 @@ chat#:#chat_rooms_deleted#:#Chat rum slettet.
 chat#:#chat_select_one_room#:#V&aelig;lg venligst et chat rum
 chat#:#chat_server_allowed#:#Tilladte v&aelig;rter
 chat#:#chat_server_allowed_b#:#(e.g. 192.168.1.1,192.168.1.2)
-chat#:#chat_server_ip#:#Server IP
 chat#:#chat_server_logfile#:#Log fil sti
 chat#:#chat_server_loglevel#:#Log level
 chat#:#chat_server_not_active#:#Chat serveren er ikke aktiv
@@ -693,6 +691,7 @@ common#:#assign_local_role#:#Tildel en lokal rolle
 common#:#assign_user_to_role#:#Tildel bruger en rolle
 common#:#assigned_roles#:#Tildelte roller
 common#:#assigned_users#:#Tildelte brugere
+common#:#at_least_one_style#:#At least one style must remain activated.###02 Mar 2005 new variable
 common#:#at_location#:#Sted
 common#:#attachment#:#Vedh&aelig;ft
 common#:#attachments#:#Vedh&aelig;ftede
@@ -746,6 +745,7 @@ common#:#cannot_find_xml#:#Kan ikke finde nogle XML-filer.
 common#:#cannot_uninstall_language_in_use#:#Du kan ikke afinstallere et sprog der er i brug!
 common#:#cannot_uninstall_systemlanguage#:#Du kan ikke afinstallere system sproget!
 common#:#cannot_unzip_file#:#Kan ikke udpakke fil.
+common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.###02 Mar 2005 new variable
 common#:#cat#:#Kategori
 common#:#cat_a#:#en Kategori
 common#:#cat_add#:#Tilf&oslash;j Kategori
@@ -853,6 +853,7 @@ common#:#confirmation#:#Bekr&aelig;fteldr
 common#:#cont_object#:#Objekt
 common#:#contact_data#:#Kontakt Information
 common#:#container#:#Kontainer
+common#:#content_styles#:#Content Styles###02 Mar 2005 new variable
 common#:#context#:#Kontekst
 common#:#continue_work#:#Forts&aelig;t
 common#:#copied_object#:#Kopieret Objekt
@@ -941,6 +942,7 @@ common#:#dbk_new#:#Ny Digilib Bog
 common#:#dbk_read#:#L&aelig;se adgang til Digilib Bog
 common#:#dbk_visible#:#Digilib Bog er synlig
 common#:#dbk_write#:#Rediger Digilib Bog
+common#:#def_repository_view#:#Default repository view###02 Mar 2005 new variable
 common#:#default#:#Standard
 common#:#default_language#:#standard Sprog
 common#:#default_perm_settings#:#Standard Sprog
@@ -1565,6 +1567,7 @@ common#:#move#:#Flyt
 common#:#moveChapter#:#Flyt
 common#:#movePage#:#Flyt
 common#:#move_to#:#Flyt til
+common#:#move_users_to_style#:#Move users to style###02 Mar 2005 new variable
 common#:#msg_cancel#:#Handling annulleret
 common#:#msg_changes_ok#:#&aelig;ndringerne er ok
 common#:#msg_clear_clipboard#:#Udklipsholder er t&oslash;mt
@@ -1688,6 +1691,7 @@ common#:#normal#:#Normal
 common#:#not_implemented_yet#:#Ikke implementeret endnu
 common#:#not_installed#:#Ikke installeret
 common#:#not_logged_in#:#Du er ikke logget ind
+common#:#num_users#:#Number of users###02 Mar 2005 new variable
 common#:#number_of_accesses#:#Antal adgang
 common#:#number_of_records#:#Antal data
 common#:#obj#:#Objekt
@@ -1744,6 +1748,8 @@ common#:#obj_root#:#ILIAS root node
 common#:#obj_sahs#:#L&aelig;rer Modul SCORM/AICC
 common#:#obj_spl#:#Sp&oslash;rgsm&aring;l afstemning til unders&oslash;gelse
 common#:#obj_st#:#Kapitel
+common#:#obj_stys#:#Style Settings ###02 Mar 2005 new variable
+common#:#obj_stys_desc#:#Manage system skin and style settings here###02 Mar 2005 new variable
 common#:#obj_svy#:#Unders&oslash;gelse
 common#:#obj_tax#:#Taxonomy
 common#:#obj_taxf#:#Taxonomies
@@ -2081,6 +2087,11 @@ common#:#step#:#Skridt
 common#:#stop_inheritance#:#Stop indblanding
 common#:#street#:#Gade
 common#:#structure#:#Struktur
+common#:#style_activation#:#Style Activation###02 Mar 2005 new variable
+common#:#stys_edit_permission#:#Change permission settings###02 Mar 2005 new variable
+common#:#stys_read#:#Read access to style settings###02 Mar 2005 new variable
+common#:#stys_visible#:#Style settings are visible###02 Mar 2005 new variable
+common#:#stys_write#:#Edit style settings###02 Mar 2005 new variable
 common#:#subcat_name#:#Underkategoriens navn
 common#:#subchapter_new#:#Nyt Uderkapitel
 common#:#subject#:#Emne
@@ -2109,6 +2120,7 @@ common#:#system_grp#:#System Gruppe
 common#:#system_information#:#System Information
 common#:#system_language#:#System sprog
 common#:#system_message#:#System besked
+common#:#system_style_settings#:#System Style Settings###02 Mar 2005 new variable
 common#:#table_mail_import#:#Mail importering
 common#:#tax#:#Taxonomy
 common#:#tax_add#:#Add Taxonomy
@@ -2606,6 +2618,8 @@ crs#:#crs_end#:#Slut
 crs#:#crs_export#:#Eksporter kursus
 crs#:#crs_file_name#:#Filnavn
 crs#:#crs_from#:#Fra:
+crs#:#crs_grouping_deleted#:#Deleted course grouping.###02 Mar 2005 new variable
+crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.###02 Mar 2005 new variable
 crs#:#crs_header_archives#:#Kursus arkiver
 crs#:#crs_header_delete_members#:#Slet medlem
 crs#:#crs_header_edit_members#:#Rediger medlem
@@ -2641,7 +2655,6 @@ crs#:#crs_no_items_found#:#Ingen genstande
 crs#:#crs_no_language#:#Intet sprog
 crs#:#crs_no_member_selected#:#V&aelig;lg venligst et medlem
 crs#:#crs_no_members_assigned#:#Ingen medlemmer tilmeldt dette kursus
-crs#:#crs_no?notify#:#No notify for new registrations
 crs#:#crs_no_results_found#:#Ingen resultater fundet
 crs#:#crs_no_roles_selected#:#V&aelig;lg venligst en rolle
 crs#:#crs_no_subscribers_selected#:#V&aelig;lg venligst en bruger
@@ -2976,7 +2989,6 @@ forum#:#forums_thread_articles#:#Articles of the topic
 forum#:#forums_thread_create_date#:#Oprettet den
 forum#:#forums_thread_create_from#:#Oprettet af
 forum#:#forums_thread_marked#:#Denne tr&aring;d er markeret som l&aelig;st.
-forum#:#fo?ums_thread_new_entry#:#Nyt emne oprettet
 forum#:#forums_threads#:#Tr&aring;de
 forum#:#forums_threads_not_available#:#Emner ikke tilg&aelig;ngelige
 forum#:#forums_topics_overview#:#Emne Oversigt
@@ -3852,8 +3864,8 @@ pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword as
 pwassist#:#pwassist_password_assigned#:#Passwordet blev tilf&oslash;jet til bruger "%1$s".
 pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been e-mailed to you more than once, or because too much time has passed since the link has been sent to you.
 pwassist#:#pwassist_update_error#:#Kontakt venligst din system administrator.\nPasswordet kunne ikke blive tildelt brugerkontoen p&aring; grund af en fejl under opdatering af databasen.
-search#:#search_and#:#og
 search#:#search_all_results#:#Alle resultater
+search#:#search_and#:#og
 search#:#search_concatenation#:#Sammenk&aelig;dning
 search#:#search_content#:#Side indhold
 search#:#search_dbk_content#:#Digitalt bibliotek (indhold)
@@ -4139,7 +4151,6 @@ survey#:#search_questions#:#S&oslash;g efter sp&oslash;rgsm&aring;l
 survey#:#search_term#:#S&oslash;ge krav
 survey#:#search_type_all#:#S&oslash;g i alle sp&oslash;rgsm&aring;ls typer
 survey#:#search_users#:#Brugere
-survey#:#select_max_one_item#:#V&aelig;lg kun en ting
 survey#:#select_prior_question#:#V&aelig;lg et tidligere sp&oslash;rgsm&aring;l
 survey#:#select_questionpool#:#V&aelig;lg en sp&oslash;rgs,&aring;lsgruppe for at gemme sp&oslash;rgsm&aring;let
 survey#:#select_questionpool_short#:#Sp&oslash;rgsm&aring;lsgruppe for sp&oslash;rgeskema
