@@ -69,6 +69,16 @@ class ilPaymentBillVendor
 		$this->message .= "<br />".$a_message;
 	}
 
+	function delete()
+	{
+		$query = "DELETE FROM payment_bill_vendor ".
+			"WHERE pobject_id = '".$this->pobject_id."'";
+
+		$this->db->query($query);
+
+		return true;
+	}
+
 
 
 

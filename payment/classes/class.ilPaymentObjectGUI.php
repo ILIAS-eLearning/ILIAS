@@ -148,7 +148,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		return $this->__showObjectsTable($f_result);
 	}
 
-	function editDetails()
+	function editDetails($a_show_confirm = false)
 	{
 		if(!$_GET['pobject_id'])
 		{
@@ -166,6 +166,17 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.paya_edit.html',true);
 		$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
+
+		if($a_show_confirm)
+		{
+			$this->tpl->setCurrentBlock("confirm_delete");
+			$this->tpl->setVariable("CONFIRM_FORMACTION",$this->ctrl->getFormAction($this));
+			$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
+			$this->tpl->setVariable("CONFIRM_CMD",'performDelete');
+			$this->tpl->setVariable("TXT_CONFIRM",$this->lng->txt('confirm'));
+			$this->tpl->parseCurrentBlock();
+		}			
+
 		
 		$tmp_obj =& ilObjectFactory::getInstanceByRefId($this->pobject->getRefId());
 		
@@ -187,7 +198,72 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 		$this->tpl->setVariable("INPUT_CMD",'updateDetails');
 		$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('save'));
 
+		$this->tpl->setVariable("DELETE_CMD",'deleteObject');
+		$this->tpl->setVariable("DELETE_VALUE",$this->lng->txt('delete'));
 	}
+
+	function deleteObject()
+	{
+		include_once './payment/classes/class.ilPaymentBookings.php';
+
+		if(!$_GET['pobject_id'])
+		{
+			sendInfo($this->lng->txt('paya_no_object_selected'));
+
+			$this->showObjects();
+			return true;
+		}
+		if(ilPaymentBookings::_getCountBookingsByObject((int) $_GET['pobject_id']))
+		{
+			sendInfo($this->lng->txt('paya_bookings_available'));
+			$this->editDetails();
+
+			return false;
+		}
+		else
+		{
+			sendInfo($this->lng->txt('paya_sure_delete_object'));
+			$this->editDetails(true);
+
+			return true;
+		}
+	}
+
+	function performDelete()
+	{
+		include_once './payment/classes/class.ilPaymentPrices.php';
+		include_once './payment/classes/class.ilPaymentBillVendor.php';
+
+		if(!$_GET['pobject_id'])
+		{
+			sendInfo($this->lng->txt('paya_no_object_selected'));
+
+			$this->showObjects();
+			return true;
+		}
+		$this->__initPaymentObject((int) $_GET['pobject_id']);
+
+		// delete object data
+		$this->pobject->delete();
+		
+		// delete payment prices
+		$price_obj =& new ilPaymentPrices((int) $_GET['pobject_id']);
+		$price_obj->deleteAllPrices();
+		unset($price_obj);
+
+		$bv =& new ilPaymentBillVendor((int) $_GET['pobject_id']);
+		$bv->delete();
+		unset($bv);
+
+		// delete bill vendor data if exists
+		sendInfo($this->lng->txt('paya_deleted_object'));
+
+		$this->showObjects();
+
+		return true;
+	}
+
+
 
 	function editPayMethod()
 	{
@@ -870,7 +946,7 @@ class ilPaymentObjectGUI extends ilPaymentBaseGUI
 								   $this->lng->txt("paya_pay_method"),
 								   $this->lng->txt("paya_vendor"),
 								   $this->lng->txt("paya_count_purchaser"),
-								   $this->lng->txt("options")));
+								   $this->lng->txt("edit")));
 		$tbl->setHeaderVars(array("title",
 								  "status",
 								  "pay_method",
