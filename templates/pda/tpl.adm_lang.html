@@ -1,33 +1,7 @@
-<!-- @version $Id$ -->
-<style>
-body { margin:0px; }
-</style>
-
-{TABS}
-
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr class="locator">
-  <td align="left" valign="top">
-  <strong>Languages at {TREEPATH}</strong>
-  </td>
-</tr>
-</table>
-
-<!-- BEGIN sys_message -->
-<table width="100%" cellspacing="0" cellpadding="2" border="0">
-<tr class="message">
-  <td align="center" valign="top" height="30">
-  <strong>{ERROR_MESSAGE}</strong>
-  </td>
-</tr>
-</table>
-<br><br>
-<!-- END sys_message -->
-
-{MESSAGE}
+<h5>Click on a language to install/deinstall this language</h5>
 
 <form action="object.php?obj_id={OBJ_ID}&parent={TPOS}" name="objectItems" method="post">
-<input type="HIDDEN" name="type" value="{TYPE}">
+<input type="hidden" name="type" value="{TYPE}">
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
 <tr class="tblheader">
   <td width="8%" align="right" colspan="2">
@@ -67,7 +41,7 @@ body { margin:0px; }
 <!-- BEGIN options -->
 	  <table cellspacing="0" cellpadding="2" border="0">
 		  <tr height="40">
-			<td align="left" width="16"><img src="images/pfeil_rechts.gif" border="0"></td>
+			<td align="left" width="16"><img src="images/pfeil_rechts.gif" border="0" /></td>
 			<td align="left">
 			  <div class="form-element">
 
@@ -81,5 +55,3 @@ body { margin:0px; }
 	  </table>
 <!-- END options -->
 </form>
-<br><br>
-{ERROR}

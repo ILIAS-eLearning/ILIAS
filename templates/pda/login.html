@@ -1,26 +1,37 @@
-<html>
-<head>
-	<title>ILIAS Login Screen</title>
-</head>
-<body>
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-<tr bgcolor="#ccccdd" align="center"><td><h3>ILIAS v{ILIAS_RELEASE}</h3></td></tr>
-</table>
+<div align="center">
+<br>
+<img src="./images/ilias_logo_big.gif" border="0">
+
 <form method="post" action="{PHP_SELF}" name="formlogin">
-<table border="0" cellpadding="0" cellspacing="0">
-<tr><td>{TXT_USERNAME}</td><td><input type="text" size=10 name="username" value="{USERNAME}"></td></tr>
-<tr><td>{TXT_PASSWORD}</td><td><input type="password" size=10 name="password"></td></tr>
-<tr><td>&nbsp;</td><td><input type="submit" name="butSubmit" value="{TXT_SUBMIT}"></td></tr>
+<table border="0" cellpadding="2" cellspacing="0">
+	<tr>
+	<td colspan="2" align="right">Version {ILIAS_RELEASE}</td>
+	</tr>
+	<tr>
+	<td colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+	<td colspan="2" bgcolor="#eeeeee" align="center"><b>{TXT_ILIAS_LOGIN}</b></td>
+	</tr>
+	<tr>
+	<td>{TXT_USERNAME}</td>
+	<td><input type="text" name="username" value="{USERNAME}"></td>
+	</tr>
+	<tr>
+	<td>{TXT_PASSWORD}</td>
+	<td><input type="password" name="password"></td>
+	</tr>
+	<tr>
+	<td colspan="2" bgcolor="#eeeeee" align="center"><input type="submit" name="butSubmit" value="{TXT_SUBMIT}"></td>
+	</tr>
 </table>
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-<tr bgcolor="#ccccdd" align="center"><td>{TXT_CHOOSE_LANGUAGE}</td></tr>
-<tr><td>
+<p>{TXT_CHOOSE_LANGUAGE}<br>
 <!-- BEGIN languages -->
-<a href="./login.php?lang={LANG_ID}">[{LANG_DESC}]</a> 
+<a href="./login.php?lang={LANG_ID}">[ {LANG_DESC} ]</a> 
 <!-- END languages -->
-</td></tr>
-</table>
-<font color="red">{TXT_MSG_LOGIN_FAILED}</font>
+</p>
+<br>
+<font color="red"><i>{TXT_MSG_LOGIN_FAILED}</i></font>
 </center>
 
 <script language="JavaScript">
@@ -28,6 +39,3 @@
 	document.formlogin.username.focus();
 //-->
 </script>
-
-</body>
-</html>

@@ -2,28 +2,28 @@
 <style>
 body { margin:0px; }
 </style>
+
 {TABS}
+
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-  <tr class="locator">
-	<td align="left" valign="top">
-      <strong>
-            Users at {TREEPATH}
-	  </strong>
-    </td>
-  </tr>
+<tr class="locator">
+  <td align="left" valign="top">
+    <strong>Users at {TREEPATH}</strong>
+  </td>
+</tr>
 </table>
+
 <!-- BEGIN sys_message -->
 <table width="100%" cellspacing="0" cellpadding="2" border="0">
-  <tr class="message">
-	<td align="center" valign="top" height="30">
-      <strong>
-            {ERROR_MESSAGE}
-	  </strong>
-    </td>
-  </tr>
+<tr class="message">
+  <td align="center" valign="top" height="30">
+    <strong>{ERROR_MESSAGE}</strong>
+  </td>
+</tr>
 </table>
 <br><br>
 <!-- END sys_message -->
+
 {MESSAGE}
 <form action="object.php?obj_id={OBJ_ID}&parent={TPOS}" name="objectItems" method="post">
 <input type="HIDDEN" name="type" value="{TYPE}">
@@ -49,7 +49,7 @@ body { margin:0px; }
   </td>
   <td align="left" valign="top" nowrap="1">
     <a href="{LINK_TARGET}">
-  	<img src="images/{IMG_TYPE}" alt="{ALT_IMG_TYPE}" title="{ALT_IMG_TYPE}" border="0" /></a>
+  	<img src="{TPLPATH}/images/{IMG_TYPE}" alt="{ALT_IMG_TYPE}" title="{ALT_IMG_TYPE}" border="0" /></a>
   </td>
   <td align="left" valign="top">
     <div class="list-item">
@@ -62,22 +62,22 @@ body { margin:0px; }
 </tr>
 <!-- END row -->
 </table>
-	  <!-- BEGIN options -->
-	  <table cellspacing="0" cellpadding="2" border="0">
-		  <tr height="40">
-			<td align="left" width="16"><img src="images/pfeil_rechts.gif" border="0"></td>
-			<td align="left">
-			  <div class="form-element">
 
-				<input class="form-element" type="submit" name="cmd" 
+<!-- BEGIN options -->
+<table cellspacing="0" cellpadding="2" border="0">
+<tr height="40">
+  <td align="left" width="16"><img src="{TPLPATH}/images/arrow_downright.gif" border="0"></td>
+  <td align="left">
+    <div class="form-element">
+	<input class="form-element" type="submit" name="cmd"
 					   value="delete" />
-				<input class="form-element" type="submit" name="cmd" 
-					   value="create" /> 
-			  </div>
-			</td>
-		  </tr>
-	  </table>
-	  <!-- END options -->
+	<input class="form-element" type="submit" name="cmd"
+					   value="create" />
+	</div>
+	</td>
+</tr>
+</table>
+<!-- END options -->
 </form>
 <br><br>
 {ERROR}

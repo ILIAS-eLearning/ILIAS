@@ -1,21 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<HTML>
-<HEAD>
-  <title> </title>
-  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <link REL="STYLESHEET" TYPE="text/css" HREF="../css/style.css">
-</HEAD>
-
-<h3>{TXT_PAGEHEADLINE}</h3>
+<h1>{TXT_MAIL}</h1>
 
 <h2>{TXT_DELETE_SENDER_DATE}</h2>
 
     <form method="post" action="{ACTION}">
-    <INPUT TYPE=hidden NAME="act" VALUE="gen_new_grp">
-    <INPUT TYPE=hidden NAME="back" VALUE="/projekte/uni-koeln/ilias/gruppe.php?act=">
 
-    <TABLE bgcolor="#ddddee" CELLPADDING=2 CELLSPACING=0 BORDER=0>
-    <tr bgcolor="#bbbbcc">
+    <TABLE WIDTH="100%" CELLPADDING=2 CELLSPACING=0 BORDER=0>
+    <tr class="tblheader">
       <TD COLSPAN=6>{TXT_CHOOSE_SENDER_AND_DATE}</TD>
     </TR>
     <tr class="tblrow2">
@@ -28,50 +18,35 @@
     <TR class="tblrow1">
       <TD ALIGN=right>{TXT_DELETE_UNTIL}:</TD>
       <TD>&nbsp;</TD>
-      <TD COLSPAN=4>{TXT_YEAR}<SELECT NAME="year">
-      <OPTION VALUE="1999">1999<OPTION VALUE="2000">2000
-      <OPTION VALUE="2001">2001<OPTION VALUE="2002">2002
-      <OPTION SELECTED=""></SELECT>{TXT_MONTH}<SELECT NAME="month">
-      <OPTION VALUE="01">01<OPTION VALUE="02">02
-      <OPTION VALUE="03">03<OPTION VALUE="04">04
-      <OPTION VALUE="05">05<OPTION VALUE="06">06
-      <OPTION VALUE="07">07<OPTION VALUE="08">08
-      <OPTION VALUE="09">09<OPTION VALUE="10">10
-      <OPTION VALUE="11">11<OPTION VALUE="12">12
-      <OPTION SELECTED="">
-      </SELECT>{TXT_DAY}
+      <TD COLSPAN=4>{TXT_YEAR}
+      <SELECT NAME="year">
+      <OPTION VALUE="{YEARVALUE}">{YEAROPTION}</option>
+      </SELECT>
+      {TXT_MONTH}
+      <SELECT NAME="month">
+      <OPTION VALUE="{MONTHVALUE}">{MONTHOPTION}</OPTION>
+      </SELECT>
+      {TXT_DAY}
       <SELECT NAME="day">
-      <OPTION VALUE="01">01<OPTION VALUE="02">02<OPTION VALUE="03">03
-      <OPTION VALUE="04">04<OPTION VALUE="05">05<OPTION VALUE="06">06
-      <OPTION VALUE="07">07<OPTION VALUE="08">08<OPTION VALUE="09">09
-      <OPTION VALUE="10">10<OPTION VALUE="11">11<OPTION VALUE="12">12
-      <OPTION VALUE="13">13<OPTION VALUE="14">14<OPTION VALUE="15">15
-      <OPTION VALUE="16">16<OPTION VALUE="17">17<OPTION VALUE="18">18
-      <OPTION VALUE="19">19<OPTION VALUE="20">20<OPTION VALUE="21">21
-      <OPTION VALUE="22">22<OPTION VALUE="23">23<OPTION VALUE="24">24
-      <OPTION VALUE="25">25<OPTION VALUE="26">26<OPTION VALUE="27">27
-      <OPTION VALUE="28">28<OPTION VALUE="29">29<OPTION VALUE="30">30
-      <OPTION VALUE="31">31<OPTION SELECTED="">
+      <OPTION VALUE="{DAYVALUE}">{DAYOPTION}</OPTION>
       </SELECT></TD>
     </TR>
     </TABLE>
 
     <br>
-    <INPUT TYPE=submit NAME="delete" VALUE="{DELETE}" ONCLICK="return confirm('Sind Sie wirklich sicher');">
+    <INPUT TYPE=submit NAME="delete" VALUE="{TXT_DELETE}" ONCLICK="return confirm('Sind Sie wirklich sicher');">
 
     <FORM ACTION="/projekte/uni-koeln/ilias/admin_mails_final.php" METHOD="POST">
 
     <h2>{TXT_DELETE_FINAL}</h2>
 
-    <table CELLPADDING=2 CELLSPACING=0 BORDER=0>
+    <table WIDTH="100%" CELLPADDING=2 CELLSPACING=0 BORDER=0>
     <tr class="tblheader">
-      <td>{TXT_DELETE_ALL_DELETED_MSG_IN_DATABASE}</TD>
+      <td>{TXT_DELETE_ALL}</TD>
     </TR>
     </TABLE>
 
     <br>
-    <INPUT TYPE=submit NAME="ok" VALUE="{OK}" ONCLICK="return confirm('Sind Sie sicher ?');">
+    <INPUT TYPE=submit NAME="ok" VALUE="{TXT_OK}" ONCLICK="return confirm('Sind Sie sicher ?');">
 
     </FORM>
-    </BODY>
-    </HTML>

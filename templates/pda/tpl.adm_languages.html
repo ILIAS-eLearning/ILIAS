@@ -1,8 +1,8 @@
-<h3>{TXT_PAGEHEADLINE}</h3>
+<h1>{TXT_LANGUAGES}</h1>
 
 {BUTTONS}
 
-<h4>{TXT_AVAILLANG}</h4>
+<h2>{TXT_AVAILLANG}</h2>
 
 <!-- BEGIN message -->
 <p>{MSG}</p>
@@ -10,8 +10,8 @@
 
 <form name="formmsg" action="{FORMACTION}" method="post">
 <input type="hidden" name="cmd">
-<table  bgcolor="#ddddee"cellpadding=2 cellspacing="0" border="0">
-<tr bgcolor="#bbbbcc">
+<table cellpadding="2" cellspacing="0" border="0">
+<tr  class="tblheader" >
   <td>&nbsp;</td>
   <td><b>&nbsp;{TXT_LANG}&nbsp;</b></td>
   <td><b>&nbsp;{TXT_STATUS}&nbsp;</b></td>
@@ -21,7 +21,7 @@
 <!-- BEGIN language_row -->
 <tr class="{ROWCOL}">
   <td><input type="checkbox" name="marker[]" value="{ID}"></td>
-  <td>&nbsp;{TITLE}&nbsp;</td>
+  <td>&nbsp;{LNG}&nbsp;</td>
   <td><a href="{LINK}">&nbsp;{STATUS}&nbsp;</a></td>
   <td><font size=-1>&nbsp;{LASTCHANGE}</font></td>
 </tr>
@@ -31,7 +31,7 @@
   <td colspan=3>{TXT_SELECTED}&nbsp;<select name="action" onChange="document.formmsg.cmd.value=document.formmsg.action[document.formmsg.action.selectedIndex].value; document.formmsg.submit();">
   <option>-----------</option>
 <!-- BEGIN selaction -->
-	<option value="{VALUE}">{OPTION}</option>
+        <option value="{VALUE}">{OPTION}</option>
 <!-- END selaction -->
   </select>
   </td>
