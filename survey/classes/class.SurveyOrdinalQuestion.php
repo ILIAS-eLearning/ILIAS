@@ -205,10 +205,11 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 *
 * Gets the available phrases from the database
 *
+* @param boolean $useronly Returns only the user defined phrases if set to true. The default is false.
 * @result array All available phrases as key/value pairs
 * @access public
 */
-	function &getAvailablePhrases()
+	function &getAvailablePhrases($useronly = 0)
 	{
 		global $ilUser;
 		
@@ -221,11 +222,20 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 		{
 			if (($row->defaultvalue == 1) and ($row->owner_fi == 0))
 			{
-				$phrases[$row->phrase_id] = $this->lng->txt($row->title);
+				if (!$useronly)
+				{
+					$phrases[$row->phrase_id] = array(
+						"title" => $this->lng->txt($row->title),
+						"owner" => $row->owner_fi
+					);
+				}
 			}
 			else
 			{
-				$phrases[$row->phrase_id] = $row->title;
+				$phrases[$row->phrase_id] = array(
+					"title" => $row->title,
+					"owner" => $row->owner_fi
+				);
 			}
 		}
 		return $phrases;

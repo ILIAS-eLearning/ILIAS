@@ -1,19 +1,17 @@
-<form name="deleteQuestions" method="post" action="{FORM_ACTION}">
+<form name="deletePhrases" method="post" action="{FORM_ACTION}">
 <table class="fullwidth">
 <tr class="tblheader">
-<td class="std">{TXT_TITLE}</td>
-<td class="std">{TXT_DESCRIPTION}</td>
-<td class="std">{TXT_TYPE}</td>
+<td>{TEXT_PHRASE_TITLE}</td>
+<td>{TEXT_PHRASE_CONTENT}</td>
 </tr>
 <!-- BEGIN row -->
-<tr class="{COLOR_CLASS}">
-<td class="{COLOR_CLASS}">{TXT_TITLE}</td>
-<td class="{COLOR_CLASS}">{TXT_DESCRIPTION}</td>
-<td class="{COLOR_CLASS}">{TXT_TYPE}</td>
+<tr class="{COLOR_CLASS}" valign="top">
+<td>{PHRASE_TITLE}</td>
+<td>{PHRASE_CONTENT}</td>
 </tr>
 <!-- END row -->
 <tr class="std">
-<td class="std" colspan="3">
+<td class="std" colspan="2">
 <input type="submit" name="cmd[confirm_delete]" value="{BTN_CONFIRM}" />
 <input type="submit" name="cmd[cancel]" value="{BTN_CANCEL}" />
 </td>
