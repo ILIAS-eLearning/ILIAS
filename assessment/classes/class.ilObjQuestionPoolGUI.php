@@ -80,16 +80,18 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
-echo "<br>nextclass:$next_class:cmd:$cmd:";
+//echo "<br>nextclass:$next_class:cmd:$cmd:";
 		switch($next_class)
 		{
 			case "ass_multiplechoicegui":
+				$this->ctrl->setReturn($this, "questions");
 				if ($_GET["q_id"] < 1)
 				{
 					$q_type = ($_POST["sel_question_types"] != "")
 						? $_POST["sel_question_types"]
 						: $_GET["sel_question_types"];
 				}
+//echo "<br>q_id:".$_GET["q_id"];
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setRefId($_GET["ref_id"]);
 				if ($cmd != "preview")
@@ -105,26 +107,31 @@ echo "<br>nextclass:$next_class:cmd:$cmd:";
 				break;
 
 			case "ass_clozetestgui":
+				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_cloze");
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_orderingquestiongui":
+				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_ordering");
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_matchingquestiongui":
+				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_matching");
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_imagemapquestiongui":
+				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_imagemap");
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
 
 			case "ass_javaquestiongui":
+				$this->ctrl->setReturn($this, "questions");
 				$q_gui =& ASS_QuestionGUI::_getQuestionGUI("qt_java");
 				$ret =& $this->ctrl->forwardCommand($q_gui);
 				break;
@@ -459,7 +466,7 @@ echo "<br>ilObjQuestionPoolGUI->assessmentObject()";
 
 	function questionObject()
 	{
-echo "<br>ilObjQuestionPoolGUI->questionObject()";
+//echo "<br>ilObjQuestionPoolGUI->questionObject()";
 		$type = $_GET["sel_question_types"];
 		$this->editQuestionForm($type);
 		//    $this->set_question_form($type, $_GET["edit"]);
@@ -1156,7 +1163,7 @@ echo "<br>ilObjQuestionPoolGUI->questionsObject()";
 	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="repository.php", $question_title = "")
 	{
-echo "<br>ilObjQuestionPoolGUI->setLocator()";
+//echo "<br>ilObjQuestionPoolGUI->setLocator()";
 		$ilias_locator = new ilLocatorGUI(false);
 		if (!is_object($a_tree))
 		{

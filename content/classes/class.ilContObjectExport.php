@@ -58,7 +58,8 @@ class ilContObjectExport
 		$this->mode = $a_mode;
 
 		$settings = $this->ilias->getAllSettings();
-		$this->inst_id = $settings["inst_id"];
+		//$this->inst_id = $settings["inst_id"];
+		$this->inst_id = IL_INST_ID;
 
 		$date = time();
 		switch($this->mode)

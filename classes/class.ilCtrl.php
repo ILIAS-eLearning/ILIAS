@@ -71,7 +71,7 @@ class ilCtrl
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
 		if ($nr > 0)
 		{
-//echo "<br>forwarding_to:$nr:$class:"; flush();
+//echo "<br>forwarding_to:$nr:$class:".$this->getCmd().":"; flush();
 			$this->current_node = $nr;
 			return $a_gui_object->executeCommand();
 		}

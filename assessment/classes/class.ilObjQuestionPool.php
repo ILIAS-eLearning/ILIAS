@@ -386,8 +386,8 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function getDescription()
 	{
-//		return parent::getDescription();
-		return $this->meta_data->getDescription();
+		return parent::getDescription();
+		//return $this->meta_data->getDescription();
 	}
 
 	/**
@@ -406,8 +406,7 @@ class ilObjQuestionPool extends ilObject
 	*/
 	function getTitle()
 	{
-		//return $this->title;
-		return $this->meta_data->getTitle();
+		return parent::getTitle();
 	}
 
 	/**

@@ -168,7 +168,7 @@ class ASS_MarkSchema extends PEAR {
     );
 
     $result = $db->query($query);
-    if (strcmp(get_class($result), db_result) == 0) {
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
       while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
         $this->add_mark_step($data->short_name, $data->official_name, $data->minimum_level, $data->passed);
       }
