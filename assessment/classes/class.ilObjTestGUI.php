@@ -36,7 +36,7 @@
 require_once "classes/class.ilObjectGUI.php";
 require_once "classes/class.ilMetaDataGUI.php";
 require_once "class.assQuestionGUI.php";
-require_once "classes/class.ilXlsGenerator.php";
+require_once './classes/Spreadsheet/Excel/Writer.php';
 
 define ("TYPE_XLS", 0);
 define ("TYPE_SPSS", 1);
@@ -1689,7 +1689,17 @@ class ilObjTestGUI extends ilObjectGUI
 
 		if ($_POST["export_type"]==TYPE_XLS) {
 
-			$xls = new ilXlsGenerator(false);
+			// Creating a workbook
+			$workbook = new Spreadsheet_Excel_Writer();
+			
+			// sending HTTP headers
+			$workbook->send('test.xls');
+			
+			// Creating a worksheet
+			$format_bold =& $workbook->addFormat();
+			$format_bold->setBold();
+			$worksheet =& $workbook->addWorksheet($this->object->getTitle());
+
 			foreach ($xls_Data as $key => $value) {
 				if ($key == 0)
 				{
@@ -1697,7 +1707,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$counter = 0;
 					foreach ($value as $title)
 					{
-						$xls->WriteLabel($key, $counter, $title);
+						$worksheet->write($key, $counter, $title, $format_bold);
 						$counter++;
 					}
 				}
@@ -1706,20 +1716,24 @@ class ilObjTestGUI extends ilObjectGUI
 					$counter = 0;
 					foreach ($value["stat"] as $index => $statval)
 					{
-						$xls->WriteNumber($key, $counter, $statval);
+						if (!is_array($statval))
+						{
+							$worksheet->write($key, $counter, $statval);
+						}
 						$counter++;
 					}
 					foreach ($value["points"] as $index => $statval)
 					{
-						$xls->WriteNumber($key, $counter, $statval["reached"]);
-						$xls->WriteLabel(0, $counter, $this->object->get_question_title($statval["nr"]));
+						$worksheet->write($key, $counter, $statval["reached"]);
+						$worksheet->write(0, $counter, $this->object->get_question_title($statval["nr"]), $format_bold);
 						$counter++;
 
 					}
 				}
 
 			}
-			$xls->SendFile(); // close the stream
+			// Let's send the file
+			$workbook->close();
 		}
 		else if ($_POST["export_type"]==TYPE_SPSS){
 
