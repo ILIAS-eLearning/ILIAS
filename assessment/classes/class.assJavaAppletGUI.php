@@ -324,8 +324,7 @@ class ASS_JavaAppletGUI extends ASS_QuestionGUI
 		
 		$output = $this->outQuestionPage("JAVA_QUESTION", $is_postponed, $test_id);
 		$solutionoutput = preg_replace("/.*?(<div[^<]*?ilc_Question.*?<\/div>).*/", "\\1", $output);
-		$solutionoutput = preg_replace("/\"match/", "\"solution_match", $solutionoutput);
-		$solutionoutput = preg_replace("/name\=\"sel_matching/", "name=\"solution_sel_matching", $solutionoutput);
+		$solutionoutput = preg_replace("/(<\/applet>)/", "<param name=\"solution\" value=\"1\">\n\\1", $solutionoutput);
 
 		$solutionoutput = "<p>" . $this->lng->txt("correct_solution_is") . ":</p><p>$solutionoutput</p>";
 		if ($test_id) 

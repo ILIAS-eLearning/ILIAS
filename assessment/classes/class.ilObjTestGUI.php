@@ -1805,8 +1805,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		include_once("classes/class.ilObjStyleSheet.php");
 		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
+		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
@@ -1824,6 +1823,9 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			case "qt_imagemap":
 				$question_gui->outWorkingForm($test_id, "", 1, $formaction);
+				break;
+			case "qt_javaapplet":
+				$question_gui->outWorkingForm("", "", 0);
 				break;
 			default:
 				$question_gui->outWorkingForm($test_id, "", 1);
