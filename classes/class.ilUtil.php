@@ -73,14 +73,13 @@ class ilUtil
 			$base.= ILIAS_MODULE."/";
 		}
 		$base .= "templates/";
-//echo ":".$styleDefinition->getImageDirectory($ilias->account->prefs["style"]).":";
+
 		$user_skin_and_style = $base.$ilias->account->skin."/".
 			$styleDefinition->getImageDirectory($ilias->account->prefs["style"]).
 			"/images/".$img;
 		$user_skin = $base.$ilias->account->skin."/images/".$img;
 		$default = $base."default/images/".$img;
-//echo ":".$user_skin_and_style.":<br>";
-		if (file_exists($user_skin_and_style))
+		if (file_exists($user_skin_and_style) && $styleDefinition->getImageDirectory($ilias->account->prefs["style"]) != "")
 		{
 			return $dir.$user_skin_and_style;
 		}
@@ -88,6 +87,7 @@ class ilUtil
 		{
 			return $dir.$user_skin;
 		}
+
 		return $dir.$default;
 	}
 

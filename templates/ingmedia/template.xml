@@ -2,5 +2,5 @@
 <template xmlns = "http://www.w3.org" version = "$Id$" name = "Ingmedia">
 	<style 	name = "Ingmedia"
 			id = "ingmedia"
-			image_directory = "." />
+			image_directory = "" />
 </template>
