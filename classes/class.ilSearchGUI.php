@@ -317,7 +317,7 @@ class ilSearchGUI
 
 	function __showLocator()
 	{
-		$this->tpl->addBlockFile("LOCATOR","locator","tpl.locator.html");
+		$this->tpl->addBlockFile("STATUSLINE","locator","tpl.locator.html");
 
 		$this->tpl->setCurrentBlock("locator_separator");
 		$this->tpl->setVariable("LINK_ITEM","./search.php");
