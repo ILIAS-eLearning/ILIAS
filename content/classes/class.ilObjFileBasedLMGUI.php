@@ -328,7 +328,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function chooseMetaSection()
 	{
-		$this->setTabs();
+		//$this->setTabs();
 		$this->chooseMetaSectionObject($this->ctrl->getLinkTarget($this));
 	}
 
