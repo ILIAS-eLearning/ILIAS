@@ -212,7 +212,6 @@ class ilObjectGUI
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-
 		$title = $this->object->getTitle();
 
 		// catch feedback message

@@ -425,6 +425,15 @@ echo "<br>ASS_MultipleChoiceGUI->outOtherQuestionData()";
 	}
 
 	/**
+	* apply changes
+	*/
+	function save()
+	{
+		$this->writePostData(true);
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
 	* upload material
 	*/
 	function uploadingMaterial()
@@ -535,7 +544,7 @@ echo "<br>checkInput2:FALSE";
 	* @return integer A positive value, if one of the required fields wasn't set, else 0
 	* @access private
 	*/
-	function writePostData()
+	function writePostData($force_save = false)
 	{
 //echo "here!"; exit;
 echo "<br>ASS_MultipleChoiceGUI->writePostData()";
@@ -682,7 +691,7 @@ echo "<br>ASS_MultipleChoiceGUI->writePostData()";
 			$this->object->setId($_POST["multiple_choice_id"]);
 		}
 
-		if ($saved)
+		if ($saved || $force_save)
 		{
 			// If the question was saved automatically before an upload, we have to make
 			// sure, that the state after the upload is saved. Otherwise the user could be

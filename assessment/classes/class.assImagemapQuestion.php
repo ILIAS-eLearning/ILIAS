@@ -326,7 +326,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
       $db->quote($question_id)
     );
     $result = $db->query($query);
-    if (strcmp(get_class($result), db_result) == 0) {
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
       if ($result->numRows() == 1) {
         $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
         $this->id = $question_id;
@@ -346,7 +346,7 @@ class ASS_ImagemapQuestion extends ASS_Question {
         $db->quote($question_id)
       );
       $result = $db->query($query);
-      if (strcmp(get_class($result), db_result) == 0) {
+      if (strcmp(strtolower(get_class($result)), db_result) == 0) {
         while ($data = $result->fetchRow(DB_FETCHMODE_OBJECT)) {
           array_push($this->answers, new ASS_AnswerImagemap($data->answertext, $data->points, $data->aorder, $data->correctness, $data->coords, $data->area));
         }

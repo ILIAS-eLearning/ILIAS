@@ -555,7 +555,7 @@ class ilObjTest extends ilObject
 			$this->ilias->db->quote("tst")
     );
     $result = $this->ilias->db->query($query);
-    if (strcmp(get_class($result), db_result) == 0) {
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
       if ($result->numRows() == 1) {
         return TRUE;
       }
@@ -740,7 +740,7 @@ class ilObjTest extends ilObject
       $db->quote($this->getRefId())
     );
     $result = $db->query($query);
-    if (strcmp(get_class($result), db_result) == 0) {
+    if (strcmp(strtolower(get_class($result)), db_result) == 0) {
       if ($result->numRows() == 1) {
         $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
 				$this->test_id = $data->test_id;
