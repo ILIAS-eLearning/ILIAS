@@ -22,8 +22,11 @@
 */
 
 require_once("classes/class.ilObjectGUI.php");
+require_once("classes/class.ilMetaDataGUI.php");
 require_once("content/classes/class.ilObjGlossary.php");
 require_once("content/classes/class.ilGlossaryTermGUI.php");
+require_once("content/classes/class.ilGlossaryDefinition.php");
+require_once("content/classes/class.ilTermDefinitionEditorGUI.php");
 
 /**
 * Class ilGlossaryGUI
@@ -170,18 +173,28 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function executeCommand()
 	{
-		$cmd = $_GET["cmd"];
-		if($cmd == "")
+		switch($_GET["mode"])
 		{
-			$cmd = "listTerms";
-		}
+			case "page_edit":
+				$def_edit =& new ilTermDefinitionEditorGUI();
+				$def_edit->executeCommand();
+				break;
 
-		if ($cmd == "post")
-		{
-			$cmd = key($_POST["cmd"]);
-		}
+			default:
+				$cmd = $_GET["cmd"];
+				if($cmd == "")
+				{
+					$cmd = "listTerms";
+				}
 
-		$this->$cmd();
+				if ($cmd == "post")
+				{
+					$cmd = key($_POST["cmd"]);
+				}
+
+				$this->$cmd();
+				break;
+		}
 		$this->tpl->show();
 	}
 
@@ -224,7 +237,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);
 
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
-		$this->setActions(array("deleteTerm" => "delete"));
+		$this->setActions(array("deleteTerm" => "delete", "addDefinition" => "cont_add_definition"));
 		$this->setSubObjects(array("term" => array()));
 		$this->showActions(true);
 
@@ -249,7 +262,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			foreach($term_list as $key => $term)
 			{
 				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
-				$defs = ilGlossaryDefinition::getDefinitions($term["id"]);
+				$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
 				for($j=0; $j<=count($defs); $j++)
 				{
 					$def = $defs[$j];
@@ -291,80 +304,58 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			if(is_object($this->object))
 			{
 
-		if (!($a_id))
-		{
-			$a_id = $_GET["ref_id"];
-		}
+				$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
-
-		$path = $a_tree->getPathFull($a_id);
-
-        //check if object isn't in tree, this is the case if parent_parent is set
-		// TODO: parent_parent no longer exist. need another marker
-		if ($a_parent_parent)
-		{
-			//$subObj = getObject($a_ref_id);
-			$subObj =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
-
-			$path[] = array(
-				"id"	 => $a_ref_id,
-				"title"  => $this->lng->txt($subObj->getTitle())
-				);
-		}
-
-		// this is a stupid workaround for a bug in PEAR:IT
-		$modifier = 1;
-
-		if (isset($_GET["obj_id"]))
-		{
-			$modifier = 0;
-		}
-
-		foreach ($path as $key => $row)
-		{
-			if ($key < count($path)-$modifier)
-			{
 				$this->tpl->touchBlock("locator_separator");
+
+				$this->tpl->setCurrentBlock("locator_item");
+				$this->tpl->setVariable("ITEM", $this->object->getTitle());
+				// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
+				$this->tpl->setVariable("LINK_ITEM", "glossary_edit.php?ref_id=".$_GET["ref_id"]);
+				$this->tpl->parseCurrentBlock();
+
+
+				//$this->tpl->touchBlock("locator_separator");
+
+				$this->tpl->setCurrentBlock("locator");
+				$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
+				$this->tpl->parseCurrentBlock();
 			}
-
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $row["title"]);
-			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$row["child"]);
-			$this->tpl->parseCurrentBlock();
-
 		}
 
-		if (isset($_GET["obj_id"]))
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
-
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
-			// TODO: SCRIPT NAME HAS TO BE VARIABLE!!!
-			$this->tpl->setVariable("LINK_ITEM", "adm_object.php?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("locator");
-
-		if (DEBUG)
-		{
-			$debug = "DEBUG: <font color=\"red\">".$this->type."::".$this->id."::".$_GET["cmd"]."</font><br/>";
-		}
-
-		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
-
-		if ($_GET["cmd"] == "confirmDeleteAdm")
-		{
-			$prop_name = "delete_object";
-		}
-
-		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
-		$this->tpl->parseCurrentBlock();
 	}
 
+	function addDefinition()
+	{
+
+		if (count($_POST["id"]) < 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_term"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		if (count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_term"),$this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once "classes/class.ilMetaDataGUI.php";
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_gui->setTargetFrame("save",$this->getTargetFrame("save"));
+		$meta_gui->edit("ADM_CONTENT", "adm_content",
+			"glossary_edit.php?ref_id=".$_GET["ref_id"]."&term_id=".$_POST["id"][0]."&cmd=saveDefinition");
+	}
+
+	function saveDefinition()
+	{
+		$meta_gui =& new ilMetaDataGUI();
+		$meta_data =& $meta_gui->create();
+		$def =& new ilGlossaryDefinition();
+		$def->setTermId($_GET["term_id"]);
+		$def->assignMetaData($meta_data);
+		$def->create();
+		header("Location: glossary_edit.php?mode=page_edit&ref_id=".$this->object->getRefId().
+			"&def=".$def->getId());
+	}
 
 	function editMeta()
 	{
@@ -381,7 +372,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$meta_gui =& new ilMetaDataGUI();
 		$meta_gui->setObject($this->object);
 		$meta_gui->save();
-		header("location: glossary_edit.php?cmd=view&ref_id=".$this->object->getRefId());
+		header("Location: glossary_edit.php?cmd=view&ref_id=".$this->object->getRefId());
 	}
 
 	function perm()
