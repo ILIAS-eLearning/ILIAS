@@ -144,9 +144,7 @@ class UserObject extends Object
 	{
 		global $tplContent,$rbacsystem,$rbacreview;
 
-		$parent_obj_id = $this->getParentObjectId();
-
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id) || $_GET["obj_id"] == $_SESSION["AccountId"])
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
 			// Userobjekt erzeugen
 			$user = new User($this->ilias->db,$_GET["obj_id"]);
@@ -155,10 +153,11 @@ class UserObject extends Object
 			$tplContent->setVariable($this->ilias->ini["layout"]);
 			$tplContent->setVariable("OBJ_ID",$_GET["obj_id"]);
 			$tplContent->setVariable("TPOS",$_GET["parent"]);
+			$tplContent->setVariable("PAR",$_GET["parent_parent"]);
 			$tplContent->setVariable("CMD","update");
 			$tplContent->setVariable("TYPE","user");
 
-			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"]));
+			$tplContent->setVariable("TREEPATH",$this->getPath($_GET["parent"],$_GET["parent_parent"]));
 
 			// gender selection
 			$tplContent->setCurrentBlock("gender");
@@ -202,6 +201,7 @@ class UserObject extends Object
 				$tplContent->setCurrentBlock("ACTIVE_ROLE");
 				$tplContent->setVariable("ACTIVE_ROLE_OBJ_ID",$_GET["obj_id"]);
 				$tplContent->setVariable("ACTIVE_ROLE_TPOS",$_GET["parent"]);
+				$tplContent->setVariable("ACTIVE_ROLE_PAR",$_GET["parent_parent"]);
 				$tplContent->parseCurrentBlock();
 			}
 		}
@@ -220,7 +220,7 @@ class UserObject extends Object
 	{
 		global $rbacsystem,$rbacadmin;
 		
-		if ($rbacsystem->checkAccess('write',$_GET["parent"],$parent_obj_id) || $_GET["obj_id"] == $_SESSION["AccountId"])
+		if ($rbacsystem->checkAccess('write',$_GET["parent"],$_GET["parent_parent"]) || $_GET["obj_id"] == $_SESSION["AccountId"])
 		{
 			$Fuserdata = $_POST["Fuserdata"];
 			
@@ -259,7 +259,7 @@ class UserObject extends Object
 			$this->ilias->raiseError("You can only change your own account",$this->ilias->error_obj->WARNING);
 		}
 		
-		header("Location: object.php?obj_id=".$_GET["obj_id"]."&parent=".$_GET["parent"]."&cmd=edit");
+		header("Location: object.php?obj_id=$_GET[obj_id]&parent=$_GET[parent]&parent_parent=$_GET[parent_parent]&cmd=edit");
 		exit;
 	}
 } //end class.UserObject

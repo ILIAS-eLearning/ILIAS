@@ -109,7 +109,7 @@
 <br>
 
 <br>
-<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&cmd={CMD}" method="post">
+<form action="object.php?obj_id={OBJ_ID}&parent={TPOS}&parent_parent={PAR}&cmd={CMD}" method="post">
 <input type="HIDDEN" name="type" value="{TYPE}">
 <input type="hidden" name="Fuserdata[Id]" value="{USR_ID}">
 <table bgcolor="{TABLE_BGCOLOR}" border="{TABLE_BORDER}" cellspacing="{TABLE_CELLSPACING}" cellpadding="{TABLE_CELLPADDING}">
@@ -168,7 +168,7 @@
       Add Active Roles
 	</strong>
 <br><br>
-	<form action="object.php?obj_id={ACTIVE_ROLE_OBJ_ID}&parent={ACTIVE_ROLE_TPOS}&cmd=activeRoleSave" name="objectItems" method="post">
+	<form action="object.php?obj_id={ACTIVE_ROLE_OBJ_ID}&parent={ACTIVE_ROLE_TPOS}&parent_parent={ACTIVE_ROLE_PAR}&cmd=activeRoleSave" name="objectItems" method="post">
 	  <table width="33%" cellspacing="0" cellpadding="2" border="0">
 		  <tr class="header">
 			<td width="20%" align="left">
