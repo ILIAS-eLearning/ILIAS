@@ -1703,7 +1703,7 @@ class ilObjTestGUI extends ilObjectGUI
 		switch ($question_gui->getQuestionType())
 		{
 			case "qt_imagemap":
-				$question_gui->outWorkingForm($test_id, $is_postponed, $formaction, $directfeedback);
+				$question_gui->outWorkingForm($test_id, $is_postponed, $directfeedback, $formaction);
 				break;
 
 			default:
