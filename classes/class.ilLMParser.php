@@ -1,4 +1,31 @@
 <?php
+/*
+	+-----------------------------------------------------------------------------+
+	| ILIAS open source                                                           |
+	+-----------------------------------------------------------------------------+
+	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+	|                                                                             |
+	| This program is free software; you can redistribute it and/or               |
+	| modify it under the terms of the GNU General Public License                 |
+	| as published by the Free Software Foundation; either version 2              |
+	| of the License, or (at your option) any later version.                      |
+	|                                                                             |
+	| This program is distributed in the hope that it will be useful,             |
+	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+	| GNU General Public License for more details.                                |
+	|                                                                             |
+	| You should have received a copy of the GNU General Public License           |
+	| along with this program; if not, write to the Free Software                 |
+	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+	+-----------------------------------------------------------------------------+
+*/
+
+require_once("classes/class.ilPageObject.php");
+require_once("classes/class.ilStructureObject.php");
+require_once("classes/class.ilLearningModule.php");
+require_once("classes/class.ilMetaData.php");
+
 /**
 * Learning Module Parser
 *
@@ -12,7 +39,11 @@ class ilLMParser extends ilSaxParser
 {
 	var $cnt;				// counts open elements
 	var $current_element;	// store current element type
-	var $page_obj_content;	// stores content of current page object
+	var $learning_module;	// current learning module
+	var $page_object;		// current page object
+	var $structure_objects;	// array of current structure objects
+	var $current_object;	// at the time a LearningModule, PageObject or StructureObject
+	var $meta_data;			// current meta data object
 
 	/**
 	* Constructor
@@ -23,6 +54,7 @@ class ilLMParser extends ilSaxParser
 		parent::ilSaxParser($a_xml_file);
 		$this->cnt = array();
 		$this->current_element = array();
+		$this->structure_objects = array();
 	}
 
 	/**
@@ -83,9 +115,9 @@ class ilLMParser extends ilSaxParser
 		{
 			return 0;
 		}
-		
+
 	}
-	
+
 	/**
 	* generate a tag with given name and attributes
 	*
@@ -120,12 +152,36 @@ class ilLMParser extends ilSaxParser
 	{
 		switch($a_name)
 		{
-			case "PageObject":
-				$this->page_obj_content = $this->buildTag("start", $a_name, $a_attribs);
+			case "LearningModule":
+				$this->learning_module =& new ilLearningModule();
+				$this->current_object =& $this->learning_module;
 				break;
-			
-			case "MetaObject":
-				$this->in_meta = true;
+
+			case "StructurObject":
+				$this->structure_objects[count($this->structure_objects)]
+					=& new ilStructureObject();
+				$this->current_object =& $this->structure_objects[count($this->structure_objects) - 1];
+				break;
+
+			case "PageObject":
+				$this->page_object =& new ilPageObject();
+				$this->current_object =& $this->page_object;
+				break;
+
+			case "PageAlias":
+				$this->page_object->setAlias(true);
+				$this->page_object->setOriginID($a_attribs["OriginId"]);
+				break;
+
+			case "MetaData":
+				//$this->in_meta = true;
+				$this->meta_data =& new ilMetaData();
+				$this->current_object->assignMetaData($this->meta_data);
+				break;
+
+			case "Identifier":
+				$this->meta_data->setIdentifierEntryID($a_attribs["Entry"]);
+				$this->meta_data->setIdentifierCatalog($a_attribs["Catalog"]);
 				break;
 
 			case "Paragraph":
@@ -135,7 +191,7 @@ class ilLMParser extends ilSaxParser
 		$this->beginElement($a_name);
 //echo "Begin Tag: $a_name<br>";
 	}
-	
+
 	/**
 	* handler for end of element
 	*/
