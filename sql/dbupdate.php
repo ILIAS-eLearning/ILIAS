@@ -94,3 +94,7 @@ ALTER TABLE `frm_data` ADD `top_usr_id` BIGINT( 20 ) NOT NULL ;
 # delete column in `frm_threads`
 ALTER TABLE `frm_threads` DROP `thr_last_modified`;
 
+<#5>
+# There are some old wrong entries in rbac_templates => delete them
+DELETE FROM rbac_templates
+WHERE parent='152';
