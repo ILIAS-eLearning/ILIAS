@@ -74,7 +74,10 @@ infoPanel();
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("TXT_PAGEHEADLINE",  $lng->txt("lo_available"));
 //$tpl->parseCurrentBlock();			// this line produces an empty <h1></h1>, alex 16.2.03
-
+if (!isset($_SESSION["viewmode"]))
+{
+	$_SESSION["viewmode"] = "flat";
+}
 if (!isset($_SESSION["viewmode"]) or $_SESSION["viewmode"] == "flat")
 {
 	$tpl->setCurrentBlock("btn_cell");
