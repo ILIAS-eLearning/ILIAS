@@ -5761,3 +5761,11 @@ $this->db->query($query);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#412>
+CREATE TABLE IF NOT EXISTS `role_desktop_items` (
+  `role_item_id` int(11) NOT NULL auto_increment,
+  `role_id` int(11) NOT NULL default '0',
+  `item_id` int(11) NOT NULL default '0',
+  `item_type` char(16) NOT NULL default '',
+  KEY `role_item_id` (`role_item_id`,`role_id`)
+) TYPE=MyISAM AUTO_INCREMENT=1 ;
