@@ -920,36 +920,39 @@ class ilObjGroup extends ilObject
 
 		// ADMIN ROLE
 		// create role and assign role to rolefolder...
-
 		$roleObj = $rfoldObj->createRole("il_grp_admin_".$this->getRefId(),"Groupadmin of group obj_no.".$this->getId());
 		$this->m_roleAdminId = $roleObj->getId();
 
-		//set permissions
+		//set permission template of new local role
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_admin'";
 		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
-
 		$rbacadmin->copyRolePermission($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
 
+		// set object permissions of group object
 		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"grp",$rfoldObj->getRefId());
 		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
+
+		// set object permissions of role folder object
+		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
+		$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
 
 		// MEMBER ROLE
 		// create role and assign role to rolefolder...
-
 		$roleObj = $rfoldObj->createRole("il_grp_member_".$this->getRefId(),"Groupmember of group obj_no.".$this->getId());
-		//$roles[] = $roleObj->getId();
-
-		// set member role id for group object
 		$this->m_roleMemberId = $roleObj->getId();
 
-		//set permissions
+		//set permission template of new local role
 		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_member'";
 		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
-
 		$rbacadmin->copyRolePermission($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
 		
+		// set object permissions of group object
 		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"grp",$rfoldObj->getRefId());
 		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
+
+		// set object permissions of role folder object
+		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
+		$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
 
 		unset($rfoldObj);
 		unset($roleObj);
