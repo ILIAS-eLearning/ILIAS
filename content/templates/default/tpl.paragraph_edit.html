@@ -569,7 +569,9 @@ addNATI("quot",	"quot",	"ilc_Quotation");
 addNATI("quot",	"code",	"code");
 addNATI("code",	"code",	"code");
 //addNATI("xln",	"xln",	"ilc_ExtLink");
-
+addNATI("iln",	"xln",	"ilc_ExtLink");
+addNATI("xln",	"iln",	"iliasiln");
+addNATI("iln",	"iln",	"iliasiln");
 
 function buttonX() 
 {
@@ -764,10 +766,13 @@ function checkAllowTagInside(which)
 		for (i=0;i<notAllowedTagsInside.length;i++) 
 		{
 			a = notAllowedTagsInside[i];
+			
 			if (a[0] == which) 
 			{
+				//alert(a[2]+" "+cl+" "+tn);
 				if (a[2] == cl || a[2] == tn)
 				{
+					if (editor.getSelectedHTML()=="" || editor.getSelectedHTML()=="&nbsp;") return(false);
 					//alert("Error.");
 					// -------------------------------------------------------
 					N1 = "";
