@@ -3,7 +3,7 @@
 * Class ilObjRoleGUI
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.ilObjRoleGUI.php,v 1.14 2003/05/13 10:40:20 shofmann Exp $
+* $Id$Id: class.ilObjRoleGUI.php,v 1.15 2003/05/13 11:12:15 shofmann Exp $
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -26,7 +26,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	/**
 	* save a new role object
 	* @access	public
-	* @return new ID
+	* @return	new ID
 	*/
 	function saveObject()
 	{
@@ -63,11 +63,12 @@ class ilObjRoleGUI extends ilObjectGUI
 	}
 
 	/**
-	* display permissions
+	* display permission template
+	* @access	public
 	*/
 	function permObject()
 	{
-		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng;
+		global $tree, $tpl, $rbacadmin, $rbacreview, $rbacsystem, $lng, $objDefinition;
 
 		if (!$rbacsystem->checkAccess('edit permission',$_GET["ref_id"]))
 		{
@@ -75,7 +76,26 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		else
 		{
+			// get all object type definitions
 			$obj_data = getObjectList("typ","title","ASC");
+			
+			// for local roles display only the permissions settings for allowed subobjects 
+			if ($_GET["ref_id"] != ROLE_FOLDER_ID)
+			{
+				// first get object in question (parent of role folder object)
+				$parent_data = $tree->getParentNodeData($_GET["ref_id"]);
+				// get allowed subobject of object
+				$obj_data2 = $objDefinition->getSubObjects($parent_data["type"]);
+			
+				// remove not allowed object types from array 
+				foreach ($obj_data as $key => $type)
+				{
+					if (!$obj_data2[$type["title"]])
+					{
+						unset($obj_data[$key]);
+					}
+				}
+			}
 
 			// BEGIN OBJECT_TYPES
 			foreach ($obj_data as $data)
