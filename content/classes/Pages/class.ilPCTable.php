@@ -1,24 +1,24 @@
 <?php
 /*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
++-----------------------------------------------------------------------------+
+| ILIAS open source                                                           |
++-----------------------------------------------------------------------------+
+| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+|                                                                             |
+| This program is free software; you can redistribute it and/or               |
+| modify it under the terms of the GNU General Public License                 |
+| as published by the Free Software Foundation; either version 2              |
+| of the License, or (at your option) any later version.                      |
+|                                                                             |
+| This program is distributed in the hope that it will be useful,             |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+| GNU General Public License for more details.                                |
+|                                                                             |
+| You should have received a copy of the GNU General Public License           |
+| along with this program; if not, write to the Free Software                 |
+| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
++-----------------------------------------------------------------------------+
 */
 
 require_once("content/classes/Pages/class.ilPageContent.php");
@@ -66,16 +66,26 @@ class ilPCTable extends ilPageContent
 		$this->tab_node->set_attribute("Language", "");
 	}
 
+	function &addRow () {
+		$new_tr =& $this->dom->create_element("TableRow");
+		$new_tr = &$this->tab_node->append_child($new_tr);
+		return $new_tr;
+	}
+
+	function &addCell (&$aRow) {
+		$new_td =& $this->dom->create_element("TableData");
+		$new_td =& $aRow->append_child($new_td);
+		return $new_td;
+	}
+
 	function addRows($a_nr_rows, $a_nr_cols)
 	{
 		for ($i=1; $i<=$a_nr_rows; $i++)
 		{
-			$new_tr =& $this->dom->create_element("TableRow");
-			$new_tr =& $this->tab_node->append_child($new_tr);
+			$aRow = $this->addRow();
 			for ($j=1; $j<=$a_nr_cols; $j++)
 			{
-				$new_td =& $this->dom->create_element("TableData");
-				$new_td =& $new_tr->append_child($new_td);
+				$this->addCell($aRow);
 			}
 		}
 	}
@@ -128,6 +138,8 @@ class ilPCTable extends ilPageContent
 			}
 		}
 	}
+
+
 
 	/**
 	* get table border width
@@ -319,8 +331,8 @@ class ilPCTable extends ilPageContent
 		if ($a_content != "")
 		{
 			ilDOMUtil::setFirstOptionalElement($this->dom, $this->tab_node, "Caption",
-				array("Summary", "TableRow"), $a_content,
-				array("Align" => $a_align));
+			array("Summary", "TableRow"), $a_content,
+			array("Align" => $a_align));
 		}
 		else
 		{
@@ -329,5 +341,160 @@ class ilPCTable extends ilPageContent
 	}
 
 
+	function importTableAttributes (&$node) {
+		/*echo "importing table attributes";
+		var_dump($tableNode);*/
+		if ($node->has_attributes ())
+		{
+			foreach($node->attributes() as $n)
+			{
+
+				switch (strtolower($n->node_name ())) {
+					case "border":
+					$this->setBorder ($this->extractText($n));
+					break;
+					case "align":
+					$this->setHorizontalAlign(ucfirst(strtolower($this->extractText($n))));
+					break;
+					case "cellspacing":
+					$this->setCellSpacing($this->extractText($n));
+					break;
+					case "cellpadding":
+					$this->setCellPadding($this->extractText($n));
+					break;
+					case "width":
+					$this->setWidth($this->extractText($n));
+					break;
+
+				}
+
+			}
+		}
+	}
+
+
+	function importCellAttributes (&$node, &$par) {
+		/*echo "importing table attributes";
+		var_dump($tableNode);*/
+		if ($node->has_attributes ())
+		{
+			foreach($node->attributes() as $n)
+			{
+
+				switch (strtolower($n->node_name ())) {
+					case "class":
+					$par->set_attribute("Class", $this->extractText($n));
+					break;
+					case "width":
+					$par->set_attribute("Width", $this->extractText($n));
+					break;
+				}
+
+			}
+		}
+	}
+
+
+	function importRow ($lng, &$node) {
+		/*echo "add Row";
+		var_dump($node);*/
+
+		$aRow = $this->addRow();
+
+		if ($node->has_child_nodes())
+		{
+			foreach($node->child_nodes() as $n)
+			{
+				if ($n->node_type() == XML_ELEMENT_NODE &&
+				strcasecmp($n->node_name (), "td") == 0)
+				{
+					$this->importCell ($lng, &$n, &$aRow);
+				}
+			}
+		}
+	}
+
+	function importCell ($lng, &$cellNode, &$aRow) {
+		/*echo "add Cell";
+		var_dump($cellNode);*/
+		$aCell = $this->addCell($aRow);
+		$par = new ilPCParagraph($this->dom);
+		$par->createAtNode($aCell);
+		$par->setText($par->input2xml($this->extractText ($cellNode)));
+		$par->setCharacteristic("TableContent");
+		$par->setLanguage($lng);
+		$this->importCellAttributes($cellNode, $aCell);
+	}
+
+	function extractText (&$node) {
+		$owner_document = $node->owner_document ();
+		$children = $node->child_nodes();
+		$total_children = count($children);
+		for ($i = 0; $i < $total_children; $i++){
+			$cur_child_node = $children[$i];
+			$output .= $owner_document->dump_node($cur_child_node);
+		}
+		return $output;
+	}
+
+	function importHtml ($lng, $htmlTable) {
+		$dummy = ilUtil::stripSlashes($htmlTable, false);
+		//echo htmlentities($dummy);
+		$dom = @domxml_open_mem($dummy,DOMXML_LOAD_PARSING, $error);
+
+		if ($dom)
+		{
+			$xpc = @xpath_new_context($dom);
+			// extract first table object
+			$path = "//table[1] | //Table[1]";
+			$res = @xpath_eval($xpc, $path);
+
+			if (count($res->nodeset) == 0)
+			{
+				$error = "Could not find a table root node";
+			}
+
+			if (empty ($error)) 
+			{
+				for($i = 0; $i < count($res->nodeset); $i++)
+				{
+					$node = $res->nodeset[$i];
+
+					$this->importTableAttributes ($node);
+
+					if ($node->has_child_nodes())
+					{
+						foreach($node->child_nodes() as $n)
+						{
+							if ($n->node_type() == XML_ELEMENT_NODE &&
+							strcasecmp($n->node_name (), "tr") == 0)
+							{
+
+								$this->importRow ($lng, &$n);
+							}
+						}
+					}
+				}				
+			}
+			$dom->free ();
+		}
+		if (is_array($error)) {
+			$errmsg = "";
+			foreach ($error as $errorline) {    # Loop through all errors
+				$errmsg .=  "[" . $errorline['line'] . ", " . $errorline['col'] . "]: ".$errorline['errormessage']." at Node '". $errorline['nodename'] . "'<br />";
+			}
+		}else
+		{
+			$errmsg = $error;
+		}
+		
+		if (empty ($errmsg)) {
+			return true;
+		}
+		
+		$_SESSION["message"] = $errmsg;
+		return false;
+	}
 }
+
 ?>
