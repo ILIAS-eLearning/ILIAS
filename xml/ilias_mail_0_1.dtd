@@ -1,6 +1,6 @@
 <!-- ilias_user.dtd for ILIAS mail import -->
 <!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
-<!-- $Id$Id$ -->
+<!-- $Id$Id: ilias_mail_0_1.dtd,v 1.1 2004/03/31 13:42:19 smeyer Exp $ -->
 
 <!-- Users -->
 <!ELEMENT users (user*)>
@@ -30,6 +30,7 @@
 <!ELEMENT targetFolder (#PCDATA)>
 <!ATTLIST sender 
     id CDATA #REQUIRED
+    import_name CDATA #REQUIRED
 >
 <!ELEMENT sender EMPTY>
 <!-- Should be a unix time -->

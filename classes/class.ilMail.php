@@ -444,7 +444,8 @@ class ilMail
 			"m_type"          => unserialize(stripslashes($a_row->m_type)),
 			"m_email"         => $a_row->m_email,
 			"m_subject"       => stripslashes($a_row->m_subject),
-			"m_message"       => stripslashes($a_row->m_message));
+			"m_message"       => stripslashes($a_row->m_message),
+			"import_name"	  => stripslashes($a_row->import_name));
 	}
 
 	function updateDraft($a_folder_id,

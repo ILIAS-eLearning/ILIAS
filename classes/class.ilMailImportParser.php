@@ -28,7 +28,7 @@ require_once("./classes/class.ilMailbox.php");
 * Mail Import Parser
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* @version $Id$Id: class.ilMailImportParser.php,v 1.1 2004/03/31 13:42:19 smeyer Exp $
+* @version $Id$Id: class.ilMailImportParser.php,v 1.2 2004/04/08 09:59:55 smeyer Exp $
 *
 * @extends ilSaxParser
 * @package core
@@ -48,7 +48,7 @@ class ilMailImportParser extends ilSaxParser
 	*/
 	function ilMailImportParser($a_xml_file,$a_mode)
 	{
-		define('EXPORT_VERSION',3);
+		define('EXPORT_VERSION',4);
 
 		parent::ilSaxParser($a_xml_file);
 		$this->mode = $a_mode;
@@ -153,6 +153,7 @@ class ilMailImportParser extends ilSaxParser
 				{
 					$sender = ilObjUser::_getImportedUserId($a_attribs["id"]);
 					$this->mails[$this->counter]["sender_id"] = $sender;
+					$this->mails[$this->counter]["import_name"] = $a_attribs["import_name"];
 				}
 				break;
 					
@@ -268,7 +269,7 @@ class ilMailImportParser extends ilSaxParser
 	{
 		global $ilDB;
 
-		$sth = $ilDB->prepare("INSERT INTO mail VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		$sth = $ilDB->prepare("INSERT INTO mail VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
 		$ilDB->executeMultiple($sth,$this->__buildSQLArray());
 
@@ -298,7 +299,9 @@ class ilMailImportParser extends ilSaxParser
 							 addslashes(serialize(array("normal"))),
 							 $mail["m_email"],
 							 addslashes($mail["m_subject"]),
-							 addslashes($mail["m_message"])));
+							 addslashes($mail["m_message"]),
+							 addslashes($mail["import_name"])));
+			
 		}
 		return $sql ? $sql :array();
 	}

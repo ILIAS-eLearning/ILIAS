@@ -2696,4 +2696,5 @@ $query = "INSERT INTO object_translation (obj_id, title, description, ".
 $this->db->query($query);
 ?>
 
-
+<#172>
+ALTER TABLE mail ADD import_name TEXT;
