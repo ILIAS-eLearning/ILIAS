@@ -610,8 +610,7 @@ class ilObjectGUI
 
 		foreach ($_POST["trash_id"] as $id)
 		{
-			//$obj_data = getObject($id);
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($id);
 
 			if (!$rbacsystem->checkAccess('create',$_GET["ref_id"],$obj_data->getType()))
 			{
@@ -619,22 +618,23 @@ class ilObjectGUI
 			}
 		}
 
-		if(count($no_create))
+		if (count($no_create))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_paste")." ".
 									 implode(',',$no_paste),$this->ilias->error_obj->MESSAGE);
 		}
 
-		foreach($_POST["trash_id"] as $id)
+		foreach ($_POST["trash_id"] as $id)
 		{
 			// INSERT AND SET PERMISSIONS
-			$this->insertSavedNodes($id,$_GET["obj_id"], $_GET["obj_id"],$_GET["parent"],-(int) $id);
+			$this->insertSavedNodes($id,$_GET["ref_id"],-(int) $id);
 			// DELETE SAVED TREE
 			$saved_tree = new ilTree(-(int)$id);
 			$saved_tree->deleteTree($saved_tree->getNodeData($id));
 		}
 
-		header("location: adm_object.php?ref_id=".$_GET["ref_id"]."&cmd=trash");
+
+		header("location: adm_object.php?ref_id=".$_GET["ref_id"]);
 		exit();
 	}
 
@@ -645,16 +645,15 @@ class ilObjectGUI
 	*
 	* @access	private
 	*/
-	function insertSavedNodes($a_source_id,$a_source_parent,$a_dest_id,$a_dest_parent,$a_tree_id)
+	function insertSavedNodes($a_source_id,$a_dest_id,$a_tree_id)
 	{
 		global $tree,$rbacadmin,$rbacreview;
 
-		$tree->insertNode($a_source_id,$a_dest_id,$a_dest_parent);
+		$tree->insertNode($a_source_id,$a_dest_id);
 
 		// SET PERMISSIONS
-		$parentRoles = $rbacadmin->getParentRoleIds($a_dest_id,$a_dest_parent);
-		//$obj = getObject($a_source_id);
-		$obj =& $this->ilias->obj_factory->getInstanceByObjId($a_source_id);
+		$parentRoles = $rbacadmin->getParentRoleIds($a_dest_id);
+		$obj =& $this->ilias->obj_factory->getInstanceByRefId($a_source_id);
 
 		foreach ($parentRoles as $parRol)
 		{
@@ -667,10 +666,9 @@ class ilObjectGUI
 
 		foreach ($childs as $child)
 		{
-			$this->insertSavedNodes($child["child"],$child["parent"],$a_source_id,$a_dest_id,$a_tree_id);
+			$this->insertSavedNodes($child["child"],$a_source_id,$a_tree_id);
 		}
 	}
-
 
 	/**
 	* confirm deletion if objects (todo: find better name for operation)
@@ -683,12 +681,12 @@ class ilObjectGUI
 	{
 		global $tree, $rbacsystem, $rbacadmin, $objDefinition;
 
-
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
 		if (!isset($_SESSION["saved_post"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+		
 		// FOR ALL SELECTED OBJECTS
 		foreach ($_SESSION["saved_post"] as $id)
 		{
@@ -702,9 +700,9 @@ class ilObjectGUI
 			// CHECK DELETE PERMISSION OF ALL OBJECTS
 			foreach ($subtree_nodes as $node)
 			{
-				if (!$rbacsystem->checkAccess('delete',$node["obj_id"]))
+				if (!$rbacsystem->checkAccess('delete',$node["child"]))
 				{
-					$not_deletable[] = $node["obj_id"];
+					$not_deletable[] = $node["child"];
 					$perform_delete = false;
 				}
 			}
@@ -722,13 +720,13 @@ class ilObjectGUI
 		if (!$all_node_data[0]["type"])
 		{
 			// OBJECTS ARE NO 'TREE OBJECTS'
-			if ($rbacsystem->checkAccess('delete',$_GET["obj_id"]))
+			if ($rbacsystem->checkAccess('delete',$_GET["ref_id"]))
 			{
 				foreach($_SESSION["saved_post"] as $id)
 				{
 					//$obj = getObject($id);
 					$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
-					$this->callDeleteMethod($id,$_GET["obj_id"],$obj->getType());
+					$this->callDeleteMethod($id,$_GET["ref_id"],$obj->getType());
 				}
 			}
 			else
@@ -746,7 +744,7 @@ class ilObjectGUI
 
 				foreach ($subnodes as $subnode)
 				{
-					$rbacadmin->revokePermission($subnode["obj_id"]);
+					$rbacadmin->revokePermission($subnode["child"]);
 				}
 
 				$tree->saveSubTree($id);
@@ -755,7 +753,7 @@ class ilObjectGUI
 		}
 
 		// Feedback
-		sendInfo($this->lng->txt("info_deleted"));
+		sendInfo($this->lng->txt("info_deleted"),true);
 	}
 
 

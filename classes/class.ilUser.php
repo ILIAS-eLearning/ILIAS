@@ -492,11 +492,16 @@ class ilUser
 		// delete user_account
 		$this->ilias->db->query("DELETE FROM usr_data WHERE usr_id='".$id."'");
 		
+		// delete user_prefs
+		$this->ilias->db->query("DELETE FROM usr_pref WHERE usr_id='".$id."'");
+		
 		// delete user-role relation
-		$this->ilias->db->query("DELETE FROM rbac_ua WHERE usr_id='".$id."' AND rol_id='".$rol_id."'");
+		// done by $rbacadmin->removeUser in ilObjUser
+		//$this->ilias->db->query("DELETE FROM rbac_ua WHERE usr_id='".$id."' AND rol_id='".$rol_id."'");
 		
 		// delete obj_data entry
-		$this->ilias->db->query("DELETE FROM object_data WHERE obj_id='".$id."'");
+		// this is done by deletObject in ilObjUser
+		//$this->ilias->db->query("DELETE FROM object_data WHERE obj_id='".$id."'");
 	}
 	
 	/**

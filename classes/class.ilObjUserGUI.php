@@ -3,7 +3,7 @@
 * Class ilObjUserGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjUserGUI.php,v 1.8 2003/04/01 07:31:53 akill Exp $
+* $Id$Id: class.ilObjUserGUI.php,v 1.9 2003/04/01 12:39:47 akill Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -300,14 +300,15 @@ class ilObjUserGUI extends ilObjectGUI
 		//set role entries
 		$rbacadmin->assignUser($_POST["Fobject"]["default_role"],$user->getId(),true);
 		
-		//create new usersetting entry 
+		//create new usersetting entry
+		/*
 		$settingObj = new ilObject();
 		$settingObj->setType("uset");
 		$settingObj->setTitle($user->getFullname());
 		$settingObj->setDescription("User Setting Folder");
 		$settingObj->create();
 		$settingObj->createReference();
-			
+		*/	
 		//create usertree from class.user.php
 		// tree_id is the obj_id of user not ref_id!
 		// this could become a problem with same ids
@@ -315,6 +316,7 @@ class ilObjUserGUI extends ilObjectGUI
 		
 		//add notefolder to user tree
 		//$userTree = new ilTree(0,0,$user->getId());
+		/*
 		require_once ("classes/class.ilObjNoteFolder.php");
 		$notfObj = new ilObjNoteFolder();
 		$notfObj->setType("notf");
@@ -323,6 +325,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$notfObj->create();
 		$notfObj->createReference();
 		//$userTree->insertNode($notfObj->getRefId(), $settingObj->getRefId());
+		* */
 
 		// CREATE ENTRIES FOR MAIL BOX
 		require_once ("classes/class.ilMailbox.php");
@@ -332,6 +335,8 @@ class ilObjUserGUI extends ilObjectGUI
 		require_once "classes/class.ilFormatMail.php";
 		$fmail = new ilFormatMail($userObj->getId());
 		$fmail->createMailOptionsEntry();
+		
+		sendInfo($this->lng->txt("user_added"),true);
 		header("Location: adm_object.php?ref_id=".$this->ref_id);
 		exit();
 	}

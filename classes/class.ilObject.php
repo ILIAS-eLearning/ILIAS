@@ -571,14 +571,15 @@ class ilObject
 		// ALL OBJECT ENTRIES IN TREE HAVE BEEN DELETED FROM CLASS ADMIN.PHP
 
 		// IF THERE IS NO OTHER REFERENCE, DELETE ENTRY IN OBJECT_DATA
+		// TODO: What happens with ref_id entries? They are not deleted
 		if ($this->countReferences() == 1)
 		{
 			deleteObject($this->getId());
 		}
 
 		// DELETE PERMISSION ENTRIES IN RBAC_PA
-		// todo: ref_id obj id!?
-		$rbacadmin->revokePermission($this->getId());
+		// TODO: this call only applies for objects in rbac (not usr and role)
+		$rbacadmin->revokePermission($this->getRefId());
 
 		return true;
 	}

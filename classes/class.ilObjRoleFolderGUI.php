@@ -69,6 +69,37 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		}
 	} //function
 
+	/**
+	* confirmObject
+	* 
+	* 
+	*/
+	function confirmObject()
+	{
+		global $rbacsystem;
+
+		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
+		if (!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
+		{
+			$perform_delete = false;
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_delete")." ".
+						 $not_deletable,$this->ilias->error_obj->WARNING);
+		}
+		else
+		{
+			require_once("class.ilObjRole.php");
+			
+			// FOR ALL SELECTED OBJECTS
+			foreach ($_SESSION["saved_post"] as $id)
+			{
+				$role = new ilObjRole($id);
+				$role->delete();
+			}
+			
+			// Feedback
+			sendInfo($this->lng->txt("info_deleted"),true);	
+		}
+	}
 
 	function adoptPermSaveObject()
 	{

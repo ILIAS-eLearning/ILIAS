@@ -36,9 +36,12 @@ class RbacAdmin
 	*/
 	function removeUser($a_usr_id)
 	{
+		global $log;
+
 		if (!isset($a_usr_id))
 		{
 			$message = get_class($this)."::removeUser(): No usr_id given!";
+			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
 
@@ -607,14 +610,14 @@ class RbacAdmin
 	function assignRoleToFolder($a_rol_id,$a_parent,$a_parent_obj,$a_assign = "y")
 	{
 		global $log;
-		
-		if (!isset($a_rol_id) or !isset($a_parent) or !isset($a_parent_obj) or func_num_args() != 4)
+
+		if (!isset($a_rol_id) or !isset($a_parent) or !isset($a_parent_obj) or func_num_args() < 3 or func_num_args() > 4)
 		{
 			$message = get_class($this)."::assignRoleToFolder(): Missing Parameter!".
-					   "role_id: ".$a_rol_id.
-					   "parent_id: ".$a_parent.
-					   "parent_obj: ".$a_parent_obj.
-					   "assign: ".$a_assign;
+					   " role_id: ".$a_rol_id.
+					   " parent_id: ".$a_parent.
+					   " parent_obj: ".$a_parent_obj.
+					   " assign: ".$a_assign;
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
@@ -640,7 +643,7 @@ class RbacAdmin
 		if (!isset($a_rol_id) or !isset($a_ref_id))
 		{
 			$message = get_class($this)."::isAssignable(): Missing parameter!".
-					   "role_id: ".$a_rol_id." ref_id: ".$a_ref_id;
+					   " role_id: ".$a_rol_id." ,ref_id: ".$a_ref_id;
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
@@ -732,7 +735,6 @@ class RbacAdmin
 			$parent[] = $row->parent;
 		}
 
-//var_dump($parent);		
 		return $parent;
 	}
 
@@ -767,6 +769,7 @@ class RbacAdmin
 
 		return $parent_obj;
 	}
+
 	/**
 	* returns the data of a role folder assigned to an object
 	* @access	public
@@ -793,7 +796,7 @@ class RbacAdmin
 	* get role ids of all parent roles, if last parameter is set true
 	* you get also all parent templates
 	* @access	private
-	* @param	integer		object id of end node
+	* @param	integer		ref_id of an object which is end node
 	* @param	boolean		true for role templates (default: false)
 	* @return	string 
 	*/
@@ -807,7 +810,7 @@ class RbacAdmin
 			$log->writeWarning($message);
 			$this->ilias->raiseError($message,$this->ilias->error_obj->WARNING);
 		}
-		
+	
 		$pathIds  = $tree->getPathId($a_endnode_id);
 
 		// add system folder since it may not in the path
