@@ -24,7 +24,7 @@
 /**
 * Class ilObjSysUserTracking
 *
-* @author Arlon Yin <arlon_yin@sina.com.cn>
+* @author Arlon Yin <arlon_yin@hotmail.com>
 * @author Alex Killing <alex.killing@gmx.de>
 *
 * @version $Id$
@@ -284,7 +284,31 @@ class ilObjSysUserTracking extends ilObject
 					"cnt" => $cnt_rec["cnt"]);
 			}
 		}
+		return $acc;
+	}
+	
+	/**
+	* get total number of records older than given month (YYYY-MM)
+	*/
+	function getAccessTotalPerObj($a_condition)
+	{
+		global $ilDB;
+		$q = "SELECT count(*) as cnt,acc_obj_id	from ut_access where ".$a_condition.
+			" GROUP BY acc_obj_id";
+		$cnt_set = $ilDB->query($q);
+		//echo "q:".$q;
 
+		$acc = array();
+		while ($cnt_rec = $cnt_set->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			if ($cnt_rec["cnt"] != "")
+			{
+				
+				$acc[] = array("title" => ilObject::_lookupTitle($cnt_rec["acc_obj_id"]),
+					"author" => $this->getOwnerName($cnt_rec["acc_obj_id"]),
+					"cnt" => $cnt_rec["cnt"]);
+			}
+		}
 		return $acc;
 	}
 	/**
@@ -432,6 +456,46 @@ class ilObjSysUserTracking extends ilObject
 		$id = $ilDB->query($q);
 		$obj_id = $id->fetchRow(DB_FETCHMODE_ASSOC);
 		return $obj_id["obj_id"];
+	}
+	
+	/**
+	* get Test_id of some test
+	*/
+	function getTestId($id)
+	{
+		$q = "select obj_id from object_data "
+		." where type = 'tst' and "
+		." owner = ".$id;
+		$res = $this->ilias->db->query($q);
+		for ($i=0;$i<$res->numRows();$i++)
+		{
+			$result[$i]=$res->fetchRow();
+		}
+		return $result;
+	}
+	
+	/**
+	* Return the counts of search results
+	*/
+	function countResults($condition)
+	{
+		$q = "SELECT count(*) from ut_access "
+		." WHERE "
+		.$condition;
+		$res = $this->ilias->db->query($q);
+		$result = $res->fetchRow();
+		return $result[0];
+	}
+	
+	/**
+	* Return the owner name of the object
+	*/
+	function getOwnerName($id)
+	{
+		$q =" select A.login from usr_data as A, object_data as B where A.usr_id=B.owner and B.obj_id = ".$id;
+		$res = $this->ilias->db->query($q);
+		$result = $res->fetchRow();
+		return $result[0];
 	}
 } // END class.ilObjSysUserTracking
 ?>
