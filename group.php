@@ -103,9 +103,11 @@ switch ($obj->getType())
 		break;
 
 	case "fold":
-	case "file":
-	//echo "hier_group.php";exit;
 		if ($obj_type != "fold")
+		$_GET["ref_id"] = $obj->getGroupId();
+		break;
+	case "file":
+		if ($obj_type != "file")
 		$_GET["ref_id"] = $obj->getGroupId();
 		break;
 }
