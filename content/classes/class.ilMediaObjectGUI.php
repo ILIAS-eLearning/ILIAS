@@ -67,7 +67,15 @@ class ilMediaObjectGUI extends ilPageContentGUI
 
 
 		// select fields for number of columns
+		$this->tpl->setVariable("TXT_STANDARD_VIEW", $this->lng->txt("cont_std_view"));
 		$this->tpl->setVariable("TXT_FILE", $this->lng->txt("cont_file"));
+		$this->tpl->setVariable("TXT_REFERENCE", $this->lng->txt("cont_reference"));
+		$this->tpl->setVariable("TXT_WIDTH", $this->lng->txt("cont_width"));
+		$this->tpl->setVariable("TXT_HEIGHT", $this->lng->txt("cont_height"));
+		$this->tpl->setVariable("TXT_ORIGINAL_SIZE", $this->lng->txt("cont_orig_size"));
+		$this->tpl->setVariable("TXT_CAPTION", $this->lng->txt("cont_caption"));
+		$this->tpl->setVariable("TXT_FULLSCREEN_VIEW", $this->lng->txt("cont_fullscreen"));
+		$this->tpl->setVariable("TXT_PARAMETER", $this->lng->txt("cont_parameter"));
 		$this->tpl->parseCurrentBlock();
 
 		// operations
@@ -96,30 +104,62 @@ class ilMediaObjectGUI extends ilPageContentGUI
 			"/mobs/mm_".$this->content_obj->getId();
 		@mkdir($mob_dir);
 		@chmod($mob_dir, 0755);
-		$file = $mob_dir."/".$_FILES['mob_file']['name'];
-		move_uploaded_file($_FILES['mob_file']['tmp_name'], $file);
 
-		// set real meta and object data
-		$format = ilMediaObject::getMimeType($file);
-		$meta =& $this->content_obj->getMetaData();
-		$meta_technical =& new ilMetaTechnical($meta);
-		$meta_technical->setFormat($format);
-		$meta_technical->setSize($_FILES['mob_file']['size']);
-		$meta_technical->addLocation($_FILES['mob_file']['name']);
-		$meta->addTechnicalSection($meta_technical);
-		$this->content_obj->setTitle($_FILES['mob_file']['name']);
-		$this->content_obj->setDescription($format);
+		if ($_POST["standard_type"] == "File")
+		{
+			$file = $mob_dir."/".$_FILES['standard_file']['name'];
+			move_uploaded_file($_FILES['standard_file']['tmp_name'], $file);
+
+			// set real meta and object data
+			$format = ilMediaObject::getMimeType($file);
+			$meta =& $this->content_obj->getMetaData();
+			$meta_technical =& new ilMetaTechnical($meta);
+			$meta_technical->setFormat($format);
+			$meta_technical->setSize($_FILES['standard_file']['size']);
+			$meta_technical->addLocation($_FILES['standard_file']['name']);
+			$meta->addTechnicalSection($meta_technical);
+			$this->content_obj->setTitle($_FILES['standard_file']['name']);
+			$this->content_obj->setDescription($format);
+			$this->content_obj->setStandardType("File");
+		}
+		else	// standard type: reference
+		{
+			$format = ilMediaObject::getMimeType($_POST["standard_reference"]);
+			$meta =& $this->content_obj->getMetaData();
+			$meta_technical =& new ilMetaTechnical($meta);
+			$meta_technical->setFormat($format);
+			$meta_technical->setSize(0);
+			$meta_technical->addLocation($_POST["standard_reference"]);
+			$meta->addTechnicalSection($meta_technical);
+			$this->content_obj->setTitle($_POST["standard_reference"]);
+			$this->content_obj->setDescription($format);
+			$this->content_obj->setStandardType("Reference");
+		}
 
 		// determine width and height of known image types
-		if (($format == "image/gif") || ($format == "image/jpeg") ||
-			($format == "image/png") || ($format == "application/x-shockwave-flash") ||
-			($format == "image/tiff") || ($format == "image/x-ms-bmp") ||
-			($format == "image/psd") || ($format == "image/iff"))
+		if ($_POST["standard_size"] == "original")
 		{
-			$size = getimagesize($file);
-			$this->content_obj->setWidth($size[0]);
-			$this->content_obj->setHeight($size[1]);
+			if (($format == "image/gif") || ($format == "image/jpeg") ||
+				($format == "image/png") || ($format == "application/x-shockwave-flash") ||
+				($format == "image/tiff") || ($format == "image/x-ms-bmp") ||
+				($format == "image/psd") || ($format == "image/iff"))
+			{
+				$size = getimagesize($file);
+				$this->content_obj->setWidth($size[0]);
+				$this->content_obj->setHeight($size[1]);
+			}
 		}
+		else
+		{
+			$this->content_obj->setWidth($_POST["standard_width"]);
+			$this->content_obj->setHeight($_POST["standard_height"]);
+		}
+
+		if ($_POST["standard_caption"] != "")
+		{
+			$this->content_obj->setCaption($_POST["standard_caption"]);
+		}
+
 		$this->content_obj->setHAlign("Left");
 		$this->content_obj->update();
 
