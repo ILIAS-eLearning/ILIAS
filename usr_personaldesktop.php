@@ -259,119 +259,128 @@ if ($frmNum > 0)
 }*/
 
 // display users online
-if ($_GET["cmd"] == "whois" or $_GET["cmd"] == "whoisdetail")
+$tpl->setVariable("TXT_USERS_ONLINE",$lng->txt("users_online"));	
+
+$users = ilUtil::getUsersOnline();
+
+$user_list = "";
+	
+foreach ($users as $user_id => $user)
 {
-	$tpl->setVariable("TXT_USERS_ONLINE",$lng->txt("users_online"));	
+	if ($user_id != ANONYMOUS_USER_ID)
+	{
+		$user_list .= $user["login"].", ";
+	}
+	else
+	{
+		$guests = $user["num"];
+	}
+}
+	
+// parse text
+if (empty($guests))
+{
+	$guest_text = "";
+}
+elseif ($guests == "1")
+{
+	$guest_text = "1 ".$lng->txt("guest");	
+}
+else
+{
+	$guest_text = $guests." ".$lng->txt("guests");		
+}
 
-	$users = ilUtil::getUsersOnline();
+if (!empty($user_list))
+{
+	// remove last commata
+	$user_list = substr($user_list,0,-2);
+	
+	// add details link
+	if ($_GET["cmd"] == "whoisdetail")
+	{
+		$text = $lng->txt("hide_details");
+		$cmd = "hidedetails";
+	}
+	else
+	{
+		$text = $lng->txt("show_details");
+		$cmd = "whoisdetail";
+	}
+		
+	$user_details_link = "<a class=\"std\" href=\"usr_personaldesktop.php?cmd=".$cmd."\"> [".$text."]</a>";
+		
+	if (!empty($guest_text))
+	{
+		$user_list .= " ".$lng->txt("and")." ".$guest_text;
+	}
+		
+	$user_list .= $user_details_link;
+}
+else
+{
+	$user_list = $guest_text;
+}
+	
+$tpl->setVariable("USER_LIST",$user_list);		
 
-	$user_list = "";
+// display details of users online
+if ($_GET["cmd"] == "whoisdetail")
+{
+	$z = 0;
 	
 	foreach ($users as $user_id => $user)
 	{
 		if ($user_id != ANONYMOUS_USER_ID)
 		{
-			$user_list .= $user["login"].", ";
-		}
-		else
-		{
-			$guests = $user["num"];
-		}
-	}
-	
-	// parse text
-	if (empty($guests))
-	{
-		$guest_text = "";
-	}
-	elseif ($guests == "1")
-	{
-		$guest_text = "1 ".$lng->txt("guest");	
-	}
-	else
-	{
-		$guest_text = $guests." ".$lng->txt("guests");		
-	}
+			$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
+			$login_time = ilFormat::dateDiff(ilFormat::datetime2unixTS($user["last_login"]),time());
 
-	if (!empty($user_list))
-	{
-		// remove last commata
-		$user_list = substr($user_list,0,-2);
-		
-		// add details link
-		if ($_GET["cmd"] == "whoisdetail")
-		{
-			$text = $lng->txt("hide_details");
-			$cmd = "whois";
-		}
-		else
-		{
-			$text = $lng->txt("show_details");
-			$cmd = "whoisdetail";
-		}
-		
-		$user_details_link = "<a class=\"std\" href=\"usr_personaldesktop.php?cmd=".$cmd."\"> [".$text."]</a>";
-		
-		if (!empty($guest_text))
-		{
-			$user_list .= " ".$lng->txt("and")." ".$guest_text;
-		}
-		
-		$user_list .= $user_details_link;
-	}
-	else
-	{
-		$user_list = $guest_text;
-	}
-	
-	$tpl->setVariable("USER_LIST",$user_list);		
-
-	// display details of users online
-	if ($_GET["cmd"] == "whoisdetail")
-	{
-		$z = 0;
-		
-		foreach ($users as $user_id => $user)
-		{
-			if ($user_id != ANONYMOUS_USER_ID)
+			// hide mail-to icon for anonymous users
+			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID and $_SESSION["AccountId"] != $user_id)
 			{
-				$rowCol = ilUtil::switchColor($z,"tblrow2","tblrow1");
-				$login_time = ilFormat::dateDiff(ilFormat::datetime2unixTS($user["last_login"]),time());
-
-				// hide mail-to icon for anonymous users
-				if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-				{
-					$tpl->setCurrentBlock("mailto_link");
-					$tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_pencil_b.gif", false));
-					$tpl->setVariable("ALT_TXT_MAIL",$lng->txt("mail"));
-					$tpl->setVariable("USR_LOGIN",$user["login"]);	
-					$tpl->parseCurrentBlock();
-				}		
-
-				$tpl->setCurrentBlock("tbl_users_row");
-				$tpl->setVariable("ROWCOL",$rowCol);		
+				$tpl->setCurrentBlock("mailto_link");
+				$tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_pencil_b.gif", false));
+				$tpl->setVariable("ALT_TXT_MAIL",$lng->txt("mail"));
 				$tpl->setVariable("USR_LOGIN",$user["login"]);	
-				$tpl->setVariable("USR_FULLNAME",ilObjUser::setFullname($user["title"],$user["firstname"],$user["lastname"]));
-				$tpl->setVariable("USR_LOGIN_TIME",$login_time);
+				$tpl->parseCurrentBlock();
+			}		
+
+			// check for profile
+			$q = "SELECT value FROM usr_pref WHERE usr_id='".$user_id."' AND keyword='public_profile' AND value='y'";
+			$r = $ilias->db->query($q);
+
+			if ($r->numRows())
+			{
+				$tpl->setCurrentBlock("profile_link");
 				$tpl->setVariable("IMG_VIEW", ilUtil::getImagePath("enlarge.gif", false));
 				$tpl->setVariable("ALT_TXT_VIEW",$lng->txt("view"));
 				$tpl->setVariable("USR_ID",$user_id);
 				$tpl->parseCurrentBlock();
-
-				$z++;	
 			}
-		}
-	
-		if ($z > 0)
-		{
-			$tpl->setCurrentBlock("tbl_users_header");
-			$tpl->setVariable("TXT_USR_LOGIN",ucfirst($lng->txt("username")));	
-			$tpl->setVariable("TXT_USR_FULLNAME",ucfirst($lng->txt("fullname")));
-			$tpl->setVariable("TXT_USR_LOGIN_TIME",ucfirst($lng->txt("login_time")));
+
+			$tpl->setCurrentBlock("tbl_users_row");
+			$tpl->setVariable("ROWCOL",$rowCol);		
+			$tpl->setVariable("USR_LOGIN",$user["login"]);	
+			$tpl->setVariable("USR_FULLNAME",ilObjUser::setFullname($user["title"],$user["firstname"],$user["lastname"]));
+			$tpl->setVariable("USR_LOGIN_TIME",$login_time);
+			
 			$tpl->parseCurrentBlock();
+
+			$z++;	
 		}
 	}
+	
+	if ($z > 0)
+	{
+		$tpl->setCurrentBlock("tbl_users_header");
+		$tpl->setVariable("TXT_USR_LOGIN",ucfirst($lng->txt("username")));	
+		$tpl->setVariable("TXT_USR_FULLNAME",ucfirst($lng->txt("fullname")));
+		$tpl->setVariable("TXT_USR_LOGIN_TIME",ucfirst($lng->txt("login_time")));
+		$tpl->parseCurrentBlock();
+	}
 }
+
 // output
 $tpl->show();
 ?>

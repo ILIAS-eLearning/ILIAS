@@ -84,12 +84,4 @@ if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
 	$tpl->setVariable("TAB_TARGET","bottom");
 	$tpl->parseCurrentBlock();
 }
-
-// who is online
-$tpl->setCurrentBlock("tab");
-$tpl->setVariable("TAB_TYPE",$who_is_online ? "tabactive" : "tabinactive");
-$tpl->setVariable("TAB_LINK","usr_personaldesktop.php?cmd=whois");
-$tpl->setVariable("TAB_TEXT",$lng->txt("who_is_online"));
-$tpl->setVariable("TAB_TARGET","bottom");
-$tpl->parseCurrentBlock();
 ?>
