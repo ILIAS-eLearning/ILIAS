@@ -460,7 +460,7 @@ function initEditor(TextAreaName)
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
 	cfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
 	
-	cfg.statusBar = false;
+	//cfg.statusBar = false;
 	
 //		  "bold", "italic", "ilias-com", "ilias-quot", "ilias-code", "separator", 
 
@@ -559,7 +559,14 @@ function checkAllowTagInside(which)
 						N2 += "</"+tn+">";
 					}
 					
-					editor.surroundHTML(N2,N1);
+					S = editor.getSelectedHTML();
+					editor.insertHTML("#!#*#!#");
+					//alert(S);
+					H = editor.getHTML();
+					H = H.replace("#!#*#!#",N2+S+N1);
+					//alert(H);
+					editor.setHTML(H);
+					//editor.surroundHTML(N2,N1);
 					// -------------------------------------------------------
 					
 					return(false);
