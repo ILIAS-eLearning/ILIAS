@@ -404,7 +404,7 @@ class LanguageFolderObject extends Object
 			$lang_key = $lang["title"];
 			$lang_status = $lang["desc"];
 			
-			if ($lang_status == "installed")
+			if (($lang_status == "installed") && ($lang_key != $this->lang_default) && ($lang_key != $this->lang_user))
 			{
 				$this->flushLanguage($lang_key);
 				
@@ -415,6 +415,18 @@ class LanguageFolderObject extends Object
 				
 				$lang_uninstalled[] = $lang_key;
 			}
+			
+			// just for correct message output
+			if ($lang_key == $this->lang_default)
+			{
+				$sys_lang = true;
+			}
+
+			if ($lang_key == $this->lang_user)
+			{
+				$usr_lang = true;
+			}
+
 		}
 		
 		if (isset($lang_uninstalled))
@@ -433,8 +445,18 @@ class LanguageFolderObject extends Object
 				return implode(", ",$langnames)." have been uninstalled.";			
 			}
 		}
-		
-		return "Funny! Chosen language(s) are already uninstalled.";
+		elseif ($sys_lang)
+		{
+			return "You cannot uninstall the system language!";
+		}
+		elseif ($usr_lang)
+		{
+			return "You cannot uninstall the language currently in use!";
+		}
+		else
+		{
+			return "Funny! Chosen language(s) are already uninstalled.";
+		}
 	}
 
 	/**
