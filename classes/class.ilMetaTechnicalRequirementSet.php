@@ -63,5 +63,15 @@ class ilMetaTechnicalRequirementSet
 		return $this->requirements;
 	}
 
+	function getXML()
+	{
+		$xml = "<OrComposite>";
+		foreach($this->requirements as $req)
+		{
+			$xml.= $req->getXML();
+		}
+		$xml.= "</OrComposite>";
+	}
+
 }
 ?>

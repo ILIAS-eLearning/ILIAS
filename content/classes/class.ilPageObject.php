@@ -314,6 +314,7 @@ class ilPageObject extends ilLMObject
 		}
 		else
 		{
+			// append multimedia object elements
 			if ($a_append_mobs)
 			{
 				$mobs =& $this->getMultimediaXML();
@@ -326,7 +327,7 @@ class ilPageObject extends ilLMObject
 		}
 	}
 
-	
+
 	/**
 	* lm parser set this flag to true, if the page contains intern links
 	* (this method should only be called by the import parser)
