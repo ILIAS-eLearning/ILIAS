@@ -13,7 +13,7 @@ $res = & xpath_eval($xpc, $path);
 for($i = 0; $i < count($res->nodeset); $i++)
 {
 	$node = $res->nodeset[$i];
-	$node->set_content("foo&bar<b a=\"10\">hh</b>");
+	$node->set_content(htmlentities("foo&bar<b a=\"10\">hh</b>"));
 }
 
 $xml = $dom->dump_mem(0, "UTF-8");
