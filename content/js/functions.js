@@ -147,7 +147,7 @@ setTimeout("doCloseContextMenu()",200);
 var clickcmdid = 0;
 function doActionForm(cmd,command,value) 
 {
-    
+    doCloseContextMenuCounter = 2;
     if(cmd=="cmd[exec]") 
 	{
         cmd = "cmd[exec_"+clickcmdid+"]";
@@ -158,9 +158,17 @@ function doActionForm(cmd,command,value)
         command += clickcmdid;
     }
     
+	if (value=="delete") {
+		if(!confirm("wirklich löschen ?")) {
+			menuBlocked = true;
+			setTimeout("nextMenuClick()",500);
+			return;
+		}
+		menuBlocked = true;
+		setTimeout("nextMenuClick()",500);
+	}
+	
     html = "<form name=cmform id=cmform method=post action='"+actionUrl+"'>";
-          
-    
     html += "<input type=hidden name='"+command+"' value='"+value+"'>";
     html += "<input type=hidden name='"+cmd+"' value='Ok'>";
     html += "</form>";
