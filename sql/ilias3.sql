@@ -3,7 +3,7 @@
 # http://www.phpmyadmin.net/ (download page)
 #
 # Host: localhost
-# Generation Time: Dec 21, 2002 at 03:12 PM
+# Generation Time: Dec 22, 2002 at 01:25 PM
 # Server version: 4.00.05
 # PHP Version: 4.3.0RC3
 # Database : `ilias3`
@@ -214,8 +214,8 @@ INSERT INTO lng_data VALUES ('common', 'other', 'en', 'other');
 INSERT INTO lng_data VALUES ('common', 'options', 'en', 'options');
 INSERT INTO lng_data VALUES ('common', 'optimize', 'en', 'optimize');
 INSERT INTO lng_data VALUES ('common', 'online_version', 'en', 'online version');
-INSERT INTO lng_data VALUES ('common', 'old', 'en', 'old');
 INSERT INTO lng_data VALUES ('common', 'online_chapter', 'en', 'online chapter');
+INSERT INTO lng_data VALUES ('common', 'old', 'en', 'old');
 INSERT INTO lng_data VALUES ('common', 'offline_version', 'en', 'offline version');
 INSERT INTO lng_data VALUES ('common', 'objects', 'en', 'objects');
 INSERT INTO lng_data VALUES ('common', 'not_installed', 'en', 'not installed');
@@ -238,8 +238,8 @@ INSERT INTO lng_data VALUES ('common', 'msg_changes_ok', 'en', 'the changes were
 INSERT INTO lng_data VALUES ('common', 'move_to', 'en', 'move to');
 INSERT INTO lng_data VALUES ('common', 'migrate', 'en', 'migrate');
 INSERT INTO lng_data VALUES ('common', 'message_to', 'en', 'message to:');
-INSERT INTO lng_data VALUES ('common', 'message_content', 'en', 'message content');
 INSERT INTO lng_data VALUES ('common', 'message', 'en', 'message');
+INSERT INTO lng_data VALUES ('common', 'message_content', 'en', 'message content');
 INSERT INTO lng_data VALUES ('common', 'members', 'en', 'members');
 INSERT INTO lng_data VALUES ('common', 'mark_all_unread', 'en', 'mark all as unread');
 INSERT INTO lng_data VALUES ('common', 'mark_all_read', 'en', 'mark all as read');
@@ -250,8 +250,8 @@ INSERT INTO lng_data VALUES ('common', 'mail', 'en', 'mail');
 INSERT INTO lng_data VALUES ('common', 'los_last_visited', 'en', 'last visited learning objects');
 INSERT INTO lng_data VALUES ('common', 'los', 'en', 'learning objects');
 INSERT INTO lng_data VALUES ('common', 'logout', 'en', 'logout');
-INSERT INTO lng_data VALUES ('common', 'login', 'en', 'login');
 INSERT INTO lng_data VALUES ('common', 'login_to_ilias', 'en', 'login to ILIAS');
+INSERT INTO lng_data VALUES ('common', 'login', 'en', 'login');
 INSERT INTO lng_data VALUES ('common', 'lo_overview', 'en', 'lo overview');
 INSERT INTO lng_data VALUES ('common', 'lo_other_langs', 'en', 'lo\'s in other langauges');
 INSERT INTO lng_data VALUES ('common', 'lo_new', 'en', 'new learning object');
@@ -263,8 +263,8 @@ INSERT INTO lng_data VALUES ('common', 'literature_bookmarks', 'en', 'literature
 INSERT INTO lng_data VALUES ('common', 'literature', 'en', 'literature');
 INSERT INTO lng_data VALUES ('common', 'list_of_questions', 'en', 'question list');
 INSERT INTO lng_data VALUES ('common', 'list_of_pages', 'en', 'pages list');
-INSERT INTO lng_data VALUES ('common', 'linked_pages', 'en', 'linked pages');
 INSERT INTO lng_data VALUES ('common', 'link', 'en', 'link');
+INSERT INTO lng_data VALUES ('common', 'linked_pages', 'en', 'linked pages');
 INSERT INTO lng_data VALUES ('common', 'linebreak', 'en', 'linebreak');
 INSERT INTO lng_data VALUES ('common', 'level', 'en', 'level');
 INSERT INTO lng_data VALUES ('common', 'ldap', 'en', 'LDAP');
@@ -284,7 +284,7 @@ INSERT INTO lng_data VALUES ('common', 'install', 'en', 'install');
 INSERT INTO lng_data VALUES ('common', 'inst_name', 'en', 'installation name');
 INSERT INTO lng_data VALUES ('common', 'inst_info', 'en', 'installation info');
 INSERT INTO lng_data VALUES ('common', 'inst_id', 'en', 'installation ID');
-INSERT INTO lng_data VALUES ('common', 'inifile', 'en', 'INI-file');
+INSERT INTO lng_data VALUES ('common', 'inifile', 'en', 'ini-file');
 INSERT INTO lng_data VALUES ('common', 'information_abbr', 'en', 'info');
 INSERT INTO lng_data VALUES ('common', 'inbox', 'en', 'inbox');
 INSERT INTO lng_data VALUES ('common', 'ilias_version', 'en', 'ILIAS version');
@@ -321,10 +321,10 @@ INSERT INTO lng_data VALUES ('common', 'faq_exercise', 'en', 'faq exercise');
 INSERT INTO lng_data VALUES ('common', 'execute', 'en', 'execute');
 INSERT INTO lng_data VALUES ('common', 'error_recipient', 'en', 'error recipient');
 INSERT INTO lng_data VALUES ('common', 'err_wrong_login', 'en', 'wrong login');
-INSERT INTO lng_data VALUES ('common', 'employee', 'en', 'employee');
-INSERT INTO lng_data VALUES ('common', 'enable', 'en', 'enable');
-INSERT INTO lng_data VALUES ('common', 'enumerate', 'en', 'enumerate');
 INSERT INTO lng_data VALUES ('common', 'err_create_database_failed', 'en', 'creation of database failed');
+INSERT INTO lng_data VALUES ('common', 'enumerate', 'en', 'enumerate');
+INSERT INTO lng_data VALUES ('common', 'enable', 'en', 'enable');
+INSERT INTO lng_data VALUES ('common', 'employee', 'en', 'employee');
 INSERT INTO lng_data VALUES ('common', 'email', 'en', 'email');
 INSERT INTO lng_data VALUES ('common', 'editor', 'en', 'editor');
 INSERT INTO lng_data VALUES ('common', 'edit_properties', 'en', 'edit properties');
@@ -490,16 +490,16 @@ INSERT INTO lng_data VALUES ('common', 'disabled', 'en', 'disabled');
 INSERT INTO lng_data VALUES ('common', 'import', 'en', 'import');
 INSERT INTO lng_data VALUES ('common', 'in_use', 'en', 'user language');
 INSERT INTO lng_data VALUES ('common', 'lang_de', 'en', 'German');
+INSERT INTO lng_data VALUES ('common', 'lang_dk', 'en', 'Danish');
 INSERT INTO lng_data VALUES ('common', 'lang_en', 'en', 'English');
-INSERT INTO lng_data VALUES ('common', 'lang_dk', 'en', 'D&auml;nish');
-INSERT INTO lng_data VALUES ('common', 'lang_pl', 'en', 'Polnish');
-INSERT INTO lng_data VALUES ('common', 'lang_se', 'en', 'Schwedish');
-INSERT INTO lng_data VALUES ('common', 'lang_no', 'en', 'Norwegish');
 INSERT INTO lng_data VALUES ('common', 'lang_es', 'en', 'Spanish');
-INSERT INTO lng_data VALUES ('common', 'lang_fr', 'en', 'Franz&ouml;sish');
-INSERT INTO lng_data VALUES ('common', 'lang_it', 'en', 'Italienish');
-INSERT INTO lng_data VALUES ('common', 'lang_id', 'en', 'Indonesish');
-INSERT INTO lng_data VALUES ('common', 'lang_xx', 'en', 'benutzerdefiniert');
+INSERT INTO lng_data VALUES ('common', 'lang_fr', 'en', 'French');
+INSERT INTO lng_data VALUES ('common', 'lang_id', 'en', 'Indonesian');
+INSERT INTO lng_data VALUES ('common', 'lang_it', 'en', 'Italian');
+INSERT INTO lng_data VALUES ('common', 'lang_no', 'en', 'Norwegisch');
+INSERT INTO lng_data VALUES ('common', 'lang_pl', 'en', 'Polish');
+INSERT INTO lng_data VALUES ('common', 'lang_se', 'en', 'Swedish');
+INSERT INTO lng_data VALUES ('common', 'lang_xx', 'en', 'Custom');
 INSERT INTO lng_data VALUES ('common', 'forums_not_available', 'en', 'forums not available');
 INSERT INTO lng_data VALUES ('common', 'forums_last_post', 'en', 'last article');
 INSERT INTO lng_data VALUES ('common', 'forums_moderators', 'en', 'moderators');
@@ -858,7 +858,7 @@ INSERT INTO object_data VALUES (156, 'usr', 'T. Eacher', 'teacher@yourserver.com
 INSERT INTO object_data VALUES (158, 'usr', 'N. Iemand', 'gast@yourserver.com', 6, '2002-08-30 14:05:39', '2002-08-30 14:05:39');
 INSERT INTO object_data VALUES (157, 'usr', 'St. Udent', 'student@yourserver.com', 6, '2002-08-30 14:05:05', '2002-08-30 14:05:05');
 INSERT INTO object_data VALUES (33, 'typ', 'root', 'Root Folder Object', -1, '2002-12-21 00:04:00', '2002-12-21 00:04:00');
-INSERT INTO object_data VALUES (34, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2002-12-21 01:29:08');
+INSERT INTO object_data VALUES (34, 'lng', 'en', 'installed', -1, '0000-00-00 00:00:00', '2002-12-22 13:24:30');
 # --------------------------------------------------------
 
 #
