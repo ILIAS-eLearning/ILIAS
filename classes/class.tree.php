@@ -241,7 +241,7 @@ class Tree
 		{
 			$query = "SELECT * FROM tree ".
 					 "WHERE child = '".$a_parent_id."' ".
-					 "AND parent = '".$a_parent_parent_id."' ".
+					 "AND parent = '0' ".
 					 "AND tree = '".$this->tree_id."'";
 		}
 
