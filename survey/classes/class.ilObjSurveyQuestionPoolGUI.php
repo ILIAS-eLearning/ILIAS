@@ -125,7 +125,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			}
 	    header("location:" . "survey.php" . "?ref_id=" . $_SESSION["survey_id"] . "&cmd=questions$add_question");
 		} 
-			else
+		elseif ($_SESSION["calling_survey"])
+		{
+			$ref_id = $_SESSION["calling_survey"];
+			unset($_SESSION["calling_survey"]);
+			ilUtil::redirect("survey.php?ref_id=$ref_id&cmd=questions");
+		}
+		else
 		{
 			header("location:" . $_SERVER["PHP_SELF"] . "?ref_id=" . $_GET["ref_id"] . "&cmd=questions");
 		}
@@ -261,6 +267,18 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	function originalSyncForm($question_object, $ref_id)
+	{
+		$this->tpl->setVariable("HEADER", $question_object->getTitle());
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_sync_original.html", true);
+		$this->tpl->setCurrentBlock("adm_content");
+		$this->tpl->setVariable("BUTTON_YES", $this->lng->txt("yes"));
+		$this->tpl->setVariable("BUTTON_NO", $this->lng->txt("no"));
+		$this->tpl->setVariable("FORM_ACTION", $_SERVER['PHP_SELF'] . $this->getAddParameter() . "&calling_survey=" . $ref_id . "&qcopy=" . $question_object->getId());
+		$this->tpl->setVariable("TEXT_SYNC", $this->lng->txt("confirm_sync_questions"));
+		$this->tpl->parseCurrentBlock();
+	}
+	
 /**
 * Displays a form to edit/create a survey question
 *
@@ -389,6 +407,13 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				{
 					$this->cancelAction($question->object->getId());
 					exit;
+				}
+				if ($_SESSION["calling_survey"])
+				{
+					$ref_id = $_SESSION["calling_survey"];
+					unset($_SESSION["calling_survey"]);
+					$this->originalSyncForm($question->object, $ref_id);
+					return;
 				}
 				sendInfo($this->lng->txt("msg_obj_modified"));
       } else {
@@ -716,6 +741,35 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
   {
     global $rbacsystem;
 
+		if ($_POST["cmd"]["sync"])
+		{
+			$questiontype = $this->object->getQuestiontype($_GET["qcopy"]);
+			switch ($questiontype)
+			{
+				case "qt_nominal":
+					$question = new SurveyNominalQuestionGUI();
+					break;
+				case "qt_ordinal":
+					$question = new SurveyOrdinalQuestionGUI();
+					break;
+				case "qt_metric":
+					$question = new SurveyMetricQuestionGUI();
+					break;
+				case "qt_text":
+					$question = new SurveyTextQuestionGUI();
+					break;
+			}
+			$question->object->loadFromDb($_GET["qcopy"]);
+			$question->object->syncWithOriginal();
+			ilUtil::redirect("survey.php?ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
+			exit;
+		}
+		
+		if ($_POST["cmd"]["cancelSync"])
+		{
+			ilUtil::redirect("survey.php?ref_id=" . $_GET["calling_survey"] . "&cmd=questions");
+			exit;
+		}
 		if ($_POST["cmd"]["importQuestions"])
 		{
 			$this->importQuestionsObject();
@@ -1134,6 +1188,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
     $this->tpl->setVariable("BUTTON_CANCEL", $this->lng->txt("cancel"));
     $this->tpl->setVariable("ACTION_QUESTION_FORM", $_SERVER["PHP_SELF"] . $add_parameter . $sort);
     $this->tpl->parseCurrentBlock();
+		unset($_SESSION["calling_survey"]);
   }
 
 	function editMetaObject()

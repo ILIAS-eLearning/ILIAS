@@ -3813,6 +3813,7 @@ survey#:#category_delete_confirm#:#Are you sure you want to delete the following
 survey#:#category_delete_select_none#:#Please check at least one category to delete it!
 survey#:#category_nr_selected#:#Number of users that selected this category
 survey#:#concatenation#:#Concatenation
+survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
 survey#:#constraints#:#Constraints
 survey#:#contains#:#Contains
 survey#:#continue#:#Continue >>

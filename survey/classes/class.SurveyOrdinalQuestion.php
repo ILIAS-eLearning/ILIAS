@@ -372,6 +372,7 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
         $this->questiontext = $data->questiontext;
 				$this->obligatory = $data->obligatory;
         $this->complete = $data->complete;
+				$this->original_id = $data->original_id;
       }
       // loads materials uris from database
       $this->loadMaterialFromDb($id);
@@ -725,5 +726,48 @@ class SurveyOrdinalQuestion extends SurveyQuestion {
 //echo htmlentities($xml);
 		return $xml;
 	}
+
+	function syncWithOriginal()
+	{
+		if ($this->original_id)
+		{
+			$complete = 0;
+			if ($this->isComplete()) {
+				$complete = 1;
+			}
+			$query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+				$this->ilias->db->quote($this->title . ""),
+				$this->ilias->db->quote("0"),
+				$this->ilias->db->quote($this->description . ""),
+				$this->ilias->db->quote($this->author . ""),
+				$this->ilias->db->quote($this->questiontext . ""),
+				$this->ilias->db->quote(sprintf("%d", $this->obligatory) . ""),
+				$this->ilias->db->quote($complete . ""),
+				$this->ilias->db->quote($this->original_id . "")
+			);
+			$result = $this->ilias->db->query($query);
+			if ($result == DB_OK) {
+				// save categories
+				
+				// delete existing category relations
+				$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
+					$this->ilias->db->quote($this->original_id . "")
+				);
+				$result = $this->ilias->db->query($query);
+				// create new category relations
+				foreach ($this->categories as $key => $value) {
+					$category_id = $this->saveCategoryToDb($value);
+					$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, NULL)",
+						$this->ilias->db->quote($category_id . ""),
+						$this->ilias->db->quote($this->original_id . ""),
+						$this->ilias->db->quote(($key + 1) . ""),
+						$this->ilias->db->quote($key . "")
+					);
+					$answer_result = $this->ilias->db->query($query);
+				}
+			}
+		}
+	}
+
 }
 ?>

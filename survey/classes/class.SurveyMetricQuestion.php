@@ -202,6 +202,7 @@ class SurveyMetricQuestion extends SurveyQuestion {
 				$this->obligatory = $data->obligatory;
         $this->author = $data->author;
 				$this->subtype = $data->subtype;
+				$this->original_id = $data->original_id;
         $this->owner = $data->owner_fi;
         $this->questiontext = $data->questiontext;
         $this->complete = $data->complete;
@@ -538,5 +539,69 @@ class SurveyMetricQuestion extends SurveyQuestion {
 		return $xml;
 	}
 
+	function syncWithOriginal()
+	{
+		if ($this->original_id)
+		{
+			$complete = 0;
+			if ($this->isComplete()) {
+				$complete = 1;
+			}
+			$query = sprintf("UPDATE survey_question SET title = %s, subtype = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+				$this->ilias->db->quote($this->title . ""),
+				$this->ilias->db->quote($this->subtype . ""),
+				$this->ilias->db->quote($this->description . ""),
+				$this->ilias->db->quote($this->author . ""),
+				$this->ilias->db->quote($this->questiontext . ""),
+				$this->ilias->db->quote(sprintf("%d", $this->obligatory) . ""),
+				$this->ilias->db->quote($complete . ""),
+				$this->ilias->db->quote($this->original_id . "")
+			);
+			$result = $this->ilias->db->query($query);
+			if ($result == DB_OK) 
+			{
+				// save categories
+				
+				// delete existing category relations
+				$query = sprintf("DELETE FROM survey_variable WHERE question_fi = %s",
+					$this->ilias->db->quote($this->original_id)
+				);
+				$result = $this->ilias->db->query($query);
+				// create new category relations
+				if (strcmp($this->minimum, "") == 0)
+				{
+					$min = "NULL";
+				}
+				else
+				{
+					$min = $this->ilias->db->quote($this->minimum . "");
+				}
+				if (preg_match("/[\D]/", $this->maximum) or (strcmp($this->maximum, "&infin;") == 0))
+				{
+					$max = -1;
+				}
+				else
+				{
+					if (strcmp($this->maximum, "") == 0)
+					{
+						$max = "NULL";
+					}
+					else
+					{
+						$max = $this->ilias->db->quote($this->maximum . "");
+					}
+				}
+				$query = sprintf("INSERT INTO survey_variable (variable_id, category_fi, question_fi, value1, value2, sequence, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, NULL)",
+					$this->ilias->db->quote("0"),
+					$this->ilias->db->quote($this->original_id . ""),
+					$min,
+					$max,
+					$this->ilias->db->quote("0")
+				);
+				$answer_result = $this->ilias->db->query($query);
+			}
+		}
+	}
+	
 }
 ?>

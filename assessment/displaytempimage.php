@@ -5,5 +5,8 @@
   header('Content-Type: image/jpeg');
   header('Content-Length: '.filesize($image));
   readfile($image);
-	system ("rm -f $image");
+	if (is_file($image))
+	{
+		unlink ($image);
+	}
 ?>

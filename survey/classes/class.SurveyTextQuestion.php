@@ -83,6 +83,7 @@ class SurveyTextQuestion extends SurveyQuestion {
         $this->author = $data->author;
 				$this->obligatory = $data->obligatory;
         $this->owner = $data->owner_fi;
+				$this->original_id = $data->original_id;
         $this->questiontext = $data->questiontext;
         $this->complete = $data->complete;
       }
@@ -330,5 +331,27 @@ class SurveyTextQuestion extends SurveyQuestion {
 //echo htmlentities($xml);
 		return $xml;
 	}
+
+	function syncWithOriginal()
+	{
+		if ($this->original_id)
+		{
+			$complete = 0;
+			if ($this->isComplete()) {
+				$complete = 1;
+			}
+      $query = sprintf("UPDATE survey_question SET title = %s, description = %s, author = %s, questiontext = %s, obligatory = %s, complete = %s WHERE question_id = %s",
+        $this->ilias->db->quote($this->title . ""),
+        $this->ilias->db->quote($this->description . ""),
+        $this->ilias->db->quote($this->author . ""),
+        $this->ilias->db->quote($this->questiontext . ""),
+				$this->ilias->db->quote(sprintf("%d", $this->obligatory) . ""),
+				$this->ilias->db->quote($complete . ""),
+        $this->ilias->db->quote($this->original_id . "")
+      );
+      $result = $this->ilias->db->query($query);
+		}
+	}
+	
 }
 ?>
