@@ -1440,6 +1440,32 @@ class ilTree
 			return $this->fetchNodeData($row);
 		}
 	}
-
+	
+	/**
+	* renumber left/right values and close the gaps in numbers
+	* (recursive)
+	* @access	public
+	* @param	integer	node_id where to start (usually the root node)
+	* @param	integer	first left value of start node (usually 1)
+	* @return	integer	current left value of recursive call
+	*/
+	function renumber($node_id = 1, $i = 1)
+	{
+		$q = "UPDATE ".$this->table_tree." SET lft='".$i."' WHERE child='".$node_id."'";
+		$this->ilDB->query($q);
+		
+		$childs = $this->getChilds($node_id);
+		
+		foreach ($childs as $child)
+		{
+			$i = $this->renumber($child["child"],$i+1);
+		}
+		
+		$i++;
+		$q = "UPDATE ".$this->table_tree." SET rgt='".$i."' WHERE child='".$node_id."'";
+		$this->ilDB->query($q);
+		
+		return $i;
+	}
 } // END class.tree
 ?>
