@@ -103,12 +103,24 @@ class User
 				$this->writePref("skin", "");
 			}
 
-			//set template to default if not set
-			if ($this->prefs["skin"] == "")
+			//pda support
+			if (strpos($_SERVER["HTTP_USER_AGENT"],"Windows CE")>0)
 			{
-			 	$this->prefs["skin"] = $this->ilias->ini->readVariable("layout","defaultskin");
+				$this->skin = "pda";
 			}
-
+			else
+			{
+				//set template to default if not set
+				if ($this->prefs["skin"] == "")
+				{
+				 	$this->skin = $this->ilias->ini->readVariable("layout","defaultskin");
+				}
+				else
+				{
+					$this->skin = $this->prefs["skin"];
+				}
+			}
+			
 			$style = "style_".$this->prefs["skin"];			
 			//check style-setting (skins could have more than one stylesheet
 			if ($this->prefs[$style] != "" && 
@@ -604,6 +616,11 @@ class User
 	function setLanguage($a_str)
 	{
 		$this->prefs["language"] = $a_str;
+	}
+	
+	function setSkin($skin)
+	{
+		$this->skin = $skin;
 	}
 } // END class.User
 ?>

@@ -111,7 +111,7 @@ $ilias->getSkins();
 foreach ($ilias->skins as $row)
 {
 	$tpl->setCurrentBlock("selectskin");
-	if ($ilias->account->prefs["skin"] == $row["name"])
+	if ($ilias->account->skin == $row["name"])
 	{
 		$tpl->setVariable("SKINSELECTED", "selected");
 	}
@@ -121,9 +121,9 @@ foreach ($ilias->skins as $row)
 }
 
 //what styles are available for current skin
-$ilias->getStyles($ilias->account->prefs["skin"]);
+$ilias->getStyles($ilias->account->skin);
 
-$style = "style_".$ilias->account->prefs["skin"];
+$style = "style_".$ilias->account->skin;
 foreach ($ilias->styles as $row)
 {
 	$tpl->setCurrentBlock("selectstyle");
