@@ -22,8 +22,6 @@
 */
 
 require_once("content/classes/class.ilPageContent.php");
-define("IL_AFTER_PRED", 1);
-define("IL_BEFORE_SUCC", 0);
 
 /**
 * Class ilLMTable
@@ -37,13 +35,8 @@ define("IL_BEFORE_SUCC", 0);
 */
 class ilLMTable extends ilPageContent
 {
-	var $row;			// current row and col position
-	var $col;
-	var $rowcnt;		// counter for total row and col number
-	var $colcnt;
-	var $cell;			// content array
 	var $dom;
-	var $node;
+
 
 	/**
 	* Constructor
@@ -54,22 +47,7 @@ class ilLMTable extends ilPageContent
 		parent::ilPageContent();
 		$this->setType("tab");
 
-		$this->row = 0;
-		$this->col = 0;
-		$this->rowcnt = 0;
-		$this->colcnt = 0;
-		$this->cell = array();
 		$this->dom =& $a_dom;
-	}
-
-	function setNode(&$a_node)
-	{
-		$this->node =& $a_node;
-	}
-
-	function &getNode()
-	{
-		return $this->node;
 	}
 
 	function createNode()
@@ -88,6 +66,27 @@ class ilLMTable extends ilPageContent
 				$new_td =& $this->dom->create_element("TableData");
 				$new_td =& $new_tr->append_child($new_td);
 			}
+		}
+	}
+
+	/**
+	* get table language
+	*/
+	function getLanguage()
+	{
+		return $this->node->get_attribute("Language");
+	}
+
+	/**
+	* set table language
+	*
+	* @param	string		$a_lang		language code
+	*/
+	function setLanguage($a_lang)
+	{
+		if($a_lang != "")
+		{
+			$this->node->set_attribute("Language", $a_lang);
 		}
 	}
 
@@ -191,239 +190,99 @@ class ilLMTable extends ilPageContent
 		}
 	}
 
-
-
-	/*
-	function newCol()
+	function getHeaderCaption()
 	{
-		$this->col++;
-		if ($this->col > $this->colcnt)
+		$hier_id = $this->getHierId();
+		if(!empty($hier_id))
 		{
-			$this->colcnt = $this->col;
+			$xpc = xpath_new_context($this->dom);
+			$path = "//Table[@HierId = '".$hier_id."']/HeaderCaption";
+			$res =& xpath_eval($xpc, $path);
+			if (count($res->nodeset) == 1)
+			{
+				return $res->nodeset[0]->get_content();
+			}
 		}
-		$this->cell[$this->row][$this->col] = array();
 	}
 
-	function newRow()
+	function setHeaderCaption($a_content)
 	{
-		$this->row++;
-		$this->col = 0;
-		if ($this->row > $this->rowcnt)
+		$this->setFirstOptionalElementContent("HeaderCaption",
+			array("FooterCaption", "Summary", "TableRow"), $a_content);
+	}
+
+	function setFooterCaption($a_content)
+	{
+		$this->setFirstOptionalElementContent("FooterCaption",
+			array("Summary", "TableRow"), $a_content);
+	}
+
+	function setFirstOptionalElementContent($a_node_name, $a_predecessors, $a_content)
+	{
+		$search = $a_predecessors;
+		$search[] = $a_node_name;
+
+		$childs = $this->node->child_nodes();
+		$cnt_childs = count($childs);
+		$found = false;
+		foreach($childs as $child)
 		{
-			$this->rowcnt = $this->row;
+			$child_name = $child->node_name();
+			if (in_array($child_name, $search))
+			{
+				$found = true;
+				break;
+			}
 		}
-		$this->cell[$this->row][$this->col] = array();
-	}
-
-	function setCol($a_col)
-	{
-		$this->col = $a_col;
-	}
-
-	function setRow($a_row)
-	{
-		$this->row = $a_row;
-	}
-
-	function appendContent(&$a_content_obj)
-	{
-		$this->cell[$this->row][$this->col][] =& $a_content_obj;
-	}
-
-	function &getCellContent($a_nr = 0)
-	{
-		if($a_nr == 0)
+		if(!$found)
 		{
-			return $this->cell[$this->row][$this->col];
+			$new_node =& $this->dom->create_element($a_node_name);
+			if($cnt_childs == 0)
+			{
+				$new_node =& $this->node->append_child($new_node);
+			}
+			else
+			{
+				$new_node =& $childs[0]->insert_before($new_node, $childs[0]);
+			}
+			$new_node->set_content($a_content);
 		}
 		else
 		{
-			return $this->cell[$this->row][$this->col][$a_nr];
-		}
-	}*/
-
-	/*
-	function getXML($a_utf8_encoded = false, $a_short_mode = false, $a_incl_ed_ids = false)
-	{
-		$ed_id = ($a_incl_ed_ids)
-			? "ed_id=\"".$this->getEdId()."\""
-			: "";
-		$xml = "<Table $ed_id >";			// todo: attributes
-		$xml.= "<Title Language=\"de\">No Title</Title>";		// todo: make this work
-		for ($r=1; $r<=$this->rowcnt; $r++)
-		{
-			$this->setRow($r);
-			$xml.= "<TableRow>";						// todo: attributes
-			for ($c=1; $c<=$this->colcnt; $c++)
+//echo "Hier:$child_name:$a_node_name:<br>";
+			if ($child_name == $a_node_name)
 			{
-				$this->setCol($c);
-				$td_ed_id = ($a_incl_ed_ids)
-					? "ed_id=\"".$this->getEdId()."_r$r"."c$c\""
-					: "";
-				$xml.= "<TableData $td_ed_id>";					// todo: attributes
-
-				reset($this->cell[$this->row][$this->col]);
-				foreach($this->cell[$this->row][$this->col] as $co_object)
+				$childs2 = $child->child_nodes();
+				for($i=0; $i<count($childs2); $i++)
 				{
-					if (get_class($co_object) == "ilparagraph")
-					{
-						$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode, $a_incl_ed_ids);
-					}
-					if (get_class($co_object) == "illmtable")
-					{
-						$xml .= $co_object->getXML($a_utf8_encoded, $a_short_mode, $a_incl_ed_ids);
-					}
+					$child->remove_child($childs2[$i]);
 				}
-				$xml.= "</TableData>";
+				$child->set_content($a_content);
 			}
-			$xml.= "</TableRow>";
-		}
-		$xml.= "</Table>";
-
-		return $xml;
-	}*/
-
-	/**
-	* get content object by hierarchical id
-	*/
-	/*
-	function &getContent($a_hier_id)
-	{
-		$cnt = explode("_", $a_hier_id);
-		if(isset($cnt[1]))		// content is within a container (e.g. table)
-		{
-			$container_obj =& $this->getContent($cnt[0]);
-			$unset[$cnt[0]];
-			return $container_obj->getContent(implode($cnt, "_"));
-		}
-		else		// content object is direct child of this table
-		{
-			$tpos = $this->seq2TablePos($cnt[0]);
-			$co_object =& $this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"]];
-			return $co_object;
-		}
-	}*/
-
-	/*
-	function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_AFTER_PRED)
-	{
-		$pos = explode("_", $a_pos);
-//echo "TI1";
-		if(isset($pos[1]))		// content should be child of a container
-		{
-//echo "TI2";
-			$tpos = $this->seq2TablePos($pos[0]);
-			unset($pos[0]);
-			$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"]]->insertContent($a_cont_obj, implode($pos, "_"), $a_mode);
-		}
-		else		// insert as child element of the table
-		{
-//echo "TI3";
-			// if $pos[0] has format "r...c..." then an insert at the top
-			// of a table cell should be made
-			$r = strpos($pos[0] ,"r");
-			$c = strpos($pos[0] ,"c");
-			if(is_int($r) && is_int($c))
+			else
 			{
-				$row = substr($pos[0], 1, $c - 1);
-				$col = substr($pos[0], $c + 1, strlen($pos[0]) - $c - 1);
-
-				// todo: das stimmt net!
-				for($i = count($this->cell[$row][$col]); $i >= 1; $i--)
-				{
-					$this->cell[$row][$col][$i] =& $this->cell[$row][$col][$i - 1];
-				}
-				$this->cell[$row][$col][0] =& $a_cont_obj;
-//echo "TIsetting:r$row:c$col:".htmlentities($a_cont_obj->getText()).":";
-			}
-			else		// if $pos[0] is number, insert object at sequential position $pos[0]
-			{
-				$tpos = $this->seq2TablePos($pos[0] - $a_mode);
-//echo "seq:".$pos[0]."<br>";
-//echo "mode:$a_mode:<br>";
-//echo "r:".$tpos["row"].":c:".$tpos["col"].":p:".$tpos["pos"].":<br>";
-				for($i = count($this->cell[$tpos["row"]][$tpos["col"]]); $i >= 0; $i--)
-				{
-					if($i >= ($tpos["pos"] + 1 + $a_mode))
-					{
-						$this->cell[$tpos["row"]][$tpos["col"]][$i] =& $this->cell[$tpos["row"]][$tpos["col"]][$i - 1];
-					}
-				}
-				$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"] + $a_mode] =& $a_cont_obj;
+				$new_node =& $this->dom->create_element($a_node_name);
+				$new_node =& $child->insert_before($new_node, $child);
+				$new_node->set_content($a_content);
 			}
 		}
-	}*/
-
-	/**
-	* delete content object at position $a_pos
-	*/
-	/*
-	function deleteContent($a_pos)
-	{
-		$pos = explode("_", $a_pos);
-		if(isset($pos[1]))		// object of child container should be deleted
-		{
-			$tpos = $this->seq2TablePos($pos[0]);
-			unset($pos[0]);
-			$this->cell[$tpos["row"]][$tpos["col"]][$tpos["pos"]]->deleteContent(implode($pos, "_"));
-		}
-		else		// direct child should be deleted
-		{
-			$tpos = $this->seq2TablePos($pos[0]);
-			$cnt = 0;
-			for($i=1; $i<count($this->cell[$tpos["row"]][$tpos["col"]]); $i++)
-			{
-				$cnt++;
-				if ($i > $tpos["pos"])
-				{
-					$this->cell[$tpos["row"]][$tpos["col"]][$i - 1] =& $this->cell[$tpos["row"]][$tpos["col"]][$i];
-				}
-			}
-			array_pop($this->cell[$tpos["row"]][$tpos["col"]]);
-		}
-	}*/
-
-
-	/**
-	* converts a sequential content position into row, column
-	* and content position within the cell
-	*/
-	/*
-	function seq2TablePos($a_seq_pos)
-	{
-		$current = 0;
-		for ($r=1; $r<=$this->rowcnt; $r++)
-		{
-			$this->setRow($r);
-			for ($c=1; $c<=$this->colcnt; $c++)
-			{
-				$this->setCol($c);
-
-				reset($this->cell[$this->row][$this->col]);
-				for($j=0; $j<count($this->cell[$this->row][$this->col]); $j++)
-				{
-//echo ":jr".$r."c".$c.":$j:";
-					$co_object =& $this->cell[$this->row][$this->col][$j];
-					$current++;
-					if($current == $a_seq_pos)
-					{
-						return array("row" => $this->row, "col" => $this->col, "pos" => $j);
-					}
-				}
-			}
-		}
-	}*/
-
-	/*
-	function setLanguage($a_lang)
-	{
-		$this->language = $a_lang;
 	}
 
-	function getLanguage()
+
+	function getFooterCaption()
 	{
-		return $this->language;
-	}*/
+		$hier_id = $this->getHierId();
+		if(!empty($hier_id))
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//Table[@HierId = '".$hier_id."']/FooterCaption";
+			$res =& xpath_eval($xpc, $path);
+			if (count($res->nodeset) == 1)
+			{
+				return $res->nodeset[0]->get_content();
+			}
+		}
+	}
 
 }
 ?>

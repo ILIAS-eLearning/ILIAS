@@ -173,12 +173,14 @@ class ilPageObject extends ilLMObject
 
 				$par = new ilParagraph($this->dom);
 				$par->setNode($cont_node);
+				$par->setHierId($a_hier_id);
 				return $par;
 
 			case "Table":
 
 				$tab = new ilLMTable($this->dom);
 				$tab->setNode($cont_node);
+				$tab->setHierId($a_hier_id);
 				return $tab;
 
 		}

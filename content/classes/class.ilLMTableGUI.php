@@ -58,6 +58,12 @@ class ilLMTableGUI extends ilPageContentGUI
 		// content is in utf-8, todo: set globally
 		header('Content-type: text/html; charset=UTF-8');
 
+		// language
+		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
+		$lang = ilMetaData::getLanguages();
+		$select_lang = ilUtil::formSelect ($this->content_obj->getLanguage(),"tab_language",$lang,false,true);
+		$this->tpl->setVariable("SELECT_LANGUAGE", $select_lang);
+
 		// width
 		$this->tpl->setVariable("TXT_TABLE_WIDTH", $this->lng->txt("cont_table_width"));
 		$this->tpl->setVariable("INPUT_TABLE_WIDTH", "tab_width");
@@ -78,6 +84,16 @@ class ilLMTableGUI extends ilPageContentGUI
 		$this->tpl->setVariable("INPUT_TABLE_SPACING", "tab_spacing");
 		$this->tpl->setVariable("VAL_TABLE_SPACING", $this->content_obj->getCellSpacing());
 
+		// header caption
+		$this->tpl->setVariable("TXT_HEADER_CAPTION", $this->lng->txt("cont_header_caption"));
+		$this->tpl->setVariable("INPUT_HEADER_CAPTION", "header_caption");
+		$this->tpl->setVariable("VAL_HEADER_CAPTION", $this->content_obj->getHeaderCaption());
+
+		// footer caption
+		$this->tpl->setVariable("TXT_FOOTER_CAPTION", $this->lng->txt("cont_footer_caption"));
+		$this->tpl->setVariable("INPUT_FOOTER_CAPTION", "footer_caption");
+		$this->tpl->setVariable("VAL_FOOTER_CAPTION", $this->content_obj->getFooterCaption());
+
 		$this->tpl->parseCurrentBlock();
 
 		// operations
@@ -90,10 +106,13 @@ class ilLMTableGUI extends ilPageContentGUI
 
 	function saveProperties()
 	{
+		$this->content_obj->setLanguage($_POST["tab_language"]);
 		$this->content_obj->setWidth($_POST["tab_width"]);
 		$this->content_obj->setBorder($_POST["tab_border"]);
 		$this->content_obj->setCellSpacing($_POST["tab_spacing"]);
 		$this->content_obj->setCellPadding($_POST["tab_padding"]);
+		$this->content_obj->setHeaderCaption($_POST["header_caption"]);
+		$this->content_obj->setFooterCaption($_POST["footer_caption"]);
 		$this->pg_obj->update();
 		header("location: lm_edit.php?cmd=viewWysiwyg&lm_id=".$this->lm_obj->getId()."&obj_id=".
 			$this->pg_obj->getId());

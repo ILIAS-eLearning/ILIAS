@@ -60,6 +60,13 @@ class ilPageContentGUI
 		$this->dom =& $a_pg_obj->getDom();
 	}
 
+	/**
+	* get hierarchical id in dom object
+	*/
+	function getHierId()
+	{
+		return $this->hier_id;
+	}
 
 	function delete()
 	{

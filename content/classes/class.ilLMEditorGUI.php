@@ -133,6 +133,7 @@ class ilLMEditorGUI
 					{
 						$obj->buildDom();
 						$obj->addHierIDs();
+//echo "hier_id:$hier_id:";
 				 		$cont_obj =& $obj->getContentObject($hier_id);
 						//$cont_obj =& $content[$hier_id - 1];
 						$com = explode("_", $cmd);

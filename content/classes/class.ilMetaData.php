@@ -241,6 +241,8 @@ class ilMetaData
 	{
 		global $lng;
 
+		$lng->loadLanguageModule("meta");
+
 		$cntcodes = array ("DE","ES","FR","GB","AT","CH","AF","AL","DZ","AS","AD","AO",
 			"AI","AQ","AG","AR","AM","AW","AU","AT","AZ","BS","BH","BD","BB","BY",
 			"BE","BZ","BJ","BM","BT","BO","BA","BW","BV","BR","IO","BN","BG","BF",
@@ -276,6 +278,8 @@ class ilMetaData
 	function getLanguages()
 	{
 		global $lng;
+
+		$lng->loadLanguageModule("meta");
 
 		$lngcodes = array("aa","ab","af","am","ar","as","ay","az","ba","be","bg","bh",
 			"bi","bn","bo","br","ca","co","cs","cy","da","de","dz","el","en","eo",

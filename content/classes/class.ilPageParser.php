@@ -35,6 +35,7 @@ require_once("content/classes/class.ilLMTable.php");
 */
 class ilPageParser extends ilSaxParser
 {
+/*
 	var $paragraph;
 	var $table;
 	var $page_object;
@@ -44,13 +45,14 @@ class ilPageParser extends ilSaxParser
 	var $container;
 	var $incl_edit_ids;
 	var $level;
-	var $ed_id;
+	var $ed_id;*/
 
 
 	/**
 	* Constructor
 	* @access	public
 	*/
+	/*
 	function ilPageParser(&$a_page_object, $a_xml_data)
 	{
 		global $ilias, $lng;
@@ -87,7 +89,7 @@ class ilPageParser extends ilSaxParser
 		{
 			$this->ilias->raiseError("XML Parse Error: ",$this->ilias->error_obj->FATAL);
 		}
-	}
+	}*/
 
 
 	/**
@@ -95,17 +97,19 @@ class ilPageParser extends ilSaxParser
 	* should be overwritten by inherited class
 	* @access	private
 	*/
+	/*
 	function setHandlers($a_xml_parser)
 	{
 		xml_set_object($a_xml_parser,$this);
 		xml_set_element_handler($a_xml_parser,'handlerBeginTag','handlerEndTag');
 		xml_set_character_data_handler($a_xml_parser,'handlerCharacterData');
-	}
+	}*/
 
 
 	/*
 	* update parsing status for a element begin
 	*/
+	/*
 	function beginElement($a_name)
 	{
 		if(!isset($this->status["$a_name"]))
@@ -117,28 +121,31 @@ class ilPageParser extends ilSaxParser
 			$this->cnt[$a_name]++;
 		}
 		$this->current_element[count($this->current_element)] = $a_name;
-	}
+	}*/
 
 	/*
 	* update parsing status for an element ending
 	*/
+	/*
 	function endElement($a_name)
 	{
 		$this->cnt[$a_name]--;
 		unset ($this->current_element[count($this->current_element) - 1]);
-	}
+	}*/
 
 	/*
 	* returns current element
 	*/
+	/*
 	function getCurrentElement()
 	{
 		return ($this->current_element[count($this->current_element) - 1]);
-	}
+	}*/
 
 	/**
 	* handler for begin of element
 	*/
+	/*
 	function handlerBeginTag($a_xml_parser,$a_name,$a_attribs)
 	{
 
@@ -207,11 +214,12 @@ class ilPageParser extends ilSaxParser
 		}
 		$this->beginElement($a_name);
 
-	}
+	}*/
 
 	/**
 	* handler for end of element
 	*/
+	/*
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
 //echo "EndTag:$a_name:<br>";
@@ -235,11 +243,12 @@ class ilPageParser extends ilSaxParser
 		}
 
 		$this->endElement($a_name);
-	}
+	}*/
 
 	/**
 	* handler for character data
 	*/
+	/*
 	function handlerCharacterData($a_xml_parser,$a_data)
 	{
 //echo "Data:$a_name:<br>";
@@ -267,11 +276,12 @@ class ilPageParser extends ilSaxParser
 			}
 		}
 
-	}
+	}*/
 
 	/**
 	* get current hierarchical editing id
 	*/
+	/*
 	function getEdId()
 	{
 		$sep = "";
@@ -282,7 +292,7 @@ class ilPageParser extends ilSaxParser
 			$sep = "_";
 		}
 		return $id;
-	}
+	}*/
 
 }
 ?>

@@ -397,7 +397,7 @@ img.imgtab {
 }
 
 /* ------------------ styles for lm content, should be separated
-	in a distinct css sometime -------------- */
+	in a distinct css sometime, alex -------------- */
 span.ilStrong
 {
 	font-weight: bold;
@@ -413,7 +413,28 @@ span.ilComment
 	color: blue;
 }
 
-/* ------------------ blind image - spacer gif -------------- 
+.ilc_red
+{
+	background-color:#FFCCCC;
+}
+
+.ilc_blue
+{
+	background-color:#CCCCFF;
+}
+
+.ilc_green
+{
+	background-color:#CCFFCC;
+}
+
+.ilc_yellow
+{
+	background-color:#FFFFCC;
+}
+
+
+/* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
 	display:block;
