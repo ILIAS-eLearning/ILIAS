@@ -142,6 +142,11 @@ fop_path_comment#:#required to generate PDF documents
 hide_clientlist#:#Hide client selection
 host#:#Host
 htmldoc_path#:#Path to HTMLdoc
+virus_scanner#:#Virus Scanner
+none#:#None
+sophos#:#Sophos
+antivir#:#AntiVir
+scan_command#:#Scan Command
 htmldoc_path_comment#:#required to generate PDF documents
 http_path#:#HTTP path
 id#:#ID

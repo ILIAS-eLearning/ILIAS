@@ -392,6 +392,8 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_UNZIP_PATH", $this->lng->txt("path_to_unzip"));
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("path_to_java"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("path_to_htmldoc"));
+		$this->tpl->setVariable("TXT_VIRUS_SCANNER", $this->lng->txt("virus_scanner"));
+		$this->tpl->setVariable("TXT_SCAN_COMMAND", $this->lng->txt("scan_command"));
 
 		///////////////////////////////////////////////////////////
 		// display formula data
@@ -425,15 +427,19 @@ class ilSetupGUI extends ilSetup
 		$unzip = $this->ini->readVariable("tools","unzip");
 		$java = $this->ini->readVariable("tools","java");
 		$htmldoc = $this->ini->readVariable("tools","htmldoc");
+		$vscan = $this->ini->readVariable("tools","vscantype");
+		$scancomm = $this->ini->readVariable("tools","scancommand");
 		
 		$this->tpl->setVariable("CONVERT_PATH",($convert) ? $convert : $not_set);
 		$this->tpl->setVariable("ZIP_PATH",($zip) ? $zip : $not_set);
 		$this->tpl->setVariable("UNZIP_PATH",($unzip) ? $unzip : $not_set);
 		$this->tpl->setVariable("JAVA_PATH",($java) ? $java : $not_set);
 		$this->tpl->setVariable("HTMLDOC_PATH",($htmldoc) ? $htmldoc : $not_set);
+		$this->tpl->setVariable("VAL_SCAN_COMMAND",($scancomm) ? $scancomm : $not_set);
+		$this->tpl->setVariable("VAL_VIRUS_SCANNER",($vscan) ? $vscan : $not_set);
 
 		$this->tpl->parseCurrentBlock();
-		
+
 		$this->displayStatusPanel();
 	}
 
@@ -852,6 +858,13 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("UNZIP_PATH", $_SESSION["error_post_vars"]["form"]["unzip_path"]);
 		$this->tpl->setVariable("JAVA_PATH", $_SESSION["error_post_vars"]["form"]["java_path"]);
 		$this->tpl->setVariable("HTMLDOC_PATH", $_SESSION["error_post_vars"]["form"]["htmldoc_path"]);
+		
+		$this->tpl->setVariable("TXT_VIRUS_SCANNER", $this->lng->txt("virus_scanner"));
+		$this->tpl->setVariable("TXT_NONE", $this->lng->txt("none"));
+		$this->tpl->setVariable("TXT_SOPHOS", $this->lng->txt("sophos"));
+		$this->tpl->setVariable("TXT_ANTIVIR", $this->lng->txt("antivir"));
+		$this->tpl->setVariable("TXT_SCAN_COMMAND", $this->lng->txt("scan_command"));
+
 
 		$chk_convert_path = ($_SESSION["error_post_vars"]["form"]["chk_convert_path"]) ? $checked : "";
 		$chk_zip_path = ($_SESSION["error_post_vars"]["form"]["chk_zip_path"]) ? $checked : "";
@@ -1233,6 +1246,12 @@ class ilSetupGUI extends ilSetup
 		$this->tpl->setVariable("TXT_JAVA_PATH", $this->lng->txt("java_path"));
 		$this->tpl->setVariable("TXT_HTMLDOC_PATH", $this->lng->txt("htmldoc_path"));
 		$this->tpl->setVariable("TXT_FOP_PATH", $this->lng->txt("fop_path"));
+		
+		$this->tpl->setVariable("TXT_VIRUS_SCANNER", $this->lng->txt("virus_scanner"));
+		$this->tpl->setVariable("TXT_NONE", $this->lng->txt("none"));
+		$this->tpl->setVariable("TXT_SOPHOS", $this->lng->txt("sophos"));
+		$this->tpl->setVariable("TXT_ANTIVIR", $this->lng->txt("antivir"));
+		$this->tpl->setVariable("TXT_SCAN_COMMAND", $this->lng->txt("scan_command"));
 
 		$this->tpl->setVariable("TXT_CONVERT_COMMENT", $this->lng->txt("convert_path_comment"));
 		$this->tpl->setVariable("TXT_ZIP_COMMENT", $this->lng->txt("zip_path_comment"));
@@ -1249,6 +1268,9 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("JAVA_PATH", $_SESSION["error_post_vars"]["form"]["java_path"]);
 			$this->tpl->setVariable("HTMLDOC_PATH", $_SESSION["error_post_vars"]["form"]["htmldoc_path"]);
 			$this->tpl->setVariable("FOP_PATH", $_SESSION["error_post_vars"]["form"]["fop_path"]);
+			$this->tpl->setVariable("STYPE_".
+				strtoupper($_SESSION["error_post_vars"]["form"]["vscanner_type"]), " selected=\"1\" ");
+			$this->tpl->setVariable("SCAN_COMMAND", $_SESSION["error_post_vars"]["form"]["scan_command"]);
 		}
 		else
 		{
@@ -1258,6 +1280,9 @@ class ilSetupGUI extends ilSetup
 			$this->tpl->setVariable("JAVA_PATH",$this->ini->readVariable("tools","java"));
 			$this->tpl->setVariable("HTMLDOC_PATH",$this->ini->readVariable("tools","htmldoc"));
 			$this->tpl->setVariable("FOP_PATH",$this->ini->readVariable("tools","fop"));
+			$this->tpl->setVariable("STYPE_".
+				strtoupper($this->ini->readVariable("tools", "vscantype")), " selected=\"1\" ");
+			$this->tpl->setVariable("SCAN_COMMAND", $this->ini->readVariable("tools", "scancommand"));
 		}
 
 		$chk_convert_path = ($_SESSION["error_post_vars"]["form"]["chk_convert_path"]) ? $checked : "";
