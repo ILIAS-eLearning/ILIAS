@@ -93,7 +93,7 @@ foreach ($languages as $lang_key)
 	}
 	else
 	{
-		$vspace = 2;
+		$vspace = 0;
 		$border = 0;
 	}
 
@@ -381,7 +381,7 @@ switch ($_GET["step"])
 		$dbpass = $_POST["dbpass"] ? $_POST["dbpass"] : $mySetup->dbPass;
 		$dpath  = $_POST["dpath"]  ? $_POST["dpath"]  : $mySetup->data_path;
 
-/*
+
 		//load defaults if neccessary
 		if(!$_POST)
 		{
@@ -392,7 +392,7 @@ switch ($_GET["step"])
 			$dbuser = $mySetup->default["db"]["user"];
 			$dbpass = $mySetup->default["db"]["pass"];
 		}
-*/
+
 		//try to read the ini-file and build msg if error
 		if (!$ini_exists)
 		{
@@ -462,6 +462,7 @@ switch ($_GET["step"])
 	case "2":
 		if(!$_POST["dpath"] or @!file_exists($_POST["dpath"]))
 		{
+			// TODO: needs input checking of all vars here!!! and error message output
 			header("location: setup.php?step=1&lang=en");
 			exit;
 		}
