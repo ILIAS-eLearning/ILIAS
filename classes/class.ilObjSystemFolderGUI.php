@@ -26,7 +26,7 @@
 * Class ilObjSystemFolderGUI
 *
 * @author Stefan Meyer <smeyer@databay.de>
-* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.39 2004/09/21 11:14:07 wrandels Exp $
+* $Id$Id: class.ilObjSystemFolderGUI.php,v 1.40 2004/09/21 15:47:13 smeyer Exp $
 *
 * @extends ilObjectGUI
 * @package ilias-core
@@ -301,10 +301,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			if($_POST['https'])
 			{
 				include_once './classes/class.ilHTTPS.php';
-
-				if(!ilHTTPS::_check())
+				
+				if(!ilHTTPS::_checkHTTPS())
 				{
 					sendInfo($this->lng->txt('https_not_possible'));
+					$form_valid = false;
+				}
+				if(!ilHTTPS::_checkHTTP())
+				{
+					sendInfo($this->lng->txt('http_not_possible'));
 					$form_valid = false;
 				}
 			}
