@@ -344,7 +344,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$selected_style = $this->object->prefs["style"];
 			$selected_skin = $this->object->skin;
 		}
-		
+		include_once("classes/class.ilObjStyleSettings.php");
 		foreach ($templates as $template)
 		{
 			// get styles for skin
@@ -355,6 +355,11 @@ class ilObjUserGUI extends ilObjectGUI
 		
 			foreach($styles as $style)
 			{
+				if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+				{
+					continue;
+				}
+
 				$this->tpl->setCurrentBlock("selectskin");
 		
 				if ($selected_skin == $template["id"] &&
@@ -808,6 +813,8 @@ class ilObjUserGUI extends ilObjectGUI
 			$selected_style = $this->object->prefs["style"];
 			$selected_skin = $this->object->skin;	
 		}
+		
+		include("classes/class.ilObjStyleSettings.php");
 		foreach ($templates as $template)
 		{
 			// get styles for skin
@@ -817,6 +824,11 @@ class ilObjUserGUI extends ilObjectGUI
 			$styles = $styleDef->getStyles();
 			foreach ($styles as $style)
 			{
+				if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+				{
+					continue;
+				}
+
 				$this->tpl->setCurrentBlock("selectskin");
 
 				if ($selected_skin == $template["id"] &&

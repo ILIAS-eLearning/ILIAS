@@ -670,11 +670,18 @@ common#:#HH:MM#:#HH:MM
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept user agreement?
 common#:#access#:#Access
+common#:#num_users#:#Number of users
+common#:#style_activation#:#Style Activation
+common#:#content_styles#:#Content Styles
+common#:#system_style_settings#:#System Style Settings
 common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#[ILIAS 3] Your account expires
 common#:#action#:#Action
+common#:#at_least_one_style#:#At least one style must remain activated.
+common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if there are still users assigned to it.
 common#:#action_aborted#:#Action aborted
 common#:#actions#:#Actions
+common#:#move_users_to_style#:#Move users to style
 common#:#activate_assessment_logging#:#Activate Test&Assessment logging
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
 common#:#activate_tracking#:#Activate Tracking
@@ -1171,6 +1178,7 @@ common#:#fill_out_all_required_fields#:#Please fill out all required fields
 common#:#filter#:#Filter:
 common#:#firstname#:#First name
 common#:#flatview#:#Flat View
+common#:#def_repository_view#:#Default repository view
 common#:#fold#:#Folder
 common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder

@@ -98,8 +98,8 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle($this->object->getTitle(),"icon_styf.gif",
-			$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setTitle($this->lng->txt("content_styles"),"icon_styf.gif",
+			$this->lng->txt("content_styles"));
 
 		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
 
@@ -186,11 +186,163 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("tbl_content");
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		
 
 		// render table
 		$tbl->render();
+		
+		$this->displayStyleSettings();
+	}
+	
+	
+	/**
+	* displays style settings
+	*/
+	function displayStyleSettings()
+	{
+		global $styleDefinition;
+		
+		$this->tpl->addBlockFile("SYSTEMSETTINGS", "style_settings", "tpl.stys_settings.html");
+		$this->tpl->setCurrentBlock("style_settings");
+
+		$settings = $this->ilias->getAllSettings();
+
+		$this->tpl->setVariable("FORMACTION_STYLESETTINGS", $this->ctrl->getFormAction($this));		
+		$this->tpl->setVariable("TXT_STYLE_SETTINGS", $this->lng->txt("system_style_settings"));
+		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+		$this->tpl->setVariable("TXT_DEFAULT_SKIN_STYLE", $this->lng->txt("default_skin_style"));
+		$this->tpl->setVariable("TXT_SKIN_STYLE_ACTIVATION", $this->lng->txt("style_activation"));
+		$this->tpl->setVariable("TXT_NUMBER_OF_USERS", $this->lng->txt("num_users"));
+		$this->tpl->setVariable("TXT_MOVE_USERS_TO_STYLE", $this->lng->txt("move_users_to_style"));
+		
+		// get all templates
+		$templates = $styleDefinition->getAllTemplates();
+
+		foreach ($templates as $template)
+		{
+			// get styles definition for template
+			$styleDef =& new ilStyleDefinition($template["id"]);
+			$styleDef->startParsing();
+			$styles = $styleDef->getStyles();
+
+			foreach ($styles as $style)
+			{
+				if ($this->ilias->ini->readVariable("layout","skin") == $template["id"] &&
+					$this->ilias->ini->readVariable("layout","style") == $style["id"])
+				{
+					$this->tpl->setVariable("SKINSELECTED", "selected=\"selected\"");
+				}
+
+				// default selection list
+				$this->tpl->setCurrentBlock("selectskin");
+				$this->tpl->setVariable("SKINVALUE", $template["id"].":".$style["id"]);
+				$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
+				$this->tpl->parseCurrentBlock();
+				
+				// can be optimized
+				foreach ($templates as $template2)
+				{
+					// get styles definition for template
+					$styleDef2 =& new ilStyleDefinition($template2["id"]);
+					$styleDef2->startParsing();
+					$styles2 = $styleDef2->getStyles();
+		
+					foreach ($styles2 as $style2)
+					{
+						if (ilObjStyleSettings::_lookupActivatedStyle($template2["id"], $style2["id"]))
+						{
+							$this->tpl->setCurrentBlock("move_to_skin");
+							$this->tpl->setVariable("TOSKINVALUE", $template2["id"].":".$style2["id"]);
+							$this->tpl->setVariable("TOSKINOPTION", $styleDef2->getTemplateName()." / ".$style2["name"]);
+							$this->tpl->parseCurrentBlock();
+						}
+					}
+				}
+				
+				// activation list
+				$this->tpl->setCurrentBlock("style_activation");
+				$this->tpl->setVariable("TXT_SKIN_STYLE_TITLE", 
+					$styleDef->getTemplateName()." / ".$style["name"]);
+				$this->tpl->setVariable("VAL_SKIN_STYLE", $template["id"].":".$style["id"]);
+				$num_users = ilObjUser::_getNumberOfUsersForStyle($template["id"], $style["id"]);
+				$this->tpl->setVariable("VAL_NUM_USERS", $num_users);
+				if (ilObjStyleSettings::_lookupActivatedStyle($template["id"], $style["id"]))
+				{
+					$this->tpl->setVariable("CHK_SKIN_STYLE", " checked=\"1\" ");
+				}
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+
+		$this->tpl->parseCurrentBlock();
+	}
+	
+	/**
+	* save skin and style settings
+	*/
+	function saveStyleSettingsObject()
+	{
+		global $styleDefinition;
+		
+		// check if one style is activated
+		if (count($_POST["st_act"]) < 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("at_least_one_style"), $this->ilias->error_obj->MESSAGE);
+		}
+		
+		// check if a style should be deactivated, that still has
+		// a user assigned to
+		$templates = $styleDefinition->getAllTemplates();
+		foreach ($templates as $template)
+		{
+			// get styles definition for template
+			$styleDef =& new ilStyleDefinition($template["id"]);
+			$styleDef->startParsing();
+			$styles = $styleDef->getStyles();
+			foreach ($styles as $style)
+			{
+				if (!isset($_POST["st_act"][$template["id"].":".$style["id"]]))
+				{
+					if (ilObjUser::_getNumberOfUsersForStyle($template["id"], $style["id"]) > 1)
+					{
+						$this->ilias->raiseError($this->lng->txt("cant_deactivate_if_users_assigned"), $this->ilias->error_obj->MESSAGE);
+					}
+					else
+					{
+						ilObjStyleSettings::_deactivateStyle($template["id"], $style["id"]);
+					}
+				}
+				else
+				{
+					ilObjStyleSettings::_activateStyle($template["id"], $style["id"]);
+				}
+			}
+		}
+		
+		// move users to other skin
+		foreach($_POST["move_users"] as $key => $value)
+		{
+			if ($value != "")
+			{
+				$from = explode(":", $key);
+				$to = explode(":", $value);
+				ilObjUser::_moveUsersToStyle($from[0],$from[1],$to[0],$to[1]);
+			}
+		}
+		
+		//set default skin and style
+		if ($_POST["default_skin_style"] != "")
+		{
+			$sknst = explode(":", $_POST["default_skin_style"]);
+
+			if ($this->ilias->ini->readVariable("layout","style") != $sknst[1] ||
+				$this->ilias->ini->readVariable("layout","skin") != $sknst[0])
+			{
+				$this->ilias->ini->setVariable("layout","skin", $sknst[0]);
+				$this->ilias->ini->setVariable("layout","style",$sknst[1]);
+			}
+		}
+		$this->ilias->ini->write();
+		ilUtil::redirect($this->ctrl->getLinkTarget($this,"view"));
 	}
 	
 	/**

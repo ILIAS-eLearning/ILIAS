@@ -582,6 +582,7 @@ if (userSettingVisible("language"))
 }
 
 // get all templates
+include_once("classes/class.ilObjStyleSettings.php");
 $templates = $styleDefinition->getAllTemplates();
 
 if (userSettingVisible("skin_style"))
@@ -595,6 +596,11 @@ if (userSettingVisible("skin_style"))
 	
 		foreach($styles as $style)
 		{
+			if (!ilObjStyleSettings::_lookupActivatedStyle($template["id"],$style["id"]))
+			{
+				continue;
+			}
+			
 			$tpl->setCurrentBlock("selectskin");
 	
 			if ($ilias->account->skin == $template["id"] &&

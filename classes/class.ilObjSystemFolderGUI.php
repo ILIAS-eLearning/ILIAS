@@ -62,7 +62,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $rbacsystem, $styleDefinition;
+		global $rbacsystem;
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -286,7 +286,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function displayBasicSettings()
 	{
-		global $rbacsystem, $styleDefinition;
+		global $rbacsystem;
 
 		$this->tpl->addBlockFile("SYSTEMSETTINGS", "systemsettings", "tpl.adm_basicdata.html");
 		$this->tpl->setCurrentBlock("systemsettings");
@@ -363,6 +363,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 				// modules
 				$settings["pub_section"] = $_POST["pub_section"];
+				$settings["default_repository_view"] = $_POST["default_rep_view"];
 				$settings["password_assistance"] = $_POST["password_assistance"];
 				$settings["js_edit"] = $_POST["js_edit"];
 				$settings["enable_registration"] = $_POST["enable_registration"];
@@ -404,6 +405,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->ilias->ini->setVariable("language","default",$_POST["default_language"]);
 
 				//set default skin and style
+				/*
 				if ($_POST["default_skin_style"] != "")
 				{
 					$sknst = explode(":", $_POST["default_skin_style"]);
@@ -414,7 +416,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 						$this->ilias->ini->setVariable("layout","skin", $sknst[0]);
 						$this->ilias->ini->setVariable("layout","style",$sknst[1]);
 					}
-				}
+				}*/
 				// set default view target
 				if ($_POST["open_views_inside_frameset"] == "1")
 				{
@@ -427,6 +429,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 				// modules
 				$this->ilias->setSetting("pub_section",$_POST["pub_section"]);
+				$this->ilias->setSetting("default_repository_view",$_POST["default_rep_view"]);
 				$this->ilias->setSetting("enable_registration",$_POST["enable_registration"]);
 				$this->ilias->setSetting("passwd_auto_generate",$_POST["passwd_auto_generate"]);
 				$this->ilias->setSetting('https',$_POST['https']);
@@ -521,7 +524,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_ABSOLUTE_PATH", $this->lng->txt("absolute_path"));
 		$this->tpl->setVariable("TXT_INST_NAME", $this->lng->txt("inst_name"));
 		$this->tpl->setVariable("TXT_INST_INFO", $this->lng->txt("inst_info"));
-		$this->tpl->setVariable("TXT_DEFAULT_SKIN_STYLE", $this->lng->txt("default_skin_style"));
+		//$this->tpl->setVariable("TXT_DEFAULT_SKIN_STYLE", $this->lng->txt("default_skin_style"));
 		$this->tpl->setVariable("TXT_OPEN_VIEWS_INSIDE_FRAMESET", $this->lng->txt("open_views_inside_frameset"));
 		$this->tpl->setVariable("TXT_DEFAULT_LANGUAGE", $this->lng->txt("default_language"));
 		$this->tpl->setVariable("TXT_FEEDBACK_RECIPIENT", $this->lng->txt("feedback_recipient"));
@@ -543,6 +546,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 		//$this->tpl->setVariable("TXT_MODULES", $this->lng->txt("modules"));
 		$this->tpl->setVariable("TXT_PUB_SECTION", $this->lng->txt("pub_section"));
+		$this->tpl->setVariable("TXT_DEFAULT_REPOSITORY_VIEW", $this->lng->txt("def_repository_view"));
+		$this->tpl->setVariable("TXT_FLAT", $this->lng->txt("flatview"));
+		$this->tpl->setVariable("TXT_TREE", $this->lng->txt("treeview"));
+		
 		$this->tpl->setVariable("TXT_ENABLE_PASSWORD_ASSISTANCE", $this->lng->txt("enable_password_assistance"));
 		if (AUTH_CURRENT != AUTH_LOCAL)
 		{
@@ -654,6 +661,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("ERROR_RECIPIENT",$settings["error_recipient"]);
 
 		// get all templates
+		/*
 		$templates = $styleDefinition->getAllTemplates();
 
 		$this->tpl->setCurrentBlock("selectskin");
@@ -677,7 +685,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$this->tpl->setVariable("SKINOPTION", $styleDef->getTemplateName()." / ".$style["name"]);
 				$this->tpl->parseCurrentBlock();
 			}
-		}
+		}*/
 
 		// default view target
 		$view_target = $this->ilias->ini->readVariable("layout","view_target");
@@ -710,6 +718,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$this->tpl->setVariable("PUB_SECTION","checked=\"checked\"");
 		}
+		
+		if ($settings["default_repository_view"] == "tree")
+		{
+			$this->tpl->setVariable("TREESELECTED","selected=\"1\"");
+		}
+		else
+		{
+			$this->tpl->setVariable("FLATSELECTED","selected=\"1\"");
+		}
+		
 		if($settings['https'])
 		{
 			$this->tpl->setVariable("HTTPS","checked=\"checked\"");
