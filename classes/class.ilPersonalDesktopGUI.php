@@ -186,7 +186,7 @@ class ilPersonalDesktopGUI
                     $tpl->setCurrentBlock("continue_link");
                     $tpl->setVariable("LINK_CONTINUE", $item["continue_link"]);
 
-                    if ($showViewInFrameset) 
+                    if ($showViewInFrameset)
                     {
                         $tpl->setVariable("TARGET_CONTINUE", "bottom");
                     }
@@ -219,7 +219,7 @@ class ilPersonalDesktopGUI
                 {
                     $tpl->setVariable("EDIT", "&nbsp;");
                 }
-                
+
                 // drop link
                 $tpl->setCurrentBlock("drop_link");
                 $tpl->setVariable("TYPE", $item["type"]);
@@ -292,7 +292,7 @@ class ilPersonalDesktopGUI
 
                     $num_unread = $frm_obj->getCountUnread($ilUser->getId());
                     $num_new = $frm_obj->getCountNew($ilUser->getId());
-                    
+
                     if($num_unread)
                     {
                         $tpl->setCurrentBlock("frm_info");
@@ -308,7 +308,7 @@ class ilPersonalDesktopGUI
                     $tpl->setCurrentBlock("show_link");
                     $tpl->setVariable("TXT_ITEM_TITLE", $item["title"]);
                     $tpl->setVariable("LINK_SHOW", $item["link"]);
-                    if ($showViewInFrameset) 
+                    if ($showViewInFrameset)
                     {
                         $tpl->setVariable("TARGET_SHOW", "bottom");
                     }
@@ -445,7 +445,7 @@ class ilPersonalDesktopGUI
 				$this->tpl->setVariable("NEW_TXT_SENDER", $this->lng->txt("sender"));
 				$this->tpl->setVariable("NEW_TXT_SUBJECT", $this->lng->txt("subject"));
 				$this->tpl->setVariable("NEW_TXT_DATE",$this->lng->txt("date")."/".$this->lng->txt("time"));
-				$this->tpl->parseCurrentBlock();
+
 
 				$this->tpl->setCurrentBlock("tbl_mails_row");
 				$this->tpl->setVariable("NEW_MAIL_FROM", $fullname);
