@@ -121,7 +121,7 @@ class ilGlossaryTermGUI
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
 		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
-		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm()."hbh");
+		$this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
 		for($j=0; $j<count($defs); $j++)
 		{

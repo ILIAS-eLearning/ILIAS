@@ -313,6 +313,7 @@ class ilLMPresentationGUI
 		// But since using relative pathes with domxml under windows don't work,
 		// we need another solution:
 		$xmlfile = file_get_contents("./layouts/lm/".$layout."/".$a_xml);
+
 		if (!$doc = domxml_open_mem($xmlfile)) { echo "ilLMPresentation: XML File invalid"; exit; }
 		$this->layout_doc =& $doc;
 
@@ -440,9 +441,9 @@ class ilLMPresentationGUI
 
 					case "ilLMNavigation":
 						// NOT FOR ABSTRACT
-						if($_GET["obj_id"] or 
-						   $_POST["action"] == "show" or 
-						   $_POST["action"] == "show_citation" or 
+						if($_GET["obj_id"] or
+						   $_POST["action"] == "show" or
+						   $_POST["action"] == "show_citation" or
 						   $this->lm->getType() == 'lm')
 						{
 							$this->ilLMNavigation();
@@ -720,7 +721,7 @@ class ilLMPresentationGUI
 		$lmtree->setTreeTablePK("lm_id");
 
 		$subtree = $lmtree->getSubTree($lmtree->getNodeData(1));
-		
+
 		return $subtree[$pos]["child"];
 	}
 
@@ -738,22 +739,14 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("TRANSLATION_CONTENT","NO TRNSLATION FOUND");
 			return false;
 		}
-		
+
 		$page_object =& new ilPageObject($this->lm->getType(), $page_id);
 		$page_object_gui =& new ilPageObjectGUI($page_object);
 
 		$this->ilias->account->setDesktopItemParameters($_SESSION["tr_id"], $this->lm->getType(),$page_id);
 
 		// read link targets
-		$childs =& $a_page_node->child_nodes();
-		foreach($childs as $child)
-		{
-			if($child->node_name() == "LinkTarget")
-			{
-				$targets.= $this->layout_doc->dump_node($child);
-			}
-		}
-		$targets = "<LinkTargets>$targets</LinkTargets>";
+		$targets = $this->getLinkTargetsAsXML();
 
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($_SESSION["tr_id"]);
@@ -797,6 +790,23 @@ class ilLMPresentationGUI
 		$this->tpl->show();
 	}
 
+
+	function getLinkTargetsAsXML()
+	{
+		$xpc = xpath_new_context($this->layout_doc);
+
+		$path = "/ilLayout/ilLinkTargets/LinkTarget";
+		$result = xpath_eval($xpc, $path);
+		$found = $result->nodeset;
+		for ($i = 0; $i < count($found); $i++)
+		{
+			$targets.= $this->layout_doc->dump_node($found[$i]);
+		}
+		$targets = "<LinkTargets>$targets</LinkTargets>";
+
+		return $targets;
+	}
+
 	function ilPage(&$a_page_node)
 	{
 		require_once("content/classes/Pages/class.ilPageObjectGUI.php");
@@ -808,15 +818,7 @@ class ilLMPresentationGUI
 		$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
 
 		// read link targets
-		$childs =& $a_page_node->child_nodes();
-		foreach($childs as $child)
-		{
-			if($child->node_name() == "LinkTarget")
-			{
-				$targets.= $this->layout_doc->dump_node($child);
-			}
-		}
-		$targets = "<LinkTargets>$targets</LinkTargets>";
+		$targets = $this->getLinkTargetsAsXML();
 
 		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
 		$lm_pg_obj->setLMId($this->lm->getId());
@@ -853,76 +855,6 @@ class ilLMPresentationGUI
 
 		return $page_object_gui->presentation();
 
-		/*
-		// read link targets
-		$childs =& $a_page_node->child_nodes();
-		foreach($childs as $child)
-		{
-			if($child->node_name() == "LinkTarget")
-			{
-				$targets.= $this->layout_doc->dump_node($child);
-			}
-		}
-		$targets = "<LinkTargets>$targets</LinkTargets>";
-
-
-		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-		$this->tpl->parseCurrentBlock();
-		*/
-		/*
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		$this->tpl->setCurrentBlock("ilPage");*/
-
-		//$page_id = $this->getCurrentPageId();
-
-		//$this->ilias->account->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
-
-		/*
-		require_once("content/classes/Pages/class.ilPageObject.php");
-		require_once("content/classes/class.ilLMPageObject.php");
-		$pg_obj =& new ilPageObject($this->lm->getType(), $page_id);
-		$lm_pg_obj =& new ilLMPageObject($this->lm, $page_id);
-		$lm_pg_obj->setLMId($this->lm->getId());
-		$pg_obj->setParentId($this->lm->getId());
-		//$pg_obj->setLinkParams("ref_id=".$this->lm->getRefId());
-		$builded = $pg_obj->buildDom();
-		$content = $pg_obj->getXMLFromDom(false, true, true, $targets);
-
-		$pg_title = $lm_pg_obj->getPresentationTitle($this->lm->getPageHeader());
-
-		//$pg_title = $pg_obj->getPresentationTitle($this->lm->getPageHeader());
-
-		// convert bb code to xml
-		$pg_obj->bbCode2XML($content);
-
-		// todo: utf-header should be set globally
-		//header('Content-type: text/html; charset=UTF-8');
-
-		$xsl = file_get_contents("./content/page.xsl");
-		$args = array( '/_xml' => $content, '/_xsl' => $xsl );
-		$xh = xslt_create();
-//echo "<b>XML</b>:".htmlentities($content).":<br>";
-//echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-
-		// determine target frames for internal links
-		$pg_frame = $_GET["frame"];
-		$wb_path = "../".$this->ilias->ini->readVariable("server","webspace_dir");
-		$params = array ('mode' => 'presentation', 'pg_title' => $pg_title, 'pg_id' => $page_id,
-			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
-		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
-		echo xslt_error($xh);
-		xslt_free($xh);
-
-		// unmask user html
-		$output = str_replace("&lt;","<",$output);
-		$output = str_replace("&gt;",">",$output);
-		$output = str_replace("&amp;", "&", $output);
-//echo "<b>HTML</b>".htmlentities($output);
-		$this->tpl->setVariable("PAGE_CONTENT", $output);
-
-		return($output);*/
 	}
 
 
