@@ -235,12 +235,29 @@ class ilMailbox
 			return 0;
 		}
 
+		// CHECK FOR SYSTEM MAIL
+		$query = "SELECT mail_id FROM mail WHERE folder_id = 0 AND user_id = '".$a_user_id."' ".
+			"AND m_status = 'unread'";
+
+		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+		
+		if($row->mail_id)
+		{
+			return $row->mail_id;
+		}
+
 		$query = "SELECT m.mail_id FROM mail AS m,mail_obj_data AS mo ".
 				 "WHERE m.user_id = mo.user_id ".
 				 "AND m.folder_id = mo.obj_id ".
 				 "AND mo.type = 'inbox' ".
 				 "AND m.user_id = '".$a_user_id."' ".
 			 	 "AND m.m_status = 'unread'";
+		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
+
+		// CHECK FOR SYSTEM MAIL
+		$query = "SELECT mail_id FROM mail WHERE folder_id = 0 AND user_id = '".$a_user_id."' ".
+			"AND m_status = 'unread'";
+
 		$row = $ilias->db->getRow($query,DB_FETCHMODE_OBJECT);
 
 		return $row ? $row->mail_id : 0;

@@ -876,9 +876,11 @@ class ilMail
 		$error_message = '';
 		$message = '';
 
+
 		if (in_array("system",$a_type))
 		{
 			$this->__checkSystemRecipients($a_rcp_to);
+			$a_type = array('system');
 		}
 
 		if ($a_attachment)

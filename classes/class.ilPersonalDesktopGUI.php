@@ -366,7 +366,7 @@ class ilPersonalDesktopGUI
                 }
 
                 //new mail or read mail?
-                $this->tpl->setVariable("MAILCLASS", $mail["status"] == 'read' ? 'mailread' : 'mailunread');
+                $this->tpl->setVariable("MAILCLASS", $mail["m_status"] == 'read' ? 'mailread' : 'mailunread');
                 $this->tpl->setVariable("MAIL_FROM", $fullname);
                 $this->tpl->setVariable("MAIL_SUBJ", $mail["m_subject"]);
                 $this->tpl->setVariable("MAIL_DATE", ilFormat::formatDate($mail["send_time"]));
