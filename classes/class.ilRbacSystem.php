@@ -112,7 +112,7 @@ class ilRbacSystem
 
 			$q = "SELECT * FROM rbac_pa ".
 				 "WHERE rol_id ".$in." ".
-				 "AND obj_id = '".$a_ref_id."' ";
+				 "AND ref_id = '".$a_ref_id."' ";
 			$r = $this->ilDB->query($q);
 
 			$ops = array();
@@ -159,7 +159,7 @@ class ilRbacSystem
 	
 		$q = "SELECT * FROM rbac_pa ".
 			 "WHERE rol_id = '".$a_rol_id."' ".
-			 "AND obj_id = '".$a_ref_id."' ";
+			 "AND ref_id = '".$a_ref_id."' ";
 		
 		$r = $this->ilDB->query($q);
 
