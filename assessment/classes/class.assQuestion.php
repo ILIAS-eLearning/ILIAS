@@ -22,6 +22,12 @@
 */
 
 require_once "PEAR.php";
+require_once "class.assClozeTestGUI.php";
+require_once "class.assImagemapQuestionGUI.php";
+require_once "class.assJavaAppletGUI.php";
+require_once "class.assMatchingQuestionGUI.php";
+require_once "class.assMultipleChoiceGUI.php";
+require_once "class.assOrderingQuestionGUI.php";
 
 define("LIMIT_NO_LIMIT", 0);
 define("LIMIT_TIME_ONLY", 1);
@@ -944,7 +950,16 @@ class ASS_Question extends PEAR {
 
     return $array;
 	}
-	
+
+  function getQuestionTypeFromDb($question_id) {
+    $query = sprintf("SELECT qpl_question_type.type_tag FROM qpl_question_type, qpl_questions WHERE qpl_questions.question_id = %s AND qpl_questions.question_type_fi = qpl_question_type.question_type_id",
+      $this->ilias->db->quote($question_id)
+    );
+    $result = $this->ilias->db->query($query);
+    $data = $result->fetchRow(DB_FETCHMODE_OBJECT);
+    return $data->type_tag;
+  }
+
 }
 
 ?>

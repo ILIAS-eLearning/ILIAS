@@ -677,7 +677,7 @@ class ASS_MultipleChoice extends ASS_Question {
 * @param integer $test_id The database Id of the test containing the question
 * @access public
 */
-  function get_reached_information($user_id, $test_id) {
+  function getReachedInformation($user_id, $test_id) {
     $found_values = array();
     $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
       $this->ilias->db->quote($user_id),

@@ -663,7 +663,7 @@ class ASS_OrderingQuestion extends ASS_Question {
 * @param integer $test_id The database Id of the test containing the question
 * @access public
 */
-  function get_reached_information($user_id, $test_id) {
+  function getReachedInformation($user_id, $test_id) {
     $found_value1 = array();
     $found_value2 = array();
     $query = sprintf("SELECT * FROM tst_solutions WHERE user_fi = %s AND test_fi = %s AND question_fi = %s",
