@@ -47,7 +47,7 @@ common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
 common#:#adm_edit_permission#:#Rechteeinstellungen ändern
-common#:#adm_read#:#Lesezugriff auf Systemgrunddaten
+common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
 common#:#adm_visible#:#Systemeinstellungen sind sichtbar
 common#:#adm_write#:#Systemgrunddaten bearbeiten
 common#:#administrate#:#Administrieren

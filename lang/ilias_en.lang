@@ -47,7 +47,7 @@ common#:#add_author#:#Add Author
 common#:#add_member#:#Add Member
 common#:#add_translation#:#Add translation
 common#:#adm_edit_permission#:#Change permission settings
-common#:#adm_read#:#Read access to Basic system settings
+common#:#adm_read#:#Read access to System settings
 common#:#adm_visible#:#Systemsettings are visible
 common#:#adm_write#:#Edit Basic system settings
 common#:#administrate#:#Administrate
