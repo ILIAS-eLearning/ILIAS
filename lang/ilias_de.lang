@@ -281,7 +281,6 @@ chat#:#chat_aqua#:#aqua###05 Mar 2004 new variable
 chat#:#chat_arial#:#Arial###05 Mar 2004 new variable
 chat#:#chat_black#:#schwarz
 chat#:#chat_blue#:#blau
-common#:#add_members#:#Mitglieder hinzufügen
 chat#:#chat_bold#:#Fett
 chat#:#chat_chatroom_body#:#Chatraum:
 chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
@@ -372,6 +371,7 @@ common#:#active_roles#:#Aktive Rollen
 common#:#add#:#hinzufügen
 common#:#add_author#:#Autor hinzufügen
 common#:#add_member#:#Mitglied hinzufügen
+common#:#add_members#:#Mitglieder hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
 common#:#adm_edit_permission#:#Rechteeinstellungen ändern
 common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
@@ -671,16 +671,16 @@ common#:#fax#:#Fax
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#file#:#Datei
-common#:#files#:#Dateien
 common#:#file_a#:#eine Datei
 common#:#file_add#:#Datei hochladen
-common#:#file_edit#:#Datei bearbeiten
 common#:#file_added#:#Datei hochgeladen
+common#:#file_edit#:#Datei bearbeiten
 common#:#file_new#:#Neue Datei
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
+common#:#files#:#Dateien
 common#:#files_location#:#Dateiort
 common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 common#:#firstname#:#Vorname
@@ -688,8 +688,8 @@ common#:#flatview#:#Flache Ansicht
 common#:#fold#:#Ordner
 common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
-common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_added#:#Ordner angelegt
+common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_new#:#Neuer Ordner
 common#:#folder#:#Ordner
 common#:#folders#:#Ordner

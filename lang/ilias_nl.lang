@@ -371,6 +371,7 @@ common#:#active_roles#:#Actieve rollen
 common#:#add#:#Toevoegen
 common#:#add_author#:#Toevoegen auteur
 common#:#add_member#:#Lid toevoegen
+common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Vertaling toevoegen
 common#:#adm_edit_permission#:#Wijzig rechten-instellingen
 common#:#adm_read#:#Lees-rechten Systeem-instellingen
@@ -673,11 +674,13 @@ common#:#file#:#Bestand
 common#:#file_a#:#een bestand
 common#:#file_add#:#Upload-bestand
 common#:#file_added#:#Bestand uploaded
+common#:#file_edit#:#Edit File###16 Apr 2004 new variable
 common#:#file_new#:#Nieuw bestand
 common#:#file_not_found#:#Bestand niet gevonden
 common#:#file_not_valid#:#Bestand niet geldig!
 common#:#file_valid#:#Bestand is geldig!
 common#:#file_version#:#Versie is in bestand
+common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Locatie van bestand
 common#:#fill_out_all_required_fields#:#AUB alle benodigde velden invullen
 common#:#firstname#:#Voornaam
@@ -686,6 +689,7 @@ common#:#fold#:#Map
 common#:#fold_a#:#een map
 common#:#fold_add#:#map toevoegen
 common#:#fold_added#:#Map toegevoegd
+common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_new#:#Nieuwe map
 common#:#folder#:#Map
 common#:#folders#:#Mappen

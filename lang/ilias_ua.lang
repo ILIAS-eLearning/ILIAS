@@ -371,6 +371,7 @@ common#:#active_roles#:#Активні Ролі
 common#:#add#:#Додати
 common#:#add_author#:#Додати Автора
 common#:#add_member#:#Додати Члена
+common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Додати переклад
 common#:#adm_edit_permission#:#Змінити настройки прав
 common#:#adm_read#:#Доступ на читання до Базових настроювань системи
@@ -673,11 +674,13 @@ common#:#file#:#Файл
 common#:#file_a#:#Файл
 common#:#file_add#:#Завантажити Файл
 common#:#file_added#:#Файл завантажено
+common#:#file_edit#:#Edit File###16 Apr 2004 new variable
 common#:#file_new#:#Новий Файл
 common#:#file_not_found#:#Файл Не Знайдений
 common#:#file_not_valid#:#Файл є пошкодженим!
 common#:#file_valid#:#Файл є корректним!
 common#:#file_version#:#Версія Знаходиться в Файлі
+common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Місцезнаходження Файлів
 common#:#fill_out_all_required_fields#:#Будь ласка заповніть усі потрібні поля
 common#:#firstname#:#Ім'я
@@ -686,6 +689,7 @@ common#:#fold#:#Папка
 common#:#fold_a#:#Папка
 common#:#fold_add#:#Додати Папку
 common#:#fold_added#:#Папка додана
+common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_new#:#Нова Папка
 common#:#folder#:#папка
 common#:#folders#:#Папки

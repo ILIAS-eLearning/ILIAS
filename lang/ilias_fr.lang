@@ -371,6 +371,7 @@ common#:#active_roles#:#Rôles actifs
 common#:#add#:#Ajouter
 common#:#add_author#:#Ajouter auteur
 common#:#add_member#:#Ajouter membre
+common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Ajouter traduction
 common#:#adm_edit_permission#:#Change permission settings###13 Jan 2004 new variable
 common#:#adm_read#:#Read access to Basic system settings###13 Jan 2004 new variable
@@ -673,11 +674,13 @@ common#:#file#:#Fichier
 common#:#file_a#:#un fichier
 common#:#file_add#:#Téléverser un fichier
 common#:#file_added#:#Fichier téléversé
+common#:#file_edit#:#Edit File###16 Apr 2004 new variable
 common#:#file_new#:#Nouveau fichier
 common#:#file_not_found#:#Fichier non trouvé !
 common#:#file_not_valid#:#Fichier non valide !
 common#:#file_valid#:#Le fichier est valide !
 common#:#file_version#:#Version fournie dans le fichier
+common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Emplacement des fichiers
 common#:#fill_out_all_required_fields#:#Veuillez renseigner tous les champs obligatoires
 common#:#firstname#:#Prénom
@@ -686,6 +689,7 @@ common#:#fold#:#Répertoire
 common#:#fold_a#:#un répertoire
 common#:#fold_add#:#Ajouter répertoire
 common#:#fold_added#:#Répertoire ajouté
+common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_new#:#Nouveau répertoire
 common#:#folder#:#folder###11 Dec 2003 new variable
 common#:#folders#:#Répertoires

@@ -371,6 +371,7 @@ common#:#active_roles#:#Papéis activos
 common#:#add#:#Adicionar
 common#:#add_author#:#Adicionar autor
 common#:#add_member#:#Adicionar membro
+common#:#add_members#:#Add Members###16 Apr 2004 new variable
 common#:#add_translation#:#Adicionar tradução
 common#:#adm_edit_permission#:#Mudar definições de permissões
 common#:#adm_read#:#Acesso de leitura às Definições de sistema
@@ -673,11 +674,13 @@ common#:#file#:#Ficheiro
 common#:#file_a#:#um Ficheiro
 common#:#file_add#:#Enviar ficheiro
 common#:#file_added#:#Ficheiro enviado
+common#:#file_edit#:#Edit File###16 Apr 2004 new variable
 common#:#file_new#:#Novo Ficheiro
 common#:#file_not_found#:#Ficheiro Não Encontrado
 common#:#file_not_valid#:#Ficheiro inválido!
 common#:#file_valid#:#Ficheiro válido!
 common#:#file_version#:#Versão Fornecida no Ficheiro
+common#:#files#:#Files###16 Apr 2004 new variable
 common#:#files_location#:#Localização dos ficheiros
 common#:#fill_out_all_required_fields#:#Por favor preencha todos os campos necessários
 common#:#firstname#:#Primeiro nome
@@ -686,6 +689,7 @@ common#:#fold#:#Pasta
 common#:#fold_a#:#uma Pasta
 common#:#fold_add#:#Adicionar Pasta
 common#:#fold_added#:#Pasta adicionada
+common#:#fold_edit#:#Edit Folder###16 Apr 2004 new variable
 common#:#fold_new#:#Nova Pasta
 common#:#folder#:#Pasta
 common#:#folders#:#Pastas
