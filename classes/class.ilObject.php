@@ -728,19 +728,20 @@ class ilObject
 	* @access	public
 	* @param	string	event
 	* @param	integer	reference id of object where the event occured
+	* @param	integer reference id of node in the tree which is actually notified
 	* @param	array	passes optional parameters if required
 	* @return	boolean
 	*/
-	function notify($a_event,$a_ref_id,$a_params = 0)
-	{
+	function notify($a_event,$a_ref_id,$a_node_id,$a_params = 0)
+	{ 
 		global $tree;
-
-		$parent_id = (int) $tree->getParentId($a_ref_id);
+		
+		$parent_id = (int) $tree->getParentId($a_node_id);
 
 		if ($parent_id != 0)
 		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
-			$obj_data->notify($a_event,$a_ref_id,$a_params);
+			$obj_data =& $this->ilias->obj_factory->getInstanceByRefId($a_node_id);
+			$obj_data->notify($a_event,$a_ref_id,$parent_id,$a_params);
 		}
 				
 		return true;

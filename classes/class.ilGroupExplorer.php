@@ -119,7 +119,7 @@ class ilGroupExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("row");
 		$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
-		$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
+		//$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));
 		$target = (strpos($this->target, "?") === false) ?
 			$this->target."?" : $this->target."&";
 		

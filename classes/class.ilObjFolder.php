@@ -98,7 +98,7 @@ class ilObjFolder extends ilObject
 		$this->type = "fold";
 		$this->ilObject($a_id,false);
 		
-		// TODO: needs to rewrite scripts that are using Forum outside this class
+		
 		
 		
 	}

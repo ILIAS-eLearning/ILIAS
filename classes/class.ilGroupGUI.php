@@ -686,7 +686,7 @@ class ilGroupGUI extends ilObjectGUI
 	function pasteObject()
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview, $log;
-
+//echo "command".$_SESSION["clipboard"]["cmd"];
 		if (!in_array($_SESSION["clipboard"]["cmd"],array("cut","link","copy")))
 		{
 			$message = get_class($this)."::pasteObject(): cmd was neither 'cut','link' or 'copy'; may be a hack attempt!";
@@ -769,13 +769,7 @@ class ilGroupGUI extends ilObjectGUI
 			{
 
 				$parent_id = $this->tree->getParentId($ref_id);
-				//echo $parent_id;
-
-				/*$tmpObj =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
-
-				$tmpObj->notify("cut", $tmpObj->getRefId());
-				unset($tmpObj);
-				*/
+				
 				// get node data
 				$top_node = $this->tree->getNodeData($ref_id);
 
@@ -784,9 +778,8 @@ class ilGroupGUI extends ilObjectGUI
 
 				// delete old tree entries
 				$this->tree->deleteTree($top_node);
-
-				$tmpObj =& $this->ilias->obj_factory->getInstanceByRefId($parent_id);
-				$tmpObj->notify("cut", $tmpObj->getRefId());
+				
+				$this->object->notify("cut", $tmpObj->getRefId(),$tmpObj->getRefId());
 
 				unset($tmpObj);
 			}
@@ -828,7 +821,8 @@ class ilGroupGUI extends ilObjectGUI
 				}
 			}
 			// inform other objects in hierarchy about paste operation
-			$this->object->notify("paste", $_GET["ref_id"]);
+			$this->object->notify("paste",$_GET["ref_id"],$_GET["ref_id"]);
+				
 		} // END CUT
 
 		// process LINK command
@@ -914,7 +908,7 @@ class ilGroupGUI extends ilObjectGUI
 				}
 			}
 			// inform other objects in hierarchy about link operation
-			$this->object->notify("link",$_GET["ref_id"],$mapping);
+			$this->object->notify("link",$_GET["ref_id"],$_GET["ref_id"],$mapping);
 		} // END LINK
 
 		// save cmd for correct message output after clearing the clipboard
@@ -932,7 +926,7 @@ class ilGroupGUI extends ilObjectGUI
 			sendInfo($this->lng->txt("msg_linked"),true);
 		}
 
-		header("location: group.php?cmd=DisplayList&ref_ii".$_GET["ref_id"]);
+		header("location: group.php?cmd=show_content&ref_id".$_GET["ref_id"]);
 		exit();
 	} // END PASTE
 
@@ -997,7 +991,7 @@ class ilGroupGUI extends ilObjectGUI
 	{
 		session_unregister("clipboard");
 
-		header("location: group.php?cmd=displayList&ref_id=".$_GET["ref_id"]);
+		header("location: group.php?cmd=show_content&ref_id=".$_GET["ref_id"]);
 		exit();
 
 	}
@@ -1789,7 +1783,9 @@ class ilGroupGUI extends ilObjectGUI
 		if (count($operations) > 0)
 		{
 			foreach ($operations as $val)
-			{
+			{	
+				
+				
 				$this->tpl->setCurrentBlock("tbl_action_btn");
 				$this->tpl->setVariable("BTN_NAME", $val["lng"]);
 				$this->tpl->setVariable("BTN_VALUE", $this->lng->txt($val["lng"]));
@@ -2352,11 +2348,13 @@ class ilGroupGUI extends ilObjectGUI
 		// setup rolefolder & default local roles if needed (see ilObjForum & ilObjForumGUI for an example)
 
 		$groupObj->createDefaultGroupRoles($rfoldObj->getRefId());
+		
 		$groupObj->joinGroup($this->ilias->account->getId(),1); //join as admin=1
 
 		//0=public,1=private,2=closed
 		$groupObj->setGroupStatus($_POST["group_status_select"]);
-		$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
+		
+		//$groupObj->createNewGroupTree($groupObj->getId(),$groupObj->getRefId());
 		$groupObj->insertGroupNode($rfoldObj->getId(),$groupObj->getId(),$groupObj->getId(),$rfoldObj->getRefId());
 
 
