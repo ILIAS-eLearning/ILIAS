@@ -1,0 +1,1733 @@
+/**
+* ILIAS language file
+*
+* @module		language file polish
+* @modulegroup	language
+* @author 		Mathias Kunkel <m.kunkel@uni-koeln.de>
+		        Wojciech Stasiak <wstasiak@am.gdynia.pl>
+* @version		$Id$
+*/
+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
+
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+<!-- language file start -->
+common#:#absolute_path#:#Ścieżka bezwzględna
+common#:#accept_usr_agreement#:#Akceptujesz warunki uczestnictwa?
+common#:#access#:#Akces
+common#:#action_aborted#:#Akcja anulowana
+common#:#actions#:#Akcje
+common#:#active_roles#:#Aktywnne stanowiska
+common#:#add#:#Dodaj
+common#:#add_author#:#dodaj autora
+common#:#add_member#:#dodaj członka
+common#:#add_translation#:#dodaj tłumaczenie
+common#:#administrate#:#Administruj
+common#:#administration#:#Administracja
+common#:#administrator#:#Administrator
+common#:#adopt#:#Przejmij
+common#:#adopt_perm_from_template#:#Przejmij uprawnienia z szablonu stanowiska
+common#:#all_objects#:#Wszystkie obiekty
+common#:#allow_register#:#dostępne na formularzu rejestracyjnym dla nowego użytkownika
+common#:#and#:#i
+common#:#announce#:#Ogłoś
+common#:#announce_changes#:#Ogłoś zmiany
+common#:#answers#:#Odpowiedzi
+common#:#application_date#:#Application date###14 Nov 2003 new variable
+common#:#appointment#:#Umówiony termin
+common#:#appointment_list#:#Lista umówionych spotkań
+common#:#archive#:#Archiwuj
+common#:#are_you_sure#:#Jesteś pewien?
+common#:#assign#:#Przydziel
+common#:#assign_lo_forum#:#Przydziel forum (PN)
+common#:#assign_user_to_role#:#Przydziel użytkownikowi stanowisko
+common#:#at_location#:#w miejscu
+common#:#attachment#:#Załącznik
+common#:#attachments#:#Załączniki
+common#:#author#:#Autor
+common#:#authors#:#Autorzy
+common#:#available_languages#:#dostępne języki
+common#:#back#:#Powrót
+common#:#basedn#:#BaseDN
+common#:#basic_data#:#Dane podstawowe
+common#:#bm#:#Zakładka
+common#:#bmf#:#Folder zakładek
+common#:#bookmark_edit#:#Edytuj zakładkę
+common#:#bookmark_folder_edit#:#Edytuj folder zakładek
+common#:#bookmark_folder_new#:#Nowy folder zakładek
+common#:#bookmark_new#:#Nowa zakładka
+common#:#bookmark_target#:#Przeznacznie
+common#:#bookmarks#:#Zakładki
+common#:#bookmarks_of#:#Zakładki do
+common#:#btn_remove_system#:#Usuń z systemu
+common#:#btn_undelete#:#Przywróć
+common#:#by#:#Przez
+common#:#calendar#:#Kalendarz
+common#:#cancel#:#Anuluj
+common#:#cannot_uninstall_language_in_use#:#Nie możesz odinstalować używanego języka!
+common#:#cannot_uninstall_systemlanguage#:#Nie możesz odinstalować języka systemu!
+common#:#cat#:#Kategoria
+common#:#cat_a#:#kategoria
+common#:#cat_add#:#Dodaj kategorię
+common#:#cat_added#:#Kategoria dodana
+common#:#cat_edit#:#Edytuj kategorię
+common#:#cat_new#:#Nowa kategoria
+common#:#categories#:#Kategorie
+common#:#cc#:#CC
+common#:#censorship#:#cenzura
+common#:#change#:#Zmień
+common#:#change_active_assignment#:#Zmień aktywny przydział
+common#:#change_assignment#:#Zmień przydział
+common#:#change_existing_objects#:#zmień istniejące obiekty
+common#:#change_lo_info#:#Zmień Informacje (PN)
+common#:#change_metadata#:#Zmień Metadane
+common#:#change_sort_direction#:#Zmień kierunek sortowania
+common#:#changed_to#:#zmienione na
+common#:#chapter#:#Rozdział
+common#:#chapter_number#:#Numer rozdziału
+common#:#chapter_title#:#Tytuł rozdziału
+common#:#check#:#Sprawdź
+common#:#check_langfile#:#Sprawdź swój plik językowy
+common#:#check_languages#:#Sprawdź języki
+common#:#chg_language#:#Zmień język
+common#:#chg_password#:#Zmień hasło
+common#:#choose_language#:#wybierz swój język
+common#:#choose_location#:#wybierz miejsce
+common#:#choose_only_one_language#:#Wybierz tylko jeden język
+common#:#city#:#Miasto
+common#:#clear#:#Wyczyść
+common#:#clipboard#:#Schowek
+common#:#close#:#Zamknij
+common#:#comma_separated#:#Odzielony przecinkiem
+common#:#comment#:#komentarz
+common#:#compose#:#Utwórz nową
+common#:#confirm#:#Zatwierdź
+common#:#cont_object#:#Obiekt
+common#:#contact_data#:#Informacje kontaktowe
+common#:#context#:#Kontekst
+common#:#copy#:#Kopiuj
+common#:#copy_of#:#Copy of###14 Nov 2003 new variable
+common#:#country#:#Kraj
+common#:#course#:#Kurs
+common#:#courses#:#Kursy
+common#:#create#:#Twórz
+common#:#create_in#:#Twórz w
+common#:#create_stylesheet#:#Twórz styl
+common#:#crs#:#Kurs
+common#:#crs_a#:#Kurs
+common#:#crs_add#:#Dodaj kurs
+common#:#crs_added#:#Kurs został dodany
+common#:#crs_available#:#Dostępne kursy
+common#:#crs_edit#:#Edytuj kurs
+common#:#crs_management_system#:#System zarządzania kursami
+common#:#crs_new#:#Nowy kurs
+common#:#current_password#:#Aktualne hasło
+common#:#cut#:#Wytnij
+common#:#cutPage#:#Wytnij
+common#:#database#:#Baza danych
+common#:#database_version#:#Wersja biezącej bazy danych
+common#:#dataset#:#Zestaw Danych
+common#:#date#:#Data
+common#:#day#:#Dzień
+common#:#days#:#Dni
+common#:#db_host#:#Serwer bazy danych
+common#:#db_name#:#Nazwa bazy danych
+common#:#db_pass#:#Hasło do bazy danych
+common#:#db_type#:#Typ bazy danych
+common#:#db_user#:#Użytkownik bazy danych
+common#:#db_version#:#Wersja bazy danych
+common#:#dbk#:#Digilib Book###14 Nov 2003 new variable
+common#:#dbk_a#:#a Digilib Book###14 Nov 2003 new variable
+common#:#dbk_add#:#Add Digilib Book###14 Nov 2003 new variable
+common#:#dbk_added#:#Digilib Book added###14 Nov 2003 new variable
+common#:#dbk_new#:#New Digilib Book###14 Nov 2003 new variable
+common#:#default#:#Domyślne
+common#:#default_language#:#Domyślny język
+common#:#default_role#:#Domyślne stanowisko
+common#:#default_roles#:#Default Roles###14 Nov 2003 new variable
+common#:#default_skin#:#Domyślna skórka
+common#:#default_style#:#Domyślny styl
+common#:#delete#:#Usuń
+common#:#delete_all#:#Usuń wszystko
+common#:#delete_object#:#Usuń obiekt(y)
+common#:#delete_selected#:#Usuń wybrane
+common#:#deleted#:#Usunięte
+common#:#department#:#Department###14 Nov 2003 new variable
+common#:#desc#:#Opis
+common#:#description#:#Opis
+common#:#desired_password#:#Nowe hasło
+common#:#disabled#:#Wyłączony
+common#:#down#:#Down
+common#:#download#:#Pobierz
+common#:#drafts#:#Szkice
+common#:#drop#:#Drop
+common#:#edit#:#Edytuj
+common#:#edit_data#:#edytuj dane
+common#:#edit_operations#:#Edytuj operacje
+common#:#edit_properties#:#Edytuj właściwości
+common#:#edit_stylesheet#:#Edytuj styl
+common#:#edited_at#:#Edytowany
+common#:#editor#:#Edytor
+common#:#email#:#Poczta elektroniczna
+common#:#email_not_valid#:#Wprowadzony adres email jest nieprawidłowy!
+common#:#enable#:#Wybierz
+common#:#enable_registration#:#Wybierz rejestrację nowego użytkownika
+common#:#enabled#:#Wybrany
+common#:#enumerate#:#Wylicz
+common#:#err_1_param#:#Tylko 1 parametr!
+common#:#err_2_param#:#Tylko 2 parametr!
+common#:#err_count_param#:#Powód: Zła ilość parametrów
+common#:#err_in_line#:#Bląd w linii
+common#:#err_no_langfile_found#:#Nie znaleziono pliku językowego!
+common#:#err_no_param#:#Brak parametru!
+common#:#err_over_3_param#:#Więcej niż 3 parametry!
+common#:#err_session_expired#:#YTwoja sesja się zakończyła!
+common#:#err_wrong_header#:#Powód: Zły nagłówek.
+common#:#err_wrong_login#:#Zły login (pseudonim)
+common#:#error_recipient#:#Odbiorca błędu
+common#:#exc#:#Exercise###14 Nov 2003 new variable
+common#:#exc_add#:#Add Exercise###14 Nov 2003 new variable
+common#:#exc_added#:#Exercise added###14 Nov 2003 new variable
+common#:#exc_ask_delete#:#Delete file?###14 Nov 2003 new variable
+common#:#exc_assign_usr#:#Assign User###14 Nov 2003 new variable
+common#:#exc_date_not_valid#:#The date is not valid###14 Nov 2003 new variable
+common#:#exc_deassign_members#:#Delete member(s)###14 Nov 2003 new variable
+common#:#exc_edit#:#New exercise created###14 Nov 2003 new variable
+common#:#exc_edit_exercise#:#Edit exercise###14 Nov 2003 new variable
+common#:#exc_edit_until#:#Edit until###14 Nov 2003 new variable
+common#:#exc_files#:#Files###14 Nov 2003 new variable
+common#:#exc_groups#:#Groups###14 Nov 2003 new variable
+common#:#exc_header_members#:#Exercise(members)###14 Nov 2003 new variable
+common#:#exc_instruction#:#Work instructions###14 Nov 2003 new variable
+common#:#exc_members_already_assigned#:#These user are already assigned to this exercise###14 Nov 2003 new variable
+common#:#exc_members_assigned#:#Members assigned###14 Nov 2003 new variable
+common#:#exc_new#:#New exercise###14 Nov 2003 new variable
+common#:#exc_no_members_assigned#:#No members assigned###14 Nov 2003 new variable
+common#:#exc_notices#:#Notices###14 Nov 2003 new variable
+common#:#exc_obj#:#Exercise###14 Nov 2003 new variable
+common#:#exc_save_changes#:#Save###14 Nov 2003 new variable
+common#:#exc_search_for#:#Search for###14 Nov 2003 new variable
+common#:#exc_send_exercise#:#Send exercise###14 Nov 2003 new variable
+common#:#exc_sent#:#The exercise has been sent to the selected users###14 Nov 2003 new variable
+common#:#exc_status_returned#:#Returned###14 Nov 2003 new variable
+common#:#exc_status_saved#:#Exercise updated###14 Nov 2003 new variable
+common#:#exc_status_solved#:#Solved###14 Nov 2003 new variable
+common#:#exc_upload_error#:#Error uploading file###14 Nov 2003 new variable
+common#:#exc_users#:#Users###14 Nov 2003 new variable
+common#:#execute#:#Wykonaj
+common#:#export_html#:#eksportuj jako plik html
+common#:#export_xml#:#eksportuj jako plik xml
+common#:#faq_exercise#:#Ćwiczenie (FAQ)
+common#:#fax#:#Fax###14 Nov 2003 new variable
+common#:#feedback#:#Informacja systemowa
+common#:#feedback_recipient#:#Odbiorca
+common#:#file#:#Plik
+common#:#file_a#:#Plik
+common#:#file_added#:#Plik załadowany
+common#:#file_add#:#Wyślij plik
+common#:#file_new#:#Nowy plik
+common#:#file_not_found#:#Plik nie odnaleziony
+common#:#file_not_valid#:#Plik nieważny!
+common#:#file_valid#:#Plik ważny!
+common#:#file_version#:#Versja podana w pliku
+common#:#files_location#:#Miejsce plików
+common#:#fill_out_all_required_fields#:#Wypęłnij wszystkie konieczne pola
+common#:#firstname#:#Imię
+common#:#flatview#:#Widok płaski
+common#:#fold#:#Folder
+common#:#fold_a#:#Folder
+common#:#fold_added#:#Folder dodany
+common#:#fold_add#:#Dodaj Folder
+common#:#fold_new#:#Nowy Folder
+common#:#folders#:#Foldery
+common#:#force_accept_usr_agreement#:#You have to accept user agreement!###14 Nov 2003 new variable
+common#:#forename#:#Nazwisko
+common#:#form_empty_fields#:#Wypełnij te pola:
+common#:#forum#:#Forum
+common#:#forums#:#Fora
+common#:#forums_overview#:#Przegląd forów
+common#:#frm#:#Forum
+common#:#frm_a#:#Forum
+common#:#frm_add#:#dodaj Forum
+common#:#frm_added#:#Forum dodane
+common#:#frm_edit#:#Edytuj Forum
+common#:#frm_new#:#Nowe Forum
+common#:#from#:#Od
+common#:#fullname#:#Pełna nazwa
+common#:#functions#:#Funkcje
+common#:#gdf_add#:#dodaj Definicję
+common#:#gdf_new#:#Nowa Definicja
+common#:#gender#:#Płe�
+common#:#gender_f#:#Female###14 Nov 2003 new variable
+common#:#gender_m#:#Male###14 Nov 2003 new variable
+common#:#generate#:#Generuj
+common#:#glo#:#Słownik
+common#:#glo_a#:#Słownik
+common#:#glo_add#:#Dodaj słownia
+common#:#glo_added#:#Słownik został dodany
+common#:#glo_new#:#Nowy słownik
+common#:#glossary#:#Słownik
+common#:#glossary_added#:#Słownik został dodany
+common#:#group_access_denied#:#Access Denied###14 Nov 2003 new variable
+common#:#group_any_objects#:#Obiekty podrzędne niedostępne
+common#:#group_desc#:#Group Description###14 Nov 2003 new variable
+common#:#group_details#:#Szczegóły grupy
+common#:#group_filesharing#:#Group File Sharing
+common#:#group_members#:#Członkowie grupy
+common#:#group_memstat#:#Member Status###14 Nov 2003 new variable
+common#:#group_memstat_admin#:#Administrator###14 Nov 2003 new variable
+common#:#group_memstat_member#:#Member###14 Nov 2003 new variable
+common#:#group_name#:#Nazwa grupy
+common#:#group_new_registrations#:#New Registrations###14 Nov 2003 new variable
+common#:#group_no_registration#:#no registration required###14 Nov 2003 new variable
+common#:#group_no_registration_msg#:#You are not a member of this group so far. Due to reasons of administration it is necessary to join the requested group.<br> As a member you have the following advantages:<br>- You get informed about news and updates<br>- You can access the according objects like forums, learning modules, etc.<br><br>You can annul your membership at any time.###14 Nov 2003 new variable
+common#:#group_not_available#:#Żadna grupa nie jest dostępna
+common#:#group_objects#:#Obiekty grupy
+common#:#group_password_registration_expired_msg#:#The period of registration of this group is expired, an announcement is no longer possible. Please contact the according group owner or administrator.###14 Nov 2003 new variable
+common#:#group_password_registration_msg#:#To join this group you have to enter the password provided by the adminstrator of this group.<br>You are automatically assigned to the group if your password is correct.###14 Nov 2003 new variable
+common#:#group_registration_expiration_date#:#Expiration Date###14 Nov 2003 new variable
+common#:#group_registration_expired#:#Period of registraton expired###14 Nov 2003 new variable
+common#:#group_registration_mode#:#Registration Mode###14 Nov 2003 new variable
+common#:#group_req_password#:#Registration password required###14 Nov 2003 new variable
+common#:#group_req_registration#:#Registration required###14 Nov 2003 new variable
+common#:#group_req_registration_msg#:#To join this group you have to register. The according group administrator will assign you to the group. Please enter a subject to give reasons to your application.<br>You will receive a message when you get assigned to the group.###14 Nov 2003 new variable
+common#:#group_status#:#Status grupy
+common#:#group_status_closed#:#Zamknięta
+common#:#group_status_public#:#Publiczna
+common#:#groups#:#Grupy
+common#:#groups_overview#:#Przegląd grup
+common#:#grp#:#Grupa
+common#:#grp_a#:#Grupa
+common#:#grp_add#:#Dodaj Grupę
+common#:#grp_added#:#Grupa została dodana
+common#:#grp_edit#:#Edytuj Grup�
+common#:#grp_mem_change_status#:#Change member status###14 Nov 2003 new variable
+common#:#grp_mem_leave#:#Dismiss member from group###14 Nov 2003 new variable
+common#:#grp_mem_send_mail#:#Send member a message###14 Nov 2003 new variable
+common#:#grp_name_exists#:#There is already a group with this name! Please choose another name.###14 Nov 2003 new variable
+common#:#grp_new#:#Nowa Grupa
+common#:#guest#:#Gość
+common#:#guests#:#Goście
+common#:#help#:#Pomoc
+common#:#hide_details#:#ukryj szczegóły
+common#:#hide_structure#:#Disable Structured-View###14 Nov 2003 new variable
+common#:#hobby#:#Zainteresowania/Hobby
+common#:#home#:#Strona domowa
+common#:#host#:#Serwer
+common#:#http_path#:#Ścieżka http
+common#:#id#:#ID
+common#:#identifier#:#identyfikator
+common#:#ilias_version#:#Wersja ILIAS
+common#:#image#:#Image###14 Nov 2003 new variable
+common#:#image_gen_unsucc#:#Image generation unsuccessfull. Contact your system administration and check convert path.###14 Nov 2003 new variable
+common#:#import#:#Import
+common#:#import_lm#:#Importuj moduł nauczania 
+common#:#import_slm#:#Importuj pakiet SCORM
+common#:#in#:#in###14 Nov 2003 new variable
+common#:#in_use#:#język użytkownika
+common#:#inbox#:#Skrzynka odbiorcza
+common#:#info_assign_sure#:#Are you sure you want to assign the following user(s)?###14 Nov 2003 new variable
+common#:#info_delete_sure#:#Jesteś pewien, że chcesz usunąć  następujące obiekty?
+common#:#info_deleted#:#Obiekty zostały usunięte
+common#:#info_trash#:#Usunięte obiekty
+common#:#inform_user_mail#:#Wyślij email aby poinformować użytkownika o zmianach
+common#:#information_abbr#:#Informacje
+common#:#ingmedia_all_offers#:#Wszystkie LE
+common#:#ingmedia_back_to_le#:#Powrót do LE
+common#:#ingmedia_good_morning#:#Dzień dobry
+common#:#ingmedia_good_afternoon#:#Dzień dobry
+common#:#ingmedia_good_evening#:#Dobry wieczór
+common#:#ingmedia_good_night#:#Dobranoc
+common#:#ingmedia_hello#:#Cześć
+common#:#ingmedia_info_about_work1#:#Na
+common#:#ingmedia_info_about_work2#:#, you worked here for the last time. You can continue there by clicking here:
+common#:#ingmedia_level_zero#:#Poziom wyżej
+common#:#ingmedia_pers_dates#:#Dane osobowe
+common#:#ingmedia_reg_fo#:#Zarejestrowane fora
+common#:#ingmedia_reg_le#:#Zarejestrowane LE
+common#:#ingmedia_use_info1#:#Tu możesz zmienić swoje dane osobowe. Oprócz nazwy użytkownika INGMEDIA i hasła nie musisz wypełniać innych pól. Pamiętaj, że zapomniane hasło może być tylko otrzymane za pomocą poczty elektronicznej (!).
+common#:#ingmedia_use_info2#:#Nie można stosować znaków specjalnych (takich jak , ; . = - * + #) w twojej nazwie użytkownika INGMEDIA i haśle. Aby móc używać platformy INGMEDIA musisz zaakceptować zgodę użytkownika.
+common#:#ingmedia_use_info3#:#Wybierz jedno z połączeń z listy.
+common#:#ingmedia_use_title#:#Zmień dane użytkownika.
+common#:#ingmedia_user_agree#:#Agreement###14 Nov 2003 new variable
+common#:#ingmedia_vis_le#:#Odwiedzane LE
+common#:#ingmedia_visited_le#:#Wszystkie LE które odwiedzałeś ostatnio.
+common#:#ingmedia_welcome#:#, witaj na swoim pulpicie!!
+common#:#inifile#:#Plik-Ini
+common#:#input_error#:#Błąd wejścia
+common#:#insert#:#Wstaw
+common#:#inst_id#:#ID instalacji
+common#:#inst_info#:#Informacja o instalacji
+common#:#inst_name#:#Nazwa instalacji
+common#:#install#:#Instaluj
+common#:#installed#:#Zainstalowane
+common#:#institution#:#Instytucja
+common#:#internal_system#:#System wewnętrzny
+common#:#ip_address#:#Numer IP
+common#:#is_already_your#:#jest już twój
+common#:#item#:#Pozycja
+common#:#kb#:#KB
+common#:#keywords#:#Klucze
+common#:#lang_dateformat#:#y-m-d
+common#:#lang_de#:#Niemiecki
+common#:#lang_dk#:#Duński
+common#:#lang_en#:#Angielski
+common#:#lang_es#:#Hiszpański
+common#:#lang_fr#:#Francuski
+common#:#lang_id#:#Indonezyjski
+common#:#lang_it#:#Włoski
+common#:#lang_no#:#Norweski
+common#:#lang_path#:#Ścieżka języka
+common#:#lang_pl#:#Polski
+common#:#lang_se#:#Szwedzki
+common#:#lang_sep_decimal#:#.
+common#:#lang_sep_thousand#:#,
+common#:#lang_timeformat#:#G:m:s
+common#:#lang_version#:#1
+common#:#lang_xx#:#Inny
+common#:#langfile_found#:#Plik językowy został odnaleziony
+common#:#language#:#Język
+common#:#language_not_installed#:#nie jest zainstalowany. Najpierw zainstaluj ten język.
+common#:#languages#:#Języki
+common#:#languages_already_installed#:#Wybrany język jest juz zainstalowany.
+common#:#languages_already_uninstalled#:#Wybrany język nie jest zainstalowany.
+common#:#languages_updated#:#Wszystkie zainstalowane języki zostały uaktualnione.
+common#:#last_change#:#Ostatnia zmiana
+common#:#last_visit#:#Ostania wizyta
+common#:#lastname#:#Nazwisko
+common#:#launch#:#Uruchom
+common#:#ldap#:#LDAP
+common#:#learning_objects#:#Przedmioty Nauczania (PN)
+common#:#learning_resources#:#Learning Resources###14 Nov 2003 new variable
+common#:#level#:#Poziom
+common#:#link#:#Łącznik
+common#:#linked_pages#:#Strony połaczone
+common#:#list_of_pages#:#Lista stron
+common#:#list_of_questions#:#Lista pytań
+common#:#literature#:#Literatura
+common#:#literature_bookmarks#:#Zakładki literatury
+common#:#lm#:#Moduł nauczania
+common#:#lm_a#:#Moduł nauczania
+common#:#lm_add#:#Dodaj moduł nauczania
+common#:#lm_added#:#Moduł nauczania został dodany
+common#:#lm_new#:#Nowy moduł nauczania
+common#:#lng#:#Język
+common#:#lngf#:#Folder języka
+common#:#lo#:#Przedmiot Nauczania (PN)
+common#:#lo_available#:#Przegląd modułów nauczania i kursów
+common#:#lo_categories#:#Kategorie (PN)
+common#:#lo_edit#:#Edytuj przedmiot nauczania
+common#:#lo_new#:#Nowy przedmiot nauczania
+common#:#lo_no_content#:#Brak dostepnych zasobów nauczania
+common#:#lo_other_langs#:#PN w innym języku
+common#:#lo_overview#:#Przegląd PN
+common#:#locator#:#Wybrana czynność:
+common#:#login#:#Loguj
+common#:#login_as#:#Logged in as###14 Nov 2003 new variable
+common#:#login_data#:#Data zalogowania
+common#:#login_exists#:#Już jest użytkownik z taką nazwą (pseudonim)! Wybierz inną.
+common#:#login_time#:#Biezący czas pracy
+common#:#login_to_ilias#:#Logowanie do ILIAS-a
+common#:#logout#:#Wyloguj
+common#:#logout_text#:#Opuściłeś system ILIAS. Twoja sesja została zamknięta.
+common#:#los#:#Przedmioty Nauczania (PN)
+common#:#los_last_visited#:#Ostatnio odwiedzane przedmioty nauczania
+common#:#mail#:#Poczta elektroniczna
+common#:#mail_a_root#:#Skrzynka pocztowa
+common#:#mail_addressbook#:#Książka adresowa
+common#:#mail_allow_smtp#:#Zezwolenie na SMTP
+common#:#mail_b_inbox#:#Skrzynka odbiorcza
+common#:#mail_c_trash#:#Kosz
+common#:#mail_d_drafts#:#Szkice
+common#:#mail_delete_error#:#Błąd podczas usuwania
+common#:#mail_delete_error_file#:#Błąd usuwania pliku
+common#:#mail_e_sent#:#Wysłane
+common#:#mail_folders#:#Foldery pocztowe
+common#:#mail_intern_enable#:#Wybierz
+common#:#mail_mails_of#:#Poczta
+common#:#mail_maxsize_attach#:#Maks. rozmiar załącznika
+common#:#mail_maxsize_box#:#Maks. rozmiar skrzynki pocztowej
+common#:#mail_maxsize_mail#:#Maks. rozmiar wiadomości
+common#:#mail_maxtime_attach#:#Maks. okres trzymania załączników (dni)
+common#:#mail_maxtime_mail#:#Maks. okres trzymania wiadomości (dni)
+common#:#mail_not_sent#:#poczta nie została wysłana!
+common#:#mail_search_no#:#Nie znaleziono pozycji
+common#:#mail_search_word#:#Szukaj słowa
+common#:#mail_select_one#:#Musisz wybrać jedną wiadomość
+common#:#mail_send_error#:#Błąd wysyłania wiadomości
+common#:#mail_sent#:#Wiadomość została wysłana!
+common#:#mail_system#:#Wiadomość systemowa
+common#:#mail_z_local#:#Foldery użytkownika
+common#:#mails#:#Wiadomości
+common#:#mark_all_read#:#Zaznacz wszystkie jako przeczytane
+common#:#mark_all_unread#:#Zaznacz wszystkie jako nieodczytane
+common#:#member#:#Member###14 Nov 2003 new variable
+common#:#members#:#Członkowie
+common#:#message#:#Wiadomość
+common#:#message_content#:#Zawartość wiadomości
+common#:#message_to#:#Wiadomość do:
+common#:#meta_data#:#Meta dane
+common#:#migrate#:#Migrate
+common#:#mob#:#Obiekt multimedialny
+common#:#module#:#moduł
+common#:#modules#:#Moduły
+common#:#month#:#Miesiąc
+common#:#moveChapter#:#Przesuń rozdział
+common#:#movePage#:#Przesuń stronę
+common#:#move_to#:#Przesuń do
+common#:#msg_cancel#:#akcja przerwana
+common#:#msg_changes_ok#:#zmiany są w porządku
+common#:#msg_clear_clipboard#:#Schowek został wyczyszczony
+common#:#msg_cloned#:#Wybrane obiety zostały skopiowane
+common#:#msg_copy_clipboard#:#Wybrane obiekty zostały zapamiętane w schowku (Akcja: Kopiuj).
+common#:#msg_cut_clipboard#:#Wybrane obiekty zostały zapamiętane w schowku (Akcja: Wytnij).
+common#:#msg_cut_copied#:#Wybrane obiekty zostały przesunnięte.
+common#:#msg_deleted_role#:#Stanowisko zostało usunięte.
+common#:#msg_deleted_roles#:#stanowiska zostały usunięte.
+common#:#msg_deleted_roles_rolts#:#Stanowiska i szablony stanowisk zostały usunięte.
+common#:#msg_deleted_rolt#:#Szablon stanowiska został usunięty.
+common#:#msg_deleted_rolts#:#Szablony stanowisk zostały usunięte.
+common#:#msg_error_copy#:#Błąd kopiowania
+common#:#msg_failed#:#Niestety, błędna akcja.
+common#:#msg_is_last_role#:#Pozbawiłeś następujących użytkowników ich stanowiska.
+common#:#msg_link_clipboard#:#Wybrane obiekty zostały zapamiętane w schowku (Akcja: łączenie).
+common#:#msg_linked#:#Wybrane obiekty zostały połączone.
+common#:#msg_may_not_contain#:#Ten obiekt nie może zawierać obiektów typu:
+common#:#msg_min_one_active_role#:#Każdy użytkownik musi posiadać conajmniej jedno aktywne stanowisko!
+common#:#msg_min_one_role#:#Każdy użytkownik musi posiadać conajmniej jedno stanowisko!
+common#:#msg_multi_language_selected#:#Wybrałeś ten sam język dla różnych tłumaczeń!
+common#:#msg_no_default_language#:#Domyślny język nie został wybrany! Musisz zdefiniować jedno tłumaczenie jako tłumaczenie domyślne.
+common#:#msg_no_delete_yourself#:#Nie możesz usunąć swojego konta.
+common#:#msg_no_language_selected#:#Nie podano języka tłumaczenia! Musisz zdefiniować język dla każdego tłumaczenia.
+common#:#msg_no_perm_copy#:#Nie masz uprawnień do tworzenia kopii następujących obiektów:
+common#:#msg_no_perm_create#:#Nie masz uprawnień do tworzenia następujących obiektów:
+common#:#msg_no_perm_create_object1#:#Nie masz uprawnień do tworzenia
+common#:#msg_no_perm_create_object2#:#w tym miejscu!
+common#:#msg_no_perm_create_role#:#Nie masz uprawnień do dodawania stanowisk.
+common#:#msg_no_perm_create_rolf#:#Nie masz uprawnień do tworzenia folderu stanowiska. Nie możesz tutaj przerwać dziedziczenia stanowisk lub dodać lokalnego stanowiska.
+common#:#msg_no_perm_create_rolt#:#Nie masz uprawnień do dodawania szablonu stanowiska.
+common#:#msg_no_perm_create_user#:#Nie masz uprawnień do dodawania uzytkowników.
+common#:#msg_no_perm_cut#:#Nie masz uprawnień do wycinania następujących obiektów:
+common#:#msg_no_perm_delete#:#Nie masz uprawnień do usuwania następujących obiektów:
+common#:#msg_no_perm_link#:#Nie masz uprawnień do tworzenia połączenia z następującymi obiektami:
+common#:#msg_no_perm_modify_role#:#Nie masz uprawnień do modyfikacji stanowisk.
+common#:#msg_no_perm_modify_rolt#:#Nie masz uprawnień do modyfikacji szablonów stanowisk.
+common#:#msg_no_perm_modify_user#:#Nie masz uprawnień do modyfikacji danych użytkownika.
+common#:#msg_no_perm_paste#:#Nie masz uprawnień do wklejania nastepujących obiektów:
+common#:#msg_no_perm_perm#:#Nie możesz modyfikować uprawnień.
+common#:#msg_no_perm_write#:#Nie masz uprawnień do pisania.
+common#:#msg_no_rolf_allowed1#:#Obiekt
+common#:#msg_no_rolf_allowed2#:#nie może zawierać Folderu Stanowiska.
+common#:#msg_no_search_result#:#Brak pozycji.
+common#:#msg_no_search_string#:#Podaj swoje zapytanie
+common#:#msg_not_available_for_anon#:#Strona którą,wybrałeś jest dostępna tylko dla zarejestrowanych użytkowników.
+common#:#msg_not_in_itself#:#Nie można wkleić obiektu do samego siebie.
+common#:#msg_not_possible_link#:#Nie można utworzyć połączenia do obiektu: Typu
+common#:#msg_nothing_found#:#Nic nie znaleziono.
+common#:#msg_obj_created#:#Obiekt został utworzony.
+common#:#msg_obj_exists#:#Tem obiekt już istnieje w tym folderze.
+common#:#msg_obj_modified#:#Zmiany zostały zachowane.
+common#:#msg_perm_adopted_from1#:#Ustawienia uprawnień zostały przejęte od
+common#:#msg_perm_adopted_from2#:#(Ustawienia zostały zachowane!)
+common#:#msg_perm_adopted_from_itself#:#Nie możesz przejąć uprawnień z bieżącego stanowiska/szablonu stanowiska.
+common#:#msg_removed#:#Obiekty zostały usunięte z systemu.
+common#:#msg_role_exists1#:#Stanowisko/szablon stanowiskaz nazwą
+common#:#msg_role_exists2#:#już ustnieje! Wybierz inną nazwę.
+common#:#msg_role_reserved_prefix#:#Prefiks 'il_' jest zarezerwowany dla wygenerowanych automatycznie stanowisk. Wybierz inną nazwę.
+common#:#msg_roleassignment_active_changed#:#Active Roleassigment changed###14 Nov 2003 new variable
+common#:#msg_roleassignment_active_changed_comment#:#This settings is not saved to the user's profile! If the user re-login all active role assignments reset to saved values again.###14 Nov 2003 new variable
+common#:#msg_roleassignment_changed#:#Przydział stanowisk został zmieniony.
+common#:#msg_sysrole_not_deletable#:#Systemowe stanowisko nie może być usunięte.
+common#:#msg_sysrole_not_editable#:#Ustawienia uprawnień stanowiska systemowego nie mogą być zmieniane. Wszyscy przydzieleni użytkownicy do stanowiska systemowego posiadają nielimitowany dostęp do wszystkich obiektów i funkcji.
+common#:#msg_trash_empty#:#Brak usuniętych obiektów.
+common#:#msg_undeleted#:#Obiekty zostały przywrócone.
+common#:#msg_user_last_role1#:#Nastepującym użytkownikom przydzielono tylko to stanowisko:
+common#:#msg_user_last_role2#:#Aby usunąć to stanowisko usuń tych użytkowników lub przydziel im inne stanowisko.
+common#:#msg_userassignment_changed#:#Przydział użytkowników został zmieniony.
+common#:#multimedia#:#Multimedia
+common#:#my_bms#:#My Bookmarks###14 Nov 2003 new variable
+common#:#my_frms#:#Moje Fora
+common#:#my_grps#:#My Groups###14 Nov 2003 new variable
+common#:#my_los#:#Moje Przedmioty Nauczania
+common#:#name#:#Nazwa
+common#:#new#:#Nowy
+common#:#new_appointment#:#Nowe spotkanie
+common#:#new_folder#:#Nowy Folder
+common#:#new_group#:#Nowa Grupa
+common#:#new_language#:#Nowy Język
+common#:#new_mail#:#Nowa poczta!
+common#:#news#:#Wieści
+common#:#next#:#następny
+common#:#nickname#:#Pseudonim
+common#:#no#:#Nie
+common#:#no_bm_in_personal_list#:#No bookmarks defined.###14 Nov 2003 new variable
+common#:#no_checkbox#:#Nie wybrano opcji!
+common#:#no_date#:#Brak daty.
+common#:#no_frm_in_personal_list#:#Brak forów na liście osobistej.
+common#:#no_grp_in_personal_list#:#No groups in personal list.###14 Nov 2003 new variable
+common#:#no_import_available#:#Import nie jest dostepny dla typu
+common#:#no_lo_in_personal_list#:#Brak Przedmiotów Nauczania na liście osobistej.
+common#:#no_objects#:#Brak obiektów
+common#:#no_title#:#Brak tytułu
+common#:#none#:#Brak
+common#:#normal#:#Normalny
+common#:#not_installed#:#Nie zainstalowany
+common#:#not_logged_in#:#Nie jesteś zalogowany.
+common#:#obj#:#Obiekt
+common#:#obj_adm#:#Ustawienia systemowe
+common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.###14 Nov 2003 new variable
+common#:#obj_cat#:#Kategoria
+common#:#obj_crs#:#Kurs
+common#:#obj_dbk#:#Digilib Book###14 Nov 2003 new variable
+common#:#obj_file#:#plik
+common#:#obj_fold#:#Folder###14 Nov 2003 new variable
+common#:#obj_frm#:#Forum
+common#:#obj_glo#:#Słownik
+common#:#obj_grp#:#Grupa
+common#:#obj_ldap#:#LDAP Settings###14 Nov 2003 new variable
+common#:#obj_ldap_desc#:#Configure global LDAP Settings here.###14 Nov 2003 new variable
+common#:#obj_le#:#Moduł Nauczania (MN)
+common#:#obj_lm#:#Moduł Nauczania (MN)
+common#:#obj_lng#:#Język
+common#:#obj_lngf#:#Języki
+common#:#obj_lngf_desc#:#Manage your system languages here.###14 Nov 2003 new variable
+common#:#obj_lo#:#Przedmiot Nauczania
+common#:#obj_mail#:#Poczta elektroniczna
+common#:#obj_mail_desc#:#Configure global mail settings here.###14 Nov 2003 new variable
+common#:#obj_not_found#:#Obiekt nie został odnaleziony.
+common#:#obj_note#:#Notatka
+common#:#obj_notf#:#Notatka administracyjna
+common#:#obj_objf#:#Definicja obiektu
+common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)###14 Nov 2003 new variable
+common#:#obj_owner#:#Ten obiekt jest własnością
+common#:#obj_pg#:#Strona
+common#:#obj_role#:#Stanowisko
+common#:#obj_rolf#:#Stanowiska
+common#:#obj_rolf_desc#:#Manage your roles here.###14 Nov 2003 new variable
+common#:#obj_rolf_local#:#Lokalne stanowiska
+common#:#obj_rolf_local_desc#:#Contains local roles of object no.###14 Nov 2003 new variable
+common#:#obj_rolt#:#Szablon stanowiska
+common#:#obj_root#:#root
+common#:#obj_slm#:#SCORM (MN)
+common#:#obj_st#:#Rozdział
+common#:#obj_typ#:#Definicja typu obiektu
+common#:#obj_type#:#Typ obiektu
+common#:#obj_uset#:#Ustawienia użytkownika
+common#:#obj_usr#:#Użytkownik
+common#:#obj_usrf#:#Konta użytkowników
+common#:#obj_usrf_desc#:#Manage user accounts here.###14 Nov 2003 new variable
+common#:#objects#:#Obiekty
+common#:#objf#:#Folder obiektu
+common#:#objs_delete#:#Delete objects###14 Nov 2003 new variable
+common#:#of#:#z
+common#:#offline_version#:#Wersja Offline
+common#:#ok#:#OK
+common#:#old#:#Stary
+common#:#online_chapter#:#Rozdział Online
+common#:#online_version#:#Wersja Online
+common#:#operation#:#Operacja
+common#:#optimize#:#Optymalizuj
+common#:#options#:#Opcje
+common#:#order_by#:#Uporządkowany przez
+common#:#other#:#Inne
+common#:#overview#:#Przegląd
+common#:#owner#:#Właściciel
+common#:#page#:#Strona
+common#:#page_edit#:#Edytuj stronę
+common#:#pages#:#Strony
+common#:#parameter#:#Parametr
+common#:#parse#:#Wykonaj
+common#:#passwd#:#Hasło
+common#:#passwd_invalid#:#Nowe hasło jest niewłaściwe! Wybierz inne hasło.
+common#:#passwd_not_match#:#Wpisy dla nowego hasła się nie zgadzają! Podaj ponownie nowe hasło.
+common#:#passwd_wrong#:#Hasło, które podałeś jest błędne!
+common#:#password#:#Hasło
+common#:#paste#:#Wklej
+common#:#pasteChapter#:#Wklej rozdział
+common#:#pastePage#:#Wklej stronę
+common#:#path#:#Scieżka
+common#:#path_to_babylon#:#Ścieżka do Babylon
+common#:#path_to_convert#:#Ściezka do Convert
+common#:#path_to_java#:#Ścieżka do Javy
+common#:#path_to_unzip#:#Ściezka do Unzip
+common#:#path_to_zip#:#Ścieżka do Zip
+common#:#pathes#:#Ścieżki
+common#:#payment_system#:#System płatności
+common#:#perm_settings#:#Uprawnienia
+common#:#permission#:#Uprawnienia
+common#:#permission_denied#:#Dostęp zabroniony
+common#:#personal_data#:#Dane osobowe
+common#:#personal_desktop#:#Pulpit osobisty
+common#:#personal_picture#:#Osobista fotografia
+common#:#personal_profile#:#Profil osobisty
+common#:#persons#:#Osoby
+common#:#pg_a#:#strona
+common#:#pg_add#:#Dodaj stronę
+common#:#pg_added#:#Strona dodana
+common#:#pg_edit#:#Edytuj stronę
+common#:#pg_new#:#Nowa strona
+common#:#phone#:#Telefon
+common#:#phone_home#:#Phone, Home###14 Nov 2003 new variable
+common#:#phone_mobile#:#Phone, Mobile###14 Nov 2003 new variable
+common#:#phone_office#:#Phone, Office###14 Nov 2003 new variable
+common#:#phrase#:#Fraza
+common#:#please_enter_target#:#Podaj przeznaczenie
+common#:#please_enter_title#:#Podaj tytuł
+common#:#port#:#Port
+common#:#position#:#Pozycja
+common#:#presentation_options#:#Opcje prezentacji
+common#:#previous#:#poprzedni
+common#:#print#:#Drukuj
+common#:#profile_changed#:#Twój profil został zmieniony.
+common#:#profile_of#:#Profile of###14 Nov 2003 new variable
+common#:#properties#:#Właściwości
+common#:#pub_section#:#Sekcja publiczna
+common#:#public_profile#:#Profil publiczny
+common#:#publication#:#Publikowanie
+common#:#publication_date#:#Data opublikowania
+common#:#published#:#Opublikowane
+common#:#publishing_organisation#:#Organizacja publikująca
+common#:#question#:#Pytanie
+common#:#quit#:#Wyjście
+common#:#quote#:#Kwota
+common#:#read#:#Czytaj
+common#:#recipient#:#Odbiorca
+common#:#refresh#:#Odświerz
+common#:#refresh_languages#:#Odświerz języki
+common#:#refresh_list#:#Lista odświerzona
+common#:#register#:#Rejestruj
+common#:#register_info#:#Wypełnij formularz do rejestracji (Pola zaznaczone gwiazdką są niezbędne).
+common#:#registered_since#:#Zarejestrowany od
+common#:#registered_user#:#registered User###14 Nov 2003 new variable
+common#:#registered_users#:#registered Users###14 Nov 2003 new variable
+common#:#registration#:#Rejestracja nowego konta
+common#:#remove#:#Dismiss###14 Nov 2003 new variable
+common#:#remove_translation#:#Usuń tłumaczenie
+common#:#rename#:#Zmień nazwę
+common#:#reply#:#Odpowiedz
+common#:#repository#:#Repository###14 Nov 2003 new variable
+common#:#required_field#:#Pole niezbędne
+common#:#reset#:#Przywróć
+common#:#resources#:#Resources###14 Nov 2003 new variable
+common#:#retype_password#:#Powtórz hasło
+common#:#right#:#Prawo
+common#:#rights#:#Prawa
+common#:#role#:#Stanowisko
+common#:#role_a#:#a Role###14 Nov 2003 new variable
+common#:#role_add#:#Add Role###14 Nov 2003 new variable
+common#:#role_add_local#:#Dodaj lokalne stanowisko
+common#:#role_added#:#Stanowisko dodane
+common#:#role_assignment#:#Przydział stanowiska
+common#:#role_deleted#:#Stanowisko usunięte
+common#:#role_edit#:#Edit Role###14 Nov 2003 new variable
+common#:#role_new#:#New Role###14 Nov 2003 new variable
+common#:#roles#:#Stanowiska
+common#:#rolf#:#Folder stanowiska
+common#:#rolf_added#:#Folder stanowiska został dodany
+common#:#rolt#:#Szablon stanowiska
+common#:#rolt_a#:#a Role Template###14 Nov 2003 new variable
+common#:#rolt_add#:#Add Role Template###14 Nov 2003 new variable
+common#:#rolt_added#:#Szablon stanowiska został dodany
+common#:#rolt_edit#:#Edit Role Template
+common#:#rolt_new#:#New Role Template
+common#:#salutation#:#Pozdrowienie
+common#:#salutation_f#:#Pan/Pani
+common#:#salutation_m#:#Pan
+common#:#save#:#Zapisz
+common#:#save_and_back#:#Zapisz i Wróć
+common#:#save_message#:#Zapisz wiadomość
+common#:#save_refresh#:#Zapisz i Odświerz
+common#:#save_return#:#Zapisz i Powróć
+common#:#saved#:#Zapisane
+common#:#saved_successfully#:#Zapis Udany
+common#:#search#:#Szukaj
+common#:#search_in#:#Szukaj w
+common#:#search_new#:#Nowe szukanie
+common#:#search_recipient#:#Wyszukaj Odbiorcę
+common#:#search_result#:#Wynik szukania
+common#:#search_user#:#Wyszukaj użytkownika
+common#:#sections#:#Sekcje
+common#:#select#:#Wybierz
+common#:#select_all#:#Wybierz wszystkie
+common#:#select_file#:#Wybierz plik
+common#:#select_mode#:#Wybierz tryb
+common#:#selected#:#Wybrany
+common#:#send#:#Wyślij
+common#:#sender#:#Nadawca
+common#:#sent#:#Wyślij
+common#:#sequence#:#Sekwencja
+common#:#sequences#:#Sekwencje
+common#:#server#:#Serwer
+common#:#server_software#:#Oprogramowanie serwera
+common#:#set#:#Ustaw
+common#:#setSystemLanguage#:#Ustaw język systemowy
+common#:#setUserLanguage#:#Ustaw język użytkownika
+common#:#set_offline#:#Ustaw Offline
+common#:#set_online#:#Ustaw Online
+common#:#settings#:#Ustawienia
+common#:#show_details#:#Pokaż szczegóły
+common#:#show_list#:#Pokaż listę
+common#:#show_members#:#Wyświetl użytkowników
+common#:#show_owner#:#Pokaż właściciela
+common#:#show_structure#:#Enable Structured-View###14 Nov 2003 new variable
+common#:#signature#:#Podpis
+common#:#slm#:#SCORM (MN)
+common#:#slm_added#:#Moduł Nauczania SCORM został dodany.
+common#:#smtp#:#SMTP
+common#:#sort_by_this_column#:#Sortuj wg tej kolumny
+common#:#st_a#:#rozdział
+common#:#st_add#:#dodaj rozdział
+common#:#st_added#:#Rozdział dodany
+common#:#st_edit#:#Edytuj rozdział
+common#:#st_new#:#Nowy rozdział
+common#:#startpage#:#Strona startowa
+common#:#status#:#Status
+common#:#step#:#Krok
+common#:#stop_inheritance#:#Przerwij dziedziczenie
+common#:#street#:#Ulica
+common#:#structure#:#Struktura
+common#:#subcat_name#:#Nazwa podkategorii
+common#:#subchapter_new#:#Nowy podrozdział
+common#:#subject#:#Temat
+common#:#submit#:#Wykonaj
+common#:#subobjects#:#Podobiekty
+common#:#subscription#:#Subskrypcja
+common#:#summary#:#Podsumowanie
+common#:#system#:#System
+common#:#system_choose_language#:#Wybór języka systemowego
+common#:#system_groups#:#Grupy systemowe
+common#:#system_grp#:#Grupa systemowa
+common#:#system_language#:#Język systemowy
+common#:#system_message#:#Wiadomość systemowa
+common#:#term#:#Termin
+common#:#test_intern#:#Test wewnętrzny
+common#:#time#:#Czas
+common#:#title#:#Tytuł
+common#:#to#:#Do
+common#:#to_desktop#:#Subskrybuj
+common#:#today#:#Dzisiaj
+common#:#total#:#Razem
+common#:#tpl_path#:#Scieżka do szablonu
+common#:#translation#:#Tłumaczenmie
+common#:#trash#:#Kosz
+common#:#treeview#:#Widok drzewa
+common#:#txt_add_object_instruction1#:#Przejdź do miejsca gdzie chcesz dodać
+common#:#txt_add_object_instruction2#:#.
+common#:#txt_registered#:#Zostałeś zarejestrowany w systemie ILIAS. Kliknij na przycisk poniżej aby się zalogować do ILIAS na swoje konto.
+common#:#typ#:#Definicja typu obiektu
+common#:#type#:#Typ
+common#:#type_your_message_here#:#Tu wpisz swoją wiadomość
+common#:#uid#:#UID
+common#:#uninstall#:#Odinstaluj
+common#:#uninstalled#:#odinstalowane.
+common#:#unknown#:#NIEZNANY
+common#:#unread#:#Nie czytany
+common#:#unsubscribe#:#unsubscribe###14 Nov 2003 new variable
+common#:#up#:#W górę
+common#:#update_applied#:#Uaktualnienie wykonane
+common#:#update_language#:#Uaktualnij język
+common#:#upload#:#Wyślij
+common#:#url#:#URL
+common#:#url_description#:#Opis URL
+common#:#user#:#Użytkownik
+common#:#user_added#:#Użytkownik dodany
+common#:#user_assignment#:#Przydział użytkownika
+common#:#user_deleted#:#Użytkownik usunięty
+common#:#user_language#:#Język użytkownika
+common#:#userdata#:#Dane użytkownika
+common#:#username#:#Login (pseudonim)
+common#:#users#:#Użytkownicy
+common#:#users_online#:#Użytkownicy zalogowani
+common#:#usr#:#Użytkownik
+common#:#usr_a#:#a User###14 Nov 2003 new variable
+common#:#usr_add#:#Add User###14 Nov 2003 new variable
+common#:#usr_added#:#User added###14 Nov 2003 new variable
+common#:#usr_agreement#:#Zgoda użytkownika
+common#:#usr_agreement_empty#:#Zgoda nie zawiera tekstu.
+common#:#usr_edit#:#Edit User###14 Nov 2003 new variable
+common#:#usr_new#:#New User###14 Nov 2003 new variable
+common#:#usr_skin#:#Skórka użytkownika
+common#:#usr_style#:#Styl użytkownika
+common#:#usrf#:#Folder użytkownika
+common#:#validate#:#Zatwierdź
+common#:#value#:#Wartość
+common#:#version#:#Wersja
+common#:#view#:#Widok
+common#:#view_content#:#Zawartość widoku
+common#:#visible_layers#:#Widoczne poziomy
+common#:#visits#:#Wizyty
+common#:#week#:#Tydzień
+common#:#welcome#:#Witamy
+common#:#who_is_online#:#Kto jest na linii?
+common#:#with#:#z
+common#:#write#:#Zapisz
+common#:#yes#:#Tak
+common#:#you_may_add_local_roles#:#Możesz dodać lokalne stanowisko
+common#:#your_message#:#Twoja wiadomość
+common#:#zipcode#:#Kod pocztowy
+content#:#HTML export#:#Eksport HTML
+content#:#PDF export#:#Eksport PDF
+content#:#Pages#:#Strony
+content#:#all#:#Wszystko
+content#:#cont_Alphabetic#:#Alfabetycznie A, B, ...
+content#:#cont_Citation#:#Cytat
+content#:#cont_Example#:#Przykład
+content#:#cont_Headline1#:#Nagłówek 1
+content#:#cont_Headline2#:#Nagłówek 2
+content#:#cont_Headline3#:#Nagłówek 3
+content#:#cont_List#:#Lista
+content#:#cont_LocalFile#:#Plik lokalny
+content#:#cont_Mnemonic#:#Pamięciowy
+content#:#cont_Number#:#Liczba
+content#:#cont_Reference#:#Referencja
+content#:#cont_Remark#:#Komentarz
+content#:#cont_Roman#:#Rzymskie I, II, ...
+content#:#cont_Unordered#:#Nieposortowany
+content#:#cont_add_definition#:#dodaj definicję
+content#:#cont_added_term#:#Termin dodany
+content#:#cont_all_definitions#:#Wszystkie definicje
+content#:#cont_all_pages#:#Wszystkie strony
+content#:#cont_alphabetic#:#Alfabetycznie a, b, ...
+content#:#cont_assign_full#:#Assign Fullscreen###14 Nov 2003 new variable
+content#:#cont_assign_std#:#Assign Standard###14 Nov 2003 new variable
+content#:#cont_assign_translation#:#Wyznacz tłumaczenie
+content#:#cont_assignments_deleted#:#Przydziały zostały usunięte
+content#:#cont_back#:#Back###14 Nov 2003 new variable
+content#:#cont_booktitle#:#Tytuł książki
+content#:#cont_bottom#:#Spód
+content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.###14 Nov 2003 new variable
+content#:#cont_cant_del_std#:#Deletion of standard view file not possible.###14 Nov 2003 new variable
+content#:#cont_caption#:#Nagłówek
+content#:#cont_change_type#:#Zmień typ
+content#:#cont_chap_and_pages#:#Rozdziały i strony
+content#:#cont_chap_select_target_now#:#Rozdział zaznaczony do przesunięcia. Teraz wybierz przeznaczenie.
+content#:#cont_chapters#:#Rozdziały
+content#:#cont_characteristic#:#Charakterystyka
+content#:#cont_choose_cont_obj#:#Wybierz zawartość obiektu
+content#:#cont_choose_glossary#:#Wybierz słownik
+content#:#cont_citation_err_one#:#You have to select exactly one edition###14 Nov 2003 new variable
+content#:#cont_citation_selection_not_valid#:#You're selection is not valid###14 Nov 2003 new variable
+content#:#cont_citations#:#Citations###14 Nov 2003 new variable
+content#:#cont_content#:#Zawartość
+content#:#cont_content_obj#:#Zawartość obiektu
+content#:#cont_create_dir#:#Create Directory###14 Nov 2003 new variable
+content#:#cont_cross_reference#:#Odsyłacz
+content#:#cont_data_from_lms#:#Dane z lms
+content#:#cont_def_layout#:#Domyślny wygląd
+content#:#cont_def_organization#:#domyślny
+content#:#cont_definition#:#Definicja
+content#:#cont_definitions#:#Definicje
+content#:#cont_del_assignment#:#Usuń przydział
+content#:#cont_dependencies#:#Zależności
+content#:#cont_details#:#Szczegóły
+content#:#cont_dir_file#:#Directory/File###14 Nov 2003 new variable
+content#:#cont_edit_file_list_properties#:#Edit File List Properties###14 Nov 2003 new variable
+content#:#cont_edit_mob#:#Edytuj obiekt multimedialny
+content#:#cont_edit_mob_alias_prop#:#Edytuj właściwości instancji obiektu multimedialnego
+content#:#cont_edit_mob_files#:#Object Files###14 Nov 2003 new variable
+content#:#cont_edit_mob_properties#:#Edytuj właściwości obiektu multimedialnego
+content#:#cont_edit_par#:#Edytuj Paragraf
+content#:#cont_edit_tab_properties#:#Właściwości tablicy
+content#:#cont_edit_term#:#Edytuj termin
+content#:#cont_edition#:#Edycja
+content#:#cont_file#:#Plik
+content#:#cont_files#:#Pliki
+content#:#cont_full_is_in_dir#:#Deletion not possible. Fullscreen file is in directory.###14 Nov 2003 new variable
+content#:#cont_fullscreen#:#Pełen ekran
+content#:#cont_height#:#Wysokość
+content#:#cont_how_published#:#Jak opublikowany
+content#:#cont_href#:#href
+content#:#cont_id_ref#:#identifierref
+content#:#cont_import_id#:#identifier
+ontent#:#cont_insert_file_item#:#Insert File Item###14 Nov 2003 new variable
+content#:#cont_insert_file_list#:#Insert File List###14 Nov 2003 new variable
+content#:#cont_insert_list#:#Wstaw listę
+content#:#cont_insert_mob#:#Wstaw obiekt multimedialny
+content#:#cont_insert_par#:#Wstaw paragraf
+content#:#cont_insert_search#:#Wstaw szukany termin
+content#:#cont_insert_table#:#Wstaw tablicę
+content#:#cont_internal_link#:#Łącznik wewnętrzny
+content#:#cont_is_visible#:#niewidoczny
+content#:#cont_isbn#:#ISBN
+content#:#cont_issn#:#ISSN
+content#:#cont_item#:#Pozycja
+content#:#cont_journal#:#Dziennik
+content#:#cont_keyword#:#Słowo kluczowe
+content#:#cont_link_select#:#Łącznik wewnętrzny
+content#:#cont_link_type#:#Typ łącznika
+content#:#cont_list_properties#:#Lista właściwości
+content#:#cont_lk_chapter#:#Rozdział
+content#:#cont_lk_chapter_new#:#Rozdział (nowa ramka)
+content#:#cont_lk_media_faq#:#Multimedia (ramka FAQ)
+content#:#cont_lk_media_inline#:#Multimedia (wewnątrz)
+content#:#cont_lk_media_media#:#Multimedia (ramka medialna)
+content#:#cont_lk_media_new#:#Multimedia (nowa ramka)
+content#:#cont_lk_page#:#Strona
+content#:#cont_lk_page_faq#:#Strona (ramka FAQ)
+content#:#cont_lk_page_new#:#Strona (nowa ramka)
+content#:#cont_lk_term#:#Hasło słownika
+content#:#cont_lk_term_new#:#Hasło słownika (nowa ramka)
+content#:#cont_lm_properties#:#Właściwiści modułu nauczania
+content#:#cont_manifest#:#Manifest
+content#:#cont_mastery_score#:#adlcp:masteryscore
+content#:#cont_max_time_allowed#:#Maks. dostępny czas
+content#:#cont_mob_files#:#Object Files###14 Nov 2003 new variable
+content#:#cont_mob_inst_prop#:#Instance Properties###14 Nov 2003 new variable
+content#:#cont_mob_prop#:#Object Properties###14 Nov 2003 new variable
+content#:#cont_month#:#Miesiąc
+content#:#cont_msg_multiple_editions#:#Nie można pokazać szczegółów złożonego obiektu 
+content#:#cont_new_assignment#:#Nowy przydział
+content#:#cont_new_dir#:#New Directory###14 Nov 2003 new variable
+content#:#cont_new_file#:#New File###14 Nov 2003 new variable
+content#:#cont_new_media_obj#:#Nowy obiekt multimedialny
+content#:#cont_new_term#:#Nowy termin
+content#:#cont_no_assign_itself#:#Obiekt nie może być przydzielony do samego siebie.
+content#:#cont_no_object_found#:#Nie można znaleźć żadnego obiektu o takim tytule
+content#:#cont_no_page#:#Żadna strona nie została odnaleziona.
+content#:#cont_none#:#Brak
+content#:#cont_nr_cols#:#Liczba kolumn
+content#:#cont_nr_items#:#Liczba pozycji
+content#:#cont_nr_rows#:#Liczba wierszy
+content#:#cont_online#:#Online###14 Nov 2003 new variable
+content#:#cont_order#:#Typ porządkowy
+content#:#cont_organization#:#Organizacja
+content#:#cont_organizations#:#Organizacje
+content#:#cont_orig_size#:#Originalny rozmiar
+content#:#cont_page_header#:#Nagłówek strony
+content#:#cont_page_select_target_now#:#Strona została zaznaczona do przesunnięcia. Teraz wybierz przeznaczenie.
+content#:#cont_pages#:#Strony
+content#:#cont_parameter#:#Parametr
+content#:#cont_parameters#:#parametry
+content#:#cont_personal_clipboard#:#Osobisty pulpit
+content#:#cont_pg_content#:#Zawartość strony
+content#:#cont_pg_title#:#Tytuł strony
+content#:#cont_prereq_type#:#Typ warunków wstępnych
+content#:#cont_prerequisites#:#Warunki wstępne
+content#:#cont_preview#:#Podgląd
+content#:#cont_publisher#:#Wydawca
+content#:#cont_purpose#:#Purpose###14 Nov 2003 new variable
+content#:#cont_ref_helptext#:#(np. http://www.serwer.org/myimage.jpg)
+content#:#cont_reference#:#Referencja
+content#:#cont_resource#:#Zasób
+content#:#cont_resource_type#:#typ
+content#:#cont_resources#:#Zasoby
+content#:#cont_roman#:#Rzymskie i, ii, ...
+content#:#cont_sc_title#:#tytuł
+content#:#cont_school#:#Szkoła
+content#:#cont_scorm_type#:#Typ SCORM
+content#:#cont_select_max_one_item#:#Wybierz tylko jedną pozycję.
+content#:#cont_select_max_one_term#:#Wybierz tylko jeden termin.
+content#:#cont_select_one_translation#:#wybierz jedno tłumaczenie.
+content#:#cont_select_term#:#Wybierz termin
+content#:#cont_select_translation#:#Wybierz przydział z listy powyżej
+content#:#cont_series#:#Serie
+content#:#cont_series_editor#:#Edytor serii
+content#:#cont_series_title#:#Tyuł serii
+content#:#cont_series_volume#:#Wolumen serii
+content#:#cont_set_class#:#Ustaw klasę
+content#:#cont_set_width#:#Ustaw szerokość
+content#:#cont_show#:#Pokaż
+content#:#cont_show_citation#:#Show with citation###14 Nov 2003 new variable
+content#:#cont_size#:#Size (Bytes)###14 Nov 2003 new variable
+content#:#cont_source#:#Źródło
+content#:#cont_st_title#:#Tytuł rozdziału 
+content#:#cont_std_is_in_dir#:#Deletion not possible. Standard view file is in directory.###14 Nov 2003 new variable
+content#:#cont_std_view#:#Widok standardowy
+content#:#cont_structure#:#struktura
+content#:#cont_subchapters#:#Podrozdziały
+content#:#cont_table#:#Tablica
+content#:#cont_table_border#:#Ramka tablicy
+content#:#cont_table_cellpadding#:#Rozciągnięcie komórek
+content#:#cont_table_cellspacing#:#Odstęp komórkowy
+content#:#cont_table_width#:#Szerokość tablicy
+content#:#cont_target_within_source#:#Przeznaczenie nie może być wewnątrz obiektu źródłowego.
+content#:#cont_term#:#Termin
+content#:#cont_terms#:#Terminy
+content#:#cont_time_limit_action#:#Limit czasu
+content#:#cont_toc#:#Spis treści
+content#:#cont_top#:#Góra
+content#:#cont_translations#:#Tłumaczenia
+content#:#cont_translations_assigned#:#Tłumaczenia zostały przydzielone
+content#:#cont_upload_file#:#Upload File###14 Nov 2003 new variable
+content#:#cont_url#:#URL
+content#:#cont_version#:#wersja
+content#:#cont_where_published#:#Gdzie opublikowane
+content#:#cont_width#:#Szerokość
+content#:#cont_wysiwyg#:#Zawartość WYSIWYG
+content#:#cont_xml_base#:#xml:baza
+content#:#cont_year#:#Rok
+content#:#pages from#:#Strony od
+content#:#par#:#Paragraf
+content#:#pg#:#Strona
+content#:#read offline#:#Czytaj Offline
+content#:#st#:#Rozdział
+content#:#start export#:#Start Eksport
+forum#:#forums#:#Fora
+forum#:#forums_articles#:#Artykuły
+forum#:#forums_attachments#:#Attachments###14 Nov 2003 new variable
+forum#:#forums_attachments_add#:#Add attachment###14 Nov 2003 new variable
+forum#:#forums_attachments_edit#:#Edit attachment###14 Nov 2003 new variable
+forum#:#forums_available#:#Dostepne Fora
+forum#:#forums_count#:#Ilość Forów
+forum#:#forums_count_art#:#Ilość artykułów
+forum#:#forums_count_thr#:#Ilość wątków
+forum#:#forums_delete_file#:#Delete attachment###14 Nov 2003 new variable
+forum#:#forums_download_attachment#:#Download file###14 Nov 2003 new variable
+forum#:#forums_edit_post#:#Edytuj artykuł
+forum#:#forums_info_censor2_post#:#Jesteś pewien, że chcesz kontynuować ukrycie tego artykułu?
+forum#:#forums_info_censor_post#:#Jesteś pewien, że chcesz ukryć ten artykuł?
+forum#:#forums_info_delete_post#:#Jesteś pewien, że chcesz usunąć ten artykuł włącznie z odpowiedziami?
+forum#:#forums_last_post#:#Ostatni artykuł
+forum#:#forums_moderators#:#Moderatorzy
+forum#:#forums_new_entries#:#Nowe   pozycje forów
+forum#:#forums_new_thread#:#Nowy temat
+forum#:#forums_not_available#:#Fora są niedostępne
+forum#:#forums_overview#:#Przegląd forów
+forum#:#forums_post_deleted#:#Artykuł został usunięty.
+forum#:#forums_post_modified#:#Artykuł został zmodyfikowany.
+forum#:#forums_post_new_entry#:#Nowy artykuł został napisany.
+forum#:#forums_posts#:#Wszystkie artykuły
+forum#:#forums_posts_not_available#:#Artykuły nie są dostępne
+forum#:#forums_print_thread#:#Print Thread###14 Nov 2003 new variable
+forum#:#forums_quote#:#Kwota
+forum#:#forums_respond#:#Wyślij odpowiedź
+forum#:#forums_the_post#:#Artykuł
+forum#:#forums_thread#:#Temat
+forum#:#forums_thread_articles#:#Artykuły do tematu
+forum#:#forums_thread_create_date#:#Utworzone dnia
+forum#:#forums_thread_create_from#:#Utworzone przez
+forum#:#forums_thread_new_entry#:#Został zapisany nowy temat.
+forum#:#forums_threads#:#Wątki
+forum#:#forums_threads_not_available#:#Tematy nie są dostępne
+forum#:#forums_topics_overview#:#Przegląd tematów
+forum#:#forums_your_reply#:#Twoja odpowiedź
+mail#:#also_as_email#:#rownież pocztą
+mail#:#bc#:#BC
+mail#:#forward#:#Prześlij dalej
+mail#:#linebreak#:#Linia rozdzielająca
+mail#:#mail_add_recipient#:#Podaj odbiorcę
+mail#:#mail_add_subfolder#:#Dodaj podfolder
+mail#:#mail_add_subject#:#Podaj temat
+mail#:#mail_add_to_addressbook#:#Dodaj do książki adresowej
+mail#:#mail_add_type#:#Dodaj typ poczty, którą chcesz wysłać.
+mail#:#mail_addr_entries#:#Pozycje
+mail#:#mail_attachments#:#Załączniki
+mail#:#mail_bc_not_valid#:#Odbiorca BC nie jest prawidłowy
+mail#:#mail_bc_search#:#Szukaj BC
+mail#:#mail_byte#:#Byte###14 Nov 2003 new variable
+mail#:#mail_cc_not_valid#:#Odbiorca CC nie jest prawidłowy
+mail#:#mail_cc_search#:#Szukaj CC
+mail#:#mail_change_to_folder#:#Przejdź do folderu:
+mail#:#mail_check_your_email_addr#:#Twój adres email nie jest prawidłowy.
+mail#:#mail_compose#:#Napisz wiadomość 
+mail#:#mail_deleted#:#Wiadomości zostały usunięte.
+mail#:#mail_deleted_entry#:#Pozycje zostały usunięte.
+mail#:#mail_email_forbidden#:#Nie możesz wysyłać poczty.
+mail#:#mail_entry_added#:#Dodano nową pozycję.
+mail#:#mail_entry_changed#:#Pozycja została zmieniona.
+mail#:#mail_file_name#:#Nazwa pliku
+mail#:#mail_file_size#:#Rozmiar pliku
+mail#:#mail_files_deleted#:#Pliki zostały usunięte.
+mail#:#mail_folder_created#:#Nowy folder został utworzony.
+mail#:#mail_folder_deleted#:#Folder został usunięty.
+mail#:#mail_folder_exists#:#Folder z tą samą nazwą już istnieje.
+mail#:#mail_folder_name#:#Nazwa folderu
+mail#:#mail_folder_name_changed#:#Zmieniono nazwę folderu
+mail#:#mail_folder_options#:#Opcje Folderu
+mail#:#mail_following_rcp_not_valid#:#Następujący odbiorcy nie są prawidłowi:
+mail#:#mail_global_options#:#Opcje globalne
+mail#:#mail_insert_folder_name#:#Wstaw nazwę folderu
+mail#:#mail_insert_query#:#Wstaw zapytanie
+mail#:#mail_intern#:#Wewnętrzny
+mail#:#mail_mark_read#:#Zaznacz wiadomości jako przeczytane
+mail#:#mail_mark_unread#:#Zaznacz wiadomości jako nieprzeczytane
+mail#:#mail_maxsize_attachment_error#:#The upload limit is:###14 Nov 2003 new variable
+mail#:#mail_message_send#:#Wiadomość została wysłana.
+mail#:#mail_move_error#:#Błąd podczas przesuwania wiadomości
+mail#:#mail_move_to#:#Przesuń do:
+mail#:#mail_moved#:#Wiadomości zostały przesunięte.
+mail#:#mail_moved_to_trash#:#Wiadomości zostały przeniesione do kosza.
+mail#:#mail_new_file#:#Dodaj nowy plik:
+mail#:#mail_no_attach_allowed#:#Wiadomości systemowe nie mogą zawierać załączników
+mail#:#mail_no_attachments_found#:#Nie znaleziono załączników
+mail#:#mail_options_of#:#Opcje
+mail#:#mail_recipient_not_valid#:#Odbiorca nie jest prawidłowy.
+mail#:#mail_s#:#Wiadomości
+mail#:#mail_s_unread#:#Nieprzeczytane wiadomości
+mail#:#mail_saved#:#Wiadomość została zachowana.
+mail#:#mail_search_addressbook#:#szukaj w książce adresowej
+mail#:#mail_search_system#:#szukaj w systemie
+mail#:#mail_select_one_entry#:#Musisz wybrać jedną pozycję
+mail#:#mail_select_one_file#:#Musisz wybrać jeden plik
+mail#:#mail_sure_delete#:#Jesteś pewien, że chcesz usunąć zaznaczone wiadomości?
+mail#:#mail_sure_delete_entry#:#Jesteś pewien, że chcesz usunąć nasępujące pozycje?
+mail#:#mail_sure_delete_file#:#Plik został ostatecznie usunięty.
+mail#:#mail_sure_delete_folder#:#Folder wraz z całą zawartością został ostatecznie usunięty. 
+mail#:#mail_to_search#:#Szukanie odbiorcy
+mail#:#mail_user_addr_n_valid#:#Następujący użytkownicy nie mają prawidłowych adresów poczty elektronicznej.
+mail#:#search_bc_recipient#:#Szukaj odbiorcy BC
+mail#:#search_cc_recipient#:#Szukaj odbiorcy CC
+meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions###14 Nov 2003 new variable
+meta#:#meta_active#:#Active###14 Nov 2003 new variable
+meta#:#meta_add#:#Dodaj
+meta#:#meta_annotation#:#Annotation###14 Nov 2003 new variable
+meta#:#meta_atomic#:#Atomowy
+meta#:#meta_author#:#Author###14 Nov 2003 new variable
+meta#:#meta_browser#:#Browser###14 Nov 2003 new variable
+meta#:#meta_c_AD#:#Andorra
+meta#:#meta_c_AE#:#Zjednoczone Emiraty Arabskie
+meta#:#meta_c_AF#:#Afganistan
+meta#:#meta_c_AG#:#Antigua i Barbuda
+meta#:#meta_c_AI#:#Anguilla
+meta#:#meta_c_AL#:#Albania
+meta#:#meta_c_AM#:#Armenia
+meta#:#meta_c_AN#:#Antyle Holenderskie
+meta#:#meta_c_AO#:#Angola
+meta#:#meta_c_AQ#:#Antarktyka
+meta#:#meta_c_AR#:#Argentyna
+meta#:#meta_c_AS#:#Samoa Amerykańskie
+meta#:#meta_c_AT#:#Austria
+meta#:#meta_c_AU#:#Australia
+meta#:#meta_c_AW#:#Aruba
+meta#:#meta_c_AZ#:#Azerbejdżan
+meta#:#meta_c_BA#:#Bośnia i Herzegowina
+meta#:#meta_c_BB#:#Barbados
+meta#:#meta_c_BD#:#Bangladesz
+meta#:#meta_c_BE#:#Belgia
+meta#:#meta_c_BF#:#Burkina Faso
+meta#:#meta_c_BG#:#Bułgaria
+meta#:#meta_c_BH#:#Bahrain
+meta#:#meta_c_BI#:#Burundi
+meta#:#meta_c_BJ#:#Benin
+meta#:#meta_c_BM#:#Bermuda
+meta#:#meta_c_BN#:#Brunei Darussalam
+meta#:#meta_c_BO#:#Boliwia
+meta#:#meta_c_BR#:#Brazylia
+meta#:#meta_c_BS#:#Bahamy
+meta#:#meta_c_BT#:#Bhutan
+meta#:#meta_c_BV#:#Wyspy Bouvet
+meta#:#meta_c_BW#:#Botswana
+meta#:#meta_c_BY#:#Białoruś
+meta#:#meta_c_BZ#:#Belize
+meta#:#meta_c_CA#:#Kanada
+meta#:#meta_c_CC#:#Wyspy Cocos (Keeling)
+meta#:#meta_c_CF#:#Republika Środkowoafrykańska
+meta#:#meta_c_CG#:#Kongo
+meta#:#meta_c_CH#:#Szwajcaria
+meta#:#meta_c_CI#:#Cote D' Ivoire
+meta#:#meta_c_CK#:#Wyspy Cooka
+meta#:#meta_c_CL#:#Chile
+meta#:#meta_c_CM#:#Kamerun
+meta#:#meta_c_CN#:#Chiny
+meta#:#meta_c_CO#:#Kolumbia
+meta#:#meta_c_CR#:#Costa Rica
+meta#:#meta_c_CU#:#Kuba
+meta#:#meta_c_CV#:#Cape Verde
+meta#:#meta_c_CX#:#Wyspy Bożego Narodzenia
+meta#:#meta_c_CY#:#Cypr
+meta#:#meta_c_CZ#:#Republika Czeska
+meta#:#meta_c_DE#:#Niemcy
+meta#:#meta_c_DJ#:#Dżibutti
+meta#:#meta_c_DK#:#Dania
+meta#:#meta_c_DM#:#Dominika
+meta#:#meta_c_DO#:#Republika Dominikańska
+meta#:#meta_c_DZ#:#Algieria
+meta#:#meta_c_EC#:#Ekwador
+meta#:#meta_c_EE#:#Estonia
+meta#:#meta_c_EG#:#Egipt
+meta#:#meta_c_EH#:#Zachodnia Sahara
+meta#:#meta_c_ER#:#Erytrea
+meta#:#meta_c_ES#:#Hiszpania
+meta#:#meta_c_ET#:#Etiopia
+meta#:#meta_c_FI#:#Finlandia
+meta#:#meta_c_FJ#:#Fidżi
+meta#:#meta_c_FK#:#Wyspy Falklandy
+meta#:#meta_c_FM#:#Mikronezja
+meta#:#meta_c_FO#:#Wyspy Faroe
+meta#:#meta_c_FR#:#Francja
+meta#:#meta_c_FX#:#France, Metropolia
+meta#:#meta_c_GA#:#Gabon
+meta#:#meta_c_GB#:#Wielka Brytania
+meta#:#meta_c_GD#:#Grenada
+meta#:#meta_c_GE#:#Giorgia
+meta#:#meta_c_GF#:#Gujana Francuska
+meta#:#meta_c_GH#:#Ghana
+meta#:#meta_c_GI#:#Gibraltar
+meta#:#meta_c_GL#:#Grenlandia
+meta#:#meta_c_GM#:#Gambia
+meta#:#meta_c_GN#:#Gwinea
+meta#:#meta_c_GP#:#Guadelupa
+meta#:#meta_c_GQ#:#Gwinea Równikowa
+meta#:#meta_c_GR#:#Grecja
+meta#:#meta_c_GS#:#Południowa Georgia i Południowe Wyspy Sandwich
+meta#:#meta_c_GT#:#Gwatemala
+meta#:#meta_c_GU#:#Guam
+meta#:#meta_c_GW#:#Gwinea-Bissau
+meta#:#meta_c_GY#:#Gujana
+meta#:#meta_c_HM#:#Wyspy Heard i Nc Donald
+meta#:#meta_c_HN#:#Honduras
+meta#:#meta_c_HR#:#Horwacja
+meta#:#meta_c_HT#:#Haiti
+meta#:#meta_c_HU#:#Węgry
+meta#:#meta_c_ID#:#Indonesja
+meta#:#meta_c_IE#:#Irlandia
+meta#:#meta_c_IL#:#Izrael
+meta#:#meta_c_IN#:#Indie
+meta#:#meta_c_IO#:#Brityjskie Terytorium Oceanu Indyjskiego
+meta#:#meta_c_IQ#:#Irak
+meta#:#meta_c_IR#:#Iran
+meta#:#meta_c_IS#:#Islandia
+meta#:#meta_c_IT#:#Włochy
+meta#:#meta_c_JM#:#Jamajka
+meta#:#meta_c_JO#:#Jordannia
+meta#:#meta_c_JP#:#Japonia
+meta#:#meta_c_KE#:#Kenia
+meta#:#meta_c_KG#:#Kirgistan
+meta#:#meta_c_KH#:#Kambodża
+meta#:#meta_c_KI#:#Kiribati
+meta#:#meta_c_KM#:#Comoros
+meta#:#meta_c_KN#:#Saint Kitts And Nevis
+meta#:#meta_c_KP#:#Pólnocna Korea (Ludowa Republika Korei)
+meta#:#meta_c_KR#:#Południowa Korea (Republika Korei)
+meta#:#meta_c_KW#:#Kuwejt
+meta#:#meta_c_KY#:#Wyspy Caymana
+meta#:#meta_c_KZ#:#Kazahstan
+meta#:#meta_c_LA#:#Republika Ludowa Laosu
+meta#:#meta_c_LB#:#Liban
+meta#:#meta_c_LC#:#Saint Lucia
+meta#:#meta_c_LI#:#Liechtenstein
+meta#:#meta_c_LK#:#Sri Lanka
+meta#:#meta_c_LR#:#Liberia
+meta#:#meta_c_LS#:#Lesoto
+meta#:#meta_c_LT#:#Litwa
+meta#:#meta_c_LU#:#Luksemburg
+meta#:#meta_c_LV#:#Łotwa
+meta#:#meta_c_LY#:#Libia Arabska Jamahiriya
+meta#:#meta_c_MA#:#Maroko
+meta#:#meta_c_MC#:#Monaco
+meta#:#meta_c_MD#:#Mołdawia
+meta#:#meta_c_MG#:#Madagaskar
+meta#:#meta_c_MH#:#Wyspy Marshalla
+meta#:#meta_c_MK#:#Macedonia
+meta#:#meta_c_ML#:#Mali
+meta#:#meta_c_MM#:#Myanmar
+meta#:#meta_c_MN#:#Mongolia
+meta#:#meta_c_MO#:#Macau
+meta#:#meta_c_MP#:#Północne Wyspy Mariany
+meta#:#meta_c_MQ#:#Martynika
+meta#:#meta_c_MR#:#Mauretania
+meta#:#meta_c_MS#:#Montserrat
+meta#:#meta_c_MT#:#Malta
+meta#:#meta_c_MU#:#Mauritius
+meta#:#meta_c_MV#:#Malediwy
+meta#:#meta_c_MW#:#Malawi
+meta#:#meta_c_MX#:#Meksyk
+meta#:#meta_c_MY#:#Malezja
+meta#:#meta_c_MZ#:#Mozambik
+meta#:#meta_c_NA#:#Namibia
+meta#:#meta_c_NC#:#Nowa Kaledonia
+meta#:#meta_c_NE#:#Niger
+meta#:#meta_c_NF#:#Wyspy Norfolk
+meta#:#meta_c_NG#:#Nigeria
+meta#:#meta_c_NI#:#Nikaragua
+meta#:#meta_c_NL#:#Holandia
+meta#:#meta_c_NO#:#Norwegia
+meta#:#meta_c_NP#:#Nepal
+meta#:#meta_c_NR#:#Nauru
+meta#:#meta_c_NU#:#Niue
+meta#:#meta_c_NZ#:#Nowa Zealandia
+meta#:#meta_c_OM#:#Oman
+meta#:#meta_c_PA#:#Panama
+meta#:#meta_c_PE#:#Peru
+meta#:#meta_c_PF#:#Francuska Polinezja
+meta#:#meta_c_PG#:#Papua Nowa Gwinea
+meta#:#meta_c_PH#:#Filipiny
+meta#:#meta_c_PK#:#Pakistan
+meta#:#meta_c_PL#:#Polska
+meta#:#meta_c_PM#:#St. Pierre I Miquelon
+meta#:#meta_c_PN#:#Pitcairn
+meta#:#meta_c_PR#:#Puerto Rico
+meta#:#meta_c_PT#:#Portugalia
+meta#:#meta_c_PW#:#Palau
+meta#:#meta_c_PY#:#Paragwaj
+meta#:#meta_c_QA#:#Katar
+meta#:#meta_c_RE#:#Reunion
+meta#:#meta_c_RO#:#Rumunia
+meta#:#meta_c_RU#:#Federacja Ran
+meta#:#meta_c_RW#:#Rwanda
+meta#:#meta_c_SA#:#Arabia Saudyjska
+meta#:#meta_c_SB#:#Wyspy Solomona
+meta#:#meta_c_SC#:#Seszele
+meta#:#meta_c_SD#:#Sudan
+meta#:#meta_c_SE#:#Szwecja
+meta#:#meta_c_SG#:#Singapór
+meta#:#meta_c_SH#:#Święta Helena
+meta#:#meta_c_SI#:#Słowenia
+meta#:#meta_c_SJ#:#Wyspy Svalbard I Jan Mayen
+meta#:#meta_c_SK#:#Słowacja
+meta#:#meta_c_SL#:#Siearra Leone
+meta#:#meta_c_SM#:#San Marino
+meta#:#meta_c_SN#:#Senegal
+meta#:#meta_c_SO#:#Somalia
+meta#:#meta_c_SR#:#Surinam
+meta#:#meta_c_ST#:#Sao Tome i Principe
+meta#:#meta_c_SV#:#Salwador
+meta#:#meta_c_SY#:#Syryjska Republika Arabska
+meta#:#meta_c_SZ#:#Suazi
+meta#:#meta_c_TC#:#Wyspy Turks i Caicos
+meta#:#meta_c_TD#:#Czad
+meta#:#meta_c_TF#:#Frencuskie Terytorium Południowe
+meta#:#meta_c_TG#:#Togo
+meta#:#meta_c_TH#:#Tajlandia
+meta#:#meta_c_TJ#:#Tadżykistan
+meta#:#meta_c_TK#:#Tokelau
+meta#:#meta_c_TM#:#Turkmenistan
+meta#:#meta_c_TN#:#Tunesja
+meta#:#meta_c_TO#:#Tonga
+meta#:#meta_c_TP#:#Wschodni Timor
+meta#:#meta_c_TR#:#Turcja
+meta#:#meta_c_TT#:#Trynidad i Tobago
+meta#:#meta_c_TV#:#Tuvalu
+meta#:#meta_c_TW#:#Tajwan
+meta#:#meta_c_TZ#:#Tanzania
+meta#:#meta_c_UA#:#Ukraina
+meta#:#meta_c_UG#:#Uganda
+meta#:#meta_c_UM#:#Wyspy U.S. Minor Outlying
+meta#:#meta_c_US#:#U.S.A
+meta#:#meta_c_UY#:#Urugwaj
+meta#:#meta_c_UZ#:#Uzbekistan
+meta#:#meta_c_VA#:#Watykan Miasto
+meta#:#meta_c_VC#:#Saint Vincent i Grenadines
+meta#:#meta_c_VE#:#Wenezuela
+meta#:#meta_c_VG#:#Wyspy Virgin (GB)
+meta#:#meta_c_VI#:#Wyspy Virgin (USA)
+meta#:#meta_c_VN#:#Wietnam
+meta#:#meta_c_VU#:#Vanuatu
+meta#:#meta_c_WF#:#Wyspy Wallis i Futuna
+meta#:#meta_c_WS#:#Samoa
+meta#:#meta_c_YE#:#Jemen
+meta#:#meta_c_YT#:#Mayotte
+meta#:#meta_c_ZA#:#Południowa Afryka
+meta#:#meta_c_ZM#:#Zambia
+meta#:#meta_c_ZR#:#Zair
+meta#:#meta_c_ZW#:#Zimbabwe
+meta#:#meta_c_ZZ#:#Inny kraj
+meta#:#meta_catalog#:#Katalog
+meta#:#meta_choose_element#:#Wybierz element, który chcesz dodać!
+meta#:#meta_choose_language#:#Wybierz język
+meta#:#meta_choose_section#:#Wybierz sekcję
+meta#:#meta_classification#:#Classification###14 Nov 2003 new variable
+meta#:#meta_collection#:#Kolekcja
+meta#:#meta_competency#:#Competency###14 Nov 2003 new variable
+meta#:#meta_context#:#Context###14 Nov 2003 new variable
+meta#:#meta_contribute#:#Contribute###14 Nov 2003 new variable
+meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions###14 Nov 2003 new variable
+meta#:#meta_cost#:#Cost###14 Nov 2003 new variable
+meta#:#meta_coverage#:#Coverage###14 Nov 2003 new variable
+meta#:#meta_date#:#Date###14 Nov 2003 new variable
+meta#:#meta_delete#:#Usuń
+meta#:#meta_description#:#Opis
+meta#:#meta_diagramm#:#Diagramm###14 Nov 2003 new variable
+meta#:#meta_difficulty#:#Difficulty###14 Nov 2003 new variable
+meta#:#meta_dificult#:#Difficult###14 Nov 2003 new variable
+meta#:#meta_draft#:#Draft###14 Nov 2003 new variable
+meta#:#meta_duration#:#Duration###14 Nov 2003 new variable
+meta#:#meta_easy#:#Easy###14 Nov 2003 new variable
+meta#:#meta_education#:#Education###14 Nov 2003 new variable
+meta#:#meta_educational_level#:#Educational Level###14 Nov 2003 new variable
+meta#:#meta_educational_objective#:#Educational Objective###14 Nov 2003 new variable
+meta#:#meta_entity#:#Entity###14 Nov 2003 new variable
+meta#:#meta_entry#:#Pozycja
+meta#:#meta_exam#:#Exam###14 Nov 2003 new variable
+meta#:#meta_exercise#:#Exercise###14 Nov 2003 new variable
+meta#:#meta_experiment#:#Experiment###14 Nov 2003 new variable
+meta#:#meta_expositive#:#Expositive###14 Nov 2003 new variable
+meta#:#meta_figure#:#Figure###14 Nov 2003 new variable
+meta#:#meta_final#:#Final###14 Nov 2003 new variable
+meta#:#meta_format#:#Format###14 Nov 2003 new variable
+meta#:#meta_general#:#Ogólne
+meta#:#meta_graph#:#Graph###14 Nov 2003 new variable
+meta#:#meta_has_format#:#Has Format###14 Nov 2003 new variable
+meta#:#meta_has_part#:#Has Part###14 Nov 2003 new variable
+meta#:#meta_has_version#:#Has Version###14 Nov 2003 new variable
+meta#:#meta_hierarchical#:#Hierarchicznie
+meta#:#meta_high#:#High###14 Nov 2003 new variable
+meta#:#meta_higher_education#:#Higher Education###14 Nov 2003 new variable
+meta#:#meta_id#:#Id###14 Nov 2003 new variable
+meta#:#meta_idea#:#Idea###14 Nov 2003 new variable
+meta#:#meta_identifier#:#Identyfikator
+meta#:#meta_index#:#Index###14 Nov 2003 new variable
+meta#:#meta_installation_remarks#:#Installation Remarks###14 Nov 2003 new variable
+meta#:#meta_intended_end_user_role#:#Intended End User Role###14 Nov 2003 new variable
+meta#:#meta_interactivity_level#:#Interactivity Level###14 Nov 2003 new variable
+meta#:#meta_interactivity_type#:#Interactivity Type###14 Nov 2003 new variable
+meta#:#meta_is_based_on#:#Is Based On###14 Nov 2003 new variable
+meta#:#meta_is_basis_for#:#Is Basis For###14 Nov 2003 new variable
+meta#:#meta_is_format_of#:#Is Format Of###14 Nov 2003 new variable
+meta#:#meta_is_part_of#:#Is Part Of###14 Nov 2003 new variable
+meta#:#meta_is_referenced_by#:#Is Referenced By###14 Nov 2003 new variable
+meta#:#meta_is_required_by#:#Is Required By###14 Nov 2003 new variable
+meta#:#meta_is_version_of#:#Is Version Of###14 Nov 2003 new variable
+meta#:#meta_keyword#:#Słowo kluczowe
+meta#:#meta_kind#:#Kind###14 Nov 2003 new variable
+meta#:#meta_l_aa#:#afar
+meta#:#meta_l_ab#:#abhaski
+meta#:#meta_l_af#:#afrikaans
+meta#:#meta_l_am#:#amharic
+meta#:#meta_l_ar#:#arabski
+meta#:#meta_l_as#:#assamese
+meta#:#meta_l_ay#:#aymara
+meta#:#meta_l_az#:#azerbejdżański
+meta#:#meta_l_ba#:#baszkirski
+meta#:#meta_l_be#:#białoruski
+meta#:#meta_l_bg#:#bułgarski
+meta#:#meta_l_bh#:#bihari
+meta#:#meta_l_bi#:#bislama
+meta#:#meta_l_bn#:#bengali;bangla
+meta#:#meta_l_bo#:#tybetański
+meta#:#meta_l_br#:#bretoński
+meta#:#meta_l_ca#:#kataloński
+meta#:#meta_l_co#:#korsykański
+meta#:#meta_l_cs#:#czeski
+meta#:#meta_l_cy#:#welsh
+meta#:#meta_l_da#:#duński
+meta#:#meta_l_de#:#niemiecki
+meta#:#meta_l_dz#:#bhutani
+meta#:#meta_l_el#:#grecki
+meta#:#meta_l_en#:#angielski
+meta#:#meta_l_eo#:#esperanto
+meta#:#meta_l_es#:#hiszpański
+meta#:#meta_l_et#:#estoński
+meta#:#meta_l_eu#:#baskijski
+meta#:#meta_l_fa#:#perski (farsi)
+meta#:#meta_l_fi#:#fiński
+meta#:#meta_l_fj#:#fiji
+meta#:#meta_l_fo#:#faroese
+meta#:#meta_l_fr#:#francuski
+meta#:#meta_l_fy#:#frisian
+meta#:#meta_l_ga#:#irlandzki
+meta#:#meta_l_gd#:#szkocki
+meta#:#meta_l_gl#:#galician
+meta#:#meta_l_gn#:#guarani
+meta#:#meta_l_gu#:#gujarati
+meta#:#meta_l_ha#:#hausa
+meta#:#meta_l_he#:#hebrajski
+meta#:#meta_l_hi#:#hindi
+meta#:#meta_l_hr#:#horwacki
+meta#:#meta_l_hu#:#węgierski
+meta#:#meta_l_hy#:#armeński
+meta#:#meta_l_ia#:#interlingua
+meta#:#meta_l_id#:#indonezyjski
+meta#:#meta_l_ie#:#interlingue
+meta#:#meta_l_ik#:#inupiak
+meta#:#meta_l_is#:#islandzki
+meta#:#meta_l_it#:#włoski
+meta#:#meta_l_iu#:#inuktitut
+meta#:#meta_l_ja#:#japoński
+meta#:#meta_l_jv#:#jawajski
+meta#:#meta_l_ka#:#georgian
+meta#:#meta_l_kk#:#kazahski
+meta#:#meta_l_kl#:#grenlandzki
+meta#:#meta_l_km#:#kambodżański
+meta#:#meta_l_kn#:#kannada
+meta#:#meta_l_ko#:#koreański
+meta#:#meta_l_ks#:#kashmiri
+meta#:#meta_l_ku#:#kurdyjski
+meta#:#meta_l_ky#:#kirgiski
+meta#:#meta_l_la#:#łaciński
+meta#:#meta_l_ln#:#lingala
+meta#:#meta_l_lo#:#laotański
+meta#:#meta_l_lt#:#litewski
+meta#:#meta_l_lv#:#łotewski
+meta#:#meta_l_mg#:#malagasy
+meta#:#meta_l_mi#:#maori
+meta#:#meta_l_mk#:#macedoński
+meta#:#meta_l_ml#:#malayalam
+meta#:#meta_l_mn#:#mongolski
+meta#:#meta_l_mo#:#mołdawski
+meta#:#meta_l_mr#:#marathi
+meta#:#meta_l_ms#:#malajski
+meta#:#meta_l_mt#:#maltese
+meta#:#meta_l_my#:#burmese
+meta#:#meta_l_na#:#nauru
+meta#:#meta_l_ne#:#nepalski
+meta#:#meta_l_nl#:#dutch
+meta#:#meta_l_no#:#norweski
+meta#:#meta_l_oc#:#occitan
+meta#:#meta_l_om#:#afan (oromo)
+meta#:#meta_l_or#:#oriya
+meta#:#meta_l_pa#:#punjabi
+meta#:#meta_l_pl#:#polski
+meta#:#meta_l_ps#:#pashto;pushto
+meta#:#meta_l_pt#:#portugalski
+meta#:#meta_l_qu#:#quechua
+meta#:#meta_l_rm#:#rhaeto-romance
+meta#:#meta_l_rn#:#kurundi
+meta#:#meta_l_ro#:#rumuński
+meta#:#meta_l_ru#:#rosyjski
+meta#:#meta_l_rw#:#kinyarwanda
+meta#:#meta_l_sa#:#sanskryt
+meta#:#meta_l_sd#:#sindhi
+meta#:#meta_l_sg#:#sangho
+meta#:#meta_l_sh#:#serbo-chorwacki
+meta#:#meta_l_si#:#singalezyjski
+meta#:#meta_l_sk#:#słowacki
+meta#:#meta_l_sl#:#słoweński
+meta#:#meta_l_sm#:#samoański
+meta#:#meta_l_sn#:#shona
+meta#:#meta_l_so#:#somalijski
+meta#:#meta_l_sq#:#albański
+meta#:#meta_l_sr#:#serbski
+meta#:#meta_l_ss#:#siswati
+meta#:#meta_l_st#:#sesotho
+meta#:#meta_l_su#:#sundanese
+meta#:#meta_l_sv#:#szwedzki
+meta#:#meta_l_sw#:#suahili
+meta#:#meta_l_ta#:#tamilski
+meta#:#meta_l_te#:#telugu
+meta#:#meta_l_tg#:#tajik
+meta#:#meta_l_th#:#tajski
+meta#:#meta_l_ti#:#tigrinya
+meta#:#meta_l_tk#:#turkmeński
+meta#:#meta_l_tl#:#tagalog
+meta#:#meta_l_tn#:#setswana
+meta#:#meta_l_to#:#tongijski
+meta#:#meta_l_tr#:#turecki
+meta#:#meta_l_ts#:#tsonga
+meta#:#meta_l_tt#:#tatarski
+meta#:#meta_l_tw#:#twi
+meta#:#meta_l_ug#:#uigur
+meta#:#meta_l_uk#:#ukraiński
+meta#:#meta_l_ur#:#urdu
+meta#:#meta_l_uz#:#uzbecki
+meta#:#meta_l_vi#:#wietnamski
+meta#:#meta_l_vo#:#volapuk
+meta#:#meta_l_wo#:#wolof
+meta#:#meta_l_xh#:#xhosa
+meta#:#meta_l_yi#:#jiddisz
+meta#:#meta_l_yo#:#yoruba
+meta#:#meta_l_za#:#zhuang
+meta#:#meta_l_zh#:#chiński
+meta#:#meta_l_zu#:#zuluski
+meta#:#meta_language#:#Język
+meta#:#meta_learner#:#Learner###14 Nov 2003 new variable
+meta#:#meta_learning_resource_type#:#Learning Resource Type###14 Nov 2003 new variable
+meta#:#meta_lecture#:#Lecture###14 Nov 2003 new variable
+meta#:#meta_lifecycle#:#Lifecycle###14 Nov 2003 new variable
+meta#:#meta_linear#:#Liniowy
+meta#:#meta_local_file#:#Local File###14 Nov 2003 new variable
+meta#:#meta_location#:#Location###14 Nov 2003 new variable
+meta#:#meta_low#:#Low###14 Nov 2003 new variable
+meta#:#meta_mac_os#:#MacOS###14 Nov 2003 new variable
+meta#:#meta_manager#:#Manager###14 Nov 2003 new variable
+meta#:#meta_maximum_version#:#Maximum Version###14 Nov 2003 new variable
+meta#:#meta_medium#:#Medium###14 Nov 2003 new variable
+meta#:#meta_meta_metadata#:#Meta-Metadata###14 Nov 2003 new variable
+meta#:#meta_metadatascheme#:#Metadata Scheme###14 Nov 2003 new variable
+meta#:#meta_minimum_version#:#Minimum Version###14 Nov 2003 new variable
+meta#:#meta_mixed#:#Mixed###14 Nov 2003 new variable
+meta#:#meta_ms_windows#:#MS-Windows###14 Nov 2003 new variable
+meta#:#meta_multi_os#:#Multi-OS###14 Nov 2003 new variable
+meta#:#meta_name#:#Name###14 Nov 2003 new variable
+meta#:#meta_narrative_text#:#Narrative Text###14 Nov 2003 new variable
+meta#:#meta_networked#:#Sieciowy
+meta#:#meta_new_element#:#Nowy element
+meta#:#meta_no#:#No###14 Nov 2003 new variable
+meta#:#meta_no_annotation#:#No meta data available for the Annotation section.###14 Nov 2003 new variable
+meta#:#meta_no_classification#:#No meta data available for the Classification section.###14 Nov 2003 new variable
+meta#:#meta_no_educational#:#No meta data available for Educational section.###14 Nov 2003 new variable
+meta#:#meta_no_lifecycle#:#No meta data available for Lifecycle section.###14 Nov 2003 new variable
+meta#:#meta_no_meta_metadata#:#No meta data available for Meta-Metadata section.###14 Nov 2003 new variable
+meta#:#meta_no_relation#:#No meta data available for the Relation section.###14 Nov 2003 new variable
+meta#:#meta_no_rights#:#No meta data available for the Rights section.###14 Nov 2003 new variable
+meta#:#meta_no_technical#:#No meta data available for Technical section.###14 Nov 2003 new variable
+meta#:#meta_none#:#None###14 Nov 2003 new variable
+meta#:#meta_operating_system#:#Operating System###14 Nov 2003 new variable
+meta#:#meta_or_composite#:#Or Composite###14 Nov 2003 new variable
+meta#:#meta_other#:#Other###14 Nov 2003 new variable
+meta#:#meta_other_plattform_requirements#:#Other Plattform Requirements###14 Nov 2003 new variable
+meta#:#meta_pc_dos#:#PC-DOS###14 Nov 2003 new variable
+meta#:#meta_please_select#:#Wybierz
+meta#:#meta_prerequisite#:#Prerequisite###14 Nov 2003 new variable
+meta#:#meta_problem_statement#:#Problem Statement###14 Nov 2003 new variable
+meta#:#meta_publisher#:#Publisher###14 Nov 2003 new variable
+meta#:#meta_purpose#:#Purpose###14 Nov 2003 new variable
+meta#:#meta_questionnaire#:#Questionnaire###14 Nov 2003 new variable
+meta#:#meta_reference#:#Reference###14 Nov 2003 new variable
+meta#:#meta_references#:#References###14 Nov 2003 new variable
+meta#:#meta_relation#:#Relation###14 Nov 2003 new variable
+meta#:#meta_requirement#:#Requirement###14 Nov 2003 new variable
+meta#:#meta_requires#:#Requires###14 Nov 2003 new variable
+meta#:#meta_resource#:#Resource###14 Nov 2003 new variable
+meta#:#meta_revised#:#Revised###14 Nov 2003 new variable
+meta#:#meta_rights#:#Rights###14 Nov 2003 new variable
+meta#:#meta_role#:#Role###14 Nov 2003 new variable
+meta#:#meta_school#:#School###14 Nov 2003 new variable
+meta#:#meta_security_level#:#Security Level###14 Nov 2003 new variable
+meta#:#meta_self_assessment#:#Self Assessment###14 Nov 2003 new variable
+meta#:#meta_semantic_density#:#Semantic Density###14 Nov 2003 new variable
+meta#:#meta_simulation#:#Simulation###14 Nov 2003 new variable
+meta#:#meta_size#:#Size###14 Nov 2003 new variable
+meta#:#meta_skill_level#:#Skill Level###14 Nov 2003 new variable
+meta#:#meta_slide#:#Slide###14 Nov 2003 new variable
+meta#:#meta_source#:#Source###14 Nov 2003 new variable
+meta#:#meta_status#:#Status###14 Nov 2003 new variable
+meta#:#meta_structure#:#Struktura
+meta#:#meta_table#:#Table###14 Nov 2003 new variable
+meta#:#meta_taxon#:#Taxon###14 Nov 2003 new variable
+meta#:#meta_taxon_path#:#Taxon Path###14 Nov 2003 new variable
+meta#:#meta_teacher#:#Teacher###14 Nov 2003 new variable
+meta#:#meta_technical#:#Technical###14 Nov 2003 new variable
+meta#:#meta_title#:#Tytuł
+meta#:#meta_training#:#Training###14 Nov 2003 new variable
+meta#:#meta_type#:#Type###14 Nov 2003 new variable
+meta#:#meta_typical_age_range#:#Typical Age Range###14 Nov 2003 new variable
+meta#:#meta_typical_learning_time#:#Typical Learning Time###14 Nov 2003 new variable
+meta#:#meta_unavailable#:#Unavailable###14 Nov 2003 new variable
+meta#:#meta_unix#:#Unix###14 Nov 2003 new variable
+meta#:#meta_value#:#Wartość
+meta#:#meta_version#:#Version###14 Nov 2003 new variable
+meta#:#meta_very_difficult#:#Very Difficult###14 Nov 2003 new variable
+meta#:#meta_very_easy#:#Very Easy###14 Nov 2003 new variable
+meta#:#meta_very_high#:#Very High###14 Nov 2003 new variable
+meta#:#meta_very_low#:#Very Low###14 Nov 2003 new variable
+meta#:#meta_yes#:#Yes###14 Nov 2003 new variable
+search#:#search_all_results#:#Wszystkie wyniki
+search#:#search_concatenation#:#Powiązanie
+search#:#search_content#:#Zawartość strony
+search#:#search_dbk_content#:#Biblioteka cyfrowa (zawartość)
+search#:#search_dbk_meta#:#Biblioteka cyfrowa (meta dane)
+search#:#search_in_result#:#Szukaj w wynikach
+search#:#search_lm_content#:#Materiały nauczania (zawartość)
+search#:#search_lm_meta#:#Materiały nauczania (meta dane)
+search#:#search_meta#:#Meta dane
+search#:#search_minimum_three#:#Element szukany musi mieć conajmniej trzy znaki.
+search#:#search_no_category#:#nie wybrałeś żadnej kategorii przeszukania.
+search#:#search_no_match#:#Twoje szukanie nie dało żadnych rezultatów.
+search#:#search_no_search_term#:#Nie wybrałeś żadnego terminu do szukania.
+search#:#search_search_for#:#Szukaj
+search#:#search_search_term#:#Poszukiwany termin
+search#:#search_show_result#:#Pokaż
+search#:#search_user#:#Użytkownicy
