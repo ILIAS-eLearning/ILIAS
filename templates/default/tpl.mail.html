@@ -62,20 +62,16 @@ body { margin:0px; }
 			<td class="std"  valign="middle">&nbsp;{MAIL_DATE}</td>
 		  </tr>
 		  <!-- END mails -->
-	  </table>
-	  <table class="fullwidth">
 		  <tr class="tblrow2">
 			<td class="std"  colspan=4>&nbsp;<input type="checkbox" name="all" value="check_all" onClick="CheckAll();">&nbsp;
 			  <strong>{TXT_SELECT_ALL}</strong>
 			</td>
 		  </tr>
-	  </table>
-	  <table class="fullwidth">
-		  <tr>
+		  <tr class="tblfooter">
 			<td class="std"  width="4%" align="center">
 			  <img src="{IMGPATH}/images/arrow_downright.gif" />
 			</td>
-			<td class="std" >
+			<td class="std" colspan="3">
 			  <select name="action">
 				<!-- BEGIN mailactions -->
 				<option value="{MAILACTION_VALUE}" {MAILACTION_SELECTED}>{MAILACTION_NAME}</option>

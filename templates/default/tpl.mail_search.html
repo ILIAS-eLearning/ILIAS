@@ -72,12 +72,14 @@ body { margin:0px; }
 			<td class="std" >
 			  <b>{TXT_LASTNAME}</b>
 			</td>
+			<!-- BEGIN smtp -->
 			<td class="std" width="4%">
 			  &nbsp;			
 			</td>
 			<td class="std" >
 			  <b>{TXT_EMAIL}</b>
 			</td>
+			<!-- END smtp -->
 		  </tr>
 		  <!-- BEGIN person_search -->
 		  <tr class="{CSSROW}">
@@ -87,10 +89,12 @@ body { margin:0px; }
 			<td class="std"  valign="top">{LOGIN}</td>
 			<td class="std"  valign="top">{FIRSTNAME}</td>
 			<td class="std"  valign="top">{LASTNAME}</td>
+			<!-- BEGIN smtp_row -->
 			<td class="std" align="center">
 			  <input type="checkbox" name="search_name[]" value="{PERSON_EMAIL}"/>			
 			</td> 
 			<td class="std"  valign="top">{EMAIL}</td>
+			<!-- END smtp_row -->
 		  </tr>
 		  <!-- END person_search -->
 		  <!-- BEGIN no_content -->
@@ -126,15 +130,8 @@ body { margin:0px; }
 			<td class="std"  colspan="4" align="center">{TXT_GROUP_NO}</td>
 		  </tr>
 		  <!-- END no_group_content -->
-	  </table>
 	  <!-- END system -->
-	  <table class="fullwidth">
-		  <tr>
-			<td class="std" >
-			  &nbsp;
-			</td>
-		  </tr>
-		  <tr>
+		  <tr class="tblfooter">
 			<td class="std"  width="4%" align="center">
 			  <img src="templates/default/images/arrow_downright.gif" />
 			</td>

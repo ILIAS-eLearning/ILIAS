@@ -35,6 +35,11 @@ require_once "./include/inc.mail.php";
 require_once "classes/class.ilObjUser.php";
 require_once "classes/class.ilGroup.php";
 require_once "classes/class.ilAddressbook.php";
+require_once "classes/class.ilFormatMail.php";
+
+
+$umail = new ilFormatMail($_SESSION["AccountId"]);
+
 
 $lng->loadLanguageModule("mail");
 
@@ -100,16 +105,21 @@ if($_GET["system"])
 	if($users)
 	{
 		$counter = 0;
-		$tpl->setCurrentBlock("person_search");
 		foreach($users as $user_data)
 		{
+			if($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
+			{
+				$tpl->setCurrentBlock("smtp_row");
+				$tpl->setVariable("PERSON_EMAIL",$user_data["email"]);
+				$tpl->setVariable("EMAIL",$user_data["email"]);
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("person_search");
 			$tpl->setVariable("CSSROW",++$counter%2 ? 'tblrow1' : 'tblrow2');
 			$tpl->setVariable("PERSON_LOGIN",$user_data["login"]);
 			$tpl->setVariable("LOGIN",$user_data["login"]);
 			$tpl->setVariable("FIRSTNAME",$user_data["firstname"]);
 			$tpl->setVariable("LASTNAME",$user_data["lastname"]);
-			$tpl->setVariable("PERSON_EMAIL",$user_data["email"]);
-			$tpl->setVariable("EMAIL",$user_data["email"]);
 			$tpl->parseCurrentBlock();
 		}
 	}
@@ -141,12 +151,19 @@ if($_GET["system"])
 		$tpl->parseCurrentBlock();
 	}
 
+	if($rbacsystem->checkAccess("smtp_mail",$umail->getMailObjectReferenceId()))
+	{
+		$tpl->setCurrentBlock("smtp");
+		$tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
+		$tpl->parseCurrentBlock();
+	}
+		
+
 	$tpl->setCurrentBlock("system");
 	$tpl->setVariable("TXT_PERSONS",$lng->txt("persons"));
 	$tpl->setVariable("TXT_LOGIN",$lng->txt("login"));
 	$tpl->setVariable("TXT_FIRSTNAME",$lng->txt("firstname"));
 	$tpl->setVariable("TXT_LASTNAME",$lng->txt("lastname"));
-	$tpl->setVariable("TXT_EMAIL",$lng->txt("email"));
 	$tpl->setVariable("TXT_GROUPS",$lng->txt("groups"));
 	$tpl->setVariable("TXT_GROUP_NAME",$lng->txt("title"));
 	$tpl->setVariable("TXT_GROUP_DESC",$lng->txt("description"));
