@@ -38,6 +38,8 @@ require_once "content/classes/class.ilObjMediaPool.php";
 
 class ilObjMediaPoolGUI extends ilObjectGUI
 {
+	var $output_prepared;
+
 	/**
 	* Constructor
 	*
@@ -49,8 +51,15 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		$this->type = "mep";
 		$lng->loadLanguageModule("content");
-		parent::ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
+
+		parent::ilObjectGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		//$this->actions = $this->objDefinition->getActions("mep");
+		$this->output_prepared = $a_prepare_output;
+
+		if (defined("ILIAS_MODULE"))
+		{
+			$this->setTabTargetScript("mep_edit.php");
+		}
 	}
 
 
@@ -81,14 +90,13 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 
 	/**
-	* view object
+	* edit properties of object (admin form)
 	*
 	* @access	public
 	*/
 	function editObject()
 	{
 		global $rbacsystem, $tree, $tpl;
-
 
 		if (!$rbacsystem->checkAccess("visible,write",$this->object->getRefId()))
 		{
@@ -109,6 +117,159 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 
 		parent::editObject();
 	}
+
+	/**
+	* edit properties of object (module form)
+	*/
+	function edit()
+	{
+		$this->prepareOutput();
+		$this->setFormAction("update", "mep_edit.php?cmd=post&ref_id=".$_GET["ref_id"].
+			"&obj_id=".$_GET["obj_id"]);
+		$this->editObject();
+		$this->tpl->show();
+	}
+
+	/**
+	* cancel editing
+	*/
+	function cancel()
+	{
+		$this->setReturnLocation("cancel","mep_edit.php?cmd=listMedia&ref_id=".$_GET["ref_id"].
+			"&obj_id=".$_GET["obj_id"]);
+		$this->cancelObject();
+	}
+
+	/**
+	* list media objects
+	*/
+	function listMedia()
+	{
+		global $tree;
+
+		if (!$this->output_prepared)
+		{
+			$this->prepareOutput();
+		}
+
+		//add template for view button
+		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+
+		// view button
+		$this->tpl->setCurrentBlock("btn_cell");
+		$this->tpl->setVariable("BTN_LINK","mep_edit.php?ref_id=".$_GET["ref_id"].
+			"&obj_id=".$_GET["obj_id"]."&cmd=createFolderForm");
+		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_create_folder"));
+		$this->tpl->parseCurrentBlock();
+
+		$obj_id = ($_GET["obj_id"] == "")
+			? $obj_id = $this->object->tree->getRootId()
+			: $_GET["obj_id"];
+
+		if($_GET["limit"] == 0 )
+		{
+			$_GET["limit"] = 15;
+		}
+
+		// create table
+		require_once("classes/class.ilTableGUI.php");
+		$tbl = new ilTableGUI();
+
+		// load files templates
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+
+		// load template for table content data
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.mep_list_row.html", true);
+
+		$num = 0;
+
+		$this->tpl->setVariable("FORMACTION", "mep_edit.php?ref_id=".$_GET["ref_id"].
+			"&obj_id=".$_GET["obj_id"]."&cmd=post");
+
+		$tbl->setTitle($this->lng->txt("cont_objects"));
+
+		$tbl->setHeaderNames(array("", "", $this->lng->txt("cont_title")));
+
+		$cols = array("", "", "title");
+		$header_params = array("ref_id" => $_GET["ref_id"],
+			"obj_id" => $_GET["obj_id"]);
+		$tbl->setHeaderVars($cols, $header_params);
+		$tbl->setColumnWidth(array("1%", "1%", "98%"));
+
+		// control
+		$tbl->setOrderColumn($_GET["sort_by"]);
+		$tbl->setOrderDirection($_GET["sort_order"]);
+		$tbl->setLimit($_GET["limit"]);
+		$tbl->setOffset($_GET["offset"]);
+		$tbl->setMaxCount($this->maxcount);		// ???
+
+		$this->tpl->setVariable("COLUMN_COUNTS", 3);
+
+		// remove button
+		$this->tpl->setCurrentBlock("tbl_action_btn");
+		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("remove"));
+		$this->tpl->parseCurrentBlock();
+
+		// footer
+		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
+		//$tbl->disable("footer");
+
+		$objs = $this->object->tree->getChildsByType($obj_id, "fold");
+		$mobs = $this->object->tree->getChildsByType($obj_id, "mob");
+		foreach($mobs as $key => $mob)
+		{
+			$objs[] = $mob;
+		}
+
+		$tbl->setMaxCount(count($objs));
+		$objs = array_slice($objs, $_GET["offset"], $_GET["limit"]);
+
+		$tbl->render();
+		if(count($objs) > 0)
+		{
+			$i=0;
+			foreach($objs as $obj)
+			{
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				switch($obj["type"])
+				{
+					case "fold":
+						$this->tpl->setCurrentBlock("tbl_content");
+						$this->tpl->setVariable("TXT_FOLDER", $obj["title"]);
+
+						$this->tpl->setVariable("CSS_ROW", $css_row);
+
+						$this->tpl->setVariable("CHECKBOX_ID", $obj["obj_id"]);
+						break;
+
+					case "mob":
+						$this->tpl->setCurrentBlock("tbl_content");
+						$this->tpl->setVariable("TXT_MOB", $obj["title"]);
+
+						$this->tpl->setVariable("CSS_ROW", $css_row);
+
+						$this->tpl->setVariable("CHECKBOX_ID", $obj["obj_id"]);
+						break;
+				}
+
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+			}
+		} //if is_array
+		else
+		{
+			$this->tpl->setCurrentBlock("notfound");
+			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
+			$this->tpl->setVariable("NUM_COLS", 3);
+			$this->tpl->parseCurrentBlock();
+		}
+
+		$this->tpl->parseCurrentBlock();
+		$this->tpl->show();
+	}
+
 
 	/**
 	* execute command
@@ -173,13 +334,121 @@ class ilObjMediaPoolGUI extends ilObjectGUI
 		$output = $exp->getOutput();
 
 		$this->tpl->setCurrentBlock("content");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_folders"));
+		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_mep_structure"));
 		$this->tpl->setVariable("EXPLORER",$output);
 		$this->tpl->setVariable("ACTION", "mep_edit.php?cmd=explorer&ref_id=".$this->ref_id."&mepexpand=".$_GET["mepexpand"]);
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->show(false);
 
 	}
+
+	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php")
+	{
+		global $ilias_locator;
+		if (!defined("ILIAS_MODULE"))
+		{
+			parent::setLocator();
+		}
+		else
+		{
+			$tree =& $this->object->getTree();
+			$obj_id = ($_GET["obj_id"] == "")
+				? $tree->getRootId()
+				: $_GET["obj_id"];
+			parent::setLocator($tree, $obj_id, "mep_edit.php?cmd=listMedia&ref_id=".$_GET["ref_id"],
+				"obj_id", false);
+		}
+		return;
+
+		if (!is_object($a_tree))
+		{
+			$a_tree =& $this->tree;
+		}
+
+		if (!($a_id))
+		{
+			$a_id = $_GET["ref_id"];
+		}
+
+		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+		$path = $a_tree->getPathFull($a_id);
+
+        //check if object isn't in tree, this is the case if parent_parent is set
+		// TODO: parent_parent no longer exist. need another marker
+		if ($a_parent_parent)
+		{
+			//$subObj = getObject($a_ref_id);
+			$subObj =& $this->ilias->obj_factory->getInstanceByRefId($a_ref_id);
+
+			$path[] = array(
+				"id"	 => $a_ref_id,
+				"title"  => $this->lng->txt($subObj->getTitle())
+				);
+		}
+
+		// this is a stupid workaround for a bug in PEAR:IT
+		$modifier = 1;
+
+		if (isset($_GET["obj_id"]))
+		{
+			$modifier = 0;
+		}
+
+		// ### AA 03.11.10 added new locator GUI class ###
+		$i = 1;
+
+		foreach ($path as $key => $row)
+		{
+			if ($key < count($path)-$modifier)
+			{
+				$this->tpl->touchBlock("locator_separator");
+			}
+
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $row["title"]);
+
+			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$row["child"]);
+			$this->tpl->parseCurrentBlock();
+
+			// ### AA 03.11.10 added new locator GUI class ###
+			// navigate locator
+			$ilias_locator->navigate($i++,$row["title"],$scriptname."?ref_id=".$row["child"],"bottom");
+		}
+
+		if (isset($_GET["obj_id"]))
+		{
+			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($_GET["obj_id"]);
+
+			$this->tpl->setCurrentBlock("locator_item");
+			$this->tpl->setVariable("ITEM", $obj_data->getTitle());
+
+			$this->tpl->setVariable("LINK_ITEM", $scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"]);
+			$this->tpl->parseCurrentBlock();
+
+			// ### AA 03.11.10 added new locator GUI class ###
+			// navigate locator
+			$ilias_locator->navigate($i++,$obj_data->getTitle(),$scriptname."?ref_id=".$_GET["ref_id"]."&obj_id=".$_GET["obj_id"],"bottom");
+		}
+
+		$this->tpl->setCurrentBlock("locator");
+
+		if (DEBUG)
+		{
+			$debug = "DEBUG: <font color=\"red\">".$this->type."::".$this->id."::".$_GET["cmd"]."</font><br/>";
+		}
+
+		$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
+
+		if ($_GET["cmd"] == "confirmDeleteAdm")
+		{
+			$prop_name = "delete_object";
+		}
+
+		$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
+		$this->tpl->parseCurrentBlock();
+	}
+
 
 }
 ?>
