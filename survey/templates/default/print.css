@@ -57,4 +57,15 @@ td
 	background: #DDDDDD;
 } 
 
+.tblrow1top 
+{
+	background: #FFFFFF;
+	vertical-align: top;
+}
+
+.tblrow2top
+{
+	background: #DDDDDD;
+	vertical-align: top;
+} 
 

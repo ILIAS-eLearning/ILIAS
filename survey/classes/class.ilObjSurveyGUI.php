@@ -2541,12 +2541,23 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 	function printEvaluationObject()
 	{
-		$this->evaluationObject($_POST["detail"], 1);
+		if (strcmp($_POST["evaltype"], "user") == 0)
+		{
+			$this->evaluationuserObject(1);
+		}
+		else
+		{
+			$this->evaluationObject($_POST["detail"], 1);
+		}
 		exit;
 	}
 
 	function evaluationuserObject($print = 0)
 	{
+		if (!is_array($_POST))
+		{
+			$_POST = array();
+		}
 		require_once './classes/Spreadsheet/Excel/Writer.php';
 		$format_bold = "";
 		$format_percent = "";
@@ -2574,46 +2585,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		else
 		{
-			$this->tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluation_preview.html", true, true);
+			$this->tpl = new ilTemplate("./survey/templates/default/tpl.il_svy_svy_evaluationuser_preview.html", true, true);
 		}
 		$counter = 0;
 		$classes = array("tblrow1top", "tblrow2top");
+		$csvrow = array();
 		$questions =& $this->object->getSurveyQuestions(true);
 		$this->tpl->setCurrentBlock("headercell");
 		$this->tpl->setVariable("TEXT_HEADER_CELL", $this->lng->txt("username"));
 		$this->tpl->parseCurrentBlock();
-		$char = "A";
-		switch ($_POST["export_format"])
+		if (array_key_exists("export_format", $_POST))
 		{
-			case TYPE_XLS:
-				// Creating a workbook
-				$workbook = new Spreadsheet_Excel_Writer();
-
-				// sending HTTP headers
-				$workbook->send("$surveyname.xls");
-
-				// Creating a worksheet
-				$format_bold =& $workbook->addFormat();
-				$format_bold->setBold();
-				$format_percent =& $workbook->addFormat();
-				$format_percent->setNumFormat("0.00%");
-				$format_datetime =& $workbook->addFormat();
-				$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
-				$format_title =& $workbook->addFormat();
-				$format_title->setBold();
-				$format_title->setColor('black');
-				$format_title->setPattern(1);
-				$format_title->setFgColor('silver');
-				$format_title_plain =& $workbook->addFormat();
-				$format_title_plain->setColor('black');
-				$format_title_plain->setPattern(1);
-				$format_title_plain->setFgColor('silver');
-				// Creating a worksheet
-				$mainworksheet =& $workbook->addWorksheet();
-				break;
+			array_push($csvrow, $this->lng->txt("username"));
 		}
+		$char = "A";
 		$cellcounter = 1;
-		$csvrow = array();
 		foreach ($questions as $question_id => $question_data)
 		{
 			$this->tpl->setCurrentBlock("headercell");
@@ -2622,24 +2608,148 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("legendrow");
 			$this->tpl->setVariable("TEXT_KEY", $char++);
 			$this->tpl->setVariable("TEXT_VALUE", $question_data["title"]);
+			if (array_key_exists("export_format", $_POST))
+			{
+				array_push($csvrow, $question_data["title"]);
+				switch ($question_data["questiontype_fi"])
+				{
+					case 1:
+					case 2:
+						foreach ($question_data["answers"] as $cat => $cattext)
+						{
+							array_push($csvrow, ($cat+1) . " - $cattext");
+						}
+						break;
+					case 3:
+					case 4:
+						break;
+				}
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 		$csvfile = array();
+		array_push($csvfile, $csvrow);
 
 		foreach ($eval as $user_id => $resultset)
 		{
+			$csvrow = array();
 			$this->tpl->setCurrentBlock("bodycell");
 			$this->tpl->setVariable("COLOR_CLASS", $classes[$counter % 2]);
 			$this->tpl->setVariable("TEXT_BODY_CELL", $resultset["name"]);
+			array_push($csvrow, $resultset["name"]);
 			$this->tpl->parseCurrentBlock();
 			foreach ($questions as $question_id => $question_data)
 			{
+				// csv output
+				if (array_key_exists("export_format", $_POST))
+				{
+					switch ($question_data["questiontype_fi"])
+					{
+						case 1:
+							// nominal question
+							if (count($resultset["answers"][$question_id]))
+							{
+								array_push($csvrow, "");
+								foreach ($question_data["answers"] as $cat => $cattext)
+								{
+									$found = 0;
+									foreach ($resultset["answers"][$question_id] as $answerdata)
+									{
+										if (strcmp($cat, $answerdata["value"]) == 0)
+										{
+											$found = 1;
+										}
+									}
+									if ($found)
+									{
+										array_push($csvrow, 1);
+									}
+									else
+									{
+										array_push($csvrow, "");
+									}
+								}
+							}
+							else
+							{
+								array_push($csvrow, $this->lng->txt("skipped"));
+								foreach ($question_data["answers"] as $cat => $cattext)
+								{
+									array_push($csvrow, "");
+								}
+							}
+							break;
+						case 2:
+							// ordinal question
+							if (count($resultset["answers"][$question_id]))
+							{
+								array_push($csvrow, "");
+								foreach ($question_data["answers"] as $cat => $cattext)
+								{
+									$found = 0;
+									foreach ($resultset["answers"][$question_id] as $answerdata)
+									{
+										if (strcmp($cat, $answerdata["value"]) == 0)
+										{
+											$found = 1;
+										}
+									}
+									if ($found)
+									{
+										array_push($csvrow, 1);
+									}
+									else
+									{
+										array_push($csvrow, "");
+									}
+								}
+							}
+							else
+							{
+								array_push($csvrow, $this->lng->txt("skipped"));
+								foreach ($question_data["answers"] as $cat => $cattext)
+								{
+									array_push($csvrow, "");
+								}
+							}
+							break;
+						case 3:
+							// metric question
+							if (count($resultset["answers"][$question_id]))
+							{
+								foreach ($resultset["answers"][$question_id] as $key => $answer)
+								{
+									array_push($csvrow, $answer["value"]);
+								}
+							}
+							else
+							{
+								array_push($csvrow, $this->lng->txt("skipped"));
+							}
+							break;
+						case 4:
+							// text question
+							if (count($resultset["answers"][$question_id]))
+							{
+								foreach ($resultset["answers"][$question_id] as $key => $answer)
+								{
+									array_push($csvrow, $answer["textanswer"]);
+								}
+							}
+							else
+							{
+								array_push($csvrow, $this->lng->txt("skipped"));
+							}
+							break;
+					}
+				}
+				// html output
 				if (count($resultset["answers"][$question_id]))
 				{
 					$answervalues = array();
 					foreach ($resultset["answers"][$question_id] as $key => $answer)
 					{
-						switch ($questions[$question_id]["questiontype_fi"])
+						switch ($question_data["questiontype_fi"])
 						{
 							case 1:
 								// nominal question
@@ -2678,6 +2788,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->tpl->setCurrentBlock("row");
 			$this->tpl->parse("row");
 			$counter++;
+			array_push($csvfile, $csvrow);
 		}
 		if (!$print)
 		{
@@ -2693,7 +2804,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->tpl->setVariable("EXPORT_DATA", $this->lng->txt("export_data_as"));
 		$this->tpl->setVariable("TEXT_EXCEL", $this->lng->txt("excel"));
 		$this->tpl->setVariable("TEXT_CSV", $this->lng->txt("csv"));
-		$this->tpl->setVariable("VALUE_DETAIL", $details);
 		$this->tpl->setVariable("BTN_EXPORT", $this->lng->txt("export"));
 		$this->tpl->setVariable("BTN_PRINT", $this->lng->txt("print"));
 		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
@@ -2706,6 +2816,57 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			case TYPE_XLS:
 				// Let's send the file
+				// Creating a workbook
+				$workbook = new Spreadsheet_Excel_Writer();
+
+				// sending HTTP headers
+				$workbook->send("$surveyname.xls");
+
+				// Creating a worksheet
+				$format_bold =& $workbook->addFormat();
+				$format_bold->setBold();
+				$format_percent =& $workbook->addFormat();
+				$format_percent->setNumFormat("0.00%");
+				$format_datetime =& $workbook->addFormat();
+				$format_datetime->setNumFormat("DD/MM/YYYY hh:mm:ss");
+				$format_title =& $workbook->addFormat();
+				$format_title->setBold();
+				$format_title->setColor('black');
+				$format_title->setPattern(1);
+				$format_title->setFgColor('silver');
+				$format_title_plain =& $workbook->addFormat();
+				$format_title_plain->setColor('black');
+				$format_title_plain->setPattern(1);
+				$format_title_plain->setFgColor('silver');
+				// Creating a worksheet
+				$mainworksheet =& $workbook->addWorksheet();
+				$row = 0;
+				foreach ($csvfile as $csvrow)
+				{
+					$col = 0;
+					if ($row == 0)
+					{
+						foreach ($csvrow as $text)
+						{
+							$mainworksheet->writeString($row, $col++, $text, $format_title);
+						}
+					}
+					else
+					{
+						foreach ($csvrow as $text)
+						{
+							if (preg_match("/\d+/", $text))
+							{
+								$mainworksheet->writeNumber($row, $col++, $text);
+							}
+							else
+							{
+								$mainworksheet->writeString($row, $col++, $text);
+							}
+						}
+					}
+					$row++;
+				}
 				$workbook->close();
 				exit();
 				break;
