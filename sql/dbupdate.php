@@ -4393,3 +4393,9 @@ $this->db->query($query);
 ALTER  TABLE `tst_eval_settings`   CHANGE `distancemean`  `distancemedian`  ENUM( '0' , '1'   ) DEFAULT '1'  NOT  NULL;
 <#265>
 ALTER TABLE `tst_eval_settings` DROP `distancequintile`;
+<#266>
+CREATE TABLE `payment_vendors` (
+`vendor_id` INT( 11 ) NOT NULL ,
+`cost_center` VARCHAR( 16 ) NOT NULL ,
+PRIMARY KEY ( `vendor_id` )
+);
