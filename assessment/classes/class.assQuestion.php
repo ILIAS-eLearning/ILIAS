@@ -217,6 +217,7 @@ class ASS_Question
 		$this->id = -1;
 		$this->test_id = -1;
 		$this->shuffle = 1;
+		$this->setEstimatedWorkingTime(0,1,0);
 		$this->outputType = OUTPUT_HTML;
 		register_shutdown_function(array(&$this, '_ASS_Question'));
 	}

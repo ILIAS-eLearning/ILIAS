@@ -313,7 +313,6 @@ class ilObjTest extends ilObject
 			"D" => 10,
 			"E" => 0
 		);
-		//$this->mark_schema = new ASS_MarkSchema();
 		if ($a_id == 0)
 		{
 			$new_meta =& new ilMetaData();
@@ -1465,6 +1464,7 @@ class ilObjTest extends ilObject
 		{
 			// Error
 		}
+		$this->saveCompleteStatus();
 		// remove test_active entries, because test has changed
 		$query = sprintf("DELETE FROM tst_active WHERE test_fi = %s",
 			$this->ilias->db->quote($this->getTestId())
