@@ -199,13 +199,11 @@ class ilSearchAdministrationGUI
 		{
 			case "flat":
 				$this->viewmode = "flat";
-				session_register("s_viewmode","flat");
 				$_SESSION["s_viewmode"] = "flat";
 				break;
 
 			case "tree":
 				$this->viewmode = "tree";
-				session_register("s_viewmode","tree");
 				$_SESSION["s_viewmode"] = "tree";
 				break;
 				
