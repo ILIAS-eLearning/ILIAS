@@ -126,6 +126,7 @@ assessment#:#ending_time_reached#:#Sie haben die späteste Bearbeitungszeit des 
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bild-Datei!
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
+assessment#:#eval_data#:#Evaluation Data###04 Jul 2004 new variable
 assessment#:#eval_imagemap_result#:#Die Imagemap-Auswahl ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_java_result#:#Die Antwort für den Wert %s lautet %s. Sie erreichten %s Punkte.
 assessment#:#eval_legend_link#:#Für die Bedeutung der Spaltenüberschriften betrachten Sie bitte die Legende
@@ -3180,7 +3181,7 @@ survey#:#qpl_delete_rbac_error#:#Sie verfügen nicht über die erforderlichen Re
 survey#:#qpl_delete_select_none#:#Bitte wählen Sie mindestens eine Frage aus, um den Löschvorgang durchzuführen!
 survey#:#qpl_duplicate_select_none#:#Bitte wählen Sie mindestens eine Frage aus, die Sie duplizieren wollen!
 survey#:#qpl_past_questions_confirmation#:#Sind Sie sicher, dass Sie die folgenden Fragen in den Fragenpool einfügen wollen?
-survey#:#qpl_phrases_deleted#:#Phrase(n) gelöscht.
+survey#:#qpl_phrases_deleted#:#Phrase(n) gelöscht.###04 Jul 2004 content changed
 survey#:#qpl_questions_deleted#:#Frage(n) gelöscht.
 survey#:#qpl_questions_pasted#:#Frage(n) eingefügt.
 survey#:#qpl_savephrase_empty#:#Bitte geben Sie einen Titel für die Phrase an!
