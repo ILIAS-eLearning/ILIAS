@@ -1206,8 +1206,6 @@ content#:#Pages#:#Pages
 content#:#all#:#All
 content#:#cont_Alphabetic#:#Alphabetic A, B, ...
 content#:#cont_Circle#:#Circle
-content#:#cont_set_link#:#Set Link
-content#:#cont_edit_area#:#Edit Area
 content#:#cont_Citation#:#Citation
 content#:#cont_Example#:#Example
 content#:#cont_Headline1#:#Headline 1
@@ -1271,6 +1269,7 @@ content#:#cont_del_assignment#:#Delete assignment
 content#:#cont_dependencies#:#Dependencies
 content#:#cont_details#:#Details
 content#:#cont_dir_file#:#Directory/File
+content#:#cont_edit_area#:#Edit Area
 content#:#cont_edit_file_list_properties#:#Edit File List Properties
 content#:#cont_edit_mob#:#Edit Media Object
 content#:#cont_edit_mob_alias_prop#:#Edit Media Object Instance Properties
@@ -1390,6 +1389,7 @@ content#:#cont_series_editor#:#Series editor
 content#:#cont_series_title#:#Series title
 content#:#cont_series_volume#:#Series volume
 content#:#cont_set_class#:#Set Class
+content#:#cont_set_link#:#Set Link
 content#:#cont_set_width#:#Set Width
 content#:#cont_shape#:#Shape
 content#:#cont_show#:#Show

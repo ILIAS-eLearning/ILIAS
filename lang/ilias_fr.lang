@@ -1269,6 +1269,7 @@ content#:#cont_del_assignment#:#Supprimer assignation
 content#:#cont_dependencies#:#Dépendances
 content#:#cont_details#:#Détails
 content#:#cont_dir_file#:#Répertoire/fichier
+content#:#cont_edit_area#:#Edit Area###22 Feb 2004 new variable
 content#:#cont_edit_file_list_properties#:#Modifier propriétés de la liste de fichiers
 content#:#cont_edit_mob#:#Modifier objet média
 content#:#cont_edit_mob_alias_prop#:#Modifier propriétés de l'instance de l'objet média
@@ -1388,6 +1389,7 @@ content#:#cont_series_editor#:#Responsable de collection
 content#:#cont_series_title#:#Titre de collection
 content#:#cont_series_volume#:#Volume de collection
 content#:#cont_set_class#:#Fixer la classe
+content#:#cont_set_link#:#Set Link###22 Feb 2004 new variable
 content#:#cont_set_width#:#Fixer la largeur
 content#:#cont_shape#:#Shape###14 Jan 2004 new variable
 content#:#cont_show#:#Afficher
