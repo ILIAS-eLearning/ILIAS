@@ -1,3 +1,4 @@
+<!-- {{{ -->
 <script language="JavaScript" type="text/javascript">
 <!--
 // original code:
@@ -238,6 +239,7 @@ function storeCaret(textEl) {
 
 //-->
 </script>
+<!-- }}} -->
 <form action="{FORMACTION}" name="post" method="post">
 
 <input type="hidden" name="usedwsiwygeditor" id="usedwsiwygeditor" value="0">
@@ -328,6 +330,14 @@ function storeCaret(textEl) {
 var editor = null;
 function initEditor(TextAreaName) 
 {
+
+/**
+* <p> in IE while <br /> in Mozilla
+* see: http://www.htmlarea.com/forum/htmlArea_3_(beta)_C4/htmlArea_v3.0_-_Beta_Release_F14/gforum.cgi?post=36031;search_string=linebreak;guest=10274569&t=search_engine#36031
+* possible solution:
+* see: http://www.htmlarea.com/forum/htmlArea_3_(beta)_C4/htmlArea_v3.0_-_Beta_Release_F14/gforum.cgi?post=17397;search_string=linebreak;guest=10274569&t=search_engine#17397
+*/
+
   editor = new HTMLArea(TextAreaName);
 
   var cfg = editor.config; // this is the default configuration
@@ -431,6 +441,7 @@ function initEditor(TextAreaName)
   	cfg.pageStyle = ".footnote { color:0000FF; } ";
 	cfg.pageStyle += ".iliasxln {color: 0000FF;text-decoration:underline;}";
 	cfg.pageStyle += ".iliasiln {color: 000FFF;text-decoration:underline;}";
+	cfg.pageStyle += "p {margin-top: 0px !important; margin-bottom: 0px !important;}";
 	
 	cfg.statusBar = false;
 	
@@ -513,7 +524,7 @@ function addInternalLink(Link,title) {
 
 function buttonFootnote() 
 {
-	if(editor.hasSelectedText()) 
+	if(editor.hasSelectedText() && editor.getSelectedHTML()!="&nbsp;") 
 	{
 		addFussnote(editor.getSelectedHTML());
 		editor.surroundHTML('<span class=\"footnote\" value=\"','\">['+fnCount+']</span>');
