@@ -2267,3 +2267,27 @@ ALTER TABLE `frm_posts` ADD `pos_subject` TEXT NOT NULL AFTER `pos_message` ;
 <#153>
 ALTER TABLE content_object ADD COLUMN toc_active ENUM('y','n') DEFAULT 'y';
 ALTER TABLE content_object ADD COLUMN lm_menu_active ENUM('y','n') DEFAULT 'y';
+
+<#154>
+CREATE TABLE file_based_lm
+(
+	id INT NOT NULL PRIMARY KEY,
+	online ENUM('y','n') DEFAULT 'n',
+	startfile VARCHAR(200)
+);
+
+<#155>
+<?php
+
+// build file_based_lm entries for each html learning module
+$query = "SELECT * FROM object_data WHERE type='htlm'";
+$res = $this->db->query($query);
+while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+{
+	$obj_id = $row["obj_id"];
+	$query = "INSERT INTO file_based_lm (id, online) VALUES ('".
+		$row["obj_id"]."', 'n')";
+	$this->db->query($query);
+}
+?>
+

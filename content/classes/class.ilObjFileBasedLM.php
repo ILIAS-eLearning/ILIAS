@@ -152,6 +152,12 @@ class ilObjFileBasedLM extends ilObject
 	{
 		$this->updateMetaData();
 
+		$q = "UPDATE file_based_lm SET ".
+			" online = '".ilUtil::tf2yn($this->getOnline())."',".
+			" startfile = '".$this->getStartFile()."'".
+			" WHERE id = '".$this->getId()."'";
+		$this->ilias->db->query($q);
+
 		return true;
 	}
 
@@ -162,6 +168,13 @@ class ilObjFileBasedLM extends ilObject
 	{
 		parent::read();
 		$this->meta_data =& new ilMetaData($this->getType(), $this->getId());
+
+		$q = "SELECT * FROM file_based_lm WHERE id = '".$this->getId()."'";
+		$lm_set = $this->ilias->db->query($q);
+		$lm_rec = $lm_set->fetchRow(DB_FETCHMODE_ASSOC);
+		$this->setOnline(ilUtil::yn2tf($lm_rec["online"]));
+		$this->setStartFile($lm_rec["startfile"]);
+
 	}
 
 
@@ -170,6 +183,8 @@ class ilObjFileBasedLM extends ilObject
 	*/
 	function create()
 	{
+		global $ilDB;
+
 		parent::create();
 		$this->createDataDirectory();
 		$this->meta_data->setId($this->getId());
@@ -178,6 +193,11 @@ class ilObjFileBasedLM extends ilObject
 		$this->meta_data->setDescription($this->getDescription());
 		$this->meta_data->setObject($this);
 		$this->meta_data->create();
+
+		$q = "INSERT INTO file_based_lm (id, online, startfile) VALUES ".
+			" (".$ilDB->quote($this->getID()).",".$ilDB->quote("n").",".
+			$ilDB->quote("").")";
+		$ilDB->query($q);
 	}
 
 	function getDataDirectory($mode = "filesystem")
@@ -191,6 +211,26 @@ class ilObjFileBasedLM extends ilObject
 	function createDataDirectory()
 	{
 		ilUtil::makeDir($this->getDataDirectory());
+	}
+
+	function getStartFile()
+	{
+		return $this->start_file;
+	}
+
+	function setStartFile($a_file)
+	{
+		$this->start_file = $a_file;
+	}
+
+	function setOnline($a_online)
+	{
+		$this->online = $a_online;
+	}
+
+	function getOnline()
+	{
+		return $this->online;
 	}
 
 

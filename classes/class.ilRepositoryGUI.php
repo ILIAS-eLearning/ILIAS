@@ -350,6 +350,16 @@ class ilRepositoryGUI
 							unset ($this->learning_resources[$key]);
 						}
 					}
+					// check if fblm is online
+					if ($object["type"] == "htlm")
+					{
+						include_once("content/classes/class.ilObjFileBasedLM.php");
+						$lm_obj =& new ilObjFileBasedLM($object["ref_id"]);
+						if((!$lm_obj->getOnline()) && (!$this->rbacsystem->checkAccess('write',$object["child"])))
+						{
+							unset ($this->learning_resources[$key]);
+						}
+					}
 					break;
 
 				// forums
@@ -513,8 +523,10 @@ class ilRepositoryGUI
 		else
 		{
 			$this->tpl->setVariable("HEADER",  $this->object->getTitle());
-			
-			$desc = ($this->object->getDescription()) ? $this->object->getDescription() : $this->lng->txt("no_description");
+
+			$desc = ($this->object->getDescription())
+				? $this->object->getDescription()
+				: "";
 			$this->tpl->setVariable("H_DESCRIPTION",  $desc);
 			//if ($_GET["cmd"] != "delete" && $_GET["cmd"] != "edit")
 			{

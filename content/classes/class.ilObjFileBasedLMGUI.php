@@ -83,6 +83,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
 		$fs_gui->getTabs($this->tabs_gui);
 		$this->getTemplate();
+		$this->setLocator();
 		$this->setTabs();
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -92,6 +93,13 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		{
 			case "ilfilesystemgui":
 //echo "<br>data_dir:".$this->object->getDataDirectory().":";
+				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
+				if ($this->object->getStartFile() != "")
+				{
+					$fs_gui->labelFile($this->object->getStartFile(),
+						$this->lng->txt("cont_startfile"));
+				}
+				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
 				$ret =& $fs_gui->executeCommand();
 				break;
 
@@ -116,14 +124,52 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
+		// view link
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK","fblm_presentation.php?ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK", "fblm_presentation.php?ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
 
-		//parent::editObject();
+		// lm properties
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.fblm_properties.html", true);
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+		$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
+
+		// online
+		$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
+		$this->tpl->setVariable("CBOX_ONLINE", "cobj_online");
+		$this->tpl->setVariable("VAL_ONLINE", "y");
+		if ($this->object->getOnline())
+		{
+			$this->tpl->setVariable("CHK_ONLINE", "checked");
+		}
+
+		// start file
+		$this->tpl->setVariable("TXT_START_FILE", $this->lng->txt("cont_startfile"));
+		$this->tpl->setVariable("VAL_START_FILE", $this->object->getStartFile());
+		$this->tpl->setVariable("TXT_SET_START_FILE", $this->lng->txt("cont_set_start_file"));
+		$this->tpl->setVariable("LINK_SET_START_FILE",
+			$this->ctrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
+
+		$this->tpl->setCurrentBlock("commands");
+		$this->tpl->setVariable("BTN_NAME", "saveProperties");
+		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		$this->tpl->parseCurrentBlock();
+
 	}
+
+	/**
+	* save properties
+	*/
+	function saveProperties()
+	{
+		$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
+		$this->object->update();
+		sendInfo($this->lng->txt("msg_obj_modified"), true);
+		$this->ctrl->redirect($this, "properties");
+	}
+
 
 	/**
 	* save object
@@ -208,6 +254,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$this->setReturnLocation("update", "fblm_edit.php?cmd=listFiles&ref_id=".$_GET["ref_id"].
 			"&obj_id=".$_GET["obj_id"]);
 		$this->updateObject();
+	}
+
+
+	function setStartFile($a_file)
+	{
+		$this->object->setStartFile($a_file);
+		$this->object->update();
+		$this->ctrl->redirectByClass("ilfilesystemgui", "listFiles");
 	}
 
 	/**
@@ -436,20 +490,94 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function setLocator($a_tree = "", $a_id = "", $scriptname="adm_object.php")
 	{
-		global $ilias_locator;
+		global $ilias_locator, $tree;
 		if (!defined("ILIAS_MODULE"))
 		{
 			parent::setLocator();
 		}
 		else
 		{
-		/*
-			$tree =& $this->object->getTree();
-			$obj_id = ($_GET["obj_id"] == "")
-				? $tree->getRootId()
-				: $_GET["obj_id"];
-			parent::setLocator($tree, $obj_id, "mep_edit.php?cmd=listMedia&ref_id=".$_GET["ref_id"],
-				"obj_id", false, $this->object->getTitle());*/
+			$a_tree =& $tree;
+			$a_id = $_GET["ref_id"];
+
+			$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+
+			$path = $a_tree->getPathFull($a_id);
+
+			// this is a stupid workaround for a bug in PEAR:IT
+			$modifier = 1;
+
+			if (!empty($_GET["obj_id"]))
+			{
+				$modifier = 0;
+			}
+
+			// ### AA 03.11.10 added new locator GUI class ###
+			$i = 1;
+
+			if ($this->object->getType() != "grp" && ($_GET["cmd"] == "delete" || $_GET["cmd"] == "edit"))
+			{
+				unset($path[count($path) - 1]);
+			}
+
+			foreach ($path as $key => $row)
+			{
+
+				if ($key < count($path) - $modifier)
+				{
+					$this->tpl->touchBlock("locator_separator");
+				}
+
+				$this->tpl->setCurrentBlock("locator_item");
+				if ($row["child"] != $a_tree->getRootId())
+				{
+					$this->tpl->setVariable("ITEM", $row["title"]);
+				}
+				else
+				{
+					$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
+				}
+				if($row["type"] == "htlm")
+				{
+					$this->tpl->setVariable("LINK_ITEM", "fblm_edit.php?ref_id=".$row["child"]);
+				}
+				else
+				{
+					$this->tpl->setVariable("LINK_ITEM", "../repository.php?ref_id=".$row["child"]);
+				}
+				//$this->tpl->setVariable("LINK_TARGET", " target=\"bottom\" ");
+
+				$this->tpl->parseCurrentBlock();
+
+				$this->tpl->setCurrentBlock("locator");
+
+				// ### AA 03.11.10 added new locator GUI class ###
+				// navigate locator
+				if ($row["child"] != $a_tree->getRootId())
+				{
+					$ilias_locator->navigate($i++,$row["title"],"../repository.php?ref_id=".$row["child"],"bottom");
+				}
+				else
+				{
+					$ilias_locator->navigate($i++,$this->lng->txt("repository"),"../repository.php?ref_id=".$row["child"],"bottom");
+				}
+			}
+
+			/*
+			if (DEBUG)
+			{
+				$debug = "DEBUG: <font color=\"red\">".$this->type."::".$this->id."::".$_GET["cmd"]."</font><br/>";
+			}
+
+			$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
+
+			if ($_GET["cmd"] == "confirmDeleteAdm")
+			{
+				$prop_name = "delete_object";
+			}*/
+
+			$this->tpl->setVariable("TXT_LOCATOR",$debug.$this->lng->txt("locator"));
+			$this->tpl->parseCurrentBlock();
 		}
 
 	}
@@ -470,7 +598,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	function showLearningModule()
 	{
 		$dir = $this->object->getDataDirectory();
-		if (@is_file($dir."/index.html"))
+		if (($this->object->getStartFile() != "") &&
+			(@is_file($dir."/".$this->object->getStartFile())))
+		{
+			ilUtil::redirect("../".$dir."/".$this->object->getStartFile());
+		}
+		else if (@is_file($dir."/index.html"))
 		{
 			ilUtil::redirect("../".$dir."/index.html");
 		}
