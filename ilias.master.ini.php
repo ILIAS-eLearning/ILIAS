@@ -1,3 +1,4 @@
+<?php /*
 [server]
 tpl_path = ./templates
 lang_path = ./lang
@@ -33,3 +34,4 @@ TABLE_CELLPADDING = 5
 [system]
 ROOT_FOLDER_ID = 1
 SYSTEM_FOLDER_ID = 9
+*/ ?>

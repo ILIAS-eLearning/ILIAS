@@ -156,7 +156,10 @@ class IniFile
     		$this->error("Cannot create file $this->INI_FILE_NAME");
     		return false;
     	}
-    	
+
+		//write php tags (security issue)
+    	$result = fwrite($fp, "<?php /*");
+
     	$groups = $this->readGroups();
     	$group_cnt = count($groups);
     	
@@ -176,8 +179,11 @@ class IniFile
     			$result = fwrite($fp,$res);
     		}
     	}
+		
+		//write php tags (security issue)
+    	$result = fwrite($fp, "*/ ?>");
     	
-    	fclose($fp);
+		fclose($fp);
 
 		return true;
     }

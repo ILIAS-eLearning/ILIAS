@@ -21,7 +21,7 @@ class Setup
 	 * @var string
 	 * @access private
 	 */
-	var $INI_FILE = "./ilias.ini";
+	var $INI_FILE = "./ilias.ini.php";
 	
 	/**
 	 * sql-template-file
@@ -35,7 +35,7 @@ class Setup
 	 * @access private
 	 * @var string
 	 */
-	var $DEFAULT_INI_FILE = "./ilias.master.ini";
+	var $DEFAULT_INI_FILE = "./ilias.master.ini.php";
 	
     /**
 	 *  database connector
@@ -74,7 +74,7 @@ class Setup
     {
 	//default values are in $DEFAULTINIFILE
 	//NOTE: please don't use any brackets
-	$this->default = parse_ini_file("./ilias.master.ini", true);
+	$this->default = parse_ini_file($this->DEFAULT_INI_FILE, true);
 	
 	//build list of databasetypes
 		$this->dbTypes = array();
