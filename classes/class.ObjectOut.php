@@ -4,7 +4,7 @@
 * Basic methods of all Output classes
 *
 * @author Stefan Meyer <smeyer@databay.de> 
-* @version $Id$Id: class.ObjectOut.php,v 1.24 2003/02/21 08:58:16 shofmann Exp $
+* @version $Id$Id: class.ObjectOut.php,v 1.25 2003/02/21 14:02:53 shofmann Exp $
 *
 * @package ilias-core
 */
@@ -273,7 +273,7 @@ class ObjectOut
 		$this->tpl->setVariable("TXT_PERMISSION", $this->lng->txt("permission"));
 		$this->tpl->setVariable("TXT_ROLES", $this->lng->txt("roles"));
 		$this->tpl->parseCurrentBlock();
-		
+
 		$num = 0;
 		foreach($this->data["rolenames"] as $name)
 		{
@@ -351,17 +351,18 @@ class ObjectOut
 	{
 	}
 
-	function viewObject()
+	function displayList()
 	{
+		global $tree, $rbacsystem;
+
 	    $this->getTemplateFile("view");
 		$num = 0;
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 								$_GET["parent"]."&cmd=gateway");
-		
+
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
-
 		foreach ($this->data["cols"] as $key)
 		{
 			if ($key != "")
@@ -372,7 +373,7 @@ class ObjectOut
 			{
 				$out = "&nbsp;";
 			}
-			
+
 			$this->tpl->setVariable("HEADER_TEXT", $out);
 			$this->tpl->setVariable("HEADER_LINK", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 							  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]."&order=type&direction=".
@@ -380,7 +381,7 @@ class ObjectOut
 
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		if (is_array($this->data["data"][0]))
 		{
 			//table cell
@@ -390,7 +391,7 @@ class ObjectOut
 				$ctrl = $this->data["ctrl"][$i];
 
 				$num++;
-		
+
 				// color changing
 				$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
 
@@ -402,20 +403,19 @@ class ObjectOut
 				else
 				{
 					$this->tpl->setCurrentBlock("checkbox");
-					$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
+					$this->tpl->setVariable("CHECKBOX_ID", $ctrl["id"]);
 					$this->tpl->setVariable("CSS_ROW", $css_row);
 					$this->tpl->parseCurrentBlock();
 				}
 
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->parseCurrentBlock();
-				
-				//data
+
 				foreach ($data as $key => $val)
 				{
 					//build link
 					$link = "adm_object.php?";
-					
+
 					if ($_GET["type"] == "lo" && $key == "type")
 					{
 						$link = "lo_view.php?";
@@ -429,12 +429,12 @@ class ObjectOut
 					    	$link .= "&";
 						}
 					}
-					
+
 					if ($key == "title" || $key == "type")
 					{
 						$this->tpl->setCurrentBlock("begin_link");
 						$this->tpl->setVariable("LINK_TARGET", $link);
-						
+
 						if ($_GET["type"] == "lo" && $key == "type")
 						{
 							$this->tpl->setVariable("NEW_TARGET", "\" target=\"lo_view\"");
@@ -451,8 +451,8 @@ class ObjectOut
 					$this->tpl->parseCurrentBlock();
 
 				} //foreach
-				
-				$this->tpl->setCurrentBlock("table_row");	
+
+				$this->tpl->setCurrentBlock("table_row");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 			} //for
@@ -463,7 +463,7 @@ class ObjectOut
 			$this->tpl->setVariable("NUM_COLS", $num);
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 		}
-		
+
 		// SHOW VALID ACTIONS
 		$this->showActions();
 
@@ -471,6 +471,51 @@ class ObjectOut
 		$this->showPossibleSubObjects();
 
 	}
+
+
+	/**
+	* list childs of current object
+	*/
+	function viewObject()
+	{
+		global $tree, $rbacsystem;
+
+		//prepare objectlist
+		$this->objectList = array();
+		$this->data["data"] = array();
+		$this->data["ctrl"] = array();
+		$this->data["cols"] = array("", "type", "title", "description", "last_change");
+
+		if ($tree->getChilds($_GET["obj_id"], $_GET["order"], $_GET["direction"]))
+		{
+			foreach ($tree->Childs as $key => $val)
+		    {
+				// visible
+				if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
+				{
+					continue;
+				}
+				//visible data part
+				$this->data["data"][] = array(
+					"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_".$val["type"].".gif\" border=\"0\">",
+					"title" => $val["title"],
+					"description" => $val["desc"],
+					"last_change" => $val["last_update"]
+				);
+
+				//control information
+				$this->data["ctrl"][] = array(
+					"type" => $val["type"],
+					"obj_id" => $val["id"],
+					"parent" => $val["parent"],
+					"parent_parent" => $val["parent_parent"]
+				);
+		    } //foreach
+		} //if
+
+		$this->displayList();
+	}
+
 
 	function confirmDeleteAdmObject()
 	{
@@ -627,13 +672,13 @@ class ObjectOut
 			}
 			$this->tpl->setCurrentBlock("operation");
 			$this->tpl->parseCurrentBlock();
-		}		
-	}		
+		}
+	}
 
 	function showPossibleSubObjects()
 	{
 		$d = $this->objDefinition->getSubObjects($_GET["type"]);
-	
+
 		if (count($d) > 0)
 		{
 			foreach ($d as $row)
@@ -655,13 +700,13 @@ class ObjectOut
 					$subobj[] = $row["name"];
 				}
 			}
-		}		
+		}
 
 		if (is_array($subobj))
 		{
 			//build form
 			$opts = TUtil::formSelect(12,"new_type",$subobj);
-	
+
 			$this->tpl->setCurrentBlock("add_obj");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 			$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&obj_id=".

@@ -3,7 +3,7 @@
 * Class LanguageFolderObjectOut
 *
 * @author	Stefan Meyer <smeyer@databay.de> 
-* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.4 2003/02/06 15:34:16 shofmann Exp $
+* @version	$Id$Id: class.LanguageFolderObjectOut.php,v 1.5 2003/02/21 08:58:16 shofmann Exp $
 * 
 * @extends	Object
 * @package	ilias-core
@@ -11,6 +11,8 @@
 
 class LanguageFolderObjectOut extends ObjectOut
 {
+	var $LangFolderObject;
+
 	/**
 	* Constructor
 	* @access public
@@ -18,12 +20,13 @@ class LanguageFolderObjectOut extends ObjectOut
 	function LanguageFolderObjectOut($a_data)
 	{
 		$this->ObjectOut($a_data);
+		$this->LangFolderObject =& new LanguageFolderObject($_GET["obj_id"]);
 	}
 
 	/**
 	* Overwritten method from class.Object.php
 	* It handles all button commands from Learning Modules
-	* 
+	*
 	* @access public
 	*/
 	function gatewayObject()
@@ -35,7 +38,7 @@ class LanguageFolderObjectOut extends ObjectOut
 			case "install":
 				return $this->out();
 				break;
-				
+
 			case "uninstall":
 				return $this->out();
 				break;
@@ -60,11 +63,15 @@ class LanguageFolderObjectOut extends ObjectOut
 		parent::gatewayObject();
 	}
 
+	/**
+	* show installed languages
+	*/
 	function viewObject()
 	{
+		global $lng;
+
 		$this->getTemplateFile("view");
 		$num = 0;
-
 
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?obj_id=".$_GET["obj_id"]."&parent=".
 								$_GET["parent"]."&cmd=gateway");
@@ -72,7 +79,8 @@ class LanguageFolderObjectOut extends ObjectOut
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
 
-		foreach ($this->data["cols"] as $key)
+		$cols = array("", "type", "language", "status", "", "last_change");
+		foreach ($cols as $key)
 		{
 			if ($key != "")
 			{
@@ -89,45 +97,63 @@ class LanguageFolderObjectOut extends ObjectOut
 							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		if (is_array($this->data["data"][0]))
+
+		$languages = $this->LangFolderObject->getLanguages();
+
+		foreach ($languages as $lang_key => $lang_data)
 		{
-			//table cell
-			for ($i=0; $i< count($this->data["data"]); $i++)
+			$status = "";
+
+			// set status info (in use oder systemlanguage)
+			if ($lang_data["status"])
 			{
-				$data = $this->data["data"][$i];
-				$ctrl = $this->data["ctrl"][$i];
-		
-				$num++;
-		
-				// color changing
-				$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
-			
+				$status = "<span class=\"small\"> (".$lng->txt($lang_data["status"]).")</span>";
+			}
+				// set remark color
+			switch ($lang_data["info"])
+			{
+				case "file_not_found":
+					$remark = "<span class=\"smallred\"> ".$lng->txt($lang_data["info"])."</span>";
+					break;
+				case "new_language":
+					$remark = "<span class=\"smallgreen\"> ".$lng->txt($lang_data["info"])."</span>";
+					break;
+				default:
+					$remark = "";
+					break;
+			}
+
+			$data = $this->data["data"][$i];
+			$ctrl = $this->data["ctrl"][$i];
+			$num++;
+			// color changing
+			$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
 				$this->tpl->setCurrentBlock("checkbox");
-				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
-				$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->setVariable("CHECKBOX_ID", $lang_data["obj_id"]);
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->parseCurrentBlock();
+				$this->tpl->setCurrentBlock("table_cell");
+			$this->tpl->parseCurrentBlock();
+			//data
+			$data = array(
+				"type" => "<img src=\"".$this->tpl->tplPath."/images/icon_lng_b.gif\" border=\"0\">",
+				"name" => $lang_data["name"].$status,
+				"status" => $lng->txt($lang_data["desc"]),
+				"remark" => $remark,
+				"last_change" => $lang_data["last_update"]
+			);
+			foreach ($data as $key => $val)
+			{
+					$this->tpl->setCurrentBlock("text");
+				$this->tpl->setVariable("TEXT_CONTENT", $val);
 				$this->tpl->parseCurrentBlock();
-				
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->parseCurrentBlock();
-			
-				//data
-				foreach ($data as $key => $val)
-				{
-	
-					$this->tpl->setCurrentBlock("text");
-					$this->tpl->setVariable("TEXT_CONTENT", $val);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("table_cell");
-					$this->tpl->parseCurrentBlock();
-
 				} //foreach
-				
-				$this->tpl->setCurrentBlock("table_row");	
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-			} //for
-		} //if is_array
+				$this->tpl->setCurrentBlock("table_row");
+			$this->tpl->setVariable("CSS_ROW", $css_row);
+			$this->tpl->parseCurrentBlock();
+		} //for
 
 		// SHOW VALID ACTIONS
 		$this->showActions();
@@ -135,12 +161,12 @@ class LanguageFolderObjectOut extends ObjectOut
 
 	function installObject()
 	{
-		$this->out();	
+		$this->out();
 	}
 
 	function uninstallObject()
 	{
-		$this->out();	
+		$this->out();
 	}
 
 	function refreshObject()

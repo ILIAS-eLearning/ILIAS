@@ -2,9 +2,9 @@
 /**
 * Class TypeDefinitionObjectOut
 *
-* @author Stefan Meyer <smeyer@databay.de> 
-* $Id$Id: class.TypeDefinitionObjectOut.php,v 1.2 2002/12/19 00:13:45 shofmann Exp $
-* 
+* @author Stefan Meyer <smeyer@databay.de>
+* $Id$Id: class.TypeDefinitionObjectOut.php,v 1.3 2003/02/21 08:58:16 shofmann Exp $
+*
 * @extends Object
 * @package ilias-core
 */
@@ -20,15 +20,21 @@ class TypeDefinitionObjectOut extends ObjectOut
 		$this->ObjectOut($a_data);
 	}
 
+	/**
+	* list operations of object type
+	*/
 	function viewObject()
 	{
+		global $rbacadmin;
+
 		$this->getTemplateFile("view");
 		$num = 0;
 
 		//table header
 		$this->tpl->setCurrentBlock("table_header_cell");
 
-		foreach ($this->data["cols"] as $key)
+		$cols = array("", "type", "operation", "description", "status");
+		foreach ($cols as $key)
 		{
 			if ($key != "")
 			{
@@ -44,26 +50,65 @@ class TypeDefinitionObjectOut extends ObjectOut
 							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		if (is_array($this->data["data"][0]))
+
+		$ops_valid = $rbacadmin->getOperationsOnType($_GET["obj_id"]);
+
+		if ($ops_arr = getOperationList('', $_GET["order"], $_GET["direction"]))
 		{
-			//table cell
-			for ($i=0; $i< count($this->data["data"]); $i++)
+			foreach ($ops_arr as $key => $ops)
 			{
-				$data = $this->data["data"][$i];
+				// BEGIN ROW
+				if (in_array($ops["ops_id"],$ops_valid))
+				{
+					$ops_status = 'enabled';
+				}
+				else
+				{
+					$ops_status = 'disabled';
+				}
+
+				//visible data part
+				$this->objectList["data"][] = array(
+					"type" => "<img src=\"".$tpl->tplPath."/images/"."icon_perm_b.gif\" border=\"0\">",
+					"title" => $ops["operation"],
+					"description" => $ops["desc"],
+					"status" => $ops_status
+				);
+
+				//control information
+				$this->objectList["ctrl"][] = array(
+					"type" => "perm",
+					"obj_id" => $ops["ops_id"],
+					"parent" => $this->id,
+					"parent_parent" => $this->parent
+				);
+
+		//if (is_array($this->data["data"][0]))
+		//{
+			//table cell
+			//for ($i=0; $i< count($this->data["data"]); $i++)
+			//{
+				//$data = $this->data["data"][$i];
 				$ctrl = $this->data["ctrl"][$i];
-		
+
 				$num++;
-		
+
 				// color changing
 				$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
-			
+
 				$this->tpl->touchBlock("empty_cell");
 
 				$this->tpl->setCurrentBlock("table_cell");
 				$this->tpl->parseCurrentBlock();
-			
+
 				//data
+				$data = array(
+					"type" => "<img src=\"".$this->tpl->tplPath."/images/"."icon_perm_b.gif\" border=\"0\">",
+					"title" => $ops["operation"],
+					"description" => $ops["desc"],
+					"status" => $ops_status
+				);
+
 				foreach ($data as $key => $val)
 				{
 					// color for status
@@ -77,10 +122,10 @@ class TypeDefinitionObjectOut extends ObjectOut
 						{
 							$color = "red";
 						}
-						
+
 						$val = "<font color=\"".$color."\">".$this->lng->txt($val)."</font>";
 					}
-					
+
 					$this->tpl->setCurrentBlock("text");
 					$this->tpl->setVariable("TEXT_CONTENT", $val);
 					$this->tpl->parseCurrentBlock();
@@ -88,8 +133,8 @@ class TypeDefinitionObjectOut extends ObjectOut
 					$this->tpl->parseCurrentBlock();
 
 				} //foreach
-				
-				$this->tpl->setCurrentBlock("table_row");	
+
+				$this->tpl->setCurrentBlock("table_row");
 				$this->tpl->setVariable("CSS_ROW", $css_row);
 				$this->tpl->parseCurrentBlock();
 			} //for
@@ -106,12 +151,12 @@ class TypeDefinitionObjectOut extends ObjectOut
 		// SHOW POSSIBLE SUB OBJECTS
 		$this->showPossibleSubObjects();
 	}
-	
+
 	function editObject()
 	{
 		$this->getTemplateFile("edit");
 		$num = 0;
-		
+
 		$this->tpl->setVariable("FORMACTION", "adm_object.php?&cmd=save&obj_id=".$_GET["obj_id"]."&parent=".
 						  $_GET["parent"]."&parent_parent=".$_GET["parent_parent"]);
 
@@ -129,23 +174,23 @@ class TypeDefinitionObjectOut extends ObjectOut
 							  $_GET["dir"]."&cmd=".$_GET["cmd"]);
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		//table cell
 		for ($i=0; $i< count($this->data["data"]); $i++)
 		{
 			$data = $this->data["data"][$i];
 			$ctrl = $this->data["ctrl"][$i];
-	
+
 			$num++;
-	
+
 			// color changing
 			$css_row = TUtil::switchColor($num,"tblrow1","tblrow2");
-		
+
 			$this->tpl->touchBlock("empty_cell");
 			$this->tpl->setCurrentBlock("table_cell");
 			$this->tpl->setVariable("TEXT", "");
 			$this->tpl->parseCurrentBlock();
-		
+
 			//data
 			foreach ($data as $key => $val)
 			{

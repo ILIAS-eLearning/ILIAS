@@ -232,47 +232,9 @@ class Object
 	}
 	
 
-	function viewObject($a_order, $a_direction)
+	function viewObject($a_order, $a_direction)		// deprecated
 	{
-		global $rbacsystem, $tree, $tpl;
-		
-		//prepare objectlist
-		$this->objectList = array();
-		$this->objectList["data"] = array();
-		$this->objectList["ctrl"] = array();
-
-		$this->objectList["cols"] = array("", "type", "title", "description", "last_change");
-
-		if ($tree->getChilds($this->id, $a_order, $a_direction))
-		{
-			foreach ($tree->Childs as $key => $val)
-		    {
-				// visible
-				if (!$rbacsystem->checkAccess("visible",$val["id"],$val["parent"]))
-				{
-					continue;
-				}
-		
-				//visible data part
-				$this->objectList["data"][] = array(
-					"type" => "<img src=\"".$tpl->tplPath."/images/"."icon_".$val["type"].".gif\" border=\"0\">",
-					"title" => $val["title"],
-					"description" => $val["desc"],
-					"last_change" => $val["last_update"]
-				);
-
-				//control information
-				$this->objectList["ctrl"][] = array(
-					"type" => $val["type"],
-					"obj_id" => $val["id"],
-					"parent" => $val["parent"],
-					"parent_parent" => $val["parent_parent"]
-				);
-				
-		    } //foreach
-		} //if 
-
-		return $this->objectList;		
+		echo "<b>IN OBJECT.viewOBJECT</b><br>";
 	}
 
 	/**
